@@ -236,7 +236,7 @@ bool Client::Application()
   vfs->ChDir ("/client/skin/");
 
   // Load the ice skin (which uses Falagard skinning system)
-  cegui->GetSchemeManagerPtr ()->loadScheme("TaharezLook.scheme");
+  cegui->GetSchemeManagerPtr ()->loadScheme("TaharezLookSkin.scheme");
 
   cegui->GetSystemPtr ()->setDefaultMouseCursor("TaharezLook", "MouseArrow");
   cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/client/skin/Commonv2c.ttf", 10, 

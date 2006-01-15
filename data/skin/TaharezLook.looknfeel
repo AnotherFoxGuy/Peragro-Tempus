@@ -2032,34 +2032,6 @@
     <WidgetLook name="TaharezLook/StaticImage">
         <Property name="FrameEnabled" value="True" />
         <Property name="BackgroundEnabled" value="True" />
-        <NamedArea name="WithFrameImageRenderArea">
-            <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="StaticLeft" dimension="Width" /></Dim>
-                <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="StaticTop" dimension="Height" /></Dim>
-                <Dim type="RightEdge" >
-                    <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="StaticRight" dimension="Width" />
-                        </DimOperator>
-                    </UnifiedDim>
-                </Dim>
-                <Dim type="BottomEdge" >
-                    <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="StaticBottom" dimension="Height" />
-                        </DimOperator>
-                    </UnifiedDim>
-                </Dim>
-            </Area>
-        </NamedArea>
-        <NamedArea name="NoFrameImageRenderArea">
-            <Area>
-                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
-            </Area>
-        </NamedArea>
         <StateImagery name="Enabled" />
         <StateImagery name="Disabled" />
         <StateImagery name="EnabledFrame">
@@ -2567,7 +2539,6 @@
     ***************************************************
     -->
     <WidgetLook name="TaharezLook/MultiLineEditbox">
-        <Property name="MouseCursorImage" value="set:TaharezLook image:MouseTextBar" />
         <Property name="SelectionBrushImage" value="set:TaharezLook image:MultiLineEditboxSelectionBrush" />
         <NamedArea name="TextArea">
             <Area>
@@ -3195,66 +3166,6 @@
     ***************************************************
     -->
     <WidgetLook name="TaharezLook/PopupMenu">
-        <NamedArea name="ItemRenderArea">
-            <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="PopupMenuFrameLeft" dimension="Width" /></Dim>
-                <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="PopupMenuFrameTop" dimension="Height" /></Dim>
-                <Dim type="RightEdge" >
-                    <UnifiedDim scale="1" type="RightEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="PopupMenuFrameRight" dimension="Width" />
-                        </DimOperator>
-                    </UnifiedDim>
-                </Dim>
-                <Dim type="BottomEdge" >
-                    <UnifiedDim scale="1" type="BottomEdge">
-                        <DimOperator op="Subtract">
-                            <ImageDim imageset="TaharezLook" image="PopupMenuFrameBottom" dimension="Height" />
-                        </DimOperator>
-                    </UnifiedDim>
-                </Dim>
-            </Area>
-        </NamedArea>
-        <ImagerySection name="frame">
-            <FrameComponent>
-                <Area>
-                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
-                </Area>
-                <Image type="TopLeftCorner" imageset="TaharezLook" image="PopupMenuFrameTopLeft" />
-                <Image type="TopRightCorner" imageset="TaharezLook" image="PopupMenuFrameTopRight" />
-                <Image type="BottomLeftCorner" imageset="TaharezLook" image="PopupMenuFrameBottomLeft" />
-                <Image type="BottomRightCorner" imageset="TaharezLook" image="PopupMenuFrameBottomRight" />
-                <Image type="LeftEdge" imageset="TaharezLook" image="PopupMenuFrameLeft" />
-                <Image type="RightEdge" imageset="TaharezLook" image="PopupMenuFrameRight" />
-                <Image type="TopEdge" imageset="TaharezLook" image="PopupMenuFrameTop" />
-                <Image type="BottomEdge" imageset="TaharezLook" image="PopupMenuFrameBottom" />
-                <Image type="Background" imageset="TaharezLook" image="PopupMenuMiddle" />
-            </FrameComponent>
-        </ImagerySection>
-        <StateImagery name="Enabled">
-            <Layer>
-                <Section section="frame" />
-            </Layer>
-        </StateImagery>
-        <StateImagery name="Disabled">
-            <Layer>
-                <Section section="frame">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-                </Section>
-            </Layer>
-        </StateImagery>
-    </WidgetLook>
-    
-    
-    <!--
-    ***************************************************
-        TaharezLook/Menubar
-    ***************************************************
-    -->
-    <WidgetLook name="TaharezLook/Menubar">
         <NamedArea name="ItemRenderArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="PopupMenuFrameLeft" dimension="Width" /></Dim>
