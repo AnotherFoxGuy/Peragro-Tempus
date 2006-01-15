@@ -158,9 +158,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\network\udp\udpreceiver.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\common\network\udp\udpsocket.cpp">
 			</File>
 		</Filter>
