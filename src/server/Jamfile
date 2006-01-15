@@ -1,0 +1,19 @@
+SubDir TOP src server ;
+
+SubInclude TOP src server database ;
+SubInclude TOP src server network ;
+
+Description server : "Server" ;
+Application server : [ Wildcard *.h *.cpp ] : console ;
+LinkWith server : entity server-network sqlite_adp database util ;
+
+MsvcExternalLibrary network : "wsock32.lib" ;
+
+if $(WSOCK32.LFLAGS) {
+    LFlags network : $(WSOCK32.LFLAGS) ;
+}
+
+SubVariant static ;
+  
+Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+LinkWith server_static : entity server-network sqlite_adp database util ;

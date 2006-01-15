@@ -1,0 +1,628 @@
+<library>
+<meshfact name='thingCube.011'>
+<plugin>thingfact</plugin>
+<params>
+<material>no</material>
+<v x='-0.040637' y='-0.070416' z='2.764705'/>
+<v x='-0.040653' y='-0.070406' z='2.464708'/>
+<v x='0.034350' y='0.059496' z='2.464708'/>
+<v x='0.034366' y='0.059486' z='2.764705'/>
+<v x='1.220890' y='-0.885358' z='2.764690'/>
+<v x='1.220874' y='-0.885348' z='2.464693'/>
+<v x='1.370876' y='-0.625542' z='2.464694'/>
+<v x='1.370892' y='-0.625552' z='2.764691'/>
+<v x='-0.062258' y='-0.052275' z='3.064705'/>
+<v x='-0.062271' y='-0.052260' z='2.764708'/>
+<v x='0.052638' y='0.044155' z='2.764708'/>
+<v x='0.052651' y='0.044141' z='3.064705'/>
+<v x='0.844463' y='-1.249537' z='3.064688'/>
+<v x='0.844450' y='-1.249522' z='2.764691'/>
+<v x='1.074266' y='-1.056689' z='2.764691'/>
+<v x='1.074278' y='-1.056703' z='3.064688'/>
+<v x='-0.076369' y='-0.027833' z='3.364705'/>
+<v x='-0.076377' y='-0.027815' z='3.064708'/>
+<v x='0.064578' y='0.023485' z='3.064708'/>
+<v x='0.064586' y='0.023467' z='3.364705'/>
+<v x='0.366181' y='-1.463009' z='3.364687'/>
+<v x='0.366174' y='-1.462991' z='3.064691'/>
+<v x='0.648082' y='-1.360387' z='3.064690'/>
+<v x='0.648090' y='-1.360405' z='3.364686'/>
+<v x='-0.081270' y='-0.000038' z='3.664705'/>
+<v x='-0.081272' y='-0.000018' z='3.364709'/>
+<v x='0.068728' y='-0.000022' z='3.364707'/>
+<v x='0.068730' y='-0.000041' z='3.664705'/>
+<v x='-0.156267' y='-1.500023' z='3.664689'/>
+<v x='-0.156269' y='-1.500003' z='3.364692'/>
+<v x='0.143731' y='-1.500006' z='3.364690'/>
+<v x='0.143733' y='-1.500025' z='3.664687'/>
+<v x='-0.014109' y='-0.080062' z='2.464704'/>
+<v x='-0.014126' y='-0.080058' z='2.164707'/>
+<v x='0.011924' y='0.067663' z='2.164708'/>
+<v x='0.011941' y='0.067658' z='2.464705'/>
+<v x='1.450065' y='-0.414390' z='2.464694'/>
+<v x='1.450048' y='-0.414385' z='2.164697'/>
+<v x='1.502145' y='-0.118943' z='2.164699'/>
+<v x='1.502162' y='-0.118948' z='2.464696'/>
+<v x='0.014117' y='-0.080059' z='2.164704'/>
+<v x='0.014100' y='-0.080060' z='1.864707'/>
+<v x='-0.011944' y='0.067662' z='1.864709'/>
+<v x='-0.011927' y='0.067663' z='2.164706'/>
+<v x='1.504337' y='0.106553' z='2.164699'/>
+<v x='1.504320' y='0.106552' z='1.864702'/>
+<v x='1.452229' y='0.401995' z='1.864704'/>
+<v x='1.452246' y='0.401996' z='2.164701'/>
+<v x='0.040641' y='-0.070402' z='1.864704'/>
+<v x='0.040626' y='-0.070408' z='1.564707'/>
+<v x='-0.034371' y='0.059498' z='1.564709'/>
+<v x='-0.034356' y='0.059504' z='1.864706'/>
+<v x='1.377165' y='0.614641' z='1.864705'/>
+<v x='1.377150' y='0.614635' z='1.564708'/>
+<v x='1.227153' y='0.874444' z='1.564710'/>
+<v x='1.227167' y='0.874450' z='1.864707'/>
+<v x='0.062263' y='-0.052254' z='1.564704'/>
+<v x='0.062252' y='-0.052265' z='1.264707'/>
+<v x='-0.052652' y='0.044156' z='1.264708'/>
+<v x='-0.052641' y='0.044166' z='1.564705'/>
+<v x='1.083886' y='1.048593' z='1.564710'/>
+<v x='1.083875' y='1.048583' z='1.264713'/>
+<v x='0.854064' y='1.241422' z='1.264715'/>
+<v x='0.854075' y='1.241432' z='1.564712'/>
+<v x='0.076376' y='-0.027807' z='1.264705'/>
+<v x='0.076370' y='-0.027820' z='0.964708'/>
+<v x='-0.064583' y='0.023486' z='0.964708'/>
+<v x='-0.064577' y='0.023499' z='1.264705'/>
+<v x='0.659875' y='1.356067' z='1.264715'/>
+<v x='0.659869' y='1.356054' z='0.964718'/>
+<v x='0.377963' y='1.458663' z='0.964719'/>
+<v x='0.377968' y='1.458676' z='1.264716'/>
+<v x='0.081276' y='-0.000008' z='0.964705'/>
+<v x='0.081276' y='-0.000021' z='0.664708'/>
+<v x='-0.068724' y='-0.000018' z='0.664708'/>
+<v x='-0.068724' y='-0.000004' z='0.964705'/>
+<v x='0.156273' y='1.499977' z='0.964718'/>
+<v x='0.156273' y='1.499964' z='0.664721'/>
+<v x='-0.143727' y='1.499967' z='0.664721'/>
+<v x='-0.143727' y='1.499980' z='0.964718'/>
+<p name="0">
+<v>3</v>
+<v>2</v>
+<v>1</v>
+<v>0</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="1">
+<v>5</v>
+<v>6</v>
+<v>7</v>
+<v>4</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="2">
+<v>1</v>
+<v>5</v>
+<v>4</v>
+<v>0</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="3">
+<v>2</v>
+<v>6</v>
+<v>5</v>
+<v>1</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="4">
+<v>3</v>
+<v>7</v>
+<v>6</v>
+<v>2</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="5">
+<v>7</v>
+<v>3</v>
+<v>0</v>
+<v>4</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="6">
+<v>11</v>
+<v>10</v>
+<v>9</v>
+<v>8</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="7">
+<v>13</v>
+<v>14</v>
+<v>15</v>
+<v>12</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="8">
+<v>9</v>
+<v>13</v>
+<v>12</v>
+<v>8</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="9">
+<v>10</v>
+<v>14</v>
+<v>13</v>
+<v>9</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="10">
+<v>11</v>
+<v>15</v>
+<v>14</v>
+<v>10</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="11">
+<v>15</v>
+<v>11</v>
+<v>8</v>
+<v>12</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="12">
+<v>19</v>
+<v>18</v>
+<v>17</v>
+<v>16</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="13">
+<v>21</v>
+<v>22</v>
+<v>23</v>
+<v>20</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="14">
+<v>17</v>
+<v>21</v>
+<v>20</v>
+<v>16</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="15">
+<v>18</v>
+<v>22</v>
+<v>21</v>
+<v>17</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="16">
+<v>19</v>
+<v>23</v>
+<v>22</v>
+<v>18</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="17">
+<v>23</v>
+<v>19</v>
+<v>16</v>
+<v>20</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="18">
+<v>27</v>
+<v>26</v>
+<v>25</v>
+<v>24</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="19">
+<v>29</v>
+<v>30</v>
+<v>31</v>
+<v>28</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="20">
+<v>25</v>
+<v>29</v>
+<v>28</v>
+<v>24</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="21">
+<v>26</v>
+<v>30</v>
+<v>29</v>
+<v>25</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="22">
+<v>27</v>
+<v>31</v>
+<v>30</v>
+<v>26</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="23">
+<v>31</v>
+<v>27</v>
+<v>24</v>
+<v>28</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="24">
+<v>35</v>
+<v>34</v>
+<v>33</v>
+<v>32</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="25">
+<v>37</v>
+<v>38</v>
+<v>39</v>
+<v>36</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="26">
+<v>33</v>
+<v>37</v>
+<v>36</v>
+<v>32</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="27">
+<v>34</v>
+<v>38</v>
+<v>37</v>
+<v>33</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="28">
+<v>35</v>
+<v>39</v>
+<v>38</v>
+<v>34</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="29">
+<v>39</v>
+<v>35</v>
+<v>32</v>
+<v>36</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="30">
+<v>43</v>
+<v>42</v>
+<v>41</v>
+<v>40</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="31">
+<v>45</v>
+<v>46</v>
+<v>47</v>
+<v>44</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="32">
+<v>41</v>
+<v>45</v>
+<v>44</v>
+<v>40</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="33">
+<v>42</v>
+<v>46</v>
+<v>45</v>
+<v>41</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="34">
+<v>43</v>
+<v>47</v>
+<v>46</v>
+<v>42</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="35">
+<v>47</v>
+<v>43</v>
+<v>40</v>
+<v>44</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="36">
+<v>51</v>
+<v>50</v>
+<v>49</v>
+<v>48</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="37">
+<v>53</v>
+<v>54</v>
+<v>55</v>
+<v>52</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="38">
+<v>49</v>
+<v>53</v>
+<v>52</v>
+<v>48</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="39">
+<v>50</v>
+<v>54</v>
+<v>53</v>
+<v>49</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="40">
+<v>51</v>
+<v>55</v>
+<v>54</v>
+<v>50</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="41">
+<v>55</v>
+<v>51</v>
+<v>48</v>
+<v>52</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="42">
+<v>59</v>
+<v>58</v>
+<v>57</v>
+<v>56</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="43">
+<v>61</v>
+<v>62</v>
+<v>63</v>
+<v>60</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="44">
+<v>57</v>
+<v>61</v>
+<v>60</v>
+<v>56</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="45">
+<v>58</v>
+<v>62</v>
+<v>61</v>
+<v>57</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="46">
+<v>59</v>
+<v>63</v>
+<v>62</v>
+<v>58</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="47">
+<v>63</v>
+<v>59</v>
+<v>56</v>
+<v>60</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="48">
+<v>67</v>
+<v>66</v>
+<v>65</v>
+<v>64</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="49">
+<v>69</v>
+<v>70</v>
+<v>71</v>
+<v>68</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="50">
+<v>65</v>
+<v>69</v>
+<v>68</v>
+<v>64</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="51">
+<v>66</v>
+<v>70</v>
+<v>69</v>
+<v>65</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="52">
+<v>67</v>
+<v>71</v>
+<v>70</v>
+<v>66</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="53">
+<v>71</v>
+<v>67</v>
+<v>64</v>
+<v>68</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="54">
+<v>75</v>
+<v>74</v>
+<v>73</v>
+<v>72</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="55">
+<v>77</v>
+<v>78</v>
+<v>79</v>
+<v>76</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="56">
+<v>73</v>
+<v>77</v>
+<v>76</v>
+<v>72</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="57">
+<v>74</v>
+<v>78</v>
+<v>77</v>
+<v>73</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="58">
+<v>75</v>
+<v>79</v>
+<v>78</v>
+<v>74</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+<p name="59">
+<v>79</v>
+<v>75</v>
+<v>72</v>
+<v>76</v>
+<material>no</material>
+<texmap>
+</texmap>
+</p>
+</params>
+</meshfact>
+</library>

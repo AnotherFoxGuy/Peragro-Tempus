@@ -1,0 +1,124 @@
+/*
+    Copyright (C) 2005 Development Team of Peragro Tempus
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#ifndef _ITEMMANAGER_H_
+#define _ITEMMANAGER_H_
+
+#include "common/util/array.h"
+#include "item.h"
+#include "server/database/table-items.h"
+
+class ItemManager
+{
+private:
+  Array<Item*> items;
+
+public:
+  ItemManager() {}
+
+  size_t getItemCount()
+  {
+    return items.getCount();
+  }
+
+  Item* getItem(size_t index)
+  {
+    return items.get(index);
+  }
+
+  void addItem(Item* item)
+  {
+    items.add(item);
+  }
+
+  void delItem(size_t index)
+  {
+    items.remove(index);
+  }
+
+  void delItem(Item* item)
+  {
+    if (!item) return;
+    const char* name = item->getName();
+    if (!name) return;
+    for (size_t i = 0; i<items.getCount(); i++)
+    {
+      Item* _item = items.get(i);
+      if (_item->getId() == item->getId())
+      {
+        items.remove(i);
+        return;
+      }
+    }
+  }
+
+  bool exists(Item* item)
+  {
+    if (!item) return false;
+    const char* name = item->getName();
+    if (!name) return false;
+    for (size_t i = 0; i<items.getCount(); i++)
+    {
+      Item* _item = items.get(i);
+
+      if (_item->getId() == item->getId())
+        return true;
+    }
+    return false;
+  }
+
+  Item* findByName(const char* name)
+  {
+    if (!name) return 0;
+    for (size_t i = 0; i<items.getCount(); i++)
+    {
+      Item* item = items.get(i);
+      if (strlen(item->getName()) == strlen(name) && !strcmp(item->getName(), name))
+      {
+        return item;
+      }
+    }
+    return 0;
+  }
+
+  Item* findById(int id)
+  {
+    for (size_t i = 0; i<items.getCount(); i++)
+    {
+      Item* item = items.get(i);
+      if (item->getId() == id)
+      {
+        return item;
+      }
+    }
+    return 0;
+  }
+
+  void loadFromDB(ItemTable* it)
+  {
+    //Load all Items from Database
+    it->getAllItems(items);
+  }
+
+  void clear()
+  {
+    items.removeAll();
+  }
+};
+
+#endif // _ITEMMANAGER_H_

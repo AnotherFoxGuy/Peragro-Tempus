@@ -1,0 +1,5 @@
+SubDir TOP src common util ;
+
+Description util : "util" ;
+Library util :
+  [ Wildcard *.h *.cpp ] ;

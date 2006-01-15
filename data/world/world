@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<world>
+  <plugins>
+    <plugin name="thing">crystalspace.mesh.loader.thing</plugin>
+    <plugin name="null">crystalspace.mesh.loader.null</plugin>
+    <plugin name="genmesh">crystalspace.mesh.loader.genmesh</plugin>
+    <plugin name="spr3d">crystalspace.mesh.loader.sprite.3d</plugin>
+    <plugin name="spr2d">crystalspace.mesh.loader.sprite.2d</plugin>
+    <plugin name="cal3d">crystalspace.mesh.loader.sprite.cal3d</plugin>
+    <plugin name="spr2dfact">crystalspace.mesh.loader.factory.sprite.2d</plugin>
+    <plugin name="spr3dfact">crystalspace.mesh.loader.factory.sprite.3d</plugin>
+    <plugin name="thingfact">crystalspace.mesh.loader.factory.thing</plugin>
+    <plugin name="genmeshfact">crystalspace.mesh.loader.factory.genmesh</plugin>
+    <plugin name="cal3dfact">crystalspace.mesh.loader.factory.sprite.cal3d</plugin>
+  </plugins>
+  <shaders/>
+  <textures/>
+  <materials>
+    <material name="no">
+      <texture>no</texture>
+    </material>
+  </materials>
+  <sounds/>
+  <settings>
+    <clearzbuf>yes</clearzbuf>
+    <clearscreen>yes</clearscreen>
+  </settings>
+  <library>factories/thingCube.007</library>
+  <library>factories/thingCube.006</library>
+  <library>factories/thingCube.005</library>
+  <library>factories/thingCube.003</library>
+  <library>factories/thingCube.002</library>
+  <library>factories/thingCube.011</library>
+  <library>factories/thingCube.001</library>
+  <triggers/>
+  <sector name="room">
+    <!--renderloop>standard</renderloop-->
+    <cullerp plugin="crystalspace.culling.frustvis"/>
+    <light name="Lamp.008">
+      <center y="0.53471750021" x="-6.82024097443" z="2.9495177269"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="0.634412765503" x="0.772770762444" z="0.018596239388"/>
+      <type>spotlight</type>
+    </light>
+    <meshobj name="Cube.008">
+      <plugin>thing</plugin>
+      <params>
+        <factory>thingCube.007</factory>
+      </params>
+      <zuse/>
+      <move>
+        <v y="0.174728751183" x="-5.39462661743" z="2.92927384377"/>
+        <matrix>
+          <roty>-3.14159052306</roty>
+          <rotz>8.67867007287e-006</rotz>
+          <rotx>-1.57080538154</rotx>
+        </matrix>
+      </move>
+    </meshobj>
+    <meshobj name="Cube.007">
+      <plugin>thing</plugin>
+      <params>
+        <factory>thingCube.006</factory>
+      </params>
+      <zuse/>
+      <move>
+        <v y="-2.82527160645" x="6.30537319183" z="2.92927384377"/>
+        <matrix>
+          <roty>2.38628276333e-006</roty>
+          <rotz>-1.32793417093e-006</rotz>
+          <rotx>-1.57080751207</rotx>
+        </matrix>
+      </move>
+    </meshobj>
+    <light name="Lamp.007">
+      <center y="6.53471755981" x="-6.82024097443" z="2.9495177269"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="0.634412765503" x="0.772770762444" z="0.018596239388"/>
+      <type>spotlight</type>
+    </light>
+    <meshobj name="Cube.006">
+      <plugin>thing</plugin>
+      <params>
+        <factory>thingCube.005</factory>
+      </params>
+      <zuse/>
+      <move>
+        <v y="-0.725271344185" x="0.455373167992" z="2.92927384377"/>
+        <matrix/>
+      </move>
+    </meshobj>
+    <light name="Lamp.006">
+      <center y="3.55909061432" x="7.72063159943" z="3.02040600777"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="-0.595354259014" x="0.800247609615" z="0.0718124881387"/>
+      <type>spotlight</type>
+    </light>
+    <light name="Lamp.005">
+      <center y="3.55909061432" x="7.72063159943" z="-2.97959399223"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="-0.595354259014" x="0.800247609615" z="0.0718124881387"/>
+      <type>spotlight</type>
+    </light>
+    <light name="Lamp.004">
+      <center y="6.53471755981" x="-6.82024097443" z="-3.05048251152"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="0.634412765503" x="0.772770762444" z="0.018596239388"/>
+      <type>spotlight</type>
+    </light>
+    <meshobj name="Cube.004">
+      <plugin>thing</plugin>
+      <params>
+        <factory>thingCube.003</factory>
+      </params>
+      <zuse/>
+      <move>
+        <v y="-2.82527160645" x="6.30537319183" z="-3.07072615623"/>
+        <matrix>
+          <roty>2.38628276333e-006</roty>
+          <rotz>-1.32793417093e-006</rotz>
+          <rotx>-1.57080751207</rotx>
+        </matrix>
+      </move>
+    </meshobj>
+    <meshobj name="Cube.003">
+      <plugin>thing</plugin>
+      <params>
+        <factory>thingCube.002</factory>
+      </params>
+      <zuse/>
+      <move>
+        <v y="0.174728751183" x="-5.39462661743" z="-3.07072615623"/>
+        <matrix>
+          <roty>-3.14159052306</roty>
+          <rotz>8.67867007287e-006</rotz>
+          <rotx>-1.57080538154</rotx>
+        </matrix>
+      </move>
+    </meshobj>
+    <light name="Lamp.003">
+      <center y="0.53471750021" x="-6.82024097443" z="-3.05048251152"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="0.634412765503" x="0.772770762444" z="0.018596239388"/>
+      <type>spotlight</type>
+    </light>
+    <light name="Lamp.002">
+      <center y="0.53471750021" x="-6.82024097443" z="-0.0504824817181"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="0.634412765503" x="0.772770762444" z="0.018596239388"/>
+      <type>spotlight</type>
+    </light>
+    <meshobj name="Cube.002">
+      <plugin>thing</plugin>
+      <params>
+        <factory>thingCube.011</factory>
+      </params>
+      <zuse/>
+      <move>
+        <v y="0.174728751183" x="-5.39462661743" z="-0.0707262307405"/>
+        <matrix>
+          <roty>-3.14159052306</roty>
+          <rotz>8.67867007287e-006</rotz>
+          <rotx>-1.57080538154</rotx>
+        </matrix>
+      </move>
+    </meshobj>
+    <meshobj name="Cube.001">
+      <plugin>thing</plugin>
+      <params>
+        <factory>thingCube.001</factory>
+      </params>
+      <zuse/>
+      <move>
+        <v y="-2.82527160645" x="6.30537319183" z="-0.0707262307405"/>
+        <matrix>
+          <roty>2.38628276333e-006</roty>
+          <rotz>-1.32793417093e-006</rotz>
+          <rotx>-1.57080751207</rotx>
+        </matrix>
+      </move>
+    </meshobj>
+    <light name="Lamp.001">
+      <center y="6.53471755981" x="-6.82024097443" z="-0.0504824817181"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="0.634412765503" x="0.772770762444" z="0.018596239388"/>
+      <type>spotlight</type>
+    </light>
+    <light name="Lamp">
+      <center y="3.55909061432" x="7.72063159943" z="0.0204059183598"/>
+      <color blue="1.0" green="1.0" red="1.0"/>
+      <radius brightness="1.0">29.9999828339</radius>
+      <move y="-0.595354259014" x="0.800247609615" z="0.0718124881387"/>
+      <type>spotlight</type>
+    </light>
+  </sector>
+  <sequences/>
+</world>

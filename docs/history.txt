@@ -1,0 +1,8 @@
+Peragro Tempus detailed change log.
+
+Dates are written as GMT + 0, in descending chronological order for the
+overall history, but ascending chronological order for the details listed
+under each day.
+
+15-Jan-2006
+  - PK commited an initial version of server and client.

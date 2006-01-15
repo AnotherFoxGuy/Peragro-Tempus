@@ -1,0 +1,5 @@
+SubDir TOP src ext sqlite  ;
+
+Description sqlite_lib : "sqlite library" ;
+Library sqlite_lib :
+  [ Wildcard *.h *.c ] ;

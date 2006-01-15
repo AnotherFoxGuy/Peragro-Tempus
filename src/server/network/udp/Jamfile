@@ -1,0 +1,7 @@
+SubDir TOP src server network udp ;
+
+Description server-udp-network : "network server udp" ;
+Library server-udp-network :
+  [ Wildcard *.h *.cpp ] ;
+
+LinkWith server-udp-network : udp-network ;

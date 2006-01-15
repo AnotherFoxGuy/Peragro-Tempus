@@ -1,0 +1,5 @@
+SubDir TOP src common entity ;
+
+Description entity : "entity" ;
+Library entity :
+  [ Wildcard *.h *.cpp ] ;

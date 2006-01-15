@@ -1,0 +1,84 @@
+/*
+    Copyright (C) 2005 Development Team of Peragro Tempus
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#include "client/network/network.h"
+
+void UserHandler::handleLoginResponse(GenericMessage* msg)
+{
+  printf("Received LoginResponse\n");
+  LoginResponseMessage response;
+  response.deserialise(msg->getByteStream());
+  const char* error = response.getError();
+  if (error != 0)
+  {
+    printf("Login Failed due to: %s\n", error);
+    return;
+  }
+  printf("Login succeeded!\n");
+  client->loggedIn();
+}
+
+void UserHandler::handleRegisterResponse(GenericMessage* msg)
+{
+  printf("Received RegisterResponse\n");
+  RegisterResponseMessage answer_msg;
+  answer_msg.deserialise(msg->getByteStream());
+  const char* error = answer_msg.getError();
+  if (error != 0)
+  {
+    printf("Registration Failed due to: %s\n", error);
+    return;
+  }
+
+  printf("Registration succeeded!\n");
+}
+
+void UserHandler::handleCharList(GenericMessage* msg)
+{
+  CharacterListMessage char_msg;
+  char_msg.deserialise(msg->getByteStream());
+  //printf("Got %d character:\n---------------------------\n", char_msg.getCharacterCount());
+  for (int i=0; i<char_msg.getCharacterCount(); i++)
+  {
+    client->addCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i));
+    //printf("Char %d: %s\n", char_msg.getCharacterId(i), char_msg.getCharacterName(i));
+  }
+}
+
+void UserHandler::handleCharCreationResponse(GenericMessage* msg)
+{
+  CharacterCreationResponseMessage answer_msg;
+  answer_msg.deserialise(msg->getByteStream());
+
+  if (answer_msg.getError())
+  {
+    printf("Character creation failed due to: %s\n", answer_msg.getError());
+  }
+  else
+  {
+    client->addCharacter(answer_msg.getCharacterId(), answer_msg.getCharacterName());
+  }
+}
+
+void UserHandler::handleCharSelectionResponse(GenericMessage* msg)
+{
+  client->loadRegion("/client/world");
+  CharacterSelectionResponseMessage answer_msg;
+  answer_msg.deserialise(msg->getByteStream());
+  client->setCharacter(answer_msg.getEntityId());
+}
