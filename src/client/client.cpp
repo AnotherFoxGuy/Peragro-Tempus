@@ -282,8 +282,10 @@ bool Client::Application()
   }
 
   btn = winMgr->getWindow("Characters");
-  ((CEGUI::MultiColumnList*)btn)->addColumn("Id",0,0.1f);
-  ((CEGUI::MultiColumnList*)btn)->addColumn("Name",1,0.5f);
+  CEGUI::String str_id("Id");
+  CEGUI::String str_name("Name");
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,0.1f);
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,0.5f);
   ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 
   engine->SetClearScreen(true);
@@ -689,7 +691,8 @@ void Client::addCharacter(unsigned int charId, const char* name)
   CEGUI::Window* btn;
   btn = winMgr->getWindow("Characters");
   char charIdstr[10];
-  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem(itoa(charId, charIdstr, 10));
+  sprintf(charIdstr, "%d", charId);
+  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem(charIdstr);
   CEGUI::ListboxItem* charNameItem = new CEGUI::ListboxTextItem(name);
 
   charIdItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");

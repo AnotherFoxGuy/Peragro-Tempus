@@ -44,7 +44,7 @@ public:
   Database();
   virtual ~Database();
 
-  void Database::init();
+  void init();
 
   UsersTable* getUsersTable() { return userstable; }
   CharacterTable* getCharacterTable() { return charactertable; }

@@ -13,7 +13,10 @@ if $(WSOCK32.LFLAGS) {
     LFlags network : $(WSOCK32.LFLAGS) ;
 }
 
-SubVariant static ;
+if $(HAVE_STATIC_PLUGINS) = "yes"
+{
+  SubVariant static ;
   
-Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
-LinkWith server_static : entity server-network sqlite_adp database util ;
+  Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  LinkWith server_static : entity server-network sqlite_adp database util ;
+}

@@ -13,6 +13,8 @@ if $(WSOCK32.LFLAGS) {
     LFlags network : $(WSOCK32.LFLAGS) ;
 }
 
+if $(HAVE_STATIC_PLUGINS) = "yes"
+{
   SubVariant static ;
   
   Application client_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
@@ -120,3 +122,4 @@ if $(WSOCK32.LFLAGS) {
   ExternalLibs client_static : CRYSTAL CEL ;
   
   SubVariant ;
+}
