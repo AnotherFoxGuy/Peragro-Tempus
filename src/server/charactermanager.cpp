@@ -38,7 +38,7 @@ const char* CharacterManager::createCharacter(const char* name, int user_id, int
 
   this->charId++;
   float pos[3] = {0.0f,0.0f,0.0f};
-  ct->insert(this->charId, name, user_id, "cally",  pos, "room");
+  ct->insert(this->charId, name, user_id, "test",  pos, "room");
 
   char_id = this->charId;
 
