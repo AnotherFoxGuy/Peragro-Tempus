@@ -156,7 +156,7 @@
 <Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
 <Property Name="Text" Value="Character Selection" />
 <Property Name="TitlebarEnabled" Value="True" />
-<Property Name="TitlebarFont" Value="Tahoma-12" />
+<Property Name="TitlebarFont" Value="CommonWealth" />
 <Property Name="UnifiedAreaRect" Value="{{0.036050,0.000000},{0.058434,0.000000},{0.463166,0.000000},{0.406559,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Property Name="Visible" Value="False" />
