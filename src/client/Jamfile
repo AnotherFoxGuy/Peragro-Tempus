@@ -7,13 +7,15 @@ Application client : [ Wildcard *.h *.cpp ] ;
 ExternalLibs client : CRYSTAL CEL ;
 LinkWith client : client-network entity util ;
 
-MsvcExternalLibrary network : "wsock32.lib" ;
+MsvcExternalLibrary client : "wsock32.lib" ;
+MsvcExternalLibaray client : "CEGUIBase.lib CEGUIFalagardBase.lib" : release ;
+MsvcExternalLibrary client : "CEGUIBase_d.lib CEGUIFalagardBase_d.lib" : debug ;
 
 if $(WSOCK32.LFLAGS) {
     LFlags network : $(WSOCK32.LFLAGS) ;
 }
 
-if $(HAVE_STATIC_PLUGINS) = "yes"
+if [ Property build : projgen_version ] != 6
 {
   SubVariant static ;
   
@@ -120,6 +122,9 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   : CRYSTAL
   ;
   ExternalLibs client_static : CRYSTAL CEL ;
+  MsvcExternalLibrary client_static : "wsock32.lib" ;
+  MsvcExternalLibrary client_static : "CEGUIBase.lib CEGUIFalagardBase.lib libcrystalspace_staticplugins.lib libcel_staticplugins.lib" : release ;
+  MsvcExternalLibrary client_static : "CEGUIBase_d.lib CEGUIFalagardBase_d.lib libcrystalspace_staticplugins_d.lib libcel_staticplugins_d.lib" : debug ;
   
   SubVariant ;
 }

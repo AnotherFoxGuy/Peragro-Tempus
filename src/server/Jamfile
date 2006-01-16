@@ -7,16 +7,17 @@ Description server : "Server" ;
 Application server : [ Wildcard *.h *.cpp ] : console ;
 LinkWith server : entity server-network sqlite_adp database util ;
 
-MsvcExternalLibrary network : "wsock32.lib" ;
+MsvcExternalLibrary server : "wsock32.lib" ;
 
 if $(WSOCK32.LFLAGS) {
     LFlags network : $(WSOCK32.LFLAGS) ;
 }
 
-if $(HAVE_STATIC_PLUGINS) = "yes"
+if [ Property build : projgen_version ] != 6
 {
   SubVariant static ;
   
   Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
   LinkWith server_static : entity server-network sqlite_adp database util ;
+  SubVariant ;
 }

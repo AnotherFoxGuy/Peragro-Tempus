@@ -6,6 +6,7 @@ under each day.
 
 16-Jan-2006
   - PK fixed a few linux issues.
+  - PK fixed the generated MSVC files.
 
 15-Jan-2006
   - PK commited an initial version of server and client.
