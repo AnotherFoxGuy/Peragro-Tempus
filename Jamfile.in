@@ -41,6 +41,7 @@ MsvcGenTemplateDir TOP mk msvcgen ;
 MsvcGenWorkspace all : : "grp.+_(?!typical$)" static ;
 # Workspace for static variants of plugins and apps.
 MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!typical$)" ;
+MsvcGenConfig MSVCGEN.WELL_KNOWN_GROUPS_REGISTERED : yes ;
 
 local hash = "\$" ;
 MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
