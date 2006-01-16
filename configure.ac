@@ -157,6 +157,16 @@ AC_DEFINE_UNQUOTED([CEL_PLUGIN_DIR], ["$CEL_PLUGIN_DIR"],
   [Define with path to CEL plugins.])
 ])])
 
+#------------------------------------------------------------------------------
+# Check for pthread.  Also check if pthread implementation supports the
+# recursive mutex extension.
+#------------------------------------------------------------------------------
+CS_CHECK_PTHREAD([cygwin*])
+CS_EMIT_BUILD_RESULT([cs_cv_sys_pthread], [PTHREAD])
+AS_IF([test $cs_cv_sys_pthread_mutex_recursive != no],
+    [CS_HEADER_PROPERTY([CS_PTHREAD_MUTEX_RECURSIVE],
+	[$cs_cv_sys_pthread_mutex_recursive])])
+
 #-----------------------------------------------------------------------------
 # WinSock
 #-----------------------------------------------------------------------------
