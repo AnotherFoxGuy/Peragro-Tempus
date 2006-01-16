@@ -21,7 +21,7 @@
 
 #ifdef WIN32
   #include <windows.h>
-  #define usleep(a); Sleep(a);
+  #define usleep(a); Sleep(a*1000);
 #else
   #include <unistd.h>
 #endif

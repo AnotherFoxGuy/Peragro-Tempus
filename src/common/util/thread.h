@@ -22,14 +22,12 @@
 #ifdef WIN32
   #include <windows.h>
   #define WaitForThread(a, b); WaitForSingleObject(a, b);
-  #define NewThread(a, b, c);  a = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) b, c, NULL, NULL);
   #define ThreadHandle HANDLE
   #define ThreadReturn DWORD WINAPI
   #define QuitThread(); return 0;
 #else
   #include <pthread.h>
   #define WaitForThread(a, b); pthread_join(a, NULL);
-  #define NewThread(a, b, c);  pthread_create( &a, NULL, b, c);
   #define ThreadHandle pthread_t
   #define ThreadReturn void*
   #define QuitThread(); pthread_exit(NULL);
@@ -61,7 +59,11 @@ public:
 
   void begin()
   {
-    NewThread(threadHandle, ThreadStart, this);
+#ifdef WIN32
+    threadHandle = CreateThread(0,0,(LPTHREAD_START_ROUTINE)ThreadStart, this, 0, 0);
+#else
+    pthread_create(&threadHandle, 0, ThreadStart, this);
+#endif
   }
 
   void end()

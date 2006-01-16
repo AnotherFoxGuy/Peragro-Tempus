@@ -71,7 +71,7 @@ int main(int argc, char ** argv)
 
   while (true)
   {
-    sleep(1000 * delay_time);
+    sleep(1 * delay_time);
     network.getStats(sentbyte, recvbyte, timestamp);
     printf("Network Usage: Up: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
   }

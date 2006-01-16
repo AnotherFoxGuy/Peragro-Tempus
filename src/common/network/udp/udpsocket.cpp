@@ -93,7 +93,7 @@ size_t Socket::receive(char* msg, size_t length, SocketAddress* sockaddr)
   sockaddr->port = ntohs(addr.sin_port);
   sockaddr->ip = ntohl(addr.sin_addr.s_addr);
 
-  if (ready)
+  if (ready && real_length < 0)
   {
     int error = errno;
 #ifdef WIN32
