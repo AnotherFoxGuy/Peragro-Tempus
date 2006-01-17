@@ -9,6 +9,8 @@ under each day.
   - iceeey fixed several warnings
   - iceeey added CEGUI dependency to client.
   - iceeey added CEGUI .xsd files to data/skin.
+  - iceeey added PTHREAD dependency to sqlite_lib and util targets.
+    This fixes server segfaults on platforms requiring pthread.
 
 16-Jan-2006
   - PK fixed a few linux issues.
