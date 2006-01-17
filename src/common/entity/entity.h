@@ -87,6 +87,8 @@ public:
 
       return !strcmp(this->name, other->name);
     }
+
+    return false;
   }
 
   void setId(int id)
