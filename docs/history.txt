@@ -8,6 +8,7 @@ under each day.
   - PK removed the CEGUI depencency from client-network.
   - iceeey fixed several warnings
   - iceeey added CEGUI dependency to client.
+  - iceeey added CEGUI .xsd files to data/skin.
 
 16-Jan-2006
   - PK fixed a few linux issues.
