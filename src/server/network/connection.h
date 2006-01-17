@@ -42,6 +42,10 @@ public:
   {
   }
 
+  virtual ~Connection()
+  {
+  }
+
   User* getUser() const
   {
     return user;

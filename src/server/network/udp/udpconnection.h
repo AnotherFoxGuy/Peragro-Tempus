@@ -42,6 +42,10 @@ public:
     seen();
   }
 
+  virtual ~UdpConnection()
+  {
+  }
+
   size_t sinceLastSeen()
   {
     return (size_t) time(0) - last_seen;
