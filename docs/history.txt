@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+17-Jan-2006
+  - PK removed the CEGUI depencency from client-network.
+
 16-Jan-2006
   - PK fixed a few linux issues.
   - PK fixed the generated MSVC files.

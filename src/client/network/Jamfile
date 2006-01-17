@@ -3,5 +3,5 @@ SubDir TOP src client network ;
 Description client-network : "network client" ;
 Library client-network :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-network : CRYSTAL CEL CEGUI ;
+ExternalLibs client-network : CRYSTAL CEL ;
 LinkWith client-network : network ;

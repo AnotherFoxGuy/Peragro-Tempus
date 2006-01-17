@@ -31,7 +31,7 @@
 //#include "iutil/csinput.h"
 #include "ivideo/graph3d.h"
 
-#include "CEGUI.h"
+//#include "CEGUI.h"
 #include "ivaria/icegui.h"
 
 #include "behaviourlayer/bl.h"
