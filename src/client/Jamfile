@@ -4,11 +4,11 @@ SubInclude TOP src client network ;
 
 Description client : "Client" ;
 Application client : [ Wildcard *.h *.cpp ] ;
-ExternalLibs client : CRYSTAL CEL ;
+ExternalLibs client : CEGUI CRYSTAL CEL ;
 LinkWith client : client-network entity util ;
 
 MsvcExternalLibrary client : "wsock32.lib" ;
-MsvcExternalLibaray client : "CEGUIBase.lib CEGUIFalagardBase.lib" : release ;
+MsvcExternalLibrary client : "CEGUIBase.lib CEGUIFalagardBase.lib" : release ;
 MsvcExternalLibrary client : "CEGUIBase_d.lib CEGUIFalagardBase_d.lib" : debug ;
 
 if $(WSOCK32.LFLAGS) {
