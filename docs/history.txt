@@ -6,6 +6,8 @@ under each day.
 
 17-Jan-2006
   - PK removed the CEGUI depencency from client-network.
+  - iceeey fixed several warnings
+  - iceeey added CEGUI dependency to client.
 
 16-Jan-2006
   - PK fixed a few linux issues.
