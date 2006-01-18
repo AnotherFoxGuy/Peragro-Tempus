@@ -9,7 +9,7 @@ under each day.
 
 17-Jan-2006
   - PK removed the CEGUI depencency from client-network.
-  - iceeey fixed several warnings
+  - iceeey fixed several warnings.
   - iceeey added CEGUI dependency to client.
   - iceeey added CEGUI .xsd files to data/skin.
   - iceeey added PTHREAD dependency to sqlite_lib and util targets.
