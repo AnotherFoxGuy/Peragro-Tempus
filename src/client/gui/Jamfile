@@ -1,0 +1,6 @@
+SubDir TOP src client gui ;
+
+Description client-network : "client gui" ;
+Library client-gui :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-gui : CRYSTAL CEL ;

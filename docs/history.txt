@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+18-Jan-2006
+  - Sueastside committed his "work in progress" gui class.
+
 17-Jan-2006
   - PK removed the CEGUI depencency from client-network.
   - iceeey fixed several warnings

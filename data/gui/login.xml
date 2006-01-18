@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
-<Window Type="DefaultWindow" Name="Root" >
+<Window Type="DefaultWindow" Name="Root_login" >
 <Property Name="UnifiedAreaRect" Value="{{0.000000,0.000000},{0.000000,0.000000},{1.000000,0.000000},{1.000000,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Window Type="TaharezLook/FrameWindow" Name="LoginUI" >
@@ -27,13 +27,13 @@
 <Property Name="UnifiedAreaRect" Value="{{0.352488,0.000000},{0.519760,0.000000},{0.952488,0.000000},{0.699041,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/Button" Name="Login" >
+<Window Type="TaharezLook/Button" Name="Login_Button" >
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
 <Property Name="Text" Value="Login" />
 <Property Name="UnifiedAreaRect" Value="{{0.347792,0.000000},{0.779869,0.000000},{0.637792,0.000000},{0.956168,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/Button" Name="Register" >
+<Window Type="TaharezLook/Button" Name="Register_Button" >
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
 <Property Name="Text" Value="Register" />
 <Property Name="UnifiedAreaRect" Value="{{0.662208,0.000000},{0.786436,0.000000},{0.952208,0.000000},{0.957665,0.000000}}" />
@@ -65,43 +65,6 @@
 <Property Name="TopLeftFrameImage" Value="set:TaharezLook image:StaticTopLeft" />
 <Property Name="TopRightFrameImage" Value="set:TaharezLook image:StaticTopRight" />
 <Property Name="UnifiedAreaRect" Value="{{0.032329,0.000000},{0.532009,0.000000},{0.332328,0.000000},{0.693899,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
-</Window>
-<Window Type="TaharezLook/FrameWindow" Name="Connect" >
-<Property Name="CaptionColour" Value="00FFFFFF" />
-<Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
-<Property Name="NESWSizingCursorImage" Value="set:TaharezLook image:MouseNeSwCursor" />
-<Property Name="NSSizingCursorImage" Value="set:TaharezLook image:MouseNoSoCursor" />
-<Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
-<Property Name="Text" Value="Connect" />
-<Property Name="TitlebarEnabled" Value="True" />
-<Property Name="UnifiedAreaRect" Value="{{0.133386,0.000000},{0.114002,0.000000},{0.383386,0.000000},{0.314388,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-<Window Type="TaharezLook/StaticText" Name="Nameless" >
-<Property Name="BackgroundImage" Value="set:TaharezLook image:StaticBackdrop" />
-<Property Name="BottomFrameImage" Value="set:TaharezLook image:StaticBottom" />
-<Property Name="BottomLeftFrameImage" Value="set:TaharezLook image:StaticBottomLeft" />
-<Property Name="BottomRightFrameImage" Value="set:TaharezLook image:StaticBottomRight" />
-<Property Name="LeftFrameImage" Value="set:TaharezLook image:StaticLeft" />
-<Property Name="RightFrameImage" Value="set:TaharezLook image:StaticRight" />
-<Property Name="Text" Value="Server:" />
-<Property Name="TopFrameImage" Value="set:TaharezLook image:StaticTop" />
-<Property Name="TopLeftFrameImage" Value="set:TaharezLook image:StaticTopLeft" />
-<Property Name="TopRightFrameImage" Value="set:TaharezLook image:StaticTopRight" />
-<Property Name="UnifiedAreaRect" Value="{{0.080000,0.000000},{0.242683,0.000000},{0.930000,0.000000},{0.412683,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
-<Window Type="TaharezLook/Editbox" Name="Server" >
-<Property Name="MaxTextLength" Value="1073741823" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
-<Property Name="UnifiedAreaRect" Value="{{0.080000,0.000000},{0.464758,0.000000},{0.930000,0.000000},{0.634758,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
-<Window Type="TaharezLook/Button" Name="Connect_Button" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
-<Property Name="UnifiedAreaRect" Value="{{0.080000,0.000000},{0.703524,0.000000},{0.930000,0.000000},{0.873524,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
 </Window>

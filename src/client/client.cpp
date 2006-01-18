@@ -167,7 +167,7 @@ void Client::FinishFrame()
   g3d->BeginDraw(CSDRAW_3DGRAPHICS);
 
   // Render our GUI on top
-  cegui->Render ();
+   cegui->Render ();
   
   cursor->Draw();
 
@@ -227,67 +227,6 @@ bool Client::Application()
   cegui = CS_QUERY_REGISTRY(GetObjectRegistry(), iCEGUI);
   if (!cegui) return ReportError("Failed to locate CEGUI plugin");
 
-  // Initialize CEGUI wrapper
-  cegui->Initialize ();
-
-  // Set the logging level
-  cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
-
-  vfs->ChDir ("/client/skin/");
-
-  // Load the ice skin (which uses Falagard skinning system)
-  cegui->GetSchemeManagerPtr ()->loadScheme("TaharezLookSkin.scheme");
-
-  cegui->GetSystemPtr ()->setDefaultMouseCursor("TaharezLook", "MouseArrow");
-  cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/client/skin/Commonv2c.ttf", 10, 
-    CEGUI::Default);
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-
-  // Load layout and set as root
-  vfs->ChDir ("/client/gui/");
-  cegui->GetSystemPtr ()->setGUISheet(winMgr->loadWindowLayout("login.xml"));
-
-  CEGUI::Window* btn;
-
-  if (cmdline)
-  {
-    const char* fpslim = cmdline->GetOption("fpsLimit");
-    if (fpslim) limitFPS = atoi(fpslim);
-
-    bool gui = cmdline->GetBoolOption("gui", true);
-
-    if (gui)
-    {
-      btn = winMgr->getWindow("Connect_Button");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUIConnect, this));
-
-      btn = winMgr->getWindow("Register");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUIRegister, this));
-
-      btn = winMgr->getWindow("Login");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUILogin, this));
-
-      btn = winMgr->getWindow("CharSelOk");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUICharSel, this));
-      btn = winMgr->getWindow("CharSelNew");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUICharNew, this));
-
-      btn = winMgr->getWindow("Say");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUISay, this));
-      btn = winMgr->getWindow("Shout");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUIShout, this));
-      btn = winMgr->getWindow("Whisper");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUIWhisper, this));
-    }
-  }
-
-  btn = winMgr->getWindow("Characters");
-  CEGUI::String str_id("Id");
-  CEGUI::String str_name("Name");
-  ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,0.1f);
-  ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,0.5f);
-  ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-
   engine->SetClearScreen(true);
 
   InitializeCEL();
@@ -295,16 +234,24 @@ bool Client::Application()
   network = new Network(this);
   network->init();
 
+/*==============//
+// GUIWindows   //
+//==============*/
+  connectwindow = new ConnectWindow();
+  connectwindow->SetPointers(cegui, vfs, network);
+  connectwindow->CreateGuiWindow();
+
+
   if (cmdline)
   {
-    const char* host = cmdline->GetOption("host");
-    if (host)
-    {
-      ConnectRequestMessage msg;
-      SocketAddress addr = Socket::getSocketAddress(host, 12345);
-      network->setServerAddress(addr);
-      network->send(&msg);
-    }
+	  const char* host = cmdline->GetOption("host");
+	  if (host)
+	  {
+		  ConnectRequestMessage msg;
+		  SocketAddress addr = Socket::getSocketAddress(host, 12345);
+		  network->setServerAddress(addr);
+		  network->send(&msg);
+	  }
   }
 
   Run();
@@ -312,36 +259,15 @@ bool Client::Application()
   return true;
 }
 
-bool Client::ceGUIConnect (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Connect");
-  btn->setEnabled(false);
-
-  btn = winMgr->getWindow("Server");
-  CEGUI::String str = btn->getText();
-  printf("Connecting to %s!!\n", str.c_str());
-
-  ConnectRequestMessage msg;
-  SocketAddress addr = Socket::getSocketAddress(str.c_str(), 12345);
-  network->setServerAddress(addr);
-  network->send(&msg);
-
-  return true; 
-}
 
 void Client::connected ()
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  loginwindow = new LoginWindow();
+  loginwindow->SetPointers(cegui, vfs, network);
+  loginwindow->CreateGuiWindow();
 
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Connect");
-  btn->setEnabled(false);
-  btn->setVisible(false);
-  btn = winMgr->getWindow("LoginUI");
-  btn->setVisible(true);
+  connectwindow->HideWindow();
+  loginwindow->ShowWindow();
 
   if (cmdline)
   {
@@ -369,127 +295,6 @@ void Client::connected ()
   printf("Connected!!\n");
 }
 
-bool Client::ceGUIRegister (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Name");
-  CEGUI::String name = btn->getText();
-  btn = winMgr->getWindow("Password");
-  CEGUI::String pw = btn->getText();
-
-  printf("Register %s:%s!!\n", name.c_str(), pw.c_str());
-
-  RegisterRequestMessage answer_msg;
-  answer_msg.setName((char*)name.c_str());
-  answer_msg.setPwHash((char*)pw.c_str());
-  network->send(&answer_msg);
-  return true;
-}
-
-bool Client::ceGUILogin (const CEGUI::EventArgs& e) 
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Name");
-  CEGUI::String name = btn->getText();
-  btn = winMgr->getWindow("Password");
-  CEGUI::String pw = btn->getText();
-
-  this->name = name.c_str();
-
-  printf("Login %s:%s!!\n", name.c_str(), pw.c_str());
-
-  LoginRequestMessage answer_msg;
-  answer_msg.setName((char*)name.c_str());
-  answer_msg.setPwHash((char*)pw.c_str());
-  network->send(&answer_msg);
-  return true;
-}
-
-bool Client::ceGUICharNew (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("CharNewName");
-  CEGUI::String name = btn->getText();
-
-  CharacterCreationRequestMessage answer_msg;
-  answer_msg.setName((char*)name.c_str());
-  network->send(&answer_msg);
-  return true;
-}
-
-bool Client::ceGUICharSel (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Characters");
-  if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
-    return true;
-
-  CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
-  
-  own_char_id = atoi(item->getText().c_str());
-
-  CharacterSelectionRequestMessage answer_msg;
-  answer_msg.setCharId(own_char_id);
-  network->send(&answer_msg);
-  return true;
-}
-
-bool Client::ceGUISay (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("Say: %s\n", text.c_str());
-  ChatMessage msg;
-  msg.setType(0);
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  return true;
-}
-
-bool Client::ceGUIShout (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("Shout: %s\n", text.c_str());
-  ChatMessage msg;
-  msg.setType(1);
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  return true;
-}
-
-bool Client::ceGUIWhisper (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("!!TDB!! Whisper: %s\n", text.c_str());
-  return true;
-}
 
 bool Client::OnKeyboard(iEvent& ev)
 {
@@ -666,12 +471,13 @@ void Client::loadRegion(const char* name)
 
 void Client::loggedIn()
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("LoginUI");
-  btn->setVisible(false);
-  btn = winMgr->getWindow("CharSelectUI");
-  btn->setVisible(true);
+
+  selectcharwindow = new SelectCharWindow();
+  selectcharwindow->SetPointers(cegui, vfs, network);
+  selectcharwindow->CreateGuiWindow();
+
+  loginwindow->HideWindow();
+  selectcharwindow->ShowWindow();
 
   if (cmdline)
   {
@@ -687,34 +493,30 @@ void Client::loggedIn()
 
 void Client::addCharacter(unsigned int charId, const char* name)
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Characters");
-  char charIdstr[10];
-  sprintf(charIdstr, "%d", charId);
-  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem(charIdstr);
-  CEGUI::ListboxItem* charNameItem = new CEGUI::ListboxTextItem(name);
-
-  charIdItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
-  charNameItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
-
-  unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
-  ((CEGUI::MultiColumnList*)btn)->setItem(charIdItem, 0, row);
-  ((CEGUI::MultiColumnList*)btn)->setItem(charNameItem, 1, row);
-  ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+   selectcharwindow->AddCharacter(charId, name);
 }
 
 void Client::loadRegion()
 {
   playing = true;
 
+  own_char_id = selectcharwindow->GetOwnChar();
+
   if (!load_region.IsValid()) return;
+
+  selectcharwindow->HideWindow();
+
   CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
   CEGUI::Window* btn;
-  btn = winMgr->getWindow("CharSelectUI");
-  btn->setVisible(false);
   btn = winMgr->getWindow("Chat");
   btn->setVisible(true);
+
+  btn = winMgr->getWindow("Say");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUISay, this));
+  btn = winMgr->getWindow("Shout");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUIShout, this));
+  btn = winMgr->getWindow("Whisper");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUIWhisper, this));
 
   csRef<iCelEntity> entity = pl->CreateEntity();
   pl->CreatePropertyClass(entity, "pcregion");
@@ -918,6 +720,58 @@ void Client::moveEntity()
   mutex.unlock();
 }
 
+bool Client::ceGUISay (const CEGUI::EventArgs& e)
+{
+  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  CEGUI::Window* btn;
+  btn = winMgr->getWindow("Input");
+  if (!btn)
+  {
+    printf("Inputbox of Chat not found!\n");
+    return false;
+  }
+  CEGUI::String text = btn->getText();
+  printf("Say: %s\n", text.c_str());
+  ChatMessage msg;
+  msg.setType(0);
+  msg.setMessage(text.c_str());
+  network->send(&msg);
+  return true;
+}
+
+bool Client::ceGUIShout (const CEGUI::EventArgs& e)
+{
+  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  CEGUI::Window* btn;
+  btn = winMgr->getWindow("Input");
+  if (!btn)
+  {
+    printf("Inputbox of Chat not found!\n");
+    return false;
+  }
+  CEGUI::String text = btn->getText();
+  printf("Shout: %s\n", text.c_str());
+  ChatMessage msg;
+  msg.setType(1);
+  msg.setMessage(text.c_str());
+  network->send(&msg);
+  return true;
+}
+
+bool Client::ceGUIWhisper (const CEGUI::EventArgs& e)
+{
+  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  CEGUI::Window* btn;
+  btn = winMgr->getWindow("Input");
+  if (!btn)
+  {
+    printf("Inputbox of Chat not found!\n");
+    return false;
+  }
+  CEGUI::String text = btn->getText();
+  printf("!!TDB!! Whisper: %s\n", text.c_str());
+  return true;
+}
 void Client::chat(char type, const char* msg)
 {
   mutex.lock();

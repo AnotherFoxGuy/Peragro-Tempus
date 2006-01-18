@@ -41,6 +41,8 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
+#include "client/gui/gui.h"
+
 struct iSector;
 class Entity;
 class Network;
@@ -50,6 +52,10 @@ struct iCommandLineParser;
 class Client : public csApplicationFramework, public csBaseEventHandler
 {
 private:
+
+  LoginWindow* loginwindow;
+  ConnectWindow* connectwindow;
+  SelectCharWindow* selectcharwindow;
   iSector *room;
   float rotX, rotY;
 
@@ -128,17 +134,6 @@ public:
 
   bool Application();
 
-  bool ceGUIConnect (const CEGUI::EventArgs& e);
-  bool ceGUIRegister (const CEGUI::EventArgs& e);
-  bool ceGUILogin (const CEGUI::EventArgs& e);
-
-  bool ceGUICharNew (const CEGUI::EventArgs& e);
-  bool ceGUICharSel (const CEGUI::EventArgs& e);
-
-  bool ceGUISay (const CEGUI::EventArgs& e);
-  bool ceGUIShout (const CEGUI::EventArgs& e);
-  bool ceGUIWhisper (const CEGUI::EventArgs& e);
-
   void connected();
   void loggedIn();
   void loadRegion(const char* name);
@@ -157,6 +152,10 @@ public:
 
   void DrUpdateEntity(DrUpdate* drupdate);
   void DrUpdateEntity();
+
+  bool ceGUISay (const CEGUI::EventArgs& e);
+  bool ceGUIShout (const CEGUI::EventArgs& e);
+  bool ceGUIWhisper (const CEGUI::EventArgs& e);
 
   void chat(char type, const char* msg);
   void chat();
