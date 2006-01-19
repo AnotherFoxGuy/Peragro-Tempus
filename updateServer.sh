@@ -4,5 +4,5 @@ svn up
 svn revert . -R
 jam distclean
 ./autogen.sh
-./configure --without-cs --without-cel --with-debug
+./configure --without-cs --without-cel --enable-debug
 jam server
