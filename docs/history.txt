@@ -8,6 +8,7 @@ under each day.
   - Sueastside fixed some string not remaining in memory for 
      GetNewCharName() and becoming corrupt.
   - Sueastside changed client.cpp's code to use more GuiManager stuff.
+  - Sueastside Added the chatwindow.
 
 18-Jan-2006
   - Sueastside committed his "work in progress" gui class.

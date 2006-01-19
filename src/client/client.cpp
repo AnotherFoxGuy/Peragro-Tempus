@@ -499,8 +499,8 @@ void Client::loadRegion()
 
 	guimanager->GetSelectCharWindow ()->HideWindow();
 
-	//guimanager->CreateChatWindow ();
-	//guimanager->GetChatWindow ()->ShowWindow();
+	guimanager->CreateChatWindow ();
+	guimanager->GetChatWindow ()->ShowWindow();
 
 	csRef<iCelEntity> entity = pl->CreateEntity();
 	pl->CreatePropertyClass(entity, "pcregion");

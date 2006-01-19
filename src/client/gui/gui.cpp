@@ -303,12 +303,12 @@ ChatWindow::~ChatWindow ()
 
 void ChatWindow::CreateGUIWindow ()
 {
-    LoadLayout ("chat.xml");
+    GUIWindow::CreateGUIWindow ("chat.xml");
 
-    CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-    CEGUI::Window* btn;
-    btn = winMgr->getWindow("Chat");
-    btn->setVisible(true);
+    winMgr = cegui->GetWindowManagerPtr ();
+
+    // Get the root window
+    rootwindow = winMgr->getWindow("Chat");
 
     btn = winMgr->getWindow("Say");
     btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
@@ -321,8 +321,6 @@ void ChatWindow::CreateGUIWindow ()
 
 bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
 {
-    CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-    CEGUI::Window* btn;
     btn = winMgr->getWindow("Input");
     if (!btn)
     {
@@ -374,7 +372,6 @@ bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
 
 void ChatWindow::AddChatMessage (csRef<iString> msg)
 {
-    CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
     CEGUI::Listbox* dialog = 
         static_cast<CEGUI::Listbox*> (winMgr->getWindow("MessageDialog"));
 
