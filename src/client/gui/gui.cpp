@@ -200,7 +200,6 @@ void LoginWindow::CreateGUIWindow()
 SelectCharWindow::SelectCharWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
-    own_char_id = -1;
 }
 
 SelectCharWindow::~SelectCharWindow()
@@ -217,7 +216,7 @@ bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
 
     CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
 
-    own_char_id = atoi(item->getText().c_str());
+    int own_char_id = atoi(item->getText().c_str());
 
     CharacterSelectionRequestMessage answer_msg;
     answer_msg.setCharId(own_char_id);
@@ -287,10 +286,6 @@ void SelectCharWindow::AddCharacter(unsigned int charId, const char* name)
     ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 }
 
-int SelectCharWindow::GetOwnChar()
-{
-    return own_char_id;
-}
 
 ChatWindow::ChatWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)

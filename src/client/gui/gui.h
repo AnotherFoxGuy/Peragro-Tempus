@@ -86,8 +86,8 @@ class LoginWindow : public GUIWindow
 private:
 	bool LoginButtonPressed(const CEGUI::EventArgs& e);     // Executed when the Connect button is pressed.
 	bool RegisterButtonPressed(const CEGUI::EventArgs& e);  // Executed when the Register button is pressed.
-	CEGUI::String GetLogin();                                       // Return the login input.
-	CEGUI::String GetPassword();                                    // Return the password input.
+	CEGUI::String GetLogin();                               // Return the login input.
+	CEGUI::String GetPassword();                            // Return the password input.
 	bool RememberLogin();                                   // Return "Remember login" checkbox value.
   char* login;
   char* password;
@@ -107,10 +107,9 @@ private:
 	bool SelectChar(const CEGUI::EventArgs& e);  // Selects the current character.
 	bool NewChar(const CEGUI::EventArgs& e);     // Makes a new character.
 	bool DelChar(const CEGUI::EventArgs& e);     // Deletes the selected character.
-	CEGUI::String GetNewCharName();                      // Returns the character name.
+	CEGUI::String GetNewCharName();              // Returns the character name.
 	void ScrollLeft();                           // Scroll left throught the characterlist.
 	void ScrollRight();                          // Scroll right throught the characterlist.
-	int own_char_id;
 	char* character;
 
 public:
@@ -118,7 +117,6 @@ public:
 	virtual ~SelectCharWindow();
 	void CreateGUIWindow();    // load the Login guilayout and register button events.
 	void AddCharacter(unsigned int charId, const char* name);
-	int GetOwnChar();
 };
 
 /*================//
