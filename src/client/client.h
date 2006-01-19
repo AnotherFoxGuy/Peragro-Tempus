@@ -31,9 +31,6 @@
 //#include "iutil/csinput.h"
 #include "ivideo/graph3d.h"
 
-#include "CEGUI.h"
-#include "ivaria/icegui.h"
-
 #include "behaviourlayer/bl.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -41,13 +38,16 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
-#include "client/gui/gui.h"
-
 struct iSector;
 class Entity;
 class Network;
+class GUIManager;
 class Cursor;
 struct iCommandLineParser;
+
+class LoginWindow;
+class ConnectWindow;
+class SelectCharWindow;
 
 class Client : public csApplicationFramework, public csBaseEventHandler
 {
@@ -67,7 +67,6 @@ private:
   csRef<iVirtualClock> vc;
   //csRef<iKeyboardDriver> kbd;
   csRef<iVFS> vfs;
-  csRef<iCEGUI> cegui;
   csRef<iCommandLineParser> cmdline;
 
   csRef<iCelPlLayer> pl;
@@ -82,6 +81,7 @@ private:
   void CreateRoom(); 
 
   Network* network;
+  GUIManager* guimanager;
 
   bool InitializeCEL();
 
@@ -153,10 +153,6 @@ public:
   void DrUpdateEntity(DrUpdate* drupdate);
   void DrUpdateEntity();
 
-  bool ceGUISay (const CEGUI::EventArgs& e);
-  bool ceGUIShout (const CEGUI::EventArgs& e);
-  bool ceGUIWhisper (const CEGUI::EventArgs& e);
-
   void chat(char type, const char* msg);
   void chat();
 
@@ -165,6 +161,9 @@ public:
   iEngine* getCsEngine()  { return engine; }
   iGraphics3D* getG3D()  { return g3d; }
   iCamera* getCamera();
+  
+  iVFS* getVFS()  { return vfs; }
+  Network* getNetwork()  { return network; }
 };
 
 #endif // CLIENT_H

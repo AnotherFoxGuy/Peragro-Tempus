@@ -64,10 +64,10 @@ public:
   }
 
   const char* getName() { return user; }
-  void setName(char* usr) { user = usr; }
+  void setName(const char* usr) { user = (char*) usr; }
 
   const char* getPwHash() { return pwhash; }
-  void setPwHash(char* pw) { pwhash = pw; }
+  void setPwHash(const char* pw) { pwhash = (char*) pw; }
 };
 
 class LoginResponseMessage : public NetMessage
@@ -124,10 +124,10 @@ public:
   }
 
   const char* getName() { return user; }
-  void setName(char* usr) { user = usr; }
+  void setName(const char* usr) { user = (char*) usr; }
 
   const char* getPwHash() { return pwhash; }
-  void setPwHash(char* pw) { pwhash = pw; }
+  void setPwHash(const char* pw) { pwhash = (char*) pw; }
 };
 
 class RegisterResponseMessage : public NetMessage
@@ -239,7 +239,7 @@ public:
   }
 
   const char* getName() { return name; }
-  void setName(char* n) { name = n; }
+  void setName(const char* n) { name = (char*) n; }
 };
 
 class CharacterCreationResponseMessage : public NetMessage

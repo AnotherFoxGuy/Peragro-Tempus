@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+<Window Type="DefaultWindow" Name="Root_chat" >
+<Property Name="UnifiedAreaRect" Value="{{0.000000,0.000000},{0.000000,0.000000},{1.000000,0.000000},{1.000000,0.000000}}" />
+<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+<Window Type="TaharezLook/FrameWindow" Name="Chat" >
+<Property Name="CaptionColour" Value="00FFFFFF" />
+<Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
+<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
+<Property Name="NESWSizingCursorImage" Value="set:TaharezLook image:MouseNeSwCursor" />
+<Property Name="NSSizingCursorImage" Value="set:TaharezLook image:MouseNoSoCursor" />
+<Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
+<Property Name="Text" Value="Chat" />
+<Property Name="TitlebarEnabled" Value="True" />
+<Property Name="UnifiedAreaRect" Value="{{0.102508,0.000000},{0.068468,0.000000},{0.404232,0.000000},{0.404465,0.000000}}" />
+<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+<Property Name="Visible" Value="False" />
+<Window Type="TaharezLook/Editbox" Name="Input" >
+<Property Name="MaxTextLength" Value="1073741823" />
+<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
+<Property Name="UnifiedAreaRect" Value="{{0.045455,0.000000},{0.781967,0.000000},{0.947403,0.000000},{0.868033,0.000000}}" />
+<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+</Window>
+<Window Type="TaharezLook/Listbox" Name="MessageDialog" >
+<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
+<Property Name="UnifiedAreaRect" Value="{{0.049351,0.000000},{0.160656,0.000000},{0.946104,0.000000},{0.764753,0.000000}}" />
+<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+</Window>
+<Window Type="TaharezLook/Button" Name="Say" >
+<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Property Name="Text" Value="Say" />
+<Property Name="UnifiedAreaRect" Value="{{0.045455,0.000000},{0.880000,0.000000},{0.320455,0.000000},{0.980000,0.000000}}" />
+<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+</Window>
+<Window Type="TaharezLook/Button" Name="Shout" >
+<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Property Name="Text" Value="Shout" />
+<Property Name="UnifiedAreaRect" Value="{{0.361039,0.000000},{0.880000,0.000000},{0.636039,0.000000},{0.980000,0.000000}}" />
+<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+</Window>
+<Window Type="TaharezLook/Button" Name="Whisper" >
+<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Property Name="Text" Value="Whisper" />
+<Property Name="UnifiedAreaRect" Value="{{0.671428,0.000000},{0.880000,0.000000},{0.946428,0.000000},{0.980000,0.000000}}" />
+<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+</Window>
+</Window>
+</Window>
+</GUILayout>

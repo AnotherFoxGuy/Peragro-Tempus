@@ -6,6 +6,14 @@ under each day.
 
 18-Jan-2006
   - Sueastside committed his "work in progress" gui class.
+  - iceeey added a GUIManager class. This stores all of the pointers to
+    GUI windows. As a result, got rid of the CEGUI dependency in
+    client.h, so removed CEGUI from client's ExternalLibs and added it to
+    client-gui's ExternalLibs.
+  - iceeey fixed some strings not remaining in memory and becoming
+    corrupted in the LoginWindow class.
+  - iceeey separated chat, char select, and login layouts into separate
+    XML files.
 
 17-Jan-2006
   - PK removed the CEGUI depencency from client-network.

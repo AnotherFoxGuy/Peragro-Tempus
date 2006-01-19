@@ -80,6 +80,8 @@
 #include "propclass/sound.h"
 
 #include "client/network/network.h"
+#include "client/gui/gui.h"
+#include "client/gui/guimanager.h"
 #include "common/entity/entity.h"
 
 #include "common/util/wincrashdump.h"
@@ -167,7 +169,7 @@ void Client::FinishFrame()
   g3d->BeginDraw(CSDRAW_3DGRAPHICS);
 
   // Render our GUI on top
-   cegui->Render ();
+  guimanager->Render ();
   
   cursor->Draw();
 
@@ -224,9 +226,6 @@ bool Client::Application()
   cmdline = CS_QUERY_REGISTRY(GetObjectRegistry(), iCommandLineParser);
   if (!cmdline) return ReportError("Failed to locate CommandLineParser plugin");
 
-  cegui = CS_QUERY_REGISTRY(GetObjectRegistry(), iCEGUI);
-  if (!cegui) return ReportError("Failed to locate CEGUI plugin");
-
   engine->SetClearScreen(true);
 
   InitializeCEL();
@@ -234,13 +233,11 @@ bool Client::Application()
   network = new Network(this);
   network->init();
 
-/*==============//
-// GUIWindows   //
-//==============*/
-  connectwindow = new ConnectWindow();
-  connectwindow->SetPointers(cegui, vfs, network);
-  connectwindow->CreateGuiWindow();
+  guimanager = new GUIManager (this);
+  if (!guimanager->Initialize (GetObjectRegistry()))
+    return false;
 
+  guimanager->CreateConnectWindow ();
 
   if (cmdline)
   {
@@ -262,12 +259,9 @@ bool Client::Application()
 
 void Client::connected ()
 {
-  loginwindow = new LoginWindow();
-  loginwindow->SetPointers(cegui, vfs, network);
-  loginwindow->CreateGuiWindow();
-
-  connectwindow->HideWindow();
-  loginwindow->ShowWindow();
+  LoginWindow* loginwindow = guimanager->CreateLoginWindow ();
+  guimanager->GetConnectWindow ()->HideWindow ();
+  loginwindow->ShowWindow ();
 
   if (cmdline)
   {
@@ -471,13 +465,12 @@ void Client::loadRegion(const char* name)
 
 void Client::loggedIn()
 {
+  selectcharwindow = guimanager->CreateSelectCharWindow ();
 
-  selectcharwindow = new SelectCharWindow();
-  selectcharwindow->SetPointers(cegui, vfs, network);
-  selectcharwindow->CreateGuiWindow();
-
-  loginwindow->HideWindow();
-  selectcharwindow->ShowWindow();
+  printf ("Creating SelectCharWindow\n");
+  
+  guimanager->GetLoginWindow ()->HideWindow ();
+  selectcharwindow->ShowWindow ();
 
   if (cmdline)
   {
@@ -493,30 +486,20 @@ void Client::loggedIn()
 
 void Client::addCharacter(unsigned int charId, const char* name)
 {
-   selectcharwindow->AddCharacter(charId, name);
+  selectcharwindow->AddCharacter(charId, name);
 }
 
 void Client::loadRegion()
 {
   playing = true;
 
+  SelectCharWindow* selectcharwindow = guimanager->GetSelectCharWindow ();
+  
   own_char_id = selectcharwindow->GetOwnChar();
 
   if (!load_region.IsValid()) return;
 
   selectcharwindow->HideWindow();
-
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Chat");
-  btn->setVisible(true);
-
-  btn = winMgr->getWindow("Say");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUISay, this));
-  btn = winMgr->getWindow("Shout");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUIShout, this));
-  btn = winMgr->getWindow("Whisper");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Client::ceGUIWhisper, this));
 
   csRef<iCelEntity> entity = pl->CreateEntity();
   pl->CreatePropertyClass(entity, "pcregion");
@@ -720,58 +703,6 @@ void Client::moveEntity()
   mutex.unlock();
 }
 
-bool Client::ceGUISay (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("Say: %s\n", text.c_str());
-  ChatMessage msg;
-  msg.setType(0);
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  return true;
-}
-
-bool Client::ceGUIShout (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("Shout: %s\n", text.c_str());
-  ChatMessage msg;
-  msg.setType(1);
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  return true;
-}
-
-bool Client::ceGUIWhisper (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("!!TDB!! Whisper: %s\n", text.c_str());
-  return true;
-}
 void Client::chat(char type, const char* msg)
 {
   mutex.lock();
@@ -784,14 +715,8 @@ void Client::chat()
   if (!chat_msg.GetSize()) return;
   mutex.lock();
   csRef<iString> msg = chat_msg.Pop();
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Listbox* dialog = 
-    static_cast<CEGUI::Listbox*> (winMgr->getWindow("MessageDialog"));
-
-  //add text to list
-  CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(msg->GetData());
-  dialog->addItem ( item );
-  dialog->ensureItemIsVisible(dialog->getItemCount());
+  
+  guimanager->GetChatWindow ()->AddChatMessage (msg);
 
   mutex.unlock();
 }
