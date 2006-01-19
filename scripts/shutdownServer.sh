@@ -5,6 +5,10 @@ if [ ! -e server.pid ]; then
   exit
 fi
 
+echo "Stopping server."
+
 pid=`cat server.pid`
 rm server.pid
 kill $pid
+
+sleep 1

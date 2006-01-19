@@ -11,6 +11,7 @@ under each day.
   - Sueastside Added the chatwindow.
   - Sueastside added the ptlook skin
   - Sueastside updated the evil lava apple.
+  - PK improved the scriping a bit and relocated it to the scrips dir.
   - PK fixed some small bugs on the server and client side.
   - PK regenerated the msvc files.
 
