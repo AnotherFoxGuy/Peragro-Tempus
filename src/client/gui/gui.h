@@ -107,7 +107,7 @@ private:
 	bool SelectChar(const CEGUI::EventArgs& e);  // Selects the current character.
 	bool NewChar(const CEGUI::EventArgs& e);     // Makes a new character.
 	bool DelChar(const CEGUI::EventArgs& e);     // Deletes the selected character.
-	char* GetNewCharName();                      // Returns the character name.
+	CEGUI::String GetNewCharName();                      // Returns the character name.
 	void ScrollLeft();                           // Scroll left throught the characterlist.
 	void ScrollRight();                          // Scroll right throught the characterlist.
 	int own_char_id;

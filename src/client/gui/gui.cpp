@@ -1,19 +1,19 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
-    
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-    
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+Copyright (C) 2005 Development Team of Peragro Tempus
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "client/gui/gui.h"
@@ -30,11 +30,11 @@
 //==================*/
 
 GUIWindow::GUIWindow(GUIManager* guimanager)
- : guimanager(guimanager)
+: guimanager(guimanager)
 {
-  cegui = guimanager->GetCEGUI ();
-  vfs = guimanager->GetClient ()->getVFS ();
-  network = guimanager->GetClient ()->getNetwork ();
+	cegui = guimanager->GetCEGUI ();
+	vfs = guimanager->GetClient ()->getVFS ();
+	network = guimanager->GetClient ()->getNetwork ();
 }
 GUIWindow::~GUIWindow()
 {
@@ -47,7 +47,7 @@ void GUIWindow::CreateGUIWindow(const char* layoutFile)
 
 CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
 {
-  winMgr = cegui->GetWindowManagerPtr ();
+	winMgr = cegui->GetWindowManagerPtr ();
 
 	// Load layout and set as root
 	vfs->ChDir ("/client/gui/");
@@ -78,7 +78,7 @@ void GUIWindow::EnableWindow()
 // GUIConnectWindow   //
 //====================*/
 ConnectWindow::ConnectWindow(GUIManager* guimanager)
- : GUIWindow (guimanager)
+: GUIWindow (guimanager)
 {
 }
 
@@ -126,7 +126,7 @@ void ConnectWindow::CreateGUIWindow()
 //   GUILoginWindow   //
 //====================*/
 LoginWindow::LoginWindow(GUIManager* guimanager)
- : GUIWindow (guimanager)
+: GUIWindow (guimanager)
 {
 }
 
@@ -140,8 +140,8 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 	GUIWindow::DisableWindow();
 
 	LoginRequestMessage answer_msg;
-  CEGUI::String login = GetLogin();
-  CEGUI::String password = GetPassword();
+	CEGUI::String login = GetLogin();
+	CEGUI::String password = GetPassword();
 	answer_msg.setName(login.c_str());
 	answer_msg.setPwHash(password.c_str());
 	network->send(&answer_msg);
@@ -152,8 +152,8 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 {
 	RegisterRequestMessage answer_msg;
-  CEGUI::String login = GetLogin();
-  CEGUI::String password = GetPassword();
+	CEGUI::String login = GetLogin();
+	CEGUI::String password = GetPassword();
 	answer_msg.setName(login.c_str());
 	answer_msg.setPwHash(password.c_str());
 	network->send(&answer_msg);
@@ -198,7 +198,7 @@ void LoginWindow::CreateGUIWindow()
 // SelectCharWindow   //
 //====================*/
 SelectCharWindow::SelectCharWindow(GUIManager* guimanager)
- : GUIWindow (guimanager)
+: GUIWindow (guimanager)
 {
 	own_char_id = -1;
 }
@@ -227,8 +227,9 @@ bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
 
 bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e) 
 {
+	CEGUI::String NewCharName = GetNewCharName();
 	CharacterCreationRequestMessage answer_msg;
-	answer_msg.setName(GetNewCharName());
+	answer_msg.setName(NewCharName.c_str());
 	network->send(&answer_msg);
 	return true;
 }
@@ -238,12 +239,9 @@ bool SelectCharWindow::DelChar(const CEGUI::EventArgs& e)
 	return true;
 }
 
-char* SelectCharWindow::GetNewCharName()  
+CEGUI::String SelectCharWindow::GetNewCharName()  
 {
-	btn = winMgr->getWindow("CharNewName");
-	CEGUI::String name = btn->getText();
-	character = (char*)name.c_str();
-	return character;
+	return winMgr->getWindow("CharNewName")->getText();
 }
 
 
@@ -291,11 +289,11 @@ void SelectCharWindow::AddCharacter(unsigned int charId, const char* name)
 
 int SelectCharWindow::GetOwnChar()
 {
-	return this->own_char_id;
+	return own_char_id;
 }
 
 ChatWindow::ChatWindow (GUIManager* guimanager)
- : GUIWindow (guimanager)
+: GUIWindow (guimanager)
 {
 }
 
@@ -305,83 +303,83 @@ ChatWindow::~ChatWindow ()
 
 void ChatWindow::CreateGUIWindow ()
 {
-  LoadLayout ("chat.xml");
-  
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Chat");
-  btn->setVisible(true);
+	LoadLayout ("chat.xml");
 
-  btn = winMgr->getWindow("Say");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
-  btn = winMgr->getWindow("Shout");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnShout, this));
-  btn = winMgr->getWindow("Whisper");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnWhisper, this));
+	CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+	CEGUI::Window* btn;
+	btn = winMgr->getWindow("Chat");
+	btn->setVisible(true);
+
+	btn = winMgr->getWindow("Say");
+	btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
+	btn = winMgr->getWindow("Shout");
+	btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnShout, this));
+	btn = winMgr->getWindow("Whisper");
+	btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnWhisper, this));
 }
 
 
 bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("Say: %s\n", text.c_str());
-  ChatMessage msg;
-  msg.setType(0);
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  return true;
+	CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+	CEGUI::Window* btn;
+	btn = winMgr->getWindow("Input");
+	if (!btn)
+	{
+		printf("Inputbox of Chat not found!\n");
+		return false;
+	}
+	CEGUI::String text = btn->getText();
+	printf("Say: %s\n", text.c_str());
+	ChatMessage msg;
+	msg.setType(0);
+	msg.setMessage(text.c_str());
+	network->send(&msg);
+	return true;
 }
 
 bool ChatWindow::OnShout (const CEGUI::EventArgs& e)
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("Shout: %s\n", text.c_str());
-  ChatMessage msg;
-  msg.setType(1);
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  return true;
+	CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+	CEGUI::Window* btn;
+	btn = winMgr->getWindow("Input");
+	if (!btn)
+	{
+		printf("Inputbox of Chat not found!\n");
+		return false;
+	}
+	CEGUI::String text = btn->getText();
+	printf("Shout: %s\n", text.c_str());
+	ChatMessage msg;
+	msg.setType(1);
+	msg.setMessage(text.c_str());
+	network->send(&msg);
+	return true;
 }
 
 bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  printf("!!TDB!! Whisper: %s\n", text.c_str());
-  return true;
+	CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+	CEGUI::Window* btn;
+	btn = winMgr->getWindow("Input");
+	if (!btn)
+	{
+		printf("Inputbox of Chat not found!\n");
+		return false;
+	}
+	CEGUI::String text = btn->getText();
+	printf("!!TDB!! Whisper: %s\n", text.c_str());
+	return true;
 }
 
 void ChatWindow::AddChatMessage (csRef<iString> msg)
 {
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Listbox* dialog = 
-    static_cast<CEGUI::Listbox*> (winMgr->getWindow("MessageDialog"));
+	CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+	CEGUI::Listbox* dialog = 
+		static_cast<CEGUI::Listbox*> (winMgr->getWindow("MessageDialog"));
 
-  //add text to list
-  CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(msg->GetData());
-  dialog->addItem ( item );
-  dialog->ensureItemIsVisible(dialog->getItemCount());
+	//add text to list
+	CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(msg->GetData());
+	dialog->addItem ( item );
+	dialog->ensureItemIsVisible(dialog->getItemCount());
 }

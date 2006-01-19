@@ -45,17 +45,10 @@ class GUIManager;
 class Cursor;
 struct iCommandLineParser;
 
-class LoginWindow;
-class ConnectWindow;
-class SelectCharWindow;
-
 class Client : public csApplicationFramework, public csBaseEventHandler
 {
 private:
 
-  LoginWindow* loginwindow;
-  ConnectWindow* connectwindow;
-  SelectCharWindow* selectcharwindow;
   iSector *room;
   float rotX, rotY;
 

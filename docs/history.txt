@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+19-Jan-2006
+  - Sueastside fixed some string not remaining in memory for 
+     GetNewCharName() and becoming corrupt.
+  - Sueastside changed client.cpp's code to use more GuiManager stuff.
+
 18-Jan-2006
   - Sueastside committed his "work in progress" gui class.
   - iceeey added a GUIManager class. This stores all of the pointers to

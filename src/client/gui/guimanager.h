@@ -81,9 +81,9 @@ public:
     return chatwindow;
   }
   
-  bool ceGUISay (const CEGUI::EventArgs& e);
-  bool ceGUIShout (const CEGUI::EventArgs& e);
-  bool ceGUIWhisper (const CEGUI::EventArgs& e);
+  //bool ceGUISay (const CEGUI::EventArgs& e);
+  //bool ceGUIShout (const CEGUI::EventArgs& e);
+  //bool ceGUIWhisper (const CEGUI::EventArgs& e);
 };
 
 #endif // GUIMANAGER_H
