@@ -496,7 +496,7 @@ void Client::loadRegion()
 
   if (!load_region.IsValid()) return;
 
-  own_char_id = guimanager->GetSelectCharWindow ()->GetOwnChar();
+  //own_char_id = guimanager->GetSelectCharWindow ()->GetOwnChar();
 
   guimanager->GetSelectCharWindow ()->HideWindow();
 
