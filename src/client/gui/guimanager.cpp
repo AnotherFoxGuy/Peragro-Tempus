@@ -40,27 +40,27 @@ GUIManager::~GUIManager ()
 
 bool GUIManager::Initialize (iObjectRegistry* obj_reg)
 {
-  cegui = CS_QUERY_REGISTRY(obj_reg, iCEGUI);
-  if (!cegui) return client->ReportError("Failed to locate CEGUI plugin");
-  
-	// Initialize CEGUI wrapper
-	cegui->Initialize ();
+    cegui = CS_QUERY_REGISTRY(obj_reg, iCEGUI);
+    if (!cegui) return client->ReportError("Failed to locate CEGUI plugin");
 
-	// Set the logging level
-	cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
+    // Initialize CEGUI wrapper
+    cegui->Initialize ();
 
-  csRef<iVFS> vfs = client->getVFS ();
-  
-	vfs->ChDir ("/client/skin/");
+    // Set the logging level
+    cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
-	// Load the ice skin (which uses Falagard skinning system)
-	cegui->GetSchemeManagerPtr ()->loadScheme("TaharezLookSkin.scheme");
+    csRef<iVFS> vfs = client->getVFS ();
 
-	cegui->GetSystemPtr ()->setDefaultMouseCursor("TaharezLook", "MouseArrow");
-	cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/client/skin/Commonv2c.ttf", 10, 
-		CEGUI::Default);
-  
-  return true;
+    vfs->ChDir ("/client/skin/");
+
+    // Load the ice skin (which uses Falagard skinning system)
+    cegui->GetSchemeManagerPtr ()->loadScheme("TaharezLookSkin.scheme");
+
+    cegui->GetSystemPtr ()->setDefaultMouseCursor("TaharezLook", "MouseArrow");
+    cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/client/skin/Commonv2c.ttf", 10, 
+        CEGUI::Default);
+
+    return true;
 }
 
 void GUIManager::Render ()
