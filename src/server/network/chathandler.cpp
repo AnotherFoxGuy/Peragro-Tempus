@@ -37,6 +37,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
   {
     User* user = server->getUserManager()->getUser(i);
-    user->getConnection()->send(bs);
+    if (user->getConnection())
+      user->getConnection()->send(bs);
   }
 }

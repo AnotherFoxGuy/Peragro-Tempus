@@ -11,6 +11,8 @@ under each day.
   - Sueastside Added the chatwindow.
   - Sueastside added the ptlook skin
   - Sueastside updated the evil lava apple.
+  - PK fixed some small bugs on the server and client side.
+  - PK regenerated the msvc files.
 
 18-Jan-2006
   - Sueastside committed his "work in progress" gui class.

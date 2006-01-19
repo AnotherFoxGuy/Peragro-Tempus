@@ -38,7 +38,7 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
   {
     User* user = server->getUserManager()->getUser(i);
-    if (user->getConnection())
+    if (user && user->getConnection())
       user->getConnection()->send(bs);
   }
 }
@@ -74,7 +74,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
   {
     User* user = server->getUserManager()->getUser(i);
-    if (user->getConnection())
+    if (user && user->getConnection())
       user->getConnection()->send(bs);
   }
 }
@@ -118,7 +118,8 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
   {
     User* user = server->getUserManager()->getUser(i);
-    user->getConnection()->send(bs);
+    if (user && user->getConnection())
+      user->getConnection()->send(bs);
   }
 
   if (response_msg.getError() == 0)

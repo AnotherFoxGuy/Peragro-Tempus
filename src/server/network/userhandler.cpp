@@ -71,7 +71,8 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
 
   ByteStream char_bs;
   char_msg.serialise(&char_bs);
-  user->getConnection()->send(char_bs);
+  if (user->getConnection())
+    user->getConnection()->send(char_bs);
 }
 
 void UserHandler::handleRegisterRequest(GenericMessage* msg)
