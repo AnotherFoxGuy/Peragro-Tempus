@@ -506,5 +506,10 @@
 <n x="0.000000" y="1.000000" z="0.000000"/>
 <t v1="197" v2="196" v3="195"/>
 </params>
+ <hardmove>
+      <matrix>
+          <scale x="0.2" y="0.2" z="0.2" />
+      </matrix>
+    </hardmove>
 </meshfact>
 </library>
