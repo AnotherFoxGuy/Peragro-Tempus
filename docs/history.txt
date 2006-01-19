@@ -14,6 +14,7 @@ under each day.
   - PK improved the scriping a bit and relocated it to the scrips dir.
   - PK fixed some small bugs on the server and client side.
   - PK regenerated the msvc files.
+  - Sueastside added some gui checks to avoid stupidity.
 
 18-Jan-2006
   - Sueastside committed his "work in progress" gui class.

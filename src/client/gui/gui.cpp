@@ -136,15 +136,16 @@ LoginWindow::~LoginWindow()
 
 bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e) 
 {
-    // Get the login window and disable it
-    GUIWindow::DisableWindow();
-
     LoginRequestMessage answer_msg;
     CEGUI::String login = GetLogin();
     CEGUI::String password = GetPassword();
+    if (login.empty() || password.empty()) return true;
     answer_msg.setName(login.c_str());
     answer_msg.setPwHash(password.c_str());
     network->send(&answer_msg);
+
+    // Get the login window and disable it
+    GUIWindow::DisableWindow();
 
     return true;
 }
@@ -154,6 +155,7 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
     RegisterRequestMessage answer_msg;
     CEGUI::String login = GetLogin();
     CEGUI::String password = GetPassword();
+    if (login.empty() || password.empty()) return true;
     answer_msg.setName(login.c_str());
     answer_msg.setPwHash(password.c_str());
     network->send(&answer_msg);
@@ -208,25 +210,29 @@ SelectCharWindow::~SelectCharWindow()
 
 bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e) 
 {
-    GUIWindow::DisableWindow();
-
     btn = winMgr->getWindow("Characters");
     if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
         return true;
 
     CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
 
+    if (!item->isSelected()) return true;
+
     int own_char_id = atoi(item->getText().c_str());
 
     CharacterSelectionRequestMessage answer_msg;
     answer_msg.setCharId(own_char_id);
     network->send(&answer_msg);
+
+    GUIWindow::DisableWindow();
+
     return true;
 }
 
 bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e) 
 {
     CEGUI::String NewCharName = GetNewCharName();
+    if (NewCharName.empty()) return true;
     CharacterCreationRequestMessage answer_msg;
     answer_msg.setName(NewCharName.c_str());
     network->send(&answer_msg);
@@ -323,11 +329,13 @@ bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
         return false;
     }
     CEGUI::String text = btn->getText();
+    if (text.empty()) return true;
     printf("Say: %s\n", text.c_str());
     ChatMessage msg;
     msg.setType(0);
     msg.setMessage(text.c_str());
     network->send(&msg);
+    btn->setText(text.erase());
     return true;
 }
 
@@ -342,11 +350,13 @@ bool ChatWindow::OnShout (const CEGUI::EventArgs& e)
         return false;
     }
     CEGUI::String text = btn->getText();
+    if (text.empty()) return true;
     printf("Shout: %s\n", text.c_str());
     ChatMessage msg;
     msg.setType(1);
     msg.setMessage(text.c_str());
     network->send(&msg);
+    btn->setText(text.erase());
     return true;
 }
 
@@ -361,7 +371,9 @@ bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
         return false;
     }
     CEGUI::String text = btn->getText();
+    if (text.empty()) return true;
     printf("!!TDB!! Whisper: %s\n", text.c_str());
+    btn->setText(text.erase());
     return true;
 }
 
