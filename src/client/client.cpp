@@ -507,9 +507,9 @@ void Client::loadRegion()
   pl->CreatePropertyClass(entity, "pcregion");
   csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
   entity->SetName("World");
-  world_loaded = pcregion->SetRegionName("World");
+  pcregion->SetRegionName("World");
   pcregion->SetWorldFile (load_region->GetData(), "world");
-  pcregion->Load();
+  world_loaded = pcregion->Load();
   load_region = 0;
 }
 
