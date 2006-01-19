@@ -52,6 +52,8 @@ private:
   iSector *room;
   float rotX, rotY;
 
+  bool world_loaded;
+
   int limitFPS;
   csTicks last_sleep;
 

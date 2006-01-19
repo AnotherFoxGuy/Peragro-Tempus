@@ -64,14 +64,14 @@ int main(int argc, char ** argv)
 
   unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;
 
-  unsigned int delay_time = 10;
+  unsigned int delay_time = 10000; //10 sec = 10000 ms
 
   //Used for testing crash handler
   //int test;  (*(CharacterManager*)0).createCharacter("test",0, test);
 
   while (true)
   {
-    sleep(1 * delay_time);
+    sleep(delay_time);
     network.getStats(sentbyte, recvbyte, timestamp);
     printf("Network Usage: Up: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
   }

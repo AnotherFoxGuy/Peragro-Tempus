@@ -97,6 +97,7 @@ Client::Client() : playing(false)
   limitFPS = 0;
   last_sleep = 0;
   own_char_id = -1;
+  world_loaded = false;
 
   cursor = new Cursor(this);
 }
@@ -506,7 +507,7 @@ void Client::loadRegion()
   pl->CreatePropertyClass(entity, "pcregion");
   csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
   entity->SetName("World");
-  pcregion->SetRegionName("World");
+  world_loaded = pcregion->SetRegionName("World");
   pcregion->SetWorldFile (load_region->GetData(), "world");
   pcregion->Load();
   load_region = 0;
@@ -521,7 +522,7 @@ void Client::addEntity(Entity* entity)
 
 void Client::addEntity()
 {
-  if (!new_entity_name.GetSize()) return;
+  if (!new_entity_name.GetSize() || !world_loaded) return;
   mutex.lock();
 
   Entity* ent = new_entity_name.Pop();
