@@ -4,6 +4,7 @@
 <Property Name="UnifiedAreaRect" Value="{{0.000000,0.000000},{0.000000,0.000000},{1.000000,0.000000},{1.000000,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Window Type="TaharezLook/FrameWindow" Name="Connect" >
+<Property Name="CloseButtonEnabled" Value="False" />
 <Property Name="CaptionColour" Value="00FFFFFF" />
 <Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />

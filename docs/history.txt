@@ -9,6 +9,7 @@ under each day.
      GetNewCharName() and becoming corrupt.
   - Sueastside changed client.cpp's code to use more GuiManager stuff.
   - Sueastside Added the chatwindow.
+  - Sueastside added the ptlook skin
 
 18-Jan-2006
   - Sueastside committed his "work in progress" gui class.
