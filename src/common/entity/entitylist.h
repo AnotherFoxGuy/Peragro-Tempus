@@ -47,6 +47,7 @@ public:
 
   void addEntity(Entity* entity)
   {
+    if (!entity) assert("Invalid Entity");
     entities.add(entity);
   }
 
