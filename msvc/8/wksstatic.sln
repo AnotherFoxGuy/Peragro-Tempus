@@ -4,6 +4,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appclient_static", "appclie
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appserver_static", "appserver_static.vcproj", "{498F747F-CAF0-19D5-5831-5856CE08C0DC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-gui", "libclient-gui.vcproj", "{3003F7D0-0F84-42C5-FE8A-2B5943062A66}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-network", "libclient-network.vcproj", "{01585500-2818-9845-E99D-46451C8684B3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdatabase", "libdatabase.vcproj", "{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}"
@@ -54,6 +56,10 @@ Global
 		{498F747F-CAF0-19D5-5831-5856CE08C0DC}.Release.Build.0 = Release|Win32
 		{498F747F-CAF0-19D5-5831-5856CE08C0DC}.Debug.ActiveCfg = Debug|Win32
 		{498F747F-CAF0-19D5-5831-5856CE08C0DC}.Debug.Build.0 = Debug|Win32
+		{3003F7D0-0F84-42C5-FE8A-2B5943062A66}.Release.ActiveCfg = Release|Win32
+		{3003F7D0-0F84-42C5-FE8A-2B5943062A66}.Release.Build.0 = Release|Win32
+		{3003F7D0-0F84-42C5-FE8A-2B5943062A66}.Debug.ActiveCfg = Debug|Win32
+		{3003F7D0-0F84-42C5-FE8A-2B5943062A66}.Debug.Build.0 = Debug|Win32
 		{01585500-2818-9845-E99D-46451C8684B3}.Release.ActiveCfg = Release|Win32
 		{01585500-2818-9845-E99D-46451C8684B3}.Release.Build.0 = Release|Win32
 		{01585500-2818-9845-E99D-46451C8684B3}.Debug.ActiveCfg = Debug|Win32

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
-	Name="appclient"
-	ProjectGUID="{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}"
+	Version="7.10"
+	Name="libclient-gui"
+	ProjectGUID="{3003F7D0-0F84-42C5-FE8A-2B5943062A66}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,11 +13,9 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\out\release8\build\appclient\"
-			IntermediateDirectory="..\..\out\release8\build\appclient\"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="TRUE"
+			OutputDirectory="..\..\out\release71\build\libclient-gui\"
+			IntermediateDirectory="..\..\out\release71\build\libclient-gui\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -28,14 +26,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release8\build\appclient\appclient.pch"
-				AssemblerListingLocation="..\..\out\release8\build\appclient\"
-				ObjectFile="..\..\out\release8\build\appclient\"
-				ProgramDataBaseFileName="..\..\out\release8\build\appclient\client.pdb"
+				PrecompiledHeaderFile="..\..\out\release71\build\libclient-gui\libclient-gui.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libclient-gui\"
+				ObjectFile="..\..\out\release71\build\libclient-gui\"
+				ProgramDataBaseFileName="..\..\out\release71\build\libclient-gui\client-gui.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -50,25 +48,24 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\client.exe"
-				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib wsock32.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release\libs;$(CEL)\libs"
-				ProgramDatabaseFile="..\..\out\release8\build\appclient\client.pdb"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release\libs;$(CEL)\libs"
+				ProgramDatabaseFile="..\..\out\release71\build\libclient-gui\client-gui.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release71\libs\libclient-gui.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\appclient\appclient.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libclient-gui\libclient-gui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -78,7 +75,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=71"
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -88,10 +85,9 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug8\build\appclient\"
-			IntermediateDirectory="..\..\out\debug8\build\appclient\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug71\build\libclient-gui\"
+			IntermediateDirectory="..\..\out\debug71\build\libclient-gui\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -101,14 +97,14 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug8\build\appclient\appclient.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\appclient\"
-				ObjectFile="..\..\out\debug8\build\appclient\"
-				ProgramDataBaseFileName="..\..\out\debug8\build\appclient\client.pdb"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libclient-gui\libclient-gui.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libclient-gui\"
+				ObjectFile="..\..\out\debug71\build\libclient-gui\"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libclient-gui\client-gui.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -121,25 +117,24 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\client.exe"
-				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib wsock32.lib CEGUIBase_d.lib CEGUIFalagardBase_d.lib"
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug\libs;$(CEL)\libs"
-				ProgramDatabaseFile="..\..\out\debug8\build\appclient\client.pdb"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug\libs;$(CEL)\libs"
+				ProgramDatabaseFile="..\..\out\debug71\build\libclient-gui\client-gui.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug71\libs\libclient-gui_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\appclient\appclient.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libclient-gui\libclient-gui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -149,7 +144,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=71"
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -163,30 +158,20 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\client.cpp">
+				RelativePath="..\..\src\client\gui\gui.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\cursor.cpp">
+				RelativePath="..\..\src\client\gui\guimanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\client.h">
+				RelativePath="..\..\src\client\gui\gui.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\cursor.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="">
-			<File
-				RelativePath="..\..\msvc\8\appclient.manifest">
-			</File>
-			<File
-				RelativePath="..\..\msvc\8\appclient.rc">
+				RelativePath="..\..\src\client\gui\guimanager.h">
 			</File>
 		</Filter>
 	</Files>

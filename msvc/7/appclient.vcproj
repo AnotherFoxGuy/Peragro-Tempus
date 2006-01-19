@@ -53,7 +53,7 @@
 				OutputFile="..\..\client.exe"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib wsock32.lib CEGUIBase.lib CEGUIFalagardBase.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release\libs;$(CEL)\libs"
