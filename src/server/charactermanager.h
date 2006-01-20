@@ -19,7 +19,6 @@
 #ifndef _CHARACTERMANAGER_H_
 #define _CHARACTERMANAGER_H_
 
-#include "common/util/array.h"
 #include "common/entity/character.h"
 
 class Server;
@@ -34,7 +33,7 @@ private:
 public:
   CharacterManager(Server* server);
 
-  const char* createCharacter(const char* name, int user_id, int& char_id);
+  const char* createCharacter(const std::string& name, int user_id, int& char_id);
 
 };
 

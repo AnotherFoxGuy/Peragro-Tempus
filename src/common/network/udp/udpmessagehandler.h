@@ -28,7 +28,7 @@ class UdpMessageHandler
 public:
   virtual ~UdpMessageHandler() {}
   virtual void handle(GenericMessage* msg, SocketAddress& sock_addr) = 0;
-  virtual char getType() = 0;
+  virtual char getType() const = 0;
 };
 
 #endif // _UDPMESSAGEHANDLER_H_

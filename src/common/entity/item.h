@@ -19,39 +19,46 @@
 #ifndef ITEM_H_
 #define ITEM_H_
 
-#include <string.h>
+#include <string>
 
 class Item
 {
 private:
   int id;
-  char* name;
-  char* mesh;
+  std::string name;
+  std::string mesh;
 
 public:
-  Item() : id(-1), name(0), mesh(0) {}
+  Item() : id(-1) {}
   ~Item() {}
 
-  void setId(int id) { this->id = id; }
-  int getId() { return id; }
-
-  const char* getName() { return name; }
-  void setName(const char* name) { setName(name, strlen(name)); }
-  void setName(const char* name, size_t namelen)
+  void setId(int id)
   {
-    delete [] this->name;
-    this->name = new char[namelen+1];
-    strncpy(this->name, name, namelen+1);
+    this->id = id;
+  }
+  int getId() const
+  {
+    return id;
   }
 
-  const char* getMesh() { return mesh; }
-  void setMesh(const char* name) { setMesh(name, strlen(name)); }
-  void setMesh(const char* name, size_t namelen)
+  std::string getName() const
   {
-    delete [] this->mesh;
-    this->mesh = new char[namelen+1];
-    strncpy(this->mesh, name, namelen+1);
+    return name;
+  }
+  void setName(const std::string& name)
+  {
+    this->name = name;
+  }
+
+  std::string getMesh() const
+  {
+    return mesh;
+  }
+  void setMesh(const std::string& name)
+  {
+    this->mesh = name;
   }
 };
 
 #endif // ITEM_H_
+

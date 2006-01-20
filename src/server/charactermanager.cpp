@@ -27,7 +27,7 @@ CharacterManager::CharacterManager(Server* server)
   charId = server->getDatabase()->getCharacterTable()->getMaxId();
 }
 
-const char* CharacterManager::createCharacter(const char* name, int user_id, int& char_id)
+const char* CharacterManager::createCharacter(const std::string& name, int user_id, int& char_id)
 {
   CharacterTable* ct = server->getDatabase()->getCharacterTable();
 

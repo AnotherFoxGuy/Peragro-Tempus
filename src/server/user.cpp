@@ -26,16 +26,17 @@ void User::sendAddEntity(Entity* entity)
   if (ent_list.exists(entity))
     return;
 
-  printf("send addentity '%s' to '%s'\n", entity->getName(), this->getName());
+  printf("send addentity '%s' to '%s'\n", entity->getName().c_str(),
+    this->getName().c_str());
 
   ent_list.addEntity(entity);
   AddEntityMessage msg;
-  msg.setName((char*)entity->getName());
+  msg.setName(entity->getName());
   msg.setId(entity->getId());
   msg.setType(entity->getType());
-  msg.setMesh((char*)entity->getMesh());
+  msg.setMesh(entity->getMesh());
   msg.setPos(entity->getPos());
-  msg.setSector((char*)entity->getSector());
+  msg.setSector(entity->getSector());
   ByteStream bs;
   msg.serialise(&bs);
   connection->send(bs);
@@ -43,13 +44,14 @@ void User::sendAddEntity(Entity* entity)
 
 void User::sendRemoveEntity(Entity* entity)
 {
-  printf("send delentity '%s' to '%s'\n", entity->getName(), this->getName());
+  printf("send delentity '%s' to '%s'\n", entity->getName().c_str(),
+    this->getName().c_str());
   if (!ent_list.exists(entity))
     return;
 
   ent_list.delEntity(entity);
   RemoveEntityMessage msg;
-  msg.setName((char*)entity->getName());
+  msg.setName(entity->getName());
   msg.setId(entity->getId());
   msg.setType(entity->getType());
   ByteStream bs;

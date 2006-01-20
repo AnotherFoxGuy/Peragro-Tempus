@@ -19,7 +19,8 @@
 #ifndef _USER_H_
 #define _USER_H_
 
-#include <string.h>
+#include <string>
+
 #include <time.h>
 #include <math.h>
 
@@ -32,24 +33,22 @@ class User
 {
 private:
   size_t id;
-  char* name;
-  char* pwhash;
+  std::string name;
+  std::string pwhash;
   Connection* connection;
   Entity* own_entity;
   EntityList ent_list;
 
 public:
-  User() : name(0), pwhash(0), connection(0), own_entity(0)
+  User() : connection(0), own_entity(0)
   {
   }
 
   ~User()
   {
-    delete [] name;
-    delete [] pwhash;
   }
 
-  size_t getId()
+  size_t getId() const
   {
     return id;
   }
@@ -59,34 +58,30 @@ public:
     this->id = id;
   }
 
-  const char* getName()
+  std::string getName() const
   {
     return name;
   }
 
-  void setName(const char* name, size_t namelen)
+  void setName(const std::string& name)
   {
-    delete [] this->name;
-    this->name = new char[namelen+1];
-    strncpy(this->name, name, namelen+1);
+    this->name = name;
   }
 
-  const char* getPwHash()
+  std::string getPwHash() const
   {
     return pwhash;
   }
 
-  void setPwHash(const char* pwhash, size_t pwhashlen)
+  void setPwHash(const std::string& pwhash)
   {
-    delete [] this->pwhash;
-    this->pwhash = new char[pwhashlen+1];
-    strncpy(this->pwhash, pwhash, pwhashlen+1);
+    this->pwhash = pwhash;
   }
 
   void sendAddEntity(Entity* entity);
   void sendRemoveEntity(Entity* entity);
 
-  Entity* getEntity()
+  Entity* getEntity() const
   {
     return own_entity;
   }
@@ -96,7 +91,7 @@ public:
     own_entity = entity;
   }
 
-  Connection* getConnection()
+  Connection* getConnection() const
   {
     return connection;
   }

@@ -19,35 +19,36 @@
 #ifndef _USERMANAGER_H_
 #define _USERMANAGER_H_
 
-#include "common/util/array.h"
+#include <vector>
+
 #include "user.h"
 
 class UserManager
 {
 private:
-  Array<User*> users;
+  std::vector<User*> users;
 
 public:
   UserManager() {}
 
-  size_t getUserCount()
+  size_t getUserCount() const
   {
-    return users.getCount();
+    return users.size();
   }
 
-  User* getUser(size_t index)
+  User* getUser(size_t index) const
   {
-    return users.get(index);
+    return users[index];
   }
 
   void addUser(User* user)
   {
-    users.add(user);
+    users.push_back(user);
   }
 
   void delUser(size_t index)
   {
-    users.del(index);
+    users.erase(users.begin()+index);
   }
 
   void delUser(User* user)
@@ -58,12 +59,13 @@ public:
       return;
     }
 
-    for (size_t i = 0; i<users.getCount(); i++)
+    
+    for (size_t i = 0; i < users.size(); i++)
     {
-      User* tmp_user = users.get(i);
-      if (strlen(tmp_user->getName()) == strlen(user->getName()) && !strcmp(tmp_user->getName(), user->getName()))
+      User* tmp_user = users[i];
+      if (tmp_user->getName() == user->getName())
       {
-        users.del(i);
+        users.erase(users.begin()+i);
         printf("Removing user: User removed!\n");
         return;
       }
@@ -71,13 +73,13 @@ public:
     printf("Removing user: User not found!\n");
   }
 
-  User* findByName(const char* name)
+  User* findByName(const std::string& name) const
   {
-    if (!name) return 0;
-    for (size_t i = 0; i<users.getCount(); i++)
+    if (name.length() == 0) return 0;
+    for (size_t i = 0; i < users.size(); i++)
     {
-      User* user = users.get(i);
-      if (strlen(user->getName()) == strlen(name) && !strcmp(user->getName(), name))
+      User* user = users[i];
+      if (user->getName() == name)
       {
         return user;
       }
@@ -87,3 +89,4 @@ public:
 };
 
 #endif // _USERMANAGER_H_
+

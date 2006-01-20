@@ -19,9 +19,7 @@
 #ifndef _CHARACTER_H_
 #define _CHARACTER_H_
 
-#include <string.h>
-#include <time.h>
-#include <math.h>
+#include <string>
 
 #include "inventory.h"
 
@@ -31,9 +29,9 @@ class Character
 {
 private:
   int id;
-  char* name;
-  char* mesh;
-  char* sector;
+  std::string name;
+  std::string mesh;
+  std::string sector;
 
   User* user;
 
@@ -42,7 +40,7 @@ private:
   Inventory inventory;
 
 public:
-  Character() : id(-1), name(0), mesh(0), sector(0)
+  Character() : id(-1)
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
@@ -51,16 +49,13 @@ public:
 
   ~Character()
   {
-    delete [] name;
-    delete [] mesh;
-    delete [] sector;
   }
 
   void setId(int id)
   {
     this->id = id;
   }
-  int getId()
+  int getId() const
   {
     return id;
   }
@@ -71,64 +66,46 @@ public:
     pos[1] = y;
     pos[2] = z;
   }
-  void setPos(float p[3])
+  void setPos(const float p[3])
   {
     pos[0] = p[0];
     pos[1] = p[1];
     pos[2] = p[2];
   }
-  float* getPos()
+  const float* getPos() const
   {
     return pos;
   }
 
-  const char* getName()
+  std::string getName() const
   {
     return name;
   }
 
-  void setName(const char* name, size_t namelen)
+  void setName(const std::string& name)
   {
-    delete [] this->name;
-    this->name = new char[namelen+1];
-    strncpy(this->name, name, namelen+1);
+    this->name = name;
   }
 
-  void setName(const char* name)
-  {
-    setName(name, strlen(name));
-  }
-
-  const char* getMesh()
+  std::string getMesh() const
   {
     return mesh;
   }
 
-  void setMesh(const char* name, size_t namelen)
+  
+  void setMesh(const std::string& name)
   {
-    delete [] this->mesh;
-    this->mesh = new char[namelen+1];
-    strncpy(this->mesh, name, namelen+1);
+    this->mesh = name;
   }
 
-  void setMesh(const char* name)
-  {
-    setMesh(name, strlen(name));
-  }
-
-  const char* getSector()
+  std::string getSector() const
   {
     return sector;
   }
-  void setSector(const char* name, size_t namelen)
+  
+  void setSector(const std::string& name)
   {
-    delete [] this->sector;
-    this->sector = new char[namelen+1];
-    strncpy(this->sector, name, namelen+1);
-  }
-  void setSector(const char* name)
-  {
-    setSector(name, strlen(name));
+    this->sector = name;
   }
 
   User* getUser()
@@ -148,3 +125,4 @@ public:
 };
 
 #endif // _CHARACTER_H_
+

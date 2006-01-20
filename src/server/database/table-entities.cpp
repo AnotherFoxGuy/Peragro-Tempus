@@ -16,6 +16,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <sstream>
+#include <iomanip>
+
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
@@ -34,7 +37,7 @@ EntityTable::EntityTable(Database* db) : Table(db)
   {
     createTable();
   }
-  ResultSet* rs2 = db->query("select count(*) from entities;");
+  /*ResultSet* rs2 = */ db->query("select count(*) from entities;");
 }
 
 void EntityTable::createTable()
@@ -66,18 +69,23 @@ void EntityTable::createTable()
   insert(6, "apple-test5", 3, 1,"apple", pos6, "room");
 }
 
-void EntityTable::insert(int id, const char* name, int type, int item, const char* mesh, float pos[3], const char* sector)
+void EntityTable::insert(int id, const std::string& name, int type, int item,
+  const std::string& mesh, const float pos[3], const std::string& sector)
 {
-  if (strlen(name) + strlen(mesh) + strlen(sector) > 512) assert("Strings too long");
-  char query[1024];
+  std::ostringstream query;
   if (item == -1)
     return;
-  sprintf(query, "insert into entities (id, name, type, item, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d', '%s',%d,%d,'%s',%.2f,%.2f,%.2f,'%s');", id, name, type, item, mesh, pos[0], pos[1], pos[2], sector);
-  db->update(query);
+  query << "insert into entities (id, name, type, item, mesh, pos_x, pos_y, pos_z, sector) values "
+      << "('" << id << "','" << db->escape(name) << "'," << type << ","
+      << item << ",'"
+      << db->escape(mesh) << "',"
+      << std::setprecision(2)
+      << pos[0] << "," << pos[1] << "," << pos[2] << ",'"
+      << db->escape(sector) << "');";
+  db->update(query.str());
 }
 
-int EntityTable::getMaxId()
+int EntityTable::getMaxId() const
 {
   ResultSet* rs = db->query("select max(id) from entities");
   if (rs->GetRowCount() == 0) 
@@ -93,44 +101,44 @@ void EntityTable::dropTable()
 
 void EntityTable::remove(int id)
 {
-  char query[1024];
-  sprintf(query, "delete from entities where id = %d;", id);
-  db->update(query);
+  std::ostringstream query;
+  query << "delete from entities where id = " << id << ";";
+  db->update(query.str());
 }
 
-bool EntityTable::existsEntity(const char* name)
+bool EntityTable::existsEntity(const std::string& name)
 {
-  if (strlen(name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select id from entities where name = '%s';", name);
-  ResultSet* rs = db->query(query);
+  std::ostringstream query;
+  query << "select id from entities where name = '" << db->escape(name) << "';";
+  ResultSet* rs = db->query(query.str());
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
 }
 
-Entity* EntityTable::getEntity(const char* name)
+Entity* EntityTable::getEntity(const std::string& name) const
 {
-  if (strlen(name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select * from entities where name = '%s';", name);
-  ResultSet* rs = db->query(query);
+  std::ostringstream query;
+  query << "select * from entities where name = '" << db->escape(name) << "';";
+  ResultSet* rs = db->query(query.str());
   if (rs->GetRowCount() == 0) 
     return 0;
 
   Entity* entity = new Entity();
   entity->setId(atoi(rs->GetData(0,0).c_str()));
-  entity->setName(rs->GetData(0,1).c_str(), rs->GetData(0,1).length());
+  entity->setName(rs->GetData(0,1));
   entity->setType(atoi(rs->GetData(0,2).c_str()));
   entity->setItem(atoi(rs->GetData(0,3).c_str()));
-  entity->setMesh(rs->GetData(0,4).c_str(), rs->GetData(0,4).length());
-  entity->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
-  entity->setSector(rs->GetData(0,8).c_str(), rs->GetData(0,8).length());
+  entity->setMesh(rs->GetData(0,4));
+  entity->setPos((float)atof(rs->GetData(0,5).c_str()),
+    (float)atof(rs->GetData(0,6).c_str()),
+    (float)atof(rs->GetData(0,7).c_str()));
+  entity->setSector(rs->GetData(0,8));
   delete rs;
   return entity;
 }
 
-void EntityTable::getAllEntities(Array<Entity*>& entities)
+void EntityTable::getAllEntities(std::vector<Entity*>& entities)
 {
   ResultSet* rs = db->query("select * from entities;");
   if (!rs) return;
@@ -138,12 +146,14 @@ void EntityTable::getAllEntities(Array<Entity*>& entities)
   {
     Entity* entity = new Entity();
     entity->setId(atoi(rs->GetData(i,0).c_str()));
-    entity->setName(rs->GetData(i,1).c_str(), rs->GetData(i,1).length());
+    entity->setName(rs->GetData(i,1));
     entity->setType(atoi(rs->GetData(i,2).c_str()));
     entity->setItem(atoi(rs->GetData(i,3).c_str()));
-    entity->setMesh(rs->GetData(i,4).c_str(), rs->GetData(i,4).length());
-    entity->setPos((float)atof(rs->GetData(i,5).c_str()), (float)atof(rs->GetData(i,6).c_str()), (float)atof(rs->GetData(i,7).c_str()));
-    entity->setSector(rs->GetData(i,8).c_str(), rs->GetData(i,8).length());
-    entities.add(entity);
+    entity->setMesh(rs->GetData(i,4));
+    entity->setPos((float)atof(rs->GetData(i,5).c_str()),
+      (float)atof(rs->GetData(i,6).c_str()),
+      (float)atof(rs->GetData(i,7).c_str()));
+    entity->setSector(rs->GetData(i,8));
+    entities.push_back(entity);
   }
 }  

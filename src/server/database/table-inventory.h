@@ -19,7 +19,8 @@
 #ifndef _TABLE_INVENTORY_H_
 #define _TABLE_INVENTORY_H_
 
-#include "common/util/array.h"
+#include <vector>
+
 #include "table.h"
 
 class Database;
@@ -34,7 +35,7 @@ public:
   void set(int inventory, Item* item, int amount);
   int get(int inventory, Item* item);
   void dropTable();
-  void getAllEntries(Array<InvEntries*>& entries, int id);
+  void getAllEntries(std::vector<InvEntries*>& entries, int id);
 };
 
 #endif //_TABLE_INVENTORY_H_

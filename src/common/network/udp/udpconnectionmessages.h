@@ -52,12 +52,12 @@ public:
     id = serial.getInt8();
   }
 
-  unsigned char getMsgType()
+  unsigned char getMsgType() const
   {
     return type;
   }
 
-  unsigned char getMsgId()
+  unsigned char getMsgId() const
   {
     return id;
   }
@@ -86,7 +86,7 @@ public:
     sessionId = serial.getInt8();
   }
 
-  unsigned char getSessionId()
+  unsigned char getSessionId() const
   {
     return sessionId;
   }

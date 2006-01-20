@@ -19,6 +19,8 @@
 #ifndef _ENTITIYMESSAGES_H_
 #define _ENTITIYMESSAGES_H_
 
+#include <string>
+
 #include "netmessage.h"
 
 namespace ENTITY
@@ -40,10 +42,10 @@ namespace ENTITY
 
 class AddEntityMessage : public NetMessage
 {
-  char* name;
-  char* mesh;
+  std::string name;
+  std::string mesh;
   float pos[3];
-  char* sector;
+  std::string sector;
   int ent_id;
   char ent_type;
 
@@ -82,16 +84,16 @@ public:
     sector = serial.getString();
   }
 
-  const char* getName()
+  std::string getName() const
   {
     return name;
   }
-  void setName(char* n)
+  void setName(const std::string& n)
   {
     name = n;
   }
 
-  int getId()
+  int getId() const
   {
     return ent_id;
   }
@@ -100,7 +102,7 @@ public:
     ent_id = i;
   }
 
-  char getType()
+  char getType() const
   {
     return ent_type;
   }
@@ -109,20 +111,20 @@ public:
     ent_type = t;
   }
 
-  const char* getMesh()
+  std::string getMesh() const
   {
     return mesh;
   }
-  void setMesh(char* m)
+  void setMesh(const std::string& m)
   {
     mesh = m;
   }
 
-  float* getPos()
+  const float* getPos() const
   {
     return pos;
   }
-  void setPos(float p[3])
+  void setPos(const float p[3])
   {
     pos[0] = p[0];
     pos[1] = p[1];
@@ -135,11 +137,11 @@ public:
     pos[2] = z;
   }
 
-  const char* getSector()
+  std::string getSector() const
   {
     return sector;
   }
-  void setSector(char* s)
+  void setSector(const std::string& s)
   {
     sector = s;
   }
@@ -149,7 +151,7 @@ class RemoveEntityMessage : public NetMessage
 {
   int ent_id;
   char ent_type;
-  char* name;
+  std::string name;
 
 public:
   RemoveEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::REMOVE) 
@@ -180,7 +182,7 @@ public:
     name = serial.getString();
   }
 
-  int getId()
+  int getId() const
   {
     return ent_id;
   }
@@ -189,7 +191,7 @@ public:
     ent_id = i;
   }
 
-  char getType()
+  char getType() const
   {
     return ent_type;
   }
@@ -198,11 +200,11 @@ public:
     ent_type = t;
   }
 
-  const char* getName()
+  std::string getName() const
   {
     return name;
   }
-  void setName(char* n)
+  void setName(const std::string& n)
   {
     name = n;
   }
@@ -212,7 +214,7 @@ class MoveEntityMessage : public NetMessage
 {
   float walk;
   float turn;
-  char* name;
+  std::string name;
 
 public:
   MoveEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE) 
@@ -248,7 +250,7 @@ public:
   {
     turn = direction;
   }
-  float getRot()
+  float getRot() const
   {
     return turn;
   }
@@ -257,16 +259,16 @@ public:
   {
     walk = direction;
   }
-  float getWalk()
+  float getWalk() const
   {
     return walk;
   }
 
-  const char* getName()
+  std::string getName() const
   {
     return name;
   }
-  void setName(char* n)
+  void setName(const std::string& n)
   {
     name = n;
   }
@@ -308,7 +310,7 @@ public:
   {
     walk = direction+1;
   }
-  int getWalk()
+  int getWalk() const
   {
     return int(walk)-1;
   }
@@ -317,7 +319,7 @@ public:
   {
     turn = direction+1;
   }
-  int getRot()
+  int getRot() const
   {
     return int(turn)-1;
   }
@@ -328,7 +330,7 @@ class UpdateDREntityRequestMessage : public NetMessage
   bool on_ground;
   float speed, rot, avel;
   float pos[3], vel[3], wvel[3];
-  const char* sector;
+  std::string sector;
 
 public:
   UpdateDREntityRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DRUPDATE_REQUEST) 
@@ -385,7 +387,7 @@ public:
   {
     on_ground = state != 0;
   }
-  char getOnGround()
+  char getOnGround() const
   {
     return on_ground;
   }
@@ -394,7 +396,7 @@ public:
   {
     speed = s;
   }
-  float getSpeed()
+  float getSpeed() const
   {
     return speed;
   }
@@ -403,7 +405,7 @@ public:
   {
     rot = r;
   }
-  float getRot()
+  float getRot() const
   {
     return rot;
   }
@@ -412,12 +414,12 @@ public:
   {
     avel = v;
   }
-  float getAVel()
+  float getAVel() const
   {
     return avel;
   }
 
-  void setPos(float p[3])
+  void setPos(const float p[3])
   {
     pos[0] = p[0];
     pos[1] = p[1];
@@ -429,12 +431,12 @@ public:
     pos[1] = y;
     pos[2] = z;
   }
-  float* getPos()
+  const float* getPos() const
   {
     return pos;
   }
 
-  void setVel(float p[3])
+  void setVel(const float p[3])
   {
     vel[0] = p[0];
     vel[1] = p[1];
@@ -446,12 +448,12 @@ public:
     vel[1] = y;
     vel[2] = z;
   }
-  float* getVel()
+  const float* getVel() const
   {
     return vel;
   }
 
-  void setWVel(float p[3])
+  void setWVel(const float p[3])
   {
     wvel[0] = p[0];
     wvel[1] = p[1];
@@ -463,16 +465,16 @@ public:
     wvel[1] = y;
     wvel[2] = z;
   }
-  float* getWVel()
+  const float* getWVel() const
   {
     return wvel;
   }
 
-  void setSector(const char* s)
+  void setSector(const std::string& s)
   {
     sector = s;
   }
-  const char* getSector()
+  std::string getSector() const
   {
     return sector;
   }
@@ -480,11 +482,11 @@ public:
 
 class UpdateDREntityMessage : public NetMessage
 {
-  const char* name;
+  std::string name;
   bool on_ground;
   float speed, rot, avel;
   float pos[3], vel[3], wvel[3];
-  const char* sector;
+  std::string sector;
 
 public:
   UpdateDREntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DRUPDATE) 
@@ -539,11 +541,11 @@ public:
     sector = serial.getString();
   }
 
-  const char* getName()
+  std::string getName() const
   {
     return name;
   }
-  void setName(char* n)
+  void setName(const std::string& n)
   {
     name = n;
   }
@@ -552,7 +554,7 @@ public:
   {
     on_ground = state != 0;
   }
-  char getOnGround()
+  char getOnGround() const
   {
     return on_ground;
   }
@@ -561,7 +563,7 @@ public:
   {
     speed = s;
   }
-  float getSpeed()
+  float getSpeed() const
   {
     return speed;
   }
@@ -570,7 +572,7 @@ public:
   {
     rot = r;
   }
-  float getRot()
+  float getRot() const
   {
     return rot;
   }
@@ -579,49 +581,49 @@ public:
   {
     avel = v;
   }
-  float getAVel()
+  float getAVel() const
   {
     return avel;
   }
 
-  void setPos(float p[3])
+  void setPos(const float p[3])
   {
     pos[0] = p[0];
     pos[1] = p[1];
     pos[2] = p[2];
   }
-  float* getPos()
+  const float* getPos() const
   {
     return pos;
   }
 
-  void setVel(float p[3])
+  void setVel(const float p[3])
   {
     vel[0] = p[0];
     vel[1] = p[1];
     vel[2] = p[2];
   }
-  float* getVel()
+  const float* getVel() const
   {
     return vel;
   }
 
-  void setWVel(float p[3])
+  void setWVel(const float p[3])
   {
     wvel[0] = p[0];
     wvel[1] = p[1];
     wvel[2] = p[2];
   }
-  float* getWVel()
+  const float* getWVel() const
   {
     return wvel;
   }
 
-  void setSector(const char* s)
+  void setSector(const std::string& s)
   {
     sector = s;
   }
-  const char* getSector()
+  std::string getSector() const
   {
     return sector;
   }
@@ -660,7 +662,7 @@ public:
   {
     this->target = target;
   }
-  int getTargetId()
+  int getTargetId() const
   {
     return target;
   }
@@ -669,9 +671,9 @@ public:
 
 class PickEntityResponseMessage : public NetMessage
 {
-  char* name;
-  char* target;
-  char* error;
+  std::string name;
+  std::string target;
+  std::string error;
 
 public:
   PickEntityResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::PICK_RESPONSE) 
@@ -702,29 +704,29 @@ public:
     error = serial.getString();
   }
 
-  void setName(char* name)
+  void setName(const std::string& name)
   {
     this->name = name;
   }
-  char* getName()
+  std::string getName() const
   {
     return name;
   }
 
-  void setTarget(char* target)
+  void setTarget(const std::string& target)
   {
     this->target = target;
   }
-  char* getTarget()
+  std::string getTarget() const
   {
     return target;
   }
 
-  void setError(char* error)
+  void setError(const std::string& error)
   {
     this->error = error;
   }
-  char* getError()
+  std::string getError() const
   {
     return error;
   }
@@ -763,7 +765,7 @@ public:
   {
     this->target = target;
   }
-  int getTargetId()
+  int getTargetId() const
   {
     return target;
   }
@@ -772,9 +774,9 @@ public:
 
 class DropEntityResponseMessage : public NetMessage
 {
-  char* name;
-  char* target;
-  char* error;
+  std::string name;
+  std::string target;
+  std::string error;
 
 public:
   DropEntityResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DROP_RESPONSE) 
@@ -805,29 +807,29 @@ public:
     error = serial.getString();
   }
 
-  void setName(char* name)
+  void setName(const std::string& name)
   {
     this->name = name;
   }
-  char* getName()
+  std::string getName() const
   {
     return name;
   }
 
-  void setTarget(char* target)
+  void setTarget(const std::string& target)
   {
     this->target = target;
   }
-  char* getTarget()
+  std::string getTarget() const
   {
     return target;
   }
 
-  void setError(char* error)
+  void setError(const std::string& error)
   {
     this->error = error;
   }
-  char* getError()
+  std::string getError() const
   {
     return error;
   }

@@ -19,6 +19,8 @@
 #ifndef _DESERIALISER_H_
 #define _DESERIALISER_H_
 
+#include <string>
+
 #include "bytestream.h"
 
 class Deserialiser
@@ -66,13 +68,13 @@ public:
     int value = getInt32();
     return *(float*)(&value);
   }
-  char* getString()
+  std::string getString()
   {
     char size = data[pos];
     if ( size == 0 || data[pos+size+1] != 0 )
     {
       pos++;
-      return 0;
+      return "";
     }
     char* str =(char*) data + pos + 1;
     pos += size + 2;
@@ -81,3 +83,4 @@ public:
 };
 
 #endif // _DESERIALISER_H_
+

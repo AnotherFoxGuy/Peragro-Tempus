@@ -50,7 +50,7 @@ void EntityHandler::handleMoveEntity(GenericMessage* msg)
   printf("Received MoveEntity\n");
   MoveEntityMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
-  client->moveEntity(response_msg.getName(), response_msg.getWalk(), response_msg.getRot());
+  client->moveEntity(response_msg.getName().c_str(), response_msg.getWalk(), response_msg.getRot());
 }
 
 void EntityHandler::handlePickEntity(GenericMessage* msg)
@@ -58,10 +58,10 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
   PickEntityResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
 
-  if (response_msg.getError() == 0)
-    printf("%s picks Item %s\n", response_msg.getName(), response_msg.getTarget());
+  if (response_msg.getError() == "")
+    printf("%s picks Item %s\n", response_msg.getName().c_str(), response_msg.getTarget().c_str());
   else
-    printf("%s can't pick Item %s! Reason: '%s'\n", response_msg.getName(), response_msg.getTarget(), response_msg.getError());
+    printf("%s can't pick Item %s! Reason: '%s'\n", response_msg.getName().c_str(), response_msg.getTarget().c_str(), response_msg.getError().c_str());
 }
 
 void EntityHandler::handleDropEntity(GenericMessage* msg)
@@ -69,10 +69,10 @@ void EntityHandler::handleDropEntity(GenericMessage* msg)
   DropEntityResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
 
-  if (response_msg.getError() == 0)
-    printf("%s picks %s\n", response_msg.getName(), response_msg.getTarget());
+  if (response_msg.getError() == "")
+    printf("%s picks %s\n", response_msg.getName().c_str(), response_msg.getTarget().c_str());
   else
-    printf("%s can't pick %s! Reason: '%s'\n", response_msg.getName(), response_msg.getTarget(), response_msg.getError());
+    printf("%s can't pick %s! Reason: '%s'\n", response_msg.getName().c_str(), response_msg.getTarget().c_str(), response_msg.getError().c_str());
 }
 
 void EntityHandler::handleDrUpdate(GenericMessage* msg)
@@ -88,8 +88,9 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   drupdate->wvel = csVector3(dr_msg.getWVel()[0],dr_msg.getWVel()[1],dr_msg.getWVel()[2]);
   drupdate->pos = csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
   drupdate->on_ground = dr_msg.getOnGround();
-  drupdate->sector = dr_msg.getSector();
-  drupdate->name = dr_msg.getName();
+  drupdate->sector = dr_msg.getSector().c_str();
+  drupdate->name = dr_msg.getName().c_str();
 
   client->DrUpdateEntity(drupdate);
 }
+

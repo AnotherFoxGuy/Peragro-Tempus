@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
 
   dbSQLite db;
   server.setDatabase(&db);
-
+  
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
 
@@ -52,7 +52,7 @@ int main(int argc, char ** argv)
 
   UserAccountManager usr_acc_mgr(&server);
   server.setUserAccountManager(&usr_acc_mgr);
-
+  
   EntityManager ent_mgr;
   server.setEntityManager(&ent_mgr);
 
@@ -60,6 +60,7 @@ int main(int argc, char ** argv)
   server.setItemManager(&item_mgr);
 
   ent_mgr.loadFromDB(db.getEntityTable());
+  
   item_mgr.loadFromDB(db.getItemTable());
 
   unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;

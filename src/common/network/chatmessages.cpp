@@ -16,35 +16,48 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CHATMESSAGES_H_
-#define _CHATMESSAGES_H_
+#include "chatmessages.h"
 
-#include <string>
-
-#include "netmessage.h"
-
-enum CHAT_MESSAGES
+ChatMessage::ChatMessage()
+ : NetMessage(MESSAGES::CHAT,CHAT_MESSAGE) 
 {
-  CHAT_MESSAGE=0
-};
+}
 
-class ChatMessage : public NetMessage
+void ChatMessage::serialise(ByteStream* bs)
 {
-  char msgtype;
-  std::string msg;
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(msgtype);
+  serial.setString(msg);
+}
 
-public:
-  ChatMessage();
+void ChatMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  msgtype = serial.getInt8();
+  msg = serial.getString();
+}
 
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
+unsigned char ChatMessage::getType() const
+{
+  return msgtype;
+}
 
-  unsigned char getType() const;
-  void setType(unsigned char t);
+void ChatMessage::setType(unsigned char t)
+{
+  msgtype = t;
+}
 
-  std::string getMessage() const;
-  void setMessage(const std::string& message);
-};
+std::string ChatMessage::getMessage() const
+{
+  return msg;
+}
 
-#endif // _CHATMESSAGES_H_
+void ChatMessage::setMessage(const std::string& message)
+{
+  msg = message;
+}
 

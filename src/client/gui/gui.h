@@ -89,8 +89,6 @@ private:
 	CEGUI::String GetLogin();                               // Return the login input.
 	CEGUI::String GetPassword();                            // Return the password input.
 	bool RememberLogin();                                   // Return "Remember login" checkbox value.
-  char* login;
-  char* password;
 
 public:
 	LoginWindow(GUIManager* guimanager);
@@ -110,7 +108,6 @@ private:
 	CEGUI::String GetNewCharName();              // Returns the character name.
 	void ScrollLeft();                           // Scroll left throught the characterlist.
 	void ScrollRight();                          // Scroll right throught the characterlist.
-	char* character;
 
 public:
 	SelectCharWindow(GUIManager* guimanager);
@@ -139,3 +136,4 @@ public:
 
 
 #endif // GUI_H
+

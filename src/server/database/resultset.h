@@ -17,14 +17,14 @@
 */
 
 #include <string>
-#include "common/util/array.h"
+#include <vector>
 
 /// contains the return value of a sql query
 class ResultSet
 {
 private:
   ///array of rows where as each row is an array of strings.
-  Array<Array<std::string>* > data;
+  std::vector<std::vector<std::string> > data;
 public:
   ResultSet() {}
   ResultSet(const ResultSet& o)
@@ -35,30 +35,32 @@ public:
 
   ~ResultSet()
   {
-    data.delAll();
+    data.clear();
   }
 
-  size_t GetRowCount() { return data.getCount(); }
-  size_t GetColCount() { return data[0]->getCount(); }
+  size_t GetRowCount() { return data.size(); }
+  size_t GetColCount() { return data[0].size(); }
 
   void AddData(size_t row, size_t col, const char* string)
   {
-    if (data.getCount() <= row)
+    if (data.size() <= row)
     {
-      Array<std::string>* newarray = new Array<std::string>;
-      data.add(newarray);
+      std::vector<std::string> newarray;
+      data.push_back(newarray);
     }
 
-    if (data[row]->getCount() <= col)
+    if (data[row].size() <= col)
     {
       std::string str;
-      data[row]->add(str);
+      data[row].push_back(str);
     }
-    data[row]->get(col) = string?string:"";
+    
+    if (string)
+      data[row][col] = string;
   }
 
-  std::string GetData(size_t row, size_t col)
+  std::string GetData(size_t row, size_t col) const
   {
-    return data[row]->get(col);
+    return data[row][col];
   }
 };

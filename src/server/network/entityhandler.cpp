@@ -16,6 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <string>
+
 #include "common/entity/itemmanager.h"
 #include "server/network/network.h"
 #include "server/usermanager.h"
@@ -24,15 +26,15 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   if (!conn) return;
-  const char* name = conn->getUser()->getEntity()->getName();
+  std::string name = conn->getUser()->getEntity()->getName();
   MoveEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
   //printf("Received MoveRequest from: '%s' w(%d) t(%d)\n", name, request_msg.getWalk(), request_msg.getRot());
 
   MoveEntityMessage response_msg;
-  response_msg.setWalk((float)request_msg.getWalk()*3);
-  response_msg.setRot((float)request_msg.getRot());
-  response_msg.setName((char*)name);
+  response_msg.setWalk(request_msg.getWalk()*3);
+  response_msg.setRot(request_msg.getRot());
+  response_msg.setName(name);
   ByteStream bs;
   response_msg.serialise(&bs);
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
@@ -49,7 +51,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   if (!conn) return;
 
   Entity* user_ent = conn->getUser()->getEntity();
-  const char* name = user_ent->getName();
+  std::string name = user_ent->getName();
 
   UpdateDREntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -68,7 +70,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   response_msg.setPos(request_msg.getPos());
   response_msg.setOnGround(request_msg.getOnGround());
   response_msg.setSector(request_msg.getSector());
-  response_msg.setName((char*)name);
+  response_msg.setName(name);
   ByteStream bs;
   response_msg.serialise(&bs);
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
@@ -84,34 +86,34 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   const Connection* conn = msg->getConnection();
   if (!conn) return;
   Entity* user_ent = conn->getUser()->getEntity();
-  const char* name = user_ent->getName();
+  std::string name = user_ent->getName();
   PickEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received PickRequest from: '%s' -> '%d' \n", name, request_msg.getTargetId());
+  printf("Received PickRequest from: '%s' -> '%d' \n", name.c_str(), request_msg.getTargetId());
 
   Entity* e = server->getEntityManager()->findById(request_msg.getTargetId());
 
   PickEntityResponseMessage response_msg;
-  response_msg.setName((char*)name);
+  response_msg.setName(name);
   if (!e)
   {
     response_msg.setTarget(0);
-    response_msg.setError((char*)"Entity doesn't exist");
+    response_msg.setError("Entity doesn't exist");
   }
   else if (e->getType() == Entity::ItemEntity)
   {
-    response_msg.setTarget((char*)e->getName());
+    response_msg.setTarget(e->getName());
     response_msg.setError(0);
   }
   else if (e->getType() == Entity::PlayerEntity)
   {
-    response_msg.setTarget((char*)e->getName());
-    response_msg.setError((char*)"Don't pick on others!");
+    response_msg.setTarget(e->getName());
+    response_msg.setError("Don't pick on others!");
   }
   else
   {
-    response_msg.setTarget((char*)e->getName());
-    response_msg.setError((char*)"Unpickable");
+    response_msg.setTarget(e->getName());
+    response_msg.setError("Unpickable");
   }
   ByteStream bs;
   response_msg.serialise(&bs);
@@ -122,7 +124,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
       user->getConnection()->send(bs);
   }
 
-  if (response_msg.getError() == 0)
+  if (response_msg.getError().length() == 0)
   {
     Item* item = server->getItemManager()->findById(e->getItem());
 
@@ -139,10 +141,10 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   const Connection* conn = msg->getConnection();
   if (!conn) return;
   Entity* user_ent = conn->getUser()->getEntity();
-  const char* name = user_ent->getName();
+  std::string name = user_ent->getName();
   DropEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received DropRequest from: '%s' -> '%d' \n", name, request_msg.getTargetId());
+  printf("Received DropRequest from: '%s' -> '%d' \n", name.c_str(), request_msg.getTargetId());
 
   Item* item = server->getItemManager()->findById(request_msg.getTargetId());
 

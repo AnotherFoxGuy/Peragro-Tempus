@@ -29,10 +29,10 @@ class UsersTable : public Table
 public:
   UsersTable(Database* db);
   void createTable();
-  void insert(const char* name, const char* pwhash);
+  void insert(const std::string& name, const std::string& pwhash);
   void dropTable();
-  bool existsUser(const char* name);
-  User* getUser(const char* name);
+  bool existsUser(const std::string& name);
+  User* getUser(const std::string& name);
 };
 
 #endif //_TABLE_USERS_H_

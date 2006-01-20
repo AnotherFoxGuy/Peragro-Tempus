@@ -33,7 +33,7 @@ void Server::addEntity(Entity* entity)
   {
     //Only items are persistent Entities
     db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), entity->getItem(), entity->getMesh(), entity->getPos(), entity->getSector());
-    printf("Added %s with id: %d\n", entity->getName(), entity->getId());
+    printf("Added %s with id: %d\n", entity->getName().c_str(), entity->getId());
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)

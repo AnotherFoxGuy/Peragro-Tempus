@@ -19,6 +19,8 @@
 #ifndef _USERACCOUNTMANAGER_H_
 #define _USERACCOUNTMANAGER_H_
 
+#include <string>
+
 class Server;
 class User;
 
@@ -29,8 +31,8 @@ private:
 
 public:
   UserAccountManager(Server* server) : server(server) {}
-  char* login(const char* username, const char* password, User*& user);
-  char* signup(const char* username, const char* password);
+  const char* login(const std::string& username, const std::string& password, User*& user);
+  const char* signup(const std::string& username, const std::string& password);
 };
 
 #endif // _USERACCOUNTMANAGER_H_

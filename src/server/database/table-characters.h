@@ -19,6 +19,8 @@
 #ifndef _TABLE_CHARACTERS_H_
 #define _TABLE_CHARACTERS_H_
 
+#include <vector>
+
 #include "table.h"
 
 class Database;
@@ -30,13 +32,13 @@ class CharacterTable : public Table
 public:
   CharacterTable(Database* db);
   void createTable();
-  void insert(int id, const char* name, int user_id, const char* mesh, float pos[3], const char* sector);
-  int getMaxId();
+  void insert(int id, const std::string& name, int user_id, const std::string& mesh, const float pos[3], const std::string& sector);
+  int getMaxId() const;
   void dropTable();
   void remove(int id);
-  bool existsCharacter(const char* name);
+  bool existsCharacter(const std::string& name);
   Character* findCharacterById(int id);
-  void getAllCharacters(Array<Character*>& characters, User* user_id);
+  void getAllCharacters(std::vector<Character*>& characters, User* user_id);
 };
 
 #endif // _TABLE_CHARACTERS_H_

@@ -37,8 +37,9 @@ private:
   InventoryTable* inventorytable;
 
 public:
-  virtual ResultSet* query(const char*) = 0;
-  virtual void update(const char*) = 0;
+  virtual ResultSet* query(const std::string&) = 0;
+  virtual void update(const std::string&) = 0;
+  virtual std::string escape(const std::string&) = 0;
   //virtual int getLastInsertedId() = 0;
 
   Database();
@@ -54,3 +55,4 @@ public:
 };
 
 #endif // DATABASE_H
+

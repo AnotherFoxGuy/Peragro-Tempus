@@ -4,6 +4,20 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+20-Jan-2006
+  - iceeey used std::string in place of char* for storing strings and
+    std::vector in place of Array for storing arrays.
+    Using std::string allows us to remove a lot of string copying code.
+  - iceeey fixed the numerous places in usermessages.h and the other
+    message classes where a char* is cast to a const char*. Doing this
+    cast can lead to a memory leak.
+  - iceeey removed Array type.
+  - iceeey added escape function to Database for escaping strings before
+    using them in a database query.
+  - iceeey converted database tables to use std::ostringstream for
+    creating queries.
+  - iceeey made a whole lot of get functions const.
+
 19-Jan-2006
   - Sueastside fixed some string not remaining in memory for 
      GetNewCharName() and becoming corrupt.

@@ -70,7 +70,7 @@ public:
     }
   }
 
-  char getType()
+  char getType() const
   {
     return MESSAGES::USER;
   }
