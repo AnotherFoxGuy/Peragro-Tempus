@@ -18,6 +18,7 @@ under each day.
     creating queries.
   - iceeey made a whole lot of get functions const.
   - Sueastside added an inventory with basic drag/drop events.
+  - Sueastside Fixed picking up items.
 
 19-Jan-2006
   - Sueastside fixed some string not remaining in memory for 

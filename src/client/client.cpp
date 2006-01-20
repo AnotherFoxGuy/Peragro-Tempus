@@ -347,11 +347,11 @@ bool Client::OnKeyboard(iEvent& ev)
         csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
         if (!pcprop)
           return false;
-
         if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::ItemEntity)
         {
           PickEntityRequestMessage msg;
           msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          printf("picked up entity: %d \n", msg.getTargetId());
           network->send(&msg);
         }
         return false;
@@ -566,6 +566,7 @@ void Client::addEntity()
 
   if (own_char_id == ent->getId())
   {
+    name = ent->getName().c_str();
     printf("Adding Entity '%s' as me\n", entity->GetName());
     pl->CreatePropertyClass(entity, "pcdefaultcamera");
     csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);

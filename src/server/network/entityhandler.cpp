@@ -103,7 +103,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   else if (e->getType() == Entity::ItemEntity)
   {
     response_msg.setTarget(e->getName());
-    response_msg.setError(0);
+    response_msg.setError("");
   }
   else if (e->getType() == Entity::PlayerEntity)
   {
