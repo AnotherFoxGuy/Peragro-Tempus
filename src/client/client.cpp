@@ -566,7 +566,7 @@ void Client::addEntity()
 
   if (own_char_id == ent->getId())
   {
-    name = ent->getName().c_str();
+    name = ent->getName();
     printf("Adding Entity '%s' as me\n", entity->GetName());
     pl->CreatePropertyClass(entity, "pcdefaultcamera");
     csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
