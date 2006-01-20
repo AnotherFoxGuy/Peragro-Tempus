@@ -32,9 +32,9 @@
 GUIWindow::GUIWindow(GUIManager* guimanager)
 : guimanager(guimanager)
 {
-    cegui = guimanager->GetCEGUI ();
-    vfs = guimanager->GetClient ()->getVFS ();
-    network = guimanager->GetClient ()->getNetwork ();
+  cegui = guimanager->GetCEGUI ();
+  vfs = guimanager->GetClient ()->getVFS ();
+  network = guimanager->GetClient ()->getNetwork ();
 }
 GUIWindow::~GUIWindow()
 {
@@ -42,36 +42,36 @@ GUIWindow::~GUIWindow()
 
 void GUIWindow::CreateGUIWindow(const char* layoutFile)
 {
-    cegui->GetSystemPtr ()->setGUISheet(LoadLayout (layoutFile));
+  cegui->GetSystemPtr ()->setGUISheet(LoadLayout (layoutFile));
 }
 
 CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
 {
-    winMgr = cegui->GetWindowManagerPtr ();
+  winMgr = cegui->GetWindowManagerPtr ();
 
-    // Load layout and set as root
-    vfs->ChDir ("/client/gui/");
-    return winMgr->loadWindowLayout(layoutFile);
+  // Load layout and set as root
+  vfs->ChDir ("/client/gui/");
+  return winMgr->loadWindowLayout(layoutFile);
 }
 
 void GUIWindow::HideWindow()  
 {
-    rootwindow->setVisible(false);
+  rootwindow->setVisible(false);
 }
 
 void GUIWindow::ShowWindow() 
 {
-    rootwindow->setVisible(true);
+  rootwindow->setVisible(true);
 }
 
 void GUIWindow::DisableWindow() 
 {
-    rootwindow->setEnabled(false);
+  rootwindow->setEnabled(false);
 }
 
 void GUIWindow::EnableWindow() 
 {
-    rootwindow->setEnabled(true);
+  rootwindow->setEnabled(true);
 }
 
 /*====================//
@@ -88,37 +88,37 @@ ConnectWindow::~ConnectWindow()
 
 bool ConnectWindow::ConnectButtonPressed(const CEGUI::EventArgs& e) 
 {
-    // Get the connect window and disable it
-    GUIWindow::DisableWindow();
+  // Get the connect window and disable it
+  GUIWindow::DisableWindow();
 
-    ConnectRequestMessage msg;
-    SocketAddress addr = Socket::getSocketAddress(GetServer(), 12345);
-    network->setServerAddress(addr);
-    network->send(&msg);
+  ConnectRequestMessage msg;
+  SocketAddress addr = Socket::getSocketAddress(GetServer(), 12345);
+  network->setServerAddress(addr);
+  network->send(&msg);
 
-    return true;
+  return true;
 }
 
 csString ConnectWindow::GetServer()  
 {
-    btn = winMgr->getWindow("Server");
-    CEGUI::String str = btn->getText();
-    csString serverip = str.c_str();
-    return serverip;
+  btn = winMgr->getWindow("Server");
+  CEGUI::String str = btn->getText();
+  csString serverip = str.c_str();
+  return serverip;
 }
 
 void ConnectWindow::CreateGUIWindow()
 {
-    GUIWindow::CreateGUIWindow ("connect.xml");
+  GUIWindow::CreateGUIWindow ("connect.xml");
 
-    winMgr = cegui->GetWindowManagerPtr ();
+  winMgr = cegui->GetWindowManagerPtr ();
 
-    // Get the root window
-    rootwindow = winMgr->getWindow("Connect");
+  // Get the root window
+  rootwindow = winMgr->getWindow("Connect");
 
-    // Register the button events.
-    btn = winMgr->getWindow("Connect_Button");
-    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConnectWindow::ConnectButtonPressed, this));
+  // Register the button events.
+  btn = winMgr->getWindow("Connect_Button");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConnectWindow::ConnectButtonPressed, this));
 }
 /*====================//
 //   GUILoginWindow   //
@@ -135,63 +135,63 @@ LoginWindow::~LoginWindow()
 
 bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e) 
 {
-    LoginRequestMessage answer_msg;
-    CEGUI::String login = GetLogin();
-    CEGUI::String password = GetPassword();
-    if (login.empty() || password.empty()) return true;
-    answer_msg.setName(login.c_str());
-    answer_msg.setPwHash(password.c_str());
-    network->send(&answer_msg);
+  LoginRequestMessage answer_msg;
+  CEGUI::String login = GetLogin();
+  CEGUI::String password = GetPassword();
+  if (login.empty() || password.empty()) return true;
+  answer_msg.setName(login.c_str());
+  answer_msg.setPwHash(password.c_str());
+  network->send(&answer_msg);
 
-    // Get the login window and disable it
-    GUIWindow::DisableWindow();
+  // Get the login window and disable it
+  GUIWindow::DisableWindow();
 
-    return true;
+  return true;
 }
 
 bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 {
-    RegisterRequestMessage answer_msg;
-    CEGUI::String login = GetLogin();
-    CEGUI::String password = GetPassword();
-    if (login.empty() || password.empty()) return true;
-    answer_msg.setName(login.c_str());
-    answer_msg.setPwHash(password.c_str());
-    network->send(&answer_msg);
+  RegisterRequestMessage answer_msg;
+  CEGUI::String login = GetLogin();
+  CEGUI::String password = GetPassword();
+  if (login.empty() || password.empty()) return true;
+  answer_msg.setName(login.c_str());
+  answer_msg.setPwHash(password.c_str());
+  network->send(&answer_msg);
 
-    return true; 
+  return true; 
 }
 
 CEGUI::String LoginWindow::GetLogin() 
 {
-    return winMgr->getWindow("Name")->getText();
+  return winMgr->getWindow("Name")->getText();
 }
 
 CEGUI::String LoginWindow::GetPassword() 
 {
-    return winMgr->getWindow("Password")->getText();
+  return winMgr->getWindow("Password")->getText();
 }
 
 bool LoginWindow::RememberLogin()  
 {
-    return true;
+  return true;
 }
 
 void LoginWindow::CreateGUIWindow()
 {
-    GUIWindow::CreateGUIWindow ("login.xml");
+  GUIWindow::CreateGUIWindow ("login.xml");
 
-    winMgr = cegui->GetWindowManagerPtr ();
+  winMgr = cegui->GetWindowManagerPtr ();
 
-    // Get the root window
-    rootwindow = winMgr->getWindow("LoginUI");
+  // Get the root window
+  rootwindow = winMgr->getWindow("LoginUI");
 
-    // Register the button events.
-    btn = winMgr->getWindow("Login_Button");
-    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::LoginButtonPressed, this));
+  // Register the button events.
+  btn = winMgr->getWindow("Login_Button");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::LoginButtonPressed, this));
 
-    btn = winMgr->getWindow("Register_Button");
-    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::RegisterButtonPressed, this));
+  btn = winMgr->getWindow("Register_Button");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::RegisterButtonPressed, this));
 
 }
 
@@ -209,87 +209,87 @@ SelectCharWindow::~SelectCharWindow()
 
 bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e) 
 {
-    btn = winMgr->getWindow("Characters");
-    if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
-        return true;
-
-    CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
-
-    if (!item->isSelected()) return true;
-
-    int own_char_id = atoi(item->getText().c_str());
-
-    CharacterSelectionRequestMessage answer_msg;
-    answer_msg.setCharId(own_char_id);
-    network->send(&answer_msg);
-
-    GUIWindow::DisableWindow();
-
+  btn = winMgr->getWindow("Characters");
+  if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
     return true;
+
+  CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+
+  if (!item->isSelected()) return true;
+
+  int own_char_id = atoi(item->getText().c_str());
+
+  CharacterSelectionRequestMessage answer_msg;
+  answer_msg.setCharId(own_char_id);
+  network->send(&answer_msg);
+
+  GUIWindow::DisableWindow();
+
+  return true;
 }
 
 
 bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e) 
 {
-    CEGUI::String NewCharName = GetNewCharName();
-    if (NewCharName.empty()) return true;
-    CharacterCreationRequestMessage answer_msg;
-    answer_msg.setName(NewCharName.c_str());
-    network->send(&answer_msg);
-    return true;
+  CEGUI::String NewCharName = GetNewCharName();
+  if (NewCharName.empty()) return true;
+  CharacterCreationRequestMessage answer_msg;
+  answer_msg.setName(NewCharName.c_str());
+  network->send(&answer_msg);
+  return true;
 }
 
 bool SelectCharWindow::DelChar(const CEGUI::EventArgs& e) 
 {
-    return true;
+  return true;
 }
 
 CEGUI::String SelectCharWindow::GetNewCharName()  
 {
-    return winMgr->getWindow("CharNewName")->getText();
+  return winMgr->getWindow("CharNewName")->getText();
 }
 
 
 void SelectCharWindow::CreateGUIWindow()
 {
-    GUIWindow::CreateGUIWindow ("charselect.xml");
+  GUIWindow::CreateGUIWindow ("charselect.xml");
 
-    winMgr = cegui->GetWindowManagerPtr ();
+  winMgr = cegui->GetWindowManagerPtr ();
 
-    // Get the root window
-    rootwindow = winMgr->getWindow("CharSelectUI");
+  // Get the root window
+  rootwindow = winMgr->getWindow("CharSelectUI");
 
-    // Register the button events.
-    btn = winMgr->getWindow("CharSelOk");
-    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::SelectChar, this));
+  // Register the button events.
+  btn = winMgr->getWindow("CharSelOk");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::SelectChar, this));
 
-    btn = winMgr->getWindow("CharSelNew");
-    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::NewChar, this));
+  btn = winMgr->getWindow("CharSelNew");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::NewChar, this));
 
-    btn = winMgr->getWindow("Characters");
-    CEGUI::String str_id("Id");
-    CEGUI::String str_name("Name");
-    ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,0.1f);
-    ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,0.5f);
-    ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+  btn = winMgr->getWindow("Characters");
+  CEGUI::String str_id("Id");
+  CEGUI::String str_name("Name");
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,0.1f);
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,0.5f);
+  ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 
 }
 
 void SelectCharWindow::AddCharacter(unsigned int charId, const char* name)
 {
-    btn = winMgr->getWindow("Characters");
-    char charIdstr[10];
-    sprintf(charIdstr, "%d", charId);
-    CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem(charIdstr);
-    CEGUI::ListboxItem* charNameItem = new CEGUI::ListboxTextItem(name);
+  btn = winMgr->getWindow("Characters");
+  char charIdstr[10];
+  sprintf(charIdstr, "%d", charId);
+  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem(charIdstr);
+  CEGUI::ListboxItem* charNameItem = new CEGUI::ListboxTextItem(name);
 
-    charIdItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
-    charNameItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
+  charIdItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
+  charNameItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
 
-    unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
-    ((CEGUI::MultiColumnList*)btn)->setItem(charIdItem, 0, row);
-    ((CEGUI::MultiColumnList*)btn)->setItem(charNameItem, 1, row);
-    ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+  unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
+  ((CEGUI::MultiColumnList*)btn)->setItem(charIdItem, 0, row);
+  ((CEGUI::MultiColumnList*)btn)->setItem(charNameItem, 1, row);
+  ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 }
 
 
@@ -307,88 +307,88 @@ ChatWindow::~ChatWindow ()
 
 void ChatWindow::CreateGUIWindow ()
 {
-    GUIWindow::CreateGUIWindow ("chat.xml");
+  GUIWindow::CreateGUIWindow ("chat.xml");
 
-    winMgr = cegui->GetWindowManagerPtr ();
-    
-    //CreateDropList();
+  winMgr = cegui->GetWindowManagerPtr ();
 
-    // Get the root window
-    rootwindow = winMgr->getWindow("Chat");
+  //CreateDropList();
 
-    btn = winMgr->getWindow("Say");
-    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
-    btn = winMgr->getWindow("Shout");
-    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnShout, this));
-    btn = winMgr->getWindow("Whisper");
-    btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnWhisper, this));
+  // Get the root window
+  rootwindow = winMgr->getWindow("Chat");
 
-    //btn = winMgr->getWindow("ChatDropList");
-    //btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ConnectWindow::DropList, this));
+  btn = winMgr->getWindow("Say");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
+  btn = winMgr->getWindow("Shout");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnShout, this));
+  btn = winMgr->getWindow("Whisper");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnWhisper, this));
+
+  //btn = winMgr->getWindow("ChatDropList");
+  //btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ConnectWindow::DropList, this));
 }
 
 
 bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
 {
-    btn = winMgr->getWindow("Input");
-    if (!btn)
-    {
-        printf("Inputbox of Chat not found!\n");
-        return false;
-    }
-    CEGUI::String text = btn->getText();
-    if (text.empty()) return true;
-    printf("Say: %s\n", text.c_str());
-    ChatMessage msg;
-    msg.setType(0);
-    msg.setMessage(text.c_str());
-    network->send(&msg);
-    btn->setText(text.erase());
-    return true;
+  btn = winMgr->getWindow("Input");
+  if (!btn)
+  {
+    printf("Inputbox of Chat not found!\n");
+    return false;
+  }
+  CEGUI::String text = btn->getText();
+  if (text.empty()) return true;
+  printf("Say: %s\n", text.c_str());
+  ChatMessage msg;
+  msg.setType(0);
+  msg.setMessage(text.c_str());
+  network->send(&msg);
+  btn->setText(text.erase());
+  return true;
 }
 
 bool ChatWindow::OnShout (const CEGUI::EventArgs& e)
 {
-    CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-    CEGUI::Window* btn;
-    btn = winMgr->getWindow("Input");
-    if (!btn)
-    {
-        printf("Inputbox of Chat not found!\n");
-        return false;
-    }
-    CEGUI::String text = btn->getText();
-    if (text.empty()) return true;
-    printf("Shout: %s\n", text.c_str());
-    ChatMessage msg;
-    msg.setType(1);
-    msg.setMessage(text.c_str());
-    network->send(&msg);
-    btn->setText(text.erase());
-    return true;
+  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  CEGUI::Window* btn;
+  btn = winMgr->getWindow("Input");
+  if (!btn)
+  {
+    printf("Inputbox of Chat not found!\n");
+    return false;
+  }
+  CEGUI::String text = btn->getText();
+  if (text.empty()) return true;
+  printf("Shout: %s\n", text.c_str());
+  ChatMessage msg;
+  msg.setType(1);
+  msg.setMessage(text.c_str());
+  network->send(&msg);
+  btn->setText(text.erase());
+  return true;
 }
 
 bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
 {
-    CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-    CEGUI::Window* btn;
-    btn = winMgr->getWindow("Input");
-    if (!btn)
-    {
-        printf("Inputbox of Chat not found!\n");
-        return false;
-    }
-    CEGUI::String text = btn->getText();
-    if (text.empty()) return true;
-    printf("!!TDB!! Whisper: %s\n", text.c_str());
-    btn->setText(text.erase());
-    return true;
+  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  CEGUI::Window* btn;
+  btn = winMgr->getWindow("Input");
+  if (!btn)
+  {
+    printf("Inputbox of Chat not found!\n");
+    return false;
+  }
+  CEGUI::String text = btn->getText();
+  if (text.empty()) return true;
+  printf("!!TDB!! Whisper: %s\n", text.c_str());
+  btn->setText(text.erase());
+  return true;
 }
 
 bool ChatWindow::OnDropList(const CEGUI::EventArgs& e) 
 {
-    printf("success \n");
-    return true;
+  printf("success \n");
+  return true;
 }
 void ChatWindow::CreateDropList()
 {
@@ -403,13 +403,13 @@ void ChatWindow::CreateDropList()
 }
 void ChatWindow::AddChatMessage (csRef<iString> msg)
 {
-    CEGUI::Listbox* dialog = 
-        static_cast<CEGUI::Listbox*> (winMgr->getWindow("MessageDialog"));
+  CEGUI::Listbox* dialog = 
+    static_cast<CEGUI::Listbox*> (winMgr->getWindow("MessageDialog"));
 
-    //add text to list
-    CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(msg->GetData());
-    dialog->addItem ( item );
-    dialog->ensureItemIsVisible(dialog->getItemCount());
+  //add text to list
+  CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(msg->GetData());
+  dialog->addItem ( item );
+  dialog->ensureItemIsVisible(dialog->getItemCount());
 }
 
 
@@ -424,85 +424,139 @@ InventoryWindow::~InventoryWindow()
 
 bool InventoryWindow::handleDragEnter(const CEGUI::EventArgs& args)
 {
-    using namespace CEGUI;
+  using namespace CEGUI;
 
-    const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-    ddea.window->setProperty("FrameColours", "tl:FF00FF00 tr:FF00FF00 bl:FF00FF00 br:FF00FF00");
-    return true;
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+  ddea.window->setProperty("FrameColours", "tl:FF00FF00 tr:FF00FF00 bl:FF00FF00 br:FF00FF00");
+  return true;
 }
 bool InventoryWindow::handleDragLeave(const CEGUI::EventArgs& args)
 {
-    using namespace CEGUI;
+  using namespace CEGUI;
 
-    const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-    ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
-    return true;
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+  ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
+  return true;
 }
 bool InventoryWindow::handleDragDropped(const CEGUI::EventArgs& args)
 {
-    using namespace CEGUI;
+  using namespace CEGUI;
 
-    const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-    ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
-    ddea.window->addChildWindow(ddea.dragDropItem);
-    return true;
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+  ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
+  ddea.window->addChildWindow(ddea.dragDropItem);
+  return true;
+}
+bool InventoryWindow::handleDragDroppedRoot(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
+
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+  ddea.dragDropItem->destroy();
+
+  DropEntityRequestMessage msg;
+  msg.setTargetId(1); //"Apple"
+  network->send(&msg);
+
+  return true;
 }
 CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
 {
-    CEGUI::Window* slot = winMgr->createWindow("TaharezLook/StaticImage");
-    parent->addChildWindow(slot);
-    slot->setWindowPosition(position);
-    slot->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.2f), CEGUI::cegui_reldim(0.2f)));
-    slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&InventoryWindow::handleDragEnter, this));
-    slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&InventoryWindow::handleDragLeave, this));
-    slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDropped, this));
+  CEGUI::Window* slot = winMgr->createWindow("TaharezLook/StaticImage");
+  parent->addChildWindow(slot);
+  slot->setWindowPosition(position);
+  slot->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.2f), CEGUI::cegui_reldim(0.2f)));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&InventoryWindow::handleDragEnter, this));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&InventoryWindow::handleDragLeave, this));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDropped, this));
 
-    return slot;
+  return slot;
 }
+CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname)
+{
+  // create a drag/drop item
+  CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
+    winMgr->createWindow("DragContainer", itemname));
+  item->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.05f)));
+  item->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim(0.9f)));
+  item->setTooltip(0);
+  item->setTooltipText(itemname);
+
+  // set a static image as drag container's contents
+  CEGUI::Window* itemIcon = winMgr->createWindow("TaharezLook/StaticImage");
+  item->addChildWindow(itemIcon);
+  itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
+  itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
+  itemIcon->setProperty("Image", "set:TaharezLook image:CloseButtonNormal");
+  // disable to allow inputs to pass through.
+  itemIcon->disable();
+  itemIcon->setInheritsTooltipText(true);
+
+  return item;
+}
+bool InventoryWindow::AddItem(CEGUI::String itemname)
+{
+  CEGUI::Window* inventoryframe = winMgr->getWindow("inventoryframe");
+
+  CEGUI::Window* freeslot = 0;
+  unsigned int i = 0;
+
+  while ((freeslot == 0) && (i < inventoryframe->getChildCount()))
+  {
+    CEGUI::Window* slot = inventoryframe->getChildAtIdx(i);
+    i += 1;
+    printf("Checking slot %d \n", i);
+    if (slot->getChildCount() == 0)
+    {
+      printf("slot %s is empty:", slot->getName().c_str());
+      freeslot = slot;
+      freeslot->addChildWindow(createItemIcon(itemname));
+      printf("Item added to slot\n");
+      return true;
+    }
+  }
+  printf("Inventory is full!\n");
+  return false;
+}
+
 void InventoryWindow::CreateGUIWindow()
 {
-    //GUIWindow::CreateGUIWindow ("inventory.xml");
+  //GUIWindow::CreateGUIWindow ("inventory.xml");
 
-    winMgr = cegui->GetWindowManagerPtr ();
-    CEGUI::Window* root = winMgr->getWindow("Root_chat");
+  winMgr = cegui->GetWindowManagerPtr ();
+  CEGUI::Window* root = winMgr->getWindow("Root_chat");
+  root->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDroppedRoot, this));
 
-    // create main rucksack window
-    CEGUI::Window* rs = winMgr->createWindow("TaharezLook/FrameWindow");
-    root->addChildWindow(rs);
-    rs->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.25f)));
-    rs->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.33f), CEGUI::cegui_reldim( 0.33f)));
-    rs->setWindowMaxSize(CEGUI::UVector2(CEGUI::cegui_reldim(1.0f), CEGUI::cegui_reldim( 1.0f)));
-    rs->setWindowMinSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.1f)));
-    rs->setText("Rucksack");
+  // create main rucksack window
+  CEGUI::Window* rs = winMgr->createWindow("TaharezLook/FrameWindow","Rucksack");
+  root->addChildWindow(rs);
+  rs->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.25f)));
+  rs->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.33f), CEGUI::cegui_reldim( 0.33f)));
+  rs->setWindowMaxSize(CEGUI::UVector2(CEGUI::cegui_reldim(1.0f), CEGUI::cegui_reldim( 1.0f)));
+  rs->setWindowMinSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.1f)));
+  rs->setProperty("CloseButtonEnabled","False");
 
-    // add slots to rucksack
-    CEGUI::Window* startSlot =
-      createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.2f)));
-    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.2f)));
-    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.2f)));
-    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.5f)));
-    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.5f)));
-    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.5f)));
+  CEGUI::Window* isf = winMgr->createWindow("TaharezLook/StaticImage", "inventoryframe");
+  rs->addChildWindow(isf);
+  isf->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim( 0.05f)));
+  isf->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim( 0.9f)));
+  isf->setWindowMaxSize(CEGUI::UVector2(CEGUI::cegui_reldim(1.0f), CEGUI::cegui_reldim( 1.0f)));
+  isf->setWindowMinSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.1f)));
 
-    // create a drag/drop item
-    CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
-      winMgr->createWindow("DragContainer", "theItem"));
-    item->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.05f)));
-    item->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim(0.9f)));
 
-    // set a static image as drag container's contents
-    CEGUI::Window* itemIcon = winMgr->createWindow("TaharezLook/StaticImage");
-    item->addChildWindow(itemIcon);
-    itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
-    itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
-    itemIcon->setProperty("Image", "set:TaharezLook image:CloseButtonNormal");
-    // disable to allow inputs to pass through.
-    itemIcon->disable();
+  // add slots to rucksack
+  CEGUI::Window* startSlot =
+    createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.2f)));
+  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.2f)));
+  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.2f)));
+  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.5f)));
+  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.5f)));
+  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.5f)));
 
-    // set starting slot for the item.
-    startSlot ->addChildWindow(item);
+  // set starting slot for the item.
+  startSlot ->addChildWindow(createItemIcon("apple"));
 
-    // Get the root window
-    rootwindow = winMgr->getWindow("Connect");
+  // Get the root window
+  rootwindow = winMgr->getWindow("Connect");
 
 }

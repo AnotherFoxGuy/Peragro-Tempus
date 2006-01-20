@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+21-Jan-2006
+  - Sueastside added dropping inventory items to the world.
+
 20-Jan-2006
   - iceeey used std::string in place of char* for storing strings and
     std::vector in place of Array for storing arrays.

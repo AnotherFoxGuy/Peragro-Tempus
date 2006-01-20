@@ -352,15 +352,11 @@ bool Client::OnKeyboard(iEvent& ev)
           PickEntityRequestMessage msg;
           msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
           printf("picked up entity: %d \n", msg.getTargetId());
-          network->send(&msg);
+          char buffer[1024];
+		  sprintf(buffer, "%d", msg.getTargetId());
+          if (guimanager->GetInventoryWindow()->AddItem((CEGUI::String)buffer))
+            network->send(&msg);
         }
-        return false;
-      }
-      else if (code == 'd')
-      {
-        DropEntityRequestMessage msg;
-        msg.setTargetId(1); //"Apple"
-        network->send(&msg);
         return false;
       }
       else
@@ -528,14 +524,14 @@ void Client::addEntity()
   Entity* ent = new_entity_name.Pop();
   csRef<iCelEntity> entity = pl->CreateEntity();
 
-  if (ent->getType() == Entity::ItemEntity)
-  {
-    char buffer[1024];
-    sprintf(buffer, "%s:%d:%d", ent->getName(),ent->getType(), ent->getId());
-    entity->SetName(buffer);
-  }
-  else
-    entity->SetName(ent->getName());
+	if (ent->getType() == Entity::ItemEntity)
+	{
+		char buffer[1024];
+		sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
+		entity->SetName(buffer);
+	}
+	else
+		entity->SetName(ent->getName());
 
   pl->CreatePropertyClass(entity, "pcmesh");
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
@@ -551,11 +547,11 @@ void Client::addEntity()
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
 
-  iSector* sector = engine->FindSector(ent->getSector());
+	iSector* sector = engine->FindSector(ent->getSector());
 
-  printf("Loading Actor\n");
-  vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(ent->getMesh(), "/client/meshes/all.xml");
+	printf("Loading Actor\n");
+	vfs->ChDir("/cellib/objects/");
+	pcmesh->SetMesh(ent->getMesh(), "/client/meshes/all.xml");
 
   csRef<iCelEntity> region = pl->FindEntity("World");
   if (region)
@@ -590,7 +586,7 @@ void Client::addEntity()
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
   pcprop->SetProperty("Entity Type", (long)ent->getType());
   pcprop->SetProperty("Entity ID", (long)ent->getId());
-  pcprop->SetProperty("Entity Name", (long)ent->getName());
+  pcprop->SetProperty("Entity Name", ent->getName());
 
   delete ent;
 
@@ -610,17 +606,17 @@ void Client::delEntity()
   mutex.lock();
   Entity* ent = del_entity_name.Pop();
 
-  csRef<iCelEntity> entity;
-  if (ent->getType() == Entity::ItemEntity)
-  {
-    char buffer[1024];
-    sprintf(buffer, "%s:%d:%d", ent->getName(),ent->getType(), ent->getId());
-    entity = pl->FindEntity(buffer);
-  }
-  else
-  {
-    entity = pl->FindEntity(ent->getName());
-  }
+	csRef<iCelEntity> entity;
+	if (ent->getType() == Entity::ItemEntity)
+	{
+		char buffer[1024];
+		sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
+		entity = pl->FindEntity(buffer);
+	}
+	else
+	{
+		entity = pl->FindEntity(ent->getName());
+	}
 
   if (entity)
   {
