@@ -141,7 +141,6 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   entity->setMesh(character->getMesh());
   entity->setSector(character->getSector());
   entity->setType(Entity::PlayerEntity);
-  entity->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
   printf("Adding Character '%s' with entity '%s'\n", user->getName(), entity->getName());
   user->setEntity(entity);
   server->addEntity(entity);
@@ -152,6 +151,10 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
+
+  entity->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
+
+  entity->getInventory()->sendAllItems(msg->getConnection());
 
   /// \todo Implement message packing (all entities in one package).
   for (size_t i=0; i<server->getEntityManager()->getEntityCount(); i++)

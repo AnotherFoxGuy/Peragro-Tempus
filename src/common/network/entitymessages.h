@@ -34,7 +34,8 @@ namespace ENTITY
     PICK_REQUEST=6,
     PICK_RESPONSE=7,
     DROP_REQUEST=8,
-    DROP_RESPONSE=9
+    DROP_RESPONSE=9,
+    INV_ITEM_LIST=10
   };
 };
 
@@ -831,6 +832,64 @@ public:
   {
     return error;
   }
+};
+
+class InventoryItemListMessage : public NetMessage
+{
+  char itemCount;
+
+  class nwItems
+  {
+  public:
+    int id;
+    int amount;
+  };
+
+  nwItems* items;
+
+public:
+  InventoryItemListMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::INV_ITEM_LIST), items(0) {}
+  ~InventoryItemListMessage() { delete [] items; }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt8(itemCount);
+    for (int i=0; i<itemCount; i++)
+    {
+      serial.setInt32(items[i].id);
+      serial.setInt32(items[i].amount);
+    }
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    setItemCount(serial.getInt8());
+    for (int i=0; i<itemCount; i++)
+    {
+      items[i].id = serial.getInt32();
+      items[i].amount = serial.getInt32();
+    }
+  }
+
+  char getItemCount() { return itemCount; }
+  void setItemCount(char ic) 
+  {
+    itemCount = ic; 
+    delete [] items; 
+    items = new nwItems[ic];
+  }
+
+  int getItemId(int idx) { return items[idx].id; }
+  void setItemId(int idx, int item_id) { items[idx].id = item_id; }
+
+  int getItemAmount(int idx) { return items[idx].amount; }
+  void setItemAmount(int idx, int amount) { items[idx].amount = amount; }
 };
 
 #endif // _ENTITIYMESSAGES_H_

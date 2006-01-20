@@ -29,6 +29,8 @@ public:
   int amount;
 };
 
+class Connection;
+
 class Inventory
 {
 private:
@@ -98,6 +100,8 @@ public:
     //Load all Items from Database
     it->getAllEntries(entries, id);
   }
+
+  void sendAllItems(Connection* conn);
 };
 
 #endif // INVENTORY_H_

@@ -20,6 +20,7 @@ under each day.
   - Sueastside added an inventory with basic drag/drop events.
   - Sueastside Fixed picking up items.
   - iceeey reverted all the STL changes made earlier today.
+  - PK quick added initial inventory transmission for sueastside.
 
 19-Jan-2006
   - Sueastside fixed some string not remaining in memory for 

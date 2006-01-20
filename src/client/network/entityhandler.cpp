@@ -93,3 +93,15 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
 
   client->DrUpdateEntity(drupdate);
 }
+
+void EntityHandler::handleInventoryItemList(GenericMessage* msg)
+{
+  InventoryItemListMessage item_msg;
+  item_msg.deserialise(msg->getByteStream());
+  printf("Got %d items in the Inventory:\n---------------------------\n", item_msg.getItemCount());
+  for (int i=0; i<item_msg.getItemCount(); i++)
+  {
+    //client->addCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i));
+    printf("Item %d: %d\n", item_msg.getItemId(i), item_msg.getItemAmount(i));
+  }
+}

@@ -282,7 +282,7 @@ void Client::connected ()
       LoginRequestMessage answer_msg;
       answer_msg.setName(user);
       answer_msg.setPwHash(pass);
-      this->name = user;
+      //this->name = user;
       network->send(&answer_msg);
     }
   }
