@@ -48,7 +48,7 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions=" "
+				AdditionalOptions="-lpthread "
 				AdditionalDependencies=""
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
@@ -117,7 +117,7 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				AdditionalOptions=" "
+				AdditionalOptions="-lpthread "
 				AdditionalDependencies=""
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
@@ -165,7 +165,7 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\util\array.h">
+				RelativePath="..\..\src\common\util\array2.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\mutex.h">
