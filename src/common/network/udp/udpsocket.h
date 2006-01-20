@@ -50,7 +50,7 @@ public:
 
   void init(int port, unsigned ip = 0);
 
-  int receive(char* msg, size_t len, SocketAddress* addr);
+  size_t receive(char* msg, size_t len, SocketAddress* addr);
   bool publish(const char* msg, size_t len, const SocketAddress* addr);
 
   static SocketAddress getSocketAddress(const char* host, int port);

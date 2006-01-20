@@ -22,5 +22,5 @@ void ChatHandler::handleChat(GenericMessage* msg)
 {
   ChatMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
-  client->chat(chatmsg.getType(), chatmsg.getMessage().c_str());
+  client->chat(chatmsg.getType(), chatmsg.getMessage());
 }

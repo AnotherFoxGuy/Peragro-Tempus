@@ -19,8 +19,6 @@
 #ifndef _TABLE_ENTITIES_H_
 #define _TABLE_ENTITIES_H_
 
-#include <vector>
-
 #include "table.h"
 
 class Database;
@@ -31,14 +29,13 @@ class EntityTable : public Table
 public:
   EntityTable(Database* db);
   void createTable();
-  void insert(int id, const std::string& name, int type, int item,
-    const std::string& mesh, const float pos[3], const std::string& sector);
-  int getMaxId() const;
+  void insert(int id, const char* name, int type, int item, const char* mesh, float pos[3], const char* sector);
+  int getMaxId();
   void dropTable();
   void remove(int id);
-  bool existsEntity(const std::string& name);
-  Entity* getEntity(const std::string& name) const;
-  void getAllEntities(std::vector<Entity*>& entities);
+  bool existsEntity(const char* name);
+  Entity* getEntity(const char* name);
+  void getAllEntities(Array<Entity*>& entities);
 };
 
 #endif // _TABLE_ENTITIES_H_

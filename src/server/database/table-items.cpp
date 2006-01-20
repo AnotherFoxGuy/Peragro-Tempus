@@ -16,8 +16,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <sstream>
-
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
@@ -49,15 +47,12 @@ void ItemTable::createTable()
   insert("apple", "apple");
 }
 
-void ItemTable::insert(const std::string& name, const std::string& mesh)
+void ItemTable::insert(const char* name, const char* mesh)
 {
-  std::ostringstream query;
-  query << "insert into items (name, mesh) values ('"
-        << db->escape(name)
-        << "','"
-        << db->escape(mesh)
-        << "');";
-  db->update(query.str());
+  if (strlen(name) > 512) assert("Strings too long");
+  char query[1024];
+  sprintf(query, "insert into items (name, mesh) values ('%s','%s');", name, mesh);
+  db->update(query);
 }
 
 void ItemTable::dropTable()
@@ -65,25 +60,23 @@ void ItemTable::dropTable()
   db->update("drop table items;");
 }
 
-bool ItemTable::existsItem(const std::string& name)
+bool ItemTable::existsItem(const char* name)
 {
-  std::ostringstream query;
-  query << "select id from items where name = '"
-        << db->escape(name)
-        << "';";
-  ResultSet* rs = db->query(query.str());
+  if (strlen(name)> 512) assert("String too long");
+  char query[1024];
+  sprintf(query, "select id from items where name = '%s';", name);
+  ResultSet* rs = db->query(query);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
 }
 
-Item* ItemTable::getItem(const std::string& name)
+Item* ItemTable::getItem(const char* name)
 {
-  std::ostringstream query;
-  query << "select * from users where name = '"
-        << db->escape(name)
-        << "';";
-  ResultSet* rs = db->query(query.str());
+  if (strlen(name)> 512) assert("String too long");
+  char query[1024];
+  sprintf(query, "select * from users where name = '%s';", name);
+  ResultSet* rs = db->query(query);
 
   Item* item = 0;
 
@@ -99,7 +92,7 @@ Item* ItemTable::getItem(const std::string& name)
   return item;
 }
 
-void ItemTable::getAllItems(std::vector<Item*>& items)
+void ItemTable::getAllItems(Array<Item*>& items)
 {
   ResultSet* rs = db->query("select * from items;");
   if (!rs) return;
@@ -107,8 +100,8 @@ void ItemTable::getAllItems(std::vector<Item*>& items)
   {
     Item* item = new Item();
     item->setId(atoi(rs->GetData(i,0).c_str()));
-    item->setName(rs->GetData(i,1));
-    item->setMesh(rs->GetData(i,2));
-    items.push_back(item);
+    item->setName(rs->GetData(i,1).c_str(), rs->GetData(i,1).length());
+    item->setMesh(rs->GetData(i,2).c_str(), rs->GetData(i,2).length());
+    items.add(item);
   }
 }  

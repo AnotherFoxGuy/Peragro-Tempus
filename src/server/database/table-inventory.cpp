@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <sstream>
-
+#include <string.h>
+#include <assert.h>
 #include <stdio.h>
 
 #include "database.h"
@@ -47,18 +47,18 @@ void InventoryTable::createTable()
 
 void InventoryTable::set(int inventory, Item* item, int amount)
 {
-  std::ostringstream query;
-  query << "insert or replace into inventory (id, item, amount) values "
-        << "('" << inventory << "','" << item->getId() << "','" << amount << "');";
-  db->update(query.str());
+  char query[1024];
+  sprintf(query, "insert or replace into inventory (id, item, amount) values ('%d','%d','%d');",
+    inventory, item->getId(), amount);
+  db->update(query);
 }
 
 int InventoryTable::get(int inventory, Item* item)
 {
-  std::ostringstream query;
-  query << "select * from inventory where id = '" << inventory
-        << "' and item = '" << item->getId() << "';";
-  ResultSet* rs = db->query(query.str());
+  char query[1024];
+  sprintf(query, "select * from inventory where id = '%d' and item = '%d';",
+    inventory, item->getId());
+  ResultSet* rs = db->query(query);
 
   int amount = 0;
 
@@ -72,7 +72,7 @@ int InventoryTable::get(int inventory, Item* item)
   }
   else
   {
-    printf("DB inconsistency: multiple equal items in the inventory!\n");
+    printf("DB inconsistency: multiple equal items in the inventory!");
   }
 
   delete rs;
@@ -85,18 +85,18 @@ void InventoryTable::dropTable()
   db->update("drop table inventory;");
 }
 
-void InventoryTable::getAllEntries(std::vector<InvEntries*>& entries, int id)
+void InventoryTable::getAllEntries(Array<InvEntries*>& entries, int id)
 {
-  std::ostringstream query;
-  query << "select item, amount from inventory where id = '" << id << "';";
-  ResultSet* rs = db->query(query.str());
+  char query[1024];
+  sprintf(query, "select item, amount from inventory where id = '%d';", id);
+  ResultSet* rs = db->query(query);
   if (!rs) return;
-  for (size_t i = 0; i < rs->GetRowCount(); i++)
+  for (size_t i=0; i<rs->GetRowCount(); i++)
   {
     InvEntries* entry = new InvEntries();
     int item_id = atoi(rs->GetData(i,0).c_str());
     entry->item_id = item_id;
     entry->amount = atoi(rs->GetData(i,1).c_str());
-    entries.push_back(entry);
+    entries.add(entry);
   }
 }  

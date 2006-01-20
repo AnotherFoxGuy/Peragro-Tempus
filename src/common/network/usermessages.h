@@ -19,8 +19,6 @@
 #ifndef _USERMESSAGES_H_
 #define _USERMESSAGES_H_
 
-#include <string>
-
 #include "netmessage.h"
 
 namespace USER
@@ -41,8 +39,8 @@ namespace USER
 
 class LoginRequestMessage : public NetMessage
 {
-  std::string user;
-  std::string pwhash;
+  char* user;
+  char* pwhash;
 
 public:
   LoginRequestMessage() : NetMessage(MESSAGES::USER,USER::LOGIN_REQUEST) {}
@@ -65,16 +63,16 @@ public:
     pwhash = serial.getString();
   }
 
-  std::string getName() const { return user; }
-  void setName(const std::string& usr) { user = usr; }
+  const char* getName() { return user; }
+  void setName(const char* usr) { user = (char*) usr; }
 
-  std::string getPwHash() const { return pwhash; }
-  void setPwHash(const std::string& pw) { pwhash = pw; }
+  const char* getPwHash() { return pwhash; }
+  void setPwHash(const char* pw) { pwhash = (char*) pw; }
 };
 
 class LoginResponseMessage : public NetMessage
 {
-  std::string error;
+  char* error;
 
 public:
   LoginResponseMessage() : NetMessage(MESSAGES::USER,USER::LOGIN_RESPONSE) {}
@@ -95,14 +93,14 @@ public:
     error = serial.getString();
   }
 
-  std::string getError() const { return error; }
-  void setError(const std::string& message) { error = message; }
+  const char* getError() { return error; }
+  void setError(const char* message) { error = (char* )message; }
 };
 
 class RegisterRequestMessage : public NetMessage
 {
-  std::string user;
-  std::string pwhash;
+  char* user;
+  char* pwhash;
 
 public:
   RegisterRequestMessage() : NetMessage(MESSAGES::USER,USER::REGISTER_REQUEST) {}
@@ -125,16 +123,16 @@ public:
     pwhash = serial.getString();
   }
 
-  std::string getName() const { return user; }
-  void setName(const std::string& usr) { user = usr; }
+  const char* getName() { return user; }
+  void setName(const char* usr) { user = (char*) usr; }
 
-  std::string getPwHash() const { return pwhash; }
-  void setPwHash(const std::string& pw) { pwhash = pw; }
+  const char* getPwHash() { return pwhash; }
+  void setPwHash(const char* pw) { pwhash = (char*) pw; }
 };
 
 class RegisterResponseMessage : public NetMessage
 {
-  std::string error;
+  char* error;
 
 public:
   RegisterResponseMessage() : NetMessage(MESSAGES::USER,USER::REGISTER_RESPONSE) { }
@@ -153,11 +151,10 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     error = serial.getString();
-    printf ("Deserialized register response!\n");
   }
 
-  std::string getError() const { return error; }
-  void setError(const std::string& message) { error = message; }
+  const char* getError() { return error; }
+  void setError(const char* message) { error = (char* )message; }
 };
 
 class CharacterListMessage : public NetMessage
@@ -168,7 +165,7 @@ class CharacterListMessage : public NetMessage
   {
   public:
     int id;
-    std::string name;
+    const char* name;
   };
 
   nwCharacter* chars;
@@ -203,7 +200,7 @@ public:
     }
   }
 
-  char getCharacterCount() const { return charCount; }
+  char getCharacterCount() { return charCount; }
   void setCharacterCount(char cc) 
   {
     charCount = cc; 
@@ -211,16 +208,16 @@ public:
     chars = new nwCharacter[cc];
   }
 
-  int getCharacterId(int idx) const { return chars[idx].id; }
+  int getCharacterId(int idx) { return chars[idx].id; }
   void setCharacterId(int idx, int char_id) { chars[idx].id = char_id; }
 
-  std::string getCharacterName(int idx) const { return chars[idx].name; }
-  void setCharacterName(int idx, const std::string& name) { chars[idx].name = name; }
+  const char* getCharacterName(int idx) { return chars[idx].name; }
+  void setCharacterName(int idx, const char* name) { chars[idx].name = name; }
 };
 
 class CharacterCreationRequestMessage : public NetMessage
 {
-  std::string name;
+  char* name;
 
 public:
   CharacterCreationRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_CREATION_REQUEST) {}
@@ -241,15 +238,15 @@ public:
     name = serial.getString();
   }
 
-  std::string getName() const { return name; }
-  void setName(const std::string& n) { name = n; }
+  const char* getName() { return name; }
+  void setName(const char* n) { name = (char*) n; }
 };
 
 class CharacterCreationResponseMessage : public NetMessage
 {
-  std::string error;
+  const char* error;
   int char_id;
-  std::string char_name;
+  const char* char_name;
 
 public:
   CharacterCreationResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_CREATION_RESPONSE) { }
@@ -274,14 +271,14 @@ public:
     error = serial.getString();
   }
 
-  std::string getError() const { return error; }
-  void setError(const std::string& message) { error = message; }
+  const char* getError() { return error; }
+  void setError(const char* message) { error = (char* )message; }
 
-  int getCharacterId() const { return char_id; }
+  int getCharacterId() { return char_id; }
   void setCharacterId(int charid) { char_id = charid; }
 
-  std::string getCharacterName() const { return char_name; }
-  void setCharacterName(const std::string& name) { char_name = name; }
+  const char* getCharacterName() { return char_name; }
+  void setCharacterName(const char* name) { char_name = name; }
 
 };
 
@@ -308,13 +305,13 @@ public:
     charId = serial.getInt32();
   }
 
-  int getCharId() const { return charId; }
+  int getCharId() { return charId; }
   void setCharId(int char_id) { charId = char_id; }
 };
 
 class CharacterSelectionResponseMessage : public NetMessage
 {
-  std::string error;
+  char* error;
   int entityId;
 
 public:
@@ -338,10 +335,10 @@ public:
     error = serial.getString();
   }
 
-  std::string getError() const { return error; }
-  void setError(const std::string& message) { error = message; }
+  const char* getError() { return error; }
+  void setError(const char* message) { error = (char* )message; }
 
-  int getEntityId() const { return entityId; }
+  int getEntityId() { return entityId; }
   void setEntityId(int ent_id) { entityId = ent_id; }
 };
 

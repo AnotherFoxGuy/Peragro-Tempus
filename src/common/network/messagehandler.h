@@ -27,7 +27,7 @@ public:
   virtual ~MessageHandler() {}
 
   virtual void handle(GenericMessage* msg) = 0;
-  virtual char getType() const = 0;
+  virtual char getType() = 0;
 };
 
 #endif // _MESSAGEHANDLER_H_

@@ -528,14 +528,14 @@ void Client::addEntity()
   Entity* ent = new_entity_name.Pop();
   csRef<iCelEntity> entity = pl->CreateEntity();
 
-	if (ent->getType() == Entity::ItemEntity)
-	{
-		char buffer[1024];
-		sprintf(buffer, "%s:%d:%d", ent->getName().c_str(), ent->getType(), ent->getId());
-		entity->SetName(buffer);
-	}
-	else
-		entity->SetName(ent->getName().c_str());
+  if (ent->getType() == Entity::ItemEntity)
+  {
+    char buffer[1024];
+    sprintf(buffer, "%s:%d:%d", ent->getName(),ent->getType(), ent->getId());
+    entity->SetName(buffer);
+  }
+  else
+    entity->SetName(ent->getName());
 
   pl->CreatePropertyClass(entity, "pcmesh");
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
@@ -551,11 +551,11 @@ void Client::addEntity()
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
 
-	iSector* sector = engine->FindSector(ent->getSector().c_str());
+  iSector* sector = engine->FindSector(ent->getSector());
 
-	printf("Loading Actor\n");
-	vfs->ChDir("/cellib/objects/");
-	pcmesh->SetMesh(ent->getMesh().c_str(), "/client/meshes/all.xml");
+  printf("Loading Actor\n");
+  vfs->ChDir("/cellib/objects/");
+  pcmesh->SetMesh(ent->getMesh(), "/client/meshes/all.xml");
 
   csRef<iCelEntity> region = pl->FindEntity("World");
   if (region)
@@ -586,11 +586,11 @@ void Client::addEntity()
   csVector3 pos(ent->getPos()[0], ent->getPos()[1], ent->getPos()[2]);
   pclinmove->SetPosition(pos,0,sector);
 
-	pl->CreatePropertyClass(entity, "pcproperties");
-	csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
-	pcprop->SetProperty("Entity Type", (long)ent->getType());
-	pcprop->SetProperty("Entity ID", (long)ent->getId());
-	pcprop->SetProperty("Entity Name", ent->getName().c_str());
+  pl->CreatePropertyClass(entity, "pcproperties");
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
+  pcprop->SetProperty("Entity Type", (long)ent->getType());
+  pcprop->SetProperty("Entity ID", (long)ent->getId());
+  pcprop->SetProperty("Entity Name", (long)ent->getName());
 
   delete ent;
 
@@ -610,17 +610,17 @@ void Client::delEntity()
   mutex.lock();
   Entity* ent = del_entity_name.Pop();
 
-	csRef<iCelEntity> entity;
-	if (ent->getType() == Entity::ItemEntity)
-	{
-		char buffer[1024];
-		sprintf(buffer, "%s:%d:%d", ent->getName().c_str(), ent->getType(), ent->getId());
-		entity = pl->FindEntity(buffer);
-	}
-	else
-	{
-		entity = pl->FindEntity(ent->getName().c_str());
-	}
+  csRef<iCelEntity> entity;
+  if (ent->getType() == Entity::ItemEntity)
+  {
+    char buffer[1024];
+    sprintf(buffer, "%s:%d:%d", ent->getName(),ent->getType(), ent->getId());
+    entity = pl->FindEntity(buffer);
+  }
+  else
+  {
+    entity = pl->FindEntity(ent->getName());
+  }
 
   if (entity)
   {

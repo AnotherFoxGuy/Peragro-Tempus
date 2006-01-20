@@ -84,7 +84,7 @@ Socket::~Socket()
 #endif
 }
 
-int Socket::receive(char* msg, size_t length, SocketAddress* sockaddr)
+size_t Socket::receive(char* msg, size_t length, SocketAddress* sockaddr)
 {
   sockaddr_in addr;
   socklen len = sizeof(addr);

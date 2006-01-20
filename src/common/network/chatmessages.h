@@ -19,8 +19,6 @@
 #ifndef _CHATMESSAGES_H_
 #define _CHATMESSAGES_H_
 
-#include <string>
-
 #include "netmessage.h"
 
 enum CHAT_MESSAGES
@@ -31,20 +29,49 @@ enum CHAT_MESSAGES
 class ChatMessage : public NetMessage
 {
   char msgtype;
-  std::string msg;
+  char* msg;
 
 public:
-  ChatMessage();
+  ChatMessage() : NetMessage(MESSAGES::CHAT,CHAT_MESSAGE) 
+  {
+  }
 
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt8(msgtype);
+    serial.setString(msg);
+  }
 
-  unsigned char getType() const;
-  void setType(unsigned char t);
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    msgtype = serial.getInt8();
+    msg = serial.getString();
+  }
 
-  std::string getMessage() const;
-  void setMessage(const std::string& message);
+  unsigned char getType()
+  {
+    return msgtype;
+  }
+  void setType(unsigned char t)
+  {
+    msgtype = t;
+  }
+
+  const char* getMessage()
+  {
+    return msg;
+  }
+
+  void setMessage(const char* message)
+  {
+    msg = (char* )message;
+  }
 };
 
 #endif // _CHATMESSAGES_H_
-

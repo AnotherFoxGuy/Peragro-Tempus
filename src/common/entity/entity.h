@@ -19,8 +19,7 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
-#include <string>
-
+#include <string.h>
 #include <time.h>
 #include <math.h>
 
@@ -32,9 +31,9 @@ class Entity
 {
 private:
   int id;
-  std::string name;
-  std::string mesh;
-  std::string sector;
+  char* name;
+  char* mesh;
+  char* sector;
 
   float pos[3];
 
@@ -55,7 +54,7 @@ private:
   EntityType type;
 
 public:
-  Entity() : id(-1)
+  Entity() : id(-1), name(0), mesh(0), sector(0)
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
@@ -64,6 +63,9 @@ public:
 
   ~Entity()
   {
+    delete [] name;
+    delete [] mesh;
+    delete [] sector;
   }
 
   bool compare(Entity* other)
@@ -80,7 +82,10 @@ public:
     }
     else if (this->type == Entity::PlayerEntity)
     {
-      return this->name == other->name;
+      if (strlen(this->name) != strlen(other->name))
+        return false;
+
+      return !strcmp(this->name, other->name);
     }
 
     return false;
@@ -90,7 +95,7 @@ public:
   {
     this->id = id;
   }
-  int getId() const
+  int getId()
   {
     return id;
   }
@@ -101,44 +106,64 @@ public:
     pos[1] = y;
     pos[2] = z;
   }
-  void setPos(const float p[3])
+  void setPos(float p[3])
   {
     pos[0] = p[0];
     pos[1] = p[1];
     pos[2] = p[2];
   }
-  const float* getPos() const
+  float* getPos()
   {
     return pos;
   }
 
-  std::string getName() const
+  const char* getName()
   {
     return name;
   }
 
-  void setName(const std::string& name)
+  void setName(const char* name, size_t namelen)
   {
-    this->name = name;
+    delete [] this->name;
+    this->name = new char[namelen+1];
+    strncpy(this->name, name, namelen+1);
   }
 
-  std::string getMesh() const
+  void setName(const char* name)
+  {
+    setName(name, strlen(name));
+  }
+
+  const char* getMesh()
   {
     return mesh;
   }
 
-  void setMesh(const std::string& name)
+  void setMesh(const char* name, size_t namelen)
   {
-    this->mesh = name;
+    delete [] this->mesh;
+    this->mesh = new char[namelen+1];
+    strncpy(this->mesh, name, namelen+1);
   }
 
-  std::string getSector() const
+  void setMesh(const char* name)
+  {
+    setMesh(name, strlen(name));
+  }
+
+  const char* getSector()
   {
     return sector;
   }
-  void setSector(std::string name)
+  void setSector(const char* name, size_t namelen)
   {
-    this->sector = name;
+    delete [] this->sector;
+    this->sector = new char[namelen+1];
+    strncpy(this->sector, name, namelen+1);
+  }
+  void setSector(const char* name)
+  {
+    setSector(name, strlen(name));
   }
 
   void setType(int e)
@@ -146,7 +171,7 @@ public:
     type = EntityType(e);
   }
 
-  EntityType getType() const
+  EntityType getType()
   {
     return type;
   }
@@ -156,7 +181,7 @@ public:
     item = i;
   }
 
-  int getItem() const
+  int getItem()
   {
     return item;
   }

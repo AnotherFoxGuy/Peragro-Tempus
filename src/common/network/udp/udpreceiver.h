@@ -19,6 +19,7 @@
 #ifndef _RECEIVER_H_
 #define _RECEIVER_H_
 
+#include "common/util/array.h"
 #include "common/util/thread.h"
 #include "common/network/netmessage.h"
 #include "common/network/udp/udpsocket.h"

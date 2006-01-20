@@ -69,7 +69,7 @@ public:
     }
   }
 
-  char getType() const
+  char getType()
   {
     return MESSAGES::CONNECTION;
   }

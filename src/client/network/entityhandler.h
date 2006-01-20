@@ -52,7 +52,7 @@ public:
     else if (id == ENTITY::DROP_RESPONSE) handleDropEntity(msg);
   }
 
-  char getType() const
+  char getType()
   {
     return MESSAGES::ENTITY;
   }

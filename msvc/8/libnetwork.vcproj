@@ -158,9 +158,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\network\chatmessages.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\common\network\void.cpp">
 			</File>
 		</Filter>

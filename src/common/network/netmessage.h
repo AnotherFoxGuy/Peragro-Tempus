@@ -20,6 +20,7 @@
 #define _NETMESSAGE_H_
 
 #include "assert.h"
+#include "string.h"
 
 //#include "common/network/socket.h"
 #include "deserialiser.h"
@@ -53,12 +54,12 @@ public:
 
   virtual void serialise(ByteStream* bs) = 0;
 
-  unsigned char getMsgType() const
+  unsigned char getMsgType()
   {
     return type;
   }
 
-  unsigned char getMsgId() const
+  unsigned char getMsgId()
   {
     return id;
   }
@@ -103,7 +104,7 @@ public:
     id = serial.getInt8();
   }
 
-  ByteStream* getByteStream() const
+  ByteStream* getByteStream()
   {
     return bs;
   }

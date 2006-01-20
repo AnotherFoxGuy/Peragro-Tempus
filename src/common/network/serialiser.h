@@ -19,8 +19,6 @@
 #ifndef _SERIALISER_H_
 #define _SERIALISER_H_
 
-#include <string>
-
 #include "bytestream.h"
 
 class Serialiser
@@ -76,10 +74,6 @@ public:
       *(bs->data+bs->size+strlen(value)+1) = 0;
       bs->size += strlen(value)+2;
     }
-  }
-  void setString(const std::string& value)
-  {
-    setString(value.c_str());
   }
 };
 

@@ -34,12 +34,12 @@ public:
   ByteStream() : size(0) {}
   ~ByteStream() {}
 
-  size_t getSize() const
+  size_t getSize()
   {
     return size;
   }
 
-  size_t getMaxSize() const
+  size_t getMaxSize()
   {
     return MAX_STREAM_SIZE;
   }

@@ -23,10 +23,10 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
   printf("Received LoginResponse\n");
   LoginResponseMessage response;
   response.deserialise(msg->getByteStream());
-  std::string error = response.getError();
-  if (error.length() > 0)
+  const char* error = response.getError();
+  if (error != 0)
   {
-    printf("Login Failed due to: %s\n", error.c_str());
+    printf("Login Failed due to: %s\n", error);
     return;
   }
   printf("Login succeeded!\n");
@@ -38,10 +38,10 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
   printf("Received RegisterResponse\n");
   RegisterResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
-  std::string error = answer_msg.getError();
-  if (error.length() > 0)
+  const char* error = answer_msg.getError();
+  if (error != 0)
   {
-    printf("Registration Failed due to: %s\n", error.c_str());
+    printf("Registration Failed due to: %s\n", error);
     return;
   }
 
@@ -55,7 +55,7 @@ void UserHandler::handleCharList(GenericMessage* msg)
   //printf("Got %d character:\n---------------------------\n", char_msg.getCharacterCount());
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
-    client->addCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i).c_str());
+    client->addCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i));
     //printf("Char %d: %s\n", char_msg.getCharacterId(i), char_msg.getCharacterName(i));
   }
 }
@@ -65,13 +65,13 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
   CharacterCreationResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
 
-  if (answer_msg.getError() != "")
+  if (answer_msg.getError())
   {
-    printf("Character creation failed due to: %s\n", answer_msg.getError().c_str());
+    printf("Character creation failed due to: %s\n", answer_msg.getError());
   }
   else
   {
-    client->addCharacter(answer_msg.getCharacterId(), answer_msg.getCharacterName().c_str());
+    client->addCharacter(answer_msg.getCharacterId(), answer_msg.getCharacterName());
   }
 }
 

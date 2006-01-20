@@ -19,10 +19,8 @@
 #ifndef _PT_SQLITE_H_
 #define _PT_SQLITE_H_
 
-#include <vector>
-#include <string>
-
 #include "server/database/database.h"
+#include "common/util/array.h"
 #include "common/util/mutex.h"
 #include "common/util/thread.h"
 
@@ -33,7 +31,7 @@ class dbSQLite : public Database, Thread
 {
   Mutex mutex;
 
-  std::vector<std::string> updates;
+  Array<char*> updates;
 
   sqlite3 *db;
 
@@ -41,17 +39,14 @@ class dbSQLite : public Database, Thread
    * Gets called once for each row.
    * \param ptr same pointer as given to sqlite3_exec, preferably the result object
    * \param cols number of colums for this row.
-   * \param colArg array of strings representing the value ?f all collums in this row.
+   * \param colArg array of strings representing the value ôf all collums in this row.
    * \param colArg array of strings representing the name of all collums.
    */
   static int callback(void *rs, int cols, char **colArg, char **colName);
-  
-  ResultSet* query(const std::string&);
-  void update(const std::string&);
+  ResultSet* query(const char*);
+  void update(const char*);
   void update();
   int getLastInsertedId();
-  
-  std::string escape(const std::string&);
 
   void Run();
 

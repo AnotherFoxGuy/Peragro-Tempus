@@ -45,7 +45,7 @@ public:
     if (id == 0) handleChat(msg);
   }
 
-  char getType() const
+  char getType()
   {
     return MESSAGES::CHAT;
   }

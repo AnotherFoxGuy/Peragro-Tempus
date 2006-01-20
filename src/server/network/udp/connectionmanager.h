@@ -19,46 +19,45 @@
 #ifndef _CONNECTIONMANAGER_H_
 #define _CONNECTIONMANAGER_H_
 
-#include <vector>
-
+#include "common/util/array.h"
 #include "udpconnection.h"
 
 class UdpConnectionManager
 {
 private:
-  std::vector<UdpConnection*> connections;
+  Array<UdpConnection*> connections;
 
 public:
   UdpConnectionManager() {}
 
-  size_t getConnectionCount() const
+  size_t getConnectionCount()
   {
-    return connections.size();
+    return connections.getCount();
   }
 
-  UdpConnection* getConnection(size_t index) const
+  UdpConnection* getConnection(size_t index)
   {
-    return connections[index];
+    return connections.get(index);
   }
 
   void addConnection(UdpConnection* connection)
   {
-    connections.push_back(connection);
+    connections.add(connection);
   }
 
   void delConnection(size_t index)
   {
-    connections.erase(connections.begin() + index);
+    connections.del(index);
   }
 
   void delConnection(UdpConnection* connection)
   {
-    for (size_t i = 0; i < connections.size(); i++)
+    for (size_t i = 0; i<connections.getCount(); i++)
     {
-      UdpConnection* conn = connections[i];
+      UdpConnection* conn = connections.get(i);
       if (*conn->getSocketAddress() == *connection->getSocketAddress())
       {
-        connections.erase(connections.begin() + i);
+        connections.del(i);
       }
     }
   }
@@ -69,11 +68,11 @@ public:
       delConnection((UdpConnection*) connection);
   }
 
-  UdpConnection* findBySocketAddress(SocketAddress* addr) const
+  UdpConnection* findBySocketAddress(SocketAddress* addr)
   {
-    for (size_t i = 0; i < connections.size(); i++)
+    for (size_t i = 0; i<connections.getCount(); i++)
     {
-      UdpConnection* conn = connections[i];
+      UdpConnection* conn = connections.get(i);
       if (*conn->getSocketAddress() == *addr)
       {
         return conn;
@@ -84,4 +83,3 @@ public:
 };
 
 #endif // _CONNECTIONMANAGER_H_
-

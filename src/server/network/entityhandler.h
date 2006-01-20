@@ -59,7 +59,7 @@ public:
     if (id == ENTITY::DROP_REQUEST) handleDropRequest(msg);
   }
 
-  char getType() const
+  char getType()
   {
     return MESSAGES::ENTITY;
   }

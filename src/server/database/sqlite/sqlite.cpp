@@ -43,16 +43,16 @@ dbSQLite::~dbSQLite()
   sqlite3_close(db);
 }
 
-ResultSet* dbSQLite::query(const std::string& query)
+ResultSet* dbSQLite::query(const char* query)
 {
-  while (updates.size() > 0)
+  while (updates.getCount() > 0)
     sleep(10);
 
   //printf("SQLite not implemented yet, dumping query: %s\n", query);
   char *zErrMsg = 0;
   ResultSet* result = new ResultSet;
   mutex.lock();
-  int rc = sqlite3_exec(db, query.c_str(), callback, result, &zErrMsg);
+  int rc = sqlite3_exec(db, query, callback, result, &zErrMsg);
   mutex.unlock();
   if( rc!=SQLITE_OK )
   {
@@ -62,16 +62,18 @@ ResultSet* dbSQLite::query(const std::string& query)
   return result;
 }
 
-void dbSQLite::update(const std::string& query)
+void dbSQLite::update(const char* query)
 {
   mutex.lock();
-  updates.push_back(query);
+  char* new_str = new char[strlen(query)+1];
+  strncpy(new_str, query, strlen(query)+1);
+  updates.add(new_str);
   mutex.unlock();
 }
 
 void dbSQLite::Run()
 {
-  if (updates.size() == 0)
+  if (updates.getCount() == 0)
     sleep(10);
   else
     update();
@@ -82,27 +84,14 @@ void dbSQLite::update()
   //printf("SQLite not implemented yet, dumping query: %s\n", query);
   char *zErrMsg = 0;
   mutex.lock();
-  std::string query = updates[0];
-  int rc = sqlite3_exec(db, query.c_str(), callback, 0, &zErrMsg);
-  updates.erase(updates.begin());
+  char* query = updates.get(0);
+  int rc = sqlite3_exec(db, query, callback, 0, &zErrMsg);
+  updates.del(0);
   mutex.unlock();
   if( rc!=SQLITE_OK )
   {
     printf("SQL error: %s\n", zErrMsg);
   }
-}
-
-std::string dbSQLite::escape(const std::string& str)
-{
-  std::string escaped_string;
-  char* result = sqlite3_mprintf("%q", str.c_str());
-  if (result)
-  {
-    escaped_string = result;
-    sqlite3_free(result);
-  }
-  
-  return escaped_string;
 }
 
 int dbSQLite::getLastInsertedId()
@@ -118,7 +107,7 @@ int dbSQLite::callback(void *rs, int cols, char **colArg, char **colName)
 
   size_t row = result->GetRowCount();
 
-  for (size_t i = 0; i < size_t(cols); i++)
+  for(size_t i=0; i<size_t(cols); i++)
   {
     result->AddData(row, i, colArg[i]);
   }

@@ -19,8 +19,7 @@
 #ifndef _CHARACTERLIST_H_
 #define _CHARACTERLIST_H_
 
-#include <vector>
-
+#include "common/util/array.h"
 #include "character.h"
 #include "server/database/table-characters.h"
 
@@ -29,7 +28,7 @@ class CharacterManager;
 class CharacterList
 {
 private:
-  std::vector<Character*> characters;
+  Array<Character*> characters;
 
   friend CharacterManager;
 
@@ -38,35 +37,35 @@ public:
 
   size_t getCharacterCount()
   {
-    return characters.size();
+    return characters.getCount();
   }
 
   Character* getCharacter(size_t index)
   {
-    return characters[index];
+    return characters.get(index);
   }
 
   void addCharacter(Character* character)
   {
-    characters.push_back(character);
+    characters.add(character);
   }
 
   void delCharacter(size_t index)
   {
-    characters.erase(characters.begin() + index);
+    characters.del(index);
   }
 
   void delCharacter(Character* character)
   {
     if (!character) return;
-    std::string name = character->getName();
-    if (name == "") return;
-    for (size_t i = 0; i < characters.size(); i++)
+    const char* name = character->getName();
+    if (!name) return;
+    for (size_t i = 0; i<characters.getCount(); i++)
     {
-      Character* _character = characters[i];
+      Character* _character = characters.get(i);
       if (_character->compare(character))
       {
-        characters.erase(characters.begin() + i);
+        characters.remove(i);
         return;
       }
     }
@@ -75,11 +74,11 @@ public:
   bool exists(Character* character)
   {
     if (!character) return false;
-    std::string name = character->getName();
-    if (name == "") return false;
-    for (size_t i = 0; i < characters.size(); i++)
+    const char* name = character->getName();
+    if (!name) return false;
+    for (size_t i = 0; i<characters.getCount(); i++)
     {
-      Character* _character = characters[i];
+      Character* _character = characters.get(i);
 
       if (_character->compare(character))
         return true;
@@ -87,13 +86,13 @@ public:
     return false;
   }
 
-  Character* findByName(const std::string& name)
+  Character* findByName(const char* name)
   {
-    if (name == "") return 0;
-    for (size_t i = 0; i < characters.size(); i++)
+    if (!name) return 0;
+    for (size_t i = 0; i<characters.getCount(); i++)
     {
-      Character* character = characters[i];
-      if (character->getName() == name)
+      Character* character = characters.get(i);
+      if (strlen(character->getName()) == strlen(name) && !strcmp(character->getName(), name))
       {
         return character;
       }
@@ -105,7 +104,7 @@ public:
   {
     for (size_t i = 0; i<characters.getCount(); i++)
     {
-      Character* character = characters[i];
+      Character* character = characters.get(i);
       if (character->getId() == id)
       {
         return character;
@@ -116,7 +115,7 @@ public:
 
   void clear()
   {
-    characters.clear();
+    characters.removeAll();
   }
 };
 

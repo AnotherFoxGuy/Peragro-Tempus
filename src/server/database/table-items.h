@@ -19,9 +19,6 @@
 #ifndef _TABLE_ITEMS_H_
 #define _TABLE_ITEMS_H_
 
-#include <vector>
-#include <string>
-
 #include "table.h"
 
 class Database;
@@ -32,11 +29,11 @@ class ItemTable : public Table
 public:
   ItemTable(Database* db);
   void createTable();
-  void insert(const std::string& name, const std::string& mesh);
+  void insert(const char* name, const char* mesh);
   void dropTable();
-  bool existsItem(const std::string& name);
-  Item* getItem(const std::string& name);
-  void getAllItems(std::vector<Item*>& items);
+  bool existsItem(const char* name);
+  Item* getItem(const char* name);
+  void getAllItems(Array<Item*>& items);
 };
 
 #endif //_TABLE_ITEMS_H_

@@ -19,10 +19,7 @@
 #ifndef _ENTITYLIST_H_
 #define _ENTITYLIST_H_
 
-#include <vector>
-
-#include <assert.h>
-
+#include "common/util/array.h"
 #include "entity.h"
 #include "server/database/table-entities.h"
 
@@ -31,78 +28,58 @@ class EntityManager;
 class EntityList
 {
 private:
-  std::vector<Entity*> entities;
+  Array<Entity*> entities;
 
   friend class EntityManager;
 
 public:
   EntityList() {}
 
-  size_t getEntityCount() const
+  size_t getEntityCount()
   {
-    return entities.size();
+    return entities.getCount();
   }
 
-  Entity* getEntity(size_t index) const
+  Entity* getEntity(size_t index)
   {
-    return entities[index];
+    return entities.get(index);
   }
 
   void addEntity(Entity* entity)
   {
     if (!entity) assert("Invalid Entity");
-    entities.push_back(entity);
+    entities.add(entity);
   }
 
   void delEntity(size_t index)
   {
-    entities.erase(entities.begin()+index);
+    entities.del(index);
   }
 
   void delEntity(Entity* entity)
   {
-    if (!entity) 
+    if (!entity) return;
+    const char* name = entity->getName();
+    if (!name) return;
+    for (size_t i = 0; i<entities.getCount(); i++)
     {
-      printf("Removing entity: Not a entity!\n");
-      return;
-    }
-
-    
-    for (size_t i = 0; i < entities.size(); i++)
-    {
-      Entity* tmp_entity = entities[i];
-      if (tmp_entity->getName() == entity->getName())
+      Entity* _entity = entities.get(i);
+      if (_entity->compare(entity))
       {
-        entities.erase(entities.begin()+i);
-        printf("Removing entity: Entity removed!\n");
+        entities.remove(i);
         return;
       }
     }
-    printf("Removing entity: Entity not found!\n");
   }
 
-  Entity* findByName(const std::string& name) const
-  {
-    if (name.length() == 0) return 0;
-    for (size_t i = 0; i < entities.size(); i++)
-    {
-      Entity* entity = entities[i];
-      if (entity->getName() == name)
-      {
-        return entity;
-      }
-    }
-    return 0;
-  }
-
-  bool exists(Entity* entity) const
+  bool exists(Entity* entity)
   {
     if (!entity) return false;
-    std::string name = entity->getName();
-    if (name.length() == 0) return false;
-    for (size_t i = 0; i < entities.size(); i++)
+    const char* name = entity->getName();
+    if (!name) return false;
+    for (size_t i = 0; i<entities.getCount(); i++)
     {
-      Entity* _entity = entities[i];
+      Entity* _entity = entities.get(i);
 
       if (_entity->compare(entity))
         return true;
@@ -110,11 +87,25 @@ public:
     return false;
   }
 
-  Entity* findById(int id) const
+  Entity* findByName(const char* name)
   {
-    for (size_t i = 0; i < entities.size(); i++)
+    if (!name) return 0;
+    for (size_t i = 0; i<entities.getCount(); i++)
     {
-      Entity* entity = entities[i];
+      Entity* entity = entities.get(i);
+      if (strlen(entity->getName()) == strlen(name) && !strcmp(entity->getName(), name))
+      {
+        return entity;
+      }
+    }
+    return 0;
+  }
+
+  Entity* findById(int id)
+  {
+    for (size_t i = 0; i<entities.getCount(); i++)
+    {
+      Entity* entity = entities.get(i);
       if (entity->getId() == id)
       {
         return entity;
@@ -125,7 +116,7 @@ public:
 
   void clear()
   {
-    entities.clear();
+    entities.removeAll();
   }
 };
 

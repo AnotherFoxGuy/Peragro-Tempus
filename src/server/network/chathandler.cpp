@@ -16,29 +16,22 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <sstream>
-
 #include "server/network/network.h"
 #include "server/usermanager.h"
 
 void ChatHandler::handleChat(GenericMessage* msg)
 {
+  char buff[1024];
   const Connection* conn = msg->getConnection();
   if (!conn) return;
-  
-  std::string name = conn->getUser()->getEntity()->getName();
-  
+  const char* name = conn->getUser()->getEntity()->getName();
   ChatMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
-  
-  std::ostringstream strstream;
-  strstream << name << "' says: '" << in_msg.getMessage() << "'";
-  
-  printf("Chat: %s\n", strstream.str().c_str());
-  
+  sprintf(buff, "%s' says: '%s'", name, in_msg.getMessage());
+  printf("Chat: %s\n", buff);
   ChatMessage out_msg;
   in_msg.setType(0);
-  in_msg.setMessage(strstream.str());
+  in_msg.setMessage(buff);
   ByteStream bs;
   in_msg.serialise(&bs);
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)

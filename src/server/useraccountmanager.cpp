@@ -26,8 +26,7 @@
 
 #include "server/user.h"
 
-const char* UserAccountManager::login(const std::string& username,
-  const std::string& password, User*& user)
+char* UserAccountManager::login(const char* username, const char* password, User*& user)
 {
   Database* db = server->getDatabase();
   UsersTable* ut = db->getUsersTable();
@@ -48,10 +47,9 @@ const char* UserAccountManager::login(const std::string& username,
     return "Unknown User";
   }
 
-  printf("User: '%s':'%s' <-  '%s':'%s'\n", username.c_str(), password.c_str(),
-    user->getName().c_str(), user->getPwHash().c_str());
+  printf("User: '%s':'%s' <-  '%s':'%s'\n", username, password, user->getName(), user->getPwHash());
 
-  if (user->getPwHash() != password)
+  if (strlen(user->getPwHash()) != strlen(password) || strcmp(user->getPwHash(), password))
   {
     user = 0;
     return "Invalid Password";
@@ -60,8 +58,7 @@ const char* UserAccountManager::login(const std::string& username,
   return 0;
 }
 
-const char* UserAccountManager::signup(const std::string& username,
-  const std::string& password)
+char* UserAccountManager::signup(const char* username, const char* password)
 {
   Database* db = server->getDatabase();
   UsersTable* ut = db->getUsersTable();

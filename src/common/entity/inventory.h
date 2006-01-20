@@ -19,8 +19,6 @@
 #ifndef INVENTORY_H_
 #define INVENTORY_H_
 
-#include <vector>
-
 #include "item.h"
 #include "server/database/table-inventory.h"
 
@@ -34,15 +32,15 @@ public:
 class Inventory
 {
 private:
-  std::vector<InvEntries*> entries;
+  Array<InvEntries*> entries;
 
   InvEntries* findEntry(int item_id)
   {
-    for (unsigned int i = 0; i < entries.size(); i++)
+    for(unsigned int i=0; i<entries.getCount(); i++)
     {
-      if (entries[i]->item_id == item_id)
+      if (entries.get(i)->item_id == item_id)
       {
-        return entries[i];
+        return entries.get(i);
       }
     }
     return 0;
@@ -64,7 +62,7 @@ public:
       entry = new InvEntries();
       entry->item_id = item->getId();
       entry->amount = amount;
-      entries.push_back(entry);
+      entries.add(entry);
     }
     else
     {

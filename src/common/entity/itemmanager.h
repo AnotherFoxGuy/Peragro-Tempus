@@ -19,83 +19,62 @@
 #ifndef _ITEMMANAGER_H_
 #define _ITEMMANAGER_H_
 
-#include <vector>
-
+#include "common/util/array.h"
 #include "item.h"
 #include "server/database/table-items.h"
 
 class ItemManager
 {
 private:
-  std::vector<Item*> items;
+  Array<Item*> items;
 
 public:
   ItemManager() {}
 
-  size_t getItemCount() const
+  size_t getItemCount()
   {
-    return items.size();
+    return items.getCount();
   }
 
-  Item* getItem(size_t index) const
+  Item* getItem(size_t index)
   {
-    return items[index];
+    return items.get(index);
   }
 
   void addItem(Item* item)
   {
-    items.push_back(item);
+    items.add(item);
   }
 
   void delItem(size_t index)
   {
-    items.erase(items.begin()+index);
+    items.remove(index);
   }
 
   void delItem(Item* item)
   {
-    if (!item) 
+    if (!item) return;
+    const char* name = item->getName();
+    if (!name) return;
+    for (size_t i = 0; i<items.getCount(); i++)
     {
-      printf("Removing item: Not a item!\n");
-      return;
-    }
-
-    
-    for (size_t i = 0; i < items.size(); i++)
-    {
-      Item* tmp_item = items[i];
-      if (tmp_item->getName() == item->getName())
+      Item* _item = items.get(i);
+      if (_item->getId() == item->getId())
       {
-        items.erase(items.begin()+i);
-        printf("Removing item: Item removed!\n");
+        items.remove(i);
         return;
       }
     }
-    printf("Removing item: Item not found!\n");
   }
 
-  Item* findByName(const std::string& name) const
-  {
-    if (name.length() == 0) return 0;
-    for (size_t i = 0; i < items.size(); i++)
-    {
-      Item* item = items[i];
-      if (item->getName() == name)
-      {
-        return item;
-      }
-    }
-    return 0;
-  }
-
-  bool exists(Item* item) const
+  bool exists(Item* item)
   {
     if (!item) return false;
-    std::string name = item->getName();
-    if (name.length() == 0) return false;
-    for (size_t i = 0; i < items.size(); i++)
+    const char* name = item->getName();
+    if (!name) return false;
+    for (size_t i = 0; i<items.getCount(); i++)
     {
-      Item* _item = items[i];
+      Item* _item = items.get(i);
 
       if (_item->getId() == item->getId())
         return true;
@@ -103,11 +82,25 @@ public:
     return false;
   }
 
-  Item* findById(int id) const
+  Item* findByName(const char* name)
   {
-    for (size_t i = 0; i < items.size(); i++)
+    if (!name) return 0;
+    for (size_t i = 0; i<items.getCount(); i++)
     {
-      Item* item = items[i];
+      Item* item = items.get(i);
+      if (strlen(item->getName()) == strlen(name) && !strcmp(item->getName(), name))
+      {
+        return item;
+      }
+    }
+    return 0;
+  }
+
+  Item* findById(int id)
+  {
+    for (size_t i = 0; i<items.getCount(); i++)
+    {
+      Item* item = items.get(i);
       if (item->getId() == id)
       {
         return item;
@@ -116,17 +109,16 @@ public:
     return 0;
   }
 
-  void clear()
-  {
-    items.clear();
-  }
-
   void loadFromDB(ItemTable* it)
   {
     //Load all Items from Database
     it->getAllItems(items);
   }
+
+  void clear()
+  {
+    items.removeAll();
+  }
 };
 
 #endif // _ITEMMANAGER_H_
-

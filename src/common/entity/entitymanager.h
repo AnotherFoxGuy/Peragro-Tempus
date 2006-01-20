@@ -19,6 +19,7 @@
 #ifndef _ENTITYMANAGER_H_
 #define _ENTITYMANAGER_H_
 
+#include "common/util/array.h"
 #include "entity.h"
 #include "entitylist.h"
 #include "server/database/table-entities.h"
@@ -32,12 +33,12 @@ private:
 public:
   EntityManager() : ent_id(0) {}
 
-  size_t getEntityCount() const
+  size_t getEntityCount()
   {
     return list.getEntityCount();
   }
 
-  Entity* getEntity(size_t index) const
+  Entity* getEntity(size_t index)
   {
     return list.getEntity(index);
   }
@@ -59,12 +60,12 @@ public:
     list.delEntity(entity);
   }
 
-  bool exists(Entity* entity) const
+  bool exists(Entity* entity)
   {
     return list.exists(entity);
   }
 
-  Entity* findByName(const std::string& name) const
+  Entity* findByName(const char* name)
   {
     return list.findByName(name);
   }
