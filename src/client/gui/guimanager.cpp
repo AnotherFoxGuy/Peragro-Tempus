@@ -95,3 +95,10 @@ ChatWindow* GUIManager::CreateChatWindow ()
   chatwindow->CreateGUIWindow();
   return chatwindow;
 }
+
+InventoryWindow* GUIManager::CreateInventoryWindow ()
+{
+  inventorywindow = new InventoryWindow (this);
+  inventorywindow->CreateGUIWindow();
+  return inventorywindow;
+}

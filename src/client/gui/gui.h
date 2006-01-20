@@ -122,15 +122,36 @@ public:
 class ChatWindow : public GUIWindow
 {
 private:
-	bool OnSay(const CEGUI::EventArgs& e);
+  bool OnSay(const CEGUI::EventArgs& e);
   bool OnShout(const CEGUI::EventArgs& e);
   bool OnWhisper(const CEGUI::EventArgs& e);
-  
+  bool OnDropList(const CEGUI::EventArgs& e);
+  void CreateDropList();
+
 public:
-	ChatWindow(GUIManager* guimanager);
-	virtual ~ChatWindow();
-	void CreateGUIWindow();    // load the chat guilayout and register button events.
-  
+  ChatWindow(GUIManager* guimanager);
+  virtual ~ChatWindow();
+  void CreateGUIWindow();    // load the chat guilayout and register button events.
+
+  void AddChatMessage(csRef<iString> msg);
+};
+
+/*================//
+// GUIInvWindow  //
+//================*/
+class InventoryWindow : public GUIWindow
+{
+private:
+  bool handleDragEnter(const CEGUI::EventArgs& args);
+  bool handleDragLeave(const CEGUI::EventArgs& args);
+  bool handleDragDropped(const CEGUI::EventArgs& args);
+  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
+
+public:
+  InventoryWindow(GUIManager* guimanager);
+  virtual ~InventoryWindow();
+  void CreateGUIWindow();    // load the chat guilayout and register button events.
+
   void AddChatMessage(csRef<iString> msg);
 };
 

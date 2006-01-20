@@ -119,12 +119,11 @@ void ConnectWindow::CreateGUIWindow()
     // Register the button events.
     btn = winMgr->getWindow("Connect_Button");
     btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConnectWindow::ConnectButtonPressed, this));
-
 }
-
 /*====================//
 //   GUILoginWindow   //
 //====================*/
+
 LoginWindow::LoginWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -229,6 +228,7 @@ bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
     return true;
 }
 
+
 bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e) 
 {
     CEGUI::String NewCharName = GetNewCharName();
@@ -293,6 +293,9 @@ void SelectCharWindow::AddCharacter(unsigned int charId, const char* name)
 }
 
 
+/*=================//
+//    ChatWindow   //
+//=================*/
 ChatWindow::ChatWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -307,6 +310,8 @@ void ChatWindow::CreateGUIWindow ()
     GUIWindow::CreateGUIWindow ("chat.xml");
 
     winMgr = cegui->GetWindowManagerPtr ();
+    
+    //CreateDropList();
 
     // Get the root window
     rootwindow = winMgr->getWindow("Chat");
@@ -317,6 +322,9 @@ void ChatWindow::CreateGUIWindow ()
     btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnShout, this));
     btn = winMgr->getWindow("Whisper");
     btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnWhisper, this));
+
+    //btn = winMgr->getWindow("ChatDropList");
+    //btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ConnectWindow::DropList, this));
 }
 
 
@@ -377,6 +385,22 @@ bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
     return true;
 }
 
+bool ChatWindow::OnDropList(const CEGUI::EventArgs& e) 
+{
+    printf("success \n");
+    return true;
+}
+void ChatWindow::CreateDropList()
+{
+
+  btn = winMgr->getWindow("ChatDropList");
+  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"FrameWindow", 0);
+  ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"hello", 1);
+  ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+  ((CEGUI::Combobox*)btn)->setReadOnly(true);
+
+}
 void ChatWindow::AddChatMessage (csRef<iString> msg)
 {
     CEGUI::Listbox* dialog = 
@@ -386,4 +410,99 @@ void ChatWindow::AddChatMessage (csRef<iString> msg)
     CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(msg->GetData());
     dialog->addItem ( item );
     dialog->ensureItemIsVisible(dialog->getItemCount());
+}
+
+
+InventoryWindow::InventoryWindow(GUIManager* guimanager)
+: GUIWindow (guimanager)
+{
+}
+
+InventoryWindow::~InventoryWindow()
+{
+}
+
+bool InventoryWindow::handleDragEnter(const CEGUI::EventArgs& args)
+{
+    using namespace CEGUI;
+
+    const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+    ddea.window->setProperty("FrameColours", "tl:FF00FF00 tr:FF00FF00 bl:FF00FF00 br:FF00FF00");
+    return true;
+}
+bool InventoryWindow::handleDragLeave(const CEGUI::EventArgs& args)
+{
+    using namespace CEGUI;
+
+    const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+    ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
+    return true;
+}
+bool InventoryWindow::handleDragDropped(const CEGUI::EventArgs& args)
+{
+    using namespace CEGUI;
+
+    const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+    ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
+    ddea.window->addChildWindow(ddea.dragDropItem);
+    return true;
+}
+CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
+{
+    CEGUI::Window* slot = winMgr->createWindow("TaharezLook/StaticImage");
+    parent->addChildWindow(slot);
+    slot->setWindowPosition(position);
+    slot->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.2f), CEGUI::cegui_reldim(0.2f)));
+    slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&InventoryWindow::handleDragEnter, this));
+    slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&InventoryWindow::handleDragLeave, this));
+    slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDropped, this));
+
+    return slot;
+}
+void InventoryWindow::CreateGUIWindow()
+{
+    //GUIWindow::CreateGUIWindow ("inventory.xml");
+
+    winMgr = cegui->GetWindowManagerPtr ();
+    CEGUI::Window* root = winMgr->getWindow("Root_chat");
+
+    // create main rucksack window
+    CEGUI::Window* rs = winMgr->createWindow("TaharezLook/FrameWindow");
+    root->addChildWindow(rs);
+    rs->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.25f)));
+    rs->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.33f), CEGUI::cegui_reldim( 0.33f)));
+    rs->setWindowMaxSize(CEGUI::UVector2(CEGUI::cegui_reldim(1.0f), CEGUI::cegui_reldim( 1.0f)));
+    rs->setWindowMinSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.1f)));
+    rs->setText("Rucksack");
+
+    // add slots to rucksack
+    CEGUI::Window* startSlot =
+      createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.2f)));
+    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.2f)));
+    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.2f)));
+    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.5f)));
+    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.5f)));
+    createDragDropSlot(rs, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.5f)));
+
+    // create a drag/drop item
+    CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
+      winMgr->createWindow("DragContainer", "theItem"));
+    item->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.05f)));
+    item->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim(0.9f)));
+
+    // set a static image as drag container's contents
+    CEGUI::Window* itemIcon = winMgr->createWindow("TaharezLook/StaticImage");
+    item->addChildWindow(itemIcon);
+    itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
+    itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
+    itemIcon->setProperty("Image", "set:TaharezLook image:CloseButtonNormal");
+    // disable to allow inputs to pass through.
+    itemIcon->disable();
+
+    // set starting slot for the item.
+    startSlot ->addChildWindow(item);
+
+    // Get the root window
+    rootwindow = winMgr->getWindow("Connect");
+
 }

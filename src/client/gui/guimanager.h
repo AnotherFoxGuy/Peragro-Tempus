@@ -31,6 +31,7 @@ class LoginWindow;
 class ConnectWindow;
 class SelectCharWindow;
 class ChatWindow;
+class InventoryWindow;
 
 struct iObjectRegistry;
 
@@ -41,6 +42,7 @@ private:
   ConnectWindow* connectwindow;
   SelectCharWindow* selectcharwindow;
   ChatWindow* chatwindow;
+  InventoryWindow* inventorywindow;
   
   csRef<iCEGUI> cegui;
   
@@ -60,6 +62,7 @@ public:
   LoginWindow* CreateLoginWindow ();
   SelectCharWindow* CreateSelectCharWindow ();
   ChatWindow* CreateChatWindow ();
+  InventoryWindow* CreateInventoryWindow();
   
   ConnectWindow* GetConnectWindow ()
   {
@@ -79,6 +82,11 @@ public:
   ChatWindow* GetChatWindow ()
   {
     return chatwindow;
+  }
+
+  InventoryWindow* GetInventoryWindow ()
+  {
+    return inventorywindow;
   }
   
   //bool ceGUISay (const CEGUI::EventArgs& e);

@@ -501,6 +501,8 @@ void Client::loadRegion()
   guimanager->CreateChatWindow ();
   guimanager->GetChatWindow ()->ShowWindow();
 
+  guimanager->CreateInventoryWindow ();
+
   csRef<iCelEntity> entity = pl->CreateEntity();
   pl->CreatePropertyClass(entity, "pcregion");
   csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
