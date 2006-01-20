@@ -6,4 +6,4 @@ Description server-network : "network server" ;
 Library server-network :
   [ Wildcard *.h *.cpp ] ;
 
-LinkWith server-network : network server-udp-network ;
+LinkWith server-network : network server-udp-network entity ;
