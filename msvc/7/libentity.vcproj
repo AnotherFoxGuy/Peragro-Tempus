@@ -160,6 +160,9 @@
 			<File
 				RelativePath="..\..\src\common\entity\entity.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\common\entity\inventory.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
