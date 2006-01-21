@@ -153,6 +153,11 @@ public:
 
   void setCharacter(int own_char) { own_char_id = own_char; }
 
+  GUIManager* GetGuiManager ()
+  {
+    return guimanager;
+  }
+
   iEngine* getCsEngine()  { return engine; }
   iGraphics3D* getG3D()  { return g3d; }
   iCamera* getCamera();

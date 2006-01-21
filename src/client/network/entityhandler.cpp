@@ -17,6 +17,8 @@
 */
 
 #include "client/network/network.h"
+#include "client/gui/gui.h"
+#include "client/gui/guimanager.h"
 
 void EntityHandler::handleAddEntity(GenericMessage* msg)
 {
@@ -98,10 +100,18 @@ void EntityHandler::handleInventoryItemList(GenericMessage* msg)
 {
   InventoryItemListMessage item_msg;
   item_msg.deserialise(msg->getByteStream());
-  printf("Got %d items in the Inventory:\n---------------------------\n", item_msg.getItemCount());
+  printf("Got %d items in the Inventory: \n---------------------------\n", item_msg.getItemCount());
+  guimanager = client->GetGuiManager();
   for (int i=0; i<item_msg.getItemCount(); i++)
   {
     //client->addCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i));
-    printf("Item %d: %d\n", item_msg.getItemId(i), item_msg.getItemAmount(i));
+    for (int j=0; j<item_msg.getItemAmount(i); j++)
+    {
+      char buffer[1024];
+      sprintf(buffer, "%d_%d", item_msg.getItemId(i), j);
+      printf("droppedstackable: number of items: %s",buffer);
+      guimanager->GetInventoryWindow()->AddItem((CEGUI::String)buffer, item_msg.getItemId(i));
+      printf("Item %d: %d\n", item_msg.getItemId(i), item_msg.getItemAmount(i));
+    }
   }
 }

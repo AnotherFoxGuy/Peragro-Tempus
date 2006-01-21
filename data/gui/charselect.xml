@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
-<Window Type="DefaultWindow" Name="Root_charselect" >
-<Property Name="UnifiedAreaRect" Value="{{0.000000,0.000000},{0.000000,0.000000},{1.000000,0.000000},{1.000000,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Window Type="TaharezLook/FrameWindow" Name="CharSelectUI" >
 <Property Name="CloseButtonEnabled" Value="False" />
 <Property Name="CaptionColour" Value="00FFFFFF" />
@@ -47,7 +44,6 @@
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
 <Property Name="UnifiedAreaRect" Value="{{0.050000,0.000000},{0.830000,0.000000},{0.413761,0.000000},{0.930000,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
 </Window>
 </Window>
 </GUILayout>

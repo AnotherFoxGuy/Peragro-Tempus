@@ -42,7 +42,9 @@ GUIWindow::~GUIWindow()
 
 void GUIWindow::CreateGUIWindow(const char* layoutFile)
 {
-  cegui->GetSystemPtr ()->setGUISheet(LoadLayout (layoutFile));
+  //cegui->GetSystemPtr ()->setGUISheet(LoadLayout (layoutFile));
+  CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
+  root->addChildWindow(LoadLayout (layoutFile));
 }
 
 CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
@@ -428,6 +430,7 @@ bool InventoryWindow::handleDragEnter(const CEGUI::EventArgs& args)
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
   ddea.window->setProperty("FrameColours", "tl:FF00FF00 tr:FF00FF00 bl:FF00FF00 br:FF00FF00");
+
   return true;
 }
 bool InventoryWindow::handleDragLeave(const CEGUI::EventArgs& args)
@@ -436,6 +439,14 @@ bool InventoryWindow::handleDragLeave(const CEGUI::EventArgs& args)
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
   ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
+  CEGUI::Window* itemcounter = ddea.window->getChild(30);
+  int nrofitems = itemcounter->getParent()->getChildCount()-2;
+  char buffer[1024];
+  sprintf(buffer, "%d", nrofitems);
+  printf("leave: number of items: %s",buffer);
+  itemcounter->setText((CEGUI::String)buffer);
+  if (nrofitems < 2) itemcounter->setVisible(false); else itemcounter->setVisible(true);
+
   return true;
 }
 bool InventoryWindow::handleDragDropped(const CEGUI::EventArgs& args)
@@ -445,6 +456,7 @@ bool InventoryWindow::handleDragDropped(const CEGUI::EventArgs& args)
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
   ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
   ddea.window->addChildWindow(ddea.dragDropItem);
+  UpdateItemCounter(ddea.window);
   return true;
 }
 bool InventoryWindow::handleDragDroppedRoot(const CEGUI::EventArgs& args)
@@ -460,8 +472,19 @@ bool InventoryWindow::handleDragDroppedRoot(const CEGUI::EventArgs& args)
 
   return true;
 }
+bool InventoryWindow::handleDragDroppedStackable(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
+
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+  ddea.window->getParent()->addChildWindow(ddea.dragDropItem);
+  UpdateItemCounter(ddea.window->getParent());
+
+  return true;
+}
 CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
 {
+  // Create the slot
   CEGUI::Window* slot = winMgr->createWindow("TaharezLook/StaticImage");
   parent->addChildWindow(slot);
   slot->setWindowPosition(position);
@@ -469,6 +492,18 @@ CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const 
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&InventoryWindow::handleDragEnter, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&InventoryWindow::handleDragLeave, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDropped, this));
+
+  // Create the itemcounter
+  CEGUI::Window* itemcounter = winMgr->createWindow("TaharezLook/Editbox");
+  slot->addChildWindow(itemcounter);
+  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.45f), CEGUI::cegui_reldim( 0.45f)));
+  itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.7f), CEGUI::cegui_reldim(0.7f)));
+  itemcounter->setVisible(false);
+  itemcounter->disable();
+  itemcounter->setText("0");
+  itemcounter->setAlwaysOnTop(true);
+  itemcounter->setAlpha(0.5);
+  itemcounter->setID(30);
 
   return slot;
 }
@@ -479,7 +514,6 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname)
     winMgr->createWindow("DragContainer", itemname));
   item->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.05f)));
   item->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim(0.9f)));
-  item->setTooltip(0);
   item->setTooltipText(itemname);
 
   // set a static image as drag container's contents
@@ -490,11 +524,22 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname)
   itemIcon->setProperty("Image", "set:TaharezLook image:CloseButtonNormal");
   // disable to allow inputs to pass through.
   itemIcon->disable();
-  itemIcon->setInheritsTooltipText(true);
+
+  //if (stackable)
+  item->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDroppedStackable, this));
 
   return item;
 }
-bool InventoryWindow::AddItem(CEGUI::String itemname)
+void InventoryWindow::UpdateItemCounter(CEGUI::Window* parent)
+{
+  CEGUI::Window* itemcounter = parent->getChild(30);
+  int nrofitems = itemcounter->getParent()->getChildCount()-1;
+  char buffer[1024];
+  sprintf(buffer, "%d", nrofitems);
+  itemcounter->setText((CEGUI::String)buffer);
+  if (nrofitems < 2) itemcounter->setVisible(false); else itemcounter->setVisible(true);
+}
+bool InventoryWindow::AddItem(CEGUI::String itemname, int itemid)
 {
   CEGUI::Window* inventoryframe = winMgr->getWindow("inventoryframe");
 
@@ -506,12 +551,26 @@ bool InventoryWindow::AddItem(CEGUI::String itemname)
     CEGUI::Window* slot = inventoryframe->getChildAtIdx(i);
     i += 1;
     printf("Checking slot %d \n", i);
-    if (slot->getChildCount() == 0)
+
+    char itemtype[1024];
+    sprintf(itemtype, "%d", itemid);
+    bool sameid = false;
+    if (slot->isUserStringDefined("itemid")) {if(slot->getUserString("itemid") == itemtype) sameid = true;}
+
+    if (slot->isUserStringDefined("itemid")) 
+      printf(slot->getUserString("itemid").c_str());
+    else printf("no itemid on slot\n");
+    if ((slot->getChildCount() < 2 ) || sameid)
     {
-      printf("slot %s is empty:", slot->getName().c_str());
+      printf("slot %s is empty: ", slot->getName().c_str());
       freeslot = slot;
+
       freeslot->addChildWindow(createItemIcon(itemname));
+      freeslot->setUserString("itemid" , itemtype);
       printf("Item added to slot\n");
+
+      UpdateItemCounter(slot);
+
       return true;
     }
   }
@@ -524,7 +583,7 @@ void InventoryWindow::CreateGUIWindow()
   //GUIWindow::CreateGUIWindow ("inventory.xml");
 
   winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* root = winMgr->getWindow("Root_chat");
+  CEGUI::Window* root = winMgr->getWindow("Root");
   root->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDroppedRoot, this));
 
   // create main rucksack window
@@ -554,9 +613,10 @@ void InventoryWindow::CreateGUIWindow()
   createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.5f)));
 
   // set starting slot for the item.
-  startSlot ->addChildWindow(createItemIcon("apple"));
+  // startSlot ->addChildWindow(createItemIcon("apple"));
+  // AddItem("apple1");
 
   // Get the root window
-  rootwindow = winMgr->getWindow("Connect");
+  rootwindow = winMgr->getWindow("Rucksack");
 
 }

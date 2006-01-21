@@ -31,6 +31,7 @@ class EntityHandler : public MessageHandler
 private:
   Network* network;
   Client* client;
+  GUIManager* guimanager;
 
 public:
   EntityHandler(Network* network, Client* client) 

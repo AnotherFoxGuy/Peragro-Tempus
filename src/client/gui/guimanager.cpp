@@ -60,6 +60,11 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
     cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/client/skin/Commonv2c.ttf", 10, 
         CEGUI::Default);
 
+    CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
+    root->setAreaRect(CEGUI::Rect(0.0f, 0.0f, 1.0f, 1.0f));
+    root->setMaximumSize(CEGUI::Size(1.0f, 1.0f));
+    cegui->GetSystemPtr ()->setGUISheet(root);
+
     return true;
 }
 

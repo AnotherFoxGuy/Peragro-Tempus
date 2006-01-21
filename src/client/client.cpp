@@ -239,7 +239,7 @@ bool Client::Application()
     return false;
 
   guimanager->CreateConnectWindow ();
-
+  //guimanager->CreateInventoryWindow ();
   if (cmdline)
   {
     const char* host = cmdline->GetOption("host");
@@ -354,7 +354,7 @@ bool Client::OnKeyboard(iEvent& ev)
           printf("picked up entity: %d \n", msg.getTargetId());
           char buffer[1024];
 		  sprintf(buffer, "%d", msg.getTargetId());
-          if (guimanager->GetInventoryWindow()->AddItem((CEGUI::String)buffer))
+          if (guimanager->GetInventoryWindow()->AddItem( ((CEGUI::String)buffer), msg.getTargetId() ))
             network->send(&msg);
         }
         return false;
@@ -468,6 +468,8 @@ void Client::loggedIn()
 
   guimanager->GetLoginWindow ()->HideWindow ();
   guimanager->GetSelectCharWindow ()->ShowWindow ();
+  guimanager->CreateInventoryWindow ();
+  guimanager->GetInventoryWindow ()->HideWindow ();
 
   if (cmdline)
   {
@@ -497,7 +499,7 @@ void Client::loadRegion()
   guimanager->CreateChatWindow ();
   guimanager->GetChatWindow ()->ShowWindow();
 
-  guimanager->CreateInventoryWindow ();
+  guimanager->GetInventoryWindow ()->ShowWindow ();
 
   csRef<iCelEntity> entity = pl->CreateEntity();
   pl->CreatePropertyClass(entity, "pcregion");

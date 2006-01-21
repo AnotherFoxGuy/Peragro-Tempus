@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
-<Window Type="DefaultWindow" Name="Root_inventory" >
-<Property Name="UnifiedAreaRect" Value="{{0.000000,0.000000},{0.000000,0.000000},{1.000000,0.000000},{1.000000,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Window Type="TaharezLook/FrameWindow" Name="Inventory" >
 <Property Name="CloseButtonEnabled" Value="False" />
 <Property Name="CaptionColour" Value="00FFFFFF" />
@@ -15,6 +12,5 @@
 <Property Name="TitlebarEnabled" Value="True" />
 <Property Name="UnifiedAreaRect" Value="{{0.133386,0.000000},{0.114002,0.000000},{0.383386,0.000000},{0.514388,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
 </Window>
 </GUILayout>

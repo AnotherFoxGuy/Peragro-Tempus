@@ -146,14 +146,16 @@ private:
   bool handleDragLeave(const CEGUI::EventArgs& args);
   bool handleDragDropped(const CEGUI::EventArgs& args);
   bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
+  bool handleDragDroppedStackable(const CEGUI::EventArgs& args);
   CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
   CEGUI::Window* createItemIcon(CEGUI::String itemname);
+  void UpdateItemCounter(CEGUI::Window* parent);
 
 public:
   InventoryWindow(GUIManager* guimanager);
   virtual ~InventoryWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
-  bool AddItem(CEGUI::String itemname);
+  bool AddItem(CEGUI::String itemname, int itemid);
 };
 
 
