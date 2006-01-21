@@ -30,7 +30,7 @@ under each day.
      GetNewCharName() and becoming corrupt.
   - Sueastside changed client.cpp's code to use more GuiManager stuff.
   - Sueastside Added the chatwindow.
-  - Sueastside added the ptlook skin
+  - Sueastside added the ptlook skin.
   - Sueastside updated the evil lava apple.
   - PK improved the scriping a bit and relocated it to the scrips dir.
   - PK fixed some small bugs on the server and client side.
