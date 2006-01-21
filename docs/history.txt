@@ -7,6 +7,7 @@ under each day.
 21-Jan-2006
   - Sueastside added dropping inventory items to the world.
   - PK adds Queue class.
+  - PK fixed MSVC file generation.
 
 20-Jan-2006
   - iceeey used std::string in place of char* for storing strings and

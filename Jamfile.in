@@ -46,8 +46,8 @@ MsvcGenConfig MSVCGEN.WELL_KNOWN_GROUPS_REGISTERED : yes ;
 local hash = "\$" ;
 MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
 MsvcGenConfig CRYSTAL.DEFINES ;
-MsvcGenConfig CRYSTAL.CFLAGS ;
-MsvcGenConfig CRYSTAL.LFLAGS ;
+MsvcGenConfig CRYSTAL.CFLAGS : "" ;
+MsvcGenConfig CRYSTAL.LFLAGS : "" ;
 MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
 MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib" ;
 MsvcGenConfig CRYSTAL.INCDIRS :
@@ -69,8 +69,8 @@ MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
 
 MsvcGenConfig CEL.AVAILABLE : yes ;
 MsvcGenConfig CEL.DEFINES : USE_CEL ;
-MsvcGenConfig CEL.CFLAGS ;
-MsvcGenConfig CEL.LFLAGS ;
+MsvcGenConfig CEL.CFLAGS : "" ;
+MsvcGenConfig CEL.LFLAGS : "" ;
 MsvcGenConfig CEL.LIBS : "libceltool.lib" ;
 MsvcGenConfig CEL.LIBS.DEBUG : "libceltool_d.lib" ;
 MsvcGenConfig CEL.INCDIRS :
@@ -85,6 +85,15 @@ MsvcGenConfig CEL.LIBDIRS.DEBUG :
   [ ConcatDirs .. .. .. cel out debug libs ]
   [ ConcatDirs "$(hash)(CEL)" out debug libs ]
   [ ConcatDirs "$(hash)(CEL)" libs ] ;
+
+MsvcGenConfig CEGUI.AVAILABLE : yes ;
+MsvcGenConfig CEGUI.CFLAGS : "" ;
+MsvcGenConfig CEGUI.LFLAGS : "" ;
+MsvcGenConfig CEGUI.LIBS : "CEGUIBase.lib CEGUIFalagardBase.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG : "CEGUIBase_d.lib CEGUIFalagardBase_d.lib" ;
+
+MsvcGenConfig PTHREAD.CFLAGS : "" ;
+MsvcGenConfig PTHREAD.LFLAGS : "" ;
 
 # Set project-specific compiler and linker options for msvcgen.
 #MsvcDefine MY_DEFINE : "my value" ;
