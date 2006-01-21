@@ -29,7 +29,7 @@ enum CHAT_MESSAGES
 class ChatMessage : public NetMessage
 {
   char msgtype;
-  char* msg;
+  const char* msg;
 
 public:
   ChatMessage() : NetMessage(MESSAGES::CHAT,CHAT_MESSAGE) 
@@ -70,7 +70,7 @@ public:
 
   void setMessage(const char* message)
   {
-    msg = (char* )message;
+    msg = message;
   }
 };
 

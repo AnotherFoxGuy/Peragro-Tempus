@@ -64,6 +64,11 @@ public:
     for (size_t i = 0; i<entities.getCount(); i++)
     {
       Entity* _entity = entities.get(i);
+      if (!_entity) 
+      {
+        entities.remove(i);
+        delEntity(entity);
+      }
       if (_entity->compare(entity))
       {
         entities.remove(i);
