@@ -171,6 +171,9 @@
 				RelativePath="..\..\src\common\util\mutex.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\queue.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\sleep.h">
 			</File>
 			<File
