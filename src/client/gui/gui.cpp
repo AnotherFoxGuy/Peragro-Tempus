@@ -443,7 +443,6 @@ bool InventoryWindow::handleDragLeave(const CEGUI::EventArgs& args)
   int nrofitems = itemcounter->getParent()->getChildCount()-2;
   char buffer[1024];
   sprintf(buffer, "%d", nrofitems);
-  printf("leave: number of items: %s",buffer);
   itemcounter->setText((CEGUI::String)buffer);
   if (nrofitems < 2) itemcounter->setVisible(false); else itemcounter->setVisible(true);
 
@@ -464,11 +463,21 @@ bool InventoryWindow::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   using namespace CEGUI;
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-  ddea.dragDropItem->destroy();
+  int itemid;
 
+  Window* slot = ddea.dragDropItem->getParent();
+
+  if (slot->isUserStringDefined("itemid")) 
+  { 
+  itemid = atoi(slot->getUserString("itemid").c_str()); 
   DropEntityRequestMessage msg;
-  msg.setTargetId(1); //"Apple"
+  msg.setTargetId(itemid);
   network->send(&msg);
+  ddea.dragDropItem->destroy();
+  }
+  else ddea.dragDropItem->getParent()->addChildWindow(ddea.dragDropItem);
+
+  UpdateItemCounter(slot);
 
   return true;
 }

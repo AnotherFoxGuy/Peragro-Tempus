@@ -9,6 +9,8 @@ under each day.
   - PK adds Queue class.
   - PK fixed MSVC file generation.
   - Sueastside added stackable items and getting the inventory from the server.
+  - Sueastside also added itemID to the drop function, so the right item is dropped
+    instead of always an apple.
 
 20-Jan-2006
   - iceeey used std::string in place of char* for storing strings and
