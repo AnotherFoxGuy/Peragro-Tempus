@@ -20,7 +20,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 
-#include "crtdefs.h"
+#include "stddef.h"
 
 #include "dbghelp.h"
 
