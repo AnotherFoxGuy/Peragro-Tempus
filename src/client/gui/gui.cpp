@@ -467,21 +467,23 @@ bool InventoryWindow::handleDragDroppedRoot(const CEGUI::EventArgs& args)
 
   Window* slot = ddea.dragDropItem->getParent();
 
-  if (ddea.dragDropItem->isUserStringDefined("itemid")) 
+  if (ddea.dragDropItem->isUserStringDefined("itemtype")) 
   { 
-  itemid = atoi(ddea.dragDropItem->getUserString("itemid").c_str()); 
+  itemid = atoi(ddea.dragDropItem->getUserString("itemtype").c_str()); 
+  printf("About to drop item of type: %d!\n", itemid);
   DropEntityRequestMessage msg;
   msg.setTargetId(itemid);
   network->send(&msg);
   ddea.dragDropItem->destroy();
+  printf("Item icon destroyed!\n");
+  UpdateItemCounter(slot);
   }
   else 
   {
     //slot->addChildWindow(ddea.dragDropItem);
     printf("Couldn't determine itemID, putting it back!");
   }
-
-  UpdateItemCounter(slot);
+  printf("Dropped item to the world!\n");
 
   return true;
 }
@@ -528,11 +530,11 @@ CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const 
 
   return slot;
 }
-CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemid, bool stackable)
+CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemtype, bool stackable)
 {
   char uniquename[1024];
   counter += 1;
-  sprintf(uniquename, "%d_%d_icon", itemid, counter);
+  sprintf(uniquename, "%d_%d_icon", itemtype, counter);
 
   // create a drag/drop item
   CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
@@ -541,9 +543,9 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemi
   item->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim(0.9f)));
   item->setTooltipText(itemname);
   // Set the itemID.
-  char itemtype[1024];
-  sprintf(itemtype, "%d", itemid);
-  item->setUserString("itemid" , itemtype);
+  char itemtypestr[1024];
+  sprintf(itemtypestr, "%d", itemtype);
+  item->setUserString("itemtype" , itemtypestr);
   // Set wether or not the item is stackable
   if (stackable)
   item->setUserString("stackable" , "true");
@@ -572,7 +574,7 @@ void InventoryWindow::UpdateItemCounter(CEGUI::Window* parent)
   itemcounter->setText((CEGUI::String)buffer);
   if (nrofitems < 2) itemcounter->setVisible(false); else itemcounter->setVisible(true);
 }
-bool InventoryWindow::AddItem(CEGUI::String itemname, int itemid, bool stackable)
+bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackable)
 {
   CEGUI::Window* inventoryframe = winMgr->getWindow("inventoryframe");
 
@@ -585,14 +587,13 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemid, bool stackable
     i += 1;
     printf("Checking slot %d \n", i);
 
-    char itemtype[1024];
-    sprintf(itemtype, "%d", itemid);
+    char itemtypestr[1024];
+    sprintf(itemtypestr, "%d", itemtype);
     bool sameid = false;
     // Check if the slot is occupied by a item with the same id.
-    if (slot->isUserStringDefined("itemid")) 
-        if (slot->getUserString("itemid") == itemtype) 
+    if (slot->isUserStringDefined("itemtype")) 
+        if (slot->getUserString("itemtype") == itemtypestr) 
         {
-          
           sameid = true;
         }
 
@@ -601,8 +602,8 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemid, bool stackable
       printf("slot %s is empty: ", slot->getName().c_str());
       freeslot = slot;
 
-      freeslot->addChildWindow(createItemIcon(itemname, itemid, stackable));
-      freeslot->setUserString("itemid" , itemtype);
+      freeslot->addChildWindow(createItemIcon(itemname, itemtype, stackable));
+      freeslot->setUserString("itemtype" , itemtypestr);
       printf("Item added to slot\n");
 
       UpdateItemCounter(slot);

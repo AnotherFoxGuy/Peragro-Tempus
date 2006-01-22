@@ -353,12 +353,7 @@ bool Client::OnKeyboard(iEvent& ev)
           PickEntityRequestMessage msg;
           msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
           printf("picked up entity: %d \n", msg.getTargetId());
-          char buffer[1024];
-		  sprintf(buffer, "%d", msg.getTargetId());
-          if (guimanager->GetInventoryWindow()->AddItem((CEGUI::String)(pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"))),
-                                                          msg.getTargetId(), 
-                                                          true ));
-            network->send(&msg);
+          network->send(&msg);
         }
         return false;
       }

@@ -61,7 +61,12 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
   response_msg.deserialise(msg->getByteStream());
 
   if (response_msg.getError() == 0)
+  {
     printf("%s picks Item %s\n", response_msg.getName(), response_msg.getTarget());
+    guimanager->GetInventoryWindow()->AddItem((CEGUI::String)response_msg.getName(),
+                                               response_msg.getItemId(), 
+                                               true);
+  }
   else
     printf("%s can't pick Item %s! Reason: '%s'\n", response_msg.getName(), response_msg.getTarget(), response_msg.getError());
 }

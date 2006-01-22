@@ -148,7 +148,7 @@ private:
   bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
   bool handleDragDroppedStackable(const CEGUI::EventArgs& args);
   CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
-  CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemid, bool stackable);
+  CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
   void UpdateItemCounter(CEGUI::Window* parent);
   int counter;
 
@@ -156,7 +156,7 @@ public:
   InventoryWindow(GUIManager* guimanager);
   virtual ~InventoryWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
-  bool AddItem(CEGUI::String itemname, int itemid, bool stackable);
+  bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
 };
 
 

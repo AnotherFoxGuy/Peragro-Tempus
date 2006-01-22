@@ -10,6 +10,7 @@ under each day.
   - Sueastside implemented itemname in the inventory and added tooltips.
   - PK fixed some server crashes and memory leaks.
   - PK added the itemId to the pickresponse message.
+  - Sueastside implemented itemId in the inventory which fixes the drop issues.
 
 21-Jan-2006
   - Sueastside added dropping inventory items to the world.
