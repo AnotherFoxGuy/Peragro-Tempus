@@ -671,6 +671,7 @@ public:
 class PickEntityResponseMessage : public NetMessage
 {
   char* name;
+  int itemId;
   char* target;
   char* error;
 
@@ -689,6 +690,7 @@ public:
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setString(name);
+    serial.setInt32(itemId);
     serial.setString(target);
     serial.setString(error);
   }
@@ -699,6 +701,7 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     name = serial.getString();
+    itemId = serial.getInt32();
     target = serial.getString();
     error = serial.getString();
   }
@@ -710,6 +713,15 @@ public:
   char* getName()
   {
     return name;
+  }
+
+  void setItemId(int itemId)
+  {
+    this->itemId = itemId;
+  }
+  int getItemId()
+  {
+    return itemId;
   }
 
   void setTarget(char* target)

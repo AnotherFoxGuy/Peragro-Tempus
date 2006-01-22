@@ -93,6 +93,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
   PickEntityResponseMessage response_msg;
   response_msg.setName((char*)name);
+  response_msg.setItemId(0);
   if (!e)
   {
     response_msg.setTarget(0);
@@ -127,6 +128,8 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     Item* item = server->getItemManager()->findById(e->getItem());
 
     if (!item) return; //send Error message?
+
+    response_msg.setItemId(item->getId());
 
     user_ent->getInventory()->addItem(item,1);
 

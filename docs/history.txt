@@ -8,6 +8,8 @@ under each day.
   - PK added the itemname to the inventorylist message. This is a temporary solution
     and shall be removed as soon as we have the string repository implemented.
   - Sueastside implemented itemname in the inventory and added tooltips.
+  - PK fixed some server crashes and memory leaks.
+  - PK added the itemId to the pickresponse message.
 
 21-Jan-2006
   - Sueastside added dropping inventory items to the world.
