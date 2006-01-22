@@ -1,29 +1,32 @@
 cd /home/peragro/
-if [! -d msvcregenAuto]
+if [ -d msvcregenAuto ]
 then
-  echo "--> Making temporary folder."
-  mkdir msvcregenAuto
+  cd msvcregenAuto
+  echo "--> Updating working repoitory."
+  svn up
+  echo "--> Reverting potential conflicts."
+  svn revert . -R
+  echo "--> Jam maintiner cleaning."
+  jam maintainerclean > /dev/null
+  echo "--> Generating configure scripts."
+  ./autogen.sh
 else
-  echo "--> Cleaning temporary folder."
-  rm -rf msvcregenAuto
   echo "--> Making temporary folder."
   mkdir msvcregenAuto
+  cd msvcregenAuto
+  echo "Checking out repository."
+  svn co https://cyanox.nl/peragro/trunk/ . > /dev/null
+  echo "--> Generating configure scripts."
+  ./autogen.sh
 fi
-cd msvcregenAuto
-echo "Checking out repository."
-svn co https://cyanox.nl/peragro/trunk/ .
-echo "--> Generating configure scripts."
-./autogen.sh
 echo "--> Configuring source tree."
-./configure --without-cs --without-cel --without-CEGUI --without-pthread --without-crystalspace
+./configure --without-cs --without-cel --without-CEGUI --without-pthread > /dev/null
 echo "--> Generating project files."
-jam msvcgen
+jam msvcgen > /dev/null
 echo "--> Copying generated files to source tree."
 cp -rf out/msvc/* msvc/
 cd msvc
 echo "--> Commiting to SVN Repository if changes where found."
 svn ci . -m "Automated MSVC project file regeneration."
 cd ../..
-echo "--> Cleaning up temporary folder."
-rm -rf msvcregenAuto
 echo "--> Done."
