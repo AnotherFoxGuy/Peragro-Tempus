@@ -33,7 +33,7 @@ private:
   // Thread implementation
   void Run()
   {
-    if (conn_mgr->getConnectionCount() == 0) sleep(1000);
+    if (conn_mgr->getConnectionCount() == 0) pt_sleep(1000);
 
     for (size_t i=0; i<conn_mgr->getConnectionCount(); i++)
     {
@@ -58,7 +58,7 @@ private:
       //else printf("\n");
 
       if (conn_mgr->getConnectionCount() != 0)
-        sleep(5000/(int)conn_mgr->getConnectionCount());
+        pt_sleep(5000/(int)conn_mgr->getConnectionCount());
     }
   }
 

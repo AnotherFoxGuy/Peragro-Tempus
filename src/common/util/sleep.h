@@ -21,15 +21,20 @@
 
 #ifdef WIN32
   #include <windows.h>
-  #define usleep(a); Sleep(a);
 #else
   #include <unistd.h>
 #endif
 
-inline void sleep(int ms)
+inline void pt_sleep(int ms)
 {
-  //sleep in milliseconds
-  usleep(ms);
+  #ifdef WIN32
+    Sleep(ms);
+  #else
+    timespec sleeptime;
+    sleeptime.tv_sec = ms/1000;
+    sleeptime.tv_nsec = (ms%1000)*1000000;
+    nanosleep(ms);
+  #endif
 }
 
 #endif // _SLEEP_H_

@@ -60,7 +60,7 @@ private:
 
     timeCounter++;
 
-    sleep(1000);
+    pt_sleep(1000);
   }
 
   void checkSpawnPoint(SpawnPoint* sp)

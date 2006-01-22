@@ -12,6 +12,7 @@ under each day.
   - PK added the itemId to the pickresponse message.
   - Sueastside implemented itemId in the inventory which fixes the drop issues.
   - PK added an Item Spawner... let the apple hunt begin. :)
+  - PK changed usleep to nanosleep.
 
 21-Jan-2006
   - Sueastside added dropping inventory items to the world.

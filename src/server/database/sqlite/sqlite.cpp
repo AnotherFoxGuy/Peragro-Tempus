@@ -46,7 +46,7 @@ dbSQLite::~dbSQLite()
 ResultSet* dbSQLite::query(const char* query)
 {
   while (updates.getCount() > 0)
-    sleep(10);
+    pt_sleep(10);
 
   //printf("SQLite not implemented yet, dumping query: %s\n", query);
   char *zErrMsg = 0;
@@ -74,7 +74,7 @@ void dbSQLite::update(const char* query)
 void dbSQLite::Run()
 {
   if (updates.getCount() == 0)
-    sleep(10);
+    pt_sleep(10);
   else
     update();
 }
