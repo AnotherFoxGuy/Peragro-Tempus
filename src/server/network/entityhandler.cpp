@@ -114,14 +114,6 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     response_msg.setTarget((char*)e->getName());
     response_msg.setError((char*)"Unpickable");
   }
-  ByteStream bs;
-  response_msg.serialise(&bs);
-  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
-  {
-    User* user = server->getUserManager()->getUser(i);
-    if (user && user->getConnection())
-      user->getConnection()->send(bs);
-  }
 
   if (response_msg.getError() == 0)
   {
@@ -130,6 +122,15 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     if (!item) return; //send Error message?
 
     response_msg.setItemId(item->getId());
+
+    ByteStream bs;
+    response_msg.serialise(&bs);
+    for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
+    {
+      User* user = server->getUserManager()->getUser(i);
+      if (user && user->getConnection())
+        user->getConnection()->send(bs);
+    }
 
     user_ent->getInventory()->addItem(item,1);
 
