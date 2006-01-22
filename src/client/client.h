@@ -82,6 +82,7 @@ private:
 
   csString name;
   int own_char_id;
+  const char* own_char_name;
 
   csPDelArray<Entity> new_entity_name;
   csPDelArray<Entity> del_entity_name;
@@ -152,6 +153,8 @@ public:
   void chat();
 
   void setCharacter(int own_char) { own_char_id = own_char; }
+
+  const char* GetOwnCharName() { return own_char_name; }
 
   GUIManager* GetGuiManager ()
   {
