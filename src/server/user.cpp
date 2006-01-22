@@ -59,6 +59,12 @@ void User::sendRemoveEntity(Entity* entity)
 
 void User::remove()
 {
-  if (own_entity) Server::getServer()->delEntity(own_entity);
+  if (own_entity)
+  {
+    Server::getServer()->delEntity(own_entity);
+    own_entity = 0;
+  }
+  if (connection)
+    connection = 0;
   Server::getServer()->getUserManager()->delUser(this);
 }
