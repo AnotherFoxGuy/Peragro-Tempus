@@ -65,10 +65,10 @@ int main(int argc, char ** argv)
 
   Spawner spawner;
   // TODO: load that from DB rather than hardcoding
-  spawner.addSpawnPoint(4, 0, 2, "room", 1, 10*1000); //spawn apple every 10 second after picking
-  spawner.addSpawnPoint(0, 4, 0, "room", 1, 45*1000); //spawn apple every 45 second after picking
-  spawner.addSpawnPoint(0, 2, -2, "room", 1, 75*1000); //spawn apple every 75 second after picking
-  spawner.addSpawnPoint(2, -2, 0, "room", 1, 15*1000); //spawn apple every 15 second after picking
+  spawner.addSpawnPoint(4, 0, 2, "room", 1, 10); //spawn apple every 10 second after picking
+  spawner.addSpawnPoint(0, 4, 0, "room", 1, 45); //spawn apple every 45 second after picking
+  spawner.addSpawnPoint(0, 2, -2, "room", 1, 75); //spawn apple every 75 second after picking
+  spawner.addSpawnPoint(2, -2, 0, "room", 1, 15); //spawn apple every 15 second after picking
   spawner.begin();
 
   unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;
