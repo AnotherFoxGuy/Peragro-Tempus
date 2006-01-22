@@ -33,7 +33,7 @@ inline void pt_sleep(int ms)
     timespec sleeptime;
     sleeptime.tv_sec = ms/1000;
     sleeptime.tv_nsec = (ms%1000)*1000000;
-    nanosleep(ms);
+    nanosleep(&sleeptime, 0);
   #endif
 }
 
