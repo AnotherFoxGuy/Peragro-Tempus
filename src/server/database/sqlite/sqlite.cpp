@@ -86,7 +86,7 @@ void dbSQLite::update()
   mutex.lock();
   char* query = updates.get(0);
   int rc = sqlite3_exec(db, query, callback, 0, &zErrMsg);
-  updates.del(0);
+  updates.del(0, true);
   mutex.unlock();
   if( rc!=SQLITE_OK )
   {

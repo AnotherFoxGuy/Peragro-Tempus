@@ -265,11 +265,12 @@ public:
     *  Only use that if you have deletable types in the array such as pointers!
     *  \param i index of the object which shall be removed.
     */
-  void del(size_t i)
+  void del(size_t i, bool isArray = false)
   {
     if (i >= count) assert("Array::get : out of bound access");
     count--;
-    delete typarray[i];
+    if (isArray) delete [] typarray[i];
+    else delete typarray[i];
     typarray[i] = typarray[count];
   }
 
