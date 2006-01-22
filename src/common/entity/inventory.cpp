@@ -17,9 +17,11 @@
 */
 
 #include "inventory.h"
+#include "common/entity/itemmanager.h"
 #include "common/network/serialiser.h"
 #include "common/network/entitymessages.h"
 #include "server/network/connection.h"
+#include "server/server.h"
 
 void Inventory::sendAllItems(Connection* conn)
 {
@@ -28,6 +30,9 @@ void Inventory::sendAllItems(Connection* conn)
   for (size_t i=0; i<entries.getCount(); i++)
   {
     itemlist_msg.setItemId(i,entries.get(i)->item_id);
+    Item* item = Server::getServer()->getItemManager()->findById(entries.get(i)->item_id);
+    assert(item);
+    itemlist_msg.setName(i,item->getName());
     itemlist_msg.setItemAmount(i,entries.get(i)->amount);
   }
   ByteStream bs2;

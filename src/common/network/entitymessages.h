@@ -842,6 +842,7 @@ class InventoryItemListMessage : public NetMessage
   {
   public:
     int id;
+    const char* name;
     int amount;
   };
 
@@ -860,6 +861,7 @@ public:
     for (int i=0; i<itemCount; i++)
     {
       serial.setInt32(items[i].id);
+      serial.setString(items[i].name);
       serial.setInt32(items[i].amount);
     }
   }
@@ -873,6 +875,7 @@ public:
     for (int i=0; i<itemCount; i++)
     {
       items[i].id = serial.getInt32();
+      items[i].name = serial.getString();
       items[i].amount = serial.getInt32();
     }
   }
@@ -890,6 +893,15 @@ public:
 
   int getItemAmount(int idx) { return items[idx].amount; }
   void setItemAmount(int idx, int amount) { items[idx].amount = amount; }
+
+  void setName(int idx, const char* name)
+  {
+    items[idx].name = name;
+  }
+  const char* getName(int idx)
+  {
+    return items[idx].name;
+  }
 };
 
 #endif // _ENTITIYMESSAGES_H_
