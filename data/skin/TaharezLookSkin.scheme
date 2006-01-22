@@ -2,7 +2,7 @@
 <GUIScheme Name="TaharezLookSkin">
 	<Imageset Name="TaharezLook" Filename="TaharezLook.imageset" />
 	<Font Name="Commonwealth-10" Filename="Commonwealth-10.font" />
-	<Font Name="Commonwealth-8" Filename="Commonwealth-8.font" />
+	<!--Font Name="Commonwealth-8" Filename="Commonwealth-8.font" /-->
 	<LookNFeel Filename="TaharezLook.looknfeel" />
 	<WindowSet Filename="CEGUIFalagardBase" />
 	<FalagardMapping WindowType="TaharezLook/AlternateProgressBar" TargetType="Falagard/ProgressBar" LookNFeel="TaharezLook/AltProgressBar" />

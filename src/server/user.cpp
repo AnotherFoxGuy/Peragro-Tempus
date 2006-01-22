@@ -66,5 +66,6 @@ void User::remove()
   }
   if (connection)
     connection = 0;
+
   Server::getServer()->getUserManager()->delUser(this);
 }
