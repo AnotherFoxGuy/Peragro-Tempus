@@ -190,6 +190,14 @@ public:
   {
     return &inventory;
   }
+
+  void createFromItem(Item* item)
+  {
+    this->setName(item->getName());
+    this->setMesh(item->getMesh());
+    this->setType(Entity::ItemEntity);
+    this->setItem(item->getId());
+  }
 };
 
 #endif // _ENTITY_H_

@@ -24,14 +24,14 @@
 
 Server* Server::server;
 
-void Server::addEntity(Entity* entity)
+void Server::addEntity(Entity* entity, bool presistent)
 {
   printf("Add Entity\n");
   ent_mgr->addEntity(entity);
 
-  if (entity->getType() == Entity::ItemEntity)
+  if (presistent)
   {
-    //Only items are persistent Entities
+    //Only dropped items are persistent Entities at the moment
     db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), entity->getItem(), entity->getMesh(), entity->getPos(), entity->getSector());
     printf("Added %s with id: %d\n", entity->getName(), entity->getId());
   }

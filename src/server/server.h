@@ -66,7 +66,7 @@ public:
   void setUserAccountManager(UserAccountManager* usr_acc_mgr) { this->usr_acc_mgr = usr_acc_mgr; }
   UserAccountManager* getUserAccountManager() { return this->usr_acc_mgr; }
 
-  void addEntity(Entity* entity);
+  void addEntity(Entity* entity, bool presistent);
   void delEntity(Entity* entity);
 };
 

@@ -174,5 +174,5 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   e->setName(item->getName());
   e->setItem(item->getId());
 
-  server->addEntity(e);
+  server->addEntity(e, true);
 }

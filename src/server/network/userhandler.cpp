@@ -143,7 +143,7 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   entity->setType(Entity::PlayerEntity);
   printf("Adding Character '%s' with entity '%s'\n", user->getName(), entity->getName());
   user->setEntity(entity);
-  server->addEntity(entity);
+  server->addEntity(entity, false);
 
   CharacterSelectionResponseMessage response_msg;
   response_msg.setError(0);
