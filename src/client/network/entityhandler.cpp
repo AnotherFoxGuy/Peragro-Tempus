@@ -110,7 +110,7 @@ void EntityHandler::handleInventoryItemList(GenericMessage* msg)
       char buffer[1024];
       sprintf(buffer, "%d_%d", item_msg.getItemId(i), j);
       printf("droppedstackable: number of items: %s",buffer);
-      guimanager->GetInventoryWindow()->AddItem((CEGUI::String)buffer, item_msg.getItemId(i));
+      guimanager->GetInventoryWindow()->AddItem((CEGUI::String)item_msg.getName(i), item_msg.getItemId(i), true);
       printf("Item %d: %d\n", item_msg.getItemId(i), item_msg.getItemAmount(i));
     }
   }

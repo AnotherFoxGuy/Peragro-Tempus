@@ -170,6 +170,7 @@ void Client::FinishFrame()
   g3d->BeginDraw(CSDRAW_3DGRAPHICS);
 
   // Render our GUI on top
+  guimanager->GetCEGUI ()->GetSystemPtr ()->injectTimePulse(0.01f);
   guimanager->Render ();
 
   cursor->Draw();
@@ -354,7 +355,9 @@ bool Client::OnKeyboard(iEvent& ev)
           printf("picked up entity: %d \n", msg.getTargetId());
           char buffer[1024];
 		  sprintf(buffer, "%d", msg.getTargetId());
-          if (guimanager->GetInventoryWindow()->AddItem( ((CEGUI::String)buffer), msg.getTargetId() ))
+          if (guimanager->GetInventoryWindow()->AddItem((CEGUI::String)(pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"))),
+                                                          msg.getTargetId(), 
+                                                          true ));
             network->send(&msg);
         }
         return false;
