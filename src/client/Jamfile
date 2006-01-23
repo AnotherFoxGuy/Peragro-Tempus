@@ -21,7 +21,7 @@ if [ Property build : projgen_version ] != 6
   Application client_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   LFlags client_static : -lcrystalspace_staticplugins  -lcel_staticplugins ;
-  LinkWith client_static : client-network entity util ;
+  LinkWith client_static : client-network client-gui entity util ;
   LinkStaticPlugins client_static :
     addon_celentity
     addon_celentitytpl
