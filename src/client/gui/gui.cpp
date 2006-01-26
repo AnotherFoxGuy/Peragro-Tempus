@@ -137,6 +137,9 @@ LoginWindow::~LoginWindow()
 
 bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e) 
 {
+  // Get the login window and disable it
+  GUIWindow::DisableWindow();
+
   LoginRequestMessage answer_msg;
   CEGUI::String login = GetLogin();
   CEGUI::String password = GetPassword();
@@ -144,9 +147,6 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
   answer_msg.setName(login.c_str());
   answer_msg.setPwHash(password.c_str());
   network->send(&answer_msg);
-
-  // Get the login window and disable it
-  GUIWindow::DisableWindow();
 
   return true;
 }
@@ -453,10 +453,13 @@ bool InventoryWindow::handleDragDropped(const CEGUI::EventArgs& args)
   using namespace CEGUI;
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+
   ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
   ddea.window->addChildWindow(ddea.dragDropItem);
+  ddea.window->setUserString("itemtype" , ddea.dragDropItem->getUserString("itemtype"));
   UpdateItemCounter(ddea.window);
   return true;
+
 }
 bool InventoryWindow::handleDragDroppedRoot(const CEGUI::EventArgs& args)
 {
@@ -499,8 +502,18 @@ bool InventoryWindow::handleDragDroppedStackable(const CEGUI::EventArgs& args)
 
   if (stackable)
   {
-  ddea.window->getParent()->addChildWindow(ddea.dragDropItem);
-  UpdateItemCounter(ddea.window->getParent());
+    if (ddea.window->isUserStringDefined("itemtype")) 
+    {
+      const char* slottype = ddea.window->getUserString("itemtype").c_str();
+      const char* itemtype = ddea.dragDropItem->getUserString("itemtype").c_str();
+      printf("Slottype is %s and itemtype is %s \n", slottype, itemtype);
+
+      if ( !strcmp(slottype, itemtype) ) 
+      {
+        ddea.window->getParent()->addChildWindow(ddea.dragDropItem);
+        UpdateItemCounter(ddea.window->getParent());
+      }
+    }
   }
 
   return true;
@@ -599,12 +612,11 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackab
 
     if ((slot->getChildCount() < 2 ) || sameid)
     {
-      printf("slot %s is empty: ", slot->getName().c_str());
+      printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
       freeslot = slot;
 
       freeslot->addChildWindow(createItemIcon(itemname, itemtype, stackable));
       freeslot->setUserString("itemtype" , itemtypestr);
-      printf("Item added to slot\n");
 
       UpdateItemCounter(slot);
 

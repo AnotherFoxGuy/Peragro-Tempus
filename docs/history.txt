@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+26-Jan-2006
+  - Sueastside added Cyanox's items and did some updates to the gui so you can't stack
+    different types, also applied a fix to the loginwindow so it doesn't stay disabled 
+    when the login fails.
+
 22-Jan-2006
   - PK added the itemname to the inventorylist message. This is a temporary solution
     and shall be removed as soon as we have the string repository implemented.

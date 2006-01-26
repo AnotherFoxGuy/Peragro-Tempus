@@ -64,7 +64,7 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
   {
     printf("%s picks Item %s\n", response_msg.getName(), response_msg.getTarget());
     if ( !strcmp(response_msg.getName(), client->GetOwnCharName()) )
-      guimanager->GetInventoryWindow()->AddItem((CEGUI::String)response_msg.getName(),
+      guimanager->GetInventoryWindow()->AddItem((CEGUI::String)response_msg.getTarget(),
                                                  response_msg.getItemId(), 
                                                  true);
   }

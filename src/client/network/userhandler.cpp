@@ -17,6 +17,8 @@
 */
 
 #include "client/network/network.h"
+#include "client/gui/gui.h"
+#include "client/gui/guimanager.h"
 
 void UserHandler::handleLoginResponse(GenericMessage* msg)
 {
@@ -27,6 +29,8 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
   if (error != 0)
   {
     printf("Login Failed due to: %s\n", error);
+    guimanager = client->GetGuiManager();
+    guimanager->GetLoginWindow()->EnableWindow();
     return;
   }
   printf("Login succeeded!\n");

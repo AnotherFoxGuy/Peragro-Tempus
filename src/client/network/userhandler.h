@@ -34,6 +34,7 @@ private:
   Client* client;
   EntityHandler ent_handler;
   ChatHandler chat_handler;
+  GUIManager* guimanager;
 
 public:
   UserHandler(Network* network, Client* client) 

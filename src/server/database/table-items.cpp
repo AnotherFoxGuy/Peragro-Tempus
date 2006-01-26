@@ -44,6 +44,8 @@ void ItemTable::createTable()
     "PRIMARY KEY (id) );");
 
   //Example Data!
+  insert("smallplate", "Stuff001_smallplate_64_plates");
+  insert("tiny ballpot", "Stuff001_tinyballpot_84_pot");
   insert("apple", "apple");
 }
 
