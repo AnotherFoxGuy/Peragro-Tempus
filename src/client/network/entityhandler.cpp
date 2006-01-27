@@ -63,10 +63,10 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
   if (response_msg.getError() == 0)
   {
     printf("%s picks Item %s\n", response_msg.getName(), response_msg.getTarget());
-    if ( !strcmp(response_msg.getName(), client->GetOwnCharName()) )
-      guimanager->GetInventoryWindow()->AddItem((CEGUI::String)response_msg.getTarget(),
-                                                 response_msg.getItemId(), 
-                                                 true);
+    if (strlen(response_msg.getName()) == strlen(client->GetOwnCharName())
+      && !strcmp(response_msg.getName(), client->GetOwnCharName()))
+      guimanager->GetInventoryWindow()->AddItem(
+        (CEGUI::String)response_msg.getTarget(), response_msg.getItemId(), true);
   }
   else
     printf("%s can't pick Item %s! Reason: '%s'\n", response_msg.getName(), response_msg.getTarget(), response_msg.getError());

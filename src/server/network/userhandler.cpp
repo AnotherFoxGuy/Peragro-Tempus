@@ -50,11 +50,19 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   if (retval) 
     return;
 
-  server->getUserManager()->addUser(user);
+  Connection* old_conn = user->getConnection();
+
+  if (old_conn) //User was already logged in
+  {
+    old_conn->setUser(0);
+  }
+  else //new session
+  {
+    server->getUserManager()->addUser(user);
+  }
 
   // Maybe check if the user was already loged in and then give it the character
   // that was previously selected instead and skip the character selection?
-  Connection* old_conn = user->getConnection();
   Connection* conn = msg->getConnection();
   conn->setUser(user);
   user->setConnection(conn);

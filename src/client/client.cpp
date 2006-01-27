@@ -141,7 +141,7 @@ void Client::ProcessFrame()
         iSector* sector;
 
         pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
-        //printf("SetDR1: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
+        //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
 
         UpdateDREntityRequestMessage drmsg;
         drmsg.setOnGround(on_ground?1:0);
@@ -659,7 +659,7 @@ void Client::DrUpdateEntity()
       iSector* sector = engine->FindSector(drupdate->sector.GetData());
 
       //pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
-      //printf("SetDR2: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
+      //printf("Get DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
       pclinmove->SetDRData(drupdate->on_ground, drupdate->speed, drupdate->pos, drupdate->rot, sector, vel, drupdate->wvel, drupdate->avel);
     }
   }
