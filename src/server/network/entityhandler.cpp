@@ -53,9 +53,8 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
   UpdateDREntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  //printf("SetDR1: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", request_msg.getSpeed(), request_msg.getPos()[0], request_msg.getPos()[1], request_msg.getPos()[2], request_msg.getRot());
-  //printf("Received UpdateDRRequest from: '%s'\n", name);
-
+  //printf("DR of %s: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", name, request_msg.getSpeed(), request_msg.getPos()[0], request_msg.getPos()[1], request_msg.getPos()[2], request_msg.getRot());
+  
   user_ent->setPos(request_msg.getPos());
   user_ent->setSector(request_msg.getSector());
 

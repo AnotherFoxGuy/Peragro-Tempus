@@ -29,11 +29,12 @@ void Server::addEntity(Entity* entity, bool presistent)
   printf("Add Entity\n");
   ent_mgr->addEntity(entity);
 
+  printf("Added %s with id: %d, mesh: %s\n", entity->getName(), entity->getId(), entity->getMesh());
+
   if (presistent)
   {
     //Only dropped items are persistent Entities at the moment
     db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), entity->getItem(), entity->getMesh(), entity->getPos(), entity->getSector());
-    printf("Added %s with id: %d\n", entity->getName(), entity->getId());
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)
