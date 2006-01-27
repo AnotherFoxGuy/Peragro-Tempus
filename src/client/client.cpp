@@ -475,7 +475,7 @@ void Client::loggedIn()
     if (character)
     {
       CharacterSelectionRequestMessage answer_msg;
-      answer_msg.setCharId(0);
+      answer_msg.setCharId(atoi(character));
       network->send(&answer_msg);
     }
   }
