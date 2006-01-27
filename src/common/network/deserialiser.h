@@ -66,17 +66,18 @@ public:
     int value = getInt32();
     return *(float*)(&value);
   }
-  char* getString()
+  int getString(const char*& str)
   {
     char size = data[pos];
     if ( size == 0 || data[pos+size+1] != 0 )
     {
       pos++;
+      str = 0;
       return 0;
     }
-    char* str =(char*) data + pos + 1;
+    str = (char*) data + pos + 1;
     pos += size + 2;
-    return str;
+    return size;
   }
 };
 

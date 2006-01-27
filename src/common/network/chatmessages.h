@@ -51,7 +51,7 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     msgtype = serial.getInt8();
-    msg = serial.getString();
+    serial.getString(msg);
   }
 
   unsigned char getType()

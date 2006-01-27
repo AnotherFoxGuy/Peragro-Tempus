@@ -39,8 +39,8 @@ namespace USER
 
 class LoginRequestMessage : public NetMessage
 {
-  char* user;
-  char* pwhash;
+  const char* user;
+  const char* pwhash;
 
 public:
   LoginRequestMessage() : NetMessage(MESSAGES::USER,USER::LOGIN_REQUEST) {}
@@ -59,8 +59,8 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    user = serial.getString();
-    pwhash = serial.getString();
+    serial.getString(user);
+    serial.getString(pwhash);
   }
 
   const char* getName() { return user; }
@@ -72,7 +72,7 @@ public:
 
 class LoginResponseMessage : public NetMessage
 {
-  char* error;
+  const char* error;
 
 public:
   LoginResponseMessage() : NetMessage(MESSAGES::USER,USER::LOGIN_RESPONSE) {}
@@ -90,7 +90,7 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    error = serial.getString();
+    serial.getString(error);
   }
 
   const char* getError() { return error; }
@@ -99,8 +99,8 @@ public:
 
 class RegisterRequestMessage : public NetMessage
 {
-  char* user;
-  char* pwhash;
+  const char* user;
+  const char* pwhash;
 
 public:
   RegisterRequestMessage() : NetMessage(MESSAGES::USER,USER::REGISTER_REQUEST) {}
@@ -119,8 +119,8 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    user = serial.getString();
-    pwhash = serial.getString();
+    serial.getString(user);
+    serial.getString(pwhash);
   }
 
   const char* getName() { return user; }
@@ -132,7 +132,7 @@ public:
 
 class RegisterResponseMessage : public NetMessage
 {
-  char* error;
+  const char* error;
 
 public:
   RegisterResponseMessage() : NetMessage(MESSAGES::USER,USER::REGISTER_RESPONSE) { }
@@ -150,7 +150,7 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    error = serial.getString();
+    serial.getString(error);
   }
 
   const char* getError() { return error; }
@@ -196,7 +196,7 @@ public:
     for (int i=0; i<charCount; i++)
     {
       chars[i].id = serial.getInt32();
-      chars[i].name = serial.getString();
+      serial.getString(chars[i].name);
     }
   }
 
@@ -217,7 +217,7 @@ public:
 
 class CharacterCreationRequestMessage : public NetMessage
 {
-  char* name;
+  const char* name;
 
 public:
   CharacterCreationRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_CREATION_REQUEST) {}
@@ -235,7 +235,7 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    name = serial.getString();
+    serial.getString(name);
   }
 
   const char* getName() { return name; }
@@ -267,8 +267,8 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     char_id = serial.getInt32();
-    char_name = serial.getString();
-    error = serial.getString();
+    serial.getString(char_name);
+    serial.getString(error);
   }
 
   const char* getError() { return error; }
@@ -311,7 +311,7 @@ public:
 
 class CharacterSelectionResponseMessage : public NetMessage
 {
-  char* error;
+  const char* error;
   int entityId;
 
 public:
@@ -332,7 +332,7 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     entityId = serial.getInt32();
-    error = serial.getString();
+    serial.getString(error);
   }
 
   const char* getError() { return error; }

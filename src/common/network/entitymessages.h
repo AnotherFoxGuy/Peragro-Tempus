@@ -41,10 +41,10 @@ namespace ENTITY
 
 class AddEntityMessage : public NetMessage
 {
-  char* name;
-  char* mesh;
+  const char* name;
+  const char* mesh;
   float pos[3];
-  char* sector;
+  const char* sector;
   int ent_id;
   char ent_type;
 
@@ -75,12 +75,12 @@ public:
     id = serial.getInt8();
     ent_id = serial.getInt32();
     ent_type = serial.getInt8();
-    name = serial.getString();
-    mesh = serial.getString();
+    int name_len = serial.getString(name);
+    int mesh_len = serial.getString(mesh);
     pos[0] = serial.getFloat();
     pos[1] = serial.getFloat();
     pos[2] = serial.getFloat();
-    sector = serial.getString();
+    int sector_len = serial.getString(sector);
   }
 
   const char* getName()
@@ -150,7 +150,7 @@ class RemoveEntityMessage : public NetMessage
 {
   int ent_id;
   char ent_type;
-  char* name;
+  const char* name;
 
 public:
   RemoveEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::REMOVE) 
@@ -178,7 +178,7 @@ public:
     id = serial.getInt8();
     ent_id = serial.getInt32();
     ent_type = serial.getInt8();
-    name = serial.getString();
+    int name_len = serial.getString(name);
   }
 
   int getId()
@@ -213,7 +213,7 @@ class MoveEntityMessage : public NetMessage
 {
   float walk;
   float turn;
-  char* name;
+  const char* name;
 
 public:
   MoveEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE) 
@@ -242,7 +242,7 @@ public:
     id = serial.getInt8();
     walk = serial.getFloat();
     turn = serial.getFloat();
-    name = serial.getString();
+    int name_len = serial.getString(name);
   }
 
   void setRot(float direction)
@@ -379,7 +379,7 @@ public:
     wvel[0] = serial.getFloat();
     wvel[1] = serial.getFloat();
     wvel[2] = serial.getFloat();
-    sector = serial.getString();
+    serial.getString(sector);
   }
 
   void setOnGround(char state)
@@ -536,8 +536,8 @@ public:
     wvel[0] = serial.getFloat();
     wvel[1] = serial.getFloat();
     wvel[2] = serial.getFloat();
-    name = serial.getString();
-    sector = serial.getString();
+    int name_len = serial.getString(name);
+    serial.getString(sector);
   }
 
   const char* getName()
@@ -670,10 +670,10 @@ public:
 
 class PickEntityResponseMessage : public NetMessage
 {
-  char* name;
+  const char* name;
   int itemId;
-  char* target;
-  char* error;
+  const char* target;
+  const char* error;
 
 public:
   PickEntityResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::PICK_RESPONSE) 
@@ -700,17 +700,17 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    name = serial.getString();
+    int name_len = serial.getString(name);
     itemId = serial.getInt32();
-    target = serial.getString();
-    error = serial.getString();
+    serial.getString(target);
+    serial.getString(error);
   }
 
   void setName(char* name)
   {
     this->name = name;
   }
-  char* getName()
+  const char* getName()
   {
     return name;
   }
@@ -728,7 +728,7 @@ public:
   {
     this->target = target;
   }
-  char* getTarget()
+  const char* getTarget()
   {
     return target;
   }
@@ -737,7 +737,7 @@ public:
   {
     this->error = error;
   }
-  char* getError()
+  const char* getError()
   {
     return error;
   }
@@ -785,9 +785,9 @@ public:
 
 class DropEntityResponseMessage : public NetMessage
 {
-  char* name;
-  char* target;
-  char* error;
+  const char* name;
+  const char* target;
+  const char* error;
 
 public:
   DropEntityResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DROP_RESPONSE) 
@@ -813,16 +813,16 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    name = serial.getString();
-    target = serial.getString();
-    error = serial.getString();
+    int name_len = serial.getString(name);
+    serial.getString(target);
+    serial.getString(error);
   }
 
   void setName(char* name)
   {
     this->name = name;
   }
-  char* getName()
+  const char* getName()
   {
     return name;
   }
@@ -831,7 +831,7 @@ public:
   {
     this->target = target;
   }
-  char* getTarget()
+  const char* getTarget()
   {
     return target;
   }
@@ -840,7 +840,7 @@ public:
   {
     this->error = error;
   }
-  char* getError()
+  const char* getError()
   {
     return error;
   }
@@ -887,7 +887,7 @@ public:
     for (int i=0; i<itemCount; i++)
     {
       items[i].id = serial.getInt32();
-      items[i].name = serial.getString();
+      serial.getString(items[i].name);
       items[i].amount = serial.getInt32();
     }
   }
