@@ -481,11 +481,6 @@ void Client::loggedIn()
   }
 }
 
-void Client::addCharacter(unsigned int charId, const char* name)
-{
-  guimanager->GetSelectCharWindow ()->AddCharacter(charId, name);
-}
-
 void Client::loadRegion()
 {
   playing = true;

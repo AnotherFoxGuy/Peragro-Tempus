@@ -605,23 +605,23 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackab
     bool sameid = false;
     // Check if the slot is occupied by a item with the same id.
     if (slot->isUserStringDefined("itemtype")) 
-        if (slot->getUserString("itemtype") == itemtypestr) 
-        {
-          sameid = true;
-        }
+      if (slot->getUserString("itemtype") == itemtypestr) 
+      {
+        sameid = true;
+      }
 
-    if ((slot->getChildCount() < 2 ) || sameid)
-    {
-      printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
-      freeslot = slot;
+      if ((slot->getChildCount() < 2 ) || sameid)
+      {
+        printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
+        freeslot = slot;
 
-      freeslot->addChildWindow(createItemIcon(itemname, itemtype, stackable));
-      freeslot->setUserString("itemtype" , itemtypestr);
+        freeslot->addChildWindow(createItemIcon(itemname, itemtype, stackable));
+        freeslot->setUserString("itemtype" , itemtypestr);
 
-      UpdateItemCounter(slot);
+        UpdateItemCounter(slot);
 
-      return true;
-    }
+        return true;
+      }
   }
   printf("Inventory is full!\n");
   return false;

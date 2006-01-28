@@ -135,8 +135,6 @@ public:
   void loadRegion(const char* name);
   void loadRegion();
 
-  void addCharacter(unsigned int charId, const char* name);
-
   void addEntity(Entity* name);
   void addEntity();
 

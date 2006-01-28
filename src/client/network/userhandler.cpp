@@ -57,9 +57,10 @@ void UserHandler::handleCharList(GenericMessage* msg)
   CharacterListMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
   //printf("Got %d character:\n---------------------------\n", char_msg.getCharacterCount());
+  guimanager = client->GetGuiManager();
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
-    client->addCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i));
+    guimanager->GetSelectCharWindow ()->AddCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i));
     //printf("Char %d: %s\n", char_msg.getCharacterId(i), char_msg.getCharacterName(i));
   }
 }
@@ -68,6 +69,7 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
 {
   CharacterCreationResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
+  guimanager = client->GetGuiManager();
 
   if (answer_msg.getError())
   {
@@ -75,7 +77,7 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
   }
   else
   {
-    client->addCharacter(answer_msg.getCharacterId(), answer_msg.getCharacterName());
+    guimanager->GetSelectCharWindow ()->AddCharacter(answer_msg.getCharacterId(), answer_msg.getCharacterName());
   }
 }
 
