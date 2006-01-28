@@ -62,8 +62,11 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
     cegui->GetSystemPtr ()->setTooltip("TaharezLook/Tooltip");
 
     CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
+    root->setMetricsMode(CEGUI::MetricsMode::Relative);
     root->setAreaRect(CEGUI::Rect(0.0f, 0.0f, 1.0f, 1.0f));
-    root->setMaximumSize(CEGUI::Size(1.0f, 1.0f));
+
+    //root->setAreaRect(CEGUI::Rect(0.0f, 0.0f, 1.0f, 1.0f));
+    //root->setMaximumSize(CEGUI::Size(1.0f, 1.0f));
     cegui->GetSystemPtr ()->setGUISheet(root);
 
     return true;

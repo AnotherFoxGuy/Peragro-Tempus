@@ -1651,7 +1651,7 @@
     -->
     <WidgetLook name="TaharezLook/ComboDropList">
         <NamedArea name="ItemRenderingArea">
-            <Area>
+           <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="ComboboxListLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="ComboboxListTop" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
@@ -1669,7 +1669,7 @@
                     </UnifiedDim>
                 </Dim>
             </Area>
-        </NamedArea>
+		</NamedArea>
         <NamedArea name="ItemRenderingAreaHScroll">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="ComboboxListLeft" dimension="Width" /></Dim>
@@ -2688,6 +2688,210 @@
             </Layer>
         </StateImagery>
     </WidgetLook>
+
+	<!--
+    ***************************************************
+        TaharezLook/MultiLineEditbox
+    ***************************************************
+    -->
+	<WidgetLook name="TaharezLook/MultiLineEditbox2">
+		<Property name="SelectionBrushImage" value="set:TaharezLook image:MultiLineEditboxSelectionBrush" />
+		<NamedArea name="TextArea">
+			<Area>
+				<Dim type="LeftEdge" >
+					<ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge" >
+					<ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge" >
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="TaharezLook" image="MultiLineEditboxRight" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge" >
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="TaharezLook" image="MultiLineEditboxBottom" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="TextAreaHScroll">
+			<Area>
+				<Dim type="LeftEdge" >
+					<ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge" >
+					<ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge" >
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="TaharezLook" image="MultiLineEditboxRight" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge" >
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="TextAreaVScroll">
+			<Area>
+				<Dim type="LeftEdge" >
+					<ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge" >
+					<ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge" >
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge" >
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="TaharezLook" image="MultiLineEditboxBottom" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="TextAreaHVScroll">
+			<Area>
+				<Dim type="LeftEdge" >
+					<ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge" >
+					<ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge" >
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge" >
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+			<Area>
+				<Dim type="LeftEdge" >
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge" >
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width" >
+					<UnifiedDim scale="1" offset="-12" type="Width" />
+				</Dim>
+				<Dim type="Height" >
+					<AbsoluteDim value="12" />
+				</Dim>
+			</Area>
+			<VertAlignment type="BottomAligned" />
+		</Child>
+		<Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+			<Area>
+				<Dim type="LeftEdge" >
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge" >
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width" >
+					<AbsoluteDim value="12" />
+				</Dim>
+				<Dim type="Height" >
+					<UnifiedDim scale="1" offset="-12" type="Height" />
+				</Dim>
+			</Area>
+			<HorzAlignment type="RightAligned" />
+		</Child>
+		<ImagerySection name="main">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width" >
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height" >
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<!--<Image type="TopLeftCorner" imageset="TaharezLook" image="MultiLineEditboxTopLeft" />
+				<Image type="TopRightCorner" imageset="TaharezLook" image="MultiLineEditboxTopRight" />
+				<Image type="BottomLeftCorner" imageset="TaharezLook" image="MultiLineEditboxBottomLeft" />
+				<Image type="BottomRightCorner" imageset="TaharezLook" image="MultiLineEditboxBottomRight" />
+				<Image type="LeftEdge" imageset="TaharezLook" image="MultiLineEditboxLeft" />
+				<Image type="RightEdge" imageset="TaharezLook" image="MultiLineEditboxRight" />
+				<Image type="TopEdge" imageset="TaharezLook" image="MultiLineEditboxTop" />
+				<Image type="BottomEdge" imageset="TaharezLook" image="MultiLineEditboxBottom" />
+				<Image type="Background" imageset="TaharezLook" image="MultiLineEditboxBackdrop" />-->
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="Carat">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width" >
+						<ImageDim imageset="TaharezLook" image="EditBoxCarat" dimension="Width" />
+					</Dim>
+					<Dim type="BottomEdge" >
+						<UnifiedDim scale="1.0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image imageset="TaharezLook" image="EditBoxCarat" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Enabled">
+			<Layer>
+				<Section section="main" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ReadOnly">
+			<Layer>
+				<Section section="main" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="main">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
     
     <!--
     ***************************************************

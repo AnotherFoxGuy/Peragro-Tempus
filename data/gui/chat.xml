@@ -1,46 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
-<Window Type="TaharezLook/FrameWindow" Name="Chat" >
-<Property Name="CloseButtonEnabled" Value="False" />
-<Property Name="CaptionColour" Value="00FFFFFF" />
-<Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
-<Property Name="NESWSizingCursorImage" Value="set:TaharezLook image:MouseNeSwCursor" />
-<Property Name="NSSizingCursorImage" Value="set:TaharezLook image:MouseNoSoCursor" />
-<Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
-<Property Name="Text" Value="Chat" />
-<Property Name="TitlebarEnabled" Value="True" />
-<Property Name="UnifiedAreaRect" Value="{{0.102508,0.000000},{0.068468,0.000000},{0.404232,0.000000},{0.604465,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-<Property Name="Visible" Value="False" />
-<Window Type="TaharezLook/Editbox" Name="Input" >
-<Property Name="MaxTextLength" Value="1073741823" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
-<Property Name="UnifiedAreaRect" Value="{{0.045455,0.000000},{0.781967,0.000000},{0.947403,0.000000},{0.868033,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
-<Window Type="TaharezLook/Listbox" Name="MessageDialog" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
-<Property Name="UnifiedAreaRect" Value="{{0.049351,0.000000},{0.160656,0.000000},{0.946104,0.000000},{0.764753,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
-<Window Type="TaharezLook/Button" Name="Say" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
-<Property Name="Text" Value="Say" />
-<Property Name="UnifiedAreaRect" Value="{{0.045455,0.000000},{0.880000,0.000000},{0.320455,0.000000},{0.980000,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
-<Window Type="TaharezLook/Button" Name="Shout" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
-<Property Name="Text" Value="Shout" />
-<Property Name="UnifiedAreaRect" Value="{{0.361039,0.000000},{0.880000,0.000000},{0.636039,0.000000},{0.980000,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
-<Window Type="TaharezLook/Button" Name="Whisper" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
-<Property Name="Text" Value="Whisper" />
-<Property Name="UnifiedAreaRect" Value="{{0.671428,0.000000},{0.880000,0.000000},{0.946428,0.000000},{0.980000,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-</Window>
-</Window>
+
+	<Window Type="TaharezLook/Listbox" Name="InputPanel/Frame" >
+		<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
+		<!--0,055626  {{0.026018,0.000000},{0.484176,0.000000},{0.676115,0.000000},{0.539802,0.000000}}-->
+		<Property Name="UnifiedAreaRect" Value="{{0.026018,0.000000},{0.784176,0.000000},{0.676115,0.000000},{0.839802,0.000000}}" />
+		<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+
+		<Window Type="TaharezLook/Combobox" Name="InputPanel/ChatDropList" >
+			<Property Name="ActiveEditSelectionColour" Value="FF6060FF" />
+			<Property Name="Font" Value="Commonwealth-10" />
+			<Property Name="InactiveEditSelectionColour" Value="FF808080" />
+			<Property Name="MaxEditTextLength" Value="1073741823" />
+			<Property Name="NormalEditTextColour" Value="FFFFFFFF" />
+			<Property Name="SelectedEditTextColour" Value="FF000000" />
+			<Property Name="UnifiedAreaRect" Value="{{0.007089,0.000000},{-0.026806,0.000000},{0.205033,0.000000},{3.445972,0.000000}}" />
+			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+			<Property Name="ClippedByParent" Value="False" />
+		</Window>
+
+		<Window Type="TaharezLook/Editbox" Name="InputPanel/InputBox" >
+			<Property Name="Font" Value="Commonwealth-10" />
+			<Property Name="MaxTextLength" Value="1073741823" />
+			<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
+			<Property Name="UnifiedAreaRect" Value="{{0.215163,0.000000},{0.090476,0.000000},{0.987772,0.000000},{0.886652,0.000000}}" />
+			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+		</Window>
+
+		<Window Type="TaharezLook/TitlebarNo" Name="InputPanel/Drag" >
+			<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
+			<Property Name="UnifiedAreaRect" Value="{{0.000693,0.000000},{-0.272285,0.000000},{0.994557,0.000000},{-0.003673,0.000000}}" />
+			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+			<Property Name="ZOrderChangeEnabled" Value="False" />
+			<Property Name="Alpha" Value="0" />
+		</Window>
+
+	</Window>
+
+
 </GUILayout>

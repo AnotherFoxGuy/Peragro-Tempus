@@ -240,7 +240,8 @@ bool Client::Application()
     return false;
 
   guimanager->CreateConnectWindow ();
-  //guimanager->CreateInventoryWindow ();
+  //guimanager->CreateChatWindow ();
+  //guimanager->GetChatWindow ()->ShowWindow();
   if (cmdline)
   {
     const char* host = cmdline->GetOption("host");
@@ -490,7 +491,7 @@ void Client::loadRegion()
   guimanager->GetSelectCharWindow ()->HideWindow();
 
   guimanager->CreateChatWindow ();
-  guimanager->GetChatWindow ()->ShowWindow();
+  //guimanager->GetChatWindow ()->ShowWindow();
 
   guimanager->GetInventoryWindow ()->ShowWindow ();
 

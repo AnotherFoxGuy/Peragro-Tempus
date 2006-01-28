@@ -2,7 +2,7 @@
 <GUIScheme Name="TaharezLookSkin">
 	<Imageset Name="TaharezLook" Filename="TaharezLook.imageset" />
 	<Font Name="Commonwealth-10" Filename="Commonwealth-10.font" />
-	<!--Font Name="Commonwealth-8" Filename="Commonwealth-8.font" /-->
+	<Font Name="Commonwealth-8" Filename="Commonwealth-8.font" />
 	<LookNFeel Filename="TaharezLook.looknfeel" />
 	<WindowSet Filename="CEGUIFalagardBase" />
 	<FalagardMapping WindowType="TaharezLook/AlternateProgressBar" TargetType="Falagard/ProgressBar" LookNFeel="TaharezLook/AltProgressBar" />
@@ -24,6 +24,7 @@
 	<FalagardMapping WindowType="TaharezLook/MenuItem" TargetType="Falagard/MenuItem" LookNFeel="TaharezLook/MenuItem" />
 	<FalagardMapping WindowType="TaharezLook/MultiColumnList" TargetType="Falagard/MultiColumnList" LookNFeel="TaharezLook/MultiColumnList" />
 	<FalagardMapping WindowType="TaharezLook/MultiLineEditbox" TargetType="Falagard/MultiLineEditbox" LookNFeel="TaharezLook/MultiLineEditbox" />
+	<FalagardMapping WindowType="TaharezLook/MultiLineEditbox2" TargetType="Falagard/MultiLineEditbox" LookNFeel="TaharezLook/MultiLineEditbox2" />
 	<FalagardMapping WindowType="TaharezLook/PopupMenu" TargetType="Falagard/PopupMenu" LookNFeel="TaharezLook/PopupMenu" />
 	<FalagardMapping WindowType="TaharezLook/ProgressBar" TargetType="Falagard/ProgressBar" LookNFeel="TaharezLook/ProgressBar" />
 	<FalagardMapping WindowType="TaharezLook/RadioButton" TargetType="Falagard/RadioButton" LookNFeel="TaharezLook/RadioButton" />
@@ -38,6 +39,7 @@
 	<FalagardMapping WindowType="TaharezLook/TabControl" TargetType="Falagard/TabControl" LookNFeel="TaharezLook/TabControl" />
 	<FalagardMapping WindowType="TaharezLook/TabPane" TargetType="Falagard/TabPane" LookNFeel="TaharezLook/TabPane" />
 	<FalagardMapping WindowType="TaharezLook/Titlebar" TargetType="Falagard/Titlebar" LookNFeel="TaharezLook/Titlebar" />
+	<FalagardMapping WindowType="TaharezLook/TitlebarNo" TargetType="Falagard/Titlebar" LookNFeel="TaharezLook/Titlebar" />
 	<FalagardMapping WindowType="TaharezLook/Tooltip" TargetType="Falagard/Tooltip" LookNFeel="TaharezLook/Tooltip" />
 	<FalagardMapping WindowType="TaharezLook/VerticalScrollbar" TargetType="Falagard/Scrollbar" LookNFeel="TaharezLook/VerticalScrollbar" />
 	<FalagardMapping WindowType="TaharezLook/VerticalScrollbarThumb" TargetType="Falagard/Thumb" LookNFeel="TaharezLook/VerticalScrollbarThumb" />

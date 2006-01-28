@@ -7,6 +7,9 @@ under each day.
 28-Jan-2006
   - Sueastside moved the use of getcharselectwindow()->Addcharacter() to the userhandler
     and out of the client.
+  - Sueastside added the new chat window, it has a alpha slider, 
+    separate input box with chat mode droplist and chat filters(wip).
+    Still a crash when setting the carat, not sure if its my fault...
 
 26-Jan-2006
   - Sueastside added Cyanox's items and did some updates to the gui so you can't stack

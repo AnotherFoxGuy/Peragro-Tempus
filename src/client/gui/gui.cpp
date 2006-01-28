@@ -310,29 +310,40 @@ ChatWindow::~ChatWindow ()
 void ChatWindow::CreateGUIWindow ()
 {
   GUIWindow::CreateGUIWindow ("chat.xml");
-
+  GUIWindow::CreateGUIWindow ("chatlog.xml");
   winMgr = cegui->GetWindowManagerPtr ();
 
-  //CreateDropList();
+  CreateDropList();
 
   // Get the root window
-  rootwindow = winMgr->getWindow("Chat");
+  rootwindow = winMgr->getWindow("Chatlog/Frame");
 
+  CEGUI::Slider* slider = static_cast<CEGUI::Slider*>(winMgr->getWindow("Chatlog/Slider"));
+  // set up slider config
+  slider->setCurrentValue(1.0f);
+  slider->setClickStep(0.1f);
+  slider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&ChatWindow::Onslider, this));
+
+  // set up submitting message on enter
+  btn = winMgr->getWindow("InputPanel/InputBox");
+  btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
+
+/*
   btn = winMgr->getWindow("Say");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
   btn = winMgr->getWindow("Shout");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnShout, this));
   btn = winMgr->getWindow("Whisper");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnWhisper, this));
-
-  //btn = winMgr->getWindow("ChatDropList");
-  //btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ConnectWindow::DropList, this));
+*/
+  btn = winMgr->getWindow("InputPanel/ChatDropList");
+  btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ChatWindow::OnDropList, this));
 }
 
 
 bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
 {
-  btn = winMgr->getWindow("Input");
+  btn = winMgr->getWindow("InputPanel/InputBox");
   if (!btn)
   {
     printf("Inputbox of Chat not found!\n");
@@ -392,26 +403,59 @@ bool ChatWindow::OnDropList(const CEGUI::EventArgs& e)
   printf("success \n");
   return true;
 }
+bool ChatWindow::Onslider(const CEGUI::EventArgs& e)
+{
+    using namespace CEGUI;
+
+    // we know it's a slider.
+    Slider* s = static_cast<Slider*>(static_cast<const WindowEventArgs&>(e).window);
+
+    // get value from slider and set it as the current alpha
+    float val = s->getCurrentValue();
+    winMgr->getWindow("Chatlog/GlobalButton")->setAlpha(val);
+    winMgr->getWindow("Chatlog/PartyButton")->setAlpha(val);
+    winMgr->getWindow("Chatlog/GuildButton")->setAlpha(val);
+    winMgr->getWindow("Chatlog/CombatButton")->setAlpha(val);
+    winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(val);
+
+    // indicate the event was handled here.
+    return true;
+}
 void ChatWindow::CreateDropList()
 {
 
-  btn = winMgr->getWindow("ChatDropList");
-  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"FrameWindow", 0);
+  btn = winMgr->getWindow("InputPanel/ChatDropList");
+  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Say /s", 0);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
-  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"hello", 1);
+  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Shout /h", 1);
+  ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Whisper /w", 1);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
   ((CEGUI::Combobox*)btn)->setReadOnly(true);
 
 }
 void ChatWindow::AddChatMessage (csRef<iString> msg)
-{
+{/*
   CEGUI::Listbox* dialog = 
-    static_cast<CEGUI::Listbox*> (winMgr->getWindow("MessageDialog"));
+    static_cast<CEGUI::Listbox*> (winMgr->getWindow("Chatlog/Chatlog"));
 
   //add text to list
   CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(msg->GetData());
   dialog->addItem ( item );
   dialog->ensureItemIsVisible(dialog->getItemCount());
+  */
+
+    CEGUI::Editbox* chatlog = static_cast<CEGUI::Editbox*>(winMgr->getWindow("Chatlog/Chatlog"));
+    CEGUI::String new_text = (CEGUI::String)(msg->GetData());
+    if (!new_text.empty())
+    {
+        // append newline to this entry
+        new_text += '\n';
+        // append new text to history output
+        chatlog->setText(chatlog->getText() + new_text);
+        // scroll to bottom of history output
+        //chatlog->setCaratIndex(static_cast<size_t>(-1));
+    }
 }
 
 
