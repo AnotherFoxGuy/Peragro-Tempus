@@ -445,17 +445,17 @@ void ChatWindow::AddChatMessage (csRef<iString> msg)
   dialog->ensureItemIsVisible(dialog->getItemCount());
   */
 
-    CEGUI::Editbox* chatlog = static_cast<CEGUI::Editbox*>(winMgr->getWindow("Chatlog/Chatlog"));
-    CEGUI::String new_text = (CEGUI::String)(msg->GetData());
-    if (!new_text.empty())
-    {
-        // append newline to this entry
-        new_text += '\n';
-        // append new text to history output
-        chatlog->setText(chatlog->getText() + new_text);
-        // scroll to bottom of history output
-        //chatlog->setCaratIndex(static_cast<size_t>(-1));
-    }
+  CEGUI::MultiLineEditbox* chatlog = static_cast<CEGUI::MultiLineEditbox*>(winMgr->getWindow("Chatlog/Chatlog"));
+  CEGUI::String new_text = (CEGUI::String)(msg->GetData());
+  if (!new_text.empty())
+  {
+    // append newline to this entry
+    new_text += '\n';
+    // append new text to history output
+    chatlog->setText(chatlog->getText() + new_text);
+    // scroll to bottom of history output
+    chatlog->setCaratIndex(-1);
+  }
 }
 
 
