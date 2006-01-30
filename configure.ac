@@ -101,18 +101,19 @@ CS_CHECK_CPPUNIT([emit])
 #----------------------------------------------------------------------------
 CS_CHECK_LIB_WITH([CEGUI],
     [AC_LANG_PROGRAM([[#include <CEGUI.h>]],
-    [CEGUI::WindowManager::getSingleton();])], [], [C++])
+    [CEGUI::WindowManager::getSingleton();])], [], [C++],
+    [], [], [], [], [], [CEGUIBase])
 
 AS_IF([test $cs_cv_libCEGUI = yes],
     [CS_CHECK_BUILD([if CEGUI is sufficiently recent], [cs_cv_CEGUI_recent],
-        [AC_LANG_PROGRAM(
-            [[#include <falagard/CEGUIFalWidgetLookManager.h>]],
-            [CEGUI::WidgetLookManager::getSingleton();])],
-        [], [C++],
-        [CS_EMIT_BUILD_RESULT([cs_cv_libCEGUI], [CEGUI])], [], [],
-        [$cs_cv_libCEGUI_cflags],
-        [$cs_cv_libCEGUI_lflags],
-        [$cs_cv_libCEGUI_libs])])
+	[AC_LANG_PROGRAM(
+	    [[#include <falagard/CEGUIFalWidgetLookManager.h>]],
+	    [CEGUI::WidgetLookManager::getSingleton();])],
+	[], [C++],
+	[CS_EMIT_BUILD_RESULT([cs_cv_libCEGUI], [CEGUI])], [], [],
+	[$cs_cv_libCEGUI_cflags],
+	[$cs_cv_libCEGUI_lflags],
+	[$cs_cv_libCEGUI_libs])])
 
 #----------------------------------------------------------------------------
 # Check for Crystal Space (CS)

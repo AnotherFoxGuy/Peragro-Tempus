@@ -11,7 +11,7 @@ LinkWith client : client-network client-gui entity util ;
 MsvcExternalLibrary client : "wsock32.lib" ;
 
 if $(WSOCK32.LFLAGS) {
-    LFlags network : $(WSOCK32.LFLAGS) ;
+    LFlags client : $(WSOCK32.LFLAGS) ;
 }
 
 if [ Property build : projgen_version ] != 6

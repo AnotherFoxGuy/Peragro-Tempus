@@ -37,8 +37,6 @@
 #include "iengine/sector.h"
 #include "imesh/object.h"
 #include "imesh/spritecal3d.h"
-#include "isound/renderer.h"
-#include "isound/loader.h"
 #include "iutil/databuff.h"
 #include "iutil/event.h"
 #include "iutil/eventq.h"
