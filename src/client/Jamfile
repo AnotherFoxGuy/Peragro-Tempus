@@ -20,6 +20,7 @@ if [ Property build : projgen_version ] != 6
   
   Application client_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
+  MsvcDefine client_static : CS_STATIC_LINKED ;
   LFlags client_static : -lcrystalspace_staticplugins  -lcel_staticplugins ;
   LinkWith client_static : client-network client-gui entity util ;
   LinkStaticPlugins client_static :
@@ -44,14 +45,17 @@ if [ Property build : projgen_version ] != 6
     xmlpersist
   :
   ;
-  LinkStaticPlugins client_static : 
+
+  cs_plugins_static = 
     ball
     ballldr
     bezier
     bezierldr
+    bindoc
     bruteblock
     terrainldr
     bugplug
+    cegui
     csconin
     csddsimg
     csfont
@@ -60,6 +64,7 @@ if [ Property build : projgen_version ] != 6
     csparser
     cspngimg
     cssynldr
+    dsplex
     dynavis
     emit
     emitldr
@@ -73,9 +78,11 @@ if [ Property build : projgen_version ] != 6
     fountain
     fountldr
     frustvis
+    freefnt2
     genmesh
     gl3d 
     glshader_arb 
+    glshader_cg
     glshader_fixed
     gmeshanim
     gmeshldr
@@ -98,6 +105,9 @@ if [ Property build : projgen_version ] != 6
     simpcon
     simpleformer
     simpleformerldr
+    sndsyssoft
+    sndsyswin
+    sndmanager
     snow
     snowldr
     spiral
@@ -117,9 +127,12 @@ if [ Property build : projgen_version ] != 6
     vfs
     xmlread
     xmlshader
-  :
-  : CRYSTAL
   ;
+
+  if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 ; }
+
+  LinkStaticPlugins client_static :  $(cs_plugins_static)  :  : CRYSTAL  ;
+
   ExternalLibs client_static : CRYSTAL CEL CEGUI ;
   MsvcExternalLibrary client_static : "wsock32.lib" ;
   MsvcExternalLibrary client_static : "libcrystalspace_staticplugins.lib libcel_staticplugins.lib" : release ;

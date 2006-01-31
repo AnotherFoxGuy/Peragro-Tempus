@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+31-Jan-2006
+  - PK improved the Jamfiles for static linking a bit.
+
 29-Jan-2006
   - Sueastside applied PK's patch to fix the carat issue.
 
