@@ -328,6 +328,10 @@ void ChatWindow::CreateGUIWindow ()
   btn = winMgr->getWindow("InputPanel/InputBox");
   btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
 
+  // input box enter button behaviour
+  btn = winMgr->getWindow("Root");
+  btn->subscribeEvent(CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber(&ChatWindow::OnRootKeyDown, this));
+
 /*
   btn = winMgr->getWindow("Say");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
@@ -350,7 +354,12 @@ bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
     return false;
   }
   CEGUI::String text = btn->getText();
-  if (text.empty()) return true;
+  if (text.empty()) 
+  {
+    winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+    winMgr->getWindow("Chatlog/Frame")->activate();
+    return true;
+  }
   printf("Say: %s\n", text.c_str());
   ChatMessage msg;
   msg.setType(0);
@@ -419,6 +428,25 @@ bool ChatWindow::Onslider(const CEGUI::EventArgs& e)
     winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(val);
 
     // indicate the event was handled here.
+    return true;
+}
+bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
+{
+    using namespace CEGUI;
+
+    const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
+
+    switch (keyArgs.scancode)
+    {
+    case Key::Return:
+        winMgr->getWindow("InputPanel/Frame")->setVisible(true);
+        winMgr->getWindow("InputPanel/InputBox")->activate();
+        break;
+
+    default:
+        return true;
+    }
+
     return true;
 }
 void ChatWindow::CreateDropList()

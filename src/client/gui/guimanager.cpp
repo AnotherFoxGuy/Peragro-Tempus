@@ -66,7 +66,7 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
     root->setAreaRect(CEGUI::Rect(0.0f, 0.0f, 1.0f, 1.0f));
 
     //root->setAreaRect(CEGUI::Rect(0.0f, 0.0f, 1.0f, 1.0f));
-    //root->setMaximumSize(CEGUI::Size(1.0f, 1.0f));
+    root->setMaximumSize(CEGUI::Size(1.0f, 1.0f));
     cegui->GetSystemPtr ()->setGUISheet(root);
 
     return true;

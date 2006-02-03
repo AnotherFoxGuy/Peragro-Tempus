@@ -127,6 +127,7 @@ private:
   bool OnWhisper(const CEGUI::EventArgs& e);
   bool OnDropList(const CEGUI::EventArgs& e);
   bool Onslider(const CEGUI::EventArgs& e);
+  bool OnRootKeyDown(const CEGUI::EventArgs& e);
   void CreateDropList();
 
 public:

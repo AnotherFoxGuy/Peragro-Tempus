@@ -4,8 +4,10 @@
 	<Window Type="TaharezLook/Listbox" Name="InputPanel/Frame" >
 		<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
 		<!--0,055626  {{0.026018,0.000000},{0.484176,0.000000},{0.676115,0.000000},{0.539802,0.000000}}-->
-		<Property Name="UnifiedAreaRect" Value="{{0.026018,0.000000},{0.784176,0.000000},{0.676115,0.000000},{0.839802,0.000000}}" />
-		<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+		<Property Name="Position" Value="x:0.3 y:0.9" />
+		<Property Name="AbsoluteSize" Value="w:450 h:30" />
+		<Property Name="Alpha" Value="0.6" />
+		<Property Name="Visible" Value="False" />
 
 		<Window Type="TaharezLook/Combobox" Name="InputPanel/ChatDropList" >
 			<Property Name="ActiveEditSelectionColour" Value="FF6060FF" />
@@ -14,7 +16,7 @@
 			<Property Name="MaxEditTextLength" Value="1073741823" />
 			<Property Name="NormalEditTextColour" Value="FFFFFFFF" />
 			<Property Name="SelectedEditTextColour" Value="FF000000" />
-			<Property Name="UnifiedAreaRect" Value="{{0.007089,0.000000},{-0.026806,0.000000},{0.205033,0.000000},{3.445972,0.000000}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.007089,0.000000},{-0.05026806,0.000000},{0.214033,0.000000},{3.445972,0.000000}}" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 			<Property Name="ClippedByParent" Value="False" />
 		</Window>
@@ -23,7 +25,7 @@
 			<Property Name="Font" Value="Commonwealth-10" />
 			<Property Name="MaxTextLength" Value="1073741823" />
 			<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
-			<Property Name="UnifiedAreaRect" Value="{{0.215163,0.000000},{0.090476,0.000000},{0.987772,0.000000},{0.886652,0.000000}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.215163,0.000000},{0.090476,0.000000},{0.98770,0.000000},{0.886652,0.000000}}" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 		</Window>
 
@@ -31,6 +33,7 @@
 			<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
 			<Property Name="UnifiedAreaRect" Value="{{0.000693,0.000000},{-0.272285,0.000000},{0.994557,0.000000},{-0.003673,0.000000}}" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+			<Property Name="InheritsAlpha" Value="False" />
 			<Property Name="ZOrderChangeEnabled" Value="False" />
 			<Property Name="Alpha" Value="0" />
 		</Window>

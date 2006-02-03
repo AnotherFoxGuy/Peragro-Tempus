@@ -10,9 +10,11 @@
 <Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
 <Property Name="Text" Value="Connect" />
 <Property Name="TitlebarEnabled" Value="True" />
-<Property Name="UnifiedAreaRect" Value="{{0.133386,0.000000},{0.114002,0.000000},{0.383386,0.000000},{0.514388,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-<Window Type="TaharezLook/StaticText" Name="L_server" >
+<Property Name="SizingEnabled" Value="False" />
+<Property Name="Position" Value="x:0.4 y:0.35" />
+<Property Name="AbsoluteSize" Value="w:150 h:160" />
+
+	<Window Type="TaharezLook/StaticText" Name="L_server" >
 <Property Name="BackgroundImage" Value="set:TaharezLook image:StaticBackdrop" />
 <Property Name="BottomFrameImage" Value="set:TaharezLook image:StaticBottom" />
 <Property Name="BottomLeftFrameImage" Value="set:TaharezLook image:StaticBottomLeft" />
@@ -31,7 +33,7 @@
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
 <Property Name="UnifiedAreaRect" Value="{{0.080000,0.000000},{0.464758,0.000000},{0.930000,0.000000},{0.634758,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-<Property Name="Text" Value="localhost" />
+<Property Name="Text" Value="peragro.org" />
 </Window>
 <Window Type="TaharezLook/Button" Name="Connect_Button" >
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
