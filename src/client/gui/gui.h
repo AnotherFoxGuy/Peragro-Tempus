@@ -149,7 +149,8 @@ private:
   bool handleDragDropped(const CEGUI::EventArgs& args);
   bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
   bool handleDragDroppedStackable(const CEGUI::EventArgs& args);
-  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
+  bool handleCloseButton(const CEGUI::EventArgs& args);
+  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::Point& position);
   CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
   void UpdateItemCounter(CEGUI::Window* parent);
   int counter;

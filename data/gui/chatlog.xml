@@ -105,7 +105,7 @@
 			<Property Name="Font" Value="Commonwealth-10" />
 			<Property Name="InheritsAlpha" Value="False" />
 			<Property Name="ReadOnly" Value="True" />
-			<Property Name="Text" Value="Welcome to Peragro Tempus." />
+			<Property Name="Text" Value="Welcome to Peragro Tempus. Press F12 to open the inventory." />
 			<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
 			<Property Name="AbsolutePosition" Value="x:20 y:25" />
 			<Property Name="Size" Value="w:0.92 h:0.9" />

@@ -239,6 +239,7 @@ bool Client::Application()
 
   guimanager->CreateConnectWindow ();
   //guimanager->CreateChatWindow ();
+  //guimanager->CreateInventoryWindow ();
   //guimanager->GetChatWindow ()->ShowWindow();
   if (cmdline)
   {
@@ -491,7 +492,7 @@ void Client::loadRegion()
   guimanager->CreateChatWindow ();
   //guimanager->GetChatWindow ()->ShowWindow();
 
-  guimanager->GetInventoryWindow ()->ShowWindow ();
+  //guimanager->GetInventoryWindow ()->ShowWindow ();
 
   csRef<iCelEntity> entity = pl->CreateEntity();
   pl->CreatePropertyClass(entity, "pcregion");

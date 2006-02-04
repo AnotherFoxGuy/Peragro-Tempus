@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+4-Feb-2006
+  - Sueastside Improved the inventory window.
+     You can also show/hide it using F12.
+
 3-Feb-2006
   - Sueastside improved the chatlayout and made a chatinput behaviour.
 

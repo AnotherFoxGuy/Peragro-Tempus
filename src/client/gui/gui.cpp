@@ -434,7 +434,11 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 {
     using namespace CEGUI;
 
+    CEGUI::Window* framewin = winMgr->getWindow("Inventory/Frame");
+
     const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
+
+    //printf("key %d pressed \n", keyArgs.scancode);
 
     switch (keyArgs.scancode)
     {
@@ -442,6 +446,10 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
         winMgr->getWindow("InputPanel/Frame")->setVisible(true);
         winMgr->getWindow("InputPanel/InputBox")->activate();
         break;
+
+    case Key::F12:
+      framewin->isVisible(true) ? framewin->hide() : framewin->show();
+      break;
 
     default:
         return true;
@@ -460,6 +468,8 @@ void ChatWindow::CreateDropList()
   charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Whisper /w", 1);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
   ((CEGUI::Combobox*)btn)->setReadOnly(true);
+
+  ((CEGUI::Combobox*)btn)->setItemSelectState(charIdItem, true);
 
 }
 void ChatWindow::AddChatMessage (csRef<iString> msg)
@@ -590,13 +600,21 @@ bool InventoryWindow::handleDragDroppedStackable(const CEGUI::EventArgs& args)
 
   return true;
 }
-CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
+bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
+{
+  winMgr->getWindow("Inventory/Frame")->setVisible(false);
+  winMgr->getWindow("Chatlog/Frame")->activate();
+  return true;
+}
+CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::Point& position)
 {
   // Create the slot
   CEGUI::Window* slot = winMgr->createWindow("TaharezLook/StaticImage");
   parent->addChildWindow(slot);
-  slot->setWindowPosition(position);
-  slot->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.2f), CEGUI::cegui_reldim(0.2f)));
+  //slot->setWindowPosition(position);
+  slot->setPosition(CEGUI::Absolute, position);
+  slot->setSize(CEGUI::Absolute, CEGUI::Size(35.0f, 35.0f));
+  //slot->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.2f), CEGUI::cegui_reldim(0.2f)));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&InventoryWindow::handleDragEnter, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&InventoryWindow::handleDragLeave, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDropped, this));
@@ -661,7 +679,7 @@ void InventoryWindow::UpdateItemCounter(CEGUI::Window* parent)
 }
 bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackable)
 {
-  CEGUI::Window* inventoryframe = winMgr->getWindow("inventoryframe");
+  CEGUI::Window* inventoryframe = winMgr->getWindow("Inventory/Bag");
 
   CEGUI::Window* freeslot = 0;
   unsigned int i = 0;
@@ -701,12 +719,28 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackab
 
 void InventoryWindow::CreateGUIWindow()
 {
-  //GUIWindow::CreateGUIWindow ("inventory.xml");
-
+  GUIWindow::CreateGUIWindow ("inventory.xml");
   winMgr = cegui->GetWindowManagerPtr ();
+
+  // Get the frame window
+  CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("Inventory/Frame"));
+  frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&InventoryWindow::handleCloseButton, this));
+
   CEGUI::Window* root = winMgr->getWindow("Root");
   root->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDroppedRoot, this));
 
+
+  CEGUI::Window* bag = winMgr->getWindow("Inventory/Bag");
+
+  for (int j=0; j<8; j++)
+  {
+    for (int i=0; i<4; i++)
+    {
+      createDragDropSlot(bag, CEGUI::Point(4.0f+(39*i), 4.0f+(39*j)));
+    }
+  }
+
+/*
   // create main rucksack window
   CEGUI::Window* rs = winMgr->createWindow("TaharezLook/FrameWindow","Rucksack");
   root->addChildWindow(rs);
@@ -725,19 +759,18 @@ void InventoryWindow::CreateGUIWindow()
 
 
   // add slots to rucksack
-  CEGUI::Window* startSlot =
-    createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.2f)));
+  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.2f)));
   createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.2f)));
   createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.2f)));
   createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.5f)));
   createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.5f)));
   createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.5f)));
+*/
 
-  // set starting slot for the item.
-  // startSlot ->addChildWindow(createItemIcon("apple"));
-  // AddItem("apple1");
+  //AddItem("apple", 1, true);
 
-  // Get the root window
-  rootwindow = winMgr->getWindow("Rucksack");
+ // Get the root window
+  rootwindow = winMgr->getWindow("Inventory/Frame");
+
 
 }
