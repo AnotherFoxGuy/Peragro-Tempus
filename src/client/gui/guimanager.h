@@ -88,10 +88,7 @@ public:
   {
     return inventorywindow;
   }
-  
-  //bool ceGUISay (const CEGUI::EventArgs& e);
-  //bool ceGUIShout (const CEGUI::EventArgs& e);
-  //bool ceGUIWhisper (const CEGUI::EventArgs& e);
+
 };
 
 #endif // GUIMANAGER_H

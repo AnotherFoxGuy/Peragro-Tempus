@@ -5,6 +5,10 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 4-Feb-2006
+  - Sueastside made inventory icons load separately in a different imageset 
+    and implemented it in the inventory window.
+
+4-Feb-2006
   - Sueastside Improved the inventory window.
      You can also show/hide it using F12.
 

@@ -622,14 +622,15 @@ CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const 
   // Create the itemcounter
   CEGUI::Window* itemcounter = winMgr->createWindow("TaharezLook/Editbox");
   slot->addChildWindow(itemcounter);
-  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.45f), CEGUI::cegui_reldim( 0.45f)));
-  itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.7f), CEGUI::cegui_reldim(0.7f)));
+  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.5f), CEGUI::cegui_reldim( 0.5f)));
+  itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.65f), CEGUI::cegui_reldim(0.65f)));
   itemcounter->setVisible(false);
   itemcounter->disable();
   itemcounter->setText("0");
   itemcounter->setAlwaysOnTop(true);
   itemcounter->setAlpha(0.5);
   itemcounter->setID(30);
+  itemcounter->setProperty("Font", "Commonwealth-8");
 
   return slot;
 }
@@ -659,7 +660,10 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemt
   item->addChildWindow(itemIcon);
   itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
   itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
-  itemIcon->setProperty("Image", "set:TaharezLook image:CloseButtonNormal");
+  //itemIcon->setProperty("Image", "set:TaharezLook image:CloseButtonNormal");
+  char inventoryimage[1024];
+  sprintf(inventoryimage, "set:Inventory image:%d", itemtype);
+  itemIcon->setProperty("Image", inventoryimage);
   // disable to allow inputs to pass through.
   itemIcon->disable();
 
@@ -721,6 +725,11 @@ void InventoryWindow::CreateGUIWindow()
 {
   GUIWindow::CreateGUIWindow ("inventory.xml");
   winMgr = cegui->GetWindowManagerPtr ();
+
+  //Load the inventory icon imageset
+  vfs = guimanager->GetClient()->getVFS ();
+  vfs->ChDir ("/client/skin/");
+  cegui->GetImagesetManagerPtr()->createImageset("/client/skin/inventory.imageset", "Inventory");
 
   // Get the frame window
   CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("Inventory/Frame"));
