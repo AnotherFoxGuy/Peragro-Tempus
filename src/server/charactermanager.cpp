@@ -20,6 +20,7 @@
 #include "server.h"
 #include "server/database/database.h"
 #include "server/database/table-characters.h"
+#include "common/entity/racemanager.h"
 
 CharacterManager::CharacterManager(Server* server)
 : server(server)
@@ -36,11 +37,16 @@ const char* CharacterManager::createCharacter(const char* name, int user_id, int
     return "Character exists already";
   }
 
+  Race* race = server->getRaceManager()->findByName("test");
+  if (!race) return "Race not found!";
+
   this->charId++;
   float pos[3] = {0.0f,0.0f,0.0f};
   ct->insert(this->charId, name, user_id, "test",  pos, "room");
 
   char_id = this->charId;
+
+  race->getStats()->copyToCharacter(char_id);
 
   return 0;
 }

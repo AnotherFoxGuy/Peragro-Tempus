@@ -70,7 +70,7 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   Array<Character*> characters;
   server->getDatabase()->getCharacterTable()->getAllCharacters(characters, user);
   CharacterListMessage char_msg;
-  char_msg.setCharacterCount(characters.getCount());
+  char_msg.setCharacterCount((char)characters.getCount());
   for (unsigned int i=0; i<characters.getCount(); i++)
   {
     char_msg.setCharacterId(i, characters.get(i)->getId());
@@ -115,7 +115,7 @@ void UserHandler::handleCharCreationRequest(GenericMessage* msg)
   int char_id = 0;
 
   // Register the new char
-  retval = server->getCharacterManager()->createCharacter(char_name, user->getId(), char_id);
+  retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id);
 
   // Send response message
   CharacterCreationResponseMessage response_msg;
@@ -161,8 +161,10 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   msg->getConnection()->send(bs);
 
   entity->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
+  entity->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
 
   entity->getInventory()->sendAllItems(msg->getConnection());
+  entity->getStats()->sendAllStats(msg->getConnection());
 
   /// \todo Implement message packing (all entities in one package).
   for (size_t i=0; i<server->getEntityManager()->getEntityCount(); i++)

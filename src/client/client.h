@@ -91,7 +91,7 @@ private:
 
   struct Movement
   {
-    csString name;
+    int entity_id;
     float walk;
     float turn;
   };
@@ -102,7 +102,7 @@ private:
 public:
   struct DrUpdate
   {
-    csString name;
+    int entity_id;
     csString sector;
     csVector3 pos, vel, wvel;
     float rot, speed, avel;
@@ -141,7 +141,7 @@ public:
   void delEntity(Entity* name);
   void delEntity();
 
-  void moveEntity(const char* name, float walk, float turn);
+  void moveEntity(int entity_id, float walk, float turn);
   void moveEntity();
 
   void DrUpdateEntity(DrUpdate* drupdate);

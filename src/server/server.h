@@ -22,7 +22,9 @@
 class CharacterManager;
 class Database;
 class EntityManager;
+class RaceManager;
 class ItemManager;
+class StatManager;
 class Network;
 class UserManager;
 class UserAccountManager;
@@ -37,7 +39,9 @@ private:
   Database* db;
   Network* network;
   EntityManager* ent_mgr;
+  RaceManager* race_mgr;
   ItemManager* item_mgr;
+  StatManager* stat_mgr;
   UserManager* usr_mgr;
   UserAccountManager* usr_acc_mgr;
 
@@ -57,8 +61,14 @@ public:
   void setEntityManager(EntityManager* ent_mgr) { this->ent_mgr = ent_mgr; }
   EntityManager* getEntityManager() { return this->ent_mgr; }
 
+  void setRaceManager(RaceManager* race_mgr) { this->race_mgr = race_mgr; }
+  RaceManager* getRaceManager() { return this->race_mgr; }
+
   void setItemManager(ItemManager* item_mgr) { this->item_mgr = item_mgr; }
   ItemManager* getItemManager() { return this->item_mgr; }
+
+  void setStatManager(StatManager* stat_mgr) { this->stat_mgr = stat_mgr; }
+  StatManager* getStatManager() { return this->stat_mgr; }
 
   void setUserManager(UserManager* usr_mgr) { this->usr_mgr = usr_mgr; }
   UserManager* getUserManager() { return this->usr_mgr; }

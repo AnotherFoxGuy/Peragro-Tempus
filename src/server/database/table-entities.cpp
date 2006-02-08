@@ -120,12 +120,12 @@ Entity* EntityTable::getEntity(const char* name)
 
   Entity* entity = new Entity();
   entity->setId(atoi(rs->GetData(0,0).c_str()));
-  entity->setName(rs->GetData(0,1).c_str(), rs->GetData(0,1).length());
+  entity->setName(rs->GetData(0,1).c_str());
   entity->setType(atoi(rs->GetData(0,2).c_str()));
   entity->setItem(atoi(rs->GetData(0,3).c_str()));
-  entity->setMesh(rs->GetData(0,4).c_str(), rs->GetData(0,4).length());
+  entity->setMesh(rs->GetData(0,4).c_str());
   entity->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
-  entity->setSector(rs->GetData(0,8).c_str(), rs->GetData(0,8).length());
+  entity->setSector(rs->GetData(0,8).c_str());
   delete rs;
   return entity;
 }
@@ -138,12 +138,12 @@ void EntityTable::getAllEntities(Array<Entity*>& entities)
   {
     Entity* entity = new Entity();
     entity->setId(atoi(rs->GetData(i,0).c_str()));
-    entity->setName(rs->GetData(i,1).c_str(), rs->GetData(i,1).length());
+    entity->setName(rs->GetData(i,1).c_str());
     entity->setType(atoi(rs->GetData(i,2).c_str()));
     entity->setItem(atoi(rs->GetData(i,3).c_str()));
-    entity->setMesh(rs->GetData(i,4).c_str(), rs->GetData(i,4).length());
+    entity->setMesh(rs->GetData(i,4).c_str());
     entity->setPos((float)atof(rs->GetData(i,5).c_str()), (float)atof(rs->GetData(i,6).c_str()), (float)atof(rs->GetData(i,7).c_str()));
-    entity->setSector(rs->GetData(i,8).c_str(), rs->GetData(i,8).length());
+    entity->setSector(rs->GetData(i,8).c_str());
     entities.add(entity);
   }
 }  

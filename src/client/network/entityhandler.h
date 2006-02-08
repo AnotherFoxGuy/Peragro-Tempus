@@ -52,6 +52,7 @@ public:
     else if (id == ENTITY::PICK_RESPONSE) handlePickEntity(msg);
     else if (id == ENTITY::DROP_RESPONSE) handleDropEntity(msg);
     else if (id == ENTITY::INV_ITEM_LIST) handleInventoryItemList(msg);
+    else if (id == ENTITY::CHAR_STAT_LIST) handleCharacterStatList(msg);
   }
 
   char getType()
@@ -66,6 +67,7 @@ public:
   void handleDropEntity(GenericMessage* msg);
   void handleDrUpdate(GenericMessage* msg);
   void handleInventoryItemList(GenericMessage* msg);
+  void handleCharacterStatList(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

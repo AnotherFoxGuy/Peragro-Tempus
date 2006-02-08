@@ -23,7 +23,10 @@
 #include <time.h>
 #include <math.h>
 
+#include "common/util/stringstore.h"
+
 #include "inventory.h"
+#include "characterstats.h"
 
 class Item;
 
@@ -31,15 +34,19 @@ class Entity
 {
 private:
   int id;
-  char* name;
-  char* mesh;
-  char* sector;
+  //char* name;
+  size_t name_id;
+  //char* mesh;
+  size_t mesh_id;
+  //char* sector;
+  size_t sector_id;
 
   float pos[3];
 
   int item;
 
   Inventory inventory;
+  CharacterStats stats;
 
 public:
   enum EntityType
@@ -54,7 +61,7 @@ private:
   EntityType type;
 
 public:
-  Entity() : id(-1), name(0), mesh(0), sector(0)
+  Entity() : id(-1)//, name(0), mesh(0), sector(0)
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
@@ -63,9 +70,9 @@ public:
 
   ~Entity()
   {
-    delete [] name;
-    delete [] mesh;
-    delete [] sector;
+    //delete [] name;
+    //delete [] mesh;
+    //delete [] sector;
   }
 
   bool compare(Entity* other)
@@ -82,10 +89,12 @@ public:
     }
     else if (this->type == Entity::PlayerEntity)
     {
-      if (strlen(this->name) != strlen(other->name))
-        return false;
+      return (this->name_id == other->name_id);
 
-      return !strcmp(this->name, other->name);
+      //if (strlen(this->name) != strlen(other->name))
+        //return false;
+
+      //return !strcmp(this->name, other->name);
     }
 
     return false;
@@ -119,51 +128,49 @@ public:
 
   const char* getName()
   {
-    return name;
+    return StringStore::getStore()->lookupString(name_id);
   }
-
-  void setName(const char* name, size_t namelen)
+  size_t getNameId()
   {
-    delete [] this->name;
-    this->name = new char[namelen+1];
-    strncpy(this->name, name, namelen+1);
+    return name_id;
   }
-
   void setName(const char* name)
   {
-    setName(name, strlen(name));
+    name_id = StringStore::getStore()->lookupId(name);
+  }
+  void setName(size_t id)
+  {
+    name_id = id;
   }
 
   const char* getMesh()
   {
-    return mesh;
+    return StringStore::getStore()->lookupString(mesh_id);
   }
-
-  void setMesh(const char* name, size_t namelen)
+  size_t getMeshId()
   {
-    delete [] this->mesh;
-    this->mesh = new char[namelen+1];
-    strncpy(this->mesh, name, namelen+1);
+    return mesh_id;
   }
-
   void setMesh(const char* name)
   {
-    setMesh(name, strlen(name));
+    mesh_id = StringStore::getStore()->lookupId(name);
+  }
+  void setMesh(size_t id)
+  {
+    mesh_id = id;
   }
 
   const char* getSector()
   {
-    return sector;
-  }
-  void setSector(const char* name, size_t namelen)
-  {
-    delete [] this->sector;
-    this->sector = new char[namelen+1];
-    strncpy(this->sector, name, namelen+1);
+    return StringStore::getStore()->lookupString(sector_id);
   }
   void setSector(const char* name)
   {
-    setSector(name, strlen(name));
+    sector_id = StringStore::getStore()->lookupId(name);
+  }
+  void setSector(size_t id)
+  {
+    sector_id = id;
   }
 
   void setType(int e)
@@ -191,10 +198,15 @@ public:
     return &inventory;
   }
 
+  CharacterStats* getStats()
+  {
+    return &stats;
+  }
+
   void createFromItem(Item* item)
   {
-    this->setName(item->getName());
-    this->setMesh(item->getMesh());
+    this->setName(item->getNameId());
+    this->setMesh(item->getMeshId());
     this->setType(Entity::ItemEntity);
     this->setItem(item->getId());
   }

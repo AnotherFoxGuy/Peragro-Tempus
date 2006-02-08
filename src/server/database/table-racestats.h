@@ -16,26 +16,26 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "inventory.h"
-#include "common/entity/itemmanager.h"
-#include "common/network/serialiser.h"
-#include "common/network/entitymessages.h"
-#include "server/network/connection.h"
-#include "server/server.h"
+#ifndef _TABLE_RACESTATS_H_
+#define _TABLE_RACESTATS_H_
 
-void Inventory::sendAllItems(Connection* conn)
+#include "common/util/array.h"
+#include "table.h"
+
+class Database;
+class Stat;
+class RaceStat;
+
+class RaceStatsTable : public Table
 {
-  InventoryItemListMessage itemlist_msg;
-  itemlist_msg.setItemCount((char)entries.getCount());
-  for (size_t i=0; i<entries.getCount(); i++)
-  {
-    itemlist_msg.setItemId(int(i),entries.get(i)->item_id);
-    Item* item = Server::getServer()->getItemManager()->findById(entries.get(i)->item_id);
-    assert(item);
-    itemlist_msg.setName(int(i),item->getName());
-    itemlist_msg.setItemAmount(int(i),entries.get(i)->amount);
-  }
-  ByteStream bs2;
-  itemlist_msg.serialise(&bs2);
-  conn->send(bs2);
-}
+public:
+  RaceStatsTable(Database* db);
+  void createTable();
+  void insert(int race, int stat_id, int level);
+  void set(int racestat, Stat* stat, int level);
+  int get(int racestat, Stat* stat);
+  void dropTable();
+  void getAllEntries(Array<RaceStat*>& entries, int id);
+};
+
+#endif //_TABLE_RACESTATS_H_

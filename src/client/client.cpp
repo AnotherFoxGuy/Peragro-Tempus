@@ -519,14 +519,20 @@ void Client::addEntity()
   Entity* ent = new_entity_name.Pop();
   csRef<iCelEntity> entity = pl->CreateEntity();
 
-	if (ent->getType() == Entity::ItemEntity)
-	{
-		char buffer[1024];
-		sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
-		entity->SetName(buffer);
-	}
-	else
-		entity->SetName(ent->getName());
+  if (ent->getType() == Entity::ItemEntity)
+  {
+    char buffer[1024];
+    sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
+    entity->SetName(buffer);
+  }
+  else if (ent->getType() == Entity::PlayerEntity)
+  {
+    char buffer[32];
+    cs_snprintf(buffer, 32, "player_%d", ent->getId());
+    entity->SetName(buffer);
+  }
+  else
+    entity->SetName(ent->getName());
 
   pl->CreatePropertyClass(entity, "pcmesh");
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
@@ -542,11 +548,11 @@ void Client::addEntity()
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
 
-	iSector* sector = engine->FindSector(ent->getSector());
+  iSector* sector = engine->FindSector(ent->getSector());
 
-	printf("Loading Actor\n");
-	vfs->ChDir("/cellib/objects/");
-	pcmesh->SetMesh(ent->getMesh(), "/client/meshes/all.xml");
+  printf("Loading Actor\n");
+  vfs->ChDir("/cellib/objects/");
+  pcmesh->SetMesh(ent->getMesh(), "/client/meshes/all.xml");
 
   csRef<iCelEntity> region = pl->FindEntity("World");
   if (region)
@@ -602,17 +608,23 @@ void Client::delEntity()
   mutex.lock();
   Entity* ent = del_entity_name.Pop();
 
-	csRef<iCelEntity> entity;
-	if (ent->getType() == Entity::ItemEntity)
-	{
-		char buffer[1024];
-		sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
-		entity = pl->FindEntity(buffer);
-	}
-	else
-	{
-		entity = pl->FindEntity(ent->getName());
-	}
+  csRef<iCelEntity> entity;
+  if (ent->getType() == Entity::ItemEntity)
+  {
+    char buffer[1024];
+    sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
+    entity = pl->FindEntity(buffer);
+  }
+  else if (ent->getType() == Entity::PlayerEntity)
+  {
+    char buffer[32];
+    cs_snprintf(buffer, 32, "player_%d", ent->getId());
+    entity = pl->FindEntity(buffer);
+  }
+  else
+  {
+    entity = pl->FindEntity(ent->getName());
+  }
 
   if (entity)
   {
@@ -627,7 +639,7 @@ void Client::delEntity()
 void Client::DrUpdateEntity(DrUpdate* drupdate)
 {
   mutex.lock();
-  if (name.Compare(drupdate->name))
+  if (own_char_id == drupdate->entity_id)
   {
     delete drupdate;
     return;
@@ -641,7 +653,9 @@ void Client::DrUpdateEntity()
   if (!drupdate_entity_name.GetSize()) return;
   mutex.lock();
   DrUpdate* drupdate = drupdate_entity_name.Pop();
-  iCelEntity* entity = pl->FindEntity(drupdate->name.GetData());
+  char tmp[32];
+  cs_snprintf(tmp, 32, "player_%d", drupdate->entity_id);
+  iCelEntity* entity = pl->FindEntity(tmp);
   if (entity)
   {
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
@@ -662,12 +676,12 @@ void Client::DrUpdateEntity()
   mutex.unlock();
 }
 
-void Client::moveEntity(const char* name, float walk, float turn)
+void Client::moveEntity(int entity_id, float walk, float turn)
 {
   mutex.lock();
-  printf("Add movement for '%s': w(%.2f) r(%.2f)\n", name, walk, turn);
+  printf("Add movement for '%d': w(%.2f) r(%.2f)\n", entity_id, walk, turn);
   Movement* movement = new Movement();
-  movement->name = name;
+  movement->entity_id = entity_id;
   movement->walk = walk;
   movement->turn = turn;
   move_entity_name.Push(movement);
@@ -679,7 +693,9 @@ void Client::moveEntity()
   if (!move_entity_name.GetSize()) return;
   mutex.lock();
   Movement* movement = move_entity_name.Pop();
-  iCelEntity* entity = pl->FindEntity(movement->name.GetData());
+  char tmp[32];
+  cs_snprintf(tmp, 32, "player_%d", movement->entity_id);
+  iCelEntity* entity = pl->FindEntity(tmp);
   if (entity)
   {
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);

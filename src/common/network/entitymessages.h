@@ -35,7 +35,8 @@ namespace ENTITY
     PICK_RESPONSE=7,
     DROP_REQUEST=8,
     DROP_RESPONSE=9,
-    INV_ITEM_LIST=10
+    INV_ITEM_LIST=10,
+    CHAR_STAT_LIST=11
   };
 };
 
@@ -55,6 +56,7 @@ public:
 
   void serialise(ByteStream* bs)
   {
+    assert(name); assert(mesh); assert(sector);
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
@@ -213,7 +215,7 @@ class MoveEntityMessage : public NetMessage
 {
   float walk;
   float turn;
-  const char* name;
+  int entity_id;
 
 public:
   MoveEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE) 
@@ -232,7 +234,7 @@ public:
     serial.setInt8(id);
     serial.setFloat(walk);
     serial.setFloat(turn);
-    serial.setString(name);
+    serial.setInt32(entity_id);
   }
 
   void deserialise(ByteStream* bs)
@@ -242,7 +244,7 @@ public:
     id = serial.getInt8();
     walk = serial.getFloat();
     turn = serial.getFloat();
-    int name_len = serial.getString(name);
+    entity_id = serial.getInt32();
   }
 
   void setRot(float direction)
@@ -263,13 +265,13 @@ public:
     return walk;
   }
 
-  const char* getName()
+  int getId()
   {
-    return name;
+    return entity_id;
   }
-  void setName(char* n)
+  void setId(int id)
   {
-    name = n;
+    entity_id = id;
   }
 };
 
@@ -382,11 +384,11 @@ public:
     serial.getString(sector);
   }
 
-  void setOnGround(char state)
+  void setOnGround(bool state)
   {
     on_ground = state != 0;
   }
-  char getOnGround()
+  bool getOnGround()
   {
     return on_ground;
   }
@@ -481,7 +483,7 @@ public:
 
 class UpdateDREntityMessage : public NetMessage
 {
-  const char* name;
+  int entity_id;
   bool on_ground;
   float speed, rot, avel;
   float pos[3], vel[3], wvel[3];
@@ -514,7 +516,7 @@ public:
     serial.setFloat(wvel[0]);
     serial.setFloat(wvel[1]);
     serial.setFloat(wvel[2]);
-    serial.setString(name);
+    serial.setInt32(entity_id);
     serial.setString(sector);
   }
 
@@ -536,24 +538,24 @@ public:
     wvel[0] = serial.getFloat();
     wvel[1] = serial.getFloat();
     wvel[2] = serial.getFloat();
-    int name_len = serial.getString(name);
+    entity_id = serial.getInt32();
     serial.getString(sector);
   }
 
-  const char* getName()
+  int getId()
   {
-    return name;
+    return entity_id;
   }
-  void setName(char* n)
+  void setId(int id)
   {
-    name = n;
+    entity_id = id;
   }
 
-  void setOnGround(char state)
+  void setOnGround(bool state)
   {
     on_ground = state != 0;
   }
-  char getOnGround()
+  bool getOnGround()
   {
     return on_ground;
   }
@@ -913,6 +915,76 @@ public:
   const char* getName(int idx)
   {
     return items[idx].name;
+  }
+};
+
+class CharacterStatListMessage : public NetMessage
+{
+  char statCount;
+
+  class nwStats
+  {
+  public:
+    int id;
+    const char* name;
+    int level;
+  };
+
+  nwStats* stats;
+
+public:
+  CharacterStatListMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::CHAR_STAT_LIST), stats(0) {}
+  ~CharacterStatListMessage() { delete [] stats; }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt8(statCount);
+    for (int i=0; i<statCount; i++)
+    {
+      serial.setInt16(stats[i].id);
+      serial.setString(stats[i].name);
+      serial.setInt16(stats[i].level);
+    }
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    setStatCount(serial.getInt8());
+    for (int i=0; i<statCount; i++)
+    {
+      stats[i].id = serial.getInt16();
+      serial.getString(stats[i].name);
+      stats[i].level = serial.getInt16();
+    }
+  }
+
+  char getStatCount() { return statCount; }
+  void setStatCount(char ic) 
+  {
+    statCount = ic; 
+    delete [] stats; 
+    stats = new nwStats[ic];
+  }
+
+  int getStatId(int idx) { return stats[idx].id; }
+  void setStatId(int idx, int stat_id) { stats[idx].id = stat_id; }
+
+  int getStatLevel(int idx) { return stats[idx].level; }
+  void setStatLevel(int idx, int level) { stats[idx].level = level; }
+
+  void setName(int idx, const char* name)
+  {
+    stats[idx].name = name;
+  }
+  const char* getName(int idx)
+  {
+    return stats[idx].name;
   }
 };
 

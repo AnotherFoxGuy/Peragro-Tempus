@@ -17,6 +17,8 @@
 */
 
 #include <stdio.h>
+#include <stdarg.h>
+
 #include "sqlite.h"
 
 #include "ext/sqlite/sqlite3.h"
@@ -62,12 +64,15 @@ ResultSet* dbSQLite::query(const char* query)
   return result;
 }
 
-void dbSQLite::update(const char* query)
+void dbSQLite::update(const char* query, ...)
 {
+  va_list args;
+  va_start (args, query);
+  char* escaped_query = sqlite3_vmprintf(query, args);
+  va_end (args);
+
   mutex.lock();
-  char* new_str = new char[strlen(query)+1];
-  strncpy(new_str, query, strlen(query)+1);
-  updates.add(new_str);
+  updates.add(escaped_query);
   mutex.unlock();
 }
 
@@ -86,7 +91,8 @@ void dbSQLite::update()
   mutex.lock();
   char* query = updates.get(0);
   int rc = sqlite3_exec(db, query, callback, 0, &zErrMsg);
-  updates.del(0, true);
+  updates.remove(0);
+  sqlite3_free(query);
   mutex.unlock();
   if( rc!=SQLITE_OK )
   {

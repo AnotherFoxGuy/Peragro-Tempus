@@ -19,7 +19,9 @@
 #include "stdio.h"
 
 #include "common/entity/entitymanager.h"
+#include "common/entity/racemanager.h"
 #include "common/entity/itemmanager.h"
+#include "common/entity/statmanager.h"
 #include "common/util/sleep.h"
 
 #include "server/server.h"
@@ -57,11 +59,19 @@ int main(int argc, char ** argv)
   EntityManager ent_mgr;
   server.setEntityManager(&ent_mgr);
 
+  RaceManager race_mgr;
+  server.setRaceManager(&race_mgr);
+
   ItemManager item_mgr;
   server.setItemManager(&item_mgr);
 
+  StatManager stat_mgr;
+  server.setStatManager(&stat_mgr);
+
   ent_mgr.loadFromDB(db.getEntityTable());
   item_mgr.loadFromDB(db.getItemTable());
+  stat_mgr.loadFromDB(db.getStatTable());
+  race_mgr.loadFromDB(db.getRaceTable());
 
   Spawner spawner;
   // TODO: load that from DB rather than hardcoding

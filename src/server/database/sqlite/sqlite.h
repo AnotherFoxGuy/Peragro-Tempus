@@ -44,8 +44,8 @@ class dbSQLite : public Database, Thread
    */
   static int callback(void *rs, int cols, char **colArg, char **colName);
   ResultSet* query(const char*);
-  void update(const char*);
   void update();
+  void update(const char*, ...);
   int getLastInsertedId();
 
   void Run();

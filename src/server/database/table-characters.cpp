@@ -103,11 +103,11 @@ Character* CharacterTable::findCharacterById(int id)
 
   Character* character = new Character();
   character->setId(atoi(rs->GetData(0,0).c_str()));
-  character->setName(rs->GetData(0,1).c_str(), rs->GetData(0,1).length());
+  character->setName(rs->GetData(0,1).c_str());
   //character->setUser(atoi(rs->GetData(0,2).c_str()));
-  character->setMesh(rs->GetData(0,3).c_str(), rs->GetData(0,3).length());
+  character->setMesh(rs->GetData(0,3).c_str());
   character->setPos((float)atof(rs->GetData(0,4).c_str()), (float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()));
-  character->setSector(rs->GetData(0,7).c_str(), rs->GetData(0,7).length());
+  character->setSector(rs->GetData(0,7).c_str());
   delete rs;
 
   return character;
@@ -123,11 +123,11 @@ void CharacterTable::getAllCharacters(Array<Character*>& characters, User* user)
   {
     Character* character = new Character();
     character->setId(atoi(rs->GetData(i,0).c_str()));
-    character->setName(rs->GetData(i,1).c_str(), rs->GetData(i,1).length());
+    character->setName(rs->GetData(i,1).c_str());
     character->setUser(user);
-    character->setMesh(rs->GetData(0,3).c_str(), rs->GetData(0,3).length());
+    character->setMesh(rs->GetData(0,3).c_str());
     character->setPos((float)atof(rs->GetData(0,4).c_str()), (float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()));
-    character->setSector(rs->GetData(0,7).c_str(), rs->GetData(0,7).length());
+    character->setSector(rs->GetData(0,7).c_str());
     characters.add(character);
   }
 }  

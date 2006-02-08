@@ -22,6 +22,10 @@
 #include "table-entities.h"
 #include "table-items.h"
 #include "table-inventory.h"
+#include "table-stats.h"
+#include "table-characterstats.h"
+#include "table-races.h"
+#include "table-racestats.h"
 
 Database::Database()
 {
@@ -34,6 +38,10 @@ void Database::init()
   entitytable = new EntityTable(this);
   itemtable = new ItemTable(this);
   inventorytable = new InventoryTable(this);
+  stattable = new StatTable(this);
+  characterstattable = new CharacterStatsTable(this);
+  racetable = new RaceTable(this);
+  racestattable = new RaceStatsTable(this);
 }
 
 Database::~Database()
@@ -43,5 +51,9 @@ Database::~Database()
   delete entitytable;
   delete itemtable;
   delete inventorytable;
+  delete stattable;
+  delete characterstattable;
+  delete racetable;
+  delete racestattable;
 }
 

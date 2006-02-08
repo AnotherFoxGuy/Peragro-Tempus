@@ -24,7 +24,7 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   if (!conn) return;
-  const char* name = conn->getUser()->getEntity()->getName();
+  int name_id = conn->getUser()->getEntity()->getId();
   MoveEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
   //printf("Received MoveRequest from: '%s' w(%d) t(%d)\n", name, request_msg.getWalk(), request_msg.getRot());
@@ -32,7 +32,7 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   MoveEntityMessage response_msg;
   response_msg.setWalk((float)request_msg.getWalk()*3);
   response_msg.setRot((float)request_msg.getRot());
-  response_msg.setName((char*)name);
+  response_msg.setId(name_id);
   ByteStream bs;
   response_msg.serialise(&bs);
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
@@ -49,7 +49,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   if (!conn) return;
 
   Entity* user_ent = conn->getUser()->getEntity();
-  const char* name = user_ent->getName();
+  int name_id = user_ent->getId();
 
   UpdateDREntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -67,7 +67,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   response_msg.setPos(request_msg.getPos());
   response_msg.setOnGround(request_msg.getOnGround());
   response_msg.setSector(request_msg.getSector());
-  response_msg.setName((char*)name);
+  response_msg.setId(name_id);
   ByteStream bs;
   response_msg.serialise(&bs);
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)

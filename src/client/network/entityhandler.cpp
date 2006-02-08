@@ -52,7 +52,7 @@ void EntityHandler::handleMoveEntity(GenericMessage* msg)
   printf("Received MoveEntity\n");
   MoveEntityMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
-  client->moveEntity(response_msg.getName(), response_msg.getWalk(), response_msg.getRot());
+  client->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
 }
 
 void EntityHandler::handlePickEntity(GenericMessage* msg)
@@ -97,7 +97,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   drupdate->pos = csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
   drupdate->on_ground = dr_msg.getOnGround();
   drupdate->sector = dr_msg.getSector();
-  drupdate->name = dr_msg.getName();
+  drupdate->entity_id = dr_msg.getId();
 
   client->DrUpdateEntity(drupdate);
 }
@@ -119,5 +119,16 @@ void EntityHandler::handleInventoryItemList(GenericMessage* msg)
       guimanager->GetInventoryWindow()->AddItem((CEGUI::String)item_msg.getName(i), item_msg.getItemId(i), true);
       printf("Item %d: %d\n", item_msg.getItemId(i), item_msg.getItemAmount(i));
     }
+  }
+}
+
+void EntityHandler::handleCharacterStatList(GenericMessage* msg)
+{
+  CharacterStatListMessage stat_msg;
+  stat_msg.deserialise(msg->getByteStream());
+  printf("Got %d stats for the Character: \n---------------------------\n", stat_msg.getStatCount());
+  for (int i=0; i<stat_msg.getStatCount(); i++)
+  {
+    printf("Stat %s (%d): \t %d\n", stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getStatLevel(i));
   }
 }

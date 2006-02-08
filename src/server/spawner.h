@@ -33,7 +33,8 @@ private:
   {
   public:
     float x, y, z;
-    const char* sector;
+    //const char* sector;
+    size_t sector_id;
 
     Item* item;
 
@@ -42,8 +43,8 @@ private:
 
     int entity_id;
 
-    SpawnPoint() : sector(0), pickTime(0), entity_id(0) {}
-    ~SpawnPoint() { delete [] sector; }
+    SpawnPoint() : sector_id(-1), pickTime(0), entity_id(0) {}
+    ~SpawnPoint() { }
   };
 
   unsigned int timeCounter;
@@ -53,7 +54,7 @@ private:
   // Thread implementation
   void Run()
   {
-    for (int i=0; i<spawnpoints.getCount(); i++)
+    for (size_t i=0; i<spawnpoints.getCount(); i++)
     {
       checkSpawnPoint(spawnpoints.get(i));
     }
@@ -77,7 +78,7 @@ private:
         entity = new Entity();
         entity->createFromItem(sp->item);
         entity->setPos(sp->x, sp->y, sp->z);
-        entity->setSector(sp->sector);
+        entity->setSector(sp->sector_id);
         Server::getServer()->addEntity(entity, false);
         sp->entity_id = entity->getId();
         sp->pickTime = 0;
@@ -97,7 +98,7 @@ public:
     SpawnPoint* sp = new SpawnPoint();
     char* sect = new char[strlen(sector)+1];
     strncpy(sect, sector, strlen(sector)+1);
-    sp->sector = sect;
+    sp->sector_id = StringStore::getStore()->lookupId(sect);
     sp->x = x;
     sp->y = y;
     sp->z = z;

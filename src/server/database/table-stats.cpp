@@ -22,12 +22,12 @@
 
 #include "database.h"
 
-#include "table-items.h"
-#include "common/entity/item.h"
+#include "table-stats.h"
+#include "common/entity/stat.h"
 
-ItemTable::ItemTable(Database* db) : Table(db)
+StatTable::StatTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from items;");
+  ResultSet* rs = db->query("select count(*) from stats;");
   if (rs == 0)
   {
     createTable();
@@ -35,75 +35,77 @@ ItemTable::ItemTable(Database* db) : Table(db)
   delete rs;
 }
 
-void ItemTable::createTable()
+void StatTable::createTable()
 {
-  db->update("create table items ("
+  db->update("create table stats ("
     "id INTEGER, "
     "name TEXT, "
-    "mesh TEXT, "
     "PRIMARY KEY (id) );");
 
   //Example Data!
-  insert("smallplate", "Stuff001_smallplate_64_plates");
-  insert("tiny ballpot", "Stuff001_tinyballpot_84_pot");
-  insert("apple", "apple");
+  insert("Health");
+  insert("Mana");
+  insert("Strength");
+  insert("Intelligence");
+  insert("Dexterty");
+  insert("Endurance");
+  insert("Agility");
+  insert("Concentration");
+  insert("Witness");
 }
 
-void ItemTable::insert(const char* name, const char* mesh)
+void StatTable::insert(const char* name)
 {
   if (strlen(name) > 512) assert("Strings too long");
   char query[1024];
-  sprintf(query, "insert into items (name, mesh) values ('%s','%s');", name, mesh);
+  sprintf(query, "insert into stats (name) values ('%s');", name);
   db->update(query);
 }
 
-void ItemTable::dropTable()
+void StatTable::dropTable()
 {
-  db->update("drop table items;");
+  db->update("drop table stats;");
 }
 
-bool ItemTable::existsItem(const char* name)
+bool StatTable::existsStat(const char* name)
 {
   if (strlen(name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select id from items where name = '%s';", name);
+  sprintf(query, "select id from stats where name = '%s';", name);
   ResultSet* rs = db->query(query);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
 }
 
-Item* ItemTable::getItem(const char* name)
+Stat* StatTable::getStat(const char* name)
 {
   if (strlen(name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select * from users where name = '%s';", name);
+  sprintf(query, "select * from stats where name = '%s';", name);
   ResultSet* rs = db->query(query);
 
-  Item* item = 0;
+  Stat* stat = 0;
 
   if (rs && rs->GetRowCount() == 1) 
   {
-    /*
-    Item* item = new Item();
-    item->setId(atoi(rs->GetData(0,0).c_str()));
-    item->setName(rs->GetData(0,1).c_str(), rs->GetData(0,1).length());
-    */
+    stat = new Stat();
+    stat->setId(atoi(rs->GetData(0,0).c_str()));
+    stat->setName(rs->GetData(0,1).c_str());
   }
   delete rs;
-  return item;
+  return stat;
 }
 
-void ItemTable::getAllItems(Array<Item*>& items)
+void StatTable::getAllStats(Array<Stat*>& stats)
 {
-  ResultSet* rs = db->query("select * from items;");
+  ResultSet* rs = db->query("select * from stats;");
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
-    Item* item = new Item();
-    item->setId(atoi(rs->GetData(i,0).c_str()));
-    item->setName(rs->GetData(i,1).c_str());
-    item->setMesh(rs->GetData(i,2).c_str());
-    items.add(item);
+    Stat* stat = new Stat();
+    stat->setId(atoi(rs->GetData(i,0).c_str()));
+    stat->setName(rs->GetData(i,1).c_str());
+    stats.add(stat);
   }
 }  

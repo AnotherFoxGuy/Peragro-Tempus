@@ -16,24 +16,22 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef ITEM_H_
-#define ITEM_H_
+#ifndef STAT_H_
+#define STAT_H_
 
 #include <string.h>
 #include "common/util/stringstore.h"
 
-class Item
+class Stat
 {
 private:
   int id;
   //char* name;
   size_t name_id;
-  //char* mesh;
-  size_t mesh_id;
 
 public:
-  Item() : id(-1), name_id(-1), mesh_id(-1) {}
-  ~Item() {}
+  Stat() : id(-1), name_id(-1) {}
+  ~Stat() {}
 
   void setId(int id) { this->id = id; }
   int getId() { return id; }
@@ -41,10 +39,6 @@ public:
   const char* getName()
   {
     return StringStore::getStore()->lookupString(name_id);
-  }
-  size_t getNameId()
-  {
-    return name_id;
   }
   void setName(const char* name)
   {
@@ -54,23 +48,6 @@ public:
   {
     name_id = id;
   }
-
-  const char* getMesh()
-  {
-    return StringStore::getStore()->lookupString(mesh_id);
-  }
-  size_t getMeshId()
-  {
-    return mesh_id;
-  }
-  void setMesh(const char* name)
-  {
-    mesh_id = StringStore::getStore()->lookupId(name);
-  }
-  void setMesh(size_t id)
-  {
-    mesh_id = id;
-  }
 };
 
-#endif // ITEM_H_
+#endif // STAT_H_

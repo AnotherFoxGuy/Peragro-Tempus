@@ -16,48 +16,51 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CHARACTER_H_
-#define _CHARACTER_H_
+#ifndef _RACE_H_
+#define _RACE_H_
 
 #include <string.h>
 #include <time.h>
 #include <math.h>
 
-#include "inventory.h"
 #include "common/util/stringstore.h"
 
-class User;
+#include "racestats.h"
 
-class Character
+class Race
 {
 private:
+
   int id;
-  //char* name;
+
   size_t name_id;
-  //char* mesh;
+
   size_t mesh_id;
-  //char* sector;
+  //start sector
   size_t sector_id;
-
-  User* user;
-
+  //start pos
   float pos[3];
 
-  Inventory inventory;
+  RaceStats stats;
 
 public:
-  Character() : id(-1), name_id(-1), mesh_id(-1), sector_id(-1)
+  Race() : id(-1)
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
     pos[2] = 0.0f;
   }
 
-  ~Character()
+  ~Race()
   {
-    //delete [] name;
-    //delete [] mesh;
-    //delete [] sector;
+  }
+
+  bool compare(Race* other)
+  {
+    if (this == other)
+      return true;
+
+    return (this->name_id == other->name_id);
   }
 
   void setId(int id)
@@ -90,6 +93,10 @@ public:
   {
     return StringStore::getStore()->lookupString(name_id);
   }
+  size_t getNameId()
+  {
+    return name_id;
+  }
   void setName(const char* name)
   {
     name_id = StringStore::getStore()->lookupId(name);
@@ -102,6 +109,10 @@ public:
   const char* getMesh()
   {
     return StringStore::getStore()->lookupString(mesh_id);
+  }
+  size_t getMeshId()
+  {
+    return mesh_id;
   }
   void setMesh(const char* name)
   {
@@ -125,20 +136,10 @@ public:
     sector_id = id;
   }
 
-  User* getUser()
+  RaceStats* getStats()
   {
-    return user;
-  }
-
-  void setUser(User* user)
-  {
-    this->user = user;
-  }
-
-  Inventory* getInventory()
-  {
-    return &inventory;
+    return &stats;
   }
 };
 
-#endif // _CHARACTER_H_
+#endif // _RACE_H_

@@ -24,6 +24,10 @@ class CharacterTable;
 class EntityTable;
 class ItemTable;
 class InventoryTable;
+class StatTable;
+class CharacterStatsTable;
+class RaceTable;
+class RaceStatsTable;
 
 #include "resultset.h"
 
@@ -35,10 +39,14 @@ private:
   EntityTable* entitytable;
   ItemTable* itemtable;
   InventoryTable* inventorytable;
+  StatTable* stattable;
+  CharacterStatsTable* characterstattable;
+  RaceTable* racetable;
+  RaceStatsTable* racestattable;
 
 public:
   virtual ResultSet* query(const char*) = 0;
-  virtual void update(const char*) = 0;
+  virtual void update(const char*, ...) = 0;
   //virtual int getLastInsertedId() = 0;
 
   Database();
@@ -51,6 +59,10 @@ public:
   EntityTable* getEntityTable() { return entitytable; }
   ItemTable* getItemTable() { return itemtable; }
   InventoryTable* getInventoryTable() { return inventorytable; }
+  StatTable* getStatTable() { return stattable; }
+  CharacterStatsTable* getCharacterStatTable() { return characterstattable; }
+  RaceTable* getRaceTable() { return racetable; }
+  RaceStatsTable* getRaceStatsTable() { return racestattable; }
 };
 
 #endif // DATABASE_H
