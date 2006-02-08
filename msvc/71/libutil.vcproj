@@ -158,6 +158,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\util\stringstore.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\void.cpp">
 			</File>
 		</Filter>
@@ -175,6 +178,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\sleep.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\stringstore.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\thread.h">

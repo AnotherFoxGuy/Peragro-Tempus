@@ -158,10 +158,16 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\entity\characterstats.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\entity\entity.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\inventory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\racestats.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -172,6 +178,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\characterlist.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\characterstats.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\entity.h">
@@ -190,6 +199,24 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\itemmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\race.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\racelist.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\racemanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\racestats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\stat.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\statmanager.h">
 			</File>
 		</Filter>
 	</Files>
