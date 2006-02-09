@@ -736,7 +736,11 @@ iCamera* Client::getCamera()
 {
   if (name.GetData() == 0) 
     return 0;
-  iCelEntity* entity = pl->FindEntity(name.GetData());
+
+  char tmp[32];
+  cs_snprintf(tmp, 32, "player_%d", own_char_id);
+  iCelEntity* entity = pl->FindEntity(tmp);
+
   if (entity == 0) 
     return 0;
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
