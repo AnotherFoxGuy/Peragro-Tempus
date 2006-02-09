@@ -721,6 +721,22 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackab
   return false;
 }
 
+void InventoryWindow::AddSkil(const char* skillname, unsigned int skillvalue)
+{
+  btn = winMgr->getWindow("Inventory/StatsFrame");
+  char charskillvalue[10];
+  sprintf(charskillvalue, "%d", skillvalue);
+  CEGUI::ListboxItem* skillvalueItem = new CEGUI::ListboxTextItem(charskillvalue);
+  CEGUI::ListboxItem* skillnameItem = new CEGUI::ListboxTextItem(skillname);
+
+  //skillvalueItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
+  //skillnameItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
+
+  unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
+  ((CEGUI::MultiColumnList*)btn)->setItem(skillnameItem, 0, row);
+  ((CEGUI::MultiColumnList*)btn)->setItem(skillvalueItem, 1, row);
+  ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+}
 void InventoryWindow::CreateGUIWindow()
 {
   GUIWindow::CreateGUIWindow ("inventory.xml");
@@ -749,34 +765,15 @@ void InventoryWindow::CreateGUIWindow()
     }
   }
 
-/*
-  // create main rucksack window
-  CEGUI::Window* rs = winMgr->createWindow("TaharezLook/FrameWindow","Rucksack");
-  root->addChildWindow(rs);
-  rs->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.25f)));
-  rs->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.33f), CEGUI::cegui_reldim( 0.33f)));
-  rs->setWindowMaxSize(CEGUI::UVector2(CEGUI::cegui_reldim(1.0f), CEGUI::cegui_reldim( 1.0f)));
-  rs->setWindowMinSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.1f)));
-  rs->setProperty("CloseButtonEnabled","False");
+  // Setup the skill list
+  btn = winMgr->getWindow("Inventory/StatsFrame");
+  CEGUI::String str_skill("Skill");
+  CEGUI::String str_value("Value");
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_skill,0,0.6f);
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_value,1,0.4f);
+  ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+  ((CEGUI::MultiColumnList*)btn)->setUserColumnSizingEnabled(false);
 
-  CEGUI::Window* isf = winMgr->createWindow("TaharezLook/StaticImage", "inventoryframe");
-  rs->addChildWindow(isf);
-  isf->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim( 0.05f)));
-  isf->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim( 0.9f)));
-  isf->setWindowMaxSize(CEGUI::UVector2(CEGUI::cegui_reldim(1.0f), CEGUI::cegui_reldim( 1.0f)));
-  isf->setWindowMinSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.1f), CEGUI::cegui_reldim( 0.1f)));
-
-
-  // add slots to rucksack
-  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.2f)));
-  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.2f)));
-  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.2f)));
-  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.5f)));
-  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.3f), CEGUI::cegui_reldim(0.5f)));
-  createDragDropSlot(isf, CEGUI::UVector2(CEGUI::cegui_reldim(0.55f), CEGUI::cegui_reldim(0.5f)));
-*/
-
-  //AddItem("apple", 1, true);
 
  // Get the root window
   rootwindow = winMgr->getWindow("Inventory/Frame");

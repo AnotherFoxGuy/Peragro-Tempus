@@ -134,8 +134,8 @@
 				</Window>
 			</Window>
 			
-			<Window Type="TaharezLook/StaticImage" Name="Inventory/StatsFrame" >
-				<Property Name="Font" Value="Tahoma-12" />
+			<Window Type="TaharezLook/MultiColumnList" Name="Inventory/StatsFrame" >
+				<Property Name="Font" Value="Commonwealth-8" />
 				<Property Name="MaxTextLength" Value="1073741823" />
 				<Property Name="UnifiedAreaRect" Value="{{0.026975,0.000000},{0.487794,0.000000},{0.46000,0.000000},{0.989023,0.000000}}" />
 				<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />

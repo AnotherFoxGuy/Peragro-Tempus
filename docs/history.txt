@@ -6,6 +6,7 @@ under each day.
 
 9-Feb-2006
   - PK fixed picking.
+  - Sueastside added stats to the inventory window.
 
 8-Feb-2006
   - PK adds the StringStore.
