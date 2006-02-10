@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+10-Feb-2006
+  - PK fixed the server for posix systems (gnu/linux in particular).
+
 9-Feb-2006
   - PK fixed picking.
   - Sueastside added stats to the inventory window.

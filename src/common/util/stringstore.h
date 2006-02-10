@@ -100,10 +100,12 @@ public:
     printf("looking up string id %d: ", id);
     if (id >= strings.getCount()) 
     {
+      mutex.unlock();
       printf("failed");
       return 0;
     }
     printf("%s\n", strings.get(id)->string);
+    mutex.unlock();
     return strings.get(id)->string;
   }
 };
