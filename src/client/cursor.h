@@ -26,6 +26,7 @@
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCamera;
+struct iPcTooltip;
 class Client;
 
 class Cursor
@@ -33,6 +34,10 @@ class Cursor
 private:
   Client* client;
   csWeakRef<iCelEntity> selent;
+  csWeakRef<iCelEntity> prevselent;
+  int mousex;
+  int mousey;
+  csRef<iPcTooltip> nametag;
 
 public:
   Cursor(Client* client);

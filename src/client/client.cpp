@@ -35,8 +35,15 @@
 #include "iengine/campos.h"
 #include "iengine/mesh.h"
 #include "iengine/sector.h"
+#include "iengine/texture.h"
+#include "iengine/material.h"
+#include "iengine/scenenode.h"
+#include "iengine/movable.h"
 #include "imesh/object.h"
 #include "imesh/spritecal3d.h"
+#include "imesh/sprite2d.h"
+#include "imesh/genmesh.h"
+#include "igeom/objmodel.h"
 #include "iutil/databuff.h"
 #include "iutil/event.h"
 #include "iutil/eventq.h"
@@ -45,6 +52,8 @@
 #include "ivaria/collider.h"
 #include "ivideo/graph2d.h"
 #include "ivideo/natwin.h"
+#include "ivideo/txtmgr.h"
+#include "ivideo/material.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
@@ -444,6 +453,9 @@ bool Client::InitializeCEL()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
     return ReportError("Failed to load CEL Trigger Factory");
 
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
+    return ReportError("Failed to load CEL Tooltip Factory");
+
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
     return false;
 
@@ -519,17 +531,26 @@ void Client::addEntity()
   Entity* ent = new_entity_name.Pop();
   csRef<iCelEntity> entity = pl->CreateEntity();
 
+  // Create the tooltip for this entity.
+  pl->CreatePropertyClass(entity, "pctooltip");
+  csRef<iPcTooltip> nametag = CEL_QUERY_PROPCLASS_ENT(entity, iPcTooltip);
+  nametag->SetText(ent->getName());
+  nametag->SetJustify(CEL_TOOLTIP_CENTER);
+  nametag->SetBackgroundColor(0, 0, 0);
+
   if (ent->getType() == Entity::ItemEntity)
   {
     char buffer[1024];
     sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
     entity->SetName(buffer);
+    nametag->SetTextColor(140, 140, 255);
   }
   else if (ent->getType() == Entity::PlayerEntity)
   {
     char buffer[32];
     cs_snprintf(buffer, 32, "player_%d", ent->getId());
     entity->SetName(buffer);
+    nametag->SetTextColor(0, 211, 111);
   }
   else
     entity->SetName(ent->getName());

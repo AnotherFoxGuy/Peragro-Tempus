@@ -32,6 +32,7 @@
 
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
+#include "propclass/tooltip.h"
 
 Cursor::Cursor(Client* client)
 : client(client)
@@ -47,8 +48,14 @@ void Cursor::Draw()
 {
   if (selent.IsValid())
   {
+    prevselent = selent;
+
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(selent, iPcMesh);
 
+    nametag = CEL_QUERY_PROPCLASS_ENT(selent, iPcTooltip);
+    nametag->Show(mousex-20, mousey-25);
+
+    /*
     float fov = client->getG3D()->GetPerspectiveAspect ();
     int color = client->getG3D()->GetDriver2D ()->FindRGB (0, 255, 255);
     csTransform tr_w2c = client->getCamera()->GetTransform ();
@@ -76,12 +83,20 @@ void Cursor::Draw()
     client->getG3D()->DrawLine(tr_o2c*box.GetCorner(7),tr_o2c*box.GetCorner(3), fov, color);
     client->getG3D()->DrawLine(tr_o2c*box.GetCorner(7),tr_o2c*box.GetCorner(5), fov, color);
     client->getG3D()->DrawLine(tr_o2c*box.GetCorner(7),tr_o2c*box.GetCorner(6), fov, color);
+    */
+  }
+  else if (nametag && prevselent)
+  {
+    nametag = CEL_QUERY_PROPCLASS_ENT(prevselent, iPcTooltip);
+    nametag->Hide();
   }
 }
 
 void Cursor::MouseMove(iCelPlLayer* pl, iCamera* camera, int x, int y)
 {
   selent = pl->GetHitEntity(camera, x, y);
+  mousex = x;
+  mousey = y;
 }
 
 iCelEntity* Cursor::getSelectedEntity()
