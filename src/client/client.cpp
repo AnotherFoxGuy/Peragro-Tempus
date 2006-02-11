@@ -502,16 +502,21 @@ void Client::loadRegion()
   guimanager->GetSelectCharWindow ()->HideWindow();
 
   guimanager->CreateChatWindow ();
-  //guimanager->GetChatWindow ()->ShowWindow();
+  
+  const char* path = cmdline->GetOption("world");
 
-  //guimanager->GetInventoryWindow ()->ShowWindow ();
+  if (!path) 
+  {
+    path = load_region->GetData();
+    printf("using test world");
+  }
 
   csRef<iCelEntity> entity = pl->CreateEntity();
   pl->CreatePropertyClass(entity, "pcregion");
   csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
-  entity->SetName("World");
-  pcregion->SetRegionName("World");
-  pcregion->SetWorldFile (load_region->GetData(), "world");
+  entity->SetName("world");
+  pcregion->SetRegionName("world");
+  pcregion->SetWorldFile (path, "world");
   world_loaded = pcregion->Load();
   load_region = 0;
 }

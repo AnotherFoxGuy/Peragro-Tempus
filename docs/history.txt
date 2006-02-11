@@ -7,6 +7,7 @@ under each day.
 11-Feb-2006
   - Sueastside added tooltips which displays the name of the selected item or player
      and different colours for each.
+  - Sueastside added a --world cmd switch to set the vfs path to the exported art directory.
 
 10-Feb-2006
   - PK fixed the server for posix systems (gnu/linux in particular).
