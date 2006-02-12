@@ -56,7 +56,7 @@
 				AdditionalDependencies="CEGUIBase.lib CEGUIFalagardBase.lib libcrystalspace.lib libceltool.lib wsock32.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release7\libs;$(CEL)\libs"
 				ProgramDatabaseFile="..\..\out\release7\build\appclient\client.pdb"
 				TargetMachine="1"/>
 			<Tool
