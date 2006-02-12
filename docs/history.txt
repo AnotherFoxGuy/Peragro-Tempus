@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+12-Feb-2006
+  - Dingobloo adjusted jamfile.in to find libceltool and crystalspacewin32lib includes for MSVC generation.
+
 11-Feb-2006
   - Sueastside added tooltips which displays the name of the selected item or player
      and different colours for each.
