@@ -34,7 +34,8 @@ void Server::addEntity(Entity* entity, bool presistent)
   if (presistent)
   {
     //Only dropped items are persistent Entities at the moment
-    db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), entity->getItem(), entity->getMesh(), entity->getPos(), entity->getSector());
+    ItemEntity* e = (ItemEntity*) entity;
+    db->getEntityTable()->insert(e->getId(), e->getName(), e->getType(), e->getItem(), e->getMesh(), e->getPos(), e->getSector());
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)

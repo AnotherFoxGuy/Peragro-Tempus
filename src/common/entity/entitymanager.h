@@ -21,6 +21,9 @@
 
 #include "common/util/array.h"
 #include "entity.h"
+#include "pcentity.h"
+#include "npcentity.h"
+#include "itementity.h"
 #include "entitylist.h"
 #include "server/database/table-entities.h"
 

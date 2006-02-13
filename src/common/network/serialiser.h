@@ -37,23 +37,23 @@ public:
   }
   void setInt16(short value)
   {
-    bs->data[bs->size]   =  value & 0x00FF;
-    bs->data[bs->size+1] = (value & 0xFF00) / 0x100;
+    bs->data[bs->size]   = unsigned char( value & 0x00FF);
+    bs->data[bs->size+1] = unsigned char((value & 0xFF00) / 0x100);
     bs->size += 2;
   }
   void setInt24(int value)
   {
-    bs->data[bs->size]   =  value & 0x0000FF;
-    bs->data[bs->size+1] = (value & 0x00FF00) /   0x100;
-    bs->data[bs->size+2] = (value & 0xFF0000) / 0x10000;
+    bs->data[bs->size]   = unsigned char( value & 0x0000FF);
+    bs->data[bs->size+1] = unsigned char((value & 0x00FF00) /   0x100);
+    bs->data[bs->size+2] = unsigned char((value & 0xFF0000) / 0x10000);
     bs->size += 4;
   }
   void setInt32(int value)
   {
-    bs->data[bs->size]   =  value & 0x000000FF;
-    bs->data[bs->size+1] = (value & 0x0000FF00) /     0x100;
-    bs->data[bs->size+2] = (value & 0x00FF0000) /   0x10000;
-    bs->data[bs->size+3] = (value & 0xFF000000) / 0x1000000;
+    bs->data[bs->size]   = unsigned char( value & 0x000000FF);
+    bs->data[bs->size+1] = unsigned char((value & 0x0000FF00) /     0x100);
+    bs->data[bs->size+2] = unsigned char((value & 0x00FF0000) /   0x10000);
+    bs->data[bs->size+3] = unsigned char((value & 0xFF000000) / 0x1000000);
     bs->size += 4;
   }
   void setFloat(float value)

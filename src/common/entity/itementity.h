@@ -16,30 +16,50 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_ENTITIES_H_
-#define _TABLE_ENTITIES_H_
+#ifndef _ITEMENTITY_H_
+#define _ITEMENTITY_H_
 
-#include "table.h"
+#include <string.h>
+#include <time.h>
+#include <math.h>
 
-class Database;
-class Entity;
-class ResultSet;
+#include "common/util/stringstore.h"
 
-class EntityTable : public Table
+#include "inventory.h"
+#include "characterstats.h"
+
+class Item;
+
+class ItemEntity : public Entity
 {
 private:
-  Entity* parseEntity(ResultSet* rs);
+  int item;
 
 public:
-  EntityTable(Database* db);
-  void createTable();
-  void insert(int id, const char* name, int type, int item, const char* mesh, float pos[3], const char* sector);
-  int getMaxId();
-  void dropTable();
-  void remove(int id);
-  bool existsEntity(const char* name);
-  Entity* getEntity(const char* name);
-  void getAllEntities(Array<Entity*>& entities);
+  ItemEntity() : Entity(Entity::ItemEntity)
+  {
+  }
+
+  ~ItemEntity()
+  {
+  }
+
+  void setItem(int i)
+  {
+    item = i;
+  }
+
+  int getItem()
+  {
+    return item;
+  }
+
+  void createFromItem(Item* item)
+  {
+    this->setName(item->getNameId());
+    this->setMesh(item->getMeshId());
+    this->setItem(item->getId());
+  }
 };
 
-#endif // _TABLE_ENTITIES_H_
+#endif // _ITEMENTITY_H_

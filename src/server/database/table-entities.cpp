@@ -25,6 +25,9 @@
 #include "table-entities.h"
 
 #include "common/entity/entity.h"
+#include "common/entity/itementity.h"
+#include "common/entity/pcentity.h"
+#include "common/entity/npcentity.h"
 
 EntityTable::EntityTable(Database* db) : Table(db)
 {
@@ -118,14 +121,8 @@ Entity* EntityTable::getEntity(const char* name)
   if (rs->GetRowCount() == 0) 
     return 0;
 
-  Entity* entity = new Entity();
-  entity->setId(atoi(rs->GetData(0,0).c_str()));
-  entity->setName(rs->GetData(0,1).c_str());
-  entity->setType(atoi(rs->GetData(0,2).c_str()));
-  entity->setItem(atoi(rs->GetData(0,3).c_str()));
-  entity->setMesh(rs->GetData(0,4).c_str());
-  entity->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
-  entity->setSector(rs->GetData(0,8).c_str());
+  Entity* entity = parseEntity(rs);
+
   delete rs;
   return entity;
 }
@@ -136,14 +133,44 @@ void EntityTable::getAllEntities(Array<Entity*>& entities)
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
-    Entity* entity = new Entity();
-    entity->setId(atoi(rs->GetData(i,0).c_str()));
-    entity->setName(rs->GetData(i,1).c_str());
-    entity->setType(atoi(rs->GetData(i,2).c_str()));
-    entity->setItem(atoi(rs->GetData(i,3).c_str()));
-    entity->setMesh(rs->GetData(i,4).c_str());
-    entity->setPos((float)atof(rs->GetData(i,5).c_str()), (float)atof(rs->GetData(i,6).c_str()), (float)atof(rs->GetData(i,7).c_str()));
-    entity->setSector(rs->GetData(i,8).c_str());
-    entities.add(entity);
+    Entity* entity = parseEntity(rs);
+    if (entity)
+    {
+      entities.add(entity);
+    }
   }
+  delete rs;
 }  
+
+Entity* EntityTable::parseEntity(ResultSet* rs)
+{
+  Entity* entity = 0;
+
+  switch (atoi(rs->GetData(0,2).c_str()))
+  {
+    case Entity::ItemEntity :
+    {
+      ItemEntity* ent = new ItemEntity();
+      ent->setItem(atoi(rs->GetData(0,3).c_str()));
+      entity = ent;
+      break;
+    }
+    case Entity::PlayerEntity :
+    {
+      entity = new PcEntity();
+      break;
+    }
+    default:
+    { 
+      // Unknown Entity!
+      return 0;
+    }
+  };
+  entity->setId(atoi(rs->GetData(0,0).c_str()));
+  entity->setName(rs->GetData(0,1).c_str());
+  entity->setMesh(rs->GetData(0,4).c_str());
+  entity->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
+  entity->setSector(rs->GetData(0,8).c_str());
+
+  return entity;
+}

@@ -25,12 +25,18 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   printf("Received AddEntity\n");
   AddEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  Entity* entity = new Entity();
+  Entity* entity = 0;
+  switch (entmsg.getType())
+  {
+    case Entity::ItemEntity: entity = new ItemEntity(); break;
+    case Entity::PlayerEntity: entity = new PcEntity(); break;
+    case Entity::NPCEntity: entity = new NpcEntity(); break;
+  };
   entity->setName(entmsg.getName());
   entity->setMesh(entmsg.getMesh());
   entity->setPos(entmsg.getPos());
   entity->setSector(entmsg.getSector());
-  entity->setType(entmsg.getType());
+  //entity->setType(entmsg.getType());
   entity->setId(entmsg.getId());
   client->addEntity(entity);
 }
@@ -40,9 +46,14 @@ void EntityHandler::handleRemoveEntity(GenericMessage* msg)
   printf("Received RemoveEntity\n");
   RemoveEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  Entity* entity = new Entity();
+  Entity* entity = 0;
+  switch (entmsg.getType())
+  {
+    case Entity::ItemEntity: entity = new ItemEntity(); break;
+    case Entity::PlayerEntity: entity = new PcEntity(); break;
+    case Entity::NPCEntity: entity = new NpcEntity(); break;
+  };
   entity->setName(entmsg.getName());
-  entity->setType(entmsg.getType());
   entity->setId(entmsg.getId());
   client->delEntity(entity);
 }

@@ -16,30 +16,40 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_ENTITIES_H_
-#define _TABLE_ENTITIES_H_
+#ifndef _NPCENTITY_H_
+#define _NPCENTITY_H_
 
-#include "table.h"
+#include <string.h>
+#include <time.h>
+#include <math.h>
 
-class Database;
-class Entity;
-class ResultSet;
+#include "common/util/stringstore.h"
 
-class EntityTable : public Table
+#include "inventory.h"
+#include "characterstats.h"
+
+class Item;
+
+class NpcEntity : public CharacterEntity
 {
 private:
-  Entity* parseEntity(ResultSet* rs);
+  Inventory inventory;
+  CharacterStats stats;
 
 public:
-  EntityTable(Database* db);
-  void createTable();
-  void insert(int id, const char* name, int type, int item, const char* mesh, float pos[3], const char* sector);
-  int getMaxId();
-  void dropTable();
-  void remove(int id);
-  bool existsEntity(const char* name);
-  Entity* getEntity(const char* name);
-  void getAllEntities(Array<Entity*>& entities);
+  NpcEntity() : CharacterEntity(NPCEntity)
+  {
+  }
+
+  Inventory* getInventory()
+  {
+    return &inventory;
+  }
+
+  CharacterStats* getStats()
+  {
+    return &stats;
+  }
 };
 
-#endif // _TABLE_ENTITIES_H_
+#endif // _NPCENTITY_H_

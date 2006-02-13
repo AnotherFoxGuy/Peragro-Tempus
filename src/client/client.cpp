@@ -134,10 +134,12 @@ void Client::ProcessFrame()
   if (timer > 1000)
   {
     timer = 0;
-    if (name.GetData() != 0)
+    if (own_char_id != -1)
     {
       // This has later to be sent by the worldserver, or at least be verified by the server!
-      iCelEntity* entity = pl->FindEntity(name.GetData());
+      char buffer[32];
+      cs_snprintf(buffer, 32, "player_%d", own_char_id);
+      iCelEntity* entity = pl->FindEntity(buffer);
       if (entity)
       {
         csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);

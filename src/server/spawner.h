@@ -75,8 +75,8 @@ private:
       }
       if (timeCounter - sp->pickTime > sp->spawnInterval)
       {
-        entity = new Entity();
-        entity->createFromItem(sp->item);
+        entity = new ItemEntity();
+        ((ItemEntity*)entity)->createFromItem(sp->item);
         entity->setPos(sp->x, sp->y, sp->z);
         entity->setSector(sp->sector_id);
         Server::getServer()->addEntity(entity, false);

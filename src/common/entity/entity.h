@@ -57,11 +57,18 @@ public:
     ItemEntity=3
   };
 
-private:
+protected:
   EntityType type;
 
 public:
   Entity() : id(-1)//, name(0), mesh(0), sector(0)
+  {
+    pos[0] = 0.0f;
+    pos[1] = 0.0f;
+    pos[2] = 0.0f;
+  }
+
+  Entity(EntityType type) : id(-1), type(type)
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
@@ -164,6 +171,10 @@ public:
   {
     return StringStore::getStore()->lookupString(sector_id);
   }
+  size_t getSectorId()
+  {
+    return sector_id;
+  }
   void setSector(const char* name)
   {
     sector_id = StringStore::getStore()->lookupId(name);
@@ -173,43 +184,16 @@ public:
     sector_id = id;
   }
 
-  void setType(int e)
-  {
-    type = EntityType(e);
-  }
+  //void setType(int e)
+  //{
+  //  type = EntityType(e);
+  //}
 
   EntityType getType()
   {
     return type;
   }
 
-  void setItem(int i)
-  {
-    item = i;
-  }
-
-  int getItem()
-  {
-    return item;
-  }
-
-  Inventory* getInventory()
-  {
-    return &inventory;
-  }
-
-  CharacterStats* getStats()
-  {
-    return &stats;
-  }
-
-  void createFromItem(Item* item)
-  {
-    this->setName(item->getNameId());
-    this->setMesh(item->getMeshId());
-    this->setType(Entity::ItemEntity);
-    this->setItem(item->getId());
-  }
 };
 
 #endif // _ENTITY_H_

@@ -82,7 +82,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   if (!conn) return;
-  Entity* user_ent = conn->getUser()->getEntity();
+  CharacterEntity* user_ent = conn->getUser()->getEntity();
   const char* name = user_ent->getName();
   PickEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -116,7 +116,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
   if (response_msg.getError() == 0)
   {
-    Item* item = server->getItemManager()->findById(e->getItem());
+    Item* item = server->getItemManager()->findById(((ItemEntity*)e)->getItem());
 
     if (!item) return; //send Error message?
 
@@ -141,7 +141,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   if (!conn) return;
-  Entity* user_ent = conn->getUser()->getEntity();
+  CharacterEntity* user_ent = conn->getUser()->getEntity();
   const char* name = user_ent->getName();
   DropEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -165,13 +165,10 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   }
 
   // Create new entity from item.
-  Entity* e = new Entity();
+  ItemEntity* e = new ItemEntity();
+  e->createFromItem(item);
   e->setPos(user_ent->getPos());
   e->setSector(user_ent->getSector());
-  e->setType(Entity::ItemEntity);
-  e->setMesh(item->getMesh());
-  e->setName(item->getName());
-  e->setItem(item->getId());
 
   server->addEntity(e, true);
 }

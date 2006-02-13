@@ -35,7 +35,7 @@ private:
   char* name;
   char* pwhash;
   Connection* connection;
-  Entity* own_entity;
+  PcEntity* own_entity;
   EntityList ent_list;
 
 public:
@@ -86,12 +86,12 @@ public:
   void sendAddEntity(Entity* entity);
   void sendRemoveEntity(Entity* entity);
 
-  Entity* getEntity()
+  PcEntity* getEntity()
   {
     return own_entity;
   }
 
-  void setEntity(Entity* entity)
+  void setEntity(PcEntity* entity)
   {
     own_entity = entity;
   }
