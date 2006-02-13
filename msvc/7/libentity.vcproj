@@ -177,6 +177,9 @@
 				RelativePath="..\..\src\common\entity\character.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\entity\characterentity.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\entity\characterlist.h">
 			</File>
 			<File
@@ -198,7 +201,16 @@
 				RelativePath="..\..\src\common\entity\item.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\entity\itementity.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\entity\itemmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\npcentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\pcentity.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\race.h">
