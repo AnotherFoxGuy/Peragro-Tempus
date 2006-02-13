@@ -9,6 +9,7 @@ under each day.
   - PK fixed DR sending on the client (that broke the drop location).
   - PK splited the Enitity to ItemEntity, CharacterEntity, PcEntity and NpcEntity.
   - PK removed some warnings.
+  - PK added a few (not yet used) states to the characterentities.
 
 12-Feb-2006
   - Dingobloo adjusted jamfile.in to find libceltool and crystalspacewin32lib includes for MSVC generation.

@@ -36,7 +36,37 @@ private:
   Inventory inventory;
   CharacterStats stats;
 
+public:
+
+  enum State
+  {
+    // My second most favorit activity, right after 'Resting'
+    stIdle=0,
+
+    // Walking, you can't walk and fight/cast.
+    stMoving=1,
+
+    // Hitting with weapon or meele
+    stAttacking=2,
+
+    // Casting a spell, can be interruped when character gets distracted (attacked).
+    stCasting=3,
+
+    // Recovering faster, when sitting or so.
+    // You have to change to idle before to any other state.
+    stResting=4,
+
+    // Following: Like Moving' but stops when near target and resumes when target moves.
+    stFollowing=5,
+
+    // Well... you're dead, you can't move, speak or act in any other way.
+    // don't get confused about zombies, they are 'undead' not dead! :)
+    stDead=6
+  };
+
 protected:
+  State state;
+
   CharacterEntity(EntityType type) : Entity(type) {}
 
 public:
@@ -48,6 +78,16 @@ public:
   CharacterStats* getStats()
   {
     return &stats;
+  }
+
+  State getState()
+  {
+    return state;
+  }
+
+  void setState(State st)
+  {
+    state = st;
   }
 };
 
