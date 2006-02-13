@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+13-Feb-2006
+  - iceeey fixed the Jamfile.in modifications -- copy/paste error with leaving in a semicolon.
+
 12-Feb-2006
   - Dingobloo adjusted jamfile.in to find libceltool and crystalspacewin32lib includes for MSVC generation.
 
