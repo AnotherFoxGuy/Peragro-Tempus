@@ -195,7 +195,7 @@ bool Client::OnInitialize(int argc, char* argv[])
   setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]), true);
 
   if (!csInitializer::SetupConfigManager(GetObjectRegistry(),
-    "/client/config/client.cfg", GetApplicationName()))
+    "/peragro/config/client.cfg", GetApplicationName()))
     return ReportError("Failed to initialize configuration manager!");
 
   if (!celInitializer::RequestPlugins(GetObjectRegistry(),
@@ -582,7 +582,7 @@ void Client::addEntity()
 
   printf("Loading Actor\n");
   vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(ent->getMesh(), "/client/meshes/all.xml");
+  pcmesh->SetMesh(ent->getMesh(), "/peragro/meshes/all.xml");
 
   csRef<iCelEntity> region = pl->FindEntity("World");
   if (region)

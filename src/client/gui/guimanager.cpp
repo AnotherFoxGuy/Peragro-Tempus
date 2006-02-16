@@ -51,13 +51,13 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
 
     csRef<iVFS> vfs = client->getVFS ();
 
-    vfs->ChDir ("/client/skin/");
+    vfs->ChDir ("/peragro/skin/");
 
     // Load the ice skin (which uses Falagard skinning system)
     cegui->GetSchemeManagerPtr ()->loadScheme("TaharezLookSkin.scheme");
 
     cegui->GetSystemPtr ()->setDefaultMouseCursor("TaharezLook", "MouseArrow");
-    cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/client/skin/Commonv2c.ttf", 10, 
+    cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/peragro/skin/Commonv2c.ttf", 10, 
         CEGUI::Default);
     cegui->GetSystemPtr ()->setTooltip("TaharezLook/Tooltip");
 

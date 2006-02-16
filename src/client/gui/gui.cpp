@@ -52,7 +52,7 @@ CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
   winMgr = cegui->GetWindowManagerPtr ();
 
   // Load layout and set as root
-  vfs->ChDir ("/client/gui/");
+  vfs->ChDir ("/peragro/gui/");
   return winMgr->loadWindowLayout(layoutFile);
 }
 
@@ -744,8 +744,8 @@ void InventoryWindow::CreateGUIWindow()
 
   //Load the inventory icon imageset
   vfs = guimanager->GetClient()->getVFS ();
-  vfs->ChDir ("/client/skin/");
-  cegui->GetImagesetManagerPtr()->createImageset("/client/skin/inventory.imageset", "Inventory");
+  vfs->ChDir ("/peragro/skin/");
+  cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/inventory.imageset", "Inventory");
 
   // Get the frame window
   CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("Inventory/Frame"));
