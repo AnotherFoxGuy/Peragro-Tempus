@@ -1,7 +1,7 @@
 <library>
 <textures>
   <texture name="apple.png">
-	  <file>/client/meshes/apple/apple.png</file>
+	  <file>/peragro/meshes/apple/apple.png</file>
   </texture>
 </textures>
 <materials>

@@ -1,7 +1,7 @@
 <library>
   <textures>
     <texture name="plates.png">
-      <file>/client/meshes/plates/plates.png</file>
+      <file>/peragro/meshes/plates/plates.png</file>
     </texture>
   </textures>
   <materials>

@@ -1,31 +1,31 @@
 <library>
 	<library>/cellib/objects/cally.cal3d</library>
-	<library>/client/meshes/apple/apple.xml</library>
+	<library>/peragro/meshes/apple/apple.xml</library>
 	
-	<library>/client/meshes/plates/bigplate_64_plates.xml</library>
-	<library>/client/meshes/plates/smallplate_64_plates.xml</library>
+	<library>/peragro/meshes/plates/bigplate_64_plates.xml</library>
+	<library>/peragro/meshes/plates/smallplate_64_plates.xml</library>
 	
-	<library>/client/meshes/pots/bigbellyvase_60_pot.xml</library>
-	<library>/client/meshes/pots/bigbellyvase_60_pot2.xml</library>
-	<library>/client/meshes/pots/bigbellyvase_60_pot3.xml</library>
+	<library>/peragro/meshes/pots/bigbellyvase_60_pot.xml</library>
+	<library>/peragro/meshes/pots/bigbellyvase_60_pot2.xml</library>
+	<library>/peragro/meshes/pots/bigbellyvase_60_pot3.xml</library>
 	
-	<library>/client/meshes/pots/bigbellyvase_264_pot.xml</library>
+	<library>/peragro/meshes/pots/bigbellyvase_264_pot.xml</library>
 	
-	<library>/client/meshes/pots/bigpot_160_pot.xml</library>
-	<library>/client/meshes/pots/bigpot_160_pot2.xml</library>
-	<library>/client/meshes/pots/bigpot_160_pot3.xml</library>
+	<library>/peragro/meshes/pots/bigpot_160_pot.xml</library>
+	<library>/peragro/meshes/pots/bigpot_160_pot2.xml</library>
+	<library>/peragro/meshes/pots/bigpot_160_pot3.xml</library>
 	
-	<library>/client/meshes/pots/bigstand_80_pot.xml</library>
-	<library>/client/meshes/pots/bigstand_80_pot2.xml</library>
-	<library>/client/meshes/pots/bigstand_80_pot3.xml</library>
+	<library>/peragro/meshes/pots/bigstand_80_pot.xml</library>
+	<library>/peragro/meshes/pots/bigstand_80_pot2.xml</library>
+	<library>/peragro/meshes/pots/bigstand_80_pot3.xml</library>
 	
-	<library>/client/meshes/pots/smallpot_128_pot.xml</library>
-	<library>/client/meshes/pots/smallpot_128_pot2.xml</library>
-	<library>/client/meshes/pots/smallpot_128_pot3.xml</library>
+	<library>/peragro/meshes/pots/smallpot_128_pot.xml</library>
+	<library>/peragro/meshes/pots/smallpot_128_pot2.xml</library>
+	<library>/peragro/meshes/pots/smallpot_128_pot3.xml</library>
 	
-	<library>/client/meshes/pots/tinyballpot_84_pot.xml</library>
-	<library>/client/meshes/pots/tinyballpot_84_pot2.xml</library>
-	<library>/client/meshes/pots/tinyballpot_84_pot3.xml</library>
+	<library>/peragro/meshes/pots/tinyballpot_84_pot.xml</library>
+	<library>/peragro/meshes/pots/tinyballpot_84_pot2.xml</library>
+	<library>/peragro/meshes/pots/tinyballpot_84_pot3.xml</library>
 	
 	
 </library>
