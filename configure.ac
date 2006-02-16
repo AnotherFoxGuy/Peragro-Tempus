@@ -103,8 +103,10 @@ CS_CHECK_LIB_WITH([CEGUI],
     [AC_LANG_PROGRAM([[#include <CEGUI.h>]],
     [CEGUI::WindowManager::getSingleton();])], [], [C++],
     [], [], [], [], [], [CEGUIBase])
+AS_IF([test -z "$with_CEGUI"], [with_CEGUI=yes])
 
-AS_IF([test $cs_cv_libCEGUI = yes],
+AS_IF([test $with_CEGUI != no],
+[AS_IF([test $cs_cv_libCEGUI = yes],
     [CS_CHECK_BUILD([if CEGUI is sufficiently recent], [cs_cv_CEGUI_recent],
 	[AC_LANG_PROGRAM(
 	    [[#include <falagard/CEGUIFalWidgetLookManager.h>]],
@@ -113,7 +115,10 @@ AS_IF([test $cs_cv_libCEGUI = yes],
 	[CS_EMIT_BUILD_RESULT([cs_cv_libCEGUI], [CEGUI])], [], [],
 	[$cs_cv_libCEGUI_cflags],
 	[$cs_cv_libCEGUI_lflags],
-	[$cs_cv_libCEGUI_libs])])
+	[$cs_cv_libCEGUI_libs])], [AC_MSG_ERROR([
+*** CEGUI could not be found. Version 0.4.0 is required.
+*** You can get it from http://www.cegui.org.uk/
+])])])
 
 #----------------------------------------------------------------------------
 # Check for Crystal Space (CS)
