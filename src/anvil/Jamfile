@@ -1,0 +1,108 @@
+SubDir TOP src anvil ;
+
+Description anvil : "Anvil" ;
+Application anvil : [ Wildcard *.h *.cpp ] ;
+ExternalLibs anvil : CEGUI CRYSTAL ;
+
+if [ Property build : projgen_version ] != 6
+{
+  SubVariant static ;
+  
+  Application anvil_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  CFlags anvil_static : [ FDefines CS_STATIC_LINKED ] ;
+  MsvcDefine anvil_static : CS_STATIC_LINKED ;
+  LFlags anvile_static : -lcrystalspace_staticplugins ;
+
+  cs_plugins_static = 
+    ball
+    ballldr
+    bezier
+    bezierldr
+    bindoc
+    bruteblock
+    terrainldr
+    bugplug
+    cegui
+    csconin
+    csddsimg
+    csfont
+    csgifimg
+    csjpgimg
+    csparser
+    cspngimg
+    cssynldr
+    dsplex
+    dynavis
+    emit
+    emitldr
+    engine
+    engseq
+    explo
+    exploldr
+    fire
+    fireldr
+    fontplex
+    fountain
+    fountldr
+    frustvis
+    freefnt2
+    genmesh
+    gl3d 
+    glshader_arb 
+    glshader_cg
+    glshader_fixed
+    gmeshanim
+    gmeshldr
+    gmeshskelanim
+    haze
+    hazeldr
+    ieplex
+    imgplex
+    nullmesh
+    opcode
+    protomesh
+    protomeshldr
+    rain
+    rainldr
+    rendloop_loader
+    rendstep_std
+    reporter
+    sequence
+    shadermgr
+    simpcon
+    simpleformer
+    simpleformerldr
+    sndsyssoft
+    sndsyswin
+    sndmanager
+    snow
+    snowldr
+    spiral
+    spirldr
+    spr2d
+    spr2dldr
+    spr3d
+    spr3dldr
+    sprcal3d 
+    sprcal3dldr
+    starldr
+    stars
+    stdpt
+    stdrep
+    thing
+    thingldr
+    vfs
+    xmlread
+    xmlshader
+  ;
+
+  if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 ; }
+
+  LinkStaticPlugins anvil_static :  $(cs_plugins_static)  :  : CRYSTAL  ;
+
+  ExternalLibs anvil_static : CRYSTAL CEGUI ;
+  MsvcExternalLibrary anvil_static : "libcrystalspace_staticplugins.lib" : release ;
+  MsvcExternalLibrary anvil_static : "libcrystalspace_staticplugins_d.lib" : debug ;
+  
+  SubVariant ;
+}
