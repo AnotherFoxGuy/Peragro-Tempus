@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+16-Feb-2006
+  - iceeey added CEGUI to ExternalLibs for client-network target.
+
 13-Feb-2006
   - iceeey fixed the Jamfile.in modifications -- copy/paste error with leaving in a semicolon.
   - PK fixed DR sending on the client (that broke the drop location).
