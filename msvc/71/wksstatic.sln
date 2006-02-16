@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
 # Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appanvil_static", "appanvil_static.vcproj", "{2EAD40D1-0BF7-E8DB-4AEF-443E952C7EA5}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appclient_static", "appclient_static.vcproj", "{82DCACAF-1E65-356A-733F-09181ADDD5D1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appserver_static", "appserver_static.vcproj", "{498F747F-CAF0-19D5-5831-5856CE08C0DC}"
@@ -50,6 +52,10 @@ Global
 		{7A6598FD-8A88-8FD6-CBEA-3E31FFF93E13}.0 = {CB1805CB-8E89-B83B-0F29-D8569E098351}
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
+		{2EAD40D1-0BF7-E8DB-4AEF-443E952C7EA5}.Release.ActiveCfg = Release|Win32
+		{2EAD40D1-0BF7-E8DB-4AEF-443E952C7EA5}.Release.Build.0 = Release|Win32
+		{2EAD40D1-0BF7-E8DB-4AEF-443E952C7EA5}.Debug.ActiveCfg = Debug|Win32
+		{2EAD40D1-0BF7-E8DB-4AEF-443E952C7EA5}.Debug.Build.0 = Debug|Win32
 		{82DCACAF-1E65-356A-733F-09181ADDD5D1}.Release.ActiveCfg = Release|Win32
 		{82DCACAF-1E65-356A-733F-09181ADDD5D1}.Release.Build.0 = Release|Win32
 		{82DCACAF-1E65-356A-733F-09181ADDD5D1}.Debug.ActiveCfg = Debug|Win32
