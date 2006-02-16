@@ -6,6 +6,8 @@ under each day.
 
 16-Feb-2006
   - iceeey added CEGUI to ExternalLibs for client-network target.
+  - iceeey changed $^ paths in vfs.cfg to use $(APPDIR) so we can load the
+    PT mounts correctly in CrystalMaya.
 
 13-Feb-2006
   - iceeey fixed the Jamfile.in modifications -- copy/paste error with leaving in a semicolon.

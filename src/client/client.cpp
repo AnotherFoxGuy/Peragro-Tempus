@@ -192,6 +192,8 @@ void Client::FinishFrame()
 
 bool Client::OnInitialize(int argc, char* argv[])
 {
+  setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]), true);
+
   if (!csInitializer::SetupConfigManager(GetObjectRegistry(),
     "/client/config/client.cfg", GetApplicationName()))
     return ReportError("Failed to initialize configuration manager!");
