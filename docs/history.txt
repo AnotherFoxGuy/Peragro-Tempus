@@ -12,6 +12,7 @@ under each day.
   - iceeey made /art/world/ map the default.
   - iceeey made one VFS mount point for data/ mapped to VFS path: /peragro/.
   - iceeey revived Anvil!
+  - iceeey added arrows on the other sides of the selection bounding box.
 
 13-Feb-2006
   - iceeey fixed the Jamfile.in modifications -- copy/paste error with leaving in a semicolon.

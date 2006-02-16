@@ -104,6 +104,7 @@ private:
   
   /// References to the arrow meshes
   csRef<iMeshWrapper> arrow_x, arrow_y, arrow_z;
+  csRef<iMeshWrapper> arrow_x2, arrow_y2, arrow_z2;
   
   /// The axis of the constraint
   csVector3 constraintAxis;

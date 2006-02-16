@@ -313,26 +313,25 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
         // Start operation
         isDragging = true;
         
-        if (clickedMesh == arrow_x)
+        if (clickedMesh == arrow_x || clickedMesh == arrow_x2)
           constraint = ZConstraint;
-        else if (clickedMesh == arrow_y)
+        else if (clickedMesh == arrow_y || clickedMesh == arrow_x2)
           constraint = YConstraint;
-        else if (clickedMesh == arrow_z)
+        else if (clickedMesh == arrow_z || clickedMesh == arrow_x2)
           constraint = XConstraint;
         
+        dragMesh = clickedMesh;
+
         switch (constraint)
         {
           case XConstraint:
             constraintAxis = csVector3(1,0,0);
-            dragMesh = arrow_x;
             break;
           case YConstraint:
             constraintAxis = csVector3(0,1,0);
-            dragMesh = arrow_y;
             break;
           case ZConstraint:
             constraintAxis = csVector3(0,0,1);
-            dragMesh = arrow_z;
             break;
           default:
             constraintAxis = csVector3(0,0,0);
@@ -580,10 +579,25 @@ bool anvEngine::Application()
   arrow_x = visualsRegion->FindMeshFactory("__arrow_x")->CreateMeshWrapper();
   arrow_y = visualsRegion->FindMeshFactory("__arrow_y")->CreateMeshWrapper();
   arrow_z = visualsRegion->FindMeshFactory("__arrow_z")->CreateMeshWrapper();
-  
+  arrow_x2 = visualsRegion->FindMeshFactory("__arrow_x")->CreateMeshWrapper();
+  arrow_y2 = visualsRegion->FindMeshFactory("__arrow_y")->CreateMeshWrapper();
+  arrow_z2 = visualsRegion->FindMeshFactory("__arrow_z")->CreateMeshWrapper();
+
+  // Flip the opposite arrows
+  arrow_x2->GetMovable()->GetTransform().RotateOther (csVector3(0,1,0), PI);
+  arrow_y2->GetMovable()->GetTransform().RotateOther (csVector3(0,0,1), PI);
+  arrow_z2->GetMovable()->GetTransform().RotateOther (csVector3(0,1,0), PI);
+
+  arrow_x2->GetMovable()->UpdateMove();
+  arrow_y2->GetMovable()->UpdateMove();
+  arrow_z2->GetMovable()->UpdateMove();
+
   visualsRegion->Add(arrow_x->QueryObject());
   visualsRegion->Add(arrow_y->QueryObject());
-  visualsRegion->Add(arrow_z->QueryObject());
+  visualsRegion->Add(arrow_z->QueryObject());  
+  visualsRegion->Add(arrow_x2->QueryObject());
+  visualsRegion->Add(arrow_y2->QueryObject());
+  visualsRegion->Add(arrow_z2->QueryObject());
   
   selectionMesh = visualsRegion->FindMeshFactory("__selection_mesh")->CreateMeshWrapper();
 
@@ -650,6 +664,7 @@ void anvEngine::SetSelection(anvSelection selection)
 void anvEngine::UpdateSelection(csBox3 bbox)
 {
   csVector3 max = bbox.Max();
+  csVector3 min = bbox.Min();
   csVector3 center = bbox.GetCenter();
   
   // Scale the selection mesh to the selection's bounding box
@@ -674,13 +689,19 @@ void anvEngine::UpdateSelection(csBox3 bbox)
   selectionMesh->GetMovable()->UpdateMove();
   
   // Move the arrows into position
-  arrow_z->GetMovable()->SetPosition(editSector, csVector3(max.x, center.y, center.z));
-  arrow_y->GetMovable()->SetPosition(editSector, csVector3(center.x, max.y, center.z));
   arrow_x->GetMovable()->SetPosition(editSector, csVector3(center.x, center.y, max.z));
-  
+  arrow_y->GetMovable()->SetPosition(editSector, csVector3(center.x, max.y, center.z));
+  arrow_z->GetMovable()->SetPosition(editSector, csVector3(max.x, center.y, center.z));
+  arrow_x2->GetMovable()->SetPosition(editSector, csVector3(center.x, center.y, min.z));
+  arrow_y2->GetMovable()->SetPosition(editSector, csVector3(center.x, min.y, center.z));
+  arrow_z2->GetMovable()->SetPosition(editSector, csVector3(min.x, center.y, center.z));
+
   arrow_x->GetMovable()->UpdateMove();
   arrow_y->GetMovable()->UpdateMove();
   arrow_z->GetMovable()->UpdateMove();
+  arrow_x2->GetMovable()->UpdateMove();
+  arrow_y2->GetMovable()->UpdateMove();
+  arrow_z2->GetMovable()->UpdateMove();
 }
 
 bool anvEngine::LoadWorld(const char* path, const char* world)
