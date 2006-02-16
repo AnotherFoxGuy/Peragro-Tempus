@@ -1,0 +1,110 @@
+"For every action, there exists an equal and opposite reaction." Newton's
+famous words apply to more than just physics. In designing an undo/redo system,
+revertable commands can be stored in an undo and redo stack. The state can then
+be restored by simply proceeding backwards. The commands store enough
+information along with them to both perform and revert themselves.
+
+This design has several advantages. First, all specialized command code is
+separated from the GUI and event handler, which allows them to be easily
+reused and maintained. Second, undo and redo history becomes easy to implement.
+Finally, macros can be recorded and played back by storing a list of commands
+much like the undo/redo system. These can prove to be very powerful features.
+
+Move
+====
+
+Stores: csVector3 displacement
+Perform: Move by displacement.
+Revert: Move by -displacement.
+
+The following describes the steps that occur while an object is moved. By using
+commands, the movement can be undone afterwards.
+
+First, the drag is initiated by clicking the mouse down. This generates a mouse
+down event, which is processed by the event handler. The handler stores the
+initial world position of the mouse. This is stored in the main anvEngine class
+and will be used later.
+
+While the mouse is moving, mouse move events will be generated. A move command
+will be created and performed without being pushed onto the undo stack. This
+move command will move the selection by a displacement proportional to the
+mouse movement since the last mouse move event.
+
+Finally, when the mouse is released, a mouse up event will be generated. A
+movement command will be created with the total displacement (end - start)
+and added to the undo stack, but NOT performed. The selection has already
+been moved by now, so it is not necessary to perform the command. The command
+must still be stored, however, to allow the command to be undone at a later
+time.
+
+Rotate
+======
+
+Stores: csMatrix3 rotation
+Perform: Rotate by rotation.
+Revert: Rotate by -rotation.
+
+Rotation will be done in much the same way as movement, however matrices will
+be created from world positions instead of vectors.
+
+Scale
+=====
+
+Stores: csVector3 scale
+Perform: Scale by scale.
+Revert: Scale by 1/scale.
+
+Scaling is slightly more complicated than movement. At each mouse move, the
+difference in world space is found. Then, the scale must be given by the
+equation
+
+  scale = (original + .5 * difference) / original
+
+where original is the original size of that dimension (width, height, depth)
+and difference is the movement in world space.
+
+The final scale calculated for the scale command is simply the ratio of the
+end size to start size (end / start).
+
+Scaling functionality is only available on meshes whose iMeshObject
+SupportsHardTransform() method returns true. Meshes without hard scaling
+support cannot be scaled by anvil.
+
+Set Property
+============
+
+Stores: csString name, csString value,
+        csString originalName, csString originalValue
+Perform: Set property/value to new ones.
+Revert: Original property/value restored.
+
+For meshes, the property is set (<key name="name" value="value" />) on each part
+of the selection.
+
+For terrain, the property is set for each control point selected.
+
+Create
+======
+
+Stores: iMeshWrapper* mesh
+Perform: mesh is created.
+Revert: mesh is removed.
+
+This only works for mesh edit mode.
+
+Remove
+======
+
+Stores: anvSelection selection
+Perform: All meshes in the selection are removed.
+Revert: All meshes in the selection are recreated.
+
+Removes all meshes in the current selection.
+This only works for mesh edit mode.
+
+Select
+======
+
+Stores: anvSelection old, anvSelection new
+Perform: Set selection to new
+Revert: Set selection to old.
