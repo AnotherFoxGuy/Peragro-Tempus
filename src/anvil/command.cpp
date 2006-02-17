@@ -51,7 +51,7 @@ void anvSelectCommand::Initialize(anvSelection newSelection, anvSelection oldSel
   this->oldSelection = oldSelection;
 }
 
-void anvTransformCommand::Initialize(csReversibleTransform matrix, bool local)
+void anvTransformCommand::Initialize(csReversibleTransform transform, bool local)
 {
   this->transform = transform;
   this->local = local;

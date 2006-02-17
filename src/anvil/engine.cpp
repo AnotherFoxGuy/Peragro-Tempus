@@ -57,6 +57,7 @@
 #include <ivideo/graph3d.h>
 #include <ivideo/material.h>
 #include <ivideo/shader/shader.h>
+#include <ivideo/natwin.h>
 
 anvEngine* anvEngine::anvil = NULL;
 
@@ -137,7 +138,12 @@ bool anvEngine::OnKeyboard(iEvent& ev)
   if (csKeyEventHelper::GetEventType(&ev) == csKeyEventTypeDown)
   {
     // The user pressed a key (as opposed to releasing it).
-    utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
+    utf32_char code = csKeyEventHelper::GetRawCode(&ev);
+
+    csKeyModifiers modifiers;
+    csKeyEventHelper::GetModifiers (&ev, modifiers);
+    bool ctrl = modifiers.modifiers[csKeyModifierTypeCtrl] != 0;
+
     if (code == CSKEY_ESC)
     {
       // The user pressed escape, so terminate the application.  The proper way
@@ -150,7 +156,7 @@ bool anvEngine::OnKeyboard(iEvent& ev)
       if (q.IsValid())
         q->GetEventOutlet()->Broadcast(csevQuit (GetObjectRegistry()));
     }
-    
+
     if (code == 'l')
     {
       if (view->GetCamera()->GetSector()->GetLights()->Find(flashlight) == -1)
@@ -162,6 +168,19 @@ bool anvEngine::OnKeyboard(iEvent& ev)
       else
       {
         view->GetCamera()->GetSector()->GetLights()->Remove(flashlight);
+      }
+    }
+
+    if (ctrl)
+    {
+      if (code == 'z')
+      {
+        Undo ();
+      }
+
+      if (code == 'y')
+      {
+        Redo ();
       }
     }
   }
@@ -190,7 +209,7 @@ void anvEngine::EndDrag()
   // No movement, cycle through operations
   if (csSquaredDist::PointPoint(worldStart, worldEnd) < EPSILON)
   {
-    operation = (operation + 1) % LastOperation;
+    operation = (operation + 1) % ScaleOperation; // Temporarily disable ScaleOperation
   }
   // Complete operation, push command
   else
@@ -553,6 +572,9 @@ bool anvEngine::Application()
   g2d = g3d->GetDriver2D ();
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
   
+  iNativeWindow* nw = g2d->GetNativeWindow ();
+  if (nw) nw->SetTitle ("Anvil");
+  
   // Load default world
   LoadWorld("/peragro/art/world/", "world"); 
   
@@ -747,14 +769,20 @@ void anvEngine::PerformAndPush(iAnvCommand* command)
 
 void anvEngine::Undo()
 {
-  csRef<iAnvCommand> command = undostack.Pop();
-  command->Revert();
-  redostack.Push(command);
+  if (!undostack.IsEmpty ())
+  {
+    csRef<iAnvCommand> command = undostack.Pop();
+    command->Revert();
+    redostack.Push(command);
+  }
 }
 
 void anvEngine::Redo()
 {
-  csRef<iAnvCommand> command = redostack.Pop();
-  command->Revert();
-  undostack.Push(command);
+  if (!redostack.IsEmpty ())
+  {
+    csRef<iAnvCommand> command = redostack.Pop();
+    command->Perform();
+    undostack.Push(command);
+  }
 }
