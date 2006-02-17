@@ -334,9 +334,9 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
         
         if (clickedMesh == arrow_x || clickedMesh == arrow_x2)
           constraint = ZConstraint;
-        else if (clickedMesh == arrow_y || clickedMesh == arrow_x2)
+        else if (clickedMesh == arrow_y || clickedMesh == arrow_y2)
           constraint = YConstraint;
-        else if (clickedMesh == arrow_z || clickedMesh == arrow_x2)
+        else if (clickedMesh == arrow_z || clickedMesh == arrow_z2)
           constraint = XConstraint;
         
         dragMesh = clickedMesh;

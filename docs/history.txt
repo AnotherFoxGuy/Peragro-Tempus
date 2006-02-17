@@ -8,6 +8,7 @@ under each day.
   - iceeey added Undo/Redo (use Ctrl+Z/Ctrl+Y) to Anvil.
   - iceeey gave the Anvil window a title.
   - iceeey disabled the scale transform since it causes a crash.
+  - iceeey fixed the new Anvil arrows (copy&paste error).
 
 16-Feb-2006
   - iceeey added CEGUI to ExternalLibs for client-network target.
