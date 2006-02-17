@@ -9,6 +9,8 @@ under each day.
   - iceeey gave the Anvil window a title.
   - iceeey disabled the scale transform since it causes a crash.
   - iceeey fixed the new Anvil arrows (copy&paste error).
+  - iceeey added saving to Anvil with Ctrl+S. CS Saver won't properly save
+    terrain, libraries, or addons however. Saves to /this/world.save.
 
 16-Feb-2006
   - iceeey added CEGUI to ExternalLibs for client-network target.

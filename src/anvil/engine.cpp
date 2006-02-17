@@ -25,6 +25,7 @@
 #include <cstool/csview.h>
 #include <csutil/csstring.h>
 #include <csutil/event.h>
+#include <csutil/plugmgr.h>
 #include <csutil/refarr.h>
 #include <csutil/sysfunc.h>
 #include <csutil/syspath.h>
@@ -41,6 +42,7 @@
 #include <iengine/sector.h>
 #include <iengine/collectn.h>
 #include <imap/loader.h>
+#include <imap/saver.h>
 #include <imesh/terrain.h>
 #include <imesh/object.h>
 #include <iutil/csinput.h>
@@ -181,6 +183,11 @@ bool anvEngine::OnKeyboard(iEvent& ev)
       if (code == 'y')
       {
         Redo ();
+      }
+
+      if (code == 's')
+      {
+        SaveWorld ("/this/world.save");
       }
     }
   }
@@ -554,6 +561,8 @@ bool anvEngine::Application()
   engine = CS_QUERY_REGISTRY(r, iEngine);
   if (!engine)
     return ReportError("Failed to locate 3D engine!");
+
+  engine->SetSaveableFlag (true);
   
   vc = CS_QUERY_REGISTRY(r, iVirtualClock);
   if (!vc) return ReportError("Failed to locate Virtual Clock!");
@@ -751,8 +760,20 @@ bool anvEngine::LoadWorld(const char* path, const char* world)
   return true;
 }
 
-void anvEngine::SaveWorld(const char* worldname)
+void anvEngine::SaveWorld(const char* world)
 {
+  csRef<iPluginManager> pluginManager =
+    CS_QUERY_REGISTRY (object_reg, iPluginManager);
+  csRef<iSaver> saver =
+    CS_QUERY_PLUGIN_CLASS(pluginManager, "crystalspace.level.saver", iSaver);
+  if (!saver)
+  {
+    saver = CS_LOAD_PLUGIN(pluginManager, "crystalspace.level.saver", iSaver);
+  }
+  if (saver)
+  {
+    saver->SaveMapFile(world);
+  }
 }
 
 void anvEngine::PushCommand(iAnvCommand* command)
