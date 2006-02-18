@@ -6,6 +6,7 @@ under each day.
 
 18-Feb-2006
   - iceeey made Anvil set the $APPDIR environment variable.
+  - Sueastside changed the default cs window title to read Peragro Tempus.
 
 17-Feb-2006
   - iceeey added Undo/Redo (use Ctrl+Z/Ctrl+Y) to Anvil.
