@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+18-Feb-2006
+  - iceeey made Anvil set the $APPDIR environment variable.
+
 17-Feb-2006
   - iceeey added Undo/Redo (use Ctrl+Z/Ctrl+Y) to Anvil.
   - iceeey gave the Anvil window a title.

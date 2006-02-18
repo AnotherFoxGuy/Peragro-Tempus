@@ -502,6 +502,8 @@ csReversibleTransform anvEngine::GetOperationTransform(csVector3 worldDiff)
 
 bool anvEngine::OnInitialize(int argc, char* argv[])
 {
+  setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]), true);
+
   iObjectRegistry* r = GetObjectRegistry();
 
   // Load application-specific configuration file.
