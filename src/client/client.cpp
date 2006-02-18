@@ -239,6 +239,9 @@ bool Client::Application()
   cmdline = CS_QUERY_REGISTRY(GetObjectRegistry(), iCommandLineParser);
   if (!cmdline) return ReportError("Failed to locate CommandLineParser plugin");
 
+  iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
+  if (nw) nw->SetTitle ("Peragro Tempus");
+
   engine->SetClearScreen(true);
 
   InitializeCEL();
