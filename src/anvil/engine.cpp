@@ -589,7 +589,7 @@ bool anvEngine::Application()
   if (nw) nw->SetTitle ("Anvil");
   
   // Load default world
-  LoadWorld("/peragro/art/world/", "world"); 
+  LoadWorld("/peragro/world/", "world"); 
   
 /*
   // Load our own renderloop
@@ -617,6 +617,10 @@ bool anvEngine::Application()
   arrow_x2 = visualsRegion->FindMeshFactory("__arrow_x")->CreateMeshWrapper();
   arrow_y2 = visualsRegion->FindMeshFactory("__arrow_y")->CreateMeshWrapper();
   arrow_z2 = visualsRegion->FindMeshFactory("__arrow_z")->CreateMeshWrapper();
+
+  arrow_x2->QueryObject()->SetName ("__arrow_x2");
+  arrow_y2->QueryObject()->SetName ("__arrow_y2");
+  arrow_z2->QueryObject()->SetName ("__arrow_z2");
 
   // Flip the opposite arrows
   arrow_x2->GetMovable()->GetTransform().RotateOther (csVector3(0,1,0), PI);

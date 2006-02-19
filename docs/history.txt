@@ -7,6 +7,8 @@ under each day.
 19-Feb-2006
   - iceeey fixed multiple object selection in Anvil.
   - iceeey clarified some variable names in Anvil.
+  - iceeey gave the reversed arrows different mesh names.
+  - iceeey made Anvil use the checkerboard test level.
 
 18-Feb-2006
   - iceeey made Anvil set the $APPDIR environment variable.
