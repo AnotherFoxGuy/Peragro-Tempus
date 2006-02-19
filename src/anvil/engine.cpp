@@ -279,6 +279,8 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
   
   bool mouse_down = ev.Name == csevMouseDown (object_reg, 0);
   bool mouse_up = ev.Name == csevMouseUp (object_reg, 0);
+
+  bool shift_held = kbd->GetKeyState (CSKEY_SHIFT);
   
   // The following vectors are only set if needed.
 
@@ -306,8 +308,8 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
       anvSelection newSelection, oldSelection;
       
       oldSelection = GetSelection();
-      
-      if (csMouseEventHelper::GetModifiers(&ev) & CSMASK_SHIFT)
+
+      if (shift_held)
       {
         newSelection = oldSelection;
         // Deselect
@@ -396,16 +398,16 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
     csVector3 dragCenter = dragMesh->GetMovable()->GetFullPosition() + dragOffset;
     
     // Get constraint axis in world space
-    csVector3 constraint = dragMesh->GetMovable()->GetTransform().This2Other(constraintAxis);
+    csVector3 constraintVec = dragMesh->GetMovable()->GetTransform().This2Other(constraintAxis);
     
     // Find picking ray (from origin)
     csVector3 pickingRay = vo + (vw - vo) * (int) 100000;
     
-    // Find normal of constraint and picking ray to form a plane containing these
-    csVector3 constraintN = pickingRay % constraint;
+    // Find normal of constraint and picking ray to form a plane containing normal and constraint
+    csVector3 constraintN = pickingRay % constraintVec;
     
     // Find normal of the constraint plane
-    csVector3 constraintPlaneN = constraintN % constraint;
+    csVector3 constraintPlaneN = constraintN % constraintVec;
     
     csVector3 isect;
     float dist;

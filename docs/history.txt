@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+19-Feb-2006
+  - iceeey fixed multiple object selection in Anvil.
+  - iceeey clarified some variable names in Anvil.
+
 18-Feb-2006
   - iceeey made Anvil set the $APPDIR environment variable.
   - Sueastside changed the default cs window title to read Peragro Tempus.
