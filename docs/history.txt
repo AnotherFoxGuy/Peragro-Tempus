@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+21-Feb-2006
+  - dingobloo fixed the iobjmodel includes for the latest cs header changes.
+
 19-Feb-2006
   - iceeey fixed multiple object selection in Anvil.
   - iceeey clarified some variable names in Anvil.

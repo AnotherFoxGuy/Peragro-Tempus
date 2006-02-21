@@ -25,7 +25,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/sector.h"
-#include "igeom/objmodel.h"
+#include "imesh/objmodel.h"
 #include "imesh/object.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/graph2d.h"
