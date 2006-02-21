@@ -75,7 +75,7 @@ public:
     pos[2] = 0.0f;
   }
 
-  ~Entity()
+  virtual ~Entity()
   {
     //delete [] name;
     //delete [] mesh;

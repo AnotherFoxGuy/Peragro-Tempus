@@ -31,23 +31,9 @@ class Item;
 
 class PcEntity : public CharacterEntity
 {
-private:
-  Inventory inventory;
-  CharacterStats stats;
-
 public:
   PcEntity() : CharacterEntity(PlayerEntity)
   {
-  }
-
-  Inventory* getInventory()
-  {
-    return &inventory;
-  }
-
-  CharacterStats* getStats()
-  {
-    return &stats;
   }
 };
 

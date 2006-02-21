@@ -6,6 +6,9 @@ under each day.
 
 21-Feb-2006
   - dingobloo fixed the iobjmodel includes for the latest cs header changes.
+  - PK fixed picking and droppnig
+  - PK relocated the Test-Dummy
+  - PK fixed a possible memory leak (forgot virtual destructors)
 
 19-Feb-2006
   - iceeey fixed multiple object selection in Anvil.

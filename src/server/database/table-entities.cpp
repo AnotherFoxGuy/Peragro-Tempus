@@ -55,18 +55,18 @@ void EntityTable::createTable()
     "PRIMARY KEY (id) );");
 
   //Example Data!
-  float pos1[3] = { 0, 0, 0};
+  float pos1[3] = { -2, 0, 0};
   insert(1, "test-dummy", 0, 0, "test", pos1, "room");
   float pos2[3] = { 0, 0, 1};
-  insert(2, "apple-test1", 3, 1,"apple", pos2, "room");
+  insert(2, "apple", 3, 1,"apple", pos2, "room");
   float pos3[3] = { -1, 0, 1};
-  insert(3, "apple-test2", 3, 1,"apple", pos3, "room");
+  insert(3, "apple", 3, 1,"apple", pos3, "room");
   float pos4[3] = { 1, 0, 0};
-  insert(4, "apple-test3", 3, 1,"apple", pos4, "room");
+  insert(4, "apple", 3, 1,"apple", pos4, "room");
   float pos5[3] = { 1, 0, -1};
-  insert(5, "apple-test4", 3, 1,"apple", pos5, "room");
+  insert(5, "apple", 3, 1,"apple", pos5, "room");
   float pos6[3] = { -1, 0, -1};
-  insert(6, "apple-test5", 3, 1,"apple", pos6, "room");
+  insert(6, "apple", 3, 1,"apple", pos6, "room");
 }
 
 void EntityTable::insert(int id, const char* name, int type, int item, const char* mesh, float pos[3], const char* sector)

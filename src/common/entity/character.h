@@ -53,7 +53,7 @@ public:
     pos[2] = 0.0f;
   }
 
-  ~Character()
+  virtual ~Character()
   {
     //delete [] name;
     //delete [] mesh;

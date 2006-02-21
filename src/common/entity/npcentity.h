@@ -32,23 +32,9 @@ class Item;
 
 class NpcEntity : public CharacterEntity
 {
-private:
-  Inventory inventory;
-  CharacterStats stats;
-
 public:
   NpcEntity() : CharacterEntity(NPCEntity)
   {
-  }
-
-  Inventory* getInventory()
-  {
-    return &inventory;
-  }
-
-  CharacterStats* getStats()
-  {
-    return &stats;
   }
 };
 
