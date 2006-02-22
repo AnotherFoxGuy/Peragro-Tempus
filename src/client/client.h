@@ -43,6 +43,7 @@ struct iSector;
 class Entity;
 class Network;
 class GUIManager;
+class EffectsManager;
 class Cursor;
 struct iCommandLineParser;
 
@@ -78,6 +79,7 @@ private:
 
   Network* network;
   GUIManager* guimanager;
+  EffectsManager* effectsmanager;
 
   bool InitializeCEL();
 

@@ -1,0 +1,62 @@
+<library>
+
+<textures>
+
+	<texture name="dot">
+		<file>/peragro/meshes/effects/dot.png</file>
+	</texture>
+	
+</textures>
+
+	<shaders>
+		<shader>
+			<file>/shader/particle_basic.xml</file>
+		</shader>
+	</shaders>
+
+<materials>
+
+	  <material name="particle">
+	    <texture>dot</texture>
+		<shader type="ambient">particle_basic</shader>
+	  </material>
+	  
+</materials>
+
+<meshfact name="bloodsplatfact">
+	  <plugin>crystalspace.mesh.loader.factory.particles</plugin>
+	    <params>
+	    <material>particle</material>
+		  <emitter type="sphere">
+			<time>5</time>
+			<innerradius>0.01</innerradius>
+			<outerradius>0.23</outerradius>
+		    <force type="linear">
+			  <direction x="0" y="0" z="-1"/>
+  			  <amount>5</amount>
+			  <range>2.0</range>
+			  <falloff>linear</falloff>
+		    </force>
+		  </emitter>
+		  <dampener>1.1</dampener>
+		  <mass>8</mass>
+		  <massvariation>-2.5</massvariation>
+		  <pps>300</pps>
+		  <initial>0</initial>
+		  <gravity x="0" y="-1.5" z="0"/>
+		  <diffusion>0.1</diffusion>
+		  <radius>0.01</radius>
+		  <ttl>5</ttl>
+		  <zsort>yes</zsort>
+		  <timevariation>10.5</timevariation>
+		  <colormethod type="linear">
+  		    <gradient>
+			  <color red="0.4" green="0" blue="0"/>
+			  <color red="0.5" green="0" blue="0"/>
+			  <color red="0.8" green="0" blue="0"/>
+		    </gradient>
+	      </colormethod>
+	  </params>
+	</meshfact>
+
+</library>

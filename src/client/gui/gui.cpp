@@ -143,7 +143,11 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
   LoginRequestMessage answer_msg;
   CEGUI::String login = GetLogin();
   CEGUI::String password = GetPassword();
-  if (login.empty() || password.empty()) return true;
+  if (login.empty() || password.empty()) 
+  {
+    GUIWindow::EnableWindow();
+    return true;
+  }
   answer_msg.setName(login.c_str());
   answer_msg.setPwHash(password.c_str());
   network->send(&answer_msg);
@@ -588,7 +592,7 @@ bool InventoryWindow::handleDragDroppedStackable(const CEGUI::EventArgs& args)
     {
       const char* slottype = ddea.window->getUserString("itemtype").c_str();
       const char* itemtype = ddea.dragDropItem->getUserString("itemtype").c_str();
-      printf("Slottype is %s and itemtype is %s \n", slottype, itemtype);
+      //printf("Slottype is %s and itemtype is %s \n", slottype, itemtype);
 
       if ( !strcmp(slottype, itemtype) ) 
       {
@@ -692,7 +696,7 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackab
   {
     CEGUI::Window* slot = inventoryframe->getChildAtIdx(i);
     i += 1;
-    printf("Checking slot %d \n", i);
+    //printf("Checking slot %d \n", i);
 
     char itemtypestr[1024];
     sprintf(itemtypestr, "%d", itemtype);
@@ -706,7 +710,7 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackab
 
       if ((slot->getChildCount() < 2 ) || sameid)
       {
-        printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
+        //printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
         freeslot = slot;
 
         freeslot->addChildWindow(createItemIcon(itemname, itemtype, stackable));

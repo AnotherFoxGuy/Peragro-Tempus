@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+22-Feb-2006
+  - Sueastside committed the work in progress effectsmanager.
+  - Sueastside made some small performance tweaks.
+
 21-Feb-2006
   - dingobloo fixed the iobjmodel includes for the latest cs header changes.
   - PK fixed picking and droppnig

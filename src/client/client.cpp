@@ -89,6 +89,9 @@
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
+
+#include "client/effects/effectsmanager.h"
+
 #include "common/entity/entity.h"
 
 #include "common/util/wincrashdump.h"
@@ -126,6 +129,9 @@ void Client::ProcessFrame()
 
   csTicks ticks = vc->GetElapsedTicks();
   timer += ticks;
+
+  effectsmanager->HandleEffects(ticks);
+
   if (limitFPS > 0)
   {
     if (ticks < 1000.0f/limitFPS)
@@ -188,6 +194,7 @@ void Client::FinishFrame()
   g3d->Print(0);
 
   g3d->BeginDraw(engine->GetBeginDrawFlags());
+  
 }
 
 bool Client::OnInitialize(int argc, char* argv[])
@@ -249,14 +256,23 @@ bool Client::Application()
   network = new Network(this);
   network->init();
 
+  // Create and Initialize the Effectsmanager.
+  effectsmanager = new EffectsManager (this);
+  if (!effectsmanager->Initialize (GetObjectRegistry()))
+    return false;
+
+  // Create and Initialize the GUImanager.
   guimanager = new GUIManager (this);
   if (!guimanager->Initialize (GetObjectRegistry()))
     return false;
 
   guimanager->CreateConnectWindow ();
+
+  // Test stuff.
   //guimanager->CreateChatWindow ();
   //guimanager->CreateInventoryWindow ();
   //guimanager->GetChatWindow ()->ShowWindow();
+
   if (cmdline)
   {
     const char* host = cmdline->GetOption("host");
@@ -344,6 +360,20 @@ bool Client::OnKeyboard(iEvent& ev)
       else if (code == CSKEY_RIGHT)
       {
         turn = 1;
+      }
+      else if (code == CSKEY_SPACE)
+      {
+        (walk == 0) ? walk = 1 : walk = 0;
+      }
+      else if (code == 'h')
+      {
+        char tmp[32];
+        cs_snprintf(tmp, 32, "player_%d", own_char_id);
+        iCelEntity* entity = pl->FindEntity(tmp);
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        effectsmanager->CreateEffect(pcmesh->GetMesh());
       }
       /*
       else if (code == CSKEY_SPACE)
@@ -506,6 +536,8 @@ void Client::loadRegion()
 
   if (!load_region.IsValid()) return;
 
+  engine->SetClearScreen(false);
+
   guimanager->GetSelectCharWindow ()->HideWindow();
 
   guimanager->CreateChatWindow ();
@@ -537,7 +569,7 @@ void Client::addEntity(Entity* entity)
 
 void Client::addEntity()
 {
-  if (!new_entity_name.GetSize() || !world_loaded) return;
+  if (!new_entity_name.GetSize() || !world_loaded || !playing) return;
   mutex.lock();
 
   Entity* ent = new_entity_name.Pop();
