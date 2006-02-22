@@ -7,6 +7,7 @@ under each day.
 22-Feb-2006
   - Sueastside committed the work in progress effectsmanager.
   - Sueastside made some small performance tweaks.
+  - PK fixed compiling on linux (gcc4).
 
 21-Feb-2006
   - dingobloo fixed the iobjmodel includes for the latest cs header changes.
