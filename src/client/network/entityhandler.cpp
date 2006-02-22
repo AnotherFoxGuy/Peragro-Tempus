@@ -31,6 +31,7 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
     case Entity::ItemEntity: entity = new ItemEntity(); break;
     case Entity::PlayerEntity: entity = new PcEntity(); break;
     case Entity::NPCEntity: entity = new NpcEntity(); break;
+    default : {printf("Unknow entity!"); return;}
   };
   entity->setName(entmsg.getName());
   entity->setMesh(entmsg.getMesh());

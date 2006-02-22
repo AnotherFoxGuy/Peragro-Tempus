@@ -739,7 +739,7 @@ void InventoryWindow::AddSkil(const char* skillname, unsigned int skillvalue)
   unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
   ((CEGUI::MultiColumnList*)btn)->setItem(skillnameItem, 0, row);
   ((CEGUI::MultiColumnList*)btn)->setItem(skillvalueItem, 1, row);
-  ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+  //((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 }
 void InventoryWindow::CreateGUIWindow()
 {

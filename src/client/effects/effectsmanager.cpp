@@ -40,7 +40,7 @@
 #include "imesh/spritecal3d.h"
 #include "imesh/sprite2d.h"
 #include "imesh/genmesh.h"
-#include "igeom/objmodel.h"
+#include "imesh/objmodel.h"
 #include "iutil/databuff.h"
 #include "iutil/event.h"
 #include "iutil/eventq.h"
