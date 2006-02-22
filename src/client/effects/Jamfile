@@ -1,6 +1,6 @@
 SubDir TOP src client effects ;
 
-Description client-gui : "client effects" ;
+Description client-effects : "client effects" ;
 Library client-effects :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-gui : CRYSTAL CEL ;
+ExternalLibs client-effects : CRYSTAL CEL ;
