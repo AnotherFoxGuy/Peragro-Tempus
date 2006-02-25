@@ -373,7 +373,17 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!entity) return false;
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
         if (!pcmesh) return false;
-        effectsmanager->CreateEffect(pcmesh->GetMesh());
+        effectsmanager->CreateEffect(pcmesh->GetMesh(), EffectsManager::Blood);
+      }
+      else if (code == 'j')
+      {
+        char tmp[32];
+        cs_snprintf(tmp, 32, "player_%d", own_char_id);
+        iCelEntity* entity = pl->FindEntity(tmp);
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        effectsmanager->CreateEffect(pcmesh->GetMesh(), EffectsManager::Levelup);
       }
       /*
       else if (code == CSKEY_SPACE)

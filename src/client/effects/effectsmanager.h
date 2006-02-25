@@ -35,7 +35,7 @@ struct iLoader;
 
 class EffectsManager
 {
-private:  
+private:
   Client* client;
   csArray<Effect> effects;
 
@@ -43,18 +43,24 @@ private:
   csRef<iVFS> vfs;
   csRef<iLoader> loader;
 
-  iMeshWrapper* CreateEffectMesh (csString effectname);
-  
+  iMeshWrapper* EffectsManager::CreateEffectMesh (int effect);
+
 public:
   EffectsManager (Client* client);
   ~EffectsManager ();
-  
+
+  enum EffectType
+  {
+    Blood=0,
+    Levelup=1
+  };
+
   bool Initialize (iObjectRegistry* obj_reg);
-  
+
   Client* GetClient () {return client;}
-  
-  bool CreateEffect (iMeshWrapper* parent);
-  
+
+  bool CreateEffect (iMeshWrapper* parent, int effect);
+
   void HandleEffects(csTicks elapsed_ticks);
 
 };

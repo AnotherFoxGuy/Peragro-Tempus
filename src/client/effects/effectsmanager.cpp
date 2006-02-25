@@ -97,32 +97,58 @@ void EffectsManager::HandleEffects (csTicks elapsed_ticks)
   }
 }
 
-iMeshWrapper* EffectsManager::CreateEffectMesh (csString effectname)
+iMeshWrapper* EffectsManager::CreateEffectMesh (int effect)
 {
+  csString factory;
+  int duration;
+  float height;
 
- csRef<iMeshFactoryWrapper> effectfactory =  engine->FindMeshFactory("bloodsplatfact");
- if (!effectfactory)
+ switch (effect)
+  {
+    case EffectsManager::Blood: 
+      {
+      factory = "bloodsplat"; 
+      duration = 2000;
+      height = 1.3f;
+      }
+      break;
+
+    case EffectsManager::Levelup:
+      {
+      factory = "levelup"; 
+      duration = 6000;
+      height = 1.1f;
+      }
+      break;
+
+    default : {printf("Unknown effect type!"); return 0;}
+  };
+
+ // Locate the mesh in the engine
+ csRef<iMeshWrapper> effectmw = engine->FindMeshObject(factory);
+ csRef<iMeshObject> effectob = effectmw ->GetMeshObject();
+ if (!effectob)
  {
    printf ("Unable to load particles!");
    return false;
  }
+ csVector3 position = (effectmw->GetMovable()->GetPosition()) + csVector3(0,height,0);
 
-  // create the meshwrapper
-  csRef<iMeshWrapper> effectmw = engine->CreateMeshWrapper (effectfactory,
-          "effect",
-          engine->FindSector("room"),
-          csVector3(0,1.3,0));
+ // Clone the object and create a new mesh from it
+ csRef<iMeshObject> effectobclone = effectob ->Clone();
+ csRef<iMeshWrapper> effectmwclone = engine->CreateMeshWrapper(effectobclone, "effect", engine->FindSector("room"), position);
 
-  Effect eff (effectmw, 2000);
-  effects.Push (eff);
+ // Add it to the effect array for later processing
+ Effect eff (effectmwclone, duration);
+ effects.Push (eff);
 
-  return effectmw;
+ return effectmwclone;
 }
 
-bool EffectsManager::CreateEffect (iMeshWrapper* parent)
+bool EffectsManager::CreateEffect (iMeshWrapper* parent, int effect)
 {
   // Parent the particle mesh to the parent entity
-  CreateEffectMesh ("blah")->QuerySceneNode()->SetParent(parent->QuerySceneNode());
+  CreateEffectMesh (effect)->QuerySceneNode()->SetParent(parent->QuerySceneNode());
 
   return true;
 }

@@ -1,0 +1,102 @@
+<library>
+
+	<plugins>
+		<plugin name="emitFact">crystalspace.mesh.loader.factory.emit</plugin>
+		<plugin name="emit">crystalspace.mesh.loader.emit</plugin>
+	</plugins>
+	
+<textures>
+
+	<texture name="spark">
+		<file>/peragro/meshes/effects/spark.png</file>
+		<alpha>
+			<binary/>
+		</alpha>
+		<!--<transparent red="0" green="0" blue="0" />-->
+	</texture>
+	
+</textures>
+
+	<shaders>
+		<shader>
+			<file>/shader/particle_basic.xml</file>
+		</shader>
+	</shaders>
+
+<materials>
+
+	  <material name="spark">
+	    <texture>spark</texture>
+		<!--<shader type="diffuse">particle_basic</shader>-->
+	  </material>
+	  
+</materials>
+
+
+	<meshfact name="levelupfact">
+		<plugin>crystalspace.mesh.loader.factory.particles</plugin>
+		<params>
+			<material>spark</material>
+			<emitter type="sphere">
+				<time>5</time>
+				<innerradius>0.1</innerradius>
+				<outerradius>0.8</outerradius>
+				<force type="linear">
+					<direction x="0" y="1" z="0"/>
+					<amount>20</amount>
+					<range>3.0</range>
+					<falloff>linear</falloff>
+				</force>
+			</emitter>
+			<dampener>3.0</dampener>
+			<mass>1</mass>
+			<pps>150</pps>
+			<initial>0</initial>
+			<gravity x="0" y="-1.0" z="0"/>
+			<diffusion>1.0</diffusion>
+			<radius>0.07</radius>
+			<ttl>1</ttl>
+			<zsort>yes</zsort>
+			<timevariation>0.5</timevariation>
+			<colormethod type="linear">
+				<gradient>
+					<color red="0.7" green="0.7" blue="0.6" alpha="1.0" />
+					<color red="0.7" green="0.7" blue="0.6" alpha="1.0" />
+					<color red="0.7" green="0.7" blue="0.6" alpha="1.0" />
+					<color red="0.8" green="0.8" blue="0.6" alpha="1.0" />
+					<color red="0.7" green="0.7" blue="0.7" alpha="1.0" />
+					<color red="0.8" green="0.8" blue="0.6" alpha="1.0" />
+					<color red="0.8" green="0.8" blue="0.7" alpha="1.0" />
+					<color red="0.8" green="0.8" blue="0.9" alpha="1.0" />
+					<color red="0.8" green="0.8" blue="1.0" alpha="1.0" />
+					<!--
+					<color red="1.00" green="1.00" blue="1.00" alpha="0" />
+					<color red="1.00" green="1.00" blue="1.00" alpha=".1" />
+					<color red="1.00" green="1.00" blue="1.00" alpha=".3" />
+					<color red="0.8" green="0.8" blue="0.7" alpha=".8" />
+					<color red="0.7" green="0.7" blue="0.7" alpha=".9" />
+					<color red="0.8" green="0.8" blue="0.5" alpha=".97" />
+					<color red="0.7" green="0.7" blue="0.5" alpha="1" />
+					<color red="0.7" green="0.7" blue="0.5" alpha="1" />
+					<color red="0.7" green="0.7" blue="0.5" alpha="1" />
+					-->
+				</gradient>
+			</colormethod>
+		</params>
+	</meshfact>
+
+
+	<meshobj name="levelup">
+		<plugin>crystalspace.mesh.loader.particles</plugin>
+		<params>
+			<factory>levelupfact</factory>
+			<material>spark</material>
+		</params>
+		<priority>alpha</priority>
+		<ztest/>
+		<move>
+			<v x="0" y="-1.1" z="0"/>
+		</move>
+	</meshobj>
+
+</library>

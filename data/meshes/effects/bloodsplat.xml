@@ -59,4 +59,15 @@
 	  </params>
 	</meshfact>
 
+
+	<meshobj name="bloodsplat">
+		<plugin>crystalspace.mesh.loader.particles</plugin>
+		<params>
+			<factory>bloodsplatfact</factory>
+			<material>particle</material>
+		</params>
+		<priority>alpha</priority>
+		<ztest/>
+	</meshobj>
+
 </library>
