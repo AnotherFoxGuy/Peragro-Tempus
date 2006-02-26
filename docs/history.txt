@@ -7,7 +7,7 @@ under each day.
 26-Feb-2006
   - Dingobloo removed the reliance on a client pointer from the effect manager instead using the object registry.
   - Dingobloo added an app to quickly test the effect system instead of having to use the client (lacks jamfiles)  
-
+  - Dingobloo added an NSIS installation creation script under scripts/NSIS/ for distributing the static client.
 25-Feb-2006
   - Sueastside worked some more on the effectsmanager.
 
