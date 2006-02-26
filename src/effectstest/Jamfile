@@ -3,6 +3,7 @@ SubDir TOP src effectstest ;
 Description effectstest : "effectstest" ;
 Application effectstest : [ Wildcard *.h *.cpp ] ;
 ExternalLibs effectstest : CEGUI CRYSTAL ;
+LinkWith effectstest : client-effects ;
 
 if [ Property build : projgen_version ] != 6
 {
