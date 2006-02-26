@@ -351,57 +351,33 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
         else if (clickedMesh == arrow_z || clickedMesh == arrow_z2)
           constraint = XConstraint;
         
-	// Sets constraintAxis as a vector along the selected axis
+        // Sets constraintAxis as a vector along the selected axis
         constraintAxis = csVector3(
-	 ((constraint == XConstraint)?1:0),
+         ((constraint == XConstraint)?1:0),
          ((constraint == YConstraint)?1:0),
          ((constraint == ZConstraint)?1:0));
-	dragMesh = ((constraintAxis != csVector3(0,0,0)) 
+        dragMesh = ((constraintAxis != csVector3(0,0,0)) 
          ? clickedMesh : (iMeshWrapper*)selectionMesh);
-
-
-/*  Above lines replace this.
-
-        dragMesh = clickedMesh;
-
-        switch (constraint)
-        {
-          case XConstraint:
-            constraintAxis = csVector3(1,0,0);
-            break;
-          case YConstraint:
-            constraintAxis = csVector3(0,1,0);
-            break;
-          case ZConstraint:
-            constraintAxis = csVector3(0,0,1);
-            break;
-          default:
-            constraintAxis = csVector3(0,0,0);
-            dragMesh = selectionMesh;
-            break;
-        }
-*/
-
         
-	// left from before, uncommented by iceeey ;)
+        // left from before, uncommented by iceeey ;)
         dragOffset = isect-dragMesh->GetMovable()->GetFullPosition();
         worldStart = isect;
 	
-	// sets up the Drag Plane
+        // sets up the Drag Plane
         csVector3 dragCenter = dragMesh->GetMovable()->GetFullPosition();
-	dragPlaneNormal = dragCenter - vo;
-	dragPlane = csPlane3(dragPlaneNormal, 0);
-	dragPlane.SetOrigin(dragCenter);
+        dragPlaneNormal = dragCenter - vo;
+        dragPlane = csPlane3(dragPlaneNormal, 0);
+        dragPlane.SetOrigin(dragCenter);
 
-	// sets up a projection of the constraint axis on the drag plane
-	dragProjection = ((constraintAxis % dragPlaneNormal) % dragPlaneNormal);
-	dragProjection.Normalize();
+        // sets up a projection of the constraint axis on the drag plane
+        dragProjection = ((constraintAxis % dragPlaneNormal) % dragPlaneNormal);
+        dragProjection.Normalize();
 
         // sets drag plane positions.  both start and current begin at the same point
-	float dist;
-	csIntersect3::SegmentPlane (vo, (vw - vo) * (int) 100000, dragPlane, isect, dist);
-	dragPlaneStartPos = isect;
-	dragPlaneCurrentPos = isect;
+        float dist;
+        csIntersect3::SegmentPlane (vo, (vw - vo) * (int) 100000, dragPlane, isect, dist);
+        dragPlaneStartPos = isect;
+        dragPlaneCurrentPos = isect;
       }
     }
     
@@ -429,24 +405,7 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
   if (isDragging)
   {
     csVector3 dragCenter = dragMesh->GetMovable()->GetFullPosition() + dragOffset;
-    
-/*  Old Code, circa anvil 0.0.1
-
-    // Get constraint axis in world space
-    csVector3 constraintVec = dragMesh->GetMovable()->GetTransform().This2Other(constraintAxis);
-    
-    // Find picking ray (from origin)
-//  csVector3 pickingRay = vo + (vw - vo) * (int) 100000;   (vo + is unnecessary)
-    csVector3 pickingRay = (vw - vo) * (int) 100000;
-    
-    // Find normal of constraint and picking ray to form a plane containing normal and constraint
-    csVector3 constraintN = pickingRay % constraintVec;
-    
-    // Find normal of the constraint plane
-    csVector3 constraintPlaneN = constraintN % constraintVec;
-----End old code----
-*/
-    
+        
     csVector3 isect;
     float dist;
 
@@ -460,12 +419,13 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
       dragPlaneCurrentPos = isect;
       
       // Distance change along projected line (in the proper direction)
-      csVector3 dragPlaneDistanceChange = dragProjection * (dragProjection * (dragPlaneCurrentPos - dragPlaneStartPos));
+      csVector3 dragPlaneDistanceChange = dragProjection * 
+       (dragProjection * (dragPlaneCurrentPos - dragPlaneStartPos));
       dragPlaneCurrentPos = dragPlaneStartPos + dragPlaneDistanceChange;
 
       // + or - change in numbers, used for move and rotate
       float scalarChange = (dragPlaneDistanceChange.Norm() *
-	(((dragProjection * (dragPlaneCurrentPos - dragPlaneStartPos)) < 0) ? 1 : -1));
+      (((dragProjection * (dragPlaneCurrentPos - dragPlaneStartPos)) < 0) ? 1 : -1));
 
       // Apply to coordinate axis, + or -
       csVector3 worldDiff = constraintAxis * scalarChange;
@@ -474,25 +434,12 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
       csReversibleTransform transform = GetOperationTransform(worldDiff, scalarChange);
       anvTransformCommand::Transform(transform, true);
 
-/*  Ball Mesh update code.  Creating ball mesh not working.
+/*  Ball Mesh update code.  Creating ball mesh currently not working, see below for mesh code
 ballMesh->GetMovable()->SetPosition(dragPlaneCurrentPos);
 ballMesh->GetMovable()->SetSector (editSector);
 ballMesh->GetMovable()->UpdateMove ();
 */
     }
-
-/* More Old Code
-    if (csIntersect3::SegmentPlane (vo, pickingRay, csPlane3(constraintPlaneN, -constraintPlaneN*dragCenter), isect, dist))
-    {
-      csVector3 worldDiff = isect-dragCenter;
-
-      csReversibleTransform transform = GetOperationTransform(worldDiff);
-
-      anvTransformCommand::Transform(transform, true);
-    }
-----End More Old Code----
-*/
-
   }
   
   // Mouse Look
