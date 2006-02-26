@@ -257,7 +257,7 @@ bool Client::Application()
   network->init();
 
   // Create and Initialize the Effectsmanager.
-  effectsmanager = new EffectsManager (this);
+  effectsmanager = new EffectsManager (GetObjectRegistry());
   if (!effectsmanager->Initialize (GetObjectRegistry()))
     return false;
 

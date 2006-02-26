@@ -26,8 +26,6 @@
 
 #include "client/effects/effect.h"
 
-class Client;
-
 class Effect;
 
 struct iObjectRegistry;
@@ -36,7 +34,7 @@ struct iLoader;
 class EffectsManager
 {
 private:
-  Client* client;
+
   csArray<Effect> effects;
 
   csRef<iEngine> engine;
@@ -46,7 +44,8 @@ private:
   iMeshWrapper* EffectsManager::CreateEffectMesh (int effect);
 
 public:
-  EffectsManager (Client* client);
+
+  EffectsManager (iObjectRegistry* obj_reg);
   ~EffectsManager ();
 
   enum EffectType
@@ -57,8 +56,7 @@ public:
 
   bool Initialize (iObjectRegistry* obj_reg);
 
-  Client* GetClient () {return client;}
-
+ 
   bool CreateEffect (iMeshWrapper* parent, int effect);
 
   void HandleEffects(csTicks elapsed_ticks);

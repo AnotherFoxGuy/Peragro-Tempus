@@ -19,7 +19,6 @@
 #include "client/effects/effectsmanager.h"
 #include "client/effects/effect.h"
 
-#include "client/client.h"
 
 #include "cstool/initapp.h"
 #include "csutil/cmdline.h"
@@ -57,11 +56,13 @@
 #include "imap/loader.h"
 
 
-EffectsManager::EffectsManager (Client* client)
-: client(client)
+EffectsManager::EffectsManager (iObjectRegistry* obj_reg)
 {
-  engine = client->getCsEngine ();
-  vfs = client->getVFS ();
+  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+  //if (!engine) return ReportError("Failed to locate 3D engine!");
+
+  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  //if (!vfs) return ReportError("Failed to locate VFS!");
 }
 
 EffectsManager::~EffectsManager ()

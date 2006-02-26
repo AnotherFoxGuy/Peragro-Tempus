@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+26-Feb-2006
+  - Dingobloo removed the reliance on a client pointer from the effect manager instead using the object registry.
+
 25-Feb-2006
   - Sueastside worked some more on the effectsmanager.
 
