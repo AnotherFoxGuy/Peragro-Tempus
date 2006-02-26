@@ -460,7 +460,7 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
       dragPlaneCurrentPos = isect;
       
       // Distance change along projected line (in the proper direction)
-      dragPlaneDistanceChange = dragProjection * (dragProjection * (dragPlaneCurrentPos - dragPlaneStartPos));
+      csVector3 dragPlaneDistanceChange = dragProjection * (dragProjection * (dragPlaneCurrentPos - dragPlaneStartPos));
       dragPlaneCurrentPos = dragPlaneStartPos + dragPlaneDistanceChange;
 
       // + or - change in numbers, used for move and rotate

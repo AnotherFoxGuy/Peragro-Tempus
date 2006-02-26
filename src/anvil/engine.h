@@ -126,7 +126,6 @@ private:
 
   csVector3 dragPlaneStartPos;
   csVector3 dragPlaneCurrentPos;
-  csVector3 dragPlaneDistanceChange;
   csVector3 dragProjection;
 
 
