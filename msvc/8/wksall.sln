@@ -4,6 +4,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appanvil", "appanvil.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appclient", "appclient.vcproj", "{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appeffectstest", "appeffectstest.vcproj", "{F66FFC3F-1DDB-7DF7-6725-D1D2A0B86E8B}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appserver", "appserver.vcproj", "{DCBD438A-BD93-EF7B-82CC-F4E563DB3F03}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-effects", "libclient-effects.vcproj", "{2EE13A6A-DC6B-891B-31FF-B46C22425096}"
@@ -63,6 +65,10 @@ Global
 		{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}.Release.Build.0 = Release|Win32
 		{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}.Debug.ActiveCfg = Debug|Win32
 		{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}.Debug.Build.0 = Debug|Win32
+		{F66FFC3F-1DDB-7DF7-6725-D1D2A0B86E8B}.Release.ActiveCfg = Release|Win32
+		{F66FFC3F-1DDB-7DF7-6725-D1D2A0B86E8B}.Release.Build.0 = Release|Win32
+		{F66FFC3F-1DDB-7DF7-6725-D1D2A0B86E8B}.Debug.ActiveCfg = Debug|Win32
+		{F66FFC3F-1DDB-7DF7-6725-D1D2A0B86E8B}.Debug.Build.0 = Debug|Win32
 		{DCBD438A-BD93-EF7B-82CC-F4E563DB3F03}.Release.ActiveCfg = Release|Win32
 		{DCBD438A-BD93-EF7B-82CC-F4E563DB3F03}.Release.Build.0 = Release|Win32
 		{DCBD438A-BD93-EF7B-82CC-F4E563DB3F03}.Debug.ActiveCfg = Debug|Win32
