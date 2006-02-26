@@ -1,5 +1,8 @@
 <library>
-	<library>/cellib/objects/cally.cal3d</library>
+	<!--<library>/cellib/objects/cally.cal3d</library>-->
+	
+	<library>/peragro/art/3d_art/characters/knight/knight.cal3d</library>
+	
 	<library>/peragro/meshes/apple/apple.xml</library>
 	
 	<library>/peragro/meshes/plates/bigplate_64_plates.xml</library>
