@@ -24,6 +24,9 @@
 #include <cstool/csapplicationframework.h>
 #include <csutil/csbaseeventh.h>
 
+// Added include for the movement plane
+#include <csgeom/plane3.h>
+
 struct iEngine;
 struct iGraphics3D;
 struct iKeyboardDriver;
@@ -116,6 +119,18 @@ private:
   csVector3 dragOffset;
   
   csRef<iLight> flashlight;
+
+  /// INSIDIOUS changes, added plane, vectors for movement
+  csPlane3 dragPlane;
+  csVector3 dragPlaneNormal;
+
+  csVector3 dragPlaneStartPos;
+  csVector3 dragPlaneCurrentPos;
+  csVector3 dragPlaneDistanceChange;
+  csVector3 dragProjection;
+
+
+
   
   /**
    * Set up everything that needs to be rendered on screen.  This routine is
@@ -164,7 +179,7 @@ private:
   void EndDrag();
   
   /// Gets the transform from the current operation given world space coords
-  csReversibleTransform GetOperationTransform(csVector3 worldDiff);
+  csReversibleTransform GetOperationTransform(csVector3 worldDiff, float scalerDiff);
 
 public:
   /**

@@ -22,7 +22,7 @@ CS_IMPLEMENT_APPLICATION
 
 int main(int argc, char** argv)
 {
-  printf("Anvil version 0.0.1 by The Peragro Tempus Team.\n");
+  printf("Anvil version 0.0.2 by The Peragro Tempus Team.\n");
 
   // Create an application instance which will perform initialization and event
   // handling for the entire game.

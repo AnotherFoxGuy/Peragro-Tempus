@@ -61,6 +61,9 @@
 #include <ivideo/shader/shader.h>
 #include <ivideo/natwin.h>
 
+#include <imesh/genmesh.h>
+#include <csgeom/sphere.h>
+
 anvEngine* anvEngine::anvil = NULL;
 
 anvEngine::anvEngine() : csApplicationFramework()
@@ -221,7 +224,7 @@ void anvEngine::EndDrag()
   // Complete operation, push command
   else
   {
-    csReversibleTransform transform = GetOperationTransform(worldEnd-worldStart);
+    csReversibleTransform transform = GetOperationTransform(worldEnd-worldStart, 0); //this should be fixed; shouldn't be 0... looses last frame on rotate.
     PushCommand(new anvTransformCommand(transform, true));
   }
   
@@ -338,7 +341,7 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
           && clickedMesh->QueryObject()->GetName()
           != selectionMesh->QueryObject()->GetName() && !isDragging)
       {
-        // Start operation
+        // Start Dragging operation
         isDragging = true;
         
         if (clickedMesh == arrow_x || clickedMesh == arrow_x2)
@@ -348,6 +351,17 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
         else if (clickedMesh == arrow_z || clickedMesh == arrow_z2)
           constraint = XConstraint;
         
+	// Sets constraintAxis as a vector along the selected axis
+        constraintAxis = csVector3(
+	 ((constraint == XConstraint)?1:0),
+         ((constraint == YConstraint)?1:0),
+         ((constraint == ZConstraint)?1:0));
+	dragMesh = ((constraintAxis != csVector3(0,0,0)) 
+         ? clickedMesh : (iMeshWrapper*)selectionMesh);
+
+
+/*  Above lines replace this.
+
         dragMesh = clickedMesh;
 
         switch (constraint)
@@ -366,9 +380,28 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
             dragMesh = selectionMesh;
             break;
         }
+*/
+
         
+	// left from before, uncommented by iceeey ;)
         dragOffset = isect-dragMesh->GetMovable()->GetFullPosition();
         worldStart = isect;
+	
+	// sets up the Drag Plane
+        csVector3 dragCenter = dragMesh->GetMovable()->GetFullPosition();
+	dragPlaneNormal = dragCenter - vo;
+	dragPlane = csPlane3(dragPlaneNormal, 0);
+	dragPlane.SetOrigin(dragCenter);
+
+	// sets up a projection of the constraint axis on the drag plane
+	dragProjection = ((constraintAxis % dragPlaneNormal) % dragPlaneNormal);
+	dragProjection.Normalize();
+
+        // sets drag plane positions.  both start and current begin at the same point
+	float dist;
+	csIntersect3::SegmentPlane (vo, (vw - vo) * (int) 100000, dragPlane, isect, dist);
+	dragPlaneStartPos = isect;
+	dragPlaneCurrentPos = isect;
       }
     }
     
@@ -397,26 +430,69 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
   {
     csVector3 dragCenter = dragMesh->GetMovable()->GetFullPosition() + dragOffset;
     
+/*  Old Code, circa anvil 0.0.1
+
     // Get constraint axis in world space
     csVector3 constraintVec = dragMesh->GetMovable()->GetTransform().This2Other(constraintAxis);
     
     // Find picking ray (from origin)
-    csVector3 pickingRay = vo + (vw - vo) * (int) 100000;
+//  csVector3 pickingRay = vo + (vw - vo) * (int) 100000;   (vo + is unnecessary)
+    csVector3 pickingRay = (vw - vo) * (int) 100000;
     
     // Find normal of constraint and picking ray to form a plane containing normal and constraint
     csVector3 constraintN = pickingRay % constraintVec;
     
     // Find normal of the constraint plane
     csVector3 constraintPlaneN = constraintN % constraintVec;
+----End old code----
+*/
     
     csVector3 isect;
     float dist;
+
+    // if arrow is point STRAIGHT at us, or STRAIGHT away, do nothing
+    if (csIntersect3::SegmentPlane (vo, (vw-vo)*(int)100000, dragPlane, isect, dist))
+    {
+      // Change Starting Position to where the mouse was on the drag plane last frame
+      dragPlaneStartPos = dragPlaneCurrentPos;
+
+      // Current Position is where mouse intersects the drag plane
+      dragPlaneCurrentPos = isect;
+      
+      // Distance change along projected line (in the proper direction)
+      dragPlaneDistanceChange = dragProjection * (dragProjection * (dragPlaneCurrentPos - dragPlaneStartPos));
+      dragPlaneCurrentPos = dragPlaneStartPos + dragPlaneDistanceChange;
+
+      // + or - change in numbers, used for move and rotate
+      float scalarChange = (dragPlaneDistanceChange.Norm() *
+	(((dragProjection * (dragPlaneCurrentPos - dragPlaneStartPos)) < 0) ? 1 : -1));
+
+      // Apply to coordinate axis, + or -
+      csVector3 worldDiff = constraintAxis * scalarChange;
+
+      // Make the changes
+      csReversibleTransform transform = GetOperationTransform(worldDiff, scalarChange);
+      anvTransformCommand::Transform(transform, true);
+
+/*  Ball Mesh update code.  Creating ball mesh not working.
+ballMesh->GetMovable()->SetPosition(dragPlaneCurrentPos);
+ballMesh->GetMovable()->SetSector (editSector);
+ballMesh->GetMovable()->UpdateMove ();
+*/
+    }
+
+/* More Old Code
     if (csIntersect3::SegmentPlane (vo, pickingRay, csPlane3(constraintPlaneN, -constraintPlaneN*dragCenter), isect, dist))
     {
       csVector3 worldDiff = isect-dragCenter;
+
       csReversibleTransform transform = GetOperationTransform(worldDiff);
+
       anvTransformCommand::Transform(transform, true);
     }
+----End More Old Code----
+*/
+
   }
   
   // Mouse Look
@@ -466,7 +542,7 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
   return false;
 }
 
-csReversibleTransform anvEngine::GetOperationTransform(csVector3 worldDiff)
+csReversibleTransform anvEngine::GetOperationTransform(csVector3 worldDiff, float scalerDiff)
 {
   // Apply constraints
   switch (constraint)
@@ -482,8 +558,6 @@ csReversibleTransform anvEngine::GetOperationTransform(csVector3 worldDiff)
       break;
   }
   
-  float amount = worldDiff.Norm();
-  
   csReversibleTransform transform;
   
   switch (operation)
@@ -492,10 +566,15 @@ csReversibleTransform anvEngine::GetOperationTransform(csVector3 worldDiff)
       transform.SetOrigin(worldDiff);
       break;
     case RotateOperation:
-      transform.RotateThis(constraintAxis, amount/100.0f);
+      if (kbd->GetKeyState (CSKEY_SHIFT))
+        speedMultiplier = 25;
+      else
+        speedMultiplier = 2; 
+      transform.RotateThis(constraintAxis, scalerDiff/speedMultiplier);
       break;
     case ScaleOperation:
-      transform.SetO2T((csXScaleMatrix3(amount)*worldDiff.x) * (csYScaleMatrix3(amount)*worldDiff.y) * (csZScaleMatrix3(amount)*worldDiff.z));
+	// not currently implemented
+      //transform.SetO2T((csXScaleMatrix3(amount)*worldDiff.x) * (csYScaleMatrix3(amount)*worldDiff.y) * (csZScaleMatrix3(amount)*worldDiff.z));
       break;
   }
   
@@ -637,6 +716,27 @@ bool anvEngine::Application()
   visualsRegion->Add(arrow_x2->QueryObject());
   visualsRegion->Add(arrow_y2->QueryObject());
   visualsRegion->Add(arrow_z2->QueryObject());
+
+/*  // Trying to add tracer ball mesh, not working
+  csRef<iMeshFactoryWrapper> ballFact = engine->CreateMeshFactory(
+        "crystalspace.mesh.object.genmesh", "ballFact");
+  if (ballFact == 0)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      "crystalspace.application.phystut",
+      "Error creating mesh object factory!");
+  }
+ 
+  csRef<iGeneralFactoryState> gmstate = scfQueryInterface<iGeneralFactoryState> (
+        ballFact->GetMeshObjectFactory ());
+  csVector3 radius (1, 1, 1);
+  csEllipsoid ellips (csVector3 (0), radius);
+  gmstate->GenerateSphere (ellips, 16);
+
+  // Create the mesh.
+  csRef<iMeshWrapper> ballMesh (engine->CreateMeshWrapper (ballFact, "ball", editSector));
+*/
+
   
   selectionMesh = visualsRegion->FindMeshFactory("__selection_mesh")->CreateMeshWrapper();
 
@@ -741,6 +841,8 @@ void anvEngine::UpdateSelection(csBox3 bbox)
   arrow_x2->GetMovable()->UpdateMove();
   arrow_y2->GetMovable()->UpdateMove();
   arrow_z2->GetMovable()->UpdateMove();
+
+  
 }
 
 bool anvEngine::LoadWorld(const char* path, const char* world)
