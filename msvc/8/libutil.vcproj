@@ -158,7 +158,13 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\util\ptstring.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\stringstore.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\timerengine.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\void.cpp">
@@ -174,6 +180,9 @@
 				RelativePath="..\..\src\common\util\mutex.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\ptstring.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\queue.h">
 			</File>
 			<File
@@ -184,6 +193,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\thread.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\timer.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\timerengine.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\wincrashdump.h">

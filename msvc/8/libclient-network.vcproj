@@ -167,6 +167,9 @@
 				RelativePath="..\..\src\client\network\entityhandler.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\network\skillhandler.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\network\userhandler.cpp">
 			</File>
 		</Filter>
@@ -184,6 +187,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\network.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\network\skillhandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\userhandler.h">

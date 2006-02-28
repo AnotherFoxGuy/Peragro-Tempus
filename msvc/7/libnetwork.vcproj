@@ -186,6 +186,9 @@
 				RelativePath="..\..\src\common\network\serialiser.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\network\skillmessages.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\usermessages.h">
 			</File>
 		</Filter>
