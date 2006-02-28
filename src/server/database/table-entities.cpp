@@ -38,6 +38,7 @@ EntityTable::EntityTable(Database* db) : Table(db)
     createTable();
   }
   ResultSet* rs2 = db->query("select count(*) from entities;");
+  delete rs2;
 }
 
 void EntityTable::createTable()
@@ -56,27 +57,33 @@ void EntityTable::createTable()
 
   //Example Data!
   float pos1[3] = { -2, 0, 0};
-  insert(1, "test-dummy", 0, 0, "test", pos1, "room");
+
+  ptString dummy("test-dummy", 10);
+  ptString test("test", 4);
+  ptString room("room", 4);
+  ptString apple("apple", 5);
+
+  insert(1, dummy, 0, 0, test, pos1, room);
   float pos2[3] = { 0, 0, 1};
-  insert(2, "apple", 3, 1,"apple", pos2, "room");
+  insert(2, apple, 3, 1,apple, pos2, room);
   float pos3[3] = { -1, 0, 1};
-  insert(3, "apple", 3, 1,"apple", pos3, "room");
+  insert(3, apple, 3, 1,apple, pos3, room);
   float pos4[3] = { 1, 0, 0};
-  insert(4, "apple", 3, 1,"apple", pos4, "room");
+  insert(4, apple, 3, 1,apple, pos4, room);
   float pos5[3] = { 1, 0, -1};
-  insert(5, "apple", 3, 1,"apple", pos5, "room");
+  insert(5, apple, 3, 1,apple, pos5, room);
   float pos6[3] = { -1, 0, -1};
-  insert(6, "apple", 3, 1,"apple", pos6, "room");
+  insert(6, apple, 3, 1,apple, pos6, room);
 }
 
-void EntityTable::insert(int id, const char* name, int type, int item, const char* mesh, float pos[3], const char* sector)
+void EntityTable::insert(int id, ptString name, int type, int item, ptString mesh, float pos[3], ptString sector)
 {
-  if (strlen(name) + strlen(mesh) + strlen(sector) > 512) assert("Strings too long");
+  if (strlen(*name) + strlen(*mesh) + strlen(*sector) > 512) assert("Strings too long");
   char query[1024];
   if (item == -1)
     return;
   sprintf(query, "insert into entities (id, name, type, item, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d', '%s',%d,%d,'%s',%.2f,%.2f,%.2f,'%s');", id, name, type, item, mesh, pos[0], pos[1], pos[2], sector);
+    "('%d', '%s',%d,%d,'%s',%.2f,%.2f,%.2f,'%s');", id, *name, type, item, *mesh, pos[0], pos[1], pos[2], *sector);
   db->update(query);
 }
 
@@ -101,22 +108,22 @@ void EntityTable::remove(int id)
   db->update(query);
 }
 
-bool EntityTable::existsEntity(const char* name)
+bool EntityTable::existsEntity(ptString name)
 {
-  if (strlen(name)> 512) assert("String too long");
+  if (strlen(*name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select id from entities where name = '%s';", name);
+  sprintf(query, "select id from entities where name = '%s';", *name);
   ResultSet* rs = db->query(query);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
 }
 
-Entity* EntityTable::getEntity(const char* name)
+Entity* EntityTable::getEntity(ptString name)
 {
-  if (strlen(name)> 512) assert("String too long");
+  if (strlen(*name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select * from entities where name = '%s';", name);
+  sprintf(query, "select * from entities where name = '%s';", *name);
   ResultSet* rs = db->query(query);
   if (rs->GetRowCount() == 0) 
     return 0;
@@ -167,10 +174,10 @@ Entity* EntityTable::parseEntity(ResultSet* rs)
     }
   };
   entity->setId(atoi(rs->GetData(0,0).c_str()));
-  entity->setName(rs->GetData(0,1).c_str());
-  entity->setMesh(rs->GetData(0,4).c_str());
+  entity->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
+  entity->setMesh(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,1).length()));
   entity->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
-  entity->setSector(rs->GetData(0,8).c_str());
+  entity->setSector(ptString(rs->GetData(0,8).c_str(), rs->GetData(0,1).length()));
 
   return entity;
 }

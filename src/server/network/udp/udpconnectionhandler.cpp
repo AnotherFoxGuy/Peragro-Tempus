@@ -18,7 +18,7 @@
 
 #include "server/network/udp/udpnetwork.h"
 
-void UdpConnectionHandler::handleConnectionRequest(GenericMessage* msg, SocketAddress* sock_addr)
+void UdpConnectionHandler::handleConnectionRequest(SocketAddress* sock_addr)
 {
   printf("Received ConnectionRequest\n");
   int ssid = rand();

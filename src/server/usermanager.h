@@ -61,7 +61,7 @@ public:
     for (size_t i = 0; i<users.getCount(); i++)
     {
       User* tmp_user = users.get(i);
-      if (strlen(tmp_user->getName()) == strlen(user->getName()) && !strcmp(tmp_user->getName(), user->getName()))
+      if (tmp_user->getName() == user->getName())
       {
         users.del(i);
         printf("Removing user: User removed!\n");
@@ -71,13 +71,13 @@ public:
     printf("Removing user: User not found!\n");
   }
 
-  User* findByName(const char* name)
+  User* findByName(ptString name)
   {
-    if (!name) return 0;
+    if (name.isNull()) return 0;
     for (size_t i = 0; i<users.getCount(); i++)
     {
       User* user = users.get(i);
-      if (strlen(user->getName()) == strlen(name) && !strcmp(user->getName(), name))
+      if (user->getName() == name)
       {
         return user;
       }

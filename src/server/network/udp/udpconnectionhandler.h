@@ -47,7 +47,7 @@ public:
 
     if (type == 0 && id == CONNECTION::REQUEST) 
     {
-      handleConnectionRequest(msg, &sock_addr);
+      handleConnectionRequest(&sock_addr);
     }
     else
     {
@@ -80,7 +80,7 @@ public:
   }
 
 private:
-  void handleConnectionRequest(GenericMessage* msg, SocketAddress* sock_addr);
+  void handleConnectionRequest(SocketAddress* sock_addr);
 
   void handlePong(GenericMessage* msg)
   {

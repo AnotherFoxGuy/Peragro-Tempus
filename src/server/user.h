@@ -32,20 +32,19 @@ class User
 {
 private:
   size_t id;
-  char* name;
+  ptString name;
   char* pwhash;
   Connection* connection;
   PcEntity* own_entity;
   EntityList ent_list;
 
 public:
-  User() : name(0), pwhash(0), connection(0), own_entity(0)
+  User() : pwhash(0), connection(0), own_entity(0)
   {
   }
 
   ~User()
   {
-    delete [] name;
     delete [] pwhash;
   }
 
@@ -59,16 +58,14 @@ public:
     this->id = id;
   }
 
-  const char* getName()
+  ptString& getName()
   {
     return name;
   }
 
-  void setName(const char* name, size_t namelen)
+  void setName(ptString name)
   {
-    delete [] this->name;
-    this->name = new char[namelen+1];
-    strncpy(this->name, name, namelen+1);
+    this->name = name;
   }
 
   const char* getPwHash()

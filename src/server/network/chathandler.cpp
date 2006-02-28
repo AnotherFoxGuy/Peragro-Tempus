@@ -24,7 +24,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
   char buff[1024];
   const Connection* conn = msg->getConnection();
   if (!conn) return;
-  const char* name = conn->getUser()->getEntity()->getName();
+  ptString name = conn->getUser()->getEntity()->getName();
   ChatMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
   sprintf(buff, "%s' says: '%s'", name, in_msg.getMessage());

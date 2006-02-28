@@ -92,7 +92,7 @@ public:
   }
   void setSessionId(int ssid)
   {
-    sessionId = ssid;
+    sessionId = (unsigned char) ssid;
   }
 
 };

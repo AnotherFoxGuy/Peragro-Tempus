@@ -40,7 +40,7 @@ public:
   {
   }
 
-  void init(int port)
+  void init(unsigned short port)
   {
     socket.init(port);
     receiver.registerHandler(&conn_handler);

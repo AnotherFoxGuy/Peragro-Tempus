@@ -26,6 +26,8 @@
 
 #include "common/entity/entitymanager.h"
 
+#include "client/network/skillhandler.h"
+
 class EntityHandler : public MessageHandler
 {
 private:
@@ -33,26 +35,34 @@ private:
   Client* client;
   GUIManager* guimanager;
 
+  SkillHandler skill_handler;
+
 public:
   EntityHandler(Network* network, Client* client) 
-  : network(network), client(client)
+  : network(network), client(client), skill_handler(client)
   {
   }
 
   void handle(GenericMessage* msg)
   {
     char type = msg->getMsgType();
-    if (type != MESSAGES::ENTITY) assert("wrong message type");
-    char id = msg->getMsgId();
+    if (type == MESSAGES::ENTITY)
+    {
+      char id = msg->getMsgId();
 
-    if (id == 0) handleAddEntity(msg);
-    else if (id == ENTITY::REMOVE) handleRemoveEntity(msg);
-    else if (id == ENTITY::MOVE) handleMoveEntity(msg);
-    else if (id == ENTITY::DRUPDATE) handleDrUpdate(msg);
-    else if (id == ENTITY::PICK_RESPONSE) handlePickEntity(msg);
-    else if (id == ENTITY::DROP_RESPONSE) handleDropEntity(msg);
-    else if (id == ENTITY::INV_ITEM_LIST) handleInventoryItemList(msg);
-    else if (id == ENTITY::CHAR_STAT_LIST) handleCharacterStatList(msg);
+      if (id == 0) handleAddEntity(msg);
+      else if (id == ENTITY::REMOVE) handleRemoveEntity(msg);
+      else if (id == ENTITY::MOVE) handleMoveEntity(msg);
+      else if (id == ENTITY::DRUPDATE) handleDrUpdate(msg);
+      else if (id == ENTITY::PICK_RESPONSE) handlePickEntity(msg);
+      else if (id == ENTITY::DROP_RESPONSE) handleDropEntity(msg);
+      else if (id == ENTITY::INV_ITEM_LIST) handleInventoryItemList(msg);
+      else if (id == ENTITY::CHAR_STAT_LIST) handleCharacterStatList(msg);
+    }
+    else
+    {
+      skill_handler.handle(msg);
+    }
   }
 
   char getType()

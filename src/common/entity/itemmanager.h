@@ -54,8 +54,6 @@ public:
   void delItem(Item* item)
   {
     if (!item) return;
-    const char* name = item->getName();
-    if (!name) return;
     for (size_t i = 0; i<items.getCount(); i++)
     {
       Item* _item = items.get(i);
@@ -70,8 +68,6 @@ public:
   bool exists(Item* item)
   {
     if (!item) return false;
-    const char* name = item->getName();
-    if (!name) return false;
     for (size_t i = 0; i<items.getCount(); i++)
     {
       Item* _item = items.get(i);
@@ -82,13 +78,13 @@ public:
     return false;
   }
 
-  Item* findByName(const char* name)
+  Item* findByName(ptString name)
   {
-    if (!name) return 0;
+    if (name == ptString::Null) return 0;
     for (size_t i = 0; i<items.getCount(); i++)
     {
       Item* item = items.get(i);
-      if (strlen(item->getName()) == strlen(name) && !strcmp(item->getName(), name))
+      if (item->getName() == name)
       {
         return item;
       }

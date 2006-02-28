@@ -19,8 +19,7 @@
 #if (_MSC_VER >= 1300)
 
 #define WIN32_LEAN_AND_MEAN
-
-#include "stddef.h"
+#include "windows.h"
 
 #include "dbghelp.h"
 
@@ -28,29 +27,44 @@ const char* prefix;
 
 LONG WriteDump(struct _EXCEPTION_POINTERS *pExceptionInfo)
 {
-  HINSTANCE hinst = LoadLibraryA("dbghelp.dll");
+  if (pExceptionInfo->ExceptionRecord->ExceptionFlags == EXCEPTION_NONCONTINUABLE)
+  {
+    int rv = MessageBox(0, "We appology for this ruff interruption of your gameplay "
+      "but we think you played long enough now and should take a short break.....\n\n"
+      "Ok, ok, I admit it, it was a bug that crashed the game :/\n\n"
+      "May we write a crash report into a file and ask you to send it to the "
+      "Peragro Tempus Development Team?\nI will help us fixing the game and "
+      "allows you to play with less 'Interruptions' :)\n\n"
+      "Thanks in advance.",
+      "Unexpected Interruption of Game Experience", MB_YESNO);
 
-  char dmpfile[256];
-  sprintf(dmpfile, "%s-%d.dmp", prefix, time(0));
+    if (rv == IDYES)
+    {
+      HINSTANCE hinst = LoadLibraryA("dbghelp.dll");
 
-  typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(
-    HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
-    CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam,
-    CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
-    CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam
-    );
+      char dmpfile[256];
+      sprintf(dmpfile, "%s-%d.dmp", prefix, time(0));
 
-  HANDLE file = CreateFileA(dmpfile, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+      typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(
+        HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
+        CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam,
+        CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
+        CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam
+        );
 
-  MINIDUMPWRITEDUMP dumper = (MINIDUMPWRITEDUMP)GetProcAddress(hinst, "MiniDumpWriteDump");
+      HANDLE file = CreateFileA(dmpfile, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 
-  MINIDUMP_EXCEPTION_INFORMATION mdExcInf;
-  mdExcInf.ClientPointers = true;
-  mdExcInf.ExceptionPointers = pExceptionInfo;
-  mdExcInf.ThreadId = GetCurrentThreadId();
+      MINIDUMPWRITEDUMP dumper = (MINIDUMPWRITEDUMP)GetProcAddress(hinst, "MiniDumpWriteDump");
 
-  if (dumper)
-    dumper(GetCurrentProcess(), GetCurrentProcessId(), file, MiniDumpNormal, &mdExcInf, 0, 0);
+      MINIDUMP_EXCEPTION_INFORMATION mdExcInf;
+      mdExcInf.ClientPointers = true;
+      mdExcInf.ExceptionPointers = pExceptionInfo;
+      mdExcInf.ThreadId = GetCurrentThreadId();
+
+      if (dumper)
+        dumper(GetCurrentProcess(), GetCurrentProcessId(), file, MiniDumpWithIndirectlyReferencedMemory, &mdExcInf, 0, 0);
+    }
+  }
 
   return EXCEPTION_EXECUTE_HANDLER;
 }

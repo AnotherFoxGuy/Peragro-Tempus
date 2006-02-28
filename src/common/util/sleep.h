@@ -20,6 +20,7 @@
 #define _SLEEP_H_
 
 #ifdef WIN32
+  #define WIN32_LEAN_AND_MEAN
   #include <windows.h>
 #else
   #include <unistd.h>

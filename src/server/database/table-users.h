@@ -23,16 +23,17 @@
 
 class Database;
 class User;
+class ptString;
 
 class UsersTable : public Table
 {
 public:
   UsersTable(Database* db);
   void createTable();
-  void insert(const char* name, const char* pwhash);
+  void insert(ptString name, const char* pwhash);
   void dropTable();
-  bool existsUser(const char* name);
-  User* getUser(const char* name);
+  bool existsUser(ptString name);
+  User* getUser(ptString name);
 };
 
 #endif //_TABLE_USERS_H_

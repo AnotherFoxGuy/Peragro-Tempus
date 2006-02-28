@@ -16,25 +16,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_STATS_H_
-#define _TABLE_STATS_H_
+#include "ptstring.h"
 
-#include "table.h"
-
-class Database;
-class Stat;
-class ptString;
-
-class StatTable : public Table
-{
-public:
-  StatTable(Database* db);
-  void createTable();
-  void insert(ptString name);
-  void dropTable();
-  bool existsStat(ptString name);
-  Stat* getStat(ptString name);
-  void getAllStats(Array<Stat*>& stats);
-};
-
-#endif //_TABLE_STATS_H_
+ptString ptString::Null(0,0);

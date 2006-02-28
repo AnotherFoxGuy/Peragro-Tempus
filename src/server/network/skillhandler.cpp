@@ -16,25 +16,15 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_STATS_H_
-#define _TABLE_STATS_H_
+#include "server/network/network.h"
+#include "server/usermanager.h"
 
-#include "table.h"
-
-class Database;
-class Stat;
-class ptString;
-
-class StatTable : public Table
+void SkillHandler::handleStartUsage(GenericMessage* msg)
 {
-public:
-  StatTable(Database* db);
-  void createTable();
-  void insert(ptString name);
-  void dropTable();
-  bool existsStat(ptString name);
-  Stat* getStat(ptString name);
-  void getAllStats(Array<Stat*>& stats);
-};
+  //TODO: handle the message
+}
 
-#endif //_TABLE_STATS_H_
+void SkillHandler::handleStopUsage(GenericMessage* msg)
+{
+  //TODO: handle the message
+}

@@ -20,6 +20,7 @@
 #define _DESERIALISER_H_
 
 #include "bytestream.h"
+#include "common/util/ptstring.h"
 
 class Deserialiser
 {
@@ -46,7 +47,7 @@ public:
   }
   int getInt24()
   {
-    short value = data[pos];
+    int value = data[pos];
     value += data[pos+1] *   0x100;
     value += data[pos+2] * 0x10000;
     pos += 3;
@@ -65,6 +66,20 @@ public:
   {
     int value = getInt32();
     return *(float*)(&value);
+  }
+  const ptString getString()
+  {
+    char size = data[pos];
+    if ( size == 0 || data[pos+size+1] != 0 )
+    {
+      pos++;
+      ptString ret_str(0,0);
+      return ret_str;
+    }
+    const char* str = (const char*) data + pos + 1;
+    pos += size + 2;
+    ptString ret_str(str, size);
+    return ret_str;
   }
   int getString(const char*& str)
   {

@@ -16,50 +16,57 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ITEMENTITY_H_
-#define _ITEMENTITY_H_
+#ifndef _PTSTRING_H_
+#define _PTSTRING_H_
 
-#include <string.h>
-#include <time.h>
-#include <math.h>
+#include "stringstore.h"
 
-#include "common/util/stringstore.h"
-
-#include "inventory.h"
-#include "characterstats.h"
-
-class Item;
-
-class ItemEntity : public Entity
+class ptString
 {
+public:
+  static ptString Null;
+
 private:
-  int item;
+  size_t string_id;
+
+  // just for caching...
+  const char* str_cache;
 
 public:
-  ItemEntity() : Entity(Entity::ItemEntity)
+  inline ptString()
   {
+    string_id = 0;
+    str_cache = 0;
   }
 
-  ~ItemEntity()
+  inline ptString(const char* str, size_t len)
   {
+    string_id = StringStore::getStore()->lookupId(str, len);
+    str_cache = 0; // don't cache str here!
   }
 
-  void setItem(int i)
+  inline ptString(const ptString& str)
   {
-    item = i;
+    string_id = str.string_id;
+    str_cache = str.str_cache;
   }
 
-  int getItem()
+  inline const char* operator*()
   {
-    return item;
+    if (!str_cache && string_id > 0)
+      str_cache = StringStore::getStore()->lookupString(string_id);
+    return str_cache;
   }
 
-  void createFromItem(Item* item)
+  inline bool operator==(ptString& other)
   {
-    this->setName(item->getName());
-    this->setMesh(item->getMesh());
-    this->setItem(item->getId());
+    return string_id == other.string_id;
+  }
+
+  inline bool isNull()
+  {
+    return string_id == 0;
   }
 };
 
-#endif // _ITEMENTITY_H_
+#endif // _PTSTRING_H_

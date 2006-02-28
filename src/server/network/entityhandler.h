@@ -28,6 +28,8 @@
 //#include "connectionmanager.h"
 #include "common/entity/entitymanager.h"
 
+#include "server/network/skillhandler.h"
+
 #include "server/user.h"
 
 class Server;
@@ -36,10 +38,11 @@ class EntityHandler : public MessageHandler
 {
 private:
   Server* server;
+  SkillHandler skill_handler;
 
 public:
   EntityHandler(Server* server) 
-  : server(server)
+  : server(server), skill_handler(server)
   {
   }
 
@@ -50,13 +53,19 @@ public:
       return;
 
     char type = msg->getMsgType();
-    if (type != MESSAGES::ENTITY) assert("wrong message type");
-    char id = msg->getMsgId();
+    if (type == MESSAGES::ENTITY)
+    {
+      char id = msg->getMsgId();
 
-    if (id == ENTITY::MOVE_REQUEST) handleMoveRequest(msg);
-    if (id == ENTITY::DRUPDATE_REQUEST) handleDrUpdateRequest(msg);
-    if (id == ENTITY::PICK_REQUEST) handlePickRequest(msg);
-    if (id == ENTITY::DROP_REQUEST) handleDropRequest(msg);
+      if (id == ENTITY::MOVE_REQUEST) handleMoveRequest(msg);
+      else if (id == ENTITY::DRUPDATE_REQUEST) handleDrUpdateRequest(msg);
+      else if (id == ENTITY::PICK_REQUEST) handlePickRequest(msg);
+      else if (id == ENTITY::DROP_REQUEST) handleDropRequest(msg);
+    }
+    else
+    {
+      skill_handler.handle(msg);
+    }
   }
 
   char getType()

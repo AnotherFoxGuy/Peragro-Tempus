@@ -43,7 +43,7 @@
 #include "imesh/spritecal3d.h"
 #include "imesh/sprite2d.h"
 #include "imesh/genmesh.h"
-#include "imesh/objmodel.h"
+//#include "imesh/objmodel.h"
 #include "iutil/databuff.h"
 #include "iutil/event.h"
 #include "iutil/eventq.h"
@@ -109,6 +109,7 @@ Client::Client() : playing(false)
   own_char_id = -1;
   world_loaded = false;
 
+  network = 0;
   cursor = new Cursor(this);
 }
 
@@ -166,7 +167,10 @@ void Client::ProcessFrame()
         drmsg.setPos(pos.x,pos.y,pos.z);
         drmsg.setVel(vel.x,vel.y,vel.z);
         drmsg.setWVel(wvel.x,wvel.y,wvel.z);
-        drmsg.setSector(sector->QueryObject()->GetName());
+        if (sector->QueryObject()->GetName())
+          drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
+        else
+          drmsg.setSector(ptString(0,0));
         /*
         ByteStream bs;
         drmsg.serialise(&bs);
@@ -307,13 +311,13 @@ void Client::connected ()
       if (cmdline->GetBoolOption("register", false))
       {
         RegisterRequestMessage reg_msg;
-        reg_msg.setName(user);
+        reg_msg.setName(ptString(user, strlen(user)));
         reg_msg.setPwHash(pass);
         network->send(&reg_msg);
       }
 
       LoginRequestMessage answer_msg;
-      answer_msg.setName(user);
+      answer_msg.setName(ptString(user, strlen(user)));
       answer_msg.setPwHash(pass);
       //this->name = user;
       network->send(&answer_msg);
@@ -588,14 +592,14 @@ void Client::addEntity()
   // Create the tooltip for this entity.
   pl->CreatePropertyClass(entity, "pctooltip");
   csRef<iPcTooltip> nametag = CEL_QUERY_PROPCLASS_ENT(entity, iPcTooltip);
-  nametag->SetText(ent->getName());
+  nametag->SetText(*ent->getName());
   nametag->SetJustify(CEL_TOOLTIP_CENTER);
   nametag->SetBackgroundColor(0, 0, 0);
 
   if (ent->getType() == Entity::ItemEntity)
   {
     char buffer[1024];
-    sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
+    sprintf(buffer, "%s:%d:%d", *ent->getName(), ent->getType(), ent->getId());
     entity->SetName(buffer);
     nametag->SetTextColor(140, 140, 255);
   }
@@ -607,7 +611,7 @@ void Client::addEntity()
     nametag->SetTextColor(0, 211, 111);
   }
   else
-    entity->SetName(ent->getName());
+    entity->SetName(*ent->getName());
 
   pl->CreatePropertyClass(entity, "pcmesh");
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
@@ -623,11 +627,11 @@ void Client::addEntity()
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
 
-  iSector* sector = engine->FindSector(ent->getSector());
+  iSector* sector = engine->FindSector(*ent->getSector());
 
   printf("Loading Actor\n");
   vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(ent->getMesh(), "/peragro/meshes/all.xml");
+  pcmesh->SetMesh(*ent->getMesh(), "/peragro/meshes/all.xml");
 
   csRef<iCelEntity> region = pl->FindEntity("World");
   if (region)
@@ -638,7 +642,7 @@ void Client::addEntity()
 
   if (own_char_id == ent->getId())
   {
-    name = ent->getName();
+    name = *ent->getName();
     own_char_name = name;
     printf("Adding Entity '%s' as me\n", entity->GetName());
     pl->CreatePropertyClass(entity, "pcdefaultcamera");
@@ -663,7 +667,7 @@ void Client::addEntity()
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
   pcprop->SetProperty("Entity Type", (long)ent->getType());
   pcprop->SetProperty("Entity ID", (long)ent->getId());
-  pcprop->SetProperty("Entity Name", ent->getName());
+  pcprop->SetProperty("Entity Name", *ent->getName());
 
   delete ent;
 
@@ -687,7 +691,7 @@ void Client::delEntity()
   if (ent->getType() == Entity::ItemEntity)
   {
     char buffer[1024];
-    sprintf(buffer, "%s:%d:%d", ent->getName(), ent->getType(), ent->getId());
+    sprintf(buffer, "%s:%d:%d", *ent->getName(), ent->getType(), ent->getId());
     entity = pl->FindEntity(buffer);
   }
   else if (ent->getType() == Entity::PlayerEntity)
@@ -698,7 +702,7 @@ void Client::delEntity()
   }
   else
   {
-    entity = pl->FindEntity(ent->getName());
+    entity = pl->FindEntity(*ent->getName());
   }
 
   if (entity)

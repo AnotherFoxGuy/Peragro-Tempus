@@ -16,47 +16,45 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MUTEX_H_
-#define _MUTEX_H_
+#ifndef _SKILLHANDLER_H_
+#define _SKILLHANDLER_H_
 
-#ifdef WIN32
-    #define WIN32_LEAN_AND_MEAN
-    #include "windows.h"
-	#define MUTEX HANDLE
-	#define LockMutex(a);   WaitForSingleObject(a, INFINITE);
-	#define UnLockMutex(a); ReleaseMutex(a);
-#else
-    #include <pthread.h>
-	#define MUTEX pthread_mutex_t
-	#define LockMutex(a); pthread_mutex_lock(&a);
-	#define UnLockMutex(a); pthread_mutex_unlock(&a);
-#endif
+#include "stdio.h"
 
-class Mutex
+#include "common/network/messagehandler.h"
+#include "common/network/netmessage.h"
+#include "common/network/skillmessages.h"
+
+//#include "connectionmanager.h"
+
+class SkillHandler : public MessageHandler
 {
 private:
-  MUTEX mutex;
+  Server* server;
 
 public:
-  Mutex()
+  SkillHandler(Server* server) 
+  : server(server)
   {
-#ifdef WIN32
-    mutex = 0;
-#else
-    MUTEX tmp = PTHREAD_MUTEX_INITIALIZER;
-    mutex = tmp;
-#endif
   }
 
-  void lock()
+  void handle(GenericMessage* msg)
   {
-    LockMutex(mutex);
+    char type = msg->getMsgType();
+    if (type != MESSAGES::SKILL) assert("wrong message type");
+    char id = msg->getMsgId();
+
+    if (id == SKILL::USAGE_START_REQUEST) handleStartUsage(msg);
+    else if (id == SKILL::USAGE_STOP_REQUEST) handleStopUsage(msg);
   }
 
-  void unlock()
+  char getType()
   {
-    UnLockMutex(mutex)
+    return MESSAGES::SKILL;
   }
+
+  void handleStartUsage(GenericMessage* msg);
+  void handleStopUsage(GenericMessage* msg);
 };
 
-#endif // _MUTEX_H_
+#endif // _SKILLHANDLER_H_

@@ -20,57 +20,28 @@
 #define ITEM_H_
 
 #include <string.h>
-#include "common/util/stringstore.h"
+#include "common/util/ptstring.h"
 
 class Item
 {
 private:
   int id;
-  //char* name;
-  size_t name_id;
-  //char* mesh;
-  size_t mesh_id;
+
+  ptString name_id;
+  ptString mesh_id;
 
 public:
-  Item() : id(-1), name_id(-1), mesh_id(-1) {}
+  Item() : id(-1) {}
   ~Item() {}
 
   void setId(int id) { this->id = id; }
   int getId() { return id; }
 
-  const char* getName()
-  {
-    return StringStore::getStore()->lookupString(name_id);
-  }
-  size_t getNameId()
-  {
-    return name_id;
-  }
-  void setName(const char* name)
-  {
-    name_id = StringStore::getStore()->lookupId(name);
-  }
-  void setName(size_t id)
-  {
-    name_id = id;
-  }
+  ptString& getName() { return name_id; }
+  void setName(ptString id) { name_id = id; }
 
-  const char* getMesh()
-  {
-    return StringStore::getStore()->lookupString(mesh_id);
-  }
-  size_t getMeshId()
-  {
-    return mesh_id;
-  }
-  void setMesh(const char* name)
-  {
-    mesh_id = StringStore::getStore()->lookupId(name);
-  }
-  void setMesh(size_t id)
-  {
-    mesh_id = id;
-  }
+  ptString& getMesh() { return mesh_id; }
+  void setMesh(ptString id) { mesh_id = id; }
 };
 
 #endif // ITEM_H_

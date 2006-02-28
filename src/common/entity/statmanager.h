@@ -49,8 +49,8 @@ public:
   void delStat(Stat* stat)
   {
     if (!stat) return;
-    const char* name = stat->getName();
-    if (!name) return;
+    //ptString name = stat->getName();
+    //if (!name) return;
     for (size_t i = 0; i<stats.getCount(); i++)
     {
       Stat* _stat = stats.get(i);
@@ -65,8 +65,6 @@ public:
   bool exists(Stat* stat)
   {
     if (!stat) return false;
-    const char* name = stat->getName();
-    if (!name) return false;
     for (size_t i = 0; i<stats.getCount(); i++)
     {
       Stat* _stat = stats.get(i);
@@ -77,13 +75,13 @@ public:
     return false;
   }
 
-  Stat* findByName(const char* name)
+  Stat* findByName(ptString name)
   {
-    if (!name) return 0;
+    if (name == ptString::Null) return 0;
     for (size_t i = 0; i<stats.getCount(); i++)
     {
       Stat* stat = stats.get(i);
-      if (strlen(stat->getName()) == strlen(name) && !strcmp(stat->getName(), name))
+      if (stat->getName() == name)
       {
         return stat;
       }

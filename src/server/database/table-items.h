@@ -23,16 +23,17 @@
 
 class Database;
 class Item;
+class ptString;
 
 class ItemTable : public Table
 {
 public:
   ItemTable(Database* db);
   void createTable();
-  void insert(const char* name, const char* mesh);
+  void insert(ptString name, ptString mesh);
   void dropTable();
-  bool existsItem(const char* name);
-  Item* getItem(const char* name);
+  bool existsItem(ptString name);
+  Item* getItem(ptString name);
   void getAllItems(Array<Item*>& items);
 };
 

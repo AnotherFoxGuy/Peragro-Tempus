@@ -23,17 +23,18 @@
 
 class Database;
 class Race;
+class ptString;
 
 class RaceTable : public Table
 {
 public:
   RaceTable(Database* db);
   void createTable();
-  void insert(int id, const char* name, const char* mesh, float pos[3], const char* sector);
+  void insert(int id, ptString name, ptString mesh, float pos[3], ptString sector);
   int getMaxId();
   void dropTable();
   void remove(int id);
-  bool existsRace(const char* name);
+  bool existsRace(ptString name);
   Race* findRaceById(int id);
   void getAllRaces(Array<Race*>& races);
 };

@@ -20,34 +20,24 @@
 #define STAT_H_
 
 #include <string.h>
-#include "common/util/stringstore.h"
+#include "common/util/ptstring.h"
 
 class Stat
 {
 private:
   int id;
-  //char* name;
-  size_t name_id;
+
+  ptString name_id;
 
 public:
-  Stat() : id(-1), name_id(-1) {}
+  Stat() : id(-1) {}
   ~Stat() {}
 
   void setId(int id) { this->id = id; }
   int getId() { return id; }
 
-  const char* getName()
-  {
-    return StringStore::getStore()->lookupString(name_id);
-  }
-  void setName(const char* name)
-  {
-    name_id = StringStore::getStore()->lookupId(name);
-  }
-  void setName(size_t id)
-  {
-    name_id = id;
-  }
+  ptString& getName() { return name_id; }
+  void setName(ptString id) { name_id = id; }
 };
 
 #endif // STAT_H_

@@ -36,16 +36,17 @@ namespace ENTITY
     DROP_REQUEST=8,
     DROP_RESPONSE=9,
     INV_ITEM_LIST=10,
-    CHAR_STAT_LIST=11
+    CHAR_STAT_LIST=11,
+    UPDATE_STATS=12
   };
 };
 
 class AddEntityMessage : public NetMessage
 {
-  const char* name;
-  const char* mesh;
+  ptString name;
+  ptString mesh;
   float pos[3];
-  const char* sector;
+  ptString sector;
   int ent_id;
   char ent_type;
 
@@ -56,7 +57,7 @@ public:
 
   void serialise(ByteStream* bs)
   {
-    assert(name); assert(mesh); assert(sector);
+    assert(*name); assert(*mesh); assert(*sector);
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
@@ -77,19 +78,19 @@ public:
     id = serial.getInt8();
     ent_id = serial.getInt32();
     ent_type = serial.getInt8();
-    int name_len = serial.getString(name);
-    int mesh_len = serial.getString(mesh);
+    name = serial.getString();
+    mesh = serial.getString();
     pos[0] = serial.getFloat();
     pos[1] = serial.getFloat();
     pos[2] = serial.getFloat();
-    int sector_len = serial.getString(sector);
+    sector = serial.getString();
   }
 
-  const char* getName()
+  ptString& getName()
   {
     return name;
   }
-  void setName(char* n)
+  void setName(ptString n)
   {
     name = n;
   }
@@ -112,11 +113,11 @@ public:
     ent_type = t;
   }
 
-  const char* getMesh()
+  ptString& getMesh()
   {
     return mesh;
   }
-  void setMesh(char* m)
+  void setMesh(ptString m)
   {
     mesh = m;
   }
@@ -138,11 +139,11 @@ public:
     pos[2] = z;
   }
 
-  const char* getSector()
+  ptString& getSector()
   {
     return sector;
   }
-  void setSector(char* s)
+  void setSector(ptString s)
   {
     sector = s;
   }
@@ -152,7 +153,7 @@ class RemoveEntityMessage : public NetMessage
 {
   int ent_id;
   char ent_type;
-  const char* name;
+  ptString name;
 
 public:
   RemoveEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::REMOVE) 
@@ -180,7 +181,7 @@ public:
     id = serial.getInt8();
     ent_id = serial.getInt32();
     ent_type = serial.getInt8();
-    int name_len = serial.getString(name);
+    name = serial.getString();
   }
 
   int getId()
@@ -201,11 +202,11 @@ public:
     ent_type = t;
   }
 
-  const char* getName()
+  ptString& getName()
   {
     return name;
   }
-  void setName(char* n)
+  void setName(ptString n)
   {
     name = n;
   }
@@ -309,7 +310,7 @@ public:
 
   void setWalk(int direction)
   {
-    walk = direction+1;
+    walk = (char)(direction+1);
   }
   int getWalk()
   {
@@ -318,7 +319,7 @@ public:
 
   void setRot(int direction)
   {
-    turn = direction+1;
+    turn = (char)(direction+1);
   }
   int getRot()
   {
@@ -331,7 +332,7 @@ class UpdateDREntityRequestMessage : public NetMessage
   bool on_ground;
   float speed, rot, avel;
   float pos[3], vel[3], wvel[3];
-  const char* sector;
+  ptString sector;
 
 public:
   UpdateDREntityRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DRUPDATE_REQUEST) 
@@ -381,7 +382,7 @@ public:
     wvel[0] = serial.getFloat();
     wvel[1] = serial.getFloat();
     wvel[2] = serial.getFloat();
-    serial.getString(sector);
+    sector = serial.getString();
   }
 
   void setOnGround(bool state)
@@ -471,11 +472,11 @@ public:
     return wvel;
   }
 
-  void setSector(const char* s)
+  void setSector(ptString s)
   {
     sector = s;
   }
-  const char* getSector()
+  ptString& getSector()
   {
     return sector;
   }
@@ -487,7 +488,7 @@ class UpdateDREntityMessage : public NetMessage
   bool on_ground;
   float speed, rot, avel;
   float pos[3], vel[3], wvel[3];
-  const char* sector;
+  ptString sector;
 
 public:
   UpdateDREntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DRUPDATE) 
@@ -539,7 +540,7 @@ public:
     wvel[1] = serial.getFloat();
     wvel[2] = serial.getFloat();
     entity_id = serial.getInt32();
-    serial.getString(sector);
+    sector = serial.getString();
   }
 
   int getId()
@@ -620,11 +621,11 @@ public:
     return wvel;
   }
 
-  void setSector(const char* s)
+  void setSector(ptString s)
   {
     sector = s;
   }
-  const char* getSector()
+  ptString& getSector()
   {
     return sector;
   }
@@ -672,10 +673,10 @@ public:
 
 class PickEntityResponseMessage : public NetMessage
 {
-  const char* name;
+  ptString name;
   int itemId;
-  const char* target;
-  const char* error;
+  ptString target;
+  ptString error;
 
 public:
   PickEntityResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::PICK_RESPONSE) 
@@ -702,17 +703,17 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    int name_len = serial.getString(name);
+    name = serial.getString();
     itemId = serial.getInt32();
-    serial.getString(target);
-    serial.getString(error);
+    target = serial.getString();
+    error = serial.getString();
   }
 
-  void setName(char* name)
+  void setName(ptString name)
   {
     this->name = name;
   }
-  const char* getName()
+  ptString& getName()
   {
     return name;
   }
@@ -726,20 +727,20 @@ public:
     return itemId;
   }
 
-  void setTarget(char* target)
+  void setTarget(ptString target)
   {
     this->target = target;
   }
-  const char* getTarget()
+  ptString& getTarget()
   {
     return target;
   }
 
-  void setError(char* error)
+  void setError(ptString error)
   {
     this->error = error;
   }
-  const char* getError()
+  ptString& getError()
   {
     return error;
   }
@@ -787,9 +788,9 @@ public:
 
 class DropEntityResponseMessage : public NetMessage
 {
-  const char* name;
-  const char* target;
-  const char* error;
+  ptString name;
+  ptString target;
+  ptString error;
 
 public:
   DropEntityResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DROP_RESPONSE) 
@@ -815,34 +816,34 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    int name_len = serial.getString(name);
-    serial.getString(target);
-    serial.getString(error);
+    name = serial.getString();
+    target = serial.getString();
+    error = serial.getString();
   }
 
-  void setName(char* name)
+  void setName(ptString name)
   {
     this->name = name;
   }
-  const char* getName()
+  ptString& getName()
   {
     return name;
   }
 
-  void setTarget(char* target)
+  void setTarget(ptString target)
   {
     this->target = target;
   }
-  const char* getTarget()
+  ptString& getTarget()
   {
     return target;
   }
 
-  void setError(char* error)
+  void setError(ptString error)
   {
     this->error = error;
   }
-  const char* getError()
+  ptString& getError()
   {
     return error;
   }
@@ -856,7 +857,7 @@ class InventoryItemListMessage : public NetMessage
   {
   public:
     int id;
-    const char* name;
+    ptString name;
     int amount;
   };
 
@@ -889,7 +890,7 @@ public:
     for (int i=0; i<itemCount; i++)
     {
       items[i].id = serial.getInt32();
-      serial.getString(items[i].name);
+      items[i].name = serial.getString();
       items[i].amount = serial.getInt32();
     }
   }
@@ -908,11 +909,11 @@ public:
   int getItemAmount(int idx) { return items[idx].amount; }
   void setItemAmount(int idx, int amount) { items[idx].amount = amount; }
 
-  void setName(int idx, const char* name)
+  void setName(int idx, ptString name)
   {
     items[idx].name = name;
   }
-  const char* getName(int idx)
+  ptString& getName(int idx)
   {
     return items[idx].name;
   }
@@ -925,9 +926,9 @@ class CharacterStatListMessage : public NetMessage
   class nwStats
   {
   public:
-    int id;
-    const char* name;
-    int level;
+    short id;
+    ptString name;
+    short level;
   };
 
   nwStats* stats;
@@ -959,7 +960,7 @@ public:
     for (int i=0; i<statCount; i++)
     {
       stats[i].id = serial.getInt16();
-      serial.getString(stats[i].name);
+      stats[i].name = serial.getString();
       stats[i].level = serial.getInt16();
     }
   }
@@ -972,20 +973,54 @@ public:
     stats = new nwStats[ic];
   }
 
-  int getStatId(int idx) { return stats[idx].id; }
-  void setStatId(int idx, int stat_id) { stats[idx].id = stat_id; }
+  int getStatId(short idx) { return stats[idx].id; }
+  void setStatId(size_t idx, short stat_id) { stats[idx].id = stat_id; }
 
-  int getStatLevel(int idx) { return stats[idx].level; }
-  void setStatLevel(int idx, int level) { stats[idx].level = level; }
+  int getStatLevel(short idx) { return stats[idx].level; }
+  void setStatLevel(size_t idx, short level) { stats[idx].level = level; }
 
-  void setName(int idx, const char* name)
+  void setName(int idx, ptString name)
   {
     stats[idx].name = name;
   }
-  const char* getName(int idx)
+  ptString& getName(int idx)
   {
     return stats[idx].name;
   }
+};
+
+class UpdateStatsMessage : public NetMessage
+{
+  short stat_id;
+  short level;
+
+public:
+  UpdateStatsMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::UPDATE_STATS) {}
+  ~UpdateStatsMessage() { }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt16(stat_id);
+    serial.setInt16(level);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    stat_id = serial.getInt16();
+    level = serial.getInt16();
+  }
+
+  int getStatId() { return stat_id; }
+  void setStatId(short stat_id) { this->stat_id = stat_id; }
+
+  int getStatLevel() { return level; }
+  void setStatLevel(short level) { this->level = level; }
 };
 
 #endif // _ENTITIYMESSAGES_H_

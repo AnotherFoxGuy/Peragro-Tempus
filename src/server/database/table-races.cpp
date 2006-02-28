@@ -36,6 +36,7 @@ RaceTable::RaceTable(Database* db) : Table(db)
     createTable();
   }
   ResultSet* rs2 = db->query("select count(*) from races;");
+  delete rs2;
 }
 
 void RaceTable::createTable()
@@ -51,15 +52,18 @@ void RaceTable::createTable()
     "PRIMARY KEY (id) );");
 
   float pos[3] = { 0.0f, 0.0f, 0.0f };
-  insert(1, "test", "test", pos, "room");
+  ptString test("test", 4);
+  ptString room("room", 4);
+
+  insert(1, test, test, pos, room);
 }
 
-void RaceTable::insert(int id, const char* name, const char* mesh, float pos[3], const char* sector)
+void RaceTable::insert(int id, ptString name, ptString mesh, float pos[3], ptString sector)
 {
-  if (strlen(name) + strlen(mesh) + strlen(sector) > 512) assert("Strings too long");
+  if (strlen(*name) + strlen(*mesh) + strlen(*sector) > 512) assert("Strings too long");
   char query[1024];
   sprintf(query, "insert into races (id, name, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d','%s','%s',%.2f,%.2f,%.2f,'%s');", id, name, mesh, pos[0], pos[1], pos[2], sector);
+    "('%d','%s','%s',%.2f,%.2f,%.2f,'%s');", id, *name, *mesh, pos[0], pos[1], pos[2], *sector);
   db->update(query);
 }
 
@@ -84,11 +88,11 @@ void RaceTable::remove(int id)
   db->update(query);
 }
 
-bool RaceTable::existsRace(const char* name)
+bool RaceTable::existsRace(ptString name)
 {
-  if (strlen(name)> 512) assert("String too long");
+  if (strlen(*name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select id from races where name = '%s';", name);
+  sprintf(query, "select id from races where name = '%s';", *name);
   ResultSet* rs = db->query(query);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
@@ -105,10 +109,10 @@ Race* RaceTable::findRaceById(int id)
 
   Race* race = new Race();
   race->setId(atoi(rs->GetData(0,0).c_str()));
-  race->setName(rs->GetData(0,1).c_str());
-  race->setMesh(rs->GetData(0,2).c_str());
+  race->setName(ptString(rs->GetData(0,1).c_str(),rs->GetData(0,1).length()));
+  race->setMesh(ptString(rs->GetData(0,2).c_str(),rs->GetData(0,2).length()));
   race->setPos((float)atof(rs->GetData(0,3).c_str()), (float)atof(rs->GetData(0,4).c_str()), (float)atof(rs->GetData(0,5).c_str()));
-  race->setSector(rs->GetData(0,6).c_str());
+  race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
   delete rs;
 
   return race;
@@ -122,10 +126,10 @@ void RaceTable::getAllRaces(Array<Race*>& races)
   {
     Race* race = new Race();
     race->setId(atoi(rs->GetData(i,0).c_str()));
-    race->setName(rs->GetData(i,1).c_str());
-    race->setMesh(rs->GetData(0,2).c_str());
+    race->setName(ptString(rs->GetData(i,1).c_str(),rs->GetData(0,1).length()));
+    race->setMesh(ptString(rs->GetData(0,2).c_str(),rs->GetData(0,2).length()));
     race->setPos((float)atof(rs->GetData(0,3).c_str()), (float)atof(rs->GetData(0,4).c_str()), (float)atof(rs->GetData(0,5).c_str()));
-    race->setSector(rs->GetData(0,6).c_str());
+    race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
     races.add(race);
 
     race->getStats()->loadFromDatabase(db->getRaceStatsTable(), race->getId());

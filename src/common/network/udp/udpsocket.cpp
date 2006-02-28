@@ -45,9 +45,9 @@ Socket::Socket()
   ready = false;
 }
 
-void Socket::init(int port, unsigned ip)
+void Socket::init(unsigned short port, unsigned ip)
 {
-  socket_handler=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
+  socket_handler = (int) socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
 #ifdef WIN32
   long error = WSAGetLastError();
   if (error != 0)
@@ -84,7 +84,7 @@ Socket::~Socket()
 #endif
 }
 
-size_t Socket::receive(char* msg, size_t length, SocketAddress* sockaddr)
+int Socket::receive(char* msg, size_t length, SocketAddress* sockaddr)
 {
   sockaddr_in addr;
   socklen len = sizeof(addr);
@@ -95,9 +95,9 @@ size_t Socket::receive(char* msg, size_t length, SocketAddress* sockaddr)
 
   if (ready && real_length < 0)
   {
-    int error = errno;
+    size_t error = errno;
 #ifdef WIN32
-    error = WSAGetLastError();
+    error = (size_t)WSAGetLastError();
     if (error == WSAEWOULDBLOCK) return -1;
 #else
     if (error == EAGAIN) return -1;
@@ -144,7 +144,7 @@ bool Socket::publish(const char* msg, size_t length, const SocketAddress* sockad
   return rv != -1;
 }
 
-SocketAddress Socket::getSocketAddress(const char* host, int port)
+SocketAddress Socket::getSocketAddress(const char* host, unsigned short port)
 {
   SocketAddress addr;
   hostent* h = gethostbyname(host);
@@ -156,12 +156,12 @@ SocketAddress Socket::getSocketAddress(const char* host, int port)
   return addr;
 }
 
-void Socket::getNetworkStats(unsigned int& sentbytes, unsigned int& recvbytes, unsigned int& lastchecked)
+void Socket::getNetworkStats(size_t& sentbytes, size_t& recvbytes, size_t& lastchecked)
 {
   sentbytes = sent_bytes;
   sent_bytes = 0;
   recvbytes = received_bytes;
   received_bytes = 0;
   lastchecked = last_checked;
-  last_checked = time(0);
+  last_checked = (size_t)time(0);
 }

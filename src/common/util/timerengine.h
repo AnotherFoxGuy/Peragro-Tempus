@@ -16,25 +16,43 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_STATS_H_
-#define _TABLE_STATS_H_
+#ifndef _TIMERENGINE_H_
+#define _TIMERENGINE_H_
 
-#include "table.h"
+#include "array.h"
+#include "mutex.h"
+#include "thread.h"
 
-class Database;
-class Stat;
-class ptString;
+class Timer;
 
-class StatTable : public Table
+class TimerEngine : public Thread
 {
+private:
+  Array<Timer*> timers;
+
+  void Run();
+
+  Mutex mutex;
+
+  size_t last;
+
 public:
-  StatTable(Database* db);
-  void createTable();
-  void insert(ptString name);
-  void dropTable();
-  bool existsStat(ptString name);
-  Stat* getStat(ptString name);
-  void getAllStats(Array<Stat*>& stats);
+  TimerEngine() : last(0) {}
+  ~TimerEngine() {}
+
+  void registerTimer(Timer* timer) 
+  { 
+    mutex.lock(); 
+    timers.add(timer); 
+    mutex.unlock(); 
+  }
+
+  void unregisterTimer(Timer* timer) 
+  { 
+    mutex.lock(); 
+    timers.remove(timers.find(timer)); 
+    mutex.unlock(); 
+  }
 };
 
-#endif //_TABLE_STATS_H_
+#endif // _TIMERENGINE_H_

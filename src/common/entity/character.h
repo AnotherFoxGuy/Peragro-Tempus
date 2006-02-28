@@ -32,12 +32,10 @@ class Character
 {
 private:
   int id;
-  //char* name;
-  size_t name_id;
-  //char* mesh;
-  size_t mesh_id;
-  //char* sector;
-  size_t sector_id;
+
+  ptString name_id;
+  ptString mesh_id;
+  ptString sector_id;
 
   User* user;
 
@@ -46,7 +44,7 @@ private:
   Inventory inventory;
 
 public:
-  Character() : id(-1), name_id(-1), mesh_id(-1), sector_id(-1)
+  Character() : id(-1)
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
@@ -86,41 +84,29 @@ public:
     return pos;
   }
 
-  const char* getName()
+  ptString& getName()
   {
-    return StringStore::getStore()->lookupString(name_id);
+    return name_id;
   }
-  void setName(const char* name)
-  {
-    name_id = StringStore::getStore()->lookupId(name);
-  }
-  void setName(size_t id)
+  void setName(ptString id)
   {
     name_id = id;
   }
 
-  const char* getMesh()
+  ptString& getMesh()
   {
-    return StringStore::getStore()->lookupString(mesh_id);
+    return mesh_id;
   }
-  void setMesh(const char* name)
-  {
-    mesh_id = StringStore::getStore()->lookupId(name);
-  }
-  void setMesh(size_t id)
+  void setMesh(ptString id)
   {
     mesh_id = id;
   }
 
-  const char* getSector()
+  ptString& getSector()
   {
-    return StringStore::getStore()->lookupString(sector_id);
+    return sector_id;
   }
-  void setSector(const char* name)
-  {
-    sector_id = StringStore::getStore()->lookupId(name);
-  }
-  void setSector(size_t id)
+  void setSector(ptString id)
   {
     sector_id = id;
   }

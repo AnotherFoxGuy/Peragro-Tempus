@@ -47,39 +47,39 @@ void RaceStatsTable::createTable()
 
   Stat* stat = 0;
 
-  stat = db->getStatTable()->getStat("Health");
+  stat = db->getStatTable()->getStat(ptString("Health", strlen("Health")));
   set(1, stat, 60);
   delete stat;
 
-  stat = db->getStatTable()->getStat("Mana");
+  stat = db->getStatTable()->getStat(ptString("Mana", strlen("Mana")));
   set(1, stat, 60);
   delete stat;
 
-   stat = db->getStatTable()->getStat("Strength");
+   stat = db->getStatTable()->getStat(ptString("Strength", strlen("Strength")));
   set(1, stat, 35);
   delete stat;
 
-  stat = db->getStatTable()->getStat("Intelligence");
+  stat = db->getStatTable()->getStat(ptString("Intelligence", strlen("Intelligence")));
   set(1, stat, 40);
   delete stat;
 
-  stat = db->getStatTable()->getStat("Dexterty");
+  stat = db->getStatTable()->getStat(ptString("Dexterty", strlen("Dexterty")));
   set(1, stat, 50);
   delete stat;
 
-  stat = db->getStatTable()->getStat("Endurance");
+  stat = db->getStatTable()->getStat(ptString("Endurance", strlen("Endurance")));
   set(1, stat, 40);
   delete stat;
 
-  stat = db->getStatTable()->getStat("Agility");
+  stat = db->getStatTable()->getStat(ptString("Agility", strlen("Agility")));
   set(1, stat, 45);
   delete stat;
 
-  stat = db->getStatTable()->getStat("Concentration");
+  stat = db->getStatTable()->getStat(ptString("Concentration", strlen("Concentration")));
   set(1, stat, 25);
   delete stat;
 
-  stat = db->getStatTable()->getStat("Witness");
+  stat = db->getStatTable()->getStat(ptString("Witness", strlen("Witness")));
   set(1, stat, 65);
   delete stat;
 }

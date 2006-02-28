@@ -21,6 +21,7 @@
 
 class Server;
 class User;
+class ptString;
 
 class UserAccountManager
 {
@@ -29,8 +30,8 @@ private:
 
 public:
   UserAccountManager(Server* server) : server(server) {}
-  char* login(const char* username, const char* password, User*& user);
-  char* signup(const char* username, const char* password);
+  const ptString login(ptString username, const char* password, User*& user);
+  const ptString signup(ptString username, const char* password);
 };
 
 #endif // _USERACCOUNTMANAGER_H_

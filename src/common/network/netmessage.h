@@ -35,7 +35,8 @@ namespace MESSAGES
     CONNECTION=0,
     USER=1,
     ENTITY=2,
-    CHAT=3
+    CHAT=3,
+    SKILL=4
   };
 };
 

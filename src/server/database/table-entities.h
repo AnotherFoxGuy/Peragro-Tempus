@@ -24,6 +24,7 @@
 class Database;
 class Entity;
 class ResultSet;
+class ptString;
 
 class EntityTable : public Table
 {
@@ -33,12 +34,12 @@ private:
 public:
   EntityTable(Database* db);
   void createTable();
-  void insert(int id, const char* name, int type, int item, const char* mesh, float pos[3], const char* sector);
+  void insert(int id, ptString name, int type, int item, ptString mesh, float pos[3], ptString sector);
   int getMaxId();
   void dropTable();
   void remove(int id);
-  bool existsEntity(const char* name);
-  Entity* getEntity(const char* name);
+  bool existsEntity(ptString name);
+  Entity* getEntity(ptString name);
   void getAllEntities(Array<Entity*>& entities);
 };
 

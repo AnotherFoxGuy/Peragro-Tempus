@@ -21,9 +21,12 @@
 
 #include "netmessage.h"
 
-enum CHAT_MESSAGES
+namespace CHAT
 {
-  CHAT_MESSAGE=0
+  enum CHAT_MESSAGES
+  {
+    CHAT=0
+  };
 };
 
 class ChatMessage : public NetMessage
@@ -32,7 +35,7 @@ class ChatMessage : public NetMessage
   const char* msg;
 
 public:
-  ChatMessage() : NetMessage(MESSAGES::CHAT,CHAT_MESSAGE) 
+  ChatMessage() : NetMessage(MESSAGES::CHAT,CHAT::CHAT) 
   {
   }
 

@@ -26,10 +26,8 @@
 
 #include "server/user.h"
 
-char* UserAccountManager::login(const char* username, const char* password, User*& user)
+const ptString UserAccountManager::login(ptString username, const char* password, User*& user)
 {
-  Database* db = server->getDatabase();
-  UsersTable* ut = db->getUsersTable();
   UserManager* um = server->getUserManager();
 
   // See if already logged in
@@ -44,29 +42,29 @@ char* UserAccountManager::login(const char* username, const char* password, User
   // Unknown User
   if (!user)
   {
-    return "Unknown User";
+    return ptString("Unknown User", strlen("Unknown User"));
   }
 
-  printf("User: '%s':'%s' <-  '%s':'%s'\n", username, password, user->getName(), user->getPwHash());
+  printf("User: '%s':'%s' <-  '%s':'%s'\n", *username, password, *user->getName(), user->getPwHash());
 
   if (strlen(user->getPwHash()) != strlen(password) || strcmp(user->getPwHash(), password))
   {
     user = 0;
-    return "Invalid Password";
+    return ptString("Invalid Password", strlen("Invalid Password"));
   }
 
-  return 0;
+  return ptString(0,0);
 }
 
-char* UserAccountManager::signup(const char* username, const char* password)
+const ptString UserAccountManager::signup(ptString username, const char* password)
 {
   Database* db = server->getDatabase();
   UsersTable* ut = db->getUsersTable();
   if (ut->existsUser(username))
   {
-    return "User exists already";
+    return ptString("User exists already", strlen("User exists already"));
   }
 
   ut->insert(username, password);
-  return 0;
+  return ptString(0,0);
 }

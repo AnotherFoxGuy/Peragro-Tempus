@@ -28,6 +28,7 @@ class StatManager;
 class Network;
 class UserManager;
 class UserAccountManager;
+class TimerEngine;
 class Entity;
 
 class Server
@@ -44,6 +45,7 @@ private:
   StatManager* stat_mgr;
   UserManager* usr_mgr;
   UserAccountManager* usr_acc_mgr;
+  TimerEngine* timer_engine;
 
 public:
   Server() { server = this; }
@@ -75,6 +77,9 @@ public:
 
   void setUserAccountManager(UserAccountManager* usr_acc_mgr) { this->usr_acc_mgr = usr_acc_mgr; }
   UserAccountManager* getUserAccountManager() { return this->usr_acc_mgr; }
+
+  void setTimerEngine(TimerEngine* timer_engine) { this->timer_engine = timer_engine; }
+  TimerEngine* getTimerEnginer() { return this->timer_engine; }
 
   void addEntity(Entity* entity, bool presistent);
   void delEntity(Entity* entity);

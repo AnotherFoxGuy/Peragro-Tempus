@@ -28,22 +28,25 @@ private:
 
   Mutex mutex;
 
-  class ptString
+  class StoreString
   {
   public:
     size_t len;
     char* string;
 
-    ptString() : len(0), string(0) {}
-    ~ptString() { delete [] string; }
+    StoreString() : len(0), string(0) {}
+    ~StoreString() { delete [] string; }
   };
-  Array<ptString*> strings;
+  Array<StoreString*> strings;
 
   static StringStore* store;
 
-  StringStore() {}
+  StringStore()
+  {
+    StoreString* null_str = new StoreString();
+    strings.add(null_str); 
+  }
 
-public:
   ~StringStore() { strings.delAll(); }
 
   static StringStore* getStore();
@@ -58,7 +61,7 @@ public:
     }
 
     mutex.lock();
-    ptString* string = new ptString();
+    StoreString* string = new StoreString();
     string->len = strlen(str);
     string->string = new char[string->len+1];
     strncpy(string->string, str, string->len+1);
@@ -70,11 +73,18 @@ public:
 
   size_t lookupId(const char* string)
   {
+    if (string == 0) return 0;
+    return lookupId(string, strlen(string));
+  }
+
+  size_t lookupId(const char* string, size_t len)
+  {
+    if (string == 0) return 0;
+
     mutex.lock();
 
     printf("looking up string %s: ", string);
 
-    size_t len = strlen(string);
     for (size_t i=0; i<strings.getCount(); i++)
     {
       if (strings.get(i)->len == len)
@@ -108,6 +118,8 @@ public:
     mutex.unlock();
     return strings.get(id)->string;
   }
+
+  friend class ptString;
 };
 
 #endif //_STRINGSTORE_H

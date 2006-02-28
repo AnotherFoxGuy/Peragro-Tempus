@@ -23,6 +23,7 @@
 #include "common/entity/itemmanager.h"
 #include "common/entity/statmanager.h"
 #include "common/util/sleep.h"
+#include "common/util/timer.h"
 
 #include "server/server.h"
 #include "server/charactermanager.h"
@@ -68,6 +69,9 @@ int main(int argc, char ** argv)
   StatManager stat_mgr;
   server.setStatManager(&stat_mgr);
 
+  TimerEngine timeEngine;
+  timeEngine.begin();
+
   ent_mgr.loadFromDB(db.getEntityTable());
   item_mgr.loadFromDB(db.getItemTable());
   stat_mgr.loadFromDB(db.getStatTable());
@@ -75,12 +79,13 @@ int main(int argc, char ** argv)
 
   Spawner spawner;
   // TODO: load that from DB rather than hardcoding
-  spawner.addSpawnPoint(0, 4, 0, "room", 3, 60); //spawn apple every 10 second after picking
-  spawner.addSpawnPoint(4, 0, 2, "room", 2, 20); //spawn apple every 10 second after picking
-  spawner.addSpawnPoint(4, 0, 2, "room", 1, 10); //spawn apple every 10 second after picking
-  spawner.addSpawnPoint(0, 4, 0, "room", 1, 45); //spawn apple every 45 second after picking
-  spawner.addSpawnPoint(0, 2, -2, "room", 1, 75); //spawn apple every 75 second after picking
-  spawner.addSpawnPoint(2, -2, 0, "room", 1, 15); //spawn apple every 15 second after picking
+  ptString room("room", 4);
+  spawner.addSpawnPoint(0, 4, 0, room, 3, 60); //spawn apple every 10 second after picking
+  spawner.addSpawnPoint(4, 0, 2, room, 2, 20); //spawn apple every 10 second after picking
+  spawner.addSpawnPoint(4, 0, 2, room, 1, 10); //spawn apple every 10 second after picking
+  spawner.addSpawnPoint(0, 4, 0, room, 1, 45); //spawn apple every 45 second after picking
+  spawner.addSpawnPoint(0, 2, -2, room, 1, 75); //spawn apple every 75 second after picking
+  spawner.addSpawnPoint(2, -2, 0, room, 1, 15); //spawn apple every 15 second after picking
   spawner.begin();
 
   unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;
@@ -88,7 +93,7 @@ int main(int argc, char ** argv)
   unsigned int delay_time = 10000; //10 sec = 10000 ms
 
   //Used for testing crash handler
-  //int test;  (*(CharacterManager*)0).createCharacter("test",0, test);
+  //throw 1;
 
   while (true)
   {

@@ -43,17 +43,23 @@ void ItemTable::createTable()
     "mesh TEXT, "
     "PRIMARY KEY (id) );");
 
-  //Example Data!
-  insert("smallplate", "Stuff001_smallplate_64_plates");
-  insert("tiny ballpot", "Stuff001_tinyballpot_84_pot");
-  insert("apple", "apple");
+  //Example Data! Should go somewhere else, imao
+  ptString apple("apple", strlen("apple"));
+  ptString plate("smallplate", strlen("smallplate"));
+  ptString pot("tiny ballpot", strlen("tiny ballpot"));
+  ptString platemesh("Stuff001_smallplate_64_plates", strlen("Stuff001_smallplate_64_plates"));
+  ptString potmesh("Stuff001_tinyballpot_84_pot", strlen("Stuff001_tinyballpot_84_pot"));
+
+  insert(plate, platemesh);
+  insert(pot, potmesh);
+  insert(apple, apple);
 }
 
-void ItemTable::insert(const char* name, const char* mesh)
+void ItemTable::insert(ptString name, ptString mesh)
 {
-  if (strlen(name) > 512) assert("Strings too long");
+  if (strlen(*name) > 512) assert("Strings too long");
   char query[1024];
-  sprintf(query, "insert into items (name, mesh) values ('%s','%s');", name, mesh);
+  sprintf(query, "insert into items (name, mesh) values ('%s','%s');", *name, *mesh);
   db->update(query);
 }
 
@@ -62,22 +68,22 @@ void ItemTable::dropTable()
   db->update("drop table items;");
 }
 
-bool ItemTable::existsItem(const char* name)
+bool ItemTable::existsItem(ptString name)
 {
-  if (strlen(name)> 512) assert("String too long");
+  if (strlen(*name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select id from items where name = '%s';", name);
+  sprintf(query, "select id from items where name = '%s';", *name);
   ResultSet* rs = db->query(query);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
 }
 
-Item* ItemTable::getItem(const char* name)
+Item* ItemTable::getItem(ptString name)
 {
-  if (strlen(name)> 512) assert("String too long");
+  if (strlen(*name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select * from users where name = '%s';", name);
+  sprintf(query, "select * from users where name = '%s';", *name);
   ResultSet* rs = db->query(query);
 
   Item* item = 0;
@@ -102,8 +108,8 @@ void ItemTable::getAllItems(Array<Item*>& items)
   {
     Item* item = new Item();
     item->setId(atoi(rs->GetData(i,0).c_str()));
-    item->setName(rs->GetData(i,1).c_str());
-    item->setMesh(rs->GetData(i,2).c_str());
+    item->setName(ptString(rs->GetData(i,1).c_str(),rs->GetData(i,1).length()));
+    item->setMesh(ptString(rs->GetData(i,2).c_str(),rs->GetData(i,2).length()));
     items.add(item);
   }
 }  

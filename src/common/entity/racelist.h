@@ -59,8 +59,8 @@ public:
   void delRace(Race* race)
   {
     if (!race) return;
-    const char* name = race->getName();
-    if (!name) return;
+    //ptString name = race->getName();
+    //if (!name) return;
     for (size_t i = 0; i<races.getCount(); i++)
     {
       Race* _race = races.get(i);
@@ -80,8 +80,6 @@ public:
   bool exists(Race* race)
   {
     if (!race) return false;
-    const char* name = race->getName();
-    if (!name) return false;
     for (size_t i = 0; i<races.getCount(); i++)
     {
       Race* _race = races.get(i);
@@ -92,13 +90,13 @@ public:
     return false;
   }
 
-  Race* findByName(const char* name)
+  Race* findByName(ptString name)
   {
-    if (!name) return 0;
+    if (name.isNull()) return 0;
     for (size_t i = 0; i<races.getCount(); i++)
     {
       Race* race = races.get(i);
-      if (strlen(race->getName()) == strlen(name) && !strcmp(race->getName(), name))
+      if (race->getName() == name)
       {
         return race;
       }

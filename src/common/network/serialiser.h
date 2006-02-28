@@ -20,6 +20,7 @@
 #define _SERIALISER_H_
 
 #include "bytestream.h"
+#include "common/util/ptstring.h"
 
 class Serialiser
 {
@@ -60,19 +61,35 @@ public:
   {
     setInt32(*(int*)(&value));
   }
-  void setString(const char* value)
+  void setString(ptString value)
   {
-    if (value == 0)
+    const char* str = *value;
+    if (str == 0)
     {
       bs->data[bs->size] = 0;
       bs->size++;
     }
     else
     {
-      bs->data[bs->size] = (char)strlen(value);
-      strncpy((char*)bs->data+bs->size+1, value, strlen(value));
-      *(bs->data+bs->size+strlen(value)+1) = 0;
-      bs->size += strlen(value)+2;
+      bs->data[bs->size] = (char)strlen(str);
+      strncpy((char*)bs->data+bs->size+1, str, strlen(str));
+      *(bs->data+bs->size+strlen(str)+1) = 0;
+      bs->size += strlen(str)+2;
+    }
+  }
+  void setString(const char* str)
+  {
+    if (str == 0)
+    {
+      bs->data[bs->size] = 0;
+      bs->size++;
+    }
+    else
+    {
+      bs->data[bs->size] = (char)strlen(str);
+      strncpy((char*)bs->data+bs->size+1, str, strlen(str));
+      *(bs->data+bs->size+strlen(str)+1) = 0;
+      bs->size += strlen(str)+2;
     }
   }
 };

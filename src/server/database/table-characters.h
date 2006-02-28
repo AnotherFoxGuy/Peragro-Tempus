@@ -24,17 +24,18 @@
 class Database;
 class Character;
 class User;
+class ptString;
 
 class CharacterTable : public Table
 {
 public:
   CharacterTable(Database* db);
   void createTable();
-  void insert(int id, const char* name, int user_id, const char* mesh, float pos[3], const char* sector);
+  void insert(int id, ptString name, int user_id, ptString mesh, float pos[3], ptString sector);
   int getMaxId();
   void dropTable();
   void remove(int id);
-  bool existsCharacter(const char* name);
+  bool existsCharacter(ptString name);
   Character* findCharacterById(int id);
   void getAllCharacters(Array<Character*>& characters, User* user_id);
 };

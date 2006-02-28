@@ -32,6 +32,8 @@ private:
 
   friend class EntityManager;
 
+  Mutex mutex;
+
 public:
   EntityList() {}
 
@@ -59,8 +61,9 @@ public:
   void delEntity(Entity* entity)
   {
     if (!entity) return;
-    const char* name = entity->getName();
-    if (!name) return;
+
+    mutex.lock();
+
     for (size_t i = 0; i<entities.getCount(); i++)
     {
       Entity* _entity = entities.get(i);
@@ -72,56 +75,71 @@ public:
       if (_entity->compare(entity))
       {
         entities.remove(i);
+        mutex.unlock();
         return;
       }
     }
+    mutex.unlock();
   }
 
   bool exists(Entity* entity)
   {
     if (!entity) return false;
-    const char* name = entity->getName();
-    if (!name) return false;
+
+    mutex.lock();
+
     for (size_t i = 0; i<entities.getCount(); i++)
     {
       Entity* _entity = entities.get(i);
 
       if (_entity->compare(entity))
+      {
+        mutex.unlock();
         return true;
+      }
     }
+    mutex.unlock();
     return false;
   }
 
-  Entity* findByName(const char* name)
+  Entity* findByName(ptString name)
   {
-    if (!name) return 0;
+    if (name.isNull()) return 0;
+    mutex.lock();
     for (size_t i = 0; i<entities.getCount(); i++)
     {
       Entity* entity = entities.get(i);
-      if (strlen(entity->getName()) == strlen(name) && !strcmp(entity->getName(), name))
+      if (entity->getName() == name)
       {
+        mutex.unlock();
         return entity;
       }
     }
+    mutex.unlock();
     return 0;
   }
 
   Entity* findById(int id)
   {
+    mutex.lock();
     for (size_t i = 0; i<entities.getCount(); i++)
     {
       Entity* entity = entities.get(i);
       if (entity->getId() == id)
       {
+        mutex.unlock();
         return entity;
       }
     }
+    mutex.unlock();
     return 0;
   }
 
   void clear()
   {
+    mutex.lock();
     entities.removeAll();
+    mutex.unlock();
   }
 };
 

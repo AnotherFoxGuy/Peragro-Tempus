@@ -58,8 +58,6 @@ public:
   void delCharacter(Character* character)
   {
     if (!character) return;
-    const char* name = character->getName();
-    if (!name) return;
     for (size_t i = 0; i<characters.getCount(); i++)
     {
       Character* _character = characters.get(i);
@@ -74,8 +72,6 @@ public:
   bool exists(Character* character)
   {
     if (!character) return false;
-    const char* name = character->getName();
-    if (!name) return false;
     for (size_t i = 0; i<characters.getCount(); i++)
     {
       Character* _character = characters.get(i);
@@ -86,13 +82,13 @@ public:
     return false;
   }
 
-  Character* findByName(const char* name)
+  Character* findByName(ptString name)
   {
     if (!name) return 0;
     for (size_t i = 0; i<characters.getCount(); i++)
     {
       Character* character = characters.get(i);
-      if (strlen(character->getName()) == strlen(name) && !strcmp(character->getName(), name))
+      if (character->getName() == name)
       {
         return character;
       }

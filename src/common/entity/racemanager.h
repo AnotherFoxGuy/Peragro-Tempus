@@ -65,7 +65,7 @@ public:
     return list.exists(race);
   }
 
-  Race* findByName(const char* name)
+  Race* findByName(ptString name)
   {
     return list.findByName(name);
   }

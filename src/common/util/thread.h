@@ -20,7 +20,8 @@
 #define _THREAD_H_
 
 #ifdef WIN32
-  #include <windows.h>
+  #define WIN32_LEAN_AND_MEAN
+  #include "windows.h"
   #define WaitForThread(a, b); WaitForSingleObject(a, b);
   #define ThreadHandle HANDLE
   #define ThreadReturn DWORD WINAPI

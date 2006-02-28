@@ -23,7 +23,7 @@
 #include <time.h>
 #include <math.h>
 
-#include "common/util/stringstore.h"
+#include "common/util/ptstring.h"
 
 #include "inventory.h"
 #include "characterstats.h"
@@ -34,12 +34,10 @@ class Entity
 {
 private:
   int id;
-  //char* name;
-  size_t name_id;
-  //char* mesh;
-  size_t mesh_id;
-  //char* sector;
-  size_t sector_id;
+
+  ptString name_id;
+  ptString mesh_id;
+  ptString sector_id;
 
   float pos[3];
 
@@ -133,53 +131,29 @@ public:
     return pos;
   }
 
-  const char* getName()
-  {
-    return StringStore::getStore()->lookupString(name_id);
-  }
-  size_t getNameId()
+  ptString& getName()
   {
     return name_id;
   }
-  void setName(const char* name)
-  {
-    name_id = StringStore::getStore()->lookupId(name);
-  }
-  void setName(size_t id)
+  void setName(ptString id)
   {
     name_id = id;
   }
 
-  const char* getMesh()
-  {
-    return StringStore::getStore()->lookupString(mesh_id);
-  }
-  size_t getMeshId()
+  ptString& getMesh()
   {
     return mesh_id;
   }
-  void setMesh(const char* name)
-  {
-    mesh_id = StringStore::getStore()->lookupId(name);
-  }
-  void setMesh(size_t id)
+  void setMesh(ptString id)
   {
     mesh_id = id;
   }
 
-  const char* getSector()
-  {
-    return StringStore::getStore()->lookupString(sector_id);
-  }
-  size_t getSectorId()
+  ptString& getSector()
   {
     return sector_id;
   }
-  void setSector(const char* name)
-  {
-    sector_id = StringStore::getStore()->lookupId(name);
-  }
-  void setSector(size_t id)
+  void setSector(ptString id)
   {
     sector_id = id;
   }

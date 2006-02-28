@@ -4,10 +4,18 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+28-Feb-2006
+  - PK added ptString which is a number identifying the string.
+  - PK added a Mutex to the entitylist in hope to avoid race condition when deleting an entity...
+  - PK added SkillMessages and SkillHandlers which still have to be implemented yet.
+  - PK added a primitive timer class that doesn't run very accurate yet.
+  - PK fixed most warnings in the server code.
+
 26-Feb-2006
   - Dingobloo removed the reliance on a client pointer from the effect manager instead using the object registry.
   - Dingobloo added an app to quickly test the effect system instead of having to use the client (lacks jamfiles)  
   - Dingobloo added an NSIS installation creation script under scripts/NSIS/ for distributing the static client.
+
 25-Feb-2006
   - Sueastside worked some more on the effectsmanager.
 

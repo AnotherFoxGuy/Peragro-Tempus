@@ -83,38 +83,38 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   const Connection* conn = msg->getConnection();
   if (!conn) return;
   CharacterEntity* user_ent = conn->getUser()->getEntity();
-  const char* name = user_ent->getName();
+  ptString name = user_ent->getName();
   PickEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received PickRequest from: '%s' -> '%d' \n", name, request_msg.getTargetId());
+  printf("Received PickRequest from: '%s' -> '%d' \n", *name, request_msg.getTargetId());
 
   Entity* e = server->getEntityManager()->findById(request_msg.getTargetId());
 
   PickEntityResponseMessage response_msg;
-  response_msg.setName((char*)name);
+  response_msg.setName(name);
   response_msg.setItemId(0);
   if (!e)
   {
-    response_msg.setTarget(0);
-    response_msg.setError((char*)"Entity doesn't exist");
+    response_msg.setTarget(ptString(0,0));
+    response_msg.setError(ptString("Entity doesn't exist",20)); // <-- TODO: Error Message Storage
   }
   else if (e->getType() == Entity::ItemEntity)
   {
-    response_msg.setTarget((char*)e->getName());
-    response_msg.setError(0);
+    response_msg.setTarget(e->getName());
+    response_msg.setError(ptString(0,0));
   }
   else if (e->getType() == Entity::PlayerEntity)
   {
-    response_msg.setTarget((char*)e->getName());
-    response_msg.setError((char*)"Don't pick on others!");
+    response_msg.setTarget(e->getName());
+    response_msg.setError(ptString("Don't pick on others!",21)); // <-- TODO: Error Message Storage
   }
   else
   {
-    response_msg.setTarget((char*)e->getName());
-    response_msg.setError((char*)"Unpickable");
+    response_msg.setTarget(e->getName());
+    response_msg.setError(ptString("Unpickable",10)); // <-- TODO: Error Message Storage
   }
 
-  if (response_msg.getError() == 0)
+  if (response_msg.getError().isNull())
   {
     Item* item = server->getItemManager()->findById(((ItemEntity*)e)->getItem());
 
@@ -142,10 +142,10 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   const Connection* conn = msg->getConnection();
   if (!conn) return;
   CharacterEntity* user_ent = conn->getUser()->getEntity();
-  const char* name = user_ent->getName();
+  ptString name = user_ent->getName();
   DropEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received DropRequest from: '%s' -> '%d' \n", name, request_msg.getTargetId());
+  printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getTargetId());
 
   Item* item = server->getItemManager()->findById(request_msg.getTargetId());
 

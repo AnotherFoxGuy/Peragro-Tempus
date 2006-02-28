@@ -25,10 +25,10 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
   printf("Received LoginResponse\n");
   LoginResponseMessage response;
   response.deserialise(msg->getByteStream());
-  const char* error = response.getError();
-  if (error != 0)
+  ptString error = response.getError();
+  if (!error.isNull())
   {
-    printf("Login Failed due to: %s\n", error);
+    printf("Login Failed due to: %s\n", *error);
     guimanager = client->GetGuiManager();
     guimanager->GetLoginWindow()->EnableWindow();
     return;
@@ -42,10 +42,10 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
   printf("Received RegisterResponse\n");
   RegisterResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
-  const char* error = answer_msg.getError();
-  if (error != 0)
+  ptString error = answer_msg.getError();
+  if (!error.isNull())
   {
-    printf("Registration Failed due to: %s\n", error);
+    printf("Registration Failed due to: %s\n", *error);
     return;
   }
 
@@ -60,7 +60,7 @@ void UserHandler::handleCharList(GenericMessage* msg)
   guimanager = client->GetGuiManager();
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
-    guimanager->GetSelectCharWindow ()->AddCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i));
+    guimanager->GetSelectCharWindow ()->AddCharacter(char_msg.getCharacterId(i), *char_msg.getCharacterName(i));
     //printf("Char %d: %s\n", char_msg.getCharacterId(i), char_msg.getCharacterName(i));
   }
 }
@@ -71,13 +71,13 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
   answer_msg.deserialise(msg->getByteStream());
   guimanager = client->GetGuiManager();
 
-  if (answer_msg.getError())
+  if (answer_msg.getError().isNull())
   {
-    printf("Character creation failed due to: %s\n", answer_msg.getError());
+    guimanager->GetSelectCharWindow ()->AddCharacter(answer_msg.getCharacterId(), *answer_msg.getCharacterName());
   }
   else
   {
-    guimanager->GetSelectCharWindow ()->AddCharacter(answer_msg.getCharacterId(), answer_msg.getCharacterName());
+    printf("Character creation failed due to: %s\n", *answer_msg.getError());
   }
 }
 

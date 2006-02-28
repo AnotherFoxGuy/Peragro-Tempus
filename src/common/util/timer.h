@@ -16,25 +16,58 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_STATS_H_
-#define _TABLE_STATS_H_
+#ifndef _TIMER_H_
+#define _TIMER_H_
 
-#include "table.h"
+#include "timerengine.h"
 
-class Database;
-class Stat;
-class ptString;
-
-class StatTable : public Table
+class Timer
 {
+private:
+  size_t timer;
+  size_t duration;
+
+  bool running;
+
+  inline void tick()
+  {
+    if (!running)
+      return;
+
+    timer--; 
+
+    if (timer != 0)
+      return;
+
+    timer = duration;
+    timeEvent();
+  }
+
+  friend class TimerEngine;
+
+protected:
+  void (*timeEvent)();
+
 public:
-  StatTable(Database* db);
-  void createTable();
-  void insert(ptString name);
-  void dropTable();
-  bool existsStat(ptString name);
-  Stat* getStat(ptString name);
-  void getAllStats(Array<Stat*>& stats);
+  Timer(void (*callback)()) : timer(0), duration(0), running(false), timeEvent(callback) {}
+  ~Timer() {}
+
+  void start() 
+  { 
+    if (duration != 0)
+      running = true; 
+  }
+
+  void stop()
+  { 
+    running = false;
+  }
+
+  void setInverval(int interval)
+  {
+    duration = interval;
+    timer = interval;
+  }
 };
 
-#endif //_TABLE_STATS_H_
+#endif // _TIMER_H_

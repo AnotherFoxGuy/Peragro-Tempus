@@ -31,7 +31,7 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
     case Entity::ItemEntity: entity = new ItemEntity(); break;
     case Entity::PlayerEntity: entity = new PcEntity(); break;
     case Entity::NPCEntity: entity = new NpcEntity(); break;
-    default : {printf("**************Unknown entity type for %s!*************", entmsg.getName()); return;}
+    default : {printf("**************Unknown entity type for %s!*************", *entmsg.getName()); return;}
   };
   entity->setName(entmsg.getName());
   entity->setMesh(entmsg.getMesh());
@@ -72,16 +72,16 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
   PickEntityResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
 
-  if (response_msg.getError() == 0)
+  if (response_msg.getError().isNull())
   {
-    printf("%s picks Item %s\n", response_msg.getName(), response_msg.getTarget());
-    if (strlen(response_msg.getName()) == strlen(client->GetOwnCharName())
-      && !strcmp(response_msg.getName(), client->GetOwnCharName()))
+    printf("%s picks Item %s\n", *response_msg.getName(), *response_msg.getTarget());
+    if (strlen(*response_msg.getName()) == strlen(client->GetOwnCharName())
+      && !strcmp(*response_msg.getName(), client->GetOwnCharName()))
       guimanager->GetInventoryWindow()->AddItem(
-        (CEGUI::String)response_msg.getTarget(), response_msg.getItemId(), true);
+        (CEGUI::String)*response_msg.getTarget(), response_msg.getItemId(), true);
   }
   else
-    printf("%s can't pick Item %s! Reason: '%s'\n", response_msg.getName(), response_msg.getTarget(), response_msg.getError());
+    printf("%s can't pick Item %s! Reason: '%s'\n", *response_msg.getName(), *response_msg.getTarget(), *response_msg.getError());
 }
 
 void EntityHandler::handleDropEntity(GenericMessage* msg)
@@ -89,10 +89,10 @@ void EntityHandler::handleDropEntity(GenericMessage* msg)
   DropEntityResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
 
-  if (response_msg.getError() == 0)
-    printf("%s picks %s\n", response_msg.getName(), response_msg.getTarget());
+  if (response_msg.getError().isNull())
+    printf("%s picks %s\n", *response_msg.getName(), *response_msg.getTarget());
   else
-    printf("%s can't pick %s! Reason: '%s'\n", response_msg.getName(), response_msg.getTarget(), response_msg.getError());
+    printf("%s can't pick %s! Reason: '%s'\n", *response_msg.getName(), *response_msg.getTarget(), *response_msg.getError());
 }
 
 void EntityHandler::handleDrUpdate(GenericMessage* msg)
@@ -108,7 +108,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   drupdate->wvel = csVector3(dr_msg.getWVel()[0],dr_msg.getWVel()[1],dr_msg.getWVel()[2]);
   drupdate->pos = csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
   drupdate->on_ground = dr_msg.getOnGround();
-  drupdate->sector = dr_msg.getSector();
+  drupdate->sector = *dr_msg.getSector();
   drupdate->entity_id = dr_msg.getId();
 
   client->DrUpdateEntity(drupdate);
@@ -128,7 +128,7 @@ void EntityHandler::handleInventoryItemList(GenericMessage* msg)
       char buffer[1024];
       sprintf(buffer, "%d_%d", item_msg.getItemId(i), j);
       printf("droppedstackable: number of items: %s",buffer);
-      guimanager->GetInventoryWindow()->AddItem((CEGUI::String)item_msg.getName(i), item_msg.getItemId(i), true);
+      guimanager->GetInventoryWindow()->AddItem((CEGUI::String)*item_msg.getName(i), item_msg.getItemId(i), true);
       printf("Item %d: %d\n", item_msg.getItemId(i), item_msg.getItemAmount(i));
     }
   }
@@ -142,7 +142,7 @@ void EntityHandler::handleCharacterStatList(GenericMessage* msg)
   guimanager = client->GetGuiManager();
   for (int i=0; i<stat_msg.getStatCount(); i++)
   {
-    guimanager->GetInventoryWindow()->AddSkil(stat_msg.getName(i), stat_msg.getStatLevel(i));
-    printf("Stat %s (%d): \t %d\n", stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getStatLevel(i));
+    guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
+    printf("Stat %s (%d): \t %d\n", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getStatLevel(i));
   }
 }

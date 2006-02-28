@@ -28,25 +28,25 @@ CharacterManager::CharacterManager(Server* server)
   charId = server->getDatabase()->getCharacterTable()->getMaxId();
 }
 
-const char* CharacterManager::createCharacter(const char* name, int user_id, int& char_id)
+ptString CharacterManager::createCharacter(ptString name, int user_id, int& char_id)
 {
   CharacterTable* ct = server->getDatabase()->getCharacterTable();
 
   if (ct->existsCharacter(name))
   {
-    return "Character exists already";
+    return ptString("Character exists already", strlen("Character exists already")); // <-- TODO: Error Message Container
   }
 
-  Race* race = server->getRaceManager()->findByName("test");
-  if (!race) return "Race not found!";
+  Race* race = server->getRaceManager()->findByName(ptString("test", 4));
+  if (!race) return ptString("Race not found!", strlen("Race not found!"));  // <-- TODO: Error Message Container
 
   this->charId++;
   float pos[3] = {0.0f,0.0f,0.0f};
-  ct->insert(this->charId, name, user_id, "test",  pos, "room");
+  ct->insert(this->charId, name, user_id, ptString("test", 4),  pos, ptString("room", 4)); // <-- TODO: Keep those ptString as class members
 
   char_id = this->charId;
 
   race->getStats()->copyToCharacter(char_id);
 
-  return 0;
+  return ptString(0,0);
 }

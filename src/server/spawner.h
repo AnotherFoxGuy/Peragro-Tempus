@@ -33,8 +33,8 @@ private:
   {
   public:
     float x, y, z;
-    //const char* sector;
-    size_t sector_id;
+
+    ptString sector_id;
 
     Item* item;
 
@@ -43,7 +43,7 @@ private:
 
     int entity_id;
 
-    SpawnPoint() : sector_id(-1), pickTime(0), entity_id(0) {}
+    SpawnPoint() : pickTime(0), entity_id(0) {}
     ~SpawnPoint() { }
   };
 
@@ -90,15 +90,13 @@ public:
   Spawner() : timeCounter(0) {}
   ~Spawner() { spawnpoints.delAll(); }
 
-  void addSpawnPoint(float x, float y, float z, const char* sector, int item_id, unsigned int spawnInterval)
+  void addSpawnPoint(float x, float y, float z, ptString sector, int item_id, unsigned int spawnInterval)
   {
     Item* item = Server::getServer()->getItemManager()->findById(item_id);
     if (!item) return;
 
     SpawnPoint* sp = new SpawnPoint();
-    char* sect = new char[strlen(sector)+1];
-    strncpy(sect, sector, strlen(sector)+1);
-    sp->sector_id = StringStore::getStore()->lookupId(sect);
+    sp->sector_id = sector;
     sp->x = x;
     sp->y = y;
     sp->z = z;

@@ -43,22 +43,22 @@ void StatTable::createTable()
     "PRIMARY KEY (id) );");
 
   //Example Data!
-  insert("Health");
-  insert("Mana");
-  insert("Strength");
-  insert("Intelligence");
-  insert("Dexterty");
-  insert("Endurance");
-  insert("Agility");
-  insert("Concentration");
-  insert("Witness");
+  insert(ptString("Health", strlen("Health")));
+  insert(ptString("Mana", strlen("Mana")));
+  insert(ptString("Strength", strlen("Strength")));
+  insert(ptString("Intelligence", strlen("Intelligence")));
+  insert(ptString("Dexterty", strlen("Dexterty")));
+  insert(ptString("Endurance", strlen("Endurance")));
+  insert(ptString("Agility", strlen("Agility")));
+  insert(ptString("Concentration", strlen("Concentration")));
+  insert(ptString("Witness", strlen("Witness")));
 }
 
-void StatTable::insert(const char* name)
+void StatTable::insert(ptString name)
 {
-  if (strlen(name) > 512) assert("Strings too long");
+  if (strlen(*name) > 512) assert("Strings too long");
   char query[1024];
-  sprintf(query, "insert into stats (name) values ('%s');", name);
+  sprintf(query, "insert into stats (name) values ('%s');", *name);
   db->update(query);
 }
 
@@ -67,22 +67,22 @@ void StatTable::dropTable()
   db->update("drop table stats;");
 }
 
-bool StatTable::existsStat(const char* name)
+bool StatTable::existsStat(ptString name)
 {
-  if (strlen(name)> 512) assert("String too long");
+  if (strlen(*name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select id from stats where name = '%s';", name);
+  sprintf(query, "select id from stats where name = '%s';", *name);
   ResultSet* rs = db->query(query);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
 }
 
-Stat* StatTable::getStat(const char* name)
+Stat* StatTable::getStat(ptString name)
 {
-  if (strlen(name)> 512) assert("String too long");
+  if (strlen(*name)> 512) assert("String too long");
   char query[1024];
-  sprintf(query, "select * from stats where name = '%s';", name);
+  sprintf(query, "select * from stats where name = '%s';", *name);
   ResultSet* rs = db->query(query);
 
   Stat* stat = 0;
@@ -91,7 +91,7 @@ Stat* StatTable::getStat(const char* name)
   {
     stat = new Stat();
     stat->setId(atoi(rs->GetData(0,0).c_str()));
-    stat->setName(rs->GetData(0,1).c_str());
+    stat->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
   }
   delete rs;
   return stat;
@@ -105,7 +105,7 @@ void StatTable::getAllStats(Array<Stat*>& stats)
   {
     Stat* stat = new Stat();
     stat->setId(atoi(rs->GetData(i,0).c_str()));
-    stat->setName(rs->GetData(i,1).c_str());
+    stat->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
     stats.add(stat);
   }
 }  

@@ -34,7 +34,7 @@ private:
 public:
   CharacterManager(Server* server);
 
-  const char* createCharacter(const char* name, int user_id, int& char_id);
+  ptString createCharacter(ptString name, int user_id, int& char_id);
 
 };
 

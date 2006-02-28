@@ -38,24 +38,24 @@ class Socket
 {
 private:
   bool ready;
-  unsigned int socket_handler;
+  int socket_handler;
 
-  unsigned int sent_bytes;
-  unsigned int received_bytes;
-  unsigned int last_checked;
+  size_t sent_bytes;
+  size_t received_bytes;
+  size_t last_checked;
 
 public:
   Socket();
   ~Socket();
 
-  void init(int port, unsigned ip = 0);
+  void init(unsigned short port, unsigned ip = 0);
 
-  size_t receive(char* msg, size_t len, SocketAddress* addr);
+  int receive(char* msg, size_t len, SocketAddress* addr);
   bool publish(const char* msg, size_t len, const SocketAddress* addr);
 
-  static SocketAddress getSocketAddress(const char* host, int port);
+  static SocketAddress getSocketAddress(const char* host, unsigned short port);
 
-  void getNetworkStats(unsigned int& sentbytes, unsigned int& recvbytes, unsigned int& lastchecked);
+  void getNetworkStats(size_t& sentbytes, size_t& recvbytes, size_t& lastchecked);
 };
 
 #endif // _SOCKET_H_

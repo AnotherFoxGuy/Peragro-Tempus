@@ -29,7 +29,7 @@ void Server::addEntity(Entity* entity, bool presistent)
   printf("Add Entity\n");
   ent_mgr->addEntity(entity);
 
-  printf("Added %d with id: %d, mesh: %d\n", entity->getNameId(), entity->getId(), entity->getMeshId());
+  printf("Added %s with id: %d, mesh: %s\n", *entity->getName(), entity->getId(), *entity->getMesh());
 
   if (presistent)
   {

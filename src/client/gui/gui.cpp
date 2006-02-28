@@ -148,7 +148,7 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
     GUIWindow::EnableWindow();
     return true;
   }
-  answer_msg.setName(login.c_str());
+  answer_msg.setName(ptString(login.c_str(), login.length()));
   answer_msg.setPwHash(password.c_str());
   network->send(&answer_msg);
 
@@ -161,7 +161,7 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
   CEGUI::String login = GetLogin();
   CEGUI::String password = GetPassword();
   if (login.empty() || password.empty()) return true;
-  answer_msg.setName(login.c_str());
+  answer_msg.setName(ptString(login.c_str(), login.length()));
   answer_msg.setPwHash(password.c_str());
   network->send(&answer_msg);
 
@@ -240,7 +240,7 @@ bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e)
   CEGUI::String NewCharName = GetNewCharName();
   if (NewCharName.empty()) return true;
   CharacterCreationRequestMessage answer_msg;
-  answer_msg.setName(NewCharName.c_str());
+  answer_msg.setName(ptString(NewCharName.c_str(), NewCharName.length()));
   network->send(&answer_msg);
   return true;
 }

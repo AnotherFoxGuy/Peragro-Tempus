@@ -39,7 +39,7 @@ public:
     server->setNetwork(this);
   }
 
-  void init(int port)
+  void init(unsigned short port)
   {
     udp_nw.init(port);
     udp_nw.setHandler(&user_handler);

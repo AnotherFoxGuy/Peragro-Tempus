@@ -32,13 +32,13 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   request_msg.deserialise(msg->getByteStream());
   printf("Received LoginRequest\n");
 
-  const char* username = request_msg.getName();
+  ptString username = request_msg.getName();
   const char* password = request_msg.getPwHash();
 
-  if (!username || !password) return;
+  if (username.isNull() || !password) return;
 
   User* user = 0;
-  char* retval = server->getUserAccountManager()->login(username, password, user);
+  ptString retval = server->getUserAccountManager()->login(username, password, user);
 
   LoginResponseMessage response_msg;
   response_msg.setError(retval);
@@ -47,7 +47,7 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   msg->getConnection()->send(bs);
 
   // If login error occured.
-  if (retval) 
+  if (!retval.isNull()) // retval != 0
     return;
 
   Connection* old_conn = user->getConnection();
@@ -89,10 +89,10 @@ void UserHandler::handleRegisterRequest(GenericMessage* msg)
   RegisterRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  const char* username = request_msg.getName();
+  ptString username = request_msg.getName();
   const char* password = request_msg.getPwHash();
 
-  char* retval = server->getUserAccountManager()->signup(username, password);
+  ptString retval = server->getUserAccountManager()->signup(username, password);
 
   RegisterResponseMessage response_msg;
   response_msg.setError(retval);
@@ -107,21 +107,20 @@ void UserHandler::handleCharCreationRequest(GenericMessage* msg)
   char_msg.deserialise(msg->getByteStream());
 
   User* user = msg->getConnection()->getUser();
-  CharacterTable* ct = server->getDatabase()->getCharacterTable();
+  //CharacterTable* ct = server->getDatabase()->getCharacterTable();
 
-  const char* char_name = char_msg.getName();
+  ptString char_name = char_msg.getName();
 
-  const char* retval = 0;
   int char_id = 0;
 
   // Register the new char
-  retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id);
+  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id);
 
   // Send response message
   CharacterCreationResponseMessage response_msg;
   response_msg.setError(retval);
-  response_msg.setCharacterId(retval?0:char_id);
-  response_msg.setCharacterName(retval?0:char_name);
+  response_msg.setCharacterId(retval.isNull()?char_id:0);
+  response_msg.setCharacterName(retval.isNull()?char_name:ptString::Null);
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
@@ -148,12 +147,12 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   entity->setName(character->getName());
   entity->setMesh(character->getMesh());
   entity->setSector(character->getSector());
-  printf("Adding Character '%s' with entity '%s'\n", user->getName(), entity->getName());
+  printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getName());
   user->setEntity(entity);
   server->addEntity(entity, false);
 
   CharacterSelectionResponseMessage response_msg;
-  response_msg.setError(0);
+  response_msg.setError(ptString::Null);
   response_msg.setEntityId(entity->getId());
   ByteStream bs;
   response_msg.serialise(&bs);

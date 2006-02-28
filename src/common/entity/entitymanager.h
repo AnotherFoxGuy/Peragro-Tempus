@@ -68,7 +68,7 @@ public:
     return list.exists(entity);
   }
 
-  Entity* findByName(const char* name)
+  Entity* findByName(ptString name)
   {
     return list.findByName(name);
   }

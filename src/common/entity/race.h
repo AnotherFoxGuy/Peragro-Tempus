@@ -33,11 +33,11 @@ private:
 
   int id;
 
-  size_t name_id;
+  ptString name_id;
 
-  size_t mesh_id;
+  ptString mesh_id;
   //start sector
-  size_t sector_id;
+  ptString sector_id;
   //start pos
   float pos[3];
 
@@ -89,52 +89,14 @@ public:
     return pos;
   }
 
-  const char* getName()
-  {
-    return StringStore::getStore()->lookupString(name_id);
-  }
-  size_t getNameId()
-  {
-    return name_id;
-  }
-  void setName(const char* name)
-  {
-    name_id = StringStore::getStore()->lookupId(name);
-  }
-  void setName(size_t id)
-  {
-    name_id = id;
-  }
+  ptString& getName() { return name_id; }
+  void setName(ptString name) { name_id = name; }
 
-  const char* getMesh()
-  {
-    return StringStore::getStore()->lookupString(mesh_id);
-  }
-  size_t getMeshId()
-  {
-    return mesh_id;
-  }
-  void setMesh(const char* name)
-  {
-    mesh_id = StringStore::getStore()->lookupId(name);
-  }
-  void setMesh(size_t id)
-  {
-    mesh_id = id;
-  }
+  ptString& getMesh() { return mesh_id; }
+  void setMesh(ptString name) { mesh_id = name; }
 
-  const char* getSector()
-  {
-    return StringStore::getStore()->lookupString(sector_id);
-  }
-  void setSector(const char* name)
-  {
-    sector_id = StringStore::getStore()->lookupId(name);
-  }
-  void setSector(size_t id)
-  {
-    sector_id = id;
-  }
+  ptString& getSector() { return sector_id; }
+  void setSector(ptString name) { sector_id = name; }
 
   RaceStats* getStats()
   {
