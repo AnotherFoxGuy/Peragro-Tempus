@@ -1,8 +1,8 @@
+#include <time.h>
+
 #include "sleep.h"
 #include "timerengine.h"
 #include "timer.h"
-
-#include <time.h>
 
 void TimerEngine::Run()
 {
