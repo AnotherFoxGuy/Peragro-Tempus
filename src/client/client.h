@@ -39,6 +39,8 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
+struct iPcDefaultCamera;
+struct iPcActorMove;
 struct iSector;
 class Entity;
 class Network;
@@ -165,6 +167,10 @@ public:
   iEngine* getCsEngine()  { return engine; }
   iGraphics3D* getG3D()  { return g3d; }
   iCamera* getCamera();
+
+  iPcDefaultCamera* getPcCamera();
+  iPcActorMove* getPcActorMove();
+  iCelEntity* getPlayerEntity();
   
   iVFS* getVFS()  { return vfs; }
   Network* getNetwork()  { return network; }

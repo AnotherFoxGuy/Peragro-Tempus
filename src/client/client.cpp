@@ -369,6 +369,12 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         (walk == 0) ? walk = 1 : walk = 0;
       }
+      else if (code == 'c')
+      {
+        iPcActorMove* pcactormove = getPcActorMove();
+        if (!pcactormove) return false;
+        pcactormove->ToggleCameraMode();
+      }
       else if (code == 'h')
       {
         char tmp[32];
@@ -812,18 +818,39 @@ void Client::chat()
   mutex.unlock();
 }
 
-iCamera* Client::getCamera()
+iCelEntity* Client::getPlayerEntity()
 {
   if (name.GetData() == 0) 
     return 0;
 
   char tmp[32];
   cs_snprintf(tmp, 32, "player_%d", own_char_id);
-  iCelEntity* entity = pl->FindEntity(tmp);
+  return pl->FindEntity(tmp);
+}
 
+iPcDefaultCamera* Client::getPcCamera()
+{
+  iCelEntity* entity = getPlayerEntity();
   if (entity == 0) 
     return 0;
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+  return pccamera;
+}
+
+iPcActorMove* Client::getPcActorMove()
+{
+  iCelEntity* entity = getPlayerEntity();
+  if (entity == 0) 
+    return 0;
+  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
+  return pcactormove;
+}
+
+iCamera* Client::getCamera()
+{
+  csRef<iPcDefaultCamera> pccamera = getPcCamera();
+  if (!pccamera)
+    return 0;
   return pccamera->GetCamera();
 }
 
