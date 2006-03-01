@@ -17,6 +17,7 @@
 */
 
 #include "common/entity/itemmanager.h"
+#include "common/entity/statmanager.h"
 #include "server/network/network.h"
 #include "server/usermanager.h"
 
@@ -171,4 +172,34 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   e->setSector(user_ent->getSector());
 
   server->addEntity(e, true);
+}
+
+void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
+{
+  const Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  PcEntity* entity = (PcEntity*) conn->getUser()->getEntity();
+
+  MoveEntityToRequestMessage request_msg;
+  request_msg.deserialise(msg->getByteStream());
+
+  Stat* speed = server->getStatManager()->findByName(ptString("Speed", 5));
+
+  MoveEntityToMessage response_msg;
+  response_msg.setToPos(request_msg.getPos());
+  response_msg.setFromPos(entity->getPos());
+  response_msg.setSpeed(entity->getStats()->getAmount(speed));
+  response_msg.setId(entity->getId());
+
+  entity->walkTo(entity->getPos(), entity->getStats()->getAmount(speed));
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
+  {
+    User* user = server->getUserManager()->getUser(i);
+    if (user && user->getConnection())
+      user->getConnection()->send(bs);
+  }
 }

@@ -146,3 +146,9 @@ void EntityHandler::handleCharacterStatList(GenericMessage* msg)
     printf("Stat %s (%d): \t %d\n", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getStatLevel(i));
   }
 }
+
+void EntityHandler::handleMoveEntityTo(GenericMessage* msg)
+{
+  //TODO: Handle something...
+}
+

@@ -37,7 +37,9 @@ namespace ENTITY
     DROP_RESPONSE=9,
     INV_ITEM_LIST=10,
     CHAR_STAT_LIST=11,
-    UPDATE_STATS=12
+    UPDATE_STATS=12,
+    MOVE_TO=13,
+    MOVE_TO_REQUEST=14
   };
 };
 
@@ -1022,5 +1024,157 @@ public:
   int getStatLevel() { return level; }
   void setStatLevel(short level) { this->level = level; }
 };
+
+class MoveEntityToMessage : public NetMessage
+{
+  float from[3];
+  float to[3];
+  float speed;
+  int entity_id;
+
+public:
+  MoveEntityToMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE_TO) 
+  {
+  }
+
+
+  ~MoveEntityToMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setFloat(from[0]);
+    serial.setFloat(from[1]);
+    serial.setFloat(from[2]);
+    serial.setFloat(to[0]);
+    serial.setFloat(to[1]);
+    serial.setFloat(to[2]);
+    serial.setFloat(speed);
+    serial.setInt32(entity_id);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    from[0] = serial.getFloat();
+    from[1] = serial.getFloat();
+    from[2] = serial.getFloat();
+    to[0] = serial.getFloat();
+    to[1] = serial.getFloat();
+    to[2] = serial.getFloat();
+    speed = serial.getFloat();
+    entity_id = serial.getInt32();
+  }
+
+  void setFromPos(float p[3])
+  {
+    from[0] = p[0];
+    from[1] = p[1];
+    from[2] = p[2];
+  }
+  void setFromPos(float x,float y,float z)
+  {
+    from[0] = x;
+    from[1] = y;
+    from[2] = z;
+  }
+  float* getFromPos()
+  {
+    return from;
+  }
+
+  void setToPos(float p[3])
+  {
+    to[0] = p[0];
+    to[1] = p[1];
+    to[2] = p[2];
+  }
+  void setToPos(float x,float y,float z)
+  {
+    to[0] = x;
+    to[1] = y;
+    to[2] = z;
+  }
+  float* getToPos()
+  {
+    return to;
+  }
+
+  void setSpeed(float s)
+  {
+    speed = s;
+  }
+  float getSpeed()
+  {
+    return speed;
+  }
+
+  int getId()
+  {
+    return entity_id;
+  }
+  void setId(int id)
+  {
+    entity_id = id;
+  }
+};
+
+class MoveEntityToRequestMessage : public NetMessage
+{
+  float pos[3];
+
+public:
+  MoveEntityToRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE_TO_REQUEST) 
+  {
+  }
+
+  ~MoveEntityToRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setFloat(pos[0]);
+    serial.setFloat(pos[1]);
+    serial.setFloat(pos[2]);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    pos[0] = serial.getFloat();
+    pos[1] = serial.getFloat();
+    pos[2] = serial.getFloat();
+  }
+
+  void setPos(float p[3])
+  {
+    pos[0] = p[0];
+    pos[1] = p[1];
+    pos[2] = p[2];
+  }
+  void setPos(float x,float y,float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  float* getPos()
+  {
+    return pos;
+  }
+};
+
 
 #endif // _ENTITIYMESSAGES_H_

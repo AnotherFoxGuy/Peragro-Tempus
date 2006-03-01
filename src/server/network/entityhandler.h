@@ -61,6 +61,7 @@ public:
       else if (id == ENTITY::DRUPDATE_REQUEST) handleDrUpdateRequest(msg);
       else if (id == ENTITY::PICK_REQUEST) handlePickRequest(msg);
       else if (id == ENTITY::DROP_REQUEST) handleDropRequest(msg);
+      else if (id == ENTITY::MOVE_TO_REQUEST) handleMoveEntityToRequest(msg);
     }
     else
     {
@@ -77,6 +78,7 @@ public:
   void handleDrUpdateRequest(GenericMessage* msg);
   void handlePickRequest(GenericMessage* msg);
   void handleDropRequest(GenericMessage* msg);
+  void handleMoveEntityToRequest(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

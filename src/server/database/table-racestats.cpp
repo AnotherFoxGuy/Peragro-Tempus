@@ -82,6 +82,10 @@ void RaceStatsTable::createTable()
   stat = db->getStatTable()->getStat(ptString("Witness", strlen("Witness")));
   set(1, stat, 65);
   delete stat;
+
+  stat = db->getStatTable()->getStat(ptString("Speed", strlen("Speed")));
+  set(1, stat, 4);
+  delete stat;
 }
 
 void RaceStatsTable::insert(int race, int stat_id, int level)

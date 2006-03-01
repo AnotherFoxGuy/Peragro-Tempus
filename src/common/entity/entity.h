@@ -39,8 +39,6 @@ private:
   ptString mesh_id;
   ptString sector_id;
 
-  float pos[3];
-
   int item;
 
   Inventory inventory;
@@ -58,6 +56,8 @@ public:
 protected:
   EntityType type;
 
+  float pos[3];
+
 public:
   Entity() : id(-1)//, name(0), mesh(0), sector(0)
   {
@@ -73,12 +73,7 @@ public:
     pos[2] = 0.0f;
   }
 
-  virtual ~Entity()
-  {
-    //delete [] name;
-    //delete [] mesh;
-    //delete [] sector;
-  }
+  virtual ~Entity() {}
 
   bool compare(Entity* other)
   {
@@ -95,11 +90,6 @@ public:
     else if (this->type == Entity::PlayerEntity)
     {
       return (this->name_id == other->name_id);
-
-      //if (strlen(this->name) != strlen(other->name))
-        //return false;
-
-      //return !strcmp(this->name, other->name);
     }
 
     return false;
@@ -126,7 +116,7 @@ public:
     pos[1] = p[1];
     pos[2] = p[2];
   }
-  float* getPos()
+  virtual float* getPos()
   {
     return pos;
   }
@@ -157,11 +147,6 @@ public:
   {
     sector_id = id;
   }
-
-  //void setType(int e)
-  //{
-  //  type = EntityType(e);
-  //}
 
   EntityType getType()
   {

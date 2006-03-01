@@ -58,6 +58,7 @@ public:
       else if (id == ENTITY::DROP_RESPONSE) handleDropEntity(msg);
       else if (id == ENTITY::INV_ITEM_LIST) handleInventoryItemList(msg);
       else if (id == ENTITY::CHAR_STAT_LIST) handleCharacterStatList(msg);
+      else if (id == ENTITY::MOVE_TO) handleMoveEntityTo(msg);
     }
     else
     {
@@ -78,6 +79,7 @@ public:
   void handleDrUpdate(GenericMessage* msg);
   void handleInventoryItemList(GenericMessage* msg);
   void handleCharacterStatList(GenericMessage* msg);
+  void handleMoveEntityTo(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

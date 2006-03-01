@@ -36,6 +36,9 @@ private:
   Inventory inventory;
   CharacterStats stats;
 
+  float final_dst[3];
+  size_t t_stop;
+
 public:
 
   enum State
@@ -67,7 +70,13 @@ public:
 protected:
   State state;
 
-  CharacterEntity(EntityType type) : Entity(type) {}
+  CharacterEntity(EntityType type) : Entity(type) 
+  {
+    final_dst[0] = 0;
+    final_dst[1] = 0;
+    final_dst[2] = 0;
+    t_stop = 0;
+  }
 
 public:
   Inventory* getInventory()
@@ -89,6 +98,49 @@ public:
   {
     state = st;
   }
+
+  void walkTo(float* dst_pos, float speed)
+  {
+    final_dst[0] = dst_pos[0];
+    final_dst[1] = dst_pos[1];
+    final_dst[2] = dst_pos[2];
+
+    float dist = fabsf(final_dst[0] - pos[0])
+               + fabsf(final_dst[0] - pos[0])
+               + fabsf(final_dst[0] - pos[0]);
+
+    //Not sure that's correct...
+    t_stop = dist / speed + time(0);
+
+    state = State::stMoving;
+  }
+
+  float* getPos()
+  {
+    if (state != State::stMoving)
+    {
+      return pos;
+    }
+    else
+    {
+      if (time(0) >= t_stop)
+      {
+        setPos(final_dst);
+        state = State::stIdle;
+      }
+      else
+      {
+        //Not sure that's correct...
+        float current_pos[3];
+        float delta = t_stop - time(0);
+        current_pos[0] = (final_dst[0] - pos[0]) * delta;
+        current_pos[1] = (final_dst[0] - pos[0]) * delta;
+        current_pos[2] = (final_dst[0] - pos[0]) * delta;
+        return current_pos;
+      }
+    }
+  }
+
 };
 
 #endif // _CHARACTERENTITY_H_
