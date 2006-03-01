@@ -43,6 +43,10 @@ Socket::Socket()
   WSAStartup(MAKEWORD(1,1), &info);
 #endif
   ready = false;
+
+  sent_bytes = 0;
+  received_bytes = 0;
+  last_checked = (size_t)time(0);
 }
 
 void Socket::init(unsigned short port, unsigned ip)
