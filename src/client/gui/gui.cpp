@@ -496,7 +496,7 @@ void ChatWindow::AddChatMessage (csRef<iString> msg)
     // append new text to history output
     chatlog->setText(chatlog->getText() + new_text);
     // scroll to bottom of history output
-    chatlog->setCaratIndex(-1);
+    chatlog->setCaratIndex((size_t)-1);
   }
 }
 

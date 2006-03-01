@@ -136,7 +136,7 @@ void Client::ProcessFrame()
   if (limitFPS > 0)
   {
     if (ticks < 1000.0f/limitFPS)
-      csSleep(1000.0f/limitFPS - ticks);
+      csSleep((int)1000.0f/limitFPS - ticks);
   }
   if (timer > 1000)
   {
@@ -740,15 +740,16 @@ void Client::DrUpdateEntity()
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
     if (pclinmove.IsValid())
     {
-      bool on_ground;
-      float speed, rot, avel;
-      csVector3 pos, vel, wvel;
+      //bool on_ground;
+      //float speed, rot, avel;
+      //csVector3 pos, vel, wvel;
 
       iSector* sector = engine->FindSector(drupdate->sector.GetData());
 
       //pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
       //printf("Get DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
-      pclinmove->SetDRData(drupdate->on_ground, drupdate->speed, drupdate->pos, drupdate->rot, sector, vel, drupdate->wvel, drupdate->avel);
+      pclinmove->SetDRData(drupdate->on_ground, drupdate->speed, drupdate->pos,
+        drupdate->rot, sector, drupdate->vel, drupdate->wvel, drupdate->avel);
     }
   }
   delete drupdate;

@@ -41,7 +41,7 @@ private:
   csRef<iVFS> vfs;
   csRef<iLoader> loader;
 
-  iMeshWrapper* EffectsManager::CreateEffectMesh (int effect);
+  iMeshWrapper* CreateEffectMesh (int effect);
 
 public:
 

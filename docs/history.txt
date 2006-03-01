@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+29-Feb-2006
+  - iceeey fixed various warnings.
+
 28-Feb-2006
   - PK added ptString which is a number identifying the string.
   - PK added a Mutex to the entitylist in hope to avoid race condition when deleting an entity...
