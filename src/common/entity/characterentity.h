@@ -106,8 +106,8 @@ public:
     final_dst[2] = dst_pos[2];
 
     float dist = fabsf(final_dst[0] - pos[0])
-               + fabsf(final_dst[0] - pos[0])
-               + fabsf(final_dst[0] - pos[0]);
+               + fabsf(final_dst[1] - pos[1])
+               + fabsf(final_dst[2] - pos[2]);
 
     //Not sure that's correct...
     t_stop = dist / speed + time(0);
