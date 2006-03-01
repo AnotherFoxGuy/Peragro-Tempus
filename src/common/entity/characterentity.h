@@ -134,8 +134,8 @@ public:
         float current_pos[3];
         float delta = t_stop - time(0);
         current_pos[0] = (final_dst[0] - pos[0]) * delta;
-        current_pos[1] = (final_dst[0] - pos[0]) * delta;
-        current_pos[2] = (final_dst[0] - pos[0]) * delta;
+        current_pos[1] = (final_dst[1] - pos[1]) * delta;
+        current_pos[2] = (final_dst[2] - pos[2]) * delta;
         return current_pos;
       }
     }
