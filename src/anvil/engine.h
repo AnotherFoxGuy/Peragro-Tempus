@@ -70,6 +70,8 @@ private:
   /// The sector currently being edited
   iSector* editSector;
   
+  csRef<iRegion> editRegion;
+  
   csVector3 pos;
   
   /// Current edit mode
@@ -103,7 +105,7 @@ private:
   csRef<iMeshWrapper> selectionMesh;
   
   /// Region where Anvil stores visuals (for example arrows) that are not saved
-  iRegion* visualsRegion;
+  csRef<iRegion> visualsRegion;
   
   /// References to the arrow meshes
   csRef<iMeshWrapper> arrow_x, arrow_y, arrow_z;

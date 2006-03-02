@@ -22,7 +22,8 @@
 #include <cssysdef.h>
 #include <csgeom/math3d.h>
 #include <cstool/initapp.h>
-#include <cstool/csview.h>
+#include <cstool/csview.h>  
+#include <cstool/saverfile.h>
 #include <csutil/csstring.h>
 #include <csutil/event.h>
 #include <csutil/plugmgr.h>
@@ -615,7 +616,7 @@ bool anvEngine::Application()
   if (nw) nw->SetTitle ("Anvil");
   
   // Load default world
-  LoadWorld("/peragro/world/", "world"); 
+  LoadWorld("/peragro/art/world/", "world"); 
   
 /*
   // Load our own renderloop
@@ -634,6 +635,7 @@ bool anvEngine::Application()
 
   visualsRegion = engine->CreateRegion("anvil_visuals");
   
+  loader->SetAutoRegions (false);
   loader->LoadLibraryFile("/peragro/anvil/visuals.xml", visualsRegion);
   
   // Create some arrow meshes from the factories
@@ -796,9 +798,15 @@ bool anvEngine::LoadWorld(const char* path, const char* world)
 {
   csRef<iVFS> VFS (CS_QUERY_REGISTRY (object_reg, iVFS));
 
+  editRegion = engine->CreateRegion ("anvil_edit_region");
+  
+  loader->SetAutoRegions (true);
+  
   VFS->ChDir(path);
-  if (!loader->LoadMapFile (world))
+  if (!loader->LoadMapFile (world, true, editRegion, false))
     ReportError("Error couldn't load level!");
+  
+  loader->SetAutoRegions (false);
 
   if (engine->GetCameraPositions ()->GetCount () > 0)
   {
@@ -829,7 +837,7 @@ void anvEngine::SaveWorld(const char* world)
   }
   if (saver)
   {
-    saver->SaveMapFile(world);
+    saver->SaveRegionFile(editRegion, world, CS_SAVER_FILE_WORLD);
   }
 }
 

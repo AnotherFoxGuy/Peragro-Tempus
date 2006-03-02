@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+2-Mar-2006
+  - iceeey made Anvil use the new SaveRegionFile for saving. You will need
+    updated CS from now.
+  - iceeey made Anvil load the real PT world at start.
+
 1-Mar-2006
   - iceeey fixed various warnings.
   - iceeey added camera mode toggle to client, hit 'c'.
