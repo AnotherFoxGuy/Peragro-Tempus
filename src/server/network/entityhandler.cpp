@@ -186,20 +186,5 @@ void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
 
   Stat* speed = server->getStatManager()->findByName(ptString("Speed", 5));
 
-  MoveEntityToMessage response_msg;
-  response_msg.setToPos(request_msg.getPos());
-  response_msg.setFromPos(entity->getPos());
-  response_msg.setSpeed(entity->getStats()->getAmount(speed));
-  response_msg.setId(entity->getId());
-
-  entity->walkTo(entity->getPos(), entity->getStats()->getAmount(speed));
-
-  ByteStream bs;
-  response_msg.serialise(&bs);
-  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
-  {
-    User* user = server->getUserManager()->getUser(i);
-    if (user && user->getConnection())
-      user->getConnection()->send(bs);
-  }
+  server->moveEntity(entity, request_msg.getPos(), entity->getStats()->getAmount(speed));
 }

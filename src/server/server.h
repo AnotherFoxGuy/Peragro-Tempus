@@ -30,6 +30,7 @@ class UserManager;
 class UserAccountManager;
 class TimerEngine;
 class Entity;
+class CharacterEntity;
 
 class Server
 {
@@ -83,6 +84,7 @@ public:
 
   void addEntity(Entity* entity, bool presistent);
   void delEntity(Entity* entity);
+  void moveEntity(CharacterEntity* entity, float* pos, float speed);
 };
 
 #endif // _SERVER_H_

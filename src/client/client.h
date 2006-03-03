@@ -48,6 +48,7 @@ class GUIManager;
 class EffectsManager;
 class Cursor;
 struct iCommandLineParser;
+struct iPath;
 
 class Client : public csApplicationFramework, public csBaseEventHandler
 {
@@ -147,6 +148,7 @@ public:
   void delEntity();
 
   void moveEntity(int entity_id, float walk, float turn);
+  void moveEntity(int entity_id, float speed, float* ori, float* dst);
   void moveEntity();
 
   void DrUpdateEntity(DrUpdate* drupdate);

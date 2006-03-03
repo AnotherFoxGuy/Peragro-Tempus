@@ -24,6 +24,7 @@
 #include "CEGUIWindowManager.h" 
 #include "CEGUILogger.h"
 
+#include "csgeom/path.h"
 #include "cstool/initapp.h"
 #include "csutil/cmdline.h"
 #include "csutil/csstring.h"
@@ -760,6 +761,56 @@ void Client::DrUpdateEntity()
   }
   delete drupdate;
   mutex.unlock();
+}
+
+void Client::moveEntity(int entity_id, float speed, float* fv1, float* fv2)
+{
+  char tmp[32];
+  cs_snprintf(tmp, 32, "player_%d", entity_id);
+  iCelEntity* entity = pl->FindEntity(tmp);
+  if (entity)
+  {
+    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+    if (pclinmove.IsValid())
+    {
+      csVector3 pos_clt;
+      iSector* sect = 0;
+      float rot = 0;
+
+      csVector3 pos_ori(fv1[0], fv1[1], fv1[2]);
+      csVector3 pos_dst(fv2[0], fv2[1], fv2[2]);
+
+      //make path
+      csPath* path = new csPath(2);
+      path->SetPositionVector(0,pos_ori);
+      path->SetPositionVector(1,pos_dst);
+      path->SetForwardVector(0,pos_ori-pos_dst);
+      path->SetForwardVector(1,pos_ori-pos_dst);
+      path->SetTime(0, 0.0f);
+      path->SetTime(1, 1.0f);
+      path->SetUpVector(0, csVector3(0,1,0));
+      path->SetUpVector(1, csVector3(0,1,0));
+
+      pclinmove->GetLastFullPosition(pos_clt, rot, sect);
+
+      // Some basic physics
+      // v = s/t 
+      // t = s / v 
+      // v_s / s_s = v_c / s_c
+      // v_c = v_s * v_c / s_s
+      speed = speed * (pos_dst - pos_clt).Norm() / (pos_dst - pos_ori).Norm();
+
+      pclinmove->SetPath(path);
+      pclinmove->SetPathSpeed(-speed);
+      pclinmove->SetPathTime(0);
+
+      csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+      csRef<iSpriteCal3DState> sprcal3d = 
+        SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
+      if (sprcal3d)
+        sprcal3d->SetVelocity(speed);
+    }
+  }
 }
 
 void Client::moveEntity(int entity_id, float walk, float turn)

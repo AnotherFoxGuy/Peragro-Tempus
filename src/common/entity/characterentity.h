@@ -105,11 +105,12 @@ public:
     final_dst[1] = dst_pos[1];
     final_dst[2] = dst_pos[2];
 
-    float dist = fabsf(final_dst[0] - pos[0])
-               + fabsf(final_dst[1] - pos[1])
-               + fabsf(final_dst[2] - pos[2]);
+    float dist_x = fabsf(final_dst[0] - pos[0]);
+    float dist_y = fabsf(final_dst[1] - pos[1]);
+    float dist_z = fabsf(final_dst[2] - pos[2]);
+    float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
 
-    //Not sure that's correct...
+    //v = s / t => t = s / v
     t_stop = dist / speed + time(0);
 
     state = State::stMoving;
@@ -127,6 +128,7 @@ public:
       {
         setPos(final_dst);
         state = State::stIdle;
+        return final_dst;
       }
       else
       {

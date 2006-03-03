@@ -21,6 +21,8 @@
 #include "common/entity/entitymanager.h"
 #include "server/database/database.h"
 #include "server/database/table-entities.h"
+#include "common/network/entitymessages.h"
+#include "server/network/connection.h"
 
 Server* Server::server;
 
@@ -59,4 +61,24 @@ void Server::delEntity(Entity* entity)
     usr_mgr->getUser(i)->sendRemoveEntity(entity);
   }
   delete entity;
+}
+
+void Server::moveEntity(CharacterEntity* entity, float* pos, float speed)
+{
+  MoveEntityToMessage response_msg;
+  response_msg.setToPos(pos);
+  response_msg.setFromPos(entity->getPos());
+  response_msg.setSpeed(speed);
+  response_msg.setId(entity->getId());
+
+  entity->walkTo(pos, speed);
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  for (size_t i=0; i<getUserManager()->getUserCount(); i++)
+  {
+    User* user = getUserManager()->getUser(i);
+    if (user && user->getConnection())
+      user->getConnection()->send(bs);
+  }
 }

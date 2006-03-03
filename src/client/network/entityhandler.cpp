@@ -149,6 +149,13 @@ void EntityHandler::handleCharacterStatList(GenericMessage* msg)
 
 void EntityHandler::handleMoveEntityTo(GenericMessage* msg)
 {
-  //TODO: Handle something...
+  MoveEntityToMessage move_msg;
+  move_msg.deserialise(msg->getByteStream());
+  
+  float* fv1 = move_msg.getFromPos();
+  float* fv2 = move_msg.getToPos();
+
+  //move entity
+  client->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
 }
 

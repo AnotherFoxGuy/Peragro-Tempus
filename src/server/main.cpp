@@ -95,11 +95,19 @@ int main(int argc, char ** argv)
   //Used for testing crash handler
   //throw 1;
 
+  CharacterEntity* test_dummy = (CharacterEntity*)ent_mgr.findByName(ptString("test-dummy", 10));
+
   while (true)
   {
     pt_sleep(delay_time);
     network.getStats(sentbyte, recvbyte, timestamp);
     printf("Network Usage: Up: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
+
+    //Moving test-dummy slowly
+    float pos[3] = {rand()*8/RAND_MAX-4.0f, 0.8f, rand()*2/RAND_MAX - 1.0f };
+    server.moveEntity(test_dummy, pos, 2.0f);
+    printf("Moving Test-Dummy to: <%.2f,%.2f,%.2f>\n", pos[0], pos[1], pos[3]);
+
   }
 
   return 0;

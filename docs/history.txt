@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+3-Mar-2006
+  - PK completed the new movement system with the client part.
+
 2-Mar-2006
   - iceeey made Anvil use the new SaveRegionFile for saving. You will need
     updated CS from now.
