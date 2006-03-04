@@ -61,8 +61,9 @@ public:
   void shutdown()
   {
     conn_pinger.kill();
-    receiver.kill();
+    receiver.end();
     socket.kill();
+    receiver.kill();
   }
 };
 

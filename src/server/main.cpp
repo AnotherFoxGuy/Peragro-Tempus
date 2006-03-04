@@ -38,10 +38,13 @@
 
 #include <signal.h>
 
-bool running = true;
+int running = 2;
 
 void shutdown()
 {
+  if (running < 2) return;
+  running = 1;
+
   printf("Server Shutdown initialised!\n");
 
   printf("- Shutdown Network:     \t");
@@ -60,7 +63,7 @@ void shutdown()
   Server::getServer()->getTimerEngine()->kill();
   printf("done\n");
 
-  running = false;
+  running = 0;
 }
 
 
@@ -138,7 +141,7 @@ int main(int argc, char ** argv)
 
   CharacterEntity* test_dummy = (CharacterEntity*)ent_mgr.findByName(ptString("test-dummy", 10));
 
-  while (running)
+  while (running > 0)
   {
     pt_sleep(delay_time);
     network.getStats(sentbyte, recvbyte, timestamp);
