@@ -52,6 +52,7 @@ void StatTable::createTable()
   insert(ptString("Agility", strlen("Agility")));
   insert(ptString("Concentration", strlen("Concentration")));
   insert(ptString("Witness", strlen("Witness")));
+  insert(ptString("Speed", strlen("Speed")));
 }
 
 void StatTable::insert(ptString name)
