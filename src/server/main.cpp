@@ -36,8 +36,47 @@
 
 #include "common/util/wincrashdump.h"
 
+#include <signal.h>
+
+bool running = true;
+
+void shutdown()
+{
+  printf("Server Shutdown initialised!\n");
+
+  printf("- Shutdown Network:     \t");
+  Server::getServer()->getNetwork()->shutdown();
+  printf("done\n");
+
+  printf("- Shutdown Database:     \t");
+  Server::getServer()->getDatabase()->shutdown();
+  printf("done\n");
+
+  printf("- Shutdown Spawner:     \t");
+  Server::getServer()->getSpawner()->kill();
+  printf("done\n");
+
+  printf("- Shutdown Timer Engine:\t");
+  Server::getServer()->getTimerEngine()->kill();
+  printf("done\n");
+
+  running = false;
+}
+
+
+void sigfunc(int sig)
+{
+   if(sig == SIGINT)
+   {
+     shutdown();
+   }
+}
+
+
 int main(int argc, char ** argv)
 {
+  signal(SIGINT, sigfunc);
+
   setWinCrashDump(argv[0]);
 
   Server server;
@@ -71,6 +110,7 @@ int main(int argc, char ** argv)
 
   TimerEngine timeEngine;
   timeEngine.begin();
+  server.setTimerEngine(&timeEngine);
 
   ent_mgr.loadFromDB(db.getEntityTable());
   item_mgr.loadFromDB(db.getItemTable());
@@ -78,6 +118,7 @@ int main(int argc, char ** argv)
   race_mgr.loadFromDB(db.getRaceTable());
 
   Spawner spawner;
+  server.setSpawner(&spawner);
   // TODO: load that from DB rather than hardcoding
   ptString room("room", 4);
   spawner.addSpawnPoint(0, 4, 0, room, 3, 60); //spawn apple every 10 second after picking
@@ -97,18 +138,19 @@ int main(int argc, char ** argv)
 
   CharacterEntity* test_dummy = (CharacterEntity*)ent_mgr.findByName(ptString("test-dummy", 10));
 
-  while (true)
+  while (running)
   {
     pt_sleep(delay_time);
     network.getStats(sentbyte, recvbyte, timestamp);
-    printf("Network Usage: Up: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
+    printf("Network Usage: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
 
     //Moving test-dummy slowly
     float pos[3] = {rand()*8/RAND_MAX-4.0f, 0.8f, rand()*2/RAND_MAX - 1.0f };
     server.moveEntity(test_dummy, pos, 2.0f);
     printf("Moving Test-Dummy to: <%.2f,%.2f,%.2f>\n", pos[0], pos[1], pos[3]);
-
   }
+
+  printf("Time to quit now!\n");
 
   return 0;
 }

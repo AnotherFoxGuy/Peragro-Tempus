@@ -6,6 +6,7 @@ under each day.
 
 4-Mar-2006
   - PK fixed some minor issues.
+  - PK added graceful shutdown for the server.
 
 3-Mar-2006
   - PK completed the new movement system with the client part.

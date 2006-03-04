@@ -54,6 +54,8 @@ public:
 
   void init();
 
+  virtual void shutdown() = 0;
+
   UsersTable* getUsersTable() { return userstable; }
   CharacterTable* getCharacterTable() { return charactertable; }
   EntityTable* getEntityTable() { return entitytable; }

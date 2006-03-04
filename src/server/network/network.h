@@ -49,6 +49,11 @@ public:
   {
     udp_nw.getStats(sentbyte, recvbyte, timestamp);
   }
+
+  void shutdown()
+  {
+    udp_nw.shutdown();
+  }
 };
 
 #endif // _NETWORK_H_

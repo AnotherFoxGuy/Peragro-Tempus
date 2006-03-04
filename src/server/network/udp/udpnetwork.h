@@ -57,6 +57,13 @@ public:
   {
     socket.getNetworkStats(sentbyte, recvbyte, timestamp);
   }
+
+  void shutdown()
+  {
+    conn_pinger.kill();
+    receiver.kill();
+    socket.kill();
+  }
 };
 
 #endif // _UDPNETWORK_H_

@@ -186,5 +186,5 @@ void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
 
   Stat* speed = server->getStatManager()->findByName(ptString("Speed", 5));
 
-  server->moveEntity(entity, request_msg.getPos(), entity->getStats()->getAmount(speed));
+  server->moveEntity(entity, request_msg.getPos(), (float)entity->getStats()->getAmount(speed));
 }

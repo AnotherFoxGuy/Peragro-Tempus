@@ -49,6 +49,7 @@ public:
   ~Socket();
 
   void init(unsigned short port, unsigned ip = 0);
+  void kill();
 
   int receive(char* msg, size_t len, SocketAddress* addr);
   bool publish(const char* msg, size_t len, const SocketAddress* addr);

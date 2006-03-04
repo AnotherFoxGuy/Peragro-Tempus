@@ -48,6 +48,8 @@ class dbSQLite : public Database, Thread
   void update(const char*, ...);
   int getLastInsertedId();
 
+  void shutdown();
+
   void Run();
 
 public:

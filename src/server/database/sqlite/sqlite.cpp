@@ -77,6 +77,11 @@ void dbSQLite::update(const char* query, ...)
   mutex.unlock();
 }
 
+void dbSQLite::shutdown()
+{
+  kill();
+}
+
 void dbSQLite::Run()
 {
   if (updates.getCount() == 0)

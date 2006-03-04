@@ -80,6 +80,12 @@ void Socket::init(unsigned short port, unsigned ip)
 
 Socket::~Socket()
 {
+  kill();
+}
+
+void Socket::kill()
+{
+  ready = false;
 #ifdef WIN32
   closesocket(socket_handler);
   //WSACleanup();

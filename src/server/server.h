@@ -31,6 +31,7 @@ class UserAccountManager;
 class TimerEngine;
 class Entity;
 class CharacterEntity;
+class Spawner;
 
 class Server
 {
@@ -47,6 +48,7 @@ private:
   UserManager* usr_mgr;
   UserAccountManager* usr_acc_mgr;
   TimerEngine* timer_engine;
+  Spawner* spawner;
 
 public:
   Server() { server = this; }
@@ -80,7 +82,10 @@ public:
   UserAccountManager* getUserAccountManager() { return this->usr_acc_mgr; }
 
   void setTimerEngine(TimerEngine* timer_engine) { this->timer_engine = timer_engine; }
-  TimerEngine* getTimerEnginer() { return this->timer_engine; }
+  TimerEngine* getTimerEngine() { return this->timer_engine; }
+
+  void setSpawner(Spawner* spawner) { this->spawner = spawner; }
+  Spawner* getSpawner() { return this->spawner; }
 
   void addEntity(Entity* entity, bool presistent);
   void delEntity(Entity* entity);
