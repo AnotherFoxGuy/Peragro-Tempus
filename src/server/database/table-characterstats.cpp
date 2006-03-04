@@ -102,4 +102,5 @@ void CharacterStatsTable::getAllEntries(Array<CharStat*>& entries, int id)
     entry->level = atoi(rs->GetData(i,1).c_str());
     entries.add(entry);
   }
+  delete rs;
 }  

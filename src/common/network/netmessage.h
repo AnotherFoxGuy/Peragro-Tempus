@@ -38,7 +38,7 @@ namespace MESSAGES
     CHAT=3,
     SKILL=4
   };
-};
+}
 
 class NetMessage
 {

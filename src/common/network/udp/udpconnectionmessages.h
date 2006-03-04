@@ -30,7 +30,7 @@ namespace CONNECTION
     PING=2,
     PONG=3
   };
-};
+}
 
 class ConnectRequestMessage : public NetMessage
 {

@@ -78,6 +78,7 @@ protected:
     final_dst[1] = 0;
     final_dst[2] = 0;
     t_stop = 0;
+    state = stIdle;
   }
 
 public:

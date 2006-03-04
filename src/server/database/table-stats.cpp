@@ -109,4 +109,5 @@ void StatTable::getAllStats(Array<Stat*>& stats)
     stat->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
     stats.add(stat);
   }
+  delete rs;
 }  

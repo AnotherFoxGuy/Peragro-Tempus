@@ -41,7 +41,7 @@ namespace ENTITY
     MOVE_TO=13,
     MOVE_TO_REQUEST=14
   };
-};
+}
 
 class AddEntityMessage : public NetMessage
 {

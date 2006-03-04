@@ -62,7 +62,6 @@ void Server::delEntity(Entity* entity)
     usr_mgr->getUser(i)->sendRemoveEntity(entity);
   }
   delete entity;
-  entity = 0;
 }
 
 void Server::moveEntity(CharacterEntity* entity, float* pos, float speed)

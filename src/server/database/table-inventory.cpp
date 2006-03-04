@@ -99,4 +99,5 @@ void InventoryTable::getAllEntries(Array<InvEntries*>& entries, int id)
     entry->amount = atoi(rs->GetData(i,1).c_str());
     entries.add(entry);
   }
+  delete rs;
 }  

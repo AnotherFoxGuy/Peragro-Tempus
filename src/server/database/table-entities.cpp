@@ -93,7 +93,10 @@ int EntityTable::getMaxId()
   if (rs->GetRowCount() == 0) 
     return 0;
 
-  return atoi(rs->GetData(0,0).c_str());
+  int id = atoi(rs->GetData(0,0).c_str());
+
+  delete rs;
+  return id;
 }
 
 void EntityTable::dropTable()

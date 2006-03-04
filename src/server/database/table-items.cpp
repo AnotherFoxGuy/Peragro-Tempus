@@ -112,4 +112,5 @@ void ItemTable::getAllItems(Array<Item*>& items)
     item->setMesh(ptString(rs->GetData(i,2).c_str(),rs->GetData(i,2).length()));
     items.add(item);
   }
+  delete rs;
 }  

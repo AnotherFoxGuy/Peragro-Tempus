@@ -29,7 +29,7 @@ namespace CONNECTION
   {
     UDP = 0
   };
-};
+}
 
 class Connection
 {

@@ -56,7 +56,7 @@ void User::sendRemoveEntity(Entity* entity)
   ByteStream bs;
   msg.serialise(&bs);
   if (connection) connection->send(bs);
-  delete entity;
+  //delete entity;
 }
 
 void User::remove()

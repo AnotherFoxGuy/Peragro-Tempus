@@ -65,7 +65,10 @@ int CharacterTable::getMaxId()
   if (rs->GetRowCount() == 0) 
     return 0;
 
-  return atoi(rs->GetData(0,0).c_str());
+  int id = atoi(rs->GetData(0,0).c_str());
+
+  delete rs;
+  return id;
 }
 
 void CharacterTable::dropTable()
@@ -128,4 +131,5 @@ void CharacterTable::getAllCharacters(Array<Character*>& characters, User* user)
     character->setSector(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
     characters.add(character);
   }
+  delete rs;
 }  

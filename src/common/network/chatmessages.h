@@ -27,7 +27,7 @@ namespace CHAT
   {
     CHAT=0
   };
-};
+}
 
 class ChatMessage : public NetMessage
 {

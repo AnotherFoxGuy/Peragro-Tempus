@@ -35,7 +35,7 @@ namespace USER
     CHARACTER_SELECTION_REQUEST=7,
     CHARACTER_SELECTION_RESPONSE=8
   };
-};
+}
 
 class LoginRequestMessage : public NetMessage
 {

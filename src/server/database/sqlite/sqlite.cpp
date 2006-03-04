@@ -52,13 +52,14 @@ ResultSet* dbSQLite::query(const char* query)
 
   //printf("SQLite not implemented yet, dumping query: %s\n", query);
   char *zErrMsg = 0;
-  ResultSet* result = new ResultSet;
+  ResultSet* result = new ResultSet();
   mutex.lock();
   int rc = sqlite3_exec(db, query, callback, result, &zErrMsg);
   mutex.unlock();
   if( rc!=SQLITE_OK )
   {
     printf("SQL error: %s\n", zErrMsg);
+    delete result;
     return 0;
   }
   return result;
