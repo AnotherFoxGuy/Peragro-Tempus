@@ -30,6 +30,11 @@ private:
 
 public:
   ItemManager() {}
+  ~ItemManager()
+  {
+    for (size_t i=0; i<items.getCount(); i++)
+      delete items.get(i);
+  }
 
   size_t getItemCount()
   {

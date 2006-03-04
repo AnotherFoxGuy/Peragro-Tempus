@@ -33,6 +33,12 @@ private:
 public:
   RaceManager() : ent_id(0) {}
 
+  ~RaceManager()
+  {
+    for (size_t i=0; i<list.getRaceCount(); i++)
+      delete list.getRace(i);
+  }
+
   size_t getRaceCount()
   {
     return list.getRaceCount();

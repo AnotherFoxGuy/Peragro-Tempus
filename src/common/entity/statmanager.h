@@ -31,6 +31,12 @@ private:
 public:
   StatManager() {}
 
+  ~StatManager()
+  {
+    for (size_t i=0; i<stats.getCount(); i++)
+      delete stats.get(i);
+  }
+
   size_t getStatCount()
   {
     return stats.getCount();

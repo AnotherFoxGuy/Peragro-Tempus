@@ -38,6 +38,12 @@ private:
 public:
   EntityManager() : ent_id(0) {}
 
+  ~EntityManager()
+  {
+    for (size_t i=0; i<entity_list.getEntityCount(); i++)
+      delete entity_list.getEntity(i);
+  }
+
   size_t getCharEntityCount()
   {
     return character_list.getEntityCount();

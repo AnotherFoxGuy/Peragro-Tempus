@@ -29,7 +29,10 @@ private:
 
 public:
   UdpConnectionManager() {}
-
+  ~UdpConnectionManager() 
+  {
+    connections.delAll();
+  }
   size_t getConnectionCount()
   {
     return connections.getCount();
