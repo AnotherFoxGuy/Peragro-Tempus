@@ -47,7 +47,8 @@ void User::sendRemoveEntity(Entity* entity)
   if (!ent_list.exists(entity))
     return;
 
-  ent_list.delEntity(entity);
+  ent_list.removeEntity(entity);
+
   RemoveEntityMessage msg;
   msg.setName(entity->getName());
   msg.setId(entity->getId());
@@ -55,6 +56,7 @@ void User::sendRemoveEntity(Entity* entity)
   ByteStream bs;
   msg.serialise(&bs);
   if (connection) connection->send(bs);
+  delete entity;
 }
 
 void User::remove()

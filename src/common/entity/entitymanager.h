@@ -21,6 +21,7 @@
 
 #include "common/util/array.h"
 #include "entity.h"
+#include "characterentity.h"
 #include "pcentity.h"
 #include "npcentity.h"
 #include "itementity.h"
@@ -30,59 +31,73 @@
 class EntityManager
 {
 private:
-  EntityList list;
+  EntityList entity_list;
+  EntityList character_list;
   unsigned int ent_id;
 
 public:
   EntityManager() : ent_id(0) {}
 
+  size_t getCharEntityCount()
+  {
+    return character_list.getEntityCount();
+  }
+
+  CharacterEntity* getCharEntity(size_t index)
+  {
+    return (CharacterEntity*) character_list.getEntity(index);
+  }
+
   size_t getEntityCount()
   {
-    return list.getEntityCount();
+    return entity_list.getEntityCount();
   }
 
   Entity* getEntity(size_t index)
   {
-    return list.getEntity(index);
+    return entity_list.getEntity(index);
   }
 
   void addEntity(Entity* entity)
   {
     ent_id++;
     entity->setId(ent_id);
-    list.addEntity(entity);
+    entity_list.addEntity(entity);
+    if (entity->getType() == Entity::PlayerEntity || entity->getType() == Entity::NPCEntity)
+    {
+      character_list.addEntity(entity);
+    }
   }
 
-  void delEntity(size_t index)
+  void removeEntity(Entity* entity)
   {
-    list.delEntity(index);
-  }
-
-  void delEntity(Entity* entity)
-  {
-    list.delEntity(entity);
+    if (entity->getType() == Entity::PlayerEntity || entity->getType() == Entity::NPCEntity)
+    {
+      character_list.removeEntity(entity);
+    }
+    entity_list.removeEntity(entity);
   }
 
   bool exists(Entity* entity)
   {
-    return list.exists(entity);
+    return entity_list.exists(entity);
   }
 
   Entity* findByName(ptString name)
   {
-    return list.findByName(name);
+    return entity_list.findByName(name);
   }
 
   Entity* findById(int id)
   {
-    return list.findById(id);
+    return entity_list.findById(id);
   }
 
   void loadFromDB(EntityTable* et)
   {
     ent_id = et->getMaxId();
     //Load all Entities from Database
-    et->getAllEntities(list.entities);
+    et->getAllEntities(entity_list.entities);
   }
 };
 

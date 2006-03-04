@@ -53,12 +53,12 @@ public:
     entities.add(entity);
   }
 
-  void delEntity(size_t index)
+  void removeEntity(size_t index)
   {
-    entities.del(index);
+    entities.remove(index);
   }
 
-  void delEntity(Entity* entity)
+  void removeEntity(Entity* entity)
   {
     if (!entity) return;
 
@@ -70,7 +70,7 @@ public:
       if (!_entity) 
       {
         entities.remove(i);
-        delEntity(entity);
+        removeEntity(entity);
       }
       if (_entity->compare(entity))
       {

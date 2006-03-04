@@ -49,7 +49,8 @@ void Server::addEntity(Entity* entity, bool presistent)
 void Server::delEntity(Entity* entity)
 {
   printf("Remove Entity\n");
-  ent_mgr->delEntity(entity);
+
+  ent_mgr->removeEntity(entity);
 
   if (entity->getType() == Entity::ItemEntity)
   {
@@ -61,6 +62,7 @@ void Server::delEntity(Entity* entity)
     usr_mgr->getUser(i)->sendRemoveEntity(entity);
   }
   delete entity;
+  entity = 0;
 }
 
 void Server::moveEntity(CharacterEntity* entity, float* pos, float speed)

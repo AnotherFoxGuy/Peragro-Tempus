@@ -39,6 +39,8 @@ private:
   float final_dst[3];
   size_t t_stop;
 
+  float tmp_pos[3]; //used only for temporary calculations!
+
 public:
 
   enum State
@@ -111,14 +113,14 @@ public:
     float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
 
     //v = s / t => t = s / v
-    t_stop = dist / speed + time(0);
+    t_stop = (size_t) (dist / speed + time(0));
 
-    state = State::stMoving;
+    state = stMoving;
   }
 
   float* getPos()
   {
-    if (state != State::stMoving)
+    if (state != stMoving)
     {
       return pos;
     }
@@ -127,18 +129,17 @@ public:
       if (time(0) >= t_stop)
       {
         setPos(final_dst);
-        state = State::stIdle;
+        state = stIdle;
         return final_dst;
       }
       else
       {
         //Not sure that's correct...
-        float current_pos[3];
-        float delta = t_stop - time(0);
-        current_pos[0] = (final_dst[0] - pos[0]) * delta;
-        current_pos[1] = (final_dst[1] - pos[1]) * delta;
-        current_pos[2] = (final_dst[2] - pos[2]) * delta;
-        return current_pos;
+        size_t delta = t_stop - (size_t) time(0);
+        tmp_pos[0] = (final_dst[0] - pos[0]) * delta;
+        tmp_pos[1] = (final_dst[1] - pos[1]) * delta;
+        tmp_pos[2] = (final_dst[2] - pos[2]) * delta;
+        return tmp_pos;
       }
     }
   }
