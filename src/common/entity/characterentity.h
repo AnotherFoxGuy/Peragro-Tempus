@@ -126,7 +126,7 @@ public:
     }
     else
     {
-      if (time(0) >= t_stop)
+      if ((size_t)time(0) >= t_stop)
       {
         setPos(final_dst);
         state = stIdle;

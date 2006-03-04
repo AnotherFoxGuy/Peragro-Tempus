@@ -4,3 +4,5 @@ Description sqlite_lib : "sqlite library" ;
 Library sqlite_lib :
   [ Wildcard *.h *.c ] ;
 ExternalLibs sqlite_lib : PTHREAD ;
+
+CCFLAGS on $(sqlite_lib_OBJECTS) = [ Filter [ on $(sqlite_lib_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;
