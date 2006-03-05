@@ -86,6 +86,7 @@
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 #include "propclass/sound.h"
+#include <propclass/colldet.h>
 
 #include "client/network/network.h"
 #include "client/gui/gui.h"
@@ -669,6 +670,14 @@ void Client::addEntity()
 
   csVector3 pos(ent->getPos()[0], ent->getPos()[1], ent->getPos()[2]);
   pclinmove->SetPosition(pos,0,sector);
+
+  if ( cmdline->GetBoolOption("useCD", true) )
+  {
+    pclinmove->SetGravity(0);
+    csRef<iPcCollisionDetection> colldet = 
+      CEL_QUERY_PROPCLASS_ENT(entity, iPcCollisionDetection);
+    colldet->UseCD(false);
+  }
 
   pl->CreatePropertyClass(entity, "pcproperties");
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
