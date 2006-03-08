@@ -101,7 +101,7 @@ CS_CHECK_CPPUNIT([emit])
 #----------------------------------------------------------------------------
 CS_CHECK_LIB_WITH([CEGUI],
     [AC_LANG_PROGRAM([[#include <CEGUI.h>]],
-    [CEGUI::WindowManager::getSingleton();])], [], [C++],
+    [CEGUI::WindowManager::getSingleton();])], [$srcdir/libs/csutil/win32/libs], [C++],
     [], [], [], [], [], [CEGUIBase])
 AS_IF([test -z "$with_CEGUI"], [with_CEGUI=yes])
 
