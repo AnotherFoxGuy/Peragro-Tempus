@@ -81,6 +81,8 @@ CS_EMIT_BUILD_PROPERTY([PERL], [$PERL])
 
 CS_CHECK_TEMPLATE_TOOLKIT2([emit])
 
+CS_CHECK_CSWIN32LIBS
+
 #----------------------------------------------------------------------------
 # Determine system type
 #----------------------------------------------------------------------------
