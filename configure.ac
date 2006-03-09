@@ -83,6 +83,14 @@ CS_CHECK_TEMPLATE_TOOLKIT2([emit])
 
 CS_CHECK_CSWIN32LIBS
 
+#------------------------------------------------------------------------------
+# Use the CPPFLAGS, CXXFLAGS, CFLAGS, and LDFLAGS passed to configure, as well
+# as any additional flags provided by cs-win32libs.
+#------------------------------------------------------------------------------
+CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS], [$CPPFLAGS $CFLAGS], [+])
+CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS], [$CPPFLAGS $CXXFLAGS], [+])
+CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS], [$LDFLAGS], [+])
+
 #----------------------------------------------------------------------------
 # Determine system type
 #----------------------------------------------------------------------------
@@ -184,19 +192,81 @@ case "$host_os" in
  ;;
 esac
 
-#----------------------------------------------------------------------------
-# Package configuration switches.
-#----------------------------------------------------------------------------
-AC_ARG_ENABLE([debug],
-    [AC_HELP_STRING([--enable-debug],
-	[build with debugging information (default NO)])],
-    [], [enable_debug=no])
+#------------------------------------------------------------------------------
+# Determine build mode; either "optimize", "debug", or "profile".
+#------------------------------------------------------------------------------
+AC_ARG_ENABLE([optimize], [AC_HELP_STRING([--enable-optimize],
+    [build with optimizations enabled (default YES);
+        same as --enable-mode=optimize])],
+    [test "$enableval" = "yes" && cs_build_mode=optimize])
+
+AC_ARG_ENABLE([debug], [AC_HELP_STRING([--enable-debug],
+    [build with debugging information (default NO);
+        same as --enable-mode=debug])],
+    [test "$enableval" = "yes" && cs_build_mode=debug])
+
+AC_ARG_ENABLE([profile], [AC_HELP_STRING([--enable-profile],
+    [build with profiling information (default NO);
+        same as --enable-mode=profile])],
+    [test "$enableval" = "yes" && cs_build_mode=profile])
+
+AC_ARG_ENABLE([mode], [AC_HELP_STRING([--enable-mode=mode],
+    [set build mode; recognized modes are `optimize', `debug', `profile'
+        (default OPTIMIZE)])],
+    [case $enableval in
+        optimize|debug|profile) cs_build_mode=$enableval ;;
+        *) CS_MSG_ERROR([m4_text_wrap(
+            [unrecognized mode --enable-mode=$enableval;
+            use `optimize', `debug', or `profile'], [    ], [[]], [60])]) ;;
+    esac])
 
 AC_MSG_CHECKING([build mode])
-AS_IF([test $enable_debug = yes], [build_mode=debug], [build_mode=optimize])
-AC_MSG_RESULT([$build_mode])
+AS_VAR_SET_IF([cs_build_mode], [], [cs_build_mode=optimize])
+AC_MSG_RESULT([$cs_build_mode])
+CS_EMIT_BUILD_PROPERTY([MODE], [$cs_build_mode])
 
-CS_EMIT_BUILD_PROPERTY([MODE], [$build_mode])
+#------------------------------------------------------------------------------
+# Check for compiler optimization flags.
+#------------------------------------------------------------------------------
+AC_DEFUN([CS_CHECK_OPTIMIZE_FLAGS],
+    [AC_REQUIRE([AC_PROG_CC])
+    AC_REQUIRE([AC_PROG_CXX])
+
+    cs_optimize_flags=''
+
+    CS_EMIT_BUILD_FLAGS([how to enable optimizations],
+	[cs_cv_prog_cxx_optimize],
+	[CS_CREATE_TUPLE([-O3]) CS_CREATE_TUPLE([-O2]) CS_CREATE_TUPLE([-O])],
+	[C++], [COMPILER.CFLAGS.optimize], [+],
+	[cs_optimize_flags="$cs_optimize_flags $cs_cv_prog_cxx_optimize"])
+
+    CS_EMIT_BUILD_FLAGS([if -fomit-frame-pointer is accepted],
+	[cs_cv_prog_cxx_omit_frame_pointer],
+	[CS_CREATE_TUPLE([-fomit-frame-pointer])],
+	[C++], [COMPILER.CFLAGS.optimize], [+],
+	[cs_optimize_flags="$cs_optimize_flags \
+	    $cs_cv_prog_cxx_omit_frame_pointer"])
+
+    CS_EMIT_BUILD_FLAGS([if -ffast-math is accepted],
+	[cs_cv_prog_cxx_fast_math],
+	[CS_CREATE_TUPLE([-ffast-math])], [C++],
+	[COMPILER.CFLAGS.optimize], [+],
+	[cs_optimize_flags="$cs_optimize_flags $cs_cv_prog_cxx_fast_math"])])
+
+CS_CHECK_OPTIMIZE_FLAGS
+
+
+
+#------------------------------------------------------------------------------
+# Check for compiler debug flags.
+#------------------------------------------------------------------------------
+CS_EMIT_BUILD_FLAGS([how to enable compiler debug output],
+    [cs_cv_prog_cxx_debug],
+    [CS_CREATE_TUPLE([-g3]) CS_CREATE_TUPLE([-g2]) CS_CREATE_TUPLE([-g])],
+    [C++], [COMPILER.CFLAGS.debug], [+],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS.debug],
+	[$cs_cv_prog_cxx_debug], [+])])
+
 
 #-----------------------------------------------------------------------------
 # Emit install paths and package information.

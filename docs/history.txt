@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+9-Mar-2006
+  - iceeey added profile option to configure.ac. Use --enable-profile to
+    build with profiling information.
+
 5-Mar-2006
   - PK added workaround for CD bug.
 
