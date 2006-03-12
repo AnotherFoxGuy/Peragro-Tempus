@@ -164,6 +164,9 @@
 				RelativePath="..\..\src\server\database\table-characters.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-characterskills.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-characterstats.cpp">
 			</File>
 			<File
@@ -180,6 +183,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-racestats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-skills.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-stats.cpp">
@@ -201,6 +207,9 @@
 				RelativePath="..\..\src\server\database\table-characters.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-characterskills.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-characterstats.h">
 			</File>
 			<File
@@ -217,6 +226,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-racestats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-skills.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-stats.h">

@@ -183,6 +183,9 @@
 				RelativePath="..\..\src\common\util\ptstring.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\pttime.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\queue.h">
 			</File>
 			<File

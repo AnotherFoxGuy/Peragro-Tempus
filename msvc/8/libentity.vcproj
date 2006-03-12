@@ -158,6 +158,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\entity\characterskills.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\entity\characterstats.cpp">
 			</File>
 			<File
@@ -181,6 +184,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\characterlist.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\characterskills.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\characterstats.h">
@@ -223,6 +229,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\racestats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\skill.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\skillmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\stat.h">
