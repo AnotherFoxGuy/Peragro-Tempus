@@ -28,6 +28,8 @@ class StatTable;
 class CharacterStatsTable;
 class RaceTable;
 class RaceStatsTable;
+class SkillTable;
+class CharacterSkillsTable;
 
 #include "resultset.h"
 
@@ -43,6 +45,8 @@ private:
   CharacterStatsTable* characterstattable;
   RaceTable* racetable;
   RaceStatsTable* racestattable;
+  SkillTable* skilltable;
+  CharacterSkillsTable* characterskillstable;
 
 public:
   virtual ResultSet* query(const char*) = 0;
@@ -65,6 +69,8 @@ public:
   CharacterStatsTable* getCharacterStatTable() { return characterstattable; }
   RaceTable* getRaceTable() { return racetable; }
   RaceStatsTable* getRaceStatsTable() { return racestattable; }
+  SkillTable* getSkillTable() { return skilltable; }
+  CharacterSkillsTable* getCharacterSkillsTable() { return characterskillstable; }
 };
 
 #endif // DATABASE_H

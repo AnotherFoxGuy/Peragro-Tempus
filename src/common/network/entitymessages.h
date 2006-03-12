@@ -39,7 +39,8 @@ namespace ENTITY
     CHAR_STAT_LIST=11,
     UPDATE_STATS=12,
     MOVE_TO=13,
-    MOVE_TO_REQUEST=14
+    MOVE_TO_REQUEST=14,
+    CHAR_SKILL_LIST=15
   };
 }
 
@@ -1176,5 +1177,69 @@ public:
   }
 };
 
+
+class CharacterSkillListMessage : public NetMessage
+{
+  char skillCount;
+
+  class nwSkills
+  {
+  public:
+    short id;
+    ptString name;
+  };
+
+  nwSkills* skills;
+
+public:
+  CharacterSkillListMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::CHAR_SKILL_LIST), skills(0) {}
+  ~CharacterSkillListMessage() { delete [] skills; }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt8(skillCount);
+    for (int i=0; i<skillCount; i++)
+    {
+      serial.setInt16(skills[i].id);
+      serial.setString(skills[i].name);
+    }
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    setSkillCount(serial.getInt8());
+    for (int i=0; i<skillCount; i++)
+    {
+      skills[i].id = serial.getInt16();
+      skills[i].name = serial.getString();
+    }
+  }
+
+  char setSkillCount() { return skillCount; }
+  void setSkillCount(char ic) 
+  {
+    skillCount = ic; 
+    delete [] skills; 
+    skills = new nwSkills[ic];
+  }
+
+  int getSkillId(short idx) { return skills[idx].id; }
+  void setSkillId(size_t idx, short skill_id) { skills[idx].id = skill_id; }
+
+  void setName(int idx, ptString name)
+  {
+    skills[idx].name = name;
+  }
+  ptString& getName(int idx)
+  {
+    return skills[idx].name;
+  }
+};
 
 #endif // _ENTITIYMESSAGES_H_

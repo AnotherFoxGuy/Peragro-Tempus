@@ -178,9 +178,9 @@ Entity* EntityTable::parseEntity(ResultSet* rs)
   };
   entity->setId(atoi(rs->GetData(0,0).c_str()));
   entity->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-  entity->setMesh(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,1).length()));
+  entity->setMesh(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,4).length()));
   entity->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
-  entity->setSector(ptString(rs->GetData(0,8).c_str(), rs->GetData(0,1).length()));
+  entity->setSector(ptString(rs->GetData(0,8).c_str(), rs->GetData(0,8).length()));
 
   return entity;
 }

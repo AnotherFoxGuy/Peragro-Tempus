@@ -66,7 +66,6 @@ void shutdown()
   running = 0;
 }
 
-
 void sigfunc(int sig)
 {
    if(sig == SIGINT)
@@ -74,7 +73,6 @@ void sigfunc(int sig)
      shutdown();
    }
 }
-
 
 int main(int argc, char ** argv)
 {

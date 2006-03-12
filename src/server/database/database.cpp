@@ -26,6 +26,8 @@
 #include "table-characterstats.h"
 #include "table-races.h"
 #include "table-racestats.h"
+#include "table-skills.h"
+#include "table-characterskills.h"
 
 Database::Database()
 {
@@ -42,6 +44,8 @@ void Database::init()
   characterstattable = new CharacterStatsTable(this);
   racetable = new RaceTable(this);
   racestattable = new RaceStatsTable(this);
+  skilltable = new SkillTable(this);
+  characterskillstable = new CharacterSkillsTable(this);
 }
 
 Database::~Database()
@@ -55,5 +59,7 @@ Database::~Database()
   delete characterstattable;
   delete racetable;
   delete racestattable;
+  delete skilltable;
+  delete characterskillstable;
 }
 

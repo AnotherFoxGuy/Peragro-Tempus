@@ -26,7 +26,7 @@
 #include "common/util/stringstore.h"
 
 #include "inventory.h"
-#include "characterstats.h"
+#include "characterskills.h"
 
 class Item;
 
@@ -35,6 +35,7 @@ class CharacterEntity : public Entity
 private:
   Inventory inventory;
   CharacterStats stats;
+  CharacterSkills skills;
 
   float final_dst[3];
   size_t t_stop;

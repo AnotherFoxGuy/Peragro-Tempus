@@ -2,16 +2,17 @@
 
 #include "sleep.h"
 #include "timerengine.h"
+#include "pttime.h"
 #include "timer.h"
 
 void TimerEngine::Run()
 {
-  pt_sleep(1);
+  size_t now = pt_time_ms();
 
-  // !!! This is INACCURATE !!! in several way.
-  // Not only does it take longer with more timers,
-  // sleep isn't accurate in the first place!
-  // Should work for now though...
+  if (now - last < 100)
+    pt_sleep(100 - now + last);
+
+  last = pt_time_ms();
 
   mutex.lock();
   for (size_t i=0; i<timers.getCount(); i++)
