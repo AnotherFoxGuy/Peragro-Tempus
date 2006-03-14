@@ -182,6 +182,9 @@
 				RelativePath="..\..\src\server\database\table-races.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-raceskills.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-racestats.cpp">
 			</File>
 			<File
@@ -223,6 +226,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-races.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-raceskills.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-racestats.h">

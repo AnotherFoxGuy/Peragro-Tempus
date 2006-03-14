@@ -170,6 +170,9 @@
 				RelativePath="..\..\src\common\entity\inventory.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\entity\raceskills.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\entity\racestats.cpp">
 			</File>
 		</Filter>
@@ -226,6 +229,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\racemanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\raceskills.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\racestats.h">
