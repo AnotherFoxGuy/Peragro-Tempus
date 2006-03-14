@@ -16,58 +16,27 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#include "raceskills.h"
+#include "common/entity/skillmanager.h"
+#include "common/network/serialiser.h"
+#include "common/network/entitymessages.h"
+#include "server/network/connection.h"
+#include "server/server.h"
 
-#include "timerengine.h"
-
-class Timer
+void RaceSkills::sendAllSkills(Connection* conn)
 {
-private:
-  size_t timer;
-  size_t duration;
-
-  bool running;
-
-  inline void tick()
+/*
+  RaceSkillsSkillListMessage skilllist_msg;
+  skilllist_msg.setSkillCount((char)entries.getCount());
+  for (size_t i=0; i<entries.getCount(); i++)
   {
-    if (!running)
-      return;
-
-    timer--; 
-
-    if (timer != 0)
-      return;
-
-    timer = duration;
-    timeOut();
+    skilllist_msg.setSkillId(int(i),entries.get(i)->skill_id);
+    Skill* skill = Server::getServer()->getSkillManager()->findById(entries.get(i)->skill_id);
+    assert(skill);
+    skilllist_msg.setName(int(i),skill->getName());
   }
-
-  friend class TimerEngine;
-
-protected:
-  virtual void timeOut() = 0;
-
-public:
-  Timer() : timer(0), duration(0), running(false) {}
-  ~Timer() {}
-
-  void start() 
-  { 
-    if (duration != 0)
-      running = true; 
-  }
-
-  void stop()
-  { 
-    running = false;
-  }
-
-  void setInverval(int interval)
-  {
-    duration = interval;
-    timer = interval;
-  }
-};
-
-#endif // _TIMER_H_
+  ByteStream bs2;
+  skilllist_msg.serialise(&bs2);
+  conn->send(bs2);
+*/
+}

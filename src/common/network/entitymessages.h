@@ -1221,7 +1221,7 @@ public:
     }
   }
 
-  char setSkillCount() { return skillCount; }
+  char getSkillCount() { return skillCount; }
   void setSkillCount(char ic) 
   {
     skillCount = ic; 

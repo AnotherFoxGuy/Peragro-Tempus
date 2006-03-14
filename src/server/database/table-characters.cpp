@@ -94,10 +94,10 @@ bool CharacterTable::existsCharacter(ptString name)
   return existence;
 }
 
-Character* CharacterTable::findCharacterById(int id)
+Character* CharacterTable::findCharacterById(int id, int user_id)
 {
   char query[1024];
-  sprintf(query, "select * from characters where id = '%d';", id);
+  sprintf(query, "select * from characters where id = '%d' and user = '%d';", id, user_id);
   ResultSet* rs = db->query(query);
   if (rs->GetRowCount() == 0) 
     return 0;

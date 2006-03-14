@@ -16,27 +16,29 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef CHARACTERSKILLS_H_
-#define CHARACTERSKILLS_H_
+#ifndef RACESKILLS_H_
+#define RACESKILLS_H_
 
 #include "skill.h"
+#include "server/database/database.h"
+#include "server/database/table-raceskills.h"
 #include "server/database/table-characterskills.h"
+#include "server/server.h"
 
-class Connection;
-
-class CharSkill
+class RaceSkill
 {
 public:
   int skill_id;
-  int target_id;
 };
 
-class CharacterSkills
+class Connection;
+
+class RaceSkills
 {
 private:
-  Array<CharSkill*> entries;
+  Array<RaceSkill*> entries;
 
-  CharSkill* findEntry(int skill_id)
+  RaceSkill* findEntry(int skill_id)
   {
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
@@ -48,36 +50,37 @@ private:
     return 0;
   }
 
-  CharacterSkillsTable* cstab;
+  RaceSkillsTable* estab;
 
-  int cs_id;
+  int es_id;
 
 public:
-  CharacterSkills() : cstab(0) {}
-  ~CharacterSkills() {}
-
-  void addSkill(Skill* skill)
+  RaceSkills() : estab(0) {}
+  ~RaceSkills()
   {
-    CharSkill* entry = findEntry(skill->getId());
-    if (!entry)
-    {
-      entry = new CharSkill();
-      entry->skill_id = skill->getId();
-      entries.add(entry);
-    }
-    if (cstab) cstab->set(cs_id, entry);
+    entries.delAll();
   }
 
-  void loadFromDatabase(CharacterSkillsTable* cst, int id)
+  void copyToCharacter(int char_id)
   {
-    cs_id = id;
-    cstab = cst;
+    CharacterSkillsTable* cst = Server::getServer()->getDatabase()->getCharacterSkillsTable();
+    for (size_t i=0; i<entries.getCount(); i++)
+    {
+      RaceSkill* skill = entries.get(i);
+      cst->insert(char_id, skill->skill_id);
+    }
+  }
+
+  void loadFromDatabase(RaceSkillsTable* est, int id)
+  {
+    es_id = id;
+    estab = est;
 
     //Load all Skills from Database
-    cst->getAllEntries(entries, id);
+    est->getAllEntries(entries, id);
   }
 
   void sendAllSkills(Connection* conn);
 };
 
-#endif // CHARACTERSKILLS_H_
+#endif // RACESKILLS_H_

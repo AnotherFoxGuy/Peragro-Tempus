@@ -51,7 +51,7 @@ void RaceTable::createTable()
     "sector TEXT, "
     "PRIMARY KEY (id) );");
 
-  float pos[3] = { 0.0f, 0.0f, 0.0f };
+  float pos[3] = { 0.0f, -0.8f, 0.0f };
   ptString test("test", 4);
   ptString room("room", 4);
 
@@ -136,6 +136,7 @@ void RaceTable::getAllRaces(Array<Race*>& races)
     races.add(race);
 
     race->getStats()->loadFromDatabase(db->getRaceStatsTable(), race->getId());
+    race->getSkills()->loadFromDatabase(db->getRaceSkillsTable(), race->getId());
   }
   delete rs;
 }  

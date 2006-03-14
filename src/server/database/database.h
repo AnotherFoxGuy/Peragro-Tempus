@@ -28,6 +28,7 @@ class StatTable;
 class CharacterStatsTable;
 class RaceTable;
 class RaceStatsTable;
+class RaceSkillsTable;
 class SkillTable;
 class CharacterSkillsTable;
 
@@ -45,6 +46,7 @@ private:
   CharacterStatsTable* characterstattable;
   RaceTable* racetable;
   RaceStatsTable* racestattable;
+  RaceSkillsTable* raceskilltable;
   SkillTable* skilltable;
   CharacterSkillsTable* characterskillstable;
 
@@ -69,6 +71,7 @@ public:
   CharacterStatsTable* getCharacterStatTable() { return characterstattable; }
   RaceTable* getRaceTable() { return racetable; }
   RaceStatsTable* getRaceStatsTable() { return racestattable; }
+  RaceSkillsTable* getRaceSkillsTable() { return raceskilltable; }
   SkillTable* getSkillTable() { return skilltable; }
   CharacterSkillsTable* getCharacterSkillsTable() { return characterskillstable; }
 };

@@ -93,6 +93,11 @@ public:
     return &stats;
   }
 
+  CharacterSkills* getSkills()
+  {
+    return &skills;
+  }
+
   State getState()
   {
     return state;

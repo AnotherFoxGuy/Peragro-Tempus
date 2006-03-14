@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+14-Mar-2006
+  - PK extended the skill data implementation a bit and delayed the functional
+    implementation to a later date once the data representation is done.
+  - PK adjusted the positions of the characters (spawn and dummy walk) for the new PT map.
+
 12-Mar-2006
   - PK commited more his heavy in progress skill implementations
   - PK added pt_time_s and pt_time_ms to provide a platform-independant way to handle time.

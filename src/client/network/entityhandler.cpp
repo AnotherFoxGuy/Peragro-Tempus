@@ -159,3 +159,16 @@ void EntityHandler::handleMoveEntityTo(GenericMessage* msg)
   client->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
 }
 
+
+void EntityHandler::handleCharacterSkillList(GenericMessage* msg)
+{
+  CharacterSkillListMessage skill_msg;
+  skill_msg.deserialise(msg->getByteStream());
+  printf("Got %d skill(s) for the Character: \n---------------------------\n", skill_msg.getSkillCount());
+  guimanager = client->GetGuiManager();
+  for (int i=0; i<skill_msg.getSkillCount(); i++)
+  {
+    //guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
+    printf("Skill %s (%d)\n", *skill_msg.getName(i), skill_msg.getSkillId(i));
+  }
+}

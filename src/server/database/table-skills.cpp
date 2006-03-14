@@ -54,7 +54,7 @@ void SkillTable::createTable()
 
   //Example Data!
   /// \todo specify all fields!
-  insert(ptString("Fire Ball", strlen("Fire Ball")));
+  insert(ptString("Heal", strlen("Heal")));
 }
 
 /// \todo insert all fields!

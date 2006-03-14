@@ -22,13 +22,14 @@
 
 #include "database.h"
 
-#include "table-characterskills.h"
+#include "table-raceskills.h"
 
-#include "common/entity/characterskills.h"
+#include "table-skills.h"
+#include "common/entity/raceskills.h"
 
-CharacterSkillsTable::CharacterSkillsTable(Database* db) : Table(db)
+RaceSkillsTable::RaceSkillsTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from characterskill;");
+  ResultSet* rs = db->query("select count(*) from raceskill;");
   if (rs == 0)
   {
     createTable();
@@ -36,30 +37,36 @@ CharacterSkillsTable::CharacterSkillsTable(Database* db) : Table(db)
   delete rs;
 }
 
-void CharacterSkillsTable::createTable()
+void RaceSkillsTable::createTable()
 {
-  db->update("create table characterskill ("
+  db->update("create table raceskill ("
     "id INTEGER, "
     "skill INTEGER, "
     "PRIMARY KEY (id, skill) );");
+
+  Skill* skill = 0;
+
+  skill = db->getSkillTable()->getSkill(ptString("Heal", strlen("Heal")));
+  set(1, skill);
+  delete skill;
 }
 
-void CharacterSkillsTable::insert(int characterskill, int skill)
+void RaceSkillsTable::insert(int raceskill, int skill)
 {
-  db->update("insert or replace into characterskill (id, skill) values ('%d','%d');",
-    characterskill, skill);
+  db->update("insert or replace into raceskill (id, skill) values ('%d','%d');",
+    raceskill, skill);
 }
 
-void CharacterSkillsTable::set(int characterskill, CharSkill* skill)
+void RaceSkillsTable::set(int raceskill, Skill* skill)
 {
-  insert(characterskill, skill->skill_id);
+  insert(raceskill, skill->getId());
 }
 
-int CharacterSkillsTable::get(int characterskill, CharSkill* skill)
+int RaceSkillsTable::get(int raceskill, Skill* skill)
 {
   char query[1024];
-  sprintf(query, "select * from characterskill where id = '%d' and skill = '%d';",
-    characterskill, skill->skill_id);
+  sprintf(query, "select * from raceskill where id = '%d' and skill = '%d';",
+    raceskill, skill->getId());
   ResultSet* rs = db->query(query);
 
   int level = 0;
@@ -74,7 +81,7 @@ int CharacterSkillsTable::get(int characterskill, CharSkill* skill)
   }
   else
   {
-    printf("DB inconsistency: multiple equal skills in the characterskill!");
+    printf("DB inconsistency: multiple equal skills in the raceskill!");
   }
 
   delete rs;
@@ -82,20 +89,20 @@ int CharacterSkillsTable::get(int characterskill, CharSkill* skill)
   return level;
 }
 
-void CharacterSkillsTable::dropTable()
+void RaceSkillsTable::dropTable()
 {
-  db->update("drop table characterskill;");
+  db->update("drop table raceskill;");
 }
 
-void CharacterSkillsTable::getAllEntries(Array<CharSkill*>& entries, int id)
+void RaceSkillsTable::getAllEntries(Array<RaceSkill*>& entries, int id)
 {
   char query[1024];
-  sprintf(query, "select skill from characterskill where id = '%d';", id);
+  sprintf(query, "select skill from raceskill where id = '%d';", id);
   ResultSet* rs = db->query(query);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
-    CharSkill* entry = new CharSkill();
+    RaceSkill* entry = new RaceSkill();
     int skill_id = atoi(rs->GetData(i,0).c_str());
     entry->skill_id = skill_id;
     entries.add(entry);

@@ -22,6 +22,7 @@
 #include "common/entity/racemanager.h"
 #include "common/entity/itemmanager.h"
 #include "common/entity/statmanager.h"
+#include "common/entity/skillmanager.h"
 #include "common/util/sleep.h"
 #include "common/util/timer.h"
 
@@ -109,6 +110,9 @@ int main(int argc, char ** argv)
   StatManager stat_mgr;
   server.setStatManager(&stat_mgr);
 
+  SkillManager skill_mgr;
+  server.setSkillManager(&skill_mgr);
+
   TimerEngine timeEngine;
   timeEngine.begin();
   server.setTimerEngine(&timeEngine);
@@ -116,6 +120,7 @@ int main(int argc, char ** argv)
   ent_mgr.loadFromDB(db.getEntityTable());
   item_mgr.loadFromDB(db.getItemTable());
   stat_mgr.loadFromDB(db.getStatTable());
+  skill_mgr.loadFromDB(db.getSkillTable());
   race_mgr.loadFromDB(db.getRaceTable());
 
   Spawner spawner;
@@ -146,7 +151,7 @@ int main(int argc, char ** argv)
     printf("Network Usage: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
 
     //Moving test-dummy slowly
-    float pos[3] = {rand()*8.0f/RAND_MAX-4.0f, 0.8f, rand()*2.0f/RAND_MAX - 1.0f };
+    float pos[3] = {rand()*3.0f/RAND_MAX-1.5f, -0.8f, rand()*16.0f/RAND_MAX - 8.0f };
     server.moveEntity(test_dummy, pos, 2.0f);
     printf("Moving Test-Dummy to: <%.2f,%.2f,%.2f>\n", pos[0], pos[1], pos[2]);
   }

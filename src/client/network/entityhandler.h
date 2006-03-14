@@ -59,6 +59,7 @@ public:
       else if (id == ENTITY::INV_ITEM_LIST) handleInventoryItemList(msg);
       else if (id == ENTITY::CHAR_STAT_LIST) handleCharacterStatList(msg);
       else if (id == ENTITY::MOVE_TO) handleMoveEntityTo(msg);
+      else if (id == ENTITY::CHAR_SKILL_LIST) handleCharacterSkillList(msg);
     }
     else
     {
@@ -80,6 +81,7 @@ public:
   void handleInventoryItemList(GenericMessage* msg);
   void handleCharacterStatList(GenericMessage* msg);
   void handleMoveEntityTo(GenericMessage* msg);
+  void handleCharacterSkillList(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

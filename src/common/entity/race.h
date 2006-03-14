@@ -26,6 +26,7 @@
 #include "common/util/stringstore.h"
 
 #include "racestats.h"
+#include "raceskills.h"
 
 class Race
 {
@@ -42,6 +43,7 @@ private:
   float pos[3];
 
   RaceStats stats;
+  RaceSkills skills;
 
 public:
   Race() : id(-1)
@@ -98,10 +100,8 @@ public:
   ptString& getSector() { return sector_id; }
   void setSector(ptString name) { sector_id = name; }
 
-  RaceStats* getStats()
-  {
-    return &stats;
-  }
+  RaceStats* getStats() { return &stats; }
+  RaceSkills* getSkills() { return &skills; }
 };
 
 #endif // _RACE_H_

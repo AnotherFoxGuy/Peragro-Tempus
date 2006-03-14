@@ -16,58 +16,26 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#ifndef _TABLE_RACESKILLS_H_
+#define _TABLE_RACESKILLS_H_
 
-#include "timerengine.h"
+#include "common/util/array.h"
+#include "table.h"
 
-class Timer
+class Database;
+class Skill;
+class RaceSkill;
+
+class RaceSkillsTable : public Table
 {
-private:
-  size_t timer;
-  size_t duration;
-
-  bool running;
-
-  inline void tick()
-  {
-    if (!running)
-      return;
-
-    timer--; 
-
-    if (timer != 0)
-      return;
-
-    timer = duration;
-    timeOut();
-  }
-
-  friend class TimerEngine;
-
-protected:
-  virtual void timeOut() = 0;
-
 public:
-  Timer() : timer(0), duration(0), running(false) {}
-  ~Timer() {}
-
-  void start() 
-  { 
-    if (duration != 0)
-      running = true; 
-  }
-
-  void stop()
-  { 
-    running = false;
-  }
-
-  void setInverval(int interval)
-  {
-    duration = interval;
-    timer = interval;
-  }
+  RaceSkillsTable(Database* db);
+  void createTable();
+  void insert(int raceskill, int skill);
+  void set(int raceskill, Skill* skill);
+  int get(int raceskill, Skill* skill);
+  void dropTable();
+  void getAllEntries(Array<RaceSkill*>& entries, int id);
 };
 
-#endif // _TIMER_H_
+#endif //_TABLE_RACESKILLS_H_

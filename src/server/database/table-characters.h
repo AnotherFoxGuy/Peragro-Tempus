@@ -36,7 +36,7 @@ public:
   void dropTable();
   void remove(int id);
   bool existsCharacter(ptString name);
-  Character* findCharacterById(int id);
+  Character* findCharacterById(int id, int user_id);
   void getAllCharacters(Array<Character*>& characters, User* user_id);
 };
 

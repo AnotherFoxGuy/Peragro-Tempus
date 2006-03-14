@@ -138,7 +138,7 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   user->clearEntityList();
 
   Character* character = 
-    server->getDatabase()->getCharacterTable()->findCharacterById(request_msg.getCharId());
+    server->getDatabase()->getCharacterTable()->findCharacterById(request_msg.getCharId(), user->getId());
 
   if (!character)
     return;
@@ -146,6 +146,7 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   PcEntity* entity = new PcEntity();
   entity->setName(character->getName());
   entity->setMesh(character->getMesh());
+  entity->setPos(character->getPos());
   entity->setSector(character->getSector());
   printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getName());
   user->setEntity(entity);
@@ -160,9 +161,11 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
 
   entity->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
   entity->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
+  entity->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
 
   entity->getInventory()->sendAllItems(msg->getConnection());
   entity->getStats()->sendAllStats(msg->getConnection());
+  entity->getSkills()->sendAllSkills(msg->getConnection());
 
   /// \todo Implement message packing (all entities in one package).
   for (size_t i=0; i<server->getEntityManager()->getEntityCount(); i++)

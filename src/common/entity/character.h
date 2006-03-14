@@ -41,7 +41,7 @@ private:
 
   float pos[3];
 
-  Inventory inventory;
+  //Inventory inventory;
 
 public:
   Character() : id(-1)
@@ -121,10 +121,10 @@ public:
     this->user = user;
   }
 
-  Inventory* getInventory()
-  {
-    return &inventory;
-  }
+  //Inventory* getInventory()
+  //{
+  //  return &inventory;
+  //}
 };
 
 #endif // _CHARACTER_H_
