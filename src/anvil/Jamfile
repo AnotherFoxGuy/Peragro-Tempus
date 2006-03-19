@@ -2,7 +2,7 @@ SubDir TOP src anvil ;
 
 Description anvil : "Anvil" ;
 Application anvil : [ Wildcard *.h *.cpp ] ;
-ExternalLibs anvil : CEGUI CRYSTAL ;
+ExternalLibs anvil : CRYSTAL ;
 
 if [ Property build : projgen_version ] != 6
 {

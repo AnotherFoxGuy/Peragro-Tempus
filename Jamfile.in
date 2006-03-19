@@ -84,14 +84,18 @@ MsvcGenConfig CEL.LIBDIRS :
   [ ConcatDirs "$(hash)(CEL)" libs ] ;
 MsvcGenConfig CEL.LIBDIRS.DEBUG :
   [ ConcatDirs .. .. .. cel out debug libs ]
-  [ ConcatDirs "$(hash)(CEL)" out debug libs ]
+  [ ConcatDirs "$(hash)(CEL)" out debug$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CEL)" libs ] ;
 
 MsvcGenConfig CEGUI.AVAILABLE : yes ;
 MsvcGenConfig CEGUI.CFLAGS : "" ;
 MsvcGenConfig CEGUI.LFLAGS : "" ;
-MsvcGenConfig CEGUI.LIBS : "CEGUIBase.lib CEGUIFalagardBase.lib" ;
-MsvcGenConfig CEGUI.LIBS.DEBUG : "CEGUIBase_d.lib CEGUIFalagardBase_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.7 : "CEGUIBase-vc7.lib CEGUIFalagardBase-vc7.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.7 : "CEGUIBase-vc7_d.lib CEGUIFalagardBase-vc7_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.71 : "CEGUIBase-vc7.lib CEGUIFalagardBase-vc7.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.71 : "CEGUIBase-vc7_d.lib CEGUIFalagardBase-vc7_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.8 : "CEGUIBase-vc8.lib CEGUIFalagardBase-vc8.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.8 : "CEGUIBase-vc8_d.lib CEGUIFalagardBase-vc8_d.lib" ;
 
 MsvcGenConfig PTHREAD.CFLAGS : "" ;
 MsvcGenConfig PTHREAD.LFLAGS : "" ;

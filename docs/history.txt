@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+19-Mar-2006
+  - PK updates the msvc generation.
+
 14-Mar-2006
   - PK extended the skill data implementation a bit and delayed the functional
     implementation to a later date once the data representation is done.
