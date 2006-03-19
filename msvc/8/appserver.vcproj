@@ -188,6 +188,9 @@
 				RelativePath="..\..\src\server\server.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\skillengine.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\spawner.h">
 			</File>
 			<File
