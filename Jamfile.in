@@ -90,6 +90,8 @@ MsvcGenConfig CEL.LIBDIRS.DEBUG :
 MsvcGenConfig CEGUI.AVAILABLE : yes ;
 MsvcGenConfig CEGUI.CFLAGS : "" ;
 MsvcGenConfig CEGUI.LFLAGS : "" ;
+MsvcGenConfig CEGUI.LIBS : "CEGUIBase.lib CEGUIFalagardBase.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG : "CEGUIBase_d.lib CEGUIFalagardBase_d.lib" ;
 MsvcGenConfig CEGUI.LIBS.7 : "CEGUIBase-vc7.lib CEGUIFalagardBase-vc7.lib" ;
 MsvcGenConfig CEGUI.LIBS.DEBUG.7 : "CEGUIBase-vc7_d.lib CEGUIFalagardBase-vc7_d.lib" ;
 MsvcGenConfig CEGUI.LIBS.71 : "CEGUIBase-vc7.lib CEGUIFalagardBase-vc7.lib" ;
