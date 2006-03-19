@@ -121,7 +121,7 @@
 				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
 				ProgramDatabaseFile="..\..\out\debug71\build\libclient-effects\client-effects.pdb"
 				TargetMachine="1"/>
 			<Tool

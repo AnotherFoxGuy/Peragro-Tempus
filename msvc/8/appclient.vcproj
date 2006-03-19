@@ -53,7 +53,7 @@
 				OutputFile="..\..\client.exe"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase.lib CEGUIFalagardBase.lib libcrystalspace.lib libceltool.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc8.lib CEGUIFalagardBase-vc8.lib libcrystalspace.lib libceltool.lib wsock32.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
@@ -124,10 +124,10 @@
 				OutputFile="..\..\client.exe"
 				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase_d.lib CEGUIFalagardBase_d.lib libcrystalspace_d.lib libceltool_d.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc8_d.lib CEGUIFalagardBase-vc8_d.lib libcrystalspace_d.lib libceltool_d.lib wsock32.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
 				ProgramDatabaseFile="..\..\out\debug8\build\appclient\client.pdb"
 				TargetMachine="1"/>
 			<Tool

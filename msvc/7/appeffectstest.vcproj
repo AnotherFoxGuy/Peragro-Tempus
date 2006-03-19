@@ -53,7 +53,7 @@
 				OutputFile="..\..\effectstest.exe"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase.lib CEGUIFalagardBase.lib libcrystalspace.lib libceltool.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release7\libs;$(CEL)\libs"
@@ -124,10 +124,10 @@
 				OutputFile="..\..\effectstest.exe"
 				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase_d.lib CEGUIFalagardBase_d.lib libcrystalspace_d.lib libceltool_d.lib"
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug7\libs;$(CEL)\libs"
 				ProgramDatabaseFile="..\..\out\debug7\build\appeffectstest\effectstest.pdb"
 				TargetMachine="1"/>
 			<Tool

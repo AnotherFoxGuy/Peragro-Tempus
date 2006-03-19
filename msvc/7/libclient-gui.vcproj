@@ -49,7 +49,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib CEGUIBase.lib CEGUIFalagardBase.lib libceltool.lib"
+				AdditionalDependencies="libcrystalspace.lib CEGUIBase-vc7.lib CEGUIFalagardBase-vc7.lib libceltool.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release7\libs;$(CEL)\libs"
@@ -118,10 +118,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib CEGUIBase_d.lib CEGUIFalagardBase_d.lib libceltool_d.lib"
+				AdditionalDependencies="libcrystalspace_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardBase-vc7_d.lib libceltool_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug7\libs;$(CEL)\libs"
 				ProgramDatabaseFile="..\..\out\debug7\build\libclient-gui\client-gui.pdb"
 				TargetMachine="1"/>
 			<Tool
