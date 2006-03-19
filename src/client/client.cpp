@@ -26,6 +26,7 @@
 
 #include "csgeom/path.h"
 #include "cstool/initapp.h"
+#include "csutil/cmdhelp.h"
 #include "csutil/cmdline.h"
 #include "csutil/csstring.h"
 #include "csutil/csshlib.h"
@@ -552,6 +553,60 @@ void Client::loggedIn()
   }
 }
 
+void Client::OnCommandLineHelp()
+{
+  const size_t NUM_OPTIONS = 5;
+
+  const csOptionDescription pt_config_options [NUM_OPTIONS] =
+  {
+    { 0, "host", "Hostname the client will connect to (peragro.org)", CSVAR_STRING },
+    { 1, "useCD", "Enable/Disable Collision Detection on the client", CSVAR_BOOL },
+    { 2, "user", "Automatic Login with the given Username", CSVAR_STRING },
+    { 3, "pass", "Automatic Login with the given Password", CSVAR_STRING },
+    { 4, "char", "Automatic selection of the character with the given ID", CSVAR_LONG },
+  };
+
+  for (int i = 0; i<NUM_OPTIONS ; i++)
+  {
+    csString opt;
+    csStringFast<80> desc;
+    switch (pt_config_options[i].type)
+    {
+      case CSVAR_BOOL:
+      {
+        opt.Format ("  -[no]%s", pt_config_options[i].name);
+        desc.Format ("%s ", pt_config_options[i].description);
+        break;
+      }
+      case CSVAR_CMD:
+      {
+        opt.Format ("  -%s", pt_config_options[i].name);
+        desc = pt_config_options[i].description;
+        break;
+      }
+      case CSVAR_FLOAT:
+      {
+        opt.Format ("  -%s=<val>", pt_config_options[i].name);
+        desc.Format ("%s", pt_config_options[i].description);
+        break;
+      }
+      case CSVAR_LONG:
+      {
+        opt.Format ("  -%s=<val>", pt_config_options[i].name);
+        desc.Format ("%s", pt_config_options[i].description);
+        break;
+      }
+      case CSVAR_STRING:
+      {
+        opt.Format ("  -%s=<val>", pt_config_options[i].name);
+        desc.Format ("%s", pt_config_options[i].description);
+        break;
+      }
+    }
+    csPrintf ("%-21s%s\n", opt.GetData(), desc.GetData());
+  }
+}
+
 void Client::loadRegion()
 {
   playing = true;
@@ -671,7 +726,7 @@ void Client::addEntity()
   csVector3 pos(ent->getPos()[0], ent->getPos()[1], ent->getPos()[2]);
   pclinmove->SetPosition(pos,0,sector);
 
-  if ( cmdline->GetBoolOption("useCD", true) )
+  if ( !cmdline->GetBoolOption("useCD", false) )
   {
     pclinmove->SetGravity(0);
     csRef<iPcCollisionDetection> colldet = 

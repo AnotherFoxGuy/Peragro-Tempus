@@ -27,6 +27,7 @@
 #include "cstool/csapplicationframework.h"
 #include "iengine/engine.h"
 #include "iutil/vfs.h"
+#include "iutil/pluginconfig.h"
 #include "iutil/virtclk.h"
 //#include "iutil/csinput.h"
 #include "ivideo/graph3d.h"
@@ -135,6 +136,7 @@ public:
   bool OnInitialize(int argc, char* argv[]);
 
   bool Application();
+  void OnCommandLineHelp();
 
   void connected();
   void loggedIn();
