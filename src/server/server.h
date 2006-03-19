@@ -33,6 +33,7 @@ class TimerEngine;
 class Entity;
 class CharacterEntity;
 class Spawner;
+class SkillEngine;
 
 class Server
 {
@@ -51,6 +52,7 @@ private:
   UserAccountManager* usr_acc_mgr;
   TimerEngine* timer_engine;
   Spawner* spawner;
+  SkillEngine* skillengine;
 
 public:
   Server() { server = this; }
@@ -91,6 +93,9 @@ public:
 
   void setSpawner(Spawner* spawner) { this->spawner = spawner; }
   Spawner* getSpawner() { return this->spawner; }
+
+  void setSkillEngine(SkillEngine* spawner) { this->skillengine = skillengine; }
+  SkillEngine* getSkillEngine() { return this->skillengine; }
 
   void addEntity(Entity* entity, bool presistent);
   void delEntity(Entity* entity);

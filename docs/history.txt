@@ -7,6 +7,7 @@ under each day.
 19-Mar-2006
   - PK updates the msvc generation.
   - PK added commandline help.
+  - PK worked a bit more on the skills.
 
 14-Mar-2006
   - PK extended the skill data implementation a bit and delayed the functional

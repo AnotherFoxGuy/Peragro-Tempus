@@ -32,6 +32,7 @@
 #include "server/database/table-entities.h"
 #include "server/usermanager.h"
 #include "server/useraccountmanager.h"
+#include "server/skillengine.h"
 #include "server/spawner.h"
 #include "server/network/network.h"
 
@@ -56,9 +57,9 @@ void shutdown()
   Server::getServer()->getDatabase()->shutdown();
   printf("done\n");
 
-  printf("- Shutdown Spawner:     \t");
-  Server::getServer()->getSpawner()->kill();
-  printf("done\n");
+  //printf("- Shutdown Spawner:     \t");
+  //Server::getServer()->getSpawner()->kill();
+  //printf("done\n");
 
   printf("- Shutdown Timer Engine:\t");
   Server::getServer()->getTimerEngine()->kill();
@@ -123,6 +124,10 @@ int main(int argc, char ** argv)
   skill_mgr.loadFromDB(db.getSkillTable());
   race_mgr.loadFromDB(db.getRaceTable());
 
+  SkillEngine skillengine;
+  server.setSkillEngine(&skillengine);
+  timeEngine.registerTimer(&skillengine);
+
   Spawner spawner;
   server.setSpawner(&spawner);
   // TODO: load that from DB rather than hardcoding
@@ -133,7 +138,8 @@ int main(int argc, char ** argv)
   spawner.addSpawnPoint(0, 4, 0, room, 1, 45); //spawn apple every 45 second after picking
   spawner.addSpawnPoint(0, 2, -2, room, 1, 75); //spawn apple every 75 second after picking
   spawner.addSpawnPoint(2, -2, 0, room, 1, 15); //spawn apple every 15 second after picking
-  spawner.begin();
+  spawner.start();
+  timeEngine.registerTimer(&spawner);
 
   unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;
 

@@ -50,7 +50,7 @@ protected:
 
 public:
   Timer() : timer(0), duration(0), running(false) {}
-  ~Timer() {}
+  ~Timer() { running = false; }
 
   void start() 
   { 

@@ -29,6 +29,11 @@ class CharSkill
 public:
   int skill_id;
   int target_id;
+
+  bool isActive()
+  {
+    return false; // no active skills yet!
+  }
 };
 
 class CharacterSkills
@@ -66,6 +71,16 @@ public:
       entries.add(entry);
     }
     if (cstab) cstab->set(cs_id, entry);
+  }
+
+  size_t getSkillCount()
+  {
+    return entries.getCount();
+  }
+
+  CharSkill* getSkill(size_t idx)
+  {
+    return entries[idx];
   }
 
   void loadFromDatabase(CharacterSkillsTable* cst, int id)

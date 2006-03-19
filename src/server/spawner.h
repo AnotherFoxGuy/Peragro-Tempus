@@ -26,7 +26,7 @@
 #include "common/util/sleep.h"
 #include "server/server.h"
 
-class Spawner : public Thread
+class Spawner : public Timer
 {
 private:
   class SpawnPoint
@@ -47,21 +47,18 @@ private:
     ~SpawnPoint() { }
   };
 
-  unsigned int timeCounter;
+  size_t timeCounter;
 
   Array<SpawnPoint*> spawnpoints;
 
   // Thread implementation
-  void Run()
+  void timeOut()
   {
     for (size_t i=0; i<spawnpoints.getCount(); i++)
     {
       checkSpawnPoint(spawnpoints.get(i));
     }
-
     timeCounter++;
-
-    pt_sleep(1000);
   }
 
   void checkSpawnPoint(SpawnPoint* sp)
@@ -87,7 +84,7 @@ private:
   }
 
 public:
-  Spawner() : timeCounter(0) {}
+  Spawner() : timeCounter(0) { this->setInverval(10); }
   ~Spawner() { spawnpoints.delAll(); }
 
   void addSpawnPoint(float x, float y, float z, ptString sector, int item_id, unsigned int spawnInterval)
