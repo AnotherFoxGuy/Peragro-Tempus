@@ -14,67 +14,61 @@ if [ Property build : projgen_version ] != 6
   LFlags anvile_static : -lcrystalspace_staticplugins ;
 
   cs_plugins_static = 
-    ball
-    ballldr
+    bugplug
+    csopcode
+    csconin
+    fancycon
+    simpcon
+    csconout
+    cssynldr
+    csparser
+    cssaver
+    frustvis
+    joylin
+    bindoc
+    dsplex
+    xmlread
+    xmltiny
+    engine
+    rendloop_loader
+    rendstep_std
+    engseq
+    vfs
+    csfont
+    fontplex
+    freefnt2
+    cegui
     bezier
     bezierldr
-    bindoc
-    bruteblock
-    terrainldr
-    bugplug
-    cegui
-    csconin
-    csddsimg
-    csfont
-    csgifimg
-    csjpgimg
-    csparser
-    cspngimg
-    cssynldr
-    dsplex
-    dynavis
     emit
     emitldr
-    engine
-    engseq
     explo
     exploldr
     fire
     fireldr
-    fontplex
     fountain
     fountldr
-    frustvis
-    freefnt2
-    genmesh
-    gl3d 
-    glshader_arb 
-    glshader_cg
-    glshader_fixed
     gmeshanim
+    genmesh
+    gmesh3ds
     gmeshldr
     gmeshskelanim
     haze
     hazeldr
-    ieplex
-    imgplex
+    instmesh
+    instmeshldr
+    lghtng
+    lghtngldr
     nullmesh
-    opcode
+    nullmeshldr
+    particles
+    particlesldr
+#    partphys_ode
+    partphys_simple
     protomesh
     protomeshldr
     rain
     rainldr
-    rendloop_loader
-    rendstep_std
-    reporter
-    sequence
-    shadermgr
-    simpcon
-    simpleformer
-    simpleformerldr
-    sndsyssoft
-    sndsyswin
-    sndmanager
     snow
     snowldr
     spiral
@@ -82,23 +76,97 @@ if [ Property build : projgen_version ] != 6
     spr2d
     spr2dldr
     spr3d
+    spr3dbin
+    spr3md2
     spr3dldr
-    sprcal3d 
+    sprcal3d
     sprcal3dldr
-    starldr
     stars
-    stdpt
-    stdrep
+    starldr
+    bruteblock
+    terrainldr
+    skeleton
+    skelldr
     thing
     thingldr
-    vfs
-    xmlread
+    movierecorder
+    physldr
+#    odedynam
+    ptanimimg
+    stdpt
+    tlfunc
+    reporter
+    sequence
+    sndsysloader
+    sndsysogg
+    sndsyswav
+    sndmanager
+#    sndsysjackasyn
+#    sndsysoss
+    sndsysalsa
+    sndsyssoft
+    sndsyseventrecorder
+    stdrep
+    simpleformerldr
+    simpleformer
+    pagingformerldr
+    pagingformer
+    cacacanvas
+    memory2d
+    null2d
+    glx2d
+    sdl2d
+    x2d
+#    wxgl
+    xext86vm
+    xextshm
+    xwin
+    cscursor
+    csbmpimg
+    csddsimg
+    csgifimg
+    csjngimg
+    csjpgimg
+    imgplex
+    cspngimg
+    cstgaimg
+    null3d
+    gl3d
     xmlshader
+    shadermgr
+    glshader_arb
+    glshader_cg
+    glshader_fixed
+    glshader_ps1
+    softshader
+    vproc_std
+    soft3d
+  ;
+  cs_plugins_static_optional = 
+#    aws
+#    aws2
+#    csperl5
+#    cspython
+#    _cspace
+#    dynavis_debug
+    joywin
+    rendstep_fatrl
+    rendstep_stencil
+    rendstep_stencil2
+#    csvosa3dl
+#    bullet
+    sndsyswin
+    glwin32
+    glosx2d
+    cgdriver2d
+    ddraw2d
+    sndsyscoreaudio
+#    dynavis
   ;
 
   if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 ; }
 
-  LinkStaticPlugins anvil_static :  $(cs_plugins_static)  :  : CRYSTAL  ;
+  LinkStaticPlugins anvil_static :  $(cs_plugins_static)  : $(cs_plugins_static_optional) : CRYSTAL  ;
 
   ExternalLibs anvil_static : CRYSTAL CEGUI ;
   MsvcExternalLibrary anvil_static : "libcrystalspace_staticplugins.lib" : release ;
