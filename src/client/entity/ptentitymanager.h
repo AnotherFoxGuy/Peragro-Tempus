@@ -26,7 +26,7 @@
 
 #include "physicallayer/pl.h"
 
-#include "client/entity/ptCelEntity.h"
+#include "client/entity/ptcelentity.h"
 
 #include "common/util/mutex.h"
 
@@ -108,7 +108,7 @@ public:
   iCelEntity* findCelEntById(int id);
 
   void setCharacter(int own_char) { own_char_id = own_char; }
-  iCamera* getOwnCamera() { return owncam; } 
+  iCamera* getOwnCamera() { return owncam; }
   iCelEntity* getOwnEntity() { return ownent; }
   const char* GetOwnName() { return ownname; }
 

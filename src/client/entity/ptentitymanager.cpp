@@ -1,22 +1,22 @@
 /*
     Copyright (C) 2005 Development Team of Peragro Tempus
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/entity/ptCelEntity.h"
+#include "client/entity/ptcelentity.h"
 #include "client/entity/ptentitymanager.h"
 
 #include "csgeom/path.h"
@@ -228,8 +228,8 @@ void ptEntityManager::moveEntity(int entity_id, float speed, float* fv1, float* 
       pclinmove->GetLastFullPosition(pos_clt, rot, sect);
 
       // Some basic physics
-      // v = s/t 
-      // t = s / v 
+      // v = s/t
+      // t = s / v
       // v_s / s_s = v_c / s_c
       // v_c = v_s * v_c / s_s
       speed = speed * (pos_dst - pos_clt).Norm() / (pos_dst - pos_ori).Norm();
@@ -239,7 +239,7 @@ void ptEntityManager::moveEntity(int entity_id, float speed, float* fv1, float* 
       pclinmove->SetPathTime(0);
 
       csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-      csRef<iSpriteCal3DState> sprcal3d = 
+      csRef<iSpriteCal3DState> sprcal3d =
         SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
       if (sprcal3d)
         sprcal3d->SetVelocity(speed);
@@ -276,7 +276,7 @@ void ptEntityManager::moveEntity()
       pclinmove->SetVelocity(csVector3(0,0,-movement->walk));
     }
     csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-    csRef<iSpriteCal3DState> sprcal3d = 
+    csRef<iSpriteCal3DState> sprcal3d =
       SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
     if (sprcal3d)
       sprcal3d->SetVelocity(movement->walk);
