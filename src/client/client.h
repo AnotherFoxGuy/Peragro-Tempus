@@ -47,6 +47,7 @@ class Entity;
 class Network;
 class GUIManager;
 class EffectsManager;
+class ptEntityManager;
 class Cursor;
 struct iCommandLineParser;
 struct iPath;
@@ -84,39 +85,18 @@ private:
   Network* network;
   GUIManager* guimanager;
   EffectsManager* effectsmanager;
+  ptEntityManager* entitymanager;
 
   bool InitializeCEL();
 
-  csString name;
-  int own_char_id;
-  const char* own_char_name;
+  //csString name;
 
-  csPDelArray<Entity> new_entity_name;
-  csPDelArray<Entity> del_entity_name;
 
   csRefArray<iString> chat_msg;
 
-  struct Movement
-  {
-    int entity_id;
-    float walk;
-    float turn;
-  };
-  csPDelArray<Movement> move_entity_name;
-
   Cursor* cursor;
 
-public:
-  struct DrUpdate
-  {
-    int entity_id;
-    csString sector;
-    csVector3 pos, vel, wvel;
-    float rot, speed, avel;
-    bool on_ground;
-  };
 private:
-  csPDelArray<DrUpdate> drupdate_entity_name;
 
   csRef<iString> load_region;
 
@@ -143,38 +123,17 @@ public:
   void loadRegion(const char* name);
   void loadRegion();
 
-  void addEntity(Entity* name);
-  void addEntity();
-
-  void delEntity(Entity* name);
-  void delEntity();
-
-  void moveEntity(int entity_id, float walk, float turn);
-  void moveEntity(int entity_id, float speed, float* ori, float* dst);
-  void moveEntity();
-
-  void DrUpdateEntity(DrUpdate* drupdate);
-  void DrUpdateEntity();
-
   void chat(char type, const char* msg);
   void chat();
 
-  void setCharacter(int own_char) { own_char_id = own_char; }
+  GUIManager* GetGuiManager ()  {return guimanager;}
 
-  const char* GetOwnCharName() { return own_char_name; }
-
-  GUIManager* GetGuiManager ()
-  {
-    return guimanager;
-  }
+  ptEntityManager* GetEntityManager ()  {return entitymanager;}
 
   iEngine* getCsEngine()  { return engine; }
   iGraphics3D* getG3D()  { return g3d; }
-  iCamera* getCamera();
 
-  iPcDefaultCamera* getPcCamera();
   iPcActorMove* getPcActorMove();
-  iCelEntity* getPlayerEntity();
   
   iVFS* getVFS()  { return vfs; }
   Network* getNetwork()  { return network; }

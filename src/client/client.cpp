@@ -109,7 +109,6 @@ Client::Client() : playing(false)
   timer = 0;
   limitFPS = 0;
   last_sleep = 0;
-  own_char_id = -1;
   world_loaded = false;
 
   network = 0;
@@ -125,10 +124,8 @@ Client::~Client()
 void Client::ProcessFrame()
 {
   loadRegion();
-  addEntity();
-  delEntity();
-  moveEntity();
-  DrUpdateEntity();
+  entitymanager->Handle();
+
   chat();
 
   csTicks ticks = vc->GetElapsedTicks();
@@ -144,46 +141,8 @@ void Client::ProcessFrame()
   if (timer > 1000)
   {
     timer = 0;
-    if (own_char_id != -1)
-    {
-      // This has later to be sent by the worldserver, or at least be verified by the server!
-      char buffer[32];
-      cs_snprintf(buffer, 32, "player_%d", own_char_id);
-      iCelEntity* entity = pl->FindEntity(buffer);
-      if (entity)
-      {
-        csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-
-        bool on_ground;
-        float speed, rot, avel;
-        csVector3 pos, vel, wvel;
-        iSector* sector;
-
-        pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
-        //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
-
-        UpdateDREntityRequestMessage drmsg;
-        drmsg.setOnGround(on_ground?1:0);
-        drmsg.setSpeed(speed);
-        drmsg.setRot(rot);
-        drmsg.setAVel(avel);
-        drmsg.setPos(pos.x,pos.y,pos.z);
-        drmsg.setVel(vel.x,vel.y,vel.z);
-        drmsg.setWVel(wvel.x,wvel.y,wvel.z);
-        if (sector->QueryObject()->GetName())
-          drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
-        else
-          drmsg.setSector(ptString(0,0));
-        /*
-        ByteStream bs;
-        drmsg.serialise(&bs);
-        UpdateDREntityMessage drmsg2;
-        drmsg2.deserialise(&bs);
-        printf("SetDR1.2: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", drmsg2.getSpeed(), drmsg2.getPos()[0], drmsg2.getPos()[1], drmsg2.getPos()[2], drmsg2.getRot());
-        */
-        network->send(&drmsg);
-      }
-    }
+    UpdateDREntityRequestMessage drmsg = entitymanager->DrUpdateOwnEntity();
+    network->send(&drmsg);
   }
 }
 
@@ -260,6 +219,12 @@ bool Client::Application()
 
   InitializeCEL();
 
+  // Create and Initialize the EntityManager.
+  entitymanager = new ptEntityManager (GetObjectRegistry());
+  if (!entitymanager->Initialize (GetObjectRegistry()))
+    return false;
+  
+  // Create and Initialize the Network. 
   network = new Network(this);
   network->init();
 
@@ -380,9 +345,7 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'h')
       {
-        char tmp[32];
-        cs_snprintf(tmp, 32, "player_%d", own_char_id);
-        iCelEntity* entity = pl->FindEntity(tmp);
+        iCelEntity* entity = entitymanager->getOwnEntity();
         if (!entity) return false;
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
         if (!pcmesh) return false;
@@ -390,9 +353,7 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'j')
       {
-        char tmp[32];
-        cs_snprintf(tmp, 32, "player_%d", own_char_id);
-        iCelEntity* entity = pl->FindEntity(tmp);
+        iCelEntity* entity = entitymanager->getOwnEntity();
         if (!entity) return false;
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
         if (!pcmesh) return false;
@@ -472,7 +433,7 @@ bool Client::OnKeyboard(iEvent& ev)
 
 bool Client::OnMouseMove(iEvent& e)
 {
-  iCamera* cam = getCamera();
+  iCamera* cam = entitymanager->getOwnCamera();
   if (!cam) return false;
   cursor->MouseMove(pl, cam, csMouseEventHelper::GetX(&e), csMouseEventHelper::GetY(&e));
   return false;
@@ -610,6 +571,7 @@ void Client::OnCommandLineHelp()
 void Client::loadRegion()
 {
   playing = true;
+  entitymanager->setPlaying(playing);
 
   if (!load_region.IsValid()) return;
 
@@ -634,286 +596,10 @@ void Client::loadRegion()
   pcregion->SetRegionName("world");
   pcregion->SetWorldFile (path, "world");
   world_loaded = pcregion->Load();
+  entitymanager->setWorldloaded(world_loaded);
   load_region = 0;
 }
 
-void Client::addEntity(Entity* entity)
-{
-  mutex.lock();
-  new_entity_name.Push(entity);
-  mutex.unlock();
-}
-
-void Client::addEntity()
-{
-  if (!new_entity_name.GetSize() || !world_loaded || !playing) return;
-  mutex.lock();
-
-  Entity* ent = new_entity_name.Pop();
-  csRef<iCelEntity> entity = pl->CreateEntity();
-
-  // Create the tooltip for this entity.
-  pl->CreatePropertyClass(entity, "pctooltip");
-  csRef<iPcTooltip> nametag = CEL_QUERY_PROPCLASS_ENT(entity, iPcTooltip);
-  nametag->SetText(*ent->getName());
-  nametag->SetJustify(CEL_TOOLTIP_CENTER);
-  nametag->SetBackgroundColor(0, 0, 0);
-
-  if (ent->getType() == Entity::ItemEntity)
-  {
-    char buffer[1024];
-    sprintf(buffer, "%s:%d:%d", *ent->getName(), ent->getType(), ent->getId());
-    entity->SetName(buffer);
-    nametag->SetTextColor(140, 140, 255);
-  }
-  else if (ent->getType() == Entity::PlayerEntity)
-  {
-    char buffer[32];
-    cs_snprintf(buffer, 32, "player_%d", ent->getId());
-    entity->SetName(buffer);
-    nametag->SetTextColor(0, 211, 111);
-  }
-  else
-    entity->SetName(*ent->getName());
-
-  pl->CreatePropertyClass(entity, "pcmesh");
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-  pl->CreatePropertyClass(entity, "pclinearmovement");
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-  pl->CreatePropertyClass(entity, "pcsolid");
-  csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(entity, iPcSolid);
-
-  pl->CreatePropertyClass(entity, "pcactormove");
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
-  pcactormove->SetMovementSpeed (2.0f);
-  pcactormove->SetRunningSpeed (5.0f);
-  pcactormove->SetRotationSpeed (1.75f);
-  pcactormove->SetJumpingVelocity (6.31f);
-
-  iSector* sector = engine->FindSector(*ent->getSector());
-
-  printf("Loading Actor\n");
-  vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(*ent->getMesh(), "/peragro/meshes/all.xml");
-
-  csRef<iCelEntity> region = pl->FindEntity("World");
-  if (region)
-  {
-    csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(region, iPcRegion);
-    pcmesh->MoveMesh(pcregion->GetStartSector(), pcregion->GetStartPosition());
-  }
-
-  if (own_char_id == ent->getId())
-  {
-    name = *ent->getName();
-    own_char_name = name;
-    printf("Adding Entity '%s' as me\n", entity->GetName());
-    pl->CreatePropertyClass(entity, "pcdefaultcamera");
-    csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
-    pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
-    //pccamera->GetCamera()->SetSector(sector);
-  }
-  else
-  {
-    printf("Adding Entity '%s'\n", entity->GetName());
-  }
-
-  pclinmove->InitCD(
-    csVector3(0.5f,0.8f,0.5f),
-    csVector3(0.5f,0.8f,0.5f),
-    csVector3(0,0,0));
-
-  csVector3 pos(ent->getPos()[0], ent->getPos()[1], ent->getPos()[2]);
-  pclinmove->SetPosition(pos,0,sector);
-
-  if ( !cmdline->GetBoolOption("useCD", false) )
-  {
-    pclinmove->SetGravity(0);
-    csRef<iPcCollisionDetection> colldet = 
-      CEL_QUERY_PROPCLASS_ENT(entity, iPcCollisionDetection);
-    colldet->UseCD(false);
-  }
-
-  pl->CreatePropertyClass(entity, "pcproperties");
-  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
-  pcprop->SetProperty("Entity Type", (long)ent->getType());
-  pcprop->SetProperty("Entity ID", (long)ent->getId());
-  pcprop->SetProperty("Entity Name", *ent->getName());
-
-  delete ent;
-
-  mutex.unlock();
-}
-
-void Client::delEntity(Entity* entity)
-{
-  mutex.lock();
-  del_entity_name.Push(entity);
-  mutex.unlock();
-}
-
-void Client::delEntity()
-{
-  if (!del_entity_name.GetSize()) return;
-  mutex.lock();
-  Entity* ent = del_entity_name.Pop();
-
-  csRef<iCelEntity> entity;
-  if (ent->getType() == Entity::ItemEntity)
-  {
-    char buffer[1024];
-    sprintf(buffer, "%s:%d:%d", *ent->getName(), ent->getType(), ent->getId());
-    entity = pl->FindEntity(buffer);
-  }
-  else if (ent->getType() == Entity::PlayerEntity)
-  {
-    char buffer[32];
-    cs_snprintf(buffer, 32, "player_%d", ent->getId());
-    entity = pl->FindEntity(buffer);
-  }
-  else
-  {
-    entity = pl->FindEntity(*ent->getName());
-  }
-
-  if (entity)
-  {
-    pl->RemoveEntity(entity);
-  }
-
-  delete ent;
-
-  mutex.unlock();
-}
-
-void Client::DrUpdateEntity(DrUpdate* drupdate)
-{
-  mutex.lock();
-  if (own_char_id == drupdate->entity_id)
-  {
-    delete drupdate;
-    return;
-  }
-  drupdate_entity_name.Push(drupdate);
-  mutex.unlock();
-}
-
-void Client::DrUpdateEntity()
-{
-  if (!drupdate_entity_name.GetSize()) return;
-  mutex.lock();
-  DrUpdate* drupdate = drupdate_entity_name.Pop();
-  char tmp[32];
-  cs_snprintf(tmp, 32, "player_%d", drupdate->entity_id);
-  iCelEntity* entity = pl->FindEntity(tmp);
-  if (entity)
-  {
-    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-    if (pclinmove.IsValid())
-    {
-      //bool on_ground;
-      //float speed, rot, avel;
-      //csVector3 pos, vel, wvel;
-
-      iSector* sector = engine->FindSector(drupdate->sector.GetData());
-
-      //pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
-      //printf("Get DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
-      pclinmove->SetDRData(drupdate->on_ground, drupdate->speed, drupdate->pos,
-        drupdate->rot, sector, drupdate->vel, drupdate->wvel, drupdate->avel);
-    }
-  }
-  delete drupdate;
-  mutex.unlock();
-}
-
-void Client::moveEntity(int entity_id, float speed, float* fv1, float* fv2)
-{
-  char tmp[32];
-  cs_snprintf(tmp, 32, "player_%d", entity_id);
-  iCelEntity* entity = pl->FindEntity(tmp);
-  if (entity)
-  {
-    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-    if (pclinmove.IsValid())
-    {
-      csVector3 pos_clt;
-      iSector* sect = 0;
-      float rot = 0;
-
-      csVector3 pos_ori(fv1[0], fv1[1], fv1[2]);
-      csVector3 pos_dst(fv2[0], fv2[1], fv2[2]);
-
-      //make path
-      csPath* path = new csPath(2);
-      path->SetPositionVector(0,pos_ori);
-      path->SetPositionVector(1,pos_dst);
-      path->SetForwardVector(0,pos_ori-pos_dst);
-      path->SetForwardVector(1,pos_ori-pos_dst);
-      path->SetTime(0, 0.0f);
-      path->SetTime(1, 1.0f);
-      path->SetUpVector(0, csVector3(0,1,0));
-      path->SetUpVector(1, csVector3(0,1,0));
-
-      pclinmove->GetLastFullPosition(pos_clt, rot, sect);
-
-      // Some basic physics
-      // v = s/t 
-      // t = s / v 
-      // v_s / s_s = v_c / s_c
-      // v_c = v_s * v_c / s_s
-      speed = speed * (pos_dst - pos_clt).Norm() / (pos_dst - pos_ori).Norm();
-
-      pclinmove->SetPath(path);
-      pclinmove->SetPathSpeed(-speed);
-      pclinmove->SetPathTime(0);
-
-      csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-      csRef<iSpriteCal3DState> sprcal3d = 
-        SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
-      if (sprcal3d)
-        sprcal3d->SetVelocity(speed);
-    }
-  }
-}
-
-void Client::moveEntity(int entity_id, float walk, float turn)
-{
-  mutex.lock();
-  printf("Add movement for '%d': w(%.2f) r(%.2f)\n", entity_id, walk, turn);
-  Movement* movement = new Movement();
-  movement->entity_id = entity_id;
-  movement->walk = walk;
-  movement->turn = turn;
-  move_entity_name.Push(movement);
-  mutex.unlock();
-}
-
-void Client::moveEntity()
-{
-  if (!move_entity_name.GetSize()) return;
-  mutex.lock();
-  Movement* movement = move_entity_name.Pop();
-  char tmp[32];
-  cs_snprintf(tmp, 32, "player_%d", movement->entity_id);
-  iCelEntity* entity = pl->FindEntity(tmp);
-  if (entity)
-  {
-    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-    if (pclinmove.IsValid())
-    {
-      pclinmove->SetAngularVelocity(csVector3(0,-movement->turn,0));
-      pclinmove->SetVelocity(csVector3(0,0,-movement->walk));
-    }
-    csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-    csRef<iSpriteCal3DState> sprcal3d = 
-      SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
-    if (sprcal3d)
-      sprcal3d->SetVelocity(movement->walk);
-  }
-  delete movement;
-  mutex.unlock();
-}
 
 void Client::chat(char type, const char* msg)
 {
@@ -933,41 +619,15 @@ void Client::chat()
   mutex.unlock();
 }
 
-iCelEntity* Client::getPlayerEntity()
-{
-  if (name.GetData() == 0) 
-    return 0;
-
-  char tmp[32];
-  cs_snprintf(tmp, 32, "player_%d", own_char_id);
-  return pl->FindEntity(tmp);
-}
-
-iPcDefaultCamera* Client::getPcCamera()
-{
-  iCelEntity* entity = getPlayerEntity();
-  if (entity == 0) 
-    return 0;
-  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
-  return pccamera;
-}
-
 iPcActorMove* Client::getPcActorMove()
 {
-  iCelEntity* entity = getPlayerEntity();
+  iCelEntity* entity = entitymanager->getOwnEntity();
   if (entity == 0) 
     return 0;
   csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
   return pcactormove;
 }
 
-iCamera* Client::getCamera()
-{
-  csRef<iPcDefaultCamera> pccamera = getPcCamera();
-  if (!pccamera)
-    return 0;
-  return pccamera->GetCamera();
-}
 
 /*---------------*
 * Main function

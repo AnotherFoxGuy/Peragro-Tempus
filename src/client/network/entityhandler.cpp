@@ -39,7 +39,7 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   entity->setSector(entmsg.getSector());
   //entity->setType(entmsg.getType());
   entity->setId(entmsg.getId());
-  client->addEntity(entity);
+  client->GetEntityManager()->addEntity(entity);
 }
 
 void EntityHandler::handleRemoveEntity(GenericMessage* msg)
@@ -56,7 +56,7 @@ void EntityHandler::handleRemoveEntity(GenericMessage* msg)
   };
   entity->setName(entmsg.getName());
   entity->setId(entmsg.getId());
-  client->delEntity(entity);
+  client->GetEntityManager()->delEntity(entity);
 }
 
 void EntityHandler::handleMoveEntity(GenericMessage* msg)
@@ -64,7 +64,7 @@ void EntityHandler::handleMoveEntity(GenericMessage* msg)
   printf("Received MoveEntity\n");
   MoveEntityMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
-  client->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
+  client->GetEntityManager()->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
 }
 
 void EntityHandler::handlePickEntity(GenericMessage* msg)
@@ -75,8 +75,8 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
   if (response_msg.getError().isNull())
   {
     printf("%s picks Item %s\n", *response_msg.getName(), *response_msg.getTarget());
-    if (strlen(*response_msg.getName()) == strlen(client->GetOwnCharName())
-      && !strcmp(*response_msg.getName(), client->GetOwnCharName()))
+    if (strlen(*response_msg.getName()) == strlen(client->GetEntityManager()->GetOwnName())
+      && !strcmp(*response_msg.getName(), client->GetEntityManager()->GetOwnName()))
       guimanager->GetInventoryWindow()->AddItem(
         (CEGUI::String)*response_msg.getTarget(), response_msg.getItemId(), true);
   }
@@ -100,7 +100,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   UpdateDREntityMessage dr_msg;
   dr_msg.deserialise(msg->getByteStream());
 
-  Client::DrUpdate* drupdate = new Client::DrUpdate();
+  ptEntityManager::DrUpdate* drupdate = new ptEntityManager::DrUpdate();
   drupdate->speed = dr_msg.getSpeed();
   drupdate->rot = dr_msg.getRot();
   drupdate->avel = dr_msg.getAVel();
@@ -111,7 +111,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   drupdate->sector = *dr_msg.getSector();
   drupdate->entity_id = dr_msg.getId();
 
-  client->DrUpdateEntity(drupdate);
+  client->GetEntityManager()->DrUpdateEntity(drupdate);
 }
 
 void EntityHandler::handleInventoryItemList(GenericMessage* msg)
@@ -156,7 +156,7 @@ void EntityHandler::handleMoveEntityTo(GenericMessage* msg)
   float* fv2 = move_msg.getToPos();
 
   //move entity
-  client->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
+  client->GetEntityManager()->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
 }
 
 

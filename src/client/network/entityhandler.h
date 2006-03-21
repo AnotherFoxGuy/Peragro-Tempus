@@ -28,6 +28,8 @@
 
 #include "client/network/skillhandler.h"
 
+#include "client/entity/ptentitymanager.h"
+
 class EntityHandler : public MessageHandler
 {
 private:

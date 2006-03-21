@@ -86,5 +86,5 @@ void UserHandler::handleCharSelectionResponse(GenericMessage* msg)
   client->loadRegion("/peragro/art/world");
   CharacterSelectionResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
-  client->setCharacter(answer_msg.getEntityId());
+  client->GetEntityManager()->setCharacter(answer_msg.getEntityId());
 }
