@@ -80,7 +80,7 @@ private:
 
   bool OnKeyboard(iEvent&);
   bool OnMouseMove(iEvent&);
-  void CreateRoom(); 
+  iPcActorMove* getPcActorMove();
 
   Network* network;
   GUIManager* guimanager;
@@ -88,9 +88,6 @@ private:
   ptEntityManager* entitymanager;
 
   bool InitializeCEL();
-
-  //csString name;
-
 
   csRefArray<iString> chat_msg;
 
@@ -132,9 +129,6 @@ public:
 
   iEngine* getCsEngine()  { return engine; }
   iGraphics3D* getG3D()  { return g3d; }
-
-  iPcActorMove* getPcActorMove();
-  
   iVFS* getVFS()  { return vfs; }
   Network* getNetwork()  { return network; }
 };

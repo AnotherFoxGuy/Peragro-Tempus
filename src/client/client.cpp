@@ -240,11 +240,6 @@ bool Client::Application()
 
   guimanager->CreateConnectWindow ();
 
-  // Test stuff.
-  //guimanager->CreateChatWindow ();
-  //guimanager->CreateInventoryWindow ();
-  //guimanager->GetChatWindow ()->ShowWindow();
-
   if (cmdline)
   {
     const char* host = cmdline->GetOption("host");
@@ -494,9 +489,6 @@ void Client::loadRegion(const char* name)
 void Client::loggedIn()
 {
   guimanager->CreateSelectCharWindow ();
-
-  printf ("Creating SelectCharWindow\n");
-
   guimanager->GetLoginWindow ()->HideWindow ();
   guimanager->GetSelectCharWindow ()->ShowWindow ();
   guimanager->CreateInventoryWindow ();
@@ -578,7 +570,6 @@ void Client::loadRegion()
   engine->SetClearScreen(false);
 
   guimanager->GetSelectCharWindow ()->HideWindow();
-
   guimanager->CreateChatWindow ();
   
   const char* path = cmdline->GetOption("world");
