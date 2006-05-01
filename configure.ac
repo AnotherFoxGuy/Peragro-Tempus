@@ -106,6 +106,70 @@ CS_CHECK_HOST
 #----------------------------------------------------------------------------
 CS_CHECK_CPPUNIT([emit])
 
+
+#------------------------------------------------------------------------------
+# Check for wxWidgets. Also check if it was built with OpenGL support since it
+# is required by the Crystal Space wxWidgets canvas.
+#
+# IMPLEMENTATION NOTE
+#
+# On Windows, wx-config's --gl-libs options incorrectly emits a reference to a
+# non-existent library (wxmsw_glxxx.lib). To handle this broken case, we first
+# try the result of --libs and --gl-libs together; if that fails, then we try
+# only --libs augmented with the results of our own OpenGL checks. On more
+# recent WX versions it seems that on Win32 both the libraries from --gl-libs
+# and the OpenGL checks are needed - the last case.
+#------------------------------------------------------------------------------
+CS_CHECK_LIB_WITH([wx],
+    [AC_LANG_PROGRAM(
+        [[#include "wx/wxprec.h"
+        #ifdef __BORLANDC__
+        #pragma hdrstop
+        #endif
+        #ifndef WX_PRECOMP
+        #include "wx/wx.h"
+        #endif
+        ]],
+        [[wxWindow* p = 0; int w,h; p->GetClientSize(&w,&h);]])],
+    [], [C++])
+
+AS_IF([test $cs_cv_libwx = yes],
+    [AS_IF([test -z "$cs_cv_libwx_opengl"],
+        [AS_IF([test -n "$CONFIG_WX"],
+            [cs_cv_libwx_gllibs=CS_RUN_PATH_NORMALIZE([$CONFIG_WX --gl-libs])],
+            [cs_cv_libwx_gllibs=''])])
+    CS_CHECK_BUILD([if wxWidgets is built with OpenGL support],
+        [cs_cv_libwx_opengl],
+        [AC_LANG_PROGRAM(
+            [[#include "wx/wxprec.h"
+            #ifdef __BORLANDC__
+            #pragma hdrstop
+            #endif
+            #ifndef WX_PRECOMP
+            #include "wx/wx.h"
+            #endif
+            #include "wx/glcanvas.h"
+            ]],
+            [wxGLCanvas* f = new wxGLCanvas(0, wxID_ANY); glVertex3f(0,0,0)])],
+        [CS_CREATE_TUPLE(
+            [$cs_cv_libwx_cflags],
+            [$cs_cv_libwx_lflags],
+            [$cs_cv_libwx_libs   $cs_cv_libwx_gllibs]) \
+        CS_CREATE_TUPLE(
+            [$cs_cv_libwx_cflags $cs_cv_libglu_cflags],
+            [$cs_cv_libwx_lflags $cs_cv_libglu_lflags],
+            [$cs_cv_libwx_libs   $cs_cv_libglu_libs])  \
+        CS_CREATE_TUPLE(
+            [$cs_cv_libwx_cflags $cs_cv_libglu_cflags],
+            [$cs_cv_libwx_lflags $cs_cv_libglu_lflags],
+            [$cs_cv_libwx_libs   $cs_cv_libwx_gllibs $cs_cv_libglu_libs])],
+        [C++])],
+    [cs_cv_libwx_opengl=no])
+
+AS_IF([test $cs_cv_libwx_opengl = yes],
+    [CS_EMIT_BUILD_RESULT([cs_cv_libwx_opengl], [WX])])
+
+
 #----------------------------------------------------------------------------
 # Check for CEGUI.
 #----------------------------------------------------------------------------
