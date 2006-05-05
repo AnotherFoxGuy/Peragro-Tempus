@@ -102,15 +102,10 @@ MsvcGenConfig CEGUI.LIBS.DEBUG.8 : "CEGUIBase-vc8_d.lib CEGUIFalagardBase-vc8_d.
 MsvcGenConfig PTHREAD.CFLAGS : "" ;
 MsvcGenConfig PTHREAD.LFLAGS : "" ;
 
-# Set project-specific compiler and linker options for msvcgen.
-#MsvcDefine MY_DEFINE : "my value" ;
-#MsvcDefine MY_RELEASE_DEFINE : "my release value" : release ;
-#MsvcDefine MY_DEBUG_DEFINE : "my debug value" : debug ;
-#MsvcCFlags : "/I \"my\\inc\\path\"" : release ;
-#MsvcCFlags : "/I \"my\\debuginc\\path\"" : debug ;
-#MsvcLFlags : "/libpath:\"my\\lib\\path\"" : release ;
-#MsvcLFlags : "/libpath:\"my\\debuglib\\path\"" : debug ;
-#MsvcGenConfig MSVC.LIBRARY : supercool.lib ;
-#MsvcGenConfig MSVC.LIBRARY_DEBUG : supercooldebug.lib ;
+MsvcGenConfig WX.AVAILABLE : yes ;
+MsvcGenConfig WX.DEFINES : wxUSE_GUI=1 WXUSINGDLL=1 ;
+MsvcGenConfig WX.LIBS : wxbase26.lib wxmsw26_core.lib wxmsw26_gl.lib opengl32.lib ;
+MsvcGenConfig WX.DEFINES.DEBUG : wxUSE_GUI=1 WXUSINGDLL=1 WXDEBUG=1 ;
+MsvcGenConfig WX.LIBS.DEBUG : wxbase26d.lib wxmsw26d_core.lib wxmsw26d_gl.lib opengl32.lib ;
 
 SubInclude TOP src ;
