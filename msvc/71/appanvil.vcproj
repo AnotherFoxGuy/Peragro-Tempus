@@ -30,7 +30,7 @@
 				BufferSecurityCheck="FALSE"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" -I\usr\lib\wx\include\gtk-2.4 -DGTK_NO_CHECK_CASTS -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release71\build\appanvil\appanvil.pch"
 				AssemblerListingLocation="..\..\out\release71\build\appanvil\"
@@ -52,7 +52,7 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\anvil.exe"
 				SubSystem="2"
-				AdditionalOptions=" "
+				AdditionalOptions=" -pthread -lwx_gtk-2.4 -lwx_gtk_gl-2.4 -lGL -lGLU "
 				AdditionalDependencies="libcrystalspace.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
@@ -103,7 +103,7 @@
 				RuntimeLibrary="3"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" -I\usr\lib\wx\include\gtk-2.4 -DGTK_NO_CHECK_CASTS -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug71\build\appanvil\appanvil.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\appanvil\"
@@ -123,7 +123,7 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\anvil.exe"
 				SubSystem="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" -pthread -lwx_gtk-2.4 -lwx_gtk_gl-2.4 -lGL -lGLU "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
@@ -163,26 +163,41 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\anvil\anvil.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\anvil\command.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\anvil\cssvfsfiledlg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\anvil\engine.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\anvil\main.cpp">
+				RelativePath="..\..\src\anvil\mainframe.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\anvil\anvil.h">
+			</File>
+			<File
 				RelativePath="..\..\src\anvil\command.h">
+			</File>
+			<File
+				RelativePath="..\..\src\anvil\cssvfsfiledlg.h">
 			</File>
 			<File
 				RelativePath="..\..\src\anvil\engine.h">
 			</File>
 			<File
 				RelativePath="..\..\src\anvil\ianvil.h">
+			</File>
+			<File
+				RelativePath="..\..\src\anvil\mainframe.h">
 			</File>
 		</Filter>
 		<Filter

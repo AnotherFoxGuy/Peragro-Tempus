@@ -30,7 +30,7 @@
 				BufferSecurityCheck="FALSE"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" -I\usr\lib\wx\include\gtk-2.4 -DGTK_NO_CHECK_CASTS -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release7\build\appanvil_static\appanvil_static.pch"
 				AssemblerListingLocation="..\..\out\release7\build\appanvil_static\"
@@ -52,8 +52,8 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\anvil_static.exe"
 				SubSystem="2"
-				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib CEGUIBase-vc7.lib CEGUIFalagardBase-vc7.lib libcrystalspace_staticplugins.lib"
+				AdditionalOptions=" -pthread -lwx_gtk-2.4 -lwx_gtk_gl-2.4 -lGL -lGLU "
+				AdditionalDependencies="libcrystalspace.lib libcrystalspace_staticplugins.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -103,7 +103,7 @@
 				RuntimeLibrary="3"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;CS_STATIC_LINKED;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" -I\usr\lib\wx\include\gtk-2.4 -DGTK_NO_CHECK_CASTS -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug7\build\appanvil_static\appanvil_static.pch"
 				AssemblerListingLocation="..\..\out\debug7\build\appanvil_static\"
@@ -123,8 +123,8 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\anvil_static.exe"
 				SubSystem="1"
-				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardBase-vc7_d.lib libcrystalspace_staticplugins_d.lib"
+				AdditionalOptions=" -pthread -lwx_gtk-2.4 -lwx_gtk_gl-2.4 -lGL -lGLU "
+				AdditionalDependencies="libcrystalspace_d.lib libcrystalspace_staticplugins_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
@@ -166,26 +166,41 @@
 				RelativePath="..\..\msvc\7\appanvil_static_staticuse_CRYSTAL.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\anvil\anvil.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\anvil\command.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\anvil\cssvfsfiledlg.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\anvil\engine.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\anvil\main.cpp">
+				RelativePath="..\..\src\anvil\mainframe.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\anvil\anvil.h">
+			</File>
+			<File
 				RelativePath="..\..\src\anvil\command.h">
+			</File>
+			<File
+				RelativePath="..\..\src\anvil\cssvfsfiledlg.h">
 			</File>
 			<File
 				RelativePath="..\..\src\anvil\engine.h">
 			</File>
 			<File
 				RelativePath="..\..\src\anvil\ianvil.h">
+			</File>
+			<File
+				RelativePath="..\..\src\anvil\mainframe.h">
 			</File>
 		</Filter>
 		<Filter
