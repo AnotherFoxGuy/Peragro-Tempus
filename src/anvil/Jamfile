@@ -2,7 +2,7 @@ SubDir TOP src anvil ;
 
 Description anvil : "Anvil" ;
 Application anvil : [ Wildcard *.h *.cpp ] ;
-ExternalLibs anvil : CRYSTAL ;
+ExternalLibs anvil : CRYSTAL WX ;
 
 if [ Property build : projgen_version ] != 6
 {
@@ -37,7 +37,7 @@ if [ Property build : projgen_version ] != 6
     csfont
     fontplex
     freefnt2
-    cegui
+#    cegui
     bezier
     bezierldr
     emit
@@ -117,7 +117,7 @@ if [ Property build : projgen_version ] != 6
     glx2d
     sdl2d
     x2d
-#    wxgl
+    wxgl
     xext86vm
     xextshm
     xwin
@@ -168,7 +168,7 @@ if [ Property build : projgen_version ] != 6
 
   LinkStaticPlugins anvil_static :  $(cs_plugins_static)  : $(cs_plugins_static_optional) : CRYSTAL  ;
 
-  ExternalLibs anvil_static : CRYSTAL CEGUI ;
+  ExternalLibs anvil_static : CRYSTAL WX ;
   MsvcExternalLibrary anvil_static : "libcrystalspace_staticplugins.lib" : release ;
   MsvcExternalLibrary anvil_static : "libcrystalspace_staticplugins_d.lib" : debug ;
   

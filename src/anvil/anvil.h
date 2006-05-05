@@ -16,22 +16,34 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "engine.h"
+#ifndef __ANVIL_H__
+#define __ANVIL_H__
 
-CS_IMPLEMENT_APPLICATION
+#include "wx/wxprec.h"
 
-int main(int argc, char** argv)
+#ifndef WX_PRECOMP
+#include "wx/wx.h"
+#endif
+
+#include "mainframe.h"
+
+struct iObjectRegistry;
+
+// Define a new application type
+class AnvilApp: public wxApp
 {
-  printf("Anvil version 0.0.2 by The Peragro Tempus Team.\n");
+public:
+  iObjectRegistry* object_reg;
+  anvMainFrame* frame;
 
-  // Create an application instance which will perform initialization and event
-  // handling for the entire game.
-  anvEngine anvil;
+  virtual bool OnInit(void);
+  virtual int OnExit(void);
 
-  // Start the application.  The underlying csApplicationFramework also
-  // performs some core initialization.  It will set up the configuration
-  // manager, event queue, object registry, and much more.  The object registry
-  // is very important, and it is stored in your main application class (again,
-  // by csApplicationFramework).
-  return anvil.Main (argc, argv);
-}
+#ifdef USE_IDLE
+  virtual void OnIdle();
+  DECLARE_EVENT_TABLE();
+#endif
+};
+
+
+#endif // __ANVIL_H__

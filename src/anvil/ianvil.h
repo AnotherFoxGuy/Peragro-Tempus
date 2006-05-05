@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef __ANVIL_H
-#define __ANVIL_H
+#ifndef __IANVIL_H
+#define __IANVIL_H
 
 #include <cssysdef.h>
 #include <csutil/scf.h>
@@ -111,4 +111,4 @@ struct iAnvRemoveCommand : public iAnvCommand
   virtual void Initialize(anvSelection selection) = 0;
 };
 
-#endif // __ANVIL_H
+#endif // __IANVIL_H

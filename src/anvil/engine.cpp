@@ -19,6 +19,8 @@
 #include "command.h"
 #include "engine.h"
 
+#include <wx/window.h>
+
 #include <cssysdef.h>
 #include <csgeom/math3d.h>
 #include <cstool/initapp.h>
@@ -60,16 +62,12 @@
 #include <ivideo/graph3d.h>
 #include <ivideo/material.h>
 #include <ivideo/shader/shader.h>
-#include <ivideo/natwin.h>
-
-#include <imesh/genmesh.h>
-#include <csgeom/sphere.h>
+#include <ivideo/wxwin.h>
 
 anvEngine* anvEngine::anvil = NULL;
 
-anvEngine::anvEngine() : csApplicationFramework()
+anvEngine::anvEngine()
 {
-  SetApplicationName("Peragro.Anvil");
   anvEngine::anvil = this;
   selectionMesh = 0;
   editmode = MeshEditMode;
@@ -90,6 +88,13 @@ anvEngine* anvEngine::GetAnvil()
   return anvEngine::anvil;
 }
 
+bool anvEngine::ReportError(const char* error)
+{
+  csReport(object_reg, CS_REPORTER_SEVERITY_ERROR,
+              "crystalspace.application.anvil", error);
+  return false;
+}
+
 void anvEngine::ProcessFrame()
 {
   csTicks elapsed_time = vc->GetElapsedTicks ();
@@ -99,6 +104,16 @@ void anvEngine::ProcessFrame()
   float speed = rotateSpeed * speedMultiplier * 0.06;
 
   iCamera* c = view->GetCamera();
+
+  if (panel3d)
+  {
+    int w, h;
+    panel3d->GetClientSize(&w, &h);
+    view->SetRectangle(0, 0, w, h);
+
+    c->SetPerspectiveCenter(w/2, h/2);
+    c->SetFOVAngle(90, w);
+  }
 
   float rotX = 0, rotY = 0;
 
@@ -191,7 +206,7 @@ bool anvEngine::OnKeyboard(iEvent& ev)
 
       if (code == 's')
       {
-        SaveWorld ("/this/world.save");
+        SaveWorld ("/this/", "world.save");
       }
     }
   }
@@ -387,10 +402,9 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
     {
       do_freelook = true;
       int width, height;
-      width = g2d->GetWidth();
-      height = g2d->GetHeight();
-      g2d->SetMousePosition (width / 2, height / 2);
-      g2d->SetMouseCursor(csmcNone);
+      panel3d->GetClientSize(&width, &height);
+      panel3d->WarpPointer (width / 2, height / 2);
+      panel3d->SetCursor(wxCursor(wxCURSOR_BLANK));
     }
   }
   
@@ -434,34 +448,33 @@ bool anvEngine::HandleMouseEvent(iEvent& ev)
       // Make the changes
       csReversibleTransform transform = GetOperationTransform(worldDiff, scalarChange);
       anvTransformCommand::Transform(transform, true);
-
-/*  Ball Mesh update code.  Creating ball mesh currently not working, see below for mesh code
-ballMesh->GetMovable()->SetPosition(dragPlaneCurrentPos);
-ballMesh->GetMovable()->SetSector (editSector);
-ballMesh->GetMovable()->UpdateMove ();
-*/
     }
   }
-  
+
   // Mouse Look
-  
+
   static bool first_time = false;
-  
+
   if (do_freelook)
   {
     if (!first_time)
     { 
       int width, height;
-      width = g2d->GetWidth();
-      height = g2d->GetHeight();
-      
-      g2d->SetMousePosition (width / 2, height / 2);
-      
+      panel3d->GetClientSize(&width, &height);
+      panel3d->WarpPointer(width / 2, height / 2);
+
+      // Calculations use CS coordinates!
+      int widthc, heightc;
+      widthc = g2d->GetWidth();
+      heightc = g2d->GetHeight();
+
       bool inverse_mouse = false;
-      
-      float x = (float) -((float)(mouse_y - (height / 2) )) / (height*2)*(1-2*(int)inverse_mouse);
-      float y = (float) ((float)(mouse_x - (width / 2) )) / (width*2);
-      
+
+      float speed = 6.0f;
+
+      float x = (float) speed * -((float)(mouse_y - (heightc / 2) )) / (heightc*2)*(1-2*(int)inverse_mouse);
+      float y = (float) speed * ((float)(mouse_x - (widthc / 2) )) / (widthc*2);
+
       csMatrix3 mat = view->GetCamera ()->GetTransform ().GetO2T ();
       if(x)
         mat = csXRotMatrix3(x) * mat;
@@ -469,21 +482,20 @@ ballMesh->GetMovable()->UpdateMove ();
         mat *= csYRotMatrix3(y);
       view->GetCamera ()->SetTransform ( csOrthoTransform 
           (mat, view->GetCamera ()->GetTransform ().GetOrigin ()));
-            
     }
     else
       first_time = false;
   }
   else
     first_time = true;
-  
+
   if (mouse_up)
   {
     // End mouselook
     if (csMouseEventHelper::GetButton(&ev) == csmbRight && do_freelook)
     {
       do_freelook = false;
-      g2d->SetMouseCursor(csmcArrow);
+      panel3d->GetParent()->SetCursor(wxCursor(wxCURSOR_ARROW));
     }
   }
   
@@ -529,15 +541,16 @@ csReversibleTransform anvEngine::GetOperationTransform(csVector3 worldDiff, floa
   return transform;
 }
 
-bool anvEngine::OnInitialize(int argc, char* argv[])
+bool anvEngine::Initialize(iObjectRegistry* object_reg, wxWindow* panel3d)
 {
-  setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]), true);
+  this->object_reg = object_reg;
+  this->panel3d = panel3d;
 
   iObjectRegistry* r = GetObjectRegistry();
 
   // Load application-specific configuration file.
   if (!csInitializer::SetupConfigManager(r,
-      "/config/anvil.cfg", GetApplicationName()))
+      "/config/anvil.cfg", "Anvil"))
     return ReportError("Failed to initialize configuration manager!");
 
   // RequestPlugins() will load all plugins we specify.  In addition it will
@@ -546,15 +559,16 @@ bool anvEngine::OnInitialize(int argc, char* argv[])
   // configurations).  It also supports specifying plugins on the command line
   // via the --plugin= option.
   if (!csInitializer::RequestPlugins(r,
-	CS_REQUEST_VFS,
-	CS_REQUEST_OPENGL3D,
-	CS_REQUEST_ENGINE,
-	CS_REQUEST_FONTSERVER,
-	CS_REQUEST_IMAGELOADER,
-	CS_REQUEST_LEVELLOADER,
-	CS_REQUEST_REPORTER,
-	CS_REQUEST_REPORTERLISTENER,
-	CS_REQUEST_END))
+    CS_REQUEST_VFS,
+    CS_REQUEST_PLUGIN("crystalspace.graphics2d.wxgl", iGraphics2D),
+    CS_REQUEST_OPENGL3D,
+    CS_REQUEST_ENGINE,
+    CS_REQUEST_FONTSERVER,
+    CS_REQUEST_IMAGELOADER,
+    CS_REQUEST_LEVELLOADER,
+    CS_REQUEST_REPORTER,
+    CS_REQUEST_REPORTERLISTENER,
+    CS_REQUEST_END))
     return ReportError("Failed to initialize plugins!");
 
   csBaseEventHandler::Initialize (object_reg);
@@ -565,21 +579,6 @@ bool anvEngine::OnInitialize(int argc, char* argv[])
   if (!RegisterQueue(r, csevAllEvents (r)))
     return ReportError("Failed to set up event handler!");
 
-  return true;
-}
-
-void anvEngine::OnExit()
-{
-}
-
-bool anvEngine::Application()
-{
-  iObjectRegistry* r = GetObjectRegistry();
-
-  // Open the main system. This will open all the previously loaded plugins
-  // (i.e. all windows will be opened).
-  if (!OpenApplication(r))
-    return ReportError("Error opening system!");
 
   // Now get the pointer to various modules we need.  We fetch them from the
   // object registry.  The RequestPlugins() call we did earlier registered all
@@ -608,15 +607,28 @@ bool anvEngine::Application()
   // Get the shared string repository
   strings = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg, "crystalspace.shared.stringset", iStringSet);
 
+  panel3d->GetParent()->Show(true);
+
+  g2d = g3d->GetDriver2D();
+  wxwin = SCF_QUERY_INTERFACE(g2d, iWxWindow);
+  if( !wxwin )
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+              "crystalspace.application.wxtest",
+              "Canvas is no iWxWindow plugin!");
+    return false;
+  }
+  
+  wxwin->SetParent(panel3d);
+
   view.AttachNew(new csView (engine, g3d));
-  g2d = g3d->GetDriver2D ();
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
-  
-  iNativeWindow* nw = g2d->GetNativeWindow ();
-  if (nw) nw->SetTitle ("Anvil");
-  
-  // Load default world
-  LoadWorld("/peragro/art/world/", "world"); 
+
+
+  // Open the main system. This will open all the previously loaded plugins
+  // (i.e. all windows will be opened).
+  if (!csInitializer::OpenApplication(r))
+    return ReportError("Error opening system!");
   
 /*
   // Load our own renderloop
@@ -666,43 +678,20 @@ bool anvEngine::Application()
   visualsRegion->Add(arrow_y2->QueryObject());
   visualsRegion->Add(arrow_z2->QueryObject());
 
-/*  // Trying to add tracer ball mesh, not working
-  csRef<iMeshFactoryWrapper> ballFact = engine->CreateMeshFactory(
-        "crystalspace.mesh.object.genmesh", "ballFact");
-  if (ballFact == 0)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-      "crystalspace.application.phystut",
-      "Error creating mesh object factory!");
-  }
- 
-  csRef<iGeneralFactoryState> gmstate = scfQueryInterface<iGeneralFactoryState> (
-        ballFact->GetMeshObjectFactory ());
-  csVector3 radius (1, 1, 1);
-  csEllipsoid ellips (csVector3 (0), radius);
-  gmstate->GenerateSphere (ellips, 16);
-
-  // Create the mesh.
-  csRef<iMeshWrapper> ballMesh (engine->CreateMeshWrapper (ballFact, "ball", editSector));
-*/
-
-  
   selectionMesh = visualsRegion->FindMeshFactory("__selection_mesh")->CreateMeshWrapper();
-
   visualsRegion->Add(selectionMesh->QueryObject());
-  
+
+  // Load default world
+  LoadWorld("/lev/flarge/", "world"); 
+
   view->GetCamera ()->SetSector (editSector);
   view->GetCamera ()->GetTransform ().SetOrigin (pos);
-  
+
   engine->Prepare();
   engine->PrecacheDraw();
 
   // Initialize flashlight
   flashlight = engine->CreateLight("", view->GetCamera()->GetTransform().GetOrigin(), 3, csColor(1,1,1), CS_LIGHT_DYNAMICTYPE_DYNAMIC);
-
-  // Start the default run/event loop.  This will return only when some code,
-  // such as OnKeyboard(), has asked the run loop to terminate.
-  Run();
 
   return true;
 }
@@ -749,8 +738,33 @@ void anvEngine::SetSelection(anvSelection selection)
   }
 }
 
+void anvEngine::ClearSelection()
+{
+  anvSelection emptySelection;
+  SetSelection(emptySelection);
+}
+
 void anvEngine::UpdateSelection(csBox3 bbox)
 {
+  uint32 visible = 1;
+  if (selections[editmode].GetSize() == 0)
+  {
+    visible = 0;
+  }
+
+  selectionMesh->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
+  arrow_x->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
+  arrow_y->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
+  arrow_z->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
+  arrow_x2->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
+  arrow_y2->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
+  arrow_z2->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
+
+  if (selections[editmode].GetSize() == 0)
+  {
+    return;
+  }
+
   csVector3 max = bbox.Max();
   csVector3 min = bbox.Min();
   csVector3 center = bbox.GetCenter();
@@ -802,6 +816,9 @@ bool anvEngine::LoadWorld(const char* path, const char* world)
   
   loader->SetAutoRegions (true);
   
+  ClearUndoRedoHistory();
+  ClearSelection();
+
   VFS->ChDir(path);
   if (!loader->LoadMapFile (world, true, editRegion, false))
     ReportError("Error couldn't load level!");
@@ -820,13 +837,16 @@ bool anvEngine::LoadWorld(const char* path, const char* world)
     pos = csVector3 (0, 0, 0);
   }
   if (!editSector)
-    ReportError("Can't find a valid starting position!");
-  
+    ReportError("Can't find a valid starting position!");  
+
   return true;
 }
 
-void anvEngine::SaveWorld(const char* world)
+void anvEngine::SaveWorld(const char* path, const char* world)
 {
+  csRef<iVFS> VFS (CS_QUERY_REGISTRY (object_reg, iVFS));
+  VFS->ChDir(path);
+
   csRef<iPluginManager> pluginManager =
     CS_QUERY_REGISTRY (object_reg, iPluginManager);
   csRef<iSaver> saver =
@@ -871,4 +891,10 @@ void anvEngine::Redo()
     command->Perform();
     undostack.Push(command);
   }
+}
+
+void anvEngine::ClearUndoRedoHistory()
+{
+  undostack.Empty();
+  redostack.Empty();
 }

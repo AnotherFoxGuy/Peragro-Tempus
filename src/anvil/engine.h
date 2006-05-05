@@ -27,6 +27,7 @@
 // Added include for the movement plane
 #include <csgeom/plane3.h>
 
+class wxWindow;
 struct iEngine;
 struct iGraphics3D;
 struct iKeyboardDriver;
@@ -34,21 +35,27 @@ struct iLoader;
 struct iRegion;
 struct iSector;
 struct iView;
+struct iWxWindow;
 
 /**
  * The main Anvil application class.
  */
 class anvEngine :
-  public csApplicationFramework, public csBaseEventHandler
+  public csBaseEventHandler
 {
+public:
+  csRef<iWxWindow> wxwin;
+
 private:
   static anvEngine* anvil;
+
+  iObjectRegistry* object_reg;
 
   /**
    * A reference to the 3D renderer plugin.
    */
   csRef<iGraphics3D> g3d;
-  
+
   csRef<iGraphics2D> g2d;
   
   /**
@@ -63,9 +70,10 @@ private:
   
   csRef<iStringSet> strings;
   
+  wxWindow* panel3d;
+
   float speedMultiplier;
   bool do_freelook;
-  bool fooliage;
   
   /// The sector currently being edited
   iSector* editSector;
@@ -131,8 +139,9 @@ private:
   csVector3 dragProjection;
 
 
-
+  bool ReportError(const char* error);
   
+
   /**
    * Set up everything that needs to be rendered on screen.  This routine is
    * called from the event handler in response to a cscmdProcess broadcast
@@ -157,12 +166,6 @@ private:
   virtual bool OnMouseDown(iEvent&);
   virtual bool OnMouseUp(iEvent&);
   virtual bool OnMouseMove(iEvent& ev);
-  
-  /// Reverts the last command.
-  void Undo();
-  
-  /// Performs the last undone command
-  void Redo();
   
   /// Updates the operation in progress
   void UpdateOperation();
@@ -194,6 +197,9 @@ public:
   virtual ~anvEngine();
 
   static anvEngine* GetAnvil();
+
+  iObjectRegistry* GetObjectRegistry()
+  {return object_reg;}
   
   enum anvEditMode
   {
@@ -209,42 +215,33 @@ public:
   {
     NoConstraint, XConstraint, YConstraint, ZConstraint
   };
-  
-  /**
-   * Final cleanup.
-   */
-  virtual void OnExit();
 
-  /**
-   * Main initialization routine.  This routine should set up basic facilities
-   * (such as loading startup-time plugins, etc.).  In case of failure this
-   * routine will return false.  You can assume that the error message has been
-   * reported to the user.
-   */
-  virtual bool OnInitialize(int argc, char* argv[]);
-
-  /**
-   * Run the application.  Performs additional initialization (if needed), and
-   * then fires up the main run/event loop.  The loop will fire events which
-   * actually causes Crystal Space to "run".  Only when the program exits does
-   * this function return.
-   */
-  virtual bool Application();
+  virtual bool Initialize(iObjectRegistry* object_reg, wxWindow* panel3d);
   
   int GetEditMode();
   void SetEditMode(anvEditMode mode);
   
   anvSelection& GetSelection();
   void SetSelection(anvSelection selection);
+  void ClearSelection();
   
   bool LoadWorld(const char* path, const char* world);
-  void SaveWorld(const char* world);
+  void SaveWorld(const char* path, const char* world);
   
+  /// Reverts the last command.
+  void Undo();
+  
+  /// Performs the last undone command
+  void Redo();
+
   /// Puts the command onto the undo stack, but does not perform it
   void PushCommand(iAnvCommand* command);
   
   /// Performs the command and pushes it to the undo stack
   void PerformAndPush(iAnvCommand* command);
+
+  /// Clears the undo/redo history
+  void ClearUndoRedoHistory();
   
   /// Updates the visible selection mesh and arrows
   void UpdateSelection(csBox3 bbox);

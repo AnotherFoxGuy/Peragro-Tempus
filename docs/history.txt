@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+5-May-2006
+  - iceeey added a wxWidgets GUI to Anvil. Much of the GUI code is based off
+    of CStudio. There are some issues with sectors still, and saving, but
+    it is in a similar state to what it previously was in.
+
 21-Mar-2006
   - Sueastside committed the entity manager.
 
