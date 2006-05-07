@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+6-May-2006
+  - iceeey updated client.cfg and anvil.cfg for plugin changes in CS.
+    Simple console was removed and old sound renderer/loader were replaced
+    by new ones.
+
 5-May-2006
   - iceeey added a wxWidgets GUI to Anvil. Much of the GUI code is based off
     of CStudio. There are some issues with sectors still, and saving, but
