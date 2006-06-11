@@ -132,12 +132,12 @@ void Client::PreProcessFrame()
   timer += ticks;
 
   effectsmanager->HandleEffects(ticks);
-/*
+
   if (limitFPS > 0)
   {
     if (ticks < 1000.0f/limitFPS)
       csSleep((int)1000.0f/limitFPS - ticks);
-  }*/
+  }
   if (timer > 1000)
   {
     timer = 0;
