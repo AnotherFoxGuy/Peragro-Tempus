@@ -75,7 +75,9 @@ private:
   csRef<iCelBlLayer> bl;
   csRef<iCelEntity> zonemanager;
 
+  void PreProcessFrame();
   void ProcessFrame();
+  void PostProcessFrame();
   void FinishFrame();
 
   bool OnKeyboard(iEvent&);

@@ -121,7 +121,7 @@ Client::~Client()
   delete cursor;
 }
 
-void Client::ProcessFrame()
+void Client::PreProcessFrame()
 {
   loadRegion();
   entitymanager->Handle();
@@ -132,12 +132,12 @@ void Client::ProcessFrame()
   timer += ticks;
 
   effectsmanager->HandleEffects(ticks);
-
+/*
   if (limitFPS > 0)
   {
     if (ticks < 1000.0f/limitFPS)
       csSleep((int)1000.0f/limitFPS - ticks);
-  }
+  }*/
   if (timer > 1000)
   {
     timer = 0;
@@ -146,21 +146,22 @@ void Client::ProcessFrame()
   }
 }
 
+void Client::ProcessFrame()
+{
+}
+
+void Client::PostProcessFrame()
+{
+	// Paint the interface over the engine
+	g3d->BeginDraw(CSDRAW_2DGRAPHICS);
+	guimanager->Render ();
+    cursor->Draw();
+}
+
 void Client::FinishFrame()
 {
-  g3d->BeginDraw(CSDRAW_3DGRAPHICS);
-
-  // Render our GUI on top
-  guimanager->GetCEGUI ()->GetSystemPtr ()->injectTimePulse(0.01f);
-  guimanager->Render ();
-
-  cursor->Draw();
-
   g3d->FinishDraw();
   g3d->Print(0);
-
-  g3d->BeginDraw(engine->GetBeginDrawFlags());
-  
 }
 
 bool Client::OnInitialize(int argc, char* argv[])
@@ -215,8 +216,6 @@ bool Client::Application()
   iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
   if (nw) nw->SetTitle ("Peragro Tempus");
 
-  engine->SetClearScreen(true);
-
   InitializeCEL();
 
   // Create and Initialize the EntityManager.
@@ -251,6 +250,8 @@ bool Client::Application()
       network->send(&msg);
     }
   }
+
+  engine->SetClearScreen(true);
 
   Run();
 

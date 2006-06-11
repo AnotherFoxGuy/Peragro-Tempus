@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+11-June-2006
+  - sueastside cleaned up the client code a bit in relation to rendering a frame.
+
 6-May-2006
   - iceeey updated client.cfg and anvil.cfg for plugin changes in CS.
     Simple console was removed and old sound renderer/loader were replaced
