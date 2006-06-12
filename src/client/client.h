@@ -51,10 +51,24 @@ class ptEntityManager;
 class Cursor;
 struct iCommandLineParser;
 struct iPath;
+struct iView;
 
 class Client : public csApplicationFramework, public csBaseEventHandler
 {
 private:
+  /// Game states
+  enum eSTATE
+  {
+    STATE_INITIAL = 0,
+    STATE_INTRO = 1,
+    STATE_CONNECTED = 2,
+    STATE_LOGGED_IN = 3,
+    STATE_SELECTING_CHAR = 4,
+    STATE_PLAY = 5
+  };
+
+  ///Game internal state
+  eSTATE state;
 
   iSector *room;
   float rotX, rotY;
@@ -70,6 +84,7 @@ private:
   //csRef<iKeyboardDriver> kbd;
   csRef<iVFS> vfs;
   csRef<iCommandLineParser> cmdline;
+  csRef<iView> view;
 
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bl;
@@ -94,6 +109,8 @@ private:
   csRefArray<iString> chat_msg;
 
   Cursor* cursor;
+
+  void handleStats();
 
 private:
 

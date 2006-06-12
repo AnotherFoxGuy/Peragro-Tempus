@@ -26,6 +26,7 @@
 
 #include "csgeom/path.h"
 #include "cstool/initapp.h"
+#include "cstool/csview.h"
 #include "csutil/cmdhelp.h"
 #include "csutil/cmdline.h"
 #include "csutil/csstring.h"
@@ -123,10 +124,7 @@ Client::~Client()
 
 void Client::PreProcessFrame()
 {
-  loadRegion();
-  entitymanager->Handle();
-
-  chat();
+  handleStats();
 
   csTicks ticks = vc->GetElapsedTicks();
   timer += ticks;
@@ -138,12 +136,14 @@ void Client::PreProcessFrame()
     if (ticks < 1000.0f/limitFPS)
       csSleep((int)1000.0f/limitFPS - ticks);
   }
+  /*
   if (timer > 1000)
   {
     timer = 0;
     UpdateDREntityRequestMessage drmsg = entitymanager->DrUpdateOwnEntity();
     network->send(&drmsg);
   }
+  */
 }
 
 void Client::ProcessFrame()
@@ -237,19 +237,7 @@ bool Client::Application()
   if (!guimanager->Initialize (GetObjectRegistry()))
     return false;
 
-  guimanager->CreateConnectWindow ();
-
-  if (cmdline)
-  {
-    const char* host = cmdline->GetOption("host");
-    if (host)
-    {
-      ConnectRequestMessage msg;
-      SocketAddress addr = Socket::getSocketAddress(host, 12345);
-      network->setServerAddress(addr);
-      network->send(&msg);
-    }
-  }
+  view.AttachNew(new csView(engine, g3d));
 
   engine->SetClearScreen(true);
 
@@ -258,6 +246,63 @@ bool Client::Application()
   return true;
 }
 
+void Client::handleStats()
+{
+  switch(state)
+  {
+    case STATE_INITIAL: // Initial state. Load intro sector and go to STATE_INTRO.
+    {
+      // Load introduction sector, draw it once for this frame, and switch to STATE_INTRO
+      const char* path = cmdline->GetOption("world");
+
+      if (path) 
+      {
+        csRef<iCelEntity> entity = pl->CreateEntity();
+        entity->SetName("ptIntroWorld");
+        pl->CreatePropertyClass(entity, "pcregion");
+        csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
+        pcregion->SetRegionName("world");
+        pcregion->SetWorldFile (path, "world");
+        pcregion->Load();
+        view->GetCamera()->SetSector(pcregion->GetStartSector());
+        view->GetCamera()->GetTransform().Translate(pcregion->GetStartPosition());
+      }
+
+      guimanager->CreateConnectWindow ();
+
+      if (cmdline)
+      {
+        const char* host = cmdline->GetOption("host");
+        if (host)
+        {
+          ConnectRequestMessage msg;
+          SocketAddress addr = Socket::getSocketAddress(host, 12345);
+          network->setServerAddress(addr);
+          network->send(&msg);
+        }
+      }
+
+      state = STATE_INTRO;
+      break;
+    }
+    case STATE_INTRO: // Introduction screen already loaded. Once user connects switch to STATE_CONNECTED.
+    case STATE_CONNECTED: // Just connected. Wait asking for login and switch to STATE_LOGGED_IN
+    case STATE_LOGGED_IN: // Login completed. Load items and switch to STATE_SELECTING_CHAR
+    case STATE_SELECTING_CHAR: // Wait till user selects his character. Then create player mesh and switch to STATE_PLAY.
+    {
+      view->Draw();
+      break;
+    }
+    case STATE_PLAY:
+    {
+      loadRegion();
+      entitymanager->Handle();
+
+      chat();
+      break;
+    }
+  }
+}
 
 void Client::connected ()
 {
@@ -563,6 +608,14 @@ void Client::OnCommandLineHelp()
 
 void Client::loadRegion()
 {
+  iCelEntity* ent = pl->FindEntity("ptIntroWorld");
+  if (ent)
+  {
+    csRef<iPcRegion> pcreg = CEL_QUERY_PROPCLASS_ENT(ent, iPcRegion);
+    pcreg->Unload();
+    pl->RemoveEntity(ent);
+  }
+
   playing = true;
   entitymanager->setPlaying(playing);
 
