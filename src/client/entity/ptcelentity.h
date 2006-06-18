@@ -25,6 +25,7 @@
 #include "iutil/string.h"
 #include "iutil/vfs.h"
 #include "csutil/ref.h"
+#include "csutil/csstring.h"
 
 #include "iengine/mesh.h"
 
