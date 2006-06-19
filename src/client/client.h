@@ -55,7 +55,7 @@ struct iView;
 
 class Client : public csApplicationFramework, public csBaseEventHandler
 {
-private:
+public:
   /// Game states
   enum eSTATE
   {
@@ -70,6 +70,7 @@ private:
   ///Game internal state
   eSTATE state;
 
+private:
   iSector *room;
   float rotX, rotY;
 

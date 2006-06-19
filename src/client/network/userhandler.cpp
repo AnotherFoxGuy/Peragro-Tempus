@@ -84,6 +84,7 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
 void UserHandler::handleCharSelectionResponse(GenericMessage* msg)
 {
   client->loadRegion("/peragro/art/world");
+  client->state = Client::STATE_PLAY;
   CharacterSelectionResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
   client->GetEntityManager()->setCharacter(answer_msg.getEntityId());

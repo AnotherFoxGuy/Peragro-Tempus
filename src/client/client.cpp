@@ -105,6 +105,7 @@ CS_IMPLEMENT_APPLICATION
 Client::Client() : playing(false)
 {
   SetApplicationName ("Client");
+  state = STATE_INITIAL;
   walk = 0;
   turn = 0;
   timer = 0;
@@ -124,8 +125,6 @@ Client::~Client()
 
 void Client::PreProcessFrame()
 {
-  handleStats();
-
   csTicks ticks = vc->GetElapsedTicks();
   timer += ticks;
 
@@ -148,6 +147,7 @@ void Client::PreProcessFrame()
 
 void Client::ProcessFrame()
 {
+  handleStats();
 }
 
 void Client::PostProcessFrame()
@@ -253,7 +253,18 @@ void Client::handleStats()
     case STATE_INITIAL: // Initial state. Load intro sector and go to STATE_INTRO.
     {
       // Load introduction sector, draw it once for this frame, and switch to STATE_INTRO
-      const char* path = cmdline->GetOption("world");
+      const char* path = cmdline->GetOption("intro");
+
+      if (!path) 
+      {
+        path = "/peragro/intro";
+      }
+      else
+      {
+        if (!strncmp(path,"void", 4)) path = 0;
+      }
+
+      printf("Loading Intro: %s\n", path);
 
       if (path) 
       {
@@ -263,9 +274,13 @@ void Client::handleStats()
         csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
         pcregion->SetRegionName("world");
         pcregion->SetWorldFile (path, "world");
-        pcregion->Load();
+        bool didLoad = pcregion->Load();
+        printf("Loading Intro %s\n", didLoad?"succeeded":"failed");
+        csVector3 sPos = pcregion->GetStartPosition();
         view->GetCamera()->SetSector(pcregion->GetStartSector());
-        view->GetCamera()->GetTransform().Translate(pcregion->GetStartPosition());
+        view->GetCamera()->GetTransform().Translate(sPos);
+        const char* secName = pcregion->GetStartSector()->QueryObject()->GetName();
+        printf("Setting up Camera at %s <%.2f,%.2f,%.2f>\n", secName, sPos.x, sPos.y, sPos.z);
       }
 
       guimanager->CreateConnectWindow ();
@@ -309,6 +324,8 @@ void Client::connected ()
   guimanager->CreateLoginWindow ();
   guimanager->GetConnectWindow ()->HideWindow ();
   guimanager->GetLoginWindow ()->ShowWindow ();
+
+  state = STATE_CONNECTED;
 
   if (cmdline)
   {
@@ -539,6 +556,8 @@ void Client::loggedIn()
   guimanager->GetSelectCharWindow ()->ShowWindow ();
   guimanager->CreateInventoryWindow ();
   guimanager->GetInventoryWindow ()->HideWindow ();
+
+  state = STATE_LOGGED_IN;
 
   if (cmdline)
   {
