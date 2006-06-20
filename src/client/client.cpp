@@ -714,7 +714,7 @@ int main (int argc, char* argv[])
 #ifdef __TIMESTAMP__
   printf("Peragro Tempus - Client\nBuild-Date: %s\n", __TIMESTAMP__);
 #else
-  printf("Peragro Tempus - Client");
+  printf("Peragro Tempus - Client\nBuild-Data: %s %s\n", __DATE__, __TIME__);
 #endif
   setWinCrashDump(argv[0]);
 
