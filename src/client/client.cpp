@@ -711,7 +711,11 @@ iPcActorMove* Client::getPcActorMove()
 *---------------*/
 int main (int argc, char* argv[])
 {
+#ifdef __TIMESTAMP__
   printf("Peragro Tempus - Client\nBuild-Date: %s\n", __TIMESTAMP__);
+#else
+  printf("Peragro Tempus - Client");
+#endif
   setWinCrashDump(argv[0]);
 
 #ifdef CS_STATIC_LINKED
