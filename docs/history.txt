@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+20-June-2006
+  - PK fixed the client (so he hopes at least).
+
+19-June-2006
+  - PK started with fixing the client.
+
 12-June-2006
   - PK added experimental code to client for intro world.
 
