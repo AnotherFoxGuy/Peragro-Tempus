@@ -143,6 +143,8 @@ void Client::PreProcessFrame()
     network->send(&drmsg);
   }
   */
+
+  g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
 }
 
 void Client::ProcessFrame()
@@ -152,14 +154,15 @@ void Client::ProcessFrame()
 
 void Client::PostProcessFrame()
 {
-	// Paint the interface over the engine
-	g3d->BeginDraw(CSDRAW_2DGRAPHICS);
-	guimanager->Render ();
-    cursor->Draw();
 }
 
 void Client::FinishFrame()
 {
+  // Paint the interface over the engine
+  g3d->BeginDraw(CSDRAW_2DGRAPHICS);
+  guimanager->Render ();
+  cursor->Draw();
+
   g3d->FinishDraw();
   g3d->Print(0);
 }
@@ -239,8 +242,6 @@ bool Client::Application()
 
   view.AttachNew(new csView(engine, g3d));
 
-  engine->SetClearScreen(true);
-
   Run();
 
   return true;
@@ -257,7 +258,7 @@ void Client::handleStats()
 
       if (!path) 
       {
-        path = "/peragro/intro";
+        path = "/intro";
       }
       else
       {
@@ -266,21 +267,33 @@ void Client::handleStats()
 
       printf("Loading Intro: %s\n", path);
 
+      bool hasIntro = false;
+      csRef<iPcRegion> pcregion = 0;
+
       if (path) 
       {
         csRef<iCelEntity> entity = pl->CreateEntity();
         entity->SetName("ptIntroWorld");
         pl->CreatePropertyClass(entity, "pcregion");
-        csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
+        pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
         pcregion->SetRegionName("world");
         pcregion->SetWorldFile (path, "world");
-        bool didLoad = pcregion->Load();
-        printf("Loading Intro %s\n", didLoad?"succeeded":"failed");
+        hasIntro = pcregion->Load();
+        printf("Loading Intro %s\n", hasIntro?"succeeded":"failed");
+      }
+
+      if (hasIntro)
+      {
         csVector3 sPos = pcregion->GetStartPosition();
         view->GetCamera()->SetSector(pcregion->GetStartSector());
         view->GetCamera()->GetTransform().Translate(sPos);
         const char* secName = pcregion->GetStartSector()->QueryObject()->GetName();
         printf("Setting up Camera at %s <%.2f,%.2f,%.2f>\n", secName, sPos.x, sPos.y, sPos.z);
+      }
+      else
+      {
+        printf("Clearing screen due to missing intro\n");
+        engine->SetClearScreen(true);
       }
 
       guimanager->CreateConnectWindow ();
@@ -640,7 +653,7 @@ void Client::loadRegion()
 
   if (!load_region.IsValid()) return;
 
-  engine->SetClearScreen(false);
+  //engine->SetClearScreen(false);
 
   guimanager->GetSelectCharWindow ()->HideWindow();
   guimanager->CreateChatWindow ();
@@ -698,6 +711,7 @@ iPcActorMove* Client::getPcActorMove()
 *---------------*/
 int main (int argc, char* argv[])
 {
+  printf("Peragro Tempus - Client\nBuild-Date: %s\n", __TIMESTAMP__);
   setWinCrashDump(argv[0]);
 
 #ifdef CS_STATIC_LINKED
