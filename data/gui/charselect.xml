@@ -10,6 +10,7 @@
 <Property Name="SizingEnabled" Value="False" />
 <Property Name="Position" Value="x:0.3 y:0.25" />
 <Property Name="AbsoluteSize" Value="w:260 h:170" />
+<Property Name="Alpha" Value="0.3" />
 	
 <Window Type="TaharezLook/MultiColumnList" Name="Characters" >
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />

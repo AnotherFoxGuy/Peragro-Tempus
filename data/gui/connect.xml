@@ -8,6 +8,7 @@
 <Property Name="SizingEnabled" Value="False" />
 <Property Name="Position" Value="x:0.4 y:0.35" />
 <Property Name="AbsoluteSize" Value="w:150 h:120" />
+<Property Name="Alpha" Value="0.3" />
 
 <Window Type="TaharezLook/StaticText" Name="L_server" >
 <Property Name="Text" Value="Server:" />
