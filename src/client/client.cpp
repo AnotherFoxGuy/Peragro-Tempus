@@ -143,8 +143,6 @@ void Client::PreProcessFrame()
     network->send(&drmsg);
   }
   */
-
-  g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
 }
 
 void Client::ProcessFrame()
@@ -155,7 +153,6 @@ void Client::ProcessFrame()
 void Client::PostProcessFrame()
 {
   // Paint the interface over the engine
-  g3d->BeginDraw(CSDRAW_3DGRAPHICS);
   guimanager->Render ();
   cursor->Draw();
 }
