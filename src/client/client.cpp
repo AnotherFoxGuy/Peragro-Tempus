@@ -154,15 +154,14 @@ void Client::ProcessFrame()
 
 void Client::PostProcessFrame()
 {
+  // Paint the interface over the engine
+  g3d->BeginDraw(CSDRAW_3DGRAPHICS);
+  guimanager->Render ();
+  cursor->Draw();
 }
 
 void Client::FinishFrame()
 {
-  // Paint the interface over the engine
-  g3d->BeginDraw(CSDRAW_2DGRAPHICS);
-  guimanager->Render ();
-  cursor->Draw();
-
   g3d->FinishDraw();
   g3d->Print(0);
 }
@@ -296,6 +295,7 @@ void Client::handleStats()
         engine->SetClearScreen(true);
       }
 
+      // Create the connection window.
       guimanager->CreateConnectWindow ();
 
       if (cmdline)
@@ -318,6 +318,7 @@ void Client::handleStats()
     case STATE_LOGGED_IN: // Login completed. Load items and switch to STATE_SELECTING_CHAR
     case STATE_SELECTING_CHAR: // Wait till user selects his character. Then create player mesh and switch to STATE_PLAY.
     {
+      g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
       view->Draw();
       break;
     }
@@ -568,7 +569,6 @@ void Client::loggedIn()
   guimanager->GetLoginWindow ()->HideWindow ();
   guimanager->GetSelectCharWindow ()->ShowWindow ();
   guimanager->CreateInventoryWindow ();
-  guimanager->GetInventoryWindow ()->HideWindow ();
 
   state = STATE_LOGGED_IN;
 

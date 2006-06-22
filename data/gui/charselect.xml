@@ -3,46 +3,42 @@
 <Window Type="TaharezLook/FrameWindow" Name="CharSelectUI" >
 <Property Name="CloseButtonEnabled" Value="False" />
 <Property Name="CaptionColour" Value="00FFFFFF" />
-<Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
-<Property Name="NESWSizingCursorImage" Value="set:TaharezLook image:MouseNeSwCursor" />
-<Property Name="NSSizingCursorImage" Value="set:TaharezLook image:MouseNoSoCursor" />
-<Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
 <Property Name="Text" Value="Character Selection" />
 <Property Name="TitlebarEnabled" Value="True" />
 <Property Name="TitlebarFont" Value="CommonWealth" />
-<Property Name="UnifiedAreaRect" Value="{{0.036050,0.000000},{0.058434,0.000000},{0.463166,0.000000},{0.406559,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Property Name="Visible" Value="False" />
+<Property Name="SizingEnabled" Value="False" />
+<Property Name="Position" Value="x:0.3 y:0.25" />
+<Property Name="AbsoluteSize" Value="w:260 h:170" />
+	
 <Window Type="TaharezLook/MultiColumnList" Name="Characters" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
-<Property Name="Text" Value="w" />
-<Property Name="UnifiedAreaRect" Value="{{0.050000,0.000000},{0.189240,0.000000},{0.933028,0.000000},{0.799999,0.000000}}" />
+<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Property Name="UnifiedAreaRect" Value="{{0.050000,0.000000},{0.22,0.000000},{0.933028,0.000000},{0.78,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Property Name="SelectedTextColour" Value="FF000000" />
 </Window>
 <Window Type="TaharezLook/Button" Name="CharSelOk" >
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
 <Property Name="Text" Value="Ok" />
-<Property Name="UnifiedAreaRect" Value="{{0.600000,0.000000},{0.830000,0.000000},{0.760000,0.000000},{0.930000,0.000000}}" />
+<Property Name="UnifiedAreaRect" Value="{{0.600000,0.000000},{0.83,0.000000},{0.76,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
 <Window Type="TaharezLook/Button" Name="CharSelNew" >
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
 <Property Name="Text" Value="New" />
-<Property Name="UnifiedAreaRect" Value="{{0.430000,0.000000},{0.833165,0.000000},{0.590000,0.000000},{0.933165,0.000000}}" />
+<Property Name="UnifiedAreaRect" Value="{{0.430000,0.000000},{0.83,0.000000},{0.59,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
 <Window Type="TaharezLook/Button" Name="CharSelCC" >
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
 <Property Name="Text" Value="Cancel" />
-<Property Name="UnifiedAreaRect" Value="{{0.770000,0.000000},{0.830000,0.000000},{0.930000,0.000000},{0.930000,0.000000}}" />
+<Property Name="UnifiedAreaRect" Value="{{0.770000,0.000000},{0.83,0.000000},{0.97,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
 <Window Type="TaharezLook/Editbox" Name="CharNewName" >
 <Property Name="MaxTextLength" Value="1073741823" />
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
-<Property Name="UnifiedAreaRect" Value="{{0.050000,0.000000},{0.830000,0.000000},{0.413761,0.000000},{0.930000,0.000000}}" />
+<Property Name="UnifiedAreaRect" Value="{{0.050000,0.000000},{0.83,0.000000},{0.41,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
 </Window>

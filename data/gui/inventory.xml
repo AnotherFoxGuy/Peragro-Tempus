@@ -9,6 +9,7 @@
 			<Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
 			<Property Name="TitlebarEnabled" Value="True" />
 			<Property Name="SizingEnabled" Value="False" />
+			<Property Name="Visible" Value="False" />
 			<Property Name="Position" Value="x:0.6 y:0.05" />
 			<Property Name="AbsoluteSize" Value="w:320 h:350" />
 

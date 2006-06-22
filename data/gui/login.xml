@@ -3,27 +3,24 @@
 <Window Type="TaharezLook/FrameWindow" Name="LoginUI" >
 <Property Name="CloseButtonEnabled" Value="False" />
 <Property Name="CaptionColour" Value="00FFFFFF" />
-<Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
-<Property Name="NESWSizingCursorImage" Value="set:TaharezLook image:MouseNeSwCursor" />
-<Property Name="NSSizingCursorImage" Value="set:TaharezLook image:MouseNoSoCursor" />
-<Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
 <Property Name="Text" Value="Login" />
 <Property Name="TitlebarEnabled" Value="True" />
-<Property Name="UnifiedAreaRect" Value="{{0.035091,0.000000},{0.103533,0.000000},{0.465157,0.000000},{0.357658,0.000000}}" />
-<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+<Property Name="SizingEnabled" Value="False" />
+<Property Name="Position" Value="x:0.3 y:0.35" />
+<Property Name="AbsoluteSize" Value="w:260 h:120" />
 <Property Name="Visible" Value="False" />
+	
 <Window Type="TaharezLook/Editbox" Name="Name" >
 <Property Name="MaxTextLength" Value="1073741823" />
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
-<Property Name="UnifiedAreaRect" Value="{{0.350561,0.000000},{0.291267,0.000000},{0.950562,0.000000},{0.474174,0.000000}}" />
+<Property Name="UnifiedAreaRect" Value="{{0.35,0.000000},{0.24,0.000000},{0.95,0.000000},{0.46,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 	<Property Name="Text" Value="" />
 </Window>
 <Window Type="TaharezLook/Editbox" Name="Password" >
 <Property Name="MaxTextLength" Value="1073741823" />
 <Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
-<Property Name="UnifiedAreaRect" Value="{{0.352488,0.000000},{0.519760,0.000000},{0.952488,0.000000},{0.699041,0.000000}}" />
+<Property Name="UnifiedAreaRect" Value="{{0.35,0.000000},{0.51,0.000000},{0.95,0.000000},{0.73,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 	<Property Name="Text" Value="" />
 </Window>
@@ -40,31 +37,20 @@
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
 <Window Type="TaharezLook/StaticText" Name="L_Name" >
-<Property Name="BackgroundImage" Value="set:TaharezLook image:StaticBackdrop" />
-<Property Name="BottomFrameImage" Value="set:TaharezLook image:StaticBottom" />
-<Property Name="BottomLeftFrameImage" Value="set:TaharezLook image:StaticBottomLeft" />
-<Property Name="BottomRightFrameImage" Value="set:TaharezLook image:StaticBottomRight" />
-<Property Name="LeftFrameImage" Value="set:TaharezLook image:StaticLeft" />
-<Property Name="RightFrameImage" Value="set:TaharezLook image:StaticRight" />
+
 <Property Name="Text" Value="Name" />
 <Property Name="TopFrameImage" Value="set:TaharezLook image:StaticTop" />
 <Property Name="TopLeftFrameImage" Value="set:TaharezLook image:StaticTopLeft" />
 <Property Name="TopRightFrameImage" Value="set:TaharezLook image:StaticTopRight" />
-<Property Name="UnifiedAreaRect" Value="{{0.028966,0.000000},{0.298344,0.000000},{0.338073,0.000000},{0.471202,0.000000}}" />
+<Property Name="UnifiedAreaRect" Value="{{0.028,0.000000},{0.24,0.000000},{0.33,0.000000},{0.46,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
 <Window Type="TaharezLook/StaticText" Name="L_Password" >
-<Property Name="BackgroundImage" Value="set:TaharezLook image:StaticBackdrop" />
-<Property Name="BottomFrameImage" Value="set:TaharezLook image:StaticBottom" />
-<Property Name="BottomLeftFrameImage" Value="set:TaharezLook image:StaticBottomLeft" />
-<Property Name="BottomRightFrameImage" Value="set:TaharezLook image:StaticBottomRight" />
-<Property Name="LeftFrameImage" Value="set:TaharezLook image:StaticLeft" />
-<Property Name="RightFrameImage" Value="set:TaharezLook image:StaticRight" />
 <Property Name="Text" Value="Password" />
 <Property Name="TopFrameImage" Value="set:TaharezLook image:StaticTop" />
 <Property Name="TopLeftFrameImage" Value="set:TaharezLook image:StaticTopLeft" />
 <Property Name="TopRightFrameImage" Value="set:TaharezLook image:StaticTopRight" />
-<Property Name="UnifiedAreaRect" Value="{{0.032329,0.000000},{0.532009,0.000000},{0.332328,0.000000},{0.693899,0.000000}}" />
+<Property Name="UnifiedAreaRect" Value="{{0.028,0.000000},{0.51,0.000000},{0.33,0.000000},{0.73,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
 </Window>
