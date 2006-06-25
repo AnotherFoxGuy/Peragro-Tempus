@@ -175,6 +175,9 @@
 			<File
 				RelativePath="..\..\src\common\entity\racestats.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\common\entity\skill.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

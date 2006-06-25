@@ -165,16 +165,6 @@
 			<File
 				RelativePath="..\..\msvc\71\appeffectstest_static_staticuse_CRYSTAL.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\effectstest\effectstest.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="">
-			<File
-				RelativePath="..\..\src\effectstest\effectstest.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
