@@ -20,42 +20,57 @@
 #define _MUTEX_H_
 
 #ifdef WIN32
-    #define WIN32_LEAN_AND_MEAN
-    #include "windows.h"
-	#define MUTEX HANDLE
-	#define LockMutex(a);   WaitForSingleObject(a, INFINITE);
-	#define UnLockMutex(a); ReleaseMutex(a);
+#  define WIN32_LEAN_AND_MEAN
+#  include "windows.h"
 #else
-    #include <pthread.h>
-	#define MUTEX pthread_mutex_t
-	#define LockMutex(a); pthread_mutex_lock(&a);
-	#define UnLockMutex(a); pthread_mutex_unlock(&a);
+#  include <pthread.h>
 #endif
 
 class Mutex
 {
 private:
-  MUTEX mutex;
+
+#ifdef WIN32
+    CRITICAL_SECTION mutex;
+#else
+    pthread_mutex_t mutex;
+#endif
 
 public:
   Mutex()
   {
 #ifdef WIN32
-    mutex = 0;
+    InitializeCriticalSection(&mutex);
 #else
-    MUTEX tmp = PTHREAD_MUTEX_INITIALIZER;
-    mutex = tmp;
+    pthread_mutex_init(&mutex, 0);
+#endif
+  }
+
+  ~Mutex()
+  {
+#ifdef WIN32
+    DeleteCriticalSection(&mutex);
+#else
+    pthread_mutex_destroy(&mutex);
 #endif
   }
 
   void lock()
   {
-    LockMutex(mutex);
+#ifdef WIN32
+    EnterCriticalSection(&mutex);
+#else
+    pthread_mutex_lock(&mutex);
+#endif
   }
 
   void unlock()
   {
-    UnLockMutex(mutex)
+#ifdef WIN32
+    LeaveCriticalSection(&mutex);
+#else
+    pthread_mutex_unlock(&mutex);
+#endif
   }
 };
 
