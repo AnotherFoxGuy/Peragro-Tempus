@@ -1,4 +1,4 @@
-SubDir TOP src effectstest ;
+SubDir TOP src tests effectstest ;
 
 Description effectstest : "effectstest" ;
 Application effectstest : [ Wildcard *.h *.cpp ] ;
