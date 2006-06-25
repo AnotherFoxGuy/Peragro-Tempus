@@ -1,8 +1,11 @@
 #include "common/events/engine.h"
 #include "dummyhandler.h"
+#include "common/util/wincrashdump.h"
 
 int main(int argc, char ** argv)
 {
+  setWinCrashDump(argv[0]);
+
   // Create EventSystem
   EventEngine eng;
 
