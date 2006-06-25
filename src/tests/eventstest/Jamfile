@@ -2,13 +2,13 @@ SubDir TOP src tests eventstest ;
 
 Description eventstest : "Events Test" ;
 Application eventstest : [ Wildcard *.h *.cpp ] : console ;
-LinkWith eventstest : events ;
+LinkWith eventstest : events util ;
 
 if [ Property build : projgen_version ] != 6
 {
   SubVariant static ;
   
   Application eventstest_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
-  LinkWith eventstest_static : events ;
+  LinkWith eventstest_static : events utils ;
   SubVariant ;
 }

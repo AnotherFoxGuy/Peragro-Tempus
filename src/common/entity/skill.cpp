@@ -26,6 +26,6 @@
 void Skill::triggerSkill(CharSkill* skilldata, CharacterEntity* caster)
 {
   Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
-  char* targetname = target?*target->getName():"";
+  const char* targetname = target?*target->getName():"";
   printf("Dummy Skill from %s targetting %s!\n",*caster->getName(),targetname);
 }

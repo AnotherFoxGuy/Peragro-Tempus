@@ -1,5 +1,6 @@
 SubDir TOP src common ;
 
 SubInclude TOP src common entity ;
+SubInclude TOP src common events ;
 SubInclude TOP src common network ;
 SubInclude TOP src common util ;
