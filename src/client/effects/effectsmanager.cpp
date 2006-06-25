@@ -21,6 +21,9 @@
 
 
 #include "cstool/initapp.h"
+
+#include "cstool/keyval.h"
+
 #include "csutil/cmdline.h"
 #include "csutil/csstring.h"
 #include "csutil/csshlib.h"
@@ -101,55 +104,94 @@ void EffectsManager::HandleEffects (csTicks elapsed_ticks)
 iMeshWrapper* EffectsManager::CreateEffectMesh (int effect)
 {
   csString factory;
-  int duration;
-  float height;
+  int duration = 0;
+  float height = 0;
 
  switch (effect)
   {
     case EffectsManager::Blood: 
       {
-      factory = "bloodsplat"; 
-      duration = 2000;
-      height = 1.3f;
+      factory = "bloodsplatfact"; 
       }
       break;
 
     case EffectsManager::Levelup:
       {
-      factory = "levelup"; 
-      duration = 6000;
-      height = 1.1f;
+      factory = "levelupfact"; 
       }
       break;
 
-    default : {printf("Unknown effect type!"); return 0;}
+    case EffectsManager::Penta:
+      {
+      factory = "pentagramfact"; 
+      }
+      break;
+
+    default : {printf("EffectsManager: Unknown effect type %d!\n", effect); return 0;}
   };
 
- // Locate the mesh in the engine
- csRef<iMeshWrapper> effectmw = engine->FindMeshObject(factory);
- csRef<iMeshObject> effectob = effectmw ->GetMeshObject();
- if (!effectob)
+ // Find the factory and turn it into a factorywrapper.
+ csRef<iMeshFactoryWrapper> effectfmw = engine->FindMeshFactory(factory);
+ if (!effectfmw)
  {
-   printf ("Unable to load particles!");
-   return false;
+   printf ("EffectsManager: Couldn't find particle factory: ' %s ' !\n", factory.GetData());
+   return 0;
  }
- csVector3 position = (effectmw->GetMovable()->GetPosition()) + csVector3(0,height,0);
 
- // Clone the object and create a new mesh from it
- csRef<iMeshObject> effectobclone = effectob ->Clone();
- csRef<iMeshWrapper> effectmwclone = engine->CreateMeshWrapper(effectobclone, "effect", engine->FindSector("room"), position);
+ // Parse the keyvalue for effect duration and heightoffset.
+ csRef<iObjectIterator> it = effectfmw->QueryObject ()->GetIterator ();
+ while (it->HasNext ())
+ {
+   iObject* obj = it->Next ();
+   csRef<iKeyValuePair> key = scfQueryInterface<iKeyValuePair> (obj);
+   if (key)
+   {
+     printf ("EffectsManager: We got a key, parsing it!\n");
+     if (!strcmp (key->GetKey (), "duration"))
+     {
+       duration = atoi( key->GetValue () );
+       printf ("EffectsManager: Reading key value for duration!\n");
+     }
+     else if (!strcmp (key->GetKey (), "heightoffset"))
+     {
+       height = float(atof( key->GetValue () ));
+       printf ("EffectsManager: Reading key value for heightoffset!\n");
+     }
+   }
+ }
+
+ // Create the effect object.
+ csRef<iMeshWrapper> effectmw = engine->CreateMeshWrapper(effectfmw, "effect", engine->FindSector("room"),csVector3(0,height,0));
+ if (!effectmw)
+ {
+   printf ("EffectsManager: Particle MeshWrapper creation failed!\n");
+   return 0;
+ }
 
  // Add it to the effect array for later processing
- Effect eff (effectmwclone, duration);
+ Effect eff (effectmw, duration);
  effects.Push (eff);
 
- return effectmwclone;
+ return effectmw;
 }
 
 bool EffectsManager::CreateEffect (iMeshWrapper* parent, int effect)
 {
   // Parent the particle mesh to the parent entity
-  CreateEffectMesh (effect)->QuerySceneNode()->SetParent(parent->QuerySceneNode());
+  csRef<iMeshWrapper> effectmw = CreateEffectMesh (effect);
+  if (!effectmw)
+  {
+    printf ("EffectsManager: Unable to create effect: %d!\n", effect);
+    return false;
+  }
+
+  if (!parent)
+  {
+    printf ("EffectsManager: Unable to attach particle mesh %d to parent: no parent found!\n", effect);
+    return false;
+  }
+
+  effectmw->QuerySceneNode()->SetParent(parent->QuerySceneNode());
 
   return true;
 }

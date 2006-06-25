@@ -428,6 +428,14 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!pcmesh) return false;
         effectsmanager->CreateEffect(pcmesh->GetMesh(), EffectsManager::Levelup);
       }
+      else if (code == 'k')
+      {
+        iCelEntity* entity = entitymanager->getOwnEntity();
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        effectsmanager->CreateEffect(pcmesh->GetMesh(), EffectsManager::Penta);
+      }
       /*
       else if (code == CSKEY_SPACE)
       {

@@ -51,7 +51,8 @@ public:
   enum EffectType
   {
     Blood=0,
-    Levelup=1
+    Levelup=1,
+    Penta=2
   };
 
   bool Initialize (iObjectRegistry* obj_reg);

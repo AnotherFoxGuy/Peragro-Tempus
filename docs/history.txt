@@ -4,6 +4,15 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+25-June-2006
+  - Sueastside rewrote parts of the effects manger:
+     - effect duration and offset can now be defined in the 
+        effect library with key values.
+     - effects are created from factories again.
+     - added more checks with appropriate prints to counter
+       crashes caused by unfound or broken effects.
+     - added a new pentagram effect, use 'k' to fire the effect.
+
 22-June-2006
   - Sueastside tweaked the gui layouts a bit.
 
