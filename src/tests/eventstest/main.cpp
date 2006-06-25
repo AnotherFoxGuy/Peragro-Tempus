@@ -36,5 +36,7 @@ int main(int argc, char ** argv)
     pt_sleep(1);
   }
 
+  eng.stop();
+
   return 0;
 }

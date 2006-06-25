@@ -52,6 +52,7 @@ public:
 
   void addWorker() { workers.addWorker(); }
   void start() { workers.start(); }
+  void stop() { workers.stop(); }
 };
 
 #endif // _EVENTS_ENGINE_

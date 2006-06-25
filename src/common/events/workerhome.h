@@ -45,6 +45,14 @@ public:
       workers[i]->begin();
     }
   }
+
+  void stop()
+  {
+    for (size_t i = 0; i<workers.getCount(); i++)
+    {
+      workers[i]->kill();
+    }
+  }
 };
 
 #endif // _EVENTS_WORKERHOME_
