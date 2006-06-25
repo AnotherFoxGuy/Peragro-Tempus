@@ -23,6 +23,18 @@
 #include "common/util/ptstring.h"
 
 class Entity;
+class CharSkill;
+class CharacterEntity;
+
+namespace SkillState
+{
+  enum Type
+  {
+    READY = 0,
+    CASTING = 1,
+    RECOVER = 2
+  };
+};
 
 class Skill
 {
@@ -84,6 +96,8 @@ public:
 
   SkillAffect getAffect() { return affect; }
   void setAffect(SkillAffect a) { affect = a; }
+
+  virtual void triggerSkill(CharSkill* skilldata, CharacterEntity* caster);
 };
 
 #endif // SKILL_H_

@@ -50,12 +50,14 @@ private:
     {
       CharSkill* skill = skills->getSkill(i);
       if (skill->isActive())
-        procSkill(skill);
+        procSkill(skill, entity);
     }
   }
 
-  void procSkill(CharSkill* skill)
+  void procSkill(CharSkill* charskill, CharacterEntity* entity)
   {
+    Skill* skill = Server::getServer()->getSkillManager()->findById(charskill->skill_id);
+    skill->triggerSkill(charskill, entity);
   }
 
 public:

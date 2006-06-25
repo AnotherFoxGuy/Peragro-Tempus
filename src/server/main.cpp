@@ -126,7 +126,7 @@ int main(int argc, char ** argv)
 
   SkillEngine skillengine;
   server.setSkillEngine(&skillengine);
-  timeEngine.registerTimer(&skillengine);
+  //timeEngine.registerTimer(&skillengine);
 
   Spawner spawner;
   server.setSpawner(&spawner);

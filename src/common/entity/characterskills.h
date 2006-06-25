@@ -30,6 +30,8 @@ public:
   int skill_id;
   int target_id;
 
+  SkillState::Type state;
+
   bool isActive()
   {
     return false; // no active skills yet!
