@@ -24,6 +24,7 @@
   #include <windows.h>
 #else
   #include <unistd.h>
+  #include <time.h>
 #endif
 
 inline void pt_sleep(int ms)
