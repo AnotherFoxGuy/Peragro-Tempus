@@ -147,7 +147,7 @@ void Client::PreProcessFrame()
 
 void Client::ProcessFrame()
 {
-  handleStats();
+  handleStates();
 }
 
 void Client::PostProcessFrame()
@@ -243,7 +243,7 @@ bool Client::Application()
   return true;
 }
 
-void Client::handleStats()
+void Client::handleStates()
 {
   switch(state)
   {
@@ -559,6 +559,17 @@ bool Client::InitializeCEL()
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
     return false;
+
+  #if 1
+  // HACK HACK
+  csRef<iCelEntity> entity = pl->CreateEntity();
+  pl->CreatePropertyClass(entity, "pctooltip");
+  csRef<iPcTooltip> nametag = CEL_QUERY_PROPCLASS_ENT(entity, iPcTooltip);
+  nametag->SetText(" ");
+  nametag->SetJustify(CEL_TOOLTIP_CENTER);
+  nametag->SetBackgroundColor(-1, -1, -1);
+  nametag->Show(0, 0);
+  #endif
 
   return true;
 }

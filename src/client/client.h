@@ -111,7 +111,7 @@ private:
 
   Cursor* cursor;
 
-  void handleStats();
+  void handleStates();
 
 private:
 
