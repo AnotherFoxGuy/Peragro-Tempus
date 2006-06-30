@@ -500,6 +500,20 @@ void ChatWindow::AddChatMessage (csRef<iString> msg)
   }
 }
 
+void ChatWindow::AddMessage (const char* msg)
+{
+  CEGUI::MultiLineEditbox* chatlog = static_cast<CEGUI::MultiLineEditbox*>(winMgr->getWindow("Chatlog/Chatlog"));
+  CEGUI::String new_text = (CEGUI::String)(msg);
+  if (!new_text.empty())
+  {
+    // append newline to this entry
+    new_text += '\n';
+    // append new text to history output
+    chatlog->setText(chatlog->getText() + new_text);
+    // scroll to bottom of history output
+    chatlog->setCaratIndex((size_t)-1);
+  }
+}
 
 InventoryWindow::InventoryWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)

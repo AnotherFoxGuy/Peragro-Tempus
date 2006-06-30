@@ -48,6 +48,7 @@ class Network;
 class GUIManager;
 class EffectsManager;
 class ptEntityManager;
+class CombatMGR;
 class Cursor;
 struct iCommandLineParser;
 struct iPath;
@@ -104,6 +105,7 @@ private:
   GUIManager* guimanager;
   EffectsManager* effectsmanager;
   ptEntityManager* entitymanager;
+  CombatMGR* combatmanager;
 
   bool InitializeCEL();
 
@@ -151,6 +153,8 @@ public:
   iGraphics3D* getG3D()  { return g3d; }
   iVFS* getVFS()  { return vfs; }
   Network* getNetwork()  { return network; }
+  EffectsManager* getEffectsmgr() { return effectsmanager; }
+  GUIManager* getGuimgr() { return guimanager;; }
 };
 
 #endif // CLIENT_H

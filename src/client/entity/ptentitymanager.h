@@ -110,6 +110,7 @@ public:
   void setCharacter(int own_char) { own_char_id = own_char; }
   iCamera* getOwnCamera() { return owncam; }
   iCelEntity* getOwnEntity() { return ownent; }
+  int GetOwnId() { return own_char_id; }
   const char* GetOwnName() { return ownname; }
 
   void setPlaying(bool value) { playing = value; }

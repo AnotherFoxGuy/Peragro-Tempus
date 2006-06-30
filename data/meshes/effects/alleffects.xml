@@ -2,5 +2,6 @@
 	<library>/peragro/meshes/effects/bloodsplat.xml</library>
 	<library>/peragro/meshes/effects/levelup.xml</library>
 	<library>/peragro/meshes/effects/pentagram.xml</library>
+	<library>/peragro/meshes/effects/energysphere.xml</library>
 </library>
 

@@ -1,6 +1,8 @@
 <library>
 	<!--<library>/cellib/objects/cally.cal3d</library>-->
 	
+	<library>/peragro/art/3d_art/animals/dragonfly/dragonfly.cal3d</library>
+	
 	<library>/peragro/art/3d_art/characters/knight/knight.cal3d</library>
 	
 	<library>/peragro/meshes/apple/apple.xml</library>

@@ -121,9 +121,15 @@ iMeshWrapper* EffectsManager::CreateEffectMesh (int effect)
       }
       break;
 
-    case EffectsManager::Penta:
+    case EffectsManager::Pentagram:
       {
       factory = "pentagramfact"; 
+      }
+      break;
+
+    case EffectsManager::Energysphere:
+      {
+        factory = "energyspherefact"; 
       }
       break;
 

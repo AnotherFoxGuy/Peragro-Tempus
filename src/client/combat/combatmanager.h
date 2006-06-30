@@ -16,58 +16,71 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef EFFECTSMANAGER_H
-#define EFFECTSMANAGER_H
+#ifndef COMBATMANAGER_H
+#define COMBATMANAGER_H
 
 #include "cssysdef.h"
 #include "csutil/ref.h"
 #include "iutil/vfs.h"
 #include "iengine/engine.h"
 
-#include "client/effects/effect.h"
+#include "physicallayer/pl.h"
+
+#include "client/entity/ptcelentity.h"
+
+#include "common/util/mutex.h"
+
+#include "client/client.h"
+
+#include "client/network/network.h"
+
+class Client;
 
 class Effect;
+class GUIManager;
 
 struct iObjectRegistry;
 struct iLoader;
 
-class EffectsManager
+class CombatMGR
 {
 private:
-
-  csArray<Effect> effects;
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
   csRef<iLoader> loader;
+  csRef<iCelPlLayer> pl;
 
-  iMeshWrapper* CreateEffectMesh (int effect);
+  Client* client;
+  EffectsManager* effectsmgr;
+  ptEntityManager* entitymgr;
+  GUIManager* guimanager;
+
+  iMeshWrapper* getMesh(iCelEntity* entity);
 
 public:
 
-  EffectsManager (iObjectRegistry* obj_reg);
-  ~EffectsManager ();
-
-  enum EffectType
+  enum AttackType
   {
-    Blood=0,
-    Levelup=1,
-    Pentagram=2,
-    Healeffect=3,
-    Deflect=4,
-    Die=5,
-    Energysphere=6,
-    Energyspear=7,
-    Healspell=8
+  EnergyBind=0,
+  EnergySpear=1,
+  Melee=2,
+  Heal=3
   };
+
+  CombatMGR (Client* client);
+  ~CombatMGR ();
 
   bool Initialize (iObjectRegistry* obj_reg);
 
- 
-  bool CreateEffect (iMeshWrapper* parent, int effect);
+  void hit (int targetId, int damage);
+  void die (int targetId);
+  void levelup (int targetId);
+  void experience (int exp);
+  void Attack (int attackerId, int targetId, int attackId, int error);
+  void RequestAttack (iCelEntity* target, int attackId);
 
-  void HandleEffects(csTicks elapsed_ticks);
 
 };
 
-#endif // EFFECTSMANAGER_H
+#endif // COMBATMANAGER_H

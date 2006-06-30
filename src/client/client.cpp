@@ -93,8 +93,8 @@
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
-
 #include "client/effects/effectsmanager.h"
+#include "client/combat/combatmanager.h"
 
 #include "common/entity/entity.h"
 
@@ -234,6 +234,11 @@ bool Client::Application()
   // Create and Initialize the GUImanager.
   guimanager = new GUIManager (this);
   if (!guimanager->Initialize (GetObjectRegistry()))
+    return false;
+
+  // Create and Initialize the Combatmanager.
+  combatmanager = new CombatMGR (this);
+  if (!combatmanager->Initialize (GetObjectRegistry()))
     return false;
 
   view.AttachNew(new csView(engine, g3d));
@@ -414,27 +419,26 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'h')
       {
-        iCelEntity* entity = entitymanager->getOwnEntity();
-        if (!entity) return false;
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-        if (!pcmesh) return false;
-        effectsmanager->CreateEffect(pcmesh->GetMesh(), EffectsManager::Blood);
+        combatmanager->hit (entitymanager->GetOwnId(), 20);
       }
       else if (code == 'j')
       {
-        iCelEntity* entity = entitymanager->getOwnEntity();
-        if (!entity) return false;
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-        if (!pcmesh) return false;
-        effectsmanager->CreateEffect(pcmesh->GetMesh(), EffectsManager::Levelup);
+        combatmanager->levelup (entitymanager->GetOwnId());
       }
       else if (code == 'k')
       {
-        iCelEntity* entity = entitymanager->getOwnEntity();
-        if (!entity) return false;
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-        if (!pcmesh) return false;
-        effectsmanager->CreateEffect(pcmesh->GetMesh(), EffectsManager::Penta);
+        csRef<iCelEntity> ent = cursor->getSelectedEntity();
+        if (!ent)
+          return false;
+
+        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+        if (!pcprop)
+          return false;
+        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
+        {
+          combatmanager->Attack (entitymanager->GetOwnId(),pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")), 0, 0);
+        }
+        return false;
       }
       /*
       else if (code == CSKEY_SPACE)
@@ -505,6 +509,27 @@ bool Client::OnKeyboard(iEvent& ev)
       network->send(&msg);
     }
   }
+/*
+  // Mouse click
+  csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
+  if ( mouseevent == csMouseEventTypeDown )
+  {
+    switch(csMouseEventHelper::GetButton(&ev))
+    {
+    case csmbLeft:
+      printf("success! 1\n");
+      break;
+    case csmbRight:
+      // Get the clicked entity's ID and attack it.
+       printf("success! 2\n");
+      break;
+    case csmbMiddle:
+      printf("success! 3\n");
+      break;
+    }
+  }
+*/
+
   return false;
 }
 

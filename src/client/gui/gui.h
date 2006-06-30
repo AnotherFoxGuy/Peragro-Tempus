@@ -136,6 +136,7 @@ public:
   void CreateGUIWindow();    // load the chat guilayout and register button events.
 
   void AddChatMessage(csRef<iString> msg);
+  void AddMessage (const char* msg);
 };
 
 /*================//

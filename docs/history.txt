@@ -4,6 +4,22 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+30-June-2006
+  - Sueastside added a combatmanager.
+    - changed the keybindings to use the combatmanager functions
+      instead of the effectmanager for testing.
+      'k' now launches the Energy Bind attack on a selected entity,
+      printing a nice message in the log and adding effects to both
+      entities involved. Do note that this is for testing this
+      functions will later be called by a network handler when
+      an 'attack message' is recieved.
+    - added a few more effects to the effectsmanager.
+    - added AddMessage() to the gui to direct other messages to
+       the log instead of just chatmessages. In progress of being
+       rewritten to make the log filters actually work.
+    - added getOwnId() to the entitymanager to well get your own id.
+    - added benny the baby dragonfly for some multimesh testing.
+
 26-June-2006
   - Sueastside added a little hack to make the cegui work for now,
      will investigate it later.
