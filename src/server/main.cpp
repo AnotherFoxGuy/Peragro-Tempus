@@ -124,8 +124,8 @@ int main(int argc, char ** argv)
   skill_mgr.loadFromDB(db.getSkillTable());
   race_mgr.loadFromDB(db.getRaceTable());
 
-  SkillEngine skillengine;
-  server.setSkillEngine(&skillengine);
+  //SkillEngine skillengine;
+  //server.setSkillEngine(&skillengine);
   //timeEngine.registerTimer(&skillengine);
 
   Spawner spawner;

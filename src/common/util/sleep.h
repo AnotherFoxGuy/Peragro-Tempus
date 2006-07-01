@@ -27,10 +27,10 @@
   #include <time.h>
 #endif
 
-inline void pt_sleep(int ms)
+inline void pt_sleep(size_t ms)
 {
   #ifdef WIN32
-    Sleep(ms);
+    Sleep(DWORD(ms));
   #else
     timespec sleeptime;
     sleeptime.tv_sec = ms/1000;

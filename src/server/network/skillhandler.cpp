@@ -18,13 +18,50 @@
 
 #include "server/network/network.h"
 #include "server/usermanager.h"
+#include "common/entity/skillmanager.h"
 
 void SkillHandler::handleStartUsage(GenericMessage* msg)
 {
-  //TODO: handle the message
+  Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  CharacterEntity* user_ent = conn->getUser()->getEntity();
+  ptString name = user_ent->getName();
+
+  SkillUsageStartRequestMessage request_msg;
+  request_msg.deserialise(msg->getByteStream());
+
+  Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
+  const char* errors = skill->castPrepare(user_ent);
+  
+  SkillUsageStartResponseMessage reponse_msg;
+  reponse_msg.setTarget(errors?0:request_msg.getEnemy());
+  reponse_msg.setSkill(skill->getId());
+  reponse_msg.setError(ptString(errors, strlen(errors)));
+
+  ByteStream bs;
+  reponse_msg.serialise(&bs);
+  conn->send(bs);
 }
 
 void SkillHandler::handleStopUsage(GenericMessage* msg)
 {
-  //TODO: handle the message
+  Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  CharacterEntity* user_ent = conn->getUser()->getEntity();
+  ptString name = user_ent->getName();
+
+  SkillUsageStopRequestMessage request_msg;
+  request_msg.deserialise(msg->getByteStream());
+
+  Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
+  skill->castPrepare(user_ent);
+
+  SkillUsageInterruptMessage reponse_msg;
+  reponse_msg.setSkill(skill->getId());
+
+  ByteStream bs;
+  reponse_msg.serialise(&bs);
+  conn->send(bs);
 }

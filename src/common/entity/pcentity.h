@@ -28,13 +28,19 @@
 #include "characterentity.h"
 
 class Item;
+class User;
 
 class PcEntity : public CharacterEntity
 {
+private:
+  User* user;
 public:
   PcEntity() : CharacterEntity(PlayerEntity)
   {
   }
+
+  void setUser(User* user) { this->user = user; }
+  User* getUser() { return this->user; }
 };
 
 #endif // _PCENTITY_H_

@@ -91,6 +91,7 @@ public:
   void setEntity(PcEntity* entity)
   {
     own_entity = entity;
+    entity->setUser(this);
   }
 
   Connection* getConnection()

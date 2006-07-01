@@ -94,8 +94,8 @@ public:
   void setSpawner(Spawner* spawner) { this->spawner = spawner; }
   Spawner* getSpawner() { return this->spawner; }
 
-  void setSkillEngine(SkillEngine* spawner) { this->skillengine = skillengine; }
-  SkillEngine* getSkillEngine() { return this->skillengine; }
+  //void setSkillEngine(SkillEngine* spawner) { this->skillengine = skillengine; }
+  //SkillEngine* getSkillEngine() { return this->skillengine; }
 
   void addEntity(Entity* entity, bool presistent);
   void delEntity(Entity* entity);

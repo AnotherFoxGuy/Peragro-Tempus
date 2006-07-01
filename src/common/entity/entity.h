@@ -153,6 +153,17 @@ public:
     return type;
   }
 
+  float getDistanceTo2(Entity* target)
+  {
+    return (target->pos[0] - pos[0])*(target->pos[0] - pos[0])
+         + (target->pos[1] - pos[1])*(target->pos[1] - pos[1])
+         + (target->pos[2] - pos[2])*(target->pos[2] - pos[2]);
+  }
+
+  float getDistanceTo(Entity* target)
+  {
+    return sqrtf(getDistanceTo2(target));
+  }
 };
 
 #endif // _ENTITY_H_

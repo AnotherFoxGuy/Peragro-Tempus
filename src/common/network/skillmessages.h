@@ -61,28 +61,18 @@ public:
     skill = serial.getInt16();
   }
 
-  unsigned int getEnemy()
-  {
-    return target;
-  }
-  void setEnemy(unsigned int e)
-  {
-    target = e;
-  }
+  unsigned int getEnemy() { return target; }
+  void setEnemy(unsigned int e) { target = e; }
 
-  unsigned short getSkill()
-  {
-    return skill;
-  }
-  void setSkill(unsigned short s)
-  {
-    skill = s;
-  }
+  unsigned short getSkill() { return skill; }
+  void setSkill(unsigned short s) { skill = s; }
 };
 
 class SkillUsageStartResponseMessage : public NetMessage
 {
   int target;
+  short skill;
+  ptString error;
 
 public:
   SkillUsageStartResponseMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_START_RESPONSE) 
@@ -94,7 +84,9 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
+    serial.setInt16(skill);
     serial.setInt32(target);
+    serial.setString(error);
   }
 
   void deserialise(ByteStream* bs)
@@ -102,22 +94,24 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
+    skill = serial.getInt16();
     target = serial.getInt32();
+    error = serial.getString();
   }
 
-  unsigned int getTarget()
-  {
-    return target;
-  }
-  void setTarget(unsigned int t)
-  {
-    target = t;
-  }
+  unsigned int getTarget() { return target; }
+  void setTarget(unsigned int t) { target = t; }
+
+  ptString& getError() { return error; }
+  void setError(ptString message) { error = message; }
+
+  unsigned short getSkill() { return skill; }
+  void setSkill(unsigned short s) { skill = s; }
 };
 
 class SkillUsageStopRequestMessage : public NetMessage
 {
-  int target;
+  short skill;
 
 public:
   SkillUsageStopRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_STOP_REQUEST) 
@@ -129,7 +123,7 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
-    serial.setInt32(target);
+    serial.setInt16(skill);
   }
 
   void deserialise(ByteStream* bs)
@@ -137,22 +131,16 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    target = serial.getInt32();
+    skill = serial.getInt16();
   }
 
-  unsigned int getTarget()
-  {
-    return target;
-  }
-  void setTarget(unsigned int t)
-  {
-    target = t;
-  }
+  unsigned short getSkill() { return skill; }
+  void setSkill(unsigned short s) { skill = s; }
 };
 
 class SkillUsageCompletionMessage : public NetMessage
 {
-  int target;
+  short skill;
 
 public:
   SkillUsageCompletionMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_COMPLETION) 
@@ -164,7 +152,7 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
-    serial.setInt32(target);
+    serial.setInt16(skill);
   }
 
   void deserialise(ByteStream* bs)
@@ -172,22 +160,16 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    target = serial.getInt32();
+    skill = serial.getInt16();
   }
 
-  unsigned int getTarget()
-  {
-    return target;
-  }
-  void setTarget(unsigned int t)
-  {
-    target = t;
-  }
+  unsigned short getSkill() { return skill; }
+  void setSkill(unsigned short s) { skill = s; }
 };
 
 class SkillUsageInterruptMessage : public NetMessage
 {
-  int target;
+  short skill;
 
 public:
   SkillUsageInterruptMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_INTERRUPT) 
@@ -199,7 +181,7 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
-    serial.setInt32(target);
+    serial.setInt16(skill);
   }
 
   void deserialise(ByteStream* bs)
@@ -207,17 +189,11 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    target = serial.getInt32();
+    skill = serial.getInt16();
   }
 
-  unsigned int getTarget()
-  {
-    return target;
-  }
-  void setTarget(unsigned int t)
-  {
-    target = t;
-  }
+  unsigned short getSkill() { return skill; }
+  void setSkill(unsigned short s) { skill = s; }
 };
 
 #endif // _SKILLMESSAGES_H_

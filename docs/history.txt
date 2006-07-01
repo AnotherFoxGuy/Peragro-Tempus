@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+1-Juli-2006
+  - PK implemented Skills on the Server side. Codes hasn't been tested yet.
+
 30-June-2006
   - Sueastside added a combatmanager.
     - changed the keybindings to use the combatmanager functions

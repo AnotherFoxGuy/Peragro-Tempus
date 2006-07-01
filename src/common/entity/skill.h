@@ -25,6 +25,7 @@
 class Entity;
 class CharSkill;
 class CharacterEntity;
+class Stat;
 
 namespace SkillState
 {
@@ -73,16 +74,20 @@ private:
 
   float range; // Radius in which the skill will be applied.
 
-  int skillTime;
+  int skillTime; //cast delay
   int hitTime;
   int reuseDelay;
   int buffDuration;
 
+  unsigned int mpCost;
+
   int targetType;
   int power;
 
+  Stat* mp;
+
 public:
-  Skill() : id(-1), range(0) {}
+  Skill();
   ~Skill() {}
 
   void setId(int id) { this->id = id; }
@@ -97,7 +102,17 @@ public:
   SkillAffect getAffect() { return affect; }
   void setAffect(SkillAffect a) { affect = a; }
 
-  virtual void triggerSkill(CharSkill* skilldata, CharacterEntity* caster);
+  void setRange(float range) { this->range = range; }
+  void setSkillTime(int skillTime) { this->skillTime = skillTime; }
+  void setReuseDelay(int reuseDelay) { this->reuseDelay = reuseDelay; }
+  void setMpCost(unsigned int mpCost) { this->mpCost = mpCost; }
+
+  //virtual void triggerSkill(CharSkill* skilldata, CharacterEntity* caster);
+
+  const char* castPrepare(CharacterEntity* caster);
+  void castInterrupt(CharSkill* skilldata);
+  void castExecute(CharSkill* skilldata);
+  void castRecover(CharSkill* skilldata);
 };
 
 #endif // SKILL_H_

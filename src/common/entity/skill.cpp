@@ -22,10 +22,92 @@
 #include "characterskills.h"
 #include "entitymanager.h"
 #include "server/server.h"
+#include "statmanager.h"
+#include "common/network/skillmessages.h"
+#include "server/network/connection.h"
+#include "server/user.h"
 
-void Skill::triggerSkill(CharSkill* skilldata, CharacterEntity* caster)
+Skill::Skill() : id(-1), range(0) 
 {
+  mp = Server::getServer()->getStatManager()->findByName(ptString("Mana", strlen("Mana")));
+}
+
+//void Skill::triggerSkill(CharSkill* skilldata, CharacterEntity* caster)
+//{
+//  Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
+//  const char* targetname = target?*target->getName():"";
+//  printf("Dummy Skill from %s targetting %s!\n",*caster->getName(),targetname);
+//}
+
+const char* Skill::castPrepare(CharacterEntity* caster)
+{
+  CharSkill* skilldata = caster->getSkills()->getSkill(id);
   Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
-  const char* targetname = target?*target->getName():"";
-  printf("Dummy Skill from %s targetting %s!\n",*caster->getName(),targetname);
+  if (caster->getStats()->getAmount(mp) < mpCost)
+  {
+    //Abort 'Not enough MP'
+    return "Not enough MP";
+  }
+  if (caster->getDistanceTo(target) > range)
+  {
+    //Abort 'too far away'
+    return "Too far away";
+  }
+
+  skilldata->skill = this;
+
+  skilldata->state = SkillState::CASTING;
+  skilldata->setInverval(skillTime);
+  skilldata->start();
+  return 0;
+}
+
+void Skill::castInterrupt(CharSkill* skilldata)
+{
+  if (skilldata->state == SkillState::CASTING)
+  {
+    skilldata->stop();
+    skilldata->state = SkillState::RECOVER;
+    skilldata->setInverval(reuseDelay);
+    skilldata->start();
+  }
+
+  Entity* caster = Server::getServer()->getEntityManager()->findById(skilldata->caster_id);
+  if (!caster || caster->getType() != Entity::PlayerEntity)
+    return;
+
+  SkillUsageInterruptMessage reponse_msg;
+  reponse_msg.setSkill(skilldata->skill->getId());
+
+  ByteStream bs;
+  reponse_msg.serialise(&bs);
+  ((PcEntity*)caster)->getUser()->getConnection()->send(bs);
+}
+
+void Skill::castExecute(CharSkill* skilldata)
+{
+  if (skilldata->state == SkillState::CASTING)
+  {
+    skilldata->stop();
+    skilldata->state = SkillState::RECOVER;
+    skilldata->setInverval(reuseDelay);
+    skilldata->start();
+  }
+
+  Entity* caster = Server::getServer()->getEntityManager()->findById(skilldata->caster_id);
+  if (!caster || caster->getType() != Entity::PlayerEntity)
+    return;
+
+  SkillUsageCompletionMessage reponse_msg;
+  reponse_msg.setSkill(skilldata->skill->getId());
+
+  ByteStream bs;
+  reponse_msg.serialise(&bs);
+  ((PcEntity*)caster)->getUser()->getConnection()->send(bs);
+}
+
+void Skill::castRecover(CharSkill* skilldata)
+{
+  skilldata->stop();
+  skilldata->state = SkillState::READY;
 }

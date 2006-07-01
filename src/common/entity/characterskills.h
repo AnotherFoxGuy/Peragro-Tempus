@@ -21,20 +21,27 @@
 
 #include "skill.h"
 #include "server/database/table-characterskills.h"
+#include "common/util/timer.h"
 
 class Connection;
 
-class CharSkill
+class CharSkill : public Timer
 {
 public:
   int skill_id;
   int target_id;
+  int caster_id;
 
   SkillState::Type state;
 
-  bool isActive()
+  Skill* skill;
+
+  void timeOut()
   {
-    return false; // no active skills yet!
+    if (state == SkillState::CASTING)
+      skill->castExecute(this);
+    else if (state == SkillState::RECOVER)
+      skill->castRecover(this);
   }
 };
 

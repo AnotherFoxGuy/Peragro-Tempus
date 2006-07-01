@@ -30,7 +30,7 @@ class SkillTable : public Table
 public:
   SkillTable(Database* db);
   void createTable();
-  void insert(ptString name);
+  void insert(ptString name, float range, int skillTime, int reuseDelay, int mpCost);
   void dropTable();
   bool existsSkill(ptString name);
   Skill* getSkill(ptString name);

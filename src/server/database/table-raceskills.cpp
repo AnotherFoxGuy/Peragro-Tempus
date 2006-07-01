@@ -47,8 +47,7 @@ void RaceSkillsTable::createTable()
 
   Skill* skill = 0;
 
-  skill = db->getSkillTable()->getSkill(ptString("Heal", strlen("Heal")));
-  set(1, skill);
+  insert(1, 0); //Heal
   delete skill;
 }
 
