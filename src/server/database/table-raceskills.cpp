@@ -47,7 +47,7 @@ void RaceSkillsTable::createTable()
 
   Skill* skill = 0;
 
-  insert(1, 0); //Heal
+  insert(1, 1); //Heal
   delete skill;
 }
 
