@@ -36,6 +36,7 @@ namespace SKILL
 class SkillUsageStartRequestMessage : public NetMessage
 {
   int target;
+  int caster;
   short skill;
 
 public:
@@ -48,6 +49,7 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
+    serial.setInt32(caster);
     serial.setInt32(target);
     serial.setInt16(skill);
   }
@@ -57,12 +59,16 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
+    caster = serial.getInt32();
     target = serial.getInt32();
     skill = serial.getInt16();
   }
 
-  unsigned int getEnemy() { return target; }
-  void setEnemy(unsigned int e) { target = e; }
+  unsigned int getTarget() { return target; }
+  void setTarget(unsigned int t) { target = t; }
+
+  unsigned int getCaster() { return caster; }
+  void setCaster(unsigned int c) { caster = c; }
 
   unsigned short getSkill() { return skill; }
   void setSkill(unsigned short s) { skill = s; }
@@ -71,6 +77,7 @@ public:
 class SkillUsageStartResponseMessage : public NetMessage
 {
   int target;
+  int caster;
   short skill;
   ptString error;
 
@@ -85,6 +92,7 @@ public:
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setInt16(skill);
+    serial.setInt32(caster);
     serial.setInt32(target);
     serial.setString(error);
   }
@@ -95,12 +103,16 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     skill = serial.getInt16();
+    caster = serial.getInt32();
     target = serial.getInt32();
     error = serial.getString();
   }
 
   unsigned int getTarget() { return target; }
   void setTarget(unsigned int t) { target = t; }
+
+  unsigned int getCaster() { return caster; }
+  void setCaster(unsigned int c) { caster = c; }
 
   ptString& getError() { return error; }
   void setError(ptString message) { error = message; }
@@ -140,6 +152,8 @@ public:
 
 class SkillUsageCompletionMessage : public NetMessage
 {
+  int target;
+  int caster;
   short skill;
 
 public:
@@ -152,6 +166,8 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
+    serial.setInt32(caster);
+    serial.setInt32(target);
     serial.setInt16(skill);
   }
 
@@ -160,15 +176,25 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
+    caster = serial.getInt32();
+    target = serial.getInt32();
     skill = serial.getInt16();
   }
 
   unsigned short getSkill() { return skill; }
   void setSkill(unsigned short s) { skill = s; }
+
+  unsigned int getTarget() { return target; }
+  void setTarget(unsigned int t) { target = t; }
+
+  unsigned int getCaster() { return caster; }
+  void setCaster(unsigned int c) { caster = c; }
 };
 
 class SkillUsageInterruptMessage : public NetMessage
 {
+  int target;
+  int caster;
   short skill;
 
 public:
@@ -181,6 +207,8 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
+    serial.setInt32(caster);
+    serial.setInt32(target);
     serial.setInt16(skill);
   }
 
@@ -189,11 +217,19 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
+    caster = serial.getInt32();
+    target = serial.getInt32();
     skill = serial.getInt16();
   }
 
   unsigned short getSkill() { return skill; }
   void setSkill(unsigned short s) { skill = s; }
+
+  unsigned int getTarget() { return target; }
+  void setTarget(unsigned int t) { target = t; }
+
+  unsigned int getCaster() { return caster; }
+  void setCaster(unsigned int c) { caster = c; }
 };
 
 #endif // _SKILLMESSAGES_H_
