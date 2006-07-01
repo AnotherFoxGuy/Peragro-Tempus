@@ -62,7 +62,7 @@ public:
     return type;
   }
 
-  virtual void send(ByteStream& bs) = 0;
+  virtual void send(const ByteStream& bs) = 0;
 };
 
 #endif // _CONNECTION_H_

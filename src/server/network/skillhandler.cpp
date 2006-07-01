@@ -32,16 +32,7 @@ void SkillHandler::handleStartUsage(GenericMessage* msg)
   request_msg.deserialise(msg->getByteStream());
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
-  const char* errors = skill->castPrepare(user_ent);
-  
-  SkillUsageStartResponseMessage reponse_msg;
-  reponse_msg.setTarget(errors?0:request_msg.getEnemy());
-  reponse_msg.setSkill(skill->getId());
-  reponse_msg.setError(ptString(errors, strlen(errors)));
-
-  ByteStream bs;
-  reponse_msg.serialise(&bs);
-  conn->send(bs);
+  skill->castPrepare(user_ent);
 }
 
 void SkillHandler::handleStopUsage(GenericMessage* msg)
@@ -56,12 +47,5 @@ void SkillHandler::handleStopUsage(GenericMessage* msg)
   request_msg.deserialise(msg->getByteStream());
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
-  skill->castPrepare(user_ent);
-
-  SkillUsageInterruptMessage reponse_msg;
-  reponse_msg.setSkill(skill->getId());
-
-  ByteStream bs;
-  reponse_msg.serialise(&bs);
-  conn->send(bs);
+  skill->castInterrupt(user_ent->getSkills()->findSkill(skill->getId()));
 }

@@ -25,7 +25,7 @@
 class Deserialiser
 {
 private:
-  unsigned char* data;
+  const unsigned char* data;
   size_t len;
   size_t pos;
 

@@ -50,7 +50,7 @@ class CharacterSkills
 private:
   Array<CharSkill*> entries;
 
-  CharSkill* findEntry(int skill_id)
+  CharSkill* findEntry(size_t skill_id)
   {
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
@@ -90,6 +90,11 @@ public:
   CharSkill* getSkill(size_t idx)
   {
     return entries[idx];
+  }
+
+  CharSkill* findSkill(size_t id)
+  {
+    return findEntry(id);
   }
 
   void loadFromDatabase(CharacterSkillsTable* cst, int id)

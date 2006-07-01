@@ -83,3 +83,13 @@ void Server::moveEntity(CharacterEntity* entity, float* pos, float speed)
       user->getConnection()->send(bs);
   }
 }
+
+void Server::broadCast(const ByteStream& bs)
+{
+  for (size_t i=0; i<getUserManager()->getUserCount(); i++)
+  {
+    User* user = getUserManager()->getUser(i);
+    if (user && user->getConnection())
+      user->getConnection()->send(bs);
+  }
+}

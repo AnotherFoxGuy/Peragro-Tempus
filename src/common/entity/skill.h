@@ -109,7 +109,7 @@ public:
 
   //virtual void triggerSkill(CharSkill* skilldata, CharacterEntity* caster);
 
-  const char* castPrepare(CharacterEntity* caster);
+  void castPrepare(CharacterEntity* caster);
   void castInterrupt(CharSkill* skilldata);
   void castExecute(CharSkill* skilldata);
   void castRecover(CharSkill* skilldata);

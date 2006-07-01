@@ -34,6 +34,7 @@ class Entity;
 class CharacterEntity;
 class Spawner;
 class SkillEngine;
+class ByteStream;
 
 class Server
 {
@@ -100,6 +101,7 @@ public:
   void addEntity(Entity* entity, bool presistent);
   void delEntity(Entity* entity);
   void moveEntity(CharacterEntity* entity, float* pos, float speed);
+  void broadCast(const ByteStream& bs);
 };
 
 #endif // _SERVER_H_
