@@ -135,14 +135,13 @@ void Client::PreProcessFrame()
     if (ticks < 1000.0f/limitFPS)
       csSleep((int)1000.0f/limitFPS - ticks);
   }
-  /*
+
   if (timer > 1000)
   {
     timer = 0;
     UpdateDREntityRequestMessage drmsg = entitymanager->DrUpdateOwnEntity();
     network->send(&drmsg);
   }
-  */
 }
 
 void Client::ProcessFrame()
@@ -792,9 +791,9 @@ iPcActorMove* Client::getPcActorMove()
 int main (int argc, char* argv[])
 {
 #ifdef __TIMESTAMP__
-  printf("Peragro Tempus - Client\nBuild-Date: %s\n", __TIMESTAMP__);
+  printf("Peragro Tempus - Client\nRevision: $Revision$\tBuild-Date: %s\n", __TIMESTAMP__);
 #else
-  printf("Peragro Tempus - Client\nBuild-Data: %s %s\n", __DATE__, __TIME__);
+  printf("Peragro Tempus - Client\Revision: $Revision$\tnBuild-Data: %s %s\n", __DATE__, __TIME__);
 #endif
   setWinCrashDump(argv[0]);
 
