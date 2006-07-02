@@ -260,7 +260,7 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
   *  Here the we start using skill, so we create the effect on the caster.
   */
 
-  if (error == ptString(0,0))
+  if (ptString(0,0) == error)
     printf("CombatMGR: %d cast %d on %d, error %s\n",casterId,targetId,skillId, *error);
   else
     printf("CombatMGR: %s \n", *error);
