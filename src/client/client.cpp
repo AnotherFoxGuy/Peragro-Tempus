@@ -791,9 +791,9 @@ iPcActorMove* Client::getPcActorMove()
 int main (int argc, char* argv[])
 {
 #ifdef __TIMESTAMP__
-  printf("Peragro Tempus - Client\nRevision: $Revision$\tBuild-Date: %s\n", __TIMESTAMP__);
+  printf("Peragro Tempus - Client\n$Revision$\tBuild-Date: %s\n", __TIMESTAMP__);
 #else
-  printf("Peragro Tempus - Client\Revision: $Revision$\tnBuild-Data: %s %s\n", __DATE__, __TIME__);
+  printf("Peragro Tempus - Client\n$Revision$\tnBuild-Data: %s %s\n", __DATE__, __TIME__);
 #endif
   setWinCrashDump(argv[0]);
 
