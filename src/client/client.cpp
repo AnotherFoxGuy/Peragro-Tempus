@@ -212,6 +212,12 @@ bool Client::Application()
   cmdline = CS_QUERY_REGISTRY(GetObjectRegistry(), iCommandLineParser);
   if (!cmdline) return ReportError("Failed to locate CommandLineParser plugin");
 
+  sndrenderer = CS_QUERY_REGISTRY(GetObjectRegistry(), iSndSysRenderer);
+  if (!sndrenderer) return ReportError("Failed to locate sound renderer!");
+
+  sndloader = CS_QUERY_REGISTRY(GetObjectRegistry(), iSndSysLoader);
+  if (!sndloader) return ReportError("Failed to locate sound loader!");
+
   iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
   if (nw) nw->SetTitle ("Peragro Tempus");
 
@@ -242,6 +248,35 @@ bool Client::Application()
     return false;
 
   view.AttachNew(new csView(engine, g3d));
+
+  // intro sound
+    const char* fname = "/peragro/art/audio/music/intro/peragrotempus.ogg";
+
+  csRef<iDataBuffer> soundbuf = vfs->ReadFile (fname);
+  if (!soundbuf)
+    return ReportError ("Can't load file '%s'!", fname);
+
+  csRef<iSndSysData> snddata = sndloader->LoadSound (soundbuf);
+  if (!snddata)
+    return ReportError ("Can't load sound '%s'!", fname);
+
+  sndstream = sndrenderer->CreateStream (snddata,
+  	CS_SND3D_ABSOLUTE);
+  if (!sndstream)
+    return ReportError ("Can't create stream for '%s'!", fname);
+
+  sndsource = sndrenderer->CreateSource (sndstream);
+  if (!sndsource)
+    return ReportError ("Can't create source for '%s'!", fname);
+  sndsource3d = SCF_QUERY_INTERFACE (sndsource, iSndSysSourceSoftware3D);
+
+  sndsource3d->SetPosition (csVector3(0,0,0));
+  sndsource3d->SetVolume (1.0f);
+
+  sndstream->SetLoopState (CS_SNDSYS_STREAM_LOOP);
+  sndstream->Unpause ();
+
+  // end intro sound
 
   Run();
 
@@ -716,6 +751,10 @@ void Client::loadRegion()
   world_loaded = pcregion->Load();
   entitymanager->setWorldloaded(world_loaded);
   load_region = 0;
+
+  // Stop the intro
+  sndstream->Pause ();
+
 }
 
 

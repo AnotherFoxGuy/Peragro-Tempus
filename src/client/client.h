@@ -32,6 +32,13 @@
 //#include "iutil/csinput.h"
 #include "ivideo/graph3d.h"
 
+#include <isndsys/ss_renderer.h>
+#include <isndsys/ss_loader.h>
+#include <isndsys/ss_source.h>
+#include <isndsys/ss_stream.h>
+#include <isndsys/ss_data.h>
+#include <isndsys/ss_listener.h>
+
 #include "behaviourlayer/bl.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -91,6 +98,19 @@ private:
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bl;
   csRef<iCelEntity> zonemanager;
+
+  // The sound renderer.
+  csRef<iSndSysRenderer> sndrenderer;
+
+  // The sound loader.
+  csRef<iSndSysLoader> sndloader;
+
+  // The sound stream.
+  csRef<iSndSysStream> sndstream;
+
+  // The sound source.
+  csRef<iSndSysSource> sndsource;
+  csRef<iSndSysSourceSoftware3D> sndsource3d;
 
   void PreProcessFrame();
   void ProcessFrame();

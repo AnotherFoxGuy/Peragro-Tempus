@@ -397,6 +397,7 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
     printf("CombatMGR: Couldn't find pcprop for target!\n");
     return;
   }
+
   unsigned int targetId   = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
 
 

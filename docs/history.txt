@@ -10,6 +10,7 @@ under each day.
     - renamed attack() to SkillUsageStart()
     - added SkillUsageComplete()
     - changed some ints to unsigned ints.
+  - Sueastside added an intro sound.
   - PK added some fixes to the skill handling.
 
 1-Juli-2006
