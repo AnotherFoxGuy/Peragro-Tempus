@@ -36,8 +36,10 @@ private:
 
   size_t last;
 
+  static TimerEngine* self;
+
 public:
-  TimerEngine() : last(0) {}
+  TimerEngine() : last(0) { self = this; }
   ~TimerEngine() {}
 
   void registerTimer(Timer* timer) 
@@ -53,6 +55,8 @@ public:
     timers.remove(timers.find(timer)); 
     mutex.unlock(); 
   }
+
+  static TimerEngine* getTimerEngine() { return self; }
 };
 
 #endif // _TIMERENGINE_H_

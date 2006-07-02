@@ -49,7 +49,7 @@ protected:
   virtual void timeOut() = 0;
 
 public:
-  Timer() : timer(0), duration(0), running(false) {}
+  Timer() : timer(0), duration(0), running(false) { TimerEngine::getTimerEngine()->registerTimer(this); }
   ~Timer() { running = false; }
 
   void start() 

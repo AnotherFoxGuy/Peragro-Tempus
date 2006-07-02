@@ -39,10 +39,10 @@ Skill::Skill() : id(-1), range(0)
 //  printf("Dummy Skill from %s targetting %s!\n",*caster->getName(),targetname);
 //}
 
-void Skill::castPrepare(CharacterEntity* caster)
+void Skill::castPrepare(CharacterEntity* caster, unsigned int target_id)
 {
   CharSkill* skilldata = caster->getSkills()->findSkill(id);
-  Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
+  Entity* target = Server::getServer()->getEntityManager()->findById(target_id);
 
   SkillUsageStartResponseMessage response_msg;
   response_msg.setSkill(id);
@@ -61,6 +61,11 @@ void Skill::castPrepare(CharacterEntity* caster)
   {
     //Abort 'too far away'
     response_msg.setError(ptString("Too far away", strlen("Too far away")));
+  }
+  else if (skilldata->state == SkillState::READY)
+  {
+    //Abort 'Skill not ready'
+    response_msg.setError(ptString("Skill not ready", strlen("Skill not ready")));
   }
   else
   {

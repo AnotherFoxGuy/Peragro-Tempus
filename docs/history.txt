@@ -10,6 +10,7 @@ under each day.
     - renamed attack() to SkillUsageStart()
     - added SkillUsageComplete()
     - changed some ints to unsigned ints.
+  - PK added some fixes to the skill handling.
 
 1-Juli-2006
   - PK implemented Skills on the Server side. Codes hasn't been tested yet.

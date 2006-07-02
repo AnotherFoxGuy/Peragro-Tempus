@@ -5,6 +5,8 @@
 #include "pttime.h"
 #include "timer.h"
 
+TimerEngine* TimerEngine::self;
+
 void TimerEngine::Run()
 {
   size_t now = pt_time_ms();

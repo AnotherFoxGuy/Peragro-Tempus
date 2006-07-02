@@ -139,7 +139,7 @@ int main(int argc, char ** argv)
   spawner.addSpawnPoint(0, 2, -2, room, 1, 75); //spawn apple every 75 second after picking
   spawner.addSpawnPoint(2, -2, 0, room, 1, 15); //spawn apple every 15 second after picking
   spawner.start();
-  timeEngine.registerTimer(&spawner);
+  //timeEngine.registerTimer(&spawner);
 
   unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;
 
