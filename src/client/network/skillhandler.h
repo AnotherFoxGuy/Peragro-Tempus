@@ -25,6 +25,8 @@
 #include "common/network/netmessage.h"
 #include "common/network/skillmessages.h"
 
+#include "client/combat/combatmanager.h"
+
 //#include "connectionmanager.h"
 
 class SkillHandler : public MessageHandler

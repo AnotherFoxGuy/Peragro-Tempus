@@ -436,7 +436,7 @@ bool Client::OnKeyboard(iEvent& ev)
           return false;
         if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
         {
-          combatmanager->Attack (entitymanager->GetOwnId(),pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")), 0, 0);
+          combatmanager->RequestSkillUsageStart (ent, 1);
         }
         return false;
       }

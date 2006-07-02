@@ -20,15 +20,25 @@
 
 void SkillHandler::handleStartSkill(GenericMessage* msg)
 {
-  //TODO: handle the message
+  printf("SkillHandler: Recieved a StartSkill message.\n");
+  SkillUsageStartResponseMessage skillmsg;
+  skillmsg.deserialise(msg->getByteStream());
+
+  client->getCombatmgr()->SkillUsageStart ( skillmsg.getCaster(), skillmsg.getTarget(), skillmsg.getSkill(), skillmsg.getError() );
 }
 
 void SkillHandler::handleCompleteSkill(GenericMessage* msg)
 {
   //TODO: handle the message
+  printf("SkillHandler: Recieved a CompleteSkill message.\n");
+  SkillUsageCompletionMessage skillmsg;
+  skillmsg.deserialise(msg->getByteStream());
+
+  client->getCombatmgr()->SkillUsageComplete ( skillmsg.getCaster(), skillmsg.getTarget(), skillmsg.getSkill());
 }
 
 void SkillHandler::handleStartInterruptSkill(GenericMessage* msg)
 {
   //TODO: handle the message
+  printf("SkillHandler: Recieved a InterruptSkill message.\n");
 }

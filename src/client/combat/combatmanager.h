@@ -35,9 +35,9 @@
 #include "client/network/network.h"
 
 class Client;
-
 class Effect;
 class GUIManager;
+class Network;
 
 struct iObjectRegistry;
 struct iLoader;
@@ -55,6 +55,7 @@ private:
   EffectsManager* effectsmgr;
   ptEntityManager* entitymgr;
   GUIManager* guimanager;
+  Network* network;
 
   iMeshWrapper* getMesh(iCelEntity* entity);
 
@@ -62,10 +63,10 @@ public:
 
   enum AttackType
   {
-  EnergyBind=0,
-  EnergySpear=1,
-  Melee=2,
-  Heal=3
+    Heal=1,
+    EnergySpear=2,
+    Melee=3,
+    EnergyBind=4
   };
 
   CombatMGR (Client* client);
@@ -77,8 +78,9 @@ public:
   void die (int targetId);
   void levelup (int targetId);
   void experience (int exp);
-  void Attack (int attackerId, int targetId, int attackId, int error);
-  void RequestAttack (iCelEntity* target, int attackId);
+  void SkillUsageStart (unsigned int casterId, unsigned int targetId, int skillId, ptString error);
+  void SkillUsageComplete (unsigned int casterId, unsigned int targetId, int skillId);
+  void RequestSkillUsageStart (iCelEntity* target, unsigned int skillId);
 
 
 };

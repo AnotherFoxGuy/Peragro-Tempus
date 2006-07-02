@@ -154,7 +154,8 @@ public:
   iVFS* getVFS()  { return vfs; }
   Network* getNetwork()  { return network; }
   EffectsManager* getEffectsmgr() { return effectsmanager; }
-  GUIManager* getGuimgr() { return guimanager;; }
+  GUIManager* getGuimgr() { return guimanager; }
+  CombatMGR*  getCombatmgr() { return combatmanager; }
 };
 
 #endif // CLIENT_H

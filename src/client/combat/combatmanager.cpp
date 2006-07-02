@@ -124,9 +124,10 @@ bool CombatMGR::Initialize (iObjectRegistry* obj_reg)
 
   //csRef<iVFS> vfs = client->getVFS ();
 
-  entitymgr = client->GetEntityManager ();
+  entitymgr   = client->GetEntityManager ();
   effectsmgr  = client->getEffectsmgr();
   guimanager  = client->getGuimgr();
+  network     = client->getNetwork ();
 
   if (!entitymgr)
   {
@@ -140,6 +141,18 @@ bool CombatMGR::Initialize (iObjectRegistry* obj_reg)
     return false;
   }
 
+  if (!guimanager)
+  {
+    client->ReportError("CombatMGR: Failed to locate GUIManager plugin");
+    return false;
+  }
+
+  if (!network)
+  {
+    client->ReportError("CombatMGR: Failed to locate Network plugin");
+    return false;
+  }
+
   return true;
 }
 
@@ -147,6 +160,9 @@ void CombatMGR::hit (int targetId, int damage)
 {
   // Lookup the ID to get the actual entity.
   iCelEntity* target = entitymgr->findCelEntById(targetId);
+
+  csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (getMesh(target)->GetMeshObject(), iSpriteCal3DState);
+  if (!cal3dstate) return;
 
   if (!target)
   {
@@ -157,7 +173,7 @@ void CombatMGR::hit (int targetId, int damage)
   if (damage > 0)
   {
     effectsmgr->CreateEffect(getMesh(target), EffectsManager::Blood);
-    //target->SetAction("hurt");
+    cal3dstate->SetAnimAction("walkcycle", 0.5f, 0.5f);
   }
   // Damage is negative, we got healed.
   else if (damage < 0)
@@ -237,49 +253,100 @@ void CombatMGR::experience (int exp)
 
 }
 
-void CombatMGR::Attack (int attackerId, int targetId, int attackId, int error)
+void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, int skillId, ptString error)
 {
   
-  switch(error)
-  {
-  case 0:
-    printf("CombatMGR: %d attacks %d with %d\n",attackerId,targetId,attackId);
-    break;
-  case 1:
-    //guimanager->GetCombatLog()->AddMessage("Target is out of range!");
-    return;
-    break;
-  case 2:
-    //guimanager->GetCombatLog()->AddMessage("You should face your target!");
-    return;
-    break;
-  default: printf("CombatMGR: Unknown error %d !", error);
-  }
+  /*
+  *  Here the we start using skill, so we create the effect on the caster.
+  */
+
+  if (error == ptString(0,0))
+    printf("CombatMGR: %d cast %d on %d, error %s\n",casterId,targetId,skillId, *error);
+  else
+    printf("CombatMGR: %s \n", *error);
 
   // Lookup the IDs to get the actual entities.
-  iCelEntity* attacker = entitymgr->findCelEntById(attackerId);
+  iCelEntity* caster = entitymgr->findCelEntById(casterId);
   iCelEntity* target = entitymgr->findCelEntById(targetId);
 
   if (!target)
   {
-    printf("CombatMGR: Couldn't find target with ID %d !", targetId);
+    printf("CombatMGR: Couldn't find target with ID %d !\n", targetId);
     return;
   }
-  if (!attacker)
+  if (!caster)
   {
-    printf("CombatMGR: Couldn't find attacker with ID %d !", attackerId);
+    printf("CombatMGR: Couldn't find caster with ID %d !\n", casterId);
+    return;
+  }
+
+  csString caststring;
+
+  switch(skillId)
+  {
+  case CombatMGR::Heal:
+    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Levelup);
+    caststring = "starts rejuvenating";
+    break;
+  case CombatMGR::EnergySpear:
+    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Energyspear);
+    //attacker->SetAction("casting2");
+    caststring = "starts casting Energy Spear and attacks";
+    break;
+  case CombatMGR::Melee:
+    //attacker->SetAction("melee");
+    caststring = "starts taking a swing at";
+    break;
+  case CombatMGR::EnergyBind:
+    effectsmgr->CreateEffect(getMesh(caster), EffectsManager::Pentagram);
+    caststring = "starts casting Energy Bind on";
+    break;
+
+  default: printf("CombatMGR: Unknown skill with ID %d !\n", skillId); return;
+  }
+
+  // Send a message to the GUI.
+  csRef<iPcProperties> pcpropa = CEL_QUERY_PROPCLASS_ENT(caster, iPcProperties);
+  if (!pcpropa)return;
+  csRef<iPcProperties> pcpropt = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
+  if (!pcpropt)return;
+  csString castername = pcpropa->GetPropertyString(pcpropa->GetPropertyIndex("Entity Name"));
+  csString targetname = pcpropt->GetPropertyString(pcpropt->GetPropertyIndex("Entity Name"));
+
+  char msg[1024];
+  sprintf(msg,"%s %s %s.",castername.GetData(), caststring.GetData(), targetname.GetData() );
+  guimanager->GetChatWindow()->AddMessage(msg);
+
+}
+
+void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId, int skillId)
+{
+  /*
+  *  Here the used skill completed succesfully, so we create the effect on the target.
+  */
+
+  // Lookup the IDs to get the actual entities.
+  iCelEntity* caster = entitymgr->findCelEntById(casterId);
+  iCelEntity* target = entitymgr->findCelEntById(targetId);
+
+  if (!target)
+  {
+    printf("CombatMGR: Couldn't find target with ID %d !\n", targetId);
+    return;
+  }
+  if (!caster)
+  {
+    printf("CombatMGR: Couldn't find attacker with ID %d !\n", casterId);
     return;
   }
 
   csString attackstring;
 
-  switch(attackId)
+  switch(skillId)
   {
-  case CombatMGR::EnergyBind:
-    effectsmgr->CreateEffect(getMesh(attacker), EffectsManager::Pentagram);
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Energysphere);
-    //attacker->SetAction("casting1");
-    attackstring = "casts Energy Bind on";
+  case CombatMGR::Heal:
+    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Levelup);
+    attackstring = "rejuvenates";
     break;
   case CombatMGR::EnergySpear:
     effectsmgr->CreateEffect(getMesh(target), EffectsManager::Energyspear);
@@ -290,11 +357,12 @@ void CombatMGR::Attack (int attackerId, int targetId, int attackId, int error)
     //attacker->SetAction("melee");
     attackstring = "takes a swing at";
     break;
-  case CombatMGR::Heal:
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Healspell);
-    attackstring = "rejuvenates";
+  case CombatMGR::EnergyBind:
+    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Energysphere);
+    attackstring = "casts Energy Bind on";
     break;
-  default: printf("CombatMGR: Unknown attack with ID %d !\n", attackId); return;
+
+  default: printf("CombatMGR: Unknown skill with ID %d !\n", skillId); return;
   }
 
   // Send a message to the GUI.
@@ -303,24 +371,24 @@ void CombatMGR::Attack (int attackerId, int targetId, int attackId, int error)
   //sprintf(msg, "%s %s %s",attacker->GetName(), attackstring->GetData(), target->GetName() );
   //guimanager->GetCombatLog()->AddMessage(msg);
 
-  csRef<iPcProperties> pcpropa = CEL_QUERY_PROPCLASS_ENT(attacker, iPcProperties);
+  csRef<iPcProperties> pcpropa = CEL_QUERY_PROPCLASS_ENT(caster, iPcProperties);
   if (!pcpropa)return;
   csRef<iPcProperties> pcpropt = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
   if (!pcpropt)return;
-  csString attackername = pcpropa->GetPropertyString(pcpropa->GetPropertyIndex("Entity Name"));
+  csString castername = pcpropa->GetPropertyString(pcpropa->GetPropertyIndex("Entity Name"));
   csString targetname = pcpropt->GetPropertyString(pcpropt->GetPropertyIndex("Entity Name"));
 
   char msg[1024];
-  sprintf(msg,"%s %s %s.",attackername.GetData(), attackstring.GetData(), targetname.GetData() );
+  sprintf(msg,"%s %s %s.",castername.GetData(), attackstring.GetData(), targetname.GetData() );
   guimanager->GetChatWindow()->AddMessage(msg);
 
 }
 
-void CombatMGR::RequestAttack (iCelEntity* target, int attackId)
+void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId)
 {
   // Get your own entity.
   iCelEntity* attacker = entitymgr->getOwnEntity();
-  int attackerId = entitymgr->GetOwnId();
+  unsigned int attackerId = entitymgr->GetOwnId();
 
   // Lookup the ID to get the actual entity.
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
@@ -329,7 +397,7 @@ void CombatMGR::RequestAttack (iCelEntity* target, int attackId)
     printf("CombatMGR: Couldn't find pcprop for target!\n");
     return;
   }
-  int targetId   = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
+  unsigned int targetId   = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
 
 
   if (!targetId)
@@ -349,13 +417,6 @@ void CombatMGR::RequestAttack (iCelEntity* target, int attackId)
   *  to avoid cheating.
   */
 
-  // Check if you're not attacking yourself.
-  if (targetId == attackerId)
-  {
-    printf("CombatMGR: Don't attack yourself!\n");
-    return;
-  }
-
   /*
   // Calculate the distance between both enemies.
   float distance = distance(target, attacker);
@@ -371,11 +432,14 @@ void CombatMGR::RequestAttack (iCelEntity* target, int attackId)
     guimanager->GetCombatLog()->AddMessage("You should face your target!");
     return;
   }
+   */
 
   // Prepare and send the network message.
-  AttackRequestMessage msg;
-  msg->SetTargetId(TargetId);
-  msg->SetAttackId(attackId);
-  network->sendMsg(msg);
-  */
+  SkillUsageStartRequestMessage msg;
+  msg.setTarget(targetId);
+  msg.setSkill(skillId);
+  network->send(&msg);
+
+  printf("CombatMGR: Sent SkillUsageStartRequestMessage.\n");
+ 
 }

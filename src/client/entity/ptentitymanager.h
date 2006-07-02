@@ -75,7 +75,7 @@ private:
 
   Mutex mutex;
 
-  int own_char_id;
+  unsigned int own_char_id;
   csRef<iCamera> owncam;
   csRef<iCelEntity> ownent;
   const char* ownname;
@@ -107,10 +107,10 @@ public:
 
   iCelEntity* findCelEntById(int id);
 
-  void setCharacter(int own_char) { own_char_id = own_char; }
+  void setCharacter(unsigned int own_char) { own_char_id = own_char; }
   iCamera* getOwnCamera() { return owncam; }
   iCelEntity* getOwnEntity() { return ownent; }
-  int GetOwnId() { return own_char_id; }
+  unsigned int GetOwnId() { return own_char_id; }
   const char* GetOwnName() { return ownname; }
 
   void setPlaying(bool value) { playing = value; }

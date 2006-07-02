@@ -245,7 +245,7 @@ public:
 class CharacterCreationResponseMessage : public NetMessage
 {
   ptString error;
-  int char_id;
+  unsigned int char_id;
   ptString char_name;
 
 public:
@@ -274,8 +274,8 @@ public:
   ptString& getError() { return error; }
   void setError(ptString message) { error = message; }
 
-  int getCharacterId() { return char_id; }
-  void setCharacterId(int charid) { char_id = charid; }
+  unsigned int getCharacterId() { return char_id; }
+  void setCharacterId(unsigned int charid) { char_id = charid; }
 
   ptString& getCharacterName() { return char_name; }
   void setCharacterName(ptString name) { char_name = name; }
@@ -284,7 +284,7 @@ public:
 
 class CharacterSelectionRequestMessage : public NetMessage
 {
-  int charId;
+  unsigned int charId;
 
 public:
   CharacterSelectionRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_SELECTION_REQUEST) {}
@@ -305,14 +305,14 @@ public:
     charId = serial.getInt32();
   }
 
-  int getCharId() { return charId; }
-  void setCharId(int char_id) { charId = char_id; }
+  unsigned int getCharId() { return charId; }
+  void setCharId(unsigned int char_id) { charId = char_id; }
 };
 
 class CharacterSelectionResponseMessage : public NetMessage
 {
   ptString error;
-  int entityId;
+  unsigned int entityId;
 
 public:
   CharacterSelectionResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_SELECTION_RESPONSE) { }
@@ -338,8 +338,8 @@ public:
   ptString& getError() { return error; }
   void setError(ptString message) { error = message; }
 
-  int getEntityId() { return entityId; }
-  void setEntityId(int ent_id) { entityId = ent_id; }
+  unsigned int getEntityId() { return entityId; }
+  void setEntityId(unsigned int ent_id) { entityId = ent_id; }
 };
 
 #endif // _USERMESSAGES_H_

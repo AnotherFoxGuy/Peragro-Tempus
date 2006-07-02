@@ -4,6 +4,13 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+2-Juli-2006
+  - Sueastside started using the combatmanager with the networkhandler:
+    - renamed attack to skill and attacker to caster.
+    - renamed attack() to SkillUsageStart()
+    - added SkillUsageComplete()
+    - changed some ints to unsigned ints.
+
 1-Juli-2006
   - PK implemented Skills on the Server side. Codes hasn't been tested yet.
 
