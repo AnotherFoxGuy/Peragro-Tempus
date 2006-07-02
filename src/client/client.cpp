@@ -139,8 +139,10 @@ void Client::PreProcessFrame()
   if (timer > 1000)
   {
     timer = 0;
-    UpdateDREntityRequestMessage drmsg = entitymanager->DrUpdateOwnEntity();
-    network->send(&drmsg);
+    if (state == STATE_PLAY)
+    {
+      entitymanager->DrUpdateOwnEntity();
+    }
   }
 }
 
@@ -223,7 +225,7 @@ bool Client::Application()
   InitializeCEL();
 
   // Create and Initialize the EntityManager.
-  entitymanager = new ptEntityManager (GetObjectRegistry());
+  entitymanager = new ptEntityManager (GetObjectRegistry(), this);
   if (!entitymanager->Initialize (GetObjectRegistry()))
     return false;
   

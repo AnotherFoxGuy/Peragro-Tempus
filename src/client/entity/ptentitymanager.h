@@ -50,6 +50,8 @@ private:
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
 
+  Client* client;
+
   struct Movement
   {
     int entity_id;
@@ -92,7 +94,7 @@ private:
 
 public:
 
-  ptEntityManager (iObjectRegistry* obj_reg);
+  ptEntityManager (iObjectRegistry* obj_reg, Client* client);
   ~ptEntityManager ();
 
   bool Initialize (iObjectRegistry* obj_reg);

@@ -93,8 +93,10 @@
 #include "common/network/netmessage.h"
 
 
-ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg)
+ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
 {
+  this->client = client;
+
   engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
   //if (!engine) return ReportError("Failed to locate 3D engine!");
 
@@ -354,6 +356,8 @@ UpdateDREntityRequestMessage ptEntityManager::DrUpdateOwnEntity()
         drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
       else
         drmsg.setSector(ptString(0,0));
+
+      client->getNetwork()->send(&drmsg);
     }
   }
 
