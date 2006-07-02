@@ -293,6 +293,7 @@ void ptEntityManager::DrUpdateEntity(DrUpdate* drupdate)
   if (own_char_id == drupdate->entity_id)
   {
     delete drupdate;
+    mutex.unlock();
     return;
   }
   drupdate_entity_name.Push(drupdate);
