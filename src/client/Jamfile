@@ -27,178 +27,79 @@ if [ Property build : projgen_version ] != 6
   LFlags client_static : -lcrystalspace_staticplugins  -lcel_staticplugins ;
   LinkWith client_static : client-network client-gui client-effects client-entitymanager client-combatmanager entity util ;
   LinkStaticPlugins client_static :
-    addon_celentity
-    addon_celentitytpl
-    addon_questdef
-    bltest
-    mgr_quests
     pfactormove
     pfdefcam
     pfinput
-    pfinv
     pfengine
     pfmesh
     pfmove
-    pfquest
-    pftest
     pftools
     pftrigger
-    pfzone
     stdphyslayer
-    xmlpersist
   :
   ;
 
   cs_plugins_static = 
-    bugplug
-    csopcode
-    csconin
-    fancycon
-    simpcon
-    csconout
-    cssynldr
-    csparser
-    cssaver
-    frustvis
-    joylin
-    bindoc
-    dsplex
-    xmlread
-    xmltiny
-    engine
-    rendloop_loader
-    rendstep_std
-    engseq
     vfs
+    bugplug
+    freefnt2
     csfont
     fontplex
-    freefnt2
-    cegui
-    bezier
-    bezierldr
-    emit
-    emitldr
-    explo
-    exploldr
-    fire
-    fireldr
-    fountain
-    fountldr
-    gmeshanim
-    genmesh
-    gmesh3ds
-    gmeshldr
-    gmeshskelanim
-    haze
-    hazeldr
-    instmesh
-    instmeshldr
-    lghtng
-    lghtngldr
-    nullmesh
-    nullmeshldr
-    particles
-    particlesldr
-#    partphys_ode
-    partphys_simple
-    protomesh
-    protomeshldr
-    rain
-    rainldr
-    snow
-    snowldr
-    spiral
-    spirldr
-    spr2d
-    spr2dldr
-    spr3d
-    spr3dbin
-    spr3md2
-    spr3dldr
-    sprcal3d
-    sprcal3dldr
-    stars
-    starldr
-    bruteblock
-    terrainldr
-    skeleton
-    skelldr
-    thing
-    thingldr
-    movierecorder
-    physldr
-#    odedynam
-    ptanimimg
-    stdpt
-    tlfunc
-    reporter
-    sequence
-    sndsysloader
-    sndsysogg
-    sndsyswav
-    sndmanager
-#    sndsysjackasyn
-#    sndsysoss
-    sndsysalsa
+    gl3d
+    csconin
+    csconout
     sndsyssoft
-    sndsyseventrecorder
+    sndsyswin
+    imgplex
+    xmlread
+    bindoc
+    dsplex
+    sndsysloader
+    sndsyswav
+    sndsysogg
+    engine
+    csparser
+    cssynldr
+    sndmanager
+    csopcode
+    cegui
+    reporter
     stdrep
-    simpleformerldr
-    simpleformer
-    pagingformerldr
-    pagingformer
-    cacacanvas
-    memory2d
-    null2d
-    glx2d
-    sdl2d
-    x2d
-#    wxgl
-    xext86vm
-    xextshm
-    xwin
-    cscursor
+    shadermgr
+    xmlshader
+    rendstep_std
     csbmpimg
     csddsimg
     csgifimg
     csjngimg
     csjpgimg
-    imgplex
     cspngimg
+    particlesldr
+    particles
     cstgaimg
-    null3d
-    gl3d
-    xmlshader
-    shadermgr
+    gmeshldr
+    genmesh
+    rendloop_loader
+    simpleformerldr
+    simpleformer
+    terrainldr
+    bruteblock
+    frustvis
+    engseq
+    sequence
+    rainldr
+    rain
+    partphys_simple
+    sprcal3dldr
+    sprcal3d
+    glshader_fixed
     glshader_arb
     glshader_cg
-    glshader_fixed
-    glshader_ps1
-    softshader
-    vproc_std
-    soft3d
   ;
+
   cs_plugins_static_optional = 
-#    aws
-#    aws2
-#    csperl5
-#    cspython
-#    _cspace
-#    dynavis_debug
-    joywin
-    rendstep_fatrl
-    rendstep_stencil
-    rendstep_stencil2
-#    csvosa3dl
-#    bullet
-    sndsyswin
-    glwin32
-    glosx2d
-    cgdriver2d
-    ddraw2d
-    sndsyscoreaudio
-#    dynavis
   ;
+
   if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 ; }
 
   LinkStaticPlugins client_static :  $(cs_plugins_static)  : $(cs_plugins_static_optional) : CRYSTAL  ;
