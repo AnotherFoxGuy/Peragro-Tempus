@@ -129,6 +129,7 @@ private:
   bool Onslider(const CEGUI::EventArgs& e);
   bool OnRootKeyDown(const CEGUI::EventArgs& e);
   void CreateDropList();
+  bool HandleCommand(const char* texti);
 
 public:
   ChatWindow(GUIManager* guimanager);

@@ -108,7 +108,7 @@ ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
 
   world_loaded = false;
   playing = false;
-  own_char_id = -1;
+  own_char_id = 0;
 }
 
 ptEntityManager::~ptEntityManager ()

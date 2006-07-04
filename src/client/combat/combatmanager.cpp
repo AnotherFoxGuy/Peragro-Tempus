@@ -263,7 +263,13 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
   if (ptString(0,0) == error)
     printf("CombatMGR: %d cast %d on %d, error %s\n",casterId,targetId,skillId, *error);
   else
+  {
     printf("CombatMGR: %s \n", *error);
+    char msg[1024];
+    sprintf(msg,"%s", *error);
+    guimanager->GetChatWindow()->AddMessage(msg);
+    return;
+  }
 
   // Lookup the IDs to get the actual entities.
   iCelEntity* caster = entitymgr->findCelEntById(casterId);

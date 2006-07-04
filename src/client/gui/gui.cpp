@@ -336,14 +336,6 @@ void ChatWindow::CreateGUIWindow ()
   btn = winMgr->getWindow("Root");
   btn->subscribeEvent(CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber(&ChatWindow::OnRootKeyDown, this));
 
-/*
-  btn = winMgr->getWindow("Say");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
-  btn = winMgr->getWindow("Shout");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnShout, this));
-  btn = winMgr->getWindow("Whisper");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ChatWindow::OnWhisper, this));
-*/
   btn = winMgr->getWindow("InputPanel/ChatDropList");
   btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ChatWindow::OnDropList, this));
 }
@@ -364,6 +356,15 @@ bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
     winMgr->getWindow("Chatlog/Frame")->activate();
     return true;
   }
+
+  // IF HandleCommand returns true, the text was a command
+  // and we can return.
+  if ( HandleCommand(text.c_str()) ) 
+  {
+    btn->setText(text.erase());
+    return true;
+  }
+
   printf("Say: %s\n", text.c_str());
   ChatMessage msg;
   msg.setType(0);
@@ -371,6 +372,70 @@ bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
   network->send(&msg);
   btn->setText(text.erase());
   return true;
+}
+
+bool ChatWindow::HandleCommand (const char* texti)
+{
+  csString text = texti;
+
+  // Check if the first character is "/"
+  // then we know its a command.
+  if (strncmp (texti,"/",1) == 0)
+  {
+    // Find the end of the first word, which is our command.
+    int pos = text.FindFirst(" ");
+    csString command;
+    csArray<csString> arg;
+
+    // The command is one word.
+    if ( pos == (size_t)-1 ) 
+      command = text.Slice(1, text.Length());
+    // The command is several words.
+    else 
+    {
+      command = text.Slice(1, pos-1);
+
+      csString args = text.Slice(pos+1, text.Length());
+      csString tail = args;
+
+      // Push the arguments on an array.
+      while (tail.Length() > 0)
+      {
+        int pos = tail.FindFirst(" ");
+        if ( pos == (size_t)-1 ) 
+        {
+          arg.Push( tail.Slice(0, tail.Length()+1) );
+          printf("ChatWindow: HandleCommand: Added argument: %s\n", tail.Slice(0, tail.Length()).GetData() );
+          tail.Clear();
+        }
+        else
+        {
+          arg.Push( tail.Slice(0, pos) );
+          printf("ChatWindow: HandleCommand: Added argument: %s\n", tail.Slice(0, pos).GetData() );
+          tail = tail.Slice(pos+1, tail.Length());
+        }
+      }
+
+    }
+
+    printf("ChatWindow: HandleCommand: found %s\n", command.GetData());
+
+
+    if (command.Compare("spawn"))
+    {
+      printf("ChatWindow: HandleCommand: handled spawn!\n");
+    }
+    else if (command.GetData() == "guild")
+    {
+      printf("ChatWindow: HandleCommand: handled guild!\n");
+    }
+    else 
+      printf("ChatWindow: HandleCommand: Unknown command!\n"); 
+    
+    return true;
+  }
+
+  return false;
 }
 
 bool ChatWindow::OnShout (const CEGUI::EventArgs& e)
