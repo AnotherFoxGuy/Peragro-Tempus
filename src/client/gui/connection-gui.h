@@ -16,13 +16,24 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef CONNECTION_GUI_H
+#define CONNECTION_GUI_H
 
-#include "connection-gui.h"
-#include "login-gui.h"
-#include "charsel-gui.h"
-#include "chat-gui.h"
-#include "inventory-gui.h"
+#include "base-gui.h"
 
-#endif // GUI_H
+/*====================//
+// GUIConnectWindow   //
+//====================*/
+class ConnectWindow : public GUIWindow
+{
+private:
+  bool ConnectButtonPressed(const CEGUI::EventArgs& e);   // Executed when the Connect button is pressed.
+  csString GetServer();                                   // Return the selected server.
+
+public:
+  ConnectWindow(GUIManager* guimanager);
+  virtual ~ConnectWindow();
+  void CreateGUIWindow();    // load the Login guilayout and register button events.	  
+};
+
+#endif // CONNECTION_GUI_H

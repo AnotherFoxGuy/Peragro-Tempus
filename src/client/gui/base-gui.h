@@ -16,13 +16,47 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef BASE_GUI_H
+#define BASE_GUI_H
 
-#include "connection-gui.h"
-#include "login-gui.h"
-#include "charsel-gui.h"
-#include "chat-gui.h"
-#include "inventory-gui.h"
+#include "cssysdef.h"
 
-#endif // GUI_H
+#include "iutil/string.h"
+#include "iutil/vfs.h"
+
+#include "CEGUI.h"
+#include "ivaria/icegui.h"
+
+#include "common/network/netmessage.h"
+#include "common/util/mutex.h"
+
+class Network;
+class GUIManager;
+
+class GUIWindow
+{
+private:
+
+protected:
+  CEGUI::Window* rootwindow;
+  CEGUI::Window* btn;
+  CEGUI::WindowManager* winMgr;
+  csRef<iCEGUI> cegui;
+  csRef<iVFS> vfs;
+  Network* network;
+
+  GUIManager* guimanager;
+
+  CEGUI::Window* LoadLayout(const char* layoutFile);
+
+public:
+  GUIWindow(GUIManager* guimanager);
+  ~GUIWindow();
+  void CreateGUIWindow(const char* layoutFile);
+  void HideWindow();
+  void ShowWindow();
+  void EnableWindow();
+  void DisableWindow();
+};
+
+#endif // BASE_GUI_H

@@ -16,13 +16,34 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef CHAT_GUI_H
+#define CHAT_GUI_H
 
-#include "connection-gui.h"
-#include "login-gui.h"
-#include "charsel-gui.h"
-#include "chat-gui.h"
-#include "inventory-gui.h"
+#include "base-gui.h"
 
-#endif // GUI_H
+/*================//
+// GUIChatWindow  //
+//================*/
+class ChatWindow : public GUIWindow
+{
+private:
+  bool OnSay(const CEGUI::EventArgs& e);
+  bool OnShout(const CEGUI::EventArgs& e);
+  bool OnWhisper(const CEGUI::EventArgs& e);
+  bool OnDropList(const CEGUI::EventArgs& e);
+  bool Onslider(const CEGUI::EventArgs& e);
+  bool OnRootKeyDown(const CEGUI::EventArgs& e);
+  void CreateDropList();
+  bool HandleCommand(const char* texti);
+
+public:
+  ChatWindow(GUIManager* guimanager);
+  virtual ~ChatWindow();
+  void CreateGUIWindow();    // load the chat guilayout and register button events.
+
+  void AddChatMessage(csRef<iString> msg);
+  void AddMessage (const char* msg);
+};
+
+
+#endif // CHAT_GUI_H
