@@ -51,7 +51,7 @@
 			<diffusion>1.0</diffusion>
 			<radius>0.07</radius>
 			<ttl>0.5</ttl>
-			<zsort>yes</zsort>
+			<zsort>no</zsort>
 			<timevariation>0.5</timevariation>
 			<colormethod type="linear">
 				<gradient>

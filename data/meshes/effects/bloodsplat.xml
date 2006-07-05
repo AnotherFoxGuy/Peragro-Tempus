@@ -18,7 +18,7 @@
 
 	  <material name="particle">
 	    <texture>dot</texture>
-		<shader type="ambient">particle_basic</shader>
+		  <shader type="ambient">particle_basic</shader>
 	  </material>
 	  
 </materials>
@@ -49,7 +49,7 @@
 		      		  <diffusion>0.1</diffusion>
 		      		  <radius>0.01</radius>
 		      		  <ttl>5</ttl>
-		      		  <zsort>yes</zsort>
+		      		  <zsort>no</zsort>
 		  <timevariation>10.5</timevariation>
 		      <colormethod type="linear">
 		        		    <gradient>
