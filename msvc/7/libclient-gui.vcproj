@@ -158,20 +158,53 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\gui\gui.cpp">
+				RelativePath="..\..\src\client\gui\base-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\charsel-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\chat-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\connection-gui.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\guimanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\inventory-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\login-gui.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\gui\base-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\charsel-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\chat-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\connection-gui.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\guimanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\inventory-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\login-gui.h">
 			</File>
 		</Filter>
 	</Files>
