@@ -138,6 +138,18 @@ void ptEntityManager::Handle ()
   DrUpdateEntity();
 }
 
+ptCelEntity* ptEntityManager::findPtEntById(int id)
+{
+  for (size_t i = 0; i < entities.Length(); i++)
+  {
+    if (entities[i].GetId() == id)
+    {
+      return &entities[i];
+    }
+  }
+  return 0;
+}
+
 iCelEntity* ptEntityManager::findCelEntById(int id)
 {
   for (size_t i = 0; i < entities.Length(); i++)
@@ -247,13 +259,13 @@ void ptEntityManager::moveEntity(int entity_id, float speed, float* fv1, float* 
         sprcal3d->SetVelocity(speed);
     }
   }
-  else printf("entity not found!");
+  else printf("ptEntityManager: entity %d not found!", entity_id);
 }
 
 void ptEntityManager::moveEntity(int entity_id, float walk, float turn)
 {
   mutex.lock();
-  printf("Add movement for '%d': w(%.2f) r(%.2f)\n", entity_id, walk, turn);
+  printf("ptEntityManager: Add movement for '%d': w(%.2f) r(%.2f)\n", entity_id, walk, turn);
   Movement* movement = new Movement();
   movement->entity_id = entity_id;
   movement->walk = walk;
@@ -421,7 +433,7 @@ void ptEntityManager::createCelEntity(Entity* ent)
 
   if (own_char_id == ent->getId())
   {
-    printf("Adding Entity '%s' as me\n", entity->GetName());
+    printf("ptEntityManager:  Adding Entity '%s' as me\n", entity->GetName());
     pl->CreatePropertyClass(entity, "pcdefaultcamera");
     csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
     pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
@@ -434,7 +446,7 @@ void ptEntityManager::createCelEntity(Entity* ent)
   }
   else
   {
-    printf("Adding Entity '%s'\n", entity->GetName());
+    printf("ptEntityManager: Adding Entity '%s'\n", entity->GetName());
   }
 
   pclinmove->InitCD(

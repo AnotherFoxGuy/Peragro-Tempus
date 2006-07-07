@@ -26,6 +26,12 @@ ptCelEntity::ptCelEntity (int id, int type, csString name, iCelEntity* celentity
   ptCelEntity::name = name;
   ptCelEntity::celentity = celentity;
   //ptCelEntity::pclinmove = pclinmove;
+
+  // Stats
+  ptCelEntity::hp = 50;
+  ptCelEntity::mp = 10;
+  ptCelEntity::totalhp = 50;
+  ptCelEntity::totalmp = 50;
 }
 
 ptCelEntity::~ptCelEntity()

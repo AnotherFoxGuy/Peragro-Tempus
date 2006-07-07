@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<GUIScheme Name="Peragro">
+	<Imageset Name="Peragro" Filename="Peragro.imageset" />
+	<Font Name="Commonwealth-10" Filename="Commonwealth-10.font" />
+	<Font Name="Commonwealth-8" Filename="Commonwealth-8.font" />
+	<LookNFeel Filename="Peragro.looknfeel" />
+	<WindowSet Filename="CEGUIFalagardBase" />
+	<FalagardMapping WindowType="Peragro/Button" TargetType="Falagard/Button" LookNFeel="Peragro/Button" />
+	<FalagardMapping WindowType="Peragro/Checkbox" TargetType="Falagard/Checkbox" LookNFeel="Peragro/Checkbox" />
+	<FalagardMapping WindowType="Peragro/ComboDropList" TargetType="Falagard/ComboDropList" LookNFeel="Peragro/ComboDropList" />
+	<FalagardMapping WindowType="Peragro/ComboEditbox" TargetType="Falagard/Editbox" LookNFeel="Peragro/ComboEditbox" />
+	<FalagardMapping WindowType="Peragro/Combobox" TargetType="Falagard/Combobox" LookNFeel="Peragro/Combobox" />
+	<FalagardMapping WindowType="Peragro/Editbox" TargetType="Falagard/Editbox" LookNFeel="Peragro/Editbox" />
+	<FalagardMapping WindowType="Peragro/FrameWindow" TargetType="Falagard/FrameWindow" LookNFeel="Peragro/FrameWindow" />
+	<FalagardMapping WindowType="Peragro/HorizontalScrollbar" TargetType="Falagard/Scrollbar" LookNFeel="Peragro/HorizontalScrollbar" />
+	<FalagardMapping WindowType="Peragro/HorizontalScrollbarThumb" TargetType="Falagard/Thumb" LookNFeel="Peragro/HorizontalScrollbarThumb" />
+	<FalagardMapping WindowType="Peragro/LargeVerticalScrollbar" TargetType="Falagard/Scrollbar" LookNFeel="Peragro/LargeVerticalScrollbar" />
+	<FalagardMapping WindowType="Peragro/LargeVerticalScrollbarThumb" TargetType="Falagard/Thumb" LookNFeel="Peragro/LargeVerticalScrollbarThumb" />
+	<FalagardMapping WindowType="Peragro/ListHeader" TargetType="Falagard/ListHeader" LookNFeel="Peragro/ListHeader" />
+	<FalagardMapping WindowType="Peragro/ListHeaderSegment" TargetType="Falagard/ListHeaderSegment" LookNFeel="Peragro/ListHeaderSegment" />
+	<FalagardMapping WindowType="Peragro/Listbox" TargetType="Falagard/Listbox" LookNFeel="Peragro/Listbox" />
+	<FalagardMapping WindowType="Peragro/Menubar" TargetType="Falagard/Menubar" LookNFeel="Peragro/PopupMenu" />
+	<FalagardMapping WindowType="Peragro/MenuItem" TargetType="Falagard/MenuItem" LookNFeel="Peragro/MenuItem" />
+	<FalagardMapping WindowType="Peragro/MultiColumnList" TargetType="Falagard/MultiColumnList" LookNFeel="Peragro/MultiColumnList" />
+	<FalagardMapping WindowType="Peragro/MultiLineEditbox" TargetType="Falagard/MultiLineEditbox" LookNFeel="Peragro/MultiLineEditbox" />
+	<FalagardMapping WindowType="Peragro/MultiLineEditbox2" TargetType="Falagard/MultiLineEditbox" LookNFeel="Peragro/MultiLineEditbox2" />
+	<FalagardMapping WindowType="Peragro/PopupMenu" TargetType="Falagard/PopupMenu" LookNFeel="Peragro/PopupMenu" />
+	<FalagardMapping WindowType="Peragro/ProgressBar" TargetType="Falagard/ProgressBar" LookNFeel="Peragro/ProgressBar" />
+	<FalagardMapping WindowType="Peragro/RadioButton" TargetType="Falagard/RadioButton" LookNFeel="Peragro/RadioButton" />
+	<FalagardMapping WindowType="Peragro/ScrollablePane" TargetType="Falagard/ScrollablePane" LookNFeel="Peragro/ScrollablePane" />
+	<FalagardMapping WindowType="Peragro/Slider" TargetType="Falagard/Slider" LookNFeel="Peragro/Slider" />
+	<FalagardMapping WindowType="Peragro/SliderThumb" TargetType="Falagard/Thumb" LookNFeel="Peragro/SliderThumb" />
+	<FalagardMapping WindowType="Peragro/Spinner" TargetType="Falagard/Spinner" LookNFeel="Peragro/Spinner" />
+	<FalagardMapping WindowType="Peragro/StaticImage" TargetType="Falagard/StaticImage" LookNFeel="Peragro/StaticImage" />
+	<FalagardMapping WindowType="Peragro/StaticText" TargetType="Falagard/StaticText" LookNFeel="Peragro/StaticText" />
+	<FalagardMapping WindowType="Peragro/SystemButton" TargetType="Falagard/SystemButton" LookNFeel="Peragro/Button" />
+	<FalagardMapping WindowType="Peragro/TabButton" TargetType="Falagard/TabButton" LookNFeel="Peragro/TabButton" />
+	<FalagardMapping WindowType="Peragro/TabControl" TargetType="Falagard/TabControl" LookNFeel="Peragro/TabControl" />
+	<FalagardMapping WindowType="Peragro/TabPane" TargetType="Falagard/TabPane" LookNFeel="Peragro/TabPane" />
+	<FalagardMapping WindowType="Peragro/Titlebar" TargetType="Falagard/Titlebar" LookNFeel="Peragro/Titlebar" />
+	<FalagardMapping WindowType="Peragro/Tooltip" TargetType="Falagard/Tooltip" LookNFeel="Peragro/Tooltip" />
+	<FalagardMapping WindowType="Peragro/VerticalScrollbar" TargetType="Falagard/Scrollbar" LookNFeel="Peragro/VerticalScrollbar" />
+	<FalagardMapping WindowType="Peragro/VerticalScrollbarThumb" TargetType="Falagard/Thumb" LookNFeel="Peragro/VerticalScrollbarThumb" />
+	<FalagardMapping WindowType="Peragro/VUMeter" TargetType="Falagard/ProgressBar" LookNFeel="Peragro/VUMeter" />
+
+	<FalagardMapping WindowType="Peragro/TitlebarNo" TargetType="Falagard/Titlebar" LookNFeel="Peragro/TitlebarNo" />
+	<FalagardMapping WindowType="Peragro/InvisbleWindow" TargetType="Falagard/StaticImage" LookNFeel="Peragro/InvisbleWindow" />
+	<FalagardMapping WindowType="Peragro/StaticTextNo" TargetType="Falagard/StaticText" LookNFeel="Peragro/StaticTextNo" />
+</GUIScheme>

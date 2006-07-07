@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+
+8-Juli-2006
+  - Sueastside added a basic HUD.
+
 5-Juli-2006
   - PK splitted the gui classes to individual files.
 

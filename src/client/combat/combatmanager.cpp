@@ -159,36 +159,49 @@ bool CombatMGR::Initialize (iObjectRegistry* obj_reg)
 void CombatMGR::hit (int targetId, int damage)
 {
   // Lookup the ID to get the actual entity.
-  iCelEntity* target = entitymgr->findCelEntById(targetId);
-
-  csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (getMesh(target)->GetMeshObject(), iSpriteCal3DState);
-  if (!cal3dstate) return;
+  //iCelEntity* target = entitymgr->findCelEntById(targetId);
+  ptCelEntity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
   {
     printf("CombatMGR: Couldn't find entity with ID %d !", targetId);
     return;
   }
+
+  iCelEntity* targetcel = target->GetCelEntity();
+
+  if (!targetcel)
+  {
+    printf("CombatMGR: Couldn't find iCelEntity of entity with ID %d !", targetId);
+    return;
+  }
+
+  csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (getMesh(targetcel)->GetMeshObject(), iSpriteCal3DState);
+  if (!cal3dstate) return;
+
   // Damage is positive, we got hurt.
   if (damage > 0)
   {
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Blood);
+    effectsmgr->CreateEffect(getMesh(targetcel), EffectsManager::Blood);
     cal3dstate->SetAnimAction("walkcycle", 0.5f, 0.5f);
   }
   // Damage is negative, we got healed.
   else if (damage < 0)
   {
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Healeffect);
+    effectsmgr->CreateEffect(getMesh(targetcel), EffectsManager::Healeffect);
     //target->SetAction("heal");
   }
   else if (damage == 0)
   {
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Deflect);
+    effectsmgr->CreateEffect(getMesh(targetcel), EffectsManager::Deflect);
     //target->SetAction("deflect");
   }
   // Update the entity's HP(this will update the GUI aswell).
-  //target->AddToHP(-damage);
-  printf("You healed %d points!\n", damage);
+  target->AddToHP(-damage);
+  printf("You %s %d points!\n", damage < 0 ? "healed" : "got hit for", damage);
+
+  //test
+  guimanager->GetHUDWindow()->SetHP(target->GetHP());
 
 }
 

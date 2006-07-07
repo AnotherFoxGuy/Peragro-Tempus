@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
-<Window Type="TaharezLook/FrameWindow" Name="Connect" >
+<Window Type="Peragro/FrameWindow" Name="Connect" >
 <Property Name="CloseButtonEnabled" Value="False" />
 <Property Name="CaptionColour" Value="00FFFFFF" />
 <Property Name="Text" Value="Connect" />
@@ -10,20 +10,20 @@
 <Property Name="AbsoluteSize" Value="w:150 h:120" />
 <Property Name="Alpha" Value="0.3" />
 
-<Window Type="TaharezLook/StaticText" Name="L_server" >
+<Window Type="Peragro/StaticText" Name="L_server" >
 <Property Name="Text" Value="Server:" />
 <Property Name="UnifiedAreaRect" Value="{{0.080000,0.000000},{0.24,0.000000},{0.93,0.000000},{0.46,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/Editbox" Name="Server" >
+<Window Type="Peragro/Editbox" Name="Server" >
 <Property Name="MaxTextLength" Value="1073741823" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTextBar" />
 <Property Name="UnifiedAreaRect" Value="{{0.080000,0.000000},{0.51,0.000000},{0.93,0.000000},{0.73,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Property Name="Text" Value="peragro.org" />
 </Window>
-<Window Type="TaharezLook/Button" Name="Connect_Button" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Window Type="Peragro/Button" Name="Connect_Button" >
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseArrow" />
 <Property Name="UnifiedAreaRect" Value="{{0.080000,0.000000},{0.78,0.000000},{0.93,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Property Name="Text" Value="Connect" />

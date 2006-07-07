@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
-<Window Type="TaharezLook/FrameWindow" Name="CharSelectUI" >
+<Window Type="Peragro/FrameWindow" Name="CharSelectUI" >
 <Property Name="CloseButtonEnabled" Value="False" />
 <Property Name="CaptionColour" Value="00FFFFFF" />
 <Property Name="Text" Value="Character Selection" />
@@ -12,33 +12,33 @@
 <Property Name="AbsoluteSize" Value="w:260 h:170" />
 <Property Name="Alpha" Value="0.3" />
 	
-<Window Type="TaharezLook/MultiColumnList" Name="Characters" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Window Type="Peragro/MultiColumnList" Name="Characters" >
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseArrow" />
 <Property Name="UnifiedAreaRect" Value="{{0.050000,0.000000},{0.22,0.000000},{0.933028,0.000000},{0.78,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 <Property Name="SelectedTextColour" Value="FF000000" />
 </Window>
-<Window Type="TaharezLook/Button" Name="CharSelOk" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Window Type="Peragro/Button" Name="CharSelOk" >
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseArrow" />
 <Property Name="Text" Value="Ok" />
 <Property Name="UnifiedAreaRect" Value="{{0.600000,0.000000},{0.83,0.000000},{0.76,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/Button" Name="CharSelNew" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Window Type="Peragro/Button" Name="CharSelNew" >
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseArrow" />
 <Property Name="Text" Value="New" />
 <Property Name="UnifiedAreaRect" Value="{{0.430000,0.000000},{0.83,0.000000},{0.59,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/Button" Name="CharSelCC" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Window Type="Peragro/Button" Name="CharSelCC" >
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseArrow" />
 <Property Name="Text" Value="Cancel" />
 <Property Name="UnifiedAreaRect" Value="{{0.770000,0.000000},{0.83,0.000000},{0.97,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/Editbox" Name="CharNewName" >
+<Window Type="Peragro/Editbox" Name="CharNewName" >
 <Property Name="MaxTextLength" Value="1073741823" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTextBar" />
 <Property Name="UnifiedAreaRect" Value="{{0.050000,0.000000},{0.83,0.000000},{0.41,0.000000},{0.95,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>

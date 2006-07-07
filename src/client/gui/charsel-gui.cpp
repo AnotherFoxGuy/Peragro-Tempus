@@ -113,8 +113,8 @@ void SelectCharWindow::AddCharacter(unsigned int charId, const char* name)
   CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem(charIdstr);
   CEGUI::ListboxItem* charNameItem = new CEGUI::ListboxTextItem(name);
 
-  charIdItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
-  charNameItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
+  charIdItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
+  charNameItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
 
   unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
   ((CEGUI::MultiColumnList*)btn)->setItem(charIdItem, 0, row);

@@ -180,9 +180,6 @@ bool Client::OnInitialize(int argc, char* argv[])
 
   csBaseEventHandler::Initialize(GetObjectRegistry());
 
-  if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
-    return ReportError("Failed to set up event handler!");
-
   return true;
 }
 
@@ -200,6 +197,14 @@ bool Client::Application()
 
   g3d = CS_QUERY_REGISTRY(GetObjectRegistry(), iGraphics3D);
   if (!g3d) return ReportError("Failed to locate 3D renderer!");
+
+ // Create and Initialize the GUImanager.
+  guimanager = new GUIManager (this);
+  if (!guimanager->Initialize (GetObjectRegistry()))
+    return false;
+
+  if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
+    return ReportError("Failed to set up event handler!");
 
   engine = CS_QUERY_REGISTRY(GetObjectRegistry(), iEngine);
   if (!engine) return ReportError("Failed to locate 3D engine!");
@@ -236,11 +241,6 @@ bool Client::Application()
   // Create and Initialize the Effectsmanager.
   effectsmanager = new EffectsManager (GetObjectRegistry());
   if (!effectsmanager->Initialize (GetObjectRegistry()))
-    return false;
-
-  // Create and Initialize the GUImanager.
-  guimanager = new GUIManager (this);
-  if (!guimanager->Initialize (GetObjectRegistry()))
     return false;
 
   // Create and Initialize the Combatmanager.
@@ -427,19 +427,19 @@ bool Client::OnKeyboard(iEvent& ev)
       //{
       //console_focus=true;
       //}
-      if (code == CSKEY_UP)
+      if (code == CSKEY_UP || code == 'z')
       {
         walk = 1;
       }
-      else if (code == CSKEY_DOWN)
+      else if (code == CSKEY_DOWN || code == 's')
       {
         walk = -1;
       }
-      else if (code == CSKEY_LEFT)
+      else if (code == CSKEY_LEFT || code == 'q')
       {
         turn = -1;
       }
-      else if (code == CSKEY_RIGHT)
+      else if (code == CSKEY_RIGHT || code == 'd')
       {
         turn = 1;
       }
@@ -508,6 +508,7 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         return false;
       }
+      printf("----keydown--------move : %d %d \n", walk, turn);
       MoveEntityRequestMessage msg;
       msg.setWalk(walk);
       msg.setRot(turn);
@@ -519,19 +520,19 @@ bool Client::OnKeyboard(iEvent& ev)
     if (playing)
     {
       utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
-      if (code == CSKEY_UP)
+      if (code == CSKEY_UP || code == 'z')
       {
         walk = 0;
       }
-      else if (code == CSKEY_DOWN)
+      else if (code == CSKEY_DOWN || code == 's')
       {
         walk = 0;
       }
-      else if (code == CSKEY_LEFT)
+      else if (code == CSKEY_LEFT || code == 'q')
       {
         turn = 0;
       }
-      else if (code == CSKEY_RIGHT)
+      else if (code == CSKEY_RIGHT || code == 'd')
       {
         turn = 0;
       }
@@ -539,6 +540,7 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         return false;
       }
+      printf("----keydown--------move : %d %d \n", walk, turn);
       MoveEntityRequestMessage msg;
       msg.setWalk(walk);
       msg.setRot(turn);
@@ -734,6 +736,7 @@ void Client::loadRegion()
 
   guimanager->GetSelectCharWindow ()->HideWindow();
   guimanager->CreateChatWindow ();
+  guimanager->CreateHUDWindow ();
   
   const char* path = cmdline->GetOption("world");
 

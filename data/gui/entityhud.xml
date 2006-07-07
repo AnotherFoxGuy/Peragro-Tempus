@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+
+		<Window Type="Peragro/InvisbleWindow" Name="EntityHUD/Frame" >
+		<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTarget" />
+		<Property Name="Position" Value="x:0.42 y:0.01" />
+		<Property Name="AbsoluteSize" Value="w:120 h:20" />
+		<Property Name="Alpha" Value="0.6" />
+		<Property Name="Visible" Value="False" />
+				
+		<Window Type="Peragro/ProgressBar" Name="EntityHUD/HP">
+		     <Property Name="UnifiedAreaRect" Value="{{0.04,0.00},{0.06,0.000000},{0.96,0.000000},{0.45,0.000000}}" />
+		     <Property Name="ProgressColours" Value="tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000" />
+		</Window>
+		<Window Type="Peragro/ProgressBar" Name="EntityHUD/MP">
+			<Property Name="UnifiedAreaRect" Value="{{0.04,0.00},{0.55,0.000000},{0.96,0.000000},{0.94,0.00}}" />
+		    <Property Name="ProgressColours" Value="tl:FF0000FF tr:FF0000FF bl:FF0000FF br:FF0000FF" />
+		</Window>
+
+		<Window Type="Peragro/TitlebarNo" Name="EntityHUD/Drag" >
+			<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTarget" />
+			<Property Name="UnifiedAreaRect" Value="{{0.0,0.0},{0.0,0.0},{1.0,0.000000},{1.0,0.000000}}" />
+			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+			<Property Name="InheritsAlpha" Value="False" />
+			<Property Name="ZOrderChangeEnabled" Value="False" />
+			<Property Name="Alpha" Value="0" />
+		</Window>
+	</Window>
+
+</GUILayout>

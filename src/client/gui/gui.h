@@ -24,5 +24,6 @@
 #include "charsel-gui.h"
 #include "chat-gui.h"
 #include "inventory-gui.h"
+#include "hud-gui.h"
 
 #endif // GUI_H

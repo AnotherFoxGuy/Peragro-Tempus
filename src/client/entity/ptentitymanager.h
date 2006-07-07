@@ -108,6 +108,7 @@ public:
   UpdateDREntityRequestMessage DrUpdateOwnEntity();
 
   iCelEntity* findCelEntById(int id);
+  ptCelEntity* findPtEntById(int id);
 
   void setCharacter(unsigned int own_char) { own_char_id = own_char; }
   iCamera* getOwnCamera() { return owncam; }

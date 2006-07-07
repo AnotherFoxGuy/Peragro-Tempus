@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
 
-	<Window Type="TaharezLook/FrameWindow" Name="Chatlog/Frame" >
+	<Window Type="Peragro/FrameWindow" Name="Chatlog/Frame" >
 		<Property Name="Alpha" Value="0.000000" />
 		<Property Name="CaptionColour" Value="00FFFFFF" />
 		<Property Name="CloseButtonEnabled" Value="False" />
-		<Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
+		<Property Name="EWSizingCursorImage" Value="set:Peragro image:MouseEsWeCursor" />
 		<Property Name="FrameEnabled" Value="True" />
-		<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
-		<Property Name="NESWSizingCursorImage" Value="set:TaharezLook image:MouseNeSwCursor" />
-		<Property Name="NSSizingCursorImage" Value="set:TaharezLook image:MouseNoSoCursor" />
-		<Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
+		<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTarget" />
+		<Property Name="NESWSizingCursorImage" Value="set:Peragro image:MouseNeSwCursor" />
+		<Property Name="NSSizingCursorImage" Value="set:Peragro image:MouseNoSoCursor" />
+		<Property Name="NWSESizingCursorImage" Value="set:Peragro image:MouseNwSeCursor" />
 		<Property Name="SizingEnabled" Value="True" />
 		<Property Name="TitlebarEnabled" Value="False" />
 		<Property Name="UnifiedAreaRect" Value="{{0.00001,0.000000},{0.01,0.000000},{0.00001,0.000000},{0.00001,0.000000}}" />
 		<Property Name="AbsoluteMinSize" Value="w:276 h:158" />
 		<Property Name="UnifiedMaxSize" Value="{{0.600000,0.000000},{0.900000,0.000000}}" />
 
-		<Window Type="TaharezLook/Button" Name="Chatlog/GlobalButton" >
-			<Property Name="BackgroundImage" Value="set:TaharezLook image:StaticBackdrop" />
-			<Property Name="BottomFrameImage" Value="set:TaharezLook image:StaticBottom" />
-			<Property Name="BottomLeftFrameImage" Value="set:TaharezLook image:StaticBottomLeft" />
-			<Property Name="BottomRightFrameImage" Value="set:TaharezLook image:StaticBottomRight" />
+		<Window Type="Peragro/Button" Name="Chatlog/GlobalButton" >
+			<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
+			<Property Name="BottomFrameImage" Value="set:Peragro image:StaticBottom" />
+			<Property Name="BottomLeftFrameImage" Value="set:Peragro image:StaticBottomLeft" />
+			<Property Name="BottomRightFrameImage" Value="set:Peragro image:StaticBottomRight" />
 			<Property Name="Font" Value="Commonwealth-8" />
 			<Property Name="InheritsAlpha" Value="False" />
-			<Property Name="LeftFrameImage" Value="set:TaharezLook image:StaticLeft" />
-			<Property Name="RightFrameImage" Value="set:TaharezLook image:StaticRight" />
+			<Property Name="LeftFrameImage" Value="set:Peragro image:StaticLeft" />
+			<Property Name="RightFrameImage" Value="set:Peragro image:StaticRight" />
 			<Property Name="Text" Value="Global" />
-			<Property Name="TopFrameImage" Value="set:TaharezLook image:StaticTop" />
-			<Property Name="TopLeftFrameImage" Value="set:TaharezLook image:StaticTopLeft" />
-			<Property Name="TopRightFrameImage" Value="set:TaharezLook image:StaticTopRight" />
+			<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
+			<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
+			<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
 			<Property Name="ClippedByParent" Value="False" />
 			<Property Name="AbsolutePosition" Value="x:10 y:1" />
 			<Property Name="AbsoluteSize" Value="w:65 h:20" />
 
 		</Window>
-		<Window Type="TaharezLook/Button" Name="Chatlog/PartyButton" >
-			<Property Name="BackgroundImage" Value="set:TaharezLook image:StaticBackdrop" />
-			<Property Name="BottomFrameImage" Value="set:TaharezLook image:StaticBottom" />
-			<Property Name="BottomLeftFrameImage" Value="set:TaharezLook image:StaticBottomLeft" />
-			<Property Name="BottomRightFrameImage" Value="set:TaharezLook image:StaticBottomRight" />
+		<Window Type="Peragro/Button" Name="Chatlog/PartyButton" >
+			<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
+			<Property Name="BottomFrameImage" Value="set:Peragro image:StaticBottom" />
+			<Property Name="BottomLeftFrameImage" Value="set:Peragro image:StaticBottomLeft" />
+			<Property Name="BottomRightFrameImage" Value="set:Peragro image:StaticBottomRight" />
 			<Property Name="Font" Value="Commonwealth-8" />
 			<Property Name="InheritsAlpha" Value="False" />
-			<Property Name="LeftFrameImage" Value="set:TaharezLook image:StaticLeft" />
-			<Property Name="RightFrameImage" Value="set:TaharezLook image:StaticRight" />
+			<Property Name="LeftFrameImage" Value="set:Peragro image:StaticLeft" />
+			<Property Name="RightFrameImage" Value="set:Peragro image:StaticRight" />
 			<Property Name="Text" Value="Party" />
-			<Property Name="TopFrameImage" Value="set:TaharezLook image:StaticTop" />
-			<Property Name="TopLeftFrameImage" Value="set:TaharezLook image:StaticTopLeft" />
-			<Property Name="TopRightFrameImage" Value="set:TaharezLook image:StaticTopRight" />
+			<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
+			<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
+			<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
 			<Property Name="ClippedByParent" Value="False" />
 			<Property Name="AbsolutePosition" Value="x:75 y:1" />
 			<Property Name="AbsoluteSize" Value="w:65 h:20" />
 		</Window>
 
-		<Window Type="TaharezLook/Button" Name="Chatlog/GuildButton" >
-			<Property Name="BackgroundImage" Value="set:TaharezLook image:StaticBackdrop" />
-			<Property Name="BottomFrameImage" Value="set:TaharezLook image:StaticBottom" />
-			<Property Name="BottomLeftFrameImage" Value="set:TaharezLook image:StaticBottomLeft" />
-			<Property Name="BottomRightFrameImage" Value="set:TaharezLook image:StaticBottomRight" />
+		<Window Type="Peragro/Button" Name="Chatlog/GuildButton" >
+			<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
+			<Property Name="BottomFrameImage" Value="set:Peragro image:StaticBottom" />
+			<Property Name="BottomLeftFrameImage" Value="set:Peragro image:StaticBottomLeft" />
+			<Property Name="BottomRightFrameImage" Value="set:Peragro image:StaticBottomRight" />
 			<Property Name="Font" Value="Commonwealth-8" />
 			<Property Name="InheritsAlpha" Value="False" />
-			<Property Name="LeftFrameImage" Value="set:TaharezLook image:StaticLeft" />
-			<Property Name="RightFrameImage" Value="set:TaharezLook image:StaticRight" />
+			<Property Name="LeftFrameImage" Value="set:Peragro image:StaticLeft" />
+			<Property Name="RightFrameImage" Value="set:Peragro image:StaticRight" />
 			<Property Name="Text" Value="Guild" />
-			<Property Name="TopFrameImage" Value="set:TaharezLook image:StaticTop" />
-			<Property Name="TopLeftFrameImage" Value="set:TaharezLook image:StaticTopLeft" />
-			<Property Name="TopRightFrameImage" Value="set:TaharezLook image:StaticTopRight" />
+			<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
+			<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
+			<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
 			<Property Name="ClippedByParent" Value="False" />
 			<Property Name="AbsolutePosition" Value="x:140 y:1" />
 			<Property Name="AbsoluteSize" Value="w:65 h:20" />
 		</Window>
 		
-		<Window Type="TaharezLook/Button" Name="Chatlog/CombatButton" >
-			<Property Name="BackgroundImage" Value="set:TaharezLook image:StaticBackdrop" />
-			<Property Name="BottomFrameImage" Value="set:TaharezLook image:StaticBottom" />
-			<Property Name="BottomLeftFrameImage" Value="set:TaharezLook image:StaticBottomLeft" />
-			<Property Name="BottomRightFrameImage" Value="set:TaharezLook image:StaticBottomRight" />
+		<Window Type="Peragro/Button" Name="Chatlog/CombatButton" >
+			<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
+			<Property Name="BottomFrameImage" Value="set:Peragro image:StaticBottom" />
+			<Property Name="BottomLeftFrameImage" Value="set:Peragro image:StaticBottomLeft" />
+			<Property Name="BottomRightFrameImage" Value="set:Peragro image:StaticBottomRight" />
 			<Property Name="Font" Value="Commonwealth-8" />
 			<Property Name="InheritsAlpha" Value="False" />
-			<Property Name="LeftFrameImage" Value="set:TaharezLook image:StaticLeft" />
-			<Property Name="RightFrameImage" Value="set:TaharezLook image:StaticRight" />
+			<Property Name="LeftFrameImage" Value="set:Peragro image:StaticLeft" />
+			<Property Name="RightFrameImage" Value="set:Peragro image:StaticRight" />
 			<Property Name="Text" Value="Combat" />
-			<Property Name="TopFrameImage" Value="set:TaharezLook image:StaticTop" />
-			<Property Name="TopLeftFrameImage" Value="set:TaharezLook image:StaticTopLeft" />
-			<Property Name="TopRightFrameImage" Value="set:TaharezLook image:StaticTopRight" />
+			<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
+			<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
+			<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
 			<Property Name="ClippedByParent" Value="False" />
 
 			<Property Name="AbsolutePosition" Value="x:205 y:1" />
@@ -91,34 +91,34 @@
 
 		</Window>
 
-		<Window Type="TaharezLook/MultiLineEditbox" Name="Chatlog/ChatlogWidget" >
+		<Window Type="Peragro/MultiLineEditbox" Name="Chatlog/ChatlogWidget" >
 			<Property Name="Font" Value="Commonwealth-10" />
 			<Property Name="InheritsAlpha" Value="False" />
-			<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
+			<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTextBar" />
 			<Property Name="AbsolutePosition" Value="x:20 y:25" />
 			<Property Name="Size" Value="w:0.92 h:0.9" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 			<Property Name="Disabled" Value="True" />
 			<Property Name="ClippedByParent" Value="False" />
 		</Window>
-		<Window Type="TaharezLook/MultiLineEditbox2" Name="Chatlog/Chatlog" >
+		<Window Type="Peragro/MultiLineEditbox2" Name="Chatlog/Chatlog" >
 			<Property Name="Font" Value="Commonwealth-10" />
 			<Property Name="InheritsAlpha" Value="False" />
 			<Property Name="ReadOnly" Value="True" />
 			<Property Name="Text" Value="Welcome to Peragro Tempus. Press F12 to open the inventory." />
-			<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
+			<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTextBar" />
 			<Property Name="AbsolutePosition" Value="x:20 y:25" />
 			<Property Name="Size" Value="w:0.92 h:0.9" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 		</Window>
-		<Window Type="TaharezLook/Slider" Name="Chatlog/Slider" >
+		<Window Type="Peragro/Slider" Name="Chatlog/Slider" >
 			<Property Name="Font" Value="Tahoma-12" />
 			<Property Name="InheritsAlpha" Value="False" />
 			<Property Name="AbsolutePosition" Value="x:2 y:25" />
 			<Property Name="AbsoluteSize" Value="w:15 h:128" />
 		</Window>
-		<Window Type="TaharezLook/TitlebarNo" Name="Chatlog/Drag" >
-			<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTarget" />
+		<Window Type="Peragro/TitlebarNo" Name="Chatlog/Drag" >
+			<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTarget" />
 			<Property Name="UnifiedAreaRect" Value="{{0.010680,0.000000},{-0.068260,0.000000},{0.983009,0.000000},{-0.009464,0.000000}}" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 		</Window>

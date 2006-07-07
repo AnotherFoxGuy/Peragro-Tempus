@@ -44,6 +44,12 @@ private:
   //Stats* stats;
   //EquipedItems* eqitems;
 
+  // Stats
+  int hp;
+  int mp;
+  int totalhp;
+  int totalmp;
+
 public:
 
   ptCelEntity (int id, int type, csString name, iCelEntity* celentity);
@@ -56,6 +62,13 @@ public:
   iCelEntity* GetCelEntity () const { return celentity; }
 
   //iPcLinearMovement* GetPcLinMove () const { return pclinmove; }
+
+  void AddToHP (int hp) { this->hp += hp; }
+  void SetTotalHP (int hp) { this->totalhp = hp; this->hp = hp;}
+  float GetHP () { return (float)this->hp / this->totalhp;}
+
+  void AddToMP (int mp) { this->mp += mp; }
+  void SetTotalMP (int mp) { this->totalmp = mp; this->mp = mp;}
 };
 
 #endif // PTCELENTITY_H

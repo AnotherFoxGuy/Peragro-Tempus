@@ -309,7 +309,7 @@
     <priority>alpha</priority>
     <ztest/>
     <params>
-      <material>smoke.png</material>
+      <material>pentamat</material>
       <emitter type='box'>
         <time>1000.0</time>
         <size y='1.90905892849' x='5' z='5'/>

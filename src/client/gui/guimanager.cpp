@@ -54,12 +54,12 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
     vfs->ChDir ("/peragro/skin/");
 
     // Load the ice skin (which uses Falagard skinning system)
-    cegui->GetSchemeManagerPtr ()->loadScheme("TaharezLookSkin.scheme");
+    cegui->GetSchemeManagerPtr ()->loadScheme("Peragro.scheme");
 
-    cegui->GetSystemPtr ()->setDefaultMouseCursor("TaharezLook", "MouseArrow");
+    cegui->GetSystemPtr ()->setDefaultMouseCursor("Peragro", "MouseArrow");
     cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/peragro/skin/Commonv2c.ttf", 10, 
         CEGUI::Default);
-    cegui->GetSystemPtr ()->setTooltip("TaharezLook/Tooltip");
+    cegui->GetSystemPtr ()->setTooltip("Peragro/Tooltip");
 
     CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
     root->setMetricsMode(CEGUI::Relative);
@@ -110,4 +110,11 @@ InventoryWindow* GUIManager::CreateInventoryWindow ()
   inventorywindow = new InventoryWindow (this);
   inventorywindow->CreateGUIWindow();
   return inventorywindow;
+}
+
+HUDWindow* GUIManager::CreateHUDWindow ()
+{
+  hudwindow = new HUDWindow (this);
+  hudwindow->CreateGUIWindow();
+  return hudwindow;
 }

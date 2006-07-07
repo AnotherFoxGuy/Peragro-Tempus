@@ -140,7 +140,7 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
 CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::Point& position)
 {
   // Create the slot
-  CEGUI::Window* slot = winMgr->createWindow("TaharezLook/StaticImage");
+  CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
   parent->addChildWindow(slot);
   //slot->setWindowPosition(position);
   slot->setPosition(CEGUI::Absolute, position);
@@ -151,7 +151,7 @@ CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const 
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDropped, this));
 
   // Create the itemcounter
-  CEGUI::Window* itemcounter = winMgr->createWindow("TaharezLook/Editbox");
+  CEGUI::Window* itemcounter = winMgr->createWindow("Peragro/Editbox");
   slot->addChildWindow(itemcounter);
   itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.5f), CEGUI::cegui_reldim( 0.5f)));
   itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.65f), CEGUI::cegui_reldim(0.65f)));
@@ -187,11 +187,11 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemt
   else item->setUserString("stackable" , "false");
 
   // set a static image as drag container's contents
-  CEGUI::Window* itemIcon = winMgr->createWindow("TaharezLook/StaticImage");
+  CEGUI::Window* itemIcon = winMgr->createWindow("Peragro/StaticImage");
   item->addChildWindow(itemIcon);
   itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
   itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
-  //itemIcon->setProperty("Image", "set:TaharezLook image:CloseButtonNormal");
+  //itemIcon->setProperty("Image", "set:Peragro image:CloseButtonNormal");
   char inventoryimage[1024];
   sprintf(inventoryimage, "set:Inventory image:%d", itemtype);
   itemIcon->setProperty("Image", inventoryimage);
@@ -260,8 +260,8 @@ void InventoryWindow::AddSkil(const char* skillname, unsigned int skillvalue)
   CEGUI::ListboxItem* skillvalueItem = new CEGUI::ListboxTextItem(charskillvalue);
   CEGUI::ListboxItem* skillnameItem = new CEGUI::ListboxTextItem(skillname);
 
-  //skillvalueItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
-  //skillnameItem->setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"TextSelectionBrush");
+  //skillvalueItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
+  //skillnameItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
 
   unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
   ((CEGUI::MultiColumnList*)btn)->setItem(skillnameItem, 0, row);

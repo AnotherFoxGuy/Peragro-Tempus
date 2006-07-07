@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
-<Window Type="TaharezLook/FrameWindow" Name="LoginUI" >
+<Window Type="Peragro/FrameWindow" Name="LoginUI" >
 <Property Name="CloseButtonEnabled" Value="False" />
 <Property Name="CaptionColour" Value="00FFFFFF" />
 <Property Name="Text" Value="Login" />
@@ -11,39 +11,39 @@
 <Property Name="Visible" Value="False" />
 <Property Name="Alpha" Value="0.3" />
 	
-<Window Type="TaharezLook/Editbox" Name="Name" >
+<Window Type="Peragro/Editbox" Name="Name" >
 <Property Name="MaxTextLength" Value="1073741823" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTextBar" />
 <Property Name="UnifiedAreaRect" Value="{{0.35,0.000000},{0.24,0.000000},{0.95,0.000000},{0.46,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 	<Property Name="Text" Value="" />
 </Window>
-<Window Type="TaharezLook/Editbox" Name="Password" >
+<Window Type="Peragro/Editbox" Name="Password" >
 <Property Name="MaxTextLength" Value="1073741823" />
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseTextBar" />
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTextBar" />
 <Property Name="UnifiedAreaRect" Value="{{0.35,0.000000},{0.51,0.000000},{0.95,0.000000},{0.73,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 	<Property Name="Text" Value="" />
 </Window>
-<Window Type="TaharezLook/Button" Name="Login_Button" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Window Type="Peragro/Button" Name="Login_Button" >
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseArrow" />
 <Property Name="Text" Value="Login" />
 <Property Name="UnifiedAreaRect" Value="{{0.347792,0.000000},{0.779869,0.000000},{0.637792,0.000000},{0.956168,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/Button" Name="Register_Button" >
-<Property Name="MouseCursorImage" Value="set:TaharezLook image:MouseArrow" />
+<Window Type="Peragro/Button" Name="Register_Button" >
+<Property Name="MouseCursorImage" Value="set:Peragro image:MouseArrow" />
 <Property Name="Text" Value="Register" />
 <Property Name="UnifiedAreaRect" Value="{{0.662208,0.000000},{0.786436,0.000000},{0.952208,0.000000},{0.957665,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/StaticText" Name="L_Name" >
+<Window Type="Peragro/StaticText" Name="L_Name" >
 
 <Property Name="Text" Value="Name" />
 <Property Name="UnifiedAreaRect" Value="{{0.028,0.000000},{0.24,0.000000},{0.33,0.000000},{0.46,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
 </Window>
-<Window Type="TaharezLook/StaticText" Name="L_Password" >
+<Window Type="Peragro/StaticText" Name="L_Password" >
 <Property Name="Text" Value="Password" />
 <Property Name="UnifiedAreaRect" Value="{{0.028,0.000000},{0.51,0.000000},{0.33,0.000000},{0.73,0.000000}}" />
 <Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
