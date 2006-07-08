@@ -181,6 +181,9 @@
 			<File
 				RelativePath="..\..\src\client\gui\login-gui.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\client\gui\options-gui.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -211,6 +214,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\login-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\options-gui.h">
 			</File>
 		</Filter>
 	</Files>
