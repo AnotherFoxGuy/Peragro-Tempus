@@ -18,6 +18,8 @@ under each day.
        and also a checkbox for fullscreen.
     - Added a Remeber login check box on the login window
       which will save your login when checked.
+  - Sueastside enhanced the input handling, you can now attack 
+     and pickup items with the right-mouse button.
 
 5-Juli-2006
   - PK splitted the gui classes to individual files.

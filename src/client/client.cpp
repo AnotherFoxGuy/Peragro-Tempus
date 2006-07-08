@@ -467,18 +467,6 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'k')
       {
-        csRef<iCelEntity> ent = cursor->getSelectedEntity();
-        if (!ent)
-          return false;
-
-        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-        if (!pcprop)
-          return false;
-        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
-        {
-          combatmanager->RequestSkillUsageStart (ent, 1);
-        }
-        return false;
       }
       /*
       else if (code == CSKEY_SPACE)
@@ -492,21 +480,6 @@ bool Client::OnKeyboard(iEvent& ev)
       */
       else if (code == 'p')
       {
-        csRef<iCelEntity> ent = cursor->getSelectedEntity();
-        if (!ent)
-          return false;
-
-        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-        if (!pcprop)
-          return false;
-        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::ItemEntity)
-        {
-          PickEntityRequestMessage msg;
-          msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-          printf("picked up entity: %d \n", msg.getTargetId());
-          network->send(&msg);
-        }
-        return false;
       }
       else
       {
@@ -551,26 +524,56 @@ bool Client::OnKeyboard(iEvent& ev)
       network->send(&msg);
     }
   }
-/*
+
+  return false;
+}
+
+bool Client::OnMouseClick(iEvent& ev)
+{
+  printf("success! mouseclick \n");
   // Mouse click
-  csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
-  if ( mouseevent == csMouseEventTypeDown )
+  if (playing)
   {
-    switch(csMouseEventHelper::GetButton(&ev))
+    csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
+    if ( mouseevent == csMouseEventTypeClick )
     {
-    case csmbLeft:
-      printf("success! 1\n");
-      break;
-    case csmbRight:
-      // Get the clicked entity's ID and attack it.
-       printf("success! 2\n");
-      break;
-    case csmbMiddle:
-      printf("success! 3\n");
-      break;
+       // Get the clicked entity.
+       csRef<iCelEntity> ent = cursor->getSelectedEntity();
+        if (!ent) 
+          return false;
+        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+        if (!pcprop) 
+          return false;
+
+      switch(csMouseEventHelper::GetButton(&ev))
+      {
+      case csmbLeft:
+        printf("OnMouseClick: success! 1\n");
+        break;
+
+      case csmbRight:
+        // If it's an item, request a pickup.
+        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::ItemEntity)
+        {
+          PickEntityRequestMessage msg;
+          msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          printf("OnMouseClick: Requisting picking up entity: %d \n", msg.getTargetId());
+          network->send(&msg);
+        }
+        // If it's a player, attack it.
+        else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
+        {
+          combatmanager->RequestSkillUsageStart (ent, 1);
+        }
+        else printf("OnMouseClick: Unknown entity type!\n");
+        break;
+
+      case csmbMiddle:
+        printf("OnMouseClick: success! 3\n");
+        break;
+      }
     }
   }
-*/
 
   return false;
 }
