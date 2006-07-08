@@ -173,6 +173,9 @@
 				RelativePath="..\..\src\client\gui\guimanager.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\hud-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\inventory-gui.cpp">
 			</File>
 			<File
@@ -199,6 +202,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\guimanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\hud-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\inventory-gui.h">
