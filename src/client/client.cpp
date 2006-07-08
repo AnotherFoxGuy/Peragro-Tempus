@@ -224,6 +224,9 @@ bool Client::Application()
   sndloader = CS_QUERY_REGISTRY(GetObjectRegistry(), iSndSysLoader);
   if (!sndloader) return ReportError("Failed to locate sound loader!");
 
+  app_cfg = CS_QUERY_REGISTRY (GetObjectRegistry(), iConfigManager);
+  if (!app_cfg) return ReportError("Can't find the config manager!");
+
   iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
   if (nw) nw->SetTitle ("Peragro Tempus");
 
@@ -333,8 +336,9 @@ void Client::handleStates()
         engine->SetClearScreen(true);
       }
 
-      // Create the connection window.
+      // Create the connection and option window.
       guimanager->CreateConnectWindow ();
+      guimanager->CreateOptionsWindow ();
 
       if (cmdline)
       {
@@ -736,6 +740,7 @@ void Client::loadRegion()
   //engine->SetClearScreen(false);
 
   guimanager->GetSelectCharWindow ()->HideWindow();
+  guimanager->GetOptionsWindow ()->HideWindow();
   guimanager->CreateChatWindow ();
   guimanager->CreateHUDWindow ();
   
@@ -761,14 +766,12 @@ void Client::loadRegion()
   sndstream->Pause ();
 
   // Remove the portal.
-  if (cmdline)
+  bool ref = app_cfg->GetBool("Client.waterreflections");
+  if (!ref)
   {
-    bool removeportal = cmdline->GetBoolOption("removeportal");
-    if (removeportal)
-    {
-     engine->RemoveObject(engine->FindMeshObject("portal")->QueryObject());
-     printf("Waterportal removed!");
-    }
+    engine->RemoveObject(engine->FindMeshObject("portal")->QueryObject());
+    //engine->FindMeshObject("portal")->QuerySceneNode()->GetMovable()->ClearSectors();
+    printf("*************************Waterportal removed****************!\n");
   }
 
 }

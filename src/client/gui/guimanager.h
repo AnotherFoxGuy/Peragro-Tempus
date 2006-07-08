@@ -33,6 +33,7 @@ class SelectCharWindow;
 class ChatWindow;
 class InventoryWindow;
 class HUDWindow;
+class OptionsWindow;
 
 struct iObjectRegistry;
 
@@ -45,6 +46,7 @@ private:
   ChatWindow* chatwindow;
   InventoryWindow* inventorywindow;
   HUDWindow* hudwindow;
+  OptionsWindow* optionswindow;
   
   csRef<iCEGUI> cegui;
   
@@ -66,6 +68,7 @@ public:
   ChatWindow* CreateChatWindow ();
   InventoryWindow* CreateInventoryWindow();
   HUDWindow* CreateHUDWindow();
+  OptionsWindow* CreateOptionsWindow();
   
   ConnectWindow* GetConnectWindow ()
   {
@@ -95,6 +98,11 @@ public:
   HUDWindow* GetHUDWindow()
   {
     return hudwindow;
+  }
+
+  OptionsWindow* GetOptionsWindow()
+  {
+    return optionswindow;
   }
 
 };

@@ -112,6 +112,9 @@ private:
   csRef<iSndSysSource> sndsource;
   csRef<iSndSysSourceSoftware3D> sndsource3d;
 
+  // The config manager.
+  csRef<iConfigManager> app_cfg;
+
   void PreProcessFrame();
   void ProcessFrame();
   void PostProcessFrame();

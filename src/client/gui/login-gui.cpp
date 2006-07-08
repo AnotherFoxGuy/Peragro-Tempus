@@ -73,17 +73,53 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 
 CEGUI::String LoginWindow::GetLogin() 
 {
-  return winMgr->getWindow("Name")->getText();
+  return winMgr->getWindow("LoginUI/LoginEditBox")->getText();
 }
 
 CEGUI::String LoginWindow::GetPassword() 
 {
-  return winMgr->getWindow("Password")->getText();
+  return winMgr->getWindow("LoginUI/PasswordEditBox")->getText();
 }
 
-bool LoginWindow::RememberLogin()  
+void LoginWindow::SaveConfig()
 {
+  app_cfg->Save("/peragro/config/client.cfg", vfs);
+}
+
+bool LoginWindow::OnCheckBox(const CEGUI::EventArgs& e) 
+{
+  btn = winMgr->getWindow("LoginUI/RemeberLogin");
+  bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
+  CEGUI::String login = GetLogin();
+  const char* string;
+
+  if (fs) 
+    string = login.c_str();
+  else
+    string = "";
+
+  app_cfg->SetStr("Client.Login", string);
+  SaveConfig();
   return true;
+}
+
+void LoginWindow::CreateCheckBox()
+{
+  btn = winMgr->getWindow("LoginUI/RemeberLogin");
+
+  const char* login = app_cfg->GetStr("Client.Login");
+
+  bool selected;
+  if (!strcmp(login, ""))
+    selected = false;
+  else
+    selected = true;
+  
+  ((CEGUI::Checkbox*)btn)->setSelected(selected);
+
+  // Set the login
+  btn = winMgr->getWindow("LoginUI/LoginEditBox");
+  btn->setText(login);
 }
 
 void LoginWindow::CreateGUIWindow()
@@ -93,13 +129,25 @@ void LoginWindow::CreateGUIWindow()
   winMgr = cegui->GetWindowManagerPtr ();
 
   // Get the root window
-  rootwindow = winMgr->getWindow("LoginUI");
+  rootwindow = winMgr->getWindow("LoginUI/Frame");
+
+  app_cfg = CS_QUERY_REGISTRY (guimanager->GetClient()->GetObjectRegistry(), iConfigManager);
+  if (!app_cfg) 
+  {
+    printf("Can't find the config manager!"); 
+    return;
+  }
 
   // Register the button events.
-  btn = winMgr->getWindow("Login_Button");
+  btn = winMgr->getWindow("LoginUI/Login_Button");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::LoginButtonPressed, this));
 
-  btn = winMgr->getWindow("Register_Button");
+  btn = winMgr->getWindow("LoginUI/Register_Button");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::RegisterButtonPressed, this));
+
+  // Set up the Fullscreen checkbox.
+  CreateCheckBox();
+  btn = winMgr->getWindow("LoginUI/RemeberLogin");
+  btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&LoginWindow::OnCheckBox, this));
 
 }

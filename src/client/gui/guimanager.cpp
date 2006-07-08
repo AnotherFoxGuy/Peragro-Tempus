@@ -118,3 +118,10 @@ HUDWindow* GUIManager::CreateHUDWindow ()
   hudwindow->CreateGUIWindow();
   return hudwindow;
 }
+
+OptionsWindow* GUIManager::CreateOptionsWindow ()
+{
+  optionswindow = new OptionsWindow (this);
+  optionswindow->CreateGUIWindow();
+  return optionswindow;
+}

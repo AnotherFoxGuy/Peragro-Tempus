@@ -10,6 +10,14 @@ under each day.
   - Sueastside added a commandline option "removeportal"
      which removes the waterreflectionportal from the world for better
      performance.
+  - Sueastside augmented the GUI:
+    - Added a Option window, where you can set 
+       Reflection(which removes the water mirror portal, 
+        removed cmd option for it), added a texture quality option
+       which sets TextureDownsample in the client.cfg
+       and also a checkbox for fullscreen.
+    - Added a Remeber login check box on the login window
+      which will save your login when checked.
 
 5-Juli-2006
   - PK splitted the gui classes to individual files.

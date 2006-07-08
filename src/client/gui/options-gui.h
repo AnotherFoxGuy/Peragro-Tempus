@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef LOGIN_GUI_H
-#define LOGIN_GUI_H
+#ifndef OPTIONS_GUI_H
+#define OPTIONS_GUI_H
 
 #include "base-gui.h"
 
@@ -26,27 +26,42 @@
 #include "iutil/cfgmgr.h"
 #include "iutil/cfgfile.h"
 
-/*====================//
-// GUILoginWindow     //
-//====================*/
-class LoginWindow : public GUIWindow
+/*================//
+// GUIChatWindow  //
+//================*/
+
+class GUIManager;
+
+class OptionsWindow : public GUIWindow
 {
 private:
 
+  GUIManager* guimanager;
   csRef<iConfigManager> app_cfg;
+  csRef<iVFS> vfs;
 
-  bool LoginButtonPressed(const CEGUI::EventArgs& e);     // Executed when the Connect button is pressed.
-  bool RegisterButtonPressed(const CEGUI::EventArgs& e);  // Executed when the Register button is pressed.
-  CEGUI::String GetLogin();                               // Return the login input.
-  CEGUI::String GetPassword();                            // Return the password input.
-  bool OnCheckBox(const CEGUI::EventArgs& e);             // Return "Remember login" checkbox.
-  void CreateCheckBox();
   void SaveConfig();
 
+  bool OptionButtonPressed(const CEGUI::EventArgs& e); 
+
+  bool OkButtonPressed(const CEGUI::EventArgs& e); 
+
+  bool OnDropListReflections(const CEGUI::EventArgs& e); 
+  void CreateDropListReflections();
+
+  bool OnDropListTexture(const CEGUI::EventArgs& e); 
+  void CreateDropListTexture();
+
+  void CreateCheckBox();
+  bool OnCheckBox(const CEGUI::EventArgs& e); 
+
 public:
-  LoginWindow(GUIManager* guimanager);
-  virtual ~LoginWindow();
-  void CreateGUIWindow();    // load the Login guilayout and register button events.
+  OptionsWindow(GUIManager* guimanager);
+  virtual ~OptionsWindow();
+  void CreateGUIWindow();    // load the chat guilayout and register button events.
+  void HideWindow();
+
 };
 
-#endif // LOGIN_GUI_H
+
+#endif // OPTIONS_GUI_H

@@ -25,5 +25,6 @@
 #include "chat-gui.h"
 #include "inventory-gui.h"
 #include "hud-gui.h"
+#include "options-gui.h"
 
 #endif // GUI_H
