@@ -339,6 +339,7 @@ void Client::handleStates()
       // Create the connection and option window.
       guimanager->CreateConnectWindow ();
       guimanager->CreateOptionsWindow ();
+//guimanager->CreateHUDWindow ();
 
       if (cmdline)
       {
@@ -563,7 +564,7 @@ bool Client::OnMouseClick(iEvent& ev)
         // If it's a player, attack it.
         else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
         {
-          combatmanager->RequestSkillUsageStart (ent, 1);
+          combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
         }
         else printf("OnMouseClick: Unknown entity type!\n");
         break;

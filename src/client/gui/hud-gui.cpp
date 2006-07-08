@@ -41,7 +41,11 @@ void HUDWindow::CreateGUIWindow ()
 {
   GUIWindow::CreateGUIWindow ("playerhud.xml");
   GUIWindow::CreateGUIWindow ("entityhud.xml");
+  GUIWindow::CreateGUIWindow ("skillhud.xml");
   winMgr = cegui->GetWindowManagerPtr ();
+
+  selectedskill = new SelectedSkill();
+  selectedskill->SkillId = 0;
 
   // Get the root window
   rootwindow = winMgr->getWindow("PlayerHUD/Frame");
@@ -54,6 +58,23 @@ void HUDWindow::CreateGUIWindow ()
   hpbar->setProgress(1.0f);
   mpbar->setProgress(1.0f);
   xpbar->setProgress(1.0f);
+
+  //Load the skill icon imageset
+  vfs = guimanager->GetClient()->getVFS ();
+  vfs->ChDir ("/peragro/skin/");
+  cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/skill.imageset", "Skill");
+
+  // Create the skill holders.
+  CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");
+  for (int i=0; i<6; i++)
+  {
+    CreateSkillSlot(skillframe, CEGUI::Point(4.0f+(35*i), 4.0f));
+  }
+
+  // test.
+  AddSkill("Heal", 1);
+  AddSkill("Energy Bind", 2);
+
 }
 
 void HUDWindow::SetHP (float hp)
@@ -70,4 +91,106 @@ void HUDWindow::SetName (const char* name)
   CEGUI::StaticText* namewin   = (CEGUI::StaticText*) winMgr->getWindow("HUD/Name");
 
   namewin->setText((CEGUI::String)name);
+}
+/*=================//
+//    SkillHUD     //
+//=================*/
+CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::Point& position)
+{
+  // Create the slot
+  CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
+  parent->addChildWindow(slot);
+  //slot->setWindowPosition(position);
+  slot->setPosition(CEGUI::Absolute, position);
+  slot->setSize(CEGUI::Absolute, CEGUI::Size(31.0f, 31.0f));
+
+  return slot;
+}
+
+CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
+{
+  char uniquename[1024];
+  counter += 1;
+  sprintf(uniquename, "%d_%d_icon", skillid, counter);
+
+  // create a drag/drop item
+  CEGUI::DragContainer* skill = static_cast<CEGUI::DragContainer*>(
+    winMgr->createWindow("DragContainer", uniquename));
+  skill->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.05f)));
+  skill->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim(0.9f)));
+  skill->setTooltipText(skillname);
+  // Set the itemID.
+  char itemtypestr[1024];
+  sprintf(itemtypestr, "%d", skillid);
+  skill->setUserString("skillid" , itemtypestr);
+
+  // set a static image as drag container's contents
+  CEGUI::Window* skillIcon = winMgr->createWindow("Peragro/StaticImage");
+  skill->addChildWindow(skillIcon);
+  skillIcon->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
+  skillIcon->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
+  char skillimage[1024];
+  sprintf(skillimage, "set:Skill image:%d", skillid);
+  skillIcon->setProperty("Image", skillimage);
+  // disable to allow inputs to pass through.
+  skillIcon->disable();
+
+  skill->subscribeEvent(CEGUI::Window::EventMouseClick, CEGUI::Event::Subscriber(&HUDWindow::HandleSkillSelected, this));
+
+  // Set alpha
+  skill->setAlpha(0.5f);
+  skill->setInheritsAlpha(false);
+
+  return skill;
+}
+
+bool HUDWindow::HandleSkillSelected(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
+
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+
+  // Reset the alpha on the previous window.
+  CEGUI::Window* window = selectedskill->SkillWindow;
+  if (window) window->setAlpha(0.5f);
+
+  // Set the new skill active.
+  ddea.window->setAlpha(1.0f);
+
+  // Set the new window as the selected one
+  selectedskill->SkillWindow = ddea.window;
+  selectedskill->SkillId     =  atoi( (ddea.window->getUserString("skillid")).c_str() ); 
+
+  return true;
+}
+
+int HUDWindow::GetActiveSkillId() 
+{ 
+  return selectedskill->SkillId; 
+}
+
+bool HUDWindow::AddSkill(CEGUI::String skillname, int skillid)
+{
+  CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");
+
+  CEGUI::Window* freeslot = 0;
+  unsigned int i = 0;
+
+  while ((freeslot == 0) && (i < skillframe->getChildCount()))
+  {
+    CEGUI::Window* slot = skillframe->getChildAtIdx(i);
+    i += 1;
+    if (strcmp( "SkillHUD/Drag",slot->getName().c_str() ) )
+    {
+      if ((slot->getChildCount() < 1 ))
+      {
+        printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
+        freeslot = slot;
+        freeslot->addChildWindow(CreateSkillIcon(skillname, skillid));
+        return true;
+      }
+    }
+  }
+  printf("skillframe is full!\n");
+  return false;
 }

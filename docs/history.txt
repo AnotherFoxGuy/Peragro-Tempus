@@ -20,6 +20,8 @@ under each day.
       which will save your login when checked.
   - Sueastside enhanced the input handling, you can now attack 
      and pickup items with the right-mouse button.
+  - Sueastside added a skillbar, to select the skill to attack with.
+     It works too :)
 
 5-Juli-2006
   - PK splitted the gui classes to individual files.

@@ -405,6 +405,11 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
 
 void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId)
 {
+  if (!skillId)
+  {
+    printf("CombatMGR: skillId is 0!\n");
+    return;
+  }
   // Get your own entity.
   iCelEntity* attacker = entitymgr->getOwnEntity();
   unsigned int attackerId = entitymgr->GetOwnId();

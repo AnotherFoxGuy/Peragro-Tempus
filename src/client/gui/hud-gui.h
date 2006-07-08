@@ -28,9 +28,22 @@ class HUDWindow : public GUIWindow
 {
 private:
 
+  struct SelectedSkill
+  {
+    int SkillId;
+    CEGUI::Window* SkillWindow;
+  };
+  SelectedSkill* selectedskill;
+
   CEGUI::ProgressBar* hpbar;
   CEGUI::ProgressBar* mpbar;
   CEGUI::ProgressBar* xpbar;
+
+  int counter;
+  CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent, const CEGUI::Point& position);
+  CEGUI::Window* CreateSkillIcon(CEGUI::String skillname, int skillid);
+  bool AddSkill(CEGUI::String skillname, int skillid);
+  bool HandleSkillSelected(const CEGUI::EventArgs& args);
 
 public:
   HUDWindow(GUIManager* guimanager);
@@ -39,6 +52,7 @@ public:
   void SetHP (float hp);       // set the hp. 
   void SetMP (float mp);       // set the mp. 
   void SetName (const char* name); // set the name;
+  int GetActiveSkillId();
 
 };
 
