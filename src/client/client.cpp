@@ -665,7 +665,7 @@ void Client::loggedIn()
 
 void Client::OnCommandLineHelp()
 {
-  const size_t NUM_OPTIONS = 5;
+  const size_t NUM_OPTIONS = 6;
 
   const csOptionDescription pt_config_options [NUM_OPTIONS] =
   {
@@ -674,6 +674,7 @@ void Client::OnCommandLineHelp()
     { 2, "user", "Automatic Login with the given Username", CSVAR_STRING },
     { 3, "pass", "Automatic Login with the given Password", CSVAR_STRING },
     { 4, "char", "Automatic selection of the character with the given ID", CSVAR_LONG },
+    { 5, "removeportal", "Removes the waterportal for better performance", CSVAR_BOOL },
   };
 
   for (int i = 0; i<NUM_OPTIONS ; i++)
@@ -758,6 +759,17 @@ void Client::loadRegion()
 
   // Stop the intro
   sndstream->Pause ();
+
+  // Remove the portal.
+  if (cmdline)
+  {
+    bool removeportal = cmdline->GetBoolOption("removeportal");
+    if (removeportal)
+    {
+     engine->RemoveObject(engine->FindMeshObject("portal")->QueryObject());
+     printf("Waterportal removed!");
+    }
+  }
 
 }
 

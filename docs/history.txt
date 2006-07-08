@@ -7,6 +7,9 @@ under each day.
 
 8-Juli-2006
   - Sueastside added a basic HUD.
+  - Sueastside added a commandline option "removeportal"
+     which removes the waterreflectionportal from the world for better
+     performance.
 
 5-Juli-2006
   - PK splitted the gui classes to individual files.
