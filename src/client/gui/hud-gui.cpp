@@ -47,6 +47,8 @@ void HUDWindow::CreateGUIWindow ()
   selectedskill = new SelectedSkill();
   selectedskill->SkillId = 0;
 
+  counter = 0;
+
   // Get the root window
   rootwindow = winMgr->getWindow("PlayerHUD/Frame");
 
@@ -111,7 +113,7 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
 {
   char uniquename[1024];
   counter += 1;
-  sprintf(uniquename, "%d_%d_icon", skillid, counter);
+  sprintf(uniquename, "%d_%d_skillicon", skillid, counter);
 
   // create a drag/drop item
   CEGUI::DragContainer* skill = static_cast<CEGUI::DragContainer*>(

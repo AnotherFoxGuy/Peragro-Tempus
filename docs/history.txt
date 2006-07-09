@@ -5,6 +5,11 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 
+9-Juli-2006
+  - Sueastside fixed a little bug that would occur with lots of items,
+     which would make cegui crash because of concurrent windows.
+     Don't use the same naming scheme for several windows!
+
 8-Juli-2006
   - Sueastside added a basic HUD.
   - Sueastside added a commandline option "removeportal"
