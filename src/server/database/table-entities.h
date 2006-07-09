@@ -29,7 +29,7 @@ class ptString;
 class EntityTable : public Table
 {
 private:
-  Entity* parseEntity(ResultSet* rs);
+  Entity* parseEntity(ResultSet* rs, size_t i);
 
 public:
   EntityTable(Database* db);

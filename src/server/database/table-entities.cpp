@@ -131,7 +131,7 @@ Entity* EntityTable::getEntity(ptString name)
   if (rs->GetRowCount() == 0) 
     return 0;
 
-  Entity* entity = parseEntity(rs);
+  Entity* entity = parseEntity(rs, 0);
 
   delete rs;
   return entity;
@@ -143,7 +143,7 @@ void EntityTable::getAllEntities(Array<Entity*>& entities)
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
-    Entity* entity = parseEntity(rs);
+    Entity* entity = parseEntity(rs, i);
     if (entity)
     {
       entities.add(entity);
@@ -152,16 +152,16 @@ void EntityTable::getAllEntities(Array<Entity*>& entities)
   delete rs;
 }  
 
-Entity* EntityTable::parseEntity(ResultSet* rs)
+Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
 {
   Entity* entity = 0;
 
-  switch (atoi(rs->GetData(0,2).c_str()))
+  switch (atoi(rs->GetData(i,2).c_str()))
   {
     case Entity::ItemEntity :
     {
       ItemEntity* ent = new ItemEntity();
-      ent->setItem(atoi(rs->GetData(0,3).c_str()));
+      ent->setItem(atoi(rs->GetData(i,3).c_str()));
       entity = ent;
       break;
     }
@@ -176,11 +176,11 @@ Entity* EntityTable::parseEntity(ResultSet* rs)
       return 0;
     }
   };
-  entity->setId(atoi(rs->GetData(0,0).c_str()));
-  entity->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-  entity->setMesh(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,4).length()));
-  entity->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
-  entity->setSector(ptString(rs->GetData(0,8).c_str(), rs->GetData(0,8).length()));
+  entity->setId(atoi(rs->GetData(i,0).c_str()));
+  entity->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
+  entity->setMesh(ptString(rs->GetData(i,4).c_str(), rs->GetData(i,4).length()));
+  entity->setPos((float)atof(rs->GetData(i,5).c_str()), (float)atof(rs->GetData(i,6).c_str()), (float)atof(rs->GetData(i,7).c_str()));
+  entity->setSector(ptString(rs->GetData(i,8).c_str(), rs->GetData(i,8).length()));
 
   return entity;
 }
