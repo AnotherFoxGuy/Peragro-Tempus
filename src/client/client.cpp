@@ -773,8 +773,8 @@ void Client::loadRegion()
   bool ref = app_cfg->GetBool("Client.waterreflections");
   if (!ref)
   {
-    engine->RemoveObject(engine->FindMeshObject("portal")->QueryObject());
-    //engine->FindMeshObject("portal")->QuerySceneNode()->GetMovable()->ClearSectors();
+    iMeshWrapper* portalMesh = engine->FindMeshObject("portal");
+    if (portalMesh) engine->RemoveObject(portalMesh->QueryObject());
     printf("*************************Waterportal removed****************!\n");
   }
 

@@ -9,6 +9,8 @@ under each day.
   - Sueastside fixed a little bug that would occur with lots of items,
      which would make cegui crash because of concurrent windows.
      Don't use the same naming scheme for several windows!
+  - Sueastside fixed a crash which would occur when it didnt find the
+     waterportal to remove when setting the option.
 
 8-Juli-2006
   - Sueastside added a basic HUD.
