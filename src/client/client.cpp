@@ -432,19 +432,19 @@ bool Client::OnKeyboard(iEvent& ev)
       //{
       //console_focus=true;
       //}
-      if (code == CSKEY_UP || code == 'z')
+      if (code == CSKEY_UP)
       {
         walk = 1;
       }
-      else if (code == CSKEY_DOWN || code == 's')
+      else if (code == CSKEY_DOWN)
       {
         walk = -1;
       }
-      else if (code == CSKEY_LEFT || code == 'q')
+      else if (code == CSKEY_LEFT)
       {
         turn = -1;
       }
-      else if (code == CSKEY_RIGHT || code == 'd')
+      else if (code == CSKEY_RIGHT)
       {
         turn = 1;
       }
@@ -498,19 +498,19 @@ bool Client::OnKeyboard(iEvent& ev)
     if (playing)
     {
       utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
-      if (code == CSKEY_UP || code == 'z')
+      if (code == CSKEY_UP)
       {
         walk = 0;
       }
-      else if (code == CSKEY_DOWN || code == 's')
+      else if (code == CSKEY_DOWN)
       {
         walk = 0;
       }
-      else if (code == CSKEY_LEFT || code == 'q')
+      else if (code == CSKEY_LEFT)
       {
         turn = 0;
       }
-      else if (code == CSKEY_RIGHT || code == 'd')
+      else if (code == CSKEY_RIGHT)
       {
         turn = 0;
       }

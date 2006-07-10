@@ -70,8 +70,12 @@ void HUDWindow::CreateGUIWindow ()
   CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");
   for (int i=0; i<6; i++)
   {
-    CreateSkillSlot(skillframe, CEGUI::Point(4.0f+(35*i), 4.0f));
+    CreateSkillSlot(skillframe, CEGUI::Point(4.0f+(35*i), 4.0f), i);
   }
+
+  // F1-F6 keys for quickbar.
+  btn = winMgr->getWindow("Root");
+  btn->subscribeEvent(CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber(&HUDWindow::OnRootKeyDown, this));
 
   // test.
   AddSkill("Heal", 1);
@@ -97,14 +101,18 @@ void HUDWindow::SetName (const char* name)
 /*=================//
 //    SkillHUD     //
 //=================*/
-CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::Point& position)
+CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::Point& position, int id)
 {
+  // Create a name.
+  char uniquename[64];
+  sprintf(uniquename, "SkillHUD/quickslot_%d", id+1);
   // Create the slot
-  CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
+  CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage", uniquename);
   parent->addChildWindow(slot);
   //slot->setWindowPosition(position);
   slot->setPosition(CEGUI::Absolute, position);
   slot->setSize(CEGUI::Absolute, CEGUI::Size(31.0f, 31.0f));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&HUDWindow::HandleDragDropped, this));
 
   return slot;
 }
@@ -113,7 +121,7 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
 {
   char uniquename[1024];
   counter += 1;
-  sprintf(uniquename, "%d_%d_skillicon", skillid, counter);
+  sprintf(uniquename, "SkillHUD/%d_%d_skillicon", skillid, counter);
 
   // create a drag/drop item
   CEGUI::DragContainer* skill = static_cast<CEGUI::DragContainer*>(
@@ -138,6 +146,7 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
   skillIcon->disable();
 
   skill->subscribeEvent(CEGUI::DragContainer::EventMouseButtonDown, CEGUI::Event::Subscriber(&HUDWindow::HandleSkillSelected, this));
+  skill->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&HUDWindow::HandleDragDroppedOnSkill, this));
 
   // Set alpha
   skill->setAlpha(0.5f);
@@ -152,23 +161,52 @@ bool HUDWindow::HandleSkillSelected(const CEGUI::EventArgs& args)
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 
-  // Reset the alpha on the previous window.
-  CEGUI::Window* window = selectedskill->SkillWindow;
-  if (window) window->setAlpha(0.5f);
+  SetActiveSkill(ddea.window); 
 
-  // Set the new skill active.
-  ddea.window->setAlpha(1.0f);
+  return true;
+}
 
-  // Set the new window as the selected one
-  selectedskill->SkillWindow = ddea.window;
-  selectedskill->SkillId     =  atoi( (ddea.window->getUserString("skillid")).c_str() ); 
+bool HUDWindow::HandleDragDropped(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
 
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+
+  ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
+  ddea.window->addChildWindow(ddea.dragDropItem);
+  return true;
+}
+
+bool HUDWindow::HandleDragDroppedOnSkill(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
+
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+
+  ddea.window->getParent()->addChildWindow(ddea.dragDropItem);
+
+  // Remove the previos skill.
+  winMgr->destroyWindow(ddea.window);
   return true;
 }
 
 int HUDWindow::GetActiveSkillId() 
 { 
   return selectedskill->SkillId; 
+}
+
+void HUDWindow::SetActiveSkill(CEGUI::Window* window) 
+{ 
+  // Reset the alpha on the previous window.
+  CEGUI::Window* oldwindow = selectedskill->SkillWindow;
+  if (oldwindow) oldwindow->setAlpha(0.5f);
+
+  // Set the new skill active.
+  window->setAlpha(1.0f);
+
+  // Set the new window as the selected one
+  selectedskill->SkillWindow = window;
+  selectedskill->SkillId     =  atoi( (window->getUserString("skillid")).c_str() ); 
 }
 
 bool HUDWindow::AddSkill(CEGUI::String skillname, int skillid)
@@ -182,17 +220,75 @@ bool HUDWindow::AddSkill(CEGUI::String skillname, int skillid)
   {
     CEGUI::Window* slot = skillframe->getChildAtIdx(i);
     i += 1;
-    if (strcmp( "SkillHUD/Drag",slot->getName().c_str() ) )
+    if (slot)
     {
-      if ((slot->getChildCount() < 1 ))
+      if (strcmp( "SkillHUD/Drag",slot->getName().c_str() ) )
       {
-        printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
-        freeslot = slot;
-        freeslot->addChildWindow(CreateSkillIcon(skillname, skillid));
-        return true;
+        if ((slot->getChildCount() < 1 ))
+        {
+          printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
+          freeslot = slot;
+          freeslot->addChildWindow(CreateSkillIcon(skillname, skillid));
+          return true;
+        }
       }
     }
   }
-  printf("skillframe is full!\n");
+  printf("AddSkill: quickbar is full!\n");
   return false;
+}
+
+bool HUDWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
+{
+    using namespace CEGUI;
+
+    CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");
+
+    const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
+
+    CEGUI::Window* slot = 0;
+    CEGUI::Window* skill = 0;
+
+    switch (keyArgs.scancode)
+    {
+    case Key::F1:
+      slot = winMgr->getWindow("SkillHUD/quickslot_1");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F2:
+      slot = winMgr->getWindow("SkillHUD/quickslot_2");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F3:
+      slot = winMgr->getWindow("SkillHUD/quickslot_3");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F4:
+      slot = winMgr->getWindow("SkillHUD/quickslot_4");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F5:
+      slot = winMgr->getWindow("SkillHUD/quickslot_5");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F6:
+      slot = winMgr->getWindow("SkillHUD/quickslot_6");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    default: return false;
+    }
+
+    return true;
 }

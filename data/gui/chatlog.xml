@@ -108,7 +108,7 @@
 			<Property Name="AbsolutePosition" Value="x:20 y:25" />
 			<Property Name="Size" Value="w:0.92 h:0.9" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-			<Property Name="Disabled" Value="True" />
+			<Property Name="Disabled" Value="False" />
 		</Window>
 		<Window Type="Peragro/Slider" Name="Chatlog/Slider" >
 			<Property Name="Font" Value="Tahoma-12" />

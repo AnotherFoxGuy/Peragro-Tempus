@@ -233,7 +233,7 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 
     const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
-    //printf("key %d pressed \n", keyArgs.scancode);
+    //printf("OnRootKeyDown: key %d pressed \n", keyArgs.scancode);
 
     switch (keyArgs.scancode)
     {
@@ -246,8 +246,7 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
       framewin->isVisible(true) ? framewin->hide() : framewin->show();
       break;
 
-    default:
-        return true;
+    default: return false;
     }
 
     return true;
