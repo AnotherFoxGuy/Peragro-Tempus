@@ -62,7 +62,7 @@ void Skill::castPrepare(CharacterEntity* caster, unsigned int target_id)
     //Abort 'too far away'
     response_msg.setError(ptString("Too far away", strlen("Too far away")));
   }
-  else if (skilldata->state == SkillState::READY)
+  else if (skilldata->state != SkillState::READY)
   {
     //Abort 'Skill not ready'
     response_msg.setError(ptString("Skill not ready", strlen("Skill not ready")));

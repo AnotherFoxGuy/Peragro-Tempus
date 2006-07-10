@@ -32,7 +32,8 @@ void SkillHandler::handleStartUsage(GenericMessage* msg)
   request_msg.deserialise(msg->getByteStream());
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
-  skill->castPrepare(user_ent, request_msg.getTarget());
+  if (skill)
+    skill->castPrepare(user_ent, request_msg.getTarget());
 }
 
 void SkillHandler::handleStopUsage(GenericMessage* msg)
