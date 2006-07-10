@@ -133,6 +133,12 @@ iMeshWrapper* EffectsManager::CreateEffectMesh (int effect)
       }
       break;
 
+    case EffectsManager::MoveMarker:
+      {
+        factory = "movemarkerfact"; 
+      }
+      break;
+
     default : {printf("EffectsManager: Unknown effect type %d!\n", effect); return 0;}
   };
 
@@ -198,6 +204,23 @@ bool EffectsManager::CreateEffect (iMeshWrapper* parent, int effect)
   }
 
   effectmw->QuerySceneNode()->SetParent(parent->QuerySceneNode());
+
+  return true;
+}
+
+bool EffectsManager::CreateEffect (int effect, csVector3 pos)
+{
+  // Create the particle mesh.
+  csRef<iMeshWrapper> effectmw = CreateEffectMesh (effect);
+  if (!effectmw)
+  {
+    printf ("EffectsManager: Unable to create effect: %d!\n", effect);
+    return false;
+  }
+  // Offset the effect.
+  csVector3 curpos = effectmw->QuerySceneNode()->GetMovable()->GetFullPosition();
+  effectmw->QuerySceneNode()->GetMovable()->SetPosition(curpos + pos);
+  effectmw->QuerySceneNode()->GetMovable()->UpdateMove();
 
   return true;
 }

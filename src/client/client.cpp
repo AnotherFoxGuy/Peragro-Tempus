@@ -538,21 +538,57 @@ bool Client::OnMouseClick(iEvent& ev)
     csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
     if ( mouseevent == csMouseEventTypeClick )
     {
-       // Get the clicked entity.
-       csRef<iCelEntity> ent = cursor->getSelectedEntity();
-        if (!ent) 
-          return false;
-        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-        if (!pcprop) 
-          return false;
+      // Get the clicked entity.
+      csRef<iCelEntity> ent;
+      csRef<iPcProperties> pcprop;
+
+      csRef<iCamera> cam;
+      csRef<iMeshWrapper> mesh;
+      csVector3 tmp, tmpDiff;
+      float fv1[3];
+      float fv2[3];
 
       switch(csMouseEventHelper::GetButton(&ev))
       {
       case csmbLeft:
+
         printf("OnMouseClick: success! 1\n");
+
+        cam = entitymanager->getOwnCamera();
+        if (!cam) return false;
+        mesh = cursor->Get3DPointFrom2D(csMouseEventHelper::GetX(&ev), 
+          csMouseEventHelper::GetY(&ev), 
+          cam, &tmp, &tmpDiff);
+        if (mesh)
+        {
+          effectsmanager->CreateEffect(EffectsManager::MoveMarker, tmp+csVector3(0,0.5,0));
+
+          csRef<iCelEntity> ownent = entitymanager->getOwnEntity();
+          if (!ownent) return false;
+          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
+          if (!pclinmove) return false;
+
+          csVector3 pos;
+          float yrot;
+          iSector* sector;
+          pclinmove->GetLastFullPosition(pos, yrot, sector);
+          fv1[0] = pos.x; fv1[2] = pos.y; fv1[3] = pos.z;
+          fv2[1] = tmp.x; fv2[2] = tmp.y; fv2[3] = tmp.z;
+          entitymanager->moveEntity(entitymanager->GetOwnId(), 3, fv1, fv2);
+
+          printf("OnMouseClick: position: %s\n", tmp.Description().GetData());
+        }
+        else
+        {
+          printf("OnMouseClick: Failed to find mesh!\n");
+        }
         break;
 
       case csmbRight:
+
+        ent = cursor->getSelectedEntity();
+        if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+        if (!pcprop) return false;
         // If it's an item, request a pickup.
         if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::ItemEntity)
         {
@@ -581,7 +617,7 @@ bool Client::OnMouseClick(iEvent& ev)
 
 bool Client::OnMouseMove(iEvent& e)
 {
-  iCamera* cam = entitymanager->getOwnCamera();
+  csRef<iCamera> cam = entitymanager->getOwnCamera();
   if (!cam) return false;
   cursor->MouseMove(pl, cam, csMouseEventHelper::GetX(&e), csMouseEventHelper::GetY(&e));
   return false;

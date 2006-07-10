@@ -29,6 +29,7 @@
 #include "imesh/object.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/graph2d.h"
+#include "csqsqrt.h"
 
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
@@ -102,4 +103,37 @@ void Cursor::MouseMove(iCelPlLayer* pl, iCamera* camera, int x, int y)
 iCelEntity* Cursor::getSelectedEntity()
 {
   return selent;
+}
+
+iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord)
+{
+  cdsys = CS_QUERY_REGISTRY(client->GetObjectRegistry(), iCollideSystem);
+  if (!cdsys) return 0;
+
+  csVector3 vc, vo, vw;
+
+  csVector2 perspective( x, camera->GetShiftY() * 2 - y );
+  vc = camera->InvPerspective( perspective, 1);
+  vw = camera->GetTransform().This2Other( vc );
+
+  iSector* sector = camera->GetSector();
+
+  if ( sector )
+  {
+    vo = camera->GetTransform().GetO2TTranslation();
+    csVector3 isect;
+    csVector3 end = vo + (vw-vo)*600;
+    csIntersectingTriangle closest_tri;
+    iMeshWrapper* sel = 0;
+    float dist = csColliderHelper::TraceBeam (cdsys, sector,
+      vo, end, true, closest_tri, isect, &sel);
+
+    if (worldCoord != 0)
+      *worldCoord = isect;
+    if (untransfCoord)
+      *untransfCoord = vo + (vw-vo).Unit()*csQsqrt(dist);
+    return sel;
+  }
+  return 0;
+
 }

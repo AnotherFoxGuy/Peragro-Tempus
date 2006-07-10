@@ -94,7 +94,6 @@
 		<Window Type="Peragro/MultiLineEditbox" Name="Chatlog/ChatlogWidget" >
 			<Property Name="Font" Value="Commonwealth-10" />
 			<Property Name="InheritsAlpha" Value="False" />
-			<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTextBar" />
 			<Property Name="AbsolutePosition" Value="x:20 y:25" />
 			<Property Name="Size" Value="w:0.92 h:0.9" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
@@ -106,10 +105,10 @@
 			<Property Name="InheritsAlpha" Value="False" />
 			<Property Name="ReadOnly" Value="True" />
 			<Property Name="Text" Value="Welcome to Peragro Tempus. Press F12 to open the inventory." />
-			<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTextBar" />
 			<Property Name="AbsolutePosition" Value="x:20 y:25" />
 			<Property Name="Size" Value="w:0.92 h:0.9" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
+			<Property Name="Disabled" Value="True" />
 		</Window>
 		<Window Type="Peragro/Slider" Name="Chatlog/Slider" >
 			<Property Name="Font" Value="Tahoma-12" />

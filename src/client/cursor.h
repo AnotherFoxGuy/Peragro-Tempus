@@ -22,12 +22,14 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 #include <csutil/weakref.h>
+#include <cstool/collider.h>
 
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCamera;
 struct iPcTooltip;
 class Client;
+struct iCollideSystem;
 
 class Cursor
 {
@@ -38,6 +40,7 @@ private:
   int mousex;
   int mousey;
   csRef<iPcTooltip> nametag;
+  csRef<iCollideSystem> cdsys;
 
 public:
   Cursor(Client* client);
@@ -46,6 +49,7 @@ public:
   void Draw();
   void MouseMove(iCelPlLayer* pl, iCamera* camera, int x, int y);
   iCelEntity* getSelectedEntity();
+  iMeshWrapper* Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord);
 };
 
 #endif // __Selector_h

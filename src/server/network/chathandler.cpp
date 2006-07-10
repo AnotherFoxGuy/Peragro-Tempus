@@ -27,7 +27,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
   ptString name = conn->getUser()->getEntity()->getName();
   ChatMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
-  sprintf(buff, "%s' says: '%s'", *name, in_msg.getMessage());
+  sprintf(buff, "<%s> %s", *name, in_msg.getMessage());
   printf("Chat: %s\n", buff);
   ChatMessage out_msg;
   in_msg.setType(0);

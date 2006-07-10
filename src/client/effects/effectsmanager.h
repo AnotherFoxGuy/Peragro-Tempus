@@ -58,13 +58,15 @@ public:
     Die=5,
     Energysphere=6,
     Energyspear=7,
-    Healspell=8
+    Healspell=8,
+    MoveMarker=9
   };
 
   bool Initialize (iObjectRegistry* obj_reg);
 
  
   bool CreateEffect (iMeshWrapper* parent, int effect);
+  bool CreateEffect (int effect, csVector3 pos);
 
   void HandleEffects(csTicks elapsed_ticks);
 

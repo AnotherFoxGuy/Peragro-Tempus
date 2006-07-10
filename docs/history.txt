@@ -4,6 +4,8 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+10-Juli-2006
+  - Sueastside added some stuff in preperation of walk with mouse.
 
 9-Juli-2006
   - Sueastside fixed a little bug that would occur with lots of items,
