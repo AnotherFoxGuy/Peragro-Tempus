@@ -121,7 +121,7 @@ private:
   void FinishFrame();
 
   bool OnKeyboard(iEvent&);
-  bool OnMouseClick(iEvent& e);
+  bool OnMouseDown(iEvent& e);
   bool OnMouseMove(iEvent&);
   iPcActorMove* getPcActorMove();
 

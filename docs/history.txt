@@ -7,6 +7,8 @@ under each day.
 10-Juli-2006
   - Sueastside added some stuff in preperation of walk with mouse.
   - PK fixed some more bugs.
+  - Sueastside fixed an event bug, now cs won't handle walkingto anymore
+    when clicking a window.
 
 9-Juli-2006
   - Sueastside fixed a little bug that would occur with lots of items,

@@ -529,14 +529,14 @@ bool Client::OnKeyboard(iEvent& ev)
   return false;
 }
 
-bool Client::OnMouseClick(iEvent& ev)
+bool Client::OnMouseDown(iEvent& ev)
 {
   printf("success! mouseclick \n");
   // Mouse click
   if (playing)
   {
     csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
-    if ( mouseevent == csMouseEventTypeClick )
+    if ( mouseevent == csMouseEventTypeDown )
     {
       // Get the clicked entity.
       csRef<iCelEntity> ent;
@@ -551,7 +551,10 @@ bool Client::OnMouseClick(iEvent& ev)
       switch(csMouseEventHelper::GetButton(&ev))
       {
       case csmbLeft:
-
+/*
+        if ( guimanager->GetCEGUI()->GetSystemPtr ()->injectMouseButtonDown(CEGUI::LeftButton) )
+           return true;
+*/
         printf("OnMouseClick: success! 1\n");
 
         cam = entitymanager->getOwnCamera();
@@ -574,7 +577,7 @@ bool Client::OnMouseClick(iEvent& ev)
           pclinmove->GetLastFullPosition(pos, yrot, sector);
           fv1[0] = pos.x; fv1[2] = pos.y; fv1[3] = pos.z;
           fv2[1] = tmp.x; fv2[2] = tmp.y; fv2[3] = tmp.z;
-          entitymanager->moveEntity(entitymanager->GetOwnId(), 3, fv1, fv2);
+          //entitymanager->moveEntity(entitymanager->GetOwnId(), 3, fv1, fv2);
 
           printf("OnMouseClick: position: %s\n", tmp.Description().GetData());
         }

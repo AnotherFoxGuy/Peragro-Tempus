@@ -137,7 +137,7 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
   // disable to allow inputs to pass through.
   skillIcon->disable();
 
-  skill->subscribeEvent(CEGUI::Window::EventMouseClick, CEGUI::Event::Subscriber(&HUDWindow::HandleSkillSelected, this));
+  skill->subscribeEvent(CEGUI::DragContainer::EventMouseButtonDown, CEGUI::Event::Subscriber(&HUDWindow::HandleSkillSelected, this));
 
   // Set alpha
   skill->setAlpha(0.5f);
