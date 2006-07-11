@@ -36,7 +36,7 @@ class OptionsWindow : public GUIWindow
 {
 private:
 
-  GUIManager* guimanager;
+  //GUIManager* guimanager;
   csRef<iConfigManager> app_cfg;
   csRef<iVFS> vfs;
 

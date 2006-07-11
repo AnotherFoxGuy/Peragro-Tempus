@@ -10,6 +10,7 @@ under each day.
       which holds stuff like action- and skill icons.
        (skills, melee, spells, actions)
   - Sueastside has revised ptlook.tga
+  - PK fixed a small bug in the options gui.
 
 10-Juli-2006
   - Sueastside fixed cegui, so that walkto won't be called 
