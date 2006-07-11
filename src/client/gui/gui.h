@@ -26,5 +26,6 @@
 #include "inventory-gui.h"
 #include "hud-gui.h"
 #include "options-gui.h"
+#include "status-gui.h"
 
 #endif // GUI_H

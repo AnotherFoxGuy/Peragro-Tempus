@@ -229,7 +229,8 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 {
     using namespace CEGUI;
 
-    CEGUI::Window* framewin = winMgr->getWindow("Inventory/Frame");
+    CEGUI::Window* inventorywin = winMgr->getWindow("Inventory/Frame");
+    CEGUI::Window* statuswin = winMgr->getWindow("Status/Frame");
 
     const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
@@ -242,8 +243,12 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
         winMgr->getWindow("InputPanel/InputBox")->activate();
         break;
 
+    case Key::F11:
+      statuswin->isVisible(true) ? statuswin->hide() : statuswin->show();
+      break;
+
     case Key::F12:
-      framewin->isVisible(true) ? framewin->hide() : framewin->show();
+      inventorywin->isVisible(true) ? inventorywin->hide() : inventorywin->show();
       break;
 
     default: return false;

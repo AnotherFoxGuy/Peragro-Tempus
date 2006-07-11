@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+11-Juli-2006
+  - Sueastside has split Inventory in inventory and skill window.
+  - Sueastside Made the skill window part of a tabbed window
+      which holds stuff like action- and skill icons.
+       (skills, melee, spells, actions)
+  - Sueastside has revised ptlook.tga
 
 10-Juli-2006
   - Sueastside fixed cegui, so that walkto won't be called 

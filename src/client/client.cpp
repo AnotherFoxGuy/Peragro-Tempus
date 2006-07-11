@@ -305,7 +305,7 @@ void Client::handleStates()
         if (!strncmp(path,"void", 4)) path = 0;
       }
 
-      printf("Loading Intro: %s\n", path);
+      printf("handleStates: Loading Intro: %s\n", path);
 
       bool hasIntro = false;
       csRef<iPcRegion> pcregion = 0;
@@ -319,7 +319,7 @@ void Client::handleStates()
         pcregion->SetRegionName("world");
         pcregion->SetWorldFile (path, "world");
         hasIntro = pcregion->Load();
-        printf("Loading Intro %s\n", hasIntro?"succeeded":"failed");
+        printf("handleStates: Loading Intro %s\n", hasIntro?"succeeded":"failed");
       }
 
       if (hasIntro)
@@ -328,18 +328,20 @@ void Client::handleStates()
         view->GetCamera()->SetSector(pcregion->GetStartSector());
         view->GetCamera()->GetTransform().Translate(sPos);
         const char* secName = pcregion->GetStartSector()->QueryObject()->GetName();
-        printf("Setting up Camera at %s <%.2f,%.2f,%.2f>\n", secName, sPos.x, sPos.y, sPos.z);
+        printf("handleStates: Setting up Camera at %s <%.2f,%.2f,%.2f>\n", secName, sPos.x, sPos.y, sPos.z);
       }
       else
       {
-        printf("Clearing screen due to missing intro\n");
+        printf("handleStates: Clearing screen due to missing intro\n");
         engine->SetClearScreen(true);
       }
 
       // Create the connection and option window.
       guimanager->CreateConnectWindow ();
       guimanager->CreateOptionsWindow ();
-//guimanager->CreateHUDWindow ();
+
+      //guimanager->CreateStatusWindow ();
+      //guimanager->CreateInventoryWindow ();
 
       if (cmdline)
       {
@@ -428,10 +430,7 @@ bool Client::OnKeyboard(iEvent& ev)
       if (csKeyEventHelper::GetAutoRepeat(&ev)) return false;
 
       utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
-      //if (code == CSKEY_TAB)
-      //{
-      //console_focus=true;
-      //}
+  
       if (code == CSKEY_UP)
       {
         walk = 1;
@@ -466,27 +465,10 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         combatmanager->levelup (entitymanager->GetOwnId());
       }
-      else if (code == 'k')
-      {
-      }
-      /*
-      else if (code == CSKEY_SPACE)
-      {
-      //netclient->Jump();
-      }
-      else if (code == 's')
-      {
-      //netclient->Sit();
-      }
-      */
-      else if (code == 'p')
-      {
-      }
       else
       {
         return false;
       }
-      printf("----keydown--------move : %d %d \n", walk, turn);
       MoveEntityRequestMessage msg;
       msg.setWalk(walk);
       msg.setRot(turn);
@@ -518,7 +500,6 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         return false;
       }
-      printf("----keydown--------move : %d %d \n", walk, turn);
       MoveEntityRequestMessage msg;
       msg.setWalk(walk);
       msg.setRot(turn);
@@ -531,7 +512,7 @@ bool Client::OnKeyboard(iEvent& ev)
 
 bool Client::OnMouseDown(iEvent& ev)
 {
-  printf("success! mouseclick \n");
+  printf("OnMouseClick: success! mouseclick \n");
   // Mouse click
   if (playing)
   {
@@ -551,10 +532,7 @@ bool Client::OnMouseDown(iEvent& ev)
       switch(csMouseEventHelper::GetButton(&ev))
       {
       case csmbLeft:
-/*
-        if ( guimanager->GetCEGUI()->GetSystemPtr ()->injectMouseButtonDown(CEGUI::LeftButton) )
-           return true;
-*/
+
         printf("OnMouseClick: success! 1\n");
 
         cam = entitymanager->getOwnCamera();
@@ -695,6 +673,7 @@ void Client::loggedIn()
   guimanager->GetLoginWindow ()->HideWindow ();
   guimanager->GetSelectCharWindow ()->ShowWindow ();
   guimanager->CreateInventoryWindow ();
+  guimanager->CreateStatusWindow ();
 
   state = STATE_LOGGED_IN;
 
@@ -712,7 +691,7 @@ void Client::loggedIn()
 
 void Client::OnCommandLineHelp()
 {
-  const size_t NUM_OPTIONS = 6;
+  const size_t NUM_OPTIONS = 5;
 
   const csOptionDescription pt_config_options [NUM_OPTIONS] =
   {
@@ -721,7 +700,6 @@ void Client::OnCommandLineHelp()
     { 2, "user", "Automatic Login with the given Username", CSVAR_STRING },
     { 3, "pass", "Automatic Login with the given Password", CSVAR_STRING },
     { 4, "char", "Automatic selection of the character with the given ID", CSVAR_LONG },
-    { 5, "removeportal", "Removes the waterportal for better performance", CSVAR_BOOL },
   };
 
   for (int i = 0; i<NUM_OPTIONS ; i++)
@@ -780,8 +758,6 @@ void Client::loadRegion()
 
   if (!load_region.IsValid()) return;
 
-  //engine->SetClearScreen(false);
-
   guimanager->GetSelectCharWindow ()->HideWindow();
   guimanager->GetOptionsWindow ()->HideWindow();
   guimanager->CreateChatWindow ();
@@ -792,7 +768,7 @@ void Client::loadRegion()
   if (!path) 
   {
     path = load_region->GetData();
-    printf("using test world");
+    printf("loadRegion: Using default world.\n");
   }
 
   csRef<iCelEntity> entity = pl->CreateEntity();
@@ -814,7 +790,7 @@ void Client::loadRegion()
   {
     iMeshWrapper* portalMesh = engine->FindMeshObject("portal");
     if (portalMesh) engine->RemoveObject(portalMesh->QueryObject());
-    printf("*************************Waterportal removed****************!\n");
+    printf("loadRegion: Waterportal removed!\n");
   }
 
 }

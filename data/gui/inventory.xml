@@ -10,31 +10,19 @@
 			<Property Name="TitlebarEnabled" Value="True" />
 			<Property Name="SizingEnabled" Value="False" />
 			<Property Name="Visible" Value="False" />
-			<Property Name="Position" Value="x:0.6 y:0.05" />
-			<Property Name="AbsoluteSize" Value="w:320 h:350" />
+			<Property Name="Position" Value="x:0.75 y:0.05" />
+			<Property Name="AbsoluteSize" Value="w:154 h:230" />
+			<Property Name="Alpha" Value="0.7" />
 
 			<Window Type="Peragro/StaticImage" Name="Inventory/Bag" >
-				<Property Name="Font" Value="Tahoma-12" />
-				<Property Name="MaxTextLength" Value="1073741823" />
-				<Property Name="Text" Value="" />
-				<Property Name="UnifiedAreaRect" Value="{{0.469119,0.000000},{0.084122,0.000000},{0.970803,0.000000},{0.989023,0.000000}}" />
-				<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />	
+				<Property Name="AbsolutePosition" Value="x:5 y:111" />
+				<Property Name="AbsoluteSize" Value="w:144 h:117" />
 			</Window>
 
 			<Window Type="Peragro/StaticImage" Name="Inventory/EquipFrame" >
-				<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
-				<Property Name="BottomFrameImage" Value="set:Peragro image:StaticBottom" />
-				<Property Name="BottomLeftFrameImage" Value="set:Peragro image:StaticBottomLeft" />
-				<Property Name="BottomRightFrameImage" Value="set:Peragro image:StaticBottomRight" />
-				<Property Name="Font" Value="Tahoma-12" />
-				<Property Name="LeftFrameImage" Value="set:Peragro image:StaticLeft" />
-				<Property Name="RightFrameImage" Value="set:Peragro image:StaticRight" />
-				<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
-				<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
-				<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
-				<Property Name="UnifiedAreaRect" Value="{{0.030415,0.000000},{0.084122,0.000000},{0.46000,0.000000},{0.475961,0.000000}}" />
-				<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-				
+				<Property Name="AbsolutePosition" Value="x:5 y:29" />
+				<Property Name="AbsoluteSize" Value="w:144 h:80" />
+
 				<Window Type="Peragro/StaticImage" Name="Inventory/EquipFrame/WeaponRight" >
 					<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
 					<Property Name="BottomFrameImage" Value="set:Peragro image:StaticBottom" />
@@ -46,8 +34,8 @@
 					<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
 					<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
 					<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
-					<Property Name="AbsolutePosition" Value="x:12 y:12" />
-					<Property Name="AbsoluteSize" Value="w:35 h:72" />
+					<Property Name="AbsolutePosition" Value="x:34 y:2" />
+					<Property Name="AbsoluteSize" Value="w:24 h:48" />
 				</Window>
 				<Window Type="Peragro/StaticImage" Name="Inventory/EquipFrame/Helm" >
 					<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
@@ -60,8 +48,8 @@
 					<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
 					<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
 					<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
-					<Property Name="AbsolutePosition" Value="x:51 y:12" />
-					<Property Name="AbsoluteSize" Value="w:35 h:35" />
+					<Property Name="AbsolutePosition" Value="x:60 y:2" />
+					<Property Name="AbsoluteSize" Value="w:24 h:24" />
 				</Window>
 				<Window Type="Peragro/StaticImage" Name="Inventory/EquipFrame/Armor" >
 					<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
@@ -74,8 +62,8 @@
 					<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
 					<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
 					<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
-					<Property Name="AbsolutePosition" Value="x:51 y:51" />
-					<Property Name="AbsoluteSize" Value="w:35 h:35" />
+					<Property Name="AbsolutePosition" Value="x:60 y:29" />
+					<Property Name="AbsoluteSize" Value="w:24 h:24" />
 				</Window>
 				<Window Type="Peragro/StaticImage" Name="Inventory/EquipFrame/WeaponLeft" >
 					<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
@@ -88,8 +76,8 @@
 					<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
 					<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
 					<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
-					<Property Name="AbsolutePosition" Value="x:90 y:12" />
-					<Property Name="AbsoluteSize" Value="w:35 h:72" />
+					<Property Name="AbsolutePosition" Value="x:86 y:2" />
+					<Property Name="AbsoluteSize" Value="w:24 h:48" />
 				</Window>
 				<Window Type="Peragro/StaticImage" Name="Inventory/EquipFrame/Gloves" >
 					<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
@@ -102,8 +90,8 @@
 					<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
 					<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
 					<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
-					<Property Name="AbsolutePosition" Value="x:12 y:90" />
-					<Property Name="AbsoluteSize" Value="w:35 h:35" />
+					<Property Name="AbsolutePosition" Value="x:34 y:53" />
+					<Property Name="AbsoluteSize" Value="w:24 h:24" />
 				</Window>
 				<Window Type="Peragro/StaticImage" Name="Inventory/EquipFrame/InventoryPants" >
 					<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
@@ -116,8 +104,8 @@
 					<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
 					<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
 					<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
-					<Property Name="AbsolutePosition" Value="x:51 y:90" />
-					<Property Name="AbsoluteSize" Value="w:35 h:35" />
+					<Property Name="AbsolutePosition" Value="x:60 y:53" />
+					<Property Name="AbsoluteSize" Value="w:24 h:24" />
 				</Window>
 				<Window Type="Peragro/StaticImage" Name="Inventory/EquipFrame/Boots" >
 					<Property Name="BackgroundImage" Value="set:Peragro image:StaticBackdrop" />
@@ -130,17 +118,10 @@
 					<Property Name="TopFrameImage" Value="set:Peragro image:StaticTop" />
 					<Property Name="TopLeftFrameImage" Value="set:Peragro image:StaticTopLeft" />
 					<Property Name="TopRightFrameImage" Value="set:Peragro image:StaticTopRight" />
-					<Property Name="AbsolutePosition" Value="x:90 y:90" />
-					<Property Name="AbsoluteSize" Value="w:35 h:35" />
+					<Property Name="AbsolutePosition" Value="x:86 y:53" />
+					<Property Name="AbsoluteSize" Value="w:24 h:24" />
 				</Window>
 			</Window>
-			
-			<Window Type="Peragro/MultiColumnList" Name="Inventory/StatsFrame" >
-				<Property Name="Font" Value="Commonwealth-8" />
-				<Property Name="MaxTextLength" Value="1073741823" />
-				<Property Name="UnifiedAreaRect" Value="{{0.026975,0.000000},{0.487794,0.000000},{0.46000,0.000000},{0.989023,0.000000}}" />
-				<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-			</Window>
-			
+		
 		</Window>
 </GUILayout>

@@ -125,3 +125,10 @@ OptionsWindow* GUIManager::CreateOptionsWindow ()
   optionswindow->CreateGUIWindow();
   return optionswindow;
 }
+
+StatusWindow* GUIManager::CreateStatusWindow ()
+{
+  statuswindow = new StatusWindow (this);
+  statuswindow->CreateGUIWindow();
+  return statuswindow;
+}

@@ -142,7 +142,7 @@ void EntityHandler::handleCharacterStatList(GenericMessage* msg)
   guimanager = client->GetGuiManager();
   for (int i=0; i<stat_msg.getStatCount(); i++)
   {
-    guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
+    guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
     printf("Stat %s (%d): \t %d\n", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getStatLevel(i));
   }
 }

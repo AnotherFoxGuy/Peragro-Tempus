@@ -258,6 +258,122 @@
 		<StateImagery name="EnabledBackground" />
 		<StateImagery name="DisabledBackground" />
 	</WidgetLook>
+
+	<!--
+    ***************************************************
+        Peragro/ItemCounter
+    ***************************************************
+    -->
+	<WidgetLook name="Peragro/ItemCounter">
+		<Property name="MouseCursorImage" value="set:Peragro image:MouseTextBar" />
+		<NamedArea name="TextArea">
+			<Area>
+				<Dim type="LeftEdge" >
+					<AbsoluteDim value="5" />
+				</Dim>
+				<Dim type="TopEdge" >
+					<AbsoluteDim value="5" />
+				</Dim>
+				<Dim type="RightEdge" >
+					<UnifiedDim scale="1.0" offset="-5" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge" >
+					<UnifiedDim scale="1.0" offset="-5" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<ImagerySection name="container_normal">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width" >
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height" >
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="selection">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge" >
+						<UnifiedDim scale="1.0" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge" >
+						<UnifiedDim scale="1.0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image imageset="Peragro" image="TextSelectionBrush" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="Carat">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge" >
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width" >
+						<ImageDim imageset="Peragro" image="EditBoxCarat" dimension="Width" />
+					</Dim>
+					<Dim type="BottomEdge" >
+						<UnifiedDim scale="1.0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image imageset="Peragro" image="EditBoxCarat" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Enabled">
+			<Layer>
+				<Section section="container_normal" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ReadOnly">
+			<Layer>
+				<Section section="container_normal" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="container_normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ActiveSelection">
+			<Layer>
+				<Section section="selection">
+					<ColourProperty name="ActiveSelectionColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveSelection">
+			<Layer>
+				<Section section="selection">
+					<ColourProperty name="InactiveSelectionColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
 	
     <!--
     ***************************************************

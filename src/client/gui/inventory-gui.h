@@ -43,7 +43,6 @@ public:
   virtual ~InventoryWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
   bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
-  void AddSkil(const char* skillname, unsigned int skillvalue);
 };
 
 

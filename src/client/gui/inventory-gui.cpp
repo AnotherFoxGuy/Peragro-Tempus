@@ -86,20 +86,20 @@ bool InventoryWindow::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   if (ddea.dragDropItem->isUserStringDefined("itemtype")) 
   { 
   itemid = atoi(ddea.dragDropItem->getUserString("itemtype").c_str()); 
-  printf("About to drop item of type: %d!\n", itemid);
+  printf("InventoryWindow: About to drop item of type: %d!\n", itemid);
   DropEntityRequestMessage msg;
   msg.setTargetId(itemid);
   network->send(&msg);
   ddea.dragDropItem->destroy();
-  printf("Item icon destroyed!\n");
+  printf("InventoryWindow: Item icon destroyed!\n");
   UpdateItemCounter(slot);
   }
   else 
   {
     //slot->addChildWindow(ddea.dragDropItem);
-    printf("Couldn't determine itemID, putting it back!");
+    printf("InventoryWindow: Couldn't determine itemID, putting it back!");
   }
-  printf("Dropped item to the world!\n");
+  printf("InventoryWindow: Dropped item to the world!\n");
 
   return true;
 }
@@ -119,7 +119,7 @@ bool InventoryWindow::handleDragDroppedStackable(const CEGUI::EventArgs& args)
     {
       const char* slottype = ddea.window->getUserString("itemtype").c_str();
       const char* itemtype = ddea.dragDropItem->getUserString("itemtype").c_str();
-      //printf("Slottype is %s and itemtype is %s \n", slottype, itemtype);
+      //printf("InventoryWindow: Slottype is %s and itemtype is %s \n", slottype, itemtype);
 
       if ( !strcmp(slottype, itemtype) ) 
       {
@@ -134,7 +134,7 @@ bool InventoryWindow::handleDragDroppedStackable(const CEGUI::EventArgs& args)
 bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
 {
   winMgr->getWindow("Inventory/Frame")->setVisible(false);
-  winMgr->getWindow("Chatlog/Frame")->activate();
+  //winMgr->getWindow("Chatlog/Frame")->activate();
   return true;
 }
 CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::Point& position)
@@ -144,22 +144,23 @@ CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const 
   parent->addChildWindow(slot);
   //slot->setWindowPosition(position);
   slot->setPosition(CEGUI::Absolute, position);
-  slot->setSize(CEGUI::Absolute, CEGUI::Size(35.0f, 35.0f));
+  slot->setSize(CEGUI::Absolute, CEGUI::Size(24.0f, 24.0f));
   //slot->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.2f), CEGUI::cegui_reldim(0.2f)));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&InventoryWindow::handleDragEnter, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&InventoryWindow::handleDragLeave, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDropped, this));
 
   // Create the itemcounter
-  CEGUI::Window* itemcounter = winMgr->createWindow("Peragro/Editbox");
+  CEGUI::Window* itemcounter = winMgr->createWindow("Peragro/ItemCounter");
   slot->addChildWindow(itemcounter);
-  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.5f), CEGUI::cegui_reldim( 0.5f)));
-  itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.65f), CEGUI::cegui_reldim(0.65f)));
+  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.10f), CEGUI::cegui_reldim( 0.15f)));
+  itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.85f), CEGUI::cegui_reldim(0.80f)));
   itemcounter->setVisible(false);
   itemcounter->disable();
   itemcounter->setText("0");
   itemcounter->setAlwaysOnTop(true);
-  itemcounter->setAlpha(0.5);
+  itemcounter->setInheritsAlpha(false);
+  itemcounter->setAlpha(1.0);
   itemcounter->setID(30);
   itemcounter->setProperty("Font", "Commonwealth-8");
 
@@ -223,7 +224,7 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackab
   {
     CEGUI::Window* slot = inventoryframe->getChildAtIdx(i);
     i += 1;
-    //printf("Checking slot %d \n", i);
+    //printf("InventoryWindow: Checking slot %d \n", i);
 
     char itemtypestr[1024];
     sprintf(itemtypestr, "%d", itemtype);
@@ -248,26 +249,10 @@ bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackab
         return true;
       }
   }
-  printf("Inventory is full!\n");
+  printf("InventoryWindow: Inventory is full!\n");
   return false;
 }
 
-void InventoryWindow::AddSkil(const char* skillname, unsigned int skillvalue)
-{
-  btn = winMgr->getWindow("Inventory/StatsFrame");
-  char charskillvalue[10];
-  sprintf(charskillvalue, "%d", skillvalue);
-  CEGUI::ListboxItem* skillvalueItem = new CEGUI::ListboxTextItem(charskillvalue);
-  CEGUI::ListboxItem* skillnameItem = new CEGUI::ListboxTextItem(skillname);
-
-  //skillvalueItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
-  //skillnameItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
-
-  unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
-  ((CEGUI::MultiColumnList*)btn)->setItem(skillnameItem, 0, row);
-  ((CEGUI::MultiColumnList*)btn)->setItem(skillvalueItem, 1, row);
-  //((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-}
 void InventoryWindow::CreateGUIWindow()
 {
   GUIWindow::CreateGUIWindow ("inventory.xml");
@@ -288,23 +273,13 @@ void InventoryWindow::CreateGUIWindow()
 
   CEGUI::Window* bag = winMgr->getWindow("Inventory/Bag");
 
-  for (int j=0; j<8; j++)
+  for (int j=0; j<4; j++)
   {
-    for (int i=0; i<4; i++)
+    for (int i=0; i<5; i++)
     {
-      createDragDropSlot(bag, CEGUI::Point(4.0f+(39*i), 4.0f+(39*j)));
+      createDragDropSlot(bag, CEGUI::Point(4.0f+(28*i), 4.0f+(28*j)));
     }
   }
-
-  // Setup the skill list
-  btn = winMgr->getWindow("Inventory/StatsFrame");
-  CEGUI::String str_skill("Skill");
-  CEGUI::String str_value("Value");
-  ((CEGUI::MultiColumnList*)btn)->addColumn(str_skill,0,0.6f);
-  ((CEGUI::MultiColumnList*)btn)->addColumn(str_value,1,0.4f);
-  ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-  ((CEGUI::MultiColumnList*)btn)->setUserColumnSizingEnabled(false);
-
 
  // Get the root window
   rootwindow = winMgr->getWindow("Inventory/Frame");

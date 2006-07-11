@@ -68,9 +68,9 @@ void HUDWindow::CreateGUIWindow ()
 
   // Create the skill holders.
   CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");
-  for (int i=0; i<6; i++)
+  for (int i=0; i<10; i++)
   {
-    CreateSkillSlot(skillframe, CEGUI::Point(4.0f+(35*i), 4.0f), i);
+    CreateSkillSlot(skillframe, CEGUI::Point(2.0f+(28*i), 2.0f), i);
   }
 
   // F1-F6 keys for quickbar.
@@ -111,7 +111,7 @@ CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::Po
   parent->addChildWindow(slot);
   //slot->setWindowPosition(position);
   slot->setPosition(CEGUI::Absolute, position);
-  slot->setSize(CEGUI::Absolute, CEGUI::Size(31.0f, 31.0f));
+  slot->setSize(CEGUI::Absolute, CEGUI::Size(24.0f, 24.0f));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&HUDWindow::HandleDragDropped, this));
 
   return slot;
@@ -283,6 +283,30 @@ bool HUDWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 
     case Key::F6:
       slot = winMgr->getWindow("SkillHUD/quickslot_6");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F7:
+      slot = winMgr->getWindow("SkillHUD/quickslot_7");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F8:
+      slot = winMgr->getWindow("SkillHUD/quickslot_8");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F9:
+      slot = winMgr->getWindow("SkillHUD/quickslot_9");
+      if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
+      if (skill) SetActiveSkill(skill);
+      break;
+
+    case Key::F10:
+      slot = winMgr->getWindow("SkillHUD/quickslot_10");
       if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
       if (skill) SetActiveSkill(skill);
       break;

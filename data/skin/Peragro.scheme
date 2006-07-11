@@ -46,4 +46,5 @@
 	<FalagardMapping WindowType="Peragro/TitlebarNo" TargetType="Falagard/Titlebar" LookNFeel="Peragro/TitlebarNo" />
 	<FalagardMapping WindowType="Peragro/InvisbleWindow" TargetType="Falagard/StaticImage" LookNFeel="Peragro/InvisbleWindow" />
 	<FalagardMapping WindowType="Peragro/StaticTextNo" TargetType="Falagard/StaticText" LookNFeel="Peragro/StaticTextNo" />
+	<FalagardMapping WindowType="Peragro/ItemCounter" TargetType="Falagard/Editbox" LookNFeel="Peragro/ItemCounter" />
 </GUIScheme>

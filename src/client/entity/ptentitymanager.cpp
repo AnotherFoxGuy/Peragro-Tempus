@@ -225,19 +225,32 @@ void ptEntityManager::moveEntity(int entity_id, float speed, float* fv1, float* 
       iSector* sect = 0;
       float rot = 0;
 
-      csVector3 pos_ori(fv1[0], fv1[1], fv1[2]);
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+      csVector3 pos_ori = pcmesh->GetMesh()->GetMovable()->GetPosition();
+
+      //csVector3 pos_ori(fv1[0], fv1[1], fv1[2]);
       csVector3 pos_dst(fv2[0], fv2[1], fv2[2]);
+
+      csVector3 vecfw(pos_dst-pos_ori);
+      vecfw.y =0;
 
       //make path
       csPath* path = new csPath(2);
       path->SetPositionVector(0,pos_ori);
       path->SetPositionVector(1,pos_dst);
-      path->SetForwardVector(0,pos_ori-pos_dst);
-      path->SetForwardVector(1,pos_ori-pos_dst);
+      path->SetPositionVector(2,pos_dst+csVector3(2,0,2));
+
+      path->SetForwardVectors(&csVector3(1,0,0));
+      //path->SetForwardVector(0,vecfw);
+      //path->SetForwardVector(1,vecfw);
+
       path->SetTime(0, 0.0f);
-      path->SetTime(1, 1.0f);
-      path->SetUpVector(0, csVector3(0,1,0));
-      path->SetUpVector(1, csVector3(0,1,0));
+      path->SetTime(1, 5.0f);
+      path->SetTime(2, 10.0f);
+
+      path->SetUpVectors(&csVector3(0,1,0));
+      //path->SetUpVector(0, csVector3(0,1,0));
+      //path->SetUpVector(1, csVector3(0,1,0));
 
       pclinmove->GetLastFullPosition(pos_clt, rot, sect);
 
@@ -249,8 +262,8 @@ void ptEntityManager::moveEntity(int entity_id, float speed, float* fv1, float* 
       speed = speed * (pos_dst - pos_clt).Norm() / (pos_dst - pos_ori).Norm();
 
       pclinmove->SetPath(path);
-      pclinmove->SetPathSpeed(-speed);
-      pclinmove->SetPathTime(0);
+      //pclinmove->SetPathSpeed(speed);
+      //pclinmove->SetPathTime(0);
 
       csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
       csRef<iSpriteCal3DState> sprcal3d =
