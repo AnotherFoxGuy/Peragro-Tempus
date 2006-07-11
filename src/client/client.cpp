@@ -119,6 +119,10 @@ Client::Client() : playing(false)
 
 Client::~Client()
 {
+  delete combatmanager;
+  delete entitymanager;
+  delete effectsmanager;
+  delete guimanager;
   delete network;
   delete cursor;
 }

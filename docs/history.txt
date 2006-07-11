@@ -11,6 +11,9 @@ under each day.
        (skills, melee, spells, actions)
   - Sueastside has revised ptlook.tga
   - PK fixed a small bug in the options gui.
+  - iceeey fixed memory leaks in client. entitymanager, combatmanager,
+    effectsmanager, and guimanager were not deleted which, according to CS
+    leaked 1607 objects.
 
 10-Juli-2006
   - Sueastside fixed cegui, so that walkto won't be called 
