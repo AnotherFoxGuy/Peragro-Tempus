@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="Peragro/FrameWindow" Name="Status/Frame" >
+		<Property Name="CaptionColour" Value="00FFFFFF" />
+		<Property Name="EWSizingCursorImage" Value="set:Peragro image:MouseEsWeCursor" />
+		<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTarget" />
+		<Property Name="NESWSizingCursorImage" Value="set:Peragro image:MouseNeSwCursor" />
+		<Property Name="NSSizingCursorImage" Value="set:Peragro image:MouseNoSoCursor" />
+		<Property Name="NWSESizingCursorImage" Value="set:Peragro image:MouseNwSeCursor" />
+		<Property Name="TitlebarEnabled" Value="True" />
+		<Property Name="SizingEnabled" Value="False" />
+		<Property Name="Visible" Value="False" />
+		<Property Name="Position" Value="x:0.5 y:0.05" />
+		<Property Name="AbsoluteSize" Value="w:154 h:230" />
+		<Property Name="Alpha" Value="0.7" />
+
+		<Window Type="Peragro/TabControl" Name="Status/TabControl" >
+			<Property Name="TabHeight" Value="{0,0}" />
+			<Property Name="TabTextPadding" Value="{0,0}" />
+			<Property Name="AbsolutePosition" Value="x:5 y:30" />
+			<Property Name="AbsoluteSize" Value="w:144 h:198" />	
+			
+		</Window>
+
+	</Window>
+
+
+		
+</GUILayout>
