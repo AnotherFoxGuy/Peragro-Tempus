@@ -550,7 +550,7 @@ bool anvEngine::Initialize(iObjectRegistry* object_reg, wxWindow* panel3d)
 
   // Load application-specific configuration file.
   if (!csInitializer::SetupConfigManager(r,
-      "/config/anvil.cfg", "Anvil"))
+      "/peragro/config/anvil.cfg", "Anvil"))
     return ReportError("Failed to initialize configuration manager!");
 
   // RequestPlugins() will load all plugins we specify.  In addition it will
@@ -759,11 +759,6 @@ void anvEngine::UpdateSelection(csBox3 bbox)
   arrow_x2->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
   arrow_y2->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
   arrow_z2->SetFlagsRecursive(CS_ENTITY_INVISIBLE | CS_ENTITY_NOSHADOWS, visible);
-
-  if (selections[editmode].GetSize() == 0)
-  {
-    return;
-  }
 
   csVector3 max = bbox.Max();
   csVector3 min = bbox.Min();

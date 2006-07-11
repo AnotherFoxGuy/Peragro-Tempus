@@ -25,31 +25,6 @@
 
 CS_IMPLEMENT_APPLICATION
 
-/* There are two ways to drive the CS event loop, from
-  a Wx timer or from idle events.  This test app demonstrates
-  either method depending on which #define is set below.  Using
-  a timer seems to produce better results (a smoother framerate
-  and better CPU utilization).
-*/
-
-//#define USE_IDLE
-#define USE_TIMER
-
-#ifdef USE_TIMER
-class Pump : public wxTimer
-{
-public:
-  anvMainFrame* frame;
-  Pump (anvMainFrame* frame) {this->frame = frame;};
-
-  virtual void Notify()
-    {
-      frame->PushFrame();
-    }
-};
-#endif
-
-
 #ifdef USE_IDLE
 BEGIN_EVENT_TABLE(AnvilApp, wxApp)
   EVT_IDLE(AnvilApp::OnIdle)
@@ -64,7 +39,7 @@ IMPLEMENT_APP(AnvilApp)
  *---------------------------------------------------------------------*/
 bool AnvilApp::OnInit(void)
 {
-  anvEngine* engine = new anvEngine();
+  engine = new anvEngine();
 
 #if defined(wxUSE_UNICODE) && wxUSE_UNICODE
   char** csargv;
@@ -100,14 +75,10 @@ bool AnvilApp::OnInit(void)
    the timer triggers the next frame.
   */
 
-  Pump* p = new Pump(frame);
-  p->Start(20);
-
-  //delete p;
+  pump = new Pump(frame);
+  pump->Start(20);
 #endif
 
-  //delete engine;
-  //delete frame;
 
   return true;
 }
@@ -120,7 +91,13 @@ void AnvilApp::OnIdle() {
 
 int AnvilApp::OnExit()
 {
-  frame = 0;
+  delete engine;
+  delete frame;
+
+#ifdef USE_TIMER
+  delete pump;
+#endif
+
   csInitializer::DestroyApplication (object_reg);
   return 0;
 }

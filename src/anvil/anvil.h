@@ -29,12 +29,43 @@
 
 struct iObjectRegistry;
 
+
+/* There are two ways to drive the CS event loop, from
+  a Wx timer or from idle events.  This test app demonstrates
+  either method depending on which #define is set below.  Using
+  a timer seems to produce better results (a smoother framerate
+  and better CPU utilization).
+*/
+
+//#define USE_IDLE
+#define USE_TIMER
+
+#ifdef USE_TIMER
+class Pump : public wxTimer
+{
+public:
+  anvMainFrame* frame;
+  Pump (anvMainFrame* frame) {this->frame = frame;};
+
+  virtual void Notify()
+    {
+      frame->PushFrame();
+    }
+};
+#endif
+
+
 // Define a new application type
 class AnvilApp: public wxApp
 {
 public:
   iObjectRegistry* object_reg;
+  anvEngine* engine;
   anvMainFrame* frame;
+
+#ifdef USE_TIMER
+  Pump* pump;
+#endif
 
   virtual bool OnInit(void);
   virtual int OnExit(void);
