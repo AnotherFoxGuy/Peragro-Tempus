@@ -56,12 +56,14 @@ void EntityTable::createTable()
     "PRIMARY KEY (id) );");
 
   //Example Data!
-  float pos1[3] = { -2, 0, 0};
+  float pos1[3] = { 29, 2, 106 };
 
   ptString dummy("test-dummy", 10);
   ptString test("test", 4);
   ptString room("room", 4);
   ptString apple("apple", 5);
+  ptString dummy1("test-dragon", 11);
+  ptString test1("test1", 5);
 
   insert(1, dummy, 0, 0, test, pos1, room);
   float pos2[3] = { 0, 0, 1};
@@ -73,7 +75,9 @@ void EntityTable::createTable()
   float pos5[3] = { 1, 0, -1};
   insert(5, apple, 3, 1,apple, pos5, room);
   float pos6[3] = { -1, 0, -1};
-  insert(6, apple, 3, 1,apple, pos6, room);
+  insert(7, apple, 3, 1,apple, pos6, room);
+  float pos7[3] = { 41, 2, 172};
+  insert(6, dummy1, 0, 0,test1, pos7, room);
 }
 
 void EntityTable::insert(int id, ptString name, int type, int item, ptString mesh, float pos[3], ptString sector)

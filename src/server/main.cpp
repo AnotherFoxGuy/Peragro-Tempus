@@ -132,12 +132,12 @@ int main(int argc, char ** argv)
   server.setSpawner(&spawner);
   // TODO: load that from DB rather than hardcoding
   ptString room("room", 4);
-  spawner.addSpawnPoint(0, 4, 0, room, 3, 60); //spawn apple every 10 second after picking
-  spawner.addSpawnPoint(4, 0, 2, room, 2, 20); //spawn apple every 10 second after picking
-  spawner.addSpawnPoint(4, 0, 2, room, 1, 10); //spawn apple every 10 second after picking
-  spawner.addSpawnPoint(0, 4, 0, room, 1, 45); //spawn apple every 45 second after picking
-  spawner.addSpawnPoint(0, 2, -2, room, 1, 75); //spawn apple every 75 second after picking
-  spawner.addSpawnPoint(2, -2, 0, room, 1, 15); //spawn apple every 15 second after picking
+  spawner.addSpawnPoint( -114, 2, 22, room, 3, 60); //spawn smallplate every 10 second after picking
+  spawner.addSpawnPoint( -97, 2, 88, room, 2, 20); //spawn ballpot every 10 second after picking
+  spawner.addSpawnPoint( -73, 2.5, 105, room, 1, 10); //spawn apple every 10 second after picking
+  spawner.addSpawnPoint( -23, 2.5, 110, room, 1, 45); //spawn apple every 45 second after picking
+  spawner.addSpawnPoint( 17, 2.5, 117, room, 1, 75); //spawn apple every 75 second after picking
+  spawner.addSpawnPoint( 85, 2.5, 108, room, 1, 15); //spawn apple every 15 second after picking
   spawner.start();
   //timeEngine.registerTimer(&spawner);
 
@@ -149,6 +149,9 @@ int main(int argc, char ** argv)
   //throw 1;
 
   CharacterEntity* test_dummy = (CharacterEntity*)ent_mgr.findByName(ptString("test-dummy", 10));
+  CharacterEntity* test_dragon = (CharacterEntity*)ent_mgr.findByName(ptString("test-dragon", 11));
+
+  if (!test_dragon) printf("test_dragon not found! \n");
 
   while (running > 0)
   {
@@ -160,6 +163,12 @@ int main(int argc, char ** argv)
     float pos[3] = {rand()*3.0f/RAND_MAX-1.5f, -0.8f, rand()*16.0f/RAND_MAX - 8.0f };
     server.moveEntity(test_dummy, pos, 2.0f);
     printf("Moving Test-Dummy to: <%.2f,%.2f,%.2f>\n", pos[0], pos[1], pos[2]);
+
+    //Moving test-dummy slowly
+    float pos1[3] = {rand()*3.0f/RAND_MAX-1.5f, -0.8f, rand()*16.0f/RAND_MAX - 8.0f };
+    server.moveEntity(test_dragon, pos1, 2.0f);
+    printf("Moving test_dragon to: <%.2f,%.2f,%.2f>\n", pos1[0], pos1[1], pos1[2]);
+
   }
 
   printf("Time to quit now!\n");

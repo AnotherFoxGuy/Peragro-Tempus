@@ -17,6 +17,7 @@ under each day.
     the walkcycle. I looked in CEL code and saw that it only works for spr3d
     but after adding cal3d code, I still can't get it to work. I'll keep at it
     and try to get it committed to CEL soon.
+  - Sueastside changed the spawnlocations.
 
 11-Juli-2006
   - Sueastside has split Inventory in inventory and skill window.
