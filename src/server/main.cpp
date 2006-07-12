@@ -165,7 +165,7 @@ int main(int argc, char ** argv)
     printf("Moving Test-Dummy to: <%.2f,%.2f,%.2f>\n", pos[0], pos[1], pos[2]);
 
     //Moving test-dummy slowly
-    float pos1[3] = {rand()*30.0f/RAND_MAX-15.0f+86.8f, -0.8f, rand()*30.0f/RAND_MAX - 15.0f + 11.2f};
+    float pos1[3] = {rand()*30.0f/RAND_MAX-41.0f+41.0f, 2.0f, rand()*30.0f/RAND_MAX - 15.0f + 172.0f};
     server.moveEntity(test_dragon, pos1, 2.0f);
     printf("Moving test_dragon to: <%.2f,%.2f,%.2f>\n", pos1[0], pos1[1], pos1[2]);
 
