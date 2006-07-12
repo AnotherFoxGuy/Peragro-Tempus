@@ -18,6 +18,7 @@ under each day.
     but after adding cal3d code, I still can't get it to work. I'll keep at it
     and try to get it committed to CEL soon.
   - Sueastside changed the spawnlocations.
+  - PK corrected the test-dummy walking for the relocated spawnpoints.
 
 11-Juli-2006
   - Sueastside has split Inventory in inventory and skill window.

@@ -160,12 +160,12 @@ int main(int argc, char ** argv)
     printf("Network Usage: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
 
     //Moving test-dummy slowly
-    float pos[3] = {rand()*3.0f/RAND_MAX-1.5f, -0.8f, rand()*16.0f/RAND_MAX - 8.0f };
+    float pos[3] = {rand()*10.0f/RAND_MAX-5.0f+86.8f, 2.0f, rand()*10.0f/RAND_MAX - 5.0f + 11.2f};
     server.moveEntity(test_dummy, pos, 2.0f);
     printf("Moving Test-Dummy to: <%.2f,%.2f,%.2f>\n", pos[0], pos[1], pos[2]);
 
     //Moving test-dummy slowly
-    float pos1[3] = {rand()*3.0f/RAND_MAX-1.5f, -0.8f, rand()*16.0f/RAND_MAX - 8.0f };
+    float pos1[3] = {rand()*30.0f/RAND_MAX-15.0f+86.8f, -0.8f, rand()*30.0f/RAND_MAX - 15.0f + 11.2f};
     server.moveEntity(test_dragon, pos1, 2.0f);
     printf("Moving test_dragon to: <%.2f,%.2f,%.2f>\n", pos1[0], pos1[1], pos1[2]);
 
