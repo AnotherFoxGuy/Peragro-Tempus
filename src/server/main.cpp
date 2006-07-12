@@ -149,7 +149,7 @@ int main(int argc, char ** argv)
   //throw 1;
 
   CharacterEntity* test_dummy = (CharacterEntity*)ent_mgr.findByName(ptString("test-dummy", 10));
-  CharacterEntity* test_dragon = (CharacterEntity*)ent_mgr.findByName(ptString("test-dragon", 11));
+  CharacterEntity* test_dragon = (CharacterEntity*)ent_mgr.findByName(ptString("Baby Dragonfly", 14));
 
   if (!test_dragon) printf("test_dragon not found! \n");
 
