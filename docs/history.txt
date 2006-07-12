@@ -13,6 +13,10 @@ under each day.
     handler's handle() function after the handler had been destructed
     in the (hidden) Network destructor. Added a destructor for Network which
     kills the thread before letting the handler be destructed.
+  - iceeey fixed moveTo path code. SetPathAction doesn't seem to be playing
+    the walkcycle. I looked in CEL code and saw that it only works for spr3d
+    but after adding cal3d code, I still can't get it to work. I'll keep at it
+    and try to get it committed to CEL soon.
 
 11-Juli-2006
   - Sueastside has split Inventory in inventory and skill window.

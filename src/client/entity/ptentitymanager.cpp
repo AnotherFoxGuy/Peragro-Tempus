@@ -225,41 +225,30 @@ void ptEntityManager::moveEntity(int entity_id, float speed, float* fv1, float* 
       iSector* sect = 0;
       float rot = 0;
 
-      //csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-      //csVector3 pos_ori = pcmesh->GetMesh()->GetMovable()->GetPosition();
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+      csVector3 pos_ori = pcmesh->GetMesh()->GetMovable()->GetPosition();
 
-      /*
-        Seems path doesn't like these float* values somehow,
-        cause it appears to work when using the values below.
-      */
       //csVector3 pos_ori(fv1[0], fv1[1], fv1[2]);
-      //csVector3 pos_dst(fv2[0], fv2[1], fv2[2]);
-
-      csVector3 pos_ori(-10, 0, -10);
-      csVector3 pos_dst(20, 0, -20);
-
-      printf("Going from %s to %s!\n", pos_ori.Description().GetData(), pos_dst.Description().GetData());
+      csVector3 pos_dst(fv2[0], fv2[1], fv2[2]);
 
       csVector3 vecfw(pos_ori-pos_dst);
-      vecfw.y =0;
+      vecfw.y = 0;
 
-      //make path
-      csPath* path = new csPath(3);
-      path->SetPositionVector(0,pos_ori);
-      path->SetPositionVector(1,pos_ori);
-      path->SetPositionVector(2,pos_dst);
+      csPath* path = new csPath(2);
 
-      path->SetForwardVector(0,vecfw);
-      path->SetForwardVector(1,vecfw);
-      path->SetForwardVector(2,vecfw);
+      path->SetPositionVector(0, pos_ori);
+      path->SetPositionVector(1, pos_dst);
+
+      path->SetForwardVector(0, vecfw);
+      path->SetForwardVector(1, vecfw);
 
       path->SetUpVector(0, csVector3(0,1,0));
       path->SetUpVector(1, csVector3(0,1,0));
-      path->SetUpVector(2, csVector3(0,1,0));
+
+      path->SetTime(0, 0.0f);
+      path->SetTime(1, 1.0f);
 
       pclinmove->GetLastFullPosition(pos_clt, rot, sect);
-
-      printf("now at location: %s\n", pos_clt.Description().GetData());
 
       // Some basic physics
       // v = s/t
@@ -268,25 +257,10 @@ void ptEntityManager::moveEntity(int entity_id, float speed, float* fv1, float* 
       // v_c = v_s * v_c / s_s
       speed = speed * (pos_dst - pos_clt).Norm() / (pos_dst - pos_ori).Norm();
 
-      path->SetTime(0, 0.0f);
-      path->SetTime(1, 0.0f);
-      path->SetTime(2, 2.0f);
-
       pclinmove->SetPath(path);
       pclinmove->SetPathSpeed(speed);
-      //pclinmove->SetPathTime(0);
-
-     
-      csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-      csRef<iSpriteCal3DState> sprcal3d =
-        SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
-      if (sprcal3d)
-        sprcal3d->SetVelocity(speed);
-      /*
-        We need some kind of callback to reset the speed/animation when the
-        entity has reached his destination.
-      */
-        
+      pclinmove->SetPathAction(0, "walkcycle");
+      pclinmove->SetPathAction(1, "walkcycle");
     }
   }
   else printf("ptEntityManager: entity %d not found!", entity_id);
