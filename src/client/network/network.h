@@ -37,6 +37,11 @@ public:
   {
   }
 
+  virtual ~Network()
+  {
+    receiver.kill();
+  }
+
   void init()
   {
     socket.init(0);

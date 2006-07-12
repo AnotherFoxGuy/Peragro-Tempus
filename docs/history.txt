@@ -8,6 +8,11 @@ under each day.
   - iceeey added check for symbol visibility flag (from cel).
   - Sueastside added some checks so you won't be able to crash the client
       by dragging skills in the inventory or stacking items in the quickbar.
+  - iceeey fixed 'pure virtual function called' error on client quit.
+    The network thread would still be running and trying to call the
+    handler's handle() function after the handler had been destructed
+    in the (hidden) Network destructor. Added a destructor for Network which
+    kills the thread before letting the handler be destructed.
 
 11-Juli-2006
   - Sueastside has split Inventory in inventory and skill window.
