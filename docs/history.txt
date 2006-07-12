@@ -6,6 +6,8 @@ under each day.
 
 12-July-2006
   - iceeey added check for symbol visibility flag (from cel).
+  - Sueastside added some checks so you won't be able to crash the client
+      by dragging skills in the inventory or stacking items in the quickbar.
 
 11-Juli-2006
   - Sueastside has split Inventory in inventory and skill window.

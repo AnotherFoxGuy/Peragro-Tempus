@@ -54,7 +54,8 @@ void Cursor::Draw()
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(selent, iPcMesh);
 
     nametag = CEL_QUERY_PROPCLASS_ENT(selent, iPcTooltip);
-    nametag->Show(mousex-20, mousey-25);
+    if (nametag)
+      nametag->Show(mousex-20, mousey-25);
 
     /*
     float fov = client->getG3D()->GetPerspectiveAspect ();

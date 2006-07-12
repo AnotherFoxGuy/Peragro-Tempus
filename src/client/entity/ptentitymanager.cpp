@@ -389,6 +389,54 @@ UpdateDREntityRequestMessage ptEntityManager::DrUpdateOwnEntity()
 
   return drmsg;
 }
+
+void ptEntityManager::Attach(uint entityid, const char* socketName, const char* meshFactName )
+{
+  // Find the entity to attach the equipment to.
+  iCelEntity* entity = findCelEntById(entityid);
+  if ( !entity )
+  {
+    printf("Attach: Entity %d not found!\n", entityid);
+    return;
+  }
+
+  // Get the mesh for the entity.
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+  if (pcmesh)
+  {
+    printf("Attach: pcmesh not found for entity %d!\n", entityid);
+    return;
+  }
+
+  // Get his cal3d.
+  csRef<iSpriteCal3DState> sprcal3d = SCF_QUERY_INTERFACE (pcmesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
+  if (sprcal3d)
+  {
+    printf("Attach: sprcal3d not found for entity %d!\n", entityid);
+    return;
+  }
+
+  // Get the specified socket.
+  iSpriteCal3DSocket* socket = sprcal3d->FindSocket(socketName);
+  if (socket)
+  {
+    printf("Attach: socket %s not found for entity %d!\n", socketName, entityid);
+    return;
+  }
+
+  // Attach something to the socket.
+  csRef<iCelEntity> equipment = pl->CreateEntity();
+  pl->CreatePropertyClass(equipment, "pcmesh");
+  csRef<iPcMesh> pcmesheq = CEL_QUERY_PROPCLASS_ENT(equipment, iPcMesh);
+  if (pcmesheq->SetMesh(meshFactName, "/peragro/meshes/all.xml"))
+  {
+    pcmesheq->GetMesh()->QuerySceneNode()->SetParent( pcmesh->GetMesh()->QuerySceneNode ());
+    socket->SetMeshWrapper(pcmesheq->GetMesh());
+    printf("Attach: equipment attached!\n");
+    //socket->SetMeshWrapper(0); // detaches the mesh.
+  }
+}
+
 void ptEntityManager::createCelEntity(Entity* ent)
 {
   csRef<iCelEntity> entity = pl->CreateEntity();
@@ -456,6 +504,7 @@ void ptEntityManager::createCelEntity(Entity* ent)
     owncam = pccamera->GetCamera();
     ownent = entity;
     ownname = *ent->getName();
+
   }
   else
   {

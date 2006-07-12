@@ -106,6 +106,7 @@ public:
   void moveEntity(int entity_id, float speed, float* ori, float* dst);
   void DrUpdateEntity(ptEntityManager::DrUpdate* drupdate);
   UpdateDREntityRequestMessage DrUpdateOwnEntity();
+  void Attach(uint entityid, const char* socketName, const char* meshFactName );
 
   iCelEntity* findCelEntById(int id);
   ptCelEntity* findPtEntById(int id);

@@ -68,9 +68,12 @@ bool InventoryWindow::handleDragDropped(const CEGUI::EventArgs& args)
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 
   ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
-  ddea.window->addChildWindow(ddea.dragDropItem);
-  ddea.window->setUserString("itemtype" , ddea.dragDropItem->getUserString("itemtype"));
-  UpdateItemCounter(ddea.window);
+  if (ddea.dragDropItem->isUserStringDefined("itemtype"))
+  {
+    ddea.window->addChildWindow(ddea.dragDropItem);
+    ddea.window->setUserString("itemtype" , ddea.dragDropItem->getUserString("itemtype"));
+    UpdateItemCounter(ddea.window);
+  }
   return true;
 
 }
@@ -86,20 +89,17 @@ bool InventoryWindow::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   if (ddea.dragDropItem->isUserStringDefined("itemtype")) 
   { 
   itemid = atoi(ddea.dragDropItem->getUserString("itemtype").c_str()); 
-  printf("InventoryWindow: About to drop item of type: %d!\n", itemid);
   DropEntityRequestMessage msg;
   msg.setTargetId(itemid);
   network->send(&msg);
   ddea.dragDropItem->destroy();
-  printf("InventoryWindow: Item icon destroyed!\n");
   UpdateItemCounter(slot);
+  printf("InventoryWindow: Dropped item of type %d to the world!\n", itemid);
   }
   else 
   {
-    //slot->addChildWindow(ddea.dragDropItem);
-    printf("InventoryWindow: Couldn't determine itemID, putting it back!");
+    printf("InventoryWindow: Couldn't determine itemID, putting it back!\n");
   }
-  printf("InventoryWindow: Dropped item to the world!\n");
 
   return true;
 }
@@ -192,7 +192,6 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemt
   item->addChildWindow(itemIcon);
   itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
   itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
-  //itemIcon->setProperty("Image", "set:Peragro image:CloseButtonNormal");
   char inventoryimage[1024];
   sprintf(inventoryimage, "set:Inventory image:%d", itemtype);
   itemIcon->setProperty("Image", inventoryimage);
@@ -204,8 +203,10 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemt
 
   return item;
 }
+
 void InventoryWindow::UpdateItemCounter(CEGUI::Window* parent)
 {
+  if (!parent->isChild(30)) return;
   CEGUI::Window* itemcounter = parent->getChild(30);
   int nrofitems = itemcounter->getParent()->getChildCount()-1;
   char buffer[1024];
@@ -213,6 +214,7 @@ void InventoryWindow::UpdateItemCounter(CEGUI::Window* parent)
   itemcounter->setText((CEGUI::String)buffer);
   if (nrofitems < 2) itemcounter->setVisible(false); else itemcounter->setVisible(true);
 }
+
 bool InventoryWindow::AddItem(CEGUI::String itemname, int itemtype, bool stackable)
 {
   CEGUI::Window* inventoryframe = winMgr->getWindow("Inventory/Bag");

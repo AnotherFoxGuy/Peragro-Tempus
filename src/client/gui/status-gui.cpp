@@ -53,6 +53,7 @@ CEGUI::Window* StatusWindow::createDragDropSlot(CEGUI::Window* parent, const CEG
 
   return slot;
 }
+
 CEGUI::Window* StatusWindow::createItemIcon(CEGUI::String itemname, int itemtype, bool stackable)
 {
   char uniquename[1024];
