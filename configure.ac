@@ -331,6 +331,17 @@ CS_EMIT_BUILD_FLAGS([how to enable compiler debug output],
     [CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS.debug],
 	[$cs_cv_prog_cxx_debug], [+])])
 
+#------------------------------------------------------------------------------
+# Check how to set default symbol visibility, and how to override the setting
+# in code.
+#------------------------------------------------------------------------------
+CS_CHECK_BUILD_FLAGS([for symbol visibility flag],
+    [cs_cv_prog_cc_visibility_hidden],
+    [CS_CREATE_TUPLE([-fvisibility=hidden])])
+AS_IF([test -n "$cs_cv_prog_cc_visibility_hidden"],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS],
+        [$cs_cv_prog_cc_visibility_hidden], [+])])
+
 
 #-----------------------------------------------------------------------------
 # Emit install paths and package information.
