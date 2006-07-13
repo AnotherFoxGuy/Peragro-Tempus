@@ -2,7 +2,6 @@
 <GUILayout>
 
 	<Window Type="Peragro/InvisbleWindow" Name="PlayerHUD/Frame" >
-		<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTarget" />
 		<Property Name="Position" Value="x:0.80 y:0.917" />
 		<Property Name="AbsoluteSize" Value="w:120 h:40" />
 		<Property Name="Alpha" Value="0.8" />
@@ -44,9 +43,6 @@
 			<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTarget" />
 			<Property Name="UnifiedAreaRect" Value="{{0.0,0.0},{0.0,0.0},{1.0,0.000000},{1.0,0.000000}}" />
 			<Property Name="UnifiedMaxSize" Value="{{1.000000,0.000000},{1.000000,0.000000}}" />
-			<Property Name="InheritsAlpha" Value="False" />
-			<Property Name="ZOrderChangeEnabled" Value="False" />
-			<Property Name="Alpha" Value="0" />
 		</Window>
 	</Window>
 	

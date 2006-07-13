@@ -939,6 +939,9 @@
         -->
         <WidgetLook name="Peragro/TitlebarNo">
             <Property name="CaptionColour" value="FFFFFFFF" />
+			<StateImagery name="Active" />
+			<StateImagery name="Inactive" />
+			<StateImagery name="Disabled" />
         </WidgetLook>
     
     
