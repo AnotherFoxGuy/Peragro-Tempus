@@ -23,6 +23,7 @@
 #include "server/database/table-entities.h"
 #include "common/network/entitymessages.h"
 #include "server/network/connection.h"
+#include "common/util/sleep.h"
 
 Server* Server::server;
 
@@ -61,6 +62,9 @@ void Server::delEntity(Entity* entity)
   {
     usr_mgr->getUser(i)->sendRemoveEntity(entity);
   }
+  // giving the rest of the world time to finish.
+  // Not really nice but hopefully effective
+  pt_sleep(100);
   delete entity;
 }
 

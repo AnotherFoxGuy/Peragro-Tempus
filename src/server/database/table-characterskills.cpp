@@ -98,6 +98,7 @@ void CharacterSkillsTable::getAllEntries(Array<CharSkill*>& entries, int id)
     CharSkill* entry = new CharSkill();
     int skill_id = atoi(rs->GetData(i,0).c_str());
     entry->skill_id = skill_id;
+    entry->state = SkillState::READY;
     entries.add(entry);
   }
   delete rs;

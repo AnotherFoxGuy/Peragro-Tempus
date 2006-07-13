@@ -26,6 +26,9 @@ void User::sendAddEntity(Entity* entity)
   if (ent_list.exists(entity))
     return;
 
+  if (!entity || !*(entity->getName()))
+    return;
+
   printf("send addentity '%s' to '%s'\n", *entity->getName(), *this->getName());
 
   ent_list.addEntity(entity);
@@ -63,8 +66,9 @@ void User::remove()
 {
   if (own_entity)
   {
-    Server::getServer()->delEntity(own_entity);
+    PcEntity* tmp = own_entity;
     own_entity = 0;
+    Server::getServer()->delEntity(tmp);
   }
   if (connection)
     connection = 0;
