@@ -19,6 +19,7 @@ under each day.
     and try to get it committed to CEL soon.
   - Sueastside changed the spawnlocations.
   - PK corrected the test-dummy walking for the relocated spawnpoints.
+  - Sueastside made some more cegui fixes.
 
 11-Juli-2006
   - Sueastside has split Inventory in inventory and skill window.

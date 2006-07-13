@@ -3,8 +3,8 @@
 
 	<Window Type="Peragro/InvisbleWindow" Name="PlayerHUD/Frame" >
 		<Property Name="MouseCursorImage" Value="set:Peragro image:MouseTarget" />
-		<Property Name="Position" Value="x:0.80 y:0.92" />
-		<Property Name="AbsoluteSize" Value="w:120 h:35" />
+		<Property Name="Position" Value="x:0.80 y:0.917" />
+		<Property Name="AbsoluteSize" Value="w:120 h:40" />
 		<Property Name="Alpha" Value="0.8" />
 
 		<Window Type="Peragro/StaticTextNo" Name="PlayerHUD/Name" >

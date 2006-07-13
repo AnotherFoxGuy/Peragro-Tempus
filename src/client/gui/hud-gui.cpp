@@ -197,16 +197,20 @@ int HUDWindow::GetActiveSkillId()
 
 void HUDWindow::SetActiveSkill(CEGUI::Window* window) 
 { 
-  // Reset the alpha on the previous window.
-  CEGUI::Window* oldwindow = selectedskill->SkillWindow;
-  if (oldwindow) oldwindow->setAlpha(0.5f);
+  // See if its actually a skill in the slot.
+  if (window->isUserStringDefined("skillid"))
+  {
+    // Reset the alpha on the previous window.
+    CEGUI::Window* oldwindow = selectedskill->SkillWindow;
+    if (oldwindow) oldwindow->setAlpha(0.5f);
 
-  // Set the new skill active.
-  window->setAlpha(1.0f);
+    // Set the new skill active.
+    window->setAlpha(1.0f);
 
-  // Set the new window as the selected one
-  selectedskill->SkillWindow = window;
-  selectedskill->SkillId     =  atoi( (window->getUserString("skillid")).c_str() ); 
+    // Set the new window as the selected one
+    selectedskill->SkillWindow = window;
+    selectedskill->SkillId     =  atoi( (window->getUserString("skillid")).c_str() ); 
+  }
 }
 
 bool HUDWindow::AddSkill(CEGUI::String skillname, int skillid)

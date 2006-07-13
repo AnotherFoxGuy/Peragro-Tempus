@@ -559,7 +559,7 @@ bool Client::OnMouseDown(iEvent& ev)
           pclinmove->GetLastFullPosition(pos, yrot, sector);
           fv1[0] = pos.x; fv1[1] = pos.y; fv1[2] = pos.z;
           fv2[0] = tmp.x; fv2[1] = tmp.y; fv2[2] = tmp.z;
-          entitymanager->moveEntity(entitymanager->GetOwnId(), 3, fv1, fv2);
+          //entitymanager->moveEntity(entitymanager->GetOwnId(), 3, fv1, fv2);
 
           printf("OnMouseClick: position: %s\n", tmp.Description().GetData());
         }

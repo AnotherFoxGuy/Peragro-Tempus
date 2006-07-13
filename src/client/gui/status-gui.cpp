@@ -131,7 +131,7 @@ void StatusWindow::CreateGUIWindow()
   spelltab->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
   spelltab->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
   spelltab->setText("Spells");
-  for (int j=0; j<4; j++)
+  for (int j=0; j<6; j++)
   {
     for (int i=0; i<5; i++)
     {
