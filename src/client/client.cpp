@@ -541,16 +541,6 @@ bool Client::OnMouseDown(iEvent& ev)
           if (!ownent) return false;
           csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
           if (!pclinmove) return false;
-          
-          /*
-          csVector3 pos;
-          float yrot;
-          iSector* sector;
-          pclinmove->GetLastFullPosition(pos, yrot, sector);
-          fv1[0] = pos.x; fv1[1] = pos.y; fv1[2] = pos.z;
-          fv2[0] = tmp.x; fv2[1] = tmp.y; fv2[2] = tmp.z;
-          entitymanager->moveEntity(entitymanager->GetOwnId(), 3, fv1, fv2);
-          */
 
           MoveEntityToRequestMessage msg;
           msg.setPos(isect.x, isect.y, isect.z);
