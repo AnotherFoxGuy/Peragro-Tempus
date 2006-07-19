@@ -155,7 +155,6 @@ void EntityHandler::handleMoveEntityTo(GenericMessage* msg)
   float* fv1 = move_msg.getFromPos();
   float* fv2 = move_msg.getToPos();
 
-  //move entity
   client->GetEntityManager()->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
 }
 

@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+18-July-2006
+  - iceeey made moveTo work and made it send the moveTo request to the server.
+    There still seems to be some issue where turning does not work correctly.
+
 12-July-2006
   - iceeey added check for symbol visibility flag (from cel).
   - Sueastside added some checks so you won't be able to crash the client

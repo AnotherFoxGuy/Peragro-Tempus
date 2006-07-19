@@ -19,7 +19,6 @@
 #include "client/entity/ptcelentity.h"
 #include "client/entity/ptentitymanager.h"
 
-#include "csgeom/path.h"
 #include "cstool/initapp.h"
 #include "csutil/cmdline.h"
 #include "csutil/csstring.h"
@@ -103,6 +102,8 @@ ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
   vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
   //if (!vfs) return ReportError("Failed to locate VFS!");
 
+  vc = CS_QUERY_REGISTRY (obj_reg, iVirtualClock);
+
   pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
   //if (!pl) return ReportError("Failed to load CEL Physical Layer");
 
@@ -135,6 +136,7 @@ void ptEntityManager::Handle ()
   addEntity();
   delEntity();
   moveEntity();
+  moveToEntity();
   DrUpdateEntity();
 }
 
@@ -213,57 +215,59 @@ void ptEntityManager::delEntity()
 
   mutex.unlock();
 }
-void ptEntityManager::moveEntity(int entity_id, float speed, float* fv1, float* fv2)
+void ptEntityManager::moveEntity(int entity_id, float walk_speed, float* fv1, float* fv2)
 {
   iCelEntity* entity = findCelEntById(entity_id);
-  if (entity)
+  if (!entity)
+    return;
+
+  mutex.lock();
+
+  MoveTo* moveTo = new MoveTo();
+
+  csVector3 pos_ori(fv1[0], fv1[1], fv1[2]);
+  csVector3 pos_dst(fv2[0], fv2[1], fv2[2]);
+
+  moveTo->turn_speed = 2*PI; // 1 revolution per second
+  moveTo->walk_speed = walk_speed;
+  
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+  csVector3 forward_ori = pcmesh->GetMesh()->GetMovable()->GetTransform().GetFront();
+  csVector3 forward_dst = pos_ori - pos_dst;
+  
+  float yrot_ori = atan2f(forward_ori.x, forward_ori.z);
+  float yrot_dst = atan2f(forward_dst.x, forward_dst.z);
+  
+  moveTo->dest_angle = yrot_dst;
+  
+  if (yrot_dst < yrot_ori)
+    moveTo->turn_speed *= -1;
+  
+  //moveTo->turn_end_time = fabs(yrot_dst - yrot_ori) / fabs(moveTo->turn_speed);
+  moveTo->walk_duration = (pos_dst - pos_ori).Norm() / moveTo->walk_speed;
+  
+  printf("Original yrot: %f Dest yrot: %f\n", yrot_ori, yrot_dst);
+  printf("Diff angle: %f\n", yrot_dst - yrot_ori);
+  
+  moveTo->elapsed_time = 0;
+  moveTo->walking = false;
+  moveTo->entity_id = entity_id;
+  
+  // Remove any other moveTo actions for this entity
+  for (size_t i = 0; i < move_to_entity_name.GetSize(); i++)
   {
-    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-    if (pclinmove.IsValid())
+    MoveTo* m = move_to_entity_name.Get(i);
+  
+    if (m->entity_id == moveTo->entity_id)
     {
-      csVector3 pos_clt;
-      iSector* sect = 0;
-      float rot = 0;
-
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-      csVector3 pos_ori = pcmesh->GetMesh()->GetMovable()->GetPosition();
-
-      //csVector3 pos_ori(fv1[0], fv1[1], fv1[2]);
-      csVector3 pos_dst(fv2[0], fv2[1], fv2[2]);
-
-      csVector3 vecfw(pos_ori-pos_dst);
-      vecfw.y = 0;
-
-      csPath* path = new csPath(2);
-
-      path->SetPositionVector(0, pos_ori);
-      path->SetPositionVector(1, pos_dst);
-
-      path->SetForwardVector(0, vecfw);
-      path->SetForwardVector(1, vecfw);
-
-      path->SetUpVector(0, csVector3(0,1,0));
-      path->SetUpVector(1, csVector3(0,1,0));
-
-      path->SetTime(0, 0.0f);
-      path->SetTime(1, 1.0f);
-
-      pclinmove->GetLastFullPosition(pos_clt, rot, sect);
-
-      // Some basic physics
-      // v = s/t
-      // t = s / v
-      // v_s / s_s = v_c / s_c
-      // v_c = v_s * v_c / s_s
-      speed = speed * (pos_dst - pos_clt).Norm() / (pos_dst - pos_ori).Norm();
-
-      pclinmove->SetPath(path);
-      pclinmove->SetPathSpeed(speed);
-      pclinmove->SetPathAction(0, "walkcycle");
-      pclinmove->SetPathAction(1, "walkcycle");
+      move_to_entity_name.Delete(m);
+      break;
     }
   }
-  else printf("ptEntityManager: entity %d not found!", entity_id);
+  
+  move_to_entity_name.Push(moveTo);
+  
+  mutex.unlock();
 }
 
 void ptEntityManager::moveEntity(int entity_id, float walk, float turn)
@@ -275,6 +279,77 @@ void ptEntityManager::moveEntity(int entity_id, float walk, float turn)
   movement->walk = walk;
   movement->turn = turn;
   move_entity_name.Push(movement);
+  mutex.unlock();
+}
+
+void ptEntityManager::moveToEntity()
+{
+  if (!move_to_entity_name.GetSize()) return;
+  
+  csTicks ticks = vc->GetElapsedTicks ();
+  if (!ticks)
+    return;
+
+  float elapsed = ticks/1000.0;
+  
+  mutex.lock();
+  
+  for (size_t i = 0; i < move_to_entity_name.GetSize(); i++)
+  {
+    MoveTo* moveTo = move_to_entity_name.Get(i);
+  
+    iCelEntity* entity = findCelEntById(moveTo->entity_id);
+    if (entity)
+    {
+      csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+      if (pclinmove.IsValid())
+      {
+        csVector3 angular_vel;
+        pclinmove->GetAngularVelocity(angular_vel);
+        
+        if (moveTo->elapsed_time == 0 && !moveTo->walking)
+        {
+          pclinmove->SetAngularVelocity(csVector3(0,-moveTo->turn_speed,0), moveTo->dest_angle);
+        }
+        else if (angular_vel.IsZero() && !moveTo->walking)
+        {
+          printf("Stopped turning at: %f\n", moveTo->elapsed_time);
+          pclinmove->SetAngularVelocity(csVector3(0,0,0));
+          pclinmove->SetVelocity(csVector3(0,0,-moveTo->walk_speed));
+          moveTo->walking = true;
+          moveTo->elapsed_time = 0;
+        }
+        else if (moveTo->elapsed_time >= moveTo->walk_duration && moveTo->walking)
+        {
+          printf("Stopped walking at: %f. Expected duration: %f\n", moveTo->elapsed_time, moveTo->walk_duration);
+          pclinmove->SetVelocity(csVector3(0,0,0));
+        }
+      }
+      
+      if (moveTo->walking)
+      {
+        csRef<iSpriteCal3DState> sprcal3d =
+          SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
+        if (sprcal3d)
+        {
+          if (moveTo->elapsed_time < moveTo->walk_duration)
+            sprcal3d->SetVelocity(moveTo->walk_speed);
+          else if (moveTo->elapsed_time >= moveTo->walk_duration)
+            sprcal3d->SetVelocity(0);
+        }
+        
+        if (moveTo->elapsed_time >= moveTo->walk_duration)
+        {
+          move_to_entity_name.Delete(moveTo);
+          continue;
+        }
+      }
+      
+      moveTo->elapsed_time += elapsed;
+    }
+  }
+  
   mutex.unlock();
 }
 

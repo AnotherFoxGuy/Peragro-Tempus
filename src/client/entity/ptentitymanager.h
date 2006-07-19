@@ -22,7 +22,9 @@
 #include "cssysdef.h"
 #include "csutil/ref.h"
 #include "iutil/vfs.h"
+#include "iutil/virtclk.h"
 #include "iengine/engine.h"
+#include "csgeom/path.h"
 
 #include "physicallayer/pl.h"
 
@@ -47,6 +49,7 @@ private:
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
+  csRef<iVirtualClock> vc;
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
 
@@ -57,6 +60,17 @@ private:
     int entity_id;
     float walk;
     float turn;
+  };
+
+  struct MoveTo
+  {
+    int entity_id;
+    bool walking;
+    float dest_angle;
+    float walk_speed;
+    float turn_speed;
+    float elapsed_time;
+    float walk_duration;
   };
 
 public:
@@ -73,6 +87,7 @@ private:
   csPDelArray<Entity> new_entity_name;
   csPDelArray<Entity> del_entity_name;
   csPDelArray<Movement> move_entity_name;
+  csPDelArray<MoveTo> move_to_entity_name;
   csPDelArray<DrUpdate> drupdate_entity_name;
 
   Mutex mutex;
@@ -90,6 +105,7 @@ private:
   void addEntity();
   void delEntity();
   void moveEntity();
+  void moveToEntity();
   void DrUpdateEntity();
 
 public:
@@ -103,7 +119,7 @@ public:
   void addEntity(Entity* name);
   void delEntity(Entity* name);
   void moveEntity(int entity_id, float walk, float turn);
-  void moveEntity(int entity_id, float speed, float* ori, float* dst);
+  void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);
   void DrUpdateEntity(ptEntityManager::DrUpdate* drupdate);
   UpdateDREntityRequestMessage DrUpdateOwnEntity();
   void Attach(uint entityid, const char* socketName, const char* meshFactName );
