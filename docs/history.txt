@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+21-July-2006
+  - iceeey made Anvil correctly place the camera in the sector of the
+    new world after loading it. It used to only do it for the first load.
+  - iceeey made Anvil remove all sequences/triggers before loading a new
+    world. For some reason, CS doesn't clean this up.
+
 18-July-2006
   - iceeey made moveTo work and made it send the moveTo request to the server.
     There still seems to be some issue where turning does not work correctly.

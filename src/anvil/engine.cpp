@@ -55,6 +55,7 @@
 #include <iutil/objreg.h>
 #include <iutil/vfs.h>
 #include <iutil/virtclk.h>
+#include <ivaria/engseq.h>
 #include <ivaria/view.h>
 #include <ivaria/terraform.h>
 #include <ivaria/simpleformer.h>
@@ -684,9 +685,6 @@ bool anvEngine::Initialize(iObjectRegistry* object_reg, wxWindow* panel3d)
   // Load default world
   LoadWorld("/lev/flarge/", "world"); 
 
-  view->GetCamera ()->SetSector (editSector);
-  view->GetCamera ()->GetTransform ().SetOrigin (pos);
-
   engine->Prepare();
   engine->PrecacheDraw();
 
@@ -814,11 +812,23 @@ bool anvEngine::LoadWorld(const char* path, const char* world)
   ClearUndoRedoHistory();
   ClearSelection();
 
+  csRef<iEngineSequenceManager> engseq (
+    CS_QUERY_REGISTRY (object_reg, iEngineSequenceManager));
+
+  // XXX: Why doesn't CS delete these for us??
+  if (engseq)
+  {
+    engseq->RemoveSequences();
+    engseq->RemoveTriggers();
+  }
+
   VFS->ChDir(path);
   if (!loader->LoadMapFile (world, true, editRegion, false))
     ReportError("Error couldn't load level!");
   
   loader->SetAutoRegions (false);
+
+  csVector3 pos;
 
   if (engine->GetCameraPositions ()->GetCount () > 0)
   {
@@ -833,6 +843,9 @@ bool anvEngine::LoadWorld(const char* path, const char* world)
   }
   if (!editSector)
     ReportError("Can't find a valid starting position!");  
+
+  view->GetCamera ()->SetSector (editSector);
+  view->GetCamera ()->GetTransform ().SetOrigin (pos);
 
   return true;
 }

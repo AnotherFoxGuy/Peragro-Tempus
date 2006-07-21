@@ -80,8 +80,6 @@ private:
   
   csRef<iRegion> editRegion;
   
-  csVector3 pos;
-  
   /// Current edit mode
   int editmode;
   
