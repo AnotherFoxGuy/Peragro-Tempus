@@ -40,7 +40,7 @@ private:
   CEGUI::ProgressBar* xpbar;
 
   int counter;
-  CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent, const CEGUI::Point& position, int id);
+  CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id);
   CEGUI::Window* CreateSkillIcon(CEGUI::String skillname, int skillid);
   bool AddSkill(CEGUI::String skillname, int skillid);
   bool HandleSkillSelected(const CEGUI::EventArgs& args);

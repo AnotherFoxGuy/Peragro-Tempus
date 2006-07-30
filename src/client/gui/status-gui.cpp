@@ -43,13 +43,13 @@ bool StatusWindow::handleCloseButton(const CEGUI::EventArgs& args)
   //winMgr->getWindow("Chatlog/Frame")->activate();
   return true;
 }
-CEGUI::Window* StatusWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::Point& position)
+CEGUI::Window* StatusWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
 {
   // Create the slot
   CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
   parent->addChildWindow(slot);
-  slot->setPosition(CEGUI::Absolute, position);
-  slot->setSize(CEGUI::Absolute, CEGUI::Size(24.0f, 24.0f));
+  slot->setWindowPosition(position);
+  slot->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
 
   return slot;
 }
@@ -120,34 +120,34 @@ void StatusWindow::CreateGUIWindow()
   skilltab->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
   CEGUI::String str_skill("Skill");
   CEGUI::String str_value("Value");
-  skilltab->addColumn(str_skill,0,0.65f);
-  skilltab->addColumn(str_value,1,0.35f);
+  skilltab->addColumn(str_skill,0,CEGUI::UDim(0.65f,0));
+  skilltab->addColumn(str_value,1,CEGUI::UDim(0.35f,0));
   skilltab->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
   skilltab->setUserColumnSizingEnabled(false);
   skilltab->setText("Skills");
 
   // Create the SpellTab
-  CEGUI::StaticImage* spelltab = static_cast<CEGUI::StaticImage*>(winMgr->createWindow("Peragro/StaticImage","Status/SpellTab"));
-  spelltab->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
-  spelltab->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
+  CEGUI::Window* spelltab = winMgr->createWindow("Peragro/StaticImage","Status/SpellTab");
+  spelltab->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
+  spelltab->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
   spelltab->setText("Spells");
   for (int j=0; j<6; j++)
   {
     for (int i=0; i<5; i++)
     {
-      createDragDropSlot(spelltab, CEGUI::Point(4.0f+(28*i), 4.0f+(28*j)));
+      createDragDropSlot(spelltab, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j))));
     }
   }
 
   // Create the QuestTab
-  CEGUI::StaticImage* questtab = static_cast<CEGUI::StaticImage*>(winMgr->createWindow("Peragro/StaticImage","Status/QuestTab"));
-  questtab->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
-  questtab->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
+  CEGUI::Window* questtab = winMgr->createWindow("Peragro/StaticImage","Status/QuestTab");
+  questtab->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
+  questtab->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
   questtab->setText("Quests");
 
   // Get the tabcontrol.
   CEGUI::TabControl* tabcontrol = static_cast<CEGUI::TabControl*>(winMgr->getWindow("Status/TabControl"));
-  tabcontrol->setTabHeight(0.10f);
+  tabcontrol->setTabHeight(CEGUI::UDim(0.10f,0));
   tabcontrol->addTab(skilltab);
   tabcontrol->addTab(spelltab);
   tabcontrol->addTab(questtab);

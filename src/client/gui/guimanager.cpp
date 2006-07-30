@@ -57,16 +57,22 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
     cegui->GetSchemeManagerPtr ()->loadScheme("Peragro.scheme");
 
     cegui->GetSystemPtr ()->setDefaultMouseCursor("Peragro", "MouseArrow");
-    cegui->GetFontManagerPtr ()->createFont("CommonWealth", "/peragro/skin/Commonv2c.ttf", 10, 
-        CEGUI::Default);
-    cegui->GetSystemPtr ()->setTooltip("Peragro/Tooltip");
+    CEGUI::Font* font = cegui->GetFontManagerPtr ()->createFont("FreeType", "Commonwealth-10",
+      "/peragro/skin/Commonv2c.ttf");
+    font->setProperty("PointSize", "10");
+    font->load();
+
+    CEGUI::Font* font2 = cegui->GetFontManagerPtr ()->createFont("FreeType", "Commonwealth-8",
+      "/peragro/skin/Commonv2c.ttf");
+    font2->setProperty("PointSize", "8");
+    font2->load();
+
+    cegui->GetSystemPtr ()->setDefaultTooltip("Peragro/Tooltip");
 
     CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
-    root->setMetricsMode(CEGUI::Relative);
-    root->setAreaRect(CEGUI::Rect(0.0f, 0.0f, 1.0f, 1.0f));
-
-    //root->setAreaRect(CEGUI::Rect(0.0f, 0.0f, 1.0f, 1.0f));
-    root->setMaximumSize(CEGUI::Size(1.0f, 1.0f));
+    root->setWindowArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
+      CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
+    root->setWindowMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
     cegui->GetSystemPtr ()->setGUISheet(root);
 
     return true;

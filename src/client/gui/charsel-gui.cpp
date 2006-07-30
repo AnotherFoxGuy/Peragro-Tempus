@@ -99,8 +99,8 @@ void SelectCharWindow::CreateGUIWindow()
   btn = winMgr->getWindow("Characters");
   CEGUI::String str_id("Id");
   CEGUI::String str_name("Name");
-  ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,0.1f);
-  ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,0.5f);
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,CEGUI::UDim(0.1f,0));
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,CEGUI::UDim(0.5f,0));
   ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 
 }

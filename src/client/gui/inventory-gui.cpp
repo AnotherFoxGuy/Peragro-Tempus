@@ -137,24 +137,22 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
   //winMgr->getWindow("Chatlog/Frame")->activate();
   return true;
 }
-CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::Point& position)
+CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
 {
   // Create the slot
   CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
   parent->addChildWindow(slot);
-  //slot->setWindowPosition(position);
-  slot->setPosition(CEGUI::Absolute, position);
-  slot->setSize(CEGUI::Absolute, CEGUI::Size(24.0f, 24.0f));
-  //slot->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.2f), CEGUI::cegui_reldim(0.2f)));
+  slot->setWindowPosition(position);
+  slot->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&InventoryWindow::handleDragEnter, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&InventoryWindow::handleDragLeave, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&InventoryWindow::handleDragDropped, this));
 
   // Create the itemcounter
-  CEGUI::Window* itemcounter = winMgr->createWindow("Peragro/ItemCounter");
+  CEGUI::Window* itemcounter = winMgr->createWindow("Peragro/StaticText");
   slot->addChildWindow(itemcounter);
-  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.10f), CEGUI::cegui_reldim( 0.15f)));
-  itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.85f), CEGUI::cegui_reldim(0.80f)));
+  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.10f,0), CEGUI::UDim(0.15f,0)));
+  itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.85f,0), CEGUI::UDim(0.80f,0)));
   itemcounter->setVisible(false);
   itemcounter->disable();
   itemcounter->setText("0");
@@ -175,8 +173,8 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemt
   // create a drag/drop item
   CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
     winMgr->createWindow("DragContainer", uniquename));
-  item->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0.05f), CEGUI::cegui_reldim(0.05f)));
-  item->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(0.9f), CEGUI::cegui_reldim(0.9f)));
+  item->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0), CEGUI::UDim(0.05f,0)));
+  item->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0), CEGUI::UDim(0.9f,0)));
   item->setTooltipText(itemname);
   // Set the itemID.
   char itemtypestr[1024];
@@ -190,8 +188,8 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemt
   // set a static image as drag container's contents
   CEGUI::Window* itemIcon = winMgr->createWindow("Peragro/StaticImage");
   item->addChildWindow(itemIcon);
-  itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
-  itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
+  itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
+  itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
   char inventoryimage[1024];
   sprintf(inventoryimage, "set:Inventory image:%d", itemtype);
   itemIcon->setProperty("Image", inventoryimage);
@@ -279,7 +277,7 @@ void InventoryWindow::CreateGUIWindow()
   {
     for (int i=0; i<5; i++)
     {
-      createDragDropSlot(bag, CEGUI::Point(4.0f+(28*i), 4.0f+(28*j)));
+      createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j))));
     }
   }
 

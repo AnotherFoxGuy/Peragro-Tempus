@@ -70,7 +70,7 @@ void HUDWindow::CreateGUIWindow ()
   CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");
   for (int i=0; i<10; i++)
   {
-    CreateSkillSlot(skillframe, CEGUI::Point(2.0f+(28*i), 2.0f), i);
+    CreateSkillSlot(skillframe, CEGUI::UVector2(CEGUI::UDim(0,2.0f+(28*i)), CEGUI::UDim(0,2.0f)), i);
   }
 
   // F1-F6 keys for quickbar.
@@ -94,14 +94,14 @@ void HUDWindow::SetMP (float mp)
 }
 void HUDWindow::SetName (const char* name)
 {
-  CEGUI::StaticText* namewin   = (CEGUI::StaticText*) winMgr->getWindow("HUD/Name");
+  CEGUI::DefaultWindow* namewin   = (CEGUI::DefaultWindow*) winMgr->getWindow("HUD/Name");
 
   namewin->setText((CEGUI::String)name);
 }
 /*=================//
 //    SkillHUD     //
 //=================*/
-CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::Point& position, int id)
+CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id)
 {
   // Create a name.
   char uniquename[64];
@@ -109,9 +109,8 @@ CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::Po
   // Create the slot
   CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage", uniquename);
   parent->addChildWindow(slot);
-  //slot->setWindowPosition(position);
-  slot->setPosition(CEGUI::Absolute, position);
-  slot->setSize(CEGUI::Absolute, CEGUI::Size(24.0f, 24.0f));
+  slot->setWindowPosition(position);
+  slot->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&HUDWindow::HandleDragDropped, this));
 
   return slot;

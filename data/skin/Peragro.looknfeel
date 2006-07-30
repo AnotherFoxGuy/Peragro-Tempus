@@ -1,388 +1,23 @@
 <?xml version="1.0" ?>
 <Falagard>
-
-	<!--
-    ***************************************************
-        Peragro/InvisbleWindow
-    ***************************************************
-    -->
-	<WidgetLook name="Peragro/InvisbleWindow">
-		<Property name="FrameEnabled" value="False" />
-		<Property name="BackgroundEnabled" value="False" />
-		<StateImagery name="Enabled" />
-		<StateImagery name="Disabled" />
-		<StateImagery name="EnabledFrame" />
-		<StateImagery name="DisabledFrame" />
-		<StateImagery name="EnabledBackground" />
-		<StateImagery name="DisabledBackground" />
-	</WidgetLook>
-	
-	<!--
-    ***************************************************
-        Peragro/ProgressBar
-    ***************************************************
-    -->
-	<WidgetLook name="Peragro/ProgressBar">
-		<PropertyDefinition name="ProgressColours" initialValue="tl: FFFFFFFF tr: FFFFFFFF bl: FFFFFFFF br: FFFFFFFF" />
-		<NamedArea name="ProgressArea">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="ProgressBarLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="ProgressBarRight" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="Height" >
-					<UnifiedDim scale="1" type="Height" />
-				</Dim>
-			</Area>
-		</NamedArea>
-		<ImagerySection name="frame">
-			<FrameComponent>
-				<Area>
-					<Dim type="LeftEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width" >
-						<UnifiedDim scale="1" type="Width" />
-					</Dim>
-					<Dim type="Height" >
-						<UnifiedDim scale="1" type="Height" />
-					</Dim>
-				</Area>
-				<Image type="LeftEdge" imageset="Peragro" image="ProgressBarLeft" />
-				<Image type="RightEdge" imageset="Peragro" image="ProgressBarRight" />
-				<Image type="Background" imageset="Peragro" image="ProgressBarMiddle" />
-			</FrameComponent>
-		</ImagerySection>
-		<ImagerySection name="progress_lights" >
-			<ImageryComponent>
-				<Area>
-					<Dim type="LeftEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width" >
-						<UnifiedDim scale="1" type="Width" />
-					</Dim>
-					<Dim type="Height" >
-						<UnifiedDim scale="1" type="Height" />
-					</Dim>
-				</Area>
-				<Image imageset="Peragro" image="ProgressBarLitSegment" />
-				<ColourRectProperty name="ProgressColours" />
-				<VertFormat type="Stretched" />
-				<HorzFormat type="Tiled" />
-			</ImageryComponent>
-		</ImagerySection>
-		<StateImagery name="Enabled">
-			<Layer>
-				<Section section="frame" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="Disabled">
-			<Layer>
-				<Section section="frame">
-					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-				</Section>
-			</Layer>
-		</StateImagery>
-		<StateImagery name="EnabledProgress">
-			<Layer>
-				<Section section="progress_lights" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="DisabledProgress">
-			<Layer>
-				<Section section="progress_lights">
-					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-				</Section>
-			</Layer>
-		</StateImagery>
-	</WidgetLook>
-
-	<!--
-    ***************************************************
-        Peragro/StaticTextNo
-    ***************************************************
-    -->
-	<WidgetLook name="Peragro/StaticTextNo">
-		<Property name="FrameEnabled" value="False" />
-		<Property name="BackgroundEnabled" value="False" />
-		<NamedArea name="TextRenderArea">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<ImageDim imageset="Peragro" image="StaticTop" dimension="Height" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="StaticRight" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1" type="BottomEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="StaticBottom" dimension="Height" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-			</Area>
-		</NamedArea>
-		<NamedArea name="TextRenderAreaHScroll">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<ImageDim imageset="Peragro" image="StaticTop" dimension="Height" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="StaticRight" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1" type="BottomEdge">
-						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-			</Area>
-		</NamedArea>
-		<NamedArea name="TextRenderAreaVScroll">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<ImageDim imageset="Peragro" image="StaticTop" dimension="Height" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1" type="BottomEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="StaticBottom" dimension="Height" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-			</Area>
-		</NamedArea>
-		<NamedArea name="TextRenderAreaHVScroll">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<ImageDim imageset="Peragro" image="StaticTop" dimension="Height" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1" type="BottomEdge">
-						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-			</Area>
-		</NamedArea>
-		<Child  type="Peragro/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
-			<Area>
-				<Dim type="LeftEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="Width" >
-					<UnifiedDim scale="1" offset="-12" type="Width" />
-				</Dim>
-				<Dim type="Height" >
-					<AbsoluteDim value="12" />
-				</Dim>
-			</Area>
-			<VertAlignment type="BottomAligned" />
-		</Child>
-		<Child  type="Peragro/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
-			<Area>
-				<Dim type="LeftEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="Width" >
-					<AbsoluteDim value="12" />
-				</Dim>
-				<Dim type="Height" >
-					<UnifiedDim scale="1" offset="-12" type="Height" />
-				</Dim>
-			</Area>
-			<HorzAlignment type="RightAligned" />
-		</Child>
-		<StateImagery name="Enabled" />
-		<StateImagery name="Disabled" />
-		<StateImagery name="EnabledFrame" />
-		<StateImagery name="DisabledFrame" />
-		<StateImagery name="EnabledBackground" />
-		<StateImagery name="DisabledBackground" />
-	</WidgetLook>
-
-	<!--
-    ***************************************************
-        Peragro/ItemCounter
-    ***************************************************
-    -->
-	<WidgetLook name="Peragro/ItemCounter">
-		<Property name="MouseCursorImage" value="set:Peragro image:MouseTextBar" />
-		<NamedArea name="TextArea">
-			<Area>
-				<Dim type="LeftEdge" >
-					<AbsoluteDim value="5" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<AbsoluteDim value="5" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1.0" offset="-5" type="RightEdge" />
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1.0" offset="-5" type="BottomEdge" />
-				</Dim>
-			</Area>
-		</NamedArea>
-		<ImagerySection name="container_normal">
-			<FrameComponent>
-				<Area>
-					<Dim type="LeftEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width" >
-						<UnifiedDim scale="1" type="Width" />
-					</Dim>
-					<Dim type="Height" >
-						<UnifiedDim scale="1" type="Height" />
-					</Dim>
-				</Area>
-			</FrameComponent>
-		</ImagerySection>
-		<ImagerySection name="selection">
-			<ImageryComponent>
-				<Area>
-					<Dim type="LeftEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="RightEdge" >
-						<UnifiedDim scale="1.0" type="RightEdge" />
-					</Dim>
-					<Dim type="BottomEdge" >
-						<UnifiedDim scale="1.0" type="BottomEdge" />
-					</Dim>
-				</Area>
-				<Image imageset="Peragro" image="TextSelectionBrush" />
-				<VertFormat type="Stretched" />
-				<HorzFormat type="Stretched" />
-			</ImageryComponent>
-		</ImagerySection>
-		<ImagerySection name="Carat">
-			<ImageryComponent>
-				<Area>
-					<Dim type="LeftEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width" >
-						<ImageDim imageset="Peragro" image="EditBoxCarat" dimension="Width" />
-					</Dim>
-					<Dim type="BottomEdge" >
-						<UnifiedDim scale="1.0" type="BottomEdge" />
-					</Dim>
-				</Area>
-				<Image imageset="Peragro" image="EditBoxCarat" />
-				<VertFormat type="Stretched" />
-				<HorzFormat type="Stretched" />
-			</ImageryComponent>
-		</ImagerySection>
-		<StateImagery name="Enabled">
-			<Layer>
-				<Section section="container_normal" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="ReadOnly">
-			<Layer>
-				<Section section="container_normal" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="Disabled">
-			<Layer>
-				<Section section="container_normal">
-					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-				</Section>
-			</Layer>
-		</StateImagery>
-		<StateImagery name="ActiveSelection">
-			<Layer>
-				<Section section="selection">
-					<ColourProperty name="ActiveSelectionColour" />
-				</Section>
-			</Layer>
-		</StateImagery>
-		<StateImagery name="InactiveSelection">
-			<Layer>
-				<Section section="selection">
-					<ColourProperty name="InactiveSelectionColour" />
-				</Section>
-			</Layer>
-		</StateImagery>
-	</WidgetLook>
-	
     <!--
     ***************************************************
         Peragro/Button
     ***************************************************
     -->
     <WidgetLook name="Peragro/Button">
+        <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
         <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
         <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="VertImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+        <PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <ImagerySection name="label">
             <TextComponent>
                 <Area>
@@ -407,6 +42,17 @@
                 <Image type="RightEdge" imageset="Peragro" image="ButtonRightNormal" />
                 <Image type="Background" imageset="Peragro" image="ButtonMiddleNormal" />
             </FrameComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="NormalImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
         </ImagerySection>
         <ImagerySection name="hover">
             <FrameComponent>
@@ -420,6 +66,17 @@
                 <Image type="RightEdge" imageset="Peragro" image="ButtonRightHighlight" />
                 <Image type="Background" imageset="Peragro" image="ButtonMiddleHighlight" />
             </FrameComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="HoverImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
         </ImagerySection>
         <ImagerySection name="pushed">
             <FrameComponent>
@@ -433,6 +90,17 @@
                 <Image type="RightEdge" imageset="Peragro" image="ButtonRightPushed" />
                 <Image type="Background" imageset="Peragro" image="ButtonMiddlePushed" />
             </FrameComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="PushedImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
         </ImagerySection>
         <StateImagery name="Normal">
             <Layer>
@@ -458,6 +126,14 @@
                 </Section>
             </Layer>
         </StateImagery>
+        <StateImagery name="PushedOff">
+            <Layer>
+                <Section section="hover" />
+                <Section section="label">
+                    <ColourProperty name="HoverTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
         <StateImagery name="Disabled">
             <Layer>
                 <Section section="normal">
@@ -476,6 +152,10 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/RadioButton">
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
         <ImagerySection name="label">
             <TextComponent>
                 <Area>
@@ -598,6 +278,10 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/Checkbox">
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
         <ImagerySection name="label">
             <TextComponent>
                 <Area>
@@ -720,6 +404,10 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/Editbox">
+        <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
+        <PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
         <Property name="MouseCursorImage" value="set:Peragro image:MouseTextBar" />
         <NamedArea name="TextArea">
             <Area>
@@ -807,7 +495,7 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/Titlebar">
-        <Property name="CaptionColour" value="FFFFFFFF" />
+        <PropertyDefinition name="CaptionColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
         <ImagerySection name="main">
             <ImageryComponent>
                 <Area>
@@ -930,27 +618,14 @@
         </StateImagery>
     </WidgetLook>
     
-    
-    
-     <!--
-        ***************************************************
-            Peragro/TitlebarNo
-        ***************************************************
-        -->
-        <WidgetLook name="Peragro/TitlebarNo">
-            <Property name="CaptionColour" value="FFFFFFFF" />
-			<StateImagery name="Active" />
-			<StateImagery name="Inactive" />
-			<StateImagery name="Disabled" />
-        </WidgetLook>
-    
-    
     <!--
     ***************************************************
         Peragro/FrameWindow
     ***************************************************
     -->
     <WidgetLook name="Peragro/FrameWindow">
+        <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+        <PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
         <Property name="NSSizingCursorImage" value="set:Peragro image:MouseNoSoCursor" />
         <Property name="EWSizingCursorImage" value="set:Peragro image:MouseEsWeCursor" />
         <Property name="NWSESizingCursorImage" value="set:Peragro image:MouseNwSeCursor" />
@@ -1048,7 +723,6 @@
                 <Dim type="Height" ><ImageDim imageset="Peragro" image="NewCloseButtonNormal" dimension="Width" /></Dim>
             </Area>
             <Property name="AlwaysOnTop" value="True" />
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:NewCloseButtonNormal" />
             <Property name="HoverImage" value="set:Peragro image:NewCloseButtonHover" />
             <Property name="PushedImage" value="set:Peragro image:NewCloseButtonPressed" />
@@ -1187,6 +861,248 @@
         </StateImagery>
     </WidgetLook>
     
+    <!--
+    ***************************************************
+        Peragro/ProgressBar
+    ***************************************************
+    -->
+    <WidgetLook name="Peragro/ProgressBar">
+        <NamedArea name="ProgressArea">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="ProgressBarLeft" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="Peragro" image="ProgressBarRight" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="Peragro" image="ProgressBarLeft" />
+                <Image type="RightEdge" imageset="Peragro" image="ProgressBarRight" />
+                <Image type="Background" imageset="Peragro" image="ProgressBarMiddle" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="progress_lights" >
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="ProgressBarLitSegment" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="EnabledProgress">
+            <Layer>
+                <Section section="progress_lights" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledProgress">
+            <Layer>
+                <Section section="progress_lights">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+    
+    <!--
+    ***************************************************
+        Peragro/AlternateProgressBar
+    ***************************************************
+    -->
+    <WidgetLook name="Peragro/AltProgressBar">
+        <NamedArea name="ProgressArea">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="AltProgressLeft" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="Peragro" image="AltProgressRight" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-4" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="Peragro" image="AltProgressLeft" />
+                <Image type="RightEdge" imageset="Peragro" image="AltProgressRight" />
+                <Image type="Background" imageset="Peragro" image="AltProgressMiddle" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="progress_lights" >
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight1" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.1" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight2" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.2" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight3" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.3" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight4" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.4" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight5" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.5" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight6" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.6" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight7" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.7" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight8" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.8" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight9" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><UnifiedDim scale="0.9" type="LeftEdge" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="AltProgressLight10" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Tiled" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="EnabledProgress">
+            <Layer>
+                <Section section="progress_lights" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledProgress">
+            <Layer>
+                <Section section="progress_lights">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
     
     <!--
     ***************************************************
@@ -1445,7 +1361,7 @@
                 <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
             </Area>
         </NamedArea>
-        <Child  type="Peragro/Button" nameSuffix="__auto_incbtn__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_incbtn__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
@@ -1453,19 +1369,17 @@
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
             <HorzAlignment type="RightAligned" />
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:MiniHorzScrollRightNormal" />
             <Property name="HoverImage" value="set:Peragro image:MiniHorzScrollRightHover" />
             <Property name="PushedImage" value="set:Peragro image:MiniHorzScrollRightNormal" />
         </Child>
-        <Child  type="Peragro/Button" nameSuffix="__auto_decbtn__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_decbtn__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="Width" ><ImageDim imageset="Peragro" image="MiniHorzScrollLeftNormal" dimension="Width" /></Dim>
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:MiniHorzScrollLeftNormal" />
             <Property name="HoverImage" value="set:Peragro image:MiniHorzScrollLeftHover" />
             <Property name="PushedImage" value="set:Peragro image:MiniHorzScrollLeftNormal" />
@@ -1477,6 +1391,7 @@
                 <Dim type="Width" ><UnifiedDim scale="0.1" type="Width" /></Dim>
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
+            <Property name="UnifiedMinSize" value="{{0,25},{0,0}}" />
         </Child>
         <ImagerySection name="main">
             <ImageryComponent>
@@ -1589,7 +1504,7 @@
                 </Dim>
             </Area>
         </NamedArea>
-        <Child  type="Peragro/Button" nameSuffix="__auto_incbtn__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_incbtn__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
@@ -1597,19 +1512,17 @@
                 <Dim type="Height" ><ImageDim imageset="Peragro" image="MiniVertScrollDownNormal" dimension="Height" /></Dim>
             </Area>
             <VertAlignment type="BottomAligned" />
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:MiniVertScrollDownNormal" />
             <Property name="HoverImage" value="set:Peragro image:MiniVertScrollDownHover" />
             <Property name="PushedImage" value="set:Peragro image:MiniVertScrollDownNormal" />
         </Child>
-        <Child  type="Peragro/Button" nameSuffix="__auto_decbtn__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_decbtn__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                 <Dim type="Height" ><ImageDim imageset="Peragro" image="MiniVertScrollUpNormal" dimension="Height" /></Dim>
             </Area>
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:MiniVertScrollUpNormal" />
             <Property name="HoverImage" value="set:Peragro image:MiniVertScrollUpHover" />
             <Property name="PushedImage" value="set:Peragro image:MiniVertScrollUpNormal" />
@@ -1621,6 +1534,7 @@
                 <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                 <Dim type="Height" ><UnifiedDim scale="0.1" type="Height" /></Dim>
             </Area>
+            <Property name="UnifiedMinSize" value="{{0,0},{0,25}}" />
         </Child>
         <ImagerySection name="main">
             <ImageryComponent>
@@ -1799,7 +1713,7 @@
     -->
     <WidgetLook name="Peragro/ComboDropList">
         <NamedArea name="ItemRenderingArea">
-           <Area>
+            <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="ComboboxListLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><ImageDim imageset="Peragro" image="ComboboxListTop" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
@@ -1817,7 +1731,7 @@
                     </UnifiedDim>
                 </Dim>
             </Area>
-		</NamedArea>
+        </NamedArea>
         <NamedArea name="ItemRenderingAreaHScroll">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="ComboboxListLeft" dimension="Width" /></Dim>
@@ -1935,6 +1849,10 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/ComboEditbox">
+        <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
+        <PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
         <Property name="MouseCursorImage" value="set:Peragro image:MouseTextBar" />
         <NamedArea name="TextArea">
             <Area>
@@ -2021,6 +1939,10 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/Combobox">
+        <PropertyLinkDefinition name="NormalEditTextColour" widget="__auto_editbox__" targetProperty="NormalTextColour" initialValue="FFFFFFFF" />
+        <PropertyLinkDefinition name="SelectedEditTextColour" widget="__auto_editbox__" targetProperty="SelectedTextColour" initialValue="FF000000" />
+        <PropertyLinkDefinition name="ActiveEditSelectionColour" widget="__auto_editbox__" targetProperty="ActiveSelectionColour" initialValue="FF6060FF" />
+        <PropertyLinkDefinition name="InactiveEditSelectionColour" widget="__auto_editbox__" targetProperty="InactiveSelectionColour" initialValue="FF808080" />
         <Child  type="Peragro/ComboEditbox" nameSuffix="__auto_editbox__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
@@ -2053,7 +1975,7 @@
                 <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
             </Area>
         </Child>
-        <Child  type="Peragro/Button" nameSuffix="__auto_button__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_button__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
@@ -2061,7 +1983,6 @@
                 <Dim type="Height" ><WidgetDim widget="__auto_editbox__" dimension="Height" /></Dim>
             </Area>
             <HorzAlignment type="RightAligned" />
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:ComboboxListButtonNormal" />
             <Property name="HoverImage" value="set:Peragro image:ComboboxListButtonHover" />
             <Property name="PushedImage" value="set:Peragro image:ComboboxListButtonNormal" />
@@ -2090,7 +2011,7 @@
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
         </Child>
-        <Child  type="Peragro/Button" nameSuffix="__auto_incbtn__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_incbtn__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
@@ -2098,12 +2019,11 @@
                 <Dim type="Height" ><UnifiedDim scale="0.5" type="Height" /></Dim>
             </Area>
             <HorzAlignment type="RightAligned" />
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:VertScrollUpNormal" />
             <Property name="HoverImage" value="set:Peragro image:VertScrollUpHover" />
             <Property name="PushedImage" value="set:Peragro image:VertScrollUpNormal" />
         </Child>
-        <Child  type="Peragro/Button" nameSuffix="__auto_decbtn__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_decbtn__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><UnifiedDim scale="0.5" type="TopEdge" /></Dim>
@@ -2111,7 +2031,6 @@
                 <Dim type="Height" ><UnifiedDim scale="0.5" type="Height" /></Dim>
             </Area>
             <HorzAlignment type="RightAligned" />
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:VertScrollDownNormal" />
             <Property name="HoverImage" value="set:Peragro image:VertScrollDownHover" />
             <Property name="PushedImage" value="set:Peragro image:VertScrollDownNormal" />
@@ -2143,6 +2062,7 @@
                 <Image type="RightEdge" imageset="Peragro" image="StaticRight" />
                 <Image type="TopEdge" imageset="Peragro" image="StaticTop" />
                 <Image type="BottomEdge" imageset="Peragro" image="StaticBottom" />
+                <ColourRectProperty name="FrameColours" />
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="background">
@@ -2166,6 +2086,23 @@
                     </Dim>
                 </Area>
                 <Image imageset="Peragro" image="StaticBackdrop" />
+                <!--<ColourRectProperty name="BackgroundColours" />-->
+                <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FFFFFFFF" bottomRight="FFFFFFFF" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="background_noframe">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <Image imageset="Peragro" image="StaticBackdrop" />
+                <!--<ColourRectProperty name="BackgroundColours" />-->
+                <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FFFFFFFF" bottomRight="FFFFFFFF" />
                 <VertFormat type="Stretched" />
                 <HorzFormat type="Stretched" />
             </ImageryComponent>
@@ -2178,8 +2115,53 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/StaticImage">
-        <Property name="FrameEnabled" value="True" />
+		<PropertyDefinition name="ImageColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="VertFormatting" initialValue="Stretched" redrawOnWrite="true" />
+        <PropertyDefinition name="HorzFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <Property name="BackgroundEnabled" value="True" />
+        <Property name="FrameEnabled" value="True" />
+        <ImagerySection name="image_withframe">
+            <ImageryComponent>
+                <Area>
+					<Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" /></Dim>
+					<Dim type="TopEdge" ><ImageDim imageset="Peragro" image="StaticTop" dimension="Height" /></Dim>
+					<Dim type="RightEdge" >
+						<UnifiedDim scale="1" type="RightEdge">
+							<DimOperator op="Subtract">
+								<ImageDim imageset="Peragro" image="StaticRight" dimension="Width" />
+							</DimOperator>
+						</UnifiedDim>
+					</Dim>
+					<Dim type="BottomEdge" >
+						<UnifiedDim scale="1" type="BottomEdge">
+							<DimOperator op="Subtract">
+								<ImageDim imageset="Peragro" image="StaticBottom" dimension="Height" />
+							</DimOperator>
+						</UnifiedDim>
+					</Dim>
+				</Area>
+                <ImageProperty name="Image" />
+                <ColourRectProperty name="ImageColours" />
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="image_noframe">
+            <ImageryComponent>
+                <Area>
+					<Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+					<Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+					<Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+					<Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+				</Area>
+                <ImageProperty name="Image" />
+                <ColourRectProperty name="ImageColours" />
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
         <StateImagery name="Enabled" />
         <StateImagery name="Disabled" />
         <StateImagery name="EnabledFrame">
@@ -2192,14 +2174,34 @@
                 <Section look="Peragro/StaticShared" section="frame" />
             </Layer>
         </StateImagery>
-        <StateImagery name="EnabledBackground">
+        <StateImagery name="WithFrameEnabledBackground">
             <Layer>
                 <Section look="Peragro/StaticShared" section="background" />
             </Layer>
         </StateImagery>
-        <StateImagery name="DisabledBackground">
+        <StateImagery name="WithFrameDisabledBackground">
             <Layer>
                 <Section look="Peragro/StaticShared" section="background" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameEnabledBackground">
+            <Layer>
+                <Section look="Peragro/StaticShared" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameDisabledBackground">
+            <Layer>
+                <Section look="Peragro/StaticShared" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameImage">
+            <Layer>
+                <Section section="image_withframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameImage">
+            <Layer>
+                <Section section="image_noframe" />
             </Layer>
         </StateImagery>
     </WidgetLook>
@@ -2210,9 +2212,11 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/StaticText">
+		<PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
         <Property name="FrameEnabled" value="True" />
         <Property name="BackgroundEnabled" value="True" />
-        <NamedArea name="TextRenderArea">
+        <NamedArea name="WithFrameTextRenderArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><ImageDim imageset="Peragro" image="StaticTop" dimension="Height" /></Dim>
@@ -2232,7 +2236,7 @@
                 </Dim>
             </Area>
         </NamedArea>
-        <NamedArea name="TextRenderAreaHScroll">
+        <NamedArea name="WithFrameTextRenderAreaHScroll">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><ImageDim imageset="Peragro" image="StaticTop" dimension="Height" /></Dim>
@@ -2252,7 +2256,7 @@
                 </Dim>
             </Area>
         </NamedArea>
-        <NamedArea name="TextRenderAreaVScroll">
+        <NamedArea name="WithFrameTextRenderAreaVScroll">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><ImageDim imageset="Peragro" image="StaticTop" dimension="Height" /></Dim>
@@ -2272,10 +2276,66 @@
                 </Dim>
             </Area>
         </NamedArea>
-        <NamedArea name="TextRenderAreaHVScroll">
+        <NamedArea name="WithFrameTextRenderAreaHVScroll">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="StaticLeft" dimension="Width" /></Dim>
                 <Dim type="TopEdge" ><ImageDim imageset="Peragro" image="StaticTop" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="NoFrameTextRenderArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="NoFrameTextRenderAreaHScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="NoFrameTextRenderAreaVScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="NoFrameTextRenderAreaHVScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
@@ -2322,14 +2382,24 @@
                 <Section look="Peragro/StaticShared" section="frame" />
             </Layer>
         </StateImagery>
-        <StateImagery name="EnabledBackground">
+        <StateImagery name="WithFrameEnabledBackground">
             <Layer>
                 <Section look="Peragro/StaticShared" section="background" />
             </Layer>
         </StateImagery>
-        <StateImagery name="DisabledBackground">
+        <StateImagery name="WithFrameDisabledBackground">
             <Layer>
                 <Section look="Peragro/StaticShared" section="background" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameEnabledBackground">
+            <Layer>
+                <Section look="Peragro/StaticShared" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameDisabledBackground">
+            <Layer>
+                <Section look="Peragro/StaticShared" section="background_noframe" />
             </Layer>
         </StateImagery>
     </WidgetLook>
@@ -2624,7 +2694,7 @@
                 <Dim type="Height" >
                     <FontDim type="LineSpacing">
                         <DimOperator op="Multiply">
-                            <AbsoluteDim value="1.0" />
+                            <AbsoluteDim value="1.5" />
                         </DimOperator>
                     </FontDim>
                 </Dim>
@@ -2635,7 +2705,7 @@
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="Width" ><UnifiedDim scale="1" offset="-12" type="Width" /></Dim>
-                <Dim type="Height" ><AbsoluteDim value="0" /></Dim><!--changed 12-->
+                <Dim type="Height" ><AbsoluteDim value="12" /></Dim>
             </Area>
             <VertAlignment type="BottomAligned" />
         </Child>
@@ -2687,6 +2757,11 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/MultiLineEditbox">
+        <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
+        <PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
+        <Property name="MouseCursorImage" value="set:Peragro image:MouseTextBar" />
         <Property name="SelectionBrushImage" value="set:Peragro image:MultiLineEditboxSelectionBrush" />
         <NamedArea name="TextArea">
             <Area>
@@ -2836,210 +2911,6 @@
             </Layer>
         </StateImagery>
     </WidgetLook>
-
-	<!--
-    ***************************************************
-        Peragro/MultiLineEditbox2
-    ***************************************************
-    -->
-	<WidgetLook name="Peragro/MultiLineEditbox2">
-		<Property name="SelectionBrushImage" value="set:Peragro image:MultiLineEditboxSelectionBrush" />
-		<NamedArea name="TextArea">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="MultiLineEditboxLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<ImageDim imageset="Peragro" image="MultiLineEditboxTop" dimension="Height" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="MultiLineEditboxRight" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1" type="BottomEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="MultiLineEditboxBottom" dimension="Height" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-			</Area>
-		</NamedArea>
-		<NamedArea name="TextAreaHScroll">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="MultiLineEditboxLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<ImageDim imageset="Peragro" image="MultiLineEditboxTop" dimension="Height" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="MultiLineEditboxRight" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1" type="BottomEdge">
-						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-			</Area>
-		</NamedArea>
-		<NamedArea name="TextAreaVScroll">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="MultiLineEditboxLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<ImageDim imageset="Peragro" image="MultiLineEditboxTop" dimension="Height" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1" type="BottomEdge">
-						<DimOperator op="Subtract">
-							<ImageDim imageset="Peragro" image="MultiLineEditboxBottom" dimension="Height" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-			</Area>
-		</NamedArea>
-		<NamedArea name="TextAreaHVScroll">
-			<Area>
-				<Dim type="LeftEdge" >
-					<ImageDim imageset="Peragro" image="MultiLineEditboxLeft" dimension="Width" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<ImageDim imageset="Peragro" image="MultiLineEditboxTop" dimension="Height" />
-				</Dim>
-				<Dim type="RightEdge" >
-					<UnifiedDim scale="1" type="RightEdge">
-						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-				<Dim type="BottomEdge" >
-					<UnifiedDim scale="1" type="BottomEdge">
-						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
-						</DimOperator>
-					</UnifiedDim>
-				</Dim>
-			</Area>
-		</NamedArea>
-		<Child  type="Peragro/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
-			<Area>
-				<Dim type="LeftEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="Width" >
-					<UnifiedDim scale="1" offset="-12" type="Width" />
-				</Dim>
-				<Dim type="Height" >
-					<AbsoluteDim value="12" />
-				</Dim>
-			</Area>
-			<VertAlignment type="BottomAligned" />
-		</Child>
-		<Child  type="Peragro/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
-			<Area>
-				<Dim type="LeftEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="TopEdge" >
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="Width" >
-					<AbsoluteDim value="12" />
-				</Dim>
-				<Dim type="Height" >
-					<UnifiedDim scale="1" offset="-12" type="Height" />
-				</Dim>
-			</Area>
-			<HorzAlignment type="RightAligned" />
-		</Child>
-		<ImagerySection name="main">
-			<FrameComponent>
-				<Area>
-					<Dim type="LeftEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width" >
-						<UnifiedDim scale="1" type="Width" />
-					</Dim>
-					<Dim type="Height" >
-						<UnifiedDim scale="1" type="Height" />
-					</Dim>
-				</Area>
-				<!--<Image type="TopLeftCorner" imageset="Peragro" image="MultiLineEditboxTopLeft" />
-				<Image type="TopRightCorner" imageset="Peragro" image="MultiLineEditboxTopRight" />
-				<Image type="BottomLeftCorner" imageset="Peragro" image="MultiLineEditboxBottomLeft" />
-				<Image type="BottomRightCorner" imageset="Peragro" image="MultiLineEditboxBottomRight" />
-				<Image type="LeftEdge" imageset="Peragro" image="MultiLineEditboxLeft" />
-				<Image type="RightEdge" imageset="Peragro" image="MultiLineEditboxRight" />
-				<Image type="TopEdge" imageset="Peragro" image="MultiLineEditboxTop" />
-				<Image type="BottomEdge" imageset="Peragro" image="MultiLineEditboxBottom" />
-				<Image type="Background" imageset="Peragro" image="MultiLineEditboxBackdrop" />-->
-			</FrameComponent>
-		</ImagerySection>
-		<ImagerySection name="Carat">
-			<ImageryComponent>
-				<Area>
-					<Dim type="LeftEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge" >
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width" >
-						<ImageDim imageset="Peragro" image="EditBoxCarat" dimension="Width" />
-					</Dim>
-					<Dim type="BottomEdge" >
-						<UnifiedDim scale="1.0" type="BottomEdge" />
-					</Dim>
-				</Area>
-				<Image imageset="Peragro" image="EditBoxCarat" />
-				<VertFormat type="Stretched" />
-				<HorzFormat type="Stretched" />
-			</ImageryComponent>
-		</ImagerySection>
-		<StateImagery name="Enabled">
-			<Layer>
-				<Section section="main" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="ReadOnly">
-			<Layer>
-				<Section section="main" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="Disabled">
-			<Layer>
-				<Section section="main">
-					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-				</Section>
-			</Layer>
-		</StateImagery>
-	</WidgetLook>
     
     <!--
     ***************************************************
@@ -3215,6 +3086,10 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/TabButton">
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
         <ImagerySection name="label">
             <TextComponent>
                 <Area>
@@ -3371,6 +3246,76 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/MenuItem">
+        <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="OpenedColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <Property name="WantsMultiClickEvents" value="False" />
+        <NamedArea name="ContentSize">
+            <Area>
+                <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width">
+                    <FontDim type="HorzExtent">
+                        <DimOperator op="Add">
+                            <ImageDim imageset="Peragro" image="MenuLeft" dimension="Width">
+                                <DimOperator op="Add">
+                                    <ImageDim imageset="Peragro" image="MenuRight" dimension="Width" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </FontDim>
+                </Dim>
+                <Dim type="Height">
+                    <FontDim type="LineSpacing">
+                        <DimOperator op="Add">
+                            <ImageDim imageset="Peragro" image="MenuTop" dimension="Height">
+                                <DimOperator op="Add">
+                                    <ImageDim imageset="Peragro" image="MenuBottom" dimension="Height" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </FontDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="HasPopupContentSize">
+            <Area>
+                <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width">
+                    <FontDim type="HorzExtent">
+                        <DimOperator op="Add">
+                            <ImageDim imageset="Peragro" image="MenuLeft" dimension="Width">
+                                <DimOperator op="Add">
+                                    <ImageDim imageset="Peragro" image="MenuRight" dimension="Width">
+                                        <DimOperator op="Add">
+                                            <ImageDim imageset="Peragro" image="PopupMenuArrowLeft" dimension="Width">
+                                                <DimOperator op="Multiply">
+                                                    <AbsoluteDim value="3" />
+                                                </DimOperator>
+                                            </ImageDim>
+                                        </DimOperator>
+                                    </ImageDim>
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </FontDim>
+                </Dim>
+                <Dim type="Height">
+                    <FontDim type="LineSpacing">
+                        <DimOperator op="Add">
+                            <ImageDim imageset="Peragro" image="MenuTop" dimension="Height">
+                                <DimOperator op="Add">
+                                    <ImageDim imageset="Peragro" image="MenuBottom" dimension="Height" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </FontDim>
+                </Dim>
+            </Area>
+        </NamedArea>
         <ImagerySection name="label">
             <TextComponent>
                 <Area>
@@ -3419,7 +3364,13 @@
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                     <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Width" >
+                        <UnifiedDim scale="1" type="Width">
+                            <DimOperator op="Subtract">
+                                <ImageDim imageset="Peragro" image="PopupMenuArrowRight" dimension="Width" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
                 <Image imageset="Peragro" image="PopupMenuArrowRight" />
@@ -3432,7 +3383,13 @@
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                     <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Width" >
+                        <UnifiedDim scale="1" type="Width">
+                            <DimOperator op="Subtract">
+                                <ImageDim imageset="Peragro" image="PopupMenuArrowLeft" dimension="Width" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
                 <Image imageset="Peragro" image="PopupMenuArrowLeft" />
@@ -3442,31 +3399,45 @@
         </ImagerySection>
         <StateImagery name="EnabledNormal">
             <Layer>
-                <Section section="label" />
+                <Section section="label">
+                    <ColourProperty name="NormalTextColour" />
+                </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="EnabledHover">
             <Layer>
-                <Section section="frame" />
-                <Section section="label" />
+                <Section section="frame">
+                    <ColourProperty name="HoverColour" />
+                </Section>
+                <Section section="label">
+                    <ColourProperty name="NormalTextColour" />
+                </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="EnabledPushed">
             <Layer>
-                <Section section="frame" />
-                <Section section="label" />
+                <Section section="frame">
+                    <ColourProperty name="PushedColour" />
+                </Section>
+                <Section section="label">
+                    <ColourProperty name="NormalTextColour" />
+                </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="EnabledPopupOpen">
             <Layer>
-                <Section section="frame" />
-                <Section section="label" />
+                <Section section="frame">
+                    <ColourProperty name="OpenedColour" />
+                </Section>
+                <Section section="label">
+                    <ColourProperty name="NormalTextColour" />
+                </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="DisabledNormal">
             <Layer>
                 <Section section="label">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                    <ColourProperty name="DisabledTextColour" />
                 </Section>
             </Layer>
         </StateImagery>
@@ -3476,7 +3447,7 @@
                     <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
                 </Section>
                 <Section section="label">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                    <ColourProperty name="DisabledTextColour" />
                 </Section>
             </Layer>
         </StateImagery>
@@ -3486,7 +3457,7 @@
                     <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
                 </Section>
                 <Section section="label">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                    <ColourProperty name="DisabledTextColour" />
                 </Section>
             </Layer>
         </StateImagery>
@@ -3496,7 +3467,7 @@
                     <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
                 </Section>
                 <Section section="label">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                    <ColourProperty name="DisabledTextColour" />
                 </Section>
             </Layer>
         </StateImagery>
@@ -3518,21 +3489,43 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/PopupMenu">
+        <PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="BorderWidth" initialValue="0" layoutOnWrite="true" />
         <NamedArea name="ItemRenderArea">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="PopupMenuFrameLeft" dimension="Width" /></Dim>
-                <Dim type="TopEdge" ><ImageDim imageset="Peragro" image="PopupMenuFrameTop" dimension="Height" /></Dim>
+                <Dim type="LeftEdge" >
+                    <ImageDim imageset="Peragro" image="PopupMenuFrameLeft" dimension="Width">
+                        <DimOperator op="Add">
+                            <PropertyDim name="BorderWidth" />
+                        </DimOperator>
+                    </ImageDim>
+                </Dim>
+                <Dim type="TopEdge" >
+                    <ImageDim imageset="Peragro" image="PopupMenuFrameTop" dimension="Height">
+                        <DimOperator op="Add">
+                            <PropertyDim name="BorderWidth" />
+                        </DimOperator>
+                    </ImageDim>
+                </Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="Peragro" image="PopupMenuFrameRight" dimension="Width" />
+                            <ImageDim imageset="Peragro" image="PopupMenuFrameRight" dimension="Width">
+                                <DimOperator op="Add">
+                                    <PropertyDim name="BorderWidth" />
+                                </DimOperator>
+                            </ImageDim>
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
                 <Dim type="BottomEdge" >
                     <UnifiedDim scale="1" type="BottomEdge">
                         <DimOperator op="Subtract">
-                            <ImageDim imageset="Peragro" image="PopupMenuFrameBottom" dimension="Height" />
+                            <ImageDim imageset="Peragro" image="PopupMenuFrameBottom" dimension="Height">
+                                <DimOperator op="Add">
+                                    <PropertyDim name="BorderWidth" />
+                                </DimOperator>
+                            </ImageDim>
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
@@ -3559,7 +3552,93 @@
         </ImagerySection>
         <StateImagery name="Enabled">
             <Layer>
-                <Section section="frame" />
+                <Section section="frame">
+                    <ColourRectProperty name="BackgroundColours" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+    
+    
+    <!--
+    ***************************************************
+        Peragro/Menubar
+    ***************************************************
+    -->
+    <WidgetLook name="Peragro/Menubar">
+        <PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="BorderWidth" initialValue="5" layoutOnWrite="true" />
+        <NamedArea name="ItemRenderArea">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <ImageDim imageset="Peragro" image="PopupMenuFrameLeft" dimension="Width">
+                        <DimOperator op="Add">
+                            <PropertyDim name="BorderWidth" />
+                        </DimOperator>
+                    </ImageDim>
+                </Dim>
+                <Dim type="TopEdge" >
+                    <ImageDim imageset="Peragro" image="PopupMenuFrameTop" dimension="Height">
+                        <DimOperator op="Add">
+                            <PropertyDim name="BorderWidth" />
+                        </DimOperator>
+                    </ImageDim>
+                </Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="Peragro" image="PopupMenuFrameRight" dimension="Width">
+                                <DimOperator op="Add">
+                                    <PropertyDim name="BorderWidth" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="Peragro" image="PopupMenuFrameBottom" dimension="Height">
+                                <DimOperator op="Add">
+                                    <PropertyDim name="BorderWidth" />
+                                </DimOperator>
+                            </ImageDim>
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="Peragro" image="PopupMenuFrameTopLeft" />
+                <Image type="TopRightCorner" imageset="Peragro" image="PopupMenuFrameTopRight" />
+                <Image type="BottomLeftCorner" imageset="Peragro" image="PopupMenuFrameBottomLeft" />
+                <Image type="BottomRightCorner" imageset="Peragro" image="PopupMenuFrameBottomRight" />
+                <Image type="LeftEdge" imageset="Peragro" image="PopupMenuFrameLeft" />
+                <Image type="RightEdge" imageset="Peragro" image="PopupMenuFrameRight" />
+                <Image type="TopEdge" imageset="Peragro" image="PopupMenuFrameTop" />
+                <Image type="BottomEdge" imageset="Peragro" image="PopupMenuFrameBottom" />
+                <Image type="Background" imageset="Peragro" image="PopupMenuMiddle" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame">
+                    <ColourRectProperty name="BackgroundColours" />
+                </Section>
             </Layer>
         </StateImagery>
         <StateImagery name="Disabled">
@@ -3667,7 +3746,7 @@
                 </Dim>
             </Area>
         </NamedArea>
-        <Child  type="Peragro/Button" nameSuffix="__auto_incbtn__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_incbtn__">
             <Area>
                 <Dim type="LeftEdge" ><UnifiedDim scale="0.25" type="LeftEdge" /></Dim>
                 <Dim type="TopEdge" >
@@ -3695,12 +3774,11 @@
                 </Dim>
             </Area>
             <VertAlignment type="BottomAligned" />
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:VertScrollDownNormal" />
             <Property name="HoverImage" value="set:Peragro image:VertScrollDownHover" />
             <Property name="PushedImage" value="set:Peragro image:VertScrollDownNormal" />
         </Child>
-        <Child  type="Peragro/Button" nameSuffix="__auto_decbtn__">
+        <Child  type="Peragro/ImageButton" nameSuffix="__auto_decbtn__">
             <Area>
                 <Dim type="LeftEdge" ><UnifiedDim scale="0.25" type="LeftEdge" /></Dim>
                 <Dim type="TopEdge">
@@ -3723,7 +3801,6 @@
                     </UnifiedDim>
                 </Dim>
             </Area>
-            <Property name="UseStandardImagery" value="False" />
             <Property name="NormalImage" value="set:Peragro image:VertScrollUpNormal" />
             <Property name="HoverImage" value="set:Peragro image:VertScrollUpHover" />
             <Property name="PushedImage" value="set:Peragro image:VertScrollUpNormal" />
@@ -3806,4 +3883,97 @@
             </Layer>
         </StateImagery>
     </WidgetLook>
+
+    <!--
+    ***************************************************
+        Peragro/ImageButton
+    ***************************************************
+    -->
+    <WidgetLook name="Peragro/ImageButton">
+        <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="VertImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+        <PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+        <ImagerySection name="normal">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="NormalImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="hover">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="HoverImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="pushed">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="PushedImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="disabled">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="DisabledImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Normal">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Hover">
+            <Layer>
+                <Section section="hover" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Pushed">
+            <Layer>
+                <Section section="pushed" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="PushedOff">
+            <Layer>
+                <Section section="hover" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="disabled" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+
 </Falagard>
+

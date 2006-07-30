@@ -29,7 +29,7 @@ class StatusWindow : public GUIWindow
 private:
 
   bool handleCloseButton(const CEGUI::EventArgs& args);
-  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::Point& position);
+  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
   CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
   int counter;
   

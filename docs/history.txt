@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+30-July-2006
+  - iceeey upgraded the client and skin to CEGUI 0.5.0. Piece of cake.
+
 21-July-2006
   - iceeey made Anvil correctly place the camera in the sector of the
     new world after loading it. It used to only do it for the first load.
