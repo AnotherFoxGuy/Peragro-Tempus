@@ -548,8 +548,17 @@ void ptEntityManager::createCelEntity(Entity* ent)
   iSector* sector = engine->FindSector(*ent->getSector());
 
   printf("Loading Actor\n");
-  vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(*ent->getMesh(), "/peragro/meshes/all.xml");
+  if (ent->getType() == Entity::DoorEntity)
+  {
+    csRef<iMeshWrapper> doormesh = engine->FindMeshObject(*ent->getMesh());
+    if (doormesh)
+      pcmesh->SetMesh(doormesh);
+  }
+  else
+  {
+    vfs->ChDir("/cellib/objects/");
+    pcmesh->SetMesh(*ent->getMesh(), "/peragro/meshes/all.xml");
+  }
 
   csRef<iCelEntity> region = pl->FindEntity("World");
   if (region)

@@ -25,6 +25,7 @@
 #include "pcentity.h"
 #include "npcentity.h"
 #include "itementity.h"
+#include "doorentity.h"
 #include "entitylist.h"
 #include "server/database/table-entities.h"
 

@@ -48,6 +48,7 @@ void RaceSkillsTable::createTable()
   Skill* skill = 0;
 
   insert(1, 1); //Heal
+  insert(1, 2); //Energy Bind
   delete skill;
 }
 

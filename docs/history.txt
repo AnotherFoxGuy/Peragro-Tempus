@@ -15,6 +15,9 @@ under each day.
   - Sueastside changed the speed of test_dummy and benny so
      their walk animation would actually play.
   - PK added a first xml description of the network for the future generator.
+  - PK added patch from caedes for doors.
+  - PK started the implementation of item equiping.
+  - PK worked a little more on the skill implementation.
 
 30-July-2006
   - iceeey upgraded the client and skin to CEGUI 0.5.0. Piece of cake.

@@ -188,3 +188,75 @@ void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
 
   server->moveEntity(entity, request_msg.getPos(), (float)entity->getStats()->getAmount(speed));
 }
+
+void EntityHandler::handleEquipRequest(GenericMessage* msg)
+{
+  const Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  const char* error = 0;
+
+  CharacterEntity* user_ent = conn->getUser()->getEntity();
+  ptString name = user_ent->getName();
+  EquipRequestMessage request_msg;
+  request_msg.deserialise(msg->getByteStream());
+  printf("Received EquipRequest from: '%s' -> '%d' \n", *name, request_msg.getItemID());
+
+  Item* item = server->getItemManager()->findById(request_msg.getItemID());
+  int slotid = request_msg.getSlotID();
+
+  if (item)
+  {
+    if (item->isEquipable())
+    {
+      if (slotid < 2 && slotid >= 0)
+      {
+        Item* old = user_ent->inslot[slotid];
+        if (user_ent->getInventory()->takeItem(item, 1))
+        {
+          user_ent->getInventory()->addItem(old, 1);
+          user_ent->inslot[slotid] = item;
+        }
+        else error = "Character doesn't own this item";
+      }
+      else error = "Invalid Slot";
+    }
+    else error = "Item not equipable";
+  }
+  else error = "No such Item";
+
+  EquipMessage response_msg;
+  response_msg.setEntityID(user_ent->getId());
+  response_msg.setItemID(item->getId());
+  response_msg.setSlotID(slotid);
+  ptString pt_err = error?ptString(error, strlen(error)):ptString();
+  response_msg.setError(pt_err);
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
+
+  if (!error)
+  {
+    // Tell all about success
+    Server::getServer()->broadCast(bs);
+  }
+  else
+  {
+    // Tell only one about error
+    conn->send(bs);
+  }
+}
+
+void EntityHandler::handleOpenDoor(GenericMessage* msg)
+{
+  OpenDoorRequestMessage skill_msg;
+  skill_msg.deserialise(msg->getByteStream());
+  printf("Got open door request %d: \n---------------------------\n", skill_msg.getTargetId());
+}
+
+void EntityHandler::handleCloseDoor(GenericMessage* msg)
+{
+  CloseDoorRequestMessage skill_msg;
+  skill_msg.deserialise(msg->getByteStream());
+  printf("Got close door request %d: \n---------------------------\n", skill_msg.getTargetId());
+}

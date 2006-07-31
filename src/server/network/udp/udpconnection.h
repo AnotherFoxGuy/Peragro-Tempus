@@ -61,7 +61,7 @@ public:
     last_seen = (size_t) time(0);
   }
 
-  void send(const ByteStream& bs)
+  void send(const ByteStream& bs) const
   {
     socket->publish((const char*)bs.getData(), bs.getSize(), getSocketAddress());
   }

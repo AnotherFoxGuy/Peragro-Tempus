@@ -40,7 +40,13 @@ namespace ENTITY
     UPDATE_STATS=12,
     MOVE_TO=13,
     MOVE_TO_REQUEST=14,
-    CHAR_SKILL_LIST=15
+    CHAR_SKILL_LIST=15,
+    EQUIP_REQUEST=16,
+    EQUIP=17,
+    OPEN_DOOR_REQUEST=18,
+    OPEN_DOOR_RESPONSE=19,
+    CLOSE_DOOR_REQUEST=20,
+    CLOSE_DOOR_RESPONSE=21
   };
 }
 
@@ -1239,6 +1245,257 @@ public:
   ptString& getName(int idx)
   {
     return skills[idx].name;
+  }
+};
+
+class EquipRequestMessage : public NetMessage
+{
+  int itemId;
+  int slotId;
+
+public:
+  EquipRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::EQUIP_REQUEST) 
+  {
+  }
+
+  ~EquipRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(itemId);
+    serial.setInt32(slotId);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    itemId = serial.getInt32();
+    slotId = serial.getInt32();
+  }
+
+  void setItemID(int i) { itemId = i; }
+  int getItemID() { return itemId; }
+
+  void setSlotID(int s) { slotId = s; }
+  int getSlotID() { return slotId; }
+};
+
+class EquipMessage : public NetMessage
+{
+  int entityId;
+  int itemId;
+  int slotId;
+
+  ptString error;
+
+public:
+  EquipMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::EQUIP) 
+  {
+  }
+
+  ~EquipMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(entityId);
+    serial.setInt32(itemId);
+    serial.setInt32(slotId);
+    serial.setString(error);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    entityId = serial.getInt32();
+    itemId = serial.getInt32();
+    slotId = serial.getInt32();
+    error = serial.getString();
+  }
+
+  void setEntityID(int e) { entityId = e; }
+  int getEntityID() { return entityId; }
+
+  void setItemID(int i) { itemId = i; }
+  int getItemID() { return itemId; }
+
+  void setSlotID(int s) { slotId = s; }
+  int getSlotID() { return slotId; }
+
+  void setError(ptString error)
+  {
+    this->error = error;
+  }
+  ptString& getError()
+  {
+    return error;
+  }
+};
+
+class OpenDoorRequestMessage : public NetMessage
+{
+  int target;
+
+public:
+  OpenDoorRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::OPEN_DOOR_REQUEST) 
+  {
+  }
+
+  ~OpenDoorRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(target);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    target = serial.getInt32();
+  }
+
+  void setTargetId(int target)
+  {
+    this->target = target;
+  }
+  int getTargetId()
+  {
+    return target;
+  }
+};
+class OpenDoorResponseMessage : public NetMessage
+{
+  int target;
+
+public:
+  OpenDoorResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::OPEN_DOOR_RESPONSE) 
+  {
+  }
+
+  ~OpenDoorResponseMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(target);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    target = serial.getInt32();
+  }
+
+  void setTargetId(int target)
+  {
+    this->target = target;
+  }
+  int getTargetId()
+  {
+    return target;
+  }
+};
+
+class CloseDoorRequestMessage : public NetMessage
+{
+  int target;
+
+public:
+  CloseDoorRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::CLOSE_DOOR_REQUEST) 
+  {
+  }
+
+  ~CloseDoorRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(target);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    target = serial.getInt32();
+  }
+
+  void setTargetId(int target)
+  {
+    this->target = target;
+  }
+  int getTargetId()
+  {
+    return target;
+  }
+};
+class CloseDoorResponseMessage : public NetMessage
+{
+  int target;
+
+public:
+  CloseDoorResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::CLOSE_DOOR_RESPONSE) 
+  {
+  }
+
+  ~CloseDoorResponseMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(target);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    target = serial.getInt32();
+  }
+
+  void setTargetId(int target)
+  {
+    this->target = target;
+  }
+  int getTargetId()
+  {
+    return target;
   }
 };
 

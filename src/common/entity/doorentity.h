@@ -16,5 +16,33 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//#include "entity.h"
-//#include "common/network/serialiser.h"
+#ifndef _DoorENTITY_H_
+#define _DoorENTITY_H_
+
+#include <string.h>
+#include <time.h>
+#include <math.h>
+
+#include "common/util/stringstore.h"
+
+#include "inventory.h"
+#include "characterstats.h"
+
+class Door;
+
+class DoorEntity : public Entity
+{
+private:
+  int Door;
+
+public:
+  DoorEntity() : Entity(Entity::DoorEntity)
+  {
+  }
+
+  ~DoorEntity()
+  {
+  }
+};
+
+#endif // _DoorENTITY_H_

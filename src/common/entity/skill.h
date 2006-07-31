@@ -85,6 +85,7 @@ private:
   int power;
 
   Stat* mp;
+  Stat* hp;
 
 public:
   Skill();
@@ -105,6 +106,7 @@ public:
   void setRange(float range) { this->range = range; }
   void setSkillTime(int skillTime) { this->skillTime = skillTime; }
   void setReuseDelay(int reuseDelay) { this->reuseDelay = reuseDelay; }
+  void setPower(int power) { this->power = power; }
   void setMpCost(unsigned int mpCost) { this->mpCost = mpCost; }
 
   //virtual void triggerSkill(CharSkill* skilldata, CharacterEntity* caster);

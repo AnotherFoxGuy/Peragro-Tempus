@@ -31,6 +31,7 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
     case Entity::ItemEntity: entity = new ItemEntity(); break;
     case Entity::PlayerEntity: entity = new PcEntity(); break;
     case Entity::NPCEntity: entity = new NpcEntity(); break;
+    case Entity::DoorEntity: entity = new DoorEntity(); break;
     default : {printf("**************Unknown entity type for %s!*************", *entmsg.getName()); return;}
   };
   entity->setName(entmsg.getName());
@@ -170,4 +171,18 @@ void EntityHandler::handleCharacterSkillList(GenericMessage* msg)
     //guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
     printf("Skill %s (%d)\n", *skill_msg.getName(i), skill_msg.getSkillId(i));
   }
+}
+
+void EntityHandler::handleOpenDoor(GenericMessage* msg)
+{
+  OpenDoorResponseMessage skill_msg;
+  skill_msg.deserialise(msg->getByteStream());
+  printf("Got open door %d: \n---------------------------\n", skill_msg.getTargetId());
+  //client->GetEntityManager()->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
+}
+void EntityHandler::handleCloseDoor(GenericMessage* msg)
+{
+  CloseDoorResponseMessage skill_msg;
+  skill_msg.deserialise(msg->getByteStream());
+  printf("Got close door %d: \n---------------------------\n", skill_msg.getTargetId());
 }

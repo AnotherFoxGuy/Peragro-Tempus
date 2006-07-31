@@ -55,16 +55,17 @@ void SkillTable::createTable()
 
   //Example Data!
   /// \todo specify all fields!
-  insert(ptString("Heal", strlen("Heal")), 10, 100, 1000, 10);
+  insert(ptString("Heal", strlen("Heal")), 10, 100, 1000, 5, 10);
+  insert(ptString("Energy Bind", strlen("Energy Bind")), 10, 100, 1000, 10, 10);
 }
 
 /// \todo insert all fields!
-void SkillTable::insert(ptString name, float range, int skillTime, int reuseDelay, int mpCost)
+void SkillTable::insert(ptString name, float range, int skillTime, int reuseDelay, int power, int mpCost)
 {
   if (strlen(*name) > 512) assert("Strings too long");
   char query[1024];
-  sprintf(query, "insert into skills (name, range, skillTime, reuseDelay, mpCost)"
-    " values ('%s', '%f', '%i', '%i', '%i');",
+  sprintf(query, "insert into skills (name, range, skillTime, reuseDelay, power, mpCost)"
+    " values ('%s', '%f', '%i', '%i', '%i', '%i');",
     *name, range, skillTime, reuseDelay, mpCost);
   db->update(query);
 }
@@ -103,6 +104,7 @@ Skill* SkillTable::getSkill(ptString name)
     skill->setRange((float)atof(rs->GetData(0,5).c_str()));
     skill->setSkillTime(atoi(rs->GetData(0,6).c_str()));
     skill->setReuseDelay(atoi(rs->GetData(0,8).c_str()));
+    skill->setPower(atoi(rs->GetData(0,11).c_str()));
     skill->setMpCost(atoi(rs->GetData(0,12).c_str()));
   }
   delete rs;
@@ -122,6 +124,7 @@ void SkillTable::getAllSkills(Array<Skill*>& skills)
     skill->setRange((float)atof(rs->GetData(0,5).c_str()));
     skill->setSkillTime(atoi(rs->GetData(0,6).c_str()));
     skill->setReuseDelay(atoi(rs->GetData(0,8).c_str()));
+    skill->setPower(atoi(rs->GetData(0,11).c_str()));
     skill->setMpCost(atoi(rs->GetData(0,12).c_str()));
     skills.add(skill);
   }

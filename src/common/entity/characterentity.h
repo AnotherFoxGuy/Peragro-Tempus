@@ -44,6 +44,13 @@ private:
 
 public:
 
+  enum Slots
+  {
+    slLeftHand=0,
+    slRightHand=1
+  };
+  Item* inslot[2];
+
   enum State
   {
     // My second most favorit activity, right after 'Resting'

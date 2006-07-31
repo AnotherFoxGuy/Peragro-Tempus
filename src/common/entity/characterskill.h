@@ -16,5 +16,30 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//#include "entity.h"
-//#include "common/network/serialiser.h"
+#ifndef CHARACTERSKILL_H_
+#define CHARACTERSKILL_H_
+
+#include "skill.h"
+#include "common/util/timer.h"
+
+class CharSkill : public Timer
+{
+public:
+  int skill_id;
+  int target_id;
+  int caster_id;
+
+  SkillState::Type state;
+
+  Skill* skill;
+
+  void timeOut()
+  {
+    if (state == SkillState::CASTING)
+      skill->castExecute(this);
+    else if (state == SkillState::RECOVER)
+      skill->castRecover(this);
+  }
+};
+
+#endif // CHARACTERSKILL_H_

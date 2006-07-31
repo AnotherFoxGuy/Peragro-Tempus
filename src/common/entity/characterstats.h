@@ -76,8 +76,13 @@ public:
   bool takeStat(Stat* stat, int level)
   {
     CharStat* entry = findEntry(stat->getId());
-    if (!entry || entry->level < level)
+    if (!entry) 
       return false;
+    if (entry->level < level)
+    {
+      entry->level = 0;
+      return false;
+    }
 
     entry->level -= level;
 

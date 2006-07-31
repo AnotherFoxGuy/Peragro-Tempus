@@ -30,6 +30,7 @@
 Skill::Skill() : id(-1), range(0) 
 {
   mp = Server::getServer()->getStatManager()->findByName(ptString("Mana", strlen("Mana")));
+  hp = Server::getServer()->getStatManager()->findByName(ptString("Health", strlen("Health")));
 }
 
 //void Skill::triggerSkill(CharSkill* skilldata, CharacterEntity* caster)
@@ -50,6 +51,9 @@ void Skill::castPrepare(CharacterEntity* caster, unsigned int target_id)
   response_msg.setCaster(caster->getId());
 
   skilldata->caster_id = caster->getId();
+
+  printf("Casting: %s starts to cast %s on %s\n", *caster->getName(), *this->getName(), *target->getName());
+  printf("Casting: Skill State: %d \n", skilldata->state);
 
   if (caster->getStats()->getAmount(mp) < mpCost)
   {
@@ -74,6 +78,9 @@ void Skill::castPrepare(CharacterEntity* caster, unsigned int target_id)
 
     response_msg.setError(ptString());
     response_msg.setTarget(target->getId());
+    response_msg.setMpCost(mpCost);
+
+    caster->getStats()->takeStat(mp, mpCost);
 
     skilldata->state = SkillState::CASTING;
     skilldata->setInverval(skillTime);
@@ -119,6 +126,28 @@ void Skill::castExecute(CharSkill* skilldata)
   response_msg.setSkill(skilldata->skill->getId());
   response_msg.setCaster(skilldata->caster_id);
   response_msg.setTarget(skilldata->target_id);
+
+  Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
+  CharacterStats* stats = ((CharacterEntity*)target)->getStats();
+  if (type = SkillType::TYPE_HURT)
+  {
+    if ( stats->takeStat(hp, power) )
+    {
+      // target took damage
+      printf("Hitting %s with %d damage => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
+    }
+    else
+    {
+      // target died
+      printf("Hitting %s with %d damage => Target Died => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
+    }
+  }
+  else if (type = SkillType::TYPE_HEAL)
+  {
+    stats->addStat(hp, power);
+    printf("Healing %s with %d Health => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
+    //no upper stats limit for now...
+  }
 
   ByteStream bs;
   response_msg.serialise(&bs);

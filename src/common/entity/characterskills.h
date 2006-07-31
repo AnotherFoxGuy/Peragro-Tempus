@@ -19,31 +19,10 @@
 #ifndef CHARACTERSKILLS_H_
 #define CHARACTERSKILLS_H_
 
-#include "skill.h"
+#include "characterskill.h"
 #include "server/database/table-characterskills.h"
-#include "common/util/timer.h"
 
 class Connection;
-
-class CharSkill : public Timer
-{
-public:
-  int skill_id;
-  int target_id;
-  int caster_id;
-
-  SkillState::Type state;
-
-  Skill* skill;
-
-  void timeOut()
-  {
-    if (state == SkillState::CASTING)
-      skill->castExecute(this);
-    else if (state == SkillState::RECOVER)
-      skill->castRecover(this);
-  }
-};
 
 class CharacterSkills
 {

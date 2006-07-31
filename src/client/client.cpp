@@ -585,6 +585,14 @@ bool Client::OnMouseDown(iEvent& ev)
           printf("OnMouseClick: Requisting picking up entity: %d \n", msg.getTargetId());
           network->send(&msg);
         }
+        // If it's a door, request a pickup.
+        else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::DoorEntity)
+        {
+          OpenDoorRequestMessage msg;
+          msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          printf("OnMouseClick: Requisting opening door: %d \n", msg.getTargetId());
+          network->send(&msg);
+        }
         // If it's a player, attack it.
         else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
         {

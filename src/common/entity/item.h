@@ -42,6 +42,8 @@ public:
 
   ptString& getMesh() { return mesh_id; }
   void setMesh(ptString id) { mesh_id = id; }
+
+  bool isEquipable() { return false; }
 };
 
 #endif // ITEM_H_

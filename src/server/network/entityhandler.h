@@ -62,6 +62,9 @@ public:
       else if (id == ENTITY::PICK_REQUEST) handlePickRequest(msg);
       else if (id == ENTITY::DROP_REQUEST) handleDropRequest(msg);
       else if (id == ENTITY::MOVE_TO_REQUEST) handleMoveEntityToRequest(msg);
+      else if (id == ENTITY::EQUIP) handleEquipRequest(msg);
+      else if (id == ENTITY::OPEN_DOOR_REQUEST) handleOpenDoor(msg);
+      else if (id == ENTITY::CLOSE_DOOR_REQUEST) handleCloseDoor(msg);
     }
     else
     {
@@ -79,6 +82,9 @@ public:
   void handlePickRequest(GenericMessage* msg);
   void handleDropRequest(GenericMessage* msg);
   void handleMoveEntityToRequest(GenericMessage* msg);
+  void handleEquipRequest(GenericMessage* msg);
+  void handleOpenDoor(GenericMessage* msg);
+  void handleCloseDoor(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

@@ -79,6 +79,7 @@ class SkillUsageStartResponseMessage : public NetMessage
   int target;
   int caster;
   short skill;
+  short mpCost;
   ptString error;
 
 public:
@@ -92,6 +93,7 @@ public:
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setInt16(skill);
+    serial.setInt16(mpCost);
     serial.setInt32(caster);
     serial.setInt32(target);
     serial.setString(error);
@@ -103,6 +105,7 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     skill = serial.getInt16();
+    mpCost = serial.getInt16();
     caster = serial.getInt32();
     target = serial.getInt32();
     error = serial.getString();
@@ -119,6 +122,9 @@ public:
 
   unsigned short getSkill() { return skill; }
   void setSkill(unsigned short s) { skill = s; }
+
+  unsigned short getMpCost() { return mpCost; }
+  void setMpCost(unsigned short mc) { mpCost = mc; }
 };
 
 class SkillUsageStopRequestMessage : public NetMessage
