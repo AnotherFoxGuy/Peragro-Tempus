@@ -1,0 +1,31 @@
+<message-implementation>
+	<message type="skill" name="usage_start_request">
+		<uint32>caster</uint32>
+		<uint32>target</uint32>
+		<uint16>skill</uint16>
+	</message>
+
+	<message type="skill" name="usage_start_response">
+		<uint32>caster</uint32>
+		<uint32>target</uint32>
+		<uint16>skill</uint16>
+		<uint16>mpCost</uint16>
+		<string>error</string> <!-- null if successful -->
+	</message>
+
+	<message type="skill" name="usage_stop_request">
+		<uint16>skill</uint16>
+	</message>
+
+	<message type="skill" name="usage_completion">
+		<uint32>caster</uint32>
+		<uint32>target</uint32>
+		<uint16>skill</uint16>
+	</message>
+
+	<message type="skill" name="usage_interrupt">
+		<uint32>caster</uint32>
+		<uint32>target</uint32>
+		<uint16>skill</uint16>
+	</message>
+</message-implementation>

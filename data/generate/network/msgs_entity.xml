@@ -1,0 +1,85 @@
+<message-implementation>
+	<message type="entity" name="add">
+		<string>name</string>
+		<string>mesh</string>
+		<vector3f>pos</vector3f>
+		<string>sector</string>
+		<uint32>entity_id</uint32>
+		<uint8>entity_type</uint8>
+	</message>
+
+	<message type="entity" name="remove">
+		<uint32>entity_id</uint32>
+	</message>
+
+	<message type="entity" name="move">
+		<vector3f>from</vector3f>
+		<vector3f>to</vector3f>
+		<float>speed</float>
+		<uint32>entity_id</uint32>
+	</message>
+
+	<message type="entity" name="move_request">
+		<vector3f>to</vector3f>
+	</message>
+
+	<message type="entity" name="pick_request">
+		<uint32>target</uint32>
+	</message>
+
+	<message type="entity" name="pick_response">
+		<string>name</string>
+		<uint32>itemId</uint32>
+		<string>error</string> <!-- null if successful -->
+	</message>
+
+	<message type="entity" name="drop_request">
+		<uint32>target</uint32>
+	</message>
+
+	<message type="entity" name="drop_response">
+		<string>name</string>
+		<string>target</string>
+		<string>error</string> <!-- null if successful -->
+	</message>
+
+	<message type="entity" name="inventory_list">
+		<list>
+			<uint16>id</uint16>
+			<string>name</string>
+			<uint16>amount</uint16>
+		</list>
+	</message>
+
+	<message type="entity" name="stats_list">
+		<list>
+			<uint16>id</uint16>
+			<string>name</string>
+			<uint16>level</uint16>
+		</list>
+	</message>
+
+	<message type="entity" name="stats_change">
+		<uint16>id</uint16>
+		<uint16>level</uint16>
+	</message>
+
+	<message type="entity" name="skills_list">
+		<list>
+			<uint16>id</uint16>
+			<string>name</string>
+		</list>
+	</message>
+
+	<message type="entity" name="equip_request">
+		<uint32>item_id</uint32>
+		<uint8>slot_id</uint8>
+	</message>
+
+	<message type="entity" name="equip">
+		<uint32>entity_id</uint32>
+		<uint32>item_id</uint32>
+		<uint8>slot_id</uint8>
+		<string>error</string> <!-- null if successful -->
+	</message>
+</message-implementation>

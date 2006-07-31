@@ -1,0 +1,91 @@
+<network>
+	<nw_version major="0" minor="0" micro="1" />
+	<peers>
+		<peer name="client" src="peer_client.xml" />
+		<peer name="server" src="peer_server.xml" />
+		<!-- peer name="anvil" / -->
+		<!-- peer name="npcserver" / -->
+		<!-- peer name="admin tools" / -->
+		<!-- peer name="other tools" / -->
+	</peers>
+	<message-definitions>
+		<type id="0" name="connection">
+			<message id="0" name="request" />
+			<message id="1" name="response" />
+			<message id="2" name="ping" />
+			<message id="3" name="pong" />
+		</type>
+		<type id="1" name="user">
+			<message id="0" name="login_request" />
+			<message id="1" name="login_response" />
+			<message id="2" name="register_request" />
+			<message id="3" name="register_response" />
+			<message id="4" name="char_list" />
+			<message id="5" name="char_create_request" />
+			<message id="6" name="char_create_response" />
+			<message id="7" name="char_select_request" />
+			<message id="8" name="char_select_response" />
+		</type>
+		<type id="2" name="entity">
+			<message id="0" name="add" />
+			<message id="1" name="remove" />
+			<message id="2" name="move" />
+			<message id="3" name="move_request" />
+			<message id="4" name="pick_request" />
+			<message id="5" name="pick_response" />
+			<message id="6" name="drop_request" />
+			<message id="7" name="drop_response" />
+			<message id="8" name="inventory_list" />
+			<message id="9" name="stats_list" />
+			<message id="10" name="stats_change" />
+			<message id="11" name="skills_list" />
+			<message id="12" name="equip_request" />
+			<message id="13" name="equip" />
+		</type>
+		<type id="3" name="chat">
+			<message id="0" name="say" />
+			<message id="1" name="shout" />
+			<message id="2" name="whisper" />
+			<message id="3" name="party" />
+			<message id="4" name="guild" />
+			<message id="5" name="family" />
+		</type>
+		<type id="4" name="skill">
+			<message id="0" name="usage_start_request" />
+			<message id="1" name="usage_start_response" />
+			<message id="2" name="usage_stop_request" />
+			<message id="3" name="usage_completion" />
+			<message id="4" name="usage_interrupt" />
+		</type>
+		<type id="5" name="trade">
+			<message id="0" name="trade_request" />
+			<message id="1" name="trade_response" />
+			<message id="2" name="offers_list_npc" />
+			<message id="3" name="buy_item_request_npc" />
+			<message id="4" name="buy_item_response_npc" />
+			<message id="5" name="offers_list_pvp" />
+			<message id="6" name="offer_accept" />
+			<message id="7" name="confirm_request" />
+			<message id="8" name="confirm_response" />
+		</type>
+		<type id="6" name="door">
+			<message id="0" name="open_request" />
+			<message id="1" name="open_response" />
+			<message id="2" name="close_request" />
+			<message id="3" name="close_response" />
+			<message id="4" name="lock_request" />
+			<message id="5" name="lock_response" />
+			<message id="6" name="unlock_request" />
+			<message id="7" name="unlock_response" />
+		</type>
+	</message-definitions>
+	<message-implementations>
+		<messages-implementation src="msgs_connection.xml" />
+		<messages-implementation src="msgs_user.xml" />
+		<messages-implementation src="msgs_entity.xml" />
+		<messages-implementation src="msgs_chat.xml" />
+		<messages-implementation src="msgs_skill.xml" />
+		<messages-implementation src="msgs_trade.xml" />
+		<messages-implementation src="msgs_doors.xml" />
+	</message-implementations>
+</network>

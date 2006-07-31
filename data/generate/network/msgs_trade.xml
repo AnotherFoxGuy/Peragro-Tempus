@@ -1,0 +1,37 @@
+<message-implementation>
+	<message type="trade" name="trade_request">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="trade" name="trade_response">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="trade" name="offers_list_npc">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="trade" name="buy_item_request_npc">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="trade" name="buy_item_response_npc">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="trade" name="offers_list_pvp">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="trade" name="offer_accept">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="trade" name="confirm_request">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="trade" name="confirm_response">
+		<!-- TODO: implement -->
+	</message>
+</message-implementation>

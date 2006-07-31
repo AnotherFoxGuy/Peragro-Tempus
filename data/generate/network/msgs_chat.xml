@@ -1,0 +1,36 @@
+<message-implementation>
+	<message type="chat" name="say">
+		<string>speaker_name</string> <!-- null if client sends -->
+		<string>message</string>
+	</message>
+
+	<message type="chat" name="shout">
+		<string>speaker_name</string> <!-- null if client sends -->
+		<string>message</string>
+	</message>
+
+	<message type="chat" name="whisper_to">
+		<string>listener_name</string>
+		<string>message</string>
+	</message>
+	
+	<message type="chat" name="whisper_from">
+		<string>speaker_name</string>
+		<string>message</string>
+	</message>
+	
+	<message type="chat" name="party">
+		<string>speaker_name</string> <!-- null if client sends -->
+		<string>message</string>
+	</message>
+
+	<message type="chat" name="guild">
+		<string>speaker_name</string> <!-- null if client sends -->
+		<string>message</string>
+	</message>
+
+	<message type="chat" name="family">
+		<string>speaker_name</string> <!-- null if client sends -->
+		<string>message</string>
+	</message>
+</message-implementation>

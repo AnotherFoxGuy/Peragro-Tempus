@@ -1,0 +1,19 @@
+<message-implementation>
+	<message type="connection" name="request">
+		<uint8>${nw_version.major}</uint8>
+		<uint8>${nw_version.minor}</uint8>
+		<uint8>${nw_version.micro}</uint8>
+	</message>
+
+	<message type="connection" name="response">
+		<uint8>session_id</uint8>
+	</message>
+
+	<message type="connection" name="ping">
+		<!-- no data needed -->
+	</message>
+
+	<message type="connection" name="pong">
+		<!-- no data needed -->
+	</message>
+</message-implementation>

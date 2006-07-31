@@ -1,0 +1,33 @@
+<message-implementation>
+	<message type="door" name="open_request">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="door" name="open_response">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="door" name="close_request">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="door" name="close_response">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="door" name="lock_request">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="door" name="lock_response">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="door" name="unlock_request">
+		<!-- TODO: implement -->
+	</message>
+
+	<message type="door" name="unlock_response">
+		<!-- TODO: implement -->
+	</message>
+</message-implementation>

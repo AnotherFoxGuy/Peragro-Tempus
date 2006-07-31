@@ -1,0 +1,45 @@
+<message-implementation>
+	<message type="user" name="login_request">
+		<string>username</string>
+		<string>password</string>
+	</message>
+
+	<message type="user" name="login_response">
+		<string>error</string> <!-- null is successful -->
+	</message>
+
+	<message type="user" name="register_request">
+		<string>username</string>
+		<string>password</string>
+	</message>
+
+	<message type="user" name="register_response">
+		<string>error</string> <!-- null is successful -->
+	</message>
+
+	<message type="user" name="char_list">
+		<list>
+			<uint32>id</uint32>
+			<string>name</string>
+		</list>
+	</message>
+
+	<message type="user" name="char_create_request">
+		<string>name</string>
+	</message>
+
+	<message type="user" name="char_create_response">
+		<uint32>char_id</uint32>
+		<string>name</string>
+		<string>error</string> <!-- null is successful -->
+	</message>
+
+	<message type="user" name="char_select_request">
+		<uint32>char_id</uint32>
+	</message>
+
+	<message type="user" name="char_select_response">
+		<uint32>char_id</uint32>
+		<string>error</string> <!-- null is successful -->
+	</message>
+</message-implementation>
