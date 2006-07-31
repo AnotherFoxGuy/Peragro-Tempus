@@ -192,10 +192,16 @@
 				RelativePath="..\..\src\common\entity\characterlist.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\entity\characterskill.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\entity\characterskills.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\characterstats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\doorentity.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\entity.h">
