@@ -346,6 +346,7 @@ void Client::handleStates()
 
       //guimanager->CreateStatusWindow ();
       //guimanager->CreateInventoryWindow ();
+      //guimanager->CreateHUDWindow();
 
       if (cmdline)
       {
@@ -468,6 +469,19 @@ bool Client::OnKeyboard(iEvent& ev)
       else if (code == 'j')
       {
         combatmanager->levelup (entitymanager->GetOwnId());
+      }
+      else if (code == 'k')
+      {
+        iCelEntity* entity = entitymanager->getOwnEntity();
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+        if (!parent) return false;
+        csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (parent->GetMeshObject(), iSpriteCal3DState);
+        if (!cal3dstate) return false;
+        //if (cal3dstate->ClearAnimCycle(cal3dstate->FindAnim("idlecycle1"), 100.0f)) printf("succes\n");
+        cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
       }
       else
       {

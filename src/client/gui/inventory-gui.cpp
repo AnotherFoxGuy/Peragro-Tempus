@@ -151,7 +151,7 @@ CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const 
   // Create the itemcounter
   CEGUI::Window* itemcounter = winMgr->createWindow("Peragro/StaticText");
   slot->addChildWindow(itemcounter);
-  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.10f,0), CEGUI::UDim(0.15f,0)));
+  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.60f,0), CEGUI::UDim(0.15f,0)));
   itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.85f,0), CEGUI::UDim(0.80f,0)));
   itemcounter->setVisible(false);
   itemcounter->disable();
@@ -161,6 +161,8 @@ CEGUI::Window* InventoryWindow::createDragDropSlot(CEGUI::Window* parent, const 
   itemcounter->setAlpha(1.0);
   itemcounter->setID(30);
   itemcounter->setProperty("Font", "Commonwealth-8");
+  itemcounter->setProperty("BackgroundEnabled", "False");
+  itemcounter->setProperty("FrameEnabled", "False");
 
   return slot;
 }
@@ -173,8 +175,10 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemt
   // create a drag/drop item
   CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
     winMgr->createWindow("DragContainer", uniquename));
-  item->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.05f,0), CEGUI::UDim(0.05f,0)));
-  item->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0), CEGUI::UDim(0.9f,0)));
+  item->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
+  item->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
+  item->setHorizontalAlignment(CEGUI::HA_CENTRE);
+  item->setVerticalAlignment(CEGUI::VA_CENTRE);
   item->setTooltipText(itemname);
   // Set the itemID.
   char itemtypestr[1024];
@@ -188,8 +192,12 @@ CEGUI::Window* InventoryWindow::createItemIcon(CEGUI::String itemname, int itemt
   // set a static image as drag container's contents
   CEGUI::Window* itemIcon = winMgr->createWindow("Peragro/StaticImage");
   item->addChildWindow(itemIcon);
-  itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
-  itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
+  itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
+  itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0.0f), CEGUI::UDim(1.0f,0.0f)));
+  itemIcon->setHorizontalAlignment(CEGUI::HA_CENTRE);
+  itemIcon->setVerticalAlignment(CEGUI::VA_CENTRE);
+  itemIcon->setProperty("FrameEnabled", "False");
+
   char inventoryimage[1024];
   sprintf(inventoryimage, "set:Inventory image:%d", itemtype);
   itemIcon->setProperty("Image", inventoryimage);

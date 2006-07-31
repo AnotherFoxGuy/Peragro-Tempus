@@ -4,6 +4,17 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+31-July-2006
+  - Sueastside fixed most things wrong with the GUI:
+     - Small icons are now normal size again.
+     - ItemCounter is visible again.
+     - Child is no longer being offset when parenting.
+     - Alpha on the chatlog is reenabled.
+     - The HUD doesn't crash anymore when double clicking on it.
+     - SliderThumb is still missing (known problem of CEGUI).
+  - Sueastside changed the speed of test_dummy and benny so
+     their walk animation would actually play.
+
 30-July-2006
   - iceeey upgraded the client and skin to CEGUI 0.5.0. Piece of cake.
 

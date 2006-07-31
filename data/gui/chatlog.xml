@@ -83,20 +83,30 @@
 			<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
 			<Property Name='ClippedByParent' Value='False'/>
 		</Window>
-		<Window Type='Peragro/MultiLineEditbox' Name='Chatlog/Chatlog'>
+		<Window Type='Peragro/MultiLineEditbox' Name='Chatlog/ChatlogWidget'>
 			<Property Name='UnifiedSize' Value='{{0.920000,0.000000},{0.900000,0.000000}}'/>
 			<Property Name='UnifiedPosition' Value='{{0.000000,20.000000},{0.000000,25.000000}}'/>
-			<Property Name='Font' Value='Commonwealth-10'/>
 			<Property Name='InheritsAlpha' Value='False'/>
 			<Property Name='ReadOnly' Value='True'/>
-			<Property Name='Text' Value='Welcome to Peragro Tempus. Press F12 to open the inventory.'/>
 			<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
 			<Property Name='Disabled' Value='False'/>
+			
+			<Window Type='Peragro/MultiLineEditbox' Name='Chatlog/Chatlog'>
+				<Property Name='UnifiedSize' Value='{{1.00000,0.000000},{1.00000,0.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,0.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-10'/>
+				<Property Name='InheritsAlpha' Value='False'/>
+				<Property Name='ReadOnly' Value='True'/>
+				<Property Name='Text' Value='Welcome to Peragro Tempus. Press F12 to open the inventory.'/>
+				<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
+				<Property Name='Disabled' Value='False'/>
+				<Property Name='ImageColours' Value='tl:00000000 tr:00000000 bl:00000000 br:00000000'/>
+			</Window>
 		</Window>
+		
 		<Window Type='Peragro/Slider' Name='Chatlog/Slider'>
 			<Property Name='UnifiedSize' Value='{{0.000000,15.000000},{0.000000,128.000000}}'/>
 			<Property Name='UnifiedPosition' Value='{{0.000000,2.000000},{0.000000,25.000000}}'/>
-			<Property Name='Font' Value='Tahoma-12'/>
 			<Property Name='InheritsAlpha' Value='False'/>
 		</Window>
 		<Window Type='Peragro/DragBar' Name='Chatlog/Drag'>

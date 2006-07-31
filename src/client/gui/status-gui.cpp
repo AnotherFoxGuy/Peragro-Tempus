@@ -124,12 +124,14 @@ void StatusWindow::CreateGUIWindow()
   skilltab->addColumn(str_value,1,CEGUI::UDim(0.35f,0));
   skilltab->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
   skilltab->setUserColumnSizingEnabled(false);
+  skilltab->setProperty("Font", "Commonwealth-8");
   skilltab->setText("Skills");
 
   // Create the SpellTab
   CEGUI::Window* spelltab = winMgr->createWindow("Peragro/StaticImage","Status/SpellTab");
   spelltab->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
   spelltab->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
+  spelltab->setProperty("Font", "Commonwealth-8");
   spelltab->setText("Spells");
   for (int j=0; j<6; j++)
   {
@@ -143,6 +145,7 @@ void StatusWindow::CreateGUIWindow()
   CEGUI::Window* questtab = winMgr->createWindow("Peragro/StaticImage","Status/QuestTab");
   questtab->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
   questtab->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
+  questtab->setProperty("Font", "Commonwealth-8");
   questtab->setText("Quests");
 
   // Get the tabcontrol.

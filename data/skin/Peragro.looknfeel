@@ -867,6 +867,7 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/ProgressBar">
+		<PropertyDefinition name="ProgressColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
         <NamedArea name="ProgressArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="Peragro" image="ProgressBarLeft" dimension="Width" /></Dim>
@@ -905,6 +906,7 @@
                 <Image imageset="Peragro" image="ProgressBarLitSegment" />
                 <VertFormat type="Stretched" />
                 <HorzFormat type="Tiled" />
+				<ColourRectProperty name="ProgressColours" />
             </ImageryComponent>
         </ImagerySection>
         <StateImagery name="Enabled">
@@ -2694,7 +2696,7 @@
                 <Dim type="Height" >
                     <FontDim type="LineSpacing">
                         <DimOperator op="Multiply">
-                            <AbsoluteDim value="1.5" />
+                            <AbsoluteDim value="1.0" />
                         </DimOperator>
                     </FontDim>
                 </Dim>
@@ -2761,6 +2763,7 @@
         <PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
         <PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
         <PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
+		<PropertyDefinition name="ImageColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
         <Property name="MouseCursorImage" value="set:Peragro image:MouseTextBar" />
         <Property name="SelectionBrushImage" value="set:Peragro image:MultiLineEditboxSelectionBrush" />
         <NamedArea name="TextArea">
@@ -2878,6 +2881,7 @@
                 <Image type="TopEdge" imageset="Peragro" image="MultiLineEditboxTop" />
                 <Image type="BottomEdge" imageset="Peragro" image="MultiLineEditboxBottom" />
                 <Image type="Background" imageset="Peragro" image="MultiLineEditboxBackdrop" />
+				<ColourRectProperty name="ImageColours" />
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="Carat">

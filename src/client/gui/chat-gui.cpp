@@ -220,7 +220,7 @@ bool ChatWindow::Onslider(const CEGUI::EventArgs& e)
     winMgr->getWindow("Chatlog/PartyButton")->setAlpha(val);
     winMgr->getWindow("Chatlog/GuildButton")->setAlpha(val);
     winMgr->getWindow("Chatlog/CombatButton")->setAlpha(val);
-    winMgr->getWindow("Chatlog/Chatlog")->setAlpha(val);
+    winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(val);
 
     // indicate the event was handled here.
     return true;
