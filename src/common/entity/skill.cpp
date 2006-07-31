@@ -129,7 +129,7 @@ void Skill::castExecute(CharSkill* skilldata)
 
   Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
   CharacterStats* stats = ((CharacterEntity*)target)->getStats();
-  if (type = SkillType::TYPE_HURT)
+  if (type = TYPE_HURT)
   {
     if ( stats->takeStat(hp, power) )
     {
@@ -142,7 +142,7 @@ void Skill::castExecute(CharSkill* skilldata)
       printf("Hitting %s with %d damage => Target Died => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
     }
   }
-  else if (type = SkillType::TYPE_HEAL)
+  else if (type = TYPE_HEAL)
   {
     stats->addStat(hp, power);
     printf("Healing %s with %d Health => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
