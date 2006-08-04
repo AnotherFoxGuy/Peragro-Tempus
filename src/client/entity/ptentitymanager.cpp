@@ -528,7 +528,10 @@ void ptEntityManager::createCelEntity(Entity* ent)
     nametag->SetTextColor(0, 211, 111);
   }
   else
+  {
     entity->SetName(*ent->getName());
+    nametag->SetTextColor(255, 140, 140);
+  }
 
   pl->CreatePropertyClass(entity, "pcmesh");
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
