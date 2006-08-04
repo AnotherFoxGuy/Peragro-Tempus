@@ -39,6 +39,8 @@
 #include "common/util/wincrashdump.h"
 
 #include <signal.h>
+#include <iostream>
+#include <fstream>
 
 int running = 2;
 
@@ -152,6 +154,70 @@ int main(int argc, char ** argv)
   CharacterEntity* test_dragon = (CharacterEntity*)ent_mgr.findByName(ptString("Baby Dragonfly", 14));
 
   if (!test_dragon) printf("test_dragon not found! \n");
+
+  // Loading Doors!
+  std::ifstream file ("data/server/peragro_data", std::ios::in|std::ios::ate);
+  if (file.is_open())
+  {
+    size_t size = file.tellg();
+    char* data = new char [size+1];
+    file.seekg (0, std::ios::beg);
+    file.read (data, size);
+    data[size] = '\0';
+    file.close();
+
+    for (int i=0; i<size; i++)
+    {
+      char* name = data+i;
+
+      while (data[++i] != ',');
+      data[i] = '\0'; i++;
+
+      char* mesh = data+i;
+
+      while (data[++i] != ',');
+      data[i] = '\0'; i++;
+
+      char* str_a = data+i;
+
+      while (data[++i] != ',');
+      data[i] = '\0'; i++;
+
+      char* str_b = data+i;
+
+      while (data[++i] != ',');
+      data[i] = '\0'; i++;
+
+      char* str_x = data+i;
+
+      while (data[++i] != ',');
+      data[i] = '\0'; i++;
+
+      char* str_y = data+i;
+
+      while (data[++i] != ',');
+      data[i] = '\0'; i++;
+
+      char* str_z = data+i;
+
+      while (data[++i] != ',');
+      data[i] = '\0'; i++;
+
+      char* sector = data+i;
+
+      while (data[++i] > 32);
+      data[i] = '\0'; i++;
+
+      DoorEntity* ent = new DoorEntity();
+      ent->setName(ptString(name, strlen(name)));
+      ent->setSector(ptString(sector, strlen(sector)));
+      ent->setMesh(ptString(mesh, strlen(mesh)));
+      ent->setPos((float)atof(str_x),(float)atof(str_y),(float)atof(str_z));
+      ent_mgr.addEntity(ent);
+    }
+
+    delete[] data;
+  }
 
   while (running > 0)
   {
