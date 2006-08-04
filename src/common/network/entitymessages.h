@@ -1347,7 +1347,7 @@ public:
 
 class OpenDoorRequestMessage : public NetMessage
 {
-  int target;
+  int doorID;
 
 public:
   OpenDoorRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::OPEN_DOOR_REQUEST) 
@@ -1363,7 +1363,7 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
-    serial.setInt32(target);
+    serial.setInt32(doorID);
   }
 
   void deserialise(ByteStream* bs)
@@ -1371,22 +1371,22 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    target = serial.getInt32();
+    doorID = serial.getInt32();
+  }
+  void setDoorId(int doorid)
+  {
+    this->doorID = doorid;
+  }
+  int getDoorId()
+  {
+    return doorID;
   }
 
-  void setTargetId(int target)
-  {
-    this->target = target;
-  }
-  int getTargetId()
-  {
-    return target;
-  }
 };
 class OpenDoorResponseMessage : public NetMessage
 {
-  int target;
-
+  int doorID;
+  ptString error;
 public:
   OpenDoorResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::OPEN_DOOR_RESPONSE) 
   {
@@ -1401,7 +1401,7 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
-    serial.setInt32(target);
+    serial.setInt32(doorID);
   }
 
   void deserialise(ByteStream* bs)
@@ -1409,22 +1409,31 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    target = serial.getInt32();
+    doorID = serial.getInt32();
   }
 
-  void setTargetId(int target)
+  void setDoorId(int doorid)
   {
-    this->target = target;
+    this->doorID = doorid;
   }
-  int getTargetId()
+  int getDoorId()
   {
-    return target;
+    return doorID;
   }
+  void setError(ptString error)
+  {
+    this->error = error;
+  }
+  ptString& getError()
+  {
+    return error;
+  }
+
 };
 
 class CloseDoorRequestMessage : public NetMessage
 {
-  int target;
+  int doorID;
 
 public:
   CloseDoorRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::CLOSE_DOOR_REQUEST) 
@@ -1440,7 +1449,7 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
-    serial.setInt32(target);
+    serial.setInt32(doorID);
   }
 
   void deserialise(ByteStream* bs)
@@ -1448,21 +1457,21 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    target = serial.getInt32();
+    doorID = serial.getInt32();
   }
-
-  void setTargetId(int target)
+  void setDoorId(int doorid)
   {
-    this->target = target;
+    this->doorID = doorid;
   }
-  int getTargetId()
+  int getDoorId()
   {
-    return target;
+    return doorID;
   }
 };
 class CloseDoorResponseMessage : public NetMessage
 {
-  int target;
+  int doorID;
+  ptString error;
 
 public:
   CloseDoorResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::CLOSE_DOOR_RESPONSE) 
@@ -1478,7 +1487,7 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
-    serial.setInt32(target);
+    serial.setInt32(doorID);
   }
 
   void deserialise(ByteStream* bs)
@@ -1486,17 +1495,25 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    target = serial.getInt32();
+    doorID = serial.getInt32();
+  }
+  void setDoorId(int doorid)
+  {
+    this->doorID = doorid;
+  }
+  int getDoorId()
+  {
+    return doorID;
+  }
+  void setError(ptString error)
+  {
+    this->error = error;
+  }
+  ptString& getError()
+  {
+    return error;
   }
 
-  void setTargetId(int target)
-  {
-    this->target = target;
-  }
-  int getTargetId()
-  {
-    return target;
-  }
 };
 
 #endif // _ENTITIYMESSAGES_H_

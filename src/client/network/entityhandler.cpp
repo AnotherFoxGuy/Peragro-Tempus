@@ -19,6 +19,8 @@
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
+#include "propclass/prop.h"
+#include "physicallayer/propclas.h"
 
 void EntityHandler::handleAddEntity(GenericMessage* msg)
 {
@@ -175,14 +177,43 @@ void EntityHandler::handleCharacterSkillList(GenericMessage* msg)
 
 void EntityHandler::handleOpenDoor(GenericMessage* msg)
 {
-  OpenDoorResponseMessage skill_msg;
-  skill_msg.deserialise(msg->getByteStream());
-  printf("Got open door %d: \n---------------------------\n", skill_msg.getTargetId());
-  //client->GetEntityManager()->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
+  OpenDoorResponseMessage door_msg;
+  door_msg.deserialise(msg->getByteStream());
+  printf("Got open door %d: \n---------------------------\n", door_msg.getDoorId());
+  if (!door_msg.getError().isNull())
+  {
+    printf("can't open %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
+    return;
+  }
+  iCelEntity *door = client->GetEntityManager()->findCelEntById(door_msg.getDoorId());
+  if (door)
+  {
+    csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(door, iPcProperties);
+    pcprop->SetProperty("Door Open", true);
+  }
+  else
+  {
+    printf("no entity for id %d!!\n",door_msg.getDoorId());
+  }
 }
 void EntityHandler::handleCloseDoor(GenericMessage* msg)
 {
-  CloseDoorResponseMessage skill_msg;
-  skill_msg.deserialise(msg->getByteStream());
-  printf("Got close door %d: \n---------------------------\n", skill_msg.getTargetId());
+  CloseDoorResponseMessage door_msg;
+  door_msg.deserialise(msg->getByteStream());
+  printf("Got close door %d: \n---------------------------\n", door_msg.getDoorId());
+  if (!door_msg.getError().isNull())
+  {
+    printf("can't close %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
+    return;
+  }
+  iCelEntity *door = client->GetEntityManager()->findCelEntById(door_msg.getDoorId());
+  if (door)
+  {
+    csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(door, iPcProperties);
+    pcprop->SetProperty("Door Open", false);
+  }
+  else
+  {
+    printf("no entity for id %d!!\n",door_msg.getDoorId());
+  }
 }

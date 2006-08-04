@@ -428,7 +428,6 @@ UpdateDREntityRequestMessage ptEntityManager::DrUpdateOwnEntity()
     if (ownent)
     {
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
-
       bool on_ground;
       float speed, rot, avel;
       csVector3 pos, vel, wvel;
@@ -533,8 +532,7 @@ void ptEntityManager::createCelEntity(Entity* ent)
 
   pl->CreatePropertyClass(entity, "pcmesh");
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-  pl->CreatePropertyClass(entity, "pclinearmovement");
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove;
   pl->CreatePropertyClass(entity, "pcsolid");
   csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(entity, iPcSolid);
 
@@ -545,6 +543,7 @@ void ptEntityManager::createCelEntity(Entity* ent)
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
 
+ 
   iSector* sector = engine->FindSector(*ent->getSector());
 
   printf("Loading Actor\n");
@@ -559,6 +558,8 @@ void ptEntityManager::createCelEntity(Entity* ent)
     vfs->ChDir("/cellib/objects/");
     pcmesh->SetMesh(*ent->getMesh(), "/peragro/meshes/all.xml");
   }
+  pl->CreatePropertyClass(entity, "pclinearmovement");
+  pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
 
   csRef<iCelEntity> region = pl->FindEntity("World");
   if (region)
@@ -586,19 +587,32 @@ void ptEntityManager::createCelEntity(Entity* ent)
     printf("ptEntityManager: Adding Entity '%s'\n", entity->GetName());
   }
 
+  if (ent->getType() != Entity::DoorEntity)
+  {
   pclinmove->InitCD(
     csVector3(0.5f,0.8f,0.5f),
     csVector3(0.5f,0.8f,0.5f),
     csVector3(0,0,0));
-
-  csVector3 pos(ent->getPos()[0], ent->getPos()[1], ent->getPos()[2]);
-  pclinmove->SetPosition(pos,0,sector);
+    csVector3 pos(ent->getPos()[0], ent->getPos()[1], ent->getPos()[2]);
+    pclinmove->SetPosition(pos,0,sector);
+  }
 
   pl->CreatePropertyClass(entity, "pcproperties");
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
   pcprop->SetProperty("Entity Type", (long)ent->getType());
   pcprop->SetProperty("Entity ID", (long)ent->getId());
   pcprop->SetProperty("Entity Name", *ent->getName());
+  if (ent->getType() == Entity::DoorEntity)
+  {
+    DoorEntity *door = (DoorEntity*)ent;
+    pcprop->SetProperty("Door Open", door->getOpen());
+    pcprop->SetProperty("Door Locked", door->getLocked());
+    pl->CreatePropertyClass(entity, "pcquest");
+    csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(entity, iPcQuest);
+    celQuestParams parameters;
+    pcquest->NewQuest("PropDoor",parameters);
+    pcquest->GetQuest()->SwitchState("closed");
+  }
 
   // Add to the entities list
   ptCelEntity ptent (ent->getId(), ent->getType(), *ent->getName(), entity);

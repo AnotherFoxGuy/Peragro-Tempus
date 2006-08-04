@@ -6,6 +6,9 @@ under each day.
 
 4-Aug-2006
   - PK added some code to parse the new data/server/peragro_data file.
+  - caedes added some code so now doors can be opened/closed, the initial
+    state wont be got ok at the client yet, but the client will be synced
+    once you try to open/close the doors.
 
 31-July-2006
   - Sueastside fixed most things wrong with the GUI:

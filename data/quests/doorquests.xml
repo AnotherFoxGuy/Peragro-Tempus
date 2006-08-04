@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<library>
+    <addon plugin='cel.addons.questdef'>
+      <quest name='PropDoor'>
+        <default name='x_on' string='0'/>
+        <default name='x_off' string='0'/>
+        <default name='y_on' string='2'/>
+        <default name='y_off' string='-2'/>
+        <default name='z_on' string='0'/>
+        <default name='z_off' string='0'/>
+        <default name='duration' string='500'/>
+        <default name='property' string='Door Open'/>
+        <state name='closed'>
+          <trigger type='propertychange'>
+            <fireon property='Door Open' value='1' entity='$this'/>
+            <reward message='Door Opens!' type='debugprint'/>
+            <reward sequence='closedoor' type='sequencefinish' entity='$this'/>
+            <reward sequence='opendoor' type='sequence' entity='$this'/>
+            <reward state='opened' type='newstate'/>
+          </trigger>
+        </state>
+        <state name='opened'>
+          <trigger type='propertychange'>
+            <fireon property='Door Open' value='0' entity='$this'/>
+            <reward message='Door Closes!' type='debugprint'/>
+            <reward sequence='opendoor' type='sequencefinish' entity='$this'/>
+            <reward sequence='closedoor' type='sequence' entity='$this'/>
+            <reward state='closed' type='newstate'/>
+          </trigger>
+        </state>
+        <sequence name='opendoor'>
+          <op duration='$duration' type='transform' entity='$this'>
+            <v y='$y_on' x='$x_on' z='$z_on'/>
+          </op>
+        </sequence>
+        <sequence name='closedoor'>
+          <op duration='$duration' type='transform' entity='$this'>
+            <v y='$y_off' x='$x_off' z='$z_off'/>
+          </op>
+        </sequence>
+      </quest>
+    </addon>
+</library>

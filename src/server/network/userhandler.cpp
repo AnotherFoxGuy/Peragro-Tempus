@@ -171,5 +171,17 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   for (size_t i=0; i<server->getEntityManager()->getEntityCount(); i++)
   {
     user->sendAddEntity(server->getEntityManager()->getEntity(i));
+    if (server->getEntityManager()->getEntity(i)->getType() == Entity::DoorEntity)
+    {
+	    DoorEntity *door = (DoorEntity*)server->getEntityManager()->getEntity(i);
+	    if (door->getOpen())
+	    {
+		    OpenDoorResponseMessage door_msg;
+		    door_msg.setDoorId(door->getId());
+  		    ByteStream bs;
+  		    door_msg.serialise(&bs);
+		    msg->getConnection()->send(bs);
+	    }
+    }
   }
 }

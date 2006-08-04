@@ -34,15 +34,36 @@ class DoorEntity : public Entity
 {
 private:
   int Door;
+  bool Open;
+  bool Locked;
 
 public:
   DoorEntity() : Entity(Entity::DoorEntity)
   {
+	  Open=false;
+	  Locked=false;
   }
 
   ~DoorEntity()
   {
   }
+  void setOpen(bool open)
+  {
+	  Open=open;
+  }
+  bool getOpen()
+  {
+	  return Open;
+  }
+  void setLocked(bool locked)
+  {
+	  Locked=locked;
+  }
+  bool getLocked()
+  {
+	  return Locked;
+  }
+
 };
 
 #endif // _DoorENTITY_H_

@@ -285,6 +285,9 @@ bool Client::Application()
   sndstream->Unpause ();
 
   // end intro sound
+  csRef<iLoader >loader = CS_QUERY_REGISTRY(GetObjectRegistry(), iLoader);
+  if (!loader) return ReportError("Failed to locate Loader!");
+  loader->LoadLibraryFile("/peragro/quests/doorquests.xml");
 
   Run();
 
@@ -585,13 +588,23 @@ bool Client::OnMouseDown(iEvent& ev)
           printf("OnMouseClick: Requisting picking up entity: %d \n", msg.getTargetId());
           network->send(&msg);
         }
-        // If it's a door, request a pickup.
+        // If it's a door, request to open.
         else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::DoorEntity)
         {
-          OpenDoorRequestMessage msg;
-          msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-          printf("OnMouseClick: Requisting opening door: %d \n", msg.getTargetId());
+	  if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Open")))
+	  {
+          CloseDoorRequestMessage msg;
+          msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          printf("OnMouseClick: Requesting closing door: %d \n", msg.getDoorId());
           network->send(&msg);
+	  }
+	  else
+	  {
+          OpenDoorRequestMessage msg;
+          msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          printf("OnMouseClick: Requesting opening door: %d \n", msg.getDoorId());
+          network->send(&msg);
+	  }
         }
         // If it's a player, attack it.
         else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
@@ -647,6 +660,9 @@ bool Client::InitializeCEL()
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
     return ReportError("Failed to load CEL Linmove Factory");
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+    return ReportError("Failed to load CEL Quest Factory");
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
     return ReportError("Failed to load CEL Colldet Factory");

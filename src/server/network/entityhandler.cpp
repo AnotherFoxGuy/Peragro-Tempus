@@ -249,14 +249,75 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
 
 void EntityHandler::handleOpenDoor(GenericMessage* msg)
 {
-  OpenDoorRequestMessage skill_msg;
-  skill_msg.deserialise(msg->getByteStream());
-  printf("Got open door request %d: \n---------------------------\n", skill_msg.getTargetId());
+  const Connection* conn = msg->getConnection();
+  if (!conn) return;
+  const char* error = 0;
+  OpenDoorRequestMessage door_msg;
+  door_msg.deserialise(msg->getByteStream());
+  printf("Got open door request %d: \n---------------------------\n", door_msg.getDoorId());
+  DoorEntity* door = (DoorEntity*)server->getEntityManager()->findById(door_msg.getDoorId());
+  if (door->getLocked())
+  {
+    error = "The Door is Locked";
+  }
+  ptString pt_err = error?ptString(error, strlen(error)):ptString();
+  OpenDoorResponseMessage response_msg;
+  response_msg.setDoorId(door_msg.getDoorId());
+  response_msg.setError(pt_err);
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  if (!error)
+  {
+    // Tell all about success or just the client if was closed
+    if (door->getOpen())
+      conn->send(bs);
+    else
+    {
+      door->setOpen(true);
+      Server::getServer()->broadCast(bs);
+    }
+  }
+  else
+  {
+    // Tell only one about error
+    conn->send(bs);
+  }
 }
 
 void EntityHandler::handleCloseDoor(GenericMessage* msg)
 {
-  CloseDoorRequestMessage skill_msg;
-  skill_msg.deserialise(msg->getByteStream());
-  printf("Got close door request %d: \n---------------------------\n", skill_msg.getTargetId());
+  const Connection* conn = msg->getConnection();
+  if (!conn) return;
+  const char* error = 0;
+  CloseDoorRequestMessage door_msg;
+  door_msg.deserialise(msg->getByteStream());
+  printf("Got close door request %d: \n---------------------------\n", door_msg.getDoorId());
+  DoorEntity* door = (DoorEntity*)server->getEntityManager()->findById(door_msg.getDoorId());
+  if (door->getLocked())
+  {
+    error = "The Door is Locked";
+  }
+  ptString pt_err = error?ptString(error, strlen(error)):ptString();
+  CloseDoorResponseMessage response_msg;
+  response_msg.setDoorId(door_msg.getDoorId());
+  response_msg.setError(pt_err);
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  if (!error)
+  {
+    // Tell all about success or just the client if was closed
+    if (!door->getOpen())
+      conn->send(bs);
+    else
+    {
+      door->setOpen(false);
+      Server::getServer()->broadCast(bs);
+    }
+  }
+  else
+  {
+    // Tell only one about error
+    conn->send(bs);
+  }
 }
