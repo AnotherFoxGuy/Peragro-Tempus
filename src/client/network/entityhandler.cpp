@@ -44,7 +44,20 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   entity->setId(entmsg.getId());
   client->GetEntityManager()->addEntity(entity);
 }
-
+void EntityHandler::handleAddDoor(GenericMessage* msg)
+{
+  printf("Received AddDoor\n");
+  AddDoorMessage entmsg;
+  entmsg.deserialise(msg->getByteStream());
+  DoorEntity* entity = 0;
+  entity = new DoorEntity();
+  entity->setName(entmsg.getName());
+  entity->setMesh(entmsg.getMesh());
+  entity->setOpen(entmsg.getOpen());
+  entity->setLocked(entmsg.getLocked());
+  entity->setId(entmsg.getId());
+  client->GetEntityManager()->addEntity(entity);
+}
 void EntityHandler::handleRemoveEntity(GenericMessage* msg)
 {
   printf("Received RemoveEntity\n");
@@ -185,16 +198,9 @@ void EntityHandler::handleOpenDoor(GenericMessage* msg)
     printf("can't open %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
     return;
   }
-  iCelEntity *door = client->GetEntityManager()->findCelEntById(door_msg.getDoorId());
-  if (door)
-  {
-    csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(door, iPcProperties);
-    pcprop->SetProperty("Door Open", true);
-  }
-  else
-  {
-    printf("no entity for id %d!!\n",door_msg.getDoorId());
-  }
+  celData data;
+  data.Set(true);
+  client->GetEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
 }
 void EntityHandler::handleCloseDoor(GenericMessage* msg)
 {
@@ -206,14 +212,7 @@ void EntityHandler::handleCloseDoor(GenericMessage* msg)
     printf("can't close %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
     return;
   }
-  iCelEntity *door = client->GetEntityManager()->findCelEntById(door_msg.getDoorId());
-  if (door)
-  {
-    csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(door, iPcProperties);
-    pcprop->SetProperty("Door Open", false);
-  }
-  else
-  {
-    printf("no entity for id %d!!\n",door_msg.getDoorId());
-  }
+  celData data;
+  data.Set(false);
+  client->GetEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
 }

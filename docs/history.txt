@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+5-Aug-2006
+  - caedes did some refining on doors code:
+    - added an AddDoorEntity message to handle doors initialization.
+    - added a pcprop queue to the ptentitymanager.
+
 4-Aug-2006
   - PK added some code to parse the new data/server/peragro_data file.
   - caedes added some code so now doors can be opened/closed, the initial

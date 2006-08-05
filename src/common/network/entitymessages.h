@@ -46,7 +46,8 @@ namespace ENTITY
     OPEN_DOOR_REQUEST=18,
     OPEN_DOOR_RESPONSE=19,
     CLOSE_DOOR_REQUEST=20,
-    CLOSE_DOOR_RESPONSE=21
+    CLOSE_DOOR_RESPONSE=21,
+    INIT_DOOR=22
   };
 }
 
@@ -1512,6 +1513,89 @@ public:
   ptString& getError()
   {
     return error;
+  }
+
+};
+class AddDoorMessage : public NetMessage
+{
+  ptString name;
+  ptString mesh;
+  int ent_id;
+  bool open;
+  bool locked;
+public:
+  AddDoorMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::INIT_DOOR) 
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    assert(*name); assert(*mesh);
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(ent_id);
+    serial.setString(name);
+    serial.setString(mesh);
+    serial.setInt8(open);
+    serial.setInt8(locked);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    ent_id = serial.getInt32();
+    name = serial.getString();
+    mesh = serial.getString();
+    open = serial.getInt8();
+    locked = serial.getInt8();
+  }
+
+  ptString& getName()
+  {
+    return name;
+  }
+  void setName(ptString n)
+  {
+    name = n;
+  }
+
+  int getId()
+  {
+    return ent_id;
+  }
+  void setId(int i)
+  {
+    ent_id = i;
+  }
+
+  ptString& getMesh()
+  {
+    return mesh;
+  }
+  void setMesh(ptString m)
+  {
+    mesh = m;
+  }
+
+  bool& getOpen()
+  {
+    return open;
+  }
+  void setOpen(bool o)
+  {
+    open = o;
+  }
+
+  bool& getLocked()
+  {
+    return locked;
+  }
+  void setLocked(bool l)
+  {
+    locked = l;
   }
 
 };

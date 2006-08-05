@@ -138,6 +138,7 @@ void ptEntityManager::Handle ()
   moveEntity();
   moveToEntity();
   DrUpdateEntity();
+  updatePcProp();
 }
 
 ptCelEntity* ptEntityManager::findPtEntById(int id)
@@ -213,6 +214,55 @@ void ptEntityManager::delEntity()
 
   delete ent;
 
+  mutex.unlock();
+}
+void ptEntityManager::updatePcProp()
+{
+  if (!update_pcprop_entity_name.GetSize()) return;
+  printf("UPDATE PCPROP!!!!\n");
+  mutex.lock();
+
+  UpdatePcProp* update_pcprop;
+  for (size_t i = 0; i < update_pcprop_entity_name.GetSize(); i++)
+  {
+   update_pcprop = update_pcprop_entity_name.Pop();
+   int id = update_pcprop->entity_id;
+   iCelEntity *ent = client->GetEntityManager()->findCelEntById(id);
+   if (ent)
+   {
+     csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+     switch(update_pcprop->value.type)
+     {
+	case CEL_DATA_BOOL:
+     		pcprop->SetProperty(update_pcprop->pcprop, update_pcprop->value.value.bo);
+		break;
+	case CEL_DATA_LONG:
+     		pcprop->SetProperty(update_pcprop->pcprop, (long)update_pcprop->value.value.l);
+		break;
+	case CEL_DATA_STRING:
+     		pcprop->SetProperty(update_pcprop->pcprop, update_pcprop->value.value.s);
+		break;
+	default:
+		printf("celData type not supported by updatePcProp!!\n");
+     }
+   }
+   else
+   {
+	printf("NO ENTITY FOR updatePcProp!!\n");
+   }
+   delete update_pcprop;
+  }
+  mutex.unlock();
+}
+void ptEntityManager::updatePcProp(int entity_id, const char *pcprop, celData &value)
+{
+  mutex.lock();
+  UpdatePcProp* updatePcprop = new UpdatePcProp();
+  updatePcprop->entity_id = entity_id;
+  updatePcprop->pcprop = pcprop;
+  updatePcprop->value = value;
+  
+  update_pcprop_entity_name.Push(updatePcprop);
   mutex.unlock();
 }
 void ptEntityManager::moveEntity(int entity_id, float walk_speed, float* fv1, float* fv2)
@@ -547,7 +597,6 @@ void ptEntityManager::createCelEntity(Entity* ent)
   pcactormove->SetJumpingVelocity (6.31f);
 
  
-  iSector* sector = engine->FindSector(*ent->getSector());
 
   printf("Loading Actor\n");
   if (ent->getType() == Entity::DoorEntity)
@@ -592,6 +641,7 @@ void ptEntityManager::createCelEntity(Entity* ent)
 
   if (ent->getType() != Entity::DoorEntity)
   {
+  iSector* sector = engine->FindSector(*ent->getSector());
   pclinmove->InitCD(
     csVector3(0.5f,0.8f,0.5f),
     csVector3(0.5f,0.8f,0.5f),

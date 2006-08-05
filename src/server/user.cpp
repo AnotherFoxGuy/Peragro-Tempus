@@ -32,15 +32,29 @@ void User::sendAddEntity(Entity* entity)
   printf("send addentity '%s' to '%s'\n", *entity->getName(), *this->getName());
 
   ent_list.addEntity(entity);
-  AddEntityMessage msg;
-  msg.setName(entity->getName());
-  msg.setId(entity->getId());
-  msg.setType((char)entity->getType());
-  msg.setMesh(entity->getMesh());
-  msg.setPos(entity->getPos());
-  msg.setSector(entity->getSector());
   ByteStream bs;
-  msg.serialise(&bs);
+  if (entity->getType() == Entity::DoorEntity)
+  {
+    AddDoorMessage msg;
+    msg.setName(entity->getName());
+    msg.setId(entity->getId());
+    msg.setMesh(entity->getMesh());
+    msg.setOpen(((DoorEntity*)entity)->getOpen());
+    msg.setLocked(((DoorEntity*)entity)->getLocked());
+    msg.serialise(&bs);
+  }
+  else
+  {
+    AddEntityMessage msg;
+    msg.setName(entity->getName());
+    msg.setId(entity->getId());
+    msg.setType((char)entity->getType());
+    msg.setMesh(entity->getMesh());
+    msg.setPos(entity->getPos());
+    msg.setSector(entity->getSector());
+    msg.serialise(&bs);
+  }
+
   connection->send(bs);
 }
 

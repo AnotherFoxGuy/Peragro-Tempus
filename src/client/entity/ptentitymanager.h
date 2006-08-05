@@ -27,6 +27,7 @@
 #include "csgeom/path.h"
 
 #include "physicallayer/pl.h"
+#include "physicallayer/datatype.h"
 
 #include "client/entity/ptcelentity.h"
 
@@ -73,6 +74,13 @@ private:
     float walk_duration;
   };
 
+  struct UpdatePcProp
+  {
+    int entity_id;
+    csString pcprop;
+    celData value;
+  };
+
 public:
   struct DrUpdate
   {
@@ -89,6 +97,7 @@ private:
   csPDelArray<Movement> move_entity_name;
   csPDelArray<MoveTo> move_to_entity_name;
   csPDelArray<DrUpdate> drupdate_entity_name;
+  csPDelArray<UpdatePcProp> update_pcprop_entity_name;
 
   Mutex mutex;
 
@@ -107,6 +116,7 @@ private:
   void moveEntity();
   void moveToEntity();
   void DrUpdateEntity();
+  void updatePcProp();
 
 public:
 
@@ -123,6 +133,7 @@ public:
   void DrUpdateEntity(ptEntityManager::DrUpdate* drupdate);
   UpdateDREntityRequestMessage DrUpdateOwnEntity();
   void Attach(uint entityid, const char* socketName, const char* meshFactName );
+  void updatePcProp(int entity_id, const char *pcprop,celData &value);
 
   iCelEntity* findCelEntById(int id);
   ptCelEntity* findPtEntById(int id);
