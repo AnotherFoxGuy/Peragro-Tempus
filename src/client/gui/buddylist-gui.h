@@ -16,17 +16,27 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef BUDDY_GUI_H
+#define BUDDY_GUI_H
 
-#include "connection-gui.h"
-#include "login-gui.h"
-#include "charsel-gui.h"
-#include "chat-gui.h"
-#include "inventory-gui.h"
-#include "hud-gui.h"
-#include "options-gui.h"
-#include "status-gui.h"
-#include "buddylist-gui.h"
+#include "base-gui.h"
 
-#endif // GUI_H
+/*================//
+// GUIInvWindow  //
+//================*/
+class BuddyWindow : public GUIWindow
+{
+private:
+  bool handleCloseButton(const CEGUI::EventArgs& args); 
+  bool OnRootKeyDown(const CEGUI::EventArgs& e);
+
+public:
+  BuddyWindow(GUIManager* guimanager);
+  virtual ~BuddyWindow();
+  void CreateGUIWindow();    // load the chat guilayout and register button events.
+  void AddPlayer(const char* name);
+  void RemovePlayer(const char* name);
+};
+
+
+#endif // BUDDY_GUI_H

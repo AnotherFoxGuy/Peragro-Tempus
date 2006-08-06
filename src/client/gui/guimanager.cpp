@@ -138,3 +138,10 @@ StatusWindow* GUIManager::CreateStatusWindow ()
   statuswindow->CreateGUIWindow();
   return statuswindow;
 }
+
+BuddyWindow* GUIManager::CreateBuddyWindow ()
+{
+  buddywindow = new BuddyWindow (this);
+  buddywindow->CreateGUIWindow();
+  return buddywindow;
+}

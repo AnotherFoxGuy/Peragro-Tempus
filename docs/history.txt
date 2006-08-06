@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+6-Aug-2006
+  - Sueastside added a buddywindow.
+
 5-Aug-2006
   - caedes did some refining on doors code:
     - added an AddDoorEntity message to handle doors initialization.

@@ -350,6 +350,7 @@ void Client::handleStates()
       //guimanager->CreateStatusWindow ();
       //guimanager->CreateInventoryWindow ();
       //guimanager->CreateHUDWindow();
+      //guimanager->CreateBuddyWindow();
 
       if (cmdline)
       {
@@ -471,7 +472,25 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'j')
       {
-        combatmanager->levelup (entitymanager->GetOwnId());
+        // Activate the skill
+        csRef<iCelEntity> ent = cursor->getSelectedEntity();
+        csRef<iPcProperties> pcprop;
+        if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+        if (!pcprop) return false;
+        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
+        {
+          combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        }
+        // Animate the player.
+        iCelEntity* entity = entitymanager->getOwnEntity();
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+        if (!parent) return false;
+        csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (parent->GetMeshObject(), iSpriteCal3DState);
+        if (!cal3dstate) return false;
+        cal3dstate->SetAnimAction("cast_summon", 0.0f, 0.0f);
       }
       else if (code == 'k')
       {
@@ -483,7 +502,6 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!parent) return false;
         csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (parent->GetMeshObject(), iSpriteCal3DState);
         if (!cal3dstate) return false;
-        //if (cal3dstate->ClearAnimCycle(cal3dstate->FindAnim("idlecycle1"), 100.0f)) printf("succes\n");
         cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
       }
       else
@@ -711,6 +729,7 @@ void Client::loggedIn()
   guimanager->GetSelectCharWindow ()->ShowWindow ();
   guimanager->CreateInventoryWindow ();
   guimanager->CreateStatusWindow ();
+  guimanager->CreateBuddyWindow();
 
   state = STATE_LOGGED_IN;
 

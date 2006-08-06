@@ -24,7 +24,7 @@
 
 void EntityHandler::handleAddEntity(GenericMessage* msg)
 {
-  printf("Received AddEntity\n");
+  printf("EntityHandler: Received AddEntity\n");
   AddEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
   Entity* entity = 0;
@@ -34,7 +34,7 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
     case Entity::PlayerEntity: entity = new PcEntity(); break;
     case Entity::NPCEntity: entity = new NpcEntity(); break;
     case Entity::DoorEntity: entity = new DoorEntity(); break;
-    default : {printf("**************Unknown entity type for %s!*************", *entmsg.getName()); return;}
+    default : {printf("EntityHandler: ERROR Unknown entity type for %s!\n", *entmsg.getName()); return;}
   };
   entity->setName(entmsg.getName());
   entity->setMesh(entmsg.getMesh());
@@ -43,10 +43,12 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   //entity->setType(entmsg.getType());
   entity->setId(entmsg.getId());
   client->GetEntityManager()->addEntity(entity);
+  if (entmsg.getType() == Entity::PlayerEntity)
+    client->GetGuiManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
 }
 void EntityHandler::handleAddDoor(GenericMessage* msg)
 {
-  printf("Received AddDoor\n");
+  printf("EntityHandler: Received AddDoor\n");
   AddDoorMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
   DoorEntity* entity = 0;
@@ -60,7 +62,7 @@ void EntityHandler::handleAddDoor(GenericMessage* msg)
 }
 void EntityHandler::handleRemoveEntity(GenericMessage* msg)
 {
-  printf("Received RemoveEntity\n");
+  printf("EntityHandler: Received RemoveEntity\n");
   RemoveEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
   Entity* entity = 0;
@@ -73,11 +75,13 @@ void EntityHandler::handleRemoveEntity(GenericMessage* msg)
   entity->setName(entmsg.getName());
   entity->setId(entmsg.getId());
   client->GetEntityManager()->delEntity(entity);
+  if (entmsg.getType() == Entity::PlayerEntity)
+    client->GetGuiManager()->GetBuddyWindow()->RemovePlayer(*entmsg.getName());
 }
 
 void EntityHandler::handleMoveEntity(GenericMessage* msg)
 {
-  printf("Received MoveEntity\n");
+  printf("EntityHandler: Received MoveEntity\n");
   MoveEntityMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
   client->GetEntityManager()->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
@@ -192,10 +196,10 @@ void EntityHandler::handleOpenDoor(GenericMessage* msg)
 {
   OpenDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
-  printf("Got open door %d: \n---------------------------\n", door_msg.getDoorId());
+  printf("EntityHandler: Got open door %d.\n", door_msg.getDoorId());
   if (!door_msg.getError().isNull())
   {
-    printf("can't open %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
+    printf("EntityHandler: ERROR Can't open %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
     return;
   }
   celData data;
@@ -206,10 +210,10 @@ void EntityHandler::handleCloseDoor(GenericMessage* msg)
 {
   CloseDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
-  printf("Got close door %d: \n---------------------------\n", door_msg.getDoorId());
+  printf("EntityHandler: Got close door %d.\n", door_msg.getDoorId());
   if (!door_msg.getError().isNull())
   {
-    printf("can't close %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
+    printf("EntityHandler: ERROR Can't close %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
     return;
   }
   celData data;
