@@ -161,6 +161,9 @@
 				RelativePath="..\..\src\client\gui\base-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\buddylist-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\charsel-gui.cpp">
 			</File>
 			<File
@@ -193,6 +196,9 @@
 			Filter="">
 			<File
 				RelativePath="..\..\src\client\gui\base-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\buddylist-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\charsel-gui.h">
