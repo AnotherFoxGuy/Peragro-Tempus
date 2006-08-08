@@ -556,31 +556,21 @@ void ptEntityManager::createCelEntity(Entity* ent)
 {
   csRef<iCelEntity> entity = pl->CreateEntity();
 
-  // Create the tooltip for this entity.
-  pl->CreatePropertyClass(entity, "pctooltip");
-  csRef<iPcTooltip> nametag = CEL_QUERY_PROPCLASS_ENT(entity, iPcTooltip);
-  nametag->SetText(*ent->getName());
-  nametag->SetJustify(CEL_TOOLTIP_CENTER);
-  nametag->SetBackgroundColor(0, 0, 0);
-
   if (ent->getType() == Entity::ItemEntity)
   {
     char buffer[1024];
     sprintf(buffer, "%s:%d:%d", *ent->getName(), ent->getType(), ent->getId());
     entity->SetName(buffer);
-    nametag->SetTextColor(140, 140, 255);
   }
   else if (ent->getType() == Entity::PlayerEntity)
   {
     char buffer[32];
     cs_snprintf(buffer, 32, "player_%d", ent->getId());
     entity->SetName(buffer);
-    nametag->SetTextColor(0, 211, 111);
   }
   else
   {
     entity->SetName(*ent->getName());
-    nametag->SetTextColor(255, 140, 140);
   }
 
   pl->CreatePropertyClass(entity, "pcmesh");
@@ -596,8 +586,6 @@ void ptEntityManager::createCelEntity(Entity* ent)
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
 
- 
-
   printf("Loading Actor\n");
   if (ent->getType() == Entity::DoorEntity)
   {
@@ -610,6 +598,7 @@ void ptEntityManager::createCelEntity(Entity* ent)
     vfs->ChDir("/cellib/objects/");
     pcmesh->SetMesh(*ent->getMesh(), "/peragro/meshes/all.xml");
   }
+
   pl->CreatePropertyClass(entity, "pclinearmovement");
   pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
 
@@ -632,7 +621,6 @@ void ptEntityManager::createCelEntity(Entity* ent)
     owncam = pccamera->GetCamera();
     ownent = entity;
     ownname = *ent->getName();
-
   }
   else
   {

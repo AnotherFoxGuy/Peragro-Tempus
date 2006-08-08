@@ -24,6 +24,8 @@
 #include <csutil/weakref.h>
 #include <cstool/collider.h>
 
+#include "CEGUI.h"
+
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCamera;
@@ -36,11 +38,10 @@ class Cursor
 private:
   Client* client;
   csWeakRef<iCelEntity> selent;
-  csWeakRef<iCelEntity> prevselent;
   int mousex;
   int mousey;
-  csRef<iPcTooltip> nametag;
   csRef<iCollideSystem> cdsys;
+  CEGUI::Window* nametag;
 
 public:
   Cursor(Client* client);

@@ -5,6 +5,10 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 6-Aug-2006
+  - Sueastside converted the nametags to CEGUI, 
+     so we have more control on how they are rendered.
+
+6-Aug-2006
   - Sueastside added a buddywindow.
 
 5-Aug-2006

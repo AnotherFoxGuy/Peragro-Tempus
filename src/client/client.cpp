@@ -114,7 +114,7 @@ Client::Client() : playing(false)
   world_loaded = false;
 
   network = 0;
-  cursor = new Cursor(this);
+  cursor = 0;
 }
 
 Client::~Client()
@@ -235,6 +235,9 @@ bool Client::Application()
   if (nw) nw->SetTitle ("Peragro Tempus");
 
   InitializeCEL();
+
+  // Create the cursor.
+  cursor = new Cursor(this);
 
   // Create and Initialize the EntityManager.
   entitymanager = new ptEntityManager (GetObjectRegistry(), this);
@@ -705,6 +708,8 @@ bool Client::InitializeCEL()
 
   #if 1
   // HACK HACK
+  // Fixes the CEGUI corruption somehow.
+  // Possible cause something drawn in 2D, particles perhaps?
   csRef<iCelEntity> entity = pl->CreateEntity();
   pl->CreatePropertyClass(entity, "pctooltip");
   csRef<iPcTooltip> nametag = CEL_QUERY_PROPCLASS_ENT(entity, iPcTooltip);

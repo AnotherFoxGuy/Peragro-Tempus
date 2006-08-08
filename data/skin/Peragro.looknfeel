@@ -1,5 +1,57 @@
 <?xml version="1.0" ?>
 <Falagard>
+
+	<!--
+    ***************************************************
+        Peragro/Entity
+    ***************************************************
+    -->
+	<WidgetLook name="Peragro/Entity">
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<ImagerySection name="label">
+			<TextComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" offset="0" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" offset="0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="WordWrapCentreAligned" />
+			</TextComponent>
+		</ImagerySection>
+		<StateImagery name="Normal">
+			<Layer>
+				<Section section="label">
+					<ColourProperty name="NormalTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Hover">
+			<Layer>
+				<Section section="label" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Pushed">
+			<Layer>
+				<Section section="label" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="label" />
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+	
     <!--
     ***************************************************
         Peragro/Button

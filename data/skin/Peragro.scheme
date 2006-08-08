@@ -43,4 +43,5 @@
 	<FalagardMapping WindowType="Peragro/StaticText"  TargetType="DefaultWindow" Renderer="Falagard/StaticText"  LookNFeel="Peragro/StaticText" />
 
 	<FalagardMapping WindowType="Peragro/DragBar"     TargetType="CEGUI/Titlebar"    Renderer="Falagard/Titlebar"     LookNFeel="Peragro/Titlebar" />
+	<FalagardMapping WindowType="Peragro/Entity"      TargetType="DefaultWindow"  Renderer="Falagard/Button"       LookNFeel="Peragro/Entity" />
 </GUIScheme>

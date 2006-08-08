@@ -34,11 +34,27 @@
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
 #include "propclass/tooltip.h"
+#include "propclass/prop.h"
+
+
+#include "client/gui/gui.h"
+
+#include "CEGUI.h"
+#include "CEGUIWindowManager.h" 
+#include "CEGUILogger.h"
+#include "client/gui/guimanager.h"
+
+#include "common/entity/entity.h"
 
 Cursor::Cursor(Client* client)
 : client(client)
 {
   selent = 0;
+
+  CEGUI::WindowManager* winMgr = client->GetGuiManager()->GetCEGUI()->GetWindowManagerPtr();
+  CEGUI::Window* root = winMgr->getWindow("Root");
+  nametag = winMgr->createWindow("Peragro/Entity", "NameTag");
+  root->addChildWindow(nametag);
 }
 
 Cursor::~Cursor()
@@ -49,48 +65,40 @@ void Cursor::Draw()
 {
   if (selent.IsValid())
   {
-    prevselent = selent;
+    csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(selent, iPcProperties);
+    if (!pcprop) return;
 
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(selent, iPcMesh);
-
-    nametag = CEL_QUERY_PROPCLASS_ENT(selent, iPcTooltip);
-    if (nametag)
-      nametag->Show(mousex-20, mousey-25);
-
-    /*
-    float fov = client->getG3D()->GetPerspectiveAspect ();
-    int color = client->getG3D()->GetDriver2D ()->FindRGB (0, 255, 255);
-    csTransform tr_w2c = client->getCamera()->GetTransform ();
-    csReversibleTransform tr_o2c = 
-      tr_w2c/pcmesh->GetMesh()->GetMovable()->GetFullTransform();
-
-    csBox3 box;
-    pcmesh->GetMesh()->GetMeshObject()->GetObjectModel()->GetObjectBoundingBox(box);
-
-    client->getG3D()->BeginDraw(CSDRAW_2DGRAPHICS);
-
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(0),tr_o2c*box.GetCorner(1), fov, color);
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(0),tr_o2c*box.GetCorner(2), fov, color);
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(0),tr_o2c*box.GetCorner(4), fov, color);
-
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(3),tr_o2c*box.GetCorner(1), fov, color);
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(3),tr_o2c*box.GetCorner(2), fov, color);
-
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(5),tr_o2c*box.GetCorner(1), fov, color);
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(5),tr_o2c*box.GetCorner(4), fov, color);
-
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(6),tr_o2c*box.GetCorner(2), fov, color);
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(6),tr_o2c*box.GetCorner(4), fov, color);
-
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(7),tr_o2c*box.GetCorner(3), fov, color);
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(7),tr_o2c*box.GetCorner(5), fov, color);
-    client->getG3D()->DrawLine(tr_o2c*box.GetCorner(7),tr_o2c*box.GetCorner(6), fov, color);
-    */
+    int type = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type"));
+    switch(type)
+    {
+    case Entity::PlayerEntity:
+      nametag->setProperty("NormalTextColour", "FF05AA05");
+      break;
+    case Entity::NPCEntity:
+      nametag->setProperty("NormalTextColour", "FFFF00FF");
+      break;
+    case Entity::DoorEntity:
+      nametag->setProperty("NormalTextColour", "FF550505");
+      break;
+    case Entity::ItemEntity:
+      nametag->setProperty("NormalTextColour", "FF0505AA");
+      break;
+    default:
+      nametag->setVisible(false);
+    }
+    
+    CEGUI::String name = pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"));
+    CEGUI::Font* font = nametag->getFont();
+    float height = font->getFontHeight(1.3f);
+    float width = font->getFormattedTextExtent(name, CEGUI::Rect(0,0,5,5),CEGUI::Centred, 1.1f);
+    nametag->setText(name);
+    nametag->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0,mousex-(width/2)), CEGUI::UDim(0,mousey-25)));
+    nametag->setWindowSize( CEGUI::UVector2(CEGUI::UDim(0,width), CEGUI::UDim(0,height)));
+    nametag->setVisible(true);
   }
-  else if (nametag && prevselent)
+  else
   {
-    nametag = CEL_QUERY_PROPCLASS_ENT(prevselent, iPcTooltip);
-    nametag->Hide();
+    nametag->setVisible(false);
   }
 }
 
