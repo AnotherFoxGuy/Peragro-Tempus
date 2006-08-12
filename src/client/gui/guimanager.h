@@ -36,6 +36,7 @@ class HUDWindow;
 class OptionsWindow;
 class StatusWindow;
 class BuddyWindow;
+class WhisperWindow;
 
 struct iObjectRegistry;
 
@@ -51,6 +52,7 @@ private:
   OptionsWindow* optionswindow;
   StatusWindow* statuswindow;
   BuddyWindow* buddywindow;
+  WhisperWindow* whisperwindow;
   
   csRef<iCEGUI> cegui;
   
@@ -75,6 +77,7 @@ public:
   OptionsWindow* CreateOptionsWindow();
   StatusWindow* CreateStatusWindow();
   BuddyWindow* CreateBuddyWindow(); 
+  WhisperWindow* CreateWhisperWindow(); 
   
   ConnectWindow* GetConnectWindow ()
   {
@@ -119,6 +122,11 @@ public:
   BuddyWindow* GetBuddyWindow()
   {
     return buddywindow;
+  }
+
+  WhisperWindow* GetWhisperWindow()
+  {
+    return whisperwindow;
   }
 
 };

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+	<Window Type='Peragro/FrameWindow' Name='Whisper/Frame'>
+		<Property Name='UnifiedMinSize' Value='{{0.000000,180.000000},{0.000000,140.000000}}'/>
+		<Property Name='Alpha' Value='0.7'/>
+		<Property Name='CaptionColour' Value='FFFFFFFF'/>
+		<Property Name='EWSizingCursorImage' Value='set:Peragro image:MouseEsWeCursor'/>
+		<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTarget'/>
+		<Property Name='NESWSizingCursorImage' Value='set:Peragro image:MouseNeSwCursor'/>
+		<Property Name='NSSizingCursorImage' Value='set:Peragro image:MouseNoSoCursor'/>
+		<Property Name='NWSESizingCursorImage' Value='set:Peragro image:MouseNwSeCursor'/>
+		<Property Name='SizingEnabled' Value='True'/>
+		<Property Name='UnifiedAreaRect' Value='{{0.7,0.000000},{0.05,0.000000},{0.00001,0.000000},{0.00001,0.000000}}'/>
+		<Property Name='UnifiedMaxSize' Value='{{0.500000,0.000000},{0.400000,0.000000}}'/>
+		<Window Type='Peragro/MultiLineEditbox' Name='Whisper/ChatlogWidget'>
+			<Property Name='InheritsAlpha' Value='False'/>
+			<Property Name='ReadOnly' Value='True'/>
+			<Property Name='Disabled' Value='False'/>
+			<Property Name='UnifiedAreaRect' Value='{{0.03,0.0},{0.0,30.0},{0.97,0.0},{0.75,0.0}}'/>
+
+			<Window Type='Peragro/MultiLineEditbox' Name='Whisper/Chatlog'>
+				<Property Name='UnifiedSize' Value='{{1.00000,0.000000},{1.00000,0.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,0.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+				<Property Name='InheritsAlpha' Value='False'/>
+				<Property Name='Text' Value='Press enter to send.'/>
+				<Property Name='ReadOnly' Value='True'/>
+				<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
+				<Property Name='Disabled' Value='False'/>
+				<Property Name='ImageColours' Value='tl:00000000 tr:00000000 bl:00000000 br:00000000'/>
+			</Window>
+		</Window>
+		<Window Type='Peragro/Editbox' Name='Whisper/InputBox'>
+			<Property Name='Font' Value='Commonwealth-8'/>
+			<Property Name='MaxTextLength' Value='1024'/>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
+			<Property Name='UnifiedAreaRect' Value='{{0.03,0.0},{0.78,0.0},{0.97,0.0},{0.97,0.0}}'/>
+		</Window>
+	</Window>
+</GUILayout>

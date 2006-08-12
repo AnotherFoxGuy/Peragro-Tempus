@@ -16,34 +16,30 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef CHAT_GUI_H
-#define CHAT_GUI_H
+#ifndef WHISPER_GUI_H
+#define WHISPER_GUI_H
 
 #include "base-gui.h"
 
 /*================//
 // GUIChatWindow  //
 //================*/
-class ChatWindow : public GUIWindow
+class WhisperWindow : public GUIWindow
 {
 private:
-  bool OnSay(const CEGUI::EventArgs& e);
-  bool OnShout(const CEGUI::EventArgs& e);
-  bool OnWhisper(const CEGUI::EventArgs& e);
-  bool OnDropList(const CEGUI::EventArgs& e);
-  bool Onslider(const CEGUI::EventArgs& e);
-  bool OnRootKeyDown(const CEGUI::EventArgs& e);
-  void CreateDropList();
-  bool HandleCommand(const char* texti);
+  bool OnSay(const CEGUI::EventArgs& args);
+  bool OnRollup (const CEGUI::EventArgs& args);
+  bool OnCloseButton(const CEGUI::EventArgs& args);
+  bool OnCaptureGained(const CEGUI::EventArgs& args);
+  void AddText(CEGUI::Window* logwindow, CEGUI::String msg);
 
 public:
-  ChatWindow(GUIManager* guimanager);
-  virtual ~ChatWindow();
+  WhisperWindow(GUIManager* guimanager);
+  virtual ~WhisperWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
 
-  void AddChatMessage(const char* nick, const char* msg);
-  void AddMessage (const char* msg);
+  void AddWhisper (const char* nick, const char* msg, const char* ownnick=0);
 };
 
 
-#endif // CHAT_GUI_H
+#endif // WHISPER_GUI_H

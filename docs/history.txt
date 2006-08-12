@@ -4,7 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
-6-Aug-2006
+12-Aug-2006
+  - Sueastside added whisper-messages, you can send them by doing
+     /whishper nick msg, network and server code still needs to be 
+    added.
+
+8-Aug-2006
   - Sueastside converted the nametags to CEGUI, 
      so we have more control on how they are rendered.
 

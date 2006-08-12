@@ -145,3 +145,10 @@ BuddyWindow* GUIManager::CreateBuddyWindow ()
   buddywindow->CreateGUIWindow();
   return buddywindow;
 }
+
+WhisperWindow* GUIManager::CreateWhisperWindow ()
+{
+  whisperwindow = new WhisperWindow (this);
+  whisperwindow->CreateGUIWindow();
+  return whisperwindow;
+}

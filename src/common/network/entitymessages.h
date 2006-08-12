@@ -1549,8 +1549,8 @@ public:
     ent_id = serial.getInt32();
     name = serial.getString();
     mesh = serial.getString();
-    open = serial.getInt8();
-    locked = serial.getInt8();
+    open = serial.getInt8() != 0;
+    locked = serial.getInt8() != 0;
   }
 
   ptString& getName()

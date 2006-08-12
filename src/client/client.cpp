@@ -349,6 +349,7 @@ void Client::handleStates()
       // Create the connection and option window.
       guimanager->CreateConnectWindow ();
       guimanager->CreateOptionsWindow ();
+      guimanager->CreateWhisperWindow();
 
       //guimanager->CreateStatusWindow ();
       //guimanager->CreateInventoryWindow ();
@@ -857,20 +858,37 @@ void Client::loadRegion()
 }
 
 
-void Client::chat(char type, const char* msg)
+void Client::chat(unsigned char type, const char* msg)
 {
   mutex.lock();
-  chat_msg.Push(new scfString(msg));
+
+  ChatMessage chatmsg;
+  chatmsg.type = type;
+  chatmsg.msg = msg;
+
+  chat_msgs.Push(chatmsg);
+
   mutex.unlock();
 }
 
 void Client::chat()
 {
-  if (!chat_msg.GetSize()) return;
+  if (!chat_msgs.GetSize()) return;
   mutex.lock();
-  csRef<iString> msg = chat_msg.Pop();
 
-  guimanager->GetChatWindow ()->AddChatMessage (msg);
+  ChatMessage chatmsg = chat_msgs.Pop();
+
+  if(chatmsg.type == 0)
+  {
+    //guimanager->GetChatWindow ()->AddChatMessage (chatmsg.nick, chatmsg.msg);
+    guimanager->GetChatWindow ()->AddChatMessage ("", chatmsg.msg);
+  }
+  else if(chatmsg.type == 1)
+  {
+    guimanager->GetWhisperWindow()->AddWhisper(chatmsg.nick, chatmsg.msg);
+  }
+  else
+    printf("Client: ERROR: Unknown chattype %s", chatmsg.type);
 
   mutex.unlock();
 }

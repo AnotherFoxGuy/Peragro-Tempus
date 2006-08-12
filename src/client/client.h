@@ -133,7 +133,14 @@ private:
 
   bool InitializeCEL();
 
-  csRefArray<iString> chat_msg;
+  struct ChatMessage
+  {
+    unsigned char type;
+    const char* nick;
+    const char* msg;
+  };
+
+  csArray<ChatMessage> chat_msgs;
 
   Cursor* cursor;
 
@@ -166,7 +173,7 @@ public:
   void loadRegion(const char* name);
   void loadRegion();
 
-  void chat(char type, const char* msg);
+  void chat(unsigned char type, const char* msg);
   void chat();
 
   GUIManager* GetGuiManager ()  {return guimanager;}

@@ -28,5 +28,6 @@
 #include "options-gui.h"
 #include "status-gui.h"
 #include "buddylist-gui.h"
+#include "whisper-gui.h"
 
 #endif // GUI_H

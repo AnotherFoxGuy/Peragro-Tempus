@@ -151,11 +151,36 @@ bool ChatWindow::HandleCommand (const char* texti)
     {
       printf("ChatWindow: HandleCommand: handled spawn!\n");
     }
-    else if (command.GetData() == "guild")
+    else if (command.Compare("guild"))
     {
       printf("ChatWindow: HandleCommand: handled guild!\n");
     }
-    else 
+    else if (command.Compare("whisper"))
+    {
+      printf("ChatWindow: HandleCommand: handled whisper!\n");
+      if (!arg.GetSize() || arg.GetSize() < 2) return true;
+      csString nick = arg.Get(0);
+      csString msg;
+
+      for(uint i = 1; i < arg.GetSize(); i++) 
+      {
+        msg += arg.Get(i);
+        msg += " ";
+      }
+      // Get your own nickname.
+      csString ownnick = guimanager->GetClient()->GetEntityManager()->GetOwnName();
+      // Add your own text to the whisper.
+      guimanager->GetWhisperWindow()->AddWhisper(nick.GetData(), msg.GetData(), ownnick.GetData());
+      // Send the whisper to the network.
+      /*
+      ChatMessage msg;
+      msg.setType(1);
+      msg.setNick(nick.GetData());
+      msg.setMessage(msg.GetData());
+      network->send(&msg);
+      */
+    }
+    else
       printf("ChatWindow: HandleCommand: Unknown command!\n"); 
     
     return true;
@@ -271,25 +296,18 @@ void ChatWindow::CreateDropList()
   ((CEGUI::Combobox*)btn)->setItemSelectState(charIdItem, true);
 
 }
-void ChatWindow::AddChatMessage (csRef<iString> msg)
-{/*
-  CEGUI::Listbox* dialog = 
-    static_cast<CEGUI::Listbox*> (winMgr->getWindow("Chatlog/Chatlog"));
-
-  //add text to list
-  CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(msg->GetData());
-  dialog->addItem ( item );
-  dialog->ensureItemIsVisible(dialog->getItemCount());
-  */
-
+void ChatWindow::AddChatMessage (const char* nick, const char* msg)
+{
   CEGUI::MultiLineEditbox* chatlog = static_cast<CEGUI::MultiLineEditbox*>(winMgr->getWindow("Chatlog/Chatlog"));
-  CEGUI::String new_text = (CEGUI::String)(msg->GetData());
+  CEGUI::String nickstr = (CEGUI::String)(nick);
+  CEGUI::String new_text = (CEGUI::String)(msg);
   if (!new_text.empty())
   {
+    //nickstr = "<"+nickstr+">";
     // append newline to this entry
     new_text += '\n';
     // append new text to history output
-    chatlog->setText(chatlog->getText() + new_text);
+    chatlog->setText(chatlog->getText() + nickstr + new_text);
     // scroll to bottom of history output
     chatlog->setCaratIndex((size_t)-1);
   }
