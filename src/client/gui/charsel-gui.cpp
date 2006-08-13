@@ -39,7 +39,7 @@ SelectCharWindow::~SelectCharWindow()
 
 bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e) 
 {
-  btn = winMgr->getWindow("Characters");
+  btn = winMgr->getWindow("CharSelect/Characters");
   if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
     return true;
 
@@ -58,7 +58,6 @@ bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
   return true;
 }
 
-
 bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e) 
 {
   CEGUI::String NewCharName = GetNewCharName();
@@ -66,6 +65,21 @@ bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e)
   CharacterCreationRequestMessage answer_msg;
   answer_msg.setName(ptString(NewCharName.c_str(), NewCharName.length()));
   network->send(&answer_msg);
+
+  ToggleNewWindow(false);
+
+  return true;
+}
+
+bool SelectCharWindow::CreateButton(const CEGUI::EventArgs& e) 
+{
+  ToggleNewWindow(true);
+  return true;
+}
+
+bool SelectCharWindow::CancelButton(const CEGUI::EventArgs& e) 
+{
+  ToggleNewWindow(false);  
   return true;
 }
 
@@ -76,38 +90,53 @@ bool SelectCharWindow::DelChar(const CEGUI::EventArgs& e)
 
 CEGUI::String SelectCharWindow::GetNewCharName()  
 {
-  return winMgr->getWindow("CharNewName")->getText();
+  return winMgr->getWindow("CharSelectNew/NickNameEditBox")->getText();
+}
+
+void SelectCharWindow::ToggleNewWindow(bool visible)  
+{
+  btn = winMgr->getWindow("CharSelectNew/Frame");
+  btn->setVisible(visible);
+  btn = winMgr->getWindow("CharSelect/Frame");
+  btn->setVisible(!visible);
 }
 
 
 void SelectCharWindow::CreateGUIWindow()
 {
   GUIWindow::CreateGUIWindow ("charselect.xml");
+  GUIWindow::CreateGUIWindow ("charselectnew.xml");
 
   winMgr = cegui->GetWindowManagerPtr ();
 
   // Get the root window
-  rootwindow = winMgr->getWindow("CharSelectUI");
+  rootwindow = winMgr->getWindow("CharSelect/Frame");
 
   // Register the button events.
-  btn = winMgr->getWindow("CharSelOk");
+  btn = winMgr->getWindow("CharSelect/Ok");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::SelectChar, this));
 
-  btn = winMgr->getWindow("CharSelNew");
+  btn = winMgr->getWindow("CharSelect/Create");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::CreateButton, this));
+
+  btn = winMgr->getWindow("CharSelectNew/Cancel");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::CancelButton, this));
+
+  btn = winMgr->getWindow("CharSelectNew/Ok");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::NewChar, this));
 
-  btn = winMgr->getWindow("Characters");
+  btn = winMgr->getWindow("CharSelect/Characters");
   CEGUI::String str_id("Id");
   CEGUI::String str_name("Name");
-  ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,CEGUI::UDim(0.1f,0));
-  ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,CEGUI::UDim(0.5f,0));
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,CEGUI::UDim(0.25f,0));
+  ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,CEGUI::UDim(0.75f,0));
   ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 
 }
 
 void SelectCharWindow::AddCharacter(unsigned int charId, const char* name)
 {
-  btn = winMgr->getWindow("Characters");
+  btn = winMgr->getWindow("CharSelect/Characters");
   char charIdstr[10];
   sprintf(charIdstr, "%d", charId);
   CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem(charIdstr);

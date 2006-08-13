@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+13-Aug-2006
+  - Sueastside did some preliminary work for the character selection menu:
+    - Made a seperate window for making a new character.
+    - Moved the windows to the side, so i can place a mesh in the middle.
+
 12-Aug-2006
   - Sueastside added whisper-messages, you can send them by doing
      /whishper nick msg, network and server code still needs to be 

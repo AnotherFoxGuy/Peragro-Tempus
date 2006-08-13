@@ -34,6 +34,10 @@ private:
   void ScrollLeft();                           // Scroll left throught the characterlist.
   void ScrollRight();                          // Scroll right throught the characterlist.
 
+  bool CreateButton(const CEGUI::EventArgs& e);   // Opens the Create character menu.
+  bool CancelButton(const CEGUI::EventArgs& e);   // returns to the character menu.
+  void ToggleNewWindow(bool visible); 
+
 public:
   SelectCharWindow(GUIManager* guimanager);
   virtual ~SelectCharWindow();

@@ -355,6 +355,8 @@ void Client::handleStates()
       //guimanager->CreateInventoryWindow ();
       //guimanager->CreateHUDWindow();
       //guimanager->CreateBuddyWindow();
+      //guimanager->CreateSelectCharWindow();
+      //guimanager->GetSelectCharWindow()->ShowWindow();
 
       if (cmdline)
       {
