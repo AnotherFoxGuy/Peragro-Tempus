@@ -50,6 +50,7 @@ private:
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
+  csRef<iStringSet> stringset;
   csRef<iVirtualClock> vc;
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
@@ -109,8 +110,6 @@ private:
   bool playing;
   bool world_loaded;
 
-  void createCelEntity(Entity* ent);
-
   void addEntity();
   void delEntity();
   void moveEntity();
@@ -134,6 +133,9 @@ public:
   UpdateDREntityRequestMessage DrUpdateOwnEntity();
   void Attach(uint entityid, const char* socketName, const char* meshFactName );
   void updatePcProp(int entity_id, const char *pcprop,celData &value);
+
+  void createCelEntity(Entity* ent);
+  void SetMaskColor(iMeshWrapper* mesh, const char* maskname, csVector4 colorvalue);
 
   iCelEntity* findCelEntById(int id);
   ptCelEntity* findPtEntById(int id);

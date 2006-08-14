@@ -27,7 +27,8 @@
 class SelectCharWindow : public GUIWindow
 {
 private:
-  bool SelectChar(const CEGUI::EventArgs& e);  // Selects the current character.
+  bool SelectChar(const CEGUI::EventArgs& e);  // Connects with the current character.
+  bool OnSelection(const CEGUI::EventArgs& e); // Shows the currently selected character.
   bool NewChar(const CEGUI::EventArgs& e);     // Makes a new character.
   bool DelChar(const CEGUI::EventArgs& e);     // Deletes the selected character.
   CEGUI::String GetNewCharName();              // Returns the character name.

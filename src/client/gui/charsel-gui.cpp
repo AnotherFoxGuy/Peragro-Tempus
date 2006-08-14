@@ -58,6 +58,34 @@ bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
   return true;
 }
 
+bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e) 
+{
+  btn = winMgr->getWindow("CharSelect/Characters");
+  if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
+    return true;
+
+  CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+
+  if (!item->isSelected()) return true;
+
+  int own_char_id = atoi(item->getText().c_str());
+
+  Entity* entity = 0;
+  entity = new PcEntity();
+
+  printf("SelectCharWindow: Creating entity.\n");
+
+  entity->setName(ptString("sue", 3));
+  entity->setMesh(ptString("test", 4));
+  entity->setPos(-2,2,-90);
+  entity->setSector(ptString("room", 4));
+  entity->setId(own_char_id);
+
+  guimanager->GetClient()->GetEntityManager()->createCelEntity(entity);
+
+  return true;
+}
+
 bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e) 
 {
   CEGUI::String NewCharName = GetNewCharName();
@@ -126,6 +154,7 @@ void SelectCharWindow::CreateGUIWindow()
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::NewChar, this));
 
   btn = winMgr->getWindow("CharSelect/Characters");
+  btn->subscribeEvent(CEGUI::MultiColumnList::EventSelectionChanged, CEGUI::Event::Subscriber(&SelectCharWindow::OnSelection, this));
   CEGUI::String str_id("Id");
   CEGUI::String str_name("Name");
   ((CEGUI::MultiColumnList*)btn)->addColumn(str_id,0,CEGUI::UDim(0.25f,0));

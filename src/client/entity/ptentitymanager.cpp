@@ -102,6 +102,9 @@ ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
   vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
   //if (!vfs) return ReportError("Failed to locate VFS!");
 
+  stringset = CS_QUERY_REGISTRY_TAG_INTERFACE (obj_reg,
+    "crystalspace.shared.stringset", iStringSet);
+
   vc = CS_QUERY_REGISTRY (obj_reg, iVirtualClock);
 
   pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
@@ -164,6 +167,29 @@ iCelEntity* ptEntityManager::findCelEntById(int id)
   }
   return 0;
 }
+
+void ptEntityManager::SetMaskColor(iMeshWrapper* mesh, const char* maskname, csVector4 colorvalue)
+{
+  if (!mesh)
+  {
+    printf("ptEntityManager: ERROR Couldn't find mesh to set color!\n");
+    return;
+  }
+
+  if (!stringset)
+  {
+    printf("ptEntityManager: ERROR iStringSet wasn't loaded!\n");
+    return;
+  }
+  
+  printf("ptEntityManager: Setting variable\n");
+  csStringID name = stringset->Request(maskname);
+  csShaderVariable* variable = mesh->GetSVContext()->GetVariableAdd(name);
+  variable->SetType(csShaderVariable::VECTOR4);
+  variable->SetValue(colorvalue);
+  mesh->GetSVContext()->AddVariable(variable);
+}
+
 void ptEntityManager::addEntity(Entity* entity)
 {
   mutex.lock();
@@ -654,6 +680,12 @@ void ptEntityManager::createCelEntity(Entity* ent)
     pcquest->NewQuest("PropDoor",parameters);
     pcquest->GetQuest()->SwitchState("closed");
   }
+
+  // Create shadervariables.
+  csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+  SetMaskColor(parent, "skincolor", csVector4(0,0,0,1));
+  SetMaskColor(parent, "decalcolor", csVector4(0,0,0,1));
+  SetMaskColor(parent, "haircolor", csVector4(0,0,0,1));
 
   // Add to the entities list
   ptCelEntity ptent (ent->getId(), ent->getType(), *ent->getName(), entity);

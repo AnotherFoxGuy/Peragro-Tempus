@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+14-Aug-2006
+  - Sueastside added a mask shader, you can now define stuff like 
+     haircolor, skintone, etc per entity.
+  - Sueastside added some control for the camera.
+  - Sueastside added Distance Clipping.
+
 13-Aug-2006
   - Sueastside did some preliminary work for the character selection menu:
     - Made a seperate window for making a new character.

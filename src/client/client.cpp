@@ -112,6 +112,7 @@ Client::Client() : playing(false)
   limitFPS = 0;
   last_sleep = 0;
   world_loaded = false;
+  cameradistance = 3;
 
   network = 0;
   cursor = 0;
@@ -466,11 +467,58 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         (walk == 0) ? walk = 1 : walk = 0;
       }
+      else if (code == CSKEY_PGUP)
+      {
+        iCelEntity* entity = entitymanager->getOwnEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
+        pccamera->SetPitch(pccamera->GetPitch()-0.1f);
+      }
+      else if (code == CSKEY_PGDN)
+      {
+        iCelEntity* entity = entitymanager->getOwnEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+        pccamera->SetPitch(pccamera->GetPitch()+0.1f);
+      }
       else if (code == 'c')
       {
         iPcActorMove* pcactormove = getPcActorMove();
         if (!pcactormove) return false;
         pcactormove->ToggleCameraMode();
+      }
+      else if (code == 'd')
+      {
+        iCelEntity* entity = entitymanager->getOwnEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+        guimanager->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
+        pccamera->UseDistanceClipping() ? 
+          pccamera->DisableDistanceClipping() 
+          : pccamera->EnableAdaptiveDistanceClipping(95, 100, 50);
+      }
+      else if (code == 'g')
+      {
+        iCelEntity* entity = entitymanager->getOwnEntity();
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+        if (!parent) return false;
+
+        entitymanager->SetMaskColor(parent, "decalcolor", csVector4(1,0,0,1));
+        entitymanager->SetMaskColor(parent, "haircolor", csVector4(0.3f,0.2f,0.02f,1));
+      }
+      else if (code == 'f')
+      {
+        iCelEntity* entity = cursor->getSelectedEntity();
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+        if (!parent) return false;
+
+        entitymanager->SetMaskColor(parent, "decalcolor", csVector4(0,0,1,1));
       }
       else if (code == 'h')
       {
@@ -565,88 +613,109 @@ bool Client::OnMouseDown(iEvent& ev)
       switch(csMouseEventHelper::GetButton(&ev))
       {
       case csmbLeft:
-      {
-        csRef<iCamera> cam = entitymanager->getOwnCamera();
-        if (!cam) return false;
-        
-        csVector3 isect, untransfCoord;
-        csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(csMouseEventHelper::GetX(&ev), 
-          csMouseEventHelper::GetY(&ev), 
-          cam, &isect, &untransfCoord);
-        
-        if (mesh)
         {
-          effectsmanager->CreateEffect(EffectsManager::MoveMarker, isect+csVector3(0,0.25,0));
+          csRef<iCamera> cam = entitymanager->getOwnCamera();
+          if (!cam) return false;
 
-          csRef<iCelEntity> ownent = entitymanager->getOwnEntity();
-          if (!ownent) return false;
-          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
-          if (!pclinmove) return false;
+          csVector3 isect, untransfCoord;
+          csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(csMouseEventHelper::GetX(&ev), 
+            csMouseEventHelper::GetY(&ev), 
+            cam, &isect, &untransfCoord);
 
-          MoveEntityToRequestMessage msg;
-          msg.setPos(isect.x, isect.y, isect.z);
-          network->send(&msg);
+          if (mesh)
+          {
+            effectsmanager->CreateEffect(EffectsManager::MoveMarker, isect+csVector3(0,0.25,0));
 
-          printf("OnMouseClick: position: %s\n", isect.Description().GetData());
+            csRef<iCelEntity> ownent = entitymanager->getOwnEntity();
+            if (!ownent) return false;
+            csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
+            if (!pclinmove) return false;
+
+            MoveEntityToRequestMessage msg;
+            msg.setPos(isect.x, isect.y, isect.z);
+            network->send(&msg);
+
+            printf("OnMouseDown: position: %s\n", isect.Description().GetData());
+          }
+          else
+          {
+            printf("OnMouseDown: Failed to find mesh!\n");
+          }
+          return true;
+          break;
         }
-        else
-        {
-          printf("OnMouseClick: Failed to find mesh!\n");
-        }
-        break;
-      }
-      
+
       case csmbRight:
-      {
-        csRef<iCelEntity> ent = cursor->getSelectedEntity();
-        
-        csRef<iPcProperties> pcprop;
-        if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-        if (!pcprop) return false;
-        
-        // If it's an item, request a pickup.
-        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::ItemEntity)
         {
-          PickEntityRequestMessage msg;
-          msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-          printf("OnMouseClick: Requisting picking up entity: %d \n", msg.getTargetId());
-          network->send(&msg);
+          csRef<iCelEntity> ent = cursor->getSelectedEntity();
+
+          csRef<iPcProperties> pcprop;
+          if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+          if (!pcprop) return false;
+
+          // If it's an item, request a pickup.
+          if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::ItemEntity)
+          {
+            PickEntityRequestMessage msg;
+            msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+            printf("OnMouseDown: Requisting picking up entity: %d \n", msg.getTargetId());
+            network->send(&msg);
+          }
+          // If it's a door, request to open.
+          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::DoorEntity)
+          {
+            if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Open")))
+            {
+              CloseDoorRequestMessage msg;
+              msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+              printf("OnMouseDown: Requesting closing door: %d \n", msg.getDoorId());
+              network->send(&msg);
+            }
+            else
+            {
+              OpenDoorRequestMessage msg;
+              msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+              printf("OnMouseDown: Requesting opening door: %d \n", msg.getDoorId());
+              network->send(&msg);
+            }
+          }
+          // If it's a player, attack it.
+          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
+          {
+            combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
+          }
+          else
+          {
+            printf("OnMouseDown: Unknown entity type!\n");
+          }
+          return true;
+          break;
         }
-        // If it's a door, request to open.
-        else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::DoorEntity)
-        {
-	  if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Open")))
-	  {
-          CloseDoorRequestMessage msg;
-          msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-          printf("OnMouseClick: Requesting closing door: %d \n", msg.getDoorId());
-          network->send(&msg);
-	  }
-	  else
-	  {
-          OpenDoorRequestMessage msg;
-          msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-          printf("OnMouseClick: Requesting opening door: %d \n", msg.getDoorId());
-          network->send(&msg);
-	  }
-        }
-        // If it's a player, attack it.
-        else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
-        {
-          combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
-        }
-        else
-        {
-          printf("OnMouseClick: Unknown entity type!\n");
-        }
-        
-        break;
-      }
 
       case csmbMiddle:
-      {
-        break;
-      }
+        {
+          break;
+        }
+      case csmbWheelUp:
+        {
+          iCelEntity* entity = entitymanager->getOwnEntity();
+          if (!entity) return false;
+          csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+          cameradistance -= 0.5;
+          pccamera->SetDistance(cameradistance);
+          return false;
+          break;
+        }
+      case csmbWheelDown:
+        {
+          iCelEntity* entity = entitymanager->getOwnEntity();
+          if (!entity) return false;
+          csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+          cameradistance += 0.5;
+          pccamera->SetDistance(cameradistance);
+          return false;
+          break;
+        }
       }
     }
   }

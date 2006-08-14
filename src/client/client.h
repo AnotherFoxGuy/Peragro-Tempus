@@ -82,6 +82,8 @@ private:
   iSector *room;
   float rotX, rotY;
 
+  float cameradistance;
+
   bool world_loaded;
 
   int limitFPS;
