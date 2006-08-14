@@ -156,7 +156,7 @@ int main(int argc, char ** argv)
   if (!test_dragon) printf("test_dragon not found! \n");
 
   // Loading Doors!
-  std::ifstream file ("data/server/peragro_data", std::ios::in|std::ios::ate);
+  std::ifstream file ("data/server/peragro_data", std::ios::in|std::ios::ate|std::ios::binary);
   if (file.is_open())
   {
     size_t size = file.tellg();

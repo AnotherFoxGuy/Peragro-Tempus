@@ -80,7 +80,6 @@
 #include "propclass/navgraph.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
-#include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 #include "propclass/sound.h"
@@ -676,7 +675,7 @@ void ptEntityManager::createCelEntity(Entity* ent)
     pcprop->SetProperty("Door Locked", door->getLocked());
     pl->CreatePropertyClass(entity, "pcquest");
     csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(entity, iPcQuest);
-    celQuestParams parameters;
+    
     pcquest->NewQuest("PropDoor",parameters);
     pcquest->GetQuest()->SwitchState("closed");
   }

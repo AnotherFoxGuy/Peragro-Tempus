@@ -38,6 +38,7 @@ public:
   int getMaxId();
   void dropTable();
   void remove(int id);
+  void update(Entity* entity);
   bool existsEntity(ptString name);
   Entity* getEntity(ptString name);
   void getAllEntities(Array<Entity*>& entities);

@@ -9,6 +9,7 @@ under each day.
      haircolor, skintone, etc per entity.
   - Sueastside added some control for the camera.
   - Sueastside added Distance Clipping.
+  - PK implemented the persistent storage of player positions.
 
 13-Aug-2006
   - Sueastside did some preliminary work for the character selection menu:

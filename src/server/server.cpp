@@ -21,6 +21,7 @@
 #include "common/entity/entitymanager.h"
 #include "server/database/database.h"
 #include "server/database/table-entities.h"
+#include "server/database/table-characters.h"
 #include "common/network/entitymessages.h"
 #include "server/network/connection.h"
 #include "common/util/sleep.h"
@@ -56,6 +57,10 @@ void Server::delEntity(Entity* entity)
   if (entity->getType() == Entity::ItemEntity)
   {
     db->getEntityTable()->remove(entity->getId());
+  }
+  if (entity->getType() == Entity::PlayerEntity)
+  {
+    db->getCharacterTable()->update((PcEntity*)entity);
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)

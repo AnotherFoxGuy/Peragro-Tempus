@@ -29,6 +29,8 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/datatype.h"
 
+#include "propclass/quest.h"
+
 #include "client/entity/ptcelentity.h"
 
 #include "common/util/mutex.h"
@@ -54,6 +56,8 @@ private:
   csRef<iVirtualClock> vc;
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
+
+  celQuestParams parameters;
 
   Client* client;
 

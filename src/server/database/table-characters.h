@@ -24,6 +24,7 @@
 class Database;
 class Character;
 class User;
+class PcEntity;
 class ptString;
 
 class CharacterTable : public Table
@@ -35,6 +36,7 @@ public:
   int getMaxId();
   void dropTable();
   void remove(int id);
+  void update(PcEntity* e);
   bool existsCharacter(ptString name);
   Character* findCharacterById(int id, size_t user_id);
   void getAllCharacters(Array<Character*>& characters, User* user_id);

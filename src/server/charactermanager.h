@@ -21,6 +21,7 @@
 
 #include "common/util/array.h"
 #include "common/entity/character.h"
+#include "common/entity/pcentity.h"
 
 class Server;
 
@@ -35,6 +36,8 @@ public:
   CharacterManager(Server* server);
 
   ptString createCharacter(ptString name, int user_id, int& char_id);
+  void checkForSave(PcEntity* e);
+
 
 };
 

@@ -118,6 +118,11 @@ void EntityTable::remove(int id)
   db->update(query);
 }
 
+void EntityTable::update(Entity* entity)
+{
+  db->update("update entities set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector=%s where id = %d;");
+}
+
 bool EntityTable::existsEntity(ptString name)
 {
   if (strlen(*name)> 512) assert("String too long");

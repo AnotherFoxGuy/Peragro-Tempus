@@ -20,6 +20,7 @@
 #include "common/entity/statmanager.h"
 #include "server/network/network.h"
 #include "server/usermanager.h"
+#include "server/charactermanager.h"
 
 void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
@@ -58,6 +59,8 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   
   user_ent->setPos(request_msg.getPos());
   user_ent->setSector(request_msg.getSector());
+
+  server->getCharacterManager()->checkForSave((PcEntity*)user_ent);
 
   UpdateDREntityMessage response_msg;
   response_msg.setSpeed(request_msg.getSpeed());
@@ -187,6 +190,7 @@ void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
   Stat* speed = server->getStatManager()->findByName(ptString("Speed", 5));
 
   server->moveEntity(entity, request_msg.getPos(), (float)entity->getStats()->getAmount(speed));
+  server->getCharacterManager()->checkForSave(entity);
 }
 
 void EntityHandler::handleEquipRequest(GenericMessage* msg)

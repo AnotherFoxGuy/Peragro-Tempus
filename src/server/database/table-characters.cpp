@@ -83,6 +83,12 @@ void CharacterTable::remove(int id)
   db->update(query);
 }
 
+void CharacterTable::update(PcEntity* e)
+{
+  db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector='%s' where id = %d;",
+    e->getPos()[0], e->getPos()[1], e->getPos()[2], *(e->getSector()), e->getCharId());
+}
+
 bool CharacterTable::existsCharacter(ptString name)
 {
   if (strlen(*name)> 512) assert("String too long");

@@ -50,3 +50,16 @@ ptString CharacterManager::createCharacter(ptString name, int user_id, int& char
 
   return ptString(0,0);
 }
+
+void CharacterManager::checkForSave(PcEntity* e)
+{
+  if (e->getType() != Entity::PlayerEntity)
+    return;
+  
+  float dist_square = e->getDistanceTo2(e->getLastSaved());
+  if (dist_square > 100)
+  {
+    e->resetSavePos();
+    server->getDatabase()->getCharacterTable()->update(e);
+  }
+}

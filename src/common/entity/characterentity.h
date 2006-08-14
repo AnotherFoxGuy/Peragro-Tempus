@@ -27,6 +27,7 @@
 
 #include "inventory.h"
 #include "characterskills.h"
+#include "entity.h"
 
 class Item;
 
@@ -36,6 +37,8 @@ private:
   Inventory inventory;
   CharacterStats stats;
   CharacterSkills skills;
+
+  size_t charId;
 
   float final_dst[3];
   size_t t_stop;
@@ -113,6 +116,16 @@ public:
   void setState(State st)
   {
     state = st;
+  }
+
+  size_t getCharId()
+  {
+    return charId;
+  }
+
+  void setCharId(size_t id)
+  {
+    charId = id;
   }
 
   void walkTo(float* dst_pos, float speed)

@@ -144,6 +144,7 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
     return;
 
   PcEntity* entity = new PcEntity();
+  entity->setCharId(request_msg.getCharId());
   entity->setName(character->getName());
   entity->setMesh(character->getMesh());
   entity->setPos(character->getPos());

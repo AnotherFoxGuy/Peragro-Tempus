@@ -56,6 +56,7 @@ public:
 protected:
   EntityType type;
 
+  float pos_last_saved[3];
   float pos[3];
 
 public:
@@ -64,6 +65,10 @@ public:
     pos[0] = 0.0f;
     pos[1] = 0.0f;
     pos[2] = 0.0f;
+
+    pos_last_saved[0] = 0.0f;
+    pos_last_saved[1] = 0.0f;
+    pos_last_saved[2] = 0.0f;
   }
 
   Entity(EntityType type) : id(-1), type(type)
@@ -102,6 +107,17 @@ public:
   int getId()
   {
     return id;
+  }
+
+  void resetSavePos()
+  {
+    pos_last_saved[0] = pos[0];
+    pos_last_saved[1] = pos[1];
+    pos_last_saved[2] = pos[2];
+  }
+  virtual float* getLastSaved()
+  {
+    return pos_last_saved;
   }
 
   void setPos(float x, float y, float z)
@@ -153,17 +169,24 @@ public:
     return type;
   }
 
+  float getDistanceTo2(float* target)
+  {
+    return (target[0] - pos[0])*(target[0] - pos[0])
+         + (target[1] - pos[1])*(target[1] - pos[1])
+         + (target[2] - pos[2])*(target[2] - pos[2]);
+  }
+
   float getDistanceTo2(Entity* target)
   {
-    return (target->pos[0] - pos[0])*(target->pos[0] - pos[0])
-         + (target->pos[1] - pos[1])*(target->pos[1] - pos[1])
-         + (target->pos[2] - pos[2])*(target->pos[2] - pos[2]);
+    return getDistanceTo2(target->pos);
   }
 
   float getDistanceTo(Entity* target)
   {
     return sqrtf(getDistanceTo2(target));
   }
+
+  void checkForSave();
 };
 
 #endif // _ENTITY_H_
