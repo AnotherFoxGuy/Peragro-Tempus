@@ -67,7 +67,7 @@ void ChatHandler::handleWhisper(GenericMessage* msg)
   out_msg.setMessage(in_msg.getMessage());
   out_msg.setOther(name);
   ByteStream bs;
-  in_msg.serialise(&bs);
+  out_msg.serialise(&bs);
 
   User* user = ((PcEntity*) entity)->getUser();
   if (!user) return;
