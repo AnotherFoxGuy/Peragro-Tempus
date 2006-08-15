@@ -5,7 +5,8 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 15-Aug-2006
-  - Sueastside did some small fixes. 
+  - Sueastside did some small fixes.
+  - PK added experimental whisper code to test. Bugs expected.
 
 14-Aug-2006
   - Sueastside added a mask shader, you can now define stuff like 

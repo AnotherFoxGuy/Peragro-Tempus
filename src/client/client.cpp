@@ -929,13 +929,14 @@ void Client::loadRegion()
 }
 
 
-void Client::chat(unsigned char type, const char* msg)
+void Client::chat(unsigned char type, const char* msg, const char* other)
 {
   mutex.lock();
 
   ChatMessage chatmsg;
   chatmsg.type = type;
   chatmsg.msg = msg;
+  chatmsg.nick = other;
 
   chat_msgs.Push(chatmsg);
 

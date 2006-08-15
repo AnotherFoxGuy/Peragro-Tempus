@@ -25,17 +25,18 @@ namespace CHAT
 {
   enum CHAT_MESSAGES
   {
-    CHAT=0
+    SAY=0,
+    WHISPER=1
   };
 }
 
-class ChatMessage : public NetMessage
+class SayMessage : public NetMessage
 {
   char msgtype;
   const char* msg;
 
 public:
-  ChatMessage() : NetMessage(MESSAGES::CHAT,CHAT::CHAT) 
+  SayMessage() : NetMessage(MESSAGES::CHAT,CHAT::SAY) 
   {
   }
 
@@ -70,7 +71,65 @@ public:
   {
     return msg;
   }
+  void setMessage(const char* message)
+  {
+    msg = message;
+  }
+};
 
+class WhisperMessage : public NetMessage
+{
+  char msgtype;
+  ptString other;
+  const char* msg;
+
+public:
+  WhisperMessage() : NetMessage(MESSAGES::CHAT,CHAT::WHISPER) 
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt8(msgtype);
+    serial.setString(other);
+    serial.setString(msg);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    msgtype = serial.getInt8();
+    other = serial.getString();
+    serial.getString(msg);
+  }
+
+  unsigned char getType()
+  {
+    return msgtype;
+  }
+  void setType(unsigned char t)
+  {
+    msgtype = t;
+  }
+
+  ptString getOther()
+  {
+    return other;
+  }
+  void setOther(ptString o)
+  {
+    other = o;
+  }
+
+  const char* getMessage()
+  {
+    return msg;
+  }
   void setMessage(const char* message)
   {
     msg = message;

@@ -42,7 +42,8 @@ public:
     if (type != MESSAGES::CHAT) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == 0) handleChat(msg);
+    if (id == CHAT::SAY) handleSay(msg);
+    else if (id == CHAT::WHISPER) handleWhisper(msg);
   }
 
   char getType()
@@ -50,7 +51,8 @@ public:
     return MESSAGES::CHAT;
   }
 
-  void handleChat(GenericMessage* msg);
+  void handleSay(GenericMessage* msg);
+  void handleWhisper(GenericMessage* msg);
 };
 
 #endif // _CHATHANDLER_H_

@@ -175,7 +175,7 @@ public:
   void loadRegion(const char* name);
   void loadRegion();
 
-  void chat(unsigned char type, const char* msg);
+  void chat(unsigned char type, const char* msg, const char* other = 0);
   void chat();
 
   GUIManager* GetGuiManager ()  {return guimanager;}

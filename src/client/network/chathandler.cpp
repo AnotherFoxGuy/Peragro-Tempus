@@ -18,9 +18,16 @@
 
 #include "client/network/network.h"
 
-void ChatHandler::handleChat(GenericMessage* msg)
+void ChatHandler::handleSay(GenericMessage* msg)
 {
-  ChatMessage chatmsg;
+  SayMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
-  client->chat(chatmsg.getType(), chatmsg.getMessage());
+  client->chat(0, chatmsg.getMessage());
+}
+
+void ChatHandler::handleWhisper(GenericMessage* msg)
+{
+  WhisperMessage chatmsg;
+  chatmsg.deserialise(msg->getByteStream());
+  client->chat(1, chatmsg.getMessage(), *chatmsg.getOther());
 }

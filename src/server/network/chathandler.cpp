@@ -19,25 +19,57 @@
 #include "server/network/network.h"
 #include "server/usermanager.h"
 
-void ChatHandler::handleChat(GenericMessage* msg)
+void ChatHandler::handleSay(GenericMessage* msg)
 {
   char buff[1024];
   const Connection* conn = msg->getConnection();
   if (!conn) return;
+
   ptString name = conn->getUser()->getEntity()->getName();
-  ChatMessage in_msg;
+
+  SayMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
+
   sprintf(buff, "<%s> %s", *name, in_msg.getMessage());
-  printf("Chat: %s\n", buff);
-  ChatMessage out_msg;
-  in_msg.setType(0);
-  in_msg.setMessage(buff);
+  printf("Say: %s\n", buff);
+
+  SayMessage out_msg;
+  out_msg.setMessage(buff);
   ByteStream bs;
-  in_msg.serialise(&bs);
+  out_msg.serialise(&bs);
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
   {
     User* user = server->getUserManager()->getUser(i);
     if (user->getConnection())
       user->getConnection()->send(bs);
   }
+}
+
+void ChatHandler::handleWhisper(GenericMessage* msg)
+{
+  const Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  ptString name = conn->getUser()->getEntity()->getName();
+
+  WhisperMessage in_msg;
+  in_msg.deserialise(msg->getByteStream());
+
+  Entity* entity = server->getEntityManager()->findByName(in_msg.getOther());
+  if (!entity || entity->getType() != Entity::PlayerEntity)
+    return;
+
+  WhisperMessage out_msg;
+  out_msg.setMessage(in_msg.getMessage());
+  out_msg.setOther(name);
+  ByteStream bs;
+  in_msg.serialise(&bs);
+
+  User* user = ((PcEntity*) entity)->getUser();
+  if (!user) return;
+
+  conn = user->getConnection();
+  if (!conn) return;
+
+  conn->send(bs);
 }

@@ -92,8 +92,7 @@ bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
   }
 
   printf("Say: %s\n", text.c_str());
-  ChatMessage msg;
-  msg.setType(0);
+  SayMessage msg;
   msg.setMessage(text.c_str());
   network->send(&msg);
   btn->setText(text.erase());
@@ -202,8 +201,7 @@ bool ChatWindow::OnShout (const CEGUI::EventArgs& e)
   CEGUI::String text = btn->getText();
   if (text.empty()) return true;
   printf("Shout: %s\n", text.c_str());
-  ChatMessage msg;
-  msg.setType(1);
+  SayMessage msg;
   msg.setMessage(text.c_str());
   network->send(&msg);
   btn->setText(text.erase());
@@ -220,9 +218,16 @@ bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
     printf("Inputbox of Chat not found!\n");
     return false;
   }
-  CEGUI::String text = btn->getText();
-  if (text.empty()) return true;
-  printf("!!TDB!! Whisper: %s\n", text.c_str());
+  CEGUI::String input = btn->getText();
+  if (input.empty()) return true;
+  printf("Whisper: %s\n", input.c_str());
+  WhisperMessage msg;
+  size_t split = input.find(": "); //you type 'nick: message'
+  CEGUI::String name = input.substr(0, split);
+  CEGUI::String text = input.substr(split, input.length() - split);
+  msg.setOther(ptString(name.c_str(), name.length())); //<-- name of who you want to talk to...
+  msg.setMessage(text.c_str());
+  network->send(&msg);
   btn->setText(text.erase());
   return true;
 }
