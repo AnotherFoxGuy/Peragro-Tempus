@@ -138,8 +138,8 @@ private:
   struct ChatMessage
   {
     unsigned char type;
-    const char* nick;
-    const char* msg;
+    csString  nick;
+    csString  msg;
   };
 
   csArray<ChatMessage> chat_msgs;

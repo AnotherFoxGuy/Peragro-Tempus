@@ -953,11 +953,11 @@ void Client::chat()
   if(chatmsg.type == 0)
   {
     //guimanager->GetChatWindow ()->AddChatMessage (chatmsg.nick, chatmsg.msg);
-    guimanager->GetChatWindow ()->AddChatMessage ("", chatmsg.msg);
+    guimanager->GetChatWindow ()->AddChatMessage ("", chatmsg.msg.GetData());
   }
   else if(chatmsg.type == 1)
   {
-    guimanager->GetWhisperWindow()->AddWhisper(chatmsg.nick, chatmsg.msg);
+    guimanager->GetWhisperWindow()->AddWhisper(chatmsg.nick.GetData(), chatmsg.msg.GetData());
   }
   else
     printf("Client: ERROR: Unknown chattype %s", chatmsg.type);

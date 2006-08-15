@@ -151,6 +151,8 @@ void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* o
     btn->subscribeEvent(CEGUI::FrameWindow::EventRollupToggled, CEGUI::Event::Subscriber(&WhisperWindow::OnRollup, this));
     btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&WhisperWindow::OnCloseButton, this));
     btn->subscribeEvent(CEGUI::FrameWindow::EventActivated, CEGUI::Event::Subscriber(&WhisperWindow::OnCaptureGained, this));
+    CEGUI::String ownnickstr = (CEGUI::String)(guimanager->GetClient()->GetEntityManager()->GetOwnName());
+    btn->setUserString("OwnNickname",ownnickstr);
   }
 
   // Color the titlebar text to signal new text.
@@ -163,7 +165,6 @@ void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* o
   {
     CEGUI::String ownnickstr = (CEGUI::String)(ownnick);
     message = "<"+ownnickstr+">"+message;
-    btn->setUserString("OwnNickname",ownnickstr);
   }
   else
   {
