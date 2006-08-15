@@ -7,6 +7,7 @@ under each day.
 15-Aug-2006
   - Sueastside did some small fixes.
   - PK added experimental whisper code to test. Bugs expected.
+  - Sueastside tied whisper client and server togheter.
 
 14-Aug-2006
   - Sueastside added a mask shader, you can now define stuff like 

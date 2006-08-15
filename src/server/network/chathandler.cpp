@@ -47,6 +47,7 @@ void ChatHandler::handleSay(GenericMessage* msg)
 
 void ChatHandler::handleWhisper(GenericMessage* msg)
 {
+  char buff[1024];
   const Connection* conn = msg->getConnection();
   if (!conn) return;
 
@@ -58,6 +59,9 @@ void ChatHandler::handleWhisper(GenericMessage* msg)
   Entity* entity = server->getEntityManager()->findByName(in_msg.getOther());
   if (!entity || entity->getType() != Entity::PlayerEntity)
     return;
+
+  sprintf(buff, "<%s> to <%s> %s", *name, *in_msg.getOther(),in_msg.getMessage());
+  printf("Whisper: %s\n", buff);
 
   WhisperMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());

@@ -66,13 +66,12 @@ bool WhisperWindow::OnSay (const CEGUI::EventArgs& args)
 
   CEGUI::String nick = ddea.window->getParent()->getUserString("Nickname");
   printf("Whisper: %s to %s\n", text.c_str(), nick.c_str());
-  /*
-  ChatMessage msg;
-  msg.setType(1);
-  msg.setNick(nick.c_str());
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  */
+
+  // Send the whisper to the network.
+  WhisperMessage nmsg;
+  nmsg.setOther(ptString(nick.c_str(), nick.length())); //<-- name of who you want to talk to...
+  nmsg.setMessage(text.c_str());
+  network->send(&nmsg);
 
   // Get the chatlog and add your own message.
   CEGUI::String ownnick = ddea.window->getParent()->getUserString("OwnNickname");

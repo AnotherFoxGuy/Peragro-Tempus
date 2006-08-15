@@ -171,13 +171,10 @@ bool ChatWindow::HandleCommand (const char* texti)
       // Add your own text to the whisper.
       guimanager->GetWhisperWindow()->AddWhisper(nick.GetData(), msg.GetData(), ownnick.GetData());
       // Send the whisper to the network.
-      /*
-      ChatMessage msg;
-      msg.setType(1);
-      msg.setNick(nick.GetData());
-      msg.setMessage(msg.GetData());
-      network->send(&msg);
-      */
+      WhisperMessage nmsg;
+      nmsg.setOther(ptString(nick.GetData(), nick.Length())); //<-- name of who you want to talk to...
+      nmsg.setMessage(msg.GetData());
+      network->send(&nmsg);
     }
     else
       printf("ChatWindow: HandleCommand: Unknown command!\n"); 
@@ -210,6 +207,7 @@ bool ChatWindow::OnShout (const CEGUI::EventArgs& e)
 
 bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
 {
+  /*
   CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
   CEGUI::Window* btn;
   btn = winMgr->getWindow("Input");
@@ -229,6 +227,7 @@ bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
   msg.setMessage(text.c_str());
   network->send(&msg);
   btn->setText(text.erase());
+  */
   return true;
 }
 
