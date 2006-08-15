@@ -622,6 +622,11 @@ void ptEntityManager::createCelEntity(Entity* ent)
   {
     vfs->ChDir("/cellib/objects/");
     pcmesh->SetMesh(*ent->getMesh(), "/peragro/meshes/all.xml");
+
+    // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
+    csRef<iSpriteCal3DState> sprcal3d =
+      SCF_QUERY_INTERFACE (pcmesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
+    if (sprcal3d) sprcal3d->SetVelocity(0);
   }
 
   pl->CreatePropertyClass(entity, "pclinearmovement");
@@ -675,6 +680,8 @@ void ptEntityManager::createCelEntity(Entity* ent)
     pcprop->SetProperty("Door Locked", door->getLocked());
     pl->CreatePropertyClass(entity, "pcquest");
     csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(entity, iPcQuest);
+
+    celQuestParams parameters;
     
     pcquest->NewQuest("PropDoor",parameters);
     pcquest->GetQuest()->SwitchState("closed");

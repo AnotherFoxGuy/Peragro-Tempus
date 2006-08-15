@@ -57,8 +57,6 @@ private:
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
 
-  celQuestParams parameters;
-
   Client* client;
 
   struct Movement
