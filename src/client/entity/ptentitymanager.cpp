@@ -26,6 +26,9 @@
 #include "csutil/event.h"
 #include "csutil/sysfunc.h"
 #include "csutil/syspath.h"
+
+#include "csgeom/math3d.h"
+
 #include "iengine/camera.h"
 #include "iengine/campos.h"
 #include "iengine/mesh.h"
@@ -290,6 +293,17 @@ void ptEntityManager::updatePcProp(int entity_id, const char *pcprop, celData &v
   update_pcprop_entity_name.Push(updatePcprop);
   mutex.unlock();
 }
+
+float ptEntityManager::GetAngle (const csVector3& v1, const csVector3& v2)
+{
+  float len = sqrt (csSquaredDist::PointPoint (v1, v2));
+  float angle = acos ((v2.x-v1.x) / len);
+  if ((v2.z-v1.z) > 0) angle = 2*PI - angle;
+  angle += PI / 2.0f;
+  if (angle > 2*PI) angle -= 2*PI;
+  return angle;
+}
+
 void ptEntityManager::moveEntity(int entity_id, float walk_speed, float* fv1, float* fv2)
 {
   iCelEntity* entity = findCelEntById(entity_id);
@@ -305,24 +319,22 @@ void ptEntityManager::moveEntity(int entity_id, float walk_speed, float* fv1, fl
 
   moveTo->turn_speed = 2*PI; // 1 revolution per second
   moveTo->walk_speed = walk_speed;
-  
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-  csVector3 forward_ori = pcmesh->GetMesh()->GetMovable()->GetTransform().GetFront();
-  csVector3 forward_dst = pos_ori - pos_dst;
-  
-  float yrot_ori = atan2f(forward_ori.x, forward_ori.z);
-  float yrot_dst = atan2f(forward_dst.x, forward_dst.z);
+
+  // Getting the real world position of our entity.
+  // TODO Do some SoftDRUpdate with the server position(fv1)?
+  // Or is this redundant since the end position WILL be the same?
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+  float cur_yrot;
+  csVector3 cur_position;
+  iSector* cur_sector;
+  pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
+
+  csVector3 vec (0,0,1);
+  float yrot_dst = GetAngle (pos_dst - cur_position, vec);
   
   moveTo->dest_angle = yrot_dst;
   
-  if (yrot_dst < yrot_ori)
-    moveTo->turn_speed *= -1;
-  
-  //moveTo->turn_end_time = fabs(yrot_dst - yrot_ori) / fabs(moveTo->turn_speed);
-  moveTo->walk_duration = (pos_dst - pos_ori).Norm() / moveTo->walk_speed;
-  
-  printf("Original yrot: %f Dest yrot: %f\n", yrot_ori, yrot_dst);
-  printf("Diff angle: %f\n", yrot_dst - yrot_ori);
+  moveTo->walk_duration = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
   
   moveTo->elapsed_time = 0;
   moveTo->walking = false;
@@ -376,46 +388,38 @@ void ptEntityManager::moveToEntity()
     iCelEntity* entity = findCelEntById(moveTo->entity_id);
     if (entity)
     {
-      csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-      if (pclinmove.IsValid())
+      csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
+      if (pclinmove.IsValid() && pcactormove.IsValid())
       {
         csVector3 angular_vel;
         pclinmove->GetAngularVelocity(angular_vel);
         
         if (moveTo->elapsed_time == 0 && !moveTo->walking)
         {
-          pclinmove->SetAngularVelocity(csVector3(0,-moveTo->turn_speed,0), moveTo->dest_angle);
+          pcactormove->SetRotationSpeed(moveTo->turn_speed);
+          pcactormove->RotateTo(moveTo->dest_angle);
         }
         else if (angular_vel.IsZero() && !moveTo->walking)
         {
           printf("Stopped turning at: %f\n", moveTo->elapsed_time);
-          pclinmove->SetAngularVelocity(csVector3(0,0,0));
-          pclinmove->SetVelocity(csVector3(0,0,-moveTo->walk_speed));
+          pcactormove->SetMovementSpeed(moveTo->walk_speed);
+          pcactormove->Forward(true);
           moveTo->walking = true;
           moveTo->elapsed_time = 0;
         }
         else if (moveTo->elapsed_time >= moveTo->walk_duration && moveTo->walking)
         {
           printf("Stopped walking at: %f. Expected duration: %f\n", moveTo->elapsed_time, moveTo->walk_duration);
-          pclinmove->SetVelocity(csVector3(0,0,0));
+          pcactormove->Forward(false);
         }
       }
       
       if (moveTo->walking)
       {
-        csRef<iSpriteCal3DState> sprcal3d =
-          SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
-        if (sprcal3d)
-        {
-          if (moveTo->elapsed_time < moveTo->walk_duration)
-            sprcal3d->SetVelocity(moveTo->walk_speed);
-          else if (moveTo->elapsed_time >= moveTo->walk_duration)
-            sprcal3d->SetVelocity(0);
-        }
-        
         if (moveTo->elapsed_time >= moveTo->walk_duration)
         {
+          pcactormove->Forward(false);
           move_to_entity_name.Delete(moveTo);
           continue;
         }

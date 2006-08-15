@@ -119,6 +119,8 @@ private:
   void DrUpdateEntity();
   void updatePcProp();
 
+  float GetAngle (const csVector3& v1, const csVector3& v2);
+
 public:
 
   ptEntityManager (iObjectRegistry* obj_reg, Client* client);

@@ -5,6 +5,9 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 15-Aug-2006
+  - Sueastside fixed MoveTo.
+
+15-Aug-2006
   - Sueastside did some small fixes.
   - PK added experimental whisper code to test. Bugs expected.
   - Sueastside tied whisper client and server togheter.
