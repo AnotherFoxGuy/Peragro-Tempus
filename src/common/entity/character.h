@@ -27,6 +27,7 @@
 #include "common/util/stringstore.h"
 
 class User;
+class Race;
 
 class Character
 {
@@ -38,6 +39,7 @@ private:
   ptString sector_id;
 
   User* user;
+  int race;
 
   float pos[3];
 
@@ -115,10 +117,18 @@ public:
   {
     return user;
   }
-
   void setUser(User* user)
   {
     this->user = user;
+  }
+
+  int getRace()
+  {
+    return race;
+  }
+  void setRace(int race)
+  {
+    this->race = race;
   }
 
   //Inventory* getInventory()

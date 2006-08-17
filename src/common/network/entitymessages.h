@@ -47,7 +47,9 @@ namespace ENTITY
     OPEN_DOOR_RESPONSE=19,
     CLOSE_DOOR_REQUEST=20,
     CLOSE_DOOR_RESPONSE=21,
-    INIT_DOOR=22
+    INIT_DOOR=22,
+    RELOCATE=23,
+    TELEPORT=24
   };
 }
 
@@ -1598,6 +1600,99 @@ public:
     locked = l;
   }
 
+};
+
+class RelocateMessage : public NetMessage
+{
+public:
+  RelocateMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::RELOCATE) 
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+  }
+};
+
+class TeleportMessage : public NetMessage
+{
+  float pos[3];
+  ptString sector;
+  int ent_id;
+
+public:
+  TeleportMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::TELEPORT) 
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(ent_id);
+    serial.setFloat(pos[0]);
+    serial.setFloat(pos[1]);
+    serial.setFloat(pos[2]);
+    serial.setString(sector);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    ent_id = serial.getInt32();
+    pos[0] = serial.getFloat();
+    pos[1] = serial.getFloat();
+    pos[2] = serial.getFloat();
+    sector = serial.getString();
+  }
+
+  int getId()
+  {
+    return ent_id;
+  }
+  void setId(int i)
+  {
+    ent_id = i;
+  }
+
+  float* getPos()
+  {
+    return pos;
+  }
+  void setPos(float p[3])
+  {
+    pos[0] = p[0];
+    pos[1] = p[1];
+    pos[2] = p[2];
+  }
+  void setPos(float x,float y,float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+
+  ptString& getSector()
+  {
+    return sector;
+  }
+  void setSector(ptString s)
+  {
+    sector = s;
+  }
 };
 
 #endif // _ENTITIYMESSAGES_H_

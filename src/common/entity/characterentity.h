@@ -26,10 +26,12 @@
 #include "common/util/stringstore.h"
 
 #include "inventory.h"
+#include "character.h"
 #include "characterskills.h"
 #include "entity.h"
 
 class Item;
+class Character;
 
 class CharacterEntity : public Entity
 {
@@ -39,6 +41,7 @@ private:
   CharacterSkills skills;
 
   size_t charId;
+  Character* character;
 
   float final_dst[3];
   size_t t_stop;
@@ -90,6 +93,12 @@ protected:
     final_dst[2] = 0;
     t_stop = 0;
     state = stIdle;
+    character = 0;
+  }
+
+  ~CharacterEntity()
+  {
+    delete character;
   }
 
 public:
@@ -126,6 +135,16 @@ public:
   void setCharId(size_t id)
   {
     charId = id;
+  }
+
+  void setCharacter(Character* c)
+  {
+    character = c;
+  }
+
+  Character* getCharacter()
+  {
+    return character;
   }
 
   void walkTo(float* dst_pos, float speed)

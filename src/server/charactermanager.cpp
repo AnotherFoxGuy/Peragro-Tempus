@@ -41,7 +41,7 @@ ptString CharacterManager::createCharacter(ptString name, int user_id, int& char
   if (!race) return ptString("Race not found!", strlen("Race not found!"));  // <-- TODO: Error Message Container
 
   this->charId++;
-  ct->insert(this->charId, name, user_id, ptString("test", 4), race->getPos(), ptString("room", 4)); // <-- TODO: Keep those ptString as class members
+  ct->insert(this->charId, name, user_id, ptString("test", 4), race->getId(), race->getPos(), ptString("room", 4)); // <-- TODO: Keep those ptString as class members
 
   char_id = this->charId;
 

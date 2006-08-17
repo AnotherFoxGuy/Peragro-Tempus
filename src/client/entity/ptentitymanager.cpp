@@ -369,6 +369,19 @@ void ptEntityManager::moveEntity(int entity_id, float walk, float turn)
   mutex.unlock();
 }
 
+void ptEntityManager::teleport(int entity_id, float* pos, const char* sector)
+{
+  csVector3 position(pos[0],pos[1],pos[2]);
+
+  // TODO: do the mutex trick
+
+  iCelEntity* entity = findCelEntById(entity_id);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+  iMovable* mov = pcmesh->GetMesh()->GetMovable();
+  mov->SetSector(engine->GetSectors()->FindByName(sector));
+  mov->SetPosition(position);
+}
+
 void ptEntityManager::moveToEntity()
 {
   if (!move_to_entity_name.GetSize()) return;
@@ -685,8 +698,6 @@ void ptEntityManager::createCelEntity(Entity* ent)
     pl->CreatePropertyClass(entity, "pcquest");
     csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(entity, iPcQuest);
 
-    celQuestParams parameters;
-    
     pcquest->NewQuest("PropDoor",parameters);
     pcquest->GetQuest()->SwitchState("closed");
   }

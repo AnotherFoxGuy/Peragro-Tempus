@@ -32,7 +32,7 @@ class CharacterTable : public Table
 public:
   CharacterTable(Database* db);
   void createTable();
-  void insert(int id, ptString name, int user_id, ptString mesh, float pos[3], ptString sector);
+  void insert(int id, ptString name, int user_id, ptString mesh, int race_id, float pos[3], ptString sector);
   int getMaxId();
   void dropTable();
   void remove(int id);

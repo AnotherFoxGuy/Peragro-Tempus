@@ -18,6 +18,8 @@
 
 #include "common/entity/itemmanager.h"
 #include "common/entity/statmanager.h"
+#include "common/entity/racemanager.h"
+#include "common/entity/race.h"
 #include "server/network/network.h"
 #include "server/usermanager.h"
 #include "server/charactermanager.h"
@@ -324,4 +326,33 @@ void EntityHandler::handleCloseDoor(GenericMessage* msg)
     // Tell only one about error
     conn->send(bs);
   }
+}
+
+void EntityHandler::handleRelocate(GenericMessage* msg)
+{
+  const Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  PcEntity* user_ent = conn->getUser()->getEntity();
+  int name_id = user_ent->getId();
+
+  TeleportMessage telemsg;
+
+  int race_id = user_ent->getCharacter()->getRace();
+  Race* race = server->getRaceManager()->findById(race_id);
+
+  if (!race) return;
+
+  user_ent->setPos(race->getPos());
+  user_ent->setSector(race->getSector());
+
+  server->getCharacterManager()->checkForSave((PcEntity*)user_ent);
+
+  telemsg.setId(name_id);
+  telemsg.setSector(race->getSector());
+  telemsg.setPos(race->getPos());
+
+  ByteStream bs;
+  telemsg.serialise(&bs);
+  server->broadCast(bs);
 }

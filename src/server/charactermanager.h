@@ -38,6 +38,8 @@ public:
   ptString createCharacter(ptString name, int user_id, int& char_id);
   void checkForSave(PcEntity* e);
 
+  Character* getCharacter(int id);
+
 
 };
 

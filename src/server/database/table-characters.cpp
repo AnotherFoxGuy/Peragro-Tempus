@@ -46,6 +46,7 @@ void CharacterTable::createTable()
     "name TEXT, "
     "user INTEGER, "
     "mesh TEXT, "
+    "race INTEGER, "
     "pos_x FLOAT, "
     "pos_y FLOAT, "
     "pos_z FLOAT, "
@@ -53,10 +54,10 @@ void CharacterTable::createTable()
     "PRIMARY KEY (id) );");
 }
 
-void CharacterTable::insert(int id, ptString name, int user_id, ptString mesh, float pos[3], ptString sector)
+void CharacterTable::insert(int id, ptString name, int user_id, ptString mesh, int race_id, float pos[3], ptString sector)
 {
-  db->update("insert into characters (id, name, user, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d','%s',%d,'%s',%.2f,%.2f,%.2f,'%s');", id, *name, user_id, *mesh, pos[0], pos[1], pos[2], *sector);
+  db->update("insert into characters (id, name, user, mesh, race, pos_x, pos_y, pos_z, sector) values "
+    "('%d','%s',%d,'%s',%d,%.2f,%.2f,%.2f,'%s');", id, *name, user_id, *mesh, race_id, pos[0], pos[1], pos[2], *sector);
 }
 
 int CharacterTable::getMaxId()
@@ -111,10 +112,10 @@ Character* CharacterTable::findCharacterById(int id, size_t user_id)
   Character* character = new Character();
   character->setId(atoi(rs->GetData(0,0).c_str()));
   character->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-  //character->setUser(atoi(rs->GetData(0,2).c_str()));
+  character->setRace(atoi(rs->GetData(0,4).c_str()));
   character->setMesh(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
-  character->setPos((float)atof(rs->GetData(0,4).c_str()), (float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()));
-  character->setSector(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
+  character->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
+  character->setSector(ptString(rs->GetData(0,8).c_str(), rs->GetData(0,8).length()));
   delete rs;
 
   return character;
@@ -132,9 +133,10 @@ void CharacterTable::getAllCharacters(Array<Character*>& characters, User* user)
     character->setId(atoi(rs->GetData(i,0).c_str()));
     character->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(0,1).length()));
     character->setUser(user);
+    character->setRace(atoi(rs->GetData(0,4).c_str()));
     character->setMesh(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
-    character->setPos((float)atof(rs->GetData(0,4).c_str()), (float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()));
-    character->setSector(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
+    character->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
+    character->setSector(ptString(rs->GetData(0,8).c_str(), rs->GetData(0,8).length()));
     characters.add(character);
   }
   delete rs;

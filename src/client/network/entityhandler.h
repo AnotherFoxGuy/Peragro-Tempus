@@ -65,6 +65,7 @@ public:
       else if (id == ENTITY::OPEN_DOOR_RESPONSE) handleOpenDoor(msg);
       else if (id == ENTITY::CLOSE_DOOR_RESPONSE) handleCloseDoor(msg);
       else if (id == ENTITY::INIT_DOOR) handleAddDoor(msg);
+      else if (id == ENTITY::TELEPORT) handleTeleport(msg);
     }
     else
     {
@@ -90,6 +91,7 @@ public:
   void handleOpenDoor(GenericMessage* msg);
   void handleCloseDoor(GenericMessage* msg);
   void handleAddDoor(GenericMessage* msg);
+  void handleTeleport(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

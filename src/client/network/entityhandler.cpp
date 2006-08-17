@@ -220,3 +220,15 @@ void EntityHandler::handleCloseDoor(GenericMessage* msg)
   data.Set(false);
   client->GetEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
 }
+
+void EntityHandler::handleTeleport(GenericMessage* msg)
+{
+  TeleportMessage telemsg;
+  telemsg.deserialise(msg->getByteStream());
+
+  int entity_id = telemsg.getId();
+  float* pos = telemsg.getPos();
+  const char* sector = *telemsg.getSector();
+
+  client->GetEntityManager()->teleport(entity_id, pos, sector);
+}

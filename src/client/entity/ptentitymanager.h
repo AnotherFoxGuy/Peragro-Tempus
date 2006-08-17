@@ -57,6 +57,8 @@ private:
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
 
+  celQuestParams parameters;
+    
   Client* client;
 
   struct Movement
@@ -133,6 +135,7 @@ public:
   void delEntity(Entity* name);
   void moveEntity(int entity_id, float walk, float turn);
   void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);
+  void teleport(int entity_id, float* pos, const char* sector);
   void DrUpdateEntity(ptEntityManager::DrUpdate* drupdate);
   UpdateDREntityRequestMessage DrUpdateOwnEntity();
   void Attach(uint entityid, const char* socketName, const char* meshFactName );

@@ -65,6 +65,7 @@ public:
       else if (id == ENTITY::EQUIP) handleEquipRequest(msg);
       else if (id == ENTITY::OPEN_DOOR_REQUEST) handleOpenDoor(msg);
       else if (id == ENTITY::CLOSE_DOOR_REQUEST) handleCloseDoor(msg);
+      else if (id == ENTITY::RELOCATE) handleRelocate(msg);
     }
     else
     {
@@ -85,6 +86,7 @@ public:
   void handleEquipRequest(GenericMessage* msg);
   void handleOpenDoor(GenericMessage* msg);
   void handleCloseDoor(GenericMessage* msg);
+  void handleRelocate(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

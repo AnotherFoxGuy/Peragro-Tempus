@@ -481,6 +481,10 @@ bool Client::OnKeyboard(iEvent& ev)
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()+0.1f);
       }
+      else if (code == 'r')
+      {
+        network->send(&RelocateMessage());
+      }
       else if (code == 'c')
       {
         iPcActorMove* pcactormove = getPcActorMove();
