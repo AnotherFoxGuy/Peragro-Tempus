@@ -56,8 +56,6 @@ private:
   csRef<iVirtualClock> vc;
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
-
-  celQuestParams parameters;
     
   Client* client;
 

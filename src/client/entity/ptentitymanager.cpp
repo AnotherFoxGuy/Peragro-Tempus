@@ -698,6 +698,8 @@ void ptEntityManager::createCelEntity(Entity* ent)
     pl->CreatePropertyClass(entity, "pcquest");
     csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(entity, iPcQuest);
 
+    celQuestParams parameters;
+
     pcquest->NewQuest("PropDoor",parameters);
     pcquest->GetQuest()->SwitchState("closed");
   }
