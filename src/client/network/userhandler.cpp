@@ -83,7 +83,7 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
 
 void UserHandler::handleCharSelectionResponse(GenericMessage* msg)
 {
-  client->loadRegion("/world");
+  client->loadRegion("keep");
   client->state = Client::STATE_PLAY;
   CharacterSelectionResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());

@@ -146,9 +146,9 @@ bool ChatWindow::HandleCommand (const char* texti)
     printf("ChatWindow: HandleCommand: found %s\n", command.GetData());
 
 
-    if (command.Compare("spawn"))
+    if (command.Compare("relocate"))
     {
-      printf("ChatWindow: HandleCommand: handled spawn!\n");
+      network->send(&RelocateMessage());
     }
     else if (command.Compare("guild"))
     {

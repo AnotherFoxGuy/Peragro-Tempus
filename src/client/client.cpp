@@ -481,10 +481,6 @@ bool Client::OnKeyboard(iEvent& ev)
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()+0.1f);
       }
-      else if (code == 'r')
-      {
-        network->send(&RelocateMessage());
-      }
       else if (code == 'c')
       {
         iPcActorMove* pcactormove = getPcActorMove();
@@ -782,6 +778,9 @@ bool Client::InitializeCEL()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
     return false;
 
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return false;
+
   #if 1
   // HACK HACK
   // Fixes the CEGUI corruption somehow.
@@ -900,25 +899,30 @@ void Client::loadRegion()
   guimanager->CreateChatWindow ();
   guimanager->CreateHUDWindow ();
   
-  const char* path = cmdline->GetOption("world");
+  const char* regionname = cmdline->GetOption("world");
 
-  if (!path) 
+  if (!regionname) 
   {
-    path = load_region->GetData();
+    regionname = load_region->GetData();
     printf("loadRegion: Using default world.\n");
   }
 
   csRef<iCelEntity> entity = pl->CreateEntity();
-  pl->CreatePropertyClass(entity, "pcregion");
-  csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(entity, iPcRegion);
-  entity->SetName("world");
-  pcregion->SetRegionName("world");
-  pcregion->SetWorldFile (path, "world");
-  world_loaded = pcregion->Load();
+  pl->CreatePropertyClass(entity, "pczonemanager");
+
+  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
+  	iPcZoneManager);
+
+  entity->SetName("ptworld");
+  pczonemgr->SetLoadingMode(CEL_ZONE_LOADALL);
+  world_loaded = pczonemgr->Load("/peragro/art/world/", "regions.xml");
+  iCelRegion* region = pczonemgr->FindRegion(regionname);
+  if (region) pczonemgr->ActivateRegion(region);
+
   entitymanager->setWorldloaded(world_loaded);
   load_region = 0;
 
-  // Stop the intro
+  // Stop the intro music.
   sndstream->Pause ();
 
   // Remove the portal.
@@ -931,7 +935,6 @@ void Client::loadRegion()
   }
 
 }
-
 
 void Client::chat(unsigned char type, const char* msg, const char* other)
 {
