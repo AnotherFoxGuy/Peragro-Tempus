@@ -92,6 +92,9 @@ bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e)
   if (NewCharName.empty()) return true;
   CharacterCreationRequestMessage answer_msg;
   answer_msg.setName(ptString(NewCharName.c_str(), NewCharName.length()));
+  answer_msg.setSkinColour(0xC9BE89);
+  answer_msg.setHairColour(0x4B4113);
+  answer_msg.setDecalColour(0xFF0000);
   network->send(&answer_msg);
 
   ToggleNewWindow(false);
@@ -163,7 +166,7 @@ void SelectCharWindow::CreateGUIWindow()
 
 }
 
-void SelectCharWindow::AddCharacter(unsigned int charId, const char* name)
+void SelectCharWindow::AddCharacter(unsigned int charId, const char* name, unsigned int skincolour, unsigned int hairncolour, unsigned int decalcolour)
 {
   btn = winMgr->getWindow("CharSelect/Characters");
   char charIdstr[10];

@@ -60,7 +60,9 @@ void UserHandler::handleCharList(GenericMessage* msg)
   guimanager = client->GetGuiManager();
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
-    guimanager->GetSelectCharWindow ()->AddCharacter(char_msg.getCharacterId(i), *char_msg.getCharacterName(i));
+    guimanager->GetSelectCharWindow ()->AddCharacter(
+      char_msg.getCharacterId(i), *char_msg.getCharacterName(i),
+      char_msg.getSkinColour(i), char_msg.getHairColour(i), char_msg.getDecalColour(i));
     //printf("Char %d: %s\n", char_msg.getCharacterId(i), char_msg.getCharacterName(i));
   }
 }
@@ -73,7 +75,8 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
 
   if (answer_msg.getError().isNull())
   {
-    guimanager->GetSelectCharWindow ()->AddCharacter(answer_msg.getCharacterId(), *answer_msg.getCharacterName());
+    guimanager->GetSelectCharWindow ()->AddCharacter(answer_msg.getCharacterId(), *answer_msg.getCharacterName(),
+      answer_msg.getSkinColour(), answer_msg.getHairColour(), answer_msg.getDecalColour());
   }
   else
   {

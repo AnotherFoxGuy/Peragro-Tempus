@@ -43,7 +43,7 @@ public:
   SelectCharWindow(GUIManager* guimanager);
   virtual ~SelectCharWindow();
   void CreateGUIWindow();    // load the Login guilayout and register button events.
-  void AddCharacter(unsigned int charId, const char* name);
+  void AddCharacter(unsigned int charId, const char* name, unsigned int skincolour, unsigned int hairncolour, unsigned int decalcolour);
 };
 
 #endif // CHARSEL_GUI_H

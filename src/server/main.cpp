@@ -159,14 +159,14 @@ int main(int argc, char ** argv)
   std::ifstream file ("data/server/peragro_data", std::ios::in|std::ios::ate|std::ios::binary);
   if (file.is_open())
   {
-    size_t size = file.tellg();
+    std::streamsize size = file.tellg();
     char* data = new char [size+1];
     file.seekg (0, std::ios::beg);
     file.read (data, size);
     data[size] = '\0';
     file.close();
 
-    for (int i=0; i<size; i++)
+    for (std::streamsize i=0; i<size; i++)
     {
       char* name = data+i;
 

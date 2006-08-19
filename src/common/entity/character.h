@@ -43,7 +43,9 @@ private:
 
   float pos[3];
 
-  //Inventory inventory;
+  unsigned int haircolour; //24bit color
+  unsigned int skincolour; //24bit color
+  unsigned int decalcolour; //24bit color
 
 public:
   Character() : id(-1)
@@ -131,10 +133,14 @@ public:
     this->race = race;
   }
 
-  //Inventory* getInventory()
-  //{
-  //  return &inventory;
-  //}
+  unsigned int getSkinColour() { return skincolour; }
+  void setSkinColour(unsigned int colour) { skincolour = colour; }
+
+  unsigned int getHairColour() { return haircolour; }
+  void setHairColour(unsigned int colour) { haircolour = colour; }
+
+  unsigned int getDecalColour() { return decalcolour; }
+  void setDecalColour(unsigned int colour) { decalcolour = colour; }
 };
 
 #endif // _CHARACTER_H_

@@ -166,6 +166,9 @@ class CharacterListMessage : public NetMessage
   public:
     int id;
     ptString name;
+    unsigned int haircolour; //24bit color
+    unsigned int skincolour; //24bit color
+    unsigned int decalcolour; //24bit color
   };
 
   nwCharacter* chars;
@@ -184,6 +187,9 @@ public:
     {
       serial.setInt32(chars[i].id);
       serial.setString(chars[i].name);
+      serial.setInt24(chars[i].skincolour);
+      serial.setInt24(chars[i].haircolour);
+      serial.setInt24(chars[i].decalcolour);
     }
   }
 
@@ -197,6 +203,9 @@ public:
     {
       chars[i].id = serial.getInt32();
       chars[i].name = serial.getString();
+      chars[i].skincolour = serial.getInt24();
+      chars[i].haircolour = serial.getInt24();
+      chars[i].decalcolour = serial.getInt24();
     }
   }
 
@@ -213,11 +222,23 @@ public:
 
   ptString& getCharacterName(int idx) { return chars[idx].name; }
   void setCharacterName(int idx, ptString name) { chars[idx].name = name; }
+
+  unsigned int getSkinColour(int idx) { return chars[idx].skincolour; }
+  void setSkinColour(int idx, unsigned int colour) { chars[idx].skincolour = colour; }
+
+  unsigned int getHairColour(int idx) { return chars[idx].haircolour; }
+  void setHairColour(int idx, unsigned int colour) { chars[idx].haircolour = colour; }
+
+  unsigned int getDecalColour(int idx) { return chars[idx].decalcolour; }
+  void setDecalColour(int idx, unsigned int colour) { chars[idx].decalcolour = colour; }
 };
 
 class CharacterCreationRequestMessage : public NetMessage
 {
   ptString name;
+  unsigned int haircolour; //24bit color
+  unsigned int skincolour; //24bit color
+  unsigned int decalcolour; //24bit color
 
 public:
   CharacterCreationRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_CREATION_REQUEST) {}
@@ -228,6 +249,9 @@ public:
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setString(name);
+    serial.setInt24(skincolour);
+    serial.setInt24(haircolour);
+    serial.setInt24(decalcolour);
   }
 
   void deserialise(ByteStream* bs)
@@ -236,10 +260,22 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     name = serial.getString();
+    skincolour = serial.getInt24();
+    haircolour = serial.getInt24();
+    decalcolour = serial.getInt24();
   }
 
   ptString& getName() { return name; }
   void setName(ptString n) { name = n; }
+
+  unsigned int getSkinColour() { return skincolour; }
+  void setSkinColour(unsigned int colour) { skincolour = colour; }
+
+  unsigned int getHairColour() { return haircolour; }
+  void setHairColour(unsigned int colour) { haircolour = colour; }
+
+  unsigned int getDecalColour() { return decalcolour; }
+  void setDecalColour(unsigned int colour) { decalcolour = colour; }
 };
 
 class CharacterCreationResponseMessage : public NetMessage
@@ -247,6 +283,9 @@ class CharacterCreationResponseMessage : public NetMessage
   ptString error;
   unsigned int char_id;
   ptString char_name;
+  unsigned int haircolour; //24bit color
+  unsigned int skincolour; //24bit color
+  unsigned int decalcolour; //24bit color
 
 public:
   CharacterCreationResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_CREATION_RESPONSE) { }
@@ -258,6 +297,9 @@ public:
     serial.setInt8(id);
     serial.setInt32(char_id);
     serial.setString(char_name);
+    serial.setInt24(skincolour);
+    serial.setInt24(haircolour);
+    serial.setInt24(decalcolour);
     serial.setString(error);
   }
 
@@ -268,6 +310,9 @@ public:
     id = serial.getInt8();
     char_id = serial.getInt32();
     char_name = serial.getString();
+    skincolour = serial.getInt24();
+    haircolour = serial.getInt24();
+    decalcolour = serial.getInt24();
     error = serial.getString();
   }
 
@@ -280,6 +325,14 @@ public:
   ptString& getCharacterName() { return char_name; }
   void setCharacterName(ptString name) { char_name = name; }
 
+  unsigned int getSkinColour() { return skincolour; }
+  void setSkinColour(unsigned int colour) { skincolour = colour; }
+
+  unsigned int getHairColour() { return haircolour; }
+  void setHairColour(unsigned int colour) { haircolour = colour; }
+
+  unsigned int getDecalColour() { return decalcolour; }
+  void setDecalColour(unsigned int colour) { decalcolour = colour; }
 };
 
 class CharacterSelectionRequestMessage : public NetMessage

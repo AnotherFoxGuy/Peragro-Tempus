@@ -8,6 +8,7 @@ under each day.
   - Sueastside moved the relocation command to '/relocate'.
   - Sueastside made the client load a region file,
      making it load the indoor level aswell.
+  - PK added customisable colours to the characters.
 
 17-Aug-2006
   - PK added relocation command. Press 'r'

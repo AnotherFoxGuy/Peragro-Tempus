@@ -113,8 +113,12 @@ void UserHandler::handleCharCreationRequest(GenericMessage* msg)
 
   int char_id = 0;
 
+  unsigned int haircolour = char_msg.getHairColour();
+  unsigned int skincolour = char_msg.getSkinColour();
+  unsigned int decalcolour = char_msg.getDecalColour();
+
   // Register the new char
-  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id);
+  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id, haircolour, skincolour, decalcolour);
 
   // Send response message
   CharacterCreationResponseMessage response_msg;

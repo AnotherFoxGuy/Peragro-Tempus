@@ -47,6 +47,9 @@ void CharacterTable::createTable()
     "user INTEGER, "
     "mesh TEXT, "
     "race INTEGER, "
+    "haircolour INTEGER, "
+    "skincolour INTEGER, "
+    "decalcolour INTEGER, "
     "pos_x FLOAT, "
     "pos_y FLOAT, "
     "pos_z FLOAT, "
@@ -54,7 +57,7 @@ void CharacterTable::createTable()
     "PRIMARY KEY (id) );");
 }
 
-void CharacterTable::insert(int id, ptString name, int user_id, ptString mesh, int race_id, float pos[3], ptString sector)
+void CharacterTable::insert(int id, ptString name, int user_id, ptString mesh, int race_id, unsigned int haircolour, unsigned int skincolour, unsigned int decalcolour, float pos[3], ptString sector)
 {
   db->update("insert into characters (id, name, user, mesh, race, pos_x, pos_y, pos_z, sector) values "
     "('%d','%s',%d,'%s',%d,%.2f,%.2f,%.2f,'%s');", id, *name, user_id, *mesh, race_id, pos[0], pos[1], pos[2], *sector);
@@ -112,10 +115,13 @@ Character* CharacterTable::findCharacterById(int id, size_t user_id)
   Character* character = new Character();
   character->setId(atoi(rs->GetData(0,0).c_str()));
   character->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-  character->setRace(atoi(rs->GetData(0,4).c_str()));
   character->setMesh(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
-  character->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
-  character->setSector(ptString(rs->GetData(0,8).c_str(), rs->GetData(0,8).length()));
+  character->setRace(atoi(rs->GetData(0,4).c_str()));
+  character->setHairColour(atoi(rs->GetData(0,5).c_str()));
+  character->setSkinColour(atoi(rs->GetData(0,6).c_str()));
+  character->setDecalColour(atoi(rs->GetData(0,7).c_str()));
+  character->setPos((float)atof(rs->GetData(0,8).c_str()), (float)atof(rs->GetData(0,9).c_str()), (float)atof(rs->GetData(0,10).c_str()));
+  character->setSector(ptString(rs->GetData(0,11).c_str(), rs->GetData(0,11).length()));
   delete rs;
 
   return character;
@@ -131,12 +137,15 @@ void CharacterTable::getAllCharacters(Array<Character*>& characters, User* user)
   {
     Character* character = new Character();
     character->setId(atoi(rs->GetData(i,0).c_str()));
-    character->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(0,1).length()));
+    character->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
     character->setUser(user);
-    character->setRace(atoi(rs->GetData(0,4).c_str()));
-    character->setMesh(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
-    character->setPos((float)atof(rs->GetData(0,5).c_str()), (float)atof(rs->GetData(0,6).c_str()), (float)atof(rs->GetData(0,7).c_str()));
-    character->setSector(ptString(rs->GetData(0,8).c_str(), rs->GetData(0,8).length()));
+    character->setMesh(ptString(rs->GetData(i,3).c_str(), rs->GetData(i,3).length()));
+    character->setRace(atoi(rs->GetData(i,4).c_str()));
+    character->setHairColour(atoi(rs->GetData(i,5).c_str()));
+    character->setSkinColour(atoi(rs->GetData(i,6).c_str()));
+    character->setDecalColour(atoi(rs->GetData(i,7).c_str()));
+    character->setPos((float)atof(rs->GetData(i,8).c_str()), (float)atof(rs->GetData(i,9).c_str()), (float)atof(rs->GetData(i,10).c_str()));
+    character->setSector(ptString(rs->GetData(i,11).c_str(), rs->GetData(i,11).length()));
     characters.add(character);
   }
   delete rs;
