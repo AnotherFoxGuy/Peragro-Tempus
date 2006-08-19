@@ -192,6 +192,17 @@ void ptEntityManager::SetMaskColor(iMeshWrapper* mesh, const char* maskname, csV
   mesh->GetSVContext()->AddVariable(variable);
 }
 
+void ptEntityManager::SetMaskColor(iMeshWrapper* mesh, const char* maskname, unsigned int colorvalue)
+{
+  csVector4 colorvalueh;
+  colorvalueh.x =  ((colorvalue & 0xFF0000) >>  4) / 1.04448e+006; // Red
+  colorvalueh.y =  ((colorvalue & 0x00FF00) >>  2) / 16320;        // Green
+  colorvalueh.z =  (colorvalue & 0x0000FF) / 255;                  // Blue
+  colorvalueh.w =  1;
+  printf("Colorvalue is: %s", colorvalueh.Description().GetData());
+  SetMaskColor(mesh, maskname, colorvalueh);
+}
+
 void ptEntityManager::addEntity(Entity* entity)
 {
   mutex.lock();

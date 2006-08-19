@@ -141,6 +141,7 @@ public:
 
   void createCelEntity(Entity* ent);
   void SetMaskColor(iMeshWrapper* mesh, const char* maskname, csVector4 colorvalue);
+  void SetMaskColor(iMeshWrapper* mesh, const char* maskname, unsigned int colorvalue);
 
   iCelEntity* findCelEntById(int id);
   ptCelEntity* findPtEntById(int id);
