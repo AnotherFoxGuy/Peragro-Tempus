@@ -506,8 +506,9 @@ bool Client::OnKeyboard(iEvent& ev)
         csRef<iMeshWrapper> parent = pcmesh->GetMesh();
         if (!parent) return false;
 
-        entitymanager->SetMaskColor(parent, "decalcolor", csVector4(1,0,0,1));
+        //entitymanager->SetMaskColor(parent, "decalcolor", csVector4(1,0,0,1));
         entitymanager->SetMaskColor(parent, "haircolor", csVector4(0.3f,0.2f,0.02f,1));
+        entitymanager->SetMaskColor(parent, "decalcolor", 0xFF0000);
       }
       else if (code == 'f')
       {

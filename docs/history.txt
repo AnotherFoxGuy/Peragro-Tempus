@@ -4,11 +4,16 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+24-Aug-2006
+  - Sueastside made the password input masked.
+
 19-Aug-2006
   - Sueastside moved the relocation command to '/relocate'.
   - Sueastside made the client load a region file,
      making it load the indoor level aswell.
   - PK added customisable colours to the characters.
+  - Sueastside made an overloaded function for SetMaskColor which
+     takes an int as input for colorvalue.
 
 17-Aug-2006
   - PK added relocation command. Press 'r'

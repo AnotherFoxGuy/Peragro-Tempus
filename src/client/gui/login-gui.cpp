@@ -138,6 +138,11 @@ void LoginWindow::CreateGUIWindow()
     return;
   }
 
+  // Setup masking on the Password editbox.
+  btn = winMgr->getWindow("LoginUI/PasswordEditBox");
+  ((CEGUI::Editbox*)btn)->setMaskCodePoint('*'); //0x359
+  ((CEGUI::Editbox*)btn)->setTextMasked(true);
+
   // Register the button events.
   btn = winMgr->getWindow("LoginUI/Login_Button");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::LoginButtonPressed, this));
