@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skills>
+
+	<skill>
+		<id>1</id>
+		<name>Heal</name>
+		<description>Rejuvenates the target by 10 HP.</description>
+		<icon>set:Skill image:Heal</icon>
+		<effects>
+			<caster>HealSpellPentagram</caster>
+			<castanim>cast_divine</castanim>
+			<weapon>none</weapon>
+			<target>HealSpellEffect</target>
+			<projectile>none</projectile>	
+		</effects>
+		<stats>
+			<range>5</range>
+			<duration>0</duration>
+			<casttime>10</casttime>
+			<reusedelay>100</reusedelay>
+		</stats>
+		<cost>
+			<hp>0</hp>
+			<mp>10</mp>
+			<sp>0</sp>
+		</cost>
+		<damage>
+			<hp>-10</hp>
+			<mp>0</mp>
+			<sp>0</sp>	
+		</damage>
+		<requirements>
+			<int>10</int>
+			<men>5</men>
+		</requirements>
+	</skill>
+
+</skills>
+
+<!--
+
+- Needs a way to do expressions, like damage based on a stat or weapon mastery.
+- How to do area of effect? Do this on the server and just apply it to each entity individual?
+- How to do buffs?  (<affect>? unlike damage its 'does not' add up during the duration)
+
+-->

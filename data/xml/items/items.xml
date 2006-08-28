@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+
+	<item>
+		<id>1</id>
+		<name>Flaming Dragon Edge Sword</name>
+		<icon>set:Weapons image:DragonEdgeSword</icon>
+		<description>
+			Past on from generation to generation of Tibet Monks
+			who mastered the movement of the Mighty Dragon
+			and could swing this sword soo fast it would
+			actually caught fire, inflicting extra damage on the foo.
+		</description>
+		<mesh>/peragro/art/props/weapons/swords/flamingdragonedgesword/flamingdragonedgesword.lib</mesh>
+	</item>
+	
+</items>
