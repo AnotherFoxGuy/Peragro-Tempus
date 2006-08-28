@@ -3,4 +3,5 @@ SubDir TOP src client gui ;
 Description client-gui : "client gui" ;
 Library client-gui :
   [ Wildcard *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs common ] : *.h *.cpp ]
 ExternalLibs client-gui : CRYSTAL CEGUI CEL ;

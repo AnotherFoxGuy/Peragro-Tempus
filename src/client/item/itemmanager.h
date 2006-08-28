@@ -16,61 +16,30 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef EFFECTSMANAGER_H
-#define EFFECTSMANAGER_H
+#ifndef ITEMMANAGER_H
+#define ITEMMANAGER_H
 
 #include "cssysdef.h"
 #include "csutil/ref.h"
 #include "iutil/vfs.h"
+#include "iutil/virtclk.h"
 #include "iengine/engine.h"
-
-#include "client/effects/effect.h"
-
-class Effect;
+#include "csgeom/path.h"
 
 struct iObjectRegistry;
 struct iLoader;
 
-class EffectsManager
+class ItemManager
 {
 private:
-
-  csArray<Effect> effects;
-
-  csRef<iObjectRegistry> obj_reg;
-  csRef<iEngine> engine;
-  csRef<iVFS> vfs;
-  csRef<iLoader> loader;
-
-  iMeshWrapper* CreateEffectMesh (int effect);
+  csArray<Item*> items;
 
 public:
-
-  EffectsManager (iObjectRegistry* obj_reg);
-  ~EffectsManager ();
-
-  enum EffectType
-  {
-    Blood=0,
-    Levelup=1,
-    Pentagram=2,
-    Healeffect=3,
-    Deflect=4,
-    Die=5,
-    Energysphere=6,
-    Energyspear=7,
-    Healspell=8,
-    MoveMarker=9
-  };
-
-  bool Initialize ();
-
- 
-  bool CreateEffect (iMeshWrapper* parent, int effect);
-  bool CreateEffect (int effect, csVector3 pos);
-
-  void HandleEffects(csTicks elapsed_ticks);
-
+  ItemManager(iObjectRegistry* obj_reg);
+  ~ItemManager();
+  void Initialize();
+  Item* GetItemById(uint id);
+  Item* GetItemByName(csString name);  
 };
 
-#endif // EFFECTSMANAGER_H
+#endif // ITEMMANAGER_H

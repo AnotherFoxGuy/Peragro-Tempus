@@ -61,6 +61,8 @@
 
 EffectsManager::EffectsManager (iObjectRegistry* obj_reg)
 {
+  this->obj_reg = obj_reg;
+
   engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
   //if (!engine) return ReportError("Failed to locate 3D engine!");
 
@@ -72,7 +74,7 @@ EffectsManager::~EffectsManager ()
 {
 }
 
-bool EffectsManager::Initialize (iObjectRegistry* obj_reg)
+bool EffectsManager::Initialize ()
 {
   loader = CS_QUERY_REGISTRY (obj_reg, iLoader);
   if (!loader)

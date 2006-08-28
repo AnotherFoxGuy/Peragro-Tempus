@@ -99,10 +99,8 @@ ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
   this->client = client;
 
   engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
-  //if (!engine) return ReportError("Failed to locate 3D engine!");
 
   vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
-  //if (!vfs) return ReportError("Failed to locate VFS!");
 
   stringset = CS_QUERY_REGISTRY_TAG_INTERFACE (obj_reg,
     "crystalspace.shared.stringset", iStringSet);
@@ -110,28 +108,17 @@ ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
   vc = CS_QUERY_REGISTRY (obj_reg, iVirtualClock);
 
   pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
-  //if (!pl) return ReportError("Failed to load CEL Physical Layer");
-
-  world_loaded = false;
-  playing = false;
-  own_char_id = 0;
 }
 
 ptEntityManager::~ptEntityManager ()
 {
 }
 
-bool ptEntityManager::Initialize (iObjectRegistry* obj_reg)
+bool ptEntityManager::Initialize ()
 {
-  loader = CS_QUERY_REGISTRY (obj_reg, iLoader);
-  if (!loader)
-  {
-    //Report (CS_REPORTER_SEVERITY_ERROR, "No loader!");
-    return false;
-  }
-
-  // load the factory for particles from file
-  //if ( !loader->LoadLibraryFile ("/peragro/meshes/effects/alleffects.xml") ) return false;
+  world_loaded = false;
+  playing = false;
+  own_char_id = 0;
 
   return true;
 }

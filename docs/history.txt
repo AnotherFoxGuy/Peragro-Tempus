@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+28-Aug-2006
+  - Sueastside committed work in progress itemmanager,
+     i need some projectfiles generation.
+
 24-Aug-2006
   - Sueastside made the password input masked.
 

@@ -126,7 +126,7 @@ public:
   ptEntityManager (iObjectRegistry* obj_reg, Client* client);
   ~ptEntityManager ();
 
-  bool Initialize (iObjectRegistry* obj_reg);
+  bool Initialize ();
   void Handle();
 
   void addEntity(Entity* name);

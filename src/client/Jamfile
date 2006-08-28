@@ -5,11 +5,12 @@ SubInclude TOP src client gui ;
 SubInclude TOP src client effects ;
 SubInclude TOP src client entity ;
 SubInclude TOP src client combat ;
+SubInclude TOP src client item ;
 
 Description client : "Client" ;
 Application client : [ Wildcard *.h *.cpp ] ;
 ExternalLibs client : CEGUI CRYSTAL CEL ;
-LinkWith client : client-network client-gui client-effects client-entitymanager client-combatmanager entity util ;
+LinkWith client : client-network client-gui client-effects client-entitymanager client-combatmanager client-itemmanager entity util ;
 
 MsvcExternalLibrary client : "wsock32.lib" ;
 
@@ -25,7 +26,7 @@ if [ Property build : projgen_version ] != 6
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
   LFlags client_static : -lcrystalspace_staticplugins  -lcel_staticplugins ;
-  LinkWith client_static : client-network client-gui client-effects client-entitymanager client-combatmanager entity util ;
+  LinkWith client_static : client-network client-gui client-effects client-entitymanager client-combatmanager client-itemmanager entity util ;
   LinkStaticPlugins client_static :
     pfactormove
     pfdefcam

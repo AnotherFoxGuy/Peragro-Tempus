@@ -117,13 +117,8 @@ iMeshWrapper* CombatMGR::getMesh(iCelEntity* entity)
  return parent;
 }
 
-bool CombatMGR::Initialize (iObjectRegistry* obj_reg)
+bool CombatMGR::Initialize ()
 {
-  //cegui = CS_QUERY_REGISTRY(obj_reg, iCEGUI);
-  //if (!cegui) return client->ReportError("Failed to locate CEGUI plugin");
-
-  //csRef<iVFS> vfs = client->getVFS ();
-
   entitymgr   = client->GetEntityManager ();
   effectsmgr  = client->getEffectsmgr();
   guimanager  = client->getGuimgr();

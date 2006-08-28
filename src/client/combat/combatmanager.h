@@ -72,7 +72,7 @@ public:
   CombatMGR (Client* client);
   ~CombatMGR ();
 
-  bool Initialize (iObjectRegistry* obj_reg);
+  bool Initialize ();
 
   void hit (int targetId, int damage);
   void die (int targetId);

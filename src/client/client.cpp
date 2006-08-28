@@ -242,7 +242,7 @@ bool Client::Application()
 
   // Create and Initialize the EntityManager.
   entitymanager = new ptEntityManager (GetObjectRegistry(), this);
-  if (!entitymanager->Initialize (GetObjectRegistry()))
+  if (!entitymanager->Initialize())
     return false;
   
   // Create and Initialize the Network. 
@@ -251,12 +251,12 @@ bool Client::Application()
 
   // Create and Initialize the Effectsmanager.
   effectsmanager = new EffectsManager (GetObjectRegistry());
-  if (!effectsmanager->Initialize (GetObjectRegistry()))
+  if (!effectsmanager->Initialize())
     return false;
 
   // Create and Initialize the Combatmanager.
   combatmanager = new CombatMGR (this);
-  if (!combatmanager->Initialize (GetObjectRegistry()))
+  if (!combatmanager->Initialize())
     return false;
 
   view.AttachNew(new csView(engine, g3d));

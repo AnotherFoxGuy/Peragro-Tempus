@@ -189,7 +189,7 @@ bool Simple::Application()
 
     // Create and Initialize the Effectsmanager.
     effectsmanager = new EffectsManager (GetObjectRegistry());
-    if (!effectsmanager->Initialize (GetObjectRegistry()))
+    if (!effectsmanager->Initialize())
       return false;
 
   if (SetupModules())
