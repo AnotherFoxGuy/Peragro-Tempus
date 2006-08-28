@@ -291,7 +291,7 @@ bool Client::Application()
   // end intro sound
   csRef<iLoader >loader = CS_QUERY_REGISTRY(GetObjectRegistry(), iLoader);
   if (!loader) return ReportError("Failed to locate Loader!");
-  loader->LoadLibraryFile("/peragro/quests/doorquests.xml");
+  loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
 
   Run();
 
