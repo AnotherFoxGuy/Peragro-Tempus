@@ -31,7 +31,7 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   switch (entmsg.getType())
   {
     case Entity::ItemEntity: entity = new ItemEntity(); break;
-    case Entity::PlayerEntity: entity = new PcEntity(); break;
+    //case Entity::PlayerEntity: entity = new PcEntity(); break;
     case Entity::NPCEntity: entity = new NpcEntity(); break;
     case Entity::DoorEntity: entity = new DoorEntity(); break;
     default : {printf("EntityHandler: ERROR Unknown entity type for %s!\n", *entmsg.getName()); return;}
@@ -46,6 +46,7 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   if (entmsg.getType() == Entity::PlayerEntity)
     client->GetGuiManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
 }
+
 void EntityHandler::handleAddDoor(GenericMessage* msg)
 {
   printf("EntityHandler: Received AddDoor\n");
@@ -231,4 +232,26 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
   const char* sector = *telemsg.getSector();
 
   client->GetEntityManager()->teleport(entity_id, pos, sector);
+}
+
+void EntityHandler::handleAddCharacterEntity(GenericMessage* msg)
+{
+  printf("EntityHandler: Received AddEntity\n");
+  AddCharacterEntityMessage entmsg;
+  entmsg.deserialise(msg->getByteStream());
+  PcEntity* entity = new PcEntity();
+  entity->setName(entmsg.getName());
+  entity->setMesh(entmsg.getMesh());
+  entity->setPos(entmsg.getPos());
+  entity->setSector(entmsg.getSector());
+  //entity->setType(entmsg.getType());
+  entity->setId(entmsg.getEntityId());
+  Character* character = new Character();
+  character->setDecalColour(entmsg.getDecalColour());
+  character->setHairColour(entmsg.getHairColour());
+  character->setSkinColour(entmsg.getSkinColour());
+  entity->setCharacter(character);
+  client->GetEntityManager()->addEntity(entity);
+  if (entmsg.getEntityType() == Entity::PlayerEntity)
+    client->GetGuiManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
 }

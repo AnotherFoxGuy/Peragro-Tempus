@@ -43,6 +43,21 @@ void User::sendAddEntity(Entity* entity)
     msg.setLocked(((DoorEntity*)entity)->getLocked());
     msg.serialise(&bs);
   }
+  else if (entity->getType() == Entity::PlayerEntity)
+  {
+    AddCharacterEntityMessage msg;
+    msg.setName(entity->getName());
+    msg.setEntityId(entity->getId());
+    msg.setEntityType((char)entity->getType());
+    msg.setMesh(entity->getMesh());
+    msg.setPos(entity->getPos());
+    msg.setSector(entity->getSector());
+    Character* character = ((CharacterEntity*)entity)->getCharacter();
+    msg.setDecalColour(character->getDecalColour());
+    msg.setHairColour(character->getHairColour());
+    msg.setSkinColour(character->getSkinColour());
+    msg.serialise(&bs);
+  }
   else
   {
     AddEntityMessage msg;

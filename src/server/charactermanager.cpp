@@ -28,7 +28,7 @@ CharacterManager::CharacterManager(Server* server)
   charId = server->getDatabase()->getCharacterTable()->getMaxId();
 }
 
-ptString CharacterManager::createCharacter(ptString name, int user_id, int& char_id, unsigned int haircolour, unsigned int skincolour, unsigned int decalcolour)
+ptString CharacterManager::createCharacter(ptString name, int user_id, int& char_id, unsigned char* haircolour, unsigned char* skincolour, unsigned char* decalcolour)
 {
   CharacterTable* ct = server->getDatabase()->getCharacterTable();
 

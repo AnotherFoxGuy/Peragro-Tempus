@@ -49,7 +49,8 @@ namespace ENTITY
     CLOSE_DOOR_RESPONSE=21,
     INIT_DOOR=22,
     RELOCATE=23,
-    TELEPORT=24
+    TELEPORT=24,
+    ADDCHARACTERENTITY=25
   };
 }
 
@@ -1693,6 +1694,111 @@ public:
   {
     sector = s;
   }
+};
+
+class AddCharacterEntityMessage : public NetMessage
+{
+  ptString name;
+  ptString mesh;
+  float pos[3];
+  unsigned char haircolour[3]; //24bit color
+  unsigned char skincolour[3]; //24bit color
+  unsigned char decalcolour[3]; //24bit color
+  ptString sector;
+  unsigned int entityid;
+  unsigned char entitytype;
+
+public:
+  AddCharacterEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDCHARACTERENTITY)
+  {
+  }
+
+  ~AddCharacterEntityMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    Serialiser serial(bs);
+    serial.setString(name);
+    serial.setString(mesh);
+    serial.setFloat(pos[0]);
+    serial.setFloat(pos[1]);
+    serial.setFloat(pos[2]);
+    serial.setInt8(skincolour[0]);
+    serial.setInt8(skincolour[1]);
+    serial.setInt8(skincolour[2]);
+    serial.setInt8(haircolour[0]);
+    serial.setInt8(haircolour[1]);
+    serial.setInt8(haircolour[2]);
+    serial.setInt8(decalcolour[0]);
+    serial.setInt8(decalcolour[1]);
+    serial.setInt8(decalcolour[2]);
+    serial.setString(sector);
+    serial.setInt32(entityid);
+    serial.setInt8(entitytype);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    name = serial.getString();
+    mesh = serial.getString();
+    pos[0] = serial.getFloat();
+    pos[1] = serial.getFloat();
+    pos[2] = serial.getFloat();
+    skincolour[0] = (unsigned char) serial.getInt8();
+    skincolour[1] = (unsigned char) serial.getInt8();
+    skincolour[2] = (unsigned char) serial.getInt8();
+    haircolour[0] = (unsigned char) serial.getInt8();
+    haircolour[1] = (unsigned char) serial.getInt8();
+    haircolour[2] = (unsigned char) serial.getInt8();
+    decalcolour[0] = (unsigned char) serial.getInt8();
+    decalcolour[1] = (unsigned char) serial.getInt8();
+    decalcolour[2] = (unsigned char) serial.getInt8();
+    sector = serial.getString();
+    entityid = (unsigned int) serial.getInt32();
+    entitytype = (unsigned char) serial.getInt8();
+  }
+
+  ptString getName() { return name; }
+  void setName(ptString x) { name = x; }
+
+  ptString getMesh() { return mesh; }
+  void setMesh(ptString x) { mesh = x; }
+
+  float* getPos() { return pos; }
+  void setPos(float x, float y, float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  void setPos(float* x)
+  {
+    setPos(x[0], x[1], x[2]);
+  }
+
+  unsigned char* getSkinColour() { return skincolour; }
+  void setSkinColour(unsigned char* colour) { setSkinColour(colour[0],colour[1],colour[2]); }
+  void setSkinColour(unsigned char r, unsigned char g, unsigned char b) { skincolour[0] = r; skincolour[1] = g; skincolour[2] = b; }
+
+  unsigned char* getHairColour() { return haircolour; }
+  void setHairColour(unsigned char* colour) { setHairColour(colour[0],colour[1],colour[2]); }
+  void setHairColour(unsigned char r, unsigned char g, unsigned char b) { haircolour[0] = r; haircolour[1] = g; haircolour[2] = b; }
+
+  unsigned char* getDecalColour() { return decalcolour; }
+  void setDecalColour(unsigned char* colour) { setDecalColour(colour[0],colour[1],colour[2]); }
+  void setDecalColour(unsigned char r, unsigned char g, unsigned char b) { decalcolour[0] = r; decalcolour[1] = g; decalcolour[2] = b; }
+
+  ptString getSector() { return sector; }
+  void setSector(ptString x) { sector = x; }
+
+  unsigned int getEntityId() { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
+
+  unsigned char getEntityType() { return entitytype; }
+  void setEntityType(unsigned char x) { entitytype = x; }
 };
 
 #endif // _ENTITIYMESSAGES_H_

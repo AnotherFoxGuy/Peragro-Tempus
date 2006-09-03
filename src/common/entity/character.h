@@ -43,9 +43,9 @@ private:
 
   float pos[3];
 
-  unsigned int haircolour; //24bit color
-  unsigned int skincolour; //24bit color
-  unsigned int decalcolour; //24bit color
+  unsigned char haircolour[3]; //24bit color
+  unsigned char skincolour[3]; //24bit color
+  unsigned char decalcolour[3]; //24bit color
 
 public:
   Character() : id(-1)
@@ -133,14 +133,26 @@ public:
     this->race = race;
   }
 
-  unsigned int getSkinColour() { return skincolour; }
-  void setSkinColour(unsigned int colour) { skincolour = colour; }
+  unsigned char* getSkinColour() { return skincolour; }
+  void setSkinColour(unsigned char* colour) { setSkinColour(colour[0],colour[1],colour[2]); }
+  void setSkinColour(unsigned char r, unsigned char g, unsigned char b) 
+  { 
+    skincolour[0] = r; skincolour[1] = g; skincolour[2] = b; 
+  }
 
-  unsigned int getHairColour() { return haircolour; }
-  void setHairColour(unsigned int colour) { haircolour = colour; }
+  unsigned char* getHairColour() { return haircolour; }
+  void setHairColour(unsigned char* colour) { setHairColour(colour[0],colour[1],colour[2]); }
+  void setHairColour(unsigned char r, unsigned char g, unsigned char b) 
+  { 
+    haircolour[0] = r; haircolour[1] = g; haircolour[2] = b; 
+  }
 
-  unsigned int getDecalColour() { return decalcolour; }
-  void setDecalColour(unsigned int colour) { decalcolour = colour; }
+  unsigned char* getDecalColour() { return decalcolour; }
+  void setDecalColour(unsigned char* colour) { setDecalColour(colour[0],colour[1],colour[2]); }
+  void setDecalColour(unsigned char r, unsigned char g, unsigned char b) 
+  { 
+    decalcolour[0] = r; decalcolour[1] = g; decalcolour[2] = b; 
+  }
 };
 
 #endif // _CHARACTER_H_

@@ -702,11 +702,32 @@ void ptEntityManager::createCelEntity(Entity* ent)
     pcquest->GetQuest()->SwitchState("closed");
   }
 
+  csVector4 skinColour(0,0,0,1);
+  csVector4 decalColour(0,0,0,1);
+  csVector4 hairColour(0,0,0,1);
+
+  if (ent->getType() == Entity::PlayerEntity)
+  {
+    PcEntity* player = (PcEntity*) ent;
+    Character* character = player->getCharacter();
+    if (character)
+    {
+      unsigned char* skincolour = character->getSkinColour();
+      skinColour.Set(skincolour[0], skincolour[1], skincolour[2], 1);
+
+      unsigned char* decalcolour = character->getDecalColour();
+      decalColour.Set(decalcolour[0], decalcolour[1], decalcolour[2], 1);
+
+      unsigned char* haircolour = character->getHairColour();
+      hairColour.Set(haircolour[0], haircolour[1], haircolour[2], 1);
+    }
+  }
+
   // Create shadervariables.
   csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-  SetMaskColor(parent, "skincolor", csVector4(0,0,0,1));
-  SetMaskColor(parent, "decalcolor", csVector4(0,0,0,1));
-  SetMaskColor(parent, "haircolor", csVector4(0,0,0,1));
+  SetMaskColor(parent, "skincolor", skinColour);
+  SetMaskColor(parent, "decalcolor", decalColour);
+  SetMaskColor(parent, "haircolor", hairColour);
 
   // Add to the entities list
   ptCelEntity ptent (ent->getId(), ent->getType(), *ent->getName(), entity);
