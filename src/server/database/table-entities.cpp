@@ -66,7 +66,7 @@ void EntityTable::createTable()
   ptString test1("test1", 5);
   //ptString gate("gate", 4);
 
-  insert(1, dummy, 0, 0, test, pos1, room);
+  insert(1, dummy, 1, 0, test, pos1, room);
   float pos2[3] = { 0, 0, 1};
   insert(2, apple, 3, 1,apple, pos2, room);
   float pos3[3] = { -1, 0, 1};
@@ -78,7 +78,7 @@ void EntityTable::createTable()
   float pos6[3] = { -1, 0, -1};
   insert(7, apple, 3, 1,apple, pos6, room);
   float pos7[3] = { 41, 2, 172};
-  insert(6, dummy1, 0, 0,test1, pos7, room);
+  insert(6, dummy1, 1, 0,test1, pos7, room);
   //float pos8[3] = { 27.9388713837,179.982452393,-6.57791852951 };
   //insert(7, gate, 2, 0,gate, pos8, room);
 }
@@ -180,6 +180,11 @@ Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
     case Entity::PlayerEntity :
     {
       entity = new PcEntity();
+      break;
+    }
+    case Entity::NPCEntity :
+    {
+      entity = new NpcEntity();
       break;
     }
     case Entity::DoorEntity :

@@ -1720,6 +1720,8 @@ public:
   void serialise(ByteStream* bs)
   {
     Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
     serial.setString(name);
     serial.setString(mesh);
     serial.setFloat(pos[0]);
@@ -1742,6 +1744,8 @@ public:
   void deserialise(ByteStream* bs)
   {
     Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
     name = serial.getString();
     mesh = serial.getString();
     pos[0] = serial.getFloat();
