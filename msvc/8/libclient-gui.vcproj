@@ -26,10 +26,10 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\release8\build\libclient-gui\libclient-gui.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libclient-gui\"
 				ObjectFile="..\..\out\release8\build\libclient-gui\"
@@ -49,10 +49,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib CEGUIBase-vc8.lib CEGUIFalagardBase-vc8.lib libceltool.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
 				ProgramDatabaseFile="..\..\out\release8\build\libclient-gui\client-gui.pdb"
 				TargetMachine="1"/>
 			<Tool
@@ -61,7 +61,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -75,8 +75,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;CS_PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -97,10 +97,10 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libclient-gui\libclient-gui.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libclient-gui\"
 				ObjectFile="..\..\out\debug8\build\libclient-gui\"
@@ -118,10 +118,10 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib CEGUIBase-vc8_d.lib CEGUIFalagardBase-vc8_d.lib libceltool_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
 				ProgramDatabaseFile="..\..\out\debug8\build\libclient-gui\client-gui.pdb"
 				TargetMachine="1"/>
 			<Tool
@@ -130,7 +130,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -144,8 +144,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;CS_PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -168,6 +168,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\chat-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\common\dragdrop-gui.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\connection-gui.cpp">
@@ -208,6 +211,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\chat-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\common\dragdrop-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\connection-gui.h">
