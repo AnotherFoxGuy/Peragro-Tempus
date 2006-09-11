@@ -1,5 +1,7 @@
 SubDir TOP src client gui ;
 
+SubInclude TOP src client gui common ;
+
 Description client-gui : "client gui" ;
 Library client-gui :
   [ Wildcard *.h *.cpp ] ;
