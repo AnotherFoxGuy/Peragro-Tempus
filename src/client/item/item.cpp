@@ -19,10 +19,10 @@
 #include "client/item/item.h"
 
 
-Item::Item ()
+ClientItem::ClientItem ()
 {
 }
 
-Item::~Item()
+ClientItem::~ClientItem()
 {
 }

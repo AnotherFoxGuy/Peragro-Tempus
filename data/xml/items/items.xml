@@ -3,6 +3,33 @@
 
 	<item>
 		<id>1</id>
+		<name>Small Plate</name>
+		<icon>set:Inventory image:1</icon>
+		<description>A small plate.</description>
+		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
+		<mesh>Stuff001_smallplate_64_plates</mesh>
+	</item>
+
+	<item>
+		<id>2</id>
+		<name>Apple</name>
+		<icon>set:Inventory image:2</icon>
+		<description>An apple.</description>
+		<file>/peragro/meshes/apple/apple.xml</file>
+		<mesh>apple</mesh>
+	</item>
+
+	<item>
+		<id>3</id>
+		<name>Tiny Ballpot</name>
+		<icon>set:Inventory image:3</icon>
+		<description>A Tiny Ballpot.</description>
+		<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
+		<mesh>Stuff001_tinyballpot_84_pot</mesh>
+	</item>
+
+	<item>
+		<id>4</id>
 		<name>Flaming Dragon Edge Sword</name>
 		<icon>set:Weapons image:DragonEdgeSword</icon>
 		<description>
@@ -11,7 +38,8 @@
 			and could swing this sword soo fast it would
 			actually caught fire, inflicting extra damage on the foo.
 		</description>
-		<mesh>/peragro/art/props/weapons/swords/flamingdragonedgesword/flamingdragonedgesword.lib</mesh>
+		<file>/peragro/meshes/bogus.xml</file>
+		<mesh>foobar</mesh>
 	</item>
 	
 </items>

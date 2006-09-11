@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PTCELENTITY_H
-#define PTCELENTITY_H
+#ifndef CLIENT_ITEM_H
+#define CLIENT_ITEM_H
 
 
 #include "cssysdef.h"
@@ -27,29 +27,32 @@
 #include "csutil/ref.h"
 #include "csutil/csstring.h"
 
-class Item
+class ClientItem
 {
 private:
   uint id;
   csString name;
   csString iconname;
   csString meshname;
+  csString filename;
   csString description;
 
 public:
-  Item();
-  ~Item();
+  ClientItem();
+  ~ClientItem();
   uint GetId() { return id; }
   csString GetName() { return name; }
   csString GetIconName() { return iconname;}
   csString GetMeshName() { return meshname;}
+  csString GetFileName() { return filename;}
   csString GetDescription() { return description;} 
 
   void SetId(uint value) { id = value; }
   void SetName(csString value) { name = value; }
   void SetIconName(csString value) { iconname = value; }
   void SetMeshName(csString value) { meshname = value; }
+  void SetFileName(csString value) { filename = value; }
   void SetDescription(csString value) { description = value; }
 };
 
-#endif // PTCELENTITY_H
+#endif // CLIENT_ITEM_H

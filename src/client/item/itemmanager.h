@@ -26,20 +26,31 @@
 #include "iengine/engine.h"
 #include "csgeom/path.h"
 
+#include "iutil/strset.h"
+#include "iutil/document.h"
+
+#include "client/item/item.h"
+
 struct iObjectRegistry;
 struct iLoader;
+struct iDocument;
 
-class ItemManager
+class ItemMGR
 {
 private:
-  csArray<Item*> items;
+  csArray<ClientItem*> items;
+
+  csRef<iEngine> engine;
+  csRef<iVFS> vfs;
+  csRef<iStringSet> stringset;
+  csRef<iDocumentSystem> docsys;
 
 public:
-  ItemManager(iObjectRegistry* obj_reg);
-  ~ItemManager();
-  void Initialize();
-  Item* GetItemById(uint id);
-  Item* GetItemByName(csString name);  
+  ItemMGR(iObjectRegistry* obj_reg);
+  ~ItemMGR();
+  bool Initialize();
+  ClientItem* GetItemById(uint id);
+  ClientItem* GetItemByName(csString name);  
 };
 
 #endif // ITEMMANAGER_H

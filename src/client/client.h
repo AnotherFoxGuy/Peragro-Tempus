@@ -56,6 +56,7 @@ class GUIManager;
 class EffectsManager;
 class ptEntityManager;
 class CombatMGR;
+class ItemMGR;
 class Cursor;
 struct iCommandLineParser;
 struct iPath;
@@ -132,6 +133,7 @@ private:
   EffectsManager* effectsmanager;
   ptEntityManager* entitymanager;
   CombatMGR* combatmanager;
+  ItemMGR* itemmanager;
 
   bool InitializeCEL();
 

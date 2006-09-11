@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+11-Sep-2006
+  - Sueastside made the itemmanager actually work.
+
 4-Sep-2006
   - PK changed the NPCs to actually use NPCEntity rater than PcEntity.
   - PK fixed a bug in AddCharacterEntityMessage

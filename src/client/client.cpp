@@ -95,8 +95,9 @@
 #include "client/gui/guimanager.h"
 #include "client/effects/effectsmanager.h"
 #include "client/combat/combatmanager.h"
+#include "client/item/itemmanager.h"
 
-#include "common/entity/entity.h"
+//#include "common/entity/entity.h"
 
 #include "common/util/wincrashdump.h"
 
@@ -126,6 +127,7 @@ Client::~Client()
   delete guimanager;
   delete network;
   delete cursor;
+  delete itemmanager;
 }
 
 void Client::PreProcessFrame()
@@ -246,8 +248,13 @@ bool Client::Application()
     return false;
   
   // Create and Initialize the Network. 
-  network = new Network(this);
+  network = new Network (this);
   network->init();
+
+  // Create and Initialize the ItemManager.
+  itemmanager = new ItemMGR (GetObjectRegistry());
+  if (!itemmanager->Initialize())
+    return false;
 
   // Create and Initialize the Effectsmanager.
   effectsmanager = new EffectsManager (GetObjectRegistry());

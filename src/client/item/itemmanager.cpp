@@ -16,7 +16,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/item/item.h"
 #include "client/item/itemmanager.h"
 
 #include "cstool/initapp.h"
@@ -53,11 +52,13 @@
 #include "ivideo/material.h"
 
 #include "iutil/objreg.h"
-
 #include "imap/loader.h"
 
+#include "csutil/xmltiny.h"
 
-ItemManager::ItemManager (iObjectRegistry* obj_reg)
+
+
+ItemMGR::ItemMGR (iObjectRegistry* obj_reg)
 {
   engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
   //if (!engine) return ReportError("Failed to locate 3D engine!");
@@ -67,17 +68,19 @@ ItemManager::ItemManager (iObjectRegistry* obj_reg)
 
   stringset = CS_QUERY_REGISTRY_TAG_INTERFACE (obj_reg,
     "crystalspace.shared.stringset", iStringSet);
+
+  docsys = CS_QUERY_REGISTRY(obj_reg, iDocumentSystem);
 }
 
-ItemManager::~ItemManager ()
+ItemMGR::~ItemMGR ()
 {
 }
 
-bool ItemManager::Initialize ()
+bool ItemMGR::Initialize ()
 {
   //items->Clear();
 
-  csRef<iFile> buf = VFS->Open ("/peragro/data/meshes/items.xml", VFS_FILE_READ);
+  csRef<iFile> buf = vfs->Open("/peragro/xml/items/items.xml", VFS_FILE_READ);
 
   if (!buf)
   {
@@ -86,7 +89,8 @@ bool ItemManager::Initialize ()
   }
 
   csRef<iDocument> doc;
-  csRef<iDocumentSystem> docsys (CS_QUERY_REGISTRY (object_reg, iDocumentSystem));
+  csRef<iDocumentNode> node;
+  
   if (!docsys) docsys = csPtr<iDocumentSystem> (new csTinyDocumentSystem ());
   doc = docsys->CreateDocument ();
   const char* error = doc->Parse (buf, true);
@@ -98,7 +102,7 @@ bool ItemManager::Initialize ()
 
   if (doc)
   {
-    csRef<iDocumentNode> node = doc->GetRoot()->GetNode ("items");
+    node = doc->GetRoot()->GetNode("items");
     if (!node)
     {
       printf("ItemManager: ERROR Couldn't open item file!\n");
@@ -106,6 +110,7 @@ bool ItemManager::Initialize ()
     }
   }
 
+  printf("\n==Loading items==========================\n");
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
   {
@@ -115,36 +120,58 @@ bool ItemManager::Initialize ()
     csRef<iDocumentNode> name        = child->GetNode ("name");
     csRef<iDocumentNode> icon        = child->GetNode ("icon");
     csRef<iDocumentNode> description = child->GetNode ("description");
+    csRef<iDocumentNode> file        = child->GetNode ("file");
     csRef<iDocumentNode> mesh        = child->GetNode ("mesh");
 
-    Item item = new Item();
+    if (!id || !name || !icon || !description || !file || !mesh )
+    {
+      csString error;
+      csString good;
+      if(!id) error = "<id>"; else good = id->GetContentsValue ();
+      if(!name) error += "<name>"; else good = name->GetContentsValue ();
+      if(!icon) error += "<icon>";
+      if(!description) error += "<description>";
+      if(!file) error += "<file>";
+      if(!mesh) error += "<mesh>";
+
+      printf("ItemManager: ERROR Missing %s token(s) for %s!\n\n", error.GetData(), good.GetData());
+      return false;
+      //continue;
+    }
+
+    ClientItem* item = new ClientItem();
 
     item->SetId(id->GetContentsValueAsInt()); 
     item->SetName((csString)name->GetContentsValue ()); 
-    item->SetIconName((csString)icon->GetContentsValue ()); 
-    item->SetMeshName((csString)description->GetContentsValue ()); 
-    item->SetDescription((csString)mesh->GetContentsValue ()); 
+    item->SetIconName((csString)icon->GetContentsValue ());
+    item->SetDescription((csString)description->GetContentsValue ()); 
+    item->SetFileName((csString)file->GetContentsValue ()); 
+    item->SetMeshName((csString)mesh->GetContentsValue ()); 
+
+    items.Put(item->GetId(), item);
+    printf("%d : %s\n", item->GetId(), item->GetName().GetData());
   }
+  printf("================================= %d item(s)\n\n", items.Length()-1);
 
   return true;
 }
 
-Item* ItemMGR::GetItemById(unit id)
+ClientItem* ItemMGR::GetItemById(uint id)
 {
-  if(id > items.Lenght())
+  if(id > items.Length())
     { 
-      printf("ItemMGR: ERROR: Recieved ID %d is bigger then Number of items!\n", id)
+      printf("ItemMGR: ERROR: Recieved ID %d is bigger then Number of items!\n", id);
       return 0;
     }
   else
-    return items->GetIndex(id);
+    return items.Get(id);
 }
 
-Item* ItemMGR::GetItemByName(csString name)
+ClientItem* ItemMGR::GetItemByName(csString name)
 {
   for (int i = 0; i < items.Length(); i++)
    {
-     Item* item = items.GetIndex(i);
+     ClientItem* item = items.Get(i);
      if(item->GetName().Compare(name))
        return item;
    }
