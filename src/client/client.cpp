@@ -205,7 +205,13 @@ bool Client::Application()
   g3d = CS_QUERY_REGISTRY(GetObjectRegistry(), iGraphics3D);
   if (!g3d) return ReportError("Failed to locate 3D renderer!");
 
- // Create and Initialize the GUImanager.
+
+  // Create and Initialize the ItemManager.
+  itemmanager = new ItemMGR (GetObjectRegistry());
+  if (!itemmanager->Initialize())
+    return false;
+
+  // Create and Initialize the GUImanager.
   guimanager = new GUIManager (this);
   if (!guimanager->Initialize (GetObjectRegistry()))
     return false;
@@ -250,11 +256,6 @@ bool Client::Application()
   // Create and Initialize the Network. 
   network = new Network (this);
   network->init();
-
-  // Create and Initialize the ItemManager.
-  itemmanager = new ItemMGR (GetObjectRegistry());
-  if (!itemmanager->Initialize())
-    return false;
 
   // Create and Initialize the Effectsmanager.
   effectsmanager = new EffectsManager (GetObjectRegistry());

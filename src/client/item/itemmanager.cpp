@@ -148,6 +148,9 @@ bool ItemMGR::Initialize ()
     item.SetFileName((csString)file->GetContentsValue ()); 
     item.SetMeshName((csString)mesh->GetContentsValue ()); 
 
+    if (item.GetId() >= items.Capacity())
+      items.SetCapacity(item.GetId()+1);
+
     items.Put(item.GetId(), item);
     printf("%d : %s\n", item.GetId(), item.GetName().GetData());
   }
@@ -170,10 +173,9 @@ ClientItem* ItemMGR::GetItemById(uint id)
     return &items[id];
   }
 */
-  for (int i = 0; i < items.Length(); i++)
+  if (id < items.Length())
   {
-    if(items[i].GetId() == id)
-      return &items[i];
+    return &items[id];
   }
   printf("ItemMGR: ERROR Couldn't find item %d!\n", id);
   return 0;
