@@ -6,6 +6,7 @@ under each day.
 
 11-Sep-2006
   - Sueastside made the itemmanager actually work.
+  - Sueastside prepared some things for the GUI cleanup.
 
 4-Sep-2006
   - PK changed the NPCs to actually use NPCEntity rater than PcEntity.
