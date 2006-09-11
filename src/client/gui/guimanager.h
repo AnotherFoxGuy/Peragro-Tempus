@@ -37,6 +37,7 @@ class OptionsWindow;
 class StatusWindow;
 class BuddyWindow;
 class WhisperWindow;
+class DragDrop;
 
 struct iObjectRegistry;
 
@@ -53,6 +54,8 @@ private:
   StatusWindow* statuswindow;
   BuddyWindow* buddywindow;
   WhisperWindow* whisperwindow;
+
+  DragDrop* dragdrop;
   
   csRef<iCEGUI> cegui;
   
@@ -67,6 +70,7 @@ public:
   
   Client* GetClient () {return client;}
   iCEGUI* GetCEGUI () {return cegui;}
+  DragDrop* GetDragDrop (){return dragdrop;}
   
   ConnectWindow* CreateConnectWindow ();
   LoginWindow* CreateLoginWindow ();

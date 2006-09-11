@@ -28,6 +28,7 @@
 #include "client/network/network.h"
 
 #include "gui.h"
+#include "common/dragdrop-gui.h"
 
 GUIManager::GUIManager (Client* client)
 : client(client)
@@ -74,6 +75,10 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
       CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
     root->setWindowMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
     cegui->GetSystemPtr ()->setGUISheet(root);
+
+    // Set up the drag and drop.
+    dragdrop = new DragDrop (this);
+    if (!dragdrop) return client->ReportError("Failed to create DragDrop class");
 
     return true;
 }

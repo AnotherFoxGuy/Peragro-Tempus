@@ -41,18 +41,18 @@ public:
   ClientItem();
   ~ClientItem();
   uint GetId() { return id; }
-  csString GetName() { return name; }
+  csString GetName() const { return name; }
   csString GetIconName() { return iconname;}
   csString GetMeshName() { return meshname;}
   csString GetFileName() { return filename;}
   csString GetDescription() { return description;} 
 
-  void SetId(uint value) { id = value; }
-  void SetName(csString value) { name = value; }
-  void SetIconName(csString value) { iconname = value; }
-  void SetMeshName(csString value) { meshname = value; }
-  void SetFileName(csString value) { filename = value; }
-  void SetDescription(csString value) { description = value; }
+  void SetId(uint value) { this->id = value; }
+  void SetName(csString value) { this->name = value; }
+  void SetIconName(csString value) { this->iconname = value; }
+  void SetMeshName(csString value) { this->meshname = value; }
+  void SetFileName(csString value) { this->filename = value; }
+  void SetDescription(csString value) { this->description = value; }
 };
 
 #endif // CLIENT_ITEM_H

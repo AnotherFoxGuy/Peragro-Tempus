@@ -360,7 +360,9 @@ void Client::handleStates()
       guimanager->CreateWhisperWindow();
 
       //guimanager->CreateStatusWindow ();
-      //guimanager->CreateInventoryWindow ();
+      guimanager->CreateInventoryWindow ();
+      guimanager->GetInventoryWindow()->ShowWindow();
+      playing = true;
       //guimanager->CreateHUDWindow();
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
@@ -506,16 +508,7 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'g')
       {
-        iCelEntity* entity = entitymanager->getOwnEntity();
-        if (!entity) return false;
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-        if (!pcmesh) return false;
-        csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-        if (!parent) return false;
-
-        //entitymanager->SetMaskColor(parent, "decalcolor", csVector4(1,0,0,1));
-        entitymanager->SetMaskColor(parent, "haircolor", csVector4(0.3f,0.2f,0.02f,1));
-        entitymanager->SetMaskColor(parent, "decalcolor", 0xFF0000);
+        guimanager->GetInventoryWindow()->AddItem(1, true);
       }
       else if (code == 'f')
       {

@@ -21,28 +21,19 @@
 
 #include "base-gui.h"
 
-/*================//
-// GUIInvWindow  //
-//================*/
+#include "client/gui/common/dragdrop-gui.h"
+
 class InventoryWindow : public GUIWindow
 {
 private:
-  bool handleDragEnter(const CEGUI::EventArgs& args);
-  bool handleDragLeave(const CEGUI::EventArgs& args);
-  bool handleDragDropped(const CEGUI::EventArgs& args);
-  bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
-  bool handleDragDroppedStackable(const CEGUI::EventArgs& args);
   bool handleCloseButton(const CEGUI::EventArgs& args);
-  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
-  CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
-  void UpdateItemCounter(CEGUI::Window* parent);
-  int counter;
+  DragDrop* dragdrop;
 
 public:
   InventoryWindow(GUIManager* guimanager);
   virtual ~InventoryWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
-  bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
+  bool AddItem(int itemid, bool stackable);
 };
 
 

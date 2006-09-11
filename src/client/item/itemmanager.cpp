@@ -139,17 +139,17 @@ bool ItemMGR::Initialize ()
       //continue;
     }
 
-    ClientItem* item = new ClientItem();
+    ClientItem item;
 
-    item->SetId(id->GetContentsValueAsInt()); 
-    item->SetName((csString)name->GetContentsValue ()); 
-    item->SetIconName((csString)icon->GetContentsValue ());
-    item->SetDescription((csString)description->GetContentsValue ()); 
-    item->SetFileName((csString)file->GetContentsValue ()); 
-    item->SetMeshName((csString)mesh->GetContentsValue ()); 
+    item.SetId(id->GetContentsValueAsInt()); 
+    item.SetName("what"); 
+    item.SetIconName((csString)icon->GetContentsValue ());
+    item.SetDescription((csString)description->GetContentsValue ()); 
+    item.SetFileName((csString)file->GetContentsValue ()); 
+    item.SetMeshName((csString)mesh->GetContentsValue ()); 
 
-    items.Put(item->GetId(), item);
-    printf("%d : %s\n", item->GetId(), item->GetName().GetData());
+    items.Put(item.GetId(), item);
+    printf("%d : %s\n", item.GetId(), item.GetName().GetData());
   }
   printf("================================= %d item(s)\n\n", items.Length()-1);
 
@@ -158,20 +158,33 @@ bool ItemMGR::Initialize ()
 
 ClientItem* ItemMGR::GetItemById(uint id)
 {
+/*
   if(id > items.Length())
     { 
       printf("ItemMGR: ERROR: Recieved ID %d is bigger then Number of items!\n", id);
       return 0;
     }
   else
-    return items.Get(id);
+  {
+    printf("w================%s!\n", items.Get(id).GetId());
+    return &items[id];
+  }
+*/
+  for (int i = 0; i < items.Length(); i++)
+  {
+    if(items[i].GetId() == id)
+      return &items[i];
+  }
+  printf("ItemMGR: ERROR Couldn't find item %d!\n", id);
+  return 0;
+
 }
 
 ClientItem* ItemMGR::GetItemByName(csString name)
 {
   for (int i = 0; i < items.Length(); i++)
    {
-     ClientItem* item = items.Get(i);
+     ClientItem* item = &items[i];
      if(item->GetName().Compare(name))
        return item;
    }

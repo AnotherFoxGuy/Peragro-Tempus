@@ -713,15 +713,15 @@ void ptEntityManager::createCelEntity(Entity* ent)
     if (character)
     {
       unsigned char* skincolour = character->getSkinColour();
-      skinColour.Set(skincolour[0]/255, skincolour[1]/255, skincolour[2]/255, 1);
+      skinColour.Set(skincolour[0]/255.0f, skincolour[1]/255.0f, skincolour[2]/255.0f, 1);
       printf("ptEntityManager: COLOR '%s'\n", skinColour.Description().GetData());
 
       unsigned char* decalcolour = character->getDecalColour();
-      decalColour.Set(decalcolour[0]/255, decalcolour[1]/255, decalcolour[2]/255, 1);
+      decalColour.Set(decalcolour[0]/255.0f, decalcolour[1]/255.0f, decalcolour[2]/255.0f, 1);
       printf("ptEntityManager: COLOR '%s'\n", decalColour.Description().GetData());
 
       unsigned char* haircolour = character->getHairColour();
-      hairColour.Set(haircolour[0]/255, haircolour[1]/255, haircolour[2]/255, 1);
+      hairColour.Set(haircolour[0]/255.0f, haircolour[1]/255.0f, haircolour[2]/255.0f, 1);
       printf("ptEntityManager: COLOR '%s'\n", hairColour.Description().GetData());
     }
   }

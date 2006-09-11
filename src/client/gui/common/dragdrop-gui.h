@@ -19,14 +19,51 @@
 #ifndef DRAGDROP_GUI_H
 #define DRAGDROP_GUI_H
 
+#include "cssysdef.h"
+
+#include "iutil/string.h"
+#include "iutil/vfs.h"
+
+#include "CEGUI.h"
+#include "ivaria/icegui.h"
+
+#include "common/network/netmessage.h"
+#include "common/util/mutex.h"
+
+#include "client/item/itemmanager.h"
+
+class Network;
+class GUIManager;
+
 class DragDrop
 {
 private:
+  GUIManager* guimanager;
+  Network* network;
+  CEGUI::WindowManager* winMgr;
+  ItemMGR* itemmanager;
+  int counter;
 
+public:
+  bool handleDragEnter(const CEGUI::EventArgs& args);
+  bool handleDragLeave(const CEGUI::EventArgs& args);
+  bool handleDragDropped(const CEGUI::EventArgs& args);
+  bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
+  bool handleDragDroppedStackable(const CEGUI::EventArgs& args);
+
+  enum IconType
+  {
+    Item=0,
+    Skill=1
+  };
 
 public:
   DragDrop(GUIManager* guimanager);
   virtual ~DragDrop();
+
+  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
+  CEGUI::Window* createIcon(int type, int itemid, bool stackable);
+  void UpdateItemCounter(CEGUI::Window* parent);
 };
 
 

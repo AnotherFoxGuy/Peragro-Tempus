@@ -38,7 +38,7 @@ struct iDocument;
 class ItemMGR
 {
 private:
-  csArray<ClientItem*> items;
+  csArray<ClientItem> items;
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;

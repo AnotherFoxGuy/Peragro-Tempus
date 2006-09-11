@@ -190,7 +190,8 @@ public:
   Network* getNetwork()  { return network; }
   EffectsManager* getEffectsmgr() { return effectsmanager; }
   GUIManager* getGuimgr() { return guimanager; }
-  CombatMGR*  getCombatmgr() { return combatmanager; }
+  CombatMGR* getCombatmgr() { return combatmanager; }
+  ItemMGR* getItemmgr() { return itemmanager; }
 };
 
 #endif // CLIENT_H
