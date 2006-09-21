@@ -173,6 +173,9 @@
 				RelativePath="..\..\src\client\gui\common\dragdrop-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\common\slot.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\connection-gui.cpp">
 			</File>
 			<File
@@ -214,6 +217,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\common\dragdrop-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\common\slot.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\connection-gui.h">
