@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+21-Sep-2006
+  - Sueastside did an inventory rewrite.
+  - Sueastside did some more work on the itemmgr.
+  - Sueastside added some options in the config file,
+     which should fix cegui corruption.
+
 11-Sep-2006
   - Sueastside made the itemmanager actually work.
   - Sueastside prepared some things for the GUI cleanup.

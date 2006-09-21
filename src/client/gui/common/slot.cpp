@@ -16,41 +16,42 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef ITEMMANAGER_H
-#define ITEMMANAGER_H
+#include "client/gui/common/slot.h"
 
-#include "cssysdef.h"
-#include "csutil/ref.h"
-#include "iutil/vfs.h"
-#include "iutil/virtclk.h"
-#include "iengine/engine.h"
-#include "csgeom/path.h"
 
-#include "iutil/strset.h"
-#include "iutil/document.h"
-
-#include "client/item/item.h"
-
-struct iObjectRegistry;
-struct iLoader;
-struct iDocument;
-
-class ItemMGR
+Slot::Slot ()
 {
-private:
-  csArray<ClientItem*> items;
+ objectid = 0;
+ amount = 0;
+ stackable = false;
+}
 
-  csRef<iEngine> engine;
-  csRef<iVFS> vfs;
-  csRef<iStringSet> stringset;
-  csRef<iDocumentSystem> docsys;
+Slot::~Slot()
+{
+}
 
-public:
-  ItemMGR(iObjectRegistry* obj_reg);
-  ~ItemMGR();
-  bool Initialize();
-  ClientItem* GetItemById(uint id);
-  ClientItem* GetItemByName(csString name);  
-};
+bool Slot::IsEmpty()
+{
+ if(!objectid)
+   return true;
+ else
+   return false;
+}
 
-#endif // ITEMMANAGER_H
+void Slot::Clear()
+{
+ objectid = 0;
+ amount = 0;
+ stackable = false;
+ objectwindow = 0;
+}
+
+Slot* Slot::operator = (Slot* slot)
+{ 
+  objectid = slot->GetObjectId();
+  amount = slot->GetAmount();
+  stackable = slot->GetStackable();
+  objectwindow = slot->GetObjectWindow();
+
+  return this;
+}

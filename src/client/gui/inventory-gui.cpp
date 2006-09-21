@@ -40,50 +40,91 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
   return true;
 }
 
-bool InventoryWindow::AddItem(int itemid, bool stackable)
+bool InventoryWindow::AddItem(int itemid,int slotid)
 {
-  CEGUI::Window* inventoryframe = winMgr->getWindow("Inventory/Bag");
+  if(slotid > numberOfSlots) return false;
 
-  CEGUI::Window* freeslot = 0;
-  unsigned int i = 0;
-  bool sameid = false;
+  Slot* slot = inventory[slotid];
 
-  while ((freeslot == 0) && (i < inventoryframe->getChildCount()))
+  if (slot->GetObjectId() && !slot->GetStackable())
   {
-    CEGUI::Window* slot = inventoryframe->getChildAtIdx(i);
-    i += 1;
-    //printf("InventoryWindow: Checking slot %d \n", i);
-
-    char itemtypestr[1024];
-    sprintf(itemtypestr, "%d", itemid);
-    // Check if the slot is occupied by a item with the same id.
-    if (slot->isUserStringDefined("itemtype")) 
-      if (slot->getUserString("itemtype") == itemtypestr) 
-        sameid = true;
-
-      if ((slot->getChildCount() < 2 ) || sameid)
-      {
-        //printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
-        freeslot = slot;
-
-        freeslot->addChildWindow(dragdrop->createIcon(DragDrop::Item, itemid, stackable));
-        freeslot->setUserString("itemtype" , itemtypestr);
-
-        dragdrop->UpdateItemCounter(slot);
-
-        return true;
-      }
+    printf("InventoryWindow: ERROR Slot %d already occupied!\n", slotid);
+    return false;
   }
-  printf("InventoryWindow: Inventory is full!\n");
+
+  ClientItem* clientitem = itemmanager->GetItemById(itemid);
+
+  // If the slot already has an item and it's stackable
+  // increase the amount.
+  if (slot->GetObjectId() && slot->GetStackable())
+  {
+    slot->SetAmount(slot->GetAmount()+1);
+    dragdrop->UpdateItemCounter(slot->GetSlotWindow(), slot->GetAmount());
+  }
+  else
+  {
+    slot->SetObjectId(itemid);
+    slot->SetAmount(1);
+    slot->SetObjectWindow(dragdrop->createIcon(DragDrop::Item, itemid));
+    slot->GetSlotWindow()->addChildWindow(slot->GetObjectWindow());
+    // If stackable is bigger then 1 the item is stackable by that amount.
+    // If stackable equals 0 its infinitly stackable.
+    if (clientitem->GetStackable() > 1 || clientitem->GetStackable() == 0)
+      slot->SetStackable(true);
+  }
+
+  return false;
+}
+
+bool InventoryWindow::AddItem(int itemid)
+{
+  ClientItem* clientitem = itemmanager->GetItemById(itemid);
+
+  // Lets try and look for a slot with the same item.
+  for (int i=0; i<numberOfSlots; i++)
+  {
+    Slot* slot = inventory[i+1];
+    if((slot->GetObjectId() == itemid) 
+      && slot->GetStackable()
+      && ( (clientitem->GetStackable() > slot->GetAmount()) || (clientitem->GetStackable() == 0) ) )
+    {
+      slot->SetAmount(slot->GetAmount()+1);
+      dragdrop->UpdateItemCounter(slot->GetSlotWindow(), slot->GetAmount());
+      return true;
+    }
+  }
+  // Look for an empty slot.
+  for (int i=0; i<numberOfSlots; i++)
+  {
+    Slot* slot = inventory[i+1];
+    if(slot->IsEmpty())
+    {
+      slot->SetObjectId(itemid);
+      slot->SetAmount(1);
+      slot->SetObjectWindow(dragdrop->createIcon(DragDrop::Item, itemid));
+      slot->GetSlotWindow()->addChildWindow(slot->GetObjectWindow());
+      // If stackable is bigger then 1 the item is stackable by that amount.
+      // If stackable equals 0 its infinitly stackable.
+      if (clientitem->GetStackable() > 1 || clientitem->GetStackable() == 0)
+        slot->SetStackable(true);
+      return true;
+    }
+  }
+
+  printf("InventoryWindow: ERROR Inventory is full!\n");
+
   return false;
 }
 
 void InventoryWindow::CreateGUIWindow()
 {
+  numberOfSlots = 20;
+
   GUIWindow::CreateGUIWindow ("inventory.xml");
   winMgr = cegui->GetWindowManagerPtr ();
 
   dragdrop = guimanager->GetDragDrop();
+  itemmanager = guimanager->GetClient ()->getItemmgr();
 
   //Load the inventory icon imageset
   vfs = guimanager->GetClient()->getVFS ();
@@ -103,7 +144,12 @@ void InventoryWindow::CreateGUIWindow()
   {
     for (int i=0; i<5; i++)
     {
-      dragdrop->createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j))));
+      Slot* slot = new Slot();
+      slot->SetSlotId((i+1)+j*5);
+      slot->SetSlotType(DragDrop::Item);
+      slot->SetSlotWindow(dragdrop->createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
+      slot->GetSlotWindow()->setUserData(slot);
+      inventory.Put(slot->GetSlotId(), slot);
     }
   }
 

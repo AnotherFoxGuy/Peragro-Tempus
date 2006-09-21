@@ -32,8 +32,8 @@ DragDrop::DragDrop (GUIManager* guimanager)
 {
   this->guimanager = guimanager;
   winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr ();
-  Client* client = guimanager->GetClient();
-  itemmanager = client->getItemmgr();
+  itemmanager = guimanager->GetClient ()->getItemmgr();
+  network = guimanager->GetClient ()->getNetwork ();
 }
 
 DragDrop::~DragDrop ()
@@ -56,12 +56,6 @@ bool DragDrop::handleDragLeave(const CEGUI::EventArgs& args)
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
   ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
-  CEGUI::Window* itemcounter = ddea.window->getChild(30);
-  int nrofitems = itemcounter->getParent()->getChildCount()-2;
-  char buffer[1024];
-  sprintf(buffer, "%d", nrofitems);
-  itemcounter->setText((CEGUI::String)buffer);
-  if (nrofitems < 2) itemcounter->setVisible(false); else itemcounter->setVisible(true);
 
   return true;
 }
@@ -71,14 +65,21 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   using namespace CEGUI;
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-
   ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
-  if (ddea.dragDropItem->isUserStringDefined("itemtype"))
-  {
-    ddea.window->addChildWindow(ddea.dragDropItem);
-    ddea.window->setUserString("itemtype" , ddea.dragDropItem->getUserString("itemtype"));
-    UpdateItemCounter(ddea.window);
-  }
+
+  Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
+  Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
+
+  if(!newslot->IsEmpty())
+      return true;
+
+  newslot->operator = (oldslot);
+  UpdateItemCounter(oldslot->GetSlotWindow(), 0);
+  ddea.window->addChildWindow(ddea.dragDropItem);
+  UpdateItemCounter(newslot->GetSlotWindow(), newslot->GetAmount());
+
+  oldslot->Clear();
+
   return true;
 
 }
@@ -90,51 +91,25 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
   int itemid = -1;
 
-  Window* slot = ddea.dragDropItem->getParent();
+  Slot* slot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
+  itemid = slot->GetObjectId();
 
-  if (ddea.dragDropItem->isUserStringDefined("itemtype")) 
-  { 
-  itemid = atoi(ddea.dragDropItem->getUserString("itemtype").c_str()); 
   DropEntityRequestMessage msg;
   msg.setTargetId(itemid);
-  network->send(&msg);
-  ddea.dragDropItem->destroy();
-  UpdateItemCounter(slot);
-  printf("InventoryWindow: Dropped item of type %d to the world!\n", itemid);
+  if (network) network->send(&msg);
+
+  if( slot->GetAmount() > 1)
+  {
+    slot->SetAmount(slot->GetAmount()-1);
+    UpdateItemCounter(slot->GetSlotWindow(), slot->GetAmount());
   }
   else 
   {
-    printf("InventoryWindow: Couldn't determine itemID, putting it back!\n");
+    ddea.dragDropItem->destroy();
+    slot->Clear();
   }
 
-  return true;
-}
-
-bool DragDrop::handleDragDroppedStackable(const CEGUI::EventArgs& args)
-{
-  using namespace CEGUI;
-
-  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-
-  bool stackable = false;
-  // Check if the slot is occupied by a item with the same id.
-  if (ddea.dragDropItem->isUserStringDefined("stackable")) {if(ddea.dragDropItem->getUserString("stackable") == "true") stackable = true;}
-
-  if (stackable)
-  {
-    if (ddea.window->isUserStringDefined("itemtype")) 
-    {
-      const char* slottype = ddea.window->getUserString("itemtype").c_str();
-      const char* itemtype = ddea.dragDropItem->getUserString("itemtype").c_str();
-      //printf("InventoryWindow: Slottype is %s and itemtype is %s \n", slottype, itemtype);
-
-      if ( !strcmp(slottype, itemtype) ) 
-      {
-        ddea.window->getParent()->addChildWindow(ddea.dragDropItem);
-        UpdateItemCounter(ddea.window->getParent());
-      }
-    }
-  }
+  printf("InventoryWindow: Dropped item of type %d to the world!\n", itemid);
 
   return true;
 }
@@ -169,60 +144,69 @@ CEGUI::Window* DragDrop::createDragDropSlot(CEGUI::Window* parent, const CEGUI::
   return slot;
 }
 
-CEGUI::Window* DragDrop::createIcon(int type, int itemid, bool stackable)
+CEGUI::Window* DragDrop::createIcon(int icontype, int objectid)
 {
   char uniquename[1024];
   counter += 1;
-  sprintf(uniquename, "%d_%d_icon", itemid, counter);
+  sprintf(uniquename, "%d_%d_icon", objectid, counter);
 
-  ClientItem* clientitem = itemmanager->GetItemById(itemid);
-  printf("=================%d", clientitem->GetId());
-  printf("=================%s", clientitem->GetName().GetData());
-
-  // create a drag/drop item
-  CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
+  // Create a drag/drop Icon
+  CEGUI::DragContainer* icon = static_cast<CEGUI::DragContainer*>(
     winMgr->createWindow("DragContainer", uniquename));
-  item->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-  item->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
-  item->setHorizontalAlignment(CEGUI::HA_CENTRE);
-  item->setVerticalAlignment(CEGUI::VA_CENTRE);
-  //item->setTooltipText(clientitem->GetDescription().GetData());
-  // Set the itemID.
-  char itemtypestr[1024];
-  sprintf(itemtypestr, "%d", itemid);
-  item->setUserString("itemtype" , itemtypestr);
-  // Set wether or not the item is stackable
-  if (stackable)
-    item->setUserString("stackable" , "true");
-  else item->setUserString("stackable" , "false");
+  icon->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
+  icon->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
+  icon->setHorizontalAlignment(CEGUI::HA_CENTRE);
+  icon->setVerticalAlignment(CEGUI::VA_CENTRE);
 
-  // set a static image as drag container's contents
-  CEGUI::Window* itemIcon = winMgr->createWindow("Peragro/StaticImage");
-  item->addChildWindow(itemIcon);
-  itemIcon->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-  itemIcon->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0.0f), CEGUI::UDim(1.0f,0.0f)));
-  itemIcon->setHorizontalAlignment(CEGUI::HA_CENTRE);
-  itemIcon->setVerticalAlignment(CEGUI::VA_CENTRE);
-  itemIcon->setProperty("FrameEnabled", "False");
-  //itemIcon->setProperty("Image", clientitem->GetIconName().GetData());
+  // Set a static image as drag container's contents
+  CEGUI::Window* iconImage = winMgr->createWindow("Peragro/StaticImage");
+  icon->addChildWindow(iconImage);
+  iconImage->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
+  iconImage->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0.0f), CEGUI::UDim(1.0f,0.0f)));
+  iconImage->setHorizontalAlignment(CEGUI::HA_CENTRE);
+  iconImage->setVerticalAlignment(CEGUI::VA_CENTRE);
+  iconImage->setProperty("FrameEnabled", "False");
+  // Disable to allow inputs to pass through.
+  iconImage->disable();
 
-  // disable to allow inputs to pass through.
-  itemIcon->disable();
+  // Lets decide what to make of the icon: Item or Skill.
+  if(icontype == DragDrop::Item)
+  {
+    ClientItem* clientitem = itemmanager->GetItemById(objectid);
 
-  //if (stackable)
-  item->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedStackable, this));
+    // Set some variables.
+    icon->setUserString("itemid" , IntToStr(objectid));
+    icon->setUserString("icontype" , IntToStr(icontype));
+    icon->setTooltipText(clientitem->GetName().GetData());
 
-  return item;
+    icon->setUserData(clientitem);
+    //ClientItem* clientitem2 = static_cast<ClientItem*>(icon->getUserData());
+    //printf("================%s\n", clientitem2->GetName().GetData() );
+
+    iconImage->setProperty("Image", clientitem->GetIconName().GetData());
+  }
+  else if(icontype == DragDrop::Skill)
+  {
+
+  }
+
+  return icon;
 }
 
-void DragDrop::UpdateItemCounter(CEGUI::Window* parent)
+void DragDrop::UpdateItemCounter(CEGUI::Window* parent, uint amount)
 {
   if (!parent->isChild(30)) return;
   CEGUI::Window* itemcounter = parent->getChild(30);
-  int nrofitems = itemcounter->getParent()->getChildCount()-1;
-  char buffer[1024];
-  sprintf(buffer, "%d", nrofitems);
-  itemcounter->setText((CEGUI::String)buffer);
-  if (nrofitems < 2) itemcounter->setVisible(false); 
+  itemcounter->setText(IntToStr(amount));
+  if (amount < 2) itemcounter->setVisible(false); 
   else itemcounter->setVisible(true);
+}
+
+CEGUI::String DragDrop::IntToStr(int number)
+{
+  char buffer[1024];
+  sprintf(buffer, "%d", number);
+  CEGUI::String value = (CEGUI::String)buffer;
+
+  return value;
 }

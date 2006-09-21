@@ -4,28 +4,31 @@
 	<item>
 		<id>1</id>
 		<name>Small Plate</name>
-		<icon>set:Inventory image:1</icon>
+		<icon>set:Inventory image:smallplate</icon>
 		<description>A small plate.</description>
 		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
 		<mesh>Stuff001_smallplate_64_plates</mesh>
+		<stackable>5</stackable>
 	</item>
 
 	<item>
 		<id>2</id>
 		<name>Apple</name>
-		<icon>set:Inventory image:2</icon>
+		<icon>set:Inventory image:apple</icon>
 		<description>An apple.</description>
 		<file>/peragro/meshes/apple/apple.xml</file>
 		<mesh>apple</mesh>
+		<stackable>0</stackable>
 	</item>
 
 	<item>
 		<id>3</id>
 		<name>Tiny Ballpot</name>
-		<icon>set:Inventory image:3</icon>
+		<icon>set:Inventory image:tinyballpot</icon>
 		<description>A Tiny Ballpot.</description>
 		<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
 		<mesh>Stuff001_tinyballpot_84_pot</mesh>
+		<stackable>5</stackable>
 	</item>
 
 	<item>
@@ -40,6 +43,7 @@
 		</description>
 		<file>/peragro/meshes/bogus.xml</file>
 		<mesh>foobar</mesh>
+		<stackable>1</stackable>
 	</item>
 	
 </items>

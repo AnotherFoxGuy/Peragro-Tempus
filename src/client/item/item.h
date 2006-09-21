@@ -36,16 +36,18 @@ private:
   csString meshname;
   csString filename;
   csString description;
+  uint stackable;
 
 public:
   ClientItem();
   ~ClientItem();
   uint GetId() { return id; }
-  csString GetName() const { return name; }
+  csString GetName() { return name; }
   csString GetIconName() { return iconname;}
   csString GetMeshName() { return meshname;}
   csString GetFileName() { return filename;}
   csString GetDescription() { return description;} 
+  uint GetStackable() { return stackable;} 
 
   void SetId(uint value) { this->id = value; }
   void SetName(csString value) { this->name = value; }
@@ -53,6 +55,7 @@ public:
   void SetMeshName(csString value) { this->meshname = value; }
   void SetFileName(csString value) { this->filename = value; }
   void SetDescription(csString value) { this->description = value; }
+  void SetStackable(uint value) { this->stackable = value; }
 };
 
 #endif // CLIENT_ITEM_H

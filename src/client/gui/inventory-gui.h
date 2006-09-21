@@ -22,18 +22,26 @@
 #include "base-gui.h"
 
 #include "client/gui/common/dragdrop-gui.h"
+#include "client/gui/common/slot.h"
+
+class DragDrop;
 
 class InventoryWindow : public GUIWindow
 {
 private:
   bool handleCloseButton(const CEGUI::EventArgs& args);
   DragDrop* dragdrop;
+  ItemMGR* itemmanager;
+  int numberOfSlots;
+
+  csArray<Slot*> inventory;
 
 public:
   InventoryWindow(GUIManager* guimanager);
   virtual ~InventoryWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
-  bool AddItem(int itemid, bool stackable);
+  bool AddItem(int itemid,int slotid);
+  bool AddItem(int itemid);
 };
 
 

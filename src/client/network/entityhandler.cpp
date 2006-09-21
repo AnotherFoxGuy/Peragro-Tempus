@@ -95,10 +95,10 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
 
   if (response_msg.getError().isNull())
   {
-    printf("%s picks Item %s\n", *response_msg.getName(), *response_msg.getTarget());
+    printf("%s picks Item %s(%d)\n", *response_msg.getName(), *response_msg.getTarget(), response_msg.getItemId());
     if (strlen(*response_msg.getName()) == strlen(client->GetEntityManager()->GetOwnName())
       && !strcmp(*response_msg.getName(), client->GetEntityManager()->GetOwnName()))
-      guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), true);
+      guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId());
   }
   else
     printf("%s can't pick Item %s! Reason: '%s'\n", *response_msg.getName(), *response_msg.getTarget(), *response_msg.getError());
@@ -142,13 +142,12 @@ void EntityHandler::handleInventoryItemList(GenericMessage* msg)
   guimanager = client->GetGuiManager();
   for (int i=0; i<item_msg.getItemCount(); i++)
   {
-    //client->addCharacter(char_msg.getCharacterId(i), char_msg.getCharacterName(i));
     for (int j=0; j<item_msg.getItemAmount(i); j++)
     {
       char buffer[1024];
       sprintf(buffer, "%d_%d", item_msg.getItemId(i), j);
       printf("droppedstackable: number of items: %s",buffer);
-      guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), true);
+      guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), i+1);
       printf("Item %d: %d\n", item_msg.getItemId(i), item_msg.getItemAmount(i));
     }
   }

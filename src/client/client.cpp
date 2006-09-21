@@ -205,6 +205,9 @@ bool Client::Application()
   g3d = CS_QUERY_REGISTRY(GetObjectRegistry(), iGraphics3D);
   if (!g3d) return ReportError("Failed to locate 3D renderer!");
 
+  // Create and Initialize the Network. 
+  network = new Network (this);
+  network->init();
 
   // Create and Initialize the ItemManager.
   itemmanager = new ItemMGR (GetObjectRegistry());
@@ -252,10 +255,6 @@ bool Client::Application()
   entitymanager = new ptEntityManager (GetObjectRegistry(), this);
   if (!entitymanager->Initialize())
     return false;
-  
-  // Create and Initialize the Network. 
-  network = new Network (this);
-  network->init();
 
   // Create and Initialize the Effectsmanager.
   effectsmanager = new EffectsManager (GetObjectRegistry());
@@ -361,9 +360,9 @@ void Client::handleStates()
       guimanager->CreateWhisperWindow();
 
       //guimanager->CreateStatusWindow ();
-      guimanager->CreateInventoryWindow ();
-      guimanager->GetInventoryWindow()->ShowWindow();
-      playing = true;
+      //guimanager->CreateInventoryWindow ();
+      //guimanager->GetInventoryWindow()->ShowWindow();
+      //playing = true;
       //guimanager->CreateHUDWindow();
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
@@ -509,7 +508,7 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'g')
       {
-        guimanager->GetInventoryWindow()->AddItem(1, true);
+        guimanager->GetInventoryWindow()->AddItem(2, 3);
       }
       else if (code == 'f')
       {
@@ -785,8 +784,9 @@ bool Client::InitializeCEL()
 
   #if 1
   // HACK HACK
-  // Fixes the CEGUI corruption somehow.
-  // Possible cause something drawn in 2D, particles perhaps?
+  // Fixes the CEGUI partial drawing.
+  // If you cross a portal it works for some reason.
+  // (Camera in one sector, the character in the other.)
   csRef<iCelEntity> entity = pl->CreateEntity();
   pl->CreatePropertyClass(entity, "pctooltip");
   csRef<iPcTooltip> nametag = CEL_QUERY_PROPCLASS_ENT(entity, iPcTooltip);

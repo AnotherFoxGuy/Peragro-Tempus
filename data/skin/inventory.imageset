@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <Imageset Name="Inventory" Imagefile="inventory.png" NativeHorzRes="1024" NativeVertRes="1024" AutoScaled="true">
-	<Image Name="2" XPos="0" YPos="0" Width="128" Height="128" />
-	<Image Name="3" XPos="128" YPos="0" Width="128" Height="128" />
-	<Image Name="1" XPos="256" YPos="0" Width="128" Height="128" />
+	<Image Name="tinyballpot" XPos="0" YPos="0" Width="128" Height="128" />
+	<Image Name="smallplate" XPos="128" YPos="0" Width="128" Height="128" />
+	<Image Name="apple" XPos="256" YPos="0" Width="128" Height="128" />
 </Imageset>

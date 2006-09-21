@@ -122,8 +122,9 @@ bool ItemMGR::Initialize ()
     csRef<iDocumentNode> description = child->GetNode ("description");
     csRef<iDocumentNode> file        = child->GetNode ("file");
     csRef<iDocumentNode> mesh        = child->GetNode ("mesh");
+    csRef<iDocumentNode> stackable   = child->GetNode ("stackable");
 
-    if (!id || !name || !icon || !description || !file || !mesh )
+    if (!id || !name || !icon || !description || !file || !mesh || !stackable)
     {
       csString error;
       csString good;
@@ -133,26 +134,28 @@ bool ItemMGR::Initialize ()
       if(!description) error += "<description>";
       if(!file) error += "<file>";
       if(!mesh) error += "<mesh>";
+      if(!stackable) error += "<stackable>";
 
       printf("ItemManager: ERROR Missing %s token(s) for %s!\n\n", error.GetData(), good.GetData());
-      return false;
-      //continue;
+      //return false;
+      continue;
     }
 
-    ClientItem item;
+    ClientItem* item = new ClientItem();
 
-    item.SetId(id->GetContentsValueAsInt()); 
-    item.SetName("what"); 
-    item.SetIconName((csString)icon->GetContentsValue ());
-    item.SetDescription((csString)description->GetContentsValue ()); 
-    item.SetFileName((csString)file->GetContentsValue ()); 
-    item.SetMeshName((csString)mesh->GetContentsValue ()); 
+    item->SetId(id->GetContentsValueAsInt()); 
+    item->SetName((csString)name->GetContentsValue ()); 
+    item->SetIconName((csString)icon->GetContentsValue ());
+    item->SetDescription((csString)description->GetContentsValue ()); 
+    item->SetFileName((csString)file->GetContentsValue ()); 
+    item->SetMeshName((csString)mesh->GetContentsValue ()); 
+    item->SetStackable(stackable->GetContentsValueAsInt()); 
 
-    if (item.GetId() >= items.Capacity())
-      items.SetCapacity(item.GetId()+1);
+    if (item->GetId() >= items.Capacity())
+      items.SetCapacity(item->GetId()+1);
 
-    items.Put(item.GetId(), item);
-    printf("%d : %s\n", item.GetId(), item.GetName().GetData());
+    items.Put(item->GetId(), item);
+    printf("%d : %s\n", item->GetId(), item->GetName().GetData());
   }
   printf("================================= %d item(s)\n\n", items.Length()-1);
 
@@ -161,32 +164,19 @@ bool ItemMGR::Initialize ()
 
 ClientItem* ItemMGR::GetItemById(uint id)
 {
-/*
-  if(id > items.Length())
-    { 
-      printf("ItemMGR: ERROR: Recieved ID %d is bigger then Number of items!\n", id);
-      return 0;
-    }
-  else
-  {
-    printf("w================%s!\n", items.Get(id).GetId());
-    return &items[id];
-  }
-*/
   if (id < items.Length())
   {
-    return &items[id];
+    return items[id];
   }
   printf("ItemMGR: ERROR Couldn't find item %d!\n", id);
   return 0;
-
 }
 
 ClientItem* ItemMGR::GetItemByName(csString name)
 {
   for (int i = 0; i < items.Length(); i++)
    {
-     ClientItem* item = &items[i];
+     ClientItem* item = items[i];
      if(item->GetName().Compare(name))
        return item;
    }

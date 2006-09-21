@@ -31,6 +31,10 @@
 #include "common/util/mutex.h"
 
 #include "client/item/itemmanager.h"
+#include "client/gui/common/slot.h"
+
+#include "client/gui/inventory-gui.h"
+
 
 class Network;
 class GUIManager;
@@ -43,15 +47,15 @@ private:
   CEGUI::WindowManager* winMgr;
   ItemMGR* itemmanager;
   int counter;
+  CEGUI::String IntToStr(int number);
 
 public:
   bool handleDragEnter(const CEGUI::EventArgs& args);
   bool handleDragLeave(const CEGUI::EventArgs& args);
   bool handleDragDropped(const CEGUI::EventArgs& args);
   bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
-  bool handleDragDroppedStackable(const CEGUI::EventArgs& args);
 
-  enum IconType
+  enum Type
   {
     Item=0,
     Skill=1
@@ -62,8 +66,8 @@ public:
   virtual ~DragDrop();
 
   CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
-  CEGUI::Window* createIcon(int type, int itemid, bool stackable);
-  void UpdateItemCounter(CEGUI::Window* parent);
+  CEGUI::Window* createIcon(int icontype, int objectid);
+  void UpdateItemCounter(CEGUI::Window* parent, uint amount);
 };
 
 
