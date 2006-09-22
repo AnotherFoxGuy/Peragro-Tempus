@@ -109,8 +109,8 @@ CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UV
   // Create the slot
   CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage", uniquename);
   parent->addChildWindow(slot);
-  slot->setWindowPosition(position);
-  slot->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
+  slot->setPosition(position);
+  slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&HUDWindow::HandleDragDropped, this));
 
   return slot;
@@ -125,8 +125,8 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
   // create a drag/drop item
   CEGUI::DragContainer* skill = static_cast<CEGUI::DragContainer*>(
     winMgr->createWindow("DragContainer", uniquename));
-  skill->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-  skill->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
+  skill->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
+  skill->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
   skill->setHorizontalAlignment(CEGUI::HA_CENTRE);
   skill->setVerticalAlignment(CEGUI::VA_CENTRE);
   skill->setTooltipText(skillname);
@@ -138,8 +138,8 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
   // set a static image as drag container's contents
   CEGUI::Window* skillIcon = winMgr->createWindow("Peragro/StaticImage");
   skill->addChildWindow(skillIcon);
-  skillIcon->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-  skillIcon->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0.0f), CEGUI::UDim(1.0f,0.0f)));
+  skillIcon->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
+  skillIcon->setSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0.0f), CEGUI::UDim(1.0f,0.0f)));
   skillIcon->setHorizontalAlignment(CEGUI::HA_CENTRE);
   skillIcon->setVerticalAlignment(CEGUI::VA_CENTRE);
   skillIcon->setProperty("FrameEnabled", "False");

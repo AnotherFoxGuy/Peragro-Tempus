@@ -5,6 +5,9 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 21-Sep-2006
+  - Sueastside converted guimgr to use CEGUI 0.5rc2.
+
+21-Sep-2006
   - Sueastside did an inventory rewrite.
   - Sueastside did some more work on the itemmgr.
   - Sueastside added some options in the config file,

@@ -26,7 +26,8 @@
 	<FalagardMapping WindowType="Peragro/LargeVerticalScrollbarThumb" TargetType="CEGUI/Thumb"     Renderer="Falagard/Button"    LookNFeel="Peragro/LargeVerticalScrollbarThumb" />
 	<FalagardMapping WindowType="Peragro/TabButton"  TargetType="CEGUI/TabButton"  Renderer="Falagard/TabButton"  LookNFeel="Peragro/TabButton" />
 	<FalagardMapping WindowType="Peragro/TabControl" TargetType="CEGUI/TabControl" Renderer="Falagard/TabControl" LookNFeel="Peragro/TabControl" />
-	<FalagardMapping WindowType="Peragro/TabPane"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="Peragro/TabPane" />
+	<FalagardMapping WindowType="Peragro/TabContentPane"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="Peragro/TabContentPane" />
+	<FalagardMapping WindowType="Peragro/TabButtonPane"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="Peragro/TabButtonPane" />
 	<FalagardMapping WindowType="Peragro/ComboDropList" TargetType="CEGUI/ComboDropList" Renderer="Falagard/Listbox" LookNFeel="Peragro/ComboDropList" />
 	<FalagardMapping WindowType="Peragro/ComboEditbox"  TargetType="CEGUI/Editbox"	 Renderer="Falagard/Editbox" LookNFeel="Peragro/ComboEditbox" />
 	<FalagardMapping WindowType="Peragro/Combobox"	TargetType="CEGUI/Combobox"	 Renderer="Falagard/Default" LookNFeel="Peragro/Combobox" />

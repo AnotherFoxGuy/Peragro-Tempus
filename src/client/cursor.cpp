@@ -92,8 +92,8 @@ void Cursor::Draw()
     float height = font->getFontHeight(1.3f);
     float width = font->getFormattedTextExtent(name, CEGUI::Rect(0,0,5,5),CEGUI::Centred, 1.1f);
     nametag->setText(name);
-    nametag->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0,mousex-(width/2)), CEGUI::UDim(0,mousey-25)));
-    nametag->setWindowSize( CEGUI::UVector2(CEGUI::UDim(0,width), CEGUI::UDim(0,height)));
+    nametag->setPosition(CEGUI::UVector2(CEGUI::UDim(0,mousex-(width/2)), CEGUI::UDim(0,mousey-25)));
+    nametag->setSize( CEGUI::UVector2(CEGUI::UDim(0,width), CEGUI::UDim(0,height)));
     nametag->setVisible(true);
   }
   else

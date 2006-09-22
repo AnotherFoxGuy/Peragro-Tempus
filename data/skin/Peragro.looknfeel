@@ -3144,7 +3144,8 @@
     <WidgetLook name="Peragro/TabButton">
 		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
         <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
-        <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
         <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
         <ImagerySection name="label">
             <TextComponent>
@@ -3177,7 +3178,7 @@
                 <Image type="Background" imageset="Peragro" image="TabButtonMiddleNormal" />
             </FrameComponent>
         </ImagerySection>
-        <ImagerySection name="selected">
+        <ImagerySection name="top_selected">
             <FrameComponent>
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
@@ -3186,15 +3187,28 @@
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
                 <Image type="TopLeftCorner" imageset="Peragro" image="TabButtonUpperLeftSelected" />
-                <Image type="TopRightCorner" imageset="Peragro" image="TabButtonUpperRightSelected" />
-                <Image type="BottomLeftCorner" imageset="Peragro" image="TabButtonLowerLeftSelected" />
-                <Image type="BottomRightCorner" imageset="Peragro" image="TabButtonLowerRightSelected" />
-                <Image type="LeftEdge" imageset="Peragro" image="TabButtonLeftSelected" />
-                <Image type="RightEdge" imageset="Peragro" image="TabButtonRightSelected" />
                 <Image type="TopEdge" imageset="Peragro" image="TabButtonUpperSelected" />
-                <Image type="BottomEdge" imageset="Peragro" image="TabButtonLowerSelected" />
+                <Image type="TopRightCorner" imageset="Peragro" image="TabButtonUpperRightSelected" />
+                <Image type="LeftEdge" imageset="Peragro" image="TabButtonLeftSelected" />
                 <Image type="Background" imageset="Peragro" image="TabButtonMiddleSelected" />
+                <Image type="RightEdge" imageset="Peragro" image="TabButtonRightSelected" />
             </FrameComponent>
+        </ImagerySection>
+                <ImagerySection name="bot_selected">
+	            <FrameComponent>
+	                <Area>
+	                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+	                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+	                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+	                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+	                </Area>
+	                <Image type="LeftEdge" imageset="Peragro" image="TabButtonLeftSelected" />
+	                <Image type="Background" imageset="Peragro" image="TabButtonMiddleSelected" />
+	                <Image type="RightEdge" imageset="Peragro" image="TabButtonRightSelected" />
+	                <Image type="BottomLeftCorner" imageset="Peragro" image="TabButtonLowerLeftSelected" />
+	                <Image type="BottomEdge" imageset="Peragro" image="TabButtonLowerSelected" />
+	                <Image type="BottomRightCorner" imageset="Peragro" image="TabButtonLowerRightSelected" />
+	            </FrameComponent>
         </ImagerySection>
         <StateImagery name="Normal">
             <Layer>
@@ -3212,19 +3226,25 @@
                 </Section>
             </Layer>
         </StateImagery>
-        <StateImagery name="Selected">
+        <StateImagery name="TopSelected">
             <Layer>
-                <Section section="selected" />
+                <Section section="top_selected" />
                 <Section section="label">
-                    <ColourProperty name="PushedTextColour" />
+                    <ColourProperty name="SelectedTextColour" />
                 </Section>
             </Layer>
         </StateImagery>
+                <StateImagery name="BottomSelected">
+	            <Layer>
+	                <Section section="bot_selected" />
+	                <Section section="label">
+	                    <ColourProperty name="SelectedTextColour" />
+	                </Section>
+	            </Layer>
+        </StateImagery>
         <StateImagery name="Disabled">
             <Layer>
-                <Section section="normal">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-                </Section>
+                <Section section="normal" />
                 <Section section="label">
                     <ColourProperty name="DisabledTextColour" />
                 </Section>
@@ -3234,66 +3254,309 @@
     
     <!--
     ***************************************************
-        Peragro/TabPane
+        ice/TabContentPane
     ***************************************************
     -->
-    <WidgetLook name="Peragro/TabPane">
+    <WidgetLook name="Peragro/TabContentPane">
+        <PropertyDefinition name="EnableTop" initialValue="0" redrawOnWrite="true" layoutOnwrite="true" />
+        <PropertyDefinition name="EnableBottom" initialValue="0" redrawOnWrite="true" layoutOnwrite="true" />    
         <ImagerySection name="normal">
-            <FrameComponent>
-                <Area>
-                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
-                </Area>
-                <Image type="BottomLeftCorner" imageset="Peragro" image="TabPaneLowerLeft" />
-                <Image type="BottomRightCorner" imageset="Peragro" image="TabPaneLowerRight" />
-                <Image type="LeftEdge" imageset="Peragro" image="TabPaneLeft" />
-                <Image type="RightEdge" imageset="Peragro" image="TabPaneRight" />
-                <Image type="TopEdge" imageset="Peragro" image="TabControlButtonPaneFiller" />
-                <Image type="BottomEdge" imageset="Peragro" image="TabPaneLower" />
-                <Image type="Background" imageset="Peragro" image="TabPaneMiddle" />
-            </FrameComponent>
-        </ImagerySection>
-        <StateImagery name="Enabled">
-            <Layer>
-                <Section section="normal" />
-            </Layer>
-        </StateImagery>
-        <StateImagery name="Disabled">
-            <Layer>
-                <Section section="normal">
-                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-                </Section>
-            </Layer>
-        </StateImagery>
+	            <FrameComponent>
+	                <Area>
+	                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+	                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+	                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+	                    <Dim type="BottomEdge" >
+	                        <ImageDim imageset="Peragro" image="TabContentPaneUpperLeft" dimension="Height">
+	                            <DimOperator op="Multiply">
+	                                <PropertyDim name="EnableTop" />
+	                            </DimOperator>
+	                        </ImageDim>
+	                    </Dim>
+	                </Area>
+	                <Image type="TopLeftCorner" imageset="Peragro" image="TabContentPaneUpperLeft" />
+	                <Image type="TopEdge" imageset="Peragro" image="TabContentPaneTop" />
+	                <Image type="TopRightCorner" imageset="Peragro" image="TabContentPaneUpperRight" />
+	            </FrameComponent>
+	            <FrameComponent>
+	                <Area>
+	                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+	                    <Dim type="TopEdge" >
+	                        <ImageDim imageset="Peragro" image="TabContentPaneUpperLeft" dimension="Height">
+	                            <DimOperator op="Multiply">
+	                                <PropertyDim name="EnableTop" />
+	                            </DimOperator>
+	                        </ImageDim>
+	                    </Dim>
+	                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+	                    <Dim type="BottomEdge" >
+	                        <UnifiedDim scale="1" type="Height">
+	                            <DimOperator op="Subtract">
+	                                <ImageDim imageset="Peragro" image="TabContentPaneLowerLeft" dimension="Height">
+	                                    <DimOperator op="Multiply">
+	                                        <PropertyDim name="EnableBottom" />
+	                                    </DimOperator>
+	                                </ImageDim>
+	                            </DimOperator>
+	                        </UnifiedDim>
+	                    </Dim>
+	                </Area>
+	                <Image type="LeftEdge" imageset="Peragro" image="TabContentPaneLeft" />
+	                <Image type="Background" imageset="Peragro" image="TabContentPaneMiddle" />
+	                <Image type="RightEdge" imageset="Peragro" image="TabContentPaneRight" />
+	            </FrameComponent>
+	            <FrameComponent>
+	                <Area>
+	                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+	                    <Dim type="TopEdge" >
+	                        <UnifiedDim scale="1" type="Height">
+	                            <DimOperator op="Subtract">
+	                                <ImageDim imageset="Peragro" image="TabContentPaneLowerLeft" dimension="Height">
+	                                    <DimOperator op="Multiply">
+	                                        <PropertyDim name="EnableBottom" />
+	                                    </DimOperator>
+	                                </ImageDim>
+	                            </DimOperator>
+	                        </UnifiedDim>
+	                    </Dim>
+	                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+	                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="Height" /></Dim>
+	                </Area>
+	                <Image type="BottomLeftCorner" imageset="Peragro" image="TabContentPaneLowerLeft" />
+	                <Image type="BottomEdge" imageset="Peragro" image="TabContentPaneLower" />
+	                <Image type="BottomRightCorner" imageset="Peragro" image="TabContentPaneLowerRight" />
+	            </FrameComponent>
+	        </ImagerySection>
+	        <StateImagery name="Enabled">
+	            <Layer>
+	                <Section section="normal" />
+	            </Layer>
+	        </StateImagery>
+	        <StateImagery name="Disabled">
+	            <Layer>
+	                <Section section="normal">
+	                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+	                </Section>
+	            </Layer>
+	        </StateImagery>
     </WidgetLook>
     
     <!--
-    ***************************************************
-        Peragro/TabControl
-    ***************************************************
-    -->
-    <WidgetLook name="Peragro/TabControl">
-        <Property name="TabButtonType" value="Peragro/TabButton" />
-        <Child  type="Peragro/TabPane" nameSuffix="__auto_TabPane__">
-            <Area>
-                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
-            </Area>
-        </Child>
-        <Child  type="DefaultWindow" nameSuffix="__auto_TabPane__Buttons">
-            <Area>
-                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
-            </Area>
-        </Child>
-        <StateImagery name="Enabled" />
-        <StateImagery name="Disabled" />
+        ***************************************************
+            Peragro/TabButtonPane
+        ***************************************************
+        -->
+        <WidgetLook name="Peragro/TabButtonPane">
+            <PropertyDefinition name="EnableTop" initialValue="1" redrawOnWrite="true" layoutOnwrite="true" />
+            <PropertyDefinition name="EnableBottom" initialValue="1" redrawOnWrite="true" layoutOnwrite="true" />
+            <ImagerySection name="normal">
+                <FrameComponent>
+                    <Area>
+                        <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                        <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                        <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                        <Dim type="BottomEdge" >
+                            <ImageDim imageset="Peragro" image="TabHorizontalTopFiller" dimension="Height">
+                                <DimOperator op="Multiply">
+                                    <PropertyDim name="EnableTop" />
+                                </DimOperator>
+                            </ImageDim>
+                        </Dim>
+                    </Area>
+                    <Image type="TopEdge" imageset="Peragro" image="TabHorizontalTopFiller" />
+                </FrameComponent>
+                <FrameComponent>
+                    <Area>
+                        <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                        <Dim type="TopEdge" >
+                            <ImageDim imageset="Peragro" image="TabHorizontalTopFiller" dimension="Height">
+                                <DimOperator op="Multiply">
+                                    <PropertyDim name="EnableTop" />
+                                </DimOperator>
+                            </ImageDim>
+                        </Dim>
+                        <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                        <Dim type="BottomEdge" >
+                            <UnifiedDim scale="1" type="Height">
+                                <DimOperator op="Subtract">
+                                    <ImageDim imageset="Peragro" image="TabHorizontalBottomFiller" dimension="Height">
+                                        <DimOperator op="Multiply">
+                                            <PropertyDim name="EnableBottom" />
+                                        </DimOperator>
+                                    </ImageDim>
+                                </DimOperator>
+                            </UnifiedDim>
+                        </Dim>
+                    </Area>
+                </FrameComponent>
+                <FrameComponent>
+                    <Area>
+                        <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                        <Dim type="TopEdge" >
+                            <UnifiedDim scale="1" type="Height">
+                                <DimOperator op="Subtract">
+                                    <ImageDim imageset="Peragro" image="TabHorizontalBottomFiller" dimension="Height">
+                                        <DimOperator op="Multiply">
+                                            <PropertyDim name="EnableBottom" />
+                                        </DimOperator>
+                                    </ImageDim>
+                                </DimOperator>
+                            </UnifiedDim>
+                        </Dim>
+                        <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                        <Dim type="BottomEdge" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    </Area>
+                    <Image type="BottomEdge" imageset="Peragro" image="TabHorizontalBottomFiller" />
+                </FrameComponent>
+            </ImagerySection>
+            <StateImagery name="Enabled">
+                <Layer>
+                    <Section section="normal" />
+                </Layer>
+            </StateImagery>
+            <StateImagery name="Disabled">
+                <Layer>
+                    <Section section="normal">
+                        <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                    </Section>
+                </Layer>
+            </StateImagery>
+    </WidgetLook>
+    
+    <!--
+        ***************************************************
+            Peragro/TabControl
+        ***************************************************
+        -->
+        <WidgetLook name="Peragro/TabControl">
+            <Property name="TabButtonType" value="Peragro/TabButton" />
+            <Property name="TabTextPadding" value="{0,4}" />
+            <Child  type="Peragro/TabContentPane" nameSuffix="__auto_TabPane__">
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="TopEdge">
+                        <PropertyDim widget="__auto_TabPane__" name="EnableBottom">
+                            <DimOperator op="Multiply">
+                                <PropertyDim name="TabHeight" type="Height" />
+                            </DimOperator>
+                        </PropertyDim>
+                    </Dim>
+                    <Dim type="Height">
+                        <UnifiedDim scale="1" type="Height">
+                            <DimOperator op="Subtract">
+                                <PropertyDim name="TabHeight" type="Height" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
+                </Area>
+            </Child>
+            <Child  type="Peragro/TabButtonPane" nameSuffix="__auto_TabPane__Buttons">
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="TopEdge">
+                        <PropertyDim widget="__auto_TabPane__Buttons" name="EnableTop">
+                            <DimOperator op="Multiply">
+                                <UnifiedDim scale="1" type="Height">
+                                    <DimOperator op="Subtract">
+                                        <PropertyDim name="TabHeight" type="Height" />
+                                    </DimOperator>
+                                </UnifiedDim>
+                            </DimOperator>
+                        </PropertyDim>
+                    </Dim>
+                    <Dim type="Height"><PropertyDim name="TabHeight" type="Height" /></Dim>
+                </Area>
+            </Child>
+            <Child type="Peragro/SystemButton" nameSuffix="__auto_TabPane__ScrollLeft">
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="6" /></Dim>
+                    <Dim type="TopEdge">
+                        <WidgetDim widget="__auto_TabPane__" dimension="TopEdge">
+                            <DimOperator op="Add">
+                                <AbsoluteDim value="4">
+                                    <DimOperator op="Add">
+                                        <PropertyDim widget="__auto_TabPane__Buttons" name="EnableTop">
+                                            <DimOperator op="Multiply">
+                                                <WidgetDim widget="__auto_TabPane__" dimension="Height">
+                                                    <DimOperator op="Subtract">
+                                                        <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Width">
+                                                            <DimOperator op="Add">
+                                                                <AbsoluteDim value="6" />
+                                                            </DimOperator>
+                                                        </ImageDim>
+                                                    </DimOperator>
+                                                </WidgetDim>
+                                            </DimOperator>
+                                        </PropertyDim>
+                                    </DimOperator>
+                                </AbsoluteDim>
+                            </DimOperator>
+                        </WidgetDim>
+                    </Dim>
+                    <Dim type="Width">
+                        <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Width" />
+                    </Dim>
+                    <Dim type="Height">
+                        <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Height" />
+                    </Dim>
+                </Area>
+                <Property name="AlwaysOnTop" value="True" />
+                <Property name="NormalImage" value="set:Peragro image:TabButtonScrollLeftNormal" />
+                <Property name="HoverImage" value="set:Peragro image:TabButtonScrollLeftHover" />
+                <Property name="PushedImage" value="set:Peragro image:TabButtonScrollLeftHover" />
+            </Child>
+            <Child type="Peragro/SystemButton" nameSuffix="__auto_TabPane__ScrollRight">
+                <Area>
+                    <Dim type="LeftEdge">
+                        <UnifiedDim scale="1" type="Width">
+                            <DimOperator op="Subtract">
+                                <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Width">
+                                    <DimOperator op="Add">
+                                        <AbsoluteDim value="6" />
+                                    </DimOperator>
+                                </ImageDim>
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
+                    <Dim type="TopEdge">
+                        <WidgetDim widget="__auto_TabPane__" dimension="TopEdge">
+                            <DimOperator op="Add">
+                                <AbsoluteDim value="4">
+                                    <DimOperator op="Add">
+                                        <PropertyDim widget="__auto_TabPane__Buttons" name="EnableTop">
+                                            <DimOperator op="Multiply">
+                                                <WidgetDim widget="__auto_TabPane__" dimension="Height">
+                                                    <DimOperator op="Subtract">
+                                                        <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Width">
+                                                            <DimOperator op="Add">
+                                                                <AbsoluteDim value="6" />
+                                                            </DimOperator>
+                                                        </ImageDim>
+                                                    </DimOperator>
+                                                </WidgetDim>
+                                            </DimOperator>
+                                        </PropertyDim>
+                                    </DimOperator>
+                                </AbsoluteDim>
+                            </DimOperator>
+                        </WidgetDim>
+                    </Dim>
+                    <Dim type="Width">
+                        <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Width" />
+                    </Dim>
+                    <Dim type="Height"><AbsoluteDim value="0" />
+                        <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Height" />
+                    </Dim>
+                </Area>
+                <Property name="AlwaysOnTop" value="True" />
+                <Property name="NormalImage" value="set:Peragro image:TabButtonScrollRightNormal" />
+                <Property name="HoverImage" value="set:Peragro image:TabButtonScrollRightHover" />
+                <Property name="PushedImage" value="set:Peragro image:TabButtonScrollRightHover" />
+            </Child>
+            <StateImagery name="Enabled" />
+            <StateImagery name="Disabled" />
     </WidgetLook>
     
     <!--

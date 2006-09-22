@@ -71,9 +71,9 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
     cegui->GetSystemPtr ()->setDefaultTooltip("Peragro/Tooltip");
 
     CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
-    root->setWindowArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
+    root->setArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
       CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
-    root->setWindowMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
+    root->setMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
     cegui->GetSystemPtr ()->setGUISheet(root);
 
     // Set up the drag and drop.

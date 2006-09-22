@@ -96,8 +96,8 @@ void BuddyWindow::CreateGUIWindow()
 
   // Create the UserTab
   CEGUI::MultiColumnList* usertab = static_cast<CEGUI::MultiColumnList*>(winMgr->createWindow("Peragro/MultiColumnList","BuddyList/SkillTab"));
-  usertab->setWindowPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
-  usertab->setWindowSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
+  usertab->setPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
+  usertab->setSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
   CEGUI::String name("Name");
   usertab->addColumn(name,0,CEGUI::UDim(0.9f,0));
   usertab->setSelectionMode(CEGUI::MultiColumnList::RowSingle);

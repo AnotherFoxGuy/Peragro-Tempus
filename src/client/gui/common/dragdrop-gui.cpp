@@ -119,8 +119,8 @@ CEGUI::Window* DragDrop::createDragDropSlot(CEGUI::Window* parent, const CEGUI::
   // Create the slot
   CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
   parent->addChildWindow(slot);
-  slot->setWindowPosition(position);
-  slot->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
+  slot->setPosition(position);
+  slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&DragDrop::handleDragEnter, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&DragDrop::handleDragLeave, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDropped, this));
@@ -128,8 +128,8 @@ CEGUI::Window* DragDrop::createDragDropSlot(CEGUI::Window* parent, const CEGUI::
   // Create the itemcounter
   CEGUI::Window* itemcounter = winMgr->createWindow("Peragro/StaticText");
   slot->addChildWindow(itemcounter);
-  itemcounter->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.60f,0), CEGUI::UDim(0.15f,0)));
-  itemcounter->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.85f,0), CEGUI::UDim(0.80f,0)));
+  itemcounter->setPosition(CEGUI::UVector2(CEGUI::UDim(0.60f,0), CEGUI::UDim(0.15f,0)));
+  itemcounter->setSize(CEGUI::UVector2(CEGUI::UDim(0.85f,0), CEGUI::UDim(0.80f,0)));
   itemcounter->setVisible(false);
   itemcounter->disable();
   itemcounter->setText("0");
@@ -153,16 +153,16 @@ CEGUI::Window* DragDrop::createIcon(int icontype, int objectid)
   // Create a drag/drop Icon
   CEGUI::DragContainer* icon = static_cast<CEGUI::DragContainer*>(
     winMgr->createWindow("DragContainer", uniquename));
-  icon->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-  icon->setWindowSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
+  icon->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
+  icon->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
   icon->setHorizontalAlignment(CEGUI::HA_CENTRE);
   icon->setVerticalAlignment(CEGUI::VA_CENTRE);
 
   // Set a static image as drag container's contents
   CEGUI::Window* iconImage = winMgr->createWindow("Peragro/StaticImage");
   icon->addChildWindow(iconImage);
-  iconImage->setWindowPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-  iconImage->setWindowSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0.0f), CEGUI::UDim(1.0f,0.0f)));
+  iconImage->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
+  iconImage->setSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0.0f), CEGUI::UDim(1.0f,0.0f)));
   iconImage->setHorizontalAlignment(CEGUI::HA_CENTRE);
   iconImage->setVerticalAlignment(CEGUI::VA_CENTRE);
   iconImage->setProperty("FrameEnabled", "False");
