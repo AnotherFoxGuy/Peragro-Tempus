@@ -81,10 +81,9 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   oldslot->Clear();
 
   EquipRequestMessage slotchangemsg;
-  // add + 10 to offset from equip to inventory slots
-  //slotchangemsg.setEquipSlotID(newslot->GetSlotId());
-  //slotchangemsg.setInventorySlotID(oldslot->GetSlotId());
-  //if (network) network->send(&slotchangemsg);
+  slotchangemsg.setEquipSlotID(newslot->GetSlotId());
+  slotchangemsg.setInventorySlotID(oldslot->GetSlotId());
+  if (network) network->send(&slotchangemsg);
 
   return true;
 

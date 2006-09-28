@@ -50,7 +50,7 @@ void InventoryTable::set(int inventory, Item* item, int amount, int slot)
 {
   char query[1024];
   sprintf(query, "insert or replace into inventory (id, item, amount, slot) values ('%d','%d','%d','%d');",
-    inventory, item->getId(), amount);
+    inventory, item->getId(), amount, slot);
   db->update(query);
 }
 

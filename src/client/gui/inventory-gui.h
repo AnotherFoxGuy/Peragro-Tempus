@@ -41,7 +41,6 @@ public:
   virtual ~InventoryWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
   bool AddItem(int itemid,int slotid);
-  bool AddItem(int itemid);
 };
 
 
