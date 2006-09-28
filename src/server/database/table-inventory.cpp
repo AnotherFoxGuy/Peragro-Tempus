@@ -42,13 +42,14 @@ void InventoryTable::createTable()
     "id INTEGER, "
     "item INTEGER, "
     "amount INTEGER, "
+    "slot INTEGERT, "
     "PRIMARY KEY (id, item) );");
 }
 
-void InventoryTable::set(int inventory, Item* item, int amount)
+void InventoryTable::set(int inventory, Item* item, int amount, int slot)
 {
   char query[1024];
-  sprintf(query, "insert or replace into inventory (id, item, amount) values ('%d','%d','%d');",
+  sprintf(query, "insert or replace into inventory (id, item, amount, slot) values ('%d','%d','%d','%d');",
     inventory, item->getId(), amount);
   db->update(query);
 }
@@ -88,7 +89,7 @@ void InventoryTable::dropTable()
 void InventoryTable::getAllEntries(Array<InvEntries*>& entries, int id)
 {
   char query[1024];
-  sprintf(query, "select item, amount from inventory where id = '%d';", id);
+  sprintf(query, "select item, amount, slot from inventory where id = '%d';", id);
   ResultSet* rs = db->query(query);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
@@ -97,6 +98,7 @@ void InventoryTable::getAllEntries(Array<InvEntries*>& entries, int id)
     int item_id = atoi(rs->GetData(i,0).c_str());
     entry->item_id = item_id;
     entry->amount = atoi(rs->GetData(i,1).c_str());
+    entry->slot =  atoi(rs->GetData(i,2).c_str());
     entries.add(entry);
   }
   delete rs;

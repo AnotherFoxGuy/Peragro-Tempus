@@ -117,6 +117,8 @@ Client::Client() : playing(false)
 
   network = 0;
   cursor = 0;
+
+  last_seen = 0;
 }
 
 Client::~Client()
@@ -388,18 +390,30 @@ void Client::handleStates()
     case STATE_LOGGED_IN: // Login completed. Load items and switch to STATE_SELECTING_CHAR
     case STATE_SELECTING_CHAR: // Wait till user selects his character. Then create player mesh and switch to STATE_PLAY.
     {
+      checkConnection();
       g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
       view->Draw();
       break;
     }
     case STATE_PLAY:
     {
+      checkConnection();
       loadRegion();
       entitymanager->Handle();
 
       chat();
       break;
     }
+  }
+}
+
+void Client::checkConnection()
+{
+  if (last_seen > 0 && csGetTicks() - last_seen > 10000)
+  {
+    last_seen = 0;
+    printf("Disconnect!\n");
+    // 10 seconds of no response... disconnect!
   }
 }
 
@@ -972,6 +986,11 @@ void Client::chat()
     printf("Client: ERROR: Unknown chattype %s", chatmsg.type);
 
   mutex.unlock();
+}
+
+void Client::sawServer()
+{
+  last_seen = csGetTicks();
 }
 
 iPcActorMove* Client::getPcActorMove()

@@ -25,7 +25,7 @@
 class Item
 {
 private:
-  int id;
+  unsigned int id;
 
   ptString name_id;
   ptString mesh_id;
@@ -34,8 +34,8 @@ public:
   Item() : id(-1) {}
   ~Item() {}
 
-  void setId(int id) { this->id = id; }
-  int getId() { return id; }
+  void setId(unsigned int id) { this->id = id; }
+  unsigned int getId() { return id; }
 
   ptString& getName() { return name_id; }
   void setName(ptString id) { name_id = id; }

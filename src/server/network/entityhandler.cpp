@@ -137,7 +137,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         user->getConnection()->send(bs);
     }
 
-    user_ent->getInventory()->addItem(item,1);
+    user_ent->getInventory()->addItem(item,1, -1);
 
     server->delEntity(e);
   }
@@ -161,8 +161,22 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     return;
   }
 
+  unsigned int slot_id = request_msg.getSlotId();
+
+  if (slot_id < 10)
+  {
+    //item is equiped
+    //send Error message?
+    return;
+  }
+  else if (slot_id >= 30)
+  {
+    // invalid slot
+    return;
+  }
+
   // Check if in Inventory
-  bool canTake = user_ent->getInventory()->takeItem(item,1);
+  bool canTake = user_ent->getInventory()->takeItem(item,1, slot_id);
 
   if (!canTake)
   {
@@ -206,49 +220,81 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
   ptString name = user_ent->getName();
   EquipRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received EquipRequest from: '%s' -> '%d' \n", *name, request_msg.getItemID());
 
-  Item* item = server->getItemManager()->findById(request_msg.getItemID());
-  int slotid = request_msg.getSlotID();
+  int equip_slot = request_msg.getEquipSlotID();
+  int invent_slot = request_msg.getInventorySlotID();
 
-  if (item)
+  printf("Received EquipRequest from: '%s' | '%d' to '%d' \n", *name, invent_slot, equip_slot);
+
+  bool equip = false;
+  if (equip_slot < 10 && equip_slot >= 0)
   {
-    if (item->isEquipable())
+    equip = true;
+  }
+  else if (equip_slot < 30)
+  {
+    // Slot move, no equip
+    equip = false;
+  }
+  else error = "Invalid equip slot";
+
+  // doesn't matter if we overwrite the error
+  if (invent_slot >= 30) 
+    error = "Invalid inventory slot";
+
+  int new_item_id = user_ent->getInventory()->getItemIdFromSlot(equip_slot);
+  Item* item = server->getItemManager()->findById(new_item_id);
+
+  if (!item->isEquipable()) 
+  {
+    // doesn't matter if we overwrite the error
+    error = "Item not equipable";
+  }
+
+  if (item && ! error)
+  {
+    unsigned int amount = user_ent->getInventory()->getAmount(item, invent_slot);
+    if (amount == 1)
     {
-      if (slotid < 2 && slotid >= 0)
-      {
-        Item* old = user_ent->inslot[slotid];
-        if (user_ent->getInventory()->takeItem(item, 1))
-        {
-          user_ent->getInventory()->addItem(old, 1);
-          user_ent->inslot[slotid] = item;
-        }
-        else error = "Character doesn't own this item";
-      }
-      else error = "Invalid Slot";
+      // See if we have already an item in the equip slot.
+      int old_item_id = user_ent->getInventory()->getItemIdFromSlot(equip_slot);
+      Item* old = server->getItemManager()->findById(old_item_id);
+
+      // Take from the inventory slot and...
+      user_ent->getInventory()->takeItem(item, 1, invent_slot);
+
+      // ... (if we have) from the equip slot too.
+      if (old) user_ent->getInventory()->takeItem(old, 1, equip_slot);
+
+      // Then we add the new item to the equip slot and...
+      user_ent->getInventory()->addItem(item, 1, equip_slot);
+
+      // ... (if we have) the old item to the inventory.
+      if (old) user_ent->getInventory()->addItem(old, 1, invent_slot);
     }
-    else error = "Item not equipable";
+    else if (amount == 0) error = "Character doesn't own this item";
+    else if (amount > 1) error = "Can't equip stacked items";
   }
   else error = "No such Item";
 
   EquipMessage response_msg;
   response_msg.setEntityID(user_ent->getId());
   response_msg.setItemID(item->getId());
-  response_msg.setSlotID(slotid);
+  response_msg.setSlotID(equip_slot);
   ptString pt_err = error?ptString(error, strlen(error)):ptString();
   response_msg.setError(pt_err);
 
   ByteStream bs;
   response_msg.serialise(&bs);
 
-  if (!error)
+  if (!error && equip)
   {
     // Tell all about success
     Server::getServer()->broadCast(bs);
   }
   else
   {
-    // Tell only one about error
+    // Tell only one about error or equip
     conn->send(bs);
   }
 }

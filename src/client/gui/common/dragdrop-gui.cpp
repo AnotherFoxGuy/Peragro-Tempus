@@ -80,6 +80,12 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
 
   oldslot->Clear();
 
+  EquipRequestMessage slotchangemsg;
+  // add + 10 to offset from equip to inventory slots
+  //slotchangemsg.setEquipSlotID(newslot->GetSlotId());
+  //slotchangemsg.setInventorySlotID(oldslot->GetSlotId());
+  //if (network) network->send(&slotchangemsg);
+
   return true;
 
 }
@@ -96,6 +102,7 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
 
   DropEntityRequestMessage msg;
   msg.setTargetId(itemid);
+  msg.setSlotId(slot->GetSlotId());
   if (network) network->send(&msg);
 
   if( slot->GetAmount() > 1)

@@ -46,6 +46,8 @@ public:
 
   void handle(GenericMessage* msg, SocketAddress& sock_addr)
   {
+    client->sawServer();
+
     char type = msg->getMsgType();
     if (type == MESSAGES::CONNECTION)
     {

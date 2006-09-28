@@ -4,7 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
-21-Sep-2006
+28-Sep-2006
+  - PK implemented inventory slots on the server.
+
+22-Sep-2006
   - Sueastside converted guimgr to use CEGUI 0.5rc2.
 
 21-Sep-2006

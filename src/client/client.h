@@ -148,6 +148,9 @@ private:
 
   Cursor* cursor;
 
+  csTicks last_seen;
+  void checkConnection();
+
   void handleStates();
 
 private:
@@ -179,6 +182,8 @@ public:
 
   void chat(unsigned char type, const char* msg, const char* other = 0);
   void chat();
+
+  void sawServer();
 
   GUIManager* GetGuiManager ()  {return guimanager;}
 

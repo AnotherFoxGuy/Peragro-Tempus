@@ -97,8 +97,9 @@ public:
     return 0;
   }
 
-  Item* findById(int id)
+  Item* findById(unsigned int id)
   {
+    if ( id == 0 ) return 0;
     for (size_t i = 0; i<items.getCount(); i++)
     {
       Item* item = items.get(i);

@@ -25,8 +25,9 @@
 class InvEntries
 {
 public:
-  int item_id;
+  unsigned int item_id;
   int amount;
+  unsigned int slot;
 };
 
 class Connection;
@@ -36,11 +37,23 @@ class Inventory
 private:
   Array<InvEntries*> entries;
 
-  InvEntries* findEntry(int item_id)
+  InvEntries* findEntryByItem(int item_id)
   {
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
       if (entries.get(i)->item_id == item_id)
+      {
+        return entries.get(i);
+      }
+    }
+    return 0;
+  }
+
+  InvEntries* findEntryBySlot(int slot)
+  {
+    for(unsigned int i=0; i<entries.getCount(); i++)
+    {
+      if (entries.get(i)->slot == slot)
       {
         return entries.get(i);
       }
@@ -56,40 +69,57 @@ public:
   Inventory() : invtab(0) {}
   ~Inventory() {}
 
-  void addItem(Item* item, int amount)
+  void addItem(Item* item, int amount, int slot)
   {
-    InvEntries* entry = findEntry(item->getId());
+    InvEntries* entry = findEntryBySlot(slot);
     if (!entry)
     {
       entry = new InvEntries();
       entry->item_id = item->getId();
       entry->amount = amount;
+      entry->slot = slot;
       entries.add(entry);
     }
-    else
+    else if (entry->item_id == item->getId())
     {
       entry->amount += amount;
     }
-    if (invtab) invtab->set(inv_id, item, entry->amount);
+    else
+    {
+      // item ids are different
+      return;
+    }
+    if (invtab) invtab->set(inv_id, item, entry->amount, entry->slot);
   }
 
-  bool takeItem(Item* item, int amount)
+  bool takeItem(Item* item, unsigned int amount, unsigned int slot)
   {
-    InvEntries* entry = findEntry(item->getId());
-    if (!entry || entry->amount < amount)
+    if (slot >= 30) return false; // invalid slot;
+    InvEntries* entry = findEntryBySlot(slot);
+    if (!entry || entry->item_id != item->getId() || entry->amount < (int) amount)
       return false;
 
     entry->amount -= amount;
 
-    if (invtab) invtab->set(inv_id, item, entry->amount);
+    if (invtab) invtab->set(inv_id, item, entry->amount, entry->slot);
 
     return true;
   }
 
-  unsigned int getAmount(Item* item)
+  unsigned int getAmount(Item* item, unsigned int slot)
   {
-    InvEntries* entry = findEntry(item->getId());
-    return (entry?entry->amount:0);
+    if (slot >= 30) return false; // invalid slot;
+    InvEntries* entry = findEntryBySlot(slot);
+    if (!entry || entry->item_id != item->getId())
+      return 0;
+
+    return entry->amount;
+  }
+
+  unsigned int getItemIdFromSlot(int slot)
+  {
+    InvEntries* entry = findEntryBySlot(slot);
+    return (entry?entry->amount:-1);
   }
 
   void loadFromDatabase(InventoryTable* it, int id)

@@ -34,6 +34,7 @@ void Inventory::sendAllItems(Connection* conn)
     assert(item);
     itemlist_msg.setName(int(i),item->getName());
     itemlist_msg.setItemAmount(int(i),entries.get(i)->amount);
+    itemlist_msg.setItemSlot(int(i),entries.get(i)->slot);
   }
   ByteStream bs2;
   itemlist_msg.serialise(&bs2);

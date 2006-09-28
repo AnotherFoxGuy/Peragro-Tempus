@@ -762,6 +762,7 @@ public:
 class DropEntityRequestMessage : public NetMessage
 {
   int target;
+  int slot;
 
 public:
   DropEntityRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DROP_REQUEST) 
@@ -778,6 +779,7 @@ public:
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setInt32(target);
+    serial.setInt32(slot);
   }
 
   void deserialise(ByteStream* bs)
@@ -786,16 +788,14 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     target = serial.getInt32();
+    slot = serial.getInt32();
   }
 
-  void setTargetId(int target)
-  {
-    this->target = target;
-  }
-  int getTargetId()
-  {
-    return target;
-  }
+  void setTargetId(int target) { this->target = target; }
+  int getTargetId() { return target; }
+
+  void setSlotId(int slot) { this->slot = slot; }
+  int getSlotId() { return slot; }
 
 };
 
@@ -872,6 +872,7 @@ class InventoryItemListMessage : public NetMessage
     int id;
     ptString name;
     int amount;
+    int slot;
   };
 
   nwItems* items;
@@ -891,6 +892,7 @@ public:
       serial.setInt32(items[i].id);
       serial.setString(items[i].name);
       serial.setInt32(items[i].amount);
+      serial.setInt32(items[i].slot);
     }
   }
 
@@ -905,6 +907,7 @@ public:
       items[i].id = serial.getInt32();
       items[i].name = serial.getString();
       items[i].amount = serial.getInt32();
+      items[i].slot = serial.getInt32();
     }
   }
 
@@ -921,6 +924,9 @@ public:
 
   int getItemAmount(int idx) { return items[idx].amount; }
   void setItemAmount(int idx, int amount) { items[idx].amount = amount; }
+
+  int getItemSlot(int idx) { return items[idx].slot; }
+  void setItemSlot(int idx, int slot) { items[idx].slot = slot; }
 
   void setName(int idx, ptString name)
   {
@@ -1254,8 +1260,9 @@ public:
 
 class EquipRequestMessage : public NetMessage
 {
-  int itemId;
-  int slotId;
+  //int itemId;
+  int equip_slot;
+  int inventory_slot;
 
 public:
   EquipRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::EQUIP_REQUEST) 
@@ -1271,8 +1278,9 @@ public:
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
-    serial.setInt32(itemId);
-    serial.setInt32(slotId);
+    //serial.setInt32(itemId);
+    serial.setInt32(equip_slot);
+    serial.setInt32(inventory_slot);
   }
 
   void deserialise(ByteStream* bs)
@@ -1280,15 +1288,19 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
-    itemId = serial.getInt32();
-    slotId = serial.getInt32();
+    //itemId = serial.getInt32();
+    equip_slot = serial.getInt32();
+    inventory_slot = serial.getInt32();
   }
 
-  void setItemID(int i) { itemId = i; }
-  int getItemID() { return itemId; }
+  //void setItemID(int i) { itemId = i; }
+  //int getItemID() { return itemId; }
 
-  void setSlotID(int s) { slotId = s; }
-  int getSlotID() { return slotId; }
+  void setEquipSlotID(int s) { equip_slot = s; }
+  int getEquipSlotID() { return equip_slot; }
+
+  void setInventorySlotID(int s) { inventory_slot = s; }
+  int getInventorySlotID() { return inventory_slot; }
 };
 
 class EquipMessage : public NetMessage

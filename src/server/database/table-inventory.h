@@ -31,7 +31,7 @@ class InventoryTable : public Table
 public:
   InventoryTable(Database* db);
   void createTable();
-  void set(int inventory, Item* item, int amount);
+  void set(int inventory, Item* item, int amount, int slot);
   int get(int inventory, Item* item);
   void dropTable();
   void getAllEntries(Array<InvEntries*>& entries, int id);
