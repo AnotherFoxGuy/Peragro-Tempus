@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+29-Sep-2006
+  - PK improved inventory handling on the server.
+
 28-Sep-2006
   - PK implemented inventory slots on the server.
 

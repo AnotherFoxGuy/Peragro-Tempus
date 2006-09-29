@@ -69,6 +69,29 @@ public:
   Inventory() : invtab(0) {}
   ~Inventory() {}
 
+  int getSlot(Item* item)
+  {
+    for(unsigned int i=0; i<entries.getCount(); i++)
+    {
+      if (entries.get(i)->item_id == item->getId() && entries.get(i)->slot >= 10)
+      {
+        return entries.get(i)->slot;
+      }
+    }
+    return -1;
+  }
+
+  int getFreeSlot()
+  {
+    for (int i = 10; i<30; i++)
+    {
+      InvEntries* entry = findEntryBySlot(i);
+      if (!entry) 
+        return i;
+    }
+    return -1;
+  }
+
   void addItem(Item* item, int amount, int slot)
   {
     InvEntries* entry = findEntryBySlot(slot);
@@ -104,6 +127,16 @@ public:
     if (invtab) invtab->set(inv_id, item, entry->amount, entry->slot);
 
     return true;
+  }
+
+  unsigned int getAmount(unsigned int slot)
+  {
+    if (slot >= 30) return false; // invalid slot;
+    InvEntries* entry = findEntryBySlot(slot);
+    if (!entry)
+      return 0;
+
+    return entry->amount;
   }
 
   unsigned int getAmount(Item* item, unsigned int slot)

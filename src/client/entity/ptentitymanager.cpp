@@ -632,6 +632,8 @@ void ptEntityManager::createCelEntity(Entity* ent)
     csRef<iMeshWrapper> doormesh = engine->FindMeshObject(*ent->getMesh());
     if (doormesh)
       pcmesh->SetMesh(doormesh);
+    else
+      return;
   }
   else
   {

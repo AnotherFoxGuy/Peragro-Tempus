@@ -40,10 +40,10 @@ void InventoryTable::createTable()
 {
   db->update("create table inventory ("
     "id INTEGER, "
+    "slot INTEGERT, "
     "item INTEGER, "
     "amount INTEGER, "
-    "slot INTEGERT, "
-    "PRIMARY KEY (id, item) );");
+    "PRIMARY KEY (slot, item, slot) );");
 }
 
 void InventoryTable::set(int inventory, Item* item, int amount, int slot)

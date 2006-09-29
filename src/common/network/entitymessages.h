@@ -688,6 +688,7 @@ class PickEntityResponseMessage : public NetMessage
 {
   ptString name;
   int itemId;
+  int slot;
   ptString target;
   ptString error;
 
@@ -707,6 +708,7 @@ public:
     serial.setInt8(id);
     serial.setString(name);
     serial.setInt32(itemId);
+    serial.setInt32(slot);
     serial.setString(target);
     serial.setString(error);
   }
@@ -718,6 +720,7 @@ public:
     id = serial.getInt8();
     name = serial.getString();
     itemId = serial.getInt32();
+    slot = serial.getInt32();
     target = serial.getString();
     error = serial.getString();
   }
@@ -738,6 +741,15 @@ public:
   int getItemId()
   {
     return itemId;
+  }
+
+  void setSlot(int slot)
+  {
+    this->slot = slot;
+  }
+  int getSlot()
+  {
+    return slot;
   }
 
   void setTarget(ptString target)
@@ -1307,7 +1319,8 @@ class EquipMessage : public NetMessage
 {
   int entityId;
   int itemId;
-  int slotId;
+  int oldSlotId;
+  int newSlotId;
 
   ptString error;
 
@@ -1327,7 +1340,8 @@ public:
     serial.setInt8(id);
     serial.setInt32(entityId);
     serial.setInt32(itemId);
-    serial.setInt32(slotId);
+    serial.setInt32(oldSlotId);
+    serial.setInt32(newSlotId);
     serial.setString(error);
   }
 
@@ -1338,7 +1352,8 @@ public:
     id = serial.getInt8();
     entityId = serial.getInt32();
     itemId = serial.getInt32();
-    slotId = serial.getInt32();
+    oldSlotId = serial.getInt32();
+    newSlotId = serial.getInt32();
     error = serial.getString();
   }
 
@@ -1348,8 +1363,11 @@ public:
   void setItemID(int i) { itemId = i; }
   int getItemID() { return itemId; }
 
-  void setSlotID(int s) { slotId = s; }
-  int getSlotID() { return slotId; }
+  void setOldSlotID(int s) { oldSlotId = s; }
+  int getOldSlotID() { return oldSlotId; }
+
+  void setNewSlotID(int s) { newSlotId = s; }
+  int getNewSlotID() { return newSlotId; }
 
   void setError(ptString error)
   {

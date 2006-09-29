@@ -62,6 +62,7 @@ public:
       else if (id == ENTITY::CHAR_STAT_LIST) handleCharacterStatList(msg);
       else if (id == ENTITY::MOVE_TO) handleMoveEntityTo(msg);
       else if (id == ENTITY::CHAR_SKILL_LIST) handleCharacterSkillList(msg);
+      else if (id == ENTITY::EQUIP) handleEquip(msg);
       else if (id == ENTITY::OPEN_DOOR_RESPONSE) handleOpenDoor(msg);
       else if (id == ENTITY::CLOSE_DOOR_RESPONSE) handleCloseDoor(msg);
       else if (id == ENTITY::INIT_DOOR) handleAddDoor(msg);
@@ -89,6 +90,7 @@ public:
   void handleCharacterStatList(GenericMessage* msg);
   void handleMoveEntityTo(GenericMessage* msg);
   void handleCharacterSkillList(GenericMessage* msg);
+  void handleEquip(GenericMessage* msg);
   void handleOpenDoor(GenericMessage* msg);
   void handleCloseDoor(GenericMessage* msg);
   void handleAddDoor(GenericMessage* msg);

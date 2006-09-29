@@ -70,7 +70,7 @@ void User::sendAddEntity(Entity* entity)
     msg.serialise(&bs);
   }
 
-  connection->send(bs);
+  if (connection) connection->send(bs);
 }
 
 void User::sendRemoveEntity(Entity* entity)

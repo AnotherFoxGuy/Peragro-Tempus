@@ -188,6 +188,31 @@ void EntityHandler::handleCharacterSkillList(GenericMessage* msg)
   }
 }
 
+void EntityHandler::handleEquip(GenericMessage* msg)
+{
+  EquipMessage equip_msg;
+  equip_msg.deserialise(msg->getByteStream());
+  if (!equip_msg.getError().isNull())
+  {
+    printf("EquipMessage: ERROR: '%s'\n", *equip_msg.getError());
+    return;
+  }
+  else
+  {
+    if (equip_msg.getNewSlotID() < 10)
+    {
+      printf("EquipMessage: Entity %d equiped item %d to slot %d\n", 
+        equip_msg.getEntityID(), equip_msg.getItemID(), equip_msg.getNewSlotID());
+    }
+    else
+    {
+      printf("EquipMessage: You moved item %d from slot %d to slot %d\n", 
+        equip_msg.getItemID(), equip_msg.getOldSlotID(), equip_msg.getNewSlotID());
+    }
+  }
+  // do something
+}
+
 void EntityHandler::handleOpenDoor(GenericMessage* msg)
 {
   OpenDoorResponseMessage door_msg;
