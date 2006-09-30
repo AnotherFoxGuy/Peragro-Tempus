@@ -43,7 +43,7 @@ public:
     char id = msg->getMsgId();
 
     if (id == CHAT::SAY) handleSay(msg);
-    else if (id == CHAT::WHISPER) handleWhisper(msg);
+    else if (id == CHAT::WHISPERFROM) handleWhisper(msg);
   }
 
   char getType()

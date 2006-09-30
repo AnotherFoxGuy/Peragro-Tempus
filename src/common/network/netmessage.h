@@ -26,19 +26,9 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-class Connection;
+#include "nwtypes.h"
 
-namespace MESSAGES
-{
-  enum HANDLERS
-  {
-    CONNECTION=0,
-    USER=1,
-    ENTITY=2,
-    CHAT=3,
-    SKILL=4
-  };
-}
+class Connection;
 
 class NetMessage
 {

@@ -68,8 +68,8 @@ bool WhisperWindow::OnSay (const CEGUI::EventArgs& args)
   printf("Whisper: %s to %s\n", text.c_str(), nick.c_str());
 
   // Send the whisper to the network.
-  WhisperMessage nmsg;
-  nmsg.setOther(ptString(nick.c_str(), nick.length())); //<-- name of who you want to talk to...
+  WhisperToMessage nmsg;
+  nmsg.setListenerName(ptString(nick.c_str(), nick.length())); //<-- name of who you want to talk to...
   nmsg.setMessage(text.c_str());
   network->send(&nmsg);
 

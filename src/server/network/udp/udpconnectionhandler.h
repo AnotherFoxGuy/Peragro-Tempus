@@ -58,9 +58,16 @@ public:
 
       msg->setConnection(conn);
 
-      if (type == 0 && id == CONNECTION::PONG) 
+      if (type == 0)
       {
-        handlePong(msg);
+        if (id == CONNECTION::PONG) 
+        {
+          handlePong(msg);
+        }
+        else if (id == CONNECTION::PING) 
+        {
+          handlePing(msg);
+        }
       }
       else
       {
@@ -81,6 +88,16 @@ public:
 
 private:
   void handleConnectionRequest(SocketAddress* sock_addr);
+
+  void handlePing(GenericMessage* msg)
+  {
+    printf("Received PingMessage\n");
+    // If the connection were null or if it weren't UdpConnection, this function wouldn't be called in the first place.
+    PongMessage pong_msg;
+    ByteStream bs;
+    pong_msg.serialise(&bs);
+    msg->getConnection()->send(bs);
+  }
 
   void handlePong(GenericMessage* msg)
   {

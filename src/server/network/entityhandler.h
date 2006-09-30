@@ -28,6 +28,8 @@
 //#include "connectionmanager.h"
 #include "common/entity/entitymanager.h"
 
+#include "server/network/doorhandler.h"
+#include "server/network/questhandler.h"
 #include "server/network/skillhandler.h"
 
 #include "server/user.h"
@@ -38,11 +40,13 @@ class EntityHandler : public MessageHandler
 {
 private:
   Server* server;
+  DoorHandler door_handler;
+  QuestHandler quest_handler;
   SkillHandler skill_handler;
 
 public:
   EntityHandler(Server* server) 
-  : server(server), skill_handler(server)
+  : server(server), door_handler(server), quest_handler(server), skill_handler(server)
   {
   }
 
@@ -63,9 +67,15 @@ public:
       else if (id == ENTITY::DROP_REQUEST) handleDropRequest(msg);
       else if (id == ENTITY::MOVE_TO_REQUEST) handleMoveEntityToRequest(msg);
       else if (id == ENTITY::EQUIP_REQUEST) handleEquipRequest(msg);
-      else if (id == ENTITY::OPEN_DOOR_REQUEST) handleOpenDoor(msg);
-      else if (id == ENTITY::CLOSE_DOOR_REQUEST) handleCloseDoor(msg);
       else if (id == ENTITY::RELOCATE) handleRelocate(msg);
+    }
+    else if (type == MESSAGES::DOOR)
+    {
+      door_handler.handle(msg);
+    }
+    else if (type == MESSAGES::QUEST)
+    {
+      quest_handler.handle(msg);
     }
     else
     {
@@ -84,8 +94,6 @@ public:
   void handleDropRequest(GenericMessage* msg);
   void handleMoveEntityToRequest(GenericMessage* msg);
   void handleEquipRequest(GenericMessage* msg);
-  void handleOpenDoor(GenericMessage* msg);
-  void handleCloseDoor(GenericMessage* msg);
   void handleRelocate(GenericMessage* msg);
 };
 

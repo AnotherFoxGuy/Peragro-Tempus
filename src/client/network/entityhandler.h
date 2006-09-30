@@ -26,6 +26,8 @@
 
 #include "common/entity/entitymanager.h"
 
+#include "client/network/doorhandler.h"
+#include "client/network/questhandler.h"
 #include "client/network/skillhandler.h"
 
 #include "client/entity/ptentitymanager.h"
@@ -37,11 +39,14 @@ private:
   Client* client;
   GUIManager* guimanager;
 
+  DoorHandler door_handler;
+  QuestHandler quest_handler;
   SkillHandler skill_handler;
 
 public:
   EntityHandler(Network* network, Client* client) 
-  : network(network), client(client), skill_handler(client)
+  : network(network), client(client), 
+    door_handler(client), quest_handler(client), skill_handler(client)
   {
   }
 
@@ -63,11 +68,17 @@ public:
       else if (id == ENTITY::MOVE_TO) handleMoveEntityTo(msg);
       else if (id == ENTITY::CHAR_SKILL_LIST) handleCharacterSkillList(msg);
       else if (id == ENTITY::EQUIP) handleEquip(msg);
-      else if (id == ENTITY::OPEN_DOOR_RESPONSE) handleOpenDoor(msg);
-      else if (id == ENTITY::CLOSE_DOOR_RESPONSE) handleCloseDoor(msg);
       else if (id == ENTITY::INIT_DOOR) handleAddDoor(msg);
       else if (id == ENTITY::TELEPORT) handleTeleport(msg);
       else if (id == ENTITY::ADDCHARACTERENTITY) handleAddCharacterEntity(msg);
+    }
+    else if (type == MESSAGES::DOOR)
+    {
+      door_handler.handle(msg);
+    }
+    else if (type == MESSAGES::QUEST)
+    {
+      quest_handler.handle(msg);
     }
     else
     {
@@ -91,8 +102,6 @@ public:
   void handleMoveEntityTo(GenericMessage* msg);
   void handleCharacterSkillList(GenericMessage* msg);
   void handleEquip(GenericMessage* msg);
-  void handleOpenDoor(GenericMessage* msg);
-  void handleCloseDoor(GenericMessage* msg);
   void handleAddDoor(GenericMessage* msg);
   void handleTeleport(GenericMessage* msg);
   void handleAddCharacterEntity(GenericMessage* msg);

@@ -213,35 +213,6 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   // do something
 }
 
-void EntityHandler::handleOpenDoor(GenericMessage* msg)
-{
-  OpenDoorResponseMessage door_msg;
-  door_msg.deserialise(msg->getByteStream());
-  printf("EntityHandler: Got open door %d.\n", door_msg.getDoorId());
-  if (!door_msg.getError().isNull())
-  {
-    printf("EntityHandler: ERROR Can't open %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
-    return;
-  }
-  celData data;
-  data.Set(true);
-  client->GetEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
-}
-void EntityHandler::handleCloseDoor(GenericMessage* msg)
-{
-  CloseDoorResponseMessage door_msg;
-  door_msg.deserialise(msg->getByteStream());
-  printf("EntityHandler: Got close door %d.\n", door_msg.getDoorId());
-  if (!door_msg.getError().isNull())
-  {
-    printf("EntityHandler: ERROR Can't close %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
-    return;
-  }
-  celData data;
-  data.Set(false);
-  client->GetEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
-}
-
 void EntityHandler::handleTeleport(GenericMessage* msg)
 {
   TeleportMessage telemsg;

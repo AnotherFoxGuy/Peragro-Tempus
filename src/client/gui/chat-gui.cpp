@@ -108,7 +108,7 @@ bool ChatWindow::HandleCommand (const char* texti)
   if (strncmp (texti,"/",1) == 0)
   {
     // Find the end of the first word, which is our command.
-    int pos = text.FindFirst(" ");
+    size_t pos = text.FindFirst(" ");
     csString command;
     csArray<csString> arg;
 
@@ -126,7 +126,7 @@ bool ChatWindow::HandleCommand (const char* texti)
       // Push the arguments on an array.
       while (tail.Length() > 0)
       {
-        int pos = tail.FindFirst(" ");
+        size_t pos = tail.FindFirst(" ");
         if ( pos == (size_t)-1 ) 
         {
           arg.Push( tail.Slice(0, tail.Length()+1) );
@@ -171,8 +171,8 @@ bool ChatWindow::HandleCommand (const char* texti)
       // Add your own text to the whisper.
       guimanager->GetWhisperWindow()->AddWhisper(nick.GetData(), msg.GetData(), ownnick.GetData());
       // Send the whisper to the network.
-      WhisperMessage nmsg;
-      nmsg.setOther(ptString(nick.GetData(), nick.Length())); //<-- name of who you want to talk to...
+      WhisperToMessage nmsg;
+      nmsg.setListenerName(ptString(nick.GetData(), nick.Length())); //<-- name of who you want to talk to...
       nmsg.setMessage(msg.GetData());
       network->send(&nmsg);
     }
@@ -307,7 +307,7 @@ void ChatWindow::AddChatMessage (const char* nick, const char* msg)
   CEGUI::String new_text = (CEGUI::String)(msg);
   if (!new_text.empty())
   {
-    //nickstr = "<"+nickstr+">";
+    nickstr = "<"+nickstr+">";
     // append newline to this entry
     new_text += '\n';
     // append new text to history output

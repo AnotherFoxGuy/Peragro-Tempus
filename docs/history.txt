@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+30-Sep-2006
+  - PK refactored some of the network messages.
+  - PK fixed a few bugs in the skill system.
+
 29-Sep-2006
   - PK improved inventory handling on the server.
 

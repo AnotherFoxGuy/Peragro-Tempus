@@ -976,7 +976,7 @@ void Client::chat()
   if(chatmsg.type == 0)
   {
     //guimanager->GetChatWindow ()->AddChatMessage (chatmsg.nick, chatmsg.msg);
-    guimanager->GetChatWindow ()->AddChatMessage ("", chatmsg.msg.GetData());
+    guimanager->GetChatWindow ()->AddChatMessage (chatmsg.nick.GetData(), chatmsg.msg.GetData());
   }
   else if(chatmsg.type == 1)
   {

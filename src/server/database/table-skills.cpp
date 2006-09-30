@@ -55,18 +55,18 @@ void SkillTable::createTable()
 
   //Example Data!
   /// \todo specify all fields!
-  insert(ptString("Heal", strlen("Heal")), 10, 100, 1000, 5, 10);
-  insert(ptString("Energy Bind", strlen("Energy Bind")), 10, 100, 1000, 10, 10);
+  insert(ptString("Heal", strlen("Heal")), Skill::TYPE_HEAL, 10, 100, 1000, 10, 5);
+  insert(ptString("Energy Bind", strlen("Energy Bind")), Skill::TYPE_HURT, 10, 100, 1000, 10, 10);
 }
 
 /// \todo insert all fields!
-void SkillTable::insert(ptString name, float range, int skillTime, int reuseDelay, int power, int mpCost)
+void SkillTable::insert(ptString name, int type, float range, int skillTime, int reuseDelay, int power, int mpCost)
 {
   if (strlen(*name) > 512) assert("Strings too long");
   char query[1024];
-  sprintf(query, "insert into skills (name, range, skillTime, reuseDelay, power, mpCost)"
-    " values ('%s', '%f', '%i', '%i', '%i', '%i');",
-    *name, range, skillTime, reuseDelay, mpCost);
+  sprintf(query, "insert into skills (name, type, range, skillTime, reuseDelay, power, mpCost)"
+    " values ('%s', '%i', '%f', '%i', '%i', '%i', '%i');",
+    *name, type, range, skillTime, reuseDelay, power, mpCost);
   db->update(query);
 }
 
@@ -101,6 +101,7 @@ Skill* SkillTable::getSkill(ptString name)
     skill = new Skill();
     skill->setId(atoi(rs->GetData(0,0).c_str()));
     skill->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
+    skill->setType(Skill::SkillType(atoi(rs->GetData(0,2).c_str())));
     skill->setRange((float)atof(rs->GetData(0,5).c_str()));
     skill->setSkillTime(atoi(rs->GetData(0,6).c_str()));
     skill->setReuseDelay(atoi(rs->GetData(0,8).c_str()));
@@ -121,11 +122,12 @@ void SkillTable::getAllSkills(Array<Skill*>& skills)
     Skill* skill = new Skill();
     skill->setId(atoi(rs->GetData(i,0).c_str()));
     skill->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
-    skill->setRange((float)atof(rs->GetData(0,5).c_str()));
-    skill->setSkillTime(atoi(rs->GetData(0,6).c_str()));
-    skill->setReuseDelay(atoi(rs->GetData(0,8).c_str()));
-    skill->setPower(atoi(rs->GetData(0,11).c_str()));
-    skill->setMpCost(atoi(rs->GetData(0,12).c_str()));
+    skill->setType(Skill::SkillType(atoi(rs->GetData(i,2).c_str())));
+    skill->setRange((float)atof(rs->GetData(i,5).c_str()));
+    skill->setSkillTime(atoi(rs->GetData(i,6).c_str()));
+    skill->setReuseDelay(atoi(rs->GetData(i,8).c_str()));
+    skill->setPower(atoi(rs->GetData(i,11).c_str()));
+    skill->setMpCost(atoi(rs->GetData(i,12).c_str()));
     skills.add(skill);
   }
   delete rs;

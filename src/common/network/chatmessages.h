@@ -23,117 +23,191 @@
 
 namespace CHAT
 {
-  enum CHAT_MESSAGES
+  enum MESSAGES
   {
     SAY=0,
-    WHISPER=1
+    SHOUT=1,
+    WHISPERTO=2,
+    WHISPERFROM=3,
+    PARTY=4,
+    GUILD=5,
+    FAMILY=6
   };
 }
 
 class SayMessage : public NetMessage
 {
-  char msgtype;
-  const char* msg;
+  ptString speakername;
+  const char* message;
 
 public:
-  SayMessage() : NetMessage(MESSAGES::CHAT,CHAT::SAY) 
+  SayMessage() : NetMessage(MESSAGES::CHAT,CHAT::SAY)
   {
   }
 
-  void serialise(ByteStream* bs)
+  ~SayMessage()
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt8(msgtype);
-    serial.setString(msg);
   }
 
-  void deserialise(ByteStream* bs)
-  {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    msgtype = serial.getInt8();
-    serial.getString(msg);
-  }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
-  unsigned char getType()
-  {
-    return msgtype;
-  }
-  void setType(unsigned char t)
-  {
-    msgtype = t;
-  }
+  ptString getSpeakerName() { return speakername; }
+  void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage()
-  {
-    return msg;
-  }
-  void setMessage(const char* message)
-  {
-    msg = message;
-  }
+  const char* getMessage() { return message; }
+  void setMessage(const char* x) { message = x; }
+
 };
 
-class WhisperMessage : public NetMessage
+class ShoutMessage : public NetMessage
 {
-  char msgtype;
-  ptString other;
-  const char* msg;
+  ptString speakername;
+  const char* message;
 
 public:
-  WhisperMessage() : NetMessage(MESSAGES::CHAT,CHAT::WHISPER) 
+  ShoutMessage() : NetMessage(MESSAGES::CHAT,CHAT::SHOUT)
   {
   }
 
-  void serialise(ByteStream* bs)
+  ~ShoutMessage()
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt8(msgtype);
-    serial.setString(other);
-    serial.setString(msg);
   }
 
-  void deserialise(ByteStream* bs)
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getSpeakerName() { return speakername; }
+  void setSpeakerName(ptString x) { speakername = x; }
+
+  const char* getMessage() { return message; }
+  void setMessage(const char* x) { message = x; }
+
+};
+
+class WhisperToMessage : public NetMessage
+{
+  ptString listenername;
+  const char* message;
+
+public:
+  WhisperToMessage() : NetMessage(MESSAGES::CHAT,CHAT::WHISPERTO)
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    msgtype = serial.getInt8();
-    other = serial.getString();
-    serial.getString(msg);
   }
 
-  unsigned char getType()
+  ~WhisperToMessage()
   {
-    return msgtype;
-  }
-  void setType(unsigned char t)
-  {
-    msgtype = t;
   }
 
-  ptString getOther()
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getListenerName() { return listenername; }
+  void setListenerName(ptString x) { listenername = x; }
+
+  const char* getMessage() { return message; }
+  void setMessage(const char* x) { message = x; }
+
+};
+
+class WhisperFromMessage : public NetMessage
+{
+  ptString speakername;
+  const char* message;
+
+public:
+  WhisperFromMessage() : NetMessage(MESSAGES::CHAT,CHAT::WHISPERFROM)
   {
-    return other;
-  }
-  void setOther(ptString o)
-  {
-    other = o;
   }
 
-  const char* getMessage()
+  ~WhisperFromMessage()
   {
-    return msg;
   }
-  void setMessage(const char* message)
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getSpeakerName() { return speakername; }
+  void setSpeakerName(ptString x) { speakername = x; }
+
+  const char* getMessage() { return message; }
+  void setMessage(const char* x) { message = x; }
+
+};
+
+class PartyMessage : public NetMessage
+{
+  ptString speakername;
+  const char* message;
+
+public:
+  PartyMessage() : NetMessage(MESSAGES::CHAT,CHAT::PARTY)
   {
-    msg = message;
   }
+
+  ~PartyMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getSpeakerName() { return speakername; }
+  void setSpeakerName(ptString x) { speakername = x; }
+
+  const char* getMessage() { return message; }
+  void setMessage(const char* x) { message = x; }
+
+};
+
+class GuildMessage : public NetMessage
+{
+  ptString speakername;
+  const char* message;
+
+public:
+  GuildMessage() : NetMessage(MESSAGES::CHAT,CHAT::GUILD)
+  {
+  }
+
+  ~GuildMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getSpeakerName() { return speakername; }
+  void setSpeakerName(ptString x) { speakername = x; }
+
+  const char* getMessage() { return message; }
+  void setMessage(const char* x) { message = x; }
+
+};
+
+class FamilyMessage : public NetMessage
+{
+  ptString speakername;
+  const char* message;
+
+public:
+  FamilyMessage() : NetMessage(MESSAGES::CHAT,CHAT::FAMILY)
+  {
+  }
+
+  ~FamilyMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getSpeakerName() { return speakername; }
+  void setSpeakerName(ptString x) { speakername = x; }
+
+  const char* getMessage() { return message; }
+  void setMessage(const char* x) { message = x; }
+
 };
 
 #endif // _CHATMESSAGES_H_

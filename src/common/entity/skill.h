@@ -44,14 +44,17 @@ private:
 
   ptString name_id;
 
+public:
   enum SkillType
   {
     TYPE_HEAL = 0,
     TYPE_HURT = 1
   };
 
+private:
   SkillType type;
 
+public:
   enum SkillWorking
   {
     WORKS_ALWAYS = 0,
@@ -60,8 +63,10 @@ private:
     WORKS_TOGGLE = 3
   };
 
+private:
   SkillWorking op;
 
+public:
   enum SkillAffect
   {
     AFFECT_YOU = 0,  // Skills appicalbe only on yourself.
@@ -70,6 +75,7 @@ private:
     AFFECT_PARTY = 3 // Skills appicalbe on all party members.
   };
 
+private:
   SkillAffect affect;
 
   float range; // Radius in which the skill will be applied.

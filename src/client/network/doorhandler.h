@@ -16,45 +16,44 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CHATHANDLER_H_
-#define _CHATHANDLER_H_
+#ifndef _DOORHANDLER_H_
+#define _DOORHANDLER_H_
 
-#include "stdio.h"
+#include "common/network/nwtypes.h"
 
-#include "common/network/messagehandler.h"
-#include "common/network/netmessage.h"
-#include "common/network/chatmessages.h"
+#include "common/network/doormessages.h"
 
-//#include "connectionmanager.h"
+class Client;
 
-class ChatHandler : public MessageHandler
+class DoorHandler : public MessageHandler
 {
 private:
-  Server* server;
+  Client* client;
 
 public:
-  ChatHandler(Server* server) 
-  : server(server)
+  DoorHandler(Client* client)
+  : client(client)
   {
   }
+
+  char getType() { return MESSAGES::DOOR; }
 
   void handle(GenericMessage* msg)
   {
     char type = msg->getMsgType();
-    if (type != MESSAGES::CHAT) assert("wrong message type");
+    if (type != MESSAGES::DOOR) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == CHAT::SAY) handleSay(msg);
-    else if (id == CHAT::WHISPERTO) handleWhisper(msg);
+    if (id ==  DOOR::OPENDOORRESPONSE) handleOpenDoorResponse(msg);
+    else if (id ==  DOOR::CLOSEDOORRESPONSE) handleCloseDoorResponse(msg);
+    else if (id ==  DOOR::LOCKDOORRESPONSE) handleLockDoorResponse(msg);
+    else if (id ==  DOOR::UNLOCKDOORRESPONSE) handleUnlockDoorResponse(msg);
   }
 
-  char getType()
-  {
-    return MESSAGES::CHAT;
-  }
-
-  void handleSay(GenericMessage* msg);
-  void handleWhisper(GenericMessage* msg);
+  void handleOpenDoorResponse(GenericMessage* msg);
+  void handleCloseDoorResponse(GenericMessage* msg);
+  void handleLockDoorResponse(GenericMessage* msg);
+  void handleUnlockDoorResponse(GenericMessage* msg);
 };
 
-#endif // _CHATHANDLER_H_
+#endif // _DOORHANDLER_H_

@@ -16,45 +16,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CHATHANDLER_H_
-#define _CHATHANDLER_H_
+#ifndef _NWTYPES_H_
+#define _NWTYPES_H_
 
-#include "stdio.h"
-
-#include "common/network/messagehandler.h"
-#include "common/network/netmessage.h"
-#include "common/network/chatmessages.h"
-
-//#include "connectionmanager.h"
-
-class ChatHandler : public MessageHandler
-{
-private:
-  Server* server;
-
-public:
-  ChatHandler(Server* server) 
-  : server(server)
+  namespace MESSAGES
   {
+    enum HANDLERS
+    {
+      CONNECTION=0,
+      USER=1,
+      ENTITY=2,
+      CHAT=3,
+      SKILL=4,
+      DOOR=5,
+      QUEST=6
+    };
   }
 
-  void handle(GenericMessage* msg)
-  {
-    char type = msg->getMsgType();
-    if (type != MESSAGES::CHAT) assert("wrong message type");
-    char id = msg->getMsgId();
-
-    if (id == CHAT::SAY) handleSay(msg);
-    else if (id == CHAT::WHISPERTO) handleWhisper(msg);
-  }
-
-  char getType()
-  {
-    return MESSAGES::CHAT;
-  }
-
-  void handleSay(GenericMessage* msg);
-  void handleWhisper(GenericMessage* msg);
-};
-
-#endif // _CHATHANDLER_H_
+#endif // _NWTYPES_H_

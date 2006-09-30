@@ -16,25 +16,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_SKILLS_H_
-#define _TABLE_SKILLS_H_
+#include "client/network/network.h"
 
-#include "table.h"
-
-class Database;
-class Skill;
-class ptString;
-
-class SkillTable : public Table
+void QuestHandler::handleNpcDialog(GenericMessage* msg)
 {
-public:
-  SkillTable(Database* db);
-  void createTable();
-  void insert(ptString name, int type, float range, int skillTime, int reuseDelay, int power, int mpCost);
-  void dropTable();
-  bool existsSkill(ptString name);
-  Skill* getSkill(ptString name);
-  void getAllSkills(Array<Skill*>& skills);
-};
-
-#endif //_TABLE_SKILLS_H_
+  // TODO: implement
+}
