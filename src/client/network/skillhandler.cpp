@@ -17,8 +17,10 @@
 */
 
 #include "client/network/network.h"
+#include "client/client.h"
+#include "client/combat/combatmanager.h"
 
-void SkillHandler::handleStartSkill(GenericMessage* msg)
+void SkillHandler::handleSkillUsageStartResponse(GenericMessage* msg)
 {
   printf("SkillHandler: Recieved a StartSkill message.\n");
   SkillUsageStartResponseMessage skillmsg;
@@ -27,7 +29,7 @@ void SkillHandler::handleStartSkill(GenericMessage* msg)
   client->getCombatmgr()->SkillUsageStart ( skillmsg.getCaster(), skillmsg.getTarget(), skillmsg.getSkill(), skillmsg.getError() );
 }
 
-void SkillHandler::handleCompleteSkill(GenericMessage* msg)
+void SkillHandler::handleSkillUsageCompletion(GenericMessage* msg)
 {
   //TODO: handle the message
   printf("SkillHandler: Recieved a CompleteSkill message.\n");
@@ -37,7 +39,7 @@ void SkillHandler::handleCompleteSkill(GenericMessage* msg)
   client->getCombatmgr()->SkillUsageComplete ( skillmsg.getCaster(), skillmsg.getTarget(), skillmsg.getSkill());
 }
 
-void SkillHandler::handleStartInterruptSkill(GenericMessage* msg)
+void SkillHandler::handleSkillUsageInterrupt(GenericMessage* msg)
 {
   //TODO: handle the message
   printf("SkillHandler: Recieved a InterruptSkill message.\n");

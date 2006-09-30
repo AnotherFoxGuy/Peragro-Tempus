@@ -19,13 +19,11 @@
 #ifndef _SKILLHANDLER_H_
 #define _SKILLHANDLER_H_
 
-#include "stdio.h"
+#include "common/network/nwtypes.h"
 
-#include "common/network/messagehandler.h"
-#include "common/network/netmessage.h"
 #include "common/network/skillmessages.h"
 
-//#include "connectionmanager.h"
+class Server;
 
 class SkillHandler : public MessageHandler
 {
@@ -33,10 +31,12 @@ private:
   Server* server;
 
 public:
-  SkillHandler(Server* server) 
+  SkillHandler(Server* server)
   : server(server)
   {
   }
+
+  char getType() { return MESSAGES::SKILL; }
 
   void handle(GenericMessage* msg)
   {
@@ -44,17 +44,12 @@ public:
     if (type != MESSAGES::SKILL) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == SKILL::USAGE_START_REQUEST) handleStartUsage(msg);
-    else if (id == SKILL::USAGE_STOP_REQUEST) handleStopUsage(msg);
+    if (id ==  SKILL::SKILLUSAGESTARTREQUEST) handleSkillUsageStartRequest(msg);
+    else if (id ==  SKILL::SKILLUSAGESTOPREQUEST) handleSkillUsageStopRequest(msg);
   }
 
-  char getType()
-  {
-    return MESSAGES::SKILL;
-  }
-
-  void handleStartUsage(GenericMessage* msg);
-  void handleStopUsage(GenericMessage* msg);
+  void handleSkillUsageStartRequest(GenericMessage* msg);
+  void handleSkillUsageStopRequest(GenericMessage* msg);
 };
 
 #endif // _SKILLHANDLER_H_

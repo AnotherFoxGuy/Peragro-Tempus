@@ -23,219 +23,159 @@
 
 namespace SKILL
 {
-  enum SKILL_MESSAGES
+  enum MESSAGES
   {
-    USAGE_START_REQUEST=0,
-    USAGE_START_RESPONSE=1,
-    USAGE_STOP_REQUEST=2,
-    USAGE_COMPLETION=3,
-    USAGE_INTERRUPT=4
+    SKILLUSAGESTARTREQUEST=0,
+    SKILLUSAGESTARTRESPONSE=1,
+    SKILLUSAGESTOPREQUEST=2,
+    SKILLUSAGECOMPLETION=3,
+    SKILLUSAGEINTERRUPT=4
   };
 }
 
 class SkillUsageStartRequestMessage : public NetMessage
 {
-  int target;
-  int caster;
-  short skill;
+  unsigned int caster;
+  unsigned int target;
+  unsigned short skill;
 
 public:
-  SkillUsageStartRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_START_REQUEST) 
+  SkillUsageStartRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTARTREQUEST)
   {
   }
 
-  void serialise(ByteStream* bs)
+  ~SkillUsageStartRequestMessage()
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt32(caster);
-    serial.setInt32(target);
-    serial.setInt16(skill);
   }
 
-  void deserialise(ByteStream* bs)
-  {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    caster = serial.getInt32();
-    target = serial.getInt32();
-    skill = serial.getInt16();
-  }
-
-  unsigned int getTarget() { return target; }
-  void setTarget(unsigned int t) { target = t; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
   unsigned int getCaster() { return caster; }
-  void setCaster(unsigned int c) { caster = c; }
+  void setCaster(unsigned int x) { caster = x; }
+
+  unsigned int getTarget() { return target; }
+  void setTarget(unsigned int x) { target = x; }
 
   unsigned short getSkill() { return skill; }
-  void setSkill(unsigned short s) { skill = s; }
+  void setSkill(unsigned short x) { skill = x; }
+
 };
 
 class SkillUsageStartResponseMessage : public NetMessage
 {
-  int target;
-  int caster;
-  short skill;
-  short mpCost;
+  unsigned int caster;
+  unsigned int target;
+  unsigned short skill;
+  unsigned short mpcost;
   ptString error;
 
 public:
-  SkillUsageStartResponseMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_START_RESPONSE) 
+  SkillUsageStartResponseMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTARTRESPONSE)
   {
   }
 
-  void serialise(ByteStream* bs)
+  ~SkillUsageStartResponseMessage()
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt16(skill);
-    serial.setInt16(mpCost);
-    serial.setInt32(caster);
-    serial.setInt32(target);
-    serial.setString(error);
   }
 
-  void deserialise(ByteStream* bs)
-  {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    skill = serial.getInt16();
-    mpCost = serial.getInt16();
-    caster = serial.getInt32();
-    target = serial.getInt32();
-    error = serial.getString();
-  }
-
-  unsigned int getTarget() { return target; }
-  void setTarget(unsigned int t) { target = t; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
   unsigned int getCaster() { return caster; }
-  void setCaster(unsigned int c) { caster = c; }
+  void setCaster(unsigned int x) { caster = x; }
 
-  ptString& getError() { return error; }
-  void setError(ptString message) { error = message; }
+  unsigned int getTarget() { return target; }
+  void setTarget(unsigned int x) { target = x; }
 
   unsigned short getSkill() { return skill; }
-  void setSkill(unsigned short s) { skill = s; }
+  void setSkill(unsigned short x) { skill = x; }
 
-  unsigned short getMpCost() { return mpCost; }
-  void setMpCost(unsigned short mc) { mpCost = mc; }
+  unsigned short getMpCost() { return mpcost; }
+  void setMpCost(unsigned short x) { mpcost = x; }
+
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
+
 };
 
 class SkillUsageStopRequestMessage : public NetMessage
 {
-  short skill;
+  unsigned short skill;
 
 public:
-  SkillUsageStopRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_STOP_REQUEST) 
+  SkillUsageStopRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTOPREQUEST)
   {
   }
 
-  void serialise(ByteStream* bs)
+  ~SkillUsageStopRequestMessage()
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt16(skill);
   }
 
-  void deserialise(ByteStream* bs)
-  {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    skill = serial.getInt16();
-  }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
   unsigned short getSkill() { return skill; }
-  void setSkill(unsigned short s) { skill = s; }
+  void setSkill(unsigned short x) { skill = x; }
+
 };
 
 class SkillUsageCompletionMessage : public NetMessage
 {
-  int target;
-  int caster;
-  short skill;
+  unsigned int caster;
+  unsigned int target;
+  unsigned short skill;
 
 public:
-  SkillUsageCompletionMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_COMPLETION) 
+  SkillUsageCompletionMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGECOMPLETION)
   {
   }
 
-  void serialise(ByteStream* bs)
+  ~SkillUsageCompletionMessage()
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt32(caster);
-    serial.setInt32(target);
-    serial.setInt16(skill);
   }
 
-  void deserialise(ByteStream* bs)
-  {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    caster = serial.getInt32();
-    target = serial.getInt32();
-    skill = serial.getInt16();
-  }
-
-  unsigned short getSkill() { return skill; }
-  void setSkill(unsigned short s) { skill = s; }
-
-  unsigned int getTarget() { return target; }
-  void setTarget(unsigned int t) { target = t; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
   unsigned int getCaster() { return caster; }
-  void setCaster(unsigned int c) { caster = c; }
+  void setCaster(unsigned int x) { caster = x; }
+
+  unsigned int getTarget() { return target; }
+  void setTarget(unsigned int x) { target = x; }
+
+  unsigned short getSkill() { return skill; }
+  void setSkill(unsigned short x) { skill = x; }
+
 };
 
 class SkillUsageInterruptMessage : public NetMessage
 {
-  int target;
-  int caster;
-  short skill;
+  unsigned int caster;
+  unsigned int target;
+  unsigned short skill;
 
 public:
-  SkillUsageInterruptMessage() : NetMessage(MESSAGES::SKILL,SKILL::USAGE_INTERRUPT) 
+  SkillUsageInterruptMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGEINTERRUPT)
   {
   }
 
-  void serialise(ByteStream* bs)
+  ~SkillUsageInterruptMessage()
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt32(caster);
-    serial.setInt32(target);
-    serial.setInt16(skill);
   }
 
-  void deserialise(ByteStream* bs)
-  {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    caster = serial.getInt32();
-    target = serial.getInt32();
-    skill = serial.getInt16();
-  }
-
-  unsigned short getSkill() { return skill; }
-  void setSkill(unsigned short s) { skill = s; }
-
-  unsigned int getTarget() { return target; }
-  void setTarget(unsigned int t) { target = t; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
   unsigned int getCaster() { return caster; }
-  void setCaster(unsigned int c) { caster = c; }
+  void setCaster(unsigned int x) { caster = x; }
+
+  unsigned int getTarget() { return target; }
+  void setTarget(unsigned int x) { target = x; }
+
+  unsigned short getSkill() { return skill; }
+  void setSkill(unsigned short x) { skill = x; }
+
 };
 
 #endif // _SKILLMESSAGES_H_

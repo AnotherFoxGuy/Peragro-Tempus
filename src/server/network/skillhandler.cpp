@@ -20,7 +20,7 @@
 #include "server/usermanager.h"
 #include "common/entity/skillmanager.h"
 
-void SkillHandler::handleStartUsage(GenericMessage* msg)
+void SkillHandler::handleSkillUsageStartRequest(GenericMessage* msg)
 {
   Connection* conn = msg->getConnection();
   if (!conn) return;
@@ -36,7 +36,7 @@ void SkillHandler::handleStartUsage(GenericMessage* msg)
     skill->castPrepare(user_ent, request_msg.getTarget());
 }
 
-void SkillHandler::handleStopUsage(GenericMessage* msg)
+void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
 {
   Connection* conn = msg->getConnection();
   if (!conn) return;

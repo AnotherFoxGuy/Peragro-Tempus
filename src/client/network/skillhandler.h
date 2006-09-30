@@ -19,15 +19,11 @@
 #ifndef _SKILLHANDLER_H_
 #define _SKILLHANDLER_H_
 
-#include "stdio.h"
+#include "common/network/nwtypes.h"
 
-#include "common/network/messagehandler.h"
-#include "common/network/netmessage.h"
 #include "common/network/skillmessages.h"
 
-#include "client/combat/combatmanager.h"
-
-//#include "connectionmanager.h"
+class Client;
 
 class SkillHandler : public MessageHandler
 {
@@ -35,10 +31,12 @@ private:
   Client* client;
 
 public:
-  SkillHandler(Client* client) 
+  SkillHandler(Client* client)
   : client(client)
   {
   }
+
+  char getType() { return MESSAGES::SKILL; }
 
   void handle(GenericMessage* msg)
   {
@@ -46,19 +44,14 @@ public:
     if (type != MESSAGES::SKILL) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == SKILL::USAGE_START_RESPONSE) handleStartSkill(msg);
-    else if (id == SKILL::USAGE_COMPLETION) handleCompleteSkill(msg);
-    else if (id == SKILL::USAGE_INTERRUPT) handleStartInterruptSkill(msg);
+    if (id ==  SKILL::SKILLUSAGESTARTRESPONSE) handleSkillUsageStartResponse(msg);
+    else if (id ==  SKILL::SKILLUSAGECOMPLETION) handleSkillUsageCompletion(msg);
+    else if (id ==  SKILL::SKILLUSAGEINTERRUPT) handleSkillUsageInterrupt(msg);
   }
 
-  char getType()
-  {
-    return MESSAGES::SKILL;
-  }
-
-  void handleStartSkill(GenericMessage* msg);
-  void handleCompleteSkill(GenericMessage* msg);
-  void handleStartInterruptSkill(GenericMessage* msg);
+  void handleSkillUsageStartResponse(GenericMessage* msg);
+  void handleSkillUsageCompletion(GenericMessage* msg);
+  void handleSkillUsageInterrupt(GenericMessage* msg);
 };
 
 #endif // _SKILLHANDLER_H_
