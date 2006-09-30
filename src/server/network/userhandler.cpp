@@ -32,8 +32,8 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   request_msg.deserialise(msg->getByteStream());
   printf("Received LoginRequest\n");
 
-  ptString username = request_msg.getName();
-  const char* password = request_msg.getPwHash();
+  ptString username = request_msg.getUsername();
+  const char* password = request_msg.getPassword();
 
   if (username.isNull() || !password) return;
 
@@ -69,12 +69,12 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
 
   Array<Character*> characters;
   server->getDatabase()->getCharacterTable()->getAllCharacters(characters, user);
-  CharacterListMessage char_msg;
+  CharListMessage char_msg;
   char_msg.setCharacterCount((char)characters.getCount());
   for (unsigned int i=0; i<characters.getCount(); i++)
   {
-    char_msg.setCharacterId(i, characters.get(i)->getId());
-    char_msg.setCharacterName(i, characters.get(i)->getName());
+    char_msg.setId(i, characters.get(i)->getId());
+    char_msg.setName(i, characters.get(i)->getName());
     char_msg.setDecalColour(i, characters.get(i)->getDecalColour());
     char_msg.setHairColour(i, characters.get(i)->getHairColour());
     char_msg.setSkinColour(i, characters.get(i)->getSkinColour());
@@ -92,8 +92,8 @@ void UserHandler::handleRegisterRequest(GenericMessage* msg)
   RegisterRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  ptString username = request_msg.getName();
-  const char* password = request_msg.getPwHash();
+  ptString username = request_msg.getUsername();
+  const char* password = request_msg.getPassword();
 
   ptString retval = server->getUserAccountManager()->signup(username, password);
 
@@ -106,7 +106,7 @@ void UserHandler::handleRegisterRequest(GenericMessage* msg)
 
 void UserHandler::handleCharCreationRequest(GenericMessage* msg)
 {
-  CharacterCreationRequestMessage char_msg;
+  CharCreateRequestMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
 
   User* user = msg->getConnection()->getUser();
@@ -124,10 +124,13 @@ void UserHandler::handleCharCreationRequest(GenericMessage* msg)
   ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id, haircolour, skincolour, decalcolour);
 
   // Send response message
-  CharacterCreationResponseMessage response_msg;
+  CharCreateResponseMessage response_msg;
   response_msg.setError(retval);
-  response_msg.setCharacterId(retval.isNull()?char_id:0);
-  response_msg.setCharacterName(retval.isNull()?char_name:ptString::Null);
+  response_msg.setCharId(retval.isNull()?char_id:0);
+  response_msg.setName(retval.isNull()?char_name:ptString::Null);
+  response_msg.setHairColour(haircolour);
+  response_msg.setSkinColour(skincolour);
+  response_msg.setDecalColour(decalcolour);
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
@@ -138,7 +141,7 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   const Connection* conn = msg->getConnection();
   User* user = conn->getUser();
 
-  CharacterSelectionRequestMessage request_msg;
+  CharSelectRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
   // Assume the client knows nothing.
@@ -161,9 +164,9 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
   user->setEntity(entity);
   server->addEntity(entity, false);
 
-  CharacterSelectionResponseMessage response_msg;
+  CharSelectResponseMessage response_msg;
   response_msg.setError(ptString::Null);
-  response_msg.setEntityId(entity->getId());
+  response_msg.setCharEntityId(entity->getId());
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);

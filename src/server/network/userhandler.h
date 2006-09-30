@@ -47,10 +47,10 @@ public:
     {
       char id = msg->getMsgId();
 
-      if (id == USER::LOGIN_REQUEST) handleLoginRequest(msg);
-      else if (id == USER::REGISTER_REQUEST) handleRegisterRequest(msg);
-      else if (id == USER::CHARACTER_CREATION_REQUEST) handleCharCreationRequest(msg);
-      else if (id == USER::CHARACTER_SELECTION_REQUEST) handleCharSelectionRequest(msg);
+      if (id == USER::LOGINREQUEST) handleLoginRequest(msg);
+      else if (id == USER::REGISTERREQUEST) handleRegisterRequest(msg);
+      else if (id == USER::CHARCREATEREQUEST) handleCharCreationRequest(msg);
+      else if (id == USER::CHARSELECTREQUEST) handleCharSelectionRequest(msg);
     }
     else if (type == MESSAGES::CHAT)
     {

@@ -435,14 +435,14 @@ void Client::connected ()
       if (cmdline->GetBoolOption("register", false))
       {
         RegisterRequestMessage reg_msg;
-        reg_msg.setName(ptString(user, strlen(user)));
-        reg_msg.setPwHash(pass);
+        reg_msg.setUsername(ptString(user, strlen(user)));
+        reg_msg.setPassword(pass);
         network->send(&reg_msg);
       }
 
       LoginRequestMessage answer_msg;
-      answer_msg.setName(ptString(user, strlen(user)));
-      answer_msg.setPwHash(pass);
+      answer_msg.setUsername(ptString(user, strlen(user)));
+      answer_msg.setPassword(pass);
       //this->name = user;
       network->send(&answer_msg);
     }
@@ -834,7 +834,7 @@ void Client::loggedIn()
     const char* character = cmdline->GetOption("char");
     if (character)
     {
-      CharacterSelectionRequestMessage answer_msg;
+      CharSelectRequestMessage answer_msg;
       answer_msg.setCharId(atoi(character));
       network->send(&answer_msg);
     }

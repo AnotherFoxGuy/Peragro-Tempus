@@ -49,11 +49,11 @@ public:
     {
       char id = msg->getMsgId();
 
-      if (id == USER::LOGIN_RESPONSE) handleLoginResponse(msg);
-      else if (id == USER::REGISTER_RESPONSE) handleRegisterResponse(msg);
-      else if (id == USER::CHARACTER_LIST) handleCharList(msg);
-      else if (id == USER::CHARACTER_CREATION_RESPONSE) handleCharCreationResponse(msg);
-      else if (id == USER::CHARACTER_SELECTION_RESPONSE) handleCharSelectionResponse(msg);
+      if (id == USER::LOGINRESPONSE) handleLoginResponse(msg);
+      else if (id == USER::REGISTERRESPONSE) handleRegisterResponse(msg);
+      else if (id == USER::CHARLIST) handleCharList(msg);
+      else if (id == USER::CHARCREATERESPONSE) handleCharCreationResponse(msg);
+      else if (id == USER::CHARSELECTRESPONSE) handleCharSelectionResponse(msg);
     }
     else if (type == MESSAGES::CHAT)
     {

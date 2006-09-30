@@ -25,49 +25,41 @@ namespace USER
 {
   enum MESSAGES
   {
-    LOGIN_REQUEST=0,
-    LOGIN_RESPONSE=1,
-    REGISTER_REQUEST=2,
-    REGISTER_RESPONSE=3,
-    CHARACTER_LIST=4,
-    CHARACTER_CREATION_REQUEST=5,
-    CHARACTER_CREATION_RESPONSE=6,
-    CHARACTER_SELECTION_REQUEST=7,
-    CHARACTER_SELECTION_RESPONSE=8
+    LOGINREQUEST=0,
+    LOGINRESPONSE=1,
+    REGISTERREQUEST=2,
+    REGISTERRESPONSE=3,
+    CHARLIST=4,
+    CHARCREATEREQUEST=5,
+    CHARCREATERESPONSE=6,
+    CHARSELECTREQUEST=7,
+    CHARSELECTRESPONSE=8
   };
 }
 
 class LoginRequestMessage : public NetMessage
 {
-  ptString user;
-  const char* pwhash;
+  ptString username;
+  const char* password;
 
 public:
-  LoginRequestMessage() : NetMessage(MESSAGES::USER,USER::LOGIN_REQUEST) {}
-
-  void serialise(ByteStream* bs)
+  LoginRequestMessage() : NetMessage(MESSAGES::USER,USER::LOGINREQUEST)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setString(user);
-    serial.setString(pwhash);
   }
 
-  void deserialise(ByteStream* bs)
+  ~LoginRequestMessage()
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    user = serial.getString();
-    serial.getString(pwhash);
   }
 
-  ptString& getName() { return user; }
-  void setName(ptString usr) { user = usr; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
-  const char* getPwHash() { return pwhash; }
-  void setPwHash(const char* pw) { pwhash = (char*) pw; }
+  ptString getUsername() { return username; }
+  void setUsername(ptString x) { username = x; }
+
+  const char* getPassword() { return password; }
+  void setPassword(const char* x) { password = x; }
+
 };
 
 class LoginResponseMessage : public NetMessage
@@ -75,59 +67,45 @@ class LoginResponseMessage : public NetMessage
   ptString error;
 
 public:
-  LoginResponseMessage() : NetMessage(MESSAGES::USER,USER::LOGIN_RESPONSE) {}
-
-  void serialise(ByteStream* bs)
+  LoginResponseMessage() : NetMessage(MESSAGES::USER,USER::LOGINRESPONSE)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setString(error);
   }
 
-  void deserialise(ByteStream* bs)
+  ~LoginResponseMessage()
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    error = serial.getString();
   }
 
-  ptString& getError() { return error; }
-  void setError(ptString message) { error = message; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
+
 };
 
 class RegisterRequestMessage : public NetMessage
 {
-  ptString user;
-  const char* pwhash;
+  ptString username;
+  const char* password;
 
 public:
-  RegisterRequestMessage() : NetMessage(MESSAGES::USER,USER::REGISTER_REQUEST) {}
-
-  void serialise(ByteStream* bs)
+  RegisterRequestMessage() : NetMessage(MESSAGES::USER,USER::REGISTERREQUEST)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setString(user);
-    serial.setString(pwhash);
   }
 
-  void deserialise(ByteStream* bs)
+  ~RegisterRequestMessage()
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    user = serial.getString();
-    serial.getString(pwhash);
   }
 
-  ptString& getName() { return user; }
-  void setName(ptString usr) { user = usr; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
-  const char* getPwHash() { return pwhash; }
-  void setPwHash(const char* pw) { pwhash = (char*) pw; }
+  ptString getUsername() { return username; }
+  void setUsername(ptString x) { username = x; }
+
+  const char* getPassword() { return password; }
+  void setPassword(const char* x) { password = x; }
+
 };
 
 class RegisterResponseMessage : public NetMessage
@@ -135,309 +113,280 @@ class RegisterResponseMessage : public NetMessage
   ptString error;
 
 public:
-  RegisterResponseMessage() : NetMessage(MESSAGES::USER,USER::REGISTER_RESPONSE) { }
-
-  void serialise(ByteStream* bs)
+  RegisterResponseMessage() : NetMessage(MESSAGES::USER,USER::REGISTERRESPONSE)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setString(error);
   }
 
-  void deserialise(ByteStream* bs)
+  ~RegisterResponseMessage()
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    error = serial.getString();
   }
 
-  ptString& getError() { return error; }
-  void setError(ptString message) { error = message; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
+
 };
 
-class CharacterListMessage : public NetMessage
+class CharListMessage : public NetMessage
 {
-  char charCount;
-
-  class nwCharacter
+  class ListCharacter
   {
   public:
-    int id;
+    unsigned int id;
     ptString name;
-    unsigned char haircolour[3]; //24bit color
-    unsigned char skincolour[3]; //24bit color
-    unsigned char decalcolour[3]; //24bit color
+    unsigned char haircolour[3];
+    unsigned char skincolour[3];
+    unsigned char decalcolour[3];
   };
 
-  nwCharacter* chars;
+  unsigned char charactercount;
+  ListCharacter* character;
+
 
 public:
-  CharacterListMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_LIST), chars(0) {}
-  ~CharacterListMessage() { delete [] chars; }
-
-  void serialise(ByteStream* bs)
+  CharListMessage() : NetMessage(MESSAGES::USER,USER::CHARLIST)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt8(charCount);
-    for (int i=0; i<charCount; i++)
-    {
-      serial.setInt32(chars[i].id);
-      serial.setString(chars[i].name);
-      serial.setInt8(chars[i].skincolour[0]);
-      serial.setInt8(chars[i].skincolour[1]);
-      serial.setInt8(chars[i].skincolour[2]);
-      serial.setInt8(chars[i].haircolour[0]);
-      serial.setInt8(chars[i].haircolour[1]);
-      serial.setInt8(chars[i].haircolour[2]);
-      serial.setInt8(chars[i].decalcolour[0]);
-      serial.setInt8(chars[i].decalcolour[1]);
-      serial.setInt8(chars[i].decalcolour[2]);
-    }
+    character = 0;
   }
 
-  void deserialise(ByteStream* bs)
+  ~CharListMessage()
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    setCharacterCount(serial.getInt8());
-    for (int i=0; i<charCount; i++)
-    {
-      chars[i].id = serial.getInt32();
-      chars[i].name = serial.getString();
-      chars[i].skincolour[0] = (unsigned char) serial.getInt8();
-      chars[i].skincolour[1] = (unsigned char) serial.getInt8();
-      chars[i].skincolour[2] = (unsigned char) serial.getInt8();
-      chars[i].haircolour[0] = (unsigned char) serial.getInt8();
-      chars[i].haircolour[1] = (unsigned char) serial.getInt8();
-      chars[i].haircolour[2] = (unsigned char) serial.getInt8();
-      chars[i].decalcolour[0] = (unsigned char) serial.getInt8();
-      chars[i].decalcolour[1] = (unsigned char) serial.getInt8();
-      chars[i].decalcolour[2] = (unsigned char) serial.getInt8();
-    }
+    delete [] character;
   }
 
-  char getCharacterCount() { return charCount; }
-  void setCharacterCount(char cc) 
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getCharacterCount() { return charactercount; }
+  void setCharacterCount(unsigned char ic)
   {
-    charCount = cc; 
-    delete [] chars; 
-    chars = new nwCharacter[cc];
+    charactercount = ic;
+    delete [] character;
+    character = new ListCharacter[ic];
   }
 
-  int getCharacterId(int idx) { return chars[idx].id; }
-  void setCharacterId(int idx, int char_id) { chars[idx].id = char_id; }
+  // --- begin ListCharacter Getter and Setter ---
 
-  ptString& getCharacterName(int idx) { return chars[idx].name; }
-  void setCharacterName(int idx, ptString name) { chars[idx].name = name; }
+  unsigned int getId(size_t i) { return character[i].id; }
+  void setId(size_t i, unsigned int x) { character[i].id = x; }
 
-  unsigned char* getSkinColour(int idx) { return chars[idx].skincolour; }
-  void setSkinColour(int idx, unsigned char* colour) { setSkinColour(idx, colour[0],colour[1],colour[2]); }
-  void setSkinColour(int idx, unsigned char r, unsigned char g, unsigned char b) { chars[idx].skincolour[0] = r; chars[idx].skincolour[1] = g; chars[idx].skincolour[2] = b; }
+  ptString getName(size_t i) { return character[i].name; }
+  void setName(size_t i, ptString x) { character[i].name = x; }
 
-  unsigned char* getHairColour(int idx) { return chars[idx].haircolour; }
-  void setHairColour(int idx, unsigned char* colour) { setHairColour(idx, colour[0],colour[1],colour[2]); }
-  void setHairColour(int idx, unsigned char r, unsigned char g, unsigned char b) { chars[idx].haircolour[0] = r; chars[idx].haircolour[1] = g; chars[idx].haircolour[2] = b; }
+  unsigned char* getHairColour(size_t i) { return character[i].haircolour; }
+  void setHairColour(size_t i, unsigned char r, unsigned char g, unsigned char b)
+  {
+    character[i].haircolour[0] = r;
+    character[i].haircolour[1] = g;
+    character[i].haircolour[2] = b;
+  }
+  void setHairColour(size_t i, unsigned char* x)
+  {
+    setHairColour(i, x[0], x[1], x[2]);
+  }
 
-  unsigned char* getDecalColour(int idx) { return chars[idx].decalcolour; }
-  void setDecalColour(int idx, unsigned char* colour) { setDecalColour(idx, colour[0],colour[1],colour[2]); }
-  void setDecalColour(int idx, unsigned char r, unsigned char g, unsigned char b) { chars[idx].decalcolour[0] = r; chars[idx].decalcolour[1] = g; chars[idx].decalcolour[2] = b; }
+  unsigned char* getSkinColour(size_t i) { return character[i].skincolour; }
+  void setSkinColour(size_t i, unsigned char r, unsigned char g, unsigned char b)
+  {
+    character[i].skincolour[0] = r;
+    character[i].skincolour[1] = g;
+    character[i].skincolour[2] = b;
+  }
+  void setSkinColour(size_t i, unsigned char* x)
+  {
+    setSkinColour(i, x[0], x[1], x[2]);
+  }
+
+  unsigned char* getDecalColour(size_t i) { return character[i].decalcolour; }
+  void setDecalColour(size_t i, unsigned char r, unsigned char g, unsigned char b)
+  {
+    character[i].decalcolour[0] = r;
+    character[i].decalcolour[1] = g;
+    character[i].decalcolour[2] = b;
+  }
+  void setDecalColour(size_t i, unsigned char* x)
+  {
+    setDecalColour(i, x[0], x[1], x[2]);
+  }
+
+  // --- end ListCharacter Getter and Setter ---
+
 };
 
-class CharacterCreationRequestMessage : public NetMessage
+class CharCreateRequestMessage : public NetMessage
 {
   ptString name;
-  unsigned char haircolour[3]; //24bit color
-  unsigned char skincolour[3]; //24bit color
-  unsigned char decalcolour[3]; //24bit color
+  unsigned char haircolour[3];
+  unsigned char skincolour[3];
+  unsigned char decalcolour[3];
 
 public:
-  CharacterCreationRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_CREATION_REQUEST) {}
-
-  void serialise(ByteStream* bs)
+  CharCreateRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARCREATEREQUEST)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setString(name);
-    serial.setInt8(skincolour[0]);
-    serial.setInt8(skincolour[1]);
-    serial.setInt8(skincolour[2]);
-    serial.setInt8(haircolour[0]);
-    serial.setInt8(haircolour[1]);
-    serial.setInt8(haircolour[2]);
-    serial.setInt8(decalcolour[0]);
-    serial.setInt8(decalcolour[1]);
-    serial.setInt8(decalcolour[2]);
   }
 
-  void deserialise(ByteStream* bs)
+  ~CharCreateRequestMessage()
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    name = serial.getString();
-    skincolour[0] = (unsigned char) serial.getInt8();
-    skincolour[1] = (unsigned char) serial.getInt8();
-    skincolour[2] = (unsigned char) serial.getInt8();
-    haircolour[0] = (unsigned char) serial.getInt8();
-    haircolour[1] = (unsigned char) serial.getInt8();
-    haircolour[2] = (unsigned char) serial.getInt8();
-    decalcolour[0] = (unsigned char) serial.getInt8();
-    decalcolour[1] = (unsigned char) serial.getInt8();
-    decalcolour[2] = (unsigned char) serial.getInt8();
   }
 
-  ptString& getName() { return name; }
-  void setName(ptString n) { name = n; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
-  unsigned char* getSkinColour() { return skincolour; }
-  void setSkinColour(unsigned char* colour) { setSkinColour(colour[0],colour[1],colour[2]); }
-  void setSkinColour(unsigned char r, unsigned char g, unsigned char b) { skincolour[0] = r; skincolour[1] = g; skincolour[2] = b; }
+  ptString getName() { return name; }
+  void setName(ptString x) { name = x; }
 
   unsigned char* getHairColour() { return haircolour; }
-  void setHairColour(unsigned char* colour) { setHairColour(colour[0],colour[1],colour[2]); }
-  void setHairColour(unsigned char r, unsigned char g, unsigned char b) { haircolour[0] = r; haircolour[1] = g; haircolour[2] = b; }
-
-  unsigned char* getDecalColour() { return decalcolour; }
-  void setDecalColour(unsigned char* colour) { setDecalColour(colour[0],colour[1],colour[2]); }
-  void setDecalColour(unsigned char r, unsigned char g, unsigned char b) { decalcolour[0] = r; decalcolour[1] = g; decalcolour[2] = b; }
-};
-
-class CharacterCreationResponseMessage : public NetMessage
-{
-  ptString error;
-  unsigned int char_id;
-  ptString char_name;
-  unsigned char haircolour[3]; //24bit color
-  unsigned char skincolour[3]; //24bit color
-  unsigned char decalcolour[3]; //24bit color
-
-public:
-  CharacterCreationResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_CREATION_RESPONSE) { }
-
-  void serialise(ByteStream* bs)
+  void setHairColour(unsigned char r, unsigned char g, unsigned char b)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt32(char_id);
-    serial.setString(char_name);
-    serial.setInt8(skincolour[0]);
-    serial.setInt8(skincolour[1]);
-    serial.setInt8(skincolour[2]);
-    serial.setInt8(haircolour[0]);
-    serial.setInt8(haircolour[1]);
-    serial.setInt8(haircolour[2]);
-    serial.setInt8(decalcolour[0]);
-    serial.setInt8(decalcolour[1]);
-    serial.setInt8(decalcolour[2]);
-    serial.setString(error);
+    haircolour[0] = r;
+    haircolour[1] = g;
+    haircolour[2] = b;
   }
-
-  void deserialise(ByteStream* bs)
+  void setHairColour(unsigned char* x)
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    char_id = serial.getInt32();
-    char_name = serial.getString();
-    skincolour[0] = (unsigned char) serial.getInt8();
-    skincolour[1] = (unsigned char) serial.getInt8();
-    skincolour[2] = (unsigned char) serial.getInt8();
-    haircolour[0] = (unsigned char) serial.getInt8();
-    haircolour[1] = (unsigned char) serial.getInt8();
-    haircolour[2] = (unsigned char) serial.getInt8();
-    decalcolour[0] = (unsigned char) serial.getInt8();
-    decalcolour[1] = (unsigned char) serial.getInt8();
-    decalcolour[2] = (unsigned char) serial.getInt8();
-    error = serial.getString();
+    setHairColour(x[0], x[1], x[2]);
   }
-
-  ptString& getError() { return error; }
-  void setError(ptString message) { error = message; }
-
-  unsigned int getCharacterId() { return char_id; }
-  void setCharacterId(unsigned int charid) { char_id = charid; }
-
-  ptString& getCharacterName() { return char_name; }
-  void setCharacterName(ptString name) { char_name = name; }
 
   unsigned char* getSkinColour() { return skincolour; }
-  void setSkinColour(unsigned char* colour) { setSkinColour(colour[0],colour[1],colour[2]); }
-  void setSkinColour(unsigned char r, unsigned char g, unsigned char b) { skincolour[0] = r; skincolour[1] = g; skincolour[2] = b; }
-
-  unsigned char* getHairColour() { return haircolour; }
-  void setHairColour(unsigned char* colour) { setHairColour(colour[0],colour[1],colour[2]); }
-  void setHairColour(unsigned char r, unsigned char g, unsigned char b) { haircolour[0] = r; haircolour[1] = g; haircolour[2] = b; }
+  void setSkinColour(unsigned char r, unsigned char g, unsigned char b)
+  {
+    skincolour[0] = r;
+    skincolour[1] = g;
+    skincolour[2] = b;
+  }
+  void setSkinColour(unsigned char* x)
+  {
+    setSkinColour(x[0], x[1], x[2]);
+  }
 
   unsigned char* getDecalColour() { return decalcolour; }
-  void setDecalColour(unsigned char* colour) { setDecalColour(colour[0],colour[1],colour[2]); }
-  void setDecalColour(unsigned char r, unsigned char g, unsigned char b) { decalcolour[0] = r; decalcolour[1] = g; decalcolour[2] = b; }
-};
-
-class CharacterSelectionRequestMessage : public NetMessage
-{
-  unsigned int charId;
-
-public:
-  CharacterSelectionRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_SELECTION_REQUEST) {}
-
-  void serialise(ByteStream* bs)
+  void setDecalColour(unsigned char r, unsigned char g, unsigned char b)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt32(charId);
+    decalcolour[0] = r;
+    decalcolour[1] = g;
+    decalcolour[2] = b;
+  }
+  void setDecalColour(unsigned char* x)
+  {
+    setDecalColour(x[0], x[1], x[2]);
   }
 
-  void deserialise(ByteStream* bs)
-  {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    charId = serial.getInt32();
-  }
-
-  unsigned int getCharId() { return charId; }
-  void setCharId(unsigned int char_id) { charId = char_id; }
 };
 
-class CharacterSelectionResponseMessage : public NetMessage
+class CharCreateResponseMessage : public NetMessage
 {
+  unsigned int charid;
+  ptString name;
+  unsigned char haircolour[3];
+  unsigned char skincolour[3];
+  unsigned char decalcolour[3];
   ptString error;
-  unsigned int entityId;
 
 public:
-  CharacterSelectionResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARACTER_SELECTION_RESPONSE) { }
-
-  void serialise(ByteStream* bs)
+  CharCreateResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARCREATERESPONSE)
   {
-    Serialiser serial(bs);
-    serial.setInt8(type);
-    serial.setInt8(id);
-    serial.setInt32(entityId);
-    serial.setString(error);
   }
 
-  void deserialise(ByteStream* bs)
+  ~CharCreateResponseMessage()
   {
-    Deserialiser serial(bs);
-    type = serial.getInt8();
-    id = serial.getInt8();
-    entityId = serial.getInt32();
-    error = serial.getString();
   }
 
-  ptString& getError() { return error; }
-  void setError(ptString message) { error = message; }
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() { return entityId; }
-  void setEntityId(unsigned int ent_id) { entityId = ent_id; }
+  unsigned int getCharId() { return charid; }
+  void setCharId(unsigned int x) { charid = x; }
+
+  ptString getName() { return name; }
+  void setName(ptString x) { name = x; }
+
+  unsigned char* getHairColour() { return haircolour; }
+  void setHairColour(unsigned char r, unsigned char g, unsigned char b)
+  {
+    haircolour[0] = r;
+    haircolour[1] = g;
+    haircolour[2] = b;
+  }
+  void setHairColour(unsigned char* x)
+  {
+    setHairColour(x[0], x[1], x[2]);
+  }
+
+  unsigned char* getSkinColour() { return skincolour; }
+  void setSkinColour(unsigned char r, unsigned char g, unsigned char b)
+  {
+    skincolour[0] = r;
+    skincolour[1] = g;
+    skincolour[2] = b;
+  }
+  void setSkinColour(unsigned char* x)
+  {
+    setSkinColour(x[0], x[1], x[2]);
+  }
+
+  unsigned char* getDecalColour() { return decalcolour; }
+  void setDecalColour(unsigned char r, unsigned char g, unsigned char b)
+  {
+    decalcolour[0] = r;
+    decalcolour[1] = g;
+    decalcolour[2] = b;
+  }
+  void setDecalColour(unsigned char* x)
+  {
+    setDecalColour(x[0], x[1], x[2]);
+  }
+
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
+
+};
+
+class CharSelectRequestMessage : public NetMessage
+{
+  unsigned int charid;
+
+public:
+  CharSelectRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARSELECTREQUEST)
+  {
+  }
+
+  ~CharSelectRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getCharId() { return charid; }
+  void setCharId(unsigned int x) { charid = x; }
+
+};
+
+class CharSelectResponseMessage : public NetMessage
+{
+  unsigned int charentityid;
+  ptString error;
+
+public:
+  CharSelectResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARSELECTRESPONSE)
+  {
+  }
+
+  ~CharSelectResponseMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getCharEntityId() { return charentityid; }
+  void setCharEntityId(unsigned int x) { charentityid = x; }
+
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
+
 };
 
 #endif // _USERMESSAGES_H_

@@ -51,8 +51,8 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
     GUIWindow::EnableWindow();
     return true;
   }
-  answer_msg.setName(ptString(login.c_str(), login.length()));
-  answer_msg.setPwHash(password.c_str());
+  answer_msg.setUsername(ptString(login.c_str(), login.length()));
+  answer_msg.setPassword(password.c_str());
   network->send(&answer_msg);
 
   return true;
@@ -64,8 +64,8 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
   CEGUI::String login = GetLogin();
   CEGUI::String password = GetPassword();
   if (login.empty() || password.empty()) return true;
-  answer_msg.setName(ptString(login.c_str(), login.length()));
-  answer_msg.setPwHash(password.c_str());
+  answer_msg.setUsername(ptString(login.c_str(), login.length()));
+  answer_msg.setPassword(password.c_str());
   network->send(&answer_msg);
 
   return true; 

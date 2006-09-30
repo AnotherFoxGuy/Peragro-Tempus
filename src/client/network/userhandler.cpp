@@ -54,14 +54,14 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
 
 void UserHandler::handleCharList(GenericMessage* msg)
 {
-  CharacterListMessage char_msg;
+  CharListMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
   //printf("Got %d character:\n---------------------------\n", char_msg.getCharacterCount());
   guimanager = client->GetGuiManager();
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
     guimanager->GetSelectCharWindow ()->AddCharacter(
-      char_msg.getCharacterId(i), *char_msg.getCharacterName(i),
+      char_msg.getId(i), *char_msg.getName(i),
       char_msg.getSkinColour(i), char_msg.getHairColour(i), char_msg.getDecalColour(i));
     //printf("Char %d: %s\n", char_msg.getCharacterId(i), char_msg.getCharacterName(i));
   }
@@ -69,13 +69,13 @@ void UserHandler::handleCharList(GenericMessage* msg)
 
 void UserHandler::handleCharCreationResponse(GenericMessage* msg)
 {
-  CharacterCreationResponseMessage answer_msg;
+  CharCreateResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
   guimanager = client->GetGuiManager();
 
   if (answer_msg.getError().isNull())
   {
-    guimanager->GetSelectCharWindow ()->AddCharacter(answer_msg.getCharacterId(), *answer_msg.getCharacterName(),
+    guimanager->GetSelectCharWindow ()->AddCharacter(answer_msg.getCharId(), *answer_msg.getName(),
       answer_msg.getSkinColour(), answer_msg.getHairColour(), answer_msg.getDecalColour());
   }
   else
@@ -88,7 +88,7 @@ void UserHandler::handleCharSelectionResponse(GenericMessage* msg)
 {
   client->loadRegion("keep");
   client->state = Client::STATE_PLAY;
-  CharacterSelectionResponseMessage answer_msg;
+  CharSelectResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
-  client->GetEntityManager()->setCharacter(answer_msg.getEntityId());
+  client->GetEntityManager()->setCharacter(answer_msg.getCharEntityId());
 }
