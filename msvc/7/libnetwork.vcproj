@@ -158,6 +158,21 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\network\chatmessages.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\doormessages.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\questmessages.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\skillmessages.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\usermessages.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\void.cpp">
 			</File>
 		</Filter>
@@ -174,6 +189,9 @@
 				RelativePath="..\..\src\common\network\deserialiser.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\network\doormessages.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\entitymessages.h">
 			</File>
 			<File
@@ -181,6 +199,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\netmessage.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\nwtypes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\questmessages.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\serialiser.h">

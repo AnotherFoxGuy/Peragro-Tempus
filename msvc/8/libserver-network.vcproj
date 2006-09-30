@@ -161,7 +161,13 @@
 				RelativePath="..\..\src\server\network\chathandler.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\network\doorhandler.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\network\entityhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\questhandler.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\skillhandler.cpp">
@@ -180,10 +186,16 @@
 				RelativePath="..\..\src\server\network\connection.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\network\doorhandler.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\network\entityhandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\network.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\questhandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\skillhandler.h">
