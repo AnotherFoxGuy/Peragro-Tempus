@@ -191,8 +191,8 @@ Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
     {
       int packeddata = atoi(rs->GetData(i,3).c_str());
       DoorEntity* ent = new DoorEntity();
-      ent->setOpen(1&packeddata);
-      ent->setLocked(2&packeddata);
+      ent->setOpen  ((packeddata & 1) != 0);
+      ent->setLocked((packeddata & 2) != 0);
       entity = ent;
       break;
     }

@@ -25,10 +25,13 @@ void NpcDialogMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setString(chatdialog);
-  serial.setInt8(unnamed1count);
-  for ( size_t i = 0; i < unnamed1count ; i++ )
+  serial.setInt32(dialogid);
+  serial.setString(dialogtext);
+  serial.setInt8(answerscount);
+  for ( size_t i = 0; i < answerscount ; i++ )
   {
+    serial.setInt32(answers[i].answerid);
+    serial.setString(answers[i].answertext);
   };
 
 }
@@ -38,10 +41,13 @@ void NpcDialogMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  serial.getString(chatdialog);
-  unnamed1count = (unsigned char) serial.getInt8();
-  for ( size_t i = 0; i < unnamed1count ; i++ )
+  dialogid = (unsigned int) serial.getInt32();
+  serial.getString(dialogtext);
+  answerscount = (unsigned char) serial.getInt8();
+  for ( size_t i = 0; i < answerscount ; i++ )
   {
+    answers[i].answerid = (unsigned int) serial.getInt32();
+  serial.getString(answers[i].answertext);
   };
 
 }
@@ -51,6 +57,8 @@ void NpcDialogAnswerMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  serial.setInt32(dialogid);
+  serial.setInt32(answerid);
 }
 
 void NpcDialogAnswerMessage::deserialise(ByteStream* bs)
@@ -58,5 +66,39 @@ void NpcDialogAnswerMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
+  dialogid = (unsigned int) serial.getInt32();
+  answerid = (unsigned int) serial.getInt32();
+}
+
+void NpcStartDialogMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(npcid);
+}
+
+void NpcStartDialogMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  npcid = (unsigned int) serial.getInt32();
+}
+
+void NpcEndDialogMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(npcid);
+}
+
+void NpcEndDialogMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  npcid = (unsigned int) serial.getInt32();
 }
 

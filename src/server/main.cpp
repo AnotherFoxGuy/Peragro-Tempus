@@ -23,6 +23,9 @@
 #include "common/entity/itemmanager.h"
 #include "common/entity/statmanager.h"
 #include "common/entity/skillmanager.h"
+#include "common/quest/npcdialog.h"
+#include "common/quest/npcdialoganswer.h"
+#include "common/quest/npcdialogmanager.h"
 #include "common/util/sleep.h"
 #include "common/util/timer.h"
 
@@ -30,6 +33,8 @@
 #include "server/charactermanager.h"
 #include "server/database/sqlite/sqlite.h"
 #include "server/database/table-entities.h"
+#include "server/database/table-npcdialogs.h"
+#include "server/database/table-npcdialoganswers.h"
 #include "server/usermanager.h"
 #include "server/useraccountmanager.h"
 #include "server/skillengine.h"
@@ -217,6 +222,33 @@ int main(int argc, char ** argv)
     }
 
     delete[] data;
+  }
+
+  // Load NPC Dialogs
+  Array<NpcDialogsTableVO*> dialogs = db.getNpcDialogsTable()->getAll();
+  for (size_t i=0; i<dialogs.getCount(); i++)
+  {
+    NpcDialogsTableVO* vo = dialogs.get(i);
+    NPCDialog* dialog = new NPCDialog(vo->dialogid, vo->isstart != 0, vo->text.c_str());
+    NPCDialogManager::addDialog(dialog);
+  }
+
+  // Load NPC Dialog Answers
+  Array<NpcDialogAnswersTableVO*> answers = db.getNpcDialogAnswersTable()->getAll();
+  for (size_t i=0; i<answers.getCount(); i++)
+  {
+    NpcDialogAnswersTableVO* vo = answers.get(i);
+
+    NPCDialog* next_dialog = 0;
+
+    if (vo->isend != 0)
+    {
+      next_dialog = NPCDialogManager::getDialog(vo->nextdialogid);
+    }
+
+    NPCDialogAnswer* answer = new NPCDialogAnswer(next_dialog, vo->text.c_str());
+    NPCDialog* dialog = NPCDialogManager::getDialog(vo->dialogid);
+    dialog->addAnswer(answer);
   }
 
   while (running > 0)

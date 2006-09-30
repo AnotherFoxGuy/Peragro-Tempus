@@ -18,7 +18,7 @@ if [ Property build : projgen_version ] != 6
   SubVariant static ;
   
   Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
-  LinkWith server_static : entity server-network sqlite_adp database util ;
+  LinkWith server_static : entity server-network sqlite_adp database quest util ;
   MsvcExternalLibrary server_static : "wsock32.lib" ;
   SubVariant ;
 }

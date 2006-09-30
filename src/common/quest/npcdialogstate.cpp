@@ -1,0 +1,53 @@
+/*
+    Copyright (C) 2005 Development Team of Peragro Tempus
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#include "npcdialog.h"
+#include "npcdialogmanager.h"
+#include "npcdialoganswer.h"
+#include "npcdialogstate.h"
+
+const NPCDialog* NPCDialogState::startDialog(unsigned int dialog_id)
+{
+  current_dialog = NPCDialogManager::getDialog(dialog_id);
+  if (!current_dialog || !current_dialog->isStartDialog())
+  {
+    current_dialog = 0;
+  }
+  return current_dialog;
+}
+
+void NPCDialogState::endDialog(unsigned int dialog_id)
+{
+  if (dialog_id == current_dialog->getDialogId())
+  {
+    current_dialog = 0;
+  }
+}
+
+const NPCDialog* NPCDialogState::giveAnswer(unsigned int dialog_id, unsigned int answer_number)
+{
+  if (dialog_id != current_dialog->getDialogId()) return 0;
+
+  if (current_dialog->getAnswerCount() <= answer_number) return 0;
+
+  const NPCDialogAnswer* answer = current_dialog->getAnswer(answer_number);
+
+  if (answer == 0) return 0;
+
+  return answer->getNextDialog();
+}

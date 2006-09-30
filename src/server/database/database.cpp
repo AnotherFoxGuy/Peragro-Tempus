@@ -29,6 +29,8 @@
 #include "table-raceskills.h"
 #include "table-skills.h"
 #include "table-characterskills.h"
+#include "table-npcdialogs.h"
+#include "table-npcdialoganswers.h"
 
 Database::Database()
 {
@@ -48,6 +50,8 @@ void Database::init()
   skilltable = new SkillTable(this);
   raceskilltable = new RaceSkillsTable(this);
   characterskillstable = new CharacterSkillsTable(this);
+  npcdialogstable = new NpcDialogsTable(this);
+  npcdialoganswerstable = new NpcDialogAnswersTable(this);
 }
 
 Database::~Database()
@@ -64,5 +68,7 @@ Database::~Database()
   delete raceskilltable;
   delete skilltable;
   delete characterskillstable;
+  delete npcdialogstable;
+  delete npcdialoganswerstable;
 }
 

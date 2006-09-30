@@ -26,55 +26,71 @@ namespace QUEST
   enum MESSAGES
   {
     NPCDIALOG=0,
-    NPCDIALOGANSWER=1
+    NPCDIALOGANSWER=1,
+    NPCSTARTDIALOG=2,
+    NPCENDDIALOG=3
   };
 }
 
 class NpcDialogMessage : public NetMessage
 {
-  const char* chatdialog;
-  class Listunnamed1
+  unsigned int dialogid;
+  const char* dialogtext;
+  class ListAnswers
   {
   public:
+    unsigned int answerid;
+    const char* answertext;
   };
 
-  unsigned char unnamed1count;
-  Listunnamed1* unnamed1;
+  unsigned char answerscount;
+  ListAnswers* answers;
 
 
 public:
   NpcDialogMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCDIALOG)
   {
-    unnamed1 = 0;
+    answers = 0;
   }
 
   ~NpcDialogMessage()
   {
-    delete [] unnamed1;
+    delete [] answers;
   }
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  const char* getChatDialog() { return chatdialog; }
-  void setChatDialog(const char* x) { chatdialog = x; }
+  unsigned int getDialogId() { return dialogid; }
+  void setDialogId(unsigned int x) { dialogid = x; }
 
-  unsigned char getunnamed1Count() { return unnamed1count; }
-  void setunnamed1Count(unsigned char ic)
+  const char* getDialogText() { return dialogtext; }
+  void setDialogText(const char* x) { dialogtext = x; }
+
+  unsigned char getAnswersCount() { return answerscount; }
+  void setAnswersCount(unsigned char ic)
   {
-    unnamed1count = ic;
-    delete [] unnamed1;
-    unnamed1 = new Listunnamed1[ic];
+    answerscount = ic;
+    delete [] answers;
+    answers = new ListAnswers[ic];
   }
 
-  // --- begin Listunnamed1 Getter and Setter ---
+  // --- begin ListAnswers Getter and Setter ---
 
-  // --- end Listunnamed1 Getter and Setter ---
+  unsigned int getAnswerId(size_t i) { return answers[i].answerid; }
+  void setAnswerId(size_t i, unsigned int x) { answers[i].answerid = x; }
+
+  const char* getAnswerText(size_t i) { return answers[i].answertext; }
+  void setAnswerText(size_t i, const char* x) { answers[i].answertext = x; }
+
+  // --- end ListAnswers Getter and Setter ---
 
 };
 
 class NpcDialogAnswerMessage : public NetMessage
 {
+  unsigned int dialogid;
+  unsigned int answerid;
 
 public:
   NpcDialogAnswerMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCDIALOGANSWER)
@@ -87,6 +103,54 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned int getDialogId() { return dialogid; }
+  void setDialogId(unsigned int x) { dialogid = x; }
+
+  unsigned int getAnswerId() { return answerid; }
+  void setAnswerId(unsigned int x) { answerid = x; }
+
+};
+
+class NpcStartDialogMessage : public NetMessage
+{
+  unsigned int npcid;
+
+public:
+  NpcStartDialogMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCSTARTDIALOG)
+  {
+  }
+
+  ~NpcStartDialogMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getNpcId() { return npcid; }
+  void setNpcId(unsigned int x) { npcid = x; }
+
+};
+
+class NpcEndDialogMessage : public NetMessage
+{
+  unsigned int npcid;
+
+public:
+  NpcEndDialogMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCENDDIALOG)
+  {
+  }
+
+  ~NpcEndDialogMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getNpcId() { return npcid; }
+  void setNpcId(unsigned int x) { npcid = x; }
 
 };
 

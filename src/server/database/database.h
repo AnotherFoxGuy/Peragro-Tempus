@@ -31,6 +31,8 @@ class RaceStatsTable;
 class RaceSkillsTable;
 class SkillTable;
 class CharacterSkillsTable;
+class NpcDialogsTable;
+class NpcDialogAnswersTable;
 
 #include "resultset.h"
 
@@ -49,6 +51,8 @@ private:
   RaceSkillsTable* raceskilltable;
   SkillTable* skilltable;
   CharacterSkillsTable* characterskillstable;
+  NpcDialogsTable* npcdialogstable;
+  NpcDialogAnswersTable* npcdialoganswerstable;
 
 public:
   virtual ResultSet* query(const char*) = 0;
@@ -74,6 +78,8 @@ public:
   RaceSkillsTable* getRaceSkillsTable() { return raceskilltable; }
   SkillTable* getSkillTable() { return skilltable; }
   CharacterSkillsTable* getCharacterSkillsTable() { return characterskillstable; }
+  NpcDialogsTable* getNpcDialogsTable() { return npcdialogstable; }
+  NpcDialogAnswersTable* getNpcDialogAnswersTable() { return npcdialoganswerstable; }
 };
 
 #endif // DATABASE_H

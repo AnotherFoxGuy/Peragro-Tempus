@@ -7,6 +7,7 @@ under each day.
 30-Sep-2006
   - PK refactored some of the network messages.
   - PK fixed a few bugs in the skill system.
+  - PK implemented a simple NPC Dialog System.
 
 29-Sep-2006
   - PK improved inventory handling on the server.

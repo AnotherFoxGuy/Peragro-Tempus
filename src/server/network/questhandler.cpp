@@ -17,8 +17,88 @@
 */
 
 #include "server/network/network.h"
+#include "server/network/connection.h"
+#include "server/user.h"
+
+#include "common/entity/character.h"
+#include "common/entity/pcentity.h"
+
+#include "common/quest/npcdialog.h"
+#include "common/quest/npcdialoganswer.h"
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
-  // TODO: implement
+  Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  User* user = conn->getUser();
+  if (!user) return;
+
+  PcEntity* pc = user->getEntity();
+  if (!pc) return;
+
+  Character* character = pc->getCharacter();
+  if (!character) return;
+
+  NPCDialogState* dia_state = character->getNPCDialogState();
+
+  NpcDialogAnswerMessage message;
+  message.deserialise(msg->getByteStream());
+
+  const NPCDialog* dialog = dia_state->giveAnswer(message.getDialogId(), message.getAnswerId());
+
+  NpcDialogMessage dialog_msg;
+  dialog_msg.setDialogId(dialog->getDialogId());
+  dialog_msg.setDialogText(dialog->getText());
+  dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
+  for (size_t i = 0; i < dialog->getAnswerCount(); i++)
+  {
+    const NPCDialogAnswer* answer = dialog->getAnswer(i);
+    dialog_msg.setAnswerId(i, (unsigned int)i);
+    dialog_msg.setAnswerText(i, answer->getText());
+  }
+}
+
+void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
+{
+  Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  User* user = conn->getUser();
+  if (!user) return;
+
+  PcEntity* pc = user->getEntity();
+  if (!pc) return;
+
+  Character* character = pc->getCharacter();
+  if (!character) return;
+
+  NPCDialogState* dia_state = character->getNPCDialogState();
+
+  NpcStartDialogMessage message;
+  message.deserialise(msg->getByteStream());
+
+  dia_state->startDialog(0);
+}
+
+void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
+{
+  Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  User* user = conn->getUser();
+  if (!user) return;
+
+  PcEntity* pc = user->getEntity();
+  if (!pc) return;
+
+  Character* character = pc->getCharacter();
+  if (!character) return;
+
+  NPCDialogState* dia_state = character->getNPCDialogState();
+
+  NpcEndDialogMessage message;
+  message.deserialise(msg->getByteStream());
+
+  dia_state->endDialog(0);
 }

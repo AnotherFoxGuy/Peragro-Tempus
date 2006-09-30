@@ -26,6 +26,8 @@
 #include "inventory.h"
 #include "common/util/stringstore.h"
 
+#include "common/quest/npcdialogstate.h"
+
 class User;
 class Race;
 
@@ -47,12 +49,16 @@ private:
   unsigned char skincolour[3]; //24bit color
   unsigned char decalcolour[3]; //24bit color
 
+  NPCDialogState dialog_state;
+
 public:
   Character() : id(-1)
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
     pos[2] = 0.0f;
+
+    dialog_state.setCharacter(this);
   }
 
   virtual ~Character()
@@ -153,6 +159,8 @@ public:
   { 
     decalcolour[0] = r; decalcolour[1] = g; decalcolour[2] = b; 
   }
+
+  NPCDialogState* getNPCDialogState() { return &dialog_state; }
 };
 
 #endif // _CHARACTER_H_
