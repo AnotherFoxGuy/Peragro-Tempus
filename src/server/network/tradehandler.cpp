@@ -16,22 +16,18 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _NWTYPES_H_
-#define _NWTYPES_H_
+#include "network.h"
+#include "tradehandler.h"
 
-  namespace MESSAGES
-  {
-    enum HANDLERS
-    {
-      CONNECTION=0,
-      USER=1,
-      ENTITY=2,
-      CHAT=3,
-      SKILL=4,
-      DOOR=5,
-      QUEST=6,
-      TRADE=7
-    };
-  }
+void TradeHandler::handleTradeRequest(GenericMessage* msg)
+{
+}
 
-#endif // _NWTYPES_H_
+void TradeHandler::handleTradeResponse(GenericMessage* msg)
+{
+}
+
+void TradeHandler::handleBuyItemRequestNpc(GenericMessage* msg)
+{
+}
+

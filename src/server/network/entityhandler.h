@@ -31,6 +31,7 @@
 #include "server/network/doorhandler.h"
 #include "server/network/questhandler.h"
 #include "server/network/skillhandler.h"
+#include "server/network/tradehandler.h"
 
 #include "server/user.h"
 
@@ -43,10 +44,12 @@ private:
   DoorHandler door_handler;
   QuestHandler quest_handler;
   SkillHandler skill_handler;
+  TradeHandler trade_handler;
 
 public:
   EntityHandler(Server* server) 
-  : server(server), door_handler(server), quest_handler(server), skill_handler(server)
+  : server(server), door_handler(server), quest_handler(server),
+    skill_handler(server), trade_handler(server)
   {
   }
 
@@ -76,6 +79,10 @@ public:
     else if (type == MESSAGES::QUEST)
     {
       quest_handler.handle(msg);
+    }
+    else if (type == MESSAGES::TRADE)
+    {
+      trade_handler.handle(msg);
     }
     else
     {

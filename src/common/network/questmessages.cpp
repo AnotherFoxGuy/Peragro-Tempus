@@ -44,6 +44,7 @@ void NpcDialogMessage::deserialise(ByteStream* bs)
   dialogid = (unsigned int) serial.getInt32();
   serial.getString(dialogtext);
   answerscount = (unsigned char) serial.getInt8();
+  setAnswersCount(answerscount);
   for ( size_t i = 0; i < answerscount ; i++ )
   {
     answers[i].answerid = (unsigned int) serial.getInt32();

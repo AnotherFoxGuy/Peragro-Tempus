@@ -98,6 +98,7 @@ void CharListMessage::serialise(ByteStream* bs)
   {
     serial.setInt32(character[i].id);
     serial.setString(character[i].name);
+    serial.setString(character[i].name);
     serial.setInt8(character[i].haircolour[0]);
     serial.setInt8(character[i].haircolour[1]);
     serial.setInt8(character[i].haircolour[2]);
@@ -117,6 +118,7 @@ void CharListMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   charactercount = (unsigned char) serial.getInt8();
+  setCharacterCount(charactercount);
   for ( size_t i = 0; i < charactercount ; i++ )
   {
     character[i].id = (unsigned int) serial.getInt32();

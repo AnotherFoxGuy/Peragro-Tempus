@@ -53,10 +53,10 @@ private:
 
   size_t add(const char* str, bool check_duplicate = true)
   {
-    printf("add string %s: ", str);
+    //printf("add string %s: ", str);
     if (check_duplicate)
     {
-      printf("already exists!\n");
+      //printf("already exists!\n");
       return lookupId(str);
     }
 
@@ -67,7 +67,7 @@ private:
     strncpy(string->string, str, string->len+1);
     strings.add(string);
     mutex.unlock();
-    printf("as %d!\n", strings.getCount()-1);
+    //printf("as %d!\n", strings.getCount()-1);
     return strings.getCount()-1; // if we have 1 string, it has id 0.
   }
 
@@ -83,7 +83,7 @@ private:
 
     mutex.lock();
 
-    printf("looking up string %s: ", string);
+    //printf("looking up string %s: ", string);
 
     for (size_t i=0; i<strings.getCount(); i++)
     {
@@ -91,7 +91,7 @@ private:
         if (!strcmp(strings.get(i)->string, string))
         {
           mutex.unlock();
-          printf("%i\n", i);
+          //printf("%i\n", i);
           return i;
         }
     }
@@ -99,7 +99,7 @@ private:
     mutex.unlock();
     //String not found, time to add it. We did already check if it exist,
     //therefor it's false here. Else we would get an endless recursion.
-    printf("failed -> add");
+    //printf("failed -> add");
     return add(string, false);
   }
 
@@ -107,14 +107,14 @@ private:
   {
     mutex.lock();
 
-    printf("looking up string id %d: ", id);
+    //printf("looking up string id %d: ", id);
     if (id >= strings.getCount()) 
     {
       mutex.unlock();
-      printf("failed");
+      //printf("failed");
       return 0;
     }
-    printf("%s\n", strings.get(id)->string);
+    //printf("%s\n", strings.get(id)->string);
     mutex.unlock();
     return strings.get(id)->string;
   }

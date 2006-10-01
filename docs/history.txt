@@ -9,6 +9,7 @@ under each day.
     sure to use db->query("%q", string); rather than db->query("%s", string);
   - PK updated sqlite from 3.2.7 to 3.3.7.
   - Sueastside implemented dialogs clientside.
+  - PK added trade messages. Implementation to follow.
 
 30-Sep-2006
   - PK refactored some of the network messages.

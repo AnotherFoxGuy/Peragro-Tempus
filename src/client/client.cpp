@@ -369,7 +369,7 @@ void Client::handleStates()
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
       //guimanager->GetSelectCharWindow()->ShowWindow();
-      //guimanager->CreateNpcDialogWindow();
+      guimanager->CreateNpcDialogWindow();
 
       if (cmdline)
       {

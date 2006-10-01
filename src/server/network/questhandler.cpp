@@ -57,6 +57,10 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     dialog_msg.setAnswerId(i, (unsigned int)i);
     dialog_msg.setAnswerText(i, answer->getText());
   }
+
+  ByteStream bs;
+  dialog_msg.serialise(&bs);
+  if (conn) conn->send(bs);
 }
 
 void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
@@ -78,7 +82,22 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   NpcStartDialogMessage message;
   message.deserialise(msg->getByteStream());
 
-  dia_state->startDialog(0);
+  const NPCDialog* dialog = dia_state->startDialog(0);
+
+  NpcDialogMessage dialog_msg;
+  dialog_msg.setDialogId(dialog->getDialogId());
+  dialog_msg.setDialogText(dialog->getText());
+  dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
+  for (size_t i = 0; i < dialog->getAnswerCount(); i++)
+  {
+    const NPCDialogAnswer* answer = dialog->getAnswer(i);
+    dialog_msg.setAnswerId(i, (unsigned int)i);
+    dialog_msg.setAnswerText(i, answer->getText());
+  }
+
+  ByteStream bs;
+  dialog_msg.serialise(&bs);
+  if (conn) conn->send(bs);
 }
 
 void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
