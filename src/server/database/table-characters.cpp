@@ -73,9 +73,9 @@ void CharacterTable::insert(int id, ptString name, int user_id, ptString mesh,
              "skincolour_r, skincolour_g, skincolour_b, "
              "decalcolour_r, decalcolour_g, decalcolour_b, "
              "pos_x, pos_y, pos_z, sector)"
-             "values ('%d','%s',%d,'%s',%d,"
+             "values ('%d','%q',%d,'%q',%d,"
              "%d,%d,%d,"  "%d,%d,%d,"  "%d,%d,%d,"
-             "%.2f,%.2f,%.2f,'%s');", id, *name, user_id, *mesh, race_id, 
+             "%.2f,%.2f,%.2f,'%q');", id, *name, user_id, *mesh, race_id, 
              haircolour[0],haircolour[1],haircolour[2],
              skincolour[0],skincolour[1],skincolour[2],
              decalcolour[0],decalcolour[1],decalcolour[2],
@@ -101,23 +101,18 @@ void CharacterTable::dropTable()
 
 void CharacterTable::remove(int id)
 {
-  char query[1024];
-  sprintf(query, "delete from characters where id = %d;", id);
-  db->update(query);
+  db->update("delete from characters where id = %d;", id);
 }
 
 void CharacterTable::update(PcEntity* e)
 {
-  db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector='%s' where id = %d;",
+  db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector='%q' where id = %d;",
     e->getPos()[0], e->getPos()[1], e->getPos()[2], *(e->getSector()), e->getCharId());
 }
 
 bool CharacterTable::existsCharacter(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select id from characters where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select id from characters where name = '%q';", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -125,9 +120,7 @@ bool CharacterTable::existsCharacter(ptString name)
 
 Character* CharacterTable::findCharacterById(int id, size_t user_id)
 {
-  char query[1024];
-  sprintf(query, "select * from characters where id = '%d' and user = '%d';", id, user_id);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select * from characters where id = '%d' and user = '%d';", id, user_id);
   if (rs->GetRowCount() == 0) 
     return 0;
 
@@ -148,9 +141,7 @@ Character* CharacterTable::findCharacterById(int id, size_t user_id)
 
 void CharacterTable::getAllCharacters(Array<Character*>& characters, User* user)
 {
-  char query[1024];
-  sprintf(query, "select * from characters where user = '%d';", user->getId());
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select * from characters where user = '%d';", user->getId());
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {

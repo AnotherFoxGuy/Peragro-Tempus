@@ -57,10 +57,7 @@ void StatTable::createTable()
 
 void StatTable::insert(ptString name)
 {
-  if (strlen(*name) > 512) assert("Strings too long");
-  char query[1024];
-  sprintf(query, "insert into stats (name) values ('%s');", *name);
-  db->update(query);
+  db->update("insert into stats (name) values ('%q');", *name);
 }
 
 void StatTable::dropTable()
@@ -71,9 +68,7 @@ void StatTable::dropTable()
 bool StatTable::existsStat(ptString name)
 {
   if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select id from stats where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select id from stats where name = '%q';", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -81,10 +76,7 @@ bool StatTable::existsStat(ptString name)
 
 Stat* StatTable::getStat(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select * from stats where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select * from stats where name = '%q';", *name);
 
   Stat* stat = 0;
 

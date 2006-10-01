@@ -60,11 +60,8 @@ void RaceTable::createTable()
 
 void RaceTable::insert(int id, ptString name, ptString mesh, float pos[3], ptString sector)
 {
-  if (strlen(*name) + strlen(*mesh) + strlen(*sector) > 512) assert("Strings too long");
-  char query[1024];
-  sprintf(query, "insert into races (id, name, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d','%s','%s',%.2f,%.2f,%.2f,'%s');", id, *name, *mesh, pos[0], pos[1], pos[2], *sector);
-  db->update(query);
+  db->update("insert into races (id, name, mesh, pos_x, pos_y, pos_z, sector) values "
+    "('%d','%q','%q',%.2f,%.2f,%.2f,'%q');", id, *name, *mesh, pos[0], pos[1], pos[2], *sector);
 }
 
 int RaceTable::getMaxId()
@@ -86,17 +83,12 @@ void RaceTable::dropTable()
 
 void RaceTable::remove(int id)
 {
-  char query[1024];
-  sprintf(query, "delete from races where id = %d;", id);
-  db->update(query);
+  db->update("delete from races where id = %d;", id);
 }
 
 bool RaceTable::existsRace(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select id from races where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select id from races where name = '%q';", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -104,9 +96,7 @@ bool RaceTable::existsRace(ptString name)
 
 Race* RaceTable::findRaceById(int id)
 {
-  char query[1024];
-  sprintf(query, "select * from races where id = '%d';", id);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select * from races where id = '%d';", id);
   if (rs->GetRowCount() == 0) 
     return 0;
 

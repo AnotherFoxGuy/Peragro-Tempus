@@ -43,7 +43,7 @@ class dbSQLite : public Database, Thread
    * \param colArg array of strings representing the name of all collums.
    */
   static int callback(void *rs, int cols, char **colArg, char **colName);
-  ResultSet* query(const char*);
+  ResultSet* query(const char*, ...);
   void update();
   void update(const char*, ...);
   int getLastInsertedId();

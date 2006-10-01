@@ -55,7 +55,7 @@ private:
   NpcDialogAnswersTable* npcdialoganswerstable;
 
 public:
-  virtual ResultSet* query(const char*) = 0;
+  virtual ResultSet* query(const char*, ...) = 0;
   virtual void update(const char*, ...) = 0;
   //virtual int getLastInsertedId() = 0;
 

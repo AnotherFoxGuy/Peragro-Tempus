@@ -48,18 +48,14 @@ void InventoryTable::createTable()
 
 void InventoryTable::set(int inventory, Item* item, int amount, int slot)
 {
-  char query[1024];
-  sprintf(query, "insert or replace into inventory (id, item, amount, slot) values ('%d','%d','%d','%d');",
+  db->update("insert or replace into inventory (id, item, amount, slot) values ('%d','%d','%d','%d');",
     inventory, item->getId(), amount, slot);
-  db->update(query);
 }
 
 int InventoryTable::get(int inventory, Item* item)
 {
-  char query[1024];
-  sprintf(query, "select * from inventory where id = '%d' and item = '%d';",
+  ResultSet* rs = db->query("select * from inventory where id = '%d' and item = '%d';",
     inventory, item->getId());
-  ResultSet* rs = db->query(query);
 
   int amount = 0;
 
@@ -88,9 +84,7 @@ void InventoryTable::dropTable()
 
 void InventoryTable::getAllEntries(Array<InvEntries*>& entries, int id)
 {
-  char query[1024];
-  sprintf(query, "select item, amount, slot from inventory where id = '%d';", id);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select item, amount, slot from inventory where id = '%d';", id);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {

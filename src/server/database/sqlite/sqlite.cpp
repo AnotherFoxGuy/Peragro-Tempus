@@ -45,17 +45,26 @@ dbSQLite::~dbSQLite()
   sqlite3_close(db);
 }
 
-ResultSet* dbSQLite::query(const char* query)
+ResultSet* dbSQLite::query(const char* query, ...)
 {
+  va_list args;
+  va_start (args, query);
+  char* escaped_query = sqlite3_vmprintf(query, args);
+  va_end (args);
+
   while (updates.getCount() > 0)
     pt_sleep(10);
 
-  //printf("SQLite not implemented yet, dumping query: %s\n", query);
   char *zErrMsg = 0;
   ResultSet* result = new ResultSet();
+
   mutex.lock();
-  int rc = sqlite3_exec(db, query, callback, result, &zErrMsg);
+
+  int rc = sqlite3_exec(db, escaped_query, callback, result, &zErrMsg);
+  sqlite3_free(escaped_query);
+
   mutex.unlock();
+
   if( rc!=SQLITE_OK )
   {
     printf("SQL error: %s\n", zErrMsg);
@@ -92,7 +101,6 @@ void dbSQLite::Run()
 
 void dbSQLite::update()
 {
-  //printf("SQLite not implemented yet, dumping query: %s\n", query);
   char *zErrMsg = 0;
   mutex.lock();
   char* query = updates.get(0);

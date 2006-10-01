@@ -85,13 +85,10 @@ void EntityTable::createTable()
 
 void EntityTable::insert(int id, ptString name, int type, int item, ptString mesh, float pos[3], ptString sector)
 {
-  if (strlen(*name) + strlen(*mesh) + strlen(*sector) > 512) assert("Strings too long");
-  char query[1024];
-  if (item == -1)
-    return;
-  sprintf(query, "insert into entities (id, name, type, item, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d', '%s',%d,%d,'%s',%.2f,%.2f,%.2f,'%s');", id, *name, type, item, *mesh, pos[0], pos[1], pos[2], *sector);
-  db->update(query);
+  if (item == -1) return;
+
+  db->update("insert into entities (id, name, type, item, mesh, pos_x, pos_y, pos_z, sector) values "
+    "('%d', '%q',%d,%d,'%q',%.2f,%.2f,%.2f,'%q');", id, *name, type, item, *mesh, pos[0], pos[1], pos[2], *sector);
 }
 
 int EntityTable::getMaxId()
@@ -113,22 +110,18 @@ void EntityTable::dropTable()
 
 void EntityTable::remove(int id)
 {
-  char query[1024];
-  sprintf(query, "delete from entities where id = %d;", id);
-  db->update(query);
+  db->update("delete from entities where id = %d;", id);
 }
 
 void EntityTable::update(Entity* entity)
 {
-  db->update("update entities set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector=%s where id = %d;");
+  db->update("update entities set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector=%q where id = %d;",
+    entity->getPos()[0], entity->getPos()[1], entity->getPos()[2], *entity->getSector(), entity->getId() );
 }
 
 bool EntityTable::existsEntity(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select id from entities where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select id from entities where name = '%q';", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -136,10 +129,7 @@ bool EntityTable::existsEntity(ptString name)
 
 Entity* EntityTable::getEntity(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select * from entities where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select * from entities where name = '%q';", *name);
   if (rs->GetRowCount() == 0) 
     return 0;
 

@@ -47,8 +47,7 @@ void UsersTable::createTable()
 
 void UsersTable::insert(ptString name, const char* pwhash)
 {
-  if (strlen(*name) + strlen(pwhash) > 512) assert("Strings too long");
-  db->update("insert into users (name, pwhash) values ('%s','%s');", *name, pwhash);
+  db->update("insert into users (name, pwhash) values ('%q','%q');", *name, pwhash);
 }
 
 void UsersTable::dropTable()
@@ -58,10 +57,7 @@ void UsersTable::dropTable()
 
 bool UsersTable::existsUser(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select id from users where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select id from users where name = '%q';", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -69,10 +65,7 @@ bool UsersTable::existsUser(ptString name)
 
 User* UsersTable::getUser(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select * from users where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select * from users where name = '%q';", *name);
   if (!rs || rs->GetRowCount() == 0) 
     return 0;
 

@@ -57,10 +57,7 @@ void ItemTable::createTable()
 
 void ItemTable::insert(ptString name, ptString mesh)
 {
-  if (strlen(*name) > 512) assert("Strings too long");
-  char query[1024];
-  sprintf(query, "insert into items (name, mesh) values ('%s','%s');", *name, *mesh);
-  db->update(query);
+  db->update("insert into items (name, mesh) values ('%q','%q');", *name, *mesh);
 }
 
 void ItemTable::dropTable()
@@ -70,10 +67,7 @@ void ItemTable::dropTable()
 
 bool ItemTable::existsItem(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select id from items where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select id from items where name = '%q';", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -81,10 +75,7 @@ bool ItemTable::existsItem(ptString name)
 
 Item* ItemTable::getItem(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select * from users where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select * from users where name = '%q';", *name);
 
   Item* item = 0;
 

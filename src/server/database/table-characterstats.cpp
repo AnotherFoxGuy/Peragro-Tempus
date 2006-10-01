@@ -58,10 +58,8 @@ void CharacterStatsTable::set(int characterstat, Stat* stat, int level)
 
 int CharacterStatsTable::get(int characterstat, Stat* stat)
 {
-  char query[1024];
-  sprintf(query, "select * from characterstat where id = '%d' and stat = '%d';",
+  ResultSet* rs = db->query("select * from characterstat where id = '%d' and stat = '%d';",
     characterstat, stat->getId());
-  ResultSet* rs = db->query(query);
 
   int level = 0;
 
@@ -90,9 +88,7 @@ void CharacterStatsTable::dropTable()
 
 void CharacterStatsTable::getAllEntries(Array<CharStat*>& entries, int id)
 {
-  char query[1024];
-  sprintf(query, "select stat, level from characterstat where id = '%d';", id);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select stat, level from characterstat where id = '%d';", id);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {

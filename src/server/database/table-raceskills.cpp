@@ -65,10 +65,8 @@ void RaceSkillsTable::set(int raceskill, Skill* skill)
 
 int RaceSkillsTable::get(int raceskill, Skill* skill)
 {
-  char query[1024];
-  sprintf(query, "select * from raceskill where id = '%d' and skill = '%d';",
+  ResultSet* rs = db->query("select * from raceskill where id = '%d' and skill = '%d';",
     raceskill, skill->getId());
-  ResultSet* rs = db->query(query);
 
   int level = 0;
 
@@ -97,9 +95,7 @@ void RaceSkillsTable::dropTable()
 
 void RaceSkillsTable::getAllEntries(Array<RaceSkill*>& entries, int id)
 {
-  char query[1024];
-  sprintf(query, "select skill from raceskill where id = '%d';", id);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select skill from raceskill where id = '%d';", id);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {

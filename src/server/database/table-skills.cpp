@@ -62,12 +62,9 @@ void SkillTable::createTable()
 /// \todo insert all fields!
 void SkillTable::insert(ptString name, int type, float range, int skillTime, int reuseDelay, int power, int mpCost)
 {
-  if (strlen(*name) > 512) assert("Strings too long");
-  char query[1024];
-  sprintf(query, "insert into skills (name, type, range, skillTime, reuseDelay, power, mpCost)"
-    " values ('%s', '%i', '%f', '%i', '%i', '%i', '%i');",
+  db->update("insert into skills (name, type, range, skillTime, reuseDelay, power, mpCost)"
+    " values ('%q', '%i', '%f', '%i', '%i', '%i', '%i');",
     *name, type, range, skillTime, reuseDelay, power, mpCost);
-  db->update(query);
 }
 
 void SkillTable::dropTable()
@@ -77,10 +74,7 @@ void SkillTable::dropTable()
 
 bool SkillTable::existsSkill(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select id from skills where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select id from skills where name = '%q';", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -89,10 +83,7 @@ bool SkillTable::existsSkill(ptString name)
 /// \todo load all fields!
 Skill* SkillTable::getSkill(ptString name)
 {
-  if (strlen(*name)> 512) assert("String too long");
-  char query[1024];
-  sprintf(query, "select * from skills where name = '%s';", *name);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select * from skills where name = '%q';", *name);
 
   Skill* skill = 0;
 

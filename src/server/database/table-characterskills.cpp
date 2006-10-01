@@ -57,10 +57,8 @@ void CharacterSkillsTable::set(int characterskill, CharSkill* skill)
 
 int CharacterSkillsTable::get(int characterskill, CharSkill* skill)
 {
-  char query[1024];
-  sprintf(query, "select * from characterskill where id = '%d' and skill = '%d';",
+  ResultSet* rs = db->query("select * from characterskill where id = '%d' and skill = '%d';",
     characterskill, skill->skill_id);
-  ResultSet* rs = db->query(query);
 
   int level = 0;
 
@@ -89,9 +87,7 @@ void CharacterSkillsTable::dropTable()
 
 void CharacterSkillsTable::getAllEntries(Array<CharSkill*>& entries, int id)
 {
-  char query[1024];
-  sprintf(query, "select skill from characterskill where id = '%d';", id);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select skill from characterskill where id = '%d';", id);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {

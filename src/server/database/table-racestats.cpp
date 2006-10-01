@@ -90,10 +90,8 @@ void RaceStatsTable::createTable()
 
 void RaceStatsTable::insert(int race, int stat_id, int level)
 {
-  char query[1024];
-  sprintf(query, "insert or replace into racestat (id, stat, level) values ('%d','%d','%d');",
+  db->update("insert or replace into racestat (id, stat, level) values ('%d','%d','%d');",
     race, stat_id, level);
-  db->update(query);
 }
 
 void RaceStatsTable::set(int race, Stat* stat, int level)
@@ -103,10 +101,8 @@ void RaceStatsTable::set(int race, Stat* stat, int level)
 
 int RaceStatsTable::get(int race, Stat* stat)
 {
-  char query[1024];
-  sprintf(query, "select * from racestat where id = '%d' and stat = '%d';",
+  ResultSet* rs = db->query("select * from racestat where id = '%d' and stat = '%d';",
     race, stat->getId());
-  ResultSet* rs = db->query(query);
 
   int level = 0;
 
@@ -135,9 +131,7 @@ void RaceStatsTable::dropTable()
 
 void RaceStatsTable::getAllEntries(Array<RaceStat*>& entries, int id)
 {
-  char query[1024];
-  sprintf(query, "select stat, level from racestat where id = '%d';", id);
-  ResultSet* rs = db->query(query);
+  ResultSet* rs = db->query("select stat, level from racestat where id = '%d';", id);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
