@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <GUILayout>
 	<Window Type='Peragro/FrameWindow' Name='NpcDialog/Frame'>
-		<Property Name='UnifiedSize' Value='{{0.000000,230.000000},{0.000000,154.000000}}'/>
+		<Property Name='UnifiedSize' Value='{{0.000000,230.000000},{0.000000,174.000000}}'/>
 		<Property Name='UnifiedPosition' Value='{{0.500000,0.000000},{0.050000,0.000000}}'/>
 		<Property Name='CaptionColour' Value='00FFFFFF'/>
 		<Property Name='EWSizingCursorImage' Value='set:Peragro image:MouseEsWeCursor'/>
@@ -19,7 +19,7 @@
 			<Property Name='Font' Value='Commonwealth-8'/>
 		</Window>
 		<Window Type='Peragro/Listbox' Name='NpcDialog/Answers'>
-			<Property Name='UnifiedSize' Value='{{0.000000,220.000000},{0.000000,40.000000}}'/>
+			<Property Name='UnifiedSize' Value='{{0.000000,220.000000},{0.000000,65.000000}}'/>
 			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,105.000000}}'/>
 			<Property Name='Font' Value='Commonwealth-8'/>
 		</Window>

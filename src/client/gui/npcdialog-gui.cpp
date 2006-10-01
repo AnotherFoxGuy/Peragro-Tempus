@@ -69,7 +69,7 @@ bool NpcDialogWindow::OnAnswer(const CEGUI::EventArgs& args)
   answer_msg.setAnswerId(answer_id);
   network->send(&answer_msg);
 
-  GUIWindow::DisableWindow();
+  //GUIWindow::DisableWindow();
 
   return true;
 }
