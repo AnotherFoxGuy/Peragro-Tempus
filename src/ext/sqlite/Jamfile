@@ -5,4 +5,4 @@ Library sqlite_lib :
   [ Wildcard *.h *.c ] ;
 ExternalLibs sqlite_lib : PTHREAD ;
 
-CCFLAGS on $(sqlite_lib_OBJECTS) = [ Filter [ on $(sqlite_lib_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;
+CCFLAGS on $(sqlite_lib_OBJECTS) = [ Filter [ on $(sqlite_lib_OBJECTS) GetVar C++FLAGS ] : -Wall -DSQLITE_OMIT_LOAD_EXTENSION ] ;
