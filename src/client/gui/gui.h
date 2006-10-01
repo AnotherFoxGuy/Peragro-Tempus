@@ -30,5 +30,6 @@
 #include "buddylist-gui.h"
 #include "whisper-gui.h"
 #include "npcdialog-gui.h"
+#include "trade-gui.h"
 
 #endif // GUI_H

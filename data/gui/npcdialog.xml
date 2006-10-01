@@ -13,6 +13,7 @@
 		<Property Name='SizingEnabled' Value='False'/>
 		<Property Name='Visible' Value='False'/>
 		<Property Name='Alpha' Value='0.7'/>
+		<Property Name='ReadOnly' Value='True'/>
 		<Window Type='Peragro/MultiLineEditbox' Name='NpcDialog/Dialog'>
 			<Property Name='UnifiedSize' Value='{{0.000000,220.000000},{0.000000,70.000000}}'/>
 			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,30.000000}}'/>

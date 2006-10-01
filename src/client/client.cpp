@@ -360,6 +360,7 @@ void Client::handleStates()
       guimanager->CreateConnectWindow ();
       guimanager->CreateOptionsWindow ();
       guimanager->CreateWhisperWindow();
+      guimanager->CreateNpcDialogWindow();
 
       //guimanager->CreateStatusWindow ();
       //guimanager->CreateInventoryWindow ();
@@ -369,7 +370,7 @@ void Client::handleStates()
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
       //guimanager->GetSelectCharWindow()->ShowWindow();
-      guimanager->CreateNpcDialogWindow();
+      //guimanager->CreateTradeWindow();
 
       if (cmdline)
       {

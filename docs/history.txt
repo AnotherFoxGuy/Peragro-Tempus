@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+2-Oct-2006
+  - Sueastside added TradeWindow.
+
 1-Oct-2006
   - PK fixed (hopefully) all sql injections for the database. Please make
     sure to use db->query("%q", string); rather than db->query("%s", string);

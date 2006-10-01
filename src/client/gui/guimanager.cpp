@@ -164,3 +164,10 @@ NpcDialogWindow* GUIManager::CreateNpcDialogWindow ()
   npcdialogwindow->CreateGUIWindow();
   return npcdialogwindow;
 }
+
+TradeWindow* GUIManager::CreateTradeWindow ()
+{
+  tradewindow = new TradeWindow (this);
+  tradewindow->CreateGUIWindow();
+  return tradewindow;
+}

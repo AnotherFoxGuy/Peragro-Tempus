@@ -38,6 +38,8 @@ class StatusWindow;
 class BuddyWindow;
 class WhisperWindow;
 class NpcDialogWindow;
+class TradeWindow;
+
 class DragDrop;
 
 struct iObjectRegistry;
@@ -56,6 +58,7 @@ private:
   BuddyWindow* buddywindow;
   WhisperWindow* whisperwindow;
   NpcDialogWindow* npcdialogwindow;
+  TradeWindow* tradewindow;
 
   DragDrop* dragdrop;
   
@@ -85,6 +88,7 @@ public:
   BuddyWindow* CreateBuddyWindow(); 
   WhisperWindow* CreateWhisperWindow(); 
   NpcDialogWindow* CreateNpcDialogWindow();
+  TradeWindow* CreateTradeWindow();
   
   ConnectWindow* GetConnectWindow ()
   {
@@ -139,6 +143,11 @@ public:
   NpcDialogWindow* GetNpcDialogWindow()
   {
     return npcdialogwindow;
+  }
+
+  TradeWindow* GetTradeWindow()
+  {
+    return tradewindow;
   }
 
 };
