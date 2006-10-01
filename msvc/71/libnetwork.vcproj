@@ -170,6 +170,9 @@
 				RelativePath="..\..\src\common\network\skillmessages.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\network\trademessages.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\usermessages.cpp">
 			</File>
 			<File
@@ -211,6 +214,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\skillmessages.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\trademessages.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\usermessages.h">

@@ -191,6 +191,9 @@
 				RelativePath="..\..\src\client\gui\login-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\npcdialog-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\options-gui.cpp">
 			</File>
 			<File
@@ -238,6 +241,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\login-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\npcdialog-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\options-gui.h">

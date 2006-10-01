@@ -173,6 +173,9 @@
 				RelativePath="..\..\src\server\network\skillhandler.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\network\tradehandler.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\network\userhandler.cpp">
 			</File>
 		</Filter>
@@ -199,6 +202,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\skillhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\tradehandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\userhandler.h">
