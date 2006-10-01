@@ -30,6 +30,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevents", "libevents.vcpr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnetwork", "libnetwork.vcproj", "{F5342C71-4E6F-72A9-E16A-9669A5A62054}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libquest", "libquest.vcproj", "{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-network", "libserver-network.vcproj", "{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-udp-network", "libserver-udp-network.vcproj", "{2C7D703A-96CF-7586-13F6-4E082DA679DC}"
@@ -133,6 +135,10 @@ Global
 		{F5342C71-4E6F-72A9-E16A-9669A5A62054}.Release.Build.0 = Release|Win32
 		{F5342C71-4E6F-72A9-E16A-9669A5A62054}.Debug.ActiveCfg = Debug|Win32
 		{F5342C71-4E6F-72A9-E16A-9669A5A62054}.Debug.Build.0 = Debug|Win32
+		{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}.Release.ActiveCfg = Release|Win32
+		{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}.Release.Build.0 = Release|Win32
+		{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}.Debug.ActiveCfg = Debug|Win32
+		{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}.Debug.Build.0 = Debug|Win32
 		{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}.Release.ActiveCfg = Release|Win32
 		{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}.Release.Build.0 = Release|Win32
 		{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}.Debug.ActiveCfg = Debug|Win32

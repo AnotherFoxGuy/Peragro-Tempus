@@ -209,6 +209,12 @@
 				RelativePath="..\..\src\ext\sqlite\opcodes.c">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\sqlite\os.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\os_os2.c">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\sqlite\os_unix.c">
 			</File>
 			<File
@@ -275,6 +281,9 @@
 				RelativePath="..\..\src\ext\sqlite\vdbemem.c">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\sqlite\vtab.c">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\sqlite\where.c">
 			</File>
 		</Filter>
@@ -298,12 +307,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ext\sqlite\os_common.h">
-			</File>
-			<File
-				RelativePath="..\..\src\ext\sqlite\os_unix.h">
-			</File>
-			<File
-				RelativePath="..\..\src\ext\sqlite\os_win.h">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\sqlite\pager.h">
