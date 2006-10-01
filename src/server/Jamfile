@@ -5,7 +5,7 @@ SubInclude TOP src server network ;
 
 Description server : "Server" ;
 Application server : [ Wildcard *.h *.cpp ] : console ;
-LinkWith server : entity server-network sqlite_adp database util ;
+LinkWith server : entity server-network sqlite_adp database quest util ;
 
 MsvcExternalLibrary server : "wsock32.lib" ;
 

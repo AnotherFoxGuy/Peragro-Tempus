@@ -1,8 +1,10 @@
 SubDir TOP src ext sqlite  ;
 
 Description sqlite_lib : "sqlite library" ;
-Library sqlite_lib :
-  [ Wildcard *.h *.c ] ;
+Library sqlite_lib : [ Wildcard *.h *.c ] ;
 ExternalLibs sqlite_lib : PTHREAD ;
 
-CCFLAGS on $(sqlite_lib_OBJECTS) = [ Filter [ on $(sqlite_lib_OBJECTS) GetVar C++FLAGS ] : -Wall -DSQLITE_OMIT_LOAD_EXTENSION ] ;
+CFlags sqlite_lib : [ FDefines CS_STATIC_LINKED ] ;
+MsvcDefine sqlite_lib : SQLITE_OMIT_LOAD_EXTENSION ;
+
+CCFLAGS on $(sqlite_lib_OBJECTS) = [ Filter [ on $(sqlite_lib_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;
