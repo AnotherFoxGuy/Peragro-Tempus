@@ -200,6 +200,9 @@
 				RelativePath="..\..\src\client\gui\status-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\trade-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\whisper-gui.cpp">
 			</File>
 		</Filter>
@@ -250,6 +253,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\status-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\trade-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\whisper-gui.h">
