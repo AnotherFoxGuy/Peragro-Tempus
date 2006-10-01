@@ -157,3 +157,10 @@ WhisperWindow* GUIManager::CreateWhisperWindow ()
   whisperwindow->CreateGUIWindow();
   return whisperwindow;
 }
+
+NpcDialogWindow* GUIManager::CreateNpcDialogWindow ()
+{
+  npcdialogwindow = new NpcDialogWindow (this);
+  npcdialogwindow->CreateGUIWindow();
+  return npcdialogwindow;
+}

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+	<Window Type='Peragro/FrameWindow' Name='NpcDialog/Frame'>
+		<Property Name='UnifiedSize' Value='{{0.000000,230.000000},{0.000000,154.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.500000,0.000000},{0.050000,0.000000}}'/>
+		<Property Name='CaptionColour' Value='00FFFFFF'/>
+		<Property Name='EWSizingCursorImage' Value='set:Peragro image:MouseEsWeCursor'/>
+		<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTarget'/>
+		<Property Name='NESWSizingCursorImage' Value='set:Peragro image:MouseNeSwCursor'/>
+		<Property Name='NSSizingCursorImage' Value='set:Peragro image:MouseNoSoCursor'/>
+		<Property Name='NWSESizingCursorImage' Value='set:Peragro image:MouseNwSeCursor'/>
+		<Property Name='TitlebarEnabled' Value='True'/>
+		<Property Name='SizingEnabled' Value='False'/>
+		<Property Name='Visible' Value='False'/>
+		<Property Name='Alpha' Value='0.7'/>
+		<Window Type='Peragro/MultiLineEditbox' Name='NpcDialog/Dialog'>
+			<Property Name='UnifiedSize' Value='{{0.000000,220.000000},{0.000000,70.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,30.000000}}'/>
+			<Property Name='Font' Value='Commonwealth-8'/>
+		</Window>
+		<Window Type='Peragro/Listbox' Name='NpcDialog/Answers'>
+			<Property Name='UnifiedSize' Value='{{0.000000,220.000000},{0.000000,40.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,105.000000}}'/>
+			<Property Name='Font' Value='Commonwealth-8'/>
+		</Window>
+	</Window>
+</GUILayout>

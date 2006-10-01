@@ -16,19 +16,30 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef NPCDIALOG_GUI_H
+#define NPCDIALOG_GUI_H
 
-#include "connection-gui.h"
-#include "login-gui.h"
-#include "charsel-gui.h"
-#include "chat-gui.h"
-#include "inventory-gui.h"
-#include "hud-gui.h"
-#include "options-gui.h"
-#include "status-gui.h"
-#include "buddylist-gui.h"
-#include "whisper-gui.h"
-#include "npcdialog-gui.h"
+#include "base-gui.h"
 
-#endif // GUI_H
+/*================//
+// GUIInvWindow  //
+//================*/
+class NpcDialogWindow : public GUIWindow
+{
+private:
+  uint dialogId;
+  bool OnCloseButton(const CEGUI::EventArgs& args);
+  bool OnAnswer(const CEGUI::EventArgs& args);
+
+public:
+  NpcDialogWindow(GUIManager* guimanager);
+  virtual ~NpcDialogWindow();
+  void CreateGUIWindow();    // load the chat guilayout and register button events.
+
+  void SetName(csString name);
+  void AddDialog(uint dialogueId, csString dialog);
+  void AddAnswer(uint number, csString answer);
+};
+
+
+#endif // NPCDIALOG_GUI_H

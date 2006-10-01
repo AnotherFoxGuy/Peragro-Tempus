@@ -369,6 +369,7 @@ void Client::handleStates()
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
       //guimanager->GetSelectCharWindow()->ShowWindow();
+      //guimanager->CreateNpcDialogWindow();
 
       if (cmdline)
       {
@@ -698,6 +699,14 @@ bool Client::OnMouseDown(iEvent& ev)
           else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
           {
             combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
+          }
+          // If it's a npc, open a dialog.
+          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::NPCEntity)
+          {
+            NpcStartDialogMessage msg;
+            msg.setNpcId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+            printf("OnMouseDown: Requesting dialog with: %d \n", msg.getNpcId());
+            network->send(&msg);
           }
           else
           {

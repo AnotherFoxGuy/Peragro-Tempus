@@ -17,8 +17,22 @@
 */
 
 #include "client/network/network.h"
+#include "client/gui/gui.h"
+#include "client/gui/guimanager.h"
 
 void QuestHandler::handleNpcDialog(GenericMessage* msg)
 {
-  // TODO: implement
+  NpcDialogMessage dialog_msg;
+  dialog_msg.deserialise(msg->getByteStream());
+  printf("QuestHandler: Added Dialog %d with %d answers.\n", dialog_msg.getDialogId(), dialog_msg.getAnswersCount());
+  guimanager = client->GetGuiManager();
+  printf("---------------------------\n");
+  guimanager->GetNpcDialogWindow()->AddDialog(dialog_msg.getDialogId(), dialog_msg.getDialogText());
+
+  for (int i=0; i<dialog_msg.getAnswersCount(); i++)
+  {
+    printf("QuestHandler: Added answer %d: %s\n", dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
+    guimanager->GetNpcDialogWindow()->AddAnswer(dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
+  }
+  printf("---------------------------\n");
 }

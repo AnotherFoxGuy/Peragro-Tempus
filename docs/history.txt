@@ -8,6 +8,7 @@ under each day.
   - PK fixed (hopefully) all sql injections for the database. Please make
     sure to use db->query("%q", string); rather than db->query("%s", string);
   - PK updated sqlite from 3.2.7 to 3.3.7.
+  - Sueastside implemented dialogs clientside.
 
 30-Sep-2006
   - PK refactored some of the network messages.
