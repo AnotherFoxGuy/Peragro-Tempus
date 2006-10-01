@@ -47,6 +47,8 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
   const NPCDialog* dialog = dia_state->giveAnswer(message.getDialogId(), message.getAnswerId());
 
+  if (dialog == 0) return;
+
   NpcDialogMessage dialog_msg;
   dialog_msg.setDialogId(dialog->getDialogId());
   dialog_msg.setDialogText(dialog->getText());

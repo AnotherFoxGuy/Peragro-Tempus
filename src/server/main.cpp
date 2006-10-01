@@ -241,7 +241,7 @@ int main(int argc, char ** argv)
 
     NPCDialog* next_dialog = 0;
 
-    if (vo->isend != 0)
+    if (vo->isend == 0)
     {
       next_dialog = NPCDialogManager::getDialog(vo->nextdialogid);
     }
