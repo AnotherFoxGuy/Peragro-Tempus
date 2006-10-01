@@ -69,7 +69,7 @@ public:
   }
   const ptString getString()
   {
-    char size = data[pos];
+    unsigned char size = data[pos];
     if ( size == 0 || data[pos+size+1] != 0 )
     {
       pos++;
@@ -83,7 +83,7 @@ public:
   }
   int getString(const char*& str)
   {
-    char size = data[pos];
+    unsigned char size = data[pos];
     if ( size == 0 || data[pos+size+1] != 0 )
     {
       pos++;

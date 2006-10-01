@@ -71,7 +71,9 @@ public:
     }
     else
     {
-      bs->data[bs->size] = (char)strlen(str);
+      size_t len = strlen(str);
+      assert(len <= 255);
+      bs->data[bs->size] = (unsigned char) len;
       strncpy((char*)bs->data+bs->size+1, str, strlen(str));
       *(bs->data+bs->size+strlen(str)+1) = 0;
       bs->size += strlen(str)+2;
@@ -86,7 +88,9 @@ public:
     }
     else
     {
-      bs->data[bs->size] = (char)strlen(str);
+      size_t len = strlen(str);
+      assert(len <= 255);
+      bs->data[bs->size] = (unsigned char) len;
       strncpy((char*)bs->data+bs->size+1, str, strlen(str));
       *(bs->data+bs->size+strlen(str)+1) = 0;
       bs->size += strlen(str)+2;
