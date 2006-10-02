@@ -138,13 +138,13 @@ void EntityHandler::handleInventoryItemList(GenericMessage* msg)
 {
   InventoryItemListMessage item_msg;
   item_msg.deserialise(msg->getByteStream());
-  printf("Got %d items in the Inventory: \n---------------------------\n", item_msg.getItemCount());
+  printf("EntityHandler: Got %d items in the Inventory: \n---------------------------\n", item_msg.getItemCount());
   guimanager = client->GetGuiManager();
   for (int i=0; i<item_msg.getItemCount(); i++)
   {
     for (int j=0; j<item_msg.getItemAmount(i); j++)
     {
-      printf("Item %d: %d\n", item_msg.getItemId(i), item_msg.getItemAmount(i));
+      printf("Item %d in slot %d\n", item_msg.getItemId(i), item_msg.getItemSlot(i));
       guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getItemSlot(i));
     }
   }
@@ -154,7 +154,7 @@ void EntityHandler::handleCharacterStatList(GenericMessage* msg)
 {
   CharacterStatListMessage stat_msg;
   stat_msg.deserialise(msg->getByteStream());
-  printf("Got %d stats for the Character: \n---------------------------\n", stat_msg.getStatCount());
+  printf("EntityHandler: Got %d stats for the Character: \n---------------------------\n", stat_msg.getStatCount());
   guimanager = client->GetGuiManager();
   for (int i=0; i<stat_msg.getStatCount(); i++)
   {
@@ -179,7 +179,7 @@ void EntityHandler::handleCharacterSkillList(GenericMessage* msg)
 {
   CharacterSkillListMessage skill_msg;
   skill_msg.deserialise(msg->getByteStream());
-  printf("Got %d skill(s) for the Character: \n---------------------------\n", skill_msg.getSkillCount());
+  printf("EntityHandler: Got %d skill(s) for the Character: \n---------------------------\n", skill_msg.getSkillCount());
   guimanager = client->GetGuiManager();
   for (int i=0; i<skill_msg.getSkillCount(); i++)
   {
@@ -192,6 +192,7 @@ void EntityHandler::handleEquip(GenericMessage* msg)
 {
   EquipMessage equip_msg;
   equip_msg.deserialise(msg->getByteStream());
+  guimanager = client->GetGuiManager();
   if (!equip_msg.getError().isNull())
   {
     printf("EquipMessage: ERROR: '%s'\n", *equip_msg.getError());
@@ -208,6 +209,7 @@ void EntityHandler::handleEquip(GenericMessage* msg)
     {
       printf("EquipMessage: You moved item %d from slot %d to slot %d\n", 
         equip_msg.getItemID(), equip_msg.getOldSlotID(), equip_msg.getNewSlotID());
+      guimanager->GetInventoryWindow()->MoveItem(equip_msg.getOldSlotID(), equip_msg.getNewSlotID());
     }
   }
   // do something

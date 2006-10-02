@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+3-Oct-2006
+  - Sueastside changed the way how dragdrop is handled.
+     And made items only move on server response.
+  - Sueastside Updated items.xml.
+
 2-Oct-2006
   - Sueastside added TradeWindow.
   - PK fixed a few inventory bugs on the server.

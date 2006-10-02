@@ -66,7 +66,7 @@ public:
   virtual ~DragDrop();
 
   CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
-  CEGUI::Window* createIcon(int icontype, int objectid);
+  CEGUI::Window* createIcon(int icontype, int objectid, bool interactable = true);
   void UpdateItemCounter(CEGUI::Window* parent, uint amount);
 };
 

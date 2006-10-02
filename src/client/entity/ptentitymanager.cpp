@@ -171,7 +171,7 @@ void ptEntityManager::SetMaskColor(iMeshWrapper* mesh, const char* maskname, csV
     return;
   }
   
-  printf("ptEntityManager: Setting variable\n");
+  //printf("ptEntityManager: Setting variable\n");
   csStringID name = stringset->Request(maskname);
   csShaderVariable* variable = mesh->GetSVContext()->GetVariableAdd(name);
   variable->SetType(csShaderVariable::VECTOR4);
@@ -413,7 +413,7 @@ void ptEntityManager::moveToEntity()
         }
         else if (angular_vel.IsZero() && !moveTo->walking)
         {
-          printf("Stopped turning at: %f\n", moveTo->elapsed_time);
+          //printf("Stopped turning at: %f\n", moveTo->elapsed_time);
           pcactormove->SetMovementSpeed(moveTo->walk_speed);
           pcactormove->Forward(true);
           moveTo->walking = true;
@@ -421,7 +421,7 @@ void ptEntityManager::moveToEntity()
         }
         else if (moveTo->elapsed_time >= moveTo->walk_duration && moveTo->walking)
         {
-          printf("Stopped walking at: %f. Expected duration: %f\n", moveTo->elapsed_time, moveTo->walk_duration);
+          //printf("Stopped walking at: %f. Expected duration: %f\n", moveTo->elapsed_time, moveTo->walk_duration);
           pcactormove->Forward(false);
         }
       }
@@ -716,15 +716,15 @@ void ptEntityManager::createCelEntity(Entity* ent)
     {
       unsigned char* skincolour = character->getSkinColour();
       skinColour.Set(skincolour[0]/255.0f, skincolour[1]/255.0f, skincolour[2]/255.0f, 1);
-      printf("ptEntityManager: COLOR '%s'\n", skinColour.Description().GetData());
+      //printf("ptEntityManager: COLOR '%s'\n", skinColour.Description().GetData());
 
       unsigned char* decalcolour = character->getDecalColour();
       decalColour.Set(decalcolour[0]/255.0f, decalcolour[1]/255.0f, decalcolour[2]/255.0f, 1);
-      printf("ptEntityManager: COLOR '%s'\n", decalColour.Description().GetData());
+      //printf("ptEntityManager: COLOR '%s'\n", decalColour.Description().GetData());
 
       unsigned char* haircolour = character->getHairColour();
       hairColour.Set(haircolour[0]/255.0f, haircolour[1]/255.0f, haircolour[2]/255.0f, 1);
-      printf("ptEntityManager: COLOR '%s'\n", hairColour.Description().GetData());
+      //printf("ptEntityManager: COLOR '%s'\n", hairColour.Description().GetData());
     }
   }
 

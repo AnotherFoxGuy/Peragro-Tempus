@@ -64,10 +64,10 @@ void TradeWindow::CreateGUIWindow()
     for (int i=0; i<4; i++)
     {
       Slot* slot = new Slot();
-      slot->SetSlotId((i+(j*5))+10);
-      slot->SetSlotType(DragDrop::Item);
-      slot->SetSlotWindow(dragdrop->createDragDropSlot(bag1, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetSlotWindow()->setUserData(slot);
+      slot->SetId((i+(j*5))+10);
+      slot->SetType(DragDrop::Item);
+      slot->SetWindow(dragdrop->createDragDropSlot(bag1, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
+      slot->GetWindow()->setUserData(slot);
     }
   }
 
@@ -79,10 +79,10 @@ void TradeWindow::CreateGUIWindow()
     for (int i=0; i<4; i++)
     {
       Slot* slot = new Slot();
-      slot->SetSlotId((i+(j*5))+10);
-      slot->SetSlotType(DragDrop::Item);
-      slot->SetSlotWindow(dragdrop->createDragDropSlot(bag2, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetSlotWindow()->setUserData(slot);
+      slot->SetId((i+(j*5))+10);
+      slot->SetType(DragDrop::Item);
+      slot->SetWindow(dragdrop->createDragDropSlot(bag2, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
+      slot->GetWindow()->setUserData(slot);
     }
   }
 

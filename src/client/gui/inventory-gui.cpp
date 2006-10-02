@@ -40,7 +40,7 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
   return true;
 }
 
-bool InventoryWindow::AddItem(int itemid,int slotid)
+bool InventoryWindow::AddItem(uint itemid, uint slotid)
 {
   if(slotid > numberOfSlots) return false;
   if(slotid == -1) return false;
@@ -53,7 +53,7 @@ bool InventoryWindow::AddItem(int itemid,int slotid)
     return false;
   }
 
-  if (slot->GetObjectId() && !slot->GetStackable())
+  if (!slot->IsEmpty() && !slot->GetObject()->IsStackable())
   {
     printf("InventoryWindow: ERROR Slot %d already occupied!\n", slotid);
     return false;
@@ -63,24 +63,47 @@ bool InventoryWindow::AddItem(int itemid,int slotid)
 
   // If the slot already has an item and it's stackable
   // increase the amount.
-  if (slot->GetObjectId() && slot->GetStackable())
+  if (!slot->IsEmpty() && slot->GetObject()->IsStackable())
   {
-    slot->SetAmount(slot->GetAmount()+1);
-    dragdrop->UpdateItemCounter(slot->GetSlotWindow(), slot->GetAmount());
+    slot->GetObject()->SetAmount(slot->GetObject()->GetAmount()+1);
+    dragdrop->UpdateItemCounter(slot->GetWindow(), slot->GetObject()->GetAmount());
   }
+  // Create a new item.
   else
   {
-    slot->SetObjectId(itemid);
-    slot->SetAmount(1);
-    slot->SetObjectWindow(dragdrop->createIcon(DragDrop::Item, itemid));
-    slot->GetSlotWindow()->addChildWindow(slot->GetObjectWindow());
+    Object* object = new Object();
+    object->SetId(itemid);
+    object->SetAmount(1);
+    object->SetWindow(dragdrop->createIcon(DragDrop::Item, itemid));
     // If stackable is bigger then 1 the item is stackable by that amount.
     // If stackable equals 0 its infinitly stackable.
     if (clientitem->GetStackable() > 1 || clientitem->GetStackable() == 0)
-      slot->SetStackable(true);
+      object->SetStackable(true);
+    slot->SetObject(object);
+    slot->GetWindow()->addChildWindow(object->GetWindow());
   }
 
-  return false;
+  return true;
+}
+
+bool InventoryWindow::MoveItem(uint olslotid, uint newslotid)
+{
+  Slot* oldslot = inventory[olslotid];
+  Slot* newslot = inventory[newslotid];
+  Object* object = oldslot->GetObject();
+
+  if (!oldslot || !newslot || !object)
+  {
+    printf("InventoryWindow: ERROR Couldn't move item from slot %d to slot %d!\n", olslotid, newslotid);
+    return false;
+  }
+
+  oldslot->MoveObjectTo(newslot);
+  dragdrop->UpdateItemCounter(oldslot->GetWindow(), 0);
+  newslot->GetWindow()->addChildWindow(object->GetWindow());
+  dragdrop->UpdateItemCounter(newslot->GetWindow(), newslot->GetObject()->GetAmount());
+
+  return true;
 }
 
 void InventoryWindow::CreateGUIWindow()
@@ -114,11 +137,11 @@ void InventoryWindow::CreateGUIWindow()
     for (int i=0; i<5; i++)
     {
       Slot* slot = new Slot();
-      slot->SetSlotId((i+(j*5))+10);
-      slot->SetSlotType(DragDrop::Item);
-      slot->SetSlotWindow(dragdrop->createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetSlotWindow()->setUserData(slot);
-      inventory.Put(slot->GetSlotId(), slot);
+      slot->SetId((i+(j*5))+10);
+      slot->SetType(DragDrop::Item);
+      slot->SetWindow(dragdrop->createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
+      slot->GetWindow()->setUserData(slot);
+      inventory.Put(slot->GetId(), slot);
     }
   }
 

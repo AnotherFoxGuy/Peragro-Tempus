@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef SLOT_H
-#define SLOT_H
+#ifndef OBJECT_H
+#define OBJECT_H
 
 
 #include "cssysdef.h"
@@ -30,37 +30,29 @@
 #include "CEGUI.h"
 #include "ivaria/icegui.h"
 
-#include "client/gui/common/object.h"
-
-class Slot
+class Object
 {
 private:
-  uint slotid;
-  Object* object;
-  uint slottype;
-  uint parent;
-  CEGUI::Window* slotwindow;
-
+  uint objectid;
+  uint amount;
+  uint objecttype;
+  bool stackable;
+  CEGUI::Window* objectwindow;
 
 public:
-  Slot();
-  ~Slot();
-  uint GetId() { return slotid; }
-  Object* GetObject() { return object; }
-  uint GetType() { return slottype; }
-  uint GetParent() { return parent; }
-  CEGUI::Window* GetWindow() { return slotwindow; }
+  Object();
+  ~Object();
+  uint GetId() { return objectid; }
+  uint GetAmount() { return amount; }
+  uint GetType() { return objecttype; }
+  bool IsStackable() { return stackable; }
+  CEGUI::Window* GetWindow() { return objectwindow; }
 
-  void SetId(uint value) { this->slotid = value; }
-  void SetObject(Object* value) { this->object = value; }
-  void SetType(uint value) { this->slottype = value; }
-  void SetParent(uint value) { this->parent = value; }
-  void SetWindow(CEGUI::Window* value) { this->slotwindow = value; }
-
-  bool IsEmpty();
-  void Clear();
-  void MoveObjectTo(Slot* slot);
-
+  void SetId(uint value) { this->objectid = value; }
+  void SetAmount(uint value) { this->amount = value; }
+  void SetType(uint value) { this->objecttype = value; }
+  void SetStackable(bool value) { this->stackable = value; }
+  void SetWindow(CEGUI::Window* value) { this->objectwindow = value; }
 };
 
-#endif // SLOT_H
+#endif // OBJECT_H

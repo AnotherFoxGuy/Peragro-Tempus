@@ -16,33 +16,16 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/gui/common/slot.h"
+#include "client/gui/common/object.h"
 
 
-Slot::Slot ()
+Object::Object ()
 {
- object = 0;
+ objectid = 0;
+ amount = 0;
+ stackable = false;
 }
 
-Slot::~Slot()
+Object::~Object()
 {
-}
-
-bool Slot::IsEmpty()
-{
- if(!object)
-   return true;
- else
-   return false;
-}
-
-void Slot::Clear()
-{
- object = 0;
-}
-
-void Slot::MoveObjectTo(Slot* slot)
-{ 
-  slot->SetObject(this->GetObject());
-  this->Clear();
 }

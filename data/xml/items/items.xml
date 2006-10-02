@@ -3,16 +3,6 @@
 
 	<item>
 		<id>1</id>
-		<name>Small Plate</name>
-		<icon>set:Inventory image:smallplate</icon>
-		<description>A small plate.</description>
-		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
-		<mesh>Stuff001_smallplate_64_plates</mesh>
-		<stackable>5</stackable>
-	</item>
-
-	<item>
-		<id>2</id>
 		<name>Apple</name>
 		<icon>set:Inventory image:apple</icon>
 		<description>An apple.</description>
@@ -22,12 +12,22 @@
 	</item>
 
 	<item>
-		<id>3</id>
+		<id>2</id>
 		<name>Tiny Ballpot</name>
 		<icon>set:Inventory image:tinyballpot</icon>
 		<description>A Tiny Ballpot.</description>
 		<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
 		<mesh>Stuff001_tinyballpot_84_pot</mesh>
+		<stackable>5</stackable>
+	</item>
+
+	<item>
+		<id>3</id>
+		<name>Small Plate</name>
+		<icon>set:Inventory image:smallplate</icon>
+		<description>A small plate.</description>
+		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
+		<mesh>Stuff001_smallplate_64_plates</mesh>
 		<stackable>5</stackable>
 	</item>
 
@@ -44,6 +44,23 @@
 		<file>/peragro/meshes/bogus.xml</file>
 		<mesh>foobar</mesh>
 		<stackable>1</stackable>
+		<weight>30</weight>
+		<equiptype>weapon2h</equiptype>
+	</item>
+
+	<item>
+		<id>5</id>
+		<name>Mighty Helmet of the Sweet Mother of the Holy Monkey</name>
+		<icon>set:Helmet image:Helmet</icon>
+		<description>
+			The Sweet Mother of the Holy Monkey used this helmet
+			as a drinking bucket.
+		</description>
+		<file>/peragro/art/armor/helmets/bogus.xml</file>
+		<mesh>foobar</mesh>
+		<stackable>1</stackable>
+		<weight>5</weight>
+		<equiptype>helmet</equiptype>
 	</item>
 	
 </items>

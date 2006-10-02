@@ -70,19 +70,9 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
   Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
-  if(!newslot->IsEmpty())
-      return true;
-
-  newslot->operator = (oldslot);
-  UpdateItemCounter(oldslot->GetSlotWindow(), 0);
-  ddea.window->addChildWindow(ddea.dragDropItem);
-  UpdateItemCounter(newslot->GetSlotWindow(), newslot->GetAmount());
-
-  oldslot->Clear();
-
   EquipRequestMessage slotchangemsg;
-  slotchangemsg.setEquipSlotID(newslot->GetSlotId());
-  slotchangemsg.setInventorySlotID(oldslot->GetSlotId());
+  slotchangemsg.setEquipSlotID(newslot->GetId());
+  slotchangemsg.setInventorySlotID(oldslot->GetId());
   if (network) network->send(&slotchangemsg);
 
   return true;
@@ -94,20 +84,22 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   using namespace CEGUI;
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
-  int itemid = -1;
+  int objectid = -1;
 
   Slot* slot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
-  itemid = slot->GetObjectId();
+  objectid = slot->GetObject()->GetId();
+
+  if(objectid < 1) return true;
 
   DropEntityRequestMessage msg;
-  msg.setTargetId(itemid);
-  msg.setSlotId(slot->GetSlotId());
+  msg.setTargetId(objectid);
+  msg.setSlotId(slot->GetId());
   if (network) network->send(&msg);
 
-  if( slot->GetAmount() > 1)
+  if( slot->GetObject()->GetAmount() > 1)
   {
-    slot->SetAmount(slot->GetAmount()-1);
-    UpdateItemCounter(slot->GetSlotWindow(), slot->GetAmount());
+    slot->GetObject()->SetAmount(slot->GetObject()->GetAmount()-1);
+    UpdateItemCounter(slot->GetWindow(), slot->GetObject()->GetAmount());
   }
   else 
   {
@@ -115,7 +107,7 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
     slot->Clear();
   }
 
-  printf("InventoryWindow: Dropped item of type %d to the world!\n", itemid);
+  printf("InventoryWindow: Dropped item of type %d of slot %d to the world!\n", objectid, slot->GetId());
 
   return true;
 }
@@ -150,15 +142,19 @@ CEGUI::Window* DragDrop::createDragDropSlot(CEGUI::Window* parent, const CEGUI::
   return slot;
 }
 
-CEGUI::Window* DragDrop::createIcon(int icontype, int objectid)
+CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactable)
 {
   char uniquename[1024];
   counter += 1;
   sprintf(uniquename, "%d_%d_icon", objectid, counter);
 
   // Create a drag/drop Icon
-  CEGUI::DragContainer* icon = static_cast<CEGUI::DragContainer*>(
-    winMgr->createWindow("DragContainer", uniquename));
+  CEGUI::Window* icon;
+  if(interactable)
+    icon = winMgr->createWindow("DragContainer", uniquename);
+  else
+    icon = winMgr->createWindow("Peragro/StaticImage", uniquename);
+
   icon->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
   icon->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
   icon->setHorizontalAlignment(CEGUI::HA_CENTRE);
