@@ -264,12 +264,14 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
   int new_item_id = user_ent->getInventory()->getItemIdFromSlot(invent_slot);
   Item* item = server->getItemManager()->findById(new_item_id);
 
+  if (!item) 
+    error = "No such Item";
+
   if (item && ! error)
   {
-    unsigned int amount = user_ent->getInventory()->getAmount(invent_slot);
-    if (amount == 0) error = "Character doesn't own this item";
-    else if (amount > 1 && equip) error = "Can't equip stacked items";
-    else if (amount == 1) // one 1 equip or many move
+    unsigned int amount_old = user_ent->getInventory()->getAmount(invent_slot);
+    if (amount_old == 0) error = "Character doesn't own this item";
+    else if (equip) // equip
     {
       // See if we have already an item in the equip slot.
       int old_item_id = user_ent->getInventory()->getItemIdFromSlot(equip_slot);
@@ -287,8 +289,29 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
       // ... (if we have) the old item to the inventory.
       if (old) user_ent->getInventory()->addItem(old, 1, invent_slot);
     }
+    else // move
+    {
+
+      // See if we have already an item in the equip slot.
+      unsigned int amount_new = user_ent->getInventory()->getAmount(equip_slot);
+      int old_item_id = user_ent->getInventory()->getItemIdFromSlot(equip_slot);
+      Item* old = server->getItemManager()->findById(old_item_id);
+
+      // Take from the inventory slot and...
+      user_ent->getInventory()->takeItem(item, amount_old, invent_slot);
+
+      // ... (if we have) from the equip slot too.
+      if (old) user_ent->getInventory()->takeItem(old, amount_new, equip_slot);
+
+      // Then we add the new item to the equip slot and...
+      user_ent->getInventory()->addItem(item, amount_old, equip_slot);
+
+      // ... (if we have) the old item to the inventory.
+      if (old) user_ent->getInventory()->addItem(old, amount_new, invent_slot);
+    }
   }
-  else error = "No such Item";
+
+  if (error) printf("Equip item error occured: %s\n", error);
 
   EquipMessage response_msg;
   response_msg.setEntityID(user_ent->getId());

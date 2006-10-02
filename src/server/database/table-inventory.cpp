@@ -43,13 +43,17 @@ void InventoryTable::createTable()
     "slot INTEGERT, "
     "item INTEGER, "
     "amount INTEGER, "
-    "PRIMARY KEY (slot, item, slot) );");
+    "PRIMARY KEY (id, item, slot) );");
 }
 
 void InventoryTable::set(int inventory, Item* item, int amount, int slot)
 {
-  db->update("insert or replace into inventory (id, item, amount, slot) values ('%d','%d','%d','%d');",
-    inventory, item->getId(), amount, slot);
+  if (amount == 0)
+    db->update("delete from inventory where id=%d and item=%d and slot=%d;",
+      inventory, item->getId(), slot);
+  else
+    db->update("insert or replace into inventory (id, item, slot, amount) values ('%d','%d','%d','%d');",
+      inventory, item->getId(), slot, amount);
 }
 
 int InventoryTable::get(int inventory, Item* item)

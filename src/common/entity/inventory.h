@@ -152,7 +152,7 @@ public:
   unsigned int getItemIdFromSlot(int slot)
   {
     InvEntries* entry = findEntryBySlot(slot);
-    return (entry?entry->amount:-1);
+    return (entry?entry->item_id:-1);
   }
 
   void loadFromDatabase(InventoryTable* it, int id)

@@ -6,6 +6,7 @@ under each day.
 
 2-Oct-2006
   - Sueastside added TradeWindow.
+  - PK fixed a few inventory bugs on the server.
 
 1-Oct-2006
   - PK fixed (hopefully) all sql injections for the database. Please make
