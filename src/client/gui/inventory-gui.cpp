@@ -59,8 +59,6 @@ bool InventoryWindow::AddItem(uint itemid, uint slotid)
     return false;
   }
 
-  ClientItem* clientitem = itemmanager->GetItemById(itemid);
-
   // If the slot already has an item and it's stackable
   // increase the amount.
   if (!slot->IsEmpty() && slot->GetObject()->IsStackable())
@@ -70,38 +68,28 @@ bool InventoryWindow::AddItem(uint itemid, uint slotid)
   }
   // Create a new item.
   else
-  {
-    Object* object = new Object();
-    object->SetId(itemid);
-    object->SetAmount(1);
-    object->SetWindow(dragdrop->createIcon(DragDrop::Item, itemid));
-    // If stackable is bigger then 1 the item is stackable by that amount.
-    // If stackable equals 0 its infinitly stackable.
-    if (clientitem->GetStackable() > 1 || clientitem->GetStackable() == 0)
-      object->SetStackable(true);
-    slot->SetObject(object);
-    slot->GetWindow()->addChildWindow(object->GetWindow());
-  }
+    dragdrop->CreateItem(slot, itemid, 1);
 
   return true;
 }
 
-bool InventoryWindow::MoveItem(uint olslotid, uint newslotid)
+bool InventoryWindow::MoveItem(uint oldslotid, uint newslotid)
 {
-  Slot* oldslot = inventory[olslotid];
+  Slot* oldslot = inventory[oldslotid];
   Slot* newslot = inventory[newslotid];
-  Object* object = oldslot->GetObject();
 
-  if (!oldslot || !newslot || !object)
+  return MoveItem(oldslot, newslot);
+}
+
+bool InventoryWindow::MoveItem(Slot* oldslot, Slot* newslot)
+{
+  if (!oldslot || !newslot)
   {
-    printf("InventoryWindow: ERROR Couldn't move item from slot %d to slot %d!\n", olslotid, newslotid);
+    printf("InventoryWindow: ERROR Couldn't move item from slot to slot!\n");
     return false;
   }
 
-  oldslot->MoveObjectTo(newslot);
-  dragdrop->UpdateItemCounter(oldslot->GetWindow(), 0);
-  newslot->GetWindow()->addChildWindow(object->GetWindow());
-  dragdrop->UpdateItemCounter(newslot->GetWindow(), newslot->GetObject()->GetAmount());
+  dragdrop->MoveObject(oldslot, newslot);
 
   return true;
 }

@@ -54,6 +54,7 @@ public:
   bool handleDragLeave(const CEGUI::EventArgs& args);
   bool handleDragDropped(const CEGUI::EventArgs& args);
   bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
+  bool DragDrop::handleDragDroppedTrade(const CEGUI::EventArgs& args);
 
   enum Type
   {
@@ -68,6 +69,8 @@ public:
   CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
   CEGUI::Window* createIcon(int icontype, int objectid, bool interactable = true);
   void UpdateItemCounter(CEGUI::Window* parent, uint amount);
+  void CreateItem(Slot* slot, uint itemid, uint amount);
+  void MoveObject(Slot* oldslot, Slot* newslot);
 };
 
 

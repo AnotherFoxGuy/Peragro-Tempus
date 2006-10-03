@@ -41,6 +41,12 @@ private:
   uint parent;
   CEGUI::Window* slotwindow;
 
+public:
+  enum ParentType
+  {
+    Inventory=0,
+    Trade=1
+  };
 
 public:
   Slot();

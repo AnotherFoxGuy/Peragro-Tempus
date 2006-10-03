@@ -8,6 +8,7 @@ under each day.
   - Sueastside changed the way how dragdrop is handled.
      And made items only move on server response.
   - Sueastside Updated items.xml.
+  - Sueastside did more work on TradeWindow.
 
 2-Oct-2006
   - Sueastside added TradeWindow.

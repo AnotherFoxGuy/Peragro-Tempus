@@ -26,6 +26,7 @@
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
+#include "client/gui/gui.h"
 
 
 DragDrop::DragDrop (GUIManager* guimanager)
@@ -110,6 +111,22 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   printf("InventoryWindow: Dropped item of type %d of slot %d to the world!\n", objectid, slot->GetId());
 
   return true;
+}
+
+bool DragDrop::handleDragDroppedTrade(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
+
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+  ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
+
+  Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
+  Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
+
+  guimanager->GetTradeWindow()->AddItem(oldslot, newslot);
+
+  return true;
+
 }
 
 CEGUI::Window* DragDrop::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
@@ -211,4 +228,30 @@ CEGUI::String DragDrop::IntToStr(int number)
   CEGUI::String value = (CEGUI::String)buffer;
 
   return value;
+}
+
+void DragDrop::CreateItem(Slot* slot, uint itemid, uint amount)
+{
+  ClientItem* clientitem = itemmanager->GetItemById(itemid);
+
+  Object* object = new Object();
+  object->SetId(itemid);
+  object->SetAmount(amount);
+  object->SetWindow(createIcon(DragDrop::Item, itemid));
+  // If stackable is bigger then 1 the item is stackable by that amount.
+  // If stackable equals 0 its infinitly stackable.
+  if (clientitem->GetStackable() > 1 || clientitem->GetStackable() == 0)
+    object->SetStackable(true);
+  slot->SetObject(object);
+  slot->GetWindow()->addChildWindow(object->GetWindow());
+}
+
+void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
+{
+  Object* object = oldslot->GetObject();
+
+  oldslot->MoveObjectTo(newslot);
+  UpdateItemCounter(oldslot->GetWindow(), 0);
+  newslot->GetWindow()->addChildWindow(object->GetWindow());
+  UpdateItemCounter(newslot->GetWindow(), newslot->GetObject()->GetAmount());
 }

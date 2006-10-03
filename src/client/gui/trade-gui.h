@@ -37,6 +37,8 @@ private:
   csArray<Slot*> inventory1;
   csArray<Slot*> inventory2;
 
+  csArray<Slot*> oldslots;
+
 private:
   bool OnCloseButton(const CEGUI::EventArgs& args); 
   bool OnAcceptPlayer1(const CEGUI::EventArgs& args);
@@ -49,8 +51,8 @@ public:
 
 public:
   void SetName(uint player, csString name);
-  void AddItem(uint player, uint item, uint slot);
-  void RemoveItem(uint player, uint slot);
+  bool AddItem(uint player, uint itemid, uint amount, uint slotid);
+  bool AddItem(Slot* oldslot, Slot* newslot);
   void SetMoney(uint player, uint amount); 
   void SetAccept(uint player, bool value);
   void SetNotificationMsg(csString errormsg);
