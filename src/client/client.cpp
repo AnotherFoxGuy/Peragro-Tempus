@@ -371,6 +371,8 @@ void Client::handleStates()
       //guimanager->CreateSelectCharWindow();
       //guimanager->GetSelectCharWindow()->ShowWindow();
       //guimanager->CreateTradeWindow();
+      //guimanager->CreateConfirmWindow();
+      //guimanager->CreateOkWindow();
 
       if (cmdline)
       {
@@ -415,6 +417,7 @@ void Client::checkConnection()
   {
     last_seen = 0;
     printf("Disconnect!\n");
+    guimanager->CreateOkWindow()->SetText("Disconnect!\n Please restart the client.");
     // 10 seconds of no response... disconnect!
   }
 }

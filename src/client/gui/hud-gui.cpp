@@ -35,6 +35,7 @@ HUDWindow::HUDWindow (GUIManager* guimanager)
 
 HUDWindow::~HUDWindow ()
 {
+  delete selectedskill;
 }
 
 void HUDWindow::CreateGUIWindow ()

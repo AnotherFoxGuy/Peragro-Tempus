@@ -25,9 +25,6 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-/*=============//
-// TradeWindow //
-//=============*/
 TradeWindow::TradeWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -35,6 +32,9 @@ TradeWindow::TradeWindow(GUIManager* guimanager)
 
 TradeWindow::~TradeWindow()
 {
+  inventory1.DeleteAll();
+  inventory2.DeleteAll();
+  oldslots.DeleteAll();
 }
 
 bool TradeWindow::OnCloseButton(const CEGUI::EventArgs& args)

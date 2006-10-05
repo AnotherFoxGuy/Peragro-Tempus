@@ -31,5 +31,6 @@
 #include "whisper-gui.h"
 #include "npcdialog-gui.h"
 #include "trade-gui.h"
+#include "confirmdialog-gui.h"
 
 #endif // GUI_H

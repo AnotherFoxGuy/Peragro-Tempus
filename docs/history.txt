@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+5-Oct-2006
+  - Sueastside added Ok and Confirm dialog windows.
+  - Sueastside used okdialog to notify failed registration/login
+    graphically.
+
 3-Oct-2006
   - Sueastside changed the way how dragdrop is handled.
      And made items only move on server response.

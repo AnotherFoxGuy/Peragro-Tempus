@@ -33,10 +33,25 @@
 GUIManager::GUIManager (Client* client)
 : client(client)
 {
+  dragdrop = 0;
+  loginwindow = 0;
+  connectwindow = 0;
+  selectcharwindow = 0;
+  chatwindow = 0;
+  inventorywindow = 0;
+  hudwindow = 0;
+  optionswindow = 0;
+  statuswindow = 0;
+  buddywindow = 0;
+  whisperwindow = 0;
+  npcdialogwindow = 0;
+  confirmwindow = 0;
+  okwindow = 0;
 }
 
 GUIManager::~GUIManager ()
 {
+  delete dragdrop;
 }
 
 bool GUIManager::Initialize (iObjectRegistry* obj_reg)
@@ -170,4 +185,20 @@ TradeWindow* GUIManager::CreateTradeWindow ()
   tradewindow = new TradeWindow (this);
   tradewindow->CreateGUIWindow();
   return tradewindow;
+}
+
+ConfirmDialogWindow* GUIManager::CreateConfirmWindow ()
+{
+  if(!confirmwindow)
+    confirmwindow = new ConfirmDialogWindow (this);
+  confirmwindow->CreateGUIWindow();
+  return confirmwindow;
+}
+
+OkDialogWindow* GUIManager::CreateOkWindow ()
+{
+  if(!okwindow)
+    okwindow = new OkDialogWindow (this);
+  okwindow->CreateGUIWindow();
+  return okwindow;
 }

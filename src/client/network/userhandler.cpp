@@ -30,6 +30,7 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
   {
     printf("Login Failed due to: %s\n", *error);
     guimanager = client->GetGuiManager();
+    guimanager->CreateOkWindow()->SetText(*error);
     guimanager->GetLoginWindow()->EnableWindow();
     return;
   }
@@ -46,6 +47,8 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
   if (!error.isNull())
   {
     printf("Registration Failed due to: %s\n", *error);
+    guimanager = client->GetGuiManager();
+    guimanager->CreateOkWindow()->SetText(*error);
     return;
   }
 
@@ -81,6 +84,7 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
   else
   {
     printf("Character creation failed due to: %s\n", *answer_msg.getError());
+    guimanager->CreateOkWindow()->SetText(*answer_msg.getError());
   }
 }
 

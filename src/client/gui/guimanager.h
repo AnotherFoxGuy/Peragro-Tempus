@@ -39,6 +39,8 @@ class BuddyWindow;
 class WhisperWindow;
 class NpcDialogWindow;
 class TradeWindow;
+class ConfirmDialogWindow;
+class OkDialogWindow;
 
 class DragDrop;
 
@@ -59,6 +61,8 @@ private:
   WhisperWindow* whisperwindow;
   NpcDialogWindow* npcdialogwindow;
   TradeWindow* tradewindow;
+  ConfirmDialogWindow* confirmwindow;
+  OkDialogWindow* okwindow;
 
   DragDrop* dragdrop;
   
@@ -89,6 +93,8 @@ public:
   WhisperWindow* CreateWhisperWindow(); 
   NpcDialogWindow* CreateNpcDialogWindow();
   TradeWindow* CreateTradeWindow();
+  ConfirmDialogWindow* CreateConfirmWindow();
+  OkDialogWindow* CreateOkWindow();
   
   ConnectWindow* GetConnectWindow ()
   {
@@ -148,6 +154,16 @@ public:
   TradeWindow* GetTradeWindow()
   {
     return tradewindow;
+  }
+
+  ConfirmDialogWindow* GetConfirmWindow()
+  {
+    return confirmwindow;
+  }
+
+  OkDialogWindow* GetOkWindow()
+  {
+    return okwindow;
   }
 
 };

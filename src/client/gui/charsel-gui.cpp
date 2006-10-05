@@ -83,6 +83,8 @@ bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
 
   guimanager->GetClient()->GetEntityManager()->createCelEntity(entity);
 
+  delete entity;
+
   return true;
 }
 

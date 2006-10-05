@@ -24,9 +24,6 @@
 #include "client/gui/common/dragdrop-gui.h"
 #include "client/gui/common/slot.h"
 
-/*================//
-// GUIInvWindow  //
-//================*/
 class TradeWindow : public GUIWindow
 {
 private:

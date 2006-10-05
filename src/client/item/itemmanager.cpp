@@ -74,6 +74,7 @@ ItemMGR::ItemMGR (iObjectRegistry* obj_reg)
 
 ItemMGR::~ItemMGR ()
 {
+  items.DeleteAll();
 }
 
 bool ItemMGR::Initialize ()

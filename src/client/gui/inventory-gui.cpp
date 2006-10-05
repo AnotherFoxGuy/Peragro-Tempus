@@ -32,6 +32,7 @@ InventoryWindow::InventoryWindow(GUIManager* guimanager)
 
 InventoryWindow::~InventoryWindow()
 {
+  inventory.DeleteAll();
 }
 
 bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)

@@ -105,6 +105,8 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   else 
   {
     ddea.dragDropItem->destroy();
+    Object* object = slot->GetObject();
+    delete object;
     slot->Clear();
   }
 

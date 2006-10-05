@@ -737,5 +737,4 @@ void ptEntityManager::createCelEntity(Entity* ent)
   // Add to the entities list
   ptCelEntity ptent (ent->getId(), ent->getType(), *ent->getName(), entity);
   entities.Push (ptent);
-
 }
