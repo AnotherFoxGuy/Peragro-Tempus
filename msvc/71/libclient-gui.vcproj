@@ -179,6 +179,9 @@
 				RelativePath="..\..\src\client\gui\common\slot.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\confirmdialog-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\connection-gui.cpp">
 			</File>
 			<File
@@ -232,6 +235,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\common\slot.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\confirmdialog-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\connection-gui.h">
