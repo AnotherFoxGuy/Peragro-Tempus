@@ -8,6 +8,7 @@ under each day.
   - Sueastside added Ok and Confirm dialog windows.
   - Sueastside used okdialog to notify failed registration/login
     graphically.
+  - PK added TradeMessages.
 
 3-Oct-2006
   - Sueastside changed the way how dragdrop is handled.

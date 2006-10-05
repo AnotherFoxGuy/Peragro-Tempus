@@ -41,6 +41,7 @@ namespace TRADE
 
 class TradeRequestMessage : public NetMessage
 {
+  unsigned int entityid;
 
 public:
   TradeRequestMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEREQUEST)
@@ -54,10 +55,14 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
+  unsigned int getEntityId() { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
+
 };
 
 class TradeResponseMessage : public NetMessage
 {
+  ptString error;
 
 public:
   TradeResponseMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADERESPONSE)
@@ -71,22 +76,55 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
+
 };
 
 class TradeOffersListNpcMessage : public NetMessage
 {
+  class ListOffers
+  {
+  public:
+    unsigned int itemid;
+    unsigned int price;
+  };
+
+  unsigned char offerscount;
+  ListOffers* offers;
+
 
 public:
   TradeOffersListNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEOFFERSLISTNPC)
   {
+    offers = 0;
   }
 
   ~TradeOffersListNpcMessage()
   {
+    delete [] offers;
   }
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned char getOffersCount() { return offerscount; }
+  void setOffersCount(unsigned char ic)
+  {
+    offerscount = ic;
+    delete [] offers;
+    offers = new ListOffers[ic];
+  }
+
+  // --- begin ListOffers Getter and Setter ---
+
+  unsigned int getItemId(size_t i) { return offers[i].itemid; }
+  void setItemId(size_t i, unsigned int x) { offers[i].itemid = x; }
+
+  unsigned int getPrice(size_t i) { return offers[i].price; }
+  void setPrice(size_t i, unsigned int x) { offers[i].price = x; }
+
+  // --- end ListOffers Getter and Setter ---
 
 };
 
@@ -109,6 +147,7 @@ public:
 
 class BuyItemResponseNpcMessage : public NetMessage
 {
+  ptString error;
 
 public:
   BuyItemResponseNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::BUYITEMRESPONSENPC)
@@ -122,22 +161,55 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
+
 };
 
 class TradeOffersListPvpMessage : public NetMessage
 {
+  class ListOffers
+  {
+  public:
+    unsigned int itemid;
+    unsigned int amount;
+  };
+
+  unsigned char offerscount;
+  ListOffers* offers;
+
 
 public:
   TradeOffersListPvpMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEOFFERSLISTPVP)
   {
+    offers = 0;
   }
 
   ~TradeOffersListPvpMessage()
   {
+    delete [] offers;
   }
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned char getOffersCount() { return offerscount; }
+  void setOffersCount(unsigned char ic)
+  {
+    offerscount = ic;
+    delete [] offers;
+    offers = new ListOffers[ic];
+  }
+
+  // --- begin ListOffers Getter and Setter ---
+
+  unsigned int getItemId(size_t i) { return offers[i].itemid; }
+  void setItemId(size_t i, unsigned int x) { offers[i].itemid = x; }
+
+  unsigned int getAmount(size_t i) { return offers[i].amount; }
+  void setAmount(size_t i, unsigned int x) { offers[i].amount = x; }
+
+  // --- end ListOffers Getter and Setter ---
 
 };
 
@@ -211,6 +283,7 @@ public:
 
 class TradeConfirmResponseMessage : public NetMessage
 {
+  ptString error;
 
 public:
   TradeConfirmResponseMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADECONFIRMRESPONSE)
@@ -223,6 +296,9 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
 
 };
 
