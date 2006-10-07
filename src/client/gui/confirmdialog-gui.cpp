@@ -63,8 +63,10 @@ void OkDialogWindow::SetText(const char* text)
 
 void OkDialogWindow::CreateGUIWindow()
 {
-  GUIWindow::CreateGUIWindow ("okdialog.xml");
   winMgr = cegui->GetWindowManagerPtr ();
+
+  if(!winMgr->isWindowPresent("OkDialog/Frame"))
+    GUIWindow::CreateGUIWindow ("okdialog.xml");
 
   // Get the root window
   rootwindow = winMgr->getWindow("OkDialog/Frame");
@@ -131,8 +133,10 @@ void ConfirmDialogWindow::SetNoEvent(CEGUI::Event::Subscriber subscriber, bool d
 
 void ConfirmDialogWindow::CreateGUIWindow()
 {
-  GUIWindow::CreateGUIWindow ("confirmdialog.xml");
   winMgr = cegui->GetWindowManagerPtr ();
+
+  if(!winMgr->isWindowPresent("ConfirmDialog/Frame"))
+    GUIWindow::CreateGUIWindow ("confirmdialog.xml");
 
   // Get the root window
   rootwindow = winMgr->getWindow("ConfirmDialog/Frame");

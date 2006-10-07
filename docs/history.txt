@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+7-Oct-2006
+  - Sueastside added an empty world, use --world=empty.
+  - Sueastside fixed a bug which wouldn't allow items 
+    moved to the trade window, to be placed back in the inventory.
+
 5-Oct-2006
   - Sueastside added Ok and Confirm dialog windows.
   - Sueastside used okdialog to notify failed registration/login

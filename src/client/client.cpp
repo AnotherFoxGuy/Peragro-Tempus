@@ -370,7 +370,7 @@ void Client::handleStates()
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
       //guimanager->GetSelectCharWindow()->ShowWindow();
-      //guimanager->CreateTradeWindow();
+      guimanager->CreateTradeWindow();
       //guimanager->CreateConfirmWindow();
       //guimanager->CreateOkWindow();
 
@@ -943,7 +943,7 @@ void Client::loadRegion()
   	iPcZoneManager);
 
   entity->SetName("ptworld");
-  pczonemgr->SetLoadingMode(CEL_ZONE_LOADALL);
+  pczonemgr->SetLoadingMode(CEL_ZONE_NORMAL);
   world_loaded = pczonemgr->Load("/peragro/art/world/", "regions.xml");
   iCelRegion* region = pczonemgr->FindRegion(regionname);
   if (region) pczonemgr->ActivateRegion(region);

@@ -71,6 +71,13 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
   Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
+  if(oldslot->GetParent() == Slot::Trade)
+  {
+    Slot* oldinvslot = guimanager->GetTradeWindow()->GetOldSlot(oldslot);
+    MoveObject(oldslot, oldinvslot);
+    if(oldinvslot) oldslot = oldinvslot;
+  }
+
   EquipRequestMessage slotchangemsg;
   slotchangemsg.setEquipSlotID(newslot->GetId());
   slotchangemsg.setInventorySlotID(oldslot->GetId());

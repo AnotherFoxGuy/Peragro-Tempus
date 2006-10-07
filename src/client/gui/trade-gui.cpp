@@ -32,9 +32,9 @@ TradeWindow::TradeWindow(GUIManager* guimanager)
 
 TradeWindow::~TradeWindow()
 {
-  inventory1.DeleteAll();
-  inventory2.DeleteAll();
-  oldslots.DeleteAll();
+  trade1.DeleteAll();
+  trade2.DeleteAll();
+  inventory.DeleteAll();
 }
 
 bool TradeWindow::OnCloseButton(const CEGUI::EventArgs& args)
@@ -44,16 +44,16 @@ bool TradeWindow::OnCloseButton(const CEGUI::EventArgs& args)
   // Putting the items back in the inventory.
   for (int i=0; i<numberOfSlots; i++)
   {
-    Slot* slot = inventory1[i];
+    Slot* slot = trade1[i];
     if(!slot->IsEmpty())
     {
-      Slot* oldslot = oldslots[i];
+      Slot* oldslot = inventory[i];
       guimanager->GetInventoryWindow()->MoveItem(slot, oldslot);
     }
   }
 
-  inventory1.DeleteAll();
-  oldslots.DeleteAll();
+  trade1.DeleteAll();
+  inventory.DeleteAll();
   
   // TODO: Send TradeCancelRequestMessage.
 
@@ -66,7 +66,7 @@ bool TradeWindow::AddItem(uint player, uint itemid, uint amount, uint slotid)
   if(slotid > numberOfSlots) return false;
   if(slotid == -1) return false;
 
-  Slot* slot = inventory2[slotid];
+  Slot* slot = trade2[slotid];
 
   if (!slot)
   {
@@ -76,7 +76,7 @@ bool TradeWindow::AddItem(uint player, uint itemid, uint amount, uint slotid)
 
   if (!slot->IsEmpty())
   {
-    printf("InventoryWindow: ERROR Slot %d already occupied!\n", slotid);
+    printf("TradeWindow: ERROR Slot %d already occupied!\n", slotid);
     return false;
   }
 
@@ -90,7 +90,7 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
 {
   if (!oldslot || !newslot)
   {
-    printf("InventoryWindow: ERROR Couldn't move item from slot to slot!\n");
+    printf("TradeWindow: ERROR Couldn't move item from slot to slot!\n");
     return false;
   }
 
@@ -98,15 +98,34 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
 
   if(oldslot->GetParent() == Slot::Trade)
   {
-    oldslots.Put(newslot->GetId(), oldslots[oldslot->GetId()]);
-    oldslots.Put(oldslot->GetId(), 0);
+    inventory.Put(newslot->GetId(), inventory[oldslot->GetId()]);
+    inventory.Put(oldslot->GetId(), 0);
   }
   else
-    oldslots.Put(newslot->GetId(), oldslot);
+    inventory.Put(newslot->GetId(), oldslot);
 
   // TODO: Make a list of items and send it to the network.
 
   return true;
+}
+
+Slot* TradeWindow::GetOldSlot(Slot* slot)
+{
+  if (!slot)
+  {
+    printf("TradeWindow: ERROR Couldn't get old slot, invalid slot!\n");
+    return 0;
+  }
+
+  Slot* oldslot = inventory[slot->GetId()];
+
+  if (!oldslot)
+  {
+    printf("TradeWindow: ERROR Couldn't get old slot!\n");
+    return 0;
+  }
+
+  return oldslot;
 }
 
 void TradeWindow::CreateGUIWindow()
@@ -140,7 +159,7 @@ void TradeWindow::CreateGUIWindow()
       slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
       slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
         CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedTrade, dragdrop));
-      inventory1.Put(slot->GetId(), slot);
+      trade1.Put(slot->GetId(), slot);
     }
   }
 
@@ -157,7 +176,7 @@ void TradeWindow::CreateGUIWindow()
       slot->SetWindow(dragdrop->createDragDropSlot(bag2, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
       slot->GetWindow()->setUserData(slot);
       slot->GetWindow()->removeAllEvents();
-      inventory2.Put(slot->GetId(), slot);
+      trade2.Put(slot->GetId(), slot);
     }
   }
 

@@ -31,10 +31,10 @@ private:
   ItemMGR* itemmanager;
   int numberOfSlots;
 
-  csArray<Slot*> inventory1;
-  csArray<Slot*> inventory2;
+  csArray<Slot*> trade1;
+  csArray<Slot*> trade2;
 
-  csArray<Slot*> oldslots;
+  csArray<Slot*> inventory;
 
 private:
   bool OnCloseButton(const CEGUI::EventArgs& args); 
@@ -45,6 +45,7 @@ public:
   TradeWindow(GUIManager* guimanager);
   virtual ~TradeWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
+  Slot* GetOldSlot(Slot* slot);
 
 public:
   void SetName(uint player, csString name);
