@@ -8,6 +8,7 @@ under each day.
   - Sueastside added an empty world, use --world=empty.
   - Sueastside fixed a bug which wouldn't allow items 
     moved to the trade window, to be placed back in the inventory.
+  - PK fixed Jamfile.in for the latest CSLib and CEL changes.
 
 5-Oct-2006
   - Sueastside added Ok and Confirm dialog windows.
