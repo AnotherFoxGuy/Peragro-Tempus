@@ -67,6 +67,7 @@ MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
   [ ConcatDirs "$(hash)(CRYSTAL)" out debug$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 libs ] ;
+MsvcGenConfig CRYSTAL.STATICDEPS : $(TOP)/cs_static.jam ;
 
 MsvcGenConfig CEL.AVAILABLE : yes ;
 MsvcGenConfig CEL.DEFINES : USE_CEL ;
