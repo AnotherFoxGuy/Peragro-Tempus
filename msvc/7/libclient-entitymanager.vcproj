@@ -158,9 +158,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\entity\ptcelentity.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\entity\ptentitymanager.cpp">
 			</File>
 		</Filter>
@@ -168,7 +165,7 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\entity\ptcelentity.h">
+				RelativePath="..\..\src\client\entity\ptentity.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\ptentitymanager.h">
