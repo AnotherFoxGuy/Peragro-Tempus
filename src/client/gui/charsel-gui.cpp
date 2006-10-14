@@ -81,7 +81,7 @@ bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
   entity->setSector(ptString("room", 4));
   entity->setId(own_char_id);
 
-  guimanager->GetClient()->GetEntityManager()->createCelEntity(entity);
+  //guimanager->GetClient()->GetEntityManager()->createCelEntity(entity);
 
   delete entity;
 

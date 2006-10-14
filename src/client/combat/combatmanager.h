@@ -26,7 +26,7 @@
 
 #include "physicallayer/pl.h"
 
-#include "client/entity/ptcelentity.h"
+#include "client/entity/ptentity.h"
 
 #include "common/util/mutex.h"
 

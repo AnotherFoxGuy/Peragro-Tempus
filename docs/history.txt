@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+14-Oct-2006
+  - Sueastside started refactoring the entitymanager,
+     splitsing everything up per entity type in classes.
+     Currently it's broken, work in progress.
+
 7-Oct-2006
   - Sueastside added an empty world, use --world=empty.
   - Sueastside fixed a bug which wouldn't allow items 

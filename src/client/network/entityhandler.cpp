@@ -31,7 +31,7 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   switch (entmsg.getType())
   {
     case Entity::ItemEntity: entity = new ItemEntity(); break;
-    //case Entity::PlayerEntity: entity = new PcEntity(); break;
+    case Entity::PlayerEntity: entity = new PcEntity(); break;
     case Entity::NPCEntity: entity = new NpcEntity(); break;
     case Entity::DoorEntity: entity = new DoorEntity(); break;
     default : {printf("EntityHandler: ERROR Unknown entity type for %s!\n", *entmsg.getName()); return;}
@@ -85,7 +85,7 @@ void EntityHandler::handleMoveEntity(GenericMessage* msg)
   printf("EntityHandler: Received MoveEntity\n");
   MoveEntityMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
-  client->GetEntityManager()->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
+  //client->GetEntityManager()->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
 }
 
 void EntityHandler::handlePickEntity(GenericMessage* msg)
@@ -131,7 +131,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   drupdate->sector = *dr_msg.getSector();
   drupdate->entity_id = dr_msg.getId();
 
-  client->GetEntityManager()->DrUpdateEntity(drupdate);
+  //client->GetEntityManager()->DrUpdateEntity(drupdate);
 }
 
 void EntityHandler::handleInventoryItemList(GenericMessage* msg)
@@ -171,7 +171,7 @@ void EntityHandler::handleMoveEntityTo(GenericMessage* msg)
   float* fv1 = move_msg.getFromPos();
   float* fv2 = move_msg.getToPos();
 
-  client->GetEntityManager()->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
+  //client->GetEntityManager()->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
 }
 
 
@@ -224,7 +224,7 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
   float* pos = telemsg.getPos();
   const char* sector = *telemsg.getSector();
 
-  client->GetEntityManager()->teleport(entity_id, pos, sector);
+  //client->GetEntityManager()->teleport(entity_id, pos, sector);
 }
 
 void EntityHandler::handleAddCharacterEntity(GenericMessage* msg)

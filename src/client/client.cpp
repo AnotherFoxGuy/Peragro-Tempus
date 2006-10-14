@@ -150,7 +150,7 @@ void Client::PreProcessFrame()
     timer = 0;
     if (state == STATE_PLAY)
     {
-      entitymanager->DrUpdateOwnEntity();
+      //entitymanager->DrUpdateOwnEntity();
     }
   }
 }
@@ -538,7 +538,7 @@ bool Client::OnKeyboard(iEvent& ev)
         csRef<iMeshWrapper> parent = pcmesh->GetMesh();
         if (!parent) return false;
 
-        entitymanager->SetMaskColor(parent, "decalcolor", csVector4(0,0,1,1));
+        //entitymanager->SetMaskColor(parent, "decalcolor", csVector4(0,0,1,1));
       }
       else if (code == 'h')
       {

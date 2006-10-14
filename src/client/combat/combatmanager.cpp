@@ -155,7 +155,7 @@ void CombatMGR::hit (int targetId, int damage)
 {
   // Lookup the ID to get the actual entity.
   //iCelEntity* target = entitymgr->findCelEntById(targetId);
-  ptCelEntity* target = entitymgr->findPtEntById(targetId);
+  PtEntity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
   {
@@ -192,11 +192,11 @@ void CombatMGR::hit (int targetId, int damage)
     //target->SetAction("deflect");
   }
   // Update the entity's HP(this will update the GUI aswell).
-  target->AddToHP(-damage);
+  //target->AddToHP(-damage);
   printf("You %s %d points!\n", damage < 0 ? "healed" : "got hit for", damage);
 
   //test
-  guimanager->GetHUDWindow()->SetHP(target->GetHP());
+  //guimanager->GetHUDWindow()->SetHP(target->GetHP());
 
 }
 

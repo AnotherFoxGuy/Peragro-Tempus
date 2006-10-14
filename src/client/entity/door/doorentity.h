@@ -16,25 +16,25 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/entity/ptcelentity.h"
+#ifndef PTDOORENTITY_H
+#define PTDOORENTITY_H
 
+#include "client/entity/ptentity.h"
 
-ptCelEntity::ptCelEntity (int id, int type, csString name, iCelEntity* celentity)
+class PtDoorEntity : public PtEntity
 {
-  ptCelEntity::id = id;
-  ptCelEntity::type = type;
-  ptCelEntity::name = name;
-  ptCelEntity::celentity = celentity;
-  //ptCelEntity::pclinmove = pclinmove;
+private:
+  bool open;
+  bool locked;
 
-  // Stats
-  ptCelEntity::hp = 50;
-  ptCelEntity::mp = 10;
-  ptCelEntity::totalhp = 50;
-  ptCelEntity::totalmp = 50;
-}
+public:
+  PtDoorEntity() : PtEntity(PtEntity::DoorEntity)
+  {
+	  open=false;
+	  locked=false;
+  }
 
-ptCelEntity::~ptCelEntity()
-{
-}
+  void Create();
+};
 
+#endif // PTDOORENTITY_H

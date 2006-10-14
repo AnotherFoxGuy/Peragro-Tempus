@@ -26,12 +26,15 @@
 #include "iengine/engine.h"
 #include "csgeom/path.h"
 
+#include "iengine/camera.h"
+
 #include "physicallayer/pl.h"
 #include "physicallayer/datatype.h"
 
 #include "propclass/quest.h"
 
-#include "client/entity/ptcelentity.h"
+#include "client/entity/ptentity.h"
+#include "client/entity/character/pcentity.h"
 
 #include "common/util/mutex.h"
 
@@ -46,19 +49,7 @@ struct iLoader;
 
 class ptEntityManager
 {
-private:
-
-  csArray<ptCelEntity> entities;
-
-  csRef<iEngine> engine;
-  csRef<iVFS> vfs;
-  csRef<iStringSet> stringset;
-  csRef<iVirtualClock> vc;
-  csRef<iLoader> loader;
-  csRef<iCelPlLayer> pl;
-    
-  Client* client;
-
+public:
   struct Movement
   {
     int entity_id;
@@ -84,7 +75,6 @@ private:
     celData value;
   };
 
-public:
   struct DrUpdate
   {
     int entity_id;
@@ -93,6 +83,19 @@ public:
     float rot, speed, avel;
     bool on_ground;
   };
+
+private:
+
+  csArray<PtEntity> entities;
+
+  csRef<iEngine> engine;
+  csRef<iVFS> vfs;
+  csRef<iStringSet> stringset;
+  csRef<iVirtualClock> vc;
+  csRef<iLoader> loader;
+  csRef<iCelPlLayer> pl;
+    
+  Client* client;
 
 private:
   csPDelArray<Entity> new_entity_name;
@@ -119,8 +122,6 @@ private:
   void DrUpdateEntity();
   void updatePcProp();
 
-  float GetAngle (const csVector3& v1, const csVector3& v2);
-
 public:
 
   ptEntityManager (iObjectRegistry* obj_reg, Client* client);
@@ -131,20 +132,9 @@ public:
 
   void addEntity(Entity* name);
   void delEntity(Entity* name);
-  void moveEntity(int entity_id, float walk, float turn);
-  void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);
-  void teleport(int entity_id, float* pos, const char* sector);
-  void DrUpdateEntity(ptEntityManager::DrUpdate* drupdate);
-  UpdateDREntityRequestMessage DrUpdateOwnEntity();
-  void Attach(uint entityid, const char* socketName, const char* meshFactName );
-  void updatePcProp(int entity_id, const char *pcprop,celData &value);
-
-  void createCelEntity(Entity* ent);
-  void SetMaskColor(iMeshWrapper* mesh, const char* maskname, csVector4 colorvalue);
-  void SetMaskColor(iMeshWrapper* mesh, const char* maskname, unsigned int colorvalue);
 
   iCelEntity* findCelEntById(int id);
-  ptCelEntity* findPtEntById(int id);
+  PtEntity* findPtEntById(int id);
 
   void setCharacter(unsigned int own_char) { own_char_id = own_char; }
   iCamera* getOwnCamera() { return owncam; }
