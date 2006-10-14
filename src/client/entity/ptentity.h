@@ -58,8 +58,8 @@ public:
   void SetName (csString value) { this->name = value; }
   void SetCelEntity (iCelEntity* value) { this->celentity = value; }
 
-  virtual void Create();
-  virtual void Destroy();
+  virtual void Create() {}
+  virtual void Destroy() {}
 
 };
 
