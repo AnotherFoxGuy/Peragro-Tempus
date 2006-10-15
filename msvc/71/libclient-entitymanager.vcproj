@@ -158,6 +158,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\entity\character\characterentity.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\entity\character\npcentity.cpp">
 			</File>
 			<File
@@ -168,6 +171,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\item\itementity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\ptentity.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\ptentitymanager.cpp">
@@ -190,6 +196,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\item\itementity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\movement.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\ptentity.h">

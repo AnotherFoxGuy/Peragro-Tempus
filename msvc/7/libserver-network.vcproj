@@ -167,6 +167,9 @@
 				RelativePath="..\..\src\server\network\entityhandler.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\network\networkhelper.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\network\questhandler.cpp">
 			</File>
 			<File
@@ -196,6 +199,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\network.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\networkhelper.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\questhandler.h">

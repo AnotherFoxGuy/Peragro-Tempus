@@ -178,6 +178,9 @@
 			<File
 				RelativePath="..\..\src\client\cursor.h">
 			</File>
+			<File
+				RelativePath="..\..\src\client\pointer\pointer.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

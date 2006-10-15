@@ -178,6 +178,12 @@
 			<File
 				RelativePath="..\..\src\common\entity\skill.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\common\entity\tradepeer.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\tradesession.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -256,6 +262,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\entity\statmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\tradepeer.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\entity\tradesession.h">
 			</File>
 		</Filter>
 	</Files>
