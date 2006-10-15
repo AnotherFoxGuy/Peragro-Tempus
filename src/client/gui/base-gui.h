@@ -19,13 +19,13 @@
 #ifndef BASE_GUI_H
 #define BASE_GUI_H
 
-#include "cssysdef.h"
+#include <cssysdef.h>
 
-#include "iutil/string.h"
-#include "iutil/vfs.h"
+#include <iutil/string.h>
+#include <iutil/vfs.h>
 
-#include "CEGUI.h"
-#include "ivaria/icegui.h"
+#include <CEGUI.h>
+#include <ivaria/icegui.h>
 
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"

@@ -51,70 +51,51 @@ private:
 
   static StringStore* getStore();
 
-  size_t add(const char* str, bool check_duplicate = true)
+  size_t add(const char*& str)
   {
-    //printf("add string %s: ", str);
-    if (check_duplicate)
-    {
-      //printf("already exists!\n");
-      return lookupId(str);
-    }
-
-    mutex.lock();
     StoreString* string = new StoreString();
     string->len = strlen(str);
     string->string = new char[string->len+1];
     strncpy(string->string, str, string->len+1);
     strings.add(string);
-    mutex.unlock();
-    //printf("as %d!\n", strings.getCount()-1);
+    str = string->string;
     return strings.getCount()-1; // if we have 1 string, it has id 0.
   }
 
-  size_t lookupId(const char* string)
-  {
-    if (string == 0) return 0;
-    return lookupId(string, strlen(string));
-  }
-
-  size_t lookupId(const char* string, size_t len)
+  size_t lookupId(const char*& string, size_t len)
   {
     if (string == 0) return 0;
 
     mutex.lock();
 
-    //printf("looking up string %s: ", string);
-
     for (size_t i=0; i<strings.getCount(); i++)
     {
       if (strings.get(i)->len == len)
+      {
         if (!strcmp(strings.get(i)->string, string))
         {
+          string = strings.get(i)->string;
           mutex.unlock();
-          //printf("%i\n", i);
           return i;
         }
+      }
     }
-
+    size_t str_id = add(string);
     mutex.unlock();
-    //String not found, time to add it. We did already check if it exist,
-    //therefor it's false here. Else we would get an endless recursion.
-    //printf("failed -> add");
-    return add(string, false);
+
+    //String not found, time to add it.
+    return str_id;
   }
 
   const char* lookupString(size_t id)
   {
     mutex.lock();
 
-    //printf("looking up string id %d: ", id);
     if (id >= strings.getCount()) 
     {
       mutex.unlock();
-      //printf("failed");
       return 0;
     }
-    //printf("%s\n", strings.get(id)->string);
     mutex.unlock();
     return strings.get(id)->string;
   }

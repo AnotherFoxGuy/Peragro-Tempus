@@ -42,7 +42,7 @@ public:
   inline ptString(const char* str, size_t len)
   {
     string_id = StringStore::getStore()->lookupId(str, len);
-    str_cache = 0; // don't cache str here!
+    str_cache = str;
   }
 
   inline ptString(const ptString& str)
@@ -51,19 +51,23 @@ public:
     str_cache = str.str_cache;
   }
 
-  inline const char* operator*()
+  inline const char* operator*() const
   {
     if (!str_cache && string_id > 0)
-      str_cache = StringStore::getStore()->lookupString(string_id);
+    {
+      //not needed anymore! can be removed _later_ when it proved to work.
+      printf("WARNING! Unexpected ptString lookup!\n");
+      //str_cache = StringStore::getStore()->lookupString(string_id);
+    }
     return str_cache;
   }
 
-  inline bool operator==(ptString& other)
+  inline bool operator==(ptString& other) const
   {
     return string_id == other.string_id;
   }
 
-  inline bool isNull()
+  inline bool isNull() const
   {
     return string_id == 0;
   }

@@ -50,7 +50,7 @@ public:
   const char* getText() const { return text.c_str(); }
 
   size_t getAnswerCount() const { return answers.getCount(); }
-  NPCDialogAnswer*  getAnswer(unsigned int idx) const { return answers.get(idx); }
+  NPCDialogAnswer*  getAnswer(size_t idx) const { return answers.get(idx); }
 
   bool isStartDialog() { return is_start_dialog; }
 };

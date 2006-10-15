@@ -175,7 +175,7 @@ ClientItem* ItemMGR::GetItemById(uint id)
 
 ClientItem* ItemMGR::GetItemByName(csString name)
 {
-  for (int i = 0; i < items.Length(); i++)
+  for (size_t i = 0; i < items.Length(); i++)
    {
      ClientItem* item = items[i];
      if(item->GetName().Compare(name))

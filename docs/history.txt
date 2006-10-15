@@ -4,6 +4,15 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+15-Oct-2006
+  - PK fixed static builds.
+  - PK improved the caching of ptString.
+  - PK added TradeSession and TradePeer classes.
+  - PK fixed some warnings.
+  - PK fixed a bug with NPC dialogs.
+  - PK changed some include from #include "" to #include <>.
+    Please use #include <> for external libs like CS and cel.
+
 14-Oct-2006
   - Sueastside started refactoring the entitymanager,
      splitsing everything up per entity type in classes.

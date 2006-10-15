@@ -19,11 +19,11 @@
 #ifndef GUIMANAGER_H
 #define GUIMANAGER_H
 
-#include "cssysdef.h"
-#include "csutil/ref.h"
-#include "iutil/vfs.h"
+#include <cssysdef.h>
+#include <csutil/ref.h>
+#include <iutil/vfs.h>
 
-#include "ivaria/icegui.h"
+#include <ivaria/icegui.h>
 
 class Client;
 

@@ -46,7 +46,7 @@ class dbSQLite : public Database, Thread
   ResultSet* query(const char*, ...);
   void update();
   void update(const char*, ...);
-  int getLastInsertedId();
+  size_t getLastInsertedId();
 
   void shutdown();
 

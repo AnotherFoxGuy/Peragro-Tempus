@@ -27,6 +27,8 @@
 
 #include "characterentity.h"
 
+#include "tradepeer.h"
+
 class Item;
 class User;
 
@@ -34,6 +36,9 @@ class PcEntity : public CharacterEntity
 {
 private:
   User* user;
+
+  TradePeer tradepeer;
+
 public:
   PcEntity() : CharacterEntity(PlayerEntity)
   {
@@ -41,6 +46,8 @@ public:
 
   void setUser(User* user) { this->user = user; }
   User* getUser() { return this->user; }
+
+  TradePeer* getTradePeer() { return &tradepeer; }
 };
 
 #endif // _PCENTITY_H_

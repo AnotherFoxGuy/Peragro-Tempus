@@ -33,7 +33,7 @@ const NPCDialog* NPCDialogState::startDialog(unsigned int dialog_id)
 
 void NPCDialogState::endDialog(unsigned int dialog_id)
 {
-  if (dialog_id == current_dialog->getDialogId())
+  if (current_dialog != 0 && dialog_id == current_dialog->getDialogId())
   {
     current_dialog = 0;
   }
@@ -41,13 +41,15 @@ void NPCDialogState::endDialog(unsigned int dialog_id)
 
 const NPCDialog* NPCDialogState::giveAnswer(unsigned int dialog_id, unsigned int answer_number)
 {
-  if (dialog_id != current_dialog->getDialogId()) return 0;
+  if (current_dialog == 0 || dialog_id != current_dialog->getDialogId()) return 0;
 
   if (current_dialog->getAnswerCount() <= answer_number) return 0;
 
   const NPCDialogAnswer* answer = current_dialog->getAnswer(answer_number);
 
   if (answer == 0) return 0;
+
+  current_dialog = answer->getNextDialog();
 
   return answer->getNextDialog();
 }

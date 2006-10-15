@@ -50,7 +50,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   if (dialog == 0) return;
 
   NpcDialogMessage dialog_msg;
-  dialog_msg.setDialogId(dialog->getDialogId());
+  dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
   dialog_msg.setDialogText(dialog->getText());
   dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
   for (size_t i = 0; i < dialog->getAnswerCount(); i++)
@@ -87,7 +87,7 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   const NPCDialog* dialog = dia_state->startDialog(0);
 
   NpcDialogMessage dialog_msg;
-  dialog_msg.setDialogId(dialog->getDialogId());
+  dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
   dialog_msg.setDialogText(dialog->getText());
   dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
   for (size_t i = 0; i < dialog->getAnswerCount(); i++)

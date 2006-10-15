@@ -18,13 +18,88 @@
 
 #include "network.h"
 #include "tradehandler.h"
+#include "common/entity/tradesession.h"
 
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
+  Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  User* user = conn->getUser();
+  if (!user) return;
+
+  PcEntity* pc = user->getEntity();
+  if (!pc) return;
+
+  TradePeer* this_peer = pc->getTradePeer();
+
+  TradeRequestMessage message;
+  message.deserialise(msg->getByteStream());
+
+  int ent_id = message.getEntityId();
+
+  EntityManager* ent_mgr = server->getEntityManager();
+  CharacterEntity* peer_ent = ent_mgr->getCharEntity(ent_id);
+
+  if (peer_ent == 0) return;
+
+  if (peer_ent->getType() == Entity::PlayerEntity)
+  {
+    TradePeer* other_peer = ((PcEntity*) peer_ent)->getTradePeer();
+    TradeSession* session = other_peer->getSession();
+
+    if (session != 0)
+    {
+      // Error! Other player is already trading with someone
+    }
+
+    session = new TradeSession(this_peer);
+    const char* error = session->sendRequest(other_peer);
+
+    if (error != 0)
+    {
+      // Error! This player is already trading with someone!
+    }
+
+    User* other_user = ((PcEntity*) peer_ent)->getUser();
+    if (!other_user) return;
+
+    Connection* other_conn = other_user->getConnection();
+    if (!other_conn) return;
+
+    message.setEntityId(pc->getId());
+
+    ByteStream bs;
+    message.serialise(&bs);
+
+    other_conn->send(bs);
+  }
 }
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)
 {
+  Connection* conn = msg->getConnection();
+  if (!conn) return;
+
+  User* user = conn->getUser();
+  if (!user) return;
+
+  PcEntity* pc = user->getEntity();
+  if (!pc) return;
+
+  TradePeer* this_peer = pc->getTradePeer();
+
+  TradePeer* other_peer = this_peer->getOtherPeer();
+
+  if (other_peer == 0) return;
+
+  TradeResponseMessage message;
+  message.deserialise(msg->getByteStream());
+
+  ptString error = message.getError();
+
+  this_peer->getSession()->sendResponse(error);
+
 }
 
 void TradeHandler::handleBuyItemRequestNpc(GenericMessage* msg)

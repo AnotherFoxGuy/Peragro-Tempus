@@ -19,8 +19,8 @@
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
-#include "propclass/prop.h"
-#include "physicallayer/propclas.h"
+#include <propclass/prop.h>
+#include <physicallayer/propclas.h>
 
 void EntityHandler::handleAddEntity(GenericMessage* msg)
 {

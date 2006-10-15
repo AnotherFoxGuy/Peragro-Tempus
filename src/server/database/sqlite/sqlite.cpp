@@ -114,9 +114,9 @@ void dbSQLite::update()
   }
 }
 
-int dbSQLite::getLastInsertedId()
+size_t dbSQLite::getLastInsertedId()
 {
-  return sqlite3_last_insert_rowid(db);
+  return (size_t) sqlite3_last_insert_rowid(db);
 }
 
 int dbSQLite::callback(void *rs, int cols, char **colArg, char **colName)

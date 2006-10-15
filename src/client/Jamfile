@@ -34,6 +34,7 @@ if [ Property build : projgen_version ] != 6
     pfengine
     pfmesh
     pfmove
+    pfquest
     pftools
     pftrigger
     stdphyslayer
@@ -63,7 +64,7 @@ if [ Property build : projgen_version ] != 6
     cssynldr
     sndmanager
     csopcode
-    cegui
+    cscegui
     reporter
     stdrep
     shadermgr
@@ -88,9 +89,6 @@ if [ Property build : projgen_version ] != 6
     frustvis
     engseq
     sequence
-    rainldr
-    rain
-    partphys_simple
     sprcal3dldr
     sprcal3d
     glshader_fixed

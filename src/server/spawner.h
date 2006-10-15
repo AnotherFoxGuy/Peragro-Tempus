@@ -38,8 +38,8 @@ private:
 
     Item* item;
 
-    unsigned int spawnInterval;
-    unsigned int pickTime;
+    size_t spawnInterval;
+    size_t pickTime;
 
     int entity_id;
 
