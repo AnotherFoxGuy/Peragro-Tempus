@@ -6,9 +6,12 @@ SubInclude TOP src client effects ;
 SubInclude TOP src client entity ;
 SubInclude TOP src client combat ;
 SubInclude TOP src client item ;
+SubInclude TOP src client pointer ;
 
 Description client : "Client" ;
-Application client : [ Wildcard *.h *.cpp ] ;
+Application client : 
+[ Wildcard *.h *.cpp ] 
+[ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs client : CEGUI CRYSTAL CEL ;
 LinkWith client : client-network client-gui client-effects client-entitymanager client-combatmanager client-itemmanager entity util ;
 

@@ -25,7 +25,51 @@
 #include "iutil/vfs.h"
 #include "csutil/ref.h"
 #include "csutil/csstring.h"
+#include "iutil/virtclk.h"
+
 #include "physicallayer/entity.h"
+#include "physicallayer/pl.h"
+#include "iutil/objreg.h"
+#include "iengine/engine.h"
+
+#include "iengine/mesh.h"
+#include "imesh/spritecal3d.h"
+#include "imesh/object.h"
+
+#include "physicallayer/pl.h"
+#include "physicallayer/propfact.h"
+#include "physicallayer/propclas.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/persist.h"
+#include "celtool/initapp.h"
+#include "celtool/persisthelper.h"
+#include "celtool/stdparams.h"
+#include "behaviourlayer/bl.h"
+#include "propclass/test.h"
+#include "propclass/mesh.h"
+#include "propclass/meshsel.h"
+#include "propclass/solid.h"
+#include "propclass/inv.h"
+#include "propclass/chars.h"
+#include "propclass/move.h"
+#include "propclass/prop.h"
+#include "propclass/tooltip.h"
+#include "propclass/defcam.h"
+#include "propclass/gravity.h"
+#include "propclass/timer.h"
+#include "propclass/region.h"
+#include "propclass/input.h"
+#include "propclass/navgraph.h"
+#include "propclass/linmove.h"
+#include "propclass/actormove.h"
+#include "propclass/trigger.h"
+#include "propclass/zone.h"
+#include "propclass/sound.h"
+#include "propclass/colldet.h"
+
+#include "common/entity/entity.h"
+
+#include "client/entity/movement.h"
 
 class PtEntity 
 {
@@ -38,11 +82,19 @@ public:
     ItemEntity=3
   };
 
-private:
+protected:
   int id;
   EntityType type;
   csString name;
+  csString meshname;
   iCelEntity* celentity;
+
+protected:
+  csRef<iObjectRegistry> obj_reg;
+  csRef<iEngine> engine;
+  csRef<iCelPlLayer> pl;
+  csRef<iVFS> vfs;
+  void CreateCelEntity (); 
 
 public:
   PtEntity(EntityType type) : id(-1), type(type) {}
@@ -51,15 +103,22 @@ public:
   int GetId () const { return id; }
   int GetType () const { return type; }
   csString GetName () const { return name; }
+  csString GetMeshName () const { return meshname; }
   iCelEntity* GetCelEntity () const { return celentity; }
 
   void SetId (int value) { this->id = value; }
   void SetType (EntityType value)  { this->type = value; }
   void SetName (csString value) { this->name = value; }
+  void SetMeshName (csString value) { this->meshname = value; }
   void SetCelEntity (iCelEntity* value) { this->celentity = value; }
 
-  virtual void Create() {}
+  virtual void Create(Entity* ent) {}
   virtual void Destroy() {}
+
+  virtual void moveEntity(float walk, float turn) {}
+  virtual bool MoveTo(MoveToData* moveTo) {return true;}
+  virtual void DrUpdate(DrUpdateData* drupdate) {}
+  virtual void updatePcProp() {}
 
 };
 

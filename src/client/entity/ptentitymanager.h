@@ -26,6 +26,8 @@
 #include "iengine/engine.h"
 #include "csgeom/path.h"
 
+#include "csgeom/math3d.h"
+
 #include "iengine/camera.h"
 
 #include "physicallayer/pl.h"
@@ -42,6 +44,8 @@
 
 #include "client/network/network.h"
 
+#include "client/entity/movement.h"
+
 class Effect;
 
 struct iObjectRegistry;
@@ -49,44 +53,8 @@ struct iLoader;
 
 class ptEntityManager
 {
-public:
-  struct Movement
-  {
-    int entity_id;
-    float walk;
-    float turn;
-  };
-
-  struct MoveTo
-  {
-    int entity_id;
-    bool walking;
-    float dest_angle;
-    float walk_speed;
-    float turn_speed;
-    float elapsed_time;
-    float walk_duration;
-  };
-
-  struct UpdatePcProp
-  {
-    int entity_id;
-    csString pcprop;
-    celData value;
-  };
-
-  struct DrUpdate
-  {
-    int entity_id;
-    csString sector;
-    csVector3 pos, vel, wvel;
-    float rot, speed, avel;
-    bool on_ground;
-  };
-
 private:
-
-  csArray<PtEntity> entities;
+  csArray<PtEntity*> entities;
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
@@ -94,16 +62,17 @@ private:
   csRef<iVirtualClock> vc;
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
+  csRef<iObjectRegistry> obj_reg;
     
   Client* client;
 
 private:
   csPDelArray<Entity> new_entity_name;
   csPDelArray<Entity> del_entity_name;
-  csPDelArray<Movement> move_entity_name;
-  csPDelArray<MoveTo> move_to_entity_name;
-  csPDelArray<DrUpdate> drupdate_entity_name;
-  csPDelArray<UpdatePcProp> update_pcprop_entity_name;
+  csPDelArray<MovementData> move_entity_name;
+  csPDelArray<MoveToData> move_to_entity_name;
+  csPDelArray<DrUpdateData> drupdate_entity_name;
+  csPDelArray<UpdatePcPropData> update_pcprop_entity_name;
 
   Mutex mutex;
 
@@ -122,6 +91,8 @@ private:
   void DrUpdateEntity();
   void updatePcProp();
 
+  float GetAngle (const csVector3& v1, const csVector3& v2);
+
 public:
 
   ptEntityManager (iObjectRegistry* obj_reg, Client* client);
@@ -132,6 +103,8 @@ public:
 
   void addEntity(Entity* name);
   void delEntity(Entity* name);
+  void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);
+  void DrUpdateEntity(DrUpdateData* drupdate);
 
   iCelEntity* findCelEntById(int id);
   PtEntity* findPtEntById(int id);

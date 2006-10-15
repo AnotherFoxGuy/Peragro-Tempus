@@ -30,10 +30,8 @@ protected:
   ~PtCharacterEntity() {}
 
 public:
-  void MoveTo();
-  void DrUpdateEntity();
-  void updatePcProp();
-
+  bool MoveTo(MoveToData* moveTo);
+  void DrUpdate(DrUpdateData* drupdate);
 };
 
 #endif // PTCHARACTERENTITY_H

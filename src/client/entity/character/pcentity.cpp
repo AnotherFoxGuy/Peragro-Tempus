@@ -18,49 +18,33 @@
 
 #include "pcentity.h"
 
-void PtPcEntity::Create()
+void PtPcEntity::Create(Entity* ent)
 {
-  csRef<iCelEntity> entity = pl->CreateEntity();
+  id = ent->getId();
+  name = *ent->getName();
+  meshname = *ent->getMesh();
+
+  CreateCelEntity();
 
   char buffer[32];
-  cs_snprintf(buffer, 32, "player_%d", ent->getId());
-  entity->SetName(buffer);
+  cs_snprintf(buffer, 32, "player_%d", id);
+  celentity->SetName(buffer);
 
-  pl->CreatePropertyClass(entity, "pcmesh");
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-  csRef<iPcLinearMovement> pclinmove;
-  pl->CreatePropertyClass(entity, "pcsolid");
-  csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(entity, iPcSolid);
-
-  pl->CreatePropertyClass(entity, "pcactormove");
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
-  pcactormove->SetMovementSpeed (2.0f);
-  pcactormove->SetRunningSpeed (5.0f);
-  pcactormove->SetRotationSpeed (1.75f);
-  pcactormove->SetJumpingVelocity (6.31f);
-
-  vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(*ent->getMesh(), "/peragro/meshes/all.xml");
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
 
   // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
   csRef<iSpriteCal3DState> sprcal3d =
     SCF_QUERY_INTERFACE (pcmesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
   if (sprcal3d) sprcal3d->SetVelocity(0);
 
-  pl->CreatePropertyClass(entity, "pclinearmovement");
-  pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+  pclinmove->InitCD(
+    csVector3(0.5f,0.8f,0.5f),
+    csVector3(0.5f,0.8f,0.5f),
+    csVector3(0,0,0));
 
-  csRef<iCelEntity> region = pl->FindEntity("World");
-  if (region)
-  {
-    csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(region, iPcRegion);
-    pcmesh->MoveMesh(pcregion->GetStartSector(), pcregion->GetStartPosition());
-  }
-
-  pl->CreatePropertyClass(entity, "pcproperties");
-  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
-  pcprop->SetProperty("Entity Type", (long)ent->getType());
-  pcprop->SetProperty("Entity ID", (long)ent->getId());
-  pcprop->SetProperty("Entity Name", *ent->getName());
+  iSector* sector = engine->FindSector(*ent->getSector());
+  csVector3 pos(ent->getPos()[0], ent->getPos()[1], ent->getPos()[2]);
+  pclinmove->SetPosition(pos,0,sector);
 
 }

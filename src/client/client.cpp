@@ -97,6 +97,8 @@
 #include "client/combat/combatmanager.h"
 #include "client/item/itemmanager.h"
 
+#include "client/pointer/pointer.h"
+
 //#include "common/entity/entity.h"
 
 #include "common/util/wincrashdump.h"
@@ -207,9 +209,13 @@ bool Client::Application()
   g3d = CS_QUERY_REGISTRY(GetObjectRegistry(), iGraphics3D);
   if (!g3d) return ReportError("Failed to locate 3D renderer!");
 
+  PointerLibrary pointerlib;
+  pointerlib.setObjectRegistry(GetObjectRegistry());
+
   // Create and Initialize the Network. 
   network = new Network (this);
   network->init();
+  pointerlib.setNetwork(network);
 
   // Create and Initialize the ItemManager.
   itemmanager = new ItemMGR (GetObjectRegistry());

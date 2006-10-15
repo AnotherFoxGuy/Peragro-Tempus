@@ -24,9 +24,15 @@
 class PtPcEntity : public PtCharacterEntity
 {
 public:
-  PtPcEntity() : PtCharacterEntity(PlayerEntity) {}
-
-  void Create();
+  PtPcEntity(iObjectRegistry* obj_reg) : PtCharacterEntity(PlayerEntity)
+  {
+    // Get the pointers to some common utils.
+    this->obj_reg = obj_reg;
+    engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+    pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
+    vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  }
+  void Create(Entity* ent);
 };
 
 #endif // PTPCENTITY_H

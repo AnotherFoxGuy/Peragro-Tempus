@@ -120,7 +120,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   UpdateDREntityMessage dr_msg;
   dr_msg.deserialise(msg->getByteStream());
 
-  ptEntityManager::DrUpdate* drupdate = new ptEntityManager::DrUpdate();
+  DrUpdateData* drupdate = new DrUpdateData();
   drupdate->speed = dr_msg.getSpeed();
   drupdate->rot = dr_msg.getRot();
   drupdate->avel = dr_msg.getAVel();
@@ -131,7 +131,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   drupdate->sector = *dr_msg.getSector();
   drupdate->entity_id = dr_msg.getId();
 
-  //client->GetEntityManager()->DrUpdateEntity(drupdate);
+  client->GetEntityManager()->DrUpdateEntity(drupdate);
 }
 
 void EntityHandler::handleInventoryItemList(GenericMessage* msg)
@@ -171,7 +171,7 @@ void EntityHandler::handleMoveEntityTo(GenericMessage* msg)
   float* fv1 = move_msg.getFromPos();
   float* fv2 = move_msg.getToPos();
 
-  //client->GetEntityManager()->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
+  client->GetEntityManager()->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
 }
 
 
