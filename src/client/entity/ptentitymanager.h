@@ -37,6 +37,9 @@
 
 #include "client/entity/ptentity.h"
 #include "client/entity/character/pcentity.h"
+#include "client/entity/character/npcentity.h"
+#include "client/entity/door/doorentity.h"
+#include "client/entity/item/itementity.h"
 
 #include "common/util/mutex.h"
 
@@ -67,8 +70,8 @@ private:
   Client* client;
 
 private:
-  csPDelArray<Entity> new_entity_name;
-  csPDelArray<Entity> del_entity_name;
+  csPDelArray<PtEntity> new_entity_name;
+  csPDelArray<PtEntity> del_entity_name;
   csPDelArray<MovementData> move_entity_name;
   csPDelArray<MoveToData> move_to_entity_name;
   csPDelArray<DrUpdateData> drupdate_entity_name;
@@ -101,8 +104,8 @@ public:
   bool Initialize ();
   void Handle();
 
-  void addEntity(Entity* name);
-  void delEntity(Entity* name);
+  void addEntity(PtEntity* name);
+  void delEntity(PtEntity* name);
   void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);
   void DrUpdateEntity(DrUpdateData* drupdate);
 

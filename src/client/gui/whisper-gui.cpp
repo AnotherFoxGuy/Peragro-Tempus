@@ -31,6 +31,8 @@
 WhisperWindow::WhisperWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
+  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
 }
 
 WhisperWindow::~WhisperWindow ()
@@ -140,7 +142,6 @@ void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* o
   // If the window doesn't exist already, create it.
   if (!winMgr->isWindowPresent(window_nick))
   {
-    vfs = guimanager->GetClient()->getVFS ();
     vfs->ChDir ("/peragro/gui/");
     CEGUI::Window* root = winMgr->getWindow("Root");
     btn = winMgr->loadWindowLayout("whisper.xml", nickstr);
@@ -151,7 +152,7 @@ void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* o
     btn->subscribeEvent(CEGUI::FrameWindow::EventRollupToggled, CEGUI::Event::Subscriber(&WhisperWindow::OnRollup, this));
     btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&WhisperWindow::OnCloseButton, this));
     btn->subscribeEvent(CEGUI::FrameWindow::EventActivated, CEGUI::Event::Subscriber(&WhisperWindow::OnCaptureGained, this));
-    CEGUI::String ownnickstr = (CEGUI::String)(guimanager->GetClient()->GetEntityManager()->GetOwnName());
+    CEGUI::String ownnickstr = (CEGUI::String)(PointerLibrary::getInstance()->getEntityManager()->GetOwnName());
     btn->setUserString("OwnNickname",ownnickstr);
   }
 

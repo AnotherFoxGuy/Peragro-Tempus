@@ -22,29 +22,31 @@
 #include <propclass/prop.h>
 #include <physicallayer/propclas.h>
 
+#include "client/entity/ptentitymanager.h"
+
 void EntityHandler::handleAddEntity(GenericMessage* msg)
 {
   printf("EntityHandler: Received AddEntity\n");
   AddEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  Entity* entity = 0;
+  PtEntity* entity = 0;
   switch (entmsg.getType())
   {
-    case Entity::ItemEntity: entity = new ItemEntity(); break;
-    case Entity::PlayerEntity: entity = new PcEntity(); break;
-    case Entity::NPCEntity: entity = new NpcEntity(); break;
-    case Entity::DoorEntity: entity = new DoorEntity(); break;
-    default : {printf("EntityHandler: ERROR Unknown entity type for %s!\n", *entmsg.getName()); return;}
+    //case PtEntity::ItemEntity: entity = new PtItemEntity(); break;
+    case PtEntity::PlayerEntity: entity = new PtPcEntity(); break;
+    //case PtEntity::NPCEntity: entity = new PtNpcEntity(); break;
+    case PtEntity::DoorEntity: entity = new PtDoorEntity(); break;
+  default : {printf("EntityHandler: ERROR Unknown entity type for %s!\n", *entmsg.getName()); return;}
   };
-  entity->setName(entmsg.getName());
-  entity->setMesh(entmsg.getMesh());
-  entity->setPos(entmsg.getPos());
-  entity->setSector(entmsg.getSector());
-  //entity->setType(entmsg.getType());
-  entity->setId(entmsg.getId());
-  client->GetEntityManager()->addEntity(entity);
-  if (entmsg.getType() == Entity::PlayerEntity)
-    client->GetGuiManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
+  entity->SetName(*entmsg.getName());
+  entity->SetMeshName(*entmsg.getMesh());
+  csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
+  entity->SetPosition(pos);
+  entity->SetSectorName(*entmsg.getSector());
+  entity->SetId(entmsg.getId());
+  PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
+  if (entmsg.getType() == PtEntity::PlayerEntity)
+    PointerLibrary::getInstance()->getGUIManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
 }
 
 void EntityHandler::handleAddDoor(GenericMessage* msg)
@@ -52,32 +54,32 @@ void EntityHandler::handleAddDoor(GenericMessage* msg)
   printf("EntityHandler: Received AddDoor\n");
   AddDoorMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  DoorEntity* entity = 0;
-  entity = new DoorEntity();
-  entity->setName(entmsg.getName());
-  entity->setMesh(entmsg.getMesh());
-  entity->setOpen(entmsg.getOpen());
-  entity->setLocked(entmsg.getLocked());
-  entity->setId(entmsg.getId());
-  client->GetEntityManager()->addEntity(entity);
+  PtDoorEntity* entity = 0;
+  entity = new PtDoorEntity();
+  entity->SetName(*entmsg.getName());
+  entity->SetMeshName(*entmsg.getMesh());
+  entity->SetOpen(entmsg.getOpen());
+  entity->SetLocked(entmsg.getLocked());
+  entity->SetId(entmsg.getId());
+  PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
 }
 void EntityHandler::handleRemoveEntity(GenericMessage* msg)
 {
   printf("EntityHandler: Received RemoveEntity\n");
   RemoveEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  Entity* entity = 0;
+  PtEntity* entity = 0;
   switch (entmsg.getType())
   {
-    case Entity::ItemEntity: entity = new ItemEntity(); break;
-    case Entity::PlayerEntity: entity = new PcEntity(); break;
-    case Entity::NPCEntity: entity = new NpcEntity(); break;
+    case PtEntity::ItemEntity: entity = new PtItemEntity(); break;
+    case PtEntity::PlayerEntity: entity = new PtPcEntity(); break;
+    case PtEntity::NPCEntity: entity = new PtNpcEntity(); break;
   };
-  entity->setName(entmsg.getName());
-  entity->setId(entmsg.getId());
-  client->GetEntityManager()->delEntity(entity);
-  if (entmsg.getType() == Entity::PlayerEntity)
-    client->GetGuiManager()->GetBuddyWindow()->RemovePlayer(*entmsg.getName());
+  entity->SetName(*entmsg.getName());
+  entity->SetId(entmsg.getId());
+  PointerLibrary::getInstance()->getEntityManager()->delEntity(entity);
+  if (entmsg.getType() == PtEntity::PlayerEntity)
+    PointerLibrary::getInstance()->getGUIManager()->GetBuddyWindow()->RemovePlayer(*entmsg.getName());
 }
 
 void EntityHandler::handleMoveEntity(GenericMessage* msg)
@@ -92,12 +94,14 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
 {
   PickEntityResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
+  guimanager = PointerLibrary::getInstance()->getGUIManager();
+  const char* ownname = PointerLibrary::getInstance()->getEntityManager()->GetOwnName();
 
   if (response_msg.getError().isNull())
   {
     printf("%s picks Item %s(%d)\n", *response_msg.getName(), *response_msg.getTarget(), response_msg.getItemId());
-    if (strlen(*response_msg.getName()) == strlen(client->GetEntityManager()->GetOwnName())
-      && !strcmp(*response_msg.getName(), client->GetEntityManager()->GetOwnName()))
+    if (strlen(*response_msg.getName()) == strlen(ownname)
+      && !strcmp(*response_msg.getName(), ownname))
       guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlot());
   }
   else
@@ -131,7 +135,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   drupdate->sector = *dr_msg.getSector();
   drupdate->entity_id = dr_msg.getId();
 
-  client->GetEntityManager()->DrUpdateEntity(drupdate);
+  PointerLibrary::getInstance()->getEntityManager()->DrUpdateEntity(drupdate);
 }
 
 void EntityHandler::handleInventoryItemList(GenericMessage* msg)
@@ -139,7 +143,7 @@ void EntityHandler::handleInventoryItemList(GenericMessage* msg)
   InventoryItemListMessage item_msg;
   item_msg.deserialise(msg->getByteStream());
   printf("EntityHandler: Got %d items in the Inventory: \n---------------------------\n", item_msg.getItemCount());
-  guimanager = client->GetGuiManager();
+  guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<item_msg.getItemCount(); i++)
   {
     for (int j=0; j<item_msg.getItemAmount(i); j++)
@@ -155,7 +159,7 @@ void EntityHandler::handleCharacterStatList(GenericMessage* msg)
   CharacterStatListMessage stat_msg;
   stat_msg.deserialise(msg->getByteStream());
   printf("EntityHandler: Got %d stats for the Character: \n---------------------------\n", stat_msg.getStatCount());
-  guimanager = client->GetGuiManager();
+  guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<stat_msg.getStatCount(); i++)
   {
     guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
@@ -171,7 +175,7 @@ void EntityHandler::handleMoveEntityTo(GenericMessage* msg)
   float* fv1 = move_msg.getFromPos();
   float* fv2 = move_msg.getToPos();
 
-  client->GetEntityManager()->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
+  PointerLibrary::getInstance()->getEntityManager()->moveEntity(move_msg.getId(), move_msg.getSpeed(), fv1, fv2);
 }
 
 
@@ -180,7 +184,7 @@ void EntityHandler::handleCharacterSkillList(GenericMessage* msg)
   CharacterSkillListMessage skill_msg;
   skill_msg.deserialise(msg->getByteStream());
   printf("EntityHandler: Got %d skill(s) for the Character: \n---------------------------\n", skill_msg.getSkillCount());
-  guimanager = client->GetGuiManager();
+  guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<skill_msg.getSkillCount(); i++)
   {
     //guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
@@ -192,7 +196,7 @@ void EntityHandler::handleEquip(GenericMessage* msg)
 {
   EquipMessage equip_msg;
   equip_msg.deserialise(msg->getByteStream());
-  guimanager = client->GetGuiManager();
+  guimanager = PointerLibrary::getInstance()->getGUIManager();
   if (!equip_msg.getError().isNull())
   {
     printf("EquipMessage: ERROR: '%s'\n", *equip_msg.getError());
@@ -224,7 +228,7 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
   float* pos = telemsg.getPos();
   const char* sector = *telemsg.getSector();
 
-  //client->GetEntityManager()->teleport(entity_id, pos, sector);
+  //PointerLibrary::getInstance()->getEntityManager()->teleport(entity_id, pos, sector);
 }
 
 void EntityHandler::handleAddCharacterEntity(GenericMessage* msg)
@@ -232,19 +236,21 @@ void EntityHandler::handleAddCharacterEntity(GenericMessage* msg)
   printf("EntityHandler: Received AddEntity\n");
   AddCharacterEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  PcEntity* entity = new PcEntity();
-  entity->setName(entmsg.getName());
-  entity->setMesh(entmsg.getMesh());
-  entity->setPos(entmsg.getPos());
-  entity->setSector(entmsg.getSector());
-  //entity->setType(entmsg.getType());
-  entity->setId(entmsg.getEntityId());
+  PtPcEntity* entity = new PtPcEntity();
+  entity->SetName(*entmsg.getName());
+  entity->SetMeshName(*entmsg.getMesh());
+  csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
+  entity->SetPosition(pos);
+  entity->SetSectorName(*entmsg.getSector());
+  entity->SetId(entmsg.getEntityId());
+  /*
   Character* character = new Character();
   character->setDecalColour(entmsg.getDecalColour());
   character->setHairColour(entmsg.getHairColour());
   character->setSkinColour(entmsg.getSkinColour());
   entity->setCharacter(character);
-  client->GetEntityManager()->addEntity(entity);
-  if (entmsg.getEntityType() == Entity::PlayerEntity)
-    client->GetGuiManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
+  */
+  PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
+  if (entmsg.getEntityType() == PtEntity::PlayerEntity)
+    PointerLibrary::getInstance()->getGUIManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
 }

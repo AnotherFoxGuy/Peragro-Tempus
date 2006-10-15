@@ -92,7 +92,7 @@ iCelEntity* ptEntityManager::findCelEntById(int id)
   return 0;
 }
 
-void ptEntityManager::addEntity(Entity* entity)
+void ptEntityManager::addEntity(PtEntity* entity)
 {
   mutex.lock();
   new_entity_name.Push(entity);
@@ -105,23 +105,13 @@ void ptEntityManager::addEntity()
 
   mutex.lock();
 
-  Entity* ent = new_entity_name.Pop();
-
-  PtEntity* entity = 0;
-  switch (ent->getType())
-  {
-  //case PtEntity::ItemEntity: entity = new ItemEntity(); break;
-  case PtEntity::PlayerEntity: entity = new PtPcEntity(obj_reg); break;
-  //case PtEntity::NPCEntity: entity = new PtNpcEntity(); break;
-  //case PtEntity::DoorEntity: entity = new DoorEntity(); break;
-  default : {printf("EntityHandler: ERROR Unknown entity type for %s!\n", *ent->getName());}
-  };
+  PtEntity* entity = new_entity_name.Pop();
 
   if(entity)
   {
-    entity->Create(ent);
+    entity->Create();
 
-    if (own_char_id == ent->getId())
+    if (own_char_id == entity->GetId())
     {
       printf("ptEntityManager:  Adding Entity '%s' as me\n", entity->GetName());
       csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
@@ -131,7 +121,7 @@ void ptEntityManager::addEntity()
       // Set up own player cam and entity for faster access.
       owncam = pccamera->GetCamera();
       ownent = entity->GetCelEntity();
-      ownname = *ent->getName();
+      ownname = entity->GetName();
     }
     else
       printf("ptEntityManager: Adding Entity '%s'\n", entity->GetName());
@@ -140,12 +130,10 @@ void ptEntityManager::addEntity()
     entities.Push (entity);
   }
 
-  delete ent;
-
   mutex.unlock();
 }
 
-void ptEntityManager::delEntity(Entity* entity)
+void ptEntityManager::delEntity(PtEntity* entity)
 {
   mutex.lock();
   del_entity_name.Push(entity);
@@ -158,9 +146,9 @@ void ptEntityManager::delEntity()
 
   mutex.lock();
 
-  Entity* ent = del_entity_name.Pop();
+  PtEntity* ent = del_entity_name.Pop();
 
-  int id = ent->getId();
+  int id = ent->GetId();
 
   for (size_t i = 0; i < entities.Length(); i++)
   {

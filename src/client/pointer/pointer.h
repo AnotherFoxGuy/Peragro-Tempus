@@ -20,6 +20,7 @@
 #define POINTERLIBRARY_H_
 
 struct iObjectRegistry;
+class Client;
 class Network;
 class ItemMGR;
 class GUIManager;
@@ -33,6 +34,7 @@ private:
   static PointerLibrary* pointerlib;
 
   iObjectRegistry* objreg;
+  Client* client;
   Network* network;
   ItemMGR* itemmanager;
   GUIManager* guimanager;
@@ -46,6 +48,9 @@ public:
 
   void setObjectRegistry(iObjectRegistry* objreg) { this->objreg = objreg; }
   iObjectRegistry* getObjectRegistry() { return this->objreg; }
+  
+  void setClient(Client* client) { this->client = client; }
+  Client* getClient() { return this->client; }
 
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }

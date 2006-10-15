@@ -18,7 +18,41 @@
 
 #include "doorentity.h"
 
+PtDoorEntity::PtDoorEntity() : PtEntity(PtEntity::DoorEntity)
+{
+  open=false;
+  locked=false;
+
+  // Get the pointers to some common utils.
+  this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+  pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
+}
+
 void PtDoorEntity::Create()
 {
+  CreateCelEntity();
+
+  celentity->SetName(name.GetData());
+
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+  csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshname.GetData());
+  if (doormesh)
+    pcmesh->SetMesh(doormesh);
+  else
+  {
+    printf("PtDoorEntity: ERROR Couldn't find mesh for door %s!\n", name.GetData());
+    return;
+  }
+
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
+  pcprop->SetProperty("Door Open", open);
+  pcprop->SetProperty("Door Locked", locked);
+
+  pl->CreatePropertyClass(celentity, "pcquest");
+  csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celentity, iPcQuest);
+  celQuestParams parameters;
+  pcquest->NewQuest("PropDoor",parameters);
+  pcquest->GetQuest()->SwitchState("closed");
   
 }

@@ -21,10 +21,14 @@
 
 #include "client/entity/ptentity.h"
 
+#include "client/pointer/pointer.h"
+
+#include "client/item/itemmanager.h"
+
 class PtItemEntity : public PtEntity
 {
 public:
-  PtItemEntity() : PtEntity(PtEntity::ItemEntity) {}
+  PtItemEntity();
 
   void Create();
 

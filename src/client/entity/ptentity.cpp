@@ -18,6 +18,8 @@
 
 #include "ptentity.h"
 
+#include "client/pointer/pointer.h"
+
 void PtEntity::CreateCelEntity()
 {
   csRef<iCelEntity> entity = pl->CreateEntity();
@@ -36,10 +38,6 @@ void PtEntity::CreateCelEntity()
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
   csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(entity, iPcSolid);
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
-  
-  // Load and assign the mesh to the entity.
-  vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml");
 
   // Place the entity in the world.
   csRef<iCelEntity> region = pl->FindEntity("World");

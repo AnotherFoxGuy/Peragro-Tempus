@@ -29,7 +29,7 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
   if (!error.isNull())
   {
     printf("Login Failed due to: %s\n", *error);
-    guimanager = client->GetGuiManager();
+    guimanager = PointerLibrary::getInstance()->getGUIManager();
     guimanager->CreateOkWindow()->SetText(*error);
     guimanager->GetLoginWindow()->EnableWindow();
     return;
@@ -47,7 +47,7 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
   if (!error.isNull())
   {
     printf("Registration Failed due to: %s\n", *error);
-    guimanager = client->GetGuiManager();
+    guimanager = PointerLibrary::getInstance()->getGUIManager();
     guimanager->CreateOkWindow()->SetText(*error);
     return;
   }
@@ -60,7 +60,7 @@ void UserHandler::handleCharList(GenericMessage* msg)
   CharListMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
   //printf("Got %d character:\n---------------------------\n", char_msg.getCharacterCount());
-  guimanager = client->GetGuiManager();
+  guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
     guimanager->GetSelectCharWindow ()->AddCharacter(
@@ -74,7 +74,7 @@ void UserHandler::handleCharCreationResponse(GenericMessage* msg)
 {
   CharCreateResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
-  guimanager = client->GetGuiManager();
+  guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   if (answer_msg.getError().isNull())
   {
@@ -94,5 +94,5 @@ void UserHandler::handleCharSelectionResponse(GenericMessage* msg)
   client->state = Client::STATE_PLAY;
   CharSelectResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
-  client->GetEntityManager()->setCharacter(answer_msg.getCharEntityId());
+  PointerLibrary::getInstance()->getEntityManager()->setCharacter(answer_msg.getCharEntityId());
 }

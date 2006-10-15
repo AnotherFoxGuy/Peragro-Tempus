@@ -18,12 +18,17 @@
 
 #include "pcentity.h"
 
-void PtPcEntity::Create(Entity* ent)
+PtPcEntity::PtPcEntity() : PtCharacterEntity(PlayerEntity)
 {
-  id = ent->getId();
-  name = *ent->getName();
-  meshname = *ent->getMesh();
+  // Get the pointers to some common utils.
+  this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+  pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
+  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+}
 
+void PtPcEntity::Create()
+{
   CreateCelEntity();
 
   char buffer[32];
@@ -32,6 +37,10 @@ void PtPcEntity::Create(Entity* ent)
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+
+  // Load and assign the mesh to the entity.
+  vfs->ChDir("/cellib/objects/");
+  pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml");
 
   // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
   csRef<iSpriteCal3DState> sprcal3d =
@@ -43,8 +52,7 @@ void PtPcEntity::Create(Entity* ent)
     csVector3(0.5f,0.8f,0.5f),
     csVector3(0,0,0));
 
-  iSector* sector = engine->FindSector(*ent->getSector());
-  csVector3 pos(ent->getPos()[0], ent->getPos()[1], ent->getPos()[2]);
+  iSector* sector = engine->FindSector(sectorname);
   pclinmove->SetPosition(pos,0,sector);
 
 }

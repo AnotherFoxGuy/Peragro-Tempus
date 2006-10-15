@@ -97,8 +97,6 @@
 #include "client/combat/combatmanager.h"
 #include "client/item/itemmanager.h"
 
-#include "client/pointer/pointer.h"
-
 //#include "common/entity/entity.h"
 
 #include "common/util/wincrashdump.h"
@@ -209,8 +207,8 @@ bool Client::Application()
   g3d = CS_QUERY_REGISTRY(GetObjectRegistry(), iGraphics3D);
   if (!g3d) return ReportError("Failed to locate 3D renderer!");
 
-  PointerLibrary pointerlib;
   pointerlib.setObjectRegistry(GetObjectRegistry());
+  pointerlib.setClient(this);
 
   // Create and Initialize the Network. 
   network = new Network (this);
@@ -221,11 +219,13 @@ bool Client::Application()
   itemmanager = new ItemMGR (GetObjectRegistry());
   if (!itemmanager->Initialize())
     return false;
+  pointerlib.setItemManager(itemmanager);
 
   // Create and Initialize the GUImanager.
   guimanager = new GUIManager (this);
-  if (!guimanager->Initialize (GetObjectRegistry()))
+  if (!guimanager->Initialize ())
     return false;
+  pointerlib.setGUIManager(guimanager);
 
   if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
     return ReportError("Failed to set up event handler!");
@@ -263,16 +263,19 @@ bool Client::Application()
   entitymanager = new ptEntityManager (GetObjectRegistry(), this);
   if (!entitymanager->Initialize())
     return false;
+  pointerlib.setEntityManager(entitymanager);
 
   // Create and Initialize the Effectsmanager.
   effectsmanager = new EffectsManager (GetObjectRegistry());
   if (!effectsmanager->Initialize())
     return false;
+  pointerlib.setEffectsManager(effectsmanager);
 
   // Create and Initialize the Combatmanager.
-  combatmanager = new CombatMGR (this);
+  combatmanager = new CombatMGR ();
   if (!combatmanager->Initialize())
     return false;
+  pointerlib.setCombatManager(combatmanager);
 
   view.AttachNew(new csView(engine, g3d));
 
@@ -557,7 +560,7 @@ bool Client::OnKeyboard(iEvent& ev)
         csRef<iPcProperties> pcprop;
         if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
         if (!pcprop) return false;
-        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
+        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
         {
           combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         }
@@ -680,7 +683,7 @@ bool Client::OnMouseDown(iEvent& ev)
           if (!pcprop) return false;
 
           // If it's an item, request a pickup.
-          if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::ItemEntity)
+          if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::ItemEntity)
           {
             PickEntityRequestMessage msg;
             msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
@@ -688,7 +691,7 @@ bool Client::OnMouseDown(iEvent& ev)
             network->send(&msg);
           }
           // If it's a door, request to open.
-          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::DoorEntity)
+          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::DoorEntity)
           {
             if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Open")))
             {
@@ -706,12 +709,12 @@ bool Client::OnMouseDown(iEvent& ev)
             }
           }
           // If it's a player, attack it.
-          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::PlayerEntity)
+          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
           {
             combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
           }
           // If it's a npc, open a dialog.
-          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == Entity::NPCEntity)
+          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::NPCEntity)
           {
             NpcStartDialogMessage msg;
             msg.setNpcId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));

@@ -70,18 +70,18 @@ bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
 
   int own_char_id = atoi(item->getText().c_str());
 
-  Entity* entity = 0;
-  entity = new PcEntity();
+  PtEntity* entity = 0;
+  entity = new PtPcEntity();
 
   printf("SelectCharWindow: Creating entity.\n");
 
-  entity->setName(ptString("sue", 3));
-  entity->setMesh(ptString("test", 4));
-  entity->setPos(-2,2,-90);
-  entity->setSector(ptString("room", 4));
-  entity->setId(own_char_id);
+  entity->SetName("sue");
+  entity->SetMeshName("test");
+  entity->SetPosition(csVector3(-2,2,-90));
+  entity->SetSectorName("room");
+  entity->SetId(own_char_id);
 
-  //guimanager->GetClient()->GetEntityManager()->createCelEntity(entity);
+  //PointerLibrary::getInstance()->getEntityManager()->createCelEntity(entity);
 
   delete entity;
 

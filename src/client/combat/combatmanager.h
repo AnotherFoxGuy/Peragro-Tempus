@@ -34,6 +34,8 @@
 
 #include "client/network/network.h"
 
+#include "client/pointer/pointer.h"
+
 class Client;
 class Effect;
 class GUIManager;
@@ -69,7 +71,7 @@ public:
     EnergyBind=4
   };
 
-  CombatMGR (Client* client);
+  CombatMGR ();
   ~CombatMGR ();
 
   bool Initialize ();

@@ -54,8 +54,10 @@ GUIManager::~GUIManager ()
   delete dragdrop;
 }
 
-bool GUIManager::Initialize (iObjectRegistry* obj_reg)
+bool GUIManager::Initialize ()
 {
+    iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+
     cegui = CS_QUERY_REGISTRY(obj_reg, iCEGUI);
     if (!cegui) return client->ReportError("Failed to locate CEGUI plugin");
 
@@ -65,8 +67,7 @@ bool GUIManager::Initialize (iObjectRegistry* obj_reg)
     // Set the logging level
     cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
-    csRef<iVFS> vfs = client->getVFS ();
-
+    csRef<iVFS> vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
     vfs->ChDir ("/peragro/skin/");
 
     // Load the ice skin (which uses Falagard skinning system)

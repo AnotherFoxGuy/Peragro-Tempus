@@ -28,6 +28,8 @@
 InventoryWindow::InventoryWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
+  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
 }
 
 InventoryWindow::~InventoryWindow()
@@ -105,10 +107,9 @@ void InventoryWindow::CreateGUIWindow()
   winMgr = cegui->GetWindowManagerPtr ();
 
   dragdrop = guimanager->GetDragDrop();
-  itemmanager = guimanager->GetClient ()->getItemmgr();
+  itemmanager = PointerLibrary::getInstance()->getItemManager();
 
   //Load the inventory icon imageset
-  vfs = guimanager->GetClient()->getVFS ();
   vfs->ChDir ("/peragro/skin/");
   cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/inventory.imageset", "Inventory");
 

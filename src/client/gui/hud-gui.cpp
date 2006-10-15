@@ -63,7 +63,6 @@ void HUDWindow::CreateGUIWindow ()
   xpbar->setProgress(1.0f);
 
   //Load the skill icon imageset
-  vfs = guimanager->GetClient()->getVFS ();
   vfs->ChDir ("/peragro/skin/");
   cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/skill.imageset", "Skill");
 

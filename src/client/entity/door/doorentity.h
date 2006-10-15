@@ -21,6 +21,8 @@
 
 #include "client/entity/ptentity.h"
 
+#include "client/pointer/pointer.h"
+
 class PtDoorEntity : public PtEntity
 {
 private:
@@ -28,13 +30,10 @@ private:
   bool locked;
 
 public:
-  PtDoorEntity() : PtEntity(PtEntity::DoorEntity)
-  {
-	  open=false;
-	  locked=false;
-  }
-
+  PtDoorEntity();
   void Create();
+  void SetOpen(bool value) { this->open = value; }
+  void SetLocked(bool value) { this->locked = value; }
 };
 
 #endif // PTDOORENTITY_H

@@ -32,9 +32,10 @@
 GUIWindow::GUIWindow(GUIManager* guimanager)
 : guimanager(guimanager)
 {
+  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
   cegui = guimanager->GetCEGUI ();
-  vfs = guimanager->GetClient ()->getVFS ();
-  network = guimanager->GetClient ()->getNetwork ();
+  network = PointerLibrary::getInstance()->getNetwork();
 }
 GUIWindow::~GUIWindow()
 {

@@ -98,8 +98,7 @@
 
 #include "common/network/netmessage.h"
 
-CombatMGR::CombatMGR(Client* client)
-: client(client)
+CombatMGR::CombatMGR()
 {
 }
 
@@ -119,10 +118,11 @@ iMeshWrapper* CombatMGR::getMesh(iCelEntity* entity)
 
 bool CombatMGR::Initialize ()
 {
-  entitymgr   = client->GetEntityManager ();
-  effectsmgr  = client->getEffectsmgr();
-  guimanager  = client->getGuimgr();
-  network     = client->getNetwork ();
+  client      = PointerLibrary::getInstance()->getClient();
+  entitymgr   = PointerLibrary::getInstance()->getEntityManager();
+  effectsmgr  = PointerLibrary::getInstance()->getEffectsManager();
+  guimanager  = PointerLibrary::getInstance()->getGUIManager();
+  network     = PointerLibrary::getInstance()->getNetwork();
 
   if (!entitymgr)
   {

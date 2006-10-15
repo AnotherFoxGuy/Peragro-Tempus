@@ -17,6 +17,7 @@ under each day.
   - Sueastside added a pointerlib class.
   - PK does another monster commit by moving common/entity to server/entity
     and more stuff.
+  - Sueastside did more work on the refactoring of entitymanager.
 
 14-Oct-2006
   - Sueastside started refactoring the entitymanager,

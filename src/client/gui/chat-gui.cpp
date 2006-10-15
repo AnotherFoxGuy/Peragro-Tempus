@@ -167,7 +167,7 @@ bool ChatWindow::HandleCommand (const char* texti)
         msg += " ";
       }
       // Get your own nickname.
-      csString ownnick = guimanager->GetClient()->GetEntityManager()->GetOwnName();
+      csString ownnick = PointerLibrary::getInstance()->getEntityManager()->GetOwnName();
       // Add your own text to the whisper.
       guimanager->GetWhisperWindow()->AddWhisper(nick.GetData(), msg.GetData(), ownnick.GetData());
       // Send the whisper to the network.

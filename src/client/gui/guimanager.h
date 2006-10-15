@@ -74,7 +74,7 @@ public:
   GUIManager (Client* client);
   ~GUIManager ();
   
-  bool Initialize (iObjectRegistry* obj_reg);
+  bool Initialize ();
   void Render ();
   
   Client* GetClient () {return client;}

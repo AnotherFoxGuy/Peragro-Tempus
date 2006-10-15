@@ -24,8 +24,6 @@
 #include "common/network/messagehandler.h"
 #include "common/network/entitymessages.h"
 
-#include "common/entity/entitymanager.h"
-
 #include "client/network/doorhandler.h"
 #include "client/network/questhandler.h"
 #include "client/network/skillhandler.h"

@@ -44,14 +44,16 @@
 #include "CEGUILogger.h"
 #include "client/gui/guimanager.h"
 
-#include "common/entity/entity.h"
+#include "client/pointer/pointer.h"
+
+#include "client/entity/ptentitymanager.h"
 
 Cursor::Cursor(Client* client)
 : client(client)
 {
   selent = 0;
 
-  CEGUI::WindowManager* winMgr = client->GetGuiManager()->GetCEGUI()->GetWindowManagerPtr();
+  CEGUI::WindowManager* winMgr = PointerLibrary::getInstance()->getGUIManager()->GetCEGUI()->GetWindowManagerPtr();
   CEGUI::Window* root = winMgr->getWindow("Root");
   nametag = winMgr->createWindow("Peragro/Entity", "NameTag");
   root->addChildWindow(nametag);
@@ -71,16 +73,16 @@ void Cursor::Draw()
     int type = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type"));
     switch(type)
     {
-    case Entity::PlayerEntity:
+    case PtEntity::PlayerEntity:
       nametag->setProperty("NormalTextColour", "FF05AA05");
       break;
-    case Entity::NPCEntity:
+    case PtEntity::NPCEntity:
       nametag->setProperty("NormalTextColour", "FFFF00FF");
       break;
-    case Entity::DoorEntity:
+    case PtEntity::DoorEntity:
       nametag->setProperty("NormalTextColour", "FF550505");
       break;
-    case Entity::ItemEntity:
+    case PtEntity::ItemEntity:
       nametag->setProperty("NormalTextColour", "FF0505AA");
       break;
     default:

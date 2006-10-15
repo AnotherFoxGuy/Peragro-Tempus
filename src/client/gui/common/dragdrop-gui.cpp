@@ -33,8 +33,8 @@ DragDrop::DragDrop (GUIManager* guimanager)
 {
   this->guimanager = guimanager;
   winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr ();
-  itemmanager = guimanager->GetClient ()->getItemmgr();
-  network = guimanager->GetClient ()->getNetwork ();
+  itemmanager = PointerLibrary::getInstance()->getItemManager();
+  network = PointerLibrary::getInstance()->getNetwork();
 }
 
 DragDrop::~DragDrop ()

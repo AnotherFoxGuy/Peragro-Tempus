@@ -26,7 +26,7 @@ void SkillHandler::handleSkillUsageStartResponse(GenericMessage* msg)
   SkillUsageStartResponseMessage skillmsg;
   skillmsg.deserialise(msg->getByteStream());
 
-  client->getCombatmgr()->SkillUsageStart ( skillmsg.getCaster(), skillmsg.getTarget(), skillmsg.getSkill(), skillmsg.getError() );
+  PointerLibrary::getInstance()->getCombatManager()->SkillUsageStart ( skillmsg.getCaster(), skillmsg.getTarget(), skillmsg.getSkill(), skillmsg.getError() );
 }
 
 void SkillHandler::handleSkillUsageCompletion(GenericMessage* msg)
@@ -36,7 +36,7 @@ void SkillHandler::handleSkillUsageCompletion(GenericMessage* msg)
   SkillUsageCompletionMessage skillmsg;
   skillmsg.deserialise(msg->getByteStream());
 
-  client->getCombatmgr()->SkillUsageComplete ( skillmsg.getCaster(), skillmsg.getTarget(), skillmsg.getSkill());
+  PointerLibrary::getInstance()->getCombatManager()->SkillUsageComplete ( skillmsg.getCaster(), skillmsg.getTarget(), skillmsg.getSkill());
 }
 
 void SkillHandler::handleSkillUsageInterrupt(GenericMessage* msg)
