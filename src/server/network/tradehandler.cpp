@@ -17,18 +17,13 @@
 */
 
 #include "network.h"
+#include "networkhelper.h"
 #include "tradehandler.h"
 #include "common/entity/tradesession.h"
 
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
-  Connection* conn = msg->getConnection();
-  if (!conn) return;
-
-  User* user = conn->getUser();
-  if (!user) return;
-
-  PcEntity* pc = user->getEntity();
+  PcEntity* pc = NetworkHelper::getPcEntity(msg);
   if (!pc) return;
 
   TradePeer* this_peer = pc->getTradePeer();
@@ -78,13 +73,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)
 {
-  Connection* conn = msg->getConnection();
-  if (!conn) return;
-
-  User* user = conn->getUser();
-  if (!user) return;
-
-  PcEntity* pc = user->getEntity();
+  PcEntity* pc = NetworkHelper::getPcEntity(msg);
   if (!pc) return;
 
   TradePeer* this_peer = pc->getTradePeer();
@@ -99,7 +88,6 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
   ptString error = message.getError();
 
   this_peer->getSession()->sendResponse(error);
-
 }
 
 void TradeHandler::handleBuyItemRequestNpc(GenericMessage* msg)

@@ -16,6 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "networkhelper.h"
 #include "server/network/network.h"
 #include "server/network/connection.h"
 #include "server/user.h"
@@ -28,16 +29,7 @@
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
-  Connection* conn = msg->getConnection();
-  if (!conn) return;
-
-  User* user = conn->getUser();
-  if (!user) return;
-
-  PcEntity* pc = user->getEntity();
-  if (!pc) return;
-
-  Character* character = pc->getCharacter();
+  Character* character = NetworkHelper::getCharacter(msg);
   if (!character) return;
 
   NPCDialogState* dia_state = character->getNPCDialogState();
@@ -62,21 +54,13 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
   ByteStream bs;
   dialog_msg.serialise(&bs);
-  if (conn) conn->send(bs);
+
+  NetworkHelper::sendMessage(character, bs);
 }
 
 void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
 {
-  Connection* conn = msg->getConnection();
-  if (!conn) return;
-
-  User* user = conn->getUser();
-  if (!user) return;
-
-  PcEntity* pc = user->getEntity();
-  if (!pc) return;
-
-  Character* character = pc->getCharacter();
+  Character* character = NetworkHelper::getCharacter(msg);
   if (!character) return;
 
   NPCDialogState* dia_state = character->getNPCDialogState();
@@ -99,21 +83,13 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
 
   ByteStream bs;
   dialog_msg.serialise(&bs);
-  if (conn) conn->send(bs);
+
+  NetworkHelper::sendMessage(character, bs);
 }
 
 void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
 {
-  Connection* conn = msg->getConnection();
-  if (!conn) return;
-
-  User* user = conn->getUser();
-  if (!user) return;
-
-  PcEntity* pc = user->getEntity();
-  if (!pc) return;
-
-  Character* character = pc->getCharacter();
+  Character* character = NetworkHelper::getCharacter(msg);
   if (!character) return;
 
   NPCDialogState* dia_state = character->getNPCDialogState();

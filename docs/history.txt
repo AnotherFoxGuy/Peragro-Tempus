@@ -12,11 +12,13 @@ under each day.
   - PK fixed a bug with NPC dialogs.
   - PK changed some include from #include "" to #include <>.
     Please use #include <> for external libs like CS and cel.
+  - PK refectored the networkhandler and moved common operations to
+    NetworkHelper.
 
 14-Oct-2006
   - Sueastside started refactoring the entitymanager,
-     splitsing everything up per entity type in classes.
-     Currently it's broken, work in progress.
+    splitsing everything up per entity type in classes.
+    Currently it's broken, work in progress.
 
 7-Oct-2006
   - Sueastside added an empty world, use --world=empty.

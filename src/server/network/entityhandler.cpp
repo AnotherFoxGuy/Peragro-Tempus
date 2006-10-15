@@ -20,15 +20,18 @@
 #include "common/entity/statmanager.h"
 #include "common/entity/racemanager.h"
 #include "common/entity/race.h"
-#include "server/network/network.h"
+#include "network.h"
+#include "networkhelper.h"
 #include "server/usermanager.h"
 #include "server/charactermanager.h"
 
 void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
-  int name_id = conn->getUser()->getEntity()->getId();
+  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  if (!user_ent) return;
+
+  int name_id = user_ent->getId();
+
   MoveEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
   //printf("Received MoveRequest from: '%s' w(%d) t(%d)\n", name, request_msg.getWalk(), request_msg.getRot());
@@ -49,10 +52,9 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 
 void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
+  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  if (!user_ent) return;
 
-  Entity* user_ent = conn->getUser()->getEntity();
   int name_id = user_ent->getId();
 
   UpdateDREntityRequestMessage request_msg;
@@ -86,9 +88,9 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
-  CharacterEntity* user_ent = conn->getUser()->getEntity();
+  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  if (!user_ent) return;
+
   ptString name = user_ent->getName();
   PickEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -159,14 +161,14 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   }
   ByteStream bs;
   response_msg.serialise(&bs);
-  conn->send(bs);
+  NetworkHelper::sendMessage(user_ent, bs);
 }
 
 void EntityHandler::handleDropRequest(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
-  CharacterEntity* user_ent = conn->getUser()->getEntity();
+  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  if (!user_ent) return;
+
   ptString name = user_ent->getName();
   DropEntityRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -214,10 +216,8 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 
 void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
-
-  PcEntity* entity = (PcEntity*) conn->getUser()->getEntity();
+  PcEntity* entity = NetworkHelper::getPcEntity(msg);
+  if (!entity) return;
 
   MoveEntityToRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -230,12 +230,11 @@ void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
 
 void EntityHandler::handleEquipRequest(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
+  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  if (!user_ent) return;
 
   const char* error = 0;
 
-  CharacterEntity* user_ent = conn->getUser()->getEntity();
   ptString name = user_ent->getName();
   EquipRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -332,16 +331,15 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
   else
   {
     // Tell only one about error or equip
-    conn->send(bs);
+    NetworkHelper::sendMessage(user_ent, bs);
   }
 }
 
 void EntityHandler::handleRelocate(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
+  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  if (!user_ent) return;
 
-  PcEntity* user_ent = conn->getUser()->getEntity();
   int name_id = user_ent->getId();
 
   TeleportMessage telemsg;

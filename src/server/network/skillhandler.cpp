@@ -16,37 +16,36 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "networkhelper.h"
 #include "server/network/network.h"
 #include "server/usermanager.h"
 #include "common/entity/skillmanager.h"
 
 void SkillHandler::handleSkillUsageStartRequest(GenericMessage* msg)
 {
-  Connection* conn = msg->getConnection();
-  if (!conn) return;
+  CharacterEntity* character = NetworkHelper::getCharacterEntity(msg);
+  if (!character) return;
 
-  CharacterEntity* user_ent = conn->getUser()->getEntity();
-  ptString name = user_ent->getName();
+  ptString name = character->getName();
 
   SkillUsageStartRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
   if (skill)
-    skill->castPrepare(user_ent, request_msg.getTarget());
+    skill->castPrepare(character, request_msg.getTarget());
 }
 
 void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
 {
-  Connection* conn = msg->getConnection();
-  if (!conn) return;
+  CharacterEntity* character = NetworkHelper::getCharacterEntity(msg);
+  if (!character) return;
 
-  CharacterEntity* user_ent = conn->getUser()->getEntity();
-  ptString name = user_ent->getName();
+  ptString name = character->getName();
 
   SkillUsageStopRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
-  skill->castInterrupt(user_ent->getSkills()->findSkill(skill->getId()));
+  skill->castInterrupt(character->getSkills()->findSkill(skill->getId()));
 }

@@ -16,15 +16,16 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "server/network/network.h"
+#include "network.h"
+#include "networkhelper.h"
 #include "server/usermanager.h"
 
 void ChatHandler::handleSay(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
+  PcEntity* ent = NetworkHelper::getPcEntity(msg);
+  if (!ent) return;
 
-  ptString name = conn->getUser()->getEntity()->getName();
+  ptString name = ent->getName();
 
   SayMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
@@ -46,17 +47,16 @@ void ChatHandler::handleSay(GenericMessage* msg)
 
 void ChatHandler::handleWhisper(GenericMessage* msg)
 {
-  const Connection* conn = msg->getConnection();
-  if (!conn) return;
+  PcEntity* ent = NetworkHelper::getPcEntity(msg);
+  if (!ent) return;
 
-  ptString name = conn->getUser()->getEntity()->getName();
+  ptString name = ent->getName();
 
   WhisperToMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
   Entity* entity = server->getEntityManager()->findByName(in_msg.getListenerName());
-  if (!entity || entity->getType() != Entity::PlayerEntity)
-    return;
+  if (!entity || entity->getType() != Entity::PlayerEntity) return;
 
   WhisperFromMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
@@ -65,11 +65,5 @@ void ChatHandler::handleWhisper(GenericMessage* msg)
   ByteStream bs;
   out_msg.serialise(&bs);
 
-  User* user = ((PcEntity*) entity)->getUser();
-  if (!user) return;
-
-  conn = user->getConnection();
-  if (!conn) return;
-
-  conn->send(bs);
+  NetworkHelper::sendMessage((PcEntity*)entity, bs);
 }

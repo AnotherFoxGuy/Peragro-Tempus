@@ -18,7 +18,9 @@
 
 #include "common/entity/character.h"
 
-#include "server/network/network.h"
+#include "network.h"
+#include "networkhelper.h"
+
 #include "server/database/database.h"
 #include "server/database/table-characters.h"
 #include "server/database/table-users.h"
@@ -109,7 +111,7 @@ void UserHandler::handleCharCreationRequest(GenericMessage* msg)
   CharCreateRequestMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
 
-  User* user = msg->getConnection()->getUser();
+  User* user = NetworkHelper::getUser(msg);
   //CharacterTable* ct = server->getDatabase()->getCharacterTable();
 
   ptString char_name = char_msg.getName();
@@ -152,6 +154,8 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
 
   if (!character)
     return;
+
+  character->setUser(user);
 
   PcEntity* entity = new PcEntity();
   entity->setCharacter(character);
