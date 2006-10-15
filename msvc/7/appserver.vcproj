@@ -163,16 +163,10 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\charactermanager.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\main.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\server.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\user.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\useraccountmanager.cpp">
@@ -181,9 +175,6 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
-			<File
-				RelativePath="..\..\src\server\charactermanager.h">
-			</File>
 			<File
 				RelativePath="..\..\src\server\server.h">
 			</File>
@@ -194,13 +185,7 @@
 				RelativePath="..\..\src\server\spawner.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\user.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\useraccountmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\usermanager.h">
 			</File>
 		</Filter>
 		<Filter
