@@ -18,8 +18,8 @@
 
 #include "networkhelper.h"
 #include "server/network/network.h"
-#include "server/usermanager.h"
-#include "common/entity/skillmanager.h"
+#include "server/entity/usermanager.h"
+#include "server/entity/skillmanager.h"
 
 void SkillHandler::handleSkillUsageStartRequest(GenericMessage* msg)
 {

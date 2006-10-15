@@ -23,7 +23,7 @@
 #include "database.h"
 
 #include "table-items.h"
-#include "common/entity/item.h"
+#include "server/entity/item.h"
 
 ItemTable::ItemTable(Database* db) : Table(db)
 {

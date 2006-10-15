@@ -17,8 +17,8 @@
 */
 
 #include "server.h"
-#include "usermanager.h"
-#include "common/entity/entitymanager.h"
+#include "entity/usermanager.h"
+#include "server/entity/entitymanager.h"
 #include "server/database/database.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-characters.h"

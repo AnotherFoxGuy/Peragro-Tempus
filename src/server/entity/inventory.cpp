@@ -16,28 +16,27 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "racestats.h"
-#include "common/entity/statmanager.h"
+#include "inventory.h"
+#include "server/entity/itemmanager.h"
 #include "common/network/serialiser.h"
 #include "common/network/entitymessages.h"
 #include "server/network/connection.h"
 #include "server/server.h"
 
-void RaceStats::sendAllStats(Connection* conn)
+void Inventory::sendAllItems(Connection* conn)
 {
-/*
-  RaceStatsStatListMessage statlist_msg;
-  statlist_msg.setStatCount((char)entries.getCount());
+  InventoryItemListMessage itemlist_msg;
+  itemlist_msg.setItemCount((char)entries.getCount());
   for (size_t i=0; i<entries.getCount(); i++)
   {
-    statlist_msg.setStatId(int(i),entries.get(i)->stat_id);
-    Stat* stat = Server::getServer()->getStatManager()->findById(entries.get(i)->stat_id);
-    assert(stat);
-    statlist_msg.setName(int(i),stat->getName());
-    statlist_msg.setStatAmount(int(i),entries.get(i)->level);
+    itemlist_msg.setItemId(int(i),entries.get(i)->item_id);
+    Item* item = Server::getServer()->getItemManager()->findById(entries.get(i)->item_id);
+    assert(item);
+    itemlist_msg.setName(int(i),item->getName());
+    itemlist_msg.setItemAmount(int(i),entries.get(i)->amount);
+    itemlist_msg.setItemSlot(int(i),entries.get(i)->slot);
   }
   ByteStream bs2;
-  statlist_msg.serialise(&bs2);
+  itemlist_msg.serialise(&bs2);
   conn->send(bs2);
-*/
 }

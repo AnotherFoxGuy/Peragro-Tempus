@@ -26,14 +26,14 @@
 #include "common/network/entitymessages.h"
 
 //#include "connectionmanager.h"
-#include "common/entity/entitymanager.h"
+#include "server/entity/entitymanager.h"
 
 #include "server/network/doorhandler.h"
 #include "server/network/questhandler.h"
 #include "server/network/skillhandler.h"
 #include "server/network/tradehandler.h"
 
-#include "server/user.h"
+#include "server/entity/user.h"
 
 class Server;
 

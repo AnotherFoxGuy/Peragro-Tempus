@@ -25,7 +25,7 @@
 #include "table-racestats.h"
 #include "table-stats.h"
 
-#include "common/entity/racestats.h"
+#include "server/entity/racestats.h"
 
 RaceStatsTable::RaceStatsTable(Database* db) : Table(db)
 {

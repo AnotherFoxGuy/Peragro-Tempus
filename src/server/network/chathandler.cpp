@@ -18,7 +18,7 @@
 
 #include "network.h"
 #include "networkhelper.h"
-#include "server/usermanager.h"
+#include "server/entity/usermanager.h"
 
 void ChatHandler::handleSay(GenericMessage* msg)
 {

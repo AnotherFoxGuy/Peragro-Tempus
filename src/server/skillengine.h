@@ -19,9 +19,9 @@
 #ifndef _SKILLENGINE_H_
 #define _SKILLENGINE_H_
 
-#include "common/entity/entity.h"
-#include "common/entity/characterentity.h"
-#include "common/entity/item.h"
+#include "server/entity/entity.h"
+#include "server/entity/characterentity.h"
+#include "server/entity/item.h"
 #include "common/util/array.h"
 #include "common/util/timer.h"
 #include "common/util/sleep.h"

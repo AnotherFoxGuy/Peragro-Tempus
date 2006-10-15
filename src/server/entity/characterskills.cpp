@@ -16,27 +16,25 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "inventory.h"
-#include "common/entity/itemmanager.h"
+#include "characterskills.h"
+#include "server/entity/skillmanager.h"
 #include "common/network/serialiser.h"
 #include "common/network/entitymessages.h"
 #include "server/network/connection.h"
 #include "server/server.h"
 
-void Inventory::sendAllItems(Connection* conn)
+void CharacterSkills::sendAllSkills(Connection* conn)
 {
-  InventoryItemListMessage itemlist_msg;
-  itemlist_msg.setItemCount((char)entries.getCount());
+  CharacterSkillListMessage skilllist_msg;
+  skilllist_msg.setSkillCount((char)entries.getCount());
   for (size_t i=0; i<entries.getCount(); i++)
   {
-    itemlist_msg.setItemId(int(i),entries.get(i)->item_id);
-    Item* item = Server::getServer()->getItemManager()->findById(entries.get(i)->item_id);
-    assert(item);
-    itemlist_msg.setName(int(i),item->getName());
-    itemlist_msg.setItemAmount(int(i),entries.get(i)->amount);
-    itemlist_msg.setItemSlot(int(i),entries.get(i)->slot);
+    skilllist_msg.setSkillId(int(i),short(entries.get(i)->skill_id));
+    Skill* skill = Server::getServer()->getSkillManager()->findById(entries.get(i)->skill_id);
+    assert(skill);
+    skilllist_msg.setName(int(i),skill->getName());
   }
   ByteStream bs2;
-  itemlist_msg.serialise(&bs2);
+  skilllist_msg.serialise(&bs2);
   conn->send(bs2);
 }

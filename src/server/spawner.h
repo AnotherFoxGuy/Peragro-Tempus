@@ -19,8 +19,8 @@
 #ifndef _SPAWNER_H_
 #define _SPAWNER_H_
 
-#include "common/entity/entity.h"
-#include "common/entity/item.h"
+#include "server/entity/entity.h"
+#include "server/entity/item.h"
 #include "common/util/array.h"
 #include "common/util/thread.h"
 #include "common/util/sleep.h"

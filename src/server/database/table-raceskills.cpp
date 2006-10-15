@@ -25,8 +25,8 @@
 #include "table-raceskills.h"
 
 #include "table-skills.h"
-#include "common/entity/raceskills.h"
-#include "common/entity/skill.h"
+#include "server/entity/raceskills.h"
+#include "server/entity/skill.h"
 
 RaceSkillsTable::RaceSkillsTable(Database* db) : Table(db)
 {

@@ -19,7 +19,7 @@
 #include "network.h"
 #include "networkhelper.h"
 #include "tradehandler.h"
-#include "common/entity/tradesession.h"
+#include "server/entity/tradesession.h"
 
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
@@ -56,10 +56,10 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
       // Error! This player is already trading with someone!
     }
 
-    User* other_user = ((PcEntity*) peer_ent)->getUser();
+    const User* other_user = ((PcEntity*) peer_ent)->getUser();
     if (!other_user) return;
 
-    Connection* other_conn = other_user->getConnection();
+    const Connection* other_conn = other_user->getConnection();
     if (!other_conn) return;
 
     message.setEntityId(pc->getId());

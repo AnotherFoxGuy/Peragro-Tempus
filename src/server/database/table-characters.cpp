@@ -24,8 +24,8 @@
 
 #include "table-characters.h"
 
-#include "common/entity/character.h"
-#include "server/user.h"
+#include "server/entity/character.h"
+#include "server/entity/user.h"
 
 CharacterTable::CharacterTable(Database* db) : Table(db)
 {

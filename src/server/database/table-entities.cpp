@@ -24,11 +24,11 @@
 
 #include "table-entities.h"
 
-#include "common/entity/entity.h"
-#include "common/entity/itementity.h"
-#include "common/entity/pcentity.h"
-#include "common/entity/npcentity.h"
-#include "common/entity/doorentity.h"
+#include "server/entity/entity.h"
+#include "server/entity/itementity.h"
+#include "server/entity/pcentity.h"
+#include "server/entity/npcentity.h"
+#include "server/entity/doorentity.h"
 
 EntityTable::EntityTable(Database* db) : Table(db)
 {

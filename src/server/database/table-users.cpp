@@ -24,7 +24,7 @@
 
 #include "table-users.h"
 
-#include "server/user.h"
+#include "server/entity/user.h"
 
 UsersTable::UsersTable(Database* db) : Table(db)
 {

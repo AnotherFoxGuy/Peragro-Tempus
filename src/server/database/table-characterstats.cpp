@@ -24,7 +24,7 @@
 
 #include "table-characterstats.h"
 
-#include "common/entity/characterstats.h"
+#include "server/entity/characterstats.h"
 
 CharacterStatsTable::CharacterStatsTable(Database* db) : Table(db)
 {

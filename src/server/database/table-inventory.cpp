@@ -24,7 +24,7 @@
 
 #include "table-inventory.h"
 
-#include "common/entity/inventory.h"
+#include "server/entity/inventory.h"
 
 InventoryTable::InventoryTable(Database* db) : Table(db)
 {

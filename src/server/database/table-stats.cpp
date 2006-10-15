@@ -23,7 +23,7 @@
 #include "database.h"
 
 #include "table-stats.h"
-#include "common/entity/stat.h"
+#include "server/entity/stat.h"
 
 StatTable::StatTable(Database* db) : Table(db)
 {

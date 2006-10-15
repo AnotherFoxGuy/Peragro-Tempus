@@ -20,11 +20,11 @@
 
 #include "server/database/database.h"
 #include "server/database/table-users.h"
-#include "server/usermanager.h"
+#include "server/entity/usermanager.h"
 
 #include "server/server.h"
 
-#include "server/user.h"
+#include "server/entity/user.h"
 
 const ptString UserAccountManager::login(ptString username, const char* password, User*& user)
 {

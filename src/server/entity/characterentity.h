@@ -142,7 +142,7 @@ public:
     character = c;
   }
 
-  Character* getCharacter()
+  Character* getCharacter() const
   {
     return character;
   }

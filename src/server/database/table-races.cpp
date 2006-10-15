@@ -24,8 +24,8 @@
 
 #include "table-races.h"
 
-#include "common/entity/race.h"
-#include "server/user.h"
+#include "server/entity/race.h"
+#include "server/entity/user.h"
 
 RaceTable::RaceTable(Database* db) : Table(db)
 {

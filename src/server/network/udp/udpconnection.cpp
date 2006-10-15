@@ -19,7 +19,7 @@
 #include <time.h>
 
 #include "server/network/udp/udpconnection.h"
-#include "server/user.h"
+#include "server/entity/user.h"
 
 void UdpConnection::peerLost()
 {

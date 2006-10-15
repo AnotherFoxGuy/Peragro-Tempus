@@ -20,6 +20,7 @@
 #define _CONNECTION_H_
 
 #include "common/network/bytestream.h"
+#include "common/util/monitorable.h"
 
 class User;
 
@@ -31,7 +32,7 @@ namespace CONNECTION
   };
 }
 
-class Connection
+class Connection : public ptMonitorable<Connection>
 {
 protected:
   User* user;

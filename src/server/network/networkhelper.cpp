@@ -20,11 +20,11 @@ PcEntity* NetworkHelper::getPcEntity(GenericMessage* msg)
   if (!user) 
     return 0;
 
-  PcEntity* ent = user->getEntity();
+  const PcEntity* ent = user->getEntity();
   if (!ent) 
     return 0;
 
-  return ent;
+  return (PcEntity*) ent;
 }
 
 CharacterEntity* NetworkHelper::getCharacterEntity(GenericMessage* msg)
@@ -37,11 +37,11 @@ CharacterEntity* NetworkHelper::getCharacterEntity(GenericMessage* msg)
   if (!user) 
     return 0;
 
-  PcEntity* ent = user->getEntity();
+  const PcEntity* ent = user->getEntity();
   if (!ent) 
     return 0;
 
-  return ent;
+  return (PcEntity*) ent;
 }
 
 Character* NetworkHelper::getCharacter(GenericMessage* msg)
@@ -54,7 +54,7 @@ Character* NetworkHelper::getCharacter(GenericMessage* msg)
   if (!user) 
     return 0;
 
-  PcEntity* pc = user->getEntity();
+  const PcEntity* pc = user->getEntity();
   if (!pc) 
     return 0;
 
@@ -67,7 +67,7 @@ void NetworkHelper::sendMessage(Character* character , const ByteStream& bs)
   if (!user) 
     return;
 
-  Connection* conn = user->getConnection();
+  const Connection* conn = user->getConnection();
   if (!conn) 
     return;
 
@@ -78,11 +78,11 @@ void NetworkHelper::sendMessage(CharacterEntity* character, const ByteStream& bs
 {
   if (character->getType() != Entity::PlayerEntity) return;
 
-  User* user = ((PcEntity*)character)->getUser();
+  const User* user = ((PcEntity*)character)->getUser();
   if (!user) 
     return;
 
-  Connection* conn = user->getConnection();
+  const Connection* conn = user->getConnection();
   if (!conn) 
     return;
 
@@ -91,11 +91,11 @@ void NetworkHelper::sendMessage(CharacterEntity* character, const ByteStream& bs
 
 void NetworkHelper::sendMessage(PcEntity* ent, const ByteStream& bs)
 {
-  User* user = ent->getUser();
+  const User* user = ent->getUser();
   if (!user) 
     return;
 
-  Connection* conn = user->getConnection();
+  const Connection* conn = user->getConnection();
   if (!conn) 
     return;
 
@@ -104,7 +104,7 @@ void NetworkHelper::sendMessage(PcEntity* ent, const ByteStream& bs)
 
 void NetworkHelper::sendMessage(User* user, const ByteStream& bs)
 {
-  Connection* conn = user->getConnection();
+  const Connection* conn = user->getConnection();
   if (!conn) 
     return;
 

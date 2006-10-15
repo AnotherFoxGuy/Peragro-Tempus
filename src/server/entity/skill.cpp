@@ -25,7 +25,7 @@
 #include "statmanager.h"
 #include "common/network/skillmessages.h"
 #include "server/network/connection.h"
-#include "server/user.h"
+#include "server/entity/user.h"
 
 Skill::Skill() : id(-1), range(0) 
 {

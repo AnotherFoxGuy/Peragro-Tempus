@@ -16,14 +16,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "common/entity/itemmanager.h"
-#include "common/entity/statmanager.h"
-#include "common/entity/racemanager.h"
-#include "common/entity/race.h"
+#include "server/entity/itemmanager.h"
+#include "server/entity/statmanager.h"
+#include "server/entity/racemanager.h"
+#include "server/entity/race.h"
 #include "network.h"
 #include "networkhelper.h"
-#include "server/usermanager.h"
-#include "server/charactermanager.h"
+#include "server/entity/usermanager.h"
+#include "server/entity/charactermanager.h"
 
 void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {

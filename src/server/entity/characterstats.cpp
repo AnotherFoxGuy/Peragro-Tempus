@@ -17,7 +17,7 @@
 */
 
 #include "characterstats.h"
-#include "common/entity/statmanager.h"
+#include "server/entity/statmanager.h"
 #include "common/network/serialiser.h"
 #include "common/network/entitymessages.h"
 #include "server/network/connection.h"

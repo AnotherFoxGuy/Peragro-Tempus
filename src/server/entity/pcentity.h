@@ -16,27 +16,38 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "raceskills.h"
-#include "common/entity/skillmanager.h"
-#include "common/network/serialiser.h"
-#include "common/network/entitymessages.h"
-#include "server/network/connection.h"
-#include "server/server.h"
+#ifndef _PCENTITY_H_
+#define _PCENTITY_H_
 
-void RaceSkills::sendAllSkills(Connection* conn)
+#include <string.h>
+#include <time.h>
+#include <math.h>
+
+#include "common/util/stringstore.h"
+#include "common/util/monitorable.h"
+
+#include "characterentity.h"
+
+#include "tradepeer.h"
+
+class User;
+
+class PcEntity : public ptMonitorable<PcEntity>, public CharacterEntity
 {
-/*
-  RaceSkillsSkillListMessage skilllist_msg;
-  skilllist_msg.setSkillCount((char)entries.getCount());
-  for (size_t i=0; i<entries.getCount(); i++)
+private:
+  ptMonitor<User> user;
+
+  TradePeer tradepeer;
+
+public:
+  PcEntity() : CharacterEntity(PlayerEntity)
   {
-    skilllist_msg.setSkillId(int(i),entries.get(i)->skill_id);
-    Skill* skill = Server::getServer()->getSkillManager()->findById(entries.get(i)->skill_id);
-    assert(skill);
-    skilllist_msg.setName(int(i),skill->getName());
   }
-  ByteStream bs2;
-  skilllist_msg.serialise(&bs2);
-  conn->send(bs2);
-*/
-}
+
+  void setUser(User* user);
+  const User* getUser() { return this->user.get(); }
+
+  TradePeer* getTradePeer() { return &tradepeer; }
+};
+
+#endif // _PCENTITY_H_

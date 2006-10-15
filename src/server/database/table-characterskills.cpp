@@ -24,7 +24,7 @@
 
 #include "table-characterskills.h"
 
-#include "common/entity/characterskills.h"
+#include "server/entity/characterskills.h"
 
 CharacterSkillsTable::CharacterSkillsTable(Database* db) : Table(db)
 {

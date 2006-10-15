@@ -17,7 +17,7 @@
 */
 
 #include "server/network/network.h"
-#include "server/usermanager.h"
+#include "server/entity/usermanager.h"
 
 void DoorHandler::handleOpenDoorRequest(GenericMessage* msg)
 {

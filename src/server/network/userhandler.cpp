@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "common/entity/character.h"
+#include "server/entity/character.h"
 
 #include "network.h"
 #include "networkhelper.h"
@@ -24,8 +24,8 @@
 #include "server/database/database.h"
 #include "server/database/table-characters.h"
 #include "server/database/table-users.h"
-#include "server/charactermanager.h"
-#include "server/usermanager.h"
+#include "server/entity/charactermanager.h"
+#include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
 
 void UserHandler::handleLoginRequest(GenericMessage* msg)
@@ -52,11 +52,13 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   if (!retval.isNull()) // retval != 0
     return;
 
-  Connection* old_conn = user->getConnection();
+  const Connection* old_conn = user->getConnection();
 
   if (old_conn) //User was already logged in
   {
-    old_conn->setUser(0);
+    Connection* c = old_conn->getLock();
+    c->setUser(0);
+    c->freeLock();
   }
   else //new session
   {

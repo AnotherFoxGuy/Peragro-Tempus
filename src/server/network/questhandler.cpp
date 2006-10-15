@@ -19,10 +19,10 @@
 #include "networkhelper.h"
 #include "server/network/network.h"
 #include "server/network/connection.h"
-#include "server/user.h"
+#include "server/entity/user.h"
 
-#include "common/entity/character.h"
-#include "common/entity/pcentity.h"
+#include "server/entity/character.h"
+#include "server/entity/pcentity.h"
 
 #include "common/quest/npcdialog.h"
 #include "common/quest/npcdialoganswer.h"

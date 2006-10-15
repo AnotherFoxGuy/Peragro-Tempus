@@ -23,7 +23,7 @@
 #include "database.h"
 
 #include "table-skills.h"
-#include "common/entity/skill.h"
+#include "server/entity/skill.h"
 
 SkillTable::SkillTable(Database* db) : Table(db)
 {
