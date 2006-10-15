@@ -168,6 +168,9 @@
 			<File
 				RelativePath="..\..\src\client\cursor.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\client\pointer\pointer.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
