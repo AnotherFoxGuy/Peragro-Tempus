@@ -22,22 +22,24 @@
 class GenericMessage;
 class User;
 class Character;
-class CharacterEntity;
+class Entity;
 class PcEntity;
 class ByteStream;
 
 class NetworkHelper
 {
 public:
-  static User* getUser(GenericMessage* msg);
-  static PcEntity* getPcEntity(GenericMessage* msg);
-  static CharacterEntity* getCharacterEntity(GenericMessage* msg);
-  static Character* getCharacter(GenericMessage* msg);
+  static const User* getUser(GenericMessage* msg);
+  static const Entity* getEntity(GenericMessage* msg);
+  static const PcEntity* getPcEntity(GenericMessage* msg);
+  static const Character* getCharacter(GenericMessage* msg);
 
-  static void sendMessage(Character*, const ByteStream& bs);
-  static void sendMessage(CharacterEntity*, const ByteStream& bs);
-  static void sendMessage(PcEntity*, const ByteStream& bs);
-  static void sendMessage(User*, const ByteStream& bs);
+  static void sendMessage(const Character*, const ByteStream& bs);
+  static void sendMessage(const PcEntity*, const ByteStream& bs);
+  static void sendMessage(const Entity*, const ByteStream& bs);
+  static void sendMessage(const User*, const ByteStream& bs);
+
+  static void broadcast(const ByteStream& bs);
 };
 
 #endif // _NETWORKHELPER_H_

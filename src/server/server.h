@@ -31,6 +31,8 @@ class UserManager;
 class UserAccountManager;
 class TimerEngine;
 class Entity;
+class PcEntity;
+class NpcEntity;
 class CharacterEntity;
 class Spawner;
 class SkillEngine;
@@ -98,9 +100,10 @@ public:
   //void setSkillEngine(SkillEngine* spawner) { this->skillengine = skillengine; }
   //SkillEngine* getSkillEngine() { return this->skillengine; }
 
-  void addEntity(Entity* entity, bool presistent);
-  void delEntity(Entity* entity);
-  void moveEntity(CharacterEntity* entity, float* pos, float speed);
+  void addEntity(const Entity* entity, bool presistent);
+  void delEntity(const Entity* entity);
+  void moveEntity(PcEntity* entity, float* pos, float speed);
+  void moveEntity(const NpcEntity* entity, float* pos, float speed);
   void broadCast(const ByteStream& bs);
 };
 

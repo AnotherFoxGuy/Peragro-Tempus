@@ -19,19 +19,20 @@
 #ifndef _CHARACTER_H_
 #define _CHARACTER_H_
 
-#include <string.h>
-#include <time.h>
-#include <math.h>
+#include "common/util/ptstring.h"
+#include "common/util/monitorable.h"
 
 #include "inventory.h"
-#include "common/util/stringstore.h"
+#include "characterstats.h"
+#include "characterskills.h"
 
 #include "common/quest/npcdialogstate.h"
 
+class Entity;
 class User;
 class Race;
 
-class Character
+class Character : public ptMonitorable<Character>
 {
 private:
   int id;
@@ -40,8 +41,10 @@ private:
   ptString mesh_id;
   ptString sector_id;
 
-  User* user;
+  ptMonitor<User> user;
   int race;
+
+  ptMonitor<Entity> entity;
 
   float pos[3];
 
@@ -50,6 +53,10 @@ private:
   unsigned char decalcolour[3]; //24bit color
 
   NPCDialogState dialog_state;
+
+  Inventory inventory;
+  CharacterStats stats;
+  CharacterSkills skills;
 
 public:
   Character() : id(-1)
@@ -68,14 +75,8 @@ public:
     //delete [] sector;
   }
 
-  void setId(int id)
-  {
-    this->id = id;
-  }
-  int getId()
-  {
-    return id;
-  }
+  void setId(int id) { this->id = id; }
+  int getId() const { return id; }
 
   void setPos(float x, float y, float z)
   {
@@ -94,66 +95,36 @@ public:
     return pos;
   }
 
-  ptString& getName()
-  {
-    return name_id;
-  }
-  void setName(ptString id)
-  {
-    name_id = id;
-  }
+  ptString& getName() { return name_id; }
+  void setName(ptString id) { name_id = id; }
 
-  ptString& getMesh()
-  {
-    return mesh_id;
-  }
-  void setMesh(ptString id)
-  {
-    mesh_id = id;
-  }
+  ptString& getMesh() { return mesh_id; }
+  void setMesh(ptString id) { mesh_id = id; }
 
-  ptString& getSector()
-  {
-    return sector_id;
-  }
-  void setSector(ptString id)
-  {
-    sector_id = id;
-  }
+  ptString& getSector() { return sector_id; }
+  void setSector(ptString id) { sector_id = id; }
 
-  User* getUser()
-  {
-    return user;
-  }
-  void setUser(User* user)
-  {
-    this->user = user;
-  }
+  void setUser(User* user);
+  const User* getUser() const { return user.get(); }
 
-  int getRace()
-  {
-    return race;
-  }
-  void setRace(int race)
-  {
-    this->race = race;
-  }
+  int getRace() const { return race; }
+  void setRace(int race) { this->race = race; }
 
-  unsigned char* getSkinColour() { return skincolour; }
+  const unsigned char* getSkinColour() const { return skincolour; }
   void setSkinColour(unsigned char* colour) { setSkinColour(colour[0],colour[1],colour[2]); }
   void setSkinColour(unsigned char r, unsigned char g, unsigned char b) 
   { 
     skincolour[0] = r; skincolour[1] = g; skincolour[2] = b; 
   }
 
-  unsigned char* getHairColour() { return haircolour; }
+  const unsigned char* getHairColour() const { return haircolour; }
   void setHairColour(unsigned char* colour) { setHairColour(colour[0],colour[1],colour[2]); }
   void setHairColour(unsigned char r, unsigned char g, unsigned char b) 
   { 
     haircolour[0] = r; haircolour[1] = g; haircolour[2] = b; 
   }
 
-  unsigned char* getDecalColour() { return decalcolour; }
+  const unsigned char* getDecalColour() const { return decalcolour; }
   void setDecalColour(unsigned char* colour) { setDecalColour(colour[0],colour[1],colour[2]); }
   void setDecalColour(unsigned char r, unsigned char g, unsigned char b) 
   { 
@@ -161,6 +132,12 @@ public:
   }
 
   NPCDialogState* getNPCDialogState() { return &dialog_state; }
+  CharacterSkills* getSkills() { return &skills; }
+  CharacterStats* getStats() { return &stats; }
+  Inventory* getInventory() { return &inventory; }
+
+  void setEntity(Entity* entity);
+  const Entity* getEntity() const { return entity.get(); }
 };
 
 #endif // _CHARACTER_H_

@@ -36,7 +36,7 @@ public:
   int getMaxId();
   void dropTable();
   void remove(int id);
-  void update(PcEntity* e);
+  void update(const float* pos, ptString sector, int char_id);
   bool existsCharacter(ptString name);
   Character* findCharacterById(int id, size_t user_id);
   void getAllCharacters(Array<Character*>& characters, User* user_id);

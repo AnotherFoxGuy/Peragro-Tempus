@@ -25,6 +25,7 @@
 #include "server/database/table-characters.h"
 #include "server/database/table-users.h"
 #include "server/entity/charactermanager.h"
+#include "server/entity/entitymanager.h"
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
 
@@ -113,7 +114,7 @@ void UserHandler::handleCharCreationRequest(GenericMessage* msg)
   CharCreateRequestMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
 
-  User* user = NetworkHelper::getUser(msg);
+  const User* user = NetworkHelper::getUser(msg);
   //CharacterTable* ct = server->getDatabase()->getCharacterTable();
 
   ptString char_name = char_msg.getName();
@@ -161,29 +162,32 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
 
   PcEntity* entity = new PcEntity();
   entity->setCharacter(character);
-  entity->setCharId(request_msg.getCharId());
-  entity->setName(character->getName());
-  entity->setMesh(character->getMesh());
-  entity->setPos(character->getPos());
-  entity->setSector(character->getSector());
-  printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getName());
+
+  Entity* ent = entity->getEntity()->getLock();
+  ent->setName(character->getName());
+  ent->setMesh(character->getMesh());
+  ent->setPos(character->getPos());
+  ent->setSector(character->getSector());
+  ent->freeLock();
+
+  printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getEntity()->getName());
   user->setEntity(entity);
-  server->addEntity(entity, false);
+  server->addEntity(ent, false);
 
   CharSelectResponseMessage response_msg;
   response_msg.setError(ptString::Null);
-  response_msg.setCharEntityId(entity->getId());
+  response_msg.setCharEntityId(entity->getEntity()->getId());
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
 
-  entity->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
-  entity->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
-  entity->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
+  character->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
+  character->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
+  character->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
 
-  entity->getInventory()->sendAllItems(msg->getConnection());
-  entity->getStats()->sendAllStats(msg->getConnection());
-  entity->getSkills()->sendAllSkills(msg->getConnection());
+  character->getInventory()->sendAllItems(msg->getConnection());
+  character->getStats()->sendAllStats(msg->getConnection());
+  character->getSkills()->sendAllSkills(msg->getConnection());
 
   /// \todo Implement message packing (all entities in one package).
   for (size_t i=0; i<server->getEntityManager()->getEntityCount(); i++)

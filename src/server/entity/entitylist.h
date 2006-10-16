@@ -28,7 +28,7 @@ class EntityManager;
 class EntityList
 {
 private:
-  Array<Entity*> entities;
+  Array<const Entity*> entities;
 
   friend class EntityManager;
 
@@ -42,12 +42,12 @@ public:
     return entities.getCount();
   }
 
-  Entity* getEntity(size_t index)
+  const Entity* getEntity(size_t index)
   {
     return entities.get(index);
   }
 
-  void addEntity(Entity* entity)
+  void addEntity(const Entity* entity)
   {
     if (!entity) assert("Invalid Entity");
     entities.add(entity);
@@ -58,7 +58,7 @@ public:
     entities.remove(index);
   }
 
-  void removeEntity(Entity* entity)
+  void removeEntity(const Entity* entity)
   {
     if (!entity) return;
 
@@ -66,7 +66,7 @@ public:
 
     for (size_t i = 0; i<entities.getCount(); i++)
     {
-      Entity* _entity = entities.get(i);
+      const Entity* _entity = entities.get(i);
       if (!_entity) 
       {
         entities.remove(i);
@@ -82,7 +82,7 @@ public:
     mutex.unlock();
   }
 
-  bool exists(Entity* entity)
+  bool exists(const Entity* entity)
   {
     if (!entity) return false;
 
@@ -90,7 +90,7 @@ public:
 
     for (size_t i = 0; i<entities.getCount(); i++)
     {
-      Entity* _entity = entities.get(i);
+      const Entity* _entity = entities.get(i);
 
       if (_entity->compare(entity))
       {
@@ -102,13 +102,13 @@ public:
     return false;
   }
 
-  Entity* findByName(ptString name)
+  const Entity* findByName(ptString name)
   {
     if (name.isNull()) return 0;
     mutex.lock();
     for (size_t i = 0; i<entities.getCount(); i++)
     {
-      Entity* entity = entities.get(i);
+      const Entity* entity = entities.get(i);
       if (entity->getName() == name)
       {
         mutex.unlock();
@@ -119,12 +119,12 @@ public:
     return 0;
   }
 
-  Entity* findById(int id)
+  const Entity* findById(int id)
   {
     mutex.lock();
     for (size_t i = 0; i<entities.getCount(); i++)
     {
-      Entity* entity = entities.get(i);
+      const Entity* entity = entities.get(i);
       if (entity->getId() == id)
       {
         mutex.unlock();

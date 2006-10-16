@@ -20,6 +20,7 @@
 #define _USERMANAGER_H_
 
 #include "common/util/array.h"
+#include "common/util/ptstring.h"
 #include "user.h"
 
 class UserManager

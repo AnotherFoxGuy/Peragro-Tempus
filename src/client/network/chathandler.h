@@ -19,11 +19,11 @@
 #ifndef _CHATHANDLER_H_
 #define _CHATHANDLER_H_
 
-#include "stdio.h"
+#include "common/network/nwtypes.h"
 
-#include "common/network/messagehandler.h"
-#include "common/network/netmessage.h"
 #include "common/network/chatmessages.h"
+
+class Client;
 
 class ChatHandler : public MessageHandler
 {
@@ -31,10 +31,12 @@ private:
   Client* client;
 
 public:
-  ChatHandler(Client* client) 
+  ChatHandler(Client* client)
   : client(client)
   {
   }
+
+  char getType() { return MESSAGES::CHAT; }
 
   void handle(GenericMessage* msg)
   {
@@ -42,17 +44,20 @@ public:
     if (type != MESSAGES::CHAT) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == CHAT::SAY) handleSay(msg);
-    else if (id == CHAT::WHISPERFROM) handleWhisper(msg);
-  }
-
-  char getType()
-  {
-    return MESSAGES::CHAT;
+    if (id ==  CHAT::SAY) handleSay(msg);
+    else if (id ==  CHAT::SHOUT) handleShout(msg);
+    else if (id ==  CHAT::WHISPERFROM) handleWhisperFrom(msg);
+    else if (id ==  CHAT::PARTY) handleParty(msg);
+    else if (id ==  CHAT::GUILD) handleGuild(msg);
+    else if (id ==  CHAT::FAMILY) handleFamily(msg);
   }
 
   void handleSay(GenericMessage* msg);
-  void handleWhisper(GenericMessage* msg);
+  void handleShout(GenericMessage* msg);
+  void handleWhisperFrom(GenericMessage* msg);
+  void handleParty(GenericMessage* msg);
+  void handleGuild(GenericMessage* msg);
+  void handleFamily(GenericMessage* msg);
 };
 
 #endif // _CHATHANDLER_H_

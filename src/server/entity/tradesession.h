@@ -19,7 +19,10 @@
 #ifndef _TRADE_SESSION_H_
 #define _TRADE_SESSION_H_
 
+#include "common/util/array.h"
+
 class TradePeer;
+class Item;
 class ptString;
 
 class TradeSession
@@ -29,6 +32,15 @@ private:
   TradePeer* peer2;
 
   bool request_accepted;
+
+  class Offer
+  {
+  public:
+    Item* item;
+    unsigned int amount;
+  };
+  Array<Offer> offer1;
+  Array<Offer> offer2;
 
 public:
   TradeSession(TradePeer* initiator) : peer1(initiator), peer2(0) {}

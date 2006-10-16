@@ -17,6 +17,11 @@
 */
 
 #include "server.h"
+#include "entity/character.h"
+#include "entity/entity.h"
+#include "entity/itementity.h"
+#include "entity/pcentity.h"
+#include "entity/npcentity.h"
 #include "entity/usermanager.h"
 #include "server/entity/entitymanager.h"
 #include "server/database/database.h"
@@ -24,11 +29,12 @@
 #include "server/database/table-characters.h"
 #include "common/network/entitymessages.h"
 #include "server/network/connection.h"
+#include "server/network/networkhelper.h"
 #include "common/util/sleep.h"
 
 Server* Server::server;
 
-void Server::addEntity(Entity* entity, bool presistent)
+void Server::addEntity(const Entity* entity, bool presistent)
 {
   printf("Add Entity\n");
   ent_mgr->addEntity(entity);
@@ -38,8 +44,9 @@ void Server::addEntity(Entity* entity, bool presistent)
   if (presistent)
   {
     //Only dropped items are persistent Entities at the moment
-    ItemEntity* e = (ItemEntity*) entity;
-    db->getEntityTable()->insert(e->getId(), e->getName(), e->getType(), e->getItem(), e->getMesh(), e->getPos(), e->getSector());
+    const ItemEntity* e = entity->getItemEntity();
+    if (!e) return;
+    db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), e->getItem()->getId(), entity->getMesh(), entity->getPos(), entity->getSector());
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)
@@ -48,19 +55,20 @@ void Server::addEntity(Entity* entity, bool presistent)
   }
 }
 
-void Server::delEntity(Entity* entity)
+void Server::delEntity(const Entity* entity)
 {
   printf("Remove Entity\n");
 
   ent_mgr->removeEntity(entity);
 
-  if (entity->getType() == Entity::ItemEntity)
+  if (entity->getType() == Entity::ItemEntityType)
   {
     db->getEntityTable()->remove(entity->getId());
   }
-  if (entity->getType() == Entity::PlayerEntity)
+  if (entity->getType() == Entity::PlayerEntityType)
   {
-    db->getCharacterTable()->update((PcEntity*)entity);
+    int id = entity->getPlayerEntity()->getCharacter()->getId();
+    db->getCharacterTable()->update(entity->getPos(), entity->getSector(), id);
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)
@@ -73,24 +81,38 @@ void Server::delEntity(Entity* entity)
   delete entity;
 }
 
-void Server::moveEntity(CharacterEntity* entity, float* pos, float speed)
+void Server::moveEntity(PcEntity* entity, float* pos, float speed)
 {
   MoveEntityToMessage response_msg;
   response_msg.setToPos(pos);
-  response_msg.setFromPos(entity->getPos());
+  response_msg.setFromPos(entity->getEntity()->getPos());
   response_msg.setSpeed(speed);
-  response_msg.setId(entity->getId());
+  response_msg.setId(entity->getEntity()->getId());
 
   entity->walkTo(pos, speed);
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  for (size_t i=0; i<getUserManager()->getUserCount(); i++)
-  {
-    User* user = getUserManager()->getUser(i);
-    if (user && user->getConnection())
-      user->getConnection()->send(bs);
-  }
+  NetworkHelper::broadcast(bs);
+}
+
+void Server::moveEntity(const NpcEntity* entity, float* pos, float speed)
+{
+  if (!entity) return;
+
+  MoveEntityToMessage response_msg;
+  response_msg.setToPos(pos);
+  response_msg.setFromPos(entity->getEntity()->getPos());
+  response_msg.setSpeed(speed);
+  response_msg.setId(entity->getEntity()->getId());
+
+  NpcEntity* npc = entity->getLock();
+  npc->walkTo(pos, speed);
+  npc->freeLock();
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  NetworkHelper::broadcast(bs);
 }
 
 void Server::broadCast(const ByteStream& bs)

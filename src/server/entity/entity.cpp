@@ -15,3 +15,30 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
+#include "entity.h"
+
+#include "pcentity.h"
+#include "npcentity.h"
+#include "doorentity.h"
+#include "itementity.h"
+
+void Entity::setPlayerEntity(const PcEntity* pc)
+{
+  pc_entity = pc->getRef();
+}
+
+void Entity::setNpcEntity(const NpcEntity* npc)
+{
+  npc_entity = npc->getRef();
+}
+
+void Entity::setItemEntity(const ItemEntity* item)
+{
+  item_entity = item->getRef();
+}
+
+void Entity::setDoorEntity(const DoorEntity* door)
+{
+  door_entity = door->getRef();
+}

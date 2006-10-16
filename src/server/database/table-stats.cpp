@@ -37,6 +37,7 @@ StatTable::StatTable(Database* db) : Table(db)
 
 void StatTable::createTable()
 {
+  printf("Creating Table stats...\n");
   db->update("create table stats ("
     "id INTEGER, "
     "name TEXT, "

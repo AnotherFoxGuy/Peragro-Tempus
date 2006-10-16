@@ -19,12 +19,16 @@
 #include "network.h"
 #include "networkhelper.h"
 #include "tradehandler.h"
+#include "server/entity/entitymanager.h"
+#include "server/entity/pcentity.h"
 #include "server/entity/tradesession.h"
 
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
-  PcEntity* pc = NetworkHelper::getPcEntity(msg);
-  if (!pc) return;
+  const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
+  if (!c_pc) return;
+
+  PcEntity* pc = c_pc->getLock();
 
   TradePeer* this_peer = pc->getTradePeer();
 
@@ -34,13 +38,12 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   int ent_id = message.getEntityId();
 
   EntityManager* ent_mgr = server->getEntityManager();
-  CharacterEntity* peer_ent = ent_mgr->getCharEntity(ent_id);
+  const Entity* peer_ent = ent_mgr->getEntity(ent_id);
 
-  if (peer_ent == 0) return;
-
-  if (peer_ent->getType() == Entity::PlayerEntity)
+  if (peer_ent && peer_ent->getType() == Entity::PlayerEntityType)
   {
-    TradePeer* other_peer = ((PcEntity*) peer_ent)->getTradePeer();
+    PcEntity* peer_pc = peer_ent->getPlayerEntity()->getLock();
+    TradePeer* other_peer = peer_pc->getTradePeer();
     TradeSession* session = other_peer->getSession();
 
     if (session != 0)
@@ -56,41 +59,70 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
       // Error! This player is already trading with someone!
     }
 
-    const User* other_user = ((PcEntity*) peer_ent)->getUser();
-    if (!other_user) return;
-
-    const Connection* other_conn = other_user->getConnection();
-    if (!other_conn) return;
-
-    message.setEntityId(pc->getId());
+    message.setEntityId(pc->getEntity()->getId());
 
     ByteStream bs;
     message.serialise(&bs);
 
-    other_conn->send(bs);
+    NetworkHelper::sendMessage(peer_ent, bs);
+    peer_pc->freeLock();
   }
+  pc->freeLock();
 }
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)
 {
-  PcEntity* pc = NetworkHelper::getPcEntity(msg);
-  if (!pc) return;
+  const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
+  if (!c_pc) return;
+
+  PcEntity* pc = c_pc->getLock();
 
   TradePeer* this_peer = pc->getTradePeer();
 
   TradePeer* other_peer = this_peer->getOtherPeer();
 
-  if (other_peer == 0) return;
+  if (other_peer)
+  {
+    TradeResponseMessage message;
+    message.deserialise(msg->getByteStream());
 
-  TradeResponseMessage message;
-  message.deserialise(msg->getByteStream());
+    ptString error = message.getError();
 
-  ptString error = message.getError();
-
-  this_peer->getSession()->sendResponse(error);
+    this_peer->getSession()->sendResponse(error);
+  }
+  pc->freeLock();
 }
 
 void TradeHandler::handleBuyItemRequestNpc(GenericMessage* msg)
 {
 }
 
+void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
+{
+  const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
+  if (!c_pc) return;
+
+  PcEntity* pc = c_pc->getLock();
+
+  TradePeer* peer = pc->getTradePeer();
+
+  TradeOffersListPvpMessage offer;
+  offer.deserialise(msg->getByteStream());
+
+  //peer->setOfferCount(offer.getOffersCount());
+
+  for (unsigned char i = 0; 0 < offer.getOffersCount(); i++)
+  {
+    //peer->setOffer(offer.getItemId(i), offer.getAmount(i));
+  }
+
+  //peer->sendOffer();
+}
+
+void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
+{
+}
+
+void TradeHandler::handleTradeConfirmRequest(GenericMessage* msg)
+{
+}

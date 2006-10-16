@@ -19,18 +19,17 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
-#include <string.h>
-#include <time.h>
 #include <math.h>
 
+#include "common/util/monitorable.h"
 #include "common/util/ptstring.h"
 
-#include "inventory.h"
-#include "characterstats.h"
+class PcEntity;
+class NpcEntity;
+class ItemEntity;
+class DoorEntity;
 
-class Item;
-
-class Entity
+class Entity : public ptMonitorable<Entity>
 {
 private:
   int id;
@@ -39,18 +38,18 @@ private:
   ptString mesh_id;
   ptString sector_id;
 
-  int item;
-
-  Inventory inventory;
-  CharacterStats stats;
+  ptMonitor<PcEntity> pc_entity;
+  ptMonitor<NpcEntity> npc_entity;
+  ptMonitor<ItemEntity> item_entity;
+  ptMonitor<DoorEntity> door_entity;
 
 public:
   enum EntityType
   {
-    PlayerEntity=0,
-    NPCEntity=1,
-    DoorEntity=2,
-    ItemEntity=3
+    PlayerEntityType=0,
+    NPCEntityType=1,
+    DoorEntityType=2,
+    ItemEntityType=3
   };
 
 protected:
@@ -60,7 +59,7 @@ protected:
   float pos[3];
 
 public:
-  Entity() : id(-1)//, name(0), mesh(0), sector(0)
+  Entity() : id(-1)
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
@@ -80,7 +79,7 @@ public:
 
   virtual ~Entity() {}
 
-  bool compare(Entity* other)
+  bool compare(const Entity* other) const
   {
     if (this == other)
       return true;
@@ -88,11 +87,11 @@ public:
     if (this->type != other->type)
       return false;
 
-    if (this->type == Entity::ItemEntity)
+    if (this->type == Entity::ItemEntityType)
     {
       return this->id == other->id;
     }
-    else if (this->type == Entity::PlayerEntity)
+    else if (this->type == Entity::PlayerEntityType)
     {
       return (this->name_id == other->name_id);
     }
@@ -100,14 +99,8 @@ public:
     return false;
   }
 
-  void setId(int id)
-  {
-    this->id = id;
-  }
-  int getId()
-  {
-    return id;
-  }
+  void setId(int id) { this->id = id; }
+  int getId() const { return id; }
 
   void resetSavePos()
   {
@@ -115,76 +108,54 @@ public:
     pos_last_saved[1] = pos[1];
     pos_last_saved[2] = pos[2];
   }
-  virtual float* getLastSaved()
-  {
-    return pos_last_saved;
-  }
+  const float* getLastSaved() const { return pos_last_saved; }
 
+  void setPos(const float p[3]) { setPos(p[0],p[1],p[2]); }
   void setPos(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
-  void setPos(float p[3])
-  {
-    pos[0] = p[0];
-    pos[1] = p[1];
-    pos[2] = p[2];
-  }
-  virtual float* getPos()
-  {
-    return pos;
-  }
+  const float* getPos() const { return pos; }
 
-  ptString& getName()
-  {
-    return name_id;
-  }
-  void setName(ptString id)
-  {
-    name_id = id;
-  }
+  const ptString& getName() const { return name_id; }
+  void setName(ptString id) { name_id = id; }
 
-  ptString& getMesh()
-  {
-    return mesh_id;
-  }
-  void setMesh(ptString id)
-  {
-    mesh_id = id;
-  }
+  const ptString& getMesh() const { return mesh_id; }
+  void setMesh(ptString id) { mesh_id = id; }
 
-  ptString& getSector()
-  {
-    return sector_id;
-  }
-  void setSector(ptString id)
-  {
-    sector_id = id;
-  }
+  const ptString& getSector() const { return sector_id; }
+  void setSector(ptString id) { sector_id = id; }
 
-  EntityType getType()
-  {
-    return type;
-  }
+  EntityType getType() const { return type; }
 
-  float getDistanceTo2(float* target)
+  float getDistanceTo2(const float* target) const
   {
     return (target[0] - pos[0])*(target[0] - pos[0])
          + (target[1] - pos[1])*(target[1] - pos[1])
          + (target[2] - pos[2])*(target[2] - pos[2]);
   }
 
-  float getDistanceTo2(Entity* target)
+  float getDistanceTo2(const Entity* target) const
   {
-    return getDistanceTo2(target->pos);
+    return getDistanceTo2(target->getPos());
   }
 
-  float getDistanceTo(Entity* target)
+  float getDistanceTo(const Entity* target) const
   {
     return sqrtf(getDistanceTo2(target));
   }
+
+  const PcEntity* getPlayerEntity() const { return pc_entity.get(); }
+  const NpcEntity* getNpcEntity() const { return npc_entity.get(); }
+  const ItemEntity* getItemEntity() const { return item_entity.get(); }
+  const DoorEntity* getDoorEntity() const { return door_entity.get(); }
+
+  void setPlayerEntity(const PcEntity*);
+  void setNpcEntity(const NpcEntity*);
+  void setItemEntity(const ItemEntity*);
+  void setDoorEntity(const DoorEntity*);
 
   void checkForSave();
 };

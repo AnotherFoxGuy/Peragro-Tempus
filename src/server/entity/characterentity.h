@@ -38,10 +38,8 @@ class CharacterEntity : public Entity
 private:
   Inventory inventory;
   CharacterStats stats;
-  CharacterSkills skills;
 
   size_t charId;
-  Character* character;
 
   float final_dst[3];
   size_t t_stop;

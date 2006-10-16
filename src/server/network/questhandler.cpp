@@ -29,8 +29,10 @@
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
-  Character* character = NetworkHelper::getCharacter(msg);
-  if (!character) return;
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
+
+  Character* character = c_char->getLock();
 
   NPCDialogState* dia_state = character->getNPCDialogState();
 
@@ -39,7 +41,11 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
   const NPCDialog* dialog = dia_state->giveAnswer(message.getDialogId(), message.getAnswerId());
 
-  if (dialog == 0) return;
+  if (dialog == 0)
+  {
+    character->freeLock();
+    return;
+  }
 
   NpcDialogMessage dialog_msg;
   dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
@@ -56,12 +62,15 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   dialog_msg.serialise(&bs);
 
   NetworkHelper::sendMessage(character, bs);
+  character->freeLock();
 }
 
 void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
 {
-  Character* character = NetworkHelper::getCharacter(msg);
-  if (!character) return;
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
+
+  Character* character = c_char->getLock();
 
   NPCDialogState* dia_state = character->getNPCDialogState();
 
@@ -85,12 +94,15 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   dialog_msg.serialise(&bs);
 
   NetworkHelper::sendMessage(character, bs);
+  character->freeLock();
 }
 
 void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
 {
-  Character* character = NetworkHelper::getCharacter(msg);
-  if (!character) return;
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
+
+  Character* character = c_char->getLock();
 
   NPCDialogState* dia_state = character->getNPCDialogState();
 
@@ -98,4 +110,5 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
   message.deserialise(msg->getByteStream());
 
   dia_state->endDialog(0);
+  character->freeLock();
 }

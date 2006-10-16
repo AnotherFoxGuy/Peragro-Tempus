@@ -26,3 +26,21 @@ TradePeer* TradePeer::getOtherPeer()
   else if (session->peer2 == this) return session->peer1;
   else return 0;
 }
+
+void TradePeer::addToOffer(Item* item, unsigned int amount)
+{
+  TradeSession::Offer offer;
+  offer.item = item;
+  offer.amount = amount;
+
+  if (session == 0) return;
+  else if (session->peer1 == this)
+  {
+    session->offer1.add(offer);
+  }
+  else if (session->peer2 == this)
+  {
+    session->offer2.add(offer);
+  }
+  else return;
+}

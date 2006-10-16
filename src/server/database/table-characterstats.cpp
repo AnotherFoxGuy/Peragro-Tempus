@@ -38,6 +38,7 @@ CharacterStatsTable::CharacterStatsTable(Database* db) : Table(db)
 
 void CharacterStatsTable::createTable()
 {
+  printf("Creating Table characterstat...\n");
   db->update("create table characterstat ("
     "id INTEGER, "
     "stat INTEGER, "

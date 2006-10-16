@@ -62,7 +62,7 @@ public:
     return str_cache;
   }
 
-  inline bool operator==(ptString& other) const
+  inline bool operator==(const ptString& other) const
   {
     return string_id == other.string_id;
   }

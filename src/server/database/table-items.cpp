@@ -37,6 +37,7 @@ ItemTable::ItemTable(Database* db) : Table(db)
 
 void ItemTable::createTable()
 {
+  printf("Creating Table items...\n");
   db->update("create table items ("
     "id INTEGER, "
     "name TEXT, "
@@ -75,17 +76,33 @@ bool ItemTable::existsItem(ptString name)
 
 Item* ItemTable::getItem(ptString name)
 {
-  ResultSet* rs = db->query("select * from users where name = '%q';", *name);
+  ResultSet* rs = db->query("select * from items where name = '%q';", *name);
 
   Item* item = 0;
 
   if (rs && rs->GetRowCount() == 1) 
   {
-    /*
-    Item* item = new Item();
+    item = new Item();
     item->setId(atoi(rs->GetData(0,0).c_str()));
-    item->setName(rs->GetData(0,1).c_str(), rs->GetData(0,1).length());
-    */
+    item->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
+    item->setMesh(ptString(rs->GetData(0,2).c_str(), rs->GetData(0,2).length()));
+  }
+  delete rs;
+  return item;
+}
+
+Item* ItemTable::getItem(int id)
+{
+  ResultSet* rs = db->query("select * from items where id = %d;", id);
+
+  Item* item = 0;
+
+  if (rs && rs->GetRowCount() == 1) 
+  {
+    item = new Item();
+    item->setId(atoi(rs->GetData(0,0).c_str()));
+    item->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
+    item->setMesh(ptString(rs->GetData(0,2).c_str(), rs->GetData(0,2).length()));
   }
   delete rs;
   return item;

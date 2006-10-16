@@ -17,8 +17,9 @@
 */
 
 #include "entity.h"
+#include "pcentity.h"
 #include "skill.h"
-#include "characterentity.h"
+#include "character.h"
 #include "characterskills.h"
 #include "entitymanager.h"
 #include "server/server.h"
@@ -40,10 +41,10 @@ Skill::Skill() : id(-1), range(0)
 //  printf("Dummy Skill from %s targetting %s!\n",*caster->getName(),targetname);
 //}
 
-void Skill::castPrepare(CharacterEntity* caster, unsigned int target_id)
+void Skill::castPrepare(Character* caster, unsigned int target_id)
 {
   CharSkill* skilldata = caster->getSkills()->findSkill(id);
-  Entity* target = Server::getServer()->getEntityManager()->findById(target_id);
+  const Entity* target = Server::getServer()->getEntityManager()->findById(target_id);
 
   SkillUsageStartResponseMessage response_msg;
   response_msg.setSkill(id);
@@ -61,7 +62,11 @@ void Skill::castPrepare(CharacterEntity* caster, unsigned int target_id)
     response_msg.setError(ptString("Not enough MP", strlen("Not enough MP")));
     return ;
   }
-  else if (caster->getDistanceTo(target) > range)
+  else if (!caster->getEntity())
+  {
+    response_msg.setError(ptString("Entity disappeared",strlen("Entity disappeared")));
+  }
+  else if (caster->getEntity()->getDistanceTo(target) > range)
   {
     //Abort 'too far away'
     response_msg.setError(ptString("Too far away", strlen("Too far away")));
@@ -127,8 +132,10 @@ void Skill::castExecute(CharSkill* skilldata)
   response_msg.setCaster(skilldata->caster_id);
   response_msg.setTarget(skilldata->target_id);
 
-  Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
-  CharacterStats* stats = ((CharacterEntity*)target)->getStats();
+  const Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
+  const Character* c_char = target->getPlayerEntity()->getCharacter();
+  Character* l_char = c_char->getLock();
+  CharacterStats* stats = l_char->getStats();
   if (type == TYPE_HURT)
   {
     unsigned int health = stats->getAmount(hp);
@@ -151,6 +158,7 @@ void Skill::castExecute(CharSkill* skilldata)
     printf("Healing %s with %d Health => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
     //no upper stats limit for now...
   }
+  l_char->freeLock();
 
   ByteStream bs;
   response_msg.serialise(&bs);

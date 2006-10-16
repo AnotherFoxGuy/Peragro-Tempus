@@ -38,6 +38,7 @@ CharacterSkillsTable::CharacterSkillsTable(Database* db) : Table(db)
 
 void CharacterSkillsTable::createTable()
 {
+  printf("Creating Table characterskill...\n");
   db->update("create table characterskill ("
     "id INTEGER, "
     "skill INTEGER, "

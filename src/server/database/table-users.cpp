@@ -38,11 +38,14 @@ UsersTable::UsersTable(Database* db) : Table(db)
 
 void UsersTable::createTable()
 {
+  printf("Creating Table users...\n");
   db->update("create table users ("
     "id INTEGER, "
     "name TEXT, "
     "pwhash TEXT, "
     "PRIMARY KEY (id) );");
+
+  db->update("insert into users (id, name, pwhash) values (0, '_npc_',null);");
 }
 
 void UsersTable::insert(ptString name, const char* pwhash)
@@ -57,7 +60,7 @@ void UsersTable::dropTable()
 
 bool UsersTable::existsUser(ptString name)
 {
-  ResultSet* rs = db->query("select id from users where name = '%q';", *name);
+  ResultSet* rs = db->query("select id from users where name = '%q' and id > 0;", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -65,7 +68,7 @@ bool UsersTable::existsUser(ptString name)
 
 User* UsersTable::getUser(ptString name)
 {
-  ResultSet* rs = db->query("select * from users where name = '%q';", *name);
+  ResultSet* rs = db->query("select * from users where name = '%q' and id > 0;", *name);
   if (!rs || rs->GetRowCount() == 0) 
     return 0;
 

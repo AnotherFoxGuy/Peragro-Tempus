@@ -26,7 +26,6 @@
 #include "common/network/entitymessages.h"
 
 //#include "connectionmanager.h"
-#include "server/entity/entitymanager.h"
 
 #include "server/network/doorhandler.h"
 #include "server/network/questhandler.h"

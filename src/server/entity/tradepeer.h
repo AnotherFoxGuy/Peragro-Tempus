@@ -19,6 +19,7 @@
 #ifndef _TRADE_PEER_H_
 #define _TRADE_PEER_H_
 
+class Item;
 class TradeSession;
 
 class TradePeer
@@ -33,6 +34,8 @@ public:
   TradeSession* getSession() { return session; }
 
   TradePeer* getOtherPeer();
+
+  void addToOffer(Item* item, unsigned int amount);
 };
 
 #endif // _TRADE_PEER_H_

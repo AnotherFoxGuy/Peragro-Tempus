@@ -38,6 +38,7 @@ InventoryTable::InventoryTable(Database* db) : Table(db)
 
 void InventoryTable::createTable()
 {
+  printf("Creating Table inventory...\n");
   db->update("create table inventory ("
     "id INTEGER, "
     "slot INTEGERT, "
@@ -46,7 +47,7 @@ void InventoryTable::createTable()
     "PRIMARY KEY (id, item, slot) );");
 }
 
-void InventoryTable::set(int inventory, Item* item, int amount, int slot)
+void InventoryTable::set(int inventory, const Item* item, int amount, int slot)
 {
   if (amount == 0)
     db->update("delete from inventory where id=%d and item=%d and slot=%d;",
@@ -56,7 +57,7 @@ void InventoryTable::set(int inventory, Item* item, int amount, int slot)
       inventory, item->getId(), slot, amount);
 }
 
-int InventoryTable::get(int inventory, Item* item)
+int InventoryTable::get(int inventory, const Item* item)
 {
   ResultSet* rs = db->query("select * from inventory where id = '%d' and item = '%d';",
     inventory, item->getId());

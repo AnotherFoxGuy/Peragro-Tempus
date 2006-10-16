@@ -21,7 +21,6 @@
 
 #include "common/util/array.h"
 #include "entity.h"
-#include "characterentity.h"
 #include "pcentity.h"
 #include "npcentity.h"
 #include "itementity.h"
@@ -33,7 +32,6 @@ class EntityManager
 {
 private:
   EntityList entity_list;
-  EntityList character_list;
   unsigned int ent_id;
 
 public:
@@ -45,57 +43,43 @@ public:
       delete entity_list.getEntity(i);
   }
 
-  size_t getCharEntityCount()
-  {
-    return character_list.getEntityCount();
-  }
-
-  CharacterEntity* getCharEntity(size_t index)
-  {
-    return (CharacterEntity*) character_list.getEntity(index);
-  }
-
   size_t getEntityCount()
   {
     return entity_list.getEntityCount();
   }
 
-  Entity* getEntity(size_t index)
+  const Entity* getEntity(size_t index)
   {
     return entity_list.getEntity(index);
   }
 
-  void addEntity(Entity* entity)
+  void addEntity(const Entity* entity)
   {
     ent_id++;
-    entity->setId(ent_id);
+    
+    Entity* e = entity->getLock();
+    e->setId(ent_id);
+    e->freeLock();
+
     entity_list.addEntity(entity);
-    if (entity->getType() == Entity::PlayerEntity || entity->getType() == Entity::NPCEntity)
-    {
-      character_list.addEntity(entity);
-    }
   }
 
-  void removeEntity(Entity* entity)
+  void removeEntity(const Entity* entity)
   {
-    if (entity->getType() == Entity::PlayerEntity || entity->getType() == Entity::NPCEntity)
-    {
-      character_list.removeEntity(entity);
-    }
     entity_list.removeEntity(entity);
   }
 
-  bool exists(Entity* entity)
+  bool exists(const Entity* entity)
   {
     return entity_list.exists(entity);
   }
 
-  Entity* findByName(ptString name)
+  const Entity* findByName(ptString name)
   {
     return entity_list.findByName(name);
   }
 
-  Entity* findById(int id)
+  const Entity* findById(int id)
   {
     return entity_list.findById(id);
   }

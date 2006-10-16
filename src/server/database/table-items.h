@@ -34,6 +34,7 @@ public:
   void dropTable();
   bool existsItem(ptString name);
   Item* getItem(ptString name);
+  Item* getItem(int id);
   void getAllItems(Array<Item*>& items);
 };
 

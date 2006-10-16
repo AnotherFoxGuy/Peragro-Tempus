@@ -52,6 +52,7 @@ Array<NpcDialogsTableVO*> NpcDialogsTable::parseMultiResultSet(ResultSet* rs)
 
 void NpcDialogsTable::createTable()
 {
+  printf("Creating Table npcdialogs...\n");
   db->update("create table npcdialogs ("
              "dialogid INTEGER,"
              "text TEXT,"

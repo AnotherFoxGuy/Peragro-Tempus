@@ -16,13 +16,24 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "character.h"
+#include "doorentity.h"
+#include "entity.h"
+#include "pcentity.h"
 #include "user.h"
-#include "server/entity/entitymanager.h"
-#include "server/server.h"
-#include "server/entity/usermanager.h"
-#include "server/network/network.h"
+#include "usermanager.h"
 
-void User::sendAddEntity(Entity* entity)
+#include "common/network/entitymessages.h"
+
+#include "server/server.h"
+
+void User::setEntity(PcEntity* entity)
+{
+  own_entity = entity->getRef();
+  entity->setUser(this);
+}
+
+void User::sendAddEntity(const Entity* entity)
 {
   if (ent_list.exists(entity))
     return;
@@ -34,17 +45,17 @@ void User::sendAddEntity(Entity* entity)
 
   ent_list.addEntity(entity);
   ByteStream bs;
-  if (entity->getType() == Entity::DoorEntity)
+  if (entity->getType() == Entity::DoorEntityType)
   {
     AddDoorMessage msg;
     msg.setName(entity->getName());
     msg.setId(entity->getId());
     msg.setMesh(entity->getMesh());
-    msg.setOpen(((DoorEntity*)entity)->getOpen());
-    msg.setLocked(((DoorEntity*)entity)->getLocked());
+    msg.setOpen(entity->getDoorEntity()->getOpen());
+    msg.setLocked(entity->getDoorEntity()->getLocked());
     msg.serialise(&bs);
   }
-  else if (entity->getType() == Entity::PlayerEntity)
+  else if (entity->getType() == Entity::PlayerEntityType)
   {
     AddCharacterEntityMessage msg;
     msg.setName(entity->getName());
@@ -53,7 +64,7 @@ void User::sendAddEntity(Entity* entity)
     msg.setMesh(entity->getMesh());
     msg.setPos(entity->getPos());
     msg.setSector(entity->getSector());
-    Character* character = ((CharacterEntity*)entity)->getCharacter();
+    const Character* character = entity->getPlayerEntity()->getCharacter();
     msg.setDecalColour(character->getDecalColour());
     msg.setHairColour(character->getHairColour());
     msg.setSkinColour(character->getSkinColour());
@@ -74,7 +85,7 @@ void User::sendAddEntity(Entity* entity)
   if (connection.get()) connection.get()->send(bs);
 }
 
-void User::sendRemoveEntity(Entity* entity)
+void User::sendRemoveEntity(const Entity* entity)
 {
   printf("send delentity '%s' to '%s'\n", *entity->getName(), *this->getName());
   if (!ent_list.exists(entity))
@@ -96,8 +107,9 @@ void User::remove()
 {
   if (own_entity.get())
   {
-    Server::getServer()->delEntity((PcEntity*)own_entity.get());
+    Server::getServer()->delEntity(own_entity.get()->getEntity());
   }
 
   Server::getServer()->getUserManager()->delUser(this);
 }
+

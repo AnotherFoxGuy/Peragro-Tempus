@@ -24,7 +24,7 @@
 
 class Entity;
 class CharSkill;
-class CharacterEntity;
+class Character;
 class Stat;
 
 namespace SkillState
@@ -117,7 +117,7 @@ public:
 
   //virtual void triggerSkill(CharSkill* skilldata, CharacterEntity* caster);
 
-  void castPrepare(CharacterEntity* caster, unsigned int target_id);
+  void castPrepare(Character* caster, unsigned int target_id);
   void castInterrupt(CharSkill* skilldata);
   void castExecute(CharSkill* skilldata);
   void castRecover(CharSkill* skilldata);

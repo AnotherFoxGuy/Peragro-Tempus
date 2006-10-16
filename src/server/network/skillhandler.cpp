@@ -18,13 +18,16 @@
 
 #include "networkhelper.h"
 #include "server/network/network.h"
+#include "server/entity/character.h"
 #include "server/entity/usermanager.h"
 #include "server/entity/skillmanager.h"
 
 void SkillHandler::handleSkillUsageStartRequest(GenericMessage* msg)
 {
-  CharacterEntity* character = NetworkHelper::getCharacterEntity(msg);
-  if (!character) return;
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
+
+  Character* character = c_char->getLock();
 
   ptString name = character->getName();
 
@@ -33,13 +36,18 @@ void SkillHandler::handleSkillUsageStartRequest(GenericMessage* msg)
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
   if (skill)
+  {
     skill->castPrepare(character, request_msg.getTarget());
+  }
+  character->freeLock();
 }
 
 void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
 {
-  CharacterEntity* character = NetworkHelper::getCharacterEntity(msg);
-  if (!character) return;
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
+
+  Character* character = c_char->getLock();
 
   ptString name = character->getName();
 
@@ -48,4 +56,6 @@ void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
   skill->castInterrupt(character->getSkills()->findSkill(skill->getId()));
+
+  character->freeLock();
 }

@@ -19,16 +19,17 @@
 #ifndef _USER_H_
 #define _USER_H_
 
-#include <string.h>
-#include <time.h>
-#include <math.h>
-
 #include "common/util/monitorable.h"
-#include "server/entity/entitymanager.h"
+#include "common/util/ptstring.h"
 
 #include "server/network/connection.h"
 
+#include "entitylist.h"
+
 class Network;
+class Connection;
+class Entity;
+class PcEntity;
 
 class User : public ptMonitorable<User>
 {
@@ -46,10 +47,10 @@ public:
   User() : pwhash(0) { }
   ~User() { delete [] pwhash; }
 
-  size_t getId() { return id; }
+  size_t getId() const { return id; }
   void setId(size_t id) { this->id = id; }
 
-  ptString& getName() { return name; }
+  const ptString& getName() const { return name; }
   void setName(ptString name) { this->name = name; }
 
   const char* getPwHash() { return pwhash; }
@@ -60,15 +61,8 @@ public:
     strncpy(this->pwhash, pwhash, pwhashlen+1);
   }
 
-  void sendAddEntity(Entity* entity);
-  void sendRemoveEntity(Entity* entity);
-
   const PcEntity* getEntity() const { return own_entity.get(); }
-  void setEntity(PcEntity* entity)
-  {
-    own_entity = entity->getRef();
-    entity->setUser(this);
-  }
+  void setEntity(PcEntity* entity);
 
   const Connection* getConnection() const { return connection.get(); }
   void setConnection(Connection* connection)
@@ -76,8 +70,10 @@ public:
     this->connection = connection->getRef();
   }
 
-  void clearEntityList() { ent_list.clear(); }
+  void sendAddEntity(const Entity* entity);
+  void sendRemoveEntity(const Entity* entity);
 
+  void clearEntityList() { ent_list.clear(); }
   void remove();
 };
 

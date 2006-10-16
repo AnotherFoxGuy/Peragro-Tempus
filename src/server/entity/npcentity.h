@@ -19,23 +19,56 @@
 #ifndef _NPCENTITY_H_
 #define _NPCENTITY_H_
 
-#include <string.h>
-#include <time.h>
-#include <math.h>
+#include "common/util/ptstring.h"
+#include "common/util/monitorable.h"
 
-#include "common/util/stringstore.h"
+#include "entity.h"
 
-#include "inventory.h"
-#include "characterstats.h"
+#include "server/ai/ai.h"
 
-class Item;
+class Character;
 
-class NpcEntity : public CharacterEntity
+class NpcEntity : public ptMonitorable<NpcEntity>
 {
+private:
+  ptMonitor<Entity> entity;
+  ptMonitor<Character> character;
+
+  bool isWalking;
+
+  float final_dst[3];
+  size_t t_stop;
+
+  float tmp_pos[3]; //used only for temporary calculations!
+
+  AI* ai;
+
 public:
-  NpcEntity() : CharacterEntity(NPCEntity)
+  NpcEntity()
   {
+    entity = (new Entity(Entity::NPCEntityType))->getRef();
+
+    Entity* e = entity.get()->getLock();
+    e->setNpcEntity(this);
+    e->freeLock();
+
+    isWalking = false;
+
+    ai = 0;
   }
+
+  ~NpcEntity() { delete ai; }
+
+  const Entity* getEntity() const { return entity.get(); }
+
+  void setAI(AI* ai) { this->ai = ai; ai->setNPC(this); }
+  AI* getAI() { return ai; }
+
+  void setCharacter(Character* character);
+  const Character* getCharacter() const { return this->character.get(); }
+
+  void walkTo(float* dst_pos, float speed);
+  const float* getPos();
 };
 
 #endif // _NPCENTITY_H_

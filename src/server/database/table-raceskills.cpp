@@ -40,6 +40,7 @@ RaceSkillsTable::RaceSkillsTable(Database* db) : Table(db)
 
 void RaceSkillsTable::createTable()
 {
+  printf("Creating Table raceskill...\n");
   db->update("create table raceskill ("
     "id INTEGER, "
     "skill INTEGER, "

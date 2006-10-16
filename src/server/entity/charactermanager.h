@@ -36,7 +36,7 @@ public:
   CharacterManager(Server* server);
 
   ptString createCharacter(ptString name, int user_id, int& char_id, unsigned char* haircolour, unsigned char* skincolour, unsigned char* decalcolour);
-  void checkForSave(PcEntity* e);
+  void checkForSave(const PcEntity* e);
 
   Character* getCharacter(int id);
 

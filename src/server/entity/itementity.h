@@ -19,47 +19,33 @@
 #ifndef _ITEMENTITY_H_
 #define _ITEMENTITY_H_
 
-#include <string.h>
-#include <time.h>
-#include <math.h>
-
-#include "common/util/stringstore.h"
-
-#include "inventory.h"
-#include "characterstats.h"
+#include "common/util/monitorable.h"
 
 class Item;
+class Entity;
 
-class ItemEntity : public Entity
+class ItemEntity : public ptMonitorable<ItemEntity>
 {
 private:
-  int item;
+  ptMonitor<Item> item;
+  ptMonitor<Entity> entity;
 
 public:
-  ItemEntity() : Entity(Entity::ItemEntity)
+  ItemEntity()
   {
+    entity = (new Entity(Entity::ItemEntityType))->getRef();
+
+    Entity* e = entity.get()->getLock();
+    e->setItemEntity(this);
+    e->freeLock();
   }
 
-  ~ItemEntity()
-  {
-  }
+  ~ItemEntity() {}
 
-  void setItem(int i)
-  {
-    item = i;
-  }
+  const Item* getItem() const { return item.get(); }
+  const Entity* getEntity() const { return entity.get(); }
 
-  int getItem()
-  {
-    return item;
-  }
-
-  void createFromItem(Item* item)
-  {
-    this->setName(item->getName());
-    this->setMesh(item->getMesh());
-    this->setItem(item->getId());
-  }
+  void createFromItem(Item* item);
 };
 
 #endif // _ITEMENTITY_H_

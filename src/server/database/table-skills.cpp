@@ -37,6 +37,7 @@ SkillTable::SkillTable(Database* db) : Table(db)
 
 void SkillTable::createTable()
 {
+  printf("Creating Table skills...\n");
   db->update("create table skills ("
     "id INTEGER, "
     "name TEXT, "

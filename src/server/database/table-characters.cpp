@@ -41,6 +41,7 @@ CharacterTable::CharacterTable(Database* db) : Table(db)
 
 void CharacterTable::createTable()
 {
+  printf("Creating Table characters...\n");
   db->update("create table characters ("
     "id INTEGER, "
     "name TEXT, "
@@ -61,6 +62,15 @@ void CharacterTable::createTable()
     "pos_z FLOAT, "
     "sector TEXT, "
     "PRIMARY KEY (id) );");
+
+  unsigned char haircolour[3] = {255,255,255};
+  unsigned char skincolour[3] = {255,255,255};
+  unsigned char decalcolour[3] = {255,255,255};
+  float pos[3] = {0,0,0};
+  insert(1, ptString("test-dummy", 10), 0, ptString("test",4), 1, haircolour,
+            skincolour, decalcolour, pos, ptString("room",4));
+  insert(2, ptString("baby-dragonfly", 14), 0, ptString("test1",5), 1, haircolour,
+            skincolour, decalcolour, pos, ptString("room",4));
 }
 
 void CharacterTable::insert(int id, ptString name, int user_id, ptString mesh,
@@ -104,10 +114,10 @@ void CharacterTable::remove(int id)
   db->update("delete from characters where id = %d;", id);
 }
 
-void CharacterTable::update(PcEntity* e)
+void CharacterTable::update(const float* pos, ptString sector, int char_id)
 {
   db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector='%q' where id = %d;",
-    e->getPos()[0], e->getPos()[1], e->getPos()[2], *(e->getSector()), e->getCharId());
+    pos[0], pos[1], pos[2], *sector, char_id);
 }
 
 bool CharacterTable::existsCharacter(ptString name)

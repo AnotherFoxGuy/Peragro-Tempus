@@ -182,7 +182,7 @@ public:
     character[i].haircolour[1] = g;
     character[i].haircolour[2] = b;
   }
-  void setHairColour(size_t i, unsigned char* x)
+  void setHairColour(size_t i, const unsigned char* x)
   {
     setHairColour(i, x[0], x[1], x[2]);
   }
@@ -194,7 +194,7 @@ public:
     character[i].skincolour[1] = g;
     character[i].skincolour[2] = b;
   }
-  void setSkinColour(size_t i, unsigned char* x)
+  void setSkinColour(size_t i, const unsigned char* x)
   {
     setSkinColour(i, x[0], x[1], x[2]);
   }
@@ -206,7 +206,7 @@ public:
     character[i].decalcolour[1] = g;
     character[i].decalcolour[2] = b;
   }
-  void setDecalColour(size_t i, unsigned char* x)
+  void setDecalColour(size_t i, const unsigned char* x)
   {
     setDecalColour(i, x[0], x[1], x[2]);
   }

@@ -41,6 +41,7 @@ RaceTable::RaceTable(Database* db) : Table(db)
 
 void RaceTable::createTable()
 {
+  printf("Creating Table races...\n");
   db->update("create table races ("
     "id INTEGER, "
     "name TEXT, "

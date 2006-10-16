@@ -16,7 +16,10 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "server/entity/entitymanager.h"
 #include "server/entity/itemmanager.h"
+#include "server/entity/entity.h"
+#include "server/entity/itementity.h"
 #include "server/entity/statmanager.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/race.h"
@@ -27,7 +30,7 @@
 
 void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
-  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
   int name_id = user_ent->getId();
@@ -52,8 +55,10 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 
 void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 {
-  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
-  if (!user_ent) return;
+  const Entity* ent = NetworkHelper::getEntity(msg);
+  if (!ent) return;
+
+  Entity* user_ent = ent->getLock();
 
   int name_id = user_ent->getId();
 
@@ -78,17 +83,15 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   response_msg.setId(name_id);
   ByteStream bs;
   response_msg.serialise(&bs);
-  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
-  {
-    User* user = server->getUserManager()->getUser(i);
-    if (user && user->getConnection())
-      user->getConnection()->send(bs);
-  }
+
+  NetworkHelper::broadcast(bs);
+
+  user_ent->freeLock();
 }
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
 {
-  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
   ptString name = user_ent->getName();
@@ -96,7 +99,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   request_msg.deserialise(msg->getByteStream());
   printf("Received PickRequest from: '%s' -> '%d' \n", *name, request_msg.getTargetId());
 
-  Entity* e = server->getEntityManager()->findById(request_msg.getTargetId());
+  const Entity* e = server->getEntityManager()->findById(request_msg.getTargetId());
 
   PickEntityResponseMessage response_msg;
   response_msg.setName(name);
@@ -106,12 +109,12 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     response_msg.setTarget(ptString(0,0));
     response_msg.setError(ptString("Entity doesn't exist",20)); // <-- TODO: Error Message Storage
   }
-  else if (e->getType() == Entity::ItemEntity)
+  else if (e->getType() == Entity::ItemEntityType)
   {
     response_msg.setTarget(e->getName());
     response_msg.setError(ptString(0,0));
   }
-  else if (e->getType() == Entity::PlayerEntity)
+  else if (e->getType() == Entity::PlayerEntityType)
   {
     response_msg.setTarget(e->getName());
     response_msg.setError(ptString("Don't pick on others!",21)); // <-- TODO: Error Message Storage
@@ -124,14 +127,20 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
   if (response_msg.getError().isNull())
   {
-    Item* item = server->getItemManager()->findById(((ItemEntity*)e)->getItem());
+    const ItemEntity* item_entity = e->getItemEntity();
+    if (!item_entity) return;
+
+    const Item* item = item_entity->getItem();
 
     if (!item) return; //send Error message?
 
-    int slot = user_ent->getInventory()->getSlot(item);
+    const Character* c_char = NetworkHelper::getCharacter(msg);
+    Character* character = c_char->getLock();
+
+    int slot = character->getInventory()->getSlot(item);
     if (slot == -1)
     {
-      slot = user_ent->getInventory()->getFreeSlot();
+      slot = character->getInventory()->getFreeSlot();
     }
 
     if (slot == -1)
@@ -141,19 +150,14 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     }
     else
     {
-      user_ent->getInventory()->addItem(item,1, slot);
+      character->getInventory()->addItem(item,1, slot);
 
       response_msg.setSlot(slot);
       response_msg.setItemId(item->getId());
 
       ByteStream bs;
       response_msg.serialise(&bs);
-      for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
-      {
-        User* user = server->getUserManager()->getUser(i);
-        if (user && user->getConnection())
-          user->getConnection()->send(bs);
-      }
+      NetworkHelper::broadcast(bs);
 
       server->delEntity(e);
       return;
@@ -166,7 +170,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
 void EntityHandler::handleDropRequest(GenericMessage* msg)
 {
-  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
   ptString name = user_ent->getName();
@@ -196,8 +200,15 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     return;
   }
 
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
+
+  Character* character = c_char->getLock();
+
   // Check if in Inventory
-  bool canTake = user_ent->getInventory()->takeItem(item,1, slot_id);
+  bool canTake = character->getInventory()->takeItem(item,1, slot_id);
+
+  character->freeLock();
 
   if (!canTake)
   {
@@ -208,30 +219,44 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   // Create new entity from item.
   ItemEntity* e = new ItemEntity();
   e->createFromItem(item);
-  e->setPos(user_ent->getPos());
-  e->setSector(user_ent->getSector());
 
-  server->addEntity(e, true);
+  Entity* ent = e->getEntity()->getLock();
+  ent->setPos(user_ent->getPos());
+  ent->setSector(user_ent->getSector());
+  ent->freeLock();
+
+  server->addEntity(ent, true);
 }
 
 void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
 {
-  PcEntity* entity = NetworkHelper::getPcEntity(msg);
-  if (!entity) return;
+  const PcEntity* c_entity = NetworkHelper::getPcEntity(msg);
+  if (!c_entity) return;
+
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
+
+  PcEntity* entity = c_entity->getLock();
+  Character* character = c_char->getLock();
 
   MoveEntityToRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
   Stat* speed = server->getStatManager()->findByName(ptString("Speed", 5));
 
-  server->moveEntity(entity, request_msg.getPos(), (float)entity->getStats()->getAmount(speed));
+  server->moveEntity(entity, request_msg.getPos(), (float)character->getStats()->getAmount(speed));
   server->getCharacterManager()->checkForSave(entity);
+  entity->freeLock();
+  character->freeLock();
 }
 
 void EntityHandler::handleEquipRequest(GenericMessage* msg)
 {
-  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
+
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
 
   const char* error = 0;
 
@@ -260,7 +285,10 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
   if (invent_slot >= 30) 
     error = "Invalid inventory slot";
 
-  int new_item_id = user_ent->getInventory()->getItemIdFromSlot(invent_slot);
+  Character* character = c_char->getLock();
+  Inventory* inventory = character->getInventory();
+
+  int new_item_id = inventory->getItemIdFromSlot(invent_slot);
   Item* item = server->getItemManager()->findById(new_item_id);
 
   if (!item) 
@@ -268,47 +296,49 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
 
   if (item && ! error)
   {
-    unsigned int amount_old = user_ent->getInventory()->getAmount(invent_slot);
+    unsigned int amount_old = inventory->getAmount(invent_slot);
     if (amount_old == 0) error = "Character doesn't own this item";
     else if (equip) // equip
     {
       // See if we have already an item in the equip slot.
-      int old_item_id = user_ent->getInventory()->getItemIdFromSlot(equip_slot);
+      int old_item_id = inventory->getItemIdFromSlot(equip_slot);
       Item* old = server->getItemManager()->findById(old_item_id);
 
       // Take from the inventory slot and...
-      user_ent->getInventory()->takeItem(item, 1, invent_slot);
+      inventory->takeItem(item, 1, invent_slot);
 
       // ... (if we have) from the equip slot too.
-      if (old) user_ent->getInventory()->takeItem(old, 1, equip_slot);
+      if (old) inventory->takeItem(old, 1, equip_slot);
 
       // Then we add the new item to the equip slot and...
-      user_ent->getInventory()->addItem(item, 1, equip_slot);
+      inventory->addItem(item, 1, equip_slot);
 
       // ... (if we have) the old item to the inventory.
-      if (old) user_ent->getInventory()->addItem(old, 1, invent_slot);
+      if (old) inventory->addItem(old, 1, invent_slot);
     }
     else // move
     {
 
       // See if we have already an item in the equip slot.
-      unsigned int amount_new = user_ent->getInventory()->getAmount(equip_slot);
-      int old_item_id = user_ent->getInventory()->getItemIdFromSlot(equip_slot);
+      unsigned int amount_new = inventory->getAmount(equip_slot);
+      int old_item_id = inventory->getItemIdFromSlot(equip_slot);
       Item* old = server->getItemManager()->findById(old_item_id);
 
       // Take from the inventory slot and...
-      user_ent->getInventory()->takeItem(item, amount_old, invent_slot);
+      inventory->takeItem(item, amount_old, invent_slot);
 
       // ... (if we have) from the equip slot too.
-      if (old) user_ent->getInventory()->takeItem(old, amount_new, equip_slot);
+      if (old) inventory->takeItem(old, amount_new, equip_slot);
 
       // Then we add the new item to the equip slot and...
-      user_ent->getInventory()->addItem(item, amount_old, equip_slot);
+      inventory->addItem(item, amount_old, equip_slot);
 
       // ... (if we have) the old item to the inventory.
-      if (old) user_ent->getInventory()->addItem(old, amount_new, invent_slot);
+      if (old) inventory->addItem(old, amount_new, invent_slot);
     }
   }
+
+  character->freeLock();
 
   if (error) printf("Equip item error occured: %s\n", error);
 
@@ -337,22 +367,27 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
 
 void EntityHandler::handleRelocate(GenericMessage* msg)
 {
-  PcEntity* user_ent = NetworkHelper::getPcEntity(msg);
+  const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
   int name_id = user_ent->getId();
 
   TeleportMessage telemsg;
 
-  int race_id = user_ent->getCharacter()->getRace();
+  const Character* character = NetworkHelper::getCharacter(msg);
+  if (!character) return;
+
+  int race_id = character->getRace();
   Race* race = server->getRaceManager()->findById(race_id);
 
   if (!race) return;
 
-  user_ent->setPos(race->getPos());
-  user_ent->setSector(race->getSector());
+  Entity* ent = user_ent->getLock();
+  ent->setPos(race->getPos());
+  ent->setSector(race->getSector());
+  ent->freeLock();
 
-  server->getCharacterManager()->checkForSave((PcEntity*)user_ent);
+  server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
   telemsg.setId(name_id);
   telemsg.setSector(race->getSector());

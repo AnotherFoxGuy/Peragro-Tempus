@@ -39,6 +39,7 @@ RaceStatsTable::RaceStatsTable(Database* db) : Table(db)
 
 void RaceStatsTable::createTable()
 {
+  printf("Creating Table racestat...\n");
   db->update("create table racestat ("
     "id INTEGER, "
     "stat INTEGER, "

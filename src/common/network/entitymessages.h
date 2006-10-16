@@ -139,7 +139,7 @@ public:
   {
     return pos;
   }
-  void setPos(float p[3])
+  void setPos(const float p[3])
   {
     pos[0] = p[0];
     pos[1] = p[1];
@@ -1101,7 +1101,7 @@ public:
     entity_id = serial.getInt32();
   }
 
-  void setFromPos(float p[3])
+  void setFromPos(const float p[3])
   {
     from[0] = p[0];
     from[1] = p[1];
@@ -1638,21 +1638,21 @@ public:
     pos[1] = y;
     pos[2] = z;
   }
-  void setPos(float* x)
+  void setPos(const float* x)
   {
     setPos(x[0], x[1], x[2]);
   }
 
-  unsigned char* getSkinColour() { return skincolour; }
-  void setSkinColour(unsigned char* colour) { setSkinColour(colour[0],colour[1],colour[2]); }
+  const unsigned char* getSkinColour() const { return skincolour; }
+  void setSkinColour(const unsigned char* colour) { setSkinColour(colour[0],colour[1],colour[2]); }
   void setSkinColour(unsigned char r, unsigned char g, unsigned char b) { skincolour[0] = r; skincolour[1] = g; skincolour[2] = b; }
 
-  unsigned char* getHairColour() { return haircolour; }
-  void setHairColour(unsigned char* colour) { setHairColour(colour[0],colour[1],colour[2]); }
+  const unsigned char* getHairColour() const { return haircolour; }
+  void setHairColour(const unsigned char* colour) { setHairColour(colour[0],colour[1],colour[2]); }
   void setHairColour(unsigned char r, unsigned char g, unsigned char b) { haircolour[0] = r; haircolour[1] = g; haircolour[2] = b; }
 
-  unsigned char* getDecalColour() { return decalcolour; }
-  void setDecalColour(unsigned char* colour) { setDecalColour(colour[0],colour[1],colour[2]); }
+  const unsigned char* getDecalColour() const { return decalcolour; }
+  void setDecalColour(const unsigned char* colour) { setDecalColour(colour[0],colour[1],colour[2]); }
   void setDecalColour(unsigned char r, unsigned char g, unsigned char b) { decalcolour[0] = r; decalcolour[1] = g; decalcolour[2] = b; }
 
   ptString getSector() { return sector; }

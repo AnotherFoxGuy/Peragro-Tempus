@@ -19,10 +19,10 @@
 #ifndef ITEM_H_
 #define ITEM_H_
 
-#include <string.h>
+#include "common/util/monitorable.h"
 #include "common/util/ptstring.h"
 
-class Item
+class Item : public ptMonitorable<Item>
 {
 private:
   unsigned int id;
@@ -35,7 +35,7 @@ public:
   ~Item() {}
 
   void setId(unsigned int id) { this->id = id; }
-  unsigned int getId() { return id; }
+  unsigned int getId() const { return id; }
 
   ptString& getName() { return name_id; }
   void setName(ptString id) { name_id = id; }

@@ -29,19 +29,19 @@ class ptString;
 class EntityTable : public Table
 {
 private:
-  Entity* parseEntity(ResultSet* rs, size_t i);
+  const Entity* parseEntity(ResultSet* rs, size_t i);
 
 public:
   EntityTable(Database* db);
   void createTable();
-  void insert(int id, ptString name, int type, int item, ptString mesh, float pos[3], ptString sector);
+  void insert(int id, ptString name, int type, int item, ptString mesh, const float pos[3], ptString sector);
   int getMaxId();
   void dropTable();
   void remove(int id);
   void update(Entity* entity);
   bool existsEntity(ptString name);
-  Entity* getEntity(ptString name);
-  void getAllEntities(Array<Entity*>& entities);
+  const Entity* getEntity(ptString name);
+  void getAllEntities(Array<const Entity*>& entities);
 };
 
 #endif // _TABLE_ENTITIES_H_

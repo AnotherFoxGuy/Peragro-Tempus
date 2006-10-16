@@ -23,47 +23,44 @@
 #include <time.h>
 #include <math.h>
 
-#include "common/util/stringstore.h"
+#include "common/util/ptstring.h"
+#include "common/util/monitorable.h"
 
+#include "entity.h"
 #include "inventory.h"
 #include "characterstats.h"
 
-class Door;
-
-class DoorEntity : public Entity
+class DoorEntity : public ptMonitorable<DoorEntity>
 {
 private:
-  int Door;
-  bool Open;
-  bool Locked;
+  int door;
+  ptMonitor<Entity> entity;
+
+  bool open;
+  bool locked;
 
 public:
-  DoorEntity() : Entity(Entity::DoorEntity)
+  DoorEntity() : open(false), locked(false)
   {
-	  Open=false;
-	  Locked=false;
+    entity = (new Entity(Entity::DoorEntityType))->getRef();
+
+    Entity* e = entity.get()->getLock();
+    e->setDoorEntity(this);
+    e->freeLock();
   }
 
   ~DoorEntity()
   {
   }
-  void setOpen(bool open)
-  {
-	  Open=open;
-  }
-  bool getOpen()
-  {
-	  return Open;
-  }
-  void setLocked(bool locked)
-  {
-	  Locked=locked;
-  }
-  bool getLocked()
-  {
-	  return Locked;
-  }
 
+  void setEntity(Entity* entity);
+  const Entity* getEntity() { return this->entity.get(); }
+
+  void setOpen(bool open) { this->open = open; }
+  bool getOpen() const { return open; }
+
+  void setLocked(bool locked) { this->locked = locked; }
+  bool getLocked() const { return locked; }
 };
 
 #endif // _DoorENTITY_H_

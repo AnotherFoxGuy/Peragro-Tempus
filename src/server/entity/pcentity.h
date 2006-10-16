@@ -19,35 +19,56 @@
 #ifndef _PCENTITY_H_
 #define _PCENTITY_H_
 
-#include <string.h>
-#include <time.h>
-#include <math.h>
-
-#include "common/util/stringstore.h"
 #include "common/util/monitorable.h"
 
-#include "characterentity.h"
-
+#include "entity.h"
 #include "tradepeer.h"
 
+class Character;
+class Entity;
 class User;
 
-class PcEntity : public ptMonitorable<PcEntity>, public CharacterEntity
+class PcEntity : public ptMonitorable<PcEntity>
 {
 private:
   ptMonitor<User> user;
+  ptMonitor<Entity> entity;
+  ptMonitor<Character> character;
 
   TradePeer tradepeer;
 
+  bool isWalking;
+
+  float final_dst[3];
+  size_t t_stop;
+
+  float tmp_pos[3]; //used only for temporary calculations!
+
 public:
-  PcEntity() : CharacterEntity(PlayerEntity)
+  PcEntity()
   {
+    entity = (new Entity(Entity::PlayerEntityType))->getRef();
+
+    Entity* e = entity.get()->getLock();
+    e->setPlayerEntity(this);
+    e->freeLock();
+
+    isWalking = false;
   }
 
   void setUser(User* user);
-  const User* getUser() { return this->user.get(); }
+  const User* getUser() const { return this->user.get(); }
+
+  void setEntity(Entity* entity);
+  const Entity* getEntity() const { return this->entity.get(); }
+
+  void setCharacter(Character* character);
+  const Character* getCharacter() const { return this->character.get(); }
 
   TradePeer* getTradePeer() { return &tradepeer; }
+
+  void walkTo(float* dst_pos, float speed);
+  const float* getPos();
 };
 
 #endif // _PCENTITY_H_

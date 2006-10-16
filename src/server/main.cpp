@@ -19,6 +19,12 @@
 #include "stdio.h"
 
 #include "server/entity/entitymanager.h"
+#include "entity/character.h"
+#include "entity/entity.h"
+#include "entity/itementity.h"
+#include "entity/pcentity.h"
+#include "entity/npcentity.h"
+#include "entity/doorentity.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/itemmanager.h"
 #include "server/entity/statmanager.h"
@@ -37,7 +43,7 @@
 #include "server/database/table-npcdialoganswers.h"
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
-#include "server/skillengine.h"
+//#include "server/skillengine.h"
 #include "server/spawner.h"
 #include "server/network/network.h"
 
@@ -155,10 +161,10 @@ int main(int argc, char ** argv)
   //Used for testing crash handler
   //throw 1;
 
-  CharacterEntity* test_dummy = (CharacterEntity*)ent_mgr.findByName(ptString("test-dummy", 10));
-  CharacterEntity* test_dragon = (CharacterEntity*)ent_mgr.findByName(ptString("Baby Dragonfly", 14));
+  //const NpcEntity* test_dummy = ent_mgr.findByName(ptString("test-dummy", 10))->getNpcEntity();
+  //const NpcEntity* test_dragon = ent_mgr.findByName(ptString("Baby Dragonfly", 14))->getNpcEntity();
 
-  if (!test_dragon) printf("test_dragon not found! \n");
+  //if (!test_dragon) printf("test_dragon not found! \n");
 
   // Loading Doors!
   std::ifstream file ("data/server/peragro_data", std::ios::in|std::ios::ate|std::ios::binary);
@@ -213,11 +219,15 @@ int main(int argc, char ** argv)
       while (data[++i] > 32);
       data[i] = '\0'; i++;
 
-      DoorEntity* ent = new DoorEntity();
+      DoorEntity* door_ent = new DoorEntity();
+
+      Entity* ent = door_ent->getEntity()->getLock();
       ent->setName(ptString(name, strlen(name)));
       ent->setSector(ptString(sector, strlen(sector)));
       ent->setMesh(ptString(mesh, strlen(mesh)));
       ent->setPos((float)atof(str_x),(float)atof(str_y),(float)atof(str_z));
+      ent->freeLock();
+
       ent_mgr.addEntity(ent);
     }
 
@@ -251,6 +261,8 @@ int main(int argc, char ** argv)
     dialog->addAnswer(answer);
   }
 
+  printf("Server up and running!\n");
+
   while (running > 0)
   {
     pt_sleep(delay_time);
@@ -258,13 +270,13 @@ int main(int argc, char ** argv)
     printf("Network Usage: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
 
     //Moving test-dummy slowly
-    float pos[3] = {rand()*10.0f/RAND_MAX-5.0f+29.0f, 0.15f, rand()*10.0f/RAND_MAX - 5.0f + 106.2f};
-    server.moveEntity(test_dummy, pos, 3.0f);
+    //float pos[3] = {rand()*10.0f/RAND_MAX-5.0f+29.0f, 0.15f, rand()*10.0f/RAND_MAX - 5.0f + 106.2f};
+    //server.moveEntity(test_dummy, pos, 3.0f);
     //printf("Moving Test-Dummy to: <%.2f,%.2f,%.2f>\n", pos[0], pos[1], pos[2]);
 
     //Moving test_dragon slowly
-    float pos1[3] = {rand()*10.0f/RAND_MAX-5.0f+41.0f, 4.0f, rand()*10.0f/RAND_MAX - 5.0f + 172.0f};
-    server.moveEntity(test_dragon, pos1, 3.0f);
+    //float pos1[3] = {rand()*10.0f/RAND_MAX-5.0f+41.0f, 4.0f, rand()*10.0f/RAND_MAX - 5.0f + 172.0f};
+    //server.moveEntity(test_dragon, pos1, 3.0f);
     //printf("Moving test_dragon to: <%.2f,%.2f,%.2f>\n", pos1[0], pos1[1], pos1[2]);
 
   }

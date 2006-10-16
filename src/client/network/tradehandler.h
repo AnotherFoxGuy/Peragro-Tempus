@@ -46,12 +46,20 @@ public:
 
     if (id ==  TRADE::TRADEREQUEST) handleTradeRequest(msg);
     else if (id ==  TRADE::TRADERESPONSE) handleTradeResponse(msg);
+    else if (id ==  TRADE::TRADEOFFERSLISTNPC) handleTradeOffersListNpc(msg);
     else if (id ==  TRADE::BUYITEMRESPONSENPC) handleBuyItemResponseNpc(msg);
+    else if (id ==  TRADE::TRADEOFFERSLISTPVP) handleTradeOffersListPvp(msg);
+    else if (id ==  TRADE::TRADEOFFERACCEPT) handleTradeOfferAccept(msg);
+    else if (id ==  TRADE::TRADECONFIRMRESPONSE) handleTradeConfirmResponse(msg);
   }
 
   void handleTradeRequest(GenericMessage* msg);
   void handleTradeResponse(GenericMessage* msg);
+  void handleTradeOffersListNpc(GenericMessage* msg);
   void handleBuyItemResponseNpc(GenericMessage* msg);
+  void handleTradeOffersListPvp(GenericMessage* msg);
+  void handleTradeOfferAccept(GenericMessage* msg);
+  void handleTradeConfirmResponse(GenericMessage* msg);
 };
 
 #endif // _TRADEHANDLER_H_

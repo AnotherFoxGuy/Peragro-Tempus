@@ -69,7 +69,7 @@ public:
   Inventory() : invtab(0) {}
   ~Inventory() {}
 
-  int getSlot(Item* item)
+  int getSlot(const Item* item)
   {
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
@@ -92,7 +92,7 @@ public:
     return -1;
   }
 
-  void addItem(Item* item, int amount, int slot)
+  void addItem(const Item* item, int amount, int slot)
   {
     InvEntries* entry = findEntryBySlot(slot);
     if (!entry)

@@ -63,7 +63,7 @@ private:
 
   void checkSpawnPoint(SpawnPoint* sp)
   {
-    Entity* entity = Server::getServer()->getEntityManager()->findById(sp->entity_id);
+    const Entity* entity = Server::getServer()->getEntityManager()->findById(sp->entity_id);
     if (!entity)
     {
       if ( sp->pickTime == 0)
@@ -72,12 +72,16 @@ private:
       }
       if (timeCounter - sp->pickTime > sp->spawnInterval)
       {
-        entity = new ItemEntity();
-        ((ItemEntity*)entity)->createFromItem(sp->item);
-        entity->setPos(sp->x, sp->y, sp->z);
-        entity->setSector(sp->sector_id);
-        Server::getServer()->addEntity(entity, false);
-        sp->entity_id = entity->getId();
+        ItemEntity* item_ent = new ItemEntity();
+        item_ent->createFromItem(sp->item);
+
+        Entity* e = item_ent->getEntity()->getLock();
+        e->setPos(sp->x, sp->y, sp->z);
+        e->setSector(sp->sector_id);
+        e->freeLock();
+
+        Server::getServer()->addEntity(e, false);
+        sp->entity_id = e->getId();
         sp->pickTime = 0;
       }
     }

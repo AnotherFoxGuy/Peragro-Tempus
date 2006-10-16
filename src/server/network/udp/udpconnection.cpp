@@ -27,7 +27,6 @@ void UdpConnection::peerLost()
   {
     if (user->getConnection() == this)
     {
-      user->setConnection(0);
       user->remove();
     }
   }

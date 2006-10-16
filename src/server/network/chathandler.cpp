@@ -18,14 +18,16 @@
 
 #include "network.h"
 #include "networkhelper.h"
-#include "server/entity/usermanager.h"
+
+#include "server/entity/entitymanager.h"
+#include "server/entity/pcentity.h"
 
 void ChatHandler::handleSay(GenericMessage* msg)
 {
-  PcEntity* ent = NetworkHelper::getPcEntity(msg);
+  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
-  ptString name = ent->getName();
+  const ptString name = ent->getEntity()->getName();
 
   SayMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
@@ -37,26 +39,25 @@ void ChatHandler::handleSay(GenericMessage* msg)
   ByteStream bs;
   out_msg.serialise(&bs);
 
-  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
-  {
-    User* user = server->getUserManager()->getUser(i);
-    if (user->getConnection())
-      user->getConnection()->send(bs);
-  }
+  NetworkHelper::broadcast(bs);
 }
 
-void ChatHandler::handleWhisper(GenericMessage* msg)
+void ChatHandler::handleShout(GenericMessage* msg)
 {
-  PcEntity* ent = NetworkHelper::getPcEntity(msg);
+}
+
+void ChatHandler::handleWhisperTo(GenericMessage* msg)
+{
+  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
-  ptString name = ent->getName();
+  const ptString name = ent->getEntity()->getName();
 
   WhisperToMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
-  Entity* entity = server->getEntityManager()->findByName(in_msg.getListenerName());
-  if (!entity || entity->getType() != Entity::PlayerEntity) return;
+  const Entity* entity = server->getEntityManager()->findByName(in_msg.getListenerName());
+  if (!entity || entity->getType() != Entity::PlayerEntityType) return;
 
   WhisperFromMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
@@ -67,3 +68,16 @@ void ChatHandler::handleWhisper(GenericMessage* msg)
 
   NetworkHelper::sendMessage((PcEntity*)entity, bs);
 }
+
+void ChatHandler::handleParty(GenericMessage* msg)
+{
+}
+
+void ChatHandler::handleGuild(GenericMessage* msg)
+{
+}
+
+void ChatHandler::handleFamily(GenericMessage* msg)
+{
+}
+
