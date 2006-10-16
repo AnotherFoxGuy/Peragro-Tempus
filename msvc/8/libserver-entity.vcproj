@@ -158,6 +158,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\server\entity\character.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\charactermanager.cpp">
 			</File>
 			<File
@@ -167,10 +170,19 @@
 				RelativePath="..\..\src\server\entity\characterstats.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\doorentity.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\entity.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\inventory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\itementity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\npcentity.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\pcentity.cpp">
@@ -202,9 +214,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\characterentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\characterlist.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\charactermanager.h">

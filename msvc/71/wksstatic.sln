@@ -30,6 +30,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnetwork", "libnetwork.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libquest", "libquest.vcproj", "{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-ai", "libserver-ai.vcproj", "{A9CB02EA-EB26-F4CC-C9D2-C0A729B49A93}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-entity", "libserver-entity.vcproj", "{5EF78382-21B8-FD27-6937-84B16B0544B7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-network", "libserver-network.vcproj", "{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}"
@@ -131,6 +133,10 @@ Global
 		{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}.Release.Build.0 = Release|Win32
 		{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}.Debug.ActiveCfg = Debug|Win32
 		{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}.Debug.Build.0 = Debug|Win32
+		{A9CB02EA-EB26-F4CC-C9D2-C0A729B49A93}.Release.ActiveCfg = Release|Win32
+		{A9CB02EA-EB26-F4CC-C9D2-C0A729B49A93}.Release.Build.0 = Release|Win32
+		{A9CB02EA-EB26-F4CC-C9D2-C0A729B49A93}.Debug.ActiveCfg = Debug|Win32
+		{A9CB02EA-EB26-F4CC-C9D2-C0A729B49A93}.Debug.Build.0 = Debug|Win32
 		{5EF78382-21B8-FD27-6937-84B16B0544B7}.Release.ActiveCfg = Release|Win32
 		{5EF78382-21B8-FD27-6937-84B16B0544B7}.Release.Build.0 = Release|Win32
 		{5EF78382-21B8-FD27-6937-84B16B0544B7}.Debug.ActiveCfg = Debug|Win32
