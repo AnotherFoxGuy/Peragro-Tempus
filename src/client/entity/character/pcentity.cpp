@@ -35,6 +35,10 @@ void PtPcEntity::Create()
   cs_snprintf(buffer, 32, "player_%d", id);
   celentity->SetName(buffer);
 
+  pl->CreatePropertyClass(celentity, "pcdefaultcamera");
+  pl->CreatePropertyClass(celentity, "pcactormove");
+  pl->CreatePropertyClass(celentity, "pclinearmovement");
+
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
 
@@ -54,5 +58,4 @@ void PtPcEntity::Create()
 
   iSector* sector = engine->FindSector(sectorname);
   pclinmove->SetPosition(pos,0,sector);
-
 }

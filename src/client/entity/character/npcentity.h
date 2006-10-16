@@ -21,12 +21,12 @@
 
 #include "characterentity.h"
 
+#include "client/pointer/pointer.h"
+
 class PtNpcEntity : public PtCharacterEntity
 {
 public:
-  PtNpcEntity() : PtCharacterEntity(NPCEntity)
-  {
-  }
+  PtNpcEntity();
   void Create();
 };
 

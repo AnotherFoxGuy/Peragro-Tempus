@@ -34,7 +34,7 @@ void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
   }
   celData data;
   data.Set(true);
-  //client->GetEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
+  PointerLibrary::getInstance()->getEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
 }
 void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
 {
@@ -48,7 +48,7 @@ void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
   }
   celData data;
   data.Set(false);
-  //client->GetEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
+  PointerLibrary::getInstance()->getEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
 }
 
 void DoorHandler::handleLockDoorResponse(GenericMessage* msg)

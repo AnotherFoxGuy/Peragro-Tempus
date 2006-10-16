@@ -18,6 +18,24 @@
 
 #include "characterentity.h"
 
+void PtCharacterEntity::Move(MovementData* movement) 
+{
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+  if (pclinmove.IsValid())
+  {
+    pclinmove->SetAngularVelocity(csVector3(0,-movement->turn,0));
+    pclinmove->SetVelocity(csVector3(0,0,-movement->walk));
+  }
+  csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+  if (mesh.IsValid())
+  {
+    csRef<iSpriteCal3DState> sprcal3d =
+      SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
+    if (sprcal3d)
+      sprcal3d->SetVelocity(movement->walk);
+  }
+}
+
 bool PtCharacterEntity::MoveTo(MoveToData* moveTo)
 {
   csRef<iVirtualClock> vc = CS_QUERY_REGISTRY (obj_reg, iVirtualClock);
@@ -76,4 +94,12 @@ void PtCharacterEntity::DrUpdate(DrUpdateData* drupdate)
     pclinmove->SetDRData(drupdate->on_ground, drupdate->speed, drupdate->pos,
       drupdate->rot, sector, drupdate->vel, drupdate->wvel, drupdate->avel);
   }
+}
+
+void PtCharacterEntity::Teleport(csVector3 pos, csString sector)
+{
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+  iMovable* mov = pcmesh->GetMesh()->GetMovable();
+  mov->SetSector(engine->GetSectors()->FindByName(sector.GetData()));
+  mov->SetPosition(pos);
 }

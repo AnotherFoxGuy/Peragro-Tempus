@@ -178,8 +178,9 @@ ClientItem* ItemMGR::GetItemByName(csString name)
   for (size_t i = 0; i < items.Length(); i++)
    {
      ClientItem* item = items[i];
-     if(item->GetName().Compare(name))
-       return item;
+     if(item)
+       if(item->GetName().Compare(name))
+         return item;
    }
   printf("ItemMGR: ERROR Couldn't find item %s!\n", name.GetData());
   return 0;

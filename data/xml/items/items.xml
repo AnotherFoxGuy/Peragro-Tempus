@@ -41,8 +41,8 @@
 			and could swing this sword soo fast it would
 			actually caught fire, inflicting extra damage on the foo.
 		</description>
-		<file>/peragro/meshes/bogus.xml</file>
-		<mesh>foobar</mesh>
+		<file>/peragro/art/3d_art/props/weapons/swords/sword/sword.lib</file>
+		<mesh>swordfact</mesh>
 		<stackable>1</stackable>
 		<weight>30</weight>
 		<equiptype>weapon2h</equiptype>

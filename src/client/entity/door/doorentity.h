@@ -34,6 +34,7 @@ public:
   void Create();
   void SetOpen(bool value) { this->open = value; }
   void SetLocked(bool value) { this->locked = value; }
+  void UpdatePcProp(UpdatePcPropData* update_pcprop);
 };
 
 #endif // PTDOORENTITY_H

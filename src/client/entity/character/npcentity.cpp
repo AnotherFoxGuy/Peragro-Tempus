@@ -18,7 +18,44 @@
 
 #include "npcentity.h"
 
+PtNpcEntity::PtNpcEntity() : PtCharacterEntity(NPCEntity)
+{
+  // Get the pointers to some common utils.
+  this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+  pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
+  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+}
+
 void PtNpcEntity::Create()
 {
-  
+  CreateCelEntity();
+
+  char buffer[32];
+  cs_snprintf(buffer, 32, "player_%d", id);
+  celentity->SetName(buffer);
+
+  pl->CreatePropertyClass(celentity, "pcdefaultcamera");
+  pl->CreatePropertyClass(celentity, "pcactormove");
+  pl->CreatePropertyClass(celentity, "pclinearmovement");
+
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+
+  // Load and assign the mesh to the entity.
+  vfs->ChDir("/cellib/objects/");
+  pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml");
+
+  // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
+  csRef<iSpriteCal3DState> sprcal3d =
+    SCF_QUERY_INTERFACE (pcmesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
+  if (sprcal3d) sprcal3d->SetVelocity(0);
+
+  pclinmove->InitCD(
+    csVector3(0.5f,0.8f,0.5f),
+    csVector3(0.5f,0.8f,0.5f),
+    csVector3(0,0,0));
+
+  iSector* sector = engine->FindSector(sectorname);
+  pclinmove->SetPosition(pos,0,sector);
 }

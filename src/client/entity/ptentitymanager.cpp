@@ -18,9 +18,8 @@
 
 #include "client/entity/ptentitymanager.h"
 
-#include "iutil/objreg.h"
-
-#include "imap/loader.h"
+#include <iutil/objreg.h>
+#include <imap/loader.h>
 
 #include "client/network/network.h"
 
@@ -62,10 +61,10 @@ void ptEntityManager::Handle ()
 {
   addEntity();
   delEntity();
-  //moveEntity();
+  moveEntity();
   moveToEntity();
   DrUpdateEntity();
-  //updatePcProp();
+  updatePcProp();
 }
 
 PtEntity* ptEntityManager::findPtEntById(int id)
@@ -113,7 +112,7 @@ void ptEntityManager::addEntity()
 
     if (own_char_id == entity->GetId())
     {
-      printf("ptEntityManager:  Adding Entity '%s' as me\n", entity->GetName());
+      printf("ptEntityManager:  Adding Entity '%s' as me\n", entity->GetName().GetData());
       csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
       pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
       pccamera->SetPitch(-0.18f);
@@ -124,7 +123,7 @@ void ptEntityManager::addEntity()
       ownname = entity->GetName();
     }
     else
-      printf("ptEntityManager: Adding Entity '%s'\n", entity->GetName());
+      printf("ptEntityManager: Adding Entity '%s'\n", entity->GetName().GetData());
 
     // Add our entity to the list.
     entities.Push (entity);
@@ -164,6 +163,17 @@ void ptEntityManager::delEntity()
   mutex.unlock();
 }
 
+void ptEntityManager::teleport(int entity_id, float* pos, const char* sector)
+{
+  csVector3 position(pos[0],pos[1],pos[2]);
+
+  // TODO: do the mutex trick
+
+  PtEntity* entity = findPtEntById(entity_id);
+  if(entity)
+    entity->Teleport(position, sector);
+}
+
 float ptEntityManager::GetAngle (const csVector3& v1, const csVector3& v2)
 {
   float len = sqrt (csSquaredDist::PointPoint (v1, v2));
@@ -178,6 +188,11 @@ void ptEntityManager::moveEntity(int entity_id, float walk_speed, float* fv1, fl
 {
   PtEntity* entity = findPtEntById(entity_id);
   if (!entity) return;
+  if(!entity->GetCelEntity()) 
+  {
+    printf("ptEntityManager: ERROR : moveEntity %d: No CelEntity\n", entity_id);
+    return;
+  }
 
   mutex.lock();
 
@@ -245,6 +260,34 @@ void ptEntityManager::moveToEntity()
   mutex.unlock();
 }
 
+void ptEntityManager::moveEntity(int entity_id, float walk, float turn)
+{
+  mutex.lock();
+  printf("ptEntityManager: Add movement for '%d': w(%.2f) r(%.2f)\n", entity_id, walk, turn);
+  MovementData* movement = new MovementData();
+  movement->entity_id = entity_id;
+  movement->walk = walk;
+  movement->turn = turn;
+  move_entity_name.Push(movement);
+  mutex.unlock();
+}
+
+void ptEntityManager::moveEntity()
+{
+  if (!move_entity_name.GetSize()) return;
+  mutex.lock();
+  MovementData* movement = move_entity_name.Pop();
+
+  PtEntity* entity = findPtEntById(movement->entity_id);
+  if (entity)
+  {
+    entity->Move(movement);
+  }
+  delete movement;
+  mutex.unlock();
+}
+
+
 void ptEntityManager::DrUpdateEntity(DrUpdateData* drupdate)
 {
   mutex.lock();
@@ -271,4 +314,73 @@ void ptEntityManager::DrUpdateEntity()
   }
   delete drupdate;
   mutex.unlock();
+}
+
+
+
+void ptEntityManager::updatePcProp()
+{
+  if (!update_pcprop_entity_name.GetSize()) return;
+  mutex.lock();
+
+  UpdatePcPropData* update_pcprop;
+  for (size_t i = 0; i < update_pcprop_entity_name.GetSize(); i++)
+  {
+    update_pcprop = update_pcprop_entity_name.Pop();
+    int id = update_pcprop->entity_id;
+    PtEntity *ent = findPtEntById(id);
+    if (ent)
+      ent->UpdatePcProp(update_pcprop);
+    else
+      printf("ptEntityManager: ERROR Failed to do updatePcProp on %d!!\n", id);
+
+    delete update_pcprop;
+  }
+  mutex.unlock();
+}
+
+void ptEntityManager::updatePcProp(int entity_id, const char *pcprop, celData &value)
+{
+  mutex.lock();
+  UpdatePcPropData* updatePcprop = new UpdatePcPropData();
+  updatePcprop->entity_id = entity_id;
+  updatePcprop->pcprop = pcprop;
+  updatePcprop->value = value;
+  
+  update_pcprop_entity_name.Push(updatePcprop);
+  mutex.unlock();
+}
+
+void ptEntityManager::DrUpdateOwnEntity()
+{
+  UpdateDREntityRequestMessage drmsg;
+
+  if (own_char_id != -1)
+  {
+    if (ownent)
+    {
+      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
+      bool on_ground;
+      float speed, rot, avel;
+      csVector3 pos, vel, wvel;
+      iSector* sector;
+
+      pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
+      //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
+
+      drmsg.setOnGround(on_ground?1:0);
+      drmsg.setSpeed(speed);
+      drmsg.setRot(rot);
+      drmsg.setAVel(avel);
+      drmsg.setPos(pos.x,pos.y,pos.z);
+      drmsg.setVel(vel.x,vel.y,vel.z);
+      drmsg.setWVel(wvel.x,wvel.y,wvel.z);
+      if (sector->QueryObject()->GetName())
+        drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
+      else
+        drmsg.setSector(ptString(0,0));
+
+      PointerLibrary::getInstance()->getNetwork()->send(&drmsg);
+    }
+  }
 }

@@ -30,8 +30,10 @@ protected:
   ~PtCharacterEntity() {}
 
 public:
+  void Move(MovementData* movement);
   bool MoveTo(MoveToData* moveTo);
   void DrUpdate(DrUpdateData* drupdate);
+  void Teleport(csVector3 pos, csString sector);
 };
 
 #endif // PTCHARACTERENTITY_H

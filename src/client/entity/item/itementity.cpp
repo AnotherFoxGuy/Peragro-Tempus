@@ -31,25 +31,29 @@ void PtItemEntity::Create()
   CreateCelEntity();
 
   char buffer[1024];
-  sprintf(buffer, "%s:%d:%d", name, type, id);
+  sprintf(buffer, "%s:%d:%d", name.GetData(), type, id);
   celentity->SetName(buffer);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
 
   // Load and assign the mesh to the entity.
-  ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(id);
+  //ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(id);
+  ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemByName(name);
   if(item)
+  {
     pcmesh->SetMesh(item->GetMeshName().GetData(), item->GetFileName().GetData());
+    pl->CreatePropertyClass(celentity, "pclinearmovement");
+    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+
+    pclinmove->InitCD(
+      csVector3(0.5f,0.8f,0.5f),
+      csVector3(0.5f,0.8f,0.5f),
+      csVector3(0,0,0));
+
+    iSector* sector = engine->FindSector(sectorname);
+    pclinmove->SetPosition(pos,0,sector);
+  }
   else
     printf("PtItemEntity: ERROR Couldn't find mesh for item %s!\n", name.GetData());
-
-  pclinmove->InitCD(
-    csVector3(0.5f,0.8f,0.5f),
-    csVector3(0.5f,0.8f,0.5f),
-    csVector3(0,0,0));
-
-  iSector* sector = engine->FindSector(sectorname);
-  pclinmove->SetPosition(pos,0,sector);
 
 }

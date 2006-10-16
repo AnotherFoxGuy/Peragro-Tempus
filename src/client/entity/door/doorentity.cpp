@@ -56,3 +56,22 @@ void PtDoorEntity::Create()
   pcquest->GetQuest()->SwitchState("closed");
   
 }
+
+void PtDoorEntity::UpdatePcProp(UpdatePcPropData* update_pcprop)
+{
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
+  switch(update_pcprop->value.type)
+  {
+  case CEL_DATA_BOOL:
+    pcprop->SetProperty(update_pcprop->pcprop, update_pcprop->value.value.bo);
+    break;
+  case CEL_DATA_LONG:
+    pcprop->SetProperty(update_pcprop->pcprop, (long)update_pcprop->value.value.l);
+    break;
+  case CEL_DATA_STRING:
+    pcprop->SetProperty(update_pcprop->pcprop, update_pcprop->value.value.s);
+    break;
+  default:
+    printf("celData type not supported by updatePcProp!!\n");
+  }
+}

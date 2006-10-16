@@ -32,9 +32,9 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   PtEntity* entity = 0;
   switch (entmsg.getType())
   {
-    //case PtEntity::ItemEntity: entity = new PtItemEntity(); break;
+    case PtEntity::ItemEntity: entity = new PtItemEntity(); break;
     case PtEntity::PlayerEntity: entity = new PtPcEntity(); break;
-    //case PtEntity::NPCEntity: entity = new PtNpcEntity(); break;
+    case PtEntity::NPCEntity: entity = new PtNpcEntity(); break;
     case PtEntity::DoorEntity: entity = new PtDoorEntity(); break;
   default : {printf("EntityHandler: ERROR Unknown entity type for %s!\n", *entmsg.getName()); return;}
   };
@@ -87,7 +87,7 @@ void EntityHandler::handleMoveEntity(GenericMessage* msg)
   printf("EntityHandler: Received MoveEntity\n");
   MoveEntityMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
-  //client->GetEntityManager()->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
+  PointerLibrary::getInstance()->getEntityManager()->moveEntity(response_msg.getId(), response_msg.getWalk(), response_msg.getRot());
 }
 
 void EntityHandler::handlePickEntity(GenericMessage* msg)
@@ -95,13 +95,12 @@ void EntityHandler::handlePickEntity(GenericMessage* msg)
   PickEntityResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
   guimanager = PointerLibrary::getInstance()->getGUIManager();
-  const char* ownname = PointerLibrary::getInstance()->getEntityManager()->GetOwnName();
+  const char* ownname = PointerLibrary::getInstance()->getEntityManager()->GetOwnName().GetData();
 
   if (response_msg.getError().isNull())
   {
-    printf("%s picks Item %s(%d)\n", *response_msg.getName(), *response_msg.getTarget(), response_msg.getItemId());
-    if (strlen(*response_msg.getName()) == strlen(ownname)
-      && !strcmp(*response_msg.getName(), ownname))
+    printf("%s picks Item %s(%d) %s\n", *response_msg.getName(), *response_msg.getTarget(), response_msg.getItemId(),ownname);
+    if (strlen(*response_msg.getName()) == strlen(ownname) && !strcmp(*response_msg.getName(), ownname))
       guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlot());
   }
   else
@@ -228,7 +227,7 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
   float* pos = telemsg.getPos();
   const char* sector = *telemsg.getSector();
 
-  //PointerLibrary::getInstance()->getEntityManager()->teleport(entity_id, pos, sector);
+  PointerLibrary::getInstance()->getEntityManager()->teleport(entity_id, pos, sector);
 }
 
 void EntityHandler::handleAddCharacterEntity(GenericMessage* msg)

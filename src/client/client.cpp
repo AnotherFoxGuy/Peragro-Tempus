@@ -150,7 +150,7 @@ void Client::PreProcessFrame()
     timer = 0;
     if (state == STATE_PLAY)
     {
-      //entitymanager->DrUpdateOwnEntity();
+      entitymanager->DrUpdateOwnEntity();
     }
   }
 }
@@ -379,7 +379,7 @@ void Client::handleStates()
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
       //guimanager->GetSelectCharWindow()->ShowWindow();
-      guimanager->CreateTradeWindow();
+      //guimanager->CreateTradeWindow();
       //guimanager->CreateConfirmWindow();
       //guimanager->CreateOkWindow();
 

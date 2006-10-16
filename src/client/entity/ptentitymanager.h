@@ -19,21 +19,19 @@
 #ifndef PTENTITYMANAGER_H
 #define PTENTITYMANAGER_H
 
-#include "cssysdef.h"
-#include "csutil/ref.h"
-#include "iutil/vfs.h"
-#include "iutil/virtclk.h"
-#include "iengine/engine.h"
-#include "csgeom/path.h"
+#include <cssysdef.h>
+#include <csutil/ref.h>
+#include <iutil/vfs.h>
+#include <iutil/virtclk.h>
+#include <iengine/engine.h>
+#include <csgeom/path.h>
+#include <csgeom/math3d.h>
+#include <iengine/camera.h>
+#include <iutil/object.h>
 
-#include "csgeom/math3d.h"
-
-#include "iengine/camera.h"
-
-#include "physicallayer/pl.h"
-#include "physicallayer/datatype.h"
-
-#include "propclass/quest.h"
+#include <physicallayer/pl.h>
+#include <physicallayer/datatype.h>
+#include <propclass/quest.h>
 
 #include "client/entity/ptentity.h"
 #include "client/entity/character/pcentity.h"
@@ -82,7 +80,7 @@ private:
   unsigned int own_char_id;
   csRef<iCamera> owncam;
   csRef<iCelEntity> ownent;
-  const char* ownname;
+  csString ownname;
 
   bool playing;
   bool world_loaded;
@@ -107,7 +105,11 @@ public:
   void addEntity(PtEntity* name);
   void delEntity(PtEntity* name);
   void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);
+  void moveEntity(int entity_id, float walk, float turn);
   void DrUpdateEntity(DrUpdateData* drupdate);
+  void teleport(int entity_id, float* pos, const char* sector);
+  void updatePcProp(int entity_id, const char *pcprop,celData &value);
+  void DrUpdateOwnEntity();
 
   iCelEntity* findCelEntById(int id);
   PtEntity* findPtEntById(int id);
@@ -116,7 +118,7 @@ public:
   iCamera* getOwnCamera() { return owncam; }
   iCelEntity* getOwnEntity() { return ownent; }
   unsigned int GetOwnId() { return own_char_id; }
-  const char* GetOwnName() { return ownname; }
+  csString GetOwnName() { return ownname; }
 
   void setPlaying(bool value) { playing = value; }
   void setWorldloaded(bool value) { world_loaded = value; }

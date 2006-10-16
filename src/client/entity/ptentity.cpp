@@ -23,21 +23,16 @@
 void PtEntity::CreateCelEntity()
 {
   csRef<iCelEntity> entity = pl->CreateEntity();
-
-  // Assign the created entity to the local var.
   celentity = entity;
 
-  pl->CreatePropertyClass(entity, "pcdefaultcamera");
-  pl->CreatePropertyClass(entity, "pcmesh");
-  pl->CreatePropertyClass(entity, "pcactormove");
-  pl->CreatePropertyClass(entity, "pcsolid");
-  pl->CreatePropertyClass(entity, "pclinearmovement");
-  pl->CreatePropertyClass(entity, "pcproperties");
+  pl->CreatePropertyClass(celentity, "pcmesh");
+  pl->CreatePropertyClass(celentity, "pcsolid");
+  pl->CreatePropertyClass(celentity, "pcproperties");
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-  csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(entity, iPcSolid);
-  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+  //csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+  csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(celentity, iPcSolid);
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
 
   // Place the entity in the world.
   csRef<iCelEntity> region = pl->FindEntity("World");

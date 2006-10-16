@@ -31,6 +31,8 @@
 #include <physicallayer/pl.h>
 #include <iutil/objreg.h>
 #include <iengine/engine.h>
+#include <iengine/movable.h>
+#include <iengine/sector.h>
 
 #include <iengine/mesh.h>
 #include <imesh/spritecal3d.h>
@@ -98,7 +100,10 @@ protected:
   void CreateCelEntity (); 
 
 public:
-  PtEntity(EntityType type) : id(-1), type(type) {}
+  PtEntity(EntityType type) : id(-1), type(type) 
+  {
+    celentity = 0;
+  }
   virtual ~PtEntity() {}
 
   int GetId () const { return id; }
@@ -118,10 +123,11 @@ public:
   virtual void Create() {}
   virtual void Destroy() {}
 
-  virtual void moveEntity(float walk, float turn) {}
+  virtual void Move(MovementData* movement) {}
   virtual bool MoveTo(MoveToData* moveTo) {return true;}
   virtual void DrUpdate(DrUpdateData* drupdate) {}
-  virtual void updatePcProp() {}
+  virtual void Teleport(csVector3 pos, csString sector) {}
+  virtual void UpdatePcProp(UpdatePcPropData* update_pcprop) {}
 
 };
 
