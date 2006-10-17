@@ -7,7 +7,7 @@ SubInclude TOP src server network ;
 
 Description server : "Server" ;
 Application server : [ Wildcard *.h *.cpp ] : console ;
-LinkWith server : entity server-network server-entity server-ai sqlite_adp database quest util ;
+LinkWith server : server-network server-entity server-ai server-loader sqlite_adp database quest util ;
 
 MsvcExternalLibrary server : "wsock32.lib" ;
 
@@ -20,7 +20,7 @@ if [ Property build : projgen_version ] != 6
   SubVariant static ;
   
   Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
-  LinkWith server_static : entity server-network sqlite_adp database quest util ;
+  LinkWith server_static : server-network server-entity server-ai server-loader sqlite_adp database quest util ;
   MsvcExternalLibrary server_static : "wsock32.lib" ;
   SubVariant ;
 }

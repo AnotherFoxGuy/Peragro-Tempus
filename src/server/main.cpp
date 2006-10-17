@@ -19,12 +19,12 @@
 #include "stdio.h"
 
 #include "server/entity/entitymanager.h"
-#include "entity/character.h"
-#include "entity/entity.h"
-#include "entity/itementity.h"
-#include "entity/pcentity.h"
-#include "entity/npcentity.h"
-#include "entity/doorentity.h"
+#include "server/entity/character.h"
+#include "server/entity/entity.h"
+#include "server/entity/itementity.h"
+#include "server/entity/pcentity.h"
+#include "server/entity/npcentity.h"
+#include "server/entity/doorentity.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/itemmanager.h"
 #include "server/entity/statmanager.h"
@@ -41,17 +41,17 @@
 #include "server/database/table-entities.h"
 #include "server/database/table-npcdialogs.h"
 #include "server/database/table-npcdialoganswers.h"
+#include "server/loader/fileloader.h"
+#include "server/loader/file-doors.h"
+#include "server/loader/file-items.h"
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
-//#include "server/skillengine.h"
 #include "server/spawner.h"
 #include "server/network/network.h"
 
 #include "common/util/wincrashdump.h"
 
 #include <signal.h>
-#include <iostream>
-#include <fstream>
 
 int running = 2;
 
@@ -69,10 +69,6 @@ void shutdown()
   printf("- Shutdown Database:     \t");
   Server::getServer()->getDatabase()->shutdown();
   printf("done\n");
-
-  //printf("- Shutdown Spawner:     \t");
-  //Server::getServer()->getSpawner()->kill();
-  //printf("done\n");
 
   printf("- Shutdown Timer Engine:\t");
   Server::getServer()->getTimerEngine()->kill();
@@ -103,6 +99,8 @@ int main(int argc, char ** argv)
   dbSQLite db;
   server.setDatabase(&db);
 
+  FileLoader fileloader;
+
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
 
@@ -131,15 +129,18 @@ int main(int argc, char ** argv)
   timeEngine.begin();
   server.setTimerEngine(&timeEngine);
 
+  // Loading items from file
+  fileloader.getItemsFile()->load();
+
   ent_mgr.loadFromDB(db.getEntityTable());
-  item_mgr.loadFromDB(db.getItemTable());
+
+  //item_mgr.loadFromDB(db.getItemTable());
   stat_mgr.loadFromDB(db.getStatTable());
   skill_mgr.loadFromDB(db.getSkillTable());
   race_mgr.loadFromDB(db.getRaceTable());
 
-  //SkillEngine skillengine;
-  //server.setSkillEngine(&skillengine);
-  //timeEngine.registerTimer(&skillengine);
+  // Loading doors from file
+  fileloader.getDoorsFile()->load();
 
   Spawner spawner;
   server.setSpawner(&spawner);
@@ -153,86 +154,6 @@ int main(int argc, char ** argv)
   spawner.addSpawnPoint( 85, 2.5, 108, room, 1, 15); //spawn apple every 15 second after picking
   spawner.start();
   //timeEngine.registerTimer(&spawner);
-
-  unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;
-
-  unsigned int delay_time = 10000; //10 sec = 10000 ms
-
-  //Used for testing crash handler
-  //throw 1;
-
-  //const NpcEntity* test_dummy = ent_mgr.findByName(ptString("test-dummy", 10))->getNpcEntity();
-  //const NpcEntity* test_dragon = ent_mgr.findByName(ptString("Baby Dragonfly", 14))->getNpcEntity();
-
-  //if (!test_dragon) printf("test_dragon not found! \n");
-
-  // Loading Doors!
-  std::ifstream file ("data/server/peragro_data", std::ios::in|std::ios::ate|std::ios::binary);
-  if (file.is_open())
-  {
-    std::streamsize size = file.tellg();
-    char* data = new char [size+1];
-    file.seekg (0, std::ios::beg);
-    file.read (data, size);
-    data[size] = '\0';
-    file.close();
-
-    for (std::streamsize i=0; i<size; i++)
-    {
-      char* name = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* mesh = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_a = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_b = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_x = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_y = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_z = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* sector = data+i;
-
-      while (data[++i] > 32);
-      data[i] = '\0'; i++;
-
-      DoorEntity* door_ent = new DoorEntity();
-
-      Entity* ent = door_ent->getEntity()->getLock();
-      ent->setName(ptString(name, strlen(name)));
-      ent->setSector(ptString(sector, strlen(sector)));
-      ent->setMesh(ptString(mesh, strlen(mesh)));
-      ent->setPos((float)atof(str_x),(float)atof(str_y),(float)atof(str_z));
-      ent->freeLock();
-
-      ent_mgr.addEntity(ent);
-    }
-
-    delete[] data;
-  }
 
   // Load NPC Dialogs
   Array<NpcDialogsTableVO*> dialogs = db.getNpcDialogsTable()->getAll();
@@ -263,22 +184,14 @@ int main(int argc, char ** argv)
 
   printf("Server up and running!\n");
 
+  unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;
+  unsigned int delay_time = 10000; //10 sec = 10000 ms
+
   while (running > 0)
   {
     pt_sleep(delay_time);
     network.getStats(sentbyte, recvbyte, timestamp);
-    printf("Network Usage: %.2f\t Down: %.2f\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
-
-    //Moving test-dummy slowly
-    //float pos[3] = {rand()*10.0f/RAND_MAX-5.0f+29.0f, 0.15f, rand()*10.0f/RAND_MAX - 5.0f + 106.2f};
-    //server.moveEntity(test_dummy, pos, 3.0f);
-    //printf("Moving Test-Dummy to: <%.2f,%.2f,%.2f>\n", pos[0], pos[1], pos[2]);
-
-    //Moving test_dragon slowly
-    //float pos1[3] = {rand()*10.0f/RAND_MAX-5.0f+41.0f, 4.0f, rand()*10.0f/RAND_MAX - 5.0f + 172.0f};
-    //server.moveEntity(test_dragon, pos1, 3.0f);
-    //printf("Moving test_dragon to: <%.2f,%.2f,%.2f>\n", pos1[0], pos1[1], pos1[2]);
-
+    printf("Network Usage: %.2f B/s\t Down: %.2f B/s\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
   }
 
   printf("Time to quit now!\n");

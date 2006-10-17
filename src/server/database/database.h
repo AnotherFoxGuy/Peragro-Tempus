@@ -22,7 +22,6 @@
 class UsersTable;
 class CharacterTable;
 class EntityTable;
-class ItemTable;
 class InventoryTable;
 class StatTable;
 class CharacterStatsTable;
@@ -44,7 +43,6 @@ private:
   UsersTable* userstable;
   CharacterTable* charactertable;
   EntityTable* entitytable;
-  ItemTable* itemtable;
   InventoryTable* inventorytable;
   StatTable* stattable;
   CharacterStatsTable* characterstattable;
@@ -73,7 +71,6 @@ public:
   UsersTable* getUsersTable() { return userstable; }
   CharacterTable* getCharacterTable() { return charactertable; }
   EntityTable* getEntityTable() { return entitytable; }
-  ItemTable* getItemTable() { return itemtable; }
   InventoryTable* getInventoryTable() { return inventorytable; }
   StatTable* getStatTable() { return stattable; }
   CharacterStatsTable* getCharacterStatTable() { return characterstattable; }

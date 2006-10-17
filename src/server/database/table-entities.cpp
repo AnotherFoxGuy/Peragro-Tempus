@@ -23,15 +23,17 @@
 #include "database.h"
 
 #include "table-entities.h"
-#include "table-items.h"
 #include "table-characters.h"
 #include "table-npcentities.h"
 
 #include "server/entity/entity.h"
 #include "server/entity/itementity.h"
+#include "server/entity/itemmanager.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/npcentity.h"
 #include "server/entity/doorentity.h"
+
+#include "server/server.h"
 
 EntityTable::EntityTable(Database* db) : Table(db)
 {
@@ -167,7 +169,7 @@ const Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
     case Entity::ItemEntityType:
     {
       ItemEntity* ent = new ItemEntity();
-      Item* item = db->getItemTable()->getItem(atoi(rs->GetData(i,3).c_str()));
+      Item* item = Server::getServer()->getItemManager()->findById(atoi(rs->GetData(i,3).c_str()));
       assert(item);
       ent->createFromItem(item);
       entity = ent->getEntity();
