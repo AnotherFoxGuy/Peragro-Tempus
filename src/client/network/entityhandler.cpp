@@ -24,20 +24,12 @@
 
 #include "client/entity/ptentitymanager.h"
 
-void EntityHandler::handleAddEntity(GenericMessage* msg)
+void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
 {
-  printf("EntityHandler: Received AddEntity\n");
-  AddEntityMessage entmsg;
+  printf("EntityHandler: Received AddNpcEntity\n");
+  AddNpcEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  PtEntity* entity = 0;
-  switch (entmsg.getType())
-  {
-    case PtEntity::ItemEntity: entity = new PtItemEntity(); break;
-    case PtEntity::PlayerEntity: entity = new PtPcEntity(); break;
-    case PtEntity::NPCEntity: entity = new PtNpcEntity(); break;
-    case PtEntity::DoorEntity: entity = new PtDoorEntity(); break;
-  default : {printf("EntityHandler: ERROR Unknown entity type for %s!\n", *entmsg.getName()); return;}
-  };
+  PtEntity* entity = new PtNpcEntity();
   entity->SetName(*entmsg.getName());
   entity->SetMeshName(*entmsg.getMesh());
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
@@ -45,8 +37,6 @@ void EntityHandler::handleAddEntity(GenericMessage* msg)
   entity->SetSectorName(*entmsg.getSector());
   entity->SetId(entmsg.getId());
   PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
-  if (entmsg.getType() == PtEntity::PlayerEntity)
-    PointerLibrary::getInstance()->getGUIManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
 }
 
 void EntityHandler::handleAddDoor(GenericMessage* msg)
@@ -252,4 +242,8 @@ void EntityHandler::handleAddCharacterEntity(GenericMessage* msg)
   PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
   if (entmsg.getEntityType() == PtEntity::PlayerEntity)
     PointerLibrary::getInstance()->getGUIManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
+}
+
+void EntityHandler::handleAddItemEntity(GenericMessage* msg)
+{
 }

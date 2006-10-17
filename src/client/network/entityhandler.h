@@ -57,7 +57,7 @@ public:
     {
       char id = msg->getMsgId();
 
-      if (id == 0) handleAddEntity(msg);
+      if (id == ENTITY::ADDNPC) handleAddNpcEntity(msg);
       else if (id == ENTITY::REMOVE) handleRemoveEntity(msg);
       else if (id == ENTITY::MOVE) handleMoveEntity(msg);
       else if (id == ENTITY::DRUPDATE) handleDrUpdate(msg);
@@ -71,6 +71,7 @@ public:
       else if (id == ENTITY::INIT_DOOR) handleAddDoor(msg);
       else if (id == ENTITY::TELEPORT) handleTeleport(msg);
       else if (id == ENTITY::ADDCHARACTERENTITY) handleAddCharacterEntity(msg);
+      else if (id == ENTITY::ADDITEM) handleAddItemEntity(msg);
     }
     else if (type == MESSAGES::DOOR)
     {
@@ -95,7 +96,7 @@ public:
     return MESSAGES::ENTITY;
   }
 
-  void handleAddEntity(GenericMessage* msg);
+  void handleAddNpcEntity(GenericMessage* msg);
   void handleRemoveEntity(GenericMessage* msg);
   void handleMoveEntity(GenericMessage* msg);
   void handlePickEntity(GenericMessage* msg);
@@ -109,6 +110,7 @@ public:
   void handleAddDoor(GenericMessage* msg);
   void handleTeleport(GenericMessage* msg);
   void handleAddCharacterEntity(GenericMessage* msg);
+  void handleAddItemEntity(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

@@ -25,7 +25,7 @@ namespace ENTITY
 {
   enum MESSAGES
   {
-    ADD=0,
+    ADDNPC=0,
     REMOVE=1,
     MOVE=2,
     MOVE_REQUEST=3,
@@ -50,21 +50,21 @@ namespace ENTITY
     INIT_DOOR=22,
     RELOCATE=23,
     TELEPORT=24,
-    ADDCHARACTERENTITY=25
+    ADDCHARACTERENTITY=25,
+    ADDITEM=26
   };
 }
 
-class AddEntityMessage : public NetMessage
+class AddNpcEntityMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
   float pos[3];
   ptString sector;
   int ent_id;
-  char ent_type;
 
 public:
-  AddEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADD) 
+  AddNpcEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDNPC) 
   {
   }
 
@@ -75,7 +75,6 @@ public:
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setInt32(ent_id);
-    serial.setInt8(ent_type);
     serial.setString(name);
     serial.setString(mesh);
     serial.setFloat(pos[0]);
@@ -90,7 +89,6 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     ent_id = serial.getInt32();
-    ent_type = serial.getInt8();
     name = serial.getString();
     mesh = serial.getString();
     pos[0] = serial.getFloat();
@@ -117,15 +115,6 @@ public:
     ent_id = i;
   }
 
-  char getType()
-  {
-    return ent_type;
-  }
-  void setType(char t)
-  {
-    ent_type = t;
-  }
-
   ptString& getMesh()
   {
     return mesh;
@@ -133,6 +122,90 @@ public:
   void setMesh(ptString m)
   {
     mesh = m;
+  }
+
+  float* getPos()
+  {
+    return pos;
+  }
+  void setPos(const float p[3])
+  {
+    pos[0] = p[0];
+    pos[1] = p[1];
+    pos[2] = p[2];
+  }
+  void setPos(float x,float y,float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+
+  ptString& getSector()
+  {
+    return sector;
+  }
+  void setSector(ptString s)
+  {
+    sector = s;
+  }
+};
+
+class AddItemEntityMessage : public NetMessage
+{
+  int item_id;
+  float pos[3];
+  ptString sector;
+  int ent_id;
+
+public:
+  AddItemEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDITEM) 
+  {
+  }
+
+  void serialise(ByteStream* bs)
+  {
+    assert(*sector);
+    Serialiser serial(bs);
+    serial.setInt8(type);
+    serial.setInt8(id);
+    serial.setInt32(ent_id);
+    serial.setInt32(item_id);
+    serial.setFloat(pos[0]);
+    serial.setFloat(pos[1]);
+    serial.setFloat(pos[2]);
+    serial.setString(sector);
+  }
+
+  void deserialise(ByteStream* bs)
+  {
+    Deserialiser serial(bs);
+    type = serial.getInt8();
+    id = serial.getInt8();
+    ent_id = serial.getInt32();
+    item_id = serial.getInt32();
+    pos[0] = serial.getFloat();
+    pos[1] = serial.getFloat();
+    pos[2] = serial.getFloat();
+    sector = serial.getString();
+  }
+
+  int getId()
+  {
+    return ent_id;
+  }
+  void setId(int i)
+  {
+    ent_id = i;
+  }
+
+  int getItemId()
+  {
+    return item_id;
+  }
+  void setItemId(int i)
+  {
+    item_id = i;
   }
 
   float* getPos()

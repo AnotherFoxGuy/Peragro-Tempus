@@ -10,6 +10,8 @@ under each day.
   - PK worked a bit on the trading implementation.
   - Sueastside added equipment class. 
   - PK added TinyXML.
+  - PK added AddItemEntityMessage and thereby accidently refactored the whole
+    entity adding behavior. Now each entity has its own message.
 
 16-Oct-2006
   - Sueastside did more work on the refactoring of entitymanager.

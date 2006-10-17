@@ -20,6 +20,7 @@
 #include "doorentity.h"
 #include "entity.h"
 #include "pcentity.h"
+#include "itementity.h"
 #include "user.h"
 #include "usermanager.h"
 
@@ -55,6 +56,15 @@ void User::sendAddEntity(const Entity* entity)
     msg.setLocked(entity->getDoorEntity()->getLocked());
     msg.serialise(&bs);
   }
+  else if (entity->getType() == Entity::ItemEntityType)
+  {
+    AddItemEntityMessage msg;
+    msg.setId(entity->getId());
+    msg.setItemId(entity->getItemEntity()->getItem()->getId());
+    msg.setPos(entity->getPos());
+    msg.setSector(entity->getSector());
+    msg.serialise(&bs);
+  }
   else if (entity->getType() == Entity::PlayerEntityType)
   {
     AddCharacterEntityMessage msg;
@@ -70,16 +80,19 @@ void User::sendAddEntity(const Entity* entity)
     msg.setSkinColour(character->getSkinColour());
     msg.serialise(&bs);
   }
-  else
+  else if (entity->getType() == Entity::NPCEntityType)
   {
-    AddEntityMessage msg;
+    AddNpcEntityMessage msg;
     msg.setName(entity->getName());
     msg.setId(entity->getId());
-    msg.setType((char)entity->getType());
     msg.setMesh(entity->getMesh());
     msg.setPos(entity->getPos());
     msg.setSector(entity->getSector());
     msg.serialise(&bs);
+  }
+  else
+  {
+    printf("Unkown entity type!\n");
   }
 
   if (connection.get()) connection.get()->send(bs);
