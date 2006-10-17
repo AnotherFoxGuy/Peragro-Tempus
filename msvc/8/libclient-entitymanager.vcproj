@@ -161,6 +161,12 @@
 				RelativePath="..\..\src\client\entity\character\characterentity.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\entity\character\equipment\equipeditem.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\character\equipment\equipment.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\entity\character\npcentity.cpp">
 			</File>
 			<File
@@ -184,6 +190,12 @@
 			Filter="">
 			<File
 				RelativePath="..\..\src\client\entity\character\characterentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\character\equipment\equipeditem.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\character\equipment\equipment.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\character\npcentity.h">
