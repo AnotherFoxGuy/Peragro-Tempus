@@ -1,3 +1,4 @@
 SubDir TOP src ext ;
 
 SubInclude TOP src ext sqlite ;
+SubInclude TOP src ext tinyxml ;

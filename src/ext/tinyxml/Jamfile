@@ -1,0 +1,7 @@
+SubDir TOP src ext tinyxml  ;
+
+Description tinyxml : "TinyXML library" ;
+Library tinyxml :
+  [ Wildcard *.h *.c ] ;
+
+CCFLAGS on $(tinyxml_OBJECTS) = [ Filter [ on $tinyxml_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;
