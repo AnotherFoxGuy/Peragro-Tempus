@@ -31,3 +31,18 @@ void TradeHandler::handleBuyItemResponseNpc(GenericMessage* msg)
 {
 }
 
+void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
+{
+}
+
+void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
+{
+}
+
+void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
+{
+}
+
+void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
+{
+}

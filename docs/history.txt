@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+17-Oct-2006
+  - Sueastside fixed compilation.
+
 16-Oct-2006
   - Sueastside did more work on the refactoring of entitymanager.
   - PK rewrote quite some parts of the server entities,

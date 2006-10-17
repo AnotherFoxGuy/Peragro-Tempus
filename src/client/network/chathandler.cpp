@@ -25,9 +25,25 @@ void ChatHandler::handleSay(GenericMessage* msg)
   client->chat(0, chatmsg.getMessage(), *chatmsg.getSpeakerName());
 }
 
-void ChatHandler::handleWhisper(GenericMessage* msg)
+void ChatHandler::handleWhisperFrom(GenericMessage* msg)
 {
   WhisperFromMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
   client->chat(1, chatmsg.getMessage(), *chatmsg.getSpeakerName());
+}
+
+void ChatHandler::handleShout(GenericMessage* msg)
+{
+}
+
+void ChatHandler::handleParty(GenericMessage* msg)
+{
+}
+
+void ChatHandler::handleGuild(GenericMessage* msg)
+{
+}
+
+void ChatHandler::handleFamily(GenericMessage* msg)
+{
 }
