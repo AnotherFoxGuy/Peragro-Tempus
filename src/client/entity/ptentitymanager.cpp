@@ -316,8 +316,6 @@ void ptEntityManager::DrUpdateEntity()
   mutex.unlock();
 }
 
-
-
 void ptEntityManager::updatePcProp()
 {
   if (!update_pcprop_entity_name.GetSize()) return;

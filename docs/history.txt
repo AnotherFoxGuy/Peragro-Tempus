@@ -8,6 +8,7 @@ under each day.
   - Sueastside fixed compilation.
   - PK fixed two bugs in the server.
   - PK worked a bit on the trading implementation.
+  - Sueastside added equipment class. 
 
 16-Oct-2006
   - Sueastside did more work on the refactoring of entitymanager.

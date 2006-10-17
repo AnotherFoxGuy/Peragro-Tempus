@@ -16,29 +16,35 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PTCHARACTERENTITY_H
-#define PTCHARACTERENTITY_H
+#ifndef EQUIPMENT_H
+#define EQUIPMENT_H
 
-#include "client/entity/ptentity.h"
+#include "equipeditem.h"
 
-#include "client/entity/character/equipment/equipment.h"
+#include "client/pointer/pointer.h"
 
-class PtCharacterEntity : public PtEntity
+class Equipment
 {
-private:
-  Equipment* equipment;
+ private:
+   csArray<EquipedItem*> equipment;
+   PtEntity* entity;
+   /* 
+     Checks if an item with the slotname exists,
+     if so delete it and add the new item.
+   */
+   void AddItem(EquipedItem* Item);
+   void RemoveItem(unsigned int slotid);
 
-protected:
-  PtCharacterEntity(EntityType type);
-  ~PtCharacterEntity() {}
+ public:
+   Equipment(PtEntity* entity);
+   ~Equipment();
+   void Equip(unsigned int itemid, unsigned int slotid);
+   void UnEquip(unsigned int slotid);
+   
+   PtEntity* GetEntity() { return entity; }
+   void ClearAll(); // Destructs all meshes and wipes the array.
+   void ConstructMeshes(); // Constructs meshes for all equiped items.
+   void DestructMeshes(); // Handy for LOD purposes. 
+}; 
 
-public:
-  void Move(MovementData* movement);
-  bool MoveTo(MoveToData* moveTo);
-  void DrUpdate(DrUpdateData* drupdate);
-  void Teleport(csVector3 pos, csString sector);
-
-  Equipment* GetEquipment() {return equipment;}
-};
-
-#endif // PTCHARACTERENTITY_H
+#endif // EQUIPMENT_H

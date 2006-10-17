@@ -536,7 +536,8 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'g')
       {
-        guimanager->GetInventoryWindow()->AddItem(2, 3);
+        PtCharacterEntity* entity = (PtCharacterEntity*)(entitymanager->findPtEntById(entitymanager->GetOwnId()));
+        entity->GetEquipment()->Equip(4, 0);
       }
       else if (code == 'f')
       {

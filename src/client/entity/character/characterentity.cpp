@@ -18,6 +18,11 @@
 
 #include "characterentity.h"
 
+PtCharacterEntity::PtCharacterEntity(EntityType type) : PtEntity(type) 
+{
+  equipment = new Equipment(this);
+}
+
 void PtCharacterEntity::Move(MovementData* movement) 
 {
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
