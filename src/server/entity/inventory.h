@@ -149,6 +149,19 @@ public:
     return entry->amount;
   }
 
+  unsigned int getTotalAmount(int item_id)
+  {
+    unsigned int amount = 0;
+    for(unsigned int i=0; i<entries.getCount(); i++)
+    {
+      if (entries.get(i)->item_id == item_id)
+      {
+        amount += entries.get(i)->amount;
+      }
+    }
+    return amount;
+  }
+
   unsigned int getItemIdFromSlot(int slot)
   {
     InvEntries* entry = findEntryBySlot(slot);

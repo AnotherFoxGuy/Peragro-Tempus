@@ -36,14 +36,23 @@ private:
   class Offer
   {
   public:
-    Item* item;
+    int item_id;
     unsigned int amount;
   };
   Array<Offer> offer1;
   Array<Offer> offer2;
 
+  bool final_confirm_1;
+  bool final_confirm_2;
+
 public:
-  TradeSession(TradePeer* initiator) : peer1(initiator), peer2(0) {}
+  TradeSession(TradePeer* initiator)
+  {
+    peer1 = initiator;
+    peer2 = 0;
+    final_confirm_1 = false;
+    final_confirm_2 = false;
+  }
 
   const char* sendRequest(TradePeer* peer2);
   void sendResponse(const ptString& error);

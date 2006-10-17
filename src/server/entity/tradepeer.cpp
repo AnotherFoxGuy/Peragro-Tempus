@@ -19,6 +19,11 @@
 #include "tradesession.h"
 #include "tradepeer.h"
 
+#include "server/entity/character.h"
+#include "server/entity/item.h"
+#include "server/entity/inventory.h"
+#include "server/entity/pcentity.h"
+
 TradePeer* TradePeer::getOtherPeer()
 {
   if (session == 0) return 0;
@@ -27,20 +32,48 @@ TradePeer* TradePeer::getOtherPeer()
   else return 0;
 }
 
-void TradePeer::addToOffer(Item* item, unsigned int amount)
+void TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id, unsigned int amount)
 {
-  TradeSession::Offer offer;
-  offer.item = item;
+  const Character* c_char = pc->getCharacter();
+  if (!c_char) return;
+
+  TradeSession::Offer& offer = TradeSession::Offer();
+  offer.item_id = item_id;
   offer.amount = amount;
 
+  Character* c = c_char->getLock();
+
+  for (int i = 0; i<offers.getCount(); i++)
+  {
+    if (offers.get(i).item_id == item_id)
+    {
+      offer = offers.get(i);
+      if (c->getInventory()->getAmount(item_id) >= amount + offer.amount)
+      {
+        offers.add(offer);
+        c->freeLock();
+        return;
+      }
+    }
+  }
+
+  if (c->getInventory()->getAmount(item_id) >= amount)
+  {
+    offers.add(offer);
+  }
+  c->freeLock();
+}
+
+void TradePeer::addToOffer(PcEntity* pc, int item_id, unsigned int amount)
+{
   if (session == 0) return;
   else if (session->peer1 == this)
   {
-    session->offer1.add(offer);
+    checkOffer(pc, session->offer1, item_id, amount);
   }
   else if (session->peer2 == this)
   {
-    session->offer2.add(offer);
+    checkOffer(pc, session->offer1, item_id, amount);
   }
   else return;
 }

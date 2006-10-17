@@ -29,7 +29,10 @@ void DoorHandler::handleOpenDoorRequest(GenericMessage* msg)
   OpenDoorRequestMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
   printf("Got open door request %d: \n---------------------------\n", door_msg.getDoorId());
-  DoorEntity* door = (DoorEntity*)server->getEntityManager()->findById(door_msg.getDoorId());
+  const Entity* e = server->getEntityManager()->findById(door_msg.getDoorId());
+  if (!e) return;
+  const DoorEntity* door = e->getDoorEntity();
+  if (!door) return;
   if (door->getLocked())
   {
     error = "The Door is Locked";
@@ -47,7 +50,9 @@ void DoorHandler::handleOpenDoorRequest(GenericMessage* msg)
       conn->send(bs);
     else
     {
-      door->setOpen(true);
+      DoorEntity* d = door->getLock();
+      d->setOpen(true);
+      d->freeLock();
       Server::getServer()->broadCast(bs);
     }
   }
@@ -66,7 +71,10 @@ void DoorHandler::handleCloseDoorRequest(GenericMessage* msg)
   CloseDoorRequestMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
   printf("Got close door request %d: \n---------------------------\n", door_msg.getDoorId());
-  DoorEntity* door = (DoorEntity*)server->getEntityManager()->findById(door_msg.getDoorId());
+  const Entity* e = server->getEntityManager()->findById(door_msg.getDoorId());
+  if (!e) return;
+  const DoorEntity* door = e->getDoorEntity();
+  if (!door) return;
   if (door->getLocked())
   {
     error = "The Door is Locked";
@@ -85,7 +93,9 @@ void DoorHandler::handleCloseDoorRequest(GenericMessage* msg)
       conn->send(bs);
     else
     {
-      door->setOpen(false);
+      DoorEntity* d = door->getLock();
+      d->setOpen(false);
+      d->freeLock();
       Server::getServer()->broadCast(bs);
     }
   }

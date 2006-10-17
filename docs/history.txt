@@ -6,6 +6,8 @@ under each day.
 
 17-Oct-2006
   - Sueastside fixed compilation.
+  - PK fixed two bugs in the server.
+  - PK worked a bit on the trading implementation.
 
 16-Oct-2006
   - Sueastside did more work on the refactoring of entitymanager.

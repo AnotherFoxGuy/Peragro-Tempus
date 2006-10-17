@@ -19,13 +19,18 @@
 #ifndef _TRADE_PEER_H_
 #define _TRADE_PEER_H_
 
+#include "tradesession.h"
+
 class Item;
 class TradeSession;
+class PcEntity;
 
 class TradePeer
 {
 private:
   TradeSession* session;
+
+  void checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id, unsigned int amount);
 
 public:
   TradePeer() : session (0) {}
@@ -35,7 +40,7 @@ public:
 
   TradePeer* getOtherPeer();
 
-  void addToOffer(Item* item, unsigned int amount);
+  void addToOffer(PcEntity* pc, int item_id, unsigned int amount);
 };
 
 #endif // _TRADE_PEER_H_

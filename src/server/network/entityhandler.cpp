@@ -69,7 +69,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   user_ent->setPos(request_msg.getPos());
   user_ent->setSector(request_msg.getSector());
 
-  server->getCharacterManager()->checkForSave((PcEntity*)user_ent);
+  server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
   UpdateDREntityMessage response_msg;
   response_msg.setSpeed(request_msg.getSpeed());

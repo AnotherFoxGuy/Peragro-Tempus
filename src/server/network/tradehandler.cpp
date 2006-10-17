@@ -109,14 +109,13 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   TradeOffersListPvpMessage offer;
   offer.deserialise(msg->getByteStream());
 
-  //peer->setOfferCount(offer.getOffersCount());
-
   for (unsigned char i = 0; 0 < offer.getOffersCount(); i++)
   {
-    //peer->setOffer(offer.getItemId(i), offer.getAmount(i));
+    peer->addToOffer(pc, offer.getItemId(i), offer.getAmount(i));
   }
 
   //peer->sendOffer();
+  pc->freeLock();
 }
 
 void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
