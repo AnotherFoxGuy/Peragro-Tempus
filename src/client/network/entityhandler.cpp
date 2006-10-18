@@ -197,6 +197,7 @@ void EntityHandler::handleEquip(GenericMessage* msg)
     {
       printf("EquipMessage: Entity %d equiped item %d to slot %d\n", 
         equip_msg.getEntityID(), equip_msg.getItemID(), equip_msg.getNewSlotID());
+      PointerLibrary::getInstance()->getEntityManager()->equip(equip_msg.getEntityID(), equip_msg.getItemID(), equip_msg.getNewSlotID());
     }
     else
     {
@@ -232,13 +233,6 @@ void EntityHandler::handleAddCharacterEntity(GenericMessage* msg)
   entity->SetPosition(pos);
   entity->SetSectorName(*entmsg.getSector());
   entity->SetId(entmsg.getEntityId());
-  /*
-  Character* character = new Character();
-  character->setDecalColour(entmsg.getDecalColour());
-  character->setHairColour(entmsg.getHairColour());
-  character->setSkinColour(entmsg.getSkinColour());
-  entity->setCharacter(character);
-  */
   PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
   if (entmsg.getEntityType() == PtEntity::PlayerEntity)
     PointerLibrary::getInstance()->getGUIManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
@@ -246,4 +240,21 @@ void EntityHandler::handleAddCharacterEntity(GenericMessage* msg)
 
 void EntityHandler::handleAddItemEntity(GenericMessage* msg)
 {
+  printf("EntityHandler: Received AddItemEntity\n");
+
+  PointerLibrary* ptr = PointerLibrary::getInstance();
+
+  AddItemEntityMessage entmsg;
+  entmsg.deserialise(msg->getByteStream());
+
+  ClientItem* item = ptr->getItemManager()->GetItemById(entmsg.getItemId());
+
+  PtEntity* entity = new PtItemEntity();
+  entity->SetName(item->GetName());
+  entity->SetMeshName(item->GetMeshName());
+  csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
+  entity->SetPosition(pos);
+  entity->SetSectorName(*entmsg.getSector());
+  entity->SetId(entmsg.getId());
+  ptr->getEntityManager()->addEntity(entity);
 }

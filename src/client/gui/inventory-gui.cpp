@@ -97,6 +97,26 @@ bool InventoryWindow::MoveItem(Slot* oldslot, Slot* newslot)
   return true;
 }
 
+unsigned int InventoryWindow::FindItem(unsigned int itemid)
+{
+  for (size_t i = 0; i < inventory.GetSize(); i++)
+  {
+    Slot* slot = inventory.Get(i);
+    
+    if (!slot) 
+      continue;
+    
+    if (!slot->GetObjectA())
+      continue;
+
+    if (slot->GetObjectA()->GetId() == itemid)
+    {
+      return slot->GetId();
+    }
+  }
+  return ~0;
+}
+
 void InventoryWindow::CreateGUIWindow()
 {
   // First 10 slots(0-9) are equipment,

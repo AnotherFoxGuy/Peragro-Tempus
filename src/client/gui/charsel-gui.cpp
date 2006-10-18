@@ -49,9 +49,7 @@ bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
 
   int own_char_id = atoi(item->getText().c_str());
 
-  CharSelectRequestMessage answer_msg;
-  answer_msg.setCharId(own_char_id);
-  network->send(&answer_msg);
+  PointerLibrary::getInstance()->getClient()->selectCharacter(own_char_id);
 
   GUIWindow::DisableWindow();
 

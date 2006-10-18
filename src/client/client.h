@@ -74,7 +74,8 @@ public:
     STATE_CONNECTED = 2,
     STATE_LOGGED_IN = 3,
     STATE_SELECTING_CHAR = 4,
-    STATE_PLAY = 5
+    STATE_PLAY = 5,
+    STATE_RECONNECTED = 6
   };
 
   ///Game internal state
@@ -155,6 +156,12 @@ private:
   csTicks last_sleep;
   csTicks last_seen;
 
+  // needed for relogin on disconnect
+  csString user;
+  csString pass;
+  unsigned int char_id;
+
+
 public:
   Client();
   ~Client();
@@ -166,7 +173,12 @@ public:
   void OnCommandLineHelp();
 
   void connected();
+
+  void login(csString user, csString pass);
   void loggedIn();
+
+  void selectCharacter(unsigned int char_id);
+
   void loadRegion(const char* name);
   void loadRegion();
 

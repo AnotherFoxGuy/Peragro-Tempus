@@ -152,6 +152,7 @@ int main(int argc, char ** argv)
   spawner.addSpawnPoint( -23, 2.5, 110, room, 1, 45); //spawn apple every 45 second after picking
   spawner.addSpawnPoint( 17, 2.5, 117, room, 1, 75); //spawn apple every 75 second after picking
   spawner.addSpawnPoint( 85, 2.5, 108, room, 1, 15); //spawn apple every 15 second after picking
+  spawner.addSpawnPoint( 87.8f, 2.0f, 11.2f, room, 4, 15); //spawn apple every 15 second after picking
   spawner.start();
   //timeEngine.registerTimer(&spawner);
 

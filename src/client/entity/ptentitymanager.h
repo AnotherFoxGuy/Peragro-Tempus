@@ -110,6 +110,7 @@ public:
   void teleport(int entity_id, float* pos, const char* sector);
   void updatePcProp(int entity_id, const char *pcprop,celData &value);
   void DrUpdateOwnEntity();
+  void equip(int entity_id, int item_id, int slot_id);
 
   iCelEntity* findCelEntById(int id);
   PtEntity* findPtEntById(int id);
@@ -123,6 +124,7 @@ public:
   void setPlaying(bool value) { playing = value; }
   void setWorldloaded(bool value) { world_loaded = value; }
 
+  void delAllEntities();
 };
 
 #endif // PTENTITYMANAGER_H

@@ -153,6 +153,7 @@ void Client::PreProcessFrame()
       entitymanager->DrUpdateOwnEntity();
     }
   }
+  g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
 }
 
 void Client::ProcessFrame()
@@ -404,7 +405,6 @@ void Client::handleStates()
     case STATE_SELECTING_CHAR: // Wait till user selects his character. Then create player mesh and switch to STATE_PLAY.
     {
       checkConnection();
-      g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
       view->Draw();
       break;
     }
@@ -417,54 +417,81 @@ void Client::handleStates()
       chat();
       break;
     }
+    case STATE_RECONNECTED:
+    {
+      loadRegion();
+      entitymanager->Handle();
+
+      chat();
+      break;
+    }
   }
 }
 
 void Client::checkConnection()
 {
+  //printf("Saw server %d ms ago\n", csGetTicks() - last_seen);
   if (last_seen > 0 && csGetTicks() - last_seen > 10000)
   {
-    last_seen = 0;
-    printf("Disconnect!\n");
-    guimanager->CreateOkWindow()->SetText("Disconnect!\n Please restart the client.");
     // 10 seconds of no response... disconnect!
+    if (state == STATE_PLAY)
+    {
+      last_seen = 0;
+      printf("Disconnect!\n");
+      guimanager->CreateOkWindow()->SetText("Disconnect!\n Please restart the client!");
+      //entitymanager->delAllEntities();
+      //ConnectRequestMessage msg;
+      //network->send(&msg);
+    }
   }
 }
 
 void Client::connected ()
 {
-  guimanager->CreateLoginWindow ();
-  guimanager->GetConnectWindow ()->HideWindow ();
-  guimanager->GetLoginWindow ()->ShowWindow ();
-
-  state = STATE_CONNECTED;
-
-  if (cmdline)
+  if (state == STATE_PLAY)
   {
-    char* user = (char* )cmdline->GetOption("user", 0);
-    char* pass = (char* )cmdline->GetOption("pass", 0);
+    state = STATE_RECONNECTED;
+    login(user, pass);
+  }
+  else
+  {
+    guimanager->CreateLoginWindow ();
+    guimanager->GetConnectWindow ()->HideWindow ();
+    guimanager->GetLoginWindow ()->ShowWindow ();
 
-    if (user && pass)
+    state = STATE_CONNECTED;
+
+    if (cmdline)
     {
-      if (cmdline->GetBoolOption("register", false))
-      {
-        RegisterRequestMessage reg_msg;
-        reg_msg.setUsername(ptString(user, strlen(user)));
-        reg_msg.setPassword(pass);
-        network->send(&reg_msg);
-      }
+      user = cmdline->GetOption("user", 0);
+      pass = cmdline->GetOption("pass", 0);
 
-      LoginRequestMessage answer_msg;
-      answer_msg.setUsername(ptString(user, strlen(user)));
-      answer_msg.setPassword(pass);
-      //this->name = user;
-      network->send(&answer_msg);
+      if (user && pass)
+      {
+        if (cmdline->GetBoolOption("register", false))
+        {
+          RegisterRequestMessage reg_msg;
+          reg_msg.setUsername(ptString(user, strlen(user)));
+          reg_msg.setPassword(pass);
+          network->send(&reg_msg);
+        }
+        login(user, pass);
+      }
     }
   }
-
   printf("Connected!!\n");
 }
 
+void Client::login(csString user, csString pass)
+{
+  this->user = user;
+  this->pass = pass;
+
+  LoginRequestMessage answer_msg;
+  answer_msg.setUsername(ptString(user, strlen(user)));
+  answer_msg.setPassword(pass);
+  network->send(&answer_msg);
+}
 
 bool Client::OnKeyboard(iEvent& ev)
 {
@@ -536,8 +563,13 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'g')
       {
-        PtCharacterEntity* entity = (PtCharacterEntity*)(entitymanager->findPtEntById(entitymanager->GetOwnId()));
-        entity->GetEquipment()->Equip(4, 0);
+        PtCharacterEntity* entity = (PtCharacterEntity*)
+          (entitymanager->findPtEntById(entitymanager->GetOwnId()));
+        unsigned int slot_id = guimanager->GetInventoryWindow()->FindItem(4);
+        EquipRequestMessage msg;
+        msg.setInventorySlotID(slot_id);
+        msg.setEquipSlotID(0);
+        network->send(&msg);
       }
       else if (code == 'f')
       {
@@ -843,25 +875,38 @@ void Client::loadRegion(const char* name)
 
 void Client::loggedIn()
 {
-  guimanager->CreateSelectCharWindow ();
-  guimanager->GetLoginWindow ()->HideWindow ();
-  guimanager->GetSelectCharWindow ()->ShowWindow ();
-  guimanager->CreateInventoryWindow ();
-  guimanager->CreateStatusWindow ();
-  guimanager->CreateBuddyWindow();
-
-  state = STATE_LOGGED_IN;
-
-  if (cmdline)
+  if (state == STATE_RECONNECTED)
   {
-    const char* character = cmdline->GetOption("char");
-    if (character)
+    selectCharacter(char_id);
+  }
+  else if (state == STATE_CONNECTED)
+  {
+    guimanager->CreateSelectCharWindow ();
+    guimanager->GetLoginWindow ()->HideWindow ();
+    guimanager->GetSelectCharWindow ()->ShowWindow ();
+    guimanager->CreateInventoryWindow ();
+    guimanager->CreateStatusWindow ();
+    guimanager->CreateBuddyWindow();
+
+    state = STATE_LOGGED_IN;
+
+    if (cmdline)
     {
-      CharSelectRequestMessage answer_msg;
-      answer_msg.setCharId(atoi(character));
-      network->send(&answer_msg);
+      const char* character = cmdline->GetOption("char");
+      if (character)
+      {
+        selectCharacter(atoi(character));
+      }
     }
   }
+}
+
+void Client::selectCharacter(unsigned int char_id)
+{
+  this->char_id = char_id;
+  CharSelectRequestMessage answer_msg;
+  answer_msg.setCharId(char_id);
+  network->send(&answer_msg);
 }
 
 void Client::OnCommandLineHelp()
@@ -932,6 +977,15 @@ void Client::loadRegion()
   entitymanager->setPlaying(playing);
 
   if (!load_region.IsValid()) return;
+
+  sawServer();
+  state = STATE_PLAY;
+
+  if (world_loaded)
+  {
+    load_region = 0;
+    return;
+  }
 
   guimanager->GetSelectCharWindow ()->HideWindow();
   guimanager->GetOptionsWindow ()->HideWindow();

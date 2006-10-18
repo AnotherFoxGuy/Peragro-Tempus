@@ -39,16 +39,22 @@ void ItemsFile::load()
   while (itemNode)
   {
     Item* item = new Item();
-    int id = atoi(itemNode->FirstChildElement("id")
+    unsigned int id = atoi(itemNode->FirstChildElement("id")
       ->FirstChild()->ToText()->Value());
     const char* name = itemNode->FirstChildElement("name")
       ->FirstChild()->ToText()->Value();
     const char* mesh = itemNode->FirstChildElement("mesh")
       ->FirstChild()->ToText()->Value();
+    unsigned int stackmax = atoi(itemNode->FirstChildElement("stackable")
+      ->FirstChild()->ToText()->Value());
+    unsigned int weight = atoi(itemNode->FirstChildElement("weight")
+      ->FirstChild()->ToText()->Value());
 
     item->setId(id);
     item->setName(ptString(name, strlen(name)));
     item->setMesh(ptString(mesh, strlen(mesh)));
+    item->setStackMax(stackmax);
+    item->setWeight(weight);
 
     item_mgr->addItem(item);
 

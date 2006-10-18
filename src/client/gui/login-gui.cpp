@@ -51,9 +51,7 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
     GUIWindow::EnableWindow();
     return true;
   }
-  answer_msg.setUsername(ptString(login.c_str(), login.length()));
-  answer_msg.setPassword(password.c_str());
-  network->send(&answer_msg);
+  PointerLibrary::getInstance()->getClient()->login(login.c_str(), password.c_str());
 
   return true;
 }

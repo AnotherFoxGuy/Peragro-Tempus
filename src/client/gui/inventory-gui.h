@@ -43,6 +43,7 @@ public:
   bool AddItem(uint itemid, uint slotid);
   bool MoveItem(uint oldslotid, uint newslotid);
   bool MoveItem(Slot* oldslot, Slot* newslot);
+  unsigned int FindItem(uint itemid);
 };
 
 

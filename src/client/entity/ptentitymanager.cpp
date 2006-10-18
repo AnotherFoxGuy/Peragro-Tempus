@@ -108,11 +108,17 @@ void ptEntityManager::addEntity()
 
   if(entity)
   {
+    if (findPtEntById(entity->GetId()))
+    {
+      printf("Skipping already existing entity '%s(%d)'\n", entity->GetName().GetData(), entity->GetId());
+      return;
+    }
+
     entity->Create();
 
     if (own_char_id == entity->GetId())
     {
-      printf("ptEntityManager:  Adding Entity '%s' as me\n", entity->GetName().GetData());
+      printf("ptEntityManager:  Adding Entity '%s(%d)' as me\n", entity->GetName().GetData(), entity->GetId());
       csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
       pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
       pccamera->SetPitch(-0.18f);
@@ -123,7 +129,7 @@ void ptEntityManager::addEntity()
       ownname = entity->GetName();
     }
     else
-      printf("ptEntityManager: Adding Entity '%s'\n", entity->GetName().GetData());
+      printf("ptEntityManager: Adding Entity '%s(%d)'\n", entity->GetName().GetData(), entity->GetId());
 
     // Add our entity to the list.
     entities.Push (entity);
@@ -161,6 +167,15 @@ void ptEntityManager::delEntity()
   delete ent;
 
   mutex.unlock();
+}
+void ptEntityManager::delAllEntities()
+{
+  ownent = 0;
+  for (size_t i = 0; i < entities.Length(); i++)
+  {
+    pl->RemoveEntity(entities[i]->GetCelEntity());
+    entities.DeleteIndex(i);
+  }
 }
 
 void ptEntityManager::teleport(int entity_id, float* pos, const char* sector)
@@ -347,6 +362,19 @@ void ptEntityManager::updatePcProp(int entity_id, const char *pcprop, celData &v
   
   update_pcprop_entity_name.Push(updatePcprop);
   mutex.unlock();
+}
+
+void ptEntityManager::equip(int entity_id, int item_id, int slot_id)
+{
+  PtEntity* ent = findPtEntById(entity_id);
+  if (ent->GetType() == PtEntity::PlayerEntity)
+  {
+    ((PtPcEntity*) ent)->GetEquipment()->Equip(item_id, slot_id);
+  }
+  else if (ent->GetType() == PtEntity::NPCEntity)
+  {
+    //((PtNpcEntity*) ent)->GetEquipment()->Equip(item_id, slot_id);
+  }
 }
 
 void ptEntityManager::DrUpdateOwnEntity()
