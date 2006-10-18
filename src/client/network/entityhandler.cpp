@@ -59,6 +59,7 @@ void EntityHandler::handleRemove(GenericMessage* msg)
   RemoveMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
   PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entmsg.getEntityId());
+  if (!entity) return;
   PointerLibrary::getInstance()->getEntityManager()->delEntity(entity);
   if (entity->GetType() == PtEntity::PlayerEntity)
     PointerLibrary::getInstance()->getGUIManager()->GetBuddyWindow()->RemovePlayer(entity->GetName().GetData());
@@ -237,7 +238,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
     if (itemId == 0) 
       continue;
 
-    ptr->getEntityManager()->equip(entmsg.getEntityId(), itemId, i);
+    entity->GetEquipment()->Equip(itemId, i);
   }
 }
 

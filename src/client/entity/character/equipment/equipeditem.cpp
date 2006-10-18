@@ -31,6 +31,7 @@ EquipedItem::EquipedItem(PtEntity* entity, unsigned int itemid, unsigned int slo
 void EquipedItem::ConstructMesh()
 {
   if(itementity) return;
+  if(!entity->GetCelEntity()) return;
 
   csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY(obj_reg, iCelPlLayer);

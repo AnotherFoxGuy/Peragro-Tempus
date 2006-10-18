@@ -58,4 +58,6 @@ void PtPcEntity::Create()
 
   iSector* sector = engine->FindSector(sectorname);
   pclinmove->SetPosition(pos,0,sector);
+
+  GetEquipment()->ConstructMeshes();
 }

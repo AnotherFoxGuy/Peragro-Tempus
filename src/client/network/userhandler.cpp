@@ -95,5 +95,6 @@ void UserHandler::handleCharSelectResponse(GenericMessage* msg)
   client->state = Client::STATE_PLAY;
   CharSelectResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
+  printf("Owning entity with id: %d\n", answer_msg.getEntityId());
   PointerLibrary::getInstance()->getEntityManager()->setCharacter(answer_msg.getEntityId());
 }
