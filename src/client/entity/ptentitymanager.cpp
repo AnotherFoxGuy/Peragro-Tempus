@@ -379,7 +379,7 @@ void ptEntityManager::equip(int entity_id, int item_id, int slot_id)
 
 void ptEntityManager::DrUpdateOwnEntity()
 {
-  UpdateDREntityRequestMessage drmsg;
+  DrUpdateRequestMessage drmsg;
 
   if (own_char_id != -1)
   {
@@ -394,13 +394,8 @@ void ptEntityManager::DrUpdateOwnEntity()
       pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
       //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
 
-      drmsg.setOnGround(on_ground?1:0);
-      drmsg.setSpeed(speed);
-      drmsg.setRot(rot);
-      drmsg.setAVel(avel);
+      drmsg.setRotation(rot);
       drmsg.setPos(pos.x,pos.y,pos.z);
-      drmsg.setVel(vel.x,vel.y,vel.z);
-      drmsg.setWVel(wvel.x,wvel.y,wvel.z);
       if (sector->QueryObject()->GetName())
         drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
       else

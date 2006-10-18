@@ -19,98 +19,65 @@
 #ifndef _ENTITYHANDLER_H_
 #define _ENTITYHANDLER_H_
 
-#include "stdio.h"
+#include "common/network/nwtypes.h"
 
-#include "common/network/messagehandler.h"
 #include "common/network/entitymessages.h"
 
-#include "client/network/doorhandler.h"
-#include "client/network/questhandler.h"
-#include "client/network/skillhandler.h"
-#include "client/network/tradehandler.h"
-
-#include "client/entity/ptentitymanager.h"
+class Client;
 
 class EntityHandler : public MessageHandler
 {
 private:
-  Network* network;
   Client* client;
-  GUIManager* guimanager;
-
-  DoorHandler door_handler;
-  QuestHandler quest_handler;
-  SkillHandler skill_handler;
-  TradeHandler trade_handler;
 
 public:
-  EntityHandler(Network* network, Client* client) 
-  : network(network), client(client), door_handler(client),
-    quest_handler(client), skill_handler(client), trade_handler(client)
+  EntityHandler(Client* client)
+  : client(client)
   {
   }
+
+  char getType() { return MESSAGES::ENTITY; }
 
   void handle(GenericMessage* msg)
   {
     char type = msg->getMsgType();
-    if (type == MESSAGES::ENTITY)
-    {
-      char id = msg->getMsgId();
+    if (type != MESSAGES::ENTITY) assert("wrong message type");
+    char id = msg->getMsgId();
 
-      if (id == ENTITY::ADDNPC) handleAddNpcEntity(msg);
-      else if (id == ENTITY::REMOVE) handleRemoveEntity(msg);
-      else if (id == ENTITY::MOVE) handleMoveEntity(msg);
-      else if (id == ENTITY::DRUPDATE) handleDrUpdate(msg);
-      else if (id == ENTITY::PICK_RESPONSE) handlePickEntity(msg);
-      else if (id == ENTITY::DROP_RESPONSE) handleDropEntity(msg);
-      else if (id == ENTITY::INV_ITEM_LIST) handleInventoryItemList(msg);
-      else if (id == ENTITY::CHAR_STAT_LIST) handleCharacterStatList(msg);
-      else if (id == ENTITY::MOVE_TO) handleMoveEntityTo(msg);
-      else if (id == ENTITY::CHAR_SKILL_LIST) handleCharacterSkillList(msg);
-      else if (id == ENTITY::EQUIP) handleEquip(msg);
-      else if (id == ENTITY::INIT_DOOR) handleAddDoor(msg);
-      else if (id == ENTITY::TELEPORT) handleTeleport(msg);
-      else if (id == ENTITY::ADDCHARACTERENTITY) handleAddCharacterEntity(msg);
-      else if (id == ENTITY::ADDITEM) handleAddItemEntity(msg);
-    }
-    else if (type == MESSAGES::DOOR)
-    {
-      door_handler.handle(msg);
-    }
-    else if (type == MESSAGES::QUEST)
-    {
-      quest_handler.handle(msg);
-    }
-    else if (type == MESSAGES::TRADE)
-    {
-      trade_handler.handle(msg);
-    }
-    else
-    {
-      skill_handler.handle(msg);
-    }
+    if (id == ENTITY::ADDPLAYERENTITY) handleAddPlayerEntity(msg);
+    else if (id == ENTITY::ADDITEMENTITY) handleAddItemEntity(msg);
+    else if (id == ENTITY::ADDNPCENTITY) handleAddNpcEntity(msg);
+    else if (id == ENTITY::ADDDOORENTITY) handleAddDoorEntity(msg);
+    else if (id == ENTITY::REMOVE) handleRemove(msg);
+    else if (id == ENTITY::MOVE) handleMove(msg);
+    else if (id == ENTITY::MOVETO) handleMoveTo(msg);
+    else if (id == ENTITY::PICKRESPONSE) handlePickResponse(msg);
+    else if (id == ENTITY::DROPRESPONSE) handleDropResponse(msg);
+    else if (id == ENTITY::INVENTORYLIST) handleInventoryList(msg);
+    else if (id == ENTITY::STATSLIST) handleStatsList(msg);
+    else if (id == ENTITY::STATSCHANGE) handleStatsChange(msg);
+    else if (id == ENTITY::SKILLSLIST) handleSkillsList(msg);
+    else if (id == ENTITY::EQUIP) handleEquip(msg);
+    else if (id == ENTITY::TELEPORT) handleTeleport(msg);
+    else if (id == ENTITY::DRUPDATE) handleDrUpdate(msg);
   }
 
-  char getType()
-  {
-    return MESSAGES::ENTITY;
-  }
-
-  void handleAddNpcEntity(GenericMessage* msg);
-  void handleRemoveEntity(GenericMessage* msg);
-  void handleMoveEntity(GenericMessage* msg);
-  void handlePickEntity(GenericMessage* msg);
-  void handleDropEntity(GenericMessage* msg);
-  void handleDrUpdate(GenericMessage* msg);
-  void handleInventoryItemList(GenericMessage* msg);
-  void handleCharacterStatList(GenericMessage* msg);
-  void handleMoveEntityTo(GenericMessage* msg);
-  void handleCharacterSkillList(GenericMessage* msg);
-  void handleEquip(GenericMessage* msg);
-  void handleAddDoor(GenericMessage* msg);
-  void handleTeleport(GenericMessage* msg);
-  void handleAddCharacterEntity(GenericMessage* msg);
+  void handleAddPlayerEntity(GenericMessage* msg);
   void handleAddItemEntity(GenericMessage* msg);
+  void handleAddNpcEntity(GenericMessage* msg);
+  void handleAddDoorEntity(GenericMessage* msg);
+  void handleRemove(GenericMessage* msg);
+  void handleMove(GenericMessage* msg);
+  void handleMoveTo(GenericMessage* msg);
+  void handlePickResponse(GenericMessage* msg);
+  void handleDropResponse(GenericMessage* msg);
+  void handleInventoryList(GenericMessage* msg);
+  void handleStatsList(GenericMessage* msg);
+  void handleStatsChange(GenericMessage* msg);
+  void handleSkillsList(GenericMessage* msg);
+  void handleEquip(GenericMessage* msg);
+  void handleTeleport(GenericMessage* msg);
+  void handleDrUpdate(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

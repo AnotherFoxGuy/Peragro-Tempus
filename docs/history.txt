@@ -4,6 +4,16 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+18-Oct-2006
+  - PK made the loader read the items from the data/xml/items/items.xml file.
+  - PK tried to implement client reconnect, but it didn't work. Might be related
+    to the bug that you can't start two client on the same host.
+  - PK changed a big part of the network message handling.
+  - PK changed the equip test 'g' on the client to be server bound. Now other
+    should see it if a player equips an item.
+  - PK added equiped items to the AddPlayerEntityMessage in addition to the equip
+    message. This allows the player to see items that were equiped before he logged in.
+
 17-Oct-2006
   - Sueastside fixed compilation.
   - PK fixed two bugs in the server.

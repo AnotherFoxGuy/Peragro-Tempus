@@ -44,12 +44,12 @@ public:
     if (type != MESSAGES::CHAT) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id ==  CHAT::SAY) handleSay(msg);
-    else if (id ==  CHAT::SHOUT) handleShout(msg);
-    else if (id ==  CHAT::WHISPERTO) handleWhisperTo(msg);
-    else if (id ==  CHAT::PARTY) handleParty(msg);
-    else if (id ==  CHAT::GUILD) handleGuild(msg);
-    else if (id ==  CHAT::FAMILY) handleFamily(msg);
+    if (id == CHAT::SAY) handleSay(msg);
+    else if (id == CHAT::SHOUT) handleShout(msg);
+    else if (id == CHAT::WHISPERTO) handleWhisperTo(msg);
+    else if (id == CHAT::PARTY) handleParty(msg);
+    else if (id == CHAT::GUILD) handleGuild(msg);
+    else if (id == CHAT::FAMILY) handleFamily(msg);
   }
 
   void handleSay(GenericMessage* msg);

@@ -25,16 +25,30 @@
 
 #include "server/network/udp/udpnetwork.h"
 #include "server/network/userhandler.h"
+#include "server/network/doorhandler.h"
+#include "server/network/questhandler.h"
+#include "server/network/skillhandler.h"
+#include "server/network/tradehandler.h"
+#include "server/network/entityhandler.h"
+#include "server/network/chathandler.h"
 
 class Network
 {
 private:
   UserHandler user_handler;
+  EntityHandler ent_handler;
+  ChatHandler chat_handler;
+  DoorHandler door_handler;
+  QuestHandler quest_handler;
+  SkillHandler skill_handler;
+  TradeHandler trade_handler;
   UdpNetwork udp_nw;
 
 public:
   Network(Server* server) 
-  : user_handler(server), udp_nw()
+  : user_handler(server), udp_nw(), ent_handler(server), chat_handler(server),
+    door_handler(server), quest_handler(server), skill_handler(server),
+    trade_handler(server)
   {
     server->setNetwork(this);
   }
@@ -42,7 +56,13 @@ public:
   void init(unsigned short port)
   {
     udp_nw.init(port);
-    udp_nw.setHandler(&user_handler);
+    udp_nw.registerHandler(&user_handler);
+    udp_nw.registerHandler(&ent_handler);
+    udp_nw.registerHandler(&chat_handler);
+    udp_nw.registerHandler(&door_handler);
+    udp_nw.registerHandler(&quest_handler);
+    udp_nw.registerHandler(&skill_handler);
+    udp_nw.registerHandler(&trade_handler);
   }
 
   void getStats(unsigned int& sentbyte, unsigned int& recvbyte, unsigned int& timestamp)

@@ -48,18 +48,18 @@ void User::sendAddEntity(const Entity* entity)
   ByteStream bs;
   if (entity->getType() == Entity::DoorEntityType)
   {
-    AddDoorMessage msg;
+    AddDoorEntityMessage msg;
     msg.setName(entity->getName());
-    msg.setId(entity->getId());
+    msg.setEntityId(entity->getId());
     msg.setMesh(entity->getMesh());
-    msg.setOpen(entity->getDoorEntity()->getOpen());
-    msg.setLocked(entity->getDoorEntity()->getLocked());
+    msg.setIsOpen(entity->getDoorEntity()->getOpen());
+    msg.setIsLocked(entity->getDoorEntity()->getLocked());
     msg.serialise(&bs);
   }
   else if (entity->getType() == Entity::ItemEntityType)
   {
     AddItemEntityMessage msg;
-    msg.setId(entity->getId());
+    msg.setEntityId(entity->getId());
     msg.setItemId(entity->getItemEntity()->getItem()->getId());
     msg.setPos(entity->getPos());
     msg.setSector(entity->getSector());
@@ -67,24 +67,31 @@ void User::sendAddEntity(const Entity* entity)
   }
   else if (entity->getType() == Entity::PlayerEntityType)
   {
-    AddCharacterEntityMessage msg;
+    AddPlayerEntityMessage msg;
     msg.setName(entity->getName());
     msg.setEntityId(entity->getId());
-    msg.setEntityType((char)entity->getType());
     msg.setMesh(entity->getMesh());
     msg.setPos(entity->getPos());
     msg.setSector(entity->getSector());
-    const Character* character = entity->getPlayerEntity()->getCharacter();
+    Character* character = entity->getPlayerEntity()->getCharacter()->getLock();
     msg.setDecalColour(character->getDecalColour());
     msg.setHairColour(character->getHairColour());
     msg.setSkinColour(character->getSkinColour());
+    Inventory* inv = character->getInventory();
+    msg.setEquipmentCount(10);
+    for(int i=0; i<10; i++)
+    {
+      unsigned int item = inv->getItemIdFromSlot(i);
+      msg.setItemId(i, item);
+    }
     msg.serialise(&bs);
+    character->freeLock();
   }
   else if (entity->getType() == Entity::NPCEntityType)
   {
     AddNpcEntityMessage msg;
     msg.setName(entity->getName());
-    msg.setId(entity->getId());
+    msg.setEntityId(entity->getId());
     msg.setMesh(entity->getMesh());
     msg.setPos(entity->getPos());
     msg.setSector(entity->getSector());
@@ -106,10 +113,10 @@ void User::sendRemoveEntity(const Entity* entity)
 
   ent_list.removeEntity(entity);
 
-  RemoveEntityMessage msg;
-  msg.setName(entity->getName());
-  msg.setId(entity->getId());
-  msg.setType((char)entity->getType());
+  RemoveMessage msg;
+  //msg.setName(entity->getName());
+  msg.setEntityId(entity->getId());
+  //msg.setType((char)entity->getType());
   ByteStream bs;
   msg.serialise(&bs);
   if (connection.get()) connection.get()->send(bs);

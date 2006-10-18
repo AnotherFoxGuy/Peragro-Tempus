@@ -29,6 +29,12 @@
 #include "common/network/udp/udpconnectionmessages.h"
 
 #include "client/network/userhandler.h"
+#include "client/network/entityhandler.h"
+#include "client/network/chathandler.h"
+#include "client/network/doorhandler.h"
+#include "client/network/skillhandler.h"
+#include "client/network/questhandler.h"
+#include "client/network/tradehandler.h"
 
 class ConnectionHandler : public UdpMessageHandler
 {
@@ -37,10 +43,18 @@ private:
   Client* client;
 
   UserHandler user_handler;
+  EntityHandler entity_handler;
+  ChatHandler chat_handler;
+  DoorHandler door_handler;
+  SkillHandler skill_handler;
+  QuestHandler quest_handler;
+  TradeHandler trade_handler;
 
 public:
   ConnectionHandler(Network* network, Client* client)
-  : network(network), client(client), user_handler(network, client)
+  : network(network), client(client), user_handler(client),
+    entity_handler(client), chat_handler(client), door_handler(client),
+    skill_handler(client), quest_handler(client), trade_handler(client)
   {
   }
 
@@ -56,10 +70,13 @@ public:
       if (id == CONNECTION::RESPONSE) handleConnectionResponse(msg);
       else if (id == CONNECTION::PING) handlePing(msg);
     }
-    else
-    {
-      user_handler.handle(msg);
-    }
+    else if (type == MESSAGES::USER) user_handler.handle(msg);
+    else if (type == MESSAGES::ENTITY) entity_handler.handle(msg);
+    else if (type == MESSAGES::CHAT) chat_handler.handle(msg);
+    else if (type == MESSAGES::DOOR) door_handler.handle(msg);
+    else if (type == MESSAGES::SKILL) skill_handler.handle(msg);
+    else if (type == MESSAGES::QUEST) quest_handler.handle(msg);
+    else if (type == MESSAGES::TRADE) trade_handler.handle(msg);
   }
 
   char getType()

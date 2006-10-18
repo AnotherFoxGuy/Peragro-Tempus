@@ -43,7 +43,7 @@ void TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int
 
   Character* c = c_char->getLock();
 
-  for (int i = 0; i<offers.getCount(); i++)
+  for (size_t i = 0; i<offers.getCount(); i++)
   {
     if (offers.get(i).item_id == item_id)
     {

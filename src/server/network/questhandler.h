@@ -44,9 +44,9 @@ public:
     if (type != MESSAGES::QUEST) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id ==  QUEST::NPCDIALOGANSWER) handleNpcDialogAnswer(msg);
-    else if (id ==  QUEST::NPCSTARTDIALOG) handleNpcStartDialog(msg);
-    else if (id ==  QUEST::NPCENDDIALOG) handleNpcEndDialog(msg);
+    if (id == QUEST::NPCDIALOGANSWER) handleNpcDialogAnswer(msg);
+    else if (id == QUEST::NPCSTARTDIALOG) handleNpcStartDialog(msg);
+    else if (id == QUEST::NPCENDDIALOG) handleNpcEndDialog(msg);
   }
 
   void handleNpcDialogAnswer(GenericMessage* msg);

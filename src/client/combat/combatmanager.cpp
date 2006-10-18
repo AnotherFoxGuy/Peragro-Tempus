@@ -17,7 +17,7 @@
 */
 
 //#include "client/entity/ptcelentity.h"
-//#include "client/entity/ptentitymanager.h"
+#include "client/entity/ptentitymanager.h"
 
 #include "client/combat/combatmanager.h"
 

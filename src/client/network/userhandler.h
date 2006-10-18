@@ -19,62 +19,43 @@
 #ifndef _USERHANDLER_H_
 #define _USERHANDLER_H_
 
-#include "stdio.h"
+#include "common/network/nwtypes.h"
 
-#include "common/network/messagehandler.h"
 #include "common/network/usermessages.h"
 
-#include "client/network/entityhandler.h"
-#include "client/network/chathandler.h"
+class Client;
 
 class UserHandler : public MessageHandler
 {
 private:
-  Network* network;
   Client* client;
-  EntityHandler ent_handler;
-  ChatHandler chat_handler;
-  GUIManager* guimanager;
 
 public:
-  UserHandler(Network* network, Client* client) 
-  : network(network), client(client), ent_handler(network, client), chat_handler(client)
+  UserHandler(Client* client)
+  : client(client)
   {
   }
+
+  char getType() { return MESSAGES::USER; }
 
   void handle(GenericMessage* msg)
   {
     char type = msg->getMsgType();
-    if (type == MESSAGES::USER)
-    {
-      char id = msg->getMsgId();
+    if (type != MESSAGES::USER) assert("wrong message type");
+    char id = msg->getMsgId();
 
-      if (id == USER::LOGINRESPONSE) handleLoginResponse(msg);
-      else if (id == USER::REGISTERRESPONSE) handleRegisterResponse(msg);
-      else if (id == USER::CHARLIST) handleCharList(msg);
-      else if (id == USER::CHARCREATERESPONSE) handleCharCreationResponse(msg);
-      else if (id == USER::CHARSELECTRESPONSE) handleCharSelectionResponse(msg);
-    }
-    else if (type == MESSAGES::CHAT)
-    {
-      chat_handler.handle(msg);
-    }
-    else //Do not check type if the handler could have subhandlers
-    {
-      ent_handler.handle(msg);
-    }
-  }
-
-  char getType()
-  {
-    return MESSAGES::USER;
+    if (id == USER::LOGINRESPONSE) handleLoginResponse(msg);
+    else if (id == USER::REGISTERRESPONSE) handleRegisterResponse(msg);
+    else if (id == USER::CHARLIST) handleCharList(msg);
+    else if (id == USER::CHARCREATERESPONSE) handleCharCreateResponse(msg);
+    else if (id == USER::CHARSELECTRESPONSE) handleCharSelectResponse(msg);
   }
 
   void handleLoginResponse(GenericMessage* msg);
   void handleRegisterResponse(GenericMessage* msg);
   void handleCharList(GenericMessage* msg);
-  void handleCharCreationResponse(GenericMessage* msg);
-  void handleCharSelectionResponse(GenericMessage* msg);
+  void handleCharCreateResponse(GenericMessage* msg);
+  void handleCharSelectResponse(GenericMessage* msg);
 };
 
 #endif // _USERHANDLER_H_

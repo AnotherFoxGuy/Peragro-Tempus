@@ -79,8 +79,8 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   }
 
   EquipRequestMessage slotchangemsg;
-  slotchangemsg.setEquipSlotID(newslot->GetId());
-  slotchangemsg.setInventorySlotID(oldslot->GetId());
+  slotchangemsg.setNewSlotId(newslot->GetId());
+  slotchangemsg.setOldSlotId(oldslot->GetId());
   if (network) network->send(&slotchangemsg);
 
   return true;
@@ -99,8 +99,8 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
 
   if(objectid < 1) return true;
 
-  DropEntityRequestMessage msg;
-  msg.setTargetId(objectid);
+  DropRequestMessage msg;
+  msg.setTarget(objectid);
   msg.setSlotId(slot->GetId());
   if (network) network->send(&msg);
 

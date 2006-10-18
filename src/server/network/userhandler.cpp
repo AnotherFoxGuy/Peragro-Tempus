@@ -78,7 +78,7 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   char_msg.setCharacterCount((char)characters.getCount());
   for (unsigned int i=0; i<characters.getCount(); i++)
   {
-    char_msg.setId(i, characters.get(i)->getId());
+    char_msg.setCharId(i, characters.get(i)->getId());
     char_msg.setName(i, characters.get(i)->getName());
     char_msg.setDecalColour(i, characters.get(i)->getDecalColour());
     char_msg.setHairColour(i, characters.get(i)->getHairColour());
@@ -109,7 +109,7 @@ void UserHandler::handleRegisterRequest(GenericMessage* msg)
   msg->getConnection()->send(bs);
 }
 
-void UserHandler::handleCharCreationRequest(GenericMessage* msg)
+void UserHandler::handleCharCreateRequest(GenericMessage* msg)
 {
   CharCreateRequestMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
@@ -141,7 +141,7 @@ void UserHandler::handleCharCreationRequest(GenericMessage* msg)
   msg->getConnection()->send(bs);
 }
 
-void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
+void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   User* user = conn->getUser();
@@ -176,7 +176,7 @@ void UserHandler::handleCharSelectionRequest(GenericMessage* msg)
 
   CharSelectResponseMessage response_msg;
   response_msg.setError(ptString::Null);
-  response_msg.setCharEntityId(entity->getEntity()->getId());
+  response_msg.setEntityId(entity->getEntity()->getId());
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);

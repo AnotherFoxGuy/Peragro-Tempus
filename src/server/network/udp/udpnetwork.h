@@ -48,9 +48,9 @@ public:
     conn_pinger.begin();
   }
 
-  void setHandler(MessageHandler* msg_h)
+  void registerHandler(MessageHandler* msg_h)
   {
-    conn_handler.setHandler(msg_h);
+    conn_handler.registerHandler(msg_h);
   }
 
   void getStats(unsigned int& sentbyte, unsigned int& recvbyte, unsigned int& timestamp)

@@ -25,8 +25,8 @@
 
 void CharacterSkills::sendAllSkills(Connection* conn)
 {
-  CharacterSkillListMessage skilllist_msg;
-  skilllist_msg.setSkillCount((char)entries.getCount());
+  SkillsListMessage skilllist_msg;
+  skilllist_msg.setSkillsCount((char)entries.getCount());
   for (size_t i=0; i<entries.getCount(); i++)
   {
     skilllist_msg.setSkillId(int(i),short(entries.get(i)->skill_id));

@@ -96,8 +96,7 @@ void CharListMessage::serialise(ByteStream* bs)
   serial.setInt8(charactercount);
   for ( size_t i = 0; i < charactercount ; i++ )
   {
-    serial.setInt32(character[i].id);
-    serial.setString(character[i].name);
+    serial.setInt32(character[i].charid);
     serial.setString(character[i].name);
     serial.setInt8(character[i].haircolour[0]);
     serial.setInt8(character[i].haircolour[1]);
@@ -121,7 +120,7 @@ void CharListMessage::deserialise(ByteStream* bs)
   setCharacterCount(charactercount);
   for ( size_t i = 0; i < charactercount ; i++ )
   {
-    character[i].id = (unsigned int) serial.getInt32();
+    character[i].charid = (unsigned int) serial.getInt32();
     character[i].name = serial.getString();
     character[i].haircolour[0] = (unsigned char) serial.getInt8();
     character[i].haircolour[1] = (unsigned char) serial.getInt8();
@@ -229,7 +228,7 @@ void CharSelectResponseMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(charentityid);
+  serial.setInt32(entityid);
   serial.setString(error);
 }
 
@@ -238,7 +237,7 @@ void CharSelectResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  charentityid = (unsigned int) serial.getInt32();
+  entityid = (unsigned int) serial.getInt32();
   error = serial.getString();
 }
 

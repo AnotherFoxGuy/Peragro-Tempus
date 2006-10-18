@@ -31,7 +31,7 @@ class UdpConnectionHandler : public UdpMessageHandler
 {
 private:
   UdpConnectionManager* updConnMgr;
-  MessageHandler* msg_h;
+  MessageHandler* handlers[MSG_HANDLER_COUNT];
   Socket* socket;
 
 public:
@@ -69,9 +69,9 @@ public:
           handlePing(msg);
         }
       }
-      else
+      else if (type < MSG_HANDLER_COUNT)
       {
-        msg_h->handle(msg);
+        handlers[type]->handle(msg);
       }
     }
   }
@@ -81,9 +81,9 @@ public:
     return MESSAGES::CONNECTION;
   }
 
-  void setHandler(MessageHandler* msg_h)
+  void registerHandler(MessageHandler* msg_h)
   {
-    this->msg_h = msg_h;
+    handlers[msg_h->getType()] = msg_h;
   }
 
 private:

@@ -35,14 +35,14 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 
   int name_id = user_ent->getId();
 
-  MoveEntityRequestMessage request_msg;
+  MoveRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
   //printf("Received MoveRequest from: '%s' w(%d) t(%d)\n", name, request_msg.getWalk(), request_msg.getRot());
 
-  MoveEntityMessage response_msg;
-  response_msg.setWalk((float)request_msg.getWalk()*3);
-  response_msg.setRot((float)request_msg.getRot());
-  response_msg.setId(name_id);
+  MoveMessage response_msg;
+  response_msg.setWalk((float)(request_msg.getWalk()-1)*3);
+  response_msg.setTurn((float)(request_msg.getTurn()-1));
+  response_msg.setEntityId(name_id);
   ByteStream bs;
   response_msg.serialise(&bs);
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
@@ -62,7 +62,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
   int name_id = user_ent->getId();
 
-  UpdateDREntityRequestMessage request_msg;
+  DrUpdateRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
   //printf("DR of %s: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", name, request_msg.getSpeed(), request_msg.getPos()[0], request_msg.getPos()[1], request_msg.getPos()[2], request_msg.getRot());
   
@@ -71,16 +71,11 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
-  UpdateDREntityMessage response_msg;
-  response_msg.setSpeed(request_msg.getSpeed());
-  response_msg.setRot(request_msg.getRot());
-  response_msg.setAVel(request_msg.getAVel());
-  response_msg.setVel(request_msg.getVel());
-  response_msg.setWVel(request_msg.getWVel());
+  DrUpdateMessage response_msg;
+  //response_msg.setRotation(request_msg.getRotation());
   response_msg.setPos(request_msg.getPos());
-  response_msg.setOnGround(request_msg.getOnGround());
   response_msg.setSector(request_msg.getSector());
-  response_msg.setId(name_id);
+  response_msg.setEntityId(name_id);
   ByteStream bs;
   response_msg.serialise(&bs);
 
@@ -95,13 +90,13 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   if (!user_ent) return;
 
   ptString name = user_ent->getName();
-  PickEntityRequestMessage request_msg;
+  PickRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received PickRequest from: '%s' -> '%d' \n", *name, request_msg.getTargetId());
+  printf("Received PickRequest from: '%s' -> '%d' \n", *name, request_msg.getTarget());
 
-  const Entity* e = server->getEntityManager()->findById(request_msg.getTargetId());
+  const Entity* e = server->getEntityManager()->findById(request_msg.getTarget());
 
-  PickEntityResponseMessage response_msg;
+  PickResponseMessage response_msg;
   response_msg.setName(name);
   response_msg.setItemId(0);
   if (!e)
@@ -174,11 +169,11 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   if (!user_ent) return;
 
   ptString name = user_ent->getName();
-  DropEntityRequestMessage request_msg;
+  DropRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getTargetId());
+  printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getTarget());
 
-  Item* item = server->getItemManager()->findById(request_msg.getTargetId());
+  Item* item = server->getItemManager()->findById(request_msg.getTarget());
 
   if (!item)
   {
@@ -228,7 +223,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   server->addEntity(ent, true);
 }
 
-void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
+void EntityHandler::handleMoveToRequest(GenericMessage* msg)
 {
   const PcEntity* c_entity = NetworkHelper::getPcEntity(msg);
   if (!c_entity) return;
@@ -239,12 +234,12 @@ void EntityHandler::handleMoveEntityToRequest(GenericMessage* msg)
   PcEntity* entity = c_entity->getLock();
   Character* character = c_char->getLock();
 
-  MoveEntityToRequestMessage request_msg;
+  MoveToRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
   Stat* speed = server->getStatManager()->findByName(ptString("Speed", 5));
 
-  server->moveEntity(entity, request_msg.getPos(), (float)character->getStats()->getAmount(speed));
+  server->moveEntity(entity, request_msg.getTo(), (float)character->getStats()->getAmount(speed));
   server->getCharacterManager()->checkForSave(entity);
   entity->freeLock();
   character->freeLock();
@@ -264,8 +259,8 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
   EquipRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  int equip_slot = request_msg.getEquipSlotID();
-  int invent_slot = request_msg.getInventorySlotID();
+  int equip_slot = request_msg.getNewSlotId();
+  int invent_slot = request_msg.getOldSlotId();
 
   printf("Received EquipRequest from: '%s' | '%d' to '%d' \n", *name, invent_slot, equip_slot);
 
@@ -343,10 +338,10 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
   if (error) printf("Equip item error occured: %s\n", error);
 
   EquipMessage response_msg;
-  response_msg.setEntityID(user_ent->getId());
-  if (item) response_msg.setItemID(item->getId());
-  response_msg.setOldSlotID(invent_slot);
-  response_msg.setNewSlotID(equip_slot);
+  response_msg.setEntityId(user_ent->getId());
+  if (item) response_msg.setItemId(item->getId());
+  response_msg.setOldSlotId(invent_slot);
+  response_msg.setNewSlotId(equip_slot);
   ptString pt_err = error?ptString(error, strlen(error)):ptString();
   response_msg.setError(pt_err);
 
@@ -389,7 +384,7 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
-  telemsg.setId(name_id);
+  telemsg.setEntityId(name_id);
   telemsg.setSector(race->getSector());
   telemsg.setPos(race->getPos());
 

@@ -134,7 +134,7 @@ class CharListMessage : public NetMessage
   class ListCharacter
   {
   public:
-    unsigned int id;
+    unsigned int charid;
     ptString name;
     unsigned char haircolour[3];
     unsigned char skincolour[3];
@@ -169,8 +169,8 @@ public:
 
   // --- begin ListCharacter Getter and Setter ---
 
-  unsigned int getId(size_t i) { return character[i].id; }
-  void setId(size_t i, unsigned int x) { character[i].id = x; }
+  unsigned int getCharId(size_t i) { return character[i].charid; }
+  void setCharId(size_t i, unsigned int x) { character[i].charid = x; }
 
   ptString getName(size_t i) { return character[i].name; }
   void setName(size_t i, ptString x) { character[i].name = x; }
@@ -244,7 +244,7 @@ public:
     haircolour[1] = g;
     haircolour[2] = b;
   }
-  void setHairColour(unsigned char* x)
+  void setHairColour(const unsigned char* x)
   {
     setHairColour(x[0], x[1], x[2]);
   }
@@ -256,7 +256,7 @@ public:
     skincolour[1] = g;
     skincolour[2] = b;
   }
-  void setSkinColour(unsigned char* x)
+  void setSkinColour(const unsigned char* x)
   {
     setSkinColour(x[0], x[1], x[2]);
   }
@@ -268,7 +268,7 @@ public:
     decalcolour[1] = g;
     decalcolour[2] = b;
   }
-  void setDecalColour(unsigned char* x)
+  void setDecalColour(const unsigned char* x)
   {
     setDecalColour(x[0], x[1], x[2]);
   }
@@ -309,7 +309,7 @@ public:
     haircolour[1] = g;
     haircolour[2] = b;
   }
-  void setHairColour(unsigned char* x)
+  void setHairColour(const unsigned char* x)
   {
     setHairColour(x[0], x[1], x[2]);
   }
@@ -321,7 +321,7 @@ public:
     skincolour[1] = g;
     skincolour[2] = b;
   }
-  void setSkinColour(unsigned char* x)
+  void setSkinColour(const unsigned char* x)
   {
     setSkinColour(x[0], x[1], x[2]);
   }
@@ -333,7 +333,7 @@ public:
     decalcolour[1] = g;
     decalcolour[2] = b;
   }
-  void setDecalColour(unsigned char* x)
+  void setDecalColour(const unsigned char* x)
   {
     setDecalColour(x[0], x[1], x[2]);
   }
@@ -366,7 +366,7 @@ public:
 
 class CharSelectResponseMessage : public NetMessage
 {
-  unsigned int charentityid;
+  unsigned int entityid;
   ptString error;
 
 public:
@@ -381,8 +381,8 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCharEntityId() { return charentityid; }
-  void setCharEntityId(unsigned int x) { charentityid = x; }
+  unsigned int getEntityId() { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }

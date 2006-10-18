@@ -44,9 +44,9 @@ public:
     if (type != MESSAGES::SKILL) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id ==  SKILL::SKILLUSAGESTARTRESPONSE) handleSkillUsageStartResponse(msg);
-    else if (id ==  SKILL::SKILLUSAGECOMPLETION) handleSkillUsageCompletion(msg);
-    else if (id ==  SKILL::SKILLUSAGEINTERRUPT) handleSkillUsageInterrupt(msg);
+    if (id == SKILL::SKILLUSAGESTARTRESPONSE) handleSkillUsageStartResponse(msg);
+    else if (id == SKILL::SKILLUSAGECOMPLETION) handleSkillUsageCompletion(msg);
+    else if (id == SKILL::SKILLUSAGEINTERRUPT) handleSkillUsageInterrupt(msg);
   }
 
   void handleSkillUsageStartResponse(GenericMessage* msg);

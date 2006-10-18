@@ -19,20 +19,9 @@
 #ifndef _ENTITYHANDLER_H_
 #define _ENTITYHANDLER_H_
 
-#include "stdio.h"
+#include "common/network/nwtypes.h"
 
-#include "common/network/messagehandler.h"
-#include "common/network/netmessage.h"
 #include "common/network/entitymessages.h"
-
-//#include "connectionmanager.h"
-
-#include "server/network/doorhandler.h"
-#include "server/network/questhandler.h"
-#include "server/network/skillhandler.h"
-#include "server/network/tradehandler.h"
-
-#include "server/entity/user.h"
 
 class Server;
 
@@ -40,67 +29,37 @@ class EntityHandler : public MessageHandler
 {
 private:
   Server* server;
-  DoorHandler door_handler;
-  QuestHandler quest_handler;
-  SkillHandler skill_handler;
-  TradeHandler trade_handler;
 
 public:
-  EntityHandler(Server* server) 
-  : server(server), door_handler(server), quest_handler(server),
-    skill_handler(server), trade_handler(server)
+  EntityHandler(Server* server)
+  : server(server)
   {
   }
+
+  char getType() { return MESSAGES::ENTITY; }
 
   void handle(GenericMessage* msg)
   {
-    // No user handling without User
-    if (!msg->getConnection()->getUser()->getEntity())
-      return;
-
     char type = msg->getMsgType();
-    if (type == MESSAGES::ENTITY)
-    {
-      char id = msg->getMsgId();
+    if (type != MESSAGES::ENTITY) assert("wrong message type");
+    char id = msg->getMsgId();
 
-      if (id == ENTITY::MOVE_REQUEST) handleMoveRequest(msg);
-      else if (id == ENTITY::DRUPDATE_REQUEST) handleDrUpdateRequest(msg);
-      else if (id == ENTITY::PICK_REQUEST) handlePickRequest(msg);
-      else if (id == ENTITY::DROP_REQUEST) handleDropRequest(msg);
-      else if (id == ENTITY::MOVE_TO_REQUEST) handleMoveEntityToRequest(msg);
-      else if (id == ENTITY::EQUIP_REQUEST) handleEquipRequest(msg);
-      else if (id == ENTITY::RELOCATE) handleRelocate(msg);
-    }
-    else if (type == MESSAGES::DOOR)
-    {
-      door_handler.handle(msg);
-    }
-    else if (type == MESSAGES::QUEST)
-    {
-      quest_handler.handle(msg);
-    }
-    else if (type == MESSAGES::TRADE)
-    {
-      trade_handler.handle(msg);
-    }
-    else
-    {
-      skill_handler.handle(msg);
-    }
-  }
-
-  char getType()
-  {
-    return MESSAGES::ENTITY;
+    if (id == ENTITY::MOVEREQUEST) handleMoveRequest(msg);
+    else if (id == ENTITY::MOVETOREQUEST) handleMoveToRequest(msg);
+    else if (id == ENTITY::PICKREQUEST) handlePickRequest(msg);
+    else if (id == ENTITY::DROPREQUEST) handleDropRequest(msg);
+    else if (id == ENTITY::EQUIPREQUEST) handleEquipRequest(msg);
+    else if (id == ENTITY::RELOCATE) handleRelocate(msg);
+    else if (id == ENTITY::DRUPDATEREQUEST) handleDrUpdateRequest(msg);
   }
 
   void handleMoveRequest(GenericMessage* msg);
-  void handleDrUpdateRequest(GenericMessage* msg);
+  void handleMoveToRequest(GenericMessage* msg);
   void handlePickRequest(GenericMessage* msg);
   void handleDropRequest(GenericMessage* msg);
-  void handleMoveEntityToRequest(GenericMessage* msg);
   void handleEquipRequest(GenericMessage* msg);
   void handleRelocate(GenericMessage* msg);
+  void handleDrUpdateRequest(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

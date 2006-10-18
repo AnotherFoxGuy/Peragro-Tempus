@@ -44,10 +44,10 @@ public:
     if (type != MESSAGES::DOOR) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id ==  DOOR::OPENDOORREQUEST) handleOpenDoorRequest(msg);
-    else if (id ==  DOOR::CLOSEDOORREQUEST) handleCloseDoorRequest(msg);
-    else if (id ==  DOOR::LOCKDOORREQUEST) handleLockDoorRequest(msg);
-    else if (id ==  DOOR::UNLOCKDOORREQUEST) handleUnlockDoorRequest(msg);
+    if (id == DOOR::OPENDOORREQUEST) handleOpenDoorRequest(msg);
+    else if (id == DOOR::CLOSEDOORREQUEST) handleCloseDoorRequest(msg);
+    else if (id == DOOR::LOCKDOORREQUEST) handleLockDoorRequest(msg);
+    else if (id == DOOR::UNLOCKDOORREQUEST) handleUnlockDoorRequest(msg);
   }
 
   void handleOpenDoorRequest(GenericMessage* msg);

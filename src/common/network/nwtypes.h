@@ -19,19 +19,21 @@
 #ifndef _NWTYPES_H_
 #define _NWTYPES_H_
 
-  namespace MESSAGES
+#define MSG_HANDLER_COUNT 8
+
+namespace MESSAGES
+{
+  enum HANDLERS
   {
-    enum HANDLERS
-    {
-      CONNECTION=0,
-      USER=1,
-      ENTITY=2,
-      CHAT=3,
-      SKILL=4,
-      DOOR=5,
-      QUEST=6,
-      TRADE=7
-    };
-  }
+    CONNECTION=0,
+    USER=1,
+    ENTITY=2,
+    CHAT=3,
+    SKILL=4,
+    DOOR=5,
+    QUEST=6,
+    TRADE=7
+  };
+}
 
 #endif // _NWTYPES_H_

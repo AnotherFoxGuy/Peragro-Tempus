@@ -44,12 +44,12 @@ public:
     if (type != MESSAGES::TRADE) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id ==  TRADE::TRADEREQUEST) handleTradeRequest(msg);
-    else if (id ==  TRADE::TRADERESPONSE) handleTradeResponse(msg);
-    else if (id ==  TRADE::BUYITEMREQUESTNPC) handleBuyItemRequestNpc(msg);
-    else if (id ==  TRADE::TRADEOFFERSLISTPVP) handleTradeOffersListPvp(msg);
-    else if (id ==  TRADE::TRADEOFFERACCEPT) handleTradeOfferAccept(msg);
-    else if (id ==  TRADE::TRADECONFIRMREQUEST) handleTradeConfirmRequest(msg);
+    if (id == TRADE::TRADEREQUEST) handleTradeRequest(msg);
+    else if (id == TRADE::TRADERESPONSE) handleTradeResponse(msg);
+    else if (id == TRADE::BUYITEMREQUESTNPC) handleBuyItemRequestNpc(msg);
+    else if (id == TRADE::TRADEOFFERSLISTPVP) handleTradeOffersListPvp(msg);
+    else if (id == TRADE::TRADEOFFERACCEPT) handleTradeOfferAccept(msg);
+    else if (id == TRADE::TRADECONFIRMREQUEST) handleTradeConfirmRequest(msg);
   }
 
   void handleTradeRequest(GenericMessage* msg);

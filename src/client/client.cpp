@@ -96,6 +96,7 @@
 #include "client/effects/effectsmanager.h"
 #include "client/combat/combatmanager.h"
 #include "client/item/itemmanager.h"
+#include "client/entity/ptentitymanager.h"
 
 //#include "common/entity/entity.h"
 
@@ -567,8 +568,8 @@ bool Client::OnKeyboard(iEvent& ev)
           (entitymanager->findPtEntById(entitymanager->GetOwnId()));
         unsigned int slot_id = guimanager->GetInventoryWindow()->FindItem(4);
         EquipRequestMessage msg;
-        msg.setInventorySlotID(slot_id);
-        msg.setEquipSlotID(0);
+        msg.setOldSlotId(slot_id);
+        msg.setNewSlotId(0);
         network->send(&msg);
       }
       else if (code == 'f')
@@ -624,9 +625,9 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         return false;
       }
-      MoveEntityRequestMessage msg;
-      msg.setWalk(walk);
-      msg.setRot(turn);
+      MoveRequestMessage msg;
+      msg.setWalk(walk+1);
+      msg.setTurn(turn+1);
       network->send(&msg);
     }
   }
@@ -655,9 +656,9 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         return false;
       }
-      MoveEntityRequestMessage msg;
-      msg.setWalk(walk);
-      msg.setRot(turn);
+      MoveRequestMessage msg;
+      msg.setWalk(walk+1);
+      msg.setTurn(turn+1);
       network->send(&msg);
     }
   }
@@ -693,8 +694,8 @@ bool Client::OnMouseDown(iEvent& ev)
             csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
             if (!pclinmove) return false;
 
-            MoveEntityToRequestMessage msg;
-            msg.setPos(isect.x, isect.y, isect.z);
+            MoveToRequestMessage msg;
+            msg.setTo(isect.x, isect.y, isect.z);
             network->send(&msg);
 
             printf("OnMouseDown: position: %s\n", isect.Description().GetData());
@@ -718,9 +719,9 @@ bool Client::OnMouseDown(iEvent& ev)
           // If it's an item, request a pickup.
           if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::ItemEntity)
           {
-            PickEntityRequestMessage msg;
-            msg.setTargetId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-            printf("OnMouseDown: Requisting picking up entity: %d \n", msg.getTargetId());
+            PickRequestMessage msg;
+            msg.setTarget(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+            printf("OnMouseDown: Requisting picking up entity: %d \n", msg.getTarget());
             network->send(&msg);
           }
           // If it's a door, request to open.

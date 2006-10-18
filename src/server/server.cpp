@@ -83,11 +83,11 @@ void Server::delEntity(const Entity* entity)
 
 void Server::moveEntity(PcEntity* entity, float* pos, float speed)
 {
-  MoveEntityToMessage response_msg;
-  response_msg.setToPos(pos);
-  response_msg.setFromPos(entity->getEntity()->getPos());
+  MoveToMessage response_msg;
+  response_msg.setTo(pos);
+  response_msg.setFrom(entity->getEntity()->getPos());
   response_msg.setSpeed(speed);
-  response_msg.setId(entity->getEntity()->getId());
+  response_msg.setEntityId(entity->getEntity()->getId());
 
   entity->walkTo(pos, speed);
 
@@ -100,11 +100,11 @@ void Server::moveEntity(const NpcEntity* entity, float* pos, float speed)
 {
   if (!entity) return;
 
-  MoveEntityToMessage response_msg;
-  response_msg.setToPos(pos);
-  response_msg.setFromPos(entity->getEntity()->getPos());
+  MoveToMessage response_msg;
+  response_msg.setTo(pos);
+  response_msg.setFrom(entity->getEntity()->getPos());
   response_msg.setSpeed(speed);
-  response_msg.setId(entity->getEntity()->getId());
+  response_msg.setEntityId(entity->getEntity()->getId());
 
   NpcEntity* npc = entity->getLock();
   npc->walkTo(pos, speed);

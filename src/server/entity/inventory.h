@@ -49,7 +49,7 @@ private:
     return 0;
   }
 
-  InvEntries* findEntryBySlot(int slot)
+  InvEntries* findEntryBySlot(int slot) const
   {
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
@@ -162,10 +162,10 @@ public:
     return amount;
   }
 
-  unsigned int getItemIdFromSlot(int slot)
+  unsigned int getItemIdFromSlot(int slot) const
   {
     InvEntries* entry = findEntryBySlot(slot);
-    return (entry?entry->item_id:-1);
+    return (entry?entry->item_id:0);
   }
 
   void loadFromDatabase(InventoryTable* it, int id)

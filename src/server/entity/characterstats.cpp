@@ -25,15 +25,15 @@
 
 void CharacterStats::sendAllStats(Connection* conn)
 {
-  CharacterStatListMessage statlist_msg;
-  statlist_msg.setStatCount((char)entries.getCount());
+  StatsListMessage statlist_msg;
+  statlist_msg.setStatsCount((char)entries.getCount());
   for (size_t i=0; i<entries.getCount(); i++)
   {
     statlist_msg.setStatId(int(i),short(entries.get(i)->stat_id));
     Stat* stat = Server::getServer()->getStatManager()->findById(entries.get(i)->stat_id);
     assert(stat);
     statlist_msg.setName(int(i),stat->getName());
-    statlist_msg.setStatLevel(int(i),short(entries.get(i)->level));
+    statlist_msg.setLevel(int(i),short(entries.get(i)->level));
   }
   ByteStream bs2;
   statlist_msg.serialise(&bs2);
