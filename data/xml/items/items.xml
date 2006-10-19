@@ -8,6 +8,7 @@
 		<description>An apple.</description>
 		<file>/peragro/meshes/apple/apple.xml</file>
 		<mesh>apple</mesh>
+		<weight>0</weight>
 		<stackable>0</stackable>
 	</item>
 
@@ -18,6 +19,7 @@
 		<description>A Tiny Ballpot.</description>
 		<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
 		<mesh>Stuff001_tinyballpot_84_pot</mesh>
+		<weight>0</weight>
 		<stackable>5</stackable>
 	</item>
 
@@ -28,6 +30,7 @@
 		<description>A small plate.</description>
 		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
 		<mesh>Stuff001_smallplate_64_plates</mesh>
+		<weight>0</weight>
 		<stackable>5</stackable>
 	</item>
 
