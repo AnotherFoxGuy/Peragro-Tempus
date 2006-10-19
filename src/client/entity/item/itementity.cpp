@@ -28,20 +28,21 @@ PtItemEntity::PtItemEntity() : PtEntity(PtEntity::ItemEntity)
 
 void PtItemEntity::Create()
 {
-  CreateCelEntity();
-
-  char buffer[1024];
-  sprintf(buffer, "%s:%d:%d", name.GetData(), type, id);
-  celentity->SetName(buffer);
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-
-  // Load and assign the mesh to the entity.
   ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(itemid);
-  //ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemByName(name);
   if(item)
   {
-    pcmesh->SetMesh(item->GetMeshName().GetData(), item->GetFileName().GetData());
+    name = item->GetName();
+    meshname = item->GetMeshName();
+
+    CreateCelEntity();
+
+    char buffer[1024];
+    sprintf(buffer, "%s:%d:%d", name.GetData(), type, id);
+    celentity->SetName(buffer);
+
+    // Load and assign the mesh to the entity.
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+    pcmesh->SetMesh(meshname.GetData(), item->GetFileName().GetData());
     pl->CreatePropertyClass(celentity, "pclinearmovement");
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
 
