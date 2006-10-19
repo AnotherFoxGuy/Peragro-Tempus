@@ -114,6 +114,11 @@ void ptEntityManager::addEntity()
       return;
     }
 
+    if (entity->GetType() == PtEntity::PlayerEntity)
+    {
+      ((PtPcEntity*)entity)->SetOwnEntity(own_char_id == entity->GetId());
+    }
+
     entity->Create();
 
     if (own_char_id == entity->GetId())

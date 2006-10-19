@@ -25,9 +25,15 @@
 
 class PtPcEntity : public PtCharacterEntity
 {
+private:
+  bool is_own_entity;
+
 public:
   PtPcEntity();
   void Create();
+
+  bool IsOwnEntity() { return is_own_entity; }
+  void SetOwnEntity(bool ownership) { is_own_entity = ownership; }
 };
 
 #endif // PTPCENTITY_H

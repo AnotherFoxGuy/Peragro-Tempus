@@ -35,7 +35,11 @@ void PtPcEntity::Create()
   cs_snprintf(buffer, 32, "player_%d", id);
   celentity->SetName(buffer);
 
-  pl->CreatePropertyClass(celentity, "pcdefaultcamera");
+  if (IsOwnEntity())
+  {
+    pl->CreatePropertyClass(celentity, "pcdefaultcamera");
+  }
+
   pl->CreatePropertyClass(celentity, "pcactormove");
   pl->CreatePropertyClass(celentity, "pclinearmovement");
 
