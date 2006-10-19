@@ -13,6 +13,7 @@ under each day.
     should see it if a player equips an item.
   - PK added equiped items to the AddPlayerEntityMessage in addition to the equip
     message. This allows the player to see items that were equiped before he logged in.
+  - PK fixed static build.
 
 17-Oct-2006
   - Sueastside fixed compilation.

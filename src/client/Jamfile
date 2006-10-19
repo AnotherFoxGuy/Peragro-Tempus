@@ -40,6 +40,7 @@ if [ Property build : projgen_version ] != 6
     pfquest
     pftools
     pftrigger
+    pfzone
     stdphyslayer
   :
   ;
