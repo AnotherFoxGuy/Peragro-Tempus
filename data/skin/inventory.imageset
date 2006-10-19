@@ -3,4 +3,5 @@
 	<Image Name="tinyballpot" XPos="0" YPos="0" Width="128" Height="128" />
 	<Image Name="smallplate" XPos="128" YPos="0" Width="128" Height="128" />
 	<Image Name="apple" XPos="256" YPos="0" Width="128" Height="128" />
+        <Image Name="DragonEdgeSword" XPos="384" YPos="0" Width="128" Height="128" />
 </Imageset>
