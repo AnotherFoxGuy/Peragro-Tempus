@@ -37,8 +37,8 @@ void PtItemEntity::Create()
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
 
   // Load and assign the mesh to the entity.
-  //ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(id);
-  ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemByName(name);
+  ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(itemid);
+  //ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemByName(name);
   if(item)
   {
     pcmesh->SetMesh(item->GetMeshName().GetData(), item->GetFileName().GetData());

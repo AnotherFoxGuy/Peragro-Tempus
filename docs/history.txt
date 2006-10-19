@@ -7,6 +7,7 @@ under each day.
 19-Oct-2006
   - PK fixed static build.
   - PK fixed the missing NPCs as well as the mulitplayer issue for the camera.
+  - Sueastside changed the way items are handled.
 
 18-Oct-2006
   - PK made the loader read the items from the data/xml/items/items.xml file.

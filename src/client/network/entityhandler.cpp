@@ -251,14 +251,11 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   AddItemEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
-  ClientItem* item = ptr->getItemManager()->GetItemById(entmsg.getItemId());
-
-  PtEntity* entity = new PtItemEntity();
-  entity->SetName(item->GetName());
-  entity->SetMeshName(item->GetMeshName());
+  PtItemEntity* entity = new PtItemEntity();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entity->SetPosition(pos);
   entity->SetSectorName(*entmsg.getSector());
+  entity->SetItemId(entmsg.getItemId());
   entity->SetId(entmsg.getEntityId());
   ptr->getEntityManager()->addEntity(entity);
 }

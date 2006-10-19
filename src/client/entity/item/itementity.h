@@ -27,8 +27,13 @@
 
 class PtItemEntity : public PtEntity
 {
+private:
+  unsigned int itemid;
 public:
   PtItemEntity();
+
+  int GetItemId () const { return itemid; }
+  void SetItemId (unsigned int value) { this->itemid = value; }
 
   void Create();
 
