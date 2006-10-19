@@ -155,6 +155,22 @@
 	</Configurations>
 	<Files>
 		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\ext\tinyxml\tinystr.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\tinyxml\tinyxml.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\tinyxml\tinyxmlerror.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\tinyxml\tinyxmlparser.cpp">
+			</File>
+		</Filter>
+		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
