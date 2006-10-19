@@ -164,6 +164,9 @@
 				RelativePath="..\..\src\common\network\doormessages.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\network\entitymessages.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\questmessages.cpp">
 			</File>
 			<File

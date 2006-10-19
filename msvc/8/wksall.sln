@@ -42,6 +42,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsqlite_adp", "libsqlite_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsqlite_lib", "libsqlite_lib.vcproj", "{CB1805CB-8E89-B83B-0F29-D8569E098351}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtinyxml", "libtinyxml.vcproj", "{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libudp-network", "libudp-network.vcproj", "{01373DD0-AA91-AD26-E258-03C3692713F9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libutil", "libutil.vcproj", "{1020E648-2350-8556-4CD6-29FFD41D5DD6}"
@@ -161,6 +163,10 @@ Global
 		{CB1805CB-8E89-B83B-0F29-D8569E098351}.Release.Build.0 = Release|Win32
 		{CB1805CB-8E89-B83B-0F29-D8569E098351}.Debug.ActiveCfg = Debug|Win32
 		{CB1805CB-8E89-B83B-0F29-D8569E098351}.Debug.Build.0 = Debug|Win32
+		{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}.Release.ActiveCfg = Release|Win32
+		{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}.Release.Build.0 = Release|Win32
+		{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}.Debug.ActiveCfg = Debug|Win32
+		{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}.Debug.Build.0 = Debug|Win32
 		{01373DD0-AA91-AD26-E258-03C3692713F9}.Release.ActiveCfg = Release|Win32
 		{01373DD0-AA91-AD26-E258-03C3692713F9}.Release.Build.0 = Release|Win32
 		{01373DD0-AA91-AD26-E258-03C3692713F9}.Debug.ActiveCfg = Debug|Win32

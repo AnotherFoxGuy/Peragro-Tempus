@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="libnetwork"
-	ProjectGUID="{F5342C71-4E6F-72A9-E16A-9669A5A62054}"
+	Name="libtinyxml"
+	ProjectGUID="{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\out\release8\build\libnetwork\"
-			IntermediateDirectory="..\..\out\release8\build\libnetwork\"
+			OutputDirectory="..\..\out\release8\build\libtinyxml\"
+			IntermediateDirectory="..\..\out\release8\build\libtinyxml\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -30,10 +30,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release8\build\libnetwork\libnetwork.pch"
-				AssemblerListingLocation="..\..\out\release8\build\libnetwork\"
-				ObjectFile="..\..\out\release8\build\libnetwork\"
-				ProgramDataBaseFileName="..\..\out\release8\build\libnetwork\network.pdb"
+				PrecompiledHeaderFile="..\..\out\release8\build\libtinyxml\libtinyxml.pch"
+				AssemblerListingLocation="..\..\out\release8\build\libtinyxml\"
+				ObjectFile="..\..\out\release8\build\libtinyxml\"
+				ProgramDataBaseFileName="..\..\out\release8\build\libtinyxml\tinyxml.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -53,11 +53,11 @@
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile="..\..\out\release8\build\libnetwork\network.pdb"
+				ProgramDatabaseFile="..\..\out\release8\build\libtinyxml\tinyxml.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\libnetwork.lib"
+				OutputFile="..\..\out\release8\libs\libtinyxml.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -65,7 +65,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libnetwork\libnetwork.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\libtinyxml\libtinyxml.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -85,8 +85,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug8\build\libnetwork\"
-			IntermediateDirectory="..\..\out\debug8\build\libnetwork\"
+			OutputDirectory="..\..\out\debug8\build\libtinyxml\"
+			IntermediateDirectory="..\..\out\debug8\build\libtinyxml\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -101,10 +101,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug8\build\libnetwork\libnetwork.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\libnetwork\"
-				ObjectFile="..\..\out\debug8\build\libnetwork\"
-				ProgramDataBaseFileName="..\..\out\debug8\build\libnetwork\network.pdb"
+				PrecompiledHeaderFile="..\..\out\debug8\build\libtinyxml\libtinyxml.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\libtinyxml\"
+				ObjectFile="..\..\out\debug8\build\libtinyxml\"
+				ProgramDataBaseFileName="..\..\out\debug8\build\libtinyxml\tinyxml.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -122,11 +122,11 @@
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile="..\..\out\debug8\build\libnetwork\network.pdb"
+				ProgramDatabaseFile="..\..\out\debug8\build\libtinyxml\tinyxml.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\libnetwork_d.lib"
+				OutputFile="..\..\out\debug8\libs\libtinyxml_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -134,7 +134,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libnetwork\libnetwork.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\libtinyxml\libtinyxml.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -155,74 +155,13 @@
 	</Configurations>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\..\src\common\network\chatmessages.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\doormessages.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\entitymessages.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\questmessages.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\skillmessages.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\trademessages.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\usermessages.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\void.cpp">
-			</File>
-		</Filter>
-		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\network\bytestream.h">
+				RelativePath="..\..\src\ext\tinyxml\tinystr.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\network\chatmessages.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\deserialiser.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\doormessages.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\entitymessages.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\messagehandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\netmessage.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\nwtypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\questmessages.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\serialiser.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\skillmessages.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\trademessages.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\network\usermessages.h">
+				RelativePath="..\..\src\ext\tinyxml\tinyxml.h">
 			</File>
 		</Filter>
 	</Files>
