@@ -172,6 +172,11 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 
   printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getEntity()->getName());
   user->setEntity(entity);
+
+  character->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
+  character->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
+  character->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
+
   server->addEntity(ent, false);
 
   CharSelectResponseMessage response_msg;
@@ -180,10 +185,6 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
-
-  character->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
-  character->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
-  character->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
 
   character->getInventory()->sendAllItems(msg->getConnection());
   character->getStats()->sendAllStats(msg->getConnection());

@@ -6,6 +6,7 @@ under each day.
 
 20-Oct-2006
   - PK finished the trading implementation on the server (untested!).
+  - PK fixed the player entity loading so equiped items are visible.
 
 19-Oct-2006
   - PK fixed static build.
