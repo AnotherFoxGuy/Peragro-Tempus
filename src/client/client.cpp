@@ -381,7 +381,7 @@ void Client::handleStates()
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
       //guimanager->GetSelectCharWindow()->ShowWindow();
-      //guimanager->CreateTradeWindow();
+      guimanager->CreateTradeWindow();
       //guimanager->CreateConfirmWindow();
       //guimanager->CreateOkWindow();
 

@@ -11,7 +11,7 @@
 		<Property Name='NWSESizingCursorImage' Value='set:Peragro image:MouseNwSeCursor'/>
 		<Property Name='TitlebarEnabled' Value='True'/>
 		<Property Name='SizingEnabled' Value='False'/>
-		<Property Name='Visible' Value='True'/>
+		<Property Name='Visible' Value='False'/>
 		<Property Name='Alpha' Value='0.7'/>
 		
 		<Window Type='Peragro/StaticText' Name='TradeWindow/Notification'>

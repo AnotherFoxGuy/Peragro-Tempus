@@ -76,6 +76,7 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
     Slot* oldinvslot = guimanager->GetTradeWindow()->GetOldSlot(oldslot);
     MoveObject(oldslot, oldinvslot);
     if(oldinvslot) oldslot = oldinvslot;
+    guimanager->GetTradeWindow()->UpdateOffer();
   }
 
   EquipRequestMessage slotchangemsg;

@@ -37,30 +37,61 @@ TradeWindow::~TradeWindow()
   inventory.DeleteAll();
 }
 
-bool TradeWindow::OnCloseButton(const CEGUI::EventArgs& args)
+bool TradeWindow::OnYesRequest(const CEGUI::EventArgs& args)
 {
-  winMgr->getWindow("TradeWindow/Frame")->setVisible(false);
+  winMgr->getWindow("TradeWindow/Frame")->setVisible(true);
 
-  // Putting the items back in the inventory.
-  for (int i=0; i<numberOfSlots; i++)
-  {
-    Slot* slot = trade1[i];
-    if(!slot->IsEmpty())
-    {
-      Slot* oldslot = inventory[i];
-      guimanager->GetInventoryWindow()->MoveItem(slot, oldslot);
-    }
-  }
-
-  trade1.DeleteAll();
-  inventory.DeleteAll();
-  
-  // TODO: Send TradeCancelRequestMessage.
+  TradeResponseMessage msg;
+  network->send(&msg);
 
   return true;
 }
 
-bool TradeWindow::AddItem(uint player, uint itemid, uint amount, uint slotid)
+bool TradeWindow::OnNoRequest(const CEGUI::EventArgs& args)
+{
+  TradeResponseMessage msg;
+  msg.setError(ptString("The other player declined the trade.", strlen("The other player declined the trade.")));
+  network->send(&msg);
+
+  return true;
+}
+
+bool TradeWindow::OnYesConfirm(const CEGUI::EventArgs& args)
+{
+  TradeConfirmResponseMessage msg;
+  network->send(&msg);
+
+  return true;
+}
+
+bool TradeWindow::OnNoConfirm(const CEGUI::EventArgs& args)
+{
+  TradeConfirmResponseMessage msg;
+  msg.setError(ptString("The other player didn't confirm the trade.", strlen("The other player didn't confirm the trade.")));
+  network->send(&msg);
+
+  return true;
+}
+
+bool TradeWindow::OnCloseButton(const CEGUI::EventArgs& args)
+{
+  TradeWindow::CancelTrade();
+  
+  TradeCancelMessage msg;
+  network->send(&msg);
+
+  return true;
+}
+
+bool TradeWindow::OnAcceptPlayer1(const CEGUI::EventArgs& args)
+{
+  SetAccept(1, true);
+  TradeOfferAcceptMessage msg;
+  network->send(&msg);
+  return true;
+}
+
+bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int amount, unsigned int slotid)
 {
   if(!(player == 2)) return false;
   if(slotid > numberOfSlots) return false;
@@ -86,6 +117,31 @@ bool TradeWindow::AddItem(uint player, uint itemid, uint amount, uint slotid)
   return true;
 }
 
+void TradeWindow::SetAccept(unsigned int player, bool value)
+{
+  if(player == 1)
+  {
+    btn = winMgr->getWindow("TradeWindow/Player1/Accept");
+    value ? btn->disable() : btn->enable();
+    accept1 = value;
+  }
+  else if(player == 2)
+  {
+    btn = winMgr->getWindow("TradeWindow/Player2/Accept");
+    value ? btn->disable() : btn->enable();
+    accept2 = value;
+  }
+
+  // Check if both are in accept state.
+  if(accept1 && accept2)
+  {
+    ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
+    dialog->SetText("You sure you want to trade?");
+    dialog->SetYesEvent(CEGUI::Event::Subscriber(&TradeWindow::OnYesConfirm, this));
+    dialog->SetNoEvent(CEGUI::Event::Subscriber(&TradeWindow::OnNoConfirm, this)); 
+  }
+}
+
 bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
 {
   if (!oldslot || !newslot)
@@ -104,9 +160,50 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
   else
     inventory.Put(newslot->GetId(), oldslot);
 
-  // TODO: Make a list of items and send it to the network.
+  // Send an updated state of the trade inventory.
+  TradeWindow::UpdateOffer();
 
   return true;
+}
+
+void TradeWindow::UpdateOffer()
+{
+  // Make a list of items and send it to the network.
+  // Get actual items.
+  TradeOffersListPvpMessage msg;
+  csArray<Object*> objects;
+  csArray<unsigned int> slotids;
+  for (size_t i=0; i<trade1.GetSize(); i++)
+  {
+    Slot* slot = trade1[i];
+    if (!slot) continue;
+    Object* object = slot->GetObject();
+    if(object)
+    {
+      objects.Push(object);
+      slotids.Push(slot->GetId());
+    }
+  }
+
+  // Make the offer list.
+  msg.setOffersCount(objects.GetSize());
+  printf("------------------------------------------\n");
+  printf("TradeWindow: Creating Trade Offer List Pvp\n");
+  for (size_t i=0; i<objects.GetSize(); i++)
+  {
+    Object* object = objects.Get(i);
+    unsigned int slotid = slotids.Get(i);
+    printf("item %d in slot %d!\n", object->GetId(), slotid);
+    msg.setItemId(i, object->GetId());
+    msg.setItemId(i, object->GetAmount());
+    msg.setSlotId(i, slotid);
+  }
+  if(msg.getOffersCount() > 0)
+  {
+    network->send(&msg);
+    printf("SEND\n");
+  }
+  printf("------------------------------------------\n");
 }
 
 Slot* TradeWindow::GetOldSlot(Slot* slot)
@@ -128,6 +225,39 @@ Slot* TradeWindow::GetOldSlot(Slot* slot)
   return oldslot;
 }
 
+void TradeWindow::CancelTrade()
+{
+  winMgr->getWindow("TradeWindow/Frame")->setVisible(false);
+
+  // Putting the items back in the inventory.
+  for (int i=0; i<numberOfSlots; i++)
+  {
+    Slot* slot = trade1[i];
+    if(!slot->IsEmpty())
+    {
+      Slot* oldslot = inventory[i];
+      guimanager->GetInventoryWindow()->MoveItem(slot, oldslot);
+    }
+  }
+
+  trade1.DeleteAll();
+  trade2.DeleteAll();
+  inventory.DeleteAll();
+  SetAccept(1, false);
+  SetAccept(2, false);
+}
+
+void TradeWindow::AcceptTrade()
+{
+  winMgr->getWindow("TradeWindow/Frame")->setVisible(false);
+
+  trade1.DeleteAll();
+  trade2.DeleteAll();
+  inventory.DeleteAll();
+  SetAccept(1, false);
+  SetAccept(2, false);
+}
+
 void TradeWindow::CreateGUIWindow()
 {
   numberOfSlots = 16;
@@ -143,6 +273,13 @@ void TradeWindow::CreateGUIWindow()
   // Get the frame window
   CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("TradeWindow/Frame"));
   frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&TradeWindow::OnCloseButton, this));
+
+  // Get the frame window
+  CEGUI::PushButton* accept1 = static_cast<CEGUI::PushButton*>(winMgr->getWindow("TradeWindow/Player1/Accept"));
+  accept1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&TradeWindow::OnAcceptPlayer1, this));
+
+  //btn = winMgr->getWindow("TradeWindow/Player2/Accept");
+  //btn->disable();
 
   // Populate the Player1 bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("TradeWindow/Player1/Bag");
@@ -179,7 +316,6 @@ void TradeWindow::CreateGUIWindow()
       trade2.Put(slot->GetId(), slot);
     }
   }
-
 }
 
 

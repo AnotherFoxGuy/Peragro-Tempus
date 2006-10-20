@@ -19,12 +19,44 @@
 #include "network.h"
 #include "tradehandler.h"
 
+#include "client/gui/gui.h"
+#include "client/gui/guimanager.h"
+
+#include "client/entity/ptentitymanager.h"
+
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
+  TradeRequestMessage trade_msg;
+  trade_msg.deserialise(msg->getByteStream());
+
+  PtEntity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(trade_msg.getEntityId());
+  if(!ent) return;
+
+  char buffer[1024];
+  sprintf(buffer, "Do you want to trade with %s?", ent->GetName().GetData());
+
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  TradeWindow* tradewindow = guimanager->GetTradeWindow();
+  ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
+  dialog->SetText(buffer);
+  dialog->SetYesEvent(CEGUI::Event::Subscriber(&TradeWindow::OnYesRequest, tradewindow));
+  dialog->SetNoEvent(CEGUI::Event::Subscriber(&TradeWindow::OnNoRequest, tradewindow)); 
 }
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)
 {
+  TradeResponseMessage trade_msg;
+  trade_msg.deserialise(msg->getByteStream());
+
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+
+  if (trade_msg.getError().isNull())
+    guimanager->GetTradeWindow()->ShowWindow();
+  else
+  {
+    OkDialogWindow* dialog = guimanager->CreateOkWindow();
+    dialog->SetText(*trade_msg.getError());
+  }
 }
 
 void TradeHandler::handleBuyItemResponseNpc(GenericMessage* msg)
@@ -33,18 +65,48 @@ void TradeHandler::handleBuyItemResponseNpc(GenericMessage* msg)
 
 void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
 {
+  TradeConfirmResponseMessage trade_msg;
+  trade_msg.deserialise(msg->getByteStream());
+
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+
+  if (trade_msg.getError().isNull())
+    guimanager->GetTradeWindow()->AcceptTrade();
+  else
+  {
+    OkDialogWindow* dialog = guimanager->CreateOkWindow();
+    dialog->SetText(*trade_msg.getError());
+  }
 }
 
 void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 {
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  guimanager->GetTradeWindow()->SetAccept(2, true);
 }
 
 void TradeHandler::handleTradeCancel(GenericMessage* msg)
 {
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  guimanager->GetTradeWindow()->CancelTrade();
 }
 
 void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
 {
+  TradeOffersListPvpMessage trade_msg;
+  trade_msg.deserialise(msg->getByteStream());
+
+  printf("TradeHandler: \n");
+
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+
+  guimanager->GetTradeWindow()->SetAccept(2, false);
+
+  for (int i=0; i<trade_msg.getOffersCount(); i++)
+  {
+    printf("Item %d in slot %d\n", trade_msg.getItemId(i), i);
+    guimanager->GetTradeWindow()->AddItem(2, trade_msg.getItemId(i), trade_msg.getAmount(i), trade_msg.getSlotId(i));
+  }
 }
 
 void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)

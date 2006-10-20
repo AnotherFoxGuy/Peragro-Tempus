@@ -78,6 +78,7 @@ bool InventoryWindow::AddItem(uint itemid, uint slotid)
 
 bool InventoryWindow::MoveItem(uint oldslotid, uint newslotid)
 {
+  if(oldslotid == newslotid) return true;
   Slot* oldslot = inventory[oldslotid];
   Slot* newslot = inventory[newslotid];
 
