@@ -745,7 +745,11 @@ bool Client::OnMouseDown(iEvent& ev)
           // If it's a player, attack it.
           else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
           {
-            combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
+            //combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
+            TradeRequestMessage msg;
+            msg.setEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+            printf("OnMouseDown: Requesting trade with: %d \n", msg.getEntityId());
+            network->send(&msg);
           }
           // If it's a npc, open a dialog.
           else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::NPCEntity)
