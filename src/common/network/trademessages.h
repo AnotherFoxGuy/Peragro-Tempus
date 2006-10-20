@@ -172,6 +172,7 @@ class TradeOffersListPvpMessage : public NetMessage
   public:
     unsigned int itemid;
     unsigned int amount;
+    unsigned char slotid;
   };
 
   unsigned char offerscount;
@@ -207,6 +208,9 @@ public:
 
   unsigned int getAmount(size_t i) { return offers[i].amount; }
   void setAmount(size_t i, unsigned int x) { offers[i].amount = x; }
+
+  unsigned char getSlotId(size_t i) { return offers[i].slotid; }
+  void setSlotId(size_t i, unsigned char x) { offers[i].slotid = x; }
 
   // --- end ListOffers Getter and Setter ---
 

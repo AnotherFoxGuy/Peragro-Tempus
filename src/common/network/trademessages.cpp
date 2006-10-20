@@ -121,6 +121,7 @@ void TradeOffersListPvpMessage::serialise(ByteStream* bs)
   {
     serial.setInt32(offers[i].itemid);
     serial.setInt32(offers[i].amount);
+    serial.setInt8(offers[i].slotid);
   };
 
 }
@@ -136,6 +137,7 @@ void TradeOffersListPvpMessage::deserialise(ByteStream* bs)
   {
     offers[i].itemid = (unsigned int) serial.getInt32();
     offers[i].amount = (unsigned int) serial.getInt32();
+    offers[i].slotid = (unsigned char) serial.getInt8();
   };
 
 }
