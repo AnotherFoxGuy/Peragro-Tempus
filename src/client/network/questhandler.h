@@ -29,7 +29,6 @@ class QuestHandler : public MessageHandler
 {
 private:
   Client* client;
-  GUIManager* guimanager;
 
 public:
   QuestHandler(Client* client)

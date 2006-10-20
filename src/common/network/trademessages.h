@@ -31,11 +31,10 @@ namespace TRADE
     BUYITEMREQUESTNPC=3,
     BUYITEMRESPONSENPC=4,
     TRADEOFFERSLISTPVP=5,
-    TRADECANCELREQUEST=6,
-    TRADECANCEL=7,
-    TRADEOFFERACCEPT=8,
-    TRADECONFIRMREQUEST=9,
-    TRADECONFIRMRESPONSE=10
+    TRADECANCEL=6,
+    TRADEOFFERACCEPT=7,
+    TRADECONFIRMREQUEST=8,
+    TRADECONFIRMRESPONSE=9
   };
 }
 
@@ -210,23 +209,6 @@ public:
   void setAmount(size_t i, unsigned int x) { offers[i].amount = x; }
 
   // --- end ListOffers Getter and Setter ---
-
-};
-
-class TradeCancelRequestMessage : public NetMessage
-{
-
-public:
-  TradeCancelRequestMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADECANCELREQUEST)
-  {
-  }
-
-  ~TradeCancelRequestMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
 
 };
 

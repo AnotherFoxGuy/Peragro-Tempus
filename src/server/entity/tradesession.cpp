@@ -21,6 +21,13 @@
 
 #include "common/util/ptstring.h"
 
+#include "server/entity/character.h"
+#include "server/entity/inventory.h"
+#include "server/entity/itemmanager.h"
+#include "server/entity/pcentity.h"
+
+#include "server/server.h"
+
 const char* TradeSession::sendRequest(TradePeer* peer)
 {
   if (peer2->getSession() != 0)
@@ -43,4 +50,53 @@ void TradeSession::sendResponse(const ptString& error)
     peer2->setSession(0);
     delete this;
   }
+}
+
+void TradeSession::cancel()
+{
+  peer1->setSession(0);
+  peer2->setSession(0);
+  delete this;
+}
+
+void TradeSession::exchange()
+{
+  Character* char1 = peer1->getEntity()->getCharacter()->getLock();
+  Inventory* inv1 = char1->getInventory();
+
+  Character* char2 = peer2->getEntity()->getCharacter()->getLock();
+  Inventory* inv2 = char2->getInventory();
+
+  ItemManager* item_mgr = Server::getServer()->getItemManager();
+
+  for (size_t i=0; i<offer1.getCount(); i++)
+  {
+    Offer& offer = offer1.get(i);
+    Item* item = item_mgr->findById(offer.item_id);
+    inv1->takeItem(item, offer.amount);
+  }
+
+  for (size_t i=0; i<offer2.getCount(); i++)
+  {
+    Offer& offer = offer2.get(i);
+    Item* item = item_mgr->findById(offer.item_id);
+    inv2->takeItem(item, offer.amount);
+  }
+
+  for (size_t i=0; i<offer1.getCount(); i++)
+  {
+    Offer& offer = offer1.get(i);
+    Item* item = item_mgr->findById(offer.item_id);
+    inv2->addItem(item, offer.amount);
+  }
+
+  for (size_t i=0; i<offer2.getCount(); i++)
+  {
+    Offer& offer = offer2.get(i);
+    Item* item = item_mgr->findById(offer.item_id);
+    inv1->addItem(item, offer.amount);
+  }
+
+  char1->freeLock();
+  char2->freeLock();
 }

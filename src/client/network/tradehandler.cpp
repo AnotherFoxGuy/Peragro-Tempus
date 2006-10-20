@@ -39,6 +39,10 @@ void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 {
 }
 
+void TradeHandler::handleTradeCancel(GenericMessage* msg)
+{
+}
+
 void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
 {
 }

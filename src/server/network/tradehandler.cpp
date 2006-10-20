@@ -106,22 +106,122 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
 
   TradePeer* peer = pc->getTradePeer();
 
+  if (peer->getSession() == 0)
+  {
+    pc->freeLock();
+    return;
+  }
+
+  if (peer->getSession()->bothAccepted()) 
+    return; // Too late for changes now!
+
+  TradeOffersListPvpMessage offer_req;
+  offer_req.deserialise(msg->getByteStream());
+
   TradeOffersListPvpMessage offer;
   offer.deserialise(msg->getByteStream());
 
-  for (unsigned char i = 0; 0 < offer.getOffersCount(); i++)
+  for (unsigned char i = 0; 0 < offer_req.getOffersCount(); i++)
   {
-    peer->addToOffer(pc, offer.getItemId(i), offer.getAmount(i));
+    peer->addToOffer(pc, offer_req.getItemId(i), offer_req.getAmount(i));
   }
 
-  //peer->sendOffer();
+  const Array<TradeSession::Offer>* real_offer = peer->getOffer();
+  offer.setOffersCount(real_offer->getCount());
+  for (size_t i = 0; real_offer && 0 < real_offer->getCount(); i++)
+  {
+    offer.setItemId(i, real_offer->get(i).item_id);
+    offer.setAmount(i, real_offer->get(i).amount);
+  }
+
+  ByteStream bs;
+  offer.serialise(&bs);
+
+  NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
+
+  pc->freeLock();
+}
+
+void TradeHandler::handleTradeCancel(GenericMessage* msg)
+{
+  const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
+  if (!c_pc) return;
+
+  PcEntity* pc = c_pc->getLock();
+
+  TradePeer* peer = pc->getTradePeer();
+
+  if (peer->getSession() == 0)
+  {
+    pc->freeLock();
+    return;
+  }
+
+  peer->getSession()->cancel();
+
+  TradeCancelMessage c_msg;
+  ByteStream bs;
+  c_msg.serialise(&bs);
+
+  NetworkHelper::sendMessage(pc, bs);
+  NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
+
   pc->freeLock();
 }
 
 void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 {
+  const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
+  if (!c_pc) return;
+
+  PcEntity* pc = c_pc->getLock();
+
+  TradePeer* peer = pc->getTradePeer();
+
+  if (peer->getSession() == 0)
+  {
+    pc->freeLock();
+    return;
+  }
+
+  peer->acceptOffer();
+
+  TradeOfferAcceptMessage accept_msg;
+  ByteStream bs;
+  accept_msg.serialise(&bs);
+  NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
+
+  pc->freeLock();
 }
 
 void TradeHandler::handleTradeConfirmRequest(GenericMessage* msg)
 {
+  const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
+  if (!c_pc) return;
+
+  PcEntity* pc = c_pc->getLock();
+
+  TradePeer* peer = pc->getTradePeer();
+
+  if (peer->getSession() == 0)
+  {
+    pc->freeLock();
+    return;
+  }
+
+  peer->confirmOffer();
+
+  if (peer->getSession()->bothConfirmed())
+  {
+    peer->getSession()->exchange();
+
+    TradeConfirmResponseMessage accept_msg;
+    ByteStream bs;
+    accept_msg.serialise(&bs);
+
+    NetworkHelper::sendMessage(pc, bs);
+    NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
+  }
+
+  pc->freeLock();
 }

@@ -53,6 +53,8 @@ public:
     e->setPlayerEntity(this);
     e->freeLock();
 
+    tradepeer.setEntity(this);
+
     isWalking = false;
   }
 

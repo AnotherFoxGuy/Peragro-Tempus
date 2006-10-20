@@ -19,6 +19,7 @@
 #ifndef _TRADE_PEER_H_
 #define _TRADE_PEER_H_
 
+#include "common/util/monitor.h"
 #include "tradesession.h"
 
 class Item;
@@ -29,18 +30,28 @@ class TradePeer
 {
 private:
   TradeSession* session;
+  ptMonitor<PcEntity> entity;
 
-  void checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id, unsigned int amount);
+  bool checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id, unsigned int amount);
 
 public:
   TradePeer() : session (0) {}
+  ~TradePeer() { if (session) session->cancel(); }
 
   void setSession(TradeSession* session) { this->session = session; }
   TradeSession* getSession() { return session; }
 
   TradePeer* getOtherPeer();
 
-  void addToOffer(PcEntity* pc, int item_id, unsigned int amount);
+  bool addToOffer(PcEntity* pc, int item_id, unsigned int amount);
+  const Array<TradeSession::Offer>* getOffer();
+
+  void clearOffer();
+  void acceptOffer();
+  void confirmOffer();
+
+  void setEntity(const PcEntity* e);
+  const PcEntity* getEntity();
 };
 
 #endif // _TRADE_PEER_H_

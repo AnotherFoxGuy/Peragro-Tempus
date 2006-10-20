@@ -50,6 +50,7 @@ public:
     else if (id == TRADE::BUYITEMRESPONSENPC) handleBuyItemResponseNpc(msg);
     else if (id == TRADE::TRADEOFFERSLISTPVP) handleTradeOffersListPvp(msg);
     else if (id == TRADE::TRADEOFFERACCEPT) handleTradeOfferAccept(msg);
+    else if (id == TRADE::TRADECANCEL) handleTradeCancel(msg);
     else if (id == TRADE::TRADECONFIRMRESPONSE) handleTradeConfirmResponse(msg);
   }
 
@@ -59,6 +60,7 @@ public:
   void handleBuyItemResponseNpc(GenericMessage* msg);
   void handleTradeOffersListPvp(GenericMessage* msg);
   void handleTradeOfferAccept(GenericMessage* msg);
+  void handleTradeCancel(GenericMessage* msg);
   void handleTradeConfirmResponse(GenericMessage* msg);
 };
 

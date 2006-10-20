@@ -92,6 +92,20 @@ public:
     return -1;
   }
 
+  bool addItem(const Item* item, int amount)
+  {
+    int slot = getSlot(item);
+    if (slot == -1)
+    {
+      slot = getFreeSlot();
+    }
+    if (slot == -1)
+      return false;
+
+    addItem(item, amount, slot);
+    return true;
+  }
+
   void addItem(const Item* item, int amount, int slot)
   {
     InvEntries* entry = findEntryBySlot(slot);
@@ -113,6 +127,27 @@ public:
       return;
     }
     if (invtab) invtab->set(inv_id, item, entry->amount, entry->slot);
+  }
+
+  bool takeItem(Item* item, unsigned int amount)
+  {
+    for(unsigned int i=0; i<entries.getCount(); i++)
+    {
+      if (entries.get(i)->item_id == item->getId())
+      {
+        if (entries.get(i)->amount > amount)
+        {
+          takeItem(item, amount, i);
+          return true;
+        }
+        else
+        {
+          amount -= entries.get(i)->amount;
+          takeItem(item, entries.get(i)->amount, i);
+        }
+      }
+    }
+    return false;
   }
 
   bool takeItem(Item* item, unsigned int amount, unsigned int slot)

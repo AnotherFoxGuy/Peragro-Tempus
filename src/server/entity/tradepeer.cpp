@@ -32,10 +32,10 @@ TradePeer* TradePeer::getOtherPeer()
   else return 0;
 }
 
-void TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id, unsigned int amount)
+bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id, unsigned int amount)
 {
   const Character* c_char = pc->getCharacter();
-  if (!c_char) return;
+  if (!c_char) return false;
 
   TradeSession::Offer& offer = TradeSession::Offer();
   offer.item_id = item_id;
@@ -52,7 +52,7 @@ void TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int
       {
         offers.add(offer);
         c->freeLock();
-        return;
+        return true;
       }
     }
   }
@@ -60,20 +60,85 @@ void TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int
   if (c->getInventory()->getAmount(item_id) >= amount)
   {
     offers.add(offer);
+    c->freeLock();
+    return true;
   }
+
   c->freeLock();
+  return false;
 }
 
-void TradePeer::addToOffer(PcEntity* pc, int item_id, unsigned int amount)
+bool TradePeer::addToOffer(PcEntity* pc, int item_id, unsigned int amount)
 {
-  if (session == 0) return;
-  else if (session->peer1 == this)
+  if (session == 0) return false;
+
+  if (session->peer1 == this)
   {
-    checkOffer(pc, session->offer1, item_id, amount);
+    if ( checkOffer(pc, session->offer1, item_id, amount) )
+      return true;
   }
   else if (session->peer2 == this)
   {
-    checkOffer(pc, session->offer1, item_id, amount);
+    if ( checkOffer(pc, session->offer1, item_id, amount) )
+      return true;
   }
-  else return;
+  
+  return false;
+}
+
+const Array<TradeSession::Offer>* TradePeer::getOffer()
+{
+  if (!session) return 0;
+
+  if (session->peer1 == this) 
+    return &session->offer1;
+
+  if (session->peer2 == this) 
+    return &session->offer2;
+
+  return 0;
+}
+
+void TradePeer::setEntity(const PcEntity* e)
+{
+  entity = e->getRef();
+}
+
+const PcEntity* TradePeer::getEntity()
+{
+  return entity.get();
+}
+
+void TradePeer::clearOffer()
+{
+  if (!session) return;
+
+  if (session->bothAccepted()) return;
+
+  if (session->peer1 == this)
+  {
+    session->accept_offer_1 = false;
+    session->offer1.removeAll();
+  }
+  else if (session->peer2 == this)
+  {
+    session->accept_offer_2 = false;
+    session->offer2.removeAll();
+  }
+}
+
+void TradePeer::acceptOffer()
+{
+  if (!session) return;
+
+  if (session->peer1 == this) session->accept_offer_2 = true;
+  else if (session->peer2 == this) session->accept_offer_1 = true;
+}
+
+void TradePeer::confirmOffer()
+{
+  if (!session) return;
+
+  if (session->peer1 == this) session->confirm_offer_2 = true;
+  else if (session->peer2 == this) session->confirm_offer_1 = true;
 }

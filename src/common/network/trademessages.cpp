@@ -140,20 +140,6 @@ void TradeOffersListPvpMessage::deserialise(ByteStream* bs)
 
 }
 
-void TradeCancelRequestMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-}
-
-void TradeCancelRequestMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-}
-
 void TradeCancelMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);

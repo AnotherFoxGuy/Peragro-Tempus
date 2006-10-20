@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+20-Oct-2006
+  - PK finished the trading implementation on the server (untested!).
+
 19-Oct-2006
   - PK fixed static build.
   - PK fixed the missing NPCs as well as the mulitplayer issue for the camera.

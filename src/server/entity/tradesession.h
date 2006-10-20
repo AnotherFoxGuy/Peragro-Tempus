@@ -24,38 +24,53 @@
 class TradePeer;
 class Item;
 class ptString;
+class NetMessage;
 
 class TradeSession
 {
-private:
-  TradePeer* peer1;
-  TradePeer* peer2;
-
-  bool request_accepted;
-
+public:
   class Offer
   {
   public:
     int item_id;
     unsigned int amount;
   };
+
+private:
+  TradePeer* peer1;
+  TradePeer* peer2;
+
+  bool request_accepted;
+
   Array<Offer> offer1;
   Array<Offer> offer2;
 
-  bool final_confirm_1;
-  bool final_confirm_2;
+  bool accept_offer_1;
+  bool accept_offer_2;
+
+  bool confirm_offer_1;
+  bool confirm_offer_2;
 
 public:
   TradeSession(TradePeer* initiator)
   {
     peer1 = initiator;
     peer2 = 0;
-    final_confirm_1 = false;
-    final_confirm_2 = false;
+    accept_offer_1 = false;
+    accept_offer_2 = false;
+    confirm_offer_1 = false;
+    confirm_offer_2 = false;
   }
 
   const char* sendRequest(TradePeer* peer2);
   void sendResponse(const ptString& error);
+
+  void cancel();
+
+  bool bothAccepted() { return accept_offer_1 & accept_offer_2; }
+  bool bothConfirmed() { return confirm_offer_1 & confirm_offer_2; }
+
+  void exchange();
 
   friend class TradePeer;
 };

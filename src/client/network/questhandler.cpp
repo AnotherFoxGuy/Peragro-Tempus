@@ -25,7 +25,7 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
   NpcDialogMessage dialog_msg;
   dialog_msg.deserialise(msg->getByteStream());
   printf("QuestHandler: Added Dialog %d with %d answers.\n", dialog_msg.getDialogId(), dialog_msg.getAnswersCount());
-  guimanager = PointerLibrary::getInstance()->getGUIManager();
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   printf("---------------------------\n");
   guimanager->GetNpcDialogWindow()->AddDialog(dialog_msg.getDialogId(), dialog_msg.getDialogText());
 
