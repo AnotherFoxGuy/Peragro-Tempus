@@ -33,8 +33,10 @@ private:
   DragDrop* dragdrop;
   ItemMGR* itemmanager;
   unsigned int numberOfSlots;
-
   csArray<Slot*> inventory;
+
+private:
+  void SetupEquipSlot(unsigned int id, const char* window);
 
 public:
   InventoryWindow(GUIManager* guimanager);

@@ -111,6 +111,7 @@ public:
   void updatePcProp(int entity_id, const char *pcprop,celData &value);
   void DrUpdateOwnEntity();
   void equip(int entity_id, int item_id, int slot_id);
+  void unequip(int entity_id, int slot_id);
 
   iCelEntity* findCelEntById(int id);
   PtEntity* findPtEntById(int id);

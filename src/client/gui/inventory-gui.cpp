@@ -122,6 +122,20 @@ unsigned int InventoryWindow::FindItem(unsigned int itemid)
   return ~0;
 }
 
+void InventoryWindow::SetupEquipSlot(unsigned int id, const char* window)
+{
+  Slot* slot = new Slot();
+  slot->SetId(id);
+  slot->SetType(DragDrop::Item);
+  CEGUI::Window* slotwin = winMgr->getWindow(window);
+  slotwin->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&DragDrop::handleDragEnter, dragdrop));
+  slotwin->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&DragDrop::handleDragLeave, dragdrop));
+  slotwin->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDropped, dragdrop));
+  slot->SetWindow(slotwin);
+  slot->GetWindow()->setUserData(slot);
+  inventory.Put(slot->GetId(), slot);
+}
+
 void InventoryWindow::CreateGUIWindow()
 {
   // First 10 slots(0-9) are equipment,
@@ -162,5 +176,8 @@ void InventoryWindow::CreateGUIWindow()
 
  // Get the root window
   rootwindow = winMgr->getWindow("Inventory/Frame");
+
+  // Setup the equipslots.
+  SetupEquipSlot(0, "Inventory/EquipFrame/WeaponRight");
 
 }

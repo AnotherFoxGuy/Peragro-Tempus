@@ -90,7 +90,7 @@
 				<Property Name='TopLeftFrameImage' Value='set:Peragro image:StaticTopLeft'/>
 				<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
 			</Window>
-			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/InventoryPants'>
+			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/Pants'>
 				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,24.000000}}'/>
 				<Property Name='UnifiedPosition' Value='{{0.000000,60.000000},{0.000000,53.000000}}'/>
 				<Property Name='BackgroundImage' Value='set:Peragro image:StaticBackdrop'/>

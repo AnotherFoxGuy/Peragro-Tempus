@@ -564,13 +564,6 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'g')
       {
-        PtCharacterEntity* entity = (PtCharacterEntity*)
-          (entitymanager->findPtEntById(entitymanager->GetOwnId()));
-        unsigned int slot_id = guimanager->GetInventoryWindow()->FindItem(4);
-        EquipRequestMessage msg;
-        msg.setOldSlotId(slot_id);
-        msg.setNewSlotId(0);
-        network->send(&msg);
       }
       else if (code == 'f')
       {

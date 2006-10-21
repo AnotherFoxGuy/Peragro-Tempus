@@ -10,6 +10,7 @@ under each day.
   - PK fixed a bug with DRUpdates.
   - PK fixed some trading bugs.
   - Sueastside fixed some trading bugs.
+  - Sueastside added visual equiping and unequiping.
 
 20-Oct-2006
   - PK finished the trading implementation on the server (untested!).

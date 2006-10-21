@@ -383,6 +383,15 @@ void ptEntityManager::equip(int entity_id, int item_id, int slot_id)
   }
 }
 
+void ptEntityManager::unequip(int entity_id, int slot_id)
+{
+  PtEntity* ent = findPtEntById(entity_id);
+  if (ent->GetType() == PtEntity::PlayerEntity)
+  {
+    ((PtPcEntity*) ent)->GetEquipment()->UnEquip(slot_id);
+  }
+}
+
 void ptEntityManager::DrUpdateOwnEntity()
 {
   DrUpdateRequestMessage drmsg;

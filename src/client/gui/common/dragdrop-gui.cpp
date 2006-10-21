@@ -186,7 +186,7 @@ CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactabl
   }
 
   icon->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-  icon->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
+  icon->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,21.6f), CEGUI::UDim(0.0f,21.6f)));
   icon->setHorizontalAlignment(CEGUI::HA_CENTRE);
   icon->setVerticalAlignment(CEGUI::VA_CENTRE);
 

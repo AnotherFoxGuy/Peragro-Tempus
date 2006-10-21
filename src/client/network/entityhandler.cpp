@@ -189,12 +189,17 @@ void EntityHandler::handleEquip(GenericMessage* msg)
     {
       printf("EquipMessage: Entity %d equiped item %d to slot %d\n", 
         equip_msg.getEntityId(), equip_msg.getItemId(), equip_msg.getNewSlotId());
+      guimanager->GetInventoryWindow()->MoveItem(equip_msg.getOldSlotId(), equip_msg.getNewSlotId());
       PointerLibrary::getInstance()->getEntityManager()->equip(equip_msg.getEntityId(), equip_msg.getItemId(), equip_msg.getNewSlotId());
     }
     else
     {
       printf("EquipMessage: You moved item %d from slot %d to slot %d\n", 
         equip_msg.getItemId(), equip_msg.getOldSlotId(), equip_msg.getNewSlotId());
+      if(equip_msg.getOldSlotId() < 10)
+      {
+        PointerLibrary::getInstance()->getEntityManager()->unequip(equip_msg.getEntityId(), equip_msg.getOldSlotId());
+      }
       guimanager->GetInventoryWindow()->MoveItem(equip_msg.getOldSlotId(), equip_msg.getNewSlotId());
     }
   }
