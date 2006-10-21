@@ -43,7 +43,7 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
   return true;
 }
 
-bool InventoryWindow::AddItem(uint itemid, uint slotid)
+bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid, unsigned int amount)
 {
   if(slotid > numberOfSlots) return false;
   if(slotid == -1) return false;
@@ -64,19 +64,23 @@ bool InventoryWindow::AddItem(uint itemid, uint slotid)
 
   // If the slot already has an item and it's stackable
   // increase the amount.
-  if (!slot->IsEmpty() && slot->GetObject()->IsStackable())
+  if (!slot->IsEmpty() 
+    && slot->GetObject()->IsStackable()
+    && slot->GetObject()->GetId() == itemid)
   {
-    slot->GetObject()->SetAmount(slot->GetObject()->GetAmount()+1);
+    slot->GetObject()->SetAmount(slot->GetObject()->GetAmount()+amount);
     dragdrop->UpdateItemCounter(slot->GetWindow(), slot->GetObject()->GetAmount());
   }
   // Create a new item.
+  else if(slot->IsEmpty())
+    dragdrop->CreateItem(slot, itemid, amount);
   else
-    dragdrop->CreateItem(slot, itemid, 1);
+    return false;
 
   return true;
 }
 
-bool InventoryWindow::MoveItem(uint oldslotid, uint newslotid)
+bool InventoryWindow::MoveItem(unsigned int oldslotid, unsigned int newslotid)
 {
   if(oldslotid == newslotid) return true;
   Slot* oldslot = inventory[oldslotid];
@@ -107,10 +111,10 @@ unsigned int InventoryWindow::FindItem(unsigned int itemid)
     if (!slot) 
       continue;
     
-    if (!slot->GetObjectA())
+    if (!slot->GetObject())
       continue;
 
-    if (slot->GetObjectA()->GetId() == itemid)
+    if (slot->GetObject()->GetId() == itemid)
     {
       return slot->GetId();
     }

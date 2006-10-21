@@ -129,9 +129,6 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
     return false;
   }
 
-  // Clear the inventory.
-  TradeWindow::Clear(trade2);
-
   // Create a new non-interactable item.
   dragdrop->CreateItem(slot, itemid, amount, false);
   
@@ -274,6 +271,24 @@ void TradeWindow::CancelTrade()
 void TradeWindow::AcceptTrade()
 {
   winMgr->getWindow("TradeWindow/Frame")->setVisible(false);
+
+  int nrInventorySlots = 30;
+
+  // Putting the items back in the inventory.
+  int counter = 10;
+  for (int i=0; i<numberOfSlots; i++)
+  {
+    Slot* slot = trade2[i];
+    if(!slot->IsEmpty())
+    {
+      Object* object = slot->GetObject();
+      while(!guimanager->GetInventoryWindow()->AddItem(object->GetId(), counter, object->GetAmount())
+        && counter < nrInventorySlots)
+      {
+        counter += 1;
+      }
+    }
+  }
 
   TradeWindow::Clear(trade1);
   TradeWindow::Clear(trade2);

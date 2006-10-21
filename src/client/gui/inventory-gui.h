@@ -32,7 +32,7 @@ private:
   bool handleCloseButton(const CEGUI::EventArgs& args);
   DragDrop* dragdrop;
   ItemMGR* itemmanager;
-  uint numberOfSlots;
+  unsigned int numberOfSlots;
 
   csArray<Slot*> inventory;
 
@@ -40,10 +40,10 @@ public:
   InventoryWindow(GUIManager* guimanager);
   virtual ~InventoryWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
-  bool AddItem(uint itemid, uint slotid);
-  bool MoveItem(uint oldslotid, uint newslotid);
+  bool AddItem(unsigned int itemid, unsigned int slotid, unsigned int amount);
+  bool MoveItem(unsigned int oldslotid, unsigned int newslotid);
   bool MoveItem(Slot* oldslot, Slot* newslot);
-  unsigned int FindItem(uint itemid);
+  unsigned int FindItem(unsigned int itemid);
 };
 
 

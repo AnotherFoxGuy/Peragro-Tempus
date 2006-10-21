@@ -84,7 +84,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
   {
     printf("%s picks Item %s(%d) %s\n", *response_msg.getName(), *response_msg.getTarget(), response_msg.getItemId(),ownname);
     if (strlen(*response_msg.getName()) == strlen(ownname) && !strcmp(*response_msg.getName(), ownname))
-      guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlot());
+      guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlot(), 1);
   }
   else
     printf("%s can't pick Item %s! Reason: '%s'\n", *response_msg.getName(), *response_msg.getTarget(), *response_msg.getError());
@@ -123,11 +123,8 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
-    for (int j=0; j<item_msg.getAmount(i); j++)
-    {
-      printf("Item %d in slot %d\n", item_msg.getItemId(i), item_msg.getSlotId(i));
-      guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i));
-    }
+    printf("Item %d with amount %d in slot %d\n", item_msg.getItemId(i), item_msg.getAmount(i), item_msg.getSlotId(i));
+    guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i), item_msg.getAmount(i));
   }
 }
 

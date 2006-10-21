@@ -41,7 +41,7 @@ void Equipment::RemoveItem(unsigned int slotid)
          return;
        }
    }
-  printf("Equipment: ERROR Couldn't remove equiped item for slot %d!", slotid);
+  printf("Equipment: ERROR Couldn't remove equiped item for slot %d!\n", slotid);
 }
 
 void Equipment::Equip(unsigned int itemid, unsigned int slotid)
