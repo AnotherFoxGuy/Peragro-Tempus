@@ -95,9 +95,13 @@ void PtCharacterEntity::DrUpdate(DrUpdateData* drupdate)
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
   if (pclinmove.IsValid())
   {
+    bool onGround = true;
+    float speed = 0, rot = 0, avel = 0;
+    csVector3 pos, vel, wvel;
+
     iSector* sector = engine->FindSector(drupdate->sector.GetData());
-    pclinmove->SetDRData(drupdate->on_ground, drupdate->speed, drupdate->pos,
-      drupdate->rot, sector, drupdate->vel, drupdate->wvel, drupdate->avel);
+    pclinmove->GetDRData(onGround, speed, pos, drupdate->rot, sector, vel, wvel, avel);
+    pclinmove->SetDRData(onGround, speed, drupdate->pos, rot, sector, vel, wvel, avel);
   }
 }
 

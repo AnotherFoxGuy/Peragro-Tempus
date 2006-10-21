@@ -48,9 +48,8 @@ struct DrUpdateData
 {
   int entity_id;
   csString sector;
-  csVector3 pos, vel, wvel;
-  float rot, speed, avel;
-  bool on_ground;
+  csVector3 pos;
+  float rot;
 };
 
 #endif // PTENTITY_H

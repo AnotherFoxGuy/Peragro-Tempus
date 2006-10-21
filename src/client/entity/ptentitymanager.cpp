@@ -111,6 +111,7 @@ void ptEntityManager::addEntity()
     if (findPtEntById(entity->GetId()))
     {
       printf("Skipping already existing entity '%s(%d)'\n", entity->GetName().GetData(), entity->GetId());
+      mutex.unlock();
       return;
     }
 
