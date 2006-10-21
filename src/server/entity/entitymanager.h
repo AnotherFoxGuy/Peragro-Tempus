@@ -34,6 +34,8 @@ private:
   EntityList entity_list;
   unsigned int ent_id;
 
+  Mutex mutex;
+
 public:
   EntityManager() : ent_id(0) {}
 
@@ -55,6 +57,7 @@ public:
 
   void addEntity(const Entity* entity)
   {
+    mutex.lock();
     ent_id++;
     
     Entity* e = entity->getLock();
@@ -62,11 +65,14 @@ public:
     e->freeLock();
 
     entity_list.addEntity(entity);
+    mutex.unlock();
   }
 
   void removeEntity(const Entity* entity)
   {
+    mutex.lock();
     entity_list.removeEntity(entity);
+    mutex.unlock();
   }
 
   bool exists(const Entity* entity)
@@ -83,6 +89,9 @@ public:
   {
     return entity_list.findById(id);
   }
+
+  void lock() { mutex.lock(); }
+  void unlock() { mutex.unlock(); }
 
   void loadFromDB(EntityTable* et)
   {
