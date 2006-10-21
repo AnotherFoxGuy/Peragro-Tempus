@@ -51,19 +51,29 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   {
     PcEntity* peer_pc = peer_ent->getPlayerEntity()->getLock();
     TradePeer* other_peer = peer_pc->getTradePeer();
-    TradeSession* session = other_peer->getSession();
 
+    TradeSession* session = other_peer->getSession();
     if (session != 0)
     {
-      // Error! Other player is already trading with someone
+      TradeResponseMessage resp;
+      ptString error("You are already trading with someone.", strlen("You are already trading with someone."));
+      resp.setError(error);
+      ByteStream bs;
+      resp.serialise(&bs);
+      NetworkHelper::sendMessage(pc, bs);
+      return;
     }
 
     session = new TradeSession(this_peer);
-    const char* error = session->sendRequest(other_peer);
-
-    if (error != 0)
+    if (!session->sendRequest(other_peer))
     {
-      // Error! This player is already trading with someone!
+      TradeResponseMessage resp;
+      ptString error("The other player is already trading with someone.", strlen("The other player is already trading with someone."));
+      resp.setError(error);
+      ByteStream bs;
+      resp.serialise(&bs);
+      NetworkHelper::sendMessage(pc, bs);
+      return;
     }
 
     message.setEntityId(pc->getEntity()->getId());
@@ -235,6 +245,9 @@ void TradeHandler::handleTradeConfirmRequest(GenericMessage* msg)
 
     NetworkHelper::sendMessage(pc, bs);
     NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
+
+    // terminate trading session.
+    peer->getSession()->cancel();
   }
 
   pc->freeLock();

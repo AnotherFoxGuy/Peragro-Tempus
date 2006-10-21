@@ -28,16 +28,16 @@
 
 #include "server/server.h"
 
-const char* TradeSession::sendRequest(TradePeer* peer)
+bool TradeSession::sendRequest(TradePeer* peer)
 {
   if (peer2 && peer2->getSession() != 0)
   {
-    return "is Busy";
+    return false;
   }
   peer2 = peer;
   peer2->setSession(this);
   peer1->setSession(this);
-  return 0;
+  return true;
 }
 
 void TradeSession::sendResponse(const ptString& error)

@@ -72,7 +72,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
   DrUpdateMessage response_msg;
-  //response_msg.setRotation(request_msg.getRotation());
+  response_msg.setRotation(request_msg.getRotation());
   response_msg.setPos(request_msg.getPos());
   response_msg.setSector(request_msg.getSector());
   response_msg.setEntityId(name_id);

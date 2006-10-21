@@ -99,8 +99,10 @@ void PtCharacterEntity::DrUpdate(DrUpdateData* drupdate)
     float speed = 0, rot = 0, avel = 0;
     csVector3 pos, vel, wvel;
 
-    iSector* sector = engine->FindSector(drupdate->sector.GetData());
-    pclinmove->GetDRData(onGround, speed, pos, drupdate->rot, sector, vel, wvel, avel);
+    iSector* sector = 0;
+    pclinmove->GetDRData(onGround, speed, pos, rot, sector, vel, wvel, avel);
+
+    sector = engine->FindSector(drupdate->sector.GetData());
     pclinmove->SetDRData(onGround, speed, drupdate->pos, drupdate->rot, sector, vel, wvel, avel);
   }
 }

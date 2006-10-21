@@ -62,7 +62,7 @@ public:
     confirm_offer_2 = false;
   }
 
-  const char* sendRequest(TradePeer* peer2);
+  bool sendRequest(TradePeer* peer2);
   void sendResponse(const ptString& error);
 
   void cancel();
