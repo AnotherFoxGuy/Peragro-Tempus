@@ -48,7 +48,7 @@ bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int
     if (offers.get(i).item_id == item_id)
     {
       offer = offers.get(i);
-      if (c->getInventory()->getAmount(item_id) >= amount + offer.amount)
+      if (c->getInventory()->getTotalAmount(item_id) >= amount + offer.amount)
       {
         offers.add(offer);
         c->freeLock();
@@ -57,7 +57,7 @@ bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int
     }
   }
 
-  if (c->getInventory()->getAmount(item_id) >= amount)
+  if (c->getInventory()->getTotalAmount(item_id) >= amount)
   {
     offers.add(offer);
     c->freeLock();
@@ -79,7 +79,7 @@ bool TradePeer::addToOffer(PcEntity* pc, int item_id, unsigned int amount)
   }
   else if (session->peer2 == this)
   {
-    if ( checkOffer(pc, session->offer1, item_id, amount) )
+    if ( checkOffer(pc, session->offer2, item_id, amount) )
       return true;
   }
   

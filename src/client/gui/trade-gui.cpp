@@ -193,9 +193,9 @@ void TradeWindow::UpdateOffer()
   {
     Object* object = objects.Get(i);
     unsigned int slotid = slotids.Get(i);
-    printf("item %d in slot %d!\n", object->GetId(), slotid);
+    printf("%d item(s) %d in slot %d!\n", object->GetAmount(), object->GetId(), slotid);
     msg.setItemId(i, object->GetId());
-    msg.setItemId(i, object->GetAmount());
+    msg.setAmount(i, object->GetAmount());
     msg.setSlotId(i, slotid);
   }
   if(msg.getOffersCount() > 0)

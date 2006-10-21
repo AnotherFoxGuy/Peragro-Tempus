@@ -36,6 +36,7 @@ const char* TradeSession::sendRequest(TradePeer* peer)
   }
   peer2 = peer;
   peer2->setSession(this);
+  peer1->setSession(this);
   return 0;
 }
 

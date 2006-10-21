@@ -88,7 +88,8 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
 
     ptString error = message.getError();
 
-    this_peer->getSession()->sendResponse(error);
+    other_peer->getSession()->sendResponse(error);
+    NetworkHelper::sendMessage(other_peer->getEntity(), *msg->getByteStream());
   }
   pc->freeLock();
 }
@@ -121,7 +122,8 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   TradeOffersListPvpMessage offer;
   offer.deserialise(msg->getByteStream());
 
-  for (unsigned char i = 0; 0 < offer_req.getOffersCount(); i++)
+  peer->clearOffer();
+  for (unsigned char i = 0; i < offer_req.getOffersCount(); i++)
   {
     peer->addToOffer(pc, offer_req.getItemId(i), offer_req.getAmount(i));
   }
@@ -132,7 +134,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
     return; //something's wrong here... cheaters?
 
   offer.setOffersCount(real_offer->getCount());
-  for (size_t i = 0; real_offer && 0 < real_offer->getCount(); i++)
+  for (size_t i = 0; real_offer && i < real_offer->getCount(); i++)
   {
     offer.setItemId(i, real_offer->get(i).item_id);
     offer.setAmount(i, real_offer->get(i).amount);
@@ -162,14 +164,14 @@ void TradeHandler::handleTradeCancel(GenericMessage* msg)
     return;
   }
 
-  peer->getSession()->cancel();
-
   TradeCancelMessage c_msg;
   ByteStream bs;
   c_msg.serialise(&bs);
 
   NetworkHelper::sendMessage(pc, bs);
   NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
+
+  peer->getSession()->cancel();
 
   pc->freeLock();
 }

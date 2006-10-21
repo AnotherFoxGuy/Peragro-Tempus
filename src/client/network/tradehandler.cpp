@@ -48,6 +48,8 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
   TradeResponseMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
+  printf("Got TradeResponse!\n");
+
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   if (trade_msg.getError().isNull())
