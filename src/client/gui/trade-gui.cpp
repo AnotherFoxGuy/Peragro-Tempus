@@ -60,7 +60,7 @@ bool TradeWindow::OnNoRequest(const CEGUI::EventArgs& args)
 
 bool TradeWindow::OnYesConfirm(const CEGUI::EventArgs& args)
 {
-  TradeConfirmResponseMessage msg;
+  TradeConfirmRequestMessage msg;
   network->send(&msg);
 
   return true;
@@ -68,8 +68,7 @@ bool TradeWindow::OnYesConfirm(const CEGUI::EventArgs& args)
 
 bool TradeWindow::OnNoConfirm(const CEGUI::EventArgs& args)
 {
-  TradeConfirmResponseMessage msg;
-  msg.setError(ptString("The other player didn't confirm the trade.", strlen("The other player didn't confirm the trade.")));
+  TradeCancelMessage msg;
   network->send(&msg);
 
   return true;
