@@ -35,6 +35,8 @@
 
 #include "client/gui/inventory-gui.h"
 
+#include "client/entity/ptentitymanager.h"
+
 
 class Network;
 class GUIManager;

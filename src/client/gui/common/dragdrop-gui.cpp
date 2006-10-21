@@ -105,6 +105,13 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   msg.setSlotId(slot->GetId());
   if (network) network->send(&msg);
 
+  // If it's a equiped item unequip it.
+  if(slot->GetId() < 10)
+  {
+    int ownid = PointerLibrary::getInstance()->getEntityManager()->GetOwnId();
+    PointerLibrary::getInstance()->getEntityManager()->unequip(ownid, slot->GetId());
+  }
+
   if( slot->GetObject()->GetAmount() > 1)
   {
     slot->GetObject()->SetAmount(slot->GetObject()->GetAmount()-1);
