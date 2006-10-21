@@ -137,13 +137,12 @@ public:
       {
         if (entries.get(i)->amount > amount)
         {
-          takeItem(item, amount, i);
-          return true;
+          return takeItem(item, amount, entries.get(i)->slot);
         }
         else
         {
           amount -= entries.get(i)->amount;
-          takeItem(item, entries.get(i)->amount, i);
+          takeItem(item, entries.get(i)->amount, entries.get(i)->slot);
         }
       }
     }
