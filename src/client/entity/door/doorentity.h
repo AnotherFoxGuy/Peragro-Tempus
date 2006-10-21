@@ -31,6 +31,7 @@ private:
 
 public:
   PtDoorEntity();
+  virtual ~PtDoorEntity(){}
   void Create();
   void SetOpen(bool value) { this->open = value; }
   void SetLocked(bool value) { this->locked = value; }

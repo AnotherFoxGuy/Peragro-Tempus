@@ -27,6 +27,7 @@ class PtNpcEntity : public PtCharacterEntity
 {
 public:
   PtNpcEntity();
+  virtual ~PtNpcEntity(){}
   void Create();
 };
 

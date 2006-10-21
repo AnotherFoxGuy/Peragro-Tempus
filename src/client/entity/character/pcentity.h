@@ -30,6 +30,7 @@ private:
 
 public:
   PtPcEntity();
+  virtual ~PtPcEntity(){}
   void Create();
 
   bool IsOwnEntity() { return is_own_entity; }

@@ -30,7 +30,7 @@ private:
 
 protected:
   PtCharacterEntity(EntityType type);
-  ~PtCharacterEntity() {}
+  virtual ~PtCharacterEntity(){}
 
 public:
   void Move(MovementData* movement);
