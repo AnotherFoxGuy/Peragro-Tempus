@@ -30,11 +30,12 @@
 
 const char* TradeSession::sendRequest(TradePeer* peer)
 {
-  if (peer2->getSession() != 0)
+  if (peer2 && peer2->getSession() != 0)
   {
     return "is Busy";
   }
   peer2 = peer;
+  peer2->setSession(this);
   return 0;
 }
 

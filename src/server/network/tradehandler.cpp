@@ -38,7 +38,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   int ent_id = message.getEntityId();
 
   EntityManager* ent_mgr = server->getEntityManager();
-  const Entity* peer_ent = ent_mgr->getEntity(ent_id);
+  const Entity* peer_ent = ent_mgr->findById(ent_id);
 
   if (peer_ent && peer_ent->getType() == Entity::PlayerEntityType)
   {
