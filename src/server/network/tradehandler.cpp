@@ -37,6 +37,13 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
 
   int ent_id = message.getEntityId();
 
+  if (pc->getEntity()->getId() == ent_id)
+  {
+    // Don't trade with yourself!
+    pc->freeLock();
+    return;
+  }
+
   EntityManager* ent_mgr = server->getEntityManager();
   const Entity* peer_ent = ent_mgr->findById(ent_id);
 

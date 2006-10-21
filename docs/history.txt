@@ -9,6 +9,7 @@ under each day.
   - Sueastside finished the trading implementation on the client (untested!).
   - PK fixed a bug with DRUpdates.
   - PK fixed some trading bugs.
+  - Sueastside fixed some trading bugs.
 
 20-Oct-2006
   - PK finished the trading implementation on the server (untested!).

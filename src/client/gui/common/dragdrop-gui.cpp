@@ -180,7 +180,10 @@ CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactabl
   if(interactable)
     icon = winMgr->createWindow("DragContainer", uniquename);
   else
-    icon = winMgr->createWindow("Peragro/StaticImage", uniquename);
+  {
+    icon = winMgr->createWindow("DragContainer", uniquename);
+    icon->disable();
+  }
 
   icon->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
   icon->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
@@ -240,20 +243,27 @@ CEGUI::String DragDrop::IntToStr(int number)
   return value;
 }
 
-void DragDrop::CreateItem(Slot* slot, uint itemid, uint amount)
+void DragDrop::CreateItem(Slot* slot, uint itemid, uint amount, bool interactable)
 {
   ClientItem* clientitem = itemmanager->GetItemById(itemid);
+
+  if (!clientitem)
+  {
+    printf("DragDrop: ERROR Failed to create item %d!\n", itemid);
+    return;
+  }
 
   Object* object = new Object();
   object->SetId(itemid);
   object->SetAmount(amount);
-  object->SetWindow(createIcon(DragDrop::Item, itemid));
+  object->SetWindow(createIcon(DragDrop::Item, itemid, interactable));
   // If stackable is bigger then 1 the item is stackable by that amount.
   // If stackable equals 0 its infinitly stackable.
   if (clientitem->GetStackable() > 1 || clientitem->GetStackable() == 0)
     object->SetStackable(true);
   slot->SetObject(object);
   slot->GetWindow()->addChildWindow(object->GetWindow());
+  UpdateItemCounter(slot->GetWindow(), amount);
 }
 
 void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)

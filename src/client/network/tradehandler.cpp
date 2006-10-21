@@ -26,6 +26,8 @@
 
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
+  printf("RESPONSE: handleTradeRequest\n");
+
   TradeRequestMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
@@ -45,6 +47,8 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)
 {
+  printf("RESPONSE: handleTradeResponse\n");
+
   TradeResponseMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
@@ -67,6 +71,8 @@ void TradeHandler::handleBuyItemResponseNpc(GenericMessage* msg)
 
 void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
 {
+  printf("RESPONSE: handleTradeConfirmResponse\n");
+
   TradeConfirmResponseMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
@@ -83,12 +89,16 @@ void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
 
 void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 {
+  printf("RESPONSE: handleTradeOfferAccept\n");
+
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   guimanager->GetTradeWindow()->SetAccept(2, true);
 }
 
 void TradeHandler::handleTradeCancel(GenericMessage* msg)
 {
+  printf("RESPONSE: handleTradeCancel\n");
+
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   guimanager->GetTradeWindow()->CancelTrade();
 }
@@ -103,10 +113,11 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   guimanager->GetTradeWindow()->SetAccept(2, false);
+  guimanager->GetTradeWindow()->ClearItems();
 
   for (int i=0; i<trade_msg.getOffersCount(); i++)
   {
-    printf("Item %d in slot %d\n", trade_msg.getItemId(i), i);
+    printf("Item %d with amount %d in slot %d\n", trade_msg.getItemId(i), trade_msg.getAmount(i), trade_msg.getSlotId(i));
     guimanager->GetTradeWindow()->AddItem(2, trade_msg.getItemId(i), trade_msg.getAmount(i), trade_msg.getSlotId(i));
   }
 }

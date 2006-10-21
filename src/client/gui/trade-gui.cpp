@@ -28,6 +28,8 @@
 TradeWindow::TradeWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
+  accept1 = false;
+  accept2 = false;
 }
 
 TradeWindow::~TradeWindow()
@@ -91,6 +93,29 @@ bool TradeWindow::OnAcceptPlayer1(const CEGUI::EventArgs& args)
   return true;
 }
 
+void TradeWindow::Clear(csArray<Slot*> arr)
+{
+  // Clear the inventory.
+  for (size_t i=0; i<arr.GetSize(); i++)
+  {
+    Slot* slot = arr[i];
+    if (!slot) continue;
+    Object* object = slot->GetObject();
+    if(object)
+    {
+      object->GetWindow()->destroy();
+      delete object;
+      slot->Clear();
+      dragdrop->UpdateItemCounter(slot->GetWindow(),0);
+    }
+  }
+}
+
+void TradeWindow::ClearItems()
+{
+  TradeWindow::Clear(trade2);
+}
+
 bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int amount, unsigned int slotid)
 {
   if(!(player == 2)) return false;
@@ -105,14 +130,11 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
     return false;
   }
 
-  if (!slot->IsEmpty())
-  {
-    printf("TradeWindow: ERROR Slot %d already occupied!\n", slotid);
-    return false;
-  }
+  // Clear the inventory.
+  TradeWindow::Clear(trade2);
 
-  // Create a new item.
-  dragdrop->CreateItem(slot, itemid, amount);
+  // Create a new non-interactable item.
+  dragdrop->CreateItem(slot, itemid, amount, false);
   
   return true;
 }
@@ -149,6 +171,9 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
     printf("TradeWindow: ERROR Couldn't move item from slot to slot!\n");
     return false;
   }
+
+  if(oldslot->GetId() == newslot->GetId())
+    return true;
 
   dragdrop->MoveObject(oldslot, newslot);
 
@@ -193,16 +218,15 @@ void TradeWindow::UpdateOffer()
   {
     Object* object = objects.Get(i);
     unsigned int slotid = slotids.Get(i);
-    printf("%d item(s) %d in slot %d!\n", object->GetAmount(), object->GetId(), slotid);
+    printf("item %d with amount %d in slot %d!\n", object->GetId(), object->GetAmount(), slotid);
     msg.setItemId(i, object->GetId());
     msg.setAmount(i, object->GetAmount());
     msg.setSlotId(i, slotid);
   }
-  if(msg.getOffersCount() > 0)
-  {
-    network->send(&msg);
-    printf("SEND\n");
-  }
+
+  network->send(&msg);
+  printf("SEND\n");
+
   printf("------------------------------------------\n");
 }
 
@@ -240,19 +264,20 @@ void TradeWindow::CancelTrade()
     }
   }
 
-  trade1.DeleteAll();
-  trade2.DeleteAll();
+  TradeWindow::Clear(trade1);
+  TradeWindow::Clear(trade2);
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);
+  
 }
 
 void TradeWindow::AcceptTrade()
 {
   winMgr->getWindow("TradeWindow/Frame")->setVisible(false);
 
-  trade1.DeleteAll();
-  trade2.DeleteAll();
+  TradeWindow::Clear(trade1);
+  TradeWindow::Clear(trade2);
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);

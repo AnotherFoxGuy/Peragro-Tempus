@@ -32,11 +32,10 @@ private:
   int numberOfSlots;
   bool accept1;
   bool accept2;
-
   csArray<Slot*> trade1;
   csArray<Slot*> trade2;
-
   csArray<Slot*> inventory;
+  void Clear(csArray<Slot*> arr);
 
 private:
   bool OnCloseButton(const CEGUI::EventArgs& args); 
@@ -65,6 +64,7 @@ public:
   void SetNotificationMsg(csString errormsg);
   void CancelTrade();
   void AcceptTrade();
+  void ClearItems();
 
 };
 
