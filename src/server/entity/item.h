@@ -24,6 +24,9 @@
 
 class Item : public ptMonitorable<Item>
 {
+public:
+  static const unsigned char NoItem = 0;
+
 private:
   unsigned int id;
 

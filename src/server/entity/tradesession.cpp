@@ -69,29 +69,25 @@ void TradeSession::exchange()
   for (size_t i=0; i<offer1.getCount(); i++)
   {
     Offer& offer = offer1.get(i);
-    Item* item = item_mgr->findById(offer.item_id);
-    inv1->takeItem(item, offer.amount);
+    inv1->takeItem(inv1->getSlot(offer.item_id));
   }
 
   for (size_t i=0; i<offer2.getCount(); i++)
   {
     Offer& offer = offer2.get(i);
-    Item* item = item_mgr->findById(offer.item_id);
-    inv2->takeItem(item, offer.amount);
+    inv2->takeItem(inv2->getSlot(offer.item_id));
   }
 
   for (size_t i=0; i<offer1.getCount(); i++)
   {
     Offer& offer = offer1.get(i);
-    Item* item = item_mgr->findById(offer.item_id);
-    inv2->addItem(item, offer.amount);
+    inv2->addItem(offer.item_id);
   }
 
   for (size_t i=0; i<offer2.getCount(); i++)
   {
     Offer& offer = offer2.get(i);
-    Item* item = item_mgr->findById(offer.item_id);
-    inv1->addItem(item, offer.amount);
+    inv1->addItem(offer.item_id);
   }
 
   char1->freeLock();

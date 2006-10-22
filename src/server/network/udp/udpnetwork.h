@@ -44,6 +44,10 @@ public:
   {
     socket.init(port);
     receiver.registerHandler(&conn_handler);
+  }
+
+  void start()
+  {
     receiver.begin();
     conn_pinger.begin();
   }

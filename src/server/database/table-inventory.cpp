@@ -43,43 +43,17 @@ void InventoryTable::createTable()
     "id INTEGER, "
     "slot INTEGERT, "
     "item INTEGER, "
-    "amount INTEGER, "
-    "PRIMARY KEY (id, item, slot) );");
+    "PRIMARY KEY (id, slot) );");
 }
 
-void InventoryTable::set(int inventory, const Item* item, int amount, int slot)
+void InventoryTable::set(int inventory, unsigned int item_id, int slot, bool add)
 {
-  if (amount == 0)
+  if (add)
+    db->update("insert into inventory (id, item, slot) values ('%d','%d','%d');",
+      inventory, item_id, slot);
+  else
     db->update("delete from inventory where id=%d and item=%d and slot=%d;",
-      inventory, item->getId(), slot);
-  else
-    db->update("insert or replace into inventory (id, item, slot, amount) values ('%d','%d','%d','%d');",
-      inventory, item->getId(), slot, amount);
-}
-
-int InventoryTable::get(int inventory, const Item* item)
-{
-  ResultSet* rs = db->query("select * from inventory where id = '%d' and item = '%d';",
-    inventory, item->getId());
-
-  int amount = 0;
-
-  if (rs->GetRowCount() == 1)
-  {
-    amount = atoi(rs->GetData(0,0).c_str());
-  }
-  else if (rs->GetRowCount() == 0)
-  {
-    amount = 0;
-  }
-  else
-  {
-    printf("DB inconsistency: multiple equal items in the inventory!");
-  }
-
-  delete rs;
-
-  return amount;
+      inventory, item_id, slot);
 }
 
 void InventoryTable::dropTable()
@@ -87,18 +61,13 @@ void InventoryTable::dropTable()
   db->update("drop table inventory;");
 }
 
-void InventoryTable::getAllEntries(Array<InvEntries*>& entries, int id)
+void InventoryTable::getAllEntries(Array<unsigned int>& entries, int id)
 {
-  ResultSet* rs = db->query("select item, amount, slot from inventory where id = '%d';", id);
+  ResultSet* rs = db->query("select item, slot from inventory where id = '%d';", id);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
-    InvEntries* entry = new InvEntries();
-    int item_id = atoi(rs->GetData(i,0).c_str());
-    entry->item_id = item_id;
-    entry->amount = atoi(rs->GetData(i,1).c_str());
-    entry->slot =  atoi(rs->GetData(i,2).c_str());
-    entries.add(entry);
+    entries.get(atoi(rs->GetData(i,1).c_str())) = atoi(rs->GetData(i,0).c_str());
   }
   delete rs;
 }  

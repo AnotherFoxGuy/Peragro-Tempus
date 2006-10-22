@@ -59,7 +59,7 @@ private:
   CharacterSkills skills;
 
 public:
-  Character() : id(-1)
+  Character() : id(-1), inventory(30) // slot count
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;

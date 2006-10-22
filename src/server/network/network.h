@@ -63,6 +63,7 @@ public:
     udp_nw.registerHandler(&quest_handler);
     udp_nw.registerHandler(&skill_handler);
     udp_nw.registerHandler(&trade_handler);
+    udp_nw.start();
   }
 
   void getStats(unsigned int& sentbyte, unsigned int& recvbyte, unsigned int& timestamp)

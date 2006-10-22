@@ -132,20 +132,20 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     const Character* c_char = NetworkHelper::getCharacter(msg);
     Character* character = c_char->getLock();
 
-    int slot = character->getInventory()->getSlot(item);
-    if (slot == -1)
+    unsigned char slot = character->getInventory()->getSlot(item->getId());
+    if (slot == Inventory::NoSlot)
     {
       slot = character->getInventory()->getFreeSlot();
     }
 
-    if (slot == -1)
+    if (slot == Inventory::NoSlot)
     {
       response_msg.setTarget(e->getName());
       response_msg.setError(ptString("No free slot",12)); // <-- TODO: Error Message Storage
     }
     else
     {
-      character->getInventory()->addItem(item,1, slot);
+      character->getInventory()->addItem(item->getId(), slot);
 
       response_msg.setSlot(slot);
       response_msg.setItemId(item->getId());
@@ -201,11 +201,11 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   Character* character = c_char->getLock();
 
   // Check if in Inventory
-  bool canTake = character->getInventory()->takeItem(item,1, slot_id);
+  bool couldTake = character->getInventory()->takeItem(slot_id);
 
   character->freeLock();
 
-  if (!canTake)
+  if (!couldTake)
   {
     //send Error message?
     return;
@@ -283,7 +283,7 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
   Character* character = c_char->getLock();
   Inventory* inventory = character->getInventory();
 
-  int new_item_id = inventory->getItemIdFromSlot(invent_slot);
+  int new_item_id = inventory->getItemId(invent_slot);
   Item* item = server->getItemManager()->findById(new_item_id);
 
   if (!item) 
@@ -296,40 +296,40 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
     else if (equip) // equip
     {
       // See if we have already an item in the equip slot.
-      int old_item_id = inventory->getItemIdFromSlot(equip_slot);
+      int old_item_id = inventory->getItemId(equip_slot);
       Item* old = server->getItemManager()->findById(old_item_id);
 
       // Take from the inventory slot and...
-      inventory->takeItem(item, 1, invent_slot);
+      inventory->takeItem(invent_slot);
 
       // ... (if we have) from the equip slot too.
-      if (old) inventory->takeItem(old, 1, equip_slot);
+      if (old) inventory->takeItem(equip_slot);
 
       // Then we add the new item to the equip slot and...
-      inventory->addItem(item, 1, equip_slot);
+      inventory->addItem(item->getId(), equip_slot);
 
       // ... (if we have) the old item to the inventory.
-      if (old) inventory->addItem(old, 1, invent_slot);
+      if (old) inventory->addItem(old->getId(), invent_slot);
     }
     else // move
     {
 
       // See if we have already an item in the equip slot.
       unsigned int amount_new = inventory->getAmount(equip_slot);
-      int old_item_id = inventory->getItemIdFromSlot(equip_slot);
+      int old_item_id = inventory->getItemId(equip_slot);
       Item* old = server->getItemManager()->findById(old_item_id);
 
       // Take from the inventory slot and...
-      inventory->takeItem(item, amount_old, invent_slot);
+      inventory->takeItem(invent_slot);
 
       // ... (if we have) from the equip slot too.
-      if (old) inventory->takeItem(old, amount_new, equip_slot);
+      if (old) inventory->takeItem(equip_slot);
 
       // Then we add the new item to the equip slot and...
-      inventory->addItem(item, amount_old, equip_slot);
+      inventory->addItem(item->getId(), equip_slot);
 
       // ... (if we have) the old item to the inventory.
-      if (old) inventory->addItem(old, amount_new, invent_slot);
+      if (old) inventory->addItem(old->getId(), invent_slot);
     }
   }
 

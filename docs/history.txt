@@ -7,6 +7,7 @@ under each day.
 
 22-Oct-2006
   - PK fixed some trading bugs.
+  - PK rewrote the inventory and made things unstackable.
 
 21-Oct-2006
   - Sueastside finished the trading implementation on the client (untested!).

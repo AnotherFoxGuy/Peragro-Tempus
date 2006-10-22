@@ -93,9 +93,6 @@ int main(int argc, char ** argv)
 
   Server server;
 
-  Network network(&server);
-  network.init(12345);
-
   dbSQLite db;
   server.setDatabase(&db);
 
@@ -182,6 +179,10 @@ int main(int argc, char ** argv)
     NPCDialog* dialog = NPCDialogManager::getDialog(vo->dialogid);
     dialog->addAnswer(answer);
   }
+
+  // Finally initialising the network!
+  Network network(&server);
+  network.init(12345);
 
   printf("Server up and running!\n");
 

@@ -479,10 +479,8 @@ class InventoryListMessage : public NetMessage
   class ListInventory
   {
   public:
-    unsigned short itemid;
+    unsigned int itemid;
     unsigned char slotid;
-    ptString name;
-    unsigned short amount;
   };
 
   unsigned char inventorycount;
@@ -513,17 +511,11 @@ public:
 
   // --- begin ListInventory Getter and Setter ---
 
-  unsigned short getItemId(size_t i) { return inventory[i].itemid; }
-  void setItemId(size_t i, unsigned short x) { inventory[i].itemid = x; }
+  unsigned int getItemId(size_t i) { return inventory[i].itemid; }
+  void setItemId(size_t i, unsigned int x) { inventory[i].itemid = x; }
 
   unsigned char getSlotId(size_t i) { return inventory[i].slotid; }
   void setSlotId(size_t i, unsigned char x) { inventory[i].slotid = x; }
-
-  ptString getName(size_t i) { return inventory[i].name; }
-  void setName(size_t i, ptString x) { inventory[i].name = x; }
-
-  unsigned short getAmount(size_t i) { return inventory[i].amount; }
-  void setAmount(size_t i, unsigned short x) { inventory[i].amount = x; }
 
   // --- end ListInventory Getter and Setter ---
 

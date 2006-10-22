@@ -123,8 +123,8 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
-    printf("Item %d with amount %d in slot %d\n", item_msg.getItemId(i), item_msg.getAmount(i), item_msg.getSlotId(i));
-    guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i), item_msg.getAmount(i));
+    printf("Item %d with amount 1 in slot %d\n", item_msg.getItemId(i), item_msg.getSlotId(i));
+    guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i), 1);
   }
 }
 

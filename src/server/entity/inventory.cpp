@@ -26,15 +26,16 @@
 void Inventory::sendAllItems(Connection* conn)
 {
   InventoryListMessage itemlist_msg;
-  itemlist_msg.setInventoryCount((char)entries.getCount());
+  itemlist_msg.setInventoryCount((char)getItemCount());
   for (size_t i=0; i<entries.getCount(); i++)
   {
-    itemlist_msg.setItemId(int(i),entries.get(i)->item_id);
-    Item* item = Server::getServer()->getItemManager()->findById(entries.get(i)->item_id);
-    assert(item);
-    itemlist_msg.setName(int(i),item->getName());
-    itemlist_msg.setAmount(int(i),entries.get(i)->amount);
-    itemlist_msg.setSlotId(int(i),entries.get(i)->slot);
+    unsigned int item = entries.get(i);
+
+    if (item == Item::NoItem)
+      continue;
+
+    itemlist_msg.setItemId((int) i,item);
+    itemlist_msg.setSlotId((int) i,(unsigned char) i);
   }
   ByteStream bs2;
   itemlist_msg.serialise(&bs2);
