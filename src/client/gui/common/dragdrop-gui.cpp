@@ -71,6 +71,8 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
   Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
+  if(!newslot->IsEmpty()) return true;
+
   if(oldslot->GetParent() == Slot::Trade)
   {
     Slot* oldinvslot = guimanager->GetTradeWindow()->GetOldSlot(oldslot);
