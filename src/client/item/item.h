@@ -30,32 +30,29 @@
 class ClientItem
 {
 private:
-  uint id;
+  unsigned int id;
   csString name;
   csString iconname;
   csString meshname;
   csString filename;
   csString description;
-  uint stackable;
 
 public:
   ClientItem();
   ~ClientItem();
-  uint GetId() { return id; }
+  unsigned int GetId() { return id; }
   csString GetName() { return name; }
   csString GetIconName() { return iconname;}
   csString GetMeshName() { return meshname;}
   csString GetFileName() { return filename;}
   csString GetDescription() { return description;} 
-  uint GetStackable() { return stackable;} 
 
-  void SetId(uint value) { this->id = value; }
+  void SetId(unsigned int value) { this->id = value; }
   void SetName(csString value) { this->name = value; }
   void SetIconName(csString value) { this->iconname = value; }
   void SetMeshName(csString value) { this->meshname = value; }
   void SetFileName(csString value) { this->filename = value; }
   void SetDescription(csString value) { this->description = value; }
-  void SetStackable(uint value) { this->stackable = value; }
 };
 
 #endif // CLIENT_ITEM_H

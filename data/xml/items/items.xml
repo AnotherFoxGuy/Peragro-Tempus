@@ -9,7 +9,6 @@
 		<file>/peragro/meshes/apple/apple.xml</file>
 		<mesh>apple</mesh>
 		<weight>0</weight>
-		<stackable>0</stackable>
 	</item>
 
 	<item>
@@ -20,7 +19,6 @@
 		<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
 		<mesh>Stuff001_tinyballpot_84_pot</mesh>
 		<weight>0</weight>
-		<stackable>5</stackable>
 	</item>
 
 	<item>
@@ -31,7 +29,6 @@
 		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
 		<mesh>Stuff001_smallplate_64_plates</mesh>
 		<weight>0</weight>
-		<stackable>5</stackable>
 	</item>
 
 	<item>
@@ -46,7 +43,6 @@
 		</description>
 		<file>/peragro/art/3d_art/props/weapons/swords/sword/sword.lib</file>
 		<mesh>swordfact</mesh>
-		<stackable>1</stackable>
 		<weight>30</weight>
 		<equiptype>weapon2h</equiptype>
 	</item>
@@ -61,7 +57,6 @@
 		</description>
 		<file>/peragro/art/armor/helmets/bogus.xml</file>
 		<mesh>foobar</mesh>
-		<stackable>1</stackable>
 		<weight>5</weight>
 		<equiptype>helmet</equiptype>
 	</item>

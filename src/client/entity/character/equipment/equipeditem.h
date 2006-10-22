@@ -58,7 +58,7 @@ class EquipedItem
 
  public:
    EquipedItem(PtEntity* entity, unsigned int itemid, unsigned int slotid);
-   ~EquipedItem();
+   ~EquipedItem(){}
    unsigned int GetId(){ return id; }
    unsigned int GetSlotId() { return slotid; }
    iCelEntity* GetItemEntity() { return itementity; }

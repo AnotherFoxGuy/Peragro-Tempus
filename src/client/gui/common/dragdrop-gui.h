@@ -70,8 +70,7 @@ public:
 
   CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
   CEGUI::Window* createIcon(int icontype, int objectid, bool interactable = true);
-  void UpdateItemCounter(CEGUI::Window* parent, uint amount);
-  void CreateItem(Slot* slot, uint itemid, uint amount, bool interactable = true);
+  void CreateItem(Slot* slot, uint itemid, bool interactable = true);
   void MoveObject(Slot* oldslot, Slot* newslot);
 };
 

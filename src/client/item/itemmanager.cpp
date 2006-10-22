@@ -123,9 +123,8 @@ bool ItemMGR::Initialize ()
     csRef<iDocumentNode> description = child->GetNode ("description");
     csRef<iDocumentNode> file        = child->GetNode ("file");
     csRef<iDocumentNode> mesh        = child->GetNode ("mesh");
-    csRef<iDocumentNode> stackable   = child->GetNode ("stackable");
 
-    if (!id || !name || !icon || !description || !file || !mesh || !stackable)
+    if (!id || !name || !icon || !description || !file || !mesh)
     {
       csString error;
       csString good;
@@ -135,7 +134,6 @@ bool ItemMGR::Initialize ()
       if(!description) error += "<description>";
       if(!file) error += "<file>";
       if(!mesh) error += "<mesh>";
-      if(!stackable) error += "<stackable>";
 
       printf("ItemManager: ERROR Missing %s token(s) for %s!\n\n", error.GetData(), good.GetData());
       //return false;
@@ -150,7 +148,6 @@ bool ItemMGR::Initialize ()
     item->SetDescription((csString)description->GetContentsValue ()); 
     item->SetFileName((csString)file->GetContentsValue ()); 
     item->SetMeshName((csString)mesh->GetContentsValue ()); 
-    item->SetStackable(stackable->GetContentsValueAsInt()); 
 
     if (item->GetId() >= items.Capacity())
       items.SetCapacity(item->GetId()+1);

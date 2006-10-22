@@ -22,8 +22,8 @@
 			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,29.000000}}'/>
 			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/WeaponRight'>
 				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,48.000000}}'/>
-				<Property Name='UnifiedPosition' Value='{{0.000000,34.000000},{0.000000,2.000000}}'/>
-				<Property Name='BackgroundImage' Value='set:Peragro image:StaticBackdrop'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,34.000000},{0.000000,2.000000}}'/>	
+				<Property Name='Image' Value='set:Inventory image:weaponright'/>
 				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
 				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
 				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
@@ -37,7 +37,7 @@
 			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/Helm'>
 				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,24.000000}}'/>
 				<Property Name='UnifiedPosition' Value='{{0.000000,60.000000},{0.000000,2.000000}}'/>
-				<Property Name='BackgroundImage' Value='set:Peragro image:StaticBackdrop'/>
+				<Property Name='Image' Value='set:Inventory image:helmet'/>
 				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
 				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
 				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
@@ -65,7 +65,7 @@
 			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/WeaponLeft'>
 				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,48.000000}}'/>
 				<Property Name='UnifiedPosition' Value='{{0.000000,86.000000},{0.000000,2.000000}}'/>
-				<Property Name='BackgroundImage' Value='set:Peragro image:StaticBackdrop'/>
+				<Property Name='Image' Value='set:Inventory image:weaponleft'/>
 				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
 				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
 				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>

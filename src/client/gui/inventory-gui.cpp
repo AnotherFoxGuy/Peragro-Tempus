@@ -43,7 +43,7 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
   return true;
 }
 
-bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid, unsigned int amount)
+bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
 {
   if(slotid > numberOfSlots) return false;
   if(slotid == -1) return false;
@@ -56,26 +56,15 @@ bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid, unsigned
     return false;
   }
 
-  if (!slot->IsEmpty() && !slot->GetObject()->IsStackable())
+  if (!slot->IsEmpty())
   {
     printf("InventoryWindow: ERROR Slot %d already occupied!\n", slotid);
     return false;
   }
 
-  // If the slot already has an item and it's stackable
-  // increase the amount.
-  if (!slot->IsEmpty() 
-    && slot->GetObject()->IsStackable()
-    && slot->GetObject()->GetId() == itemid)
-  {
-    slot->GetObject()->SetAmount(slot->GetObject()->GetAmount()+amount);
-    dragdrop->UpdateItemCounter(slot->GetWindow(), slot->GetObject()->GetAmount());
-  }
   // Create a new item.
-  else if(slot->IsEmpty())
-    dragdrop->CreateItem(slot, itemid, amount);
-  else
-    return false;
+  if(slot->IsEmpty())
+    dragdrop->CreateItem(slot, itemid);
 
   return true;
 }
@@ -142,15 +131,15 @@ void InventoryWindow::CreateGUIWindow()
   // other 20 are inventory.
   numberOfSlots = 30;
 
+  //Load the inventory icon imageset
+  vfs->ChDir ("/peragro/skin/");
+  cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/inventory.imageset", "Inventory");
+
   GUIWindow::CreateGUIWindow ("inventory.xml");
   winMgr = cegui->GetWindowManagerPtr ();
 
   dragdrop = guimanager->GetDragDrop();
   itemmanager = PointerLibrary::getInstance()->getItemManager();
-
-  //Load the inventory icon imageset
-  vfs->ChDir ("/peragro/skin/");
-  cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/inventory.imageset", "Inventory");
 
   // Get the frame window
   CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("Inventory/Frame"));

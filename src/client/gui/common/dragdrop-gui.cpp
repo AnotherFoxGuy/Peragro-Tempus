@@ -114,18 +114,10 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
     PointerLibrary::getInstance()->getEntityManager()->unequip(ownid, slot->GetId());
   }
 
-  if( slot->GetObject()->GetAmount() > 1)
-  {
-    slot->GetObject()->SetAmount(slot->GetObject()->GetAmount()-1);
-    UpdateItemCounter(slot->GetWindow(), slot->GetObject()->GetAmount());
-  }
-  else 
-  {
-    ddea.dragDropItem->destroy();
-    Object* object = slot->GetObject();
-    delete object;
-    slot->Clear();
-  }
+  ddea.dragDropItem->destroy();
+  Object* object = slot->GetObject();
+  delete object;
+  slot->Clear();
 
   printf("InventoryWindow: Dropped item of type %d of slot %d to the world!\n", objectid, slot->GetId());
 
@@ -158,22 +150,6 @@ CEGUI::Window* DragDrop::createDragDropSlot(CEGUI::Window* parent, const CEGUI::
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&DragDrop::handleDragEnter, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&DragDrop::handleDragLeave, this));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDropped, this));
-
-  // Create the itemcounter
-  CEGUI::Window* itemcounter = winMgr->createWindow("Peragro/StaticText");
-  slot->addChildWindow(itemcounter);
-  itemcounter->setPosition(CEGUI::UVector2(CEGUI::UDim(0.60f,0), CEGUI::UDim(0.15f,0)));
-  itemcounter->setSize(CEGUI::UVector2(CEGUI::UDim(0.85f,0), CEGUI::UDim(0.80f,0)));
-  itemcounter->setVisible(false);
-  itemcounter->disable();
-  itemcounter->setText("0");
-  itemcounter->setAlwaysOnTop(true);
-  itemcounter->setInheritsAlpha(false);
-  itemcounter->setAlpha(1.0);
-  itemcounter->setID(30);
-  itemcounter->setProperty("Font", "Commonwealth-8");
-  itemcounter->setProperty("BackgroundEnabled", "False");
-  itemcounter->setProperty("FrameEnabled", "False");
 
   return slot;
 }
@@ -234,15 +210,6 @@ CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactabl
   return icon;
 }
 
-void DragDrop::UpdateItemCounter(CEGUI::Window* parent, uint amount)
-{
-  if (!parent->isChild(30)) return;
-  CEGUI::Window* itemcounter = parent->getChild(30);
-  itemcounter->setText(IntToStr(amount));
-  if (amount < 2) itemcounter->setVisible(false); 
-  else itemcounter->setVisible(true);
-}
-
 CEGUI::String DragDrop::IntToStr(int number)
 {
   char buffer[1024];
@@ -252,7 +219,7 @@ CEGUI::String DragDrop::IntToStr(int number)
   return value;
 }
 
-void DragDrop::CreateItem(Slot* slot, uint itemid, uint amount, bool interactable)
+void DragDrop::CreateItem(Slot* slot, uint itemid, bool interactable)
 {
   ClientItem* clientitem = itemmanager->GetItemById(itemid);
 
@@ -264,23 +231,14 @@ void DragDrop::CreateItem(Slot* slot, uint itemid, uint amount, bool interactabl
 
   Object* object = new Object();
   object->SetId(itemid);
-  object->SetAmount(amount);
   object->SetWindow(createIcon(DragDrop::Item, itemid, interactable));
-  // If stackable is bigger then 1 the item is stackable by that amount.
-  // If stackable equals 0 its infinitly stackable.
-  if (clientitem->GetStackable() > 1 || clientitem->GetStackable() == 0)
-    object->SetStackable(true);
   slot->SetObject(object);
   slot->GetWindow()->addChildWindow(object->GetWindow());
-  UpdateItemCounter(slot->GetWindow(), amount);
 }
 
 void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
 {
   Object* object = oldslot->GetObject();
-
   oldslot->MoveObjectTo(newslot);
-  UpdateItemCounter(oldslot->GetWindow(), 0);
   newslot->GetWindow()->addChildWindow(object->GetWindow());
-  UpdateItemCounter(newslot->GetWindow(), newslot->GetObject()->GetAmount());
 }

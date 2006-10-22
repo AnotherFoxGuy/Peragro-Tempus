@@ -1,7 +1,10 @@
 <?xml version="1.0" ?>
 <Imageset Name="Inventory" Imagefile="inventory.png" NativeHorzRes="1024" NativeVertRes="1024" AutoScaled="true">
-	<Image Name="tinyballpot" XPos="0" YPos="0" Width="128" Height="128" />
-	<Image Name="smallplate" XPos="128" YPos="0" Width="128" Height="128" />
-	<Image Name="apple" XPos="256" YPos="0" Width="128" Height="128" />
-        <Image Name="DragonEdgeSword" XPos="384" YPos="0" Width="128" Height="128" />
+	<Image Name="tinyballpot"     XPos="0" YPos="768" Width="256" Height="256" />
+	<Image Name="smallplate"      XPos="256" YPos="768" Width="256" Height="256" />
+	<Image Name="apple"           XPos="512" YPos="768" Width="256" Height="256" />
+    <Image Name="DragonEdgeSword" XPos="768" YPos="768" Width="256" Height="256" />
+	<Image Name="weaponright"     XPos="0" YPos="0" Width="128" Height="256" />
+	<Image Name="weaponleft"      XPos="128" YPos="0" Width="128" Height="256" />
+	<Image Name="helmet"          XPos="256" YPos="0" Width="256" Height="256" />
 </Imageset>

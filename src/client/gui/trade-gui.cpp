@@ -105,7 +105,6 @@ void TradeWindow::Clear(csArray<Slot*> arr)
       object->GetWindow()->destroy();
       delete object;
       slot->Clear();
-      dragdrop->UpdateItemCounter(slot->GetWindow(),0);
     }
   }
 }
@@ -130,7 +129,7 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
   }
 
   // Create a new non-interactable item.
-  dragdrop->CreateItem(slot, itemid, amount, false);
+  dragdrop->CreateItem(slot, itemid, false);
   
   return true;
 }
@@ -282,7 +281,7 @@ void TradeWindow::AcceptTrade()
     if(!slot->IsEmpty())
     {
       Object* object = slot->GetObject();
-      while(!guimanager->GetInventoryWindow()->AddItem(object->GetId(), counter, object->GetAmount())
+      while(!guimanager->GetInventoryWindow()->AddItem(object->GetId(), counter)
         && counter < nrInventorySlots)
       {
         counter += 1;
