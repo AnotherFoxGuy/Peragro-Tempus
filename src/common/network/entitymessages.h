@@ -40,14 +40,15 @@ namespace ENTITY
     STATSLIST=12,
     STATSCHANGE=13,
     SKILLSLIST=14,
-    EQUIPREQUEST=15,
-    EQUIP=16,
-    MOVETO=17,
-    MOVETOREQUEST=18,
-    RELOCATE=19,
-    TELEPORT=20,
-    DRUPDATEREQUEST=21,
-    DRUPDATE=22
+    EQUIP=15,
+    MOVETO=16,
+    MOVETOREQUEST=17,
+    RELOCATE=18,
+    TELEPORT=19,
+    DRUPDATEREQUEST=20,
+    DRUPDATE=21,
+    INVENTORYMOVEITEMREQUEST=22,
+    INVENTORYMOVEITEM=23
   };
 }
 
@@ -364,7 +365,9 @@ public:
 
 class PickRequestMessage : public NetMessage
 {
-  unsigned int target;
+  unsigned int itementityid;
+  unsigned char slot;
+  unsigned int inventoryid;
 
 public:
   PickRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::PICKREQUEST)
@@ -378,17 +381,19 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getTarget() { return target; }
-  void setTarget(unsigned int x) { target = x; }
+  unsigned int getItemEntityId() { return itementityid; }
+  void setItemEntityId(unsigned int x) { itementityid = x; }
+
+  unsigned char getSlot() { return slot; }
+  void setSlot(unsigned char x) { slot = x; }
+
+  unsigned int getInventoryId() { return inventoryid; }
+  void setInventoryId(unsigned int x) { inventoryid = x; }
 
 };
 
 class PickResponseMessage : public NetMessage
 {
-  ptString name;
-  unsigned int itemid;
-  unsigned int slot;
-  ptString target;
   ptString error;
 
 public:
@@ -403,18 +408,6 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getName() { return name; }
-  void setName(ptString x) { name = x; }
-
-  unsigned int getItemId() { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
-
-  unsigned int getSlot() { return slot; }
-  void setSlot(unsigned int x) { slot = x; }
-
-  ptString getTarget() { return target; }
-  void setTarget(ptString x) { target = x; }
-
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
 
@@ -422,8 +415,9 @@ public:
 
 class DropRequestMessage : public NetMessage
 {
-  unsigned int target;
-  unsigned char slotid;
+  unsigned int itemid;
+  unsigned char slot;
+  unsigned int inventoryid;
 
 public:
   DropRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DROPREQUEST)
@@ -437,18 +431,19 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getTarget() { return target; }
-  void setTarget(unsigned int x) { target = x; }
+  unsigned int getItemId() { return itemid; }
+  void setItemId(unsigned int x) { itemid = x; }
 
-  unsigned char getSlotId() { return slotid; }
-  void setSlotId(unsigned char x) { slotid = x; }
+  unsigned char getSlot() { return slot; }
+  void setSlot(unsigned char x) { slot = x; }
+
+  unsigned int getInventoryId() { return inventoryid; }
+  void setInventoryId(unsigned int x) { inventoryid = x; }
 
 };
 
 class DropResponseMessage : public NetMessage
 {
-  ptString name;
-  ptString target;
   ptString error;
 
 public:
@@ -463,12 +458,6 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getName() { return name; }
-  void setName(ptString x) { name = x; }
-
-  ptString getTarget() { return target; }
-  void setTarget(ptString x) { target = x; }
-
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
 
@@ -476,6 +465,7 @@ public:
 
 class InventoryListMessage : public NetMessage
 {
+  unsigned int inventoryid;
   class ListInventory
   {
   public:
@@ -500,6 +490,9 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned int getInventoryId() { return inventoryid; }
+  void setInventoryId(unsigned int x) { inventoryid = x; }
 
   unsigned char getInventoryCount() { return inventorycount; }
   void setInventoryCount(unsigned char ic)
@@ -644,38 +637,11 @@ public:
 
 };
 
-class EquipRequestMessage : public NetMessage
-{
-  unsigned char oldslotid;
-  unsigned char newslotid;
-
-public:
-  EquipRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::EQUIPREQUEST)
-  {
-  }
-
-  ~EquipRequestMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned char getOldSlotId() { return oldslotid; }
-  void setOldSlotId(unsigned char x) { oldslotid = x; }
-
-  unsigned char getNewSlotId() { return newslotid; }
-  void setNewSlotId(unsigned char x) { newslotid = x; }
-
-};
-
 class EquipMessage : public NetMessage
 {
   unsigned int entityid;
   unsigned int itemid;
-  unsigned char oldslotid;
-  unsigned char newslotid;
-  ptString error;
+  unsigned char slotid;
 
 public:
   EquipMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::EQUIP)
@@ -695,14 +661,8 @@ public:
   unsigned int getItemId() { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
 
-  unsigned char getOldSlotId() { return oldslotid; }
-  void setOldSlotId(unsigned char x) { oldslotid = x; }
-
-  unsigned char getNewSlotId() { return newslotid; }
-  void setNewSlotId(unsigned char x) { newslotid = x; }
-
-  ptString getError() { return error; }
-  void setError(ptString x) { error = x; }
+  unsigned char getSlotId() { return slotid; }
+  void setSlotId(unsigned char x) { slotid = x; }
 
 };
 
@@ -919,6 +879,60 @@ public:
 
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
+
+};
+
+class InventoryMoveItemRequestMessage : public NetMessage
+{
+  unsigned char oldslot;
+  unsigned int oldinventoryid;
+  unsigned char newslot;
+  unsigned int newinventoryid;
+
+public:
+  InventoryMoveItemRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::INVENTORYMOVEITEMREQUEST)
+  {
+  }
+
+  ~InventoryMoveItemRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getOldSlot() { return oldslot; }
+  void setOldSlot(unsigned char x) { oldslot = x; }
+
+  unsigned int getOldInventoryId() { return oldinventoryid; }
+  void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
+
+  unsigned char getNewSlot() { return newslot; }
+  void setNewSlot(unsigned char x) { newslot = x; }
+
+  unsigned int getNewInventoryId() { return newinventoryid; }
+  void setNewInventoryId(unsigned int x) { newinventoryid = x; }
+
+};
+
+class InventoryMoveItemMessage : public NetMessage
+{
+  ptString error;
+
+public:
+  InventoryMoveItemMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::INVENTORYMOVEITEM)
+  {
+  }
+
+  ~InventoryMoveItemMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
 
 };
 

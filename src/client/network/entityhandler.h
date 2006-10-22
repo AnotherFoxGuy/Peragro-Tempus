@@ -60,6 +60,7 @@ public:
     else if (id == ENTITY::EQUIP) handleEquip(msg);
     else if (id == ENTITY::TELEPORT) handleTeleport(msg);
     else if (id == ENTITY::DRUPDATE) handleDrUpdate(msg);
+    else if (id == ENTITY::INVENTORYMOVEITEM) handleInventoryMoveItem(msg);
   }
 
   void handleAddPlayerEntity(GenericMessage* msg);
@@ -78,6 +79,7 @@ public:
   void handleEquip(GenericMessage* msg);
   void handleTeleport(GenericMessage* msg);
   void handleDrUpdate(GenericMessage* msg);
+  void handleInventoryMoveItem(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

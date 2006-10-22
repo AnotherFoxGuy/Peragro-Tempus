@@ -19,6 +19,20 @@
 #include "entity.h"
 #include "item.h"
 #include "itementity.h"
+#include "itemmanager.h"
+
+#include "server/server.h"
+
+void ItemEntity::createFromItem(unsigned int item_id)
+{
+  Item* item = Server::getServer()->getItemManager()->findById(item_id);
+  Entity* ent = entity.get()->getLock();
+  ent->setName(item->getName());
+  ent->setMesh(item->getMesh());
+  ent->freeLock();
+
+  this->item = item->getRef();
+}
 
 void ItemEntity::createFromItem(Item* item)
 {

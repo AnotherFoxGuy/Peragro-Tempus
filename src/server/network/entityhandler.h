@@ -48,18 +48,18 @@ public:
     else if (id == ENTITY::MOVETOREQUEST) handleMoveToRequest(msg);
     else if (id == ENTITY::PICKREQUEST) handlePickRequest(msg);
     else if (id == ENTITY::DROPREQUEST) handleDropRequest(msg);
-    else if (id == ENTITY::EQUIPREQUEST) handleEquipRequest(msg);
     else if (id == ENTITY::RELOCATE) handleRelocate(msg);
     else if (id == ENTITY::DRUPDATEREQUEST) handleDrUpdateRequest(msg);
+    else if (id == ENTITY::INVENTORYMOVEITEMREQUEST) handleInventoryMoveItemRequest(msg);
   }
 
   void handleMoveRequest(GenericMessage* msg);
   void handleMoveToRequest(GenericMessage* msg);
   void handlePickRequest(GenericMessage* msg);
   void handleDropRequest(GenericMessage* msg);
-  void handleEquipRequest(GenericMessage* msg);
   void handleRelocate(GenericMessage* msg);
   void handleDrUpdateRequest(GenericMessage* msg);
+  void handleInventoryMoveItemRequest(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

@@ -92,31 +92,25 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   ptString name = user_ent->getName();
   PickRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received PickRequest from: '%s' -> '%d' \n", *name, request_msg.getTarget());
+  printf("Received PickRequest from: '%s' -> '%d' \n", *name, request_msg.getItemEntityId());
 
-  const Entity* e = server->getEntityManager()->findById(request_msg.getTarget());
+  const Entity* e = server->getEntityManager()->findById(request_msg.getItemEntityId());
 
   PickResponseMessage response_msg;
-  response_msg.setName(name);
-  response_msg.setItemId(0);
   if (!e)
   {
-    response_msg.setTarget(ptString(0,0));
     response_msg.setError(ptString("Entity doesn't exist",20)); // <-- TODO: Error Message Storage
   }
   else if (e->getType() == Entity::ItemEntityType)
   {
-    response_msg.setTarget(e->getName());
     response_msg.setError(ptString(0,0));
   }
   else if (e->getType() == Entity::PlayerEntityType)
   {
-    response_msg.setTarget(e->getName());
     response_msg.setError(ptString("Don't pick on others!",21)); // <-- TODO: Error Message Storage
   }
   else
   {
-    response_msg.setTarget(e->getName());
     response_msg.setError(ptString("Unpickable",10)); // <-- TODO: Error Message Storage
   }
 
@@ -132,19 +126,25 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     const Character* c_char = NetworkHelper::getCharacter(msg);
     Character* character = c_char->getLock();
 
-    unsigned char slot = character->getInventory()->getFreeSlot();
+    //request_msg.getInventoryId();
+    unsigned char slot = request_msg.getSlot();
 
-    if (slot == Inventory::NoSlot)
-    {
-      response_msg.setTarget(e->getName());
-      response_msg.setError(ptString("No free slot",12)); // <-- TODO: Error Message Storage
-    }
-    else
+    if (character->getInventory()->getItemId(slot) == Item::NoItem)
     {
       if (character->getInventory()->addItem(item->getId(), slot))
       {
-        response_msg.setSlot(slot);
-        response_msg.setItemId(item->getId());
+        bool equip = (slot < 10);
+        if (equip && response_msg.getError() == ptString::Null)
+        {
+          EquipMessage response_msg;
+          response_msg.setEntityId(user_ent->getId());
+          if (item) response_msg.setItemId(item->getId());
+          response_msg.setSlotId(slot);
+
+          ByteStream bs;
+          response_msg.serialise(&bs);
+          Server::getServer()->broadCast(bs);
+        }
 
         ByteStream bs;
         response_msg.serialise(&bs);
@@ -153,7 +153,6 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         server->delEntity(e);
         return;
       }
-      response_msg.setTarget(e->getName());
       response_msg.setError(ptString("Couldn't add item!",18)); // <-- TODO: Error Message Storage
     }
   }
@@ -170,31 +169,37 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   ptString name = user_ent->getName();
   DropRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getTarget());
-
-  Item* item = server->getItemManager()->findById(request_msg.getTarget());
+  printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getItemId());
 
   DropResponseMessage response_msg;
-
-  if (!item)
-  {
-    response_msg.setError(ptString("You don't own this Item", strlen("You don't own this Item")));
-    return;
-  }
-
-  unsigned int slot_id = request_msg.getSlotId();
-
-  // To allow direct drops or not!
-  if (slot_id < 10)
-  {
-    response_msg.setError(ptString("You can't drop an equiped item", strlen("You can't drop an equiped item")));
-    return;
-  }
+  unsigned int slot_id = request_msg.getSlot();
 
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
   Character* character = c_char->getLock();
+
+  unsigned int item = character->getInventory()->getItemId(slot_id);
+  if (item != request_msg.getItemId())
+  {
+    response_msg.setError(ptString("Unexpected item", strlen("Unexpected item")));
+    ByteStream bs;
+    response_msg.serialise(&bs);
+    NetworkHelper::sendMessage(user_ent, bs);
+    return;
+  }
+
+  if (slot_id < 10)
+  {
+    // Tell the world to unequip it!
+    EquipMessage unequip_msg;
+    unequip_msg.setEntityId(user_ent->getId());
+    unequip_msg.setSlotId(slot_id);
+    unequip_msg.setItemId(item); // No Item!
+    ByteStream bs;
+    response_msg.serialise(&bs);
+    NetworkHelper::broadcast(bs);
+  }
 
   // Check if in Inventory
   bool couldTake = character->getInventory()->takeItem(slot_id);
@@ -204,7 +209,27 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   if (!couldTake)
   {
     response_msg.setError(ptString("Failed to drop item", strlen("Failed to drop item")));
+    ByteStream bs;
+    response_msg.serialise(&bs);
+    NetworkHelper::sendMessage(user_ent, bs);
     return;
+  }
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  NetworkHelper::sendMessage(user_ent, bs);
+
+  bool equip = (slot_id < 10);
+  if (equip && response_msg.getError() == ptString::Null)
+  {
+    EquipMessage response_msg;
+    response_msg.setEntityId(user_ent->getId());
+    if (item) response_msg.setItemId(0);
+    response_msg.setSlotId(slot_id);
+
+    ByteStream bs;
+    response_msg.serialise(&bs);
+    Server::getServer()->broadCast(bs);
   }
 
   // Create new entity from item.
@@ -215,10 +240,6 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   ent->setPos(user_ent->getPos());
   ent->setSector(user_ent->getSector());
   ent->freeLock();
-
-  ByteStream bs;
-  response_msg.serialise(&bs);
-  NetworkHelper::sendMessage(user_ent, bs);
 
   server->addEntity(ent, true);
 }
@@ -245,7 +266,7 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   character->freeLock();
 }
 
-void EntityHandler::handleEquipRequest(GenericMessage* msg)
+void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
 {
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
@@ -256,11 +277,11 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
   const char* error = 0;
 
   ptString name = user_ent->getName();
-  EquipRequestMessage request_msg;
+  InventoryMoveItemRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  int equip_slot = request_msg.getNewSlotId();
-  int invent_slot = request_msg.getOldSlotId();
+  int equip_slot = request_msg.getNewSlot();
+  int invent_slot = request_msg.getOldSlot();
 
   printf("Received EquipRequest from: '%s' | '%d' to '%d' \n", *name, invent_slot, equip_slot);
 
@@ -274,7 +295,7 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
     // Slot move, no equip
     equip = false;
   }
-  else error = "Invalid equip slot";
+  else error = "Invalid slot";
 
   // doesn't matter if we overwrite the error
   if (invent_slot >= 30) 
@@ -335,28 +356,27 @@ void EntityHandler::handleEquipRequest(GenericMessage* msg)
 
   character->freeLock();
 
-  if (error) printf("Equip item error occured: %s\n", error);
+  InventoryMoveItemMessage response_msg;
 
-  EquipMessage response_msg;
-  response_msg.setEntityId(user_ent->getId());
-  if (item) response_msg.setItemId(item->getId());
-  response_msg.setOldSlotId(invent_slot);
-  response_msg.setNewSlotId(equip_slot);
-  ptString pt_err = error?ptString(error, strlen(error)):ptString();
-  response_msg.setError(pt_err);
+  if (error)
+  {
+    response_msg.setError(ptString(error, strlen(error)));
+  }
 
   ByteStream bs;
   response_msg.serialise(&bs);
+  NetworkHelper::sendMessage(user_ent, bs);
 
-  if (!error && equip)
+  if (equip && !error)
   {
-    // Tell all about success
+    EquipMessage response_msg;
+    response_msg.setEntityId(user_ent->getId());
+    if (item) response_msg.setItemId(item->getId());
+    response_msg.setSlotId(equip_slot);
+
+    ByteStream bs;
+    response_msg.serialise(&bs);
     Server::getServer()->broadCast(bs);
-  }
-  else
-  {
-    // Tell only one about error or equip
-    NetworkHelper::sendMessage(user_ent, bs);
   }
 }
 
