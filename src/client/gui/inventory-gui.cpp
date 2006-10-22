@@ -99,6 +99,7 @@ bool InventoryWindow::RemoveItem(unsigned int slotid)
   Slot* slot = inventory[slotid];
 
   Object* object = slot->GetObject();
+  object->GetWindow()->destroy();
   delete object;
   slot->Clear();
   return true;
