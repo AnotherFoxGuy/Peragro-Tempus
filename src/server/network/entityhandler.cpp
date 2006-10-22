@@ -132,11 +132,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     const Character* c_char = NetworkHelper::getCharacter(msg);
     Character* character = c_char->getLock();
 
-    unsigned char slot = character->getInventory()->getSlot(item->getId());
-    if (slot == Inventory::NoSlot)
-    {
-      slot = character->getInventory()->getFreeSlot();
-    }
+    unsigned char slot = character->getInventory()->getFreeSlot();
 
     if (slot == Inventory::NoSlot)
     {
@@ -145,17 +141,20 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     }
     else
     {
-      character->getInventory()->addItem(item->getId(), slot);
+      if (character->getInventory()->addItem(item->getId(), slot))
+      {
+        response_msg.setSlot(slot);
+        response_msg.setItemId(item->getId());
 
-      response_msg.setSlot(slot);
-      response_msg.setItemId(item->getId());
+        ByteStream bs;
+        response_msg.serialise(&bs);
+        NetworkHelper::broadcast(bs);
 
-      ByteStream bs;
-      response_msg.serialise(&bs);
-      NetworkHelper::broadcast(bs);
-
-      server->delEntity(e);
-      return;
+        server->delEntity(e);
+        return;
+      }
+      response_msg.setTarget(e->getName());
+      response_msg.setError(ptString("Couldn't add item!",18)); // <-- TODO: Error Message Storage
     }
   }
   ByteStream bs;
@@ -175,23 +174,20 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 
   Item* item = server->getItemManager()->findById(request_msg.getTarget());
 
+  DropResponseMessage response_msg;
+
   if (!item)
   {
-    //send Error message?
+    response_msg.setError(ptString("You don't own this Item", strlen("You don't own this Item")));
     return;
   }
 
   unsigned int slot_id = request_msg.getSlotId();
 
+  // To allow direct drops or not!
   if (slot_id < 10)
   {
-    //item is equiped
-    //send Error message?
-    return;
-  }
-  else if (slot_id >= 30)
-  {
-    // invalid slot
+    response_msg.setError(ptString("You can't drop an equiped item", strlen("You can't drop an equiped item")));
     return;
   }
 
@@ -207,7 +203,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 
   if (!couldTake)
   {
-    //send Error message?
+    response_msg.setError(ptString("Failed to drop item", strlen("Failed to drop item")));
     return;
   }
 
@@ -219,6 +215,10 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   ent->setPos(user_ent->getPos());
   ent->setSector(user_ent->getSector());
   ent->freeLock();
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  NetworkHelper::sendMessage(user_ent, bs);
 
   server->addEntity(ent, true);
 }

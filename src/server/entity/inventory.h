@@ -116,8 +116,8 @@ public:
     if (item == Item::NoItem)
       return false;
 
-    item = Item::NoItem;
     if (invtab) invtab->set(inv_id, item, slot, false);
+    item = Item::NoItem;
 
     return true;
   }
