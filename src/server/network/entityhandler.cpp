@@ -136,19 +136,22 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         bool equip = (slot < 10);
         if (equip && response_msg.getError() == ptString::Null)
         {
-          EquipMessage response_msg;
-          response_msg.setEntityId(user_ent->getId());
-          if (item) response_msg.setItemId(item->getId());
-          response_msg.setSlotId(slot);
+          EquipMessage equip_msg;
+          equip_msg.setEntityId(user_ent->getId());
+          if (item) equip_msg.setItemId(item->getId());
+          equip_msg.setSlotId(slot);
 
           ByteStream bs;
-          response_msg.serialise(&bs);
+          equip_msg.serialise(&bs);
           Server::getServer()->broadCast(bs);
         }
 
+        response_msg.setItemId(item->getId());
+        response_msg.setSlotId(slot);
+
         ByteStream bs;
         response_msg.serialise(&bs);
-        NetworkHelper::broadcast(bs);
+        NetworkHelper::sendMessage(user_ent, bs);
 
         server->delEntity(e);
         return;
@@ -172,7 +175,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getItemId());
 
   DropResponseMessage response_msg;
-  unsigned int slot_id = request_msg.getSlot();
+  unsigned char slot_id = request_msg.getSlot();
 
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
@@ -214,6 +217,9 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     NetworkHelper::sendMessage(user_ent, bs);
     return;
   }
+
+  response_msg.setItemId(item);
+  response_msg.setSlotId(slot_id);
 
   ByteStream bs;
   response_msg.serialise(&bs);
@@ -362,6 +368,9 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
   {
     response_msg.setError(ptString(error, strlen(error)));
   }
+
+  response_msg.setOldSlot(invent_slot);
+  response_msg.setNewSlot(equip_slot);
 
   ByteStream bs;
   response_msg.serialise(&bs);

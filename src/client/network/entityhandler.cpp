@@ -78,27 +78,29 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
   PickResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  const char* ownname = PointerLibrary::getInstance()->getEntityManager()->GetOwnName().GetData();
 
   if (response_msg.getError().isNull())
   {
-    printf("%s picks Item %s(%d) %s\n", *response_msg.getName(), *response_msg.getTarget(), response_msg.getItemId(),ownname);
-    if (strlen(*response_msg.getName()) == strlen(ownname) && !strcmp(*response_msg.getName(), ownname))
-      guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlot());
+    //printf("%s picks Item %s(%d) %s\n", *response_msg.getName(), *response_msg.getTarget(), response_msg.getItemId(),ownname);
+    //if (strlen(*response_msg.getName()) == strlen(ownname) && !strcmp(*response_msg.getName(), ownname))
+    guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlotId());
   }
   else
-    printf("%s can't pick Item %s! Reason: '%s'\n", *response_msg.getName(), *response_msg.getTarget(), *response_msg.getError());
+    printf("You can't pick Item %d! Reason: '%s'\n", response_msg.getItemId(), *response_msg.getError());
 }
 
 void EntityHandler::handleDropResponse(GenericMessage* msg)
 {
   DropResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   if (response_msg.getError().isNull())
-    printf("%s picks %s\n", *response_msg.getName(), *response_msg.getTarget());
+  {
+    guimanager->GetInventoryWindow()->RemoveItem(response_msg.getSlotId());
+  }
   else
-    printf("%s can't pick %s! Reason: '%s'\n", *response_msg.getName(), *response_msg.getTarget(), *response_msg.getError());
+    printf("You can't drop %d from slot %d! Reason: '%s'\n", response_msg.getItemId(), response_msg.getSlotId(), *response_msg.getError());
 }
 
 void EntityHandler::handleDrUpdate(GenericMessage* msg)
@@ -178,33 +180,35 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   EquipMessage equip_msg;
   equip_msg.deserialise(msg->getByteStream());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  if (!equip_msg.getError().isNull())
+
+  unsigned int entity = equip_msg.getEntityId();
+  unsigned char slot = equip_msg.getSlotId();
+  unsigned int item = equip_msg.getItemId();
+
+  printf("EquipMessage: Entity %d equiped item %d to slot %d\n", entity, slot, item);
+
+  if (item == 0)
   {
-    printf("EquipMessage: ERROR: '%s'\n", *equip_msg.getError());
-    return;
+    PointerLibrary::getInstance()->getEntityManager()->unequip(entity, slot);
   }
   else
   {
-    if (equip_msg.getNewSlotId() < 10)
-    {
-      printf("EquipMessage: Entity %d equiped item %d to slot %d\n", 
-        equip_msg.getEntityId(), equip_msg.getItemId(), equip_msg.getNewSlotId());
-      if(PointerLibrary::getInstance()->getEntityManager()->GetOwnId() == equip_msg.getEntityId())
-        guimanager->GetInventoryWindow()->MoveItem(equip_msg.getOldSlotId(), equip_msg.getNewSlotId());
-      PointerLibrary::getInstance()->getEntityManager()->equip(equip_msg.getEntityId(), equip_msg.getItemId(), equip_msg.getNewSlotId());
-    }
-    else
-    {
-      printf("EquipMessage: You moved item %d from slot %d to slot %d\n", 
-        equip_msg.getItemId(), equip_msg.getOldSlotId(), equip_msg.getNewSlotId());
-      if(equip_msg.getOldSlotId() < 10)
-      {
-        PointerLibrary::getInstance()->getEntityManager()->unequip(equip_msg.getEntityId(), equip_msg.getOldSlotId());
-      }
-      guimanager->GetInventoryWindow()->MoveItem(equip_msg.getOldSlotId(), equip_msg.getNewSlotId());
-    }
+    PointerLibrary::getInstance()->getEntityManager()->equip(entity, item, slot);
   }
-  // do something
+}
+
+void EntityHandler::handleInventoryMoveItem(GenericMessage* msg)
+{
+  InventoryMoveItemMessage invmove_msg;
+  invmove_msg.deserialise(msg->getByteStream());
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+
+  unsigned char old_slot = invmove_msg.getOldSlot();
+  unsigned char new_slot = invmove_msg.getNewSlot();
+
+  printf("EquipMessage: You moved an item from slot %d to slot %d\n", old_slot, new_slot);
+
+  guimanager->GetInventoryWindow()->MoveItem(old_slot, new_slot);
 }
 
 void EntityHandler::handleTeleport(GenericMessage* msg)

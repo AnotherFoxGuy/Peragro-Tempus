@@ -33,12 +33,12 @@ private:
   ptString name_id;
   ptString mesh_id;
 
-  unsigned int stackmax;
+  //unsigned int stackmax;
 
   unsigned int weight;
 
 public:
-  Item() : id(-1), stackmax(0), weight(0) {}
+  Item() : id(-1), weight(0) {}
   ~Item() {}
 
   void setId(unsigned int id) { this->id = id; }
@@ -50,8 +50,8 @@ public:
   ptString& getMesh() { return mesh_id; }
   void setMesh(ptString id) { mesh_id = id; }
 
-  void setStackMax(unsigned int stackmax) { this->stackmax = stackmax; }
-  unsigned int getStackMax() const { return stackmax; }
+  //void setStackMax(unsigned int stackmax) { this->stackmax = stackmax; }
+  //unsigned int getStackMax() const { return stackmax; }
 
   void setWeight(unsigned int weight) { this->weight = weight; }
   unsigned int getWeight() const { return weight; }

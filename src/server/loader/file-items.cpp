@@ -45,15 +45,15 @@ void ItemsFile::load()
       ->FirstChild()->ToText()->Value();
     const char* mesh = itemNode->FirstChildElement("mesh")
       ->FirstChild()->ToText()->Value();
-    unsigned int stackmax = atoi(itemNode->FirstChildElement("stackable")
-      ->FirstChild()->ToText()->Value());
+    //unsigned int stackmax = atoi(itemNode->FirstChildElement("stackable")
+    //  ->FirstChild()->ToText()->Value());
     unsigned int weight = atoi(itemNode->FirstChildElement("weight")
       ->FirstChild()->ToText()->Value());
 
     item->setId(id);
     item->setName(ptString(name, strlen(name)));
     item->setMesh(ptString(mesh, strlen(mesh)));
-    item->setStackMax(stackmax);
+    //item->setStackMax(stackmax);
     item->setWeight(weight);
 
     item_mgr->addItem(item);

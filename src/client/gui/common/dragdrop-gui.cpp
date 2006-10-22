@@ -81,9 +81,9 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
     guimanager->GetTradeWindow()->UpdateOffer();
   }
 
-  EquipRequestMessage slotchangemsg;
-  slotchangemsg.setNewSlotId(newslot->GetId());
-  slotchangemsg.setOldSlotId(oldslot->GetId());
+  InventoryMoveItemRequestMessage slotchangemsg;
+  slotchangemsg.setNewSlot(newslot->GetId());
+  slotchangemsg.setOldSlot(oldslot->GetId());
   if (network) network->send(&slotchangemsg);
 
   return true;
@@ -103,10 +103,10 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   if(objectid < 1) return true;
 
   DropRequestMessage msg;
-  msg.setTarget(objectid);
-  msg.setSlotId(slot->GetId());
+  msg.setItemId(objectid);
+  msg.setSlot(slot->GetId());
   if (network) network->send(&msg);
-
+/*
   // If it's a equiped item unequip it.
   if(slot->GetId() < 10)
   {
@@ -120,7 +120,7 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   slot->Clear();
 
   printf("InventoryWindow: Dropped item of type %d of slot %d to the world!\n", objectid, slot->GetId());
-
+*/
   return true;
 }
 

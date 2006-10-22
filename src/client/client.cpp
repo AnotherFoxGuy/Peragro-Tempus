@@ -713,8 +713,9 @@ bool Client::OnMouseDown(iEvent& ev)
           if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::ItemEntity)
           {
             PickRequestMessage msg;
-            msg.setTarget(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-            printf("OnMouseDown: Requisting picking up entity: %d \n", msg.getTarget());
+            msg.setItemEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+            msg.setSlot(10); // TODO: get a free slot for this!
+            printf("OnMouseDown: Requisting picking up entity: %d \n", msg.getItemEntityId());
             network->send(&msg);
           }
           // If it's a door, request to open.

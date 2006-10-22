@@ -394,6 +394,8 @@ public:
 
 class PickResponseMessage : public NetMessage
 {
+  unsigned int itemid;
+  unsigned char slotid;
   ptString error;
 
 public:
@@ -407,6 +409,12 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned int getItemId() { return itemid; }
+  void setItemId(unsigned int x) { itemid = x; }
+
+  unsigned char getSlotId() { return slotid; }
+  void setSlotId(unsigned char x) { slotid = x; }
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
@@ -444,6 +452,8 @@ public:
 
 class DropResponseMessage : public NetMessage
 {
+  unsigned int itemid;
+  unsigned char slotid;
   ptString error;
 
 public:
@@ -457,6 +467,12 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned int getItemId() { return itemid; }
+  void setItemId(unsigned int x) { itemid = x; }
+
+  unsigned char getSlotId() { return slotid; }
+  void setSlotId(unsigned char x) { slotid = x; }
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
@@ -917,6 +933,10 @@ public:
 
 class InventoryMoveItemMessage : public NetMessage
 {
+  unsigned char oldslot;
+  unsigned int oldinventoryid;
+  unsigned char newslot;
+  unsigned int newinventoryid;
   ptString error;
 
 public:
@@ -930,6 +950,18 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned char getOldSlot() { return oldslot; }
+  void setOldSlot(unsigned char x) { oldslot = x; }
+
+  unsigned int getOldInventoryId() { return oldinventoryid; }
+  void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
+
+  unsigned char getNewSlot() { return newslot; }
+  void setNewSlot(unsigned char x) { newslot = x; }
+
+  unsigned int getNewInventoryId() { return newinventoryid; }
+  void setNewInventoryId(unsigned int x) { newinventoryid = x; }
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }

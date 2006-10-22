@@ -27,6 +27,8 @@ void Inventory::sendAllItems(Connection* conn)
 {
   InventoryListMessage itemlist_msg;
   itemlist_msg.setInventoryCount((char)getItemCount());
+
+  size_t n = 0;
   for (size_t i=0; i<entries.getCount(); i++)
   {
     unsigned int item = entries.get(i);
@@ -34,8 +36,9 @@ void Inventory::sendAllItems(Connection* conn)
     if (item == Item::NoItem)
       continue;
 
-    itemlist_msg.setItemId((int) i,item);
-    itemlist_msg.setSlotId((int) i,(unsigned char) i);
+    itemlist_msg.setItemId(n, item);
+    itemlist_msg.setSlotId(n, (unsigned char) i);
+    n++;
   }
   ByteStream bs2;
   itemlist_msg.serialise(&bs2);

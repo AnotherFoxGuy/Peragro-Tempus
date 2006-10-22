@@ -91,6 +91,19 @@ bool InventoryWindow::MoveItem(Slot* oldslot, Slot* newslot)
   return true;
 }
 
+bool InventoryWindow::RemoveItem(unsigned int slotid)
+{
+  if(slotid > numberOfSlots) return false;
+  if(slotid == -1) return false;
+
+  Slot* slot = inventory[slotid];
+
+  Object* object = slot->GetObject();
+  delete object;
+  slot->Clear();
+  return true;
+}
+
 unsigned int InventoryWindow::FindItem(unsigned int itemid)
 {
   for (size_t i = 0; i < inventory.GetSize(); i++)
