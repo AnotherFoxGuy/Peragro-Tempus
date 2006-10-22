@@ -52,6 +52,8 @@ public:
 
   void setEntity(const PcEntity* e);
   const PcEntity* getEntity();
+
+  void debugPrint();
 };
 
 #endif // _TRADE_PEER_H_

@@ -95,7 +95,7 @@ public:
     return pos;
   }
 
-  ptString& getName() { return name_id; }
+  const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }
 
   ptString& getMesh() { return mesh_id; }

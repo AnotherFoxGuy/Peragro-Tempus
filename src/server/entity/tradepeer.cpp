@@ -142,3 +142,16 @@ void TradePeer::confirmOffer()
   if (session->peer1 == this) session->confirm_offer_2 = true;
   else if (session->peer2 == this) session->confirm_offer_1 = true;
 }
+
+void TradePeer::debugPrint()
+{
+  printf("====================================================\n");
+  printf("TradePeer of %s\n", *getEntity()->getCharacter()->getName());
+  printf("----------------------------------------------------\n");
+  printf("Session: %x\n", session);
+  if (session)
+  {
+    printf("Session peers: 1) %x \t 2) %x\n", session->peer1, session->peer2);
+  }
+  printf("----------------------------------------------------\n");
+}

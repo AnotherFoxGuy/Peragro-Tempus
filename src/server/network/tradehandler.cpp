@@ -21,7 +21,10 @@
 #include "tradehandler.h"
 #include "server/entity/entitymanager.h"
 #include "server/entity/pcentity.h"
+#include "server/entity/character.h"
 #include "server/entity/tradesession.h"
+
+//#define DEBUG_TRADE
 
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
@@ -35,12 +38,33 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   TradeRequestMessage message;
   message.deserialise(msg->getByteStream());
 
+#ifdef DEBUG_TRADE
+  printf("Received TradeRequest from %s\n", *pc->getCharacter()->getName());
+  this_peer->debugPrint();
+#endif
+
   int ent_id = message.getEntityId();
 
   if (pc->getEntity()->getId() == ent_id)
   {
-    // Don't trade with yourself!
+    TradeResponseMessage resp;
+    ptString error("You can't trade with yourself.", strlen("You can't trade with yourself."));
+    resp.setError(error);
+    ByteStream bs;
+    resp.serialise(&bs);
+    NetworkHelper::sendMessage(pc, bs);
     pc->freeLock();
+    return;
+  }
+
+  if (this_peer->getSession() != 0)
+  {
+    TradeResponseMessage resp;
+    ptString error("You are already trading with someone.", strlen("You are already trading with someone."));
+    resp.setError(error);
+    ByteStream bs;
+    resp.serialise(&bs);
+    NetworkHelper::sendMessage(pc, bs);
     return;
   }
 
@@ -52,20 +76,13 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
     PcEntity* peer_pc = peer_ent->getPlayerEntity()->getLock();
     TradePeer* other_peer = peer_pc->getTradePeer();
 
+#ifdef DEBUG_TRADE
+    printf("Requesting Trade with %s\n", *peer_pc->getCharacter()->getName());
+    other_peer->debugPrint();
+#endif
+
     TradeSession* session = other_peer->getSession();
     if (session != 0)
-    {
-      TradeResponseMessage resp;
-      ptString error("You are already trading with someone.", strlen("You are already trading with someone."));
-      resp.setError(error);
-      ByteStream bs;
-      resp.serialise(&bs);
-      NetworkHelper::sendMessage(pc, bs);
-      return;
-    }
-
-    session = new TradeSession(this_peer);
-    if (!session->sendRequest(other_peer))
     {
       TradeResponseMessage resp;
       ptString error("The other player is already trading with someone.", strlen("The other player is already trading with someone."));
@@ -75,6 +92,15 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
       NetworkHelper::sendMessage(pc, bs);
       return;
     }
+
+    session = new TradeSession(this_peer);
+    session->sendRequest(other_peer);
+
+#ifdef DEBUG_TRADE
+    printf("Relaying request\n");
+    this_peer->debugPrint();
+    other_peer->debugPrint();
+#endif
 
     message.setEntityId(pc->getEntity()->getId());
 
@@ -95,8 +121,12 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
   PcEntity* pc = c_pc->getLock();
 
   TradePeer* this_peer = pc->getTradePeer();
-
   TradePeer* other_peer = this_peer->getOtherPeer();
+
+#ifdef DEBUG_TRADE
+  this_peer->debugPrint();
+  other_peer->debugPrint();
+#endif
 
   if (other_peer)
   {
@@ -123,6 +153,10 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   PcEntity* pc = c_pc->getLock();
 
   TradePeer* peer = pc->getTradePeer();
+
+#ifdef DEBUG_TRADE
+  peer->debugPrint();
+#endif
 
   if (peer->getSession() == 0)
   {
@@ -180,6 +214,11 @@ void TradeHandler::handleTradeCancel(GenericMessage* msg)
     pc->freeLock();
     return;
   }
+
+#ifdef DEBUG_TRADE
+  peer->debugPrint();
+  peer->getOtherPeer()->debugPrint();
+#endif
 
   TradeCancelMessage c_msg;
   ByteStream bs;
