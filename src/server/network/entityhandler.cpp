@@ -286,26 +286,21 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
   InventoryMoveItemRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  int equip_slot = request_msg.getNewSlot();
-  int invent_slot = request_msg.getOldSlot();
+  unsigned char equip_slot = request_msg.getNewSlot();
+  unsigned char invent_slot = request_msg.getOldSlot();
 
   printf("Received EquipRequest from: '%s' | '%d' to '%d' \n", *name, invent_slot, equip_slot);
 
   bool equip = false;
-  if (equip_slot < 10 && equip_slot >= 0)
+  if (equip_slot < 10 || invent_slot < 10)
   {
     equip = true;
   }
-  else if (equip_slot < 30)
-  {
-    // Slot move, no equip
-    equip = false;
-  }
-  else error = "Invalid slot";
 
-  // doesn't matter if we overwrite the error
-  if (invent_slot >= 30) 
-    error = "Invalid inventory slot";
+  if (equip_slot >= 30 || invent_slot >= 30)
+  {
+    error = "Invalid slot";
+  }
 
   Character* character = c_char->getLock();
   Inventory* inventory = character->getInventory();
@@ -316,48 +311,23 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
   if (!item) 
     error = "No such Item";
 
+  // See if we have already an item in the equip slot.
+  int old_item_id = inventory->getItemId(equip_slot);
+  Item* old = server->getItemManager()->findById(old_item_id);
+
   if (item && ! error)
   {
-    unsigned int amount_old = inventory->getAmount(invent_slot);
-    if (amount_old == 0) error = "Character doesn't own this item";
-    else if (equip) // equip
-    {
-      // See if we have already an item in the equip slot.
-      int old_item_id = inventory->getItemId(equip_slot);
-      Item* old = server->getItemManager()->findById(old_item_id);
+    // Take from the inventory slot and...
+    inventory->takeItem(invent_slot);
 
-      // Take from the inventory slot and...
-      inventory->takeItem(invent_slot);
+    // ... (if we have) from the equip slot too.
+    if (old) inventory->takeItem(equip_slot);
 
-      // ... (if we have) from the equip slot too.
-      if (old) inventory->takeItem(equip_slot);
+    // Then we add the new item to the equip slot and...
+    inventory->addItem(item->getId(), equip_slot);
 
-      // Then we add the new item to the equip slot and...
-      inventory->addItem(item->getId(), equip_slot);
-
-      // ... (if we have) the old item to the inventory.
-      if (old) inventory->addItem(old->getId(), invent_slot);
-    }
-    else // move
-    {
-
-      // See if we have already an item in the equip slot.
-      unsigned int amount_new = inventory->getAmount(equip_slot);
-      int old_item_id = inventory->getItemId(equip_slot);
-      Item* old = server->getItemManager()->findById(old_item_id);
-
-      // Take from the inventory slot and...
-      inventory->takeItem(invent_slot);
-
-      // ... (if we have) from the equip slot too.
-      if (old) inventory->takeItem(equip_slot);
-
-      // Then we add the new item to the equip slot and...
-      inventory->addItem(item->getId(), equip_slot);
-
-      // ... (if we have) the old item to the inventory.
-      if (old) inventory->addItem(old->getId(), invent_slot);
-    }
+    // ... (if we have) the old item to the inventory.
+    if (old) inventory->addItem(old->getId(), invent_slot);
   }
 
   character->freeLock();
@@ -378,14 +348,29 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
 
   if (equip && !error)
   {
-    EquipMessage response_msg;
-    response_msg.setEntityId(user_ent->getId());
-    if (item) response_msg.setItemId(item->getId());
-    response_msg.setSlotId(equip_slot);
+    if (invent_slot < 10)
+    {
+      EquipMessage response_msg;
+      response_msg.setEntityId(user_ent->getId());
+      response_msg.setItemId(old_item_id);
+      response_msg.setSlotId(invent_slot);
 
-    ByteStream bs;
-    response_msg.serialise(&bs);
-    Server::getServer()->broadCast(bs);
+      ByteStream bs;
+      response_msg.serialise(&bs);
+      Server::getServer()->broadCast(bs);
+    }
+
+    if (equip_slot < 10)
+    {
+      EquipMessage response_msg;
+      response_msg.setEntityId(user_ent->getId());
+      response_msg.setItemId(new_item_id);
+      response_msg.setSlotId(equip_slot);
+
+      ByteStream bs;
+      response_msg.serialise(&bs);
+      Server::getServer()->broadCast(bs);
+    }
   }
 }
 
