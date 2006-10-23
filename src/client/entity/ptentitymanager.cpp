@@ -65,6 +65,7 @@ void ptEntityManager::Handle ()
   moveToEntity();
   DrUpdateEntity();
   updatePcProp();
+  equip();
 }
 
 PtEntity* ptEntityManager::findPtEntById(int id)
@@ -372,24 +373,35 @@ void ptEntityManager::updatePcProp(int entity_id, const char *pcprop, celData &v
 
 void ptEntityManager::equip(int entity_id, int item_id, int slot_id)
 {
-  PtEntity* ent = findPtEntById(entity_id);
-  if (ent->GetType() == PtEntity::PlayerEntity)
-  {
-    ((PtPcEntity*) ent)->GetEquipment()->Equip(item_id, slot_id);
-  }
-  else if (ent->GetType() == PtEntity::NPCEntity)
-  {
-    //((PtNpcEntity*) ent)->GetEquipment()->Equip(item_id, slot_id);
-  }
+  mutex.lock();
+  printf("ptEntityManager: Add equip for '%d': item %d in slot %d\n", entity_id, item_id, slot_id);
+  EquipData* equipdata = new EquipData();
+  equipdata->entity_id = entity_id;
+  equipdata->item_id = item_id;
+  equipdata->slot_id = slot_id;
+  equip_entity_name.Push(equipdata);
+  mutex.unlock();
 }
 
-void ptEntityManager::unequip(int entity_id, int slot_id)
+void ptEntityManager::equip()
 {
-  PtEntity* ent = findPtEntById(entity_id);
-  if (ent->GetType() == PtEntity::PlayerEntity)
+  if (!equip_entity_name.GetSize()) return;
+  mutex.lock();
+  EquipData* equipdata = equip_entity_name.Pop();
+
+  PtEntity* entity = findPtEntById(equipdata->entity_id);
+  if (entity)
   {
-    ((PtPcEntity*) ent)->GetEquipment()->UnEquip(slot_id);
+    if (entity->GetType() == PtEntity::PlayerEntity)
+    {
+      if(!equipdata->item_id == 0)
+        ((PtPcEntity*) entity)->GetEquipment()->Equip(equipdata->item_id, equipdata->slot_id);
+      else
+        ((PtPcEntity*) entity)->GetEquipment()->UnEquip(equipdata->slot_id);
+    }
   }
+  delete equipdata;
+  mutex.unlock();
 }
 
 void ptEntityManager::DrUpdateOwnEntity()

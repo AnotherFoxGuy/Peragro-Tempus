@@ -187,16 +187,8 @@ void EntityHandler::handleEquip(GenericMessage* msg)
 
   printf("EquipMessage: Entity %d equiped item %d to slot %d\n", entity, slot, item);
 
-  if (item == 0)
-  {
-    PointerLibrary::getInstance()->getEntityManager()->unequip(entity, slot);
-  }
-  else
-  {
-    PointerLibrary::getInstance()->getEntityManager()->equip(entity, item, slot);
-  }
+  PointerLibrary::getInstance()->getEntityManager()->equip(entity, item, slot);
 }
-
 void EntityHandler::handleInventoryMoveItem(GenericMessage* msg)
 {
   InventoryMoveItemMessage invmove_msg;

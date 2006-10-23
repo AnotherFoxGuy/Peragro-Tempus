@@ -19,6 +19,13 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
+struct EquipData
+{
+  int entity_id;
+  float item_id;
+  float slot_id;
+};
+
 struct MovementData
 {
   int entity_id;

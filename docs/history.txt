@@ -6,6 +6,9 @@ under each day.
 
 
 22-Oct-2006
+  - Sueastside changed equiping to use mutex.
+
+22-Oct-2006
   - PK fixed some trading bugs.
   - PK rewrote the inventory and made things unstackable.
   - Sueastside removed stackable.
