@@ -26,6 +26,13 @@ struct EquipData
   float slot_id;
 };
 
+struct TeleportData
+{
+  int entity_id;
+  csVector3 position;
+  csString sector;
+};
+
 struct MovementData
 {
   int entity_id;

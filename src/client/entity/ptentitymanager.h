@@ -75,6 +75,7 @@ private:
   csPDelArray<DrUpdateData> drupdate_entity_name;
   csPDelArray<UpdatePcPropData> update_pcprop_entity_name;
   csPDelArray<EquipData> equip_entity_name;
+  csPDelArray<TeleportData> teleport_entity_name;
 
   Mutex mutex;
 
@@ -93,6 +94,7 @@ private:
   void DrUpdateEntity();
   void updatePcProp();
   void equip();
+  void teleport();
 
   float GetAngle (const csVector3& v1, const csVector3& v2);
 

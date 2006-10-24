@@ -4,6 +4,8 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+24-Oct-2006
+  - Sueastside changed teleporting to use mutex.
 
 22-Oct-2006
   - Sueastside changed equiping to use mutex.

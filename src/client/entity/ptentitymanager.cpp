@@ -66,6 +66,7 @@ void ptEntityManager::Handle ()
   DrUpdateEntity();
   updatePcProp();
   equip();
+  teleport();
 }
 
 PtEntity* ptEntityManager::findPtEntById(int id)
@@ -187,13 +188,28 @@ void ptEntityManager::delAllEntities()
 
 void ptEntityManager::teleport(int entity_id, float* pos, const char* sector)
 {
+  mutex.lock();
   csVector3 position(pos[0],pos[1],pos[2]);
+  printf("ptEntityManager: Teleporting entity '%d'\n", entity_id);
+  TeleportData* teleportdata = new TeleportData();
+  teleportdata->entity_id = entity_id;
+  teleportdata->position = position;
+  teleportdata->sector = sector;
+  teleport_entity_name.Push(teleportdata);
+  mutex.unlock();
+}
 
-  // TODO: do the mutex trick
+void ptEntityManager::teleport()
+{
+  if (!teleport_entity_name.GetSize()) return;
+  mutex.lock();
+  TeleportData* teleportdata = teleport_entity_name.Pop();
 
-  PtEntity* entity = findPtEntById(entity_id);
+  PtEntity* entity = findPtEntById(teleportdata->entity_id);
   if(entity)
-    entity->Teleport(position, sector);
+    entity->Teleport(teleportdata->position, teleportdata->sector);
+  delete teleportdata;
+  mutex.unlock();
 }
 
 float ptEntityManager::GetAngle (const csVector3& v1, const csVector3& v2)
