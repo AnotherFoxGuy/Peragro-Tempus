@@ -47,6 +47,7 @@ public:
   bool MoveItem(Slot* oldslot, Slot* newslot);
   bool RemoveItem(unsigned int slotid);
   unsigned int FindItem(unsigned int itemid);
+  unsigned int FindFreeSlot();
 };
 
 

@@ -125,6 +125,22 @@ unsigned int InventoryWindow::FindItem(unsigned int itemid)
   return ~0;
 }
 
+unsigned int InventoryWindow::FindFreeSlot()
+{
+  for (size_t i = 10; i < inventory.GetSize(); i++)
+  {
+    Slot* slot = inventory.Get(i);
+    
+    if (!slot) 
+      continue;
+    
+    if (slot->IsEmpty())
+      return slot->GetId();
+  }
+  printf("ERROR InventoryWindow: Inventory full!\n");
+  return ~0;
+}
+
 void InventoryWindow::SetupEquipSlot(unsigned int id, const char* window)
 {
   Slot* slot = new Slot();

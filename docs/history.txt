@@ -6,6 +6,8 @@ under each day.
 
 24-Oct-2006
   - Sueastside changed teleporting to use mutex.
+  - Sueastside added FindFreeSlot, to be able to send the right
+     slotid to use for pickup.
 
 22-Oct-2006
   - Sueastside changed equiping to use mutex.

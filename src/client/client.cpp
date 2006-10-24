@@ -712,11 +712,15 @@ bool Client::OnMouseDown(iEvent& ev)
           // If it's an item, request a pickup.
           if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::ItemEntity)
           {
-            PickRequestMessage msg;
-            msg.setItemEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-            msg.setSlot(10); // TODO: get a free slot for this!
-            printf("OnMouseDown: Requisting picking up entity: %d \n", msg.getItemEntityId());
-            network->send(&msg);
+            unsigned int slotid = guimanager->GetInventoryWindow()->FindFreeSlot();
+            if(slotid < 30)
+            {
+              PickRequestMessage msg;
+              msg.setItemEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+              msg.setSlot(10); // TODO: get a free slot for this!
+              printf("OnMouseDown: Requisting picking up entity: %d for slot %d.\n", msg.getItemEntityId(), slotid);
+              network->send(&msg);
+            }
           }
           // If it's a door, request to open.
           else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::DoorEntity)
