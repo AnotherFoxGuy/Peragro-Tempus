@@ -717,7 +717,7 @@ bool Client::OnMouseDown(iEvent& ev)
             {
               PickRequestMessage msg;
               msg.setItemEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-              msg.setSlot(10); // TODO: get a free slot for this!
+              msg.setSlot(slotid); // TODO: get a free slot for this!
               printf("OnMouseDown: Requisting picking up entity: %d for slot %d.\n", msg.getItemEntityId(), slotid);
               network->send(&msg);
             }
