@@ -187,6 +187,7 @@ void InventoryWindow::CreateGUIWindow()
       Slot* slot = new Slot();
       slot->SetId((i+(j*5))+10);
       slot->SetType(DragDrop::Item);
+      slot->SetParent(Slot::Inventory);
       slot->SetWindow(dragdrop->createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
       slot->GetWindow()->setUserData(slot);
       inventory.Put(slot->GetId(), slot);

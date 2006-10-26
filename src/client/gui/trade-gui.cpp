@@ -167,18 +167,27 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
     return false;
   }
 
-  if(oldslot->GetId() == newslot->GetId())
+  // If we drag the icon around to the same 
+  // slot in the trade window, return.
+  if(oldslot->GetParent() == Slot::Trade
+    && oldslot->GetId() == newslot->GetId())
     return true;
-
-  dragdrop->MoveObject(oldslot, newslot);
 
   if(oldslot->GetParent() == Slot::Trade)
   {
+    dragdrop->MoveObject(oldslot, newslot);
     inventory.Put(newslot->GetId(), inventory[oldslot->GetId()]);
     inventory.Put(oldslot->GetId(), 0);
   }
   else
+  {
     inventory.Put(newslot->GetId(), oldslot);
+    // Disable the icon in the inventory.
+    Object* object = oldslot->GetObject();
+    object->GetWindow()->disable();
+    // Create a new item in the inventory.
+    dragdrop->CreateItem(newslot, object->GetId());
+  }
 
   // Send an updated state of the trade inventory.
   TradeWindow::UpdateOffer();
@@ -255,7 +264,7 @@ void TradeWindow::CancelTrade()
     if(!slot->IsEmpty())
     {
       Slot* oldslot = inventory[i];
-      guimanager->GetInventoryWindow()->MoveItem(slot, oldslot);
+      oldslot->GetObject()->GetWindow()->enable();
     }
   }
 
@@ -273,7 +282,7 @@ void TradeWindow::AcceptTrade()
 
   int nrInventorySlots = 30;
 
-  // Putting the items back in the inventory.
+  // Putting the new items in the inventory.
   int counter = 10;
   for (int i=0; i<numberOfSlots; i++)
   {
@@ -286,6 +295,17 @@ void TradeWindow::AcceptTrade()
       {
         counter += 1;
       }
+    }
+  }
+
+  // Deleting the traded items in the inventory.
+  for (int i=0; i<numberOfSlots; i++)
+  {
+    Slot* slot = trade1[i];
+    if(!slot->IsEmpty())
+    {
+      Slot* oldslot = inventory[i];
+      guimanager->GetInventoryWindow()->RemoveItem(oldslot->GetId());
     }
   }
 

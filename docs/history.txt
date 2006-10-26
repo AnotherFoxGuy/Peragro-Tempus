@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+26-Oct-2006
+  - Sueastside made icons swap when dropped on each other(visually broken).
+    And made trade icon interaction use copies of items, like suggested.
+
 24-Oct-2006
   - Sueastside changed teleporting to use mutex.
   - Sueastside added FindFreeSlot, to be able to send the right

@@ -71,12 +71,24 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
   Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
-  if(!newslot->IsEmpty()) return true;
+  if(!newslot->IsEmpty()) 
+  {
+    Object* obj = newslot->GetObject();
+    if(obj->GetWindow()->isDisabled())
+      return true;
+  }
 
   if(oldslot->GetParent() == Slot::Trade)
   {
+    // Enable the inventory icon again.
     Slot* oldinvslot = guimanager->GetTradeWindow()->GetOldSlot(oldslot);
-    MoveObject(oldslot, oldinvslot);
+    oldinvslot->GetObject()->GetWindow()->enable();
+    // Destroy the trade icon.
+    Object* tradeobj = oldslot->GetObject();
+    tradeobj->GetWindow()->destroy();
+    delete tradeobj;
+    oldslot->Clear();
+
     if(oldinvslot) oldslot = oldinvslot;
     guimanager->GetTradeWindow()->UpdateOffer();
   }
@@ -87,7 +99,6 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   if (network) network->send(&slotchangemsg);
 
   return true;
-
 }
 
 bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
@@ -106,21 +117,7 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   msg.setItemId(objectid);
   msg.setSlot(slot->GetId());
   if (network) network->send(&msg);
-/*
-  // If it's a equiped item unequip it.
-  if(slot->GetId() < 10)
-  {
-    int ownid = PointerLibrary::getInstance()->getEntityManager()->GetOwnId();
-    PointerLibrary::getInstance()->getEntityManager()->unequip(ownid, slot->GetId());
-  }
 
-  ddea.dragDropItem->destroy();
-  Object* object = slot->GetObject();
-  delete object;
-  slot->Clear();
-
-  printf("InventoryWindow: Dropped item of type %d of slot %d to the world!\n", objectid, slot->GetId());
-*/
   return true;
 }
 
@@ -137,7 +134,6 @@ bool DragDrop::handleDragDroppedTrade(const CEGUI::EventArgs& args)
   guimanager->GetTradeWindow()->AddItem(oldslot, newslot);
 
   return true;
-
 }
 
 CEGUI::Window* DragDrop::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
@@ -238,7 +234,29 @@ void DragDrop::CreateItem(Slot* slot, uint itemid, bool interactable)
 
 void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
 {
-  Object* object = oldslot->GetObject();
-  oldslot->MoveObjectTo(newslot);
-  newslot->GetWindow()->addChildWindow(object->GetWindow());
+  // TODO FIX
+  if(!newslot->IsEmpty())
+  {
+    // If slot is occupied: swap.
+    printf("DragDrop: Swapping objects!\n");
+    Object* object1 = oldslot->GetObject();
+    Object* object2 = newslot->GetObject();
+    oldslot->SetObject(object2);
+    newslot->SetObject(object1);
+    CEGUI::Window* icon1 = oldslot->GetObject()->GetWindow();
+    CEGUI::Window* icon2 = newslot->GetObject()->GetWindow();
+    oldslot->GetWindow()->removeChildWindow(icon1);
+    oldslot->GetWindow()->removeChildWindow(icon2);
+    oldslot->GetWindow()->addChildWindow(icon2);  
+    newslot->GetWindow()->addChildWindow(icon1);
+    oldslot->GetWindow()->show();
+    newslot->GetWindow()->show();
+
+  }
+  else
+  {
+    Object* object = oldslot->GetObject();
+    oldslot->MoveObjectTo(newslot);
+    newslot->GetWindow()->addChildWindow(object->GetWindow());
+  }
 }
