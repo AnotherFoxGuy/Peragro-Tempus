@@ -57,7 +57,7 @@ public:
     conn_handler.registerHandler(msg_h);
   }
 
-  void getStats(unsigned int& sentbyte, unsigned int& recvbyte, unsigned int& timestamp)
+  void getStats(size_t& sentbyte, size_t& recvbyte, size_t& timestamp)
   {
     socket.getNetworkStats(sentbyte, recvbyte, timestamp);
   }

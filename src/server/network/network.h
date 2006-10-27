@@ -66,7 +66,7 @@ public:
     udp_nw.start();
   }
 
-  void getStats(unsigned int& sentbyte, unsigned int& recvbyte, unsigned int& timestamp)
+  void getStats(size_t& sentbyte, size_t& recvbyte, size_t& timestamp)
   {
     udp_nw.getStats(sentbyte, recvbyte, timestamp);
   }

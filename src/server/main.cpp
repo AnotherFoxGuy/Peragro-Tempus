@@ -186,8 +186,8 @@ int main(int argc, char ** argv)
 
   printf("Server up and running!\n");
 
-  unsigned int sentbyte = 0, recvbyte = 0, timestamp = 0;
-  unsigned int delay_time = 10000; //10 sec = 10000 ms
+  size_t sentbyte = 0, recvbyte = 0, timestamp = 0;
+  size_t delay_time = 10000; //10 sec = 10000 ms
 
   while (running > 0)
   {
