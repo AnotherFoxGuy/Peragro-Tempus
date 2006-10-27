@@ -25,12 +25,14 @@ if [ Property build : projgen_version ] != 6
 {
   SubVariant static ;
   
-  Application client_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  Application client_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
   LFlags client_static : -lcrystalspace_staticplugins  -lcel_staticplugins ;
   LinkWith client_static : client-network client-gui client-effects client-entitymanager client-combatmanager client-itemmanager entity util ;
   LinkStaticPlugins client_static :
+    addon_questdef
+    mgr_quests
     pfactormove
     pfdefcam
     pfinput
@@ -98,6 +100,8 @@ if [ Property build : projgen_version ] != 6
     glshader_fixed
     glshader_arb
     glshader_cg
+    thing
+    thingldr
   ;
 
   cs_plugins_static_optional = 
