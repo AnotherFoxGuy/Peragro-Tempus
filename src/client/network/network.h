@@ -50,6 +50,12 @@ public:
     receiver.begin();
   }
 
+  void stop()
+  {
+    receiver.end();
+    socket.kill();
+  }
+
   void setServerAddress(SocketAddress& addr)
   {
     serveraddress = addr;

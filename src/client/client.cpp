@@ -196,6 +196,7 @@ bool Client::OnInitialize(int argc, char* argv[])
 
 void Client::OnExit()
 {
+  network->stop();
 }
 
 bool Client::Application()
