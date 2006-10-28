@@ -116,7 +116,14 @@ Client::Client() : playing(false)
   world_loaded = false;
   cameradistance = 3;
 
+  combatmanager = 0;
+  entitymanager = 0;
+  effectsmanager = 0;
+  guimanager = 0;
   network = 0;
+  cursor = 0;
+  itemmanager = 0;
+
   cursor = 0;
 
   last_seen = 0;
@@ -196,7 +203,7 @@ bool Client::OnInitialize(int argc, char* argv[])
 
 void Client::OnExit()
 {
-  network->stop();
+  if (network) network->stop();
 }
 
 bool Client::Application()

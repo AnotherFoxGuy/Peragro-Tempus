@@ -12,6 +12,8 @@
 #pragma comment(linker, "/section:.CSmeta,er")
 #pragma comment(linker, "/merge:.CSmetai=.CSmeta")
 #endif
+SCF_USE_STATIC_PLUGIN(addon_questdef)
+SCF_USE_STATIC_PLUGIN(mgr_quests)
 SCF_USE_STATIC_PLUGIN(pfactormove)
 SCF_USE_STATIC_PLUGIN(pfdefcam)
 SCF_USE_STATIC_PLUGIN(pfinput)
