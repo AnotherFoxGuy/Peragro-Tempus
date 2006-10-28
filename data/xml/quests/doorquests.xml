@@ -2,14 +2,14 @@
 <library>
     <addon plugin='cel.addons.questdef'>
       <quest name='PropDoor'>
-        <default name='x_on' string='0'/>
-        <default name='x_off' string='0'/>
-        <default name='y_on' string='3'/>
-        <default name='y_off' string='-3'/>
-        <default name='z_on' string='0'/>
-        <default name='z_off' string='0'/>
-        <default name='duration' string='500'/>
-        <default name='property' string='Door Open'/>
+        <default name='x_on' value='0'/>
+        <default name='x_off' value='0'/>
+        <default name='y_on' value='3'/>
+        <default name='y_off' value='-3'/>
+        <default name='z_on' value='0'/>
+        <default name='z_off' value='0'/>
+        <default name='duration' value='500'/>
+        <default name='property' value='Door Open'/>
         <state name='closed'>
           <trigger type='propertychange'>
             <fireon property='Door Open' value='1' entity='$this'/>
