@@ -234,24 +234,21 @@ void DragDrop::CreateItem(Slot* slot, uint itemid, bool interactable)
 
 void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
 {
-  // TODO FIX
   if(!newslot->IsEmpty())
   {
     // If slot is occupied: swap.
     printf("DragDrop: Swapping objects!\n");
     Object* object1 = oldslot->GetObject();
     Object* object2 = newslot->GetObject();
-    oldslot->SetObject(object2);
-    newslot->SetObject(object1);
     CEGUI::Window* icon1 = oldslot->GetObject()->GetWindow();
     CEGUI::Window* icon2 = newslot->GetObject()->GetWindow();
-    oldslot->GetWindow()->removeChildWindow(icon1);
-    oldslot->GetWindow()->removeChildWindow(icon2);
+    oldslot->SetObject(object2);
+    newslot->SetObject(object1);
     oldslot->GetWindow()->addChildWindow(icon2);  
     newslot->GetWindow()->addChildWindow(icon1);
-    oldslot->GetWindow()->show();
-    newslot->GetWindow()->show();
-
+    // Forces CEGUI to update.
+    icon1->notifyScreenAreaChanged();
+    icon2->notifyScreenAreaChanged();
   }
   else
   {
