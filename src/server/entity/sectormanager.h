@@ -55,7 +55,7 @@ public:
   const ptString& getSectorName(unsigned short id)
   {
     if (id > sectors.getCount()) return ptString::Null;
-    return sectors.get(id+1);
+    return sectors.get(id-1);
   }
 
   void addSector(unsigned short id, ptString name)
@@ -67,4 +67,4 @@ public:
   }
 };
 
-#endif // _ITEMMANAGER_H_
+#endif // _SECTORMANAGER_H_
