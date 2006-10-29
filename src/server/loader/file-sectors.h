@@ -16,27 +16,19 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _FILELOADER_H_
-#define _FILELOADER_H_
+#ifndef _FILE_SECTORS_H_
+#define _FILE_SECTORS_H_
 
-class DoorsFile;
-class ItemsFile;
-class SectorsFile;
+#include <iostream>
+#include <fstream>
 
-class FileLoader
+class SectorsFile
 {
-private:
-  DoorsFile* doorsfile;
-  ItemsFile* itemsfile;
-  SectorsFile* sectorsfile;
-
 public:
-  FileLoader();
-  ~FileLoader();
+  SectorsFile() {}
+  ~SectorsFile() {}
 
-  DoorsFile* getDoorsFile() { return doorsfile; }
-  ItemsFile* getItemsFile() { return itemsfile; }
-  SectorsFile* getSectorsFile() { return sectorsfile; }
+  void load();
 };
 
-#endif // _FILELOADER_H_
+#endif // _FILE_SECTORS_H_

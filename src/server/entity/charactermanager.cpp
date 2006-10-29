@@ -59,7 +59,7 @@ void CharacterManager::checkForSave(const PcEntity* e)
   {
     Entity* l_ent = ent->getLock();
     l_ent->resetSavePos();
-    server->getDatabase()->getCharacterTable()->update(ent->getPos(), ent->getSector(), e->getCharacter()->getId());
+    server->getDatabase()->getCharacterTable()->update(ent->getPos(), ent->getSectorName(), e->getCharacter()->getId());
     l_ent->freeLock();
   }
 }

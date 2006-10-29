@@ -122,7 +122,7 @@ void EntityTable::remove(int id)
 void EntityTable::update(Entity* entity)
 {
   db->update("update entities set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector=%q where id = %d;",
-    entity->getPos()[0], entity->getPos()[1], entity->getPos()[2], *entity->getSector(), entity->getId() );
+    entity->getPos()[0], entity->getPos()[1], entity->getPos()[2], *entity->getSectorName(), entity->getId() );
 }
 
 bool EntityTable::existsEntity(ptString name)

@@ -16,27 +16,35 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _FILELOADER_H_
-#define _FILELOADER_H_
+#include "file-sectors.h"
 
-class DoorsFile;
-class ItemsFile;
-class SectorsFile;
+#include "server/entity/sectormanager.h"
+#include "server/server.h"
 
-class FileLoader
+#include "ext/tinyxml/tinyxml.h"
+
+void SectorsFile::load()
 {
-private:
-  DoorsFile* doorsfile;
-  ItemsFile* itemsfile;
-  SectorsFile* sectorsfile;
+  SectorManager* sector_mgr = Server::getServer()->getSectorManager();
 
-public:
-  FileLoader();
-  ~FileLoader();
+  // If the XML is not consistant, we just segfault!
 
-  DoorsFile* getDoorsFile() { return doorsfile; }
-  ItemsFile* getItemsFile() { return itemsfile; }
-  SectorsFile* getSectorsFile() { return sectorsfile; }
-};
+  TiXmlDocument doc;
+  if (!doc.LoadFile("data/xml/world/sectors.xml"))
+    return;
 
-#endif // _FILELOADER_H_
+  TiXmlElement* Sectors = doc.FirstChildElement("sectors");
+
+  TiXmlElement* itemNode = Sectors->FirstChildElement("sector");
+  while (itemNode)
+  {
+    int id = 0;
+    itemNode->Attribute("id", &id);
+
+    const char* name = itemNode->FirstChild()->ToText()->Value();
+
+    sector_mgr->addSector(id, ptString(name, strlen(name)));
+
+    itemNode = itemNode->NextSiblingElement("sector");
+  }
+}

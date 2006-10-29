@@ -23,6 +23,10 @@
 #include "doorentity.h"
 #include "itementity.h"
 
+#include "sectormanager.h"
+
+#include "server/server.h"
+
 void Entity::setPlayerEntity(const PcEntity* pc)
 {
   pc_entity = pc->getRef();
@@ -41,4 +45,18 @@ void Entity::setItemEntity(const ItemEntity* item)
 void Entity::setDoorEntity(const DoorEntity* door)
 {
   door_entity = door->getRef();
+}
+
+const ptString& Entity::getSectorName() const
+{
+  return Server::getServer()->getSectorManager()->getSectorName(sector_id);
+}
+
+void Entity::setSector(ptString name)
+{
+  sector_id = Server::getServer()->getSectorManager()->getSectorId(name);
+  if (sector_id == Sector::NoSector)
+  {
+    printf("Player %s is trying to get to a non existing sector!\n", *name_id);
+  }
 }

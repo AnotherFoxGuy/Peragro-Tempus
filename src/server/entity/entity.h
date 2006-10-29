@@ -36,7 +36,7 @@ private:
 
   ptString name_id;
   ptString mesh_id;
-  ptString sector_id;
+  unsigned short sector_id;
 
   ptMonitor<PcEntity> pc_entity;
   ptMonitor<NpcEntity> npc_entity;
@@ -125,8 +125,10 @@ public:
   const ptString& getMesh() const { return mesh_id; }
   void setMesh(ptString id) { mesh_id = id; }
 
-  const ptString& getSector() const { return sector_id; }
-  void setSector(ptString id) { sector_id = id; }
+  const unsigned short getSector() const { return sector_id; }
+  const ptString& getSectorName() const;
+  void setSector(unsigned short id) { sector_id = id; }
+  void setSector(ptString name);
 
   EntityType getType() const { return type; }
 

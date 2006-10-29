@@ -37,6 +37,7 @@ class CharacterEntity;
 class Spawner;
 class SkillEngine;
 class ByteStream;
+class SectorManager;
 
 class Server
 {
@@ -56,6 +57,7 @@ private:
   TimerEngine* timer_engine;
   Spawner* spawner;
   SkillEngine* skillengine;
+  SectorManager* sectormanager;
 
 public:
   Server() { server = this; }
@@ -96,6 +98,9 @@ public:
 
   void setSpawner(Spawner* spawner) { this->spawner = spawner; }
   Spawner* getSpawner() { return this->spawner; }
+
+  void setSectorManager(SectorManager* sectormanager) { this->sectormanager = sectormanager; }
+  SectorManager* getSectorManager() { return this->sectormanager; }
 
   //void setSkillEngine(SkillEngine* spawner) { this->skillengine = skillengine; }
   //SkillEngine* getSkillEngine() { return this->skillengine; }

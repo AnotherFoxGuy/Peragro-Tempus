@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+29-Oct-2006
+  - PK added sector ids.
+
 28-Oct-2006
   - Sueastside fixed icon swap.
 

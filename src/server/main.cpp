@@ -29,6 +29,7 @@
 #include "server/entity/itemmanager.h"
 #include "server/entity/statmanager.h"
 #include "server/entity/skillmanager.h"
+#include "server/entity/sectormanager.h"
 #include "common/quest/npcdialog.h"
 #include "common/quest/npcdialoganswer.h"
 #include "common/quest/npcdialogmanager.h"
@@ -44,6 +45,7 @@
 #include "server/loader/fileloader.h"
 #include "server/loader/file-doors.h"
 #include "server/loader/file-items.h"
+#include "server/loader/file-sectors.h"
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
 #include "server/spawner.h"
@@ -122,9 +124,15 @@ int main(int argc, char ** argv)
   SkillManager skill_mgr;
   server.setSkillManager(&skill_mgr);
 
+  SectorManager sector_mgr;
+  server.setSectorManager(&sector_mgr);
+
   TimerEngine timeEngine;
   timeEngine.begin();
   server.setTimerEngine(&timeEngine);
+
+  // Loading sectors from file
+  fileloader.getSectorsFile()->load();
 
   // Loading items from file
   fileloader.getItemsFile()->load();

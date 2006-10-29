@@ -1,0 +1,10 @@
+<portals>
+	<portal id="1">
+	        <v y="3.37" x="84.68" z="2.63"/>
+		<link from="room" to="house016indoors" />
+	</portal>
+	<portal id="2">
+	        <v y="3.37" x="84.68" z="2.63"/>
+		<link from="house016indoors" to="room" />
+	</portal>
+</portals>

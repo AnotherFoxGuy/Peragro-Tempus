@@ -62,7 +62,8 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEntityId(entity->getId());
     msg.setItemId(entity->getItemEntity()->getItem()->getId());
     msg.setPos(entity->getPos());
-    msg.setSector(entity->getSector());
+    msg.setSectorId(entity->getSector());
+    msg.setSector(entity->getSectorName());
     msg.serialise(&bs);
   }
   else if (entity->getType() == Entity::PlayerEntityType)
@@ -72,7 +73,8 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEntityId(entity->getId());
     msg.setMesh(entity->getMesh());
     msg.setPos(entity->getPos());
-    msg.setSector(entity->getSector());
+    msg.setSectorId(entity->getSector());
+    msg.setSector(entity->getSectorName());
     Character* character = entity->getPlayerEntity()->getCharacter()->getLock();
     msg.setDecalColour(character->getDecalColour());
     msg.setHairColour(character->getHairColour());
@@ -94,7 +96,8 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEntityId(entity->getId());
     msg.setMesh(entity->getMesh());
     msg.setPos(entity->getPos());
-    msg.setSector(entity->getSector());
+    msg.setSectorId(entity->getSector());
+    msg.setSector(entity->getSectorName());
     msg.serialise(&bs);
   }
   else
