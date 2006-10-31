@@ -33,5 +33,6 @@
 #include "trade-gui.h"
 #include "confirmdialog-gui.h"
 #include "buy-gui.h"
+#include "sell-gui.h"
 
 #endif // GUI_H
