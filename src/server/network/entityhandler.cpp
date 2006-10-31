@@ -406,3 +406,11 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
   telemsg.serialise(&bs);
   server->broadCast(bs);
 }
+
+void EntityHandler::handleMountRequest(GenericMessage* msg)
+{
+}
+
+void EntityHandler::handleUnmountRequest(GenericMessage* msg)
+{
+}

@@ -141,7 +141,7 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
   pc->freeLock();
 }
 
-void TradeHandler::handleBuyItemRequestNpc(GenericMessage* msg)
+void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
 {
 }
 

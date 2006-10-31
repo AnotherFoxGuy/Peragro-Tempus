@@ -274,3 +274,11 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
 
   PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
 }
+
+void EntityHandler::handleMount(GenericMessage* msg)
+{
+}
+
+void EntityHandler::handleUnmount(GenericMessage* msg)
+{
+}

@@ -65,10 +65,6 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
   }
 }
 
-void TradeHandler::handleBuyItemResponseNpc(GenericMessage* msg)
-{
-}
-
 void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
 {
   printf("RESPONSE: handleTradeConfirmResponse\n");
