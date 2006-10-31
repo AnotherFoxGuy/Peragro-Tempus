@@ -32,10 +32,9 @@ void PtNpcEntity::Create()
   CreateCelEntity();
 
   char buffer[32];
-  cs_snprintf(buffer, 32, "player_%d", id);
+  cs_snprintf(buffer, 32, "npc_%d", id);
   celentity->SetName(buffer);
 
-  //pl->CreatePropertyClass(celentity, "pcdefaultcamera");
   pl->CreatePropertyClass(celentity, "pcactormove");
   pl->CreatePropertyClass(celentity, "pclinearmovement");
 

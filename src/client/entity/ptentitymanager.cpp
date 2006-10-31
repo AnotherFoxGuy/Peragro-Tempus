@@ -133,7 +133,8 @@ void ptEntityManager::addEntity()
 
       // Set up own player cam and entity for faster access.
       owncam = pccamera->GetCamera();
-      ownent = entity->GetCelEntity();
+      ownent = entity;
+      owncelent = entity->GetCelEntity();
       ownname = entity->GetName();
     }
     else
@@ -426,9 +427,9 @@ void ptEntityManager::DrUpdateOwnEntity()
 
   if (own_char_id != -1)
   {
-    if (ownent)
+    if (owncelent)
     {
-      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
+      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(owncelent, iPcLinearMovement);
       bool on_ground;
       float speed, rot, avel;
       csVector3 pos, vel, wvel;

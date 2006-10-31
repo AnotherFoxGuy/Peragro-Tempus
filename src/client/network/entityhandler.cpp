@@ -258,3 +258,19 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   entity->SetId(entmsg.getEntityId());
   ptr->getEntityManager()->addEntity(entity);
 }
+
+void EntityHandler::handleAddMountEntity(GenericMessage* msg)
+{
+  printf("EntityHandler: Received AddMountEntity\n");
+  //AddMountEntityMessage entmsg;
+  //entmsg.deserialise(msg->getByteStream());
+
+  PtEntity* entity = new PtMountEntity();
+  entity->SetName("horse");
+  entity->SetMeshName("horse");
+  entity->SetPosition(csVector3(88,2,22));
+  entity->SetSectorName("room");
+  entity->SetId(99);
+
+  PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
+}

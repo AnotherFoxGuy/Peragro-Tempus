@@ -67,6 +67,7 @@ public:
   void handleAddItemEntity(GenericMessage* msg);
   void handleAddNpcEntity(GenericMessage* msg);
   void handleAddDoorEntity(GenericMessage* msg);
+  void handleAddMountEntity(GenericMessage* msg);
   void handleRemove(GenericMessage* msg);
   void handleMove(GenericMessage* msg);
   void handleMoveTo(GenericMessage* msg);

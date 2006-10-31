@@ -47,6 +47,7 @@ GUIManager::GUIManager (Client* client)
   npcdialogwindow = 0;
   confirmwindow = 0;
   okwindow = 0;
+  buywindow = 0;
 }
 
 GUIManager::~GUIManager ()

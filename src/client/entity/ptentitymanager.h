@@ -34,10 +34,11 @@
 #include <propclass/quest.h>
 
 #include "client/entity/ptentity.h"
-#include "client/entity/character/pcentity.h"
-#include "client/entity/character/npcentity.h"
+#include "client/entity/pc/pcentity.h"
+#include "client/entity/npc/npcentity.h"
 #include "client/entity/door/doorentity.h"
 #include "client/entity/item/itementity.h"
+#include "client/entity/mount/mountentity.h"
 
 #include "common/util/mutex.h"
 
@@ -81,7 +82,8 @@ private:
 
   unsigned int own_char_id;
   csRef<iCamera> owncam;
-  csRef<iCelEntity> ownent;
+  csRef<iCelEntity> owncelent;
+  PtEntity* ownent;
   csString ownname;
 
   bool playing;
@@ -121,7 +123,8 @@ public:
 
   void setCharacter(unsigned int own_char) { own_char_id = own_char; }
   iCamera* getOwnCamera() { return owncam; }
-  iCelEntity* getOwnEntity() { return ownent; }
+  iCelEntity* getOwnCelEntity() { return owncelent; }
+  PtEntity* getOwnPtEntity() { return ownent; }
   unsigned int GetOwnId() { return own_char_id; }
   csString GetOwnName() { return ownname; }
 

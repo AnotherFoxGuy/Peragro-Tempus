@@ -16,25 +16,19 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PTPCENTITY_H
-#define PTPCENTITY_H
+#ifndef PTNPCENTITY_H
+#define PTNPCENTITY_H
 
-#include "characterentity.h"
+#include "client/entity/character/characterentity.h"
 
 #include "client/pointer/pointer.h"
 
-class PtPcEntity : public PtCharacterEntity
+class PtNpcEntity : public PtCharacterEntity
 {
-private:
-  bool is_own_entity;
-
 public:
-  PtPcEntity();
-  virtual ~PtPcEntity(){}
+  PtNpcEntity();
+  virtual ~PtNpcEntity(){}
   void Create();
-
-  bool IsOwnEntity() { return is_own_entity; }
-  void SetOwnEntity(bool ownership) { is_own_entity = ownership; }
 };
 
-#endif // PTPCENTITY_H
+#endif // PTNPCENTITY_H

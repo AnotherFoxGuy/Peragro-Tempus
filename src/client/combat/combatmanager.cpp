@@ -238,7 +238,7 @@ void CombatMGR::levelup (int targetId)
 void CombatMGR::experience (int exp)
 {
   // Lookup the ID to get the actual entity.
-  iCelEntity* ownent = entitymgr->getOwnEntity();
+  iCelEntity* ownent = entitymgr->getOwnCelEntity();
 
   if (!ownent)
   {
@@ -406,7 +406,7 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
     return;
   }
   // Get your own entity.
-  iCelEntity* attacker = entitymgr->getOwnEntity();
+  iCelEntity* attacker = entitymgr->getOwnCelEntity();
   unsigned int attackerId = entitymgr->GetOwnId();
 
   // Lookup the ID to get the actual entity.

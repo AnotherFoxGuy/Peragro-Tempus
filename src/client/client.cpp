@@ -542,14 +542,14 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == CSKEY_PGUP)
       {
-        iCelEntity* entity = entitymanager->getOwnEntity();
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
         pccamera->SetPitch(pccamera->GetPitch()-0.1f);
       }
       else if (code == CSKEY_PGDN)
       {
-        iCelEntity* entity = entitymanager->getOwnEntity();
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()+0.1f);
@@ -562,7 +562,7 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'd')
       {
-        iCelEntity* entity = entitymanager->getOwnEntity();
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         guimanager->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
@@ -572,6 +572,9 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'g')
       {
+        GenericMessage* msg;
+        EntityHandler* handler;
+        handler->handleAddMountEntity(msg);
       }
       else if (code == 'f')
       {
@@ -600,7 +603,7 @@ bool Client::OnKeyboard(iEvent& ev)
           combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         }
         // Animate the player.
-        iCelEntity* entity = entitymanager->getOwnEntity();
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
         if (!pcmesh) return false;
@@ -612,7 +615,7 @@ bool Client::OnKeyboard(iEvent& ev)
       }
       else if (code == 'k')
       {
-        iCelEntity* entity = entitymanager->getOwnEntity();
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
         if (!pcmesh) return false;
@@ -690,7 +693,7 @@ bool Client::OnMouseDown(iEvent& ev)
           {
             effectsmanager->CreateEffect(EffectsManager::MoveMarker, isect+csVector3(0,0.25,0));
 
-            csRef<iCelEntity> ownent = entitymanager->getOwnEntity();
+            csRef<iCelEntity> ownent = entitymanager->getOwnCelEntity();
             if (!ownent) return false;
             csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
             if (!pclinmove) return false;
@@ -765,6 +768,19 @@ bool Client::OnMouseDown(iEvent& ev)
             printf("OnMouseDown: Requesting dialog with: %d \n", msg.getNpcId());
             network->send(&msg);
           }
+          // If it's a mount, mount it.
+          else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::MountEntity)
+          {
+            PtEntity* ownent = entitymanager->getOwnPtEntity();
+            if (!ownent) return false;
+
+            PtEntity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+            if(!ent) return false;
+            PtMountEntity* mount = static_cast<PtMountEntity*>(ent);
+            mount->Mount(ownent);
+
+            printf("OnMouseDown: Mounting.\n");
+          }
           else
           {
             printf("OnMouseDown: Unknown entity type!\n");
@@ -779,7 +795,7 @@ bool Client::OnMouseDown(iEvent& ev)
         }
       case csmbWheelUp:
         {
-          iCelEntity* entity = entitymanager->getOwnEntity();
+          iCelEntity* entity = entitymanager->getOwnCelEntity();
           if (!entity) return false;
           csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
           cameradistance -= 0.5;
@@ -789,7 +805,7 @@ bool Client::OnMouseDown(iEvent& ev)
         }
       case csmbWheelDown:
         {
-          iCelEntity* entity = entitymanager->getOwnEntity();
+          iCelEntity* entity = entitymanager->getOwnCelEntity();
           if (!entity) return false;
           csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
           cameradistance += 0.5;
@@ -1083,7 +1099,7 @@ void Client::sawServer()
 
 iPcActorMove* Client::getPcActorMove()
 {
-  iCelEntity* entity = entitymanager->getOwnEntity();
+  iCelEntity* entity = entitymanager->getOwnCelEntity();
   if (entity == 0) 
     return 0;
   csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);

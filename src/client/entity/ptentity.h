@@ -80,7 +80,8 @@ public:
     PlayerEntity=0,
     NPCEntity=1,
     DoorEntity=2,
-    ItemEntity=3
+    ItemEntity=3,
+    MountEntity=4
   };
 
 protected:
