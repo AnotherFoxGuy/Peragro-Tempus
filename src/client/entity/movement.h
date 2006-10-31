@@ -21,28 +21,28 @@
 
 struct EquipData
 {
-  int entity_id;
-  float item_id;
-  float slot_id;
+  unsigned int entity_id;
+  unsigned int item_id;
+  unsigned int slot_id;
 };
 
 struct TeleportData
 {
-  int entity_id;
+  unsigned int entity_id;
   csVector3 position;
   csString sector;
 };
 
 struct MovementData
 {
-  int entity_id;
+  unsigned int entity_id;
   float walk;
   float turn;
 };
 
 struct MoveToData
 {
-  int entity_id;
+  unsigned int entity_id;
   bool walking;
   float dest_angle;
   float walk_speed;
@@ -53,14 +53,14 @@ struct MoveToData
 
 struct UpdatePcPropData
 {
-  int entity_id;
+  unsigned int entity_id;
   csString pcprop;
   celData value;
 };
 
 struct DrUpdateData
 {
-  int entity_id;
+  unsigned int entity_id;
   csString sector;
   csVector3 pos;
   float rot;

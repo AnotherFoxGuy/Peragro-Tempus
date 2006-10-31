@@ -63,7 +63,7 @@ bool BuyWindow::OnScroll(const CEGUI::EventArgs& args)
   CEGUI::Scrollbar* scrollbar = static_cast<CEGUI::Scrollbar*>(ddea.window);
   float page = scrollbar->getScrollPosition();
 
-  Update(page);
+  Update((int)page);
 
   printf("Scrolling: page %f\n", page);
 
