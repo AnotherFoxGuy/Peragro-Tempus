@@ -392,7 +392,7 @@ void Client::handleStates()
       //guimanager->GetSelectCharWindow()->ShowWindow();
       //guimanager->CreateConfirmWindow();
       //guimanager->CreateOkWindow();
-      guimanager->CreateBuyWindow();
+      //guimanager->CreateBuyWindow();
 
       if (cmdline)
       {

@@ -192,12 +192,6 @@ void BuyWindow::CreateGUIWindow()
 
   dragdrop = guimanager->GetDragDrop();
 
-/*===============Delete====================*/
-  //Load the inventory icon imageset
-  vfs->ChDir ("/peragro/skin/");
-  cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/inventory.imageset", "Inventory");
-/*==========================================*/
-
   // Get the root window
   rootwindow = winMgr->getWindow("BuyWindow/Frame");
 
