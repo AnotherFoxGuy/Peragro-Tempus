@@ -81,36 +81,6 @@ void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
 
 }
 
-void BuyItemRequestNpcMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-}
-
-void BuyItemRequestNpcMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-}
-
-void BuyItemResponseNpcMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setString(error);
-}
-
-void BuyItemResponseNpcMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  error = serial.getString();
-}
-
 void TradeOffersListPvpMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
@@ -138,6 +108,33 @@ void TradeOffersListPvpMessage::deserialise(ByteStream* bs)
     offers[i].itemid = (unsigned int) serial.getInt32();
     offers[i].amount = (unsigned int) serial.getInt32();
     offers[i].slotid = (unsigned char) serial.getInt8();
+  };
+
+}
+
+void TradeOrderListNpcMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(orderscount);
+  for ( size_t i = 0; i < orderscount ; i++ )
+  {
+    serial.setInt32(orders[i].itemid);
+  };
+
+}
+
+void TradeOrderListNpcMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  orderscount = (unsigned char) serial.getInt8();
+  setOrdersCount(orderscount);
+  for ( size_t i = 0; i < orderscount ; i++ )
+  {
+    orders[i].itemid = (unsigned int) serial.getInt32();
   };
 
 }

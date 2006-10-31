@@ -61,6 +61,9 @@ public:
     else if (id == ENTITY::TELEPORT) handleTeleport(msg);
     else if (id == ENTITY::DRUPDATE) handleDrUpdate(msg);
     else if (id == ENTITY::INVENTORYMOVEITEM) handleInventoryMoveItem(msg);
+    else if (id == ENTITY::ADDMOUNTENTITY) handleAddMountEntity(msg);
+    else if (id == ENTITY::MOUNT) handleMount(msg);
+    else if (id == ENTITY::UNMOUNT) handleUnmount(msg);
   }
 
   void handleAddPlayerEntity(GenericMessage* msg);
@@ -81,6 +84,9 @@ public:
   void handleTeleport(GenericMessage* msg);
   void handleDrUpdate(GenericMessage* msg);
   void handleInventoryMoveItem(GenericMessage* msg);
+  void handleAddMountEntity(GenericMessage* msg);
+  void handleMount(GenericMessage* msg);
+  void handleUnmount(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

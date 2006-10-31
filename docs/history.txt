@@ -9,6 +9,7 @@ under each day.
   - Sueastside committed Buy and Sell windows. 
   - Sueastside committed mounting.
   - PK fixed some compile errors with GCC.
+  - PK adds new network messages.
 
 29-Oct-2006
   - PK added sector ids.

@@ -46,7 +46,7 @@ public:
 
     if (id == TRADE::TRADEREQUEST) handleTradeRequest(msg);
     else if (id == TRADE::TRADERESPONSE) handleTradeResponse(msg);
-    else if (id == TRADE::BUYITEMREQUESTNPC) handleBuyItemRequestNpc(msg);
+    else if (id == TRADE::TRADEORDERLISTNPC) handleTradeOrderListNpc(msg);
     else if (id == TRADE::TRADEOFFERSLISTPVP) handleTradeOffersListPvp(msg);
     else if (id == TRADE::TRADEOFFERACCEPT) handleTradeOfferAccept(msg);
     else if (id == TRADE::TRADECANCEL) handleTradeCancel(msg);
@@ -55,7 +55,7 @@ public:
 
   void handleTradeRequest(GenericMessage* msg);
   void handleTradeResponse(GenericMessage* msg);
-  void handleBuyItemRequestNpc(GenericMessage* msg);
+  void handleTradeOrderListNpc(GenericMessage* msg);
   void handleTradeOffersListPvp(GenericMessage* msg);
   void handleTradeOfferAccept(GenericMessage* msg);
   void handleTradeCancel(GenericMessage* msg);

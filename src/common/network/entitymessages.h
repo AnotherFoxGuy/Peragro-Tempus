@@ -48,7 +48,12 @@ namespace ENTITY
     DRUPDATEREQUEST=20,
     DRUPDATE=21,
     INVENTORYMOVEITEMREQUEST=22,
-    INVENTORYMOVEITEM=23
+    INVENTORYMOVEITEM=23,
+    ADDMOUNTENTITY=24,
+    MOUNTREQUEST=25,
+    MOUNT=26,
+    UNMOUNTREQUEST=27,
+    UNMOUNT=28
   };
 }
 
@@ -989,6 +994,156 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
+
+};
+
+class AddMountEntityMessage : public NetMessage
+{
+  ptString name;
+  ptString mesh;
+  float pos[3];
+  ptString sector;
+  unsigned short sectorid;
+  unsigned int entityid;
+  unsigned int inventoryid;
+
+public:
+  AddMountEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDMOUNTENTITY)
+  {
+  }
+
+  ~AddMountEntityMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getName() { return name; }
+  void setName(ptString x) { name = x; }
+
+  ptString getMesh() { return mesh; }
+  void setMesh(ptString x) { mesh = x; }
+
+  float* getPos() { return pos; }
+  void setPos(float x, float y, float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  void setPos(const float* x)
+  {
+    setPos(x[0], x[1], x[2]);
+  }
+
+  ptString getSector() { return sector; }
+  void setSector(ptString x) { sector = x; }
+
+  unsigned short getSectorId() { return sectorid; }
+  void setSectorId(unsigned short x) { sectorid = x; }
+
+  unsigned int getEntityId() { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
+
+  unsigned int getInventoryId() { return inventoryid; }
+  void setInventoryId(unsigned int x) { inventoryid = x; }
+
+};
+
+class MountRequestMessage : public NetMessage
+{
+  unsigned int mountentityid;
+
+public:
+  MountRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOUNTREQUEST)
+  {
+  }
+
+  ~MountRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getMountEntityId() { return mountentityid; }
+  void setMountEntityId(unsigned int x) { mountentityid = x; }
+
+};
+
+class MountMessage : public NetMessage
+{
+  unsigned int playerentityid;
+  unsigned int mountentityid;
+  unsigned char control;
+
+public:
+  MountMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOUNT)
+  {
+  }
+
+  ~MountMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getPlayerEntityId() { return playerentityid; }
+  void setPlayerEntityId(unsigned int x) { playerentityid = x; }
+
+  unsigned int getMountEntityId() { return mountentityid; }
+  void setMountEntityId(unsigned int x) { mountentityid = x; }
+
+  unsigned char getControl() { return control; }
+  void setControl(unsigned char x) { control = x; }
+
+};
+
+class UnmountRequestMessage : public NetMessage
+{
+  unsigned int mountentityid;
+
+public:
+  UnmountRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::UNMOUNTREQUEST)
+  {
+  }
+
+  ~UnmountRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getMountEntityId() { return mountentityid; }
+  void setMountEntityId(unsigned int x) { mountentityid = x; }
+
+};
+
+class UnmountMessage : public NetMessage
+{
+  unsigned int playerentityid;
+  unsigned int mountentityid;
+
+public:
+  UnmountMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::UNMOUNT)
+  {
+  }
+
+  ~UnmountMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getPlayerEntityId() { return playerentityid; }
+  void setPlayerEntityId(unsigned int x) { playerentityid = x; }
+
+  unsigned int getMountEntityId() { return mountentityid; }
+  void setMountEntityId(unsigned int x) { mountentityid = x; }
 
 };
 

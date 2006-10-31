@@ -28,13 +28,12 @@ namespace TRADE
     TRADEREQUEST=0,
     TRADERESPONSE=1,
     TRADEOFFERSLISTNPC=2,
-    BUYITEMREQUESTNPC=3,
-    BUYITEMRESPONSENPC=4,
-    TRADEOFFERSLISTPVP=5,
-    TRADECANCEL=6,
-    TRADEOFFERACCEPT=7,
-    TRADECONFIRMREQUEST=8,
-    TRADECONFIRMRESPONSE=9
+    TRADEOFFERSLISTPVP=3,
+    TRADEORDERLISTNPC=4,
+    TRADECANCEL=5,
+    TRADEOFFERACCEPT=6,
+    TRADECONFIRMREQUEST=7,
+    TRADECONFIRMRESPONSE=8
   };
 }
 
@@ -127,44 +126,6 @@ public:
 
 };
 
-class BuyItemRequestNpcMessage : public NetMessage
-{
-
-public:
-  BuyItemRequestNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::BUYITEMREQUESTNPC)
-  {
-  }
-
-  ~BuyItemRequestNpcMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-};
-
-class BuyItemResponseNpcMessage : public NetMessage
-{
-  ptString error;
-
-public:
-  BuyItemResponseNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::BUYITEMRESPONSENPC)
-  {
-  }
-
-  ~BuyItemResponseNpcMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  ptString getError() { return error; }
-  void setError(ptString x) { error = x; }
-
-};
-
 class TradeOffersListPvpMessage : public NetMessage
 {
   class ListOffers
@@ -213,6 +174,49 @@ public:
   void setSlotId(size_t i, unsigned char x) { offers[i].slotid = x; }
 
   // --- end ListOffers Getter and Setter ---
+
+};
+
+class TradeOrderListNpcMessage : public NetMessage
+{
+  class ListOrders
+  {
+  public:
+    unsigned int itemid;
+  };
+
+  unsigned char orderscount;
+  ListOrders* orders;
+
+
+public:
+  TradeOrderListNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEORDERLISTNPC)
+  {
+    orders = 0;
+  }
+
+  ~TradeOrderListNpcMessage()
+  {
+    delete [] orders;
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getOrdersCount() { return orderscount; }
+  void setOrdersCount(unsigned char ic)
+  {
+    orderscount = ic;
+    delete [] orders;
+    orders = new ListOrders[ic];
+  }
+
+  // --- begin ListOrders Getter and Setter ---
+
+  unsigned int getItemId(size_t i) { return orders[i].itemid; }
+  void setItemId(size_t i, unsigned int x) { orders[i].itemid = x; }
+
+  // --- end ListOrders Getter and Setter ---
 
 };
 

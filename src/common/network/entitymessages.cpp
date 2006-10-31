@@ -616,3 +616,105 @@ void InventoryMoveItemMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
+void AddMountEntityMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(name);
+  serial.setString(mesh);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
+  serial.setString(sector);
+  serial.setInt16(sectorid);
+  serial.setInt32(entityid);
+  serial.setInt32(inventoryid);
+}
+
+void AddMountEntityMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  name = serial.getString();
+  mesh = serial.getString();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
+  sector = serial.getString();
+  sectorid = (unsigned short) serial.getInt16();
+  entityid = (unsigned int) serial.getInt32();
+  inventoryid = (unsigned int) serial.getInt32();
+}
+
+void MountRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(mountentityid);
+}
+
+void MountRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  mountentityid = (unsigned int) serial.getInt32();
+}
+
+void MountMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(playerentityid);
+  serial.setInt32(mountentityid);
+  serial.setInt8(control);
+}
+
+void MountMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  playerentityid = (unsigned int) serial.getInt32();
+  mountentityid = (unsigned int) serial.getInt32();
+  control = (unsigned char) serial.getInt8();
+}
+
+void UnmountRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(mountentityid);
+}
+
+void UnmountRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  mountentityid = (unsigned int) serial.getInt32();
+}
+
+void UnmountMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(playerentityid);
+  serial.setInt32(mountentityid);
+}
+
+void UnmountMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  playerentityid = (unsigned int) serial.getInt32();
+  mountentityid = (unsigned int) serial.getInt32();
+}
+

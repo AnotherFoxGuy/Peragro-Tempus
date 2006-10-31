@@ -51,6 +51,8 @@ public:
     else if (id == ENTITY::RELOCATE) handleRelocate(msg);
     else if (id == ENTITY::DRUPDATEREQUEST) handleDrUpdateRequest(msg);
     else if (id == ENTITY::INVENTORYMOVEITEMREQUEST) handleInventoryMoveItemRequest(msg);
+    else if (id == ENTITY::MOUNTREQUEST) handleMountRequest(msg);
+    else if (id == ENTITY::UNMOUNTREQUEST) handleUnmountRequest(msg);
   }
 
   void handleMoveRequest(GenericMessage* msg);
@@ -60,6 +62,8 @@ public:
   void handleRelocate(GenericMessage* msg);
   void handleDrUpdateRequest(GenericMessage* msg);
   void handleInventoryMoveItemRequest(GenericMessage* msg);
+  void handleMountRequest(GenericMessage* msg);
+  void handleUnmountRequest(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_
