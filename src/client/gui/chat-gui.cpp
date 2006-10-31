@@ -149,7 +149,8 @@ bool ChatWindow::HandleCommand (const char* texti)
 
     if (command.Compare("relocate"))
     {
-      network->send(&RelocateMessage());
+      RelocateMessage msg;
+      network->send(&msg);
     }
     else if (command.Compare("guild"))
     {
