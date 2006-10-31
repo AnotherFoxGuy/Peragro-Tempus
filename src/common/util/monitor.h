@@ -26,7 +26,7 @@ private:
   const T** monitor;
 
   /// Reference Counter.
-  size_t* refcount;
+  unsigned int* refcount;
 
   bool original;
 
@@ -35,7 +35,7 @@ public:
   {
     original = true;
     monitor = new const T*(); 
-    refcount = new size_t;
+    refcount = new unsigned int;
     *refcount = 1;
   }
 

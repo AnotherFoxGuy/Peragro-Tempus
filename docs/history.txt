@@ -8,6 +8,7 @@ under each day.
   - Sueastside made dropevents pass through icons, so they are properly swapped.
   - Sueastside committed Buy and Sell windows. 
   - Sueastside committed mounting.
+  - PK fixed some compile errors with GCC.
 
 29-Oct-2006
   - PK added sector ids.

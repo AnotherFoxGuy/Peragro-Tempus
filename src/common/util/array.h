@@ -101,7 +101,7 @@ public:
     }
   }
 
-  Array(Array& other)
+  Array(const Array& other)
   : typarray(other.typarray), refcount(other.refcount), capacity(other.capacity), 
     count(other.count), growrate(other.growrate)
   {

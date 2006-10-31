@@ -4,7 +4,7 @@ Description sqlite_lib : "sqlite library" ;
 Library sqlite_lib : [ Wildcard *.h *.c ] ;
 ExternalLibs sqlite_lib : PTHREAD ;
 
-CFlags sqlite_lib : [ FDefines CS_STATIC_LINKED ] ;
+CFlags sqlite_lib : [ FDefines SQLITE_OMIT_LOAD_EXTENSION ] ;
 MsvcDefine sqlite_lib : SQLITE_OMIT_LOAD_EXTENSION ;
 
 CCFLAGS on $(sqlite_lib_OBJECTS) = [ Filter [ on $(sqlite_lib_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;

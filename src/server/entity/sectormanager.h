@@ -20,7 +20,7 @@
 #define _SECTORMANAGER_H_
 
 #include "common/util/array.h"
-#include "common/util/ptString.h"
+#include "common/util/ptstring.h"
 
 namespace Sector
 {

@@ -37,7 +37,7 @@ bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int
   const Character* c_char = pc->getCharacter();
   if (!c_char) return false;
 
-  TradeSession::Offer& offer = TradeSession::Offer();
+  TradeSession::Offer offer;
   offer.item_id = item_id;
   offer.amount = amount;
 
