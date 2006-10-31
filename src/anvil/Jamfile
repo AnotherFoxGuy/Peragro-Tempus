@@ -1,8 +1,13 @@
 SubDir TOP src anvil ;
 
+if $(WX.AVAILABLE) = "yes"
+{
+
 Description anvil : "Anvil" ;
 Application anvil : [ Wildcard *.h *.cpp ] ;
 ExternalLibs anvil : CRYSTAL WX ;
+
+}
 
 if [ Property build : projgen_version ] != 6
 {
