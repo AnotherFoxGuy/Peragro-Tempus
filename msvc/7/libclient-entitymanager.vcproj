@@ -167,16 +167,19 @@
 				RelativePath="..\..\src\client\entity\character\equipment\equipment.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\character\npcentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\character\pcentity.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\entity\door\doorentity.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\item\itementity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\mount\mountentity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\npc\npcentity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\pc\pcentity.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\ptentity.cpp">
@@ -198,19 +201,22 @@
 				RelativePath="..\..\src\client\entity\character\equipment\equipment.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\character\npcentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\character\pcentity.h">
-			</File>
-			<File
 				RelativePath="..\..\src\client\entity\door\doorentity.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\item\itementity.h">
 			</File>
 			<File
+				RelativePath="..\..\src\client\entity\mount\mountentity.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\entity\movement.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\npc\npcentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\pc\pcentity.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\ptentity.h">

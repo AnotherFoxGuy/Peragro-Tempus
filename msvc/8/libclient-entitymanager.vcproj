@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="libclient-entitymanager"
 	ProjectGUID="{BF4129D2-DB7C-DED2-8AC2-D31815CC0CA7}"
-	>
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32"/>
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
@@ -19,81 +17,71 @@
 			IntermediateDirectory="..\..\out\release8\build\libclient-entitymanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libclient-entitymanager\libclient-entitymanager.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
 				Optimization="3"
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
-				StringPooling="true"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
-				BufferSecurityCheck="false"
-				EnableFunctionLevelLinking="true"
-				TreatWChar_tAsBuiltInType="false"
+				DebugInformationFormat="3"
+				BufferSecurityCheck="FALSE"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\release8\build\libclient-entitymanager\libclient-entitymanager.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libclient-entitymanager\"
 				ObjectFile="..\..\out\release8\build\libclient-entitymanager\"
 				ProgramDataBaseFileName="..\..\out\release8\build\libclient-entitymanager\client-entitymanager.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
+				TreatWChar_tAsBuiltInType="false"
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
-				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				AdditionalOptions=" "
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
+				IgnoreImportLibrary="TRUE"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
+				ProgramDatabaseFile="..\..\out\release8\build\libclient-entitymanager\client-entitymanager.pdb"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\out\release8\libs\libclient-entitymanager.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release8\build\libclient-entitymanager\libclient-entitymanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-			/>
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
@@ -101,175 +89,140 @@
 			IntermediateDirectory="..\..\out\debug8\build\libclient-entitymanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libclient-entitymanager\libclient-entitymanager.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
-				MinimalRebuild="true"
+				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libclient-entitymanager\libclient-entitymanager.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libclient-entitymanager\"
 				ObjectFile="..\..\out\debug8\build\libclient-entitymanager\"
 				ProgramDataBaseFileName="..\..\out\debug8\build\libclient-entitymanager\client-entitymanager.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
-				CompileAs="0"
-			/>
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
+				TreatWChar_tAsBuiltInType="false"
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
-				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				AdditionalOptions=" "
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
+				IgnoreImportLibrary="TRUE"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
+				ProgramDatabaseFile="..\..\out\debug8\build\libclient-entitymanager\client-entitymanager.pdb"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\out\debug8\libs\libclient-entitymanager_d.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug8\build\libclient-entitymanager\libclient-entitymanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-			/>
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
 	</Configurations>
-	<References>
-	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\src\client\entity\character\characterentity.cpp"
-				>
+				RelativePath="..\..\src\client\entity\character\characterentity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\door\doorentity.cpp"
-				>
+				RelativePath="..\..\src\client\entity\character\equipment\equipeditem.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\character\equipment\equipeditem.cpp"
-				>
+				RelativePath="..\..\src\client\entity\character\equipment\equipment.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\character\equipment\equipment.cpp"
-				>
+				RelativePath="..\..\src\client\entity\door\doorentity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\item\itementity.cpp"
-				>
+				RelativePath="..\..\src\client\entity\item\itementity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\mount\mountentity.cpp"
-				>
+				RelativePath="..\..\src\client\entity\mount\mountentity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\npc\npcentity.cpp"
-				>
+				RelativePath="..\..\src\client\entity\npc\npcentity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\pc\pcentity.cpp"
-				>
+				RelativePath="..\..\src\client\entity\pc\pcentity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\ptentity.cpp"
-				>
+				RelativePath="..\..\src\client\entity\ptentity.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\ptentitymanager.cpp"
-				>
+				RelativePath="..\..\src\client\entity\ptentitymanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\src\client\entity\character\characterentity.h"
-				>
+				RelativePath="..\..\src\client\entity\character\characterentity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\door\doorentity.h"
-				>
+				RelativePath="..\..\src\client\entity\character\equipment\equipeditem.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\character\equipment\equipeditem.h"
-				>
+				RelativePath="..\..\src\client\entity\character\equipment\equipment.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\character\equipment\equipment.h"
-				>
+				RelativePath="..\..\src\client\entity\door\doorentity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\item\itementity.h"
-				>
+				RelativePath="..\..\src\client\entity\item\itementity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\mount\mountentity.h"
-				>
+				RelativePath="..\..\src\client\entity\mount\mountentity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\movement.h"
-				>
+				RelativePath="..\..\src\client\entity\movement.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\npc\npcentity.h"
-				>
+				RelativePath="..\..\src\client\entity\npc\npcentity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\pc\pcentity.h"
-				>
+				RelativePath="..\..\src\client\entity\pc\pcentity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\ptentity.h"
-				>
+				RelativePath="..\..\src\client\entity\ptentity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\ptentitymanager.h"
-				>
+				RelativePath="..\..\src\client\entity\ptentitymanager.h">
 			</File>
 		</Filter>
 	</Files>

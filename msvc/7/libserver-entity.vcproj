@@ -273,6 +273,9 @@
 				RelativePath="..\..\src\server\entity\racestats.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\sectormanager.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\skill.h">
 			</File>
 			<File

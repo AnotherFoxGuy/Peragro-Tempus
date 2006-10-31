@@ -164,6 +164,9 @@
 				RelativePath="..\..\src\client\gui\buddylist-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\buy-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\charsel-gui.cpp">
 			</File>
 			<File
@@ -203,6 +206,9 @@
 				RelativePath="..\..\src\client\gui\options-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\sell-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\status-gui.cpp">
 			</File>
 			<File
@@ -220,6 +226,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\buddylist-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\buy-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\charsel-gui.h">
@@ -262,6 +271,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\options-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\sell-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\status-gui.h">

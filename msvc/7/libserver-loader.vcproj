@@ -164,6 +164,9 @@
 				RelativePath="..\..\src\server\loader\file-items.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\loader\file-sectors.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\loader\fileloader.cpp">
 			</File>
 		</Filter>
@@ -180,7 +183,7 @@
 				RelativePath="..\..\src\server\loader\file-meshes.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\loader\file-sector.h">
+				RelativePath="..\..\src\server\loader\file-sectors.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\loader\fileloader.h">
