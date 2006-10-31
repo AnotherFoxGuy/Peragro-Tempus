@@ -114,7 +114,7 @@ void TradeWindow::ClearItems()
   TradeWindow::Clear(trade2);
 }
 
-bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int amount, unsigned int slotid)
+bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int slotid)
 {
   if(!(player == 2)) return false;
   if(slotid > numberOfSlots) return false;
@@ -222,9 +222,8 @@ void TradeWindow::UpdateOffer()
   {
     Object* object = objects.Get(i);
     unsigned int slotid = slotids.Get(i);
-    printf("item %d with amount %d in slot %d!\n", object->GetId(), object->GetAmount(), slotid);
+    printf("item %d in slot %d!\n", object->GetId(), slotid);
     msg.setItemId(i, object->GetId());
-    msg.setAmount(i, object->GetAmount());
     msg.setSlotId(i, slotid);
   }
 

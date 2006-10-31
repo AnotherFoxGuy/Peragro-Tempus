@@ -45,7 +45,9 @@ public:
   enum ParentType
   {
     Inventory=0,
-    Trade=1
+    Trade=1,
+    Buy=2,
+    Sell=3
   };
 
 public:

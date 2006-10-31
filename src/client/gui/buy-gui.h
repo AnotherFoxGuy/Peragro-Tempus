@@ -16,57 +16,38 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef TRADE_GUI_H
-#define TRADE_GUI_H
+#ifndef BUY_GUI_H
+#define BUY_GUI_H
 
 #include "base-gui.h"
 
 #include "client/gui/common/dragdrop-gui.h"
 #include "client/gui/common/slot.h"
 
-class TradeWindow : public GUIWindow
+class BuyWindow : public GUIWindow
 {
 private:
   DragDrop* dragdrop;
   ItemMGR* itemmanager;
-  int numberOfSlots;
-  bool accept1;
-  bool accept2;
-  csArray<Slot*> trade1;
-  csArray<Slot*> trade2;
-  csArray<Slot*> inventory;
-  void Clear(csArray<Slot*> arr);
+
+  csArray<Slot*> upperslots;
+  csArray<Slot*> lowerslots;
 
 private:
   bool OnCloseButton(const CEGUI::EventArgs& args); 
-  bool OnAcceptPlayer1(const CEGUI::EventArgs& args);
-  bool OnAcceptPlayer2(const CEGUI::EventArgs& args);
+  bool OnAccept(const CEGUI::EventArgs& args);
 
 public:
-  TradeWindow(GUIManager* guimanager);
-  virtual ~TradeWindow();
+  BuyWindow(GUIManager* guimanager);
+  virtual ~BuyWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
-  Slot* GetOldSlot(Slot* slot);
-  void UpdateOffer();
 
 public:
-  bool OnYesRequest(const CEGUI::EventArgs& args);
-  bool OnNoRequest(const CEGUI::EventArgs& args);
-  bool OnYesConfirm(const CEGUI::EventArgs& args);
-  bool OnNoConfirm(const CEGUI::EventArgs& args);
-
-public:
-  void SetName(unsigned int player, csString name);
-  bool AddItem(unsigned int player, unsigned int itemid, unsigned int slotid);
-  bool AddItem(Slot* oldslot, Slot* newslot);
-  void SetMoney(unsigned int player, unsigned int amount); 
-  void SetAccept(unsigned int player, bool value);
-  void SetNotificationMsg(csString errormsg);
+  bool AddItem(unsigned int itemid, unsigned int slotid); 
   void CancelTrade();
   void AcceptTrade();
-  void ClearItems();
 
 };
 
 
-#endif // TRADE_GUI_H
+#endif // BUY_GUI_H

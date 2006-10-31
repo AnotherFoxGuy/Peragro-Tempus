@@ -32,5 +32,6 @@
 #include "npcdialog-gui.h"
 #include "trade-gui.h"
 #include "confirmdialog-gui.h"
+#include "buy-gui.h"
 
 #endif // GUI_H

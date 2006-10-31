@@ -55,8 +55,9 @@ public:
   bool handleDragEnter(const CEGUI::EventArgs& args);
   bool handleDragLeave(const CEGUI::EventArgs& args);
   bool handleDragDropped(const CEGUI::EventArgs& args);
+  bool handleDragDroppedIcon(const CEGUI::EventArgs& args);
   bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
-  bool DragDrop::handleDragDroppedTrade(const CEGUI::EventArgs& args);
+  bool handleDragDroppedTrade(const CEGUI::EventArgs& args);
 
   enum Type
   {

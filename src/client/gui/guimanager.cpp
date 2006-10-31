@@ -203,3 +203,10 @@ OkDialogWindow* GUIManager::CreateOkWindow ()
   okwindow->CreateGUIWindow();
   return okwindow;
 }
+
+BuyWindow* GUIManager::CreateBuyWindow ()
+{
+  buywindow = new BuyWindow (this);
+  buywindow->CreateGUIWindow();
+  return buywindow;
+}

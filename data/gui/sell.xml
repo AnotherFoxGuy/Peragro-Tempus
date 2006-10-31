@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+	<Window Type='Peragro/FrameWindow' Name='SellWindow/Frame'>
+		<Property Name='UnifiedSize' Value='{{0.0,146.0},{0.0,240.0}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.3,0.0},{0.2,0.0}}'/>
+		<Property Name='CaptionColour' Value='FFFFFFFF'/>
+		<Property Name='TitlebarEnabled' Value='True'/>
+		<Property Name='SizingEnabled' Value='False'/>
+		<Property Name='Visible' Value='True'/>
+		<Property Name='Alpha' Value='0.7'/>
+		<Property Name='Text' Value='Sell'/>
+
+		<Window Type='Peragro/StaticImage' Name='SellWindow/Layout'>
+			<Property Name='UnifiedSize' Value='{{0.000000,136.000000},{0.000000,220.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,10.000000},{0.000000,30.000000}}'/>
+			<Property Name='BackgroundEnabled' Value='False'/>
+			<Property Name='FrameEnabled' Value='False'/>
+		
+		<!--===================================UpperBag=========================================-->
+			<Window Type='Peragro/StaticImage' Name='SellWindow/UpperSlots/UpperBag'>
+				<Property Name='UnifiedSize' Value='{{0.000000,116.000000},{0.000000,86.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,0.000000}}'/>
+			</Window>
+			<Window Type='Peragro/VerticalScrollbar' Name='SellWindow/UpperSlots/UpperBag/scrollbar'>
+				<Property Name='UnifiedSize' Value='{{0.000000,10.000000},{0.000000,86.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,118.000000},{0.000000,0.000000}}'/>
+			</Window>
+		<!--===================================LowerBag=========================================-->
+			<Window Type='Peragro/StaticImage' Name='SellWindow/UpperSlots/LowerBag'>
+				<Property Name='UnifiedSize' Value='{{0.000000,116.000000},{0.000000,58.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,88.000000}}'/>
+			</Window>
+		<!--===================================Money==============================================-->
+			<Window Type='Peragro/Editbox' Name='SellWindow/Money/YourMoney'>
+				<Property Name='UnifiedSize' Value='{{0.000000,50.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,152.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+			</Window>
+			<Window Type='Peragro/Editbox' Name='SellWindow/Money/TotalMoney'>
+				<Property Name='UnifiedSize' Value='{{0.000000,50.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,65.000000},{0.000000,152.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+			</Window>
+		<!--===================================Buttons============================================-->
+			<Window Type='Peragro/Button' Name='SellWindow/Accept'>
+				<Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,60.000000},{0.000000,185.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+				<Property Name='Text' Value='Accept'/>
+			</Window>
+			<Window Type='Peragro/Button' Name='SellWindow/Cancel'>
+				<Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,-5.000000},{0.000000,185.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+				<Property Name='Text' Value='Cancel'/>
+			</Window>
+			
+			
+		</Window>
+	</Window>
+</GUILayout>

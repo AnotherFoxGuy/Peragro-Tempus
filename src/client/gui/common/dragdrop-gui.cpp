@@ -101,6 +101,25 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   return true;
 }
 
+bool DragDrop::handleDragDroppedIcon(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
+
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+
+  DragDropEventArgs& ddea1 = const_cast<DragDropEventArgs&>(ddea);
+
+  // An icon has been dropped on an icon,
+  // relay the event to the parent, the slot.
+  ddea1.window = ddea.window->getParent();
+
+  DragDrop::handleDragDropped(ddea1);
+
+  printf("DragDrop::handleDragDroppedIcon.\n");
+
+  return true;
+}
+
 bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
 {
   using namespace CEGUI;
@@ -170,6 +189,9 @@ CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactabl
   icon->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,21.6f), CEGUI::UDim(0.0f,21.6f)));
   icon->setHorizontalAlignment(CEGUI::HA_CENTRE);
   icon->setVerticalAlignment(CEGUI::VA_CENTRE);
+
+  // Setup event for swapping.
+  icon->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedIcon, this));
 
   // Set a static image as drag container's contents
   CEGUI::Window* iconImage = winMgr->createWindow("Peragro/StaticImage");

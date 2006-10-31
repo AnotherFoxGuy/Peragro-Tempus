@@ -41,6 +41,7 @@ class NpcDialogWindow;
 class TradeWindow;
 class ConfirmDialogWindow;
 class OkDialogWindow;
+class BuyWindow;
 
 class DragDrop;
 
@@ -63,6 +64,7 @@ private:
   TradeWindow* tradewindow;
   ConfirmDialogWindow* confirmwindow;
   OkDialogWindow* okwindow;
+  BuyWindow* buywindow;
 
   DragDrop* dragdrop;
   
@@ -95,6 +97,7 @@ public:
   TradeWindow* CreateTradeWindow();
   ConfirmDialogWindow* CreateConfirmWindow();
   OkDialogWindow* CreateOkWindow();
+  BuyWindow* CreateBuyWindow();
   
   ConnectWindow* GetConnectWindow ()
   {
@@ -164,6 +167,11 @@ public:
   OkDialogWindow* GetOkWindow()
   {
     return okwindow;
+  }
+
+  BuyWindow* GetBuyWindow()
+  {
+    return buywindow;
   }
 
 };

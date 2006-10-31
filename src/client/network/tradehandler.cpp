@@ -117,8 +117,8 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
 
   for (int i=0; i<trade_msg.getOffersCount(); i++)
   {
-    printf("Item %d with amount %d in slot %d\n", trade_msg.getItemId(i), trade_msg.getAmount(i), trade_msg.getSlotId(i));
-    guimanager->GetTradeWindow()->AddItem(2, trade_msg.getItemId(i), trade_msg.getAmount(i), trade_msg.getSlotId(i));
+    printf("Item %d in slot %d\n", trade_msg.getItemId(i), trade_msg.getSlotId(i));
+    guimanager->GetTradeWindow()->AddItem(2, trade_msg.getItemId(i), trade_msg.getSlotId(i));
   }
 }
 
