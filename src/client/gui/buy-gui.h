@@ -33,9 +33,14 @@ private:
   csArray<Slot*> upperslots;
   csArray<Slot*> lowerslots;
 
+  csArray<unsigned int> items;
+
 private:
   bool OnCloseButton(const CEGUI::EventArgs& args); 
   bool OnAccept(const CEGUI::EventArgs& args);
+  bool OnScroll(const CEGUI::EventArgs& args);
+  void Update(int linenr);
+  void UpdateOffer();
 
 public:
   BuyWindow(GUIManager* guimanager);
@@ -43,9 +48,11 @@ public:
   void CreateGUIWindow();    // load the chat guilayout and register button events.
 
 public:
-  bool AddItem(unsigned int itemid, unsigned int slotid); 
+  bool AddItem(unsigned int itemid); 
   void CancelTrade();
   void AcceptTrade();
+
+  void MoveItem(Slot* oldslot, Slot* newslot);
 
 };
 

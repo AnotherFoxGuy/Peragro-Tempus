@@ -78,7 +78,7 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
       return true;
   }
 
-  if(oldslot->GetParent() == Slot::Trade)
+  if(oldslot->GetParent() == Slot::TradeLeft)
   {
     // Enable the inventory icon again.
     Slot* oldinvslot = guimanager->GetTradeWindow()->GetOldSlot(oldslot);
@@ -151,6 +151,22 @@ bool DragDrop::handleDragDroppedTrade(const CEGUI::EventArgs& args)
   Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
   guimanager->GetTradeWindow()->AddItem(oldslot, newslot);
+
+  return true;
+}
+
+bool DragDrop::handleDragDroppedBuy(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
+
+  const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
+  ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
+
+  Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
+  Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
+
+  if(oldslot->GetParent() == Slot::BuyLower || oldslot->GetParent() == Slot::BuyUpper) 
+    guimanager->GetBuyWindow()->MoveItem(oldslot, newslot);
 
   return true;
 }
@@ -237,21 +253,21 @@ CEGUI::String DragDrop::IntToStr(int number)
   return value;
 }
 
-void DragDrop::CreateItem(Slot* slot, uint itemid, bool interactable)
+Object* DragDrop::CreateItem(uint itemid, bool interactable)
 {
   ClientItem* clientitem = itemmanager->GetItemById(itemid);
 
   if (!clientitem)
   {
     printf("DragDrop: ERROR Failed to create item %d!\n", itemid);
-    return;
+    return 0;
   }
 
   Object* object = new Object();
   object->SetId(itemid);
   object->SetWindow(createIcon(DragDrop::Item, itemid, interactable));
-  slot->SetObject(object);
-  slot->GetWindow()->addChildWindow(object->GetWindow());
+
+  return object;
 }
 
 void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
@@ -277,5 +293,67 @@ void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
     Object* object = oldslot->GetObject();
     oldslot->MoveObjectTo(newslot);
     newslot->GetWindow()->addChildWindow(object->GetWindow());
+  }
+}
+
+void DragDrop::ClearSlotsDelete(csArray<Slot*> arr)
+{
+  // Clears the inventory and deletes the objects. 
+  for (size_t i=0; i<arr.GetSize(); i++)
+  {
+    Slot* slot = arr[i];
+    if (!slot) continue;
+    Object* object = slot->GetObject();
+    if(object)
+    {
+      object->GetWindow()->destroy();
+      delete object;
+      slot->Clear();
+    }
+  }
+}
+
+void DragDrop::CreateBag(CEGUI::Window* bag, csArray<Slot*>* slotarray, Slot::ParentType parent, DragDrop::Type type , int rows, int columns)
+{
+  for (int j=0; j<rows; j++)
+  {
+    for (int i=0; i<columns; i++)
+    {
+      Slot* slot = new Slot();
+      slot->SetId((i+(j*columns)));
+      slot->SetType(type);
+      slot->SetParent(parent);
+      slot->SetWindow(createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
+      slot->GetWindow()->setUserData(slot);
+
+      switch(parent)
+      {
+      case Slot::BuyUpper:
+        slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
+        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
+          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedBuy, this));
+        break;
+      case Slot::BuyLower:
+        slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
+        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
+          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedBuy, this));
+        break;
+      case Slot::Inventory:
+        // Nothing to do.
+        break;
+      case Slot::TradeLeft:
+        slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
+        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
+          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedTrade, this));
+        break;
+      case Slot::TradeRight:
+        slot->GetWindow()->removeAllEvents();
+        break;
+
+      default: printf("DragDrop: Unknown ParentType %d !\n", parent);
+      }
+
+      slotarray->Put(slot->GetId(), slot);
+    }
   }
 }

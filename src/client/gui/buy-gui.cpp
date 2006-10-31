@@ -36,31 +36,125 @@ BuyWindow::~BuyWindow()
 
 bool BuyWindow::OnCloseButton(const CEGUI::EventArgs& args)
 {
+  winMgr->getWindow("BuyWindow/Frame")->setVisible(false);
+
+  dragdrop->ClearSlotsDelete(upperslots);
+  dragdrop->ClearSlotsDelete(lowerslots);
+  items.DeleteAll();
+
+  //TradeCancelMessage msg;
+  //network->send(&msg);
 
   return true;
 }
 
 bool BuyWindow::OnAccept(const CEGUI::EventArgs& args)
 {
+  UpdateOffer();
   return true;
 }
 
-bool BuyWindow::AddItem(unsigned int itemid, unsigned int slotid)
+bool BuyWindow::OnScroll(const CEGUI::EventArgs& args)
 {
-  if(slotid > 12) return false;
-  if(slotid == -1) return false;
+  using namespace CEGUI;
 
-  Slot* slot = upperslots[slotid];
+  const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
+  
+  CEGUI::Scrollbar* scrollbar = static_cast<CEGUI::Scrollbar*>(ddea.window);
+  float page = scrollbar->getScrollPosition();
 
-  if (!slot)
+  Update(page);
+
+  printf("Scrolling: page %f\n", page);
+
+  return true;
+}
+
+void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
+{
+  int itemid = oldslot->GetObject()->GetId();
+
+  if(oldslot->GetParent() == Slot::BuyUpper)
   {
-    printf("TradeWindow: ERROR Couldn't add item %d in slot %d!\n", itemid, slotid);
-    return false;
+    for (size_t i = 0; i < items.GetSize(); i++)
+    {
+      if(itemid == items.Get(i))
+      {
+        items.DeleteIndex(i);
+        printf("BuyWindow:: Deleted index for itemid %d\n", itemid);
+        break;
+      }
+    }
+  }
+  else if(oldslot->GetParent() == Slot::BuyLower)
+  {
+    items.Push(oldslot->GetObject()->GetId());
   }
 
-  dragdrop->CreateItem(slot, itemid);
-  
+  dragdrop->MoveObject(oldslot, newslot);
+}
+
+bool BuyWindow::AddItem(unsigned int itemid)
+{
+  items.Push(itemid);
   return true;
+}
+
+void BuyWindow::Update(int linenr)
+{
+  int nrInventorySlots = 12;
+  linenr = linenr*nrInventorySlots;
+
+  CEGUI::Scrollbar* scrollbar = static_cast<CEGUI::Scrollbar*>(winMgr->getWindow("BuyWindow/UpperSlots/UpperBag/scrollbar"));
+  scrollbar->setDocumentSize(items.GetSize());
+
+  // Clearing the old items.
+  dragdrop->ClearSlotsDelete(upperslots);
+
+  // Putting the items in.
+  int counter = 0; 
+  for (int i=linenr; i<items.GetSize(); i++)
+  {
+    if(counter > nrInventorySlots-1) break;
+    Slot* slot = upperslots[counter];
+    unsigned int itemid = items.Get(i);
+    slot->SetObject(dragdrop->CreateItem(itemid));
+    counter += 1;
+  }
+}
+
+void BuyWindow::UpdateOffer()
+{
+  // Make a list of items and send it to the network.
+  // Get actual items.
+  //TradeOffersListPvpMessage msg;
+  csArray<Object*> objects;
+  for (size_t i=0; i<lowerslots.GetSize(); i++)
+  {
+    Slot* slot = lowerslots[i];
+    if (!slot) continue;
+    Object* object = slot->GetObject();
+    if(object)
+    {
+      objects.Push(object);
+    }
+  }
+
+  // Make the offer list.
+  //msg.setOffersCount(objects.GetSize());
+  printf("------------------------------------------\n");
+  printf("BuyWindow: Creating Trade Offer List Pvp\n");
+  for (size_t i=0; i<objects.GetSize(); i++)
+  {
+    Object* object = objects.Get(i);
+    printf("item %d\n", object->GetId());
+    //msg.setItemId(i, object->GetId());
+  }
+
+  //network->send(&msg);
+  printf("SEND\n");
+
+  printf("------------------------------------------\n");
 }
 
 void BuyWindow::AcceptTrade()
@@ -84,6 +178,10 @@ void BuyWindow::AcceptTrade()
       }
     }
   }
+
+  dragdrop->ClearSlotsDelete(upperslots);
+  dragdrop->ClearSlotsDelete(lowerslots);
+  items.DeleteAll();
 }
 
 void BuyWindow::CreateGUIWindow()
@@ -93,6 +191,12 @@ void BuyWindow::CreateGUIWindow()
   winMgr = cegui->GetWindowManagerPtr ();
 
   dragdrop = guimanager->GetDragDrop();
+
+/*===============Delete====================*/
+  //Load the inventory icon imageset
+  vfs->ChDir ("/peragro/skin/");
+  cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/inventory.imageset", "Inventory");
+/*==========================================*/
 
   // Get the root window
   rootwindow = winMgr->getWindow("BuyWindow/Frame");
@@ -105,21 +209,37 @@ void BuyWindow::CreateGUIWindow()
   CEGUI::PushButton* accept1 = static_cast<CEGUI::PushButton*>(winMgr->getWindow("BuyWindow/Accept"));
   accept1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&BuyWindow::OnAccept, this));
 
-  // Populate the Player1 bag with slots.
+    // Get the frame window
+  CEGUI::Scrollbar* scrollbar = static_cast<CEGUI::Scrollbar*>(winMgr->getWindow("BuyWindow/UpperSlots/UpperBag/scrollbar"));
+  scrollbar->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged, CEGUI::Event::Subscriber(&BuyWindow::OnScroll, this));
+  scrollbar->setStepSize(1.0);
+  scrollbar->setOverlapSize(0.0);
+  scrollbar->setPageSize(12);
+
+  // Populate the upper bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("BuyWindow/UpperSlots/UpperBag");
-  for (int j=0; j<3; j++)
-  {
-    for (int i=0; i<4; i++)
-    {
-      Slot* slot = new Slot();
-      slot->SetId((i+(j*4)));
-      slot->SetType(DragDrop::Item);
-      slot->SetParent(Slot::Buy);
-      slot->SetWindow(dragdrop->createDragDropSlot(bag1, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetWindow()->setUserData(slot);
-      upperslots.Put(slot->GetId(), slot);
-    }
-  }
+  dragdrop->CreateBag(bag1, &upperslots, Slot::BuyUpper, DragDrop::Item, 3, 4);
+
+  // Populate the lower bag with slots.
+  CEGUI::Window* bag2 = winMgr->getWindow("BuyWindow/LowerSlots/LowerBag");
+  dragdrop->CreateBag(bag2, &lowerslots, Slot::BuyLower, DragDrop::Item, 2, 4);
+
+  AddItem(1);
+  AddItem(2);
+  AddItem(3);
+  AddItem(4);
+  AddItem(1);
+  AddItem(1);
+  AddItem(1);
+  AddItem(2);
+  AddItem(3);
+  AddItem(4);
+  AddItem(1);
+  AddItem(1);
+  AddItem(1);
+  AddItem(4);
+
+  Update(0);
 
 }
 

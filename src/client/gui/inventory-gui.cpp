@@ -64,7 +64,7 @@ bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
 
   // Create a new item.
   if(slot->IsEmpty())
-    dragdrop->CreateItem(slot, itemid);
+    slot->SetObject(dragdrop->CreateItem(itemid));
 
   return true;
 }
@@ -180,19 +180,7 @@ void InventoryWindow::CreateGUIWindow()
 
   // Populate the bag with slots.
   CEGUI::Window* bag = winMgr->getWindow("Inventory/Bag");
-  for (int j=0; j<4; j++)
-  {
-    for (int i=0; i<5; i++)
-    {
-      Slot* slot = new Slot();
-      slot->SetId((i+(j*5))+10);
-      slot->SetType(DragDrop::Item);
-      slot->SetParent(Slot::Inventory);
-      slot->SetWindow(dragdrop->createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetWindow()->setUserData(slot);
-      inventory.Put(slot->GetId(), slot);
-    }
-  }
+  dragdrop->CreateBag(bag, &inventory, Slot::Inventory, DragDrop::Item, 4, 5);
 
  // Get the root window
   rootwindow = winMgr->getWindow("Inventory/Frame");

@@ -380,6 +380,7 @@ void Client::handleStates()
       guimanager->CreateOptionsWindow ();
       guimanager->CreateWhisperWindow();
       guimanager->CreateNpcDialogWindow();
+      guimanager->CreateTradeWindow();
 
       //guimanager->CreateStatusWindow ();
       //guimanager->CreateInventoryWindow ();
@@ -389,9 +390,9 @@ void Client::handleStates()
       //guimanager->CreateBuddyWindow();
       //guimanager->CreateSelectCharWindow();
       //guimanager->GetSelectCharWindow()->ShowWindow();
-      guimanager->CreateTradeWindow();
       //guimanager->CreateConfirmWindow();
       //guimanager->CreateOkWindow();
+      guimanager->CreateBuyWindow();
 
       if (cmdline)
       {

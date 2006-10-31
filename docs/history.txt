@@ -10,6 +10,8 @@ under each day.
   - Sueastside committed mounting.
   - PK fixed some compile errors with GCC.
   - PK adds new network messages.
+  - Sueastside did some more work on the buy window, except for network messages,
+     it's complete.
 
 29-Oct-2006
   - PK added sector ids.

@@ -18,27 +18,27 @@
 		
 		<!--===================================UpperBag=========================================-->
 			<Window Type='Peragro/StaticImage' Name='BuyWindow/UpperSlots/UpperBag'>
-				<Property Name='UnifiedSize' Value='{{0.000000,116.000000},{0.000000,86.000000}}'/>
+				<Property Name='UnifiedSize' Value='{{0.000000,116.000000},{0.000000,87.000000}}'/>
 				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,0.000000}}'/>
 			</Window>
 			<Window Type='Peragro/VerticalScrollbar' Name='BuyWindow/UpperSlots/UpperBag/scrollbar'>
-				<Property Name='UnifiedSize' Value='{{0.000000,10.000000},{0.000000,86.000000}}'/>
+				<Property Name='UnifiedSize' Value='{{0.000000,10.000000},{0.000000,87.000000}}'/>
 				<Property Name='UnifiedPosition' Value='{{0.000000,118.000000},{0.000000,0.000000}}'/>
 			</Window>
 		<!--===================================LowerBag=========================================-->
-			<Window Type='Peragro/StaticImage' Name='BuyWindow/UpperSlots/LowerBag'>
-				<Property Name='UnifiedSize' Value='{{0.000000,116.000000},{0.000000,58.000000}}'/>
-				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,88.000000}}'/>
+			<Window Type='Peragro/StaticImage' Name='BuyWindow/LowerSlots/LowerBag'>
+				<Property Name='UnifiedSize' Value='{{0.000000,116.000000},{0.000000,60.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,90.000000}}'/>
 			</Window>
 		<!--===================================Money==============================================-->
 			<Window Type='Peragro/Editbox' Name='BuyWindow/Money/YourMoney'>
 				<Property Name='UnifiedSize' Value='{{0.000000,50.000000},{0.000000,20.000000}}'/>
-				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,152.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,154.000000}}'/>
 				<Property Name='Font' Value='Commonwealth-8'/>
 			</Window>
 			<Window Type='Peragro/Editbox' Name='BuyWindow/Money/TotalMoney'>
 				<Property Name='UnifiedSize' Value='{{0.000000,50.000000},{0.000000,20.000000}}'/>
-				<Property Name='UnifiedPosition' Value='{{0.000000,65.000000},{0.000000,152.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,65.000000},{0.000000,154.000000}}'/>
 				<Property Name='Font' Value='Commonwealth-8'/>
 			</Window>
 		<!--===================================Buttons============================================-->

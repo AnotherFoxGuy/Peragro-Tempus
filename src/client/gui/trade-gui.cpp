@@ -92,26 +92,9 @@ bool TradeWindow::OnAcceptPlayer1(const CEGUI::EventArgs& args)
   return true;
 }
 
-void TradeWindow::Clear(csArray<Slot*> arr)
-{
-  // Clear the inventory.
-  for (size_t i=0; i<arr.GetSize(); i++)
-  {
-    Slot* slot = arr[i];
-    if (!slot) continue;
-    Object* object = slot->GetObject();
-    if(object)
-    {
-      object->GetWindow()->destroy();
-      delete object;
-      slot->Clear();
-    }
-  }
-}
-
 void TradeWindow::ClearItems()
 {
-  TradeWindow::Clear(trade2);
+  dragdrop->ClearSlotsDelete(trade2);
 }
 
 bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int slotid)
@@ -129,7 +112,7 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
   }
 
   // Create a new non-interactable item.
-  dragdrop->CreateItem(slot, itemid, false);
+  slot->SetObject(dragdrop->CreateItem(itemid, false));
   
   return true;
 }
@@ -169,11 +152,11 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
 
   // If we drag the icon around to the same 
   // slot in the trade window, return.
-  if(oldslot->GetParent() == Slot::Trade
+  if((oldslot->GetParent() == Slot::TradeLeft)
     && oldslot->GetId() == newslot->GetId())
     return true;
 
-  if(oldslot->GetParent() == Slot::Trade)
+  if(oldslot->GetParent() == Slot::TradeLeft)
   {
     dragdrop->MoveObject(oldslot, newslot);
     inventory.Put(newslot->GetId(), inventory[oldslot->GetId()]);
@@ -185,8 +168,8 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
     // Disable the icon in the inventory.
     Object* object = oldslot->GetObject();
     object->GetWindow()->disable();
-    // Create a new item in the inventory.
-    dragdrop->CreateItem(newslot, object->GetId());
+    // Create a new item in the trade inventory.
+    newslot->SetObject(dragdrop->CreateItem(object->GetId()));
   }
 
   // Send an updated state of the trade inventory.
@@ -267,8 +250,8 @@ void TradeWindow::CancelTrade()
     }
   }
 
-  TradeWindow::Clear(trade1);
-  TradeWindow::Clear(trade2);
+  dragdrop->ClearSlotsDelete(trade1);
+  dragdrop->ClearSlotsDelete(trade2);
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);
@@ -308,8 +291,8 @@ void TradeWindow::AcceptTrade()
     }
   }
 
-  TradeWindow::Clear(trade1);
-  TradeWindow::Clear(trade2);
+  dragdrop->ClearSlotsDelete(trade1);
+  dragdrop->ClearSlotsDelete(trade2);
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);
@@ -340,39 +323,12 @@ void TradeWindow::CreateGUIWindow()
 
   // Populate the Player1 bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("TradeWindow/Player1/Bag");
-  for (int j=0; j<4; j++)
-  {
-    for (int i=0; i<4; i++)
-    {
-      Slot* slot = new Slot();
-      slot->SetId((i+(j*4)));
-      slot->SetType(DragDrop::Item);
-      slot->SetParent(Slot::Trade);
-      slot->SetWindow(dragdrop->createDragDropSlot(bag1, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetWindow()->setUserData(slot);
-      slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
-      slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
-        CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedTrade, dragdrop));
-      trade1.Put(slot->GetId(), slot);
-    }
-  }
+  dragdrop->CreateBag(bag1, &trade1, Slot::TradeLeft, DragDrop::Item, 4, 4);
 
   // Populate the Player2 bag with slots.
-  // TODO: Need to make special dragdrop target which is not interactable.
   CEGUI::Window* bag2 = winMgr->getWindow("TradeWindow/Player2/Bag");
-  for (int j=0; j<4; j++)
-  {
-    for (int i=0; i<4; i++)
-    {
-      Slot* slot = new Slot();
-      slot->SetId((i+(j*4)));
-      slot->SetType(DragDrop::Item);
-      slot->SetWindow(dragdrop->createDragDropSlot(bag2, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetWindow()->setUserData(slot);
-      slot->GetWindow()->removeAllEvents();
-      trade2.Put(slot->GetId(), slot);
-    }
-  }
+  dragdrop->CreateBag(bag1, &trade1, Slot::TradeRight, DragDrop::Item, 4, 4);
+
 }
 
 

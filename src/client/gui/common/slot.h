@@ -45,9 +45,11 @@ public:
   enum ParentType
   {
     Inventory=0,
-    Trade=1,
-    Buy=2,
-    Sell=3
+    TradeLeft=1,
+    TradeRight=2,
+    BuyUpper=3,
+    BuyLower=4,
+    Sell=5
   };
 
 public:
@@ -60,7 +62,11 @@ public:
   CEGUI::Window* GetWindow() { return slotwindow; }
 
   void SetId(uint value) { this->slotid = value; }
-  void SetObject(Object* value) { this->object = value; }
+  void SetObject(Object* value) 
+  { 
+    this->object = value; 
+    slotwindow->addChildWindow(value->GetWindow());
+  }
   void SetType(uint value) { this->slottype = value; }
   void SetParent(uint value) { this->parent = value; }
   void SetWindow(CEGUI::Window* value) { this->slotwindow = value; }

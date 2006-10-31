@@ -58,7 +58,7 @@ bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid)
     return false;
   }
 
-  dragdrop->CreateItem(slot, itemid);
+  slot->SetObject(dragdrop->CreateItem(itemid));
 
   return true;
 }
@@ -107,19 +107,12 @@ void SellWindow::CreateGUIWindow()
 
   // Populate the Player1 bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("SellWindow/UpperSlots/UpperBag");
-  for (int j=0; j<3; j++)
-  {
-    for (int i=0; i<4; i++)
-    {
-      Slot* slot = new Slot();
-      slot->SetId((i+(j*4)));
-      slot->SetType(DragDrop::Item);
-      slot->SetParent(Slot::Buy);
-      slot->SetWindow(dragdrop->createDragDropSlot(bag1, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetWindow()->setUserData(slot);
-      upperslots.Put(slot->GetId(), slot);
-    }
-  }
+  dragdrop->CreateBag(bag1, &upperslots, Slot::Sell, DragDrop::Item, 3, 4);
+
+  // Populate the lower bag with slots.
+  CEGUI::Window* bag2 = winMgr->getWindow("SellWindow/LowerSlots/LowerBag");
+  dragdrop->CreateBag(bag2, &lowerslots, Slot::Sell, DragDrop::Item, 2, 4);
+
 
 }
 
