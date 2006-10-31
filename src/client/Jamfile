@@ -13,7 +13,7 @@ Application client :
 [ Wildcard *.h *.cpp ] 
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs client : CEGUI CRYSTAL CEL ;
-LinkWith client : client-network client-gui client-effects client-entitymanager client-combatmanager client-itemmanager entity util ;
+LinkWith client : client-network client-gui client-effects client-entitymanager client-combatmanager client-itemmanager util ;
 
 MsvcExternalLibrary client : "wsock32.lib" ;
 
@@ -29,7 +29,7 @@ if [ Property build : projgen_version ] != 6
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
   LFlags client_static : -lcrystalspace_staticplugins  -lcel_staticplugins ;
-  LinkWith client_static : client-network client-gui client-effects client-entitymanager client-combatmanager client-itemmanager entity util ;
+  LinkWith client_static : client-network client-gui client-effects client-entitymanager client-combatmanager client-itemmanager util ;
   LinkStaticPlugins client_static :
     addon_questdef
     mgr_quests

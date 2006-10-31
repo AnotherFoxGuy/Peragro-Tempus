@@ -3,12 +3,18 @@ SubDir TOP src client entity ;
 SubInclude TOP src client entity character ;
 SubInclude TOP src client entity door ;
 SubInclude TOP src client entity item ;
+SubInclude TOP src client entity pc ;
+SubInclude TOP src client entity npc ;
+SubInclude TOP src client entity mount ;
 
 Description client-entitymanager : "client entitymanager" ;
 Library client-entitymanager :
   [ Wildcard *.h *.cpp ]
   [ Wildcard [ ConcatDirs character ] : *.h *.cpp ] 
   [ Wildcard [ ConcatDirs character equipment ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs mount ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs pc ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ] 
   [ Wildcard [ ConcatDirs door ] : *.h *.cpp ] 
   [ Wildcard [ ConcatDirs item ] : *.h *.cpp ] ;
 ExternalLibs client-entitymanager : CRYSTAL CEL ;
