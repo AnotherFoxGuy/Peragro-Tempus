@@ -32,33 +32,28 @@ TradePeer* TradePeer::getOtherPeer()
   else return 0;
 }
 
-bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id, unsigned int amount)
+bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id)
 {
   const Character* c_char = pc->getCharacter();
   if (!c_char) return false;
 
-  TradeSession::Offer offer;
-  offer.item_id = item_id;
-  offer.amount = amount;
-
   Character* c = c_char->getLock();
+
+  unsigned int item_count = 0;
 
   for (size_t i = 0; i<offers.getCount(); i++)
   {
     if (offers.get(i).item_id == item_id)
     {
-      offer = offers.get(i);
-      if (c->getInventory()->getTotalAmount(item_id) >= amount + offer.amount)
-      {
-        offers.add(offer);
-        c->freeLock();
-        return true;
-      }
+      item_count++;
     }
   }
 
-  if (c->getInventory()->getTotalAmount(item_id) >= amount)
+  if (c->getInventory()->getTotalAmount(item_id) > item_count)
   {
+    TradeSession::Offer offer;
+    offer.item_id = item_id;
+    offer.amount = 1;
     offers.add(offer);
     c->freeLock();
     return true;
@@ -68,18 +63,18 @@ bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int
   return false;
 }
 
-bool TradePeer::addToOffer(PcEntity* pc, int item_id, unsigned int amount)
+bool TradePeer::addToOffer(PcEntity* pc, int item_id)
 {
   if (session == 0) return false;
 
   if (session->peer1 == this)
   {
-    if ( checkOffer(pc, session->offer1, item_id, amount) )
+    if ( checkOffer(pc, session->offer1, item_id) )
       return true;
   }
   else if (session->peer2 == this)
   {
-    if ( checkOffer(pc, session->offer2, item_id, amount) )
+    if ( checkOffer(pc, session->offer2, item_id) )
       return true;
   }
   

@@ -176,7 +176,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   peer->clearOffer();
   for (unsigned char i = 0; i < offer_req.getOffersCount(); i++)
   {
-    peer->addToOffer(pc, offer_req.getItemId(i), offer_req.getAmount(i));
+    peer->addToOffer(pc, offer_req.getItemId(i));
   }
 
   const Array<TradeSession::Offer>* real_offer = peer->getOffer();
