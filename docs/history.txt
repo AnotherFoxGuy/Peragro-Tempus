@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+2-Nov-2006
+  - iceeey changed Mutex::lock() to use pthread_mutex_trylock() instead of
+    pthread_mutex_lock() on non-windows platforms in the case that the mutex
+    lock is called multiple times.
+
 1-Nov-2006
   - Sueastside made some gui fixes.
   - PK fixed trading.

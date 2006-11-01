@@ -60,7 +60,7 @@ public:
 #ifdef WIN32
     EnterCriticalSection(&mutex);
 #else
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_trylock(&mutex);
 #endif
   }
 
