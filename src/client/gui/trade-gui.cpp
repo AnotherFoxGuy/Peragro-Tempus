@@ -309,19 +309,20 @@ void TradeWindow::CreateGUIWindow()
 
   dragdrop = guimanager->GetDragDrop();
 
-  // Get the root window
+  // Get the root window.
   rootwindow = winMgr->getWindow("TradeWindow/Frame");
 
-  // Get the frame window
+  // Get the frame window.
   CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("TradeWindow/Frame"));
   frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&TradeWindow::OnCloseButton, this));
 
-  // Get the frame window
+  // Get the player1 accept button.
   CEGUI::PushButton* accept1 = static_cast<CEGUI::PushButton*>(winMgr->getWindow("TradeWindow/Player1/Accept"));
   accept1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&TradeWindow::OnAcceptPlayer1, this));
 
-  //btn = winMgr->getWindow("TradeWindow/Player2/Accept");
-  //btn->disable();
+  // Get the player2 accept button.
+  CEGUI::PushButton* accept2 = static_cast<CEGUI::PushButton*>(winMgr->getWindow("TradeWindow/Player2/Accept"));
+  accept2->setMousePassThroughEnabled(true);
 
   // Populate the Player1 bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("TradeWindow/Player1/Bag");
