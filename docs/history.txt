@@ -4,8 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
-31-Oct-2006
+1-Nov-2006
   - Sueastside made some gui fixes.
+  - PK fixed trading.
+  - PK fixed a deadlock in the server linux.
 
 31-Oct-2006
   - Sueastside made dropevents pass through icons, so they are properly swapped.

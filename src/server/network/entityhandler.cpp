@@ -68,6 +68,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   
   user_ent->setPos(request_msg.getPos());
   user_ent->setSector(request_msg.getSector());
+  user_ent->freeLock();
 
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
@@ -80,8 +81,6 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   response_msg.serialise(&bs);
 
   NetworkHelper::broadcast(bs);
-
-  user_ent->freeLock();
 }
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
