@@ -113,6 +113,8 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
 
   // Create a new non-interactable item.
   slot->SetObject(dragdrop->CreateItem(itemid, false));
+
+  printf("TradeWindow: Creating item %d!\n", itemid);
   
   return true;
 }
@@ -200,7 +202,7 @@ void TradeWindow::UpdateOffer()
   // Make the offer list.
   msg.setOffersCount(objects.GetSize());
   printf("------------------------------------------\n");
-  printf("TradeWindow: Creating Trade Offer List Pvp\n");
+  printf("TradeWindow: Creating Offer List Pvp for %d items\n", objects.GetSize());
   for (size_t i=0; i<objects.GetSize(); i++)
   {
     Object* object = objects.Get(i);
@@ -327,7 +329,7 @@ void TradeWindow::CreateGUIWindow()
 
   // Populate the Player2 bag with slots.
   CEGUI::Window* bag2 = winMgr->getWindow("TradeWindow/Player2/Bag");
-  dragdrop->CreateBag(bag1, &trade1, Slot::TradeRight, DragDrop::Item, 4, 4);
+  dragdrop->CreateBag(bag2, &trade2, Slot::TradeRight, DragDrop::Item, 4, 4);
 
 }
 

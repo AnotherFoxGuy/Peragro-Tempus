@@ -282,17 +282,14 @@ void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
     CEGUI::Window* icon2 = newslot->GetObject()->GetWindow();
     oldslot->SetObject(object2);
     newslot->SetObject(object1);
-    oldslot->GetWindow()->addChildWindow(icon2);  
-    newslot->GetWindow()->addChildWindow(icon1);
     // Forces CEGUI to update.
-    icon1->notifyScreenAreaChanged();
-    icon2->notifyScreenAreaChanged();
+    //icon1->notifyScreenAreaChanged();
+    //icon2->notifyScreenAreaChanged();
   }
   else
   {
     Object* object = oldslot->GetObject();
     oldslot->MoveObjectTo(newslot);
-    newslot->GetWindow()->addChildWindow(object->GetWindow());
   }
 }
 
@@ -313,14 +310,14 @@ void DragDrop::ClearSlotsDelete(csArray<Slot*> arr)
   }
 }
 
-void DragDrop::CreateBag(CEGUI::Window* bag, csArray<Slot*>* slotarray, Slot::ParentType parent, DragDrop::Type type , int rows, int columns)
+void DragDrop::CreateBag(CEGUI::Window* bag, csArray<Slot*>* slotarray, Slot::ParentType parent, DragDrop::Type type , int rows, int columns, int offset)
 {
   for (int j=0; j<rows; j++)
   {
     for (int i=0; i<columns; i++)
     {
       Slot* slot = new Slot();
-      slot->SetId((i+(j*columns)));
+      slot->SetId((i+(j*columns))+offset);
       slot->SetType(type);
       slot->SetParent(parent);
       slot->SetWindow(createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));

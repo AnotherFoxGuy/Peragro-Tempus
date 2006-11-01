@@ -66,6 +66,7 @@ public:
   { 
     this->object = value; 
     slotwindow->addChildWindow(value->GetWindow());
+    value->GetWindow()->notifyScreenAreaChanged();
   }
   void SetType(uint value) { this->slottype = value; }
   void SetParent(uint value) { this->parent = value; }

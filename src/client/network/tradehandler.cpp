@@ -104,7 +104,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   TradeOffersListPvpMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
-  printf("TradeHandler: \n");
+  printf("TradeHandler: About to add % items\n", trade_msg.getOffersCount());
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 

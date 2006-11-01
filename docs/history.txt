@@ -5,6 +5,9 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 31-Oct-2006
+  - Sueastside made some gui fixes.
+
+31-Oct-2006
   - Sueastside made dropevents pass through icons, so they are properly swapped.
   - Sueastside committed Buy and Sell windows. 
   - Sueastside committed mounting.

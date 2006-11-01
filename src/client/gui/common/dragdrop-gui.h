@@ -76,7 +76,7 @@ public:
   void MoveObject(Slot* oldslot, Slot* newslot);
 
   void ClearSlotsDelete(csArray<Slot*> arr);
-  void CreateBag(CEGUI::Window* bag, csArray<Slot*>* slotarray, Slot::ParentType parent, DragDrop::Type type , int rows, int columns);
+  void CreateBag(CEGUI::Window* bag, csArray<Slot*>* slotarray, Slot::ParentType parent, DragDrop::Type type , int rows, int columns, int offset=0);
 };
 
 
