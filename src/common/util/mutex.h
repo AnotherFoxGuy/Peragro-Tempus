@@ -34,6 +34,7 @@ private:
     CRITICAL_SECTION mutex;
 #else
     pthread_mutex_t mutex;
+    pthread_mutexattr_t attr;
 #endif
 
 public:
@@ -42,6 +43,8 @@ public:
 #ifdef WIN32
     InitializeCriticalSection(&mutex);
 #else
+    pthread_mutexattr_init(&attr);
+    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
     pthread_mutex_init(&mutex, 0);
 #endif
   }
@@ -52,6 +55,7 @@ public:
     DeleteCriticalSection(&mutex);
 #else
     pthread_mutex_destroy(&mutex);
+    pthread_mutexattr_destroy(&attr);
 #endif
   }
 
@@ -60,7 +64,7 @@ public:
 #ifdef WIN32
     EnterCriticalSection(&mutex);
 #else
-    pthread_mutex_trylock(&mutex);
+    pthread_mutex_lock(&mutex);
 #endif
   }
 

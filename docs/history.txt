@@ -8,6 +8,9 @@ under each day.
   - iceeey changed Mutex::lock() to use pthread_mutex_trylock() instead of
     pthread_mutex_lock() on non-windows platforms in the case that the mutex
     lock is called multiple times.
+  - PK changed Mutex::lock() to use pthread_mutex_lock() again so it would 
+    actually waits if the mutex is already locked. Setting the mutex attribute
+    to PTHREAD_MUTEX_RECURSIVE gives a win32 like behaviour.
 
 1-Nov-2006
   - Sueastside made some gui fixes.
