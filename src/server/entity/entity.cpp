@@ -22,6 +22,7 @@
 #include "npcentity.h"
 #include "doorentity.h"
 #include "itementity.h"
+#include "mountentity.h"
 
 #include "sectormanager.h"
 
@@ -45,6 +46,11 @@ void Entity::setItemEntity(const ItemEntity* item)
 void Entity::setDoorEntity(const DoorEntity* door)
 {
   door_entity = door->getRef();
+}
+
+void Entity::setMountEntity(const MountEntity* mount)
+{
+  mount_entity = mount->getRef();
 }
 
 const ptString& Entity::getSectorName() const

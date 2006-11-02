@@ -40,14 +40,14 @@ public:
 
   unsigned short getSectorCount()
   {
-    return sectors.getCount()+1;
+    return (unsigned short) sectors.getCount()+1;
   }
 
   unsigned short getSectorId(ptString name)
   {
     for (size_t i = 0; i < sectors.getCount(); i++)
     {
-      if (sectors.get(i) == name) return i+1;
+      if (sectors.get(i) == name) return (unsigned short) i + 1;
     }
     return Sector::NoSector;
   }

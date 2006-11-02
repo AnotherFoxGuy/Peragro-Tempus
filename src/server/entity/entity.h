@@ -28,6 +28,7 @@ class PcEntity;
 class NpcEntity;
 class ItemEntity;
 class DoorEntity;
+class MountEntity;
 
 class Entity : public ptMonitorable<Entity>
 {
@@ -42,6 +43,7 @@ private:
   ptMonitor<NpcEntity> npc_entity;
   ptMonitor<ItemEntity> item_entity;
   ptMonitor<DoorEntity> door_entity;
+  ptMonitor<MountEntity> mount_entity;
 
 public:
   enum EntityType
@@ -49,7 +51,8 @@ public:
     PlayerEntityType=0,
     NPCEntityType=1,
     DoorEntityType=2,
-    ItemEntityType=3
+    ItemEntityType=3,
+    MountEntityType=4
   };
 
 protected:
@@ -153,11 +156,13 @@ public:
   const NpcEntity* getNpcEntity() const { return npc_entity.get(); }
   const ItemEntity* getItemEntity() const { return item_entity.get(); }
   const DoorEntity* getDoorEntity() const { return door_entity.get(); }
+  const MountEntity* getMountEntity() const { return mount_entity.get(); }
 
   void setPlayerEntity(const PcEntity*);
   void setNpcEntity(const NpcEntity*);
   void setItemEntity(const ItemEntity*);
   void setDoorEntity(const DoorEntity*);
+  void setMountEntity(const MountEntity*);
 
   void checkForSave();
 };

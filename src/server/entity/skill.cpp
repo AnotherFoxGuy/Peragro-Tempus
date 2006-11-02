@@ -139,7 +139,7 @@ void Skill::castExecute(CharSkill* skilldata)
   if (type == TYPE_HURT)
   {
     unsigned int health = stats->getAmount(hp);
-    if ( health > power )
+    if ( (int) health > power )
     {
       // target took damage
       stats->takeStat(hp, power);

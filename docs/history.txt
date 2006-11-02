@@ -11,6 +11,7 @@ under each day.
   - PK changed Mutex::lock() to use pthread_mutex_lock() again so it would 
     actually waits if the mutex is already locked. Setting the mutex attribute
     to PTHREAD_MUTEX_RECURSIVE gives a win32 like behaviour.
+  - PK added a mountentity to the server.
 
 1-Nov-2006
   - Sueastside made some gui fixes.

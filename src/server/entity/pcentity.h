@@ -24,9 +24,10 @@
 #include "entity.h"
 #include "tradepeer.h"
 
-class Character;
-class Entity;
 class User;
+class Entity;
+class Character;
+class MountEntity;
 
 class PcEntity : public ptMonitorable<PcEntity>
 {
@@ -34,6 +35,7 @@ private:
   ptMonitor<User> user;
   ptMonitor<Entity> entity;
   ptMonitor<Character> character;
+  ptMonitor<MountEntity> mount;
 
   TradePeer tradepeer;
 
@@ -59,13 +61,16 @@ public:
   }
 
   void setUser(User* user);
-  const User* getUser() const { return this->user.get(); }
+  const User* getUser() const { return user.get(); }
 
   void setEntity(Entity* entity);
-  const Entity* getEntity() const { return this->entity.get(); }
+  const Entity* getEntity() const { return entity.get(); }
 
   void setCharacter(Character* character);
-  const Character* getCharacter() const { return this->character.get(); }
+  const Character* getCharacter() const { return character.get(); }
+
+  void setMount(MountEntity* mount);
+  const MountEntity* getMount() const { return mount.get(); }
 
   TradePeer* getTradePeer() { return &tradepeer; }
 
