@@ -98,6 +98,7 @@ void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
 
 bool BuyWindow::AddItem(unsigned int itemid)
 {
+  winMgr->getWindow("BuyWindow/Frame")->setVisible(true);
   items.Push(itemid);
   Update(0);
   return true;
