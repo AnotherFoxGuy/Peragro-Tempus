@@ -29,8 +29,8 @@ private:
   DragDrop* dragdrop;
   ItemMGR* itemmanager;
 
-  csArray<Slot*> upperslots;
-  csArray<Slot*> lowerslots;
+  Inventory* upperslots;
+  Inventory* lowerslots;
 
   csArray<unsigned int> items;
 

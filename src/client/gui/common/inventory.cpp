@@ -63,6 +63,74 @@ void Inventory::ClearSlotsDelete()
   }
 }
 
+unsigned int Inventory::FindFreeSlot()
+{
+  for (size_t i = 10; i < slotarray.GetSize(); i++)
+  {
+    Slot* slot = slotarray.Get(i);
+    
+    if (!slot) 
+      continue;
+    
+    if (slot->IsEmpty())
+      return slot->GetId();
+  }
+  printf("ERROR Inventory: Inventory full!\n");
+  return ~0;
+}
+
+unsigned int Inventory::FindObject(unsigned int itemid)
+{
+  for (size_t i = 0; i < slotarray.GetSize(); i++)
+  {
+    Slot* slot = slotarray.Get(i);
+    
+    if (!slot) 
+      continue;
+    
+    if (!slot->GetObject())
+      continue;
+
+    if (slot->GetObject()->GetId() == itemid)
+    {
+      return slot->GetId();
+    }
+  }
+  return ~0;
+}
+
+bool Inventory::RemoveObject(unsigned int slotid)
+{
+  Slot* slot = slotarray[slotid];
+  if (!slot) return false;
+  Object* object = slot->GetObject();
+  if (!object) return false;
+  object->GetWindow()->destroy();
+  delete object;
+  slot->Clear();
+  return true;
+}
+
+csArray<Inventory::ObjectAndSlot> Inventory::GetAllObjects()
+{
+  csArray<ObjectAndSlot> objects;
+  for (size_t i=0; i<slotarray.GetSize(); i++)
+  {
+    Slot* slot = slotarray[i];
+    if (!slot) continue;
+    Object* object = slot->GetObject();
+    if(object)
+    {
+      ObjectAndSlot objandslot;
+      objandslot.object = object;
+      objandslot.slot = slot;
+      objects.Push(objandslot);
+    }
+  }
+
+  return objects;
+}
+
 void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, DragDrop::Type type , int rows, int columns, int offset)
 {
   for (int j=0; j<rows; j++)

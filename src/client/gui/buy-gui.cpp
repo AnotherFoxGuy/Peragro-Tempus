@@ -32,14 +32,16 @@ BuyWindow::BuyWindow(GUIManager* guimanager)
 
 BuyWindow::~BuyWindow()
 {
+  delete lowerslots;
+  delete upperslots;
 }
 
 bool BuyWindow::OnCloseButton(const CEGUI::EventArgs& args)
 {
   winMgr->getWindow("BuyWindow/Frame")->setVisible(false);
 
-  //dragdrop->ClearSlotsDelete(upperslots);
-  //dragdrop->ClearSlotsDelete(lowerslots);
+  upperslots->ClearSlotsDelete();
+  lowerslots->ClearSlotsDelete();
   items.DeleteAll();
 
   //TradeCancelMessage msg;
@@ -97,6 +99,7 @@ void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
 bool BuyWindow::AddItem(unsigned int itemid)
 {
   items.Push(itemid);
+  Update(0);
   return true;
 }
 
@@ -109,14 +112,14 @@ void BuyWindow::Update(int linenr)
   scrollbar->setDocumentSize(items.GetSize());
 
   // Clearing the old items.
-  //dragdrop->ClearSlotsDelete(upperslots);
+  upperslots->ClearSlotsDelete();
 
   // Putting the items in.
   int counter = 0; 
   for (int i=linenr; i<items.GetSize(); i++)
   {
     if(counter > nrInventorySlots-1) break;
-    Slot* slot = upperslots[counter];
+    Slot* slot = upperslots->GetSlot(counter);
     unsigned int itemid = items.Get(i);
     slot->SetObject(dragdrop->CreateItem(itemid));
     counter += 1;
@@ -128,27 +131,17 @@ void BuyWindow::UpdateOffer()
   // Make a list of items and send it to the network.
   // Get actual items.
   //TradeOffersListPvpMessage msg;
-  csArray<Object*> objects;
-  for (size_t i=0; i<lowerslots.GetSize(); i++)
-  {
-    Slot* slot = lowerslots[i];
-    if (!slot) continue;
-    Object* object = slot->GetObject();
-    if(object)
-    {
-      objects.Push(object);
-    }
-  }
+  csArray<Inventory::ObjectAndSlot> objandslot = lowerslots->GetAllObjects();
 
   // Make the offer list.
-  //msg.setOffersCount(objects.GetSize());
+  //msg.setOffersCount(objandslot.GetSize());
   printf("------------------------------------------\n");
   printf("BuyWindow: Creating Trade Offer List Pvp\n");
-  for (size_t i=0; i<objects.GetSize(); i++)
+  for (size_t i=0; i<objandslot.GetSize(); i++)
   {
-    Object* object = objects.Get(i);
-    printf("item %d\n", object->GetId());
-    //msg.setItemId(i, object->GetId());
+    Inventory::ObjectAndSlot objslot = objandslot.Get(i);
+    printf("item %d\n", objslot.object->GetId());
+    //msg.setItemId(i, objslot.object->GetId());
   }
 
   //network->send(&msg);
@@ -163,24 +156,23 @@ void BuyWindow::AcceptTrade()
 
   int nrInventorySlots = 30;
 
+  // Get all the items.
+  csArray<Inventory::ObjectAndSlot> objandslot = lowerslots->GetAllObjects();
+
   // Putting the new items in the inventory.
   int counter = 10;
-  for (int i=0; i<lowerslots.GetSize(); i++)
+  for (int i=0; i<objandslot.GetSize(); i++)
   {
-    Slot* slot = lowerslots[i];
-    if(!slot->IsEmpty())
+    unsigned int objid = objandslot.Get(i).object->GetId();
+    while(!guimanager->GetInventoryWindow()->AddItem(objid, counter)
+      && counter < nrInventorySlots)
     {
-      Object* object = slot->GetObject();
-      while(!guimanager->GetInventoryWindow()->AddItem(object->GetId(), counter)
-        && counter < nrInventorySlots)
-      {
-        counter += 1;
-      }
+      counter += 1;
     }
   }
 
-  //dragdrop->ClearSlotsDelete(upperslots);
-  //dragdrop->ClearSlotsDelete(lowerslots);
+  upperslots->ClearSlotsDelete();
+  lowerslots->ClearSlotsDelete();
   items.DeleteAll();
 }
 
@@ -212,26 +204,13 @@ void BuyWindow::CreateGUIWindow()
 
   // Populate the upper bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("BuyWindow/UpperSlots/UpperBag");
-  //dragdrop->CreateBag(bag1, &upperslots, Slot::BuyUpper, DragDrop::Item, 3, 4);
+  upperslots = new Inventory(guimanager);
+  upperslots->Create(bag1, Inventory::BuyUpper, DragDrop::Item, 3, 4);
 
   // Populate the lower bag with slots.
   CEGUI::Window* bag2 = winMgr->getWindow("BuyWindow/LowerSlots/LowerBag");
-  //dragdrop->CreateBag(bag2, &lowerslots, Slot::BuyLower, DragDrop::Item, 2, 4);
-
-  AddItem(1);
-  AddItem(2);
-  AddItem(3);
-  AddItem(4);
-  AddItem(1);
-  AddItem(1);
-  AddItem(1);
-  AddItem(2);
-  AddItem(3);
-  AddItem(4);
-  AddItem(1);
-  AddItem(1);
-  AddItem(1);
-  AddItem(4);
+  lowerslots = new Inventory(guimanager);
+  lowerslots->Create(bag2, Inventory::BuyLower, DragDrop::Item, 2, 4);
 
   Update(0);
 

@@ -31,8 +31,8 @@ private:
   int numberOfSlots;
   bool accept1;
   bool accept2;
-  csArray<Slot*> trade1;
-  csArray<Slot*> trade2;
+  Inventory* trade1;
+  Inventory* trade2;
   csArray<Slot*> inventory;
 
 private:

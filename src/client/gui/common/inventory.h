@@ -33,7 +33,7 @@
 
 #include "client/gui/common/dragdrop-gui.h"
 
-class DragDrop;
+//class DragDrop;
 
 class Inventory
 {
@@ -49,6 +49,12 @@ public:
     SellUpper=6,
     SellLower=7,
   };
+
+  struct ObjectAndSlot
+  {
+    Object* object;
+    Slot*  slot;
+  }; 
 
 private:
   ParentType parent;
@@ -71,9 +77,11 @@ public:
   unsigned int FindObject(unsigned int objectid);
   bool RemoveObject(unsigned int slotid);
 
-  csArray<Slot*> GetAllObjects();
+  csArray<ObjectAndSlot> GetAllObjects();
 
   Slot* GetSlot(unsigned int slotid) { return slotarray[slotid]; }
+
+  csArray<Slot*> GetSlotArray() { return slotarray; }
 
 
 };

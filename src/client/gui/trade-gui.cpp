@@ -34,8 +34,8 @@ TradeWindow::TradeWindow(GUIManager* guimanager)
 
 TradeWindow::~TradeWindow()
 {
-  trade1.DeleteAll();
-  trade2.DeleteAll();
+  delete trade1;
+  delete trade2;
   inventory.DeleteAll();
 }
 
@@ -103,7 +103,7 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
   if(slotid > numberOfSlots) return false;
   if(slotid == -1) return false;
 
-  Slot* slot = trade2[slotid];
+  Slot* slot = trade2->GetSlot(slotid);
 
   if (!slot)
   {
@@ -185,31 +185,18 @@ void TradeWindow::UpdateOffer()
   // Make a list of items and send it to the network.
   // Get actual items.
   TradeOffersListPvpMessage msg;
-  csArray<Object*> objects;
-  csArray<unsigned int> slotids;
-  for (size_t i=0; i<trade1.GetSize(); i++)
-  {
-    Slot* slot = trade1[i];
-    if (!slot) continue;
-    Object* object = slot->GetObject();
-    if(object)
-    {
-      objects.Push(object);
-      slotids.Push(slot->GetId());
-    }
-  }
+  csArray<Inventory::ObjectAndSlot> objandslot = trade1->GetAllObjects();
 
   // Make the offer list.
-  msg.setOffersCount(objects.GetSize());
+  msg.setOffersCount(objandslot.GetSize());
   printf("------------------------------------------\n");
-  printf("TradeWindow: Creating Offer List Pvp for %d items\n", objects.GetSize());
-  for (size_t i=0; i<objects.GetSize(); i++)
+  printf("TradeWindow: Creating Offer List Pvp for %d items\n", objandslot.GetSize());
+  for (size_t i=0; i<objandslot.GetSize(); i++)
   {
-    Object* object = objects.Get(i);
-    unsigned int slotid = slotids.Get(i);
-    printf("item %d in slot %d!\n", object->GetId(), slotid);
-    msg.setItemId(i, object->GetId());
-    msg.setSlotId(i, slotid);
+    Inventory::ObjectAndSlot objslot = objandslot.Get(i);
+    printf("item %d in slot %d!\n", objslot.object->GetId(), objslot.slot->GetId());
+    msg.setItemId(i, objslot.object->GetId());
+    msg.setSlotId(i, objslot.slot->GetId());
   }
 
   network->send(&msg);
@@ -244,7 +231,7 @@ void TradeWindow::CancelTrade()
   // Putting the items back in the inventory.
   for (int i=0; i<numberOfSlots; i++)
   {
-    Slot* slot = trade1[i];
+    Slot* slot = trade1->GetSlot(i);
     if(!slot->IsEmpty())
     {
       Slot* oldslot = inventory[i];
@@ -252,8 +239,8 @@ void TradeWindow::CancelTrade()
     }
   }
 
-  //dragdrop->ClearSlotsDelete(trade1);
-  //dragdrop->ClearSlotsDelete(trade2);
+  trade1->ClearSlotsDelete();
+  trade2->ClearSlotsDelete();
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);
@@ -270,7 +257,7 @@ void TradeWindow::AcceptTrade()
   int counter = 10;
   for (int i=0; i<numberOfSlots; i++)
   {
-    Slot* slot = trade2[i];
+    Slot* slot = trade2->GetSlot(i);
     if(!slot->IsEmpty())
     {
       Object* object = slot->GetObject();
@@ -285,7 +272,7 @@ void TradeWindow::AcceptTrade()
   // Deleting the traded items in the inventory.
   for (int i=0; i<numberOfSlots; i++)
   {
-    Slot* slot = trade1[i];
+    Slot* slot = trade1->GetSlot(i);
     if(!slot->IsEmpty())
     {
       Slot* oldslot = inventory[i];
@@ -293,8 +280,8 @@ void TradeWindow::AcceptTrade()
     }
   }
 
-  //dragdrop->ClearSlotsDelete(trade1);
-  //dragdrop->ClearSlotsDelete(trade2);
+  trade1->ClearSlotsDelete();
+  trade2->ClearSlotsDelete();
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);
@@ -326,11 +313,13 @@ void TradeWindow::CreateGUIWindow()
 
   // Populate the Player1 bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("TradeWindow/Player1/Bag");
-  //dragdrop->CreateBag(bag1, &trade1, Inventory::TradeLeft, DragDrop::Item, 4, 4);
+  trade1 = new Inventory(guimanager);
+  trade1->Create(bag1, Inventory::TradeLeft, DragDrop::Item, 4, 4);
 
   // Populate the Player2 bag with slots.
   CEGUI::Window* bag2 = winMgr->getWindow("TradeWindow/Player2/Bag");
-  //dragdrop->CreateBag(bag2, &trade2, Inventory::TradeRight, DragDrop::Item, 4, 4);
+  trade2 = new Inventory(guimanager);
+  trade2->Create(bag2, Inventory::TradeRight, DragDrop::Item, 4, 4);
 
 }
 

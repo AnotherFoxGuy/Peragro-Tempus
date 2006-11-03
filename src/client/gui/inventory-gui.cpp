@@ -34,7 +34,7 @@ InventoryWindow::InventoryWindow(GUIManager* guimanager)
 
 InventoryWindow::~InventoryWindow()
 {
-  inventory.DeleteAll();
+  delete inventory;
 }
 
 bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
@@ -48,7 +48,7 @@ bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
   if(slotid > numberOfSlots) return false;
   if(slotid == -1) return false;
 
-  Slot* slot = inventory[slotid];
+  Slot* slot = inventory->GetSlot(slotid);
 
   if (!slot)
   {
@@ -72,8 +72,8 @@ bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
 bool InventoryWindow::MoveItem(unsigned int oldslotid, unsigned int newslotid)
 {
   if(oldslotid == newslotid) return true;
-  Slot* oldslot = inventory[oldslotid];
-  Slot* newslot = inventory[newslotid];
+  Slot* oldslot = inventory->GetSlot(oldslotid);
+  Slot* newslot = inventory->GetSlot(newslotid);
 
   return MoveItem(oldslot, newslot);
 }
@@ -96,49 +96,23 @@ bool InventoryWindow::RemoveItem(unsigned int slotid)
   if(slotid > numberOfSlots) return false;
   if(slotid == -1) return false;
 
-  Slot* slot = inventory[slotid];
-
-  Object* object = slot->GetObject();
-  object->GetWindow()->destroy();
-  delete object;
-  slot->Clear();
-  return true;
+  if(inventory->RemoveObject(slotid))
+    return true;
+  else
+  {
+    printf("ERROR:InventoryWindow: Failed to remove item in slot %d!\n", slotid);
+    return false;
+  }
 }
 
 unsigned int InventoryWindow::FindItem(unsigned int itemid)
 {
-  for (size_t i = 0; i < inventory.GetSize(); i++)
-  {
-    Slot* slot = inventory.Get(i);
-    
-    if (!slot) 
-      continue;
-    
-    if (!slot->GetObject())
-      continue;
-
-    if (slot->GetObject()->GetId() == itemid)
-    {
-      return slot->GetId();
-    }
-  }
-  return ~0;
+  return inventory->FindObject(itemid);
 }
 
 unsigned int InventoryWindow::FindFreeSlot()
 {
-  for (size_t i = 10; i < inventory.GetSize(); i++)
-  {
-    Slot* slot = inventory.Get(i);
-    
-    if (!slot) 
-      continue;
-    
-    if (slot->IsEmpty())
-      return slot->GetId();
-  }
-  printf("ERROR InventoryWindow: Inventory full!\n");
-  return ~0;
+  return inventory->FindFreeSlot();
 }
 
 void InventoryWindow::SetupEquipSlot(unsigned int id, const char* window)
@@ -152,7 +126,7 @@ void InventoryWindow::SetupEquipSlot(unsigned int id, const char* window)
   slotwin->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDropped, dragdrop));
   slot->SetWindow(slotwin);
   slot->GetWindow()->setUserData(slot);
-  inventory.Put(slot->GetId(), slot);
+  inventory->GetSlotArray().Put(slot->GetId(), slot);
 }
 
 void InventoryWindow::CreateGUIWindow()
@@ -180,7 +154,8 @@ void InventoryWindow::CreateGUIWindow()
 
   // Populate the bag with slots.
   CEGUI::Window* bag = winMgr->getWindow("Inventory/Bag");
-  //dragdrop->CreateBag(bag, &inventory, Inventory::InventoryLower, DragDrop::Item, 4, 5, 10);
+  inventory = new Inventory(guimanager);
+  inventory->Create(bag, Inventory::InventoryLower, DragDrop::Item, 4, 5, 10);
 
  // Get the root window
   rootwindow = winMgr->getWindow("Inventory/Frame");
