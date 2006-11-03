@@ -176,6 +176,9 @@
 				RelativePath="..\..\src\client\gui\common\dragdrop-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\common\inventory.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\common\object.cpp">
 			</File>
 			<File
@@ -238,6 +241,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\common\dragdrop-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\common\inventory.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\common\object.h">
