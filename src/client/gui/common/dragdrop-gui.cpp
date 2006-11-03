@@ -78,7 +78,7 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
       return true;
   }
 
-  if(oldslot->GetParent() == Slot::TradeLeft)
+  if(oldslot->GetParent() == Inventory::TradeLeft)
   {
     // Enable the inventory icon again.
     Slot* oldinvslot = guimanager->GetTradeWindow()->GetOldSlot(oldslot);
@@ -165,24 +165,10 @@ bool DragDrop::handleDragDroppedBuy(const CEGUI::EventArgs& args)
   Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
   Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
-  if(oldslot->GetParent() == Slot::BuyLower || oldslot->GetParent() == Slot::BuyUpper) 
+  if(oldslot->GetParent() == Inventory::BuyLower || oldslot->GetParent() == Inventory::BuyUpper) 
     guimanager->GetBuyWindow()->MoveItem(oldslot, newslot);
 
   return true;
-}
-
-CEGUI::Window* DragDrop::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
-{
-  // Create the slot
-  CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
-  parent->addChildWindow(slot);
-  slot->setPosition(position);
-  slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&DragDrop::handleDragEnter, this));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&DragDrop::handleDragLeave, this));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDropped, this));
-
-  return slot;
 }
 
 CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactable)
@@ -278,79 +264,12 @@ void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
     printf("DragDrop: Swapping objects!\n");
     Object* object1 = oldslot->GetObject();
     Object* object2 = newslot->GetObject();
-    CEGUI::Window* icon1 = oldslot->GetObject()->GetWindow();
-    CEGUI::Window* icon2 = newslot->GetObject()->GetWindow();
     oldslot->SetObject(object2);
     newslot->SetObject(object1);
-    // Forces CEGUI to update.
-    //icon1->notifyScreenAreaChanged();
-    //icon2->notifyScreenAreaChanged();
   }
   else
   {
     Object* object = oldslot->GetObject();
     oldslot->MoveObjectTo(newslot);
-  }
-}
-
-void DragDrop::ClearSlotsDelete(csArray<Slot*> arr)
-{
-  // Clears the inventory and deletes the objects. 
-  for (size_t i=0; i<arr.GetSize(); i++)
-  {
-    Slot* slot = arr[i];
-    if (!slot) continue;
-    Object* object = slot->GetObject();
-    if(object)
-    {
-      object->GetWindow()->destroy();
-      delete object;
-      slot->Clear();
-    }
-  }
-}
-
-void DragDrop::CreateBag(CEGUI::Window* bag, csArray<Slot*>* slotarray, Slot::ParentType parent, DragDrop::Type type , int rows, int columns, int offset)
-{
-  for (int j=0; j<rows; j++)
-  {
-    for (int i=0; i<columns; i++)
-    {
-      Slot* slot = new Slot();
-      slot->SetId((i+(j*columns))+offset);
-      slot->SetType(type);
-      slot->SetParent(parent);
-      slot->SetWindow(createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
-      slot->GetWindow()->setUserData(slot);
-
-      switch(parent)
-      {
-      case Slot::BuyUpper:
-        slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
-        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
-          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedBuy, this));
-        break;
-      case Slot::BuyLower:
-        slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
-        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
-          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedBuy, this));
-        break;
-      case Slot::Inventory:
-        // Nothing to do.
-        break;
-      case Slot::TradeLeft:
-        slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
-        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
-          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedTrade, this));
-        break;
-      case Slot::TradeRight:
-        slot->GetWindow()->removeAllEvents();
-        break;
-
-      default: printf("DragDrop: Unknown ParentType %d !\n", parent);
-      }
-
-      slotarray->Put(slot->GetId(), slot);
-    }
   }
 }

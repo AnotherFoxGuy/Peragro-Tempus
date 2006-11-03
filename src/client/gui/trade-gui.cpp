@@ -94,7 +94,7 @@ bool TradeWindow::OnAcceptPlayer1(const CEGUI::EventArgs& args)
 
 void TradeWindow::ClearItems()
 {
-  dragdrop->ClearSlotsDelete(trade2);
+  //dragdrop->ClearSlotsDelete(trade2);
 }
 
 bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int slotid)
@@ -154,11 +154,11 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
 
   // If we drag the icon around to the same 
   // slot in the trade window, return.
-  if((oldslot->GetParent() == Slot::TradeLeft)
+  if((oldslot->GetParent() == Inventory::TradeLeft)
     && oldslot->GetId() == newslot->GetId())
     return true;
 
-  if(oldslot->GetParent() == Slot::TradeLeft)
+  if(oldslot->GetParent() == Inventory::TradeLeft)
   {
     dragdrop->MoveObject(oldslot, newslot);
     inventory.Put(newslot->GetId(), inventory[oldslot->GetId()]);
@@ -252,8 +252,8 @@ void TradeWindow::CancelTrade()
     }
   }
 
-  dragdrop->ClearSlotsDelete(trade1);
-  dragdrop->ClearSlotsDelete(trade2);
+  //dragdrop->ClearSlotsDelete(trade1);
+  //dragdrop->ClearSlotsDelete(trade2);
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);
@@ -293,8 +293,8 @@ void TradeWindow::AcceptTrade()
     }
   }
 
-  dragdrop->ClearSlotsDelete(trade1);
-  dragdrop->ClearSlotsDelete(trade2);
+  //dragdrop->ClearSlotsDelete(trade1);
+  //dragdrop->ClearSlotsDelete(trade2);
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);
@@ -326,11 +326,11 @@ void TradeWindow::CreateGUIWindow()
 
   // Populate the Player1 bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("TradeWindow/Player1/Bag");
-  dragdrop->CreateBag(bag1, &trade1, Slot::TradeLeft, DragDrop::Item, 4, 4);
+  //dragdrop->CreateBag(bag1, &trade1, Inventory::TradeLeft, DragDrop::Item, 4, 4);
 
   // Populate the Player2 bag with slots.
   CEGUI::Window* bag2 = winMgr->getWindow("TradeWindow/Player2/Bag");
-  dragdrop->CreateBag(bag2, &trade2, Slot::TradeRight, DragDrop::Item, 4, 4);
+  //dragdrop->CreateBag(bag2, &trade2, Inventory::TradeRight, DragDrop::Item, 4, 4);
 
 }
 

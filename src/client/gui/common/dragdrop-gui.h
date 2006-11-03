@@ -70,13 +70,9 @@ public:
   DragDrop(GUIManager* guimanager);
   virtual ~DragDrop();
 
-  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
   CEGUI::Window* createIcon(int icontype, int objectid, bool interactable = true);
   Object* CreateItem(uint itemid, bool interactable = true);
   void MoveObject(Slot* oldslot, Slot* newslot);
-
-  void ClearSlotsDelete(csArray<Slot*> arr);
-  void CreateBag(CEGUI::Window* bag, csArray<Slot*>* slotarray, Slot::ParentType parent, DragDrop::Type type , int rows, int columns, int offset=0);
 };
 
 

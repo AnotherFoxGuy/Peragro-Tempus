@@ -25,6 +25,8 @@
 
 #include <ivaria/icegui.h>
 
+#include "common/dragdrop-gui.h"
+
 class Client;
 
 class LoginWindow;

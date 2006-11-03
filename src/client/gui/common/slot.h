@@ -42,17 +42,6 @@ private:
   CEGUI::Window* slotwindow;
 
 public:
-  enum ParentType
-  {
-    Inventory=0,
-    TradeLeft=1,
-    TradeRight=2,
-    BuyUpper=3,
-    BuyLower=4,
-    Sell=5
-  };
-
-public:
   Slot();
   ~Slot();
   uint GetId() { return slotid; }

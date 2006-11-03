@@ -38,8 +38,8 @@ bool BuyWindow::OnCloseButton(const CEGUI::EventArgs& args)
 {
   winMgr->getWindow("BuyWindow/Frame")->setVisible(false);
 
-  dragdrop->ClearSlotsDelete(upperslots);
-  dragdrop->ClearSlotsDelete(lowerslots);
+  //dragdrop->ClearSlotsDelete(upperslots);
+  //dragdrop->ClearSlotsDelete(lowerslots);
   items.DeleteAll();
 
   //TradeCancelMessage msg;
@@ -74,7 +74,7 @@ void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
 {
   int itemid = oldslot->GetObject()->GetId();
 
-  if(oldslot->GetParent() == Slot::BuyUpper)
+  if(oldslot->GetParent() == Inventory::BuyUpper)
   {
     for (size_t i = 0; i < items.GetSize(); i++)
     {
@@ -86,7 +86,7 @@ void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
       }
     }
   }
-  else if(oldslot->GetParent() == Slot::BuyLower)
+  else if(oldslot->GetParent() == Inventory::BuyLower)
   {
     items.Push(oldslot->GetObject()->GetId());
   }
@@ -109,7 +109,7 @@ void BuyWindow::Update(int linenr)
   scrollbar->setDocumentSize(items.GetSize());
 
   // Clearing the old items.
-  dragdrop->ClearSlotsDelete(upperslots);
+  //dragdrop->ClearSlotsDelete(upperslots);
 
   // Putting the items in.
   int counter = 0; 
@@ -179,8 +179,8 @@ void BuyWindow::AcceptTrade()
     }
   }
 
-  dragdrop->ClearSlotsDelete(upperslots);
-  dragdrop->ClearSlotsDelete(lowerslots);
+  //dragdrop->ClearSlotsDelete(upperslots);
+  //dragdrop->ClearSlotsDelete(lowerslots);
   items.DeleteAll();
 }
 
@@ -212,11 +212,11 @@ void BuyWindow::CreateGUIWindow()
 
   // Populate the upper bag with slots.
   CEGUI::Window* bag1 = winMgr->getWindow("BuyWindow/UpperSlots/UpperBag");
-  dragdrop->CreateBag(bag1, &upperslots, Slot::BuyUpper, DragDrop::Item, 3, 4);
+  //dragdrop->CreateBag(bag1, &upperslots, Slot::BuyUpper, DragDrop::Item, 3, 4);
 
   // Populate the lower bag with slots.
   CEGUI::Window* bag2 = winMgr->getWindow("BuyWindow/LowerSlots/LowerBag");
-  dragdrop->CreateBag(bag2, &lowerslots, Slot::BuyLower, DragDrop::Item, 2, 4);
+  //dragdrop->CreateBag(bag2, &lowerslots, Slot::BuyLower, DragDrop::Item, 2, 4);
 
   AddItem(1);
   AddItem(2);

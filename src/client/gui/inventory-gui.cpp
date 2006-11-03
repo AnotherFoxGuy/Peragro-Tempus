@@ -180,7 +180,7 @@ void InventoryWindow::CreateGUIWindow()
 
   // Populate the bag with slots.
   CEGUI::Window* bag = winMgr->getWindow("Inventory/Bag");
-  dragdrop->CreateBag(bag, &inventory, Slot::Inventory, DragDrop::Item, 4, 5, 10);
+  //dragdrop->CreateBag(bag, &inventory, Inventory::InventoryLower, DragDrop::Item, 4, 5, 10);
 
  // Get the root window
   rootwindow = winMgr->getWindow("Inventory/Frame");

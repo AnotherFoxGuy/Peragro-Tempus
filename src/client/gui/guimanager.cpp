@@ -28,7 +28,7 @@
 #include "client/network/network.h"
 
 #include "gui.h"
-#include "common/dragdrop-gui.h"
+
 
 GUIManager::GUIManager (Client* client)
 : client(client)

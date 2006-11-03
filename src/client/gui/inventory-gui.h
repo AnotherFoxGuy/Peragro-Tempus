@@ -21,8 +21,7 @@
 
 #include "base-gui.h"
 
-#include "client/gui/common/dragdrop-gui.h"
-#include "client/gui/common/slot.h"
+#include "client/gui/common/inventory.h"
 
 class DragDrop;
 
