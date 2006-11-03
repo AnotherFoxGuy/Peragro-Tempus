@@ -37,6 +37,14 @@ private:
 
   ptMonitor<MountEntity> mount; // one mount can be on another.
 
+  bool isWalking;
+
+  float final_dst[3];
+  size_t t_stop;
+
+  // TODO: Add stats
+  float speed;
+
 public:
   MountEntity()
   {
@@ -45,6 +53,8 @@ public:
     Entity* e = entity.get()->getLock();
     e->setMountEntity(this);
     e->freeLock();
+
+    speed = 10;
   }
 
   ~MountEntity() { }
@@ -54,6 +64,11 @@ public:
   void addPassanger(const PcEntity* e);
   size_t getPassangerCount() { return passangers.getCount(); }
   const PcEntity* getPassanger(size_t i) const;
+
+  void walkTo(float* dst_pos, float speed);
+  const float* getPos();
+
+  float getSpeed() const { return speed; }
 };
 
 #endif // _MOUNTENTITY_H_

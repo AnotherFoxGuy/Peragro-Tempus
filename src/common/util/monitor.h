@@ -81,6 +81,19 @@ public:
     *monitor = ref;
   }
 
+  void clear()
+  {
+    // Destruct old
+    if (original) *monitor = 0;
+    (*refcount)--;
+    if (*refcount == 0)
+    {
+      delete refcount;
+      delete monitor;
+    }
+    monitor = 0;
+  }
+
   const T* get() const
   {
     if (monitor == 0) return 0;

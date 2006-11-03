@@ -20,6 +20,7 @@
 #include "server/entity/itemmanager.h"
 #include "server/entity/entity.h"
 #include "server/entity/itementity.h"
+#include "server/entity/mountentity.h"
 #include "server/entity/statmanager.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/race.h"
@@ -263,9 +264,20 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   MoveToRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  Stat* speed = server->getStatManager()->findByName(ptString("Speed", 5));
+  Stat* speed_stat = server->getStatManager()->findByName(ptString("Speed", 5));
 
-  server->moveEntity(entity, request_msg.getTo(), (float)character->getStats()->getAmount(speed));
+  if (entity->getMount())
+  {
+    MountEntity* mount = entity->getMount()->getLock();
+    float speed = mount->getSpeed();
+    server->moveEntity(mount, request_msg.getTo(), speed);
+  }
+  else
+  {
+    float speed = (float)character->getStats()->getAmount(speed_stat);
+    server->moveEntity(entity, request_msg.getTo(), speed);
+  }
+
   server->getCharacterManager()->checkForSave(entity);
   entity->freeLock();
   character->freeLock();
@@ -408,8 +420,75 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
 void EntityHandler::handleMountRequest(GenericMessage* msg)
 {
+  const Entity* user_ent = NetworkHelper::getEntity(msg);
+  if (!user_ent) return;
+
+  int name_id = user_ent->getId();
+
+  UnmountRequestMessage request_msg;
+
+  unsigned int mount_id = request_msg.getMountEntityId();
+
+  const PcEntity* pc_ent = user_ent->getPlayerEntity();
+  if (!pc_ent) return;
+
+  const MountEntity* mount = pc_ent->getMount();
+  if (mount) return;
+
+  const Entity* mount_ent = server->getEntityManager()->findById(mount_id);
+  if (!mount_ent) return;
+
+  mount = mount_ent->getMountEntity();
+  if (!mount) return;
+
+  PcEntity* e = pc_ent->getLock();
+  e->setMount(mount);
+  e->freeLock();
+
+  // Do something!
+
+  UnmountMessage umount_msg;
+  umount_msg.setMountEntityId(mount_ent->getId());
+  umount_msg.setPlayerEntityId(user_ent->getId());
+
+  ByteStream bs;
+  umount_msg.serialise(&bs);
+
+  NetworkHelper::broadcast(bs);
 }
 
 void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 {
+  const Entity* user_ent = NetworkHelper::getEntity(msg);
+  if (!user_ent) return;
+
+  int name_id = user_ent->getId();
+
+  UnmountRequestMessage request_msg;
+
+  const PcEntity* pc_ent = user_ent->getPlayerEntity();
+  if (!pc_ent) return;
+
+  unsigned int mount_id = request_msg.getMountEntityId();
+
+  const MountEntity* mount = pc_ent->getMount();
+  if (!mount) return;
+
+  const Entity* mount_ent = mount->getEntity();
+  if (!mount_ent) return;
+
+  if (mount_ent->getId() != mount_id) return;
+
+  PcEntity* e = pc_ent->getLock();
+  e->setMount(0);
+  e->freeLock();
+
+  UnmountMessage umount_msg;
+  umount_msg.setMountEntityId(mount_ent->getId());
+  umount_msg.setPlayerEntityId(user_ent->getId());
+
+  ByteStream bs;
+  umount_msg.serialise(&bs);
+
+  NetworkHelper::broadcast(bs);
 }

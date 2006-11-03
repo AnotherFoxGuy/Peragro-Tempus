@@ -6,6 +6,7 @@ under each day.
 
 3-Nov-2006
   - PK added actions to the npc dialogs.
+  - PK implemented mounts on the serverside.
 
 2-Nov-2006
   - iceeey changed Mutex::lock() to use pthread_mutex_trylock() instead of

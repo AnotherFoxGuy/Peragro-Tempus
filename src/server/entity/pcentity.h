@@ -60,16 +60,16 @@ public:
     isWalking = false;
   }
 
-  void setUser(User* user);
+  void setUser(const User* user);
   const User* getUser() const { return user.get(); }
 
-  void setEntity(Entity* entity);
+  void setEntity(const Entity* entity);
   const Entity* getEntity() const { return entity.get(); }
 
-  void setCharacter(Character* character);
+  void setCharacter(const Character* character);
   const Character* getCharacter() const { return character.get(); }
 
-  void setMount(MountEntity* mount);
+  void setMount(const MountEntity* mount);
   const MountEntity* getMount() const { return mount.get(); }
 
   TradePeer* getTradePeer() { return &tradepeer; }

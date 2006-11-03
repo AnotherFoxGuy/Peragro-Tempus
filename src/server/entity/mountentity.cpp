@@ -36,3 +36,54 @@ const PcEntity* MountEntity::getPassanger(size_t i) const
   if (i > passangers.getCount()) return 0;
   return passangers.get(i).get(); 
 }
+
+void MountEntity::walkTo(float* dst_pos, float speed)
+{
+  final_dst[0] = dst_pos[0];
+  final_dst[1] = dst_pos[1];
+  final_dst[2] = dst_pos[2];
+
+  const float* pos = entity.get()->getPos();
+
+  float dist_x = fabsf(final_dst[0] - pos[0]);
+  float dist_y = fabsf(final_dst[1] - pos[1]);
+  float dist_z = fabsf(final_dst[2] - pos[2]);
+  float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
+
+  //v = s / t => t = s / v
+  t_stop = (size_t) (dist / speed + time(0));
+
+  isWalking = true;
+}
+
+const float* MountEntity::getPos()
+{
+  if (!isWalking)
+  {
+    return entity.get()->getPos();
+  }
+  else
+  {
+    if ((size_t)time(0) >= t_stop)
+    {
+      Entity* ent = entity.get()->getLock();
+      ent->setPos(final_dst);
+      ent->freeLock();
+
+      isWalking = false;
+      return final_dst;
+    }
+    else
+    {
+      float tmp_pos[3];
+      const float* pos = entity.get()->getPos();
+
+      //Not sure that's correct...
+      size_t delta = t_stop - (size_t) time(0);
+      tmp_pos[0] = (final_dst[0] - pos[0]) * delta;
+      tmp_pos[1] = (final_dst[1] - pos[1]) * delta;
+      tmp_pos[2] = (final_dst[2] - pos[2]) * delta;
+      return tmp_pos;
+    }
+  }
+}

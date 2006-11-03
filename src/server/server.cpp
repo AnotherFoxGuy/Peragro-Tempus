@@ -21,6 +21,7 @@
 #include "entity/entity.h"
 #include "entity/itementity.h"
 #include "entity/pcentity.h"
+#include "entity/mountentity.h"
 #include "entity/npcentity.h"
 #include "entity/usermanager.h"
 #include "server/entity/entitymanager.h"
@@ -82,6 +83,21 @@ void Server::delEntity(const Entity* entity)
 }
 
 void Server::moveEntity(PcEntity* entity, float* pos, float speed)
+{
+  MoveToMessage response_msg;
+  response_msg.setTo(pos);
+  response_msg.setFrom(entity->getEntity()->getPos());
+  response_msg.setSpeed(speed);
+  response_msg.setEntityId(entity->getEntity()->getId());
+
+  entity->walkTo(pos, speed);
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  NetworkHelper::broadcast(bs);
+}
+
+void Server::moveEntity(MountEntity* entity, float* pos, float speed)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);

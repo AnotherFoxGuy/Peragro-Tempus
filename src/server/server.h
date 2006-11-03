@@ -38,6 +38,7 @@ class Spawner;
 class SkillEngine;
 class ByteStream;
 class SectorManager;
+class MountEntity;
 
 class Server
 {
@@ -108,6 +109,7 @@ public:
   void addEntity(const Entity* entity, bool presistent);
   void delEntity(const Entity* entity);
   void moveEntity(PcEntity* entity, float* pos, float speed);
+  void moveEntity(MountEntity* entity, float* pos, float speed);
   void moveEntity(const NpcEntity* entity, float* pos, float speed);
   void broadCast(const ByteStream& bs);
 };

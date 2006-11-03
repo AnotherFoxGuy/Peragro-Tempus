@@ -20,26 +20,30 @@
 #include "server/entity/character.h"
 #include "server/entity/entity.h"
 #include "server/entity/pcentity.h"
+#include "server/entity/mountentity.h"
 
 #include <time.h>
 
-void PcEntity::setEntity(Entity* entity)
+void PcEntity::setEntity(const Entity* entity)
 {
+  if (!entity) this->entity.clear();
   this->entity = entity->getRef();
 }
 
-void PcEntity::setUser(User* user)
+void PcEntity::setUser(const User* user)
 {
   this->user = user->getRef();
 }
 
-void PcEntity::setCharacter(Character* character)
+void PcEntity::setCharacter(const Character* character)
 {
   this->character = character->getRef();
 }
 
 void PcEntity::walkTo(float* dst_pos, float speed)
 {
+  if (mount.get()) return;
+
   final_dst[0] = dst_pos[0];
   final_dst[1] = dst_pos[1];
   final_dst[2] = dst_pos[2];
@@ -59,6 +63,14 @@ void PcEntity::walkTo(float* dst_pos, float speed)
 
 const float* PcEntity::getPos()
 {
+  if (mount.get()) 
+  {
+    MountEntity* e = mount.get()->getLock();
+    const float* p = e->getPos();
+    e->freeLock();
+    return p;
+  }
+
   if (!isWalking)
   {
     return entity.get()->getPos();
@@ -85,4 +97,10 @@ const float* PcEntity::getPos()
       return tmp_pos;
     }
   }
+}
+
+void PcEntity::setMount(const MountEntity* mount)
+{
+  if (!mount) this->mount.clear();
+  this->mount = mount->getRef();
 }
