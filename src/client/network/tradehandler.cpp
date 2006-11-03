@@ -120,4 +120,11 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
 
 void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
 {
+  TradeOffersListNpcMessage trade_msg;
+  trade_msg.deserialise(msg->getByteStream());
+  printf("Got %d Offers from NPC!\n", trade_msg.getOffersCount());
+  for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
+  {
+    printf(" %d) Item %d \t %d money\n", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
+  }
 }

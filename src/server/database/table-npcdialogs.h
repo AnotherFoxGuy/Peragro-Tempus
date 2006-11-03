@@ -23,6 +23,7 @@ class Database;
 class ResultSet;
 
 #include <string>
+#include "common/util/ptstring.h"
 
 class NpcDialogsTableVO
 {
@@ -30,6 +31,7 @@ public:
   int dialogid;
   std::string text;
   int isstart;
+  ptString action;
 };
 
 class NpcDialogsTable
@@ -44,7 +46,7 @@ public:
 
   void createTable();
 
-  void insert(int dialogid, const char* text, int start);
+  void insert(int dialogid, const char* text, int start, const char* action);
   void remove(int dialogid);
 
   Array<NpcDialogsTableVO*> getAll();

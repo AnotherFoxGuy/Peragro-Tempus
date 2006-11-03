@@ -37,6 +37,7 @@ NpcDialogsTableVO* NpcDialogsTable::parseSingleResultSet(ResultSet* rs, size_t r
   vo->dialogid = atoi(rs->GetData(row,0).c_str());
   vo->text = rs->GetData(row,1);
   vo->isstart = atoi(rs->GetData(row,2).c_str());
+  vo->action = ptString(rs->GetData(row,3).c_str(), rs->GetData(row,3).length());
   return vo;
 }
 
@@ -57,26 +58,30 @@ void NpcDialogsTable::createTable()
              "dialogid INTEGER,"
              "text TEXT,"
              "isstart INTEGER,"
+             "action TEXT,"
              "PRIMARY KEY (DialogId) );");
 
-  insert(0,"Hello\nWould you like to know more about keep?",1);
+  insert(0,"Hello\nWould you like to know more about keep?",1,"text");
   insert(1,"Well, this is a bit embarrasing.\nI just wanted to sound smart, "
            "you know.\nNoone ever wanted to know something about this town "
-           "and honestly, I don''t know anything about it either...",0);
+           "and honestly, I don''t know anything about it either...",0,"text");
   insert(2,"I'm glad you have no hard feelings. But ask me in a few days, "
            "maybe I'll have found out something about this place by then.\n\n"
-           "Have a nice day.", 0);
+           "Have a nice day.", 0,"text");
   insert(3,"Look, I'm really sorry to have upset you... \n\n  hm... do you"
-           "want an apple instead?", 0);
+           "want an apple instead?", 0,"text");
   insert(4,"I've seen an apple laying in the grass over there.\n"
-           "If you hurry, it might still be there.", 0);
-  insert(5,"Well, then.\n\nHave a nice day.",0);
+           "If you hurry, it might still be there.", 0,"text");
+  insert(5,"Well, then.\n\nHave a nice day.",0,"text");
+  insert(6,"You there!\nWhat are you looking at me?",1,"text");
+  insert(7,"",1,"buy");
+  insert(8,"",1,"sell");
 }
 
-void NpcDialogsTable::insert(int dialogid, const char* text, int start)
+void NpcDialogsTable::insert(int dialogid, const char* text, int start, const char* action)
 {
-  const char* query = { "insert into npcdialogs(dialogid, text, isstart) values (%d, '%q', %d);" };
-  db->update(query, dialogid, text, start);
+  const char* query = { "insert into npcdialogs(dialogid, text, isstart, action) values (%d, '%q', %d, '%q');" };
+  db->update(query, dialogid, text, start, action);
 }
 
 void NpcDialogsTable::remove(int dialogid)

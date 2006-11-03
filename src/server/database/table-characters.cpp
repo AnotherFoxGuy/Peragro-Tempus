@@ -71,6 +71,8 @@ void CharacterTable::createTable()
             skincolour, decalcolour, pos, ptString("room",4));
   insert(2, ptString("baby-dragonfly", 14), 0, ptString("test1",5), 1, haircolour,
             skincolour, decalcolour, pos, ptString("room",4));
+  insert(3, ptString("skeleton", 8), 0, ptString("skeleton",8), 1, haircolour,
+            skincolour, decalcolour, pos, ptString("room",4));
 }
 
 void CharacterTable::insert(int id, ptString name, int user_id, ptString mesh,

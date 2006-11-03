@@ -43,6 +43,8 @@ private:
 
   AI* ai;
 
+  unsigned int dialog_id;
+
 public:
   NpcEntity()
   {
@@ -55,6 +57,7 @@ public:
     isWalking = false;
 
     ai = 0;
+    dialog_id = 0;
   }
 
   ~NpcEntity() { delete ai; }
@@ -69,6 +72,9 @@ public:
 
   void walkTo(float* dst_pos, float speed);
   const float* getPos();
+
+  void setStartDialog(unsigned int id) { dialog_id = id; }
+  unsigned int getStartDialog() { return dialog_id; }
 };
 
 #endif // _NPCENTITY_H_

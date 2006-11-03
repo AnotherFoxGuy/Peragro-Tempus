@@ -23,6 +23,7 @@
 
 #include "server/entity/character.h"
 #include "server/entity/pcentity.h"
+#include "server/entity/entitymanager.h"
 
 #include "common/quest/npcdialog.h"
 #include "common/quest/npcdialoganswer.h"
@@ -47,21 +48,48 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     return;
   }
 
-  NpcDialogMessage dialog_msg;
-  dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
-  dialog_msg.setDialogText(dialog->getText());
-  dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
-  for (size_t i = 0; i < dialog->getAnswerCount(); i++)
+  if (dialog->getAction() == NPCDialog::SHOW_TEXT)
   {
-    const NPCDialogAnswer* answer = dialog->getAnswer(i);
-    dialog_msg.setAnswerId(i, (unsigned int)i);
-    dialog_msg.setAnswerText(i, answer->getText());
+    NpcDialogMessage dialog_msg;
+    dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
+    dialog_msg.setDialogText(dialog->getText());
+    dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
+    for (size_t i = 0; i < dialog->getAnswerCount(); i++)
+    {
+      const NPCDialogAnswer* answer = dialog->getAnswer(i);
+      dialog_msg.setAnswerId(i, (unsigned int)i);
+      dialog_msg.setAnswerText(i, answer->getText());
+    }
+
+    ByteStream bs;
+    dialog_msg.serialise(&bs);
+
+    NetworkHelper::sendMessage(character, bs);
+  }
+  else if (dialog->getAction() == NPCDialog::START_BUY)
+  {
+    const NpcEntity* c_npc = dia_state->getNpc();
+    if (c_npc)
+    {
+      // hardcoded! just to test it!
+      // All this should go to the trade handler anyway!
+      TradeOffersListNpcMessage trade_msg;
+      trade_msg.setOffersCount(2);
+      trade_msg.setItemId(0, 4);
+      trade_msg.setPrice(0, 200);
+      trade_msg.setItemId(1, 5);
+      trade_msg.setPrice(1, 100);
+
+      ByteStream bs;
+      trade_msg.serialise(&bs);
+
+      NetworkHelper::sendMessage(character, bs);
+    }
+  }
+  else if (dialog->getAction() == NPCDialog::START_SELL)
+  {
   }
 
-  ByteStream bs;
-  dialog_msg.serialise(&bs);
-
-  NetworkHelper::sendMessage(character, bs);
   character->freeLock();
 }
 
@@ -77,7 +105,18 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   NpcStartDialogMessage message;
   message.deserialise(msg->getByteStream());
 
-  const NPCDialog* dialog = dia_state->startDialog(0);
+  unsigned int npc_id = message.getNpcId();
+  const Entity* npc_ent = server->getEntityManager()->findById(npc_id);
+
+  if (!npc_ent || npc_ent->getType() != Entity::NPCEntityType)
+    return;
+
+  NpcEntity* npc_entity = npc_ent->getNpcEntity()->getLock();
+
+  dia_state->setNpc(npc_entity);
+  const NPCDialog* dialog = dia_state->startDialog(npc_entity->getStartDialog());
+
+  npc_entity->freeLock();
 
   NpcDialogMessage dialog_msg;
   dialog_msg.setDialogId((unsigned int)dialog->getDialogId());

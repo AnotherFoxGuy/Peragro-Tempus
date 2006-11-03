@@ -19,24 +19,32 @@
 #ifndef _NPC_DIALOG_STATE_H_
 #define _NPC_DIALOG_STATE_H_
 
+#include "common/util/monitor.h"
+
 class Character;
+class NpcEntity;
 class NPCDialog;
 
 class NPCDialogState
 {
 private:
-  Character* character;
+  ptMonitor<Character> character;
+  ptMonitor<NpcEntity> npc;
+
   NPCDialog* current_dialog;
 
 public:
   NPCDialogState() {}
 
-  void setCharacter(Character* character) { this->character = character; }
+  void setCharacter(Character* character);
 
   const NPCDialog* startDialog(unsigned int dialog_id);
   void endDialog(unsigned int dialog_id);
 
   const NPCDialog* giveAnswer(unsigned int dialog_id, unsigned int answer_number);
+
+  void setNpc(const NpcEntity* npc);
+  const NpcEntity* getNpc() { return npc.get(); }
 };
 
 #endif // _NPC_DIALOG_STATE_H_

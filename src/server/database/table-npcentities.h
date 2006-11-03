@@ -30,6 +30,7 @@ public:
   int id;
   int character;
   ptString ai;
+  int dialog;
 };
 
 class NpcEntitiesTable
@@ -44,7 +45,7 @@ public:
 
   void createTable();
 
-  void insert(int id, int character, ptString ai);
+  void insert(int id, int character, ptString ai, int dialog);
   void remove(int id);
 
   bool existsById(int id);

@@ -72,6 +72,10 @@ void NpcDialogAnswersTable::createTable()
 
   insert(3,0,"No, I don't want anything from you.", 0, 5);
   insert(3,1,"Yes, that would be very kind of you.", 0, 4);
+
+  insert(6,0,"I heard you sell items.", 0, 7);
+  insert(6,1,"I want to sell my goods!", 0, 8);
+  insert(6,2,"N..nothing...", 1, 0);
 }
 
 void NpcDialogAnswersTable::insert(int dialogid, int answerid, const char* text, int end, int nextdialogid)

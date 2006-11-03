@@ -182,9 +182,9 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   const Array<TradeSession::Offer>* real_offer = peer->getOffer();
 
   if (real_offer->getCount() != offer_req.getOffersCount())
-    return; //something's wrong here... cheaters?
+    return; // something's wrong here... cheaters?
 
-  offer.setOffersCount(real_offer->getCount());
+  offer.setOffersCount((unsigned char)real_offer->getCount());
   for (size_t i = 0; real_offer && i < real_offer->getCount(); i++)
   {
     offer.setItemId(i, real_offer->get(i).item_id);

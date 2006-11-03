@@ -35,6 +35,7 @@ NpcEntitiesTableVO* NpcEntitiesTable::parseSingleResultSet(ResultSet* rs, size_t
   vo->id = atoi(rs->GetData(row,0).c_str());
   vo->character = atoi(rs->GetData(row,1).c_str());
   vo->ai = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,2).length());
+  vo->dialog = atoi(rs->GetData(row,3).c_str());
   return vo;
 }
 
@@ -52,30 +53,34 @@ void NpcEntitiesTable::createTable()
 {
   printf("Creating Table npcentities...\n");
   db->update("create table npcentities ("
-             "id INTEGER,"
+             "entity_id INTEGER,"
              "character INTEGER,"
              "ai TEXT,"
-             "PRIMARY KEY (Id) );");
+             "dialog INTEGER,"
+             "PRIMARY KEY (entity_id) );");
 
-  ptString ai("stray",5);
-  insert(1, 1, ai);
-  insert(6, 2, ai);
+  ptString idle("idle",4);
+  ptString stray("stray",5);
+
+  insert(1, 1, stray, 0);
+  insert(2, 2, stray, 8);
+  insert(3, 3, idle, 6);
 }
 
-void NpcEntitiesTable::insert(int id, int character, ptString ai)
+void NpcEntitiesTable::insert(int id, int character, ptString ai, int dialog_id)
 {
-  const char* query = { "insert into npcentities(id, character, ai) values (%d, %d, '%q');" };
-  db->update(query, id, character, *ai);
+  const char* query = { "insert into npcentities(entity_id, character, ai, dialog) values (%d, %d, '%q', %d);" };
+  db->update(query, id, character, *ai, dialog_id);
 }
 
 void NpcEntitiesTable::remove(int id)
 {
-  db->update("delete from npcentities where id = %d");
+  db->update("delete from npcentities where entity_id = %d");
 }
 
 bool NpcEntitiesTable::existsById(int id)
 {
-  ResultSet* rs = db->query("select * from npcentities where id = %d;", id);
+  ResultSet* rs = db->query("select * from npcentities where entity_id = %d;", id);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -83,7 +88,7 @@ bool NpcEntitiesTable::existsById(int id)
 
 NpcEntitiesTableVO* NpcEntitiesTable::getById(int id)
 {
-  ResultSet* rs = db->query("select * from npcentities where id = %d;", id);
+  ResultSet* rs = db->query("select * from npcentities where entity_id = %d;", id);
 
   if (!rs || rs->GetRowCount() == 0) return 0;
 

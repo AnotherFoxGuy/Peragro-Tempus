@@ -63,30 +63,23 @@ void EntityTable::createTable()
     "PRIMARY KEY (id) );");
 
 
-  float pos1[3] = { 29, 2, 106 };
   ptString dummy("test-dummy", 10);
   ptString test("test", 4);
   ptString room("room", 4);
   ptString apple("apple", 5);
   ptString dummy1("Baby Dragonfly", 14);
   ptString test1("test1", 5);
-  //ptString gate("gate", 4);
+  ptString skel("skeleton", 8);
+  ptString skel_trader("Forgotten Trader",   16);
 
+  float pos1[3] = { 29, 2, 106 };
   insert(1, dummy, 1, 0, test, pos1, room);
-  float pos2[3] = { 0, 0, 1};
-  insert(2, apple, 3, 1,apple, pos2, room);
-  float pos3[3] = { -1, 0, 1};
-  insert(3, apple, 3, 1,apple, pos3, room);
-  float pos4[3] = { 1, 0, 0};
-  insert(4, apple, 3, 1,apple, pos4, room);
-  float pos5[3] = { 1, 0, -1};
-  insert(5, apple, 3, 1,apple, pos5, room);
-  float pos6[3] = { -1, 0, -1};
-  insert(7, apple, 3, 1,apple, pos6, room);
-  float pos7[3] = { 41, 2, 172};
-  insert(6, dummy1, 1, 0,test1, pos7, room);
-  //float pos8[3] = { 27.9388713837,179.982452393,-6.57791852951 };
-  //insert(7, gate, 2, 0,gate, pos8, room);
+
+  float pos2[3] = { 41, 2, 172};
+  insert(2, dummy1, 1, 0,test1, pos2, room);
+
+  float pos3[3] = { 35, 2, 120 };
+  insert(3, skel_trader, 1, 0, skel, pos3, room);
 }
 
 void EntityTable::insert(int id, ptString name, int type, int item, ptString mesh, const float pos[3], ptString sector)
@@ -195,6 +188,7 @@ const Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
       NpcEntity* npc = new NpcEntity();
       npc->setCharacter(character);
       npc->setAI(AI::createAI(npc_vo->ai));
+      npc->setStartDialog(npc_vo->dialog);
 
       entity = npc->getEntity();
       break;
