@@ -33,8 +33,6 @@
 #include "client/item/itemmanager.h"
 #include "client/gui/common/slot.h"
 
-#include "client/gui/inventory-gui.h"
-
 #include "client/entity/ptentitymanager.h"
 
 
