@@ -126,7 +126,7 @@ void InventoryWindow::SetupEquipSlot(unsigned int id, const char* window)
   slotwin->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDropped, dragdrop));
   slot->SetWindow(slotwin);
   slot->GetWindow()->setUserData(slot);
-  inventory->GetSlotArray().Put(slot->GetId(), slot);
+  inventory->GetSlotArray()->Put(slot->GetId(), slot);
 }
 
 void InventoryWindow::CreateGUIWindow()

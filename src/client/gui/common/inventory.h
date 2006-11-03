@@ -81,7 +81,7 @@ public:
 
   Slot* GetSlot(unsigned int slotid) { return slotarray[slotid]; }
 
-  csArray<Slot*> GetSlotArray() { return slotarray; }
+  csArray<Slot*>* GetSlotArray() { return &slotarray; }
 
 
 };
