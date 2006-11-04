@@ -110,7 +110,7 @@ builds = [
   {
     tag => 'release',
     name => 'Release',
-    defines => ['NDEBUG'],
+    defines => ['NDEBUG','_CRT_SECURE_NO_DEPRECATE'],
     defineskey => 'define',
     cflagskey => 'cflags',
     incdirskey => 'include',
@@ -122,7 +122,7 @@ builds = [
   {
     tag => 'debug',
     name => 'Debug',
-    defines => ['_DEBUG','CS_DEBUG'],
+    defines => ['_DEBUG','CS_DEBUG','_CRT_SECURE_NO_DEPRECATE'],
     defineskey => 'definedebug',
     cflagskey => 'cflagsdebug',
     incdirskey => 'includedebug',
