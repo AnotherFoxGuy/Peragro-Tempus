@@ -27,10 +27,14 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
   printf("QuestHandler: Added Dialog %d with %d answers.\n", dialog_msg.getDialogId(), dialog_msg.getAnswersCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   printf("---------------------------\n");
+  if(dialog_msg.getDialogText()==0)
+    dialog_msg.setDialogText("ERROR: handleNpcDialog: DialogText is zero\n");
   guimanager->GetNpcDialogWindow()->AddDialog(dialog_msg.getDialogId(), dialog_msg.getDialogText());
 
   for (int i=0; i<dialog_msg.getAnswersCount(); i++)
   {
+    if(dialog_msg.getAnswerText(i)==0)
+      dialog_msg.setAnswerText(i, "ERROR: handleNpcDialog: getAnswerText is zero\n");
     printf("QuestHandler: Added answer %d: %s\n", dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
     guimanager->GetNpcDialogWindow()->AddAnswer(dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
   }
