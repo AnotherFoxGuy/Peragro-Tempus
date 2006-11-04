@@ -26,7 +26,7 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -61,7 +61,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -75,7 +75,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=71"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=71"
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -97,7 +97,7 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -130,7 +130,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -144,7 +144,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=71"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=71"
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -168,6 +168,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\entityhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\network\environmenthandler.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\questhandler.cpp">
@@ -196,6 +199,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\entityhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\network\environmenthandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\network.h">

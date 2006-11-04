@@ -28,7 +28,7 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
@@ -64,7 +64,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -78,7 +78,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;CS_PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;CS_PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
@@ -101,7 +101,7 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;WXDEBUG=1;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;WXDEBUG=1;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
@@ -135,7 +135,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;WXDEBUG=1"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;WXDEBUG=1"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -149,7 +149,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;WXDEBUG=1;CS_PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;wxUSE_GUI=1;WXUSINGDLL=1;WXDEBUG=1;CS_PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool

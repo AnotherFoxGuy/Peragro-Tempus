@@ -26,7 +26,7 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
@@ -61,7 +61,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -75,7 +75,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;CS_PROJECTGEN_VERSION=8"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;CS_PROJECTGEN_VERSION=8"
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
@@ -97,7 +97,7 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
@@ -130,7 +130,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -144,7 +144,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_LIB;_WINDOWS;CS_PROJECTGEN_VERSION=8"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;CS_PROJECTGEN_VERSION=8"
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
@@ -196,6 +196,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\entityhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\environmenthandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\network.h">
