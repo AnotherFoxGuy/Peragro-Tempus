@@ -63,7 +63,7 @@ void NpcEntitiesTable::createTable()
   ptString stray("stray",5);
 
   insert(1, 1, stray, 0);
-  insert(2, 2, stray, 8);
+  insert(2, 2, stray, 9);
   insert(3, 3, idle, 6);
 }
 

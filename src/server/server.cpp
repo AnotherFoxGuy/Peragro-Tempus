@@ -79,6 +79,9 @@ void Server::delEntity(const Entity* entity)
   // giving the rest of the world time to finish.
   // Not really nice but hopefully effective
   pt_sleep(100);
+
+  // Unlocks on destruction (I hope)
+  entity->getLock();
   delete entity;
 }
 

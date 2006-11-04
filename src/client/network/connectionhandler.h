@@ -35,6 +35,7 @@
 #include "client/network/skillhandler.h"
 #include "client/network/questhandler.h"
 #include "client/network/tradehandler.h"
+#include "client/network/environmenthandler.h"
 
 class ConnectionHandler : public UdpMessageHandler
 {
@@ -49,12 +50,14 @@ private:
   SkillHandler skill_handler;
   QuestHandler quest_handler;
   TradeHandler trade_handler;
+  EnvironmentHandler environment_handler;
 
 public:
   ConnectionHandler(Network* network, Client* client)
   : network(network), client(client), user_handler(client),
     entity_handler(client), chat_handler(client), door_handler(client),
-    skill_handler(client), quest_handler(client), trade_handler(client)
+    skill_handler(client), quest_handler(client), trade_handler(client),
+    environment_handler(client)
   {
   }
 
@@ -77,6 +80,7 @@ public:
     else if (type == MESSAGES::SKILL) skill_handler.handle(msg);
     else if (type == MESSAGES::QUEST) quest_handler.handle(msg);
     else if (type == MESSAGES::TRADE) trade_handler.handle(msg);
+    else if (type == MESSAGES::ENVIRONMENT) environment_handler.handle(msg);
   }
 
   char getType()

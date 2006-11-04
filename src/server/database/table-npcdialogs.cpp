@@ -74,8 +74,9 @@ void NpcDialogsTable::createTable()
            "If you hurry, it might still be there.", 0,"text");
   insert(5,"Well, then.\n\nHave a nice day.",0,"text");
   insert(6,"You there!\nWhat are you looking at me?",1,"text");
-  insert(7,"",1,"buy");
-  insert(8,"",1,"sell");
+  insert(7,"",0,"buy");
+  insert(8,"",0,"sell");
+  insert(9,"....",1,"text");
 }
 
 void NpcDialogsTable::insert(int dialogid, const char* text, int start, const char* action)

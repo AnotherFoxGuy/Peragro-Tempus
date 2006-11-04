@@ -48,6 +48,7 @@
 #include "server/loader/file-sectors.h"
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
+#include "server/environment.h"
 #include "server/spawner.h"
 #include "server/network/network.h"
 
@@ -131,6 +132,9 @@ int main(int argc, char ** argv)
   timeEngine.begin();
   server.setTimerEngine(&timeEngine);
 
+  // Initialising time broadcasting
+  Environment environment;
+
   // Loading sectors from file
   fileloader.getSectorsFile()->load();
 
@@ -207,7 +211,12 @@ int main(int argc, char ** argv)
   {
     pt_sleep(delay_time);
     network.getStats(sentbyte, recvbyte, timestamp);
-    printf("Network Usage: %.2f B/s\t Down: %.2f B/s\n", sentbyte/(float)delay_time, recvbyte/(float)delay_time);
+    float uptraffic = sentbyte/(float)delay_time;
+    float downtraffic = recvbyte/(float)delay_time;
+    if (uptraffic > 0.001 || downtraffic > 0.001)
+    {
+      printf("Network Usage: Up: %.2f B/s\t Down: %.2f B/s\n", uptraffic, downtraffic);
+    }
   }
 
   printf("Time to quit now!\n");

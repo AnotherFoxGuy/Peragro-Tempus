@@ -194,9 +194,9 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   server->getEntityManager()->lock();
   for (size_t i=0; i<server->getEntityManager()->getEntityCount(); i++)
   {
-    Entity* ent = server->getEntityManager()->getEntity(i)->getLock();
-    user->sendAddEntity(ent);
-    ent->freeLock();
+    const Entity* c_ent = server->getEntityManager()->getEntity(i);
+    if (!c_ent) return;
+    user->sendAddEntity(c_ent);
   }
   server->getEntityManager()->unlock();
 }

@@ -6,6 +6,8 @@ under each day.
 
 4-Nov-2006
   - Sueastside fixed a crash when an empty string would be send.
+  - PK added a time message so the client knows what time it is.
+    Currently a day lasts 5 minutes. This can be made slower later.
 
 3-Nov-2006
   - PK added actions to the npc dialogs.
