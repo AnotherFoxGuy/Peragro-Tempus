@@ -26,6 +26,13 @@ struct EquipData
   unsigned int slot_id;
 };
 
+struct MountData
+{
+  unsigned int entity_id;
+  unsigned int mount_id;
+  unsigned char control;
+};
+
 struct TeleportData
 {
   unsigned int entity_id;

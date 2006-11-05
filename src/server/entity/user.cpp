@@ -100,6 +100,17 @@ void User::sendAddEntity(const Entity* entity)
     msg.setSector(entity->getSectorName());
     msg.serialise(&bs);
   }
+  else if (entity->getType() == Entity::MountEntityType)
+  {
+    AddMountEntityMessage msg;
+    msg.setName(entity->getName());
+    msg.setEntityId(entity->getId());
+    msg.setMesh(entity->getMesh());
+    msg.setPos(entity->getPos());
+    msg.setSectorId(entity->getSector());
+    msg.setSector(entity->getSectorName());
+    msg.serialise(&bs);
+  }
   else
   {
     printf("Unkown entity type!\n");

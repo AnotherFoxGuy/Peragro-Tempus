@@ -66,6 +66,7 @@ void ptEntityManager::Handle ()
   DrUpdateEntity();
   updatePcProp();
   equip();
+  mount();
   teleport();
 }
 
@@ -418,6 +419,39 @@ void ptEntityManager::equip()
     }
   }
   delete equipdata;
+  mutex.unlock();
+}
+
+void ptEntityManager::mount(int entity_id, int mount_id, bool control)
+{
+  mutex.lock();
+
+  MountData* mountdata = new MountData();
+  mountdata->entity_id = entity_id;
+  mountdata->mount_id= mount_id;
+  mountdata->control = control;
+  mount_entity_name.Push(mountdata);
+
+  mutex.unlock();
+}
+
+void ptEntityManager::mount()
+{
+  if (!mount_entity_name.GetSize()) return;
+  mutex.lock();
+  MountData* mountdata = mount_entity_name.Pop();
+
+  PtEntity* entity = findPtEntById(mountdata->entity_id);
+  PtEntity* mount = findPtEntById(mountdata->mount_id);
+  if (entity && mount)
+  {
+    if (entity->GetType() == PtEntity::PlayerEntity && mount->GetType() == PtEntity::MountEntity)
+    {
+      PtMountEntity* m = static_cast<PtMountEntity*>(mount);
+      m->Mount(entity);
+    }
+  }
+  delete mountdata;
   mutex.unlock();
 }
 

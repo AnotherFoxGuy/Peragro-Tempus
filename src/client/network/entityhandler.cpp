@@ -262,21 +262,31 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
 void EntityHandler::handleAddMountEntity(GenericMessage* msg)
 {
   printf("EntityHandler: Received AddMountEntity\n");
-  //AddMountEntityMessage entmsg;
-  //entmsg.deserialise(msg->getByteStream());
+  AddMountEntityMessage entmsg;
+  entmsg.deserialise(msg->getByteStream());
 
   PtEntity* entity = new PtMountEntity();
-  entity->SetName("horse");
-  entity->SetMeshName("horse");
-  entity->SetPosition(csVector3(88,2,22));
-  entity->SetSectorName("room");
-  entity->SetId(99);
+  entity->SetName(*entmsg.getName());
+  entity->SetMeshName(*entmsg.getMesh());
+  csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
+  entity->SetPosition(pos);
+  entity->SetSectorName(*entmsg.getSector());
+  entity->SetId(entmsg.getEntityId());
 
   PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
 }
 
 void EntityHandler::handleMount(GenericMessage* msg)
 {
+  MountMessage mount_msg;
+  mount_msg.deserialise(msg->getByteStream());
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+
+  unsigned int entity = mount_msg.getPlayerEntityId();
+  unsigned int mount = mount_msg.getMountEntityId();
+  unsigned char control = mount_msg.getControl();
+
+  PointerLibrary::getInstance()->getEntityManager()->mount(entity, mount, control > 0);
 }
 
 void EntityHandler::handleUnmount(GenericMessage* msg)

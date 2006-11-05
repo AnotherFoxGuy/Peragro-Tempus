@@ -572,12 +572,6 @@ bool Client::OnKeyboard(iEvent& ev)
           pccamera->DisableDistanceClipping() 
           : pccamera->EnableAdaptiveDistanceClipping(95, 100, 50);
       }
-      else if (code == 'g')
-      {
-        GenericMessage* msg;
-        EntityHandler* handler;
-        handler->handleAddMountEntity(msg);
-      }
       else if (code == 'f')
       {
         iCelEntity* entity = cursor->getSelectedEntity();
@@ -773,13 +767,13 @@ bool Client::OnMouseDown(iEvent& ev)
           // If it's a mount, mount it.
           else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::MountEntity)
           {
-            PtEntity* ownent = entitymanager->getOwnPtEntity();
-            if (!ownent) return false;
-
             PtEntity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
             if(!ent) return false;
-            PtMountEntity* mount = static_cast<PtMountEntity*>(ent);
-            mount->Mount(ownent);
+
+            MountRequestMessage msg;
+            msg.setMountEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+
+            network->send(&msg);
 
             printf("OnMouseDown: Mounting.\n");
           }

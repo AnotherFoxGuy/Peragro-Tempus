@@ -32,6 +32,7 @@
 #include "server/entity/pcentity.h"
 #include "server/entity/npcentity.h"
 #include "server/entity/doorentity.h"
+#include "server/entity/mountentity.h"
 
 #include "server/server.h"
 
@@ -70,16 +71,24 @@ void EntityTable::createTable()
   ptString dummy1("Baby Dragonfly", 14);
   ptString test1("test1", 5);
   ptString skel("skeleton", 8);
-  ptString skel_trader("Forgotten Trader",   16);
+  ptString skel_trader("Forgotten Trader", 16);
+  ptString horse("horse", 5);
 
   float pos1[3] = { 29, 2, 106 };
-  insert(1, dummy, 1, 0, test, pos1, room);
+  insert(1, dummy, Entity::NPCEntityType, 0, test, pos1, room);
 
   float pos2[3] = { 41, 2, 172};
-  insert(2, dummy1, 1, 0,test1, pos2, room);
+  insert(2, dummy1, Entity::NPCEntityType, 0,test1, pos2, room);
 
   float pos3[3] = { 35, 2, 120 };
-  insert(3, skel_trader, 1, 0, skel, pos3, room);
+  insert(3, skel_trader, Entity::NPCEntityType, 0, skel, pos3, room);
+
+  float pos4[3] = { -108, 0.2, 5.3 };
+  insert(4, horse, Entity::MountEntityType, 0, horse, pos4, room);
+  float pos5[3] = { -110, 0.2, 5.05 };
+  insert(5, horse, Entity::MountEntityType, 0, horse, pos5, room);
+  float pos6[3] = { -112, 0.2, 4.8 };
+  insert(6, horse, Entity::MountEntityType, 0, horse, pos6, room);
 }
 
 void EntityTable::insert(int id, ptString name, int type, int item, ptString mesh, const float pos[3], ptString sector)
@@ -199,6 +208,13 @@ const Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
       DoorEntity* ent = new DoorEntity();
       ent->setOpen  ((packeddata & 1) != 0);
       ent->setLocked((packeddata & 2) != 0);
+      entity = ent->getEntity();
+      break;
+    }
+    case Entity::MountEntityType:
+    {
+      int packeddata = atoi(rs->GetData(i,3).c_str());
+      MountEntity* ent = new MountEntity();
       entity = ent->getEntity();
       break;
     }

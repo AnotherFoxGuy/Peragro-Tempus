@@ -31,17 +31,35 @@
 
 void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
-  const Entity* user_ent = NetworkHelper::getEntity(msg);
-  if (!user_ent) return;
+  const PcEntity* c_entity = NetworkHelper::getPcEntity(msg);
+  if (!c_entity) return;
 
-  int name_id = user_ent->getId();
+  const Character* c_char = c_entity->getCharacter();
+  if (!c_char) return;
+
+  int name_id = c_entity->getEntity()->getId();
 
   MoveRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
   //printf("Received MoveRequest from: '%s' w(%d) t(%d)\n", name, request_msg.getWalk(), request_msg.getRot());
 
+  float speed = 0;
+
+  if (c_entity->getMount())
+  {
+    const MountEntity* mount = c_entity->getMount();
+    speed = mount->getSpeed();
+  }
+  else
+  {
+    Character* character = c_char->getLock();
+    Stat* speed_stat = server->getStatManager()->findByName(ptString("Speed", 5));
+    speed = (float)character->getStats()->getAmount(speed_stat);
+    character->freeLock();
+  }
+
   MoveMessage response_msg;
-  response_msg.setWalk((float)(request_msg.getWalk()-1)*3);
+  response_msg.setWalk((float)(request_msg.getWalk()-1)*speed);
   response_msg.setTurn((float)(request_msg.getTurn()-1));
   response_msg.setEntityId(name_id);
   ByteStream bs;
@@ -425,29 +443,38 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
 
   int name_id = user_ent->getId();
 
-  UnmountRequestMessage request_msg;
+  MountRequestMessage request_msg;
+  request_msg.deserialise(msg->getByteStream());
 
   unsigned int mount_id = request_msg.getMountEntityId();
 
   const PcEntity* pc_ent = user_ent->getPlayerEntity();
   if (!pc_ent) return;
 
-  const MountEntity* mount = pc_ent->getMount();
-  if (mount) return;
+  const MountEntity* c_mount = pc_ent->getMount();
+  if (c_mount) return;
 
   const Entity* mount_ent = server->getEntityManager()->findById(mount_id);
   if (!mount_ent) return;
 
-  mount = mount_ent->getMountEntity();
-  if (!mount) return;
+  c_mount = mount_ent->getMountEntity();
+  if (!c_mount) return;
+
+  if (c_mount->getPassangerCount() > c_mount->getMaxPassangers())
+    return;
 
   PcEntity* e = pc_ent->getLock();
+  MountEntity* mount = c_mount->getLock();
+
   e->setMount(mount);
+  mount->addPassanger(e);
+
   e->freeLock();
+  mount->freeLock();
 
   // Do something!
 
-  UnmountMessage umount_msg;
+  MountMessage umount_msg;
   umount_msg.setMountEntityId(mount_ent->getId());
   umount_msg.setPlayerEntityId(user_ent->getId());
 
@@ -465,6 +492,7 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   int name_id = user_ent->getId();
 
   UnmountRequestMessage request_msg;
+  request_msg.deserialise(msg->getByteStream());
 
   const PcEntity* pc_ent = user_ent->getPlayerEntity();
   if (!pc_ent) return;
