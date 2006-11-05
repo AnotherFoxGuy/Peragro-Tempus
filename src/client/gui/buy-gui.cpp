@@ -159,6 +159,8 @@ void BuyWindow::UpdateOffer()
   TradeOrderListNpcMessage msg;
   csArray<Inventory::ObjectAndSlot> objandslot = lowerslots->GetAllObjects();
 
+  msg.setIsBuy(1);
+
   // Make the offer list.
   msg.setOrdersCount(objandslot.GetSize());
   printf("------------------------------------------\n");

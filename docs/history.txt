@@ -6,6 +6,8 @@ under each day.
 
 5-Nov-2006
   - Sueastside did more work on the buy gui.
+  - PK implemented a hardcoded test version of the npc buy activity.
+    It's easy cheatable atm. Has to be fixed later.
 
 4-Nov-2006
   - Sueastside fixed a crash when an empty string would be send.

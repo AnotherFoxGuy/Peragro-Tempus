@@ -67,6 +67,11 @@ void GUIWindow::ShowWindow()
   rootwindow->setVisible(true);
 }
 
+bool GUIWindow::IsVisible()
+{
+  return rootwindow->isVisible();
+}
+
 void GUIWindow::DisableWindow() 
 {
   rootwindow->setEnabled(false);

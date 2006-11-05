@@ -74,6 +74,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       // hardcoded! just to test it!
       // All this should go to the trade handler anyway!
       TradeOffersListNpcMessage trade_msg;
+      trade_msg.setIsBuy(1);
       trade_msg.setOffersCount(2);
       trade_msg.setItemId(0, 4);
       trade_msg.setPrice(0, 200);
@@ -88,6 +89,24 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   }
   else if (dialog->getAction() == NPCDialog::START_SELL)
   {
+    const NpcEntity* c_npc = dia_state->getNpc();
+    if (c_npc)
+    {
+      // hardcoded! just to test it!
+      // All this should go to the trade handler anyway!
+      TradeOffersListNpcMessage trade_msg;
+      trade_msg.setIsBuy(0);
+      trade_msg.setOffersCount(2);
+      trade_msg.setItemId(0, 4);
+      trade_msg.setPrice(0, 175);
+      trade_msg.setItemId(1, 3);
+      trade_msg.setPrice(1,  75);
+
+      ByteStream bs;
+      trade_msg.serialise(&bs);
+
+      NetworkHelper::sendMessage(character, bs);
+    }
   }
 
   character->freeLock();

@@ -55,6 +55,7 @@ public:
   void CreateGUIWindow(const char* layoutFile);
   void HideWindow();
   void ShowWindow();
+  bool IsVisible();
   void EnableWindow();
   void DisableWindow();
 };

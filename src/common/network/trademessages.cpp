@@ -57,6 +57,7 @@ void TradeOffersListNpcMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  serial.setInt8(isbuy);
   serial.setInt8(offerscount);
   for ( size_t i = 0; i < offerscount ; i++ )
   {
@@ -71,6 +72,7 @@ void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
+  isbuy = (unsigned char) serial.getInt8();
   offerscount = (unsigned char) serial.getInt8();
   setOffersCount(offerscount);
   for ( size_t i = 0; i < offerscount ; i++ )
@@ -117,6 +119,7 @@ void TradeOrderListNpcMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  serial.setInt8(isbuy);
   serial.setInt8(orderscount);
   for ( size_t i = 0; i < orderscount ; i++ )
   {
@@ -130,6 +133,7 @@ void TradeOrderListNpcMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
+  isbuy = (unsigned char) serial.getInt8();
   orderscount = (unsigned char) serial.getInt8();
   setOrdersCount(orderscount);
   for ( size_t i = 0; i < orderscount ; i++ )

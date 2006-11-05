@@ -75,7 +75,20 @@ void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   if (trade_msg.getError().isNull())
-    guimanager->GetTradeWindow()->AcceptTrade();
+  {
+    if (guimanager->GetTradeWindow() && guimanager->GetTradeWindow()->IsVisible())
+    {
+      guimanager->GetTradeWindow()->AcceptTrade();
+    }
+    else if (guimanager->GetBuyWindow() && guimanager->GetBuyWindow()->IsVisible())
+    {
+      guimanager->GetBuyWindow()->AcceptTrade();
+    }
+    else if (guimanager->GetSellWindow() && guimanager->GetSellWindow()->IsVisible())
+    {
+      guimanager->GetSellWindow()->AcceptTrade();
+    }
+  }
   else
   {
     OkDialogWindow* dialog = guimanager->CreateOkWindow();
@@ -122,15 +135,27 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
 {
   TradeOffersListNpcMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
-  printf("Got %d Offers from NPC!\n", trade_msg.getOffersCount());
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   guimanager->GetNpcDialogWindow()->HideWindow();
 
-  for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
+  if (trade_msg.getIsBuy() == 1)
   {
-    printf(" %d) Item %d \t %d money\n", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
-    guimanager->GetBuyWindow()->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
+    printf("Got %d Buy Offers from NPC!\n", trade_msg.getOffersCount());
+    for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
+    {
+      printf(" %d) Item %d \t %d money\n", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
+      guimanager->GetBuyWindow()->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
+    }
+  }
+  else
+  {
+    printf("Got %d Sell Offers from NPC!\n", trade_msg.getOffersCount());
+    for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
+    {
+      printf(" %d) Item %d \t %d money\n", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
+      //guimanager->GetSellWindow()->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
+    }
   }
 }

@@ -393,6 +393,7 @@ void Client::handleStates()
       //guimanager->CreateConfirmWindow();
       //guimanager->CreateOkWindow();
       guimanager->CreateBuyWindow();
+      //guimanager->CreateSellWindow();
 
       if (cmdline)
       {

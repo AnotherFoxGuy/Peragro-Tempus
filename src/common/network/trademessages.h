@@ -81,6 +81,7 @@ public:
 
 class TradeOffersListNpcMessage : public NetMessage
 {
+  unsigned char isbuy;
   class ListOffers
   {
   public:
@@ -105,6 +106,9 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned char getIsBuy() { return isbuy; }
+  void setIsBuy(unsigned char x) { isbuy = x; }
 
   unsigned char getOffersCount() { return offerscount; }
   void setOffersCount(unsigned char ic)
@@ -179,6 +183,7 @@ public:
 
 class TradeOrderListNpcMessage : public NetMessage
 {
+  unsigned char isbuy;
   class ListOrders
   {
   public:
@@ -202,6 +207,9 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned char getIsBuy() { return isbuy; }
+  void setIsBuy(unsigned char x) { isbuy = x; }
 
   unsigned char getOrdersCount() { return orderscount; }
   void setOrdersCount(unsigned char ic)

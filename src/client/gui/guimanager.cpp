@@ -48,6 +48,7 @@ GUIManager::GUIManager (Client* client)
   confirmwindow = 0;
   okwindow = 0;
   buywindow = 0;
+  sellwindow = 0;
 }
 
 GUIManager::~GUIManager ()
@@ -210,4 +211,11 @@ BuyWindow* GUIManager::CreateBuyWindow ()
   buywindow = new BuyWindow (this);
   buywindow->CreateGUIWindow();
   return buywindow;
+}
+
+SellWindow* GUIManager::CreateSellWindow ()
+{
+  sellwindow = new SellWindow (this);
+  sellwindow->CreateGUIWindow();
+  return sellwindow;
 }

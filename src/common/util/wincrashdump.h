@@ -28,6 +28,7 @@ const char* prefix;
 
 LONG WriteDump(struct _EXCEPTION_POINTERS *pExceptionInfo)
 {
+#ifndef _DEBUG
   if (pExceptionInfo->ExceptionRecord->ExceptionFlags == EXCEPTION_NONCONTINUABLE)
   {
     int rv = MessageBox(0, "We appology for this ruff interruption of your gameplay "
@@ -41,6 +42,7 @@ LONG WriteDump(struct _EXCEPTION_POINTERS *pExceptionInfo)
 
     if (rv == IDYES)
     {
+#endif // _DEBUG
       HINSTANCE hinst = LoadLibraryA("dbghelp.dll");
 
       char dmpfile[256];
@@ -64,8 +66,10 @@ LONG WriteDump(struct _EXCEPTION_POINTERS *pExceptionInfo)
 
       if (dumper)
         dumper(GetCurrentProcess(), GetCurrentProcessId(), file, MiniDumpWithIndirectlyReferencedMemory, &mdExcInf, 0, 0);
+#ifndef _DEBUG
     }
   }
+#endif // _DEBUG
 
   return EXCEPTION_EXECUTE_HANDLER;
 }

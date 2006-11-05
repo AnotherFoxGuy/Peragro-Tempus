@@ -143,6 +143,41 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
 
 void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
 {
+  // We have no money yet, so it's all free!
+  const Character* c_char = NetworkHelper::getCharacter(msg);
+  if (!c_char) return;
+
+  Character* character = c_char->getLock();
+
+  TradeOrderListNpcMessage order_msg;
+  order_msg.deserialise(msg->getByteStream());
+
+  Inventory* inv = character->getInventory();
+
+  if (order_msg.getIsBuy() == 1)
+  {
+    for (unsigned int i = 0; i < order_msg.getOrdersCount(); i++)
+    {
+      // TODO: Check if order is valid (no cheated prices)
+      // TODO: Take Money!
+      inv->addItem(order_msg.getItemId(i));
+    }
+  }
+  else
+  {
+    for (unsigned int i = 0; i < order_msg.getOrdersCount(); i++)
+    {
+      // TODO: Check if order is valid (no cheated prices)
+      inv->takeItem(order_msg.getItemId(i));
+      // TODO: Give Money!
+    }
+  }
+  TradeConfirmResponseMessage accept_msg;
+  ByteStream bs;
+  accept_msg.serialise(&bs);
+
+  NetworkHelper::sendMessage(character, bs);
+  character->freeLock();
 }
 
 void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
