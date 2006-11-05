@@ -126,9 +126,11 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
+  guimanager->GetNpcDialogWindow()->HideWindow();
+
   for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
   {
     printf(" %d) Item %d \t %d money\n", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
-    guimanager->GetBuyWindow()->AddItem(trade_msg.getItemId(i));
+    guimanager->GetBuyWindow()->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
   }
 }

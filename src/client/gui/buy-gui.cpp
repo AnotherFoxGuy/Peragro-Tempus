@@ -28,6 +28,7 @@
 BuyWindow::BuyWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
+  totalmoney = 0;
 }
 
 BuyWindow::~BuyWindow()
@@ -76,30 +77,53 @@ void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
 {
   int itemid = oldslot->GetObject()->GetId();
 
+  // Item has been moved to be bought. Add to totalmoney.
   if(oldslot->GetParent() == Inventory::BuyUpper)
   {
     for (size_t i = 0; i < items.GetSize(); i++)
     {
-      if(itemid == items.Get(i))
+      if(itemid == items.Get(i).itemid)
       {
-        items.DeleteIndex(i);
         printf("BuyWindow:: Deleted index for itemid %d\n", itemid);
+        totalmoney += items.Get(i).price;
+        items.DeleteIndex(i);
         break;
       }
     }
   }
+  // Item has been moved back, substract from totalmoney.
   else if(oldslot->GetParent() == Inventory::BuyLower)
   {
-    items.Push(oldslot->GetObject()->GetId());
+    Item item;
+    item.itemid = oldslot->GetObject()->GetId();
+    item.price = oldslot->GetObject()->GetPrice();
+    items.Push(item);
+    totalmoney -= item.price;
   }
 
   dragdrop->MoveObject(oldslot, newslot);
+  SetTotalMoney(totalmoney);
 }
 
-bool BuyWindow::AddItem(unsigned int itemid)
+void BuyWindow::SetTotalMoney(unsigned int price)
+{
+  btn = winMgr->getWindow("BuyWindow/Money/TotalMoney");
+  btn->setText(dragdrop->IntToStr(price));
+}
+
+void BuyWindow::SetYourMoney(unsigned int price)
+{
+  btn = winMgr->getWindow("BuyWindow/Money/YourMoney");
+  btn->setText(dragdrop->IntToStr(price));
+}
+
+bool BuyWindow::AddItem(unsigned int itemid, unsigned int price)
 {
   winMgr->getWindow("BuyWindow/Frame")->setVisible(true);
-  items.Push(itemid);
+  Item item;
+  item.itemid = itemid;
+  item.price = price;
+  items.Push(item);
   Update(0);
   return true;
 }
@@ -121,8 +145,9 @@ void BuyWindow::Update(int linenr)
   {
     if(counter > nrInventorySlots-1) break;
     Slot* slot = upperslots->GetSlot(counter);
-    unsigned int itemid = items.Get(i);
-    slot->SetObject(dragdrop->CreateItem(itemid));
+    Item item = items.Get(i);
+    slot->SetObject(dragdrop->CreateItem(item.itemid));
+    slot->GetObject()->SetPrice(item.price);
     counter += 1;
   }
 }
@@ -131,21 +156,21 @@ void BuyWindow::UpdateOffer()
 {
   // Make a list of items and send it to the network.
   // Get actual items.
-  //TradeOffersListPvpMessage msg;
+  TradeOrderListNpcMessage msg;
   csArray<Inventory::ObjectAndSlot> objandslot = lowerslots->GetAllObjects();
 
   // Make the offer list.
-  //msg.setOffersCount(objandslot.GetSize());
+  msg.setOrdersCount(objandslot.GetSize());
   printf("------------------------------------------\n");
   printf("BuyWindow: Creating Trade Offer List Pvp\n");
   for (size_t i=0; i<objandslot.GetSize(); i++)
   {
     Inventory::ObjectAndSlot objslot = objandslot.Get(i);
     printf("item %d\n", objslot.object->GetId());
-    //msg.setItemId(i, objslot.object->GetId());
+    msg.setItemId(i, objslot.object->GetId());
   }
 
-  //network->send(&msg);
+  network->send(&msg);
   printf("SEND\n");
 
   printf("------------------------------------------\n");

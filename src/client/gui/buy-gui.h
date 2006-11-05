@@ -26,13 +26,21 @@
 class BuyWindow : public GUIWindow
 {
 private:
+  struct Item
+  {
+    unsigned int itemid;
+    unsigned int price;
+  };
+
+private:
   DragDrop* dragdrop;
   ItemMGR* itemmanager;
 
   Inventory* upperslots;
   Inventory* lowerslots;
 
-  csArray<unsigned int> items;
+  csArray<Item> items;
+  unsigned int totalmoney;
 
 private:
   bool OnCloseButton(const CEGUI::EventArgs& args); 
@@ -40,6 +48,7 @@ private:
   bool OnScroll(const CEGUI::EventArgs& args);
   void Update(int linenr);
   void UpdateOffer();
+  void SetTotalMoney(unsigned int price);
 
 public:
   BuyWindow(GUIManager* guimanager);
@@ -47,11 +56,13 @@ public:
   void CreateGUIWindow();    // load the chat guilayout and register button events.
 
 public:
-  bool AddItem(unsigned int itemid); 
+  bool AddItem(unsigned int itemid, unsigned int price); 
   void CancelTrade();
   void AcceptTrade();
 
   void MoveItem(Slot* oldslot, Slot* newslot);
+
+  void SetYourMoney(unsigned int price);
 
 };
 

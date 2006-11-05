@@ -77,7 +77,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       trade_msg.setOffersCount(2);
       trade_msg.setItemId(0, 4);
       trade_msg.setPrice(0, 200);
-      trade_msg.setItemId(1, 5);
+      trade_msg.setItemId(1, 3);
       trade_msg.setPrice(1, 100);
 
       ByteStream bs;

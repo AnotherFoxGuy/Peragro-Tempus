@@ -47,7 +47,6 @@ private:
   CEGUI::WindowManager* winMgr;
   ItemMGR* itemmanager;
   int counter;
-  CEGUI::String IntToStr(int number);
 
 public:
   bool handleDragEnter(const CEGUI::EventArgs& args);
@@ -71,6 +70,8 @@ public:
   CEGUI::Window* createIcon(int icontype, int objectid, bool interactable = true);
   Object* CreateItem(uint itemid, bool interactable = true);
   void MoveObject(Slot* oldslot, Slot* newslot);
+
+  CEGUI::String IntToStr(int number);
 };
 
 

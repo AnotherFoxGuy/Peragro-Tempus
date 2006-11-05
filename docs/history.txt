@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+5-Nov-2006
+  - Sueastside did more work on the buy gui.
+
 4-Nov-2006
   - Sueastside fixed a crash when an empty string would be send.
   - PK added a time message so the client knows what time it is.

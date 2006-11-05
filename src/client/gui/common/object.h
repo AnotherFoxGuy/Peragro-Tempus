@@ -33,26 +33,29 @@
 class Object
 {
 private:
-  uint objectid;
-  uint amount;
-  uint objecttype;
+  unsigned int objectid;
+  unsigned int amount;
+  unsigned int objecttype;
   bool stackable;
   CEGUI::Window* objectwindow;
+  unsigned int price;
 
 public:
   Object();
   ~Object();
-  uint GetId() { return objectid; }
-  uint GetAmount() { return amount; }
-  uint GetType() { return objecttype; }
+  unsigned int GetId() { return objectid; }
+  unsigned int GetAmount() { return amount; }
+  unsigned int GetType() { return objecttype; }
   bool IsStackable() { return stackable; }
   CEGUI::Window* GetWindow() { return objectwindow; }
+  unsigned int GetPrice() { return price; }
 
-  void SetId(uint value) { this->objectid = value; }
-  void SetAmount(uint value) { this->amount = value; }
-  void SetType(uint value) { this->objecttype = value; }
+  void SetId(unsigned int value) { this->objectid = value; }
+  void SetAmount(unsigned int value) { this->amount = value; }
+  void SetType(unsigned int value) { this->objecttype = value; }
   void SetStackable(bool value) { this->stackable = value; }
   void SetWindow(CEGUI::Window* value) { this->objectwindow = value; }
+  void SetPrice(unsigned int value) { this->price = value; }
 };
 
 #endif // OBJECT_H
