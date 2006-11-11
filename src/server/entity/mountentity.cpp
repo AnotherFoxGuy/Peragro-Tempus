@@ -25,16 +25,16 @@
 
 #include <time.h>
 
-void MountEntity::addPassanger(const PcEntity* e)
+void MountEntity::addPassenger(const PcEntity* e)
 {
   ptMonitor<PcEntity> ent = e->getRef();
-  passangers.add(ent); 
+  passengers.add(ent); 
 }
 
-const PcEntity* MountEntity::getPassanger(size_t i) const
+const PcEntity* MountEntity::getPassenger(size_t i) const
 { 
-  if (i > passangers.getCount()) return 0;
-  return passangers.get(i).get(); 
+  if (i > passengers.getCount()) return 0;
+  return passengers.get(i).get(); 
 }
 
 void MountEntity::walkTo(float* dst_pos, float speed)

@@ -4,6 +4,13 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+11-Nov-2006
+  - iceeey made several fixes regarding MountEntity:
+    - Fixed spelling mistake: passanger => passenger in MountEntity and all references.
+    - Changed '>>' to '> >' in nested template argument list.
+    - Changed MountEntity::max_passengers from float to size_t
+      (I'm pretty sure we don't want to allow fractions of passengers to mount something).
+
 5-Nov-2006
   - Sueastside did more work on the buy gui.
   - PK implemented a hardcoded test version of the npc buy activity.

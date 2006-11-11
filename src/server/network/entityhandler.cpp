@@ -460,14 +460,14 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   c_mount = mount_ent->getMountEntity();
   if (!c_mount) return;
 
-  if (c_mount->getPassangerCount() > c_mount->getMaxPassangers())
+  if (c_mount->getPassengerCount() > c_mount->getMaxPassengers())
     return;
 
   PcEntity* e = pc_ent->getLock();
   MountEntity* mount = c_mount->getLock();
 
   e->setMount(mount);
-  mount->addPassanger(e);
+  mount->addPassenger(e);
 
   e->freeLock();
   mount->freeLock();
