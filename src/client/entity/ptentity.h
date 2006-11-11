@@ -91,7 +91,7 @@ protected:
   csString meshname;
   csString sectorname;
   csVector3 pos;
-  iCelEntity* celentity;
+  csWeakRef<iCelEntity> celentity;
 
 protected:
   csRef<iObjectRegistry> obj_reg;

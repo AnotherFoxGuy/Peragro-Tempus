@@ -33,6 +33,12 @@ struct MountData
   unsigned char control;
 };
 
+struct UnMountData
+{
+  unsigned int entity_id;
+  unsigned int mount_id;
+};
+
 struct TeleportData
 {
   unsigned int entity_id;

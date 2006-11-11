@@ -770,12 +770,21 @@ bool Client::OnMouseDown(iEvent& ev)
             PtEntity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
             if(!ent) return false;
 
-            MountRequestMessage msg;
-            msg.setMountEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-
-            network->send(&msg);
-
-            printf("OnMouseDown: Mounting.\n");
+            PtMountEntity* mount = static_cast<PtMountEntity*>(ent);
+            if(!mount->isMounted())
+            {
+              MountRequestMessage msg;
+              msg.setMountEntityId(mount->GetId());
+              network->send(&msg);
+              printf("OnMouseDown: Mounting.\n");
+            }
+            else
+            {
+              UnmountRequestMessage msg;
+              msg.setMountEntityId(mount->GetId());
+              network->send(&msg);
+              printf("OnMouseDown: UnMounting.\n");
+            }
           }
           else
           {

@@ -77,13 +77,14 @@ private:
   csPDelArray<UpdatePcPropData> update_pcprop_entity_name;
   csPDelArray<EquipData> equip_entity_name;
   csPDelArray<MountData> mount_entity_name;
+  csPDelArray<UnMountData> unmount_entity_name;
   csPDelArray<TeleportData> teleport_entity_name;
 
   Mutex mutex;
 
   unsigned int own_char_id;
-  csRef<iCamera> owncam;
-  csRef<iCelEntity> owncelent;
+  csWeakRef<iCamera> owncam;
+  csWeakRef<iCelEntity> owncelent;
   PtEntity* ownent;
   csString ownname;
 
@@ -98,6 +99,7 @@ private:
   void updatePcProp();
   void equip();
   void mount();
+  void unmount();
   void teleport();
 
   float GetAngle (const csVector3& v1, const csVector3& v2);
@@ -120,6 +122,7 @@ public:
   void DrUpdateOwnEntity();
   void equip(int entity_id, int item_id, int slot_id);
   void mount(int entity_id, int mount_id, bool control);
+  void unmount(int entity_id, int mount_id);
 
   iCelEntity* findCelEntById(int id);
   PtEntity* findPtEntById(int id);

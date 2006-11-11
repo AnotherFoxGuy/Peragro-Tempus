@@ -101,6 +101,8 @@ const float* PcEntity::getPos()
 
 void PcEntity::setMount(const MountEntity* mount)
 {
-  if (!mount) this->mount.clear();
-  this->mount = mount->getRef();
+  if (!mount) 
+    this->mount.clear();
+  else
+    this->mount = mount->getRef();
 }

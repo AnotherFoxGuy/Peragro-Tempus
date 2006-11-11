@@ -280,7 +280,6 @@ void EntityHandler::handleMount(GenericMessage* msg)
 {
   MountMessage mount_msg;
   mount_msg.deserialise(msg->getByteStream());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   unsigned int entity = mount_msg.getPlayerEntityId();
   unsigned int mount = mount_msg.getMountEntityId();
@@ -291,4 +290,11 @@ void EntityHandler::handleMount(GenericMessage* msg)
 
 void EntityHandler::handleUnmount(GenericMessage* msg)
 {
+  UnmountMessage mount_msg;
+  mount_msg.deserialise(msg->getByteStream());
+
+  unsigned int entity = mount_msg.getPlayerEntityId();
+  unsigned int mount = mount_msg.getMountEntityId();
+
+  PointerLibrary::getInstance()->getEntityManager()->unmount(entity, mount);
 }

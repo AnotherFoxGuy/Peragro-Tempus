@@ -25,6 +25,7 @@ PtCharacterEntity::PtCharacterEntity(EntityType type) : PtEntity(type)
 
 void PtCharacterEntity::Move(MovementData* movement) 
 {
+  if(!celentity.IsValid()) return;
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
   if (pclinmove.IsValid())
   {
@@ -43,6 +44,7 @@ void PtCharacterEntity::Move(MovementData* movement)
 
 bool PtCharacterEntity::MoveTo(MoveToData* moveTo)
 {
+  if(!celentity.IsValid()) return true;
   csRef<iVirtualClock> vc = CS_QUERY_REGISTRY (obj_reg, iVirtualClock);
   csTicks ticks = vc->GetElapsedTicks ();
   if (!ticks) return true;
@@ -92,6 +94,7 @@ bool PtCharacterEntity::MoveTo(MoveToData* moveTo)
 
 void PtCharacterEntity::DrUpdate(DrUpdateData* drupdate)
 {
+  if(!celentity.IsValid()) return;
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
   if (pclinmove.IsValid())
   {
@@ -109,6 +112,7 @@ void PtCharacterEntity::DrUpdate(DrUpdateData* drupdate)
 
 void PtCharacterEntity::Teleport(csVector3 pos, csString sector)
 {
+  if(!celentity.IsValid()) return;
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
   iMovable* mov = pcmesh->GetMesh()->GetMovable();
   mov->SetSector(engine->GetSectors()->FindByName(sector.GetData()));

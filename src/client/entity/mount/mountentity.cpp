@@ -25,6 +25,7 @@ PtMountEntity::PtMountEntity() : PtCharacterEntity(MountEntity)
   engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
   pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
   vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  mounted = false;
 }
 
 void PtMountEntity::Create()
@@ -61,6 +62,32 @@ void PtMountEntity::Create()
 
 void PtMountEntity::Mount(PtEntity* player)
 {
+  if(mounted) return;
+  if(!player->GetCelEntity()) return;
+
+  bool on_ground;
+  float speed, rot, avel;
+  csVector3 pos, vel, wvel;
+  iSector* sector;
+
+  PtPcEntity* ptplayer = static_cast<PtPcEntity*>(player);
+
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ptplayer->GetCelEntity(), iPcLinearMovement);
+  csRef<iPcLinearMovement> mtlinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+  csRef<iPcMesh> mtmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+
+  // Anchor the player.
+  mtlinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
+  pos.y += 1.0f;
+  pclinmove->SetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
+  pclinmove->SetAnchor(mtmesh);
+
+  mounted = true;
+}
+
+void PtMountEntity::UnMount(PtEntity* player)
+{
+  if(!mounted) return;
   if(!player->GetCelEntity()) return;
   // Some hacky stuff untill i find the right way.
 
@@ -69,25 +96,16 @@ void PtMountEntity::Mount(PtEntity* player)
   csVector3 pos, vel, wvel;
   iSector* sector;
 
-  // Clear the equipment.
   PtPcEntity* ptplayer = static_cast<PtPcEntity*>(player);
-  ptplayer->GetEquipment()->DestructMeshes();
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(player->GetCelEntity(), iPcMesh);
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(player->GetCelEntity(), iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ptplayer->GetCelEntity(), iPcLinearMovement);
 
-  // Get the position data
+  // Anchor the player.
   pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
-  // Set the player mesh to horse+player.
-  pcmesh->SetMesh("horseandknight", "/peragro/art/3d_art/animals/horse/horse2.xml");
-  // Set all the data again, and reinit the CD.
+  pos.y -= 1.0f;
+  pos.x -= 1.0f;
   pclinmove->SetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
-  pclinmove->InitCD(
-    csVector3(1.0f,0.8f,2.0f),
-    csVector3(0.5f,0.8f,0.5f),
-    csVector3(0,0,0));
+  pclinmove->SetAnchor(0);
 
-  // Remove the horse.
-  pl->RemoveEntity(celentity);
-
+  mounted = false;
 }

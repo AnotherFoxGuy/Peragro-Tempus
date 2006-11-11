@@ -10,6 +10,7 @@ under each day.
     - Changed '>>' to '> >' in nested template argument list.
     - Changed MountEntity::max_passengers from float to size_t
       (I'm pretty sure we don't want to allow fractions of passengers to mount something).
+  - Sueastside continued work on mounting and added unmounting.
 
 5-Nov-2006
   - Sueastside did more work on the buy gui.
