@@ -18,46 +18,39 @@
 
 #include "client.h"
 
-#include "cursor.h"
-
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
-#include "CEGUILogger.h"
-
-#include "csgeom/path.h"
-#include "cstool/initapp.h"
-#include "cstool/csview.h"
-#include "csutil/cmdhelp.h"
-#include "csutil/cmdline.h"
-#include "csutil/csstring.h"
-#include "csutil/csshlib.h"
-#include "csutil/event.h"
-#include "csutil/sysfunc.h"
-#include "csutil/syspath.h"
-#include "iengine/camera.h"
-#include "iengine/campos.h"
-#include "iengine/mesh.h"
-#include "iengine/sector.h"
-#include "iengine/texture.h"
-#include "iengine/material.h"
-#include "iengine/scenenode.h"
-#include "iengine/movable.h"
-#include "imesh/object.h"
-#include "imesh/spritecal3d.h"
-#include "imesh/sprite2d.h"
-#include "imesh/genmesh.h"
-//#include "imesh/objmodel.h"
-#include "iutil/databuff.h"
-#include "iutil/event.h"
-#include "iutil/eventq.h"
-#include "iutil/object.h"
-#include "iutil/vfs.h"
-#include "ivaria/collider.h"
-#include "ivideo/graph2d.h"
-#include "ivideo/natwin.h"
-#include "ivideo/txtmgr.h"
-#include "ivideo/material.h"
-
+#include <csgeom/path.h>
+#include <cstool/initapp.h>
+#include <cstool/csview.h>
+#include <csutil/cmdhelp.h>
+#include <csutil/cmdline.h>
+#include <csutil/csstring.h>
+#include <csutil/csshlib.h>
+#include <csutil/event.h>
+#include <csutil/sysfunc.h>
+#include <csutil/syspath.h>
+#include <iengine/camera.h>
+#include <iengine/campos.h>
+#include <iengine/mesh.h>
+#include <iengine/sector.h>
+#include <iengine/texture.h>
+#include <iengine/material.h>
+#include <iengine/scenenode.h>
+#include <iengine/movable.h>
+#include <imesh/object.h>
+#include <imesh/spritecal3d.h>
+#include <imesh/sprite2d.h>
+#include <imesh/genmesh.h>
+#include <iutil/databuff.h>
+#include <iutil/event.h>
+#include <iutil/eventq.h>
+#include <iutil/object.h>
+#include <iutil/vfs.h>
+#include <ivaria/collider.h>
+#include <ivideo/graph2d.h>
+#include <ivideo/natwin.h>
+#include <ivideo/txtmgr.h>
+#include <ivideo/material.h>
+/*
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
@@ -89,7 +82,8 @@
 #include "propclass/zone.h"
 #include "propclass/sound.h"
 #include <propclass/colldet.h>
-
+*/
+#include "cursor.h"
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
@@ -97,8 +91,7 @@
 #include "client/combat/combatmanager.h"
 #include "client/item/itemmanager.h"
 #include "client/entity/ptentitymanager.h"
-
-//#include "common/entity/entity.h"
+#include "client/environment/environmentmanager.h"
 
 #include "common/util/wincrashdump.h"
 
@@ -287,6 +280,12 @@ bool Client::Application()
     return false;
   pointerlib.setCombatManager(combatmanager);
 
+  // Create and Initialize the EnvironmentManager.
+  envmanager = new EnvironmentMGR ();
+  if (!envmanager->Initialize())
+    return ReportError ("Failed to initialize Environment Manager!");
+  pointerlib.setEnvironmentManager(envmanager);
+
   view.AttachNew(new csView(engine, g3d));
 
   // intro sound
@@ -424,6 +423,7 @@ void Client::handleStates()
       checkConnection();
       loadRegion();
       entitymanager->Handle();
+      envmanager->Handle();
 
       chat();
       break;

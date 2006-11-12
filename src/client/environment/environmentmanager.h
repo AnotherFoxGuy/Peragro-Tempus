@@ -16,41 +16,67 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef ITEMMANAGER_H
-#define ITEMMANAGER_H
+#ifndef ENVIRONMENTMANAGER_H
+#define ENVIRONMENTMANAGER_H
 
 #include <cssysdef.h>
 #include <csutil/ref.h>
+#include <csutil/parray.h>
 #include <iutil/vfs.h>
 #include <iutil/virtclk.h>
 #include <iengine/engine.h>
 #include <csgeom/path.h>
-
+#include <csgeom/math3d.h>
+#include <iutil/object.h>
 #include <iutil/strset.h>
+#include <csutil/cscolor.h>
 #include <iutil/document.h>
 
-#include "client/item/item.h"
+#include <csutil/csstring.h>
+
+#include "common/util/mutex.h"
+#include "client/pointer/pointer.h"
 
 struct iObjectRegistry;
 struct iLoader;
 struct iDocument;
 
-class ItemMGR
+class EnvironmentMGR
 {
-private:
-  csArray<ClientItem*> items;
+public:
+  struct TimeData
+  {
+    unsigned int hour;
+  };
 
+private:
+  csString sunname;
+  struct Sun
+  {
+    unsigned int id;
+    csColor color;
+    csVector3 position;
+  };
+  csArray<Sun*> sunarray;
+
+private:
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
   csRef<iStringSet> stringset;
-  csRef<iDocumentSystem> docsys;
+  Mutex mutex;
+
+  csPDelArray<TimeData> timearray;
+
+private:
+  void Time();
 
 public:
-  ItemMGR(iObjectRegistry* obj_reg);
-  ~ItemMGR();
-  bool Initialize();
-  ClientItem* GetItemById(uint id);
-  ClientItem* GetItemByName(csString name);  
+  EnvironmentMGR();
+  ~EnvironmentMGR();
+  bool Initialize(); 
+  void Handle();
+
+  void Time(unsigned int hour);
 };
 
-#endif // ITEMMANAGER_H
+#endif // ENVIRONMENTMANAGER_H

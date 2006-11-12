@@ -55,7 +55,7 @@ public:
     e->setMountEntity(this);
     e->freeLock();
 
-    speed = 10;
+    speed = 7;
     max_passengers = 1;
   }
 

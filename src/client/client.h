@@ -19,18 +19,17 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "cssysdef.h"
-#include "csutil/ref.h"
-#include "csutil/refarr.h"
-#include "csutil/parray.h"
-#include "csutil/csbaseeventh.h"
-#include "cstool/csapplicationframework.h"
-#include "iengine/engine.h"
-#include "iutil/vfs.h"
-#include "iutil/pluginconfig.h"
-#include "iutil/virtclk.h"
-//#include "iutil/csinput.h"
-#include "ivideo/graph3d.h"
+#include <cssysdef.h>
+#include <csutil/ref.h>
+#include <csutil/refarr.h>
+#include <csutil/parray.h>
+#include <csutil/csbaseeventh.h>
+#include <cstool/csapplicationframework.h>
+#include <iengine/engine.h>
+#include <iutil/vfs.h>
+#include <iutil/pluginconfig.h>
+#include <iutil/virtclk.h>
+#include <ivideo/graph3d.h>
 
 #include <isndsys/ss_renderer.h>
 #include <isndsys/ss_loader.h>
@@ -39,10 +38,10 @@
 #include <isndsys/ss_data.h>
 #include <isndsys/ss_listener.h>
 
-#include "behaviourlayer/bl.h"
-#include "physicallayer/pl.h"
-#include "physicallayer/entity.h"
-#include "propclass/mesh.h"
+#include <behaviourlayer/bl.h>
+#include <physicallayer/pl.h>
+#include <physicallayer/entity.h>
+#include <propclass/mesh.h>
 
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
@@ -52,12 +51,15 @@
 struct iPcDefaultCamera;
 struct iPcActorMove;
 struct iSector;
+
 class Network;
 class GUIManager;
 class EffectsManager;
 class ptEntityManager;
 class CombatMGR;
 class ItemMGR;
+class EnvironmentMGR;
+
 class Cursor;
 struct iCommandLineParser;
 struct iPath;
@@ -132,6 +134,7 @@ private:
   CombatMGR* combatmanager;
   ItemMGR* itemmanager;
   Cursor* cursor;
+  EnvironmentMGR* envmanager;
 
   struct ChatMessage
   {

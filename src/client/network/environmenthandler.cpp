@@ -17,6 +17,7 @@
 */
 
 #include "client/network/network.h"
+#include "client/environment/environmentmanager.h"
 
 void EnvironmentHandler::handleDayTime(GenericMessage* msg)
 {
@@ -24,7 +25,7 @@ void EnvironmentHandler::handleDayTime(GenericMessage* msg)
   time_msg.deserialise(msg->getByteStream());
   printf("The time after next beep is %d o'clock..... *beep*\n", time_msg.getHour());
 
-  // TODO: Do something
+  PointerLibrary::getInstance()->getEnvironmentManager()->Time(time_msg.getHour());
 }
 
 void EnvironmentHandler::handleWeather(GenericMessage* msg)

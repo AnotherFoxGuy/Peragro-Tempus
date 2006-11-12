@@ -89,7 +89,6 @@ void PtMountEntity::UnMount(PtEntity* player)
 {
   if(!mounted) return;
   if(!player->GetCelEntity()) return;
-  // Some hacky stuff untill i find the right way.
 
   bool on_ground;
   float speed, rot, avel;

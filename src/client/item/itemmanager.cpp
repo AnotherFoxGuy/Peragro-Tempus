@@ -18,43 +18,42 @@
 
 #include "client/item/itemmanager.h"
 
-#include "cstool/initapp.h"
-#include "csutil/cmdline.h"
-#include "csutil/csstring.h"
-#include "csutil/csshlib.h"
-#include "csutil/event.h"
-#include "csutil/sysfunc.h"
-#include "csutil/syspath.h"
+#include <cstool/initapp.h>
+#include <csutil/cmdline.h>
+#include <csutil/csstring.h>
+#include <csutil/csshlib.h>
+#include <csutil/event.h>
+#include <csutil/sysfunc.h>
+#include <csutil/syspath.h>
 
-#include "csgeom/math3d.h"
+#include <csgeom/math3d.h>
 
-#include "iengine/camera.h"
-#include "iengine/campos.h"
-#include "iengine/mesh.h"
-#include "iengine/sector.h"
-#include "iengine/texture.h"
-#include "iengine/material.h"
-#include "iengine/scenenode.h"
-#include "iengine/movable.h"
-#include "imesh/object.h"
-#include "imesh/spritecal3d.h"
-#include "imesh/sprite2d.h"
-#include "imesh/genmesh.h"
-#include "iutil/databuff.h"
-#include "iutil/event.h"
-#include "iutil/eventq.h"
-#include "iutil/object.h"
-#include "iutil/vfs.h"
-#include "ivaria/collider.h"
-#include "ivideo/graph2d.h"
-#include "ivideo/natwin.h"
-#include "ivideo/txtmgr.h"
-#include "ivideo/material.h"
+#include <iengine/camera.h>
+#include <iengine/campos.h>
+#include <iengine/mesh.h>
+#include <iengine/sector.h>
+#include <iengine/texture.h>
+#include <iengine/material.h>
+#include <iengine/scenenode.h>
+#include <iengine/movable.h>
+#include <imesh/object.h>
+#include <imesh/spritecal3d.h>
+#include <imesh/sprite2d.h>
+#include <imesh/genmesh.h>
+#include <iutil/databuff.h>
+#include <iutil/event.h>
+#include <iutil/eventq.h>
+#include <iutil/object.h>
+#include <iutil/vfs.h>
+#include <ivaria/collider.h>
+#include <ivideo/graph2d.h>
+#include <ivideo/natwin.h>
+#include <ivideo/txtmgr.h>
+#include <ivideo/material.h>
+#include <iutil/objreg.h>
+#include <imap/loader.h>
 
-#include "iutil/objreg.h"
-#include "imap/loader.h"
-
-#include "csutil/xmltiny.h"
+#include <csutil/xmltiny.h>
 
 
 

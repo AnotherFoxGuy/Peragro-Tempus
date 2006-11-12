@@ -1,0 +1,102 @@
+<lights>
+	<light name="sun">
+		<times>
+			<time id="0">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0" g="0" b="0"/>
+			</time>
+			<time id="1">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0" g="0" b="0"/>
+			</time>
+			<time id="2">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0" g="0" b="0"/>
+			</time>
+			<time id="3">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0" g="0" b="0"/>
+			</time>
+			<time id="4">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.1" g="0.1" b="0.1"/>
+			</time>
+			<time id="5">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.15" g="0.1" b="0.1"/>
+			</time>
+			<time id="6">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.2" g="0.2" b="0.2"/>
+			</time>
+			<time id="7">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.25" g="0.25" b="0.25"/>
+			</time>
+			<time id="8">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.3" g="0.3" b="0.3"/>
+			</time>
+			<time id="9">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.4" g="0.4" b="0.4"/>
+			</time>
+			<time id="10">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.6" g="0.6" b="0.6"/>
+			</time>
+			<time id="11">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.6" g="0.6" b="0.6"/>
+			</time>
+			<time id="12">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.6" g="0.6" b="0.6"/>
+			</time>
+			<time id="13">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.6" g="0.6" b="0.6"/>
+			</time>
+			<time id="14">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.6" g="0.6" b="0.6"/>
+			</time>
+			<time id="15">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.6" g="0.6" b="0.6"/>
+			</time>
+			<time id="16">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.6" g="0.6" b="0.6"/>
+			</time>
+			<time id="17">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.6" g="0.5" b="0.5"/>
+			</time>
+			<time id="18">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.5" g="0.45" b="0.45"/>
+			</time>
+			<time id="19">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.4" g="0.4" b="0.4"/>
+			</time>
+			<time id="20">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.3" g="0.3" b="0.3"/>
+			</time>
+			<time id="21">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0.1" g="0.1" b="0.1"/>
+			</time>
+			<time id="22">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0" g="0" b="0"/>
+			</time>
+			<time id="23">
+				<position y="3.37" x="84.68" z="2.63"/>
+				<color r="0" g="0" b="0"/>
+			</time>
+		</times>
+	</light>
+</lights>

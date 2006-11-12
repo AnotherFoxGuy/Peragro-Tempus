@@ -37,7 +37,7 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   const Character* c_char = c_entity->getCharacter();
   if (!c_char) return;
 
-  int name_id = c_entity->getEntity()->getId();
+  int name_id;
 
   MoveRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -49,12 +49,14 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   {
     const MountEntity* mount = c_entity->getMount();
     speed = mount->getSpeed();
+    name_id = mount->getEntity()->getId();
   }
   else
   {
     Character* character = c_char->getLock();
     Stat* speed_stat = server->getStatManager()->findByName(ptString("Speed", 5));
     speed = (float)character->getStats()->getAmount(speed_stat);
+    name_id = c_entity->getEntity()->getId();
     character->freeLock();
   }
 
