@@ -78,7 +78,8 @@ ItemMGR::~ItemMGR ()
 
 bool ItemMGR::Initialize ()
 {
-  //items->Clear();
+  // Clear the array.
+  items.DeleteAll();
 
   csRef<iFile> buf = vfs->Open("/peragro/xml/items/items.xml", VFS_FILE_READ);
 

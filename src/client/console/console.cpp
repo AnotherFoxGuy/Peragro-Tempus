@@ -233,6 +233,44 @@ public:
 };
 //--------------------------------------------------------------------------
 
+class cmdItem : public scfImplementation1<cmdItem, iCelConsoleCommand>
+{
+private:
+  iCelConsole* parent;
+
+public:
+  cmdItem (iCelConsole* parent) : scfImplementationType (this),
+				    parent (parent) { }
+  virtual ~cmdItem () { }
+  virtual const char* GetCommand () { return "itemmanager"; }
+  virtual const char* GetDescription () { return "Equip items on your own entity, for testing only."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: \n");
+    parent->GetOutputConsole ()->PutText (
+     " itemmanager <reload>\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    ItemMGR* itemmgr = PointerLibrary::getInstance()->getItemManager();
+    if(!itemmgr) return;
+
+    if (args.GetSize() < 2)
+    {
+      Help();
+      return;
+    }
+    else if(strcmp(args[1],"reload")==0)
+      itemmgr->Initialize();
+    else
+    {
+      parent->GetOutputConsole ()->PutText ("Unknown command!\n");
+      return;
+    }
+  }
+};
+//--------------------------------------------------------------------------
+
 bool PtConsole::Initialize ()
 {
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -247,6 +285,7 @@ bool PtConsole::Initialize ()
   cmd.AttachNew (new cmdPerfTest (console)); console->RegisterCommand (cmd);
   cmd.AttachNew (new cmdGuiMgr (console)); console->RegisterCommand (cmd);
   cmd.AttachNew (new cmdEquip (console)); console->RegisterCommand (cmd);
+  cmd.AttachNew (new cmdItem (console)); console->RegisterCommand (cmd);
 
   return true;
 }
