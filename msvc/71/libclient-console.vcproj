@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="libclient-environment"
-	ProjectGUID="{5DD65B48-830D-8411-F65E-511D8EE35498}"
+	Name="libclient-console"
+	ProjectGUID="{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\out\release71\build\libclient-environment\"
-			IntermediateDirectory="..\..\out\release71\build\libclient-environment\"
+			OutputDirectory="..\..\out\release71\build\libclient-console\"
+			IntermediateDirectory="..\..\out\release71\build\libclient-console\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -30,10 +30,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release71\build\libclient-environment\libclient-environment.pch"
-				AssemblerListingLocation="..\..\out\release71\build\libclient-environment\"
-				ObjectFile="..\..\out\release71\build\libclient-environment\"
-				ProgramDataBaseFileName="..\..\out\release71\build\libclient-environment\client-environment.pdb"
+				PrecompiledHeaderFile="..\..\out\release71\build\libclient-console\libclient-console.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libclient-console\"
+				ObjectFile="..\..\out\release71\build\libclient-console\"
+				ProgramDataBaseFileName="..\..\out\release71\build\libclient-console\client-console.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -53,11 +53,11 @@
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
-				ProgramDatabaseFile="..\..\out\release71\build\libclient-environment\client-environment.pdb"
+				ProgramDatabaseFile="..\..\out\release71\build\libclient-console\client-console.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\libclient-environment.lib"
+				OutputFile="..\..\out\release71\libs\libclient-console.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -65,7 +65,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\libclient-environment\libclient-environment.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libclient-console\libclient-console.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -85,8 +85,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug71\build\libclient-environment\"
-			IntermediateDirectory="..\..\out\debug71\build\libclient-environment\"
+			OutputDirectory="..\..\out\debug71\build\libclient-console\"
+			IntermediateDirectory="..\..\out\debug71\build\libclient-console\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -101,10 +101,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug71\build\libclient-environment\libclient-environment.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\libclient-environment\"
-				ObjectFile="..\..\out\debug71\build\libclient-environment\"
-				ProgramDataBaseFileName="..\..\out\debug71\build\libclient-environment\client-environment.pdb"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libclient-console\libclient-console.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libclient-console\"
+				ObjectFile="..\..\out\debug71\build\libclient-console\"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libclient-console\client-console.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -122,11 +122,11 @@
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
-				ProgramDatabaseFile="..\..\out\debug71\build\libclient-environment\client-environment.pdb"
+				ProgramDatabaseFile="..\..\out\debug71\build\libclient-console\client-console.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\libclient-environment_d.lib"
+				OutputFile="..\..\out\debug71\libs\libclient-console_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -134,7 +134,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\libclient-environment\libclient-environment.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libclient-console\libclient-console.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -158,14 +158,14 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\environment\environmentmanager.cpp">
+				RelativePath="..\..\src\client\console\console.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\environment\environmentmanager.h">
+				RelativePath="..\..\src\client\console\console.h">
 			</File>
 		</Filter>
 	</Files>

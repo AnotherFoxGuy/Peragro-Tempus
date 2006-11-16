@@ -158,18 +158,12 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\console\console.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\environment\environmentmanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
-			<File
-				RelativePath="..\..\src\client\console\console.h">
-			</File>
 			<File
 				RelativePath="..\..\src\client\environment\environmentmanager.h">
 			</File>
