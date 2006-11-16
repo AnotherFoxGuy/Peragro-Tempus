@@ -42,6 +42,8 @@ ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
   vc = CS_QUERY_REGISTRY (obj_reg, iVirtualClock);
 
   pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
+
+  ownent = 0;
 }
 
 ptEntityManager::~ptEntityManager ()

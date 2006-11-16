@@ -24,6 +24,15 @@
 
 #include "client/client.h"
 
+#include "client/network/network.h"
+#include "client/gui/gui.h"
+#include "client/gui/guimanager.h"
+#include "client/effects/effectsmanager.h"
+#include "client/combat/combatmanager.h"
+#include "client/item/itemmanager.h"
+#include "client/entity/ptentitymanager.h"
+#include "client/environment/environmentmanager.h"
+
 PtConsole::PtConsole ()
 {
 }
@@ -77,6 +86,153 @@ public:
 };
 //--------------------------------------------------------------------------
 
+class cmdGuiMgr : public scfImplementation1<cmdGuiMgr, iCelConsoleCommand>
+{
+private:
+  iCelConsole* parent;
+
+public:
+  cmdGuiMgr (iCelConsole* parent) : scfImplementationType (this),
+				    parent (parent) { }
+  virtual ~cmdGuiMgr () { }
+  virtual const char* GetCommand () { return "guimanager"; }
+  virtual const char* GetDescription () { return "Control the guimanager."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: \n");
+    parent->GetOutputConsole ()->PutText (
+     "  guimanager <window> <command> OR guimanager <command> <arg>\n");
+    parent->GetOutputConsole ()->PutText (
+      " windows: buddy buy chat confirm connect hud inventory login npcdialog ok options selectchar sell status trade\n");
+    parent->GetOutputConsole ()->PutText (
+      " commands: show hide / create(file arg)...\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+    if(!guimanager) return;
+
+    GUIWindow* window = 0;
+    if (args.GetSize() < 2)
+    {
+      Help();
+      return;
+    }
+    else if(strcmp(args[1],"buddy")==0)
+      window = guimanager->GetBuddyWindow();
+    else if (strcmp(args[1],"buy")==0)
+      window = guimanager->GetBuyWindow();
+    else if (strcmp(args[1],"chat")==0)
+      window = guimanager->GetChatWindow();
+    else if (strcmp(args[1],"confirm")==0)
+      window = guimanager->GetConfirmWindow();
+    else if (strcmp(args[1],"connect")==0)
+      window = guimanager->GetConnectWindow();
+    else if (strcmp(args[1],"hud")==0)
+      window = guimanager->GetHUDWindow();
+    else if (strcmp(args[1],"inventory")==0)
+      window = guimanager->GetInventoryWindow();
+    else if (strcmp(args[1],"login")==0)
+      window = guimanager->GetLoginWindow();
+    else if (strcmp(args[1],"npcdialog")==0)
+      window = guimanager->GetNpcDialogWindow();
+    else if (strcmp(args[1],"ok")==0)
+      window = guimanager->GetOkWindow();
+    else if (strcmp(args[1],"options")==0)
+      window = guimanager->GetOptionsWindow();
+    else if (strcmp(args[1],"selectchar")==0)
+      window = guimanager->GetSelectCharWindow();
+    else if(strcmp(args[1],"sell")==0)
+      window = guimanager->GetSellWindow();
+    else if (strcmp(args[1],"status")==0)
+      window = guimanager->GetStatusWindow();
+    else if(strcmp(args[1],"trade")==0)
+      window = guimanager->GetTradeWindow();
+
+    else if(strcmp(args[1],"create")==0)
+    {
+      if(args.GetSize() > 2)
+      {
+        window = new GUIWindow(guimanager);
+        window->CreateGUIWindow(args[2]);
+      }
+      else
+        Help();
+      return;
+    }
+    else
+    {
+      parent->GetOutputConsole ()->PutText ("Unknown window or command!\n");
+      return;
+    }
+
+    if(window)
+    {
+      if (strcmp(args[2],"show")==0)
+        window->ShowWindow();
+      else if(strcmp(args[2],"hide")==0)
+        window->HideWindow();
+      else
+      {
+        parent->GetOutputConsole ()->PutText ("Unknown command!\n");
+        return;
+      }
+    }
+    else
+      parent->GetOutputConsole ()->PutText ("Window hasn't been created yet!\n");
+
+  }
+};
+//--------------------------------------------------------------------------
+
+class cmdEquip : public scfImplementation1<cmdEquip, iCelConsoleCommand>
+{
+private:
+  iCelConsole* parent;
+
+public:
+  cmdEquip (iCelConsole* parent) : scfImplementationType (this),
+				    parent (parent) { }
+  virtual ~cmdEquip () { }
+  virtual const char* GetCommand () { return "equipment"; }
+  virtual const char* GetDescription () { return "Equip items on your own entity, for testing only."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: \n");
+    parent->GetOutputConsole ()->PutText (
+     " equipment <(un)equip> <slotid> <itemid>\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    ptEntityManager* entmanager = PointerLibrary::getInstance()->getEntityManager();
+    if(!entmanager) return;
+
+    PtEntity* ent = entmanager->getOwnPtEntity();
+    if(!ent)
+    {
+      parent->GetOutputConsole ()->PutText ("Your entity hasn't been created yet!\n");
+      return;
+    }
+
+    PtPcEntity* ownent = static_cast<PtPcEntity*>(ent);
+    if (args.GetSize() < 4)
+    {
+      Help();
+      return;
+    }
+    else if(strcmp(args[1],"equip")==0)
+      ownent->GetEquipment()->Equip(atoi(args[3]), atoi(args[2]));
+    else if(strcmp(args[1],"unequip")==0)
+      ownent->GetEquipment()->UnEquip(atoi(args[3]));
+    else
+    {
+      parent->GetOutputConsole ()->PutText ("Unknown command!\n");
+      return;
+    }
+  }
+};
+//--------------------------------------------------------------------------
+
 bool PtConsole::Initialize ()
 {
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -89,6 +245,8 @@ bool PtConsole::Initialize ()
   // Register the commands.
   csRef<iCelConsoleCommand> cmd;
   cmd.AttachNew (new cmdPerfTest (console)); console->RegisterCommand (cmd);
+  cmd.AttachNew (new cmdGuiMgr (console)); console->RegisterCommand (cmd);
+  cmd.AttachNew (new cmdEquip (console)); console->RegisterCommand (cmd);
 
   return true;
 }

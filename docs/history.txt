@@ -6,6 +6,7 @@ under each day.
 
 16-Nov-2006
   - Sueastside added a console.
+  - Sueastside added gui stuff and equiping to the console.
 
 11-Nov-2006
   - iceeey made several fixes regarding MountEntity:
