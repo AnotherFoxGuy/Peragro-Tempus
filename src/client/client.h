@@ -59,6 +59,7 @@ class ptEntityManager;
 class CombatMGR;
 class ItemMGR;
 class EnvironmentMGR;
+class PtConsole;
 
 class Cursor;
 struct iCommandLineParser;
@@ -135,6 +136,7 @@ private:
   ItemMGR* itemmanager;
   Cursor* cursor;
   EnvironmentMGR* envmanager;
+  PtConsole* ptconsole;
 
   struct ChatMessage
   {
@@ -189,6 +191,15 @@ public:
   void chat();
 
   void sawServer();
+
+  csTicks GetTicks() { return csGetTicks(); }
+  void DrawFrame () 
+  {
+    PreProcessFrame();
+    ProcessFrame();
+    PostProcessFrame();
+    FinishFrame();
+  }
 };
 
 #endif // CLIENT_H

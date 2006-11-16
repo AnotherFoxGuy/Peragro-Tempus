@@ -92,6 +92,7 @@
 #include "client/item/itemmanager.h"
 #include "client/entity/ptentitymanager.h"
 #include "client/environment/environmentmanager.h"
+#include "client/console/console.h"
 
 #include "common/util/wincrashdump.h"
 
@@ -285,6 +286,11 @@ bool Client::Application()
   if (!envmanager->Initialize())
     return ReportError ("Failed to initialize Environment Manager!");
   pointerlib.setEnvironmentManager(envmanager);
+
+  // Create and Initialize the PTConsole.
+  ptconsole = new PtConsole ();
+  if (!ptconsole->Initialize())
+    return ReportError ("Failed to initialize PT Console!");
 
   view.AttachNew(new csView(engine, g3d));
 

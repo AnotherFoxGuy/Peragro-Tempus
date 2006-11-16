@@ -1,0 +1,6 @@
+SubDir TOP src client console ;
+
+Description client-console : "client console" ;
+Library client-environment :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-environment : CRYSTAL CEL ;
