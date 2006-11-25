@@ -135,6 +135,12 @@ bool Simple::OnKeyboard(iEvent& ev)
 	if (!sprite) return false;
     effectsmanager->CreateEffect(sprite, EffectsManager::Levelup);
 	}
+    else if (code=='h')
+    {
+      csRef<iMeshWrapper> sprite (engine->FindMeshObject("MySprite"));
+      if (!sprite) return false;
+      effectsmanager->CreateEffect(sprite, EffectsManager::Blood);
+    }
 	else
 	{
 	 return false;

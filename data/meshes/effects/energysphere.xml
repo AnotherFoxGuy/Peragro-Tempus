@@ -26,43 +26,34 @@
 	  
 </materials>
 
-		<meshfact name='energyspherefact'>
-		    <plugin>crystalspace.mesh.loader.factory.particles</plugin>
-		    <priority>alpha</priority>
-		    <ztest/>
-                    <params>
-			<material>spark</material>
-			<emitter type="sphere">
-				<time>5</time>
-				<innerradius>1.1</innerradius>
-				<outerradius>1.2</outerradius>
-				<force type="linear">
-					<direction x="0" y="0" z="0"/>
-					<amount>20</amount>
-					<range>3.0</range>
-					<falloff>linear</falloff>
-				</force>
-			</emitter>
-			<dampener>3.0</dampener>
-			<mass>1</mass>
-			<pps>150</pps>
-			<initial>0</initial>
-			<gravity x="0" y="-1.0" z="0"/>
-			<diffusion>1.0</diffusion>
-			<radius>0.07</radius>
-			<ttl>0.5</ttl>
-			<zsort>no</zsort>
-			<timevariation>0.5</timevariation>
-			<colormethod type="linear">
-				<gradient>
-					<color red="0.0" green="0.0" blue="0.8" alpha="1.0" />
-					<color red="0.0" green="0.0" blue="0.8" alpha="1.0" />
-				</gradient>
-	                  </colormethod>
-		      <mixmode>
-		        <add/>
-		      </mixmode>
-		    </params>
+<meshfact name='energyspherefact'>
+    <plugin>crystalspace.mesh.loader.factory.particles</plugin>
+	    <priority>alpha</priority>
+	    <ztest />
+	    <params>
+		<material>spark</material>
+		<particlesize x="0.03" y="0.03" />
+		<sortmode>dot</sortmode>
+		<mixmode>
+		    <add />
+		</mixmode>
+		<emitter type="sphere">
+		    <initialttl min="1" max="2" />
+		    <mass min="1" max="1" />
+		    <duration>5</duration>
+		    <emissionrate>300</emissionrate>
+		    <radius>1.2</radius>
+		    <placement>surface</placement>
+		</emitter>
+		<effector type="force">
+		    <acceleration x="0" y="0" z="0" />
+		</effector>
+		<effector type="lincolor">
+		    <color red="0" green="0" blue="0.8" time="1" />
+		    <color red="0" green="0" blue="0.8" time="0.5" />
+		</effector>
+        </params>
+        
 <key name="duration" value="8000" />
 <key name="heightoffset" value="2.7" />	 
 		 

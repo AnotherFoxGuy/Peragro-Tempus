@@ -258,6 +258,15 @@ bool Client::Application()
   iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
   if (nw) nw->SetTitle ("Peragro Tempus");
 
+  // First disable the lighting cache. Our app is simple enough
+  // not to need this.
+  engine->SetLightingCacheMode (0);
+
+  // Let the engine prepare all lightmaps for use and also free all images 
+  // that were loaded for the texture manager.
+  engine->Prepare ();
+
+
   InitializeCEL();
 
   // Create the cursor.

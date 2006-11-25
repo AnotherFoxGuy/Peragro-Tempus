@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+25-Nov-2006
+  - Sueastside updated and reenabled the particles.
+
 16-Nov-2006
   - Sueastside added a console.
   - Sueastside added gui stuff and equiping to the console.

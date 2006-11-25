@@ -84,7 +84,7 @@ bool EffectsManager::Initialize ()
   }
 
   // load the factory for particles from file
-  //if ( !loader->LoadLibraryFile ("/peragro/meshes/effects/alleffects.xml") ) return false;
+  if ( !loader->LoadLibraryFile ("/peragro/meshes/effects/alleffects.xml") ) return false;
 
   return true;
 }
