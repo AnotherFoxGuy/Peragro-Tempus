@@ -196,7 +196,7 @@ void CombatMGR::hit (int targetId, int damage)
   printf("You %s %d points!\n", damage < 0 ? "healed" : "got hit for", damage);
 
   //test
-  guimanager->GetHUDWindow()->SetHP(target->GetHP());
+  //guimanager->GetHUDWindow()->SetHP(target->GetHP());
 
 }
 

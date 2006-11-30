@@ -33,9 +33,10 @@ GUIWindow::GUIWindow(GUIManager* guimanager)
 : guimanager(guimanager)
 {
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  vfs = csQueryRegistry<iVFS>(obj_reg);
   cegui = guimanager->GetCEGUI ();
   network = PointerLibrary::getInstance()->getNetwork();
+  winMgr = cegui->GetWindowManagerPtr ();
 }
 GUIWindow::~GUIWindow()
 {
@@ -44,14 +45,12 @@ GUIWindow::~GUIWindow()
 void GUIWindow::CreateGUIWindow(const char* layoutFile)
 {
   //cegui->GetSystemPtr ()->setGUISheet(LoadLayout (layoutFile));
-  CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
+  CEGUI::Window* root = winMgr->getWindow("Root");
   root->addChildWindow(LoadLayout (layoutFile));
 }
 
 CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
 {
-  winMgr = cegui->GetWindowManagerPtr ();
-
   // Load layout and set as root
   vfs->ChDir ("/peragro/gui/");
   return winMgr->loadWindowLayout(layoutFile);

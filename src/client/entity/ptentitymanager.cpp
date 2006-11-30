@@ -509,7 +509,7 @@ void ptEntityManager::DrUpdateOwnEntity()
 
       drmsg.setRotation(rot);
       drmsg.setPos(pos.x,pos.y,pos.z);
-      if (sector->QueryObject()->GetName())
+      if (sector && sector->QueryObject()->GetName())
         drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
       else
         drmsg.setSector(ptString(0,0));
