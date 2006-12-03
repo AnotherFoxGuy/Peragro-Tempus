@@ -22,9 +22,9 @@ PtNpcEntity::PtNpcEntity() : PtCharacterEntity(NPCEntity)
 {
   // Get the pointers to some common utils.
   this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
-  pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
-  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  engine =  csQueryRegistry<iEngine> (obj_reg);
+  pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+  vfs =  csQueryRegistry<iVFS> (obj_reg);
 }
 
 void PtNpcEntity::Create()
@@ -47,7 +47,7 @@ void PtNpcEntity::Create()
 
   // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
   csRef<iSpriteCal3DState> sprcal3d =
-    SCF_QUERY_INTERFACE (pcmesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
+     scfQueryInterface<iSpriteCal3DState> (pcmesh->GetMesh()->GetMeshObject());
   if (sprcal3d) sprcal3d->SetVelocity(0);
 
   pclinmove->InitCD(

@@ -141,7 +141,7 @@ void BuyWindow::Update(int linenr)
 
   // Putting the items in.
   int counter = 0; 
-  for (int i=linenr; i<items.GetSize(); i++)
+  for (size_t i=linenr; i<items.GetSize(); i++)
   {
     if(counter > nrInventorySlots-1) break;
     Slot* slot = upperslots->GetSlot(counter);
@@ -189,7 +189,7 @@ void BuyWindow::AcceptTrade()
 
   // Putting the new items in the inventory.
   int counter = 10;
-  for (int i=0; i<objandslot.GetSize(); i++)
+  for (size_t i=0; i<objandslot.GetSize(); i++)
   {
     unsigned int objid = objandslot.Get(i).object->GetId();
     while(!guimanager->GetInventoryWindow()->AddItem(objid, counter)

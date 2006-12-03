@@ -22,8 +22,8 @@ PtItemEntity::PtItemEntity() : PtEntity(PtEntity::ItemEntity)
 {
   // Get the pointers to some common utils.
   this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
-  pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
+  engine =  csQueryRegistry<iEngine> (obj_reg);
+  pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 }
 
 void PtItemEntity::Create()

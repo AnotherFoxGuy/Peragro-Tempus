@@ -64,7 +64,7 @@ public:
     iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
     Client* client = PointerLibrary::getInstance()->getClient();
 
-    csRef<iVirtualClock> vc = CS_QUERY_REGISTRY(obj_reg, iVirtualClock);
+    csRef<iVirtualClock> vc =  csQueryRegistry<iVirtualClock> (obj_reg);
     if(!vc) return;
 
     csTicks t1, t2;
@@ -275,7 +275,7 @@ bool PtConsole::Initialize ()
 {
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
-  console = CS_QUERY_REGISTRY(obj_reg, iCelConsole);
+  console =  csQueryRegistry<iCelConsole> (obj_reg);
   if(!console) return false;
 
   console->GetInputConsole()->SetPrompt ("PT>");

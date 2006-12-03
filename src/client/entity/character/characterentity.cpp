@@ -36,7 +36,7 @@ void PtCharacterEntity::Move(MovementData* movement)
   if (mesh.IsValid())
   {
     csRef<iSpriteCal3DState> sprcal3d =
-      SCF_QUERY_INTERFACE (mesh->GetMesh()->GetMeshObject(), iSpriteCal3DState);
+       scfQueryInterface<iSpriteCal3DState> (mesh->GetMesh()->GetMeshObject());
     if (sprcal3d)
       sprcal3d->SetVelocity(movement->walk);
   }
@@ -45,7 +45,7 @@ void PtCharacterEntity::Move(MovementData* movement)
 bool PtCharacterEntity::MoveTo(MoveToData* moveTo)
 {
   if(!celentity.IsValid()) return true;
-  csRef<iVirtualClock> vc = CS_QUERY_REGISTRY (obj_reg, iVirtualClock);
+  csRef<iVirtualClock> vc =  csQueryRegistry<iVirtualClock> (obj_reg);
   csTicks ticks = vc->GetElapsedTicks ();
   if (!ticks) return true;
 

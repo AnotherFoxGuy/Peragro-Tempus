@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+3-Dec-2006
+  - Marten fixed a bunch of warnings.
+  - Marten finished conversion to csQueryRegisty<>, scfQueryInterface<> etc.
+
 30-Nov-2006
   - Sueastside did some bug fixes and started converting to csQueryRegistry<>.
 

@@ -33,7 +33,7 @@ WhisperWindow::WhisperWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  vfs =  csQueryRegistry<iVFS> (obj_reg);
 }
 
 WhisperWindow::~WhisperWindow ()

@@ -59,16 +59,16 @@
 
 ItemMGR::ItemMGR (iObjectRegistry* obj_reg)
 {
-  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+  engine = csQueryRegistry<iEngine> (obj_reg);
   //if (!engine) return ReportError("Failed to locate 3D engine!");
 
-  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  vfs = csQueryRegistry<iVFS> (obj_reg);
   //if (!vfs) return ReportError("Failed to locate VFS!");
 
-  stringset = CS_QUERY_REGISTRY_TAG_INTERFACE (obj_reg,
-    "crystalspace.shared.stringset", iStringSet);
+  stringset = csQueryRegistryTagInterface<iStringSet> (obj_reg,
+    "crystalspace.shared.stringset");
 
-  docsys = CS_QUERY_REGISTRY(obj_reg, iDocumentSystem);
+  docsys = csQueryRegistry<iDocumentSystem> (obj_reg);
 }
 
 ItemMGR::~ItemMGR ()

@@ -88,7 +88,7 @@ cssVFSFileDlg::cssVFSFileDlg ( wxWindow *parent,
   wxDialog( parent, id, title, position, size, style)
 {
   this->engine = engine;
-  vfs = CS_QUERY_REGISTRY(engine->GetObjectRegistry(), iVFS);
+  vfs =  csQueryRegistry<iVFS> (engine->GetObjectRegistry());
 	dialogType = type;
 	imageList = CreateImageList();
 

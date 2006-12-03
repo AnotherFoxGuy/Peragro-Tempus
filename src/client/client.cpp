@@ -205,10 +205,10 @@ bool Client::Application()
   if (!OpenApplication(GetObjectRegistry()))
     return ReportError("Error opening system!");
 
-  vfs = CS_QUERY_REGISTRY(GetObjectRegistry(), iVFS);
+  vfs = csQueryRegistry<iVFS> (GetObjectRegistry());
   if (!vfs) return ReportError("Failed to locate VFS!");
 
-  g3d = CS_QUERY_REGISTRY(GetObjectRegistry(), iGraphics3D);
+  g3d = csQueryRegistry<iGraphics3D> (GetObjectRegistry());
   if (!g3d) return ReportError("Failed to locate 3D renderer!");
 
   pointerlib.setObjectRegistry(GetObjectRegistry());
@@ -234,25 +234,25 @@ bool Client::Application()
   if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
     return ReportError("Failed to set up event handler!");
 
-  engine = CS_QUERY_REGISTRY(GetObjectRegistry(), iEngine);
+  engine = csQueryRegistry<iEngine> (GetObjectRegistry());
   if (!engine) return ReportError("Failed to locate 3D engine!");
 
-  vc = CS_QUERY_REGISTRY(GetObjectRegistry(), iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (GetObjectRegistry());
   if (!vc) return ReportError("Failed to locate Virtual Clock!");
 
-  //kbd = CS_QUERY_REGISTRY(GetObjectRegistry(), iKeyboardDriver);
+  //kbd = csQueryRegistry<iKeyboardDriver> (GetObjectRegistry());
   //if (!kbd) return ReportError("Failed to locate Keyboard Driver!");
 
-  cmdline = CS_QUERY_REGISTRY(GetObjectRegistry(), iCommandLineParser);
+  cmdline = csQueryRegistry<iCommandLineParser> (GetObjectRegistry());
   if (!cmdline) return ReportError("Failed to locate CommandLineParser plugin");
 
-  sndrenderer = CS_QUERY_REGISTRY(GetObjectRegistry(), iSndSysRenderer);
+  sndrenderer = csQueryRegistry<iSndSysRenderer> (GetObjectRegistry());
   if (!sndrenderer) return ReportError("Failed to locate sound renderer!");
 
-  sndloader = CS_QUERY_REGISTRY(GetObjectRegistry(), iSndSysLoader);
+  sndloader = csQueryRegistry<iSndSysLoader> (GetObjectRegistry());
   if (!sndloader) return ReportError("Failed to locate sound loader!");
 
-  app_cfg = CS_QUERY_REGISTRY (GetObjectRegistry(), iConfigManager);
+  app_cfg = csQueryRegistry<iConfigManager> (GetObjectRegistry());
   if (!app_cfg) return ReportError("Can't find the config manager!");
 
   iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
@@ -322,7 +322,7 @@ bool Client::Application()
   sndsource = sndrenderer->CreateSource (sndstream);
   if (!sndsource)
     return ReportError ("Can't create source for '%s'!", fname);
-  sndsource3d = SCF_QUERY_INTERFACE (sndsource, iSndSysSourceSoftware3D);
+  sndsource3d = scfQueryInterface<iSndSysSourceSoftware3D> (sndsource);
 
   sndsource3d->SetPosition (csVector3(0,0,0));
   sndsource3d->SetVolume (1.0f);
@@ -331,7 +331,7 @@ bool Client::Application()
   sndstream->Unpause ();
 
   // end intro sound
-  csRef<iLoader >loader = CS_QUERY_REGISTRY(GetObjectRegistry(), iLoader);
+  csRef<iLoader >loader = csQueryRegistry<iLoader> (GetObjectRegistry());
   if (!loader) return ReportError("Failed to locate Loader!");
   loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
 
@@ -620,7 +620,7 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!pcmesh) return false;
         csRef<iMeshWrapper> parent = pcmesh->GetMesh();
         if (!parent) return false;
-        csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (parent->GetMeshObject(), iSpriteCal3DState);
+        csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
         if (!cal3dstate) return false;
         cal3dstate->SetAnimAction("cast_summon", 0.0f, 0.0f);
       }
@@ -632,7 +632,7 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!pcmesh) return false;
         csRef<iMeshWrapper> parent = pcmesh->GetMesh();
         if (!parent) return false;
-        csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (parent->GetMeshObject(), iSpriteCal3DState);
+        csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
         if (!cal3dstate) return false;
         cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
       }
@@ -852,7 +852,7 @@ bool Client::InitializeCEL()
 {
   iObjectRegistry* object_reg = this->GetObjectRegistry();
 
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError("Failed to load CEL Physical Layer");
 
   // Loading property class factories

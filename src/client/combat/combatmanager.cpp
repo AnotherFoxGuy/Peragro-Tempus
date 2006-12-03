@@ -171,7 +171,7 @@ void CombatMGR::hit (int targetId, int damage)
     return;
   }
 
-  csRef<iSpriteCal3DState> cal3dstate = SCF_QUERY_INTERFACE (getMesh(targetcel)->GetMeshObject(), iSpriteCal3DState);
+  csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (getMesh(targetcel)->GetMeshObject());
   if (!cal3dstate) return;
 
   // Damage is positive, we got hurt.

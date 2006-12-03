@@ -32,16 +32,16 @@ ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
 
   this->obj_reg = obj_reg;
 
-  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+  engine =  csQueryRegistry<iEngine> (obj_reg);
 
-  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  vfs =  csQueryRegistry<iVFS> (obj_reg);
 
-  stringset = CS_QUERY_REGISTRY_TAG_INTERFACE (obj_reg,
-    "crystalspace.shared.stringset", iStringSet);
+  stringset = csQueryRegistryTagInterface<iStringSet> (obj_reg,
+    "crystalspace.shared.stringset");
 
-  vc = CS_QUERY_REGISTRY (obj_reg, iVirtualClock);
+  vc =  csQueryRegistry<iVirtualClock> (obj_reg);
 
-  pl = CS_QUERY_REGISTRY (obj_reg, iCelPlLayer);
+  pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
   ownent = 0;
 }

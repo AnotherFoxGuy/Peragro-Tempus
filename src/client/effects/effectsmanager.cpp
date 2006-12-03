@@ -63,10 +63,10 @@ EffectsManager::EffectsManager (iObjectRegistry* obj_reg)
 {
   this->obj_reg = obj_reg;
 
-  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+  engine =  csQueryRegistry<iEngine> (obj_reg);
   //if (!engine) return ReportError("Failed to locate 3D engine!");
 
-  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  vfs =  csQueryRegistry<iVFS> (obj_reg);
   //if (!vfs) return ReportError("Failed to locate VFS!");
 }
 
@@ -76,7 +76,7 @@ EffectsManager::~EffectsManager ()
 
 bool EffectsManager::Initialize ()
 {
-  loader = CS_QUERY_REGISTRY (obj_reg, iLoader);
+  loader =  csQueryRegistry<iLoader> (obj_reg);
   if (!loader)
   {
     //Report (CS_REPORTER_SEVERITY_ERROR, "No loader!");

@@ -29,7 +29,7 @@ InventoryWindow::InventoryWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  vfs =  csQueryRegistry<iVFS> (obj_reg);
 
   dragdrop = 0;
 }

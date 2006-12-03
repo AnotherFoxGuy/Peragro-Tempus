@@ -71,7 +71,7 @@ void SellWindow::AcceptTrade()
 
   // Putting the new items in the inventory.
   int counter = 10;
-  for (int i=0; i<lowerslots.GetSize(); i++)
+  for (size_t i=0; i<lowerslots.GetSize(); i++)
   {
     Slot* slot = lowerslots[i];
     if(!slot->IsEmpty())

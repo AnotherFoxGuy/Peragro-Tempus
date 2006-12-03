@@ -108,7 +108,7 @@ void anvTransformCommand::Transform(csReversibleTransform transform, bool local)
       csBox3 bbox;
       while (iterator.HasNext())
       {
-        csRef<iMeshWrapper> meshwrapper = SCF_QUERY_INTERFACE(iterator.Next(), iMeshWrapper);
+        csRef<iMeshWrapper> meshwrapper = scfQueryInterface<iMeshWrapper> (iterator.Next());
         SoftTransform(meshwrapper, transform);
         csBox3 cbox;
         meshwrapper->GetWorldBoundingBox(cbox);
@@ -152,7 +152,7 @@ void anvSetPropertyCommand::SetProperty(csStringArray values)
     anvSelection::Iterator iterator = selection.GetIterator();
     while (iterator.HasNext())
     {
-      csRef<iMeshWrapper> meshwrapper = SCF_QUERY_INTERFACE(iterator.Next(), iMeshWrapper);
+      csRef<iMeshWrapper> meshwrapper = scfQueryInterface<iMeshWrapper> (iterator.Next());
       csKeyValuePair* cskvp = new csKeyValuePair (name);
       csStringArray::Iterator iterator = values.GetIterator();
       while (iterator.HasNext())
@@ -200,7 +200,7 @@ void anvRemoveCommand::Perform()
   anvSelection::Iterator iterator = selection.GetIterator();
   while (iterator.HasNext())
   {
-    csRef<iMeshWrapper> meshwrapper = SCF_QUERY_INTERFACE(iterator.Next(), iMeshWrapper);
+    csRef<iMeshWrapper> meshwrapper = scfQueryInterface<iMeshWrapper> (iterator.Next());
     anvEngine::GetAnvil()->GetEngine()->RemoveObject(meshwrapper);
   }
 }
@@ -214,7 +214,7 @@ void anvRemoveCommand::Revert()
   anvSelection::Iterator iterator = selection.GetIterator();
   while (iterator.HasNext())
   {
-    csRef<iMeshWrapper> meshwrapper = SCF_QUERY_INTERFACE(iterator.Next(), iMeshWrapper);
+    csRef<iMeshWrapper> meshwrapper = scfQueryInterface<iMeshWrapper> (iterator.Next());
     anvEngine::GetAnvil()->GetEngine()->AddMeshAndChildren(meshwrapper);
   }
 }

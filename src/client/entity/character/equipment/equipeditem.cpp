@@ -34,7 +34,7 @@ void EquipedItem::ConstructMesh()
   if(!entity->GetCelEntity()) return;
 
   csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY(obj_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
   ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(id);
 
@@ -71,7 +71,7 @@ void EquipedItem::DestructMesh()
   if(!itementity) return;
 
   csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY(obj_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
 
@@ -104,7 +104,7 @@ iSpriteCal3DSocket* EquipedItem::GetSocket(iMeshWrapper* parent, unsigned int sl
   default: printf("EquipedItem: Unknown slot with  ID %d !\n", slotid); return 0;
   }
 
-  csRef<iSpriteCal3DState> sprcal3d = SCF_QUERY_INTERFACE (parent->GetMeshObject(), iSpriteCal3DState);
+  csRef<iSpriteCal3DState> sprcal3d = scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
   if (sprcal3d)
   {
     iSpriteCal3DSocket* socket = sprcal3d->FindSocket(socketName.GetData());

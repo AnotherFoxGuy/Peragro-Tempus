@@ -34,18 +34,18 @@ bool EnvironmentMGR::Initialize ()
 {
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
-  engine = CS_QUERY_REGISTRY(obj_reg, iEngine);
+  engine =  csQueryRegistry<iEngine> (obj_reg);
   if(!engine) return false;
 
-  vfs = CS_QUERY_REGISTRY(obj_reg, iVFS);
+  vfs =  csQueryRegistry<iVFS> (obj_reg);
   if(!vfs) return false;
 
-  stringset = CS_QUERY_REGISTRY_TAG_INTERFACE (obj_reg,
-    "crystalspace.shared.stringset", iStringSet);
+  stringset = csQueryRegistryTagInterface<iStringSet> (obj_reg,
+    "crystalspace.shared.stringset");
   if(!stringset) return false;
 
 //=============================================================================
-  csRef<iDocumentSystem> docsys = CS_QUERY_REGISTRY(obj_reg, iDocumentSystem);
+  csRef<iDocumentSystem> docsys =  csQueryRegistry<iDocumentSystem> (obj_reg);
 
   csRef<iFile> buf = vfs->Open("/peragro/xml/environment/sun.xml", VFS_FILE_READ);
 

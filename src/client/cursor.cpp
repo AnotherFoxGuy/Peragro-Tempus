@@ -118,7 +118,7 @@ iCelEntity* Cursor::getSelectedEntity()
 
 iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord)
 {
-  cdsys = CS_QUERY_REGISTRY(client->GetObjectRegistry(), iCollideSystem);
+  cdsys = csQueryRegistry<iCollideSystem> (client->GetObjectRegistry());
   if (!cdsys) return 0;
 
   csVector3 vc, vo, vw;

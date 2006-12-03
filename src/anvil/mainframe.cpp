@@ -152,10 +152,10 @@ anvMainFrame::~anvMainFrame()
 }
 
 void anvMainFrame::PushFrame () {
-  csRef<iEventQueue> q (CS_QUERY_REGISTRY(engine->GetObjectRegistry(), iEventQueue));
+  csRef<iEventQueue> q ( csQueryRegistry<iEventQueue> (engine->GetObjectRegistry()));
   if (!q)
     return ;
-  csRef<iVirtualClock> vc (CS_QUERY_REGISTRY(engine->GetObjectRegistry(), iVirtualClock));
+  csRef<iVirtualClock> vc ( csQueryRegistry<iVirtualClock> (engine->GetObjectRegistry()));
   if (vc)
     vc->Advance();
   q->Process();
@@ -254,7 +254,7 @@ void anvMainFrame::ActivateAcceleratorTable()
 
 void anvMainFrame::OnRelightAll (wxCommandEvent &event)
 {
-  csRef<iEngine> e = CS_QUERY_REGISTRY(engine->GetObjectRegistry(), iEngine);
+  csRef<iEngine> e =  csQueryRegistry<iEngine> (engine->GetObjectRegistry());
   e->ForceRelight();
 }
 
@@ -264,7 +264,7 @@ void anvMainFrame::OnImportLibrary (wxCommandEvent &event)
                     wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER, engine, "/", "/", VFS_OPEN );
   if(dlg.ShowModal())
   {
-    csRef<iLoader> loader = CS_QUERY_REGISTRY(engine->GetObjectRegistry(), iLoader);
+    csRef<iLoader> loader =  csQueryRegistry<iLoader> (engine->GetObjectRegistry());
     csString s = dlg.GetPathData();
     s.Append(dlg.GetFileNameData());
     loader->LoadLibraryFile(s.GetData());

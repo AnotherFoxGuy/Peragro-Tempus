@@ -49,14 +49,14 @@ void OptionsWindow::CreateGUIWindow ()
   btn = winMgr->getWindow("Options/Frame");
   btn->setVisible(false);
 
-  app_cfg = CS_QUERY_REGISTRY (guimanager->GetClient()->GetObjectRegistry(), iConfigManager);
+  app_cfg =  csQueryRegistry<iConfigManager> (guimanager->GetClient()->GetObjectRegistry());
   if (!app_cfg) 
   {
     printf("Can't find the config manager!"); 
     return;
   }
 
-  vfs = CS_QUERY_REGISTRY (guimanager->GetClient()->GetObjectRegistry(), iVFS);
+  vfs =  csQueryRegistry<iVFS> (guimanager->GetClient()->GetObjectRegistry());
   if (!vfs) 
   {
     printf("Can't find the vfs!"); 

@@ -83,7 +83,7 @@ const float* MountEntity::getPos()
       tmp_pos[0] = (final_dst[0] - pos[0]) * delta;
       tmp_pos[1] = (final_dst[1] - pos[1]) * delta;
       tmp_pos[2] = (final_dst[2] - pos[2]) * delta;
-      return tmp_pos;
+      return tmp_pos; //@@TODO: Marten: this is an error and should be fixed
     }
   }
 }

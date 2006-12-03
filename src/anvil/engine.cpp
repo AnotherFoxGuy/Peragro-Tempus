@@ -174,7 +174,7 @@ bool anvEngine::OnKeyboard(iEvent& ev)
       // so we retrieve the event queue from the object registry and then post
       // the event.
       csRef<iEventQueue> q =
-        CS_QUERY_REGISTRY(GetObjectRegistry(), iEventQueue);
+         csQueryRegistry<iEventQueue> (GetObjectRegistry());
       if (q.IsValid())
         q->GetEventOutlet()->Broadcast(csevQuit (GetObjectRegistry()));
     }
@@ -585,23 +585,23 @@ bool anvEngine::Initialize(iObjectRegistry* object_reg, wxWindow* panel3d)
   // object registry.  The RequestPlugins() call we did earlier registered all
   // loaded plugins with the object registry.  It is also possible to load
   // plugins manually on-demand.
-  g3d = CS_QUERY_REGISTRY(r, iGraphics3D);
+  g3d =  csQueryRegistry<iGraphics3D> (r);
   if (!g3d)
     return ReportError("Failed to locate 3D renderer!");
 
-  engine = CS_QUERY_REGISTRY(r, iEngine);
+  engine =  csQueryRegistry<iEngine> (r);
   if (!engine)
     return ReportError("Failed to locate 3D engine!");
 
   engine->SetSaveableFlag (true);
   
-  vc = CS_QUERY_REGISTRY(r, iVirtualClock);
+  vc =  csQueryRegistry<iVirtualClock> (r);
   if (!vc) return ReportError("Failed to locate Virtual Clock!");
 
-  kbd = CS_QUERY_REGISTRY(r, iKeyboardDriver);
+  kbd =  csQueryRegistry<iKeyboardDriver> (r);
   if (!kbd) return ReportError("Failed to locate Keyboard Driver!");
   
-  loader = CS_QUERY_REGISTRY(r, iLoader);
+  loader =  csQueryRegistry<iLoader> (r);
   if (!loader) return ReportError("Failed to locate Loader!");
   
 
@@ -611,7 +611,7 @@ bool anvEngine::Initialize(iObjectRegistry* object_reg, wxWindow* panel3d)
   panel3d->GetParent()->Show(true);
 
   g2d = g3d->GetDriver2D();
-  wxwin = SCF_QUERY_INTERFACE(g2d, iWxWindow);
+  wxwin = scfQueryInterface<iWxWindow> (g2d);
   if( !wxwin )
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -724,7 +724,7 @@ void anvEngine::SetSelection(anvSelection selection)
     csPrintf("Selection:\n");
     while (iterator.HasNext())
     {
-      csRef<iMeshWrapper> child = SCF_QUERY_INTERFACE(iterator.Next(), iMeshWrapper);
+      csRef<iMeshWrapper> child = scfQueryInterface<iMeshWrapper> (iterator.Next());
       csPrintf("\t%s\n", child->QueryObject()->GetName());
 
       csBox3 cbox;
@@ -803,7 +803,7 @@ void anvEngine::UpdateSelection(csBox3 bbox)
 
 bool anvEngine::LoadWorld(const char* path, const char* world)
 {
-  csRef<iVFS> VFS (CS_QUERY_REGISTRY (object_reg, iVFS));
+  csRef<iVFS> VFS ( csQueryRegistry<iVFS> (object_reg));
 
   editRegion = engine->CreateRegion ("anvil_edit_region");
   
@@ -813,7 +813,7 @@ bool anvEngine::LoadWorld(const char* path, const char* world)
   ClearSelection();
 
   csRef<iEngineSequenceManager> engseq (
-    CS_QUERY_REGISTRY (object_reg, iEngineSequenceManager));
+     csQueryRegistry<iEngineSequenceManager> (object_reg));
 
   // XXX: Why doesn't CS delete these for us??
   if (engseq)
@@ -852,11 +852,11 @@ bool anvEngine::LoadWorld(const char* path, const char* world)
 
 void anvEngine::SaveWorld(const char* path, const char* world)
 {
-  csRef<iVFS> VFS (CS_QUERY_REGISTRY (object_reg, iVFS));
+  csRef<iVFS> VFS ( csQueryRegistry<iVFS> (object_reg));
   VFS->ChDir(path);
 
   csRef<iPluginManager> pluginManager =
-    CS_QUERY_REGISTRY (object_reg, iPluginManager);
+     csQueryRegistry<iPluginManager> (object_reg);
   csRef<iSaver> saver =
     CS_QUERY_PLUGIN_CLASS(pluginManager, "crystalspace.level.saver", iSaver);
   if (!saver)
