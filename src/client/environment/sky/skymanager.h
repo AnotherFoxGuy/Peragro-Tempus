@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef ENVIRONMENTMANAGER_H
-#define ENVIRONMENTMANAGER_H
+#ifndef SKYMANAGER_H
+#define SKYMANAGER_H
 
 #include <cssysdef.h>
 #include <csutil/ref.h>
@@ -34,56 +34,42 @@
 
 #include <csutil/csstring.h>
 
-#include "common/util/mutex.h"
 #include "client/pointer/pointer.h"
 
-#include "client/environment/sky/skymanager.h"
+#include "client/environment/sky/atmosphere/atmosphere.h"
+#include "client/environment/sky/projector/projector.h"
+#include "client/environment/sky/navigator/navigator.h"
+#include "client/environment/sky/utils/tone_reproductor.h"
+#include "client/environment/sky/utils/time.h"
 
 struct iObjectRegistry;
 struct iLoader;
 struct iDocument;
 
-class EnvironmentMGR
+class SkyMGR
 {
-public:
-  struct TimeData
-  {
-    unsigned int hour;
-  };
-
-private:
-  csString sunname;
-  struct Sun
-  {
-    unsigned int id;
-    csColor color;
-    csVector3 position;
-  };
-  csArray<Sun*> sunarray;
-
 private:
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
-  csRef<iStringSet> stringset;
-  Mutex mutex;
+  csRef<iGraphics3D> g3d;
 
-  csPDelArray<TimeData> timearray;
+  Atmosphere* atmosphere;
+  ToneReproductor* tone_converter;
+  Navigator * navigation;
+  Projector* projection;
 
-private:
-  SkyMGR* skymanager;
-
-private:
-  void Time();
+  int timer;
+  float sky_brightness;
+  double deltaAlt, deltaAz;	// View movement
 
 public:
-  EnvironmentMGR();
-  ~EnvironmentMGR();
+  SkyMGR();
+  ~SkyMGR();
   bool Initialize(); 
   void Handle();
-
-  void Time(unsigned int hour);
-
-  SkyMGR* GetSkyMgr() { return skymanager;}
+  void Update(int delta_time);
+  void updateMove(int delta_time);
+  void turn(int turn, int pitch);
 };
 
-#endif // ENVIRONMENTMANAGER_H
+#endif // SKYMANAGER_H

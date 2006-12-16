@@ -116,12 +116,17 @@ bool EnvironmentMGR::Initialize ()
 
 //=============================================================================
 
+  skymanager = new SkyMGR();
+  skymanager->Initialize();
+
   return true;
 }
 
 void EnvironmentMGR::Handle ()
 {
-  Time();
+  //Time();
+  skymanager->Handle();
+
 }
 
 void EnvironmentMGR::Time(unsigned int hour)

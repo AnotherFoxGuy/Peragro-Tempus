@@ -83,7 +83,7 @@ private:
   Mutex mutex;
 
   unsigned int own_char_id;
-  csWeakRef<iCamera> owncam;
+  csWeakRef<iPcDefaultCamera> owncam;
   csWeakRef<iCelEntity> owncelent;
   PtEntity* ownent;
   csString ownname;
@@ -128,7 +128,7 @@ public:
   PtEntity* findPtEntById(int id);
 
   void setCharacter(unsigned int own_char) { own_char_id = own_char; }
-  iCamera* getOwnCamera() { return owncam; }
+  iPcDefaultCamera* getOwnCamera() { return owncam; }
   iCelEntity* getOwnCelEntity() { return owncelent; }
   PtEntity* getOwnPtEntity() { return ownent; }
   unsigned int GetOwnId() { return own_char_id; }

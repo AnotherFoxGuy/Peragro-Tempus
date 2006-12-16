@@ -140,6 +140,7 @@ void Client::PreProcessFrame()
   timer += ticks;
 
   effectsmanager->HandleEffects(ticks);
+  envmanager->GetSkyMgr()->updateMove(ticks);
 
   if (limitFPS > 0)
   {
@@ -161,6 +162,9 @@ void Client::PreProcessFrame()
 void Client::ProcessFrame()
 {
   handleStates();
+
+  csRef<iPcDefaultCamera> cam = entitymanager->getOwnCamera();
+  if (cam) cam->Draw();
 }
 
 void Client::PostProcessFrame()
@@ -563,6 +567,7 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
         pccamera->SetPitch(pccamera->GetPitch()-0.1f);
+        pitch = -1;
       }
       else if (code == CSKEY_PGDN)
       {
@@ -570,6 +575,7 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()+0.1f);
+        pitch = 1;
       }
       else if (code == 'c')
       {
@@ -644,6 +650,9 @@ bool Client::OnKeyboard(iEvent& ev)
       msg.setWalk(walk+1);
       msg.setTurn(turn+1);
       network->send(&msg);
+
+      // Update the sky.
+      envmanager->GetSkyMgr()->turn(turn, pitch);
     }
   }
   else if (eventtype == csKeyEventTypeUp)
@@ -667,6 +676,14 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         turn = 0;
       }
+      else if (code == CSKEY_PGUP)
+      {
+        pitch = 0;
+      }
+      else if (code == CSKEY_PGDN)
+      {
+        pitch = 0;
+      }
       else
       {
         return false;
@@ -675,6 +692,9 @@ bool Client::OnKeyboard(iEvent& ev)
       msg.setWalk(walk+1);
       msg.setTurn(turn+1);
       network->send(&msg);
+
+      // Update the sky.
+      envmanager->GetSkyMgr()->turn(turn, pitch);
     }
   }
 
@@ -692,7 +712,7 @@ bool Client::OnMouseDown(iEvent& ev)
       {
       case csmbLeft:
         {
-          csRef<iCamera> cam = entitymanager->getOwnCamera();
+          csRef<iCamera> cam = entitymanager->getOwnCamera()->GetCamera();
           if (!cam) return false;
 
           csVector3 isect, untransfCoord;
@@ -842,9 +862,10 @@ bool Client::OnMouseDown(iEvent& ev)
 
 bool Client::OnMouseMove(iEvent& e)
 {
-  csRef<iCamera> cam = entitymanager->getOwnCamera();
+  csRef<iPcDefaultCamera> cam = entitymanager->getOwnCamera();
   if (!cam) return false;
-  cursor->MouseMove(pl, cam, csMouseEventHelper::GetX(&e), csMouseEventHelper::GetY(&e));
+  if (!cam->GetCamera()->GetSector()) return false;
+  cursor->MouseMove(pl, cam->GetCamera(), csMouseEventHelper::GetX(&e), csMouseEventHelper::GetY(&e));
   return false;
 }
 

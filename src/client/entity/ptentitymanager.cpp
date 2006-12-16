@@ -134,9 +134,10 @@ void ptEntityManager::addEntity()
       csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
       pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
       pccamera->SetPitch(-0.18f);
+      pccamera->SetAutoDraw(false);
 
       // Set up own player cam and entity for faster access.
-      owncam = pccamera->GetCamera();
+      owncam = pccamera;
       ownent = entity;
       owncelent = entity->GetCelEntity();
       ownname = entity->GetName();

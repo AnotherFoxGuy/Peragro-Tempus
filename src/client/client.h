@@ -150,7 +150,7 @@ private:
 private:
   csRef<iString> load_region;
   bool playing;
-  char walk, turn;
+  char walk, turn, pitch;
   Mutex mutex;
   csTicks timer;
   iSector *room;
