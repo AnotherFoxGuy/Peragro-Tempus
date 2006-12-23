@@ -1,0 +1,137 @@
+<planets>
+<!--===============================================================================================-->
+	<planet name="Sun">
+		<hidden value='False'/>
+		<parent value='none'/>
+		<halo value='False'/>
+		<lighting value='false'/>
+		<radius value='696000'/>
+		<oblateness value='0'/>
+		<color red='1' green='1' blue='0.8'/>
+		<albedo value='-1'/>
+		<tex_map value='sun.png'/>
+		<tex_halo value='none'/>
+		<tex_big_halo value='halo.png'/>
+		<big_halo_size value='200'/>
+		<coord_func value='sun_special'/>
+
+		<rot_periode value='654.61'/>
+		<rot_rotation_offset value='0'/>
+		<rot_epoch value='2451545.0'/>
+		<rot_obliquity value='7.25'/>
+		<rot_equator_ascending value='196.13'/>
+		<rot_precession_rate value='0'/>
+		<sidereal_period value='0'/>
+
+	</planet>
+<!--===============================================================================================-->
+	<planet name="Earth">
+		<hidden value='False'/>
+		<parent value='Sun'/>
+		<halo value='True'/>
+		<lighting value='true'/>
+		<radius value='6378.14'/>
+		<oblateness value='0.00335364'/>
+		<color red='0.7' green='0.8' blue='1.2'/>
+		<albedo value='0.3'/>
+		<tex_map value='earthmap.png'/>
+		<tex_halo value='star16x16.png'/>
+		<tex_big_halo value='none'/>
+		<big_halo_size value='0'/>
+		<coord_func value='earth_special'/>
+
+		<rot_periode value='23.9344694'/>
+		<rot_rotation_offset value='280.5'/>
+		<rot_epoch value='2451545.0'/>
+		<rot_obliquity value='-23.4392803055555555556'/>
+		<rot_equator_ascending value='196.13'/>
+		<rot_precession_rate value='1.39639'/>
+		<sidereal_period value='365.25'/>
+
+	</planet>
+<!--===============================================================================================-->
+	<planet name="Solar System Observer">
+		<hidden value='True'/>
+		<parent value='Sun'/>
+		<halo value='False'/>
+		<lighting value='false'/>
+		<radius value='1'/>
+		<oblateness value='0'/>
+		<color red='0' green='0' blue='0'/>
+		<albedo value='0'/>
+		<tex_map value='lune.png'/>
+		<tex_halo value='star16x16.png'/>
+		<tex_big_halo value='none'/>
+		<big_halo_size value='0'/>
+		<coord_func value='ell_orbit'/>
+
+		<rot_periode value='24'/>
+		<rot_rotation_offset value='0'/>
+		<rot_epoch value='2451545.0'/>
+		<rot_obliquity value='90'/>
+		<rot_equator_ascending value='0'/>
+		<rot_precession_rate value='0'/>
+		<sidereal_period value='0'/>
+
+		<orbit>
+			<Period value='100000000000000'/>
+			<Epoch value='2451545.0'/>
+			<SemiMajorAxis value='1000000000000'/>
+			<Eccentricity value='0'/>
+			<Inclination value='90'/>
+			<AscendingNode value='0'/>
+			<LongOfPericenter value='0'/>
+			<MeanLongitude value='90'/>
+		</orbit>
+
+	</planet>
+<!--===============================================================================================-->
+	
+</planets>
+
+<!--
+
+<planet name="sun">
+		<hidden value='False'/>
+		<parent value='none'/>
+		<halo value='False'/>
+		<lighting value='false'/>
+		<radius value='696000'/>
+		<oblateness value='0'/>
+		<color red='1' green='1' blue='0.8'/>
+		<albedo value='-1'/>
+		<tex_map value='sun.png'/>
+		<tex_halo value='none'/>
+		<tex_big_halo value='halo.png'/>
+		<big_halo_size value='200'/>
+		<coord_func value='sun_special'/>	
+		
+		<rot_periode value='654.61'/>					default value 24
+		<rot_rotation_offset value='0'/>				default value 0
+		<rot_epoch value='2451545.0'/>					default value 2451545.0 (J2000)
+		<rot_obliquity value='7.25'/>					default value 0
+		<rot_equator_ascending value='196.13'/>	        default value 0
+		<rot_precession_rate value='0'/>				default value 0
+		<sidereal_period value='0'/>					default value 0
+
+<orbit>
+	Only used if coord_func is set to ell_orbit
+	<Period value='0'/>
+	<Epoch value='0'/>					default value 2451545.0 (J2000)
+	<SemiMajorAxis value='0'/>
+	<Eccentricity value='0'/>
+	<Inclination value='0'/>
+	<AscendingNode value='0'/>
+	<LongOfPericenter value='0'/>
+	<MeanLongitude value='0'/>
+</orbit>
+
+<rings>
+	<inner_size value='0'/>
+	<outer_size value='0'/>
+	<tex_ring value='0'/>
+</rings>
+
+</planet>
+
+-->

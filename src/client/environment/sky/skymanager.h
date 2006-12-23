@@ -36,11 +36,15 @@
 
 #include "client/pointer/pointer.h"
 
+//#include "client/environment/sky/utils/vecmath.h"
+#include "client/environment/sky/utils/tone_reproductor.h"
+#include "client/environment/sky/utils/time.h"
+
 #include "client/environment/sky/atmosphere/atmosphere.h"
 #include "client/environment/sky/projector/projector.h"
 #include "client/environment/sky/navigator/navigator.h"
-#include "client/environment/sky/utils/tone_reproductor.h"
-#include "client/environment/sky/utils/time.h"
+#include "client/environment/sky/observator/observator.h"
+#include "client/environment/sky/solarsystem/solarsystem.h"
 
 struct iObjectRegistry;
 struct iLoader;
@@ -52,15 +56,19 @@ private:
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
   csRef<iGraphics3D> g3d;
+  csRef<iVirtualClock> vc;
 
   Atmosphere* atmosphere;
   ToneReproductor* tone_converter;
   Navigator * navigation;
   Projector* projection;
+  Observator* observatory;
+  SolarSystem* ssystem;
 
   int timer;
   float sky_brightness;
   double deltaAlt, deltaAz;	// View movement
+  float deltapitch, deltayaw;
 
 public:
   SkyMGR();
@@ -69,7 +77,6 @@ public:
   void Handle();
   void Update(int delta_time);
   void updateMove(int delta_time);
-  void turn(int turn, int pitch);
 };
 
 #endif // SKYMANAGER_H

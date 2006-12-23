@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+23-Dec-2006
+  - Sueastside did more work on the environment manager.
+
 3-Dec-2006
   - Marten fixed a bunch of warnings.
   - Marten finished conversion to csQueryRegisty<>, scfQueryInterface<> etc.

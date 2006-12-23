@@ -20,10 +20,18 @@
 
 #include <iutil/objreg.h>
 
+#include <propclass/defcam.h>
+
+#include "client/entity/ptentitymanager.h"
+
 
 SkyMGR::SkyMGR ()
 {
   timer = 1001;
+  deltaAz = 0;
+  deltaAlt = 0;
+  deltapitch = 0;
+  deltayaw = 0;
 }
 
 SkyMGR::~SkyMGR ()
@@ -43,10 +51,21 @@ bool SkyMGR::Initialize ()
   g3d = csQueryRegistry<iGraphics3D> (obj_reg);
   if(!g3d) return false;
 
+  vc = csQueryRegistry<iVirtualClock> (obj_reg);
+  if(!vc) return false;
+
   atmosphere = new Atmosphere();
   tone_converter = new ToneReproductor();
 
-  navigation = new Navigator();
+  // Init the solar system first
+  ssystem = new SolarSystem();
+  ssystem->init();
+
+  // Observator
+  observatory = new Observator(*ssystem);
+  observatory->load();
+
+  navigation = new Navigator(observatory);
   navigation->init();
 
   projection = new Projector();
@@ -60,16 +79,40 @@ bool SkyMGR::Initialize ()
   return true;
 }
 
-void SkyMGR::turn(int turn, int pitch)
-{
-  deltaAz = turn;
-  deltaAlt = pitch;
-}
-
 void SkyMGR::updateMove(int delta_time)
 {
+    ptEntityManager* entitymgr = PointerLibrary::getInstance()->getEntityManager();
+    iPcDefaultCamera* cam = entitymgr->getOwnCamera();
+
+    if(!cam) return;
+
+    deltaAlt = cam->GetPitch() - deltapitch;
+    deltaAz = cam->GetYaw() - deltayaw;
+
+    deltapitch = cam->GetPitch();
+    deltayaw = cam->GetYaw();
+
+    deltaAlt *= 1.333;
+    deltaAz *= 1.333;
+
+    iCelEntity* celentity = entitymgr->getOwnCelEntity();
+    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+    if (pclinmove.IsValid())
+    {
+      float rot = 0;
+      csVector3 campos;
+      iSector* camsector = 0;
+
+      // TODO
+      pclinmove->GetLastFullPosition(campos, rot, camsector);
+      //navigation->setLocalVision(campos);
+      printf("pos before %s\n", campos.Description().GetData());
+      navigation->setLocalVision(navigation->earth_equ_to_local(campos));
+      printf("pos after %s\n", navigation->earth_equ_to_local(campos).Description().GetData());
+    }
+
     double move_speed = 0.00025;
-	double depl=move_speed*delta_time*90;
+	double depl=move_speed*delta_time*cam->GetCamera()->GetFOVAngle();
 	if (deltaAz<0)
 	{
 		deltaAz = -depl/30;
@@ -116,35 +159,20 @@ void SkyMGR::Update (int delta_time)
   navigation->updateTime(delta_time);
 
   // Position of sun and all the satellites (ie planets)
-  //ssystem->computePositions(navigation->getJDay(),
-    //navigation->getHomePlanet()->get_heliocentric_ecliptic_pos());
+  ssystem->computePositions(navigation->getJDay(),
+    navigation->getHomePlanet()->get_heliocentric_ecliptic_pos());
 
 
   // Transform matrices between coordinates systems
   navigation->updateTransformMatrices();
+  // Direction of vision
+  navigation->updateVisionVector(delta_time);
 
   // update faders and Planet trails (call after nav is updated)
-  //ssystem->update((double)delta_time/1000);
+  ssystem->update(navigation, (double)delta_time/1000);
 
   // Move the view direction and/or fov
-  //updateMove(delta_time);
-
-
-  /*// Update faders
-  equ_grid->update(delta_time);
-  azi_grid->update(delta_time);
-  equator_line->update(delta_time);
-  ecliptic_line->update(delta_time);
-  meridian_line->update(delta_time);
-  asterisms->update((double)delta_time/1000);
-  atmosphere->update(delta_time);
-  landscape->update(delta_time);
-  hip_stars->update((double)delta_time/1000);
-  nebulas->update((double)delta_time/1000);
-  cardinals_points->update(delta_time);
-  milky_way->update(delta_time);
-  telescope_mgr->update(delta_time);
-  */
+  updateMove(delta_time);
 
   // Compute the sun position in local coordinate
   csVector3 temp(0.,0.,0.);
@@ -183,7 +211,7 @@ void SkyMGR::Update (int delta_time)
 
   // compute global sky brightness 
   if(sunPos[2] < -0.1/1.5 )
-    sky_brightness = 0.01;
+    sky_brightness = 0.01f;
   else
     sky_brightness = (0.01 + 1.5*(sunPos[2]+0.1/1.5));
 
@@ -197,9 +225,6 @@ void SkyMGR::Update (int delta_time)
 
 void SkyMGR::Handle ()
 {
-  csVector3 sunPos = csVector3(1, 1, 1);
-  csVector3 moonPos = csVector3(1, 1, 1);
-
   timer += 1;
   if (timer > 70)
   {
@@ -210,9 +235,11 @@ void SkyMGR::Handle ()
     get_date(JDay,  &date);
     printf("Time is: %d:%d:%f  %d/%d/%d\n", 
       date.hours, date.minutes, date.seconds, date.days, date.months, date.years);
-
-    Update(5000);
   }
+
+  csTicks ticks = vc->GetElapsedTicks();
+
+   Update(ticks);
 
    atmosphere->draw(1);
 

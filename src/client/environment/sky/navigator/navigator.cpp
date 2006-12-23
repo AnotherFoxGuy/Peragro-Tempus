@@ -2,13 +2,12 @@
 
 #include "navigator.h"
 #include "client/environment/sky/utils/time.h"
-//#include "stel_object.h"
-//#include "solarsystem.h"
+#include "client/environment/sky/utils/vecmath.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
-Navigator::Navigator() : flag_traking(0), flag_lock_equ_pos(0), flag_auto_move(0),
-		time_speed(JD_SECOND), JDay(0.)
+Navigator::Navigator(Observator* obs) : flag_traking(0), flag_lock_equ_pos(0), flag_auto_move(0),
+		time_speed(JD_SECOND), JDay(0.), position(obs)
 {
 	local_vision=csVector3(1.,0.,0.);
 	equ_vision=csVector3(1.,0.,0.);
@@ -23,18 +22,37 @@ Navigator::~Navigator()
 void Navigator::init()
 {
 	setJDay(get_julian_from_sys());
-	setLocalVision(csVector3(1,1e-05,0.2));
+	setLocalVision(csVector3(1.0f,1.0f,0.2f));
 	// Compute transform matrices between coordinates systems
 	updateTransformMatrices();
 	updateModelViewMat();
 	setViewingMode(Navigator::VIEW_HORIZON);
-	initViewPos = csVector3(1,1e-05,0.2);
+	initViewPos = csVector3(1.0f,1.0f,0.2f);
 	setLocalVision(initViewPos);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+void Navigator::updateVisionVector(int delta_time)
+{
+	
+  if (flag_lock_equ_pos) // Equatorial vision vector locked
+  {
+    // Recalc local vision vector
+    local_vision=earth_equ_to_local(equ_vision);
+  }
+  else // Local vision vector locked
+  {
+    // Recalc equatorial vision vector
+    equ_vision=local_to_earth_equ(local_vision);
+  }
+
+  prec_equ_vision = mat_earth_equ_to_j2000*equ_vision;
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////
-void Navigator::setLocalVision(const csVector3& _pos)
+void Navigator::setLocalVision(csVector3 _pos)
 {
 	local_vision = _pos;
 	equ_vision=local_to_earth_equ(local_vision);
@@ -45,9 +63,11 @@ void Navigator::setLocalVision(const csVector3& _pos)
 void Navigator::updateMove(double deltaAz, double deltaAlt)
 {
 	double azVision, altVision;
+    azVision = 0;
+    altVision = 0;
 
-//	if( viewing_mode == VIEW_EQUATOR) StelUtils::rect_to_sphe(&azVision,&altVision,equ_vision);
-//	else StelUtils::rect_to_sphe(&azVision,&altVision,local_vision);
+	if( viewing_mode == VIEW_EQUATOR) StelUtils::rect_to_sphe(&azVision,&altVision,equ_vision);
+	else StelUtils::rect_to_sphe(&azVision,&altVision,local_vision);
 
 	// if we are moving in the Azimuthal angle (left/right)
 	if (deltaAz) azVision-=deltaAz;
@@ -63,12 +83,12 @@ void Navigator::updateMove(double deltaAz, double deltaAlt)
 	{
 		if( viewing_mode == VIEW_EQUATOR)
 		{
-//			StelUtils::sphe_to_rect(azVision, altVision, equ_vision);
+			StelUtils::sphe_to_rect(azVision, altVision, equ_vision);
 			local_vision=earth_equ_to_local(equ_vision);
 		}
 		else
 		{
-//			StelUtils::sphe_to_rect(azVision, altVision, local_vision);
+			StelUtils::sphe_to_rect(azVision, altVision, local_vision);
 			// Calc the equatorial coordinate of the direction of vision wich was in Altazimuthal coordinate
 			equ_vision=local_to_earth_equ(local_vision);
 			prec_equ_vision = mat_earth_equ_to_j2000*equ_vision;
@@ -92,84 +112,28 @@ void Navigator::updateTime(int delta_time)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-csMatrix3 Navigator::xrotation(float angle)
-{
-    float c = cos(angle);
-    float s = sin(angle);
-
-    return csMatrix3(1, 0, 0, 
-                     0, c, s,
-                     0,-s, c);
-}
-
-csMatrix3 Navigator::yrotation(float angle)
-{
-    float c = cos(angle);
-    float s = sin(angle);
-
-    return csMatrix3(c, 0,-s,
-                     0, 1, 0,
-                     s, 0, c);
-}
-
-csMatrix3 Navigator::zrotation(float angle)
-{
-    float c = cos(angle);
-    float s = sin(angle);
-
-    return csMatrix3(c, s, 0,
-                     -s, c, 0,
-                     0, 0, 1);
-}
-////////////////////////////////////////////////////////////////////////////////
-csMatrix3 Navigator::translation(csVector3 a)
-{
-  csReversibleTransform transf;
-  transf.Identity();
-  transf.Translate( csVector3(a[0], a[1], a[2]) );
-
-  return transf.GetT2O();
-}
-////////////////////////////////////////////////////////////////////////////////
-csMatrix3 Navigator::getRotLocalToEquatorial(double jd) 
-{
-  // TODO currently hardcoded.
-  double lat = 48.;
-  double longitude = 2.;
-  double planetSiderealTime = 50; //planet->getSiderealTime(jd)
-  // TODO: Figure out how to keep continuity in sky as reach poles
-  // otherwise sky jumps in rotation when reach poles in equatorial mode
-  if( lat > 89.5 )  lat = 89.5;
-  if( lat < -89.5 ) lat = -89.5;
-  return zrotation((planetSiderealTime+longitude)*(M_PI/180.))
-       * yrotation((90.-lat)*(M_PI/180.));
-}
-////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////
 
 void Navigator::updateTransformMatrices(void)
 {
-  Position* position = new Position();
 
-  mat_j2000_to_vsop87 = (xrotation(-23.4392803055555555556*(M_PI/180)) 
-                         * zrotation(0.0000275*(M_PI/180)));
-  mat_vsop87_to_j2000 = (mat_j2000_to_vsop87.GetTranspose());
+  mat_j2000_to_vsop87 = (xrotation((float)(-23.4392803055555555556*(M_PI/180)))
+                         * zrotation((float)(0.0000275*(M_PI/180))));
 
-  mat_local_to_earth_equ = getRotLocalToEquatorial(JDay);
-  mat_earth_equ_to_local = mat_local_to_earth_equ.GetTranspose();
+  mat_vsop87_to_j2000 = (mat_j2000_to_vsop87.GetInverse());
+
+  mat_local_to_earth_equ = position->getRotLocalToEquatorial(JDay);
+  mat_earth_equ_to_local = mat_local_to_earth_equ.GetInverse();
 
   mat_earth_equ_to_j2000 = (mat_vsop87_to_j2000 * position->getRotEquatorialToVsop87());
-  mat_j2000_to_earth_equ = mat_earth_equ_to_j2000.GetTranspose();
+  mat_j2000_to_earth_equ = mat_earth_equ_to_j2000.GetInverse();
 
-	mat_helio_to_earth_equ =
-	    mat_j2000_to_earth_equ *
-        mat_vsop87_to_j2000 *
-	    translation(-position->getCenterVsop87Pos());
+  mat_helio_to_earth_equ = mat_j2000_to_earth_equ *
+                           mat_vsop87_to_j2000 *
+	                       translation(-position->getCenterVsop87Pos());
 
 
 	// These two next have to take into account the position of the observer on the earth
-	csMatrix3 tmp =
+	csReversibleTransform tmp =
 	    mat_j2000_to_vsop87 *
 	    mat_earth_equ_to_j2000 *
         mat_local_to_earth_equ;
@@ -179,7 +143,7 @@ void Navigator::updateTransformMatrices(void)
 	                      translation(csVector3(0.,0., position->getDistanceFromCenter()));
 
 	mat_helio_to_local =  translation(csVector3(0.,0.,-position->getDistanceFromCenter())) *
-	                      tmp.GetTranspose() *
+	                      tmp.GetInverse() *
 	                      translation(-position->getCenterVsop87Pos());
 
 }
@@ -191,7 +155,7 @@ void Navigator::updateModelViewMat(void)
 
   csVector3 f;
 
-  if( viewing_mode == VIEW_EQUATOR)
+  if ( viewing_mode == VIEW_EQUATOR)
   {
     // view will use equatorial coordinates, so that north is always up
     f = equ_vision;
@@ -207,7 +171,7 @@ void Navigator::updateModelViewMat(void)
   csVector3 s(f[1],-f[0],0.);
 
 
-  if( viewing_mode == VIEW_EQUATOR)
+  if ( viewing_mode == VIEW_EQUATOR)
   {
     // convert everything back to local coord
     f = local_vision;
@@ -223,7 +187,9 @@ void Navigator::updateModelViewMat(void)
                    s[1],u[1],-f[1],
                    s[2],u[2],-f[2]);
 
-  mat_local_to_eye = matrix;
+  csReversibleTransform transf(matrix, csVector3(0,0,0));
+
+  mat_local_to_eye = transf;
 
 
   mat_earth_equ_to_eye = mat_local_to_eye*mat_earth_equ_to_local;

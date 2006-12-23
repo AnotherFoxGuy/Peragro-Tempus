@@ -1,16 +1,18 @@
 
 
-#ifndef _S_UTILITY_H_
-#define _S_UTILITY_H_
+#ifndef _S_TIME_H_
+#define _S_TIME_H_
 
 #include <string>
 #include <map>
 #include <ctime>
 
-using namespace std;
 
-typedef map< string, string > stringHash_t;
-typedef stringHash_t::const_iterator stringHashIter_t;
+// Conversion in standar Julian time format
+#define JD_SECOND 0.000011574074074074074074
+#define JD_MINUTE 0.00069444444444444444444
+#define JD_HOUR   0.041666666666666666666
+#define JD_DAY    1.
 
 // astonomical unit (km)
 #define AU 149597870.691
@@ -55,12 +57,12 @@ void get_tm_from_julian(double JD, struct tm * tm_time);
 float get_GMT_shift_from_system(double JD, bool _local=0);
 
 //! Return the time zone name taken from system locale
-wstring get_time_zone_name_from_system(double JD);
+std::wstring get_time_zone_name_from_system(double JD);
 
 //! Return the time in ISO 8601 UTC format that is : %Y-%m-%d %H:%M:%S
-string get_ISO8601_time_UTC(double JD);
+std::string get_ISO8601_time_UTC(double JD);
 
 // convert string in ISO 8601-like format [+/-]YYYY-MM-DDThh:mm:ss (no timezone offset) to julian day
-int string_to_jday(string date, double &jd);
+int string_to_jday(std::string date, double &jd);
 
 #endif

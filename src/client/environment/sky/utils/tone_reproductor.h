@@ -35,7 +35,7 @@ public:
 	// Return adapted luminance from world to display
 	float adapt_luminance(float world_luminance) const
 	{
-		return std::pow((float)(world_luminance*M_PI*0.0001f),alpha_wa_over_alpha_da) * term2;
+		return pow((float)(world_luminance*M_PI*0.0001f),alpha_wa_over_alpha_da) * term2;
 	}
 
 	// Convert from xyY color system to RGB

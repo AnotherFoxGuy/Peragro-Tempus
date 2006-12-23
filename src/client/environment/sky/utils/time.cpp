@@ -16,7 +16,7 @@
 
 // convert string int ISO 8601-like format [+/-]YYYY-MM-DDThh:mm:ss (no timzone offset)
 // to julian day
-int string_to_jday(string date, double &jd)
+int string_to_jday(std::string date, double &jd)
 {
 	char tmp;
 	int year, month, day, hour, minute, second;
@@ -222,7 +222,7 @@ float get_GMT_shift_from_system(double JD, bool _local)
 }
 
 // Return the time zone name taken from system locale
-wstring get_time_zone_name_from_system(double JD)
+std::wstring get_time_zone_name_from_system(double JD)
 {
 	// Windows will crash if date before 1970
 	// And no changes on Linux before that year either
@@ -244,7 +244,7 @@ wstring get_time_zone_name_from_system(double JD)
 
 
 // Return the time in ISO 8601 format that is : %Y-%m-%d %H:%M:%S
-string get_ISO8601_time_UTC(double JD)
+std::string get_ISO8601_time_UTC(double JD)
 {
 	struct tm time_utc;
 	get_tm_from_julian(JD, &time_utc);

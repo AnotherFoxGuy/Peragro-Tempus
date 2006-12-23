@@ -3,8 +3,9 @@
 #ifndef _OBSERVATOR_H_
 #define _OBSERVATOR_H_
 
-#include "init_parser.h"
-#include "vecmath.h"
+//#include "init_parser.h"
+
+#include "client/environment/sky/solarsystem/planet.h"
 
 class Observator
 {
@@ -12,20 +13,20 @@ public:
 
 	Observator(const class SolarSystem &ssystem);
 	~Observator();
-    bool setHomePlanet(const string &english_name);
+    bool setHomePlanet(csString english_name);
     const class Planet *getHomePlanet(void) const {return planet;}
     string getHomePlanetEnglishName(void) const;
     wstring getHomePlanetNameI18n(void) const;
 
-    Vec3d getCenterVsop87Pos(void) const;
+    csVector3 getCenterVsop87Pos(void) const;
     double getDistanceFromCenter(void) const;
-    Mat4d getRotLocalToEquatorial(double jd) const;
-    Mat4d getRotEquatorialToVsop87(void) const;
+    csReversibleTransform getRotLocalToEquatorial(double jd) const;
+    csReversibleTransform getRotEquatorialToVsop87(void) const;
 
 	void save(const string& file, const string& section) const;
-	void setConf(InitParser &conf, const string& section) const;
+	void setConf(/*InitParser &conf, const string& section*/) const;
 	void load(const string& file, const string& section);
-	void load(const InitParser& conf, const string& section);
+	void load(/*const InitParser& conf, const string& section*/);
 
 	wstring get_name(void) const;
 

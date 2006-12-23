@@ -50,39 +50,7 @@
 #include <ivideo/natwin.h>
 #include <ivideo/txtmgr.h>
 #include <ivideo/material.h>
-/*
-#include "physicallayer/pl.h"
-#include "physicallayer/propfact.h"
-#include "physicallayer/propclas.h"
-#include "physicallayer/entity.h"
-#include "physicallayer/persist.h"
-#include "celtool/initapp.h"
-#include "celtool/persisthelper.h"
-#include "celtool/stdparams.h"
-#include "behaviourlayer/bl.h"
-#include "propclass/test.h"
-#include "propclass/mesh.h"
-#include "propclass/meshsel.h"
-#include "propclass/solid.h"
-#include "propclass/inv.h"
-#include "propclass/chars.h"
-#include "propclass/move.h"
-#include "propclass/prop.h"
-#include "propclass/tooltip.h"
-#include "propclass/defcam.h"
-#include "propclass/gravity.h"
-#include "propclass/timer.h"
-#include "propclass/region.h"
-#include "propclass/input.h"
-#include "propclass/navgraph.h"
-#include "propclass/linmove.h"
-#include "propclass/actormove.h"
-#include "propclass/quest.h"
-#include "propclass/trigger.h"
-#include "propclass/zone.h"
-#include "propclass/sound.h"
-#include <propclass/colldet.h>
-*/
+
 #include "cursor.h"
 #include "client/network/network.h"
 #include "client/gui/gui.h"
@@ -567,7 +535,6 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
         pccamera->SetPitch(pccamera->GetPitch()-0.1f);
-        pitch = -1;
       }
       else if (code == CSKEY_PGDN)
       {
@@ -575,7 +542,6 @@ bool Client::OnKeyboard(iEvent& ev)
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()+0.1f);
-        pitch = 1;
       }
       else if (code == 'c')
       {
@@ -650,9 +616,6 @@ bool Client::OnKeyboard(iEvent& ev)
       msg.setWalk(walk+1);
       msg.setTurn(turn+1);
       network->send(&msg);
-
-      // Update the sky.
-      envmanager->GetSkyMgr()->turn(turn, pitch);
     }
   }
   else if (eventtype == csKeyEventTypeUp)
@@ -676,14 +639,6 @@ bool Client::OnKeyboard(iEvent& ev)
       {
         turn = 0;
       }
-      else if (code == CSKEY_PGUP)
-      {
-        pitch = 0;
-      }
-      else if (code == CSKEY_PGDN)
-      {
-        pitch = 0;
-      }
       else
       {
         return false;
@@ -692,9 +647,6 @@ bool Client::OnKeyboard(iEvent& ev)
       msg.setWalk(walk+1);
       msg.setTurn(turn+1);
       network->send(&msg);
-
-      // Update the sky.
-      envmanager->GetSkyMgr()->turn(turn, pitch);
     }
   }
 

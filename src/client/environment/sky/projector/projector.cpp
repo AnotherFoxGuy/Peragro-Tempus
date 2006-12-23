@@ -95,10 +95,10 @@ void Projector::change_fov(double deltaFov)
 
 
 // Set the standard modelview matrices used for projection
-void Projector::set_modelview_matrices(	const csMatrix3& _mat_earth_equ_to_eye,
-					                    const csMatrix3& _mat_helio_to_eye,
-					                    const csMatrix3& _mat_local_to_eye,
-					                    const csMatrix3& _mat_j2000_to_eye)
+void Projector::set_modelview_matrices(	const csReversibleTransform& _mat_earth_equ_to_eye,
+					                    const csReversibleTransform& _mat_helio_to_eye,
+					                    const csReversibleTransform& _mat_local_to_eye,
+					                    const csReversibleTransform& _mat_j2000_to_eye)
 {
 	mat_earth_equ_to_eye = _mat_earth_equ_to_eye;
 	mat_j2000_to_eye = _mat_j2000_to_eye;

@@ -44,6 +44,7 @@ bool EnvironmentMGR::Initialize ()
     "crystalspace.shared.stringset");
   if(!stringset) return false;
 
+/*
 //=============================================================================
   csRef<iDocumentSystem> docsys =  csQueryRegistry<iDocumentSystem> (obj_reg);
 
@@ -115,6 +116,7 @@ bool EnvironmentMGR::Initialize ()
   printf("================================= %d sun color(s)\n\n", sunarray.Length()-1);
 
 //=============================================================================
+*/
 
   skymanager = new SkyMGR();
   skymanager->Initialize();

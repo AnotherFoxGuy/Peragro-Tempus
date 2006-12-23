@@ -8,24 +8,14 @@
 #include <iutil/virtclk.h>
 #include <iengine/engine.h>
 #include <csgeom/path.h>
-#include <csgeom/math3d.h>
 #include <iutil/object.h>
 #include <csutil/cscolor.h>
 #include <ivideo/graph3d.h>
-#include <csgeom/vector4.h>
-#include <csgeom/transfrm.h>
 
-#define M_PI       3.14159265358979323846
-#define M_PI_2     1.57079632679489661923
-#define M_PI_4     0.785398163397448309616
+#include "client/environment/sky/utils/time.h"
+#include "client/environment/sky/utils/utils.h"
 
-// Conversion in standar Julian time format
-#define JD_SECOND 0.000011574074074074074074
-#define JD_MINUTE 0.00069444444444444444444
-#define JD_HOUR   0.041666666666666666666
-#define JD_DAY    1.
-
-//class StelObject;
+#include "client/environment/sky/observator/observator.h"
 
 // Class which manages a navigation context
 // Manage date/time, viewing direction/fov, observer position, and coordinate changes
@@ -39,13 +29,14 @@ public:
 		VIEW_EQUATOR
 	};
 	// Create and initialise to default a navigation context
-	Navigator();
+	Navigator(Observator* obs);
     virtual ~Navigator();
 
 	virtual void init();
 
 	void updateTime(int delta_time);
 	void updateTransformMatrices(void);
+    void updateVisionVector(int delta_time);
 
 	// Move to the given position in equatorial or local coordinate depending on _local_pos value
 	void moveTo(const csVector3& _aim, float move_duration = 1., bool _local_pos = false, int zooming = 0);
@@ -55,7 +46,7 @@ public:
 	void setJDay(double JD) {JDay=JD;}
 	//! Get the current date in Julian Day
 	double getJDay(void) const {return JDay;}
-	
+
 	//! Set time speed in JDay/sec
 	void setTimeSpeed(double ts) {time_speed=ts;}
 	//! Get time speed in JDay/sec
@@ -70,9 +61,9 @@ public:
 	// Get vision direction
 	const csVector3& getPrecEquVision(void) const {return prec_equ_vision;}
 	const csVector3& getLocalVision(void) const {return local_vision;}
-	void setLocalVision(const csVector3& _pos);
+	void setLocalVision(csVector3 _pos);
 
-	//const Planet *getHomePlanet(void) const {return homePlanet;}
+	const class Planet *getHomePlanet(void) const {return position->getHomePlanet();}
 
     // Return the observer heliocentric position
 	csVector3 getObserverHelioPos(void) const;
@@ -97,14 +88,14 @@ public:
 	// coordinate but centered on the observer position (usefull for objects close to earth)
 	csVector3 helio_to_earth_pos_equ(const csVector3& v) const { return mat_local_to_earth_equ*mat_helio_to_local*v; }
 
-    csMatrix3 mat_j2000_to_vsop87;
-    csMatrix3 mat_vsop87_to_j2000;
+    csReversibleTransform mat_j2000_to_vsop87;
+    csReversibleTransform mat_vsop87_to_j2000;
 
 	// Return the modelview matrix for some coordinate systems
-	csMatrix3 get_helio_to_eye_mat(void)  {return mat_helio_to_eye;}
-	csMatrix3 get_earth_equ_to_eye_mat(void)  {return mat_earth_equ_to_eye;}
-	csMatrix3 get_local_to_eye_mat(void) {return mat_local_to_eye;}
-	csMatrix3 get_j2000_to_eye_mat(void)  {return mat_j2000_to_eye;}
+	csReversibleTransform get_helio_to_eye_mat(void)  {return mat_helio_to_eye;}
+	csReversibleTransform get_earth_equ_to_eye_mat(void)  {return mat_earth_equ_to_eye;}
+	csReversibleTransform get_local_to_eye_mat(void) {return mat_local_to_eye;}
+	csReversibleTransform get_j2000_to_eye_mat(void)  {return mat_j2000_to_eye;}
 
 	void updateMove(double deltaAz, double deltaAlt);
 
@@ -112,7 +103,7 @@ public:
 	VIEWING_MODE_TYPE getViewingMode(void) const {return viewing_mode;}
 
 	const csVector3& getinitViewPos() {return initViewPos;}
-	
+
 private:
 	// Update the modelview matrices
 	void updateModelViewMat(void);
@@ -129,18 +120,18 @@ private:
 
 
 	// Matrices used for every coordinate transfo
-	csMatrix3 mat_helio_to_local;		// Transform from Heliocentric to Observator local coordinate
-	csMatrix3 mat_local_to_helio;		// Transform from Observator local coordinate to Heliocentric
-	csMatrix3 mat_local_to_earth_equ;	// Transform from Observator local coordinate to Earth Equatorial
-	csMatrix3 mat_earth_equ_to_local;	// Transform from Observator local coordinate to Earth Equatorial
-	csMatrix3 mat_helio_to_earth_equ;	// Transform from Heliocentric to earth equatorial coordinate
-	csMatrix3 mat_earth_equ_to_j2000;
-	csMatrix3 mat_j2000_to_earth_equ;
+	csReversibleTransform mat_helio_to_local;		// Transform from Heliocentric to Observator local coordinate
+	csReversibleTransform mat_local_to_helio;		// Transform from Observator local coordinate to Heliocentric
+	csReversibleTransform mat_local_to_earth_equ;	// Transform from Observator local coordinate to Earth Equatorial
+	csReversibleTransform mat_earth_equ_to_local;	// Transform from Observator local coordinate to Earth Equatorial
+	csReversibleTransform mat_helio_to_earth_equ;	// Transform from Heliocentric to earth equatorial coordinate
+	csReversibleTransform mat_earth_equ_to_j2000;
+	csReversibleTransform mat_j2000_to_earth_equ;
 
-	csMatrix3 mat_local_to_eye;			// Modelview matrix for observer local drawing
-	csMatrix3 mat_earth_equ_to_eye;		// Modelview matrix for geocentric equatorial drawing
-	csMatrix3 mat_j2000_to_eye;	        // precessed version
-	csMatrix3 mat_helio_to_eye;			// Modelview matrix for heliocentric equatorial drawing
+	csReversibleTransform mat_local_to_eye;			// Modelview matrix for observer local drawing
+	csReversibleTransform mat_earth_equ_to_eye;		// Modelview matrix for geocentric equatorial drawing
+	csReversibleTransform mat_j2000_to_eye;	        // precessed version
+	csReversibleTransform mat_helio_to_eye;			// Modelview matrix for heliocentric equatorial drawing
 
 	// Vision variables
 	csVector3 local_vision, equ_vision, prec_equ_vision;	// Viewing direction in local and equatorial coordinates
@@ -160,21 +151,8 @@ private:
 
 	VIEWING_MODE_TYPE viewing_mode;   // defines if view corrects for horizon, or uses equatorial coordinates
 
-    //Planet position;
-    struct Position
-    {
-      float getDistanceFromCenter() { return 20000.0f; }
-      csVector3 getCenterVsop87Pos() { return csVector3(2000,2000,2000);}
-      csMatrix3 getRotEquatorialToVsop87() {return csMatrix3(); }
-    };
+    Observator* position;
 
-public:
-    // Util functions
-    csMatrix3 xrotation(float angle);
-    csMatrix3 yrotation(float angle);
-    csMatrix3 zrotation(float angle);
-    csMatrix3 translation(csVector3 a);
-    csMatrix3 getRotLocalToEquatorial(double jd);
 };
 
 #endif //NAVIGATOR_H_

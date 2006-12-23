@@ -4,13 +4,19 @@
 #include <cstdlib>
 #include <algorithm>
 
-#include "stellarium.h"
-#include "stel_utility.h"
-#include "init_parser.h"
-#include "observator.h"
-#include "solarsystem.h"
-#include "planet.h"
-#include "translator.h"
+#include <cssysdef.h>
+#include "ivaria/reporter.h"
+
+#include "client/pointer/pointer.h"
+
+
+#include "client/environment/sky/utils/vecmath.h"
+
+#include "client/environment/sky/observator/observator.h"
+#include "client/environment/sky/solarsystem/solarsystem.h"
+
+
+
 
 Observator::Observator(const SolarSystem &ssystem)
            :ssystem(ssystem), planet(0),
@@ -24,7 +30,7 @@ Observator::~Observator()
 {
 }
 
-Vec3d Observator::getCenterVsop87Pos(void) const {
+csVector3 Observator::getCenterVsop87Pos(void) const {
   return planet->get_heliocentric_ecliptic_pos();
 }
 
@@ -32,23 +38,24 @@ double Observator::getDistanceFromCenter(void) const {
   return planet->getRadius() + (altitude/(1000*AU));
 }
 
-Mat4d Observator::getRotLocalToEquatorial(double jd) const {
+csReversibleTransform Observator::getRotLocalToEquatorial(double jd) const {
   double lat = latitude;
   // TODO: Figure out how to keep continuity in sky as reach poles
   // otherwise sky jumps in rotation when reach poles in equatorial mode
   // This is a kludge
   if( lat > 89.5 )  lat = 89.5;
   if( lat < -89.5 ) lat = -89.5;
-  return Mat4d::zrotation((planet->getSiderealTime(jd)+longitude)*(M_PI/180.))
-       * Mat4d::yrotation((90.-lat)*(M_PI/180.));
+  return zrotation((planet->getSiderealTime(jd)+longitude)*(M_PI/180.))
+       * yrotation((90.-lat)*(M_PI/180.));
 }
 
-Mat4d Observator::getRotEquatorialToVsop87(void) const {
+csReversibleTransform Observator::getRotEquatorialToVsop87(void) const {
   return planet->getRotEquatorialToVsop87();
 }
 
 void Observator::load(const string& file, const string& section)
 {
+  /*
 	InitParser conf;
 	conf.load(file);
 	if (!conf.find_entry(section))
@@ -57,9 +64,10 @@ void Observator::load(const string& file, const string& section)
 		assert(0);
 	}
 	load(conf, section);
+    */
 }
 
-bool Observator::setHomePlanet(const string &english_name) {
+bool Observator::setHomePlanet(csString english_name) {
   Planet *p = ssystem.searchByEnglishName(english_name);
   if (p) {
     planet = p;
@@ -69,8 +77,9 @@ bool Observator::setHomePlanet(const string &english_name) {
 }
 
 
-void Observator::load(const InitParser& conf, const string& section)
+void Observator::load(/*const InitParser& conf, const string& section*/)
 {
+/*
 	name = _(conf.get_str(section, "name").c_str());
 
 	for (string::size_type i=0;i<name.length();++i)
@@ -82,18 +91,25 @@ void Observator::load(const InitParser& conf, const string& section)
       planet = ssystem.getEarth();
     }
 
-    cout << "Loading location: \"" << StelUtils::wstringToString(name) <<"\", on " << planet->getEnglishName();
-
-//    printf("(home_planet should be: \"%s\" is: \"%s\") ",
-//           conf.get_str(section, "home_planet").c_str(),
-//           planet->getEnglishName().c_str());
 	latitude  = StelUtils::get_dec_angle(conf.get_str(section, "latitude"));
 	longitude = StelUtils::get_dec_angle(conf.get_str(section, "longitude"));
 	altitude = conf.get_int(section, "altitude");
-	set_landscape_name(conf.get_str(section, "landscape_name", "sea"));
 
-	printf(" (landscape is: \"%s\")\n", landscape_name.c_str());
+*/
+  if (!setHomePlanet("Earth"))
+  {
+    planet = ssystem.getEarth();
+  }
+  if(!planet)
+  {
+    iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+    csRef<iReporter> report = csQueryRegistry<iReporter> (obj_reg);
+    report->Report(CS_REPORTER_SEVERITY_ERROR, "pt.observator", "No home planet!");
+  }
 
+    latitude  = 48;
+    longitude = 02;
+    altitude = 83;
 }
 
 void Observator::set_landscape_name(const string s) {
@@ -106,6 +122,7 @@ void Observator::set_landscape_name(const string s) {
 
 void Observator::save(const string& file, const string& section) const
 {
+/*
 	printf("Saving location %s to file %s\n",StelUtils::wstringToString(name).c_str(), file.c_str());
 
 	InitParser conf;
@@ -114,13 +131,14 @@ void Observator::save(const string& file, const string& section) const
 	setConf(conf,section);
 
 	conf.save(file);
+*/
 }
 
 
 // change settings but don't write to files
-void Observator::setConf(InitParser & conf, const string& section) const
+void Observator::setConf(/*InitParser & conf, const string& section*/) const
 {
-
+/*
 	conf.set_str(section + ":name", StelUtils::wstringToString(name));
 	conf.set_str(section + ":home_planet", planet->getEnglishName());
 	conf.set_str(section + ":latitude",
@@ -137,6 +155,7 @@ void Observator::setConf(InitParser & conf, const string& section) const
 
 	// TODO: clear out old timezone settings from this section
 	// if still in loaded conf?  Potential for confusion.
+*/
 }
 
 
@@ -167,7 +186,7 @@ wstring Observator::get_name(void) const
 }
 
 string Observator::getHomePlanetEnglishName(void) const {
-  return planet ? planet->getEnglishName() : "";
+  return planet ? planet->getEnglishName().GetData() : "";
 }
 
 wstring Observator::getHomePlanetNameI18n(void) const {
