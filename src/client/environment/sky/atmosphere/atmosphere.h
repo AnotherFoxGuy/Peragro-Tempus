@@ -51,9 +51,10 @@ class Atmosphere
 public:
     Atmosphere();
     virtual ~Atmosphere();
-	void compute_color(double JD, csVector3 sunPos, csVector3 moonPos, float moon_phase, ToneReproductor * eye, Projector* prj,
-		float latitude = 48.f, float altitude = 83.f,
-		float temperature = 15.f, float relative_humidity = 40.f);
+	void compute_color(double JD, csVector3 sunPos, csVector3 moonPos, float moon_phase, 
+                       ToneReproductor * eye, Projector* prj,
+		               float latitude = 48.f, float altitude = 83.f,
+		               float temperature = 15.f, float relative_humidity = 40.f);
 	void draw(int delta_time);
     void update(int delta_time){}
 

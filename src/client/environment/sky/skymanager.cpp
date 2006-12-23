@@ -156,6 +156,7 @@ void SkyMGR::updateMove(int delta_time)
 
 void SkyMGR::Update (int delta_time)
 {
+  observatory->update(delta_time);
   navigation->updateTime(delta_time);
 
   // Position of sun and all the satellites (ie planets)
@@ -173,6 +174,8 @@ void SkyMGR::Update (int delta_time)
 
   // Move the view direction and/or fov
   updateMove(delta_time);
+
+  atmosphere->update(delta_time);
 
   // Compute the sun position in local coordinate
   csVector3 temp(0.,0.,0.);
@@ -201,7 +204,9 @@ void SkyMGR::Update (int delta_time)
 
  // Compute the atmosphere color and intensity
   atmosphere->compute_color(navigation->getJDay(), sunPos, moonPos, 1,
-    tone_converter, projection, 15.f, 40.f);
+                            tone_converter, projection, 
+                            observatory->get_latitude(), observatory->get_altitude(), 
+                            15.f, 40.f);
  
   tone_converter->set_world_adaptation_luminance(atmosphere->get_world_adaptation_luminance());
 

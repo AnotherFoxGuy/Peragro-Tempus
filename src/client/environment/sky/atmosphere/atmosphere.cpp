@@ -53,7 +53,8 @@ Atmosphere::~Atmosphere()
 
 void Atmosphere::compute_color(double JD, csVector3 sunPos, csVector3 moonPos, float moon_phase,
                                ToneReproductor * eye, Projector* prj,
-                               float latitude, float altitude, float temperature, float relative_humidity)
+                               float latitude, float altitude, 
+                               float temperature, float relative_humidity)
 {
 
 	float min_mw_lum = 0.13f;
