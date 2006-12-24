@@ -201,9 +201,9 @@ csVector3 EllipticalOrbit::positionAtE(double E) const
         z = 0.0;
     }
 
-    csReversibleTransform R = (yrotation(ascendingNode) *
-                   xrotation(inclination) *
-                   yrotation(argOfPeriapsis));
+    csMatrix4 R = (csMatrix4::yrotation(ascendingNode) *
+                   csMatrix4::xrotation(inclination) *
+                   csMatrix4::yrotation(argOfPeriapsis));
 
     return R * csVector3(x, 0, z);
 }

@@ -17,6 +17,7 @@
 #include "client/pointer/pointer.h"
 
 #include "client/environment/sky/utils/time.h"
+#include "client/environment/sky/utils/vecmath.h"
 
 
 struct iObjectRegistry;
@@ -122,10 +123,10 @@ public:
 				pos[0]>vec_viewport[0] && pos[0]<(vec_viewport[0] + vec_viewport[2]));}
 
 	// Set the standard modelview matrices used for projection
-	void set_modelview_matrices(const csReversibleTransform& _mat_earth_equ_to_eye,
-				    const csReversibleTransform& _mat_helio_to_eye,
-				    const csReversibleTransform& _mat_local_to_eye,
-				    const csReversibleTransform& _mat_j2000_to_eye);
+	void set_modelview_matrices(csMatrix4 _mat_earth_equ_to_eye,
+				                csMatrix4 _mat_helio_to_eye,
+				                csMatrix4 _mat_local_to_eye,
+				                csMatrix4 _mat_j2000_to_eye);
 
 	// Return in vector "win" the projection on the screen of point v in earth equatorial coordinate
 	// according to the current modelview and projection matrices (reimplementation of gluProject)
@@ -180,18 +181,18 @@ public:
 		{unproject(x, y, inv_mat_local_to_eye, v);}
 
 	// Same function but using a custom modelview matrix
-	virtual bool project_custom(const csVector3& v, csVector3& win, const csReversibleTransform& mat) const
+	virtual bool project_custom(const csVector3& v, csVector3& win, const csMatrix4& mat) const
 	{
 		//gluProject(v[0],v[1],v[2],mat,mat_projection,vec_viewport,&win[0],&win[1],&win[2]);
 		return (win[2]<1.);
 	}
 
-    bool project_custom_check(const csVector3& v, csVector3& win, const csReversibleTransform& mat) const
+    bool project_custom_check(const csVector3& v, csVector3& win, const csMatrix4& mat) const
 		{return (project_custom(v, win, mat) && check_in_viewport(win));}
 	// project two points and make sure both are in front of viewer and that at least one is on screen
 
     bool project_custom_line_check(const csVector3& v1, csVector3& win1,
-					       const csVector3& v2, csVector3& win2, const csReversibleTransform& mat) const
+					       const csVector3& v2, csVector3& win2, const csMatrix4& mat) const
 		{return project_custom(v1, win1, mat) && project_custom(v2, win2, mat) &&
 		   (check_in_viewport(win1) || check_in_viewport(win2));}
 
@@ -227,30 +228,31 @@ protected:
 	double max_fov;				// Maximum fov in degree
 	double zNear, zFar;			// Near and far clipping planes
 	csVector4 vec_viewport;			// Viewport parameters
-	csReversibleTransform mat_projection;		// Projection matrix
+	csMatrix4 mat_projection;		// Projection matrix
 
 	csVector3 center;				// Viewport center in screen pixel
 	double view_scaling_factor;	// ??
 	double flip_horz,flip_vert;
 
-	csReversibleTransform mat_earth_equ_to_eye;		// Modelview Matrix for earth equatorial projection
-	csReversibleTransform mat_j2000_to_eye;         // for precessed equ coords
-	csReversibleTransform mat_helio_to_eye;			// Modelview Matrix for earth equatorial projection
-	csReversibleTransform mat_local_to_eye;			// Modelview Matrix for earth equatorial projection
-	csReversibleTransform inv_mat_earth_equ_to_eye;	// Inverse of mat_projection*mat_earth_equ_to_eye
-	csReversibleTransform inv_mat_j2000_to_eye;		// Inverse of mat_projection*mat_earth_equ_to_eye
-	csReversibleTransform inv_mat_helio_to_eye;		// Inverse of mat_projection*mat_helio_to_eye
-	csReversibleTransform inv_mat_local_to_eye;		// Inverse of mat_projection*mat_local_to_eye
+	csMatrix4 mat_earth_equ_to_eye;		// Modelview Matrix for earth equatorial projection
+	csMatrix4 mat_j2000_to_eye;         // for precessed equ coords
+	csMatrix4 mat_helio_to_eye;			// Modelview Matrix for earth equatorial projection
+	csMatrix4 mat_local_to_eye;			// Modelview Matrix for earth equatorial projection
+	csMatrix4 inv_mat_earth_equ_to_eye;	// Inverse of mat_projection*mat_earth_equ_to_eye
+	csMatrix4 inv_mat_j2000_to_eye;		// Inverse of mat_projection*mat_earth_equ_to_eye
+	csMatrix4 inv_mat_helio_to_eye;		// Inverse of mat_projection*mat_helio_to_eye
+	csMatrix4 inv_mat_local_to_eye;		// Inverse of mat_projection*mat_local_to_eye
 
 	// transformation from screen 2D point x,y to object
 	// m is here the already inverted full tranfo matrix
 	virtual
-    void unproject(double x, double y, const csReversibleTransform& m, csVector3& v) const
+    void unproject(double x, double y, csMatrix4 m, csVector3& v) const
 	{
 		v.Set(	(x - vec_viewport[0]) * 2. / vec_viewport[2] - 1.0,
 				(y - vec_viewport[1]) * 2. / vec_viewport[3] - 1.0,
 				1.0);
-		v = m*v;
+        m.transfo4d(v); //TODO Is this transform correct?
+		//v = m*v;
 	}
 
 	// Automove

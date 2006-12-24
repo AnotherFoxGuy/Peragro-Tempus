@@ -111,40 +111,41 @@ void Navigator::updateTime(int delta_time)
 	if (JDay<-34803211.500012) JDay = -34803211.500012;
 }
 
+const csMatrix4 mat_j2000_to_vsop87(
+              csMatrix4::xrotation(-23.4392803055555555556*(M_PI/180)) *
+              csMatrix4::zrotation(0.0000275*(M_PI/180)));
+
+const csMatrix4 mat_vsop87_to_j2000(mat_j2000_to_vsop87.GetTranspose());
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void Navigator::updateTransformMatrices(void)
 {
 
-  mat_j2000_to_vsop87 = (xrotation((float)(-23.4392803055555555556*(M_PI/180)))
-                         * zrotation((float)(0.0000275*(M_PI/180))));
-
-  mat_vsop87_to_j2000 = (mat_j2000_to_vsop87.GetInverse());
-
   mat_local_to_earth_equ = position->getRotLocalToEquatorial(JDay);
-  mat_earth_equ_to_local = mat_local_to_earth_equ.GetInverse();
+  mat_earth_equ_to_local = mat_local_to_earth_equ.GetTranspose();
 
   mat_earth_equ_to_j2000 = (mat_vsop87_to_j2000 * position->getRotEquatorialToVsop87());
-  mat_j2000_to_earth_equ = mat_earth_equ_to_j2000.GetInverse();
+  mat_j2000_to_earth_equ = mat_earth_equ_to_j2000.GetTranspose();
 
   mat_helio_to_earth_equ = mat_j2000_to_earth_equ *
                            mat_vsop87_to_j2000 *
-	                       translation(-position->getCenterVsop87Pos());
+	                       csMatrix4::translation(-position->getCenterVsop87Pos());
 
 
 	// These two next have to take into account the position of the observer on the earth
-	csReversibleTransform tmp =
+	csMatrix4 tmp =
 	    mat_j2000_to_vsop87 *
 	    mat_earth_equ_to_j2000 *
         mat_local_to_earth_equ;
 
-	mat_local_to_helio =  translation(position->getCenterVsop87Pos()) *
+	mat_local_to_helio =  csMatrix4::translation(position->getCenterVsop87Pos()) *
 	                      tmp *
-	                      translation(csVector3(0.,0., position->getDistanceFromCenter()));
+	                      csMatrix4::translation(csVector3(0.,0., position->getDistanceFromCenter()));
 
-	mat_helio_to_local =  translation(csVector3(0.,0.,-position->getDistanceFromCenter())) *
-	                      tmp.GetInverse() *
-	                      translation(-position->getCenterVsop87Pos());
+	mat_helio_to_local =  csMatrix4::translation(csVector3(0.,0.,-position->getDistanceFromCenter())) *
+	                      tmp.GetTranspose() *
+	                      csMatrix4::translation(-position->getCenterVsop87Pos());
 
 }
 
@@ -183,13 +184,12 @@ void Navigator::updateModelViewMat(void)
   s.Normalize();
   u.Normalize();
 
-  csMatrix3 matrix(s[0],u[0],-f[0],
-                   s[1],u[1],-f[1],
-                   s[2],u[2],-f[2]);
+  csMatrix4 matrix(s[0],u[0],-f[0],0.,
+	               s[1],u[1],-f[1],0.,
+	               s[2],u[2],-f[2],0.,
+	               0.,0.,0.,1.);
 
-  csReversibleTransform transf(matrix, csVector3(0,0,0));
-
-  mat_local_to_eye = transf;
+  mat_local_to_eye = matrix;
 
 
   mat_earth_equ_to_eye = mat_local_to_eye*mat_earth_equ_to_local;

@@ -136,8 +136,10 @@ void Atmosphere::compute_color(double JD, csVector3 sunPos, csVector3 moonPos, f
 	{
 		for(int y=0; y<=sky_resolution; ++y)
 		{
+          //printf("pos before %s\n", point.Description().GetData());
 			prj->unproject_local((double)viewport_left+x*stepX, (double)viewport_bottom+y*stepY,point);
 			point.Normalize();
+          //printf("pos after %s\n", point.Description().GetData());
 
 			if (point[2]<=0)
 			{

@@ -20,8 +20,8 @@ public:
 
     csVector3 getCenterVsop87Pos(void) const;
     double getDistanceFromCenter(void) const;
-    csReversibleTransform getRotLocalToEquatorial(double jd) const;
-    csReversibleTransform getRotEquatorialToVsop87(void) const;
+    csMatrix4 getRotLocalToEquatorial(double jd) const;
+    csMatrix4 getRotEquatorialToVsop87(void) const;
 
 	void save(const string& file, const string& section) const;
 	void setConf(/*InitParser &conf, const string& section*/) const;

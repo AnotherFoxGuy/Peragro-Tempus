@@ -41,13 +41,25 @@ Projector::~Projector()
 // The function is a reimplementation of gluPerspective
 void Projector::init_project_matrix(void)
 {
-  /*
 	double f = 1./tan(fov*M_PI/360.);
 	double ratio = (double)getViewportHeight()/getViewportWidth();
-	mat_projection.set(	flip_horz*f*ratio, 0., 0., 0.,
+
+    // Calculate the projection matrix TODO is this correct?
+    csReversibleTransform tm = g3d->GetWorldToCamera();
+    csMatrix3 m = tm.GetO2T();
+    csVector4 r1(m.Row1().x,m.Row1().y,m.Row1().z,0);
+    csVector4 r2(m.Row2().x,m.Row2().y,m.Row2().z,0);
+    csVector4 r3(m.Row3().x,m.Row3().y,m.Row3().z,0);
+    csVector4 r4(0,0,0,1);
+    mat_projection = csMatrix4(r1,r2,r3,r4);
+
+    /*
+	mat_projection.Set(	flip_horz*f*ratio, 0., 0., 0.,
 							0., flip_vert*f, 0., 0.,
 							0., 0., (zFar + zNear)/(zNear - zFar), -1.,
 							0., 0., (2.*zFar*zNear)/(zNear - zFar), 0.);
+    */
+    /*
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(mat_projection);
     glMatrixMode(GL_MODELVIEW);
@@ -95,10 +107,10 @@ void Projector::change_fov(double deltaFov)
 
 
 // Set the standard modelview matrices used for projection
-void Projector::set_modelview_matrices(	const csReversibleTransform& _mat_earth_equ_to_eye,
-					                    const csReversibleTransform& _mat_helio_to_eye,
-					                    const csReversibleTransform& _mat_local_to_eye,
-					                    const csReversibleTransform& _mat_j2000_to_eye)
+void Projector::set_modelview_matrices(	csMatrix4 _mat_earth_equ_to_eye,
+					                    csMatrix4 _mat_helio_to_eye,
+					                    csMatrix4 _mat_local_to_eye,
+					                    csMatrix4 _mat_j2000_to_eye)
 {
 	mat_earth_equ_to_eye = _mat_earth_equ_to_eye;
 	mat_j2000_to_eye = _mat_j2000_to_eye;

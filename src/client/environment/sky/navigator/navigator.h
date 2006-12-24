@@ -15,7 +15,12 @@
 #include "client/environment/sky/utils/time.h"
 #include "client/environment/sky/utils/utils.h"
 
+#include "client/environment/sky/utils/vecmath.h"
+
 #include "client/environment/sky/observator/observator.h"
+
+extern const csMatrix4 mat_j2000_to_vsop87;
+extern const csMatrix4 mat_vsop87_to_j2000;
 
 // Class which manages a navigation context
 // Manage date/time, viewing direction/fov, observer position, and coordinate changes
@@ -88,14 +93,11 @@ public:
 	// coordinate but centered on the observer position (usefull for objects close to earth)
 	csVector3 helio_to_earth_pos_equ(const csVector3& v) const { return mat_local_to_earth_equ*mat_helio_to_local*v; }
 
-    csReversibleTransform mat_j2000_to_vsop87;
-    csReversibleTransform mat_vsop87_to_j2000;
-
 	// Return the modelview matrix for some coordinate systems
-	csReversibleTransform get_helio_to_eye_mat(void)  {return mat_helio_to_eye;}
-	csReversibleTransform get_earth_equ_to_eye_mat(void)  {return mat_earth_equ_to_eye;}
-	csReversibleTransform get_local_to_eye_mat(void) {return mat_local_to_eye;}
-	csReversibleTransform get_j2000_to_eye_mat(void)  {return mat_j2000_to_eye;}
+	csMatrix4 get_helio_to_eye_mat(void)  {return mat_helio_to_eye;}
+	csMatrix4 get_earth_equ_to_eye_mat(void)  {return mat_earth_equ_to_eye;}
+	csMatrix4 get_local_to_eye_mat(void) {return mat_local_to_eye;}
+	csMatrix4 get_j2000_to_eye_mat(void)  {return mat_j2000_to_eye;}
 
 	void updateMove(double deltaAz, double deltaAlt);
 
@@ -120,18 +122,18 @@ private:
 
 
 	// Matrices used for every coordinate transfo
-	csReversibleTransform mat_helio_to_local;		// Transform from Heliocentric to Observator local coordinate
-	csReversibleTransform mat_local_to_helio;		// Transform from Observator local coordinate to Heliocentric
-	csReversibleTransform mat_local_to_earth_equ;	// Transform from Observator local coordinate to Earth Equatorial
-	csReversibleTransform mat_earth_equ_to_local;	// Transform from Observator local coordinate to Earth Equatorial
-	csReversibleTransform mat_helio_to_earth_equ;	// Transform from Heliocentric to earth equatorial coordinate
-	csReversibleTransform mat_earth_equ_to_j2000;
-	csReversibleTransform mat_j2000_to_earth_equ;
+	csMatrix4 mat_helio_to_local;		// Transform from Heliocentric to Observator local coordinate
+	csMatrix4 mat_local_to_helio;		// Transform from Observator local coordinate to Heliocentric
+	csMatrix4 mat_local_to_earth_equ;	// Transform from Observator local coordinate to Earth Equatorial
+	csMatrix4 mat_earth_equ_to_local;	// Transform from Observator local coordinate to Earth Equatorial
+	csMatrix4 mat_helio_to_earth_equ;	// Transform from Heliocentric to earth equatorial coordinate
+	csMatrix4 mat_earth_equ_to_j2000;
+	csMatrix4 mat_j2000_to_earth_equ;
 
-	csReversibleTransform mat_local_to_eye;			// Modelview matrix for observer local drawing
-	csReversibleTransform mat_earth_equ_to_eye;		// Modelview matrix for geocentric equatorial drawing
-	csReversibleTransform mat_j2000_to_eye;	        // precessed version
-	csReversibleTransform mat_helio_to_eye;			// Modelview matrix for heliocentric equatorial drawing
+	csMatrix4 mat_local_to_eye;			// Modelview matrix for observer local drawing
+	csMatrix4 mat_earth_equ_to_eye;		// Modelview matrix for geocentric equatorial drawing
+	csMatrix4 mat_j2000_to_eye;	        // precessed version
+	csMatrix4 mat_helio_to_eye;			// Modelview matrix for heliocentric equatorial drawing
 
 	// Vision variables
 	csVector3 local_vision, equ_vision, prec_equ_vision;	// Viewing direction in local and equatorial coordinates

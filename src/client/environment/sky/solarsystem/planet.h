@@ -7,6 +7,7 @@
 
 #include "client/environment/sky/utils/time.h"
 #include "client/environment/sky/utils/tone_reproductor.h"
+#include "client/environment/sky/utils/vecmath.h"
 
 #include "client/environment/sky/utils/callbacks.h"
 
@@ -52,7 +53,7 @@ class Ring
 public:
 	Ring(double radius_min,double radius_max,const string &texname);
 	~Ring(void);
-	void draw(const Projector* prj,const csReversibleTransform& mat,double screen_sz);
+	void draw(const Projector* prj,const csMatrix4& mat,double screen_sz);
 	double get_size(void) const {return radius_max;}
 private:
 	const double radius_min;
@@ -92,7 +93,7 @@ public:
 
     // Compute the z rotation to use from equatorial to geographic coordinates
     double getSiderealTime(double jd) const;
-    csReversibleTransform getRotEquatorialToVsop87(void) const;
+    csMatrix4 getRotEquatorialToVsop87(void) const;
 
 	// Compute the position in the parent Planet coordinate system
 	void computePositionWithoutOrbits(const double date);
@@ -181,7 +182,7 @@ protected:
 	float get_on_screen_size(const Projector* prj, const Navigator * nav);
 
 	// Draw the 3D sphere
-	void draw_sphere(const Projector* prj, const csReversibleTransform& mat, float screen_sz);
+	void draw_sphere(const Projector* prj, const csMatrix4& mat, float screen_sz);
 
 	// Draw the small star-like 2D halo
 	void draw_halo(const Navigator* nav, const Projector* prj, const ToneReproductor* eye);
@@ -207,8 +208,8 @@ protected:
 	csVector3 previousScreenPos;			// The position of this planet in the previous frame.
 	csVector3 color;
 	float albedo;					// Planet albedo
-	csReversibleTransform rot_local_to_parent;
-	csReversibleTransform mat_local_to_parent;		// Transfo matrix from local ecliptique to parent ecliptic
+	csMatrix4 rot_local_to_parent;
+	csMatrix4 mat_local_to_parent;		// Transfo matrix from local ecliptique to parent ecliptic
 	float axis_rotation;			// Rotation angle of the Planet on it's axis
     //STexture * tex_map;			// Planet map texture
 	//STexture * tex_halo;			// Little halo texture

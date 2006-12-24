@@ -106,9 +106,9 @@ void SkyMGR::updateMove(int delta_time)
       // TODO
       pclinmove->GetLastFullPosition(campos, rot, camsector);
       //navigation->setLocalVision(campos);
-      printf("pos before %s\n", campos.Description().GetData());
-      navigation->setLocalVision(navigation->earth_equ_to_local(campos));
-      printf("pos after %s\n", navigation->earth_equ_to_local(campos).Description().GetData());
+      //printf("pos before %s\n", campos.Description().GetData());
+      //navigation->setLocalVision(navigation->earth_equ_to_local(campos));
+      //printf("pos after %s\n", navigation->earth_equ_to_local(campos).Description().GetData());
     }
 
     double move_speed = 0.00025;

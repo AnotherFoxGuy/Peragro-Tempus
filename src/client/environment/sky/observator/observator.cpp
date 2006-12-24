@@ -38,18 +38,18 @@ double Observator::getDistanceFromCenter(void) const {
   return planet->getRadius() + (altitude/(1000*AU));
 }
 
-csReversibleTransform Observator::getRotLocalToEquatorial(double jd) const {
+csMatrix4 Observator::getRotLocalToEquatorial(double jd) const {
   double lat = latitude;
   // TODO: Figure out how to keep continuity in sky as reach poles
   // otherwise sky jumps in rotation when reach poles in equatorial mode
   // This is a kludge
   if( lat > 89.5 )  lat = 89.5;
   if( lat < -89.5 ) lat = -89.5;
-  return zrotation((planet->getSiderealTime(jd)+longitude)*(M_PI/180.))
-       * yrotation((90.-lat)*(M_PI/180.));
+  return csMatrix4::zrotation((planet->getSiderealTime(jd)+longitude)*(M_PI/180.))
+    * csMatrix4::yrotation((90.-lat)*(M_PI/180.));
 }
 
-csReversibleTransform Observator::getRotEquatorialToVsop87(void) const {
+csMatrix4 Observator::getRotEquatorialToVsop87(void) const {
   return planet->getRotEquatorialToVsop87();
 }
 

@@ -130,7 +130,7 @@ csVector3 Planet::getObsJ2000Pos(const Navigator *nav) const
 {
   csVector3 v(get_heliocentric_ecliptic_pos() - nav->getObserverHelioPos());
 
-  return nav->mat_vsop87_to_j2000.GetO2T()*v;
+  return mat_vsop87_to_j2000.multiplyWithoutTranslation(v);
 }
 
 
@@ -289,18 +289,18 @@ void Planet::compute_trans_matrix(double jd)
     // not solar equator...
 	if (parent) 
     {
-      rot_local_to_parent = zrotation(re.ascendingNode
+      rot_local_to_parent = csMatrix4::zrotation(re.ascendingNode
                                       -re.precessionRate*(jd-re.epoch))
-                          * xrotation(re.obliquity);
+                                      * csMatrix4::xrotation(re.obliquity);
 	}
-    mat_local_to_parent = translation(ecliptic_pos)
+    mat_local_to_parent = csMatrix4::translation(ecliptic_pos)
                         * rot_local_to_parent;
                         
 }
 
-csReversibleTransform Planet::getRotEquatorialToVsop87(void) const 
+csMatrix4 Planet::getRotEquatorialToVsop87(void) const 
 {
-  csReversibleTransform rval = rot_local_to_parent;
+  csMatrix4 rval = rot_local_to_parent;
   if (parent)
   {
     for (const Planet *p=parent;p->parent;p=p->parent) 
@@ -311,23 +311,6 @@ csReversibleTransform Planet::getRotEquatorialToVsop87(void) const
 
   return rval;
 }
-
-// Get a matrix which converts from heliocentric ecliptic coordinate to local geographic coordinate
-//Mat4d Planet::get_helio_to_geo_matrix()
-//{
-//	Mat4d mat = mat_local_to_parent;
-//	mat = mat * Mat4d::zrotation(axis_rotation*M_PI/180.);
-//
-//	// Iterate thru parents
-//	Planet * p = parent;
-//	while (p!=NULL && p->parent!=NULL)
-//		{
-//			mat = p->mat_local_to_parent * mat;
-//			p=p->parent;
-//		}
-//	return mat;
-//}
-
 
 // Compute the z rotation to use from equatorial to geographic coordinates
 double Planet::getSiderealTime(double jd) const
@@ -400,12 +383,7 @@ float Planet::compute_magnitude(csVector3 obs_pos) const {
                        + sqrt(1.0 - cos_chi*cos_chi) / M_PI;
   const float F = 2.0 * albedo * radius * radius * phase / (3.0*pq*Rq);
   const float rval = -26.73f - 2.5f * log10f(F);
-//cout << "Planet(" << getEnglishName()
-//     << ")::compute_magnitude(" << obs_pos << "): "
-//        "phase: " << phase
-//     << ",F: " << F
-//     << ",rval: " << rval
-//     << endl;
+
   return rval;
 }
 
@@ -437,11 +415,11 @@ double Planet::draw(Projector* prj, Navigator * nav, ToneReproductor* eye, int f
 {
 	if (hidden) return 0;
 
-	csReversibleTransform mat = mat_local_to_parent;
+	csMatrix4 mat = mat_local_to_parent;
 	const Planet *p = parent;
 	while (p && p->parent)
 	{
-		mat = translation(p->ecliptic_pos)
+      mat = csMatrix4::translation(p->ecliptic_pos)
 		    * mat
 		    * p->rot_local_to_parent;
 		p = p->parent;
@@ -529,7 +507,7 @@ double Planet::draw(Projector* prj, Navigator * nav, ToneReproductor* eye, int f
 }
 
 
-void Planet::draw_sphere(const Projector* prj, const csReversibleTransform& mat, float screen_sz)
+void Planet::draw_sphere(const Projector* prj, const csMatrix4& mat, float screen_sz)
 {
   /*
 	// Adapt the number of facets according with the size of the sphere for optimization
@@ -729,7 +707,7 @@ Ring::~Ring(void) {
 	//tex = NULL;
 }
 
-void Ring::draw(const Projector* prj,const csReversibleTransform& mat,double screen_sz)
+void Ring::draw(const Projector* prj,const csMatrix4& mat,double screen_sz)
 {
  /*
 	screen_sz -= 50;
