@@ -235,7 +235,7 @@ under each day.
      takes an int as input for colorvalue.
 
 17-Aug-2006
-  - PK added relocation command. Press 'r'
+  - PK added relocation command. Press 'r'.
 
 16-Aug-2006
   - Sueastside fixed MoveTo.
