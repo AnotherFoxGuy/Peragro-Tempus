@@ -330,7 +330,7 @@ under each day.
   - Sueastside Made the skill window part of a tabbed window
       which holds stuff like action- and skill icons.
        (skills, melee, spells, actions)
-  - Sueastside has revised ptlook.tga
+  - Sueastside has revised ptlook.tga.
   - PK fixed a small bug in the options gui.
   - iceeey fixed memory leaks in client. entitymanager, combatmanager,
     effectsmanager, and guimanager were not deleted which, according to CS
