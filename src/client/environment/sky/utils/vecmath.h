@@ -56,6 +56,8 @@ template<class T> class Matrix4
 
     inline void transfo4d(csVector3&);
 
+    inline void Description(void) const;
+
     T r[16];
 };
 
@@ -452,5 +454,16 @@ template<class T> Matrix4<T> Matrix4<T>::GetInverse() const
 #undef SWAP_ROWS
 }
 
+template<class T> void Matrix4<T>::Description(void) const
+{
+    printf("[%5.2lf %5.2lf %5.2lf %17.12le]\n"
+           "[%5.2lf %5.2lf %5.2lf %17.12le]\n"
+           "[%5.2lf %5.2lf %5.2lf %17.12le]\n"
+           "[%5.2lf %5.2lf %5.2lf %17.12le]\n\n",
+    r[0],r[4],r[8],r[12],
+    r[1],r[5],r[9],r[13],
+    r[2],r[6],r[10],r[14],
+    r[3],r[7],r[11],r[15]);
+}
 
 #endif
