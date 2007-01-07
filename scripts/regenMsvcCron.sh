@@ -5,7 +5,7 @@ then
   echo "--> Updating working repoitory."
   svn up
   echo "--> Reverting potential conflicts."
-#  svn revert . -R
+  svn revert . -R
   echo "--> Jam maintiner cleaning."
   jam maintainerclean > /dev/null
   echo "--> Generating configure scripts."
