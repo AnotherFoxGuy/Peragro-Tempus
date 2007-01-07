@@ -1,7 +1,7 @@
 SubDir TOP src ;
 
 SubInclude TOP src ext ;
-#SubInclude TOP src common ;
+SubInclude TOP src common ;
 SubInclude TOP src client ;
 SubInclude TOP src server ;
 SubInclude TOP src anvil ;
