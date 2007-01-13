@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+	<Window Type='Peragro/FrameWindow' Name='LoginUI/Frame'>
+		<Property Name='UnifiedSize' Value='{{0.000000,260.000000},{0.000000,130.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.300000,0.000000},{0.350000,0.000000}}'/>
+		<Property Name='CloseButtonEnabled' Value='False'/>
+		<Property Name='CaptionColour' Value='00FFFFFF'/>
+		<Property Name='Text' Value='Login'/>
+		<Property Name='TitlebarEnabled' Value='True'/>
+		<Property Name='SizingEnabled' Value='False'/>
+		<Property Name='Visible' Value='False'/>
+		<Property Name='Alpha' Value='0.3'/>
+		<Window Type='Peragro/Editbox' Name='LoginUI/LoginEditBox'>
+			<Property Name='UnifiedSize' Value='{{0.000000,170.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,83.000000},{0.000000,27.000000}}'/>
+			<Property Name='MaxTextLength' Value='1073741823'/>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
+			<Property Name='Text' Value=''/>
+		</Window>
+		<Window Type='Peragro/StaticText' Name='LoginUI/Login'>
+			<Property Name='UnifiedSize' Value='{{0.000000,75.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,6.000000},{0.000000,27.000000}}'/>
+			<Property Name='Text' Value='Name'/>
+		</Window>
+		<Window Type='Peragro/Editbox' Name='LoginUI/PasswordEditBox'>
+			<Property Name='UnifiedSize' Value='{{0.000000,170.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,83.000000},{0.000000,55.000000}}'/>
+			<Property Name='MaxTextLength' Value='1073741823'/>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
+			<Property Name='Text' Value=''/>
+		</Window>
+		<Window Type='Peragro/StaticText' Name='LoginUI/Password'>
+			<Property Name='UnifiedSize' Value='{{0.000000,75.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,6.000000},{0.000000,55.000000}}'/>
+			<Property Name='Text' Value='Password'/>
+		</Window>
+		<Window Type='Peragro/Button' Name='LoginUI/Login_Button'>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
+			<Property Name='Text' Value='Login'/>
+			<Property Name='UnifiedAreaRect' Value='{{0.347792,0.000000},{0.779869,0.000000},{0.637792,0.000000},{0.956168,0.000000}}'/>
+			<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
+		</Window>
+		<Window Type='Peragro/Button' Name='LoginUI/Register_Button'>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
+			<Property Name='Text' Value='Register'/>
+			<Property Name='UnifiedAreaRect' Value='{{0.662208,0.000000},{0.786436,0.000000},{0.952208,0.000000},{0.957665,0.000000}}'/>
+			<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
+		</Window>
+		<Window Type='Peragro/Checkbox' Name='LoginUI/RemeberLogin'>
+			<Property Name='UnifiedSize' Value='{{0.000000,110.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,83.000000},{0.000000,78.000000}}'/>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
+			<Property Name='Text' Value='Remember Login'/>
+		</Window>
+	</Window>
+</GUILayout>

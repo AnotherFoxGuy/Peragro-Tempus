@@ -52,7 +52,7 @@ void GUIWindow::CreateGUIWindow(const char* layoutFile)
 CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
 {
   // Load layout and set as root
-  vfs->ChDir ("/peragro/gui/");
+  vfs->ChDir ("/peragro/gui/client/");
   return winMgr->loadWindowLayout(layoutFile);
 }
 

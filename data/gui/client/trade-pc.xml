@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+	<Window Type='Peragro/FrameWindow' Name='TradeWindow/Frame'>
+		<Property Name='UnifiedSize' Value='{{0.0,256.0},{0.0,230.0}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.3,0.0},{0.2,0.0}}'/>
+		<Property Name='CaptionColour' Value='00FFFFFF'/>
+		<Property Name='EWSizingCursorImage' Value='set:Peragro image:MouseEsWeCursor'/>
+		<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTarget'/>
+		<Property Name='NESWSizingCursorImage' Value='set:Peragro image:MouseNeSwCursor'/>
+		<Property Name='NSSizingCursorImage' Value='set:Peragro image:MouseNoSoCursor'/>
+		<Property Name='NWSESizingCursorImage' Value='set:Peragro image:MouseNwSeCursor'/>
+		<Property Name='TitlebarEnabled' Value='True'/>
+		<Property Name='SizingEnabled' Value='False'/>
+		<Property Name='Visible' Value='False'/>
+		<Property Name='Alpha' Value='0.7'/>
+		
+		<Window Type='Peragro/StaticText' Name='TradeWindow/Notification'>
+			<Property Name='UnifiedSize' Value='{{0.000000,250.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,7.000000},{0.000000,202.000000}}'/>
+			<Property Name='BackgroundEnabled' Value='False'/>
+			<Property Name='FrameEnabled' Value='False'/>
+			<Property Name='Font' Value='Commonwealth-8'/>
+			<Property Name='ReadOnly' Value='True'/>
+			<Property Name='Text' Value='Press Accept to complete the trade.'/>
+		</Window>
+		<!--===================================Player1=========================================-->
+		<Window Type='Peragro/StaticImage' Name='TradeWindow/Player1'>
+			<Property Name='UnifiedSize' Value='{{0.000000,126.000000},{0.000000,200.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,0.000000}}'/>
+			<Property Name='BackgroundEnabled' Value='False'/>
+			<Property Name='FrameEnabled' Value='False'/>
+			
+			<Window Type='Peragro/StaticImage' Name='TradeWindow/Player1/Bag'>
+				<Property Name='UnifiedSize' Value='{{0.000000,116.000000},{0.000000,117.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,30.000000}}'/>
+			</Window>
+			<Window Type='Peragro/Editbox' Name='TradeWindow/Player1/Money'>
+				<Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,25.000000},{0.000000,152.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+			</Window>
+			<Window Type='Peragro/StaticText' Name='TradeWindow/Player1/Money/GP'>
+				<Property Name='UnifiedSize' Value='{{0.000000,20.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,87.000000},{0.000000,152.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+				<Property Name='Text' Value='GP'/>
+			</Window>
+			<Window Type='Peragro/Button' Name='TradeWindow/Player1/Accept'>
+				<Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,33.000000},{0.000000,180.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+				<Property Name='Text' Value='Accept'/>
+			</Window>
+		</Window>
+		<!--===================================Player2=========================================-->
+		<Window Type='Peragro/StaticImage' Name='TradeWindow/Player2'>
+			<Property Name='UnifiedSize' Value='{{0.000000,126.000000},{0.000000,200.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,128.000000},{0.000000,0.000000}}'/>
+			<Property Name='BackgroundEnabled' Value='False'/>
+			<Property Name='FrameEnabled' Value='False'/>
+
+			<Window Type='Peragro/StaticImage' Name='TradeWindow/Player2/Bag'>
+				<Property Name='UnifiedSize' Value='{{0.000000,116.000000},{0.000000,117.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,30.000000}}'/>
+			</Window>
+			<Window Type='Peragro/Editbox' Name='TradeWindow/Player2/Money'>
+				<Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,25.000000},{0.000000,152.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+			</Window>
+			<Window Type='Peragro/StaticText' Name='TradeWindow/Player2/Money/GP'>
+				<Property Name='UnifiedSize' Value='{{0.000000,20.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,87.000000},{0.000000,152.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+				<Property Name='Text' Value='GP'/>
+			</Window>
+			<Window Type='Peragro/Button' Name='TradeWindow/Player2/Accept'>
+				<Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,20.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,33.000000},{0.000000,180.000000}}'/>
+				<Property Name='Font' Value='Commonwealth-8'/>
+				<Property Name='Text' Value='Accept'/>
+			</Window>
+		</Window>
+
+	</Window>
+</GUILayout>

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+	<Window Type='Peragro/FrameWindow' Name='Inventory/Frame'>
+		<Property Name='UnifiedSize' Value='{{0.000000,154.000000},{0.000000,230.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.750000,0.000000},{0.050000,0.000000}}'/>
+		<Property Name='CaptionColour' Value='00FFFFFF'/>
+		<Property Name='EWSizingCursorImage' Value='set:Peragro image:MouseEsWeCursor'/>
+		<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTarget'/>
+		<Property Name='NESWSizingCursorImage' Value='set:Peragro image:MouseNeSwCursor'/>
+		<Property Name='NSSizingCursorImage' Value='set:Peragro image:MouseNoSoCursor'/>
+		<Property Name='NWSESizingCursorImage' Value='set:Peragro image:MouseNwSeCursor'/>
+		<Property Name='TitlebarEnabled' Value='True'/>
+		<Property Name='SizingEnabled' Value='False'/>
+		<Property Name='Visible' Value='False'/>
+		<Property Name='Alpha' Value='0.7'/>
+		<Window Type='Peragro/StaticImage' Name='Inventory/Bag'>
+			<Property Name='UnifiedSize' Value='{{0.000000,144.000000},{0.000000,117.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,111.000000}}'/>
+		</Window>
+		<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame'>
+			<Property Name='UnifiedSize' Value='{{0.000000,144.000000},{0.000000,80.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,29.000000}}'/>
+			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/WeaponRight'>
+				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,48.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,34.000000},{0.000000,2.000000}}'/>	
+				<Property Name='Image' Value='set:Inventory image:weaponright'/>
+				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
+				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
+				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
+				<Property Name='Font' Value='Tahoma-12'/>
+				<Property Name='LeftFrameImage' Value='set:Peragro image:StaticLeft'/>
+				<Property Name='RightFrameImage' Value='set:Peragro image:StaticRight'/>
+				<Property Name='TopFrameImage' Value='set:Peragro image:StaticTop'/>
+				<Property Name='TopLeftFrameImage' Value='set:Peragro image:StaticTopLeft'/>
+				<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
+			</Window>
+			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/Helm'>
+				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,24.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,60.000000},{0.000000,2.000000}}'/>
+				<Property Name='Image' Value='set:Inventory image:helmet'/>
+				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
+				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
+				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
+				<Property Name='Font' Value='Commonwealth-10'/>
+				<Property Name='LeftFrameImage' Value='set:Peragro image:StaticLeft'/>
+				<Property Name='RightFrameImage' Value='set:Peragro image:StaticRight'/>
+				<Property Name='TopFrameImage' Value='set:Peragro image:StaticTop'/>
+				<Property Name='TopLeftFrameImage' Value='set:Peragro image:StaticTopLeft'/>
+				<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
+			</Window>
+			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/Armor'>
+				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,24.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,60.000000},{0.000000,29.000000}}'/>
+				<Property Name='BackgroundImage' Value='set:Peragro image:StaticBackdrop'/>
+				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
+				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
+				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
+				<Property Name='Font' Value='Tahoma-12'/>
+				<Property Name='LeftFrameImage' Value='set:Peragro image:StaticLeft'/>
+				<Property Name='RightFrameImage' Value='set:Peragro image:StaticRight'/>
+				<Property Name='TopFrameImage' Value='set:Peragro image:StaticTop'/>
+				<Property Name='TopLeftFrameImage' Value='set:Peragro image:StaticTopLeft'/>
+				<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
+			</Window>
+			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/WeaponLeft'>
+				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,48.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,86.000000},{0.000000,2.000000}}'/>
+				<Property Name='Image' Value='set:Inventory image:weaponleft'/>
+				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
+				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
+				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
+				<Property Name='Font' Value='Tahoma-12'/>
+				<Property Name='LeftFrameImage' Value='set:Peragro image:StaticLeft'/>
+				<Property Name='RightFrameImage' Value='set:Peragro image:StaticRight'/>
+				<Property Name='TopFrameImage' Value='set:Peragro image:StaticTop'/>
+				<Property Name='TopLeftFrameImage' Value='set:Peragro image:StaticTopLeft'/>
+				<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
+			</Window>
+			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/Gloves'>
+				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,24.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,34.000000},{0.000000,53.000000}}'/>
+				<Property Name='BackgroundImage' Value='set:Peragro image:StaticBackdrop'/>
+				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
+				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
+				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
+				<Property Name='Font' Value='Tahoma-12'/>
+				<Property Name='LeftFrameImage' Value='set:Peragro image:StaticLeft'/>
+				<Property Name='RightFrameImage' Value='set:Peragro image:StaticRight'/>
+				<Property Name='TopFrameImage' Value='set:Peragro image:StaticTop'/>
+				<Property Name='TopLeftFrameImage' Value='set:Peragro image:StaticTopLeft'/>
+				<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
+			</Window>
+			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/Pants'>
+				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,24.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,60.000000},{0.000000,53.000000}}'/>
+				<Property Name='BackgroundImage' Value='set:Peragro image:StaticBackdrop'/>
+				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
+				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
+				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
+				<Property Name='Font' Value='Tahoma-12'/>
+				<Property Name='LeftFrameImage' Value='set:Peragro image:StaticLeft'/>
+				<Property Name='RightFrameImage' Value='set:Peragro image:StaticRight'/>
+				<Property Name='TopFrameImage' Value='set:Peragro image:StaticTop'/>
+				<Property Name='TopLeftFrameImage' Value='set:Peragro image:StaticTopLeft'/>
+				<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
+			</Window>
+			<Window Type='Peragro/StaticImage' Name='Inventory/EquipFrame/Boots'>
+				<Property Name='UnifiedSize' Value='{{0.000000,24.000000},{0.000000,24.000000}}'/>
+				<Property Name='UnifiedPosition' Value='{{0.000000,86.000000},{0.000000,53.000000}}'/>
+				<Property Name='BackgroundImage' Value='set:Peragro image:StaticBackdrop'/>
+				<Property Name='BottomFrameImage' Value='set:Peragro image:StaticBottom'/>
+				<Property Name='BottomLeftFrameImage' Value='set:Peragro image:StaticBottomLeft'/>
+				<Property Name='BottomRightFrameImage' Value='set:Peragro image:StaticBottomRight'/>
+				<Property Name='Font' Value='Tahoma-12'/>
+				<Property Name='LeftFrameImage' Value='set:Peragro image:StaticLeft'/>
+				<Property Name='RightFrameImage' Value='set:Peragro image:StaticRight'/>
+				<Property Name='TopFrameImage' Value='set:Peragro image:StaticTop'/>
+				<Property Name='TopLeftFrameImage' Value='set:Peragro image:StaticTopLeft'/>
+				<Property Name='TopRightFrameImage' Value='set:Peragro image:StaticTopRight'/>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>
