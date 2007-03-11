@@ -3,4 +3,13 @@ SubDir TOP src client environment ;
 Description client-environment : "client environment" ;
 Library client-environment :
   [ Wildcard *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky atmosphere ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky atmosphere sun ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky utils ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky navigator ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky observator ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky projector ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky solarsystem ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs sky solarsystem coordinates ] : *.h *.cpp ] ;
 ExternalLibs client-environment : CRYSTAL CEL ;
