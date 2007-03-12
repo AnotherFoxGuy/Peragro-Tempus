@@ -18,12 +18,13 @@
 
 #include "client/gui/gui.h"
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
+
 
 /*================//
 // GUIBuddyWindow //
@@ -68,7 +69,7 @@ void BuddyWindow::AddPlayer(const char* name)
   CEGUI::ListboxItem* nameItem = new CEGUI::ListboxTextItem(name);
 
   unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
-  ((CEGUI::MultiColumnList*)btn)->setItem(nameItem, 0, row);  
+  ((CEGUI::MultiColumnList*)btn)->setItem(nameItem, 0, row);
 }
 
 void BuddyWindow::RemovePlayer(const char* name)
@@ -76,13 +77,13 @@ void BuddyWindow::RemovePlayer(const char* name)
   btn = winMgr->getWindow("BuddyList/SkillTab");
 
   CEGUI::ListboxItem* nameItem = ((CEGUI::MultiColumnList*)btn)->findListItemWithText(name,0);
-  if (!nameItem) 
+  if (!nameItem)
   {
     printf("BuddyWindow: ERROR Couldn't find player %s in buddylist!\n", name);
     return;
   }
   nameItem->setAutoDeleted(true);
-  uint row = ((CEGUI::MultiColumnList*)btn)->getItemRowIndex(nameItem);
+  unsigned int row = ((CEGUI::MultiColumnList*)btn)->getItemRowIndex(nameItem);
   ((CEGUI::MultiColumnList*)btn)->removeRow(row);
 }
 
@@ -96,8 +97,8 @@ void BuddyWindow::CreateGUIWindow()
 
   // Create the UserTab
   CEGUI::MultiColumnList* usertab = static_cast<CEGUI::MultiColumnList*>(winMgr->createWindow("Peragro/MultiColumnList","BuddyList/SkillTab"));
-  usertab->setPosition(CEGUI::UVector2(CEGUI::cegui_reldim(0), CEGUI::cegui_reldim(0)));
-  usertab->setSize(CEGUI::UVector2(CEGUI::cegui_reldim(1), CEGUI::cegui_reldim(1)));
+  usertab->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
+  usertab->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
   CEGUI::String name("Name");
   usertab->addColumn(name,0,CEGUI::UDim(0.9f,0));
   usertab->setSelectionMode(CEGUI::MultiColumnList::RowSingle);

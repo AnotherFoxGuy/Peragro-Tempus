@@ -3,4 +3,4 @@ SubDir TOP src client console ;
 Description client-console : "client console" ;
 Library client-console :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-console : CRYSTAL CEL ;
+ExternalLibs client-console : CRYSTAL CEGUI CEL ;
