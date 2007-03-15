@@ -5,7 +5,7 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 12-Mar-2007
-  - Sueastside did some gcc fixes.
+  - Sueastside applied some gcc fixes suggested by greenlion.
 
 23-Dec-2006
   - Sueastside did more work on the environment manager.
