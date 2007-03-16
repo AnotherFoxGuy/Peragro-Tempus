@@ -10,6 +10,8 @@
 #include <csgeom/transfrm.h>
 */
 
+#include <csutil/csstring.h>
+
 #include "client/environment/sky/utils/vecmath.h"
 
 #include <iostream>
