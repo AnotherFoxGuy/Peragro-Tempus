@@ -50,6 +50,30 @@
 
 	</planet>
 <!--===============================================================================================-->
+	<planet name="Moon">
+		<hidden value='False'/>
+		<parent value='Earth'/>
+		<halo value='True'/>
+		<lighting value='true'/>
+		<radius value='1737.4'/>
+		<oblateness value='0.0'/>
+		<color red='1.0' green='1.0' blue='1.0'/>
+		<albedo value='0.12'/>
+		<tex_map value='lune.png'/>
+		<tex_halo value='star16x16.png'/>
+		<tex_big_halo value='none'/>
+		<big_halo_size value='0'/>
+		<coord_func value='lunar_special'/>
+
+		<rot_periode value='655.7198811'/>
+		<rot_rotation_offset value='38'/>
+		<rot_epoch value='2451545.0'/>
+		<rot_obliquity value='0'/>
+		<rot_equator_ascending value='0'/>
+		<rot_precession_rate value='0'/>
+		<sidereal_period value='0'/>
+	</planet>
+<!--===============================================================================================-->
 	<planet name="Solar System Observer">
 		<hidden value='True'/>
 		<parent value='Sun'/>
