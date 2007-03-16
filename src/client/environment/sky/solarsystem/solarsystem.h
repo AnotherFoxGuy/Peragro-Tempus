@@ -48,12 +48,12 @@ public:
 	bool getFlagLightTravelTime(void) const {return flag_light_travel_time;}	
 	
 	//! Set/Get orbits lines color
-	void setOrbitsColor(const csVector3& c) {Planet::set_orbit_color(c);}
-	csVector3 getOrbitsColor(void) const {return Planet::getOrbitColor();}
+	void setOrbitsColor(const Vec3f& c) {Planet::set_orbit_color(c);}
+	Vec3f getOrbitsColor(void) const {return Planet::getOrbitColor();}
 	
 	//! Set/Get planets trails color
-	void setTrailsColor(const csVector3& c)  {Planet::set_trail_color(c);}
-	csVector3 getTrailsColor(void) const {return Planet::getTrailColor();}
+	void setTrailsColor(const Vec3f& c)  {Planet::set_trail_color(c);}
+	Vec3f getTrailsColor(void) const {return Planet::getTrailColor();}
 	
 	//! Set/Get base planets display scaling factor 
 	void setScale(float scale) {Planet::setScale(scale);}
@@ -78,7 +78,7 @@ public:
 	//! Compute the position and transform matrix for every elements of the solar system.
     //! observerPos is needed for light travel time computation.
     //! @param observerPos position of the observer in heliocentric ecliptic frame.
-	void computePositions(double date, const csVector3& observerPos = csVector3(0,0,0));
+	void computePositions(double date, const Vec3d& observerPos = Vec3d(0,0,0));
 
 	//! Return the matching planet pointer if exists or NULL
 	Planet* searchByEnglishName(csString planetEnglishName) const;
@@ -99,7 +99,7 @@ public:
 private:
 	// Compute the transformation matrix for every elements of the solar system.
     // observerPos is needed for light travel time computation
-    void computeTransMatrices(double date, const csVector3& observerPos = csVector3(0,0,0));
+    void computeTransMatrices(double date, const Vec3d& observerPos = Vec3d(0,0,0));
 
 	// Load the bodies data from a file
 	void loadPlanets();

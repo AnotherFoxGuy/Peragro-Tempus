@@ -178,7 +178,7 @@ double EllipticalOrbit::eccentricAnomaly(double M) const
 }
 
 
-csVector3 EllipticalOrbit::positionAtE(double E) const
+Vec3d EllipticalOrbit::positionAtE(double E) const
 {
     double x, z;
 
@@ -201,16 +201,16 @@ csVector3 EllipticalOrbit::positionAtE(double E) const
         z = 0.0;
     }
 
-    csMatrix4 R = (csMatrix4::yrotation(ascendingNode) *
-                   csMatrix4::xrotation(inclination) *
-                   csMatrix4::yrotation(argOfPeriapsis));
+    Mat4d R = (Mat4d::yrotation(ascendingNode) *
+                   Mat4d::xrotation(inclination) *
+                   Mat4d::yrotation(argOfPeriapsis));
 
-    return R * csVector3(x, 0, z);
+    return R * Vec3d(x, 0, z);
 }
 
 
 // Return the offset from the center
-csVector3 EllipticalOrbit::positionAtTime(double t) const
+Vec3d EllipticalOrbit::positionAtTime(double t) const
 {
     t = t - epoch;
     double meanMotion = 2.0 * M_PI / period;
@@ -222,7 +222,7 @@ csVector3 EllipticalOrbit::positionAtTime(double t) const
 
 void EllipticalOrbit::positionAtTimevInVSOP87Coordinates(double JD, double* v) const
 {
-  csVector3 pos = positionAtTime(JD);
+  Vec3d pos = positionAtTime(JD);
   v[0] = rotate_to_vsop87[0]*pos[2] + rotate_to_vsop87[1]*pos[0] + rotate_to_vsop87[1]*pos[1];
   v[1] = rotate_to_vsop87[3]*pos[2] + rotate_to_vsop87[4]*pos[0] + rotate_to_vsop87[5]*pos[1];
   v[2] = rotate_to_vsop87[6]*pos[2] + rotate_to_vsop87[7]*pos[0] + rotate_to_vsop87[8]*pos[1];
@@ -251,7 +251,7 @@ void EllipticalOrbit::sample(double start, double t, int nSamples,
 
 
 
-csVector3 CachingOrbit::positionAtTime(double jd) const
+Vec3d CachingOrbit::positionAtTime(double jd) const
 {
     if (jd != lastTime)
     {

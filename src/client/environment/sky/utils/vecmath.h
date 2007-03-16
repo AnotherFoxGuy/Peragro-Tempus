@@ -2,10 +2,12 @@
 #define PT_VECMATH_H_
 
 #include <cssysdef.h>
+/*
 #include <csgeom/math3d.h>
 #include <csgeom/vector4.h>
 #include <csgeom/transfrm.h>
 #include <csgeom/matrix3.h>
+*/
 
 #include <cmath>
 #include <cstring>
@@ -13,242 +15,874 @@
 #include <iostream>
 #include <cassert>
  
-template<class T> class Matrix4;
+template<class T> class StelVector2;
+template<class T> class StelVector3;
+template<class T> class StelVector4;
+template<class T> class StelMatrix4;
 
-typedef Matrix4<float>	csMatrix4;
+typedef StelVector2<double>	Vec2d;
+typedef StelVector2<float>	Vec2f;
+typedef StelVector2<int>	Vec2i;
+typedef StelVector2<size_t> Vec2size_t;
 
-template<class T> class Matrix4
+typedef StelVector3<float>	Vec3f;
+typedef StelVector3<double>	Vec3d;
+
+typedef StelVector4<double>	Vec4d;
+typedef StelVector4<float>	Vec4f;
+typedef StelVector4<int>	Vec4i;
+
+typedef StelMatrix4<float>	Mat4f;
+typedef StelMatrix4<double>	Mat4d;
+
+template<class T> class StelVector2
+{
+public:
+    inline StelVector2();
+    inline StelVector2(const StelVector2<T>&);
+    inline StelVector2(T, T);
+
+	inline StelVector2& operator=(const StelVector2<T>&);
+	inline StelVector2& operator=(const T*);
+    inline void Set(T, T);
+
+	inline bool operator==(const StelVector2<T>&) const;
+	inline bool operator!=(const StelVector2<T>&) const;
+
+	inline const T& operator[](int x) const;
+    inline T& operator[](int);
+	inline operator const T*() const;
+	inline operator T*();
+
+    inline StelVector2& operator+=(const StelVector2<T>&);
+    inline StelVector2& operator-=(const StelVector2<T>&);
+    inline StelVector2& operator*=(T);
+	inline StelVector2& operator/=(T);
+
+    inline StelVector2 operator-(const StelVector2<T>&) const;
+    inline StelVector2 operator+(const StelVector2<T>&) const;
+
+	inline StelVector2 operator-() const;
+	inline StelVector2 operator+() const;
+
+	inline StelVector2 operator*(T) const;
+	inline StelVector2 operator/(T) const;
+
+
+    inline T dot(const StelVector2<T>&) const;
+
+    inline T length() const;
+    inline T lengthSquared() const;
+    inline void Normalize();
+
+    T v[2];
+};
+
+
+template<class T> class StelVector3
+{
+public:
+    inline StelVector3();
+    inline StelVector3(const StelVector3&);
+	template <class T2> inline StelVector3(const StelVector3<T2>&);
+    inline StelVector3(T, T, T);
+
+	inline StelVector3& operator=(const StelVector3&);
+	inline StelVector3& operator=(const T*);
+	template <class T2> inline StelVector3& operator=(const StelVector3<T2>&);
+    inline void Set(T, T, T);
+
+	inline bool operator==(const StelVector3<T>&) const;
+	inline bool operator!=(const StelVector3<T>&) const;
+
+    inline T& operator[](int);
+    inline const T& operator[](int) const;
+	inline operator const T*() const;
+	inline operator T*();
+
+    inline StelVector3& operator+=(const StelVector3<T>&);
+    inline StelVector3& operator-=(const StelVector3<T>&);
+    inline StelVector3& operator*=(T);
+	inline StelVector3& operator/=(T);
+
+    inline StelVector3 operator-(const StelVector3<T>&) const;
+    inline StelVector3 operator+(const StelVector3<T>&) const;
+
+	inline StelVector3 operator-() const;
+	inline StelVector3 operator+() const;
+
+	inline StelVector3 operator*(T) const;
+	inline StelVector3 operator/(T) const;
+
+
+    inline T dot(const StelVector3<T>&) const;
+	inline StelVector3 operator^(const StelVector3<T>&) const;
+
+    inline T length() const;
+    inline T lengthSquared() const;
+    inline void Normalize();
+
+	inline void transfo4d(const Mat4d&);
+	inline void transfo4d(const Mat4f&);
+	T v[3];		// The 3 values
+};
+
+
+template<class T> class StelVector4
+{
+public:
+    inline StelVector4();
+    inline StelVector4(const StelVector4<T>&);
+	inline StelVector4(const StelVector3<T>&);
+    inline StelVector4(T, T, T, T);
+
+	inline StelVector4& operator=(const StelVector4<T>&);
+	inline StelVector4& operator=(const StelVector3<T>&);
+	inline StelVector4& operator=(const T*);
+    inline void Set(T, T, T, T);
+
+	inline bool operator==(const StelVector4<T>&) const;
+	inline bool operator!=(const StelVector4<T>&) const;
+
+    inline T& operator[](int);
+    inline const T& operator[](int) const;
+	inline operator T*();
+	inline operator const T*() const;
+
+    inline StelVector4& operator+=(const StelVector4<T>&);
+    inline StelVector4& operator-=(const StelVector4<T>&);
+    inline StelVector4& operator*=(T);
+	inline StelVector4& operator/=(T);
+
+    inline StelVector4 operator-(const StelVector4<T>&) const;
+    inline StelVector4 operator+(const StelVector4<T>&) const;
+
+	inline StelVector4 operator-() const;
+	inline StelVector4 operator+() const;
+
+	inline StelVector4 operator*(T) const;
+	inline StelVector4 operator/(T) const;
+
+
+    inline T dot(const StelVector4<T>&) const;
+
+    inline T length() const;
+    inline T lengthSquared() const;
+    inline void Normalize();
+
+	inline void transfo4d(const Mat4d&);
+
+	T v[4];		// The 4 values
+};
+
+template<class T> class StelMatrix4
 {
  public:
-    Matrix4();
-    Matrix4(const Matrix4<T>& m);
-    Matrix4(T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T);
-    Matrix4(const T*);
-    Matrix4(const csVector4&, const csVector4&,
-            const csVector4&, const csVector4&);
+    StelMatrix4();
+    StelMatrix4(const StelMatrix4<T>& m);
+    StelMatrix4(T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T);
+    StelMatrix4(const T*);
+    StelMatrix4(const StelVector4<T>&, const StelVector4<T>&,
+                const StelVector4<T>&, const StelVector4<T>&);
 
-	inline Matrix4& operator=(const Matrix4<T>&);
-	inline Matrix4& operator=(const T*);
+	inline StelMatrix4& operator=(const StelMatrix4<T>&);
+	inline StelMatrix4& operator=(const T*);
 	inline void Set(T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T);
 
     inline T* operator[](int);
 	inline operator T*();
 	inline operator const T*() const;
 
-    inline Matrix4 operator-(const Matrix4<T>&) const;
-    inline Matrix4 operator+(const Matrix4<T>&) const;
-    inline Matrix4 operator*(const Matrix4<T>&) const;
+    inline StelMatrix4 operator-(const StelMatrix4<T>&) const;
+    inline StelMatrix4 operator+(const StelMatrix4<T>&) const;
+    inline StelMatrix4 operator*(const StelMatrix4<T>&) const;
 
-    inline csVector3 operator*(const csVector3&) const;
-    inline csVector3 multiplyWithoutTranslation(const csVector3& a) const;
-	inline csVector4 operator*(const csVector4&) const;
+    inline StelVector3<T> operator*(const StelVector3<T>&) const;
+    inline StelVector3<T> multiplyWithoutTranslation(const StelVector3<T>& a) const;
+	inline StelVector4<T> operator*(const StelVector4<T>&) const;
 
-    static Matrix4<T> Identity();
-    static Matrix4<T> translation(const csVector3&);
+    static StelMatrix4<T> Identity();
+    static StelMatrix4<T> translation(const StelVector3<T>&);
 
-    static Matrix4<T> rotation(const csVector3&, T);
-    static Matrix4<T> xrotation(T);
-    static Matrix4<T> yrotation(T);
-    static Matrix4<T> zrotation(T);
+    static StelMatrix4<T> rotation(const StelVector3<T>&, T);
+    static StelMatrix4<T> xrotation(T);
+    static StelMatrix4<T> yrotation(T);
+    static StelMatrix4<T> zrotation(T);
 
-    Matrix4<T> GetTranspose() const;
-    Matrix4<T> GetInverse() const;
-
-    inline void transfo4d(csVector3&);
+    StelMatrix4<T> GetTranspose() const;
+    StelMatrix4<T> GetInverse() const;
 
     inline void Description(void) const;
 
     T r[16];
 };
 
-////////////////////////// Matrix4 class methods ///////////////////////////////
+////////////////////////// StelVector2 class methods ///////////////////////////////
 
-template<class T> void Matrix4<T>::transfo4d(csVector3& v)
+template<class T> StelVector2<T>::StelVector2()
 {
-	v=(*this)*v;
+	v[0]=0; v[1]=0;
 }
 
-template<class T> Matrix4<T>::Matrix4()
+template<class T> StelVector2<T>::StelVector2(const StelVector2<T>& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1];
+}
+
+template<class T> StelVector2<T>::StelVector2(T x, T y)
+{
+	v[0]=x; v[1]=y;
+}
+
+template<class T> StelVector2<T>& StelVector2<T>::operator=(const StelVector2<T>& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1];
+    return *this;
+}
+
+template<class T> StelVector2<T>& StelVector2<T>::operator=(const T* a)
+{
+	v[0]=a[0]; v[1]=a[1];
+    return *this;
+}
+
+template<class T> void StelVector2<T>::Set(T x, T y)
+{
+	v[0]=x; v[1]=y;
+}
+
+
+template<class T> bool StelVector2<T>::operator==(const StelVector2<T>& a) const
+{
+	return (v[0] == a.v[0] && v[1] == a.v[1]);
+}
+
+template<class T> bool StelVector2<T>::operator!=(const StelVector2<T>& a) const
+{
+	return (v[0] != a.v[0] || v[1] != a.v[1]);
+}
+
+template<class T> const T& StelVector2<T>::operator[](int x) const
+{
+	return v[x];
+}
+
+template<class T> T& StelVector2<T>::operator[](int x)
+{
+	return v[x];
+}
+
+template<class T> StelVector2<T>::operator const T*() const
+{
+	return v;
+}
+
+template<class T> StelVector2<T>::operator T*()
+{
+	return v;
+}
+
+
+template<class T> StelVector2<T>& StelVector2<T>::operator+=(const StelVector2<T>& a)
+{
+    v[0] += a.v[0]; v[1] += a.v[1];
+    return *this;
+}
+
+template<class T> StelVector2<T>& StelVector2<T>::operator-=(const StelVector2<T>& a)
+{
+    v[0] -= a.v[0]; v[1] -= a.v[1];
+    return *this;
+}
+
+template<class T> StelVector2<T>& StelVector2<T>::operator*=(T s)
+{
+    v[0] *= s; v[1] *= s;
+    return *this;
+}
+
+template<class T> StelVector2<T> StelVector2<T>::operator-() const
+{
+    return StelVector2<T>(-v[0], -v[1]);
+}
+
+template<class T> StelVector2<T> StelVector2<T>::operator+() const
+{
+    return *this;
+}
+
+template<class T> StelVector2<T> StelVector2<T>::operator+(const StelVector2<T>& b) const
+{
+    return StelVector2<T>(v[0] + b.v[0], v[1] + b.v[1]);
+}
+
+template<class T> StelVector2<T> StelVector2<T>::operator-(const StelVector2<T>& b) const
+{
+    return StelVector2<T>(v[0] - b.v[0], v[1] - b.v[1]);
+}
+
+template<class T> StelVector2<T> StelVector2<T>::operator*(T s) const
+{
+    return StelVector2<T>(s * v[0], s * v[1]);
+}
+
+template<class T> StelVector2<T> StelVector2<T>::operator/(T s) const
+{
+    return StelVector2<T>(v[0]/s, v[1]/s);
+}
+
+
+template<class T> T StelVector2<T>::dot(const StelVector2<T>& b) const
+{
+    return v[0] * b.v[0] + v[1] * b.v[1];
+}
+
+
+template<class T> T StelVector2<T>::length() const
+{
+    return (T) sqrt(v[0] * v[0] + v[1] * v[1]);
+}
+
+template<class T> T StelVector2<T>::lengthSquared() const
+{
+    return v[0] * v[0] + v[1] * v[1];
+}
+
+template<class T> void StelVector2<T>::Normalize()
+{
+    T s = (T) 1 / sqrt(v[0] * v[0] + v[1] * v[1]);
+    v[0] *= s;
+    v[1] *= s;
+}
+
+
+////////////////////////// StelVector3 class methods ///////////////////////////////
+
+template<class T> StelVector3<T>::StelVector3()
+{
+	v[0]=0; v[1]=0; v[2]=0;
+}
+
+template<class T> StelVector3<T>::StelVector3(const StelVector3& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1]; v[2]=a.v[2];
+}
+
+template<class T> template<class T2> StelVector3<T>::StelVector3(const StelVector3<T2>& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1]; v[2]=a.v[2];
+}
+
+template<class T> StelVector3<T>::StelVector3(T x, T y, T z)
+{
+	v[0]=x; v[1]=y; v[2]=z;
+}
+
+template<class T> StelVector3<T>& StelVector3<T>::operator=(const StelVector3& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1]; v[2]=a.v[2];
+    return *this;
+}
+
+template<class T> template <class T2> StelVector3<T>& StelVector3<T>::operator=(const StelVector3<T2>& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1]; v[2]=a.v[2];
+    return *this;
+}
+
+template<class T> StelVector3<T>& StelVector3<T>::operator=(const T* a)
+{
+	v[0]=a[0]; v[1]=a[1]; v[2]=a[2];
+    return *this;
+}
+
+template<class T> void StelVector3<T>::Set(T x, T y, T z)
+{
+	v[0]=x; v[1]=y; v[2]=z;
+}
+
+
+template<class T> bool StelVector3<T>::operator==(const StelVector3<T>& a) const
+{
+	return (v[0] == a.v[0] && v[1] == a.v[1] && v[2] == a.v[2]);
+}
+
+template<class T> bool StelVector3<T>::operator!=(const StelVector3<T>& a) const
+{
+	return (v[0] != a.v[0] || v[1] != a.v[1] || v[2] != a.v[2]);
+}
+
+
+template<class T> T& StelVector3<T>::operator[](int x)
+{
+	return v[x];
+}
+
+template<class T> const T& StelVector3<T>::operator[](int x) const
+{
+	return v[x];
+}
+
+template<class T> StelVector3<T>::operator const T*() const
+{
+	return v;
+}
+
+template<class T> StelVector3<T>::operator T*()
+{
+	return v;
+}
+
+template<class T> StelVector3<T>& StelVector3<T>::operator+=(const StelVector3<T>& a)
+{
+    v[0] += a.v[0]; v[1] += a.v[1]; v[2] += a.v[2];
+    return *this;
+}
+
+template<class T> StelVector3<T>& StelVector3<T>::operator-=(const StelVector3<T>& a)
+{
+    v[0] -= a.v[0]; v[1] -= a.v[1]; v[2] -= a.v[2];
+    return *this;
+}
+
+template<class T> StelVector3<T>& StelVector3<T>::operator*=(T s)
+{
+    v[0] *= s; v[1] *= s; v[2] *= s;
+    return *this;
+}
+
+template<class T> StelVector3<T> StelVector3<T>::operator-() const
+{
+    return StelVector3<T>(-v[0], -v[1], -v[2]);
+}
+
+template<class T> StelVector3<T> StelVector3<T>::operator+() const
+{
+    return *this;
+}
+
+template<class T> StelVector3<T> StelVector3<T>::operator+(const StelVector3<T>& b) const
+{
+    return StelVector3<T>(v[0] + b.v[0], v[1] + b.v[1], v[2] + b.v[2]);
+}
+
+template<class T> StelVector3<T> StelVector3<T>::operator-(const StelVector3<T>& b) const
+{
+    return StelVector3<T>(v[0] - b.v[0], v[1] - b.v[1], v[2] - b.v[2]);
+}
+
+template<class T> StelVector3<T> StelVector3<T>::operator*(T s) const
+{
+    return StelVector3<T>(s * v[0], s * v[1], s * v[2]);
+}
+
+template<class T> StelVector3<T> StelVector3<T>::operator/(T s) const
+{
+    return StelVector3<T>(v[0]/s, v[1]/s, v[2]/s);
+}
+
+
+template<class T> T StelVector3<T>::dot(const StelVector3<T>& b) const
+{
+    return v[0] * b.v[0] + v[1] * b.v[1] + v[2] * b.v[2];
+}
+
+
+// cross product
+template<class T> StelVector3<T> StelVector3<T>::operator^(const StelVector3<T>& b) const
+{
+    return StelVector3<T>(v[1] * b.v[2] - v[2] * b.v[1],
+                      v[2] * b.v[0] - v[0] * b.v[2],
+                      v[0] * b.v[1] - v[1] * b.v[0]);
+}
+
+
+template<class T> T StelVector3<T>::length() const
+{
+    return (T) sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+}
+
+template<class T> T StelVector3<T>::lengthSquared() const
+{
+    return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+}
+
+template<class T> void StelVector3<T>::Normalize()
+{
+    T s = (T) (1. / sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]));
+    v[0] *= s;
+    v[1] *= s;
+    v[2] *= s;
+}
+
+template<class T> void StelVector3<T>::transfo4d(const Mat4d& m)
+{
+	(*this)=m*(*this);
+}
+
+template<class T> void StelVector3<T>::transfo4d(const Mat4f& m)
+{
+	(*this)=m*(*this);
+}
+
+template<class T> 
+std::ostream& operator<<(std::ostream &o,const StelVector3<T> &v) {
+  return o << '[' << v[0] << ',' << v[1] << ',' << v[2] << ']';
+}
+
+template<class T> 
+std::istream& operator>> (std::istream& is, StelVector3<T> &v) {
+	while(is.get()!='[' && !is.eof()) {;}
+	assert(!is.eof() && "Vector must start with a '['");
+	is >> v[0];
+	is.ignore(256, ',');
+	is >> v[1];
+	is.ignore(256, ',');
+	is >> v[2];
+	while(is.get()!=']' && !is.eof()) {;}
+	assert(!is.eof() && "Vector must be terminated by a ']'");
+	return is;
+}
+		
+////////////////////////// StelVector4 class methods ///////////////////////////////
+
+template<class T> StelVector4<T>::StelVector4()
+{
+	v[0]=0; v[1]=0; v[2]=0; v[3]=0;
+}
+
+template<class T> StelVector4<T>::StelVector4(const StelVector4<T>& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1]; v[2]=a.v[2]; v[3]=a.v[3];
+}
+
+template<class T> StelVector4<T>::StelVector4(const StelVector3<T>& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1]; v[2]=a.v[2]; v[3]=1;
+}
+
+template<class T> StelVector4<T>::StelVector4(T x, T y, T z, T a = 1)
+{
+	v[0]=x; v[1]=y; v[2]=z; v[3]=a;
+}
+
+template<class T> StelVector4<T>& StelVector4<T>::operator=(const StelVector4<T>& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1]; v[2]=a.v[2]; v[3]=a.v[3];
+    return *this;
+}
+
+template<class T> StelVector4<T>& StelVector4<T>::operator=(const StelVector3<T>& a)
+{
+	v[0]=a.v[0]; v[1]=a.v[1]; v[2]=a.v[2]; v[3]=1;
+    return *this;
+}
+
+template<class T> StelVector4<T>& StelVector4<T>::operator=(const T* a)
+{
+	v[0]=a[0]; v[1]=a[1]; v[2]=a[2]; v[3]=a[3];
+    return *this;
+}
+
+template<class T> void StelVector4<T>::Set(T x, T y, T z, T a)
+{
+	v[0]=x; v[1]=y; v[2]=z; v[3]=a;
+}
+
+template<class T> bool StelVector4<T>::operator==(const StelVector4<T>& a) const
+{
+	return (v[0] == a.v[0] && v[1] == a.v[1] && v[2] == a.v[2] && v[3] == a.v[3]);
+}
+
+template<class T> bool StelVector4<T>::operator!=(const StelVector4<T>& a) const
+{
+	return (v[0] != a.v[0] || v[1] != a.v[1] || v[2] != a.v[2] || v[3] != a.v[3]);
+}
+
+template<class T> T& StelVector4<T>::operator[](int x)
+{
+	return v[x];
+}
+
+template<class T> const T& StelVector4<T>::operator[](int x) const
+{
+	return v[x];
+}
+
+template<class T> StelVector4<T>::operator T*()
+{
+	return v;
+}
+
+template<class T> StelVector4<T>::operator const T*() const
+{
+	return v;
+}
+
+template<class T> StelVector4<T>& StelVector4<T>::operator+=(const StelVector4<T>& a)
+{
+    v[0] += a.v[0]; v[1] += a.v[1]; v[2] += a.v[2]; v[3] += a.v[3];
+    return *this;
+}
+
+template<class T> StelVector4<T>& StelVector4<T>::operator-=(const StelVector4<T>& a)
+{
+    v[0] -= a.v[0]; v[1] -= a.v[1]; v[2] -= a.v[2]; v[3] -= a/v[3];
+    return *this;
+}
+
+template<class T> StelVector4<T>& StelVector4<T>::operator*=(T s)
+{
+    v[0] *= s; v[1] *= s; v[2] *= s; v[3] *= s;
+    return *this;
+}
+
+template<class T> StelVector4<T> StelVector4<T>::operator-() const
+{
+    return StelVector4<T>(-v[0], -v[1], -v[2], -v[3]);
+}
+
+template<class T> StelVector4<T> StelVector4<T>::operator+() const
+{
+    return *this;
+}
+
+template<class T> StelVector4<T> StelVector4<T>::operator+(const StelVector4<T>& b) const
+{
+    return StelVector4<T>(v[0] + b.v[0], v[1] + b.v[1], v[2] + b.v[2], v[3] + b.v[3]);
+}
+
+template<class T> StelVector4<T> StelVector4<T>::operator-(const StelVector4<T>& b) const
+{
+    return StelVector4<T>(v[0] - b.v[0], v[1] - b.v[1], v[2] - b.v[2], v[3] - b.v[3]);
+}
+
+template<class T> StelVector4<T> StelVector4<T>::operator*(T s) const
+{
+    return StelVector4<T>(s * v[0], s * v[1], s * v[2], s * v[3]);
+}
+
+template<class T> StelVector4<T> StelVector4<T>::operator/(T s) const
+{
+    return StelVector4<T>(v[0]/s, v[1]/s, v[2]/s, v[3]/s);
+}
+
+template<class T> T StelVector4<T>::dot(const StelVector4<T>& b) const
+{
+    return v[0] * b.v[0] + v[1] * b.v[1] + v[2] * b.v[2] + v[3] * b.v[3];
+}
+
+template<class T> T StelVector4<T>::length() const
+{
+    return (T) sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
+}
+
+template<class T> T StelVector4<T>::lengthSquared() const
+{
+    return v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+}
+
+template<class T> void StelVector4<T>::Normalize()
+{
+    T s = (T) (1. / sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]));
+    v[0] *= s;
+    v[1] *= s;
+    v[2] *= s;
+	v[3] *= s;
+}
+
+template<class T> void StelVector4<T>::transfo4d(const Mat4d& m)
+{
+	(*this)=m*(*this);
+}
+
+template<class T> 
+std::ostream& operator<<(std::ostream &o,const StelVector4<T> &v) {
+  return o << '[' << v[0] << ',' << v[1] << ',' << v[2] << ',' << v[3] << ']';
+}
+
+////////////////////////// StelMatrix4 class methods ///////////////////////////////
+template<class T> StelMatrix4<T>::StelMatrix4()
 {
 	r[0]=0; r[1]=0; r[2]=0; r[3]=0; r[4]=0; r[5]=0; r[6]=0; r[7]=0;
 	r[8]=0; r[9]=0; r[10]=0; r[11]=0; r[12]=0; r[13]=0; r[14]=0; r[15]=0;
 }
 
-template<class T> Matrix4<T>::Matrix4(const Matrix4<T>& m)
+template<class T> StelMatrix4<T>::StelMatrix4(const StelMatrix4<T>& m)
 {
 	memcpy(r,m.r,sizeof(m.r));
 }
 
-template<class T> Matrix4<T>::Matrix4(const T* m)
+template<class T> StelMatrix4<T>::StelMatrix4(const T* m)
 {
 	memcpy(r,m,sizeof(T)*16);
 }
 
-template<class T> Matrix4<T>::Matrix4(const csVector4& v0,
-                                      const csVector4& v1,
-                                      const csVector4& v2,
-                                      const csVector4& v3)
+template<class T> StelMatrix4<T>::StelMatrix4(const StelVector4<T>& v0,
+                                      const StelVector4<T>& v1,
+                                      const StelVector4<T>& v2,
+                                      const StelVector4<T>& v3)
 {
-    r[0] = v0.x;
-    r[1] = v0.y;
-    r[2] = v0.z;
-    r[3] = v0.w;
-    r[4] = v1.x;
-    r[5] = v1.y;
-    r[6] = v1.z;
-    r[7] = v1.w;
-    r[8] = v2.x;
-    r[9] = v2.y;
-    r[10] = v2.z;
-    r[11] = v2.w;
-    r[12] = v3.x;
-    r[13] = v3.y;
-    r[14] = v3.z;
-    r[15] = v3.w;
+    r[0] = v0.v[0];
+    r[1] = v0.v[1];
+    r[2] = v0.v[2];
+    r[3] = v0.v[3];
+    r[4] = v1.v[0];
+    r[5] = v1.v[1];
+    r[6] = v1.v[2];
+    r[7] = v1.v[3];
+    r[8] = v2.v[0];
+    r[9] = v2.v[1];
+    r[10] = v2.v[2];
+    r[11] = v2.v[3];
+    r[12] = v3.v[0];
+    r[13] = v3.v[1];
+    r[14] = v3.v[2];
+    r[15] = v3.v[3];
 }
 
-template<class T> Matrix4<T>& Matrix4<T>::operator=(const Matrix4<T>& m)
+template<class T> StelMatrix4<T>& StelMatrix4<T>::operator=(const StelMatrix4<T>& m)
 {
 	memcpy(r,m.r,sizeof(m.r));
 	return (*this);
 }
 
-template<class T> Matrix4<T>::Matrix4(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j, T k, T l, T m, T n, T o, T p)
+template<class T> StelMatrix4<T>::StelMatrix4(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j, T k, T l, T m, T n, T o, T p)
 {
 	r[0]=a; r[1]=b; r[2]=c; r[3]=d; r[4]=e; r[5]=f; r[6]=g; r[7]=h;
 	r[8]=i; r[9]=j; r[10]=k; r[11]=l; r[12]=m; r[13]=n; r[14]=o; r[15]=p;
 }
 
-template<class T> void Matrix4<T>::Set(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j, T k, T l, T m, T n, T o, T p)
+template<class T> void StelMatrix4<T>::Set(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j, T k, T l, T m, T n, T o, T p)
 {
 	r[0]=a; r[1]=b; r[2]=c; r[3]=d; r[4]=e; r[5]=f; r[6]=g; r[7]=h;
 	r[8]=i; r[9]=j; r[10]=k; r[11]=l; r[12]=m; r[13]=n; r[14]=o; r[15]=p;
 }
 
-template<class T> T* Matrix4<T>::operator[](int n)
+template<class T> T* StelMatrix4<T>::operator[](int n)
 {
     return &(r[n*4]);
 }
 
-template<class T> Matrix4<T>::operator T*()
+template<class T> StelMatrix4<T>::operator T*()
 {
 	return r;
 }
 
-template<class T> Matrix4<T>::operator const T*() const
+template<class T> StelMatrix4<T>::operator const T*() const
 {
 	return r;
 }
 
-template<class T> Matrix4<T> Matrix4<T>::Identity()
+template<class T> StelMatrix4<T> StelMatrix4<T>::Identity()
 {
-    return Matrix4<T>(	1, 0, 0, 0,
+    return StelMatrix4<T>(	1, 0, 0, 0,
 						0, 1, 0, 0,
 						0, 0, 1, 0,
 						0, 0, 0, 1  );
 }
 
 
-template<class T> Matrix4<T> Matrix4<T>::translation(const csVector3& a)
+template<class T> StelMatrix4<T> StelMatrix4<T>::translation(const StelVector3<T>& a)
 {
-    return Matrix4<T>(	1, 0, 0, 0,
+    return StelMatrix4<T>(	1, 0, 0, 0,
 						0, 1, 0, 0,
 						0, 0, 1, 0,
-						a.x, a.y, a.z, 1);
+						a.v[0], a.v[1], a.v[2], 1);
 }
 
-template<class T> Matrix4<T> Matrix4<T>::rotation(const csVector3& axis,
+template<class T> StelMatrix4<T> StelMatrix4<T>::rotation(const StelVector3<T>& axis,
                                                   T angle)
 {
     T c = (T) cos(angle);
     T s = (T) sin(angle);
     T t = 1 - c;
 
-    return Matrix4<T>(csVector4(t * axis.x * axis.x + c,
-                                 t * axis.x * axis.y - s * axis.z,
-                                 t * axis.x * axis.y + s * axis.y,
+    return StelMatrix4<T>(StelVector4<T>(t * axis.v[0] * axis.v[0] + c,
+                                 t * axis.v[0] * axis.v[1] - s * axis.v[2],
+                                 t * axis.v[0] * axis.v[2] + s * axis.v[1],
                                  0),
-                      csVector4(t * axis.x * axis.y + s * axis.z,
-                                 t * axis.y * axis.y + c,
-                                 t * axis.y * axis.z - s * axis.x,
+                      StelVector4<T>(t * axis.v[0] * axis.v[1] + s * axis.v[2],
+                                 t * axis.v[1] * axis.v[1] + c,
+                                 t * axis.v[1] * axis.v[2] - s * axis.v[0],
                                  0),
-                      csVector4(t * axis.x * axis.z - s * axis.y,
-                                 t * axis.y * axis.z + s * axis.x,
-                                 t * axis.z * axis.z + c,
+                      StelVector4<T>(t * axis.v[0] * axis.v[2] - s * axis.v[1],
+                                 t * axis.v[1] * axis.v[2] + s * axis.v[0],
+                                 t * axis.v[2] * axis.v[2] + c,
                                  0),
-                      csVector4(0, 0, 0, 1));
+                      StelVector4<T>(0, 0, 0, 1));
 }
 
-template<class T> Matrix4<T> Matrix4<T>::xrotation(T angle)
+template<class T> StelMatrix4<T> StelMatrix4<T>::xrotation(T angle)
 {
     T c = (T) cos(angle);
     T s = (T) sin(angle);
 
-    return Matrix4<T>(1, 0, 0, 0,
+    return StelMatrix4<T>(1, 0, 0, 0,
                       0, c, s, 0,
                       0,-s, c, 0,
                       0, 0, 0, 1 );
 }
 
 
-template<class T> Matrix4<T> Matrix4<T>::yrotation(T angle)
+template<class T> StelMatrix4<T> StelMatrix4<T>::yrotation(T angle)
 {
     T c = (T) cos(angle);
     T s = (T) sin(angle);
 
-    return Matrix4<T>( c, 0,-s, 0,
+    return StelMatrix4<T>( c, 0,-s, 0,
                        0, 1, 0, 0,
                        s, 0, c, 0,
                        0, 0, 0, 1 );
 }
 
 
-template<class T> Matrix4<T> Matrix4<T>::zrotation(T angle)
+template<class T> StelMatrix4<T> StelMatrix4<T>::zrotation(T angle)
 {
     T c = (T) cos(angle);
     T s = (T) sin(angle);
 
-    return Matrix4<T>(c, s, 0, 0,
+    return StelMatrix4<T>(c, s, 0, 0,
                      -s, c, 0, 0,
                       0, 0, 1, 0,
                       0, 0, 0, 1 );
 }
 
 // multiply column vector by a 4x4 matrix in homogeneous coordinate (use a[3]=1)
-template<class T> csVector3 Matrix4<T>::operator*(const csVector3& a) const
+template<class T> StelVector3<T> StelMatrix4<T>::operator*(const StelVector3<T>& a) const
 {
-    return csVector3(	r[0]*a.x + r[4]*a.y +  r[8]*a.z + r[12],
-						r[1]*a.x + r[5]*a.y +  r[9]*a.z + r[13],
-						r[2]*a.x + r[6]*a.y + r[10]*a.z + r[14] );
+    return StelVector3<T>(	r[0]*a.v[0] + r[4]*a.v[1] +  r[8]*a.v[2] + r[12],
+						r[1]*a.v[0] + r[5]*a.v[1] +  r[9]*a.v[2] + r[13],
+						r[2]*a.v[0] + r[6]*a.v[1] + r[10]*a.v[2] + r[14] );
 }
 
-template<class T> csVector3 Matrix4<T>::multiplyWithoutTranslation(const csVector3& a) const
+template<class T> StelVector3<T> StelMatrix4<T>::multiplyWithoutTranslation(const StelVector3<T>& a) const
 {
-    return csVector3(	r[0]*a.x + r[4]*a.y +  r[8]*a.z,
-						r[1]*a.x + r[5]*a.y +  r[9]*a.z,
-						r[2]*a.x + r[6]*a.y + r[10]*a.z );
+    return StelVector3<T>(	r[0]*a.v[0] + r[4]*a.v[1] +  r[8]*a.v[2],
+						r[1]*a.v[0] + r[5]*a.v[1] +  r[9]*a.v[2],
+						r[2]*a.v[0] + r[6]*a.v[1] + r[10]*a.v[2] );
 }
 
 // multiply column vector by a 4x4 matrix in homogeneous coordinate (considere a[3]=1)
-template<class T> csVector4 Matrix4<T>::operator*(const csVector4& a) const
+template<class T> StelVector4<T> StelMatrix4<T>::operator*(const StelVector4<T>& a) const
 {
-    return csVector4(	r[0]*a.x + r[4]*a.y +  r[8]*a.z + r[12]*a.w,
-						r[1]*a.x + r[5]*a.y +  r[9]*a.z + r[13]*a.w,
-						r[2]*a.x + r[6]*a.y + r[10]*a.z + r[14]*a.w );
+    return StelVector4<T>(	r[0]*a.v[0] + r[4]*a.v[1] +  r[8]*a.v[2] + r[12]*a.v[3],
+						r[1]*a.v[0] + r[5]*a.v[1] +  r[9]*a.v[2] + r[13]*a.v[3],
+						r[2]*a.v[0] + r[6]*a.v[1] + r[10]*a.v[2] + r[14]*a.v[3] );
 }
 
-template<class T> Matrix4<T> Matrix4<T>::GetTranspose() const
+template<class T> StelMatrix4<T> StelMatrix4<T>::GetTranspose() const
 {
-    return Matrix4<T>(	r[0], r[4], r[8],  r[12],
+    return StelMatrix4<T>(	r[0], r[4], r[8],  r[12],
 						r[1], r[5], r[9],  r[13],
 						r[2], r[6], r[10], r[14],
 						r[3], r[7], r[11], r[15]);
 }
 
-template<class T> Matrix4<T> Matrix4<T>::operator*(const Matrix4<T>& a) const
+template<class T> StelMatrix4<T> StelMatrix4<T>::operator*(const StelMatrix4<T>& a) const
 {
 #define MATMUL(R, C) (r[R] * a.r[C] + r[R+4] * a.r[C+1] + r[R+8] * a.r[C+2] + r[R+12] * a.r[C+3])
-    return Matrix4<T>(	MATMUL(0,0), MATMUL(1,0), MATMUL(2,0), MATMUL(3,0),
+    return StelMatrix4<T>(	MATMUL(0,0), MATMUL(1,0), MATMUL(2,0), MATMUL(3,0),
 						MATMUL(0,4), MATMUL(1,4), MATMUL(2,4), MATMUL(3,4),
 						MATMUL(0,8), MATMUL(1,8), MATMUL(2,8), MATMUL(3,8),
 						MATMUL(0,12), MATMUL(1,12), MATMUL(2,12), MATMUL(3,12) );
@@ -256,17 +890,17 @@ template<class T> Matrix4<T> Matrix4<T>::operator*(const Matrix4<T>& a) const
 }
 
 
-template<class T> Matrix4<T> Matrix4<T>::operator+(const Matrix4<T>& a) const
+template<class T> StelMatrix4<T> StelMatrix4<T>::operator+(const StelMatrix4<T>& a) const
 {
-    return Matrix4<T>(	r[0]+a.r[0], r[1]+a.r[1], r[2]+a.r[2], r[3]+a.r[3],
+    return StelMatrix4<T>(	r[0]+a.r[0], r[1]+a.r[1], r[2]+a.r[2], r[3]+a.r[3],
 						r[4]+a.r[4], r[5]+a.r[5], r[6]+a.r[6], r[7]+a.r[7],
 						r[8]+a.r[8], r[9]+a.r[9], r[10]+a.r[10], r[11]+a.r[11],
 						r[12]+a.r[12], r[13]+a.r[13], r[14]+a.r[14], r[15]+a.r[15] );
 }
 
-template<class T> Matrix4<T> Matrix4<T>::operator-(const Matrix4<T>& a) const
+template<class T> StelMatrix4<T> StelMatrix4<T>::operator-(const StelMatrix4<T>& a) const
 {
-    return Matrix4<T>(	r[0]-a.r[0], r[1]-a.r[1], r[2]-a.r[2], r[3]-a.r[3],
+    return StelMatrix4<T>(	r[0]-a.r[0], r[1]-a.r[1], r[2]-a.r[2], r[3]-a.r[3],
 						r[4]-a.r[4], r[5]-a.r[5], r[6]-a.r[6], r[7]-a.r[7],
 						r[8]-a.r[8], r[9]-a.r[9], r[10]-a.r[10], r[11]-a.r[11],
 						r[12]-a.r[12], r[13]-a.r[13], r[14]-a.r[14], r[15]-a.r[15] );
@@ -278,7 +912,7 @@ template<class T> Matrix4<T> Matrix4<T>::operator-(const Matrix4<T>& a) const
  * Code contributed by Jacques Leroy jle@star.be
  * Return zero matrix on failure (singular matrix)
  */
-template<class T> Matrix4<T> Matrix4<T>::GetInverse() const
+template<class T> StelMatrix4<T> StelMatrix4<T>::GetInverse() const
 {
 	const T * m = r;
 	T out[16];
@@ -314,7 +948,7 @@ template<class T> Matrix4<T> Matrix4<T>::GetInverse() const
    if (fabs(r1[0]) > fabs(r0[0]))
       SWAP_ROWS(r1, r0);
    if (0.0 == r0[0])
-      return Matrix4<T>();
+      return StelMatrix4<T>();
 
    /* eliminate first variable     */
    m1 = r1[0] / r0[0];
@@ -363,7 +997,7 @@ template<class T> Matrix4<T> Matrix4<T>::GetInverse() const
    if (fabs(r2[1]) > fabs(r1[1]))
       SWAP_ROWS(r2, r1);
    if (0.0 == r1[1])
-      return Matrix4<T>();
+      return StelMatrix4<T>();
 
    /* eliminate second variable */
    m2 = r2[1] / r1[1];
@@ -397,7 +1031,7 @@ template<class T> Matrix4<T> Matrix4<T>::GetInverse() const
    if (fabs(r3[2]) > fabs(r2[2]))
       SWAP_ROWS(r3, r2);
    if (0.0 == r2[2])
-      return Matrix4<T>();
+      return StelMatrix4<T>();
 
    /* eliminate third variable */
    m3 = r3[2] / r2[2];
@@ -406,7 +1040,7 @@ template<class T> Matrix4<T> Matrix4<T>::GetInverse() const
 
    /* last check */
    if (0.0 == r3[3])
-      return Matrix4<T>();
+      return StelMatrix4<T>();
 
    s = 1.0 / r3[3];		/* now back substitute row 3 */
    r3[4] *= s;
@@ -448,13 +1082,13 @@ template<class T> Matrix4<T> Matrix4<T>::GetInverse() const
    MAT(out, 3, 1) = r3[5], MAT(out, 3, 2) = r3[6];
    MAT(out, 3, 3) = r3[7];
 
-   return Matrix4<T>(out);
+   return StelMatrix4<T>(out);
 
 #undef MAT
 #undef SWAP_ROWS
 }
 
-template<class T> void Matrix4<T>::Description(void) const
+template<class T> void StelMatrix4<T>::Description(void) const
 {
     printf("[%5.2lf %5.2lf %5.2lf %17.12le]\n"
            "[%5.2lf %5.2lf %5.2lf %17.12le]\n"
@@ -465,5 +1099,36 @@ template<class T> void Matrix4<T>::Description(void) const
     r[2],r[6],r[10],r[14],
     r[3],r[7],r[11],r[15]);
 }
+
+template<class T> inline
+T operator*(const StelVector2<T>&a,const StelVector2<T>&b) {
+  return a.v[0] * b.v[0] + a.v[1] * b.v[1];
+}
+
+template<class T> inline
+T operator*(const StelVector3<T>&a,const StelVector3<T>&b) {
+  return a.v[0] * b.v[0] + a.v[1] * b.v[1] + a.v[2] * b.v[2];
+}
+
+template<class T> inline
+T operator*(const StelVector4<T>&a,const StelVector4<T>&b) {
+  return a.v[0]*b.v[0] + a.v[1]*b.v[1] + a.v[2]*b.v[2] + a.v[3]*b.v[3];
+}
+
+template<class T> inline
+StelVector2<T> operator*(T s,const StelVector2<T>&v) {
+  return StelVector2<T>(s*v[0],s*v[1]);
+}
+
+template<class T> inline
+StelVector3<T> operator*(T s,const StelVector3<T>&v) {
+  return StelVector3<T>(s*v[0],s*v[1],s*v[2]);
+}
+
+template<class T> inline
+StelVector4<T> operator*(T s,const StelVector4<T>&v) {
+  return StelVector4<T>(s*v[0],s*v[1],s*v[2],s*v[3]);
+}
+
 
 #endif

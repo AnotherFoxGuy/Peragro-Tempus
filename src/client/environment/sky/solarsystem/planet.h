@@ -27,7 +27,7 @@ typedef void (OsulatingFunctType)(double jd0,double jd,double xyz[3]);
 //using namespace std;
 
 struct TrailPoint {
-  csVector3 point;
+  Vec3d point;
   double date;
 };
 
@@ -53,7 +53,7 @@ class Ring
 public:
 	Ring(double radius_min,double radius_max,const string &texname);
 	~Ring(void);
-	void draw(const Projector* prj,const csMatrix4& mat,double screen_sz);
+	void draw(const Projector* prj,const Mat4d& mat,double screen_sz);
 	double get_size(void) const {return radius_max;}
 private:
 	const double radius_min;
@@ -72,7 +72,7 @@ public:
            bool flag_lighting,
            double radius,
            double oblateness,
-           csVector3 color,
+           Vec3f color,
            float albedo,
            csString tex_map_name,
            csString tex_halo_name,
@@ -93,7 +93,7 @@ public:
 
     // Compute the z rotation to use from equatorial to geographic coordinates
     double getSiderealTime(double jd) const;
-    csMatrix4 getRotEquatorialToVsop87(void) const;
+    Mat4d getRotEquatorialToVsop87(void) const;
 
 	// Compute the position in the parent Planet coordinate system
 	void computePositionWithoutOrbits(const double date);
@@ -103,10 +103,10 @@ public:
 	void compute_trans_matrix(double date);
 
 	// Get the phase angle for an observer at pos obs_pos in the heliocentric coordinate (in AU)
-	double get_phase(csVector3 obs_pos) const;
+	double get_phase(Vec3d obs_pos) const;
 
 	// Get the magnitude for an observer at pos obs_pos in the heliocentric coordinate (in AU)
-	float compute_magnitude(const csVector3 obs_pos) const;
+	float compute_magnitude(const Vec3d obs_pos) const;
 	float compute_magnitude(const Navigator * nav) const;
 
 	// Draw the Planet, if hint_ON is != 0 draw a circle and the name as well
@@ -123,13 +123,13 @@ public:
 
 
 	// Get the Planet position in the parent Planet ecliptic coordinate
-	csVector3 get_ecliptic_pos() const;
+	Vec3d get_ecliptic_pos() const;
 
 	// Return the heliocentric ecliptical position
-	csVector3 get_heliocentric_ecliptic_pos() const;
+	Vec3d get_heliocentric_ecliptic_pos() const;
 
 	// Compute the distance to the given position in heliocentric coordinate (in AU)
-	double compute_distance(const csVector3& obs_helio_pos);
+	double compute_distance(const Vec3d& obs_helio_pos);
 	double get_distance(void) const {return distance;}
 
 	// Get a matrix which converts from heliocentric ecliptic coordinate to local geographic coordinate
@@ -138,9 +138,9 @@ public:
 	STEL_OBJECT_TYPE get_type(void) const {return STEL_OBJECT_PLANET;}
 
 	// Return the Planet position in rectangular earth equatorial coordinate
-	csVector3 get_earth_equ_pos(const Navigator *nav) const;
+	Vec3d get_earth_equ_pos(const Navigator *nav) const;
 	// observer centered J2000 coordinates
-	csVector3 getObsJ2000Pos(const Navigator *nav) const;
+	Vec3d getObsJ2000Pos(const Navigator *nav) const;
 
 	csString getEnglishName(void) const {return englishName;}
 	wstring getNameI18n(void) const {return nameI18;}
@@ -158,19 +158,19 @@ public:
 	static void setScale(float s) {object_scale = s;}
 	static float getScale(void) {return object_scale;}
 
-	static void set_label_color(const csVector3& lc) {label_color = lc;}
-	static const csVector3& getLabelColor(void) {return label_color;}
+	static void set_label_color(const Vec3f& lc) {label_color = lc;}
+	static const Vec3f& getLabelColor(void) {return label_color;}
 
-	static void set_orbit_color(const csVector3& oc) {orbit_color = oc;}
-	static const csVector3& getOrbitColor() {return orbit_color;}
+	static void set_orbit_color(const Vec3f& oc) {orbit_color = oc;}
+	static const Vec3f& getOrbitColor() {return orbit_color;}
 
 	// draw orbital path of Planet
 	void draw_orbit(const Navigator * nav, const Projector* prj);
 
 	void update_trail(const Navigator* nav);
 	void draw_trail(const Navigator * nav, const Projector* prj);
-	static void set_trail_color(const csVector3& c) { trail_color = c; }
-	static const csVector3& getTrailColor() { return trail_color; }
+	static void set_trail_color(const Vec3f& c) { trail_color = c; }
+	static const Vec3f& getTrailColor() { return trail_color; }
 
 	//! Start/stop accumulating new trail data (clear old data)
 	void startTrail(bool b);
@@ -182,7 +182,7 @@ protected:
 	float get_on_screen_size(const Projector* prj, const Navigator * nav);
 
 	// Draw the 3D sphere
-	void draw_sphere(const Projector* prj, const csMatrix4& mat, float screen_sz);
+	void draw_sphere(const Projector* prj, const Mat4d& mat, float screen_sz);
 
 	// Draw the small star-like 2D halo
 	void draw_halo(const Navigator* nav, const Projector* prj, const ToneReproductor* eye);
@@ -201,15 +201,15 @@ protected:
 	RotationElements re;			// Rotation param
 	double radius;					// Planet radius in UA
 	double one_minus_oblateness;    // (polar radius)/(equatorial radius)
-	csVector3 orbit[ORBIT_SEGMENTS];    // store heliocentric coordinates for drawing the orbit
-	csVector3 ecliptic_pos; 			// Position in UA in the rectangular ecliptic coordinate system
+	Vec3d orbit[ORBIT_SEGMENTS];    // store heliocentric coordinates for drawing the orbit
+	Vec3d ecliptic_pos; 			// Position in UA in the rectangular ecliptic coordinate system
 									// centered on the parent Planet
-	csVector3 screenPos;				// Used to store temporarily the 2D position on screen
-	csVector3 previousScreenPos;			// The position of this planet in the previous frame.
-	csVector3 color;
+	Vec3d screenPos;				// Used to store temporarily the 2D position on screen
+	Vec3d previousScreenPos;			// The position of this planet in the previous frame.
+	Vec3f color;
 	float albedo;					// Planet albedo
-	csMatrix4 rot_local_to_parent;
-	csMatrix4 mat_local_to_parent;		// Transfo matrix from local ecliptique to parent ecliptic
+	Mat4d rot_local_to_parent;
+	Mat4d mat_local_to_parent;		// Transfo matrix from local ecliptique to parent ecliptic
 	float axis_rotation;			// Rotation angle of the Planet on it's axis
     //STexture * tex_map;			// Planet map texture
 	//STexture * tex_halo;			// Little halo texture
@@ -238,9 +238,9 @@ protected:
 	list<Planet *> satellites;		// satellites of the Planet
 
 	static float object_scale;
-	static csVector3 label_color;
-	static csVector3 orbit_color;
-	static csVector3 trail_color;
+	static Vec3f label_color;
+	static Vec3f orbit_color;
+	static Vec3f trail_color;
 
 	list<TrailPoint>trail;
 	bool trail_on;  // accumulate trail data if true

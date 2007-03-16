@@ -9,9 +9,9 @@
 Navigator::Navigator(Observator* obs) : flag_traking(0), flag_lock_equ_pos(0), flag_auto_move(0),
 		time_speed(JD_SECOND), JDay(0.), position(obs)
 {
-	local_vision=csVector3(1.,0.,0.);
-	equ_vision=csVector3(1.,0.,0.);
-	prec_equ_vision=csVector3(1.,0.,0.);  // not correct yet...
+	local_vision=Vec3d(1.,0.,0.);
+	equ_vision=Vec3d(1.,0.,0.);
+	prec_equ_vision=Vec3d(1.,0.,0.);  // not correct yet...
 	viewing_mode = VIEW_HORIZON;  // default
 }
 
@@ -22,12 +22,12 @@ Navigator::~Navigator()
 void Navigator::init()
 {
 	setJDay(get_julian_from_sys());
-	setLocalVision(csVector3(1.0f,1.0f,0.2f));
+	setLocalVision(Vec3d(1.0f,1.0f,0.2f));
 	// Compute transform matrices between coordinates systems
 	updateTransformMatrices();
 	updateModelViewMat();
 	setViewingMode(Navigator::VIEW_HORIZON);
-	initViewPos = csVector3(1.0f,1.0f,0.2f);
+	initViewPos = Vec3d(1.0f,1.0f,0.2f);
 	setLocalVision(initViewPos);
 }
 
@@ -52,7 +52,7 @@ void Navigator::updateVisionVector(int delta_time)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Navigator::setLocalVision(csVector3 _pos)
+void Navigator::setLocalVision(const Vec3d& _pos)
 {
 	local_vision = _pos;
 	equ_vision=local_to_earth_equ(local_vision);
@@ -111,11 +111,11 @@ void Navigator::updateTime(int delta_time)
 	if (JDay<-34803211.500012) JDay = -34803211.500012;
 }
 
-const csMatrix4 mat_j2000_to_vsop87(
-              csMatrix4::xrotation(-23.4392803055555555556*(M_PI/180)) *
-              csMatrix4::zrotation(0.0000275*(M_PI/180)));
+const Mat4d mat_j2000_to_vsop87(
+              Mat4d::xrotation(-23.4392803055555555556*(M_PI/180)) *
+              Mat4d::zrotation(0.0000275*(M_PI/180)));
 
-const csMatrix4 mat_vsop87_to_j2000(mat_j2000_to_vsop87.GetTranspose());
+const Mat4d mat_vsop87_to_j2000(mat_j2000_to_vsop87.GetTranspose());
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -130,23 +130,46 @@ void Navigator::updateTransformMatrices(void)
 
   mat_helio_to_earth_equ = mat_j2000_to_earth_equ *
                            mat_vsop87_to_j2000 *
-	                       csMatrix4::translation(-position->getCenterVsop87Pos());
+	                       Mat4d::translation(-position->getCenterVsop87Pos());
 
 
 	// These two next have to take into account the position of the observer on the earth
-	csMatrix4 tmp =
+	Mat4d tmp =
 	    mat_j2000_to_vsop87 *
 	    mat_earth_equ_to_j2000 *
         mat_local_to_earth_equ;
 
-	mat_local_to_helio =  csMatrix4::translation(position->getCenterVsop87Pos()) *
+	mat_local_to_helio =  Mat4d::translation(position->getCenterVsop87Pos()) *
 	                      tmp *
-	                      csMatrix4::translation(csVector3(0.,0., position->getDistanceFromCenter()));
+	                      Mat4d::translation(Vec3d(0.,0., position->getDistanceFromCenter()));
 
-	mat_helio_to_local =  csMatrix4::translation(csVector3(0.,0.,-position->getDistanceFromCenter())) *
+	mat_helio_to_local =  Mat4d::translation(Vec3d(0.,0.,-position->getDistanceFromCenter())) *
 	                      tmp.GetTranspose() *
-	                      csMatrix4::translation(-position->getCenterVsop87Pos());
+	                      Mat4d::translation(-position->getCenterVsop87Pos());
+/*
+    printf("==============================================\n");
+    printf("mat_local_to_earth_equ\n");
+    mat_local_to_earth_equ.Description();
 
+    printf("mat_earth_equ_to_local\n");
+    mat_earth_equ_to_local.Description();
+
+    printf("mat_earth_equ_to_j2000\n");
+    mat_earth_equ_to_j2000.Description();
+
+    printf("mat_j2000_to_earth_equ\n");
+    mat_j2000_to_earth_equ.Description();
+
+    printf("mat_helio_to_earth_equ\n");
+    mat_helio_to_earth_equ.Description();
+
+    printf("mat_local_to_helio\n");
+    mat_local_to_helio.Description();
+
+    printf("mat_helio_to_local\n");
+    mat_helio_to_local.Description();
+    printf("==============================================\n");
+*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -154,7 +177,7 @@ void Navigator::updateTransformMatrices(void)
 void Navigator::updateModelViewMat(void)
 {
 
-  csVector3 f;
+  Vec3d f;
 
   if ( viewing_mode == VIEW_EQUATOR)
   {
@@ -169,7 +192,7 @@ void Navigator::updateModelViewMat(void)
 
 
   f.Normalize();
-  csVector3 s(f[1],-f[0],0.);
+  Vec3d s(f[1],-f[0],0.);
 
 
   if ( viewing_mode == VIEW_EQUATOR)
@@ -180,16 +203,17 @@ void Navigator::updateModelViewMat(void)
     s = earth_equ_to_local( s );
   }
 
-  csVector3 u(s%f);
+  Vec3d u(s^f);
   s.Normalize();
   u.Normalize();
 
-  csMatrix4 matrix(s[0],u[0],-f[0],0.,
-	               s[1],u[1],-f[1],0.,
-	               s[2],u[2],-f[2],0.,
-	               0.,0.,0.,1.);
+  mat_local_to_eye.Set(s[0],u[0],-f[0],0.,
+	                   s[1],u[1],-f[1],0.,
+	                   s[2],u[2],-f[2],0.,
+	                   0.,0.,0.,1.);
 
-  mat_local_to_eye = matrix;
+  //printf("mat_local_to_eye\n");
+  //mat_local_to_eye.Description();
 
 
   mat_earth_equ_to_eye = mat_local_to_eye*mat_earth_equ_to_local;
@@ -199,15 +223,15 @@ void Navigator::updateModelViewMat(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Return the observer heliocentric position
-csVector3 Navigator::getObserverHelioPos(void) const
+Vec3d Navigator::getObserverHelioPos(void) const
 {
-	csVector3 v(0.,0.,0.);
+	Vec3d v(0.,0.,0.);
 	return mat_local_to_helio*v;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Move to the given equatorial position
-void Navigator::moveTo(const csVector3& _aim, float move_duration, bool _local_pos, int zooming)
+void Navigator::moveTo(const Vec3d& _aim, float move_duration, bool _local_pos, int zooming)
 {
 	zooming_mode = zooming;
 	move.aim=_aim;

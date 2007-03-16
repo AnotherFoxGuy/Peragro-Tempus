@@ -3,12 +3,14 @@
 #ifndef _STEL_OBJECT_BASE_H_
 #define _STEL_OBJECT_BASE_H_
 
-//#include "client/environment/sky/utils/vecmath.h"
-
 #include <cssysdef.h>
+/*
 #include <csgeom/math3d.h>
 #include <csgeom/matrix3.h>
 #include <csgeom/transfrm.h>
+*/
+
+#include "client/environment/sky/utils/vecmath.h"
 
 #include <iostream>
 
@@ -42,16 +44,16 @@ public:
   virtual wstring getNameI18n(void) const = 0;
 
   //! Get position in earth equatorial frame
-  virtual csVector3 get_earth_equ_pos(const Navigator *nav) const = 0;
+  virtual Vec3d get_earth_equ_pos(const Navigator *nav) const = 0;
 
   //! observer centered J2000 coordinates
-  virtual csVector3 getObsJ2000Pos(const Navigator *nav) const = 0;
+  virtual Vec3d getObsJ2000Pos(const Navigator *nav) const = 0;
 
   //! Return object's magnitude
   virtual float get_mag(const Navigator *nav) const = 0;
 
   //! Get object main color, used to display infos
-  virtual csVector3 get_RGB(void) const {return csVector3(1.,1.,1.);}
+  virtual Vec3f get_RGB(void) const {return Vec3f(1.,1.,1.);}
 
   //! Return the best FOV in degree to use for a close view of the object
   virtual double get_close_fov(const Navigator *nav) const {return 10.;}

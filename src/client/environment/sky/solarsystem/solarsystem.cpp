@@ -43,10 +43,11 @@ void SolarSystem::init(/*const InitParser& conf*/)
 {
 
 	loadPlanets();	// Load planets data
-/*
+
 	// Compute position and matrix of sun and all the satellites (ie planets)
 	// for the first initialization assert that center is sun center (only impacts on light speed correction)
 	computePositions(get_julian_from_sys());
+/*
 	setSelected("");	// Fix a bug on macosX! Thanks Fumio!
 	setScale(conf.get_double ("stars:star_scale"));  // if reload config
 	setFlagMoonScale(conf.get_boolean("viewing", "flag_moon_scaled", conf.get_boolean("viewing", "flag_init_moon_scaled", false)));  // name change
@@ -210,10 +211,10 @@ void SolarSystem::loadPlanets()
     csString tex_big_halovalue   = tex_big_halo->GetAttributeValue("value");
     double big_halo_sizevalue    = big_halo_size->GetAttributeValueAsFloat("value");
 
-    csVector3 colorvalue;
-    colorvalue.x = (color->GetAttributeValueAsFloat("red"));
-    colorvalue.y = (color->GetAttributeValueAsFloat("green")); 
-    colorvalue.z = (color->GetAttributeValueAsFloat("blue")); 
+    Vec3f colorvalue;
+    colorvalue[0] = (color->GetAttributeValueAsFloat("red"));
+    colorvalue[1] = (color->GetAttributeValueAsFloat("green")); 
+    colorvalue[2] = (color->GetAttributeValueAsFloat("blue")); 
 
 
     Planet* planet = new Planet(planetparent,
@@ -434,7 +435,7 @@ EllipticalOrbit* SolarSystem::GetOrbit(Planet* parent, csRef<iDocumentNode> orbi
 
 // Compute the position for every elements of the solar system.
 // The order is not important since the position is computed relatively to the mother body
-void SolarSystem::computePositions(double date, const csVector3& observerPos) {
+void SolarSystem::computePositions(double date, const Vec3d& observerPos) {
   if (flag_light_travel_time) {
     for (vector<Planet*>::const_iterator iter(system_planets.begin());
          iter!=system_planets.end();iter++) {
@@ -443,7 +444,7 @@ void SolarSystem::computePositions(double date, const csVector3& observerPos) {
     for (vector<Planet*>::const_iterator iter(system_planets.begin());
          iter!=system_planets.end();iter++) {
       const double light_speed_correction =
-        ((*iter)->get_heliocentric_ecliptic_pos()-observerPos).Norm()
+        ((*iter)->get_heliocentric_ecliptic_pos()-observerPos).length()
         * (AU / (SPEED_OF_LIGHT * 86400));
       (*iter)->compute_position(date-light_speed_correction);
     }
@@ -459,12 +460,12 @@ void SolarSystem::computePositions(double date, const csVector3& observerPos) {
 
 // Compute the transformation matrix for every elements of the solar system.
 // The elements have to be ordered hierarchically, eg. it's important to compute earth before moon.
-void SolarSystem::computeTransMatrices(double date, const csVector3& observerPos) {
+void SolarSystem::computeTransMatrices(double date, const Vec3d& observerPos) {
   if (flag_light_travel_time) {
     for (vector<Planet*>::const_iterator iter(system_planets.begin());
          iter!=system_planets.end();iter++) {
       const double light_speed_correction =
-        ((*iter)->get_heliocentric_ecliptic_pos()-observerPos).Norm()
+        ((*iter)->get_heliocentric_ecliptic_pos()-observerPos).length()
         * (AU / (SPEED_OF_LIGHT * 86400));
       (*iter)->compute_trans_matrix(date-light_speed_correction);
     }
@@ -655,21 +656,21 @@ bool SolarSystem::near_lunar_eclipse(const Navigator * nav, Projector *prj)
 {
 	// TODO: could replace with simpler test
 
-	csVector3 e = getEarth()->get_ecliptic_pos();
-	csVector3 m = getMoon()->get_ecliptic_pos();  // relative to earth
-	csVector3 mh = getMoon()->get_heliocentric_ecliptic_pos();  // relative to sun
+	Vec3d e = getEarth()->get_ecliptic_pos();
+	Vec3d m = getMoon()->get_ecliptic_pos();  // relative to earth
+	Vec3d mh = getMoon()->get_heliocentric_ecliptic_pos();  // relative to sun
 
 	// shadow location at earth + moon distance along earth vector from sun
-	csVector3 en = e;
+	Vec3d en = e;
 	en.Normalize();
-	csVector3 shadow = en * (e.Norm() + m.Norm());
+	Vec3d shadow = en * (e.length() + m.length());
 
 	// find shadow radii in AU
-	double r_penumbra = shadow.Norm()*702378.1/AU/e.Norm() - 696000/AU;
+	double r_penumbra = shadow.length()*702378.1/AU/e.length() - 696000/AU;
 
 	// modify shadow location for scaled moon
-	csVector3 mdist = shadow - mh;
-	if(mdist.Norm() > r_penumbra + 2000/AU) return 0;   // not visible so don't bother drawing
+	Vec3d mdist = shadow - mh;
+	if(mdist.length() > r_penumbra + 2000/AU) return 0;   // not visible so don't bother drawing
 
 	return 1;
 }

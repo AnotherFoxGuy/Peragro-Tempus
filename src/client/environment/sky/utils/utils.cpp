@@ -11,21 +11,21 @@
 
 namespace StelUtils {
 
-  void sphe_to_rect(double lng, double lat, csVector3& v)
+  void sphe_to_rect(double lng, double lat, Vec3d& v)
   {
     const double cosLat = cos(lat);
     v.Set(cos(lng) * cosLat, sin(lng) * cosLat, sin(lat));
   }
 
-  void sphe_to_rect(float lng, float lat, csVector3& v)
+  void sphe_to_rect(float lng, float lat, Vec3d& v)
   {
     const double cosLat = cos(lat);
     v.Set(cos(lng) * cosLat, sin(lng) * cosLat, sin(lat));
   }
 
-  void rect_to_sphe(double *lng, double *lat, const csVector3& v)
+  void rect_to_sphe(double *lng, double *lat, const Vec3d& v)
   {
-    double r = v.Norm();
+    double r = v.length();
     *lat = asin(v[2]/r);
     *lng = atan2(v[1],v[0]);
   }

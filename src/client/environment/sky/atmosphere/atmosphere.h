@@ -51,7 +51,7 @@ class Atmosphere
 public:
     Atmosphere();
     virtual ~Atmosphere();
-	void compute_color(double JD, csVector3 sunPos, csVector3 moonPos, float moon_phase, 
+	void compute_color(double JD, Vec3d sunPos, Vec3d moonPos, float moon_phase, 
                        ToneReproductor * eye, Projector* prj,
 		               float latitude = 48.f, float altitude = 83.f,
 		               float temperature = 15.f, float relative_humidity = 40.f);
@@ -66,7 +66,7 @@ private:
 	Skylight sky;
 	Skybright skyb;
 	int sky_resolution;
-	csVector3 ** tab_sky;	// For Atmosphere calculation
+	Vec3f ** tab_sky;	// For Atmosphere calculation
 	int startY;			// intern variable used to store the Horizon Y screen value
 	float world_adaptation_luminance;
 	float milkyway_adaptation_luminance;

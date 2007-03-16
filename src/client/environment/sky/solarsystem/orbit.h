@@ -11,7 +11,7 @@ class Orbit
 {
 public:
 	virtual ~Orbit() {;}
-    virtual csVector3 positionAtTime(double) const = 0;
+    virtual Vec3d positionAtTime(double) const = 0;
     virtual double getPeriod() const = 0;
     virtual double getBoundingRadius() const = 0;
     virtual void sample(double, double, int, OrbitSampleProc&) const = 0;
@@ -45,14 +45,14 @@ public:
     void positionAtTimevInVSOP87Coordinates(double JD, double* v) const;
 
       // Original one
-    csVector3 positionAtTime(double) const;
+    Vec3d positionAtTime(double) const;
     double getPeriod() const;
     double getBoundingRadius() const;
     virtual void sample(double, double, int, OrbitSampleProc&) const;
 
 private:
     double eccentricAnomaly(double) const;
-    csVector3 positionAtE(double) const;
+    Vec3d positionAtE(double) const;
 
     double pericenterDistance;
     double eccentricity;
@@ -70,7 +70,7 @@ class OrbitSampleProc
 {
  public:
 	virtual ~OrbitSampleProc() {;}
-    virtual void sample(const csVector3&) = 0;
+    virtual void sample(const Vec3d&) = 0;
 };
 
 
@@ -86,16 +86,16 @@ class CachingOrbit : public Orbit
 public:
     CachingOrbit() : lastTime(1.0e-30) {};
 
-    virtual csVector3 computePosition(double jd) const = 0;
+    virtual Vec3d computePosition(double jd) const = 0;
     virtual double getPeriod() const = 0;
     virtual double getBoundingRadius() const = 0;
 
-    csVector3 positionAtTime(double jd) const;
+    Vec3d positionAtTime(double jd) const;
 
     virtual void sample(double, double, int, OrbitSampleProc& proc) const;
 
 private:
-    mutable csVector3 lastPosition;
+    mutable Vec3d lastPosition;
     mutable double lastTime;
 };
 

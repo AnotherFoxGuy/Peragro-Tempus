@@ -18,10 +18,10 @@ public:
     string getHomePlanetEnglishName(void) const;
     wstring getHomePlanetNameI18n(void) const;
 
-    csVector3 getCenterVsop87Pos(void) const;
+    Vec3d getCenterVsop87Pos(void) const;
     double getDistanceFromCenter(void) const;
-    csMatrix4 getRotLocalToEquatorial(double jd) const;
-    csMatrix4 getRotEquatorialToVsop87(void) const;
+    Mat4d getRotLocalToEquatorial(double jd) const;
+    Mat4d getRotEquatorialToVsop87(void) const;
 
 	void save(const string& file, const string& section) const;
 	void setConf(/*InitParser &conf, const string& section*/) const;

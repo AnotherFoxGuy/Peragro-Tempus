@@ -25,7 +25,7 @@ Projector::Projector()
   g3d = csQueryRegistry<iGraphics3D> (obj_reg);
   if(!g3d) return;
 
-  csVector4 vec_viewport(0, 0, (float)g3d->GetWidth(), (float)g3d->GetHeight());
+  Vec4i vec_viewport(0, 0, (float)g3d->GetWidth(), (float)g3d->GetHeight());
 
   flip_horz = 1.0;
   flip_vert = 1.0;
@@ -43,7 +43,7 @@ void Projector::init_project_matrix(void)
 {
 	double f = 1./tan(fov*M_PI/360.);
 	double ratio = (double)getViewportHeight()/getViewportWidth();
-
+/*
     // Calculate the projection matrix TODO is this correct?
     csReversibleTransform tm = g3d->GetWorldToCamera();
     csMatrix3 m = tm.GetO2T();
@@ -52,13 +52,13 @@ void Projector::init_project_matrix(void)
     csVector4 r3(m.Row3().x,m.Row3().y,m.Row3().z,0);
     csVector4 r4(0,0,0,1);
     mat_projection = csMatrix4(r1,r2,r3,r4);
-
-    /*
+*/
+    
 	mat_projection.Set(	flip_horz*f*ratio, 0., 0., 0.,
-							0., flip_vert*f, 0., 0.,
-							0., 0., (zFar + zNear)/(zNear - zFar), -1.,
-							0., 0., (2.*zFar*zNear)/(zNear - zFar), 0.);
-    */
+						0., flip_vert*f, 0., 0.,
+						0., 0., (zFar + zNear)/(zNear - zFar), -1.,
+						0., 0., (2.*zFar*zNear)/(zNear - zFar), 0.);
+
     /*
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(mat_projection);
@@ -107,10 +107,10 @@ void Projector::change_fov(double deltaFov)
 
 
 // Set the standard modelview matrices used for projection
-void Projector::set_modelview_matrices(	csMatrix4 _mat_earth_equ_to_eye,
-					                    csMatrix4 _mat_helio_to_eye,
-					                    csMatrix4 _mat_local_to_eye,
-					                    csMatrix4 _mat_j2000_to_eye)
+void Projector::set_modelview_matrices(	const Mat4d& _mat_earth_equ_to_eye,
+					                    const Mat4d& _mat_helio_to_eye,
+					                    const Mat4d& _mat_local_to_eye,
+					                    const Mat4d& _mat_j2000_to_eye)
 {
 	mat_earth_equ_to_eye = _mat_earth_equ_to_eye;
 	mat_j2000_to_eye = _mat_j2000_to_eye;

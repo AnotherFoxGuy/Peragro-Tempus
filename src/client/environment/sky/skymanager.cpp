@@ -71,7 +71,6 @@ bool SkyMGR::Initialize ()
   projection = new Projector();
   projection->init();
 
-
   //TODO remove this
   navigation->setTimeSpeed(JD_HOUR);
   Update(1);
@@ -161,8 +160,7 @@ void SkyMGR::Update (int delta_time)
 
   // Position of sun and all the satellites (ie planets)
   ssystem->computePositions(navigation->getJDay(),
-    navigation->getHomePlanet()->get_heliocentric_ecliptic_pos());
-
+                            navigation->getHomePlanet()->get_heliocentric_ecliptic_pos());
 
   // Transform matrices between coordinates systems
   navigation->updateTransformMatrices();
@@ -178,14 +176,16 @@ void SkyMGR::Update (int delta_time)
   atmosphere->update(delta_time);
 
   // Compute the sun position in local coordinate
-  csVector3 temp(0.,0.,0.);
-  csVector3 sunPos = navigation->helio_to_local(temp);
+  Vec3d temp(0.,0.,0.);
+  Vec3d sunPos = navigation->helio_to_local(temp);
+  printf("Sun position: %f %f %f \n", sunPos[0], sunPos[1], sunPos[2]);
 
 
   // Compute the moon position in local coordinate
   //csVector3 moon = ssystem->getMoon()->get_heliocentric_ecliptic_pos();
-  csVector3 moon = csVector3(1, 1, 1);
-  csVector3 moonPos = navigation->helio_to_local(moon);
+  Vec3d moon = ssystem->getMoon()->get_heliocentric_ecliptic_pos();
+  Vec3d moonPos = navigation->helio_to_local(moon);
+  printf("moon position: %f %f %f \n", moonPos[0], moonPos[1], moonPos[2]);
 
   // Give the updated standard projection matrices to the projector.
   projection->set_modelview_matrices(navigation->get_earth_equ_to_eye_mat(),
@@ -225,6 +225,8 @@ void SkyMGR::Update (int delta_time)
   // Set the ambient light
   float value = sky_brightness+0.05;
   engine->SetAmbientLight(csColor(value, value, value));
+
+  printf("ambient: %f\n", value);
 	
 }
 

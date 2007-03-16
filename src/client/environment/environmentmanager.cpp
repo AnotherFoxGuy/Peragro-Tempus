@@ -147,7 +147,7 @@ void EnvironmentMGR::Time()
   mutex.lock();
   TimeData* timedata = timearray.Pop();
 
-  if(timedata->hour < sunarray.Length())
+  if(timedata->hour < sunarray.GetSize())
   {
     Sun* sun = sunarray[timedata->hour];
     if(!sun) return;

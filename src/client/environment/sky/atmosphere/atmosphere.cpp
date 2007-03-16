@@ -23,10 +23,10 @@
 Atmosphere::Atmosphere() : sky_resolution(48), tab_sky(NULL), world_adaptation_luminance(0.f), atm_intensity(0)
 {
   // Create the vector array used to store the sky color on the full field of view
-  tab_sky = new csVector3*[sky_resolution+1];
+  tab_sky = new Vec3f*[sky_resolution+1];
   for (int k=0; k<sky_resolution+1 ;k++)
   {
-    tab_sky[k] = new csVector3[sky_resolution+1];
+    tab_sky[k] = new Vec3f[sky_resolution+1];
   }
 
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -51,7 +51,7 @@ Atmosphere::~Atmosphere()
   delete colors;
 }
 
-void Atmosphere::compute_color(double JD, csVector3 sunPos, csVector3 moonPos, float moon_phase,
+void Atmosphere::compute_color(double JD, Vec3d sunPos, Vec3d moonPos, float moon_phase,
                                ToneReproductor * eye, Projector* prj,
                                float latitude, float altitude, 
                                float temperature, float relative_humidity)
@@ -65,8 +65,8 @@ void Atmosphere::compute_color(double JD, csVector3 sunPos, csVector3 moonPos, f
 	skylight_struct2 b2;
 
 	// these are for radii
-	double sun_angular_size = atan(696000./AU/sqrt(sunPos.SquaredNorm()));
-	double moon_angular_size = atan(1738./AU/sqrt(moonPos.SquaredNorm()));
+	double sun_angular_size = atan(696000./AU/sunPos.length());
+	double moon_angular_size = atan(1738./AU/moonPos.length());
 
 	double touch_angle = sun_angular_size + moon_angular_size;
 	double dark_angle = moon_angular_size - sun_angular_size;
@@ -75,7 +75,7 @@ void Atmosphere::compute_color(double JD, csVector3 sunPos, csVector3 moonPos, f
 	moonPos.Normalize();
 
 	// determine luminance falloff during solar eclipses
-	double separation_angle = acos( sunPos * moonPos );  // angle between them
+	double separation_angle = acos( sunPos.dot( moonPos ));  // angle between them
 
 	// bright stars should be visible at total eclipse
 	// TODO: correct for atmospheric diffusion
@@ -125,7 +125,7 @@ void Atmosphere::compute_color(double JD, csVector3 sunPos, csVector3 moonPos, f
     float viewport_left = (float)0; //getViewportPosX()
     float viewport_bottom = (float)0;  //getViewportPosY()
 
-    csVector3 point(1., 0., 0.);
+    Vec3d point(1., 0., 0.);
 
 	// Variables used to compute the average sky luminance
 	double sum_lum = 0.;
@@ -205,15 +205,15 @@ void Atmosphere::draw(int delta_time)
       poly[id+2].Set((int)(viewport_left+(x2+1)*stepX),(int)(viewport_bottom+(y2+1)*stepY),0);
       poly[id+3].Set((int)(viewport_left+x2*stepX),(int)(viewport_bottom+(y2+1)*stepY),0);
 
+      colors[id+0].Set(tab_sky[x2][y2][0], tab_sky[x2][y2][1], tab_sky[x2][y2][2], 1);
+      colors[id+1].Set(tab_sky[x2+1][y2][0], tab_sky[x2+1][y2][1], tab_sky[x2+1][y2][2], 1);
+      colors[id+2].Set(tab_sky[x2+1][y2+1][0], tab_sky[x2+1][y2+1][1], tab_sky[x2+1][y2+1][2], 1);
+      colors[id+3].Set(tab_sky[x2][y2+1][0], tab_sky[x2][y2+1][1], tab_sky[x2][y2+1][2], 1);
+      /*
       colors[id+0].Set(tab_sky[x2][y2]);
       colors[id+1].Set(tab_sky[x2+1][y2]);
       colors[id+2].Set(tab_sky[x2+1][y2+1]);
       colors[id+3].Set(tab_sky[x2][y2+1]);
-      /*
-      colors[id+0].Set(tab_sky[x2][y2]);
-      colors[id+1].Set(tab_sky[x2][y2]);
-      colors[id+2].Set(tab_sky[x2][y2+1]);
-      colors[id+3].Set(tab_sky[x2][y2]);
       */
     }
   }
