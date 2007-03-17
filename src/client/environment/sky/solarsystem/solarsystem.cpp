@@ -93,7 +93,7 @@ void SolarSystem::loadPlanets()
     node = doc->GetRoot()->GetNode("planets");
     if (!node)
     {
-      printf("ItemManager: ERROR Couldn't open ssystem file!\n");
+      printf("SolarSystem: ERROR Couldn't open ssystem file!\n");
       return;
     }
   }
@@ -203,7 +203,7 @@ void SolarSystem::loadPlanets()
     bool hiddenvalue             = hidden->GetAttributeValueAsBool("value");
     bool halovalue               = halo->GetAttributeValueAsBool("value");
     bool lightingvalue           = lighting->GetAttributeValueAsBool("value");
-    double radiusvalue           = radius->GetAttributeValueAsFloat("value");
+    double radiusvalue           = radius->GetAttributeValueAsFloat("value")/AU;
     double oblatenessvalue       = oblateness->GetAttributeValueAsFloat("value");
     float albedovalue            = albedo->GetAttributeValueAsFloat("value");
     csString tex_mapvalue        = tex_map->GetAttributeValue("value");

@@ -109,7 +109,7 @@ void Observator::load(/*const InitParser& conf, const string& section*/)
 
     latitude  = 48;
     longitude = 02;
-    altitude = 83000;
+    altitude = 83;
 }
 
 void Observator::set_landscape_name(const string s) {
