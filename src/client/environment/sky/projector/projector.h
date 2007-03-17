@@ -21,6 +21,7 @@
 
 
 struct iObjectRegistry;
+struct iPcDefaultCamera;
 
 // Class which handle projection modes and projection matrix
 // Overide some function usually handled by glu
@@ -41,81 +42,19 @@ public:
 
 	virtual PROJECTOR_TYPE getType(void) const {return PERSPECTIVE_PROJECTOR;}
 
-	//! Get and set to define and get viewport size
-	virtual void setViewport(int x, int y, int w, int h);
-	void setViewportSize(int w, int h)
-	{
-		if (w==getViewportWidth() && h==getViewportHeight())
-			return;
-		setViewportWidth(w);
-		setViewportHeight(h);
-	}
-	void setViewport(const Vec4i& v) {setViewport(v[0], v[1], v[2], v[3]);}
-
 	//! Set the horizontal viewport offset in pixels
-	void setViewportPosX(int x) {setViewport(x, vec_viewport[1], vec_viewport[2], vec_viewport[3]);}
 	int getViewportPosX(void) const {return vec_viewport[0];}
 
-	//! Get/Set the vertical viewport offset in pixels
-	void setViewportPosY(int y) {setViewport(vec_viewport[0], y, vec_viewport[2], vec_viewport[3]);}
+	//! Get the vertical viewport offset in pixels
 	int getViewportPosY(void) const {return vec_viewport[1];}
-
-	void setViewportWidth(int width) {setViewport(vec_viewport[0], vec_viewport[1], width, vec_viewport[3]);}
-	void setViewportHeight(int height) {setViewport(vec_viewport[0], vec_viewport[1], vec_viewport[2], height);}
-
 
 	int getViewportWidth(void) const {return vec_viewport[2];}
 	int getViewportHeight(void) const {return vec_viewport[3];}
 	const Vec4i& getViewport(void) const {return vec_viewport;}
 
-	//! Maximize viewport according to passed screen values
-	void setMaximizedViewport(int screenW, int screenH) {setViewport(0, 0, screenW, screenH);}
-
-	//! Set a centered squared viewport with passed vertical and horizontal offset
-	void setSquareViewport(int screenW, int screenH, int hoffset, int voffset)
-	{
-		int m = MY_MIN(screenW, screenH);
-		setViewport((screenW-m)/2+hoffset, (screenH-m)/2+voffset, m, m);
-	}
-
-	//! Set the current openGL viewport to projector's viewport
-	void applyViewport(void) const {}
-
-
-	bool getFlipHorz(void) const {return (flip_horz < 0.0);}
-	bool getFlipVert(void) const {return (flip_vert < 0.0);}
-	void setFlipHorz(bool flip) {
-		flip_horz = flip ? -1.0 : 1.0;
-		init_project_matrix();
-		//glFrontFace(needGlFrontFaceCW()?GL_CW:GL_CCW);
-	}
-	void setFlipVert(bool flip) {
-		flip_vert = flip ? -1.0 : 1.0;
-		init_project_matrix();
-		//glFrontFace(needGlFrontFaceCW()?GL_CW:GL_CCW);
-	}
-	virtual bool needGlFrontFaceCW(void) const
-		{return (flip_horz*flip_vert < 0.0);}
-
-	//! Set the Field of View in degree
-	void set_fov(double f);
-	//! Get the Field of View in degree
-	double get_fov(void) const {return fov;}
+    //! Get the Field of View in degree
+	double get_fov(void) const;
 	double getRadPerPixel(void) const {return view_scaling_factor;}
-
-	//! Set the maximum Field of View in degree
-	void setMaxFov(double max);
-	//! Get the maximum Field of View in degree
-	double getMaxFov(void) const {return max_fov;}
-
-    //! If is currently zooming, return the target FOV, otherwise return current FOV
-    double getAimFov(void) const
-	  {return (flag_auto_zoom ? zoom_move.aim : fov);}
-
-    void change_fov(double deltaFov);
-
-	void set_clipping_planes(double znear, double zfar);
-	void get_clipping_planes(double* zn, double* zf) const {*zn = zNear; *zf = zFar;}
 
 	// Return true if the 2D pos is inside the viewport
 	bool check_in_viewport(const Vec3d& pos) const
@@ -177,8 +116,11 @@ public:
 	inline bool project_local_check(const Vec3d& v, Vec3d& win) const
 		{return project_custom_check(v, win, mat_local_to_eye);}
 
+/*
 	inline void unproject_local(double x, double y, Vec3d& v) const
 		{unproject(x, y, inv_mat_local_to_eye, v);}
+*/
+    void unproject_local(double x, double y, Vec3d& v) const;
 
 	// Same function but using a custom modelview matrix
 	virtual bool project_custom(const Vec3d& v, Vec3d& win, const Mat4d& mat) const
@@ -197,38 +139,14 @@ public:
 		{return project_custom(v1, win1, mat) && project_custom(v2, win2, mat) &&
 		   (check_in_viewport(win1) || check_in_viewport(win2));}
 
-
-	// Set the drawing mode in 2D for drawing inside the viewport only.
-	// Use reset_perspective_projection() to restore previous projection mode
-	void set_orthographic_projection(void) const;
-
-	// Restore the previous projection mode after a call to set_orthographic_projection()
-	void reset_perspective_projection(void) const;
-
-
-	//! Return the initial default FOV in degree
-	double getInitFov() const {return initFov;}
-
 protected:
-	// Struct used to store data for auto mov
-	typedef struct
-	{
-		double start;
-	    double aim;
-	    float speed;
-	    float coef;
-	}auto_zoom;
-
 	// Init the viewing matrix from the fov, the clipping planes and screen ratio
 	// The function is a reimplementation of gluPerspective
 	virtual void init_project_matrix(void);
 
-	double initFov;				// initial default FOV in degree
-	double fov;					// Field of view in degree
-	double min_fov;				// Minimum fov in degree
-	double max_fov;				// Maximum fov in degree
 	double zNear, zFar;			// Near and far clipping planes
 	Vec4i vec_viewport;			// Viewport parameters
+
 	Mat4d mat_projection;		// Projection matrix
 
 	Vec3d center;				// Viewport center in screen pixel
@@ -255,13 +173,10 @@ protected:
         v.transfo4d(m);
 	}
 
-	// Automove
-	auto_zoom zoom_move;		// Current auto movement
-	bool flag_auto_zoom;		// Define if autozoom is on or off
-
     private:
       csRef<iEngine> engine;
       csRef<iGraphics3D> g3d;
+      ptEntityManager* entmgr;
 };
 
 #endif // _PROJECTOR_H_

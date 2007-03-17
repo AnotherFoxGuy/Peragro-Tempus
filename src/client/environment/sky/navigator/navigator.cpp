@@ -146,6 +146,7 @@ void Navigator::updateTransformMatrices(void)
 	mat_helio_to_local =  Mat4d::translation(Vec3d(0.,0.,-position->getDistanceFromCenter())) *
 	                      tmp.GetTranspose() *
 	                      Mat4d::translation(-position->getCenterVsop87Pos());
+
 /*
     printf("==============================================\n");
     printf("mat_local_to_earth_equ\n");

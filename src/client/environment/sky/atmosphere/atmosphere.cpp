@@ -120,8 +120,8 @@ void Atmosphere::compute_color(double JD, Vec3d sunPos, Vec3d moonPos, float moo
 
     skyb.set_date(date.years, date.months, moon_phase);
 
-    float stepX = (float)g3d->GetWidth() / sky_resolution;
-    float stepY = (float)g3d->GetHeight() / sky_resolution;
+    float stepX = (float)prj->getViewportWidth() / sky_resolution;
+    float stepY = (float)prj->getViewportHeight() / sky_resolution;
     float viewport_left = (float)0; //getViewportPosX()
     float viewport_bottom = (float)0;  //getViewportPosY()
 
