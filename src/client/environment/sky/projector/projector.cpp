@@ -30,8 +30,8 @@ Projector::Projector()
   flip_horz = 0.0;
   flip_vert = 0.0;
 
-  zFar = 0.1;
-  zNear = 1000;
+  zNear = 0.1;
+  zFar = 1000;
   if (entmgr)
   {
     csRef<iPcDefaultCamera> cam = entmgr->getOwnCamera();
