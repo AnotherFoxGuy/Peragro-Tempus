@@ -664,7 +664,10 @@ bool Client::OnMouseDown(iEvent& ev)
       {
       case csmbLeft:
         {
-          csRef<iCamera> cam = entitymanager->getOwnCamera()->GetCamera();
+          if (!entitymanager) return false;
+          csRef<iPcDefaultCamera> pccamera = entitymanager->getOwnCamera();
+          if (!pccamera) return false;
+          csRef<iCamera> cam = pccamera->GetCamera();
           if (!cam) return false;
 
           csVector3 isect, untransfCoord;
