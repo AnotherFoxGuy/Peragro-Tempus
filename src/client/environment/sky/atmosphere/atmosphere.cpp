@@ -136,16 +136,17 @@ void Atmosphere::compute_color(double JD, Vec3d sunPos, Vec3d moonPos, float moo
 	{
 		for(int y=0; y<=sky_resolution; ++y)
 		{
-          //printf("pos before %s\n", point.Description().GetData());
 			prj->unproject_local((double)viewport_left+x*stepX, (double)viewport_bottom+y*stepY,point);
 			point.Normalize();
-          //printf("pos after %s\n", point.Description().GetData());
 
 			if (point[2]<=0)
 			{
-				point[2] = -point[2];
 				// The sky below the ground is the symetric of the one above :
 				// it looks nice and gives proper values for brightness estimation
+				//point[2] = -point[2];
+
+                // No sky below the ground
+				point[2] = 0;
 			}
 
 			b2.pos[0] = point[0];
@@ -156,9 +157,9 @@ void Atmosphere::compute_color(double JD, Vec3d sunPos, Vec3d moonPos, float moo
 			sky.get_xyY_valuev(b2);
 
 			// Use the Skybright.cpp 's models for brightness which gives better results.
-			b2.color[2] = skyb.get_luminance(moon_pos[0]*b2.pos[0]+moon_pos[1]*b2.pos[1]+
-			                                 moon_pos[2]*b2.pos[2], sun_pos[0]*b2.pos[0]+sun_pos[1]*b2.pos[1]+
-			                                 sun_pos[2]*b2.pos[2], b2.pos[2]);
+            b2.color[2] = skyb.get_luminance(moon_pos[0]*b2.pos[0]+moon_pos[1]*b2.pos[1]+moon_pos[2]*b2.pos[2],
+                                             sun_pos[0]*b2.pos[0]+sun_pos[1]*b2.pos[1]+sun_pos[2]*b2.pos[2],
+                                             b2.pos[2]);
 
 
 			sum_lum+=b2.color[2];
@@ -204,6 +205,7 @@ void Atmosphere::draw(int delta_time)
       poly[id+1].Set((int)(viewport_left+(x2+1)*stepX),(int)(viewport_bottom+y2*stepY),0);
       poly[id+2].Set((int)(viewport_left+(x2+1)*stepX),(int)(viewport_bottom+(y2+1)*stepY),0);
       poly[id+3].Set((int)(viewport_left+x2*stepX),(int)(viewport_bottom+(y2+1)*stepY),0);
+
 
       colors[id+0].Set(tab_sky[x2][y2][0], tab_sky[x2][y2][1], tab_sky[x2][y2][2], 1);
       colors[id+1].Set(tab_sky[x2+1][y2][0], tab_sky[x2+1][y2][1], tab_sky[x2+1][y2][2], 1);

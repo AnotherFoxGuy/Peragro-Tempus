@@ -155,6 +155,8 @@ void SkyMGR::updateMove(int delta_time)
 
 void SkyMGR::Update (int delta_time)
 {
+  delta_time *= 4;  // make time running faster
+
   observatory->update(delta_time);
   navigation->updateTime(delta_time);
 
@@ -178,14 +180,14 @@ void SkyMGR::Update (int delta_time)
   // Compute the sun position in local coordinate
   Vec3d temp(0.,0.,0.);
   Vec3d sunPos = navigation->helio_to_local(temp);
-  printf("Sun position: %f %f %f \n", sunPos[0], sunPos[1], sunPos[2]);
+  printf("Sun %7.4f %7.4f %7.4f    ", sunPos[0], sunPos[1], sunPos[2]);
 
 
   // Compute the moon position in local coordinate
   //csVector3 moon = ssystem->getMoon()->get_heliocentric_ecliptic_pos();
   Vec3d moon = ssystem->getMoon()->get_heliocentric_ecliptic_pos();
   Vec3d moonPos = navigation->helio_to_local(moon);
-  printf("moon position: %f %f %f \n", moonPos[0], moonPos[1], moonPos[2]);
+  printf("moon %7.4f %7.4f %7.4f    ", moonPos[0], moonPos[1], moonPos[2]);
 
   // Give the updated standard projection matrices to the projector.
   projection->set_modelview_matrices(navigation->get_earth_equ_to_eye_mat(),
@@ -226,7 +228,7 @@ void SkyMGR::Update (int delta_time)
   float value = sky_brightness+0.05;
   engine->SetAmbientLight(csColor(value, value, value));
 
-  printf("ambient: %f\n", value);
+  printf("ambient %7.4f\n", value);
 	
 }
 

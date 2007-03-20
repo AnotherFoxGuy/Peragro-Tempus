@@ -45,8 +45,12 @@ Mat4d Observator::getRotLocalToEquatorial(double jd) const {
   // This is a kludge
   if( lat > 89.5 )  lat = 89.5;
   if( lat < -89.5 ) lat = -89.5;
-  return Mat4d::zrotation((planet->getSiderealTime(jd)+longitude)*(M_PI/180.))
-    * Mat4d::yrotation((90.-lat)*(M_PI/180.));
+  //return Mat4d::zrotation((planet->getSiderealTime(jd)+longitude)*(M_PI/180.))
+  //  * Mat4d::yrotation((90.-lat)*(M_PI/180.));
+
+  // TODO: check this !!! (is Earth rotating in right direction?)
+  return Mat4d::zrotation((-planet->getSiderealTime(jd)-longitude)*(M_PI/180.))
+    * Mat4d::yrotation((-lat)*(M_PI/180.));
 }
 
 Mat4d Observator::getRotEquatorialToVsop87(void) const {

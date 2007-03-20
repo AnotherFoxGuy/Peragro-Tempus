@@ -25,7 +25,7 @@ Projector::Projector()
 
   entmgr = PointerLibrary::getInstance()->getEntityManager();
 
-  vec_viewport = Vec4i(0, 0, (float)g3d->GetWidth(), (float)g3d->GetHeight());
+  vec_viewport = Vec4i(0, 0, (int)g3d->GetWidth(), (int)g3d->GetHeight());
 
   flip_horz = 0.0;
   flip_vert = 0.0;
@@ -50,19 +50,43 @@ Projector::~Projector()
 
 void Projector::unproject_local(double x, double y, Vec3d& v) const
 {
-/*
   if (!entmgr) return;
   csRef<iPcDefaultCamera> cam = entmgr->getOwnCamera();
   if (!cam.IsValid()) return;
 
-  csVector2 point(x,y);
-  csVector3 vec = cam->GetCamera()->InvPerspective(point, 1);
+  csOrthoTransform tm = cam->GetCamera()->GetTransform();
+  csMatrix3 m = tm.GetT2O();
+  if (x == 0.0 && y == 0.0)
+  {
+    //printf("\n%f %f %f\n%f %f %f\n%f %f %f\n", m.m11, m.m12, m.m13, m.m21, m.m22, m.m23, m.m31, m.m32, m.m33);
+  }
 
-  v[0] = vec.x;
-  v[1] = vec.y;
-  v[2] = vec.z;
-*/
-  unproject(x, y, inv_mat_local_to_eye, v);
+  //printf("p %4.0f %4.0f     ", x, y);
+  csVector2 point(x,g3d->GetHeight()-y);   // Y axis is inverted (why?)
+  csVector3 vec = cam->GetCamera()->InvPerspective(point, 1000);
+  //printf("%9.2f %9.2f %9.2f    ", vec[0], vec[1], vec[2]);
+  csVector3 vec2;
+
+  vec2 = tm.This2OtherRelative(vec); // we have local coord system centered 0 at actor that's why "Relative"
+  //printf("%9.2f %9.2f %9.2f    ", vec2[0], vec2[1], vec2[2]);
+
+  v[0] = vec2.x;
+  v[1] = vec2.y;
+  v[2] = vec2.z;
+  v.Normalize();
+  //printf("%9.6f %9.6f %9.6f    ", v[0], v[1], v[2]);
+
+  // Convert CS to local coordinates
+  // In local: Z - up, In CS: Z - forward, Y - up
+  // TODO: Check transform
+  Mat4d m2(-1, 0, 0, 0,
+           0, 0, 1, 0,
+           0, 1, 0, 0,
+           0, 0, 0, 0);
+  v.transfo4d(m2);
+  //printf("%9.6f %9.6f %9.6f\n", v[0], v[1], v[2]);
+
+// unproject(x, y, inv_mat_local_to_eye, v);
 }
 
 double Projector::get_fov(void) const
