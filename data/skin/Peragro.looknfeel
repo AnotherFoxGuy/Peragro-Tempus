@@ -3258,8 +3258,8 @@
     ***************************************************
     -->
     <WidgetLook name="Peragro/TabContentPane">
-        <PropertyDefinition name="EnableTop" initialValue="0" redrawOnWrite="true" layoutOnwrite="true" />
-        <PropertyDefinition name="EnableBottom" initialValue="0" redrawOnWrite="true" layoutOnwrite="true" />    
+        <PropertyDefinition name="EnableTop" initialValue="0" redrawOnWrite="true" layoutOnWrite="true" />
+        <PropertyDefinition name="EnableBottom" initialValue="0" redrawOnWrite="true" layoutOnWrite="true" />    
         <ImagerySection name="normal">
 	            <FrameComponent>
 	                <Area>
@@ -3347,8 +3347,8 @@
         ***************************************************
         -->
         <WidgetLook name="Peragro/TabButtonPane">
-            <PropertyDefinition name="EnableTop" initialValue="1" redrawOnWrite="true" layoutOnwrite="true" />
-            <PropertyDefinition name="EnableBottom" initialValue="1" redrawOnWrite="true" layoutOnwrite="true" />
+            <PropertyDefinition name="EnableTop" initialValue="1" redrawOnWrite="true" layoutOnWrite="true" />
+            <PropertyDefinition name="EnableBottom" initialValue="1" redrawOnWrite="true" layoutOnWrite="true" />
             <ImagerySection name="normal">
                 <FrameComponent>
                     <Area>
