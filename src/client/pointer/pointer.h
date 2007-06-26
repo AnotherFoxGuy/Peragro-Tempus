@@ -27,7 +27,6 @@ class GUIManager;
 class ptEntityManager;
 class EffectsManager;
 class CombatMGR;
-class EnvironmentMGR;
 
 class PointerLibrary
 {
@@ -42,7 +41,6 @@ private:
   ptEntityManager* entitymanager;
   EffectsManager* effectsmanager;
   CombatMGR* combatmanager;
-  EnvironmentMGR* envmanager;
 
 public:
   PointerLibrary() { pointerlib = this; }
@@ -71,9 +69,6 @@ public:
 
   void setCombatManager(CombatMGR* combatmanager) { this->combatmanager = combatmanager; }
   CombatMGR* getCombatManager() { return this->combatmanager; }
-
-  void setEnvironmentManager(EnvironmentMGR* envmanager) { this->envmanager = envmanager; }
-  EnvironmentMGR* getEnvironmentManager() { return this->envmanager; }
 
 };
 

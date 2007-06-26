@@ -75,7 +75,7 @@ void ptEntityManager::Handle ()
 
 PtEntity* ptEntityManager::findPtEntById(int id)
 {
-  for (size_t i = 0; i < entities.Length(); i++)
+  for (size_t i = 0; i < entities.GetSize(); i++)
   {
     if (entities[i]->GetId() == id)
     {
@@ -87,7 +87,7 @@ PtEntity* ptEntityManager::findPtEntById(int id)
 
 iCelEntity* ptEntityManager::findCelEntById(int id)
 {
-  for (size_t i = 0; i < entities.Length(); i++)
+  for (size_t i = 0; i < entities.GetSize(); i++)
   {
     if (entities[i]->GetId() == id)
     {
@@ -169,7 +169,7 @@ void ptEntityManager::delEntity()
 
   int id = ent->GetId();
 
-  for (size_t i = 0; i < entities.Length(); i++)
+  for (size_t i = 0; i < entities.GetSize(); i++)
   {
     if (entities[i]->GetId() == id)
     {
@@ -185,7 +185,7 @@ void ptEntityManager::delEntity()
 void ptEntityManager::delAllEntities()
 {
   ownent = 0;
-  for (size_t i = 0; i < entities.Length(); i++)
+  for (size_t i = 0; i < entities.GetSize(); i++)
   {
     pl->RemoveEntity(entities[i]->GetCelEntity());
     entities.DeleteIndex(i);

@@ -59,7 +59,6 @@
 #include "client/combat/combatmanager.h"
 #include "client/item/itemmanager.h"
 #include "client/entity/ptentitymanager.h"
-#include "client/environment/environmentmanager.h"
 #include "client/console/console.h"
 
 #include "common/util/wincrashdump.h"
@@ -108,7 +107,6 @@ void Client::PreProcessFrame()
   timer += ticks;
 
   effectsmanager->HandleEffects(ticks);
-  envmanager->GetSkyMgr()->updateMove(ticks);
 
   if (limitFPS > 0)
   {
@@ -262,17 +260,12 @@ bool Client::Application()
     return false;
   pointerlib.setCombatManager(combatmanager);
 
-  // Create and Initialize the EnvironmentManager.
-  envmanager = new EnvironmentMGR ();
-  if (!envmanager->Initialize())
-    return ReportError ("Failed to initialize Environment Manager!");
-  pointerlib.setEnvironmentManager(envmanager);
-
+/*
   // Create and Initialize the PTConsole.
   ptconsole = new PtConsole ();
   if (!ptconsole->Initialize())
     return ReportError ("Failed to initialize PT Console!");
-
+*/
   view.AttachNew(new csView(engine, g3d));
 
   // intro sound
@@ -410,7 +403,6 @@ void Client::handleStates()
       checkConnection();
       loadRegion();
       entitymanager->Handle();
-      envmanager->Handle();
 
       chat();
       break;

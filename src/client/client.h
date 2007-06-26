@@ -58,7 +58,6 @@ class EffectsManager;
 class ptEntityManager;
 class CombatMGR;
 class ItemMGR;
-class EnvironmentMGR;
 class PtConsole;
 
 class Cursor;
@@ -135,7 +134,6 @@ private:
   CombatMGR* combatmanager;
   ItemMGR* itemmanager;
   Cursor* cursor;
-  EnvironmentMGR* envmanager;
   PtConsole* ptconsole;
 
   struct ChatMessage

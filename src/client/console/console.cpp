@@ -31,7 +31,6 @@
 #include "client/combat/combatmanager.h"
 #include "client/item/itemmanager.h"
 #include "client/entity/ptentitymanager.h"
-#include "client/environment/environmentmanager.h"
 
 PtConsole::PtConsole ()
 {
