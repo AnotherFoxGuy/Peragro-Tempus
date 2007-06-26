@@ -31,7 +31,7 @@ void Equipment::AddItem(EquipedItem* equipeditem)
 
 void Equipment::RemoveItem(unsigned int slotid)
 {
-  for (size_t i=0; i < equipment.Length(); i++)
+  for (size_t i=0; i < equipment.GetSize(); i++)
    {
      EquipedItem* item = equipment.Get(i);
      if(item->GetSlotId() == slotid)
@@ -64,7 +64,7 @@ void Equipment::UnEquip(unsigned int slotid)
 
 void Equipment::ConstructMeshes()
 {
-  for (size_t i=0; i < equipment.Length(); i++)
+  for (size_t i=0; i < equipment.GetSize(); i++)
    {
      EquipedItem* equipeditem = equipment.Get(i);
      equipeditem->ConstructMesh();
@@ -73,7 +73,7 @@ void Equipment::ConstructMeshes()
 
 void Equipment::DestructMeshes()
 {
-  for (size_t i=0; i < equipment.Length(); i++)
+  for (size_t i=0; i < equipment.GetSize(); i++)
    {
      EquipedItem* equipeditem = equipment.Get(i);
      equipeditem->DestructMesh();

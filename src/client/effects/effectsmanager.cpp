@@ -92,7 +92,7 @@ bool EffectsManager::Initialize ()
 void EffectsManager::HandleEffects (csTicks elapsed_ticks)
 {
   size_t i = 0;
-  while (i < effects.Length ())
+  while (i < effects.GetSize ())
   {
     if (effects[i].Handle (elapsed_ticks)) i++;
     else

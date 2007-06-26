@@ -155,14 +155,14 @@ bool ItemMGR::Initialize ()
     items.Put(item->GetId(), item);
     printf("%d : %s\n", item->GetId(), item->GetName().GetData());
   }
-  printf("================================= %d item(s)\n\n", items.Length()-1);
+  printf("================================= %d item(s)\n\n", items.GetSize()-1);
 
   return true;
 }
 
 ClientItem* ItemMGR::GetItemById(uint id)
 {
-  if (id < items.Length())
+  if (id < items.GetSize())
   {
     return items[id];
   }
@@ -172,7 +172,7 @@ ClientItem* ItemMGR::GetItemById(uint id)
 
 ClientItem* ItemMGR::GetItemByName(csString name)
 {
-  for (size_t i = 0; i < items.Length(); i++)
+  for (size_t i = 0; i < items.GetSize(); i++)
    {
      ClientItem* item = items[i];
      if(item)

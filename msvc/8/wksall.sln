@@ -1,7 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual C++ Express 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appanvil", "appanvil.vcproj", "{EF63703C-8B3F-86AC-0777-0A24F83AB0E5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appclient", "appclient.vcproj", "{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1020E648-2350-8556-4CD6-29FFD41D5DD6} = {1020E648-2350-8556-4CD6-29FFD41D5DD6}
@@ -109,10 +107,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EF63703C-8B3F-86AC-0777-0A24F83AB0E5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{EF63703C-8B3F-86AC-0777-0A24F83AB0E5}.Debug|Win32.Build.0 = Debug|Win32
-		{EF63703C-8B3F-86AC-0777-0A24F83AB0E5}.Release|Win32.ActiveCfg = Release|Win32
-		{EF63703C-8B3F-86AC-0777-0A24F83AB0E5}.Release|Win32.Build.0 = Release|Win32
 		{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}.Debug|Win32.Build.0 = Debug|Win32
 		{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}.Release|Win32.ActiveCfg = Release|Win32
