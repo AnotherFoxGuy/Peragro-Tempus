@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+26-Jun-2007
+  - Sueastside removed Anvil and moved Environment manager to its own branch.
+
 12-Mar-2007
   - Sueastside applied some gcc fixes suggested by greenlion.
 
