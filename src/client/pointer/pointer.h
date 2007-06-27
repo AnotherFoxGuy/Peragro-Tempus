@@ -28,6 +28,14 @@ class ptEntityManager;
 class EffectsManager;
 class CombatMGR;
 
+namespace PT
+{
+  namespace Events
+  {
+    class EventManager;
+  } // Events namespace 
+} // PT namespace 
+
 class PointerLibrary
 {
 private:
@@ -41,6 +49,7 @@ private:
   ptEntityManager* entitymanager;
   EffectsManager* effectsmanager;
   CombatMGR* combatmanager;
+  PT::Events::EventManager* eventmanager;
 
 public:
   PointerLibrary() { pointerlib = this; }
@@ -69,6 +78,9 @@ public:
 
   void setCombatManager(CombatMGR* combatmanager) { this->combatmanager = combatmanager; }
   CombatMGR* getCombatManager() { return this->combatmanager; }
+
+  void setEventManager(PT::Events::EventManager* eventmanager) { this->eventmanager = eventmanager; }
+  PT::Events::EventManager* getEventManager() { return this->eventmanager; }
 
 };
 

@@ -26,10 +26,8 @@
 #include "common/network/netmessage.h"
 
 
-ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg, Client* client)
+ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg)
 {
-  this->client = client;
-
   this->obj_reg = obj_reg;
 
   engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -61,16 +59,16 @@ bool ptEntityManager::Initialize ()
 
 void ptEntityManager::Handle ()
 {
-  addEntity();
-  delEntity();
-  moveEntity();
-  moveToEntity();
-  DrUpdateEntity();
-  updatePcProp();
-  equip();
-  mount();
-  unmount();
-  teleport();
+    addEntity();
+    delEntity();
+    moveEntity();
+    moveToEntity();
+    DrUpdateEntity();
+    updatePcProp();
+    equip();
+    mount();
+    unmount();
+    teleport();
 }
 
 PtEntity* ptEntityManager::findPtEntById(int id)

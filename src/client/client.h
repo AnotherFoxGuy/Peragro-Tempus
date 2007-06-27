@@ -60,6 +60,14 @@ class CombatMGR;
 class ItemMGR;
 class PtConsole;
 
+namespace PT
+{
+  namespace Events
+  {
+    class EventManager;
+  } // Events namespace 
+} // PT namespace 
+
 class Cursor;
 struct iCommandLineParser;
 struct iPath;
@@ -86,7 +94,6 @@ public:
 private:
   void PreProcessFrame();
   void ProcessFrame();
-  void PostProcessFrame();
   void FinishFrame();
 
   bool OnKeyboard(iEvent&);
@@ -135,6 +142,8 @@ private:
   ItemMGR* itemmanager;
   Cursor* cursor;
   PtConsole* ptconsole;
+
+  PT::Events::EventManager* eventmanager;
 
   struct ChatMessage
   {

@@ -42,8 +42,6 @@
 
 #include "common/util/mutex.h"
 
-#include "client/client.h"
-
 #include "client/network/network.h"
 
 #include "client/entity/movement.h"
@@ -106,7 +104,7 @@ private:
 
 public:
 
-  ptEntityManager (iObjectRegistry* obj_reg, Client* client);
+  ptEntityManager (iObjectRegistry* obj_reg);
   ~ptEntityManager ();
 
   bool Initialize ();

@@ -61,6 +61,8 @@
 #include "client/entity/ptentitymanager.h"
 #include "client/console/console.h"
 
+#include "client/event/eventmanager.h"
+
 #include "common/util/wincrashdump.h"
 
 CS_IMPLEMENT_APPLICATION
@@ -72,7 +74,7 @@ Client::Client() : playing(false)
   walk = 0;
   turn = 0;
   timer = 0;
-  limitFPS = 0;
+  limitFPS = 60;
   last_sleep = 0;
   world_loaded = false;
   cameradistance = 3;
@@ -107,6 +109,7 @@ void Client::PreProcessFrame()
   timer += ticks;
 
   effectsmanager->HandleEffects(ticks);
+  eventmanager->Handle();
 
   if (limitFPS > 0)
   {
@@ -122,19 +125,18 @@ void Client::PreProcessFrame()
       entitymanager->DrUpdateOwnEntity();
     }
   }
-  g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
 }
 
 void Client::ProcessFrame()
 {
+  g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
+
   handleStates();
 
+  // Draw the player camera manually.
   csRef<iPcDefaultCamera> cam = entitymanager->getOwnCamera();
   if (cam) cam->Draw();
-}
 
-void Client::PostProcessFrame()
-{
   // Paint the interface over the engine
   guimanager->Render ();
   cursor->Draw();
@@ -190,6 +192,12 @@ bool Client::Application()
   pointerlib.setNetwork(network);
 
   // Create and Initialize the ItemManager.
+  eventmanager = new PT::Events::EventManager();
+  if (!eventmanager->Initialize())
+    return false;
+  pointerlib.setEventManager(eventmanager);
+
+  // Create and Initialize the ItemManager.
   itemmanager = new ItemMGR (GetObjectRegistry());
   if (!itemmanager->Initialize())
     return false;
@@ -243,7 +251,7 @@ bool Client::Application()
   cursor = new Cursor(this);
 
   // Create and Initialize the EntityManager.
-  entitymanager = new ptEntityManager (GetObjectRegistry(), this);
+  entitymanager = new ptEntityManager (GetObjectRegistry());
   if (!entitymanager->Initialize())
     return false;
   pointerlib.setEntityManager(entitymanager);
@@ -320,7 +328,7 @@ void Client::handleStates()
       }
       else
       {
-        if (!strncmp(path,"void", 4)) path = 0;
+        if (!strncmp(path,"empty", 4)) path = 0;
       }
 
       printf("handleStates: Loading Intro: %s\n", path);
@@ -361,16 +369,6 @@ void Client::handleStates()
       guimanager->CreateNpcDialogWindow();
       guimanager->CreateTradeWindow();
 
-      //guimanager->CreateStatusWindow ();
-      //guimanager->CreateInventoryWindow ();
-      //guimanager->GetInventoryWindow()->ShowWindow();
-      //playing = true;
-      //guimanager->CreateHUDWindow();
-      //guimanager->CreateBuddyWindow();
-      //guimanager->CreateSelectCharWindow();
-      //guimanager->GetSelectCharWindow()->ShowWindow();
-      //guimanager->CreateConfirmWindow();
-      //guimanager->CreateOkWindow();
       guimanager->CreateBuyWindow();
       //guimanager->CreateSellWindow();
 
@@ -403,6 +401,8 @@ void Client::handleStates()
       checkConnection();
       loadRegion();
       entitymanager->Handle();
+
+      view.Invalidate();
 
       chat();
       break;
