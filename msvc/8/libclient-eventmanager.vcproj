@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="libclient-entitymanager"
-	ProjectGUID="{BF4129D2-DB7C-DED2-8AC2-D31815CC0CA7}"
+	Name="libclient-eventmanager"
+	ProjectGUID="{3AE64EBD-985B-9739-5B26-A01B3B069369}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\out\release8\build\libclient-entitymanager\"
-			IntermediateDirectory="..\..\out\release8\build\libclient-entitymanager\"
+			OutputDirectory="..\..\out\release8\build\libclient-eventmanager\"
+			IntermediateDirectory="..\..\out\release8\build\libclient-eventmanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -30,10 +30,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release8\build\libclient-entitymanager\libclient-entitymanager.pch"
-				AssemblerListingLocation="..\..\out\release8\build\libclient-entitymanager\"
-				ObjectFile="..\..\out\release8\build\libclient-entitymanager\"
-				ProgramDataBaseFileName="..\..\out\release8\build\libclient-entitymanager\client-entitymanager.pdb"
+				PrecompiledHeaderFile="..\..\out\release8\build\libclient-eventmanager\libclient-eventmanager.pch"
+				AssemblerListingLocation="..\..\out\release8\build\libclient-eventmanager\"
+				ObjectFile="..\..\out\release8\build\libclient-eventmanager\"
+				ProgramDataBaseFileName="..\..\out\release8\build\libclient-eventmanager\client-eventmanager.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -53,11 +53,11 @@
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
-				ProgramDatabaseFile="..\..\out\release8\build\libclient-entitymanager\client-entitymanager.pdb"
+				ProgramDatabaseFile="..\..\out\release8\build\libclient-eventmanager\client-eventmanager.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\libclient-entitymanager.lib"
+				OutputFile="..\..\out\release8\libs\libclient-eventmanager.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -65,7 +65,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libclient-entitymanager\libclient-entitymanager.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\libclient-eventmanager\libclient-eventmanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -85,8 +85,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug8\build\libclient-entitymanager\"
-			IntermediateDirectory="..\..\out\debug8\build\libclient-entitymanager\"
+			OutputDirectory="..\..\out\debug8\build\libclient-eventmanager\"
+			IntermediateDirectory="..\..\out\debug8\build\libclient-eventmanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -101,10 +101,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug8\build\libclient-entitymanager\libclient-entitymanager.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\libclient-entitymanager\"
-				ObjectFile="..\..\out\debug8\build\libclient-entitymanager\"
-				ProgramDataBaseFileName="..\..\out\debug8\build\libclient-entitymanager\client-entitymanager.pdb"
+				PrecompiledHeaderFile="..\..\out\debug8\build\libclient-eventmanager\libclient-eventmanager.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\libclient-eventmanager\"
+				ObjectFile="..\..\out\debug8\build\libclient-eventmanager\"
+				ProgramDataBaseFileName="..\..\out\debug8\build\libclient-eventmanager\client-eventmanager.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -122,11 +122,11 @@
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
-				ProgramDatabaseFile="..\..\out\debug8\build\libclient-entitymanager\client-entitymanager.pdb"
+				ProgramDatabaseFile="..\..\out\debug8\build\libclient-eventmanager\client-eventmanager.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\libclient-entitymanager_d.lib"
+				OutputFile="..\..\out\debug8\libs\libclient-eventmanager_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -134,7 +134,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libclient-entitymanager\libclient-entitymanager.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\libclient-eventmanager\libclient-eventmanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -158,71 +158,23 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\entity\character\characterentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\character\equipment\equipeditem.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\character\equipment\equipment.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\door\doorentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\item\itementity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\mount\mountentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\npc\npcentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\pc\pcentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\ptentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\ptentitymanager.cpp">
+				RelativePath="..\..\src\client\event\eventmanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\entity\character\characterentity.h">
+				RelativePath="..\..\src\client\event\entityevent.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\character\equipment\equipeditem.h">
+				RelativePath="..\..\src\client\event\event.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\character\equipment\equipment.h">
+				RelativePath="..\..\src\client\event\eventhandler.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\entity\door\doorentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\item\itementity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\mount\mountentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\movement.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\npc\npcentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\pc\pcentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\ptentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\ptentitymanager.h">
+				RelativePath="..\..\src\client\event\eventmanager.h">
 			</File>
 		</Filter>
 	</Files>
