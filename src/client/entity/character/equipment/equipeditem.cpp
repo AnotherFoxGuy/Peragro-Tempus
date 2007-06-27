@@ -40,7 +40,7 @@ void EquipedItem::ConstructMesh()
 
   csRef<iCelEntity> itement = pl->CreateEntity();
   this->itementity = itement;
-  pl->CreatePropertyClass(itementity, "pcmesh");
+  pl->CreatePropertyClass(itementity, "pcobject.mesh");
   csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);

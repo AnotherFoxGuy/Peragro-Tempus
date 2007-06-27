@@ -34,40 +34,26 @@ namespace PT
     {
     }
 
-    bool EventManager::TestHandler(Event* ev)
-    {
-      printf("It worked\n");
-      return true;
-    }
-
     bool EventManager::Initialize()
     {
-      EventHandler<EventManager>* cb = new EventHandler<EventManager>(&EventManager::TestHandler, this);
-
-      AddListener(1, cb);
-
-      Event* ev = new EntityEvent();
-
-      AddEvent(ev);
 
       return true;
     }
 
     void EventManager::AddEvent(Event* ev)
     {
-      if (ev) 
-        printf("I: Adding event: %d\n", ev->GetEventID());
-      else
-        printf("I: Adding empty event.\n");
-
       mutex.lock();
+
+      printf("I: Adding event.\n");
+
       events.push(ev);
+
       mutex.unlock();
     }
 
     void EventManager::AddListener(EventID eventId, EventHandlerCallback* handler)
     {
-      printf("I: Adding listener: %d\n", eventId);
+      printf("I: Adding listener: %s\n", eventId.c_str());
       Listener listen;
       listen.handler = handler;
       listen.eventId = eventId;
@@ -88,21 +74,21 @@ namespace PT
         if (id == it->eventId)
         {
           if (!it->handler) continue;
-          printf("I: Handling event: %d\n", it->eventId);
+          printf("I: Handling event: %s\n", it->GetEventId());
           bool handled = it->handler->HandleEvent(ev);
           if (handled && !ev->GetBroadCast())
           {
-            printf("I: Event handled: deleting %d\n", it->eventId);
-            //delete ev;
+            printf("I: Event handled: deleting %s\n", it->GetEventId());
+            delete ev;
             events.pop();
             return;
           }
         } // if
       } // for
 
-      printf("I: No listeners for event: deleting %d\n", id);
+      printf("W: No listeners for event: deleting %s\n", id.c_str());
       events.pop();
-      //delete ev;
+      delete ev;
     }
 
   } // Events namespace 

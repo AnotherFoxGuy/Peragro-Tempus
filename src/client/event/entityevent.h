@@ -20,9 +20,11 @@
 #define PTENTITY_EVENT_H
 
 #include <cssysdef.h>
+#include <csgeom/vector3.h>
+
+#include <vector>
 
 #include "client/event/event.h"
-#include "common/network/entitymessages.h"
 
 namespace PT
 {
@@ -30,44 +32,49 @@ namespace PT
   {
     class EntityEvent : public Event
     {
-    private:
-      ENTITY::MESSAGES type;
+    public:
+      public:
+        enum EntityType
+        {
+          PlayerEntity=0,
+          NPCEntity=1,
+          DoorEntity=2,
+          ItemEntity=3,
+          MountEntity=4
+        };
+
+      unsigned int entityId;
+      unsigned int entityType;
 
     public:
-      unsigned int entityId;
+      EntityEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+      virtual ~EntityEvent() {}
+    };
 
-      // Add
+    class EntityAddEvent : public EntityEvent
+    {
+    public:
       std::string entityName;
       std::string meshName;
-      float* position;
+      unsigned int meshId;
+      csVector3 position;
       std::string sectorName;
 
-      // Move
-      float walk;
-      float turn;
+      std::vector<std::pair<int, int> > equipment;
 
-      // DR Update
-      float rotation;
-
-      // MoveTo
-      float* fromPosition;
-      float* toPosition;
-      float speed;
-
-      // Add player
-      std::vector<int> equipmentItemIDs;
-
-      // Mount
-      unsigned int mount_id;
-      unsigned char control;
+      bool locked;
+      bool open;
 
     public:
-      EntityEvent() : Event(1, false) {}
-      virtual ~EntityEvent() {}
+      EntityAddEvent() : EntityEvent("EntityAddEvent", false) {}
+      virtual ~EntityAddEvent() {}
+    };
 
-      ENTITY::MESSAGES GetType() { return type; }
-      void SetType(ENTITY::MESSAGES type) { this->type = type; }
-
+    class EntityRemoveEvent : public EntityEvent
+    {
+    public:
+      EntityRemoveEvent() : EntityEvent("EntityRemoveEvent", false) {}
+      virtual ~EntityRemoveEvent() {}
     };
 
   } // Events namespace 

@@ -25,6 +25,8 @@
 
 #include "common/network/netmessage.h"
 
+#include "client/event/eventmanager.h"
+
 
 ptEntityManager::ptEntityManager (iObjectRegistry* obj_reg)
 {
@@ -54,13 +56,21 @@ bool ptEntityManager::Initialize ()
   playing = false;
   own_char_id = 0;
 
+  using namespace PT::Events;
+
+  // Register listener for EntityAddEvent.
+  EventHandler<ptEntityManager>* cbAdd = new EventHandler<ptEntityManager>(&ptEntityManager::AddEntity, this);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cbAdd);
+
+  // Register listener for EntityRemoveEvent.
+  EventHandler<ptEntityManager>* cbRemove = new EventHandler<ptEntityManager>(&ptEntityManager::RemoveEntity, this);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cbRemove);
+
   return true;
 }
 
 void ptEntityManager::Handle ()
 {
-    addEntity();
-    delEntity();
     moveEntity();
     moveToEntity();
     DrUpdateEntity();
@@ -75,9 +85,9 @@ PtEntity* ptEntityManager::findPtEntById(int id)
 {
   for (size_t i = 0; i < entities.GetSize(); i++)
   {
-    if (entities[i]->GetId() == id)
+    if (entities.Get(i)->GetId() == id)
     {
-      return entities[i];
+      return entities.Get(i);
     }
   }
   return 0;
@@ -87,85 +97,129 @@ iCelEntity* ptEntityManager::findCelEntById(int id)
 {
   for (size_t i = 0; i < entities.GetSize(); i++)
   {
-    if (entities[i]->GetId() == id)
+    if (entities.Get(i)->GetId() == id)
     {
-      return entities[i]->GetCelEntity();
+      return entities.Get(i)->GetCelEntity();
     }
   }
   return 0;
 }
 
-void ptEntityManager::addEntity(PtEntity* entity)
+bool ptEntityManager::AddEntity(PT::Events::Event* ev)
 {
-  mutex.lock();
-  new_entity_name.Push(entity);
-  mutex.unlock();
-}
+  using namespace PT::Events;
 
-void ptEntityManager::addEntity()
-{
-  if (!new_entity_name.GetSize() || !world_loaded || !playing) return;
-
-  mutex.lock();
-
-  PtEntity* entity = new_entity_name.Pop();
-
-  if(entity)
+  EntityEvent* entityEv = static_cast<EntityEvent*> (ev);
+  if (!entityEv)
   {
-    if (findPtEntById(entity->GetId()))
-    {
-      printf("Skipping already existing entity '%s(%d)'\n", entity->GetName().GetData(), entity->GetId());
-      mutex.unlock();
-      return;
-    }
-
-    if (entity->GetType() == PtEntity::PlayerEntity)
-    {
-      ((PtPcEntity*)entity)->SetOwnEntity(own_char_id == entity->GetId());
-    }
-
-    entity->Create();
-
-    if (own_char_id == entity->GetId())
-    {
-      printf("ptEntityManager:  Adding Entity '%s(%d)' as me\n", entity->GetName().GetData(), entity->GetId());
-      csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
-      pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
-      pccamera->SetPitch(-0.18f);
-      pccamera->SetAutoDraw(false);
-
-      // Set up own player cam and entity for faster access.
-      owncam = pccamera;
-      ownent = entity;
-      owncelent = entity->GetCelEntity();
-      ownname = entity->GetName();
-    }
-    else
-      printf("ptEntityManager: Adding Entity '%s(%d)'\n", entity->GetName().GetData(), entity->GetId());
-
-    // Add our entity to the list.
-    entities.Push (entity);
+    printf("E: Not an Entity event!\n");
+    return false;
+  }
+  EntityAddEvent* entityAddEv = static_cast<EntityAddEvent*> (entityEv);
+  if (!entityAddEv)
+  {
+    printf("E: Not an EntityAddEvent event!\n");
+    return false;
+  }
+  if ( findPtEntById(entityAddEv->entityId) )
+  {
+    printf("W: Skipping already existing entity '%s(%d)'\n", entityAddEv->entityName.c_str(), entityAddEv->entityId);
+    return true;
   }
 
-  mutex.unlock();
+  PtEntity* entity; 
+  if (entityAddEv->entityType == EntityEvent::PlayerEntity)
+  {
+    entity = new PtPcEntity();
+    // Check if it is your own player.
+    if (own_char_id == entityAddEv->entityId)
+      ((PtPcEntity*)entity)->SetOwnEntity(true);
+    // Add equipment.
+    std::vector<std::pair<int, int>>::iterator it;
+    for(it = entityAddEv->equipment.begin(); it != entityAddEv->equipment.end(); ++it)
+      ((PtPcEntity*)entity)->GetEquipment()->Equip(it->first, it->second);
+  }
+  else if (entityAddEv->entityType == EntityEvent::NPCEntity)
+  {
+    entity = new PtNpcEntity();
+  }
+  else if (entityAddEv->entityType == EntityEvent::ItemEntity)
+  {
+    entity = new PtItemEntity();
+    ((PtItemEntity*)entity)->SetItemId(entityAddEv->meshId);
+  }
+  else if (entityAddEv->entityType == EntityEvent::MountEntity)
+  {
+    entity = new PtMountEntity();
+  }
+  else if (entityAddEv->entityType == EntityEvent::DoorEntity)
+  {
+    entity = new PtDoorEntity();
+    ((PtDoorEntity*)entity)->SetLocked(entityAddEv->locked);
+    ((PtDoorEntity*)entity)->SetOpen(entityAddEv->open);
+  }
+  else
+  {
+    printf("E: Invalid Entity type: %d !\n", entityAddEv->entityType);
+    return true;
+  }
+
+  entity->SetId(entityAddEv->entityId);
+  entity->SetName(entityAddEv->entityName.c_str());
+  entity->SetMeshName(entityAddEv->meshName.c_str());
+  entity->SetPosition(entityAddEv->position);
+  entity->SetSectorName(entityAddEv->sectorName.c_str());
+
+  entity->Create();
+
+  if (own_char_id == entityAddEv->entityId)
+  {
+    printf("I:  Adding Entity '%s(%d)' as me\n", entity->GetName().GetData(), entity->GetId());
+
+    // Set up own player cam and entity for faster access.
+    csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
+    if (pccamera.IsValid())
+    {
+      pccamera->SetAutoDraw(false);
+      //pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
+      //pccamera->SetPitch(-0.18f);
+    }
+
+    owncam = pccamera;
+    ownent = entity;
+    owncelent = entity->GetCelEntity();
+    ownname = entity->GetName();
+
+    
+
+  }
+  else
+    printf("I: Adding Entity '%s(%d)'\n", entity->GetName().GetData(), entity->GetId());
+
+  // Add our entity to the list.
+  entities.Push(entity);
+
+  return true;
 }
 
-void ptEntityManager::delEntity(PtEntity* entity)
+bool ptEntityManager::RemoveEntity(PT::Events::Event* ev)
 {
-  mutex.lock();
-  del_entity_name.Push(entity);
-  mutex.unlock();
-}
+  using namespace PT::Events;
 
-void ptEntityManager::delEntity()
-{
-  if (!del_entity_name.GetSize()) return;
+  EntityEvent* entityEv = static_cast<EntityEvent*> (ev);
+  if (!entityEv)
+  {
+    printf("E: Not an Entity event!\n");
+    return false;
+  }
+  EntityRemoveEvent* entityRemoveEv = static_cast<EntityRemoveEvent*> (entityEv);
+  if (!entityRemoveEv)
+  {
+    printf("E: Not an EntityRemoveEvent event!\n");
+    return false;
+  }
 
-  mutex.lock();
-
-  PtEntity* ent = del_entity_name.Pop();
-
-  int id = ent->GetId();
+  int id = entityRemoveEv->entityId;
 
   for (size_t i = 0; i < entities.GetSize(); i++)
   {
@@ -176,10 +230,9 @@ void ptEntityManager::delEntity()
     }
   }
 
-  delete ent;
-
-  mutex.unlock();
+  return true;
 }
+
 void ptEntityManager::delAllEntities()
 {
   ownent = 0;
@@ -491,29 +544,33 @@ void ptEntityManager::unmount()
 
 void ptEntityManager::DrUpdateOwnEntity()
 {
+  return;
   DrUpdateRequestMessage drmsg;
 
   if (own_char_id != -1)
   {
-    if (owncelent)
+    if (owncelent.IsValid())
     {
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(owncelent, iPcLinearMovement);
-      bool on_ground;
-      float speed, rot, avel;
-      csVector3 pos, vel, wvel;
-      iSector* sector;
+      if (pclinmove.IsValid())
+      {
+        bool on_ground;
+        float speed, rot, avel;
+        csVector3 pos, vel, wvel;
+        iSector* sector = 0;
 
-      pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
-      //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
+        pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
+        //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
 
-      drmsg.setRotation(rot);
-      drmsg.setPos(pos.x,pos.y,pos.z);
-      if (sector && sector->QueryObject()->GetName())
-        drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
-      else
-        drmsg.setSector(ptString(0,0));
+        drmsg.setRotation(rot);
+        drmsg.setPos(pos.x,pos.y,pos.z);
+        if (sector && sector->QueryObject()->GetName())
+          drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
+        else
+          drmsg.setSector(ptString(0,0));
 
-      PointerLibrary::getInstance()->getNetwork()->send(&drmsg);
+        PointerLibrary::getInstance()->getNetwork()->send(&drmsg);
+      }
     }
   }
 }

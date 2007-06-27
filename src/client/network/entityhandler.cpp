@@ -24,19 +24,27 @@
 
 #include "client/entity/ptentitymanager.h"
 
+#include "client/event/eventmanager.h"
+#include "client/event/entityevent.h"
+
 void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
 {
   printf("EntityHandler: Received AddNpcEntity\n");
   AddNpcEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  PtEntity* entity = new PtNpcEntity();
-  entity->SetName(*entmsg.getName());
-  entity->SetMeshName(*entmsg.getMesh());
+
+  using namespace PT::Events;
+  EntityAddEvent* entity = new EntityAddEvent();
+
+  entity->entityName  = *entmsg.getName();
+  entity->meshName    = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
-  entity->SetPosition(pos);
-  entity->SetSectorName(*entmsg.getSector());
-  entity->SetId(entmsg.getEntityId());
-  PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
+  entity->position    = pos;
+  entity->sectorName  = *entmsg.getSector();
+  entity->entityId    = entmsg.getEntityId();
+  entity->entityType  = EntityEvent::NPCEntity; 
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entity);
 }
 
 void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
@@ -44,25 +52,31 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   printf("EntityHandler: Received AddDoor\n");
   AddDoorEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  PtDoorEntity* entity = 0;
-  entity = new PtDoorEntity();
-  entity->SetName(*entmsg.getName());
-  entity->SetMeshName(*entmsg.getMesh());
-  entity->SetOpen(entmsg.getIsOpen() != 0);
-  entity->SetLocked(entmsg.getIsLocked() != 0);
-  entity->SetId(entmsg.getEntityId());
-  PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
+
+  using namespace PT::Events;
+  EntityAddEvent* entity = new EntityAddEvent();
+
+  entity->entityName  = *entmsg.getName();
+  entity->meshName    = *entmsg.getMesh();
+  entity->locked      = (entmsg.getIsLocked() != 0);
+  entity->open        = (entmsg.getIsOpen() != 0);
+  entity->entityId    = entmsg.getEntityId();
+  entity->entityType  = EntityEvent::DoorEntity; 
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entity);
 }
 void EntityHandler::handleRemove(GenericMessage* msg)
 {
   printf("EntityHandler: Received RemoveEntity\n");
   RemoveMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entmsg.getEntityId());
-  if (!entity) return;
-  PointerLibrary::getInstance()->getEntityManager()->delEntity(entity);
-  if (entity->GetType() == PtEntity::PlayerEntity)
-    PointerLibrary::getInstance()->getGUIManager()->GetBuddyWindow()->RemovePlayer(entity->GetName().GetData());
+
+  using namespace PT::Events;
+  EntityRemoveEvent* entity = new EntityRemoveEvent();
+
+  entity->entityId = entmsg.getEntityId();
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entity);
 }
 
 void EntityHandler::handleMove(GenericMessage* msg)
@@ -81,9 +95,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
 
   if (response_msg.getError().isNull())
   {
-    //printf("%s picks Item %s(%d) %s\n", *response_msg.getName(), *response_msg.getTarget(), response_msg.getItemId(),ownname);
-    //if (strlen(*response_msg.getName()) == strlen(ownname) && !strcmp(*response_msg.getName(), ownname))
-    guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlotId());
+    //guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlotId());
   }
   else
     printf("You can't pick Item %d! Reason: '%s'\n", response_msg.getItemId(), *response_msg.getError());
@@ -97,7 +109,7 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
 
   if (response_msg.getError().isNull())
   {
-    guimanager->GetInventoryWindow()->RemoveItem(response_msg.getSlotId());
+    //guimanager->GetInventoryWindow()->RemoveItem(response_msg.getSlotId());
   }
   else
     printf("You can't drop %d from slot %d! Reason: '%s'\n", response_msg.getItemId(), response_msg.getSlotId(), *response_msg.getError());
@@ -126,7 +138,7 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
     printf("Item %d with amount 1 in slot %d\n", item_msg.getItemId(i), item_msg.getSlotId(i));
-    guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i));
+    //guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i));
   }
 }
 
@@ -138,7 +150,7 @@ void EntityHandler::handleStatsList(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<stat_msg.getStatsCount(); i++)
   {
-    guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i));
+    //guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i));
     printf("Stat %s (%d): \t %d\n", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
   }
 }
@@ -220,43 +232,47 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   printf("EntityHandler: Received AddEntity\n");
   AddPlayerEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
-  PtPcEntity* entity = new PtPcEntity();
-  entity->SetName(*entmsg.getName());
-  entity->SetMeshName(*entmsg.getMesh());
+
+  using namespace PT::Events;
+  EntityAddEvent* entity = new EntityAddEvent();
+
+  entity->entityName  = *entmsg.getName();
+  entity->meshName    = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
-  entity->SetPosition(pos);
-  entity->SetSectorName(*entmsg.getSector());
-  entity->SetId(entmsg.getEntityId());
-  PointerLibrary* ptr = PointerLibrary::getInstance();
-  ptr->getEntityManager()->addEntity(entity);
-  ptr->getGUIManager()->GetBuddyWindow()->AddPlayer(*entmsg.getName());
+  entity->position    = pos;
+  entity->sectorName  = *entmsg.getSector();
+  entity->entityId    = entmsg.getEntityId();
+  entity->entityType  = EntityEvent::PlayerEntity; 
+
   for (size_t i = 0; i < entmsg.getEquipmentCount(); i++)
   {
     unsigned int itemId = entmsg.getItemId(i);
-
-    if (itemId == 0) 
-      continue;
-
-    entity->GetEquipment()->Equip(itemId, i);
+    unsigned int slotId = i;
+    if (itemId == 0)  continue;
+    entity->equipment.push_back( (std::pair<int, int> (itemId, slotId)) );
   }
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entity);
 }
 
 void EntityHandler::handleAddItemEntity(GenericMessage* msg)
 {
   printf("EntityHandler: Received AddItemEntity\n");
 
-  PointerLibrary* ptr = PointerLibrary::getInstance();
-
   AddItemEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
-  PtItemEntity* entity = new PtItemEntity();
+  using namespace PT::Events;
+  EntityAddEvent* entity = new EntityAddEvent();
+
+  entity->meshId      = entmsg.getItemId();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
-  entity->SetPosition(pos);
-  entity->SetSectorName(*entmsg.getSector());
-  entity->SetItemId(entmsg.getItemId());
-  entity->SetId(entmsg.getEntityId());
-  ptr->getEntityManager()->addEntity(entity);
+  entity->position    = pos;
+  entity->sectorName  = *entmsg.getSector();
+  entity->entityId    = entmsg.getEntityId();
+  entity->entityType  = EntityEvent::ItemEntity; 
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entity);
 }
 
 void EntityHandler::handleAddMountEntity(GenericMessage* msg)
@@ -265,15 +281,18 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   AddMountEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
-  PtEntity* entity = new PtMountEntity();
-  entity->SetName(*entmsg.getName());
-  entity->SetMeshName(*entmsg.getMesh());
-  csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
-  entity->SetPosition(pos);
-  entity->SetSectorName(*entmsg.getSector());
-  entity->SetId(entmsg.getEntityId());
+  using namespace PT::Events;
+  EntityAddEvent* entity = new EntityAddEvent();
 
-  PointerLibrary::getInstance()->getEntityManager()->addEntity(entity);
+  entity->entityName  = *entmsg.getName();
+  entity->meshName    = *entmsg.getMesh();
+  csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
+  entity->position    = pos;
+  entity->sectorName  = *entmsg.getSector();
+  entity->entityId    = entmsg.getEntityId();
+  entity->entityType  = EntityEvent::MountEntity; 
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entity);
 }
 
 void EntityHandler::handleMount(GenericMessage* msg)

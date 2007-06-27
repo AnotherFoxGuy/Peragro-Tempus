@@ -46,6 +46,8 @@
 
 #include "client/entity/movement.h"
 
+#include "client/event/entityevent.h"
+
 class Effect;
 
 struct iObjectRegistry;
@@ -67,8 +69,6 @@ private:
   Client* client;
 
 private:
-  csPDelArray<PtEntity> new_entity_name;
-  csPDelArray<PtEntity> del_entity_name;
   csPDelArray<MovementData> move_entity_name;
   csPDelArray<MoveToData> move_to_entity_name;
   csPDelArray<DrUpdateData> drupdate_entity_name;
@@ -89,8 +89,6 @@ private:
   bool playing;
   bool world_loaded;
 
-  void addEntity();
-  void delEntity();
   void moveEntity();
   void moveToEntity();
   void DrUpdateEntity();
@@ -110,7 +108,9 @@ public:
   bool Initialize ();
   void Handle();
 
-  void addEntity(PtEntity* name);
+  bool AddEntity(PT::Events::Event* ev);
+  bool RemoveEntity(PT::Events::Event* ev);
+
   void delEntity(PtEntity* name);
   void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);
   void moveEntity(int entity_id, float walk, float turn);

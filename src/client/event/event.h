@@ -21,7 +21,10 @@
 
 #include <cssysdef.h>
 
-#define EventID unsigned int
+#include <string>
+
+
+#define EventID std::string
 
 namespace PT
 {

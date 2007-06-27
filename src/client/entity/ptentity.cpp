@@ -25,18 +25,18 @@ void PtEntity::CreateCelEntity()
   csRef<iCelEntity> entity = pl->CreateEntity();
   celentity = entity;
 
-  pl->CreatePropertyClass(celentity, "pcmesh");
-  pl->CreatePropertyClass(celentity, "pcsolid");
-  pl->CreatePropertyClass(celentity, "pcproperties");
+  pl->CreatePropertyClass(celentity, "pcobject.mesh");
+  pl->CreatePropertyClass(celentity, "pcmove.solid");
+  pl->CreatePropertyClass(celentity, "pctools.properties");
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
   //csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-  csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(celentity, iPcSolid);
+  //csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(celentity, iPcSolid);
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
 
   // Place the entity in the world.
   csRef<iCelEntity> region = pl->FindEntity("World");
-  if (region)
+  if (region.IsValid())
   {
     csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(region, iPcRegion);
     pcmesh->MoveMesh(pcregion->GetStartSector(), pcregion->GetStartPosition());

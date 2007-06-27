@@ -35,33 +35,43 @@ void PtPcEntity::Create()
   cs_snprintf(buffer, 32, "player_%d", id);
   celentity->SetName(buffer);
 
+  pl->CreatePropertyClass(celentity, "pcmove.actorold");
+  pl->CreatePropertyClass(celentity, "pcmove.linear");
+
   if (IsOwnEntity())
   {
-    pl->CreatePropertyClass(celentity, "pcdefaultcamera");
+    pl->CreatePropertyClass(celentity, "pccamera.old");
   }
 
-  pl->CreatePropertyClass(celentity, "pcactormove");
-  pl->CreatePropertyClass(celentity, "pclinearmovement");
-
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
 
   // Load and assign the mesh to the entity.
   vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml");
+  if (!pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml"))
+  {
+    printf("E: Failed to load mesh: %s\n", meshname.GetData());
+    pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
+  }
 
   // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
   csRef<iSpriteCal3DState> sprcal3d =
      scfQueryInterface<iSpriteCal3DState> (pcmesh->GetMesh()->GetMeshObject());
   if (sprcal3d) sprcal3d->SetVelocity(0);
 
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+
   pclinmove->InitCD(
     csVector3(0.5f,0.8f,0.5f),
     csVector3(0.5f,0.8f,0.5f),
     csVector3(0,0,0));
 
-  iSector* sector = engine->FindSector(sectorname);
-  pclinmove->SetPosition(pos,0,sector);
+  iSector* sector =  0;
+  sector = engine->FindSector(sectorname);
+  if (sector)
+    pclinmove->SetPosition(pos,0,sector);
+  else
+    printf("E: Failed to set position, sector '%s' unknown!\n", sectorname.GetData());
 
   GetEquipment()->ConstructMeshes();
+
 }

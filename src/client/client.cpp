@@ -74,7 +74,7 @@ Client::Client() : playing(false)
   walk = 0;
   turn = 0;
   timer = 0;
-  limitFPS = 60;
+  limitFPS = 0;
   last_sleep = 0;
   world_loaded = false;
   cameradistance = 3;
@@ -109,6 +109,7 @@ void Client::PreProcessFrame()
   timer += ticks;
 
   effectsmanager->HandleEffects(ticks);
+
   eventmanager->Handle();
 
   if (limitFPS > 0)
@@ -135,11 +136,11 @@ void Client::ProcessFrame()
 
   // Draw the player camera manually.
   csRef<iPcDefaultCamera> cam = entitymanager->getOwnCamera();
-  if (cam) cam->Draw();
+  if (cam.IsValid()) cam->Draw();
 
   // Paint the interface over the engine
-  guimanager->Render ();
-  cursor->Draw();
+  if (guimanager) guimanager->Render ();
+  if (cursor) cursor->Draw();
 }
 
 void Client::FinishFrame()
@@ -401,8 +402,6 @@ void Client::handleStates()
       checkConnection();
       loadRegion();
       entitymanager->Handle();
-
-      view.Invalidate();
 
       chat();
       break;
@@ -834,6 +833,9 @@ bool Client::InitializeCEL()
     return ReportError("Failed to load CEL Solid Factory");
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return ReportError("Failed to load CEL Camera Factory");
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.newcamera"))
     return ReportError("Failed to load CEL Camera Factory");
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))

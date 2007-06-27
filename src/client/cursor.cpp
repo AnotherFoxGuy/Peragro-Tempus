@@ -19,7 +19,6 @@
 #include "cursor.h"
 #include "client.h"
 
-#include "csgeom/polymesh.h"
 #include "iengine/camera.h"
 #include "iengine/campos.h"
 #include "iengine/mesh.h"

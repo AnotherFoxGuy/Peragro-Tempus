@@ -42,8 +42,12 @@ void PtItemEntity::Create()
 
     // Load and assign the mesh to the entity.
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-    pcmesh->SetMesh(meshname.GetData(), item->GetFileName().GetData());
-    pl->CreatePropertyClass(celentity, "pclinearmovement");
+    if (!pcmesh->SetMesh(meshname.GetData(), item->GetFileName().GetData()))
+    {
+      printf("E: Failed to load mesh: %s\n", meshname.GetData());
+      pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
+    }
+    pl->CreatePropertyClass(celentity, "pcmove.linear");
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
 
     pclinmove->InitCD(

@@ -40,6 +40,8 @@ namespace PT
       {
         EventID eventId;
         EventHandlerCallback* handler;
+
+        const char* GetEventId() { return eventId.c_str(); }
       };
 
     private:
@@ -58,9 +60,6 @@ namespace PT
       void AddListener(EventID eventId, EventHandlerCallback* handler);
 
       void Handle();
-
-      // Test stuff
-      bool EventManager::TestHandler(Event* ev);
 
     };
 

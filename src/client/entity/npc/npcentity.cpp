@@ -35,15 +35,19 @@ void PtNpcEntity::Create()
   cs_snprintf(buffer, 32, "npc_%d", id);
   celentity->SetName(buffer);
 
-  pl->CreatePropertyClass(celentity, "pcactormove");
-  pl->CreatePropertyClass(celentity, "pclinearmovement");
+  pl->CreatePropertyClass(celentity, "pcmove.actorold");
+  pl->CreatePropertyClass(celentity, "pcmove.linear");
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
 
   // Load and assign the mesh to the entity.
   vfs->ChDir("/cellib/objects/");
-  pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml");
+  if (!pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml"))
+  {
+    printf("E: Failed to load mesh: %s\n", meshname.GetData());
+    pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
+  }
 
   // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
   csRef<iSpriteCal3DState> sprcal3d =
