@@ -95,7 +95,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
 
   if (response_msg.getError().isNull())
   {
-    //guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlotId());
+    guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlotId());
   }
   else
     printf("You can't pick Item %d! Reason: '%s'\n", response_msg.getItemId(), *response_msg.getError());
@@ -109,7 +109,7 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
 
   if (response_msg.getError().isNull())
   {
-    //guimanager->GetInventoryWindow()->RemoveItem(response_msg.getSlotId());
+    guimanager->GetInventoryWindow()->RemoveItem(response_msg.getSlotId());
   }
   else
     printf("You can't drop %d from slot %d! Reason: '%s'\n", response_msg.getItemId(), response_msg.getSlotId(), *response_msg.getError());
@@ -138,7 +138,7 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
     printf("Item %d with amount 1 in slot %d\n", item_msg.getItemId(i), item_msg.getSlotId(i));
-    //guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i));
+    guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i));
   }
 }
 
@@ -150,7 +150,7 @@ void EntityHandler::handleStatsList(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<stat_msg.getStatsCount(); i++)
   {
-    //guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i));
+    guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i));
     printf("Stat %s (%d): \t %d\n", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
   }
 }

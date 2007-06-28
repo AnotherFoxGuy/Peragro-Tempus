@@ -39,13 +39,13 @@ namespace PT
       struct Listener
       {
         EventID eventId;
-        EventHandlerCallback* handler;
+        boost::shared_ptr<EventHandlerCallback> handler;
 
         const char* GetEventId() { return eventId.c_str(); }
       };
 
     private:
-      std::queue<Event*> events;
+      std::queue<Eventp> events;
       std::vector<Listener> listeners;
 
       Mutex mutex;

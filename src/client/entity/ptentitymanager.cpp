@@ -58,27 +58,43 @@ bool ptEntityManager::Initialize ()
 
   using namespace PT::Events;
 
+  EventHandler<ptEntityManager>* cb = new EventHandler<ptEntityManager>(&ptEntityManager::GetEntityEvents, this);
   // Register listener for EntityAddEvent.
-  EventHandler<ptEntityManager>* cbAdd = new EventHandler<ptEntityManager>(&ptEntityManager::AddEntity, this);
-  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cbAdd);
-
+  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cb);
   // Register listener for EntityRemoveEvent.
-  EventHandler<ptEntityManager>* cbRemove = new EventHandler<ptEntityManager>(&ptEntityManager::RemoveEntity, this);
-  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cbRemove);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cb);
 
   return true;
 }
 
+void ptEntityManager::ProcessEvents()
+{
+  using namespace PT::Events;
+
+  for (size_t i = 0; i < events.GetSize(); i++)
+  {
+    Eventp ev = events.Pop();
+    if (ev->GetEventID().compare("EntityAddEvent") == 0)
+      AddEntity(ev);
+    else if (ev->GetEventID().compare("EntityRemoveEvent") == 0)
+      RemoveEntity(ev);
+  } // for
+}
+
 void ptEntityManager::Handle ()
 {
-    moveEntity();
-    moveToEntity();
-    DrUpdateEntity();
-    updatePcProp();
-    equip();
-    mount();
-    unmount();
-    teleport();
+  if (!world_loaded) return;
+
+  ProcessEvents();
+
+  moveEntity();
+  moveToEntity();
+  DrUpdateEntity();
+  updatePcProp();
+  equip();
+  mount();
+  unmount();
+  teleport();
 }
 
 PtEntity* ptEntityManager::findPtEntById(int id)
@@ -105,11 +121,21 @@ iCelEntity* ptEntityManager::findCelEntById(int id)
   return 0;
 }
 
-bool ptEntityManager::AddEntity(PT::Events::Event* ev)
+bool ptEntityManager::GetEntityEvents(PT::Events::Eventp ev)
 {
   using namespace PT::Events;
 
-  EntityEvent* entityEv = static_cast<EntityEvent*> (ev);
+  Eventp evcopy(ev);
+  events.Push(evcopy);
+
+  return true;
+}
+
+bool ptEntityManager::AddEntity(PT::Events::Eventp ev)
+{
+  using namespace PT::Events;
+
+  EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
   if (!entityEv)
   {
     printf("E: Not an Entity event!\n");
@@ -181,8 +207,8 @@ bool ptEntityManager::AddEntity(PT::Events::Event* ev)
     if (pccamera.IsValid())
     {
       pccamera->SetAutoDraw(false);
-      //pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
-      //pccamera->SetPitch(-0.18f);
+      pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
+      pccamera->SetPitch(-0.18f);
     }
 
     owncam = pccamera;
@@ -202,11 +228,11 @@ bool ptEntityManager::AddEntity(PT::Events::Event* ev)
   return true;
 }
 
-bool ptEntityManager::RemoveEntity(PT::Events::Event* ev)
+bool ptEntityManager::RemoveEntity(PT::Events::Eventp ev)
 {
   using namespace PT::Events;
 
-  EntityEvent* entityEv = static_cast<EntityEvent*> (ev);
+  EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
   if (!entityEv)
   {
     printf("E: Not an Entity event!\n");
@@ -544,7 +570,6 @@ void ptEntityManager::unmount()
 
 void ptEntityManager::DrUpdateOwnEntity()
 {
-  return;
   DrUpdateRequestMessage drmsg;
 
   if (own_char_id != -1)

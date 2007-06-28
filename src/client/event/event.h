@@ -23,6 +23,8 @@
 
 #include <string>
 
+#include <boost/shared_ptr.hpp>
+
 
 #define EventID std::string
 
@@ -43,6 +45,9 @@ namespace PT
       virtual const EventID GetEventID() { return name; }
       virtual const bool GetBroadCast() { return broadCast; }
     };
+
+    typedef boost::shared_ptr<Event> Eventp;
+
   } // Events namespace 
 } // PT namespace 
 

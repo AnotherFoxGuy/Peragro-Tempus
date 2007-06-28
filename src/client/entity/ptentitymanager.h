@@ -56,7 +56,7 @@ struct iLoader;
 class ptEntityManager
 {
 private:
-  csArray<PtEntity*> entities;
+  csPDelArray<PtEntity> entities;
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
@@ -67,6 +67,10 @@ private:
   csRef<iObjectRegistry> obj_reg;
     
   Client* client;
+
+private:
+  csArray<PT::Events::Eventp> events;
+  void ProcessEvents();
 
 private:
   csPDelArray<MovementData> move_entity_name;
@@ -108,8 +112,10 @@ public:
   bool Initialize ();
   void Handle();
 
-  bool AddEntity(PT::Events::Event* ev);
-  bool RemoveEntity(PT::Events::Event* ev);
+  bool GetEntityEvents(PT::Events::Eventp ev);
+
+  bool AddEntity(PT::Events::Eventp ev);
+  bool RemoveEntity(PT::Events::Eventp ev);
 
   void delEntity(PtEntity* name);
   void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);

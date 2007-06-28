@@ -38,11 +38,6 @@ void PtPcEntity::Create()
   pl->CreatePropertyClass(celentity, "pcmove.actorold");
   pl->CreatePropertyClass(celentity, "pcmove.linear");
 
-  if (IsOwnEntity())
-  {
-    pl->CreatePropertyClass(celentity, "pccamera.old");
-  }
-
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
 
   // Load and assign the mesh to the entity.
@@ -73,5 +68,10 @@ void PtPcEntity::Create()
     printf("E: Failed to set position, sector '%s' unknown!\n", sectorname.GetData());
 
   GetEquipment()->ConstructMeshes();
+
+  if (IsOwnEntity())
+  {
+    pl->CreatePropertyClass(celentity, "pccamera.old");
+  }
 
 }

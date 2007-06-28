@@ -46,7 +46,8 @@ namespace PT
 
       printf("I: Adding event.\n");
 
-      events.push(ev);
+      Eventp evp(ev);
+      events.push(evp);
 
       mutex.unlock();
     }
@@ -55,7 +56,7 @@ namespace PT
     {
       printf("I: Adding listener: %s\n", eventId.c_str());
       Listener listen;
-      listen.handler = handler;
+      listen.handler = boost::shared_ptr<EventHandlerCallback>(handler);
       listen.eventId = eventId;
       listeners.push_back(listen);
     }
@@ -64,7 +65,7 @@ namespace PT
     {
       if (events.empty()) return;
 
-      Event* ev = events.front();
+      Eventp ev = events.front();
       if (!ev) return;
       EventID id = ev->GetEventID();
 
@@ -79,7 +80,6 @@ namespace PT
           if (handled && !ev->GetBroadCast())
           {
             printf("I: Event handled: deleting %s\n", it->GetEventId());
-            delete ev;
             events.pop();
             return;
           }
@@ -88,7 +88,6 @@ namespace PT
 
       printf("W: No listeners for event: deleting %s\n", id.c_str());
       events.pop();
-      delete ev;
     }
 
   } // Events namespace 

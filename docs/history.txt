@@ -7,6 +7,7 @@ under each day.
 27-Jun-2007
   - Sueastside added event manager.
   - Sueastside continued work on event manager and introduced a nice crash.
+  - Sueastside continued work on event manager and fixed that crash.
 
 26-Jun-2007
   - Sueastside removed Anvil and moved Environment manager to its own branch.

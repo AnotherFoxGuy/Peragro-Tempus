@@ -29,13 +29,13 @@ namespace PT
     class EventHandlerCallback
     {
     public:
-      virtual bool HandleEvent(Event* ev) = 0;
+      virtual bool HandleEvent(Eventp ev) = 0;
     };
 
     template <class Class> class EventHandler : public EventHandlerCallback
     {
     public:
-      typedef bool (Class::*Func)(Event*);
+      typedef bool (Class::*Func)(Eventp);
 
       EventHandler(Func function, Class *classy)
       {
@@ -43,7 +43,7 @@ namespace PT
         thefunc = function;
       }
 
-      bool HandleEvent(Event* ev)
+      bool HandleEvent(Eventp ev)
       {
         return (theclass->*thefunc)(ev);
       }
