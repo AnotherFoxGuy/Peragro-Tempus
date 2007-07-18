@@ -61,7 +61,7 @@ public:
   virtual void Execute (const csStringArray& args)
   {
     iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-    Client* client = PointerLibrary::getInstance()->getClient();
+		PT::Client* client = PointerLibrary::getInstance()->getClient();
 
     csRef<iVirtualClock> vc =  csQueryRegistry<iVirtualClock> (obj_reg);
     if(!vc) return;
@@ -203,7 +203,7 @@ public:
   }
   virtual void Execute (const csStringArray& args)
   {
-    ptEntityManager* entmanager = PointerLibrary::getInstance()->getEntityManager();
+		PT::Entity::EntityManager* entmanager = PointerLibrary::getInstance()->getEntityManager();
     if(!entmanager) return;
 
     PtEntity* ent = entmanager->getOwnPtEntity();

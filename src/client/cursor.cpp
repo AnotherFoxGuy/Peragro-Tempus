@@ -47,7 +47,7 @@
 
 #include "client/entity/ptentitymanager.h"
 
-Cursor::Cursor(Client* client)
+Cursor::Cursor(PT::Client* client)
 : client(client)
 {
   selent = 0;

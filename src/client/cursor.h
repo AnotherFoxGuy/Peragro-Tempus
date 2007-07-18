@@ -26,17 +26,21 @@
 
 #include "CEGUI.h"
 
+namespace PT
+{
+	class Client;
+} // PT namespace 
+
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCamera;
 struct iPcTooltip;
-class Client;
 struct iCollideSystem;
 
 class Cursor
 {
 private:
-  Client* client;
+  PT::Client* client;
   csWeakRef<iCelEntity> selent;
   int mousex;
   int mousey;
@@ -44,7 +48,7 @@ private:
   CEGUI::Window* nametag;
 
 public:
-  Cursor(Client* client);
+  Cursor(PT::Client* client);
   ~Cursor();
 
   void Draw();

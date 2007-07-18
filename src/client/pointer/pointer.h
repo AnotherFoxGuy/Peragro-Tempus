@@ -20,20 +20,25 @@
 #define POINTERLIBRARY_H_
 
 struct iObjectRegistry;
-class Client;
 class Network;
 class ItemMGR;
 class GUIManager;
-class ptEntityManager;
 class EffectsManager;
 class CombatMGR;
 
 namespace PT
 {
-  namespace Events
-  {
-    class EventManager;
-  } // Events namespace 
+	class Client;
+
+	namespace Entity
+	{
+		class EntityManager;
+	} // Entity namespace 
+
+	namespace Events
+	{
+		class EventManager;
+	} // Events namespace 
 } // PT namespace 
 
 class PointerLibrary
@@ -42,11 +47,11 @@ private:
   static PointerLibrary* pointerlib;
 
   iObjectRegistry* objreg;
-  Client* client;
+  PT::Client* client;
   Network* network;
   ItemMGR* itemmanager;
   GUIManager* guimanager;
-  ptEntityManager* entitymanager;
+  PT::Entity::EntityManager* entitymanager;
   EffectsManager* effectsmanager;
   CombatMGR* combatmanager;
   PT::Events::EventManager* eventmanager;
@@ -58,8 +63,8 @@ public:
   void setObjectRegistry(iObjectRegistry* objreg) { this->objreg = objreg; }
   iObjectRegistry* getObjectRegistry() { return this->objreg; }
   
-  void setClient(Client* client) { this->client = client; }
-  Client* getClient() { return this->client; }
+  void setClient(PT::Client* client) { this->client = client; }
+	PT::Client* getClient() { return this->client; }
 
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }
@@ -70,8 +75,8 @@ public:
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }
 
-  void setEntityManager(ptEntityManager* entitymanager) { this->entitymanager = entitymanager; }
-  ptEntityManager* getEntityManager() { return this->entitymanager; }
+  void setEntityManager(PT::Entity::EntityManager* entitymanager) { this->entitymanager = entitymanager; }
+  PT::Entity::EntityManager* getEntityManager() { return this->entitymanager; }
 
   void setEffectsManager(EffectsManager* effectsmanager) { this->effectsmanager = effectsmanager; }
   EffectsManager* getEffectsManager() { return this->effectsmanager; }

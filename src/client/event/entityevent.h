@@ -30,6 +30,9 @@ namespace PT
 {
   namespace Events
   {
+		/**
+		 * Entity event base class.
+		 */
     class EntityEvent : public Event
     {
     public:
@@ -44,16 +47,19 @@ namespace PT
         };
 
       unsigned int entityId;
-      unsigned int entityType;
 
     public:
       EntityEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
       virtual ~EntityEvent() {}
     };
 
+		/**
+		 * Entity Add event.
+		 */
     class EntityAddEvent : public EntityEvent
     {
     public:
+			unsigned int entityType;
       std::string entityName;
       std::string meshName;
       unsigned int meshId;
@@ -66,15 +72,36 @@ namespace PT
       bool open;
 
     public:
-      EntityAddEvent() : EntityEvent("EntityAddEvent", false) {}
+      EntityAddEvent() : EntityEvent("EntityAddEvent", true) {}
       virtual ~EntityAddEvent() {}
     };
 
+		/**
+		 * Entity Remove event.
+		 */
     class EntityRemoveEvent : public EntityEvent
     {
     public:
-      EntityRemoveEvent() : EntityEvent("EntityRemoveEvent", false) {}
+      EntityRemoveEvent() : EntityEvent("EntityRemoveEvent", true) {}
       virtual ~EntityRemoveEvent() {}
+    };
+
+		/*---------------*
+		*     Movement
+		*----------------*/
+
+		/**
+		 * Entity Move event.
+		 */
+    class EntityMoveEvent : public EntityEvent
+    {
+		public:
+			int walkDirection;
+			int turnDirection;
+
+    public:
+      EntityMoveEvent() : EntityEvent("EntityMoveEvent", true) {}
+      virtual ~EntityMoveEvent() {}
     };
 
   } // Events namespace 

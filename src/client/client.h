@@ -52,161 +52,166 @@ struct iPcDefaultCamera;
 struct iPcActorMove;
 struct iSector;
 
-class Network;
-class GUIManager;
-class EffectsManager;
-class ptEntityManager;
-class CombatMGR;
-class ItemMGR;
-class PtConsole;
-
-namespace PT
-{
-  namespace Events
-  {
-    class EventManager;
-  } // Events namespace 
-} // PT namespace 
-
-class Cursor;
 struct iCommandLineParser;
 struct iPath;
 struct iView;
 
-class Client : public csApplicationFramework, public csBaseEventHandler
+class Network;
+class GUIManager;
+class EffectsManager;
+class CombatMGR;
+class ItemMGR;
+class PtConsole;
+class Cursor;
+
+namespace PT
 {
-public:
-  /// Game states
-  enum eSTATE
-  {
-    STATE_INITIAL = 0,
-    STATE_INTRO = 1,
-    STATE_CONNECTED = 2,
-    STATE_LOGGED_IN = 3,
-    STATE_SELECTING_CHAR = 4,
-    STATE_PLAY = 5,
-    STATE_RECONNECTED = 6
-  };
+	namespace Entity
+	{
+		class EntityManager;
+	} // Entity namespace 
 
-  ///Game internal state
-  eSTATE state;
+	namespace Events
+	{
+		class EventManager;
+	} // Events namespace 
 
-private:
-  void PreProcessFrame();
-  void ProcessFrame();
-  void FinishFrame();
+	class Client : public csApplicationFramework, public csBaseEventHandler
+	{
+	public:
+		/// Game states
+		enum eSTATE
+		{
+			STATE_INITIAL = 0,
+			STATE_INTRO = 1,
+			STATE_CONNECTED = 2,
+			STATE_LOGGED_IN = 3,
+			STATE_SELECTING_CHAR = 4,
+			STATE_PLAY = 5,
+			STATE_RECONNECTED = 6
+		};
 
-  bool OnKeyboard(iEvent&);
-  bool OnMouseDown(iEvent& e);
-  bool OnMouseMove(iEvent&);
-  iPcActorMove* getPcActorMove();
-  bool InitializeCEL();
-  void checkConnection();
-  void handleStates();
+		///Game internal state
+		eSTATE state;
 
-private:
-  PointerLibrary pointerlib;
+	private:
+		void PreProcessFrame();
+		void ProcessFrame();
+		void FinishFrame();
 
-  csRef<iEngine> engine;
-  csRef<iGraphics3D> g3d;
-  csRef<iVirtualClock> vc;
-  //csRef<iKeyboardDriver> kbd;
-  csRef<iVFS> vfs;
-  csRef<iCommandLineParser> cmdline;
-  csRef<iView> view;
-  csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> bl;
-  csRef<iCelEntity> zonemanager;
+		bool OnKeyboard(iEvent&);
+		bool OnMouseDown(iEvent& e);
+		bool OnMouseMove(iEvent&);
+		iPcActorMove* getPcActorMove();
+		bool InitializeCEL();
+		void checkConnection();
+		void handleStates();
 
-  // The sound renderer.
-  csRef<iSndSysRenderer> sndrenderer;
+	private:
+		PointerLibrary pointerlib;
 
-  // The sound loader.
-  csRef<iSndSysLoader> sndloader;
+		csRef<iEngine> engine;
+		csRef<iGraphics3D> g3d;
+		csRef<iVirtualClock> vc;
+		//csRef<iKeyboardDriver> kbd;
+		csRef<iVFS> vfs;
+		csRef<iCommandLineParser> cmdline;
+		csRef<iView> view;
+		csRef<iCelPlLayer> pl;
+		csRef<iCelBlLayer> bl;
+		csRef<iCelEntity> zonemanager;
 
-  // The sound stream.
-  csRef<iSndSysStream> sndstream;
+		// The sound renderer.
+		csRef<iSndSysRenderer> sndrenderer;
 
-  // The sound source.
-  csRef<iSndSysSource> sndsource;
-  csRef<iSndSysSourceSoftware3D> sndsource3d;
+		// The sound loader.
+		csRef<iSndSysLoader> sndloader;
 
-  // The config manager.
-  csRef<iConfigManager> app_cfg;
+		// The sound stream.
+		csRef<iSndSysStream> sndstream;
 
-  Network* network;
-  GUIManager* guimanager;
-  EffectsManager* effectsmanager;
-  ptEntityManager* entitymanager;
-  CombatMGR* combatmanager;
-  ItemMGR* itemmanager;
-  Cursor* cursor;
-  PtConsole* ptconsole;
+		// The sound source.
+		csRef<iSndSysSource> sndsource;
+		csRef<iSndSysSourceSoftware3D> sndsource3d;
 
-  PT::Events::EventManager* eventmanager;
+		// The config manager.
+		csRef<iConfigManager> app_cfg;
 
-  struct ChatMessage
-  {
-    unsigned char type;
-    csString  nick;
-    csString  msg;
-  };
+		Network* network;
+		GUIManager* guimanager;
+		EffectsManager* effectsmanager;
+		PT::Entity::EntityManager* entitymanager;
+		CombatMGR* combatmanager;
+		ItemMGR* itemmanager;
+		Cursor* cursor;
+		PtConsole* ptconsole;
 
-  csArray<ChatMessage> chat_msgs;
+		PT::Events::EventManager* eventmanager;
 
-private:
-  csRef<iString> load_region;
-  bool playing;
-  char walk, turn;
-  Mutex mutex;
-  csTicks timer;
-  iSector *room;
-  float rotX, rotY;
-  float cameradistance;
-  bool world_loaded;
-  int limitFPS;
-  csTicks last_sleep;
-  csTicks last_seen;
+		struct ChatMessage
+		{
+			unsigned char type;
+			csString  nick;
+			csString  msg;
+		};
 
-  // needed for relogin on disconnect
-  csString user;
-  csString pass;
-  unsigned int char_id;
+		csArray<ChatMessage> chat_msgs;
+
+	private:
+		csRef<iString> load_region;
+		bool playing;
+		char walk, turn;
+		Mutex mutex;
+		csTicks timer;
+		iSector *room;
+		float rotX, rotY;
+		float cameradistance;
+		bool world_loaded;
+		int limitFPS;
+		csTicks last_sleep;
+		csTicks last_seen;
+
+		// needed for relogin on disconnect
+		csString user;
+		csString pass;
+		unsigned int char_id;
 
 
-public:
-  Client();
-  ~Client();
+	public:
+		Client();
+		~Client();
 
-  void OnExit();
-  bool OnInitialize(int argc, char* argv[]);
+		void OnExit();
+		bool OnInitialize(int argc, char* argv[]);
 
-  bool Application();
-  void OnCommandLineHelp();
+		bool Application();
+		void OnCommandLineHelp();
 
-  void connected();
+		void connected();
 
-  void login(csString user, csString pass);
-  void loggedIn();
+		void login(csString user, csString pass);
+		void loggedIn();
 
-  void selectCharacter(unsigned int char_id);
+		void selectCharacter(unsigned int char_id);
 
-  void loadRegion(const char* name);
-  void loadRegion();
+		void loadRegion(const char* name);
+		void loadRegion();
 
-  void chat(unsigned char type, const char* msg, const char* other = 0);
-  void chat();
+		void chat(unsigned char type, const char* msg, const char* other = 0);
+		void chat();
 
-  void sawServer();
+		void sawServer();
 
-  csTicks GetTicks() { return csGetTicks(); }
-  void DrawFrame () 
-  {
-    PreProcessFrame();
-    ProcessFrame();
-    PostProcessFrame();
-    FinishFrame();
-  }
-};
+		csTicks GetTicks() { return csGetTicks(); }
+		void DrawFrame () 
+		{
+			PreProcessFrame();
+			ProcessFrame();
+			PostProcessFrame();
+			FinishFrame();
+		}
+	};
+
+} // PT namespace 
 
 #endif // CLIENT_H

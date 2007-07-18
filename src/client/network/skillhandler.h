@@ -27,12 +27,8 @@ class Client;
 
 class SkillHandler : public MessageHandler
 {
-private:
-  Client* client;
-
 public:
-  SkillHandler(Client* client)
-  : client(client)
+  SkillHandler()
   {
   }
 

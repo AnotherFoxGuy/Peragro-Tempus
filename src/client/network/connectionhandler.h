@@ -41,7 +41,7 @@ class ConnectionHandler : public UdpMessageHandler
 {
 private:
   Network* network;
-  Client* client;
+	PT::Client* client;
 
   UserHandler user_handler;
   EntityHandler entity_handler;
@@ -53,17 +53,17 @@ private:
   EnvironmentHandler environment_handler;
 
 public:
-  ConnectionHandler(Network* network, Client* client)
-  : network(network), client(client), user_handler(client),
-    entity_handler(client), chat_handler(client), door_handler(client),
-    skill_handler(client), quest_handler(client), trade_handler(client),
-    environment_handler(client)
+  ConnectionHandler(Network* network, PT::Client* client)
+  : network(network), client(client), user_handler(),
+    entity_handler(), chat_handler(), door_handler(),
+    skill_handler(), quest_handler(), trade_handler(),
+    environment_handler()
   {
   }
 
   void handle(GenericMessage* msg, SocketAddress& sock_addr)
   {
-    client->sawServer();
+		client->sawServer();
 
     char type = msg->getMsgType();
     if (type == MESSAGES::CONNECTION)

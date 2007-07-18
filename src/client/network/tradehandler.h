@@ -23,16 +23,10 @@
 
 #include "common/network/trademessages.h"
 
-class Client;
-
 class TradeHandler : public MessageHandler
 {
-private:
-  Client* client;
-
 public:
-  TradeHandler(Client* client)
-  : client(client)
+  TradeHandler()
   {
   }
 

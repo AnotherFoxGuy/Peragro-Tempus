@@ -27,12 +27,8 @@ class Client;
 
 class EnvironmentHandler : public MessageHandler
 {
-private:
-  Client* client;
-
 public:
-  EnvironmentHandler(Client* client)
-  : client(client)
+  EnvironmentHandler()
   {
   }
 

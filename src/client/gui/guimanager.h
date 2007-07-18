@@ -27,7 +27,10 @@
 
 #include "common/dragdrop-gui.h"
 
-class Client;
+namespace PT
+{
+	class Client;
+} // PT namespace 
 
 class LoginWindow;
 class ConnectWindow;
@@ -74,16 +77,16 @@ private:
   
   csRef<iCEGUI> cegui;
   
-  Client* client;
+  PT::Client* client;
   
 public:
-  GUIManager (Client* client);
+  GUIManager (PT::Client* client);
   ~GUIManager ();
   
   bool Initialize ();
   void Render ();
   
-  Client* GetClient () {return client;}
+	PT::Client* GetClient () {return client;}
   iCEGUI* GetCEGUI () {return cegui;}
   DragDrop* GetDragDrop (){return dragdrop;}
   

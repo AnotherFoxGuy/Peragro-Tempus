@@ -23,16 +23,10 @@
 
 #include "common/network/usermessages.h"
 
-class Client;
-
 class UserHandler : public MessageHandler
 {
-private:
-  Client* client;
-
 public:
-  UserHandler(Client* client)
-  : client(client)
+  UserHandler()
   {
   }
 

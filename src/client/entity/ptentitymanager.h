@@ -53,95 +53,99 @@ class Effect;
 struct iObjectRegistry;
 struct iLoader;
 
-class ptEntityManager
+namespace PT
 {
-private:
-  csPDelArray<PtEntity> entities;
+	namespace Entity
+	{
+		class EntityManager
+		{
+		private:
+			csPDelArray<PtEntity> entities;
 
-  csRef<iEngine> engine;
-  csRef<iVFS> vfs;
-  csRef<iStringSet> stringset;
-  csRef<iVirtualClock> vc;
-  csRef<iLoader> loader;
-  csRef<iCelPlLayer> pl;
-  csRef<iObjectRegistry> obj_reg;
-    
-  Client* client;
+			csRef<iEngine> engine;
+			csRef<iVFS> vfs;
+			csRef<iStringSet> stringset;
+			csRef<iVirtualClock> vc;
+			csRef<iLoader> loader;
+			csRef<iCelPlLayer> pl;
+			csRef<iObjectRegistry> obj_reg;
 
-private:
-  csArray<PT::Events::Eventp> events;
-  void ProcessEvents();
+			Client* client;
 
-private:
-  csPDelArray<MovementData> move_entity_name;
-  csPDelArray<MoveToData> move_to_entity_name;
-  csPDelArray<DrUpdateData> drupdate_entity_name;
-  csPDelArray<UpdatePcPropData> update_pcprop_entity_name;
-  csPDelArray<EquipData> equip_entity_name;
-  csPDelArray<MountData> mount_entity_name;
-  csPDelArray<UnMountData> unmount_entity_name;
-  csPDelArray<TeleportData> teleport_entity_name;
+		private:
+			csArray<PT::Events::Eventp> events;
+			void ProcessEvents();
 
-  Mutex mutex;
+		private:
+			csPDelArray<MoveToData> move_to_entity_name;
+			csPDelArray<DrUpdateData> drupdate_entity_name;
+			csPDelArray<UpdatePcPropData> update_pcprop_entity_name;
+			csPDelArray<EquipData> equip_entity_name;
+			csPDelArray<MountData> mount_entity_name;
+			csPDelArray<UnMountData> unmount_entity_name;
+			csPDelArray<TeleportData> teleport_entity_name;
 
-  unsigned int own_char_id;
-  csWeakRef<iPcDefaultCamera> owncam;
-  csWeakRef<iCelEntity> owncelent;
-  PtEntity* ownent;
-  csString ownname;
+			Mutex mutex;
 
-  bool playing;
-  bool world_loaded;
+			unsigned int own_char_id;
+			csWeakRef<iPcDefaultCamera> owncam;
+			csWeakRef<iCelEntity> owncelent;
+			PtEntity* ownent;
+			csString ownname;
 
-  void moveEntity();
-  void moveToEntity();
-  void DrUpdateEntity();
-  void updatePcProp();
-  void equip();
-  void mount();
-  void unmount();
-  void teleport();
+			bool playing;
+			bool world_loaded;
 
-  float GetAngle (const csVector3& v1, const csVector3& v2);
+			void moveToEntity();
+			void DrUpdateEntity();
+			void updatePcProp();
+			void equip();
+			void mount();
+			void unmount();
+			void teleport();
 
-public:
+			float GetAngle (const csVector3& v1, const csVector3& v2);
 
-  ptEntityManager (iObjectRegistry* obj_reg);
-  ~ptEntityManager ();
+		public:
 
-  bool Initialize ();
-  void Handle();
+			EntityManager (iObjectRegistry* obj_reg);
+			~EntityManager ();
 
-  bool GetEntityEvents(PT::Events::Eventp ev);
+			bool Initialize ();
+			void Handle();
 
-  bool AddEntity(PT::Events::Eventp ev);
-  bool RemoveEntity(PT::Events::Eventp ev);
+			bool GetEntityEvents(PT::Events::Eventp ev);
 
-  void delEntity(PtEntity* name);
-  void moveEntity(int entity_id, float walk_speed, float* ori, float* dst);
-  void moveEntity(int entity_id, float walk, float turn);
-  void DrUpdateEntity(DrUpdateData* drupdate);
-  void teleport(int entity_id, float* pos, const char* sector);
-  void updatePcProp(int entity_id, const char *pcprop,celData &value);
-  void DrUpdateOwnEntity();
-  void equip(int entity_id, int item_id, int slot_id);
-  void mount(int entity_id, int mount_id, bool control);
-  void unmount(int entity_id, int mount_id);
+			bool AddEntity(PT::Events::Eventp ev);
+			bool RemoveEntity(PT::Events::Eventp ev);
+			bool MoveEntity(PT::Events::Eventp ev);
 
-  iCelEntity* findCelEntById(int id);
-  PtEntity* findPtEntById(int id);
+			void moveEntity(int entity_id, float walk_speed, float* ori, float* dst); 
+			void DrUpdateEntity(DrUpdateData* drupdate);
+			void teleport(int entity_id, float* pos, const char* sector);
+			void updatePcProp(int entity_id, const char *pcprop,celData &value);
+			void DrUpdateOwnEntity();
+			void equip(int entity_id, int item_id, int slot_id);
+			void mount(int entity_id, int mount_id, bool control);
+			void unmount(int entity_id, int mount_id);
 
-  void setCharacter(unsigned int own_char) { own_char_id = own_char; }
-  iPcDefaultCamera* getOwnCamera() { return owncam; }
-  iCelEntity* getOwnCelEntity() { return owncelent; }
-  PtEntity* getOwnPtEntity() { return ownent; }
-  unsigned int GetOwnId() { return own_char_id; }
-  csString GetOwnName() { return ownname; }
+			iCelEntity* findCelEntById(int id);
+			PtEntity* findPtEntById(int id);
 
-  void setPlaying(bool value) { playing = value; }
-  void setWorldloaded(bool value) { world_loaded = value; }
+			void setCharacter(unsigned int own_char) { own_char_id = own_char; }
+			iPcDefaultCamera* getOwnCamera() { return owncam; }
+			iCelEntity* getOwnCelEntity() { return owncelent; }
+			PtEntity* getOwnPtEntity() { return ownent; }
+			unsigned int GetOwnId() { return own_char_id; }
+			csString GetOwnName() { return ownname; }
 
-  void delAllEntities();
-};
+			void setPlaying(bool value) { playing = value; }
+			void setWorldloaded(bool value) { world_loaded = value; }
+
+			void delAllEntities();
+		};
+
+	} // Entity namespace 
+} // PT namespace 
 
 #endif // PTENTITYMANAGER_H

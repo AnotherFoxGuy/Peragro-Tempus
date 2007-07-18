@@ -36,7 +36,7 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
     return;
   }
   printf("Login succeeded!\n");
-  client->loggedIn();
+  //client->loggedIn();
 }
 
 void UserHandler::handleRegisterResponse(GenericMessage* msg)
@@ -91,8 +91,8 @@ void UserHandler::handleCharCreateResponse(GenericMessage* msg)
 
 void UserHandler::handleCharSelectResponse(GenericMessage* msg)
 {
-  client->loadRegion("keep");
-  client->state = Client::STATE_PLAY;
+  //client->loadRegion("keep");
+  //client->state = Client::STATE_PLAY;
   CharSelectResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
   printf("Owning entity with id: %d\n", answer_msg.getEntityId());

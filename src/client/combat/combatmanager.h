@@ -36,7 +36,6 @@
 
 #include "client/pointer/pointer.h"
 
-class Client;
 class Effect;
 class GUIManager;
 class Network;
@@ -53,9 +52,9 @@ private:
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
 
-  Client* client;
+  PT::Client* client;
   EffectsManager* effectsmgr;
-  ptEntityManager* entitymgr;
+	PT::Entity::EntityManager* entitymgr;
   GUIManager* guimanager;
   Network* network;
 

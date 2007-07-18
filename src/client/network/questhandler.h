@@ -23,16 +23,10 @@
 
 #include "common/network/questmessages.h"
 
-class Client;
-
 class QuestHandler : public MessageHandler
 {
-private:
-  Client* client;
-
 public:
-  QuestHandler(Client* client)
-  : client(client)
+  QuestHandler()
   {
   }
 

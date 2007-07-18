@@ -27,12 +27,8 @@ class Client;
 
 class EntityHandler : public MessageHandler
 {
-private:
-  Client* client;
-
 public:
-  EntityHandler(Client* client)
-  : client(client)
+  EntityHandler()
   {
   }
 

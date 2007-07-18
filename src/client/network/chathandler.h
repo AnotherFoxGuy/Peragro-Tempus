@@ -23,16 +23,10 @@
 
 #include "common/network/chatmessages.h"
 
-class Client;
-
 class ChatHandler : public MessageHandler
 {
-private:
-  Client* client;
-
 public:
-  ChatHandler(Client* client)
-  : client(client)
+  ChatHandler()
   {
   }
 

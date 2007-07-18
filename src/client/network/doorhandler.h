@@ -23,16 +23,10 @@
 
 #include "common/network/doormessages.h"
 
-class Client;
-
 class DoorHandler : public MessageHandler
 {
-private:
-  Client* client;
-
 public:
-  DoorHandler(Client* client)
-  : client(client)
+  DoorHandler()
   {
   }
 

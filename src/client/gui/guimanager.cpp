@@ -30,7 +30,7 @@
 #include "gui.h"
 
 
-GUIManager::GUIManager (Client* client)
+GUIManager::GUIManager (PT::Client* client)
 : client(client)
 {
   dragdrop = 0;
