@@ -41,7 +41,6 @@
 #include <behaviourlayer/bl.h>
 #include <physicallayer/pl.h>
 #include <physicallayer/entity.h>
-#include <propclass/mesh.h>
 
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"

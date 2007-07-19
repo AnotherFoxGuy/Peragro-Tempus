@@ -832,66 +832,6 @@ namespace PT
 		pl = csQueryRegistry<iCelPlLayer> (object_reg);
 		if (!pl) return ReportError("Failed to load CEL Physical Layer");
 
-		// Loading property class factories
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
-			return ReportError("Failed to load CEL Region Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
-			return ReportError("Failed to load CEL Mesh Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
-			return ReportError("Failed to load CEL Solid Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
-			return ReportError("Failed to load CEL Camera Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.newcamera"))
-			return ReportError("Failed to load CEL Camera Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
-			return ReportError("Failed to load CEL Linmove Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
-			return ReportError("Failed to load CEL Quest Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
-			return ReportError("Failed to load CEL Colldet Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
-			return ReportError("Failed to load CEL Actormove Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.npcmove"))
-			return ReportError("Failed to load CEL Npcmove Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
-			return ReportError("Failed to load CEL Trigger Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
-			return ReportError("Failed to load CEL Tooltip Factory");
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
-			return false;
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
-			return false;
-
-		if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
-			return false;
-
-#if 1
-		// HACK HACK
-		// Fixes the CEGUI partial drawing.
-		// If you cross a portal it works for some reason.
-		// (Camera in one sector, the character in the other.)
-		csRef<iCelEntity> entity = pl->CreateEntity();
-		pl->CreatePropertyClass(entity, "pctooltip");
-		csRef<iPcTooltip> nametag = CEL_QUERY_PROPCLASS_ENT(entity, iPcTooltip);
-		nametag->SetText(" ");
-		nametag->SetJustify(CEL_TOOLTIP_CENTER);
-		nametag->SetBackgroundColor(-1, -1, -1);
-		nametag->Show(0, 0);
-#endif
-
 		return true;
 	}
 
