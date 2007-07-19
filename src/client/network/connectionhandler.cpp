@@ -21,7 +21,7 @@
 void ConnectionHandler::handleConnectionResponse(GenericMessage* msg)
 {
   printf("Received ConnectionResponse\n");
-  //client->connected();
+  client->connected();
 }
 
 void ConnectionHandler::handlePing(GenericMessage* ping_msg)

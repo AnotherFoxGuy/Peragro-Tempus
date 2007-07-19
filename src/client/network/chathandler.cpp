@@ -22,14 +22,14 @@ void ChatHandler::handleSay(GenericMessage* msg)
 {
   SayMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
-  //client->chat(0, chatmsg.getMessage(), *chatmsg.getSpeakerName());
+  client->chat(0, chatmsg.getMessage(), *chatmsg.getSpeakerName());
 }
 
 void ChatHandler::handleWhisperFrom(GenericMessage* msg)
 {
   WhisperFromMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
-  //client->chat(1, chatmsg.getMessage(), *chatmsg.getSpeakerName());
+  client->chat(1, chatmsg.getMessage(), *chatmsg.getSpeakerName());
 }
 
 void ChatHandler::handleShout(GenericMessage* msg)
