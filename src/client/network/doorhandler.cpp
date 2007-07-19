@@ -17,39 +17,57 @@
 */
 
 #include "client/network/network.h"
-#include "client/gui/gui.h"
-#include "client/gui/guimanager.h"
-#include "client/entity/ptentitymanager.h"
-#include "propclass/prop.h"
-#include "physicallayer/propclas.h"
+
+#include "client/event/eventmanager.h"
+#include "client/event/entityevent.h"
 
 void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
 {
   OpenDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
+
   printf("EntityHandler: Got open door %d.\n", door_msg.getDoorId());
   if (!door_msg.getError().isNull())
   {
-    printf("EntityHandler: ERROR Can't open %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
+    printf("E: Can't open %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
     return;
   }
-  celData data;
-  data.Set(true);
-  PointerLibrary::getInstance()->getEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
+
+	using namespace PT::Events;
+  EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
+
+	celData data;
+	data.Set(true);
+
+	entityEvent->entityId			= door_msg.getDoorId();
+	entityEvent->pcprop				= "Door Open";
+	entityEvent->celdata			= data;
+
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
 {
   CloseDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
-  printf("EntityHandler: Got close door %d.\n", door_msg.getDoorId());
-  if (!door_msg.getError().isNull())
-  {
-    printf("EntityHandler: ERROR Can't close %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
-    return;
-  }
-  celData data;
-  data.Set(false);
-  PointerLibrary::getInstance()->getEntityManager()->updatePcProp(door_msg.getDoorId(),"Door Open", data);
+
+	printf("EntityHandler: Got close door %d.\n", door_msg.getDoorId());
+	if (!door_msg.getError().isNull())
+	{
+		printf("E: Can't close %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
+		return;
+	}
+
+	using namespace PT::Events;
+  EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
+
+	celData data;
+	data.Set(false);
+
+	entityEvent->entityId			= door_msg.getDoorId();
+	entityEvent->pcprop				= "Door Open";
+	entityEvent->celdata			= data;
+
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 void DoorHandler::handleLockDoorResponse(GenericMessage* msg)

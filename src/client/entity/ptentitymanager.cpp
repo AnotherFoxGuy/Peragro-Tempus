@@ -36,6 +36,8 @@ namespace PT
 		{
 			this->obj_reg = obj_reg;
 
+			movementManager = new MovementManager(obj_reg);
+
 			engine =  csQueryRegistry<iEngine> (obj_reg);
 
 			vfs =  csQueryRegistry<iVFS> (obj_reg);
@@ -60,6 +62,8 @@ namespace PT
 			playing = false;
 			own_char_id = 0;
 
+			movementManager->Initialize();
+
 			using namespace PT::Events;
 
 			EventHandler<EntityManager>* cb = new EventHandler<EntityManager>(&EntityManager::GetEntityEvents, this);
@@ -67,9 +71,10 @@ namespace PT
 			PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cb);
 			// Register listener for EntityRemoveEvent.
 			PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cb);
-
-			// Register listener for EntityMoveEvent.
-			PointerLibrary::getInstance()->getEventManager()->AddListener("EntityMoveEvent", cb);
+			// Register listener for EntityEquipEvent.
+			PointerLibrary::getInstance()->getEventManager()->AddListener("EntityEquipEvent", cb);
+			// Register listener for EntityEquipEvent.
+			PointerLibrary::getInstance()->getEventManager()->AddListener("EntityMountEvent", cb);
 
 			return true;
 		}
@@ -85,9 +90,10 @@ namespace PT
 					AddEntity(ev);
 				else if (ev->GetEventID().compare("EntityRemoveEvent") == 0)
 					RemoveEntity(ev);
-				else if (ev->GetEventID().compare("EntityMoveEvent") == 0)
-					MoveEntity(ev);
-
+				else if (ev->GetEventID().compare("EntityEquipEvent") == 0)
+					Equip(ev);
+				else if (ev->GetEventID().compare("EntityMountEvent") == 0)
+					Mount(ev);
 			} // for
 		}
 
@@ -95,15 +101,9 @@ namespace PT
 		{
 			if (!world_loaded) return;
 
-			ProcessEvents();
+			movementManager->Handle();
 
-			moveToEntity();
-			DrUpdateEntity();
-			updatePcProp();
-			equip();
-			mount();
-			unmount();
-			teleport();
+			ProcessEvents();
 		}
 
 		PtEntity* EntityManager::findPtEntById(int id)
@@ -265,7 +265,7 @@ namespace PT
 			return true;
 		}
 
-		bool EntityManager::MoveEntity(PT::Events::Eventp ev)
+		bool EntityManager::Equip(PT::Events::Eventp ev)
 		{
 			using namespace PT::Events;
 
@@ -275,29 +275,61 @@ namespace PT
 				printf("E: Not an Entity event!\n");
 				return false;
 			}
-			EntityMoveEvent* entityMoveEv = static_cast<EntityMoveEvent*> (entityEv);
-			if (!entityMoveEv)
+			EntityEquipEvent* entityEquipEv = static_cast<EntityEquipEvent*> (entityEv);
+			if (!entityEquipEv)
 			{
-				printf("E: Not an EntityMoveEvent event!\n");
+				printf("E: Not an EntityEquipEvent event!\n");
 				return false;
 			}
 
-			int id = entityMoveEv->entityId;
+			printf("I: Equip for '%d': item %d in slot %d\n", entityEquipEv->entityId, entityEquipEv->itemId, entityEquipEv->slotId);
 
-			PtEntity* entity = findPtEntById(id);
-			if (!entity)
+			PtEntity* entity = findPtEntById(entityEquipEv->entityId);
+			if (entity)
 			{
-				printf("E: Couldn't find entity with ID %d!\n", id);
-				return true;
+				if (entity->GetType() == PtEntity::PlayerEntity)
+				{
+					if (!entityEquipEv->itemId == 0)
+						((PtPcEntity*) entity)->GetEquipment()->Equip(entityEquipEv->itemId, entityEquipEv->slotId);
+					else
+						((PtPcEntity*) entity)->GetEquipment()->UnEquip(entityEquipEv->slotId);
+				}
 			}
 
-			MovementData* movement	= new MovementData();
-			movement->entity_id			= entityMoveEv->entityId;
-			movement->walk					= entityMoveEv->walkDirection;
-			movement->turn					= entityMoveEv->turnDirection;
+			return true;
+		}
 
-			entity->Move(movement);
-			delete movement;
+		bool EntityManager::Mount(PT::Events::Eventp ev)
+		{
+			using namespace PT::Events;
+
+			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
+			if (!entityEv)
+			{
+				printf("E: Not an Entity event!\n");
+				return false;
+			}
+			EntityMountEvent* entityMountEv = static_cast<EntityMountEvent*> (entityEv);
+			if (!entityMountEv)
+			{
+				printf("E: Not an entityMountEv event!\n");
+				return false;
+			}
+
+			PtEntity* entity = findPtEntById(entityMountEv->entityId);
+			PtEntity* mount = findPtEntById(entityMountEv->mountId);
+			if (entity && mount)
+			{
+				if (entity->GetType() == PtEntity::PlayerEntity && mount->GetType() == PtEntity::MountEntity)
+				{
+					PtMountEntity* m = static_cast<PtMountEntity*>(mount);
+					if (entityMountEv->mount) 
+						m->Mount(entity);
+					else
+						m->UnMount(entity);
+				}
+			}
+
 
 			return true;
 		}
@@ -310,277 +342,6 @@ namespace PT
 				pl->RemoveEntity(entities[i]->GetCelEntity());
 				entities.DeleteIndex(i);
 			}
-		}
-
-		void EntityManager::teleport(int entity_id, float* pos, const char* sector)
-		{
-			mutex.lock();
-			csVector3 position(pos[0],pos[1],pos[2]);
-			printf("EntityManager: Teleporting entity '%d'\n", entity_id);
-			TeleportData* teleportdata = new TeleportData();
-			teleportdata->entity_id = entity_id;
-			teleportdata->position = position;
-			teleportdata->sector = sector;
-			teleport_entity_name.Push(teleportdata);
-			mutex.unlock();
-		}
-
-		void EntityManager::teleport()
-		{
-			if (!teleport_entity_name.GetSize()) return;
-			mutex.lock();
-			TeleportData* teleportdata = teleport_entity_name.Pop();
-
-			PtEntity* entity = findPtEntById(teleportdata->entity_id);
-			if(entity)
-				entity->Teleport(teleportdata->position, teleportdata->sector);
-			delete teleportdata;
-			mutex.unlock();
-		}
-
-		float EntityManager::GetAngle (const csVector3& v1, const csVector3& v2)
-		{
-			float len = sqrt (csSquaredDist::PointPoint (v1, v2));
-			float angle = acos ((v2.x-v1.x) / len);
-			if ((v2.z-v1.z) > 0) angle = 2*PI - angle;
-			angle += PI / 2.0f;
-			if (angle > 2*PI) angle -= 2*PI;
-			return angle;
-		}
-
-		void EntityManager::moveEntity(int entity_id, float walk_speed, float* fv1, float* fv2)
-		{
-			PtEntity* entity = findPtEntById(entity_id);
-			if (!entity) return;
-			if(!entity->GetCelEntity()) 
-			{
-				printf("EntityManager: ERROR : moveEntity %d: No CelEntity\n", entity_id);
-				return;
-			}
-
-			mutex.lock();
-
-			MoveToData* moveTo = new MoveToData();
-
-			csVector3 pos_ori(fv1[0], fv1[1], fv1[2]);
-			csVector3 pos_dst(fv2[0], fv2[1], fv2[2]);
-
-			moveTo->turn_speed = 2*PI; // 1 revolution per second
-			moveTo->walk_speed = walk_speed;
-
-			// Getting the real world position of our entity.
-			// TODO Do some SoftDRUpdate with the server position(fv1)?
-			// Or is this redundant since the end position WILL be the same?
-			csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
-			float cur_yrot;
-			csVector3 cur_position;
-			iSector* cur_sector;
-			pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
-
-			csVector3 vec (0,0,1);
-			float yrot_dst = GetAngle (pos_dst - cur_position, vec);
-
-			moveTo->dest_angle = yrot_dst;
-
-			moveTo->walk_duration = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
-
-			moveTo->elapsed_time = 0;
-			moveTo->walking = false;
-			moveTo->entity_id = entity_id;
-
-			// Remove any other moveTo actions for this entity
-			for (size_t i = 0; i < move_to_entity_name.GetSize(); i++)
-			{
-				MoveToData* m = move_to_entity_name.Get(i);
-
-				if (m->entity_id == moveTo->entity_id)
-				{
-					move_to_entity_name.Delete(m);
-					break;
-				}
-			}
-
-			move_to_entity_name.Push(moveTo);
-
-			mutex.unlock();
-		}
-
-		void EntityManager::moveToEntity()
-		{
-			if (!move_to_entity_name.GetSize()) return;
-			mutex.lock();
-
-			for (size_t i = 0; i < move_to_entity_name.GetSize(); i++)
-			{
-				MoveToData* moveTo = move_to_entity_name.Get(i);
-
-				PtEntity* entity = findPtEntById(moveTo->entity_id);
-				if (entity)
-				{
-					if(entity->MoveTo(moveTo))
-						move_to_entity_name.Delete(moveTo);
-				}
-			}
-			mutex.unlock();
-		}
-
-		void EntityManager::DrUpdateEntity(DrUpdateData* drupdate)
-		{
-			mutex.lock();
-			if (own_char_id == drupdate->entity_id)
-			{
-				delete drupdate;
-				mutex.unlock();
-				return;
-			}
-			drupdate_entity_name.Push(drupdate);
-			mutex.unlock();
-		}
-
-		void EntityManager::DrUpdateEntity()
-		{
-			if (!drupdate_entity_name.GetSize()) return;
-			mutex.lock();
-			DrUpdateData* drupdate = drupdate_entity_name.Pop();
-
-			PtEntity* entity = findPtEntById(drupdate->entity_id);
-			if (entity)
-			{
-				entity->DrUpdate(drupdate);
-			}
-			delete drupdate;
-			mutex.unlock();
-		}
-
-		void EntityManager::updatePcProp()
-		{
-			if (!update_pcprop_entity_name.GetSize()) return;
-			mutex.lock();
-
-			UpdatePcPropData* update_pcprop;
-			for (size_t i = 0; i < update_pcprop_entity_name.GetSize(); i++)
-			{
-				update_pcprop = update_pcprop_entity_name.Pop();
-				int id = update_pcprop->entity_id;
-				PtEntity *ent = findPtEntById(id);
-				if (ent)
-					ent->UpdatePcProp(update_pcprop);
-				else
-					printf("EntityManager: ERROR Failed to do updatePcProp on %d!!\n", id);
-
-				delete update_pcprop;
-			}
-			mutex.unlock();
-		}
-
-		void EntityManager::updatePcProp(int entity_id, const char *pcprop, celData &value)
-		{
-			mutex.lock();
-			UpdatePcPropData* updatePcprop = new UpdatePcPropData();
-			updatePcprop->entity_id = entity_id;
-			updatePcprop->pcprop = pcprop;
-			updatePcprop->value = value;
-
-			update_pcprop_entity_name.Push(updatePcprop);
-			mutex.unlock();
-		}
-
-		void EntityManager::equip(int entity_id, int item_id, int slot_id)
-		{
-			mutex.lock();
-			printf("EntityManager: Add equip for '%d': item %d in slot %d\n", entity_id, item_id, slot_id);
-			EquipData* equipdata = new EquipData();
-			equipdata->entity_id = entity_id;
-			equipdata->item_id = item_id;
-			equipdata->slot_id = slot_id;
-			equip_entity_name.Push(equipdata);
-			mutex.unlock();
-		}
-
-		void EntityManager::equip()
-		{
-			if (!equip_entity_name.GetSize()) return;
-			mutex.lock();
-			EquipData* equipdata = equip_entity_name.Pop();
-
-			PtEntity* entity = findPtEntById(equipdata->entity_id);
-			if (entity)
-			{
-				if (entity->GetType() == PtEntity::PlayerEntity)
-				{
-					if(!equipdata->item_id == 0)
-						((PtPcEntity*) entity)->GetEquipment()->Equip(equipdata->item_id, equipdata->slot_id);
-					else
-						((PtPcEntity*) entity)->GetEquipment()->UnEquip(equipdata->slot_id);
-				}
-			}
-			delete equipdata;
-			mutex.unlock();
-		}
-
-		void EntityManager::mount(int entity_id, int mount_id, bool control)
-		{
-			mutex.lock();
-
-			MountData* mountdata = new MountData();
-			mountdata->entity_id = entity_id;
-			mountdata->mount_id= mount_id;
-			mountdata->control = control;
-			mount_entity_name.Push(mountdata);
-
-			mutex.unlock();
-		}
-
-		void EntityManager::mount()
-		{
-			if (!mount_entity_name.GetSize()) return;
-			mutex.lock();
-			MountData* mountdata = mount_entity_name.Pop();
-
-			PtEntity* entity = findPtEntById(mountdata->entity_id);
-			PtEntity* mount = findPtEntById(mountdata->mount_id);
-			if (entity && mount)
-			{
-				if (entity->GetType() == PtEntity::PlayerEntity && mount->GetType() == PtEntity::MountEntity)
-				{
-					PtMountEntity* m = static_cast<PtMountEntity*>(mount);
-					m->Mount(entity);
-				}
-			}
-			delete mountdata;
-			mutex.unlock();
-		}
-
-		void EntityManager::unmount(int entity_id, int mount_id)
-		{
-			mutex.lock();
-
-			UnMountData* mountdata = new UnMountData();
-			mountdata->entity_id = entity_id;
-			mountdata->mount_id= mount_id;
-			unmount_entity_name.Push(mountdata);
-
-			mutex.unlock();
-		}
-
-		void EntityManager::unmount()
-		{
-			if (!unmount_entity_name.GetSize()) return;
-			mutex.lock();
-			UnMountData* mountdata = unmount_entity_name.Pop();
-
-			PtEntity* entity = findPtEntById(mountdata->entity_id);
-			PtEntity* mount = findPtEntById(mountdata->mount_id);
-			if (entity && mount)
-			{
-				if (entity->GetType() == PtEntity::PlayerEntity && mount->GetType() == PtEntity::MountEntity)
-				{
-					PtMountEntity* m = static_cast<PtMountEntity*>(mount);
-					m->UnMount(entity);
-				}
-			}
-			delete mountdata;
-			mutex.unlock();
 		}
 
 		void EntityManager::DrUpdateOwnEntity()

@@ -128,13 +128,15 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   DrUpdateMessage dr_msg;
   dr_msg.deserialise(msg->getByteStream());
 
-  DrUpdateData* drupdate = new DrUpdateData();
-  drupdate->rot = dr_msg.getRotation();
-  drupdate->pos = csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
-  drupdate->sector = *dr_msg.getSector();
-  drupdate->entity_id = dr_msg.getEntityId();
+  using namespace PT::Events;
+  EntityDrUpdateEvent* entityEvent = new EntityDrUpdateEvent();
 
-  PointerLibrary::getInstance()->getEntityManager()->DrUpdateEntity(drupdate);
+  entityEvent->entityId				= dr_msg.getEntityId();
+	entityEvent->position				= csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
+	entityEvent->rotation				= dr_msg.getRotation();
+	entityEvent->sectorName			= *dr_msg.getSector();
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 void EntityHandler::handleInventoryList(GenericMessage* msg)
@@ -178,7 +180,15 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
   float* fv1 = move_msg.getFrom();
   float* fv2 = move_msg.getTo();
 
-  PointerLibrary::getInstance()->getEntityManager()->moveEntity(move_msg.getEntityId(), move_msg.getSpeed(), fv1, fv2);
+  using namespace PT::Events;
+  EntityMoveToEvent* entityEvent = new EntityMoveToEvent();
+
+  entityEvent->entityId			= move_msg.getEntityId();
+	entityEvent->origin				= csVector3(fv1[0],fv1[1],fv1[2]);
+	entityEvent->destination	= csVector3(fv2[0],fv2[1],fv2[2]);
+	entityEvent->speed				= move_msg.getSpeed();
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 
@@ -201,14 +211,16 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   equip_msg.deserialise(msg->getByteStream());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
-  unsigned int entity = equip_msg.getEntityId();
-  unsigned char slot = equip_msg.getSlotId();
-  unsigned int item = equip_msg.getItemId();
+  using namespace PT::Events;
+  EntityEquipEvent* entityEvent = new EntityEquipEvent();
 
-  printf("EquipMessage: Entity %d equiped item %d to slot %d\n", entity, slot, item);
+  entityEvent->entityId			= equip_msg.getEntityId();
+	entityEvent->slotId				= equip_msg.getSlotId();
+	entityEvent->itemId				= equip_msg.getItemId();
 
-  PointerLibrary::getInstance()->getEntityManager()->equip(entity, item, slot);
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
+
 void EntityHandler::handleInventoryMoveItem(GenericMessage* msg)
 {
   InventoryMoveItemMessage invmove_msg;
@@ -228,11 +240,14 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
   TeleportMessage telemsg;
   telemsg.deserialise(msg->getByteStream());
 
-  int entity_id = telemsg.getEntityId();
-  float* pos = telemsg.getPos();
-  const char* sector = *telemsg.getSector();
+	using namespace PT::Events;
+	EntityTeleportEvent* entityEvent = new EntityTeleportEvent();
 
-  PointerLibrary::getInstance()->getEntityManager()->teleport(entity_id, pos, sector);
+	entityEvent->entityId			= telemsg.getEntityId();
+	entityEvent->position			= csVector3(telemsg.getPos()[0],telemsg.getPos()[1],telemsg.getPos()[2]);
+	entityEvent->sectorName		= *telemsg.getSector();
+
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
@@ -308,11 +323,15 @@ void EntityHandler::handleMount(GenericMessage* msg)
   MountMessage mount_msg;
   mount_msg.deserialise(msg->getByteStream());
 
-  unsigned int entity = mount_msg.getPlayerEntityId();
-  unsigned int mount = mount_msg.getMountEntityId();
-  unsigned char control = mount_msg.getControl();
+	using namespace PT::Events;
+	EntityMountEvent* entityEvent = new EntityMountEvent();
 
-  PointerLibrary::getInstance()->getEntityManager()->mount(entity, mount, control > 0);
+	entityEvent->entityId			= mount_msg.getPlayerEntityId();
+	entityEvent->mountId			= mount_msg.getMountEntityId();
+	entityEvent->control			= mount_msg.getControl() > 0;
+	entityEvent->mount				= true;
+
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 void EntityHandler::handleUnmount(GenericMessage* msg)
@@ -320,8 +339,13 @@ void EntityHandler::handleUnmount(GenericMessage* msg)
   UnmountMessage mount_msg;
   mount_msg.deserialise(msg->getByteStream());
 
-  unsigned int entity = mount_msg.getPlayerEntityId();
-  unsigned int mount = mount_msg.getMountEntityId();
+  using namespace PT::Events;
+	EntityMountEvent* entityEvent = new EntityMountEvent();
 
-  PointerLibrary::getInstance()->getEntityManager()->unmount(entity, mount);
+	entityEvent->entityId			= mount_msg.getPlayerEntityId();
+	entityEvent->mountId			= mount_msg.getMountEntityId();
+	entityEvent->control			= false;
+	entityEvent->mount				= false;
+
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+19-Jul-2007
+  - Sueastside completed converting entitymanager to using events. He also
+    added a WIP TradeManager.
+
 27-Jun-2007
   - Sueastside added event manager.
   - Sueastside continued work on event manager and introduced a nice crash.

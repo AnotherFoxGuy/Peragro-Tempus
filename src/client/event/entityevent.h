@@ -26,6 +26,8 @@
 
 #include "client/event/event.h"
 
+#include <physicallayer/datatype.h>
+
 namespace PT
 {
   namespace Events
@@ -86,6 +88,35 @@ namespace PT
       virtual ~EntityRemoveEvent() {}
     };
 
+		/**
+		 * Entity Equip event.
+		 */
+    class EntityEquipEvent : public EntityEvent
+    {
+		public:
+			unsigned char slotId;
+			unsigned int itemId;
+
+    public:
+      EntityEquipEvent() : EntityEvent("EntityEquipEvent", true) {}
+      virtual ~EntityEquipEvent() {}
+    };
+
+		/**
+		* Entity Mount event.
+		*/
+		class EntityMountEvent : public EntityEvent
+		{
+		public:
+			unsigned int mountId;
+			bool control;
+			bool mount;
+
+		public:
+			EntityMountEvent() : EntityEvent("EntityMountEvent", true) {}
+			virtual ~EntityMountEvent() {}
+		};
+
 		/*---------------*
 		*     Movement
 		*----------------*/
@@ -103,6 +134,64 @@ namespace PT
       EntityMoveEvent() : EntityEvent("EntityMoveEvent", true) {}
       virtual ~EntityMoveEvent() {}
     };
+
+		/**
+		* Entity MoveTo event.
+		*/
+		class EntityMoveToEvent : public EntityEvent
+		{
+		public:
+			int speed;
+			csVector3 origin;
+			csVector3 destination;
+
+		public:
+			EntityMoveToEvent() : EntityEvent("EntityMoveToEvent", true) {}
+			virtual ~EntityMoveToEvent() {}
+		};
+
+		/**
+		* Entity Teleport event.
+		*/
+		class EntityTeleportEvent : public EntityEvent
+		{
+		public:
+			csVector3 position;
+			std::string sectorName;
+
+		public:
+			EntityTeleportEvent() : EntityEvent("EntityTeleportEvent", true) {}
+			virtual ~EntityTeleportEvent() {}
+		};
+
+		/**
+		* Entity DrUpdate event.
+		*/
+		class EntityDrUpdateEvent : public EntityEvent
+		{
+		public:
+			float rotation;
+			csVector3 position;
+			std::string sectorName;
+
+		public:
+			EntityDrUpdateEvent() : EntityEvent("EntityDrUpdateEvent", true) {}
+			virtual ~EntityDrUpdateEvent() {}
+		};
+
+		/**
+		* Entity PcPropUpdate event.
+		*/
+		class EntityPcPropUpdateEvent : public EntityEvent
+		{
+		public:
+			std::string pcprop;
+			celData celdata;
+
+		public:
+			EntityPcPropUpdateEvent() : EntityEvent("EntityPcPropUpdateEvent", true) {}
+			virtual ~EntityPcPropUpdateEvent() {}
+		};
 
   } // Events namespace 
 } // PT namespace 

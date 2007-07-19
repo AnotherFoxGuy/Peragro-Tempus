@@ -40,13 +40,11 @@
 #include "client/entity/item/itementity.h"
 #include "client/entity/mount/mountentity.h"
 
-#include "common/util/mutex.h"
-
 #include "client/network/network.h"
 
-#include "client/entity/movement.h"
-
 #include "client/event/entityevent.h"
+
+#include "client/entity/movementmanager.h"
 
 class Effect;
 
@@ -71,43 +69,24 @@ namespace PT
 			csRef<iObjectRegistry> obj_reg;
 
 			Client* client;
+			MovementManager* movementManager;
 
 		private:
 			csArray<PT::Events::Eventp> events;
 			void ProcessEvents();
 
 		private:
-			csPDelArray<MoveToData> move_to_entity_name;
-			csPDelArray<DrUpdateData> drupdate_entity_name;
-			csPDelArray<UpdatePcPropData> update_pcprop_entity_name;
-			csPDelArray<EquipData> equip_entity_name;
-			csPDelArray<MountData> mount_entity_name;
-			csPDelArray<UnMountData> unmount_entity_name;
-			csPDelArray<TeleportData> teleport_entity_name;
-
-			Mutex mutex;
-
 			unsigned int own_char_id;
 			csWeakRef<iPcDefaultCamera> owncam;
 			csWeakRef<iCelEntity> owncelent;
 			PtEntity* ownent;
 			csString ownname;
 
+		private:
 			bool playing;
 			bool world_loaded;
 
-			void moveToEntity();
-			void DrUpdateEntity();
-			void updatePcProp();
-			void equip();
-			void mount();
-			void unmount();
-			void teleport();
-
-			float GetAngle (const csVector3& v1, const csVector3& v2);
-
 		public:
-
 			EntityManager (iObjectRegistry* obj_reg);
 			~EntityManager ();
 
@@ -118,17 +97,10 @@ namespace PT
 
 			bool AddEntity(PT::Events::Eventp ev);
 			bool RemoveEntity(PT::Events::Eventp ev);
-			bool MoveEntity(PT::Events::Eventp ev);
-
-			void moveEntity(int entity_id, float walk_speed, float* ori, float* dst); 
-			void DrUpdateEntity(DrUpdateData* drupdate);
-			void teleport(int entity_id, float* pos, const char* sector);
-			void updatePcProp(int entity_id, const char *pcprop,celData &value);
+			bool Equip(PT::Events::Eventp ev);
+			bool Mount(PT::Events::Eventp ev);
 			void DrUpdateOwnEntity();
-			void equip(int entity_id, int item_id, int slot_id);
-			void mount(int entity_id, int mount_id, bool control);
-			void unmount(int entity_id, int mount_id);
-
+			
 			iCelEntity* findCelEntById(int id);
 			PtEntity* findPtEntById(int id);
 
