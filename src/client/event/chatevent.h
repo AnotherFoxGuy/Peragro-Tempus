@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_TRADE_EVENT_H
-#define PT_TRADE_EVENT_H
+#ifndef PT_CHAT_EVENT_H
+#define PT_CHAT_EVENT_H
 
 #include <cssysdef.h>
 
@@ -28,18 +28,18 @@ namespace PT
   namespace Events
   {
 		/**
-		 * TradeEvent helper function.
-		 */
+		* ChatEvent helper function.
+		*/
 		template <class T>
-		T GetTradeEvent(Eventp ev)
+		T GetChatEvent(Eventp ev)
 		{
-			TradeEvent* tradeEv = static_cast<TradeEvent*> (ev.px);
-			if (!tradeEv)
+			ChatEvent* chatEv = static_cast<ChatEvent*> (ev.px);
+			if (!chatEv)
 			{
-				printf("E: Not a Trade event!\n");
+				printf("E: Not a Chat event!\n");
 				return 0;
 			}
-			T tEv = static_cast<T> (tradeEv);
+			T tEv = static_cast<T> (stateEv);
 			if (!tEv)
 			{
 				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
@@ -50,31 +50,26 @@ namespace PT
 		}
 
 		/**
-		 * Trade event base class.
+		 * Chat event base class.
 		 */
-    class TradeEvent : public Event
+    class ChatEvent : public Event
     {
 		public:
-			unsigned int entityId;
-
-		public:
-			TradeEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-			virtual ~TradeEvent() {}
+			ChatEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+			virtual ~ChatEvent() {}
     };
 
 		/**
-		 * Trade pickup event.
+		 * Chat say event.
 		 */
-    class TradePickEvent : public TradeEvent
+    class ChatSayEvent : public ChatEvent
     {
     public:
-
-    public:
-      TradePickEvent() : TradeEvent("TradePickEvent", true) {}
-      virtual ~TradePickEvent() {}
+      ChatSayEvent() : ChatEvent("ChatSayEvent", true) {}
+      virtual ~ChatSayEvent() {}
     };
 
   } // Events namespace 
 } // PT namespace 
 
-#endif // PT_TRADE_EVENT_H
+#endif // PT_CHAT_EVENT_H

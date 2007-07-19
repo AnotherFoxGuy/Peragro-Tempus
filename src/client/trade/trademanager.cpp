@@ -16,9 +16,11 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/trademanager.h"
+#include "trademanager.h"
 
 #include <iutil/objreg.h>
+
+#include "client/pointer/pointer.h"
 
 #include "client/event/eventmanager.h"
 
@@ -57,18 +59,8 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			TradeEvent* tradeEv = static_cast<TradeEvent*> (ev.px);
-			if (!tradeEv)
-			{
-				printf("E: Not a Trade event!\n");
-				return false;
-			}
-			TradePickEvent* pickUpEv = static_cast<TradePickEvent*> (tradeEv);
-			if (!pickUpEv)
-			{
-				printf("E: Not a TradePickEvent event!\n");
-				return false;
-			}
+			TradePickEvent* pickUpEv = GetTradeEvent<TradePickEvent*>(ev);
+			if (!pickUpEv) return false;
 
 			// Do something.
 

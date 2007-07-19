@@ -44,10 +44,10 @@ void Equipment::RemoveItem(unsigned int slotid)
   printf("Equipment: ERROR Couldn't remove equiped item for slot %d!\n", slotid);
 }
 
-void Equipment::Equip(unsigned int itemid, unsigned int slotid)
+void Equipment::Equip(unsigned int slotId, unsigned int itemId)
 {  
   // Create an EquipedItem with the slotname and item information.
-  EquipedItem* equipeditem = new EquipedItem(entity, itemid, slotid);
+  EquipedItem* equipeditem = new EquipedItem(entity, itemId, slotId);
 
   // Add it to the equipment.
   AddItem(equipeditem);
@@ -57,9 +57,9 @@ void Equipment::Equip(unsigned int itemid, unsigned int slotid)
   
 }
 
-void Equipment::UnEquip(unsigned int slotid)
+void Equipment::UnEquip(unsigned int slotId)
 {
-  RemoveItem(slotid);
+  RemoveItem(slotId);
 }
 
 void Equipment::ConstructMeshes()

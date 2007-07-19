@@ -38,8 +38,8 @@ class Equipment
  public:
    Equipment(PtEntity* entity);
    ~Equipment();
-   void Equip(unsigned int itemid, unsigned int slotid);
-   void UnEquip(unsigned int slotid);
+   void Equip(unsigned int slotId, unsigned int itemId);
+   void UnEquip(unsigned int slotId);
    
    PtEntity* GetEntity() { return entity; }
    void ClearAll(); // Destructs all meshes and wipes the array.

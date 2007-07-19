@@ -76,6 +76,9 @@ namespace PT
 			// Register listener for EntityEquipEvent.
 			PointerLibrary::getInstance()->getEventManager()->AddListener("EntityMountEvent", cb);
 
+			// Register listener for EntityEquipEvent.
+			PointerLibrary::getInstance()->getEventManager()->AddListener("StatePlayEvent", cb);
+
 			return true;
 		}
 
@@ -94,6 +97,9 @@ namespace PT
 					Equip(ev);
 				else if (ev->GetEventID().compare("EntityMountEvent") == 0)
 					Mount(ev);
+
+				else if (ev->GetEventID().compare("StatePlayEvent") == 0)
+					SetOwnId(ev);
 			} // for
 		}
 
@@ -140,22 +146,25 @@ namespace PT
 			return true;
 		}
 
+		bool EntityManager::SetOwnId(PT::Events::Eventp ev)
+		{
+			using namespace PT::Events;
+
+			StatePlayEvent* playEv = GetStateEvent<StatePlayEvent*>(ev);
+			if (!playEv) return false;
+
+			own_char_id = playEv->ownEntityId;
+
+			return true;
+		}
+
 		bool EntityManager::AddEntity(PT::Events::Eventp ev)
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityAddEvent* entityAddEv = static_cast<EntityAddEvent*> (entityEv);
-			if (!entityAddEv)
-			{
-				printf("E: Not an EntityAddEvent event!\n");
-				return false;
-			}
+			EntityAddEvent* entityAddEv = GetEntityEvent<EntityAddEvent*>(ev);
+			if (!entityAddEv) return false;
+
 			if ( findPtEntById(entityAddEv->entityId) )
 			{
 				printf("W: Skipping already existing entity '%s(%d)'\n", entityAddEv->entityName.c_str(), entityAddEv->entityId);
@@ -207,7 +216,7 @@ namespace PT
 			// It's our player, attach the camera and set some variables.
 			if (own_char_id == entityAddEv->entityId)
 			{
-				printf("I:  Adding Entity '%s(%d)' as me\n", entity->GetName().GetData(), entity->GetId());
+				printf("I: Adding Entity '%s(%d)' as me\n", entity->GetName().GetData(), entity->GetId());
 
 				((PtPcEntity*)entity)->SetOwnEntity(true);
 
@@ -238,18 +247,8 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityRemoveEvent* entityRemoveEv = static_cast<EntityRemoveEvent*> (entityEv);
-			if (!entityRemoveEv)
-			{
-				printf("E: Not an EntityRemoveEvent event!\n");
-				return false;
-			}
+			EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
+			if (!entityRemoveEv) return false;
 
 			int id = entityRemoveEv->entityId;
 
@@ -269,18 +268,8 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityEquipEvent* entityEquipEv = static_cast<EntityEquipEvent*> (entityEv);
-			if (!entityEquipEv)
-			{
-				printf("E: Not an EntityEquipEvent event!\n");
-				return false;
-			}
+			EntityEquipEvent* entityEquipEv = GetEntityEvent<EntityEquipEvent*>(ev);
+			if (!entityEquipEv) return false;
 
 			printf("I: Equip for '%d': item %d in slot %d\n", entityEquipEv->entityId, entityEquipEv->itemId, entityEquipEv->slotId);
 
@@ -303,18 +292,8 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityMountEvent* entityMountEv = static_cast<EntityMountEvent*> (entityEv);
-			if (!entityMountEv)
-			{
-				printf("E: Not an entityMountEv event!\n");
-				return false;
-			}
+			EntityMountEvent* entityMountEv = GetEntityEvent<EntityMountEvent*>(ev);
+			if (!entityMountEv) return false;
 
 			PtEntity* entity = findPtEntById(entityMountEv->entityId);
 			PtEntity* mount = findPtEntById(entityMountEv->mountId);

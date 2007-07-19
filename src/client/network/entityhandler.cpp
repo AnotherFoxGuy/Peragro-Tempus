@@ -267,12 +267,16 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->entityId    = entmsg.getEntityId();
   entityEvent->entityType  = EntityEvent::PlayerEntity; 
 
-  for (size_t i = 0; i < entmsg.getEquipmentCount(); i++)
+	unsigned char itemCount = entmsg.getEquipmentCount();
+  for (size_t i = 0; i < itemCount; i++)
   {
     unsigned int itemId = entmsg.getItemId(i);
     unsigned int slotId = i;
     if (itemId == 0)  continue;
-    entityEvent->equipment.push_back( (std::pair<int, int> (itemId, slotId)) );
+		printf("CRASH: Item: %d %*d \n", itemId, 15, slotId);
+		std::pair<int, int> pair(slotId, itemId);
+		// TODO Fix this crash.
+    //entityEvent->equipment.push_back(pair);
   }
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);

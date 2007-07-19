@@ -46,6 +46,9 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
+#include "client/event/eventmanager.h"
+#include "client/event/regionevent.h"
+
 #include "client/pointer/pointer.h"
 
 struct iPcDefaultCamera;
@@ -158,7 +161,6 @@ namespace PT
 		csArray<ChatMessage> chat_msgs;
 
 	private:
-		csRef<iString> load_region;
 		bool playing;
 		char walk, turn;
 		Mutex mutex;
@@ -176,6 +178,10 @@ namespace PT
 		csString pass;
 		unsigned int char_id;
 
+	public:
+		bool loggedIn(PT::Events::Eventp ev);
+		bool LoadRegion(PT::Events::Eventp ev);
+		bool Connected(PT::Events::Eventp ev);
 
 	public:
 		Client();
@@ -187,15 +193,10 @@ namespace PT
 		bool Application();
 		void OnCommandLineHelp();
 
-		void connected();
-
 		void login(csString user, csString pass);
-		void loggedIn();
 
 		void selectCharacter(unsigned int char_id);
 
-		void loadRegion(const char* name);
-		void loadRegion();
 
 		void chat(unsigned char type, const char* msg, const char* other = 0);
 		void chat();

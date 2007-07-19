@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+20-Jul-2007
+  - Sueastside started converting userhandler and connectionhandler to use
+    state event messages.
+  - Sueastside did a general cleanup of the event listeners.
+
 19-Jul-2007
   - Sueastside completed converting entitymanager to using events. He also
     added a WIP TradeManager.

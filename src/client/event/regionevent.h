@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_TRADE_EVENT_H
-#define PT_TRADE_EVENT_H
+#ifndef PT_REGION_EVENT_H
+#define PT_REGION_EVENT_H
 
 #include <cssysdef.h>
 
@@ -28,18 +28,18 @@ namespace PT
   namespace Events
   {
 		/**
-		 * TradeEvent helper function.
-		 */
+		* RegionEvent helper function.
+		*/
 		template <class T>
-		T GetTradeEvent(Eventp ev)
+		T GetRegionEvent(Eventp ev)
 		{
-			TradeEvent* tradeEv = static_cast<TradeEvent*> (ev.px);
-			if (!tradeEv)
+			RegionEvent* regionEv = static_cast<RegionEvent*> (ev.px);
+			if (!regionEv)
 			{
-				printf("E: Not a Trade event!\n");
+				printf("E: Not a Region event!\n");
 				return 0;
 			}
-			T tEv = static_cast<T> (tradeEv);
+			T tEv = static_cast<T> (regionEv);
 			if (!tEv)
 			{
 				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
@@ -50,31 +50,29 @@ namespace PT
 		}
 
 		/**
-		 * Trade event base class.
+		 * Region event base class.
 		 */
-    class TradeEvent : public Event
+    class RegionEvent : public Event
     {
 		public:
-			unsigned int entityId;
-
-		public:
-			TradeEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-			virtual ~TradeEvent() {}
+			RegionEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+			virtual ~RegionEvent() {}
     };
 
 		/**
-		 * Trade pickup event.
+		 * Chat say event.
 		 */
-    class TradePickEvent : public TradeEvent
+    class RegionLoadEvent : public RegionEvent
     {
-    public:
+		public:
+			std::string regionName;
 
     public:
-      TradePickEvent() : TradeEvent("TradePickEvent", true) {}
-      virtual ~TradePickEvent() {}
+      RegionLoadEvent() : RegionEvent("RegionLoadEvent", true) {}
+      virtual ~RegionLoadEvent() {}
     };
 
   } // Events namespace 
 } // PT namespace 
 
-#endif // PT_TRADE_EVENT_H
+#endif // PT_REGION_EVENT_H

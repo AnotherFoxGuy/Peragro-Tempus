@@ -43,6 +43,7 @@
 #include "client/network/network.h"
 
 #include "client/event/entityevent.h"
+#include "client/event/stateevent.h"
 
 #include "client/entity/movementmanager.h"
 
@@ -104,7 +105,8 @@ namespace PT
 			iCelEntity* findCelEntById(int id);
 			PtEntity* findPtEntById(int id);
 
-			void setCharacter(unsigned int own_char) { own_char_id = own_char; }
+			bool SetOwnId(PT::Events::Eventp ev);
+
 			iPcDefaultCamera* getOwnCamera() { return owncam; }
 			iCelEntity* getOwnCelEntity() { return owncelent; }
 			PtEntity* getOwnPtEntity() { return ownent; }

@@ -18,10 +18,16 @@
 
 #include "client/network/network.h"
 
+#include "client/event/eventmanager.h"
+#include "client/event/stateevent.h"
+
 void ConnectionHandler::handleConnectionResponse(GenericMessage* msg)
 {
   printf("Received ConnectionResponse\n");
-  client->connected();
+
+	using namespace PT::Events;
+	StateConnectedEvent* stateEvent = new StateConnectedEvent();
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
 }
 
 void ConnectionHandler::handlePing(GenericMessage* ping_msg)

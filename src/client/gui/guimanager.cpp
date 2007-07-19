@@ -98,6 +98,23 @@ bool GUIManager::Initialize ()
     dragdrop = new DragDrop (this);
     if (!dragdrop) return client->ReportError("Failed to create DragDrop class");
 
+		CreateConnectWindow ();
+		CreateLoginWindow ();
+		CreateSelectCharWindow ();
+		CreateOptionsWindow ();
+		CreateWhisperWindow();
+		CreateNpcDialogWindow();
+		CreateTradeWindow();
+		CreateBuyWindow();
+		CreateInventoryWindow ();
+		CreateStatusWindow ();
+		CreateBuddyWindow();
+
+		CreateChatWindow ();
+		CreateHUDWindow ();
+
+		//CreateSellWindow();
+
     return true;
 }
 

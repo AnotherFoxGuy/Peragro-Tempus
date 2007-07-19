@@ -21,22 +21,31 @@
 #include "client/gui/guimanager.h"
 #include "client/entity/ptentitymanager.h"
 
+#include "client/event/eventmanager.h"
+#include "client/event/stateevent.h"
+#include "client/event/regionevent.h"
+
 void UserHandler::handleLoginResponse(GenericMessage* msg)
 {
   printf("Received LoginResponse\n");
   LoginResponseMessage response;
   response.deserialise(msg->getByteStream());
-  ptString error = response.getError();
-  if (!error.isNull())
-  {
-    printf("Login Failed due to: %s\n", *error);
-    GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-    guimanager->CreateOkWindow()->SetText(*error);
-    guimanager->GetLoginWindow()->EnableWindow();
-    return;
-  }
-  printf("Login succeeded!\n");
-  client->loggedIn();
+
+	using namespace PT::Events;
+  StateLoggedInEvent* stateEvent = new StateLoggedInEvent();
+
+	if (!response.getError().isNull()) // An error occured.
+	{
+		stateEvent->errorMessage	= *response.getError();
+		stateEvent->error					= true;
+	}
+	else
+	{
+		stateEvent->errorMessage	= "blah";
+		stateEvent->error					= false;
+	}
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
 }
 
 void UserHandler::handleRegisterResponse(GenericMessage* msg)
@@ -91,10 +100,15 @@ void UserHandler::handleCharCreateResponse(GenericMessage* msg)
 
 void UserHandler::handleCharSelectResponse(GenericMessage* msg)
 {
-  client->loadRegion("keep");
-  client->state = Client::STATE_PLAY;
   CharSelectResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
-  printf("Owning entity with id: %d\n", answer_msg.getEntityId());
-  PointerLibrary::getInstance()->getEntityManager()->setCharacter(answer_msg.getEntityId());
+
+	using namespace PT::Events;
+	StatePlayEvent* stateEvent = new StatePlayEvent();
+	stateEvent->ownEntityId = answer_msg.getEntityId();
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
+
+	RegionLoadEvent* regionEvent = new RegionLoadEvent();
+	regionEvent->regionName = "keep";
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(regionEvent);
 }

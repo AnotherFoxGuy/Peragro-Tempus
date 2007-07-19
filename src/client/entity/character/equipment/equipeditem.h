@@ -51,16 +51,16 @@ class EquipedItem
 {
  private:
    unsigned int id;
-   unsigned int slotid;
+   unsigned int slotId;
    iCelEntity* itementity;
    PtEntity* entity;
-   iSpriteCal3DSocket* GetSocket(iMeshWrapper* parent, unsigned int slotid);
+   iSpriteCal3DSocket* GetSocket(iMeshWrapper* parent, unsigned int slotId);
 
  public:
-   EquipedItem(PtEntity* entity, unsigned int itemid, unsigned int slotid);
+   EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId);
    ~EquipedItem(){}
    unsigned int GetId(){ return id; }
-   unsigned int GetSlotId() { return slotid; }
+   unsigned int GetSlotId() { return slotId; }
    iCelEntity* GetItemEntity() { return itementity; }
    void ConstructMesh(); // Creates the mesh and adds it to the socket.
    void DestructMesh();

@@ -70,7 +70,7 @@ namespace PT
 				if (ev->GetEventID().compare("EntityMoveEvent") == 0)
 					MoveEntity(ev);
 				else if (ev->GetEventID().compare("EntityMoveToEvent") == 0)
-					MoveEntity(ev);
+					MoveToEntity(ev);
 				else if (ev->GetEventID().compare("EntityTeleportEvent") == 0)
 					TeleportEntity(ev);
 				else if (ev->GetEventID().compare("EntityDrUpdateEvent") == 0)
@@ -112,18 +112,8 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityMoveEvent* entityMoveEv = static_cast<EntityMoveEvent*> (entityEv);
-			if (!entityMoveEv)
-			{
-				printf("E: Not an EntityMoveEvent event!\n");
-				return false;
-			}
+			EntityMoveEvent* entityMoveEv = GetEntityEvent<EntityMoveEvent*>(ev);
+			if (!entityMoveEv) return false;
 
 			int id = entityMoveEv->entityId;
 
@@ -149,20 +139,22 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityMoveToEvent* entityMoveEv = static_cast<EntityMoveToEvent*> (entityEv);
-			if (!entityMoveEv)
-			{
-				printf("E: Not an EntityMoveToEvent event!\n");
-				return false;
-			}
+			EntityMoveToEvent* entityMoveEv = GetEntityEvent<EntityMoveToEvent*>(ev);
+			if (!entityMoveEv) return false;
 
 			int id = entityMoveEv->entityId;
+
+			// Remove any other moveTo actions for this entity
+			for (size_t i = 0; i < move_to_entity.GetSize(); i++)
+			{
+				MoveToData* m = move_to_entity.Get(i);
+
+				if (m->entity_id == id)
+				{
+					move_to_entity.Delete(m);
+					break;
+				}
+			}
 
 			PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
 			if (!entity)
@@ -203,19 +195,6 @@ namespace PT
 
 
 			entity->MoveTo(moveTo);
-
-			// Remove any other moveTo actions for this entity
-			for (size_t i = 0; i < move_to_entity.GetSize(); i++)
-			{
-				MoveToData* m = move_to_entity.Get(i);
-
-				if (m->entity_id == moveTo->entity_id)
-				{
-					move_to_entity.Delete(m);
-					break;
-				}
-			}
-
 			move_to_entity.Push(moveTo);
 
 			return true;
@@ -242,18 +221,8 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityTeleportEvent* entityMoveEv = static_cast<EntityTeleportEvent*> (entityEv);
-			if (!entityMoveEv)
-			{
-				printf("E: Not an EntityTeleportEvent event!\n");
-				return false;
-			}
+			EntityTeleportEvent* entityMoveEv = GetEntityEvent<EntityTeleportEvent*>(ev);
+			if (!entityMoveEv) return false;
 
 			int id = entityMoveEv->entityId;
 
@@ -275,18 +244,8 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityDrUpdateEvent* entityMoveEv = static_cast<EntityDrUpdateEvent*> (entityEv);
-			if (!entityMoveEv)
-			{
-				printf("E: Not an EntityTeleportEvent event!\n");
-				return false;
-			}
+			EntityDrUpdateEvent* entityMoveEv = GetEntityEvent<EntityDrUpdateEvent*>(ev);
+			if (!entityMoveEv) return false;
 
 			int id = entityMoveEv->entityId;
 
@@ -313,18 +272,8 @@ namespace PT
 		{
 			using namespace PT::Events;
 
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
-			if (!entityEv)
-			{
-				printf("E: Not an Entity event!\n");
-				return false;
-			}
-			EntityPcPropUpdateEvent* entityMoveEv = static_cast<EntityPcPropUpdateEvent*> (entityEv);
-			if (!entityMoveEv)
-			{
-				printf("E: Not an EntityTeleportEvent event!\n");
-				return false;
-			}
+			EntityPcPropUpdateEvent* entityMoveEv = GetEntityEvent<EntityPcPropUpdateEvent*>(ev);
+			if (!entityMoveEv) return false;
 
 			int id = entityMoveEv->entityId;
 

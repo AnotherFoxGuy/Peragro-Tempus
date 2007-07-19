@@ -61,8 +61,6 @@
 #include "client/entity/ptentitymanager.h"
 #include "client/console/console.h"
 
-#include "client/event/eventmanager.h"
-
 #include "common/util/wincrashdump.h"
 
 CS_IMPLEMENT_APPLICATION
@@ -312,6 +310,21 @@ namespace PT
 		if (!loader) return ReportError("Failed to locate Loader!");
 		loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
 
+		//Listen for events.
+		using namespace PT::Events;
+
+		// Register listener for StateLoggedInEvent.
+		EventHandler<Client>* cbConnected = new EventHandler<Client>(&Client::Connected, this);
+		PointerLibrary::getInstance()->getEventManager()->AddListener("StateConnectedEvent", cbConnected);
+
+		// Register listener for StateLoggedInEvent.
+		EventHandler<Client>* cbLoggedIn = new EventHandler<Client>(&Client::loggedIn, this);
+		PointerLibrary::getInstance()->getEventManager()->AddListener("StateLoggedInEvent", cbLoggedIn);
+
+		// Register listener for RegionLoadEvent.
+		EventHandler<Client>* cbLoad = new EventHandler<Client>(&Client::LoadRegion, this);
+		PointerLibrary::getInstance()->getEventManager()->AddListener("RegionLoadEvent", cbLoad);
+
 		Run();
 
 		return true;
@@ -366,16 +379,6 @@ namespace PT
 					engine->SetClearScreen(true);
 				}
 
-				// Create the connection and option window.
-				guimanager->CreateConnectWindow ();
-				guimanager->CreateOptionsWindow ();
-				guimanager->CreateWhisperWindow();
-				guimanager->CreateNpcDialogWindow();
-				guimanager->CreateTradeWindow();
-
-				guimanager->CreateBuyWindow();
-				//guimanager->CreateSellWindow();
-
 				if (cmdline)
 				{
 					const char* host = cmdline->GetOption("host");
@@ -403,7 +406,6 @@ namespace PT
 		case STATE_PLAY:
 			{
 				checkConnection();
-				loadRegion();
 				entitymanager->Handle();
 
 				chat();
@@ -411,7 +413,6 @@ namespace PT
 			}
 		case STATE_RECONNECTED:
 			{
-				loadRegion();
 				entitymanager->Handle();
 
 				chat();
@@ -438,8 +439,13 @@ namespace PT
 		}
 	}
 
-	void Client::connected ()
+	bool Client::Connected (PT::Events::Eventp ev)
 	{
+		using namespace PT::Events;
+
+		StateConnectedEvent* stateEv = GetStateEvent<StateConnectedEvent*>(ev);
+		if (!stateEv) return false;
+
 		if (state == STATE_PLAY)
 		{
 			state = STATE_RECONNECTED;
@@ -447,7 +453,6 @@ namespace PT
 		}
 		else
 		{
-			guimanager->CreateLoginWindow ();
 			guimanager->GetConnectWindow ()->HideWindow ();
 			guimanager->GetLoginWindow ()->ShowWindow ();
 
@@ -471,7 +476,9 @@ namespace PT
 				}
 			}
 		}
+
 		printf("Connected!!\n");
+		return true;
 	}
 
 	void Client::login(csString user, csString pass)
@@ -888,25 +895,34 @@ namespace PT
 		return true;
 	}
 
-	void Client::loadRegion(const char* name)
+	bool Client::loggedIn(PT::Events::Eventp ev)
 	{
-		load_region.AttachNew(new scfString(name));
-	}
+		using namespace PT::Events;
 
-	void Client::loggedIn()
-	{
+		StateLoggedInEvent* stateev = GetStateEvent<StateLoggedInEvent*>(ev);
+		if (!stateev) return false;
+
+		if (stateev->error)
+		{
+			printf("Login Failed due to: %s\n", stateev->errorMessage.c_str());
+			GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+			guimanager->CreateOkWindow()->SetText(stateev->errorMessage.c_str());
+			guimanager->GetLoginWindow()->EnableWindow();
+			return true;
+		}
+		else
+			printf("Login succeeded!\n");
+
+
 		if (state == STATE_RECONNECTED)
 		{
 			selectCharacter(char_id);
 		}
 		else if (state == STATE_CONNECTED)
 		{
-			guimanager->CreateSelectCharWindow ();
+			
 			guimanager->GetLoginWindow ()->HideWindow ();
 			guimanager->GetSelectCharWindow ()->ShowWindow ();
-			guimanager->CreateInventoryWindow ();
-			guimanager->CreateStatusWindow ();
-			guimanager->CreateBuddyWindow();
 
 			state = STATE_LOGGED_IN;
 
@@ -919,6 +935,8 @@ namespace PT
 				}
 			}
 		}
+
+		return true;
 	}
 
 	void Client::selectCharacter(unsigned int char_id)
@@ -983,8 +1001,13 @@ namespace PT
 		}
 	}
 
-	void Client::loadRegion()
+	bool Client::LoadRegion(PT::Events::Eventp ev)
 	{
+		using namespace PT::Events;
+
+		RegionLoadEvent* regionEv = GetRegionEvent<RegionLoadEvent*>(ev);
+		if (!regionEv) return false;
+
 		iCelEntity* ent = pl->FindEntity("ptIntroWorld");
 		if (ent)
 		{
@@ -996,27 +1019,23 @@ namespace PT
 		playing = true;
 		entitymanager->setPlaying(playing);
 
-		if (!load_region.IsValid()) return;
-
 		sawServer();
 		state = STATE_PLAY;
 
-		if (world_loaded)
-		{
-			load_region = 0;
-			return;
-		}
+		if (world_loaded) return true;
 
 		guimanager->GetSelectCharWindow ()->HideWindow();
 		guimanager->GetOptionsWindow ()->HideWindow();
-		guimanager->CreateChatWindow ();
-		guimanager->CreateHUDWindow ();
+
+		guimanager->GetChatWindow ()->ShowWindow();
+		guimanager->GetHUDWindow ()->ShowWindow();
+		
 
 		const char* regionname = cmdline->GetOption("world");
 
 		if (!regionname) 
 		{
-			regionname = load_region->GetData();
+			regionname = regionEv->regionName.c_str();
 			printf("loadRegion: Using default world.\n");
 		}
 
@@ -1033,7 +1052,6 @@ namespace PT
 		if (region) pczonemgr->ActivateRegion(region);
 
 		entitymanager->setWorldloaded(world_loaded);
-		load_region = 0;
 
 		// Stop the intro music.
 		sndstream->Pause ();
@@ -1047,6 +1065,7 @@ namespace PT
 			printf("loadRegion: Waterportal removed!\n");
 		}
 
+		return true;
 	}
 
 	void Client::chat(unsigned char type, const char* msg, const char* other)

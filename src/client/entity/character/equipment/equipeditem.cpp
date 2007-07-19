@@ -20,10 +20,10 @@
 
 #include "client/pointer/pointer.h"
 
-EquipedItem::EquipedItem(PtEntity* entity, unsigned int itemid, unsigned int slotid)
+EquipedItem::EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId)
 {
-  this->id         = itemid;
-  this->slotid     = slotid;
+  this->id         = itemId;
+  this->slotId     = slotId;
   this->entity     = entity;
   this->itementity = 0;
 }
@@ -53,7 +53,7 @@ void EquipedItem::ConstructMesh()
     iMeshWrapper* parent = pcmesh->GetMesh();
     if(parent && mesh)
     {
-      iSpriteCal3DSocket* socket = GetSocket(parent, slotid);
+      iSpriteCal3DSocket* socket = GetSocket(parent, slotId);
       if (socket)
       {
         mesh->QuerySceneNode()->SetParent(parent->QuerySceneNode ());
@@ -78,7 +78,7 @@ void EquipedItem::DestructMesh()
   iMeshWrapper* parent = pcmesh->GetMesh();
   if(parent)
   {
-    iSpriteCal3DSocket* socket = GetSocket(parent, slotid);
+    iSpriteCal3DSocket* socket = GetSocket(parent, slotId);
     if (socket)
     {
       socket->SetMeshWrapper(0);

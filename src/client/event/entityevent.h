@@ -33,6 +33,28 @@ namespace PT
   namespace Events
   {
 		/**
+		 * EntityEvent helper function.
+		 */
+		template <class T>
+		T GetEntityEvent(Eventp ev)
+		{
+			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
+			if (!entityEv)
+			{
+				printf("E: Not an Entity event!\n");
+				return 0;
+			}
+			T tEv = static_cast<T> (entityEv);
+			if (!tEv)
+			{
+				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
+				return 0;
+			}
+
+			return tEv;
+		}
+
+		/**
 		 * Entity event base class.
 		 */
     class EntityEvent : public Event
