@@ -176,6 +176,9 @@
 			<File
 				RelativePath="..\..\src\client\event\eventmanager.h">
 			</File>
+			<File
+				RelativePath="..\..\src\client\event\tradeevent.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

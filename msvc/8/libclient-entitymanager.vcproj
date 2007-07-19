@@ -176,6 +176,9 @@
 				RelativePath="..\..\src\client\entity\mount\mountentity.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\entity\movementmanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\entity\npc\npcentity.cpp">
 			</File>
 			<File
@@ -211,6 +214,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\movement.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\movementmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\npc\npcentity.h">
