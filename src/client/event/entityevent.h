@@ -61,7 +61,7 @@ namespace PT
 		template <class T>
 		T GetEntityEvent(Eventp ev)
 		{
-			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.px);
+			EntityEvent* entityEv = static_cast<EntityEvent*> (ev.get());
 			if (!entityEv)
 			{
 				printf("E: Not an Entity event!\n");

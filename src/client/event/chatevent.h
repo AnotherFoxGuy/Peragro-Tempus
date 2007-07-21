@@ -43,7 +43,7 @@ namespace PT
 		template <class T>
 		T GetChatEvent(Eventp ev)
 		{
-			ChatEvent* chatEv = static_cast<ChatEvent*> (ev.px);
+			ChatEvent* chatEv = static_cast<ChatEvent*> (ev.get());
 			if (!chatEv)
 			{
 				printf("E: Not a Chat event!\n");

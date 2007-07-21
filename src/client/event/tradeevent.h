@@ -46,7 +46,7 @@ namespace PT
 		template <class T>
 		T GetTradeEvent(Eventp ev)
 		{
-			TradeEvent* tradeEv = static_cast<TradeEvent*> (ev.px);
+			TradeEvent* tradeEv = static_cast<TradeEvent*> (ev.get());
 			if (!tradeEv)
 			{
 				printf("E: Not a Trade event!\n");

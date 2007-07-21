@@ -60,7 +60,7 @@ namespace PT
 		template <class T>
 		T GetStateEvent(Eventp ev)
 		{
-			StateEvent* stateEv = static_cast<StateEvent*> (ev.px);
+			StateEvent* stateEv = static_cast<StateEvent*> (ev.get());
 			if (!stateEv)
 			{
 				printf("E: Not a State event!\n");

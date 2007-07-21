@@ -43,7 +43,7 @@ namespace PT
 		template <class T>
 		T GetRegionEvent(Eventp ev)
 		{
-			RegionEvent* regionEv = static_cast<RegionEvent*> (ev.px);
+			RegionEvent* regionEv = static_cast<RegionEvent*> (ev.get());
 			if (!regionEv)
 			{
 				printf("E: Not a Region event!\n");
