@@ -36,6 +36,8 @@ ChatWindow::ChatWindow (GUIManager* guimanager)
 
 ChatWindow::~ChatWindow ()
 {
+	if (sumbitEventSubscriber)
+        delete sumbitEventSubscriber;
 }
 
 void ChatWindow::CreateGUIWindow ()
@@ -55,10 +57,6 @@ void ChatWindow::CreateGUIWindow ()
   slider->setClickStep(0.1f);
   slider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&ChatWindow::Onslider, this));
 
-  // set up submitting message on enter
-  btn = winMgr->getWindow("InputPanel/InputBox");
-  btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&ChatWindow::OnSay, this));
-
   // input box enter button behaviour
   btn = winMgr->getWindow("Root");
   btn->subscribeEvent(CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber(&ChatWindow::OnRootKeyDown, this));
@@ -67,170 +65,13 @@ void ChatWindow::CreateGUIWindow ()
   btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ChatWindow::OnDropList, this));
 }
 
-
-bool ChatWindow::OnSay (const CEGUI::EventArgs& e)
+void ChatWindow::SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber)
 {
-  btn = winMgr->getWindow("InputPanel/InputBox");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  if (text.empty()) 
-  {
-    winMgr->getWindow("InputPanel/Frame")->setVisible(false);
-    winMgr->getWindow("Chatlog/Frame")->activate();
-    return true;
-  }
+	sumbitEventSubscriber = subscriber;
 
-  // IF HandleCommand returns true, the text was a command
-  // and we can return.
-  if ( HandleCommand(text.c_str()) ) 
-  {
-    btn->setText(text.erase());
-    return true;
-  }
-
-  printf("Say: %s\n", text.c_str());
-  SayMessage msg;
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  btn->setText(text.erase());
-  return true;
-}
-
-bool ChatWindow::HandleCommand (const char* texti)
-{
-  csString text = texti;
-
-  // Check if the first character is "/"
-  // then we know its a command.
-  if (strncmp (texti,"/",1) == 0)
-  {
-    // Find the end of the first word, which is our command.
-    size_t pos = text.FindFirst(" ");
-    csString command;
-    csArray<csString> arg;
-
-    // The command is one word.
-    if ( pos == (size_t)-1 ) 
-      command = text.Slice(1, text.Length());
-    // The command is several words.
-    else 
-    {
-      command = text.Slice(1, pos-1);
-
-      csString args = text.Slice(pos+1, text.Length());
-      csString tail = args;
-
-      // Push the arguments on an array.
-      while (tail.Length() > 0)
-      {
-        size_t pos = tail.FindFirst(" ");
-        if ( pos == (size_t)-1 ) 
-        {
-          arg.Push( tail.Slice(0, tail.Length()+1) );
-          printf("ChatWindow: HandleCommand: Added argument: %s\n", tail.Slice(0, tail.Length()).GetData() );
-          tail.Clear();
-        }
-        else
-        {
-          arg.Push( tail.Slice(0, pos) );
-          printf("ChatWindow: HandleCommand: Added argument: %s\n", tail.Slice(0, pos).GetData() );
-          tail = tail.Slice(pos+1, tail.Length());
-        }
-      }
-
-    }
-
-    printf("ChatWindow: HandleCommand: found %s\n", command.GetData());
-
-
-    if (command.Compare("relocate"))
-    {
-      RelocateMessage msg;
-      network->send(&msg);
-    }
-    else if (command.Compare("guild"))
-    {
-      printf("ChatWindow: HandleCommand: handled guild!\n");
-    }
-    else if (command.Compare("whisper"))
-    {
-      printf("ChatWindow: HandleCommand: handled whisper!\n");
-      if (!arg.GetSize() || arg.GetSize() < 2) return true;
-      csString nick = arg.Get(0);
-      csString msg;
-
-      for(uint i = 1; i < arg.GetSize(); i++) 
-      {
-        msg += arg.Get(i);
-        msg += " ";
-      }
-      // Get your own nickname.
-      csString ownnick = PointerLibrary::getInstance()->getEntityManager()->GetOwnName();
-      // Add your own text to the whisper.
-      guimanager->GetWhisperWindow()->AddWhisper(nick.GetData(), msg.GetData(), ownnick.GetData());
-      // Send the whisper to the network.
-      WhisperToMessage nmsg;
-      nmsg.setListenerName(ptString(nick.GetData(), nick.Length())); //<-- name of who you want to talk to...
-      nmsg.setMessage(msg.GetData());
-      network->send(&nmsg);
-    }
-    else
-      printf("ChatWindow: HandleCommand: Unknown command!\n"); 
-    
-    return true;
-  }
-
-  return false;
-}
-
-bool ChatWindow::OnShout (const CEGUI::EventArgs& e)
-{
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String text = btn->getText();
-  if (text.empty()) return true;
-  printf("Shout: %s\n", text.c_str());
-  SayMessage msg;
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  btn->setText(text.erase());
-  return true;
-}
-
-bool ChatWindow::OnWhisper (const CEGUI::EventArgs& e)
-{
-  /*
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
-  CEGUI::Window* btn;
-  btn = winMgr->getWindow("Input");
-  if (!btn)
-  {
-    printf("Inputbox of Chat not found!\n");
-    return false;
-  }
-  CEGUI::String input = btn->getText();
-  if (input.empty()) return true;
-  printf("Whisper: %s\n", input.c_str());
-  WhisperMessage msg;
-  size_t split = input.find(": "); //you type 'nick: message'
-  CEGUI::String name = input.substr(0, split);
-  CEGUI::String text = input.substr(split, input.length() - split);
-  msg.setOther(ptString(name.c_str(), name.length())); //<-- name of who you want to talk to...
-  msg.setMessage(text.c_str());
-  network->send(&msg);
-  btn->setText(text.erase());
-  */
-  return true;
+	// set up submitting message on enter
+	CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+	if (btn) btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, sumbitEventSubscriber);
 }
 
 bool ChatWindow::OnDropList(const CEGUI::EventArgs& e) 
@@ -238,6 +79,7 @@ bool ChatWindow::OnDropList(const CEGUI::EventArgs& e)
   printf("success \n");
   return true;
 }
+
 bool ChatWindow::Onslider(const CEGUI::EventArgs& e)
 {
     using namespace CEGUI;
@@ -256,6 +98,7 @@ bool ChatWindow::Onslider(const CEGUI::EventArgs& e)
     // indicate the event was handled here.
     return true;
 }
+
 bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 {
     using namespace CEGUI;
@@ -287,9 +130,9 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 
     return true;
 }
+
 void ChatWindow::CreateDropList()
 {
-
   btn = winMgr->getWindow("InputPanel/ChatDropList");
   CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Say /s", 0);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
@@ -300,8 +143,8 @@ void ChatWindow::CreateDropList()
   ((CEGUI::Combobox*)btn)->setReadOnly(true);
 
   ((CEGUI::Combobox*)btn)->setItemSelectState(charIdItem, true);
-
 }
+
 void ChatWindow::AddChatMessage (const char* nick, const char* msg)
 {
   CEGUI::MultiLineEditbox* chatlog = static_cast<CEGUI::MultiLineEditbox*>(winMgr->getWindow("Chatlog/Chatlog"));
@@ -309,7 +152,7 @@ void ChatWindow::AddChatMessage (const char* nick, const char* msg)
   CEGUI::String new_text = (CEGUI::String)(msg);
   if (!new_text.empty())
   {
-    nickstr = "<"+nickstr+">";
+    nickstr = "<"+nickstr+"> ";
     // append newline to this entry
     new_text += '\n';
     // append new text to history output

@@ -18,18 +18,31 @@
 
 #include "client/network/network.h"
 
+#include "client/event/eventmanager.h"
+#include "client/event/chatevent.h"
+
 void ChatHandler::handleSay(GenericMessage* msg)
 {
   SayMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
-  //client->chat(0, chatmsg.getMessage(), *chatmsg.getSpeakerName());
+
+	using namespace PT::Events;
+	ChatSayEvent* chatEvent = new ChatSayEvent();
+	chatEvent->nickName		= *chatmsg.getSpeakerName();
+	chatEvent->message		= chatmsg.getMessage();
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(chatEvent);
 }
 
 void ChatHandler::handleWhisperFrom(GenericMessage* msg)
 {
   WhisperFromMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
-  //client->chat(1, chatmsg.getMessage(), *chatmsg.getSpeakerName());
+
+	using namespace PT::Events;
+	ChatWhisperEvent* chatEvent = new ChatWhisperEvent();
+	chatEvent->nickName		= *chatmsg.getSpeakerName();
+	chatEvent->message		= chatmsg.getMessage();
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(chatEvent);
 }
 
 void ChatHandler::handleShout(GenericMessage* msg)

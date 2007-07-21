@@ -39,7 +39,7 @@ namespace PT
 				printf("E: Not a Chat event!\n");
 				return 0;
 			}
-			T tEv = static_cast<T> (stateEv);
+			T tEv = static_cast<T> (chatEv);
 			if (!tEv)
 			{
 				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
@@ -64,9 +64,27 @@ namespace PT
 		 */
     class ChatSayEvent : public ChatEvent
     {
+		public:
+			std::string nickName;
+			std::string message;
+
     public:
       ChatSayEvent() : ChatEvent("ChatSayEvent", true) {}
       virtual ~ChatSayEvent() {}
+    };
+
+		/**
+		 * Chat Whisper event.
+		 */
+    class ChatWhisperEvent : public ChatEvent
+    {
+		public:
+			std::string nickName;
+			std::string message;
+
+    public:
+      ChatWhisperEvent() : ChatEvent("ChatWhisperEvent", true) {}
+      virtual ~ChatWhisperEvent() {}
     };
 
   } // Events namespace 

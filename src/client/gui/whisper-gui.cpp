@@ -166,11 +166,11 @@ void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* o
   if (ownnick)
   {
     CEGUI::String ownnickstr = (CEGUI::String)(ownnick);
-    message = "<"+ownnickstr+">"+message;
+    message = "<"+ownnickstr+"> "+message;
   }
   else
   {
-    message = "<"+nickstr+">"+message;
+    message = "<"+nickstr+"> "+message;
   }
 
   // set up submitting message on enter

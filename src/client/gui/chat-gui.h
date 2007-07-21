@@ -27,22 +27,24 @@
 class ChatWindow : public GUIWindow
 {
 private:
-  bool OnSay(const CEGUI::EventArgs& e);
-  bool OnShout(const CEGUI::EventArgs& e);
-  bool OnWhisper(const CEGUI::EventArgs& e);
   bool OnDropList(const CEGUI::EventArgs& e);
   bool Onslider(const CEGUI::EventArgs& e);
   bool OnRootKeyDown(const CEGUI::EventArgs& e);
   void CreateDropList();
   bool HandleCommand(const char* texti);
 
+	CEGUI::SlotFunctorBase* sumbitEventSubscriber;
+
 public:
   ChatWindow(GUIManager* guimanager);
   virtual ~ChatWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
 
-  void AddChatMessage(const char* nick, const char* msg);
+  void AddChatMessage (const char* nick, const char* msg);
   void AddMessage (const char* msg);
+
+	/// Set the behaviour for the load button.
+	void SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber);
 };
 
 

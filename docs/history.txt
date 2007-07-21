@@ -5,6 +5,9 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 20-Jul-2007
+  - Sueastside added ChatManager and ported everything related to chat.
+
+20-Jul-2007
   - Sueastside started converting userhandler and connectionhandler to use
     state event messages.
   - Sueastside did a general cleanup of the event listeners.

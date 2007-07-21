@@ -61,6 +61,8 @@
 #include "client/entity/ptentitymanager.h"
 #include "client/console/console.h"
 
+#include "client/chat/chatmanager.h"
+
 #include "common/util/wincrashdump.h"
 
 CS_IMPLEMENT_APPLICATION
@@ -270,6 +272,12 @@ namespace PT
 			return false;
 		pointerlib.setCombatManager(combatmanager);
 
+		// Create and Initialize the ChatManager.
+		chatmanager = new PT::Chat::ChatManager (GetObjectRegistry());
+		if (!chatmanager->Initialize())
+			return false;
+		//pointerlib.setChatManager(combatmanager);
+
 		/*
 		// Create and Initialize the PTConsole.
 		ptconsole = new PtConsole ();
@@ -407,15 +415,11 @@ namespace PT
 			{
 				checkConnection();
 				entitymanager->Handle();
-
-				chat();
 				break;
 			}
 		case STATE_RECONNECTED:
 			{
 				entitymanager->Handle();
-
-				chat();
 				break;
 			}
 		}
@@ -1006,42 +1010,6 @@ namespace PT
 		}
 
 		return true;
-	}
-
-	void Client::chat(unsigned char type, const char* msg, const char* other)
-	{
-		mutex.lock();
-
-		ChatMessage chatmsg;
-		chatmsg.type = type;
-		chatmsg.msg = msg;
-		chatmsg.nick = other;
-
-		chat_msgs.Push(chatmsg);
-
-		mutex.unlock();
-	}
-
-	void Client::chat()
-	{
-		if (!chat_msgs.GetSize()) return;
-		mutex.lock();
-
-		ChatMessage chatmsg = chat_msgs.Pop();
-
-		if(chatmsg.type == 0)
-		{
-			//guimanager->GetChatWindow ()->AddChatMessage (chatmsg.nick, chatmsg.msg);
-			guimanager->GetChatWindow ()->AddChatMessage (chatmsg.nick.GetData(), chatmsg.msg.GetData());
-		}
-		else if(chatmsg.type == 1)
-		{
-			guimanager->GetWhisperWindow()->AddWhisper(chatmsg.nick.GetData(), chatmsg.msg.GetData());
-		}
-		else
-			printf("Client: ERROR: Unknown chattype %s", chatmsg.type);
-
-		mutex.unlock();
 	}
 
 	void Client::sawServer()

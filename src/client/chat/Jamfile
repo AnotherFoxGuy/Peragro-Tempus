@@ -1,0 +1,6 @@
+SubDir TOP src client chat ;
+
+Description client-chatmanager : "client chatmanager" ;
+Library client-chatmanager :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-chatmanager : CRYSTAL CEL ;

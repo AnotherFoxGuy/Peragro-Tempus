@@ -75,14 +75,16 @@ bool GUIManager::Initialize ()
     // Load the ice skin (which uses Falagard skinning system)
     cegui->GetSchemeManagerPtr ()->loadScheme("Peragro.scheme");
 
-    cegui->GetSystemPtr ()->setDefaultMouseCursor("Peragro", "MouseArrow");
-    CEGUI::Font* font = cegui->GetFontManagerPtr ()->createFont("FreeType", "Commonwealth-10",
-      "/peragro/skin/Commonv2c.ttf");
-    font->setProperty("PointSize", "10");
-    font->load();
+		cegui->GetSystemPtr ()->setDefaultMouseCursor("Peragro", "MouseArrow");
+
+		// Load the default font.
+		CEGUI::Font* font = cegui->GetFontManagerPtr()->createFont("FreeType",
+																															 "Vera", "/fonts/ttf/Vera.ttf");
+		font->setProperty("PointSize", "10");
+		font->load();
 
     CEGUI::Font* font2 = cegui->GetFontManagerPtr ()->createFont("FreeType", "Commonwealth-8",
-      "/peragro/skin/Commonv2c.ttf");
+																																 "/peragro/skin/Commonv2c.ttf");
     font2->setProperty("PointSize", "8");
     font2->load();
 

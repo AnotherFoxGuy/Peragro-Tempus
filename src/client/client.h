@@ -78,6 +78,11 @@ namespace PT
 		class EventManager;
 	} // Events namespace 
 
+	namespace Chat
+	{
+		class ChatManager;
+	} // Chat namespace 
+
 	class Client : public csApplicationFramework, public csBaseEventHandler
 	{
 	public:
@@ -149,15 +154,7 @@ namespace PT
 		PtConsole* ptconsole;
 
 		PT::Events::EventManager* eventmanager;
-
-		struct ChatMessage
-		{
-			unsigned char type;
-			csString  nick;
-			csString  msg;
-		};
-
-		csArray<ChatMessage> chat_msgs;
+		PT::Chat::ChatManager* chatmanager;
 
 	private:
 		bool playing;
@@ -195,10 +192,6 @@ namespace PT
 		void login(csString user, csString pass);
 
 		void selectCharacter(unsigned int char_id);
-
-
-		void chat(unsigned char type, const char* msg, const char* other = 0);
-		void chat();
 
 		void sawServer();
 
