@@ -28,29 +28,6 @@ namespace PT
   namespace Events
   {
 		/**
-		* StateEvent helper function.
-		*/
-		template <class T>
-		T GetStateEvent(Eventp ev)
-		{
-			StateEvent* stateEv = static_cast<StateEvent*> (ev.px);
-			if (!stateEv)
-			{
-				printf("E: Not a State event!\n");
-				return 0;
-			}
-			T tEv = static_cast<T> (stateEv);
-			if (!tEv)
-			{
-				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-				return 0;
-			}
-
-			return tEv;
-		}
-
-
-		/**
 		* Game states.
 		*/
 		enum eSTATE
@@ -76,6 +53,28 @@ namespace PT
 			StateEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
 			virtual ~StateEvent() {}
 		};
+
+		/**
+		* StateEvent helper function.
+		*/
+		template <class T>
+		T GetStateEvent(Eventp ev)
+		{
+			StateEvent* stateEv = static_cast<StateEvent*> (ev.px);
+			if (!stateEv)
+			{
+				printf("E: Not a State event!\n");
+				return 0;
+			}
+			T tEv = static_cast<T> (stateEv);
+			if (!tEv)
+			{
+				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
+				return 0;
+			}
+
+			return tEv;
+		}
 
 		/**
 		* State Play event.

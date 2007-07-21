@@ -28,6 +28,19 @@ namespace PT
   namespace Events
   {
 		/**
+		 * Trade event base class.
+		 */
+    class TradeEvent : public Event
+    {
+		public:
+			unsigned int entityId;
+
+		public:
+			TradeEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+			virtual ~TradeEvent() {}
+    };
+
+		/**
 		 * TradeEvent helper function.
 		 */
 		template <class T>
@@ -48,19 +61,6 @@ namespace PT
 
 			return tEv;
 		}
-
-		/**
-		 * Trade event base class.
-		 */
-    class TradeEvent : public Event
-    {
-		public:
-			unsigned int entityId;
-
-		public:
-			TradeEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-			virtual ~TradeEvent() {}
-    };
 
 		/**
 		 * Trade pickup event.

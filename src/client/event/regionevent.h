@@ -28,6 +28,16 @@ namespace PT
   namespace Events
   {
 		/**
+		 * Region event base class.
+		 */
+    class RegionEvent : public Event
+    {
+		public:
+			RegionEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+			virtual ~RegionEvent() {}
+    };
+
+		/**
 		* RegionEvent helper function.
 		*/
 		template <class T>
@@ -50,17 +60,7 @@ namespace PT
 		}
 
 		/**
-		 * Region event base class.
-		 */
-    class RegionEvent : public Event
-    {
-		public:
-			RegionEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-			virtual ~RegionEvent() {}
-    };
-
-		/**
-		 * Chat say event.
+		 * Region load event.
 		 */
     class RegionLoadEvent : public RegionEvent
     {

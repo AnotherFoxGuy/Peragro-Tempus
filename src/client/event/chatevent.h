@@ -28,6 +28,16 @@ namespace PT
   namespace Events
   {
 		/**
+		 * Chat event base class.
+		 */
+    class ChatEvent : public Event
+    {
+		public:
+			ChatEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+			virtual ~ChatEvent() {}
+    };
+
+		/**
 		* ChatEvent helper function.
 		*/
 		template <class T>
@@ -48,16 +58,6 @@ namespace PT
 
 			return tEv;
 		}
-
-		/**
-		 * Chat event base class.
-		 */
-    class ChatEvent : public Event
-    {
-		public:
-			ChatEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-			virtual ~ChatEvent() {}
-    };
 
 		/**
 		 * Chat say event.
