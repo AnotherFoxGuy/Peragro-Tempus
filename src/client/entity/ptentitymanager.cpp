@@ -176,7 +176,7 @@ namespace PT
 			{
 				entity = new PtPcEntity(); 
 				// Add equipment.
-				std::vector<std::pair<int, int>>::iterator it;
+				std::vector<std::pair<int, int> >::iterator it;
 				for(it = entityAddEv->equipment.begin(); it != entityAddEv->equipment.end(); ++it)
 					((PtPcEntity*)entity)->GetEquipment()->Equip(it->first, it->second);
 			}
