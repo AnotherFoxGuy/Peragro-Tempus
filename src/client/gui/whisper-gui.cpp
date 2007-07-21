@@ -43,8 +43,6 @@ WhisperWindow::~WhisperWindow ()
 void WhisperWindow::CreateGUIWindow ()
 {
   winMgr = cegui->GetWindowManagerPtr ();
-
-  //AddWhisper ("sueastside", "yoo hoo");
 }
 
 
@@ -143,7 +141,7 @@ void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* o
   // If the window doesn't exist already, create it.
   if (!winMgr->isWindowPresent(window_nick))
   {
-    vfs->ChDir ("/peragro/gui/");
+    vfs->ChDir ("/peragro/gui/client/");
     CEGUI::Window* root = winMgr->getWindow("Root");
     btn = winMgr->loadWindowLayout("whisper.xml", nickstr);
     root->addChildWindow(btn);
