@@ -26,7 +26,6 @@ template<class T>
 class ptMonitorable
 {
 private:
-  Mutex mutex;
   ptMonitor<T> ref;
 
 protected:
@@ -39,13 +38,11 @@ public:
   T* getLock() const
   {
     T* const me = (T*) this;
-    me->mutex.lock();
     return me;
   }
 
   void freeLock()
   {
-    mutex.unlock();
   }
 
 };
