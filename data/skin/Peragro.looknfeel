@@ -956,9 +956,9 @@
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
                 <Image imageset="Peragro" image="ProgressBarLitSegment" />
+                <ColourRectProperty name="ProgressColours" />
                 <VertFormat type="Stretched" />
-                <HorzFormat type="Tiled" />
-				<ColourRectProperty name="ProgressColours" />
+                <HorzFormat type="Tiled" />		
             </ImageryComponent>
         </ImagerySection>
         <StateImagery name="Enabled">
@@ -3546,7 +3546,7 @@
                     <Dim type="Width">
                         <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Width" />
                     </Dim>
-                    <Dim type="Height"><AbsoluteDim value="0" />
+                    <Dim type="Height"><!--<AbsoluteDim value="0" />-->
                         <ImageDim imageset="Peragro" image="TabButtonScrollLeftNormal" dimension="Height" />
                     </Dim>
                 </Area>
