@@ -38,6 +38,50 @@ namespace PT
   namespace Chat
   {
 		//--------------------------------------------------------------------------
+		class cmdHelp : public Command
+		{
+		public:
+			cmdHelp () { }
+			virtual ~cmdHelp () { }
+			virtual const char* GetCommand () { return "help"; }
+			virtual const char* GetDescription () { return "Prints this help."; }
+			virtual void Help ()
+			{
+				GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+				if(!guimanager) return;
+				guimanager->GetChatWindow ()->AddMessage ("Usage: '/help'");
+			}
+			virtual void Execute (const StringArray& args)
+			{
+				GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+				if(!guimanager) return;
+				PT::Chat::ChatManager* chatmgr = PointerLibrary::getInstance()->getChatManager();
+				if(!chatmgr) return;
+
+				// Element 0 is '/', 1 is 'help'
+				if (args.size() < 2 || args.size() > 2)
+				{
+					Help();
+					return;
+				}
+				else
+				{
+					std::vector<Commandp> commands = chatmgr->GetAllCommands();
+
+					std::vector<Commandp>::const_iterator it;
+					for(it = commands.begin(); it != commands.end(); ++it)
+					{
+						std::string text = it->get()->GetCommand();
+						text += ": ";
+						text += it->get()->GetDescription();
+						guimanager->GetChatWindow ()->AddMessage (text.c_str());
+					} // for
+
+					return;
+				}
+			}
+		};
+		//--------------------------------------------------------------------------
 		class cmdSay : public Command
 		{
 		public:
@@ -88,6 +132,98 @@ namespace PT
 					}
 
 					printf("Say2: %s\n", text.c_str());
+					SayMessage msg;
+					msg.setMessage(text.c_str());
+					network->send(&msg);
+
+					return;
+				}
+			}
+		};
+		//--------------------------------------------------------------------------
+		class cmdSayMe : public Command
+		{
+		public:
+			cmdSayMe () { }
+			virtual ~cmdSayMe () { }
+			virtual const char* GetCommand () { return "me"; }
+			virtual const char* GetDescription () { return "Say something in third person to the world."; }
+			virtual void Help ()
+			{
+				GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+				if(!guimanager) return;
+				guimanager->GetChatWindow ()->AddMessage ("Usage: '/me <message>'");
+			}
+			virtual void Execute (const StringArray& args)
+			{
+				Network* network = PointerLibrary::getInstance()->getNetwork();
+				if(!network) return;
+
+				// Element 0 is '/', 1 is 'me'
+				if (args.size() < 3)
+				{
+					Help();
+					return;
+				}
+				else
+				{
+					std::string text = "/";
+					for(size_t i = 1; i < args.size(); i++) 
+					{
+						text += args.c[i];
+						text += " ";
+					}
+
+					printf("Say3: %s\n", text.c_str());
+					SayMessage msg;
+					msg.setMessage(text.c_str());
+					network->send(&msg);
+
+					return;
+				}
+			}
+		};
+		//--------------------------------------------------------------------------
+		class cmdGreet : public Command
+		{
+		public:
+			cmdGreet () { }
+			virtual ~cmdGreet () { }
+			virtual const char* GetCommand () { return "greet"; }
+			virtual const char* GetDescription () { return "Wave at someone."; }
+			virtual void Help ()
+			{
+				GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+				if(!guimanager) return;
+				guimanager->GetChatWindow ()->AddMessage ("Usage: '/greet <target>'");
+			}
+			virtual void Execute (const StringArray& args)
+			{
+				Network* network = PointerLibrary::getInstance()->getNetwork();
+				if(!network) return;
+				PT::Entity::EntityManager* entmgr = PointerLibrary::getInstance()->getEntityManager();
+				if(!entmgr) return;
+
+				// Element 0 is '/', 1 is 'wave'
+				if (args.size() < 3 || args.size() > 3)
+				{
+					Help();
+					return;
+				}
+				else
+				{
+					std::string target = args.c[2];
+					std::string text = "/greet " + target;
+
+					// TODO: Turn and wave to target.
+					/*
+					PtEntity* targetent = entmgr->findPtEntByName(target);
+					PtEntity* ownent = entmgr->getOwnPtEntity();
+					ownent->Target(targetent);
+					ownent->PlayAction("wave");
+					*/
+
+					printf("I: waving at %s\n", target.c_str());
 					SayMessage msg;
 					msg.setMessage(text.c_str());
 					network->send(&msg);

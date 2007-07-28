@@ -65,6 +65,8 @@ namespace PT
 
 			bool Initialize ();
 			void RegisterCommand (Command* cmd);
+
+			const std::vector<Commandp>& GetAllCommands() { return commands; }
 		};
 
 	} // Chat namespace 

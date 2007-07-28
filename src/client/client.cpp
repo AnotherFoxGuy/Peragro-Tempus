@@ -276,7 +276,7 @@ namespace PT
 		chatmanager = new PT::Chat::ChatManager (GetObjectRegistry());
 		if (!chatmanager->Initialize())
 			return false;
-		//pointerlib.setChatManager(combatmanager);
+		pointerlib.setChatManager(chatmanager);
 
 		/*
 		// Create and Initialize the PTConsole.

@@ -68,9 +68,12 @@ namespace PT
 			guimanager->GetChatWindow()->SetSubmitEvent(function);
 
 			// Register commands.
-			Command* cmd = new cmdSay(); RegisterCommand(cmd);
+			Command* cmd = new cmdHelp(); RegisterCommand(cmd);
+			cmd = new cmdSay(); RegisterCommand(cmd);
+			cmd = new cmdSayMe(); RegisterCommand(cmd);
 			cmd = new cmdWhisper(); RegisterCommand(cmd);
 			cmd = new cmdRelocate(); RegisterCommand(cmd);
+			cmd = new cmdGreet(); RegisterCommand(cmd);
 
 			return true;
 		}
@@ -82,7 +85,20 @@ namespace PT
 			ChatSayEvent* chatEv = GetChatEvent<ChatSayEvent*>(ev);
 			if (!chatEv) return false;
 
-			guimanager->GetChatWindow ()->AddChatMessage (chatEv->nickName.c_str(), chatEv->message.c_str());
+			// TODO: input command handler.
+			if (strncmp (chatEv->message.c_str(),"/me",3) == 0)
+			{
+				csString ownnick = PointerLibrary::getInstance()->getEntityManager()->GetOwnName();
+				std::string text = ownnick.GetData() + chatEv->message.substr(3, chatEv->message.size());
+				guimanager->GetChatWindow ()->AddMessage (text.c_str());
+			}
+			else if (strncmp (chatEv->message.c_str(),"/greet",3) == 0)
+			{
+				std::string text = chatEv->nickName + " waves at" + chatEv->message.substr(6, chatEv->message.size());
+				guimanager->GetChatWindow ()->AddMessage (text.c_str());
+			}
+			else
+				guimanager->GetChatWindow ()->AddChatMessage (chatEv->nickName.c_str(), chatEv->message.c_str());
 
 			return true;
 		}
@@ -166,16 +182,6 @@ namespace PT
 					tail = tail.substr(pos+1, tail.size());
 				} // else
 			} //while
-
-/*
-			std::string test;
-			for(size_t i = 0; i < arg.size(); i++) 
-			{
-				test += arg.c[i];
-				test += " | ";
-			}
-			printf("T: %s\n", test.c_str());
-*/
 
 			return arg;
 

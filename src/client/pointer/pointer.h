@@ -39,6 +39,12 @@ namespace PT
 	{
 		class EventManager;
 	} // Events namespace 
+
+	namespace Chat
+	{
+		class ChatManager;
+	} // Chat namespace 
+
 } // PT namespace 
 
 class PointerLibrary
@@ -55,9 +61,24 @@ private:
   EffectsManager* effectsmanager;
   CombatMGR* combatmanager;
   PT::Events::EventManager* eventmanager;
+	PT::Chat::ChatManager* chatmanager;
 
 public:
-  PointerLibrary() { pointerlib = this; }
+	PointerLibrary() { 
+		pointerlib = this; 
+
+		objreg = 0;
+		client = 0;
+		network = 0;
+		itemmanager = 0;
+		guimanager = 0;
+		entitymanager = 0;
+		effectsmanager = 0;
+		combatmanager = 0;
+		eventmanager = 0;
+		chatmanager = 0;
+	}
+
   static PointerLibrary* getInstance() { return pointerlib; }
 
   void setObjectRegistry(iObjectRegistry* objreg) { this->objreg = objreg; }
@@ -86,6 +107,9 @@ public:
 
   void setEventManager(PT::Events::EventManager* eventmanager) { this->eventmanager = eventmanager; }
   PT::Events::EventManager* getEventManager() { return this->eventmanager; }
+
+	void setChatManager(PT::Chat::ChatManager* chatmanager) { this->chatmanager = chatmanager; }
+	PT::Chat::ChatManager* getChatManager() { return this->chatmanager; }
 
 };
 
