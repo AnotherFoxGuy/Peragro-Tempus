@@ -24,6 +24,8 @@
 
 #include "client/event/chatevent.h"
 
+#include "command.h"
+
 #include <CEGUI.h>
 #include <ivaria/icegui.h>
 
@@ -43,8 +45,12 @@ namespace PT
 			Network* network;
 			GUIManager* guimanager;
 
+			std::vector<Commandp> commands;
+
 		private:
-			bool HandleCommand (const char* texti);
+			void HandleOutput (const char* texti);
+			StringArray ParseString (const char* texti);
+			void Execute (const char* cmd, const StringArray& args);
 
 		public: // CEGUI events.
 			bool OnSubmit (const CEGUI::EventArgs& e);
@@ -58,6 +64,7 @@ namespace PT
 			~ChatManager ();
 
 			bool Initialize ();
+			void RegisterCommand (Command* cmd);
 		};
 
 	} // Chat namespace 
