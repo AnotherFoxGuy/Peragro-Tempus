@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+29-Jul-2007
+  - Sueastside converted to the new 'move.actor.standard' name in CEL.
+
 28-Jul-2007
   - Sueastside made an abstract 'Command' class which you can inherit from
     and register with the chat's inputpanel, no more 'if's or switches.

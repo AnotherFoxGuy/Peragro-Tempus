@@ -35,7 +35,7 @@ void PtPcEntity::Create()
   cs_snprintf(buffer, 32, "player_%d", id);
   celentity->SetName(buffer);
 
-  pl->CreatePropertyClass(celentity, "pcmove.actor");
+  pl->CreatePropertyClass(celentity, "pcmove.actor.standard");
   pl->CreatePropertyClass(celentity, "pcmove.linear");
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
