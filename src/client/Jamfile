@@ -91,6 +91,10 @@ if [ Property build : projgen_version ] != 6
     cstgaimg
     gmeshldr
     genmesh
+    gmeshanim
+    gmeshldr
+    gmeshskelanim2
+    skeleton
     rendloop_loader
     simpleformerldr
     simpleformer
