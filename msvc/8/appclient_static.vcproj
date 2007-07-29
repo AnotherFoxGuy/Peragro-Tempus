@@ -52,7 +52,7 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\client_static.exe"
 				SubSystem="2"
-				AdditionalOptions=" freetype2.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib vorbisfile.lib vorbis.lib ogg.lib libmng.lib libjpeg.lib libpng.lib cal3d.lib cg.lib cgGL.lib libcrystalspace_staticplugins.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib libcrystalspace.lib opengl32.lib zlib.lib version.lib "
+				AdditionalOptions=" freetype2.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib vorbisfile.lib vorbis.lib ogg.lib libmng.lib libjpeg.lib libpng.lib cal3d-vc8.lib cg.lib cgGL.lib libcrystalspace_staticplugins.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib libcrystalspace.lib opengl32.lib zlib.lib version.lib "
 				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib wsock32.lib libcrystalspace_staticplugins.lib libcel_staticplugins.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
