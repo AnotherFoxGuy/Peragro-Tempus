@@ -92,7 +92,6 @@ if [ Property build : projgen_version ] != 6
     gmeshldr
     genmesh
     gmeshanim
-    gmeshldr
     gmeshskelanim2
     skeleton
     rendloop_loader
