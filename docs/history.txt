@@ -7,10 +7,10 @@ under each day.
 29-Jul-2007
   - Sueastside converted to the new 'move.actor.standard' name in CEL.
   - Sueastside fixed equipment.
-  - Sueastside converted equipment code to use CEL's AttackSocketMesh() 
+  - Sueastside converted equipment code to use CEL's AttachSocketMesh() 
     which handles both cal3d and genmesh models.
   - Sueastside fixed a crash which was caused by not catching an exception 
-    that occurred when try to load a font.
+    that occurred when trying to load a font.
 
 28-Jul-2007
   - Sueastside made an abstract 'Command' class which you can inherit from
