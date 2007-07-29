@@ -47,7 +47,7 @@ void Equipment::RemoveItem(unsigned int slotid)
 void Equipment::Equip(unsigned int slotId, unsigned int itemId)
 {  
   // Create an EquipedItem with the slotname and item information.
-  EquipedItem* equipeditem = new EquipedItem(entity, itemId, slotId);
+  EquipedItem* equipeditem = new EquipedItem(entity, slotId, itemId);
 
   // Add it to the equipment.
   AddItem(equipeditem);

@@ -176,9 +176,11 @@ namespace PT
 			{
 				entity = new PtPcEntity(); 
 				// Add equipment.
-				std::vector<std::pair<int, int> >::iterator it;
+				/*std::vector<EntityAddEvent::SlotAndItem>::const_iterator it;
 				for(it = entityAddEv->equipment.begin(); it != entityAddEv->equipment.end(); ++it)
-					((PtPcEntity*)entity)->GetEquipment()->Equip(it->first, it->second);
+					((PtPcEntity*)entity)->GetEquipment()->Equip(it->slotId, it->itemId);*/
+				for(size_t i = 0; i < entityAddEv->equipment.GetSize(); i++)
+					((PtPcEntity*)entity)->GetEquipment()->Equip(entityAddEv->equipment.Get(i).slotId, entityAddEv->equipment.Get(i).itemId);
 			}
 			else if (entityAddEv->entityType == EntityEvent::NPCEntity)
 			{
@@ -279,7 +281,7 @@ namespace PT
 				if (entity->GetType() == PtEntity::PlayerEntity)
 				{
 					if (!entityEquipEv->itemId == 0)
-						((PtPcEntity*) entity)->GetEquipment()->Equip(entityEquipEv->itemId, entityEquipEv->slotId);
+						((PtPcEntity*) entity)->GetEquipment()->Equip(entityEquipEv->slotId, entityEquipEv->itemId);
 					else
 						((PtPcEntity*) entity)->GetEquipment()->UnEquip(entityEquipEv->slotId);
 				}

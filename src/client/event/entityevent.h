@@ -21,6 +21,7 @@
 
 #include <cssysdef.h>
 #include <csgeom/vector3.h>
+#include <csutil/array.h>
 
 #include <vector>
 
@@ -90,7 +91,14 @@ namespace PT
       csVector3 position;
       std::string sectorName;
 
-      std::vector<std::pair<int, int> > equipment;
+			struct SlotAndItem
+			{
+				unsigned int slotId;
+				unsigned int itemId;
+			};
+
+      //std::vector<SlotAndItem> equipment;
+			csArray<SlotAndItem> equipment;
 
       bool locked;
       bool open;
