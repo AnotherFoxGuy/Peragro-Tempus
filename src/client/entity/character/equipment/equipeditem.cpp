@@ -18,6 +18,19 @@
 
 #include "equipeditem.h"
 
+#include <iutil/string.h>
+#include <csutil/ref.h>
+#include <csutil/csstring.h>
+
+#include <iutil/objreg.h>
+#include <iengine/mesh.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/entity.h>
+#include <propclass/mesh.h>
+
+#include "client/item/itemmanager.h"
+
 #include "client/pointer/pointer.h"
 
 EquipedItem::EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId)
@@ -34,36 +47,40 @@ void EquipedItem::ConstructMesh()
   if(!entity->GetCelEntity()) return;
 
   csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+	if(!obj_reg) return;
   csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+	if(!pl.IsValid()) return;
+	ItemMGR* itemmgr =  PointerLibrary::getInstance()->getItemManager();
+	if(!itemmgr) return;
 
-  ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(id);
-
-  csRef<iCelEntity> itement = pl->CreateEntity();
-  this->itementity = itement;
-  pl->CreatePropertyClass(itementity, "pcobject.mesh");
-  csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
-
+	// Find the item by  ID.
+  ClientItem* item = itemmgr->GetItemById(id);
   if(item)
   {
-    itempcmesh->SetMesh(item->GetMeshName().GetData(), item->GetFileName().GetData());
+		// Create the item.
+		csRef<iCelEntity> itement = pl->CreateEntity();
+		this->itementity = itement;
+		pl->CreatePropertyClass(itementity, "pcobject.mesh");
+		csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
+		itempcmesh->SetMesh(item->GetMeshName().GetData(), item->GetFileName().GetData());
+
+		// Get the player's mesh.
+		csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
 
     iMeshWrapper* mesh = itempcmesh->GetMesh();
     iMeshWrapper* parent = pcmesh->GetMesh();
     if(parent && mesh)
     {
-      iSpriteCal3DSocket* socket = GetSocket(parent, slotId);
-      if (socket)
+			// Attach the item.
+      if (pcmesh->AttachSocketMesh(GetSocketName(slotId).c_str(), mesh))
       {
-        mesh->QuerySceneNode()->SetParent(parent->QuerySceneNode ());
-        socket->SetMeshWrapper(mesh);
-        printf("EquipedItem: equipment attached!\n");
+        printf("I: Equipment attached!\n");
         return;
       }
     }
   }
-  printf("EquipedItem: ERROR Failed to construct mesh %d!\n", id);
+
+	printf("E: Failed to construct mesh %d!\n", id);
 }
 
 void EquipedItem::DestructMesh()
@@ -75,50 +92,28 @@ void EquipedItem::DestructMesh()
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
 
-  iMeshWrapper* parent = pcmesh->GetMesh();
-  if(parent)
-  {
-    iSpriteCal3DSocket* socket = GetSocket(parent, slotId);
-    if (socket)
-    {
-      socket->SetMeshWrapper(0);
-      pl->RemoveEntity(itementity);
-      itementity = 0;
-      printf("EquipedItem: equipment destroyed!\n");
-      return;
-    }
-  }
+	if ( pcmesh->GetMesh() && pcmesh->DetachSocketMesh(GetSocketName(slotId).c_str()) )
+	{
+		pl->RemoveEntity(itementity);
+		itementity = 0;
+		printf("I: Equipment destroyed!\n");
+		return;
+	}
   
-  printf("EquipedItem: ERROR Failed to destruct mesh %d\n!", id);
+  printf("E: Failed to destruct mesh %d\n!", id);
 }
 
-iSpriteCal3DSocket* EquipedItem::GetSocket(iMeshWrapper* parent, unsigned int slotid)
+std::string EquipedItem::GetSocketName(unsigned int slotid)
 {
-  csString socketName;
+	std::string socketName;
 
   switch(slotid)
   {
   case 0:
     socketName = "righthand";
     break;
-  default: printf("EquipedItem: Unknown slot with  ID %d !\n", slotid); return 0;
+  default: printf("E: Unknown slot with ID %d !\n", slotid); return 0;
   }
 
-  csRef<iSpriteCal3DState> sprcal3d = scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
-  if (sprcal3d)
-  {
-    iSpriteCal3DSocket* socket = sprcal3d->FindSocket(socketName.GetData());
-    if(socket)
-      return socket;
-    else
-    {
-      printf("EquipedItem: Unknown socket %s!\n", socketName.GetData());
-      return 0;
-    }
-  }
-  else
-  {
-    printf("EquipedItem: entity %s has no cal3d!\n", entity->GetName().GetData());
-    return 0;
-  }
+	return socketName;
 }

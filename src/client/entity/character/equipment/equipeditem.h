@@ -21,31 +21,9 @@
 
 #include <cssysdef.h>
 
-#include <iutil/string.h>
-#include <iutil/vfs.h>
-#include <csutil/ref.h>
-#include <csutil/csstring.h>
-#include <iutil/virtclk.h>
-
-#include <iutil/objreg.h>
-#include <iengine/engine.h>
-#include <iengine/movable.h>
-#include <iengine/sector.h>
-#include <iengine/mesh.h>
-#include <imesh/object.h>
-
-#include <imesh/spritecal3d.h>
-#include <iengine/scenenode.h>
-
-#include <physicallayer/pl.h>
-#include <physicallayer/entity.h>
-#include <propclass/mesh.h>
-
-#include "client/item/itemmanager.h"
+#include <string>
 
 #include "client/entity/ptentity.h"
-
-#include "client/pointer/pointer.h"
 
 class EquipedItem
 {
@@ -54,7 +32,7 @@ class EquipedItem
    unsigned int slotId;
    iCelEntity* itementity;
    PtEntity* entity;
-   iSpriteCal3DSocket* GetSocket(iMeshWrapper* parent, unsigned int slotId);
+   std::string GetSocketName(unsigned int slotid);
 
  public:
    EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId);
