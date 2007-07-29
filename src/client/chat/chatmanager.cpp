@@ -158,7 +158,7 @@ namespace PT
 			if ((strncmp (texti,"/",1) == 0) ||
 				  (strncmp (texti,"!",1) == 0))
 			{
-				arg.push(text.substr(0, 1));
+				arg.push_back(text.substr(0, 1));
 				beginPos = 1;
 			}
 
@@ -171,13 +171,13 @@ namespace PT
 				size_t pos = tail.find_first_of(" ");
 				if ( pos == std::string::npos ) 
 				{
-					arg.push( tail.substr(0, tail.size()+1) );
+					arg.push_back( tail.substr(0, tail.size()+1) );
 					printf("I: ParseString: Added argument: %s\n", tail.substr(0, tail.size()).c_str() );
 					tail.clear();
 				}
 				else
 				{
-					arg.push( tail.substr(0, pos) );
+					arg.push_back( tail.substr(0, pos) );
 					printf("I: ParseString: Added argument: %s\n", tail.substr(0, pos).c_str() );
 					tail = tail.substr(pos+1, tail.size());
 				} // else
@@ -213,9 +213,9 @@ namespace PT
 			StringArray arg = ParseString (texti);
 
 			// It's a command.
-			if (arg.size() > 1 && arg.c[0].compare("/") == 0)
+			if (arg.size() > 1 && arg[0].compare("/") == 0)
 			{
-				Execute(arg.c[1].c_str(), arg);
+				Execute(arg[1].c_str(), arg);
 			}
 			else
 				Execute("say", arg); // Special case.

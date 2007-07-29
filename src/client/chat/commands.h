@@ -103,13 +103,13 @@ namespace PT
 				if(!network) return;
 
 				// Element 0 is '/', 1 is 'say'
-				if (args.size() > 0 && args.c[0].compare("/") != 0)
+				if (args.size() > 0 && args[0].compare("/") != 0)
 				{
 					// Special case for when text was inputted without '/'.
 					std::string text;
 					for(size_t i = 0; i < args.size(); i++) 
 					{
-						text += args.c[i];
+						text += args[i];
 						text += " ";
 					}
 					printf("Say1: %s\n", text.c_str());
@@ -127,7 +127,7 @@ namespace PT
 					std::string text;
 					for(size_t i = 2; i < args.size(); i++) 
 					{
-						text += args.c[i];
+						text += args[i];
 						text += " ";
 					}
 
@@ -170,7 +170,7 @@ namespace PT
 					std::string text = "/";
 					for(size_t i = 1; i < args.size(); i++) 
 					{
-						text += args.c[i];
+						text += args[i];
 						text += " ";
 					}
 
@@ -212,7 +212,7 @@ namespace PT
 				}
 				else
 				{
-					std::string target = args.c[2];
+					std::string target = args[2];
 					std::string text = "/greet " + target;
 
 					// TODO: Turn and wave to target.
@@ -295,12 +295,12 @@ namespace PT
 				}
 				else
 				{
-					std::string nick = args.c[2];
+					std::string nick = args[2];
 
 					std::string text;
 					for(size_t i = 3; i < args.size(); i++) 
 					{
-						text += args.c[i];
+						text += args[i];
 						text += " ";
 					}
 

@@ -31,7 +31,7 @@ namespace PT
 {
   namespace Chat
   {
-		typedef std::queue<std::string> StringArray;
+		typedef std::vector<std::string> StringArray;
 
     class Command
     {
