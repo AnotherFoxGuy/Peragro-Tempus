@@ -4,7 +4,7 @@
 		<Property Name='UnifiedSize' Value='{{0.000000,280.000000},{0.000000,28.000000}}'/>
 		<Property Name='UnifiedPosition' Value='{{0.330000,0.000000},{0.920000,0.000000}}'/>
 		<Property Name='Alpha' Value='1'/>
-		<Property Name='Visible' Value='True'/>
+		<Property Name='Visible' Value='False'/>
 		<Window Type='Peragro/DragBar' Name='SkillHUD/Drag'>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTarget'/>
 			<Property Name='UnifiedAreaRect' Value='{{0.000693,0.000000},{-0.272285,0.000000},{0.994557,0.000000},{-0.003673,0.000000}}'/>

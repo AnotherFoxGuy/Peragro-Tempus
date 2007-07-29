@@ -11,6 +11,7 @@ under each day.
     which handles both cal3d and genmesh models.
   - Sueastside fixed a crash which was caused by not catching an exception 
     that occurred when trying to load a font.
+  - Sueastside made a background image default instead of the intro level.
 
 28-Jul-2007
   - Sueastside made an abstract 'Command' class which you can inherit from

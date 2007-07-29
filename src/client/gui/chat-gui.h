@@ -45,6 +45,9 @@ public:
 
 	/// Set the behaviour for the load button.
 	void SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber);
+
+	void HideWindow();
+  void ShowWindow();
 };
 
 

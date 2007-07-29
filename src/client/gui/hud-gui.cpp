@@ -80,7 +80,20 @@ void HUDWindow::CreateGUIWindow ()
   // test.
   AddSkill("Heal", 1);
   AddSkill("Energy Bind", 2);
+}
 
+void HUDWindow::HideWindow()  
+{
+  winMgr->getWindow("PlayerHUD/Frame")->setVisible(false);
+	//winMgr->getWindow("EntityHUD/Frame")->setVisible(false);
+	winMgr->getWindow("SkillHUD/Frame")->setVisible(false);
+}
+
+void HUDWindow::ShowWindow() 
+{
+	winMgr->getWindow("PlayerHUD/Frame")->setVisible(true);
+	//winMgr->getWindow("EntityHUD/Frame")->setVisible(true);
+	winMgr->getWindow("SkillHUD/Frame")->setVisible(true);
 }
 
 void HUDWindow::SetHP (float hp)

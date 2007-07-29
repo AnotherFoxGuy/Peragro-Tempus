@@ -195,7 +195,7 @@ namespace PT
 		network->init();
 		pointerlib.setNetwork(network);
 
-		// Create and Initialize the ItemManager.
+		// Create and Initialize the EventManager.
 		eventmanager = new PT::Events::EventManager();
 		if (!eventmanager->Initialize())
 			return false;
@@ -349,11 +349,34 @@ namespace PT
 
 				if (!path) 
 				{
+					path = 0;
+					iCEGUI* cegui = guimanager->GetCEGUI();
+
+					// load the background
+					vfs->ChDir ("/peragro/skin/");
+					cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("Background", "background1600.jpg");
+
+					// Get root window.
+					CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
+					CEGUI::Window* image = cegui->GetWindowManagerPtr ()->createWindow("Peragro/StaticImage", "Background");
+					root->addChildWindow(image);
+					image->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
+					image->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
+
+					// set the background image
+					image->setProperty("Image", "set:Background image:full_image");
+					image->setProperty("BackgroundEnabled", "True");
+					image->setProperty("FrameEnabled", "False");
+					image->setProperty("Disabled", "True");
+					image->moveToBack();
+				}
+				else if (!strncmp(path,"/intro", 5))
+				{
 					path = "/intro";
 				}
-				else
+				else if (!strncmp(path,"empty", 4))
 				{
-					if (!strncmp(path,"empty", 4)) path = 0;
+					path = 0;
 				}
 
 				printf("handleStates: Loading Intro: %s\n", path);
@@ -973,7 +996,17 @@ namespace PT
 
 		guimanager->GetChatWindow ()->ShowWindow();
 		guimanager->GetHUDWindow ()->ShowWindow();
-		
+
+		// Hide the background.
+		iCEGUI* cegui = guimanager->GetCEGUI();
+		if (   cegui->GetWindowManagerPtr ()->isWindowPresent("Root")
+			  && cegui->GetWindowManagerPtr ()->isWindowPresent("Background") )
+		{
+			CEGUI::Window* image = cegui->GetWindowManagerPtr ()->getWindow("Background");
+			CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
+			if (image && root) root->removeChildWindow(image);
+		}
+
 
 		const char* regionname = cmdline->GetOption("world");
 

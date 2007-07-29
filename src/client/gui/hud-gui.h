@@ -58,6 +58,9 @@ public:
   void SetName (const char* name); // set the name;
   int GetActiveSkillId();
 
+	void HideWindow();
+  void ShowWindow();
+
 };
 
 

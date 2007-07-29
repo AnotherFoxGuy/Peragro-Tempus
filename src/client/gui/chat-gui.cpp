@@ -63,6 +63,20 @@ void ChatWindow::CreateGUIWindow ()
 
   btn = winMgr->getWindow("InputPanel/ChatDropList");
   btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ChatWindow::OnDropList, this));
+
+	HideWindow();
+}
+
+void ChatWindow::HideWindow()  
+{
+  winMgr->getWindow("Chatlog/Frame")->setVisible(false);
+	winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+}
+
+void ChatWindow::ShowWindow() 
+{
+	winMgr->getWindow("Chatlog/Frame")->setVisible(true);
+	//winMgr->getWindow("InputPanel/Frame")->setVisible(true);
 }
 
 void ChatWindow::SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber)

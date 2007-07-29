@@ -2,9 +2,8 @@
 <GUILayout>
 	<Window Type='Peragro/Listbox' Name='InputPanel/Frame'>
 		<Property Name='UnifiedSize' Value='{{0.000000,450.000000},{0.000000,30.000000}}'/>
-		<Property Name='UnifiedPosition' Value='{{0.300000,0.000000},{0.900000,0.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.500000,-225.000000},{0.900000,-30.000000}}'/>
 		<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTarget'/>
-		<!--0,055626  {{0.026018,0.000000},{0.484176,0.000000},{0.676115,0.000000},{0.539802,0.000000}}-->
 		<Property Name='Alpha' Value='0.6'/>
 		<Property Name='Visible' Value='False'/>
 		<Window Type='Peragro/Combobox' Name='InputPanel/ChatDropList'>
