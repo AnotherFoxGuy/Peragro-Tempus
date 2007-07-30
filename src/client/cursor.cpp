@@ -117,9 +117,6 @@ iCelEntity* Cursor::getSelectedEntity()
 
 iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord)
 {
-  cdsys = csQueryRegistry<iCollideSystem> (client->GetObjectRegistry());
-  if (!cdsys) return 0;
-
   csVector3 vc, vo, vw;
 
   csVector2 perspective( x, camera->GetShiftY() * 2 - y );
@@ -131,17 +128,18 @@ iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 
   if ( sector )
   {
     vo = camera->GetTransform().GetO2TTranslation();
-    csVector3 isect;
     csVector3 end = vo + (vw-vo)*600;
-    csIntersectingTriangle closest_tri;
-    iMeshWrapper* sel = 0;
-    float dist = csColliderHelper::TraceBeam (cdsys, sector,
-      vo, end, true, closest_tri, isect, &sel);
 
-    if (worldCoord != 0)
+		csSectorHitBeamResult result = sector->HitBeamPortals(vo, end);
+
+		csVector3 isect = result.isect;
+		iMeshWrapper* sel = result.mesh;
+
+		if (worldCoord != 0)
       *worldCoord = isect;
     if (untransfCoord)
-      *untransfCoord = vo + (vw-vo).Unit()*csQsqrt(dist);
+      *untransfCoord = vo + (vw-vo).Unit()/**csQsqrt(dist)*/;
+
     return sel;
   }
   return 0;

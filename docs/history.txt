@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+30-Jul-2007
+  - Sueastside switched usage of TraceBeam to HitBeam because it was hanging
+    the client when trying to generate the opcode tree. Thanks to thebolt
+    for pointing this out.
+
 29-Jul-2007
   - Sueastside converted to the new 'move.actor.standard' name in CEL.
   - Sueastside fixed equipment.

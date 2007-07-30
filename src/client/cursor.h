@@ -44,7 +44,6 @@ private:
   csWeakRef<iCelEntity> selent;
   int mousex;
   int mousey;
-  csRef<iCollideSystem> cdsys;
   CEGUI::Window* nametag;
 
 public:
