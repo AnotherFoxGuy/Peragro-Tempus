@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+1-Aug-2007
+  - Sueastside made a reporter class which writes a log file, 
+    still have to convert most messages to use this reporter.
+
 30-Jul-2007
   - Sueastside switched usage of TraceBeam to HitBeam because it was hanging
     the client when trying to generate the opcode tree. Thanks to thebolt

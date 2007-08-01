@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 /*=================//
 //    HUDWindow   //
 //=================*/
@@ -248,7 +250,7 @@ bool HUDWindow::AddSkill(CEGUI::String skillname, int skillid)
       {
         if ((slot->getChildCount() < 1 ))
         {
-          printf("slot %s is empty: Item added to slot\n", slot->getName().c_str());
+					Report(PT::Debug, "AddSkill: slot %s is empty: Item added to slot.", slot->getName().c_str());
           freeslot = slot;
           freeslot->addChildWindow(CreateSkillIcon(skillname, skillid));
           return true;
@@ -256,7 +258,9 @@ bool HUDWindow::AddSkill(CEGUI::String skillname, int skillid)
       }
     }
   }
-  printf("AddSkill: quickbar is full!\n");
+
+	Report(PT::Error, "AddSkill: quickbar is full!");
+
   return false;
 }
 

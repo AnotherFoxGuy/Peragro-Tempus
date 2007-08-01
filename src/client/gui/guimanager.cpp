@@ -18,11 +18,11 @@
 
 #include "client/gui/guimanager.h"
 
-#include "iutil/objreg.h"
+#include <iutil/objreg.h>
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 
 #include "client/client.h"
 #include "client/network/network.h"

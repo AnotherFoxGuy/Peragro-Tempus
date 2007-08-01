@@ -83,6 +83,8 @@ namespace PT
 		class ChatManager;
 	} // Chat namespace 
 
+	class Reporter;
+
 	class Client : public csApplicationFramework, public csBaseEventHandler
 	{
 	public:
@@ -144,6 +146,7 @@ namespace PT
 		// The config manager.
 		csRef<iConfigManager> app_cfg;
 
+		Reporter* reporter;
 		Network* network;
 		GUIManager* guimanager;
 		EffectsManager* effectsmanager;

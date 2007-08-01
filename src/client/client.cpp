@@ -51,6 +51,8 @@
 #include <ivideo/txtmgr.h>
 #include <ivideo/material.h>
 
+#include "client/reporter/reporter.h"
+
 #include "cursor.h"
 #include "client/network/network.h"
 #include "client/gui/gui.h"
@@ -179,17 +181,28 @@ namespace PT
 	bool Client::Application()
 	{
 		if (!OpenApplication(GetObjectRegistry()))
-			return ReportError("Error opening system!");
+			return Report(PT::Error, "Error opening system!");
 
 		vfs = csQueryRegistry<iVFS> (GetObjectRegistry());
-		if (!vfs) return ReportError("Failed to locate VFS!");
+		if (!vfs) return Report(PT::Error, "Failed to locate VFS!");
 
 		g3d = csQueryRegistry<iGraphics3D> (GetObjectRegistry());
-		if (!g3d) return ReportError("Failed to locate 3D renderer!");
+		if (!g3d) return Report(PT::Error, "Failed to locate 3D renderer!");
 
 		pointerlib.setObjectRegistry(GetObjectRegistry());
 		pointerlib.setClient(this);
 
+		// Create and Initialize the Reporter. 
+		reporter= new Reporter (GetObjectRegistry());
+		reporter->Initialize();
+		//pointerlib.setReporter(reporter);
+
+#ifdef CS_STATIC_LINKED
+		reporter->SetLoggingLevel(PT::Errors);
+#else
+		reporter->SetLoggingLevel(PT::Insane);
+#endif
+		
 		// Create and Initialize the Network. 
 		network = new Network (this);
 		network->init();
@@ -214,28 +227,28 @@ namespace PT
 		pointerlib.setGUIManager(guimanager);
 
 		if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
-			return ReportError("Failed to set up event handler!");
+			return Report(PT::Error, "Failed to set up event handler!");
 
 		engine = csQueryRegistry<iEngine> (GetObjectRegistry());
-		if (!engine) return ReportError("Failed to locate 3D engine!");
+		if (!engine) return Report(PT::Error, "Failed to locate 3D engine!");
 
 		vc = csQueryRegistry<iVirtualClock> (GetObjectRegistry());
-		if (!vc) return ReportError("Failed to locate Virtual Clock!");
+		if (!vc) return Report(PT::Error, "Failed to locate Virtual Clock!");
 
 		//kbd = csQueryRegistry<iKeyboardDriver> (GetObjectRegistry());
 		//if (!kbd) return ReportError("Failed to locate Keyboard Driver!");
 
 		cmdline = csQueryRegistry<iCommandLineParser> (GetObjectRegistry());
-		if (!cmdline) return ReportError("Failed to locate CommandLineParser plugin");
+		if (!cmdline) return Report(PT::Error, "Failed to locate CommandLineParser plugin");
 
 		sndrenderer = csQueryRegistry<iSndSysRenderer> (GetObjectRegistry());
-		if (!sndrenderer) return ReportError("Failed to locate sound renderer!");
+		if (!sndrenderer) return Report(PT::Error, "Failed to locate sound renderer!");
 
 		sndloader = csQueryRegistry<iSndSysLoader> (GetObjectRegistry());
-		if (!sndloader) return ReportError("Failed to locate sound loader!");
+		if (!sndloader) return Report(PT::Error, "Failed to locate sound loader!");
 
 		app_cfg = csQueryRegistry<iConfigManager> (GetObjectRegistry());
-		if (!app_cfg) return ReportError("Can't find the config manager!");
+		if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
 
 		iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
 		if (nw) nw->SetTitle ("Peragro Tempus");
@@ -291,20 +304,20 @@ namespace PT
 
 		csRef<iDataBuffer> soundbuf = vfs->ReadFile (fname);
 		if (!soundbuf)
-			return ReportError ("Can't load file '%s'!", fname);
+			return Report(PT::Error, "Can't load file '%s'!", fname);
 
 		csRef<iSndSysData> snddata = sndloader->LoadSound (soundbuf);
 		if (!snddata)
-			return ReportError ("Can't load sound '%s'!", fname);
+			return Report(PT::Error,"Can't load sound '%s'!", fname);
 
 		sndstream = sndrenderer->CreateStream (snddata,
 			CS_SND3D_ABSOLUTE);
 		if (!sndstream)
-			return ReportError ("Can't create stream for '%s'!", fname);
+			return Report(PT::Error,"Can't create stream for '%s'!", fname);
 
 		sndsource = sndrenderer->CreateSource (sndstream);
 		if (!sndsource)
-			return ReportError ("Can't create source for '%s'!", fname);
+			return Report(PT::Error,"Can't create source for '%s'!", fname);
 		sndsource3d = scfQueryInterface<iSndSysSourceSoftware3D> (sndsource);
 
 		sndsource3d->SetPosition (csVector3(0,0,0));
@@ -315,7 +328,7 @@ namespace PT
 
 		// end intro sound
 		csRef<iLoader >loader = csQueryRegistry<iLoader> (GetObjectRegistry());
-		if (!loader) return ReportError("Failed to locate Loader!");
+		if (!loader) return Report(PT::Error, "Failed to locate Loader!");
 		loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
 
 		//Listen for events.
@@ -379,7 +392,7 @@ namespace PT
 					path = 0;
 				}
 
-				printf("handleStates: Loading Intro: %s\n", path);
+				Report(PT::Notify, "handleStates: Loading Intro: %s", path? path : "empty");
 
 				bool hasIntro = false;
 				csRef<iPcRegion> pcregion = 0;
@@ -393,7 +406,7 @@ namespace PT
 					pcregion->SetRegionName("world");
 					pcregion->SetWorldFile (path, "world");
 					hasIntro = pcregion->Load();
-					printf("handleStates: Loading Intro %s\n", hasIntro?"succeeded":"failed");
+					Report(PT::Notify, "handleStates: Loading Intro '%s'.", hasIntro?"succeeded":"failed");
 				}
 
 				if (hasIntro)
@@ -402,11 +415,11 @@ namespace PT
 					view->GetCamera()->SetSector(pcregion->GetStartSector());
 					view->GetCamera()->GetTransform().Translate(sPos);
 					const char* secName = pcregion->GetStartSector()->QueryObject()->GetName();
-					printf("handleStates: Setting up Camera at %s <%.2f,%.2f,%.2f>\n", secName, sPos.x, sPos.y, sPos.z);
+					Report(PT::Notify, "handleStates: Setting up Camera at %s <%.2f,%.2f,%.2f>.", secName, sPos.x, sPos.y, sPos.z);
 				}
 				else
 				{
-					printf("handleStates: Clearing screen due to missing intro\n");
+					Report(PT::Notify, "handleStates: Clearing screen due to missing intro.");
 					engine->SetClearScreen(true);
 				}
 
@@ -450,14 +463,14 @@ namespace PT
 
 	void Client::checkConnection()
 	{
-		//printf("Saw server %d ms ago\n", csGetTicks() - last_seen);
+		//Report(PT::Notify, "Saw server %d ms ago.", csGetTicks() - last_seen);
 		if (last_seen > 0 && csGetTicks() - last_seen > 10000)
 		{
 			// 10 seconds of no response... disconnect!
 			if (state == STATE_PLAY)
 			{
 				last_seen = 0;
-				printf("Disconnect!\n");
+				Report(PT::Warning, "Disconnect!");
 				guimanager->CreateOkWindow()->SetText("Disconnect!\n Please restart the client!");
 				//entitymanager->delAllEntities();
 				//ConnectRequestMessage msg;
@@ -504,7 +517,7 @@ namespace PT
 			}
 		}
 
-		printf("Connected!!\n");
+		Report(PT::Notify, "Connected!");
 		return true;
 	}
 
@@ -716,11 +729,11 @@ namespace PT
 							msg.setTo(isect.x, isect.y, isect.z);
 							network->send(&msg);
 
-							printf("OnMouseDown: position: %s\n", isect.Description().GetData());
+							Report(PT::Notify, "OnMouseDown: position: %s", isect.Description().GetData());
 						}
 						else
 						{
-							printf("OnMouseDown: Failed to find mesh!\n");
+							Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
 						}
 						return true;
 						break;
@@ -743,7 +756,7 @@ namespace PT
 								PickRequestMessage msg;
 								msg.setItemEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
 								msg.setSlot(slotid); // TODO: get a free slot for this!
-								printf("OnMouseDown: Requisting picking up entity: %d for slot %d.\n", msg.getItemEntityId(), slotid);
+								Report(PT::Notify, "OnMouseDown: Requisting picking up entity: %d for slot %d.", msg.getItemEntityId(), slotid);
 								network->send(&msg);
 							}
 						}
@@ -754,14 +767,14 @@ namespace PT
 							{
 								CloseDoorRequestMessage msg;
 								msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-								printf("OnMouseDown: Requesting closing door: %d \n", msg.getDoorId());
+								Report(PT::Notify, "OnMouseDown: Requesting closing door: %d.", msg.getDoorId());
 								network->send(&msg);
 							}
 							else
 							{
 								OpenDoorRequestMessage msg;
 								msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-								printf("OnMouseDown: Requesting opening door: %d \n", msg.getDoorId());
+								Report(PT::Notify, "OnMouseDown: Requesting opening door: %d.", msg.getDoorId());
 								network->send(&msg);
 							}
 						}
@@ -771,7 +784,7 @@ namespace PT
 							//combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
 							TradeRequestMessage msg;
 							msg.setEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-							printf("OnMouseDown: Requesting trade with: %d \n", msg.getEntityId());
+							Report(PT::Notify, "OnMouseDown: Requesting trade with: %d.", msg.getEntityId());
 							network->send(&msg);
 						}
 						// If it's a npc, open a dialog.
@@ -779,7 +792,7 @@ namespace PT
 						{
 							NpcStartDialogMessage msg;
 							msg.setNpcId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-							printf("OnMouseDown: Requesting dialog with: %d \n", msg.getNpcId());
+							Report(PT::Notify, "OnMouseDown: Requesting dialog with: %d.", msg.getNpcId());
 							network->send(&msg);
 						}
 						// If it's a mount, mount it.
@@ -794,19 +807,19 @@ namespace PT
 								MountRequestMessage msg;
 								msg.setMountEntityId(mount->GetId());
 								network->send(&msg);
-								printf("OnMouseDown: Mounting.\n");
+								Report(PT::Notify, "OnMouseDown: Mounting.");
 							}
 							else
 							{
 								UnmountRequestMessage msg;
 								msg.setMountEntityId(mount->GetId());
 								network->send(&msg);
-								printf("OnMouseDown: UnMounting.\n");
+								Report(PT::Notify, "OnMouseDown: UnMounting.");
 							}
 						}
 						else
 						{
-							printf("OnMouseDown: Unknown entity type!\n");
+							Report(PT::Warning, "OnMouseDown: Unknown entity type!");
 						}
 						return true;
 						break;
@@ -857,7 +870,7 @@ namespace PT
 		iObjectRegistry* object_reg = this->GetObjectRegistry();
 
 		pl = csQueryRegistry<iCelPlLayer> (object_reg);
-		if (!pl) return ReportError("Failed to load CEL Physical Layer");
+		if (!pl) return Report(PT::Error, "Failed to load CEL Physical Layer!");
 
 		return true;
 	}
@@ -871,14 +884,14 @@ namespace PT
 
 		if (stateev->error)
 		{
-			printf("Login Failed due to: %s\n", stateev->errorMessage.c_str());
+			Report(PT::Error, "Login Failed due to: %s.", stateev->errorMessage.c_str());
 			GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 			guimanager->CreateOkWindow()->SetText(stateev->errorMessage.c_str());
 			guimanager->GetLoginWindow()->EnableWindow();
 			return true;
 		}
 		else
-			printf("Login succeeded!\n");
+			Report(PT::Notify, "Login succeeded!");
 
 
 		if (state == STATE_RECONNECTED)
@@ -1013,7 +1026,7 @@ namespace PT
 		if (!regionname) 
 		{
 			regionname = regionEv->regionName.c_str();
-			printf("loadRegion: Using default world.\n");
+			Report(PT::Notify, "loadRegion: Using default world.");
 		}
 
 		csRef<iCelEntity> entity = pl->CreateEntity();
@@ -1039,7 +1052,7 @@ namespace PT
 		{
 			iMeshWrapper* portalMesh = engine->FindMeshObject("portal");
 			if (portalMesh) engine->RemoveObject(portalMesh->QueryObject());
-			printf("loadRegion: Waterportal removed!\n");
+			Report(PT::Notify, "loadRegion: Waterportal removed!");
 		}
 
 		return true;

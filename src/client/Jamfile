@@ -15,6 +15,7 @@ SubInclude TOP src client chat ;
 Description client : "Client" ;
 Application client : 
 [ Wildcard *.h *.cpp ] 
+[ Wildcard [ ConcatDirs reporter ] : *.h *.cpp ] 
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs client : CEGUI CRYSTAL CEL ;
 LinkWith client : client-network client-gui client-effects client-entitymanager client-eventmanager client-combatmanager client-itemmanager client-trademanager client-chatmanager client-console util ;
