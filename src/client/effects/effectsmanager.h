@@ -19,15 +19,15 @@
 #ifndef EFFECTSMANAGER_H
 #define EFFECTSMANAGER_H
 
-#include "cssysdef.h"
-#include "csutil/ref.h"
-#include "iutil/vfs.h"
-#include "iengine/engine.h"
+#include <cssysdef.h>
+#include <csutil/ref.h>
 
 #include "client/effects/effect.h"
 
 class Effect;
 
+struct iEngine;
+struct iVFS;
 struct iObjectRegistry;
 struct iLoader;
 

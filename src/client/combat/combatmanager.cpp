@@ -16,77 +16,20 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//#include "client/entity/ptcelentity.h"
 #include "client/entity/ptentitymanager.h"
 
 #include "client/combat/combatmanager.h"
 
-#include "csgeom/path.h"
-#include "cstool/initapp.h"
-#include "csutil/cmdline.h"
-#include "csutil/csstring.h"
-#include "csutil/csshlib.h"
-#include "csutil/event.h"
-#include "csutil/sysfunc.h"
-#include "csutil/syspath.h"
-#include "iengine/camera.h"
-#include "iengine/campos.h"
-#include "iengine/mesh.h"
-#include "iengine/sector.h"
-#include "iengine/texture.h"
-#include "iengine/material.h"
-#include "iengine/scenenode.h"
-#include "iengine/movable.h"
-#include "imesh/object.h"
-#include "imesh/spritecal3d.h"
-#include "imesh/sprite2d.h"
-#include "imesh/genmesh.h"
-//#include "imesh/objmodel.h"
-#include "iutil/databuff.h"
-#include "iutil/event.h"
-#include "iutil/eventq.h"
-#include "iutil/object.h"
-#include "iutil/vfs.h"
-#include "ivaria/collider.h"
-#include "ivideo/graph2d.h"
-#include "ivideo/natwin.h"
-#include "ivideo/txtmgr.h"
-#include "ivideo/material.h"
+#include <iutil/objreg.h>
+#include <imap/loader.h>
 
-#include "iutil/objreg.h"
-
-#include "imap/loader.h"
-
-#include "physicallayer/pl.h"
-#include "physicallayer/propfact.h"
-#include "physicallayer/propclas.h"
-#include "physicallayer/entity.h"
-#include "physicallayer/persist.h"
-#include "celtool/initapp.h"
-#include "celtool/persisthelper.h"
-#include "celtool/stdparams.h"
-#include "behaviourlayer/bl.h"
-#include "propclass/test.h"
-#include "propclass/mesh.h"
-#include "propclass/meshsel.h"
-#include "propclass/solid.h"
-#include "propclass/inv.h"
-#include "propclass/chars.h"
-#include "propclass/move.h"
-#include "propclass/prop.h"
-#include "propclass/tooltip.h"
-#include "propclass/defcam.h"
-#include "propclass/gravity.h"
-#include "propclass/timer.h"
-#include "propclass/region.h"
-#include "propclass/input.h"
-#include "propclass/linmove.h"
-#include "propclass/actormove.h"
-#include "propclass/quest.h"
-#include "propclass/trigger.h"
-#include "propclass/zone.h"
-#include "propclass/sound.h"
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <physicallayer/entity.h>
 #include <propclass/colldet.h>
+
+#include "client/reporter/reporter.h"
 
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
@@ -94,7 +37,6 @@
 #include "client/effects/effectsmanager.h"
 
 #include "client/network/network.h"
-
 #include "common/network/netmessage.h"
 
 CombatMGR::CombatMGR()
@@ -124,28 +66,16 @@ bool CombatMGR::Initialize ()
   network     = PointerLibrary::getInstance()->getNetwork();
 
   if (!entitymgr)
-  {
-    client->ReportError("CombatMGR: Failed to locate ptEntityManager plugin");
-    return false;
-  }
+    return Report(PT::Bug, "CombatMGR: Failed to locate ptEntityManager plugin");
 
   if (!effectsmgr)
-  {
-    client->ReportError("CombatMGR: Failed to locate EffectsManager plugin");
-    return false;
-  }
+    return Report(PT::Bug, "CombatMGR: Failed to locate EffectsManager plugin");
 
   if (!guimanager)
-  {
-    client->ReportError("CombatMGR: Failed to locate GUIManager plugin");
-    return false;
-  }
+    return Report(PT::Bug, "CombatMGR: Failed to locate GUIManager plugin");
 
   if (!network)
-  {
-    client->ReportError("CombatMGR: Failed to locate Network plugin");
-    return false;
-  }
+    return Report(PT::Bug, "CombatMGR: Failed to locate Network plugin");
 
   return true;
 }
@@ -158,7 +88,7 @@ void CombatMGR::hit (int targetId, int damage)
 
   if (!target)
   {
-    printf("CombatMGR: Couldn't find entity with ID %d !", targetId);
+		Report(PT::Error, "CombatMGR: Couldn't find entity with ID %d !", targetId);
     return;
   }
 
@@ -166,7 +96,7 @@ void CombatMGR::hit (int targetId, int damage)
 
   if (!targetcel)
   {
-    printf("CombatMGR: Couldn't find iCelEntity of entity with ID %d !", targetId);
+    Report(PT::Error, "CombatMGR: Couldn't find iCelEntity of entity with ID %d !", targetId);
     return;
   }
 
@@ -192,7 +122,7 @@ void CombatMGR::hit (int targetId, int damage)
   }
   // Update the entity's HP(this will update the GUI aswell).
   //target->AddToHP(-damage);
-  printf("You %s %d points!\n", damage < 0 ? "healed" : "got hit for", damage);
+	Report(PT::Debug, "You %s %d points!", damage < 0 ? "healed" : "got hit for", damage);
 
   //test
   //guimanager->GetHUDWindow()->SetHP(target->GetHP());
@@ -206,7 +136,7 @@ void CombatMGR::die (int targetId)
 
   if (!target)
   {
-    printf("CombatMGR: Couldn't find dieing entity with ID %d !", targetId);
+    Report(PT::Error, "CombatMGR: Couldn't find dieing entity with ID %d !", targetId);
     return;
   }
   effectsmgr->CreateEffect(getMesh(target), EffectsManager::Die);
@@ -223,7 +153,7 @@ void CombatMGR::levelup (int targetId)
 
   if (!target)
   {
-    printf("CombatMGR: Couldn't find dieing entity with ID %d !", targetId);
+    Report(PT::Error, "CombatMGR: Couldn't find entity with ID %d !", targetId);
     return;
   }
   effectsmgr->CreateEffect(getMesh(target), EffectsManager::Levelup);
@@ -231,7 +161,7 @@ void CombatMGR::levelup (int targetId)
 
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
   if (!pcprop)return;
-  printf("%s has gained a level.\n", pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"))  );
+	Report(PT::Debug, "%s has gained a level.", pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"))  );
 }
 
 void CombatMGR::experience (int exp)
@@ -241,7 +171,7 @@ void CombatMGR::experience (int exp)
 
   if (!ownent)
   {
-    printf("CombatMGR: Couldn't find own entity!");
+    Report(PT::Error, "CombatMGR: Couldn't find own entity!");
     return;
   }
 
@@ -252,11 +182,11 @@ void CombatMGR::experience (int exp)
   // We gaind experience.
   if (exp >= 0)
     //guimanager->GetCombatLog()->AddMessage("You gained %d experience points", exp);
-     printf("You gained %d experience points!\n", exp);
+		Report(PT::Debug, "You gained %d experience points!", exp);
   // We lost experience.
   else if (exp < 0)
     //guimanager->GetCombatLog()->AddMessage("You lost %d experience points", exp);
-     printf("You lost %d experience points!\n", exp);
+		Report(PT::Debug, "You lost %d experience points!", exp);
 
 }
 
@@ -268,10 +198,10 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
   */
 
   if (ptString(0,0) == error)
-    printf("CombatMGR: %d cast %d on %d, error %s\n",casterId,targetId,skillId, *error);
+		Report(PT::Debug, "CombatMGR: %d cast %d on %d, error %s\n",casterId,targetId,skillId, *error);
   else
   {
-    printf("CombatMGR: %s \n", *error);
+		Report(PT::Notify, "CombatMGR: %s \n", *error);
     char msg[1024];
     sprintf(msg,"%s", *error);
     guimanager->GetChatWindow()->AddMessage(msg);
@@ -284,12 +214,12 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
 
   if (!target)
   {
-    printf("CombatMGR: Couldn't find target with ID %d !\n", targetId);
+    Report(PT::Error, "CombatMGR: Couldn't find target with ID %d !", targetId);
     return;
   }
   if (!caster)
   {
-    printf("CombatMGR: Couldn't find caster with ID %d !\n", casterId);
+    Report(PT::Error, "CombatMGR: Couldn't find caster with ID %d !", casterId);
     return;
   }
 
@@ -315,7 +245,7 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
     caststring = "starts casting Energy Bind on";
     break;
 
-  default: printf("CombatMGR: Unknown skill with ID %d !\n", skillId); return;
+  default: Report(PT::Error, "CombatMGR: Unknown skill with ID %d !", skillId); return;
   }
 
   // Send a message to the GUI.
@@ -344,12 +274,12 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
 
   if (!target)
   {
-    printf("CombatMGR: Couldn't find target with ID %d !\n", targetId);
+    Report(PT::Error, "CombatMGR: Couldn't find target with ID %d !", targetId);
     return;
   }
   if (!caster)
   {
-    printf("CombatMGR: Couldn't find attacker with ID %d !\n", casterId);
+    Report(PT::Error, "CombatMGR: Couldn't find attacker with ID %d !", casterId);
     return;
   }
 
@@ -375,7 +305,7 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
     attackstring = "casts Energy Bind on";
     break;
 
-  default: printf("CombatMGR: Unknown skill with ID %d !\n", skillId); return;
+  default: Report(PT::Error, "CombatMGR: Unknown skill with ID %d !", skillId); return;
   }
 
   // Send a message to the GUI.
@@ -401,7 +331,7 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
 {
   if (!skillId)
   {
-    printf("CombatMGR: skillId is 0!\n");
+    Report(PT::Error, "CombatMGR: skillId is 0!");
     return;
   }
   // Get your own entity.
@@ -412,7 +342,7 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
   if (!pcprop) 
   {
-    printf("CombatMGR: Couldn't find pcprop for target!\n");
+    Report(PT::Error, "CombatMGR: Couldn't find pcprop for target!");
     return;
   }
 
@@ -421,12 +351,12 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
 
   if (!targetId)
   {
-    printf("CombatMGR: Couldn't find ID for target!\n");
+    Report(PT::Error, "CombatMGR: Couldn't find ID for target!");
     return;
   }
   if (!attacker)
   {
-    printf("CombatMGR: Couldn't find attacker entity!\n");
+    Report(PT::Error, "CombatMGR: Couldn't find attacker entity!");
     return;
   }
 
@@ -459,6 +389,6 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
   msg.setSkill(skillId);
   network->send(&msg);
 
-  printf("CombatMGR: Sent SkillUsageStartRequestMessage.\n");
+	Report(PT::Debug, "CombatMGR: Sent SkillUsageStartRequestMessage.");
  
 }

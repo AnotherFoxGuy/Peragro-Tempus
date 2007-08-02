@@ -32,6 +32,7 @@
 #include "client/item/itemmanager.h"
 
 #include "client/pointer/pointer.h"
+#include "client/reporter/reporter.h"
 
 EquipedItem::EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId)
 {
@@ -74,13 +75,13 @@ void EquipedItem::ConstructMesh()
 			// Attach the item.
       if (pcmesh->AttachSocketMesh(GetSocketName(slotId).c_str(), mesh))
       {
-        printf("I: Equipment attached!\n");
+				Report(PT::Debug, "Equipment attached!");
         return;
       }
     }
   }
 
-	printf("E: Failed to construct mesh %d!\n", id);
+	Report(PT::Error, "Failed to construct mesh %d!", id);
 }
 
 void EquipedItem::DestructMesh()
@@ -96,11 +97,11 @@ void EquipedItem::DestructMesh()
 	{
 		pl->RemoveEntity(itementity);
 		itementity = 0;
-		printf("I: Equipment destroyed!\n");
+		Report(PT::Debug, "Equipment destroyed!");
 		return;
 	}
   
-  printf("E: Failed to destruct mesh %d\n!", id);
+  Report(PT::Error, "Failed to destruct mesh %d!", id);
 }
 
 std::string EquipedItem::GetSocketName(unsigned int slotid)
@@ -112,7 +113,7 @@ std::string EquipedItem::GetSocketName(unsigned int slotid)
   case 0:
     socketName = "righthand";
     break;
-  default: printf("E: Unknown slot with ID %d !\n", slotid); return 0;
+  default: Report(PT::Error, "Unknown slot with ID %d !", slotid); return 0;
   }
 
 	return socketName;

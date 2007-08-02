@@ -20,6 +20,7 @@
 
 #include <iutil/objreg.h>
 
+#include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 #include "client/event/eventmanager.h"

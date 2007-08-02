@@ -27,9 +27,11 @@
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
 
+#include "client/reporter/reporter.h"
+
 void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
 {
-  printf("EntityHandler: Received AddNpcEntity\n");
+  Report(PT::Debug, "EntityHandler: Received AddNpcEntity.");
   AddNpcEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
@@ -49,7 +51,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
 
 void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
 {
-  printf("EntityHandler: Received AddDoor\n");
+  Report(PT::Debug, "EntityHandler: Received AddDoor.");
   AddDoorEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
@@ -67,7 +69,7 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
 }
 void EntityHandler::handleRemove(GenericMessage* msg)
 {
-  printf("EntityHandler: Received RemoveEntity\n");
+  Report(PT::Debug, "EntityHandler: Received RemoveEntity.");
   RemoveMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
@@ -81,7 +83,7 @@ void EntityHandler::handleRemove(GenericMessage* msg)
 
 void EntityHandler::handleMove(GenericMessage* msg)
 {
-  printf("EntityHandler: Received MoveEntity\n");
+  Report(PT::Debug, "EntityHandler: Received MoveEntity.");
   MoveMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
@@ -106,7 +108,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
     guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlotId());
   }
   else
-    printf("You can't pick Item %d! Reason: '%s'\n", response_msg.getItemId(), *response_msg.getError());
+		Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", response_msg.getItemId(), *response_msg.getError());
 }
 
 void EntityHandler::handleDropResponse(GenericMessage* msg)
@@ -120,7 +122,7 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
     guimanager->GetInventoryWindow()->RemoveItem(response_msg.getSlotId());
   }
   else
-    printf("You can't drop %d from slot %d! Reason: '%s'\n", response_msg.getItemId(), response_msg.getSlotId(), *response_msg.getError());
+		Report(PT::Notify, "You can't drop %d from slot %d! Reason: '%s'.", response_msg.getItemId(), response_msg.getSlotId(), *response_msg.getError());
 }
 
 void EntityHandler::handleDrUpdate(GenericMessage* msg)
@@ -143,33 +145,38 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
 {
   InventoryListMessage item_msg;
   item_msg.deserialise(msg->getByteStream());
-  printf("EntityHandler: Got %d items in the Inventory: \n---------------------------\n", item_msg.getInventoryCount());
+
+	Report(PT::Debug, "---------------------------");
+  Report(PT::Debug, "EntityHandler: Got %d items in the Inventory:", item_msg.getInventoryCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
-    printf("Item %d with amount 1 in slot %d\n", item_msg.getItemId(i), item_msg.getSlotId(i));
+    Report(PT::Debug, "Item %d with amount 1 in slot %d.", item_msg.getItemId(i), item_msg.getSlotId(i));
     guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i));
   }
+	Report(PT::Debug, "---------------------------\n");
 }
 
 void EntityHandler::handleStatsList(GenericMessage* msg)
 {
   StatsListMessage stat_msg;
   stat_msg.deserialise(msg->getByteStream());
-  printf("EntityHandler: Got %d stats for the Character: \n---------------------------\n", stat_msg.getStatsCount());
+	Report(PT::Debug, "---------------------------");
+  Report(PT::Debug, "EntityHandler: Got %d stats for the Character:", stat_msg.getStatsCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<stat_msg.getStatsCount(); i++)
   {
     guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i));
-    printf("Stat %s (%d): \t %d\n", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
+    Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
   }
+	Report(PT::Debug, "---------------------------\n");
 }
 
 void EntityHandler::handleStatsChange(GenericMessage* msg)
 {
   //TODO: Implement
   StatsChangeMessage stat_msg;
-  printf("Changing stat %d to %d\n", stat_msg.getStatId(), stat_msg.getLevel());
+  Report(PT::Debug, "Changing stat %d to %d.", stat_msg.getStatId(), stat_msg.getLevel());
 }
 
 void EntityHandler::handleMoveTo(GenericMessage* msg)
@@ -196,13 +203,15 @@ void EntityHandler::handleSkillsList(GenericMessage* msg)
 {
   SkillsListMessage skill_msg;
   skill_msg.deserialise(msg->getByteStream());
-  printf("EntityHandler: Got %d skill(s) for the Character: \n---------------------------\n", skill_msg.getSkillsCount());
+	Report(PT::Debug, "---------------------------");
+  Report(PT::Debug, "EntityHandler: Got %d skill(s) for the Character:", skill_msg.getSkillsCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<skill_msg.getSkillsCount(); i++)
   {
     //guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
-    printf("Skill %s (%d)\n", *skill_msg.getName(i), skill_msg.getSkillId(i));
+    Report(PT::Debug, "Skill %s (%d)", *skill_msg.getName(i), skill_msg.getSkillId(i));
   }
+	Report(PT::Debug, "---------------------------\n");
 }
 
 void EntityHandler::handleEquip(GenericMessage* msg)
@@ -230,7 +239,7 @@ void EntityHandler::handleInventoryMoveItem(GenericMessage* msg)
   unsigned char old_slot = invmove_msg.getOldSlot();
   unsigned char new_slot = invmove_msg.getNewSlot();
 
-  printf("EquipMessage: You moved an item from slot %d to slot %d\n", old_slot, new_slot);
+  Report(PT::Debug, "EquipMessage: You moved an item from slot %d to slot %d", old_slot, new_slot);
 
   guimanager->GetInventoryWindow()->MoveItem(old_slot, new_slot);
 }
@@ -252,7 +261,7 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
 
 void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
 {
-  printf("EntityHandler: Received AddEntity\n");
+  Report(PT::Debug, "EntityHandler: Received AddEntity.");
   AddPlayerEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
@@ -286,7 +295,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
 
 void EntityHandler::handleAddItemEntity(GenericMessage* msg)
 {
-  printf("EntityHandler: Received AddItemEntity\n");
+  Report(PT::Debug, "EntityHandler: Received AddItemEntity.");
 
   AddItemEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
@@ -306,7 +315,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
 
 void EntityHandler::handleAddMountEntity(GenericMessage* msg)
 {
-  printf("EntityHandler: Received AddMountEntity\n");
+  Report(PT::Debug, "EntityHandler: Received AddMountEntity.");
   AddMountEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 

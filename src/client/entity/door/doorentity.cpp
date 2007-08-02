@@ -18,6 +18,8 @@
 
 #include "doorentity.h"
 
+#include "client/reporter/reporter.h"
+
 PtDoorEntity::PtDoorEntity() : PtEntity(PtEntity::DoorEntity)
 {
   open=false;
@@ -41,7 +43,7 @@ void PtDoorEntity::Create()
     pcmesh->SetMesh(doormesh);
   else
   {
-    printf("PtDoorEntity: ERROR Couldn't find mesh for door %s!\n", name.GetData());
+		Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.GetData());
     return;
   }
 
@@ -72,6 +74,6 @@ void PtDoorEntity::UpdatePcProp(UpdatePcPropData* update_pcprop)
     pcprop->SetProperty(update_pcprop->pcprop, update_pcprop->value.value.s);
     break;
   default:
-    printf("celData type not supported by updatePcProp!!\n");
+    Report(PT::Error, "celData type not supported by updatePcProp!");
   }
 }

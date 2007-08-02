@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 BuyWindow::BuyWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -68,7 +70,7 @@ bool BuyWindow::OnScroll(const CEGUI::EventArgs& args)
 
   Update((int)page);
 
-  printf("Scrolling: page %f\n", page);
+	Report(PT::Debug, "Scrolling: page %f", page);
 
   return true;
 }
@@ -84,7 +86,7 @@ void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
     {
       if(itemid == items.Get(i).itemid)
       {
-        printf("BuyWindow:: Deleted index for itemid %d\n", itemid);
+				Report(PT::Debug, "BuyWindow:: Deleted index for itemid %d\n", itemid);
         totalmoney += items.Get(i).price;
         items.DeleteIndex(i);
         break;
@@ -163,19 +165,19 @@ void BuyWindow::UpdateOffer()
 
   // Make the offer list.
   msg.setOrdersCount(objandslot.GetSize());
-  printf("------------------------------------------\n");
-  printf("BuyWindow: Creating Trade Offer List Pvp\n");
+	Report(PT::Debug, "------------------------------------------");
+  Report(PT::Debug, "BuyWindow: Creating Trade Offer List Pvp");
   for (size_t i=0; i<objandslot.GetSize(); i++)
   {
     Inventory::ObjectAndSlot objslot = objandslot.Get(i);
-    printf("item %d\n", objslot.object->GetId());
+    Report(PT::Debug, "item %d", objslot.object->GetId());
     msg.setItemId(i, objslot.object->GetId());
   }
 
   network->send(&msg);
-  printf("SEND\n");
+  Report(PT::Debug, "SEND");
 
-  printf("------------------------------------------\n");
+  Report(PT::Debug, "------------------------------------------");
 }
 
 void BuyWindow::AcceptTrade()

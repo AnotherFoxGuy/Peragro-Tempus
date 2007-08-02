@@ -22,6 +22,8 @@
 
 #include "common/util/mutex.h"
 
+#include "client/reporter/reporter.h"
+
 namespace PT
 {
   namespace Events
@@ -44,7 +46,7 @@ namespace PT
     {
       mutex.lock();
 
-      //printf("I: Adding event.\n");
+			Report(PT::Debug, "Adding event.");
 
       Eventp evp(ev);
       events.push(evp);
@@ -54,7 +56,7 @@ namespace PT
 
     void EventManager::AddListener(EventID eventId, EventHandlerCallback* handler)
     {
-      //printf("I: Adding listener: %s\n", eventId.c_str());
+      Report(PT::Debug, "Adding event listener: %s", eventId.c_str());
       Listener listen;
       listen.handler = boost::shared_ptr<EventHandlerCallback>(handler);
       listen.eventId = eventId;
@@ -75,11 +77,11 @@ namespace PT
         if (id == it->eventId)
         {
           if (!it->handler) continue;
-          //printf("I: Handling event: %s\n", it->GetEventId());
+          Report(PT::Debug, "Handling event: %s", it->GetEventId());
           bool handled = it->handler->HandleEvent(ev);
           if (handled && !ev->GetBroadCast())
           {
-            //printf("I: Event handled: deleting %s\n", it->GetEventId());
+            Report(PT::Debug, "Event handled: deleting %s", it->GetEventId());
             events.pop();
             return;
           }
@@ -88,7 +90,7 @@ namespace PT
 
 			// The event isn't broadcasting and it's still present at the end.
 			if (!ev->GetBroadCast())
-				printf("W: No listeners for event: deleting %s\n", id.c_str());
+				Report(PT::Warning, "No listeners for event: deleting %s", id.c_str());
 
       events.pop();
     }

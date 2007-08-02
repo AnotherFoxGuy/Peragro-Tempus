@@ -22,6 +22,7 @@
 #include <iutil/objreg.h>
 
 #include "client/event/eventmanager.h"
+#include "client/reporter/reporter.h"
 
 namespace PT
 {
@@ -120,7 +121,7 @@ namespace PT
 			PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
 			if (!entity)
 			{
-				printf("E: Couldn't find entity with ID %d!\n", id);
+				Report(PT::Error, "MoveEntity: Couldn't find entity with ID %d!", id);
 				return true;
 			}
 
@@ -159,12 +160,12 @@ namespace PT
 			PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
 			if (!entity)
 			{
-				printf("E: Couldn't find entity with ID %d!\n", id);
+				Report(PT::Error, "MoveToEntity: Couldn't find entity with ID %d!", id);
 				return true;
 			}
 			if(!entity->GetCelEntity()) 
 			{
-				printf("E: moveToEntity %d: No CelEntity!\n", id);
+				Report(PT::Error, "MoveToEntity: %d: No CelEntity!", id);
 				return true;
 			}
 
@@ -229,11 +230,11 @@ namespace PT
 			PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
 			if (!entity)
 			{
-				printf("E: Couldn't find entity with ID %d!\n", id);
+				Report(PT::Error, "MovementManager: Couldn't find entity with ID %d!", id);
 				return true;
 			}
 
-			printf("I: Teleporting entity '%d'\n", id);
+			Report(PT::Debug, "MovementManager: Teleporting entity '%d'", id);
 
 			entity->Teleport(entityMoveEv->position, entityMoveEv->sectorName.c_str());
 
@@ -252,7 +253,7 @@ namespace PT
 			PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
 			if (!entity)
 			{
-				printf("E: Couldn't find entity with ID %d!\n", id);
+				Report(PT::Error, "DrUpdateEntity: Couldn't find entity with ID %d!", id);
 				return true;
 			}
 
@@ -280,7 +281,7 @@ namespace PT
 			PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
 			if (!entity)
 			{
-				printf("E: Couldn't find entity with ID %d!\n", id);
+				Report(PT::Error, "UpdatePcProp: Couldn't find entity with ID %d!\n", id);
 				return true;
 			}
 

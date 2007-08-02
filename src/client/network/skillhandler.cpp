@@ -20,9 +20,11 @@
 #include "client/client.h"
 #include "client/combat/combatmanager.h"
 
+#include "client/reporter/reporter.h"
+
 void SkillHandler::handleSkillUsageStartResponse(GenericMessage* msg)
 {
-  printf("SkillHandler: Recieved a StartSkill message.\n");
+	Report(PT::Debug, "SkillHandler: Recieved a StartSkill message.");
   SkillUsageStartResponseMessage skillmsg;
   skillmsg.deserialise(msg->getByteStream());
 
@@ -32,7 +34,7 @@ void SkillHandler::handleSkillUsageStartResponse(GenericMessage* msg)
 void SkillHandler::handleSkillUsageCompletion(GenericMessage* msg)
 {
   //TODO: handle the message
-  printf("SkillHandler: Recieved a CompleteSkill message.\n");
+  Report(PT::Debug, "SkillHandler: Recieved a CompleteSkill message.");
   SkillUsageCompletionMessage skillmsg;
   skillmsg.deserialise(msg->getByteStream());
 
@@ -42,5 +44,5 @@ void SkillHandler::handleSkillUsageCompletion(GenericMessage* msg)
 void SkillHandler::handleSkillUsageInterrupt(GenericMessage* msg)
 {
   //TODO: handle the message
-  printf("SkillHandler: Recieved a InterruptSkill message.\n");
+  Report(PT::Debug, "SkillHandler: Recieved a InterruptSkill message.");
 }

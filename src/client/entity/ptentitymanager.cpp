@@ -27,6 +27,8 @@
 
 #include "client/event/eventmanager.h"
 
+#include "client/reporter/reporter.h"
+
 namespace PT
 {
 	namespace Entity
@@ -167,7 +169,7 @@ namespace PT
 
 			if ( findPtEntById(entityAddEv->entityId) )
 			{
-				printf("W: Skipping already existing entity '%s(%d)'\n", entityAddEv->entityName.c_str(), entityAddEv->entityId);
+				Report(PT::Warning, "AddEntity: Skipping already existing entity '%s(%d)'", entityAddEv->entityName.c_str(), entityAddEv->entityId);
 				return true;
 			}
 
@@ -203,7 +205,7 @@ namespace PT
 			}
 			else
 			{
-				printf("E: Invalid Entity type: %d !\n", entityAddEv->entityType);
+				Report(PT::Error, "Invalid Entity type: %d !", entityAddEv->entityType);
 				return true;
 			}
 
@@ -218,7 +220,7 @@ namespace PT
 			// It's our player, attach the camera and set some variables.
 			if (own_char_id == entityAddEv->entityId)
 			{
-				printf("I: Adding Entity '%s(%d)' as me\n", entity->GetName().GetData(), entity->GetId());
+				Report(PT::Notify, "Adding Entity '%s(%d)' as me", entity->GetName().GetData(), entity->GetId());
 
 				((PtPcEntity*)entity)->SetOwnEntity(true);
 
@@ -237,7 +239,7 @@ namespace PT
 				ownname = entity->GetName();
 			}
 			else
-				printf("I: Adding Entity '%s(%d)'\n", entity->GetName().GetData(), entity->GetId());
+				Report(PT::Notify, "Adding Entity '%s(%d)'", entity->GetName().GetData(), entity->GetId());
 
 			// Add our entity to the list.
 			entities.Push(entity);
@@ -273,7 +275,7 @@ namespace PT
 			EntityEquipEvent* entityEquipEv = GetEntityEvent<EntityEquipEvent*>(ev);
 			if (!entityEquipEv) return false;
 
-			printf("I: Equip for '%d': item %d in slot %d\n", entityEquipEv->entityId, entityEquipEv->itemId, entityEquipEv->slotId);
+			Report(PT::Debug, "Equip for '%d': item %d in slot %d", entityEquipEv->entityId, entityEquipEv->itemId, entityEquipEv->slotId);
 
 			PtEntity* entity = findPtEntById(entityEquipEv->entityId);
 			if (entity)

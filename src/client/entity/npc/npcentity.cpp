@@ -18,6 +18,8 @@
 
 #include "npcentity.h"
 
+#include "client/reporter/reporter.h"
+
 PtNpcEntity::PtNpcEntity() : PtCharacterEntity(NPCEntity)
 {
   // Get the pointers to some common utils.
@@ -45,7 +47,7 @@ void PtNpcEntity::Create()
   vfs->ChDir("/cellib/objects/");
   if (!pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml"))
   {
-    printf("E: Failed to load mesh: %s\n", meshname.GetData());
+    Report(PT::Error,  "PtNpcEntity: Failed to load mesh: %s", meshname.GetData());
     pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
   }
 

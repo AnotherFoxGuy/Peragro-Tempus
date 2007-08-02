@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 /*====================//
 //   GUILoginWindow   //
 //====================*/
@@ -129,10 +131,10 @@ void LoginWindow::CreateGUIWindow()
   // Get the root window
   rootwindow = winMgr->getWindow("LoginUI/Frame");
 
-  app_cfg =  csQueryRegistry<iConfigManager> (guimanager->GetClient()->GetObjectRegistry());
+  app_cfg =  csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
   if (!app_cfg) 
   {
-    printf("Can't find the config manager!"); 
+    Report(PT::Error, "Can't find the config manager!"); 
     return;
   }
 

@@ -17,46 +17,19 @@
 */
 
 #include "client/effects/effectsmanager.h"
-#include "client/effects/effect.h"
 
+#include "client/reporter/reporter.h"
 
-#include "cstool/initapp.h"
+#include <iutil/objreg.h>
+#include <imap/loader.h>
+#include <cstool/keyval.h>
 
-#include "cstool/keyval.h"
+#include <iengine/scenenode.h>
+#include <iengine/movable.h>
+#include <imesh/object.h>
 
-#include "csutil/cmdline.h"
-#include "csutil/csstring.h"
-#include "csutil/csshlib.h"
-#include "csutil/event.h"
-#include "csutil/sysfunc.h"
-#include "csutil/syspath.h"
-#include "iengine/camera.h"
-#include "iengine/campos.h"
-#include "iengine/mesh.h"
-#include "iengine/sector.h"
-#include "iengine/texture.h"
-#include "iengine/material.h"
-#include "iengine/scenenode.h"
-#include "iengine/movable.h"
-#include "imesh/object.h"
-#include "imesh/spritecal3d.h"
-#include "imesh/sprite2d.h"
-#include "imesh/genmesh.h"
-//#include "imesh/objmodel.h"
-#include "iutil/databuff.h"
-#include "iutil/event.h"
-#include "iutil/eventq.h"
-#include "iutil/object.h"
-#include "iutil/vfs.h"
-#include "ivaria/collider.h"
-#include "ivideo/graph2d.h"
-#include "ivideo/natwin.h"
-#include "ivideo/txtmgr.h"
-#include "ivideo/material.h"
-
-#include "iutil/objreg.h"
-
-#include "imap/loader.h"
+#include <iutil/vfs.h>
+#include <iengine/engine.h>
 
 
 EffectsManager::EffectsManager (iObjectRegistry* obj_reg)
@@ -64,10 +37,10 @@ EffectsManager::EffectsManager (iObjectRegistry* obj_reg)
   this->obj_reg = obj_reg;
 
   engine =  csQueryRegistry<iEngine> (obj_reg);
-  //if (!engine) return ReportError("Failed to locate 3D engine!");
+  if (!engine) Report(PT::Bug, "EffectsManager: Failed to locate 3D engine!");
 
   vfs =  csQueryRegistry<iVFS> (obj_reg);
-  //if (!vfs) return ReportError("Failed to locate VFS!");
+  if (!vfs) Report(PT::Bug, "EffectsManager: Failed to locate VFS!");
 }
 
 EffectsManager::~EffectsManager ()
@@ -78,10 +51,7 @@ bool EffectsManager::Initialize ()
 {
   loader =  csQueryRegistry<iLoader> (obj_reg);
   if (!loader)
-  {
-    //Report (CS_REPORTER_SEVERITY_ERROR, "No loader!");
-    return false;
-  }
+    return Report(PT::Bug, "EffectsManager: Failed to locate loader!");
 
   // load the factory for particles from file
   if ( !loader->LoadLibraryFile ("/peragro/meshes/effects/alleffects.xml") ) return false;
@@ -141,14 +111,14 @@ iMeshWrapper* EffectsManager::CreateEffectMesh (int effect)
       }
       break;
 
-    default : {printf("EffectsManager: Unknown effect type %d!\n", effect); return 0;}
+    default : {Report(PT::Error, "EffectsManager: Unknown effect type %d!", effect); return 0;}
   };
 
  // Find the factory and turn it into a factorywrapper.
  csRef<iMeshFactoryWrapper> effectfmw = engine->FindMeshFactory(factory);
  if (!effectfmw)
  {
-   printf ("EffectsManager: Couldn't find particle factory: ' %s ' !\n", factory.GetData());
+   Report(PT::Error, "EffectsManager: Couldn't find particle factory: ' %s ' !", factory.GetData());
    return 0;
  }
 
@@ -160,16 +130,16 @@ iMeshWrapper* EffectsManager::CreateEffectMesh (int effect)
    csRef<iKeyValuePair> key = scfQueryInterface<iKeyValuePair> (obj);
    if (key)
    {
-     printf ("EffectsManager: We got a key, parsing it!\n");
+     Report(PT::Debug, "EffectsManager: We got a key, parsing it!");
      if (!strcmp (key->GetKey (), "duration"))
      {
        duration = atoi( key->GetValue () );
-       printf ("EffectsManager: Reading key value for duration!\n");
+       Report(PT::Debug, "EffectsManager: Reading key value for duration!");
      }
      else if (!strcmp (key->GetKey (), "heightoffset"))
      {
        height = float(atof( key->GetValue () ));
-       printf ("EffectsManager: Reading key value for heightoffset!\n");
+       Report(PT::Debug, "EffectsManager: Reading key value for heightoffset!");
      }
    }
  }
@@ -178,7 +148,7 @@ iMeshWrapper* EffectsManager::CreateEffectMesh (int effect)
  csRef<iMeshWrapper> effectmw = engine->CreateMeshWrapper(effectfmw, "effect", engine->FindSector("room"),csVector3(0,height,0));
  if (!effectmw)
  {
-   printf ("EffectsManager: Particle MeshWrapper creation failed!\n");
+	 Report(PT::Error, "EffectsManager: Particle MeshWrapper creation failed!");
    return 0;
  }
 
@@ -195,13 +165,13 @@ bool EffectsManager::CreateEffect (iMeshWrapper* parent, int effect)
   csRef<iMeshWrapper> effectmw = CreateEffectMesh (effect);
   if (!effectmw)
   {
-    printf ("EffectsManager: Unable to create effect: %d!\n", effect);
+    Report(PT::Error, "EffectsManager: Unable to create effect: %d!", effect);
     return false;
   }
 
   if (!parent)
   {
-    printf ("EffectsManager: Unable to attach particle mesh %d to parent: no parent found!\n", effect);
+    Report(PT::Error, "EffectsManager: Unable to attach particle mesh %d to parent: no parent found!", effect);
     return false;
   }
 
@@ -216,7 +186,7 @@ bool EffectsManager::CreateEffect (int effect, csVector3 pos)
   csRef<iMeshWrapper> effectmw = CreateEffectMesh (effect);
   if (!effectmw)
   {
-    printf ("EffectsManager: Unable to create effect: %d!\n", effect);
+    Report(PT::Error, "EffectsManager: Unable to create effect: %d!", effect);
     return false;
   }
   // Offset the effect.

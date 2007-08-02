@@ -24,6 +24,7 @@
 #include "command.h"
 
 #include "client/pointer/pointer.h"
+#include "client/reporter/reporter.h"
 
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
@@ -112,7 +113,7 @@ namespace PT
 						text += args[i];
 						text += " ";
 					}
-					printf("Say1: %s\n", text.c_str());
+					Report(PT::Debug, "Say1: %s", text.c_str());
 					SayMessage msg;
 					msg.setMessage(text.c_str());
 					network->send(&msg);
@@ -131,7 +132,7 @@ namespace PT
 						text += " ";
 					}
 
-					printf("Say2: %s\n", text.c_str());
+					Report(PT::Debug, "Say2: %s", text.c_str());
 					SayMessage msg;
 					msg.setMessage(text.c_str());
 					network->send(&msg);
@@ -174,7 +175,7 @@ namespace PT
 						text += " ";
 					}
 
-					printf("Say3: %s\n", text.c_str());
+					Report(PT::Debug, "Say3: %s", text.c_str());
 					SayMessage msg;
 					msg.setMessage(text.c_str());
 					network->send(&msg);
@@ -223,7 +224,7 @@ namespace PT
 					ownent->PlayAction("wave");
 					*/
 
-					printf("I: waving at %s\n", target.c_str());
+					Report(PT::Debug, "waving at %s", target.c_str());
 					SayMessage msg;
 					msg.setMessage(text.c_str());
 					network->send(&msg);

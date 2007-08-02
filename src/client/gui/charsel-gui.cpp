@@ -26,6 +26,8 @@
 #include "client/gui/guimanager.h"
 #include "client/entity/ptentitymanager.h"
 
+#include "client/reporter/reporter.h"
+
 /*====================//
 // SelectCharWindow   //
 //====================*/
@@ -72,7 +74,7 @@ bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
   PtEntity* entity = 0;
   entity = new PtPcEntity();
 
-  printf("SelectCharWindow: Creating entity.\n");
+	Report(PT::Notify, "SelectCharWindow: Creating entity.");
 
   entity->SetName("sue");
   entity->SetMeshName("test");

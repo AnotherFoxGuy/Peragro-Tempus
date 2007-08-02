@@ -26,6 +26,8 @@
 #include "client/gui/guimanager.h"
 #include "client/entity/ptentitymanager.h"
 
+#include "client/reporter/reporter.h"
+
 /*=================//
 //    ChatWindow   //
 //=================*/
@@ -90,7 +92,7 @@ void ChatWindow::SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber)
 
 bool ChatWindow::OnDropList(const CEGUI::EventArgs& e) 
 {
-  printf("success \n");
+  Report(PT::Debug, "success.");
   return true;
 }
 

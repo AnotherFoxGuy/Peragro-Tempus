@@ -18,6 +18,8 @@
 
 #include "equipment.h"
 
+#include "client/reporter/reporter.h"
+
 Equipment::Equipment(PtEntity* entity) : entity(entity)
 {
 }
@@ -41,7 +43,8 @@ void Equipment::RemoveItem(unsigned int slotid)
          return;
        }
    }
-  printf("Equipment: ERROR Couldn't remove equiped item for slot %d!\n", slotid);
+	if (equipment.GetSize() > 0)
+		Report(PT::Error, "Equipment: Couldn't remove equiped item for slot %d!", slotid);
 }
 
 void Equipment::Equip(unsigned int slotId, unsigned int itemId)

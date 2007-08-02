@@ -18,6 +18,8 @@
 
 #include "pcentity.h"
 
+#include "client/reporter/reporter.h"
+
 PtPcEntity::PtPcEntity() : PtCharacterEntity(PlayerEntity)
 {
   // Get the pointers to some common utils.
@@ -44,7 +46,7 @@ void PtPcEntity::Create()
   vfs->ChDir("/cellib/objects/");
   if (!pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml"))
   {
-    printf("E: Failed to load mesh: %s\n", meshname.GetData());
+    Report(PT::Error,  "PtPcEntity: Failed to load mesh: %s", meshname.GetData());
     pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
   }
 
@@ -65,7 +67,7 @@ void PtPcEntity::Create()
   if (sector)
     pclinmove->SetPosition(pos,0,sector);
   else
-    printf("E: Failed to set position, sector '%s' unknown!\n", sectorname.GetData());
+    Report(PT::Error, "PtPcEntity: Failed to set position, sector '%s' unknown!", sectorname.GetData());
 
   GetEquipment()->ConstructMeshes();
 

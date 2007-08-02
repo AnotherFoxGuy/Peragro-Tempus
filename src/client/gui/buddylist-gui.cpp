@@ -25,6 +25,7 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
 
 /*================//
 // GUIBuddyWindow //
@@ -79,7 +80,7 @@ void BuddyWindow::RemovePlayer(const char* name)
   CEGUI::ListboxItem* nameItem = ((CEGUI::MultiColumnList*)btn)->findListItemWithText(name,0);
   if (!nameItem)
   {
-    printf("BuddyWindow: ERROR Couldn't find player %s in buddylist!\n", name);
+		Report(PT::Error, "BuddyWindow: ERROR Couldn't find player %s in buddylist!", name);
     return;
   }
   nameItem->setAutoDeleted(true);

@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 InventoryWindow::InventoryWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -54,13 +56,13 @@ bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
 
   if (!slot)
   {
-    printf("InventoryWindow: ERROR Couldn't add item %d in slot %d!\n", itemid, slotid);
+		Report(PT::Error, "InventoryWindow: Couldn't add item %d in slot %d!", itemid, slotid);
     return false;
   }
 
   if (!slot->IsEmpty())
   {
-    printf("InventoryWindow: ERROR Slot %d already occupied!\n", slotid);
+    Report(PT::Error, "InventoryWindow: Slot %d already occupied!", slotid);
     return false;
   }
 
@@ -84,7 +86,7 @@ bool InventoryWindow::MoveItem(Slot* oldslot, Slot* newslot)
 {
   if (!oldslot || !newslot)
   {
-    printf("InventoryWindow: ERROR Couldn't move item from slot to slot!\n");
+    Report(PT::Error, "InventoryWindow: Couldn't move item from slot to slot!");
     return false;
   }
 
@@ -102,7 +104,7 @@ bool InventoryWindow::RemoveItem(unsigned int slotid)
     return true;
   else
   {
-    printf("ERROR:InventoryWindow: Failed to remove item in slot %d!\n", slotid);
+    Report(PT::Error, "InventoryWindow: Failed to remove item in slot %d!", slotid);
     return false;
   }
 }

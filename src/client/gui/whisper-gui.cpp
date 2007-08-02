@@ -26,6 +26,8 @@
 #include "client/gui/guimanager.h"
 #include "client/entity/ptentitymanager.h"
 
+#include "client/reporter/reporter.h"
+
 /*====================//
 //    WhisperWindow   //
 //====================*/
@@ -55,18 +57,18 @@ bool WhisperWindow::OnSay (const CEGUI::EventArgs& args)
   
   if (!ddea.window->getParent()->isUserStringDefined("Nickname"))
   {
-    printf("WhisperWindow: ERROR: Nickname wasn't defined!");
+    Report(PT::Error, "WhisperWindow: Nickname wasn't defined!");
     return true;
   }
 
   if (!ddea.window->getParent()->isUserStringDefined("OwnNickname"))
   {
-    printf("WhisperWindow: ERROR: Own nickname wasn't defined!");
+    Report(PT::Error, "WhisperWindow: Own nickname wasn't defined!");
     return true;
   }
 
   CEGUI::String nick = ddea.window->getParent()->getUserString("Nickname");
-  printf("Whisper: %s to %s\n", text.c_str(), nick.c_str());
+	Report(PT::Debug, "Whisper: %s to %s.", text.c_str(), nick.c_str());
 
   // Send the whisper to the network.
   WhisperToMessage nmsg;

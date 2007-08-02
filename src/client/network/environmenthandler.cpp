@@ -18,11 +18,13 @@
 
 #include "client/network/network.h"
 
+#include "client/reporter/reporter.h"
+
 void EnvironmentHandler::handleDayTime(GenericMessage* msg)
 {
   DayTimeMessage time_msg;
   time_msg.deserialise(msg->getByteStream());
-  printf("The time after next beep is %d o'clock..... *beep*\n", time_msg.getHour());
+	Report(PT::Debug, "The time after next beep is %d o'clock..... *beep*", time_msg.getHour());
 }
 
 void EnvironmentHandler::handleWeather(GenericMessage* msg)

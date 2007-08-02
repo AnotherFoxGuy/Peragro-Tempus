@@ -18,6 +18,8 @@
 
 #include "itementity.h"
 
+#include "client/reporter/reporter.h"
+
 PtItemEntity::PtItemEntity() : PtEntity(PtEntity::ItemEntity) 
 {
   // Get the pointers to some common utils.
@@ -44,7 +46,7 @@ void PtItemEntity::Create()
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
     if (!pcmesh->SetMesh(meshname.GetData(), item->GetFileName().GetData()))
     {
-      printf("E: Failed to load mesh: %s\n", meshname.GetData());
+      Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s", meshname.GetData());
       pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
     }
     pl->CreatePropertyClass(celentity, "pcmove.linear");
@@ -59,6 +61,6 @@ void PtItemEntity::Create()
     pclinmove->SetPosition(pos,0,sector);
   }
   else
-    printf("PtItemEntity: ERROR Couldn't find mesh for item %s!\n", name.GetData());
+    Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %s!\n", name.GetData());
 
 }

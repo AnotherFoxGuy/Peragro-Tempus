@@ -24,9 +24,11 @@
 
 #include "client/entity/ptentitymanager.h"
 
+#include "client/reporter/reporter.h"
+
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
-  printf("RESPONSE: handleTradeRequest\n");
+	Report(PT::Debug, "TradeHandler: handleTradeRequest.");
 
   TradeRequestMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
@@ -47,12 +49,10 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)
 {
-  printf("RESPONSE: handleTradeResponse\n");
+  Report(PT::Debug, "TradeHandler: handleTradeResponse, Got TradeResponse!");
 
   TradeResponseMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
-
-  printf("Got TradeResponse!\n");
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
@@ -67,7 +67,7 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
 
 void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
 {
-  printf("RESPONSE: handleTradeConfirmResponse\n");
+  Report(PT::Debug, "TradeHandler: handleTradeConfirmResponse.");
 
   TradeConfirmResponseMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
@@ -98,7 +98,7 @@ void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
 
 void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 {
-  printf("RESPONSE: handleTradeOfferAccept\n");
+  Report(PT::Debug, "TradeHandler: handleTradeOfferAccept.");
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   guimanager->GetTradeWindow()->SetAccept(2, true);
@@ -106,7 +106,7 @@ void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 
 void TradeHandler::handleTradeCancel(GenericMessage* msg)
 {
-  printf("RESPONSE: handleTradeCancel\n");
+  Report(PT::Debug, "TradeHandler: handleTradeCancel.");
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   guimanager->GetTradeWindow()->CancelTrade();
@@ -117,7 +117,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   TradeOffersListPvpMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
-  printf("TradeHandler: About to add % items\n", trade_msg.getOffersCount());
+  Report(PT::Debug, "TradeHandler: About to add % items.", trade_msg.getOffersCount());
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
@@ -126,7 +126,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
 
   for (int i=0; i<trade_msg.getOffersCount(); i++)
   {
-    printf("Item %d in slot %d\n", trade_msg.getItemId(i), trade_msg.getSlotId(i));
+    Report(PT::Debug, "Item %d in slot %d", trade_msg.getItemId(i), trade_msg.getSlotId(i));
     guimanager->GetTradeWindow()->AddItem(2, trade_msg.getItemId(i), trade_msg.getSlotId(i));
   }
 }
@@ -142,19 +142,19 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
 
   if (trade_msg.getIsBuy() == 1)
   {
-    printf("Got %d Buy Offers from NPC!\n", trade_msg.getOffersCount());
+    Report(PT::Debug, "TradeHandler: Got %d Buy Offers from NPC!", trade_msg.getOffersCount());
     for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
     {
-      printf(" %d) Item %d \t %d money\n", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
+      Report(PT::Debug, " %d) Item %d \t %d money", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
       guimanager->GetBuyWindow()->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
     }
   }
   else
   {
-    printf("Got %d Sell Offers from NPC!\n", trade_msg.getOffersCount());
+    Report(PT::Debug, "TradeHandler: Got %d Sell Offers from NPC!", trade_msg.getOffersCount());
     for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
     {
-      printf(" %d) Item %d \t %d money\n", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
+      Report(PT::Debug, " %d) Item %d \t %d money", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
       //guimanager->GetSellWindow()->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
     }
   }

@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 SellWindow::SellWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -54,7 +56,7 @@ bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid)
 
   if (!slot)
   {
-    printf("SellWindow: ERROR Couldn't add item %d in slot %d!\n", itemid, slotid);
+    Report(PT::Error, "SellWindow: Couldn't add item %d in slot %d!", itemid, slotid);
     return false;
   }
 

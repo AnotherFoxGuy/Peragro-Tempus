@@ -21,9 +21,9 @@
 #include <iutil/objreg.h>
 
 #include "client/pointer/pointer.h"
+#include "client/reporter/reporter.h"
 
 #include "client/event/eventmanager.h"
-
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
 
@@ -121,7 +121,7 @@ namespace PT
 			CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
 			if (!btn)
 			{
-				printf("Inputbox of Chat not found!\n");
+				Report(PT::Error, "Inputbox of Chat not found!");
 				return false;
 			}
 
@@ -172,13 +172,13 @@ namespace PT
 				if ( pos == std::string::npos ) 
 				{
 					arg.push_back( tail.substr(0, tail.size()+1) );
-					printf("I: ParseString: Added argument: %s\n", tail.substr(0, tail.size()).c_str() );
+					Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, tail.size()).c_str() );
 					tail.clear();
 				}
 				else
 				{
 					arg.push_back( tail.substr(0, pos) );
-					printf("I: ParseString: Added argument: %s\n", tail.substr(0, pos).c_str() );
+					Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, pos).c_str() );
 					tail = tail.substr(pos+1, tail.size());
 				} // else
 			} //while
@@ -199,7 +199,7 @@ namespace PT
 				} // if
 			} // for
 
-			printf("W: Unknown command '%s'!\n", cmd);
+			Report(PT::Warning, "Unknown command '%s'!", cmd);
 		}
 
 		void ChatManager::RegisterCommand (Command* cmd)

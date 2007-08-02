@@ -28,6 +28,9 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/gui.h"
 
+#include "client/reporter/reporter.h"
+
+using namespace PT;
 
 DragDrop::DragDrop (GUIManager* guimanager)
 {
@@ -117,7 +120,7 @@ bool DragDrop::handleDragDroppedIcon(const CEGUI::EventArgs& args)
 
   DragDrop::handleDragDropped(ddea1);
 
-  printf("DragDrop::handleDragDroppedIcon.\n");
+  Report(PT::Debug, "DragDrop::handleDragDroppedIcon.");
 
   return true;
 }
@@ -247,7 +250,7 @@ Object* DragDrop::CreateItem(uint itemid, bool interactable)
 
   if (!clientitem)
   {
-    printf("DragDrop: ERROR Failed to create item %d!\n", itemid);
+		Report(PT::Error, "DragDrop: Failed to create item %d!", itemid);
     return 0;
   }
 
@@ -263,7 +266,7 @@ void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
   if(!newslot->IsEmpty())
   {
     // If slot is occupied: swap.
-    printf("DragDrop: Swapping objects!\n");
+    Report(PT::Debug, "DragDrop: Swapping objects!");
     Object* object1 = oldslot->GetObject();
     Object* object2 = newslot->GetObject();
     oldslot->SetObject(object2);

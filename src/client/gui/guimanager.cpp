@@ -24,14 +24,16 @@
 #include <CEGUIWindowManager.h>
 #include <CEGUILogger.h>
 
-#include "client/client.h"
 #include "client/network/network.h"
 
 #include "gui.h"
 
+#include "client/reporter/reporter.h"
 
-GUIManager::GUIManager (PT::Client* client)
-: client(client)
+using namespace PT;
+
+
+GUIManager::GUIManager ()
 {
   dragdrop = 0;
   loginwindow = 0;
@@ -61,7 +63,7 @@ bool GUIManager::Initialize ()
     iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
     cegui =  csQueryRegistry<iCEGUI> (obj_reg);
-    if (!cegui) return client->ReportError("Failed to locate CEGUI plugin");
+		if (!cegui) return Report(PT::Error, "Failed to locate CEGUI plugin!");
 
 		try
 		{
@@ -100,7 +102,7 @@ bool GUIManager::Initialize ()
 
 			// Set up the drag and drop.
 			dragdrop = new DragDrop (this);
-			if (!dragdrop) return client->ReportError("Failed to create DragDrop class");
+			if (!dragdrop) return Report(PT::Error, "Failed to create DragDrop class!");
 
 			CreateConnectWindow ();
 			CreateLoginWindow ();
@@ -121,7 +123,7 @@ bool GUIManager::Initialize ()
 		}
 		catch ( CEGUI::Exception& e )
 		{
-			printf("E: Failed Initializing GUIManager!\n");
+			Report(PT::Error, "Failed Initializing GUIManager!");
 			return false;
 		}
 

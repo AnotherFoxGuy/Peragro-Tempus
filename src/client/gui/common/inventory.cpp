@@ -18,6 +18,8 @@
 
 #include "client/gui/common/inventory.h"
 
+#include "client/reporter/reporter.h"
+
 
 Inventory::Inventory(GUIManager* guimanager)
 {
@@ -75,7 +77,7 @@ unsigned int Inventory::FindFreeSlot()
     if (slot->IsEmpty())
       return slot->GetId();
   }
-  printf("ERROR Inventory: Inventory full!\n");
+	Report(PT::Error, "Inventory: Inventory full!");
   return ~0;
 }
 
@@ -168,7 +170,7 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, DragDro
         slot->GetWindow()->removeAllEvents();
         break;
 
-      default: printf("DragDrop: Unknown ParentType %d !\n", parent);
+      default: Report(PT::Error, "DragDrop: Unknown ParentType %d !", parent);
       }
 
       slotarray.Put(slot->GetId(), slot);

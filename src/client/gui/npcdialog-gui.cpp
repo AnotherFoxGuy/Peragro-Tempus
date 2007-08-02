@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 /*=================//
 // NpcDialogWindow //
 //=================*/
@@ -62,7 +64,7 @@ bool NpcDialogWindow::OnAnswer(const CEGUI::EventArgs& args)
 
   uint answer_id = answerItem->getID();
 
-  printf("NpcDialogWindow: Answered dialog %d with answer %d.\n", dialogId, answer_id);
+	Report(PT::Debug, "NpcDialogWindow: Answered dialog %d with answer %d.", dialogId, answer_id);
 
   NpcDialogAnswerMessage answer_msg;
   answer_msg.setDialogId(dialogId);

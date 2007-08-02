@@ -221,7 +221,7 @@ namespace PT
 		pointerlib.setItemManager(itemmanager);
 
 		// Create and Initialize the GUImanager.
-		guimanager = new GUIManager (this);
+		guimanager = new GUIManager ();
 		if (!guimanager->Initialize ())
 			return false;
 		pointerlib.setGUIManager(guimanager);
@@ -729,7 +729,7 @@ namespace PT
 							msg.setTo(isect.x, isect.y, isect.z);
 							network->send(&msg);
 
-							Report(PT::Notify, "OnMouseDown: position: %s", isect.Description().GetData());
+							Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
 						}
 						else
 						{

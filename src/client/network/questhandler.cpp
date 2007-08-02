@@ -20,13 +20,15 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 void QuestHandler::handleNpcDialog(GenericMessage* msg)
 {
   NpcDialogMessage dialog_msg;
   dialog_msg.deserialise(msg->getByteStream());
-  printf("QuestHandler: Added Dialog %d with %d answers.\n", dialog_msg.getDialogId(), dialog_msg.getAnswersCount());
+	Report(PT::Debug, "QuestHandler: Added Dialog %d with %d answers.", dialog_msg.getDialogId(), dialog_msg.getAnswersCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  printf("---------------------------\n");
+  Report(PT::Debug, "---------------------------");
   if(dialog_msg.getDialogText()==0)
     dialog_msg.setDialogText("ERROR: handleNpcDialog: DialogText is zero\n");
   guimanager->GetNpcDialogWindow()->AddDialog(dialog_msg.getDialogId(), dialog_msg.getDialogText());
@@ -35,8 +37,8 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
   {
     if(dialog_msg.getAnswerText(i)==0)
       dialog_msg.setAnswerText(i, "ERROR: handleNpcDialog: getAnswerText is zero\n");
-    printf("QuestHandler: Added answer %d: %s\n", dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
+    Report(PT::Debug, "Added answer %d: %s", dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
     guimanager->GetNpcDialogWindow()->AddAnswer(dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
   }
-  printf("---------------------------\n");
+  Report(PT::Debug, "---------------------------");
 }

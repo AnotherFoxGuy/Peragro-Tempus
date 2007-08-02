@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 TradeWindow::TradeWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -107,14 +109,14 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
 
   if (!slot)
   {
-    printf("TradeWindow: ERROR Couldn't add item %d in slot %d!\n", itemid, slotid);
+    Report(PT::Error, "TradeWindow: Couldn't add item %d in slot %d!", itemid, slotid);
     return false;
   }
 
   // Create a new non-interactable item.
   slot->SetObject(dragdrop->CreateItem(itemid, false));
 
-  printf("TradeWindow: Creating item %d!\n", itemid);
+	Report(PT::Debug, "TradeWindow: Creating item %d!", itemid);
   
   return true;
 }
@@ -148,7 +150,7 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
 {
   if (!oldslot || !newslot)
   {
-    printf("TradeWindow: ERROR Couldn't move item from slot to slot!\n");
+    Report(PT::Error, "TradeWindow: Couldn't move item from slot to slot!");
     return false;
   }
 
@@ -189,27 +191,27 @@ void TradeWindow::UpdateOffer()
 
   // Make the offer list.
   msg.setOffersCount(objandslot.GetSize());
-  printf("------------------------------------------\n");
-  printf("TradeWindow: Creating Offer List Pvp for %d items\n", objandslot.GetSize());
+	Report(PT::Debug, "------------------------------------------");
+  Report(PT::Debug, "TradeWindow: Creating Offer List Pvp for %d items", objandslot.GetSize());
   for (size_t i=0; i<objandslot.GetSize(); i++)
   {
     Inventory::ObjectAndSlot objslot = objandslot.Get(i);
-    printf("item %d in slot %d!\n", objslot.object->GetId(), objslot.slot->GetId());
+    Report(PT::Debug, "item %d in slot %d!", objslot.object->GetId(), objslot.slot->GetId());
     msg.setItemId(i, objslot.object->GetId());
     msg.setSlotId(i, objslot.slot->GetId());
   }
 
   network->send(&msg);
-  printf("SEND\n");
+  Report(PT::Debug, "SEND");
 
-  printf("------------------------------------------\n");
+  Report(PT::Debug, "------------------------------------------");
 }
 
 Slot* TradeWindow::GetOldSlot(Slot* slot)
 {
   if (!slot)
   {
-    printf("TradeWindow: ERROR Couldn't get old slot, invalid slot!\n");
+    Report(PT::Error, "TradeWindow: Couldn't get old slot, invalid slot!");
     return 0;
   }
 
@@ -217,7 +219,7 @@ Slot* TradeWindow::GetOldSlot(Slot* slot)
 
   if (!oldslot)
   {
-    printf("TradeWindow: ERROR Couldn't get old slot!\n");
+    Report(PT::Error, "TradeWindow: Couldn't get old slot!");
     return 0;
   }
 

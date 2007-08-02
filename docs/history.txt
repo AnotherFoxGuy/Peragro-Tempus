@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+2-Aug-2007
+  - Sueastside converted everything to use the reporter. 
+
 1-Aug-2007
   - Sueastside made a reporter class which writes a log file, 
     still have to convert most messages to use this reporter.

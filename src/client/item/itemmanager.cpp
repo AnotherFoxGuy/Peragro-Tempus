@@ -18,42 +18,13 @@
 
 #include "client/item/itemmanager.h"
 
-#include <cstool/initapp.h>
-#include <csutil/cmdline.h>
-#include <csutil/csstring.h>
-#include <csutil/csshlib.h>
-#include <csutil/event.h>
-#include <csutil/sysfunc.h>
-#include <csutil/syspath.h>
-
-#include <csgeom/math3d.h>
-
-#include <iengine/camera.h>
-#include <iengine/campos.h>
-#include <iengine/mesh.h>
-#include <iengine/sector.h>
-#include <iengine/texture.h>
-#include <iengine/material.h>
-#include <iengine/scenenode.h>
-#include <iengine/movable.h>
-#include <imesh/object.h>
-#include <imesh/spritecal3d.h>
-#include <imesh/sprite2d.h>
-#include <imesh/genmesh.h>
-#include <iutil/databuff.h>
-#include <iutil/event.h>
-#include <iutil/eventq.h>
-#include <iutil/object.h>
 #include <iutil/vfs.h>
-#include <ivaria/collider.h>
-#include <ivideo/graph2d.h>
-#include <ivideo/natwin.h>
-#include <ivideo/txtmgr.h>
-#include <ivideo/material.h>
 #include <iutil/objreg.h>
 #include <imap/loader.h>
 
 #include <csutil/xmltiny.h>
+
+#include "client/reporter/reporter.h"
 
 
 
@@ -84,10 +55,7 @@ bool ItemMGR::Initialize ()
   csRef<iFile> buf = vfs->Open("/peragro/xml/items/items.xml", VFS_FILE_READ);
 
   if (!buf)
-  {
-    printf("ItemManager: ERROR Couldn't open item file!\n");
-    return false;
-  }
+    return Report(PT::Error, "ItemManager: Couldn't open item file!");
 
   csRef<iDocument> doc;
   csRef<iDocumentNode> node;
@@ -96,22 +64,16 @@ bool ItemMGR::Initialize ()
   doc = docsys->CreateDocument ();
   const char* error = doc->Parse (buf, true);
   if (error != 0)
-  {
-    printf("ItemManager: ERROR Couldn't open item file!\n");
-    return false;
-  }
+    return Report(PT::Error, "ItemManager: Couldn't open item file!");
 
   if (doc)
   {
     node = doc->GetRoot()->GetNode("items");
     if (!node)
-    {
-      printf("ItemManager: ERROR Couldn't open item file!\n");
-      return false;
-    }
+      return Report(PT::Error, "ItemManager: Couldn't open item file!");
   }
 
-  printf("\n==Loading items==========================\n");
+	Report(PT::Debug, "==Loading items==========================");
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
   {
@@ -135,8 +97,7 @@ bool ItemMGR::Initialize ()
       if(!file) error += "<file>";
       if(!mesh) error += "<mesh>";
 
-      printf("ItemManager: ERROR Missing %s token(s) for %s!\n\n", error.GetData(), good.GetData());
-      //return false;
+      Report(PT::Error, "ItemManager: Missing %s token(s) for %s!", error.GetData(), good.GetData());
       continue;
     }
 
@@ -153,9 +114,9 @@ bool ItemMGR::Initialize ()
       items.SetCapacity(item->GetId()+1);
 
     items.Put(item->GetId(), item);
-    printf("%d : %s\n", item->GetId(), item->GetName().GetData());
+    Report(PT::Debug, "%d : %s", item->GetId(), item->GetName().GetData());
   }
-  printf("================================= %d item(s)\n\n", items.GetSize()-1);
+  Report(PT::Debug, "================================= %d item(s)\n", items.GetSize()-1);
 
   return true;
 }
@@ -166,7 +127,7 @@ ClientItem* ItemMGR::GetItemById(uint id)
   {
     return items[id];
   }
-  printf("ItemMGR: ERROR Couldn't find item %d!\n", id);
+  Report(PT::Error, "ItemMGR: Couldn't find item %d!", id);
   return 0;
 }
 
@@ -179,6 +140,6 @@ ClientItem* ItemMGR::GetItemByName(csString name)
        if(item->GetName().Compare(name))
          return item;
    }
-  printf("ItemMGR: ERROR Couldn't find item %s!\n", name.GetData());
+  Report(PT::Error, "ItemMGR: Couldn't find item %s!", name.GetData());
   return 0;
 }

@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 /*=================//
 //    HUDWindow   //
 //=================*/
@@ -49,17 +51,17 @@ void OptionsWindow::CreateGUIWindow ()
   btn = winMgr->getWindow("Options/Frame");
   btn->setVisible(false);
 
-  app_cfg =  csQueryRegistry<iConfigManager> (guimanager->GetClient()->GetObjectRegistry());
+  app_cfg =  csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
   if (!app_cfg) 
   {
-    printf("Can't find the config manager!"); 
+    Report(PT::Error, "Can't find the config manager!"); 
     return;
   }
 
-  vfs =  csQueryRegistry<iVFS> (guimanager->GetClient()->GetObjectRegistry());
+  vfs =  csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
   if (!vfs) 
   {
-    printf("Can't find the vfs!"); 
+    Report(PT::Error, "Can't find the vfs!"); 
     return;
   }
 
@@ -149,7 +151,7 @@ bool OptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e)
     ref = true;
     break;
 
-  default: printf("OnDropListReflections: failed %d\n", id);
+	default: Report(PT::Error, "OnDropListReflections: failed %d", id);
   }
 
   app_cfg->SetBool("Client.waterreflections", ref);
@@ -205,7 +207,7 @@ bool OptionsWindow::OnDropListTexture(const CEGUI::EventArgs& e)
     quality = 3;
     break;
 
-  default: printf("OnDropListTexture: failed %d\n", id);
+  default: Report(PT::Error, "OnDropListTexture: failed %d", id);
   }
 
   app_cfg->SetInt("Video.OpenGL.TextureDownsample", quality);

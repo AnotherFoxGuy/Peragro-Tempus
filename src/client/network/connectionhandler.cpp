@@ -21,9 +21,11 @@
 #include "client/event/eventmanager.h"
 #include "client/event/stateevent.h"
 
+#include "client/reporter/reporter.h"
+
 void ConnectionHandler::handleConnectionResponse(GenericMessage* msg)
 {
-  printf("Received ConnectionResponse\n");
+	Report(PT::Notify, "Received ConnectionResponse.");
 
 	using namespace PT::Events;
 	StateConnectedEvent* stateEvent = new StateConnectedEvent();
@@ -34,5 +36,5 @@ void ConnectionHandler::handlePing(GenericMessage* ping_msg)
 {
   PongMessage pong_msg;
   network->send(&pong_msg);
-  printf("Received Ping\n");
+	Report(PT::Debug, "Received Ping.");
 }

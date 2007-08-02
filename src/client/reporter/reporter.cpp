@@ -56,6 +56,20 @@ namespace PT
 
     boost::shared_ptr<FS::ofstream> file(new FS::ofstream (fileName.c_str()));
 		logFile = file;
+
+		if (logFile)
+		{
+			std::string line1 = "\t\t+-+-+-+-+-+-+-+-+-+-+-+-+-+\n";
+			std::string line2 = "\t\t+ Peragro Tempus log file +\n";
+			std::string line3 = "\t\t+-+-+-+-+-+-+-+-+-+-+-+-+-+\n\n";
+			logFile->write (line1.c_str (), (int)line1.size ());
+			logFile->write (line2.c_str (), (int)line2.size ());
+			logFile->write (line3.c_str (), (int)line3.size ());
+			logFile->flush();
+		}
+		else
+			csPrintf (CS_ANSI_FR CS_ANSI_TEXT_BOLD_ON "Creation log file failed!\n" CS_ANSI_RST);
+
 	}
 
 	void Reporter::Report(SeverityLevel severity, const char* msg, va_list arg)
@@ -112,11 +126,22 @@ namespace PT
 			// Prepare a string for file output.
 			boost::shared_ptr<char> buffer(new char[1024]);
 			vsprintf(buffer.get(), msg, arg);
-			std::string line = prefix + buffer.get();
+
+			// Get the time.
+			time_t rawtime;
+			tm * ptm;
+			time ( &rawtime );
+			ptm = gmtime ( &rawtime );
+			boost::shared_ptr<char> timeBuf(new char[64]);
+			sprintf(timeBuf.get(), "%2d:%02d:%02d ", ptm->tm_hour+2, ptm->tm_min, ptm->tm_sec);
+
+			std::string line;
+			line = timeBuf.get();
+			line += prefix + buffer.get();
 			line += "\n";
 
 			// Write to file.
-			logFile->write (line.c_str (), line.size ());
+			logFile->write (line.c_str (), (int)line.size ());
 			logFile->flush();
 		}
 

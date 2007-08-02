@@ -25,9 +25,11 @@
 #include "client/event/stateevent.h"
 #include "client/event/regionevent.h"
 
+#include "client/reporter/reporter.h"
+
 void UserHandler::handleLoginResponse(GenericMessage* msg)
 {
-  printf("Received LoginResponse\n");
+	Report(PT::Notify, "Received LoginResponse.");
   LoginResponseMessage response;
   response.deserialise(msg->getByteStream());
 
@@ -50,19 +52,19 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
 
 void UserHandler::handleRegisterResponse(GenericMessage* msg)
 {
-  printf("Received RegisterResponse\n");
+  Report(PT::Notify, "Received RegisterResponse.");
   RegisterResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
   ptString error = answer_msg.getError();
   if (!error.isNull())
   {
-    printf("Registration Failed due to: %s\n", *error);
+		Report(PT::Warning, "Registration Failed due to: %s", *error);
     GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
     guimanager->CreateOkWindow()->SetText(*error);
     return;
   }
 
-  printf("Registration succeeded!\n");
+  Report(PT::Notify, "Registration succeeded!");
 }
 
 void UserHandler::handleCharList(GenericMessage* msg)
@@ -93,7 +95,7 @@ void UserHandler::handleCharCreateResponse(GenericMessage* msg)
   }
   else
   {
-    printf("Character creation failed due to: %s\n", *answer_msg.getError());
+		Report(PT::Warning, "Character creation failed due to: %s", *answer_msg.getError());
     guimanager->CreateOkWindow()->SetText(*answer_msg.getError());
   }
 }

@@ -21,15 +21,17 @@
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
 
+#include "client/reporter/reporter.h"
+
 void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
 {
   OpenDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
 
-  printf("EntityHandler: Got open door %d.\n", door_msg.getDoorId());
+	Report(PT::Debug, "EntityHandler: Got open door %d.", door_msg.getDoorId());
   if (!door_msg.getError().isNull())
   {
-    printf("E: Can't open %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
+    Report(PT::Error, "Can't open %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
     return;
   }
 
@@ -50,10 +52,10 @@ void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
   CloseDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
 
-	printf("EntityHandler: Got close door %d.\n", door_msg.getDoorId());
+	Report(PT::Debug, "EntityHandler: Got close door %d.", door_msg.getDoorId());
 	if (!door_msg.getError().isNull())
 	{
-		printf("E: Can't close %d! Reason: '%s'\n", door_msg.getDoorId(), *door_msg.getError());
+		Report(PT::Error, "Can't close %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
 		return;
 	}
 
