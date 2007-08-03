@@ -107,7 +107,7 @@ namespace PT
 
 		void EntityManager::Handle ()
 		{
-			if (!world_loaded) return;
+			if (!world_loaded || !playing) return;
 
 			movementManager->Handle();
 
