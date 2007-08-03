@@ -46,7 +46,7 @@ namespace PT
     {
       mutex.lock();
 
-			Report(PT::Debug, "Adding event.");
+			//Report(PT::Debug, "Adding event.");
 
       Eventp evp(ev);
       events.push(evp);
@@ -77,7 +77,7 @@ namespace PT
         if (id == it->eventId)
         {
           if (!it->handler) continue;
-          Report(PT::Debug, "Handling event: %s", it->GetEventId());
+          //Report(PT::Debug, "Handling event: %s", it->GetEventId());
           bool handled = it->handler->HandleEvent(ev);
           if (handled && !ev->GetBroadCast())
           {

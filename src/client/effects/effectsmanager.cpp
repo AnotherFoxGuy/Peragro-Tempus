@@ -21,12 +21,17 @@
 #include "client/reporter/reporter.h"
 
 #include <iutil/objreg.h>
+#include <iutil/plugin.h>
 #include <imap/loader.h>
 #include <cstool/keyval.h>
 
 #include <iengine/scenenode.h>
 #include <iengine/movable.h>
 #include <imesh/object.h>
+#include <iengine/material.h>
+#include <iengine/camera.h>
+
+#include <ivaria/decal.h>
 
 #include <iutil/vfs.h>
 #include <iengine/engine.h>
@@ -184,16 +189,42 @@ bool EffectsManager::CreateEffect (int effect, csVector3 pos)
 {
   // Create the particle mesh.
   csRef<iMeshWrapper> effectmw = CreateEffectMesh (effect);
-  if (!effectmw)
-  {
-    Report(PT::Error, "EffectsManager: Unable to create effect: %d!", effect);
-    return false;
-  }
+	if (!effectmw)
+		return Report(PT::Error, "EffectsManager: Unable to create effect: %d!", effect);
+
   // Offset the effect.
   csVector3 curpos = effectmw->QuerySceneNode()->GetMovable()->GetFullPosition();
   effectmw->QuerySceneNode()->GetMovable()->SetPosition(curpos + pos);
   effectmw->QuerySceneNode()->GetMovable()->UpdateMove();
 
   return true;
+}
+
+bool EffectsManager::CreateDecal (csVector3 pos, iCamera* camera)
+{
+	csRef<iDecalManager> decalMgr = csLoadPluginCheck<iDecalManager> (obj_reg, "crystalspace.decal.manager");
+  if (!decalMgr) 
+		return Report(PT::Error, "EffectsManager: Unable to find decalmanager!");
+
+	iMaterialWrapper * material = engine->GetMaterialList()->FindByName("movemarkermat");
+	if (!material) 
+		return Report(PT::Error, "EffectsManager: Unable to find material!");
+
+	// create a template for our new decal
+  csRef<iDecalTemplate> decalTemplate = decalMgr->CreateDecalTemplate(material);
+  decalTemplate->SetTimeToLive(12.0f);
+	//decalTemplate->SetMainColor(csColor4(1,1,1,1));
+
+	if (!camera) 
+		return Report(PT::Error, "EffectsManager: Unable to find camera!");
+
+
+	csVector3 normal = camera->GetTransform().This2OtherRelative(csVector3(0,0,-1));
+	csVector3 up = camera->GetTransform().This2OtherRelative(csVector3(0,1,0));
+
+	// create the decal
+  iDecal* decal = decalMgr->CreateDecal(decalTemplate, camera->GetSector(), pos, up, normal, 1.0f, 1.0f);
+
+	return true;
 }
 

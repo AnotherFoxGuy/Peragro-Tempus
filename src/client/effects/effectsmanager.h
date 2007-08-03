@@ -69,6 +69,8 @@ public:
   bool CreateEffect (iMeshWrapper* parent, int effect);
   bool CreateEffect (int effect, csVector3 pos);
 
+	bool CreateDecal (csVector3 pos, iCamera* camera);
+
   void HandleEffects(csTicks elapsed_ticks);
 
 };
