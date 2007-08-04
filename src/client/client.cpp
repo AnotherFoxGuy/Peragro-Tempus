@@ -181,16 +181,7 @@ namespace PT
 	bool Client::Application()
 	{
 		if (!OpenApplication(GetObjectRegistry()))
-			return Report(PT::Error, "Error opening system!");
-
-		vfs = csQueryRegistry<iVFS> (GetObjectRegistry());
-		if (!vfs) return Report(PT::Error, "Failed to locate VFS!");
-
-		g3d = csQueryRegistry<iGraphics3D> (GetObjectRegistry());
-		if (!g3d) return Report(PT::Error, "Failed to locate 3D renderer!");
-
-		pointerlib.setObjectRegistry(GetObjectRegistry());
-		pointerlib.setClient(this);
+			return ReportError("Error opening system!");
 
 		// Create and Initialize the Reporter. 
 		reporter= new Reporter (GetObjectRegistry());
@@ -202,6 +193,16 @@ namespace PT
 #else
 		reporter->SetLoggingLevel(PT::Insane);
 #endif
+		
+
+		vfs = csQueryRegistry<iVFS> (GetObjectRegistry());
+		if (!vfs) return Report(PT::Error, "Failed to locate VFS!");
+
+		g3d = csQueryRegistry<iGraphics3D> (GetObjectRegistry());
+		if (!g3d) return Report(PT::Error, "Failed to locate 3D renderer!");
+
+		pointerlib.setObjectRegistry(GetObjectRegistry());
+		pointerlib.setClient(this);
 		
 		// Create and Initialize the Network. 
 		network = new Network (this);
