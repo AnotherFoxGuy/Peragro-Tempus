@@ -91,6 +91,7 @@ namespace PT
 		network = 0;
 		cursor = 0;
 		itemmanager = 0;
+		reporter = 0;
 
 		cursor = 0;
 

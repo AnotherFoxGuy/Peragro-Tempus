@@ -25,6 +25,7 @@
 #include <iutil/virtclk.h>
 #include <iengine/engine.h>
 #include <csgeom/path.h>
+#include <csutil/parray.h>
 
 #include <iutil/strset.h>
 #include <iutil/document.h>
@@ -38,7 +39,7 @@ struct iDocument;
 class ItemMGR
 {
 private:
-  csArray<ClientItem*> items;
+  csPDelArray<ClientItem> items;
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
