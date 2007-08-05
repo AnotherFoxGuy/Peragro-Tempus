@@ -220,7 +220,7 @@ namespace PT
 			// It's our player, attach the camera and set some variables.
 			if (own_char_id == entityAddEv->entityId)
 			{
-				Report(PT::Notify, "Adding Entity '%s(%d)' as me", entity->GetName().GetData(), entity->GetId());
+				Report(PT::Notify, "Adding Entity '%s(%d)' at %s as me.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData());
 
 				((PtPcEntity*)entity)->SetOwnEntity(true);
 
@@ -232,6 +232,8 @@ namespace PT
 					pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
 					pccamera->SetPitch(-0.18f);
 				}
+				else
+					Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", entity->GetName().GetData(), entity->GetId());
 
 				owncam = pccamera;
 				ownent = entity;
@@ -239,7 +241,7 @@ namespace PT
 				ownname = entity->GetName();
 			}
 			else
-				Report(PT::Notify, "Adding Entity '%s(%d)'", entity->GetName().GetData(), entity->GetId());
+				Report(PT::Notify, "Adding Entity '%s(%d)' at %s.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData());
 
 			// Add our entity to the list.
 			entities.Push(entity);
