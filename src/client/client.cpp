@@ -838,7 +838,7 @@ namespace PT
 						if (!entity) return false;
 						csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
 						cameradistance -= 0.5;
-						pccamera->SetDistance(cameradistance);
+						if (pccamera.IsValid()) pccamera->SetDistance(cameradistance);
 						return false;
 						break;
 					}
@@ -848,7 +848,7 @@ namespace PT
 						if (!entity) return false;
 						csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
 						cameradistance += 0.5;
-						pccamera->SetDistance(cameradistance);
+						if (pccamera.IsValid()) pccamera->SetDistance(cameradistance);
 						return false;
 						break;
 					}
