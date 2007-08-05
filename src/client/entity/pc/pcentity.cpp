@@ -27,6 +27,7 @@ PtPcEntity::PtPcEntity() : PtCharacterEntity(PlayerEntity)
   engine =  csQueryRegistry<iEngine> (obj_reg);
   pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
   vfs =  csQueryRegistry<iVFS> (obj_reg);
+	is_own_entity = false;
 }
 
 void PtPcEntity::Create()

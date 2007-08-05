@@ -215,14 +215,15 @@ namespace PT
 			entity->SetPosition(entityAddEv->position);
 			entity->SetSectorName(entityAddEv->sectorName.c_str());
 
+			if (own_char_id == entity->GetId())
+				((PtPcEntity*)entity)->SetOwnEntity(true);
+
 			entity->Create();
 
-			// It's our player, attach the camera and set some variables.
-			if (own_char_id == entityAddEv->entityId)
+			// It's our player.
+			if (own_char_id == entity->GetId())
 			{
 				Report(PT::Notify, "Adding Entity '%s(%d)' at %s as me.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData());
-
-				((PtPcEntity*)entity)->SetOwnEntity(true);
 
 				// Set up own player cam and entity for faster access.
 				csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
