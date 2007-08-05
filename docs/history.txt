@@ -9,6 +9,10 @@ under each day.
     linux after the recent changes in the reporter.
   - swedishcoder updated the configuration script so it fails if
     boost_filesystem could not be found.
+  - swedishcoder fixed va_list calls in the reporter. AMD64 (and ppc) handles
+    the va_list slightly different than on 32 bit systems. This prevents a
+    segfault in the former case, and should still work in the latter. Thanks to 
+    thebolt and sueastside for helping me out.
 
 2-Aug-2007
   - Sueastside converted everything to use the reporter. 
