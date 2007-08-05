@@ -88,8 +88,8 @@ namespace PT
 			// TODO: input command handler.
 			if (strncmp (chatEv->message.c_str(),"/me",3) == 0)
 			{
-				csString ownnick = PointerLibrary::getInstance()->getEntityManager()->GetOwnName();
-				std::string text = ownnick.GetData() + chatEv->message.substr(3, chatEv->message.size());
+				std::string ownnick = chatEv->nickName;
+				std::string text = ownnick + chatEv->message.substr(3, chatEv->message.size());
 				guimanager->GetChatWindow ()->AddMessage (text.c_str());
 			}
 			else if (strncmp (chatEv->message.c_str(),"/greet",3) == 0)
