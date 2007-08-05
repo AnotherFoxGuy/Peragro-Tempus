@@ -74,7 +74,6 @@ namespace PT
 
 	void Reporter::Report(SeverityLevel severity, const char* msg, va_list arg)
 	{
-    va_list temp_arg;
 		// Return when the severity is ignored on this logging level.
 		if (loggingLevel == PT::Errors) 
 		{
@@ -115,24 +114,12 @@ namespace PT
 			break;
 		}
 
-		// Print the message to the console.
-    va_copy(temp_arg, arg);
-		csPrintfV(msg, temp_arg);
-    va_end(temp_arg);
-
-		// Reset colors and do a new line.
-		csPrintf("\n");
-		csPrintf(CS_ANSI_RST);
+		// Prepare the string.
+		boost::shared_ptr<char> buffer(new char[1024]);
+		vsprintf(buffer.get(), msg, arg);
 
 		if (logFile)
 		{
-			// Prepare a string for file output.
-			boost::shared_ptr<char> buffer(new char[1024]);
-
-      va_copy(temp_arg, arg);
-			vsnprintf(buffer.get(), 500, msg, temp_arg);
-      va_end(temp_arg);
-
 			// Get the time.
 			time_t rawtime;
 			tm * ptm;
@@ -150,6 +137,13 @@ namespace PT
 			logFile->write (line.c_str (), (int)line.size ());
 			logFile->flush();
 		}
+
+		// Print the message to the console.
+		csPrintf(buffer.get());
+
+		// Reset colors and do a new line.
+		csPrintf("\n");
+		csPrintf(CS_ANSI_RST);
 
 	}
 
