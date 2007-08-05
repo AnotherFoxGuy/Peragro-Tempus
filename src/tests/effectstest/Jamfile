@@ -3,7 +3,7 @@ SubDir TOP src tests effectstest ;
 Description effectstest : "effectstest" ;
 Application effectstest : [ Wildcard *.h *.cpp ] ;
 ExternalLibs effectstest : CRYSTAL ;
-LinkWith effectstest : client-effects ;
+LinkWith effectstest : client-effects client-reporter ;
 
 if [ Property build : projgen_version ] != 6
 {

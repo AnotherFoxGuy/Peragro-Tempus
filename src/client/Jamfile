@@ -1,5 +1,6 @@
 SubDir TOP src client ;
 
+SubInclude TOP src client reporter ;
 SubInclude TOP src client network ;
 SubInclude TOP src client gui ;
 SubInclude TOP src client effects ;
@@ -15,10 +16,9 @@ SubInclude TOP src client chat ;
 Description client : "Client" ;
 Application client : 
 [ Wildcard *.h *.cpp ] 
-[ Wildcard [ ConcatDirs reporter ] : *.h *.cpp ] 
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
-ExternalLibs client : CEGUI CRYSTAL CEL ;
-LinkWith client : client-network client-gui client-effects client-entitymanager client-eventmanager client-combatmanager client-itemmanager client-trademanager client-chatmanager client-console util ;
+ExternalLibs client : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
+LinkWith client : client-reporter client-network client-gui client-effects client-entitymanager client-eventmanager client-combatmanager client-itemmanager client-trademanager client-chatmanager client-console util ;
 
 MsvcExternalLibrary client : "wsock32.lib" ;
 
