@@ -7,6 +7,8 @@ under each day.
 5-Aug-2007
   - swedishcoder, submitted fix from Cinquero that solves build issues on
     linux after the recent changes in the reporter.
+  - swedishcoder updated the configuration script so it fails if
+    boost_filesystem could not be found.
 
 2-Aug-2007
   - Sueastside converted everything to use the reporter. 
