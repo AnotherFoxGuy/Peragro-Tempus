@@ -208,6 +208,7 @@ namespace PT
 		
 		// Create and Initialize the Network. 
 		network = new Network (this);
+    if (!network) return Report(PT::Error, "Failed to create Network object!");
 		network->init();
 		pointerlib.setNetwork(network);
 
