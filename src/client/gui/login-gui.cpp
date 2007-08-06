@@ -71,6 +71,13 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
   return true; 
 }
 
+void LoginWindow::ShowWindow() 
+{
+	GUIWindow::ShowWindow();
+	CEGUI::Window * wnd = winMgr->getWindow("LoginUI/LoginEditBox");
+	wnd->activate();
+}
+
 CEGUI::String LoginWindow::GetLogin() 
 {
   return winMgr->getWindow("LoginUI/LoginEditBox")->getText();
@@ -84,6 +91,31 @@ CEGUI::String LoginWindow::GetPassword()
 void LoginWindow::SaveConfig()
 {
   app_cfg->Save("/peragro/config/client.cfg", vfs);
+}
+
+bool LoginWindow::LoginTextAccepted(const CEGUI::EventArgs &e)
+{
+	CEGUI::Window * wnd = winMgr->getWindow("LoginUI/PasswordEditBox");
+	wnd->activate();
+	return true;
+}
+
+bool LoginWindow::PasswordTextAccepted(const CEGUI::EventArgs &e)
+{
+	CEGUI::Window * log = winMgr->getWindow("LoginUI/LoginEditBox");
+	CEGUI::Window * reg = winMgr->getWindow("LoginUI/PasswordEditBox");
+	if (log->getText().empty())
+	{
+		log->activate();
+	}
+	else
+	{
+		if (!reg->getText().empty())
+		{
+			LoginButtonPressed(e);
+		}
+	}
+	return true;
 }
 
 bool LoginWindow::OnCheckBox(const CEGUI::EventArgs& e) 
@@ -144,6 +176,12 @@ void LoginWindow::CreateGUIWindow()
   ((CEGUI::Editbox*)btn)->setTextMasked(true);
 
   // Register the button events.
+	btn = winMgr->getWindow("LoginUI/PasswordEditBox");
+	btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&LoginWindow::PasswordTextAccepted, this));
+
+	btn = winMgr->getWindow("LoginUI/LoginEditBox");
+	btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&LoginWindow::LoginTextAccepted, this));
+
   btn = winMgr->getWindow("LoginUI/Login_Button");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::LoginButtonPressed, this));
 

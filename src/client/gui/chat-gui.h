@@ -34,6 +34,7 @@ private:
   bool HandleCommand(const char* texti);
 
 	CEGUI::SlotFunctorBase* sumbitEventSubscriber;
+	bool visible;
 
 public:
   ChatWindow(GUIManager* guimanager);

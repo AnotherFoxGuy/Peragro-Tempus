@@ -73,12 +73,16 @@ void ChatWindow::HideWindow()
 {
   winMgr->getWindow("Chatlog/Frame")->setVisible(false);
 	winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+
+	visible = false;
 }
 
 void ChatWindow::ShowWindow() 
 {
 	winMgr->getWindow("Chatlog/Frame")->setVisible(true);
 	//winMgr->getWindow("InputPanel/Frame")->setVisible(true);
+
+	visible = true;
 }
 
 void ChatWindow::SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber)
@@ -129,6 +133,7 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
     switch (keyArgs.scancode)
     {
     case Key::Return:
+			  if (!visible) return false;
         winMgr->getWindow("InputPanel/Frame")->setVisible(true);
         winMgr->getWindow("InputPanel/InputBox")->activate();
         break;

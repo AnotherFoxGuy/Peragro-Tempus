@@ -431,6 +431,9 @@ namespace PT
 					engine->SetClearScreen(true);
 				}
 
+				// Show the connect window.
+				guimanager->GetConnectWindow ()->ShowWindow ();
+
 				if (cmdline)
 				{
 					const char* host = cmdline->GetOption("host");

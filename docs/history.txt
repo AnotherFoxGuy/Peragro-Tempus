@@ -15,6 +15,7 @@ under each day.
     logging.
   - swedishcoder fixed a few more possible segfaults and added better error
     logging.
+  - Levia added tab switching to the login and connect window. 
 
 5-Aug-2007
   - swedishcoder, submitted fix from Cinquero that solves build issues on

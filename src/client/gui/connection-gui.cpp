@@ -37,6 +37,25 @@ ConnectWindow::~ConnectWindow()
 {
 }
 
+void ConnectWindow::ShowWindow() 
+{
+	GUIWindow::ShowWindow();
+	CEGUI::Window * wnd = winMgr->getWindow("Server");
+	wnd->activate();
+}
+
+bool ConnectWindow::ServerTextAccepted(const CEGUI::EventArgs &e)
+{
+	CEGUI::Window * server = winMgr->getWindow("Server");
+
+	if (!server->getText().empty())
+	{
+		ConnectButtonPressed(e);
+	}
+
+	return true;
+}
+
 bool ConnectWindow::ConnectButtonPressed(const CEGUI::EventArgs& e) 
 {
   // Get the connect window and disable it
@@ -70,4 +89,7 @@ void ConnectWindow::CreateGUIWindow()
   // Register the button events.
   btn = winMgr->getWindow("Connect_Button");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConnectWindow::ConnectButtonPressed, this));
+
+	btn = winMgr->getWindow("Server");
+	btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&ConnectWindow::ServerTextAccepted, this));
 }

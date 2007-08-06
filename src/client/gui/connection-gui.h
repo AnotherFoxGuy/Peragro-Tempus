@@ -27,13 +27,16 @@
 class ConnectWindow : public GUIWindow
 {
 private:
+	bool ServerTextAccepted(const CEGUI::EventArgs &e);     // Executed when the Server text has been accepted.
   bool ConnectButtonPressed(const CEGUI::EventArgs& e);   // Executed when the Connect button is pressed.
   csString GetServer();                                   // Return the selected server.
 
 public:
   ConnectWindow(GUIManager* guimanager);
   virtual ~ConnectWindow();
-  void CreateGUIWindow();    // load the Login guilayout and register button events.	  
+  void CreateGUIWindow();    // load the Login guilayout and register button events.	
+
+	void ShowWindow();
 };
 
 #endif // CONNECTION_GUI_H
