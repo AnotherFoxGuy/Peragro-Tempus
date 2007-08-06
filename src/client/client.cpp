@@ -215,19 +215,19 @@ namespace PT
 		// Create and Initialize the EventManager.
 		eventmanager = new PT::Events::EventManager();
 		if (!eventmanager->Initialize())
-			return false;
+			return Report(PT::Error, "Failed to initialize EventManager!");
 		pointerlib.setEventManager(eventmanager);
 
 		// Create and Initialize the ItemManager.
 		itemmanager = new ItemMGR (GetObjectRegistry());
 		if (!itemmanager->Initialize())
-			return false;
+			return Report(PT::Error, "Failed to initialize ItemManager!");
 		pointerlib.setItemManager(itemmanager);
 
 		// Create and Initialize the GUImanager.
 		guimanager = new GUIManager ();
 		if (!guimanager->Initialize ())
-			return false;
+			return Report(PT::Error, "Failed to initialize GUIManager!");
 		pointerlib.setGUIManager(guimanager);
 
 		if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))

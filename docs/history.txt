@@ -9,6 +9,8 @@ under each day.
     failed.
   - swedishcoder fixed a possible segfault in case Network object allocation
     failed.
+  - swedishcoder added error messages in case GUIManager, ItemManager or
+    EventManager failed to load.
 
 5-Aug-2007
   - swedishcoder, submitted fix from Cinquero that solves build issues on
