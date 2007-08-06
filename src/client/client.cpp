@@ -270,29 +270,30 @@ namespace PT
 
 		// Create the cursor.
 		cursor = new Cursor(this);
+    if (!cursor) return Report(PT::Error, "Can't create cursor!");
 
 		// Create and Initialize the EntityManager.
 		entitymanager = new PT::Entity::EntityManager (GetObjectRegistry());
 		if (!entitymanager->Initialize())
-			return false;
+			return Report(PT::Error, "Failed to initialize EntityManager!");
 		pointerlib.setEntityManager(entitymanager);
 
 		// Create and Initialize the Effectsmanager.
 		effectsmanager = new EffectsManager (GetObjectRegistry());
 		if (!effectsmanager->Initialize())
-			return false;
+			return Report(PT::Error, "Failed to initialize EffectsManager!");
 		pointerlib.setEffectsManager(effectsmanager);
 
 		// Create and Initialize the Combatmanager.
 		combatmanager = new CombatMGR ();
 		if (!combatmanager->Initialize())
-			return false;
+			return Report(PT::Error, "Failed to initialize CombatManager!");
 		pointerlib.setCombatManager(combatmanager);
 
 		// Create and Initialize the ChatManager.
 		chatmanager = new PT::Chat::ChatManager (GetObjectRegistry());
 		if (!chatmanager->Initialize())
-			return false;
+			return Report(PT::Error, "Failed to initialize ChatManager!");
 		pointerlib.setChatManager(chatmanager);
 
 		/*
