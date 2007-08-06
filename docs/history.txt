@@ -13,6 +13,8 @@ under each day.
     EventManager failed to load.
   - swedishcoder fixed a few more possible segfaults and added better error
     logging.
+  - swedishcoder fixed a few more possible segfaults and added better error
+    logging.
 
 5-Aug-2007
   - swedishcoder, submitted fix from Cinquero that solves build issues on

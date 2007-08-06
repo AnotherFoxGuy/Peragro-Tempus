@@ -341,14 +341,17 @@ namespace PT
 
 		// Register listener for StateLoggedInEvent.
 		EventHandler<Client>* cbConnected = new EventHandler<Client>(&Client::Connected, this);
+		if (!cbConnected) return Report(PT::Error, "Adding 'Connected' to EventHandler failed!");
 		PointerLibrary::getInstance()->getEventManager()->AddListener("StateConnectedEvent", cbConnected);
 
 		// Register listener for StateLoggedInEvent.
 		EventHandler<Client>* cbLoggedIn = new EventHandler<Client>(&Client::loggedIn, this);
+		if (!cbConnected) return Report(PT::Error, "Adding 'loggedIn' to EventHandler failed!");
 		PointerLibrary::getInstance()->getEventManager()->AddListener("StateLoggedInEvent", cbLoggedIn);
 
 		// Register listener for RegionLoadEvent.
 		EventHandler<Client>* cbLoad = new EventHandler<Client>(&Client::LoadRegion, this);
+		if (!cbConnected) return Report(PT::Error, "Adding 'LoadRegion' to EventHandler failed!");
 		PointerLibrary::getInstance()->getEventManager()->AddListener("RegionLoadEvent", cbLoad);
 
 		Run();
