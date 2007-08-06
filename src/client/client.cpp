@@ -186,6 +186,7 @@ namespace PT
 
 		// Create and Initialize the Reporter. 
 		reporter= new Reporter (GetObjectRegistry());
+    if (!reporter) return ReportError("Error loading Reporter!");
 		reporter->Initialize();
 		//pointerlib.setReporter(reporter);
 

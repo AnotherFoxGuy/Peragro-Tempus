@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+6-Aug-2007
+  - swedishcoder fixed a possible segfault in case reporter failed to load.
+
 5-Aug-2007
   - swedishcoder, submitted fix from Cinquero that solves build issues on
     linux after the recent changes in the reporter.
