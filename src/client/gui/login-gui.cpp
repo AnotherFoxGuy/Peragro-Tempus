@@ -95,24 +95,30 @@ void LoginWindow::SaveConfig()
 
 bool LoginWindow::LoginTextAccepted(const CEGUI::EventArgs &e)
 {
-	CEGUI::Window * wnd = winMgr->getWindow("LoginUI/PasswordEditBox");
-	wnd->activate();
+	if (!winMgr->getWindow("LoginUI/Frame")->isDisabled())
+	{
+		CEGUI::Window * wnd = winMgr->getWindow("LoginUI/PasswordEditBox");
+		wnd->activate();
+	}
 	return true;
 }
 
 bool LoginWindow::PasswordTextAccepted(const CEGUI::EventArgs &e)
 {
-	CEGUI::Window * log = winMgr->getWindow("LoginUI/LoginEditBox");
-	CEGUI::Window * reg = winMgr->getWindow("LoginUI/PasswordEditBox");
-	if (log->getText().empty())
+	if (!winMgr->getWindow("LoginUI/Frame")->isDisabled())
 	{
-		log->activate();
-	}
-	else
-	{
-		if (!reg->getText().empty())
+		CEGUI::Window * log = winMgr->getWindow("LoginUI/LoginEditBox");
+		CEGUI::Window * reg = winMgr->getWindow("LoginUI/PasswordEditBox");
+		if (log->getText().empty())
 		{
-			LoginButtonPressed(e);
+			log->activate();
+		}
+		else
+		{
+			if (!reg->getText().empty())
+			{
+				LoginButtonPressed(e);
+			}
 		}
 	}
 	return true;
