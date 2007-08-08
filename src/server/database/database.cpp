@@ -35,25 +35,55 @@
 
 Database::Database()
 {
+  userstable = NULL;
+  charactertable = NULL;
+  entitytable = NULL;
+  inventorytable = NULL;
+  stattable = NULL;
+  characterstattable = NULL;
+  racetable = NULL;
+  racestattable = NULL;
+  skilltable = NULL;
+  raceskilltable = NULL;
+  characterskillstable = NULL;
+  npcaisettingtable = NULL;
+  npcdialogstable = NULL;
+  npcdialoganswerstable = NULL;
+  npcentitiestable = NULL;
 }
 
-void Database::init()
+int Database::init()
 {
   userstable = new UsersTable(this);
+  if (userstable == NULL) return 0;
   charactertable = new CharacterTable(this);
+  if (charactertable  == NULL) return 0;
   entitytable = new EntityTable(this);
+  if (entitytable == NULL) return 0;
   inventorytable = new InventoryTable(this);
+  if (inventorytable == NULL) return 0;
   stattable = new StatTable(this);
+  if (stattable == NULL) return 0;
   characterstattable = new CharacterStatsTable(this);
+  if (characterstattable == NULL) return 0;
   racetable = new RaceTable(this);
+  if (racetable == NULL) return 0;
   racestattable = new RaceStatsTable(this);
+  if (racestattable == NULL) return 0;
   skilltable = new SkillTable(this);
+  if (skilltable == NULL) return 0;
   raceskilltable = new RaceSkillsTable(this);
+  if (raceskilltable == NULL) return 0;
   characterskillstable = new CharacterSkillsTable(this);
+  if (characterskillstable == NULL) return 0;
   npcaisettingtable = new NpcAiSettingTable(this);
+  if (npcaisettingtable == NULL) return 0;
   npcdialogstable = new NpcDialogsTable(this);
+  if (npcdialogstable == NULL) return 0;
   npcdialoganswerstable = new NpcDialogAnswersTable(this);
+  if (npcdialoganswerstable == NULL) return 0;
   npcentitiestable = new NpcEntitiesTable(this);
+  if (npcentitiestable == NULL) return 0;
 }
 
 Database::~Database()

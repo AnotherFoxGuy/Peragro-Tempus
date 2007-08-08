@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+8-Aug-2007
+  - swedishcoder added some checking to the servers database class so it
+    checks for classes that it failed create. However, even more work should
+    probably be done in this area..
+
 7-Aug-2007
   - Levia fixed a bug where pressing tab caused entries to be duplicated
     in the character selection menu. (Fixing ticket #33)

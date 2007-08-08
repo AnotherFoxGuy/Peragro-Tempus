@@ -64,7 +64,7 @@ public:
   Database();
   virtual ~Database();
 
-  void init();
+  int init();
 
   virtual void shutdown() = 0;
 
