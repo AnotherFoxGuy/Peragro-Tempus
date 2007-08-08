@@ -41,7 +41,11 @@ private:
   bool isWalking;
 
   float final_dst[3];
+  // TODO this is not the best way. Instead create a struct holding
+  // three floats. 
+  float tmp_pos[3]; 
   size_t t_stop;
+  size_t t_org;
 
   // TODO: Add stats
   float speed;

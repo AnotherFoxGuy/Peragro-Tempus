@@ -39,6 +39,15 @@ const PcEntity* MountEntity::getPassenger(size_t i) const
 
 void MountEntity::walkTo(float* dst_pos, float speed)
 {
+  // If we are already walking, lets store how
+  // far we have come...
+  if (isWalking) {
+    Entity* ent = entity.get()->getLock();
+    ent->setPos(getPos());
+    ent->freeLock();
+    isWalking = false;
+  }
+
   final_dst[0] = dst_pos[0];
   final_dst[1] = dst_pos[1];
   final_dst[2] = dst_pos[2];
@@ -49,7 +58,8 @@ void MountEntity::walkTo(float* dst_pos, float speed)
   float dist_y = fabsf(final_dst[1] - pos[1]);
   float dist_z = fabsf(final_dst[2] - pos[2]);
   float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
-
+  
+  t_org = time(0);
   //v = s / t => t = s / v
   t_stop = (size_t) (dist / speed + time(0));
 
@@ -62,28 +72,24 @@ const float* MountEntity::getPos()
   {
     return entity.get()->getPos();
   }
-  else
+
+  if ((size_t)time(0) >= t_stop)
   {
-    if ((size_t)time(0) >= t_stop)
-    {
-      Entity* ent = entity.get()->getLock();
-      ent->setPos(final_dst);
-      ent->freeLock();
+    Entity* ent = entity.get()->getLock();
+    ent->setPos(final_dst);
+    ent->freeLock();
 
-      isWalking = false;
-      return final_dst;
-    }
-    else
-    {
-      float tmp_pos[3];
-      const float* pos = entity.get()->getPos();
-
-      //Not sure that's correct...
-      size_t delta = t_stop - (size_t) time(0);
-      tmp_pos[0] = (final_dst[0] - pos[0]) * delta;
-      tmp_pos[1] = (final_dst[1] - pos[1]) * delta;
-      tmp_pos[2] = (final_dst[2] - pos[2]) * delta;
-      return tmp_pos; //@@TODO: Marten: this is an error and should be fixed
-    }
+    isWalking = false;
+    return final_dst;
   }
+
+  // pos will be org_pos until target is reached.
+  const float* pos = entity.get()->getPos();
+
+  // TODO: Probably fixed now, need to verify though... 
+  size_t delta = (time(0) - t_org) / (t_stop - t_org);
+  tmp_pos[0] = (final_dst[0] - pos[0]) * delta + pos[0];
+  tmp_pos[1] = (final_dst[1] - pos[1]) * delta + pos[1];
+  tmp_pos[2] = (final_dst[2] - pos[2]) * delta + pos[2];
+  return tmp_pos; 
 }
