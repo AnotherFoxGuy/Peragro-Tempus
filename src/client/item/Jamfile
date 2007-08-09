@@ -3,4 +3,4 @@ SubDir TOP src client item ;
 Description client-itemmanager : "client itemmanager" ;
 Library client-itemmanager :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-itemmanager : CRYSTAL CEL ;
+ExternalLibs client-itemmanager : CRYSTAL CEL BOOST ;

@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+9-Aug-2007
+  - Sueastside applied a patch by Cinquero, updating the jamfiles for BOOST. (ticket #34)
+
 8-Aug-2007
   - swedishcoder added some checking to the servers database class so it
     checks for classes that it failed create. However, even more work should

@@ -3,4 +3,4 @@ SubDir TOP src client trade ;
 Description client-trademanager : "client trademanager" ;
 Library client-trademanager :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-trademanager : CRYSTAL CEL ;
+ExternalLibs client-trademanager : CRYSTAL CEL BOOST ;
