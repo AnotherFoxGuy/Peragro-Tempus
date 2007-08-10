@@ -48,10 +48,10 @@
 		<defaultcolor red="1" green="1" blue="1" />
 	</params>
 	
-	<polymesh>
-	<colldet/>
-	<shadows/>
-	</polymesh>
+	<trimesh>
+		<id>colldet</id>
+		<id>shadows</id>
+	</trimesh>
 	<noshadows/>
 
 <key name="duration" value="2000" />

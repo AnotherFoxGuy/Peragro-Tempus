@@ -21,6 +21,7 @@
 
 #include <cssysdef.h>
 #include <csutil/ref.h>
+#include <iutil/objreg.h>
 #include <iutil/vfs.h>
 
 #include <string>
