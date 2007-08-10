@@ -23,15 +23,6 @@
 #include <csutil/ansicommand.h>
 #include <csutil/sysfunc.h>
 
-#include <boost/filesystem/fstream.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
-
-#include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
-
-namespace FS = boost::filesystem;
-
 namespace PT
 {
 	Reporter* Reporter::reporter;
@@ -43,6 +34,11 @@ namespace PT
 		vfs = csQueryRegistry<iVFS> (obj_reg);
 	}
 
+	Reporter::~Reporter()
+	{
+		logFile.close();
+	}
+
 	bool Reporter::Initialize ()
 	{
 		GetFile ("peragro.log");
@@ -52,20 +48,16 @@ namespace PT
 
 	void Reporter::GetFile (std::string fileName)
 	{
-    printf("Creating log file '%s'!\n", fileName.c_str());
+		printf("Creating log file '%s'!\n", fileName.c_str());
 
-    boost::shared_ptr<FS::ofstream> file(new FS::ofstream (fileName.c_str()));
-		logFile = file;
+		logFile.open(fileName.c_str());
 
 		if (logFile)
 		{
-			std::string line1 = "\t\t+-+-+-+-+-+-+-+-+-+-+-+-+-+\n";
-			std::string line2 = "\t\t+ Peragro Tempus log file +\n";
-			std::string line3 = "\t\t+-+-+-+-+-+-+-+-+-+-+-+-+-+\n\n";
-			logFile->write (line1.c_str (), (int)line1.size ());
-			logFile->write (line2.c_str (), (int)line2.size ());
-			logFile->write (line3.c_str (), (int)line3.size ());
-			logFile->flush();
+			logFile << "\t\t+-+-+-+-+-+-+-+-+-+-+-+-+-+\n";
+			logFile << "\t\t+ Peragro Tempus log file +\n";
+			logFile << "\t\t+-+-+-+-+-+-+-+-+-+-+-+-+-+\n\n";
+			logFile.flush();
 		}
 		else
 			csPrintf (CS_ANSI_FR CS_ANSI_TEXT_BOLD_ON "Creation log file failed!\n" CS_ANSI_RST);
@@ -115,8 +107,8 @@ namespace PT
 		}
 
 		// Prepare the string.
-		boost::shared_ptr<char> buffer(new char[1024]);
-		vsprintf(buffer.get(), msg, arg);
+		char buffer[1024];
+		vsprintf(buffer, msg, arg);
 
 		if (logFile)
 		{
@@ -124,22 +116,17 @@ namespace PT
 			time_t rawtime;
 			tm * ptm;
 			time ( &rawtime );
-			ptm = gmtime ( &rawtime );
-			boost::shared_ptr<char> timeBuf(new char[64]);
-			sprintf(timeBuf.get(), "%2d:%02d:%02d ", ptm->tm_hour+2, ptm->tm_min, ptm->tm_sec);
-
-			std::string line;
-			line = timeBuf.get();
-			line += prefix + buffer.get();
-			line += "\n";
+			ptm = localtime ( &rawtime );
+			char timeBuf[64];
+			sprintf(timeBuf, "%2d:%02d:%02d ", ptm->tm_hour+2, ptm->tm_min, ptm->tm_sec);
 
 			// Write to file.
-			logFile->write (line.c_str (), (int)line.size ());
-			logFile->flush();
+			logFile << timeBuf << prefix << buffer << "\n";
+			logFile.flush();
 		}
 
 		// Print the message to the console.
-		csPrintf(buffer.get());
+		csPrintf(buffer);
 
 		// Reset colors and do a new line.
 		csPrintf("\n");

@@ -24,13 +24,7 @@
 #include <iutil/vfs.h>
 
 #include <string>
-
-#include <boost/filesystem/fstream.hpp>
-#include <boost/shared_ptr.hpp>
-
-struct iObjectRegistry;
-
-namespace FS = boost::filesystem;
+#include <fstream>
 
 namespace PT
 {
@@ -62,13 +56,15 @@ namespace PT
 
 		LoggingLevel loggingLevel;
 
-		boost::shared_ptr<FS::ofstream> logFile;
+		std::ofstream logFile;
+		//boost::shared_ptr<FS::ofstream> logFile;
 
 	private:
 		void GetFile (std::string fileName);
 
 	public:
 		Reporter(iObjectRegistry* obj_reg);
+		virtual ~Reporter();
 
 		static Reporter* GetInstance() { return reporter; }
 
