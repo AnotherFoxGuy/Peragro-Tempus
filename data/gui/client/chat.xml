@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <GUILayout>
 	<Window Type='Peragro/Listbox' Name='InputPanel/Frame'>
-		<Property Name='UnifiedSize' Value='{{0.000000,450.000000},{0.000000,30.000000}}'/>
-		<Property Name='UnifiedPosition' Value='{{0.500000,-225.000000},{0.900000,-30.000000}}'/>
+		<Property Name='UnifiedSize' Value='{{0.000000,450.0},{0.000000,30.0}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.500000,-225.000000},{1.0,-70.0}}'/>
 		<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTarget'/>
 		<Property Name='Alpha' Value='0.6'/>
 		<Property Name='Visible' Value='False'/>
@@ -16,12 +16,13 @@
 			<Property Name='UnifiedAreaRect' Value='{{0.007089,0.000000},{-0.05026806,0.000000},{0.214033,0.000000},{3.445972,0.000000}}'/>
 			<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
 			<Property Name='ClippedByParent' Value='False'/>
+			<Property Name='Visible' Value='False'/>
 		</Window>
 		<Window Type='Peragro/Editbox' Name='InputPanel/InputBox'>
 			<Property Name='Font' Value='Commonwealth-10'/>
 			<Property Name='MaxTextLength' Value='1073741823'/>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
-			<Property Name='UnifiedAreaRect' Value='{{0.215163,0.000000},{0.090476,0.000000},{0.98770,0.000000},{0.886652,0.000000}}'/>
+			<Property Name='UnifiedAreaRect' Value='{{0.0,2.0},{0.0,2.0},{1.0,-2.0},{1.0,-2.0}}'/>
 			<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
 		</Window>
 		<Window Type='Peragro/DragBar' Name='InputPanel/Drag'>
