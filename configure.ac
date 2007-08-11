@@ -112,8 +112,6 @@ CS_EMIT_BUILD_PROPERTY([BOOST.CFLAGS], [$BOOST_CPPFLAGS])
 CS_EMIT_BUILD_PROPERTY([BOOST.LFLAGS], [$BOOST_LDFLAGS])
 
 CS_CHECK_BOOST_PYTHON([emit])
-CS_CHECK_BOOST_FILESYSTEM([emit])
-
 
 #------------------------------------------------------------------------------
 # Check for wxWidgets. Also check if it was built with OpenGL support since it
