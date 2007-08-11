@@ -6,6 +6,7 @@ under each day.
 
 11-Aug-2007
   - Sueastside changed some window layout to better handle bigger resolutions.
+  - PK fixed a small bug in whisperTo that crashed the server.
 
 10-Aug-2007
   - PK removed boost filesystem and boost shared pointers from the client's

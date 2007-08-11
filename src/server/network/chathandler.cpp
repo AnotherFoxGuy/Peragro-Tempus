@@ -66,7 +66,7 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   ByteStream bs;
   out_msg.serialise(&bs);
 
-  NetworkHelper::sendMessage((PcEntity*)entity, bs);
+  NetworkHelper::sendMessage(entity->getPlayerEntity(), bs);
 }
 
 void ChatHandler::handleParty(GenericMessage* msg)
