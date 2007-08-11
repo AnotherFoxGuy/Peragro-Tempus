@@ -2,7 +2,7 @@
 
 ulimit -c unlimited;
 
-server 1>server.log 2>server.err &
+./server 1>server.log 2>server.err &
 
 echo $! > server.pid                           
 
