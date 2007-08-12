@@ -62,8 +62,9 @@
 #include "client/item/itemmanager.h"
 #include "client/entity/ptentitymanager.h"
 #include "client/console/console.h"
-
 #include "client/chat/chatmanager.h"
+
+#include "client/trade/trademanager.h"
 
 #include "common/util/wincrashdump.h"
 
@@ -83,19 +84,21 @@ namespace PT
 		last_sleep = 0;
 		world_loaded = false;
 		cameradistance = 3;
-
-		combatmanager = 0;
-		entitymanager = 0;
-		effectsmanager = 0;
-		guimanager = 0;
-		network = 0;
-		cursor = 0;
-		itemmanager = 0;
-		reporter = 0;
-
-		cursor = 0;
-
 		last_seen = 0;
+
+		reporter = 0;
+		network = 0;
+		guimanager = 0;
+		effectsmanager = 0;
+		entitymanager = 0;
+		combatmanager = 0;
+		itemmanager = 0;
+		cursor = 0;
+		ptconsole = 0;
+		
+		eventmanager = 0;
+		chatmanager = 0;
+		trademanager = 0;
 	}
 
 	Client::~Client()
@@ -295,6 +298,12 @@ namespace PT
 		if (!chatmanager->Initialize())
 			return Report(PT::Error, "Failed to initialize ChatManager!");
 		pointerlib.setChatManager(chatmanager);
+
+		// Create and Initialize the ChatManager.
+		trademanager = new PT::Trade::TradeManager (GetObjectRegistry());
+		if (!trademanager->Initialize())
+			return Report(PT::Error, "Failed to initialize TradeManager!");
+		//pointerlib.setTradeManager(trademanager);
 
 		/*
 		// Create and Initialize the PTConsole.

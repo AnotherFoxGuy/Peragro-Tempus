@@ -83,6 +83,11 @@ namespace PT
 		class ChatManager;
 	} // Chat namespace 
 
+	namespace Trade
+	{
+		class TradeManager;
+	} // Trade namespace 
+
 	class Reporter;
 
 	class Client : public csApplicationFramework, public csBaseEventHandler
@@ -158,6 +163,7 @@ namespace PT
 
 		PT::Events::EventManager* eventmanager;
 		PT::Chat::ChatManager* chatmanager;
+		PT::Trade::TradeManager* trademanager;
 
 	private:
 		bool playing;

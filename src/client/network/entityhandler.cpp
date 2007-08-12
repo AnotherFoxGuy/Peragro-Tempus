@@ -26,6 +26,7 @@
 
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
+#include "client/event/tradeevent.h"
 
 #include "client/reporter/reporter.h"
 
@@ -101,12 +102,17 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
 {
   PickResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
-  if (response_msg.getError().isNull())
-  {
-    guimanager->GetInventoryWindow()->AddItem(response_msg.getItemId(), response_msg.getSlotId());
-  }
+	if (response_msg.getError().isNull())
+	{
+		using namespace PT::Events;
+		TradePickUpEvent* pickUpEv = new TradePickUpEvent();
+
+		pickUpEv->itemId = response_msg.getItemId();
+		pickUpEv->slotId = response_msg.getSlotId();
+
+		PointerLibrary::getInstance()->getEventManager()->AddEvent(pickUpEv);
+	}
   else
 		Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", response_msg.getItemId(), *response_msg.getError());
 }
@@ -115,11 +121,16 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
 {
   DropResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   if (response_msg.getError().isNull())
   {
-    guimanager->GetInventoryWindow()->RemoveItem(response_msg.getSlotId());
+		using namespace PT::Events;
+		TradeDropEvent* dropEv = new TradeDropEvent();
+
+		dropEv->itemId = response_msg.getItemId();
+		dropEv->slotId = response_msg.getSlotId();
+
+		PointerLibrary::getInstance()->getEventManager()->AddEvent(dropEv); 
   }
   else
 		Report(PT::Notify, "You can't drop %d from slot %d! Reason: '%s'.", response_msg.getItemId(), response_msg.getSlotId(), *response_msg.getError());

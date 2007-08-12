@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_TRADE_MANAGER_H
-#define PT_TRADE_MANAGER_H
+#ifndef PT_TRADEMANAGER_H
+#define PT_TRADEMANAGER_H
 
 #include <cssysdef.h>
 #include <csutil/ref.h>
@@ -50,6 +50,7 @@ namespace PT
 
 		public:
 			bool PickUp(PT::Events::Eventp ev);
+			bool Drop(PT::Events::Eventp ev);
 
 		public:
 			TradeManager (iObjectRegistry* obj_reg);

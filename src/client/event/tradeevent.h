@@ -65,14 +65,30 @@ namespace PT
 		/**
 		 * Trade pickup event.
 		 */
-    class TradePickEvent : public TradeEvent
+    class TradePickUpEvent : public TradeEvent
     {
     public:
-
+			unsigned int itemId;
+			unsigned int slotId;
+			
     public:
-      TradePickEvent() : TradeEvent("TradePickEvent", true) {}
-      virtual ~TradePickEvent() {}
+      TradePickUpEvent() : TradeEvent("TradePickUpEvent", true) {}
+      virtual ~TradePickUpEvent() {}
     };
+
+		/**
+		* Trade drop event.
+		*/
+		class TradeDropEvent : public TradeEvent
+		{
+		public:
+			unsigned int itemId;
+			unsigned int slotId;
+
+		public:
+			TradeDropEvent() : TradeEvent("TradeDropEvent", true) {}
+			virtual ~TradeDropEvent() {}
+		};
 
   } // Events namespace 
 } // PT namespace 

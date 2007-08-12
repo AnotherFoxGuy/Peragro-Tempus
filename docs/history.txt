@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+12-Aug-2007
+  - Sueastside fixed NPCdialogs so the window closes when the dialog ends.
+  - Sueastside moved picking and dropping to the TradeManager.
+
 11-Aug-2007
   - Sueastside changed some window layout to better handle bigger resolutions.
   - PK fixed a small bug in whisperTo that crashed the server.
