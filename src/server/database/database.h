@@ -34,6 +34,7 @@ class NpcAiSettingTable;
 class NpcDialogsTable;
 class NpcDialogAnswersTable;
 class NpcEntitiesTable;
+class BooksTable;
 
 #include "resultset.h"
 
@@ -55,6 +56,7 @@ private:
   NpcDialogsTable* npcdialogstable;
   NpcDialogAnswersTable* npcdialoganswerstable;
   NpcEntitiesTable* npcentitiestable;
+  BooksTable* bookstable;
 
 public:
   virtual ResultSet* query(const char*, ...) = 0;
@@ -64,7 +66,7 @@ public:
   Database();
   virtual ~Database();
 
-  int init();
+  void init();
 
   virtual void shutdown() = 0;
 
@@ -83,6 +85,7 @@ public:
   NpcDialogsTable* getNpcDialogsTable() { return npcdialogstable; }
   NpcDialogAnswersTable* getNpcDialogAnswersTable() { return npcdialoganswerstable; }
   NpcEntitiesTable* getNpcEntitiesTable() { return npcentitiestable; }
+  BooksTable* getBooksTable() { return bookstable; }
 };
 
 #endif // DATABASE_H

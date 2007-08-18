@@ -37,10 +37,7 @@ dbSQLite::dbSQLite()
 
   begin();
 
-  // TODO need to do even better...
-  if (!init()) {
-    printf("ERROR failed to initialize database\n");
-  }
+  init();
 }
 
 dbSQLite::~dbSQLite()

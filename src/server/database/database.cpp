@@ -32,6 +32,7 @@
 #include "table-npcdialogs.h"
 #include "table-npcdialoganswers.h"
 #include "table-npcentities.h"
+#include "table-books.h"
 
 Database::Database()
 {
@@ -50,40 +51,27 @@ Database::Database()
   npcdialogstable = 0;
   npcdialoganswerstable = 0;
   npcentitiestable = 0;
+  bookstable = 0;
 }
 
-int Database::init()
+void Database::init()
 {
   userstable = new UsersTable(this);
-  if (!userstable) return 0;
   charactertable = new CharacterTable(this);
-  if (!charactertable) return 0;
   entitytable = new EntityTable(this);
-  if (!entitytable) return 0;
   inventorytable = new InventoryTable(this);
-  if (!inventorytable) return 0;
   stattable = new StatTable(this);
-  if (!stattable) return 0;
   characterstattable = new CharacterStatsTable(this);
-  if (!characterstattable) return 0;
   racetable = new RaceTable(this);
-  if (!racetable) return 0;
   racestattable = new RaceStatsTable(this);
-  if (!racestattable) return 0;
   skilltable = new SkillTable(this);
-  if (!skilltable) return 0;
   raceskilltable = new RaceSkillsTable(this);
-  if (!raceskilltable)  return 0;
   characterskillstable = new CharacterSkillsTable(this);
-  if (!characterskillstable) return 0;
   npcaisettingtable = new NpcAiSettingTable(this);
-  if (!npcaisettingtable) return 0;
   npcdialogstable = new NpcDialogsTable(this);
-  if (!npcdialogstable) return 0;
   npcdialoganswerstable = new NpcDialogAnswersTable(this);
-  if (!npcdialoganswerstable) return 0;
   npcentitiestable = new NpcEntitiesTable(this);
-  if (!npcentitiestable) return 0;
+  bookstable = new BooksTable(this);
 }
 
 Database::~Database()
@@ -103,5 +91,6 @@ Database::~Database()
   delete npcdialogstable;
   delete npcdialoganswerstable;
   delete npcentitiestable;
+  delete bookstable;
 }
 

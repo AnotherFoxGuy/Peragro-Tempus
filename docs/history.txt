@@ -9,6 +9,7 @@ under each day.
     where int, but since both the setter and getter where using float
     I changed the internal value to float as well. This also fixes 
     compilation warnings.
+  - PK added network and database code for a future implementation of books.
 
 12-Aug-2007
   - Sueastside fixed NPCdialogs so the window closes when the dialog ends.

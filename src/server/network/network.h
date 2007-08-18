@@ -32,6 +32,7 @@
 #include "server/network/entityhandler.h"
 #include "server/network/chathandler.h"
 #include "server/network/environmenthandler.h"
+#include "server/network/bookhandler.h"
 
 class Network
 {
@@ -44,13 +45,14 @@ private:
   SkillHandler skill_handler;
   TradeHandler trade_handler;
   EnvironmentHandler environment_handler;
+  BookHandler book_handler;
   UdpNetwork udp_nw;
 
 public:
   Network(Server* server) 
   : user_handler(server), udp_nw(), ent_handler(server), chat_handler(server),
     door_handler(server), quest_handler(server), skill_handler(server),
-    trade_handler(server), environment_handler(server)
+    trade_handler(server), environment_handler(server), book_handler(server)
   {
     server->setNetwork(this);
   }
@@ -66,6 +68,7 @@ public:
     udp_nw.registerHandler(&skill_handler);
     udp_nw.registerHandler(&trade_handler);
     udp_nw.registerHandler(&environment_handler);
+    udp_nw.registerHandler(&book_handler);
     udp_nw.start();
   }
 

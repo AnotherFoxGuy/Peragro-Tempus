@@ -19,7 +19,7 @@
 #ifndef _NWTYPES_H_
 #define _NWTYPES_H_
 
-#define MSG_HANDLER_COUNT 9
+#define MSG_HANDLER_COUNT 10
 
 namespace MESSAGES
 {
@@ -33,7 +33,8 @@ namespace MESSAGES
     DOOR=5,
     QUEST=6,
     TRADE=7,
-    ENVIRONMENT=8
+    ENVIRONMENT=8,
+    BOOK=9
   };
 }
 
