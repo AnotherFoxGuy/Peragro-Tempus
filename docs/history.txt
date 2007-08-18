@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+18-Aug-2007
+  - swedishcoder changed type on a few variables in entityevent. Before they
+    where int, but since both the setter and getter where using float
+    I changed the internal value to float as well. This also fixes 
+    compilation warnings.
+
 12-Aug-2007
   - Sueastside fixed NPCdialogs so the window closes when the dialog ends.
   - Sueastside moved picking and dropping to the TradeManager.

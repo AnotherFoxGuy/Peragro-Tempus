@@ -157,8 +157,8 @@ namespace PT
     class EntityMoveEvent : public EntityEvent
     {
 		public:
-			int walkDirection;
-			int turnDirection;
+			float walkDirection;
+			float turnDirection;
 
     public:
       EntityMoveEvent() : EntityEvent("EntityMoveEvent", true) {}
@@ -171,7 +171,7 @@ namespace PT
 		class EntityMoveToEvent : public EntityEvent
 		{
 		public:
-			int speed;
+			float speed;
 			csVector3 origin;
 			csVector3 destination;
 
