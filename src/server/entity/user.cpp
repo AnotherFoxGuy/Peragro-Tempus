@@ -83,7 +83,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEquipmentCount(10);
     for(int i=0; i<10; i++)
     {
-      unsigned int item = inv->getItemId(i);
+      unsigned int item = inv->getItem(i)->id;
       msg.setItemId(i, item);
     }
     msg.serialise(&bs);

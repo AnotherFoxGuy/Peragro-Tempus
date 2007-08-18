@@ -45,8 +45,10 @@ public:
   const Item* getItem() const { return item.get(); }
   const Entity* getEntity() const { return entity.get(); }
 
-  void createFromItem(unsigned int item_id);
-  void createFromItem(Item* item);
+  unsigned int variation;
+
+  void createFromItem(unsigned int item_id, unsigned int variation);
+  //void createFromItem(Item* item, unsigned int variation);
 };
 
 #endif // _ITEMENTITY_H_

@@ -30,7 +30,7 @@ public:
   static const unsigned char NoSlot = 255;
 
 private:
-  Array<unsigned int> entries; // contains item_id
+  Array<InventoryEntry> entries; // contains item_id
 
   InventoryTable* invtab;
 
@@ -41,7 +41,7 @@ private:
     unsigned char amount = 0;
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
-      if (entries.get(i) != Item::NoItem)
+      if (entries.get(i).id != Item::NoItem)
       {
         amount++;
       }
@@ -55,16 +55,16 @@ public:
     unsigned int item = Item::NoItem;
     for(unsigned char i = 0; i < slots; i++)
     {
-      entries.add(item);
+      entries.add(InventoryEntry(item, 0));
     }
   }
   ~Inventory() {}
 
-  unsigned char getSlot(unsigned int item_id)
+  unsigned char getSlot(unsigned int item_id, unsigned int variation) const
   {
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
-      if (entries.get(i) == item_id)
+      if (entries.get(i).id == item_id)
       {
         return i;
       }
@@ -72,11 +72,12 @@ public:
     return NoSlot; // no slot!
   }
 
+private:
   unsigned char getFreeSlot()
   {
     for(unsigned int i=10; i<entries.getCount(); i++)
     {
-      if (entries.get(i) == 0)
+      if (entries.get(i).id == Item::NoItem)
       {
         return i;
       }
@@ -84,24 +85,20 @@ public:
     return NoSlot; // no slot!
   }
 
-  bool addItem(unsigned int item_id)
+public:
+  bool addItem(const InventoryEntry& item, unsigned char slot = NoSlot)
   {
-    unsigned char slot = getFreeSlot();
+    // get a free slot if non specified
+    if (slot == NoSlot) slot = getFreeSlot();
 
-    if (slot == NoSlot) // no free slots!
-      return false;
+    // check for invalid slot;
+    if (slot >= entries.getCount() && slot == NoSlot) return false;
 
-    return addItem(item_id, slot);
-  }
-
-  bool addItem(unsigned int item_id, unsigned char slot)
-  {
-    if (slot >= entries.getCount()) return false; // invalid slot;
-
-    unsigned int& item = entries.get(slot);
-    if (item == Item::NoItem)
+    InventoryEntry& slot_item = entries.get(slot);
+    if (slot_item.id == Item::NoItem)
     {
-      item = item_id;
+      slot_item.id = item.id;
+      slot_item.variation = item.variation;
       invtab->set(inv_id, item, slot, true);
       return true;
     }
@@ -112,44 +109,45 @@ public:
   {
     if (slot >= entries.getCount()) return false; // invalid slot;
 
-    unsigned int& item = entries.get(slot);
-    if (item == Item::NoItem)
+    InventoryEntry& item = entries.get(slot);
+    if (item.id == Item::NoItem)
       return false;
 
     if (invtab) invtab->set(inv_id, item, slot, false);
-    item = Item::NoItem;
+    item.id = Item::NoItem;
 
     return true;
   }
 
-  unsigned int getAmount(unsigned int slot)
-  {
-    if (slot >= entries.getCount()) return false; // invalid slot;
+  //unsigned int getAmount(unsigned int slot)
+  //{
+  //  if (slot >= entries.getCount()) return false; // invalid slot;
 
-    unsigned int& item = entries.get(slot);
-    if (item == Item::NoItem)
-      return false;
+  //  unsigned int& item = entries.get(slot);
+  //  if (item == Item::NoItem)
+  //    return false;
 
-    return 1;
-  }
+  //  return 1;
+  //}
 
-  unsigned int getAmount(Item* item, unsigned int slot)
-  {
-    if (slot >= entries.getCount()) return false; // invalid slot;
+  //unsigned int getAmount(Item* item, unsigned int slot)
+  //{
+  //  if (slot >= entries.getCount()) return false; // invalid slot;
 
-    unsigned int& item_id = entries.get(slot);
-    if (item_id != item->getId())
-      return false;
+  //  unsigned int& item_id = entries.get(slot);
+  //  if (item_id != item->getId())
+  //    return false;
 
-    return 1;
-  }
+  //  return 1;
+  //}
 
-  unsigned int getTotalAmount(int item_id)
+  unsigned int getTotalAmount(int item_id, unsigned int variation)
   {
     unsigned int amount = 0;
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
-      if (entries.get(i) == item_id)
+      if (entries.get(i).id == item_id && 
+          entries.get(i).variation == variation)
       {
         amount++;
       }
@@ -157,10 +155,10 @@ public:
     return amount;
   }
 
-  unsigned int getItemId(unsigned char slot) const
+  const InventoryEntry* getItem(unsigned char slot) const
   {
     if (slot >= entries.getCount()) return false; // invalid slot;
-    return entries.get(slot);
+    return &entries.get(slot);
   }
 
   void loadFromDatabase(InventoryTable* it, int id)

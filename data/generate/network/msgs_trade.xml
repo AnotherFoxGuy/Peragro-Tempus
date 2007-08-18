@@ -1,37 +1,70 @@
 <message-implementation>
-	<message type="trade" name="trade_request">
-		<!-- TODO: implement -->
+	<!--
+	NPC Trade
+	- C -> S: TradeRequest
+	- S -> C: OffersListNpc
+	- C -> S: BuyItemRequestNpc
+	- S -> C: BuyItemResponseNpc
+	-->
+
+	<!--
+	PVP Trade (Msg via Server)
+	- C1 -> C1: TradeRequest
+	- C2 -> C1: TradeResponse
+
+	- Cx -> Cy: OffersListPvp // both send offers 
+
+	- Cx -> Cy: OfferAccept // both send accept.
+
+	// if another offer is sent, all accepts are reset.
+
+	// if both accepted
+	- Cn -> S: ConfirmRequest
+
+	// if both confirmed
+	- S -> Cn: ConfirmResponse
+	-->
+	<message type="Trade" name="TradeRequest">
+		<uint32>EntityId</uint32>
 	</message>
 
-	<message type="trade" name="trade_response">
-		<!-- TODO: implement -->
+	<message type="Trade" name="TradeResponse">
+		<string>Error</string> <!-- Null if success, else contains reason -->
 	</message>
 
-	<message type="trade" name="offers_list_npc">
-		<!-- TODO: implement -->
+	<message type="Trade" name="TradeOffersListNpc">
+		<uint8>IsBuy</uint8>
+		<list name="Offers">
+			<uint32>ItemId</uint32>
+			<uint32>Price</uint32>
+		</list>
 	</message>
 
-	<message type="trade" name="buy_item_request_npc">
-		<!-- TODO: implement -->
+	<message type="Trade" name="TradeOffersListPvp">
+		<list name="Offers">
+			<uint32>ItemId</uint32>
+			<uint32>Amount</uint32>
+			<uint8>SlotId</uint8>
+		</list>
 	</message>
 
-	<message type="trade" name="buy_item_response_npc">
-		<!-- TODO: implement -->
+	<message type="Trade" name="TradeOrderListNpc">
+		<uint8>IsBuy</uint8>
+		<list name="Orders">
+			<uint32>ItemId</uint32>
+		</list>
 	</message>
 
-	<message type="trade" name="offers_list_pvp">
-		<!-- TODO: implement -->
+	<message type="Trade" name="TradeCancle">
 	</message>
 
-	<message type="trade" name="offer_accept">
-		<!-- TODO: implement -->
+	<message type="Trade" name="TradeOfferAccept">
 	</message>
 
-	<message type="trade" name="confirm_request">
-		<!-- TODO: implement -->
+	<message type="Trade" name="TradeConfirmRequest">
 	</message>
 
-	<message type="trade" name="confirm_response">
-		<!-- TODO: implement -->
+	<message type="Trade" name="TradeConfirmResponse">
+		<string>Error</string> <!-- Null if success, else contains reason -->
 	</message>
 </message-implementation>

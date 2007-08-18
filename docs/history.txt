@@ -10,6 +10,8 @@ under each day.
     I changed the internal value to float as well. This also fixes 
     compilation warnings.
   - PK added network and database code for a future implementation of books.
+  - PK added an item variation id to enable different book and implemeneted
+    scribing and reading book on the server side. Untested code!
 
 12-Aug-2007
   - Sueastside fixed NPCdialogs so the window closes when the dialog ends.

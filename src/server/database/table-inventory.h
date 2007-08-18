@@ -24,16 +24,29 @@
 
 class Database;
 class Item;
-class InvEntries;
+class Entry;
+
+class InventoryEntry
+{
+public:
+  unsigned int id;
+  unsigned int variation;
+
+  InventoryEntry() {}
+  InventoryEntry(unsigned int id, unsigned int variation)
+  : id(id), variation(variation)
+  {
+  }
+};
 
 class InventoryTable : public Table
 {
 public:
   InventoryTable(Database* db);
   void createTable();
-  void set(int inventory, unsigned int item, int slot, bool add);
+  void set(int inventory, const InventoryEntry& item, int slot, bool add);
   void dropTable();
-  void getAllEntries(Array<unsigned int>& entries, int id);
+  void getAllEntries(Array<InventoryEntry>& entries, int id);
 };
 
 #endif //_TABLE_INVENTORY_H_

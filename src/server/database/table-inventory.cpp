@@ -43,17 +43,18 @@ void InventoryTable::createTable()
     "id INTEGER, "
     "slot INTEGERT, "
     "item INTEGER, "
+    "variation INTEGER, "
     "PRIMARY KEY (id, slot) );");
 }
 
-void InventoryTable::set(int inventory, unsigned int item_id, int slot, bool add)
+void InventoryTable::set(int inventory, const InventoryEntry& item, int slot, bool add)
 {
   if (add)
-    db->update("insert into inventory (id, item, slot) values ('%d','%d','%d');",
-      inventory, item_id, slot);
+    db->update("insert into inventory (id, item, variation, slot) values ('%d','%d','%d','%d');",
+      inventory, item.id, item.variation, slot);
   else
     db->update("delete from inventory where id=%d and item=%d and slot=%d;",
-      inventory, item_id, slot);
+      inventory, item.id, slot);
 }
 
 void InventoryTable::dropTable()
@@ -61,13 +62,14 @@ void InventoryTable::dropTable()
   db->update("drop table inventory;");
 }
 
-void InventoryTable::getAllEntries(Array<unsigned int>& entries, int id)
+void InventoryTable::getAllEntries(Array<InventoryEntry>& entries, int id)
 {
-  ResultSet* rs = db->query("select item, slot from inventory where id = '%d';", id);
+  ResultSet* rs = db->query("select item, slot, variation from inventory where id = '%d';", id);
   if (!rs) return;
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
-    entries.get(atoi(rs->GetData(i,1).c_str())) = atoi(rs->GetData(i,0).c_str());
+    entries.get(atoi(rs->GetData(i,1).c_str())).id = atoi(rs->GetData(i,0).c_str());
+    entries.get(atoi(rs->GetData(i,1).c_str())).variation = atoi(rs->GetData(i,2).c_str());
   }
   delete rs;
 }  

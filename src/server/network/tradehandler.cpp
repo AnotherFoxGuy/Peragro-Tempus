@@ -160,7 +160,7 @@ void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
     {
       // TODO: Check if order is valid (no cheated prices)
       // TODO: Take Money!
-      inv->addItem(order_msg.getItemId(i));
+      inv->addItem(InventoryEntry(order_msg.getItemId(i), 0));
     }
   }
   else
@@ -211,7 +211,9 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   peer->clearOffer();
   for (unsigned char i = 0; i < offer_req.getOffersCount(); i++)
   {
-    peer->addToOffer(pc, offer_req.getItemId(i));
+    //TODO: Fix so variations can be traded as well!
+    InventoryEntry entry(offer_req.getItemId(i), 0);
+    peer->addToOffer(pc, &entry);
   }
 
   const Array<TradeSession::Offer>* real_offer = peer->getOffer();
@@ -222,7 +224,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   offer.setOffersCount((unsigned char)real_offer->getCount());
   for (size_t i = 0; real_offer && i < real_offer->getCount(); i++)
   {
-    offer.setItemId(i, real_offer->get(i).item_id);
+    offer.setItemId(i, real_offer->get(i).item->id);
     offer.setAmount(i, real_offer->get(i).amount);
     offer.setSlotId(i, offer_req.getSlotId(i));
   }

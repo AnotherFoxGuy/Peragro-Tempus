@@ -149,9 +149,10 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     //request_msg.getInventoryId();
     unsigned char slot = request_msg.getSlot();
 
-    if (character->getInventory()->getItemId(slot) == Item::NoItem)
+    if (character->getInventory()->getItem(slot)->id == Item::NoItem)
     {
-      if (character->getInventory()->addItem(item->getId(), slot))
+      const InventoryEntry entry(item->getId(), item_entity->variation);
+      if (character->getInventory()->addItem(entry, slot))
       {
         bool equip = (slot < 10);
         if (equip && response_msg.getError() == ptString::Null)
@@ -202,26 +203,14 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 
   Character* character = c_char->getLock();
 
-  unsigned int item = character->getInventory()->getItemId(slot_id);
-  if (item != request_msg.getItemId())
+  const InventoryEntry item = *character->getInventory()->getItem(slot_id);
+  if (item.id != request_msg.getItemId())
   {
     response_msg.setError(ptString("Unexpected item", strlen("Unexpected item")));
     ByteStream bs;
     response_msg.serialise(&bs);
     NetworkHelper::sendMessage(user_ent, bs);
     return;
-  }
-
-  if (slot_id < 10)
-  {
-    // Tell the world to unequip it!
-    EquipMessage unequip_msg;
-    unequip_msg.setEntityId(user_ent->getId());
-    unequip_msg.setSlotId(slot_id);
-    unequip_msg.setItemId(item); // No Item!
-    ByteStream bs;
-    response_msg.serialise(&bs);
-    NetworkHelper::broadcast(bs);
   }
 
   // Check if in Inventory
@@ -238,29 +227,29 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     return;
   }
 
-  response_msg.setItemId(item);
+  response_msg.setItemId(item.id);
   response_msg.setSlotId(slot_id);
 
   ByteStream bs;
   response_msg.serialise(&bs);
   NetworkHelper::sendMessage(user_ent, bs);
 
-  bool equip = (slot_id < 10);
-  if (equip && response_msg.getError() == ptString::Null)
+  if (slot_id < 10)
   {
-    EquipMessage response_msg;
-    response_msg.setEntityId(user_ent->getId());
-    if (item) response_msg.setItemId(0);
-    response_msg.setSlotId(slot_id);
-
+    printf("Dropped an equiped item, so unequip it!\n");
+    // Tell the world to unequip it!
+    EquipMessage unequip_msg;
+    unequip_msg.setEntityId(user_ent->getId());
+    unequip_msg.setSlotId(slot_id);
+    unequip_msg.setItemId(Item::NoItem); // No Item!
     ByteStream bs;
     response_msg.serialise(&bs);
-    Server::getServer()->broadCast(bs);
+    NetworkHelper::broadcast(bs);
   }
 
   // Create new entity from item.
   ItemEntity* e = new ItemEntity();
-  e->createFromItem(item);
+  e->createFromItem(item.id, item.variation);
 
   Entity* ent = e->getEntity()->getLock();
   ent->setPos(user_ent->getPos());
@@ -336,15 +325,15 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
   Character* character = c_char->getLock();
   Inventory* inventory = character->getInventory();
 
-  int new_item_id = inventory->getItemId(invent_slot);
-  Item* item = server->getItemManager()->findById(new_item_id);
+  const InventoryEntry* new_item = inventory->getItem(invent_slot);
+  Item* item = server->getItemManager()->findById(new_item->id);
 
   if (!item) 
     error = "No such Item";
 
   // See if we have already an item in the equip slot.
-  int old_item_id = inventory->getItemId(equip_slot);
-  Item* old = server->getItemManager()->findById(old_item_id);
+  const InventoryEntry* old_item = inventory->getItem(equip_slot);
+  Item* old = server->getItemManager()->findById(old_item->id);
 
   if (item && ! error)
   {
@@ -355,10 +344,10 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     if (old) inventory->takeItem(equip_slot);
 
     // Then we add the new item to the equip slot and...
-    inventory->addItem(item->getId(), equip_slot);
+    inventory->addItem(*new_item, equip_slot);
 
     // ... (if we have) the old item to the inventory.
-    if (old) inventory->addItem(old->getId(), invent_slot);
+    if (old) inventory->addItem(*old_item, invent_slot);
   }
 
   character->freeLock();
@@ -383,7 +372,7 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     {
       EquipMessage response_msg;
       response_msg.setEntityId(user_ent->getId());
-      response_msg.setItemId(old_item_id);
+      response_msg.setItemId(old_item->id);
       response_msg.setSlotId(invent_slot);
 
       ByteStream bs;
@@ -395,7 +384,7 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     {
       EquipMessage response_msg;
       response_msg.setEntityId(user_ent->getId());
-      response_msg.setItemId(new_item_id);
+      response_msg.setItemId(new_item->id);
       response_msg.setSlotId(equip_slot);
 
       ByteStream bs;

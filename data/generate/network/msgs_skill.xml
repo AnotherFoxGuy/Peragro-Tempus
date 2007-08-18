@@ -1,31 +1,31 @@
 <message-implementation>
-	<message type="skill" name="usage_start_request">
-		<uint32>caster</uint32>
-		<uint32>target</uint32>
-		<uint16>skill</uint16>
+	<message type="Skill" name="SkillUsageStartRequest">
+		<uint32>Caster</uint32>
+		<uint32>Target</uint32>
+		<uint16>Skill</uint16>
 	</message>
 
-	<message type="skill" name="usage_start_response">
-		<uint32>caster</uint32>
-		<uint32>target</uint32>
-		<uint16>skill</uint16>
-		<uint16>mpCost</uint16>
-		<string>error</string> <!-- null if successful -->
+	<message type="Skill" name="SkillUsageStartResponse">
+		<uint32>Caster</uint32>
+		<uint32>Target</uint32>
+		<uint16>Skill</uint16>
+		<uint16>MpCost</uint16>
+		<string>Error</string> <!-- null if successful -->
 	</message>
 
-	<message type="skill" name="usage_stop_request">
-		<uint16>skill</uint16>
+	<message type="Skill" name="SkillUsageStopRequest">
+		<uint16>Skill</uint16>
 	</message>
 
-	<message type="skill" name="usage_completion">
-		<uint32>caster</uint32>
-		<uint32>target</uint32>
-		<uint16>skill</uint16>
+	<message type="Skill" name="SkillUsageCompletion">
+		<uint32>Caster</uint32>
+		<uint32>Target</uint32>
+		<uint16>Skill</uint16>
 	</message>
 
-	<message type="skill" name="usage_interrupt">
-		<uint32>caster</uint32>
-		<uint32>target</uint32>
-		<uint16>skill</uint16>
+	<message type="Skill" name="SkillUsageInterrupt">
+		<uint32>Caster</uint32>
+		<uint32>Target</uint32>
+		<uint16>Skill</uint16>
 	</message>
 </message-implementation>

@@ -34,6 +34,7 @@ namespace BOOK
 
 class BookReadRequestMessage : public NetMessage
 {
+  unsigned int itemid;
   unsigned int bookid;
 
 public:
@@ -48,6 +49,9 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
+  unsigned int getItemId() { return itemid; }
+  void setItemId(unsigned int x) { itemid = x; }
+
   unsigned int getBookId() { return bookid; }
   void setBookId(unsigned int x) { bookid = x; }
 
@@ -55,7 +59,7 @@ public:
 
 class BookReadResponseMessage : public NetMessage
 {
-  ptString text;
+  const char* text;
 
 public:
   BookReadResponseMessage() : NetMessage(MESSAGES::BOOK,BOOK::BOOKREADRESPONSE)
@@ -69,13 +73,15 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getText() { return text; }
-  void setText(ptString x) { text = x; }
+  const char* getText() { return text; }
+  void setText(const char* x) { text = x; }
 
 };
 
 class BookWriteRequestMessage : public NetMessage
 {
+  unsigned int itemid;
+  unsigned int bookid;
   ptString bookname;
   const char* text;
 
@@ -91,6 +97,12 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
+  unsigned int getItemId() { return itemid; }
+  void setItemId(unsigned int x) { itemid = x; }
+
+  unsigned int getBookId() { return bookid; }
+  void setBookId(unsigned int x) { bookid = x; }
+
   ptString getBookName() { return bookname; }
   void setBookName(ptString x) { bookname = x; }
 
@@ -101,7 +113,6 @@ public:
 
 class BookWriteResponseMessage : public NetMessage
 {
-  unsigned int bookid;
   ptString error;
 
 public:
@@ -115,9 +126,6 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
-
-  unsigned int getBookId() { return bookid; }
-  void setBookId(unsigned int x) { bookid = x; }
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }

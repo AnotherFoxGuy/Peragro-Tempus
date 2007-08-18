@@ -1,19 +1,19 @@
 <message-implementation>
-	<message type="connection" name="request">
-		<uint8>${nw_version.major}</uint8>
-		<uint8>${nw_version.minor}</uint8>
-		<uint8>${nw_version.micro}</uint8>
+	<message type="Connection" name="Request">
+		<uint8>VersionMajor</uint8>
+		<uint8>VersionMinor</uint8>
+		<uint8>VersionMicro</uint8>
 	</message>
 
-	<message type="connection" name="response">
-		<uint8>session_id</uint8>
+	<message type="Connection" name="Response">
+		<uint8>SessionId</uint8>
 	</message>
 
-	<message type="connection" name="ping">
+	<message type="Connection" name="Ping">
 		<!-- no data needed -->
 	</message>
 
-	<message type="connection" name="pong">
+	<message type="Connection" name="Pong">
 		<!-- no data needed -->
 	</message>
 </message-implementation>

@@ -1,85 +1,98 @@
 <message-implementation>
-	<message type="entity" name="add">
-		<string>name</string>
-		<string>mesh</string>
-		<vector3f>pos</vector3f>
-		<string>sector</string>
-		<uint32>entity_id</uint32>
-		<uint8>entity_type</uint8>
+	<message type="Entity" name="Add">
+		<string>Name</string>
+		<string>Mesh</string>
+		<vector3f>Pos</vector3f>
+		<string>Sector</string>
+		<uint32>EntityId</uint32>
+		<uint8>EntityType</uint8>
 	</message>
 
-	<message type="entity" name="remove">
-		<uint32>entity_id</uint32>
+	<message type="Entity" name="Remove">
+		<uint32>EntityId</uint32>
 	</message>
 
-	<message type="entity" name="move">
-		<vector3f>from</vector3f>
-		<vector3f>to</vector3f>
-		<float>speed</float>
-		<uint32>entity_id</uint32>
+	<message type="Entity" name="Move">
+		<vector3f>From</vector3f>
+		<vector3f>To</vector3f>
+		<float>Speed</float>
+		<uint32>EntityId</uint32>
 	</message>
 
-	<message type="entity" name="move_request">
-		<vector3f>to</vector3f>
+	<message type="Entity" name="MoveRequest">
+		<vector3f>To</vector3f>
 	</message>
 
-	<message type="entity" name="pick_request">
-		<uint32>target</uint32>
+	<message type="Entity" name="PickRequest">
+		<uint32>Target</uint32>
 	</message>
 
-	<message type="entity" name="pick_response">
-		<string>name</string>
-		<uint32>itemId</uint32>
-		<string>error</string> <!-- null if successful -->
+	<message type="Entity" name="PickResponse">
+		<string>Name</string>
+		<uint32>ItemId</uint32>
+		<string>Target</string>
+		<string>Error</string> <!-- null if successful -->
 	</message>
 
-	<message type="entity" name="drop_request">
-		<uint32>target</uint32>
+	<message type="Entity" name="DropRequest">
+		<uint32>Target</uint32>
 	</message>
 
-	<message type="entity" name="drop_response">
-		<string>name</string>
-		<string>target</string>
-		<string>error</string> <!-- null if successful -->
+	<message type="Entity" name="DropResponse">
+		<string>Name</string>
+		<string>Target</string>
+		<string>Error</string> <!-- null if successful -->
 	</message>
 
-	<message type="entity" name="inventory_list">
-		<list>
-			<uint16>id</uint16>
-			<string>name</string>
-			<uint16>amount</uint16>
+	<message type="Entity" name="InventoryList">
+		<list name="Inventory">
+			<uint16>Id</uint16>
+			<string>Name</string>
+			<uint16>Amount</uint16>
 		</list>
 	</message>
 
-	<message type="entity" name="stats_list">
-		<list>
-			<uint16>id</uint16>
-			<string>name</string>
-			<uint16>level</uint16>
+	<message type="Entity" name="StatsList">
+		<list name="Stats">
+			<uint16>Id</uint16>
+			<string>Name</string>
+			<uint16>Level</uint16>
 		</list>
 	</message>
 
-	<message type="entity" name="stats_change">
-		<uint16>id</uint16>
-		<uint16>level</uint16>
+	<message type="Entity" name="StatsChange">
+		<uint16>Id</uint16>
+		<uint16>Level</uint16>
 	</message>
 
-	<message type="entity" name="skills_list">
-		<list>
-			<uint16>id</uint16>
-			<string>name</string>
+	<message type="Entity" name="SkillsList">
+		<list name="Skills">
+			<uint16>Id</uint16>
+			<string>Name</string>
 		</list>
 	</message>
 
-	<message type="entity" name="equip_request">
-		<uint32>item_id</uint32>
-		<uint8>slot_id</uint8>
+	<message type="Entity" name="EquipRequest">
+		<uint32>ItemId</uint32>
+		<uint8>SlotId</uint8>
 	</message>
 
-	<message type="entity" name="equip">
-		<uint32>entity_id</uint32>
-		<uint32>item_id</uint32>
-		<uint8>slot_id</uint8>
-		<string>error</string> <!-- null if successful -->
+	<message type="Entity" name="Equip">
+		<uint32>EntityId</uint32>
+		<uint32>ItemId</uint32>
+		<uint8>SlotId</uint8>
+		<string>Error</string> <!-- null if successful -->
+	</message>
+
+	<message type="Entity" name="AddCharacterEntity">
+		<string>Name</string>
+		<string>Mesh</string>
+		<vector3f>Pos</vector3f>
+		<uint32>haircolour</uint32>
+		<uint32>skincolour</uint32>
+		<uint32>decalcolour</uint32>
+		<string>Sector</string>
+		<uint32>EntityId</uint32>
+		<uint8>EntityType</uint8>
 	</message>
 </message-implementation>

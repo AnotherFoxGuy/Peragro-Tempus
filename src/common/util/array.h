@@ -126,7 +126,7 @@ public:
     *  \param index Position of the object inside the array.
     *  \return Object set by #add at the specified position.
     */
-  typ get(size_t index) const
+  const typ& get(size_t index) const
   {
     assert(index < count);
     return typarray[index];

@@ -33,10 +33,13 @@ BooksTable::BooksTable(Database* db) : Table(db)
 
 BooksTableVO* BooksTable::parseSingleResultSet(ResultSet* rs, size_t row)
 {
+  if (rs->GetRowCount() != 1) return 0;
+
   BooksTableVO* vo = new BooksTableVO();
   vo->id = atoi(rs->GetData(row,0).c_str());
-  vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
-  vo->text = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,2).length());
+  vo->itemId = atoi(rs->GetData(row,1).c_str());
+  vo->name = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,1).length());
+  vo->text = ptString(rs->GetData(row,3).c_str(), rs->GetData(row,2).length());
   return vo;
 }
 
@@ -54,9 +57,13 @@ void BooksTable::createTable()
 {
   db->update("create table books ("
              "id INTEGER, "
+             "itemId INTEGER, "
              "name TEXT, "
              "text TEXT, "
-             "PRIMARY KEY (Id) );");
+             "PRIMARY KEY (id, itemId) );");
+
+  BooksTableVO book(0,ptString("Empty book", 10), ptString());
+  insert(&book);
 }
 
 void BooksTable::dropTable()
@@ -66,18 +73,32 @@ void BooksTable::dropTable()
 
 void BooksTable::insert(BooksTableVO* vo)
 {
-  const char* query = { "insert into books(id, name, text) values (%d, '%s', '%s');" };
-  db->update(query, vo->id, *vo->name, *vo->text);
+  const char* query = { "insert into books(id, itemId, name, text) values (%d, %d, '%q', '%q');" };
+  db->update(query, vo->id, vo->itemId, *vo->name, *vo->text);
 }
 
-void BooksTable::remove(int id)
+void BooksTable::update(BooksTableVO* vo)
 {
-  db->update("delete from books where id = %d");
+  const char* query = { "update books set name = '%q', text = '%q' where id = %d and itemId = %d;" };
+  db->update(query, *vo->name, *vo->text, vo->id, vo->itemId);
+}
+
+void BooksTable::remove(BooksTableVO* vo)
+{
+  db->update("delete from books where id = %d and itemId = %d", vo->id, vo->itemId);
+}
+
+unsigned int BooksTable::getCount(unsigned int itemId)
+{
+  ResultSet* rs = db->query("select count(*) from books where itemId = %d;", itemId);
+  unsigned int count = atoi(rs->GetData(0,0).c_str());
+  delete rs;
+  return count;
 }
 
 bool BooksTable::existsByName(ptString name)
 {
-  ResultSet* rs = db->query("select * from books where name like '%s';", *name);
+  ResultSet* rs = db->query("select * from books where name like '%q';", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -93,7 +114,7 @@ bool BooksTable::existsById(int id)
 
 BooksTableVO* BooksTable::getByName(ptString name)
 {
-  ResultSet* rs = db->query("select * from books where name like '%s';", *name);
+  ResultSet* rs = db->query("select * from books where name like '%q';", *name);
   return parseSingleResultSet(rs);
 }
 

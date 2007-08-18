@@ -1,91 +1,112 @@
-<network>
-	<nw_version major="0" minor="0" micro="1" />
+<pt-gen plugin="network">
+	<version major="0" minor="0" micro="1" />
 	<peers>
-		<peer name="client" src="peer_client.xml" />
-		<peer name="server" src="peer_server.xml" />
+		<peer name="Client" src="peer_client.xml" />
+		<peer name="Server" src="peer_server.xml" />
 		<!-- peer name="anvil" / -->
 		<!-- peer name="npcserver" / -->
 		<!-- peer name="admin tools" / -->
 		<!-- peer name="other tools" / -->
 	</peers>
 	<message-definitions>
-		<type id="0" name="connection">
-			<message id="0" name="request" />
-			<message id="1" name="response" />
-			<message id="2" name="ping" />
-			<message id="3" name="pong" />
+		<type id="0" name="Connection">
+			<message id="0" name="Request" />
+			<message id="1" name="Response" />
+			<message id="2" name="Ping" />
+			<message id="3" name="Pong" />
 		</type>
-		<type id="1" name="user">
-			<message id="0" name="login_request" />
-			<message id="1" name="login_response" />
-			<message id="2" name="register_request" />
-			<message id="3" name="register_response" />
-			<message id="4" name="char_list" />
-			<message id="5" name="char_create_request" />
-			<message id="6" name="char_create_response" />
-			<message id="7" name="char_select_request" />
-			<message id="8" name="char_select_response" />
+		<type id="1" name="User">
+			<message id="0" name="LoginRequest" />
+			<message id="1" name="LoginResponse" />
+			<message id="2" name="RegisterRequest" />
+			<message id="3" name="RegisterResponse" />
+			<message id="4" name="CharList" />
+			<message id="5" name="CharCreateRequest" />
+			<message id="6" name="CharCreateResponse" />
+			<message id="7" name="CharSelectRequest" />
+			<message id="8" name="CharSelectResponse" />
 		</type>
-		<type id="2" name="entity">
-			<message id="0" name="add" />
-			<message id="1" name="remove" />
-			<message id="2" name="move" />
-			<message id="3" name="move_request" />
-			<message id="4" name="pick_request" />
-			<message id="5" name="pick_response" />
-			<message id="6" name="drop_request" />
-			<message id="7" name="drop_response" />
-			<message id="8" name="inventory_list" />
-			<message id="9" name="stats_list" />
-			<message id="10" name="stats_change" />
-			<message id="11" name="skills_list" />
-			<message id="12" name="equip_request" />
-			<message id="13" name="equip" />
+		<type id="2" name="Entity">
+			<message id="0" name="Add" />
+			<message id="1" name="Remove" />
+			<message id="2" name="Move" />
+			<message id="3" name="MoveRequest" />
+			<message id="4" name="PickRequest" />
+			<message id="5" name="PickResponse" />
+			<message id="6" name="DropRequest" />
+			<message id="7" name="DropResponse" />
+			<message id="8" name="InventoryList" />
+			<message id="9" name="StatsList" />
+			<message id="10" name="StatsChange" />
+			<message id="11" name="SkillsList" />
+			<message id="12" name="EquipRequest" />
+			<message id="13" name="Equip" />
+			<message id="14" name="AddCharacterEntity" />
 		</type>
-		<type id="3" name="chat">
-			<message id="0" name="say" />
-			<message id="1" name="shout" />
-			<message id="2" name="whisper" />
-			<message id="3" name="party" />
-			<message id="4" name="guild" />
-			<message id="5" name="family" />
+		<type id="3" name="Chat">
+			<message id="0" name="Say" />
+			<message id="1" name="Shout" />
+			<message id="2" name="WhisperTo" />
+			<message id="3" name="WhisperFrom" />
+			<message id="4" name="Party" />
+			<message id="5" name="Guild" />
+			<message id="6" name="Family" />
 		</type>
-		<type id="4" name="skill">
-			<message id="0" name="usage_start_request" />
-			<message id="1" name="usage_start_response" />
-			<message id="2" name="usage_stop_request" />
-			<message id="3" name="usage_completion" />
-			<message id="4" name="usage_interrupt" />
+		<type id="4" name="Skill">
+			<message id="0" name="SkillUsageStartRequest" />
+			<message id="1" name="SkillUsageStartResponse" />
+			<message id="2" name="SkillUsageStopRequest" />
+			<message id="3" name="SkillUsageCompletion" />
+			<message id="4" name="SkillUsageInterrupt" />
 		</type>
-		<type id="5" name="trade">
-			<message id="0" name="trade_request" />
-			<message id="1" name="trade_response" />
-			<message id="2" name="offers_list_npc" />
-			<message id="3" name="buy_item_request_npc" />
-			<message id="4" name="buy_item_response_npc" />
-			<message id="5" name="offers_list_pvp" />
-			<message id="6" name="offer_accept" />
-			<message id="7" name="confirm_request" />
-			<message id="8" name="confirm_response" />
+		<type id="5" name="Door">
+			<message id="0" name="OpenDoorRequest" />
+			<message id="1" name="OpenDoorResponse" />
+			<message id="2" name="CloseDoorRequest" />
+			<message id="3" name="CloseDoorResponse" />
+			<message id="4" name="LockDoorRequest" />
+			<message id="5" name="LockDoorResponse" />
+			<message id="6" name="UnlockDoorRequest" />
+			<message id="7" name="UnlockDoorResponse" />
 		</type>
-		<type id="6" name="door">
-			<message id="0" name="open_request" />
-			<message id="1" name="open_response" />
-			<message id="2" name="close_request" />
-			<message id="3" name="close_response" />
-			<message id="4" name="lock_request" />
-			<message id="5" name="lock_response" />
-			<message id="6" name="unlock_request" />
-			<message id="7" name="unlock_response" />
+		<type id="6" name="Quest">
+			<message id="0" name="NpcDialog" />
+			<message id="1" name="NpcDialogAnswer" />
+			<message id="2" name="NpcStartDialog" />
+			<message id="3" name="NpcEndDialog" />
+		</type>
+		<type id="7" name="Trade">
+			<message id="0" name="TradeRequest" />
+			<message id="1" name="TradeResponse" />
+			<message id="2" name="TradeOffersListNpc" />
+			<message id="3" name="TradeOffersListPvp" />
+			<message id="4" name="TradeOrderListNpc" />
+			<message id="5" name="TradeCancel" />
+			<message id="6" name="TradeOfferAccept" />
+			<message id="7" name="TradeConfirmRequest" />
+			<message id="8" name="TradeConfirmResponse" />
+		</type>
+		<type id="8" name="Environment">
+			<message id="0" name="DayTime" />
+			<message id="1" name="Weather" />
+		</type>
+		<type id="9" name="Book">
+			<message id="0" name="BookReadRequest" />
+			<message id="1" name="BookReadResponse" />
+			<message id="2" name="BookWriteRequest" />
+			<message id="3" name="BookWriteResponse" />
 		</type>
 	</message-definitions>
 	<message-implementations>
-		<messages-implementation src="msgs_connection.xml" />
-		<messages-implementation src="msgs_user.xml" />
-		<messages-implementation src="msgs_entity.xml" />
-		<messages-implementation src="msgs_chat.xml" />
-		<messages-implementation src="msgs_skill.xml" />
-		<messages-implementation src="msgs_trade.xml" />
-		<messages-implementation src="msgs_doors.xml" />
+		<message-implementation src="msgs_connection.xml" />
+		<message-implementation src="msgs_user.xml" />
+		<message-implementation src="msgs_entity.xml" />
+		<message-implementation src="msgs_chat.xml" />
+		<message-implementation src="msgs_skill.xml" />
+		<message-implementation src="msgs_door.xml" />
+		<message-implementation src="msgs_quest.xml" />
+		<message-implementation src="msgs_trade.xml" />
+		<message-implementation src="msgs_environment.xml" />
+		<message-implementation src="msgs_book.xml" />
 	</message-implementations>
-</network>
+</pt-gen>

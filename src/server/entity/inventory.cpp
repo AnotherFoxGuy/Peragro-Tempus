@@ -31,12 +31,12 @@ void Inventory::sendAllItems(Connection* conn)
   size_t n = 0;
   for (size_t i=0; i<entries.getCount(); i++)
   {
-    unsigned int item = entries.get(i);
+    const InventoryEntry& item = entries.get(i);
 
-    if (item == Item::NoItem)
+    if (item.id == Item::NoItem)
       continue;
 
-    itemlist_msg.setItemId(n, item);
+    itemlist_msg.setItemId(n, item.id);
     itemlist_msg.setSlotId(n, (unsigned char) i);
     n++;
   }

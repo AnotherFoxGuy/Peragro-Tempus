@@ -1,36 +1,36 @@
 <message-implementation>
-	<message type="chat" name="say">
-		<string>speaker_name</string> <!-- null if client sends -->
-		<string>message</string>
+	<message type="Chat" name="Say">
+		<string>SpeakerName</string> <!-- null if client sends -->
+		<text>Message</text>
 	</message>
 
-	<message type="chat" name="shout">
-		<string>speaker_name</string> <!-- null if client sends -->
-		<string>message</string>
+	<message type="Chat" name="Shout">
+		<string>SpeakerName</string> <!-- null if client sends -->
+		<text>Message</text>
 	</message>
 
-	<message type="chat" name="whisper_to">
-		<string>listener_name</string>
-		<string>message</string>
+	<message type="Chat" name="WhisperTo">
+		<string>ListenerName</string>
+		<text>Message</text>
 	</message>
 	
-	<message type="chat" name="whisper_from">
-		<string>speaker_name</string>
-		<string>message</string>
+	<message type="Chat" name="WhisperFrom">
+		<string>SpeakerName</string>
+		<text>Message</text>
 	</message>
 	
-	<message type="chat" name="party">
-		<string>speaker_name</string> <!-- null if client sends -->
-		<string>message</string>
+	<message type="Chat" name="Party">
+		<string>SpeakerName</string> <!-- null if client sends -->
+		<text>Message</text>
 	</message>
 
-	<message type="chat" name="guild">
-		<string>speaker_name</string> <!-- null if client sends -->
-		<string>message</string>
+	<message type="Chat" name="Guild">
+		<string>SpeakerName</string> <!-- null if client sends -->
+		<text>Message</text>
 	</message>
 
-	<message type="chat" name="family">
-		<string>speaker_name</string> <!-- null if client sends -->
-		<string>message</string>
+	<message type="Chat" name="Family">
+		<string>SpeakerName</string> <!-- null if client sends -->
+		<text>Message</text>
 	</message>
 </message-implementation>

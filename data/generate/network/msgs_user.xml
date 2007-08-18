@@ -1,45 +1,54 @@
 <message-implementation>
-	<message type="user" name="login_request">
-		<string>username</string>
-		<string>password</string>
+	<message type="User" name="LoginRequest">
+		<string>Username</string>
+		<text>Password</text>
 	</message>
 
-	<message type="user" name="login_response">
-		<string>error</string> <!-- null is successful -->
+	<message type="User" name="LoginResponse">
+		<string>Error</string> <!-- null is successful -->
 	</message>
 
-	<message type="user" name="register_request">
-		<string>username</string>
-		<string>password</string>
+	<message type="User" name="RegisterRequest">
+		<string>Username</string>
+		<text>Password</text>
 	</message>
 
-	<message type="user" name="register_response">
-		<string>error</string> <!-- null is successful -->
+	<message type="User" name="RegisterResponse">
+		<string>Error</string> <!-- null is successful -->
 	</message>
 
-	<message type="user" name="char_list">
-		<list>
-			<uint32>id</uint32>
-			<string>name</string>
+	<message type="User" name="CharList">
+		<list name="Character">
+			<uint32>CharId</uint32>
+			<string>Name</string>
+			<colour24>HairColour</colour24>
+			<colour24>SkinColour</colour24>
+			<colour24>DecalColour</colour24>
 		</list>
 	</message>
 
-	<message type="user" name="char_create_request">
-		<string>name</string>
+	<message type="User" name="CharCreateRequest">
+		<string>Name</string>
+		<colour24>HairColour</colour24>
+		<colour24>SkinColour</colour24>
+		<colour24>DecalColour</colour24>
 	</message>
 
-	<message type="user" name="char_create_response">
-		<uint32>char_id</uint32>
-		<string>name</string>
-		<string>error</string> <!-- null is successful -->
+	<message type="User" name="CharCreateResponse">
+		<uint32>CharId</uint32>
+		<string>Name</string>
+		<colour24>HairColour</colour24>
+		<colour24>SkinColour</colour24>
+		<colour24>DecalColour</colour24>
+		<string>Error</string> <!-- null is successful -->
 	</message>
 
-	<message type="user" name="char_select_request">
-		<uint32>char_id</uint32>
+	<message type="User" name="CharSelectRequest">
+		<uint32>CharId</uint32>
 	</message>
 
-	<message type="user" name="char_select_response">
-		<uint32>char_id</uint32>
-		<string>error</string> <!-- null is successful -->
+	<message type="User" name="CharSelectResponse">
+		<uint32>EntityId</uint32>
+		<string>Error</string> <!-- null is successful -->
 	</message>
 </message-implementation>

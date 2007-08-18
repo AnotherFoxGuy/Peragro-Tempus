@@ -61,6 +61,7 @@ void EntityTable::createTable()
     "pos_y FLOAT, "
     "pos_z FLOAT, "
     "sector TEXT, "
+    "variation INTEGER, "
     "PRIMARY KEY (id) );");
 
 
@@ -75,28 +76,28 @@ void EntityTable::createTable()
   ptString horse("horse", 5);
 
   float pos1[3] = { 29, 2, 106 };
-  insert(1, dummy, Entity::NPCEntityType, 0, test, pos1, room);
+  insert(1, dummy, Entity::NPCEntityType, 0, 0, test, pos1, room);
 
   float pos2[3] = { 41, 2, 172};
-  insert(2, dummy1, Entity::NPCEntityType, 0,test1, pos2, room);
+  insert(2, dummy1, Entity::NPCEntityType, 0, 0, test1, pos2, room);
 
   float pos3[3] = { 35, 2, 120 };
-  insert(3, skel_trader, Entity::NPCEntityType, 0, skel, pos3, room);
+  insert(3, skel_trader, Entity::NPCEntityType, 0, 0, skel, pos3, room);
 
   float pos4[3] = { -108, 0.2f, 5.3f };
-  insert(4, horse, Entity::MountEntityType, 0, horse, pos4, room);
+  insert(4, horse, Entity::MountEntityType, 0, 0, horse, pos4, room);
   float pos5[3] = { -110, 0.2f, 5.05f };
-  insert(5, horse, Entity::MountEntityType, 0, horse, pos5, room);
+  insert(5, horse, Entity::MountEntityType, 0, 0, horse, pos5, room);
   float pos6[3] = { -112, 0.2f, 4.8f };
-  insert(6, horse, Entity::MountEntityType, 0, horse, pos6, room);
+  insert(6, horse, Entity::MountEntityType, 0, 0, horse, pos6, room);
 }
 
-void EntityTable::insert(int id, ptString name, int type, int item, ptString mesh, const float pos[3], ptString sector)
+void EntityTable::insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], ptString sector)
 {
   if (item == -1) return;
 
-  db->update("insert into entities (id, name, type, item, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d', '%q',%d,%d,'%q',%.2f,%.2f,%.2f,'%q');", id, *name, type, item, *mesh, pos[0], pos[1], pos[2], *sector);
+  db->update("insert into entities (id, name, type, item, variation, mesh, pos_x, pos_y, pos_z, sector) values "
+    "('%d', '%q',%d,%d,%d,'%q',%.2f,%.2f,%.2f,'%q');", id, *name, type, item, variation, *mesh, pos[0], pos[1], pos[2], *sector);
 }
 
 int EntityTable::getMaxId()
@@ -173,7 +174,7 @@ const Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
       ItemEntity* ent = new ItemEntity();
       Item* item = Server::getServer()->getItemManager()->findById(atoi(rs->GetData(i,3).c_str()));
       assert(item);
-      ent->createFromItem(item);
+      ent->createFromItem(item->getId(), atoi(rs->GetData(i,9).c_str()));
       entity = ent->getEntity();
       break;
     }

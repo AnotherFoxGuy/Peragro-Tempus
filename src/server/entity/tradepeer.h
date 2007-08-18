@@ -25,6 +25,7 @@
 class Item;
 class TradeSession;
 class PcEntity;
+class InventoryEntry;
 
 class TradePeer
 {
@@ -32,7 +33,7 @@ private:
   TradeSession* session;
   ptMonitor<PcEntity> entity;
 
-  bool checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, int item_id);
+  bool checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, InventoryEntry* item);
 
 public:
   TradePeer() : session (0) {}
@@ -43,7 +44,7 @@ public:
 
   TradePeer* getOtherPeer();
 
-  bool addToOffer(PcEntity* pc, int item_id);
+  bool addToOffer(PcEntity* pc, InventoryEntry* item_id);
   const Array<TradeSession::Offer>* getOffer();
 
   void clearOffer();

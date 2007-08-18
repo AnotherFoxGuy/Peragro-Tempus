@@ -23,8 +23,10 @@
 
 #include "server/server.h"
 
-void ItemEntity::createFromItem(unsigned int item_id)
+void ItemEntity::createFromItem(unsigned int item_id, unsigned int variation)
 {
+  this->variation = variation;
+
   Item* item = Server::getServer()->getItemManager()->findById(item_id);
   Entity* ent = entity.get()->getLock();
   ent->setName(item->getName());
@@ -34,12 +36,14 @@ void ItemEntity::createFromItem(unsigned int item_id)
   this->item = item->getRef();
 }
 
-void ItemEntity::createFromItem(Item* item)
-{
-  Entity* ent = entity.get()->getLock();
-  ent->setName(item->getName());
-  ent->setMesh(item->getMesh());
-  ent->freeLock();
-
-  this->item = item->getRef();
-}
+//void ItemEntity::createFromItem(Item* item, unsigned int variation)
+//{
+//  this->variation = variation;
+//
+//  Entity* ent = entity.get()->getLock();
+//  ent->setName(item->getName());
+//  ent->setMesh(item->getMesh());
+//  ent->freeLock();
+//
+//  this->item = item->getRef();
+//}

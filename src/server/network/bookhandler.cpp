@@ -20,7 +20,10 @@
 #include "networkhelper.h"
 
 #include "server/entity/entitymanager.h"
-#include "server/entity/pcentity.h"
+#include "server/entity/character.h"
+
+#include "server/database/database.h"
+#include "server/database/table-books.h"
 
 void BookHandler::handleBookReadRequest(GenericMessage* msg)
 {
@@ -29,14 +32,29 @@ void BookHandler::handleBookReadRequest(GenericMessage* msg)
   BookReadRequestMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
-  // -- INSERT IMPLEMENTATION HERE --
+  int itemId = in_msg.getItemId();
+  int bookId = in_msg.getBookId();
 
-  // TODO: Temp implementation...
-  const char* text = "There is no text in the book of the void!";
-  ptString pttext(text, strlen(text));
+  BooksTable* table = server->getDatabase()->getBooksTable();
+  BooksTableVO* book = table->getById(bookId);
+
+  if (!book)
+  {
+    // Item is no book!
+    printf("Item %i is no book!", bookId);
+    return;
+  }
+
+  unsigned char slot = playerchar->getInventory()->getSlot(itemId, bookId);
+
+  if (slot == Inventory::NoSlot)
+  {
+    printf("Player doesn't have book %i!", bookId);
+    // Don't own book!
+  }
 
   BookReadResponseMessage out_msg;
-  out_msg.setText(pttext);
+  out_msg.setText(*book->text);
 
   ByteStream bs;
   out_msg.serialise(&bs);
@@ -51,10 +69,51 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
   BookWriteRequestMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
-  // -- INSERT IMPLEMENTATION HERE --
+  int itemId = in_msg.getItemId();
+  int bookId = in_msg.getBookId();
+
+  BooksTable* table = server->getDatabase()->getBooksTable();
+  BooksTableVO* book = table->getById(bookId);
+
+  if (!book)
+  {
+    // Item is no book!
+    printf("Item %i is no book!", bookId);
+    return;
+  }
+  else if (!book->text.isNull())
+  {
+    // Book is not emtpy!
+    printf("Book %i is not emtpy!", bookId);
+    return;
+  }
+
+  unsigned char slot = playerchar->getInventory()->getSlot(itemId, bookId);
+
+  if (slot == Inventory::NoSlot)
+  {
+    printf("Player doesn't have book %i!", bookId);
+    // Don't own book!
+  }
+
+  book->name = in_msg.getBookName();
+  const char* text = in_msg.getText();
+  book->text = ptString(text, strlen(text));
+
+  book->id = table->getCount(book->itemId);
+  table->insert(book);
+
+  InventoryEntry item = *playerchar->getInventory()->getItem(slot);
+
+  Character* pchar = playerchar->getLock();
+  pchar->getInventory()->takeItem(slot);
+
+  item.variation = book->id;
+
+  pchar->getInventory()->addItem(item, slot);
+  pchar->freeLock();
 
   BookWriteResponseMessage out_msg;
-  out_msg.setBookId(123); // dummy implementation
 
   ByteStream bs;
   out_msg.serialise(&bs);

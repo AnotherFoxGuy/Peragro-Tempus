@@ -60,5 +60,15 @@
 		<weight>5</weight>
 		<equiptype>helmet</equiptype>
 	</item>
-	
+
+	<item>
+		<id>6</id>
+		<name>Empty Book</name>
+		<icon>set:Inventory image:book</icon>
+		<description>An empty book.</description>
+		<file>/peragro/meshes/apple/apple.xml</file>
+		<mesh>book</mesh>
+		<weight>0</weight>
+	</item>
+
 </items>

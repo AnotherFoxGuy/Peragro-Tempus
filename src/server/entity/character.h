@@ -135,6 +135,7 @@ public:
   CharacterSkills* getSkills() { return &skills; }
   CharacterStats* getStats() { return &stats; }
   Inventory* getInventory() { return &inventory; }
+  const Inventory* getInventory() const { return &inventory; }
 
   void setEntity(Entity* entity);
   const Entity* getEntity() const { return entity.get(); }

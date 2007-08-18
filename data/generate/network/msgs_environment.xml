@@ -1,0 +1,9 @@
+<message-implementation>
+	<message type="Environment" name="DayTime">
+		<uint8>Hour</uint8>
+	</message>
+
+	<message type="Environment" name="Weather">
+		<uint8>WeatherId</uint8>
+	</message>
+</message-implementation>

@@ -29,8 +29,15 @@ class BooksTableVO
 {
 public:
   int id;
+  int itemId;
   ptString name;
   ptString text;
+
+  BooksTableVO() {}
+  BooksTableVO(int id, ptString name, ptString text)
+  : id(id), name(name), text(text)
+  {
+  }
 };
 
 class BooksTable : public Table
@@ -46,8 +53,10 @@ public:
   void dropTable();
 
   void insert(BooksTableVO* vo);
-  void remove(int id);
+  void update(BooksTableVO* vo);
+  void remove(BooksTableVO* id);
 
+  unsigned int getCount(unsigned int itemId);
   bool existsByName(ptString name);
   bool existsById(int id);
   BooksTableVO* getByName(ptString name);

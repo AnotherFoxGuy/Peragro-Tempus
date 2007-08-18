@@ -1,33 +1,37 @@
 <message-implementation>
-	<message type="door" name="open_request">
-		<!-- TODO: implement -->
+	<message type="Door" name="OpenDoorRequest">
+		<uint32>DoorId</uint32>
 	</message>
 
-	<message type="door" name="open_response">
-		<!-- TODO: implement -->
+	<message type="Door" name="OpenDoorResponse">
+		<uint32>DoorId</uint32>
+		<string>Error</string>
 	</message>
 
-	<message type="door" name="close_request">
-		<!-- TODO: implement -->
+	<message type="Door" name="CloseDoorRequest">
+		<uint32>DoorId</uint32>
 	</message>
 
-	<message type="door" name="close_response">
-		<!-- TODO: implement -->
+	<message type="Door" name="CloseDoorResponse">
+		<uint32>DoorId</uint32>
+		<string>Error</string>
 	</message>
 
-	<message type="door" name="lock_request">
-		<!-- TODO: implement -->
+	<message type="Door" name="LockDoorRequest">
+		<uint32>DoorId</uint32>
 	</message>
 
-	<message type="door" name="lock_response">
-		<!-- TODO: implement -->
+	<message type="Door" name="LockDoorResponse">
+		<uint32>DoorId</uint32>
+		<string>Error</string>
 	</message>
 
-	<message type="door" name="unlock_request">
-		<!-- TODO: implement -->
+	<message type="Door" name="UnlockDoorRequest">
+		<uint32>DoorId</uint32>
 	</message>
 
-	<message type="door" name="unlock_response">
-		<!-- TODO: implement -->
+	<message type="Door" name="UnlockDoorResponse">
+		<uint32>DoorId</uint32>
+		<string>Error</string>
 	</message>
 </message-implementation>

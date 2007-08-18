@@ -20,6 +20,7 @@
 #define _TRADE_SESSION_H_
 
 #include "common/util/array.h"
+#include "inventory.h"
 
 class TradePeer;
 class Item;
@@ -32,7 +33,7 @@ public:
   class Offer
   {
   public:
-    int item_id;
+    InventoryEntry* item;
     unsigned int amount;
   };
 

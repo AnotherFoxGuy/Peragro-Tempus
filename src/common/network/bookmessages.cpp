@@ -25,6 +25,7 @@ void BookReadRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  serial.setInt32(itemid);
   serial.setInt32(bookid);
 }
 
@@ -33,6 +34,7 @@ void BookReadRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
+  itemid = (unsigned int) serial.getInt32();
   bookid = (unsigned int) serial.getInt32();
 }
 
@@ -49,7 +51,7 @@ void BookReadResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  text = serial.getString();
+  serial.getString(text);
 }
 
 void BookWriteRequestMessage::serialise(ByteStream* bs)
@@ -57,6 +59,8 @@ void BookWriteRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  serial.setInt32(itemid);
+  serial.setInt32(bookid);
   serial.setString(bookname);
   serial.setString(text);
 }
@@ -66,6 +70,8 @@ void BookWriteRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
+  itemid = (unsigned int) serial.getInt32();
+  bookid = (unsigned int) serial.getInt32();
   bookname = serial.getString();
   serial.getString(text);
 }
@@ -75,7 +81,6 @@ void BookWriteResponseMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(bookid);
   serial.setString(error);
 }
 
@@ -84,7 +89,6 @@ void BookWriteResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  bookid = (unsigned int) serial.getInt32();
   error = serial.getString();
 }
 

@@ -37,13 +37,14 @@ private:
     ptString sector_id;
 
     Item* item;
+    unsigned int variation;
 
     size_t spawnInterval;
     size_t pickTime;
 
     int entity_id;
 
-    SpawnPoint() : pickTime(0), entity_id(0) {}
+    SpawnPoint() : pickTime(0), entity_id(0), variation(0) {}
     ~SpawnPoint() { }
   };
 
@@ -73,7 +74,7 @@ private:
       if (timeCounter - sp->pickTime > sp->spawnInterval)
       {
         ItemEntity* item_ent = new ItemEntity();
-        item_ent->createFromItem(sp->item);
+        item_ent->createFromItem(sp->item->getId(), sp->variation);
 
         Entity* e = item_ent->getEntity()->getLock();
         e->setPos(sp->x, sp->y, sp->z);

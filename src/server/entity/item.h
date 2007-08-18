@@ -38,6 +38,18 @@ private:
   unsigned int weight;
 
 public:
+  enum ItemType
+  {
+    DefaultType=0,
+    WeaponType=1,
+    KeyType=2,
+    BookType=3,
+  };
+
+private:
+  ItemType type;
+
+public:
   Item() : id(-1), weight(0) {}
   ~Item() {}
 
