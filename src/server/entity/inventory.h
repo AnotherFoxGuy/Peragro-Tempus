@@ -55,7 +55,8 @@ public:
     unsigned int item = Item::NoItem;
     for(unsigned char i = 0; i < slots; i++)
     {
-      entries.add(InventoryEntry(item, 0));
+      InventoryEntry entry(item, 0);
+      entries.add(entry);
     }
   }
   ~Inventory() {}
