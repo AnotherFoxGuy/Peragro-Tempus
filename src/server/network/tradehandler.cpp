@@ -160,7 +160,8 @@ void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
     {
       // TODO: Check if order is valid (no cheated prices)
       // TODO: Take Money!
-      inv->addItem(InventoryEntry(order_msg.getItemId(i), 0));
+      int variation = (order_msg.getItemId(i) == 7 ? 2 : 0);
+      inv->addItem(InventoryEntry(order_msg.getItemId(i), variation));
     }
   }
   else

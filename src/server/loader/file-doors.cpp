@@ -20,6 +20,8 @@
 #include <fstream>
 
 #include "file-doors.h"
+#include "server/database/database.h"
+#include "server/database/table-doors.h"
 #include "server/entity/entitymanager.h"
 #include "server/server.h"
 
@@ -80,6 +82,22 @@ void DoorsFile::load()
       while (data[++i] > 32);
       data[i] = '\0'; i++;
 
+      ptString ptName(name, strlen(name));
+
+      DoorsTable* doors = Server::getServer()->getDatabase()->getDoorsTable();
+      
+      DoorsTableVO* vo = doors->getByName(ptName);
+
+      if (vo == 0) // new door!
+      {
+        vo = new DoorsTableVO();
+        vo->id = doors->getCount() + 1; // first door has id 1
+        vo->name = ptName;
+        vo->isopen = false;
+        vo->islocked = true;
+        doors->insert(vo);
+      }
+
       DoorEntity* door_ent = new DoorEntity();
 
       Entity* ent = door_ent->getEntity()->getLock();
@@ -89,7 +107,13 @@ void DoorsFile::load()
       ent->setPos((float)atof(str_x),(float)atof(str_y),(float)atof(str_z));
       ent->freeLock();
 
+      door_ent->setDoorId(vo->id);
+      door_ent->setLocked(vo->islocked > 0);
+      door_ent->setOpen(vo->isopen > 0);
+
       ent_mgr->addEntity(ent);
+
+      delete vo;
     }
 
     delete[] data;

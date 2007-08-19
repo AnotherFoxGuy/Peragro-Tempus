@@ -33,6 +33,7 @@
 #include "table-npcdialoganswers.h"
 #include "table-npcentities.h"
 #include "table-books.h"
+#include "table-doors.h"
 
 Database::Database()
 {
@@ -52,6 +53,7 @@ Database::Database()
   npcdialoganswerstable = 0;
   npcentitiestable = 0;
   bookstable = 0;
+  doorstable = 0;
 }
 
 void Database::init()
@@ -72,6 +74,7 @@ void Database::init()
   npcdialoganswerstable = new NpcDialogAnswersTable(this);
   npcentitiestable = new NpcEntitiesTable(this);
   bookstable = new BooksTable(this);
+  doorstable = new DoorsTable(this);
 }
 
 Database::~Database()
@@ -92,5 +95,6 @@ Database::~Database()
   delete npcdialoganswerstable;
   delete npcentitiestable;
   delete bookstable;
+  delete doorstable;
 }
 

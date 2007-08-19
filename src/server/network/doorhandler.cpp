@@ -17,6 +17,8 @@
 */
 
 #include "server/network/network.h"
+#include "server/network/networkhelper.h"
+#include "server/entity/character.h"
 #include "server/entity/doorentity.h"
 #include "server/entity/entity.h"
 #include "server/entity/entitymanager.h"
@@ -113,5 +115,52 @@ void DoorHandler::handleLockDoorRequest(GenericMessage* msg)
 
 void DoorHandler::handleUnlockDoorRequest(GenericMessage* msg)
 {
-  // TODO: implement
+  const Connection* conn = msg->getConnection();
+  if (!conn) return;
+  const char* error = 0;
+  UnlockDoorRequestMessage door_msg;
+  door_msg.deserialise(msg->getByteStream());
+  printf("Got unlock door request %d: \n---------------------------\n", door_msg.getDoorId());
+  const Entity* e = server->getEntityManager()->findById(door_msg.getDoorId());
+  if (!e) return;
+  const DoorEntity* door = e->getDoorEntity();
+  if (!door) return;
+  if (!door->getLocked())
+  {
+    error = "The Door is not Locked";
+  }
+
+  const Character* playerchar = NetworkHelper::getCharacter(msg);
+
+  // item id == 7
+  unsigned char slot = playerchar->getInventory()->getSlot(7, door->getDoorId());
+  if (slot == Inventory::NoSlot)
+  {
+    error = "No fitting key available";
+  }
+
+  ptString pt_err = error?ptString(error, strlen(error)):ptString();
+  UnlockDoorResponseMessage response_msg;
+  response_msg.setDoorId(door_msg.getDoorId());
+  response_msg.setError(pt_err);
+  ByteStream bs;
+  response_msg.serialise(&bs);
+  if (!error)
+  {
+    // Tell all about success or just the client if was closed
+    if (!door->getLocked())
+      conn->send(bs);
+    else
+    {
+      DoorEntity* d = door->getLock();
+      d->setLocked(false);
+      d->freeLock();
+      Server::getServer()->broadCast(bs);
+    }
+  }
+  else
+  {
+    // Tell only one about error
+    conn->send(bs);
+  }
 }

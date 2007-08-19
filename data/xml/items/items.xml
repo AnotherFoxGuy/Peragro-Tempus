@@ -70,5 +70,15 @@
 		<mesh>book</mesh>
 		<weight>1</weight>
 	</item>
+
+	<item>
+		<id>7</id>
+		<name>Key</name>
+		<icon>set:Inventory image:apple</icon>
+		<description>A key.</description>
+		<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
+		<mesh>Stuff001_tinyballpot_84_pot</mesh>
+		<weight>1</weight>
+	</item>
 	
 </items>

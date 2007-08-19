@@ -79,5 +79,25 @@ void DoorHandler::handleLockDoorResponse(GenericMessage* msg)
 
 void DoorHandler::handleUnlockDoorResponse(GenericMessage* msg)
 {
-  // TODO: implement
+  UnlockDoorResponseMessage door_msg;
+  door_msg.deserialise(msg->getByteStream());
+
+	Report(PT::Debug, "EntityHandler: Got unlock door %d.", door_msg.getDoorId());
+	if (!door_msg.getError().isNull())
+	{
+		Report(PT::Error, "Can't unlock %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
+		return;
+	}
+
+	using namespace PT::Events;
+  EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
+
+	celData data;
+	data.Set(false);
+
+	entityEvent->entityId			= door_msg.getDoorId();
+	entityEvent->pcprop				= "Door Locked";
+	entityEvent->celdata			= data;
+
+	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

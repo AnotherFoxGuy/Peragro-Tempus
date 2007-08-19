@@ -75,13 +75,15 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       // All this should go to the trade handler anyway!
       TradeOffersListNpcMessage trade_msg;
       trade_msg.setIsBuy(1);
-      trade_msg.setOffersCount(3);
+      trade_msg.setOffersCount(4);
       trade_msg.setItemId(0, 4);
       trade_msg.setPrice(0, 200);
       trade_msg.setItemId(1, 3);
       trade_msg.setPrice(1, 100);
       trade_msg.setItemId(2, 6); //empty book
       trade_msg.setPrice(2, 10);
+      trade_msg.setItemId(3, 7); //gate key
+      trade_msg.setPrice(3, 300);
 
       ByteStream bs;
       trade_msg.serialise(&bs);

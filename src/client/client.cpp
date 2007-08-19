@@ -793,10 +793,21 @@ namespace PT
 							}
 							else
 							{
-								OpenDoorRequestMessage msg;
-								msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-								Report(PT::Notify, "OnMouseDown: Requesting opening door: %d.", msg.getDoorId());
-								network->send(&msg);
+								// first click unlocks, second click opens!
+								if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Locked")))
+								{
+									UnlockDoorRequestMessage msg;
+									msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+									Report(PT::Notify, "OnMouseDown: Requesting unlocking door: %d.", msg.getDoorId());
+									network->send(&msg);
+								}
+								else
+								{
+                                                                	OpenDoorRequestMessage msg;
+									msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+									Report(PT::Notify, "OnMouseDown: Requesting opening door: %d.", msg.getDoorId());
+									network->send(&msg);
+								}
 							}
 						}
 						// If it's a player, attack it.
