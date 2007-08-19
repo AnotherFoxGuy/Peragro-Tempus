@@ -63,12 +63,12 @@
 
 	<item>
 		<id>6</id>
-		<name>Empty Book</name>
-		<icon>set:Inventory image:book</icon>
-		<description>An empty book.</description>
-		<file>/peragro/meshes/apple/apple.xml</file>
+		<name>Book</name>
+		<icon>set:Inventory image:apple</icon>
+		<description>A book.</description>
+		<file>/peragro/meshes/books/book.xml</file>
 		<mesh>book</mesh>
-		<weight>0</weight>
+		<weight>1</weight>
 	</item>
-
+	
 </items>
