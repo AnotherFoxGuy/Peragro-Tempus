@@ -55,6 +55,7 @@ Array<DoorsTableVO*> DoorsTable::parseMultiResultSet(ResultSet* rs)
 
 void DoorsTable::createTable()
 {
+  printf("Creating Table doors...\n");
   db->update("create table doors ("
              "id INTEGER,"
              "name TEXT,"

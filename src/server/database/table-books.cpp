@@ -55,6 +55,7 @@ Array<BooksTableVO*> BooksTable::parseMultiResultSet(ResultSet* rs)
 
 void BooksTable::createTable()
 {
+  printf("Creating Table books...\n");
   db->update("create table books ("
              "id INTEGER, "
              "itemId INTEGER, "

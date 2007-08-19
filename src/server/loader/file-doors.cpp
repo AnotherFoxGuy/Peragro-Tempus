@@ -25,97 +25,70 @@
 #include "server/entity/entitymanager.h"
 #include "server/server.h"
 
+#include "ext/tinyxml/tinyxml.h"
+
 void DoorsFile::load()
 {
+  // If the XML is not consistant, we just segfault!
   EntityManager* ent_mgr = Server::getServer()->getEntityManager();
 
-  // Loading Doors!
-  std::ifstream file ("data/server/peragro_data", std::ios::in|std::ios::ate|std::ios::binary);
-  if (file.is_open())
+  TiXmlDocument doc;
+  if (!doc.LoadFile("data/xml/doors/doors.xml"))
+    return;
+
+  TiXmlElement* items = doc.FirstChildElement("doors");
+
+  TiXmlElement* itemNode = items->FirstChildElement("door");
+  while (itemNode)
   {
-    std::streamsize size = file.tellg();
-    char* data = new char [size+1];
-    file.seekg (0, std::ios::beg);
-    file.read (data, size);
-    data[size] = '\0';
-    file.close();
+    // --[Parsing Data]------------------------------------------------------
 
-    for (std::streamsize i=0; i<size; i++)
+    unsigned int door_id = atoi(itemNode->FirstChildElement("id")
+      ->FirstChild()->ToText()->Value());
+    const char* name = itemNode->FirstChildElement("name")
+      ->FirstChild()->ToText()->Value();
+    const char* mesh = itemNode->FirstChildElement("mesh")
+      ->FirstChild()->ToText()->Value();
+    const char* sector = itemNode->FirstChildElement("sector")
+      ->FirstChild()->ToText()->Value();
+    unsigned int key = atoi(itemNode->FirstChildElement("keyId")
+      ->FirstChild()->ToText()->Value());
+
+    const char* str_x = itemNode->FirstChildElement("position")->Attribute("x");
+    const char* str_y = itemNode->FirstChildElement("position")->Attribute("y");
+    const char* str_z = itemNode->FirstChildElement("position")->Attribute("z");
+
+    // --[Creating Entity]---------------------------------------------------
+
+    DoorsTable* doors = Server::getServer()->getDatabase()->getDoorsTable();
+    
+    DoorsTableVO* vo = doors->getById(door_id);
+
+    if (vo == 0) // new door!
     {
-      char* name = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* mesh = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_a = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_b = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_x = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_y = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* str_z = data+i;
-
-      while (data[++i] != ',');
-      data[i] = '\0'; i++;
-
-      char* sector = data+i;
-
-      while (data[++i] > 32);
-      data[i] = '\0'; i++;
-
-      ptString ptName(name, strlen(name));
-
-      DoorsTable* doors = Server::getServer()->getDatabase()->getDoorsTable();
-      
-      DoorsTableVO* vo = doors->getByName(ptName);
-
-      if (vo == 0) // new door!
-      {
-        vo = new DoorsTableVO();
-        vo->id = doors->getCount() + 1; // first door has id 1
-        vo->name = ptName;
-        vo->isopen = false;
-        vo->islocked = true;
-        doors->insert(vo);
-      }
-
-      DoorEntity* door_ent = new DoorEntity();
-
-      Entity* ent = door_ent->getEntity()->getLock();
-      ent->setName(ptString(name, strlen(name)));
-      ent->setSector(ptString(sector, strlen(sector)));
-      ent->setMesh(ptString(mesh, strlen(mesh)));
-      ent->setPos((float)atof(str_x),(float)atof(str_y),(float)atof(str_z));
-      ent->freeLock();
-
-      door_ent->setDoorId(vo->id);
-      door_ent->setLocked(vo->islocked > 0);
-      door_ent->setOpen(vo->isopen > 0);
-
-      ent_mgr->addEntity(ent);
-
-      delete vo;
+      vo = new DoorsTableVO();
+      vo->id = door_id;
+      vo->name = ptString(name, strlen(name));
+      vo->isopen = false;
+      vo->islocked = true;
+      doors->insert(vo);
     }
 
-    delete[] data;
+    DoorEntity* door_ent = new DoorEntity();
+
+    Entity* ent = door_ent->getEntity()->getLock();
+    ent->setName(ptString(name, strlen(name)));
+    ent->setSector(ptString(sector, strlen(sector)));
+    ent->setMesh(ptString(mesh, strlen(mesh)));
+    ent->setPos((float)atof(str_x),(float)atof(str_y),(float)atof(str_z));
+    ent->freeLock();
+
+    door_ent->setDoorId(vo->id);
+    door_ent->setLocked(vo->islocked > 0);
+    door_ent->setOpen(vo->isopen > 0);
+
+    ent_mgr->addEntity(ent);
+
+    itemNode = itemNode->NextSiblingElement("item");
   }
 }

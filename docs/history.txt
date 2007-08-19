@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+19-Aug-2007
+  - PK added simple keys implementation and locked the gate door.
+  - PK changed the door file parser on the server to use xml now.
+
 18-Aug-2007
   - swedishcoder changed type on a few variables in entityevent. Before they
     where int, but since both the setter and getter where using float
@@ -12,7 +16,6 @@ under each day.
   - PK added network and database code for a future implementation of books.
   - PK added an item variation id to enable different book and implemeneted
     scribing and reading book on the server side. Untested code!
-  - PK added simple keys implementation and locked the gate door.
 
 12-Aug-2007
   - Sueastside fixed NPCdialogs so the window closes when the dialog ends.
