@@ -786,10 +786,16 @@ namespace PT
 						{
 							if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Open")))
 							{
-								CloseDoorRequestMessage msg;
-								msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-								Report(PT::Notify, "OnMouseDown: Requesting closing door: %d.", msg.getDoorId());
-								network->send(&msg);
+								CloseDoorRequestMessage msg1;
+								msg1.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+								Report(PT::Notify, "OnMouseDown: Requesting closing door: %d.", msg1.getDoorId());
+								network->send(&msg1);
+								
+								//Lock it again after closing.
+								LockDoorRequestMessage msg2;
+								msg2.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+								Report(PT::Notify, "OnMouseDown: Requesting unlocking door: %d.", msg2.getDoorId());
+								network->send(&msg2);
 							}
 							else
 							{
