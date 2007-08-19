@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="libclient-chatmanager"
 	ProjectGUID="{C007A05D-5A86-5DDF-1151-4D6C236BBF8F}"
-	>
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32"/>
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
@@ -19,81 +17,71 @@
 			IntermediateDirectory="..\..\out\release8\build\libclient-chatmanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libclient-chatmanager\libclient-chatmanager.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
 				Optimization="3"
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
-				StringPooling="true"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
-				BufferSecurityCheck="false"
-				EnableFunctionLevelLinking="true"
-				TreatWChar_tAsBuiltInType="false"
+				DebugInformationFormat="3"
+				BufferSecurityCheck="FALSE"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\release8\build\libclient-chatmanager\libclient-chatmanager.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libclient-chatmanager\"
 				ObjectFile="..\..\out\release8\build\libclient-chatmanager\"
 				ProgramDataBaseFileName="..\..\out\release8\build\libclient-chatmanager\client-chatmanager.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
-				CompileAs="0"
-			/>
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
+				TreatWChar_tAsBuiltInType="false"
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
-				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				AdditionalOptions=" "
+				AdditionalDependencies="libcrystalspace.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib libceltool.lib"
+				IgnoreImportLibrary="TRUE"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
+				ProgramDatabaseFile="..\..\out\release8\build\libclient-chatmanager\client-chatmanager.pdb"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\out\release8\libs\libclient-chatmanager.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release8\build\libclient-chatmanager\libclient-chatmanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-			/>
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
@@ -101,107 +89,89 @@
 			IntermediateDirectory="..\..\out\debug8\build\libclient-chatmanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libclient-chatmanager\libclient-chatmanager.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=" "
 				Optimization="0"
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
-				MinimalRebuild="true"
+				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libclient-chatmanager\libclient-chatmanager.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libclient-chatmanager\"
 				ObjectFile="..\..\out\debug8\build\libclient-chatmanager\"
 				ProgramDataBaseFileName="..\..\out\debug8\build\libclient-chatmanager\client-chatmanager.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
-				CompileAs="0"
-			/>
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
+				TreatWChar_tAsBuiltInType="false"
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
-				Culture="1033"
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				AdditionalOptions=" "
+				AdditionalDependencies="libcrystalspace_d.lib CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib libceltool_d.lib"
+				IgnoreImportLibrary="TRUE"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
+				ProgramDatabaseFile="..\..\out\debug8\build\libclient-chatmanager\client-chatmanager.pdb"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\out\debug8\libs\libclient-chatmanager_d.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug8\build\libclient-chatmanager\libclient-chatmanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-			/>
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;USE_CEL;CS_PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 		</Configuration>
 	</Configurations>
-	<References>
-	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\src\client\chat\chatmanager.cpp"
-				>
+				RelativePath="..\..\src\client\chat\chatmanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			>
+			Filter="">
 			<File
-				RelativePath="..\..\src\client\chat\chatmanager.h"
-				>
+				RelativePath="..\..\src\client\chat\chatmanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\chat\command.h"
-				>
+				RelativePath="..\..\src\client\chat\command.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\chat\commands.h"
-				>
+				RelativePath="..\..\src\client\chat\commands.h">
 			</File>
 		</Filter>
 	</Files>

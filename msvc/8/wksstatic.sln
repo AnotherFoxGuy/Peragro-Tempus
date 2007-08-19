@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-itemmanager", "li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-network", "libclient-network.vcproj", "{01585500-2818-9845-E99D-46451C8684B3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-reporter", "libclient-reporter.vcproj", "{03D4EFC3-5AB7-7471-F45F-B82EC21DE4A5}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-trademanager", "libclient-trademanager.vcproj", "{E46CB2FE-C7FC-8900-683B-79547F8D5A46}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdatabase", "libdatabase.vcproj", "{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}"
@@ -146,6 +148,10 @@ Global
 		{01585500-2818-9845-E99D-46451C8684B3}.Release.Build.0 = Release|Win32
 		{01585500-2818-9845-E99D-46451C8684B3}.Debug.ActiveCfg = Debug|Win32
 		{01585500-2818-9845-E99D-46451C8684B3}.Debug.Build.0 = Debug|Win32
+		{03D4EFC3-5AB7-7471-F45F-B82EC21DE4A5}.Release.ActiveCfg = Release|Win32
+		{03D4EFC3-5AB7-7471-F45F-B82EC21DE4A5}.Release.Build.0 = Release|Win32
+		{03D4EFC3-5AB7-7471-F45F-B82EC21DE4A5}.Debug.ActiveCfg = Debug|Win32
+		{03D4EFC3-5AB7-7471-F45F-B82EC21DE4A5}.Debug.Build.0 = Debug|Win32
 		{E46CB2FE-C7FC-8900-683B-79547F8D5A46}.Release.ActiveCfg = Release|Win32
 		{E46CB2FE-C7FC-8900-683B-79547F8D5A46}.Release.Build.0 = Release|Win32
 		{E46CB2FE-C7FC-8900-683B-79547F8D5A46}.Debug.ActiveCfg = Debug|Win32

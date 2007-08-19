@@ -158,6 +158,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\server\network\bookhandler.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\network\chathandler.cpp">
 			</File>
 			<File
@@ -185,6 +188,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\server\network\bookhandler.h">
+			</File>
 			<File
 				RelativePath="..\..\src\server\network\chathandler.h">
 			</File>

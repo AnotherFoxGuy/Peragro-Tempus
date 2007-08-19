@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="libclient-network"
-	ProjectGUID="{01585500-2818-9845-E99D-46451C8684B3}"
+	Name="libclient-reporter"
+	ProjectGUID="{03D4EFC3-5AB7-7471-F45F-B82EC21DE4A5}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\out\release71\build\libclient-network\"
-			IntermediateDirectory="..\..\out\release71\build\libclient-network\"
+			OutputDirectory="..\..\out\release71\build\libclient-reporter\"
+			IntermediateDirectory="..\..\out\release71\build\libclient-reporter\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -30,10 +30,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release71\build\libclient-network\libclient-network.pch"
-				AssemblerListingLocation="..\..\out\release71\build\libclient-network\"
-				ObjectFile="..\..\out\release71\build\libclient-network\"
-				ProgramDataBaseFileName="..\..\out\release71\build\libclient-network\client-network.pdb"
+				PrecompiledHeaderFile="..\..\out\release71\build\libclient-reporter\libclient-reporter.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libclient-reporter\"
+				ObjectFile="..\..\out\release71\build\libclient-reporter\"
+				ProgramDataBaseFileName="..\..\out\release71\build\libclient-reporter\client-reporter.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -49,15 +49,15 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
-				ProgramDatabaseFile="..\..\out\release71\build\libclient-network\client-network.pdb"
+				ProgramDatabaseFile="..\..\out\release71\build\libclient-reporter\client-reporter.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\libclient-network.lib"
+				OutputFile="..\..\out\release71\libs\libclient-reporter.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -65,7 +65,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\libclient-network\libclient-network.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libclient-reporter\libclient-reporter.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -85,8 +85,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug71\build\libclient-network\"
-			IntermediateDirectory="..\..\out\debug71\build\libclient-network\"
+			OutputDirectory="..\..\out\debug71\build\libclient-reporter\"
+			IntermediateDirectory="..\..\out\debug71\build\libclient-reporter\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -101,10 +101,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug71\build\libclient-network\libclient-network.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\libclient-network\"
-				ObjectFile="..\..\out\debug71\build\libclient-network\"
-				ProgramDataBaseFileName="..\..\out\debug71\build\libclient-network\client-network.pdb"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libclient-reporter\libclient-reporter.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libclient-reporter\"
+				ObjectFile="..\..\out\debug71\build\libclient-reporter\"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libclient-reporter\client-reporter.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -118,15 +118,15 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib"
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
-				ProgramDatabaseFile="..\..\out\debug71\build\libclient-network\client-network.pdb"
+				ProgramDatabaseFile="..\..\out\debug71\build\libclient-reporter\client-reporter.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\libclient-network_d.lib"
+				OutputFile="..\..\out\debug71\libs\libclient-reporter_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -134,7 +134,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\libclient-network\libclient-network.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libclient-reporter\libclient-reporter.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -158,71 +158,14 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\network\bookhandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\chathandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\connectionhandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\doorhandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\entityhandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\environmenthandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\questhandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\skillhandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\tradehandler.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\userhandler.cpp">
+				RelativePath="..\..\src\client\reporter\reporter.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\network\bookhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\chathandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\connectionhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\doorhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\entityhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\environmenthandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\network.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\questhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\skillhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\tradehandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\network\userhandler.h">
+				RelativePath="..\..\src\client\reporter\reporter.h">
 			</File>
 		</Filter>
 	</Files>

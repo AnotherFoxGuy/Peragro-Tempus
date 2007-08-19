@@ -161,6 +161,9 @@
 				RelativePath="..\..\src\server\database\database.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-books.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-characters.cpp">
 			</File>
 			<File
@@ -214,6 +217,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\resultset.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-books.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-characters.h">
