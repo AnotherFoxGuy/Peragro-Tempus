@@ -173,6 +173,9 @@
 				RelativePath="..\..\src\server\database\table-characterstats.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-doors.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-entities.cpp">
 			</File>
 			<File
@@ -229,6 +232,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-characterstats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-doors.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-entities.h">
