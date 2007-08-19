@@ -23,7 +23,7 @@ else
   ./autogen.sh
 fi
 echo "--> Configuring source tree."
-./configure --without-cs --without-cel --without-CEGUI --without-pthread > /dev/null
+./configure --without-cs --without-cel --without-CEGUI --without-pthread --without-boost > /dev/null
 echo "--> Generating project files."
 jam msvcgen > /dev/null
 echo "--> Copying generated files to source tree."
