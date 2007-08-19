@@ -61,6 +61,7 @@ namespace PT {
     } else {
       printf ("No key bindings for this key.\n");
     }
+    return false;
   }
 
   bool InputManager::Initialize(iObjectRegistry *registry) {
@@ -92,6 +93,8 @@ namespace PT {
     actionList[PTKEY_K] = GetActionID(str);
     str = cfg->GetStr ("Key.Esc");
     actionList[PTKEY_ESC] = GetActionID(str);
+
+    return true;
     
   }
 
