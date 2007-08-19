@@ -89,6 +89,6 @@ void DoorsFile::load()
 
     ent_mgr->addEntity(ent);
 
-    itemNode = itemNode->NextSiblingElement("item");
+    itemNode = itemNode->NextSiblingElement("door");
   }
 }
