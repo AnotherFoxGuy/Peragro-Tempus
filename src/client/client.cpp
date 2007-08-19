@@ -723,6 +723,7 @@ namespace PT
   bool Client::ActionQuit(bool down, iEvent &ev) {
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
     if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
+    return true;
   }
 
   bool Client::DoAction() {
@@ -730,6 +731,7 @@ namespace PT
     msg.setWalk(walk+1);
     msg.setTurn(turn+1);
     network->send(&msg);
+    return true;
   }
 	bool Client::OnKeyboard(iEvent& ev)
 	{

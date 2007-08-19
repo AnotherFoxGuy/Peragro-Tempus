@@ -10,6 +10,7 @@ under each day.
   - swedishcoder added inputmanager which makes it possible to define user
     mappings for the keys. So left can bind to the walk forward action for
     example.
+  - swedishcoder fixed minor issues reported by Levia.
 
 18-Aug-2007
   - swedishcoder changed type on a few variables in entityevent. Before they
