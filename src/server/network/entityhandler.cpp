@@ -325,15 +325,15 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
   Character* character = c_char->getLock();
   Inventory* inventory = character->getInventory();
 
-  const InventoryEntry* new_item = inventory->getItem(invent_slot);
-  Item* item = server->getItemManager()->findById(new_item->id);
+  const InventoryEntry new_item = *inventory->getItem(invent_slot);
+  Item* item = server->getItemManager()->findById(new_item.id);
 
   if (!item) 
     error = "No such Item";
 
   // See if we have already an item in the equip slot.
-  const InventoryEntry* old_item = inventory->getItem(equip_slot);
-  Item* old = server->getItemManager()->findById(old_item->id);
+  const InventoryEntry old_item = *inventory->getItem(equip_slot);
+  Item* old = server->getItemManager()->findById(old_item.id);
 
   if (item && ! error)
   {
@@ -344,10 +344,10 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     if (old) inventory->takeItem(equip_slot);
 
     // Then we add the new item to the equip slot and...
-    inventory->addItem(*new_item, equip_slot);
+    inventory->addItem(new_item, equip_slot);
 
     // ... (if we have) the old item to the inventory.
-    if (old) inventory->addItem(*old_item, invent_slot);
+    if (old) inventory->addItem(old_item, invent_slot);
   }
 
   character->freeLock();
@@ -372,7 +372,7 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     {
       EquipMessage response_msg;
       response_msg.setEntityId(user_ent->getId());
-      response_msg.setItemId(old_item->id);
+      response_msg.setItemId(old_item.id);
       response_msg.setSlotId(invent_slot);
 
       ByteStream bs;
@@ -384,7 +384,7 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     {
       EquipMessage response_msg;
       response_msg.setEntityId(user_ent->getId());
-      response_msg.setItemId(new_item->id);
+      response_msg.setItemId(new_item.id);
       response_msg.setSlotId(equip_slot);
 
       ByteStream bs;
