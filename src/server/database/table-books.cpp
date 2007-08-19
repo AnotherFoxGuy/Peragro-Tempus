@@ -62,7 +62,8 @@ void BooksTable::createTable()
              "text TEXT, "
              "PRIMARY KEY (id, itemId) );");
 
-  BooksTableVO book(0,ptString("Empty book", 10), ptString());
+  // Hard coded Item ID for book
+  BooksTableVO book(0,6,ptString("Empty book", 10), ptString());
   insert(&book);
 }
 

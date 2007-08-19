@@ -34,8 +34,8 @@ public:
   ptString text;
 
   BooksTableVO() {}
-  BooksTableVO(int id, ptString name, ptString text)
-  : id(id), name(name), text(text)
+  BooksTableVO(int id, int itemId, ptString name, ptString text)
+  : id(id), itemId(itemId), name(name), text(text)
   {
   }
 };
