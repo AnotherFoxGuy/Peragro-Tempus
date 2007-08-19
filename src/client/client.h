@@ -50,6 +50,8 @@
 
 #include "client/pointer/pointer.h"
 
+#include "inputmanager.h"
+
 struct iPcDefaultCamera;
 struct iPcActorMove;
 struct iSector;
@@ -127,7 +129,6 @@ namespace PT
 		csRef<iEngine> engine;
 		csRef<iGraphics3D> g3d;
 		csRef<iVirtualClock> vc;
-		//csRef<iKeyboardDriver> kbd;
 		csRef<iVFS> vfs;
 		csRef<iCommandLineParser> cmdline;
 		csRef<iView> view;
@@ -160,10 +161,26 @@ namespace PT
 		ItemMGR* itemmanager;
 		Cursor* cursor;
 		PtConsole* ptconsole;
+    PT::InputManager *inputMgr;
 
 		PT::Events::EventManager* eventmanager;
 		PT::Chat::ChatManager* chatmanager;
 		PT::Trade::TradeManager* trademanager;
+
+    bool ActionForward(bool, iEvent &);
+    bool ActionBackward(bool, iEvent &);
+    bool ActionLeft(bool, iEvent &);
+    bool ActionRight(bool, iEvent &);
+    bool ActionToggleWalk(bool, iEvent &);
+    bool ActionPanUp(bool, iEvent &);
+    bool ActionPanDown(bool, iEvent &);
+    bool ActionToggleCamera(bool, iEvent &);
+    bool ActionToggleDistClipping(bool, iEvent &);
+    bool ActionHit(bool, iEvent &);
+    bool ActionActivateSkill(bool, iEvent &);
+    bool ActionActivateWeapon(bool, iEvent &);
+    bool ActionQuit(bool, iEvent &);
+    bool DoAction();
 
 	private:
 		bool playing;

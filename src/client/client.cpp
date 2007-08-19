@@ -94,6 +94,8 @@ namespace PT
 		combatmanager = 0;
 		itemmanager = 0;
 		cursor = 0;
+    inputMgr = 0;
+		last_seen = 0;
 		ptconsole = 0;
 		
 		eventmanager = 0;
@@ -110,6 +112,7 @@ namespace PT
 		delete network;
 		delete cursor;
 		delete itemmanager;
+    delete inputMgr;
 	}
 
 	void Client::PreProcessFrame()
@@ -214,6 +217,25 @@ namespace PT
     if (!network) return Report(PT::Error, "Failed to create Network object!");
 		network->init();
 		pointerlib.setNetwork(network);
+
+    inputMgr = new InputManager();
+    if(!inputMgr) {
+      return false;
+    }
+    inputMgr->Initialize(GetObjectRegistry());
+    inputMgr->SetCallback(this, "ACTION_FORWARD", &PT::Client::ActionForward);
+    inputMgr->SetCallback(this, "ACTION_BACKWARD", &PT::Client::ActionBackward);
+    inputMgr->SetCallback(this, "ACTION_LEFT", &PT::Client::ActionLeft);
+    inputMgr->SetCallback(this, "ACTION_RIGHT", &PT::Client::ActionRight);
+    inputMgr->SetCallback(this, "ACTION_TOGGLEWALK", &PT::Client::ActionToggleWalk);
+    inputMgr->SetCallback(this, "ACTION_PANUP", &PT::Client::ActionPanUp);
+    inputMgr->SetCallback(this, "ACTION_PANDOWN", &PT::Client::ActionPanDown);
+    inputMgr->SetCallback(this, "ACTION_TOGGLECAMERA", &PT::Client::ActionToggleCamera);
+    inputMgr->SetCallback(this, "ACTION_TOGGLEDISTCLIP", &PT::Client::ActionToggleDistClipping);
+    inputMgr->SetCallback(this, "ACTION_HIT", &PT::Client::ActionHit);
+    inputMgr->SetCallback(this, "ACTION_ACTIVATESKILL", &PT::Client::ActionActivateSkill);
+    inputMgr->SetCallback(this, "ACTION_ACTIVATEWEAPON", &PT::Client::ActionActivateWeapon);
+    inputMgr->SetCallback(this, "ACTION_QUIT", &PT::Client::ActionQuit);
 
 		// Create and Initialize the EventManager.
 		eventmanager = new PT::Events::EventManager();
@@ -552,166 +574,166 @@ namespace PT
 		network->send(&answer_msg);
 	}
 
+  bool Client::ActionForward(bool down, iEvent &ev) {
+    if (playing) {
+      if (down) {
+        walk = 1;
+      } else {
+        walk = 0;
+      }
+    }
+    DoAction();
+    return true;
+  }
+
+  bool Client::ActionBackward(bool down, iEvent &ev) {
+    if (playing) {
+      if (down) {
+        walk = -1;
+      } else {
+        walk = 0;
+      }
+    }
+    DoAction();
+    return true;
+  }
+
+  bool Client::ActionLeft(bool down, iEvent &ev) {
+    if (playing) {
+      if (down) {
+        turn = -1;
+      } else {
+        turn = 0;
+      }
+    }
+    DoAction();
+    return true;
+  }
+  
+  bool Client::ActionRight(bool down, iEvent &ev) {
+    if (playing) {
+      if (down) {
+        turn = 1;
+      }  else {
+        turn = 0;
+      }
+    }
+    DoAction();
+    return true;
+  }
+  bool Client::ActionToggleWalk(bool down, iEvent &ev) {
+    if (down && playing) {
+      (walk == 0) ? walk = 1 : walk = 0;
+    }
+    DoAction();
+    return true;
+  }
+  bool Client::ActionPanUp(bool down, iEvent &ev) {
+    if (down && playing) {
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
+        pccamera->SetPitch(pccamera->GetPitch()-0.1f);
+    }
+    DoAction();
+    return true;
+  }
+  bool Client::ActionPanDown(bool down, iEvent &ev) {
+    if (down && playing) {
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+        pccamera->SetPitch(pccamera->GetPitch()+0.1f);
+    }
+    DoAction();
+    return true;
+  }
+  bool Client::ActionToggleCamera(bool down, iEvent &ev) {
+    if (down && playing) {
+        iPcActorMove* pcactormove = getPcActorMove();
+        if (!pcactormove) return false;
+        pcactormove->ToggleCameraMode();
+    }
+    DoAction();
+    return true;
+  }
+  bool Client::ActionToggleDistClipping(bool down, iEvent &ev) {
+    if (down && playing) {
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+        guimanager->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
+        pccamera->UseDistanceClipping() ? 
+          pccamera->DisableDistanceClipping() 
+          : pccamera->EnableAdaptiveDistanceClipping(95, 100, 50);
+    }
+    DoAction();
+    return true;
+  }
+  bool Client::ActionHit(bool down, iEvent &ev) {
+    if (down && playing) {
+      combatmanager->hit (entitymanager->GetOwnId(), 20);
+    }
+    DoAction();
+    return true;
+  }
+  bool Client::ActionActivateSkill(bool down, iEvent &ev) {
+    if (down && playing) {
+      // Activate the skill
+      csRef<iCelEntity> ent = cursor->getSelectedEntity();
+      csRef<iPcProperties> pcprop;
+      if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+      if (!pcprop) return false;
+      if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
+      {
+        combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+      }
+      // Animate the player.
+      iCelEntity* entity = entitymanager->getOwnCelEntity();
+      if (!entity) return false;
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+      if (!pcmesh) return false;
+      csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+      if (!parent) return false;
+      csRef<iSpriteCal3DState> cal3dstate = 
+        scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
+      if (!cal3dstate) return false;
+      cal3dstate->SetAnimAction("cast_summon", 0.0f, 0.0f);
+      DoAction();
+    }
+    return true;
+  }
+  bool Client::ActionActivateWeapon(bool down, iEvent &ev) {
+    if (down && playing) {
+      iCelEntity* entity = entitymanager->getOwnCelEntity();
+      if (!entity) return false;
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+      if (!pcmesh) return false;
+      csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+      if (!parent) return false;
+      csRef<iSpriteCal3DState> cal3dstate = 
+        scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
+      if (!cal3dstate) return false;
+      cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
+      DoAction();
+    }
+    return true;
+  }
+
+  bool Client::ActionQuit(bool down, iEvent &ev) {
+    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
+    if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
+  }
+
+  bool Client::DoAction() {
+    MoveRequestMessage msg;
+    msg.setWalk(walk+1);
+    msg.setTurn(turn+1);
+    network->send(&msg);
+  }
 	bool Client::OnKeyboard(iEvent& ev)
 	{
-		csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
-		if (eventtype == csKeyEventTypeDown)
-		{
-			utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
-			if (code == CSKEY_ESC)
-			{
-				csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
-				if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
-			}
-
-			if (playing)
-			{
-				if (csKeyEventHelper::GetAutoRepeat(&ev)) return false;
-
-				utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
-
-				if (code == CSKEY_UP)
-				{
-					walk = 1;
-				}
-				else if (code == CSKEY_DOWN)
-				{
-					walk = -1;
-				}
-				else if (code == CSKEY_LEFT)
-				{
-					turn = -1;
-				}
-				else if (code == CSKEY_RIGHT)
-				{
-					turn = 1;
-				}
-				else if (code == CSKEY_SPACE)
-				{
-					(walk == 0) ? walk = 1 : walk = 0;
-				}
-				else if (code == CSKEY_PGUP)
-				{
-					iCelEntity* entity = entitymanager->getOwnCelEntity();
-					if (!entity) return false;
-					csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
-					pccamera->SetPitch(pccamera->GetPitch()-0.1f);
-				}
-				else if (code == CSKEY_PGDN)
-				{
-					iCelEntity* entity = entitymanager->getOwnCelEntity();
-					if (!entity) return false;
-					csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
-					pccamera->SetPitch(pccamera->GetPitch()+0.1f);
-				}
-				else if (code == 'c')
-				{
-					iPcActorMove* pcactormove = getPcActorMove();
-					if (!pcactormove) return false;
-					pcactormove->ToggleCameraMode();
-				}
-				else if (code == 'd')
-				{
-					iCelEntity* entity = entitymanager->getOwnCelEntity();
-					if (!entity) return false;
-					csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
-					guimanager->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
-					pccamera->UseDistanceClipping() ? 
-						pccamera->DisableDistanceClipping() 
-						: pccamera->EnableAdaptiveDistanceClipping(95, 100, 50);
-				}
-				else if (code == 'f')
-				{
-					iCelEntity* entity = cursor->getSelectedEntity();
-					if (!entity) return false;
-					csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-					if (!pcmesh) return false;
-					csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-					if (!parent) return false;
-
-					//entitymanager->SetMaskColor(parent, "decalcolor", csVector4(0,0,1,1));
-				}
-				else if (code == 'h')
-				{
-					combatmanager->hit (entitymanager->GetOwnId(), 20);
-				}
-				else if (code == 'j')
-				{
-					// Activate the skill
-					csRef<iCelEntity> ent = cursor->getSelectedEntity();
-					csRef<iPcProperties> pcprop;
-					if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-					if (!pcprop) return false;
-					if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
-					{
-						combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-					}
-					// Animate the player.
-					iCelEntity* entity = entitymanager->getOwnCelEntity();
-					if (!entity) return false;
-					csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-					if (!pcmesh) return false;
-					csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-					if (!parent) return false;
-					csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
-					if (!cal3dstate) return false;
-					cal3dstate->SetAnimAction("cast_summon", 0.0f, 0.0f);
-				}
-				else if (code == 'k')
-				{
-					iCelEntity* entity = entitymanager->getOwnCelEntity();
-					if (!entity) return false;
-					csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-					if (!pcmesh) return false;
-					csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-					if (!parent) return false;
-					csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
-					if (!cal3dstate) return false;
-					cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
-				}
-				else
-				{
-					return false;
-				}
-				MoveRequestMessage msg;
-				msg.setWalk(walk+1);
-				msg.setTurn(turn+1);
-				network->send(&msg);
-			}
-		}
-		else if (eventtype == csKeyEventTypeUp)
-		{
-			if (playing)
-			{
-				utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
-				if (code == CSKEY_UP)
-				{
-					walk = 0;
-				}
-				else if (code == CSKEY_DOWN)
-				{
-					walk = 0;
-				}
-				else if (code == CSKEY_LEFT)
-				{
-					turn = 0;
-				}
-				else if (code == CSKEY_RIGHT)
-				{
-					turn = 0;
-				}
-				else
-				{
-					return false;
-				}
-				MoveRequestMessage msg;
-				msg.setWalk(walk+1);
-				msg.setTurn(turn+1);
-				network->send(&msg);
-			}
-		}
-
-		return false;
+    return inputMgr->ProcessEvent(ev);
 	}
 
 	bool Client::OnMouseDown(iEvent& ev)

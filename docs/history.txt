@@ -7,6 +7,9 @@ under each day.
 19-Aug-2007
   - PK added simple keys implementation and locked the gate door.
   - PK changed the door file parser on the server to use xml now.
+  - swedishcoder added inputmanager which makes it possible to define user
+    mappings for the keys. So left can bind to the walk forward action for
+    example.
 
 18-Aug-2007
   - swedishcoder changed type on a few variables in entityevent. Before they
