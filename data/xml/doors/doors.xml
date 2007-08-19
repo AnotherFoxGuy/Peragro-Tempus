@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doors>
+
+	<door id="1">
+		<name value="North Gate" />
+		<meshname value="gate_north_gate" />
+		<position x="27.9388713837" y="179.982452393" z="-6.57791852951"/>
+		<sector value="room"/>
+		<key id="7"/>
+	</door>
+	
+	<door id="2">
+		<name value="Door" />
+		<meshname value="house016_devhouse_house016door" />
+		<position x="85.2472610474" y="2.34153294563" z="2.31262850761"/>
+		<sector value="room"/>
+		<key id="7"/>
+	</door>
+	
+</doors>
