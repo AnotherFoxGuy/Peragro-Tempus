@@ -138,7 +138,7 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   if(objectid < 1) return true;
 
   DropRequestMessage msg;
-  msg.setItemId(objectid);
+  //msg.setItemId(objectid);
   msg.setSlot(slot->GetId());
   if (network) network->send(&msg);
 

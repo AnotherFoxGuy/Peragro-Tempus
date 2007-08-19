@@ -193,7 +193,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   ptString name = user_ent->getName();
   DropRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getItemId());
+  printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getSlot());
 
   DropResponseMessage response_msg;
   unsigned char slot_id = request_msg.getSlot();
@@ -204,7 +204,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   Character* character = c_char->getLock();
 
   const InventoryEntry item = *character->getInventory()->getItem(slot_id);
-  if (item.id != request_msg.getItemId())
+  if (item.id == Item::NoItem)
   {
     response_msg.setError(ptString("Unexpected item", strlen("Unexpected item")));
     ByteStream bs;
@@ -227,7 +227,6 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     return;
   }
 
-  response_msg.setItemId(item.id);
   response_msg.setSlotId(slot_id);
 
   ByteStream bs;

@@ -110,6 +110,7 @@ public:
 class AddItemEntityMessage : public NetMessage
 {
   unsigned int itemid;
+  unsigned int variation;
   float pos[3];
   ptString sector;
   unsigned short sectorid;
@@ -129,6 +130,9 @@ public:
 
   unsigned int getItemId() { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
+
+  unsigned int getVariation() { return variation; }
+  void setVariation(unsigned int x) { variation = x; }
 
   float* getPos() { return pos; }
   void setPos(float x, float y, float z)
@@ -157,8 +161,8 @@ class AddDoorEntityMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
-  unsigned char isopen;
-  unsigned char islocked;
+  bool isopen;
+  bool islocked;
   unsigned int entityid;
 
 public:
@@ -179,11 +183,11 @@ public:
   ptString getMesh() { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  unsigned char getIsOpen() { return isopen; }
-  void setIsOpen(unsigned char x) { isopen = x; }
+  bool getIsOpen() { return isopen; }
+  void setIsOpen(bool x) { isopen = x; }
 
-  unsigned char getIsLocked() { return islocked; }
-  void setIsLocked(unsigned char x) { islocked = x; }
+  bool getIsLocked() { return islocked; }
+  void setIsLocked(bool x) { islocked = x; }
 
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -384,7 +388,6 @@ class PickRequestMessage : public NetMessage
 {
   unsigned int itementityid;
   unsigned char slot;
-  unsigned int inventoryid;
 
 public:
   PickRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::PICKREQUEST)
@@ -403,9 +406,6 @@ public:
 
   unsigned char getSlot() { return slot; }
   void setSlot(unsigned char x) { slot = x; }
-
-  unsigned int getInventoryId() { return inventoryid; }
-  void setInventoryId(unsigned int x) { inventoryid = x; }
 
 };
 
@@ -440,7 +440,6 @@ public:
 
 class DropRequestMessage : public NetMessage
 {
-  unsigned int itemid;
   unsigned char slot;
   unsigned int inventoryid;
 
@@ -456,9 +455,6 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
-
   unsigned char getSlot() { return slot; }
   void setSlot(unsigned char x) { slot = x; }
 
@@ -469,7 +465,6 @@ public:
 
 class DropResponseMessage : public NetMessage
 {
-  unsigned int itemid;
   unsigned char slotid;
   ptString error;
 
@@ -484,9 +479,6 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
-
-  unsigned int getItemId() { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
 
   unsigned char getSlotId() { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
@@ -503,6 +495,7 @@ class InventoryListMessage : public NetMessage
   {
   public:
     unsigned int itemid;
+    unsigned int variation;
     unsigned char slotid;
   };
 
@@ -539,6 +532,9 @@ public:
 
   unsigned int getItemId(size_t i) { return inventory[i].itemid; }
   void setItemId(size_t i, unsigned int x) { inventory[i].itemid = x; }
+
+  unsigned int getVariation(size_t i) { return inventory[i].variation; }
+  void setVariation(size_t i, unsigned int x) { inventory[i].variation = x; }
 
   unsigned char getSlotId(size_t i) { return inventory[i].slotid; }
   void setSlotId(size_t i, unsigned char x) { inventory[i].slotid = x; }
@@ -1076,7 +1072,7 @@ class MountMessage : public NetMessage
 {
   unsigned int playerentityid;
   unsigned int mountentityid;
-  unsigned char control;
+  bool cancontrol;
 
 public:
   MountMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOUNT)
@@ -1096,8 +1092,8 @@ public:
   unsigned int getMountEntityId() { return mountentityid; }
   void setMountEntityId(unsigned int x) { mountentityid = x; }
 
-  unsigned char getControl() { return control; }
-  void setControl(unsigned char x) { control = x; }
+  bool getCanControl() { return cancontrol; }
+  void setCanControl(bool x) { cancontrol = x; }
 
 };
 

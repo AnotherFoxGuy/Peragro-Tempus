@@ -82,7 +82,7 @@ namespace PT
 		class TradeDropEvent : public TradeEvent
 		{
 		public:
-			unsigned int itemId;
+			//unsigned int itemId;
 			unsigned int slotId;
 
 		public:

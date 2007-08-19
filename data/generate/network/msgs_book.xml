@@ -1,19 +1,21 @@
 <message-implementation>
 	<message type="Book" name="BookReadRequest">
+		<uint32>ItemId</uint32>
 		<uint32>BookId</uint32>
 	</message>
 
 	<message type="Book" name="BookReadResponse">
-		<string>Text</string> <!-- Limited to 400 byte, compressed! -->
+		<text>Text</text> <!-- Limited to 400 byte, compressed! -->
 	</message>
 
 	<message type="Book" name="BookWriteRequest">
+		<uint32>ItemId</uint32>
+		<uint32>BookId</uint32>
 		<string>BookName</string>
 		<text>Text</text> <!-- Limited to 400 byte, compressed! -->
 	</message>
 
 	<message type="Book" name="BookWriteResponse">
-		<uint32>BookId</uint32>
 		<string>Error</string> <!-- null is successful -->
 	</message>
 </message-implementation>

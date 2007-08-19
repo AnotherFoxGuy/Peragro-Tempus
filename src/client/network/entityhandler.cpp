@@ -127,13 +127,13 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
 		using namespace PT::Events;
 		TradeDropEvent* dropEv = new TradeDropEvent();
 
-		dropEv->itemId = response_msg.getItemId();
+		//dropEv->itemId = response_msg.getItemId();
 		dropEv->slotId = response_msg.getSlotId();
 
 		PointerLibrary::getInstance()->getEventManager()->AddEvent(dropEv); 
   }
   else
-		Report(PT::Notify, "You can't drop %d from slot %d! Reason: '%s'.", response_msg.getItemId(), response_msg.getSlotId(), *response_msg.getError());
+		Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", response_msg.getSlotId(), *response_msg.getError());
 }
 
 void EntityHandler::handleDrUpdate(GenericMessage* msg)
@@ -288,7 +288,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->entityType  = EntityEvent::PlayerEntity; 
 
 	unsigned char itemCount = entmsg.getEquipmentCount();
-  for (size_t i = 0; i < itemCount; i++)
+  for (unsigned char i = 0; i < itemCount; i++)
   {
     unsigned int itemId = entmsg.getItemId(i);
     unsigned int slotId = i;
@@ -354,7 +354,7 @@ void EntityHandler::handleMount(GenericMessage* msg)
 
 	entityEvent->entityId			= mount_msg.getPlayerEntityId();
 	entityEvent->mountId			= mount_msg.getMountEntityId();
-	entityEvent->control			= mount_msg.getControl() > 0;
+	entityEvent->control			= mount_msg.getCanControl();
 	entityEvent->mount				= true;
 
 	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);

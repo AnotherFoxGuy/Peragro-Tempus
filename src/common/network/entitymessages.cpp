@@ -56,6 +56,7 @@ void AddItemEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(itemid);
+  serial.setInt32(variation);
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
@@ -70,6 +71,7 @@ void AddItemEntityMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   itemid = (unsigned int) serial.getInt32();
+  variation = (unsigned int) serial.getInt32();
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
@@ -85,8 +87,8 @@ void AddDoorEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setString(mesh);
-  serial.setInt8(isopen);
-  serial.setInt8(islocked);
+  serial.setInt8(isopen?1:0);
+  serial.setInt8(islocked?1:0);
   serial.setInt32(entityid);
 }
 
@@ -97,8 +99,8 @@ void AddDoorEntityMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   name = serial.getString();
   mesh = serial.getString();
-  isopen = (unsigned char) serial.getInt8();
-  islocked = (unsigned char) serial.getInt8();
+  isopen = serial.getInt8() != 0;
+  islocked = serial.getInt8() != 0;
   entityid = (unsigned int) serial.getInt32();
 }
 
@@ -224,7 +226,6 @@ void PickRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt32(itementityid);
   serial.setInt8(slot);
-  serial.setInt32(inventoryid);
 }
 
 void PickRequestMessage::deserialise(ByteStream* bs)
@@ -234,7 +235,6 @@ void PickRequestMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   itementityid = (unsigned int) serial.getInt32();
   slot = (unsigned char) serial.getInt8();
-  inventoryid = (unsigned int) serial.getInt32();
 }
 
 void PickResponseMessage::serialise(ByteStream* bs)
@@ -262,7 +262,6 @@ void DropRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(itemid);
   serial.setInt8(slot);
   serial.setInt32(inventoryid);
 }
@@ -272,7 +271,6 @@ void DropRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemid = (unsigned int) serial.getInt32();
   slot = (unsigned char) serial.getInt8();
   inventoryid = (unsigned int) serial.getInt32();
 }
@@ -282,7 +280,6 @@ void DropResponseMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(itemid);
   serial.setInt8(slotid);
   serial.setString(error);
 }
@@ -292,7 +289,6 @@ void DropResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemid = (unsigned int) serial.getInt32();
   slotid = (unsigned char) serial.getInt8();
   error = serial.getString();
 }
@@ -307,6 +303,7 @@ void InventoryListMessage::serialise(ByteStream* bs)
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
     serial.setInt32(inventory[i].itemid);
+    serial.setInt32(inventory[i].variation);
     serial.setInt8(inventory[i].slotid);
   };
 
@@ -323,6 +320,7 @@ void InventoryListMessage::deserialise(ByteStream* bs)
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
     inventory[i].itemid = (unsigned int) serial.getInt32();
+    inventory[i].variation = (unsigned int) serial.getInt32();
     inventory[i].slotid = (unsigned char) serial.getInt8();
   };
 
@@ -671,7 +669,7 @@ void MountMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt32(playerentityid);
   serial.setInt32(mountentityid);
-  serial.setInt8(control);
+  serial.setInt8(cancontrol?1:0);
 }
 
 void MountMessage::deserialise(ByteStream* bs)
@@ -681,7 +679,7 @@ void MountMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   playerentityid = (unsigned int) serial.getInt32();
   mountentityid = (unsigned int) serial.getInt32();
-  control = (unsigned char) serial.getInt8();
+  cancontrol = serial.getInt8() != 0;
 }
 
 void UnmountRequestMessage::serialise(ByteStream* bs)

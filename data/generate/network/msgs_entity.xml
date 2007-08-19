@@ -1,11 +1,43 @@
 <message-implementation>
-	<message type="Entity" name="Add">
+	<message type="Entity" name="AddNpcEntity">
 		<string>Name</string>
 		<string>Mesh</string>
 		<vector3f>Pos</vector3f>
 		<string>Sector</string>
+		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
-		<uint8>EntityType</uint8>
+	</message>
+
+	<message type="Entity" name="AddItemEntity">
+		<uint32>ItemId</uint32>
+		<uint32>Variation</uint32>
+		<vector3f>Pos</vector3f>
+		<string>Sector</string>
+		<uint16>SectorId</uint16>
+		<uint32>EntityId</uint32>
+	</message>
+
+	<message type="Entity" name="AddDoorEntity">
+		<string>Name</string>
+		<string>Mesh</string>
+		<bool>IsOpen</bool>
+		<bool>IsLocked</bool>
+		<uint32>EntityId</uint32>
+	</message>
+
+	<message type="Entity" name="AddPlayerEntity">
+		<string>Name</string>
+		<string>Mesh</string>
+		<vector3f>Pos</vector3f>
+		<colour24>HairColour</colour24>
+		<colour24>SkinColour</colour24>
+		<colour24>DecalColour</colour24>
+		<string>Sector</string>
+		<uint16>SectorId</uint16>
+		<uint32>EntityId</uint32>
+		<list name="Equipment">
+			<uint32>ItemId</uint32>
+		</list>
 	</message>
 
 	<message type="Entity" name="Remove">
@@ -13,86 +45,149 @@
 	</message>
 
 	<message type="Entity" name="Move">
-		<vector3f>From</vector3f>
-		<vector3f>To</vector3f>
-		<float>Speed</float>
+		<float>Turn</float>
+		<float>Walk</float>
 		<uint32>EntityId</uint32>
 	</message>
 
 	<message type="Entity" name="MoveRequest">
-		<vector3f>To</vector3f>
+		<uint8>Turn</uint8>
+		<uint8>Walk</uint8>
 	</message>
 
 	<message type="Entity" name="PickRequest">
-		<uint32>Target</uint32>
+		<uint32>ItemEntityId</uint32>
+		<uint8>Slot</uint8>
 	</message>
 
 	<message type="Entity" name="PickResponse">
-		<string>Name</string>
 		<uint32>ItemId</uint32>
-		<string>Target</string>
+		<uint8>SlotId</uint8>
 		<string>Error</string> <!-- null if successful -->
 	</message>
 
 	<message type="Entity" name="DropRequest">
-		<uint32>Target</uint32>
+		<uint8>Slot</uint8>
+		<uint32>InventoryId</uint32>
 	</message>
 
 	<message type="Entity" name="DropResponse">
-		<string>Name</string>
-		<string>Target</string>
+		<uint8>SlotId</uint8>
 		<string>Error</string> <!-- null if successful -->
 	</message>
 
 	<message type="Entity" name="InventoryList">
+		<uint32>InventoryId</uint32>
 		<list name="Inventory">
-			<uint16>Id</uint16>
-			<string>Name</string>
-			<uint16>Amount</uint16>
+			<uint32>ItemId</uint32>
+			<uint32>Variation</uint32>
+			<uint8>SlotId</uint8>
 		</list>
 	</message>
 
 	<message type="Entity" name="StatsList">
 		<list name="Stats">
-			<uint16>Id</uint16>
+			<uint16>StatId</uint16>
 			<string>Name</string>
 			<uint16>Level</uint16>
 		</list>
 	</message>
 
 	<message type="Entity" name="StatsChange">
-		<uint16>Id</uint16>
+		<uint16>StatId</uint16>
 		<uint16>Level</uint16>
 	</message>
 
 	<message type="Entity" name="SkillsList">
 		<list name="Skills">
-			<uint16>Id</uint16>
+			<uint16>SkillId</uint16>
 			<string>Name</string>
 		</list>
-	</message>
-
-	<message type="Entity" name="EquipRequest">
-		<uint32>ItemId</uint32>
-		<uint8>SlotId</uint8>
 	</message>
 
 	<message type="Entity" name="Equip">
 		<uint32>EntityId</uint32>
 		<uint32>ItemId</uint32>
 		<uint8>SlotId</uint8>
+	</message>
+
+	<message type="Entity" name="MoveTo">
+		<vector3f>From</vector3f>
+		<vector3f>To</vector3f>
+		<float>Speed</float>
+		<uint32>EntityId</uint32>
+	</message>
+
+	<message type="Entity" name="MoveToRequest">
+		<vector3f>To</vector3f>
+	</message>
+
+	<message type="Entity" name="Relocate"></message>
+
+	<message type="Entity" name="Teleport">
+		<uint32>EntityId</uint32>
+		<vector3f>Pos</vector3f>
+		<string>Sector</string>
+		<uint16>SectorId</uint16>
+	</message>
+	
+	<message type="Entity" name="DrUpdateRequest">
+		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
+		<string>Sector</string>
+		<uint16>SectorId</uint16>
+	</message>
+
+	<message type="Entity" name="DrUpdate">
+		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
+		<string>Sector</string>
+		<uint16>SectorId</uint16>
+		<uint32>EntityId</uint32>
+	</message>
+
+	<message type="Entity" name="InventoryMoveItemRequest">
+		<uint8>OldSlot</uint8>
+		<uint32>OldInventoryId</uint32>
+		<uint8>NewSlot</uint8>
+		<uint32>NewInventoryId</uint32>
+	</message>
+	
+	<message type="Entity" name="InventoryMoveItem">
+		<uint8>OldSlot</uint8>
+		<uint32>OldInventoryId</uint32>
+		<uint8>NewSlot</uint8>
+		<uint32>NewInventoryId</uint32>
 		<string>Error</string> <!-- null if successful -->
 	</message>
 
-	<message type="Entity" name="AddCharacterEntity">
+	<message type="Entity" name="AddMountEntity">
 		<string>Name</string>
 		<string>Mesh</string>
 		<vector3f>Pos</vector3f>
-		<uint32>haircolour</uint32>
-		<uint32>skincolour</uint32>
-		<uint32>decalcolour</uint32>
 		<string>Sector</string>
+		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
-		<uint8>EntityType</uint8>
+		<uint32>InventoryId</uint32>
 	</message>
+
+	<message type="Entity" name="MountRequest">
+		<uint32>MountEntityId</uint32>
+	</message>
+
+	<message type="Entity" name="Mount">
+		<uint32>PlayerEntityId</uint32>
+		<uint32>MountEntityId</uint32>
+		<bool>CanControl</bool>
+	</message>
+
+	<message type="Entity" name="UnmountRequest">
+		<uint32>MountEntityId</uint32>
+	</message>
+
+	<message type="Entity" name="Unmount">
+		<uint32>PlayerEntityId</uint32>
+		<uint32>MountEntityId</uint32>
+	</message>
+
 </message-implementation>

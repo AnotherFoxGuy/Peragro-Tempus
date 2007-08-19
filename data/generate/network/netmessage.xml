@@ -27,21 +27,35 @@
 			<message id="8" name="CharSelectResponse" />
 		</type>
 		<type id="2" name="Entity">
-			<message id="0" name="Add" />
-			<message id="1" name="Remove" />
-			<message id="2" name="Move" />
-			<message id="3" name="MoveRequest" />
-			<message id="4" name="PickRequest" />
-			<message id="5" name="PickResponse" />
-			<message id="6" name="DropRequest" />
-			<message id="7" name="DropResponse" />
-			<message id="8" name="InventoryList" />
-			<message id="9" name="StatsList" />
-			<message id="10" name="StatsChange" />
-			<message id="11" name="SkillsList" />
-			<message id="12" name="EquipRequest" />
-			<message id="13" name="Equip" />
-			<message id="14" name="AddCharacterEntity" />
+			<message id="0" name="AddNpcEntity" />
+			<message id="1" name="AddItemEntity" />
+			<message id="2" name="AddDoorEntity" />
+			<message id="3" name="AddPlayerEntity" />
+			<message id="4" name="Remove" />
+			<message id="5" name="Move" />
+			<message id="6" name="MoveRequest" />
+			<message id="7" name="PickRequest" />
+			<message id="8" name="PickResponse" />
+			<message id="9" name="DropRequest" />
+			<message id="10" name="DropResponse" />
+			<message id="11" name="InventoryList" />
+			<message id="12" name="StatsList" />
+			<message id="13" name="StatsChange" />
+			<message id="14" name="SkillsList" />
+			<message id="15" name="Equip" />
+			<message id="16" name="MoveTo" />
+			<message id="17" name="MoveToRequest" />
+			<message id="18" name="Relocate" />
+			<message id="19" name="Teleport" />
+			<message id="20" name="DrUpdateRequest" />
+			<message id="21" name="DrUpdate" />
+			<message id="22" name="InventoryMoveItemRequest" />
+			<message id="23" name="InventoryMoveItem" />
+			<message id="24" name="AddMountEntity" />
+			<message id="25" name="MountRequest" />
+			<message id="26" name="Mount" />
+			<message id="27" name="UnmountRequest" />
+			<message id="28" name="Unmount" />
 		</type>
 		<type id="3" name="Chat">
 			<message id="0" name="Say" />

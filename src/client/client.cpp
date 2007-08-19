@@ -738,7 +738,7 @@ namespace PT
 
 						if (mesh)
 						{
-							effectsmanager->CreateEffect(EffectsManager::MoveMarker, isect+csVector3(0,0.01,0));
+							effectsmanager->CreateEffect(EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
 							//effectsmanager->CreateDecal(isect+csVector3(0,0.25,0), cam);
 
 							csRef<iCelEntity> ownent = entitymanager->getOwnCelEntity();

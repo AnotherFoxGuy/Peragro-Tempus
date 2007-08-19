@@ -68,26 +68,16 @@ void TradeSession::exchange()
 
   for (size_t i=0; i<offer1.getCount(); i++)
   {
-    Offer& offer = offer1.get(i);
-    inv1->takeItem(inv1->getSlot(offer.item->id, offer.item->variation));
+    const InventoryEntry offer = *offer1.get(i).item;
+    bool success = inv1->takeItem(inv1->getSlot(offer.id, offer.variation));
+    if (success) inv2->addItem(offer);
   }
 
   for (size_t i=0; i<offer2.getCount(); i++)
   {
-    Offer& offer = offer2.get(i);
-    inv2->takeItem(inv2->getSlot(offer.item->id, offer.item->variation));
-  }
-
-  for (size_t i=0; i<offer1.getCount(); i++)
-  {
-    Offer& offer = offer1.get(i);
-    inv2->addItem(*offer.item);
-  }
-
-  for (size_t i=0; i<offer2.getCount(); i++)
-  {
-    Offer& offer = offer2.get(i);
-    inv1->addItem(*offer.item);
+    const InventoryEntry offer = *offer2.get(i).item;
+    bool success = inv2->takeItem(inv2->getSlot(offer.id, offer.variation));
+    if (success) inv1->addItem(offer);
   }
 
   char1->freeLock();
