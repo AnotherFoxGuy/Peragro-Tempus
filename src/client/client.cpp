@@ -114,6 +114,7 @@ namespace PT
 		delete itemmanager;
     delete inputMgr;
     delete reporter;
+    delete trademanager;
 	}
 
 	void Client::PreProcessFrame()
