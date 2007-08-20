@@ -56,6 +56,7 @@ namespace PT
 
 		EntityManager::~EntityManager ()
 		{
+      delete movementManager;
 		}
 
 		bool EntityManager::Initialize ()
