@@ -113,6 +113,7 @@ namespace PT
 		delete cursor;
 		delete itemmanager;
     delete inputMgr;
+    delete reporter;
 	}
 
 	void Client::PreProcessFrame()
