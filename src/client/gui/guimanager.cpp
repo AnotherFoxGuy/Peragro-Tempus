@@ -51,11 +51,28 @@ GUIManager::GUIManager ()
   okwindow = 0;
   buywindow = 0;
   sellwindow = 0;
+  tradewindow = 0;
 }
 
 GUIManager::~GUIManager ()
 {
   delete dragdrop;
+  delete loginwindow;
+  delete connectwindow;
+  delete selectcharwindow;
+  delete chatwindow;
+  delete inventorywindow;
+  delete hudwindow;
+  delete optionswindow;
+  delete statuswindow;
+  delete buddywindow;
+  delete whisperwindow;
+  delete npcdialogwindow;
+  delete confirmwindow;
+  delete okwindow;
+  delete buywindow;
+  delete sellwindow;
+  delete tradewindow;
 }
 
 bool GUIManager::Initialize ()
