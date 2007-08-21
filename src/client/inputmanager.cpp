@@ -81,16 +81,56 @@ namespace PT {
     actionList[PTKEY_PAGEUP] = GetActionID(str);
     str = cfg->GetStr ("Key.PageDown");
     actionList[PTKEY_PAGEDOWN] = GetActionID(str);
+    str = cfg->GetStr ("Key.A");
+    actionList[PTKEY_A] = GetActionID(str);
+    str = cfg->GetStr ("Key.B");
+    actionList[PTKEY_B] = GetActionID(str);
     str = cfg->GetStr ("Key.C");
     actionList[PTKEY_C] = GetActionID(str);
     str = cfg->GetStr ("Key.D");
     actionList[PTKEY_D] = GetActionID(str);
+    str = cfg->GetStr ("Key.E");
+    actionList[PTKEY_E] = GetActionID(str);
+    str = cfg->GetStr ("Key.F");
+    actionList[PTKEY_F] = GetActionID(str);
+    str = cfg->GetStr ("Key.G");
+    actionList[PTKEY_G] = GetActionID(str);
     str = cfg->GetStr ("Key.H");
     actionList[PTKEY_H] = GetActionID(str);
-    str = cfg->GetStr ("Key.J");
-    actionList[PTKEY_J] = GetActionID(str);
+    str = cfg->GetStr ("Key.I");
+    actionList[PTKEY_I] = GetActionID(str);
     str = cfg->GetStr ("Key.K");
     actionList[PTKEY_K] = GetActionID(str);
+    str = cfg->GetStr ("Key.L");
+    actionList[PTKEY_L] = GetActionID(str);
+    str = cfg->GetStr ("Key.M");
+    actionList[PTKEY_M] = GetActionID(str);
+    str = cfg->GetStr ("Key.N");
+    actionList[PTKEY_N] = GetActionID(str);
+    str = cfg->GetStr ("Key.O");
+    actionList[PTKEY_O] = GetActionID(str);
+    str = cfg->GetStr ("Key.P");
+    actionList[PTKEY_P] = GetActionID(str);
+    str = cfg->GetStr ("Key.Q");
+    actionList[PTKEY_Q] = GetActionID(str);
+    str = cfg->GetStr ("Key.R");
+    actionList[PTKEY_R] = GetActionID(str);
+    str = cfg->GetStr ("Key.S");
+    actionList[PTKEY_S] = GetActionID(str);
+    str = cfg->GetStr ("Key.T");
+    actionList[PTKEY_T] = GetActionID(str);
+    str = cfg->GetStr ("Key.U");
+    actionList[PTKEY_U] = GetActionID(str);
+    str = cfg->GetStr ("Key.V");
+    actionList[PTKEY_V] = GetActionID(str);
+    str = cfg->GetStr ("Key.W");
+    actionList[PTKEY_W] = GetActionID(str);
+    str = cfg->GetStr ("Key.X");
+    actionList[PTKEY_X] = GetActionID(str);
+    str = cfg->GetStr ("Key.Y");
+    actionList[PTKEY_Y] = GetActionID(str);
+    str = cfg->GetStr ("Key.Z");
+    actionList[PTKEY_Z] = GetActionID(str);
     str = cfg->GetStr ("Key.Esc");
     actionList[PTKEY_ESC] = GetActionID(str);
 
@@ -145,20 +185,80 @@ namespace PT {
       case CSKEY_ESC:
         return actionList[PTKEY_ESC];
         break;
+      case 'a':
+        return actionList[PTKEY_A];
+        break;
+      case 'b':
+        return actionList[PTKEY_B];
+        break;
       case 'c':
         return actionList[PTKEY_C];
         break;
       case 'd':
         return actionList[PTKEY_D];
         break;
+      case 'e':
+        return actionList[PTKEY_E];
+        break;
+      case 'f':
+        return actionList[PTKEY_F];
+        break;
+      case 'g':
+        return actionList[PTKEY_G];
+        break;
       case 'h':
         return actionList[PTKEY_H];
         break;
-      case 'j':
-        return actionList[PTKEY_J];
+      case 'i':
+        return actionList[PTKEY_I];
         break;
       case 'k':
         return actionList[PTKEY_K];
+        break;
+      case 'l':
+        return actionList[PTKEY_L];
+        break;
+      case 'm':
+        return actionList[PTKEY_M];
+        break;
+      case 'n':
+        return actionList[PTKEY_N];
+        break;
+      case 'o':
+        return actionList[PTKEY_O];
+        break;
+      case 'p':
+        return actionList[PTKEY_P];
+        break;
+      case 'q':
+        return actionList[PTKEY_Q];
+        break;
+      case 'r':
+        return actionList[PTKEY_R];
+        break;
+      case 's':
+        return actionList[PTKEY_S];
+        break;
+      case 't':
+        return actionList[PTKEY_T];
+        break;
+      case 'u':
+        return actionList[PTKEY_U];
+        break;
+      case 'v':
+        return actionList[PTKEY_V];
+        break;
+      case 'w':
+        return actionList[PTKEY_W];
+        break;
+      case 'x':
+        return actionList[PTKEY_X];
+        break;
+      case 'y':
+        return actionList[PTKEY_Y];
+        break;
+      case 'z':
+        return actionList[PTKEY_Z];
         break;
     }
     return sizeof(actionStr)/sizeof(const char*) + 1; // Error
