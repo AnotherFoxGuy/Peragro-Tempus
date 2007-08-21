@@ -144,15 +144,19 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     if (!item) return; //send Error message?
 
     const Character* c_char = NetworkHelper::getCharacter(msg);
-    Character* character = c_char->getLock();
 
     //request_msg.getInventoryId();
     unsigned char slot = request_msg.getSlot();
 
-    if (character->getInventory()->getItem(slot)->id == Item::NoItem)
+    if (c_char->getInventory()->getItem(slot)->id == Item::NoItem)
     {
       const InventoryEntry entry(item->getId(), item_entity->variation);
-      if (character->getInventory()->addItem(entry, slot))
+
+      Character* character = c_char->getLock();
+      bool retval = character->getInventory()->addItem(entry, slot);
+      character->freeLock();
+
+      if (retval)
       {
         bool equip = (slot < 10);
         if (equip && response_msg.getError() == ptString::Null)

@@ -11,6 +11,7 @@ under each day.
   - swedishcoder added more functions to the input manager. You can now also
     move around by using w/a/s/d keys. All fully configurable in the client.cfg.
     This is tracked in ticket 23.
+  - PK fixed an unfreed entity lock in EntityHandler::handlePickRequest.
 
 20-Aug-2007
   - swedishcoder fixed a bug where reporter wasn't deleted at termination.
