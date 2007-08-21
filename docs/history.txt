@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+21-Aug-2007
+  - swedishcoder fixed the problem where if at start menu ESC was pressed PT
+    would hang instead of exit. This was fixed by using a thread join timeout
+    function, just as is the case for win32. Ticket 25.
+
 20-Aug-2007
   - swedishcoder fixed a bug where reporter wasn't deleted at termination.
   - swedishcoder fixed a few memoryleaks.

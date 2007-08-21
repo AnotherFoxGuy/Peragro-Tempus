@@ -22,13 +22,11 @@
 #ifdef WIN32
   #define WIN32_LEAN_AND_MEAN
   #include "windows.h"
-  #define WaitForThread(a, b); WaitForSingleObject(a, b);
   #define ThreadHandle HANDLE
   #define ThreadReturn DWORD WINAPI
   #define QuitThread(); return 0;
 #else
   #include <pthread.h>
-  #define WaitForThread(a, b); pthread_join(a, NULL);
   #define ThreadHandle pthread_t
   #define ThreadReturn void*
   #define QuitThread(); pthread_exit(NULL);
@@ -75,7 +73,14 @@ public:
   void kill()
   {
     runThread = false;
-    WaitForThread(threadHandle, 1000);
+#ifdef WIN32
+    WaitForSingleObject(threadHandle, 1000);
+#else
+    timespec timeout;
+    timeout.tv_sec = 1000;
+    timeout.tv_nsec = 0;
+    pthread_timedjoin_np(threadHandle, NULL, &timeout);
+#endif
   }
 
   inline bool isRunning()
