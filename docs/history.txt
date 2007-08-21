@@ -8,6 +8,9 @@ under each day.
   - swedishcoder fixed the problem where if at start menu ESC was pressed PT
     would hang instead of exit. This was fixed by using a thread join timeout
     function, just as is the case for win32. Ticket 25.
+  - swedishcoder added more functions to the input manager. You can now also
+    move around by using w/a/s/d keys. All fully configurable in the client.cfg.
+    This is tracked in ticket 23.
 
 20-Aug-2007
   - swedishcoder fixed a bug where reporter wasn't deleted at termination.
