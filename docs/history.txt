@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+22-Aug-2007
+  - swedishcoder Turned on the mutex again. After PK's last change it 
+    should now work on linux again. This is basically the same code as
+    was removed in change 666
+
 21-Aug-2007
   - swedishcoder fixed the problem where if at start menu ESC was pressed PT
     would hang instead of exit. This was fixed by using a thread join timeout
