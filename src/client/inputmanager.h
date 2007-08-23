@@ -23,6 +23,8 @@
 #include <csutil/cfgfile.h>
 #include <csutil/cfgacc.h>
 
+#include <csutil/hash.h>
+
 namespace PT {
   enum keyMap {
     PTKEY_UP = 0,
@@ -66,21 +68,18 @@ namespace PT {
 
   class InputManager
   {
-    public:
-      InputManager();
-      typedef bool (Client::*tFunction)(bool down, iEvent &ev);
-      bool ProcessEvent(iEvent &) const;
-      void SetCallback(Client *, const char *, tFunction const);
-      bool Initialize(iObjectRegistry *);
-      int GetActionID(const char *);
-
     private:
-      static const char* actionStr[];
-      Client  *client;
-      int actionCount;
-      tFunction *functionList;
-      int actionList[PTKEY_SIZE];
-      int GetActionType(iEvent &) const;
+      typedef bool (Client::*tFunction)(bool down, iEvent &ev);
+      csHash< tFunction, int > functions;
+
+      Client* client;
+
+      int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl);
+
+    public:
+      InputManager(Client* client);
+      bool ProcessEvent(iEvent &);
+      void SetCallback(iObjectRegistry *, const char *, tFunction const);
   };
 }
 #endif

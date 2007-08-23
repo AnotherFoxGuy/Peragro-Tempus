@@ -220,24 +220,23 @@ namespace PT
 		network->init();
 		pointerlib.setNetwork(network);
 
-    inputMgr = new InputManager();
+    inputMgr = new InputManager(this);
     if(!inputMgr) {
       return false;
     }
-    inputMgr->Initialize(GetObjectRegistry());
-    inputMgr->SetCallback(this, "ACTION_FORWARD", &PT::Client::ActionForward);
-    inputMgr->SetCallback(this, "ACTION_BACKWARD", &PT::Client::ActionBackward);
-    inputMgr->SetCallback(this, "ACTION_LEFT", &PT::Client::ActionLeft);
-    inputMgr->SetCallback(this, "ACTION_RIGHT", &PT::Client::ActionRight);
-    inputMgr->SetCallback(this, "ACTION_TOGGLEWALK", &PT::Client::ActionToggleWalk);
-    inputMgr->SetCallback(this, "ACTION_PANUP", &PT::Client::ActionPanUp);
-    inputMgr->SetCallback(this, "ACTION_PANDOWN", &PT::Client::ActionPanDown);
-    inputMgr->SetCallback(this, "ACTION_TOGGLECAMERA", &PT::Client::ActionToggleCamera);
-    inputMgr->SetCallback(this, "ACTION_TOGGLEDISTCLIP", &PT::Client::ActionToggleDistClipping);
-    inputMgr->SetCallback(this, "ACTION_HIT", &PT::Client::ActionHit);
-    inputMgr->SetCallback(this, "ACTION_ACTIVATESKILL", &PT::Client::ActionActivateSkill);
-    inputMgr->SetCallback(this, "ACTION_ACTIVATEWEAPON", &PT::Client::ActionActivateWeapon);
-    inputMgr->SetCallback(this, "ACTION_QUIT", &PT::Client::ActionQuit);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_FORWARD", &PT::Client::ActionForward);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_BACKWARD", &PT::Client::ActionBackward);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_LEFT", &PT::Client::ActionLeft);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_RIGHT", &PT::Client::ActionRight);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_TOGGLEWALK", &PT::Client::ActionToggleWalk);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_PANUP", &PT::Client::ActionPanUp);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_PANDOWN", &PT::Client::ActionPanDown);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_TOGGLECAMERA", &PT::Client::ActionToggleCamera);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_TOGGLEDISTCLIP", &PT::Client::ActionToggleDistClipping);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_HIT", &PT::Client::ActionHit);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_ACTIVATESKILL", &PT::Client::ActionActivateSkill);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_ACTIVATEWEAPON", &PT::Client::ActionActivateWeapon);
+    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_QUIT", &PT::Client::ActionQuit);
 
 		// Create and Initialize the EventManager.
 		eventmanager = new PT::Events::EventManager();
