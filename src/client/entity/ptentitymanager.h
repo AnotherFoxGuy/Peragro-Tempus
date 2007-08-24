@@ -54,72 +54,72 @@ struct iLoader;
 
 namespace PT
 {
-	namespace Entity
-	{
-		class EntityManager
-		{
-		private:
-			csPDelArray<PtEntity> entities;
+  namespace Entity
+  {
+    class EntityManager
+    {
+    private:
+      csPDelArray<PtEntity> entities;
 
-			csRef<iEngine> engine;
-			csRef<iVFS> vfs;
-			csRef<iStringSet> stringset;
-			csRef<iVirtualClock> vc;
-			csRef<iLoader> loader;
-			csRef<iCelPlLayer> pl;
-			csRef<iObjectRegistry> obj_reg;
+      csRef<iEngine> engine;
+      csRef<iVFS> vfs;
+      csRef<iStringSet> stringset;
+      csRef<iVirtualClock> vc;
+      csRef<iLoader> loader;
+      csRef<iCelPlLayer> pl;
+      csRef<iObjectRegistry> obj_reg;
 
-			Client* client;
-			MovementManager* movementManager;
+      Client* client;
+      MovementManager* movementManager;
 
-		private:
-			csArray<PT::Events::Eventp> events;
-			void ProcessEvents();
+    private:
+      csArray<PT::Events::Eventp> events;
+      void ProcessEvents();
 
-		private:
-			unsigned int own_char_id;
-			csWeakRef<iPcDefaultCamera> owncam;
-			csWeakRef<iCelEntity> owncelent;
-			PtEntity* ownent;
-			csString ownname;
+    private:
+      unsigned int own_char_id;
+      csWeakRef<iPcDefaultCamera> owncam;
+      csWeakRef<iCelEntity> owncelent;
+      PtEntity* ownent;
+      csString ownname;
 
-		private:
-			bool playing;
-			bool world_loaded;
+    private:
+      bool playing;
+      bool world_loaded;
 
-		public:
-			EntityManager (iObjectRegistry* obj_reg);
-			~EntityManager ();
+    public:
+      EntityManager (iObjectRegistry* obj_reg);
+      ~EntityManager ();
 
-			bool Initialize ();
-			void Handle();
+      bool Initialize ();
+      void Handle();
 
-			bool GetEntityEvents(PT::Events::Eventp ev);
+      bool GetEntityEvents(PT::Events::Eventp ev);
 
-			bool AddEntity(PT::Events::Eventp ev);
-			bool RemoveEntity(PT::Events::Eventp ev);
-			bool Equip(PT::Events::Eventp ev);
-			bool Mount(PT::Events::Eventp ev);
-			void DrUpdateOwnEntity();
-			
-			iCelEntity* findCelEntById(int id);
-			PtEntity* findPtEntById(int id);
+      bool AddEntity(PT::Events::Eventp ev);
+      bool RemoveEntity(PT::Events::Eventp ev);
+      bool Equip(PT::Events::Eventp ev);
+      bool Mount(PT::Events::Eventp ev);
+      void DrUpdateOwnEntity();
 
-			bool SetOwnId(PT::Events::Eventp ev);
+      iCelEntity* findCelEntById(int id);
+      PtEntity* findPtEntById(int id);
 
-			iPcDefaultCamera* getOwnCamera() { return owncam; }
-			iCelEntity* getOwnCelEntity() { return owncelent; }
-			PtEntity* getOwnPtEntity() { return ownent; }
-			unsigned int GetOwnId() { return own_char_id; }
-			csString GetOwnName() { return ownname; }
+      bool SetOwnId(PT::Events::Eventp ev);
 
-			void setPlaying(bool value) { playing = value; }
-			void setWorldloaded(bool value) { world_loaded = value; }
+      iPcDefaultCamera* getOwnCamera() { return owncam; }
+      iCelEntity* getOwnCelEntity() { return owncelent; }
+      PtEntity* getOwnPtEntity() { return ownent; }
+      unsigned int GetOwnId() { return own_char_id; }
+      csString GetOwnName() { return ownname; }
 
-			void delAllEntities();
-		};
+      void setPlaying(bool value) { playing = value; }
+      void setWorldloaded(bool value) { world_loaded = value; }
 
-	} // Entity namespace 
+      void delAllEntities();
+    };
+
+  } // Entity namespace 
 } // PT namespace 
 
 #endif // PTENTITYMANAGER_H

@@ -21,7 +21,7 @@
 
 Slot::Slot ()
 {
- object = 0;
+  object = 0;
 }
 
 Slot::~Slot()
@@ -30,15 +30,15 @@ Slot::~Slot()
 
 bool Slot::IsEmpty()
 {
- if(!object)
-   return true;
- else
-   return false;
+  if(!object)
+    return true;
+  else
+    return false;
 }
 
 void Slot::Clear()
 {
- object = 0;
+  object = 0;
 }
 
 void Slot::MoveObjectTo(Slot* slot)

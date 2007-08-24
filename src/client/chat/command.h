@@ -31,15 +31,15 @@ namespace PT
 {
   namespace Chat
   {
-		typedef std::vector<std::string> StringArray;
+    typedef std::vector<std::string> StringArray;
 
     class Command
     {
     public:
-			virtual const char* GetCommand () = 0;
-			virtual const char* GetDescription () = 0;
-			virtual void Help () = 0;
-			virtual void Execute (const StringArray& args) = 0;
+      virtual const char* GetCommand () = 0;
+      virtual const char* GetDescription () = 0;
+      virtual void Help () = 0;
+      virtual void Execute (const StringArray& args) = 0;
     };
 
     typedef boost::shared_ptr<Command> Commandp;

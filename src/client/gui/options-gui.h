@@ -26,10 +26,6 @@
 #include "iutil/cfgmgr.h"
 #include "iutil/cfgfile.h"
 
-/*================//
-// GUIChatWindow  //
-//================*/
-
 class GUIManager;
 
 class OptionsWindow : public GUIWindow

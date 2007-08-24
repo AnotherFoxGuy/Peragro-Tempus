@@ -34,17 +34,17 @@ void Equipment::AddItem(EquipedItem* equipeditem)
 void Equipment::RemoveItem(unsigned int slotid)
 {
   for (size_t i=0; i < equipment.GetSize(); i++)
-   {
-     EquipedItem* item = equipment.Get(i);
-     if(item->GetSlotId() == slotid)
-       {
-         item->DestructMesh();
-         equipment.DeleteIndex(i);
-         return;
-       }
-   }
-	if (equipment.GetSize() > 0)
-		Report(PT::Error, "Equipment: Couldn't remove equiped item for slot %d!", slotid);
+  {
+    EquipedItem* item = equipment.Get(i);
+    if(item->GetSlotId() == slotid)
+    {
+      item->DestructMesh();
+      equipment.DeleteIndex(i);
+      return;
+    }
+  }
+  if (equipment.GetSize() > 0)
+    Report(PT::Error, "Equipment: Couldn't remove equiped item for slot %d!", slotid);
 }
 
 void Equipment::Equip(unsigned int slotId, unsigned int itemId)
@@ -57,7 +57,7 @@ void Equipment::Equip(unsigned int slotId, unsigned int itemId)
 
   // Create the mesh for the item so it shows.
   equipeditem->ConstructMesh();
-  
+
 }
 
 void Equipment::UnEquip(unsigned int slotId)
@@ -68,19 +68,19 @@ void Equipment::UnEquip(unsigned int slotId)
 void Equipment::ConstructMeshes()
 {
   for (size_t i=0; i < equipment.GetSize(); i++)
-   {
-     EquipedItem* equipeditem = equipment.Get(i);
-     equipeditem->ConstructMesh();
-   }
+  {
+    EquipedItem* equipeditem = equipment.Get(i);
+    equipeditem->ConstructMesh();
+  }
 }
 
 void Equipment::DestructMeshes()
 {
   for (size_t i=0; i < equipment.GetSize(); i++)
-   {
-     EquipedItem* equipeditem = equipment.Get(i);
-     equipeditem->DestructMesh();
-   }
+  {
+    EquipedItem* equipeditem = equipment.Get(i);
+    equipeditem->DestructMesh();
+  }
 }
 
 void Equipment::ClearAll()

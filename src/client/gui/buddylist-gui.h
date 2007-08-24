@@ -21,9 +21,6 @@
 
 #include "base-gui.h"
 
-/*================//
-// GUIInvWindow  //
-//================*/
 class BuddyWindow : public GUIWindow
 {
 private:

@@ -28,7 +28,7 @@
 
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {
-	Report(PT::Debug, "TradeHandler: handleTradeRequest.");
+  Report(PT::Debug, "TradeHandler: handleTradeRequest.");
 
   TradeRequestMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());

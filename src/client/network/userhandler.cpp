@@ -29,23 +29,23 @@
 
 void UserHandler::handleLoginResponse(GenericMessage* msg)
 {
-	Report(PT::Notify, "Received LoginResponse.");
+  Report(PT::Notify, "Received LoginResponse.");
   LoginResponseMessage response;
   response.deserialise(msg->getByteStream());
 
-	using namespace PT::Events;
+  using namespace PT::Events;
   StateLoggedInEvent* stateEvent = new StateLoggedInEvent();
 
-	if (!response.getError().isNull()) // An error occured.
-	{
-		stateEvent->errorMessage	= *response.getError();
-		stateEvent->error					= true;
-	}
-	else
-	{
-		stateEvent->errorMessage	= "blah";
-		stateEvent->error					= false;
-	}
+  if (!response.getError().isNull()) // An error occured.
+  {
+    stateEvent->errorMessage	= *response.getError();
+    stateEvent->error					= true;
+  }
+  else
+  {
+    stateEvent->errorMessage	= "blah";
+    stateEvent->error					= false;
+  }
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
 }
@@ -58,7 +58,7 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
   ptString error = answer_msg.getError();
   if (!error.isNull())
   {
-		Report(PT::Warning, "Registration Failed due to: %s", *error);
+    Report(PT::Warning, "Registration Failed due to: %s", *error);
     GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
     guimanager->CreateOkWindow()->SetText(*error);
     return;
@@ -76,8 +76,8 @@ void UserHandler::handleCharList(GenericMessage* msg)
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
     guimanager->GetSelectCharWindow ()->AddCharacter(
-    char_msg.getCharId(i), *char_msg.getName(i),
-    char_msg.getSkinColour(i), char_msg.getHairColour(i), char_msg.getDecalColour(i));
+      char_msg.getCharId(i), *char_msg.getName(i),
+      char_msg.getSkinColour(i), char_msg.getHairColour(i), char_msg.getDecalColour(i));
     //printf("Char %d: %s\n", char_msg.getCharacterId(i), char_msg.getCharacterName(i));
   }
 }
@@ -95,7 +95,7 @@ void UserHandler::handleCharCreateResponse(GenericMessage* msg)
   }
   else
   {
-		Report(PT::Warning, "Character creation failed due to: %s", *answer_msg.getError());
+    Report(PT::Warning, "Character creation failed due to: %s", *answer_msg.getError());
     guimanager->CreateOkWindow()->SetText(*answer_msg.getError());
   }
 }
@@ -105,12 +105,12 @@ void UserHandler::handleCharSelectResponse(GenericMessage* msg)
   CharSelectResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
 
-	using namespace PT::Events;
-	StatePlayEvent* stateEvent = new StatePlayEvent();
-	stateEvent->ownEntityId = answer_msg.getEntityId();
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
+  using namespace PT::Events;
+  StatePlayEvent* stateEvent = new StatePlayEvent();
+  stateEvent->ownEntityId = answer_msg.getEntityId();
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
 
-	RegionLoadEvent* regionEvent = new RegionLoadEvent();
-	regionEvent->regionName = "keep";
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(regionEvent);
+  RegionLoadEvent* regionEvent = new RegionLoadEvent();
+  regionEvent->regionName = "keep";
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(regionEvent);
 }

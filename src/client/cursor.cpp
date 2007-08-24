@@ -87,7 +87,7 @@ void Cursor::Draw()
     default:
       nametag->setVisible(false);
     }
-    
+
     CEGUI::String name = pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"));
     CEGUI::Font* font = nametag->getFont();
     float height = font->getFontHeight(1.3f);
@@ -130,12 +130,12 @@ iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 
     vo = camera->GetTransform().GetO2TTranslation();
     csVector3 end = vo + (vw-vo)*600;
 
-		csSectorHitBeamResult result = sector->HitBeamPortals(vo, end);
+    csSectorHitBeamResult result = sector->HitBeamPortals(vo, end);
 
-		csVector3 isect = result.isect;
-		iMeshWrapper* sel = result.mesh;
+    csVector3 isect = result.isect;
+    iMeshWrapper* sel = result.mesh;
 
-		if (worldCoord != 0)
+    if (worldCoord != 0)
       *worldCoord = isect;
     if (untransfCoord)
       *untransfCoord = vo + (vw-vo).Unit()/**csQsqrt(dist)*/;

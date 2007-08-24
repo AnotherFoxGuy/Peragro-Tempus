@@ -36,7 +36,7 @@ void PtCharacterEntity::Move(MovementData* movement)
   if (mesh.IsValid())
   {
     csRef<iSpriteCal3DState> sprcal3d =
-       scfQueryInterface<iSpriteCal3DState> (mesh->GetMesh()->GetMeshObject());
+      scfQueryInterface<iSpriteCal3DState> (mesh->GetMesh()->GetMeshObject());
     if (sprcal3d)
       sprcal3d->SetVelocity(movement->walk);
   }

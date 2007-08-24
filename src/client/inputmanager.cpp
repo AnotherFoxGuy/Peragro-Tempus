@@ -15,21 +15,24 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #include "inputmanager.h"
 #include <utility>
 
-namespace PT {
+namespace PT 
+{
 
-  InputManager::InputManager(Client* client) : client(client) {
-    
+  InputManager::InputManager(Client* client) : client(client) 
+  {
   }
 
-  bool InputManager::ProcessEvent(iEvent &ev) {
+  bool InputManager::ProcessEvent(iEvent &ev) 
+  {
     if (csKeyEventHelper::GetAutoRepeat (&ev)) return false;
 
     csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
     bool down = (eventtype == csKeyEventTypeDown);
-    
+
     utf32_char key = csKeyEventHelper::GetCookedCode(&ev);
 
     if (functions.Contains(key))
@@ -41,27 +44,28 @@ namespace PT {
   }
 
   void InputManager::SetCallback (iObjectRegistry *registry, const char *actionType,
-                               tFunction pFunctionPointer) {
+                                  tFunction pFunctionPointer) 
+  {
 
-    csConfigAccess cfg (registry, "/config/client.cfg");
+      csConfigAccess cfg (registry, "/config/client.cfg");
 
-    csRef<iConfigIterator> it = cfg->Enumerate("Key");
+      csRef<iConfigIterator> it = cfg->Enumerate("Key");
 
-    while (it.IsValid() && it->Next())
-    {
-      const char* keystring = it->GetKey() + strlen(it->GetSubsection()) + 1;
-      const char* action = it->GetStr();
+      while (it.IsValid() && it->Next())
+      {
+        const char* keystring = it->GetKey() + strlen(it->GetSubsection()) + 1;
+        const char* action = it->GetStr();
 
-      if (strcmp(action, actionType)) continue;
+        if (strcmp(action, actionType)) continue;
 
-      bool shift, alt, ctrl;
-      int keycode = GetKeyCode (keystring, shift, alt, ctrl);
+        bool shift, alt, ctrl;
+        int keycode = GetKeyCode (keystring, shift, alt, ctrl);
 
-      // Check if valid key
-      if (keycode == -1) return;
+        // Check if valid key
+        if (keycode == -1) return;
 
-      functions.Put(keycode, pFunctionPointer);
-    }
+        functions.Put(keycode, pFunctionPointer);
+      }
   }
 
   int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl)

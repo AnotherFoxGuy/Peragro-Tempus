@@ -53,7 +53,7 @@ void PtNpcEntity::Create()
 
   // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
   csRef<iSpriteCal3DState> sprcal3d =
-     scfQueryInterface<iSpriteCal3DState> (pcmesh->GetMesh()->GetMeshObject());
+    scfQueryInterface<iSpriteCal3DState> (pcmesh->GetMesh()->GetMeshObject());
   if (sprcal3d) sprcal3d->SetVelocity(0);
 
   pclinmove->InitCD(

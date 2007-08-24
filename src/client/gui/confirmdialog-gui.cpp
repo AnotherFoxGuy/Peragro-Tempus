@@ -25,9 +25,6 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-/*==============//
-//   OkDialog   //
-//==============*/
 OkDialogWindow::OkDialogWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -77,9 +74,7 @@ void OkDialogWindow::CreateGUIWindow()
 
 }
 
-/*=================//
-//  ConfirmDialog  //
-//=================*/
+
 ConfirmDialogWindow::ConfirmDialogWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {

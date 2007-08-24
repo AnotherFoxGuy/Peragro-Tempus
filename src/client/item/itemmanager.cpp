@@ -59,7 +59,7 @@ bool ItemMGR::Initialize ()
 
   csRef<iDocument> doc;
   csRef<iDocumentNode> node;
-  
+
   if (!docsys) docsys = csPtr<iDocumentSystem> (new csTinyDocumentSystem ());
   doc = docsys->CreateDocument ();
   const char* error = doc->Parse (buf, true);
@@ -73,12 +73,11 @@ bool ItemMGR::Initialize ()
       return Report(PT::Error, "ItemManager: Couldn't open item file!");
   }
 
-	Report(PT::Debug, "==Loading items==========================");
+  Report(PT::Debug, "==Loading items==========================");
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
   {
     csRef<iDocumentNode> child = it->Next ();
-    //if (child->GetType () != CS_NODE_ELEMENT) continue;
     csRef<iDocumentNode> id          = child->GetNode ("id");
     csRef<iDocumentNode> name        = child->GetNode ("name");
     csRef<iDocumentNode> icon        = child->GetNode ("icon");
@@ -134,12 +133,12 @@ ClientItem* ItemMGR::GetItemById(uint id)
 ClientItem* ItemMGR::GetItemByName(csString name)
 {
   for (size_t i = 0; i < items.GetSize(); i++)
-   {
-     ClientItem* item = items[i];
-     if(item)
-       if(item->GetName().Compare(name))
-         return item;
-   }
+  {
+    ClientItem* item = items[i];
+    if(item)
+      if(item->GetName().Compare(name))
+        return item;
+  }
   Report(PT::Error, "ItemMGR: Couldn't find item %s!", name.GetData());
   return 0;
 }

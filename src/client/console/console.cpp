@@ -48,7 +48,7 @@ private:
 
 public:
   cmdPerfTest (iCelConsole* parent) : scfImplementationType (this),
-				    parent (parent) { }
+    parent (parent) { }
   virtual ~cmdPerfTest () { }
   virtual const char* GetCommand () { return "perftest"; }
   virtual const char* GetDescription () { return "Runs a performance test."; }
@@ -56,12 +56,12 @@ public:
   {
     parent->GetOutputConsole ()->PutText ("Usage: perftest\n");
     parent->GetOutputConsole ()->PutText (
-     "  Runs a performance test.\n");
+      "  Runs a performance test.\n");
   }
   virtual void Execute (const csStringArray& args)
   {
     iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-		PT::Client* client = PointerLibrary::getInstance()->getClient();
+    PT::Client* client = PointerLibrary::getInstance()->getClient();
 
     csRef<iVirtualClock> vc =  csQueryRegistry<iVirtualClock> (obj_reg);
     if(!vc) return;
@@ -76,8 +76,8 @@ public:
       client->DrawFrame ();
     }
     t2 = client->GetTicks ();
-   char buffer[1024];
-   sprintf(buffer, "%f secs to render %d frames: %f fps\n", 
+    char buffer[1024];
+    sprintf(buffer, "%f secs to render %d frames: %f fps\n", 
       (float) (t2 - t1) / 1000., num, float (num) * 1000. / (float) (t2 - t1));
     parent->GetOutputConsole ()->PutText (buffer);
     csPrintf (buffer);
@@ -92,7 +92,7 @@ private:
 
 public:
   cmdGuiMgr (iCelConsole* parent) : scfImplementationType (this),
-				    parent (parent) { }
+    parent (parent) { }
   virtual ~cmdGuiMgr () { }
   virtual const char* GetCommand () { return "guimanager"; }
   virtual const char* GetDescription () { return "Control the guimanager."; }
@@ -100,7 +100,7 @@ public:
   {
     parent->GetOutputConsole ()->PutText ("Usage: \n");
     parent->GetOutputConsole ()->PutText (
-     "  guimanager <window> <command> OR guimanager <command> <arg>\n");
+      "  guimanager <window> <command> OR guimanager <command> <arg>\n");
     parent->GetOutputConsole ()->PutText (
       " windows: buddy buy chat confirm connect hud inventory login npcdialog ok options selectchar sell status trade\n");
     parent->GetOutputConsole ()->PutText (
@@ -191,7 +191,7 @@ private:
 
 public:
   cmdEquip (iCelConsole* parent) : scfImplementationType (this),
-				    parent (parent) { }
+    parent (parent) { }
   virtual ~cmdEquip () { }
   virtual const char* GetCommand () { return "equipment"; }
   virtual const char* GetDescription () { return "Equip items on your own entity, for testing only."; }
@@ -199,11 +199,11 @@ public:
   {
     parent->GetOutputConsole ()->PutText ("Usage: \n");
     parent->GetOutputConsole ()->PutText (
-     " equipment <(un)equip> <slotid> <itemid>\n");
+      " equipment <(un)equip> <slotid> <itemid>\n");
   }
   virtual void Execute (const csStringArray& args)
   {
-		PT::Entity::EntityManager* entmanager = PointerLibrary::getInstance()->getEntityManager();
+    PT::Entity::EntityManager* entmanager = PointerLibrary::getInstance()->getEntityManager();
     if(!entmanager) return;
 
     PtEntity* ent = entmanager->getOwnPtEntity();
@@ -239,7 +239,7 @@ private:
 
 public:
   cmdItem (iCelConsole* parent) : scfImplementationType (this),
-				    parent (parent) { }
+    parent (parent) { }
   virtual ~cmdItem () { }
   virtual const char* GetCommand () { return "itemmanager"; }
   virtual const char* GetDescription () { return "Equip items on your own entity, for testing only."; }
@@ -247,7 +247,7 @@ public:
   {
     parent->GetOutputConsole ()->PutText ("Usage: \n");
     parent->GetOutputConsole ()->PutText (
-     " itemmanager <reload>\n");
+      " itemmanager <reload>\n");
   }
   virtual void Execute (const csStringArray& args)
   {

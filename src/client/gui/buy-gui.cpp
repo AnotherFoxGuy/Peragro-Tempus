@@ -64,13 +64,13 @@ bool BuyWindow::OnScroll(const CEGUI::EventArgs& args)
   using namespace CEGUI;
 
   const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
-  
+
   CEGUI::Scrollbar* scrollbar = static_cast<CEGUI::Scrollbar*>(ddea.window);
   float page = scrollbar->getScrollPosition();
 
   Update((int)page);
 
-	Report(PT::Debug, "Scrolling: page %f", page);
+  Report(PT::Debug, "Scrolling: page %f", page);
 
   return true;
 }
@@ -86,7 +86,7 @@ void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
     {
       if(itemid == items.Get(i).itemid)
       {
-				Report(PT::Debug, "BuyWindow:: Deleted index for itemid %d\n", itemid);
+        Report(PT::Debug, "BuyWindow:: Deleted index for itemid %d\n", itemid);
         totalmoney += items.Get(i).price;
         items.DeleteIndex(i);
         break;
@@ -165,7 +165,7 @@ void BuyWindow::UpdateOffer()
 
   // Make the offer list.
   msg.setOrdersCount(objandslot.GetSize());
-	Report(PT::Debug, "------------------------------------------");
+  Report(PT::Debug, "------------------------------------------");
   Report(PT::Debug, "BuyWindow: Creating Trade Offer List Pvp");
   for (size_t i=0; i<objandslot.GetSize(); i++)
   {
@@ -225,7 +225,7 @@ void BuyWindow::CreateGUIWindow()
   CEGUI::PushButton* accept1 = static_cast<CEGUI::PushButton*>(winMgr->getWindow("BuyWindow/Accept"));
   accept1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&BuyWindow::OnAccept, this));
 
-    // Get the frame window
+  // Get the frame window
   CEGUI::Scrollbar* scrollbar = static_cast<CEGUI::Scrollbar*>(winMgr->getWindow("BuyWindow/UpperSlots/UpperBag/scrollbar"));
   scrollbar->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged, CEGUI::Event::Subscriber(&BuyWindow::OnScroll, this));
   scrollbar->setStepSize(1.0);

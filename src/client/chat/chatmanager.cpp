@@ -35,191 +35,191 @@
 
 namespace PT
 {
-	namespace Chat
-	{
+  namespace Chat
+  {
 
-		ChatManager::ChatManager (iObjectRegistry* obj_reg)
-		{
-			this->obj_reg = obj_reg;
+    ChatManager::ChatManager (iObjectRegistry* obj_reg)
+    {
+      this->obj_reg = obj_reg;
 
-			network = PointerLibrary::getInstance()->getNetwork();
-			guimanager = PointerLibrary::getInstance()->getGUIManager();
-		}
+      network = PointerLibrary::getInstance()->getNetwork();
+      guimanager = PointerLibrary::getInstance()->getGUIManager();
+    }
 
-		ChatManager::~ChatManager ()
-		{
-		}
+    ChatManager::~ChatManager ()
+    {
+    }
 
-		bool ChatManager::Initialize ()
-		{
-			using namespace PT::Events;
+    bool ChatManager::Initialize ()
+    {
+      using namespace PT::Events;
 
-			// Register listener for ChatSayEvent.
-			EventHandler<ChatManager>* cbSay = new EventHandler<ChatManager>(&ChatManager::HandleSay, this);
-			PointerLibrary::getInstance()->getEventManager()->AddListener("ChatSayEvent", cbSay);
+      // Register listener for ChatSayEvent.
+      EventHandler<ChatManager>* cbSay = new EventHandler<ChatManager>(&ChatManager::HandleSay, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("ChatSayEvent", cbSay);
 
-			// Register listener for ChatWhisperEvent.
-			EventHandler<ChatManager>* cbWhisper = new EventHandler<ChatManager>(&ChatManager::HandleWhisper, this);
-			PointerLibrary::getInstance()->getEventManager()->AddListener("ChatWhisperEvent", cbWhisper);
+      // Register listener for ChatWhisperEvent.
+      EventHandler<ChatManager>* cbWhisper = new EventHandler<ChatManager>(&ChatManager::HandleWhisper, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("ChatWhisperEvent", cbWhisper);
 
-			// Handle submit.
-			CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
-			GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-			guimanager->GetChatWindow()->SetSubmitEvent(function);
+      // Handle submit.
+      CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      guimanager->GetChatWindow()->SetSubmitEvent(function);
 
-			// Register commands.
-			Command* cmd = new cmdHelp(); RegisterCommand(cmd);
-			cmd = new cmdSay(); RegisterCommand(cmd);
-			cmd = new cmdSayMe(); RegisterCommand(cmd);
-			cmd = new cmdWhisper(); RegisterCommand(cmd);
-			cmd = new cmdRelocate(); RegisterCommand(cmd);
-			cmd = new cmdGreet(); RegisterCommand(cmd);
+      // Register commands.
+      Command* cmd = new cmdHelp(); RegisterCommand(cmd);
+      cmd = new cmdSay(); RegisterCommand(cmd);
+      cmd = new cmdSayMe(); RegisterCommand(cmd);
+      cmd = new cmdWhisper(); RegisterCommand(cmd);
+      cmd = new cmdRelocate(); RegisterCommand(cmd);
+      cmd = new cmdGreet(); RegisterCommand(cmd);
 
-			return true;
-		}
+      return true;
+    }
 
-		bool ChatManager::HandleSay(PT::Events::Eventp ev)
-		{
-			using namespace PT::Events;
+    bool ChatManager::HandleSay(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
 
-			ChatSayEvent* chatEv = GetChatEvent<ChatSayEvent*>(ev);
-			if (!chatEv) return false;
+      ChatSayEvent* chatEv = GetChatEvent<ChatSayEvent*>(ev);
+      if (!chatEv) return false;
 
-			// TODO: input command handler.
-			if (strncmp (chatEv->message.c_str(),"/me",3) == 0)
-			{
-				std::string ownnick = chatEv->nickName;
-				std::string text = ownnick + chatEv->message.substr(3, chatEv->message.size());
-				guimanager->GetChatWindow ()->AddMessage (text.c_str());
-			}
-			else if (strncmp (chatEv->message.c_str(),"/greet",3) == 0)
-			{
-				std::string text = chatEv->nickName + " waves at" + chatEv->message.substr(6, chatEv->message.size());
-				guimanager->GetChatWindow ()->AddMessage (text.c_str());
-			}
-			else
-				guimanager->GetChatWindow ()->AddChatMessage (chatEv->nickName.c_str(), chatEv->message.c_str());
+      // TODO: input command handler.
+      if (strncmp (chatEv->message.c_str(),"/me",3) == 0)
+      {
+        std::string ownnick = chatEv->nickName;
+        std::string text = ownnick + chatEv->message.substr(3, chatEv->message.size());
+        guimanager->GetChatWindow ()->AddMessage (text.c_str());
+      }
+      else if (strncmp (chatEv->message.c_str(),"/greet",3) == 0)
+      {
+        std::string text = chatEv->nickName + " waves at" + chatEv->message.substr(6, chatEv->message.size());
+        guimanager->GetChatWindow ()->AddMessage (text.c_str());
+      }
+      else
+        guimanager->GetChatWindow ()->AddChatMessage (chatEv->nickName.c_str(), chatEv->message.c_str());
 
-			return true;
-		}
+      return true;
+    }
 
-		bool ChatManager::HandleWhisper(PT::Events::Eventp ev)
-		{
-			using namespace PT::Events;
+    bool ChatManager::HandleWhisper(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
 
-			ChatSayEvent* chatEv = GetChatEvent<ChatSayEvent*>(ev);
-			if (!chatEv) return false;
+      ChatSayEvent* chatEv = GetChatEvent<ChatSayEvent*>(ev);
+      if (!chatEv) return false;
 
-			guimanager->GetWhisperWindow()->AddWhisper(chatEv->nickName.c_str(), chatEv->message.c_str());
+      guimanager->GetWhisperWindow()->AddWhisper(chatEv->nickName.c_str(), chatEv->message.c_str());
 
-			return true;
-		}
+      return true;
+    }
 
-		bool ChatManager::OnSubmit (const CEGUI::EventArgs& e)
-		{
-			CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
-			CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
-			if (!btn)
-			{
-				Report(PT::Error, "Inputbox of Chat not found!");
-				return false;
-			}
+    bool ChatManager::OnSubmit (const CEGUI::EventArgs& e)
+    {
+      CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+      CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+      if (!btn)
+      {
+        Report(PT::Error, "Inputbox of Chat not found!");
+        return false;
+      }
 
-			CEGUI::String text = btn->getText();
+      CEGUI::String text = btn->getText();
 
-			// If the submitted text is empty, hide the InputPanel.
-			if (text.empty()) 
-			{
-				winMgr->getWindow("InputPanel/Frame")->setVisible(false);
-				winMgr->getWindow("Chatlog/Frame")->activate();
-				return true;
-			}
+      // If the submitted text is empty, hide the InputPanel.
+      if (text.empty()) 
+      {
+        winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+        winMgr->getWindow("Chatlog/Frame")->activate();
+        return true;
+      }
 
-			// Handle submitted text.
-			HandleOutput(text.c_str());
+      // Handle submitted text.
+      HandleOutput(text.c_str());
 
-			// Erase the text.
-			btn->setText(text.erase());
+      // Erase the text.
+      btn->setText(text.erase());
 
-			// TODO: Push the messages on a stack to get some 
-			// 'command history'.
+      // TODO: Push the messages on a stack to get some 
+      // 'command history'.
 
-			return true;
-		}
+      return true;
+    }
 
-		StringArray ChatManager::ParseString (const char* texti)
-		{
-			std::string text = texti;
-			StringArray arg;
-			size_t beginPos = 0;
+    StringArray ChatManager::ParseString (const char* texti)
+    {
+      std::string text = texti;
+      StringArray arg;
+      size_t beginPos = 0;
 
 
-			// Push the special character on the array and set the offset.
-			if ((strncmp (texti,"/",1) == 0) ||
-				  (strncmp (texti,"!",1) == 0))
-			{
-				arg.push_back(text.substr(0, 1));
-				beginPos = 1;
-			}
+      // Push the special character on the array and set the offset.
+      if ((strncmp (texti,"/",1) == 0) ||
+        (strncmp (texti,"!",1) == 0))
+      {
+        arg.push_back(text.substr(0, 1));
+        beginPos = 1;
+      }
 
-			std::string args = text.substr(beginPos, text.size());
-			std::string tail = args;
+      std::string args = text.substr(beginPos, text.size());
+      std::string tail = args;
 
-			// Push the seperate words on an array.
-			while (tail.size() > 0)
-			{
-				size_t pos = tail.find_first_of(" ");
-				if ( pos == std::string::npos ) 
-				{
-					arg.push_back( tail.substr(0, tail.size()+1) );
-					Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, tail.size()).c_str() );
-					tail.clear();
-				}
-				else
-				{
-					arg.push_back( tail.substr(0, pos) );
-					Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, pos).c_str() );
-					tail = tail.substr(pos+1, tail.size());
-				} // else
-			} //while
+      // Push the seperate words on an array.
+      while (tail.size() > 0)
+      {
+        size_t pos = tail.find_first_of(" ");
+        if ( pos == std::string::npos ) 
+        {
+          arg.push_back( tail.substr(0, tail.size()+1) );
+          Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, tail.size()).c_str() );
+          tail.clear();
+        }
+        else
+        {
+          arg.push_back( tail.substr(0, pos) );
+          Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, pos).c_str() );
+          tail = tail.substr(pos+1, tail.size());
+        } // else
+      } //while
 
-			return arg;
+      return arg;
 
-		} //ParseString
+    } //ParseString
 
-		void ChatManager::Execute (const char* cmd, const StringArray& args)
-		{
-			std::vector<Commandp>::iterator it;
-			for(it = commands.begin(); it != commands.end(); ++it)
-			{
-				if (strcmp (it->get()->GetCommand(), cmd) == 0)
-				{
-					it->get()->Execute(args);
-					return;
-				} // if
-			} // for
+    void ChatManager::Execute (const char* cmd, const StringArray& args)
+    {
+      std::vector<Commandp>::iterator it;
+      for(it = commands.begin(); it != commands.end(); ++it)
+      {
+        if (strcmp (it->get()->GetCommand(), cmd) == 0)
+        {
+          it->get()->Execute(args);
+          return;
+        } // if
+      } // for
 
-			Report(PT::Warning, "Unknown command '%s'!", cmd);
-		}
+      Report(PT::Warning, "Unknown command '%s'!", cmd);
+    }
 
-		void ChatManager::RegisterCommand (Command* cmd)
-		{
-			Commandp cmdp(cmd);
+    void ChatManager::RegisterCommand (Command* cmd)
+    {
+      Commandp cmdp(cmd);
       commands.push_back(cmdp);
-		}
+    }
 
-		void ChatManager::HandleOutput (const char* texti)
-		{
-			StringArray arg = ParseString (texti);
+    void ChatManager::HandleOutput (const char* texti)
+    {
+      StringArray arg = ParseString (texti);
 
-			// It's a command.
-			if (arg.size() > 1 && arg[0].compare("/") == 0)
-			{
-				Execute(arg[1].c_str(), arg);
-			}
-			else
-				Execute("say", arg); // Special case.
-		}
+      // It's a command.
+      if (arg.size() > 1 && arg[0].compare("/") == 0)
+      {
+        Execute(arg[1].c_str(), arg);
+      }
+      else
+        Execute("say", arg); // Special case.
+    }
 
-	} // Chat namespace 
+  } // Chat namespace 
 } // PT namespace 

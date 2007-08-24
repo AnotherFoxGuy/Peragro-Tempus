@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+24-Aug-2007
+  - Sueastside fixed all style issues.
+
 23-Aug-2007
   - PK tried to fix the InputManager but failed. Sueastside wanted the code
     to be commited anyway.

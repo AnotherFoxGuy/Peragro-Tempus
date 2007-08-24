@@ -27,68 +27,68 @@ namespace PT
 {
   namespace Events
   {
-		/**
-		 * Trade event base class.
-		 */
+    /**
+    * Trade event base class.
+    */
     class TradeEvent : public Event
     {
-		public:
-			unsigned int entityId;
+    public:
+      unsigned int entityId;
 
-		public:
-			TradeEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-			virtual ~TradeEvent() {}
+    public:
+      TradeEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+      virtual ~TradeEvent() {}
     };
 
-		/**
-		 * TradeEvent helper function.
-		 */
-		template <class T>
-		T GetTradeEvent(Eventp ev)
-		{
-			TradeEvent* tradeEv = static_cast<TradeEvent*> (ev.get());
-			if (!tradeEv)
-			{
-				printf("E: Not a Trade event!\n");
-				return 0;
-			}
-			T tEv = static_cast<T> (tradeEv);
-			if (!tEv)
-			{
-				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-				return 0;
-			}
+    /**
+    * TradeEvent helper function.
+    */
+    template <class T>
+    T GetTradeEvent(Eventp ev)
+    {
+      TradeEvent* tradeEv = static_cast<TradeEvent*> (ev.get());
+      if (!tradeEv)
+      {
+        printf("E: Not a Trade event!\n");
+        return 0;
+      }
+      T tEv = static_cast<T> (tradeEv);
+      if (!tEv)
+      {
+        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
+        return 0;
+      }
 
-			return tEv;
-		}
+      return tEv;
+    }
 
-		/**
-		 * Trade pickup event.
-		 */
+    /**
+    * Trade pickup event.
+    */
     class TradePickUpEvent : public TradeEvent
     {
     public:
-			unsigned int itemId;
-			unsigned int slotId;
-			
+      unsigned int itemId;
+      unsigned int slotId;
+
     public:
       TradePickUpEvent() : TradeEvent("TradePickUpEvent", true) {}
       virtual ~TradePickUpEvent() {}
     };
 
-		/**
-		* Trade drop event.
-		*/
-		class TradeDropEvent : public TradeEvent
-		{
-		public:
-			//unsigned int itemId;
-			unsigned int slotId;
+    /**
+    * Trade drop event.
+    */
+    class TradeDropEvent : public TradeEvent
+    {
+    public:
+      //unsigned int itemId;
+      unsigned int slotId;
 
-		public:
-			TradeDropEvent() : TradeEvent("TradeDropEvent", true) {}
-			virtual ~TradeDropEvent() {}
-		};
+    public:
+      TradeDropEvent() : TradeEvent("TradeDropEvent", true) {}
+      virtual ~TradeDropEvent() {}
+    };
 
   } // Events namespace 
 } // PT namespace 

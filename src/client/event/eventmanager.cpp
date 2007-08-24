@@ -46,7 +46,7 @@ namespace PT
     {
       mutex.lock();
 
-			//Report(PT::Debug, "Adding event.");
+      //Report(PT::Debug, "Adding event.");
 
       Eventp evp(ev);
       events.push(evp);
@@ -88,9 +88,9 @@ namespace PT
         } // if
       } // for
 
-			// The event isn't broadcasting and it's still present at the end.
-			if (!ev->GetBroadCast())
-				Report(PT::Warning, "No listeners for event: deleting %s", id.c_str());
+      // The event isn't broadcasting and it's still present at the end.
+      if (!ev->GetBroadCast())
+        Report(PT::Warning, "No listeners for event: deleting %s", id.c_str());
 
       events.pop();
     }

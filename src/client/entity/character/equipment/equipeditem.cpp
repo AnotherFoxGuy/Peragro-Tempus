@@ -48,40 +48,40 @@ void EquipedItem::ConstructMesh()
   if(!entity->GetCelEntity()) return;
 
   csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-	if(!obj_reg) return;
+  if(!obj_reg) return;
   csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-	if(!pl.IsValid()) return;
-	ItemMGR* itemmgr =  PointerLibrary::getInstance()->getItemManager();
-	if(!itemmgr) return;
+  if(!pl.IsValid()) return;
+  ItemMGR* itemmgr =  PointerLibrary::getInstance()->getItemManager();
+  if(!itemmgr) return;
 
-	// Find the item by  ID.
+  // Find the item by  ID.
   ClientItem* item = itemmgr->GetItemById(id);
   if(item)
   {
-		// Create the item.
-		csRef<iCelEntity> itement = pl->CreateEntity();
-		this->itementity = itement;
-		pl->CreatePropertyClass(itementity, "pcobject.mesh");
-		csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
-		itempcmesh->SetMesh(item->GetMeshName().GetData(), item->GetFileName().GetData());
+    // Create the item.
+    csRef<iCelEntity> itement = pl->CreateEntity();
+    this->itementity = itement;
+    pl->CreatePropertyClass(itementity, "pcobject.mesh");
+    csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
+    itempcmesh->SetMesh(item->GetMeshName().GetData(), item->GetFileName().GetData());
 
-		// Get the player's mesh.
-		csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
+    // Get the player's mesh.
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
 
     iMeshWrapper* mesh = itempcmesh->GetMesh();
     iMeshWrapper* parent = pcmesh->GetMesh();
     if(parent && mesh)
     {
-			// Attach the item.
+      // Attach the item.
       if (pcmesh->AttachSocketMesh(GetSocketName(slotId).c_str(), mesh))
       {
-				Report(PT::Debug, "Equipment attached!");
+        Report(PT::Debug, "Equipment attached!");
         return;
       }
     }
   }
 
-	Report(PT::Error, "Failed to construct mesh %d!", id);
+  Report(PT::Error, "Failed to construct mesh %d!", id);
 }
 
 void EquipedItem::DestructMesh()
@@ -93,20 +93,20 @@ void EquipedItem::DestructMesh()
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
 
-	if ( pcmesh->GetMesh() && pcmesh->DetachSocketMesh(GetSocketName(slotId).c_str()) )
-	{
-		pl->RemoveEntity(itementity);
-		itementity = 0;
-		Report(PT::Debug, "Equipment destroyed!");
-		return;
-	}
-  
+  if ( pcmesh->GetMesh() && pcmesh->DetachSocketMesh(GetSocketName(slotId).c_str()) )
+  {
+    pl->RemoveEntity(itementity);
+    itementity = 0;
+    Report(PT::Debug, "Equipment destroyed!");
+    return;
+  }
+
   Report(PT::Error, "Failed to destruct mesh %d!", id);
 }
 
 std::string EquipedItem::GetSocketName(unsigned int slotid)
 {
-	std::string socketName;
+  std::string socketName;
 
   switch(slotid)
   {
@@ -116,5 +116,5 @@ std::string EquipedItem::GetSocketName(unsigned int slotid)
   default: Report(PT::Error, "Unknown slot with ID %d !", slotid); return 0;
   }
 
-	return socketName;
+  return socketName;
 }

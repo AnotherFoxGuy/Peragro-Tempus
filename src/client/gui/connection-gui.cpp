@@ -25,9 +25,6 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-/*====================//
-// GUIConnectWindow   //
-//====================*/
 ConnectWindow::ConnectWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -39,21 +36,21 @@ ConnectWindow::~ConnectWindow()
 
 void ConnectWindow::ShowWindow() 
 {
-	GUIWindow::ShowWindow();
-	CEGUI::Window * wnd = winMgr->getWindow("Server");
-	wnd->activate();
+  GUIWindow::ShowWindow();
+  CEGUI::Window * wnd = winMgr->getWindow("Server");
+  wnd->activate();
 }
 
 bool ConnectWindow::ServerTextAccepted(const CEGUI::EventArgs &e)
 {
-	CEGUI::Window * server = winMgr->getWindow("Server");
+  CEGUI::Window * server = winMgr->getWindow("Server");
 
-	if (!server->getText().empty())
-	{
-		ConnectButtonPressed(e);
-	}
+  if (!server->getText().empty())
+  {
+    ConnectButtonPressed(e);
+  }
 
-	return true;
+  return true;
 }
 
 bool ConnectWindow::ConnectButtonPressed(const CEGUI::EventArgs& e) 
@@ -90,6 +87,6 @@ void ConnectWindow::CreateGUIWindow()
   btn = winMgr->getWindow("Connect_Button");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConnectWindow::ConnectButtonPressed, this));
 
-	btn = winMgr->getWindow("Server");
-	btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&ConnectWindow::ServerTextAccepted, this));
+  btn = winMgr->getWindow("Server");
+  btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&ConnectWindow::ServerTextAccepted, this));
 }

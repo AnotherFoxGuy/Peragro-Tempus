@@ -28,9 +28,6 @@
 
 #include "client/reporter/reporter.h"
 
-/*=================//
-//    ChatWindow   //
-//=================*/
 ChatWindow::ChatWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -38,8 +35,8 @@ ChatWindow::ChatWindow (GUIManager* guimanager)
 
 ChatWindow::~ChatWindow ()
 {
-	if (sumbitEventSubscriber)
-        delete sumbitEventSubscriber;
+  if (sumbitEventSubscriber)
+    delete sumbitEventSubscriber;
 }
 
 void ChatWindow::CreateGUIWindow ()
@@ -66,32 +63,32 @@ void ChatWindow::CreateGUIWindow ()
   btn = winMgr->getWindow("InputPanel/ChatDropList");
   btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&ChatWindow::OnDropList, this));
 
-	HideWindow();
+  HideWindow();
 }
 
 void ChatWindow::HideWindow()  
 {
   winMgr->getWindow("Chatlog/Frame")->setVisible(false);
-	winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+  winMgr->getWindow("InputPanel/Frame")->setVisible(false);
 
-	visible = false;
+  visible = false;
 }
 
 void ChatWindow::ShowWindow() 
 {
-	winMgr->getWindow("Chatlog/Frame")->setVisible(true);
-	//winMgr->getWindow("InputPanel/Frame")->setVisible(true);
+  winMgr->getWindow("Chatlog/Frame")->setVisible(true);
+  //winMgr->getWindow("InputPanel/Frame")->setVisible(true);
 
-	visible = true;
+  visible = true;
 }
 
 void ChatWindow::SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber)
 {
-	sumbitEventSubscriber = subscriber;
+  sumbitEventSubscriber = subscriber;
 
-	// set up submitting message on enter
-	CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
-	if (btn) btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, sumbitEventSubscriber);
+  // set up submitting message on enter
+  CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+  if (btn) btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, sumbitEventSubscriber);
 }
 
 bool ChatWindow::OnDropList(const CEGUI::EventArgs& e) 
@@ -102,54 +99,54 @@ bool ChatWindow::OnDropList(const CEGUI::EventArgs& e)
 
 bool ChatWindow::Onslider(const CEGUI::EventArgs& e)
 {
-    using namespace CEGUI;
+  using namespace CEGUI;
 
-    // we know it's a slider.
-    Slider* s = static_cast<Slider*>(static_cast<const WindowEventArgs&>(e).window);
+  // we know it's a slider.
+  Slider* s = static_cast<Slider*>(static_cast<const WindowEventArgs&>(e).window);
 
-    // get value from slider and set it as the current alpha
-    float val = s->getCurrentValue();
-    winMgr->getWindow("Chatlog/GlobalButton")->setAlpha(val);
-    winMgr->getWindow("Chatlog/PartyButton")->setAlpha(val);
-    winMgr->getWindow("Chatlog/GuildButton")->setAlpha(val);
-    winMgr->getWindow("Chatlog/CombatButton")->setAlpha(val);
-    winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(val);
+  // get value from slider and set it as the current alpha
+  float val = s->getCurrentValue();
+  winMgr->getWindow("Chatlog/GlobalButton")->setAlpha(val);
+  winMgr->getWindow("Chatlog/PartyButton")->setAlpha(val);
+  winMgr->getWindow("Chatlog/GuildButton")->setAlpha(val);
+  winMgr->getWindow("Chatlog/CombatButton")->setAlpha(val);
+  winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(val);
 
-    // indicate the event was handled here.
-    return true;
+  // indicate the event was handled here.
+  return true;
 }
 
 bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 {
-    using namespace CEGUI;
+  using namespace CEGUI;
 
-    CEGUI::Window* inventorywin = winMgr->getWindow("Inventory/Frame");
-    CEGUI::Window* statuswin = winMgr->getWindow("Status/Frame");
+  CEGUI::Window* inventorywin = winMgr->getWindow("Inventory/Frame");
+  CEGUI::Window* statuswin = winMgr->getWindow("Status/Frame");
 
-    const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
+  const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
-    //printf("OnRootKeyDown: key %d pressed \n", keyArgs.scancode);
+  //printf("OnRootKeyDown: key %d pressed \n", keyArgs.scancode);
 
-    switch (keyArgs.scancode)
-    {
-    case Key::Return:
-			  if (!visible) return false;
-        winMgr->getWindow("InputPanel/Frame")->setVisible(true);
-        winMgr->getWindow("InputPanel/InputBox")->activate();
-        break;
+  switch (keyArgs.scancode)
+  {
+  case Key::Return:
+    if (!visible) return false;
+    winMgr->getWindow("InputPanel/Frame")->setVisible(true);
+    winMgr->getWindow("InputPanel/InputBox")->activate();
+    break;
 
-    case Key::F11:
-      statuswin->isVisible(true) ? statuswin->hide() : statuswin->show();
-      break;
+  case Key::F11:
+    statuswin->isVisible(true) ? statuswin->hide() : statuswin->show();
+    break;
 
-    case Key::F12:
-      inventorywin->isVisible(true) ? inventorywin->hide() : inventorywin->show();
-      break;
+  case Key::F12:
+    inventorywin->isVisible(true) ? inventorywin->hide() : inventorywin->show();
+    break;
 
-    default: return false;
-    }
+  default: return false;
+  }
 
-    return true;
+  return true;
 }
 
 void ChatWindow::CreateDropList()

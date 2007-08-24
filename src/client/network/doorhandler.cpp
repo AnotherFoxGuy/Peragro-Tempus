@@ -28,48 +28,48 @@ void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
   OpenDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
 
-	Report(PT::Debug, "EntityHandler: Got open door %d.", door_msg.getDoorId());
+  Report(PT::Debug, "EntityHandler: Got open door %d.", door_msg.getDoorId());
   if (!door_msg.getError().isNull())
   {
     Report(PT::Error, "Can't open %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
     return;
   }
 
-	using namespace PT::Events;
+  using namespace PT::Events;
   EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
 
-	celData data;
-	data.Set(true);
+  celData data;
+  data.Set(true);
 
-	entityEvent->entityId			= door_msg.getDoorId();
-	entityEvent->pcprop				= "Door Open";
-	entityEvent->celdata			= data;
+  entityEvent->entityId			= door_msg.getDoorId();
+  entityEvent->pcprop				= "Door Open";
+  entityEvent->celdata			= data;
 
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
 {
   CloseDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
 
-	Report(PT::Debug, "EntityHandler: Got close door %d.", door_msg.getDoorId());
-	if (!door_msg.getError().isNull())
-	{
-		Report(PT::Error, "Can't close %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
-		return;
-	}
+  Report(PT::Debug, "EntityHandler: Got close door %d.", door_msg.getDoorId());
+  if (!door_msg.getError().isNull())
+  {
+    Report(PT::Error, "Can't close %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
+    return;
+  }
 
-	using namespace PT::Events;
+  using namespace PT::Events;
   EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
 
-	celData data;
-	data.Set(false);
+  celData data;
+  data.Set(false);
 
-	entityEvent->entityId			= door_msg.getDoorId();
-	entityEvent->pcprop				= "Door Open";
-	entityEvent->celdata			= data;
+  entityEvent->entityId			= door_msg.getDoorId();
+  entityEvent->pcprop				= "Door Open";
+  entityEvent->celdata			= data;
 
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 void DoorHandler::handleLockDoorResponse(GenericMessage* msg)
@@ -77,24 +77,24 @@ void DoorHandler::handleLockDoorResponse(GenericMessage* msg)
   LockDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
 
-	Report(PT::Debug, "EntityHandler: Got unlock door %d.", door_msg.getDoorId());
-	if (!door_msg.getError().isNull())
-	{
-		Report(PT::Error, "Can't lock %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
-		return;
-	}
+  Report(PT::Debug, "EntityHandler: Got unlock door %d.", door_msg.getDoorId());
+  if (!door_msg.getError().isNull())
+  {
+    Report(PT::Error, "Can't lock %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
+    return;
+  }
 
-	using namespace PT::Events;
+  using namespace PT::Events;
   EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
 
-	celData data;
-	data.Set(true);
+  celData data;
+  data.Set(true);
 
-	entityEvent->entityId			= door_msg.getDoorId();
-	entityEvent->pcprop				= "Door Locked";
-	entityEvent->celdata			= data;
+  entityEvent->entityId			= door_msg.getDoorId();
+  entityEvent->pcprop				= "Door Locked";
+  entityEvent->celdata			= data;
 
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 void DoorHandler::handleUnlockDoorResponse(GenericMessage* msg)
@@ -102,22 +102,22 @@ void DoorHandler::handleUnlockDoorResponse(GenericMessage* msg)
   UnlockDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
 
-	Report(PT::Debug, "EntityHandler: Got unlock door %d.", door_msg.getDoorId());
-	if (!door_msg.getError().isNull())
-	{
-		Report(PT::Error, "Can't unlock %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
-		return;
-	}
+  Report(PT::Debug, "EntityHandler: Got unlock door %d.", door_msg.getDoorId());
+  if (!door_msg.getError().isNull())
+  {
+    Report(PT::Error, "Can't unlock %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
+    return;
+  }
 
-	using namespace PT::Events;
+  using namespace PT::Events;
   EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
 
-	celData data;
-	data.Set(false);
+  celData data;
+  data.Set(false);
 
-	entityEvent->entityId			= door_msg.getDoorId();
-	entityEvent->pcprop				= "Door Locked";
-	entityEvent->celdata			= data;
+  entityEvent->entityId			= door_msg.getDoorId();
+  entityEvent->pcprop				= "Door Locked";
+  entityEvent->celdata			= data;
 
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

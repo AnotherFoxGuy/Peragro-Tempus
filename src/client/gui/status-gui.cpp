@@ -25,9 +25,6 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-/*================//
-// GUIInvWindow   //
-//================*/
 StatusWindow::StatusWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -74,7 +71,7 @@ CEGUI::Window* StatusWindow::createItemIcon(CEGUI::String itemname, int itemtype
   item->setUserString("itemtype" , itemtypestr);
   // Set wether or not the item is stackable
   if (stackable)
-  item->setUserString("stackable" , "true");
+    item->setUserString("stackable" , "true");
   else item->setUserString("stackable" , "false");
 
   // set a static image as drag container's contents

@@ -21,9 +21,9 @@
 
 Object::Object ()
 {
- objectid = 0;
- amount = 0;
- stackable = false;
+  objectid = 0;
+  amount = 0;
+  stackable = false;
 }
 
 Object::~Object()

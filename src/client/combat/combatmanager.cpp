@@ -49,12 +49,12 @@ CombatMGR::~CombatMGR()
 
 iMeshWrapper* CombatMGR::getMesh(iCelEntity* entity)
 {
- csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
- if (!pcmesh) return 0;
- csRef<iMeshWrapper> parent = pcmesh->GetMesh();
- if (!parent) return 0;
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+  if (!pcmesh) return 0;
+  csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+  if (!parent) return 0;
 
- return parent;
+  return parent;
 }
 
 bool CombatMGR::Initialize ()
@@ -88,7 +88,7 @@ void CombatMGR::hit (int targetId, int damage)
 
   if (!target)
   {
-		Report(PT::Error, "CombatMGR: Couldn't find entity with ID %d !", targetId);
+    Report(PT::Error, "CombatMGR: Couldn't find entity with ID %d !", targetId);
     return;
   }
 
@@ -122,7 +122,7 @@ void CombatMGR::hit (int targetId, int damage)
   }
   // Update the entity's HP(this will update the GUI aswell).
   //target->AddToHP(-damage);
-	Report(PT::Debug, "You %s %d points!", damage < 0 ? "healed" : "got hit for", damage);
+  Report(PT::Debug, "You %s %d points!", damage < 0 ? "healed" : "got hit for", damage);
 
   //test
   //guimanager->GetHUDWindow()->SetHP(target->GetHP());
@@ -161,7 +161,7 @@ void CombatMGR::levelup (int targetId)
 
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
   if (!pcprop)return;
-	Report(PT::Debug, "%s has gained a level.", pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"))  );
+  Report(PT::Debug, "%s has gained a level.", pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"))  );
 }
 
 void CombatMGR::experience (int exp)
@@ -182,26 +182,26 @@ void CombatMGR::experience (int exp)
   // We gaind experience.
   if (exp >= 0)
     //guimanager->GetCombatLog()->AddMessage("You gained %d experience points", exp);
-		Report(PT::Debug, "You gained %d experience points!", exp);
+    Report(PT::Debug, "You gained %d experience points!", exp);
   // We lost experience.
   else if (exp < 0)
     //guimanager->GetCombatLog()->AddMessage("You lost %d experience points", exp);
-		Report(PT::Debug, "You lost %d experience points!", exp);
+    Report(PT::Debug, "You lost %d experience points!", exp);
 
 }
 
 void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, int skillId, ptString error)
 {
-  
+
   /*
   *  Here the we start using skill, so we create the effect on the caster.
   */
 
   if (ptString(0,0) == error)
-		Report(PT::Debug, "CombatMGR: %d cast %d on %d, error %s\n",casterId,targetId,skillId, *error);
+    Report(PT::Debug, "CombatMGR: %d cast %d on %d, error %s\n",casterId,targetId,skillId, *error);
   else
   {
-		Report(PT::Notify, "CombatMGR: %s \n", *error);
+    Report(PT::Notify, "CombatMGR: %s \n", *error);
     char msg[1024];
     sprintf(msg,"%s", *error);
     guimanager->GetChatWindow()->AddMessage(msg);
@@ -373,15 +373,15 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
   bool lookat = lookat(attacker, target);
   if (distance > 10.0f)
   {
-    guimanager->GetCombatLog()->AddMessage("Target is out of range!");
-    return;
+  guimanager->GetCombatLog()->AddMessage("Target is out of range!");
+  return;
   }
   if (!lookat)
   {
-    guimanager->GetCombatLog()->AddMessage("You should face your target!");
-    return;
+  guimanager->GetCombatLog()->AddMessage("You should face your target!");
+  return;
   }
-   */
+  */
 
   // Prepare and send the network message.
   SkillUsageStartRequestMessage msg;
@@ -389,6 +389,6 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
   msg.setSkill(skillId);
   network->send(&msg);
 
-	Report(PT::Debug, "CombatMGR: Sent SkillUsageStartRequestMessage.");
- 
+  Report(PT::Debug, "CombatMGR: Sent SkillUsageStartRequestMessage.");
+
 }

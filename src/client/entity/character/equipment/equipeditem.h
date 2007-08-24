@@ -27,21 +27,21 @@
 
 class EquipedItem
 {
- private:
-   unsigned int id;
-   unsigned int slotId;
-   iCelEntity* itementity;
-   PtEntity* entity;
-   std::string GetSocketName(unsigned int slotid);
+private:
+  unsigned int id;
+  unsigned int slotId;
+  iCelEntity* itementity;
+  PtEntity* entity;
+  std::string GetSocketName(unsigned int slotid);
 
- public:
-   EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId);
-   ~EquipedItem(){}
-   unsigned int GetId(){ return id; }
-   unsigned int GetSlotId() { return slotId; }
-   iCelEntity* GetItemEntity() { return itementity; }
-   void ConstructMesh(); // Creates the mesh and adds it to the socket.
-   void DestructMesh();
+public:
+  EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId);
+  ~EquipedItem(){}
+  unsigned int GetId(){ return id; }
+  unsigned int GetSlotId() { return slotId; }
+  iCelEntity* GetItemEntity() { return itementity; }
+  void ConstructMesh(); // Creates the mesh and adds it to the socket.
+  void DestructMesh();
 }; 
 
 #endif // EQUIPEDITEM_H

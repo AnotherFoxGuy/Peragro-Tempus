@@ -21,9 +21,6 @@
 
 #include "base-gui.h"
 
-/*==============//
-//   OkDialog   //
-//==============*/
 class OkDialogWindow : public GUIWindow
 {
 private:
@@ -38,9 +35,6 @@ public:
   void SetOkEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow);
 };
 
-/*=================//
-//  ConfirmDialog  //
-//=================*/
 class ConfirmDialogWindow : public GUIWindow
 {
 private:

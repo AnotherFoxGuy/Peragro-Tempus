@@ -21,9 +21,6 @@
 
 #include "base-gui.h"
 
-/*================//
-// GUIChatWindow  //
-//================*/
 class WhisperWindow : public GUIWindow
 {
 private:

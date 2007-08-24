@@ -1,16 +1,16 @@
 /*
     Copyright (C) 2005 Development Team of Peragro Tempus
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -31,7 +31,6 @@
 #include "client/reporter/reporter.h"
 
 using namespace PT;
-
 
 GUIManager::GUIManager ()
 {
@@ -77,74 +76,74 @@ GUIManager::~GUIManager ()
 
 bool GUIManager::Initialize ()
 {
-    iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
-    cegui =  csQueryRegistry<iCEGUI> (obj_reg);
-		if (!cegui) return Report(PT::Error, "Failed to locate CEGUI plugin!");
+  cegui =  csQueryRegistry<iCEGUI> (obj_reg);
+  if (!cegui) return Report(PT::Error, "Failed to locate CEGUI plugin!");
 
-		try
-		{
-			// Initialize CEGUI wrapper
-			cegui->Initialize ();
+  try
+  {
+    // Initialize CEGUI wrapper
+    cegui->Initialize ();
 
-			// Set the logging level
-			cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
+    // Set the logging level
+    cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
-			csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
-			vfs->ChDir ("/peragro/skin/");
+    csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
+    vfs->ChDir ("/peragro/skin/");
 
-			// Load the ice skin (which uses Falagard skinning system)
-			cegui->GetSchemeManagerPtr ()->loadScheme("Peragro.scheme");
+    // Load the ice skin (which uses Falagard skinning system)
+    cegui->GetSchemeManagerPtr ()->loadScheme("Peragro.scheme");
 
-			cegui->GetSystemPtr ()->setDefaultMouseCursor("Peragro", "MouseArrow");
+    cegui->GetSystemPtr ()->setDefaultMouseCursor("Peragro", "MouseArrow");
 
-			// Load the default font.
-			CEGUI::Font* font = cegui->GetFontManagerPtr()->createFont("FreeType","Vera", 
-				"/peragro/skin/Vera.ttf");
-			font->setProperty("PointSize", "10");
-			font->load();
+    // Load the default font.
+    CEGUI::Font* font = cegui->GetFontManagerPtr()->createFont("FreeType","Vera", 
+      "/peragro/skin/Vera.ttf");
+    font->setProperty("PointSize", "10");
+    font->load();
 
-			CEGUI::Font* font2 = cegui->GetFontManagerPtr ()->createFont("FreeType", "Commonwealth-8",
-				"/peragro/skin/Commonv2c.ttf");
-			font2->setProperty("PointSize", "8");
-			font2->load();
+    CEGUI::Font* font2 = cegui->GetFontManagerPtr ()->createFont("FreeType", "Commonwealth-8",
+      "/peragro/skin/Commonv2c.ttf");
+    font2->setProperty("PointSize", "8");
+    font2->load();
 
-			cegui->GetSystemPtr ()->setDefaultTooltip("Peragro/Tooltip");
+    cegui->GetSystemPtr ()->setDefaultTooltip("Peragro/Tooltip");
 
-			CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
-			root->setArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
-				CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
-			root->setMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
-			cegui->GetSystemPtr ()->setGUISheet(root);
+    CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
+    root->setArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
+      CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
+    root->setMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
+    cegui->GetSystemPtr ()->setGUISheet(root);
 
-			// Set up the drag and drop.
-			dragdrop = new DragDrop (this);
-			if (!dragdrop) return Report(PT::Error, "Failed to create DragDrop class!");
+    // Set up the drag and drop.
+    dragdrop = new DragDrop (this);
+    if (!dragdrop) return Report(PT::Error, "Failed to create DragDrop class!");
 
-			CreateConnectWindow ();
-			CreateLoginWindow ();
-			CreateSelectCharWindow ();
-			CreateOptionsWindow ();
-			CreateWhisperWindow();
-			CreateNpcDialogWindow();
-			CreateTradeWindow();
-			CreateBuyWindow();
-			CreateInventoryWindow ();
-			CreateStatusWindow ();
-			CreateBuddyWindow();
+    CreateConnectWindow ();
+    CreateLoginWindow ();
+    CreateSelectCharWindow ();
+    CreateOptionsWindow ();
+    CreateWhisperWindow();
+    CreateNpcDialogWindow();
+    CreateTradeWindow();
+    CreateBuyWindow();
+    CreateInventoryWindow ();
+    CreateStatusWindow ();
+    CreateBuddyWindow();
 
-			CreateChatWindow ();
-			CreateHUDWindow ();
+    CreateChatWindow ();
+    CreateHUDWindow ();
 
-			//CreateSellWindow();
-		}
-		catch ( CEGUI::Exception& e )
-		{
-			Report(PT::Error, "Failed Initializing GUIManager!");
-			return false;
-		}
+    //CreateSellWindow();
+  }
+  catch ( CEGUI::Exception& e )
+  {
+    Report(PT::Error, "Failed Initializing GUIManager!");
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
 void GUIManager::Render ()

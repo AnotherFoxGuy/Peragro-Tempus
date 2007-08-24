@@ -250,7 +250,7 @@ Object* DragDrop::CreateItem(uint itemid, bool interactable)
 
   if (!clientitem)
   {
-		Report(PT::Error, "DragDrop: Failed to create item %d!", itemid);
+    Report(PT::Error, "DragDrop: Failed to create item %d!", itemid);
     return 0;
   }
 

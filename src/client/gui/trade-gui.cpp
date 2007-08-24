@@ -79,7 +79,7 @@ bool TradeWindow::OnNoConfirm(const CEGUI::EventArgs& args)
 bool TradeWindow::OnCloseButton(const CEGUI::EventArgs& args)
 {
   TradeWindow::CancelTrade();
-  
+
   TradeCancelMessage msg;
   network->send(&msg);
 
@@ -116,8 +116,8 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
   // Create a new non-interactable item.
   slot->SetObject(dragdrop->CreateItem(itemid, false));
 
-	Report(PT::Debug, "TradeWindow: Creating item %d!", itemid);
-  
+  Report(PT::Debug, "TradeWindow: Creating item %d!", itemid);
+
   return true;
 }
 
@@ -191,7 +191,7 @@ void TradeWindow::UpdateOffer()
 
   // Make the offer list.
   msg.setOffersCount(objandslot.GetSize());
-	Report(PT::Debug, "------------------------------------------");
+  Report(PT::Debug, "------------------------------------------");
   Report(PT::Debug, "TradeWindow: Creating Offer List Pvp for %d items", objandslot.GetSize());
   for (size_t i=0; i<objandslot.GetSize(); i++)
   {
@@ -246,7 +246,7 @@ void TradeWindow::CancelTrade()
   inventory.DeleteAll();
   SetAccept(1, false);
   SetAccept(2, false);
-  
+
 }
 
 void TradeWindow::AcceptTrade()

@@ -70,102 +70,102 @@ class Cursor;
 
 namespace PT
 {
-	namespace Entity
-	{
-		class EntityManager;
-	} // Entity namespace 
+  namespace Entity
+  {
+    class EntityManager;
+  } // Entity namespace 
 
-	namespace Events
-	{
-		class EventManager;
-	} // Events namespace 
+  namespace Events
+  {
+    class EventManager;
+  } // Events namespace 
 
-	namespace Chat
-	{
-		class ChatManager;
-	} // Chat namespace 
+  namespace Chat
+  {
+    class ChatManager;
+  } // Chat namespace 
 
-	namespace Trade
-	{
-		class TradeManager;
-	} // Trade namespace 
+  namespace Trade
+  {
+    class TradeManager;
+  } // Trade namespace 
 
-	class Reporter;
+  class Reporter;
 
-	class Client : public csApplicationFramework, public csBaseEventHandler
-	{
-	public:
-		/// Game states
-		enum eSTATE
-		{
-			STATE_INITIAL = 0,
-			STATE_INTRO = 1,
-			STATE_CONNECTED = 2,
-			STATE_LOGGED_IN = 3,
-			STATE_SELECTING_CHAR = 4,
-			STATE_PLAY = 5,
-			STATE_RECONNECTED = 6
-		};
+  class Client : public csApplicationFramework, public csBaseEventHandler
+  {
+  public:
+    /// Game states
+    enum eSTATE
+    {
+      STATE_INITIAL = 0,
+      STATE_INTRO = 1,
+      STATE_CONNECTED = 2,
+      STATE_LOGGED_IN = 3,
+      STATE_SELECTING_CHAR = 4,
+      STATE_PLAY = 5,
+      STATE_RECONNECTED = 6
+    };
 
-		///Game internal state
-		eSTATE state;
+    ///Game internal state
+    eSTATE state;
 
-	private:
-		void PreProcessFrame();
-		void ProcessFrame();
-		void FinishFrame();
+  private:
+    void PreProcessFrame();
+    void ProcessFrame();
+    void FinishFrame();
 
-		bool OnKeyboard(iEvent&);
-		bool OnMouseDown(iEvent& e);
-		bool OnMouseMove(iEvent&);
-		iPcActorMove* getPcActorMove();
-		bool InitializeCEL();
-		void checkConnection();
-		void handleStates();
+    bool OnKeyboard(iEvent&);
+    bool OnMouseDown(iEvent& e);
+    bool OnMouseMove(iEvent&);
+    iPcActorMove* getPcActorMove();
+    bool InitializeCEL();
+    void checkConnection();
+    void handleStates();
 
-	private:
-		PointerLibrary pointerlib;
+  private:
+    PointerLibrary pointerlib;
 
-		csRef<iEngine> engine;
-		csRef<iGraphics3D> g3d;
-		csRef<iVirtualClock> vc;
-		csRef<iVFS> vfs;
-		csRef<iCommandLineParser> cmdline;
-		csRef<iView> view;
-		csRef<iCelPlLayer> pl;
-		csRef<iCelBlLayer> bl;
-		csRef<iCelEntity> zonemanager;
+    csRef<iEngine> engine;
+    csRef<iGraphics3D> g3d;
+    csRef<iVirtualClock> vc;
+    csRef<iVFS> vfs;
+    csRef<iCommandLineParser> cmdline;
+    csRef<iView> view;
+    csRef<iCelPlLayer> pl;
+    csRef<iCelBlLayer> bl;
+    csRef<iCelEntity> zonemanager;
 
-		// The sound renderer.
-		csRef<iSndSysRenderer> sndrenderer;
+    // The sound renderer.
+    csRef<iSndSysRenderer> sndrenderer;
 
-		// The sound loader.
-		csRef<iSndSysLoader> sndloader;
+    // The sound loader.
+    csRef<iSndSysLoader> sndloader;
 
-		// The sound stream.
-		csRef<iSndSysStream> sndstream;
+    // The sound stream.
+    csRef<iSndSysStream> sndstream;
 
-		// The sound source.
-		csRef<iSndSysSource> sndsource;
-		csRef<iSndSysSourceSoftware3D> sndsource3d;
+    // The sound source.
+    csRef<iSndSysSource> sndsource;
+    csRef<iSndSysSourceSoftware3D> sndsource3d;
 
-		// The config manager.
-		csRef<iConfigManager> app_cfg;
+    // The config manager.
+    csRef<iConfigManager> app_cfg;
 
-		Reporter* reporter;
-		Network* network;
-		GUIManager* guimanager;
-		EffectsManager* effectsmanager;
-		PT::Entity::EntityManager* entitymanager;
-		CombatMGR* combatmanager;
-		ItemMGR* itemmanager;
-		Cursor* cursor;
-		PtConsole* ptconsole;
+    Reporter* reporter;
+    Network* network;
+    GUIManager* guimanager;
+    EffectsManager* effectsmanager;
+    PT::Entity::EntityManager* entitymanager;
+    CombatMGR* combatmanager;
+    ItemMGR* itemmanager;
+    Cursor* cursor;
+    PtConsole* ptconsole;
     PT::InputManager *inputMgr;
 
-		PT::Events::EventManager* eventmanager;
-		PT::Chat::ChatManager* chatmanager;
-		PT::Trade::TradeManager* trademanager;
+    PT::Events::EventManager* eventmanager;
+    PT::Chat::ChatManager* chatmanager;
+    PT::Trade::TradeManager* trademanager;
 
     bool ActionForward(bool, iEvent &);
     bool ActionBackward(bool, iEvent &);
@@ -182,54 +182,54 @@ namespace PT
     bool ActionQuit(bool, iEvent &);
     bool DoAction();
 
-	private:
-		bool playing;
-		char walk, turn;
-		Mutex mutex;
-		csTicks timer;
-		iSector *room;
-		float rotX, rotY;
-		float cameradistance;
-		bool world_loaded;
-		int limitFPS;
-		csTicks last_sleep;
-		csTicks last_seen;
+  private:
+    bool playing;
+    char walk, turn;
+    Mutex mutex;
+    csTicks timer;
+    iSector *room;
+    float rotX, rotY;
+    float cameradistance;
+    bool world_loaded;
+    int limitFPS;
+    csTicks last_sleep;
+    csTicks last_seen;
 
-		// needed for relogin on disconnect
-		csString user;
-		csString pass;
-		unsigned int char_id;
+    // needed for relogin on disconnect
+    csString user;
+    csString pass;
+    unsigned int char_id;
 
-	public:
-		bool loggedIn(PT::Events::Eventp ev);
-		bool LoadRegion(PT::Events::Eventp ev);
-		bool Connected(PT::Events::Eventp ev);
+  public:
+    bool loggedIn(PT::Events::Eventp ev);
+    bool LoadRegion(PT::Events::Eventp ev);
+    bool Connected(PT::Events::Eventp ev);
 
-	public:
-		Client();
-		~Client();
+  public:
+    Client();
+    ~Client();
 
-		void OnExit();
-		bool OnInitialize(int argc, char* argv[]);
+    void OnExit();
+    bool OnInitialize(int argc, char* argv[]);
 
-		bool Application();
-		void OnCommandLineHelp();
+    bool Application();
+    void OnCommandLineHelp();
 
-		void login(csString user, csString pass);
+    void login(csString user, csString pass);
 
-		void selectCharacter(unsigned int char_id);
+    void selectCharacter(unsigned int char_id);
 
-		void sawServer();
+    void sawServer();
 
-		csTicks GetTicks() { return csGetTicks(); }
-		void DrawFrame () 
-		{
-			PreProcessFrame();
-			ProcessFrame();
-			PostProcessFrame();
-			FinishFrame();
-		}
-	};
+    csTicks GetTicks() { return csGetTicks(); }
+    void DrawFrame () 
+    {
+      PreProcessFrame();
+      ProcessFrame();
+      PostProcessFrame();
+      FinishFrame();
+    }
+  };
 
 } // PT namespace 
 

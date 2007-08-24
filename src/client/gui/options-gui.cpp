@@ -27,9 +27,6 @@
 
 #include "client/reporter/reporter.h"
 
-/*=================//
-//    HUDWindow   //
-//=================*/
 OptionsWindow::OptionsWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -132,9 +129,6 @@ bool OptionsWindow::OkButtonPressed(const CEGUI::EventArgs& e)
   return true;
 }
 
-/*==================//
-//    Reflections   //
-//==================*/
 bool OptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e) 
 {
   btn = winMgr->getWindow("Options/Reflections/DropList");
@@ -151,7 +145,7 @@ bool OptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e)
     ref = true;
     break;
 
-	default: Report(PT::Error, "OnDropListReflections: failed %d", id);
+  default: Report(PT::Error, "OnDropListReflections: failed %d", id);
   }
 
   app_cfg->SetBool("Client.waterreflections", ref);
@@ -182,9 +176,6 @@ void OptionsWindow::CreateDropListReflections()
 
 }
 
-/*======================//
-//    Texture Quality   //
-//======================*/
 bool OptionsWindow::OnDropListTexture(const CEGUI::EventArgs& e) 
 {
   btn = winMgr->getWindow("Options/TextureQuality/DropList");
@@ -250,9 +241,6 @@ void OptionsWindow::CreateDropListTexture()
 
 }
 
-/*==============//
-//    CheckBox  //
-//=============*/
 bool OptionsWindow::OnCheckBox(const CEGUI::EventArgs& e) 
 {
   btn = winMgr->getWindow("Options/Fullscreen");

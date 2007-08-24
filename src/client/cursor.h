@@ -28,7 +28,7 @@
 
 namespace PT
 {
-	class Client;
+  class Client;
 } // PT namespace 
 
 struct iCelEntity;

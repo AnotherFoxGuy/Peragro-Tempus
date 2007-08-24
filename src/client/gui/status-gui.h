@@ -21,9 +21,6 @@
 
 #include "base-gui.h"
 
-/*================//
-// GUIInvWindow  //
-//================*/
 class StatusWindow : public GUIWindow
 {
 private:
@@ -32,7 +29,7 @@ private:
   CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
   CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
   int counter;
-  
+
 
 public:
   StatusWindow(GUIManager* guimanager);

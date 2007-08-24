@@ -69,19 +69,19 @@ private:
   SellWindow* sellwindow;
 
   DragDrop* dragdrop;
-  
+
   csRef<iCEGUI> cegui;
-  
+
 public:
   GUIManager ();
   ~GUIManager ();
-  
+
   bool Initialize ();
   void Render ();
-  
+
   iCEGUI* GetCEGUI () {return cegui;}
   DragDrop* GetDragDrop (){return dragdrop;}
-  
+
   ConnectWindow* CreateConnectWindow ();
   LoginWindow* CreateLoginWindow ();
   SelectCharWindow* CreateSelectCharWindow ();
@@ -98,22 +98,22 @@ public:
   OkDialogWindow* CreateOkWindow();
   BuyWindow* CreateBuyWindow();
   SellWindow* CreateSellWindow();
-  
+
   ConnectWindow* GetConnectWindow ()
   {
     return connectwindow;
   }
-  
+
   LoginWindow* GetLoginWindow ()
   {
     return loginwindow;
   }
-  
+
   SelectCharWindow* GetSelectCharWindow ()
   {
     return selectcharwindow;
   }
-  
+
   ChatWindow* GetChatWindow ()
   {
     return chatwindow;

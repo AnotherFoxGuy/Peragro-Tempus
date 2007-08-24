@@ -29,6 +29,7 @@ class PtItemEntity : public PtEntity
 {
 private:
   unsigned int itemid;
+
 public:
   PtItemEntity();
 

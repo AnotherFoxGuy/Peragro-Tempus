@@ -37,29 +37,29 @@ struct iObjectRegistry;
 
 namespace PT
 {
-	namespace Trade
-	{
-		class TradeManager
-		{
-		private:
-			csRef<iEngine> engine;
-			csRef<iVFS> vfs;
-			csRef<iVirtualClock> vc;
-			csRef<iCelPlLayer> pl;
-			csRef<iObjectRegistry> obj_reg;
+  namespace Trade
+  {
+    class TradeManager
+    {
+    private:
+      csRef<iEngine> engine;
+      csRef<iVFS> vfs;
+      csRef<iVirtualClock> vc;
+      csRef<iCelPlLayer> pl;
+      csRef<iObjectRegistry> obj_reg;
 
-		public:
-			bool PickUp(PT::Events::Eventp ev);
-			bool Drop(PT::Events::Eventp ev);
+    public:
+      bool PickUp(PT::Events::Eventp ev);
+      bool Drop(PT::Events::Eventp ev);
 
-		public:
-			TradeManager (iObjectRegistry* obj_reg);
-			~TradeManager ();
+    public:
+      TradeManager (iObjectRegistry* obj_reg);
+      ~TradeManager ();
 
-			bool Initialize ();
-		};
+      bool Initialize ();
+    };
 
-	} // Trade namespace 
+  } // Trade namespace 
 } // PT namespace 
 
 #endif // PT_TRADE_MANAGER_H

@@ -88,12 +88,12 @@ void EntityHandler::handleMove(GenericMessage* msg)
   MoveMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
-	using namespace PT::Events;
+  using namespace PT::Events;
   EntityMoveEvent* entityEvent = new EntityMoveEvent();
 
   entityEvent->entityId      = entmsg.getEntityId();
-	entityEvent->walkDirection = entmsg.getWalk();
-	entityEvent->turnDirection = entmsg.getTurn();
+  entityEvent->walkDirection = entmsg.getWalk();
+  entityEvent->turnDirection = entmsg.getTurn();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -103,18 +103,18 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
   PickResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
 
-	if (response_msg.getError().isNull())
-	{
-		using namespace PT::Events;
-		TradePickUpEvent* pickUpEv = new TradePickUpEvent();
+  if (response_msg.getError().isNull())
+  {
+    using namespace PT::Events;
+    TradePickUpEvent* pickUpEv = new TradePickUpEvent();
 
-		pickUpEv->itemId = response_msg.getItemId();
-		pickUpEv->slotId = response_msg.getSlotId();
+    pickUpEv->itemId = response_msg.getItemId();
+    pickUpEv->slotId = response_msg.getSlotId();
 
-		PointerLibrary::getInstance()->getEventManager()->AddEvent(pickUpEv);
-	}
+    PointerLibrary::getInstance()->getEventManager()->AddEvent(pickUpEv);
+  }
   else
-		Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", response_msg.getItemId(), *response_msg.getError());
+    Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", response_msg.getItemId(), *response_msg.getError());
 }
 
 void EntityHandler::handleDropResponse(GenericMessage* msg)
@@ -124,16 +124,16 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
 
   if (response_msg.getError().isNull())
   {
-		using namespace PT::Events;
-		TradeDropEvent* dropEv = new TradeDropEvent();
+    using namespace PT::Events;
+    TradeDropEvent* dropEv = new TradeDropEvent();
 
-		//dropEv->itemId = response_msg.getItemId();
-		dropEv->slotId = response_msg.getSlotId();
+    //dropEv->itemId = response_msg.getItemId();
+    dropEv->slotId = response_msg.getSlotId();
 
-		PointerLibrary::getInstance()->getEventManager()->AddEvent(dropEv); 
+    PointerLibrary::getInstance()->getEventManager()->AddEvent(dropEv); 
   }
   else
-		Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", response_msg.getSlotId(), *response_msg.getError());
+    Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", response_msg.getSlotId(), *response_msg.getError());
 }
 
 void EntityHandler::handleDrUpdate(GenericMessage* msg)
@@ -145,9 +145,9 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   EntityDrUpdateEvent* entityEvent = new EntityDrUpdateEvent();
 
   entityEvent->entityId				= dr_msg.getEntityId();
-	entityEvent->position				= csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
-	entityEvent->rotation				= dr_msg.getRotation();
-	entityEvent->sectorName			= *dr_msg.getSector();
+  entityEvent->position				= csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
+  entityEvent->rotation				= dr_msg.getRotation();
+  entityEvent->sectorName			= *dr_msg.getSector();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -157,7 +157,7 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
   InventoryListMessage item_msg;
   item_msg.deserialise(msg->getByteStream());
 
-	Report(PT::Debug, "---------------------------");
+  Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d items in the Inventory:", item_msg.getInventoryCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<item_msg.getInventoryCount(); i++)
@@ -165,14 +165,14 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
     Report(PT::Debug, "Item %d with amount 1 in slot %d.", item_msg.getItemId(i), item_msg.getSlotId(i));
     guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i));
   }
-	Report(PT::Debug, "---------------------------\n");
+  Report(PT::Debug, "---------------------------\n");
 }
 
 void EntityHandler::handleStatsList(GenericMessage* msg)
 {
   StatsListMessage stat_msg;
   stat_msg.deserialise(msg->getByteStream());
-	Report(PT::Debug, "---------------------------");
+  Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d stats for the Character:", stat_msg.getStatsCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<stat_msg.getStatsCount(); i++)
@@ -180,7 +180,7 @@ void EntityHandler::handleStatsList(GenericMessage* msg)
     guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i));
     Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
   }
-	Report(PT::Debug, "---------------------------\n");
+  Report(PT::Debug, "---------------------------\n");
 }
 
 void EntityHandler::handleStatsChange(GenericMessage* msg)
@@ -194,7 +194,7 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
 {
   MoveToMessage move_msg;
   move_msg.deserialise(msg->getByteStream());
-  
+
   float* fv1 = move_msg.getFrom();
   float* fv2 = move_msg.getTo();
 
@@ -202,9 +202,9 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
   EntityMoveToEvent* entityEvent = new EntityMoveToEvent();
 
   entityEvent->entityId			= move_msg.getEntityId();
-	entityEvent->origin				= csVector3(fv1[0],fv1[1],fv1[2]);
-	entityEvent->destination	= csVector3(fv2[0],fv2[1],fv2[2]);
-	entityEvent->speed				= move_msg.getSpeed();
+  entityEvent->origin				= csVector3(fv1[0],fv1[1],fv1[2]);
+  entityEvent->destination	= csVector3(fv2[0],fv2[1],fv2[2]);
+  entityEvent->speed				= move_msg.getSpeed();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -214,7 +214,7 @@ void EntityHandler::handleSkillsList(GenericMessage* msg)
 {
   SkillsListMessage skill_msg;
   skill_msg.deserialise(msg->getByteStream());
-	Report(PT::Debug, "---------------------------");
+  Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d skill(s) for the Character:", skill_msg.getSkillsCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<skill_msg.getSkillsCount(); i++)
@@ -222,7 +222,7 @@ void EntityHandler::handleSkillsList(GenericMessage* msg)
     //guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
     Report(PT::Debug, "Skill %s (%d)", *skill_msg.getName(i), skill_msg.getSkillId(i));
   }
-	Report(PT::Debug, "---------------------------\n");
+  Report(PT::Debug, "---------------------------\n");
 }
 
 void EntityHandler::handleEquip(GenericMessage* msg)
@@ -235,8 +235,8 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   EntityEquipEvent* entityEvent = new EntityEquipEvent();
 
   entityEvent->entityId			= equip_msg.getEntityId();
-	entityEvent->slotId				= equip_msg.getSlotId();
-	entityEvent->itemId				= equip_msg.getItemId();
+  entityEvent->slotId				= equip_msg.getSlotId();
+  entityEvent->itemId				= equip_msg.getItemId();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -260,14 +260,14 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
   TeleportMessage telemsg;
   telemsg.deserialise(msg->getByteStream());
 
-	using namespace PT::Events;
-	EntityTeleportEvent* entityEvent = new EntityTeleportEvent();
+  using namespace PT::Events;
+  EntityTeleportEvent* entityEvent = new EntityTeleportEvent();
 
-	entityEvent->entityId			= telemsg.getEntityId();
-	entityEvent->position			= csVector3(telemsg.getPos()[0],telemsg.getPos()[1],telemsg.getPos()[2]);
-	entityEvent->sectorName		= *telemsg.getSector();
+  entityEvent->entityId			= telemsg.getEntityId();
+  entityEvent->position			= csVector3(telemsg.getPos()[0],telemsg.getPos()[1],telemsg.getPos()[2]);
+  entityEvent->sectorName		= *telemsg.getSector();
 
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
@@ -287,18 +287,18 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->entityId    = entmsg.getEntityId();
   entityEvent->entityType  = EntityEvent::PlayerEntity; 
 
-	unsigned char itemCount = entmsg.getEquipmentCount();
+  unsigned char itemCount = entmsg.getEquipmentCount();
   for (unsigned char i = 0; i < itemCount; i++)
   {
     unsigned int itemId = entmsg.getItemId(i);
     unsigned int slotId = i;
     if (itemId == 0)  continue;
 
-		EntityAddEvent::SlotAndItem pair;
-		pair.slotId = slotId;
-		pair.itemId = itemId;
+    EntityAddEvent::SlotAndItem pair;
+    pair.slotId = slotId;
+    pair.itemId = itemId;
 
-		entityEvent->equipment.Push(pair);
+    entityEvent->equipment.Push(pair);
   }
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
@@ -349,15 +349,15 @@ void EntityHandler::handleMount(GenericMessage* msg)
   MountMessage mount_msg;
   mount_msg.deserialise(msg->getByteStream());
 
-	using namespace PT::Events;
-	EntityMountEvent* entityEvent = new EntityMountEvent();
+  using namespace PT::Events;
+  EntityMountEvent* entityEvent = new EntityMountEvent();
 
-	entityEvent->entityId			= mount_msg.getPlayerEntityId();
-	entityEvent->mountId			= mount_msg.getMountEntityId();
-	entityEvent->control			= mount_msg.getCanControl();
-	entityEvent->mount				= true;
+  entityEvent->entityId			= mount_msg.getPlayerEntityId();
+  entityEvent->mountId			= mount_msg.getMountEntityId();
+  entityEvent->control			= mount_msg.getCanControl();
+  entityEvent->mount				= true;
 
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
 void EntityHandler::handleUnmount(GenericMessage* msg)
@@ -366,12 +366,12 @@ void EntityHandler::handleUnmount(GenericMessage* msg)
   mount_msg.deserialise(msg->getByteStream());
 
   using namespace PT::Events;
-	EntityMountEvent* entityEvent = new EntityMountEvent();
+  EntityMountEvent* entityEvent = new EntityMountEvent();
 
-	entityEvent->entityId			= mount_msg.getPlayerEntityId();
-	entityEvent->mountId			= mount_msg.getMountEntityId();
-	entityEvent->control			= false;
-	entityEvent->mount				= false;
+  entityEvent->entityId			= mount_msg.getPlayerEntityId();
+  entityEvent->mountId			= mount_msg.getMountEntityId();
+  entityEvent->control			= false;
+  entityEvent->mount				= false;
 
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

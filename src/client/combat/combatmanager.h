@@ -54,7 +54,7 @@ private:
 
   PT::Client* client;
   EffectsManager* effectsmgr;
-	PT::Entity::EntityManager* entitymgr;
+  PT::Entity::EntityManager* entitymgr;
   GUIManager* guimanager;
   Network* network;
 

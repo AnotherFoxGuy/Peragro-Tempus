@@ -27,9 +27,6 @@
 
 #include "client/reporter/reporter.h"
 
-/*=================//
-// NpcDialogWindow //
-//=================*/
 NpcDialogWindow::NpcDialogWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -42,7 +39,7 @@ NpcDialogWindow::~NpcDialogWindow()
 
 bool NpcDialogWindow::OnCloseButton(const CEGUI::EventArgs& args)
 {
-	GUIWindow::HideWindow();
+  GUIWindow::HideWindow();
 
   // End the dialog.
   NpcEndDialogMessage msg;
@@ -64,13 +61,13 @@ bool NpcDialogWindow::OnAnswer(const CEGUI::EventArgs& args)
 
   uint answer_id = answerItem->getID();
 
-	Report(PT::Debug, "NpcDialogWindow: Answered dialog %d with answer %d.", dialogId, answer_id);
+  Report(PT::Debug, "NpcDialogWindow: Answered dialog %d with answer %d.", dialogId, answer_id);
 
-	if (answer_id == 0)
-	{
-		GUIWindow::HideWindow();
+  if (answer_id == 0)
+  {
+    GUIWindow::HideWindow();
     return true;
-	}
+  }
 
   NpcDialogAnswerMessage answer_msg;
   answer_msg.setDialogId(dialogId);

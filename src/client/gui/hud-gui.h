@@ -21,9 +21,6 @@
 
 #include "base-gui.h"
 
-/*================//
-// GUIChatWindow  //
-//================*/
 class HUDWindow : public GUIWindow
 {
 private:
@@ -58,7 +55,7 @@ public:
   void SetName (const char* name); // set the name;
   int GetActiveSkillId();
 
-	void HideWindow();
+  void HideWindow();
   void ShowWindow();
 
 };

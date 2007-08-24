@@ -30,65 +30,65 @@
 
 namespace PT
 {
-	namespace Trade
-	{
-		TradeManager::TradeManager (iObjectRegistry* obj_reg)
-		{
-			this->obj_reg = obj_reg;
+  namespace Trade
+  {
+    TradeManager::TradeManager (iObjectRegistry* obj_reg)
+    {
+      this->obj_reg = obj_reg;
 
-			engine =  csQueryRegistry<iEngine> (obj_reg);
+      engine =  csQueryRegistry<iEngine> (obj_reg);
 
-			vfs =  csQueryRegistry<iVFS> (obj_reg);
+      vfs =  csQueryRegistry<iVFS> (obj_reg);
 
-			vc =  csQueryRegistry<iVirtualClock> (obj_reg);
-		}
+      vc =  csQueryRegistry<iVirtualClock> (obj_reg);
+    }
 
-		TradeManager::~TradeManager ()
-		{
-		}
+    TradeManager::~TradeManager ()
+    {
+    }
 
-		bool TradeManager::Initialize ()
-		{
-			using namespace PT::Events;
+    bool TradeManager::Initialize ()
+    {
+      using namespace PT::Events;
 
-			// Register listener for TradePickEvent.
-			EventHandler<TradeManager>* cbPickUp = new EventHandler<TradeManager>(&TradeManager::PickUp, this);
-			PointerLibrary::getInstance()->getEventManager()->AddListener("TradePickUpEvent", cbPickUp);
+      // Register listener for TradePickEvent.
+      EventHandler<TradeManager>* cbPickUp = new EventHandler<TradeManager>(&TradeManager::PickUp, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("TradePickUpEvent", cbPickUp);
 
-			// Register listener for TradePickEvent.
-			EventHandler<TradeManager>* cbDrop = new EventHandler<TradeManager>(&TradeManager::Drop, this);
-			PointerLibrary::getInstance()->getEventManager()->AddListener("TradeDropEvent", cbDrop);
+      // Register listener for TradePickEvent.
+      EventHandler<TradeManager>* cbDrop = new EventHandler<TradeManager>(&TradeManager::Drop, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("TradeDropEvent", cbDrop);
 
-			return true;
-		}
+      return true;
+    }
 
-		bool TradeManager::PickUp(PT::Events::Eventp ev)
-		{
-			using namespace PT::Events;
+    bool TradeManager::PickUp(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
 
-			TradePickUpEvent* pickUpEv = GetTradeEvent<TradePickUpEvent*>(ev);
-			if (!pickUpEv) return false;
+      TradePickUpEvent* pickUpEv = GetTradeEvent<TradePickUpEvent*>(ev);
+      if (!pickUpEv) return false;
 
-			GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-			if (!guimanager) return true;
-			guimanager->GetInventoryWindow()->AddItem(pickUpEv->itemId, pickUpEv->slotId);
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      if (!guimanager) return true;
+      guimanager->GetInventoryWindow()->AddItem(pickUpEv->itemId, pickUpEv->slotId);
 
-			return true;
-		}
+      return true;
+    }
 
-		bool TradeManager::Drop(PT::Events::Eventp ev)
-		{
-			using namespace PT::Events;
+    bool TradeManager::Drop(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
 
-			TradeDropEvent* dropEv = GetTradeEvent<TradeDropEvent*>(ev);
-			if (!dropEv) return false;
+      TradeDropEvent* dropEv = GetTradeEvent<TradeDropEvent*>(ev);
+      if (!dropEv) return false;
 
-			GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-			if (!guimanager) return true;
-			guimanager->GetInventoryWindow()->RemoveItem(dropEv->slotId);
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      if (!guimanager) return true;
+      guimanager->GetInventoryWindow()->RemoveItem(dropEv->slotId);
 
-			return true;
-		}
+      return true;
+    }
 
-	} // Trade namespace 
+  } // Trade namespace 
 } // PT namespace 

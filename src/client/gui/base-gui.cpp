@@ -25,10 +25,6 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-/*==================//
-//     GUIBase      //
-//==================*/
-
 GUIWindow::GUIWindow(GUIManager* guimanager)
 : guimanager(guimanager)
 {

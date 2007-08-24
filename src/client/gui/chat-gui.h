@@ -21,9 +21,6 @@
 
 #include "base-gui.h"
 
-/*================//
-// GUIChatWindow  //
-//================*/
 class ChatWindow : public GUIWindow
 {
 private:
@@ -33,8 +30,8 @@ private:
   void CreateDropList();
   bool HandleCommand(const char* texti);
 
-	CEGUI::SlotFunctorBase* sumbitEventSubscriber;
-	bool visible;
+  CEGUI::SlotFunctorBase* sumbitEventSubscriber;
+  bool visible;
 
 public:
   ChatWindow(GUIManager* guimanager);
@@ -44,10 +41,10 @@ public:
   void AddChatMessage (const char* nick, const char* msg);
   void AddMessage (const char* msg);
 
-	/// Set the behaviour for the load button.
-	void SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber);
+  /// Set the behaviour for the load button.
+  void SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber);
 
-	void HideWindow();
+  void HideWindow();
   void ShowWindow();
 };
 

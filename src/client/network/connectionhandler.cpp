@@ -25,16 +25,16 @@
 
 void ConnectionHandler::handleConnectionResponse(GenericMessage* msg)
 {
-	Report(PT::Notify, "Received ConnectionResponse.");
+  Report(PT::Notify, "Received ConnectionResponse.");
 
-	using namespace PT::Events;
-	StateConnectedEvent* stateEvent = new StateConnectedEvent();
-	PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
+  using namespace PT::Events;
+  StateConnectedEvent* stateEvent = new StateConnectedEvent();
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
 }
 
 void ConnectionHandler::handlePing(GenericMessage* ping_msg)
 {
   PongMessage pong_msg;
   network->send(&pong_msg);
-	Report(PT::Debug, "Received Ping.");
+  Report(PT::Debug, "Received Ping.");
 }

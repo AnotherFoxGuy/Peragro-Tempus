@@ -36,40 +36,40 @@ class GUIManager;
 
 namespace PT
 {
-	namespace Chat
-	{
-		class ChatManager
-		{
-		private:
-			csRef<iObjectRegistry> obj_reg;
-			Network* network;
-			GUIManager* guimanager;
+  namespace Chat
+  {
+    class ChatManager
+    {
+    private:
+      csRef<iObjectRegistry> obj_reg;
+      Network* network;
+      GUIManager* guimanager;
 
-			std::vector<Commandp> commands;
+      std::vector<Commandp> commands;
 
-		private:
-			void HandleOutput (const char* texti);
-			StringArray ParseString (const char* texti);
-			void Execute (const char* cmd, const StringArray& args);
+    private:
+      void HandleOutput (const char* texti);
+      StringArray ParseString (const char* texti);
+      void Execute (const char* cmd, const StringArray& args);
 
-		public: // CEGUI events.
-			bool OnSubmit (const CEGUI::EventArgs& e);
+    public: // CEGUI events.
+      bool OnSubmit (const CEGUI::EventArgs& e);
 
-		public: // PT events.
-			bool HandleSay(PT::Events::Eventp ev);
-			bool HandleWhisper(PT::Events::Eventp ev);
+    public: // PT events.
+      bool HandleSay(PT::Events::Eventp ev);
+      bool HandleWhisper(PT::Events::Eventp ev);
 
-		public:
-			ChatManager (iObjectRegistry* obj_reg);
-			~ChatManager ();
+    public:
+      ChatManager (iObjectRegistry* obj_reg);
+      ~ChatManager ();
 
-			bool Initialize ();
-			void RegisterCommand (Command* cmd);
+      bool Initialize ();
+      void RegisterCommand (Command* cmd);
 
-			const std::vector<Commandp>& GetAllCommands() { return commands; }
-		};
+      const std::vector<Commandp>& GetAllCommands() { return commands; }
+    };
 
-	} // Chat namespace 
+  } // Chat namespace 
 } // PT namespace 
 
 #endif // PT_TRADE_MANAGER_H

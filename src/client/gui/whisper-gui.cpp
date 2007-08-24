@@ -28,9 +28,6 @@
 
 #include "client/reporter/reporter.h"
 
-/*====================//
-//    WhisperWindow   //
-//====================*/
 WhisperWindow::WhisperWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -54,7 +51,7 @@ bool WhisperWindow::OnSay (const CEGUI::EventArgs& args)
 
   CEGUI::String text = ddea.window->getText();
   if (text.empty()) return true;
-  
+
   if (!ddea.window->getParent()->isUserStringDefined("Nickname"))
   {
     Report(PT::Error, "WhisperWindow: Nickname wasn't defined!");
@@ -68,7 +65,7 @@ bool WhisperWindow::OnSay (const CEGUI::EventArgs& args)
   }
 
   CEGUI::String nick = ddea.window->getParent()->getUserString("Nickname");
-	Report(PT::Debug, "Whisper: %s to %s.", text.c_str(), nick.c_str());
+  Report(PT::Debug, "Whisper: %s to %s.", text.c_str(), nick.c_str());
 
   // Send the whisper to the network.
   WhisperToMessage nmsg;

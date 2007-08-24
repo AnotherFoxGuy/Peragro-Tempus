@@ -21,9 +21,6 @@
 
 #include "base-gui.h"
 
-/*================//
-// GUIInvWindow  //
-//================*/
 class NpcDialogWindow : public GUIWindow
 {
 private:

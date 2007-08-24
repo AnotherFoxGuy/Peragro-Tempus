@@ -43,7 +43,7 @@ void PtDoorEntity::Create()
     pcmesh->SetMesh(doormesh);
   else
   {
-		Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.GetData());
+    Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.GetData());
     return;
   }
 
@@ -56,7 +56,7 @@ void PtDoorEntity::Create()
   celQuestParams parameters;
   pcquest->NewQuest("PropDoor",parameters);
   pcquest->GetQuest()->SwitchState("closed");
-  
+
 }
 
 void PtDoorEntity::UpdatePcProp(UpdatePcPropData* update_pcprop)

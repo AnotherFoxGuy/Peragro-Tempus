@@ -49,44 +49,44 @@ struct iObjectRegistry;
 
 namespace PT
 {
-	namespace Entity
-	{
-		class MovementManager
-		{
-		private:
-			csRef<iEngine> engine;
-			csRef<iVirtualClock> vc;
-			csRef<iObjectRegistry> obj_reg;
+  namespace Entity
+  {
+    class MovementManager
+    {
+    private:
+      csRef<iEngine> engine;
+      csRef<iVirtualClock> vc;
+      csRef<iObjectRegistry> obj_reg;
 
-		private:
-			csPDelArray<MoveToData> move_to_entity;
+    private:
+      csPDelArray<MoveToData> move_to_entity;
 
-		private:
-			void moveToUpdate();
+    private:
+      void moveToUpdate();
 
-			float GetAngle (const csVector3& v1, const csVector3& v2);
+      float GetAngle (const csVector3& v1, const csVector3& v2);
 
-		private:
-			csArray<PT::Events::Eventp> events;
-			void ProcessEvents();
-		public:
-			bool GetEntityEvents(PT::Events::Eventp ev);
+    private:
+      csArray<PT::Events::Eventp> events;
+      void ProcessEvents();
+    public:
+      bool GetEntityEvents(PT::Events::Eventp ev);
 
-		public:
-			MovementManager (iObjectRegistry* obj_reg);
-			~MovementManager ();
+    public:
+      MovementManager (iObjectRegistry* obj_reg);
+      ~MovementManager ();
 
-			bool Initialize ();
-			void Handle();
+      bool Initialize ();
+      void Handle();
 
-			bool MoveEntity(PT::Events::Eventp ev);
-			bool MoveToEntity(PT::Events::Eventp ev);
-			bool TeleportEntity(PT::Events::Eventp ev);
-			bool DrUpdateEntity(PT::Events::Eventp ev);
-			bool UpdatePcProp(PT::Events::Eventp ev);
-		};
+      bool MoveEntity(PT::Events::Eventp ev);
+      bool MoveToEntity(PT::Events::Eventp ev);
+      bool TeleportEntity(PT::Events::Eventp ev);
+      bool DrUpdateEntity(PT::Events::Eventp ev);
+      bool UpdatePcProp(PT::Events::Eventp ev);
+    };
 
-	} // Entity namespace 
+  } // Entity namespace 
 } // PT namespace 
 
 #endif // PT_ENTITY_MOVEMENT_MANAGER_H

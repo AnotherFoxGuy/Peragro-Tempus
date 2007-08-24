@@ -27,9 +27,6 @@
 
 #include "client/reporter/reporter.h"
 
-/*================//
-// GUIBuddyWindow //
-//================*/
 BuddyWindow::BuddyWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
@@ -47,21 +44,21 @@ bool BuddyWindow::handleCloseButton(const CEGUI::EventArgs& args)
 
 bool BuddyWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 {
-    using namespace CEGUI;
-    const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
+  using namespace CEGUI;
+  const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
-    CEGUI::Window* buddylist = winMgr->getWindow("BuddyList/Frame");
-    if (!buddylist) return false;
+  CEGUI::Window* buddylist = winMgr->getWindow("BuddyList/Frame");
+  if (!buddylist) return false;
 
-    switch (keyArgs.scancode)
-    {
-    case Key::Insert:
-      buddylist->isVisible() ? buddylist->setVisible(false) : buddylist->setVisible(true);
-      break;
+  switch (keyArgs.scancode)
+  {
+  case Key::Insert:
+    buddylist->isVisible() ? buddylist->setVisible(false) : buddylist->setVisible(true);
+    break;
 
-    default: return false;
-    }
-    return true;
+  default: return false;
+  }
+  return true;
 }
 
 void BuddyWindow::AddPlayer(const char* name)
@@ -80,7 +77,7 @@ void BuddyWindow::RemovePlayer(const char* name)
   CEGUI::ListboxItem* nameItem = ((CEGUI::MultiColumnList*)btn)->findListItemWithText(name,0);
   if (!nameItem)
   {
-		Report(PT::Error, "BuddyWindow: ERROR Couldn't find player %s in buddylist!", name);
+    Report(PT::Error, "BuddyWindow: ERROR Couldn't find player %s in buddylist!", name);
     return;
   }
   nameItem->setAutoDeleted(true);

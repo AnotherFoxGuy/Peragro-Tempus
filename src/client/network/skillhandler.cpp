@@ -24,7 +24,7 @@
 
 void SkillHandler::handleSkillUsageStartResponse(GenericMessage* msg)
 {
-	Report(PT::Debug, "SkillHandler: Recieved a StartSkill message.");
+  Report(PT::Debug, "SkillHandler: Recieved a StartSkill message.");
   SkillUsageStartResponseMessage skillmsg;
   skillmsg.deserialise(msg->getByteStream());
 

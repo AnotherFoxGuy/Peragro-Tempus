@@ -30,53 +30,53 @@
 namespace PT
 {
 
-	enum LoggingLevel
-	{
-		Errors,			  // Bugs and errors are logged.
-		Standard,		  // Bugs, errors and warnings are logged.
-		Informative,	// Bugs, errors, warnings and notify are logged.
-		Insane			  // Everything is logged.
-	};
+  enum LoggingLevel
+  {
+    Errors,	    // Bugs and errors are logged.
+    Standard,       // Bugs, errors and warnings are logged.
+    Informative,    // Bugs, errors, warnings and notify are logged.
+    Insane	    // Everything is logged.
+  };
 
-	enum SeverityLevel
-	{
-		Bug,			  
-		Error,		  
-		Warning,	
-		Notify,
-		Debug
-	};
+  enum SeverityLevel
+  {
+    Bug,			  
+    Error,		  
+    Warning,	
+    Notify,
+    Debug
+  };
 
-	class Reporter
-	{
-	private:
-		static Reporter* reporter;
+  class Reporter
+  {
+  private:
+    static Reporter* reporter;
 
-		iObjectRegistry* obj_reg;
-		csRef<iVFS> vfs;
+    iObjectRegistry* obj_reg;
+    csRef<iVFS> vfs;
 
-		LoggingLevel loggingLevel;
+    LoggingLevel loggingLevel;
 
-		std::ofstream logFile;
-		//boost::shared_ptr<FS::ofstream> logFile;
+    std::ofstream logFile;
+    //boost::shared_ptr<FS::ofstream> logFile;
 
-	private:
-		void GetFile (std::string fileName);
+  private:
+    void GetFile (std::string fileName);
 
-	public:
-		Reporter(iObjectRegistry* obj_reg);
-		virtual ~Reporter();
+  public:
+    Reporter(iObjectRegistry* obj_reg);
+    virtual ~Reporter();
 
-		static Reporter* GetInstance() { return reporter; }
+    static Reporter* GetInstance() { return reporter; }
 
-		bool Initialize ();
+    bool Initialize ();
 
-		void SetLoggingLevel(LoggingLevel level) { Reporter::loggingLevel = level; }
+    void SetLoggingLevel(LoggingLevel level) { Reporter::loggingLevel = level; }
 
-		void Report(SeverityLevel severity, const char* msg, va_list arg);
-	};
+    void Report(SeverityLevel severity, const char* msg, va_list arg);
+  };
 
-	bool Report(SeverityLevel severity, const char* msg, ...);
+  bool Report(SeverityLevel severity, const char* msg, ...);
 
 } // PT namespace
 

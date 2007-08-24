@@ -15,6 +15,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
@@ -25,8 +26,10 @@
 
 #include <csutil/hash.h>
 
-namespace PT {
-  enum keyMap {
+namespace PT 
+{
+  enum keyMap 
+  {
     PTKEY_UP = 0,
     PTKEY_DOWN,
     PTKEY_LEFT,
@@ -68,18 +71,18 @@ namespace PT {
 
   class InputManager
   {
-    private:
-      typedef bool (Client::*tFunction)(bool down, iEvent &ev);
-      csHash< tFunction, int > functions;
+  private:
+    typedef bool (Client::*tFunction)(bool down, iEvent &ev);
+    csHash< tFunction, int > functions;
 
-      Client* client;
+    Client* client;
 
-      int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl);
+    int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl);
 
-    public:
-      InputManager(Client* client);
-      bool ProcessEvent(iEvent &);
-      void SetCallback(iObjectRegistry *, const char *, tFunction const);
+  public:
+    InputManager(Client* client);
+    bool ProcessEvent(iEvent &);
+    void SetCallback(iObjectRegistry *, const char *, tFunction const);
   };
 }
 #endif

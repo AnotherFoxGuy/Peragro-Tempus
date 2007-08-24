@@ -115,7 +115,6 @@ void SellWindow::CreateGUIWindow()
   CEGUI::Window* bag2 = winMgr->getWindow("SellWindow/LowerSlots/LowerBag");
   //dragdrop->CreateBag(bag2, &lowerslots, Inventory::SellLower, DragDrop::Item, 2, 4);
 
-
 }
 
 

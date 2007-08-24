@@ -56,7 +56,7 @@ bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
 
   if (!slot)
   {
-		Report(PT::Error, "InventoryWindow: Couldn't add item %d in slot %d!", itemid, slotid);
+    Report(PT::Error, "InventoryWindow: Couldn't add item %d in slot %d!", itemid, slotid);
     return false;
   }
 
@@ -161,7 +161,7 @@ void InventoryWindow::CreateGUIWindow()
   inventory = new Inventory(guimanager);
   inventory->Create(bag, Inventory::InventoryLower, DragDrop::Item, 4, 5, 10);
 
- // Get the root window
+  // Get the root window
   rootwindow = winMgr->getWindow("Inventory/Frame");
 
   // Setup the equipslots.

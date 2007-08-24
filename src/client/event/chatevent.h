@@ -27,60 +27,60 @@ namespace PT
 {
   namespace Events
   {
-		/**
-		 * Chat event base class.
-		 */
+    /**
+    * Chat event base class.
+    */
     class ChatEvent : public Event
     {
-		public:
-			ChatEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-			virtual ~ChatEvent() {}
+    public:
+      ChatEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+      virtual ~ChatEvent() {}
     };
 
-		/**
-		* ChatEvent helper function.
-		*/
-		template <class T>
-		T GetChatEvent(Eventp ev)
-		{
-			ChatEvent* chatEv = static_cast<ChatEvent*> (ev.get());
-			if (!chatEv)
-			{
-				printf("E: Not a Chat event!\n");
-				return 0;
-			}
-			T tEv = static_cast<T> (chatEv);
-			if (!tEv)
-			{
-				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-				return 0;
-			}
+    /**
+    * ChatEvent helper function.
+    */
+    template <class T>
+    T GetChatEvent(Eventp ev)
+    {
+      ChatEvent* chatEv = static_cast<ChatEvent*> (ev.get());
+      if (!chatEv)
+      {
+        printf("E: Not a Chat event!\n");
+        return 0;
+      }
+      T tEv = static_cast<T> (chatEv);
+      if (!tEv)
+      {
+        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
+        return 0;
+      }
 
-			return tEv;
-		}
+      return tEv;
+    }
 
-		/**
-		 * Chat say event.
-		 */
+    /**
+    * Chat say event.
+    */
     class ChatSayEvent : public ChatEvent
     {
-		public:
-			std::string nickName;
-			std::string message;
+    public:
+      std::string nickName;
+      std::string message;
 
     public:
       ChatSayEvent() : ChatEvent("ChatSayEvent", true) {}
       virtual ~ChatSayEvent() {}
     };
 
-		/**
-		 * Chat Whisper event.
-		 */
+    /**
+    * Chat Whisper event.
+    */
     class ChatWhisperEvent : public ChatEvent
     {
-		public:
-			std::string nickName;
-			std::string message;
+    public:
+      std::string nickName;
+      std::string message;
 
     public:
       ChatWhisperEvent() : ChatEvent("ChatWhisperEvent", true) {}

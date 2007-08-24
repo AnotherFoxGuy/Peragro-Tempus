@@ -27,45 +27,45 @@ namespace PT
 {
   namespace Events
   {
-		/**
-		 * Region event base class.
-		 */
+    /**
+    * Region event base class.
+    */
     class RegionEvent : public Event
     {
-		public:
-			RegionEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-			virtual ~RegionEvent() {}
+    public:
+      RegionEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+      virtual ~RegionEvent() {}
     };
 
-		/**
-		* RegionEvent helper function.
-		*/
-		template <class T>
-		T GetRegionEvent(Eventp ev)
-		{
-			RegionEvent* regionEv = static_cast<RegionEvent*> (ev.get());
-			if (!regionEv)
-			{
-				printf("E: Not a Region event!\n");
-				return 0;
-			}
-			T tEv = static_cast<T> (regionEv);
-			if (!tEv)
-			{
-				printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-				return 0;
-			}
+    /**
+    * RegionEvent helper function.
+    */
+    template <class T>
+    T GetRegionEvent(Eventp ev)
+    {
+      RegionEvent* regionEv = static_cast<RegionEvent*> (ev.get());
+      if (!regionEv)
+      {
+        printf("E: Not a Region event!\n");
+        return 0;
+      }
+      T tEv = static_cast<T> (regionEv);
+      if (!tEv)
+      {
+        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
+        return 0;
+      }
 
-			return tEv;
-		}
+      return tEv;
+    }
 
-		/**
-		 * Region load event.
-		 */
+    /**
+    * Region load event.
+    */
     class RegionLoadEvent : public RegionEvent
     {
-		public:
-			std::string regionName;
+    public:
+      std::string regionName;
 
     public:
       RegionLoadEvent() : RegionEvent("RegionLoadEvent", true) {}

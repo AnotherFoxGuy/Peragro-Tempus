@@ -21,9 +21,6 @@
 
 #include "base-gui.h"
 
-/*======================//
-// GUISelectCharWindow  //
-//======================*/
 class SelectCharWindow : public GUIWindow
 {
 private:
