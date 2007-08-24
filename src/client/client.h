@@ -50,7 +50,7 @@
 
 #include "client/pointer/pointer.h"
 
-#include "inputmanager.h"
+#include "client/input/inputmanager.h"
 
 struct iPcDefaultCamera;
 struct iPcActorMove;
