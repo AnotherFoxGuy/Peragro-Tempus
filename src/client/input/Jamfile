@@ -1,0 +1,6 @@
+SubDir TOP src client input ;
+
+Description client-inputmanager : "client inputmanager" ;
+Library client-inputmanager :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-inputmanager : CRYSTAL CEL BOOST ;
