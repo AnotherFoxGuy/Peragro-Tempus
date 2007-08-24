@@ -175,9 +175,6 @@
 				RelativePath="..\..\src\client\cursor.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\inputmanager.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\pointer\pointer.cpp">
 			</File>
 		</Filter>
@@ -189,9 +186,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\cursor.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\inputmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\pointer\pointer.h">
