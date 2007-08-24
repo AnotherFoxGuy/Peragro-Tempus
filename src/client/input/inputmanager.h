@@ -26,6 +26,8 @@
 
 #include <csutil/hash.h>
 
+#include <string>
+
 namespace PT 
 {
   enum keyMap 
@@ -72,17 +74,16 @@ namespace PT
   class InputManager
   {
   private:
-    typedef bool (Client::*tFunction)(bool down, iEvent &ev);
-    csHash< tFunction, int > functions;
-
-    Client* client;
+    csHash< std::string, int > functions;
 
     int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl);
 
   public:
-    InputManager(Client* client);
+    InputManager();
+
+    bool Initialize();
+
     bool ProcessEvent(iEvent &);
-    void SetCallback(iObjectRegistry *, const char *, tFunction const);
   };
 }
 #endif

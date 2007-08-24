@@ -216,27 +216,15 @@ namespace PT
 
     // Create and Initialize the Network. 
     network = new Network (this);
-    if (!network) return Report(PT::Error, "Failed to create Network object!");
+    if (!network) 
+      return Report(PT::Error, "Failed to create Network object!");
     network->init();
     pointerlib.setNetwork(network);
 
-    inputMgr = new InputManager(this);
-    if(!inputMgr) {
-      return false;
-    }
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_FORWARD", &PT::Client::ActionForward);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_BACKWARD", &PT::Client::ActionBackward);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_LEFT", &PT::Client::ActionLeft);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_RIGHT", &PT::Client::ActionRight);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_TOGGLEWALK", &PT::Client::ActionToggleWalk);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_PANUP", &PT::Client::ActionPanUp);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_PANDOWN", &PT::Client::ActionPanDown);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_TOGGLECAMERA", &PT::Client::ActionToggleCamera);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_TOGGLEDISTCLIP", &PT::Client::ActionToggleDistClipping);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_HIT", &PT::Client::ActionHit);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_ACTIVATESKILL", &PT::Client::ActionActivateSkill);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_ACTIVATEWEAPON", &PT::Client::ActionActivateWeapon);
-    inputMgr->SetCallback(GetObjectRegistry(), "ACTION_QUIT", &PT::Client::ActionQuit);
+    // Create and Initialize the InputManager.
+    inputMgr = new InputManager();
+    if(!inputMgr->Initialize()) 
+      return Report(PT::Error, "Failed to create InputManager object!");
 
     // Create and Initialize the EventManager.
     eventmanager = new PT::Events::EventManager();
@@ -283,8 +271,7 @@ namespace PT
     iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
     if (nw) nw->SetTitle ("Peragro Tempus");
 
-    // First disable the lighting cache. Our app is simple enough
-    // not to need this.
+    // Disable the lighting cache.
     engine->SetLightingCacheMode (0);
 
     // Let the engine prepare all lightmaps for use and also free all images 
@@ -373,18 +360,69 @@ namespace PT
 
     // Register listener for StateLoggedInEvent.
     EventHandler<Client>* cbConnected = new EventHandler<Client>(&Client::Connected, this);
-    if (!cbConnected) return Report(PT::Error, "Adding 'Connected' to EventHandler failed!");
     PointerLibrary::getInstance()->getEventManager()->AddListener("StateConnectedEvent", cbConnected);
 
     // Register listener for StateLoggedInEvent.
     EventHandler<Client>* cbLoggedIn = new EventHandler<Client>(&Client::loggedIn, this);
-    if (!cbConnected) return Report(PT::Error, "Adding 'loggedIn' to EventHandler failed!");
     PointerLibrary::getInstance()->getEventManager()->AddListener("StateLoggedInEvent", cbLoggedIn);
 
     // Register listener for RegionLoadEvent.
     EventHandler<Client>* cbLoad = new EventHandler<Client>(&Client::LoadRegion, this);
-    if (!cbConnected) return Report(PT::Error, "Adding 'LoadRegion' to EventHandler failed!");
     PointerLibrary::getInstance()->getEventManager()->AddListener("RegionLoadEvent", cbLoad);
+
+    //Actions
+
+    // Register listener for ActionForward.
+    EventHandler<Client>* cbActionForward = new EventHandler<Client>(&Client::ActionForward, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionForward);
+
+    // Register listener for ActionBackward.
+    EventHandler<Client>* cbActionBackward = new EventHandler<Client>(&Client::ActionBackward, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionBackward);
+
+    // Register listener for ActionLeft.
+    EventHandler<Client>* cbActionLeft = new EventHandler<Client>(&Client::ActionLeft, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionLeft);
+
+    // Register listener for ActionRight.
+    EventHandler<Client>* cbActionRight = new EventHandler<Client>(&Client::ActionRight, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionRight);
+
+    // Register listener for ActionToggleWalk.
+    EventHandler<Client>* cbActionToggleWalk = new EventHandler<Client>(&Client::ActionToggleWalk, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleWalk);
+
+    // Register listener for ActionPanUp.
+    EventHandler<Client>* cbActionPanUp = new EventHandler<Client>(&Client::ActionPanUp, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionPanUp);
+
+    // Register listener for ActionPanDown.
+    EventHandler<Client>* cbActionPanDown = new EventHandler<Client>(&Client::ActionPanDown, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionPanDown);
+
+    // Register listener for ActionToggleCamera.
+    EventHandler<Client>* cbActionToggleCamera = new EventHandler<Client>(&Client::ActionToggleCamera, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleCamera);
+
+    // Register listener for ActionToggleDistClipping.
+    EventHandler<Client>* cbActionToggleDistClipping = new EventHandler<Client>(&Client::ActionToggleDistClipping, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleDistClipping);
+
+    // Register listener for ActionHit.
+    EventHandler<Client>* cbActionHit = new EventHandler<Client>(&Client::ActionHit, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionHit);
+
+    // Register listener for ActionActivateSkill.
+    EventHandler<Client>* cbActionActivateSkill = new EventHandler<Client>(&Client::ActionActivateSkill, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionActivateSkill);
+
+    // Register listener for ActionActivateWeapon.
+    EventHandler<Client>* cbActionActivateWeapon = new EventHandler<Client>(&Client::ActionActivateWeapon, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionActivateWeapon);
+
+    // Register listener for ActionQuit.
+    EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionQuit);
 
     Run();
 
@@ -575,163 +613,315 @@ namespace PT
     network->send(&answer_msg);
   }
 
-  bool Client::ActionForward(bool down, iEvent &ev) {
-    if (playing) {
-      if (down) {
-        walk = 1;
-      } else {
+  bool Client::ActionForward(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_FORWARD")) return false;
+
+      if (!actionEv->released) 
+        walk = 1; 
+      else 
         walk = 0;
-      }
     }
+
     DoAction();
     return true;
   }
 
-  bool Client::ActionBackward(bool down, iEvent &ev) {
-    if (playing) {
-      if (down) {
+  bool Client::ActionBackward(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_BACKWARD")) return false;
+
+      if (!actionEv->released)
         walk = -1;
-      } else {
+      else 
         walk = 0;
-      }
     }
+
     DoAction();
     return true;
   }
 
-  bool Client::ActionLeft(bool down, iEvent &ev) {
-    if (playing) {
-      if (down) {
+  bool Client::ActionLeft(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_LEFT")) return false;
+
+      if (!actionEv->released)
         turn = -1;
-      } else {
+      else 
         turn = 0;
-      }
     }
+
     DoAction();
     return true;
   }
 
-  bool Client::ActionRight(bool down, iEvent &ev) {
-    if (playing) {
-      if (down) {
+  bool Client::ActionRight(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_RIGHT")) return false;
+
+      if (!actionEv->released)
         turn = 1;
-      }  else {
+      else 
         turn = 0;
-      }
     }
+
     DoAction();
-    return true;
-  }
-  bool Client::ActionToggleWalk(bool down, iEvent &ev) {
-    if (down && playing) {
-      (walk == 0) ? walk = 1 : walk = 0;
-    }
-    DoAction();
-    return true;
-  }
-  bool Client::ActionPanUp(bool down, iEvent &ev) {
-    if (down && playing) {
-      iCelEntity* entity = entitymanager->getOwnCelEntity();
-      if (!entity) return false;
-      csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
-      pccamera->SetPitch(pccamera->GetPitch()-0.1f);
-    }
-    DoAction();
-    return true;
-  }
-  bool Client::ActionPanDown(bool down, iEvent &ev) {
-    if (down && playing) {
-      iCelEntity* entity = entitymanager->getOwnCelEntity();
-      if (!entity) return false;
-      csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
-      pccamera->SetPitch(pccamera->GetPitch()+0.1f);
-    }
-    DoAction();
-    return true;
-  }
-  bool Client::ActionToggleCamera(bool down, iEvent &ev) {
-    if (down && playing) {
-      iPcActorMove* pcactormove = getPcActorMove();
-      if (!pcactormove) return false;
-      pcactormove->ToggleCameraMode();
-    }
-    DoAction();
-    return true;
-  }
-  bool Client::ActionToggleDistClipping(bool down, iEvent &ev) {
-    if (down && playing) {
-      iCelEntity* entity = entitymanager->getOwnCelEntity();
-      if (!entity) return false;
-      csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
-      guimanager->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
-      pccamera->UseDistanceClipping() ? 
-        pccamera->DisableDistanceClipping() 
-        : pccamera->EnableAdaptiveDistanceClipping(95, 100, 50);
-    }
-    DoAction();
-    return true;
-  }
-  bool Client::ActionHit(bool down, iEvent &ev) {
-    if (down && playing) {
-      combatmanager->hit (entitymanager->GetOwnId(), 20);
-    }
-    DoAction();
-    return true;
-  }
-  bool Client::ActionActivateSkill(bool down, iEvent &ev) {
-    if (down && playing) {
-      // Activate the skill
-      csRef<iCelEntity> ent = cursor->getSelectedEntity();
-      csRef<iPcProperties> pcprop;
-      if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-      if (!pcprop) return false;
-      if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
-      {
-        combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-      }
-      // Animate the player.
-      iCelEntity* entity = entitymanager->getOwnCelEntity();
-      if (!entity) return false;
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-      if (!pcmesh) return false;
-      csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-      if (!parent) return false;
-      csRef<iSpriteCal3DState> cal3dstate = 
-        scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
-      if (!cal3dstate) return false;
-      cal3dstate->SetAnimAction("cast_summon", 0.0f, 0.0f);
-      DoAction();
-    }
-    return true;
-  }
-  bool Client::ActionActivateWeapon(bool down, iEvent &ev) {
-    if (down && playing) {
-      iCelEntity* entity = entitymanager->getOwnCelEntity();
-      if (!entity) return false;
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-      if (!pcmesh) return false;
-      csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-      if (!parent) return false;
-      csRef<iSpriteCal3DState> cal3dstate = 
-        scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
-      if (!cal3dstate) return false;
-      cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
-      DoAction();
-    }
     return true;
   }
 
-  bool Client::ActionQuit(bool down, iEvent &ev) {
+  bool Client::ActionToggleWalk(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_TOGGLEWALK")) return false;
+
+      if (!actionEv->released) 
+      {
+        (walk == 0) ? walk = 1 : walk = 0;
+      }
+    }
+
+    DoAction();
+    return true;
+  }
+
+  bool Client::ActionPanUp(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_PANUP")) return false;
+
+      if (!actionEv->released) 
+      {
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
+        pccamera->SetPitch(pccamera->GetPitch()-0.1f);
+      }
+    }
+
+    return true;
+  }
+
+  bool Client::ActionPanDown(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_PANDOWN")) return false;
+
+      if (!actionEv->released) 
+      {
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
+        pccamera->SetPitch(pccamera->GetPitch()+0.1f);
+      }
+    }
+
+    return true;
+  }
+
+  bool Client::ActionToggleCamera(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_TOGGLECAMERA")) return false;
+
+      if (!actionEv->released) 
+      {
+        iPcActorMove* pcactormove = getPcActorMove();
+        if (!pcactormove) return false;
+        pcactormove->ToggleCameraMode();
+      }
+    }
+
+    return true;
+  }
+
+  bool Client::ActionToggleDistClipping(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_TOGGLEDISTCLIP")) return false;
+
+      if (!actionEv->released) 
+      {
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        if (!entity) return false;
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+        guimanager->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
+        pccamera->UseDistanceClipping() ? 
+          pccamera->DisableDistanceClipping() 
+          : pccamera->EnableAdaptiveDistanceClipping(95, 100, 50);
+      }
+    }
+
+    return true;
+  }
+
+  bool Client::ActionHit(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_HIT")) return false;
+
+      if (!actionEv->released) 
+      {
+        combatmanager->hit (entitymanager->GetOwnId(), 20);
+      }
+    }
+
+    return true;
+  }
+
+  bool Client::ActionActivateSkill(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_ACTIVATESKILL")) return false;
+
+      if (!actionEv->released) 
+      {
+        // Activate the skill
+        csRef<iCelEntity> ent = cursor->getSelectedEntity();
+        csRef<iPcProperties> pcprop;
+        if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+        if (!pcprop) return false;
+        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
+        {
+          combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        }
+        // Animate the player.
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+        if (!parent) return false;
+        csRef<iSpriteCal3DState> cal3dstate = 
+          scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
+        if (!cal3dstate) return false;
+        cal3dstate->SetAnimAction("cast_summon", 0.0f, 0.0f);
+      }
+    }
+
+    return true;
+  }
+
+  bool Client::ActionActivateWeapon(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_ACTIVATEWEAPON")) return false;
+
+      if (!actionEv->released) 
+      {
+        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        if (!entity) return false;
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+        if (!pcmesh) return false;
+        csRef<iMeshWrapper> parent = pcmesh->GetMesh();
+        if (!parent) return false;
+        csRef<iSpriteCal3DState> cal3dstate = 
+          scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
+        if (!cal3dstate) return false;
+        cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
+      }
+    }
+
+    return true;
+  }
+
+  bool Client::ActionQuit(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+    if (!actionEv) return false;
+
+    if (!actionEv->Compare("ACTION_QUIT")) return false;
+
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
     if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
+
     return true;
   }
 
-  bool Client::DoAction() {
+  bool Client::DoAction() 
+  {
     MoveRequestMessage msg;
     msg.setWalk(walk+1);
     msg.setTurn(turn+1);
     network->send(&msg);
+
     return true;
   }
   bool Client::OnKeyboard(iEvent& ev)

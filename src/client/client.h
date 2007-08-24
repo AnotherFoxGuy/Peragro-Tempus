@@ -47,6 +47,7 @@
 
 #include "client/event/eventmanager.h"
 #include "client/event/regionevent.h"
+#include "client/event/actionevent.h"
 
 #include "client/pointer/pointer.h"
 
@@ -167,19 +168,19 @@ namespace PT
     PT::Chat::ChatManager* chatmanager;
     PT::Trade::TradeManager* trademanager;
 
-    bool ActionForward(bool, iEvent &);
-    bool ActionBackward(bool, iEvent &);
-    bool ActionLeft(bool, iEvent &);
-    bool ActionRight(bool, iEvent &);
-    bool ActionToggleWalk(bool, iEvent &);
-    bool ActionPanUp(bool, iEvent &);
-    bool ActionPanDown(bool, iEvent &);
-    bool ActionToggleCamera(bool, iEvent &);
-    bool ActionToggleDistClipping(bool, iEvent &);
-    bool ActionHit(bool, iEvent &);
-    bool ActionActivateSkill(bool, iEvent &);
-    bool ActionActivateWeapon(bool, iEvent &);
-    bool ActionQuit(bool, iEvent &);
+    bool ActionForward(PT::Events::Eventp);
+    bool ActionBackward(PT::Events::Eventp);
+    bool ActionLeft(PT::Events::Eventp);
+    bool ActionRight(PT::Events::Eventp);
+    bool ActionToggleWalk(PT::Events::Eventp);
+    bool ActionPanUp(PT::Events::Eventp);
+    bool ActionPanDown(PT::Events::Eventp);
+    bool ActionToggleCamera(PT::Events::Eventp);
+    bool ActionToggleDistClipping(PT::Events::Eventp);
+    bool ActionHit(PT::Events::Eventp);
+    bool ActionActivateSkill(PT::Events::Eventp);
+    bool ActionActivateWeapon(PT::Events::Eventp);
+    bool ActionQuit(PT::Events::Eventp);
     bool DoAction();
 
   private:

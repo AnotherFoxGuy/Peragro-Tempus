@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+25-Aug-2007
+  - Sueastside fixed the InputManager and made it use events instead.
+    Note: There's a little issue with CEGUI swallowing alphabet keys, 
+    you have to click a window first, for it to release input.
+
 24-Aug-2007
   - Sueastside fixed all style issues.
   - Sueastside moved InputManager to its own directory.

@@ -74,7 +74,7 @@ namespace PT
       std::vector<Listener>::iterator it;
       for(it = listeners.begin(); it != listeners.end(); ++it)
       {
-        if (id == it->eventId)
+        if ((id.length() == it->eventId.length()) && id == it->eventId)
         {
           if (!it->handler) continue;
           //Report(PT::Debug, "Handling event: %s", it->GetEventId());

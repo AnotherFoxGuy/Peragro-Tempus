@@ -17,13 +17,50 @@
 */
 
 #include "inputmanager.h"
+
+#include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
+#include "client/event/eventmanager.h"
+#include "client/event/actionevent.h"
+
 #include <utility>
 
 namespace PT 
 {
 
-  InputManager::InputManager(Client* client) : client(client) 
+  InputManager::InputManager()
   {
+  }
+
+  bool InputManager::Initialize()
+  {
+    iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+    if (!obj_reg) return false;
+
+    csConfigAccess cfg (obj_reg, "/config/client.cfg");
+
+    csRef<iConfigIterator> it = cfg->Enumerate("Key");
+
+    while (it.IsValid() && it->Next())
+    {
+      const char* keystring = it->GetKey() + strlen(it->GetSubsection()) + 1;
+      const char* action = it->GetStr();
+
+      bool shift, alt, ctrl;
+      int keycode = GetKeyCode (keystring, shift, alt, ctrl);
+
+      // Check if valid key
+      if (keycode == -1) 
+      {
+        Report(PT::Error, "Unknown key '%s' for action '%s'.", keystring, action);
+        continue;
+      }
+
+      Report(PT::Debug, "Binding key '%s(%d)' to action '%s'.", keystring, keycode, action);
+      functions.Put(keycode, action);
+    }
+
+    return true;
   }
 
   bool InputManager::ProcessEvent(iEvent &ev) 
@@ -37,35 +74,19 @@ namespace PT
 
     if (functions.Contains(key))
     {
-      tFunction function = functions.Get(key, 0);
-      (client->*function)(down, ev);
+      std::string action = functions.Get(key, "");
+      Report(PT::Debug, "Pressed key '(%d)', firing action '%s'.", key, action.c_str());
+
+      using namespace PT::Events;
+      ActionEvent* actionEvent = new ActionEvent();
+      actionEvent->action		= action;
+      actionEvent->released		= !down;
+      PointerLibrary::getInstance()->getEventManager()->AddEvent(actionEvent);
     }
+    else
+      Report(PT::Warning, "No action for key '%d'.", key);
+
     return false;
-  }
-
-  void InputManager::SetCallback (iObjectRegistry *registry, const char *actionType,
-                                  tFunction pFunctionPointer) 
-  {
-
-      csConfigAccess cfg (registry, "/config/client.cfg");
-
-      csRef<iConfigIterator> it = cfg->Enumerate("Key");
-
-      while (it.IsValid() && it->Next())
-      {
-        const char* keystring = it->GetKey() + strlen(it->GetSubsection()) + 1;
-        const char* action = it->GetStr();
-
-        if (strcmp(action, actionType)) continue;
-
-        bool shift, alt, ctrl;
-        int keycode = GetKeyCode (keystring, shift, alt, ctrl);
-
-        // Check if valid key
-        if (keycode == -1) return;
-
-        functions.Put(keycode, pFunctionPointer);
-      }
   }
 
   int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl)
