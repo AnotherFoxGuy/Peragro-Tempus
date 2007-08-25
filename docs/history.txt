@@ -14,6 +14,7 @@ under each day.
     should not depend on if its a or A that is pressed, however, shift could be
     mapped to toggle into running mode instead (not yet implemented). While all
     keys still behave the same way as previous.
+  - PK added script to create static distributions on windows. Not compiling!
 
 24-Aug-2007
   - Sueastside fixed all style issues.
