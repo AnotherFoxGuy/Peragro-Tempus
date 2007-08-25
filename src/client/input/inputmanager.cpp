@@ -59,7 +59,8 @@ namespace PT
       Report(PT::Debug, "Binding key '%s(%d)' to action '%s'.", keystring, keycode, action);
       functions.Put(keycode, action);
 
-      if(keycode >= 'A' && keycode <= 'Z') {
+      if (keycode >= 'A' && keycode <= 'Z') 
+      {
         keycode += 'a' - 'A';
         Report(PT::Debug, "Binding key '%s(%d)' to action '%s'.", keystring, keycode, action);
         functions.Put(keycode, action);
