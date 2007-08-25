@@ -171,6 +171,13 @@ namespace PT
       "/peragro/config/client.cfg", GetApplicationName()))
       return ReportError("Failed to initialize configuration manager!");
 
+    cmdline = csQueryRegistry<iCommandLineParser> (GetObjectRegistry());
+    if (!cmdline) return ReportError("Failed to locate CommandLineParser plugin");
+
+#ifdef CS_STATIC_LINKED
+    cmdline->AddOption("silent", "true");
+#endif
+
     if (!celInitializer::RequestPlugins(GetObjectRegistry(),
       CS_REQUEST_REPORTER,
       CS_REQUEST_REPORTERLISTENER,
@@ -255,9 +262,6 @@ namespace PT
 
     //kbd = csQueryRegistry<iKeyboardDriver> (GetObjectRegistry());
     //if (!kbd) return ReportError("Failed to locate Keyboard Driver!");
-
-    cmdline = csQueryRegistry<iCommandLineParser> (GetObjectRegistry());
-    if (!cmdline) return Report(PT::Error, "Failed to locate CommandLineParser plugin");
 
     sndrenderer = csQueryRegistry<iSndSysRenderer> (GetObjectRegistry());
     if (!sndrenderer) return Report(PT::Error, "Failed to locate sound renderer!");
