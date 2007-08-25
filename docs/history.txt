@@ -8,6 +8,12 @@ under each day.
   - Sueastside fixed the InputManager and made it use events instead.
     Note: There's a little issue with CEGUI swallowing alphabet keys, 
     you have to click a window first, for it to release input.
+  - swedishcoder made a/A behave the same. Before only A got mapped to the
+    action. Two reasons for having a/A behave the same, configAccess key's all
+    seems to be converted to A (even if given as a in config file). Also actions
+    should not depend on if its a or A that is pressed, however, shift could be
+    mapped to toggle into running mode instead (not yet implemented). While all
+    keys still behave the same way as previous.
 
 24-Aug-2007
   - Sueastside fixed all style issues.
