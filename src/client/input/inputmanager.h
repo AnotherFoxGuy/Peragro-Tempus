@@ -30,45 +30,6 @@
 
 namespace PT 
 {
-  enum keyMap 
-  {
-    PTKEY_UP = 0,
-    PTKEY_DOWN,
-    PTKEY_LEFT,
-    PTKEY_RIGHT,
-    PTKEY_SPACE,
-    PTKEY_PAGEUP,
-    PTKEY_PAGEDOWN,
-    PTKEY_A,
-    PTKEY_B,
-    PTKEY_C,
-    PTKEY_D,
-    PTKEY_E,
-    PTKEY_F,
-    PTKEY_G,
-    PTKEY_H,
-    PTKEY_I,
-    PTKEY_J,
-    PTKEY_K,
-    PTKEY_L,
-    PTKEY_M,
-    PTKEY_N,
-    PTKEY_O,
-    PTKEY_P,
-    PTKEY_Q,
-    PTKEY_R,
-    PTKEY_S,
-    PTKEY_T,
-    PTKEY_U,
-    PTKEY_V,
-    PTKEY_W,
-    PTKEY_X,
-    PTKEY_Y,
-    PTKEY_Z,
-    PTKEY_ESC,
-    PTKEY_SIZE // MUST BE LAST
-  };
-
   class Client;
 
   class InputManager
@@ -76,7 +37,7 @@ namespace PT
   private:
     csHash< std::string, int > functions;
 
-    int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl);
+    int GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl);
 
   public:
     InputManager();
