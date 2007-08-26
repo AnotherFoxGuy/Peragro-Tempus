@@ -75,6 +75,7 @@ public:
 
   void setStartDialog(unsigned int id) { dialog_id = id; }
   unsigned int getStartDialog() { return dialog_id; }
+  void pause(bool pause) { if (ai) ai->pause(pause); }
 };
 
 #endif // _NPCENTITY_H_

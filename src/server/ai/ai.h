@@ -32,11 +32,15 @@ private:
   static ptString guard;
 protected:
   virtual void think() = 0;
+  bool paused;
 
 public:
   virtual ~AI() {}
 
   virtual void setNPC(NpcEntity* npc) = 0;
+
+  void pause(bool pause) { paused = pause; }
+  bool isPaused(void) { return paused; }
 
   static AI* createAI(ptString ai_name);
 };

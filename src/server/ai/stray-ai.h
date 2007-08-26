@@ -36,7 +36,7 @@ protected:
   virtual void timeOut();
 
 public:
-  StrayAI() : npc(0) {}
+  StrayAI() : npc(0) { paused = false; }
   ~StrayAI() {}
 
   virtual void setNPC(NpcEntity* npc);

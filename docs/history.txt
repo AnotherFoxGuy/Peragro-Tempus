@@ -4,6 +4,13 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+27-Aug-2007
+  - swedishcoder fixed the NPC's rude behavior of walking away in the middle
+    of a chat. There might be a possible racecondition about when the NPC gets
+    unpaused, that might get him unpaused in the middle of a chat, left a todo
+    about it. This is just a first draft of the code, he needs to face the
+    character for example.
+
 25-Aug-2007
   - Sueastside fixed the InputManager and made it use events instead.
     Note: There's a little issue with CEGUI swallowing alphabet keys, 

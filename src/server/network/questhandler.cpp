@@ -54,6 +54,17 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
     dialog_msg.setDialogText(dialog->getText());
     dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
+
+    // The npc has nothing more to say, let him walk away.
+    if (!dialog->getAnswerCount()) {
+      NpcEntity* npc_entity = dia_state->getNpc()->getLock();
+      if (npc_entity) 
+      {
+        npc_entity->pause(false);
+        npc_entity->freeLock();
+      }
+    }
+
     for (size_t i = 0; i < dialog->getAnswerCount(); i++)
     {
       const NPCDialogAnswer* answer = dialog->getAnswer(i);
@@ -134,7 +145,18 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   if (!npc_ent || npc_ent->getType() != Entity::NPCEntityType)
     return;
 
+  // TODO: NPC will be unpaused when its done with the chat. 
+  // However, the player might press the "X" before the chat is over
+  // this needs to unpause the NPC as well. Problem is if we are done
+  // with our chat, someone else starts to chat with the NPC
+  // and we press "X" during there chat - this will then unpause
+  // the NPC in the middle of a chat
+  //
+  // Or is it impossible for someone else to start a chat with the NPC
+  // before we press the "X" this could be really bad too since then a player
+  // could hold up an NPC forever - need a time out for that then.
   NpcEntity* npc_entity = npc_ent->getNpcEntity()->getLock();
+  npc_entity->pause(true);
 
   dia_state->setNpc(npc_entity);
   const NPCDialog* dialog = dia_state->startDialog(npc_entity->getStartDialog());
@@ -172,5 +194,12 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
   message.deserialise(msg->getByteStream());
 
   dia_state->endDialog(0);
+  NpcEntity* npc_entity = dia_state->getNpc()->getLock();
+  if (npc_entity) 
+  {
+    printf("Unpausing npc\n");
+    npc_entity->pause(false);
+    npc_entity->freeLock();
+  }
   character->freeLock();
 }

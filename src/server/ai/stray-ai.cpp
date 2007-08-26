@@ -57,6 +57,11 @@ void StrayAI::timeOut()
 
 void StrayAI::think()
 {
+  // Busy trading, chatting or something else
+  if (isPaused())
+  {
+    return;
+  }
   // Timer
   float random = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
   setInverval((int) (interval_base + random * interval_rand));
