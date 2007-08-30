@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+29-Aug-2007
+  - swedishcoder changed how floats where deserialized. When compiling in
+    release mode gcc did some optimization that caused the float value to always
+    be set to 0.
+
 27-Aug-2007
   - swedishcoder fixed the NPC's rude behavior of walking away in the middle
     of a chat. There might be a possible racecondition about when the NPC gets
