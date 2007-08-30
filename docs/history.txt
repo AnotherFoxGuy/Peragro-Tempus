@@ -7,6 +7,8 @@ under each day.
 30-Aug-2007
   - PK added networkmessages to support character poses, sitting and such.
   - PK changed the networkmessages to use sector ids instead of strings.
+  - Sueastside fixed the client jamfile so the new SectorManager gets linked 
+    with the client.
 
 29-Aug-2007
   - swedishcoder changed how floats where deserialized. When compiling in
