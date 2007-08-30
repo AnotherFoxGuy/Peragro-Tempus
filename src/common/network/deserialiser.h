@@ -64,8 +64,10 @@ public:
   }
   float getFloat()
   {
-    int value = getInt32();
-    return *(float*)(&value);
+    float value;
+    memcpy((void*)&value, (void*)&data[pos], (size_t)sizeof(float));
+    pos += sizeof(float)/sizeof(unsigned char);
+    return value;
   }
   const ptString getString()
   {
