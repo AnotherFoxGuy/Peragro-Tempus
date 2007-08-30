@@ -53,6 +53,7 @@ public:
     else if (id == ENTITY::INVENTORYMOVEITEMREQUEST) handleInventoryMoveItemRequest(msg);
     else if (id == ENTITY::MOUNTREQUEST) handleMountRequest(msg);
     else if (id == ENTITY::UNMOUNTREQUEST) handleUnmountRequest(msg);
+    else if (id == ENTITY::POSEREQUEST) handlePoseRequest(msg);
   }
 
   void handleMoveRequest(GenericMessage* msg);
@@ -64,6 +65,7 @@ public:
   void handleInventoryMoveItemRequest(GenericMessage* msg);
   void handleMountRequest(GenericMessage* msg);
   void handleUnmountRequest(GenericMessage* msg);
+  void handlePoseRequest(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

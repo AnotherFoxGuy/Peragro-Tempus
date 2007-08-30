@@ -60,6 +60,7 @@
 #include "client/effects/effectsmanager.h"
 #include "client/combat/combatmanager.h"
 #include "client/item/itemmanager.h"
+#include "client/sector/sectormanager.h"
 #include "client/entity/ptentitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
@@ -244,6 +245,12 @@ namespace PT
     if (!itemmanager->Initialize())
       return Report(PT::Error, "Failed to initialize ItemManager!");
     pointerlib.setItemManager(itemmanager);
+
+    // Create and Initialize the ItemManager.
+    sectormanager = new SectorMGR (GetObjectRegistry());
+    if (!sectormanager->Initialize())
+      return Report(PT::Error, "Failed to initialize SectorManager!");
+    pointerlib.setSectorManager(sectormanager);
 
     // Create and Initialize the GUImanager.
     guimanager = new GUIManager ();

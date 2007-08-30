@@ -28,6 +28,8 @@
 #include "client/event/entityevent.h"
 #include "client/event/tradeevent.h"
 
+#include "client/sector/sectormanager.h"
+
 #include "client/reporter/reporter.h"
 
 void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
@@ -43,7 +45,12 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   entityEvent->meshName    = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position    = pos;
-  entityEvent->sectorName  = *entmsg.getSector();
+
+  unsigned short sector_id = entmsg.getSectorId();
+  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+  const csString* sector = sectormgr->GetSectorName(sector_id);
+  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
+
   entityEvent->entityId    = entmsg.getEntityId();
   entityEvent->entityType  = EntityEvent::NPCEntity; 
 
@@ -147,7 +154,11 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   entityEvent->entityId				= dr_msg.getEntityId();
   entityEvent->position				= csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
   entityEvent->rotation				= dr_msg.getRotation();
-  entityEvent->sectorName			= *dr_msg.getSector();
+
+  unsigned short sector_id = dr_msg.getSectorId();
+  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+  const csString* sector = sectormgr->GetSectorName(sector_id);
+  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -265,7 +276,11 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
 
   entityEvent->entityId			= telemsg.getEntityId();
   entityEvent->position			= csVector3(telemsg.getPos()[0],telemsg.getPos()[1],telemsg.getPos()[2]);
-  entityEvent->sectorName		= *telemsg.getSector();
+
+  unsigned short sector_id = telemsg.getSectorId();
+  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+  const csString* sector = sectormgr->GetSectorName(sector_id);
+  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -283,7 +298,12 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->meshName    = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position    = pos;
-  entityEvent->sectorName  = *entmsg.getSector();
+
+  unsigned short sector_id = entmsg.getSectorId();
+  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+  const csString* sector = sectormgr->GetSectorName(sector_id);
+  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
+
   entityEvent->entityId    = entmsg.getEntityId();
   entityEvent->entityType  = EntityEvent::PlayerEntity; 
 
@@ -317,7 +337,12 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   entityEvent->meshId      = entmsg.getItemId();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position    = pos;
-  entityEvent->sectorName  = *entmsg.getSector();
+
+  unsigned short sector_id = entmsg.getSectorId();
+  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+  const csString* sector = sectormgr->GetSectorName(sector_id);
+  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
+
   entityEvent->entityId    = entmsg.getEntityId();
   entityEvent->entityType  = EntityEvent::ItemEntity; 
 
@@ -337,7 +362,12 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   entityEvent->meshName    = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position    = pos;
-  entityEvent->sectorName  = *entmsg.getSector();
+
+  unsigned short sector_id = entmsg.getSectorId();
+  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+  const csString* sector = sectormgr->GetSectorName(sector_id);
+  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
+
   entityEvent->entityId    = entmsg.getEntityId();
   entityEvent->entityType  = EntityEvent::MountEntity; 
 
@@ -374,4 +404,8 @@ void EntityHandler::handleUnmount(GenericMessage* msg)
   entityEvent->mount				= false;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+}
+
+void EntityHandler::handlePose(GenericMessage* msg)
+{
 }

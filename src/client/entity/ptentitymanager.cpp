@@ -17,6 +17,7 @@
 */
 
 #include "client/entity/ptentitymanager.h"
+#include "client/sector/sectormanager.h"
 
 #include <iutil/objreg.h>
 #include <imap/loader.h>
@@ -353,9 +354,16 @@ namespace PT
             drmsg.setRotation(rot);
             drmsg.setPos(pos.x,pos.y,pos.z);
             if (sector && sector->QueryObject()->GetName())
-              drmsg.setSector(ptString(sector->QueryObject()->GetName(), strlen(sector->QueryObject()->GetName())));
+            {
+              SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+              uint sectorid = sectormgr->GetSectorId(sector->QueryObject()->GetName());
+              drmsg.setSectorId(sectorid);
+            }
             else
-              drmsg.setSector(ptString(0,0));
+            {
+              return; // no sector? something odd, isn't it?
+              //drmsg.setSectorId(0);
+            }
 
             PointerLibrary::getInstance()->getNetwork()->send(&drmsg);
           }

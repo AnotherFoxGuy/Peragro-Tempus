@@ -7,6 +7,7 @@ SubInclude TOP src client effects ;
 SubInclude TOP src client entity ;
 SubInclude TOP src client combat ;
 SubInclude TOP src client item ;
+SubInclude TOP src client sector ;
 SubInclude TOP src client pointer ;
 SubInclude TOP src client console ;
 SubInclude TOP src client event ;

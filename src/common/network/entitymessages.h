@@ -53,7 +53,9 @@ namespace ENTITY
     MOUNTREQUEST=25,
     MOUNT=26,
     UNMOUNTREQUEST=27,
-    UNMOUNT=28
+    UNMOUNT=28,
+    POSEREQUEST=29,
+    POSE=30
   };
 }
 
@@ -62,9 +64,9 @@ class AddNpcEntityMessage : public NetMessage
   ptString name;
   ptString mesh;
   float pos[3];
-  ptString sector;
   unsigned short sectorid;
   unsigned int entityid;
+  unsigned char poseid;
 
 public:
   AddNpcEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDNPCENTITY)
@@ -96,14 +98,14 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  ptString getSector() { return sector; }
-  void setSector(ptString x) { sector = x; }
-
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
+
+  unsigned char getPoseId() { return poseid; }
+  void setPoseId(unsigned char x) { poseid = x; }
 
 };
 
@@ -112,7 +114,6 @@ class AddItemEntityMessage : public NetMessage
   unsigned int itemid;
   unsigned int variation;
   float pos[3];
-  ptString sector;
   unsigned short sectorid;
   unsigned int entityid;
 
@@ -145,9 +146,6 @@ public:
   {
     setPos(x[0], x[1], x[2]);
   }
-
-  ptString getSector() { return sector; }
-  void setSector(ptString x) { sector = x; }
 
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
@@ -202,9 +200,9 @@ class AddPlayerEntityMessage : public NetMessage
   unsigned char haircolour[3];
   unsigned char skincolour[3];
   unsigned char decalcolour[3];
-  ptString sector;
   unsigned short sectorid;
   unsigned int entityid;
+  unsigned char poseid;
   class ListEquipment
   {
   public:
@@ -283,14 +281,14 @@ public:
     setDecalColour(x[0], x[1], x[2]);
   }
 
-  ptString getSector() { return sector; }
-  void setSector(ptString x) { sector = x; }
-
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
+
+  unsigned char getPoseId() { return poseid; }
+  void setPoseId(unsigned char x) { poseid = x; }
 
   unsigned char getEquipmentCount() { return equipmentcount; }
   void setEquipmentCount(unsigned char ic)
@@ -797,7 +795,6 @@ class TeleportMessage : public NetMessage
 {
   unsigned int entityid;
   float pos[3];
-  ptString sector;
   unsigned short sectorid;
 
 public:
@@ -827,9 +824,6 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  ptString getSector() { return sector; }
-  void setSector(ptString x) { sector = x; }
-
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
@@ -839,7 +833,6 @@ class DrUpdateRequestMessage : public NetMessage
 {
   float pos[3];
   float rotation;
-  ptString sector;
   unsigned short sectorid;
 
 public:
@@ -869,9 +862,6 @@ public:
   float getRotation() { return rotation; }
   void setRotation(float x) { rotation = x; }
 
-  ptString getSector() { return sector; }
-  void setSector(ptString x) { sector = x; }
-
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
@@ -881,7 +871,6 @@ class DrUpdateMessage : public NetMessage
 {
   float pos[3];
   float rotation;
-  ptString sector;
   unsigned short sectorid;
   unsigned int entityid;
 
@@ -911,9 +900,6 @@ public:
 
   float getRotation() { return rotation; }
   void setRotation(float x) { rotation = x; }
-
-  ptString getSector() { return sector; }
-  void setSector(ptString x) { sector = x; }
 
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
@@ -998,7 +984,6 @@ class AddMountEntityMessage : public NetMessage
   ptString name;
   ptString mesh;
   float pos[3];
-  ptString sector;
   unsigned short sectorid;
   unsigned int entityid;
   unsigned int inventoryid;
@@ -1032,9 +1017,6 @@ public:
   {
     setPos(x[0], x[1], x[2]);
   }
-
-  ptString getSector() { return sector; }
-  void setSector(ptString x) { sector = x; }
 
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
@@ -1140,6 +1122,52 @@ public:
 
   unsigned int getMountEntityId() { return mountentityid; }
   void setMountEntityId(unsigned int x) { mountentityid = x; }
+
+};
+
+class PoseRequestMessage : public NetMessage
+{
+  unsigned char poseid;
+
+public:
+  PoseRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::POSEREQUEST)
+  {
+  }
+
+  ~PoseRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getPoseId() { return poseid; }
+  void setPoseId(unsigned char x) { poseid = x; }
+
+};
+
+class PoseMessage : public NetMessage
+{
+  unsigned int entityid;
+  unsigned char poseid;
+
+public:
+  PoseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::POSE)
+  {
+  }
+
+  ~PoseMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getEntityId() { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
+
+  unsigned char getPoseId() { return poseid; }
+  void setPoseId(unsigned char x) { poseid = x; }
 
 };
 

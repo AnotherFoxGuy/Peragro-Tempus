@@ -22,6 +22,7 @@
 struct iObjectRegistry;
 class Network;
 class ItemMGR;
+class SectorMGR;
 class GUIManager;
 class EffectsManager;
 class CombatMGR;
@@ -56,6 +57,7 @@ private:
   PT::Client* client;
   Network* network;
   ItemMGR* itemmanager;
+  SectorMGR* sectormanager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
   EffectsManager* effectsmanager;
@@ -71,6 +73,7 @@ public:
     client = 0;
     network = 0;
     itemmanager = 0;
+    sectormanager = 0;
     guimanager = 0;
     entitymanager = 0;
     effectsmanager = 0;
@@ -92,6 +95,9 @@ public:
 
   void setItemManager(ItemMGR* itemmanager) { this->itemmanager = itemmanager; }
   ItemMGR* getItemManager() { return this->itemmanager; }
+
+  void setSectorManager(SectorMGR* sectormanager) { this->sectormanager = sectormanager; }
+  SectorMGR* getSectorManager() { return this->sectormanager; }
 
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }

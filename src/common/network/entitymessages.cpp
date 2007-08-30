@@ -30,9 +30,9 @@ void AddNpcEntityMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
-  serial.setString(sector);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
+  serial.setInt8(poseid);
 }
 
 void AddNpcEntityMessage::deserialise(ByteStream* bs)
@@ -45,9 +45,9 @@ void AddNpcEntityMessage::deserialise(ByteStream* bs)
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
-  sector = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
   entityid = (unsigned int) serial.getInt32();
+  poseid = (unsigned char) serial.getInt8();
 }
 
 void AddItemEntityMessage::serialise(ByteStream* bs)
@@ -60,7 +60,6 @@ void AddItemEntityMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
-  serial.setString(sector);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
 }
@@ -75,7 +74,6 @@ void AddItemEntityMessage::deserialise(ByteStream* bs)
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
-  sector = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
   entityid = (unsigned int) serial.getInt32();
 }
@@ -123,9 +121,9 @@ void AddPlayerEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(decalcolour[0]);
   serial.setInt8(decalcolour[0]);
   serial.setInt8(decalcolour[0]);
-  serial.setString(sector);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
+  serial.setInt8(poseid);
   serial.setInt8(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {
@@ -153,9 +151,9 @@ void AddPlayerEntityMessage::deserialise(ByteStream* bs)
   decalcolour[0] = (unsigned char) serial.getInt8();
   decalcolour[1] = (unsigned char) serial.getInt8();
   decalcolour[2] = (unsigned char) serial.getInt8();
-  sector = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
   entityid = (unsigned int) serial.getInt32();
+  poseid = (unsigned char) serial.getInt8();
   equipmentcount = (unsigned char) serial.getInt8();
   setEquipmentCount(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
@@ -497,7 +495,6 @@ void TeleportMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
-  serial.setString(sector);
   serial.setInt16(sectorid);
 }
 
@@ -510,7 +507,6 @@ void TeleportMessage::deserialise(ByteStream* bs)
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
-  sector = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
 }
 
@@ -523,7 +519,6 @@ void DrUpdateRequestMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
   serial.setFloat(rotation);
-  serial.setString(sector);
   serial.setInt16(sectorid);
 }
 
@@ -536,7 +531,6 @@ void DrUpdateRequestMessage::deserialise(ByteStream* bs)
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
   rotation = serial.getFloat();
-  sector = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
 }
 
@@ -549,7 +543,6 @@ void DrUpdateMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
   serial.setFloat(rotation);
-  serial.setString(sector);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
 }
@@ -563,7 +556,6 @@ void DrUpdateMessage::deserialise(ByteStream* bs)
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
   rotation = serial.getFloat();
-  sector = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
   entityid = (unsigned int) serial.getInt32();
 }
@@ -624,7 +616,6 @@ void AddMountEntityMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
-  serial.setString(sector);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
   serial.setInt32(inventoryid);
@@ -640,7 +631,6 @@ void AddMountEntityMessage::deserialise(ByteStream* bs)
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
-  sector = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
   entityid = (unsigned int) serial.getInt32();
   inventoryid = (unsigned int) serial.getInt32();
@@ -714,5 +704,39 @@ void UnmountMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   playerentityid = (unsigned int) serial.getInt32();
   mountentityid = (unsigned int) serial.getInt32();
+}
+
+void PoseRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(poseid);
+}
+
+void PoseRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  poseid = (unsigned char) serial.getInt8();
+}
+
+void PoseMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(entityid);
+  serial.setInt8(poseid);
+}
+
+void PoseMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  entityid = (unsigned int) serial.getInt32();
+  poseid = (unsigned char) serial.getInt8();
 }
 

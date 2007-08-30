@@ -21,6 +21,7 @@
 #include "server/entity/entity.h"
 #include "server/entity/itementity.h"
 #include "server/entity/mountentity.h"
+#include "server/entity/sectormanager.h"
 #include "server/entity/statmanager.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/race.h"
@@ -88,7 +89,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   //printf("DR of %s: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", name, request_msg.getSpeed(), request_msg.getPos()[0], request_msg.getPos()[1], request_msg.getPos()[2], request_msg.getRot());
   
   user_ent->setPos(request_msg.getPos());
-  user_ent->setSector(request_msg.getSector());
+  user_ent->setSector(request_msg.getSectorId());
   user_ent->freeLock();
 
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
@@ -96,7 +97,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   DrUpdateMessage response_msg;
   response_msg.setRotation(request_msg.getRotation());
   response_msg.setPos(request_msg.getPos());
-  response_msg.setSector(request_msg.getSector());
+  response_msg.setSectorId(request_msg.getSectorId());
   response_msg.setEntityId(name_id);
   ByteStream bs;
   response_msg.serialise(&bs);
@@ -422,7 +423,8 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
   telemsg.setEntityId(name_id);
-  telemsg.setSector(race->getSector());
+  unsigned short sector_id = server->getSectorManager()->getSectorId(race->getSector());
+  telemsg.setSectorId(sector_id);
   telemsg.setPos(race->getPos());
 
   ByteStream bs;
@@ -513,4 +515,8 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   umount_msg.serialise(&bs);
 
   NetworkHelper::broadcast(bs);
+}
+
+void EntityHandler::handlePoseRequest(GenericMessage* msg)
+{
 }

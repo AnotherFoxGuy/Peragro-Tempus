@@ -66,6 +66,7 @@ class GUIManager;
 class EffectsManager;
 class CombatMGR;
 class ItemMGR;
+class SectorMGR;
 class PtConsole;
 class Cursor;
 
@@ -160,6 +161,7 @@ namespace PT
     PT::Entity::EntityManager* entitymanager;
     CombatMGR* combatmanager;
     ItemMGR* itemmanager;
+    SectorMGR* sectormanager;
     Cursor* cursor;
     PtConsole* ptconsole;
     PT::InputManager *inputMgr;
