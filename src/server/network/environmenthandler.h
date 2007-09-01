@@ -42,8 +42,6 @@ public:
   {
     char type = msg->getMsgType();
     if (type != MESSAGES::ENVIRONMENT) assert("wrong message type");
-    char id = msg->getMsgId();
-
   }
 
 };

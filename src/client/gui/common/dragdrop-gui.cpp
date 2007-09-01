@@ -274,7 +274,6 @@ void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
   }
   else
   {
-    Object* object = oldslot->GetObject();
     oldslot->MoveObjectTo(newslot);
   }
 }

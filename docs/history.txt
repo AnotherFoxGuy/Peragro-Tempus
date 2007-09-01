@@ -11,6 +11,8 @@ under each day.
   - swedishcoder fixes warning in inventory.
   - swedishcoder fixes warning in eventhandler.
   - swedishcoder fixes warning in command.h.
+  - swedishcoder removed a lot of unused variables to minimize the amount of
+    warnings.
 
 30-Aug-2007
   - PK added networkmessages to support character poses, sitting and such.

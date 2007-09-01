@@ -336,7 +336,6 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
   }
   // Get your own entity.
   iCelEntity* attacker = entitymgr->getOwnCelEntity();
-  unsigned int attackerId = entitymgr->GetOwnId();
 
   // Lookup the ID to get the actual entity.
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);

@@ -38,7 +38,6 @@ bool OkDialogWindow::OnOkButton(const CEGUI::EventArgs& args)
 {
   using namespace CEGUI;
 
-  const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
   winMgr->destroyWindow(rootwindow);
 
   return true;
@@ -88,7 +87,6 @@ bool ConfirmDialogWindow::OnYesButton(const CEGUI::EventArgs& args)
 {
   using namespace CEGUI;
 
-  const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
   winMgr->destroyWindow(rootwindow);
 
   return true;
@@ -98,7 +96,6 @@ bool ConfirmDialogWindow::OnNoButton(const CEGUI::EventArgs& args)
 {
   using namespace CEGUI;
 
-  const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
   winMgr->destroyWindow(rootwindow);
 
   return true;

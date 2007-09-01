@@ -223,7 +223,6 @@ void HUDWindow::SetActiveSkill(CEGUI::Window* window)
     window->setAlpha(1.0f);
 
     // Set the new window as the selected one
-    selectedskill->SkillWindow = window;
     selectedskill->SkillId     =  atoi( (window->getUserString("skillid")).c_str() ); 
   }
 }

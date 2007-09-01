@@ -64,8 +64,6 @@ void TradeSession::exchange()
   Character* char2 = peer2->getEntity()->getCharacter()->getLock();
   Inventory* inv2 = char2->getInventory();
 
-  ItemManager* item_mgr = Server::getServer()->getItemManager();
-
   for (size_t i=0; i<offer1.getCount(); i++)
   {
     const InventoryEntry offer = *offer1.get(i).item;

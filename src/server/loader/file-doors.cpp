@@ -51,8 +51,8 @@ void DoorsFile::load()
       ->FirstChild()->ToText()->Value();
     const char* sector = itemNode->FirstChildElement("sector")
       ->FirstChild()->ToText()->Value();
-    unsigned int key = atoi(itemNode->FirstChildElement("keyId")
-      ->FirstChild()->ToText()->Value());
+    //unsigned int key = atoi(itemNode->FirstChildElement("keyId")
+    //  ->FirstChild()->ToText()->Value());
 
     const char* str_x = itemNode->FirstChildElement("position")->Attribute("x");
     const char* str_y = itemNode->FirstChildElement("position")->Attribute("y");

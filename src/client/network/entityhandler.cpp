@@ -227,7 +227,6 @@ void EntityHandler::handleSkillsList(GenericMessage* msg)
   skill_msg.deserialise(msg->getByteStream());
   Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d skill(s) for the Character:", skill_msg.getSkillsCount());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<skill_msg.getSkillsCount(); i++)
   {
     //guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
@@ -240,7 +239,6 @@ void EntityHandler::handleEquip(GenericMessage* msg)
 {
   EquipMessage equip_msg;
   equip_msg.deserialise(msg->getByteStream());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   using namespace PT::Events;
   EntityEquipEvent* entityEvent = new EntityEquipEvent();

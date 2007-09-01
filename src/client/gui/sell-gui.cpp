@@ -108,11 +108,11 @@ void SellWindow::CreateGUIWindow()
   accept1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SellWindow::OnAccept, this));
 
   // Populate the Player1 bag with slots.
-  CEGUI::Window* bag1 = winMgr->getWindow("SellWindow/UpperSlots/UpperBag");
+  //CEGUI::Window* bag1 = winMgr->getWindow("SellWindow/UpperSlots/UpperBag");
   //dragdrop->CreateBag(bag1, &upperslots, Inventory::SellUpper, DragDrop::Item, 3, 4);
 
   // Populate the lower bag with slots.
-  CEGUI::Window* bag2 = winMgr->getWindow("SellWindow/LowerSlots/LowerBag");
+  //CEGUI::Window* bag2 = winMgr->getWindow("SellWindow/LowerSlots/LowerBag");
   //dragdrop->CreateBag(bag2, &lowerslots, Inventory::SellLower, DragDrop::Item, 2, 4);
 
 }

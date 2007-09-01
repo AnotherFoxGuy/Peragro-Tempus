@@ -437,8 +437,6 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
-  int name_id = user_ent->getId();
-
   MountRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
@@ -484,8 +482,6 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 {
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
-
-  int name_id = user_ent->getId();
 
   UnmountRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());

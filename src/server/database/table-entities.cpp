@@ -214,7 +214,6 @@ const Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
     }
     case Entity::MountEntityType:
     {
-      int packeddata = atoi(rs->GetData(i,3).c_str());
       MountEntity* ent = new MountEntity();
       entity = ent->getEntity();
       break;
