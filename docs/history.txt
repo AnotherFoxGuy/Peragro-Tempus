@@ -9,6 +9,7 @@ under each day.
   - swedishcoder fixes warning in eventmanager.
   - swedishcoder fixes warnings in timer and event handler.
   - swedishcoder fixes warning in inventory.
+  - swedishcoder fixes warning in eventhandler.
 
 30-Aug-2007
   - PK added networkmessages to support character poses, sitting and such.

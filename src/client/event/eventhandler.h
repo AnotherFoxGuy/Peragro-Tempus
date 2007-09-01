@@ -30,6 +30,7 @@ namespace PT
     {
     public:
       virtual bool HandleEvent(Eventp ev) = 0;
+      virtual ~EventHandlerCallback() { };
     };
 
     template <class Class> class EventHandler : public EventHandlerCallback
