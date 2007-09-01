@@ -18,6 +18,7 @@
 #ifndef PRINTHELPER_H
 #define PRINTHELPER_H
 
+#define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
 // Fix, in order to be able to use printf safe on win32 and linux 32/64

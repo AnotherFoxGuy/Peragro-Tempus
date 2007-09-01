@@ -23,6 +23,8 @@
 #include "server/entity/item.h"
 #include "server/entity/inventory.h"
 #include "server/entity/pcentity.h"
+#include "common/util/printhelper.h"
+#include "inttypes.h"
 
 TradePeer* TradePeer::getOtherPeer()
 {
@@ -143,10 +145,11 @@ void TradePeer::debugPrint()
   printf("====================================================\n");
   printf("TradePeer of %s\n", *getEntity()->getCharacter()->getName());
   printf("----------------------------------------------------\n");
-  printf("Session: %x\n", (intptr_t) session);
+  printf("Session: %" PRIxPTR "\n", (intptr_t) session);
   if (session)
   {
-    printf("Session peers: 1) %x \t 2) %x\n", (intptr_t) session->peer1, (intptr_t) session->peer2);
+    printf("Session peers: 1) %" PRIxPTR " \t 2) %" PRIxPTR "\n",
+           (intptr_t) session->peer1, (intptr_t) session->peer2);
   }
   printf("----------------------------------------------------\n");
 }
