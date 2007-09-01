@@ -44,7 +44,7 @@ private:
 
     int entity_id;
 
-    SpawnPoint() : pickTime(0), entity_id(0), variation(0) {}
+    SpawnPoint() : variation(0), pickTime(0), entity_id(0) {}
     ~SpawnPoint() { }
   };
 

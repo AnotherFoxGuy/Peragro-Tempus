@@ -14,6 +14,7 @@ under each day.
   - swedishcoder removed a lot of unused variables to minimize the amount of
     warnings.
   - swedishcoder fixed SCF warnings.
+  - swedishcoder fixed initialization order warnings.
 
 30-Aug-2007
   - PK added networkmessages to support character poses, sitting and such.
