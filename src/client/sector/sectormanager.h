@@ -38,7 +38,7 @@ struct iDocument;
 class SectorMGR
 {
 private:
-  csHash<csString, uint> sectors;
+  csHash<csString> sectors;
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;

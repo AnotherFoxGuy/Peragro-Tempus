@@ -83,7 +83,7 @@ bool SectorMGR::Initialize ()
 
     sectors.Put(id, name);
 
-    Report(PT::Debug, "%d : %s", id, name);
+    Report(PT::Debug, "%d : %s", id, name.GetData());
   }
   Report(PT::Debug, "================================= %d sector(s)\n", sectors.GetSize()-1);
 

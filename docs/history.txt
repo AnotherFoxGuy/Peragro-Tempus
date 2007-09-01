@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+01-Sep-2007
+  - swedishcoder fixes some bugs in the new sectormanager.
+
 30-Aug-2007
   - PK added networkmessages to support character poses, sitting and such.
   - PK changed the networkmessages to use sector ids instead of strings.
