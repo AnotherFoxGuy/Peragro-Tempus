@@ -186,6 +186,9 @@
 				RelativePath="..\..\src\common\util\mutex.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\printhelper.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\ptstring.h">
 			</File>
 			<File
