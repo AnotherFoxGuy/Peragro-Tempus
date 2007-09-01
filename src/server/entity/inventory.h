@@ -50,7 +50,7 @@ private:
   }
 
 public:
-  Inventory(unsigned char slots) : invtab(0), entries(slots, 0)
+  Inventory(unsigned char slots) : entries(slots, 0), invtab(0)
   {
     unsigned int item = Item::NoItem;
     for(unsigned char i = 0; i < slots; i++)
