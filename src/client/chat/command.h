@@ -40,6 +40,7 @@ namespace PT
       virtual const char* GetDescription () = 0;
       virtual void Help () = 0;
       virtual void Execute (const StringArray& args) = 0;
+      virtual ~Command() { };
     };
 
     typedef boost::shared_ptr<Command> Commandp;
