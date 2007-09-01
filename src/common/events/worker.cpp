@@ -21,6 +21,7 @@
 #include "engine.h"
 #include "handlerhome.h"
 #include "common/util/sleep.h"
+#include "common/util/printhelper.h"
 
 EventWorker::EventWorker(EventEngine* engine, size_t id) : engine(engine), id(id)
 {
@@ -45,7 +46,8 @@ void EventWorker::Run()
     // handle event
     for (size_t i=0; i<handlers.getHandlerCount(ev->type); i++)
     {
-      printf("Worker %i handled event %i (%i events total)\n", id, ev->num1, count);
+      printf("Worker %" SIZET " handled event %" SIZET " (%" SIZET 
+             " events total)\n", id, ev->num1, count);
       handlers.getHandler(ev->type, i)->handle(ev);
     }
   }

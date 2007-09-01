@@ -1,6 +1,7 @@
 #include "common/events/engine.h"
 #include "dummyhandler.h"
 #include "common/util/wincrashdump.h"
+#include "common/util/printhelper.h"
 
 int main(int argc, char ** argv)
 {
@@ -27,12 +28,12 @@ int main(int argc, char ** argv)
     ev->num1 = i;
     eng.addEvent(ev);
 
-    printf("Remaining Events: %i\n", eng.getEventCount());
+    printf("Remaining Events: %" SIZET "\n", eng.getEventCount());
   }
 
   while(eng.getEventCount())
   {
-    printf("Remaining Events: %i\n", eng.getEventCount());
+    printf("Remaining Events: %" SIZET "\n", eng.getEventCount());
     pt_sleep(1);
   }
 

@@ -21,6 +21,7 @@
 
 #include "common/util/array.h"
 #include "common/util/ptstring.h"
+#include "common/util/printhelper.h"
 
 namespace Sector
 {
@@ -63,7 +64,8 @@ public:
     if (sectors.getCount()+1 == id)
       sectors.add(name);
     else
-      printf("Sectors out of order! Expected sector id %d but got %d!\n", sectors.getCount(), id);
+      printf("Sectors out of order! Expected sector id %" SIZET 
+             " but got %d!\n", sectors.getCount(), id);
   }
 };
 

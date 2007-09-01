@@ -15,6 +15,7 @@ under each day.
     warnings.
   - swedishcoder fixed SCF warnings.
   - swedishcoder fixed initialization order warnings.
+  - swedishcoder fixed all warnings where printf expected int but got size_t.
 
 30-Aug-2007
   - PK added networkmessages to support character poses, sitting and such.

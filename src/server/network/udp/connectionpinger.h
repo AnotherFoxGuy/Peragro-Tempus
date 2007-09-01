@@ -24,6 +24,7 @@
 #include "common/network/messagehandler.h"
 #include "server/network/udp/udpnetwork.h"
 #include "server/network/udp/connectionmanager.h"
+#include "common/util/printhelper.h"
 
 class UdpConnectionPinger : public Thread
 {
@@ -43,7 +44,7 @@ private:
       //printf("Connection last seen: %i ", last_seen);
       if (last_seen > 30)
       {
-        printf("Connection %i timed out!\n", i);
+        printf("Connection %" SIZET " timed out!\n", i);
         connection->peerLost();
         conn_mgr->delConnection(i);
       }

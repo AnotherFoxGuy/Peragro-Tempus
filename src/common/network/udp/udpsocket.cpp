@@ -35,6 +35,7 @@
 #endif
 
 #include "udpsocket.h"
+#include "common/util/printhelper.h"
 
 Socket::Socket()
 {
@@ -114,7 +115,8 @@ int Socket::receive(char* msg, size_t length, SocketAddress* sockaddr)
 #endif
     if (error != 0)
     {
-      printf("Error at NetSocket::receive(...): error code: %d\n", error);
+      printf("Error at NetSocket::receive(...): error code: %" SIZET "\n",
+             error);
     }
   }
 
