@@ -33,7 +33,7 @@ private:
 
 public:
   virtual void handle(Event*) = 0;
-  virtual ~EventHandler();
+  virtual ~EventHandler() { };
 
 };
 

@@ -262,6 +262,8 @@ bool HUDWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 {
   using namespace CEGUI;
 
+  const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
+
   CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");
 
   CEGUI::Window* slot = 0;
