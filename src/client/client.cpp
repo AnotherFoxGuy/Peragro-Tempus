@@ -102,6 +102,7 @@ namespace PT
     eventmanager = 0;
     chatmanager = 0;
     trademanager = 0;
+    sectormanager = 0;
   }
 
   Client::~Client()
@@ -116,6 +117,7 @@ namespace PT
     delete inputMgr;
     delete reporter;
     delete trademanager;
+    delete sectormanager;
   }
 
   void Client::PreProcessFrame()
