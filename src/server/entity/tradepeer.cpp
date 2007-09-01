@@ -24,7 +24,6 @@
 #include "server/entity/inventory.h"
 #include "server/entity/pcentity.h"
 #include "common/util/printhelper.h"
-#include "inttypes.h"
 
 TradePeer* TradePeer::getOtherPeer()
 {
