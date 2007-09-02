@@ -31,6 +31,8 @@
 #include <iutil/strset.h>
 #include <iutil/document.h>
 
+#include <string>
+
 struct iObjectRegistry;
 struct iLoader;
 struct iDocument;
@@ -38,7 +40,9 @@ struct iDocument;
 class SectorMGR
 {
 private:
-  csHash<csString> sectors;
+  csArray<std::string> sectors;
+
+  std::string errorSector;
 
   csRef<iEngine> engine;
   csRef<iVFS> vfs;
@@ -49,8 +53,8 @@ public:
   SectorMGR(iObjectRegistry* obj_reg);
   ~SectorMGR();
   bool Initialize();
-  uint GetSectorId(const char* name) const;
-  const csString* GetSectorName(uint id) const;
+  unsigned int GetSectorId(const char* name) const;
+  const std::string& GetSectorName(unsigned int id) const;
 };
 
 #endif // SECTORMANAGER_H

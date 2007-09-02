@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+02-Sep-2007
+  - Sueastside moved the usage of sectormanager out
+    of the network thread.
+
 01-Sep-2007
   - swedishcoder fixes some bugs in the new sectormanager.
   - swedishcoder fixes warning in eventmanager.

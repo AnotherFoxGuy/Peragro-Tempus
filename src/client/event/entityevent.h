@@ -89,7 +89,7 @@ namespace PT
       std::string meshName;
       unsigned int meshId;
       csVector3 position;
-      std::string sectorName;
+      unsigned int sectorId;
 
       struct SlotAndItem
       {
@@ -187,7 +187,7 @@ namespace PT
     {
     public:
       csVector3 position;
-      std::string sectorName;
+      unsigned int sectorId;
 
     public:
       EntityTeleportEvent() : EntityEvent("EntityTeleportEvent", true) {}
@@ -202,7 +202,7 @@ namespace PT
     public:
       float rotation;
       csVector3 position;
-      std::string sectorName;
+      unsigned int sectorId;
 
     public:
       EntityDrUpdateEvent() : EntityEvent("EntityDrUpdateEvent", true) {}

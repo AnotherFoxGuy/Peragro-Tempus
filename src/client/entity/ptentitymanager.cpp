@@ -211,11 +211,14 @@ namespace PT
         return true;
       }
 
+      SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+      std::string sectorName = sectormgr->GetSectorName(entityAddEv->sectorId);
+
       entity->SetId(entityAddEv->entityId);
       entity->SetName(entityAddEv->entityName.c_str());
       entity->SetMeshName(entityAddEv->meshName.c_str());
       entity->SetPosition(entityAddEv->position);
-      entity->SetSectorName(entityAddEv->sectorName.c_str());
+      entity->SetSectorName(sectorName.c_str());
 
       if (own_char_id == entity->GetId())
         ((PtPcEntity*)entity)->SetOwnEntity(true);
@@ -357,6 +360,7 @@ namespace PT
             {
               SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
               uint sectorid = sectormgr->GetSectorId(sector->QueryObject()->GetName());
+              Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), sectorid);
               drmsg.setSectorId(sectorid);
             }
             else

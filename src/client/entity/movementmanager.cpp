@@ -24,6 +24,8 @@
 #include "client/event/eventmanager.h"
 #include "client/reporter/reporter.h"
 
+#include "client/sector/sectormanager.h"
+
 namespace PT
 {
   namespace Entity
@@ -225,18 +227,22 @@ namespace PT
       EntityTeleportEvent* entityMoveEv = GetEntityEvent<EntityTeleportEvent*>(ev);
       if (!entityMoveEv) return false;
 
-      int id = entityMoveEv->entityId;
+      unsigned int entityId = entityMoveEv->entityId;
+      unsigned int sectorId = entityMoveEv->sectorId;
 
-      PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
+      SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+      std::string sectorName = sectormgr->GetSectorName(sectorId);
+
+      PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
       if (!entity)
       {
-        Report(PT::Error, "MovementManager: Couldn't find entity with ID %d!", id);
+        Report(PT::Error, "MovementManager: Couldn't find entity with ID %d!", entityId);
         return true;
       }
 
-      Report(PT::Debug, "MovementManager: Teleporting entity '%d'", id);
+      Report(PT::Debug, "MovementManager: Teleporting entity '%d'", entityId);
 
-      entity->Teleport(entityMoveEv->position, entityMoveEv->sectorName.c_str());
+      entity->Teleport(entityMoveEv->position, sectorName.c_str());
 
       return true;
     }
@@ -248,7 +254,11 @@ namespace PT
       EntityDrUpdateEvent* entityMoveEv = GetEntityEvent<EntityDrUpdateEvent*>(ev);
       if (!entityMoveEv) return false;
 
-      int id = entityMoveEv->entityId;
+      unsigned int id = entityMoveEv->entityId;
+      unsigned int sectorId = entityMoveEv->sectorId;
+
+      SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+      std::string sectorName = sectormgr->GetSectorName(sectorId);
 
       PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)
@@ -258,10 +268,10 @@ namespace PT
       }
 
       DrUpdateData* drupdate	= new DrUpdateData();
-      drupdate->entity_id			= entityMoveEv->entityId;
-      drupdate->pos						= entityMoveEv->position;
-      drupdate->rot						= entityMoveEv->rotation;
-      drupdate->sector				= entityMoveEv->sectorName.c_str();
+      drupdate->entity_id	= entityMoveEv->entityId;
+      drupdate->pos		= entityMoveEv->position;
+      drupdate->rot		= entityMoveEv->rotation;
+      drupdate->sector		= sectorName.c_str();
 
       entity->DrUpdate(drupdate);
       delete drupdate;
@@ -285,10 +295,10 @@ namespace PT
         return true;
       }
 
-      UpdatePcPropData* updatePcprop	= new UpdatePcPropData();
-      updatePcprop->entity_id					= entityMoveEv->entityId;
-      updatePcprop->pcprop						= entityMoveEv->pcprop.c_str();
-      updatePcprop->value							= entityMoveEv->celdata;
+      UpdatePcPropData* updatePcprop  = new UpdatePcPropData();
+      updatePcprop->entity_id	      = entityMoveEv->entityId;
+      updatePcprop->pcprop	      = entityMoveEv->pcprop.c_str();
+      updatePcprop->value	      = entityMoveEv->celdata;
 
       entity->UpdatePcProp(updatePcprop);
       delete updatePcprop;

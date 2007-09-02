@@ -28,8 +28,6 @@
 #include "client/event/entityevent.h"
 #include "client/event/tradeevent.h"
 
-#include "client/sector/sectormanager.h"
-
 #include "client/reporter/reporter.h"
 
 void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
@@ -41,18 +39,13 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   using namespace PT::Events;
   EntityAddEvent* entityEvent = new EntityAddEvent();
 
-  entityEvent->entityName  = *entmsg.getName();
-  entityEvent->meshName    = *entmsg.getMesh();
+  entityEvent->entityName   = *entmsg.getName();
+  entityEvent->meshName     = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
-  entityEvent->position    = pos;
-
-  unsigned short sector_id = entmsg.getSectorId();
-  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-  const csString* sector = sectormgr->GetSectorName(sector_id);
-  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
-
-  entityEvent->entityId    = entmsg.getEntityId();
-  entityEvent->entityType  = EntityEvent::NPCEntity; 
+  entityEvent->position     = pos;
+  entityEvent->sectorId	    = entmsg.getSectorId();
+  entityEvent->entityId     = entmsg.getEntityId();
+  entityEvent->entityType   = EntityEvent::NPCEntity; 
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -151,14 +144,10 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   using namespace PT::Events;
   EntityDrUpdateEvent* entityEvent = new EntityDrUpdateEvent();
 
-  entityEvent->entityId				= dr_msg.getEntityId();
-  entityEvent->position				= csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
-  entityEvent->rotation				= dr_msg.getRotation();
-
-  unsigned short sector_id = dr_msg.getSectorId();
-  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-  const csString* sector = sectormgr->GetSectorName(sector_id);
-  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
+  entityEvent->entityId	= dr_msg.getEntityId();
+  entityEvent->position	= csVector3(dr_msg.getPos()[0],dr_msg.getPos()[1],dr_msg.getPos()[2]);
+  entityEvent->rotation	= dr_msg.getRotation();
+  entityEvent->sectorId	= dr_msg.getSectorId();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -212,10 +201,10 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
   using namespace PT::Events;
   EntityMoveToEvent* entityEvent = new EntityMoveToEvent();
 
-  entityEvent->entityId			= move_msg.getEntityId();
-  entityEvent->origin				= csVector3(fv1[0],fv1[1],fv1[2]);
-  entityEvent->destination	= csVector3(fv2[0],fv2[1],fv2[2]);
-  entityEvent->speed				= move_msg.getSpeed();
+  entityEvent->entityId	    = move_msg.getEntityId();
+  entityEvent->origin	    = csVector3(fv1[0],fv1[1],fv1[2]);
+  entityEvent->destination  = csVector3(fv2[0],fv2[1],fv2[2]);
+  entityEvent->speed	    = move_msg.getSpeed();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -243,9 +232,9 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   using namespace PT::Events;
   EntityEquipEvent* entityEvent = new EntityEquipEvent();
 
-  entityEvent->entityId			= equip_msg.getEntityId();
-  entityEvent->slotId				= equip_msg.getSlotId();
-  entityEvent->itemId				= equip_msg.getItemId();
+  entityEvent->entityId	= equip_msg.getEntityId();
+  entityEvent->slotId	= equip_msg.getSlotId();
+  entityEvent->itemId	= equip_msg.getItemId();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -272,13 +261,9 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
   using namespace PT::Events;
   EntityTeleportEvent* entityEvent = new EntityTeleportEvent();
 
-  entityEvent->entityId			= telemsg.getEntityId();
-  entityEvent->position			= csVector3(telemsg.getPos()[0],telemsg.getPos()[1],telemsg.getPos()[2]);
-
-  unsigned short sector_id = telemsg.getSectorId();
-  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-  const csString* sector = sectormgr->GetSectorName(sector_id);
-  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
+  entityEvent->entityId	= telemsg.getEntityId();
+  entityEvent->position	= csVector3(telemsg.getPos()[0],telemsg.getPos()[1],telemsg.getPos()[2]);
+  entityEvent->sectorId = telemsg.getSectorId();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -292,18 +277,13 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   using namespace PT::Events;
   EntityAddEvent* entityEvent = new EntityAddEvent();
 
-  entityEvent->entityName  = *entmsg.getName();
-  entityEvent->meshName    = *entmsg.getMesh();
+  entityEvent->entityName   = *entmsg.getName();
+  entityEvent->meshName     = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
-  entityEvent->position    = pos;
-
-  unsigned short sector_id = entmsg.getSectorId();
-  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-  const csString* sector = sectormgr->GetSectorName(sector_id);
-  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
-
-  entityEvent->entityId    = entmsg.getEntityId();
-  entityEvent->entityType  = EntityEvent::PlayerEntity; 
+  entityEvent->position     = pos;
+  entityEvent->sectorId	    = entmsg.getSectorId();
+  entityEvent->entityId     = entmsg.getEntityId();
+  entityEvent->entityType   = EntityEvent::PlayerEntity; 
 
   unsigned char itemCount = entmsg.getEquipmentCount();
   for (unsigned char i = 0; i < itemCount; i++)
@@ -332,17 +312,12 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   using namespace PT::Events;
   EntityAddEvent* entityEvent = new EntityAddEvent();
 
-  entityEvent->meshId      = entmsg.getItemId();
+  entityEvent->meshId       = entmsg.getItemId();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
-  entityEvent->position    = pos;
-
-  unsigned short sector_id = entmsg.getSectorId();
-  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-  const csString* sector = sectormgr->GetSectorName(sector_id);
-  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
-
-  entityEvent->entityId    = entmsg.getEntityId();
-  entityEvent->entityType  = EntityEvent::ItemEntity; 
+  entityEvent->position     = pos;
+  entityEvent->sectorId	    = entmsg.getSectorId();
+  entityEvent->entityId     = entmsg.getEntityId();
+  entityEvent->entityType   = EntityEvent::ItemEntity; 
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -356,18 +331,13 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   using namespace PT::Events;
   EntityAddEvent* entityEvent = new EntityAddEvent();
 
-  entityEvent->entityName  = *entmsg.getName();
-  entityEvent->meshName    = *entmsg.getMesh();
+  entityEvent->entityName   = *entmsg.getName();
+  entityEvent->meshName     = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
-  entityEvent->position    = pos;
-
-  unsigned short sector_id = entmsg.getSectorId();
-  SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-  const csString* sector = sectormgr->GetSectorName(sector_id);
-  entityEvent->sectorName  = std::string(sector->GetData(), sector->Length());
-
-  entityEvent->entityId    = entmsg.getEntityId();
-  entityEvent->entityType  = EntityEvent::MountEntity; 
+  entityEvent->position     = pos;
+  entityEvent->sectorId	    = entmsg.getSectorId();
+  entityEvent->entityId     = entmsg.getEntityId();
+  entityEvent->entityType   = EntityEvent::MountEntity; 
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -380,10 +350,10 @@ void EntityHandler::handleMount(GenericMessage* msg)
   using namespace PT::Events;
   EntityMountEvent* entityEvent = new EntityMountEvent();
 
-  entityEvent->entityId			= mount_msg.getPlayerEntityId();
-  entityEvent->mountId			= mount_msg.getMountEntityId();
-  entityEvent->control			= mount_msg.getCanControl();
-  entityEvent->mount				= true;
+  entityEvent->entityId	= mount_msg.getPlayerEntityId();
+  entityEvent->mountId	= mount_msg.getMountEntityId();
+  entityEvent->control	= mount_msg.getCanControl();
+  entityEvent->mount	= true;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -396,10 +366,10 @@ void EntityHandler::handleUnmount(GenericMessage* msg)
   using namespace PT::Events;
   EntityMountEvent* entityEvent = new EntityMountEvent();
 
-  entityEvent->entityId			= mount_msg.getPlayerEntityId();
-  entityEvent->mountId			= mount_msg.getMountEntityId();
-  entityEvent->control			= false;
-  entityEvent->mount				= false;
+  entityEvent->entityId	= mount_msg.getPlayerEntityId();
+  entityEvent->mountId	= mount_msg.getMountEntityId();
+  entityEvent->control	= false;
+  entityEvent->mount	= false;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

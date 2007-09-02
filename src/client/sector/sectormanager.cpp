@@ -40,6 +40,8 @@ SectorMGR::SectorMGR (iObjectRegistry* obj_reg)
     "crystalspace.shared.stringset");
 
   docsys = csQueryRegistry<iDocumentSystem> (obj_reg);
+
+  errorSector = "ErrorSector";
 }
 
 SectorMGR::~SectorMGR ()
@@ -79,33 +81,35 @@ bool SectorMGR::Initialize ()
   {
     csRef<iDocumentNode> child = it->Next ();
     int id = child->GetAttributeValueAsInt("id");
-    csString name ( child->GetContentsValue() );
+    std::string name ( child->GetContentsValue() );
 
     sectors.Put(id, name);
 
-    Report(PT::Debug, "%d : %s", id, name.GetData());
+    Report(PT::Debug, "%d : %s", id, name.c_str());
   }
   Report(PT::Debug, "================================= %d sector(s)\n", sectors.GetSize()-1);
 
   return true;
 }
 
-const csString* SectorMGR::GetSectorName(uint id) const
+const std::string& SectorMGR::GetSectorName(unsigned int id) const
 {
-  return sectors.GetElementPointer(id);
+  if (id < sectors.GetSize())
+  {
+    return sectors[id];
+  }
+  Report(PT::Error, "SectorMGR: Couldn't find sector %d!", id);
+  return errorSector;
 }
 
-uint SectorMGR::GetSectorId(const char* name) const
+unsigned int SectorMGR::GetSectorId(const char* name) const
 {
-  csHash<csString, uint>::ConstGlobalIterator it = sectors.GetIterator();
-
-  while( it.HasNext() ) {
-    const csTuple2<csString, uint> tuple = it.NextTuple();
-    if (tuple.first.Compare(name)) {
-      return tuple.second;
-    }
+  for (size_t i = 0; i < sectors.GetSize(); i++)
+  {
+    std::string sector = sectors[i];
+    if (sector.compare(name) == 0)
+      return i;
   }
-
   Report(PT::Error, "SectorMGR: Couldn't find sector %s!", name);
   return 0;
 }
