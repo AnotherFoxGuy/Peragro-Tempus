@@ -1,6 +1,0 @@
-SubDir TOP src client sector ;
-
-Description client-sectormanager : "client sectormanager" ;
-Library client-sectormanager :
-  [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-sectormanager : CRYSTAL CEL BOOST ;

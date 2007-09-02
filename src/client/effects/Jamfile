@@ -1,6 +1,0 @@
-SubDir TOP src client effects ;
-
-Description client-effects : "client effects" ;
-Library client-effects :
-  [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-effects : CRYSTAL CEL BOOST.FILESYSTEM ;

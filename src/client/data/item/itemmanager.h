@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef SECTORMANAGER_H
-#define SECTORMANAGER_H
+#ifndef ITEMMANAGER_H
+#define ITEMMANAGER_H
 
 #include <cssysdef.h>
 #include <csutil/ref.h>
@@ -25,36 +25,40 @@
 #include <iutil/virtclk.h>
 #include <iengine/engine.h>
 #include <csgeom/path.h>
-#include <csutil/hash.h>
-#include <csutil/csstring.h>
+#include <csutil/parray.h>
 
 #include <iutil/strset.h>
 #include <iutil/document.h>
 
-#include <string>
+#include "client/data/item/item.h"
 
 struct iObjectRegistry;
 struct iLoader;
 struct iDocument;
 
-class SectorMGR
+namespace PT
 {
-private:
-  csArray<std::string> sectors;
+  namespace Data
+  {
+    class ItemManager
+    {
+    private:
+      csPDelArray<Item> items;
 
-  std::string errorSector;
+      csRef<iEngine> engine;
+      csRef<iVFS> vfs;
+      csRef<iStringSet> stringset;
+      csRef<iDocumentSystem> docsys;
 
-  csRef<iEngine> engine;
-  csRef<iVFS> vfs;
-  csRef<iStringSet> stringset;
-  csRef<iDocumentSystem> docsys;
+    public:
+      ItemManager(iObjectRegistry* obj_reg);
+      ~ItemManager();
+      bool Initialize();
+      Item* GetItemById(uint id);
+      Item* GetItemByName(csString name);  
+    };
 
-public:
-  SectorMGR(iObjectRegistry* obj_reg);
-  ~SectorMGR();
-  bool Initialize();
-  unsigned int GetSectorId(const char* name) const;
-  const std::string& GetSectorName(unsigned int id) const;
-};
+  } // Data namespace 
+} // PT namespace 
 
-#endif // SECTORMANAGER_H
+#endif // ITEMMANAGER_H

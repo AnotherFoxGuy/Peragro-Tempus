@@ -21,15 +21,19 @@
 
 struct iObjectRegistry;
 class Network;
-class ItemMGR;
-class SectorMGR;
 class GUIManager;
-class EffectsManager;
 class CombatMGR;
 
 namespace PT
 {
   class Client;
+
+  namespace Data
+  {
+    class ItemManager;
+    class SectorManager;
+    class EffectsManager;
+  } // Data namespace 
 
   namespace Entity
   {
@@ -56,11 +60,11 @@ private:
   iObjectRegistry* objreg;
   PT::Client* client;
   Network* network;
-  ItemMGR* itemmanager;
-  SectorMGR* sectormanager;
+  PT::Data::ItemManager* itemmanager;
+  PT::Data::SectorManager* sectormanager;
+  PT::Data::EffectsManager* effectsmanager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
-  EffectsManager* effectsmanager;
   CombatMGR* combatmanager;
   PT::Events::EventManager* eventmanager;
   PT::Chat::ChatManager* chatmanager;
@@ -93,11 +97,11 @@ public:
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }
 
-  void setItemManager(ItemMGR* itemmanager) { this->itemmanager = itemmanager; }
-  ItemMGR* getItemManager() { return this->itemmanager; }
+  void setItemManager(PT::Data::ItemManager* itemmanager) { this->itemmanager = itemmanager; }
+  PT::Data::ItemManager* getItemManager() { return this->itemmanager; }
 
-  void setSectorManager(SectorMGR* sectormanager) { this->sectormanager = sectormanager; }
-  SectorMGR* getSectorManager() { return this->sectormanager; }
+  void setSectorManager(PT::Data::SectorManager* sectormanager) { this->sectormanager = sectormanager; }
+  PT::Data::SectorManager* getSectorManager() { return this->sectormanager; }
 
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }
@@ -105,8 +109,8 @@ public:
   void setEntityManager(PT::Entity::EntityManager* entitymanager) { this->entitymanager = entitymanager; }
   PT::Entity::EntityManager* getEntityManager() { return this->entitymanager; }
 
-  void setEffectsManager(EffectsManager* effectsmanager) { this->effectsmanager = effectsmanager; }
-  EffectsManager* getEffectsManager() { return this->effectsmanager; }
+  void setEffectsManager(PT::Data::EffectsManager* effectsmanager) { this->effectsmanager = effectsmanager; }
+  PT::Data::EffectsManager* getEffectsManager() { return this->effectsmanager; }
 
   void setCombatManager(CombatMGR* combatmanager) { this->combatmanager = combatmanager; }
   CombatMGR* getCombatManager() { return this->combatmanager; }

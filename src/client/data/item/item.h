@@ -27,32 +27,39 @@
 #include "csutil/ref.h"
 #include "csutil/csstring.h"
 
-class ClientItem
+namespace PT
 {
-private:
-  unsigned int id;
-  csString name;
-  csString iconname;
-  csString meshname;
-  csString filename;
-  csString description;
+  namespace Data
+  {
+    class Item
+    {
+    private:
+      unsigned int id;
+      csString name;
+      csString iconname;
+      csString meshname;
+      csString filename;
+      csString description;
 
-public:
-  ClientItem();
-  ~ClientItem();
-  unsigned int GetId() { return id; }
-  csString GetName() { return name; }
-  csString GetIconName() { return iconname;}
-  csString GetMeshName() { return meshname;}
-  csString GetFileName() { return filename;}
-  csString GetDescription() { return description;} 
+    public:
+      Item();
+      ~Item();
+      unsigned int GetId() { return id; }
+      csString GetName() { return name; }
+      csString GetIconName() { return iconname;}
+      csString GetMeshName() { return meshname;}
+      csString GetFileName() { return filename;}
+      csString GetDescription() { return description;} 
 
-  void SetId(unsigned int value) { this->id = value; }
-  void SetName(csString value) { this->name = value; }
-  void SetIconName(csString value) { this->iconname = value; }
-  void SetMeshName(csString value) { this->meshname = value; }
-  void SetFileName(csString value) { this->filename = value; }
-  void SetDescription(csString value) { this->description = value; }
-};
+      void SetId(unsigned int value) { this->id = value; }
+      void SetName(csString value) { this->name = value; }
+      void SetIconName(csString value) { this->iconname = value; }
+      void SetMeshName(csString value) { this->meshname = value; }
+      void SetFileName(csString value) { this->filename = value; }
+      void SetDescription(csString value) { this->description = value; }
+    };
+
+  } // Data namespace 
+} // PT namespace 
 
 #endif // CLIENT_ITEM_H
