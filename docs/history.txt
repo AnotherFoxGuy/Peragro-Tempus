@@ -10,6 +10,9 @@ under each day.
   - Sueastside renamed SectorMGR to SectorManager. 
   - Sueastside renamed ItemMGR to ItemManager.
   - Sueastside moved effect, item and sector to Data namespace. 
+  - swedishcoder changed how float's where serialized. The old way worked
+    under windows and debug build for linux but caused issues when building in
+    release mode under linux.
 
 01-Sep-2007
   - swedishcoder fixes some bugs in the new sectormanager.

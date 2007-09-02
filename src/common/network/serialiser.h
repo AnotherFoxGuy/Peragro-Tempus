@@ -59,7 +59,9 @@ public:
   }
   void setFloat(float value)
   {
-    setInt32(*(int*)(&value));
+    int temp = 0;
+    memcpy(&temp, &value, sizeof(int));
+    setInt32(temp);
   }
   void setString(ptString value)
   {
