@@ -1,7 +1,7 @@
 SubDir TOP src client data ;
 
 Description client-data : "client data" ;
-Library client-datamanager :
+Library client-data :
   [ Wildcard *.h *.cpp ]
   [ Wildcard [ ConcatDirs effect ] : *.h *.cpp ] 
   [ Wildcard [ ConcatDirs item ] : *.h *.cpp ] 

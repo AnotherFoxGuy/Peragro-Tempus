@@ -34,7 +34,7 @@ private:
 
 private:
   DragDrop* dragdrop;
-  ItemMGR* itemmanager;
+  PT::Data::ItemManager* itemmanager;
 
   Inventory* upperslots;
   Inventory* lowerslots;

@@ -27,9 +27,9 @@
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
-#include "client/effects/effectsmanager.h"
+#include "client/data/effect/effectsmanager.h"
 #include "client/combat/combatmanager.h"
-#include "client/item/itemmanager.h"
+#include "client/data/item/itemmanager.h"
 #include "client/entity/ptentitymanager.h"
 
 PtConsole::PtConsole ()
@@ -251,7 +251,7 @@ public:
   }
   virtual void Execute (const csStringArray& args)
   {
-    ItemMGR* itemmgr = PointerLibrary::getInstance()->getItemManager();
+    PT::Data::ItemManager* itemmgr = PointerLibrary::getInstance()->getItemManager();
     if(!itemmgr) return;
 
     if (args.GetSize() < 2)

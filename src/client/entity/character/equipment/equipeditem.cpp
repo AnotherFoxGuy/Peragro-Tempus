@@ -29,7 +29,7 @@
 #include <physicallayer/entity.h>
 #include <propclass/mesh.h>
 
-#include "client/item/itemmanager.h"
+#include "client/data/item/itemmanager.h"
 
 #include "client/pointer/pointer.h"
 #include "client/reporter/reporter.h"
@@ -51,11 +51,11 @@ void EquipedItem::ConstructMesh()
   if(!obj_reg) return;
   csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
   if(!pl.IsValid()) return;
-  ItemMGR* itemmgr =  PointerLibrary::getInstance()->getItemManager();
+  PT::Data::ItemManager* itemmgr =  PointerLibrary::getInstance()->getItemManager();
   if(!itemmgr) return;
 
   // Find the item by  ID.
-  ClientItem* item = itemmgr->GetItemById(id);
+  PT::Data::Item* item = itemmgr->GetItemById(id);
   if(item)
   {
     // Create the item.

@@ -136,7 +136,7 @@ namespace PT
     {
       for (size_t i = 0; i < items.GetSize(); i++)
       {
-        ClientItem* item = items[i];
+        Item* item = items[i];
         if(item)
           if(item->GetName().Compare(name))
             return item;

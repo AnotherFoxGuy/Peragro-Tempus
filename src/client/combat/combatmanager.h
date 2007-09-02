@@ -53,7 +53,7 @@ private:
   csRef<iCelPlLayer> pl;
 
   PT::Client* client;
-  EffectsManager* effectsmgr;
+  PT::Data::EffectsManager* effectsmgr;
   PT::Entity::EntityManager* entitymgr;
   GUIManager* guimanager;
   Network* network;

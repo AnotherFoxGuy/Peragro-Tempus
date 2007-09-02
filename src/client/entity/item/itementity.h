@@ -23,7 +23,7 @@
 
 #include "client/pointer/pointer.h"
 
-#include "client/item/itemmanager.h"
+#include "client/data/item/itemmanager.h"
 
 class PtItemEntity : public PtEntity
 {

@@ -34,7 +34,7 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 
-#include "client/effects/effectsmanager.h"
+#include "client/data/effect/effectsmanager.h"
 
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
@@ -106,18 +106,18 @@ void CombatMGR::hit (int targetId, int damage)
   // Damage is positive, we got hurt.
   if (damage > 0)
   {
-    effectsmgr->CreateEffect(getMesh(targetcel), EffectsManager::Blood);
+    effectsmgr->CreateEffect(getMesh(targetcel), PT::Data::EffectsManager::Blood);
     cal3dstate->SetAnimAction("walkcycle", 0.5f, 0.5f);
   }
   // Damage is negative, we got healed.
   else if (damage < 0)
   {
-    effectsmgr->CreateEffect(getMesh(targetcel), EffectsManager::Healeffect);
+    effectsmgr->CreateEffect(getMesh(targetcel), PT::Data::EffectsManager::Healeffect);
     //target->SetAction("heal");
   }
   else if (damage == 0)
   {
-    effectsmgr->CreateEffect(getMesh(targetcel), EffectsManager::Deflect);
+    effectsmgr->CreateEffect(getMesh(targetcel), PT::Data::EffectsManager::Deflect);
     //target->SetAction("deflect");
   }
   // Update the entity's HP(this will update the GUI aswell).
@@ -139,7 +139,7 @@ void CombatMGR::die (int targetId)
     Report(PT::Error, "CombatMGR: Couldn't find dieing entity with ID %d !", targetId);
     return;
   }
-  effectsmgr->CreateEffect(getMesh(target), EffectsManager::Die);
+  effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Die);
   //target->SetHP(0);
   // Perfrom the die animation and lock it.
   //target->SetAction("die", true);
@@ -156,7 +156,7 @@ void CombatMGR::levelup (int targetId)
     Report(PT::Error, "CombatMGR: Couldn't find entity with ID %d !", targetId);
     return;
   }
-  effectsmgr->CreateEffect(getMesh(target), EffectsManager::Levelup);
+  effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Levelup);
   //guimanager->GetCombatLog()->AddMessage("%s has gained a level.", target->GetName());
 
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
@@ -228,11 +228,11 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
   switch(skillId)
   {
   case CombatMGR::Heal:
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Levelup);
+    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Levelup);
     caststring = "starts rejuvenating";
     break;
   case CombatMGR::EnergySpear:
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Energyspear);
+    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Energyspear);
     //attacker->SetAction("casting2");
     caststring = "starts casting Energy Spear and attacks";
     break;
@@ -241,7 +241,7 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
     caststring = "starts taking a swing at";
     break;
   case CombatMGR::EnergyBind:
-    effectsmgr->CreateEffect(getMesh(caster), EffectsManager::Pentagram);
+    effectsmgr->CreateEffect(getMesh(caster), PT::Data::EffectsManager::Pentagram);
     caststring = "starts casting Energy Bind on";
     break;
 
@@ -288,11 +288,11 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
   switch(skillId)
   {
   case CombatMGR::Heal:
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Levelup);
+    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Levelup);
     attackstring = "rejuvenates";
     break;
   case CombatMGR::EnergySpear:
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Energyspear);
+    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Energyspear);
     //attacker->SetAction("casting2");
     attackstring = "casts Energy Spear and attacks";
     break;
@@ -301,7 +301,7 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
     attackstring = "takes a swing at";
     break;
   case CombatMGR::EnergyBind:
-    effectsmgr->CreateEffect(getMesh(target), EffectsManager::Energysphere);
+    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Energysphere);
     attackstring = "casts Energy Bind on";
     break;
 

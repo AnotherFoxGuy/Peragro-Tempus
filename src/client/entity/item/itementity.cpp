@@ -30,7 +30,7 @@ PtItemEntity::PtItemEntity() : PtEntity(PtEntity::ItemEntity)
 
 void PtItemEntity::Create()
 {
-  ClientItem* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(itemid);
+  PT::Data::Item* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(itemid);
   if(item)
   {
     name = item->GetName();

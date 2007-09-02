@@ -17,7 +17,7 @@
 */
 
 #include "client/entity/ptentitymanager.h"
-#include "client/sector/sectormanager.h"
+#include "client/data/sector/sectormanager.h"
 
 #include <iutil/objreg.h>
 #include <imap/loader.h>
@@ -211,7 +211,7 @@ namespace PT
         return true;
       }
 
-      SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+      PT::Data::SectorManager* sectormgr = PointerLibrary::getInstance()->getSectorManager();
       std::string sectorName = sectormgr->GetSectorName(entityAddEv->sectorId);
 
       entity->SetId(entityAddEv->entityId);
@@ -358,7 +358,7 @@ namespace PT
             drmsg.setPos(pos.x,pos.y,pos.z);
             if (sector && sector->QueryObject()->GetName())
             {
-              SectorMGR* sectormgr = PointerLibrary::getInstance()->getSectorManager();
+              PT::Data::SectorManager* sectormgr = PointerLibrary::getInstance()->getSectorManager();
               uint sectorid = sectormgr->GetSectorId(sector->QueryObject()->GetName());
               Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), sectorid);
               drmsg.setSectorId(sectorid);

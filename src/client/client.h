@@ -63,15 +63,19 @@ struct iView;
 
 class Network;
 class GUIManager;
-class EffectsManager;
 class CombatMGR;
-class ItemMGR;
-class SectorMGR;
 class PtConsole;
 class Cursor;
 
 namespace PT
 {
+  namespace Data
+  {
+    class ItemManager;
+    class EffectsManager;
+    class SectorManager;
+  } // Data namespace 
+
   namespace Entity
   {
     class EntityManager;
@@ -157,11 +161,14 @@ namespace PT
     Reporter* reporter;
     Network* network;
     GUIManager* guimanager;
-    EffectsManager* effectsmanager;
+    
     PT::Entity::EntityManager* entitymanager;
     CombatMGR* combatmanager;
-    ItemMGR* itemmanager;
-    SectorMGR* sectormanager;
+
+    PT::Data::ItemManager* itemmanager;
+    PT::Data::SectorManager* sectormanager;
+    PT::Data::EffectsManager* effectsmanager;
+
     Cursor* cursor;
     PtConsole* ptconsole;
     PT::InputManager *inputMgr;

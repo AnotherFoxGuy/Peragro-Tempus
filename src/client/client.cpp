@@ -57,10 +57,10 @@
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
-#include "client/effects/effectsmanager.h"
+#include "client/data/effect/effectsmanager.h"
 #include "client/combat/combatmanager.h"
-#include "client/item/itemmanager.h"
-#include "client/sector/sectormanager.h"
+#include "client/data/item/itemmanager.h"
+#include "client/data/sector/sectormanager.h"
 #include "client/entity/ptentitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
@@ -243,13 +243,13 @@ namespace PT
     pointerlib.setEventManager(eventmanager);
 
     // Create and Initialize the ItemManager.
-    itemmanager = new ItemMGR (GetObjectRegistry());
+    itemmanager = new PT::Data::ItemManager (GetObjectRegistry());
     if (!itemmanager->Initialize())
       return Report(PT::Error, "Failed to initialize ItemManager!");
     pointerlib.setItemManager(itemmanager);
 
     // Create and Initialize the ItemManager.
-    sectormanager = new SectorMGR (GetObjectRegistry());
+    sectormanager = new PT::Data::SectorManager (GetObjectRegistry());
     if (!sectormanager->Initialize())
       return Report(PT::Error, "Failed to initialize SectorManager!");
     pointerlib.setSectorManager(sectormanager);
@@ -305,7 +305,7 @@ namespace PT
     pointerlib.setEntityManager(entitymanager);
 
     // Create and Initialize the Effectsmanager.
-    effectsmanager = new EffectsManager (GetObjectRegistry());
+    effectsmanager = new PT::Data::EffectsManager (GetObjectRegistry());
     if (!effectsmanager->Initialize())
       return Report(PT::Error, "Failed to initialize EffectsManager!");
     pointerlib.setEffectsManager(effectsmanager);
@@ -966,7 +966,7 @@ namespace PT
 
             if (mesh)
             {
-              effectsmanager->CreateEffect(EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
+              effectsmanager->CreateEffect(PT::Data::EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
               //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0), cam);
 
               csRef<iCelEntity> ownent = entitymanager->getOwnCelEntity();

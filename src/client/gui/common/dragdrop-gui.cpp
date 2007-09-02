@@ -18,7 +18,7 @@
 
 #include "client/gui/common/dragdrop-gui.h"
 
-#include "client/item/itemmanager.h"
+#include "client/data/item/itemmanager.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h" 
@@ -214,7 +214,7 @@ CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactabl
   // Lets decide what to make of the icon: Item or Skill.
   if(icontype == DragDrop::Item)
   {
-    ClientItem* clientitem = itemmanager->GetItemById(objectid);
+    PT::Data::Item* clientitem = itemmanager->GetItemById(objectid);
 
     // Set some variables.
     icon->setUserString("itemid" , IntToStr(objectid));
@@ -246,7 +246,7 @@ CEGUI::String DragDrop::IntToStr(int number)
 
 Object* DragDrop::CreateItem(uint itemid, bool interactable)
 {
-  ClientItem* clientitem = itemmanager->GetItemById(itemid);
+  PT::Data::Item* clientitem = itemmanager->GetItemById(itemid);
 
   if (!clientitem)
   {
