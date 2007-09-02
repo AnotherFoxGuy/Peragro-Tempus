@@ -1,4 +1,3 @@
 SubDir TOP src tests ;
 
 SubInclude TOP src tests eventstest ;
-SubInclude TOP src tests effectstest ;
