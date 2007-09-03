@@ -12,8 +12,9 @@ include $(JAMCONFIG) ;
 # and we have not yet included mk/jam/build.jam which provides an emulation
 # layer for Boost.  We can not include build.jam earlier because these flags
 # need to be defined before build.jam is included.  :-(
-COMPILER.CFLAGS.debug += -DCS_DEBUG ;
-COMPILER.CFLAGS.profile += -g3 -pg ;
+COMPILER.CFLAGS.optimize += -Wall ;
+COMPILER.CFLAGS.debug += -DCS_DEBUG -Wall ;
+COMPILER.CFLAGS.profile += -g3 -pg -Wall ;
 COMPILER.LFLAGS.profile += -g3 -pg ;
 
 # Include CS build rules

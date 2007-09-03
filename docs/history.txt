@@ -10,6 +10,8 @@ under each day.
     identify unitialized id or invalid id. I think there are a few places the
     code needs to be changed in order to get that working in all places.
   - swedishcoder fixed warning about uninitialized value.
+  - swedishcoder lets try not to add any new warnings to the code, added 
+    -Wall option to Jamrules, not sure if that affects win builds...
 
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out
