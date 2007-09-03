@@ -30,6 +30,9 @@ under each day.
     adds a function for listen to key press matching run toggle request. Updated
     client.cfg to have r as the default (will most likely move this to shift
     later on). Also made the client use the run option on MoveRequestMessage.
+  - swedishcoder added the fourth part of getting running implemented. This part
+    makes it possible to run. No endurance is taken though. The animation is no
+    good either, and its way to fast :)
 
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out

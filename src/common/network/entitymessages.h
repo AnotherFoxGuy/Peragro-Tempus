@@ -334,7 +334,6 @@ class MoveMessage : public NetMessage
   float walk;
   unsigned int entityid;
   bool run;
-  float speed;
 
 public:
   MoveMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE)
@@ -385,6 +384,7 @@ public:
 
   unsigned char getWalk() { return walk; }
   void setWalk(unsigned char x) { walk = x; }
+  bool getRun() { return run; }
   void setRun(bool x) { run = x; }
 
 };

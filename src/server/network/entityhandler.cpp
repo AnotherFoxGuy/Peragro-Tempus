@@ -45,6 +45,7 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   //printf("Received MoveRequest from: '%s' w(%d) t(%d)\n", name, request_msg.getWalk(), request_msg.getRot());
 
   float speed = 0;
+  float acc = 1;
 
   if (c_entity->getMount())
   {
@@ -62,7 +63,13 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   }
 
   MoveMessage response_msg;
-  response_msg.setWalk((float)(request_msg.getWalk()-1)*speed);
+  if (request_msg.getRun()) 
+  {
+    // TODO this should be based on character and need to check endurance
+    acc = 2;
+  }
+
+  response_msg.setWalk((float)(request_msg.getWalk()-1)*speed*acc);
   response_msg.setTurn((float)(request_msg.getTurn()-1));
   response_msg.setEntityId(name_id);
   ByteStream bs;
