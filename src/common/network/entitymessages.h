@@ -333,6 +333,7 @@ class MoveMessage : public NetMessage
   float turn;
   float walk;
   unsigned int entityid;
+  bool run;
 
 public:
   MoveMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE)
@@ -354,6 +355,9 @@ public:
 
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
+
+  void setRun(bool r) { run = r; }
+  bool getRun() { return run; }
 
 };
 

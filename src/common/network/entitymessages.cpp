@@ -187,6 +187,7 @@ void MoveMessage::serialise(ByteStream* bs)
   serial.setFloat(turn);
   serial.setFloat(walk);
   serial.setInt32(entityid);
+  serial.setBool(run);
 }
 
 void MoveMessage::deserialise(ByteStream* bs)
@@ -197,6 +198,7 @@ void MoveMessage::deserialise(ByteStream* bs)
   turn = serial.getFloat();
   walk = serial.getFloat();
   entityid = (unsigned int) serial.getInt32();
+  run = serial.getBool();
 }
 
 void MoveRequestMessage::serialise(ByteStream* bs)

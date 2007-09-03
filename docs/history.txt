@@ -17,6 +17,9 @@ under each day.
   - swedishcoder fixed another unused variable, not sure if we need it so we can
     delete it or if that is done by the decal manager, need to investigate, left
     a todo.
+  - swedishcoder added the first part of getting running implemented. This part
+    enables the possibility of serializing/deserializing bool and added a run
+    variable to the MoveMessage.
 
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out

@@ -98,6 +98,10 @@ public:
       bs->size += strlen(str)+2;
     }
   }
+  void setBool(bool value)
+  {
+    bs->data[bs->size++] = (unsigned char) value;
+  }
 };
 
 #endif // _SERIALISER_H_
