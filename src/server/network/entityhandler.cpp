@@ -67,6 +67,11 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   {
     // TODO this should be based on character and need to check endurance
     acc = 2;
+    response_msg.setRun(true);
+  }
+  else 
+  {
+    response_msg.setRun(false);
   }
 
   response_msg.setWalk((float)(request_msg.getWalk()-1)*speed*acc);

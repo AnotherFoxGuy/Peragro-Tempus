@@ -131,6 +131,7 @@ namespace PT
       movement->entity_id			= entityMoveEv->entityId;
       movement->walk					= entityMoveEv->walkDirection;
       movement->turn					= entityMoveEv->turnDirection;
+      movement->run           = entityMoveEv->run;
 
       entity->Move(movement);
       delete movement;

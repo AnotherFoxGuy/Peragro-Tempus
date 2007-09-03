@@ -33,6 +33,10 @@ under each day.
   - swedishcoder added the fourth part of getting running implemented. This part
     makes it possible to run. No endurance is taken though. The animation is no
     good either, and its way to fast :)
+  - swedishcoder added the fifth part of getting running implemented. This part
+    drains HP points when running and adds them back when walking (in the GUI).
+    This is not perfect since it really should be stamina (but that bar wasn't
+    there yet).  Also how the lost "stamina" is calculated is far from optimal.
 
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out

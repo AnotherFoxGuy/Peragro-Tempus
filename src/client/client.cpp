@@ -156,6 +156,24 @@ namespace PT
     csRef<iPcDefaultCamera> cam = entitymanager->getOwnCamera();
     if (cam.IsValid()) cam->Draw();
 
+    if (state == STATE_PLAY) 
+    {
+      if (entitymanager)
+      {
+        PtCharacterEntity *character = (PtCharacterEntity *) entitymanager->getOwnPtEntity();
+        if (character) 
+        {
+          int currentStamina = character->getCurrentStamina();
+          int maxStamina = character->getMaxStamina();
+          float ratio = (float)currentStamina / (float)maxStamina;
+          if (guimanager)
+          {
+            guimanager->GetHUDWindow()->SetHP(ratio);
+          }
+        }
+      }
+    }
+
     // Paint the interface over the engine
     if (guimanager) guimanager->Render ();
     if (cursor) cursor->Draw();

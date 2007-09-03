@@ -21,6 +21,8 @@
 PtCharacterEntity::PtCharacterEntity(EntityType type) : PtEntity(type) 
 {
   equipment = new Equipment(this);
+  maxStamina = 100;
+  currentStamina = 100;
 }
 
 void PtCharacterEntity::Move(MovementData* movement) 
@@ -39,6 +41,14 @@ void PtCharacterEntity::Move(MovementData* movement)
       scfQueryInterface<iSpriteCal3DState> (mesh->GetMesh()->GetMeshObject());
     if (sprcal3d)
       sprcal3d->SetVelocity(movement->walk);
+  }
+  if (movement->run) 
+  {
+    currentStamina--;
+  }
+  else
+  {
+    currentStamina++;
   }
 }
 

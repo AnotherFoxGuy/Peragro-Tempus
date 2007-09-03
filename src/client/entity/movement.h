@@ -51,6 +51,7 @@ struct MovementData
   unsigned int entity_id;
   float walk;
   float turn;
+  bool run;
 };
 
 struct MoveToData

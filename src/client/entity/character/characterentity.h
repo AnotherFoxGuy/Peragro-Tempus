@@ -30,13 +30,19 @@ private:
 
 protected:
   PtCharacterEntity(EntityType type);
-  virtual ~PtCharacterEntity(){}
+  virtual ~PtCharacterEntity(){delete equipment;}
+  unsigned int maxStamina;
+  unsigned int currentStamina;
 
 public:
   void Move(MovementData* movement);
   bool MoveTo(MoveToData* moveTo);
   void DrUpdate(DrUpdateData* drupdate);
   void Teleport(csVector3 pos, csString sector);
+  int getCurrentStamina() { return currentStamina; }
+  int getMaxStamina() { return maxStamina; }
+  void setCurrentStamina(int x) { currentStamina = x; }
+  void setMaxStamina(int x) { maxStamina = x; }
 
   Equipment* GetEquipment() {return equipment;}
 };
