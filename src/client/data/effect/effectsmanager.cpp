@@ -226,7 +226,9 @@ namespace PT
       csVector3 up = camera->GetTransform().This2OtherRelative(csVector3(0,1,0));
 
       // create the decal
-      iDecal* decal = decalMgr->CreateDecal(decalTemplate, camera->GetSector(), pos, up, normal, 1.0f, 1.0f);
+      //iDecal* decal = decalMgr->CreateDecal(decalTemplate, camera->GetSector(), pos, up, normal, 1.0f, 1.0f);
+      // TODO decalMgr returns an iDecal pointer, do we need to delete that one?
+      decalMgr->CreateDecal(decalTemplate, camera->GetSector(), pos, up, normal, 1.0f, 1.0f);
 
       return true;
     }
