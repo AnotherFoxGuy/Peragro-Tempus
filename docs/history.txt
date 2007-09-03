@@ -20,6 +20,12 @@ under each day.
   - swedishcoder added the first part of getting running implemented. This part
     enables the possibility of serializing/deserializing bool and added a run
     variable to the MoveMessage.
+  - swedishcoder added the second part of getting running implemented. This part
+    adds the run variable to the MoveRequestMessage type. The MoveMessage now
+    will contain both the speed and if the player is running. The run variable
+    here can be used in order to check if the local endurance bar should be
+    decreased. In case the server notice that the player has no endurance in
+    order to run, the run variable will be 'false' even if run was requested.
 
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out

@@ -334,6 +334,7 @@ class MoveMessage : public NetMessage
   float walk;
   unsigned int entityid;
   bool run;
+  float speed;
 
 public:
   MoveMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE)
@@ -365,6 +366,7 @@ class MoveRequestMessage : public NetMessage
 {
   unsigned char turn;
   unsigned char walk;
+  bool run;
 
 public:
   MoveRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVEREQUEST)
