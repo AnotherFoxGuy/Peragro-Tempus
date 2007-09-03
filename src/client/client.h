@@ -182,6 +182,7 @@ namespace PT
     bool ActionLeft(PT::Events::Eventp);
     bool ActionRight(PT::Events::Eventp);
     bool ActionToggleWalk(PT::Events::Eventp);
+    bool ActionToggleRun(PT::Events::Eventp);
     bool ActionPanUp(PT::Events::Eventp);
     bool ActionPanDown(PT::Events::Eventp);
     bool ActionToggleCamera(PT::Events::Eventp);
@@ -195,6 +196,7 @@ namespace PT
   private:
     bool playing;
     char walk, turn;
+    bool run;
     Mutex mutex;
     csTicks timer;
     iSector *room;

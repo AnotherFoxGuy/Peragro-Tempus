@@ -26,6 +26,10 @@ under each day.
     here can be used in order to check if the local endurance bar should be
     decreased. In case the server notice that the player has no endurance in
     order to run, the run variable will be 'false' even if run was requested.
+  - swedishcoder added the third part of getting running implemented. This part
+    adds a function for listen to key press matching run toggle request. Updated
+    client.cfg to have r as the default (will most likely move this to shift
+    later on). Also made the client use the run option on MoveRequestMessage.
 
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out

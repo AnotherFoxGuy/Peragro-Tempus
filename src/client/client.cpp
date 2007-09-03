@@ -79,6 +79,7 @@ namespace PT
     SetApplicationName ("Client");
     state = STATE_INITIAL;
     walk = 0;
+    run = false;
     turn = 0;
     timer = 0;
     limitFPS = 0;
@@ -405,6 +406,10 @@ namespace PT
     EventHandler<Client>* cbActionToggleWalk = new EventHandler<Client>(&Client::ActionToggleWalk, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleWalk);
 
+    // Register listener for ActionToggleRun.
+    EventHandler<Client>* cbActionToggleRun = new EventHandler<Client>(&Client::ActionToggleRun, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleRun);
+
     // Register listener for ActionPanUp.
     EventHandler<Client>* cbActionPanUp = new EventHandler<Client>(&Client::ActionPanUp, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionPanUp);
@@ -730,6 +735,27 @@ namespace PT
     DoAction();
     return true;
   }
+  
+  bool Client::ActionToggleRun(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    if (playing) 
+    {
+      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+      if (!actionEv) return false;
+
+      if (!actionEv->Compare("ACTION_TOGGLERUN")) return false;
+
+      if (!actionEv->released) 
+      {
+        (run == 0) ? run = 1 : run = 0;
+      }
+    }
+
+    DoAction();
+    return true;
+  }
 
   bool Client::ActionPanUp(PT::Events::Eventp ev) 
   {
@@ -933,6 +959,7 @@ namespace PT
     MoveRequestMessage msg;
     msg.setWalk(walk+1);
     msg.setTurn(turn+1);
+    msg.setRun(run);
     network->send(&msg);
 
     return true;

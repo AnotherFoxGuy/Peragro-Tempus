@@ -385,6 +385,7 @@ public:
 
   unsigned char getWalk() { return walk; }
   void setWalk(unsigned char x) { walk = x; }
+  void setRun(bool x) { run = x; }
 
 };
 
