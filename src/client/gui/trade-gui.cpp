@@ -103,7 +103,6 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
 {
   if(!(player == 2)) return false;
   if(slotid > numberOfSlots) return false;
-  if(slotid == -1) return false;
 
   Slot* slot = trade2->GetSlot(slotid);
 
@@ -231,7 +230,7 @@ void TradeWindow::CancelTrade()
   winMgr->getWindow("TradeWindow/Frame")->setVisible(false);
 
   // Putting the items back in the inventory.
-  for (int i=0; i<numberOfSlots; i++)
+  for (unsigned int i=0; i<numberOfSlots; i++)
   {
     Slot* slot = trade1->GetSlot(i);
     if(!slot->IsEmpty())
@@ -257,7 +256,7 @@ void TradeWindow::AcceptTrade()
 
   // Putting the new items in the inventory.
   int counter = 10;
-  for (int i=0; i<numberOfSlots; i++)
+  for (unsigned int i=0; i<numberOfSlots; i++)
   {
     Slot* slot = trade2->GetSlot(i);
     if(!slot->IsEmpty())
@@ -272,7 +271,7 @@ void TradeWindow::AcceptTrade()
   }
 
   // Deleting the traded items in the inventory.
-  for (int i=0; i<numberOfSlots; i++)
+  for (unsigned int i=0; i<numberOfSlots; i++)
   {
     Slot* slot = trade1->GetSlot(i);
     if(!slot->IsEmpty())

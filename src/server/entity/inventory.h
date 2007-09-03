@@ -142,7 +142,7 @@ public:
   //  return 1;
   //}
 
-  unsigned int getTotalAmount(int item_id, unsigned int variation)
+  unsigned int getTotalAmount(unsigned int item_id, unsigned int variation)
   {
     unsigned int amount = 0;
     for(unsigned int i=0; i<entries.getCount(); i++)

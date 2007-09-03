@@ -145,7 +145,7 @@ namespace PT
       EntityMoveToEvent* entityMoveEv = GetEntityEvent<EntityMoveToEvent*>(ev);
       if (!entityMoveEv) return false;
 
-      int id = entityMoveEv->entityId;
+      unsigned int id = entityMoveEv->entityId;
 
       // Remove any other moveTo actions for this entity
       for (size_t i = 0; i < move_to_entity.GetSize(); i++)

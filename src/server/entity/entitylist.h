@@ -119,7 +119,7 @@ public:
     return 0;
   }
 
-  const Entity* findById(int id)
+  const Entity* findById(unsigned int id)
   {
     mutex.lock();
     for (size_t i = 0; i<entities.getCount(); i++)

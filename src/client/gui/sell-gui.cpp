@@ -50,7 +50,6 @@ bool SellWindow::OnAccept(const CEGUI::EventArgs& args)
 bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid)
 {
   if(slotid > 12) return false;
-  if(slotid == -1) return false;
 
   Slot* slot = upperslots[slotid];
 

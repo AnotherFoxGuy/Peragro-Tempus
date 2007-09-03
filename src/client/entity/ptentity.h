@@ -84,7 +84,7 @@ public:
   };
 
 protected:
-  int id;
+  unsigned int id;
   EntityType type;
   csString name;
   csString meshname;
@@ -106,7 +106,7 @@ public:
   }
   virtual ~PtEntity() {}
 
-  int GetId () const { return id; }
+  unsigned int GetId () const { return id; }
   int GetType () const { return type; }
   csString GetName () const { return name; }
   csString GetMeshName () const { return meshname; }

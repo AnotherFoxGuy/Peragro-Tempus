@@ -77,7 +77,7 @@ bool BuyWindow::OnScroll(const CEGUI::EventArgs& args)
 
 void BuyWindow::MoveItem(Slot* oldslot, Slot* newslot)
 {
-  int itemid = oldslot->GetObject()->GetId();
+  unsigned int itemid = oldslot->GetObject()->GetId();
 
   // Item has been moved to be bought. Add to totalmoney.
   if(oldslot->GetParent() == Inventory::BuyUpper)

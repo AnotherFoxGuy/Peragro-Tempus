@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+03-Sep-2007
+  - swedishcoder fixed all warnings about comparision between signed and
+    unsigned variables. From now on all ids should be unsigned and 0 should
+    identify unitialized id or invalid id. I think there are a few places the
+    code needs to be changed in order to get that working in all places.
+
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out
     of the network thread.

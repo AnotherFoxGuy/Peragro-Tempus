@@ -25,9 +25,9 @@
 class CharSkill : public Timer
 {
 public:
-  int skill_id;
-  int target_id;
-  int caster_id;
+  unsigned int skill_id;
+  unsigned int target_id;
+  unsigned int caster_id;
 
   SkillState::Type state;
 

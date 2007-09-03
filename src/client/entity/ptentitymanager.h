@@ -102,8 +102,8 @@ namespace PT
       bool Mount(PT::Events::Eventp ev);
       void DrUpdateOwnEntity();
 
-      iCelEntity* findCelEntById(int id);
-      PtEntity* findPtEntById(int id);
+      iCelEntity* findCelEntById(unsigned int id);
+      PtEntity* findPtEntById(unsigned int id);
 
       bool SetOwnId(PT::Events::Eventp ev);
 

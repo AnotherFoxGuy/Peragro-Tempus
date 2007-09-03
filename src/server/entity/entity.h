@@ -33,7 +33,7 @@ class MountEntity;
 class Entity : public ptMonitorable<Entity>
 {
 private:
-  int id;
+  unsigned int id;
 
   ptString name_id;
   ptString mesh_id;
@@ -102,8 +102,8 @@ public:
     return false;
   }
 
-  void setId(int id) { this->id = id; }
-  int getId() const { return id; }
+  void setId(unsigned int id) { this->id = id; }
+  unsigned int getId() const { return id; }
 
   void resetSavePos()
   {

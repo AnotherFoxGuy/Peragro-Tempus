@@ -50,7 +50,6 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
 bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
 {
   if(slotid > numberOfSlots) return false;
-  if(slotid == -1) return false;
 
   Slot* slot = inventory->GetSlot(slotid);
 
@@ -98,7 +97,6 @@ bool InventoryWindow::MoveItem(Slot* oldslot, Slot* newslot)
 bool InventoryWindow::RemoveItem(unsigned int slotid)
 {
   if(slotid > numberOfSlots) return false;
-  if(slotid == -1) return false;
 
   if(inventory->RemoveObject(slotid))
     return true;

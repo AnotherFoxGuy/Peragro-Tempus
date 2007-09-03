@@ -116,8 +116,9 @@ namespace PT
       ProcessEvents();
     }
 
-    PtEntity* EntityManager::findPtEntById(int id)
+    PtEntity* EntityManager::findPtEntById(unsigned int id)
     {
+      // TODO if id == 0 return 0;
       for (size_t i = 0; i < entities.GetSize(); i++)
       {
         if (entities.Get(i)->GetId() == id)
@@ -128,8 +129,9 @@ namespace PT
       return 0;
     }
 
-    iCelEntity* EntityManager::findCelEntById(int id)
+    iCelEntity* EntityManager::findCelEntById(unsigned int id)
     {
+      // TODO if id == 0 return 0;
       for (size_t i = 0; i < entities.GetSize(); i++)
       {
         if (entities.Get(i)->GetId() == id)
@@ -262,7 +264,7 @@ namespace PT
       EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
       if (!entityRemoveEv) return false;
 
-      int id = entityRemoveEv->entityId;
+      unsigned int id = entityRemoveEv->entityId;
 
       for (size_t i = 0; i < entities.GetSize(); i++)
       {
@@ -339,7 +341,8 @@ namespace PT
     {
       DrUpdateRequestMessage drmsg;
 
-      if (own_char_id != -1)
+      // TODO this should be >0;
+     // if (own_char_id != -1)
       {
         if (owncelent.IsValid())
         {

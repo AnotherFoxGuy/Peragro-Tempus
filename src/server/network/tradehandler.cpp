@@ -43,7 +43,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   this_peer->debugPrint();
 #endif
 
-  int ent_id = message.getEntityId();
+  unsigned int ent_id = message.getEntityId();
 
   if (pc->getEntity()->getId() == ent_id)
   {

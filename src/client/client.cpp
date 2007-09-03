@@ -1206,7 +1206,7 @@ namespace PT
       { 4, "char", "Automatic selection of the character with the given ID", CSVAR_LONG },
     };
 
-    for (int i = 0; i<NUM_OPTIONS ; i++)
+    for (unsigned int i = 0; i<NUM_OPTIONS ; i++)
     {
       csString opt;
       csStringFast<80> desc;
