@@ -134,7 +134,7 @@ bool OptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e)
   btn = winMgr->getWindow("Options/Reflections/DropList");
   uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
 
-  bool ref;
+  bool ref = false;
 
   switch(id)
   {
