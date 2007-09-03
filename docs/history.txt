@@ -13,6 +13,7 @@ under each day.
   - swedishcoder lets try not to add any new warnings to the code, added 
     -Wall option to Jamrules, not sure if that affects win builds...
   - swedishcoder fixed warning about uninitialized value.
+  - swedishcoder fixed warnings where char was used as array indexes.
 
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out

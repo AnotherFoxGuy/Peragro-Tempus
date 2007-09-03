@@ -71,7 +71,7 @@ public:
       }
       else if (type < MSG_HANDLER_COUNT)
       {
-        handlers[type]->handle(msg);
+        handlers[(int)type]->handle(msg);
       }
     }
   }
@@ -83,7 +83,7 @@ public:
 
   void registerHandler(MessageHandler* msg_h)
   {
-    handlers[msg_h->getType()] = msg_h;
+    handlers[(int)msg_h->getType()] = msg_h;
   }
 
 private:
