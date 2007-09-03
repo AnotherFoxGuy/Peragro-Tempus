@@ -12,6 +12,7 @@ under each day.
   - swedishcoder fixed warning about uninitialized value.
   - swedishcoder lets try not to add any new warnings to the code, added 
     -Wall option to Jamrules, not sure if that affects win builds...
+  - swedishcoder fixed warning about uninitialized value.
 
 02-Sep-2007
   - Sueastside moved the usage of sectormanager out

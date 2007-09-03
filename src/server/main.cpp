@@ -175,6 +175,7 @@ int main(int argc, char ** argv)
     if (vo->action == ptString("text", 4)) action = NPCDialog::SHOW_TEXT;
     else if (vo->action == ptString("sell", 4)) action = NPCDialog::START_BUY;
     else if (vo->action == ptString("buy", 3)) action = NPCDialog::START_SELL;
+    else continue;
 
     NPCDialog* dialog = new NPCDialog(vo->dialogid, vo->isstart != 0, vo->text.c_str(), action);
     NPCDialogManager::addDialog(dialog);
