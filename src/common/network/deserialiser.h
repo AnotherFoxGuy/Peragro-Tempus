@@ -96,11 +96,6 @@ public:
     pos += size + 2;
     return size;
   }
-  bool getBool()
-  {
-    bool temp = data[pos++];
-    return temp;
-  }
 };
 
 #endif // _DESERIALISER_H_

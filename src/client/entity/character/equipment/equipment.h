@@ -37,7 +37,7 @@ private:
 
 public:
   Equipment(PtEntity* entity);
-  ~Equipment();
+  ~Equipment() {}
   void Equip(unsigned int slotId, unsigned int itemId);
   void UnEquip(unsigned int slotId);
 

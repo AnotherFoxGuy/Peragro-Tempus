@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+06-Sep-2007
+  - PK removed getBool() and setBool(bool) from the deserialiser.h and
+    serialiser.h.
+  - PK fixed the client so it compiles again. Equipment::~Equipment() wasn't
+    implemented.
+
 03-Sep-2007
   - swedishcoder fixed all warnings about comparision between signed and
     unsigned variables. From now on all ids should be unsigned and 0 should

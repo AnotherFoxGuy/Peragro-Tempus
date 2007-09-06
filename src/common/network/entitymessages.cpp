@@ -187,7 +187,7 @@ void MoveMessage::serialise(ByteStream* bs)
   serial.setFloat(turn);
   serial.setFloat(walk);
   serial.setInt32(entityid);
-  serial.setBool(run);
+  serial.setInt8(run?1:0);
 }
 
 void MoveMessage::deserialise(ByteStream* bs)
@@ -198,7 +198,7 @@ void MoveMessage::deserialise(ByteStream* bs)
   turn = serial.getFloat();
   walk = serial.getFloat();
   entityid = (unsigned int) serial.getInt32();
-  run = serial.getBool();
+  run = serial.getInt8() != 0;
 }
 
 void MoveRequestMessage::serialise(ByteStream* bs)
@@ -208,7 +208,7 @@ void MoveRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt8(turn);
   serial.setInt8(walk);
-  serial.setBool(run);
+  serial.setInt8(run?1:0);
 }
 
 void MoveRequestMessage::deserialise(ByteStream* bs)
@@ -218,7 +218,7 @@ void MoveRequestMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   turn = (unsigned char) serial.getInt8();
   walk = (unsigned char) serial.getInt8();
-  run = serial.getBool();
+  run = serial.getInt8() != 0;
 }
 
 void PickRequestMessage::serialise(ByteStream* bs)
