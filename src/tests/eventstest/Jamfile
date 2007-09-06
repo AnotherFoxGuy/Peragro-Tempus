@@ -4,11 +4,11 @@ Description eventstest : "Events Test" ;
 Application eventstest : [ Wildcard *.h *.cpp ] : console ;
 LinkWith eventstest : ptcommon ;
 
-## if [ Property build : projgen_version ] != 6
-## {
-##   SubVariant static ;
-##   
-##   Application eventstest_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
-##   LinkWith eventstest_static : events utils ;
-##   SubVariant ;
-## }
+if [ Property build : projgen_version ] != 6
+{
+  SubVariant static ;
+  
+  Application eventstest_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  LinkWith eventstest_static : events utils ;
+  SubVariant ;
+}

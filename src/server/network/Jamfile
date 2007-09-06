@@ -4,5 +4,3 @@ SubInclude TOP src server network udp ;
 
 AddSourceFiles ;
 
-# LinkWith server-network : network server-udp-network server-entity ;
-

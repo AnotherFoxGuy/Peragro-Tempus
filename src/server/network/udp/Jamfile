@@ -2,5 +2,3 @@ SubDir TOP src server network udp ;
 
 AddSourceFiles ;
 
-## LinkWith server-udp-network : udp-network ;
-

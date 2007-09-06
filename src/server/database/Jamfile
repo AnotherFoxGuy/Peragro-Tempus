@@ -4,5 +4,4 @@ SubInclude TOP src server database sqlite ;
 
 AddSourceFiles ;
 
-## LinkWith database : server-ai ;
 

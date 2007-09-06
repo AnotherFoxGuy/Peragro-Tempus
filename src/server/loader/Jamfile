@@ -2,4 +2,3 @@ SubDir TOP src server loader ;
 
 AddSourceFiles ;
 
-## LinkWith server-loader : tinyxml ;
