@@ -1,9 +1,6 @@
 SubDir TOP src client data ;
 
-Description client-data : "client data" ;
-Library client-data :
-  [ Wildcard *.h *.cpp ]
-  [ Wildcard [ ConcatDirs effect ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs item ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs sector ] : *.h *.cpp ] ;
-ExternalLibs client-data : CRYSTAL CEL BOOST ;
+SubInclude TOP src client data effect ;
+SubInclude TOP src client data item ;
+SubInclude TOP src client data sector ;
+

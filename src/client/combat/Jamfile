@@ -1,6 +1,4 @@
 SubDir TOP src client combat ;
 
-Description client-combatmanager : "client combatmanager" ;
-Library client-combatmanager :
-  [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-combatmanager : CRYSTAL CEL CEGUI ;
+AddSourceFiles ;
+

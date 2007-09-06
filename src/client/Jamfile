@@ -1,24 +1,37 @@
 SubDir TOP src client ;
 
-SubInclude TOP src client reporter ;
-SubInclude TOP src client network ;
-SubInclude TOP src client gui ;
-SubInclude TOP src client entity ;
-SubInclude TOP src client combat ;
-SubInclude TOP src client data ;
-SubInclude TOP src client pointer ;
-SubInclude TOP src client console ;
-SubInclude TOP src client event ;
-SubInclude TOP src client trade ;
+SOURCES = ;
+
 SubInclude TOP src client chat ;
+SubInclude TOP src client combat ;
+SubInclude TOP src client console ;
+SubInclude TOP src client data ;
+SubInclude TOP src client entity ;
+SubInclude TOP src client event ;
+SubInclude TOP src client gui ;
 SubInclude TOP src client input ;
+SubInclude TOP src client network ;
+SubInclude TOP src client pointer ;
+SubInclude TOP src client reporter ;
+SubInclude TOP src client trade ;
+
+AddSourceFiles ;
+
+## effectstest need to link against client, so we create an extra client lib
+Description ptclient : "PT Client Lib" ;
+Library ptclient : $(SOURCES) ;
+ExternalLibs ptclient : CEGUI CRYSTAL CEL BOOST.FILESYSTEM BOOST ;
+LinkWith ptclient : ptcommon ;
+
+
 
 Description client : "Client" ;
-Application client : 
-[ Wildcard *.h *.cpp ] 
-[ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
-ExternalLibs client : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
-LinkWith client : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager client-console util ;
+Application client ;
+ExternalLibs client : CEGUI CRYSTAL CEL BOOST.FILESYSTEM BOOST ;
+LinkWith client : ptclient ;
+
+
+
 
 MsvcExternalLibrary client : "wsock32.lib" ;
 

@@ -1,3 +1,6 @@
 SubDir TOP src client entity character ;
 
 SubInclude TOP src client entity character equipment ;
+
+AddSourceFiles ;
+

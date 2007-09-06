@@ -1,7 +1,5 @@
 SubDir TOP src server loader ;
 
-Description server-loader : "loader" ;
-Library server-loader :
-  [ Wildcard *.h *.cpp ] ;
+AddSourceFiles ;
 
-LinkWith server-loader : tinyxml ;
+## LinkWith server-loader : tinyxml ;

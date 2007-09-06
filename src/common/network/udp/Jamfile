@@ -1,5 +1,4 @@
 SubDir TOP src common network udp ;
 
-Description udp-network : "network udp" ;
-Library udp-network :
-  [ Wildcard *.h *.cpp ] ;
+AddSourceFiles ;
+

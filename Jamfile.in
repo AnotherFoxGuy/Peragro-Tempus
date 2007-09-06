@@ -7,6 +7,8 @@ IncludeDir ;
 IncludeDir src ;
 IncludeDir $(BUILDTOP) : : literal transient ;
 
+SubInclude TOP src ;
+
 CleanDir clean :
     out ;
 Clean distclean :
@@ -57,6 +59,7 @@ MsvcGenConfig CRYSTAL.INCDIRS :
   [ ConcatDirs "$(hash)(CRYSTAL)" include csutil win32 ] ;
 MsvcGenConfig CRYSTAL.LIBDIRS :
   [ ConcatDirs .. .. .. CS out release$(MSVC_VERSION) libs ]
+
   [ ConcatDirs .. .. .. CS libs csutil win32 libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" out release$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
@@ -109,4 +112,4 @@ MsvcGenConfig WX.LIBS : wxbase26.lib wxmsw26_core.lib wxmsw26_gl.lib opengl32.li
 MsvcGenConfig WX.DEFINES.DEBUG : wxUSE_GUI=1 WXUSINGDLL=1 WXDEBUG=1 ;
 MsvcGenConfig WX.LIBS.DEBUG : wxbase26d.lib wxmsw26d_core.lib wxmsw26d_gl.lib opengl32.lib ;
 
-SubInclude TOP src ;
+

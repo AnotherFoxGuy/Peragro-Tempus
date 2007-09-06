@@ -1,7 +1,4 @@
 SubDir TOP src client reporter ;
 
-Description client-reporter : "client reporter" ;
-Library client-reporter :
-  [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-reporter : CRYSTAL CEL BOOST.FILESYSTEM ;
+AddSourceFiles ;
 
