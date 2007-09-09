@@ -39,10 +39,10 @@ public:
   bool MoveTo(MoveToData* moveTo);
   void DrUpdate(DrUpdateData* drupdate);
   void Teleport(csVector3 pos, csString sector);
-  int getCurrentStamina() { return currentStamina; }
-  int getMaxStamina() { return maxStamina; }
-  void setCurrentStamina(int x) { currentStamina = x; }
-  void setMaxStamina(int x) { maxStamina = x; }
+  unsigned int getCurrentStamina() { return currentStamina; }
+  unsigned int getMaxStamina() { return maxStamina; }
+  void setCurrentStamina(unsigned int x);
+  void setMaxStamina(unsigned int x) { maxStamina = x; }
 
   Equipment* GetEquipment() {return equipment;}
 };

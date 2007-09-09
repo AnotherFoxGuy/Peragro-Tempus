@@ -44,11 +44,11 @@ void PtCharacterEntity::Move(MovementData* movement)
   }
   if (movement->run) 
   {
-    currentStamina--;
+    setCurrentStamina(getCurrentStamina() - 1);
   }
   else
   {
-    currentStamina++;
+    setCurrentStamina(getCurrentStamina() + 1);
   }
 }
 
@@ -127,4 +127,12 @@ void PtCharacterEntity::Teleport(csVector3 pos, csString sector)
   iMovable* mov = pcmesh->GetMesh()->GetMovable();
   mov->SetSector(engine->GetSectors()->FindByName(sector.GetData()));
   mov->SetPosition(pos);
+}
+
+void PtCharacterEntity::setCurrentStamina(unsigned int x) 
+{
+  if (x >= 0 && x <= maxStamina) 
+  {
+    currentStamina = x;
+  }
 }

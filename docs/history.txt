@@ -9,6 +9,10 @@ under each day.
    to exit abnormally.
  - swedishcoder fixed the movement. Before when moving backwards the turning was
    the reversed.
+ - swedishcoder changed the stamina (currently reported as health) to be bouned
+   to limits between 0 and maxStamina. Also made it update the progressbar text
+   for health. Changed all stamina functions to use unsigned int. Added a
+     function to HUDWindow that can set the text of a specified "window".
 
 06-Sep-2007
   - PK removed getBool() and setBool(bool) from the deserialiser.h and

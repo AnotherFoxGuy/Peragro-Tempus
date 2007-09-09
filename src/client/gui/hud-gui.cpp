@@ -113,6 +113,17 @@ void HUDWindow::SetName (const char* name)
   }
 }
 
+void HUDWindow::SetText (const char* name, const char* text)
+{
+  CEGUI::String cname(name);
+  CEGUI::String ctext(text);
+  try {
+    CEGUI::DefaultWindow* namewin   = (CEGUI::DefaultWindow*) winMgr->getWindow(cname);
+    namewin->setText(ctext);
+  } catch(CEGUI::Exception &e) {
+  }
+}
+
 CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id)
 {
   // Create a name.

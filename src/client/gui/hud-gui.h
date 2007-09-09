@@ -53,6 +53,7 @@ public:
   void SetHP (float hp);       // set the hp. 
   void SetMP (float mp);       // set the mp. 
   void SetName (const char* name); // set the name;
+  void SetText (const char* name, const char* test); // set the text;
   int GetActiveSkillId();
 
   void HideWindow();
