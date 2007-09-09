@@ -976,7 +976,11 @@ namespace PT
   {
     MoveRequestMessage msg;
     msg.setWalk(walk+1);
-    msg.setTurn(turn+1);
+    if (walk == -1) {
+      msg.setTurn(-turn+1);
+    } else {
+      msg.setTurn(turn+1);
+    }
     msg.setRun(run);
     network->send(&msg);
 
