@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+09-Sep-2007
+ - swedishcoder fixed a problem in the gui where an exception caused the client
+   to exit abnormally.
+
 06-Sep-2007
   - PK removed getBool() and setBool(bool) from the deserialiser.h and
     serialiser.h.
