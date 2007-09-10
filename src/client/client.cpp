@@ -68,6 +68,7 @@
 #include "client/trade/trademanager.h"
 
 #include "common/util/wincrashdump.h"
+#include "common/version.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -548,7 +549,7 @@ namespace PT
           const char* host = cmdline->GetOption("host");
           if (host)
           {
-            ConnectRequestMessage msg;
+            ConnectRequestMessage msg(CLIENTVERSION);
             SocketAddress addr = Socket::getSocketAddress(host, 12345);
             network->setServerAddress(addr);
             network->send(&msg);

@@ -4,6 +4,13 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+10-Sep-2007
+ - swedishcoder introduced a simple versioning system. It is now possible to set
+   a minimum client version and client version in src/common/version.h This will
+   prevent older clients to connect to newer servers. You have to set this
+   manually since some changes to the clients should not affect if the client
+   should be able to connect to the server or not. Ticket 28.
+
 09-Sep-2007
  - swedishcoder fixed a problem in the gui where an exception caused the client
    to exit abnormally.

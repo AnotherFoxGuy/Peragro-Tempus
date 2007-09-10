@@ -72,7 +72,7 @@ public:
     {
       char id = msg->getMsgId();
 
-      if (id == CONNECTION::RESPONSE) handleConnectionResponse(msg);
+      if (id == CONNECTION::RESPONSE) handleConnectionResponse(client, msg);
       else if (id == CONNECTION::PING) handlePing(msg);
     }
     else if (type == MESSAGES::USER) user_handler.handle(msg);
@@ -91,7 +91,7 @@ public:
     return MESSAGES::CONNECTION;
   }
 
-  void handleConnectionResponse(GenericMessage* msg);
+  void handleConnectionResponse(PT::Client *client, GenericMessage* msg);
   void handlePing(GenericMessage* ping_msg);
 };
 

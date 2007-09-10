@@ -18,15 +18,24 @@
 
 #include "server/network/udp/udpnetwork.h"
 
-void UdpConnectionHandler::handleConnectionRequest(SocketAddress* sock_addr)
+void UdpConnectionHandler::handleConnectionRequest(SocketAddress* sock_addr, bool succeeded)
 {
   printf("Received ConnectionRequest\n");
   int ssid = rand();
   UdpConnection* conn = new UdpConnection(socket, sock_addr, ssid);
-  updConnMgr->addConnection(conn);
-  ConnectResponseMessage response_msg;
+  // Client version is ok
+  if (succeeded) 
+  {
+    updConnMgr->addConnection(conn);
+  }
+  ConnectResponseMessage response_msg(succeeded);
   response_msg.setSessionId(ssid);
   ByteStream bs;
   response_msg.serialise(&bs);
   conn->send(bs);
+  // Client is to old
+  if (!succeeded)
+  {
+    delete conn;
+  }
 }

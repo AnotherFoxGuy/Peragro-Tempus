@@ -26,6 +26,7 @@
 #include "common/network/udp/udpconnectionmessages.h"
 
 #include "server/network/udp/connectionmanager.h"
+#include "common/version.h"
 
 class UdpConnectionHandler : public UdpMessageHandler
 {
@@ -47,7 +48,23 @@ public:
 
     if (type == 0 && id == CONNECTION::REQUEST) 
     {
-      handleConnectionRequest(&sock_addr);
+      ConnectRequestMessage request_msg(0);
+      request_msg.deserialise(msg->getByteStream());
+
+      // Check so client has the correct version
+      if (request_msg.getVersion() < CLIENTMINVERSION)
+      {
+        printf("Client is not good enough, its to old\n");
+        printf("Client version %d, min version %d\n", 
+          request_msg.getVersion(), CLIENTMINVERSION);
+        // Do not let this client connect its outdated
+        handleConnectionRequest(&sock_addr, false);
+      }
+      else
+      {
+        printf("Client is good enough\n");
+        handleConnectionRequest(&sock_addr, true);
+      }
     }
     else
     {
@@ -87,7 +104,7 @@ public:
   }
 
 private:
-  void handleConnectionRequest(SocketAddress* sock_addr);
+  void handleConnectionRequest(SocketAddress* sock_addr, bool succeeded);
 
   void handlePing(GenericMessage* msg)
   {

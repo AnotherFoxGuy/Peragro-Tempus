@@ -23,13 +23,26 @@
 
 #include "client/reporter/reporter.h"
 
-void ConnectionHandler::handleConnectionResponse(GenericMessage* msg)
+#include <iutil/eventq.h>
+#include "client/client.h"
+
+void ConnectionHandler::handleConnectionResponse(PT::Client *client, GenericMessage* msg)
 {
   Report(PT::Notify, "Received ConnectionResponse.");
-
-  using namespace PT::Events;
-  StateConnectedEvent* stateEvent = new StateConnectedEvent();
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
+  ConnectResponseMessage connect_msg(0);
+  connect_msg.deserialise(msg->getByteStream());
+  if (connect_msg.connectionSucceeded())
+  {
+    using namespace PT::Events;
+    StateConnectedEvent* stateEvent = new StateConnectedEvent();
+    PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
+  }
+  else
+  {
+    printf("Client is to old\n");
+    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (client->GetObjectRegistry());
+    if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(client->GetObjectRegistry()));
+  }
 }
 
 void ConnectionHandler::handlePing(GenericMessage* ping_msg)

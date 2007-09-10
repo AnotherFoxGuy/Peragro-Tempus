@@ -24,6 +24,7 @@
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
+#include "common/version.h"
 
 ConnectWindow::ConnectWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
@@ -58,7 +59,7 @@ bool ConnectWindow::ConnectButtonPressed(const CEGUI::EventArgs& e)
   // Get the connect window and disable it
   GUIWindow::DisableWindow();
 
-  ConnectRequestMessage msg;
+  ConnectRequestMessage msg(CLIENTVERSION);
   SocketAddress addr = Socket::getSocketAddress(GetServer(), 12345);
   network->setServerAddress(addr);
   network->send(&msg);

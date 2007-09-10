@@ -34,15 +34,19 @@ namespace CONNECTION
 
 class ConnectRequestMessage : public NetMessage
 {
+private:
+  unsigned int version;
 public:
 
-  ConnectRequestMessage() : NetMessage(MESSAGES::CONNECTION,CONNECTION::REQUEST) {}
+  ConnectRequestMessage(unsigned int v) : 
+    NetMessage(MESSAGES::CONNECTION,CONNECTION::REQUEST) { version = v; }
 
   void serialise(ByteStream* bs)
   {
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
+    serial.setInt32(version);
   }
 
   void deserialise(ByteStream* bs)
@@ -50,6 +54,7 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
+    version = serial.getInt32();
   }
 
   unsigned char getMsgType()
@@ -61,14 +66,24 @@ public:
   {
     return id;
   }
+  
+  unsigned int getVersion()
+  {
+    return version;
+  }
 };
 
 class ConnectResponseMessage : public NetMessage
 {
+private: 
   unsigned char sessionId;
+  bool succeeded;
 
 public:
-  ConnectResponseMessage() : NetMessage(MESSAGES::CONNECTION,CONNECTION::RESPONSE) {}
+  ConnectResponseMessage(bool c) : NetMessage(MESSAGES::CONNECTION,CONNECTION::RESPONSE)
+  {
+    succeeded = c;
+  }
 
   void serialise(ByteStream* bs)
   {
@@ -76,6 +91,7 @@ public:
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setInt8(sessionId);
+    serial.setInt8(succeeded?1:0);
   }
 
   void deserialise(ByteStream* bs)
@@ -84,6 +100,7 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     sessionId = serial.getInt8();
+    succeeded = (bool)serial.getInt8();
   }
 
   unsigned char getSessionId()
@@ -93,6 +110,11 @@ public:
   void setSessionId(int ssid)
   {
     sessionId = (unsigned char) ssid;
+  }
+
+  bool connectionSucceeded()
+  {
+    return succeeded;
   }
 
 };
