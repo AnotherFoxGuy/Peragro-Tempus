@@ -169,7 +169,7 @@ namespace PT
           float ratio = (float)currentStamina / (float)maxStamina;
           if (guimanager)
           {
-            guimanager->GetHUDWindow()->SetHP(ratio);
+            guimanager->GetHUDWindow()->SetSP(ratio);
             char buffer[40];
             sprintf(buffer, "            %d/%d\0", currentStamina, maxStamina);
             guimanager->GetHUDWindow()->SetText("PlayerHUD/Name", buffer);

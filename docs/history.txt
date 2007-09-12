@@ -10,6 +10,8 @@ under each day.
    at exit, but can't see that this change should be the root cause of it. A
    searched made it looked like there might be a bug in glibc.. Can someone try
    this out?
+ - swedishcoder made draining stamina now affect the stamina bar instead of the
+   health bar.
 
 10-Sep-2007
  - swedishcoder introduced a simple versioning system. It is now possible to set
