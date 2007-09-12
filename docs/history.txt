@@ -4,6 +4,13 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+11-Sep-2007
+ - swedishcoder added support for stamina support in the gui. Also added
+   functions for setting the XP value. I did see some random weirdness in glibc
+   at exit, but can't see that this change should be the root cause of it. A
+   searched made it looked like there might be a bug in glibc.. Can someone try
+   this out?
+
 10-Sep-2007
  - swedishcoder introduced a simple versioning system. It is now possible to set
    a minimum client version and client version in src/common/version.h This will

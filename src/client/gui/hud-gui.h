@@ -35,6 +35,7 @@ private:
   CEGUI::ProgressBar* hpbar;
   CEGUI::ProgressBar* mpbar;
   CEGUI::ProgressBar* xpbar;
+  CEGUI::ProgressBar* spbar;
 
   int counter;
   CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id);
@@ -52,6 +53,8 @@ public:
   void CreateGUIWindow();    // load the chat guilayout and register button events.
   void SetHP (float hp);       // set the hp. 
   void SetMP (float mp);       // set the mp. 
+  void SetXP (float xp);       // set the xp. 
+  void SetSP (float sp);       // set the sp. 
   void SetName (const char* name); // set the name;
   void SetText (const char* name, const char* test); // set the text;
   int GetActiveSkillId();

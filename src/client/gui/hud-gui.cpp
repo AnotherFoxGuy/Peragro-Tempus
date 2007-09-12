@@ -56,10 +56,12 @@ void HUDWindow::CreateGUIWindow ()
   hpbar   = (CEGUI::ProgressBar*) winMgr->getWindow("PlayerHUD/HP");
   mpbar   = (CEGUI::ProgressBar*) winMgr->getWindow("PlayerHUD/MP");
   xpbar   = (CEGUI::ProgressBar*) winMgr->getWindow("PlayerHUD/XP");
+  spbar   = (CEGUI::ProgressBar*) winMgr->getWindow("PlayerHUD/SP");
 
   hpbar->setProgress(1.0f);
   mpbar->setProgress(1.0f);
   xpbar->setProgress(1.0f);
+  spbar->setProgress(1.0f);
 
   //Load the skill icon imageset
   vfs->ChDir ("/peragro/skin/");
@@ -104,6 +106,17 @@ void HUDWindow::SetMP (float mp)
 {
   mpbar->setProgress(mp);
 }
+
+void HUDWindow::SetXP (float xp)
+{
+  xpbar->setProgress(xp);
+}
+
+void HUDWindow::SetSP (float sp)
+{
+  spbar->setProgress(sp);
+}
+
 void HUDWindow::SetName (const char* name)
 {
   try {
