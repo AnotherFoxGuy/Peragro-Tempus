@@ -100,7 +100,7 @@ public:
     type = serial.getInt8();
     id = serial.getInt8();
     sessionId = serial.getInt8();
-    succeeded = (bool)serial.getInt8();
+    succeeded = serial.getInt8()>0;
   }
 
   unsigned char getSessionId()
