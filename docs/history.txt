@@ -6,6 +6,9 @@ under each day.
 
 14-Sep-2007
  - swedishcoder fixed: client.cpp(174) : warning embedded '\0' in format
+ - swedishcoder set "selectedskill = 0" in the HUDWindow constructor. Otherwise
+   if the destructor was called before CreateGUIWindow() it would try to free
+     random memory.
 
 13-Sep-2007
  - PK fixed: udpconnectionmessages.h(103) : warning C4800: 'char' : forcing 

@@ -30,6 +30,7 @@
 HUDWindow::HUDWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
+  selectedskill = 0;
 }
 
 HUDWindow::~HUDWindow ()
