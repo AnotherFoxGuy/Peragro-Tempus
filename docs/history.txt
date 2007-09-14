@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+14-Sep-2007
+ - swedishcoder fixed: client.cpp(174) : warning embedded '\0' in format
+
 13-Sep-2007
  - PK fixed: udpconnectionmessages.h(103) : warning C4800: 'char' : forcing 
    value to bool 'true' or 'false' (performance warning)

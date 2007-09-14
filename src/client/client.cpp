@@ -171,7 +171,7 @@ namespace PT
           {
             guimanager->GetHUDWindow()->SetSP(ratio);
             char buffer[40];
-            sprintf(buffer, "            %d/%d\0", currentStamina, maxStamina);
+            sprintf(buffer, "            %d/%d", currentStamina, maxStamina);
             guimanager->GetHUDWindow()->SetText("PlayerHUD/Name", buffer);
           }
         }
