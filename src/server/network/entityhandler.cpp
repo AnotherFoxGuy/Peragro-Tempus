@@ -527,4 +527,27 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 
 void EntityHandler::handlePoseRequest(GenericMessage* msg)
 {
+  const Entity* user_ent = NetworkHelper::getEntity(msg);
+  if (!user_ent) return;
+
+  PoseRequestMessage request_msg;
+  request_msg.deserialise(msg->getByteStream());
+
+  const PcEntity* pc_ent = user_ent->getPlayerEntity();
+  if (!pc_ent) return;
+
+  unsigned int pose_id = request_msg.getPoseId();
+
+  PcEntity* e = pc_ent->getLock();
+  e->setPose(pose_id);
+  e->freeLock();
+
+  PoseMessage pose_msg;
+  pose_msg.setEntityId(user_ent->getId());
+  pose_msg.setPoseId(e->getPose());
+
+  ByteStream bs;
+  pose_msg.serialise(&bs);
+
+  NetworkHelper::broadcast(bs);
 }

@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+25-Sep-2007
+ - PK implemented the server side of the posing code (sit).
+ - PK updated the generator xml files.
+
 14-Sep-2007
  - swedishcoder fixed: client.cpp(174) : warning embedded '\0' in format
  - swedishcoder set "selectedskill = 0" in the HUDWindow constructor. Otherwise

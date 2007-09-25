@@ -3,16 +3,15 @@
 		<string>Name</string>
 		<string>Mesh</string>
 		<vector3f>Pos</vector3f>
-		<string>Sector</string>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
+		<uint8>PoseId</uint8>
 	</message>
 
 	<message type="Entity" name="AddItemEntity">
 		<uint32>ItemId</uint32>
 		<uint32>Variation</uint32>
 		<vector3f>Pos</vector3f>
-		<string>Sector</string>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 	</message>
@@ -32,9 +31,9 @@
 		<colour24>HairColour</colour24>
 		<colour24>SkinColour</colour24>
 		<colour24>DecalColour</colour24>
-		<string>Sector</string>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
+		<uint8>PoseId</uint8>
 		<list name="Equipment">
 			<uint32>ItemId</uint32>
 		</list>
@@ -48,13 +47,25 @@
 		<float>Turn</float>
 		<float>Walk</float>
 		<uint32>EntityId</uint32>
+		<bool>Run</bool>
 	</message>
 
 	<message type="Entity" name="MoveRequest">
 		<uint8>Turn</uint8>
 		<uint8>Walk</uint8>
+		<bool>Run</bool>
 	</message>
 
+	<message type="Entity" name="Pose">
+		<uint32>EntityId</uint32>
+		<uint8>PoseId</uint8>
+	</message>
+
+	<message type="Entity" name="PoseRequest">
+		<uint8>PoseId</uint8>
+	</message>
+
+	
 	<message type="Entity" name="PickRequest">
 		<uint32>ItemEntityId</uint32>
 		<uint8>Slot</uint8>
@@ -116,10 +127,12 @@
 		<vector3f>To</vector3f>
 		<float>Speed</float>
 		<uint32>EntityId</uint32>
+		<bool>Run</bool>
 	</message>
 
 	<message type="Entity" name="MoveToRequest">
 		<vector3f>To</vector3f>
+		<bool>Run</bool>
 	</message>
 
 	<message type="Entity" name="Relocate"></message>
@@ -127,21 +140,18 @@
 	<message type="Entity" name="Teleport">
 		<uint32>EntityId</uint32>
 		<vector3f>Pos</vector3f>
-		<string>Sector</string>
 		<uint16>SectorId</uint16>
 	</message>
 	
 	<message type="Entity" name="DrUpdateRequest">
 		<vector3f>Pos</vector3f>
 		<float>Rotation</float>
-		<string>Sector</string>
 		<uint16>SectorId</uint16>
 	</message>
 
 	<message type="Entity" name="DrUpdate">
 		<vector3f>Pos</vector3f>
 		<float>Rotation</float>
-		<string>Sector</string>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 	</message>
@@ -165,7 +175,6 @@
 		<string>Name</string>
 		<string>Mesh</string>
 		<vector3f>Pos</vector3f>
-		<string>Sector</string>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 		<uint32>InventoryId</uint32>

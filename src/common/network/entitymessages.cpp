@@ -439,6 +439,7 @@ void MoveToMessage::serialise(ByteStream* bs)
   serial.setFloat(to[2]);
   serial.setFloat(speed);
   serial.setInt32(entityid);
+  serial.setInt8(run?1:0);
 }
 
 void MoveToMessage::deserialise(ByteStream* bs)
@@ -454,6 +455,7 @@ void MoveToMessage::deserialise(ByteStream* bs)
   to[2] = serial.getFloat();
   speed = serial.getFloat();
   entityid = (unsigned int) serial.getInt32();
+  run = serial.getInt8() != 0;
 }
 
 void MoveToRequestMessage::serialise(ByteStream* bs)
@@ -464,6 +466,7 @@ void MoveToRequestMessage::serialise(ByteStream* bs)
   serial.setFloat(to[0]);
   serial.setFloat(to[1]);
   serial.setFloat(to[2]);
+  serial.setInt8(run?1:0);
 }
 
 void MoveToRequestMessage::deserialise(ByteStream* bs)
@@ -474,6 +477,7 @@ void MoveToRequestMessage::deserialise(ByteStream* bs)
   to[0] = serial.getFloat();
   to[1] = serial.getFloat();
   to[2] = serial.getFloat();
+  run = serial.getInt8() != 0;
 }
 
 void RelocateMessage::serialise(ByteStream* bs)

@@ -75,6 +75,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setPos(entity->getPos());
     msg.setSectorId(entity->getSector());
     //msg.setSector(entity->getSectorName());
+    msg.setPoseId(entity->getPlayerEntity()->getPose());
     Character* character = entity->getPlayerEntity()->getCharacter()->getLock();
     msg.setDecalColour(character->getDecalColour());
     msg.setHairColour(character->getHairColour());

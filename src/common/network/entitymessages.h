@@ -356,8 +356,8 @@ public:
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  void setRun(bool r) { run = r; }
   bool getRun() { return run; }
+  void setRun(bool x) { run = x; }
 
 };
 
@@ -384,6 +384,7 @@ public:
 
   unsigned char getWalk() { return walk; }
   void setWalk(unsigned char x) { walk = x; }
+
   bool getRun() { return run; }
   void setRun(bool x) { run = x; }
 
@@ -706,6 +707,7 @@ class MoveToMessage : public NetMessage
   float to[3];
   float speed;
   unsigned int entityid;
+  bool run;
 
 public:
   MoveToMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVETO)
@@ -749,11 +751,15 @@ public:
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
+  bool getRun() { return run; }
+  void setRun(bool x) { run = x; }
+
 };
 
 class MoveToRequestMessage : public NetMessage
 {
   float to[3];
+  bool run;
 
 public:
   MoveToRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVETOREQUEST)
@@ -778,6 +784,9 @@ public:
   {
     setTo(x[0], x[1], x[2]);
   }
+
+  bool getRun() { return run; }
+  void setRun(bool x) { run = x; }
 
 };
 

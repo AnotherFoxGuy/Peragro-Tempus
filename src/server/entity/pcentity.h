@@ -46,6 +46,8 @@ private:
 
   float tmp_pos[3]; //used only for temporary calculations!
 
+  int pose_id;
+
 public:
   PcEntity()
   {
@@ -73,6 +75,9 @@ public:
   const MountEntity* getMount() const { return mount.get(); }
 
   TradePeer* getTradePeer() { return &tradepeer; }
+
+  void setPose(int pose_id) { this->pose_id = pose_id; }
+  const int getPose() const { return pose_id; }
 
   void walkTo(float* dst_pos, float speed);
   const float* getPos();

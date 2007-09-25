@@ -29,6 +29,8 @@
 		<!--message type="Entity" name="SkillsList" /-->
 		<message type="Entity" name="EquipRequest" />
 		<!--message type="Entity" name="Equip" /-->
+		<message type="Entity" name="PoseRequest" />
+		<!--message type="Entity" name="Pose" /-->
 		<message type="Chat" name="Say" />
 		<message type="Chat" name="Shout" />
 		<message type="Chat" name="WhisperTo" />
@@ -94,6 +96,8 @@
 		<message type="Entity" name="SkillsList" />
 		<!--message type="Entity" name="EquipRequest" /-->
 		<message type="Entity" name="Equip" />
+		<!--message type="Entity" name="PoseRequest" /-->
+		<message type="Entity" name="Pose" />
 		<message type="Chat" name="Say" />
 		<message type="Chat" name="Shout" />
 		<!--message type="Chat" name="WhisperTo" /-->
