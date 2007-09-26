@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+26-Sep-2007
+ - swedishcoder added a script that downloads all(?) dependencies for getting
+   started with the newentity branch. Most people do not need this just yet.
+   (Linux only)
+
 25-Sep-2007
  - PK implemented the server side of the posing code (sit).
  - PK updated the generator xml files.
