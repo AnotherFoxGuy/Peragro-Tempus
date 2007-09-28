@@ -37,10 +37,17 @@ namespace PT
     iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
     if (!obj_reg) return false;
 
+    // Register for input events.
+    csBaseEventHandler::Initialize (obj_reg);
+    RegisterQueue (obj_reg, csevInput (obj_reg));
+
     csConfigAccess cfg (obj_reg, "/config/client.cfg");
 
     csRef<iConfigIterator> it = cfg->Enumerate("Key");
 
+    Report(PT::Debug, "");
+    Report(PT::Debug, "==Loading keybindings==========================");
+    uint numberOfKeys = 0;
     while (it.IsValid() && it->Next())
     {
       const char* keystring = it->GetKey() + strlen(it->GetSubsection()) + 1;
@@ -56,22 +63,25 @@ namespace PT
         continue;
       }
 
-      Report(PT::Debug, "Binding key '%s(%d)' to action '%s'.", keystring, keycode, action);
-      functions.Put(keycode, action);
-
       if (keycode >= 'A' && keycode <= 'Z') 
       {
         keycode += 'a' - 'A';
-        Report(PT::Debug, "Binding key '%s(%d)' to action '%s'.", keystring, keycode, action);
-        functions.Put(keycode, action);
       }
+
+      functions.Put(keycode, action);
+      Report(PT::Debug, "%-10s %-8d %s", keystring, keycode, action);
+
+      numberOfKeys++;
     }
+    Report(PT::Debug, "================================ %d keybinding(s)\n", numberOfKeys);
 
     return true;
   }
 
-  bool InputManager::ProcessEvent(iEvent &ev) 
+  bool InputManager::OnKeyboard(iEvent &ev) 
   {
+    Report(PT::Debug, "InputManager::OnKeyboard");
+
     if (csKeyEventHelper::GetAutoRepeat (&ev)) return false;
 
     csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
@@ -88,12 +98,56 @@ namespace PT
       ActionEvent* actionEvent = new ActionEvent();
       actionEvent->action		= action;
       actionEvent->released		= !down;
+      actionEvent->name                += "." + action;
       PointerLibrary::getInstance()->getEventManager()->AddEvent(actionEvent);
     }
     else
+    {
       Report(PT::Warning, "No action for key '%d'.", key);
+      return false;
+    }
 
-    return false;
+    return true;
+  }
+
+  bool InputManager::OnMouse(iEvent& ev)
+  {
+    Report(PT::Debug, "InputManager::OnMouse");
+
+    csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
+    bool down = (mouseevent == csMouseEventTypeDown);
+
+    uint button = csMouseEventHelper::GetButton(&ev);
+
+    if (functions.Contains(button))
+    {
+      std::string action = functions.Get(button, "");
+      Report(PT::Debug, "%s button '(%d)', firing action '%s'.", down ? "Pressed":"Released", button, action.c_str());
+
+      using namespace PT::Events;
+      ActionEvent* actionEvent = new ActionEvent();
+      actionEvent->action		= action;
+      actionEvent->released		= !down;
+      actionEvent->name                += "." + action;
+      PointerLibrary::getInstance()->getEventManager()->AddEvent(actionEvent);
+    }
+    else
+    {
+      Report(PT::Warning, "No action for button '%d'.", button);
+      return false;
+    }
+
+    return true;
+  }
+
+  bool InputManager::OnMouseDown(iEvent& ev)
+  {
+    return OnMouse(ev);
+  }
+
+  bool InputManager::OnMouseUp(iEvent& ev)
+  {
+    return OnMouse(ev);
   }
 
   int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl)
@@ -143,6 +197,15 @@ namespace PT
     else if (!strcmp (keystring, "F10")) keycode = CSKEY_F10;
     else if (!strcmp (keystring, "F11")) keycode = CSKEY_F11;
     else if (!strcmp (keystring, "F12")) keycode = CSKEY_F12;
+
+    else if (!strcmp (keystring, "LMB")) keycode = 0;
+    else if (!strcmp (keystring, "RMB")) keycode = 1;
+    else if (!strcmp (keystring, "MMB")) keycode = 2;
+    else if (!strcmp (keystring, "WLUP")) keycode = 3;
+    else if (!strcmp (keystring, "WLDOWN")) keycode = 4;
+    else if (!strcmp (keystring, "MBX1")) keycode = 5;
+    else if (!strcmp (keystring, "MBX2")) keycode = 6;
+
     else if (*(keystring+1) != 0) return -1;
     else if ((*keystring >= 'A' && *keystring <= 'Z')
       || strchr ("!@#$%^&*()_+", *keystring))

@@ -52,7 +52,8 @@ public:
 
   void Draw();
   void MouseMove(iCelPlLayer* pl, iCamera* camera, int x, int y);
-  iCelEntity* getSelectedEntity();
+  iCelEntity* GetSelectedEntity();
+  iMeshWrapper* Get3DPointFrom2D(iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord);
   iMeshWrapper* Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord);
 };
 

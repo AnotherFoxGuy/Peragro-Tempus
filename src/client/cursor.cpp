@@ -110,9 +110,14 @@ void Cursor::MouseMove(iCelPlLayer* pl, iCamera* camera, int x, int y)
   mousey = y;
 }
 
-iCelEntity* Cursor::getSelectedEntity()
+iCelEntity* Cursor::GetSelectedEntity()
 {
   return selent;
+}
+
+iMeshWrapper* Cursor::Get3DPointFrom2D(iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord)
+{
+  return Get3DPointFrom2D(mousex, mousey, camera, worldCoord, untransfCoord);
 }
 
 iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord)

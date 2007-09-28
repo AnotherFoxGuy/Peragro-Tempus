@@ -254,11 +254,6 @@ namespace PT
     network->init();
     pointerlib.setNetwork(network);
 
-    // Create and Initialize the InputManager.
-    inputMgr = new InputManager();
-    if(!inputMgr->Initialize()) 
-      return Report(PT::Error, "Failed to create InputManager object!");
-
     // Create and Initialize the EventManager.
     eventmanager = new PT::Events::EventManager();
     if (!eventmanager->Initialize())
@@ -271,7 +266,7 @@ namespace PT
       return Report(PT::Error, "Failed to initialize ItemManager!");
     pointerlib.setItemManager(itemmanager);
 
-    // Create and Initialize the ItemManager.
+    // Create and Initialize the SectorManager.
     sectormanager = new PT::Data::SectorManager (GetObjectRegistry());
     if (!sectormanager->Initialize())
       return Report(PT::Error, "Failed to initialize SectorManager!");
@@ -282,6 +277,11 @@ namespace PT
     if (!guimanager->Initialize ())
       return Report(PT::Error, "Failed to initialize GUIManager!");
     pointerlib.setGUIManager(guimanager);
+
+    // Create and Initialize the InputManager.
+    inputMgr = new InputManager();
+    if(!inputMgr->Initialize()) 
+      return Report(PT::Error, "Failed to create InputManager object!");
 
     if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
       return Report(PT::Error, "Failed to set up event handler!");
@@ -345,7 +345,7 @@ namespace PT
       return Report(PT::Error, "Failed to initialize ChatManager!");
     pointerlib.setChatManager(chatmanager);
 
-    // Create and Initialize the ChatManager.
+    // Create and Initialize the TradeManager.
     trademanager = new PT::Trade::TradeManager (GetObjectRegistry());
     if (!trademanager->Initialize())
       return Report(PT::Error, "Failed to initialize TradeManager!");
@@ -410,59 +410,75 @@ namespace PT
 
     // Register listener for ActionForward.
     EventHandler<Client>* cbActionForward = new EventHandler<Client>(&Client::ActionForward, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionForward);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_FORWARD", cbActionForward);
 
     // Register listener for ActionBackward.
     EventHandler<Client>* cbActionBackward = new EventHandler<Client>(&Client::ActionBackward, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionBackward);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_BACKWARD", cbActionBackward);
 
     // Register listener for ActionLeft.
     EventHandler<Client>* cbActionLeft = new EventHandler<Client>(&Client::ActionLeft, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionLeft);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_LEFT", cbActionLeft);
 
     // Register listener for ActionRight.
     EventHandler<Client>* cbActionRight = new EventHandler<Client>(&Client::ActionRight, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionRight);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_RIGHT", cbActionRight);
 
     // Register listener for ActionToggleWalk.
     EventHandler<Client>* cbActionToggleWalk = new EventHandler<Client>(&Client::ActionToggleWalk, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleWalk);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_TOGGLEWALK", cbActionToggleWalk);
 
     // Register listener for ActionToggleRun.
     EventHandler<Client>* cbActionToggleRun = new EventHandler<Client>(&Client::ActionToggleRun, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleRun);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_TOGGLERUN", cbActionToggleRun);
 
     // Register listener for ActionPanUp.
     EventHandler<Client>* cbActionPanUp = new EventHandler<Client>(&Client::ActionPanUp, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionPanUp);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_PANUP", cbActionPanUp);
 
     // Register listener for ActionPanDown.
     EventHandler<Client>* cbActionPanDown = new EventHandler<Client>(&Client::ActionPanDown, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionPanDown);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_PANDOWN", cbActionPanDown);
 
     // Register listener for ActionToggleCamera.
     EventHandler<Client>* cbActionToggleCamera = new EventHandler<Client>(&Client::ActionToggleCamera, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleCamera);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_TOGGLECAMERA", cbActionToggleCamera);
 
     // Register listener for ActionToggleDistClipping.
     EventHandler<Client>* cbActionToggleDistClipping = new EventHandler<Client>(&Client::ActionToggleDistClipping, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionToggleDistClipping);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_TOGGLEDISTCLIP", cbActionToggleDistClipping);
 
     // Register listener for ActionHit.
     EventHandler<Client>* cbActionHit = new EventHandler<Client>(&Client::ActionHit, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionHit);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_HIT", cbActionHit);
 
     // Register listener for ActionActivateSkill.
     EventHandler<Client>* cbActionActivateSkill = new EventHandler<Client>(&Client::ActionActivateSkill, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionActivateSkill);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_ACTIVATESKILL", cbActionActivateSkill);
 
     // Register listener for ActionActivateWeapon.
     EventHandler<Client>* cbActionActivateWeapon = new EventHandler<Client>(&Client::ActionActivateWeapon, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionActivateWeapon);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_ACTIVATEWEAPON", cbActionActivateWeapon);
 
     // Register listener for ActionQuit.
     EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent", cbActionQuit);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_QUIT", cbActionQuit);
+
+    // Register listener for ActionMoveTo.
+    EventHandler<Client>* cbActionMoveTo = new EventHandler<Client>(&Client::ActionMoveTo, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_MOVETO", cbActionMoveTo);
+
+    // Register listener for ActionOnInteract.
+    EventHandler<Client>* cbActionOnInteract = new EventHandler<Client>(&Client::ActionOnInteract, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_INTERACT", cbActionOnInteract);
+
+    // Register listener for ActionZoomIn.
+    EventHandler<Client>* cbActionZoomIn = new EventHandler<Client>(&Client::ActionZoomIn, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_ZOOMIN", cbActionZoomIn);
+
+    // Register listener for ActionZoomOut.
+    EventHandler<Client>* cbActionZoomOut = new EventHandler<Client>(&Client::ActionZoomOut, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_ZOOMOUT", cbActionZoomOut);
 
     Run();
 
@@ -662,8 +678,6 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_FORWARD")) return false;
-
       if (!actionEv->released) 
         walk = 1; 
       else 
@@ -682,8 +696,6 @@ namespace PT
     {
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
-
-      if (!actionEv->Compare("ACTION_BACKWARD")) return false;
 
       if (!actionEv->released)
         walk = -1;
@@ -704,8 +716,6 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_LEFT")) return false;
-
       if (!actionEv->released)
         turn = -1;
       else 
@@ -724,8 +734,6 @@ namespace PT
     {
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
-
-      if (!actionEv->Compare("ACTION_RIGHT")) return false;
 
       if (!actionEv->released)
         turn = 1;
@@ -746,8 +754,6 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_TOGGLEWALK")) return false;
-
       if (!actionEv->released) 
       {
         (walk == 0) ? walk = 1 : walk = 0;
@@ -767,8 +773,6 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_TOGGLERUN")) return false;
-
       if (!actionEv->released) 
       {
         (run == 0) ? run = 1 : run = 0;
@@ -787,8 +791,6 @@ namespace PT
     {
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
-
-      if (!actionEv->Compare("ACTION_PANUP")) return false;
 
       if (!actionEv->released) 
       {
@@ -811,8 +813,6 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_PANDOWN")) return false;
-
       if (!actionEv->released) 
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
@@ -834,8 +834,6 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_TOGGLECAMERA")) return false;
-
       if (!actionEv->released) 
       {
         iPcActorMove* pcactormove = getPcActorMove();
@@ -855,8 +853,6 @@ namespace PT
     {
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
-
-      if (!actionEv->Compare("ACTION_TOGGLEDISTCLIP")) return false;
 
       if (!actionEv->released) 
       {
@@ -882,8 +878,6 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_HIT")) return false;
-
       if (!actionEv->released) 
       {
         combatmanager->hit (entitymanager->GetOwnId(), 20);
@@ -902,12 +896,10 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_ACTIVATESKILL")) return false;
-
       if (!actionEv->released) 
       {
         // Activate the skill
-        csRef<iCelEntity> ent = cursor->getSelectedEntity();
+        csRef<iCelEntity> ent = cursor->GetSelectedEntity();
         csRef<iPcProperties> pcprop;
         if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
         if (!pcprop) return false;
@@ -941,8 +933,6 @@ namespace PT
       ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
       if (!actionEv) return false;
 
-      if (!actionEv->Compare("ACTION_ACTIVATEWEAPON")) return false;
-
       if (!actionEv->released) 
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
@@ -968,8 +958,6 @@ namespace PT
     ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
     if (!actionEv) return false;
 
-    if (!actionEv->Compare("ACTION_QUIT")) return false;
-
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
     if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
 
@@ -990,189 +978,195 @@ namespace PT
 
     return true;
   }
-  bool Client::OnKeyboard(iEvent& ev)
-  {
-    return inputMgr->ProcessEvent(ev);
-  }
 
-  bool Client::OnMouseDown(iEvent& ev)
+  bool Client::ActionMoveTo(PT::Events::Eventp ev) 
   {
-    if (playing)
+    using namespace PT::Events;
+
+    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+    if (!actionEv) return false;
+
+    if (!actionEv->released) 
     {
-      csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
-      if (mouseevent == csMouseEventTypeDown)
+      if (!entitymanager) return false;
+      csRef<iPcDefaultCamera> pccamera = entitymanager->getOwnCamera();
+      if (!pccamera) return false;
+      csRef<iCamera> cam = pccamera->GetCamera();
+      if (!cam) return false;
+
+      csVector3 isect, untransfCoord;
+      csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord);
+
+      if (mesh)
       {
-        switch(csMouseEventHelper::GetButton(&ev))
-        {
-        case csmbLeft:
-          {
-            if (!entitymanager) return false;
-            csRef<iPcDefaultCamera> pccamera = entitymanager->getOwnCamera();
-            if (!pccamera) return false;
-            csRef<iCamera> cam = pccamera->GetCamera();
-            if (!cam) return false;
+        effectsmanager->CreateEffect(PT::Data::EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
+        //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0), cam);
 
-            csVector3 isect, untransfCoord;
-            csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(csMouseEventHelper::GetX(&ev), 
-              csMouseEventHelper::GetY(&ev), 
-              cam, &isect, &untransfCoord);
+        csRef<iCelEntity> ownent = entitymanager->getOwnCelEntity();
+        if (!ownent) return false;
+        csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
+        if (!pclinmove) return false;
 
-            if (mesh)
-            {
-              effectsmanager->CreateEffect(PT::Data::EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
-              //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0), cam);
+        MoveToRequestMessage msg;
+        msg.setTo(isect.x, isect.y, isect.z);
+        network->send(&msg);
 
-              csRef<iCelEntity> ownent = entitymanager->getOwnCelEntity();
-              if (!ownent) return false;
-              csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
-              if (!pclinmove) return false;
-
-              MoveToRequestMessage msg;
-              msg.setTo(isect.x, isect.y, isect.z);
-              network->send(&msg);
-
-              Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
-            }
-            else
-            {
-              Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
-            }
-            return true;
-            break;
-          }
-
-        case csmbRight:
-          {
-            csRef<iCelEntity> ent = cursor->getSelectedEntity();
-
-            csRef<iPcProperties> pcprop;
-            if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-            if (!pcprop) return false;
-
-            // If it's an item, request a pickup.
-            if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::ItemEntity)
-            {
-              unsigned int slotid = guimanager->GetInventoryWindow()->FindFreeSlot();
-              if(slotid < 30)
-              {
-                PickRequestMessage msg;
-                msg.setItemEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-                msg.setSlot(slotid); // TODO: get a free slot for this!
-                Report(PT::Notify, "OnMouseDown: Requisting picking up entity: %d for slot %d.", msg.getItemEntityId(), slotid);
-                network->send(&msg);
-              }
-            }
-            // If it's a door, request to open.
-            else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::DoorEntity)
-            {
-              if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Open")))
-              {
-                CloseDoorRequestMessage msg1;
-                msg1.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-                Report(PT::Notify, "OnMouseDown: Requesting closing door: %d.", msg1.getDoorId());
-                network->send(&msg1);
-
-                //Lock it again after closing.
-                LockDoorRequestMessage msg2;
-                msg2.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-                Report(PT::Notify, "OnMouseDown: Requesting unlocking door: %d.", msg2.getDoorId());
-                network->send(&msg2);
-              }
-              else
-              {
-                // first click unlocks, second click opens!
-                if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Locked")))
-                {
-                  UnlockDoorRequestMessage msg;
-                  msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-                  Report(PT::Notify, "OnMouseDown: Requesting unlocking door: %d.", msg.getDoorId());
-                  network->send(&msg);
-                }
-                else
-                {
-                  OpenDoorRequestMessage msg;
-                  msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-                  Report(PT::Notify, "OnMouseDown: Requesting opening door: %d.", msg.getDoorId());
-                  network->send(&msg);
-                }
-              }
-            }
-            // If it's a player, attack it.
-            else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
-            {
-              //combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
-              TradeRequestMessage msg;
-              msg.setEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-              Report(PT::Notify, "OnMouseDown: Requesting trade with: %d.", msg.getEntityId());
-              network->send(&msg);
-            }
-            // If it's a npc, open a dialog.
-            else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::NPCEntity)
-            {
-              NpcStartDialogMessage msg;
-              msg.setNpcId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-              Report(PT::Notify, "OnMouseDown: Requesting dialog with: %d.", msg.getNpcId());
-              network->send(&msg);
-            }
-            // If it's a mount, mount it.
-            else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::MountEntity)
-            {
-              PtEntity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-              if(!ent) return false;
-
-              PtMountEntity* mount = static_cast<PtMountEntity*>(ent);
-              if(!mount->isMounted())
-              {
-                MountRequestMessage msg;
-                msg.setMountEntityId(mount->GetId());
-                network->send(&msg);
-                Report(PT::Notify, "OnMouseDown: Mounting.");
-              }
-              else
-              {
-                UnmountRequestMessage msg;
-                msg.setMountEntityId(mount->GetId());
-                network->send(&msg);
-                Report(PT::Notify, "OnMouseDown: UnMounting.");
-              }
-            }
-            else
-            {
-              Report(PT::Warning, "OnMouseDown: Unknown entity type!");
-            }
-            return true;
-            break;
-          }
-
-        case csmbMiddle:
-          {
-            break;
-          }
-        case csmbWheelUp:
-          {
-            iCelEntity* entity = entitymanager->getOwnCelEntity();
-            if (!entity) return false;
-            csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
-            cameradistance -= 0.5;
-            if (pccamera.IsValid()) pccamera->SetDistance(cameradistance);
-            return false;
-            break;
-          }
-        case csmbWheelDown:
-          {
-            iCelEntity* entity = entitymanager->getOwnCelEntity();
-            if (!entity) return false;
-            csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
-            cameradistance += 0.5;
-            if (pccamera.IsValid()) pccamera->SetDistance(cameradistance);
-            return false;
-            break;
-          }
-        }
+        Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
+      }
+      else
+      {
+        Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
       }
     }
 
-    return false;
+    return true;
+  }
+
+  bool Client::ActionOnInteract(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+    if (!actionEv) return false;
+
+    if (!actionEv->released) 
+    {
+      csRef<iCelEntity> ent = cursor->GetSelectedEntity();
+
+      csRef<iPcProperties> pcprop;
+      if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+      if (!pcprop) return false;
+
+      // If it's an item, request a pickup.
+      if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::ItemEntity)
+      {
+        unsigned int slotid = guimanager->GetInventoryWindow()->FindFreeSlot();
+        if(slotid < 30)
+        {
+          PickRequestMessage msg;
+          msg.setItemEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          msg.setSlot(slotid); // TODO: get a free slot for this!
+          Report(PT::Notify, "OnMouseDown: Requisting picking up entity: %d for slot %d.", msg.getItemEntityId(), slotid);
+          network->send(&msg);
+        }
+      }
+      // If it's a door, request to open.
+      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::DoorEntity)
+      {
+        if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Open")))
+        {
+          CloseDoorRequestMessage msg1;
+          msg1.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          Report(PT::Notify, "OnMouseDown: Requesting closing door: %d.", msg1.getDoorId());
+          network->send(&msg1);
+
+          //Lock it again after closing.
+          LockDoorRequestMessage msg2;
+          msg2.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          Report(PT::Notify, "OnMouseDown: Requesting unlocking door: %d.", msg2.getDoorId());
+          network->send(&msg2);
+        }
+        else
+        {
+          // first click unlocks, second click opens!
+          if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Locked")))
+          {
+            UnlockDoorRequestMessage msg;
+            msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+            Report(PT::Notify, "OnMouseDown: Requesting unlocking door: %d.", msg.getDoorId());
+            network->send(&msg);
+          }
+          else
+          {
+            OpenDoorRequestMessage msg;
+            msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+            Report(PT::Notify, "OnMouseDown: Requesting opening door: %d.", msg.getDoorId());
+            network->send(&msg);
+          }
+        }
+      }
+      // If it's a player, attack it.
+      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
+      {
+        //combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
+        TradeRequestMessage msg;
+        msg.setEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        Report(PT::Notify, "OnMouseDown: Requesting trade with: %d.", msg.getEntityId());
+        network->send(&msg);
+      }
+      // If it's a npc, open a dialog.
+      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::NPCEntity)
+      {
+        NpcStartDialogMessage msg;
+        msg.setNpcId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        Report(PT::Notify, "OnMouseDown: Requesting dialog with: %d.", msg.getNpcId());
+        network->send(&msg);
+      }
+      // If it's a mount, mount it.
+      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::MountEntity)
+      {
+        PtEntity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        if(!ent) return false;
+
+        PtMountEntity* mount = static_cast<PtMountEntity*>(ent);
+        if(!mount->isMounted())
+        {
+          MountRequestMessage msg;
+          msg.setMountEntityId(mount->GetId());
+          network->send(&msg);
+          Report(PT::Notify, "OnMouseDown: Mounting.");
+        }
+        else
+        {
+          UnmountRequestMessage msg;
+          msg.setMountEntityId(mount->GetId());
+          network->send(&msg);
+          Report(PT::Notify, "OnMouseDown: UnMounting.");
+        }
+      }
+      else
+      {
+        Report(PT::Warning, "OnMouseDown: Unknown entity type!");
+      }
+
+    }
+    return true;
+  }
+
+  bool Client::ActionZoomIn(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+    if (!actionEv) return false;
+
+    if (!actionEv->released) 
+    {
+      iCelEntity* entity = entitymanager->getOwnCelEntity();
+      if (!entity) return false;
+      csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+      cameradistance -= 0.5;
+      if (pccamera.IsValid()) pccamera->SetDistance(cameradistance);
+    }
+    return true;
+  }
+
+  bool Client::ActionZoomOut(PT::Events::Eventp ev) 
+  {
+    using namespace PT::Events;
+
+    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
+    if (!actionEv) return false;
+
+    if (!actionEv->released) 
+    {
+      iCelEntity* entity = entitymanager->getOwnCelEntity();
+      if (!entity) return false;
+      csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+      cameradistance += 0.5;
+      if (pccamera.IsValid()) pccamera->SetDistance(cameradistance);
+    }
+    return true;
   }
 
   bool Client::OnMouseMove(iEvent& e)

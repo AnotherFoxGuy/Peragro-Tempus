@@ -121,8 +121,6 @@ namespace PT
     void ProcessFrame();
     void FinishFrame();
 
-    bool OnKeyboard(iEvent&);
-    bool OnMouseDown(iEvent& e);
     bool OnMouseMove(iEvent&);
     iPcActorMove* getPcActorMove();
     bool InitializeCEL();
@@ -192,6 +190,10 @@ namespace PT
     bool ActionActivateWeapon(PT::Events::Eventp);
     bool ActionQuit(PT::Events::Eventp);
     bool DoAction();
+    bool ActionMoveTo(PT::Events::Eventp);
+    bool ActionOnInteract(PT::Events::Eventp ev);
+    bool ActionZoomIn(PT::Events::Eventp ev);
+    bool ActionZoomOut(PT::Events::Eventp ev);
 
   private:
     bool playing;

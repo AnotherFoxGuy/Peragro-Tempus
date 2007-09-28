@@ -19,6 +19,7 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
+#include <csutil/csbaseeventh.h>
 #include <csutil/event.h>
 #include <csutil/cfgmgr.h>
 #include <csutil/cfgfile.h>
@@ -32,19 +33,22 @@ namespace PT
 {
   class Client;
 
-  class InputManager
+  class InputManager : public csBaseEventHandler
   {
   private:
     csHash< std::string, int > functions;
 
     int GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl);
+    bool OnMouse(iEvent& ev);
 
   public:
     InputManager();
 
     bool Initialize();
 
-    bool ProcessEvent(iEvent &);
+    bool OnKeyboard(iEvent &);
+    bool OnMouseDown(iEvent& ev);
+    bool OnMouseUp(iEvent& ev);
   };
 }
 #endif

@@ -69,15 +69,6 @@ namespace PT
     class ActionEvent : public _ActionEvent
     {
     public:
-      bool Compare(std::string action2) 
-      {
-        if ((action.length() == action2.length()) && (action == action2))
-          return true;
-        else
-          return false;
-      }
-
-    public:
       ActionEvent() : _ActionEvent("ActionEvent", true) {}
       virtual ~ActionEvent() {}
     };

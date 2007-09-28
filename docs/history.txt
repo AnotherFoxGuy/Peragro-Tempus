@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+28-Sep-2007
+ - Sueastside made mousebuttons configurable.
+ - Sueastside removed client.cpp CS input-eventhandlers and made inputmanager 
+   listen to those.
+ - Sueastside made entity interaction event-based. 
+
 26-Sep-2007
  - swedishcoder added a script that downloads all(?) dependencies for getting
    started with the newentity branch. Most people do not need this just yet.
