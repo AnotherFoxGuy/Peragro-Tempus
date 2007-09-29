@@ -320,6 +320,7 @@ namespace PT
     // Create the cursor.
     cursor = new Cursor(this);
     if (!cursor) return Report(PT::Error, "Can't create cursor!");
+    pointerlib.setCursor(cursor);
 
     // Create and Initialize the EntityManager.
     entitymanager = new PT::Entity::EntityManager (GetObjectRegistry());
@@ -410,75 +411,75 @@ namespace PT
 
     // Register listener for ActionForward.
     EventHandler<Client>* cbActionForward = new EventHandler<Client>(&Client::ActionForward, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_FORWARD", cbActionForward);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_FORWARD", cbActionForward);
 
     // Register listener for ActionBackward.
     EventHandler<Client>* cbActionBackward = new EventHandler<Client>(&Client::ActionBackward, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_BACKWARD", cbActionBackward);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_BACKWARD", cbActionBackward);
 
     // Register listener for ActionLeft.
     EventHandler<Client>* cbActionLeft = new EventHandler<Client>(&Client::ActionLeft, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_LEFT", cbActionLeft);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_LEFT", cbActionLeft);
 
     // Register listener for ActionRight.
     EventHandler<Client>* cbActionRight = new EventHandler<Client>(&Client::ActionRight, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_RIGHT", cbActionRight);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_RIGHT", cbActionRight);
 
     // Register listener for ActionToggleWalk.
     EventHandler<Client>* cbActionToggleWalk = new EventHandler<Client>(&Client::ActionToggleWalk, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_TOGGLEWALK", cbActionToggleWalk);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_TOGGLEWALK", cbActionToggleWalk);
 
     // Register listener for ActionToggleRun.
     EventHandler<Client>* cbActionToggleRun = new EventHandler<Client>(&Client::ActionToggleRun, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_TOGGLERUN", cbActionToggleRun);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_TOGGLERUN", cbActionToggleRun);
 
     // Register listener for ActionPanUp.
     EventHandler<Client>* cbActionPanUp = new EventHandler<Client>(&Client::ActionPanUp, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_PANUP", cbActionPanUp);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_PANUP", cbActionPanUp);
 
     // Register listener for ActionPanDown.
     EventHandler<Client>* cbActionPanDown = new EventHandler<Client>(&Client::ActionPanDown, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_PANDOWN", cbActionPanDown);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_PANDOWN", cbActionPanDown);
 
     // Register listener for ActionToggleCamera.
     EventHandler<Client>* cbActionToggleCamera = new EventHandler<Client>(&Client::ActionToggleCamera, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_TOGGLECAMERA", cbActionToggleCamera);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_TOGGLECAMERA", cbActionToggleCamera);
 
     // Register listener for ActionToggleDistClipping.
     EventHandler<Client>* cbActionToggleDistClipping = new EventHandler<Client>(&Client::ActionToggleDistClipping, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_TOGGLEDISTCLIP", cbActionToggleDistClipping);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_TOGGLEDISTCLIP", cbActionToggleDistClipping);
 
     // Register listener for ActionHit.
     EventHandler<Client>* cbActionHit = new EventHandler<Client>(&Client::ActionHit, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_HIT", cbActionHit);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_HIT", cbActionHit);
 
     // Register listener for ActionActivateSkill.
     EventHandler<Client>* cbActionActivateSkill = new EventHandler<Client>(&Client::ActionActivateSkill, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_ACTIVATESKILL", cbActionActivateSkill);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ACTIVATESKILL", cbActionActivateSkill);
 
     // Register listener for ActionActivateWeapon.
     EventHandler<Client>* cbActionActivateWeapon = new EventHandler<Client>(&Client::ActionActivateWeapon, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_ACTIVATEWEAPON", cbActionActivateWeapon);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ACTIVATEWEAPON", cbActionActivateWeapon);
 
     // Register listener for ActionQuit.
     EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_QUIT", cbActionQuit);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_QUIT", cbActionQuit);
 
     // Register listener for ActionMoveTo.
     EventHandler<Client>* cbActionMoveTo = new EventHandler<Client>(&Client::ActionMoveTo, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_MOVETO", cbActionMoveTo);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_MOVETO", cbActionMoveTo);
 
-    // Register listener for ActionOnInteract.
-    EventHandler<Client>* cbActionOnInteract = new EventHandler<Client>(&Client::ActionOnInteract, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_INTERACT", cbActionOnInteract);
+    // TODO remove (look in entitymgr) Register listener for ActionMoveTo.
+    EventHandler<Client>* cbInteract = new EventHandler<Client>(&Client::ActionOnInteract, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_INTERACT", cbInteract);
 
     // Register listener for ActionZoomIn.
     EventHandler<Client>* cbActionZoomIn = new EventHandler<Client>(&Client::ActionZoomIn, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_ZOOMIN", cbActionZoomIn);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ZOOMIN", cbActionZoomIn);
 
     // Register listener for ActionZoomOut.
     EventHandler<Client>* cbActionZoomOut = new EventHandler<Client>(&Client::ActionZoomOut, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("ActionEvent.ACTION_ZOOMOUT", cbActionZoomOut);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ZOOMOUT", cbActionZoomOut);
 
     Run();
 
@@ -675,10 +676,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
         walk = 1; 
       else 
         walk = 0;
@@ -694,10 +695,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released)
+      if (!inputEv->released)
         walk = -1;
       else 
         walk = 0;
@@ -713,10 +714,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released)
+      if (!inputEv->released)
         turn = -1;
       else 
         turn = 0;
@@ -732,10 +733,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released)
+      if (!inputEv->released)
         turn = 1;
       else 
         turn = 0;
@@ -751,10 +752,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         (walk == 0) ? walk = 1 : walk = 0;
       }
@@ -770,10 +771,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         (run == 0) ? run = 1 : run = 0;
       }
@@ -789,10 +790,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
@@ -810,10 +811,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
@@ -831,10 +832,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         iPcActorMove* pcactormove = getPcActorMove();
         if (!pcactormove) return false;
@@ -851,10 +852,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
@@ -875,10 +876,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         combatmanager->hit (entitymanager->GetOwnId(), 20);
       }
@@ -893,10 +894,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         // Activate the skill
         csRef<iCelEntity> ent = cursor->GetSelectedEntity();
@@ -930,10 +931,10 @@ namespace PT
 
     if (playing) 
     {
-      ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-      if (!actionEv) return false;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
 
-      if (!actionEv->released) 
+      if (!inputEv->released) 
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
@@ -955,8 +956,8 @@ namespace PT
   {
     using namespace PT::Events;
 
-    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-    if (!actionEv) return false;
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
 
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
     if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
@@ -983,10 +984,10 @@ namespace PT
   {
     using namespace PT::Events;
 
-    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-    if (!actionEv) return false;
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
 
-    if (!actionEv->released) 
+    if (!inputEv->released) 
     {
       if (!entitymanager) return false;
       csRef<iPcDefaultCamera> pccamera = entitymanager->getOwnCamera();
@@ -1026,10 +1027,10 @@ namespace PT
   {
     using namespace PT::Events;
 
-    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-    if (!actionEv) return false;
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
 
-    if (!actionEv->released) 
+    if (!inputEv->released) 
     {
       csRef<iCelEntity> ent = cursor->GetSelectedEntity();
 
@@ -1089,10 +1090,6 @@ namespace PT
       else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
       {
         //combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
-        TradeRequestMessage msg;
-        msg.setEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-        Report(PT::Notify, "OnMouseDown: Requesting trade with: %d.", msg.getEntityId());
-        network->send(&msg);
       }
       // If it's a npc, open a dialog.
       else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::NPCEntity)
@@ -1137,10 +1134,10 @@ namespace PT
   {
     using namespace PT::Events;
 
-    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-    if (!actionEv) return false;
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
 
-    if (!actionEv->released) 
+    if (!inputEv->released) 
     {
       iCelEntity* entity = entitymanager->getOwnCelEntity();
       if (!entity) return false;
@@ -1155,10 +1152,10 @@ namespace PT
   {
     using namespace PT::Events;
 
-    ActionEvent* actionEv = GetActionEvent<ActionEvent*>(ev);
-    if (!actionEv) return false;
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
 
-    if (!actionEv->released) 
+    if (!inputEv->released) 
     {
       iCelEntity* entity = entitymanager->getOwnCelEntity();
       if (!entity) return false;

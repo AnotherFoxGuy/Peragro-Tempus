@@ -52,6 +52,7 @@ bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
   PointerLibrary::getInstance()->getClient()->selectCharacter(own_char_id);
 
   GUIWindow::DisableWindow();
+  GUIWindow::HideWindow();
 
   return true;
 }
@@ -65,7 +66,7 @@ bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
   CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
 
   if (!item->isSelected()) return true;
-
+/*
   int own_char_id = atoi(item->getText().c_str());
 
   PtEntity* entity = 0;
@@ -79,10 +80,10 @@ bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
   entity->SetSectorName("room");
   entity->SetId(own_char_id);
 
-  //PointerLibrary::getInstance()->getEntityManager()->createCelEntity(entity);
+  PointerLibrary::getInstance()->getEntityManager()->createCelEntity(entity);
 
   delete entity;
-
+*/
   return true;
 }
 

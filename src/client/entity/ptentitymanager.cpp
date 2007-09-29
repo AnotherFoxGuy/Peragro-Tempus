@@ -30,6 +30,8 @@
 
 #include "client/reporter/reporter.h"
 
+#include "client/cursor.h"
+
 namespace PT
 {
   namespace Entity
@@ -82,6 +84,10 @@ namespace PT
 
       // Register listener for EntityEquipEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("StatePlayEvent", cb);
+
+      // Register listener for ActionForward.
+      EventHandler<EntityManager>* cbInteract = new EventHandler<EntityManager>(&EntityManager::OnInteract, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_INTERACT", cbInteract);
 
       return true;
     }
@@ -323,6 +329,29 @@ namespace PT
         }
       }
 
+      return true;
+    }
+
+    bool EntityManager::OnInteract(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
+
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
+
+      if (!inputEv->released) 
+      {
+        csRef<iCelEntity> ent = PointerLibrary::getInstance()->getCursor()->GetSelectedEntity();
+        if (!ent) return false;
+        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+        if (!pcprop) return false;
+
+        unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
+        PtEntity* ptEnt = findPtEntById(id);
+        if (!ptEnt) return false;
+
+        ptEnt->Interact();
+      }
 
       return true;
     }

@@ -55,6 +55,9 @@ public:
   iCelEntity* GetSelectedEntity();
   iMeshWrapper* Get3DPointFrom2D(iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord);
   iMeshWrapper* Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord);
+
+  int GetMouseX(){ return mousex; }
+  int GetMouseY(){ return mousey; }
 };
 
 #endif // __Selector_h

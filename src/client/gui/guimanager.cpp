@@ -51,6 +51,7 @@ GUIManager::GUIManager ()
   buywindow = 0;
   sellwindow = 0;
   tradewindow = 0;
+  interactwindow = 0;
 }
 
 GUIManager::~GUIManager ()
@@ -72,6 +73,7 @@ GUIManager::~GUIManager ()
   delete buywindow;
   delete sellwindow;
   delete tradewindow;
+  delete interactwindow;
 }
 
 bool GUIManager::Initialize ()
@@ -136,6 +138,7 @@ bool GUIManager::Initialize ()
     CreateHUDWindow ();
 
     //CreateSellWindow();
+    CreateInteractDialogWindow();
   }
   catch ( CEGUI::Exception& e )
   {
@@ -263,4 +266,11 @@ SellWindow* GUIManager::CreateSellWindow ()
   sellwindow = new SellWindow (this);
   sellwindow->CreateGUIWindow();
   return sellwindow;
+}
+
+InteractDialogWindow* GUIManager::CreateInteractDialogWindow ()
+{
+  interactwindow = new InteractDialogWindow (this);
+  interactwindow->CreateGUIWindow();
+  return interactwindow;
 }

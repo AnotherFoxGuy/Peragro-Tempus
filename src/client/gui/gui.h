@@ -34,5 +34,6 @@
 #include "confirmdialog-gui.h"
 #include "buy-gui.h"
 #include "sell-gui.h"
+#include "interactdialog-gui.h"
 
 #endif // GUI_H

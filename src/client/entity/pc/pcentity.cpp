@@ -19,6 +19,10 @@
 #include "pcentity.h"
 
 #include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
+
+#include "client/event/eventmanager.h"
+#include "client/event/interfaceevent.h"
 
 PtPcEntity::PtPcEntity() : PtCharacterEntity(PlayerEntity)
 {
@@ -77,4 +81,15 @@ void PtPcEntity::Create()
     pl->CreatePropertyClass(celentity, "pccamera.old");
   }
 
+}
+
+void PtPcEntity::Interact()
+{
+  //if (IsOwnEntity()) return;
+
+  using namespace PT::Events;
+  InterfaceInteract* interfaceEvent = new InterfaceInteract();
+  interfaceEvent->entityId              = id;
+  interfaceEvent->actions               = "trade,attack,party";
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 }

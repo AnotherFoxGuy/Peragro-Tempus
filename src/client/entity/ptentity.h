@@ -129,6 +129,8 @@ public:
   virtual void Teleport(csVector3 pos, csString sector) {}
   virtual void UpdatePcProp(UpdatePcPropData* update_pcprop) {}
 
+  virtual void Interact() {}
+
 };
 
 #endif // PTENTITY_H

@@ -47,7 +47,7 @@
 
 #include "client/event/eventmanager.h"
 #include "client/event/regionevent.h"
-#include "client/event/actionevent.h"
+#include "client/event/inputevent.h"
 
 #include "client/pointer/pointer.h"
 

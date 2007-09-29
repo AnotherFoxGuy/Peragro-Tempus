@@ -50,9 +50,11 @@ void ChatWindow::CreateGUIWindow ()
   // Get the root window
   rootwindow = winMgr->getWindow("Chatlog/Frame");
 
+  winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(0.3);
+
   CEGUI::Slider* slider = static_cast<CEGUI::Slider*>(winMgr->getWindow("Chatlog/Slider"));
   // set up slider config
-  slider->setCurrentValue(1.0f);
+  slider->setCurrentValue(0.3f);
   slider->setClickStep(0.1f);
   slider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&ChatWindow::Onslider, this));
 
@@ -106,10 +108,6 @@ bool ChatWindow::Onslider(const CEGUI::EventArgs& e)
 
   // get value from slider and set it as the current alpha
   float val = s->getCurrentValue();
-  winMgr->getWindow("Chatlog/GlobalButton")->setAlpha(val);
-  winMgr->getWindow("Chatlog/PartyButton")->setAlpha(val);
-  winMgr->getWindow("Chatlog/GuildButton")->setAlpha(val);
-  winMgr->getWindow("Chatlog/CombatButton")->setAlpha(val);
   winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(val);
 
   // indicate the event was handled here.

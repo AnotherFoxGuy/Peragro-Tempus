@@ -44,6 +44,7 @@
 
 #include "client/event/entityevent.h"
 #include "client/event/stateevent.h"
+#include "client/event/inputevent.h"
 
 #include "client/entity/movementmanager.h"
 
@@ -101,6 +102,8 @@ namespace PT
       bool Equip(PT::Events::Eventp ev);
       bool Mount(PT::Events::Eventp ev);
       void DrUpdateOwnEntity();
+
+      bool OnInteract(PT::Events::Eventp ev);
 
       iCelEntity* findCelEntById(unsigned int id);
       PtEntity* findPtEntById(unsigned int id);

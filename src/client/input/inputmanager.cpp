@@ -21,7 +21,7 @@
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 #include "client/event/eventmanager.h"
-#include "client/event/actionevent.h"
+#include "client/event/inputevent.h"
 
 #include <utility>
 
@@ -93,11 +93,11 @@ namespace PT
       Report(PT::Debug, "Pressed key '(%d)', firing action '%s'.", key, action.c_str());
 
       using namespace PT::Events;
-      ActionEvent* actionEvent = new ActionEvent();
-      actionEvent->action		= action;
-      actionEvent->released		= !down;
-      actionEvent->name                += "." + action;
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(actionEvent);
+      InputEvent* inputEvent = new InputEvent();
+      inputEvent->action		= action;
+      inputEvent->released		= !down;
+      inputEvent->name                 += "." + action;
+      PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);
     }
     else
     {
@@ -121,11 +121,11 @@ namespace PT
       Report(PT::Debug, "%s button '(%d)', firing action '%s'.", down ? "Pressed":"Released", button, action.c_str());
 
       using namespace PT::Events;
-      ActionEvent* actionEvent = new ActionEvent();
-      actionEvent->action		= action;
-      actionEvent->released		= !down;
-      actionEvent->name                += "." + action;
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(actionEvent);
+      InputEvent* inputEvent = new InputEvent();
+      inputEvent->action		= action;
+      inputEvent->released		= !down;
+      inputEvent->name                 += "." + action;
+      PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);
     }
     else
     {

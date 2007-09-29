@@ -7,6 +7,7 @@ under each day.
 29-Sep-2007
  - Sueastside fixed movement for genmesh (needs CEL r3006!).
  - Sueastside added a default answer to dialogs.
+ - Sueastside added a work-in-progress interaction dialog.
 
 28-Sep-2007
  - Sueastside made mousebuttons configurable.

@@ -21,8 +21,6 @@
 
 #include "client/entity/character/characterentity.h"
 
-#include "client/pointer/pointer.h"
-
 class PtPcEntity : public PtCharacterEntity
 {
 private:
@@ -32,6 +30,8 @@ public:
   PtPcEntity();
   virtual ~PtPcEntity(){}
   void Create();
+
+  void Interact();
 
   bool IsOwnEntity() { return is_own_entity; }
   void SetOwnEntity(bool ownership) { is_own_entity = ownership; }

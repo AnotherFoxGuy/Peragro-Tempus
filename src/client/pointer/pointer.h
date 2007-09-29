@@ -19,6 +19,7 @@
 #ifndef POINTERLIBRARY_H_
 #define POINTERLIBRARY_H_
 
+class Cursor;
 struct iObjectRegistry;
 class Network;
 class GUIManager;
@@ -59,6 +60,7 @@ private:
 
   iObjectRegistry* objreg;
   PT::Client* client;
+  Cursor* cursor;
   Network* network;
   PT::Data::ItemManager* itemmanager;
   PT::Data::SectorManager* sectormanager;
@@ -75,6 +77,7 @@ public:
 
     objreg = 0;
     client = 0;
+    cursor = 0;
     network = 0;
     itemmanager = 0;
     sectormanager = 0;
@@ -93,6 +96,9 @@ public:
 
   void setClient(PT::Client* client) { this->client = client; }
   PT::Client* getClient() { return this->client; }
+
+  void setCursor(Cursor* cursor) { this->cursor = cursor; }
+  Cursor* getCursor() { return this->cursor; }
 
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }
