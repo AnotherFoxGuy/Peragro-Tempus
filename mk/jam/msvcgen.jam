@@ -169,7 +169,14 @@ rule MsvcExternalLibrary1 { }
 rule MsvcDefine { MsvcDefine1 $(1) : $(2) : $(3) : $(4) ; }
 rule MsvcDefine1 { }
 
-## MsvcCFLags target [ : cflags [ : mode ]]
+## MsvcIncDirs target : directories [ : mode ]
+##   Invoke this rule to define an MSVC-specific additional include directories.
+##   'mode' should be "release" or "debug". If 'mode' is omitted, then 
+##   'directories' is used for release and debug.
+rule MsvcIncDirs { MsvcIncDirs1 $(1) : $(2) : $(3) ; }
+rule MsvcIncDirs1 { }
+
+## MsvcCFlags target [ : cflags [ : mode ]]
 ##   Invoke this rule to set additional MSVC-specific compiler flags for
 ##   'target'.  'mode' should be "release" or "debug". If 'mode' is omitted,
 ##   then 'cflags' is used for release and debug.
@@ -182,6 +189,13 @@ rule MsvcCFlags1 { }
 ##   then 'lflags' is used for release and debug.
 rule MsvcLFlags { MsvcLFlags1 $(1) : $(2) : $(3) ; }
 rule MsvcLFlags1 { }
+
+## MsvcExtraFile target : files
+##   Use this rule to add extra file resources to the "Resource files" 
+##   filter of the generated project. Commonly, those files are auxiliary
+##   files not specified in the source file list, e.g. ".inc" files.
+rule MsvcExtraFile { MsvcExtraFile1 $(1) : $(2) ; }
+rule MsvcExtraFile1 { }
 
 ## MsvcGenName target : name
 ##   Assign an MSVC project name to 'target'.  Normally, the project name is
@@ -196,6 +210,12 @@ rule MsvcLFlags1 { }
 ##   variables to whatever values you like.
 rule MsvcGenName { MsvcGenName1 $(1) : $(2) ; }
 rule MsvcGenName1 { }
+
+## MsvcUsePCH target : file
+##   Use this rule to set the 'target' to use precompiled header with name 
+##   'file'.
+rule MsvcUsePCH { MsvcUsePCH1 $(1) : $(2) ; }
+rule MsvcUsePCH1 { }
 
 #------------------------------------------------------------------------------
 # Private utility rules. Common to all phases.
@@ -542,6 +562,17 @@ rule MsvcAddPrefix
 #----------------------------------------------------------------------------
 # Override some rules
 
+actions GenerateWin32ManifestRc
+{
+    cat > $(<) << __EOF__
+// This file is generated automatically.
+
+#if !defined(PROJECTGEN_VERSION) || (PROJECTGEN_VERSION != 8)
+1 24 "$(MANIFEST_NAME)"
+#endif
+__EOF__
+}
+
 ## MsvcGenConfig variable [ : value ]
 ##   (See documentation above.)
 rule MsvcGenConfig1
@@ -639,7 +670,7 @@ rule MsvcGenName1
   MSVC.NAME_OVERRIDE.$(<) = $(>) ;
 }
 
-## MsvcProject target : type : target-with-ext : sources
+## MsvcProject target : type : target-with-ext : sources : options
 ##   Create a project file for 'target', which is the project's raw name.
 ##   'sources' is a list of files comprising the target.
 rule MsvcProject
@@ -648,7 +679,13 @@ rule MsvcProject
   local type = $(2) ;
   local decorated = $(3) ;
   local sources = $(4) ;
+  local options = $(5) ;
   local relpath = [ Property msvcgen : relpath$(MSVC_VERSION) ] ;
+  local relpathcommon = [ Property msvcgen : relpathcommon ] ;
+  if "$(relpathcommon)" = ""
+  {
+    relpathcommon = $(relpath) ;
+  }
   local outdir = [ Property msvcgen : outdir$(MSVC_VERSION) ] ;
   local outdircommon = [ Property msvcgen : outdircommon ] ;
   if "$(outdircommon)" = ""
@@ -679,6 +716,7 @@ rule MsvcProject
     "target|$(decorated)"
     "sourceroot|$(relpath:J=/)"
     "buildroot|$(relpath:J=/)"
+    "subdir|$(SUBDIR)"
     "striproot|$(MSVCGEN_STRIP_ROOT)"
     "define|$(MSVC.DEFINES)"
     "define|$(MSVC.DEFINES.$(type))"
@@ -763,29 +801,32 @@ rule MsvcProject
 
     if [ IsElem $(type) : appgui appcon ]
     {
-      local manifest = $(msvcname:S=.manifest) ; 
-      MakeLocate $(manifest) : $(outdircommon) ;
-      MakeManifestFile $(manifest) : $(rawname) ;
-      Depends $(manifest) : $(TOP)/Jamconfig ;
-      Depends $(manifest) : $(SUBDIR)/Jamfile ;
-      Depends msvcgen : $(manifest) ;
-      
-      local manifestrc = $(resource:S=.mfrctmp) ;
-      MakeLocate $(manifestrc) : $(workdircommon) ;
-      MANIFEST_NAME on $(manifestrc) = $(manifest) ;
-      GenerateWin32ManifestRc $(manifestrc) ;
-      Depends $(manifestrc) : $(manifest) ;
-      if $(MSVC_VERSION) = 8
+      if ! [ IsElem nomanifest : $(options) ]
       {
-        # VC8: Manifest appears in project along other files, a special build
-        # tool cares about the embedding into a resource. (The resource goop
-        # still has to be generated since it is shared with other VCs.)
-	ResponseFile $(respfile) : "file|$(manifest:R=$(outdircommon))" : notfile :
-	  $(respdir) ;
-      }
+        local manifest = $(msvcname:S=.manifest) ; 
+        MakeLocate $(manifest) : $(outdircommon) ;
+        MakeManifestFile $(manifest) : $(rawname) ;
+        Depends $(manifest) : $(TOP)/Jamconfig ;
+        Depends $(manifest) : $(SUBDIR)/Jamfile ;
+        Depends msvcgen : $(manifest) ;
       
-      Win32Resource $(rawname) : $(manifestrc) ;
-      MsvcRmTemps $(resource) : $(manifestrc) ;
+        local manifestrc = $(resource:S=.mfrctmp) ;
+        MakeLocate $(manifestrc) : $(workdircommon) ;
+        MANIFEST_NAME on $(manifestrc) = $(manifest) ;
+        GenerateWin32ManifestRc $(manifestrc) ;
+        Depends $(manifestrc) : $(manifest) ;
+        if $(MSVC_VERSION) = 8
+        {
+          # VC8: Manifest appears in project along other files, a special build
+          # tool cares about the embedding into a resource. (The resource goop
+          # still has to be generated since it is shared with other VCs.)
+	  ResponseFile $(respfile) : "file|$(manifest:R=$(outdircommon))" : notfile :
+	    $(respdir) ;
+        }
+      
+        Win32Resource $(rawname) : $(manifestrc) ;
+        MsvcRmTemps $(resource) : $(manifestrc) ;
+      }
       
       local icon = [ ApplicationIcon win32 : $(rawname) ] ;
       if ! $(icon)
@@ -798,8 +839,7 @@ rule MsvcProject
       {
 	local iconrc = $(resource:S=.iconrctmp) ;
 	# RELPATH includes trailing slash (hence the "" in ConcatDirs).
-	RELPATH on $(iconrc) =
-	  [ ConcatDirs [ Property msvcgen : relpath$(MSVC_VERSION) ] "" ] ;
+	RELPATH on $(iconrc) = [ ConcatDirs $(relpathcommon) "" ] ;
 	MakeLocate $(iconrc) : $(workdircommon) ;
 	Depends $(iconrc) : $(icon) ;
         Depends $(iconrc) : $(SUBDIR)/Jamfile ;
@@ -867,13 +907,20 @@ rule MsvcProject
 # theses pseudo-groups at the top-level, registration would occur before the
 # client has had a chance to invoke MsvcGenWorkspace, thus these pseudo-groups
 # would not inhabit any workspaces.
-rule RegisterWellKnownCompileGroups
+rule RegisterWellKnownCompileGroup1
 {
-  if $(MSVCGEN.WELL_KNOWN_GROUPS_REGISTERED) != yes
+  local group = $(1) ;
+  if $(MSVCGEN.WELL_KNOWN_GROUP_REGISTERED.$(group)) != yes
   {
-    MSVCGEN.WELL_KNOWN_GROUPS_REGISTERED = yes ;
-    RegisterCompileGroups all apps plugins libs ;
+    MSVCGEN.WELL_KNOWN_GROUP_REGISTERED.$(group) = yes ;
+    RegisterCompileGroups $(group) ;
   }
+}
+
+rule RegisterWellKnownCompileGroup
+{
+  RegisterWellKnownCompileGroup1 all ;
+  RegisterWellKnownCompileGroup1 $(1) ;
 }
 
 rule LinkStaticPlugins
@@ -909,8 +956,22 @@ rule LinkStaticPlugins
       NotFile $(p) ;
       for mode in debug release
       {
-	MsvcCFlags $(target) : $(STATICPLUGIN.$(p).CFLAGS.$(mode)) : $(mode) ;
-	lflags.$(mode) += $(STATICPLUGIN.$(p).LFLAGS.$(mode)) ;
+        if $(STATICPLUGIN.$(p).CFLAGS.$(mode).$(MSVC_VERSION))
+        {
+	  MsvcCFlags $(target) : $(STATICPLUGIN.$(p).CFLAGS.$(mode)) : $(mode) ;
+	}
+	else
+	{
+	  MsvcCFlags $(target) : $(STATICPLUGIN.$(p).CFLAGS.$(mode)) : $(mode) ;
+	}
+	if $(STATICPLUGIN.$(p).LFLAGS.$(mode).$(MSVC_VERSION))
+	{
+	  lflags.$(mode) += $(STATICPLUGIN.$(p).LFLAGS.$(mode).$(MSVC_VERSION)) ;
+	}
+	else
+	{
+	  lflags.$(mode) += $(STATICPLUGIN.$(p).LFLAGS.$(mode)) ;
+	}
       }
     }
     for mode in debug release
@@ -981,7 +1042,7 @@ rule LinkStaticPlugins
 
 rule Application
 {
-  RegisterWellKnownCompileGroups ;
+  RegisterWellKnownCompileGroup apps ;
 
   local projtype ;
   if [ IsElem console : $(3) ]
@@ -992,14 +1053,14 @@ rule Application
   {
     projtype = appgui ;
   }
-  MsvcProject $(<) : $(projtype) : $(<:S=.exe) : $(>) ;
+  MsvcProject $(<) : $(projtype) : $(<:S=.exe) : $(>) : $(3) ;
   
   CompileGroups $(<) : all apps ;
 }
 
 rule Plugin
 {
-  RegisterWellKnownCompileGroups ;
+  RegisterWellKnownCompileGroup plugins ;
 
   $(<)_TYPE = plugin ;
   
@@ -1026,7 +1087,7 @@ rule Plugin
 
 rule Library
 {
-  RegisterWellKnownCompileGroups ;
+  RegisterWellKnownCompileGroup libs ;
   $(<)_TYPE = library ;
   MsvcProject $(<) : library : $(<:S=.lib) : $(>) ;
   CompileGroups $(<) : all libs ;
@@ -1043,10 +1104,11 @@ rule StaticPluginLibrary
   {
     targets = [ Filter $(targets) : $(rejects) ] ;
   }
-  local sources ;
+  local sources extlibs ;
   for t in $(targets)
   {
     sources += $(STATICPLUGINS.SOURCES.$(t)) ;
+    extlibs += $($(t).EXTERNALLIBS) ;
   }
 
   $(name)_STATIC = "yes" ;
@@ -1054,6 +1116,7 @@ rule StaticPluginLibrary
   Library $(name) : $(sources) ;
   MsvcDefine $(name) : CS_STATIC_LINKED ;
   _MsvcDefine $(name) : $(STATICPLUGINS.MSVC_DEFINES) ;
+  ExternalLibs $(name) : [ RemoveDups $(extlibs) ] ;
 
   # Write out needed CFLAGS, LFLAGS
   local outdir = [ Property msvcgen : outdircommon ] ;
@@ -1061,7 +1124,7 @@ rule StaticPluginLibrary
   {
     outdir = [ Property msvcgen : outdir$(MSVC_VERSION) ] ;
   }
-  STATICPLUGINS.DEPENDENCIES = $(name)_msvc.jam ;
+  STATICPLUGINS.DEPENDENCIES = $(name)_msvc$(MSVC_VERSION).jam ;
   MakeLocate $(STATICPLUGINS.DEPENDENCIES) : $(outdir) ;
   SEARCH on $(STATICPLUGINS.DEPENDENCIES) = $(outdir) ;
   for t in $(targets)
@@ -1126,18 +1189,15 @@ rule WriteDependencies
   
   if $($(depfile).FIRSTTIME) != "yes"
   {
-    WriteDepFlags1 $(depfile_gristed) : $(plugin) ;
+    CreateDepFlagsFile $(depfile_gristed) ;
     $(depfile).FIRSTTIME = "yes" ;
   }
-  else
-  {
-    WriteDepFlags2 $(depfile_gristed) : $(plugin) ;
-  }
+  WriteDepFlags $(depfile_gristed) : $(plugin) ;
   Depends $(depfile) : $(depfile_gristed) ;
   Always $(depfile_gristed) ;
 }
 
-actions WriteDepFlags1 
+actions CreateDepFlagsFile
 {
   cat << EOT > $(<)
 # This file is automatically generated to be used together with $(LIBNAME)
@@ -1145,22 +1205,17 @@ actions WriteDepFlags1
 # HAVE_STATICDEPS.<package> and <package>.STATICDEPS via MsvcGenConfig.
 # Furthermore, this file might require manual updates from the master copy 
 # (usually found in the package's source repository) every now and then.
-STATICPLUGINS.AVAILABLE += $(>) ;
-STATICPLUGIN.$(>).CFLAGS.debug = $(CFLAGS.DEBUG) ;
-STATICPLUGIN.$(>).CFLAGS.release = $(CFLAGS.RELEASE) ;
-STATICPLUGIN.$(>).LFLAGS.debug = $(LFLAGS.DEBUG) ;
-STATICPLUGIN.$(>).LFLAGS.release = $(LFLAGS.RELEASE) ;
 EOT
 }
 
-actions WriteDepFlags2 
+actions WriteDepFlags
 {
   cat << EOT >> $(<)
 STATICPLUGINS.AVAILABLE += $(>) ;
-STATICPLUGIN.$(>).CFLAGS.debug = $(CFLAGS.DEBUG) ;
-STATICPLUGIN.$(>).CFLAGS.release = $(CFLAGS.RELEASE) ;
-STATICPLUGIN.$(>).LFLAGS.debug = $(LFLAGS.DEBUG) ;
-STATICPLUGIN.$(>).LFLAGS.release = $(LFLAGS.RELEASE) ;
+STATICPLUGIN.$(>).CFLAGS.debug.$(MSVC_VERSION) = $(CFLAGS.DEBUG) ;
+STATICPLUGIN.$(>).CFLAGS.release.$(MSVC_VERSION) = $(CFLAGS.RELEASE) ;
+STATICPLUGIN.$(>).LFLAGS.debug.$(MSVC_VERSION) = $(LFLAGS.DEBUG) ;
+STATICPLUGIN.$(>).LFLAGS.release.$(MSVC_VERSION) = $(LFLAGS.RELEASE) ;
 EOT
 }
 
@@ -1279,6 +1334,20 @@ rule MsvcDefine1
   }
 }
 
+# MsvcIncDirs target : directory [ : mode ]
+#   (See documentation above.)
+rule MsvcIncDirs1 
+{ 
+  _MsvcIncDirs $(1) : $(2) : $(3) ;
+}
+
+## MsvcUsePCH target : file
+##   (See documentation above.)
+rule MsvcUsePCH1
+{
+  _MsvcRespEmit $(1) : $(2) : pch ; 
+}
+
 # _MsvcDefine target : tuples [ : mode ]
 #   Similar to MsvcDefine, but works with a list of `key=value' tuples. Also
 #   understands `key' with no value.
@@ -1301,6 +1370,20 @@ rule MsvcLFlags1
   local modes = [ MsvcClassifyMode $(3) ] ;
   $(target).LFLAGS.$(modes) += $(2) ;
   _MsvcRespEmit $(1) : $(2) : lflags : $(3) ;
+}
+
+# MsvcLFlags target : files
+#   (See documentation above.)
+rule MsvcExtraFile1 
+{
+  local rawname = $(1) ;
+  local files = $(2) ;
+
+  local respfile = $($(rawname)_PRJ_RESPFILE) ;
+  local respdir = $($(rawname)_PRJ_RESPDIR) ;
+  
+  ResponseFile $(respfile) : "file|$(files)" : notfile :
+    $(respdir) ;
 }
 
 # _MsvcIncDirs target : incdirs [ : mode ]

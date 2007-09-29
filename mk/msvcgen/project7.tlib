@@ -56,7 +56,7 @@ END -%]
 				Name="VCCLCompilerTool"
 [% interpolate('compiler') -%]
 				PreprocessorDefinitions="
-[%- composedefs(['WIN32','CS_WIN32_CSCONFIG','__CRYSTAL_SPACE__']) %]"
+[%- composedefs(['WIN32']) %]"
 				OptimizeForProcessor="1"
 				AdditionalOptions="[% flags(compose('cflags', [], ' ')) | html %] [% flags(compose('cflags7', [], ' ')) | html %]"
 				AdditionalIncludeDirectories="[% composedirs('incdirs', ['.']) %]"
@@ -68,6 +68,7 @@ END -%]
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -102,8 +103,8 @@ END -%]
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="[% composedefs([glue (['CS_PROJECTGEN_VERSION', my.doc.msvcversion.0], '=')]) %]"
-				AdditionalIncludeDirectories="[% composedirs('incdirs', ['.']) %]"
+				PreprocessorDefinitions="[% composedefs([glue (['PROJECTGEN_VERSION', my.doc.msvcversion.0], '=')]) %]"
+				AdditionalIncludeDirectories="[% composedirs('incdirs', ['.', path([my.doc.sourceroot.0, my.doc.subdir.0])]) %]"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

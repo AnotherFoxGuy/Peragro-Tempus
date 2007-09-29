@@ -42,7 +42,7 @@ AC_PREREQ([2.56])
 #	file. As a convenience, if EMITTER is the literal value "emit" or
 #	"yes", then CS_EMIT_BUILD_RESULT()'s default emitter will be used.
 #	When EMITTER is provided, the following properties are emitted to the
-#	output file: PTYHON (the actual interpreter), PYTHON.AVAILABLE ("yes"
+#	output file: PYTHON (the actual interpreter), PYTHON.AVAILABLE ("yes"
 #	or "no"), PYTHON.CFLAGS, PYTHON.LFLAGS, and PYTHON.MODULE_EXT.
 #------------------------------------------------------------------------------
 AC_DEFUN([CS_CHECK_PYTHON],
@@ -56,7 +56,7 @@ AC_DEFUN([CS_CHECK_PYTHON],
     AS_IF([test -z "$with_python"],
 	[with_python=m4_if([$2], [without], [no], [yes])])
 
-    CS_CHECK_PROGS([PYTHON], [python])
+    CS_CHECK_TOOLS([PYTHON], [python])
     AC_SUBST([PYTHON])
     CS_EMIT_BUILD_PROPERTY([PYTHON],[$PYTHON],[],[],CS_EMITTER_OPTIONAL([$1]))
 
@@ -102,9 +102,9 @@ AC_DEFUN([CS_CHECK_PYTHON],
 
 	    AS_IF([test -n "$cs_pyver" &&
 		   test -n "$cs_cv_pybase_cflags" &&
-		   test -n "$cs_cv_pybase_lflags$cs_cv_pybase_sysprefix_lflags"],
+		   test -n "$cs_cv_pybase_lflags_base$cs_cv_pybase_sysprefix_lflags"],
 		[cs_cv_python_sdk=yes], [cs_cv_python_sdk=no])])
-
+		
 	# Check if Python SDK is usable.  The most common library name is the
 	# basename with a few decorations (for example, libpython2.2.a),
 	# however some Windows libraries lack the decimal point (for example,

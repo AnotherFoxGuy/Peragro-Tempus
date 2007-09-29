@@ -60,8 +60,20 @@ actions GenerateWin32VersionRc
 // This file is generated automatically.
 
 1 VERSIONINFO
-FILEVERSION $(PACKAGE_VERSION_LIST[1]), $(PACKAGE_VERSION_LIST[2]), $(PACKAGE_VERSION_LIST[3]), $(PACKAGE_VERSION_LIST[4])
-PRODUCTVERSION $(PACKAGE_VERSION_LIST[1]), $(PACKAGE_VERSION_LIST[2]), $(PACKAGE_VERSION_LIST[3]), $(PACKAGE_VERSION_LIST[4])
+FILEVERSION 
+__EOF__
+
+	# Remove any RC tag
+	echo '$(PACKAGE_VERSION_LIST[1]),$(PACKAGE_VERSION_LIST[2]),$(PACKAGE_VERSION_LIST[3]),$(PACKAGE_VERSION_LIST[4])' | $(SED) 's/RC\([0-9]\)//g' | $(SED) 's/[^0123456789._,]//g' >> $(<)
+
+cat >> $(<) << __EOF__
+PRODUCTVERSION 
+__EOF__
+
+	# Remove any RC tag
+	echo '$(PACKAGE_VERSION_LIST[1]),$(PACKAGE_VERSION_LIST[2]),$(PACKAGE_VERSION_LIST[3]),$(PACKAGE_VERSION_LIST[4])' | $(SED) 's/RC\([0-9]\)//g' | $(SED) 's/[^0123456789._,]//g' >> $(<)
+
+cat >> $(<) << __EOF__
 #ifdef CS_DEBUG
 FILEFLAGS 0x1
 #else
@@ -93,10 +105,7 @@ actions GenerateWin32ManifestRc
 {
     cat > $(<) << __EOF__
 // This file is generated automatically.
-
-#if !defined(CS_PROJECTGEN_VERSION) || (CS_PROJECTGEN_VERSION != 8)
 1 24 "$(MANIFEST_NAME)"
-#endif
 __EOF__
 }
 
@@ -111,7 +120,7 @@ __EOF__
 
     # Filter out non-numerical characters from the version number. Windows does
     # not like them.
-    echo '$(PACKAGE_VERSION_LIST[1]).$(PACKAGE_VERSION_LIST[2]).$(PACKAGE_VERSION_LIST[3]).$(PACKAGE_VERSION_LIST[4])' | $(SED) 's/[^0123456789.]//g' | $(SED) 's/\(.*\)/    version="\1"/' >> $(<)
+    echo '$(PACKAGE_VERSION_LIST[1]).$(PACKAGE_VERSION_LIST[2]).$(PACKAGE_VERSION_LIST[3]).$(PACKAGE_VERSION_LIST[4])' | $(SED) 's/RC\([0-9]\)//g' | $(SED) 's/[^0123456789.]//g' | $(SED) 's/\(.*\)/    version="\1"/' >> $(<)
   
     cat >> $(<) << __EOF__
     processorArchitecture="X86"
@@ -225,15 +234,18 @@ rule ConstructApplicationTarget
 }
 rule ConstructStaticLibraryTarget
 {
-  return lib$(<)$(SUFLIB) ;
+  local libbase = [ LibraryBaseName $(<) ] ;
+  return lib$(libbase)$(SUFLIB) ;
 }
 rule ConstructSharedLibraryTarget
 {
-  return $(<)-$(COMPILER.TYPE).dll ;
+  local libbase = [ LibraryBaseName $(<) ] ;
+  return $(libbase)-$(COMPILER.TYPE).dll ;
 }
 rule ConstructSharedLibraryLinkLib
 {
-  return lib$(<)$(SUFLIB) ;
+  local libbase = [ LibraryBaseName $(<) ] ;
+  return lib$(libbase)$(SUFLIB) ;
 }
 rule ConstructPluginTarget
 {
@@ -316,6 +328,8 @@ rule MakeMetadataRc
 
 rule AppResourceWin32
 {
+  local options = $(2) ;
+
   local versionrc = [ DoObjectGrist _versionrc.rc ] ;
   LOCATE on $(versionrc) = $(LOCATE_TARGET) ;
   SEARCH on $(versionrc) = $(LOCATE_TARGET) ;
@@ -325,14 +339,17 @@ rule AppResourceWin32
   Clean clean : $(versionrc) ;
   Win32Resource $(<) : $(versionrc) ;
 
-  local manifestrc = [ DoObjectGrist _manifestrc.rc ] ;
-  LOCATE on $(manifestrc) = $(LOCATE_TARGET) ;
-  SEARCH on $(manifestrc) = $(LOCATE_TARGET) ;
+  if ! [ IsElem nomanifest : $(options) ]
+  {
+    local manifestrc = [ DoObjectGrist _manifestrc.rc ] ;
+    LOCATE on $(manifestrc) = $(LOCATE_TARGET) ;
+    SEARCH on $(manifestrc) = $(LOCATE_TARGET) ;
   
-  MakeManifestRc $(manifestrc) : $(<) ;
-  Clean $(<)clean : $(manifestrc) ;
-  Clean clean : $(manifestrc) ;
-  Win32Resource $(<) : $(manifestrc) ;
+    MakeManifestRc $(manifestrc) : $(<) ;
+    Clean $(<)clean : $(manifestrc) ;
+    Clean clean : $(manifestrc) ;
+    Win32Resource $(<) : $(manifestrc) ;
+  }
 
   local icon = [ ApplicationIcon win32 : $(<) ] ;
   if ! $(icon)
@@ -366,15 +383,13 @@ rule PluginResourceWin32
   local versionrc, metarc ;
 
   versionrc = [ DoObjectGrist $(<)_versionrc.rc ] ;
-  LOCATE on $(versionrc) = $(LOCATE_TARGET) ;
-  SEARCH on $(versionrc) = $(LOCATE_TARGET) ;
+    MakeLocate $(versionrc) : $(LOCATE_TARGET) ;
   MakeVersionRc $(versionrc) : $(<) ;
   
   if $(EMBED_META) = "yes"
   {
     metarc = [ DoObjectGrist $(<)_metarc.rc ] ;
-    LOCATE on $(metarc) = $(LOCATE_TARGET) ;
-    SEARCH on $(metarc) = $(LOCATE_TARGET) ;
+    MakeLocate $(metarc) : $(LOCATE_TARGET) ;
     MakeMetadataRc $(metarc) : $(<) ;
   }
 
@@ -400,8 +415,23 @@ rule SystemLinkApplication
 
 rule SystemInstallApplication
 {
-  Depends install_bin :
-    [ DoInstall $(<) : $(bindir) $(2) : $(INSTALL_PROGRAM) ] ;
+  local suffix = $(4) ;
+  if "$(suffix)"
+  {
+    local target_suffixed = $(<)-$(suffix) ;
+    local installed =
+      [ DoInstallFile $(<) : $(bindir) $(2) : $(target_suffixed) : $(INSTALL_PROGRAM) ] ;
+    Depends install_bin : $(installed) ;
+    NotFile $(target_suffixed) ;
+    local linktarget = $(<:D=$(bindir)) ;
+    Depends install_bin : [ 
+      InstallSymLink $(linktarget) : $(target_suffixed) ] ;
+  }
+  else
+  {
+    Depends install_bin :
+      [ DoInstall $(<) : $(bindir) $(2) : $(INSTALL_PROGRAM) ] ;
+  }
 }
 
 rule SystemInstallPlugin
@@ -437,34 +467,97 @@ rule SystemLinkPlugin
   Clean $(<)clean : $(target) ;
 }
 
+rule MakeDllDefFile
+{
+  local def = $(<) ;
+  local objects = $(>) ;
+  
+  MakeLocate $(def) : $(LOCATE.OBJECTS)/libs ;
+  WriteDefHeader $(def) ;
+  for i in $(objects)
+  {
+    local drectve = $(i).drectve ;
+    MakeLocate $(drectve) : [ on $(i) GetVar LOCATE ] ;
+    Depends $(drectve) : $(i) ;
+    Depends $(def) : $(drectve) ;
+    ExtractDrectve $(drectve) : $(i) ;
+    DrectveToDef $(def) : $(drectve) ;
+    Clean clean : $(drectve) ;
+    Clean $(def)clean : $(drectve) ;
+  }
+}
+
 rule SystemLinkSharedLibrary
 {
   LFlags $(<) : $(LINKLIBS) ;
-  Depends $(<) : $(>) ;
-  LinkSharedLibrary $(<) : $(>) ;
-  MakeImportLib $(3) : $(<) ;
+  
+  # The "crystalspace" library is so massive that it blows Jam's command line
+  # length limit when all object files are passed in at once to some command.
+  # However, a DLL, like an executable, needs to be built with all objects at 
+  # once. 
+  # Problem is, since dllwrap etc. don't support response files, there is no 
+  # way to pass all objects at once to it. But, a static library can be built
+  # piecemeal, so we take the detour of creating a static library out of the
+  # DLL objects first.
+  # However, another bug hits us: on MinGW, symbols exported from objects in
+  # static libraries are not automatically exported from the DLL.
+  # We work this around by constructing a .DEF file with all exports of the 
+  # DLL. Conveniently (somewhat), all exported symbols are into a section
+  # ".drectve" of an object file by gcc. After extracting these sections and
+  # some postprocessing, we finally have all .DEF entries. Phew.
+  local lib = $(<).a ;
+  MakeLocate $(lib) $(lib)($(>:BS)) : $(LOCATE.OBJECTS)/libs ;
+  Depends $(lib) : $(lib)($(>:BS)) ;
+  local i ;
+  for i in $(>)
+  {
+    Depends $(lib)($(i:BS)) : $(i) ;
+  }
+  Archive $(lib) : $(>) ;
+  Ranlib $(lib) ;
+  #RmTemps $(lib) : $(>) ;
+  
+  Depends $(<) : $(lib) ;
+  
+  local def = $(<).def ;
+  MakeDllDefFile $(def) : $(>) ;
+  Depends $(<) : $(def) ;
+  Clean clean : $(def) ;
+  Clean $(<)clean : $(def) ;
+  Depends $(<)clean : $(def)clean ;
+  
+  EXPORTDEFS on $(<) = $(def) ;
+  IMPLIB on $(<) = $(3) ;
+  Depends $(3) : $(<) ;
+  LinkSharedLibrary $(<) : $(lib) ;
 
   Clean clean : $(target) ;
   Clean $(<)clean : $(target) ;
 }
 
-rule MakeImportLib
+actions ExtractDrectve
 {
-  local deffile = "$(<:B).def" ;
-  LOCATE on $(deffile) = $(LOCATE_TARGET) ;
-  SEARCH on $(deffile) = $(LOCATE_TARGET) ;
-  
-  Clean clean : $(deffile) ;
-  Clean $(<)clean : $(deffile) ;
-  Depends $(deffile) : $(>) ;
-  GenerateDef $(deffile) : $(>) ;
-  Depends $(<) : $(deffile) ;
-  GenerateImportLib $(<) : $(deffile) ;
+  $(CMD.OBJCOPY) -j .drectve -O binary $(>) $(<).tmp
+  echo >> $(<).tmp # Cheap trick to ensure there's always a .tmp file; 
+                   # the action should not break with no .drectve - no exports
+                   # is a valid scenario.
+  $(CMD.STRINGS) -n 1 $(<).tmp > $(<) # Run strings since the section data may be 
+                               # padded with zeroes, get rid of those.
+  rm $(<).tmp
 }
 
-actions GenerateDef 
+actions WriteDefHeader
 {
-  pexports $(>) > $(<)
+  echo "EXPORTS" > $(<)
+}
+
+actions piecemeal together DrectveToDef
+{
+  for d in $(>)
+  do
+    sed -e "s/ /\\
+/g" $d | sed -e "s/-export:\(.*\)/\1/g" | sed -e "s/,data/ DATA/g" >> $(<)
+  done
 }
 
 actions GenerateImportLib
@@ -488,12 +581,11 @@ else
 {
   actions LinkPlugin bind NEEDLIBS bind EXTRAOBJECTS bind EXPORTDEFS
   {
-    $(CMD.DLLWRAP) --driver-name=$(CMD.LINK) --dllname $(<:B) --def=$(EXPORTDEFS) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS)
+    $(CMD.DLLWRAP) --driver-name=$(CMD.LINK[1]) --dllname $(<:B) --def=$(EXPORTDEFS) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS)
   }
 }
 
-  #$(CMD.LINK) -o $(<) $(>) -mdll $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS)
-actions LinkSharedLibrary bind NEEDLIBS bind EXTRAOBJECTS
+actions LinkSharedLibrary bind NEEDLIBS bind EXTRAOBJECTS bind EXPORTDEFS bind IMPLIB
 {
-  $(CMD.LINK) -shared -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS)
+  $(CMD.DLLWRAP) --driver-name=$(CMD.LINK[1]) --dllname $(<:B).dll --def=$(EXPORTDEFS) --implib $(IMPLIB) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS)
 }
