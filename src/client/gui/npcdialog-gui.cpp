@@ -31,6 +31,7 @@ NpcDialogWindow::NpcDialogWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
   dialogId = -1; 
+  newDialog = false;
 }
 
 NpcDialogWindow::~NpcDialogWindow()
@@ -79,6 +80,13 @@ bool NpcDialogWindow::OnAnswer(const CEGUI::EventArgs& args)
   return true;
 }
 
+void NpcDialogWindow::ClearAnswers()
+{
+  // Clear the previous answers.
+  btn = winMgr->getWindow("NpcDialog/Answers");
+  ((CEGUI::Listbox*)btn)->resetList();
+}
+
 void NpcDialogWindow::SetName(csString name)
 {
   // Set the dialog text.
@@ -93,16 +101,24 @@ void NpcDialogWindow::AddDialog(uint dialogId, csString dialog)
   btn->setText(dialog.GetData());
   this->dialogId = dialogId;
 
-  // Clear the previous answers.
-  btn = winMgr->getWindow("NpcDialog/Answers");
-  ((CEGUI::Listbox*)btn)->resetList();
+  ClearAnswers();
+
+  AddAnswer(0, (csString)"Goodbye.");
 
   GUIWindow::ShowWindow();
   GUIWindow::EnableWindow();
+
+  newDialog = true;
 }
 
 void NpcDialogWindow::AddAnswer(uint number, csString answer)
 {
+  if (newDialog)
+  {
+    ClearAnswers();
+    newDialog = false;
+  }
+
   btn = winMgr->getWindow("NpcDialog/Answers");
   CEGUI::ListboxItem* answerItem = new CEGUI::ListboxTextItem(answer.GetData(), number);
 
@@ -125,8 +141,6 @@ void NpcDialogWindow::CreateGUIWindow()
   CEGUI::Listbox* answers = static_cast<CEGUI::Listbox*>(winMgr->getWindow("NpcDialog/Answers"));
   answers->setMultiselectEnabled(false);
   answers->subscribeEvent(CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber(&NpcDialogWindow::OnAnswer, this));
-
-  AddAnswer(1, (csString)"Yes i just clicked you!");
 
 }
 

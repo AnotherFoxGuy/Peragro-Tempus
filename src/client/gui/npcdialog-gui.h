@@ -24,6 +24,9 @@
 class NpcDialogWindow : public GUIWindow
 {
 private:
+  bool newDialog;
+  void ClearAnswers();
+
   uint dialogId;
   bool OnCloseButton(const CEGUI::EventArgs& args);
   bool OnAnswer(const CEGUI::EventArgs& args);

@@ -28,19 +28,25 @@ PtCharacterEntity::PtCharacterEntity(EntityType type) : PtEntity(type)
 void PtCharacterEntity::Move(MovementData* movement) 
 {
   if(!celentity.IsValid()) return;
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
-  if (pclinmove.IsValid())
+  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcActorMove);
+
+  if (pcactormove.IsValid())
   {
-    pclinmove->SetAngularVelocity(csVector3(0,-movement->turn,0));
-    pclinmove->SetVelocity(csVector3(0,0,-movement->walk));
-  }
-  csRef<iPcMesh> mesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-  if (mesh.IsValid())
-  {
-    csRef<iSpriteCal3DState> sprcal3d =
-      scfQueryInterface<iSpriteCal3DState> (mesh->GetMesh()->GetMeshObject());
-    if (sprcal3d)
-      sprcal3d->SetVelocity(movement->walk);
+    pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
+    pcactormove->SetMovementSpeed(abs(movement->walk));
+    pcactormove->SetRunningSpeed(abs(movement->walk));
+    pcactormove->SetRotationSpeed(movement->run ? PI : 2*PI);
+
+    pcactormove->RotateLeft(movement->turn < 0.0f);
+    pcactormove->RotateRight(movement->turn > 0.0f);
+
+    pcactormove->Forward(movement->walk > 0.0f);
+    pcactormove->Backward(movement->walk < 0.0f);
+
+    if (abs(movement->walk) > 0.0f)
+      pcactormove->Run(movement->run);
+    else
+      pcactormove->Run(false);   
   }
   if (movement->run) 
   {
@@ -68,6 +74,7 @@ bool PtCharacterEntity::MoveTo(MoveToData* moveTo)
   {
     csVector3 angular_vel;
     pclinmove->GetAngularVelocity(angular_vel);
+    pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
 
     if (moveTo->elapsed_time == 0 && !moveTo->walking)
     {

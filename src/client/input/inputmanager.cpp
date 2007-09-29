@@ -80,8 +80,6 @@ namespace PT
 
   bool InputManager::OnKeyboard(iEvent &ev) 
   {
-    Report(PT::Debug, "InputManager::OnKeyboard");
-
     if (csKeyEventHelper::GetAutoRepeat (&ev)) return false;
 
     csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
@@ -112,8 +110,6 @@ namespace PT
 
   bool InputManager::OnMouse(iEvent& ev)
   {
-    Report(PT::Debug, "InputManager::OnMouse");
-
     csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
     bool down = (mouseevent == csMouseEventTypeDown);
 
