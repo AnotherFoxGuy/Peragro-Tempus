@@ -33,9 +33,13 @@ public:
   PtDoorEntity();
   virtual ~PtDoorEntity(){}
   void Create();
+  bool GetOpen() { return open; }
   void SetOpen(bool value) { this->open = value; }
+  bool GetLocked() { return locked; }
   void SetLocked(bool value) { this->locked = value; }
   void UpdatePcProp(UpdatePcPropData* update_pcprop);
+
+  void Interact();
 };
 
 #endif // PTDOORENTITY_H

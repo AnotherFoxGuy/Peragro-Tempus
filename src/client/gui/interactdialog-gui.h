@@ -28,6 +28,7 @@ private:
   unsigned int interactId;
   void ClearActions();
   void AddAction(const char* action);
+  void LayoutIcons();
 
   bool OnCancelButton(const CEGUI::EventArgs& args);
   bool OnAction(const CEGUI::EventArgs& args);

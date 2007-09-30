@@ -1060,67 +1060,6 @@ namespace PT
       if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
       if (!pcprop) return false;
 
-      // If it's an item, request a pickup.
-      if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::ItemEntity)
-      {
-        unsigned int slotid = guimanager->GetInventoryWindow()->FindFreeSlot();
-        if(slotid < 30)
-        {
-          PickRequestMessage msg;
-          msg.setItemEntityId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-          msg.setSlot(slotid); // TODO: get a free slot for this!
-          Report(PT::Notify, "OnMouseDown: Requisting picking up entity: %d for slot %d.", msg.getItemEntityId(), slotid);
-          network->send(&msg);
-        }
-      }
-      // If it's a door, request to open.
-      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::DoorEntity)
-      {
-        if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Open")))
-        {
-          CloseDoorRequestMessage msg1;
-          msg1.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-          Report(PT::Notify, "OnMouseDown: Requesting closing door: %d.", msg1.getDoorId());
-          network->send(&msg1);
-
-          //Lock it again after closing.
-          LockDoorRequestMessage msg2;
-          msg2.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-          Report(PT::Notify, "OnMouseDown: Requesting unlocking door: %d.", msg2.getDoorId());
-          network->send(&msg2);
-        }
-        else
-        {
-          // first click unlocks, second click opens!
-          if (pcprop->GetPropertyBool(pcprop->GetPropertyIndex("Door Locked")))
-          {
-            UnlockDoorRequestMessage msg;
-            msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-            Report(PT::Notify, "OnMouseDown: Requesting unlocking door: %d.", msg.getDoorId());
-            network->send(&msg);
-          }
-          else
-          {
-            OpenDoorRequestMessage msg;
-            msg.setDoorId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-            Report(PT::Notify, "OnMouseDown: Requesting opening door: %d.", msg.getDoorId());
-            network->send(&msg);
-          }
-        }
-      }
-      // If it's a player, attack it.
-      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
-      {
-        //combatmanager->RequestSkillUsageStart (ent, guimanager->GetHUDWindow()->GetActiveSkillId());
-      }
-      // If it's a npc, open a dialog.
-      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::NPCEntity)
-      {
-        NpcStartDialogMessage msg;
-        msg.setNpcId(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-        Report(PT::Notify, "OnMouseDown: Requesting dialog with: %d.", msg.getNpcId());
-        network->send(&msg);
-      }
       // If it's a mount, mount it.
       else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::MountEntity)
       {

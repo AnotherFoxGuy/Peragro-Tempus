@@ -19,6 +19,10 @@
 #include "npcentity.h"
 
 #include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
+
+#include "client/event/eventmanager.h"
+#include "client/event/interfaceevent.h"
 
 PtNpcEntity::PtNpcEntity() : PtCharacterEntity(NPCEntity)
 {
@@ -63,4 +67,13 @@ void PtNpcEntity::Create()
 
   iSector* sector = engine->FindSector(sectorname);
   pclinmove->SetPosition(pos,0,sector);
+}
+
+void PtNpcEntity::Interact()
+{
+  using namespace PT::Events;
+  InterfaceInteract* interfaceEvent = new InterfaceInteract();
+  interfaceEvent->entityId              = id;
+  interfaceEvent->actions               = "Talk";
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 }

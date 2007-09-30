@@ -329,14 +329,6 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
 
 void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId)
 {
-  if (!skillId)
-  {
-    Report(PT::Error, "CombatMGR: skillId is 0!");
-    return;
-  }
-  // Get your own entity.
-  iCelEntity* attacker = entitymgr->getOwnCelEntity();
-
   // Lookup the ID to get the actual entity.
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
   if (!pcprop) 
@@ -346,6 +338,20 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
   }
 
   unsigned int targetId   = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
+
+  RequestSkillUsageStart (targetId, skillId);
+}
+
+void CombatMGR::RequestSkillUsageStart (unsigned int targetId, unsigned int skillId)
+{
+  if (!skillId)
+  {
+    Report(PT::Error, "CombatMGR: skillId is 0!");
+    return;
+  }
+
+  // Get your own entity.
+  iCelEntity* attacker = entitymgr->getOwnCelEntity();
 
 
   if (!targetId)

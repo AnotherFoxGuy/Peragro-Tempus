@@ -69,7 +69,10 @@ namespace PT
       std::string actions;
       bool Contains(const char* action)
       {
-        return true;
+        if (actions.find(action) != std::string::npos)
+          return true;
+        else
+          return false;
       }
     public:
       InterfaceInteract() : InterfaceEvent("interface.interact", true) {}

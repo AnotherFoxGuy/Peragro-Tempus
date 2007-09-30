@@ -90,6 +90,6 @@ void PtPcEntity::Interact()
   using namespace PT::Events;
   InterfaceInteract* interfaceEvent = new InterfaceInteract();
   interfaceEvent->entityId              = id;
-  interfaceEvent->actions               = "trade,attack,party";
+  interfaceEvent->actions               = "Trade, Attack, Party";
   PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 }

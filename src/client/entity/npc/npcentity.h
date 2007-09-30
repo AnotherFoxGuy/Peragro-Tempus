@@ -29,6 +29,8 @@ public:
   PtNpcEntity();
   virtual ~PtNpcEntity(){}
   void Create();
+
+  void Interact();
 };
 
 #endif // PTNPCENTITY_H

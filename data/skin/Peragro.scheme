@@ -1,8 +1,10 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="Peragro">
 	<Imageset Name="Peragro" Filename="Peragro.imageset" />
+	<Imageset Name="InteractionIcons" Filename="icons.imageset" />
 	<LookNFeel Filename="Peragro.looknfeel" />
 	<WindowSet Filename="CEGUIFalagardWRBase" />
+	<FalagardMapping WindowType="Peragro/ImageButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="Peragro/ImageButton" />
 	<FalagardMapping WindowType="Peragro/Button"      TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="Peragro/Button" />
 	<FalagardMapping WindowType="Peragro/Checkbox"    TargetType="CEGUI/Checkbox"    Renderer="Falagard/ToggleButton" LookNFeel="Peragro/Checkbox" />
 	<FalagardMapping WindowType="Peragro/ImageButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="Peragro/ImageButton" />

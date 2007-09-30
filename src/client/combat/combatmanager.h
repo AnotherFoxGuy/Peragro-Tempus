@@ -82,6 +82,7 @@ public:
   void SkillUsageStart (unsigned int casterId, unsigned int targetId, int skillId, ptString error);
   void SkillUsageComplete (unsigned int casterId, unsigned int targetId, int skillId);
   void RequestSkillUsageStart (iCelEntity* target, unsigned int skillId);
+  void RequestSkillUsageStart (unsigned int targetId, unsigned int skillId);
 
 
 };

@@ -19,6 +19,10 @@
 #include "doorentity.h"
 
 #include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
+
+#include "client/event/eventmanager.h"
+#include "client/event/interfaceevent.h"
 
 PtDoorEntity::PtDoorEntity() : PtEntity(PtEntity::DoorEntity)
 {
@@ -76,4 +80,23 @@ void PtDoorEntity::UpdatePcProp(UpdatePcPropData* update_pcprop)
   default:
     Report(PT::Error, "celData type not supported by updatePcProp!");
   }
+
+  if (update_pcprop->value.type == CEL_DATA_BOOL)
+  {
+    if (update_pcprop->pcprop.CompareNoCase("Door Open"))
+      this->SetOpen(update_pcprop->value.value.bo);
+
+    if (update_pcprop->pcprop.CompareNoCase("Door Locked"))
+      this->SetLocked(update_pcprop->value.value.bo);
+  }
+}
+
+
+void PtDoorEntity::Interact()
+{
+  using namespace PT::Events;
+  InterfaceInteract* interfaceEvent = new InterfaceInteract();
+  interfaceEvent->entityId              = id;
+  interfaceEvent->actions               = "Door, Lock, Unlock";
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 }

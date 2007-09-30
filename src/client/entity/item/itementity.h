@@ -21,10 +21,6 @@
 
 #include "client/entity/ptentity.h"
 
-#include "client/pointer/pointer.h"
-
-#include "client/data/item/itemmanager.h"
-
 class PtItemEntity : public PtEntity
 {
 private:
@@ -37,6 +33,8 @@ public:
   void SetItemId (unsigned int value) { this->itemid = value; }
 
   void Create();
+
+  void Interact();
 
 };
 
