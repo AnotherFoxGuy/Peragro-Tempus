@@ -955,13 +955,35 @@ namespace PT
   bool Client::ActionQuit(PT::Events::Eventp ev) 
   {
     using namespace PT::Events;
+    
+    if (playing) 
+    {
+      ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
+      dialog->SetText("Are you sure you want to quit?");
+      dialog->SetYesEvent(CEGUI::Event::Subscriber(&Client::Quit, this));
+      dialog->SetNoEvent(CEGUI::Event::Subscriber(&Client::NoQuit, this)); 
+      return true;
+    } else {
+      csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
+      if (q.IsValid())
+      {
+        q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
+        return true;
+      }
+    }
+    return true;
+  }
 
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-
+  bool Client::Quit(const CEGUI::EventArgs &args)
+  {
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
     if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
 
+    return true;
+  }
+
+  bool Client::NoQuit(const CEGUI::EventArgs &args)
+  {
     return true;
   }
 

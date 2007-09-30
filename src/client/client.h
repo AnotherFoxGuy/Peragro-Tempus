@@ -53,6 +53,10 @@
 
 #include "client/input/inputmanager.h"
 
+#include "CEGUI.h"
+#include "CEGUIWindowManager.h" 
+#include "CEGUILogger.h"
+
 struct iPcDefaultCamera;
 struct iPcActorMove;
 struct iSector;
@@ -194,6 +198,8 @@ namespace PT
     bool ActionOnInteract(PT::Events::Eventp ev);
     bool ActionZoomIn(PT::Events::Eventp ev);
     bool ActionZoomOut(PT::Events::Eventp ev);
+    bool Quit(const CEGUI::EventArgs &args);
+    bool NoQuit(const CEGUI::EventArgs &args);
 
   private:
     bool playing;

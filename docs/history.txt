@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+30-Sep-2007
+ - swedishcoder added a dialog box when trying to quit the game - to prevent
+   accidental quits.
+
 29-Sep-2007
  - Sueastside fixed movement for genmesh (needs CEL r3006!).
  - Sueastside added a default answer to dialogs.
