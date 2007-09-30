@@ -172,7 +172,7 @@ namespace PT
             guimanager->GetHUDWindow()->SetSP(ratio);
             char buffer[40];
             sprintf(buffer, "            %d/%d", currentStamina, maxStamina);
-            guimanager->GetHUDWindow()->SetText("PlayerHUD/Name", buffer);
+            guimanager->GetHUDWindow()->SetText("PlayerHUD/SPValue", buffer);
           }
         }
       }
