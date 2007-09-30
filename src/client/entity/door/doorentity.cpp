@@ -97,6 +97,9 @@ void PtDoorEntity::Interact()
   using namespace PT::Events;
   InterfaceInteract* interfaceEvent = new InterfaceInteract();
   interfaceEvent->entityId              = id;
-  interfaceEvent->actions               = "Door, Lock, Unlock";
+  if (GetLocked())
+    interfaceEvent->actions               = "Door, Unlock";
+  else
+    interfaceEvent->actions               = "Door, Lock";
   PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 }

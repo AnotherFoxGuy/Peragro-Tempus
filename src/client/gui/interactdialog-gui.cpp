@@ -44,7 +44,7 @@
 #define TALK_BUTTON   "InteractDialog/Talk"
 
 
-#define BUTTON_SIZE 60.0f
+#define BUTTON_SIZE 50.0f
 #define ROOT_SIZE 150.0f
 
 InteractDialogWindow::InteractDialogWindow(GUIManager* guimanager)
@@ -174,8 +174,9 @@ void InteractDialogWindow::LayoutIcons()
     if (!button) continue;
     float in = (float)i+1;
     float all = (float)rootwindow->getChildCount();
-    float x = (cos(((in/all)*PI*2)-PI/6)+1)/2;
-    float y = (sin(((in/all)*PI*2)-PI/6)+1)/2;
+    float offset = (PI*2)/all;
+    float y = (cos(((in/all)*PI*2)-offset)+1)/2;
+    float x = (sin(((in/all)*PI*2)-offset)+1)/2;
     x = x * ROOT_SIZE;
     y = y * ROOT_SIZE;
     x -= BUTTON_SIZE/2;

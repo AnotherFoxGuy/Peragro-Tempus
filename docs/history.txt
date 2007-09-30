@@ -8,6 +8,8 @@ under each day.
  - swedishcoder added a dialog box when trying to quit the game - to prevent
    accidental quits.
  - Sueastside did some more work on the interaction dialog.
+ - Sueastside made a small tweak to location of interaction buttons
+   and made Door entities return actions based on state.
 
 29-Sep-2007
  - Sueastside fixed movement for genmesh (needs CEL r3006!).
