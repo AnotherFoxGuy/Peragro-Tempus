@@ -64,7 +64,7 @@ private:
 
   size_t lookupId(const char*& string, size_t len)
   {
-    if (string == 0) return 0;
+    if (string == 0 || len == 0) return 0;
 
     mutex.lock();
 

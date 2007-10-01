@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+01-Oct-2007
+ - swedishcoder fixed a segfault if strlen was 0 but the str pointer !=null.
+   This could be caused by starting the client like this:
+   ./client --host localhost --user swedishcoder --pass secret --char mychar
+
 30-Sep-2007
  - swedishcoder added a dialog box when trying to quit the game - to prevent
    accidental quits.
