@@ -28,6 +28,9 @@
 #include <physicallayer/propclas.h>
 #include <physicallayer/entity.h>
 #include <propclass/colldet.h>
+#include <imesh/genmesh.h>
+#include <imesh/gmeshskel2.h>
+#include <imesh/skeleton.h>
 
 #include "client/reporter/reporter.h"
 
@@ -99,6 +102,21 @@ void CombatMGR::hit (int targetId, int damage)
     Report(PT::Error, "CombatMGR: Couldn't find iCelEntity of entity with ID %d !", targetId);
     return;
   }
+
+//  csRef<iPcMesh> pcactormove = 
+//    CEL_QUERY_PROPCLASS_ENT(targetcel, iPcMesh);
+
+//  pcactormove->SetAnimation("attack", false, 1.0, 0.1, 0.1, false);
+
+  csRef<iGeneralMeshState> spstate (
+      scfQueryInterface<iGeneralMeshState> (getMesh(targetcel)->GetMeshObject ()));
+    csRef<iGenMeshSkeletonControlState> animcontrol (
+       
+      scfQueryInterface<iGenMeshSkeletonControlState> (spstate->GetAnimationControl ()));
+    // To check if I am leaking here...
+    iSkeleton* skeleton = animcontrol->GetSkeleton ();
+
+    skeleton->Execute("attack");
 
   csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (getMesh(targetcel)->GetMeshObject());
   if (!cal3dstate) return;
