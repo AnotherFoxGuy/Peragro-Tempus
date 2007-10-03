@@ -187,14 +187,18 @@ namespace PT
       pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
 
       csVector3 vec (0,0,1);
-      float yrot_dst = GetAngle (pos_dst - cur_position, vec);
+      //float yrot_dst = GetAngle (pos_dst - cur_position, vec);
+
+      cur_position.y = pos_dst.y;
+      csVector3 direction = pos_dst - cur_position;
+      float yrot_dst = atan2 (-direction.x, -direction.z);
 
       moveTo->turn_speed			= 2*PI; // 1 revolution per second
       moveTo->walk_speed			= entityMoveEv->speed;
       moveTo->dest_angle			= yrot_dst;
-      moveTo->walk_duration		= (pos_dst - cur_position).Norm() / moveTo->walk_speed;
-      moveTo->elapsed_time		= 0;
-      moveTo->walking					= false;
+      moveTo->walk_duration		        = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
+      moveTo->elapsed_time		        = 0;
+      moveTo->walking				= false;
       moveTo->entity_id				= id;
 
 

@@ -85,7 +85,7 @@ void PtPcEntity::Create()
 
 void PtPcEntity::Interact()
 {
-  //if (IsOwnEntity()) return;
+  if (IsOwnEntity()) return;
 
   using namespace PT::Events;
   InterfaceInteract* interfaceEvent = new InterfaceInteract();

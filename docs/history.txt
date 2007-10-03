@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+03-Oct-2007
+ - Sueastside made some small tweaks to the interaction dialog and commited
+   an updated icons image for them.
+
 02-Oct-2007
  - swedishcoder some work in progress on the battlesystem. Just maps the attack
    animation to the attack command. Using direct call to the skeleton in order
