@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+05-Oct-2007
+ - Sueastside changed option saving behaviour to always save to user directory.
+
 03-Oct-2007
  - Sueastside made some small tweaks to the interaction dialog and commited
    an updated icons image for them.

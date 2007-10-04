@@ -91,7 +91,7 @@ void OptionsWindow::CreateGUIWindow ()
 
 void OptionsWindow::SaveConfig()
 {
-  app_cfg->Save("/peragro/config/client.cfg", vfs);
+  app_cfg->Save();
 }
 
 void OptionsWindow::HideWindow()

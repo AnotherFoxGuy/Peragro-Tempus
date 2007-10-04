@@ -86,7 +86,7 @@ CEGUI::String LoginWindow::GetPassword()
 
 void LoginWindow::SaveConfig()
 {
-  app_cfg->Save("/peragro/config/client.cfg", vfs);
+  app_cfg->Save();
 }
 
 bool LoginWindow::LoginTextAccepted(const CEGUI::EventArgs &e)
