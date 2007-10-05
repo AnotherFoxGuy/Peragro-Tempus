@@ -208,9 +208,6 @@ namespace PT
     int modifiers;
 
     if (ev.Retrieve("keyModifiers",modifiers)!=csEventErrNone) return;
-    {
-      return;
-    }
 
     keyCode=csMouseEventHelper::GetButton(&ev);
 
