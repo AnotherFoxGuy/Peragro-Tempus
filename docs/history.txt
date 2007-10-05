@@ -6,6 +6,8 @@ under each day.
 
 05-Oct-2007
  - Sueastside changed option saving behaviour to always save to user directory.
+ - swedishcoder fixed two "warning: converting to 'int' from 'float'" in
+   interactdialog-gui
 
 03-Oct-2007
  - Sueastside made some small tweaks to the interaction dialog and commited

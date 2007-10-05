@@ -271,8 +271,8 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
 
   int x = PointerLibrary::getInstance()->getCursor()->GetMouseX();
   int y = PointerLibrary::getInstance()->getCursor()->GetMouseY();
-  x = x - ( ROOT_SIZE / 2 );
-  y = y - ( ROOT_SIZE / 2 );
+  x = (int)(x - ( ROOT_SIZE / 2 ));
+  y = (int)(y - ( ROOT_SIZE / 2 ));
   rootwindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0,x), CEGUI::UDim(0,y)));
   
   /* TODO
