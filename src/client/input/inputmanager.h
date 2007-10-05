@@ -25,29 +25,54 @@
 #include <csutil/cfgfile.h>
 #include <csutil/cfgacc.h>
 
-#include <csutil/hash.h>
-
 #include <string>
+#include <map>
+#include "shortcutcombo.h"
 
-namespace PT 
+namespace PT
 {
   class Client;
 
   class InputManager : public csBaseEventHandler
   {
   private:
-    csHash< std::string, int > functions;
+    std::map<ShortcutCombo,std::string> functions;
 
-    int GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl);
+    /**
+     * Invoked by the InputManager when a mouse event is received.
+     * @param ev Description of a mouse event.
+     * @return True if a new action was triggered, false otherwise.
+     */
     bool OnMouse(iEvent& ev);
 
   public:
     InputManager();
 
+    /**
+     * Initializes the InputManager. Amongst other things, configuration file is read.
+     * @return True if operation succeeded, false otherwise.
+     */
     bool Initialize();
 
-    bool OnKeyboard(iEvent &);
+    /**
+     * Invoked by the InputManager when a keyboard event is received.
+     * @param ev Description of a keyboard event.
+     * @return True if a new action was triggered, false otherwise.
+     */
+    bool OnKeyboard(iEvent& ev);
+    /**
+     * Invoked by the InputManager when a mouse down event is received.
+     * This method actually just wraps around the private OnMouse() member.
+     * @param ev Description of a mouse event.
+     * @return True if a new action was triggered, false otherwise.
+     */
     bool OnMouseDown(iEvent& ev);
+    /**
+     * Invoked by the InputManager when a mouse up event is received.
+     * This method actually just wraps around the private OnMouse() member.
+     * @param ev Description of a mouse event.
+     * @return True if a new action was triggered, false otherwise.
+     */
     bool OnMouseUp(iEvent& ev);
   };
 }

@@ -25,9 +25,8 @@
 
 #include <utility>
 
-namespace PT 
+namespace PT
 {
-
   InputManager::InputManager()
   {
   }
@@ -41,36 +40,28 @@ namespace PT
     csBaseEventHandler::Initialize (obj_reg);
     RegisterQueue (obj_reg, csevInput (obj_reg));
 
+    //Open configuration file, and prepare iterator for easy access
     csConfigAccess cfg (obj_reg, "/config/client.cfg");
-
     csRef<iConfigIterator> it = cfg->Enumerate("Key");
 
     Report(PT::Debug, "");
     Report(PT::Debug, "==Loading keybindings==========================");
-    uint numberOfKeys = 0;
+    uint numberOfKeys = 0; //Number of keys we've read
+
+    //Load the shortcuts
     while (it.IsValid() && it->Next())
     {
-      const char* keystring = it->GetKey() + strlen(it->GetSubsection()) + 1;
-      const char* action = it->GetStr();
+      ShortcutCombo combo;
 
-      bool shift, alt, ctrl;
-      int keycode = GetKeyCode (keystring, shift, alt, ctrl);
-
-      // Check if valid key
-      if (keycode == -1) 
+      if (!combo.SetFromConfigString(it->GetKey(true)+1)) //+1 to skip the '.' character
       {
-        Report(PT::Error, "Unknown key '%s' for action '%s'.", keystring, action);
+        Report(PT::Error, "Unknown key combo '%s' for action '%s'.", it->GetKey(true)+1, it->GetStr());
         continue;
       }
 
-      if (keycode >= 'A' && keycode <= 'Z') 
-      {
-        keycode += 'a' - 'A';
-      }
-
-      functions.Put(keycode, action);
-      Report(PT::Debug, "%-10s %-8d %s", keystring, keycode, action);
-
+      //Assign a function to combo
+      functions[combo]=it->GetStr();
+      Report(PT::Debug, "%-10s %s", it->GetKey(true)+1, it->GetStr());
       numberOfKeys++;
     }
     Report(PT::Debug, "================================ %d keybinding(s)\n", numberOfKeys);
@@ -78,60 +69,60 @@ namespace PT
     return true;
   }
 
-  bool InputManager::OnKeyboard(iEvent &ev) 
+  bool InputManager::OnKeyboard(iEvent &ev)
   {
-    if (csKeyEventHelper::GetAutoRepeat (&ev)) return false;
+    //If the key is being held, we don't send any new actions
+    if (csKeyEventHelper::GetAutoRepeat(&ev)) return false;
 
-    csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
-    bool down = (eventtype == csKeyEventTypeDown);
+    //Check if the key was pressed or not
+    bool down = (csKeyEventHelper::GetEventType(&ev) == csKeyEventTypeDown);
 
-    utf32_char key = csKeyEventHelper::GetCookedCode(&ev);
+    //Create an event shortcut for lookup
+    ShortcutCombo eventShortcut;
+    eventShortcut.SetFromKeyEvent(ev);
 
-    if (functions.Contains(key))
+    std::map<ShortcutCombo,std::string>::const_iterator it=functions.find(eventShortcut);
+
+    //Did we find an action for key binding?
+    if (it==functions.end())
     {
-      std::string action = functions.Get(key, "");
-      Report(PT::Debug, "Pressed key '(%d)', firing action '%s'.", key, action.c_str());
-
-      using namespace PT::Events;
-      InputEvent* inputEvent = new InputEvent();
-      inputEvent->action		= action;
-      inputEvent->released		= !down;
-      inputEvent->name                 += "." + action;
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);
-    }
-    else
-    {
-      Report(PT::Warning, "No action for key '%d'.", key);
+      Report(PT::Warning, "No action for key '%s'.", eventShortcut.GetConfigKey().c_str());
       return false;
     }
+
+    Report(PT::Debug, "Pressed key combo '(%s)', firing action '%s'", it->first.GetConfigKey().c_str(), it->second.c_str());
+
+    //Setup the event, and fire it
+    Events::InputEvent* inputEvent = new Events::InputEvent();
+    inputEvent->action     = it->second;
+    inputEvent->released   = !down;
+    inputEvent->name      += "." + it->second;
+    PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);
 
     return true;
   }
 
   bool InputManager::OnMouse(iEvent& ev)
   {
-    csMouseEventType mouseevent = csMouseEventHelper::GetEventType(&ev);
-    bool down = (mouseevent == csMouseEventTypeDown);
+    bool down = (csMouseEventHelper::GetEventType(&ev) == csMouseEventTypeDown);
 
-    uint button = csMouseEventHelper::GetButton(&ev);
+    ShortcutCombo eventShortcut;
+    eventShortcut.SetFromMouseEvent(ev);
 
-    if (functions.Contains(button))
+    std::map<ShortcutCombo,std::string>::const_iterator it=functions.find(eventShortcut);
+
+    if (it==functions.end())
     {
-      std::string action = functions.Get(button, "");
-      Report(PT::Debug, "%s button '(%d)', firing action '%s'.", down ? "Pressed":"Released", button, action.c_str());
-
-      using namespace PT::Events;
-      InputEvent* inputEvent = new InputEvent();
-      inputEvent->action		= action;
-      inputEvent->released		= !down;
-      inputEvent->name                 += "." + action;
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);
-    }
-    else
-    {
-      Report(PT::Warning, "No action for button '%d'.", button);
+      Report(PT::Warning, "No action for button '%s'.", eventShortcut.GetConfigKey().c_str());
       return false;
     }
+    Report(PT::Debug, "%s button '(%s)', firing action '%s'.", down ? "Pressed":"Released", it->first.GetConfigKey().c_str(), it->second.c_str());
+
+    Events::InputEvent* inputEvent = new Events::InputEvent();
+    inputEvent->action   = it->second;
+    inputEvent->released = !down;
+    inputEvent->name    += "." + it->second;
+    PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);
 
     return true;
   }
@@ -144,75 +135,6 @@ namespace PT
   bool InputManager::OnMouseUp(iEvent& ev)
   {
     return OnMouse(ev);
-  }
-
-  int InputManager::GetKeyCode (const char* keystring, bool& shift, bool& alt, bool& ctrl)
-  {
-    // The following code is based on crystalspace / bugplug.cpp rev 27481!
-    // GNU Library General Public License
-    // Copyright (C) 2001 by Jorrit Tyberghein
-
-    // Modified version!
-
-    shift = alt = ctrl = false;
-    char const* dash = strchr (keystring, '-');
-    while (dash)
-    {
-      if (!strncmp (keystring, "shift", int (dash-keystring))) shift = true;
-      else if (!strncmp (keystring, "alt", int (dash-keystring))) alt = true;
-      else if (!strncmp (keystring, "ctrl", int (dash-keystring))) ctrl = true;
-      keystring = dash+1;
-      dash = strchr (keystring, '-');
-    }
-
-    int keycode = -1;
-    if (!strcmp (keystring, "Tab")) keycode = CSKEY_TAB;
-    else if (!strcmp (keystring, "Space")) keycode = ' ';
-    else if (!strcmp (keystring, "Esc")) keycode = CSKEY_ESC;
-    else if (!strcmp (keystring, "Enter")) keycode = CSKEY_ENTER;
-    else if (!strcmp (keystring, "Bs")) keycode = CSKEY_BACKSPACE;
-    else if (!strcmp (keystring, "Up")) keycode = CSKEY_UP;
-    else if (!strcmp (keystring, "Down")) keycode = CSKEY_DOWN;
-    else if (!strcmp (keystring, "Right")) keycode = CSKEY_RIGHT;
-    else if (!strcmp (keystring, "Left")) keycode = CSKEY_LEFT;
-    else if (!strcmp (keystring, "PageUp")) keycode = CSKEY_PGUP;
-    else if (!strcmp (keystring, "PageDown")) keycode = CSKEY_PGDN;
-    else if (!strcmp (keystring, "Home")) keycode = CSKEY_HOME;
-    else if (!strcmp (keystring, "End")) keycode = CSKEY_END;
-    else if (!strcmp (keystring, "Ins")) keycode = CSKEY_INS;
-    else if (!strcmp (keystring, "Del")) keycode = CSKEY_DEL;
-    else if (!strcmp (keystring, "F1")) keycode = CSKEY_F1;
-    else if (!strcmp (keystring, "F2")) keycode = CSKEY_F2;
-    else if (!strcmp (keystring, "F3")) keycode = CSKEY_F3;
-    else if (!strcmp (keystring, "F4")) keycode = CSKEY_F4;
-    else if (!strcmp (keystring, "F5")) keycode = CSKEY_F5;
-    else if (!strcmp (keystring, "F6")) keycode = CSKEY_F6;
-    else if (!strcmp (keystring, "F7")) keycode = CSKEY_F7;
-    else if (!strcmp (keystring, "F8")) keycode = CSKEY_F8;
-    else if (!strcmp (keystring, "F9")) keycode = CSKEY_F9;
-    else if (!strcmp (keystring, "F10")) keycode = CSKEY_F10;
-    else if (!strcmp (keystring, "F11")) keycode = CSKEY_F11;
-    else if (!strcmp (keystring, "F12")) keycode = CSKEY_F12;
-
-    else if (!strcmp (keystring, "LMB")) keycode = 0;
-    else if (!strcmp (keystring, "RMB")) keycode = 1;
-    else if (!strcmp (keystring, "MMB")) keycode = 2;
-    else if (!strcmp (keystring, "WLUP")) keycode = 3;
-    else if (!strcmp (keystring, "WLDOWN")) keycode = 4;
-    else if (!strcmp (keystring, "MBX1")) keycode = 5;
-    else if (!strcmp (keystring, "MBX2")) keycode = 6;
-
-    else if (*(keystring+1) != 0) return -1;
-    else if ((*keystring >= 'A' && *keystring <= 'Z')
-      || strchr ("!@#$%^&*()_+", *keystring))
-    {
-      shift = 1;
-      keycode = *keystring;
-    }
-    else
-      keycode = *keystring;
-
-    return keycode;
   }
 
 }
