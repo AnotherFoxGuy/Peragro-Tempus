@@ -77,7 +77,7 @@ public:
     }
     t2 = client->GetTicks ();
     char buffer[1024];
-    sprintf(buffer, "%f secs to render %d frames: %f fps\n", 
+    sprintf(buffer, "%f secs to render %d frames: %f fps\n",
       (float) (t2 - t1) / 1000., num, float (num) * 1000. / (float) (t2 - t1));
     parent->GetOutputConsole ()->PutText (buffer);
     csPrintf (buffer);
@@ -206,14 +206,14 @@ public:
     PT::Entity::EntityManager* entmanager = PointerLibrary::getInstance()->getEntityManager();
     if(!entmanager) return;
 
-    PtEntity* ent = entmanager->getOwnPtEntity();
+    PT::Entity::PtEntity* ent = entmanager->getOwnPtEntity();
     if(!ent)
     {
       parent->GetOutputConsole ()->PutText ("Your entity hasn't been created yet!\n");
       return;
     }
 
-    PtPcEntity* ownent = static_cast<PtPcEntity*>(ent);
+    PT::Entity::PtPcEntity* ownent = static_cast<PT::Entity::PtPcEntity*>(ent);
     if (args.GetSize() < 4)
     {
       Help();

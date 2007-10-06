@@ -19,65 +19,71 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
-struct EquipData
+namespace PT
 {
-  unsigned int entity_id;
-  unsigned int item_id;
-  unsigned int slot_id;
-};
+  namespace Entity
+  {
+    struct EquipData
+    {
+      unsigned int entity_id;
+      unsigned int item_id;
+      unsigned int slot_id;
+    };
 
-struct MountData
-{
-  unsigned int entity_id;
-  unsigned int mount_id;
-  unsigned char control;
-};
+    struct MountData
+    {
+      unsigned int entity_id;
+      unsigned int mount_id;
+      unsigned char control;
+    };
 
-struct UnMountData
-{
-  unsigned int entity_id;
-  unsigned int mount_id;
-};
+    struct UnMountData
+    {
+      unsigned int entity_id;
+      unsigned int mount_id;
+    };
 
-struct TeleportData
-{
-  unsigned int entity_id;
-  csVector3 position;
-  csString sector;
-};
+    struct TeleportData
+    {
+      unsigned int entity_id;
+      csVector3 position;
+      csString sector;
+    };
 
-struct MovementData
-{
-  unsigned int entity_id;
-  float walk;
-  float turn;
-  bool run;
-};
+    struct MovementData
+    {
+      unsigned int entity_id;
+      float walk;
+      float turn;
+      bool run;
+    };
 
-struct MoveToData
-{
-  unsigned int entity_id;
-  bool walking;
-  float dest_angle;
-  float walk_speed;
-  float turn_speed;
-  float elapsed_time;
-  float walk_duration;
-};
+    struct MoveToData
+    {
+      unsigned int entity_id;
+      bool walking;
+      float dest_angle;
+      float walk_speed;
+      float turn_speed;
+      float elapsed_time;
+      float walk_duration;
+    };
 
-struct UpdatePcPropData
-{
-  unsigned int entity_id;
-  csString pcprop;
-  celData value;
-};
+    struct UpdatePcPropData
+    {
+      unsigned int entity_id;
+      csString pcprop;
+      celData value;
+    };
 
-struct DrUpdateData
-{
-  unsigned int entity_id;
-  csString sector;
-  csVector3 pos;
-  float rot;
-};
+    struct DrUpdateData
+    {
+      unsigned int entity_id;
+      csString sector;
+      csVector3 pos;
+      float rot;
+    };
+  }
+}
 
 #endif // PTENTITY_H

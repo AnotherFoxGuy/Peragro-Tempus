@@ -33,7 +33,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   TradeRequestMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
-  PtEntity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(trade_msg.getEntityId());
+  PT::Entity::PtEntity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(trade_msg.getEntityId());
   if(!ent) return;
 
   char buffer[1024];
@@ -44,7 +44,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
   dialog->SetText(buffer);
   dialog->SetYesEvent(CEGUI::Event::Subscriber(&TradeWindow::OnYesRequest, tradewindow));
-  dialog->SetNoEvent(CEGUI::Event::Subscriber(&TradeWindow::OnNoRequest, tradewindow)); 
+  dialog->SetNoEvent(CEGUI::Event::Subscriber(&TradeWindow::OnNoRequest, tradewindow));
 }
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)

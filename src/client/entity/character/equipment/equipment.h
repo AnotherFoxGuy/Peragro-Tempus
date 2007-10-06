@@ -23,28 +23,34 @@
 
 #include "client/pointer/pointer.h"
 
-class Equipment
+namespace PT
 {
-private:
-  csArray<EquipedItem*> equipment;
-  PtEntity* entity;
-  /* 
-  Checks if an item with the slotname exists,
-  if so delete it and add the new item.
-  */
-  void AddItem(EquipedItem* Item);
-  void RemoveItem(unsigned int slotid);
+  namespace Entity
+  {
+    class Equipment
+    {
+    private:
+      csArray<EquipedItem*> equipment;
+      PtEntity* entity;
+      /*
+      Checks if an item with the slotname exists,
+      if so delete it and add the new item.
+      */
+      void AddItem(EquipedItem* Item);
+      void RemoveItem(unsigned int slotid);
 
-public:
-  Equipment(PtEntity* entity);
-  ~Equipment() {}
-  void Equip(unsigned int slotId, unsigned int itemId);
-  void UnEquip(unsigned int slotId);
+    public:
+      Equipment(PtEntity* entity);
+      ~Equipment() {}
+      void Equip(unsigned int slotId, unsigned int itemId);
+      void UnEquip(unsigned int slotId);
 
-  PtEntity* GetEntity() { return entity; }
-  void ClearAll(); // Destructs all meshes and wipes the array.
-  void ConstructMeshes(); // Constructs meshes for all equiped items.
-  void DestructMeshes(); // Handy for LOD purposes. 
-}; 
+      PtEntity* GetEntity() { return entity; }
+      void ClearAll(); // Destructs all meshes and wipes the array.
+      void ConstructMeshes(); // Constructs meshes for all equiped items.
+      void DestructMeshes(); // Handy for LOD purposes.
+    };
+  }
+}
 
 #endif // EQUIPMENT_H

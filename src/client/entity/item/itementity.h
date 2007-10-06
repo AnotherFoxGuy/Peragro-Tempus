@@ -21,21 +21,26 @@
 
 #include "client/entity/ptentity.h"
 
-class PtItemEntity : public PtEntity
+namespace PT
 {
-private:
-  unsigned int itemid;
+  namespace Entity
+  {
+    class PtItemEntity : public PtEntity
+    {
+    private:
+      unsigned int itemid;
 
-public:
-  PtItemEntity();
+    public:
+      PtItemEntity();
 
-  int GetItemId () const { return itemid; }
-  void SetItemId (unsigned int value) { this->itemid = value; }
+      int GetItemId () const { return itemid; }
+      void SetItemId (unsigned int value) { this->itemid = value; }
 
-  void Create();
+      void Create();
 
-  void Interact();
-
-};
+      void Interact();
+    };
+  }
+}
 
 #endif // PTITEMENTITY_H

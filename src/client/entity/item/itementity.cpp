@@ -26,56 +26,63 @@
 #include "client/event/eventmanager.h"
 #include "client/event/interfaceevent.h"
 
-PtItemEntity::PtItemEntity() : PtEntity(PtEntity::ItemEntity) 
+namespace PT
 {
-  // Get the pointers to some common utils.
-  this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  engine =  csQueryRegistry<iEngine> (obj_reg);
-  pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-}
-
-void PtItemEntity::Create()
-{
-  PT::Data::Item* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(itemid);
-  if(item)
+  namespace Entity
   {
-    name = item->GetName();
-    meshname = item->GetMeshName();
 
-    CreateCelEntity();
-
-    char buffer[1024];
-    sprintf(buffer, "%s:%d:%d", name.GetData(), type, id);
-    celentity->SetName(buffer);
-
-    // Load and assign the mesh to the entity.
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-    if (!pcmesh->SetMesh(meshname.GetData(), item->GetFileName().GetData()))
+    PtItemEntity::PtItemEntity() : PtEntity(PtEntity::ItemEntity)
     {
-      Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s", meshname.GetData());
-      pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
+      // Get the pointers to some common utils.
+      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      engine =  csQueryRegistry<iEngine> (obj_reg);
+      pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
     }
-    pl->CreatePropertyClass(celentity, "pcmove.linear");
-    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
 
-    pclinmove->InitCD(
-      csVector3(0.5f,0.8f,0.5f),
-      csVector3(0.5f,0.8f,0.5f),
-      csVector3(0,0,0));
+    void PtItemEntity::Create()
+    {
+      PT::Data::Item* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(itemid);
+      if(item)
+      {
+        name = item->GetName();
+        meshname = item->GetMeshName();
 
-    iSector* sector = engine->FindSector(sectorname);
-    pclinmove->SetPosition(pos,0,sector);
+        CreateCelEntity();
+
+        char buffer[1024];
+        sprintf(buffer, "%s:%d:%d", name.GetData(), type, id);
+        celentity->SetName(buffer);
+
+        // Load and assign the mesh to the entity.
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+        if (!pcmesh->SetMesh(meshname.GetData(), item->GetFileName().GetData()))
+        {
+          Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s", meshname.GetData());
+          pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
+        }
+        pl->CreatePropertyClass(celentity, "pcmove.linear");
+        csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+
+        pclinmove->InitCD(
+          csVector3(0.5f,0.8f,0.5f),
+          csVector3(0.5f,0.8f,0.5f),
+          csVector3(0,0,0));
+
+        iSector* sector = engine->FindSector(sectorname);
+        pclinmove->SetPosition(pos,0,sector);
+      }
+      else
+        Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %s!\n", name.GetData());
+
+    }
+
+    void PtItemEntity::Interact()
+    {
+      using namespace PT::Events;
+      InterfaceInteract* interfaceEvent = new InterfaceInteract();
+      interfaceEvent->entityId              = id;
+      interfaceEvent->actions               = "Pickup";
+      PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
+    }
   }
-  else
-    Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %s!\n", name.GetData());
-
-}
-
-void PtItemEntity::Interact()
-{
-  using namespace PT::Events;
-  InterfaceInteract* interfaceEvent = new InterfaceInteract();
-  interfaceEvent->entityId              = id;
-  interfaceEvent->actions               = "Pickup";
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 }

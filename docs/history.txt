@@ -8,6 +8,9 @@ under each day.
  - swedishcoder fixed warnings in characterentity.cpp where float was passed to
    function expecting int. Also fixed a missing newline in doorentity.cpp
  - Sueastside made some MSVC fixes for InputManager.
+ - azaghal moved PtEntity and related classes to PS::Entity namespace, removed
+   doubled EntityType enum from EntityEvent, and made appropriate changes
+   throughout to use PS::Entity::PtEntity::EntityType instead.
 
 05-Oct-2007
  - Sueastside changed option saving behaviour to always save to user directory.

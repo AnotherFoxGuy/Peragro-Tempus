@@ -39,7 +39,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 #include "client/gui/guimanager.h"
 
@@ -72,16 +72,16 @@ void Cursor::Draw()
     int type = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type"));
     switch(type)
     {
-    case PtEntity::PlayerEntity:
+    case PT::Entity::PtEntity::PlayerEntity:
       nametag->setProperty("NormalTextColour", "FF05AA05");
       break;
-    case PtEntity::NPCEntity:
+    case PT::Entity::PtEntity::NPCEntity:
       nametag->setProperty("NormalTextColour", "FFFF00FF");
       break;
-    case PtEntity::DoorEntity:
+    case PT::Entity::PtEntity::DoorEntity:
       nametag->setProperty("NormalTextColour", "FF550505");
       break;
-    case PtEntity::ItemEntity:
+    case PT::Entity::PtEntity::ItemEntity:
       nametag->setProperty("NormalTextColour", "FF0505AA");
       break;
     default:

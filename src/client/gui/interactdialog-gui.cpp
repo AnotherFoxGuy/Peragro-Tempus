@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -94,11 +94,11 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
   }
   else if (ddea.window->getName().compare(DOOR_BUTTON) == 0)
   {
-    PtEntity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(interactId);
+    PT::Entity::PtEntity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(interactId);
     if (!ent) return true;
     if (ent->GetType() == 2)// door
     {
-      if (((PtDoorEntity*)ent)->GetOpen())
+      if (((PT::Entity::PtDoorEntity*)ent)->GetOpen())
       {
         Report(PT::Notify, "OnAction: Requesting open of: %d.", interactId);
         CloseDoorRequestMessage msg;
@@ -143,7 +143,7 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
     msg.setNpcId(interactId);
     network->send(&msg);
   }
-  
+
 
   GUIWindow::HideWindow();
 
@@ -274,7 +274,7 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
   x = (int)(x - ( ROOT_SIZE / 2 ));
   y = (int)(y - ( ROOT_SIZE / 2 ));
   rootwindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0,x), CEGUI::UDim(0,y)));
-  
+
   /* TODO
     Behaviours should listen to the interface.interact event
     and on that event register their action(s) with a callback to this

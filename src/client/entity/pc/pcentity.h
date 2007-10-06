@@ -21,20 +21,26 @@
 
 #include "client/entity/character/characterentity.h"
 
-class PtPcEntity : public PtCharacterEntity
+namespace PT
 {
-private:
-  bool is_own_entity;
+  namespace Entity
+  {
+    class PtPcEntity : public PtCharacterEntity
+    {
+    private:
+      bool is_own_entity;
 
-public:
-  PtPcEntity();
-  virtual ~PtPcEntity(){}
-  void Create();
+    public:
+      PtPcEntity();
+      virtual ~PtPcEntity(){}
+      void Create();
 
-  void Interact();
+      void Interact();
 
-  bool IsOwnEntity() { return is_own_entity; }
-  void SetOwnEntity(bool ownership) { is_own_entity = ownership; }
-};
+      bool IsOwnEntity() { return is_own_entity; }
+      void SetOwnEntity(bool ownership) { is_own_entity = ownership; }
+    };
+  }
+}
 
 #endif // PTPCENTITY_H

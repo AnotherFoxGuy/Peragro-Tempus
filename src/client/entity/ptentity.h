@@ -71,66 +71,72 @@
 
 #include "client/entity/movement.h"
 
-class PtEntity 
+namespace PT
 {
-public:
-  enum EntityType
+  namespace Entity
   {
-    PlayerEntity=0,
-    NPCEntity=1,
-    DoorEntity=2,
-    ItemEntity=3,
-    MountEntity=4
-  };
+    class PtEntity
+    {
+    public:
+      enum EntityType
+      {
+        PlayerEntity=0,
+        NPCEntity=1,
+        DoorEntity=2,
+        ItemEntity=3,
+        MountEntity=4
+      };
 
-protected:
-  unsigned int id;
-  EntityType type;
-  csString name;
-  csString meshname;
-  csString sectorname;
-  csVector3 pos;
-  csWeakRef<iCelEntity> celentity;
+    protected:
+      unsigned int id;
+      EntityType type;
+      csString name;
+      csString meshname;
+      csString sectorname;
+      csVector3 pos;
+      csWeakRef<iCelEntity> celentity;
 
-protected:
-  csRef<iObjectRegistry> obj_reg;
-  csRef<iEngine> engine;
-  csRef<iCelPlLayer> pl;
-  csRef<iVFS> vfs;
-  void CreateCelEntity (); 
+    protected:
+      csRef<iObjectRegistry> obj_reg;
+      csRef<iEngine> engine;
+      csRef<iCelPlLayer> pl;
+      csRef<iVFS> vfs;
+      void CreateCelEntity ();
 
-public:
-  PtEntity(EntityType type) : id(-1), type(type) 
-  {
-    celentity = 0;
+    public:
+      PtEntity(EntityType type) : id(-1), type(type)
+      {
+        celentity = 0;
+      }
+      virtual ~PtEntity() {}
+
+      unsigned int GetId () const { return id; }
+      int GetType () const { return type; }
+      csString GetName () const { return name; }
+      csString GetMeshName () const { return meshname; }
+      iCelEntity* GetCelEntity () const { return celentity; }
+
+      void SetId (int value) { this->id = value; }
+      void SetType (EntityType value)  { this->type = value; }
+      void SetName (csString value) { this->name = value; }
+      void SetMeshName (csString value) { this->meshname = value; }
+      void SetSectorName (csString value) { this->sectorname = value; }
+      void SetPosition (csVector3 value) { this->pos = value; }
+      void SetCelEntity (iCelEntity* value) { this->celentity = value; }
+
+      virtual void Create() {}
+      virtual void Destroy() {}
+
+      virtual void Move(MovementData* movement) {}
+      virtual bool MoveTo(MoveToData* moveTo) {return true;}
+      virtual void DrUpdate(DrUpdateData* drupdate) {}
+      virtual void Teleport(csVector3 pos, csString sector) {}
+      virtual void UpdatePcProp(UpdatePcPropData* update_pcprop) {}
+
+      virtual void Interact() {}
+
+    };
   }
-  virtual ~PtEntity() {}
-
-  unsigned int GetId () const { return id; }
-  int GetType () const { return type; }
-  csString GetName () const { return name; }
-  csString GetMeshName () const { return meshname; }
-  iCelEntity* GetCelEntity () const { return celentity; }
-
-  void SetId (int value) { this->id = value; }
-  void SetType (EntityType value)  { this->type = value; }
-  void SetName (csString value) { this->name = value; }
-  void SetMeshName (csString value) { this->meshname = value; }
-  void SetSectorName (csString value) { this->sectorname = value; }
-  void SetPosition (csVector3 value) { this->pos = value; }
-  void SetCelEntity (iCelEntity* value) { this->celentity = value; }
-
-  virtual void Create() {}
-  virtual void Destroy() {}
-
-  virtual void Move(MovementData* movement) {}
-  virtual bool MoveTo(MoveToData* moveTo) {return true;}
-  virtual void DrUpdate(DrUpdateData* drupdate) {}
-  virtual void Teleport(csVector3 pos, csString sector) {}
-  virtual void UpdatePcProp(UpdatePcPropData* update_pcprop) {}
-
-  virtual void Interact() {}
-
-};
+}
 
 #endif // PTENTITY_H

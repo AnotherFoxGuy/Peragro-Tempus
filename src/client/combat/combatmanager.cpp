@@ -87,7 +87,7 @@ void CombatMGR::hit (int targetId, int damage)
 {
   // Lookup the ID to get the actual entity.
   //iCelEntity* target = entitymgr->findCelEntById(targetId);
-  PtEntity* target = entitymgr->findPtEntById(targetId);
+  PT::Entity::PtEntity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
   {
@@ -103,7 +103,7 @@ void CombatMGR::hit (int targetId, int damage)
     return;
   }
 
-//  csRef<iPcMesh> pcactormove = 
+//  csRef<iPcMesh> pcactormove =
 //    CEL_QUERY_PROPCLASS_ENT(targetcel, iPcMesh);
 
 //  pcactormove->SetAnimation("attack", false, 1.0, 0.1, 0.1, false);
@@ -111,7 +111,7 @@ void CombatMGR::hit (int targetId, int damage)
   csRef<iGeneralMeshState> spstate (
       scfQueryInterface<iGeneralMeshState> (getMesh(targetcel)->GetMeshObject ()));
     csRef<iGenMeshSkeletonControlState> animcontrol (
-       
+
       scfQueryInterface<iGenMeshSkeletonControlState> (spstate->GetAnimationControl ()));
     // To check if I am leaking here...
     iSkeleton* skeleton = animcontrol->GetSkeleton ();
@@ -349,7 +349,7 @@ void CombatMGR::RequestSkillUsageStart (iCelEntity* target, unsigned int skillId
 {
   // Lookup the ID to get the actual entity.
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
-  if (!pcprop) 
+  if (!pcprop)
   {
     Report(PT::Error, "CombatMGR: Couldn't find pcprop for target!");
     return;

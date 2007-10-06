@@ -183,10 +183,10 @@ namespace PT
         return true;
       }
 
-      PtEntity* entity; 
-      if (entityAddEv->entityType == EntityEvent::PlayerEntity)
+      PtEntity* entity;
+      if (entityAddEv->entityType == PtEntity::PlayerEntity)
       {
-        entity = new PtPcEntity(); 
+        entity = new PtPcEntity();
         // Add equipment.
         /*std::vector<EntityAddEvent::SlotAndItem>::const_iterator it;
         for(it = entityAddEv->equipment.begin(); it != entityAddEv->equipment.end(); ++it)
@@ -194,20 +194,20 @@ namespace PT
         for(size_t i = 0; i < entityAddEv->equipment.GetSize(); i++)
           ((PtPcEntity*)entity)->GetEquipment()->Equip(entityAddEv->equipment.Get(i).slotId, entityAddEv->equipment.Get(i).itemId);
       }
-      else if (entityAddEv->entityType == EntityEvent::NPCEntity)
+      else if (entityAddEv->entityType == PtEntity::NPCEntity)
       {
         entity = new PtNpcEntity();
       }
-      else if (entityAddEv->entityType == EntityEvent::ItemEntity)
+      else if (entityAddEv->entityType == PtEntity::ItemEntity)
       {
         entity = new PtItemEntity();
         ((PtItemEntity*)entity)->SetItemId(entityAddEv->meshId);
       }
-      else if (entityAddEv->entityType == EntityEvent::MountEntity)
+      else if (entityAddEv->entityType == PtEntity::MountEntity)
       {
         entity = new PtMountEntity();
       }
-      else if (entityAddEv->entityType == EntityEvent::DoorEntity)
+      else if (entityAddEv->entityType == PtEntity::DoorEntity)
       {
         entity = new PtDoorEntity();
         ((PtDoorEntity*)entity)->SetLocked(entityAddEv->locked);
@@ -322,7 +322,7 @@ namespace PT
         if (entity->GetType() == PtEntity::PlayerEntity && mount->GetType() == PtEntity::MountEntity)
         {
           PtMountEntity* m = static_cast<PtMountEntity*>(mount);
-          if (entityMountEv->mount) 
+          if (entityMountEv->mount)
             m->Mount(entity);
           else
             m->UnMount(entity);
@@ -339,7 +339,7 @@ namespace PT
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         csRef<iCelEntity> ent = PointerLibrary::getInstance()->getCursor()->GetSelectedEntity();
         if (!ent) return false;
@@ -407,5 +407,5 @@ namespace PT
       }
     }
 
-  } // Entity namespace 
-} // PT namespace 
+  } // Entity namespace
+} // PT namespace

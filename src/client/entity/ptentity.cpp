@@ -20,30 +20,37 @@
 
 #include "client/pointer/pointer.h"
 
-void PtEntity::CreateCelEntity()
+namespace PT
 {
-  csRef<iCelEntity> entity = pl->CreateEntity();
-  celentity = entity;
-
-  pl->CreatePropertyClass(celentity, "pcobject.mesh");
-  pl->CreatePropertyClass(celentity, "pcmove.solid");
-  pl->CreatePropertyClass(celentity, "pctools.properties");
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-  //csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-  //csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(celentity, iPcSolid);
-  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
-
-  // Place the entity in the world.
-  csRef<iCelEntity> region = pl->FindEntity("World");
-  if (region.IsValid())
+  namespace Entity
   {
-    csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(region, iPcRegion);
-    pcmesh->MoveMesh(pcregion->GetStartSector(), pcregion->GetStartPosition());
-  }
 
-  // Add some properties.
-  pcprop->SetProperty("Entity Type", (long)type);
-  pcprop->SetProperty("Entity ID", (long)id);
-  pcprop->SetProperty("Entity Name", name);
+    void PtEntity::CreateCelEntity()
+    {
+      csRef<iCelEntity> entity = pl->CreateEntity();
+      celentity = entity;
+
+      pl->CreatePropertyClass(celentity, "pcobject.mesh");
+      pl->CreatePropertyClass(celentity, "pcmove.solid");
+      pl->CreatePropertyClass(celentity, "pctools.properties");
+
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+      //csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+      //csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(celentity, iPcSolid);
+      csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
+
+      // Place the entity in the world.
+      csRef<iCelEntity> region = pl->FindEntity("World");
+      if (region.IsValid())
+      {
+        csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(region, iPcRegion);
+        pcmesh->MoveMesh(pcregion->GetStartSector(), pcregion->GetStartPosition());
+      }
+
+      // Add some properties.
+      pcprop->SetProperty("Entity Type", (long)type);
+      pcprop->SetProperty("Entity ID", (long)id);
+      pcprop->SetProperty("Entity Name", name);
+    }
+  }
 }

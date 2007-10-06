@@ -28,6 +28,7 @@
 #include "client/event/event.h"
 
 #include <physicallayer/datatype.h>
+#include "client/entity/ptentity.h"
 
 namespace PT
 {
@@ -40,15 +41,6 @@ namespace PT
     {
     public:
     public:
-      enum EntityType
-      {
-        PlayerEntity=0,
-        NPCEntity=1,
-        DoorEntity=2,
-        ItemEntity=3,
-        MountEntity=4
-      };
-
       unsigned int entityId;
 
     public:
@@ -224,7 +216,7 @@ namespace PT
       virtual ~EntityPcPropUpdateEvent() {}
     };
 
-  } // Events namespace 
-} // PT namespace 
+  } // Events namespace
+} // PT namespace
 
 #endif // PTENTITY_EVENT_H

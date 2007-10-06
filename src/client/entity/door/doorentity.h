@@ -23,23 +23,29 @@
 
 #include "client/pointer/pointer.h"
 
-class PtDoorEntity : public PtEntity
+namespace PT
 {
-private:
-  bool open;
-  bool locked;
+  namespace Entity
+  {
+    class PtDoorEntity : public PtEntity
+    {
+    private:
+      bool open;
+      bool locked;
 
-public:
-  PtDoorEntity();
-  virtual ~PtDoorEntity(){}
-  void Create();
-  bool GetOpen() { return open; }
-  void SetOpen(bool value) { this->open = value; }
-  bool GetLocked() { return locked; }
-  void SetLocked(bool value) { this->locked = value; }
-  void UpdatePcProp(UpdatePcPropData* update_pcprop);
+    public:
+      PtDoorEntity();
+      virtual ~PtDoorEntity(){}
+      void Create();
+      bool GetOpen() { return open; }
+      void SetOpen(bool value) { this->open = value; }
+      bool GetLocked() { return locked; }
+      void SetLocked(bool value) { this->locked = value; }
+      void UpdatePcProp(UpdatePcPropData* update_pcprop);
 
-  void Interact();
-};
+      void Interact();
+    };
+  }
+}
 
 #endif // PTDOORENTITY_H

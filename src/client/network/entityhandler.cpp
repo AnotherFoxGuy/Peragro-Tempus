@@ -45,7 +45,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
-  entityEvent->entityType   = EntityEvent::NPCEntity; 
+  entityEvent->entityType   = PT::Entity::PtEntity::NPCEntity;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -64,7 +64,7 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   entityEvent->locked      = (entmsg.getIsLocked() != 0);
   entityEvent->open        = (entmsg.getIsOpen() != 0);
   entityEvent->entityId    = entmsg.getEntityId();
-  entityEvent->entityType  = EntityEvent::DoorEntity; 
+  entityEvent->entityType  = PT::Entity::PtEntity::DoorEntity;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -131,7 +131,7 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
     //dropEv->itemId = response_msg.getItemId();
     dropEv->slotId = response_msg.getSlotId();
 
-    PointerLibrary::getInstance()->getEventManager()->AddEvent(dropEv); 
+    PointerLibrary::getInstance()->getEventManager()->AddEvent(dropEv);
   }
   else
     Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", response_msg.getSlotId(), *response_msg.getError());
@@ -284,7 +284,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
-  entityEvent->entityType   = EntityEvent::PlayerEntity; 
+  entityEvent->entityType   = PT::Entity::PtEntity::PlayerEntity;
 
   unsigned char itemCount = entmsg.getEquipmentCount();
   for (unsigned char i = 0; i < itemCount; i++)
@@ -318,7 +318,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
-  entityEvent->entityType   = EntityEvent::ItemEntity; 
+  entityEvent->entityType   = PT::Entity::PtEntity::ItemEntity;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -338,7 +338,7 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
-  entityEvent->entityType   = EntityEvent::MountEntity; 
+  entityEvent->entityType   = PT::Entity::PtEntity::MountEntity;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

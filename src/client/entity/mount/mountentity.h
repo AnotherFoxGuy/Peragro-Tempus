@@ -25,19 +25,24 @@
 
 #include "client/pointer/pointer.h"
 
-class PtMountEntity : public PtCharacterEntity
+namespace PT
 {
-private:
-  bool mounted;
+  namespace Entity
+  {
+    class PtMountEntity : public PtCharacterEntity
+    {
+    private:
+      bool mounted;
 
-public:
-  PtMountEntity();
-  virtual ~PtMountEntity(){}
-  void Create();
-  void Mount(PtEntity* player);
-  void UnMount(PtEntity* player);
+    public:
+      PtMountEntity();
+      virtual ~PtMountEntity(){}
+      void Create();
+      void Mount(PtEntity* player);
+      void UnMount(PtEntity* player);
 
-  bool isMounted() { return mounted; }
-};
-
+      bool isMounted() { return mounted; }
+    };
+  }
+}
 #endif // PTMOUNTENTITY_H

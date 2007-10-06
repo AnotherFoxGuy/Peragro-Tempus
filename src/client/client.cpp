@@ -157,12 +157,12 @@ namespace PT
     csRef<iPcDefaultCamera> cam = entitymanager->getOwnCamera();
     if (cam.IsValid()) cam->Draw();
 
-    if (state == STATE_PLAY) 
+    if (state == STATE_PLAY)
     {
       if (entitymanager)
       {
-        PtCharacterEntity *character = (PtCharacterEntity *) entitymanager->getOwnPtEntity();
-        if (character) 
+        PT::Entity::PtCharacterEntity *character = (PT::Entity::PtCharacterEntity *) entitymanager->getOwnPtEntity();
+        if (character)
         {
           int currentStamina = character->getCurrentStamina();
           int maxStamina = character->getMaxStamina();
@@ -225,7 +225,7 @@ namespace PT
     if (!OpenApplication(GetObjectRegistry()))
       return ReportError("Error opening system!");
 
-    // Create and Initialize the Reporter. 
+    // Create and Initialize the Reporter.
     reporter= new Reporter (GetObjectRegistry());
     if (!reporter) return ReportError("Error loading Reporter!");
     reporter->Initialize();
@@ -247,9 +247,9 @@ namespace PT
     pointerlib.setObjectRegistry(GetObjectRegistry());
     pointerlib.setClient(this);
 
-    // Create and Initialize the Network. 
+    // Create and Initialize the Network.
     network = new Network (this);
-    if (!network) 
+    if (!network)
       return Report(PT::Error, "Failed to create Network object!");
     network->init();
     pointerlib.setNetwork(network);
@@ -280,7 +280,7 @@ namespace PT
 
     // Create and Initialize the InputManager.
     inputMgr = new InputManager();
-    if(!inputMgr->Initialize()) 
+    if(!inputMgr->Initialize())
       return Report(PT::Error, "Failed to create InputManager object!");
 
     if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
@@ -310,7 +310,7 @@ namespace PT
     // Disable the lighting cache.
     engine->SetLightingCacheMode (0);
 
-    // Let the engine prepare all lightmaps for use and also free all images 
+    // Let the engine prepare all lightmaps for use and also free all images
     // that were loaded for the texture manager.
     engine->Prepare ();
 
@@ -495,7 +495,7 @@ namespace PT
         // Load introduction sector, draw it once for this frame, and switch to STATE_INTRO
         const char* path = cmdline->GetOption("intro");
 
-        if (!path) 
+        if (!path)
         {
           path = 0;
           iCEGUI* cegui = guimanager->GetCEGUI();
@@ -532,7 +532,7 @@ namespace PT
         bool hasIntro = false;
         csRef<iPcRegion> pcregion = 0;
 
-        if (path) 
+        if (path)
         {
           csRef<iCelEntity> entity = pl->CreateEntity();
           entity->SetName("ptIntroWorld");
@@ -670,18 +670,18 @@ namespace PT
     network->send(&answer_msg);
   }
 
-  bool Client::ActionForward(PT::Events::Eventp ev) 
+  bool Client::ActionForward(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
-        walk = 1; 
-      else 
+      if (!inputEv->released)
+        walk = 1;
+      else
         walk = 0;
     }
 
@@ -689,18 +689,18 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionBackward(PT::Events::Eventp ev) 
+  bool Client::ActionBackward(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
       if (!inputEv->released)
         walk = -1;
-      else 
+      else
         walk = 0;
     }
 
@@ -708,18 +708,18 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionLeft(PT::Events::Eventp ev) 
+  bool Client::ActionLeft(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
       if (!inputEv->released)
         turn = -1;
-      else 
+      else
         turn = 0;
     }
 
@@ -727,18 +727,18 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionRight(PT::Events::Eventp ev) 
+  bool Client::ActionRight(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
       if (!inputEv->released)
         turn = 1;
-      else 
+      else
         turn = 0;
     }
 
@@ -746,16 +746,16 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionToggleWalk(PT::Events::Eventp ev) 
+  bool Client::ActionToggleWalk(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         (walk == 0) ? walk = 1 : walk = 0;
       }
@@ -764,17 +764,17 @@ namespace PT
     DoAction();
     return true;
   }
-  
-  bool Client::ActionToggleRun(PT::Events::Eventp ev) 
+
+  bool Client::ActionToggleRun(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         (run == 0) ? run = 1 : run = 0;
       }
@@ -784,20 +784,20 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionPanUp(PT::Events::Eventp ev) 
+  bool Client::ActionPanUp(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
-        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()-0.1f);
       }
     }
@@ -805,20 +805,20 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionPanDown(PT::Events::Eventp ev) 
+  bool Client::ActionPanDown(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
-        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);  
+        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()+0.1f);
       }
     }
@@ -826,16 +826,16 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionToggleCamera(PT::Events::Eventp ev) 
+  bool Client::ActionToggleCamera(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         iPcActorMove* pcactormove = getPcActorMove();
         if (!pcactormove) return false;
@@ -846,23 +846,23 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionToggleDistClipping(PT::Events::Eventp ev) 
+  bool Client::ActionToggleDistClipping(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         guimanager->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
-        pccamera->UseDistanceClipping() ? 
-          pccamera->DisableDistanceClipping() 
+        pccamera->UseDistanceClipping() ?
+          pccamera->DisableDistanceClipping()
           : pccamera->EnableAdaptiveDistanceClipping(95, 100, 50);
       }
     }
@@ -870,16 +870,16 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionHit(PT::Events::Eventp ev) 
+  bool Client::ActionHit(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         combatmanager->hit (entitymanager->GetOwnId(), 20);
       }
@@ -888,23 +888,23 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionActivateSkill(PT::Events::Eventp ev) 
+  bool Client::ActionActivateSkill(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         // Activate the skill
         csRef<iCelEntity> ent = cursor->GetSelectedEntity();
         csRef<iPcProperties> pcprop;
         if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
         if (!pcprop) return false;
-        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::PlayerEntity)
+        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PT::Entity::PtEntity::PlayerEntity)
         {
           combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         }
@@ -915,7 +915,7 @@ namespace PT
         if (!pcmesh) return false;
         csRef<iMeshWrapper> parent = pcmesh->GetMesh();
         if (!parent) return false;
-        csRef<iSpriteCal3DState> cal3dstate = 
+        csRef<iSpriteCal3DState> cal3dstate =
           scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
         if (!cal3dstate) return false;
         cal3dstate->SetAnimAction("cast_summon", 0.0f, 0.0f);
@@ -925,16 +925,16 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionActivateWeapon(PT::Events::Eventp ev) 
+  bool Client::ActionActivateWeapon(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
-    if (playing) 
+    if (playing)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
 
-      if (!inputEv->released) 
+      if (!inputEv->released)
       {
         iCelEntity* entity = entitymanager->getOwnCelEntity();
         if (!entity) return false;
@@ -942,7 +942,7 @@ namespace PT
         if (!pcmesh) return false;
         csRef<iMeshWrapper> parent = pcmesh->GetMesh();
         if (!parent) return false;
-        csRef<iSpriteCal3DState> cal3dstate = 
+        csRef<iSpriteCal3DState> cal3dstate =
           scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
         if (!cal3dstate) return false;
         cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
@@ -952,16 +952,16 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionQuit(PT::Events::Eventp ev) 
+  bool Client::ActionQuit(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
-    
-    if (playing) 
+
+    if (playing)
     {
       ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
       dialog->SetText("Are you sure you want to quit?");
       dialog->SetYesEvent(CEGUI::Event::Subscriber(&Client::Quit, this));
-      dialog->SetNoEvent(CEGUI::Event::Subscriber(&Client::NoQuit, this)); 
+      dialog->SetNoEvent(CEGUI::Event::Subscriber(&Client::NoQuit, this));
       return true;
     } else {
       csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
@@ -987,7 +987,7 @@ namespace PT
     return true;
   }
 
-  bool Client::DoAction() 
+  bool Client::DoAction()
   {
     MoveRequestMessage msg;
     msg.setWalk(walk+1);
@@ -1002,14 +1002,14 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionMoveTo(PT::Events::Eventp ev) 
+  bool Client::ActionMoveTo(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
     InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
     if (!inputEv) return false;
 
-    if (!inputEv->released) 
+    if (!inputEv->released)
     {
       if (!entitymanager) return false;
       csRef<iPcDefaultCamera> pccamera = entitymanager->getOwnCamera();
@@ -1045,14 +1045,14 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionOnInteract(PT::Events::Eventp ev) 
+  bool Client::ActionOnInteract(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
     InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
     if (!inputEv) return false;
 
-    if (!inputEv->released) 
+    if (!inputEv->released)
     {
       csRef<iCelEntity> ent = cursor->GetSelectedEntity();
 
@@ -1061,12 +1061,12 @@ namespace PT
       if (!pcprop) return false;
 
       // If it's a mount, mount it.
-      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PtEntity::MountEntity)
+      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PT::Entity::PtEntity::MountEntity)
       {
-        PtEntity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        PT::Entity::PtEntity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         if(!ent) return false;
 
-        PtMountEntity* mount = static_cast<PtMountEntity*>(ent);
+        PT::Entity::PtMountEntity* mount = static_cast<PT::Entity::PtMountEntity*>(ent);
         if(!mount->isMounted())
         {
           MountRequestMessage msg;
@@ -1091,14 +1091,14 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionZoomIn(PT::Events::Eventp ev) 
+  bool Client::ActionZoomIn(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
     InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
     if (!inputEv) return false;
 
-    if (!inputEv->released) 
+    if (!inputEv->released)
     {
       iCelEntity* entity = entitymanager->getOwnCelEntity();
       if (!entity) return false;
@@ -1109,14 +1109,14 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionZoomOut(PT::Events::Eventp ev) 
+  bool Client::ActionZoomOut(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
 
     InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
     if (!inputEv) return false;
 
-    if (!inputEv->released) 
+    if (!inputEv->released)
     {
       iCelEntity* entity = entitymanager->getOwnCelEntity();
       if (!entity) return false;
@@ -1294,7 +1294,7 @@ namespace PT
 
     const char* regionname = cmdline->GetOption("world");
 
-    if (!regionname) 
+    if (!regionname)
     {
       regionname = regionEv->regionName.c_str();
       Report(PT::Notify, "loadRegion: Using default world.");
@@ -1337,13 +1337,13 @@ namespace PT
   iPcActorMove* Client::getPcActorMove()
   {
     iCelEntity* entity = entitymanager->getOwnCelEntity();
-    if (entity == 0) 
+    if (entity == 0)
       return 0;
     csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
     return pcactormove;
   }
 
-} // PT namespace 
+} // PT namespace
 
 /*---------------*
 * Main function

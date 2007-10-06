@@ -23,14 +23,20 @@
 
 #include "client/pointer/pointer.h"
 
-class PtNpcEntity : public PtCharacterEntity
+namespace PT
 {
-public:
-  PtNpcEntity();
-  virtual ~PtNpcEntity(){}
-  void Create();
+  namespace Entity
+  {
+    class PtNpcEntity : public PtCharacterEntity
+    {
+    public:
+      PtNpcEntity();
+      virtual ~PtNpcEntity(){}
+      void Create();
 
-  void Interact();
-};
+      void Interact();
+    };
+  }
+}
 
 #endif // PTNPCENTITY_H
