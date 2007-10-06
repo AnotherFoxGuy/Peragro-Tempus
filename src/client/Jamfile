@@ -108,6 +108,8 @@ if [ Property build : projgen_version ] != 6
     gmeshanim
     gmeshskelanim2
     skeleton
+    skelldr
+    vproc_std
     rendloop_loader
     simpleformerldr
     simpleformer
