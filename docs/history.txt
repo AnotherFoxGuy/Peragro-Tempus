@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+06-Oct-2007
+ - swedishcoder fixed warnings in characterentity.cpp where float was passed to
+   function expecting int. Also fixed a missing newline in doorentity.cpp
+
 05-Oct-2007
  - Sueastside changed option saving behaviour to always save to user directory.
  - swedishcoder fixed two "warning: converting to 'int' from 'float'" in

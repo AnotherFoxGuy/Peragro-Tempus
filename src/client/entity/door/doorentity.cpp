@@ -103,3 +103,4 @@ void PtDoorEntity::Interact()
     interfaceEvent->actions               = "Door, Lock";
   PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 }
+

@@ -33,8 +33,8 @@ void PtCharacterEntity::Move(MovementData* movement)
   if (pcactormove.IsValid())
   {
     pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
-    pcactormove->SetMovementSpeed(abs(movement->walk));
-    pcactormove->SetRunningSpeed(abs(movement->walk));
+    pcactormove->SetMovementSpeed(abs((int)movement->walk));
+    pcactormove->SetRunningSpeed(abs((int)movement->walk));
     pcactormove->SetRotationSpeed(movement->run ? PI : 2*PI);
 
     pcactormove->RotateLeft(movement->turn < 0.0f);
@@ -43,7 +43,7 @@ void PtCharacterEntity::Move(MovementData* movement)
     pcactormove->Forward(movement->walk > 0.0f);
     pcactormove->Backward(movement->walk < 0.0f);
 
-    if (abs(movement->walk) > 0.0f)
+    if (abs((int)movement->walk) > 0)
       pcactormove->Run(movement->run);
     else
       pcactormove->Run(false);   
