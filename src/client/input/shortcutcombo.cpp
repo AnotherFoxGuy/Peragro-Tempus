@@ -28,7 +28,7 @@
 
 struct Key
 {
-  uint32_t code;
+  uint32 code;
   std::string name;
 };
 
@@ -85,8 +85,8 @@ struct Key Keys[SPECIAL_KEY_COUNT] =
 int Lookup(const std::string& name)
 {
   int i;
-  for (i=0;i<SPECIAL_KEY_COUNT;i++)
-    if (Keys[i].name==name) return i;
+  for (i=0; i<SPECIAL_KEY_COUNT; i++)
+    if (Keys[i].name == name) return i;
   return NOT_SPECIAL_KEY;
 }
 
@@ -95,11 +95,11 @@ int Lookup(const std::string& name)
  * @param code Code of the key.
  * @return Index of the found name-code in Keys array, or NOT_SPECIAL_KEY.
  */
-int Lookup(const uint32_t& code)
+int Lookup(const uint32& code)
 {
   int i;
-  for (i=0;i<SPECIAL_KEY_COUNT;i++)
-    if (Keys[i].code==code) return i;
+  for (i=0; i<SPECIAL_KEY_COUNT; i++)
+    if (Keys[i].code == code) return i;
   return NOT_SPECIAL_KEY;
 }
 
@@ -107,10 +107,10 @@ namespace PT
 {
   ShortcutCombo::ShortcutCombo()
   {
-  keyCode=0;
-  shift=false;
-  alt=false;
-  ctrl=false;
+  keyCode = 0;
+  shift   = false;
+  alt     = false;
+  ctrl    = false;
   }
 
   ShortcutCombo::ShortcutCombo(const iEvent& ev, bool keyboard)
@@ -134,46 +134,48 @@ namespace PT
     int i;
 
     //First write the modifiers
-    if (shift) shortcut+=("shift-");
-    if (alt)   shortcut+=("alt-");
-    if (ctrl)  shortcut+=("ctrl-");
+    if (shift) shortcut += ("shift-");
+    if (alt)   shortcut += ("alt-");
+    if (ctrl)  shortcut += ("ctrl-");
 
     //Lookup the index of keyCode in special characters
-    i=Lookup(keyCode);
+    i = Lookup(keyCode);
 
-    if (i==NOT_SPECIAL_KEY) shortcut+=keyCode;
-    else shortcut+=Keys[i].name;
+    if (i == NOT_SPECIAL_KEY) 
+      shortcut += keyCode;
+    else 
+      shortcut += Keys[i].name;
 
     return shortcut;
   }
 
   bool ShortcutCombo::SetFromConfigString(const std::string& keyStr)
   {
-    int i;
+    size_t i;
     std::string key;
 
     //First check for existance of modifiers
-    if (keyStr.find("shift-")==std::string::npos) shift=false;
-    else shift=true;
-    if (keyStr.find("alt-")==std::string::npos) alt=false;
-    else alt=true;
-    if (keyStr.find("ctrl-")==std::string::npos) ctrl=false;
-    else ctrl=true;
+    if (keyStr.find("shift-") == std::string::npos) shift=false;
+    else shift = true;
+    if (keyStr.find("alt-") == std::string::npos) alt = false;
+    else alt = true;
+    if (keyStr.find("ctrl-") == std::string::npos) ctrl = false;
+    else ctrl = true;
 
     //Our actual keyCode resides after the last dash, if any
     i=keyStr.find_last_of('-');
-    if (i==std::string::npos) key=keyStr;
-    else key=keyStr.substr(i+1);
+    if (i == std::string::npos) key = keyStr;
+    else key = keyStr.substr(i+1);
 
     //Is it a printable key?
-    if (key.length()==1)
+    if (key.length() == 1)
       {
-      keyCode=key[0];
+      keyCode = key[0];
       //We will treat letters only in lower-case, if user was an idiot, repair it
       //TODO: Do the same with !@# etc characters?
       if (keyCode>='A' && keyCode) keyCode+='a'-'A';
       }
-    else if ((i=Lookup(key))!=NOT_SPECIAL_KEY) keyCode=Keys[i].code; //Was our key a special key
+    else if ((i = Lookup(key)) != NOT_SPECIAL_KEY) keyCode = Keys[i].code; //Was our key a special key
     else return false; //Failed to recognize the key
 
     return true; //The key was properly recognized
@@ -184,13 +186,13 @@ namespace PT
     csKeyModifiers m;
 
     //Get raw code
-    keyCode=csKeyEventHelper::GetRawCode(&ev);
+    keyCode = csKeyEventHelper::GetRawCode(&ev);
     csKeyEventHelper::GetModifiers(&ev,m);
 
     //Setup shift/alt/ctrl modifiers
-    shift=m.modifiers[csKeyModifierTypeShift];
-    alt=m.modifiers[csKeyModifierTypeAlt];
-    ctrl=m.modifiers[csKeyModifierTypeCtrl];
+    shift = m.modifiers[csKeyModifierTypeShift] != 0;
+    alt   = m.modifiers[csKeyModifierTypeAlt] != 0;
+    ctrl  = m.modifiers[csKeyModifierTypeCtrl] != 0;
   }
 
   void ShortcutCombo::SetFromMouseEvent(const iEvent &ev)
@@ -207,13 +209,13 @@ namespace PT
 //     ctrl=m.modifiers[csKeyModifierTypeCtrl];
     int modifiers;
 
-    if (ev.Retrieve("keyModifiers",modifiers)!=csEventErrNone) return;
+    if (ev.Retrieve("keyModifiers",modifiers) != csEventErrNone) return;
 
-    keyCode=csMouseEventHelper::GetButton(&ev);
+    keyCode = csMouseEventHelper::GetButton(&ev);
 
-    shift=modifiers & CSMASK_SHIFT;
-    alt=modifiers & CSMASK_ALT;
-    ctrl=modifiers & CSMASK_CTRL;
+    shift = (modifiers & CSMASK_SHIFT) != 0;
+    alt   = (modifiers & CSMASK_ALT) != 0;
+    ctrl  = (modifiers & CSMASK_CTRL) != 0;
   }
 
 //
@@ -221,17 +223,18 @@ namespace PT
 //
   bool operator==(const ShortcutCombo& c1, const ShortcutCombo& c2)
   {
-    return (c1.keyCode==c2.keyCode && c1.shift==c2.shift && c1.ctrl==c2.ctrl && c1.alt==c2.alt);
+    return (c1.keyCode == c2.keyCode && c1.shift == c2.shift 
+            && c1.ctrl == c2.ctrl && c1.alt == c2.alt);
   }
 
   bool operator<(const ShortcutCombo& c1, const ShortcutCombo& c2)
   {
     if (c1.keyCode<c2.keyCode) return true;
 
-    else if (c1.keyCode>c2.keyCode) return false;
-    else if (c1.shift<c2.shift) return true;
-    else if (c1.alt<c2.alt) return true;
-    else if (c1.ctrl<c2.ctrl) return true;
+    else if (c1.keyCode > c2.keyCode) return false;
+    else if (c1.shift < c2.shift) return true;
+    else if (c1.alt < c2.alt) return true;
+    else if (c1.ctrl < c2.ctrl) return true;
     return false;
   }
 }

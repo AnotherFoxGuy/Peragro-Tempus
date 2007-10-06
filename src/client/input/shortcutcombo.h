@@ -40,7 +40,7 @@ namespace PT
   {
   private:
     ///Unique key code used to identfy the keyboard/mouse key press.
-    uint32_t keyCode;
+    uint32 keyCode;
 
     ///Specifies if SHIFT key was pressed.
     bool shift;
