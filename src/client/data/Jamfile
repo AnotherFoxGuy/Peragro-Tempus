@@ -3,4 +3,5 @@ SubDir TOP src client data ;
 SubInclude TOP src client data effect ;
 SubInclude TOP src client data item ;
 SubInclude TOP src client data sector ;
+SubInclude TOP src client data door ;
 
