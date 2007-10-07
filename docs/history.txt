@@ -6,6 +6,7 @@ under each day.
 
 07-Oct-2007
  - PK added MeshId to the network messages.
+ - PK replaced mesh and name in door entity with doorId.
 
 06-Oct-2007
  - swedishcoder fixed warnings in characterentity.cpp where float was passed to
