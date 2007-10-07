@@ -201,7 +201,7 @@ namespace PT
       else if (entityAddEv->entityType == PtEntity::ItemEntity)
       {
         entity = new PtItemEntity();
-        ((PtItemEntity*)entity)->SetItemId(entityAddEv->meshId);
+        ((PtItemEntity*)entity)->SetItemId(entityAddEv->typeId);
       }
       else if (entityAddEv->entityType == PtEntity::MountEntity)
       {
@@ -210,6 +210,7 @@ namespace PT
       else if (entityAddEv->entityType == PtEntity::DoorEntity)
       {
         entity = new PtDoorEntity();
+        ((PtDoorEntity*)entity)->SetDoorId(entityAddEv->typeId);
         ((PtDoorEntity*)entity)->SetLocked(entityAddEv->locked);
         ((PtDoorEntity*)entity)->SetOpen(entityAddEv->open);
       }

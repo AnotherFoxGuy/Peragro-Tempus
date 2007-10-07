@@ -31,6 +31,7 @@ namespace PT
 
   namespace Data
   {
+    class DoorManager;
     class ItemManager;
     class SectorManager;
     class EffectsManager;
@@ -62,6 +63,7 @@ private:
   PT::Client* client;
   Cursor* cursor;
   Network* network;
+  PT::Data::DoorManager* doormanager;
   PT::Data::ItemManager* itemmanager;
   PT::Data::SectorManager* sectormanager;
   PT::Data::EffectsManager* effectsmanager;
@@ -79,6 +81,7 @@ public:
     client = 0;
     cursor = 0;
     network = 0;
+    doormanager = 0;
     itemmanager = 0;
     sectormanager = 0;
     guimanager = 0;
@@ -105,6 +108,9 @@ public:
 
   void setItemManager(PT::Data::ItemManager* itemmanager) { this->itemmanager = itemmanager; }
   PT::Data::ItemManager* getItemManager() { return this->itemmanager; }
+
+  void setDoorManager(PT::Data::DoorManager* doormanager) { this->doormanager = doormanager; }
+  PT::Data::DoorManager* getDoorManager() { return this->doormanager; }
 
   void setSectorManager(PT::Data::SectorManager* sectormanager) { this->sectormanager = sectormanager; }
   PT::Data::SectorManager* getSectorManager() { return this->sectormanager; }

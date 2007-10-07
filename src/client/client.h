@@ -75,6 +75,7 @@ namespace PT
 {
   namespace Data
   {
+    class DoorManager;
     class ItemManager;
     class EffectsManager;
     class SectorManager;
@@ -167,6 +168,7 @@ namespace PT
     PT::Entity::EntityManager* entitymanager;
     CombatMGR* combatmanager;
 
+    PT::Data::DoorManager* doormanager;
     PT::Data::ItemManager* itemmanager;
     PT::Data::SectorManager* sectormanager;
     PT::Data::EffectsManager* effectsmanager;

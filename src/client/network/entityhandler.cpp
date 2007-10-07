@@ -59,8 +59,7 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   using namespace PT::Events;
   EntityAddEvent* entityEvent = new EntityAddEvent();
 
-  entityEvent->entityName  = *entmsg.getName();
-  entityEvent->meshName    = *entmsg.getMesh();
+  entityEvent->typeId      = entmsg.getDoorId();
   entityEvent->locked      = (entmsg.getIsLocked() != 0);
   entityEvent->open        = (entmsg.getIsOpen() != 0);
   entityEvent->entityId    = entmsg.getEntityId();
@@ -313,7 +312,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   using namespace PT::Events;
   EntityAddEvent* entityEvent = new EntityAddEvent();
 
-  entityEvent->meshId       = entmsg.getItemId();
+  entityEvent->typeId       = entmsg.getItemId();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();

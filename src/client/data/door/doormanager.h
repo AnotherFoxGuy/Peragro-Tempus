@@ -16,39 +16,48 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PTDOORENTITY_H
-#define PTDOORENTITY_H
+#ifndef DOORMANAGER_H
+#define DOORMANAGER_H
 
-#include "client/entity/ptentity.h"
+#include <cssysdef.h>
+#include <csutil/ref.h>
+#include <iutil/vfs.h>
+#include <iutil/virtclk.h>
+#include <iengine/engine.h>
+#include <csgeom/path.h>
+#include <csutil/parray.h>
 
-#include "client/pointer/pointer.h"
+#include <iutil/strset.h>
+#include <iutil/document.h>
+
+#include "client/data/door/door.h"
+
+struct iObjectRegistry;
+struct iLoader;
+struct iDocument;
 
 namespace PT
 {
-  namespace Entity
+  namespace Data
   {
-    class PtDoorEntity : public PtEntity
+    class DoorManager
     {
     private:
-      unsigned int doorId;
-      bool open;
-      bool locked;
+      csPDelArray<Door> doors;
+
+      csRef<iEngine> engine;
+      csRef<iVFS> vfs;
+      csRef<iDocumentSystem> docsys;
 
     public:
-      PtDoorEntity();
-      virtual ~PtDoorEntity(){}
-      void Create();
-      unsigned int GetDoorId () const { return doorId; }
-      void SetDoorId (unsigned int value) { this->doorId = value; }
-      bool GetOpen() { return open; }
-      void SetOpen(bool value) { this->open = value; }
-      bool GetLocked() { return locked; }
-      void SetLocked(bool value) { this->locked = value; }
-      void UpdatePcProp(UpdatePcPropData* update_pcprop);
-
-      void Interact();
+      DoorManager(iObjectRegistry* obj_reg);
+      ~DoorManager();
+      bool Initialize();
+      Door* GetDoorById(uint id);
+      Door* GetDoorByName(csString name);  
     };
-  }
-}
 
-#endif // PTDOORENTITY_H
+  } // Data namespace 
+} // PT namespace 
+
+#endif // DOORMANAGER_H

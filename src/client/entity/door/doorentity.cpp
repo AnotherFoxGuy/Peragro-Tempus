@@ -18,6 +18,8 @@
 
 #include "doorentity.h"
 
+#include "client/data/door/doormanager.h"
+
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
@@ -42,29 +44,38 @@ namespace PT
 
     void PtDoorEntity::Create()
     {
-      CreateCelEntity();
-
-      celentity->SetName(name.GetData());
-
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-      csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshname.GetData());
-      if (doormesh)
-        pcmesh->SetMesh(doormesh);
-      else
+      PT::Data::Door* door = PointerLibrary::getInstance()->getDoorManager()->GetDoorById(doorId);
+      if(door)
       {
-        Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.GetData());
-        return;
+        name = door->GetName();
+        meshname = door->GetMeshName();
+
+        CreateCelEntity();
+
+        celentity->SetName(name.GetData());
+
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+        csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshname.GetData());
+        if (doormesh)
+          pcmesh->SetMesh(doormesh);
+        else
+        {
+          Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.GetData());
+          return;
+        }
+
+        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
+        pcprop->SetProperty("Door Open", open);
+        pcprop->SetProperty("Door Locked", locked);
+
+        pl->CreatePropertyClass(celentity, "pcquest");
+        csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celentity, iPcQuest);
+        celQuestParams parameters;
+        pcquest->NewQuest("PropDoor",parameters);
+        pcquest->GetQuest()->SwitchState("closed");
       }
-
-      csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
-      pcprop->SetProperty("Door Open", open);
-      pcprop->SetProperty("Door Locked", locked);
-
-      pl->CreatePropertyClass(celentity, "pcquest");
-      csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celentity, iPcQuest);
-      celQuestParams parameters;
-      pcquest->NewQuest("PropDoor",parameters);
-      pcquest->GetQuest()->SwitchState("closed");
+      else
+        Report(PT::Error, "PtDoorEntity: Couldn't find mesh for door %d!\n", id);
 
     }
 

@@ -72,7 +72,7 @@ namespace PT
         pclinmove->SetPosition(pos,0,sector);
       }
       else
-        Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %s!\n", name.GetData());
+        Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %d!\n", id);
 
     }
 

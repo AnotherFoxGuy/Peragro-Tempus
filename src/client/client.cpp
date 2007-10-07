@@ -59,6 +59,7 @@
 #include "client/gui/guimanager.h"
 #include "client/data/effect/effectsmanager.h"
 #include "client/combat/combatmanager.h"
+#include "client/data/door/doormanager.h"
 #include "client/data/item/itemmanager.h"
 #include "client/data/sector/sectormanager.h"
 #include "client/entity/ptentitymanager.h"
@@ -95,6 +96,7 @@ namespace PT
     effectsmanager = 0;
     entitymanager = 0;
     combatmanager = 0;
+    doormanager = 0;
     itemmanager = 0;
     cursor = 0;
     inputMgr = 0;
@@ -115,6 +117,7 @@ namespace PT
     delete guimanager;
     delete network;
     delete cursor;
+    delete doormanager;
     delete itemmanager;
     delete inputMgr;
     delete reporter;
@@ -259,6 +262,12 @@ namespace PT
     if (!eventmanager->Initialize())
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventmanager);
+
+    // Create and Initialize the DoorManager.
+    doormanager = new PT::Data::DoorManager (GetObjectRegistry());
+    if (!doormanager->Initialize())
+      return Report(PT::Error, "Failed to initialize DoorManager!");
+    pointerlib.setDoorManager(doormanager);
 
     // Create and Initialize the ItemManager.
     itemmanager = new PT::Data::ItemManager (GetObjectRegistry());

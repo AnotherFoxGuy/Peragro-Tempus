@@ -79,7 +79,7 @@ namespace PT
       unsigned int entityType;
       std::string entityName;
       std::string meshName;
-      unsigned int meshId;
+      unsigned int typeId;
       csVector3 position;
       unsigned int sectorId;
 
