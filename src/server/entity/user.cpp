@@ -49,9 +49,8 @@ void User::sendAddEntity(const Entity* entity)
   if (entity->getType() == Entity::DoorEntityType)
   {
     AddDoorEntityMessage msg;
-    msg.setName(entity->getName());
+    msg.setDoorId(entity->getDoorEntity()->getDoorId());
     msg.setEntityId(entity->getId());
-    msg.setMesh(entity->getMesh());
     msg.setIsOpen(entity->getDoorEntity()->getOpen());
     msg.setIsLocked(entity->getDoorEntity()->getLocked());
     msg.serialise(&bs);

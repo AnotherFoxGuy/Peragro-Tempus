@@ -18,9 +18,7 @@
 	</message>
 
 	<message type="Entity" name="AddDoorEntity">
-		<string>Name</string>
-		<string>Mesh</string>
-		<uint16>MeshId</uint16>
+		<uint16>DoorId</uint16>
 		<bool>IsOpen</bool>
 		<bool>IsLocked</bool>
 		<uint32>EntityId</uint32>

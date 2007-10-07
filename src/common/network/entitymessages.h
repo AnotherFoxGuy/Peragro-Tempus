@@ -161,9 +161,7 @@ public:
 
 class AddDoorEntityMessage : public NetMessage
 {
-  ptString name;
-  ptString mesh;
-  unsigned short meshid;
+  unsigned short doorid;
   bool isopen;
   bool islocked;
   unsigned int entityid;
@@ -180,14 +178,8 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getName() { return name; }
-  void setName(ptString x) { name = x; }
-
-  ptString getMesh() { return mesh; }
-  void setMesh(ptString x) { mesh = x; }
-
-  unsigned short getMeshId() { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
+  unsigned short getDoorId() { return doorid; }
+  void setDoorId(unsigned short x) { doorid = x; }
 
   bool getIsOpen() { return isopen; }
   void setIsOpen(bool x) { isopen = x; }
