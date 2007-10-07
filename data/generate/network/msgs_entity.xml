@@ -2,6 +2,7 @@
 	<message type="Entity" name="AddNpcEntity">
 		<string>Name</string>
 		<string>Mesh</string>
+		<uint16>MeshId</uint16>
 		<vector3f>Pos</vector3f>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
@@ -19,6 +20,7 @@
 	<message type="Entity" name="AddDoorEntity">
 		<string>Name</string>
 		<string>Mesh</string>
+		<uint16>MeshId</uint16>
 		<bool>IsOpen</bool>
 		<bool>IsLocked</bool>
 		<uint32>EntityId</uint32>
@@ -27,6 +29,7 @@
 	<message type="Entity" name="AddPlayerEntity">
 		<string>Name</string>
 		<string>Mesh</string>
+		<uint16>MeshId</uint16>
 		<vector3f>Pos</vector3f>
 		<colour24>HairColour</colour24>
 		<colour24>SkinColour</colour24>
@@ -174,6 +177,7 @@
 	<message type="Entity" name="AddMountEntity">
 		<string>Name</string>
 		<string>Mesh</string>
+		<uint16>MeshId</uint16>
 		<vector3f>Pos</vector3f>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>

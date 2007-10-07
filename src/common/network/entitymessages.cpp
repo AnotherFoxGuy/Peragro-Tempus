@@ -27,6 +27,7 @@ void AddNpcEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setString(mesh);
+  serial.setInt16(meshid);
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
@@ -42,6 +43,7 @@ void AddNpcEntityMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   name = serial.getString();
   mesh = serial.getString();
+  meshid = (unsigned short) serial.getInt16();
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
@@ -85,6 +87,7 @@ void AddDoorEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setString(mesh);
+  serial.setInt16(meshid);
   serial.setInt8(isopen?1:0);
   serial.setInt8(islocked?1:0);
   serial.setInt32(entityid);
@@ -97,6 +100,7 @@ void AddDoorEntityMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   name = serial.getString();
   mesh = serial.getString();
+  meshid = (unsigned short) serial.getInt16();
   isopen = serial.getInt8() != 0;
   islocked = serial.getInt8() != 0;
   entityid = (unsigned int) serial.getInt32();
@@ -109,6 +113,7 @@ void AddPlayerEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setString(mesh);
+  serial.setInt16(meshid);
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
@@ -139,6 +144,7 @@ void AddPlayerEntityMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   name = serial.getString();
   mesh = serial.getString();
+  meshid = (unsigned short) serial.getInt16();
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
@@ -621,6 +627,7 @@ void AddMountEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setString(mesh);
+  serial.setInt16(meshid);
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
@@ -636,6 +643,7 @@ void AddMountEntityMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   name = serial.getString();
   mesh = serial.getString();
+  meshid = (unsigned short) serial.getInt16();
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();

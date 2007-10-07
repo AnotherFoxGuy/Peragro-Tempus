@@ -63,6 +63,7 @@ class AddNpcEntityMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
+  unsigned short meshid;
   float pos[3];
   unsigned short sectorid;
   unsigned int entityid;
@@ -85,6 +86,9 @@ public:
 
   ptString getMesh() { return mesh; }
   void setMesh(ptString x) { mesh = x; }
+
+  unsigned short getMeshId() { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
 
   float* getPos() { return pos; }
   void setPos(float x, float y, float z)
@@ -159,6 +163,7 @@ class AddDoorEntityMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
+  unsigned short meshid;
   bool isopen;
   bool islocked;
   unsigned int entityid;
@@ -181,6 +186,9 @@ public:
   ptString getMesh() { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
+  unsigned short getMeshId() { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
+
   bool getIsOpen() { return isopen; }
   void setIsOpen(bool x) { isopen = x; }
 
@@ -196,6 +204,7 @@ class AddPlayerEntityMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
+  unsigned short meshid;
   float pos[3];
   unsigned char haircolour[3];
   unsigned char skincolour[3];
@@ -232,6 +241,9 @@ public:
 
   ptString getMesh() { return mesh; }
   void setMesh(ptString x) { mesh = x; }
+
+  unsigned short getMeshId() { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
 
   float* getPos() { return pos; }
   void setPos(float x, float y, float z)
@@ -999,6 +1011,7 @@ class AddMountEntityMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
+  unsigned short meshid;
   float pos[3];
   unsigned short sectorid;
   unsigned int entityid;
@@ -1021,6 +1034,9 @@ public:
 
   ptString getMesh() { return mesh; }
   void setMesh(ptString x) { mesh = x; }
+
+  unsigned short getMeshId() { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
 
   float* getPos() { return pos; }
   void setPos(float x, float y, float z)

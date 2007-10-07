@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+07-Oct-2007
+ - PK added MeshId to the network messages.
+
 06-Oct-2007
  - swedishcoder fixed warnings in characterentity.cpp where float was passed to
    function expecting int. Also fixed a missing newline in doorentity.cpp
