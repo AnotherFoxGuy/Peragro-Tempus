@@ -84,7 +84,7 @@
 			<Property Name='ClippedByParent' Value='False'/>
 		</Window>
 		<Window Type='Peragro/MultiLineEditbox' Name='Chatlog/ChatlogWidget'>
-			<Property Name='UnifiedSize' Value='{{0.920000,0.000000},{0.900000,0.000000}}'/>
+			<Property Name='UnifiedSize' Value='{{1.0,-25.0},{1.0,-30.0}}'/>
 			<Property Name='UnifiedPosition' Value='{{0.000000,20.000000},{0.000000,25.000000}}'/>
 			<Property Name='InheritsAlpha' Value='False'/>
 			<Property Name='ReadOnly' Value='True'/>
@@ -92,7 +92,7 @@
 			<Property Name='Disabled' Value='False'/>
 			
 			<Window Type='Peragro/MultiLineEditbox' Name='Chatlog/Chatlog'>
-				<Property Name='UnifiedSize' Value='{{1.00000,0.000000},{1.00000,0.000000}}'/>
+				<Property Name='UnifiedSize' Value='{{1.00000,0.000000},{1.00000,-2.000000}}'/>
 				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,0.000000}}'/>
 				<Property Name='Font' Value='Commonwealth-10'/>
 				<Property Name='InheritsAlpha' Value='False'/>

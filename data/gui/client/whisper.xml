@@ -16,12 +16,12 @@
 			<Property Name='InheritsAlpha' Value='False'/>
 			<Property Name='ReadOnly' Value='True'/>
 			<Property Name='Disabled' Value='False'/>
-			<Property Name='UnifiedAreaRect' Value='{{0.03,0.0},{0.0,30.0},{0.97,0.0},{0.75,0.0}}'/>
+			<Property Name='UnifiedAreaRect' Value='{{0.0,5.0},{0.0,30.0},{1.0,-5.0},{1.0,-40.0}}'/>
 
 			<Window Type='Peragro/MultiLineEditbox' Name='Whisper/Chatlog'>
 				<Property Name='UnifiedSize' Value='{{1.00000,0.000000},{1.00000,0.000000}}'/>
 				<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.000000,0.000000}}'/>
-				<Property Name='Font' Value='Commonwealth-8'/>
+				<Property Name='Font' Value='Commonwealth-10'/>
 				<Property Name='InheritsAlpha' Value='False'/>
 				<Property Name='Text' Value='Press enter to send.'/>
 				<Property Name='ReadOnly' Value='True'/>
@@ -34,7 +34,7 @@
 			<Property Name='Font' Value='Commonwealth-8'/>
 			<Property Name='MaxTextLength' Value='1024'/>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
-			<Property Name='UnifiedAreaRect' Value='{{0.03,0.0},{0.78,0.0},{0.97,0.0},{0.97,0.0}}'/>
+			<Property Name='UnifiedAreaRect' Value='{{0.0,5.0},{1.0,-35.0},{1.0,-5.0},{1.0,-5.0}}'/>
 		</Window>
 	</Window>
 </GUILayout>

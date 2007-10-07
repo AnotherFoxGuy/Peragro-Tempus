@@ -8,6 +8,7 @@ under each day.
  - PK added MeshId to the network messages.
  - PK replaced mesh and name in door entity with doorId.
  - Sueastside added DoorManager to work with doorId.
+ - Sueastside tweaked whisper and chatlog layouts.
 
 06-Oct-2007
  - swedishcoder fixed warnings in characterentity.cpp where float was passed to
