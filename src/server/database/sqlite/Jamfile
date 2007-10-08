@@ -1,5 +1,7 @@
 SubDir TOP src server database sqlite  ;
 
-AddSourceFiles ;
+Description sqlite_adp : "sqlite adapter" ;
+Library sqlite_adp :
+  [ Wildcard *.h *.cpp ] ;
 
-
+LinkWith sqlite_adp : sqlite_lib database ;
