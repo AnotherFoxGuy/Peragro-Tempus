@@ -163,6 +163,32 @@
 	</Configurations>
 	<Files>
 		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\client\client.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\cursor.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\pointer\pointer.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\client\client.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\cursor.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\pointer\pointer.h">
+			</File>
+		</Filter>
+		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
