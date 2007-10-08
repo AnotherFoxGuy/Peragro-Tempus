@@ -193,6 +193,9 @@
 			<File
 				RelativePath="..\..\src\client\entity\pc\pcentity.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\client\entity\player\playerentity.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -232,6 +235,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\pc\pcentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\entity\player\playerentity.h">
 			</File>
 		</Filter>
 	</Files>
