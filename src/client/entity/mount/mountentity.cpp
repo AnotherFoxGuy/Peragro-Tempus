@@ -19,24 +19,26 @@
 #include "mountentity.h"
 
 #include "client/reporter/reporter.h"
+#include "client/event/entityevent.h"
 
 namespace PT
 {
   namespace Entity
   {
 
-    PtMountEntity::PtMountEntity() : PtCharacterEntity(MountEntity)
+    PtMountEntity::PtMountEntity(const Events::EntityAddEvent& ev) : PtCharacterEntity(ev)
     {
-      // Get the pointers to some common utils.
-      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      engine =  csQueryRegistry<iEngine> (obj_reg);
-      pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      vfs =  csQueryRegistry<iVFS> (obj_reg);
       mounted = false;
+      Create();
     }
 
     void PtMountEntity::Create()
     {
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
+
       CreateCelEntity();
 
       char buffer[32];

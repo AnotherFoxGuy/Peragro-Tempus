@@ -23,24 +23,25 @@
 
 #include "client/event/eventmanager.h"
 #include "client/event/interfaceevent.h"
+#include "client/event/entityevent.h"
 
 namespace PT
 {
   namespace Entity
   {
 
-    PtPcEntity::PtPcEntity() : PtCharacterEntity(PlayerEntity)
+    PtPcEntity::PtPcEntity(const Events::EntityAddEvent& ev) : PtCharacterEntity(ev)
     {
-      // Get the pointers to some common utils.
-      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      engine =  csQueryRegistry<iEngine> (obj_reg);
-      pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      vfs =  csQueryRegistry<iVFS> (obj_reg);
-      is_own_entity = false;
+      Create();
     }
 
     void PtPcEntity::Create()
     {
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
+
       CreateCelEntity();
 
       char buffer[32];
@@ -79,19 +80,11 @@ namespace PT
       else
         Report(PT::Error, "PtPcEntity: Failed to set position, sector '%s' unknown!", sectorname.GetData());
 
-      GetEquipment()->ConstructMeshes();
-
-      if (IsOwnEntity())
-      {
-        pl->CreatePropertyClass(celentity, "pccamera.old");
-      }
-
+      GetEquipment().ConstructMeshes();
     }
 
     void PtPcEntity::Interact()
     {
-      if (IsOwnEntity()) return;
-
       using namespace PT::Events;
       InterfaceInteract* interfaceEvent = new InterfaceInteract();
       interfaceEvent->entityId              = id;

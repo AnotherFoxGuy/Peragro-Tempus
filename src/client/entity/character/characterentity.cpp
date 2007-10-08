@@ -17,17 +17,21 @@
 */
 
 #include "characterentity.h"
+#include "client/event/entityevent.h"
 
 namespace PT
 {
   namespace Entity
   {
 
-    PtCharacterEntity::PtCharacterEntity(EntityType type) : PtEntity(type)
+    PtCharacterEntity::PtCharacterEntity(const Events::EntityAddEvent& ev) : PtEntity(ev), equipment(this)
     {
-      equipment = new Equipment(this);
       maxStamina = 100;
       currentStamina = 100;
+
+      //Add the equipment
+      for(size_t i = 0; i < ev.equipment.GetSize(); i++)
+        equipment.Equip(ev.equipment.Get(i).slotId, ev.equipment.Get(i).itemId);
     }
 
     void PtCharacterEntity::Move(MovementData* movement)
@@ -55,16 +59,19 @@ namespace PT
       }
       if (movement->run)
       {
-        setCurrentStamina(getCurrentStamina() - 1);
+        SetCurrentStamina(GetCurrentStamina() - 1);
       }
       else
       {
-        setCurrentStamina(getCurrentStamina() + 1);
+        SetCurrentStamina(GetCurrentStamina() + 1);
       }
     }
 
     bool PtCharacterEntity::MoveTo(MoveToData* moveTo)
     {
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+
       if(!celentity.IsValid()) return true;
       csRef<iVirtualClock> vc =  csQueryRegistry<iVirtualClock> (obj_reg);
       csTicks ticks = vc->GetElapsedTicks ();
@@ -110,12 +117,14 @@ namespace PT
         moveTo->elapsed_time += elapsed;
         return false;
       }
-
       return true;
     }
 
     void PtCharacterEntity::DrUpdate(DrUpdateData* drupdate)
     {
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+
       if(!celentity.IsValid()) return;
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
       if (pclinmove.IsValid())
@@ -134,6 +143,9 @@ namespace PT
 
     void PtCharacterEntity::Teleport(csVector3 pos, csString sector)
     {
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+
       if(!celentity.IsValid()) return;
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
       iMovable* mov = pcmesh->GetMesh()->GetMovable();
@@ -141,12 +153,9 @@ namespace PT
       mov->SetPosition(pos);
     }
 
-    void PtCharacterEntity::setCurrentStamina(unsigned int x)
+    void PtCharacterEntity::SetCurrentStamina(unsigned int x)
     {
-      if (x >= 0 && x <= maxStamina)
-      {
-        currentStamina = x;
-      }
+      if (x >= 0 && x <= maxStamina) currentStamina = x;
     }
   }
 }

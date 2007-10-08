@@ -23,23 +23,25 @@
 
 #include "client/event/eventmanager.h"
 #include "client/event/interfaceevent.h"
+#include "client/event/entityevent.h"
 
 namespace PT
 {
   namespace Entity
   {
 
-    PtNpcEntity::PtNpcEntity() : PtCharacterEntity(NPCEntity)
+    PtNpcEntity::PtNpcEntity(const Events::EntityAddEvent& ev) : PtCharacterEntity(ev)
     {
-      // Get the pointers to some common utils.
-      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      engine =  csQueryRegistry<iEngine> (obj_reg);
-      pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      vfs =  csQueryRegistry<iVFS> (obj_reg);
+      Create();
     }
 
     void PtNpcEntity::Create()
     {
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
+
       CreateCelEntity();
 
       char buffer[32];

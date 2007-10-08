@@ -4,6 +4,7 @@ SubInclude TOP src client entity character ;
 SubInclude TOP src client entity door ;
 SubInclude TOP src client entity item ;
 SubInclude TOP src client entity pc ;
+SubInclude TOP src client entity player ;
 SubInclude TOP src client entity npc ;
 SubInclude TOP src client entity mount ;
 

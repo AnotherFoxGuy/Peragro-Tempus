@@ -25,31 +25,33 @@
 
 #include "client/event/eventmanager.h"
 #include "client/event/interfaceevent.h"
+#include "client/event/entityevent.h"
 
 namespace PT
 {
   namespace Entity
   {
 
-    PtDoorEntity::PtDoorEntity() : PtEntity(PtEntity::DoorEntity)
+    PtDoorEntity::PtDoorEntity(const Events::EntityAddEvent& ev) : PtEntity(ev)
     {
-      open=false;
-      locked=false;
+      open = ev.open;
+      locked = ev.locked;
+      doorId = ev.typeId;
 
-      // Get the pointers to some common utils.
-      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      engine =  csQueryRegistry<iEngine> (obj_reg);
-      pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      Create();
     }
 
     void PtDoorEntity::Create()
     {
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
       PT::Data::Door* door = PointerLibrary::getInstance()->getDoorManager()->GetDoorById(doorId);
-      if(door)
+
+      if (door)
       {
         name = door->GetName();
         meshname = door->GetMeshName();
-
         CreateCelEntity();
 
         celentity->SetName(name.GetData());
@@ -76,7 +78,6 @@ namespace PT
       }
       else
         Report(PT::Error, "PtDoorEntity: Couldn't find mesh for door %d!\n", id);
-
     }
 
     void PtDoorEntity::UpdatePcProp(UpdatePcPropData* update_pcprop)
@@ -106,7 +107,6 @@ namespace PT
           this->SetLocked(update_pcprop->value.value.bo);
       }
     }
-
 
     void PtDoorEntity::Interact()
     {

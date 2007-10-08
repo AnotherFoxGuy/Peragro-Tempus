@@ -25,22 +25,26 @@
 
 #include "client/event/eventmanager.h"
 #include "client/event/interfaceevent.h"
+#include "client/event/entityevent.h"
 
 namespace PT
 {
   namespace Entity
   {
 
-    PtItemEntity::PtItemEntity() : PtEntity(PtEntity::ItemEntity)
+    PtItemEntity::PtItemEntity(const Events::EntityAddEvent& ev) : PtEntity(ev)
     {
-      // Get the pointers to some common utils.
-      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      engine =  csQueryRegistry<iEngine> (obj_reg);
-      pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      itemid = ev.typeId;
+
+      Create();
     }
 
     void PtItemEntity::Create()
     {
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+
       PT::Data::Item* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(itemid);
       if(item)
       {
@@ -73,7 +77,6 @@ namespace PT
       }
       else
         Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %d!\n", id);
-
     }
 
     void PtItemEntity::Interact()

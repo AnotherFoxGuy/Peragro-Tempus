@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+08-Oct-2007
+ - azaghal moved "low-level" object initialization from PtEntityManager to
+   appropriate Pt*Entity classes. Rewritten portions of PtEntity and its
+   children for a cleaner structure. Added singleton class PtPlayerEntity
+   representing the player himself.
+
 07-Oct-2007
  - PK added MeshId to the network messages.
  - PK replaced mesh and name in door entity with doorId.

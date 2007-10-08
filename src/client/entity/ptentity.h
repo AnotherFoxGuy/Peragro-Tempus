@@ -73,6 +73,13 @@
 
 namespace PT
 {
+  namespace Events
+  {
+    //Forward declaration. Including "entityevent.h" file
+    //will cause circular dependency.
+    class EntityAddEvent;
+  }
+
   namespace Entity
   {
     class PtEntity
@@ -94,45 +101,43 @@ namespace PT
       csString meshname;
       csString sectorname;
       csVector3 pos;
+
+      PtEntity() : id(-1), celentity(0) {}
+
       csWeakRef<iCelEntity> celentity;
 
-    protected:
-      csRef<iObjectRegistry> obj_reg;
-      csRef<iEngine> engine;
-      csRef<iCelPlLayer> pl;
-      csRef<iVFS> vfs;
       void CreateCelEntity ();
 
+      virtual void Create() {}
+
     public:
-      PtEntity(EntityType type) : id(-1), type(type)
-      {
-        celentity = 0;
-      }
+
+      PtEntity(EntityType type) : id(-1), type(type), celentity(0) {}
+
+      PtEntity(const Events::EntityAddEvent& ev);
+
       virtual ~PtEntity() {}
 
       unsigned int GetId () const { return id; }
+      void SetId (int value) { id = value; }
       int GetType () const { return type; }
+      void SetType (EntityType value)  { type = value; }
       csString GetName () const { return name; }
+      void SetName (const csString& value) { name = value; }
       csString GetMeshName () const { return meshname; }
+      void SetMeshName (const csString& value) { meshname = value; }
+      csString GetSectorName() const { return sectorname; }
+      void SetSectorName (csString value) { sectorname = value; }
+      csVector3 GetPosition() const { return pos; }
+      void SetPosition (csVector3 value) { pos = value; }
       iCelEntity* GetCelEntity () const { return celentity; }
-
-      void SetId (int value) { this->id = value; }
-      void SetType (EntityType value)  { this->type = value; }
-      void SetName (csString value) { this->name = value; }
-      void SetMeshName (csString value) { this->meshname = value; }
-      void SetSectorName (csString value) { this->sectorname = value; }
-      void SetPosition (csVector3 value) { this->pos = value; }
-      void SetCelEntity (iCelEntity* value) { this->celentity = value; }
-
-      virtual void Create() {}
-      virtual void Destroy() {}
+      void SetCelEntity (iCelEntity* value) { celentity = value; }
 
       virtual void Move(MovementData* movement) {}
       virtual bool MoveTo(MoveToData* moveTo) {return true;}
       virtual void DrUpdate(DrUpdateData* drupdate) {}
       virtual void Teleport(csVector3 pos, csString sector) {}
       virtual void UpdatePcProp(UpdatePcPropData* update_pcprop) {}
-
       virtual void Interact() {}
 
     };

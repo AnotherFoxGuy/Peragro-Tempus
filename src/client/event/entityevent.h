@@ -76,7 +76,7 @@ namespace PT
     class EntityAddEvent : public EntityEvent
     {
     public:
-      unsigned int entityType;
+      PT::Entity::PtEntity::EntityType entityType;
       std::string entityName;
       std::string meshName;
       unsigned int typeId;

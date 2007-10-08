@@ -35,6 +35,7 @@
 
 #include "client/entity/ptentity.h"
 #include "client/entity/pc/pcentity.h"
+#include "client/entity/player/playerentity.h"
 #include "client/entity/npc/npcentity.h"
 #include "client/entity/door/doorentity.h"
 #include "client/entity/item/itementity.h"
@@ -122,7 +123,7 @@ namespace PT
       void delAllEntities();
     };
 
-  } // Entity namespace 
-} // PT namespace 
+  } // Entity namespace
+} // PT namespace
 
 #endif // PTENTITYMANAGER_H

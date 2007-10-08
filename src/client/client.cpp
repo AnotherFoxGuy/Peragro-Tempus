@@ -167,8 +167,8 @@ namespace PT
         PT::Entity::PtCharacterEntity *character = (PT::Entity::PtCharacterEntity *) entitymanager->getOwnPtEntity();
         if (character)
         {
-          int currentStamina = character->getCurrentStamina();
-          int maxStamina = character->getMaxStamina();
+          int currentStamina = character->GetCurrentStamina();
+          int maxStamina = character->GetMaxStamina();
           float ratio = (float)currentStamina / (float)maxStamina;
           if (guimanager)
           {

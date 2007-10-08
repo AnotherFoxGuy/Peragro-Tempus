@@ -184,60 +184,14 @@ namespace PT
       }
 
       PtEntity* entity;
-      if (entityAddEv->entityType == PtEntity::PlayerEntity)
-      {
-        entity = new PtPcEntity();
-        // Add equipment.
-        /*std::vector<EntityAddEvent::SlotAndItem>::const_iterator it;
-        for(it = entityAddEv->equipment.begin(); it != entityAddEv->equipment.end(); ++it)
-        ((PtPcEntity*)entity)->GetEquipment()->Equip(it->slotId, it->itemId);*/
-        for(size_t i = 0; i < entityAddEv->equipment.GetSize(); i++)
-          ((PtPcEntity*)entity)->GetEquipment()->Equip(entityAddEv->equipment.Get(i).slotId, entityAddEv->equipment.Get(i).itemId);
-      }
-      else if (entityAddEv->entityType == PtEntity::NPCEntity)
-      {
-        entity = new PtNpcEntity();
-      }
-      else if (entityAddEv->entityType == PtEntity::ItemEntity)
-      {
-        entity = new PtItemEntity();
-        ((PtItemEntity*)entity)->SetItemId(entityAddEv->typeId);
-      }
-      else if (entityAddEv->entityType == PtEntity::MountEntity)
-      {
-        entity = new PtMountEntity();
-      }
-      else if (entityAddEv->entityType == PtEntity::DoorEntity)
-      {
-        entity = new PtDoorEntity();
-        ((PtDoorEntity*)entity)->SetDoorId(entityAddEv->typeId);
-        ((PtDoorEntity*)entity)->SetLocked(entityAddEv->locked);
-        ((PtDoorEntity*)entity)->SetOpen(entityAddEv->open);
-      }
-      else
-      {
-        Report(PT::Error, "Invalid Entity type: %d !", entityAddEv->entityType);
-        return true;
-      }
 
-      PT::Data::SectorManager* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-      std::string sectorName = sectormgr->GetSectorName(entityAddEv->sectorId);
-
-      entity->SetId(entityAddEv->entityId);
-      entity->SetName(entityAddEv->entityName.c_str());
-      entity->SetMeshName(entityAddEv->meshName.c_str());
-      entity->SetPosition(entityAddEv->position);
-      entity->SetSectorName(sectorName.c_str());
-
-      if (own_char_id == entity->GetId())
-        ((PtPcEntity*)entity)->SetOwnEntity(true);
-
-      entity->Create();
-
-      // It's our player.
-      if (own_char_id == entity->GetId())
+      if (entityAddEv->entityType == PtEntity::DoorEntity) entity = new PtDoorEntity(*entityAddEv);
+      else if (entityAddEv->entityType == PtEntity::ItemEntity) entity = new PtItemEntity(*entityAddEv);
+      else if (entityAddEv->entityType == PtEntity::MountEntity) entity = new PtMountEntity(*entityAddEv);
+      else if (entityAddEv->entityType == PtEntity::NPCEntity) entity = new PtNpcEntity(*entityAddEv);
+      else if (entityAddEv->entityType == PtEntity::PlayerEntity && own_char_id == entityAddEv->entityId)
       {
-        Report(PT::Notify, "Adding Entity '%s(%d)' at %s as me.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData());
+        entity = PtPlayerEntity::Instance(entityAddEv);
 
         // Set up own player cam and entity for faster access.
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
@@ -250,14 +204,19 @@ namespace PT
         else
           Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", entity->GetName().GetData(), entity->GetId());
 
-        owncam = pccamera;
         ownent = entity;
+        owncam = pccamera;
         owncelent = entity->GetCelEntity();
         ownname = entity->GetName();
       }
+      else if (entityAddEv->entityType == PtEntity::PlayerEntity) entity = new PtPcEntity(*entityAddEv);
       else
-        Report(PT::Notify, "Adding Entity '%s(%d)' at %s.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData());
+      {
+        Report(PT::Error, "Invalid entity type: %d !", entityAddEv->entityType);
+        return true;
+      }
 
+      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData(), (ownent==entity) ? " as me":"");
       // Add our entity to the list.
       entities.Push(entity);
 
@@ -300,9 +259,13 @@ namespace PT
         if (entity->GetType() == PtEntity::PlayerEntity)
         {
           if (!entityEquipEv->itemId == 0)
-            ((PtPcEntity*) entity)->GetEquipment()->Equip(entityEquipEv->slotId, entityEquipEv->itemId);
+            {
+            ((PtPcEntity*) entity)->GetEquipment().Equip(entityEquipEv->slotId, entityEquipEv->itemId);
+            }
           else
-            ((PtPcEntity*) entity)->GetEquipment()->UnEquip(entityEquipEv->slotId);
+            {
+            ((PtPcEntity*) entity)->GetEquipment().UnEquip(entityEquipEv->slotId);
+            }
         }
       }
 

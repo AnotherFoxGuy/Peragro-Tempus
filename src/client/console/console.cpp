@@ -213,16 +213,16 @@ public:
       return;
     }
 
-    PT::Entity::PtPcEntity* ownent = static_cast<PT::Entity::PtPcEntity*>(ent);
+    PT::Entity::PtPlayerEntity* ownent = static_cast<PT::Entity::PtPlayerEntity*>(ent);
     if (args.GetSize() < 4)
     {
       Help();
       return;
     }
     else if(strcmp(args[1],"equip")==0)
-      ownent->GetEquipment()->Equip(atoi(args[3]), atoi(args[2]));
+      ownent->GetEquipment().Equip(atoi(args[3]), atoi(args[2]));
     else if(strcmp(args[1],"unequip")==0)
-      ownent->GetEquipment()->UnEquip(atoi(args[3]));
+      ownent->GetEquipment().UnEquip(atoi(args[3]));
     else
     {
       parent->GetOutputConsole ()->PutText ("Unknown command!\n");

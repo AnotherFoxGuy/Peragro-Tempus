@@ -27,18 +27,16 @@ namespace PT
   {
     class PtPcEntity : public PtCharacterEntity
     {
-    private:
-      bool is_own_entity;
+      protected:
+        PtPcEntity() {}
+        virtual void Create();
 
-    public:
-      PtPcEntity();
-      virtual ~PtPcEntity(){}
-      void Create();
+      public:
+        PtPcEntity(const Events::EntityAddEvent& ev);
 
-      void Interact();
+        virtual ~PtPcEntity(){}
 
-      bool IsOwnEntity() { return is_own_entity; }
-      void SetOwnEntity(bool ownership) { is_own_entity = ownership; }
+        void Interact();
     };
   }
 }

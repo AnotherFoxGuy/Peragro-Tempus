@@ -30,13 +30,13 @@ namespace PT
     private:
       unsigned int itemid;
 
+      void Create();
+
     public:
-      PtItemEntity();
+      PtItemEntity(const Events::EntityAddEvent& ev);
 
       int GetItemId () const { return itemid; }
-      void SetItemId (unsigned int value) { this->itemid = value; }
-
-      void Create();
+      void SetItemId (unsigned int value) { itemid = value; }
 
       void Interact();
     };

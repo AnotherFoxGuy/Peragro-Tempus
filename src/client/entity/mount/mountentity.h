@@ -34,14 +34,16 @@ namespace PT
     private:
       bool mounted;
 
-    public:
-      PtMountEntity();
-      virtual ~PtMountEntity(){}
       void Create();
+
+    public:
+      PtMountEntity(const Events::EntityAddEvent& ev);
+      ~PtMountEntity(){}
+
       void Mount(PtEntity* player);
       void UnMount(PtEntity* player);
 
-      bool isMounted() { return mounted; }
+      bool isMounted() const { return mounted; }
     };
   }
 }

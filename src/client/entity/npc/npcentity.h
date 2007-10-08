@@ -29,10 +29,13 @@ namespace PT
   {
     class PtNpcEntity : public PtCharacterEntity
     {
-    public:
-      PtNpcEntity();
-      virtual ~PtNpcEntity(){}
+    private:
       void Create();
+
+    public:
+      PtNpcEntity(const Events::EntityAddEvent& ev);
+
+      virtual ~PtNpcEntity(){}
 
       void Interact();
     };

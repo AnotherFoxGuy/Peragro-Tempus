@@ -30,11 +30,14 @@ namespace PT
     class PtCharacterEntity : public PtEntity
     {
     private:
-      Equipment* equipment;
+      Equipment equipment;
 
     protected:
-      PtCharacterEntity(EntityType type);
-      virtual ~PtCharacterEntity(){delete equipment;}
+      PtCharacterEntity() : equipment(this) {}
+      PtCharacterEntity(const Events::EntityAddEvent& ev);
+
+      virtual ~PtCharacterEntity() {}
+
       unsigned int maxStamina;
       unsigned int currentStamina;
 
@@ -43,12 +46,13 @@ namespace PT
       bool MoveTo(MoveToData* moveTo);
       void DrUpdate(DrUpdateData* drupdate);
       void Teleport(csVector3 pos, csString sector);
-      unsigned int getCurrentStamina() { return currentStamina; }
-      unsigned int getMaxStamina() { return maxStamina; }
-      void setCurrentStamina(unsigned int x);
-      void setMaxStamina(unsigned int x) { maxStamina = x; }
 
-      Equipment* GetEquipment() {return equipment;}
+      unsigned int GetCurrentStamina() const { return currentStamina; }
+      void SetCurrentStamina(unsigned int x);
+      unsigned int GetMaxStamina() const { return maxStamina; }
+      void SetMaxStamina(unsigned int x) { maxStamina = x; }
+
+      Equipment& GetEquipment() {return equipment;}
     };
   }
 }

@@ -19,22 +19,37 @@
 #include "ptentity.h"
 
 #include "client/pointer/pointer.h"
+#include "client/event/entityevent.h"
+#include "client/data/sector/sectormanager.h"
 
 namespace PT
 {
   namespace Entity
   {
+    PtEntity::PtEntity(const Events::EntityAddEvent& ev)
+    {
+      id = ev.entityId;
+      type = ev.entityType;
+      name = ev.entityName.c_str();
+      meshname = ev.meshName.c_str();
+      sectorname = PointerLibrary::getInstance()->getSectorManager()->GetSectorName(ev.sectorId).c_str();
+      pos = ev.position;
+      celentity = 0;
+    }
 
     void PtEntity::CreateCelEntity()
     {
-      csRef<iCelEntity> entity = pl->CreateEntity();
-      celentity = entity;
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+
+      celentity = pl->CreateEntity();
 
       pl->CreatePropertyClass(celentity, "pcobject.mesh");
       pl->CreatePropertyClass(celentity, "pcmove.solid");
       pl->CreatePropertyClass(celentity, "pctools.properties");
 
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+      //TODO: Why is this part commented out and not removed?
       //csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
       //csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(celentity, iPcSolid);
       csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);

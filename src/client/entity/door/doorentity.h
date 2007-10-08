@@ -34,18 +34,21 @@ namespace PT
       bool open;
       bool locked;
 
-    public:
-      PtDoorEntity();
-      virtual ~PtDoorEntity(){}
       void Create();
-      unsigned int GetDoorId () const { return doorId; }
-      void SetDoorId (unsigned int value) { this->doorId = value; }
-      bool GetOpen() { return open; }
-      void SetOpen(bool value) { this->open = value; }
-      bool GetLocked() { return locked; }
-      void SetLocked(bool value) { this->locked = value; }
-      void UpdatePcProp(UpdatePcPropData* update_pcprop);
 
+    public:
+      PtDoorEntity(const Events::EntityAddEvent& ev);
+
+      virtual ~PtDoorEntity(){}
+
+      unsigned int GetDoorId() const { return doorId; }
+      void SetDoorId(unsigned int value) { doorId = value; }
+      bool GetOpen() const { return open; }
+      void SetOpen(bool value) { open = value; }
+      bool GetLocked() const { return locked; }
+      void SetLocked(bool value) { locked = value; }
+
+      void UpdatePcProp(UpdatePcPropData* update_pcprop);
       void Interact();
     };
   }
