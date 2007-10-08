@@ -30,7 +30,7 @@
 #include "client/data/effect/effectsmanager.h"
 #include "client/combat/combatmanager.h"
 #include "client/data/item/itemmanager.h"
-#include "client/entity/entitymanager.h"
+#include "client/entity/player/playerentity.h"
 
 PtConsole::PtConsole ()
 {
@@ -203,26 +203,22 @@ public:
   }
   virtual void Execute (const csStringArray& args)
   {
-    PT::Entity::EntityManager* entmanager = PointerLibrary::getInstance()->getEntityManager();
-    if(!entmanager) return;
-
-    PT::Entity::Entity* ent = entmanager->getOwnPtEntity();
+    PT::Entity::PlayerEntity* ent = PT::Entity::PlayerEntity::Instance();
     if(!ent)
     {
       parent->GetOutputConsole ()->PutText ("Your entity hasn't been created yet!\n");
       return;
     }
 
-    PT::Entity::PlayerEntity* ownent = static_cast<PT::Entity::PlayerEntity*>(ent);
     if (args.GetSize() < 4)
     {
       Help();
       return;
     }
     else if(strcmp(args[1],"equip")==0)
-      ownent->GetEquipment().Equip(atoi(args[3]), atoi(args[2]));
+      ent->GetEquipment().Equip(atoi(args[3]), atoi(args[2]));
     else if(strcmp(args[1],"unequip")==0)
-      ownent->GetEquipment().UnEquip(atoi(args[3]));
+      ent->GetEquipment().UnEquip(atoi(args[3]));
     else
     {
       parent->GetOutputConsole ()->PutText ("Unknown command!\n");

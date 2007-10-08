@@ -10,6 +10,8 @@ under each day.
    children for a cleaner structure. Added singleton class PtPlayerEntity
    representing the player himself.
  - Sueastside stripped Pt from all entity classes and filenames.
+ - azaghal moved several properties from EntityManager to PlayerEntity and
+   changed the remaining code appropriately.
 
 07-Oct-2007
  - PK added MeshId to the network messages.

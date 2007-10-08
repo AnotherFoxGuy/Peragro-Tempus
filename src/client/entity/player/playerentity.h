@@ -35,6 +35,8 @@ namespace PT
     class PlayerEntity : public PcEntity
     {
     private:
+      csWeakRef<iPcDefaultCamera> camera;
+
       PlayerEntity(const Events::EntityAddEvent& ev);
 
       ~PlayerEntity() {};
@@ -53,6 +55,8 @@ namespace PT
        *         Otherwise returns a pointer to an instance of the class.
        */
       static PlayerEntity* Instance(const Events::EntityAddEvent* ev=NULL);
+
+      iPcDefaultCamera* GetCamera() { return camera; }
     };
   }
 }

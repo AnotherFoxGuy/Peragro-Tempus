@@ -54,7 +54,6 @@ namespace PT
 
       pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
-      ownent = 0;
     }
 
     EntityManager::~EntityManager ()
@@ -66,7 +65,7 @@ namespace PT
     {
       world_loaded = false;
       playing = false;
-      own_char_id = 0;
+      playerId = 0;
 
       movementManager->Initialize();
 
@@ -165,7 +164,7 @@ namespace PT
       StatePlayEvent* playEv = GetStateEvent<StatePlayEvent*>(ev);
       if (!playEv) return false;
 
-      own_char_id = playEv->ownEntityId;
+      playerId = playEv->ownEntityId;
 
       return true;
     }
@@ -189,26 +188,7 @@ namespace PT
       else if (entityAddEv->entityType == ItemEntityType) entity = new ItemEntity(*entityAddEv);
       else if (entityAddEv->entityType == MountEntityType) entity = new MountEntity(*entityAddEv);
       else if (entityAddEv->entityType == NPCEntityType) entity = new NpcEntity(*entityAddEv);
-      else if (entityAddEv->entityType == PCEntityType && own_char_id == entityAddEv->entityId)
-      {
-        entity = PlayerEntity::Instance(entityAddEv);
-
-        // Set up own player cam and entity for faster access.
-        csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
-        if (pccamera.IsValid())
-        {
-          pccamera->SetAutoDraw(false);
-          pccamera->SetMode(iPcDefaultCamera::thirdperson, true);
-          pccamera->SetPitch(-0.18f);
-        }
-        else
-          Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", entity->GetName().GetData(), entity->GetId());
-
-        ownent = entity;
-        owncam = pccamera;
-        owncelent = entity->GetCelEntity();
-        ownname = entity->GetName();
-      }
+      else if (entityAddEv->entityType == PCEntityType && playerId == entityAddEv->entityId) entity = PlayerEntity::Instance(entityAddEv);
       else if (entityAddEv->entityType == PCEntityType) entity = new PcEntity(*entityAddEv);
       else
       {
@@ -216,7 +196,7 @@ namespace PT
         return true;
       }
 
-      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData(), (ownent==entity) ? " as me":"");
+      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData(), (playerId == entityAddEv->entityId) ? " as me":"");
       // Add our entity to the list.
       entities.Push(entity);
 
@@ -322,7 +302,6 @@ namespace PT
 
     void EntityManager::delAllEntities()
     {
-      ownent = 0;
       for (size_t i = 0; i < entities.GetSize(); i++)
       {
         pl->RemoveEntity(entities[i]->GetCelEntity());
@@ -335,11 +314,13 @@ namespace PT
       DrUpdateRequestMessage drmsg;
 
       // TODO this should be >0;
-     // if (own_char_id != -1)
+     // if (playerId != -1)
       {
-        if (owncelent.IsValid())
+        if (!PlayerEntity::Instance()) return;
+        csWeakRef<iCelEntity> playerCelEnt = PlayerEntity::Instance()->GetCelEntity();
+        if (playerCelEnt.IsValid())
         {
-          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(owncelent, iPcLinearMovement);
+          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(playerCelEnt, iPcLinearMovement);
           if (pclinmove.IsValid())
           {
             bool on_ground;

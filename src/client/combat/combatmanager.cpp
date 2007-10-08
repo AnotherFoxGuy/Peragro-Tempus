@@ -184,17 +184,18 @@ void CombatMGR::levelup (int targetId)
 
 void CombatMGR::experience (int exp)
 {
+  if (!PT::Entity::PlayerEntity::Instance()) return;
   // Lookup the ID to get the actual entity.
-  iCelEntity* ownent = entitymgr->getOwnCelEntity();
+  iCelEntity* entity = PT::Entity::PlayerEntity::Instance()->GetCelEntity();
 
-  if (!ownent)
+  if (!entity)
   {
-    Report(PT::Error, "CombatMGR: Couldn't find own entity!");
+    Report(PT::Error, "CombatMGR: Couldn't find player entity!");
     return;
   }
 
   // Update the entity's experience(this will update the GUI aswell).
-  //ownent->SetExp(exp);
+  //entity->SetExp(exp);
   //guimanager->GetStatsWindow()->Setexp(exp);
 
   // We gaind experience.
@@ -368,8 +369,10 @@ void CombatMGR::RequestSkillUsageStart (unsigned int targetId, unsigned int skil
     return;
   }
 
+  if (!PT::Entity::PlayerEntity::Instance()) return;
+
   // Get your own entity.
-  iCelEntity* attacker = entitymgr->getOwnCelEntity();
+  iCelEntity* attacker = PT::Entity::PlayerEntity::Instance()->GetCelEntity();
 
 
   if (!targetId)

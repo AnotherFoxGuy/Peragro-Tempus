@@ -55,6 +55,16 @@ namespace PT
       //At this time PlayerEntity's Create() method takes care of the appropriate
       //stuff, so we only need to do this little thing.
       pl->CreatePropertyClass(celentity, "pccamera.old");
+
+      camera = CEL_QUERY_PROPCLASS_ENT(celentity, iPcDefaultCamera);
+      if (camera.IsValid())
+      {
+        camera->SetAutoDraw(false);
+        camera->SetMode(iPcDefaultCamera::thirdperson, true);
+        camera->SetPitch(-0.18f);
+      }
+      else
+        Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.GetData(), id);
     }
   }
 

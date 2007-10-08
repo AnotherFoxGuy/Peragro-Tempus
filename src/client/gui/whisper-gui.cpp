@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -150,7 +150,7 @@ void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* o
     btn->subscribeEvent(CEGUI::FrameWindow::EventRollupToggled, CEGUI::Event::Subscriber(&WhisperWindow::OnRollup, this));
     btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&WhisperWindow::OnCloseButton, this));
     btn->subscribeEvent(CEGUI::FrameWindow::EventActivated, CEGUI::Event::Subscriber(&WhisperWindow::OnCaptureGained, this));
-    CEGUI::String ownnickstr = (CEGUI::String)(PointerLibrary::getInstance()->getEntityManager()->GetOwnName());
+    CEGUI::String ownnickstr = (CEGUI::String)(PT::Entity::PlayerEntity::Instance()->GetName());
     btn->setUserString("OwnNickname",ownnickstr);
   }
 

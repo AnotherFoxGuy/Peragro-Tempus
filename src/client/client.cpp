@@ -157,18 +157,20 @@ namespace PT
     handleStates();
 
     // Draw the player camera manually.
-    csRef<iPcDefaultCamera> cam = entitymanager->getOwnCamera();
+    csRef<iPcDefaultCamera> cam;
+    if (Entity::PlayerEntity::Instance())
+      cam = Entity::PlayerEntity::Instance()->GetCamera();
     if (cam.IsValid()) cam->Draw();
 
     if (state == STATE_PLAY)
     {
       if (entitymanager)
       {
-        PT::Entity::CharacterEntity *character = (PT::Entity::CharacterEntity *) entitymanager->getOwnPtEntity();
-        if (character)
+        PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
+        if (player)
         {
-          int currentStamina = character->GetCurrentStamina();
-          int maxStamina = character->GetMaxStamina();
+          int currentStamina = player->GetCurrentStamina();
+          int maxStamina = player->GetMaxStamina();
           float ratio = (float)currentStamina / (float)maxStamina;
           if (guimanager)
           {
@@ -804,7 +806,7 @@ namespace PT
 
       if (!inputEv->released)
       {
-        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()-0.1f);
@@ -825,7 +827,7 @@ namespace PT
 
       if (!inputEv->released)
       {
-        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         pccamera->SetPitch(pccamera->GetPitch()+0.1f);
@@ -866,7 +868,7 @@ namespace PT
 
       if (!inputEv->released)
       {
-        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
         if (!entity) return false;
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
         guimanager->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
@@ -890,7 +892,7 @@ namespace PT
 
       if (!inputEv->released)
       {
-        combatmanager->hit (entitymanager->GetOwnId(), 20);
+        combatmanager->hit (entitymanager->GetPlayerId(), 20);
       }
     }
 
@@ -918,7 +920,7 @@ namespace PT
           combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         }
         // Animate the player.
-        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
         if (!entity) return false;
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
         if (!pcmesh) return false;
@@ -945,7 +947,7 @@ namespace PT
 
       if (!inputEv->released)
       {
-        iCelEntity* entity = entitymanager->getOwnCelEntity();
+        iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
         if (!entity) return false;
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
         if (!pcmesh) return false;
@@ -1020,8 +1022,8 @@ namespace PT
 
     if (!inputEv->released)
     {
-      if (!entitymanager) return false;
-      csRef<iPcDefaultCamera> pccamera = entitymanager->getOwnCamera();
+      if (!Entity::PlayerEntity::Instance()) return false;
+      csRef<iPcDefaultCamera> pccamera = Entity::PlayerEntity::Instance()->GetCamera();
       if (!pccamera) return false;
       csRef<iCamera> cam = pccamera->GetCamera();
       if (!cam) return false;
@@ -1034,7 +1036,7 @@ namespace PT
         effectsmanager->CreateEffect(PT::Data::EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
         //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0), cam);
 
-        csRef<iCelEntity> ownent = entitymanager->getOwnCelEntity();
+        csRef<iCelEntity> ownent = Entity::PlayerEntity::Instance()->GetCelEntity();
         if (!ownent) return false;
         csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
         if (!pclinmove) return false;
@@ -1109,7 +1111,7 @@ namespace PT
 
     if (!inputEv->released)
     {
-      iCelEntity* entity = entitymanager->getOwnCelEntity();
+      iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
       if (!entity) return false;
       csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
       cameradistance -= 0.5;
@@ -1127,7 +1129,7 @@ namespace PT
 
     if (!inputEv->released)
     {
-      iCelEntity* entity = entitymanager->getOwnCelEntity();
+      iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
       if (!entity) return false;
       csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
       cameradistance += 0.5;
@@ -1138,7 +1140,8 @@ namespace PT
 
   bool Client::OnMouseMove(iEvent& e)
   {
-    csRef<iPcDefaultCamera> cam = entitymanager->getOwnCamera();
+    if (!Entity::PlayerEntity::Instance()) return false;
+    csRef<iPcDefaultCamera> cam = Entity::PlayerEntity::Instance()->GetCamera();
     if (!cam) return false;
     if (!cam->GetCamera()->GetSector()) return false;
     cursor->MouseMove(pl, cam->GetCamera(), csMouseEventHelper::GetX(&e), csMouseEventHelper::GetY(&e));
@@ -1345,7 +1348,7 @@ namespace PT
 
   iPcActorMove* Client::getPcActorMove()
   {
-    iCelEntity* entity = entitymanager->getOwnCelEntity();
+    iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
     if (entity == 0)
       return 0;
     csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);

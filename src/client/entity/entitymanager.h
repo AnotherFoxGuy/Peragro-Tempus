@@ -79,11 +79,7 @@ namespace PT
       void ProcessEvents();
 
     private:
-      unsigned int own_char_id;
-      csWeakRef<iPcDefaultCamera> owncam;
-      csWeakRef<iCelEntity> owncelent;
-      Entity* ownent;
-      csString ownname;
+      unsigned int playerId;
 
     private:
       bool playing;
@@ -111,11 +107,7 @@ namespace PT
 
       bool SetOwnId(PT::Events::Eventp ev);
 
-      iPcDefaultCamera* getOwnCamera() { return owncam; }
-      iCelEntity* getOwnCelEntity() { return owncelent; }
-      Entity* getOwnPtEntity() { return ownent; }
-      unsigned int GetOwnId() { return own_char_id; }
-      csString GetOwnName() { return ownname; }
+      unsigned int GetPlayerId() { return playerId; }
 
       void setPlaying(bool value) { playing = value; }
       void setWorldloaded(bool value) { world_loaded = value; }
