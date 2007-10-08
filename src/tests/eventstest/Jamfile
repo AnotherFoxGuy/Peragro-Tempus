@@ -2,7 +2,7 @@ SubDir TOP src tests eventstest ;
 
 Description eventstest : "Events Test" ;
 Application eventstest : [ Wildcard *.h *.cpp ] : console ;
-LinkWith eventstest : ptcommon ;
+LinkWith eventstest : events util ;
 
 if [ Property build : projgen_version ] != 6
 {
