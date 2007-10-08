@@ -17,18 +17,18 @@
 			IntermediateDirectory="..\..\out\release71\build\appserver\"
 			ConfigurationType="1"
 			CharacterSet="2"
-			WholeProgramOptimization="TRUE"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
+				Optimization="2"
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+				PreprocessorDefinitions="NDEBUG;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
@@ -40,6 +40,7 @@
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -64,7 +65,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE"
+				PreprocessorDefinitions="NDEBUG;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -78,8 +79,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;CS_PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_CONSOLE;PROJECTGEN_VERSION=71"
+				AdditionalIncludeDirectories=".;..\..\src\server;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -101,7 +102,8 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__"
+
+				PreprocessorDefinitions="_DEBUG;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
@@ -113,6 +115,7 @@
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -135,7 +138,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE"
+				PreprocessorDefinitions="_DEBUG;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -149,8 +152,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;CS_PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PreprocessorDefinitions="_DEBUG;_CONSOLE;PROJECTGEN_VERSION=71"
+				AdditionalIncludeDirectories=".;..\..\src\server;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -163,35 +166,440 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\environment.cpp">
+				RelativePath="..\..\src\server\src\server\ai\ai-helper.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\main.cpp">
+				RelativePath="..\..\src\server\src\server\ai\ai.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\server.cpp">
+				RelativePath="..\..\src\server\src\server\ai\guard-ai.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\useraccountmanager.cpp">
+				RelativePath="..\..\src\server\src\server\ai\idle-ai.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\ai\stray-ai.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\database.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\sqlite\sqlite.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-books.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-characters.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-characterskills.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-characterstats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-doors.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-entities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-inventory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-npcaisetting.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-npcdialoganswers.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-npcdialogs.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-npcentities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-races.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-raceskills.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-racestats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-skills.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-stats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-users.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\character.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\charactermanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\characterskills.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\characterstats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\doorentity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\entity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\inventory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\itementity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\mountentity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\npcentity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\pcentity.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\raceskills.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\racestats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\skill.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\tradepeer.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\tradesession.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\user.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\environment.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\file-doors.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\file-items.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\file-sectors.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\fileloader.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\main.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\bookhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\chathandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\doorhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\entityhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\networkhelper.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\questhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\skillhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\tradehandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\udp\udpconnection.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\udp\udpconnectionhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\userhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\server.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\useraccountmanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\environment.h">
+				RelativePath="..\..\src\server\src\server\ai\ai-helper.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\server.h">
+				RelativePath="..\..\src\server\src\server\ai\ai.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\skillengine.h">
+				RelativePath="..\..\src\server\src\server\ai\guard-ai.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\spawner.h">
+				RelativePath="..\..\src\server\src\server\ai\idle-ai.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\useraccountmanager.h">
+				RelativePath="..\..\src\server\src\server\ai\stray-ai.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\database.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\resultset.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\sqlite\sqlite.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-books.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-characters.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-characterskills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-characterstats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-doors.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-entities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-inventory.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-npcaisetting.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-npcdialoganswers.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-npcdialogs.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-npcentities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-races.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-raceskills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-racestats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-skills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-stats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table-users.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\database\table.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\character.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\characterentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\charactermanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\characterskill.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\characterskills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\characterstats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\doorentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\entity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\entitylist.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\entitymanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\inventory.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\item.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\itementity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\itemmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\mountentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\npcentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\pcentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\race.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\racelist.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\racemanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\raceskills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\racestats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\sectormanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\skill.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\skillmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\stat.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\statmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\tradepeer.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\tradesession.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\user.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\entity\usermanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\environment.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\file-doors.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\file-items.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\file-meshes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\file-sectors.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\loader\fileloader.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\bookhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\chathandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\connection.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\doorhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\entityhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\environmenthandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\network.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\networkhelper.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\questhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\skillhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\tradehandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\udp\connectionmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\udp\connectionpinger.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\udp\udpconnection.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\udp\udpconnectionhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\udp\udpnetwork.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\network\userhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\server.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\skillengine.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\spawner.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\src\server\useraccountmanager.h">
 			</File>
 		</Filter>
 		<Filter

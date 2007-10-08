@@ -1,8 +1,10 @@
 // This file is generated automatically.
 
 1 VERSIONINFO
-FILEVERSION 0, 1, 0, 0
-PRODUCTVERSION 0, 1, 0, 0
+FILEVERSION 
+0,1,0,0
+PRODUCTVERSION 
+0,1,0,0
 #ifdef CS_DEBUG
 FILEFLAGS 0x1
 #else
@@ -29,6 +31,6 @@ FILEFLAGS 0x0
 }
 // This file is generated automatically.
 
-#if !defined(CS_PROJECTGEN_VERSION) || (CS_PROJECTGEN_VERSION != 8)
+#if !defined(PROJECTGEN_VERSION) || (PROJECTGEN_VERSION != 8)
 1 24 "appeventstest.manifest"
 #endif
