@@ -108,7 +108,7 @@ namespace PT
         {
           // Special case for when text was inputted without '/'.
           std::string text;
-          for(size_t i = 0; i < args.size(); i++) 
+          for(size_t i = 0; i < args.size(); i++)
           {
             text += args[i];
             text += " ";
@@ -126,7 +126,7 @@ namespace PT
         else
         {
           std::string text;
-          for(size_t i = 2; i < args.size(); i++) 
+          for(size_t i = 2; i < args.size(); i++)
           {
             text += args[i];
             text += " ";
@@ -169,7 +169,7 @@ namespace PT
         else
         {
           std::string text = "/";
-          for(size_t i = 1; i < args.size(); i++) 
+          for(size_t i = 1; i < args.size(); i++)
           {
             text += args[i];
             text += " ";
@@ -299,14 +299,14 @@ namespace PT
           std::string nick = args[2];
 
           std::string text;
-          for(size_t i = 3; i < args.size(); i++) 
+          for(size_t i = 3; i < args.size(); i++)
           {
             text += args[i];
             text += " ";
           }
 
           // Get your own nickname.
-          csString ownnick = PointerLibrary::getInstance()->getEntityManager()->GetOwnName();
+          csString ownnick = Entity::PlayerEntity::Instance()->GetName();
           // Add your own text to the whisper.
           guimanager->GetWhisperWindow()->AddWhisper(nick.c_str(), text.c_str(), ownnick.GetData());
           // Send the whisper to the network.
@@ -321,7 +321,7 @@ namespace PT
     };
     //--------------------------------------------------------------------------
 
-  } // Chat namespace 
-} // PT namespace 
+  } // Chat namespace
+} // PT namespace
 
 #endif // COMMANDS_H
