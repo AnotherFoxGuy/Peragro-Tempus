@@ -1,4 +1,5 @@
 SubDir TOP src common events ;
 
-AddSourceFiles ;
-
+Description events : "events" ;
+Library events :
+  [ Wildcard *.h *.cpp ] ;

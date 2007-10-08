@@ -1,4 +1,7 @@
 SubDir TOP src common util ;
 
-AddSourceFiles ;
+Description util : "util" ;
+Library util :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs util : PTHREAD ;
 

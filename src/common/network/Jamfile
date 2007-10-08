@@ -2,5 +2,7 @@ SubDir TOP src common network ;
 
 SubInclude TOP src common network udp ;
 
-AddSourceFiles ;
-
+Description network : "network" ;
+Library network :
+  [ Wildcard *.h *.cpp ] ;
+LinkWith network : udp-network ;

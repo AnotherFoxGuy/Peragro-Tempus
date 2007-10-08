@@ -1,4 +1,6 @@
 SubDir TOP src client console ;
 
-AddSourceFiles ;
-
+Description client-console : "client console" ;
+Library client-console :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-console : CRYSTAL CEGUI CEL ;

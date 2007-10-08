@@ -1,4 +1,5 @@
 SubDir TOP src common quest ;
 
-AddSourceFiles ;
-
+Description quest : "quest" ;
+Library quest :
+  [ Wildcard *.h *.cpp ] ;

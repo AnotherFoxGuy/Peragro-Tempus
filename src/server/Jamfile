@@ -1,18 +1,14 @@
 SubDir TOP src server ;
 
-SOURCES = ;
-
 SubInclude TOP src server ai ;
 SubInclude TOP src server database ;
 SubInclude TOP src server entity ;
 SubInclude TOP src server loader ;
 SubInclude TOP src server network ;
 
-AddSourceFiles ;
-
 Description server : "Server" ;
-Application server : $(SOURCES) : console ;
-LinkWith server : sqlite_lib ptcommon tinyxml ;
+Application server : [ Wildcard *.h *.cpp ] : console ;
+LinkWith server : server-network server-entity server-ai server-loader sqlite_adp database quest tinyxml util ;
 
 MsvcExternalLibrary server : "wsock32.lib" ;
 
@@ -23,7 +19,7 @@ if $(WSOCK32.LFLAGS) {
 if [ Property build : projgen_version ] != 6
 {
   SubVariant static ;
-
+  
   Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
   LinkWith server_static : server-network server-entity server-ai server-loader sqlite_adp database quest tinyxml util ;
   MsvcExternalLibrary server_static : "wsock32.lib" ;

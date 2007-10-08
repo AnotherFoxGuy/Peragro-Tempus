@@ -1,4 +1,6 @@
 SubDir TOP src client event ;
 
-AddSourceFiles ;
-
+Description client-eventmanager : "client eventmanager" ;
+Library client-eventmanager :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-eventmanager : CRYSTAL CEL BOOST ;

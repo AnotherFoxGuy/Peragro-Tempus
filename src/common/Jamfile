@@ -1,13 +1,6 @@
 SubDir TOP src common ;
 
-SOURCES = ;
-
 SubInclude TOP src common events ;
 SubInclude TOP src common network ;
 SubInclude TOP src common quest ;
 SubInclude TOP src common util ;
-
-Description ptcommon : "PT Common Lib" ;
-Library ptcommon : $(SOURCES) ;
-ExternalLibs ptcommon : PTHREAD ;
-

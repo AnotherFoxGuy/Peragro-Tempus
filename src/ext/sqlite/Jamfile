@@ -8,4 +8,3 @@ CFlags sqlite_lib : [ FDefines SQLITE_OMIT_LOAD_EXTENSION ] ;
 MsvcDefine sqlite_lib : SQLITE_OMIT_LOAD_EXTENSION ;
 
 CCFLAGS on $(sqlite_lib_OBJECTS) = [ Filter [ on $(sqlite_lib_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;
-

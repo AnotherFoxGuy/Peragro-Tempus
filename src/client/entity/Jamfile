@@ -8,5 +8,14 @@ SubInclude TOP src client entity player ;
 SubInclude TOP src client entity npc ;
 SubInclude TOP src client entity mount ;
 
-AddSourceFiles ;
-
+Description client-entitymanager : "client entitymanager" ;
+Library client-entitymanager :
+  [ Wildcard *.h *.cpp ]
+  [ Wildcard [ ConcatDirs character ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs character equipment ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs mount ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs pc ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs door ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs item ] : *.h *.cpp ] ;
+ExternalLibs client-entitymanager : CRYSTAL CEL BOOST ;

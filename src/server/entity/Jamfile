@@ -1,4 +1,5 @@
 SubDir TOP src server entity ;
 
-AddSourceFiles ;
-
+Description server-entity : "entity" ;
+Library server-entity :
+  [ Wildcard *.h *.cpp ] ;
