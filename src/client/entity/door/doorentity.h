@@ -19,7 +19,7 @@
 #ifndef PTDOORENTITY_H
 #define PTDOORENTITY_H
 
-#include "client/entity/ptentity.h"
+#include "client/entity/entity.h"
 
 #include "client/pointer/pointer.h"
 
@@ -27,7 +27,7 @@ namespace PT
 {
   namespace Entity
   {
-    class PtDoorEntity : public PtEntity
+    class DoorEntity : public Entity
     {
     private:
       unsigned int doorId;
@@ -37,9 +37,9 @@ namespace PT
       void Create();
 
     public:
-      PtDoorEntity(const Events::EntityAddEvent& ev);
+      DoorEntity(const Events::EntityAddEvent& ev);
 
-      virtual ~PtDoorEntity(){}
+      virtual ~DoorEntity(){}
 
       unsigned int GetDoorId() const { return doorId; }
       void SetDoorId(unsigned int value) { doorId = value; }

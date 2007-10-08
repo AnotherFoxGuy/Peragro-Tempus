@@ -32,12 +32,12 @@ namespace PT
      * @brief Singleton class representing the player himself.
      * @author Branko Majic <branko.majic NO SPAM AT gmail.com>
     */
-    class PtPlayerEntity : public PtPcEntity
+    class PlayerEntity : public PcEntity
     {
     private:
-      PtPlayerEntity(const Events::EntityAddEvent& ev);
+      PlayerEntity(const Events::EntityAddEvent& ev);
 
-      ~PtPlayerEntity() {};
+      ~PlayerEntity() {};
       void Create();
 
     public:
@@ -52,7 +52,7 @@ namespace PT
        * @return NULL if an error occured, or if no instance was created yet.
        *         Otherwise returns a pointer to an instance of the class.
        */
-      static PtPlayerEntity* Instance(const Events::EntityAddEvent* ev=NULL);
+      static PlayerEntity* Instance(const Events::EntityAddEvent* ev=NULL);
     };
   }
 }

@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 #include "client/entity/movementmanager.h"
 
 #include <iutil/objreg.h>
@@ -120,7 +120,7 @@ namespace PT
 
       int id = entityMoveEv->entityId;
 
-      PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
+      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)
       {
         Report(PT::Error, "MoveEntity: Couldn't find entity with ID %d!", id);
@@ -160,7 +160,7 @@ namespace PT
         }
       }
 
-      PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
+      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)
       {
         Report(PT::Error, "MoveToEntity: Couldn't find entity with ID %d!", id);
@@ -216,7 +216,7 @@ namespace PT
       {
         MoveToData* moveTo = move_to_entity.Get(i);
 
-        PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(moveTo->entity_id);
+        Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(moveTo->entity_id);
         if (entity)
         {
           if(entity->MoveTo(moveTo))
@@ -238,7 +238,7 @@ namespace PT
       PT::Data::SectorManager* sectormgr = PointerLibrary::getInstance()->getSectorManager();
       std::string sectorName = sectormgr->GetSectorName(sectorId);
 
-      PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
+      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
       if (!entity)
       {
         Report(PT::Error, "MovementManager: Couldn't find entity with ID %d!", entityId);
@@ -265,7 +265,7 @@ namespace PT
       PT::Data::SectorManager* sectormgr = PointerLibrary::getInstance()->getSectorManager();
       std::string sectorName = sectormgr->GetSectorName(sectorId);
 
-      PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
+      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)
       {
         Report(PT::Error, "DrUpdateEntity: Couldn't find entity with ID %d!", id);
@@ -293,7 +293,7 @@ namespace PT
 
       int id = entityMoveEv->entityId;
 
-      PtEntity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
+      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)
       {
         Report(PT::Error, "UpdatePcProp: Couldn't find entity with ID %d!\n", id);

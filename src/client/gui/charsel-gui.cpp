@@ -24,7 +24,7 @@
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 
 #include "client/reporter/reporter.h"
 

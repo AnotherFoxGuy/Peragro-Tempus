@@ -94,11 +94,11 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
   }
   else if (ddea.window->getName().compare(DOOR_BUTTON) == 0)
   {
-    PT::Entity::PtEntity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(interactId);
+    PT::Entity::Entity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(interactId);
     if (!ent) return true;
     if (ent->GetType() == 2)// door
     {
-      if (((PT::Entity::PtDoorEntity*)ent)->GetOpen())
+      if (((PT::Entity::DoorEntity*)ent)->GetOpen())
       {
         Report(PT::Notify, "OnAction: Requesting open of: %d.", interactId);
         CloseDoorRequestMessage msg;

@@ -45,7 +45,7 @@
 
 #include "client/pointer/pointer.h"
 
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 
 Cursor::Cursor(PT::Client* client)
 : client(client)
@@ -72,16 +72,16 @@ void Cursor::Draw()
     int type = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type"));
     switch(type)
     {
-    case PT::Entity::PtEntity::PlayerEntity:
+    case PT::Entity::PCEntityType:
       nametag->setProperty("NormalTextColour", "FF05AA05");
       break;
-    case PT::Entity::PtEntity::NPCEntity:
+    case PT::Entity::NPCEntityType:
       nametag->setProperty("NormalTextColour", "FFFF00FF");
       break;
-    case PT::Entity::PtEntity::DoorEntity:
+    case PT::Entity::DoorEntityType:
       nametag->setProperty("NormalTextColour", "FF550505");
       break;
-    case PT::Entity::PtEntity::ItemEntity:
+    case PT::Entity::ItemEntityType:
       nametag->setProperty("NormalTextColour", "FF0505AA");
       break;
     default:

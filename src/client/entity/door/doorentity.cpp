@@ -32,7 +32,7 @@ namespace PT
   namespace Entity
   {
 
-    PtDoorEntity::PtDoorEntity(const Events::EntityAddEvent& ev) : PtEntity(ev)
+    DoorEntity::DoorEntity(const Events::EntityAddEvent& ev) : Entity(ev)
     {
       open = ev.open;
       locked = ev.locked;
@@ -41,7 +41,7 @@ namespace PT
       Create();
     }
 
-    void PtDoorEntity::Create()
+    void DoorEntity::Create()
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -80,7 +80,7 @@ namespace PT
         Report(PT::Error, "PtDoorEntity: Couldn't find mesh for door %d!\n", id);
     }
 
-    void PtDoorEntity::UpdatePcProp(UpdatePcPropData* update_pcprop)
+    void DoorEntity::UpdatePcProp(UpdatePcPropData* update_pcprop)
     {
       csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
       switch(update_pcprop->value.type)
@@ -108,7 +108,7 @@ namespace PT
       }
     }
 
-    void PtDoorEntity::Interact()
+    void DoorEntity::Interact()
     {
       using namespace PT::Events;
       InterfaceInteract* interfaceEvent = new InterfaceInteract();

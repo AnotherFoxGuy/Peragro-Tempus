@@ -26,13 +26,13 @@ namespace PT
   namespace Entity
   {
 
-    PtMountEntity::PtMountEntity(const Events::EntityAddEvent& ev) : PtCharacterEntity(ev)
+    MountEntity::MountEntity(const Events::EntityAddEvent& ev) : CharacterEntity(ev)
     {
       mounted = false;
       Create();
     }
 
-    void PtMountEntity::Create()
+    void MountEntity::Create()
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -77,7 +77,7 @@ namespace PT
         Report(PT::Error,  "Failed to set position, sector '%s' unknown!", sectorname.GetData());
     }
 
-    void PtMountEntity::Mount(PtEntity* player)
+    void MountEntity::Mount(Entity* player)
     {
       if(mounted) return;
       if(!player->GetCelEntity()) return;
@@ -87,7 +87,7 @@ namespace PT
       csVector3 pos, vel, wvel;
       iSector* sector;
 
-      PtPcEntity* ptplayer = static_cast<PtPcEntity*>(player);
+      PcEntity* ptplayer = static_cast<PcEntity*>(player);
 
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ptplayer->GetCelEntity(), iPcLinearMovement);
       csRef<iPcLinearMovement> mtlinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
@@ -102,7 +102,7 @@ namespace PT
       mounted = true;
     }
 
-    void PtMountEntity::UnMount(PtEntity* player)
+    void MountEntity::UnMount(Entity* player)
     {
       if(!mounted) return;
       if(!player->GetCelEntity()) return;
@@ -112,7 +112,7 @@ namespace PT
       csVector3 pos, vel, wvel;
       iSector* sector;
 
-      PtPcEntity* ptplayer = static_cast<PtPcEntity*>(player);
+      PcEntity* ptplayer = static_cast<PcEntity*>(player);
 
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ptplayer->GetCelEntity(), iPcLinearMovement);
 

@@ -30,7 +30,7 @@
 #include "client/data/effect/effectsmanager.h"
 #include "client/combat/combatmanager.h"
 #include "client/data/item/itemmanager.h"
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 
 PtConsole::PtConsole ()
 {
@@ -206,14 +206,14 @@ public:
     PT::Entity::EntityManager* entmanager = PointerLibrary::getInstance()->getEntityManager();
     if(!entmanager) return;
 
-    PT::Entity::PtEntity* ent = entmanager->getOwnPtEntity();
+    PT::Entity::Entity* ent = entmanager->getOwnPtEntity();
     if(!ent)
     {
       parent->GetOutputConsole ()->PutText ("Your entity hasn't been created yet!\n");
       return;
     }
 
-    PT::Entity::PtPlayerEntity* ownent = static_cast<PT::Entity::PtPlayerEntity*>(ent);
+    PT::Entity::PlayerEntity* ownent = static_cast<PT::Entity::PlayerEntity*>(ent);
     if (args.GetSize() < 4)
     {
       Help();

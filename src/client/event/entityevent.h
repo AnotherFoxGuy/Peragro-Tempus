@@ -28,7 +28,7 @@
 #include "client/event/event.h"
 
 #include <physicallayer/datatype.h>
-#include "client/entity/ptentity.h"
+#include "client/entity/entity.h"
 
 namespace PT
 {
@@ -76,7 +76,7 @@ namespace PT
     class EntityAddEvent : public EntityEvent
     {
     public:
-      PT::Entity::PtEntity::EntityType entityType;
+      PT::Entity::EntityType entityType;
       std::string entityName;
       std::string meshName;
       unsigned int typeId;

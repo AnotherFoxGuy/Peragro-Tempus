@@ -25,7 +25,7 @@ namespace PT
   namespace Entity
   {
 
-    Equipment::Equipment(PtEntity* entity) : entity(entity)
+    Equipment::Equipment(Entity* entity) : entity(entity)
     {
     }
 

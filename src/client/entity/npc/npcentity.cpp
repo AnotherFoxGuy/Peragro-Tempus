@@ -30,12 +30,12 @@ namespace PT
   namespace Entity
   {
 
-    PtNpcEntity::PtNpcEntity(const Events::EntityAddEvent& ev) : PtCharacterEntity(ev)
+    NpcEntity::NpcEntity(const Events::EntityAddEvent& ev) : CharacterEntity(ev)
     {
       Create();
     }
 
-    void PtNpcEntity::Create()
+    void NpcEntity::Create()
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -76,7 +76,7 @@ namespace PT
       pclinmove->SetPosition(pos,0,sector);
     }
 
-    void PtNpcEntity::Interact()
+    void NpcEntity::Interact()
     {
       using namespace PT::Events;
       InterfaceInteract* interfaceEvent = new InterfaceInteract();

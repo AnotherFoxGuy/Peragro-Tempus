@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 #include "client/data/sector/sectormanager.h"
 
 #include <iutil/objreg.h>
@@ -122,7 +122,7 @@ namespace PT
       ProcessEvents();
     }
 
-    PtEntity* EntityManager::findPtEntById(unsigned int id)
+    Entity* EntityManager::findPtEntById(unsigned int id)
     {
       // TODO if id == 0 return 0;
       for (size_t i = 0; i < entities.GetSize(); i++)
@@ -183,15 +183,15 @@ namespace PT
         return true;
       }
 
-      PtEntity* entity;
+      Entity* entity;
 
-      if (entityAddEv->entityType == PtEntity::DoorEntity) entity = new PtDoorEntity(*entityAddEv);
-      else if (entityAddEv->entityType == PtEntity::ItemEntity) entity = new PtItemEntity(*entityAddEv);
-      else if (entityAddEv->entityType == PtEntity::MountEntity) entity = new PtMountEntity(*entityAddEv);
-      else if (entityAddEv->entityType == PtEntity::NPCEntity) entity = new PtNpcEntity(*entityAddEv);
-      else if (entityAddEv->entityType == PtEntity::PlayerEntity && own_char_id == entityAddEv->entityId)
+      if (entityAddEv->entityType == DoorEntityType) entity = new DoorEntity(*entityAddEv);
+      else if (entityAddEv->entityType == ItemEntityType) entity = new ItemEntity(*entityAddEv);
+      else if (entityAddEv->entityType == MountEntityType) entity = new MountEntity(*entityAddEv);
+      else if (entityAddEv->entityType == NPCEntityType) entity = new NpcEntity(*entityAddEv);
+      else if (entityAddEv->entityType == PCEntityType && own_char_id == entityAddEv->entityId)
       {
-        entity = PtPlayerEntity::Instance(entityAddEv);
+        entity = PlayerEntity::Instance(entityAddEv);
 
         // Set up own player cam and entity for faster access.
         csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
@@ -209,7 +209,7 @@ namespace PT
         owncelent = entity->GetCelEntity();
         ownname = entity->GetName();
       }
-      else if (entityAddEv->entityType == PtEntity::PlayerEntity) entity = new PtPcEntity(*entityAddEv);
+      else if (entityAddEv->entityType == PCEntityType) entity = new PcEntity(*entityAddEv);
       else
       {
         Report(PT::Error, "Invalid entity type: %d !", entityAddEv->entityType);
@@ -253,18 +253,18 @@ namespace PT
 
       Report(PT::Debug, "Equip for '%d': item %d in slot %d", entityEquipEv->entityId, entityEquipEv->itemId, entityEquipEv->slotId);
 
-      PtEntity* entity = findPtEntById(entityEquipEv->entityId);
+      Entity* entity = findPtEntById(entityEquipEv->entityId);
       if (entity)
       {
-        if (entity->GetType() == PtEntity::PlayerEntity)
+        if (entity->GetType() == PCEntityType)
         {
           if (!entityEquipEv->itemId == 0)
             {
-            ((PtPcEntity*) entity)->GetEquipment().Equip(entityEquipEv->slotId, entityEquipEv->itemId);
+            ((PcEntity*) entity)->GetEquipment().Equip(entityEquipEv->slotId, entityEquipEv->itemId);
             }
           else
             {
-            ((PtPcEntity*) entity)->GetEquipment().UnEquip(entityEquipEv->slotId);
+            ((PcEntity*) entity)->GetEquipment().UnEquip(entityEquipEv->slotId);
             }
         }
       }
@@ -279,13 +279,13 @@ namespace PT
       EntityMountEvent* entityMountEv = GetEntityEvent<EntityMountEvent*>(ev);
       if (!entityMountEv) return false;
 
-      PtEntity* entity = findPtEntById(entityMountEv->entityId);
-      PtEntity* mount = findPtEntById(entityMountEv->mountId);
+      Entity* entity = findPtEntById(entityMountEv->entityId);
+      Entity* mount = findPtEntById(entityMountEv->mountId);
       if (entity && mount)
       {
-        if (entity->GetType() == PtEntity::PlayerEntity && mount->GetType() == PtEntity::MountEntity)
+        if (entity->GetType() == PCEntityType && mount->GetType() == MountEntityType)
         {
-          PtMountEntity* m = static_cast<PtMountEntity*>(mount);
+          MountEntity* m = static_cast<MountEntity*>(mount);
           if (entityMountEv->mount)
             m->Mount(entity);
           else
@@ -311,7 +311,7 @@ namespace PT
         if (!pcprop) return false;
 
         unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
-        PtEntity* ptEnt = findPtEntById(id);
+        Entity* ptEnt = findPtEntById(id);
         if (!ptEnt) return false;
 
         ptEnt->Interact();

@@ -23,7 +23,7 @@
 
 #include <string>
 
-#include "client/entity/ptentity.h"
+#include "client/entity/entity.h"
 
 namespace PT
 {
@@ -35,11 +35,11 @@ namespace PT
       unsigned int id;
       unsigned int slotId;
       iCelEntity* itementity;
-      PtEntity* entity;
+      Entity* entity;
       std::string GetSocketName(unsigned int slotid);
 
     public:
-      EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId);
+      EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId);
       ~EquipedItem(){}
       unsigned int GetId(){ return id; }
       unsigned int GetSlotId() { return slotId; }

@@ -32,14 +32,14 @@ namespace PT
   namespace Entity
   {
 
-    PtItemEntity::PtItemEntity(const Events::EntityAddEvent& ev) : PtEntity(ev)
+    ItemEntity::ItemEntity(const Events::EntityAddEvent& ev) : Entity(ev)
     {
       itemid = ev.typeId;
 
       Create();
     }
 
-    void PtItemEntity::Create()
+    void ItemEntity::Create()
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -79,7 +79,7 @@ namespace PT
         Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %d!\n", id);
     }
 
-    void PtItemEntity::Interact()
+    void ItemEntity::Interact()
     {
       using namespace PT::Events;
       InterfaceInteract* interfaceEvent = new InterfaceInteract();

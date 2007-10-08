@@ -31,29 +31,29 @@ namespace PT
   namespace Entity
   {
 
-    PtPlayerEntity::PtPlayerEntity(const Events::EntityAddEvent& ev) : PtPcEntity(ev)
+    PlayerEntity::PlayerEntity(const Events::EntityAddEvent& ev) : PcEntity(ev)
     {
       Create();
     }
 
-    PtPlayerEntity* PtPlayerEntity::Instance(const Events::EntityAddEvent* ev)
+    PlayerEntity* PlayerEntity::Instance(const Events::EntityAddEvent* ev)
     {
-    static PtPlayerEntity* instance=NULL;
+    static PlayerEntity* instance=0;
 
     if (instance) return instance;
-    if (!ev) return false;
+    if (!ev) return 0;
 
-    instance = new PtPlayerEntity(*ev);
+    instance = new PlayerEntity(*ev);
     return instance;
     }
 
-    void PtPlayerEntity::Create()
+    void PlayerEntity::Create()
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
-      //At this time PtPlayerEntity's Create() method takes care of the appropriate
-      //stiff, so we only need to do this little thing.
+      //At this time PlayerEntity's Create() method takes care of the appropriate
+      //stuff, so we only need to do this little thing.
       pl->CreatePropertyClass(celentity, "pccamera.old");
     }
   }

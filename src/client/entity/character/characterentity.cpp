@@ -24,7 +24,7 @@ namespace PT
   namespace Entity
   {
 
-    PtCharacterEntity::PtCharacterEntity(const Events::EntityAddEvent& ev) : PtEntity(ev), equipment(this)
+    CharacterEntity::CharacterEntity(const Events::EntityAddEvent& ev) : Entity(ev), equipment(this)
     {
       maxStamina = 100;
       currentStamina = 100;
@@ -34,7 +34,7 @@ namespace PT
         equipment.Equip(ev.equipment.Get(i).slotId, ev.equipment.Get(i).itemId);
     }
 
-    void PtCharacterEntity::Move(MovementData* movement)
+    void CharacterEntity::Move(MovementData* movement)
     {
       if(!celentity.IsValid()) return;
       csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcActorMove);
@@ -67,7 +67,7 @@ namespace PT
       }
     }
 
-    bool PtCharacterEntity::MoveTo(MoveToData* moveTo)
+    bool CharacterEntity::MoveTo(MoveToData* moveTo)
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -120,7 +120,7 @@ namespace PT
       return true;
     }
 
-    void PtCharacterEntity::DrUpdate(DrUpdateData* drupdate)
+    void CharacterEntity::DrUpdate(DrUpdateData* drupdate)
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -141,7 +141,7 @@ namespace PT
       }
     }
 
-    void PtCharacterEntity::Teleport(csVector3 pos, csString sector)
+    void CharacterEntity::Teleport(csVector3 pos, csString sector)
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -153,7 +153,7 @@ namespace PT
       mov->SetPosition(pos);
     }
 
-    void PtCharacterEntity::SetCurrentStamina(unsigned int x)
+    void CharacterEntity::SetCurrentStamina(unsigned int x)
     {
       if (x >= 0 && x <= maxStamina) currentStamina = x;
     }

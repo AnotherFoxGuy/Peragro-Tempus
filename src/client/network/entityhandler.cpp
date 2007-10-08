@@ -22,7 +22,7 @@
 #include <propclass/prop.h>
 #include <physicallayer/propclas.h>
 
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
@@ -45,7 +45,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
-  entityEvent->entityType   = PT::Entity::PtEntity::NPCEntity;
+  entityEvent->entityType   = PT::Entity::NPCEntityType;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -63,7 +63,7 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   entityEvent->locked      = (entmsg.getIsLocked() != 0);
   entityEvent->open        = (entmsg.getIsOpen() != 0);
   entityEvent->entityId    = entmsg.getEntityId();
-  entityEvent->entityType  = PT::Entity::PtEntity::DoorEntity;
+  entityEvent->entityType  = PT::Entity::DoorEntityType;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -283,7 +283,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
-  entityEvent->entityType   = PT::Entity::PtEntity::PlayerEntity;
+  entityEvent->entityType   = PT::Entity::PCEntityType;
 
   unsigned char itemCount = entmsg.getEquipmentCount();
   for (unsigned char i = 0; i < itemCount; i++)
@@ -317,7 +317,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
-  entityEvent->entityType   = PT::Entity::PtEntity::ItemEntity;
+  entityEvent->entityType   = PT::Entity::ItemEntityType;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -337,7 +337,7 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   entityEvent->position     = pos;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
-  entityEvent->entityType   = PT::Entity::PtEntity::MountEntity;
+  entityEvent->entityType   = PT::Entity::MountEntityType;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

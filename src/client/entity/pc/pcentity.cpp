@@ -30,12 +30,12 @@ namespace PT
   namespace Entity
   {
 
-    PtPcEntity::PtPcEntity(const Events::EntityAddEvent& ev) : PtCharacterEntity(ev)
+    PcEntity::PcEntity(const Events::EntityAddEvent& ev) : CharacterEntity(ev)
     {
       Create();
     }
 
-    void PtPcEntity::Create()
+    void PcEntity::Create()
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
@@ -83,7 +83,7 @@ namespace PT
       GetEquipment().ConstructMeshes();
     }
 
-    void PtPcEntity::Interact()
+    void PcEntity::Interact()
     {
       using namespace PT::Events;
       InterfaceInteract* interfaceEvent = new InterfaceInteract();

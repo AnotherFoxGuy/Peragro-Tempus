@@ -19,7 +19,7 @@
 #ifndef PTCHARACTERENTITY_H
 #define PTCHARACTERENTITY_H
 
-#include "client/entity/ptentity.h"
+#include "client/entity/entity.h"
 
 #include "client/entity/character/equipment/equipment.h"
 
@@ -27,16 +27,16 @@ namespace PT
 {
   namespace Entity
   {
-    class PtCharacterEntity : public PtEntity
+    class CharacterEntity : public Entity
     {
     private:
       Equipment equipment;
 
     protected:
-      PtCharacterEntity() : equipment(this) {}
-      PtCharacterEntity(const Events::EntityAddEvent& ev);
+      CharacterEntity() : equipment(this) {}
+      CharacterEntity(const Events::EntityAddEvent& ev);
 
-      virtual ~PtCharacterEntity() {}
+      virtual ~CharacterEntity() {}
 
       unsigned int maxStamina;
       unsigned int currentStamina;

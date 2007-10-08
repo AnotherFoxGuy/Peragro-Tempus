@@ -33,7 +33,7 @@
 #include <physicallayer/datatype.h>
 #include <propclass/quest.h>
 
-#include "client/entity/ptentity.h"
+#include "client/entity/entity.h"
 #include "client/entity/pc/pcentity.h"
 #include "client/entity/npc/npcentity.h"
 #include "client/entity/door/doorentity.h"

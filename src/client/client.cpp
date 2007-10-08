@@ -62,7 +62,7 @@
 #include "client/data/door/doormanager.h"
 #include "client/data/item/itemmanager.h"
 #include "client/data/sector/sectormanager.h"
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
 
@@ -164,7 +164,7 @@ namespace PT
     {
       if (entitymanager)
       {
-        PT::Entity::PtCharacterEntity *character = (PT::Entity::PtCharacterEntity *) entitymanager->getOwnPtEntity();
+        PT::Entity::CharacterEntity *character = (PT::Entity::CharacterEntity *) entitymanager->getOwnPtEntity();
         if (character)
         {
           int currentStamina = character->GetCurrentStamina();
@@ -913,7 +913,7 @@ namespace PT
         csRef<iPcProperties> pcprop;
         if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
         if (!pcprop) return false;
-        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PT::Entity::PtEntity::PlayerEntity)
+        if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PT::Entity::PCEntityType)
         {
           combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         }
@@ -1070,12 +1070,12 @@ namespace PT
       if (!pcprop) return false;
 
       // If it's a mount, mount it.
-      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PT::Entity::PtEntity::MountEntity)
+      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PT::Entity::MountEntityType)
       {
-        PT::Entity::PtEntity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        PT::Entity::Entity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         if(!ent) return false;
 
-        PT::Entity::PtMountEntity* mount = static_cast<PT::Entity::PtMountEntity*>(ent);
+        PT::Entity::MountEntity* mount = static_cast<PT::Entity::MountEntity*>(ent);
         if(!mount->isMounted())
         {
           MountRequestMessage msg;

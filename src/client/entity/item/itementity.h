@@ -19,13 +19,13 @@
 #ifndef PTITEMENTITY_H
 #define PTITEMENTITY_H
 
-#include "client/entity/ptentity.h"
+#include "client/entity/entity.h"
 
 namespace PT
 {
   namespace Entity
   {
-    class PtItemEntity : public PtEntity
+    class ItemEntity : public Entity
     {
     private:
       unsigned int itemid;
@@ -33,7 +33,7 @@ namespace PT
       void Create();
 
     public:
-      PtItemEntity(const Events::EntityAddEvent& ev);
+      ItemEntity(const Events::EntityAddEvent& ev);
 
       int GetItemId () const { return itemid; }
       void SetItemId (unsigned int value) { itemid = value; }

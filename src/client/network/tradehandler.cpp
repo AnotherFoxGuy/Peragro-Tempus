@@ -22,7 +22,7 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 
 #include "client/reporter/reporter.h"
 
@@ -33,7 +33,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   TradeRequestMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
-  PT::Entity::PtEntity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(trade_msg.getEntityId());
+  PT::Entity::Entity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(trade_msg.getEntityId());
   if(!ent) return;
 
   char buffer[1024];

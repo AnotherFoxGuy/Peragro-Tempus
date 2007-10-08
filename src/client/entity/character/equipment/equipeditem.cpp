@@ -39,7 +39,7 @@ namespace PT
   namespace Entity
   {
 
-    EquipedItem::EquipedItem(PtEntity* entity, unsigned int slotId, unsigned int itemId)
+    EquipedItem::EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId)
     {
       this->id         = itemId;
       this->slotId     = slotId;

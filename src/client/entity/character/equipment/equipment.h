@@ -31,7 +31,7 @@ namespace PT
     {
     private:
       csArray<EquipedItem*> equipment;
-      PtEntity* entity;
+      Entity* entity;
       /*
       Checks if an item with the slotname exists,
       if so delete it and add the new item.
@@ -40,12 +40,12 @@ namespace PT
       void RemoveItem(unsigned int slotid);
 
     public:
-      Equipment(PtEntity* entity);
+      Equipment(Entity* entity);
       ~Equipment() {}
       void Equip(unsigned int slotId, unsigned int itemId);
       void UnEquip(unsigned int slotId);
 
-      PtEntity* GetEntity() { return entity; }
+      Entity* GetEntity() { return entity; }
       void ClearAll(); // Destructs all meshes and wipes the array.
       void ConstructMeshes(); // Constructs meshes for all equiped items.
       void DestructMeshes(); // Handy for LOD purposes.

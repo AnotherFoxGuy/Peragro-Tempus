@@ -29,7 +29,7 @@ namespace PT
 {
   namespace Entity
   {
-    class PtMountEntity : public PtCharacterEntity
+    class MountEntity : public CharacterEntity
     {
     private:
       bool mounted;
@@ -37,11 +37,11 @@ namespace PT
       void Create();
 
     public:
-      PtMountEntity(const Events::EntityAddEvent& ev);
-      ~PtMountEntity(){}
+      MountEntity(const Events::EntityAddEvent& ev);
+      ~MountEntity(){}
 
-      void Mount(PtEntity* player);
-      void UnMount(PtEntity* player);
+      void Mount(Entity* player);
+      void UnMount(Entity* player);
 
       bool isMounted() const { return mounted; }
     };

@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 
 #include "client/combat/combatmanager.h"
 
@@ -87,7 +87,7 @@ void CombatMGR::hit (int targetId, int damage)
 {
   // Lookup the ID to get the actual entity.
   //iCelEntity* target = entitymgr->findCelEntById(targetId);
-  PT::Entity::PtEntity* target = entitymgr->findPtEntById(targetId);
+  PT::Entity::Entity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
   {

@@ -33,7 +33,7 @@
 #include "client/data/item/itemmanager.h"
 #include "client/gui/common/slot.h"
 
-#include "client/entity/ptentitymanager.h"
+#include "client/entity/entitymanager.h"
 
 
 class Network;

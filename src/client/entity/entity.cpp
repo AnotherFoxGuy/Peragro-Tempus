@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "ptentity.h"
+#include "entity.h"
 
 #include "client/pointer/pointer.h"
 #include "client/event/entityevent.h"
@@ -26,7 +26,7 @@ namespace PT
 {
   namespace Entity
   {
-    PtEntity::PtEntity(const Events::EntityAddEvent& ev)
+    Entity::Entity(const Events::EntityAddEvent& ev)
     {
       id = ev.entityId;
       type = ev.entityType;
@@ -37,7 +37,7 @@ namespace PT
       celentity = 0;
     }
 
-    void PtEntity::CreateCelEntity()
+    void Entity::CreateCelEntity()
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);

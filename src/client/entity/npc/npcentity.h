@@ -27,15 +27,15 @@ namespace PT
 {
   namespace Entity
   {
-    class PtNpcEntity : public PtCharacterEntity
+    class NpcEntity : public CharacterEntity
     {
     private:
       void Create();
 
     public:
-      PtNpcEntity(const Events::EntityAddEvent& ev);
+      NpcEntity(const Events::EntityAddEvent& ev);
 
-      virtual ~PtNpcEntity(){}
+      virtual ~NpcEntity(){}
 
       void Interact();
     };

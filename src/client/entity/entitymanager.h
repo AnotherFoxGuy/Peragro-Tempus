@@ -33,7 +33,7 @@
 #include <physicallayer/datatype.h>
 #include <propclass/quest.h>
 
-#include "client/entity/ptentity.h"
+#include "client/entity/entity.h"
 #include "client/entity/pc/pcentity.h"
 #include "client/entity/player/playerentity.h"
 #include "client/entity/npc/npcentity.h"
@@ -61,7 +61,7 @@ namespace PT
     class EntityManager
     {
     private:
-      csPDelArray<PtEntity> entities;
+      csPDelArray<Entity> entities;
 
       csRef<iEngine> engine;
       csRef<iVFS> vfs;
@@ -82,7 +82,7 @@ namespace PT
       unsigned int own_char_id;
       csWeakRef<iPcDefaultCamera> owncam;
       csWeakRef<iCelEntity> owncelent;
-      PtEntity* ownent;
+      Entity* ownent;
       csString ownname;
 
     private:
@@ -107,13 +107,13 @@ namespace PT
       bool OnInteract(PT::Events::Eventp ev);
 
       iCelEntity* findCelEntById(unsigned int id);
-      PtEntity* findPtEntById(unsigned int id);
+      Entity* findPtEntById(unsigned int id);
 
       bool SetOwnId(PT::Events::Eventp ev);
 
       iPcDefaultCamera* getOwnCamera() { return owncam; }
       iCelEntity* getOwnCelEntity() { return owncelent; }
-      PtEntity* getOwnPtEntity() { return ownent; }
+      Entity* getOwnPtEntity() { return ownent; }
       unsigned int GetOwnId() { return own_char_id; }
       csString GetOwnName() { return ownname; }
 
