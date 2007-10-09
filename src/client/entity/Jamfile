@@ -19,4 +19,4 @@ Library client-entitymanager :
   [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ] 
   [ Wildcard [ ConcatDirs door ] : *.h *.cpp ] 
   [ Wildcard [ ConcatDirs item ] : *.h *.cpp ] ;
-ExternalLibs client-entitymanager : CRYSTAL CEL BOOST ;
+ExternalLibs client-entitymanager : CEGUI CRYSTAL CEL BOOST ;
