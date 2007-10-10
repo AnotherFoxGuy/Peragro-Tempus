@@ -1,7 +1,85 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <library>
     <addon plugin='cel.addons.questdef'>
-      <quest name='PropDoor'>
+      <!--===================================-->
+      <!--Standard house door opening outward-->
+      <!--===================================-->
+      <quest name='HouseDoorOutward'>
+        <default name='angle_open' value='1.7'/>
+        <default name='angle_close' value='-1.7'/>
+        <default name='duration' value='500'/>
+        <default name='property' value='Door Open'/>
+        <state name='closed'>
+          <trigger type='propertychange'>
+            <fireon property='Door Open' value='1' entity='$this'/>
+            <reward message='Door opens outward!' type='debugprint'/>
+            <reward sequence='closedoor' type='sequencefinish' entity='$this'/>
+            <reward sequence='opendoor' type='sequence' entity='$this'/>
+            <reward state='opened' type='newstate'/>
+          </trigger>
+        </state>
+        <state name='opened'>
+          <trigger type='propertychange'>
+            <fireon property='Door Open' value='0' entity='$this'/>
+            <reward message='Door closes!' type='debugprint'/>
+            <reward sequence='opendoor' type='sequencefinish' entity='$this'/>
+            <reward sequence='closedoor' type='sequence' entity='$this'/>
+            <reward state='closed' type='newstate'/>
+          </trigger>
+        </state>
+        <sequence name='opendoor'>
+          <op duration='$duration' type='transform' entity='$this'>
+            <roty angle='$angle_open' />
+          </op>
+        </sequence>
+        <sequence name='closedoor'>
+          <op duration='$duration' type='transform' entity='$this'>
+            <roty angle='$angle_close' />
+          </op>
+        </sequence>
+      </quest>
+      <!--===================================-->
+      <!--Standard house door opening inward-->
+      <!--===================================-->
+      <quest name='HouseDoorInward'>
+        <default name='angle_open' value='-1.7'/>
+        <default name='angle_close' value='1.7'/>
+        <default name='duration' value='500'/>
+        <default name='property' value='Door Open'/>
+        <state name='closed'>
+          <trigger type='propertychange'>
+            <fireon property='Door Open' value='1' entity='$this'/>
+            <reward message='Door opens inward!' type='debugprint'/>
+            <reward sequence='closedoor' type='sequencefinish' entity='$this'/>
+            <reward sequence='opendoor' type='sequence' entity='$this'/>
+            <reward state='opened' type='newstate'/>
+          </trigger>
+        </state>
+        <state name='opened'>
+          <trigger type='propertychange'>
+            <fireon property='Door Open' value='0' entity='$this'/>
+            <reward message='Door closes!' type='debugprint'/>
+            <reward sequence='opendoor' type='sequencefinish' entity='$this'/>
+            <reward sequence='closedoor' type='sequence' entity='$this'/>
+            <reward state='closed' type='newstate'/>
+          </trigger>
+        </state>
+        <sequence name='opendoor'>
+          <op duration='$duration' type='transform' entity='$this'>
+            <roty angle='$angle_open' />
+          </op>
+        </sequence>
+        <sequence name='closedoor'>
+          <op duration='$duration' type='transform' entity='$this'>
+            <!--This will rotate the doors around the Y axis for a bit more than 90 degrees-->
+            <roty angle='$angle_close' />
+          </op>
+        </sequence>
+      </quest>
+      <!--===================-->
+      <!--Gate opening upward-->
+      <!--===================-->
+      <quest name='GateUpward'>
         <default name='x_on' value='0'/>
         <default name='x_off' value='0'/>
         <default name='y_on' value='3'/>
@@ -13,7 +91,7 @@
         <state name='closed'>
           <trigger type='propertychange'>
             <fireon property='Door Open' value='1' entity='$this'/>
-            <reward message='Door Opens!' type='debugprint'/>
+            <reward message='Gate opens upward!' type='debugprint'/>
             <reward sequence='closedoor' type='sequencefinish' entity='$this'/>
             <reward sequence='opendoor' type='sequence' entity='$this'/>
             <reward state='opened' type='newstate'/>
@@ -22,7 +100,7 @@
         <state name='opened'>
           <trigger type='propertychange'>
             <fireon property='Door Open' value='0' entity='$this'/>
-            <reward message='Door Closes!' type='debugprint'/>
+            <reward message='Gate closes!' type='debugprint'/>
             <reward sequence='opendoor' type='sequencefinish' entity='$this'/>
             <reward sequence='closedoor' type='sequence' entity='$this'/>
             <reward state='closed' type='newstate'/>
@@ -30,12 +108,12 @@
         </state>
         <sequence name='opendoor'>
           <op duration='$duration' type='transform' entity='$this'>
-            <v y='$y_on' x='$x_on' z='$z_on'/>
+            <v y="$y_on" x="$x_on" z="$z_on"/>
           </op>
         </sequence>
         <sequence name='closedoor'>
           <op duration='$duration' type='transform' entity='$this'>
-            <v y='$y_off' x='$x_off' z='$z_off'/>
+            <v y="$y_off" x="$x_off" z="$z_off"/>
           </op>
         </sequence>
       </quest>

@@ -10,6 +10,9 @@ under each day.
    instance, destroying the old one.
  - azaghal added hackish hopping effect to first-person view (change limitFPS
    in PT::Client constructor to something sane to see it).
+ - azaghal added support for different door open/close animations. Added
+   support for door opening inwards/outwards, and changed the code and data
+   appropriately.
 
 08-Oct-2007
  - azaghal moved "low-level" object initialization from PtEntityManager to

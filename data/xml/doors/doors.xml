@@ -8,15 +8,17 @@
 		<position x="27.9388713837" y="179.982452393" z="-6.57791852951"/>
 		<sector>room</sector>
 		<keyId>7</keyId>
-	</door>
-	
+    <quest>GateUpward</quest>
+  </door>
+
 	<door>
 		<id>2</id>
 		<name>Door</name>
 		<mesh>house016_devhouse_house016door</mesh>
 		<position x="85.2472610474" y="2.34153294563" z="2.31262850761"/>
 		<sector>room</sector>
-		<keyId>7</keyId>
+    <keyId>7</keyId>
+    <quest>HouseDoorOutward</quest>
 	</door>
-	
+
 </doors>

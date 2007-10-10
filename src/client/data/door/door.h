@@ -40,16 +40,18 @@ namespace PT
       csVector3 position;
       csString sectorname;
       unsigned int keyId;
+      csString quest;
 
     public:
       Door() {}
       ~Door() {}
       unsigned int GetId() { return id; }
       csString GetName() { return name; }
-      csString GetMeshName() { return meshname;}
-      csVector3 GetPosition() { return position;}
-      csString GetSectorName() { return sectorname;}
-      unsigned int GetKeyId() { return keyId;} 
+      csString GetMeshName() { return meshname; }
+      csVector3 GetPosition() { return position; }
+      csString GetSectorName() { return sectorname; }
+      unsigned int GetKeyId() { return keyId; }
+      csString GetQuest() { return quest; }
 
       void SetId(unsigned int value) { this->id = value; }
       void SetName(csString value) { this->name = value; }
@@ -57,9 +59,10 @@ namespace PT
       void SetPosition(csVector3 value) { this->position = value; }
       void SetSectorName(csString value) { this->sectorname = value; }
       void SetKeyId(unsigned int value) { this->keyId = value; }
+      void SetQuest(csString value) { this->quest = value; }
     };
 
-  } // Data namespace 
-} // PT namespace 
+  } // Data namespace
+} // PT namespace
 
 #endif // DATA_DOOR_H

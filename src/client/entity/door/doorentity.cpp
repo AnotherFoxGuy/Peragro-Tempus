@@ -73,7 +73,7 @@ namespace PT
         pl->CreatePropertyClass(celentity, "pcquest");
         csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celentity, iPcQuest);
         celQuestParams parameters;
-        pcquest->NewQuest("PropDoor",parameters);
+        pcquest->NewQuest(door->GetQuest().GetData(),parameters);
         pcquest->GetQuest()->SwitchState("closed");
       }
       else

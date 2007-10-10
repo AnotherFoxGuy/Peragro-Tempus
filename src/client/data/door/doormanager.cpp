@@ -83,7 +83,8 @@ namespace PT
         csRef<iDocumentNode> pos         = child->GetNode ("position");
         csRef<iDocumentNode> sector      = child->GetNode ("sector");
         csRef<iDocumentNode> keyId       = child->GetNode ("keyId");
-        
+        csRef<iDocumentNode> quest       = child->GetNode ("quest");
+
 
         if (!id || !name || !mesh || !pos || !sector || !keyId)
         {
@@ -95,6 +96,7 @@ namespace PT
           if(!pos) error += "<position x="" y="" z=""/";
           if(!sector) error += "<sector>";
           if(!keyId) error += "<keyId>";
+          if(!quest) error += "<quest>";
 
           Report(PT::Error, "DoorManager: Missing %s token(s) for %s!", error.GetData(), good.GetData());
           continue;
@@ -102,14 +104,15 @@ namespace PT
 
         Door* door = new Door();
 
-        door->SetId(id->GetContentsValueAsInt()); 
-        door->SetName((csString)name->GetContentsValue ()); 
+        door->SetId(id->GetContentsValueAsInt());
+        door->SetName((csString)name->GetContentsValue ());
         door->SetMeshName((csString)mesh->GetContentsValue ());
         door->SetPosition(csVector3(pos->GetAttributeValueAsFloat("x"),
                                     pos->GetAttributeValueAsFloat("y"),
-                                    pos->GetAttributeValueAsFloat("z"))); 
-        door->SetSectorName((csString)sector->GetContentsValue ()); 
-        door->SetKeyId(keyId->GetContentsValueAsInt()); 
+                                    pos->GetAttributeValueAsFloat("z")));
+        door->SetSectorName((csString)sector->GetContentsValue ());
+        door->SetKeyId(keyId->GetContentsValueAsInt());
+        door->SetQuest((csString)quest->GetContentsValue());
 
         if (door->GetId() >= doors.Capacity())
           doors.SetCapacity(door->GetId()+1);
@@ -145,5 +148,5 @@ namespace PT
       return 0;
     }
 
-  } // Data namespace 
-} // PT namespace 
+  } // Data namespace
+} // PT namespace
