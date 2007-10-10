@@ -54,7 +54,7 @@
 #include "client/input/inputmanager.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 struct iPcDefaultCamera;
@@ -79,27 +79,27 @@ namespace PT
     class ItemManager;
     class EffectsManager;
     class SectorManager;
-  } // Data namespace 
+  } // Data namespace
 
   namespace Entity
   {
     class EntityManager;
-  } // Entity namespace 
+  } // Entity namespace
 
   namespace Events
   {
     class EventManager;
-  } // Events namespace 
+  } // Events namespace
 
   namespace Chat
   {
     class ChatManager;
-  } // Chat namespace 
+  } // Chat namespace
 
   namespace Trade
   {
     class TradeManager;
-  } // Trade namespace 
+  } // Trade namespace
 
   class Reporter;
 
@@ -164,7 +164,7 @@ namespace PT
     Reporter* reporter;
     Network* network;
     GUIManager* guimanager;
-    
+
     PT::Entity::EntityManager* entitymanager;
     CombatMGR* combatmanager;
 
@@ -181,37 +181,19 @@ namespace PT
     PT::Chat::ChatManager* chatmanager;
     PT::Trade::TradeManager* trademanager;
 
-    bool ActionForward(PT::Events::Eventp);
-    bool ActionBackward(PT::Events::Eventp);
-    bool ActionLeft(PT::Events::Eventp);
-    bool ActionRight(PT::Events::Eventp);
-    bool ActionToggleWalk(PT::Events::Eventp);
-    bool ActionToggleRun(PT::Events::Eventp);
-    bool ActionPanUp(PT::Events::Eventp);
-    bool ActionPanDown(PT::Events::Eventp);
-    bool ActionToggleCamera(PT::Events::Eventp);
-    bool ActionToggleDistClipping(PT::Events::Eventp);
     bool ActionHit(PT::Events::Eventp);
     bool ActionActivateSkill(PT::Events::Eventp);
-    bool ActionActivateWeapon(PT::Events::Eventp);
     bool ActionQuit(PT::Events::Eventp);
-    bool DoAction();
     bool ActionMoveTo(PT::Events::Eventp);
     bool ActionOnInteract(PT::Events::Eventp ev);
-    bool ActionZoomIn(PT::Events::Eventp ev);
-    bool ActionZoomOut(PT::Events::Eventp ev);
     bool Quit(const CEGUI::EventArgs &args);
     bool NoQuit(const CEGUI::EventArgs &args);
 
   private:
     bool playing;
-    char walk, turn;
-    bool run;
     Mutex mutex;
     csTicks timer;
     iSector *room;
-    float rotX, rotY;
-    float cameradistance;
     bool world_loaded;
     int limitFPS;
     csTicks last_sleep;
@@ -244,7 +226,7 @@ namespace PT
     void sawServer();
 
     csTicks GetTicks() { return csGetTicks(); }
-    void DrawFrame () 
+    void DrawFrame ()
     {
       PreProcessFrame();
       ProcessFrame();
@@ -253,6 +235,6 @@ namespace PT
     }
   };
 
-} // PT namespace 
+} // PT namespace
 
 #endif // CLIENT_H
