@@ -30,6 +30,12 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/chat-gui.h"
 
+//These defines should probably go to configuration file
+#define WALK_PPS 0.01
+#define WALK_PITCH_RANGE 0.02
+#define RUN_PPS 0.06
+#define RUN_PITCH_RANGE 0.01
+
 namespace PT
 {
 
@@ -45,6 +51,10 @@ namespace PT
       run = false;
       ready = true; //This should be replaced by some external StateManager. We already have things like this in several places
       cameraDistance = 3.0;
+      pitchDirection = 1;
+      pitchPerSecond = WALK_PPS;
+      pitchRange = WALK_PITCH_RANGE;
+      currentPitch = 0;
 
       //Register actions for events
       using namespace PT::Events;
@@ -139,10 +149,8 @@ namespace PT
         InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
         if (!inputEv) return false;
 
-        if (!inputEv->released)
-          walk = 1;
-        else
-          walk = 0;
+        if (!inputEv->released) walk = 1;
+        else walk = 0;
       }
       PerformMovementAction();
 
@@ -158,10 +166,8 @@ namespace PT
         InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
         if (!inputEv) return false;
 
-        if (!inputEv->released)
-          walk = -1;
-        else
-          walk = 0;
+        if (!inputEv->released) walk = -1;
+        else walk = 0;
       }
       PerformMovementAction();
 
@@ -177,10 +183,8 @@ namespace PT
         InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
         if (!inputEv) return false;
 
-        if (!inputEv->released)
-          turn = -1;
-        else
-          turn = 0;
+        if (!inputEv->released) turn = -1;
+        else turn = 0;
       }
       PerformMovementAction();
 
@@ -196,10 +200,8 @@ namespace PT
         InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
         if (!inputEv) return false;
 
-        if (!inputEv->released)
-          turn = 1;
-        else
-          turn = 0;
+        if (!inputEv->released) turn = 1;
+        else turn = 0;
       }
       PerformMovementAction();
 
@@ -215,10 +217,7 @@ namespace PT
         InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
         if (!inputEv) return false;
 
-        if (!inputEv->released)
-        {
-          (walk == 0) ? walk = 1 : walk = 0;
-        }
+        if (!inputEv->released) (walk == 0) ? walk = 1 : walk = 0;
       }
       PerformMovementAction();
 
@@ -236,7 +235,20 @@ namespace PT
 
         if (!inputEv->released)
         {
-          (run == 0) ? run = 1 : run = 0;
+          if (run==false)
+          {
+            run = true;
+            //Setup values needed for hopping during run
+            pitchRange = RUN_PITCH_RANGE;
+            pitchPerSecond = RUN_PPS;
+          }
+          else
+          {
+            run = false;
+            //Setup values needed for hopping during walk
+            pitchRange = WALK_PITCH_RANGE;
+            pitchPerSecond = WALK_PPS;
+          }
         }
       }
       PerformMovementAction();
@@ -395,6 +407,29 @@ namespace PT
       PointerLibrary::getInstance()->getNetwork()->send(&msg);
 
       return true;
+    }
+    void PlayerEntity::CameraDraw(unsigned int fpsLimit)
+    {
+      if (!camera.IsValid()) return;
+
+      //If moving in first person view, add the hopping effect
+      //TODO: It would be nice to have the screen move a bit to left and to right as well
+      //TODO: It would be nice to implement our own camera mode that will perform this.
+      if (camera->GetMode()==iPcDefaultCamera::firstperson && walk!=0)
+      {
+        if (fpsLimit==0) fpsLimit=1000; //divide by zero problem
+        //Our pitch moves in range [-pitchRange; pitchRange]. When we break
+        //through those values, change the direction of pitch change.
+        if (currentPitch >= pitchRange) pitchDirection = -1;
+        else if (currentPitch <= -pitchRange) pitchDirection = 1;
+
+        //Pitch up or pitch down, depending on pitch direction.
+        currentPitch+=pitchDirection*pitchPerSecond/(float) fpsLimit;
+
+        //Update the camera pitch finally
+        camera->SetPitch(currentPitch);
+      }
+      camera->Draw();
     }
   } //Entity namespace
 } //PT namespace

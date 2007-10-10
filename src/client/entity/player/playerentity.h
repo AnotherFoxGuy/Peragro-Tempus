@@ -45,6 +45,10 @@ namespace PT
       bool run; /**<Determines if player is running or not.*/
       bool ready; /**<Determines if the client is ready for movement and other actions or not.*/
       float cameraDistance; /**<Distance between camera and player entity, aka zoom.*/
+      float currentPitch; /**<Current pitch offset for hopping while walking and running.*/
+      float pitchPerSecond; /**<Pitch per second change for pitch offset while walking and running.*/
+      float pitchRange; /**<Pitch offset range for hopping while walking and running.*/
+      int pitchDirection; /**<"Direction" in which the offset should be changed (ie adding or substracting from it).*/
 
       PlayerEntity(const Events::EntityAddEvent& ev);
 
@@ -91,6 +95,13 @@ namespace PT
        * @return Returns the player entity's camera.
        */
       iPcDefaultCamera* GetCamera() { return camera; }
+
+      /**
+       * Draws player's camera view.
+       * @todo We need a reliable way for determining FPS. The hopping effect doesn't work for PT::Client::ActionMoveTo()
+       * @param fpsLimit FPS limit used for calculating hopping while walking or running.
+       */
+      void CameraDraw(unsigned int fpsLimit=1000);
     };
   }
 }

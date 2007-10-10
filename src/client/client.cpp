@@ -153,10 +153,10 @@ namespace PT
     handleStates();
 
     // Draw the player camera manually.
-    csRef<iPcDefaultCamera> cam;
-    if (Entity::PlayerEntity::Instance())
-      cam = Entity::PlayerEntity::Instance()->GetCamera();
-    if (cam.IsValid()) cam->Draw();
+    // To get the hopping effect, change the limitFPS attribute in constructor to something sane,
+    // like 50 FPS or so.
+    //TODO: Implement some way of getting the current FPS, and pass that instead of limit.
+    if (Entity::PlayerEntity::Instance()) Entity::PlayerEntity::Instance()->CameraDraw(limitFPS);
 
     if (state == STATE_PLAY)
     {
