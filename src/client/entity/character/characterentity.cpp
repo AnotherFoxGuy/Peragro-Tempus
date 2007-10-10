@@ -17,6 +17,11 @@
 */
 
 #include "characterentity.h"
+
+#include <imesh/genmesh.h>
+#include <imesh/gmeshskel2.h>
+#include <imesh/skeleton.h>
+
 #include "client/event/entityevent.h"
 
 #include "client/reporter/reporter.h"
@@ -46,7 +51,7 @@ namespace PT
         pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
         pcactormove->SetMovementSpeed(abs((int)movement->walk));
         pcactormove->SetRunningSpeed(abs((int)movement->walk));
-        pcactormove->SetRotationSpeed(movement->run ? PI : 2*PI);
+        pcactormove->SetRotationSpeed(movement->run ? PI : PI);
 
         pcactormove->RotateLeft(movement->turn < 0.0f);
         pcactormove->RotateRight(movement->turn > 0.0f);
@@ -164,6 +169,19 @@ namespace PT
     {
       //When you implement this, remove the include for reporter if you're not using it
       Report(PT::Error, "Implement the bloody pose No. '%d' for mesh '%s', you silly twat!", poseId, meshname.GetData());
+      if (poseId == 1)
+      {
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+        csRef<iGeneralMeshState> spstate (
+          scfQueryInterface<iGeneralMeshState> (pcmesh->GetMesh()->GetMeshObject ()));
+        csRef<iGenMeshSkeletonControlState> animcontrol (
+          scfQueryInterface<iGenMeshSkeletonControlState> (spstate->GetAnimationControl ()));
+
+        iSkeleton* skeleton = animcontrol->GetSkeleton ();
+
+        skeleton->Execute("hit", 0.5f);
+      }
+
     }
   }
 }
