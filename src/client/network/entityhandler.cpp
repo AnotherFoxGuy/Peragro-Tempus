@@ -376,4 +376,15 @@ void EntityHandler::handleUnmount(GenericMessage* msg)
 
 void EntityHandler::handlePose(GenericMessage* msg)
 {
+  PoseMessage poseMsg;
+
+  poseMsg.deserialise(msg->getByteStream());
+
+  using namespace PT::Events;
+  EntityPoseEvent* poseEvent = new EntityPoseEvent();
+
+  poseEvent->entityId = poseMsg.getEntityId();
+  poseEvent->poseId = poseMsg.getPoseId();
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(poseEvent);
 }

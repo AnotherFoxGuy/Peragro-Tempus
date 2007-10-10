@@ -80,6 +80,8 @@ namespace PT
       PointerLibrary::getInstance()->getEventManager()->AddListener("EntityEquipEvent", cb);
       // Register listener for EntityEquipEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("EntityMountEvent", cb);
+      // Register listener for EntityPoseEvent.
+      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityPoseEvent", cb);
 
       // Register listener for EntityEquipEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("StatePlayEvent", cb);
@@ -106,6 +108,8 @@ namespace PT
           Equip(ev);
         else if (ev->GetEventID().compare("EntityMountEvent") == 0)
           Mount(ev);
+        else if (ev->GetEventID().compare("EntityPoseEvent") == 0)
+          EntityPose(ev);
 
         else if (ev->GetEventID().compare("StatePlayEvent") == 0)
           SetOwnId(ev);
@@ -350,6 +354,19 @@ namespace PT
           }
         }
       }
+    }
+
+    bool EntityManager::EntityPose(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
+      Report(PT::Debug, "I got something here");
+      EntityPoseEvent* entPoseEvent = GetEntityEvent<EntityPoseEvent*>(ev);
+      if (!entPoseEvent) return false;
+
+      Entity* entity = findPtEntById(entPoseEvent->entityId);
+      if (entity) entity->Pose(entPoseEvent->poseId);
+
+      return true;
     }
 
   } // Entity namespace

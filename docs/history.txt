@@ -13,6 +13,7 @@ under each day.
  - azaghal added support for different door open/close animations. Added
    support for door opening inwards/outwards, and changed the code and data
    appropriately.
+ - azaghal finished implementation of basic client-side support for poses.
 
 08-Oct-2007
  - azaghal moved "low-level" object initialization from PtEntityManager to

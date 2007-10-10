@@ -230,6 +230,7 @@ namespace PT
     reporter= new Reporter (GetObjectRegistry());
     if (!reporter) return ReportError("Error loading Reporter!");
     reporter->Initialize();
+    reporter->SetLoggingLevel(PT::Insane);
     //pointerlib.setReporter(reporter);
 
 #ifdef CS_STATIC_LINKED

@@ -53,6 +53,7 @@ namespace PT
       void SetMaxStamina(unsigned int x) { maxStamina = x; }
 
       Equipment& GetEquipment() {return equipment;}
+      void Pose(unsigned int poseId);
     };
   }
 }

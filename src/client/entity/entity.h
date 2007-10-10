@@ -91,8 +91,12 @@ namespace PT
       MountEntityType=4
     };
 
+    /**
+     * All entities are dervied from this class. This class provides an
+     * abstract mechanism for handling various operations on entities.
+     */
     class Entity
-    {  
+    {
     protected:
       unsigned int id;
       EntityType type;
@@ -138,7 +142,13 @@ namespace PT
       virtual void Teleport(csVector3 pos, csString sector) {}
       virtual void UpdatePcProp(UpdatePcPropData* update_pcprop) {}
       virtual void Interact() {}
-
+      /**
+       * Overload this method in children for activating "pose" animation on
+       * entities, like waving, shaking head etc.
+       * @todo We need to introduce some kind of "PoseManager" in order to acommodate new poses easily.
+       * @param poseId ID of the pose.
+       */
+      virtual void Pose(unsigned int poseId) {}
     };
   }
 }

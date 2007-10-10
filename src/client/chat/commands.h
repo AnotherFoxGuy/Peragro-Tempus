@@ -229,6 +229,14 @@ namespace PT
           msg.setMessage(text.c_str());
           network->send(&msg);
 
+          //We want to send a pose request to server as well.
+          //TODO: If we decide to introduce more poses, replacing this by some
+          //"PoseManager" might be nice (ie we wouldn't need to hard-code those
+          //commands like now).
+          PoseRequestMessage poseMsg;
+          poseMsg.setPoseId(1); //Magic number - bad developer!
+          network->send(&poseMsg);
+
           return;
         }
       }

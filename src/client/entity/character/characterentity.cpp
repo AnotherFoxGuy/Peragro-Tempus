@@ -19,6 +19,8 @@
 #include "characterentity.h"
 #include "client/event/entityevent.h"
 
+#include "client/reporter/reporter.h"
+
 namespace PT
 {
   namespace Entity
@@ -156,6 +158,12 @@ namespace PT
     void CharacterEntity::SetCurrentStamina(unsigned int x)
     {
       if (x >= 0 && x <= maxStamina) currentStamina = x;
+    }
+
+    void CharacterEntity::Pose(unsigned int poseId)
+    {
+      //When you implement this, remove the include for reporter if you're not using it
+      Report(PT::Error, "Implement the bloody pose No. '%d' for mesh '%s', you silly twat!", poseId, meshname.GetData());
     }
   }
 }

@@ -98,6 +98,13 @@ namespace PT
       bool RemoveEntity(PT::Events::Eventp ev);
       bool Equip(PT::Events::Eventp ev);
       bool Mount(PT::Events::Eventp ev);
+      /**
+       * Handler for received EntityPose events.
+       * @param ev Entity pose event to be processed.
+       * @return True if successful, false otherwise.
+       */
+      bool EntityPose(PT::Events::Eventp ev);
+
       void DrUpdateOwnEntity();
 
       bool OnInteract(PT::Events::Eventp ev);

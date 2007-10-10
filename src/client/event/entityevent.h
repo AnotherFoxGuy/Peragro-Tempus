@@ -216,6 +216,19 @@ namespace PT
       virtual ~EntityPcPropUpdateEvent() {}
     };
 
+    /**
+    * Entity Pose event.
+    */
+    class EntityPoseEvent : public EntityEvent
+    {
+    public:
+      unsigned int poseId;
+
+    public:
+      EntityPoseEvent() : EntityEvent("EntityPoseEvent", true) {}
+      virtual ~EntityPoseEvent() {}
+    };
+
   } // Events namespace
 } // PT namespace
 
