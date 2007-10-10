@@ -101,6 +101,14 @@ namespace PT
       // Register listener for ActionActivateWeapon.
       EventHandler<PlayerEntity>* cbActionActivateWeapon = new EventHandler<PlayerEntity>(&PlayerEntity::ActionActivateWeapon, this);
       PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ACTIVATEWEAPON", cbActionActivateWeapon);
+
+      // Register listener for ActionZoomIn.
+      EventHandler<PlayerEntity>* cbActionZoomIn = new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomIn, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ZOOMIN", cbActionZoomIn);
+
+      // Register listener for ActionZoomOut.
+      EventHandler<PlayerEntity>* cbActionZoomOut = new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomOut, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ZOOMOUT", cbActionZoomOut);
     }
 
     PlayerEntity* PlayerEntity::Instance(const Events::EntityAddEvent* ev)
