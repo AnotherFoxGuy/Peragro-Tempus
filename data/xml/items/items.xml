@@ -23,28 +23,30 @@
 
 	<item>
 		<id>3</id>
-		<name>Small Plate</name>
-		<icon>set:Inventory image:smallplate</icon>
-		<description>A small plate.</description>
-		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
-		<mesh>Stuff001_smallplate_64_plates</mesh>
-		<weight>0</weight>
+		<name>Bastard Sword</name>
+		<icon>set:Inventory image:DragonEdgeSword</icon>
+		<description>
+			A masterful sword for those born out
+			of wedlock.
+		</description>
+		<file>/peragro/art/3d_art/props/weapons/swords/bastardsword01/library</file>
+		<mesh>genbastardsword01</mesh>
+		<weight>10</weight>
+		<equiptype>weapon2h</equiptype>
 	</item>
 
 	<item>
 		<id>4</id>
-		<name>Flaming Dragon Edge Sword</name>
+		<name>Scythe</name>
 		<icon>set:Inventory image:DragonEdgeSword</icon>
 		<description>
-			Past on from generation to generation of Tibet Monks
-			who mastered the movement of the Mighty Dragon
-			and could swing this sword soo fast it would
-			actually caught fire, inflicting extra damage on the foo.
+			A peaceful tool for farming or a deadly weapon
+			in sociopath's hands.
 		</description>
-		<file>/peragro/art/3d_art/props/weapons/swords/sword/sword.lib</file>
-		<mesh>swordfact</mesh>
-		<weight>30</weight>
-		<equiptype>weapon2h</equiptype>
+		<file>/peragro/art/3d_art/props/others/scythes/scythe001/library.xml</file>
+		<mesh>genscythe001</mesh>
+		<weight>10</weight>
+		<equiptype>weapon1h</equiptype>
 	</item>
 
 	<item>
@@ -79,6 +81,32 @@
 		<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
 		<mesh>Stuff001_tinyballpot_84_pot</mesh>
 		<weight>1</weight>
+	</item>
+	
+	<item>
+		<id>8</id>
+		<name>Flaming Dragon Edge Sword</name>
+		<icon>set:Inventory image:DragonEdgeSword</icon>
+		<description>
+			Past on from generation to generation of Tibet Monks
+			who mastered the movement of the Mighty Dragon
+			and could swing this sword soo fast it would
+			actually caught fire, inflicting extra damage on the foo.
+		</description>
+		<file>/peragro/art/3d_art/props/weapons/swords/sword/sword.lib</file>
+		<mesh>swordfact</mesh>
+		<weight>30</weight>
+		<equiptype>weapon2h</equiptype>
+	</item>
+	
+	<item>
+		<id>9</id>
+		<name>Small Plate</name>
+		<icon>set:Inventory image:smallplate</icon>
+		<description>A small plate.</description>
+		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
+		<mesh>Stuff001_smallplate_64_plates</mesh>
+		<weight>0</weight>
 	</item>
 	
 </items>
