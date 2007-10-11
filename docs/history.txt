@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+11-Oct-2007
+ - azaghal moved Client::ActionHit() to CombatMGR. Moved
+   Client::ActionOnInteract() mount-related interaction to
+   MountEntity::Interact(). Added yet another playing state to CombatMGR.
+   Camera follows the mount now when player is mounted.
+
 10-Oct-2007
  - azaghal moved non-path-finding movement and camera data and actions from
    Client to PlayerEntity. Added support for reinitializing the PlayerEntity

@@ -42,7 +42,7 @@
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
 
-CombatMGR::CombatMGR()
+CombatMGR::CombatMGR() : playing(false)
 {
 }
 
@@ -67,6 +67,10 @@ bool CombatMGR::Initialize ()
   effectsmgr  = PointerLibrary::getInstance()->getEffectsManager();
   guimanager  = PointerLibrary::getInstance()->getGUIManager();
   network     = PointerLibrary::getInstance()->getNetwork();
+
+  // Register listener for ActionHit.
+  PT::Events::EventHandler<CombatMGR>* cbActionHit = new PT::Events::EventHandler<CombatMGR>(&CombatMGR::ActionHit, this);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_HIT", cbActionHit);
 
   if (!entitymgr)
     return Report(PT::Bug, "CombatMGR: Failed to locate ptEntityManager plugin");
@@ -417,4 +421,22 @@ void CombatMGR::RequestSkillUsageStart (unsigned int targetId, unsigned int skil
 
   Report(PT::Debug, "CombatMGR: Sent SkillUsageStartRequestMessage.");
 
+}
+
+bool CombatMGR::ActionHit(PT::Events::Eventp ev)
+{
+  using namespace PT::Events;
+
+  if (playing)
+  {
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
+
+    if (!inputEv->released)
+    {
+      hit(entitymgr->GetPlayerId(), 20);
+    }
+  }
+
+  return true;
 }

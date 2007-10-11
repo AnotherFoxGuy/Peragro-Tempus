@@ -58,6 +58,8 @@ private:
   GUIManager* guimanager;
   Network* network;
 
+  bool playing; /**Determines if the client is ready for playing.*/
+
   iMeshWrapper* getMesh(iCelEntity* entity);
 
 public:
@@ -83,8 +85,17 @@ public:
   void SkillUsageComplete (unsigned int casterId, unsigned int targetId, int skillId);
   void RequestSkillUsageStart (iCelEntity* target, unsigned int skillId);
   void RequestSkillUsageStart (unsigned int targetId, unsigned int skillId);
+  /**
+   * Set playing-ready state of client.
+   */
+  void SetPlaying(bool value) { playing = value; }
 
-
+  /**
+   * Handler for ACTION_HIT event.
+   * @param ev Event describing the hit.
+   * @return False if an error occured, true otherwise.
+   */
+  bool ActionHit(PT::Events::Eventp ev);
 };
 
 #endif // COMBATMANAGER_H

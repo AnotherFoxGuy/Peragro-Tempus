@@ -20,6 +20,9 @@
 
 #include "client/reporter/reporter.h"
 #include "client/event/entityevent.h"
+#include "client/network/network.h"
+#include "common/network/entitymessages.h"
+#include "client/entity/player/playerentity.h"
 
 namespace PT
 {
@@ -125,5 +128,35 @@ namespace PT
 
       mounted = false;
     }
+
+    void MountEntity::Interact()
+    {
+      if(!mounted)
+      {
+        MountRequestMessage msg;
+
+        //Set camera to follow the mount after mounting.
+        //TODO: This is just a temporary solution. It will not work nicely with boats etc.
+        PlayerEntity::Instance()->GetCamera()->SetFollowEntity(this->celentity);
+
+        msg.setMountEntityId(id);
+
+        PointerLibrary::getInstance()->getNetwork()->send(&msg);
+        Report(PT::Notify, "OnMouseDown: Mounting.");
+      }
+      else
+      {
+        UnmountRequestMessage msg;
+
+        //Set camera to follow the player. See the TODO comment above.
+        PlayerEntity::Instance()->GetCamera()->SetFollowEntity(PT::Entity::PlayerEntity::Instance()->GetCelEntity());
+
+        msg.setMountEntityId(id);
+
+        PointerLibrary::getInstance()->getNetwork()->send(&msg);
+        Report(PT::Notify, "OnMouseDown: UnMounting.");
+      }
+    }
+
   }
 }

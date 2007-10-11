@@ -402,7 +402,7 @@ namespace PT
     //Listen for events.
     using namespace PT::Events;
 
-    // Register listener for StateLoggedInEvent.
+    // Register listener for StateConnectedEvent.
     EventHandler<Client>* cbConnected = new EventHandler<Client>(&Client::Connected, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("StateConnectedEvent", cbConnected);
 
@@ -416,10 +416,6 @@ namespace PT
 
     //Actions
 
-    // Register listener for ActionHit.
-    EventHandler<Client>* cbActionHit = new EventHandler<Client>(&Client::ActionHit, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_HIT", cbActionHit);
-
     // Register listener for ActionActivateSkill.
     EventHandler<Client>* cbActionActivateSkill = new EventHandler<Client>(&Client::ActionActivateSkill, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ACTIVATESKILL", cbActionActivateSkill);
@@ -431,10 +427,6 @@ namespace PT
     // Register listener for ActionMoveTo.
     EventHandler<Client>* cbActionMoveTo = new EventHandler<Client>(&Client::ActionMoveTo, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_MOVETO", cbActionMoveTo);
-
-    // TODO remove (look in entitymgr) Register listener for ActionMoveTo.
-    EventHandler<Client>* cbInteract = new EventHandler<Client>(&Client::ActionOnInteract, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_INTERACT", cbInteract);
 
     Run();
 
@@ -625,24 +617,6 @@ namespace PT
     network->send(&answer_msg);
   }
 
-  bool Client::ActionHit(PT::Events::Eventp ev)
-  {
-    using namespace PT::Events;
-
-    if (playing)
-    {
-      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-      if (!inputEv) return false;
-
-      if (!inputEv->released)
-      {
-        combatmanager->hit (entitymanager->GetPlayerId(), 20);
-      }
-    }
-
-    return true;
-  }
-
   bool Client::ActionActivateSkill(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
@@ -755,52 +729,6 @@ namespace PT
       }
     }
 
-    return true;
-  }
-
-  bool Client::ActionOnInteract(PT::Events::Eventp ev)
-  {
-    using namespace PT::Events;
-
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-
-    if (!inputEv->released)
-    {
-      csRef<iCelEntity> ent = cursor->GetSelectedEntity();
-
-      csRef<iPcProperties> pcprop;
-      if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-      if (!pcprop) return false;
-
-      // If it's a mount, mount it.
-      else if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PT::Entity::MountEntityType)
-      {
-        PT::Entity::Entity* ent = entitymanager->findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-        if(!ent) return false;
-
-        PT::Entity::MountEntity* mount = static_cast<PT::Entity::MountEntity*>(ent);
-        if(!mount->isMounted())
-        {
-          MountRequestMessage msg;
-          msg.setMountEntityId(mount->GetId());
-          network->send(&msg);
-          Report(PT::Notify, "OnMouseDown: Mounting.");
-        }
-        else
-        {
-          UnmountRequestMessage msg;
-          msg.setMountEntityId(mount->GetId());
-          network->send(&msg);
-          Report(PT::Notify, "OnMouseDown: UnMounting.");
-        }
-      }
-      else
-      {
-        Report(PT::Warning, "OnMouseDown: Unknown entity type!");
-      }
-
-    }
     return true;
   }
 
@@ -949,6 +877,7 @@ namespace PT
     //It really sucks as it is now.
     playing = true;
     entitymanager->setPlaying(playing);
+    combatmanager->SetPlaying(playing);
 
     sawServer();
     state = STATE_PLAY;

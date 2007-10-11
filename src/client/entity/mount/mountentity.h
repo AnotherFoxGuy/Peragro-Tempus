@@ -43,6 +43,8 @@ namespace PT
       void Mount(Entity* player);
       void UnMount(Entity* player);
 
+      void Interact();
+
       bool isMounted() const { return mounted; }
     };
   }
