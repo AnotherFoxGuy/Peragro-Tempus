@@ -45,7 +45,7 @@ MsvcGenConfig MSVCGEN.WELL_KNOWN_GROUPS_REGISTERED : yes ;
 
 local hash = "\$" ;
 MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
-MsvcGenConfig CRYSTAL.DEFINES : "_CRT_SECURE_NO_DEPRECATE" ;
+MsvcGenConfig CRYSTAL.DEFINES ;
 MsvcGenConfig CRYSTAL.CFLAGS : "" ;
 MsvcGenConfig CRYSTAL.LFLAGS : "" ;
 MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
