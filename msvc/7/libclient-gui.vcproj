@@ -26,7 +26,7 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;WIN32"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -62,7 +62,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -76,7 +76,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="NDEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;USE_CEL;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\src\client\gui;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -99,7 +99,7 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				PreprocessorDefinitions="_DEBUG;_LIB;_WINDOWS;USE_CEL;WIN32"
+				PreprocessorDefinitions="_DEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -133,7 +133,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_LIB;_WINDOWS;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -147,7 +147,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_LIB;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="_DEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;USE_CEL;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\src\client\gui;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
