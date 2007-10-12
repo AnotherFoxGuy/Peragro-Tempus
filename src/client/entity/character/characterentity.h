@@ -40,6 +40,7 @@ namespace PT
 
       unsigned int maxStamina;
       unsigned int currentStamina;
+      bool sitting;
 
     public:
       void Move(MovementData* movement);

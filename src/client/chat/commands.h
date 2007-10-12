@@ -205,7 +205,7 @@ namespace PT
         PT::Entity::EntityManager* entmgr = PointerLibrary::getInstance()->getEntityManager();
         if(!entmgr) return;
 
-        // Element 0 is '/', 1 is 'wave'
+        // Element 0 is '/', 1 is 'greet'
         if (args.size() < 3 || args.size() > 3)
         {
           Help();
@@ -235,6 +235,47 @@ namespace PT
           //commands like now).
           PoseRequestMessage poseMsg;
           poseMsg.setPoseId(1); //Magic number - bad developer!
+          network->send(&poseMsg);
+
+          return;
+        }
+      }
+    };
+    //--------------------------------------------------------------------------
+    class cmdSit : public Command
+    {
+    public:
+      cmdSit () { }
+      virtual ~cmdSit () { }
+      virtual const char* GetCommand () { return "sit"; }
+      virtual const char* GetDescription () { return "Sit down."; }
+      virtual void Help ()
+      {
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        if(!guimanager) return;
+        guimanager->GetChatWindow ()->AddMessage ("Usage: '/sit'");
+      }
+      virtual void Execute (const StringArray& args)
+      {
+        Network* network = PointerLibrary::getInstance()->getNetwork();
+        if(!network) return;
+        PT::Entity::EntityManager* entmgr = PointerLibrary::getInstance()->getEntityManager();
+        if(!entmgr) return;
+
+        // Element 0 is '/', 1 is 'sit'
+        if (args.size() < 2 || args.size() > 3)
+        {
+          Help();
+          return;
+        }
+        else
+        {
+          //We want to send a pose request to server as well.
+          //TODO: If we decide to introduce more poses, replacing this by some
+          //"PoseManager" might be nice (ie we wouldn't need to hard-code those
+          //commands like now).
+          PoseRequestMessage poseMsg;
+          poseMsg.setPoseId(2); //Magic number - bad developer!
           network->send(&poseMsg);
 
           return;

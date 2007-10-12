@@ -436,6 +436,9 @@ namespace PT
       jump=false;
       PointerLibrary::getInstance()->getNetwork()->send(&msg);
 
+      //When we move, we turn off sitting.
+      sitting=false;
+
       return true;
     }
     void PlayerEntity::CameraDraw(unsigned int fpsLimit)

@@ -74,6 +74,7 @@ namespace PT
       cmd = new cmdWhisper(); RegisterCommand(cmd);
       cmd = new cmdRelocate(); RegisterCommand(cmd);
       cmd = new cmdGreet(); RegisterCommand(cmd);
+      cmd = new cmdSit(); RegisterCommand(cmd);
 
       return true;
     }

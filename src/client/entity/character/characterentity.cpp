@@ -35,6 +35,7 @@ namespace PT
     {
       maxStamina = 100;
       currentStamina = 100;
+      sitting = false;
 
       //Add the equipment
       for(size_t i = 0; i < ev.equipment.GetSize(); i++)
@@ -168,19 +169,40 @@ namespace PT
 
     void CharacterEntity::Pose(unsigned int poseId)
     {
-      //When you implement this, remove the include for reporter if you're not using it
-      Report(PT::Error, "Implement the bloody pose No. '%d' for mesh '%s', you silly twat!", poseId, meshname.GetData());
+
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+      csRef<iGeneralMeshState> spstate (
+        scfQueryInterface<iGeneralMeshState> (pcmesh->GetMesh()->GetMeshObject ()));
+      if (!spstate.IsValid()) return;
+      csRef<iGenMeshSkeletonControlState> animcontrol (
+        scfQueryInterface<iGenMeshSkeletonControlState> (spstate->GetAnimationControl ()));
+      if (!animcontrol.IsValid()) return;
+
+      iSkeleton* skeleton = animcontrol->GetSkeleton ();
+      if (!skeleton) return;
+
       if (poseId == 1)
       {
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-        csRef<iGeneralMeshState> spstate (
-          scfQueryInterface<iGeneralMeshState> (pcmesh->GetMesh()->GetMeshObject ()));
-        csRef<iGenMeshSkeletonControlState> animcontrol (
-          scfQueryInterface<iGenMeshSkeletonControlState> (spstate->GetAnimationControl ()));
-
-        iSkeleton* skeleton = animcontrol->GetSkeleton ();
-
         skeleton->Execute("hit", 0.5f);
+      }
+      else if (poseId == 2)
+      {
+        if (sitting)
+        {
+          sitting = false;
+          skeleton->StopAll ();
+          skeleton->Execute("Sit_up", 1.0f);
+          iSkeletonAnimation* inst = skeleton->Execute("idle");
+          inst->SetLoop(true);
+        }
+        else
+        {
+          sitting = true;
+          skeleton->StopAll ();
+          skeleton->Execute("Sit_down", 1.0f);
+          iSkeletonAnimation* inst = skeleton->Execute("Sit");
+          inst->SetLoop(true);
+        }
       }
 
     }
