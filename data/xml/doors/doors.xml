@@ -8,8 +8,8 @@
 		<position x="27.9388713837" y="179.982452393" z="-6.57791852951"/>
 		<sector>room</sector>
 		<keyId>7</keyId>
-    <quest>GateUpward</quest>
-  </door>
+    		<quest>GateUpward</quest>
+ 	</door>
 
 	<door>
 		<id>2</id>
@@ -17,8 +17,18 @@
 		<mesh>house016_devhouse_house016door</mesh>
 		<position x="85.2472610474" y="2.34153294563" z="2.31262850761"/>
 		<sector>room</sector>
-    <keyId>7</keyId>
-    <quest>HouseDoorOutward</quest>
+    		<keyId>7</keyId>
+    		<quest>HouseDoorOutward</quest>
+	</door>
+	
+	<door>
+		<id>3</id>
+		<name>Tavern</name>
+		<mesh>tavern01_tavern_door_left</mesh>
+		<position x="103.486" y="4.68919" z="15.8964"/>
+		<sector>room</sector>
+		<keyId>7</keyId>
+		<quest>HouseDoorOutward</quest>
 	</door>
 
 </doors>

@@ -6,6 +6,7 @@ under each day.
 
 12-Oct-2007
  - azaghal added code for jumping client-side and server-side.
+ - Sueastside added Induane's tavern interior.
 
 11-Oct-2007
  - azaghal moved Client::ActionHit() to CombatMGR. Moved

@@ -7,4 +7,12 @@
 	        <v y="3.37" x="84.68" z="2.63"/>
 		<link from="house016indoors" to="room" />
 	</portal>
+	<portal id="3">
+		<v y="4.63806" x="103.513" z="14.9771"/>
+		<link from="room" to="TavernInt" />
+	</portal>
+	<portal id="4">
+		<v y="4.63806" x="103.513" z="14.9771"/>
+		<link from="TavernInt" to="room" />
+	</portal>
 </portals>
