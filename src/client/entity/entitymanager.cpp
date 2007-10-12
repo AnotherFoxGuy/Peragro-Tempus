@@ -271,9 +271,18 @@ namespace PT
         {
           MountEntity* m = static_cast<MountEntity*>(mount);
           if (entityMountEv->mount)
+          {
             m->Mount(entity);
+            //Set camera to follow the mount after mounting. Only done for player's mount.
+            //TODO: This is just a temporary solution. It will not work nicely with boats etc.
+            if (playerId == entity->GetId()) PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
+          }
           else
+          {
             m->UnMount(entity);
+            //Set camera to follow the player. See the TODO comment above.
+            if (playerId == entity->GetId()) PlayerEntity::Instance()->GetCamera()->SetFollowEntity(PlayerEntity::Instance()->GetCelEntity());
+          }
         }
       }
 
