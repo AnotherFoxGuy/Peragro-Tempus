@@ -8,6 +8,8 @@ under each day.
  - azaghal added code for jumping client-side and server-side.
  - Sueastside added Induane's tavern interior.
  - Sueastside added sitting, use '/sit' command for now.
+ - Some new icons by PossibleBit and fixed an issue in equipment 
+   where items didn't get deleted.
 
 11-Oct-2007
  - azaghal moved Client::ActionHit() to CombatMGR. Moved

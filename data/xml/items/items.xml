@@ -24,7 +24,7 @@
 	<item>
 		<id>3</id>
 		<name>Bastard Sword</name>
-		<icon>set:Inventory image:DragonEdgeSword</icon>
+		<icon>set:Inventory image:bastardsword01</icon>
 		<description>
 			A masterful sword for those born out
 			of wedlock.
@@ -38,7 +38,7 @@
 	<item>
 		<id>4</id>
 		<name>Scythe</name>
-		<icon>set:Inventory image:DragonEdgeSword</icon>
+		<icon>set:Inventory image:Scythe</icon>
 		<description>
 			A peaceful tool for farming or a deadly weapon
 			in sociopath's hands.
@@ -76,7 +76,7 @@
 	<item>
 		<id>7</id>
 		<name>Key</name>
-		<icon>set:Inventory image:apple</icon>
+		<icon>set:Inventory image:Key01</icon>
 		<description>A key.</description>
 		<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
 		<mesh>Stuff001_tinyballpot_84_pot</mesh>

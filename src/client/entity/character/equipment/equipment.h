@@ -21,6 +21,8 @@
 
 #include "equipeditem.h"
 
+#include <csutil/parray.h>
+
 #include "client/pointer/pointer.h"
 
 namespace PT
@@ -30,7 +32,7 @@ namespace PT
     class Equipment
     {
     private:
-      csArray<EquipedItem*> equipment;
+      csPDelArray<EquipedItem> equipment;
       Entity* entity;
       /*
       Checks if an item with the slotname exists,
