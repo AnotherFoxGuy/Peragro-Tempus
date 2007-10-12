@@ -63,19 +63,20 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   }
 
   MoveMessage response_msg;
-  if (request_msg.getRun()) 
+  if (request_msg.getRun())
   {
     // TODO this should be based on character and need to check endurance
     acc = 2;
     response_msg.setRun(true);
   }
-  else 
+  else
   {
     response_msg.setRun(false);
   }
 
   response_msg.setWalk((float)(request_msg.getWalk()-1)*speed*acc);
   response_msg.setTurn((float)(request_msg.getTurn()-1));
+  response_msg.setJump(request_msg.getJump());
   response_msg.setEntityId(name_id);
   ByteStream bs;
   response_msg.serialise(&bs);
@@ -99,7 +100,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   DrUpdateRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
   //printf("DR of %s: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", name, request_msg.getSpeed(), request_msg.getPos()[0], request_msg.getPos()[1], request_msg.getPos()[2], request_msg.getRot());
-  
+
   user_ent->setPos(request_msg.getPos());
   user_ent->setSector(request_msg.getSectorId());
   user_ent->freeLock();
@@ -344,7 +345,7 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
   const InventoryEntry new_item = *inventory->getItem(invent_slot);
   Item* item = server->getItemManager()->findById(new_item.id);
 
-  if (!item) 
+  if (!item)
     error = "No such Item";
 
   // See if we have already an item in the equip slot.

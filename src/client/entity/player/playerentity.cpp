@@ -49,6 +49,7 @@ namespace PT
       walk = 0;
       turn = 0;
       run = false;
+      jump = false;
       ready = true; //This should be replaced by some external StateManager. We already have things like this in several places
       cameraDistance = 3.0;
       pitchDirection = 1;
@@ -109,6 +110,10 @@ namespace PT
       // Register listener for ActionZoomOut.
       EventHandler<PlayerEntity>* cbActionZoomOut = new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomOut, this);
       PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ZOOMOUT", cbActionZoomOut);
+
+      // Register listener for ActionJump.
+      EventHandler<PlayerEntity>* cbActionJump = new EventHandler<PlayerEntity>(&PlayerEntity::ActionJump, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_JUMP", cbActionJump);
     }
 
     PlayerEntity* PlayerEntity::Instance(const Events::EntityAddEvent* ev)
@@ -402,6 +407,19 @@ namespace PT
       return true;
     }
 
+    bool PlayerEntity::ActionJump(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+
+      if (!inputEv) return false;
+
+      if (!inputEv->released) jump=true;
+
+      PerformMovementAction();
+      return true;
+    }
+
     bool PlayerEntity::PerformMovementAction()
     {
       MoveRequestMessage msg;
@@ -412,6 +430,10 @@ namespace PT
       else msg.setTurn(turn+1);
 
       msg.setRun(run);
+      msg.setJump(jump);
+      //Jumping is not a constant action, so we need to turn it off once we've
+      //sent the request.
+      jump=false;
       PointerLibrary::getInstance()->getNetwork()->send(&msg);
 
       return true;

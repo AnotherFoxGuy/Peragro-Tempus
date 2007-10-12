@@ -59,7 +59,8 @@ namespace PT
         pcactormove->Forward(movement->walk > 0.0f);
         pcactormove->Backward(movement->walk < 0.0f);
 
-        if (abs((int)movement->walk) > 0)
+        if (movement->jump) pcactormove->Jump();
+        else if (abs((int)movement->walk) > 0)
           pcactormove->Run(movement->run);
         else
           pcactormove->Run(false);

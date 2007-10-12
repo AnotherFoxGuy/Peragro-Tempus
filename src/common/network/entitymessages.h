@@ -338,6 +338,7 @@ class MoveMessage : public NetMessage
   float walk;
   unsigned int entityid;
   bool run;
+  bool jump;
 
 public:
   MoveMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE)
@@ -363,6 +364,9 @@ public:
   bool getRun() { return run; }
   void setRun(bool x) { run = x; }
 
+  bool getJump() const { return jump; }
+  void setJump(bool x) { jump = x; }
+
 };
 
 class MoveRequestMessage : public NetMessage
@@ -370,6 +374,7 @@ class MoveRequestMessage : public NetMessage
   unsigned char turn;
   unsigned char walk;
   bool run;
+  bool jump;
 
 public:
   MoveRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVEREQUEST)
@@ -391,6 +396,9 @@ public:
 
   bool getRun() { return run; }
   void setRun(bool x) { run = x; }
+
+  bool getJump() const { return jump; }
+  void setJump(bool x) { jump = x; }
 
 };
 

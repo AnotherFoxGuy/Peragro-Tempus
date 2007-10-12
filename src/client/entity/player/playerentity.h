@@ -43,6 +43,7 @@ namespace PT
       char walk; /**<Determines direction of moving. -1 for backward, 0 for standing still, 1 for forward.*/
       char turn; /**<Determines direction of turning. -1 for left, 0 for straight, 1 for right.*/
       bool run; /**<Determines if player is running or not.*/
+      bool jump; /**<Determines if player is jumping or not.*/
       bool ready; /**<Determines if the client is ready for movement and other actions or not.*/
       float cameraDistance; /**<Distance between camera and player entity, aka zoom.*/
       float currentPitch; /**<Current pitch offset for hopping while walking and running.*/
@@ -68,6 +69,7 @@ namespace PT
       bool ActionActivateWeapon(PT::Events::Eventp ev); ///<Handler for an activate weapon event. Called when attacking with a weapon (in order to produce animation).
       bool ActionZoomIn(PT::Events::Eventp ev); ///<Handler for a zoom-in event.
       bool ActionZoomOut(PT::Events::Eventp ev); ///<Handler for a zoom-out event.
+      bool ActionJump(PT::Events::Eventp ev); ///<Handler for a jump event.
 
       bool PerformMovementAction(); ///<Helper method for sending new movement information.
 

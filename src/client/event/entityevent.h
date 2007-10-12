@@ -152,6 +152,7 @@ namespace PT
       float walkDirection;
       float turnDirection;
       bool run;
+      bool jump;
 
     public:
       EntityMoveEvent() : EntityEvent("EntityMoveEvent", true) {}

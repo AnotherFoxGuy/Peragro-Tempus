@@ -132,6 +132,7 @@ namespace PT
       movement->walk					= entityMoveEv->walkDirection;
       movement->turn					= entityMoveEv->turnDirection;
       movement->run           = entityMoveEv->run;
+      movement->jump          = entityMoveEv->jump;
 
       entity->Move(movement);
       delete movement;
@@ -166,7 +167,7 @@ namespace PT
         Report(PT::Error, "MoveToEntity: Couldn't find entity with ID %d!", id);
         return true;
       }
-      if(!entity->GetCelEntity()) 
+      if(!entity->GetCelEntity())
       {
         Report(PT::Error, "MoveToEntity: %d: No CelEntity!", id);
         return true;
@@ -312,5 +313,5 @@ namespace PT
     }
 
 
-  } // Entity namespace 
-} // PT namespace 
+  } // Entity namespace
+} // PT namespace

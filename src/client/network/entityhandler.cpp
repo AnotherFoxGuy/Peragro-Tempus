@@ -94,6 +94,7 @@ void EntityHandler::handleMove(GenericMessage* msg)
   entityEvent->walkDirection = entmsg.getWalk();
   entityEvent->turnDirection = entmsg.getTurn();
   entityEvent->run           = entmsg.getRun();
+  entityEvent->jump          = entmsg.getJump();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
