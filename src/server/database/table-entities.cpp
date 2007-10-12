@@ -84,7 +84,7 @@ void EntityTable::createTable()
   float pos3[3] = { 35, 2, 120 };
   insert(3, skel_trader, Entity::NPCEntityType, 0, 0, skel, pos3, room);
 
-  float pos4[3] = { -108, 0.2f, 5.3f };
+  float pos4[3] = { 82, 2.2f, 37.2f };
   insert(4, horse, Entity::MountEntityType, 0, 0, horse, pos4, room);
   float pos5[3] = { -110, 0.2f, 5.05f };
   insert(5, horse, Entity::MountEntityType, 0, 0, horse, pos5, room);
