@@ -142,7 +142,7 @@ bool GUIManager::Initialize ()
   }
   catch ( CEGUI::Exception& e )
   {
-    Report(PT::Error, "Failed Initializing GUIManager!");
+    Report(PT::Error, "Failed Initializing GUIManager! %s", e.getMessage().c_str());
     return false;
   }
 
