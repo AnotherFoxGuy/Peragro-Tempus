@@ -33,7 +33,8 @@ class MountEntity : public ptMonitorable<MountEntity>
 {
 private:
   ptMonitor<Entity> entity; // own entity
-  Array<ptMonitor<PcEntity> > passengers; // can't carry npcs
+  ptMonitor<PcEntity>* passengers; // can't carry npcs
+  size_t num_passengers;
   size_t max_passengers;
 
   ptMonitor<MountEntity> mount; // one mount can be on another.
@@ -61,6 +62,11 @@ public:
 
     speed = 7;
     max_passengers = 1;
+    num_passengers = 0;
+
+    passengers = new ptMonitor<PcEntity>[max_passengers];
+
+    isWalking = false;
   }
 
   ~MountEntity() { }
@@ -68,7 +74,8 @@ public:
   const Entity* getEntity() const { return entity.get(); }
 
   void addPassenger(const PcEntity* e);
-  size_t getPassengerCount() const { return passengers.getCount(); }
+  void delPassenger(const PcEntity* e);
+  size_t getPassengerCount() const { return num_passengers; }
   size_t getMaxPassengers() const { return max_passengers; }
   const PcEntity* getPassenger(size_t i) const;
 

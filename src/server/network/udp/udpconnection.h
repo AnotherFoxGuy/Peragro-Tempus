@@ -44,6 +44,9 @@ public:
 
   virtual ~UdpConnection()
   {
+    if (user != 0) {
+
+    }
   }
 
   size_t sinceLastSeen()

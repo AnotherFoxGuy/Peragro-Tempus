@@ -53,6 +53,8 @@ public:
 
   void delUser(User* user)
   {
+    printf("delUser: %s!\n", *user->getName());
+
     if (!user) 
     {
       printf("Removing user: Not a user!\n");

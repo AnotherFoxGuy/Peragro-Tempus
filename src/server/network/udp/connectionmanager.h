@@ -50,6 +50,7 @@ public:
 
   void delConnection(size_t index)
   {
+    printf("delete connection: %i\n", index);
     connections.del(index);
   }
 

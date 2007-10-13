@@ -141,6 +141,7 @@ void User::remove()
 {
   if (own_entity.get())
   {
+    printf("own_entity.get()!\n");
     Server::getServer()->delEntity(own_entity.get()->getEntity());
   }
 

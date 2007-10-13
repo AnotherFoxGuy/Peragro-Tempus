@@ -27,14 +27,26 @@
 
 void MountEntity::addPassenger(const PcEntity* e)
 {
-  ptMonitor<PcEntity> ent = e->getRef();
-  passengers.add(ent); 
+  passengers[num_passengers] = e->getRef(); 
+  num_passengers++;
+}
+
+void MountEntity::delPassenger(const PcEntity* e)
+{
+  for (size_t i = 0; i < num_passengers; i++)
+  {
+    if (passengers[i].get() == e) 
+    {
+      passengers[i].clear();
+      num_passengers--;
+    }
+  }
 }
 
 const PcEntity* MountEntity::getPassenger(size_t i) const
 { 
-  if (i > passengers.getCount()) return 0;
-  return passengers.get(i).get(); 
+  if (i > num_passengers) return 0;
+  return passengers[i].get(); 
 }
 
 void MountEntity::walkTo(float* dst_pos, float speed)

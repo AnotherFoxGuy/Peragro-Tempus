@@ -23,11 +23,15 @@
 
 void UdpConnection::peerLost()
 {
+  printf("peerLost!\n");
   if(user)
   {
+    printf("has user!\n");
     if (user->getConnection() == this)
     {
+      printf("user->remove()!\n");
       user->remove();
     }
+    user = 0;
   }
 }

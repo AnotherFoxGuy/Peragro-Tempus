@@ -60,6 +60,7 @@ public:
     tradepeer.setEntity(this);
 
     isWalking = false;
+    pose_id = 0;
   }
 
   void setUser(const User* user);

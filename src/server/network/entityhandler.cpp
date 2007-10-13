@@ -467,7 +467,7 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   c_mount = mount_ent->getMountEntity();
   if (!c_mount) return;
 
-  if (c_mount->getPassengerCount() > c_mount->getMaxPassengers())
+  if (c_mount->getPassengerCount() >= c_mount->getMaxPassengers())
     return;
 
   PcEntity* e = pc_ent->getLock();
@@ -504,17 +504,22 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 
   unsigned int mount_id = request_msg.getMountEntityId();
 
-  const MountEntity* mount = pc_ent->getMount();
-  if (!mount) return;
+  const MountEntity* c_mount = pc_ent->getMount();
+  if (!c_mount) return;
 
-  const Entity* mount_ent = mount->getEntity();
+  const Entity* mount_ent = c_mount->getEntity();
   if (!mount_ent) return;
 
   if (mount_ent->getId() != mount_id) return;
 
   PcEntity* e = pc_ent->getLock();
+  MountEntity* mount = c_mount->getLock();
+
   e->setMount(0);
+  mount->delPassenger(e);
+
   e->freeLock();
+  mount->freeLock();
 
   UnmountMessage umount_msg;
   umount_msg.setMountEntityId(mount_ent->getId());
