@@ -301,6 +301,13 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   }
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+
+  EntityPoseEvent* poseEvent = new EntityPoseEvent();
+
+  poseEvent->entityId = entmsg.getEntityId();
+  poseEvent->poseId = entmsg.getPoseId();
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(poseEvent);
 }
 
 void EntityHandler::handleAddItemEntity(GenericMessage* msg)
