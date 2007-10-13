@@ -103,6 +103,7 @@ if [ Property build : projgen_version ] != 6
     terrainldr
     bruteblock
     frustvis
+    dynavis
     engseq
     sequence
     sprcal3dldr
