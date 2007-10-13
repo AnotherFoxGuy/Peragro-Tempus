@@ -8,6 +8,7 @@ under each day.
  - PK fixed some bugs with the mounting.
  - Sueastside added some plugins and updated vfs for static builds.
  - PK fixed posing so new joining players see them too.
+ - swedishcoder fixed printf warning for size_t.
 
 12-Oct-2007
  - azaghal added code for jumping client-side and server-side.

@@ -21,6 +21,7 @@
 
 #include "common/util/array.h"
 #include "udpconnection.h"
+#include "common/util/printhelper.h"
 
 class UdpConnectionManager
 {
@@ -50,7 +51,7 @@ public:
 
   void delConnection(size_t index)
   {
-    printf("delete connection: %i\n", index);
+    printf("delete connection: %" SIZET "\n", index);
     connections.del(index);
   }
 
