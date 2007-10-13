@@ -192,7 +192,7 @@ namespace PT
 
   bool Client::OnInitialize(int argc, char* argv[])
   {
-    setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]), true);
+    setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]).GetData(), true);
 
     if (!csInitializer::SetupConfigManager(GetObjectRegistry(),
       "/peragro/config/client.cfg", GetApplicationName()))
