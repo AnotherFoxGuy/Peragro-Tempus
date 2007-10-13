@@ -109,7 +109,7 @@ public:
   }
   void setSessionId(int ssid)
   {
-    sessionId = (unsigned char) ssid;
+    sessionId = (unsigned char) (ssid & 0xFF);
   }
 
   bool connectionSucceeded()
