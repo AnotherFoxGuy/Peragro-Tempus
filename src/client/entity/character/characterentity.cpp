@@ -167,10 +167,13 @@ namespace PT
       if (x >= 0 && x <= maxStamina) currentStamina = x;
     }
 
-    void CharacterEntity::Pose(unsigned int poseId)
+    void CharacterEntity::PlayAnimation(const char* animationnName, 
+                                        float blend_factor,
+                                        bool loop, 
+                                        bool stopOthers)
     {
-
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+      if (!pcmesh.IsValid()) return;
       csRef<iGeneralMeshState> spstate (
         scfQueryInterface<iGeneralMeshState> (pcmesh->GetMesh()->GetMeshObject ()));
       if (!spstate.IsValid()) return;
@@ -181,30 +184,33 @@ namespace PT
       iSkeleton* skeleton = animcontrol->GetSkeleton ();
       if (!skeleton) return;
 
+      if (stopOthers) skeleton->StopAll ();
+      iSkeletonAnimation* inst = skeleton->Execute(animationnName, blend_factor);
+      inst->SetLoop(loop);
+    }
+
+    void CharacterEntity::Pose(unsigned int poseId)
+    {
       if (poseId == 0)
       {
         if (sitting)
         {
           sitting = false;
-          skeleton->StopAll ();
-          skeleton->Execute("Sit_up", 1.0f);
-          iSkeletonAnimation* inst = skeleton->Execute("idle");
-          inst->SetLoop(true);
+          PlayAnimation("Sit_up", 1.0f, false);
+          PlayAnimation("idle", true, false);
         }
       }
       else if (poseId == 1)
       {
-        skeleton->Execute("hit", 0.5f);
+        PlayAnimation("hit", 0.5f, false, false);
       }
       else if (poseId == 2)
       {
         if (!sitting)
         {
           sitting = true;
-          skeleton->StopAll ();
-          skeleton->Execute("Sit_down", 1.0f);
-          iSkeletonAnimation* inst = skeleton->Execute("Sit");
-          inst->SetLoop(true);
+          PlayAnimation("Sit_down", 1.0f, false);
+          PlayAnimation("Sit", true, false);
         }
       }
 

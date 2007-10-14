@@ -101,6 +101,8 @@ namespace PT
       pclinmove->SetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
       pclinmove->SetAnchor(mtmesh);
 
+      ptplayer->PlayAnimation("horse_mount", 1.0f, true, true);
+
       mounted = true;
     }
 
@@ -124,6 +126,8 @@ namespace PT
       pos.x -= 1.0f;
       pclinmove->SetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
       pclinmove->SetAnchor(0);
+
+      ptplayer->PlayAnimation("idle", true, true);
 
       mounted = false;
     }

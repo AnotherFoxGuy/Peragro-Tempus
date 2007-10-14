@@ -55,6 +55,11 @@ namespace PT
 
       Equipment& GetEquipment() {return equipment;}
       void Pose(unsigned int poseId);
+
+      void PlayAnimation(const char* animationnName, 
+                         float blend_factor = 0.0f,
+                         bool loop = false, 
+                         bool stopOthers = true);
     };
   }
 }
