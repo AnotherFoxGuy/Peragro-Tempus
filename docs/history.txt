@@ -8,6 +8,7 @@ under each day.
  - Sueastside changed sit code to send new pose when standing.
  - Sueastside added mounted animation.
  - Sueastside made buddywindow operational again.
+ - PK added unmount on player disconnect.
 
 13-Oct-2007
  - PK fixed some bugs with the mounting.

@@ -68,8 +68,23 @@ void Server::delEntity(const Entity* entity)
   }
   if (entity->getType() == Entity::PlayerEntityType)
   {
-    int id = entity->getPlayerEntity()->getCharacter()->getId();
+    const PcEntity* pc_ent = entity->getPlayerEntity();
+    int id = pc_ent->getCharacter()->getId();
     db->getCharacterTable()->update(entity->getPos(), entity->getSectorName(), id);
+
+    // check if player was on mount
+    const MountEntity* c_mount = pc_ent->getMount();
+    if (c_mount)
+    {
+      PcEntity* e = pc_ent->getLock();
+      MountEntity* mount = c_mount->getLock();
+
+      e->setMount(0);
+      mount->delPassenger(e);
+
+      e->freeLock();
+      mount->freeLock();
+    }
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)
