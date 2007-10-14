@@ -31,10 +31,10 @@
 #include "client/gui/chat-gui.h"
 
 //These defines should probably go to configuration file
-#define WALK_PPS 0.01
-#define WALK_PITCH_RANGE 0.02
-#define RUN_PPS 0.06
-#define RUN_PITCH_RANGE 0.01
+#define WALK_PPS 0.01f
+#define WALK_PITCH_RANGE 0.02f
+#define RUN_PPS 0.06f
+#define RUN_PITCH_RANGE 0.01f
 
 namespace PT
 {
@@ -55,7 +55,7 @@ namespace PT
       pitchDirection = 1;
       pitchPerSecond = WALK_PPS;
       pitchRange = WALK_PITCH_RANGE;
-      currentPitch = 0;
+      currentPitch = 0.0f;
 
       //Register actions for events
       using namespace PT::Events;
@@ -437,7 +437,12 @@ namespace PT
       PointerLibrary::getInstance()->getNetwork()->send(&msg);
 
       //When we move, we turn off sitting.
-      sitting=false;
+      if (sitting)
+      {
+        PoseRequestMessage poseMsg;
+        poseMsg.setPoseId(0); //TODO: do a posemanager lookup for "idle"!
+        PointerLibrary::getInstance()->getNetwork()->send(&poseMsg);
+      }
 
       return true;
     }

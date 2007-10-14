@@ -181,11 +181,7 @@ namespace PT
       iSkeleton* skeleton = animcontrol->GetSkeleton ();
       if (!skeleton) return;
 
-      if (poseId == 1)
-      {
-        skeleton->Execute("hit", 0.5f);
-      }
-      else if (poseId == 2)
+      if (poseId == 0)
       {
         if (sitting)
         {
@@ -195,7 +191,14 @@ namespace PT
           iSkeletonAnimation* inst = skeleton->Execute("idle");
           inst->SetLoop(true);
         }
-        else
+      }
+      else if (poseId == 1)
+      {
+        skeleton->Execute("hit", 0.5f);
+      }
+      else if (poseId == 2)
+      {
+        if (!sitting)
         {
           sitting = true;
           skeleton->StopAll ();
