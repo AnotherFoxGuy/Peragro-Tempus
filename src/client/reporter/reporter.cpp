@@ -60,7 +60,7 @@ namespace PT
       logFile.flush();
     }
     else
-      csPrintf (CS_ANSI_FR CS_ANSI_TEXT_BOLD_ON "Creation log file failed!\n" CS_ANSI_RST);
+      csPrintf ("%s", CS_ANSI_FR CS_ANSI_TEXT_BOLD_ON "Creation log file failed!\n" CS_ANSI_RST);
 
   }
 
@@ -126,7 +126,7 @@ namespace PT
     }
 
     // Print the message to the console.
-    csPrintf(buffer);
+    csPrintf("%s", buffer);
 
     // Reset colors and do a new line.
     csPrintf("\n");
