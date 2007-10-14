@@ -42,25 +42,6 @@ bool BuddyWindow::handleCloseButton(const CEGUI::EventArgs& args)
   return true;
 }
 
-bool BuddyWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
-{
-  using namespace CEGUI;
-  const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
-
-  CEGUI::Window* buddylist = winMgr->getWindow("BuddyList/Frame");
-  if (!buddylist) return false;
-
-  switch (keyArgs.scancode)
-  {
-  case Key::Insert:
-    buddylist->isVisible() ? buddylist->setVisible(false) : buddylist->setVisible(true);
-    break;
-
-  default: return false;
-  }
-  return true;
-}
-
 void BuddyWindow::AddPlayer(const char* name)
 {
   btn = winMgr->getWindow("BuddyList/SkillTab");
@@ -113,10 +94,65 @@ void BuddyWindow::CreateGUIWindow()
   CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("BuddyList/Frame"));
   frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&BuddyWindow::handleCloseButton, this));
 
-  // Key for buddylist.
-  btn = winMgr->getWindow("Root");
-  btn->subscribeEvent(CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber(&BuddyWindow::OnRootKeyDown, this));
+  using namespace PT::Events;
 
+  EventHandler<BuddyWindow>* cb = new EventHandler<BuddyWindow>(&BuddyWindow::ProcessEvents, this);
+  // Register listener for EntityAddEvent.
+  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cb);
+  // Register listener for EntityRemoveEvent.
+  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cb);
+  // Key for buddylist toggle.
+  EventHandler<BuddyWindow>* cbtoggle = new EventHandler<BuddyWindow>(&BuddyWindow::ToggleWindow, this);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_TOGGLEBUDDYWINDOW", cbtoggle);
+
+}
+
+bool BuddyWindow::ToggleWindow(PT::Events::Eventp ev)
+{
+  using namespace PT::Events;
+
+  InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+  if (!inputEv) return false;
+
+  if (!inputEv->released)
+  {
+    CEGUI::Window* buddylist = winMgr->getWindow("BuddyList/Frame");
+    if (!buddylist) return false;
+    buddylist->isVisible() ? buddylist->setVisible(false) : buddylist->setVisible(true);
+  }
+
+  return true;
+}
+
+bool BuddyWindow::ProcessEvents(PT::Events::Eventp ev)
+{
+  using namespace PT::Events;
+
+  if (ev->GetEventID().compare("EntityAddEvent") == 0)
+  {
+    EntityAddEvent* entityAddEv = GetEntityEvent<EntityAddEvent*>(ev);
+    if (!entityAddEv) return false;
+
+    if (entityAddEv->entityType == PT::Entity::PCEntityType)
+    {
+      AddPlayer(entityAddEv->entityName.c_str());
+    }
+  }
+  else if (ev->GetEventID().compare("EntityRemoveEvent") == 0)
+  {
+    EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
+    if (!entityRemoveEv) return false;
+
+    PT::Entity::Entity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityRemoveEv->entityId);
+    if (!ent) return false;
+
+    if (ent->GetType() == PT::Entity::PCEntityType)
+    {
+      RemovePlayer(ent->GetName().GetData());
+    }
+  }
+
+  return true;
 }
 
 

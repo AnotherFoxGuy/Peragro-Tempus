@@ -7,6 +7,7 @@ under each day.
 14-Oct-2007
  - Sueastside changed sit code to send new pose when standing.
  - Sueastside added mounted animation.
+ - Sueastside made buddywindow operational again.
 
 13-Oct-2007
  - PK fixed some bugs with the mounting.

@@ -21,11 +21,17 @@
 
 #include "base-gui.h"
 
+#include "client/event/entityevent.h"
+#include "client/event/inputevent.h"
+
 class BuddyWindow : public GUIWindow
 {
 private:
   bool handleCloseButton(const CEGUI::EventArgs& args); 
-  bool OnRootKeyDown(const CEGUI::EventArgs& e);
+
+public:
+  bool ProcessEvents(PT::Events::Eventp ev);
+  bool ToggleWindow(PT::Events::Eventp ev);
 
 public:
   BuddyWindow(GUIManager* guimanager);
