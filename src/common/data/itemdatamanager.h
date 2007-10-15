@@ -79,7 +79,7 @@ namespace PT
         @param id Unique ID of the wanted item.
         @return Pointer to item with given ID, or 0 if none was found.
        */
-      Item* GetItemById(uint id) const;
+      Item* GetItemById(unsigned int id) const;
       /**
         @param name Name of the wanted item.
         @return Pointer to item with given ID, or 0 if none was found.

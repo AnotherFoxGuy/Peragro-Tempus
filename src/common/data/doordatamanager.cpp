@@ -41,7 +41,7 @@ namespace PT
       TiXmlDocument doc;
       std::string file;
 
-      file = dataPath+"/xml/doors/doors.xml";
+      file = dataPath + "/xml/doors/doors.xml";
       if (!doc.LoadFile(file.c_str())) return false;
 
       TiXmlElement* doorsXML = doc.FirstChildElement("doors");

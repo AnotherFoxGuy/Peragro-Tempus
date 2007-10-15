@@ -41,7 +41,7 @@ namespace PT
       TiXmlDocument doc;
       std::string file;
 
-      file=dataPath+"/xml/items/items.xml";
+      file = dataPath + "/xml/items/items.xml";
       if (!doc.LoadFile(file.c_str())) return false;
 
       TiXmlElement* itemsXML = doc.FirstChildElement("items");
@@ -80,7 +80,7 @@ namespace PT
       return true;
     }
 
-    Item* ItemDataManager::GetItemById(uint id) const
+    Item* ItemDataManager::GetItemById(unsigned int id) const
     {
       for (size_t i = 0; i<items.size(); i++)
         if (items[i]->GetId() == id) return items[i];
