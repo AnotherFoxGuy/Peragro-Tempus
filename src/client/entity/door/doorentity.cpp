@@ -18,7 +18,8 @@
 
 #include "doorentity.h"
 
-#include "client/data/door/doormanager.h"
+#include "common/data/doordatamanager.h"
+#include "common/data/door.h"
 
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
@@ -46,12 +47,12 @@ namespace PT
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      PT::Data::Door* door = PointerLibrary::getInstance()->getDoorManager()->GetDoorById(doorId);
+      PT::Data::Door* door = PointerLibrary::getInstance()->getDoorDataManager()->GetDoorById(doorId);
 
       if (door)
       {
-        name = door->GetName();
-        meshname = door->GetMeshName();
+        name = door->GetName().c_str();
+        meshname = door->GetMeshName().c_str();
         CreateCelEntity();
 
         celentity->SetName(name.GetData());
@@ -73,7 +74,7 @@ namespace PT
         pl->CreatePropertyClass(celentity, "pcquest");
         csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celentity, iPcQuest);
         celQuestParams parameters;
-        pcquest->NewQuest(door->GetQuest().GetData(),parameters);
+        pcquest->NewQuest(door->GetQuestName().c_str(),parameters);
         pcquest->GetQuest()->SwitchState("closed");
       }
       else

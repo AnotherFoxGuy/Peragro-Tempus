@@ -30,7 +30,7 @@ class InventoryWindow : public GUIWindow
 private:
   bool handleCloseButton(const CEGUI::EventArgs& args);
   DragDrop* dragdrop;
-  PT::Data::ItemManager* itemmanager;
+  PT::Data::ItemDataManager* itemDataManager;
   unsigned int numberOfSlots;
   Inventory* inventory;
 

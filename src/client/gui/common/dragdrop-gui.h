@@ -30,7 +30,7 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
-#include "client/data/item/itemmanager.h"
+#include "common/data/itemdatamanager.h"
 #include "client/gui/common/slot.h"
 
 #include "client/entity/entitymanager.h"
@@ -45,7 +45,7 @@ private:
   GUIManager* guimanager;
   Network* network;
   CEGUI::WindowManager* winMgr;
-  PT::Data::ItemManager* itemmanager;
+  PT::Data::ItemDataManager* itemDataManager;
   int counter;
 
 public:

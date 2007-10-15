@@ -27,7 +27,7 @@ class SellWindow : public GUIWindow
 {
 private:
   DragDrop* dragdrop;
-  PT::Data::ItemManager* itemmanager;
+  PT::Data::ItemDataManager* itemDataManager;
 
   csArray<Slot*> upperslots;
   csArray<Slot*> lowerslots;

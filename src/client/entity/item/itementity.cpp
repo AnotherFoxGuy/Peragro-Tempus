@@ -18,7 +18,8 @@
 
 #include "itementity.h"
 
-#include "client/data/item/itemmanager.h"
+#include "common/data/itemdatamanager.h"
+#include "common/data/item.h"
 
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
@@ -45,11 +46,11 @@ namespace PT
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
-      PT::Data::Item* item = PointerLibrary::getInstance()->getItemManager()->GetItemById(itemid);
+      PT::Data::Item* item = PointerLibrary::getInstance()->getItemDataManager()->GetItemById(itemid);
       if(item)
       {
-        name = item->GetName();
-        meshname = item->GetMeshName();
+        name = item->GetName().c_str();
+        meshname = item->GetMeshName().c_str();
 
         CreateCelEntity();
 
@@ -59,7 +60,7 @@ namespace PT
 
         // Load and assign the mesh to the entity.
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-        if (!pcmesh->SetMesh(meshname.GetData(), item->GetFileName().GetData()))
+        if (!pcmesh->SetMesh(meshname.GetData(), item->GetMeshFile().c_str()))
         {
           Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s", meshname.GetData());
           pcmesh->CreateEmptyGenmesh("EmptyGenmesh");

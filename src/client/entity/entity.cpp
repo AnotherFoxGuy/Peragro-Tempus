@@ -20,7 +20,8 @@
 
 #include "client/pointer/pointer.h"
 #include "client/event/entityevent.h"
-#include "client/data/sector/sectormanager.h"
+#include "common/data/sectordatamanager.h"
+#include "common/data/sector.h"
 
 namespace PT
 {
@@ -32,7 +33,10 @@ namespace PT
       type = ev.entityType;
       name = ev.entityName.c_str();
       meshname = ev.meshName.c_str();
-      sectorname = PointerLibrary::getInstance()->getSectorManager()->GetSectorName(ev.sectorId).c_str();
+      ///@todo This is an ugly hack. The server seems to send some impossible sector id from time to time.
+      PT::Data::Sector* sector = PointerLibrary::getInstance()->getSectorDataManager()->GetSectorById(ev.sectorId);
+      if (sector) sectorname = sector->GetName().c_str();
+      //End of ugly hack
       pos = ev.position;
       celentity = 0;
     }

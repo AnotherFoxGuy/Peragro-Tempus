@@ -29,7 +29,7 @@
 #include "client/gui/guimanager.h"
 #include "client/data/effect/effectsmanager.h"
 #include "client/combat/combatmanager.h"
-#include "client/data/item/itemmanager.h"
+#include "common/data/itemdatamanager.h"
 #include "client/entity/player/playerentity.h"
 
 PtConsole::PtConsole ()
@@ -247,8 +247,8 @@ public:
   }
   virtual void Execute (const csStringArray& args)
   {
-    PT::Data::ItemManager* itemmgr = PointerLibrary::getInstance()->getItemManager();
-    if(!itemmgr) return;
+    PT::Data::ItemDataManager* itemDataMgr = PointerLibrary::getInstance()->getItemDataManager();
+    if(!itemDataMgr) return;
 
     if (args.GetSize() < 2)
     {
@@ -256,7 +256,7 @@ public:
       return;
     }
     else if(strcmp(args[1],"reload")==0)
-      itemmgr->Initialize();
+      itemDataMgr->LoadItemData();
     else
     {
       parent->GetOutputConsole ()->PutText ("Unknown command!\n");

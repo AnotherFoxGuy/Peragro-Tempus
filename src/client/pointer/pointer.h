@@ -31,28 +31,28 @@ namespace PT
 
   namespace Data
   {
-    class DoorManager;
-    class ItemManager;
-    class SectorManager;
+    class DoorDataManager;
+    class ItemDataManager;
+    class SectorDataManager;
     class EffectsManager;
-  } // Data namespace 
+  } // Data namespace
 
   namespace Entity
   {
     class EntityManager;
-  } // Entity namespace 
+  } // Entity namespace
 
   namespace Events
   {
     class EventManager;
-  } // Events namespace 
+  } // Events namespace
 
   namespace Chat
   {
     class ChatManager;
-  } // Chat namespace 
+  } // Chat namespace
 
-} // PT namespace 
+} // PT namespace
 
 class PointerLibrary
 {
@@ -63,9 +63,9 @@ private:
   PT::Client* client;
   Cursor* cursor;
   Network* network;
-  PT::Data::DoorManager* doormanager;
-  PT::Data::ItemManager* itemmanager;
-  PT::Data::SectorManager* sectormanager;
+  PT::Data::DoorDataManager* doorDataManager;
+  PT::Data::ItemDataManager* itemDataManager;
+  PT::Data::SectorDataManager* sectorDataManager;
   PT::Data::EffectsManager* effectsmanager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
@@ -74,16 +74,16 @@ private:
   PT::Chat::ChatManager* chatmanager;
 
 public:
-  PointerLibrary() { 
-    pointerlib = this; 
+  PointerLibrary() {
+    pointerlib = this;
 
     objreg = 0;
     client = 0;
     cursor = 0;
     network = 0;
-    doormanager = 0;
-    itemmanager = 0;
-    sectormanager = 0;
+    doorDataManager = 0;
+    itemDataManager = 0;
+    sectorDataManager = 0;
     guimanager = 0;
     entitymanager = 0;
     effectsmanager = 0;
@@ -106,14 +106,14 @@ public:
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }
 
-  void setItemManager(PT::Data::ItemManager* itemmanager) { this->itemmanager = itemmanager; }
-  PT::Data::ItemManager* getItemManager() { return this->itemmanager; }
+  void setItemDataManager(PT::Data::ItemDataManager* itemDataManager) { this->itemDataManager = itemDataManager; }
+  PT::Data::ItemDataManager* getItemDataManager() { return this->itemDataManager; }
 
-  void setDoorManager(PT::Data::DoorManager* doormanager) { this->doormanager = doormanager; }
-  PT::Data::DoorManager* getDoorManager() { return this->doormanager; }
+  void setDoorDataManager(PT::Data::DoorDataManager* doorDataManager) { this->doorDataManager = doorDataManager; }
+  PT::Data::DoorDataManager* getDoorDataManager() { return this->doorDataManager; }
 
-  void setSectorManager(PT::Data::SectorManager* sectormanager) { this->sectormanager = sectormanager; }
-  PT::Data::SectorManager* getSectorManager() { return this->sectormanager; }
+  void setSectorDataManager(PT::Data::SectorDataManager* sectorDataManager) { this->sectorDataManager = sectorDataManager; }
+  PT::Data::SectorDataManager* getSectorDataManager() { return this->sectorDataManager; }
 
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }

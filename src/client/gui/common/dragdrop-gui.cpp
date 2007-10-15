@@ -18,7 +18,8 @@
 
 #include "client/gui/common/dragdrop-gui.h"
 
-#include "client/data/item/itemmanager.h"
+#include "common/data/itemdatamanager.h"
+#include "common/data/item.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h" 
@@ -36,7 +37,7 @@ DragDrop::DragDrop (GUIManager* guimanager)
 {
   this->guimanager = guimanager;
   winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr ();
-  itemmanager = PointerLibrary::getInstance()->getItemManager();
+  itemDataManager = PointerLibrary::getInstance()->getItemDataManager();
   network = PointerLibrary::getInstance()->getNetwork();
 
   counter = 0;
@@ -214,18 +215,18 @@ CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactabl
   // Lets decide what to make of the icon: Item or Skill.
   if(icontype == DragDrop::Item)
   {
-    PT::Data::Item* clientitem = itemmanager->GetItemById(objectid);
+    PT::Data::Item* clientitem = itemDataManager->GetItemById(objectid);
 
     // Set some variables.
     icon->setUserString("itemid" , IntToStr(objectid));
     icon->setUserString("icontype" , IntToStr(icontype));
-    icon->setTooltipText(clientitem->GetName().GetData());
+    icon->setTooltipText(clientitem->GetName());
 
     icon->setUserData(clientitem);
     //ClientItem* clientitem2 = static_cast<ClientItem*>(icon->getUserData());
     //printf("================%s\n", clientitem2->GetName().GetData() );
 
-    iconImage->setProperty("Image", clientitem->GetIconName().GetData());
+    iconImage->setProperty("Image", clientitem->GetIconName());
   }
   else if(icontype == DragDrop::Skill)
   {
@@ -246,7 +247,7 @@ CEGUI::String DragDrop::IntToStr(int number)
 
 Object* DragDrop::CreateItem(uint itemid, bool interactable)
 {
-  PT::Data::Item* clientitem = itemmanager->GetItemById(itemid);
+  PT::Data::Item* clientitem = itemDataManager->GetItemById(itemid);
 
   if (!clientitem)
   {

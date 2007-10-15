@@ -29,7 +29,8 @@
 #include <physicallayer/entity.h>
 #include <propclass/mesh.h>
 
-#include "client/data/item/itemmanager.h"
+#include "common/data/itemdatamanager.h"
+#include "common/data/item.h"
 
 #include "client/pointer/pointer.h"
 #include "client/reporter/reporter.h"
@@ -56,11 +57,11 @@ namespace PT
       if(!obj_reg) return;
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
       if(!pl.IsValid()) return;
-      PT::Data::ItemManager* itemmgr =  PointerLibrary::getInstance()->getItemManager();
-      if(!itemmgr) return;
+      PT::Data::ItemDataManager* itemDataMgr =  PointerLibrary::getInstance()->getItemDataManager();
+      if(!itemDataMgr) return;
 
       // Find the item by  ID.
-      PT::Data::Item* item = itemmgr->GetItemById(id);
+      PT::Data::Item* item = itemDataMgr->GetItemById(id);
       if(item)
       {
         // Create the item.
@@ -68,7 +69,7 @@ namespace PT
         this->itementity = itement;
         pl->CreatePropertyClass(itementity, "pcobject.mesh");
         csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
-        itempcmesh->SetMesh(item->GetMeshName().GetData(), item->GetFileName().GetData());
+        itempcmesh->SetMesh(item->GetMeshName().c_str(), item->GetMeshFile().c_str());
 
         // Get the player's mesh.
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);

@@ -145,7 +145,7 @@ void InventoryWindow::CreateGUIWindow()
   winMgr = cegui->GetWindowManagerPtr ();
 
   dragdrop = guimanager->GetDragDrop();
-  itemmanager = PointerLibrary::getInstance()->getItemManager();
+  itemDataManager = PointerLibrary::getInstance()->getItemDataManager();
 
   // Get the frame window
   CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("Inventory/Frame"));

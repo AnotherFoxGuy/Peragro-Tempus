@@ -24,7 +24,8 @@
 #include "client/event/eventmanager.h"
 #include "client/reporter/reporter.h"
 
-#include "client/data/sector/sectormanager.h"
+#include "common/data/sectordatamanager.h"
+#include "common/data/sector.h"
 
 namespace PT
 {
@@ -236,8 +237,8 @@ namespace PT
       unsigned int entityId = entityMoveEv->entityId;
       unsigned int sectorId = entityMoveEv->sectorId;
 
-      PT::Data::SectorManager* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-      std::string sectorName = sectormgr->GetSectorName(sectorId);
+      PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
+      std::string sectorName = sectorDataMgr->GetSectorById(sectorId)->GetName();
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
       if (!entity)
@@ -263,8 +264,8 @@ namespace PT
       unsigned int id = entityMoveEv->entityId;
       unsigned int sectorId = entityMoveEv->sectorId;
 
-      PT::Data::SectorManager* sectormgr = PointerLibrary::getInstance()->getSectorManager();
-      std::string sectorName = sectormgr->GetSectorName(sectorId);
+      PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
+      std::string sectorName = sectorDataMgr->GetSectorById(sectorId)->GetName();
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)

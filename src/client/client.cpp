@@ -59,9 +59,9 @@
 #include "client/gui/guimanager.h"
 #include "client/data/effect/effectsmanager.h"
 #include "client/combat/combatmanager.h"
-#include "client/data/door/doormanager.h"
-#include "client/data/item/itemmanager.h"
-#include "client/data/sector/sectormanager.h"
+#include "common/data/doordatamanager.h"
+#include "common/data/itemdatamanager.h"
+#include "common/data/sectordatamanager.h"
 #include "client/entity/entitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
@@ -92,8 +92,8 @@ namespace PT
     effectsmanager = 0;
     entitymanager = 0;
     combatmanager = 0;
-    doormanager = 0;
-    itemmanager = 0;
+    doorDataManager = 0;
+    itemDataManager = 0;
     cursor = 0;
     inputMgr = 0;
     last_seen = 0;
@@ -102,7 +102,7 @@ namespace PT
     eventmanager = 0;
     chatmanager = 0;
     trademanager = 0;
-    sectormanager = 0;
+    sectorDataManager = 0;
   }
 
   Client::~Client()
@@ -113,12 +113,12 @@ namespace PT
     delete guimanager;
     delete network;
     delete cursor;
-    delete doormanager;
-    delete itemmanager;
+    delete doorDataManager;
+    delete itemDataManager;
     delete inputMgr;
     delete reporter;
     delete trademanager;
-    delete sectormanager;
+    delete sectorDataManager;
   }
 
   void Client::PreProcessFrame()
@@ -250,6 +250,9 @@ namespace PT
     pointerlib.setObjectRegistry(GetObjectRegistry());
     pointerlib.setClient(this);
 
+    // Get the absolute file path for our data managers
+    csRef<iDataBuffer> dataDir = vfs->GetRealPath("/peragro/");
+
     // Create and Initialize the Network.
     network = new Network (this);
     if (!network)
@@ -263,23 +266,23 @@ namespace PT
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventmanager);
 
-    // Create and Initialize the DoorManager.
-    doormanager = new PT::Data::DoorManager (GetObjectRegistry());
-    if (!doormanager->Initialize())
-      return Report(PT::Error, "Failed to initialize DoorManager!");
-    pointerlib.setDoorManager(doormanager);
+    // Create and Initialize the DoorDataManager.
+    doorDataManager = new PT::Data::DoorDataManager (dataDir->GetData());
+    if (!doorDataManager->LoadDoorData())
+      return Report(PT::Error, "Failed to initialize DoorDataManager!");
+    pointerlib.setDoorDataManager(doorDataManager);
 
-    // Create and Initialize the ItemManager.
-    itemmanager = new PT::Data::ItemManager (GetObjectRegistry());
-    if (!itemmanager->Initialize())
-      return Report(PT::Error, "Failed to initialize ItemManager!");
-    pointerlib.setItemManager(itemmanager);
+    // Create and Initialize the ItemDataManager.
+    itemDataManager = new PT::Data::ItemDataManager (dataDir->GetData());
+    if (!itemDataManager->LoadItemData())
+      return Report(PT::Error, "Failed to initialize ItemDataManager!");
+    pointerlib.setItemDataManager(itemDataManager);
 
-    // Create and Initialize the SectorManager.
-    sectormanager = new PT::Data::SectorManager (GetObjectRegistry());
-    if (!sectormanager->Initialize())
+    // Create and Initialize the SectorDataManager.
+    sectorDataManager = new PT::Data::SectorDataManager (dataDir->GetData());
+    if (!sectorDataManager->LoadSectorData())
       return Report(PT::Error, "Failed to initialize SectorManager!");
-    pointerlib.setSectorManager(sectormanager);
+    pointerlib.setSectorDataManager(sectorDataManager);
 
     // Create and Initialize the GUImanager.
     guimanager = new GUIManager ();

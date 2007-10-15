@@ -27,7 +27,7 @@ class TradeWindow : public GUIWindow
 {
 private:
   DragDrop* dragdrop;
-  PT::Data::ItemManager* itemmanager;
+  PT::Data::ItemDataManager* itemDataManager;
   unsigned int numberOfSlots;
   bool accept1;
   bool accept2;

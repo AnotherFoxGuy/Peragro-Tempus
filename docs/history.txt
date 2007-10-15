@@ -10,7 +10,9 @@ under each day.
    - Made the stamina be updated per frame basis instead of per keypress.
    - Added recovery and drain rate for the stamina
  - swedishcoder added a comment about the DR function.
-
+ - azaghal implemented classes SectorDataManager, ItemDataManager, and
+   DoorDataManager, acting as replacement for current classes, and intended
+   to prevent code duplication. Updated the client code to use them.
 
 14-Oct-2007
  - Sueastside changed sit code to send new pose when standing.
