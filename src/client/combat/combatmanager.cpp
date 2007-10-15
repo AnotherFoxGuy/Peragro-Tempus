@@ -16,8 +16,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/entity/entitymanager.h"
-
 #include "client/combat/combatmanager.h"
 
 #include <iutil/objreg.h>
@@ -38,6 +36,8 @@
 #include "client/gui/guimanager.h"
 
 #include "client/data/effect/effectsmanager.h"
+
+#include "client/entity/entitymanager.h"
 
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
@@ -62,7 +62,6 @@ iMeshWrapper* CombatMGR::getMesh(iCelEntity* entity)
 
 bool CombatMGR::Initialize ()
 {
-  client      = PointerLibrary::getInstance()->getClient();
   entitymgr   = PointerLibrary::getInstance()->getEntityManager();
   effectsmgr  = PointerLibrary::getInstance()->getEffectsManager();
   guimanager  = PointerLibrary::getInstance()->getGUIManager();
@@ -90,7 +89,6 @@ bool CombatMGR::Initialize ()
 void CombatMGR::hit (int targetId, int damage)
 {
   // Lookup the ID to get the actual entity.
-  //iCelEntity* target = entitymgr->findCelEntById(targetId);
   PT::Entity::Entity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
@@ -107,29 +105,14 @@ void CombatMGR::hit (int targetId, int damage)
     return;
   }
 
-//  csRef<iPcMesh> pcactormove =
-//    CEL_QUERY_PROPCLASS_ENT(targetcel, iPcMesh);
-
-//  pcactormove->SetAnimation("attack", false, 1.0, 0.1, 0.1, false);
-
-  csRef<iGeneralMeshState> spstate (
-      scfQueryInterface<iGeneralMeshState> (getMesh(targetcel)->GetMeshObject ()));
-    csRef<iGenMeshSkeletonControlState> animcontrol (
-
-      scfQueryInterface<iGenMeshSkeletonControlState> (spstate->GetAnimationControl ()));
-    // To check if I am leaking here...
-    iSkeleton* skeleton = animcontrol->GetSkeleton ();
-
-    skeleton->Execute("attack");
-
-  csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (getMesh(targetcel)->GetMeshObject());
-  if (!cal3dstate) return;
-
   // Damage is positive, we got hurt.
   if (damage > 0)
   {
     effectsmgr->CreateEffect(getMesh(targetcel), PT::Data::EffectsManager::Blood);
-    cal3dstate->SetAnimAction("walkcycle", 0.5f, 0.5f);
+    if (target->GetType() == PT::Entity::PCEntityType)
+    {
+      ((PT::Entity::PcEntity*) target)->PlayAnimation("hit", 1.0f);
+    }
   }
   // Damage is negative, we got healed.
   else if (damage < 0)

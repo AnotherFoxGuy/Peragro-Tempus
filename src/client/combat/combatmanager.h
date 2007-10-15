@@ -19,18 +19,16 @@
 #ifndef COMBATMANAGER_H
 #define COMBATMANAGER_H
 
-#include "cssysdef.h"
-#include "csutil/ref.h"
-#include "iutil/vfs.h"
-#include "iengine/engine.h"
+#include <cssysdef.h>
+#include <csutil/ref.h>
+#include <iutil/vfs.h>
+#include <iengine/engine.h>
 
 #include "physicallayer/pl.h"
 
 #include "client/entity/entity.h"
 
 #include "common/util/mutex.h"
-
-#include "client/client.h"
 
 #include "client/network/network.h"
 
@@ -52,7 +50,6 @@ private:
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
 
-  PT::Client* client;
   PT::Data::EffectsManager* effectsmgr;
   PT::Entity::EntityManager* entitymgr;
   GUIManager* guimanager;

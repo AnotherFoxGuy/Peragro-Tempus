@@ -195,8 +195,8 @@ namespace PT
         if (sitting)
         {
           sitting = false;
-          PlayAnimation("Sit_up", 1.0f, false);
-          PlayAnimation("idle", true, false);
+          PlayAnimation("Sit_up", 1.0f, false, true);
+          PlayAnimation("idle", 0.1f, true);
         }
       }
       else if (poseId == 1)
@@ -208,8 +208,8 @@ namespace PT
         if (!sitting)
         {
           sitting = true;
-          PlayAnimation("Sit_down", 1.0f, false);
-          PlayAnimation("Sit", true, false);
+          PlayAnimation("Sit_down", 1.0f, false, true);
+          PlayAnimation("Sit", 0.1f, true);
         }
       }
 

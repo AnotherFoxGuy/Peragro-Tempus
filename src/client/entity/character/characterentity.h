@@ -62,7 +62,7 @@ namespace PT
       void PlayAnimation(const char* animationnName, 
                          float blend_factor = 0.0f,
                          bool loop = false, 
-                         bool stopOthers = true);
+                         bool stopOthers = false);
       void UpdatePlayerStats();
     };
   }

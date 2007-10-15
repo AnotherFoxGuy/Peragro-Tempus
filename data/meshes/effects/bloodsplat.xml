@@ -21,18 +21,20 @@
 
 	  <material name="bloodspatmaterial">
 	    <texture>bloodspattexture</texture>
-		  <shader type="particles">uvanim</shader>
+		  <shader type="standard">uvanim</shader>
 		  <shadervar type='float' name='num frames x'>6.0</shadervar>
 		  <shadervar type='float' name='num frames y'>9.0</shadervar>
       		  <shadervar type='float' name='frame speed'>54.0</shadervar>
       		  <shadervar type='vector4' name='glow alpha'>1,1,1,1</shadervar>
 	  </material>
+
 	  
 </materials>
 
 <meshfact name='bloodsplatfact'>
 	<plugin>crystalspace.mesh.loader.factory.genmesh</plugin>
 	<ztest/>
+	<priority>alpha</priority>
 	<params>
 		<material>bloodspatmaterial</material>
 		<manualcolors/>
