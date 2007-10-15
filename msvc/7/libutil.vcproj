@@ -164,6 +164,9 @@
 				RelativePath="..\..\src\common\util\ptstring.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\ptvector3.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\stringstore.cpp">
 			</File>
 			<File
@@ -196,6 +199,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\pttime.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\ptvector3.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\queue.h">
