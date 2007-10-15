@@ -165,14 +165,16 @@ namespace PT
         PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
         if (player)
         {
-          int currentStamina = player->GetCurrentStamina();
-          int maxStamina = player->GetMaxStamina();
-          float ratio = (float)currentStamina / (float)maxStamina;
+          player->UpdatePlayerStats();
+          float currentStamina = player->GetCurrentStamina();
+          float maxStamina = player->GetMaxStamina();
+          float ratio = currentStamina / maxStamina;
           if (guimanager)
           {
             guimanager->GetHUDWindow()->SetSP(ratio);
             char buffer[40];
-            sprintf(buffer, "            %d/%d", currentStamina, maxStamina);
+            sprintf(buffer, "            %d/%d", (int)currentStamina,
+                                                 (int)maxStamina);
             guimanager->GetHUDWindow()->SetText("PlayerHUD/SPValue", buffer);
           }
         }

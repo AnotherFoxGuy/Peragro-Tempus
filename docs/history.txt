@@ -4,6 +4,14 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+15-Oct-2007
+ - swedishcoder did a lot of stamina related changes:
+   - Changed the stamina to use float instead of unsigned int
+   - Made the stamina be updated per frame basis instead of per keypress.
+   - Added recovery and drain rate for the stamina
+ - swedishcoder added a comment about the DR function.
+
+
 14-Oct-2007
  - Sueastside changed sit code to send new pose when standing.
  - Sueastside added mounted animation.

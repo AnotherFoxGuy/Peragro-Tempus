@@ -31,6 +31,7 @@ namespace PT
     {
     private:
       Equipment equipment;
+      csTicks lastStatUpdate;
 
     protected:
       CharacterEntity() : equipment(this) {}
@@ -38,8 +39,10 @@ namespace PT
 
       virtual ~CharacterEntity() {}
 
-      unsigned int maxStamina;
-      unsigned int currentStamina;
+      float maxStamina;
+      float currentStamina;
+      float recoverStamina; // + stamina/ms
+      float drainStamina;   // - stamina/ms
       bool sitting;
 
     public:
@@ -48,10 +51,10 @@ namespace PT
       void DrUpdate(DrUpdateData* drupdate);
       void Teleport(csVector3 pos, csString sector);
 
-      unsigned int GetCurrentStamina() const { return currentStamina; }
-      void SetCurrentStamina(unsigned int x);
-      unsigned int GetMaxStamina() const { return maxStamina; }
-      void SetMaxStamina(unsigned int x) { maxStamina = x; }
+      float GetCurrentStamina() const { return currentStamina; }
+      void SetCurrentStamina(float x);
+      float GetMaxStamina() const { return maxStamina; }
+      void SetMaxStamina(float x) { maxStamina = x; }
 
       Equipment& GetEquipment() {return equipment;}
       void Pose(unsigned int poseId);
@@ -60,6 +63,7 @@ namespace PT
                          float blend_factor = 0.0f,
                          bool loop = false, 
                          bool stopOthers = true);
+      void UpdatePlayerStats();
     };
   }
 }

@@ -36,6 +36,10 @@ namespace PT
       maxStamina = 100;
       currentStamina = 100;
       sitting = false;
+      lastStatUpdate = 0;
+      recoverStamina = 0.001f;
+      drainStamina = 0.002f;
+
 
       //Add the equipment
       for(size_t i = 0; i < ev.equipment.GetSize(); i++)
@@ -65,14 +69,6 @@ namespace PT
           pcactormove->Run(movement->run);
         else
           pcactormove->Run(false);
-      }
-      if (movement->run)
-      {
-        SetCurrentStamina(GetCurrentStamina() - 1);
-      }
-      else
-      {
-        SetCurrentStamina(GetCurrentStamina() + 1);
       }
     }
 
@@ -129,6 +125,9 @@ namespace PT
       return true;
     }
 
+    /**
+     *\brief Used for updating the positon using daed reckoning.
+     */
     void CharacterEntity::DrUpdate(DrUpdateData* drupdate)
     {
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -162,7 +161,7 @@ namespace PT
       mov->SetPosition(pos);
     }
 
-    void CharacterEntity::SetCurrentStamina(unsigned int x)
+    void CharacterEntity::SetCurrentStamina(float x)
     {
       if (x >= 0 && x <= maxStamina) currentStamina = x;
     }
@@ -214,6 +213,43 @@ namespace PT
         }
       }
 
+    }
+
+    /**
+     * \brief This functions purpose is to update all player stats
+     *
+     * Currently it only calculates how much  stamina the character
+     * has left.
+     */
+    void CharacterEntity::UpdatePlayerStats()
+    {
+      csTicks time = csGetTicks();
+      csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celentity,
+                                                              iPcActorMove);
+      csTicks diff = time - lastStatUpdate;
+
+      // If lastStatUpdate == 0 then we have never updated the stats,
+      // Lets not do this yet, since then we will base our update from
+      // the program start, which is not correct.
+      if (lastStatUpdate == 0) {
+        lastStatUpdate = time;
+        return;
+      }
+
+      if (pcactormove->IsRunning()) {
+        // Decrease stamina
+        currentStamina -= diff * drainStamina;
+        if (currentStamina < 0) {
+          currentStamina = 0;
+        }
+      } else {
+        // Increase stamina
+        currentStamina += diff * recoverStamina;
+        if (currentStamina > maxStamina) {
+          currentStamina = maxStamina;
+        }
+      }
+      lastStatUpdate = time;
     }
   }
 }
