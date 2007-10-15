@@ -157,53 +157,6 @@
 		</Configuration>
 	</Configurations>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\..\src\client\data\door\doormanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\effect\effect.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\effect\effectsmanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\item\item.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\item\itemmanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\sector\sectormanager.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="">
-			<File
-				RelativePath="..\..\src\client\data\door\door.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\door\doormanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\effect\effect.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\effect\effectsmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\item\item.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\item\itemmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\sector\sectormanager.h">
-			</File>
-		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
