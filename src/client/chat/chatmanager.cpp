@@ -44,8 +44,6 @@ namespace PT
 
       network = PointerLibrary::getInstance()->getNetwork();
       guimanager = PointerLibrary::getInstance()->getGUIManager();
-
-      playernames.insert(std::pair<unsigned int, std::string>(1, "swedishcoder"));
     }
 
     ChatManager::~ChatManager ()
