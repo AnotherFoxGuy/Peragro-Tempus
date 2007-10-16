@@ -88,7 +88,7 @@ namespace PT
     //Did we find an action for key binding?
     if (it==functions.end())
     {
-      Report(PT::Warning, "No action for key '%s'.", eventShortcut.GetConfigKey().c_str());
+      Report(PT::Warning, "No action for key '%s'(%s).", eventShortcut.GetConfigKey().c_str(), down?"down":"up");
       return false;
     }
 
@@ -115,7 +115,7 @@ namespace PT
 
     if (it==functions.end())
     {
-      Report(PT::Warning, "No action for button '%s'.", eventShortcut.GetConfigKey().c_str());
+      Report(PT::Warning, "No action for button '%s'(%s).", eventShortcut.GetConfigKey().c_str(), down?"down":"up");
       return false;
     }
     Report(PT::Debug, "%s button '(%s)', firing action '%s'.", down ? "Pressed":"Released", it->first.GetConfigKey().c_str(), it->second.c_str());
