@@ -41,8 +41,10 @@ namespace PT
     RegisterQueue (obj_reg, csevInput (obj_reg));
 
     //Open configuration file, and prepare iterator for easy access
-    csConfigAccess cfg (obj_reg, "/config/client.cfg");
-    csRef<iConfigIterator> it = cfg->Enumerate("Key");
+    //csConfigAccess cfg (obj_reg, "/config/client.cfg");
+    csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (obj_reg);
+    if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
+    csRef<iConfigIterator> it = app_cfg->Enumerate("Key");
 
     Report(PT::Debug, "");
     Report(PT::Debug, "==Loading keybindings==========================");

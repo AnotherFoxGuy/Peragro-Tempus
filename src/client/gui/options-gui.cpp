@@ -62,8 +62,6 @@ void OptionsWindow::CreateGUIWindow ()
     return;
   }
 
-  app_cfg->Load("/peragro/config/client.cfg", vfs, true, true);
-
   // Set up the button behaviour for Reflections.
   CreateDropListReflections();
   btn = winMgr->getWindow("Options/Reflections/DropList");
