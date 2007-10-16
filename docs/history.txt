@@ -10,6 +10,7 @@ under each day.
    the configuration file.
  - Sueastside fixed window focus, so CEGUI doesn't wrongly capture input.
  - Sueastside added basic tabcompletion.
+ - Sueastside made tabcompletion case-insensitive.
 
 15-Oct-2007
  - swedishcoder did a lot of stamina related changes:

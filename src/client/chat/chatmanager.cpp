@@ -270,9 +270,16 @@ namespace PT
       for (p = playernames.begin(); p!=playernames.end(); ++p)
       {
         std::string playername = p->second;
+        // Convert playername to lowercase for compare.
+        std::transform(playername.begin(), playername.end(),playername.begin(),tolower);
         if(playername.find(incompleteWord.c_str(), 0, incompleteWord.length()) != std::string::npos )
         {
-          text += (playername.substr(incompleteWord.length())).c_str();
+          // Restore playername.
+          playername = p->second;
+          // Cut off the incomplete word and add the playername.
+          text = text.substr(0, text.length()-incompleteWord.length());
+          text += playername.c_str();
+          // Update the text.
           btn->setText(text);
           ((CEGUI::Editbox*)btn)->setCaratIndex(text.length());
           break;
