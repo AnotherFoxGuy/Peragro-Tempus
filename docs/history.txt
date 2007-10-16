@@ -8,6 +8,7 @@ under each day.
  - Sueastside added bleeding, press 'h' and watch him die!
  - Sueastside stopped overwriting user settings when loading
    the configuration file.
+ - Sueastside fixed window focus, so CEGUI doesn't wrongly capture input.
 
 15-Oct-2007
  - swedishcoder did a lot of stamina related changes:

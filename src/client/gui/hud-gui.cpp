@@ -300,64 +300,74 @@ bool HUDWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
     slot = winMgr->getWindow("SkillHUD/quickslot_1");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F2:
     slot = winMgr->getWindow("SkillHUD/quickslot_2");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F3:
     slot = winMgr->getWindow("SkillHUD/quickslot_3");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F4:
     slot = winMgr->getWindow("SkillHUD/quickslot_4");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F5:
     slot = winMgr->getWindow("SkillHUD/quickslot_5");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F6:
     slot = winMgr->getWindow("SkillHUD/quickslot_6");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F7:
     slot = winMgr->getWindow("SkillHUD/quickslot_7");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F8:
     slot = winMgr->getWindow("SkillHUD/quickslot_8");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F9:
     slot = winMgr->getWindow("SkillHUD/quickslot_9");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   case Key::F10:
     slot = winMgr->getWindow("SkillHUD/quickslot_10");
     if (slot && slot->getChildCount() > 0) skill = slot->getChildAtIdx(0);
     if (skill) SetActiveSkill(skill);
+    return true;
     break;
 
   default: return false;
   }
 
-  return true;
+  return false;
 }

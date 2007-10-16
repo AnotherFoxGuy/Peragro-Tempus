@@ -897,13 +897,16 @@ namespace PT
 
     // Hide the background.
     iCEGUI* cegui = guimanager->GetCEGUI();
-    if (   cegui->GetWindowManagerPtr ()->isWindowPresent("Root")
+    if (cegui->GetWindowManagerPtr ()->isWindowPresent("Root")
       && cegui->GetWindowManagerPtr ()->isWindowPresent("Background") )
     {
       CEGUI::Window* image = cegui->GetWindowManagerPtr ()->getWindow("Background");
       CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
       if (image && root) root->removeChildWindow(image);
     }
+
+    // Little hack to restore focus.
+    guimanager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
 
 
     const char* regionname = cmdline->GetOption("world");

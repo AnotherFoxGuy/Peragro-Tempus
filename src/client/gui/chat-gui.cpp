@@ -131,20 +131,23 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
     if (!visible) return false;
     winMgr->getWindow("InputPanel/Frame")->setVisible(true);
     winMgr->getWindow("InputPanel/InputBox")->activate();
+    return true;
     break;
 
   case Key::F11:
     statuswin->isVisible(true) ? statuswin->hide() : statuswin->show();
+    return true;
     break;
 
   case Key::F12:
     inventorywin->isVisible(true) ? inventorywin->hide() : inventorywin->show();
+    return true;
     break;
 
   default: return false;
   }
 
-  return true;
+  return false;
 }
 
 void ChatWindow::CreateDropList()
