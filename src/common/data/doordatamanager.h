@@ -57,7 +57,7 @@ namespace PT
         directory path.
         @param path Path to the data directory.
        */
-      DoorDataManager(std::string path) : dataPath(path) {}
+      DoorDataManager(const std::string& path) : dataPath(path) {}
       ~DoorDataManager();
 
       /**
@@ -67,7 +67,7 @@ namespace PT
       /**
         @return Data directory path.
        */
-      std::string GetDataPath() const { return dataPath; }
+      const std::string& GetDataPath() const { return dataPath; }
 
       /**
         Loads all the doors information located in doors definition file.

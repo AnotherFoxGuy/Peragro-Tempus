@@ -62,19 +62,19 @@ namespace PT
       unsigned int GetId() const { return id; }
 
       void SetName(const std::string& value) { name=value; }
-      std::string GetName() const { return name; }
+      const std::string& GetName() const { return name; }
 
       void SetIconName(const std::string& value) { icon=value; }
-      std::string GetIconName() const { return icon; }
+      const std::string& GetIconName() const { return icon; }
 
       void SetDescription(const std::string& value) { description=value; }
-      std::string GetDescription() const { return description; }
+      const std::string& GetDescription() const { return description; }
 
       void SetMeshFile(const std::string& value) { meshFile=value; }
-      std::string GetMeshFile() const { return meshFile; }
+      const std::string& GetMeshFile() const { return meshFile; }
 
       void SetMeshName(const std::string& value) { meshName=value; }
-      std::string GetMeshName() const { return meshName; }
+      const std::string& GetMeshName() const { return meshName; }
 
       void SetWeight(float value) { weight = value; }
       float GetWeight() const { return weight; }

@@ -60,24 +60,24 @@ namespace PT
       unsigned int GetId() const { return id; }
 
       void SetName(const std::string& value) { name = value; }
-      std::string GetName() const { return name; }
+      const std::string& GetName() const { return name; }
 
       void SetMeshName(const std::string& value) { meshName = value; }
-      std::string GetMeshName() const { return meshName; }
+      const std::string& GetMeshName() const { return meshName; }
 
       void SetPosition(double x,double y,double z)
         { position = PtVector3(x,y,z); }
       void SetPosition(const PtVector3& value) { position = value;}
-      PtVector3 GetPosition() const { return position; }
+      const PtVector3& GetPosition() const { return position; }
 
       void SetSectorName(const std::string& value) { sectorName = value; }
-      std::string GetSectorName() const { return sectorName; }
+      const std::string& GetSectorName() const { return sectorName; }
 
       void SetKeyId(unsigned int value) { keyId = value; }
       unsigned int GetKeyId() const { return keyId; }
 
       void SetQuestName(const std::string& value) { questName = value; }
-      std::string GetQuestName() const { return questName; }
+      const std::string& GetQuestName() const { return questName; }
     };
   }
 }

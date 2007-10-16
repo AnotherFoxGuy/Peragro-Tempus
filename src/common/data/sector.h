@@ -48,7 +48,7 @@ namespace PT
       unsigned int GetId() const { return id; }
 
       void SetName(const std::string& value) { name = value; }
-      std::string GetName() const { return name; }
+      const std::string& GetName() const { return name; }
     };
   }
 }

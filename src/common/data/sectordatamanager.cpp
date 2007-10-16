@@ -71,7 +71,7 @@ namespace PT
       return 0;
     }
 
-    Sector* SectorDataManager::GetSectorByName(std::string name) const
+    Sector* SectorDataManager::GetSectorByName(const std::string& name) const
     {
       for (size_t i = 0; i < sectors.size(); i++)
         if (sectors[i]->GetName() == name) return sectors[i];

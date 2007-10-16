@@ -57,7 +57,7 @@ namespace PT
         directory path.
         @param path Path to the data directory.
        */
-      ItemDataManager(std::string path) : dataPath(path) {}
+      ItemDataManager(const std::string& path) : dataPath(path) {}
       ~ItemDataManager();
 
       /**
@@ -67,7 +67,7 @@ namespace PT
       /**
         @return Data directory path.
        */
-      std::string GetDataPath() const { return dataPath; }
+      const std::string& GetDataPath() const { return dataPath; }
 
       /**
         Loads all the items information located in items definition file.

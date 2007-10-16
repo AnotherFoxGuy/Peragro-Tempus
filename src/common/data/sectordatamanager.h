@@ -57,7 +57,7 @@ namespace PT
         directory path.
         @param path Path to the data directory.
        */
-      SectorDataManager(std::string path) : dataPath(path) {}
+      SectorDataManager(const std::string& path) : dataPath(path) {}
       ~SectorDataManager();
 
       /**
@@ -67,7 +67,7 @@ namespace PT
       /**
         @return Data directory path.
        */
-      std::string GetDataPath() const { return dataPath; }
+      const std::string& GetDataPath() const { return dataPath; }
 
       /**
         Loads all the sectors information located in sectors definition file.
@@ -84,7 +84,7 @@ namespace PT
         @param name Name of the wanted sector.
         @return Pointer to item with given ID, or 0 if none was found.
        */
-      Sector* GetSectorByName(std::string name) const;
+      Sector* GetSectorByName(const std::string& name) const;
     };
   }
 }
