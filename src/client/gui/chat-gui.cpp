@@ -90,7 +90,7 @@ void ChatWindow::SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber)
 
   // set up submitting message on enter
   CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
-  if (btn) btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, sumbitEventSubscriber);
+  if (btn) btn->subscribeEvent(CEGUI::Editbox::EventKeyDown, sumbitEventSubscriber);
 }
 
 bool ChatWindow::OnDropList(const CEGUI::EventArgs& e) 

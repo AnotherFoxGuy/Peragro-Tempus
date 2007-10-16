@@ -9,6 +9,7 @@ under each day.
  - Sueastside stopped overwriting user settings when loading
    the configuration file.
  - Sueastside fixed window focus, so CEGUI doesn't wrongly capture input.
+ - Sueastside added basic tabcompletion.
 
 15-Oct-2007
  - swedishcoder did a lot of stamina related changes:

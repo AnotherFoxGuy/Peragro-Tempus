@@ -44,6 +44,8 @@ namespace PT
 
       network = PointerLibrary::getInstance()->getNetwork();
       guimanager = PointerLibrary::getInstance()->getGUIManager();
+
+      playernames.insert(std::pair<unsigned int, std::string>(1, "swedishcoder"));
     }
 
     ChatManager::~ChatManager ()
@@ -67,6 +69,12 @@ namespace PT
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       guimanager->GetChatWindow()->SetSubmitEvent(function);
 
+      EventHandler<ChatManager>* cb = new EventHandler<ChatManager>(&ChatManager::ProcessEvents, this);
+      // Register listener for EntityAddEvent.
+      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cb);
+      // Register listener for EntityRemoveEvent.
+      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cb);
+
       // Register commands.
       Command* cmd = new cmdHelp(); RegisterCommand(cmd);
       cmd = new cmdSay(); RegisterCommand(cmd);
@@ -77,7 +85,7 @@ namespace PT
       cmd = new cmdSit(); RegisterCommand(cmd);
 
       return true;
-    }
+    } // end Initialize ()
 
     bool ChatManager::HandleSay(PT::Events::Eventp ev)
     {
@@ -102,7 +110,7 @@ namespace PT
         guimanager->GetChatWindow ()->AddChatMessage (chatEv->nickName.c_str(), chatEv->message.c_str());
 
       return true;
-    }
+    } // end HandleSay ()
 
     bool ChatManager::HandleWhisper(PT::Events::Eventp ev)
     {
@@ -114,39 +122,56 @@ namespace PT
       guimanager->GetWhisperWindow()->AddWhisper(chatEv->nickName.c_str(), chatEv->message.c_str());
 
       return true;
-    }
+    } // end HandleWhisper ()
 
     bool ChatManager::OnSubmit (const CEGUI::EventArgs& e)
     {
-      CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
-      CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
-      if (!btn)
-      {
-        Report(PT::Error, "Inputbox of Chat not found!");
-        return false;
-      }
+      using namespace CEGUI;
 
-      CEGUI::String text = btn->getText();
+      const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
-      // If the submitted text is empty, hide the InputPanel.
-      if (text.empty()) 
+      // If TAB is pressed, do tabcompletion.
+      if (keyArgs.scancode == Key::Tab)
       {
-        winMgr->getWindow("InputPanel/Frame")->setVisible(false);
-        winMgr->getWindow("Chatlog/Frame")->activate();
+        TabCompletion();
         return true;
       }
+      // If Return is pressed, handle it for output.
+      else if (keyArgs.scancode == Key::Return)
+      {
+        CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+        CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+        if (!btn)
+        {
+          Report(PT::Error, "Inputbox of Chat not found!");
+          return false;
+        } // end if
 
-      // Handle submitted text.
-      HandleOutput(text.c_str());
+        CEGUI::String text = btn->getText();
 
-      // Erase the text.
-      btn->setText(text.erase());
+        // If the submitted text is empty, hide the InputPanel.
+        if (text.empty()) 
+        {
+          winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+          winMgr->getWindow("Chatlog/Frame")->activate();
+          return true;
+        } // end if
 
-      // TODO: Push the messages on a stack to get some 
-      // 'command history'.
+        // Handle submitted text.
+        HandleOutput(text.c_str());
 
-      return true;
-    }
+        // Erase the text.
+        btn->setText(text.erase());
+
+        // TODO: Push the messages on a stack to get some 
+        // 'command history'.
+
+        return true;
+      } // end if
+
+      return false;
+
+    } // end OnSubmit ()
 
     StringArray ChatManager::ParseString (const char* texti)
     {
@@ -161,7 +186,7 @@ namespace PT
       {
         arg.push_back(text.substr(0, 1));
         beginPos = 1;
-      }
+      } // end if
 
       std::string args = text.substr(beginPos, text.size());
       std::string tail = args;
@@ -181,33 +206,34 @@ namespace PT
           arg.push_back( tail.substr(0, pos) );
           Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, pos).c_str() );
           tail = tail.substr(pos+1, tail.size());
-        } // else
-      } //while
+        } // end if
+      } // end while
 
       return arg;
 
-    } //ParseString
+    } // end ParseString ()
 
     void ChatManager::Execute (const char* cmd, const StringArray& args)
     {
       std::vector<Commandp>::iterator it;
-      for(it = commands.begin(); it != commands.end(); ++it)
+      for (it = commands.begin(); it != commands.end(); ++it)
       {
         if (strcmp (it->get()->GetCommand(), cmd) == 0)
         {
           it->get()->Execute(args);
           return;
-        } // if
-      } // for
+        } // end if
+      } // end for
 
       Report(PT::Warning, "Unknown command '%s'!", cmd);
-    }
+
+    } // end Execute ()
 
     void ChatManager::RegisterCommand (Command* cmd)
     {
       Commandp cmdp(cmd);
       commands.push_back(cmdp);
-    }
+    } // end RegisterCommand ()
 
     void ChatManager::HandleOutput (const char* texti)
     {
@@ -217,10 +243,69 @@ namespace PT
       if (arg.size() > 1 && arg[0].compare("/") == 0)
       {
         Execute(arg[1].c_str(), arg);
-      }
+      } // end if
       else
         Execute("say", arg); // Special case.
-    }
+
+    } // end HandleOutput ()
+
+    void ChatManager::TabCompletion ()
+    {
+      CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+      CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+      if (!btn)
+      {
+        Report(PT::Error, "Inputbox of Chat not found!");
+        return;
+      } // end if
+
+      CEGUI::String text = btn->getText();
+      if (text.empty()) return;
+
+      StringArray words = ParseString (text.c_str());
+
+      std::string incompleteWord = words[words.size()-1];
+
+      Report(PT::Error, "INCOMPLETE WORD: %s", incompleteWord.c_str());
+
+      std::map<unsigned int, std::string>::iterator p;
+      for (p = playernames.begin(); p!=playernames.end(); ++p)
+      {
+        std::string playername = p->second;
+        if(playername.find(incompleteWord.c_str(), 0, incompleteWord.length()) != std::string::npos )
+        {
+          text += (playername.substr(incompleteWord.length())).c_str();
+          btn->setText(text);
+          ((CEGUI::Editbox*)btn)->setCaratIndex(text.length());
+          break;
+        } // end if
+      } // end for
+    } // end TabCompletion ()
+
+    bool ChatManager::ProcessEvents(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
+
+      if (ev->GetEventID().compare("EntityAddEvent") == 0)
+      {
+        EntityAddEvent* entityAddEv = GetEntityEvent<EntityAddEvent*>(ev);
+        if (!entityAddEv) return false;
+
+        if (entityAddEv->entityType == PT::Entity::PCEntityType)
+        {
+          playernames.insert(std::pair<unsigned int, std::string>(entityAddEv->entityId, entityAddEv->entityName));
+        } // end if
+      } // end if
+      else if (ev->GetEventID().compare("EntityRemoveEvent") == 0)
+      {
+        EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
+        if (!entityRemoveEv) return false;
+
+          playernames.erase(entityRemoveEv->entityId);
+      } // end if
+
+      return true;
+    } // end ProcessEvents ()
 
   } // Chat namespace 
 } // PT namespace 

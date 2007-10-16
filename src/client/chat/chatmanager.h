@@ -46,11 +46,13 @@ namespace PT
       GUIManager* guimanager;
 
       std::vector<Commandp> commands;
+      std::map<unsigned int, std::string> playernames;
 
     private:
       void HandleOutput (const char* texti);
       StringArray ParseString (const char* texti);
       void Execute (const char* cmd, const StringArray& args);
+      void TabCompletion ();
 
     public: // CEGUI events.
       bool OnSubmit (const CEGUI::EventArgs& e);
@@ -58,6 +60,7 @@ namespace PT
     public: // PT events.
       bool HandleSay(PT::Events::Eventp ev);
       bool HandleWhisper(PT::Events::Eventp ev);
+      bool ProcessEvents(PT::Events::Eventp ev);
 
     public:
       ChatManager (iObjectRegistry* obj_reg);
