@@ -74,7 +74,7 @@ namespace PT
       bool PerformMovementAction(); ///<Helper method for sending new movement information.
 
     public:
-      void Interact(){}
+      void Interact();
 
       /**
        * Returns a pointer to an instance of the class. Initiate the instance

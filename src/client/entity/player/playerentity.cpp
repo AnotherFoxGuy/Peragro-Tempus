@@ -362,14 +362,7 @@ namespace PT
 
         if (!inputEv->released)
         {
-          if (!celentity) return false;
-          csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-          if (!pcmesh) return false;
-          csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-          if (!parent) return false;
-          csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
-          if (!cal3dstate) return false;
-          cal3dstate->SetAnimAction("attack_sword_s", 0.0f, 0.0f);
+          PlayAnimation("attack_sword_s");
         }
       }
 
@@ -469,5 +462,10 @@ namespace PT
       }
       camera->Draw();
     }
+
+    void PlayerEntity::Interact()
+    {
+    }
+
   } //Entity namespace
 } //PT namespace

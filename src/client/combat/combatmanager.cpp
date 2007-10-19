@@ -402,7 +402,7 @@ void CombatMGR::RequestSkillUsageStart (unsigned int targetId, unsigned int skil
   msg.setSkill(skillId);
   network->send(&msg);
 
-  Report(PT::Debug, "CombatMGR: Sent SkillUsageStartRequestMessage.");
+  Report(PT::Debug, "CombatMGR: Sent SkillUsageStartRequestMessage target: %d skillid: %.", targetId, skillId);
 
 }
 
