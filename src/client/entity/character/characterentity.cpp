@@ -185,7 +185,7 @@ namespace PT
 
       if (stopOthers) skeleton->StopAll ();
       iSkeletonAnimation* inst = skeleton->Execute(animationnName, blend_factor);
-      inst->SetLoop(loop);
+      if (inst) inst->SetLoop(loop);
     }
 
     void CharacterEntity::Pose(unsigned int poseId)

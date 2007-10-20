@@ -86,7 +86,7 @@ namespace PT
        */
       Sector* GetSectorByName(const std::string& name) const;
     };
-  }
-}
+  } // Data namespace
+} // PT namespace
 
-#endif
+#endif // PT_DATASECTORDATAMANAGER_H

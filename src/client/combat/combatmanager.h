@@ -53,6 +53,7 @@ private:
   PT::Data::EffectsManager* effectsmgr;
   PT::Entity::EntityManager* entitymgr;
   GUIManager* guimanager;
+  PT::Data::SkillDataManager* skillmanager;
   Network* network;
 
   bool playing; /**Determines if the client is ready for playing.*/
@@ -60,15 +61,6 @@ private:
   iMeshWrapper* getMesh(iCelEntity* entity);
 
 public:
-
-  enum AttackType
-  {
-    Heal=1,
-    EnergySpear=2,
-    Melee=3,
-    EnergyBind=4
-  };
-
   CombatMGR ();
   ~CombatMGR ();
 

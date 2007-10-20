@@ -34,6 +34,7 @@ namespace PT
     class DoorDataManager;
     class ItemDataManager;
     class SectorDataManager;
+    class SkillDataManager;
     class EffectsManager;
   } // Data namespace
 
@@ -66,6 +67,7 @@ private:
   PT::Data::DoorDataManager* doorDataManager;
   PT::Data::ItemDataManager* itemDataManager;
   PT::Data::SectorDataManager* sectorDataManager;
+  PT::Data::SkillDataManager* skillDataManager;
   PT::Data::EffectsManager* effectsmanager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
@@ -84,6 +86,7 @@ public:
     doorDataManager = 0;
     itemDataManager = 0;
     sectorDataManager = 0;
+    skillDataManager = 0;
     guimanager = 0;
     entitymanager = 0;
     effectsmanager = 0;
@@ -114,6 +117,9 @@ public:
 
   void setSectorDataManager(PT::Data::SectorDataManager* sectorDataManager) { this->sectorDataManager = sectorDataManager; }
   PT::Data::SectorDataManager* getSectorDataManager() { return this->sectorDataManager; }
+
+  void setSkillDataManager(PT::Data::SkillDataManager* skillDataManager) { this->skillDataManager = skillDataManager; }
+  PT::Data::SkillDataManager* getSkillDataManager() { return this->skillDataManager; }
 
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }

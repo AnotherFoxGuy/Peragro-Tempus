@@ -79,7 +79,7 @@ namespace PT
       void SetQuestName(const std::string& value) { questName = value; }
       const std::string& GetQuestName() const { return questName; }
     };
-  }
-}
+  } // Data namespace
+} // PT namespace
 
-#endif
+#endif // PT_DATADOOR_H

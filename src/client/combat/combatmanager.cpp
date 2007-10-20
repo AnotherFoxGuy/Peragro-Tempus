@@ -35,6 +35,9 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 
+#include "common/data/skill.h"
+#include "common/data/skilldatamanager.h"
+
 #include "client/data/effect/effectsmanager.h"
 
 #include "client/entity/entitymanager.h"
@@ -62,10 +65,11 @@ iMeshWrapper* CombatMGR::getMesh(iCelEntity* entity)
 
 bool CombatMGR::Initialize ()
 {
-  entitymgr   = PointerLibrary::getInstance()->getEntityManager();
-  effectsmgr  = PointerLibrary::getInstance()->getEffectsManager();
-  guimanager  = PointerLibrary::getInstance()->getGUIManager();
-  network     = PointerLibrary::getInstance()->getNetwork();
+  entitymgr    = PointerLibrary::getInstance()->getEntityManager();
+  effectsmgr   = PointerLibrary::getInstance()->getEffectsManager();
+  guimanager   = PointerLibrary::getInstance()->getGUIManager();
+  skillmanager = PointerLibrary::getInstance()->getSkillDataManager();
+  network      = PointerLibrary::getInstance()->getNetwork();
 
   // Register listener for ActionHit.
   PT::Events::EventHandler<CombatMGR>* cbActionHit = new PT::Events::EventHandler<CombatMGR>(&CombatMGR::ActionHit, this);
@@ -79,6 +83,9 @@ bool CombatMGR::Initialize ()
 
   if (!guimanager)
     return Report(PT::Bug, "CombatMGR: Failed to locate GUIManager plugin");
+
+  if (!skillmanager)
+    return Report(PT::Bug, "CombatMGR: Failed to locate SkillDataManager plugin");
 
   if (!network)
     return Report(PT::Bug, "CombatMGR: Failed to locate Network plugin");
@@ -215,8 +222,8 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
   }
 
   // Lookup the IDs to get the actual entities.
-  iCelEntity* caster = entitymgr->findCelEntById(casterId);
-  iCelEntity* target = entitymgr->findCelEntById(targetId);
+  PT::Entity::Entity* caster = entitymgr->findPtEntById(casterId);
+  PT::Entity::Entity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
   {
@@ -229,41 +236,26 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
     return;
   }
 
-  csString caststring;
+  std::string caststring;
+  PT::Data::SkillDataManager* skillmgr = PointerLibrary::getInstance()->getSkillDataManager();
+  PT::Data::Skill* skill = skillmgr->GetSkillById(skillId);
 
-  switch(skillId)
+  if (skill)
   {
-  case CombatMGR::Heal:
-    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Levelup);
-    caststring = "starts rejuvenating";
-    break;
-  case CombatMGR::EnergySpear:
-    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Energyspear);
-    //attacker->SetAction("casting2");
-    caststring = "starts casting Energy Spear and attacks";
-    break;
-  case CombatMGR::Melee:
-    //attacker->SetAction("melee");
-    caststring = "starts taking a swing at";
-    break;
-  case CombatMGR::EnergyBind:
-    effectsmgr->CreateEffect(getMesh(caster), PT::Data::EffectsManager::Pentagram);
-    caststring = "starts casting Energy Bind on";
-    break;
-
-  default: Report(PT::Error, "CombatMGR: Unknown skill with ID %d !", skillId); return;
+    //effectsmgr->CreateEffect(getMesh(caster), skill->GetEffects().caster);
+    caststring = skill->GetStartString();
+    if (caster->GetType() == PT::Entity::PCEntityType)
+    {
+      ((PT::Entity::PcEntity*)caster)->PlayAnimation(skill->GetEffects().castanim.c_str());
+    }
   }
-
-  // Send a message to the GUI.
-  csRef<iPcProperties> pcpropa = CEL_QUERY_PROPCLASS_ENT(caster, iPcProperties);
-  if (!pcpropa)return;
-  csRef<iPcProperties> pcpropt = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
-  if (!pcpropt)return;
-  csString castername = pcpropa->GetPropertyString(pcpropa->GetPropertyIndex("Entity Name"));
-  csString targetname = pcpropt->GetPropertyString(pcpropt->GetPropertyIndex("Entity Name"));
+  else
+    Report(PT::Error, "CombatMGR: Unknown skill with ID %d !", skillId);
 
   char msg[1024];
-  sprintf(msg,"%s %s %s.",castername.GetData(), caststring.GetData(), targetname.GetData() );
+  sprintf(msg,"%s %s %s.", caster->GetName().GetData(), 
+                           caststring.c_str(), 
+                           target->GetName().GetData());
   guimanager->GetChatWindow()->AddMessage(msg);
 
 }
@@ -275,8 +267,8 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
   */
 
   // Lookup the IDs to get the actual entities.
-  iCelEntity* caster = entitymgr->findCelEntById(casterId);
-  iCelEntity* target = entitymgr->findCelEntById(targetId);
+  PT::Entity::Entity* caster = entitymgr->findPtEntById(casterId);
+  PT::Entity::Entity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
   {
@@ -289,47 +281,28 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
     return;
   }
 
-  csString attackstring;
+  std::string caststring;
+  PT::Data::SkillDataManager* skillmgr = PointerLibrary::getInstance()->getSkillDataManager();
+  PT::Data::Skill* skill = skillmgr->GetSkillById(skillId);
 
-  switch(skillId)
+  if (skill)
   {
-  case CombatMGR::Heal:
-    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Levelup);
-    attackstring = "rejuvenates";
-    break;
-  case CombatMGR::EnergySpear:
-    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Energyspear);
-    //attacker->SetAction("casting2");
-    attackstring = "casts Energy Spear and attacks";
-    break;
-  case CombatMGR::Melee:
-    //attacker->SetAction("melee");
-    attackstring = "takes a swing at";
-    break;
-  case CombatMGR::EnergyBind:
-    effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Energysphere);
-    attackstring = "casts Energy Bind on";
-    break;
-
-  default: Report(PT::Error, "CombatMGR: Unknown skill with ID %d !", skillId); return;
+    //effectsmgr->CreateEffect(getMesh(target), skill->GetEffects().target);
+    caststring = skill->GetCompleteString();
+    if (target->GetType() == PT::Entity::PCEntityType)
+    {
+      ((PT::Entity::PcEntity*)target)->PlayAnimation(skill->GetEffects().targetanim.c_str());
+    }
   }
-
-  // Send a message to the GUI.
-
-  //char msg[1024];
-  //sprintf(msg, "%s %s %s",attacker->GetName(), attackstring->GetData(), target->GetName() );
-  //guimanager->GetCombatLog()->AddMessage(msg);
-
-  csRef<iPcProperties> pcpropa = CEL_QUERY_PROPCLASS_ENT(caster, iPcProperties);
-  if (!pcpropa)return;
-  csRef<iPcProperties> pcpropt = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
-  if (!pcpropt)return;
-  csString castername = pcpropa->GetPropertyString(pcpropa->GetPropertyIndex("Entity Name"));
-  csString targetname = pcpropt->GetPropertyString(pcpropt->GetPropertyIndex("Entity Name"));
+  else
+    Report(PT::Error, "CombatMGR: Unknown skill with ID %d !", skillId);
 
   char msg[1024];
-  sprintf(msg,"%s %s %s.",castername.GetData(), attackstring.GetData(), targetname.GetData() );
+  sprintf(msg,"%s %s %s.", caster->GetName().GetData(), 
+                           caststring.c_str(), 
+                           target->GetName().GetData());
   guimanager->GetChatWindow()->AddMessage(msg);
+  
 
 }
 

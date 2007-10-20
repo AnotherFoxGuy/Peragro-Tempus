@@ -86,7 +86,7 @@ namespace PT
        */
       Door* GetDoorByName(const std::string& name) const;
     };
-  }
-}
+  } // Data namespace
+} // PT namespace
 
-#endif
+#endif // PT_DATADOORDATAMANAGER_H

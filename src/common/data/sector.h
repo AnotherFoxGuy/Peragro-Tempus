@@ -50,7 +50,7 @@ namespace PT
       void SetName(const std::string& value) { name = value; }
       const std::string& GetName() const { return name; }
     };
-  }
-}
+  } // Data namespace
+} // PT namespace
 
-#endif
+#endif // PT_DATASECTOR_H

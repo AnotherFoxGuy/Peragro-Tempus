@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_ITEMDATAMANAGER_H
-#define PT_ITEMDATAMANAGER_H
+#ifndef PT_SKILLDATAMANAGER_H
+#define PT_SKILLDATAMANAGER_H
 
 #include <vector>
 #include <string>
@@ -27,23 +27,23 @@ namespace PT
   namespace Data
   {
     //Forward declarations
-    class Item;
+    class Skill;
 
     /**
       @ingroup data_handlers
-      Handles the loading of items data from XML definition file. The data
-      resides in $DATA/xml/items/items.xml file, where $DATA is the parent
+      Handles the loading of skills data from XML definition file. The data
+      resides in $DATA/xml/skills/skills.xml file, where $DATA is the parent
       directory where the Peragro Tempus data resides.
-      @author Branko Majic <branko.majic@gmail.com>
+      @author Jelle Hellemans
     */
-    class ItemDataManager
+    class SkillDataManager
     {
     private:
-      ///Items descriptions. Instances are owned by ItemDataManager.
+      ///Skills descriptions. Instances are owned by SkillDataManager.
       ///@internal We're using a std::vector here since it's being populated
       ///only during application startup. It also offers speed when accessing
       ///elements.
-      std::vector<Item*> items;
+      std::vector<Skill*> skills;
       ///Represents the parent directory of the Peragro Tempus data.
       std::string dataPath;
 
@@ -51,17 +51,17 @@ namespace PT
       /**
         Base constructor that doesn't do anything at all.
        */
-      ItemDataManager() {}
+      SkillDataManager() {}
       /**
         Convenience constructor allowing for immediate setting of data
         directory path.
         @param path Path to the data directory.
        */
-      ItemDataManager(const std::string& path) : dataPath(path) {}
-      ~ItemDataManager();
+      SkillDataManager(const std::string& path) : dataPath(path) {}
+      ~SkillDataManager();
 
       /**
-        Set the data directory path used for loading 'items.xml' file.
+        Set the data directory path used for loading 'skills.xml' file.
        */
       void SetDataPath(const std::string& value) { dataPath = value; }
       /**
@@ -70,23 +70,23 @@ namespace PT
       const std::string& GetDataPath() const { return dataPath; }
 
       /**
-        Loads all the items information located in items definition file.
+        Loads all the skills information located in skills definition file.
         @return True if successful, false if an error occured.
        */
-      bool LoadItemData();
+      bool LoadSkillData();
 
       /**
-        @param id Unique ID of the wanted item.
-        @return Pointer to item with given ID, or 0 if none was found.
+        @param id Unique ID of the wanted skill.
+        @return Pointer to skill with given ID, or 0 if none was found.
        */
-      Item* GetItemById(unsigned int id) const;
+      Skill* GetSkillById(unsigned int id) const;
       /**
-        @param name Name of the wanted item.
-        @return Pointer to item with given ID, or 0 if none was found.
+        @param name Name of the wanted skill.
+        @return Pointer to skill with given ID, or 0 if none was found.
        */
-      Item* GetItemByName(const std::string& name) const;
+      Skill* GetSkillByName(const std::string& name) const;
     };
   } // Data namespace
 } // PT namespace
 
-#endif // PT_ITEMDATAMANAGER_H
+#endif // PT_SKILLDATAMANAGER_H

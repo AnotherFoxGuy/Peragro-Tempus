@@ -79,7 +79,7 @@ namespace PT
       void SetWeight(float value) { weight = value; }
       float GetWeight() const { return weight; }
     };
-  }
-}
+  } // Data namespace
+} // PT namespace
 
-#endif
+#endif // PT_DATAITEM_H

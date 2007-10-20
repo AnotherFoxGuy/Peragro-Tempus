@@ -25,6 +25,10 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "common/data/skill.h"
+#include "common/data/skilldatamanager.h"
+
+#include "client/pointer/pointer.h"
 #include "client/reporter/reporter.h"
 
 HUDWindow::HUDWindow (GUIManager* guimanager)
@@ -80,8 +84,8 @@ void HUDWindow::CreateGUIWindow ()
   btn->subscribeEvent(CEGUI::Window::EventKeyDown, CEGUI::Event::Subscriber(&HUDWindow::OnRootKeyDown, this));
 
   // test.
-  AddSkill("Heal", 1);
-  AddSkill("Energy Bind", 2);
+  AddSkill(1);
+  AddSkill(2);
 }
 
 void HUDWindow::HideWindow()  
@@ -153,7 +157,7 @@ CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UV
   return slot;
 }
 
-CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
+CEGUI::Window* HUDWindow::CreateSkillIcon(int skillid)
 {
   char uniquename[1024];
   counter += 1;
@@ -166,7 +170,6 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
   skill->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
   skill->setHorizontalAlignment(CEGUI::HA_CENTRE);
   skill->setVerticalAlignment(CEGUI::VA_CENTRE);
-  skill->setTooltipText(skillname);
   // Set the itemID.
   char itemtypestr[1024];
   sprintf(itemtypestr, "%d", skillid);
@@ -180,10 +183,7 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
   skillIcon->setHorizontalAlignment(CEGUI::HA_CENTRE);
   skillIcon->setVerticalAlignment(CEGUI::VA_CENTRE);
   skillIcon->setProperty("FrameEnabled", "False");
-
-  char skillimage[1024];
-  sprintf(skillimage, "set:Skill image:%d", skillid);
-  skillIcon->setProperty("Image", skillimage);
+  
   // disable to allow inputs to pass through.
   skillIcon->disable();
 
@@ -193,6 +193,15 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(CEGUI::String skillname, int skillid)
   // Set alpha
   skill->setAlpha(0.5f);
   skill->setInheritsAlpha(false);
+
+  PT::Data::SkillDataManager* skillmgr = PointerLibrary::getInstance()->getSkillDataManager();
+  PT::Data::Skill* skilld = skillmgr->GetSkillById(skillid);
+  if (skilld)
+  {
+    skill->setTooltipText(skilld->GetName().c_str());
+    skillIcon->setProperty("Image", skilld->GetIconName().c_str());
+  }
+
 
   return skill;
 }
@@ -254,7 +263,7 @@ void HUDWindow::SetActiveSkill(CEGUI::Window* window)
   }
 }
 
-bool HUDWindow::AddSkill(CEGUI::String skillname, int skillid)
+bool HUDWindow::AddSkill(int skillid)
 {
   CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");
 
@@ -273,7 +282,7 @@ bool HUDWindow::AddSkill(CEGUI::String skillname, int skillid)
         {
           Report(PT::Debug, "AddSkill: slot %s is empty: Item added to slot.", slot->getName().c_str());
           freeslot = slot;
-          freeslot->addChildWindow(CreateSkillIcon(skillname, skillid));
+          freeslot->addChildWindow(CreateSkillIcon(skillid));
           return true;
         }
       }

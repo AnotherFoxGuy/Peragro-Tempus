@@ -62,6 +62,7 @@
 #include "common/data/doordatamanager.h"
 #include "common/data/itemdatamanager.h"
 #include "common/data/sectordatamanager.h"
+#include "common/data/skilldatamanager.h"
 #include "client/entity/entitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
@@ -94,6 +95,7 @@ namespace PT
     combatmanager = 0;
     doorDataManager = 0;
     itemDataManager = 0;
+    skillDataManager = 0;
     cursor = 0;
     inputMgr = 0;
     last_seen = 0;
@@ -115,6 +117,7 @@ namespace PT
     delete cursor;
     delete doorDataManager;
     delete itemDataManager;
+    delete skillDataManager;
     delete inputMgr;
     delete reporter;
     delete trademanager;
@@ -283,6 +286,12 @@ namespace PT
     if (!sectorDataManager->LoadSectorData())
       return Report(PT::Error, "Failed to initialize SectorManager!");
     pointerlib.setSectorDataManager(sectorDataManager);
+
+    // Create and Initialize the SkillDataManager.
+    skillDataManager = new PT::Data::SkillDataManager (dataDir->GetData());
+    if (!skillDataManager->LoadSkillData())
+      return Report(PT::Error, "Failed to initialize SkillDataManager!");
+    pointerlib.setSkillDataManager(skillDataManager);
 
     // Create and Initialize the GUImanager.
     guimanager = new GUIManager ();

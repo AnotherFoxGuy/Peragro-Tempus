@@ -2,15 +2,18 @@
 <skills>
 
 	<skill>
-		<id>1</id>
+		<id>2</id>
 		<name>Heal</name>
 		<description>Rejuvenates the target by 10 HP.</description>
 		<icon>set:Skill image:Heal</icon>
+		<startstring>starts rejuvenating</startstring>
+		<completestring>rejuvenates</completestring>
 		<effects>
 			<caster>HealSpellPentagram</caster>
-			<castanim>cast_divine</castanim>
-			<weapon>none</weapon>
+			<castanim>levitate</castanim>
 			<target>HealSpellEffect</target>
+			<targetanim>none</targetanim>
+			<weapon>none</weapon>
 			<projectile>none</projectile>	
 		</effects>
 		<stats>
