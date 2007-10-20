@@ -25,14 +25,38 @@ class Database;
 class User;
 class ptString;
 
+/**
+ * Provides an interface to the database for handle storage of Users.
+ */
 class UsersTable : public Table
 {
 public:
   UsersTable(Database* db);
+  /**
+   * Creates a table in the database that will store users.
+   */
   void createTable();
+  /**
+   * Inserts a user into the database.
+   * @param name The name of the user.
+   * @param pwhash TODO what exactly is this
+   */
   void insert(ptString name, const char* pwhash);
+  /**
+   * Dropes the table (TODO add more descriptive documentation).
+   */
   void dropTable();
+  /**
+   * Checks if a user exists or not.
+   * @return True if the user exists, false otherwise
+   */
   bool existsUser(ptString name);
+  /**
+   * Does a lookup in the database to find a user.The calller is is responsible
+   * for freeing the User returned.
+   * @param name The name of the user.
+   * @return User if found, otherwise 0.
+   */
   User* getUser(ptString name);
 };
 
