@@ -49,9 +49,9 @@ void Skill::castPrepare(Character* caster, unsigned int target_id)
   SkillUsageStartResponseMessage response_msg;
   response_msg.setSkill(id);
   response_msg.setTarget(0);
-  response_msg.setCaster(caster->getId());
+  response_msg.setCaster(caster->getEntity()->getId());
 
-  skilldata->caster_id = caster->getId();
+  skilldata->caster_id = caster->getEntity()->getId();
 
   printf("Casting: %s starts to cast %s on %s\n", *caster->getName(), *this->getName(), *target->getName());
   printf("Casting: Skill State: %d \n", skilldata->state);
@@ -133,7 +133,11 @@ void Skill::castExecute(CharSkill* skilldata)
   response_msg.setTarget(skilldata->target_id);
 
   const Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
-  const Character* c_char = target->getPlayerEntity()->getCharacter();
+  const PcEntity* player = target->getPlayerEntity();
+  
+  if (player == 0) return;
+
+  const Character* c_char = player->getCharacter();
   Character* l_char = c_char->getLock();
   CharacterStats* stats = l_char->getStats();
   if (type == TYPE_HURT)

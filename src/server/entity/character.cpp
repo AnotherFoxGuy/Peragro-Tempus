@@ -22,4 +22,4 @@
 
 void Character::setUser(User* user) { this->user = user->getRef(); }
 
-void Character::setEntity(Entity* entity) { this->entity = entity->getRef(); }
+void Character::setEntity(const Entity* entity) { this->entity = entity->getRef(); }

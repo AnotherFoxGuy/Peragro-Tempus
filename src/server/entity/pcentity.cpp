@@ -38,6 +38,11 @@ void PcEntity::setUser(const User* user)
 void PcEntity::setCharacter(const Character* character)
 {
   this->character = character->getRef();
+  Entity* e = entity.get()->getLock();
+  Character* c = character->getLock();
+  c->setEntity(e);
+  c->freeLock();
+  e->freeLock();
 }
 
 void PcEntity::walkTo(float* dst_pos, float speed)

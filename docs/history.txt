@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+20-Oct-2007
+ - PK fixed the skills on the server side.
+
 16-Oct-2007
  - Sueastside added bleeding, press 'h' and watch him die!
  - Sueastside stopped overwriting user settings when loading

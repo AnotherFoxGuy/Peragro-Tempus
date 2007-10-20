@@ -26,6 +26,9 @@
 void NpcEntity::setCharacter(Character* character)
 {
   this->character = character->getRef();
+  Entity* e = entity.get()->getLock();
+  character->setEntity(e);
+  e->freeLock();
 }
 
 void NpcEntity::walkTo(float* dst_pos, float speed)
