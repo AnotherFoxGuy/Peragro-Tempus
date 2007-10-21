@@ -37,13 +37,13 @@ public:
    */
   void createTable();
   /**
-   * Inserts a user into the database.
+   * Insert a user into the database.
    * @param name The name of the user.
    * @param pwhash TODO what exactly is this
    */
   void insert(ptString name, const char* pwhash);
   /**
-   * Dropes the table (TODO add more descriptive documentation).
+   * Removes all users currently stored in the database.
    */
   void dropTable();
   /**
@@ -52,8 +52,8 @@ public:
    */
   bool existsUser(ptString name);
   /**
-   * Does a lookup in the database to find a user.The calller is is responsible
-   * for freeing the User returned.
+   * Does a lookup in the database to find a user.
+   * The calller is responsible for freeing the User returned.
    * @param name The name of the user.
    * @return User if found, otherwise 0.
    */

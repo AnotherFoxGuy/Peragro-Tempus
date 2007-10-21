@@ -30,13 +30,11 @@
 RaceTable::RaceTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from races;");
-  delete rs;
   if (rs == 0)
   {
     createTable();
   }
-  ResultSet* rs2 = db->query("select count(*) from races;");
-  delete rs2;
+  delete rs;
 }
 
 void RaceTable::createTable()
@@ -68,6 +66,10 @@ void RaceTable::insert(int id, ptString name, ptString mesh, float pos[3], ptStr
 int RaceTable::getMaxId()
 {
   ResultSet* rs = db->query("select max(id) from races");
+  if (!rs)
+  {
+    return 0;
+  }
   if (rs->GetRowCount() == 0) 
     return 0;
 
@@ -90,6 +92,10 @@ void RaceTable::remove(int id)
 bool RaceTable::existsRace(ptString name)
 {
   ResultSet* rs = db->query("select id from races where name = '%q';", *name);
+  if (!rs)
+  {
+    return false;
+  }
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -98,7 +104,7 @@ bool RaceTable::existsRace(ptString name)
 Race* RaceTable::findRaceById(int id)
 {
   ResultSet* rs = db->query("select * from races where id = '%d';", id);
-  if (rs->GetRowCount() == 0) 
+  if (!rs || rs->GetRowCount() == 0) 
     return 0;
 
   Race* race = new Race();

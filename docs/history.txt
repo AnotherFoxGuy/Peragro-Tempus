@@ -6,6 +6,7 @@ under each day.
 
 21-Oct-2007
  - Sueastside added skillmanager.
+ - swedishcoder added more doxygen comments.
 
 20-Oct-2007
  - PK fixed the skills on the server side.

@@ -25,15 +25,42 @@ class Database;
 class Stat;
 class ptString;
 
+/**
+ * Provides an interface to the database to handle storage of stats.
+ */
 class StatTable : public Table
 {
 public:
   StatTable(Database* db);
+  /**
+   * Creates a table in the database that will store stats.
+   */
   void createTable();
+  /**
+   * Insert a stat into the database.
+   * @param name The name of the stat
+   */
   void insert(ptString name);
+  /**
+   * Removes all stats from the database.
+   */
   void dropTable();
+  /**
+   * Checks if a stat exists in the database
+   * @return True if the stat existed, false otherwise.
+   */
   bool existsStat(ptString name);
+  /**
+   * Does a lookup in the database to find a stat.
+   * The caller is responsible for freeing the stat returned.
+   * @returns Stat if found, otherwise 0.
+   */
   Stat* getStat(ptString name);
+  /**
+   * This function will load all stats from the database.
+   * The caller is responsible for freeing all stats in the array.
+   * @param stats An array that will contain all skills.
+   */
   void getAllStats(Array<Stat*>& stats);
 };
 
