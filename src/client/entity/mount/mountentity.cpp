@@ -28,61 +28,65 @@ namespace PT
   namespace Entity
   {
 
-    MountEntity::MountEntity(const Events::EntityAddEvent& ev) : CharacterEntity(ev)
+    MountEntity::MountEntity(const Events::EntityAddEvent& ev) :
+      CharacterEntity(ev)
     {
       mounted = false;
+
       Create();
     }
 
     void MountEntity::Create()
     {
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine = csQueryRegistry<iEngine> (obj_reg);
+      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (obj_reg);
+      csRef<iVFS> vfs = csQueryRegistry<iVFS> (obj_reg);
 
       CreateCelEntity();
 
       char buffer[32];
+
       cs_snprintf(buffer, 32, "mount_%d", id);
-      celentity->SetName(buffer);
+      celEntity->SetName(buffer);
 
-      pl->CreatePropertyClass(celentity, "pcmove.actor.standard");
-      pl->CreatePropertyClass(celentity, "pcmove.linear");
+      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
+      pl->CreatePropertyClass(celEntity, "pcmove.linear");
 
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      csRef<iPcLinearMovement> pclinmove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
 
       // Load and assign the mesh to the entity.
       vfs->ChDir("/cellib/objects/");
-      if (!pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml"))
+      if (!pcmesh->SetMesh(meshName.c_str(), "/peragro/meshes/all.xml"))
       {
-        Report(PT::Error,  "PtMountEntity: Failed to load mesh: %s", meshname.GetData());
+        Report(PT::Error,  "PtMountEntity: Failed to load mesh: %s",
+          meshName.c_str());
         pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
       }
 
       // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
       csRef<iSpriteCal3DState> sprcal3d =
         scfQueryInterface<iSpriteCal3DState> (pcmesh->GetMesh()->GetMeshObject());
+
       if (sprcal3d) sprcal3d->SetVelocity(0);
 
-      pclinmove->InitCD(
-        csVector3(0.5f,0.8f,0.5f),
-        csVector3(0.5f,0.8f,0.5f),
+      pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
-      iSector* sector =  0;
-      sector = engine->FindSector(sectorname);
-      if (sector)
-        pclinmove->SetPosition(pos,0,sector);
-      else
-        Report(PT::Error,  "Failed to set position, sector '%s' unknown!", sectorname.GetData());
+      iSector* sector = engine->FindSector(sectorName.c_str());
+
+      if (sector) pclinmove->SetPosition(pos,0,sector);
+      else Report(PT::Error, "Failed to set position, sector '%s' unknown!",
+        sectorName.c_str());
     }
 
     void MountEntity::Mount(Entity* player)
     {
-      if(mounted) return;
-      if(!player->GetCelEntity()) return;
+      if (mounted) return;
+      if (!player->GetCelEntity()) return;
 
       bool on_ground;
       float speed, rot, avel;
@@ -91,9 +95,11 @@ namespace PT
 
       PcEntity* ptplayer = static_cast<PcEntity*>(player);
 
-      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ptplayer->GetCelEntity(), iPcLinearMovement);
-      csRef<iPcLinearMovement> mtlinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
-      csRef<iPcMesh> mtmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+      csRef<iPcLinearMovement> pclinmove =
+        CEL_QUERY_PROPCLASS_ENT(ptplayer->GetCelEntity(), iPcLinearMovement);
+      csRef<iPcLinearMovement> mtlinmove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+      csRef<iPcMesh> mtmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
 
       // Anchor the player.
       mtlinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
@@ -108,8 +114,8 @@ namespace PT
 
     void MountEntity::UnMount(Entity* player)
     {
-      if(!mounted) return;
-      if(!player->GetCelEntity()) return;
+      if (!mounted) return;
+      if (!player->GetCelEntity()) return;
 
       bool on_ground;
       float speed, rot, avel;
@@ -118,7 +124,8 @@ namespace PT
 
       PcEntity* ptplayer = static_cast<PcEntity*>(player);
 
-      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ptplayer->GetCelEntity(), iPcLinearMovement);
+      csRef<iPcLinearMovement> pclinmove =
+        CEL_QUERY_PROPCLASS_ENT(ptplayer->GetCelEntity(), iPcLinearMovement);
 
       // Anchor the player.
       pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
@@ -134,13 +141,14 @@ namespace PT
 
     void MountEntity::Interact()
     {
-      if(!mounted)
+      if (!mounted)
       {
         MountRequestMessage msg;
 
         msg.setMountEntityId(id);
 
         PointerLibrary::getInstance()->getNetwork()->send(&msg);
+
         Report(PT::Notify, "OnMouseDown: Mounting.");
       }
       else
@@ -150,9 +158,9 @@ namespace PT
         msg.setMountEntityId(id);
 
         PointerLibrary::getInstance()->getNetwork()->send(&msg);
+
         Report(PT::Notify, "OnMouseDown: UnMounting.");
       }
     }
-
   }
 }

@@ -355,9 +355,9 @@ namespace PT
           }
 
           // Get your own nickname.
-          csString ownnick = Entity::PlayerEntity::Instance()->GetName();
+          std::string ownnick = Entity::PlayerEntity::Instance()->GetName();
           // Add your own text to the whisper.
-          guimanager->GetWhisperWindow()->AddWhisper(nick.c_str(), text.c_str(), ownnick.GetData());
+          guimanager->GetWhisperWindow()->AddWhisper(nick.c_str(), text.c_str(), ownnick.c_str());
           // Send the whisper to the network.
           WhisperToMessage nmsg;
           nmsg.setListenerName(ptString(nick.c_str(), nick.size())); //<-- name of who you want to talk to...

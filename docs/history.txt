@@ -7,6 +7,8 @@ under each day.
 21-Oct-2007
  - Sueastside added skillmanager.
  - swedishcoder added more doxygen comments.
+ - azaghal documented Entity and its children. Entity and its children now use
+   std::string instead of csString. Changed code in other places appropriately.
 
 20-Oct-2007
  - PK fixed the skills on the server side.

@@ -253,9 +253,9 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
     Report(PT::Error, "CombatMGR: Unknown skill with ID %d !", skillId);
 
   char msg[1024];
-  sprintf(msg,"%s %s %s.", caster->GetName().GetData(), 
-                           caststring.c_str(), 
-                           target->GetName().GetData());
+  sprintf(msg,"%s %s %s.", caster->GetName().c_str(),
+                           caststring.c_str(),
+                           target->GetName().c_str());
   guimanager->GetChatWindow()->AddMessage(msg);
 
 }
@@ -298,11 +298,11 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
     Report(PT::Error, "CombatMGR: Unknown skill with ID %d !", skillId);
 
   char msg[1024];
-  sprintf(msg,"%s %s %s.", caster->GetName().GetData(), 
-                           caststring.c_str(), 
-                           target->GetName().GetData());
+  sprintf(msg,"%s %s %s.", caster->GetName().c_str(),
+                           caststring.c_str(),
+                           target->GetName().c_str());
   guimanager->GetChatWindow()->AddMessage(msg);
-  
+
 
 }
 

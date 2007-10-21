@@ -37,7 +37,8 @@ namespace PT
 
     void NpcEntity::Create()
     {
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
       csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
@@ -46,19 +47,21 @@ namespace PT
 
       char buffer[32];
       cs_snprintf(buffer, 32, "npc_%d", id);
-      celentity->SetName(buffer);
+      celEntity->SetName(buffer);
 
-      pl->CreatePropertyClass(celentity, "pcmove.actor.standard");
-      pl->CreatePropertyClass(celentity, "pcmove.linear");
+      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
+      pl->CreatePropertyClass(celEntity, "pcmove.linear");
 
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity,
+        iPcLinearMovement);
 
       // Load and assign the mesh to the entity.
       vfs->ChDir("/cellib/objects/");
-      if (!pcmesh->SetMesh(meshname.GetData(), "/peragro/meshes/all.xml"))
+      if (!pcmesh->SetMesh(meshName.c_str(), "/peragro/meshes/all.xml"))
       {
-        Report(PT::Error,  "PtNpcEntity: Failed to load mesh: %s", meshname.GetData());
+        Report(PT::Error, "PtNpcEntity: Failed to load mesh: %s",
+          meshName.c_str());
         pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
       }
 
@@ -67,12 +70,10 @@ namespace PT
         scfQueryInterface<iSpriteCal3DState> (pcmesh->GetMesh()->GetMeshObject());
       if (sprcal3d) sprcal3d->SetVelocity(0);
 
-      pclinmove->InitCD(
-        csVector3(0.5f,0.8f,0.5f),
-        csVector3(0.5f,0.8f,0.5f),
+      pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
-      iSector* sector = engine->FindSector(sectorname);
+      iSector* sector = engine->FindSector(sectorName.c_str());
       pclinmove->SetPosition(pos,0,sector);
     }
 

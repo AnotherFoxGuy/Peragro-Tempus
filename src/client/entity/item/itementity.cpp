@@ -35,45 +35,48 @@ namespace PT
 
     ItemEntity::ItemEntity(const Events::EntityAddEvent& ev) : Entity(ev)
     {
-      itemid = ev.typeId;
+      itemId = ev.typeId;
 
       Create();
     }
 
     void ItemEntity::Create()
     {
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
-      PT::Data::Item* item = PointerLibrary::getInstance()->getItemDataManager()->GetItemById(itemid);
-      if(item)
+      PT::Data::Item* item =
+        PointerLibrary::getInstance()->getItemDataManager()->GetItemById(itemId);
+
+      if (item)
       {
-        name = item->GetName().c_str();
-        meshname = item->GetMeshName().c_str();
+        name = item->GetName();
+        meshName = item->GetMeshName();
 
         CreateCelEntity();
 
         char buffer[1024];
-        sprintf(buffer, "%s:%d:%d", name.GetData(), type, id);
-        celentity->SetName(buffer);
+        sprintf(buffer, "%s:%d:%d", name.c_str(), type, id);
+        celEntity->SetName(buffer);
 
         // Load and assign the mesh to the entity.
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-        if (!pcmesh->SetMesh(meshname.GetData(), item->GetMeshFile().c_str()))
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+        if (!pcmesh->SetMesh(meshName.c_str(), item->GetMeshFile().c_str()))
         {
-          Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s", meshname.GetData());
+          Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s",
+            meshName.c_str());
           pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
         }
-        pl->CreatePropertyClass(celentity, "pcmove.linear");
-        csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+        pl->CreatePropertyClass(celEntity, "pcmove.linear");
+        csRef<iPcLinearMovement> pclinmove =
+          CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
 
-        pclinmove->InitCD(
-          csVector3(0.5f,0.8f,0.5f),
-          csVector3(0.5f,0.8f,0.5f),
+        pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
           csVector3(0,0,0));
 
-        iSector* sector = engine->FindSector(sectorname);
+        iSector* sector = engine->FindSector(sectorName.c_str());
         pclinmove->SetPosition(pos,0,sector);
       }
       else
@@ -83,9 +86,11 @@ namespace PT
     void ItemEntity::Interact()
     {
       using namespace PT::Events;
+
       InterfaceInteract* interfaceEvent = new InterfaceInteract();
-      interfaceEvent->entityId              = id;
-      interfaceEvent->actions               = "Pickup";
+
+      interfaceEvent->entityId = id;
+      interfaceEvent->actions  = "Pickup";
       PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
     }
   }

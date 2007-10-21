@@ -25,18 +25,29 @@ namespace PT
 {
   namespace Entity
   {
+    /**
+     * @ingroup entities
+     * Implements player character entity.
+     */
     class PcEntity : public CharacterEntity
     {
-      protected:
-        PcEntity() {}
-        virtual void Create();
+    protected:
+      /**
+       * Conveniance constructor used for PlayerEntity class.
+       */
+      PcEntity() {}
+      virtual void Create();
 
-      public:
-        PcEntity(const Events::EntityAddEvent& ev);
+    public:
+      /**
+       * Constructor that sets up the PC using the information provided by
+       * EntityAddEvent event.
+       * @see Entity::Entity(const Events::EntityAddEvent&)
+       * @param ev Event used for initialising the PC properties.
+       */
+      PcEntity(const Events::EntityAddEvent& ev);
 
-        virtual ~PcEntity(){}
-
-        void Interact();
+      void Interact();
     };
   }
 }

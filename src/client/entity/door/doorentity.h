@@ -27,28 +27,48 @@ namespace PT
 {
   namespace Entity
   {
+    /**
+     * @ingroup entities
+     * Implements doors and door-like objects, such as gates etc.
+     */
     class DoorEntity : public Entity
     {
     private:
+      ///Unique ID of the door.
       unsigned int doorId;
+      ///Specifies whether the door is open or closed.
       bool open;
+      ///Specifies whether the door is locked or not.
       bool locked;
 
       void Create();
 
     public:
+      /**
+       * Constructor that sets up the door using the information provided by
+       * EntityAddEvent event.
+       * @see Entity::Entity(const Events::EntityAddEvent&)
+       * @param ev Event used for initialising the door properties.
+       */
       DoorEntity(const Events::EntityAddEvent& ev);
 
-      virtual ~DoorEntity(){}
-
+      ///@return Unique ID of the door.
       unsigned int GetDoorId() const { return doorId; }
+      ///Set the door's unique ID.
+      ///@todo Should we really be allowed to do this?
       void SetDoorId(unsigned int value) { doorId = value; }
+
+      ///@return State of door - open (true) or closed (false).
       bool GetOpen() const { return open; }
+      ///Set the door's state to a given. True for open, false for closed.
       void SetOpen(bool value) { open = value; }
+
+      ///@return Door's lock state - locked (true) or unlocked (false).
       bool GetLocked() const { return locked; }
+      ///Set the door's lock status to given value.
       void SetLocked(bool value) { locked = value; }
 
-      void UpdatePcProp(UpdatePcPropData* update_pcprop);
+      void UpdatePcProp(const UpdatePcPropData& update_pcprop);
       void Interact();
     };
   }

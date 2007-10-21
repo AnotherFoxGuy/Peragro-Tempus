@@ -31,7 +31,8 @@ namespace PT
   namespace Entity
   {
 
-    CharacterEntity::CharacterEntity(const Events::EntityAddEvent& ev) : Entity(ev), equipment(this)
+    CharacterEntity::CharacterEntity(const Events::EntityAddEvent& ev) :
+      Entity(ev), equipment(this)
     {
       maxStamina = 100;
       currentStamina = 100;
@@ -40,56 +41,61 @@ namespace PT
       recoverStamina = 0.001f;
       drainStamina = 0.002f;
 
-
       //Add the equipment
       for(size_t i = 0; i < ev.equipment.GetSize(); i++)
         equipment.Equip(ev.equipment.Get(i).slotId, ev.equipment.Get(i).itemId);
     }
 
-    void CharacterEntity::Move(MovementData* movement)
+    void CharacterEntity::Move(const MovementData& movement)
     {
-      if(!celentity.IsValid()) return;
-      csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcActorMove);
+      if(!celEntity.IsValid()) return;
+
+      csRef<iPcActorMove> pcactormove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
 
       if (pcactormove.IsValid())
       {
         pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
-        pcactormove->SetMovementSpeed(abs((int)movement->walk));
-        pcactormove->SetRunningSpeed(abs((int)movement->walk));
-        pcactormove->SetRotationSpeed(movement->run ? PI : PI);
+        pcactormove->SetMovementSpeed(abs((int)movement.walk));
+        pcactormove->SetRunningSpeed(abs((int)movement.walk));
+        pcactormove->SetRotationSpeed(movement.run ? PI : PI);
 
-        pcactormove->RotateLeft(movement->turn < 0.0f);
-        pcactormove->RotateRight(movement->turn > 0.0f);
+        pcactormove->RotateLeft(movement.turn < 0.0f);
+        pcactormove->RotateRight(movement.turn > 0.0f);
 
-        pcactormove->Forward(movement->walk > 0.0f);
-        pcactormove->Backward(movement->walk < 0.0f);
+        pcactormove->Forward(movement.walk > 0.0f);
+        pcactormove->Backward(movement.walk < 0.0f);
 
-        if (movement->jump) pcactormove->Jump();
-        else if (abs((int)movement->walk) > 0)
-          pcactormove->Run(movement->run);
-        else
-          pcactormove->Run(false);
+        if (movement.jump) pcactormove->Jump();
+        else if (abs((int)movement.walk) > 0) pcactormove->Run(movement.run);
+        else pcactormove->Run(false);
       }
     }
 
     bool CharacterEntity::MoveTo(MoveToData* moveTo)
     {
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
-      if(!celentity.IsValid()) return true;
-      csRef<iVirtualClock> vc =  csQueryRegistry<iVirtualClock> (obj_reg);
+      if(!celEntity.IsValid()) return true;
+
+      csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (obj_reg);
       csTicks ticks = vc->GetElapsedTicks ();
+
       if (!ticks) return true;
 
       float elapsed = ticks/1000.0;
 
-      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
-      csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcActorMove);
+      csRef<iPcLinearMovement> pclinmove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+      csRef<iPcActorMove> pcactormove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
 
       if (pclinmove.IsValid() && pcactormove.IsValid())
       {
         csVector3 angular_vel;
+
         pclinmove->GetAngularVelocity(angular_vel);
         pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
 
@@ -105,7 +111,8 @@ namespace PT
           moveTo->walking = true;
           moveTo->elapsed_time = 0;
         }
-        else if (moveTo->elapsed_time >= moveTo->walk_duration && moveTo->walking)
+        else if (moveTo->elapsed_time >= moveTo->walk_duration &&
+                 moveTo->walking)
         {
           pcactormove->Forward(false);
         }
@@ -120,21 +127,24 @@ namespace PT
         }
 
         moveTo->elapsed_time += elapsed;
+
         return false;
       }
+
       return true;
     }
 
-    /**
-     *\brief Used for updating the positon using daed reckoning.
-     */
-    void CharacterEntity::DrUpdate(DrUpdateData* drupdate)
+    void CharacterEntity::DrUpdate(const DrUpdateData& drupdate)
     {
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
-      if(!celentity.IsValid()) return;
-      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celentity, iPcLinearMovement);
+      if(!celEntity.IsValid()) return;
+
+      csRef<iPcLinearMovement> pclinmove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+
       if (pclinmove.IsValid())
       {
         bool onGround = true;
@@ -144,20 +154,29 @@ namespace PT
         iSector* sector = 0;
         pclinmove->GetDRData(onGround, speed, pos, rot, sector, vel, wvel, avel);
 
-        sector = engine->FindSector(drupdate->sector.GetData());
-        pclinmove->SetDRData(onGround, speed, drupdate->pos, drupdate->rot, sector, vel, wvel, avel);
+        sector = engine->FindSector(drupdate.sector.GetData());
+        ///@bug It seems that CEL interface has some issues. The below method,
+        ///SetDRData seems not to take const references/pointers as arguments.
+        csVector3 tempPos = drupdate.pos;
+        float tempRot = drupdate.rot;
+        pclinmove->SetDRData(onGround, speed, tempPos, tempRot, sector, vel,
+          wvel, avel);
       }
     }
 
-    void CharacterEntity::Teleport(csVector3 pos, csString sector)
+    void CharacterEntity::Teleport(const csVector3& pos,
+                                   const std::string& sector)
     {
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
-      if(!celentity.IsValid()) return;
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+      if (!celEntity.IsValid()) return;
+
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       iMovable* mov = pcmesh->GetMesh()->GetMovable();
-      mov->SetSector(engine->GetSectors()->FindByName(sector.GetData()));
+
+      mov->SetSector(engine->GetSectors()->FindByName(sector.c_str()));
       mov->SetPosition(pos);
     }
 
@@ -166,30 +185,39 @@ namespace PT
       if (x >= 0 && x <= maxStamina) currentStamina = x;
     }
 
-    void CharacterEntity::PlayAnimation(const char* animationnName, 
-                                        float blend_factor,
-                                        bool loop, 
+    void CharacterEntity::PlayAnimation(const char* animationName,
+                                        float blend_factor, bool loop,
                                         bool stopOthers)
     {
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+
       if (!pcmesh.IsValid()) return;
-      csRef<iGeneralMeshState> spstate (
-        scfQueryInterface<iGeneralMeshState> (pcmesh->GetMesh()->GetMeshObject ()));
+
+      csRef<iGeneralMeshState> spstate(scfQueryInterface<iGeneralMeshState>
+        (pcmesh->GetMesh()->GetMeshObject()));
+
       if (!spstate.IsValid()) return;
-      csRef<iGenMeshSkeletonControlState> animcontrol (
-        scfQueryInterface<iGenMeshSkeletonControlState> (spstate->GetAnimationControl ()));
+
+      csRef<iGenMeshSkeletonControlState> animcontrol(
+        scfQueryInterface<iGenMeshSkeletonControlState>
+        (spstate->GetAnimationControl()));
+
       if (!animcontrol.IsValid()) return;
 
       iSkeleton* skeleton = animcontrol->GetSkeleton ();
+
       if (!skeleton) return;
 
-      if (stopOthers) skeleton->StopAll ();
-      iSkeletonAnimation* inst = skeleton->Execute(animationnName, blend_factor);
+      if (stopOthers) skeleton->StopAll();
+
+      iSkeletonAnimation* inst = skeleton->Execute(animationName, blend_factor);
+
       if (inst) inst->SetLoop(loop);
     }
 
     void CharacterEntity::Pose(unsigned int poseId)
     {
+      ///@todo Get the hard-coded magic numbers out of this.
       if (poseId == 0)
       {
         if (sitting)
@@ -199,10 +227,7 @@ namespace PT
           PlayAnimation("idle", 0.1f, true);
         }
       }
-      else if (poseId == 1)
-      {
-        PlayAnimation("hit", 0.5f, false, false);
-      }
+      else if (poseId == 1) PlayAnimation("hit", 0.5f, false, false);
       else if (poseId == 2)
       {
         if (!sitting)
@@ -212,42 +237,35 @@ namespace PT
           PlayAnimation("Sit", 0.1f, true);
         }
       }
-
     }
 
-    /**
-     * \brief This functions purpose is to update all player stats
-     *
-     * Currently it only calculates how much  stamina the character
-     * has left.
-     */
     void CharacterEntity::UpdatePlayerStats()
     {
       csTicks time = csGetTicks();
-      csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celentity,
-                                                              iPcActorMove);
+      csRef<iPcActorMove> pcactormove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
       csTicks diff = time - lastStatUpdate;
 
       // If lastStatUpdate == 0 then we have never updated the stats,
       // Lets not do this yet, since then we will base our update from
       // the program start, which is not correct.
-      if (lastStatUpdate == 0) {
+      if (lastStatUpdate == 0)
+      {
         lastStatUpdate = time;
         return;
       }
 
-      if (pcactormove->IsRunning()) {
+      if (pcactormove->IsRunning())
+      {
         // Decrease stamina
         currentStamina -= diff * drainStamina;
-        if (currentStamina < 0) {
-          currentStamina = 0;
-        }
-      } else {
+        if (currentStamina < 0) currentStamina = 0;
+      }
+      else
+      {
         // Increase stamina
         currentStamina += diff * recoverStamina;
-        if (currentStamina > maxStamina) {
-          currentStamina = maxStamina;
-        }
+        if (currentStamina > maxStamina) currentStamina = maxStamina;
       }
       lastStatUpdate = time;
     }

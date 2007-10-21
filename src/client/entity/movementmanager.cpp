@@ -128,15 +128,14 @@ namespace PT
         return true;
       }
 
-      MovementData* movement	= new MovementData();
-      movement->entity_id			= entityMoveEv->entityId;
-      movement->walk					= entityMoveEv->walkDirection;
-      movement->turn					= entityMoveEv->turnDirection;
-      movement->run           = entityMoveEv->run;
-      movement->jump          = entityMoveEv->jump;
+      MovementData movement;
+      movement.entity_id			= entityMoveEv->entityId;
+      movement.walk					= entityMoveEv->walkDirection;
+      movement.turn					= entityMoveEv->turnDirection;
+      movement.run           = entityMoveEv->run;
+      movement.jump          = entityMoveEv->jump;
 
       entity->Move(movement);
-      delete movement;
 
       return true;
     }
@@ -274,14 +273,13 @@ namespace PT
         return true;
       }
 
-      DrUpdateData* drupdate	= new DrUpdateData();
-      drupdate->entity_id	= entityMoveEv->entityId;
-      drupdate->pos		= entityMoveEv->position;
-      drupdate->rot		= entityMoveEv->rotation;
-      drupdate->sector		= sectorName.c_str();
+      DrUpdateData drupdate;
+      drupdate.entity_id	= entityMoveEv->entityId;
+      drupdate.pos		= entityMoveEv->position;
+      drupdate.rot		= entityMoveEv->rotation;
+      drupdate.sector		= sectorName.c_str();
 
       entity->DrUpdate(drupdate);
-      delete drupdate;
 
       return true;
     }
@@ -302,13 +300,12 @@ namespace PT
         return true;
       }
 
-      UpdatePcPropData* updatePcprop  = new UpdatePcPropData();
-      updatePcprop->entity_id	      = entityMoveEv->entityId;
-      updatePcprop->pcprop	      = entityMoveEv->pcprop.c_str();
-      updatePcprop->value	      = entityMoveEv->celdata;
+      UpdatePcPropData updatePcprop;
+      updatePcprop.entity_id	      = entityMoveEv->entityId;
+      updatePcprop.pcprop	      = entityMoveEv->pcprop.c_str();
+      updatePcprop.value	      = entityMoveEv->celdata;
 
       entity->UpdatePcProp(updatePcprop);
-      delete updatePcprop;
 
       return true;
     }

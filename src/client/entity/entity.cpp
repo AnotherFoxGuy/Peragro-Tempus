@@ -31,45 +31,47 @@ namespace PT
     {
       id = ev.entityId;
       type = ev.entityType;
-      name = ev.entityName.c_str();
-      meshname = ev.meshName.c_str();
-      ///@todo This is an ugly hack. The server seems to send some impossible sector id from time to time.
-      PT::Data::Sector* sector = PointerLibrary::getInstance()->getSectorDataManager()->GetSectorById(ev.sectorId);
-      if (sector) sectorname = sector->GetName().c_str();
+      name = ev.entityName;
+      meshName = ev.meshName;
+      ///@todo This is an ugly hack. The server seems to send some impossible
+      ///sector id from time to time.
+      PT::Data::Sector* sector = PointerLibrary::getInstance()->
+        getSectorDataManager()->GetSectorById(ev.sectorId);
+      if (sector) sectorName = sector->GetName();
       //End of ugly hack
       pos = ev.position;
-      celentity = 0;
+      celEntity = 0;
     }
 
     void Entity::CreateCelEntity()
     {
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (obj_reg);
 
-      celentity = pl->CreateEntity();
+      celEntity = pl->CreateEntity();
 
-      pl->CreatePropertyClass(celentity, "pcobject.mesh");
-      pl->CreatePropertyClass(celentity, "pcmove.solid");
-      pl->CreatePropertyClass(celentity, "pctools.properties");
+      pl->CreatePropertyClass(celEntity, "pcobject.mesh");
+      pl->CreatePropertyClass(celEntity, "pcmove.solid");
+      pl->CreatePropertyClass(celEntity, "pctools.properties");
 
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
-      //TODO: Why is this part commented out and not removed?
-      //csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-      //csRef<iPcSolid> pctemp = CEL_QUERY_PROPCLASS_ENT(celentity, iPcSolid);
-      csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celentity, iPcProperties);
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      csRef<iPcProperties> pcprop =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcProperties);
 
       // Place the entity in the world.
       csRef<iCelEntity> region = pl->FindEntity("World");
       if (region.IsValid())
       {
         csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(region, iPcRegion);
-        pcmesh->MoveMesh(pcregion->GetStartSector(), pcregion->GetStartPosition());
+        pcmesh->MoveMesh(pcregion->GetStartSector(),
+          pcregion->GetStartPosition());
       }
 
       // Add some properties.
       pcprop->SetProperty("Entity Type", (long)type);
       pcprop->SetProperty("Entity ID", (long)id);
-      pcprop->SetProperty("Entity Name", name);
+      pcprop->SetProperty("Entity Name", name.c_str());
     }
   }
 }

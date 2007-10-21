@@ -25,18 +25,35 @@ namespace PT
 {
   namespace Entity
   {
+    /**
+     * @ingroup entities
+     * Implements basic functionality for all items.
+     * @todo At this time we only have this class for representing items.
+     * Possibly to change in future.
+     */
     class ItemEntity : public Entity
     {
     private:
-      unsigned int itemid;
+      ///Represents the ID of item type. Not to be confused with entity ID.
+      ///Item ID is hooked to things like 'Long Sword', 'Apple' etc, found in
+      ///database.
+      unsigned int itemId;
 
       void Create();
 
     public:
+      /**
+       * Constructor that sets up the item using the information provided by
+       * EntityAddEvent event.
+       * @see Entity::Entity(const Events::EntityAddEvent&)
+       * @param ev Event used for initialising the door properties.
+       */
       ItemEntity(const Events::EntityAddEvent& ev);
 
-      int GetItemId () const { return itemid; }
-      void SetItemId (unsigned int value) { itemid = value; }
+      ///@return Item type ID.
+      int GetItemId () const { return itemId; }
+      ///Sets the item's type ID to given value.
+      void SetItemId (unsigned int value) { itemId = value; }
 
       void Interact();
     };

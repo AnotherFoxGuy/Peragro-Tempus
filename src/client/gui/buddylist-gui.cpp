@@ -148,7 +148,7 @@ bool BuddyWindow::ProcessEvents(PT::Events::Eventp ev)
 
     if (ent->GetType() == PT::Entity::PCEntityType)
     {
-      RemovePlayer(ent->GetName().GetData());
+      RemovePlayer(ent->GetName().c_str());
     }
   }
 

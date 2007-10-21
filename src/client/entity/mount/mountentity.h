@@ -29,22 +29,48 @@ namespace PT
 {
   namespace Entity
   {
+    /**
+     * @ingroup entities
+     * Implements mounts. This includes horses, boats, carriages, etc.
+     */
     class MountEntity : public CharacterEntity
     {
     private:
+      ///Specifies whether the mount is mounted or not.
       bool mounted;
 
       void Create();
 
     public:
+      /**
+       * Constructor that sets up the mount using the information provided by
+       * EntityAddEvent event.
+       * @see Entity::Entity(const Events::EntityAddEvent&)
+       * @param ev Event used for initialising the door properties.
+       */
       MountEntity(const Events::EntityAddEvent& ev);
       ~MountEntity(){}
 
+      /**
+       * Mount an entity on a mount.
+       * @todo Should we allow only for PcEntity instances to mount? Currently
+       * we're doing casting to PcEntity anyway.
+       * @param player Entity to be mounted.
+       */
       void Mount(Entity* player);
+      /**
+       * Unmount an entity from a mount.
+       * @todo Should we allow only for PcEntity instances to mount? Currently
+       * we're doing casting to PcEntity anyway.
+       * @param player Entity to be unmounted.
+       */
       void UnMount(Entity* player);
 
       void Interact();
 
+      /**
+       * @return True if a mount is mounted by someone, false if it isn't.
+       */
       bool isMounted() const { return mounted; }
     };
   }

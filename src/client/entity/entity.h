@@ -21,10 +21,7 @@
 
 #include <cssysdef.h>
 
-#include <iutil/string.h>
-#include <iutil/vfs.h>
 #include <csutil/ref.h>
-#include <csutil/csstring.h>
 #include <iutil/virtclk.h>
 
 #include <physicallayer/entity.h>
@@ -69,6 +66,8 @@
 #include <propclass/colldet.h>
 #include <propclass/quest.h>
 
+#include <string>
+
 #include "client/entity/movement.h"
 
 namespace PT
@@ -82,6 +81,11 @@ namespace PT
 
   namespace Entity
   {
+    /**
+     * @ingroup entities
+     * Enum representing the possible entity types that are handled by the game
+     * engine.
+     */
     enum EntityType
     {
       PCEntityType=0,
@@ -92,60 +96,147 @@ namespace PT
     };
 
     /**
-     * All entities are dervied from this class. This class provides an
-     * abstract mechanism for handling various operations on entities.
+     * @ingroup entities
+     * Provides abstract mechanism and basic functionality for the entity
+     * manipulation. If you want to add a new entity type, inherit this class,
+     * or one of its children. Overload the appropriate methods when doing so.
      */
     class Entity
     {
     protected:
+      ///Unique ID of the entity.
       unsigned int id;
+      ///Type of the entity.
       EntityType type;
-      csString name;
-      csString meshname;
-      csString sectorname;
+      ///Name of the entity. Shown on mouse-over (for example).
+      std::string name;
+      ///Name of the mesh used for this entity.
+      std::string meshName;
+      ///Name of the sector where the entity resides.
+      std::string sectorName;
+      ///Position of the entity within a sector.
       csVector3 pos;
 
-      Entity() : id(-1), celentity(0) {}
+      /**
+       * This is a conveniance constructor possibly needed for children classes.
+       * @todo Recheck if this is actually needed.
+       */
+      Entity() : id(-1), celEntity(0) {}
 
-      csWeakRef<iCelEntity> celentity;
+      ///CEL entity of the entity. See the CEL documentation for more info.
+      csWeakRef<iCelEntity> celEntity;
 
+      /**
+       * Initialises the object's CEL entity. This includes creation of CEL
+       * entity, creation and setup of some of its properties, and placing of
+       * the entity in game world.
+       */
       void CreateCelEntity ();
 
-      virtual void Create() {}
+      /**
+       * This method provides an abstract interface for initialising all the
+       * required properties of the entity when it's created.
+       * @todo Might be unneeded and even somewhat harmful. The method/function
+       * calls from here maybe should be moved to the constructor.
+       */
+      virtual void Create() = 0;
 
     public:
-
-      Entity(EntityType type) : id(-1), type(type), celentity(0) {}
-
+      /**
+       * Constructor that sets up the entity using the information provided by
+       * EntityAddEvent event. Each class along the inheritance path should take
+       * care of its own properties it defines in order to avoid code
+       * duplication.
+       * @param ev Event used for initialising the entity properties.
+       */
       Entity(const Events::EntityAddEvent& ev);
 
+      /**
+       * Virtual destructor.
+       */
       virtual ~Entity() {}
 
+      ///@return Entity's unique ID.
       unsigned int GetId () const { return id; }
+      ///Set the entity's unique ID to a given value.
+      ///@todo Should we really be allowed to do this?
       void SetId (int value) { id = value; }
-      int GetType () const { return type; }
-      void SetType (EntityType value)  { type = value; }
-      csString GetName () const { return name; }
-      void SetName (const csString& value) { name = value; }
-      csString GetMeshName () const { return meshname; }
-      void SetMeshName (const csString& value) { meshname = value; }
-      csString GetSectorName() const { return sectorname; }
-      void SetSectorName (csString value) { sectorname = value; }
-      csVector3 GetPosition() const { return pos; }
-      void SetPosition (csVector3 value) { pos = value; }
-      iCelEntity* GetCelEntity () const { return celentity; }
-      void SetCelEntity (iCelEntity* value) { celentity = value; }
 
-      virtual void Move(MovementData* movement) {}
-      virtual bool MoveTo(MoveToData* moveTo) {return true;}
-      virtual void DrUpdate(DrUpdateData* drupdate) {}
-      virtual void Teleport(csVector3 pos, csString sector) {}
-      virtual void UpdatePcProp(UpdatePcPropData* update_pcprop) {}
-      virtual void Interact() {}
+      ///@return Entity's type.
+      int GetType () const { return type; }
+      ///Set the entity's type to a given value.
+      ///@todo Should we really be allowed to do this?
+      void SetType (EntityType value)  { type = value; }
+
+      ///@return Entity's name.
+      const std::string& GetName () const { return name; }
+      ///Set the entity's name to a given value.
+      void SetName (const std::string& value) { name = value; }
+
+      ///@return Entity's mesh name.
+      const std::string& GetMeshName () const { return meshName; }
+      ///Set the entity's mesh name to a given value.
+      void SetMeshName (const std::string& value) { meshName = value; }
+
+      ///@return Name of the sector where entity resides.
+      const std::string& GetSectorName() const { return sectorName; }
+      ///Set the name of sector where the entity resides.
+      void SetSectorName (std::string value) { sectorName = value; }
+
+      ///@return Position of entity within a sector.
+      const csVector3& GetPosition() const { return pos; }
+      ///Set the position of entity within a sector to a given value.
+      void SetPosition (csVector3 value) { pos = value; }
+
+      ///@return Entity's CEL entity.
+      iCelEntity* GetCelEntity () const { return celEntity; }
+      ///Make entity use some other CEL entity instead of its own.
+      ///@todo Should we really be allowed to do this?
+      void SetCelEntity (iCelEntity* value) { celEntity = value; }
+
       /**
-       * Overload this method in children for activating "pose" animation on
-       * entities, like waving, shaking head etc.
-       * @todo We need to introduce some kind of "PoseManager" in order to acommodate new poses easily.
+       * Change entity's 'linear' movement information (changing turning and
+       * speed of an entity, or jumping status).
+       * @param movement Movement data for the entity.
+       */
+      virtual void Move(const MovementData& movement) {}
+      /**
+       * Move entity from point A to point B, in linear manner.
+       * @param moveTo Movement data for the entity.
+       * @return True if the movement has been done, false otherwise.
+       * @internal The reason we use non-const pointer (and not a const
+       * reference) is that moveTo data needs to be changed inside this method.
+       */
+      virtual bool MoveTo(MoveToData* moveTo) {return true;}
+      /**
+       * Move entity using 'dead reckoning' method.
+       * @see http://en.wikipedia.org/wiki/Dead_reckoning
+       * @param drupdate Dead reckoning movement data.
+       */
+      virtual void DrUpdate(const DrUpdateData& drupdate) {}
+      /**
+       * Changes the entity position and sector immediatelly.
+       * @param pos New position of an entity.
+       * @param sector New sector where the entity should reside.
+       */
+      virtual void Teleport(const csVector3& pos, const std::string& sector) {}
+
+      /**
+       * Updates iPcProperties of a CEL entity. See CEL documentation for more
+       * details.
+       * @param updatePcProp Information about property to be changed.
+       */
+      virtual void UpdatePcProp(const UpdatePcPropData& updatePcProp) {}
+
+      /**
+       * Method called when player wants to interact with an entity.
+       */
+      virtual void Interact() {}
+
+      /**
+       * Method for activating "pose" animations on entities, like waving,
+       * shaking head, apple rolling etc.
+       * @todo We need some form of PoseManager or something.
        * @param poseId ID of the pose.
        */
       virtual void Pose(unsigned int poseId) {}

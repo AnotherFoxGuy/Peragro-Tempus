@@ -27,15 +27,23 @@ namespace PT
 {
   namespace Entity
   {
+    /**
+     * @ingroup entities
+     * Implements NPC (non-player character) entity.
+     */
     class NpcEntity : public CharacterEntity
     {
     private:
       void Create();
 
     public:
+      /**
+       * Constructor that sets up the NPC using the information provided by
+       * EntityAddEvent event.
+       * @see Entity::Entity(const Events::EntityAddEvent&)
+       * @param ev Event used for initialising the NPC properties.
+       */
       NpcEntity(const Events::EntityAddEvent& ev);
-
-      virtual ~NpcEntity(){}
 
       void Interact();
     };

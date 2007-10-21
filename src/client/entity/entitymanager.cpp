@@ -87,7 +87,7 @@ namespace PT
       // Register listener for EntityEquipEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("StatePlayEvent", cb);
 
-      // Register listener for ActionForward.
+      // Register listener for ActionInteract.
       EventHandler<EntityManager>* cbInteract = new EventHandler<EntityManager>(&EntityManager::OnInteract, this);
       PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_INTERACT", cbInteract);
 
@@ -201,7 +201,7 @@ namespace PT
         return true;
       }
 
-      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().GetData(), entity->GetId(), entityAddEv->position.Description().GetData(), (playerId == entityAddEv->entityId) ? " as me":"");
+      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entityAddEv->position.Description().GetData(), (playerId == entityAddEv->entityId) ? " as me":"");
       // Add our entity to the list.
       entities.Push(entity);
 

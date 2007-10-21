@@ -37,7 +37,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   if(!ent) return;
 
   char buffer[1024];
-  sprintf(buffer, "Do you want to trade with %s?", ent->GetName().GetData());
+  sprintf(buffer, "Do you want to trade with %s?", ent->GetName().c_str());
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   TradeWindow* tradewindow = guimanager->GetTradeWindow();
