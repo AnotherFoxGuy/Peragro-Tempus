@@ -26,15 +26,50 @@ class Database;
 class Stat;
 class RaceStat;
 
+/**
+ * Provides an interface to the database to handle storage of race stats.
+ */
 class RaceStatsTable : public Table
 {
 public:
   RaceStatsTable(Database* db);
+  /**
+   * Creates a table in the database that will store race stats.
+   */
   void createTable();
-  void insert(int race, int stat_id, int level);
-  void set(int racestat, Stat* stat, int level);
-  int get(int racestat, Stat* stat);
+  /**
+   * Insert a race stat into the database.
+   * @param race The type of race.
+   * @param stat The id of the stat
+   * @param level The level of the race.
+   */
+  void insert(int race, int stat, int level);
+  /**
+   * Wrapper around insert.
+   * @param race The type of race
+   * @param stat The stat for this race
+   * @param level The level of this race.
+   */
+  void set(int race, Stat* stat, int level);
+  /**
+   * Used to find the level of a race.
+   * @param race The type of race.
+   * @param stat The stat for this race.
+   * @return The level of the race with matching stat, or 0 in case of failure.
+   */
+  int get(int race, Stat* stat);
+  /**
+   * Checks if a race stat exists or not.
+   * @return True if the user exists, false otherwise
+   */
   void dropTable();
+  /**
+   * This function will load all race stats for one particular race from the
+   * database.
+   * The caller is responsible for freeing all races in the array.
+   * @param entries An array that will contain all races stats
+   * @param id The race type to return the race stats for.
+   */
   void getAllEntries(Array<RaceStat*>& entries, int id);
 };
 

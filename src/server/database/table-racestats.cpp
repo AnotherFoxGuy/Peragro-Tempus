@@ -89,19 +89,27 @@ void RaceStatsTable::createTable()
   delete stat;
 }
 
-void RaceStatsTable::insert(int race, int stat_id, int level)
+void RaceStatsTable::insert(int race, int stat, int level)
 {
   db->update("insert or replace into racestat (id, stat, level) values ('%d','%d','%d');",
-    race, stat_id, level);
+    race, stat, level);
 }
 
 void RaceStatsTable::set(int race, Stat* stat, int level)
 {
+  if (!stat) 
+  {
+    return;
+  }
   insert(race, stat->getId(), level);
 }
 
 int RaceStatsTable::get(int race, Stat* stat)
 {
+  if (!stat)
+  { 
+    return 0;
+  }
   ResultSet* rs = db->query("select * from racestat where id = '%d' and stat = '%d';",
     race, stat->getId());
 
