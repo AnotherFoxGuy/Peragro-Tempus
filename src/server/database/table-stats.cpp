@@ -70,6 +70,9 @@ bool StatTable::existsStat(ptString name)
 {
   if (strlen(*name)> 512) assert("String too long");
   ResultSet* rs = db->query("select id from stats where name = '%q';", *name);
+  if (!rs) {
+    return false;
+  }
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
