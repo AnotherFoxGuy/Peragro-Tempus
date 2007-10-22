@@ -1,0 +1,13 @@
+/**
+  @defgroup data_handlers Data Handlers
+  Classes within this module provide interface for loading of various data in
+  XML files. They provide a centralised interface for doing this both client and
+  server-side.
+ */
+/**
+  @defgroup entities Entity System
+  Entities module implements entities like items, characters, doors. Class
+  EntityManager owns the entities, and is in charge of changing entity
+  properties. Class MovementManager handles the moving of entities. The base
+  class to be inherited when adding new entity type is class Entity.
+ */
