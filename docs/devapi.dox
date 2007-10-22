@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "Peragro Tempus $(VERSION)"
+PROJECT_NAME           = "Peragro Tempus $(VERSION) $(PTREV)"
 PROJECT_NUMBER         = "Developers API Reference"
 OUTPUT_DIRECTORY       = $(TOP)/out/docs/html/devapi
 CREATE_SUBDIRS         = NO
