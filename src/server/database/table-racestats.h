@@ -59,8 +59,7 @@ public:
    */
   int get(int race, Stat* stat);
   /**
-   * Checks if a race stat exists or not.
-   * @return True if the user exists, false otherwise
+   * Removes all race stats from the database.
    */
   void dropTable();
   /**
