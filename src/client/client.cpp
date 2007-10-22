@@ -350,7 +350,7 @@ namespace PT
     pointerlib.setEntityManager(entitymanager);
 
     // Create and Initialize the Effectsmanager.
-    effectsmanager = new PT::Data::EffectsManager (GetObjectRegistry());
+    effectsmanager = new PT::Effect::EffectsManager (GetObjectRegistry());
     if (!effectsmanager->Initialize())
       return Report(PT::Error, "Failed to initialize EffectsManager!");
     pointerlib.setEffectsManager(effectsmanager);
@@ -723,7 +723,7 @@ namespace PT
 
       if (mesh)
       {
-        effectsmanager->CreateEffect(PT::Data::EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
+        effectsmanager->CreateEffect(PT::Effect::EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
         //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0), cam);
 
         csRef<iCelEntity> ownent = Entity::PlayerEntity::Instance()->GetCelEntity();

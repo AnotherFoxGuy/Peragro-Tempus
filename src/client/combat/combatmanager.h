@@ -50,7 +50,7 @@ private:
   csRef<iLoader> loader;
   csRef<iCelPlLayer> pl;
 
-  PT::Data::EffectsManager* effectsmgr;
+  PT::Effect::EffectsManager* effectsmgr;
   PT::Entity::EntityManager* entitymgr;
   GUIManager* guimanager;
   PT::Data::SkillDataManager* skillmanager;

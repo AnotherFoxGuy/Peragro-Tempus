@@ -15,6 +15,7 @@ under each day.
  - swedishcoder fixing declaration mismatch. Also takes care of doxygen
    documentation generation warning"
  - swedishcoder fixes some doxygen warnings in array.h.
+ - Sueastside moved EffectsManager to namespace Effect.
 
 21-Oct-2007
  - Sueastside added skillmanager.

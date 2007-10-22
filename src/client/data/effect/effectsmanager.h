@@ -31,7 +31,7 @@ struct iLoader;
 
 namespace PT
 {
-  namespace Data
+  namespace Effect
   {
 
     class EffectsManager

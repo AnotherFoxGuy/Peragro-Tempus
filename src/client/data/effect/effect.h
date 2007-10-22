@@ -30,7 +30,7 @@
 
 namespace PT
 {
-  namespace Data
+  namespace Effect
   {
     class Effect 
     {

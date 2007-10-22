@@ -38,7 +38,7 @@
 
 namespace PT
 {
-  namespace Data
+  namespace Effect
   {
     EffectsManager::EffectsManager (iObjectRegistry* obj_reg)
     {

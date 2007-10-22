@@ -20,7 +20,7 @@
 
 namespace PT
 {
-  namespace Data
+  namespace Effect
   {
     Effect::Effect (iMeshWrapper* mesh, int timeleft)
     {

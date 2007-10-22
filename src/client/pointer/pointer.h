@@ -35,8 +35,13 @@ namespace PT
     class ItemDataManager;
     class SectorDataManager;
     class SkillDataManager;
-    class EffectsManager;
+    class EffectDataManager;
   } // Data namespace
+
+  namespace Effect
+  {
+    class EffectsManager;
+  } // Effect namespace
 
   namespace Entity
   {
@@ -68,12 +73,13 @@ private:
   PT::Data::ItemDataManager* itemDataManager;
   PT::Data::SectorDataManager* sectorDataManager;
   PT::Data::SkillDataManager* skillDataManager;
-  PT::Data::EffectsManager* effectsmanager;
+  PT::Data::EffectDataManager* effectDataManager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
   CombatMGR* combatmanager;
   PT::Events::EventManager* eventmanager;
   PT::Chat::ChatManager* chatmanager;
+  PT::Effect::EffectsManager* effectsmanager;
 
 public:
   PointerLibrary() {
@@ -87,6 +93,7 @@ public:
     itemDataManager = 0;
     sectorDataManager = 0;
     skillDataManager = 0;
+    effectDataManager = 0;
     guimanager = 0;
     entitymanager = 0;
     effectsmanager = 0;
@@ -121,14 +128,17 @@ public:
   void setSkillDataManager(PT::Data::SkillDataManager* skillDataManager) { this->skillDataManager = skillDataManager; }
   PT::Data::SkillDataManager* getSkillDataManager() { return this->skillDataManager; }
 
+  void setEffectDataManager(PT::Data::EffectDataManager* effectDataManager) { this->effectDataManager = effectDataManager; }
+  PT::Data::EffectDataManager* getEffectDataManager() { return this->effectDataManager; }
+
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }
 
   void setEntityManager(PT::Entity::EntityManager* entitymanager) { this->entitymanager = entitymanager; }
   PT::Entity::EntityManager* getEntityManager() { return this->entitymanager; }
 
-  void setEffectsManager(PT::Data::EffectsManager* effectsmanager) { this->effectsmanager = effectsmanager; }
-  PT::Data::EffectsManager* getEffectsManager() { return this->effectsmanager; }
+  void setEffectsManager(PT::Effect::EffectsManager* effectsmanager) { this->effectsmanager = effectsmanager; }
+  PT::Effect::EffectsManager* getEffectsManager() { return this->effectsmanager; }
 
   void setCombatManager(CombatMGR* combatmanager) { this->combatmanager = combatmanager; }
   CombatMGR* getCombatManager() { return this->combatmanager; }

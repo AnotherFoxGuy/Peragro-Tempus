@@ -115,7 +115,7 @@ void CombatMGR::hit (int targetId, int damage)
   // Damage is positive, we got hurt.
   if (damage > 0)
   {
-    effectsmgr->CreateEffect(getMesh(targetcel), PT::Data::EffectsManager::Blood);
+    effectsmgr->CreateEffect(getMesh(targetcel), PT::Effect::EffectsManager::Blood);
     if (target->GetType() == PT::Entity::PCEntityType)
     {
       ((PT::Entity::PcEntity*) target)->PlayAnimation("hit", 1.0f);
@@ -124,12 +124,12 @@ void CombatMGR::hit (int targetId, int damage)
   // Damage is negative, we got healed.
   else if (damage < 0)
   {
-    effectsmgr->CreateEffect(getMesh(targetcel), PT::Data::EffectsManager::Healeffect);
+    effectsmgr->CreateEffect(getMesh(targetcel), PT::Effect::EffectsManager::Healeffect);
     //target->SetAction("heal");
   }
   else if (damage == 0)
   {
-    effectsmgr->CreateEffect(getMesh(targetcel), PT::Data::EffectsManager::Deflect);
+    effectsmgr->CreateEffect(getMesh(targetcel), PT::Effect::EffectsManager::Deflect);
     //target->SetAction("deflect");
   }
   // Update the entity's HP(this will update the GUI aswell).
@@ -151,7 +151,7 @@ void CombatMGR::die (int targetId)
     Report(PT::Error, "CombatMGR: Couldn't find dieing entity with ID %d !", targetId);
     return;
   }
-  effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Die);
+  effectsmgr->CreateEffect(getMesh(target), PT::Effect::EffectsManager::Die);
   //target->SetHP(0);
   // Perfrom the die animation and lock it.
   //target->SetAction("die", true);
@@ -168,7 +168,7 @@ void CombatMGR::levelup (int targetId)
     Report(PT::Error, "CombatMGR: Couldn't find entity with ID %d !", targetId);
     return;
   }
-  effectsmgr->CreateEffect(getMesh(target), PT::Data::EffectsManager::Levelup);
+  effectsmgr->CreateEffect(getMesh(target), PT::Effect::EffectsManager::Levelup);
   //guimanager->GetCombatLog()->AddMessage("%s has gained a level.", target->GetName());
 
   csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
