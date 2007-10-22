@@ -82,7 +82,7 @@ namespace PT
       Skill* GetSkillById(unsigned int id) const;
       /**
         @param name Name of the wanted skill.
-        @return Pointer to skill with given ID, or 0 if none was found.
+        @return Pointer to skill with given Name, or 0 if none was found.
        */
       Skill* GetSkillByName(const std::string& name) const;
     };

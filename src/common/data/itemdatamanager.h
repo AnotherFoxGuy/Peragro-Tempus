@@ -82,7 +82,7 @@ namespace PT
       Item* GetItemById(unsigned int id) const;
       /**
         @param name Name of the wanted item.
-        @return Pointer to item with given ID, or 0 if none was found.
+        @return Pointer to item with given Name, or 0 if none was found.
        */
       Item* GetItemByName(const std::string& name) const;
     };

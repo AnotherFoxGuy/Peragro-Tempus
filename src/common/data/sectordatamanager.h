@@ -82,7 +82,7 @@ namespace PT
       Sector* GetSectorById(unsigned int id) const;
       /**
         @param name Name of the wanted sector.
-        @return Pointer to item with given ID, or 0 if none was found.
+        @return Pointer to item with given Name, or 0 if none was found.
        */
       Sector* GetSectorByName(const std::string& name) const;
     };

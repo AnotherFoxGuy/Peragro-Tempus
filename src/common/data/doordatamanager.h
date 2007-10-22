@@ -82,7 +82,7 @@ namespace PT
       Door* GetDoorById(unsigned int id) const;
       /**
         @param name Name of the wanted door.
-        @return Pointer to door with given ID, or 0 if none was found.
+        @return Pointer to door with given Name, or 0 if none was found.
        */
       Door* GetDoorByName(const std::string& name) const;
     };
