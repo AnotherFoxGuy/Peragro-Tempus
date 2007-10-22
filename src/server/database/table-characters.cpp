@@ -73,15 +73,13 @@ void CharacterTable::createTable()
             skincolour, decalcolour, pos, ptString("room",4));
 }
 
-void CharacterTable::insert(int id, ptString name, int user_id, ptString mesh,
-                            int race_id, unsigned char* haircolour, 
-                            unsigned char* skincolour, unsigned char* decalcolour,
+void CharacterTable::insert(int id, ptString name, int user_id,
+                            ptString mesh, int race_id,
+                            unsigned char haircolour[3], 
+                            unsigned char skincolour[3],
+                            unsigned char decalcolour[3],
                             float pos[3], ptString sector)
 {
-  if (!haircolour || !skincolour || !decalcolour) 
-  {
-    return;
-  }
   db->update("insert into characters (id, name, user, mesh, race, "
              "haircolour_r, haircolour_g, haircolour_b, "
              "skincolour_r, skincolour_g, skincolour_b, "

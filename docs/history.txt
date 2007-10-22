@@ -12,6 +12,8 @@ under each day.
    parses 1 row though.
  - swedishcoder started to change hardcoded values for items id 
    (id est, 1 for apple) into enums APPLEID. etc.
+ - swedishcoder fixing declaration mismatch. Also takes care of doxygen
+   documentation generation warning"
 
 21-Oct-2007
  - Sueastside added skillmanager.
