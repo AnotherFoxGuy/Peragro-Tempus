@@ -46,7 +46,8 @@ public:
   void createTable();
   /**
    * Insert a character into the database.
-   * @param id The id of the character
+   * @param id The id of the character.
+   * @param name The name of the character.
    * @param user_id The id of the user that owns this character.
    * @param mesh The mesh for this character.
    * @param race_id The id this character is based on.
