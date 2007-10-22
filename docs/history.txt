@@ -10,6 +10,9 @@ under each day.
  - Changed the behavior of parseSingleResultSet for table-doors to allow
    it to parse data even when there is more than one row. It still only
    parses 1 row though.
+ - swedishcoder started to change hardcoded values for items id 
+   (id est, 1 for apple) into enums APPLEID. etc.
+
 21-Oct-2007
  - Sueastside added skillmanager.
  - swedishcoder added more doxygen comments.

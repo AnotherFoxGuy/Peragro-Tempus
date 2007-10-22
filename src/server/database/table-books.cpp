@@ -18,6 +18,7 @@
 
 #include "database.h"
 #include "table-books.h"
+#include "common/items/itemsid.h"
 
 BooksTable::BooksTable(Database* db) : Table(db)
 {
@@ -27,13 +28,11 @@ BooksTable::BooksTable(Database* db) : Table(db)
     createTable();
   }
   delete rs;
-  ResultSet* rs2 = db->query("select count(*) from books;");
-  delete rs2;
 }
 
 BooksTableVO* BooksTable::parseSingleResultSet(ResultSet* rs, size_t row)
 {
-  if (rs->GetRowCount() != 1) return 0;
+  if (rs->GetRowCount() <= row) return 0;
 
   BooksTableVO* vo = new BooksTableVO();
   vo->id = atoi(rs->GetData(row,0).c_str());
@@ -64,7 +63,7 @@ void BooksTable::createTable()
              "PRIMARY KEY (id, itemId) );");
 
   // Hard coded Item ID for book
-  BooksTableVO book(0,6,ptString("Empty book", 10), ptString());
+  BooksTableVO book(0,BOOKID,ptString("Empty book", 10), ptString());
   insert(&book);
 }
 

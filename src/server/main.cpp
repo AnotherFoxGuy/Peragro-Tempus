@@ -35,6 +35,7 @@
 #include "common/quest/npcdialogmanager.h"
 #include "common/util/sleep.h"
 #include "common/util/timer.h"
+#include "common/items/itemsid.h"
 
 #include "server/server.h"
 #include "server/entity/charactermanager.h"
@@ -155,13 +156,13 @@ int main(int argc, char ** argv)
   server.setSpawner(&spawner);
   // TODO: load that from DB rather than hardcoding
   ptString room("room", 4);
-  spawner.addSpawnPoint( -114, 2, 22, room, 3, 60); //spawn smallplate every 10 second after picking
-  spawner.addSpawnPoint( -97, 2, 88, room, 2, 20); //spawn ballpot every 10 second after picking
-  spawner.addSpawnPoint( -73, 2.5, 105, room, 1, 10); //spawn apple every 10 second after picking
-  spawner.addSpawnPoint( -23, 2.5, 110, room, 1, 45); //spawn apple every 45 second after picking
-  spawner.addSpawnPoint( 17, 2.5, 117, room, 1, 75); //spawn apple every 75 second after picking
-  spawner.addSpawnPoint( 85, 2.5, 108, room, 1, 15); //spawn apple every 15 second after picking
-  spawner.addSpawnPoint( 87.8f, 2.0f, 11.2f, room, 4, 15); //spawn apple every 15 second after picking
+  spawner.addSpawnPoint( -114, 2, 22, room, SMALLPLATEID, 60); //spawn smallplate every 10 second after picking
+  spawner.addSpawnPoint( -97, 2, 88, room, BALLPOTID, 20); //spawn ballpot every 10 second after picking
+  spawner.addSpawnPoint( -73, 2.5, 105, room, APPLEID, 10); //spawn apple every 10 second after picking
+  spawner.addSpawnPoint( -23, 2.5, 110, room, APPLEID, 45); //spawn apple every 45 second after picking
+  spawner.addSpawnPoint( 17, 2.5, 117, room, APPLEID, 75); //spawn apple every 75 second after picking
+  spawner.addSpawnPoint( 85, 2.5, 108, room, APPLEID, 15); //spawn apple every 15 second after picking
+  spawner.addSpawnPoint( 87.8f, 2.0f, 11.2f, room, 4, 15); //spawn what?
   spawner.start();
   //timeEngine.registerTimer(&spawner);
 
