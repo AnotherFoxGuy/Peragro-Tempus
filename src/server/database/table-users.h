@@ -31,6 +31,12 @@ class ptString;
 class UsersTable : public Table
 {
 public:
+  /**
+   * Constructor for the UsersTable.
+   * If no user table is found in the database, the createTable function
+   * will be called in order to populate the database.
+   * @param db A pointer to the database.
+   */
   UsersTable(Database* db);
   /**
    * Creates a table in the database that will store users.
