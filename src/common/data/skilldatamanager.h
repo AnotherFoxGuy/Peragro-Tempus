@@ -30,12 +30,12 @@ namespace PT
     class Skill;
 
     /**
-      @ingroup data_handlers
-      Handles the loading of skills data from XML definition file. The data
-      resides in $DATA/xml/skills/skills.xml file, where $DATA is the parent
-      directory where the Peragro Tempus data resides.
-      @author Jelle Hellemans
-    */
+     * @ingroup data_handlers
+     * Handles the loading of skills data from XML definition file. The data
+     * resides in $DATA/xml/skills/skills.xml file, where $DATA is the parent
+     * directory where the Peragro Tempus data resides.
+     * @author Jelle Hellemans
+     */
     class SkillDataManager
     {
     private:
@@ -49,40 +49,40 @@ namespace PT
 
     public:
       /**
-        Base constructor that doesn't do anything at all.
+       * Base constructor that doesn't do anything at all.
        */
       SkillDataManager() {}
       /**
-        Convenience constructor allowing for immediate setting of data
-        directory path.
-        @param path Path to the data directory.
+       * Convenience constructor allowing for immediate setting of data
+       * directory path.
+       * @param path Path to the data directory.
        */
       SkillDataManager(const std::string& path) : dataPath(path) {}
       ~SkillDataManager();
 
       /**
-        Set the data directory path used for loading 'skills.xml' file.
+       * Set the data directory path used for loading 'skills.xml' file.
        */
       void SetDataPath(const std::string& value) { dataPath = value; }
       /**
-        @return Data directory path.
+       * @return Data directory path.
        */
       const std::string& GetDataPath() const { return dataPath; }
 
       /**
-        Loads all the skills information located in skills definition file.
-        @return True if successful, false if an error occured.
+       * Loads all the skills information located in skills definition file.
+       * @return True if successful, false if an error occured.
        */
       bool LoadSkillData();
 
       /**
-        @param id Unique ID of the wanted skill.
-        @return Pointer to skill with given ID, or 0 if none was found.
+       * @param id Unique ID of the wanted skill.
+       * @return Pointer to skill with given ID, or 0 if none was found.
        */
       Skill* GetSkillById(unsigned int id) const;
       /**
-        @param name Name of the wanted skill.
-        @return Pointer to skill with given Name, or 0 if none was found.
+       * @param name Name of the wanted skill.
+       * @return Pointer to skill with given Name, or 0 if none was found.
        */
       Skill* GetSkillByName(const std::string& name) const;
     };

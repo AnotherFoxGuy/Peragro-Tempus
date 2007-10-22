@@ -27,13 +27,13 @@ namespace PT
   namespace Data
   {
     /**
-      @ingroup data_handlers
-      Helper class that contains basic information about door. Usually not
-      created directly, but accessed via DoorDataManager instance. Use the
-      Set/Get methods to access the door properties.
-      @see DoorDataManager
-      @author Branko Majic <branko.majic@gmail.com>
-    */
+     * @ingroup data_handlers
+     * Helper class that contains basic information about door. Usually not
+     * created directly, but accessed via DoorDataManager instance. Use the
+     * Set/Get methods to access the door properties.
+     * @see DoorDataManager
+     * @author Branko Majic <branko.majic@gmail.com>
+     */
     class Door
     {
     private:

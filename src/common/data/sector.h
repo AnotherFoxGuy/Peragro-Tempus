@@ -26,13 +26,13 @@ namespace PT
   namespace Data
   {
     /**
-      @ingroup data_handlers
-      Helper class that contains basic information about sector. Usually not
-      created directly, but accessed via SectorDataManager instance. Use the
-      Set/Get methods to access the sector properties.
-      @see SectorDataManager
-      @author Branko Majic <branko.majic@gmail.com>
-    */
+     * @ingroup data_handlers
+     * Helper class that contains basic information about sector. Usually not
+     * created directly, but accessed via SectorDataManager instance. Use the
+     * Set/Get methods to access the sector properties.
+     * @see SectorDataManager
+     * @author Branko Majic <branko.majic@gmail.com>
+     */
     class Sector
     {
     private:

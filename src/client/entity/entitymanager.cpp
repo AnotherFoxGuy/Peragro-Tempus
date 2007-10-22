@@ -38,9 +38,9 @@ namespace PT
   namespace Entity
   {
 
-    EntityManager::EntityManager (iObjectRegistry* obj_reg)
+    EntityManager::EntityManager ()
     {
-      this->obj_reg = obj_reg;
+      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
       movementManager = new MovementManager(obj_reg);
 

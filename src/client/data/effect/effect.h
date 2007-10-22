@@ -20,32 +20,51 @@
 #define EFFECT_H
 
 
-#include "cssysdef.h"
+#include <cssysdef.h>
 
-#include "iutil/string.h"
-#include "iutil/vfs.h"
-#include "csutil/ref.h"
+#include <iutil/string.h>
+#include <iutil/vfs.h>
+#include <csutil/ref.h>
 
-#include "iengine/mesh.h"
+#include <iengine/mesh.h>
 
 namespace PT
 {
   namespace Effect
   {
+    /**
+     * @ingroup effects
+     * Helper class that holds the CS mesh and remaining time.
+     * @see EffectsManager
+     * @author Jelle Hellemans
+     */
     class Effect 
     {
     private:
+      ///iMeshWrapper - CS mesh of the effect.
       csRef<iMeshWrapper> mesh;
-      csRef<iMeshWrapper> parent;
+      ///Remaining time on the effect till destruction.
       int timeleft;
 
     public:
-
+      /**
+       * Base constructor.
+       * @param mesh CS mesh of the effect.
+       * @param timeleft initial time till destruction.
+       */
       Effect (iMeshWrapper* mesh, int timeleft);
       ~Effect();
 
+      /**
+       * This function is called every frame by the EffectsManager, 
+       * don't call this yourself!
+       * @param elapsed_ticks Ticks elapsed since last frame.
+       */
       bool Handle (csTicks elapsed_ticks);
 
+      /**
+       * @return CS mesh of the effect.
+       */
       iMeshWrapper* GetMesh () const { return mesh; }	  
     };
 

@@ -27,11 +27,9 @@ namespace PT
 {
   Reporter* Reporter::reporter;
 
-  Reporter::Reporter(iObjectRegistry* obj_reg) 
+  Reporter::Reporter() 
   { 
     reporter = this; 
-    Reporter::obj_reg = obj_reg;
-    vfs = csQueryRegistry<iVFS> (obj_reg);
   }
 
   Reporter::~Reporter()

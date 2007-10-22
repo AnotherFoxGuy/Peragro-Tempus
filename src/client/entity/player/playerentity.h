@@ -110,7 +110,7 @@ namespace PT
       bool PerformMovementAction();
 
     public:
-      void Interact() {}
+      void Interact();
 
       /**
        * Returns a pointer to an instance of the class. Initiate the instance
@@ -121,7 +121,7 @@ namespace PT
        * @return 0 if an error occured, or if no instance was created yet.
        * Otherwise returns a pointer to an instance of the class.
        */
-      static PlayerEntity* Instance(const Events::EntityAddEvent* ev=NULL);
+      static PlayerEntity* Instance(const Events::EntityAddEvent* ev = 0);
 
       /**
        * Set whether the client is ready or not.
@@ -133,6 +133,11 @@ namespace PT
        * @return Returns the player entity's camera.
        */
       iPcDefaultCamera* GetCamera() { return camera; }
+
+      /**
+       * @return Returns the player entity's current sector.
+       */
+      iSector* GetSector();
 
       /**
        * Draws player's camera view.

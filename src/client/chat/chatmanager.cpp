@@ -38,9 +38,9 @@ namespace PT
   namespace Chat
   {
 
-    ChatManager::ChatManager (iObjectRegistry* obj_reg)
+    ChatManager::ChatManager ()
     {
-      this->obj_reg = obj_reg;
+      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
       network = PointerLibrary::getInstance()->getNetwork();
       guimanager = PointerLibrary::getInstance()->getGUIManager();

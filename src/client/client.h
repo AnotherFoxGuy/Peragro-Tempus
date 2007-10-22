@@ -176,9 +176,9 @@ namespace PT
 
     PT::Data::DoorDataManager* doorDataManager;
     PT::Data::ItemDataManager* itemDataManager;
+    PT::Data::EffectDataManager* effectDataManager;
     PT::Data::SectorDataManager* sectorDataManager;
     PT::Data::SkillDataManager* skillDataManager;
-    PT::Data::EffectDataManager* effectDataManager;
 
     PT::Effect::EffectsManager* effectsmanager;
 

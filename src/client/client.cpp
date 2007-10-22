@@ -58,6 +58,7 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 #include "client/data/effect/effectsmanager.h"
+#include "client/data/effect/effectdatamanager.h"
 #include "client/combat/combatmanager.h"
 #include "common/data/doordatamanager.h"
 #include "common/data/itemdatamanager.h"
@@ -95,6 +96,7 @@ namespace PT
     combatmanager = 0;
     doorDataManager = 0;
     itemDataManager = 0;
+    effectDataManager = 0;
     skillDataManager = 0;
     cursor = 0;
     inputMgr = 0;
@@ -117,6 +119,7 @@ namespace PT
     delete cursor;
     delete doorDataManager;
     delete itemDataManager;
+    delete effectDataManager;
     delete skillDataManager;
     delete inputMgr;
     delete reporter;
@@ -232,10 +235,9 @@ namespace PT
       return ReportError("Error opening system!");
 
     // Create and Initialize the Reporter.
-    reporter= new Reporter (GetObjectRegistry());
+    reporter= new Reporter ();
     if (!reporter) return ReportError("Error loading Reporter!");
     reporter->Initialize();
-    //pointerlib.setReporter(reporter);
 
 #ifdef CS_STATIC_LINKED
     reporter->SetLoggingLevel(PT::Errors);
@@ -280,6 +282,12 @@ namespace PT
     if (!itemDataManager->LoadItemData())
       return Report(PT::Error, "Failed to initialize ItemDataManager!");
     pointerlib.setItemDataManager(itemDataManager);
+
+    // Create and Initialize the ItemDataManager.
+    effectDataManager = new PT::Data::EffectDataManager (dataDir->GetData());
+    if (!effectDataManager->LoadEffectData())
+      return Report(PT::Error, "Failed to initialize EffectDataManager!");
+    pointerlib.setEffectDataManager(effectDataManager);
 
     // Create and Initialize the SectorDataManager.
     sectorDataManager = new PT::Data::SectorDataManager (dataDir->GetData());
@@ -344,13 +352,13 @@ namespace PT
     pointerlib.setCursor(cursor);
 
     // Create and Initialize the EntityManager.
-    entitymanager = new PT::Entity::EntityManager (GetObjectRegistry());
+    entitymanager = new PT::Entity::EntityManager ();
     if (!entitymanager->Initialize())
       return Report(PT::Error, "Failed to initialize EntityManager!");
     pointerlib.setEntityManager(entitymanager);
 
     // Create and Initialize the Effectsmanager.
-    effectsmanager = new PT::Effect::EffectsManager (GetObjectRegistry());
+    effectsmanager = new PT::Effect::EffectsManager ();
     if (!effectsmanager->Initialize())
       return Report(PT::Error, "Failed to initialize EffectsManager!");
     pointerlib.setEffectsManager(effectsmanager);
@@ -362,13 +370,13 @@ namespace PT
     pointerlib.setCombatManager(combatmanager);
 
     // Create and Initialize the ChatManager.
-    chatmanager = new PT::Chat::ChatManager (GetObjectRegistry());
+    chatmanager = new PT::Chat::ChatManager ();
     if (!chatmanager->Initialize())
       return Report(PT::Error, "Failed to initialize ChatManager!");
     pointerlib.setChatManager(chatmanager);
 
     // Create and Initialize the TradeManager.
-    trademanager = new PT::Trade::TradeManager (GetObjectRegistry());
+    trademanager = new PT::Trade::TradeManager ();
     if (!trademanager->Initialize())
       return Report(PT::Error, "Failed to initialize TradeManager!");
     //pointerlib.setTradeManager(trademanager);
@@ -723,7 +731,7 @@ namespace PT
 
       if (mesh)
       {
-        effectsmanager->CreateEffect(PT::Effect::EffectsManager::MoveMarker, isect+csVector3(0,0.01f,0));
+        effectsmanager->CreateEffect("MoveMarker", isect+csVector3(0,0.01f,0));
         //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0), cam);
 
         csRef<iCelEntity> ownent = Entity::PlayerEntity::Instance()->GetCelEntity();

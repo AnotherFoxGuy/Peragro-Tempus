@@ -52,19 +52,15 @@ namespace PT
   private:
     static Reporter* reporter;
 
-    iObjectRegistry* obj_reg;
-    csRef<iVFS> vfs;
-
     LoggingLevel loggingLevel;
 
     std::ofstream logFile;
-    //boost::shared_ptr<FS::ofstream> logFile;
 
   private:
     void GetFile (std::string fileName);
 
   public:
-    Reporter(iObjectRegistry* obj_reg);
+    Reporter();
     virtual ~Reporter();
 
     static Reporter* GetInstance() { return reporter; }

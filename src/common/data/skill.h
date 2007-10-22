@@ -27,13 +27,13 @@ namespace PT
   {
 
     /**
-      @ingroup data_handlers
-      Helper class that contains information about skill type. Usually not
-      created directly, but accessed via SkillDataManager instance. Use the
-      Set/Get methods to access the skill properties.
-      @see SkillDataManager
-      @author Jelle Hellemans
-    */
+     * @ingroup data_handlers
+     * Helper class that contains information about skill type. Usually not
+     * created directly, but accessed via SkillDataManager instance. Use the
+     * Set/Get methods to access the skill properties.
+     * @see SkillDataManager
+     * @author Jelle Hellemans
+     */
     class Skill
     {
     public:

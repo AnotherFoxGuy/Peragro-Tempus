@@ -18,8 +18,6 @@
 
 #include "effectsmanager.h"
 
-#include "client/reporter/reporter.h"
-
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>
 #include <imap/loader.h>
@@ -36,20 +34,18 @@
 #include <iutil/vfs.h>
 #include <iengine/engine.h>
 
+#include "client/data/effect/effectdatamanager.h"
+#include "client/data/effect/dataeffect.h"
+
+#include "client/entity/player/playerentity.h"
+
+#include "client/pointer/pointer.h"
+#include "client/reporter/reporter.h"
+
 namespace PT
 {
   namespace Effect
   {
-    EffectsManager::EffectsManager (iObjectRegistry* obj_reg)
-    {
-      this->obj_reg = obj_reg;
-
-      engine =  csQueryRegistry<iEngine> (obj_reg);
-      if (!engine) Report(PT::Bug, "EffectsManager: Failed to locate 3D engine!");
-
-      vfs =  csQueryRegistry<iVFS> (obj_reg);
-      if (!vfs) Report(PT::Bug, "EffectsManager: Failed to locate VFS!");
-    }
 
     EffectsManager::~EffectsManager ()
     {
@@ -57,12 +53,19 @@ namespace PT
 
     bool EffectsManager::Initialize ()
     {
+      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+
+      engine =  csQueryRegistry<iEngine> (obj_reg);
+      if (!engine) 
+        return Report(PT::Bug, "EffectsManager: Failed to locate 3D engine!");
+
+      vfs =  csQueryRegistry<iVFS> (obj_reg);
+      if (!vfs) 
+        return Report(PT::Bug, "EffectsManager: Failed to locate VFS!");
+
       loader =  csQueryRegistry<iLoader> (obj_reg);
       if (!loader)
         return Report(PT::Bug, "EffectsManager: Failed to locate loader!");
-
-      // load the factory for particles from file
-      if ( !loader->LoadLibraryFile ("/peragro/meshes/effects/alleffects.xml") ) return false;
 
       return true;
     }
@@ -81,105 +84,63 @@ namespace PT
       }
     }
 
-    iMeshWrapper* EffectsManager::CreateEffectMesh (int effect)
+    iMeshWrapper* EffectsManager::CreateEffectMesh (const std::string& effectName)
     {
-      csString factory;
-      int duration = 0;
-      float height = 0;
+      Data::EffectDataManager* effMgr = PointerLibrary::getInstance()->getEffectDataManager();
+      PT::Data::Effect* effect = effMgr->GetEffectByName(effectName);
 
-      switch (effect)
+      if (!effect)  
       {
-      case EffectsManager::Blood: 
-        {
-          factory = "bloodsplatfact"; 
-        }
-        break;
-
-      case EffectsManager::Levelup:
-        {
-          factory = "levelupfact"; 
-        }
-        break;
-
-      case EffectsManager::Pentagram:
-        {
-          factory = "pentagramfact"; 
-        }
-        break;
-
-      case EffectsManager::Energysphere:
-        {
-          factory = "energyspherefact"; 
-        }
-        break;
-
-      case EffectsManager::MoveMarker:
-        {
-          factory = "movemarkerfact"; 
-        }
-        break;
-
-      default : {Report(PT::Error, "EffectsManager: Unknown effect type %d!", effect); return 0;}
-      };
-
-      // Find the factory and turn it into a factorywrapper.
-      csRef<iMeshFactoryWrapper> effectfmw = engine->FindMeshFactory(factory);
-      if (!effectfmw)
-      {
-        Report(PT::Error, "EffectsManager: Couldn't find particle factory: ' %s ' !", factory.GetData());
+        Report(PT::Error, "EffectsManager: No such effect: ' %s ' !", 
+          effectName.c_str());
         return 0;
       }
 
-      // Parse the keyvalue for effect duration and heightoffset.
-      csRef<iObjectIterator> it = effectfmw->QueryObject ()->GetIterator ();
-      while (it->HasNext ())
+      // load the factory for the effect from file
+      if ( !loader->LoadLibraryFile (effect->GetMeshFile().c_str()) )  
       {
-        iObject* obj = it->Next ();
-        csRef<iKeyValuePair> key = scfQueryInterface<iKeyValuePair> (obj);
-        if (key)
-        {
-          Report(PT::Debug, "EffectsManager: We got a key, parsing it!");
-          if (!strcmp (key->GetKey (), "duration"))
-          {
-            duration = atoi( key->GetValue () );
-            Report(PT::Debug, "EffectsManager: Reading key value for duration!");
-          }
-          else if (!strcmp (key->GetKey (), "heightoffset"))
-          {
-            height = float(atof( key->GetValue () ));
-            Report(PT::Debug, "EffectsManager: Reading key value for heightoffset!");
-          }
-        }
+        Report(PT::Error, "EffectsManager: Couldn't load effect file: ' %s ' !", 
+          effect->GetMeshFile().c_str());
+        return 0;
+      }
+
+      // Find the factory and turn it into a factorywrapper.
+      csRef<iMeshFactoryWrapper> effectfmw = 
+        engine->FindMeshFactory(effect->GetMeshName().c_str());
+      if (!effectfmw)
+      {
+        Report(PT::Error, "EffectsManager: Couldn't find effect factory: ' %s ' !", 
+          effect->GetMeshName().c_str());
+        return 0;
       }
 
       // Create the effect object.
-      csRef<iMeshWrapper> effectmw = engine->CreateMeshWrapper(effectfmw, "effect", engine->FindSector("room"),csVector3(0,height,0));
+      csVector3 offset(effect->GetOffset().x, effect->GetOffset().y, effect->GetOffset().z);
+      csRef<iMeshWrapper> effectmw = engine->CreateMeshWrapper(effectfmw, 
+                                                               "effect", 0, offset);
       if (!effectmw)
       {
-        Report(PT::Error, "EffectsManager: Particle MeshWrapper creation failed!");
+        Report(PT::Error, "EffectsManager: Effect MeshWrapper creation failed!");
         return 0;
       }
 
       // Add it to the effect array for later processing
-      Effect eff (effectmw, duration);
+      Effect eff (effectmw, effect->GetDuration());
       effects.Push (eff);
 
       return effectmw;
     }
 
-    bool EffectsManager::CreateEffect (iMeshWrapper* parent, int effect)
+    bool EffectsManager::CreateEffect (const std::string& effectName, iMeshWrapper* parent)
     {
       // Parent the particle mesh to the parent entity
-      csRef<iMeshWrapper> effectmw = CreateEffectMesh (effect);
+      csRef<iMeshWrapper> effectmw = CreateEffectMesh (effectName);
       if (!effectmw)
-      {
-        Report(PT::Error, "EffectsManager: Unable to create effect: %d!", effect);
-        return false;
-      }
+        return Report(PT::Error, "EffectsManager: Unable to create effect: %s!", effectName.c_str());
 
       if (!parent)
       {
-        Report(PT::Error, "EffectsManager: Unable to attach particle mesh %d to parent: no parent found!", effect);
+        Report(PT::Error, "EffectsManager: Unable to attach particle mesh %s to parent: no parent found!", effectName.c_str());
         return false;
       }
 
@@ -188,23 +149,31 @@ namespace PT
       return true;
     }
 
-    bool EffectsManager::CreateEffect (int effect, csVector3 pos)
+    bool EffectsManager::CreateEffect (const std::string& effectName, csVector3 pos)
     {
       // Create the particle mesh.
-      csRef<iMeshWrapper> effectmw = CreateEffectMesh (effect);
+      csRef<iMeshWrapper> effectmw = CreateEffectMesh (effectName);
       if (!effectmw)
-        return Report(PT::Error, "EffectsManager: Unable to create effect: %d!", effect);
+        return Report(PT::Error, "EffectsManager: Unable to create effect: %s!", effectName.c_str());
+
+      // Get the current sector.
+      iSector* sector = PT::Entity::PlayerEntity::Instance()->GetSector();
 
       // Offset the effect.
       csVector3 curpos = effectmw->QuerySceneNode()->GetMovable()->GetFullPosition();
       effectmw->QuerySceneNode()->GetMovable()->SetPosition(curpos + pos);
+      if (sector) effectmw->QuerySceneNode()->GetMovable()->SetSector(sector);
       effectmw->QuerySceneNode()->GetMovable()->UpdateMove();
 
       return true;
     }
 
-    bool EffectsManager::CreateDecal (csVector3 pos, iCamera* camera)
+    bool EffectsManager::CreateDecal (csVector3 pos)
     {
+      iCamera* camera = PT::Entity::PlayerEntity::Instance()->GetCamera()->GetCamera();
+      if (!camera) 
+        return Report(PT::Error, "EffectsManager: Unable to find camera!");
+
       csRef<iDecalManager> decalMgr = csLoadPluginCheck<iDecalManager> (obj_reg, "crystalspace.decal.manager");
       if (!decalMgr) 
         return Report(PT::Error, "EffectsManager: Unable to find decalmanager!");
@@ -217,10 +186,6 @@ namespace PT
       csRef<iDecalTemplate> decalTemplate = decalMgr->CreateDecalTemplate(material);
       decalTemplate->SetTimeToLive(12.0f);
       //decalTemplate->SetMainColor(csColor4(1,1,1,1));
-
-      if (!camera) 
-        return Report(PT::Error, "EffectsManager: Unable to find camera!");
-
 
       csVector3 normal = camera->GetTransform().This2OtherRelative(csVector3(0,0,-1));
       csVector3 up = camera->GetTransform().This2OtherRelative(csVector3(0,1,0));

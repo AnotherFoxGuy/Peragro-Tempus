@@ -16,6 +16,7 @@ under each day.
    documentation generation warning"
  - swedishcoder fixes some doxygen warnings in array.h.
  - Sueastside moved EffectsManager to namespace Effect.
+ - Sueastside changed EffectsManager to utilize EffectDataManager.
 
 21-Oct-2007
  - Sueastside added skillmanager.

@@ -32,9 +32,9 @@ namespace PT
 {
   namespace Trade
   {
-    TradeManager::TradeManager (iObjectRegistry* obj_reg)
+    TradeManager::TradeManager ()
     {
-      this->obj_reg = obj_reg;
+      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
       engine =  csQueryRegistry<iEngine> (obj_reg);
 

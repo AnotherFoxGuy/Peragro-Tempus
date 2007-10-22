@@ -475,6 +475,15 @@ namespace PT
 
       return true;
     }
+
+    iSector* PlayerEntity::GetSector()
+    {
+      if (!camera.IsValid()) return 0;
+      iCamera* cam = camera->GetCamera();
+      if (!cam) return 0;
+      return cam->GetSector();
+    }
+
     void PlayerEntity::CameraDraw(unsigned int fpsLimit)
     {
       if (!camera.IsValid()) return;
@@ -500,6 +509,16 @@ namespace PT
         camera->SetPitch(currentPitch);
       }
       camera->Draw();
+    }
+
+    void PlayerEntity::Interact()
+    {
+      using namespace PT::Events;
+      InterfaceInteract* interfaceEvent = new InterfaceInteract();
+
+      interfaceEvent->entityId              = id;
+      interfaceEvent->actions               = "Attack";
+      PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
     }
   } //Entity namespace
 } //PT namespace

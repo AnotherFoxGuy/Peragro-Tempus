@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_ITEMDATAMANAGER_H
-#define PT_ITEMDATAMANAGER_H
+#ifndef PT_EFFECTDATAMANAGER_H
+#define PT_EFFECTDATAMANAGER_H
 
 #include <vector>
 #include <string>
@@ -27,23 +27,23 @@ namespace PT
   namespace Data
   {
     //Forward declarations
-    class Item;
+    class Effect;
 
     /**
      * @ingroup data_handlers
-     * Handles the loading of items data from XML definition file. The data
-     * resides in $DATA/xml/items/items.xml file, where $DATA is the parent
+     * Handles the loading of effects data from XML definition file. The data
+     * resides in $DATA/xml/effects/effects.xml file, where $DATA is the parent
      * directory where the Peragro Tempus data resides.
-     * @author Branko Majic <branko.majic@gmail.com>
+     * @author Jelle Hellemans
      */
-    class ItemDataManager
+    class EffectDataManager
     {
     private:
-      ///Items descriptions. Instances are owned by ItemDataManager.
+      ///Effects descriptions. Instances are owned by EffectDataManager.
       ///@internal We're using a std::vector here since it's being populated
       ///only during application startup. It also offers speed when accessing
       ///elements.
-      std::vector<Item*> items;
+      std::vector<Effect*> effects;
       ///Represents the parent directory of the Peragro Tempus data.
       std::string dataPath;
 
@@ -51,17 +51,17 @@ namespace PT
       /**
        * Base constructor that doesn't do anything at all.
        */
-      ItemDataManager() {}
+      EffectDataManager() {}
       /**
        * Convenience constructor allowing for immediate setting of data
        * directory path.
        * @param path Path to the data directory.
        */
-      ItemDataManager(const std::string& path) : dataPath(path) {}
-      ~ItemDataManager();
+      EffectDataManager(const std::string& path) : dataPath(path) {}
+      ~EffectDataManager();
 
       /**
-       * Set the data directory path used for loading 'items.xml' file.
+       * Set the data directory path used for loading 'effects.xml' file.
        */
       void SetDataPath(const std::string& value) { dataPath = value; }
       /**
@@ -70,23 +70,23 @@ namespace PT
       const std::string& GetDataPath() const { return dataPath; }
 
       /**
-       * Loads all the items information located in items definition file.
+       * Loads all the effects information located in effects definition file.
        * @return True if successful, false if an error occured.
        */
-      bool LoadItemData();
+      bool LoadEffectData();
 
       /**
-       * @param id Unique ID of the wanted item.
-       * @return Pointer to item with given ID, or 0 if none was found.
+       * @param id Unique ID of the wanted effect.
+       * @return Pointer to effect with given ID, or 0 if none was found.
        */
-      Item* GetItemById(unsigned int id) const;
+      Effect* GetEffectById(unsigned int id) const;
       /**
-       * @param name Name of the wanted item.
-       * @return Pointer to item with given Name, or 0 if none was found.
+       * @param name Name of the wanted effect.
+       * @return Pointer to effect with given Name, or 0 if none was found.
        */
-      Item* GetItemByName(const std::string& name) const;
+      Effect* GetEffectByName(const std::string& name) const;
     };
   } // Data namespace
 } // PT namespace
 
-#endif // PT_ITEMDATAMANAGER_H
+#endif // PT_EFFECTDATAMANAGER_H

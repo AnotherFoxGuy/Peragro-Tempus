@@ -30,12 +30,12 @@ namespace PT
     class Door;
 
     /**
-      @ingroup data_handlers
-      Handles the loading of door data from XML definition file. The data
-      resides in $DATA/xml/doors/doors.xml file, where $DATA is the parent
-      directory where the Peragro Tempus data resides.
-      @author Branko Majic <branko.majic@gmail.com>
-    */
+     * @ingroup data_handlers
+     * Handles the loading of door data from XML definition file. The data
+     * resides in $DATA/xml/doors/doors.xml file, where $DATA is the parent
+     * directory where the Peragro Tempus data resides.
+     * @author Branko Majic <branko.majic@gmail.com>
+     */
     class DoorDataManager
     {
     private:
@@ -49,40 +49,40 @@ namespace PT
 
     public:
       /**
-        Base constructor that doesn't do anything at all.
+       * Base constructor that doesn't do anything at all.
        */
       DoorDataManager() {}
       /**
-        Convenience constructor allowing for immediate setting of data
-        directory path.
-        @param path Path to the data directory.
+       * Convenience constructor allowing for immediate setting of data
+       * directory path.
+       * @param path Path to the data directory.
        */
       DoorDataManager(const std::string& path) : dataPath(path) {}
       ~DoorDataManager();
 
       /**
-        Set the data directory path used for loading 'doors.xml' file.
+       * Set the data directory path used for loading 'doors.xml' file.
        */
       void SetDataPath(const std::string& value) { dataPath = value; }
       /**
-        @return Data directory path.
+       * @return Data directory path.
        */
       const std::string& GetDataPath() const { return dataPath; }
 
       /**
-        Loads all the doors information located in doors definition file.
-        @return True if successful, false if an error occured.
+       * Loads all the doors information located in doors definition file.
+       * @return True if successful, false if an error occured.
        */
       bool LoadDoorData();
 
       /**
-        @param id Unique ID of the wanted door.
-        @return Pointer to door with given ID, or 0 if none was found.
+       * @param id Unique ID of the wanted door.
+       * @return Pointer to door with given ID, or 0 if none was found.
        */
       Door* GetDoorById(unsigned int id) const;
       /**
-        @param name Name of the wanted door.
-        @return Pointer to door with given Name, or 0 if none was found.
+       * @param name Name of the wanted door.
+       * @return Pointer to door with given Name, or 0 if none was found.
        */
       Door* GetDoorByName(const std::string& name) const;
     };

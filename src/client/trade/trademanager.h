@@ -53,7 +53,7 @@ namespace PT
       bool Drop(PT::Events::Eventp ev);
 
     public:
-      TradeManager (iObjectRegistry* obj_reg);
+      TradeManager ();
       ~TradeManager ();
 
       bool Initialize ();

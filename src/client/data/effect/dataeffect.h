@@ -16,10 +16,11 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_DATAITEM_H
-#define PT_DATAITEM_H
+#ifndef PT_DATAEFFECT_H
+#define PT_DATAEFFECT_H
 
 #include <string>
+#include "common/util/ptvector3.h"
 
 namespace PT
 {
@@ -28,35 +29,32 @@ namespace PT
 
     /**
      * @ingroup data_handlers
-     * Helper class that contains basic information about item type. Usually not
-     * created directly, but accessed via ItemDataManager instance. Use the
-     * Set/Get methods to access the item properties.
-     * @see ItemDataManager
-     * @author Branko Majic <branko.majic@gmail.com>
+     * Helper class that contains basic information about effect type. Usually not
+     * created directly, but accessed via EffectDataManager instance. Use the
+     * Set/Get methods to access the effect properties.
+     * @see EffectDataManager
+     * @author Jelle Hellemans
      */
-    class Item
+    class Effect
     {
     private:
-      ///Unique ID of the item type (ie '3').
+      ///Unique ID of the effect type (ie '3').
       unsigned int id;
-      ///Name of the item (ie 'apple').
+      ///Name of the effect (ie 'movemarker').
       std::string name;
-      ///name of the icon used for the item in inventory view (ie
-      ///Set:Inventory image:apple').
-      std::string icon;
-      ///Description of the item type (ie 'A kind of fruit').
-      std::string description;
-      ///relative path to the mesh file containing the item mesh
-      ///(ie '/peragro/meshes/apple/apple.xml').
+      ///relative path to the mesh file containing the effect mesh
+      ///(ie '/peragro/meshes/effects/movemarker.xml').
       std::string meshFile;
-      ///meshName - name of the mesh in the mesh file used for this item (ie
-      ///'apple').
+      ///meshName - name of the mesh in the mesh file used for this effect (ie
+      ///'movemarkerfact').
       std::string meshName;
-      ///Weight of a single item in kilograms (ie '0.1').
-      float weight;
+      ///Duration of the effect in ms (ie '1000' == 1 second).
+      int duration;
+      ///Relative offset for the effect.
+      PtVector3 offset;
 
     public:
-      Item() : id(0), weight(0) {}
+      Effect() : id(0), duration(0) {}
 
       void SetId(unsigned int value) { id = value; }
       unsigned int GetId() const { return id; }
@@ -64,22 +62,21 @@ namespace PT
       void SetName(const std::string& value) { name=value; }
       const std::string& GetName() const { return name; }
 
-      void SetIconName(const std::string& value) { icon=value; }
-      const std::string& GetIconName() const { return icon; }
-
-      void SetDescription(const std::string& value) { description=value; }
-      const std::string& GetDescription() const { return description; }
-
       void SetMeshFile(const std::string& value) { meshFile=value; }
       const std::string& GetMeshFile() const { return meshFile; }
 
       void SetMeshName(const std::string& value) { meshName=value; }
       const std::string& GetMeshName() const { return meshName; }
 
-      void SetWeight(float value) { weight = value; }
-      float GetWeight() const { return weight; }
+      void SetDuration(int value) { duration = value; }
+      int GetDuration() const { return duration; }
+
+      void SetOffset(double x,double y,double z)
+        { offset = PtVector3(x,y,z); }
+      void SetOffset(const PtVector3& value) { offset = value;}
+      const PtVector3& GetOffset() const { return offset; }
     };
   } // Data namespace
 } // PT namespace
 
-#endif // PT_DATAITEM_H
+#endif // PT_DATAEFFECT_H

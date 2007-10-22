@@ -63,7 +63,7 @@ namespace PT
       bool ProcessEvents(PT::Events::Eventp ev);
 
     public:
-      ChatManager (iObjectRegistry* obj_reg);
+      ChatManager ();
       ~ChatManager ();
 
       bool Initialize ();

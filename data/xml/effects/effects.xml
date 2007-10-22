@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<effects>
+
+	<effect>
+		<id>1</id>
+		<name>MoveMarker</name>
+		<file>/peragro/meshes/effects/movemarker.xml</file>
+		<mesh>movemarkerfact</mesh>
+		<duration>2000</duration>
+		<offset x="0.0" y="0.0" z="0.0"/>
+	</effect>
+	
+</effects>

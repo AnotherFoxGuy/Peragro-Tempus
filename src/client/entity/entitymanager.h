@@ -86,7 +86,7 @@ namespace PT
       bool world_loaded;
 
     public:
-      EntityManager (iObjectRegistry* obj_reg);
+      EntityManager ();
       ~EntityManager ();
 
       bool Initialize ();
