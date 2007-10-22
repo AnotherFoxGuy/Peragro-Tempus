@@ -202,6 +202,7 @@ public:
 
   /** Adds all items to the end of the array
     *  \param objects array of items which shall be added.
+    *  \param objects_count The amount of objects in the array.
     */
   void add(typ* objects, size_t objects_count)
   {
@@ -264,6 +265,8 @@ public:
     *  The removed item will be replaced it with the last item in the array.
     *  Only use that if you have deletable types in the array such as pointers!
     *  \param i index of the object which shall be removed.
+    *  \param isArray Indicates if its an array or single element that
+    *  should be deleted.
     */
   void del(size_t i, bool isArray = false)
   {
@@ -285,7 +288,6 @@ public:
   }
 
   /** Removes all items
-    *  \param i index of the object which shall be removed.
     */
   void removeAll()
   {
@@ -294,7 +296,6 @@ public:
 
   /** Removes all items and deletes it
     *  Only use that if you have deletable types in the array such as pointers!
-    *  \param i index of the object which shall be removed.
     */
   void delAll()
   {

@@ -14,6 +14,7 @@ under each day.
    (id est, 1 for apple) into enums APPLEID. etc.
  - swedishcoder fixing declaration mismatch. Also takes care of doxygen
    documentation generation warning"
+ - swedishcoder fixes some doxygen warnings in array.h.
 
 21-Oct-2007
  - Sueastside added skillmanager.
