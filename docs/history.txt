@@ -4,6 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+22-Oct-2007
+ - swedishcoder added more doxygen comments.
+ - swedishcoder fixed a few possible segfaults in the database layer.
+ - Changed the behavior of parseSingleResultSet for table-doors to allow
+   it to parse data even when there is more than one row. It still only
+   parses 1 row though.
 21-Oct-2007
  - Sueastside added skillmanager.
  - swedishcoder added more doxygen comments.

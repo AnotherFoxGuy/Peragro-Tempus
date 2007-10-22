@@ -27,13 +27,11 @@ DoorsTable::DoorsTable(Database* db) : Table(db)
     createTable();
   }
   delete rs;
-  ResultSet* rs2 = db->query("select count(*) from doors;");
-  delete rs2;
 }
 
 DoorsTableVO* DoorsTable::parseSingleResultSet(ResultSet* rs, size_t row)
 {
-  if (rs == 0 || rs->GetRowCount() != 1) return 0;
+  if (rs == 0 || rs->GetRowCount() <= row) return 0;
 
   DoorsTableVO* vo = new DoorsTableVO();
   vo->id = atoi(rs->GetData(row,0).c_str());
@@ -46,9 +44,17 @@ DoorsTableVO* DoorsTable::parseSingleResultSet(ResultSet* rs, size_t row)
 Array<DoorsTableVO*> DoorsTable::parseMultiResultSet(ResultSet* rs)
 {
   Array<DoorsTableVO*> arr;
+  if (!rs)
+  {
+    return arr;
+  }
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
-    DoorsTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
+    DoorsTableVO* obj = parseSingleResultSet(rs, i);
+    if (obj) 
+    {
+      arr.add(obj);
+    }
   }
   return arr;
 }
@@ -87,6 +93,12 @@ void DoorsTable::dropTable()
 void DoorsTable::insert(DoorsTableVO* vo)
 {
   const char* query = { "insert into doors(id, name, islocked, isopen) values (%d, '%s', %d, %d);" };
+
+  if (!vo) 
+  {
+    return;
+  }
+
   db->update(query, vo->id, *vo->name, vo->islocked, vo->isopen);
 }
 
@@ -98,6 +110,10 @@ void DoorsTable::remove(int id)
 unsigned int DoorsTable::getCount()
 {
   ResultSet* rs = db->query("select count(*) from books;");
+  if (!rs)
+  {
+    return 0;
+  }
   unsigned int count = atoi(rs->GetData(0,0).c_str());
   delete rs;
   return count;
@@ -106,6 +122,10 @@ unsigned int DoorsTable::getCount()
 bool DoorsTable::existsByName(ptString name)
 {
   ResultSet* rs = db->query("select * from doors where name like '%s';", *name);
+  if (!rs) 
+  {
+    return false;
+  }
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -114,6 +134,10 @@ bool DoorsTable::existsByName(ptString name)
 bool DoorsTable::existsById(int id)
 {
   ResultSet* rs = db->query("select * from doors where id = %d;", id);
+  if (!rs) 
+  {
+    return false;
+  }
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
