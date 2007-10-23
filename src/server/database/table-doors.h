@@ -42,6 +42,9 @@ public:
   int isopen;
 };
 
+/**
+ * Provides an interface to the database to handle storage of doors.
+ */
 class DoorsTable : public Table
 {
 private:

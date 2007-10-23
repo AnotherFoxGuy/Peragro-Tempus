@@ -32,7 +32,7 @@ BooksTable::BooksTable(Database* db) : Table(db)
 
 BooksTableVO* BooksTable::parseSingleResultSet(ResultSet* rs, size_t row)
 {
-  if (rs->GetRowCount() <= row) return 0;
+  if (!rs || rs->GetRowCount() <= row) return 0;
 
   BooksTableVO* vo = new BooksTableVO();
   vo->id = atoi(rs->GetData(row,0).c_str());
@@ -45,9 +45,14 @@ BooksTableVO* BooksTable::parseSingleResultSet(ResultSet* rs, size_t row)
 Array<BooksTableVO*> BooksTable::parseMultiResultSet(ResultSet* rs)
 {
   Array<BooksTableVO*> arr;
+  if (!rs)
+  {
+    return arr;
+  }
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
-    BooksTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
+    BooksTableVO* obj = parseSingleResultSet(rs, i);
+    arr.add(obj);
   }
   return arr;
 }
@@ -75,23 +80,39 @@ void BooksTable::dropTable()
 void BooksTable::insert(BooksTableVO* vo)
 {
   const char* query = { "insert into books(id, itemId, name, text) values (%d, %d, '%q', '%q');" };
+  if (!vo)
+  {
+    return;
+  }
   db->update(query, vo->id, vo->itemId, *vo->name, *vo->text);
 }
 
 void BooksTable::update(BooksTableVO* vo)
 {
   const char* query = { "update books set name = '%q', text = '%q' where id = %d and itemId = %d;" };
+  if (!vo)
+  {
+    return;
+  }
   db->update(query, *vo->name, *vo->text, vo->id, vo->itemId);
 }
 
 void BooksTable::remove(BooksTableVO* vo)
 {
+  if (!vo)
+  {
+    return;
+  }
   db->update("delete from books where id = %d and itemId = %d", vo->id, vo->itemId);
 }
 
 unsigned int BooksTable::getCount(unsigned int itemId)
 {
   ResultSet* rs = db->query("select count(*) from books where itemId = %d;", itemId);
+  if (!rs)
+  {
+    return 0;
+  }
   unsigned int count = atoi(rs->GetData(0,0).c_str());
   delete rs;
   return count;
@@ -100,6 +121,10 @@ unsigned int BooksTable::getCount(unsigned int itemId)
 bool BooksTable::existsByName(ptString name)
 {
   ResultSet* rs = db->query("select * from books where name like '%q';", *name);
+  if (!rs)
+  {
+    return false;
+  }
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -108,6 +133,10 @@ bool BooksTable::existsByName(ptString name)
 bool BooksTable::existsById(int id)
 {
   ResultSet* rs = db->query("select * from books where id = %d;", id);
+  if (!rs)
+  {
+    return false;
+  }
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
