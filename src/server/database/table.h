@@ -21,15 +21,32 @@
 
 class Database;
 
+/**
+ * Basic abstract class for all database table classes.
+ */
 class Table
 {
 protected:
+  /// Pointer to the database.
   Database* db;
+  /**
+   * Basic constructor.
+   * @param db The database pointer.
+   */
   Table(Database* db) : db(db) {}
+  /**
+   * Virtual destructor
+   */
   virtual ~Table() {}
 
 public:
+  /**
+   * Virtual function definition for how to create a table.
+   */
   virtual void createTable() = 0;
+  /**
+   * Virtual function definition for how to delete a table.
+   */
   virtual void dropTable() = 0;
 };
 
