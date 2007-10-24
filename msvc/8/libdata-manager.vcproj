@@ -169,6 +169,9 @@
 			<File
 				RelativePath="..\..\src\common\data\sectordatamanager.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\common\data\skilldatamanager.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -190,6 +193,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\data\sectordatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\data\skill.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\data\skilldatamanager.h">
 			</File>
 		</Filter>
 	</Files>
