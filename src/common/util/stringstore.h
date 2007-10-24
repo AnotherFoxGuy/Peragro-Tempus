@@ -39,7 +39,7 @@ private:
   };
   Array<StoreString*> strings;
 
-  static StringStore* store;
+  static StringStore store;
 
   StringStore()
   {

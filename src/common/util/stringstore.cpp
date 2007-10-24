@@ -18,13 +18,9 @@
 
 #include "stringstore.h"
 
-StringStore* StringStore::store = 0;
+StringStore StringStore::store;
 
 StringStore* StringStore::getStore()
 {
-  if (store == 0)
-  {
-    store = new StringStore();
-  }
-  return store;
+  return &store;
 }
