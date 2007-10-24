@@ -71,6 +71,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setName(entity->getName());
     msg.setEntityId(entity->getId());
     msg.setMesh(entity->getMesh());
+    msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setSectorId(entity->getSector());
     //msg.setSector(entity->getSectorName());
@@ -95,6 +96,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setName(entity->getName());
     msg.setEntityId(entity->getId());
     msg.setMesh(entity->getMesh());
+    msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setSectorId(entity->getSector());
     //msg.setSector(entity->getSectorName());
@@ -106,6 +108,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setName(entity->getName());
     msg.setEntityId(entity->getId());
     msg.setMesh(entity->getMesh());
+    msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setSectorId(entity->getSector());
     //msg.setSector(entity->getSectorName());

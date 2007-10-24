@@ -484,6 +484,7 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   MountMessage umount_msg;
   umount_msg.setMountEntityId(mount_ent->getId());
   umount_msg.setPlayerEntityId(user_ent->getId());
+  umount_msg.setCanControl(true);
 
   ByteStream bs;
   umount_msg.serialise(&bs);

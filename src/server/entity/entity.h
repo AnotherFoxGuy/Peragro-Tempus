@@ -78,6 +78,10 @@ public:
     pos[0] = 0.0f;
     pos[1] = 0.0f;
     pos[2] = 0.0f;
+
+    pos_last_saved[0] = 0.0f;
+    pos_last_saved[1] = 0.0f;
+    pos_last_saved[2] = 0.0f;
   }
 
   virtual ~Entity() {}

@@ -27,6 +27,7 @@ void Inventory::sendAllItems(Connection* conn)
 {
   InventoryListMessage itemlist_msg;
   itemlist_msg.setInventoryCount((char)getItemCount());
+  itemlist_msg.setInventoryId(inv_id);
 
   size_t n = 0;
   for (size_t i=0; i<entries.getCount(); i++)
@@ -38,6 +39,7 @@ void Inventory::sendAllItems(Connection* conn)
 
     itemlist_msg.setItemId(n, item.id);
     itemlist_msg.setSlotId(n, (unsigned char) i);
+    itemlist_msg.setVariation(n, item.variation);
     n++;
   }
   ByteStream bs2;
