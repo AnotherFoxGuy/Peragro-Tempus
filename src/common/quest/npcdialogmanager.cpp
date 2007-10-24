@@ -24,11 +24,9 @@ NPCDialogManager* NPCDialogManager::self;
 
 void NPCDialogManager::addDialog(NPCDialog* dialog)
 {
-  NPCDialogManager* diamgr = getDialogManager();
-
-  if (dialog->getDialogId() == diamgr->dialogs.getCount())
+  if (dialog->getDialogId() == dialogs.getCount())
   {
-    diamgr->dialogs.add(dialog);
+    dialogs.add(dialog);
   }
   else
   {
@@ -38,9 +36,7 @@ void NPCDialogManager::addDialog(NPCDialog* dialog)
 
 NPCDialog* NPCDialogManager::getDialog(unsigned int dialog_id)
 {
-  NPCDialogManager* diamgr = getDialogManager();
+  if (dialog_id >= dialogs.getCount()) return 0;
 
-  if (dialog_id >= diamgr->dialogs.getCount()) return 0;
-
-  return diamgr->dialogs.get(dialog_id);
+  return dialogs.get(dialog_id);
 }

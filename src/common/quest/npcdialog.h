@@ -53,6 +53,8 @@ public:
   {
   }
 
+  ~NPCDialog() { answers.delAll(); }
+
   size_t getDialogId() const { return dialog_id; }
 
   void addAnswer(NPCDialogAnswer* answer) { answers.add(answer); }

@@ -23,21 +23,16 @@ class NPCDialogManager
 {
 private:
   Array<NPCDialog*> dialogs;
-
   static NPCDialogManager* self;
 
-  NPCDialogManager() {}
-
-  static NPCDialogManager* getDialogManager() 
-  {
-    if (self == 0) self = new NPCDialogManager();
-    return self; 
-  }
-
 public:
+  NPCDialogManager() { self = this; }
+  ~NPCDialogManager() { dialogs.delAll(); }
 
-  static void addDialog(NPCDialog* dialog);
-  static NPCDialog* getDialog(unsigned int dialog_id);
+  static NPCDialogManager& getDialogManager() { return *self; }
+
+  void addDialog(NPCDialog* dialog);
+  NPCDialog* getDialog(unsigned int dialog_id);
 };
 
 #endif // _NPC_DIALOG_MANAGER_H_

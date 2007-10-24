@@ -31,7 +31,7 @@ void NPCDialogState::setCharacter(Character* character)
 
 const NPCDialog* NPCDialogState::startDialog(unsigned int dialog_id)
 {
-  current_dialog = NPCDialogManager::getDialog(dialog_id);
+  current_dialog = NPCDialogManager::getDialogManager().getDialog(dialog_id);
   if (!current_dialog || !current_dialog->isStartDialog())
   {
     current_dialog = 0;

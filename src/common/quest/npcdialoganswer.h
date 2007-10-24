@@ -33,6 +33,8 @@ public:
   NPCDialogAnswer(NPCDialog* next_dialog, const char* text)
   : next_dialog(next_dialog), text(text) {}
 
+  ~NPCDialogAnswer() {}
+
   NPCDialog* getNextDialog() const { return next_dialog; }
   const char* getText() const { return text.c_str(); }
 };

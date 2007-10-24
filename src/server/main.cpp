@@ -166,6 +166,7 @@ int main(int argc, char ** argv)
   spawner.start();
   //timeEngine.registerTimer(&spawner);
 
+  NPCDialogManager dialog_mgr;
   // Load NPC Dialogs
   Array<NpcDialogsTableVO*> dialogs = db.getNpcDialogsTable()->getAll();
   for (size_t i=0; i<dialogs.getCount(); i++)
@@ -179,7 +180,7 @@ int main(int argc, char ** argv)
     else continue;
 
     NPCDialog* dialog = new NPCDialog(vo->dialogid, vo->isstart != 0, vo->text.c_str(), action);
-    NPCDialogManager::addDialog(dialog);
+    dialog_mgr.addDialog(dialog);
   }
 
   // Load NPC Dialog Answers
@@ -192,11 +193,11 @@ int main(int argc, char ** argv)
 
     if (vo->isend == 0)
     {
-      next_dialog = NPCDialogManager::getDialog(vo->nextdialogid);
+      next_dialog = dialog_mgr.getDialog(vo->nextdialogid);
     }
 
     NPCDialogAnswer* answer = new NPCDialogAnswer(next_dialog, vo->text.c_str());
-    NPCDialog* dialog = NPCDialogManager::getDialog(vo->dialogid);
+    NPCDialog* dialog = dialog_mgr.getDialog(vo->dialogid);
     dialog->addAnswer(answer);
   }
 
