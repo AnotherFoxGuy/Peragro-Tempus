@@ -51,7 +51,7 @@ Array<DoorsTableVO*> DoorsTable::parseMultiResultSet(ResultSet* rs)
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
     DoorsTableVO* obj = parseSingleResultSet(rs, i);
-    if (obj) 
+    if (obj)
     {
       arr.add(obj);
     }
@@ -94,7 +94,7 @@ void DoorsTable::insert(DoorsTableVO* vo)
 {
   const char* query = { "insert into doors(id, name, islocked, isopen) values (%d, '%s', %d, %d);" };
 
-  if (!vo) 
+  if (!vo)
   {
     return;
   }
@@ -122,7 +122,7 @@ unsigned int DoorsTable::getCount()
 bool DoorsTable::existsByName(ptString name)
 {
   ResultSet* rs = db->query("select * from doors where name like '%s';", *name);
-  if (!rs) 
+  if (!rs)
   {
     return false;
   }
@@ -134,7 +134,7 @@ bool DoorsTable::existsByName(ptString name)
 bool DoorsTable::existsById(int id)
 {
   ResultSet* rs = db->query("select * from doors where id = %d;", id);
-  if (!rs) 
+  if (!rs)
   {
     return false;
   }
@@ -162,7 +162,7 @@ DoorsTableVO* DoorsTable::getById(int id)
 Array<DoorsTableVO*> DoorsTable::getAll()
 {
   ResultSet* rs = db->query("select * from doors;");
-  Array<DoorsTableVO*>& vo = parseMultiResultSet(rs);
+  Array<DoorsTableVO*> vo = parseMultiResultSet(rs);
   delete rs;
   return vo;
 }
