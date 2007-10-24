@@ -30,5 +30,15 @@
 		<keyId>7</keyId>
 		<quest>HouseDoorOutward</quest>
 	</door>
+	
+	<door>
+		<id>4</id>
+		<name>Garden Gate</name>
+		<mesh>taverngardengate</mesh>
+		<position y="2.8912" x="122.054" z="5.22969" />
+		<sector>room</sector>
+		<keyId>7</keyId>
+		<quest>HouseDoorOutward</quest>
+	</door>
 
 </doors>
