@@ -100,13 +100,14 @@ void Server::delEntity(const Entity* entity)
   delete entity;
 }
 
-void Server::moveEntity(PcEntity* entity, float* pos, float speed)
+void Server::moveEntity(PcEntity* entity, float* pos, float speed, bool run)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
   response_msg.setFrom(entity->getEntity()->getPos());
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
+  response_msg.setRun(run);
 
   entity->walkTo(pos, speed);
 
@@ -115,13 +116,14 @@ void Server::moveEntity(PcEntity* entity, float* pos, float speed)
   NetworkHelper::broadcast(bs);
 }
 
-void Server::moveEntity(MountEntity* entity, float* pos, float speed)
+void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
   response_msg.setFrom(entity->getEntity()->getPos());
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
+  response_msg.setRun(run);
 
   entity->walkTo(pos, speed);
 
@@ -130,7 +132,7 @@ void Server::moveEntity(MountEntity* entity, float* pos, float speed)
   NetworkHelper::broadcast(bs);
 }
 
-void Server::moveEntity(const NpcEntity* entity, float* pos, float speed)
+void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool run)
 {
   if (!entity) return;
 
@@ -139,6 +141,7 @@ void Server::moveEntity(const NpcEntity* entity, float* pos, float speed)
   response_msg.setFrom(entity->getEntity()->getPos());
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
+  response_msg.setRun(run);
 
   NpcEntity* npc = entity->getLock();
   npc->walkTo(pos, speed);

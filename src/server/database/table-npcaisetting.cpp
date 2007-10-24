@@ -91,6 +91,8 @@ NpcAiSettingTableVO* NpcAiSettingTable::get(int id, ptString key)
 {
   ResultSet* rs = db->query("select * from npcaisetting where id = %d and key like '%s';", id, *key);
   if(!rs || rs->GetRowCount() == 0) return 0;
-  return parseSingleResultSet(rs);
+  NpcAiSettingTableVO* vo = parseSingleResultSet(rs);
+  delete rs;
+  return vo;
 }
 

@@ -84,12 +84,29 @@ void EntityTable::createTable()
   float pos3[3] = { 35, 2, 120 };
   insert(3, skel_trader, Entity::NPCEntityType, 0, 0, skel, pos3, room);
 
-  float pos4[3] = { 82, 2.2f, 37.2f };
-  insert(4, horse, Entity::MountEntityType, 0, 0, horse, pos4, room);
-  float pos5[3] = { -110, 0.2f, 5.05f };
-  insert(5, horse, Entity::MountEntityType, 0, 0, horse, pos5, room);
-  float pos6[3] = { -112, 0.2f, 4.8f };
-  insert(6, horse, Entity::MountEntityType, 0, 0, horse, pos6, room);
+
+  // Creating Undead Squad.
+  for (int i = 0; i < 100; i++)
+  {
+    std::string name("Evil Undead");
+
+    int x = i % 6;
+    int y = i / 6;
+
+    // Bridge 100 = 
+    // x = 27 - 33 = 6
+    // y = 137 - 148 = 11
+    float pos[3] = { 27 + x, 2.2f, 137 + y * 0.6};
+
+    insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel, pos, room);
+  }
+
+  float pos4[104] = { 82, 2.2f, 37.2f };
+  insert(104, horse, Entity::MountEntityType, 0, 0, horse, pos4, room);
+  float pos5[105] = { -110, 0.2f, 5.05f };
+  insert(105, horse, Entity::MountEntityType, 0, 0, horse, pos5, room);
+  float pos6[106] = { -112, 0.2f, 4.8f };
+  insert(106, horse, Entity::MountEntityType, 0, 0, horse, pos6, room);
 }
 
 void EntityTable::insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], ptString sector)

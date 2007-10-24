@@ -65,6 +65,12 @@ void NpcEntitiesTable::createTable()
   insert(1, 1, stray, 0);
   insert(2, 2, stray, 9);
   insert(3, 3, idle, 6);
+
+  // Creating Undead Squad.
+  for (int i = 0; i < 100; i++)
+  {
+    insert(4 + i, 4 + i, idle, -1);
+  }
 }
 
 void NpcEntitiesTable::insert(int id, int character, ptString ai, int dialog_id)
@@ -92,12 +98,16 @@ NpcEntitiesTableVO* NpcEntitiesTable::getById(int id)
 
   if (!rs || rs->GetRowCount() == 0) return 0;
 
-  return parseSingleResultSet(rs);
+  NpcEntitiesTableVO* vo = parseSingleResultSet(rs);
+  delete rs;
+  return vo;
 }
 
 Array<NpcEntitiesTableVO*> NpcEntitiesTable::getAll()
 {
   ResultSet* rs = db->query("select * from npcentities;");
-  return parseMultiResultSet(rs);
+  Array<NpcEntitiesTableVO*> vo = parseMultiResultSet(rs);
+  delete rs;
+  return vo;
 }
 

@@ -69,8 +69,11 @@ bool UsersTable::existsUser(ptString name)
 User* UsersTable::getUser(ptString name)
 {
   ResultSet* rs = db->query("select * from users where name = '%q' and id > 0;", *name);
-  if (!rs || rs->GetRowCount() == 0) 
+  if (!rs || rs->GetRowCount() == 0)
+  {
+    delete rs;
     return 0;
+  }
 
   User* user = new User();
   user->setId(atoi(rs->GetData(0,0).c_str()));

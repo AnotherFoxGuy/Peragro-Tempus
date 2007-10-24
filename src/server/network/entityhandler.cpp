@@ -296,12 +296,12 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   {
     MountEntity* mount = entity->getMount()->getLock();
     float speed = mount->getSpeed();
-    server->moveEntity(mount, request_msg.getTo(), speed);
+    server->moveEntity(mount, request_msg.getTo(), speed, request_msg.getRun());
   }
   else
   {
     float speed = (float)character->getStats()->getAmount(speed_stat);
-    server->moveEntity(entity, request_msg.getTo(), speed);
+    server->moveEntity(entity, request_msg.getTo(), speed, request_msg.getRun());
   }
 
   server->getCharacterManager()->checkForSave(entity);

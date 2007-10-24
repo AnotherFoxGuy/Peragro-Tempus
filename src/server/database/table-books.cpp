@@ -145,18 +145,24 @@ bool BooksTable::existsById(int id)
 BooksTableVO* BooksTable::getByName(ptString name)
 {
   ResultSet* rs = db->query("select * from books where name like '%q';", *name);
-  return parseSingleResultSet(rs);
+  BooksTableVO* vo = parseSingleResultSet(rs);
+  delete rs;
+  return vo;
 }
 
 BooksTableVO* BooksTable::getById(int id)
 {
   ResultSet* rs = db->query("select * from books where id = %d;", id);
-  return parseSingleResultSet(rs);
+  BooksTableVO* vo =  parseSingleResultSet(rs);
+  delete rs;
+  return vo;
 }
 
 Array<BooksTableVO*> BooksTable::getAll()
 {
   ResultSet* rs = db->query("select * from books;");
-  return parseMultiResultSet(rs);
+  Array<BooksTableVO*> vo =  parseMultiResultSet(rs);
+  delete rs;
+  return vo;
 }
 

@@ -146,18 +146,24 @@ bool DoorsTable::existsById(int id)
 DoorsTableVO* DoorsTable::getByName(ptString name)
 {
   ResultSet* rs = db->query("select * from doors where name like '%s';", *name);
-  return parseSingleResultSet(rs);
+  DoorsTableVO* vo = parseSingleResultSet(rs);
+  delete rs;
+  return vo;
 }
 
 DoorsTableVO* DoorsTable::getById(int id)
 {
   ResultSet* rs = db->query("select * from doors where id = %d;", id);
-  return parseSingleResultSet(rs);
+  DoorsTableVO* vo = parseSingleResultSet(rs);
+  delete rs;
+  return vo;
 }
 
 Array<DoorsTableVO*> DoorsTable::getAll()
 {
   ResultSet* rs = db->query("select * from doors;");
-  return parseMultiResultSet(rs);
+  Array<DoorsTableVO*>& vo = parseMultiResultSet(rs);
+  delete rs;
+  return vo;
 }
 

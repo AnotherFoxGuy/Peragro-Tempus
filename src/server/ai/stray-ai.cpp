@@ -75,5 +75,5 @@ void StrayAI::think()
   pos [1] = base[1] + pos[1] * radius[1];
   pos [2] = base[2] + pos[2] * radius[2];
 
-  Server::getServer()->moveEntity(npc, pos, 3.0f);
+  Server::getServer()->moveEntity(npc, pos, 3.0f, false);
 }

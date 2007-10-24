@@ -108,9 +108,9 @@ public:
 
   void addEntity(const Entity* entity, bool presistent);
   void delEntity(const Entity* entity);
-  void moveEntity(PcEntity* entity, float* pos, float speed);
-  void moveEntity(MountEntity* entity, float* pos, float speed);
-  void moveEntity(const NpcEntity* entity, float* pos, float speed);
+  void moveEntity(PcEntity* entity, float* pos, float speed, bool run);
+  void moveEntity(MountEntity* entity, float* pos, float speed, bool run);
+  void moveEntity(const NpcEntity* entity, float* pos, float speed, bool run);
   void broadCast(const ByteStream& bs);
 };
 

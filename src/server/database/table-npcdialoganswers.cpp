@@ -92,6 +92,8 @@ void NpcDialogAnswersTable::remove(int dialogid, int answerid)
 Array<NpcDialogAnswersTableVO*> NpcDialogAnswersTable::getAll()
 {
   ResultSet* rs = db->query("select * from npcdialoganswers;");
-  return parseMultiResultSet(rs);
+  Array<NpcDialogAnswersTableVO*> vo = parseMultiResultSet(rs);
+  delete rs;
+  return vo;
 }
 
