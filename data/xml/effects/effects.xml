@@ -9,5 +9,14 @@
 		<duration>2000</duration>
 		<offset x="0.0" y="0.0" z="0.0"/>
 	</effect>
+
+	<effect>
+		<id>2</id>
+		<name>Blood</name>
+		<file>/peragro/meshes/effects/bloodsplat.xml</file>
+		<mesh>bloodsplatfact</mesh>
+		<duration>2000</duration>
+		<offset x="0.0" y="0.0" z="0.0"/>
+	</effect>
 	
 </effects>
