@@ -36,6 +36,7 @@ private:
 
 public:
   EntityList() {}
+  ~EntityList() {}
 
   size_t getEntityCount()
   {

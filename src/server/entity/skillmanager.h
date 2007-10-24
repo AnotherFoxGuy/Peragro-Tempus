@@ -30,6 +30,7 @@ private:
 
 public:
   SkillManager() {}
+  ~SkillManager() { skills.delAll(); }
 
   size_t getSkillCount()
   {

@@ -29,11 +29,7 @@ private:
 
 public:
   ItemManager() {}
-  ~ItemManager()
-  {
-    for (size_t i=0; i<items.getCount(); i++)
-      delete items.get(i);
-  }
+  ~ItemManager() { items.delAll(); }
 
   size_t getItemCount()
   {

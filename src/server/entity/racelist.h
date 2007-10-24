@@ -34,6 +34,7 @@ private:
 
 public:
   RaceList() {}
+  ~RaceList() {}
 
   size_t getRaceCount()
   {

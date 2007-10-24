@@ -35,8 +35,10 @@ public:
 
   ~RaceManager()
   {
-    for (size_t i=0; i<list.getRaceCount(); i++)
+    for (size_t i = 0; i < list.getRaceCount(); i++)
+    {
       delete list.getRace(i);
+    }
   }
 
   size_t getRaceCount()

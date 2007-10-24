@@ -47,7 +47,7 @@ private:
 
 public:
   CharacterSkills() : cstab(0) {}
-  ~CharacterSkills() {}
+  ~CharacterSkills() { entries.delAll(); }
 
   void addSkill(Skill* skill)
   {

@@ -54,7 +54,7 @@ private:
 
 public:
   CharacterStats() : cstab(0) {}
-  ~CharacterStats() {}
+  ~CharacterStats() { entries.delAll(); }
 
   void addStat(Stat* stat, int level)
   {

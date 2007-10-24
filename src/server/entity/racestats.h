@@ -57,10 +57,7 @@ private:
 
 public:
   RaceStats() : estab(0) {}
-  ~RaceStats()
-  {
-    entries.delAll();
-  }
+  ~RaceStats() { entries.delAll(); }
 
   unsigned int getAmount(Stat* stat)
   {

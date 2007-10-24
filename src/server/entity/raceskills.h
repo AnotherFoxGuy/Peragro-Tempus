@@ -56,10 +56,7 @@ private:
 
 public:
   RaceSkills() : estab(0) {}
-  ~RaceSkills()
-  {
-    entries.delAll();
-  }
+  ~RaceSkills() { entries.delAll(); }
 
   void copyToCharacter(int char_id)
   {

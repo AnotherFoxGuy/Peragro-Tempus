@@ -30,6 +30,7 @@ private:
 
 public:
   UserManager() {}
+  ~UserManager() { users.delAll(); }
 
   size_t getUserCount()
   {

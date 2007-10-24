@@ -35,9 +35,7 @@ private:
 
 public:
   SectorManager() {}
-  ~SectorManager()
-  {
-  }
+  ~SectorManager() {}
 
   unsigned short getSectorCount()
   {
