@@ -97,7 +97,7 @@ namespace PT
        * @param stopOthers Specify whether other animations should be stopped or
        * not
        */
-      void PlayAnimation(const char* animationName, float blend_factor = 0.0f,
+      void PlayAnimation(const char* animationName, float blend_factor = 0.01f,
                          bool loop = false, bool stopOthers = false);
       /**
        * Updates all character statistics.

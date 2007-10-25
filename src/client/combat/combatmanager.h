@@ -58,7 +58,7 @@ private:
 
   bool playing; /**Determines if the client is ready for playing.*/
 
-  iMeshWrapper* getMesh(iCelEntity* entity);
+  iMeshWrapper* getMesh(PT::Entity::Entity* entity);
 
 public:
   CombatMGR ();

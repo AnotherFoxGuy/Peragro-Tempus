@@ -53,9 +53,11 @@ CombatMGR::~CombatMGR()
 {
 }
 
-iMeshWrapper* CombatMGR::getMesh(iCelEntity* entity)
+iMeshWrapper* CombatMGR::getMesh(PT::Entity::Entity* entity)
 {
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+  iCelEntity* celentity = entity->GetCelEntity();
+  if (!celentity) return 0;
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celentity, iPcMesh);
   if (!pcmesh) return 0;
   csRef<iMeshWrapper> parent = pcmesh->GetMesh();
   if (!parent) return 0;
@@ -104,32 +106,24 @@ void CombatMGR::hit (int targetId, int damage)
     return;
   }
 
-  iCelEntity* targetcel = target->GetCelEntity();
-
-  if (!targetcel)
-  {
-    Report(PT::Error, "CombatMGR: Couldn't find iCelEntity of entity with ID %d !", targetId);
-    return;
-  }
-
   // Damage is positive, we got hurt.
   if (damage > 0)
   {
-    effectsmgr->CreateEffect("Blood", getMesh(targetcel));
+    effectsmgr->CreateEffect("Blood", getMesh(target));
     if (target->GetType() == PT::Entity::PCEntityType)
     {
-      ((PT::Entity::PcEntity*) target)->PlayAnimation("hit", 1.0f);
+      ((PT::Entity::PcEntity*) target)->PlayAnimation("hit", 0.1f);
     }
   }
   // Damage is negative, we got healed.
   else if (damage < 0)
   {
-    effectsmgr->CreateEffect("Heal", getMesh(targetcel));
+    effectsmgr->CreateEffect("Heal", getMesh(target));
     //target->SetAction("heal");
   }
   else if (damage == 0)
   {
-    effectsmgr->CreateEffect("Deflect", getMesh(targetcel));
+    effectsmgr->CreateEffect("Deflect", getMesh(target));
     //target->SetAction("deflect");
   }
   // Update the entity's HP(this will update the GUI aswell).
@@ -144,13 +138,14 @@ void CombatMGR::hit (int targetId, int damage)
 void CombatMGR::die (int targetId)
 {
   // Lookup the ID to get the actual entity.
-  iCelEntity* target = entitymgr->findCelEntById(targetId);
+  PT::Entity::Entity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
   {
     Report(PT::Error, "CombatMGR: Couldn't find dieing entity with ID %d !", targetId);
     return;
   }
+
   effectsmgr->CreateEffect("Die", getMesh(target));
   //target->SetHP(0);
   // Perfrom the die animation and lock it.
@@ -161,26 +156,25 @@ void CombatMGR::die (int targetId)
 void CombatMGR::levelup (int targetId)
 {
   // Lookup the ID to get the actual entity.
-  iCelEntity* target = entitymgr->findCelEntById(targetId);
+  PT::Entity::Entity* target = entitymgr->findPtEntById(targetId);
 
   if (!target)
   {
     Report(PT::Error, "CombatMGR: Couldn't find entity with ID %d !", targetId);
     return;
   }
+
   effectsmgr->CreateEffect("Levelup", getMesh(target));
   //guimanager->GetCombatLog()->AddMessage("%s has gained a level.", target->GetName());
 
-  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(target, iPcProperties);
-  if (!pcprop)return;
-  Report(PT::Debug, "%s has gained a level.", pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"))  );
+  Report(PT::Debug, "%s has gained a level.", target->GetName().c_str() );
 }
 
 void CombatMGR::experience (int exp)
 {
   if (!PT::Entity::PlayerEntity::Instance()) return;
   // Lookup the ID to get the actual entity.
-  iCelEntity* entity = PT::Entity::PlayerEntity::Instance()->GetCelEntity();
+  PT::Entity::Entity* entity = PT::Entity::PlayerEntity::Instance();
 
   if (!entity)
   {
@@ -242,7 +236,7 @@ void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, i
 
   if (skill)
   {
-    //effectsmgr->CreateEffect(getMesh(caster), skill->GetEffects().caster);
+    effectsmgr->CreateEffect(skill->GetEffects().caster.c_str(), getMesh(caster));
     caststring = skill->GetStartString();
     if (caster->GetType() == PT::Entity::PCEntityType)
     {
@@ -287,7 +281,7 @@ void CombatMGR::SkillUsageComplete (unsigned int casterId, unsigned int targetId
 
   if (skill)
   {
-    //effectsmgr->CreateEffect(getMesh(target), skill->GetEffects().target);
+    effectsmgr->CreateEffect(skill->GetEffects().target.c_str(), getMesh(target));
     caststring = skill->GetCompleteString();
     if (target->GetType() == PT::Entity::PCEntityType)
     {
@@ -332,7 +326,7 @@ void CombatMGR::RequestSkillUsageStart (unsigned int targetId, unsigned int skil
   if (!PT::Entity::PlayerEntity::Instance()) return;
 
   // Get your own entity.
-  iCelEntity* attacker = PT::Entity::PlayerEntity::Instance()->GetCelEntity();
+  PT::Entity::Entity* attacker = PT::Entity::PlayerEntity::Instance();
 
 
   if (!targetId)

@@ -9,9 +9,9 @@
 		<startstring>starts rejuvenating</startstring>
 		<completestring>rejuvenates</completestring>
 		<effects>
-			<caster>HealSpellPentagram</caster>
+			<caster>PentagramBlue</caster>
 			<castanim>levitate</castanim>
-			<target>HealSpellEffect</target>
+			<target>HealSpellTarget</target>
 			<targetanim>none</targetanim>
 			<weapon>none</weapon>
 			<projectile>none</projectile>	

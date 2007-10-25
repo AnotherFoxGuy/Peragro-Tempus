@@ -71,7 +71,31 @@ namespace PT
         skill->SetCompleteString(skillNode->FirstChildElement("completestring")
             ->FirstChild()->ToText()->Value());
 
-        //TODO make it parse the Effects, Stats, Cost, Damage, Requirements
+        // Effects.
+        TiXmlElement* effectsNode = skillNode->FirstChildElement("effects");
+        Skill::Effects effects;
+
+        effects.caster = effectsNode->FirstChildElement("caster")
+            ->FirstChild()->ToText()->Value();
+
+        effects.castanim = effectsNode->FirstChildElement("castanim")
+            ->FirstChild()->ToText()->Value();
+
+        effects.target = effectsNode->FirstChildElement("target")
+            ->FirstChild()->ToText()->Value();
+
+        effects.targetanim = effectsNode->FirstChildElement("targetanim")
+            ->FirstChild()->ToText()->Value();
+
+        effects.weapon = effectsNode->FirstChildElement("weapon")
+            ->FirstChild()->ToText()->Value();
+
+        effects.projectile = effectsNode->FirstChildElement("projectile")
+            ->FirstChild()->ToText()->Value();
+
+        skill->SetEffects(effects);
+
+        //TODO make it parse the Stats, Cost, Damage, Requirements
         // elements.
 
         skills.push_back(skill);

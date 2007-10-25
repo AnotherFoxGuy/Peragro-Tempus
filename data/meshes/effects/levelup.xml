@@ -34,65 +34,40 @@
 
 
 	<meshfact name="levelupfact">
-		    <plugin>crystalspace.mesh.loader.factory.particles</plugin>
-		    <priority>alpha</priority>
-		    <ztest/>
-		    <params>
+		<plugin>crystalspace.mesh.loader.factory.particles</plugin>
+		<priority>alpha</priority>
+		<ztest />
+		<params>
 			<material>spark</material>
-			<emitter type="sphere">
-				<time>5</time>
-				<innerradius>0.1</innerradius>
-				<outerradius>0.8</outerradius>
-				<force type="linear">
-					<direction x="0" y="1" z="0"/>
-					<amount>20</amount>
-					<range>3.0</range>
-					<falloff>linear</falloff>
-				</force>
+			<particlesize x="0.01" y="0.01" />
+			<mixmode>
+				<add />
+			</mixmode>
+			<emitter type="cylinder">
+				<duration>4</duration>
+				<initialttl min="0.8" max="4.3" />
+				<mass min="3" max="5.5" />
+				<emissionrate>1000</emissionrate>
+				<radius>0.6</radius>
+				<extent x="0" y="0.2" z="0" />
+				<placement>volume</placement>
 			</emitter>
-			<dampener>3.0</dampener>
-			<mass>1</mass>
-			<pps>150</pps>
-			<initial>0</initial>
-			<gravity x="0" y="-1.0" z="0"/>
-			<diffusion>1.0</diffusion>
-			<radius>0.07</radius>
-			<ttl>0.5</ttl>
-			<zsort>no</zsort>
-			<timevariation>0.5</timevariation>
-			<colormethod type="linear">
-				<gradient>
-					<color red="0.7" green="0.7" blue="0.6" alpha="1.0" />
-					<color red="0.7" green="0.7" blue="0.6" alpha="1.0" />
-					<color red="0.7" green="0.7" blue="0.6" alpha="1.0" />
-					<color red="0.8" green="0.8" blue="0.6" alpha="1.0" />
-					<color red="0.7" green="0.7" blue="0.7" alpha="1.0" />
-					<color red="0.8" green="0.8" blue="0.6" alpha="1.0" />
-					<color red="0.8" green="0.8" blue="0.7" alpha="1.0" />
-					<color red="0.8" green="0.8" blue="0.9" alpha="1.0" />
-					<color red="0.8" green="0.8" blue="1.0" alpha="1.0" />
-					<!--
-					<color red="1.00" green="1.00" blue="1.00" alpha="0" />
-					<color red="1.00" green="1.00" blue="1.00" alpha=".1" />
-					<color red="1.00" green="1.00" blue="1.00" alpha=".3" />
-					<color red="0.8" green="0.8" blue="0.7" alpha=".8" />
-					<color red="0.7" green="0.7" blue="0.7" alpha=".9" />
-					<color red="0.8" green="0.8" blue="0.5" alpha=".97" />
-					<color red="0.7" green="0.7" blue="0.5" alpha="1" />
-					<color red="0.7" green="0.7" blue="0.5" alpha="1" />
-					<color red="0.7" green="0.7" blue="0.5" alpha="1" />
-					-->
-				</gradient>
-	                  </colormethod>
-		      <mixmode>
-		        <add/>
-		      </mixmode>
-		    </params>
-		    
-<key name="duration" value="6000" />
-<key name="heightoffset" value="0" />		    
-		    
-  </meshfact>
+			<effector type="force">
+				<acceleration x="0" y="25" z="0" />
+			</effector>
+			<effector type="lincolor">
+				<color red="1" green="1" blue="1" time="1.3" />
+				<color red="1" green="1" blue="1" time="1.15556" />
+				<color red="0.9" green="0.9" blue="0.9" time="1.01111" />
+				<color red="0.8" green="0.8" blue="0.8" time="0.866667" />
+				<color red="0.6" green="0.6" blue="0.6" time="0.722222" />
+				<color red="0.4" green="0.4" blue="0.4" time="0.577778" />
+				<color red="0.2" green="0.2" blue="0.2" time="0.433333" />
+				<color red="0" green="0" blue="0" time="0.288889" />
+				<color red="0" green="0" blue="0" time="0.144444" />
+			</effector>
+		</params>
+	</meshfact>
 
 
 

@@ -18,5 +18,23 @@
 		<duration>2000</duration>
 		<offset x="0.0" y="0.0" z="0.0"/>
 	</effect>
+
+	<effect>
+		<id>3</id>
+		<name>HealSpellTarget</name>
+		<file>/peragro/meshes/effects/levelup.xml</file>
+		<mesh>levelupfact</mesh>
+		<duration>6000</duration>
+		<offset x="0.0" y="0.0" z="0.0"/>
+	</effect>
+
+	<effect>
+		<id>4</id>
+		<name>PentagramBlue</name>
+		<file>/peragro/meshes/effects/pentagram.xml</file>
+		<mesh>pentagramfact</mesh>
+		<duration>11000</duration>
+		<offset x="0.0" y="0.0" z="0.0"/>
+	</effect>
 	
 </effects>
