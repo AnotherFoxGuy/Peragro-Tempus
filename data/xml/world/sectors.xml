@@ -1,5 +1,6 @@
 <sectors>
-	<sector id="1">room</sector>
-	<sector id="2">house016indoors</sector>
-	<sector id="3">TavernInt</sector>
+	<sector id="1">Default_Sector</sector>
+	<sector id="2">room</sector>
+	<sector id="3">house016indoors</sector>
+	<sector id="4">TavernInt</sector>
 </sectors>

@@ -75,6 +75,12 @@ namespace PT
         csVector3(0,0,0));
 
       iSector* sector = engine->FindSector(sectorName.c_str());
+      if (!sector)
+      {
+        sector = engine->FindSector("Default_Sector");
+        Report(PT::Warning,
+        "PtPcEntity: Failed to find sector switching to default!");
+      }
 
       if (sector) pclinmove->SetPosition(pos,0,sector);
       else Report(PT::Error,

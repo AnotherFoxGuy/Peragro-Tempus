@@ -70,6 +70,9 @@ namespace PT
 
       movementManager->Initialize();
 
+      // Create a default sector for entities to be added in.
+      engine->CreateSector("Default_Sector");
+
       using namespace PT::Events;
 
       EventHandler<EntityManager>* cb = new EventHandler<EntityManager>(&EntityManager::GetEntityEvents, this);
@@ -350,9 +353,14 @@ namespace PT
             if (sector && sector->QueryObject()->GetName())
             {
               PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
-              uint sectorid = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName())->GetId();
-              Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), sectorid);
-              drmsg.setSectorId(sectorid);
+              PT::Data::Sector* dataSector = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName());
+              if (!dataSector)
+              {
+                Report(PT::Debug, "Couldn't find sector %s", sector->QueryObject()->GetName());
+                return;
+              }
+              Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), dataSector->GetId());
+              drmsg.setSectorId(dataSector->GetId());
             }
             else
             {

@@ -237,7 +237,10 @@ namespace PT
       unsigned int sectorId = entityMoveEv->sectorId;
 
       PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
-      std::string sectorName = sectorDataMgr->GetSectorById(sectorId)->GetName();
+      PT::Data::Sector* dataSector = sectorDataMgr->GetSectorById(sectorId);
+      std::string sectorName = "Default_Sector";
+      if (dataSector)
+        sectorName = dataSector->GetName();
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
       if (!entity)

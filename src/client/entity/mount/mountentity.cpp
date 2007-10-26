@@ -77,9 +77,15 @@ namespace PT
         csVector3(0,0,0));
 
       iSector* sector = engine->FindSector(sectorName.c_str());
-
+      if (!sector)
+      {
+        sector = engine->FindSector("Default_Sector");
+        Report(PT::Warning,
+        "MountEntity: Failed to find sector switching to default!");
+      }
       if (sector) pclinmove->SetPosition(pos,0,sector);
-      else Report(PT::Error, "Failed to set position, sector '%s' unknown!",
+      else Report(PT::Error,
+        "MountEntity: Failed to set position, sector '%s' unknown!",
         sectorName.c_str());
     }
 

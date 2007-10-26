@@ -178,6 +178,7 @@ namespace PT
 
       mov->SetSector(engine->GetSectors()->FindByName(sector.c_str()));
       mov->SetPosition(pos);
+      mov->UpdateMove();
     }
 
     void CharacterEntity::SetCurrentStamina(float x)

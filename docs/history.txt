@@ -7,6 +7,7 @@ under each day.
 26-Oct-2007
  - swedishcoder fix for ticket #49. If the login failed, the messagebox
    indicating the failure was not being activated.
+ - Sueastside fixed a crash when the sector wasn't defined.
 
 25-Oct-2007
  - Sueastside finalized effect part of skills, perform some
