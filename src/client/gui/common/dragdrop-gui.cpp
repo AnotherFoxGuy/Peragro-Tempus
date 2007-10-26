@@ -134,9 +134,10 @@ bool DragDrop::handleDragDroppedRoot(const CEGUI::EventArgs& args)
   int objectid = -1;
 
   Slot* slot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
+  if (!slot) return false;
   objectid = slot->GetObject()->GetId();
 
-  if(objectid < 1) return true;
+  if (objectid < 1) return false;
 
   DropRequestMessage msg;
   //msg.setItemId(objectid);
