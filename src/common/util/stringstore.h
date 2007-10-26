@@ -35,11 +35,14 @@ private:
     char* string;
 
     StoreString() : len(0), string(0) {}
-    ~StoreString() { delete [] string; }
+    ~StoreString() 
+    { 
+      delete [] string; 
+    }
   };
   Array<StoreString*> strings;
 
-  static StringStore store;
+  static StringStore* store;
 
   StringStore()
   {
@@ -47,7 +50,10 @@ private:
     strings.add(null_str); 
   }
 
-  ~StringStore() { strings.delAll(); }
+  ~StringStore()
+  {
+    strings.delAll();
+  }
 
   static StringStore* getStore();
 
@@ -101,6 +107,9 @@ private:
   }
 
   friend class ptString;
+
+public:
+  static void destroy() { delete getStore(); }
 };
 
 #endif //_STRINGSTORE_H

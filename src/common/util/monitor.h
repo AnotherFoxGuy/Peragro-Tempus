@@ -91,7 +91,12 @@ public:
       delete refcount;
       delete monitor;
     }
-    monitor = 0;
+
+    // Construct new
+    original = true;
+    monitor = new const T*(); 
+    refcount = new unsigned int;
+    *refcount = 1;
   }
 
   const T* get() const

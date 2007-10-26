@@ -222,6 +222,8 @@ int main(int argc, char ** argv)
     }
   }
 
+  StringStore::destroy();
+
   printf("Time to quit now!\n");
 
   return 0;
