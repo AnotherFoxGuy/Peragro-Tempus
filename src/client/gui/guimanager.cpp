@@ -246,11 +246,11 @@ ConfirmDialogWindow* GUIManager::CreateConfirmWindow ()
   return confirmwindow;
 }
 
-OkDialogWindow* GUIManager::CreateOkWindow ()
+OkDialogWindow* GUIManager::CreateOkWindow (bool activate)
 {
   if(!okwindow)
     okwindow = new OkDialogWindow (this);
-  okwindow->CreateGUIWindow();
+  okwindow->CreateGUIWindow(activate);
   return okwindow;
 }
 

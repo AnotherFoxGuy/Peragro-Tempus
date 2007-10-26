@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+26-Oct-2007
+ - swedishcoder fix for ticket #49. If the login failed, the messagebox
+   indicating the failure was not being activated.
+
 25-Oct-2007
  - Sueastside finalized effect part of skills, perform some
    healing, and watch the levitation.

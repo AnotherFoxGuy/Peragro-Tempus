@@ -785,8 +785,8 @@ namespace PT
     {
       Report(PT::Error, "Login Failed due to: %s.", stateev->errorMessage.c_str());
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      guimanager->CreateOkWindow()->SetText(stateev->errorMessage.c_str());
       guimanager->GetLoginWindow()->EnableWindow();
+      guimanager->CreateOkWindow(true)->SetText(stateev->errorMessage.c_str());
       return true;
     }
     else

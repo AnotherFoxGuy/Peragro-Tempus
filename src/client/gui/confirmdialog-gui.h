@@ -29,7 +29,8 @@ private:
 public:
   OkDialogWindow(GUIManager* guimanager);
   virtual ~OkDialogWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
+  // load the chat guilayout and register button events.
+  void CreateGUIWindow(bool activate = false);    
 
   void SetText(const char* text);
   void SetOkEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow);
@@ -44,7 +45,7 @@ private:
 public:
   ConfirmDialogWindow(GUIManager* guimanager);
   virtual ~ConfirmDialogWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
+  void CreateGUIWindow(); // load the chat guilayout and register button events.   
 
   void SetText(const char* text);
   void SetYesEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow=true);

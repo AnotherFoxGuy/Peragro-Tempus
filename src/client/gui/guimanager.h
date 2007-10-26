@@ -97,7 +97,7 @@ public:
   NpcDialogWindow* CreateNpcDialogWindow();
   TradeWindow* CreateTradeWindow();
   ConfirmDialogWindow* CreateConfirmWindow();
-  OkDialogWindow* CreateOkWindow();
+  OkDialogWindow* CreateOkWindow(bool activate = false);
   BuyWindow* CreateBuyWindow();
   SellWindow* CreateSellWindow();
   InteractDialogWindow* CreateInteractDialogWindow();

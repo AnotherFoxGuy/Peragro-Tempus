@@ -57,7 +57,7 @@ void OkDialogWindow::SetText(const char* text)
   btn->setText(text);
 }
 
-void OkDialogWindow::CreateGUIWindow()
+void OkDialogWindow::CreateGUIWindow(bool activate)
 {
   winMgr = cegui->GetWindowManagerPtr ();
 
@@ -66,6 +66,10 @@ void OkDialogWindow::CreateGUIWindow()
 
   // Get the root window
   rootwindow = winMgr->getWindow("OkDialog/Frame");
+  if (activate && rootwindow)
+  {
+    rootwindow->activate();
+  }
 
   // Get the Ok Button
   btn = winMgr->getWindow("OkDialog/OkButton");
