@@ -67,9 +67,9 @@ namespace PT
         doorNode->FirstChildElement("position")->Attribute("x", &temp);
         pos.x = temp;
         doorNode->FirstChildElement("position")->Attribute("y", &temp);
-        pos.x = temp;
+        pos.y = temp;
         doorNode->FirstChildElement("position")->Attribute("z", &temp);
-        pos.x = temp;
+        pos.z = temp;
         door->SetPosition(pos);
 
         door->SetSectorName(doorNode->FirstChildElement("sector")->FirstChild()
