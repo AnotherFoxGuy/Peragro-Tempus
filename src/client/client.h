@@ -192,7 +192,6 @@ namespace PT
 
     bool ActionActivateSkill(PT::Events::Eventp);
     bool ActionQuit(PT::Events::Eventp);
-    bool ActionMoveTo(PT::Events::Eventp);
     bool Quit(const CEGUI::EventArgs &args);
     bool NoQuit(const CEGUI::EventArgs &args);
 

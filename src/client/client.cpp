@@ -446,10 +446,6 @@ namespace PT
     EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_QUIT", cbActionQuit);
 
-    // Register listener for ActionMoveTo.
-    EventHandler<Client>* cbActionMoveTo = new EventHandler<Client>(&Client::ActionMoveTo, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_MOVETO", cbActionMoveTo);
-
     Run();
 
     return true;
@@ -708,49 +704,6 @@ namespace PT
 
   bool Client::NoQuit(const CEGUI::EventArgs &args)
   {
-    return true;
-  }
-
-  bool Client::ActionMoveTo(PT::Events::Eventp ev)
-  {
-    using namespace PT::Events;
-
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-
-    if (!inputEv->released)
-    {
-      if (!Entity::PlayerEntity::Instance()) return false;
-      csRef<iPcDefaultCamera> pccamera = Entity::PlayerEntity::Instance()->GetCamera();
-      if (!pccamera) return false;
-      csRef<iCamera> cam = pccamera->GetCamera();
-      if (!cam) return false;
-
-      csVector3 isect, untransfCoord;
-      csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord);
-
-      if (mesh)
-      {
-        effectsmanager->CreateEffect("MoveMarker", isect+csVector3(0,0.01f,0));
-        //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0), cam);
-
-        csRef<iCelEntity> ownent = Entity::PlayerEntity::Instance()->GetCelEntity();
-        if (!ownent) return false;
-        csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
-        if (!pclinmove) return false;
-
-        MoveToRequestMessage msg;
-        msg.setTo(isect.x, isect.y, isect.z);
-        network->send(&msg);
-
-        Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
-      }
-      else
-      {
-        Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
-      }
-    }
-
     return true;
   }
 

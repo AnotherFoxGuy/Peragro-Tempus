@@ -51,6 +51,7 @@ namespace PT
 
       pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
       pl->CreatePropertyClass(celEntity, "pcmove.linear");
+      pl->CreatePropertyClass(celEntity, "pcmove.steer");
 
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity,
@@ -72,6 +73,10 @@ namespace PT
 
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
+
+      csRef<iPcActorMove> pcactormove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
+      pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
 
       iSector* sector = engine->FindSector(sectorName.c_str());
       if (!sector)

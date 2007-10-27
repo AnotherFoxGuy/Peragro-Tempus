@@ -18,9 +18,13 @@
 
 #include "playerentity.h"
 
+#include <propclass/steer.h>
+
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
+#include "client/cursor.h"
+#include "client/data/effect/effectsmanager.h"
 #include "client/event/eventmanager.h"
 #include "client/event/interfaceevent.h"
 #include "client/event/entityevent.h"
@@ -145,6 +149,12 @@ namespace PT
         new EventHandler<PlayerEntity>(&PlayerEntity::ActionJump, this);
       PointerLibrary::getInstance()->getEventManager()->
         AddListener("input.ACTION_JUMP", cbActionJump);
+
+      // Register listener for ActionMoveTo.
+      EventHandler<PlayerEntity>* cbActionMoveTo = 
+        new EventHandler<PlayerEntity>(&PlayerEntity::ActionMoveTo, this);
+      PointerLibrary::getInstance()->getEventManager()->
+        AddListener("input.ACTION_MOVETO", cbActionMoveTo);
     }
 
     PlayerEntity* PlayerEntity::Instance(const Events::EntityAddEvent* ev)
@@ -509,6 +519,67 @@ namespace PT
         camera->SetPitch(currentPitch);
       }
       camera->Draw();
+    }
+
+    bool PlayerEntity::ActionMoveTo(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
+
+      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+      if (!inputEv) return false;
+
+      if (!inputEv->released)
+      {
+        if (!Instance()) return false;
+        csRef<iPcDefaultCamera> pccamera = GetCamera();
+        if (!pccamera) return false;
+        csRef<iCamera> cam = pccamera->GetCamera();
+        if (!cam) return false;
+
+        csVector3 isect, untransfCoord;
+        Cursor* cursor = PointerLibrary::getInstance()->getCursor();
+        csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord);
+
+        if (mesh)
+        {
+          PT::Effect::EffectsManager* effectsmanager = PointerLibrary::getInstance()->getEffectsManager();
+          effectsmanager->CreateEffect("MoveMarker", isect+csVector3(0,0.01f,0));
+          //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0));
+
+          csRef<iCelEntity> ownent = GetCelEntity();
+          if (!ownent) return false;
+          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
+          if (!pclinmove) return false;
+
+          MoveToRequestMessage msg;
+          msg.setTo(isect.x, isect.y, isect.z);
+          msg.setRun(run);
+          PointerLibrary::getInstance()->getNetwork()->send(&msg);
+
+          float cur_yrot;
+          csVector3 cur_position;
+          iSector* cur_sector;
+          pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
+
+          MoveToData moveTo;
+          moveTo.origin      	= cur_position;
+          moveTo.destination	= isect;
+          moveTo.turn_speed     = PI; // 1 revolution per second
+          moveTo.walk_speed	= 4.0;
+          moveTo.run_speed	= 8.0;
+          moveTo.running	= run;
+
+          MoveTo(moveTo);
+
+          Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
+        }
+        else
+        {
+          Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
+        }
+      }
+
+      return true;
     }
 
     void PlayerEntity::Interact()

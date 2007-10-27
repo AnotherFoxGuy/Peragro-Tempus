@@ -88,8 +88,6 @@ namespace PT
     void MovementManager::Handle ()
     {
       ProcessEvents();
-
-      moveToUpdate();
     }
 
     bool MovementManager::GetEntityEvents(PT::Events::Eventp ev)
@@ -129,9 +127,9 @@ namespace PT
       }
 
       MovementData movement;
-      movement.entity_id			= entityMoveEv->entityId;
-      movement.walk					= entityMoveEv->walkDirection;
-      movement.turn					= entityMoveEv->turnDirection;
+      movement.entity_id     = entityMoveEv->entityId;
+      movement.walk	     = entityMoveEv->walkDirection;
+      movement.turn	     = entityMoveEv->turnDirection;
       movement.run           = entityMoveEv->run;
       movement.jump          = entityMoveEv->jump;
 
@@ -149,16 +147,11 @@ namespace PT
 
       unsigned int id = entityMoveEv->entityId;
 
-      // Remove any other moveTo actions for this entity
-      for (size_t i = 0; i < move_to_entity.GetSize(); i++)
+      // If own entity, abort.
+      if (PT::Entity::PlayerEntity::Instance() &&
+          id == PT::Entity::PlayerEntity::Instance()->GetId())
       {
-        MoveToData* m = move_to_entity.Get(i);
-
-        if (m->entity_id == id)
-        {
-          move_to_entity.Delete(m);
-          break;
-        }
+        return true;
       }
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
@@ -173,57 +166,30 @@ namespace PT
         return true;
       }
 
-      MoveToData* moveTo = new MoveToData();
+      MoveToData moveTo;
 
       csVector3 pos_ori = entityMoveEv->origin;
       csVector3 pos_dst = entityMoveEv->destination;
 
       // Getting the real world position of our entity.
-      // TODO Do some SoftDRUpdate with the server position(fv1)?
-      // Or is this redundant since the end position WILL be the same?
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
       float cur_yrot;
       csVector3 cur_position;
       iSector* cur_sector;
       pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
 
-      csVector3 vec (0,0,1);
-      //float yrot_dst = GetAngle (pos_dst - cur_position, vec);
+      ///@todo calculate speed based on actual and server distance.
 
-      cur_position.y = pos_dst.y;
-      csVector3 direction = pos_dst - cur_position;
-      float yrot_dst = atan2 (-direction.x, -direction.z);
-
-      moveTo->turn_speed			= 2*PI; // 1 revolution per second
-      moveTo->walk_speed			= entityMoveEv->speed;
-      moveTo->dest_angle			= yrot_dst;
-      moveTo->walk_duration		        = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
-      moveTo->elapsed_time		        = 0;
-      moveTo->walking				= false;
-      moveTo->entity_id				= id;
-
+      moveTo.origin      	= pos_ori;
+      moveTo.destination	= pos_dst;
+      moveTo.turn_speed         = PI; // 1 revolution per second
+      moveTo.walk_speed		= entityMoveEv->speed;
+      moveTo.run_speed		= entityMoveEv->speed;
+      moveTo.running		= entityMoveEv->run;
 
       entity->MoveTo(moveTo);
-      move_to_entity.Push(moveTo);
 
       return true;
-    }
-
-    void MovementManager::moveToUpdate()
-    {
-      if (!move_to_entity.GetSize()) return;
-
-      for (size_t i = 0; i < move_to_entity.GetSize(); i++)
-      {
-        MoveToData* moveTo = move_to_entity.Get(i);
-
-        Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(moveTo->entity_id);
-        if (entity)
-        {
-          if(entity->MoveTo(moveTo))
-            move_to_entity.Delete(moveTo);
-        }
-      }
     }
 
     bool MovementManager::TeleportEntity(PT::Events::Eventp ev)

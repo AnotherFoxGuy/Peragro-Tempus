@@ -105,6 +105,8 @@ namespace PT
       bool ActionZoomOut(PT::Events::Eventp ev);
       ///Handler for a jump event.
       bool ActionJump(PT::Events::Eventp ev);
+      ///Handler for a move-to event.
+      bool ActionMoveTo(PT::Events::Eventp ev);
 
       ///Helper method for sending new movement information.
       bool PerformMovementAction();

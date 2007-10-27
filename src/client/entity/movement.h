@@ -62,12 +62,12 @@ namespace PT
     struct MoveToData
     {
       unsigned int entity_id;
-      bool walking;
-      float dest_angle;
+      csVector3 origin;
+      csVector3 destination;
+      bool running;
       float walk_speed;
+      float run_speed;
       float turn_speed;
-      float elapsed_time;
-      float walk_duration;
     };
 
     struct UpdatePcPropData
