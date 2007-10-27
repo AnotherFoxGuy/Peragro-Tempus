@@ -49,6 +49,7 @@ if [ Property build : projgen_version ] != 6
     pftrigger
     pfzone
     stdphyslayer
+    pfsteer
   :
   ;
 
