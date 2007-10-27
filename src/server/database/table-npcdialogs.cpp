@@ -77,6 +77,9 @@ void NpcDialogsTable::createTable()
   insert(7,"",0,"buy");
   insert(8,"",0,"sell");
   insert(9,"....",1,"text");
+  insert(10,"Where would you like to go?",0,"text");
+  insert(11,"4<110,2,11>",0,"teleport");
+  insert(12,"2<30,20,178>",0,"teleport");
 }
 
 void NpcDialogsTable::insert(int dialogid, const char* text, int start, const char* action)

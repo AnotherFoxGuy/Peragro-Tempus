@@ -73,7 +73,7 @@ void CharacterTable::createTable()
             skincolour, decalcolour, pos, ptString("room",4));
 
   // Creating Undead Squad.
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 10; i++)
   {
     std::string name("Evil Undead");
     insert(4 + i, ptString(name.c_str(), name.length()), 0, ptString("skeleton",8), 1, haircolour,

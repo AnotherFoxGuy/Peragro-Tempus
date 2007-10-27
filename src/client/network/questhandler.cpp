@@ -42,3 +42,9 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
   }
   Report(PT::Debug, "---------------------------");
 }
+
+void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
+{
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  guimanager->GetNpcDialogWindow()->HideWindow();
+}

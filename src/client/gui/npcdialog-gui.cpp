@@ -64,7 +64,7 @@ bool NpcDialogWindow::OnAnswer(const CEGUI::EventArgs& args)
 
   Report(PT::Debug, "NpcDialogWindow: Answered dialog %d with answer %d.", dialogId, answer_id);
 
-  if (answer_id == 0)
+  if (answer_id == 0xff)
   {
     GUIWindow::HideWindow();
     return true;
@@ -103,7 +103,7 @@ void NpcDialogWindow::AddDialog(uint dialogId, csString dialog)
 
   ClearAnswers();
 
-  AddAnswer(0, (csString)"Goodbye.");
+  AddAnswer(0xff, (csString)"Goodbye.");
 
   GUIWindow::ShowWindow();
   GUIWindow::EnableWindow();

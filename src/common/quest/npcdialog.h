@@ -32,7 +32,8 @@ public:
   {
     SHOW_TEXT = 0,
     START_BUY = 1,
-    START_SELL = 2
+    START_SELL = 2,
+    TELEPORT = 3
   };
 
 private:

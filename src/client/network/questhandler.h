@@ -39,9 +39,11 @@ public:
     char id = msg->getMsgId();
 
     if (id == QUEST::NPCDIALOG) handleNpcDialog(msg);
+    else if (id == QUEST::NPCENDDIALOG) handleNpcEndDialog(msg);
   }
 
   void handleNpcDialog(GenericMessage* msg);
+  void handleNpcEndDialog(GenericMessage* msg);
 };
 
 #endif // _QUESTHANDLER_H_

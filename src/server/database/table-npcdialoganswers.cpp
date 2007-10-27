@@ -65,7 +65,8 @@ void NpcDialogAnswersTable::createTable()
 
   insert(0,0,"Yes, I'm new here, please tell me.", 0, 1);
   insert(0,1,"No, I'm not interested.", 0, 5);
-  insert(0,2,"I'm in a hurry, maybe another time.", 1, 0);
+  insert(0,2,"I'm in a hurry, can you help me?", 0, 10);
+  insert(0,3,"I'm in a hurry, maybe another time.", 1, 0);
 
   insert(1,0,"No, it's ok. After all, it was worth the try.", 0, 2);
   insert(1,1,"How dare you... If fighting were implemented I would so kill you, u n00b!!111", 0, 3);
@@ -76,6 +77,10 @@ void NpcDialogAnswersTable::createTable()
   insert(6,0,"I heard you sell items.", 0, 8);
   insert(6,1,"I want to sell my goods!", 0, 7);
   insert(6,2,"N..nothing...", 1, 0);
+
+  insert(10, 0, "I think I'll stay here for a bit.", 1, 0);
+  insert(10, 1, "To the tavern!", 0, 11);
+  insert(10, 2, "To sueastside's place or whatever!", 0, 12);
 }
 
 void NpcDialogAnswersTable::insert(int dialogid, int answerid, const char* text, int end, int nextdialogid)

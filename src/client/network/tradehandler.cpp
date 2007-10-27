@@ -137,9 +137,6 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
   trade_msg.deserialise(msg->getByteStream());
 
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-
-  guimanager->GetNpcDialogWindow()->HideWindow();
-
   if (trade_msg.getIsBuy() == 1)
   {
     Report(PT::Debug, "TradeHandler: Got %d Buy Offers from NPC!", trade_msg.getOffersCount());

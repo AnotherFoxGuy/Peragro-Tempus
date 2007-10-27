@@ -68,21 +68,6 @@ void DoorsTable::createTable()
              "islocked INTEGER,"
              "isopen INTEGER,"
              "PRIMARY KEY (Id) );");
-
-  DoorsTableVO vo;
-  vo.id = 1;
-  vo.name = ptString("North Gate", strlen("North Gate"));
-  vo.isopen = false;
-  vo.islocked = true;
-
-  insert(&vo);
-
-  vo.id = 2;
-  vo.name = ptString("Door", strlen("Door"));
-  vo.isopen = false;
-  vo.islocked = false;
-
-  insert(&vo);
 }
 
 void DoorsTable::dropTable()

@@ -86,7 +86,7 @@ void EntityTable::createTable()
 
 
   // Creating Undead Squad.
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 10; i++)
   {
     std::string name("Evil Undead");
 
@@ -101,11 +101,11 @@ void EntityTable::createTable()
     insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel, pos, room);
   }
 
-  float pos4[104] = { 82, 2.2f, 37.2f };
+  float pos4[14] = { 82, 2.2f, 37.2f };
   insert(104, horse, Entity::MountEntityType, 0, 0, horse, pos4, room);
-  float pos5[105] = { -110, 0.2f, 5.05f };
+  float pos5[15] = { -110, 0.2f, 5.05f };
   insert(105, horse, Entity::MountEntityType, 0, 0, horse, pos5, room);
-  float pos6[106] = { -112, 0.2f, 4.8f };
+  float pos6[16] = { -112, 0.2f, 4.8f };
   insert(106, horse, Entity::MountEntityType, 0, 0, horse, pos6, room);
 }
 

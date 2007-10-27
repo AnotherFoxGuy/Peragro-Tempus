@@ -24,6 +24,7 @@
 #include "server/entity/character.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/entitymanager.h"
+#include "server/entity/charactermanager.h"
 
 #include "common/quest/npcdialog.h"
 #include "common/quest/npcdialoganswer.h"
@@ -44,6 +45,18 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
   if (dialog == 0)
   {
+    NpcEntity* npc_entity = dia_state->getNpc()->getLock();
+    if (npc_entity) 
+    {
+      npc_entity->pause(false);
+      npc_entity->freeLock();
+
+      NpcEndDialogMessage endmsg;
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      ByteStream bs;
+      endmsg.serialise(&bs);
+      server->broadCast(bs);
+    }
     character->freeLock();
     return;
   }
@@ -62,6 +75,12 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       {
         npc_entity->pause(false);
         npc_entity->freeLock();
+
+        NpcEndDialogMessage endmsg;
+        endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+        ByteStream bs;
+        endmsg.serialise(&bs);
+        server->broadCast(bs);
       }
     }
 
@@ -100,6 +119,12 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       trade_msg.serialise(&bs);
 
       NetworkHelper::sendMessage(character, bs);
+
+      NpcEndDialogMessage endmsg;
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      ByteStream bs2;
+      endmsg.serialise(&bs2);
+      server->broadCast(bs2);
     }
   }
   else if (dialog->getAction() == NPCDialog::START_SELL)
@@ -121,7 +146,43 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       trade_msg.serialise(&bs);
 
       NetworkHelper::sendMessage(character, bs);
+
+      NpcEndDialogMessage endmsg;
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      ByteStream bs2;
+      endmsg.serialise(&bs2);
+      server->broadCast(bs2);
     }
+  }
+  else if (dialog->getAction() == NPCDialog::TELEPORT)
+  {
+    // yes, it's a hack. This shouldn't go here either.
+    // sector_id <0.5, 0.6, 0.8>
+    int sector = 0;
+    float x = 0, y = 0, z = 0;
+    sscanf(dialog->getText(), "%d<%f,%f,%f>", &sector, &x, &y, &z);
+
+    Entity* ent = character->getEntity()->getLock();
+    ent->setSector(sector);
+    ent->setPos(x, y, z);
+    ent->freeLock();
+
+    server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
+
+    TeleportMessage telemsg;
+    telemsg.setEntityId(ent->getId());
+    telemsg.setSectorId(ent->getSector());
+    telemsg.setPos(ent->getPos());
+
+    ByteStream bs;
+    telemsg.serialise(&bs);
+    server->broadCast(bs);
+
+    NpcEndDialogMessage endmsg;
+    endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+    ByteStream bs2;
+    endmsg.serialise(&bs2);
+    server->broadCast(bs2);
   }
 
   character->freeLock();
