@@ -28,6 +28,8 @@
 #include "server/network/connection.h"
 #include "server/entity/user.h"
 
+#include "server/network/networkhelper.h"
+
 Skill::Skill() : id(-1), range(0) 
 {
   mp = Server::getServer()->getStatManager()->findByName(ptString("Mana", strlen("Mana")));
@@ -90,11 +92,17 @@ void Skill::castPrepare(Character* caster, unsigned int target_id)
     skilldata->state = SkillState::CASTING;
     skilldata->setInverval(skillTime);
     skilldata->start();
+
+    // Broadcast the skill start.
+    ByteStream bs;
+    response_msg.serialise(&bs);
+    Server::getServer()->broadCast(bs);
   }
 
+  // An error occurred, send error to caster.
   ByteStream bs;
   response_msg.serialise(&bs);
-  Server::getServer()->broadCast(bs);
+  NetworkHelper::sendMessage(target, bs);
 }
 
 void Skill::castInterrupt(CharSkill* skilldata)
