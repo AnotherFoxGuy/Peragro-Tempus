@@ -7,6 +7,7 @@ SubInclude TOP src client entity pc ;
 SubInclude TOP src client entity player ;
 SubInclude TOP src client entity npc ;
 SubInclude TOP src client entity mount ;
+SubInclude TOP src client entity teleport ;
 
 Description client-entitymanager : "client entitymanager" ;
 Library client-entitymanager :
@@ -18,5 +19,6 @@ Library client-entitymanager :
   [ Wildcard [ ConcatDirs player ] : *.h *.cpp ] 
   [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ] 
   [ Wildcard [ ConcatDirs door ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs item ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs item ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs teleport ] : *.h *.cpp ] ;
 ExternalLibs client-entitymanager : CEGUI CRYSTAL CEL BOOST ;

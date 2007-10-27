@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teleports>
+  <teleport>
+    <id>1</id>
+    <name>Magical Horse</name>
+    <description>This is a magical horse! Pull its tail to move!</description>
+    <mesh>horse</mesh>
+    <position x="" y="" z=""/>
+    <sector>room</sector>
+    <destination x="" y="" z=""></destination>
+  </teleport>
+</teleports>

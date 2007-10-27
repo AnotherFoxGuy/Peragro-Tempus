@@ -6,6 +6,8 @@ under each day.
 
 27-Oct-2007
  - Sueastside rewrote some movement code.
+ - azaghal implemented TeleportDataManager, and TeleportEntity classes. Added
+   sample teleports.xml file to data, and update EntityType enum.
 
 26-Oct-2007
  - swedishcoder fix for ticket #49. If the login failed, the messagebox

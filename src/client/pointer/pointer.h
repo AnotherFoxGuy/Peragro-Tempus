@@ -36,6 +36,7 @@ namespace PT
     class SectorDataManager;
     class SkillDataManager;
     class EffectDataManager;
+    class TeleportDataManager;
   } // Data namespace
 
   namespace Effect
@@ -74,6 +75,7 @@ private:
   PT::Data::SectorDataManager* sectorDataManager;
   PT::Data::SkillDataManager* skillDataManager;
   PT::Data::EffectDataManager* effectDataManager;
+  PT::Data::TeleportDataManager* teleportDataManager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
   CombatMGR* combatmanager;
@@ -130,6 +132,9 @@ public:
 
   void setEffectDataManager(PT::Data::EffectDataManager* effectDataManager) { this->effectDataManager = effectDataManager; }
   PT::Data::EffectDataManager* getEffectDataManager() { return this->effectDataManager; }
+
+  void setTeleportDataManager(PT::Data::TeleportDataManager* teleportDataManager) { this->teleportDataManager = teleportDataManager; }
+  PT::Data::TeleportDataManager* getTeleportDataManager() { return this->teleportDataManager; }
 
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }

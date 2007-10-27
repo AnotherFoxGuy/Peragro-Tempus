@@ -88,11 +88,12 @@ namespace PT
      */
     enum EntityType
     {
-      PCEntityType=0,
-      NPCEntityType=1,
-      DoorEntityType=2,
-      ItemEntityType=3,
-      MountEntityType=4
+      PCEntityType      =0,
+      NPCEntityType     =1,
+      DoorEntityType    =2,
+      ItemEntityType    =3,
+      MountEntityType   =4,
+      TeleportEntityType=5
     };
 
     /**
