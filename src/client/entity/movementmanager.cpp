@@ -178,13 +178,15 @@ namespace PT
       iSector* cur_sector;
       pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
 
-      ///@todo calculate speed based on actual and server distance.
+      //Calculate speed based on actual and server distance.
+      float speed = ((pos_dst - cur_position).Norm() * entityMoveEv->speed )/
+        (pos_ori - cur_position).Norm();
 
       moveTo.origin      	= pos_ori;
       moveTo.destination	= pos_dst;
       moveTo.turn_speed         = PI; // 1 revolution per second
-      moveTo.walk_speed		= entityMoveEv->speed;
-      moveTo.run_speed		= entityMoveEv->speed;
+      moveTo.walk_speed		= speed;
+      moveTo.run_speed		= speed;
       moveTo.running		= entityMoveEv->run;
 
       entity->MoveTo(moveTo);
