@@ -1,0 +1,125 @@
+/*
+    Copyright (C) 2005 Development Team of Peragro Tempus
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#ifndef REFLECTION_H
+#define REFLECTION_H
+
+#include <cssysdef.h>
+#include <csutil/ref.h>
+#include <csutil/refarr.h>
+#include <csutil/parray.h>
+#include <csutil/csbaseeventh.h>
+#include <cstool/csapplicationframework.h>
+#include <iengine/engine.h>
+#include <iengine/camera.h>
+#include <iutil/vfs.h>
+#include <iutil/pluginconfig.h>
+#include <iutil/virtclk.h>
+#include <ivideo/graph3d.h>
+#include <iengine/mesh.h>
+#include <ivaria/view.h>
+
+namespace PT
+{
+  namespace Reflection
+  {
+    class ReflectionUtils
+    {
+    friend class ReflectionRenderer;
+    public:
+      /**
+       * Connects a ReflectionRenderer callback to any mesh that defines the
+       * shader variable 'reflection_enable=(INT)1'. The callback produces up
+       * to six reflection buffers, creating a cube map around the mesh object
+       * using it's bounding box.
+       * 
+       * Here's the basic idea as ASCII art:
+       *
+       *<pre>
+                    /<-- actual camera
+                   .
+               +--------------------------+  <-- reflective surface
+               |   .                      |
+               |    \<-- reflection cam   |
+               |                          | <-- world bounding box
+               |                          |
+               +--------------------------+
+       </pre>
+       *
+       * The sides of the cube are drawn if the particualar side is specified
+       * in the 'reflection-cube' shader variable. This variable is an array
+       * of integers. There should be up to six items in this array, with a
+       * value of 1 (one) if the side is reflective, 0 (zero) otherwise. The
+       * mapping of array indices to world space is shown below.
+       *
+       *<pre>
+                     max-Z
+                      [4]
+                       \
+                        \
+               +-----------------+
+               |\                 \
+               | \                 \
+               |  \                 \
+               |   \      max-Y      \
+               |    \       [0]       \    
+               |     \                 \
+               |      \                 \-- max-X
+               |       \                 \   [2]
+               + min-x  \                 \
+               \  [3]    +-----------------+
+                \        |                 |
+                 \       |                 |
+                  \      |                 |
+                   \     |     min-z       |
+                    \    |      [5]        |
+                     \   |                 |
+                      \  |                 |
+                       \ |                 |
+                        \+-----------------+
+                                  \
+                                   \
+                                  min-y
+                                   [1]
+       </pre>
+       *
+       * For each of the sides that is specified in 'reflection-cube', a shader
+       * variable of type TEXTURE is created named 'reflection-[n]' where [n]
+       * is the index of the side as descibed above.
+       * NOTE: Only the [0] index, the max-Y plane is currently supported!
+       */
+      static void ApplyReflection(csRef<iView>, csRef<iObjectRegistry>);
+
+      /*
+       * Render all reflections previously applied via ApplyReflection(),
+       * to their cubemaps.
+       */
+      static void RenderReflections(csRef<iView> view);
+
+    private:
+      static int frame, framewrap;
+      static csArray<iMeshWrapper*> reflective_meshes;
+      static csStringID reflection_resolution_str, reflection_enable_str;
+      static csStringID reflection_sides_str, reflection_texture_str;
+    };
+
+  } // Reflection namespace
+
+} // PT namespace
+
+#endif // REFLECTION_H

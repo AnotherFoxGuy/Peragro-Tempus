@@ -67,6 +67,7 @@
 #include "client/entity/entitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
+#include "client/data/effect/reflection.h"
 
 #include "client/trade/trademanager.h"
 
@@ -148,6 +149,26 @@ namespace PT
       if (state == STATE_PLAY)
       {
         entitymanager->DrUpdateOwnEntity();
+      }
+    }
+
+    if (
+      enable_reflections &&
+      entitymanager &&
+      (state == STATE_PLAY)
+    ) {
+      PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
+      if (player)
+      {
+        csRef<iPcDefaultCamera> cam = player->GetCamera();
+	if (cam)
+	{
+	  iView *view = cam->GetView();
+	  if (view)
+	  {
+            Reflection::ReflectionUtils::RenderReflections(view);
+	  }
+	}
       }
     }
   }
@@ -332,6 +353,9 @@ namespace PT
 
     app_cfg = csQueryRegistry<iConfigManager> (GetObjectRegistry());
     if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
+
+    // It's used in PreProcessFrame(), so store this boolean.
+    enable_reflections = app_cfg->GetBool("Client.waterreflections");
 
     iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
     if (nw) nw->SetTitle ("Peragro Tempus");
@@ -904,13 +928,11 @@ namespace PT
     // Stop the intro music.
     sndstream->Pause ();
 
-    // Remove the portal.
-    bool ref = app_cfg->GetBool("Client.waterreflections");
-    if (!ref)
+    // Enable reflection.
+    if (enable_reflections)
     {
-      iMeshWrapper* portalMesh = engine->FindMeshObject("portal");
-      if (portalMesh) engine->RemoveObject(portalMesh->QueryObject());
-      Report(PT::Notify, "loadRegion: Waterportal removed!");
+      Reflection::ReflectionUtils::ApplyReflection(view, GetObjectRegistry());
+      Report(PT::Notify, "loadRegion: Enabled reflections!");
     }
 
     return true;
