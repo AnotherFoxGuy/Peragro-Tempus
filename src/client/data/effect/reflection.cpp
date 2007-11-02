@@ -38,8 +38,8 @@ namespace PT
     csStringID ReflectionUtils::reflection_enable_str = 0;
     csStringID ReflectionUtils::reflection_sides_str = 0;
     csStringID ReflectionUtils::reflection_texture_str = 0;
-    int ReflectionUtils::frame = 0;
-    int ReflectionUtils::framewrap = 3;
+    size_t ReflectionUtils::frame = 0;
+    size_t ReflectionUtils::frameskip = 3;
 
     void ReflectionUtils::ApplyReflection(
       csRef<iView> view,
@@ -60,7 +60,7 @@ namespace PT
       reflection_sides_str = stringset->Request("reflection_sides");
       reflection_texture_str = stringset->Request("reflection_texture");
 
-      /// Iterate over the meshes, finding `enable-reflection=true` shadervar.
+      /// Iterate over the meshes, finding `reflection_enable=true` shadervar.
       iMeshList *meshes = engine->GetMeshes();
       for (int i=0; i<meshes->GetCount(); i++)
       {
@@ -90,7 +90,6 @@ namespace PT
         csShaderVariable *reflection_texture_var =
           new csShaderVariable(reflection_texture_str);
         reflection_texture_var->SetArraySize(6);
-        printf("creating texture of resolution %d\n", rez);
         iTextureWrapper *a0 = engine->CreateBlackTexture(
           "a0", rez, rez, NULL, CS_TEXTURE_3D
         );
@@ -104,9 +103,9 @@ namespace PT
     void ReflectionUtils::RenderReflections(csRef<iView> view)
     {
       /// Throttle. Reflections are expensive.
-      frame++;
-      if (frame < framewrap) return;
-      frame = 0;
+      ReflectionUtils::frame++;
+      if (ReflectionUtils::frame < ReflectionUtils::frameskip) return;
+      ReflectionUtils::frame = 0;
 
       size_t len = reflective_meshes.GetSize();
       for (size_t i=0; i<len; i++)
@@ -162,6 +161,11 @@ namespace PT
         view->GetCamera()->SetTransform(origt);
         view->GetCamera()->SetMirrored(false);
       }
+    }
+
+    void ReflectionUtils::SetFrameSkip(size_t skip) {
+      ReflectionUtils::frameskip = skip;
+      ReflectionUtils::frame = skip; // draw on first frame
     }
 
   } // Reflection namespace

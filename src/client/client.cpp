@@ -932,6 +932,7 @@ namespace PT
     if (enable_reflections)
     {
       Reflection::ReflectionUtils::ApplyReflection(view, GetObjectRegistry());
+      Reflection::ReflectionUtils::SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
       Report(PT::Notify, "loadRegion: Enabled reflections!");
     }
 

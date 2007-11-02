@@ -62,7 +62,7 @@ namespace PT
        </pre>
        *
        * The sides of the cube are drawn if the particualar side is specified
-       * in the 'reflection-cube' shader variable. This variable is an array
+       * in the 'reflection_sides' shader variable. This variable is an array
        * of integers. There should be up to six items in this array, with a
        * value of 1 (one) if the side is reflective, 0 (zero) otherwise. The
        * mapping of array indices to world space is shown below.
@@ -98,21 +98,29 @@ namespace PT
                                    [1]
        </pre>
        *
-       * For each of the sides that is specified in 'reflection-cube', a shader
-       * variable of type TEXTURE is created named 'reflection-[n]' where [n]
-       * is the index of the side as descibed above.
-       * NOTE: Only the [0] index, the max-Y plane is currently supported!
+       * This function creates a shader variable attached to the mesh called
+       * 'reflection_texture', that holds up to 6 textures, as specified in
+       * 'reflection_sides'. NOTE: Only the [0] index, the max-Y plane is
+       * currently supported!
        */
       static void ApplyReflection(csRef<iView>, csRef<iObjectRegistry>);
 
-      /*
+      /**
        * Render all reflections previously applied via ApplyReflection(),
        * to their cubemaps.
        */
       static void RenderReflections(csRef<iView> view);
 
+      /**
+       * Configure the RenderReflections function to skip some number of
+       * frames, since it is an expensive operation.
+       * @param skip The number of frames to skip. For example, a value of
+       * '2' means draw reflections on every other frame or 1/2 frames.
+       */
+      static void SetFrameSkip(size_t skip);
+
     private:
-      static int frame, framewrap;
+      static size_t frame, frameskip;
       static csArray<iMeshWrapper*> reflective_meshes;
       static csStringID reflection_resolution_str, reflection_enable_str;
       static csStringID reflection_sides_str, reflection_texture_str;
