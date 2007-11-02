@@ -98,10 +98,10 @@ namespace PT
                                    [1]
        </pre>
        *
-       * This function creates a shader variable attached to the mesh called
-       * 'reflection_texture', that holds up to 6 textures, as specified in
-       * 'reflection_sides'. NOTE: Only the [0] index, the max-Y plane is
-       * currently supported!
+       * This function creates a set of shader variables attached to the mesh
+       * called 'reflection_texture_x', that holds up to 6 textures x=[0-5],
+       * the sides specified in 'reflection_sides'. NOTE: Only the [0] index
+       * reflection_texture_0 the max-Y plane is currently supported!
        */
       static void ApplyReflection(csRef<iView>, csRef<iObjectRegistry>);
 
@@ -123,7 +123,7 @@ namespace PT
       static size_t frame, frameskip;
       static csArray<iMeshWrapper*> reflective_meshes;
       static csStringID reflection_resolution_str, reflection_enable_str;
-      static csStringID reflection_sides_str, reflection_texture_str;
+      static csStringID reflection_sides_str, reflection_texture0_str;
     };
 
   } // Reflection namespace

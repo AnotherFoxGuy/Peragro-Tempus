@@ -37,7 +37,7 @@ namespace PT
     csStringID ReflectionUtils::reflection_resolution_str = 0;
     csStringID ReflectionUtils::reflection_enable_str = 0;
     csStringID ReflectionUtils::reflection_sides_str = 0;
-    csStringID ReflectionUtils::reflection_texture_str = 0;
+    csStringID ReflectionUtils::reflection_texture0_str = 0;
     size_t ReflectionUtils::frame = 0;
     size_t ReflectionUtils::frameskip = 3;
 
@@ -58,7 +58,7 @@ namespace PT
       reflection_enable_str = stringset->Request("reflection_enable");
       reflection_resolution_str = stringset->Request("reflection_resolution");
       reflection_sides_str = stringset->Request("reflection_sides");
-      reflection_texture_str = stringset->Request("reflection_texture");
+      reflection_texture0_str = stringset->Request("reflection_texture_0");
 
       /// Iterate over the meshes, finding `reflection_enable=true` shadervar.
       iMeshList *meshes = engine->GetMeshes();
@@ -87,16 +87,14 @@ namespace PT
 
         /// Create the textures.
         /// @todo This is currently hard-coded for the MaxY plane.
-        csShaderVariable *reflection_texture_var =
-          new csShaderVariable(reflection_texture_str);
-        reflection_texture_var->SetArraySize(6);
+        csShaderVariable *reflection_texture0_var =
+          new csShaderVariable(reflection_texture0_str);
         iTextureWrapper *a0 = engine->CreateBlackTexture(
           "a0", rez, rez, NULL, CS_TEXTURE_3D
         );
         a0->Register(texm);
-        csShaderVariable *a0v = new csShaderVariable(); a0v->SetValue(a0);
-        reflection_texture_var->SetArrayElement(0, a0v);
-        vars->AddVariable(reflection_texture_var);
+        reflection_texture0_var->SetValue(a0);
+        vars->AddVariable(reflection_texture0_var);
       }
     }
 
@@ -117,11 +115,9 @@ namespace PT
 
         /// Marshall the texture handle.
         iTextureWrapper *a0 = NULL;
-        csShaderVariable *reflection_texture_var =
-          vars->GetVariable(reflection_texture_str);
-        csShaderVariable *reflection_texture_a0_var =
-          reflection_texture_var->GetArrayElement(0);
-        reflection_texture_a0_var->GetValue(a0);
+        csShaderVariable *reflection_texture0_var =
+          vars->GetVariable(reflection_texture0_str);
+        reflection_texture0_var->GetValue(a0);
         iTextureHandle *t = a0->GetTextureHandle();
 
         iGraphics3D *g3d = view->GetContext();
