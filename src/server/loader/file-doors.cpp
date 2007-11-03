@@ -74,8 +74,6 @@ void DoorsFile::load()
       doors->insert(vo);
     }
 
-    delete vo;
-
     DoorEntity* door_ent = new DoorEntity();
 
     Entity* ent = door_ent->getEntity()->getLock();
@@ -90,6 +88,8 @@ void DoorsFile::load()
     door_ent->setOpen(vo->isopen > 0);
 
     ent_mgr->addEntity(ent);
+
+    delete vo;
 
     itemNode = itemNode->NextSiblingElement("door");
   }
