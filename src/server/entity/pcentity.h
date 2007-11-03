@@ -22,6 +22,7 @@
 #include "common/util/monitorable.h"
 
 #include "entity.h"
+#include "character.h"
 #include "tradepeer.h"
 
 class User;
