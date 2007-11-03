@@ -46,9 +46,9 @@ namespace PT
       csRef<iObjectRegistry> obj_reg
     ) {
       reflective_meshes.DeleteAll();
-      iEngine *engine = view->GetEngine();
-      iGraphics3D *g3d = view->GetContext();
-      iTextureManager *texm = g3d->GetTextureManager();
+      iEngine* engine = view->GetEngine();
+      iGraphics3D* g3d = view->GetContext();
+      iTextureManager* texm = g3d->GetTextureManager();
 
       /// Initialize strings.
       csRef<iStringSet> stringset = csQueryRegistryTagInterface<iStringSet> (
@@ -61,15 +61,15 @@ namespace PT
       reflection_texture0_str = stringset->Request("reflection_texture_0");
 
       /// Iterate over the meshes, finding `reflection_enable=true` shadervar.
-      iMeshList *meshes = engine->GetMeshes();
+      iMeshList* meshes = engine->GetMeshes();
       for (int i=0; i<meshes->GetCount(); i++)
       {
-        iMeshWrapper *mesh = meshes->Get(i);
-        iShaderVariableContext *vars = mesh->GetSVContext();
+        iMeshWrapper* mesh = meshes->Get(i);
+        iShaderVariableContext* vars = mesh->GetSVContext();
 
         /// Test if we care about this mesh.
         if (!vars) continue;
-        csShaderVariable *enabled_var =
+        csShaderVariable* enabled_var =
           vars->GetVariable(reflection_enable_str);
         if (!enabled_var) continue;
         int reflection_enable = 0;
@@ -79,7 +79,7 @@ namespace PT
 
         /// How big should the reflection be? Remember it's this number
         /// squared, times the # of sides.
-        csShaderVariable *resolution_var =
+        csShaderVariable* resolution_var =
           vars->GetVariable(reflection_resolution_str);
         int rez = 256;
         resolution_var->GetValue(rez);
@@ -87,10 +87,10 @@ namespace PT
 
         /// Create the textures.
         /// @todo This is currently hard-coded for the MaxY plane.
-        csShaderVariable *reflection_texture0_var =
+        csShaderVariable* reflection_texture0_var =
           new csShaderVariable(reflection_texture0_str);
-        iTextureWrapper *a0 = engine->CreateBlackTexture(
-          "a0", rez, rez, NULL, CS_TEXTURE_3D
+        iTextureWrapper* a0 = engine->CreateBlackTexture(
+          "a0", rez, rez, NULL, CS_TEXTURE_2D
         );
         a0->Register(texm);
         reflection_texture0_var->SetValue(a0);
@@ -110,17 +110,18 @@ namespace PT
       {
         /// @todo This is all currently hard-coded for the MaxY plane.
 
-        iMeshWrapper *m = reflective_meshes.Get(i);
-        iShaderVariableContext *vars = m->GetSVContext();
+        iMeshWrapper* m = reflective_meshes.Get(i);
+        iShaderVariableContext* vars = m->GetSVContext();
 
         /// Marshall the texture handle.
-        iTextureWrapper *a0 = NULL;
-        csShaderVariable *reflection_texture0_var =
+        iTextureWrapper* a0 = 0;
+        csShaderVariable* reflection_texture0_var =
           vars->GetVariable(reflection_texture0_str);
         reflection_texture0_var->GetValue(a0);
-        iTextureHandle *t = a0->GetTextureHandle();
+        iTextureHandle* t = a0->GetTextureHandle();
+        //t = m->GetMeshObject()->GetMaterialWrapper()->GetMaterial()->GetTexture();
 
-        iGraphics3D *g3d = view->GetContext();
+        iGraphics3D* g3d = view->GetContext();
 
         /// Make a clipping plane from the world bounding box.
         csBox3 bbox = m->GetWorldBoundingBox();
@@ -130,21 +131,24 @@ namespace PT
         csPlane3 newnp(v1, v2, v3);
         csPlane3 orignp = g3d->GetNearPlane();
 
-        csReversibleTransform watert = m->GetMovable()->GetFullTransform();
+        csVector3 watert = m->GetMovable()->GetFullPosition();
         csOrthoTransform origt = view->GetCamera()->GetTransform();
-        csOrthoTransform newt;
+        csOrthoTransform newt = view->GetCamera()->GetTransform();
 
         /// Mirror transformation.
         newt.SetO2T(origt.GetO2T() * csYScaleMatrix3(-1));
         newt.SetOrigin(
           csVector3(origt.GetOrigin().x,
-                  -(origt.GetOrigin ().y * 2)+watert.GetOrigin().y,
+                  - origt.GetOrigin ().y + (watert.y * 2),
                     origt.GetOrigin().z)
         );
 
-        /// The rendering sequence is: 1) set the camera, 2) set the
-        /// rendering target texture, 3) set the near plane, 4) draw,
-        /// 5) be nice and reset things.
+        /// The rendering sequence is: 
+        /// 1) set the camera 
+        /// 2) set the rendering target texture
+        /// 3) set the near plane
+        /// 4) draw
+        /// 5) be nice and reset things
         view->GetCamera()->SetTransform(newt);
         view->GetCamera()->SetMirrored(true);
         g3d->SetRenderTarget(t);
