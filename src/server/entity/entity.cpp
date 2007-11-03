@@ -28,6 +28,15 @@
 
 #include "server/server.h"
 
+Entity::~Entity()
+{
+  delete (pc_entity.get());
+  delete (npc_entity.get());
+  delete (item_entity.get());
+  delete (door_entity.get());
+  delete (mount_entity.get());
+}
+
 void Entity::setPlayerEntity(const PcEntity* pc)
 {
   pc_entity = pc->getRef();

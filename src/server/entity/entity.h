@@ -85,14 +85,7 @@ public:
     pos_last_saved[2] = 0.0f;
   }
 
-  virtual ~Entity()
-  {
-    delete (pc_entity.get());
-    delete (npc_entity.get());
-    delete (item_entity.get());
-    delete (door_entity.get());
-    delete (mount_entity.get());
-  }
+  virtual ~Entity();
 
   bool compare(const Entity* other) const
   {
