@@ -74,6 +74,8 @@ void DoorsFile::load()
       doors->insert(vo);
     }
 
+    delete vo;
+
     DoorEntity* door_ent = new DoorEntity();
 
     Entity* ent = door_ent->getEntity()->getLock();
