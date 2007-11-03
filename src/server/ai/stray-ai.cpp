@@ -34,16 +34,16 @@ void StrayAI::setNPC(NpcEntity* npc)
   NpcAiSettingTable* table =
     Server::getServer()->getDatabase()->getNpcAiSettingTable();
 
-  base[0] = (float) atof(*table->get(id, ptString("base_x",6))->value);
-  base[1] = (float) atof(*table->get(id, ptString("base_y",6))->value);
-  base[2] = (float) atof(*table->get(id, ptString("base_z",6))->value);
+  base[0] = (float) atof(*table->getValue(id, ptString("base_x",6)));
+  base[1] = (float) atof(*table->getValue(id, ptString("base_y",6)));
+  base[2] = (float) atof(*table->getValue(id, ptString("base_z",6)));
 
-  radius[0] = (float) atof(*table->get(id, ptString("radius_x",8))->value);
-  radius[1] = (float) atof(*table->get(id, ptString("radius_y",8))->value);
-  radius[2] = (float) atof(*table->get(id, ptString("radius_z",8))->value);
+  radius[0] = (float) atof(*table->getValue(id, ptString("radius_x",8)));
+  radius[1] = (float) atof(*table->getValue(id, ptString("radius_y",8)));
+  radius[2] = (float) atof(*table->getValue(id, ptString("radius_z",8)));
 
-  interval_base = atoi(*table->get(id, ptString("interval_base", 13))->value);
-  interval_rand = atoi(*table->get(id, ptString("interval_rand", 13))->value);
+  interval_base = atoi(*table->getValue(id, ptString("interval_base", 13)));
+  interval_rand = atoi(*table->getValue(id, ptString("interval_rand", 13)));
 
   // Timer
   setInverval(interval_base);

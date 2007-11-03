@@ -29,25 +29,6 @@ NpcAiSettingTable::NpcAiSettingTable(Database* db) : db(db)
   delete rs;
 }
 
-NpcAiSettingTableVO* NpcAiSettingTable::parseSingleResultSet(ResultSet* rs, size_t row)
-{
-  NpcAiSettingTableVO* vo = new NpcAiSettingTableVO();
-  vo->id = atoi(rs->GetData(row,0).c_str());
-  vo->key = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
-  vo->value = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,2).length());
-  return vo;
-}
-
-Array<NpcAiSettingTableVO*> NpcAiSettingTable::parseMultiResultSet(ResultSet* rs)
-{
-  Array<NpcAiSettingTableVO*> arr;
-  for (size_t i = 0; i < rs->GetRowCount(); i++)
-  {
-    NpcAiSettingTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
-  }
-  return arr;
-}
-
 void NpcAiSettingTable::createTable()
 {
   printf("Creating Table npcaisetting...\n");
@@ -87,12 +68,12 @@ void NpcAiSettingTable::remove(int id, ptString key)
   db->update("delete from npcaisetting where id = %d and key like '%s'");
 }
 
-NpcAiSettingTableVO* NpcAiSettingTable::get(int id, ptString key)
+ptString NpcAiSettingTable::getValue(int id, ptString key)
 {
-  ResultSet* rs = db->query("select * from npcaisetting where id = %d and key like '%s';", id, *key);
-  if(!rs || rs->GetRowCount() == 0) return 0;
-  NpcAiSettingTableVO* vo = parseSingleResultSet(rs);
+  ResultSet* rs = db->query("select value from npcaisetting where id = %d and key like '%s';", id, *key);
+  if(!rs || rs->GetRowCount() == 0) return ptString::Null;
+  ptString value(rs->GetData(0,0).c_str(), rs->GetData(0,0).length());
   delete rs;
-  return vo;
+  return value;
 }
 

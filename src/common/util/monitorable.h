@@ -48,7 +48,6 @@ public:
     T* const me = (T*) this;
     me->mutex.unlock();
   }
-
 };
 
 #endif // _MONITORABLE_H_

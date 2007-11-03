@@ -182,6 +182,8 @@ int main(int argc, char ** argv)
 
     NPCDialog* dialog = new NPCDialog(vo->dialogid, vo->isstart != 0, vo->text.c_str(), action);
     dialog_mgr.addDialog(dialog);
+
+    delete vo;
   }
 
   // Load NPC Dialog Answers
@@ -200,6 +202,8 @@ int main(int argc, char ** argv)
     NPCDialogAnswer* answer = new NPCDialogAnswer(next_dialog, vo->text.c_str());
     NPCDialog* dialog = dialog_mgr.getDialog(vo->dialogid);
     dialog->addAnswer(answer);
+
+    delete vo;
   }
 
   // Finally initialising the network!

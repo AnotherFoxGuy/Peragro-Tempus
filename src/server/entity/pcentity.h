@@ -63,6 +63,11 @@ public:
     pose_id = 0;
   }
 
+  ~PcEntity()
+  {
+    delete character.get();
+  }
+
   void setUser(const User* user);
   const User* getUser() const { return user.get(); }
 

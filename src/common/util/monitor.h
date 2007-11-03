@@ -25,78 +25,65 @@ class ptMonitor
 private:
   const T** monitor;
 
-  /// Reference Counter.
-  unsigned int* refcount;
-
   bool original;
 
 public:
   ptMonitor() : monitor(0) 
   {
-    original = true;
-    monitor = new const T*(); 
-    refcount = new unsigned int;
-    *refcount = 1;
+    original = false;
+    monitor = 0;
   }
 
   ptMonitor(const ptMonitor<T>& other)
   {
-    refcount = other.refcount;
     monitor = other.monitor;
     original = false;
-    (*refcount)++;
   }
 
-  ~ptMonitor()
+  virtual ~ptMonitor()
   {
-    if (original) *monitor = 0;
-    (*refcount)--;
-    if (*refcount == 0)
+    if (original)
     {
-      delete refcount;
+      *monitor = 0;
       delete monitor;
     }
   }
 
   void operator =(const ptMonitor<T>& other)
   {
-    // Destruct old
-    if (original) *monitor = 0;
-    (*refcount)--;
-    if (*refcount == 0)
+    if (original)
     {
-      delete refcount;
+      *monitor = 0;
       delete monitor;
     }
 
-    // Copy new
-    refcount = other.refcount;
-    monitor = other.monitor;
     original = false;
-    (*refcount)++;
+    monitor = other.monitor;
   }
 
   void set(T* ref)
   {
+    if (original)
+    {
+      *monitor = 0;
+      delete monitor;
+    }
+
+    original = true;
+
+    monitor = new const T*();
     *monitor = ref;
   }
 
   void clear()
   {
     // Destruct old
-    if (original) *monitor = 0;
-    (*refcount)--;
-    if (*refcount == 0)
+    if (original)
     {
-      delete refcount;
       delete monitor;
     }
-
-    // Construct new
-    original = true;
-    monitor = new const T*(); 
-    refcount = new unsigned int;
-    *refcount = 1;
+    original = false;
+    monitor = 0;
   }
 
   const T* get() const

@@ -70,9 +70,6 @@ public:
 
   virtual ~Character()
   {
-    //delete [] name;
-    //delete [] mesh;
-    //delete [] sector;
   }
 
   void setId(int id) { this->id = id; }

@@ -37,8 +37,6 @@ class NpcAiSettingTable
 private:
   Database* db;
 
-  NpcAiSettingTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
-  Array<NpcAiSettingTableVO*> parseMultiResultSet(ResultSet* rs);
 public:
   NpcAiSettingTable(Database* db);
 
@@ -47,7 +45,7 @@ public:
   void insert(int id, ptString key, const char* value);
   void remove(int id, ptString key);
 
-  NpcAiSettingTableVO* get(int id, ptString key);
+  ptString getValue(int id, ptString key);
 };
 
 #endif // _TABLE_NPCAISETTING_H_

@@ -60,7 +60,11 @@ public:
     dialog_id = 0;
   }
 
-  ~NpcEntity() { delete ai; }
+  ~NpcEntity()
+  {
+    delete ai;
+    delete character.get();
+  }
 
   const Entity* getEntity() const { return entity.get(); }
 

@@ -75,6 +75,7 @@ public:
 
   Entity(EntityType type) : id(-1), type(type)
   {
+
     pos[0] = 0.0f;
     pos[1] = 0.0f;
     pos[2] = 0.0f;
@@ -84,7 +85,14 @@ public:
     pos_last_saved[2] = 0.0f;
   }
 
-  virtual ~Entity() {}
+  virtual ~Entity()
+  {
+    delete (pc_entity.get());
+    delete (npc_entity.get());
+    delete (item_entity.get());
+    delete (door_entity.get());
+    delete (mount_entity.get());
+  }
 
   bool compare(const Entity* other) const
   {

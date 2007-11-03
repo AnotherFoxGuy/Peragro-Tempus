@@ -210,14 +210,14 @@ const Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
       Character* character =
         db->getCharacterTable()->findCharacterById(npc_vo->character, 0);
 
-      if (!character) return 0;
-
       NpcEntity* npc = new NpcEntity();
       npc->setCharacter(character);
       npc->setAI(AI::createAI(npc_vo->ai));
       npc->setStartDialog(npc_vo->dialog);
 
       entity = npc->getEntity();
+
+      delete npc_vo;
       break;
     }
     case Entity::DoorEntityType:

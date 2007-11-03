@@ -53,7 +53,7 @@ public:
   {
   }
 
-  void setEntity(Entity* entity);
+  //void setEntity(Entity* entity);
   const Entity* getEntity() { return this->entity.get(); }
 
   void setDoorId(unsigned int doorid) { this->doorid = doorid; }

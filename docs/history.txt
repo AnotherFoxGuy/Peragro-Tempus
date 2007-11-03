@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+03-Nov-2007
+ - PK fixed some more valgrind complains.
+
 27-Oct-2007
  - Sueastside rewrote some movement code.
  - azaghal implemented TeleportDataManager, and TeleportEntity classes. Added

@@ -69,7 +69,14 @@ public:
     isWalking = false;
   }
 
-  ~MountEntity() { }
+  ~MountEntity()
+  {
+    for (size_t i = 0; i < max_passengers; i++)
+    {
+      delete passengers[i].get();
+    }
+    delete [] passengers;
+  }
 
   const Entity* getEntity() const { return entity.get(); }
 

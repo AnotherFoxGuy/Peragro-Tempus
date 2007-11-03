@@ -19,7 +19,7 @@
 #include "entity.h"
 #include "doorentity.h"
 
-void DoorEntity::setEntity(Entity* entity)
-{
-  this->entity = entity->getRef();
-}
+//void DoorEntity::setEntity(Entity* entity)
+//{
+//  this->entity = entity->getRef();
+//}
