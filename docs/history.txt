@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+04-Nov-2007
+ - Sueastside added water shader and new level for reflection.
+
 03-Nov-2007
  - PK fixed some more valgrind complains.
 

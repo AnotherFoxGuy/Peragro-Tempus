@@ -119,7 +119,9 @@ namespace PT
           vars->GetVariable(reflection_texture0_str);
         reflection_texture0_var->GetValue(a0);
         iTextureHandle* t = a0->GetTextureHandle();
-        //t = m->GetMeshObject()->GetMaterialWrapper()->GetMaterial()->GetTexture();
+
+        /// @todo
+        t = m->GetMeshObject()->GetMaterialWrapper()->GetMaterial()->GetTexture();
 
         iGraphics3D* g3d = view->GetContext();
 
@@ -133,33 +135,42 @@ namespace PT
 
         csVector3 watert = m->GetMovable()->GetFullPosition();
         csOrthoTransform origt = view->GetCamera()->GetTransform();
-        csOrthoTransform newt = view->GetCamera()->GetTransform();
+        csOrthoTransform newt;
 
         /// Mirror transformation.
         newt.SetO2T(origt.GetO2T() * csYScaleMatrix3(-1));
         newt.SetOrigin(
           csVector3(origt.GetOrigin().x,
-                  - origt.GetOrigin ().y + (watert.y * 2),
+                  - origt.GetOrigin().y + watert.y-1,
                     origt.GetOrigin().z)
         );
 
         /// The rendering sequence is: 
-        /// 1) set the camera 
-        /// 2) set the rendering target texture
-        /// 3) set the near plane
-        /// 4) draw
-        /// 5) be nice and reset things
+        /// 1) Hide the reflection mesh
+        /// 2) set the camera 
+        /// 3) set the rendering target texture
+        /// 4) set the near plane
+        /// 5) draw
+        /// 6) be nice and reset things
+
+        // Setup
+        m->SetFlagsRecursive(CS_ENTITY_INVISIBLEMESH, CS_ENTITY_INVISIBLEMESH);
         view->GetCamera()->SetTransform(newt);
         view->GetCamera()->SetMirrored(true);
         g3d->SetRenderTarget(t);
         /// "We need to hack CS!" "No, use a portal!" OMG <3 g3d
         g3d->SetNearPlane(newnp);
-        g3d->BeginDraw(CSDRAW_CLEARSCREEN|CSDRAW_3DGRAPHICS);
+
+        // Draw
+        g3d->BeginDraw(CSDRAW_CLEARZBUFFER|CSDRAW_CLEARSCREEN|CSDRAW_3DGRAPHICS);
         view->Draw();
         g3d->FinishDraw();
+
+        // Reset
         g3d->SetNearPlane(orignp);
         view->GetCamera()->SetTransform(origt);
         view->GetCamera()->SetMirrored(false);
+        m->SetFlagsRecursive(CS_ENTITY_INVISIBLEMESH, 0);
       }
     }
 
