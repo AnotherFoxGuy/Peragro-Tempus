@@ -23,6 +23,7 @@
 #include "common/util/monitorable.h"
 
 #include "entity.h"
+#include "character.h"
 
 #include "server/ai/ai.h"
 
