@@ -10,9 +10,8 @@ under each day.
    so the bbox test returns true very often. Breaking up the river into smaller
    meshes might help. Also, now call view->GetCamera() once and keep the
    iCamera* around for the duration of RenderReflections().
-
-04-Nov-2007
  - Sueastside added water shader and new level for reflection.
+ - PK fixed some more memory leaks and bugs.
 
 03-Nov-2007
  - PK fixed some more valgrind complains.

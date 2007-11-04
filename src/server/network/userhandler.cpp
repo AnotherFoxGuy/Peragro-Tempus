@@ -85,6 +85,8 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
     char_msg.setSkinColour(i, characters.get(i)->getSkinColour());
   }
 
+  characters.delAll();
+
   ByteStream char_bs;
   char_msg.serialise(&char_bs);
   if (user->getConnection())

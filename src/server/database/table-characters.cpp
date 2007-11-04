@@ -149,12 +149,11 @@ bool CharacterTable::existsCharacter(ptString name)
 Character* CharacterTable::findCharacterById(int id, size_t user_id)
 {
   ResultSet* rs = db->query("select * from characters where id = '%d' and user = '%d';", id, user_id);
-  if (!rs)
+  if (!rs || rs->GetRowCount() == 0) 
   {
+    delete rs;
     return 0;
   }
-  if (rs->GetRowCount() == 0) 
-    return 0;
 
   Character* character = new Character();
   character->setId(atoi(rs->GetData(0,0).c_str()));

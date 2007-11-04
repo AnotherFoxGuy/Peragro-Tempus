@@ -35,7 +35,7 @@ namespace SkillState
     CASTING = 1,
     RECOVER = 2
   };
-};
+}
 
 class Skill
 {

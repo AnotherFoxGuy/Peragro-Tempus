@@ -50,7 +50,7 @@ protected:
 
 public:
   Timer() : timer(0), duration(0), running(false) { TimerEngine::getTimerEngine()->registerTimer(this); }
-  virtual ~Timer() { running = false; }
+  virtual ~Timer() { running = false; TimerEngine::getTimerEngine()->unregisterTimer(this); }
 
   void start() 
   { 
