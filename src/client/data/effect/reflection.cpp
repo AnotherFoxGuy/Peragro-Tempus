@@ -27,6 +27,7 @@
 #include <imesh/object.h>
 #include <ivideo/material.h>
 #include <cstool/proctex.h>
+#include <igeom/clip2d.h>
 
 namespace PT
 {
@@ -105,6 +106,8 @@ namespace PT
       if (ReflectionUtils::frame < ReflectionUtils::frameskip) return;
       ReflectionUtils::frame = 0;
 
+      iCamera *cam = view->GetCamera();
+
       size_t len = reflective_meshes.GetSize();
       for (size_t i=0; i<len; i++)
       {
@@ -112,6 +115,7 @@ namespace PT
 
         iMeshWrapper* m = reflective_meshes.Get(i);
         iShaderVariableContext* vars = m->GetSVContext();
+        csBox3 bbox = m->GetWorldBoundingBox();
 
         /// Marshall the texture handle.
         iTextureWrapper* a0 = 0;
@@ -126,7 +130,6 @@ namespace PT
         iGraphics3D* g3d = view->GetContext();
 
         /// Make a clipping plane from the world bounding box.
-        csBox3 bbox = m->GetWorldBoundingBox();
         csVector3 v1(bbox.MinX(), bbox.MaxY(), bbox.MaxZ());
         csVector3 v2(bbox.MaxX(), bbox.MaxY(), bbox.MaxZ());
         csVector3 v3(bbox.MaxX(), bbox.MaxY(), bbox.MinZ());
@@ -134,7 +137,7 @@ namespace PT
         csPlane3 orignp = g3d->GetNearPlane();
 
         csVector3 watert = m->GetMovable()->GetFullPosition();
-        csOrthoTransform origt = view->GetCamera()->GetTransform();
+        csOrthoTransform origt = cam->GetTransform();
         csOrthoTransform newt;
 
         /// Mirror transformation.
@@ -144,6 +147,17 @@ namespace PT
                   - origt.GetOrigin().y + watert.y-1,
                     origt.GetOrigin().z)
         );
+        cam->SetTransform(newt);
+        cam->SetMirrored(true);
+
+        /// Bounding box based visibility test.
+	csScreenBoxResult sbbox = m->GetScreenBoundingBox (cam);
+	if (view->GetClipper()->ClassifyBox(sbbox.sbox)==-1)
+	{
+          cam->SetTransform(origt);
+          cam->SetMirrored(false);
+	  continue;
+	}
 
         /// The rendering sequence is: 
         /// 1) Hide the reflection mesh
@@ -155,8 +169,6 @@ namespace PT
 
         // Setup
         m->SetFlagsRecursive(CS_ENTITY_INVISIBLEMESH, CS_ENTITY_INVISIBLEMESH);
-        view->GetCamera()->SetTransform(newt);
-        view->GetCamera()->SetMirrored(true);
         g3d->SetRenderTarget(t);
         /// "We need to hack CS!" "No, use a portal!" OMG <3 g3d
         g3d->SetNearPlane(newnp);
@@ -168,8 +180,8 @@ namespace PT
 
         // Reset
         g3d->SetNearPlane(orignp);
-        view->GetCamera()->SetTransform(origt);
-        view->GetCamera()->SetMirrored(false);
+        cam->SetTransform(origt);
+        cam->SetMirrored(false);
         m->SetFlagsRecursive(CS_ENTITY_INVISIBLEMESH, 0);
       }
     }
