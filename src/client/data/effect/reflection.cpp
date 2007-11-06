@@ -194,8 +194,6 @@ namespace PT
           reflection_texture0_var->GetValue(a0);
           iTextureHandle* t = a0->GetTextureHandle();
 
-          /// @todo
-          t = m->GetMeshObject()->GetMaterialWrapper()->GetMaterial()->GetTexture();
 
           /// Make a clipping plane from the world bounding box.
           csVector3 v1(bbox.MinX(), bbox.MaxY(), bbox.MaxZ());
@@ -245,8 +243,6 @@ namespace PT
             vars->GetVariable(refraction_texture_str);
           refraction_texture0_var->GetValue(a0);
           iTextureHandle* t = a0->GetTextureHandle();
-
-          t = m->GetMeshObject()->GetMaterialWrapper()->GetMaterial()->GetTexture();
 
           /// Make a clipping plane from the world bounding box.
           csVector3 v1(bbox.MinX(), bbox.MaxY(), bbox.MaxZ());
