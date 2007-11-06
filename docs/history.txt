@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+05-Nov-2007
+ - Dfletcher made a first attempt at refraction code and cleaned up a
+   boneheaded mistake in reflection.cpp.
+
 04-Nov-2007
  - Dfletcher optimized reflection a bit by checking the bounding box against
    the reflection camera clipper. However, the current river mesh is very large,
