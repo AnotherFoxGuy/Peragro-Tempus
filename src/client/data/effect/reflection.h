@@ -120,10 +120,22 @@ namespace PT
       static void SetFrameSkip(size_t skip);
 
     private:
+      static inline void Render2Texture(
+	csRef<iView>& view,
+        iGraphics3D*& g3d,
+        iCamera*& cam,
+        iMeshWrapper*& m,
+        csOrthoTransform& oldcamera,
+        csOrthoTransform& newcamera,
+        csPlane3& nearclip,
+        iTextureHandle*& texture,
+        bool mirror
+      );
       static size_t frame, frameskip;
-      static csArray<iMeshWrapper*> reflective_meshes;
+      static csArray<iMeshWrapper*> reflective_meshes, refractive_meshes;
       static csStringID reflection_resolution_str, reflection_enable_str;
       static csStringID reflection_sides_str, reflection_texture0_str;
+      static csStringID refraction_enable_str, refraction_texture_str;
     };
 
   } // Reflection namespace
