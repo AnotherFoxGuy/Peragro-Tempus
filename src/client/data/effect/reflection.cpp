@@ -112,12 +112,12 @@ namespace PT
         /// Test if we care about this mesh.
         if (!vars) continue;
         csShaderVariable* enabled_var =
-          vars->GetVariable(reflection_enable_str);
+          vars->GetVariable(refraction_enable_str);
         if (!enabled_var) continue;
-        int reflection_enable = 0;
-        enabled_var->GetValue(reflection_enable);
-        if (!reflection_enable) continue;
-        reflective_meshes.Push(mesh);
+        int refraction_enable = 0;
+        enabled_var->GetValue(refraction_enable);
+        if (!refraction_enable) continue;
+        refractive_meshes.Push(mesh);
 
         /// How big should the refraction be? Remember it's this number
         /// squared, times the # of sides.
@@ -129,7 +129,7 @@ namespace PT
 
         /// Refraction texture.
         csShaderVariable* refraction_texture_var =
-          new csShaderVariable(reflection_texture0_str);
+          new csShaderVariable(refraction_texture_str);
         iTextureWrapper* rt = engine->CreateBlackTexture(
           "a0", rez, rez, NULL, CS_TEXTURE_2D
         );
@@ -145,13 +145,19 @@ namespace PT
       bool render_reflections = false;
       bool render_refractions = false;
       ReflectionUtils::frame++;
-      if (ReflectionUtils::frame == ReflectionUtils::frameskip-1)
+      if (ReflectionUtils::frameskip <= 1)
       {
         render_reflections = true;
+        render_refractions = true;
       }
-      else if (ReflectionUtils::frame == ReflectionUtils::frameskip)
+      else if (ReflectionUtils::frame == ReflectionUtils::frameskip-1)
       {
         render_refractions = true;
+      }
+      else if (ReflectionUtils::frame >= ReflectionUtils::frameskip)
+      {
+        render_reflections = true;
+	ReflectionUtils::frame = 0;
       }
       if (!render_reflections && !render_refractions)
       {
@@ -209,19 +215,19 @@ namespace PT
                       origt.GetOrigin().z)
           );
 
-          Render2Texture(view, g3d, cam, m, newt, origt, newnp, t, true);
+          Render2Texture(view, g3d, cam, m, origt, newt, newnp, t, true);
         }
       } // Render reflections.
 
       /// Render refractions.
       if (render_refractions)
       {
-        size_t len = reflective_meshes.GetSize();
+        size_t len = refractive_meshes.GetSize();
         for (size_t i=0; i<len; i++)
         {
           /// @todo This is all currently hard-coded for the MaxY plane.
 
-          iMeshWrapper* m = reflective_meshes.Get(i);
+          iMeshWrapper* m = refractive_meshes.Get(i);
 
           /// Bounding box based visibility test.
           csScreenBoxResult sbbox = m->GetScreenBoundingBox(cam);
@@ -235,21 +241,23 @@ namespace PT
 
           /// Marshall the texture handle.
           iTextureWrapper* a0 = 0;
-          csShaderVariable* reflection_texture0_var =
-            vars->GetVariable(reflection_texture0_str);
-          reflection_texture0_var->GetValue(a0);
+          csShaderVariable* refraction_texture0_var =
+            vars->GetVariable(refraction_texture_str);
+          refraction_texture0_var->GetValue(a0);
           iTextureHandle* t = a0->GetTextureHandle();
+
+          t = m->GetMeshObject()->GetMaterialWrapper()->GetMaterial()->GetTexture();
 
           /// Make a clipping plane from the world bounding box.
           csVector3 v1(bbox.MinX(), bbox.MaxY(), bbox.MaxZ());
           csVector3 v2(bbox.MaxX(), bbox.MaxY(), bbox.MaxZ());
           csVector3 v3(bbox.MaxX(), bbox.MaxY(), bbox.MinZ());
-          csPlane3 newnp(v1, v2, v3);
+          csPlane3 newnp(v3, v2, v1);
 
           csVector3 watert = m->GetMovable()->GetFullPosition();
           csOrthoTransform ctrans = cam->GetTransform();
 
-          Render2Texture(view, g3d, cam, m, ctrans, ctrans, newnp, t, true);
+          Render2Texture(view, g3d, cam, m, ctrans, ctrans, newnp, t, false);
         }
       } // Render refractions.
     }
@@ -281,7 +289,7 @@ namespace PT
       if (mirror) cam->SetMirrored(true);
       g3d->SetRenderTarget(texture);
 
-      /// "We need to hack CS!" "No, use a portal!" OMG <3 g3d
+      // "We need to hack CS!" "No, use a portal!" OMG <3 g3d
       g3d->SetNearPlane(nearclip);
 
       // Draw
