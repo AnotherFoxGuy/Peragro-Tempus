@@ -27,8 +27,6 @@
 
 #include "server/ai/ai.h"
 
-class Character;
-
 class NpcEntity : public ptMonitorable<NpcEntity>
 {
 private:

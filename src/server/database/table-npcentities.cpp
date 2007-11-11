@@ -69,7 +69,7 @@ void NpcEntitiesTable::createTable()
   // Creating Undead Squad.
   for (int i = 0; i < 100; i++)
   {
-    insert(4 + i, 4 + i, idle, -1);
+    insert(4 + i, 4 + i, idle, 9);
   }
 }
 

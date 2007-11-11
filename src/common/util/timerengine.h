@@ -52,7 +52,9 @@ public:
   void unregisterTimer(Timer* timer) 
   { 
     mutex.lock(); 
-    timers.remove(timers.find(timer)); 
+    size_t pos = timers.find(timer);
+    if (pos < timers.getCount())
+      timers.remove(pos);
     mutex.unlock(); 
   }
 

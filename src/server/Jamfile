@@ -20,7 +20,7 @@ if [ Property build : projgen_version ] != 6
 {
   SubVariant static ;
   
-  Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall console ;
   LinkWith server_static : server-network server-entity server-ai server-loader sqlite_adp database quest tinyxml util ;
   MsvcExternalLibrary server_static : "wsock32.lib" ;
   SubVariant ;

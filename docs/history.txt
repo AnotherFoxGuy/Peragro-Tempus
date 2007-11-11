@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+11-Nov-2007
+ - PK fixed a few small bugs in the server.
+
 05-Nov-2007
  - Dfletcher made a first attempt at refraction code and cleaned up a
    boneheaded mistake in reflection.cpp.

@@ -223,7 +223,7 @@ int main(int argc, char ** argv)
     float downtraffic = recvbyte/(float)delay_time;
     if (uptraffic > 0.001 || downtraffic > 0.001)
     {
-      printf("Network Usage: Up: %.2f B/s\t Down: %.2f B/s\n", uptraffic, downtraffic);
+      printf("Network Usage: Up: %.2f kB/s\t Down: %.2f kB/s\n", uptraffic, downtraffic);
     }
   }
 
