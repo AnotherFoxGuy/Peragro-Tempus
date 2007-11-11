@@ -1,5 +1,6 @@
 SubDir TOP src server network ;
 
+SubInclude TOP src server network tcp ;
 SubInclude TOP src server network udp ;
 
 Description server-network : "network server" ;

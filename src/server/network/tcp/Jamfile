@@ -1,0 +1,7 @@
+SubDir TOP src server network tcp ;
+
+Description server-tcp-network : "network server tcp" ;
+Library server-tcp-network :
+  [ Wildcard *.h *.cpp ] ;
+
+LinkWith server-tcp-network : tcp-network ;

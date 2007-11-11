@@ -1,0 +1,5 @@
+SubDir TOP src common network tcp ;
+
+Description tcp-network : "network tcp" ;
+Library tcp-network :
+  [ Wildcard *.h *.cpp ] ;

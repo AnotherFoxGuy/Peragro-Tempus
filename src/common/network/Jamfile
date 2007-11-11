@@ -1,5 +1,6 @@
 SubDir TOP src common network ;
 
+SubInclude TOP src common network tcp ;
 SubInclude TOP src common network udp ;
 
 Description network : "network" ;
