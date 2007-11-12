@@ -209,7 +209,7 @@ namespace PT
           newt.SetO2T(origt.GetO2T() * csYScaleMatrix3(-1));
           newt.SetOrigin(
             csVector3(origt.GetOrigin().x,
-                    - origt.GetOrigin().y + watert.y-1,
+                      bbox.MaxY() - (origt.GetOrigin().y - bbox.MaxY()),
                       origt.GetOrigin().z)
           );
 
