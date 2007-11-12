@@ -58,6 +58,7 @@
 #include <signal.h>
 
 int running = 2;
+EntityManager* ent_mgr;
 
 void shutdown()
 {
@@ -65,6 +66,8 @@ void shutdown()
   running = 1;
 
   printf("Server Shutdown initialised!\n");
+
+  delete ent_mgr;
 
   printf("- Shutdown Network:     \t");
   Server::getServer()->getNetwork()->shutdown();
@@ -111,8 +114,8 @@ int main(int argc, char ** argv)
   UserAccountManager usr_acc_mgr(&server);
   server.setUserAccountManager(&usr_acc_mgr);
 
-  EntityManager ent_mgr;
-  server.setEntityManager(&ent_mgr);
+  ent_mgr = new EntityManager();
+  server.setEntityManager(ent_mgr);
 
   RaceManager race_mgr;
   server.setRaceManager(&race_mgr);
@@ -142,7 +145,7 @@ int main(int argc, char ** argv)
   // Loading items from file
   fileloader.getItemsFile()->load();
 
-  ent_mgr.loadFromDB(db.getEntityTable());
+  ent_mgr->loadFromDB(db.getEntityTable());
 
   //item_mgr.loadFromDB(db.getItemTable());
   stat_mgr.loadFromDB(db.getStatTable());
