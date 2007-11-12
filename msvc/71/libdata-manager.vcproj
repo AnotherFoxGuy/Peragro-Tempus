@@ -172,6 +172,9 @@
 			<File
 				RelativePath="..\..\src\common\data\skilldatamanager.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\common\data\teleportdatamanager.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -199,6 +202,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\data\skilldatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\data\teleport.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\data\teleportdatamanager.h">
 			</File>
 		</Filter>
 	</Files>

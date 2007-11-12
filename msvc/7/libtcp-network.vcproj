@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
-	Name="appserver_static"
-	ProjectGUID="{498F747F-CAF0-19D5-5831-5856CE08C0DC}"
+	Version="7.00"
+	Name="libtcp-network"
+	ProjectGUID="{5D81170B-D994-4363-9EE9-459ABA845686}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,11 +13,9 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\out\release71\build\appserver_static\"
-			IntermediateDirectory="..\..\out\release71\build\appserver_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
+			OutputDirectory="..\..\out\release7\build\libtcp-network\"
+			IntermediateDirectory="..\..\out\release7\build\libtcp-network\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -28,14 +26,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release71\build\appserver_static\appserver_static.pch"
-				AssemblerListingLocation="..\..\out\release71\build\appserver_static\"
-				ObjectFile="..\..\out\release71\build\appserver_static\"
-				ProgramDataBaseFileName="..\..\out\release71\build\appserver_static\server_static.pdb"
+				PrecompiledHeaderFile="..\..\out\release7\build\libtcp-network\libtcp-network.pch"
+				AssemblerListingLocation="..\..\out\release7\build\libtcp-network\"
+				ObjectFile="..\..\out\release7\build\libtcp-network\"
+				ProgramDataBaseFileName="..\..\out\release7\build\libtcp-network\tcp-network.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -51,25 +49,24 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\server_static.exe"
-				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="wsock32.lib"
+				AdditionalDependencies=""
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile="..\..\out\release71\build\appserver_static\server_static.pdb"
+				ProgramDatabaseFile="..\..\out\release7\build\libtcp-network\tcp-network.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release7\libs\libtcp-network.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\appserver_static\appserver_static.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\libtcp-network\libtcp-network.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -79,8 +76,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\server;..\..;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\src\common\network\tcp;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -89,10 +86,9 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug71\build\appserver_static\"
-			IntermediateDirectory="..\..\out\debug71\build\appserver_static\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug7\build\libtcp-network\"
+			IntermediateDirectory="..\..\out\debug7\build\libtcp-network\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -103,14 +99,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug71\build\appserver_static\appserver_static.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\appserver_static\"
-				ObjectFile="..\..\out\debug71\build\appserver_static\"
-				ProgramDataBaseFileName="..\..\out\debug71\build\appserver_static\server_static.pdb"
+				PrecompiledHeaderFile="..\..\out\debug7\build\libtcp-network\libtcp-network.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\libtcp-network\"
+				ObjectFile="..\..\out\debug7\build\libtcp-network\"
+				ProgramDataBaseFileName="..\..\out\debug7\build\libtcp-network\tcp-network.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -124,25 +120,24 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\server_static.exe"
-				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="wsock32.lib"
+				AdditionalDependencies=""
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile="..\..\out\debug71\build\appserver_static\server_static.pdb"
+				ProgramDatabaseFile="..\..\out\debug7\build\libtcp-network\tcp-network.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug7\libs\libtcp-network_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\appserver_static\appserver_static.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\libtcp-network\libtcp-network.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -152,8 +147,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\server;..\..;..\..\src"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\src\common\network\tcp;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -162,48 +157,6 @@
 		</Configuration>
 	</Configurations>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\..\src\server\environment.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\main.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\server.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\useraccountmanager.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="">
-			<File
-				RelativePath="..\..\src\server\environment.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\server.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\skillengine.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\spawner.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\useraccountmanager.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="">
-			<File
-				RelativePath="..\..\msvc\71\appserver_static.rc">
-			</File>
-		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

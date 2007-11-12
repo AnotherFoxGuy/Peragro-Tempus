@@ -169,6 +169,9 @@
 			<File
 				RelativePath="..\..\src\client\data\effect\effectsmanager.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\client\data\effect\reflection.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -184,6 +187,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\effectsmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\effect\reflection.h">
 			</File>
 		</Filter>
 	</Files>
