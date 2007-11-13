@@ -556,21 +556,6 @@ namespace PT
           msg.setRun(run);
           PointerLibrary::getInstance()->getNetwork()->send(&msg);
 
-          float cur_yrot;
-          csVector3 cur_position;
-          iSector* cur_sector;
-          pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
-
-          MoveToData moveTo;
-          moveTo.origin      	= cur_position;
-          moveTo.destination	= isect;
-          moveTo.turn_speed     = PI; // 1 revolution per second
-          moveTo.walk_speed	= 4.0;
-          moveTo.run_speed	= 8.0;
-          moveTo.running	= run;
-
-          MoveTo(moveTo);
-
           Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
         }
         else

@@ -62,6 +62,8 @@ namespace PT
       csPDelArray<MoveToData> move_to_entity;
 
     private:
+      void moveToUpdate();
+
       float GetAngle (const csVector3& v1, const csVector3& v2);
 
     private:

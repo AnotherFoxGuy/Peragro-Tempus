@@ -168,7 +168,6 @@ namespace PT
       float speed;
       csVector3 origin;
       csVector3 destination;
-      bool run;
 
     public:
       EntityMoveToEvent() : EntityEvent("EntityMoveToEvent", true) {}

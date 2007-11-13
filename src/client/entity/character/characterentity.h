@@ -69,7 +69,7 @@ namespace PT
 
     public:
       void Move(const MovementData& movement);
-      void MoveTo(const MoveToData& moveTo);
+      bool MoveTo(MoveToData* moveTo);
       void DrUpdate(const DrUpdateData& drupdate);
       void Teleport(const csVector3& pos, const std::string& sector);
 

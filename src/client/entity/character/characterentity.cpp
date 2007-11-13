@@ -22,8 +22,6 @@
 #include <imesh/gmeshskel2.h>
 #include <imesh/skeleton.h>
 
-#include <propclass/steer.h>
-
 #include "client/event/entityevent.h"
 
 #include "client/reporter/reporter.h"
@@ -57,6 +55,7 @@ namespace PT
 
       if (pcactormove.IsValid())
       {
+        pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
         pcactormove->SetMovementSpeed(abs((int)movement.walk));
         pcactormove->SetRunningSpeed(abs((int)movement.walk));
         pcactormove->SetRotationSpeed(movement.run ? PI : PI);
@@ -67,53 +66,72 @@ namespace PT
         pcactormove->Forward(movement.walk > 0.0f);
         pcactormove->Backward(movement.walk < 0.0f);
 
-        pcactormove->SetJumpingVelocity(5.5f);
-
         if (movement.jump) pcactormove->Jump();
         else if (abs((int)movement.walk) > 0) pcactormove->Run(movement.run);
         else pcactormove->Run(false);
       }
     }
 
-    void CharacterEntity::MoveTo(const MoveToData& moveTo)
+    bool CharacterEntity::MoveTo(MoveToData* moveTo)
     {
       csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
-      if(!celEntity.IsValid()) return;
+      if(!celEntity.IsValid()) return true;
+
+      csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (obj_reg);
+      csTicks ticks = vc->GetElapsedTicks ();
+
+      if (!ticks) return true;
+
+      float elapsed = ticks/1000.0;
 
       csRef<iPcLinearMovement> pclinmove =
         CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-      if (!pclinmove) return;
       csRef<iPcActorMove> pcactormove =
         CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
-      if (!pcactormove) return;
 
-      float cur_yrot;
-      csVector3 cur_position;
-      iSector* cur_sector;
-      pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
-
-      csVector3 direction = moveTo.destination - cur_position;
-      // We're at our position, just rotate.
-      if (direction.Norm() < 1.5f)
+      if (pclinmove.IsValid() && pcactormove.IsValid())
       {
-        float yrot_dst = atan2 (-direction.x, -direction.z);
-        pcactormove->RotateTo(yrot_dst);
-        return;
-      }
-      else
-      {
-        csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (celEntity, iPcSteer);
-        if (!pcsteer) return;
-        pcactormove->SetMovementSpeed (moveTo.walk_speed);
-        pcactormove->SetRunningSpeed (moveTo.run_speed);
-        pcactormove->SetRotationSpeed (moveTo.turn_speed);
-        pcactormove->Run(moveTo.running);
+        csVector3 angular_vel;
 
-        pcsteer->CheckArrivalOn(1.5f);
-        pcsteer->Seek(cur_sector, moveTo.destination);
+        pclinmove->GetAngularVelocity(angular_vel);
+        pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
+
+        if (moveTo->elapsed_time == 0 && !moveTo->walking)
+        {
+          pcactormove->SetRotationSpeed(moveTo->turn_speed);
+          pcactormove->RotateTo(moveTo->dest_angle);
+        }
+        else if (angular_vel.IsZero() && !moveTo->walking)
+        {
+          pcactormove->SetMovementSpeed(moveTo->walk_speed);
+          pcactormove->Forward(true);
+          moveTo->walking = true;
+          moveTo->elapsed_time = 0;
+        }
+        else if (moveTo->elapsed_time >= moveTo->walk_duration &&
+                 moveTo->walking)
+        {
+          pcactormove->Forward(false);
+        }
+
+        if (moveTo->walking)
+        {
+          if (moveTo->elapsed_time >= moveTo->walk_duration)
+          {
+            pcactormove->Forward(false);
+            return true;
+          }
+        }
+
+        moveTo->elapsed_time += elapsed;
+
+        return false;
       }
+
+      return true;
     }
 
     void CharacterEntity::DrUpdate(const DrUpdateData& drupdate)

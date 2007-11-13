@@ -204,8 +204,11 @@ namespace PT
       /**
        * Move entity from point A to point B, in linear manner.
        * @param moveTo Movement data for the entity.
+       * @return True if the movement has been done, false otherwise.
+       * @internal The reason we use non-const pointer (and not a const
+       * reference) is that moveTo data needs to be changed inside this method.
        */
-      virtual void MoveTo(const MoveToData& moveTo) {}
+      virtual bool MoveTo(MoveToData* moveTo) {return true;}
       /**
        * Move entity using 'dead reckoning' method.
        * @see http://en.wikipedia.org/wiki/Dead_reckoning
