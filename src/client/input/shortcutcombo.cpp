@@ -197,25 +197,16 @@ namespace PT
 
   void ShortcutCombo::SetFromMouseEvent(const iEvent &ev)
   {
-    //This code should work, but it doesn't. Modifier retrival
-    //seems to be broken.
-//     csKeyModifiers m;
-//
-//     keyCode=csMouseEventHelper::GetButton(&ev);
-//     csKeyEventHelper::GetModifiers(&ev,m);
-//
-//     shift=m.modifiers[csKeyModifierTypeShift];
-//     alt=m.modifiers[csKeyModifierTypeAlt];
-//     ctrl=m.modifiers[csKeyModifierTypeCtrl];
-    int modifiers;
+    csKeyModifiers m;
 
-    if (ev.Retrieve("keyModifiers",modifiers) != csEventErrNone) return;
+    //Get raw code
+    keyCode=csMouseEventHelper::GetButton(&ev);
+    csKeyEventHelper::GetModifiers(&ev,m);
 
-    keyCode = csMouseEventHelper::GetButton(&ev);
-
-    shift = (modifiers & CSMASK_SHIFT) != 0;
-    alt   = (modifiers & CSMASK_ALT) != 0;
-    ctrl  = (modifiers & CSMASK_CTRL) != 0;
+    //Setup shift/alt/ctrl modifiers
+    shift=m.modifiers[csKeyModifierTypeShift];
+    alt=m.modifiers[csKeyModifierTypeAlt];
+    ctrl=m.modifiers[csKeyModifierTypeCtrl];
   }
 
 //
