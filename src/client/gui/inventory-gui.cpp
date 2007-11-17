@@ -135,7 +135,7 @@ void InventoryWindow::CreateGUIWindow()
 {
   // First 10 slots(0-9) are equipment,
   // other 20 are inventory.
-  numberOfSlots = 30;
+  numberOfSlots = 30-1;
 
   //Load the inventory icon imageset
   vfs->ChDir ("/peragro/skin/");
