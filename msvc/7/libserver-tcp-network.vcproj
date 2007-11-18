@@ -11,8 +11,8 @@
 			Name="Win32"/>
 	</Platforms>
 	<Configurations>
-		<Configuration
-			Name="Release|Win32"
+  		<Configuration
+			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release7\build\libserver-tcp-network\"
 			IntermediateDirectory="..\..\out\release7\build\libserver-tcp-network\"
 			ConfigurationType="4"
@@ -26,14 +26,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;WIN32"
+				ProgramDataBaseFileName="..\..\out\release7\build\libserver-tcp-network\server-tcp-network.pdb"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
 				PrecompiledHeaderFile="..\..\out\release7\build\libserver-tcp-network\libserver-tcp-network.pch"
 				AssemblerListingLocation="..\..\out\release7\build\libserver-tcp-network\"
 				ObjectFile="..\..\out\release7\build\libserver-tcp-network\"
-				ProgramDataBaseFileName="..\..\out\release7\build\libserver-tcp-network\server-tcp-network.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -51,10 +51,8 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
-				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile="..\..\out\release7\build\libserver-tcp-network\server-tcp-network.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -62,13 +60,14 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
 				TypeLibraryName="..\..\out\release7\build\libserver-tcp-network\libserver-tcp-network.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -76,7 +75,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\src\server\network\tcp;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
@@ -84,8 +83,80 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-		<Configuration
-			Name="Debug|Win32"
+  		<Configuration
+			Name="Release (with DLLs)|Win32"
+			OutputDirectory="..\..\out\release7\build\libserver-tcp-network\"
+			IntermediateDirectory="..\..\out\release7\build\libserver-tcp-network\"
+			ConfigurationType="4"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				StringPooling="TRUE"
+				EnableFunctionLevelLinking="TRUE"
+				RuntimeLibrary="2"
+				DebugInformationFormat="3"
+				BufferSecurityCheck="FALSE"
+				ProgramDataBaseFileName="..\..\out\release7\build\libserver-tcp-network\server-tcp-network.pdb"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PrecompiledHeaderFile="..\..\out\release7\build\libserver-tcp-network\libserver-tcp-network.pch"
+				AssemblerListingLocation="..\..\out\release7\build\libserver-tcp-network\"
+				ObjectFile="..\..\out\release7\build\libserver-tcp-network\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				AdditionalOptions=" "
+				AdditionalDependencies=""
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				TargetMachine="1"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release7\libs\libserver-tcp-network.lib"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\release7\build\libserver-tcp-network\libserver-tcp-network.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\src\server\network\tcp;..\..;..\..\src"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+    		<Configuration
+			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\libserver-tcp-network\"
 			IntermediateDirectory="..\..\out\debug7\build\libserver-tcp-network\"
 			ConfigurationType="4"
@@ -99,14 +170,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug7\build\libserver-tcp-network\server-tcp-network.pdb"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
 				PrecompiledHeaderFile="..\..\out\debug7\build\libserver-tcp-network\libserver-tcp-network.pch"
 				AssemblerListingLocation="..\..\out\debug7\build\libserver-tcp-network\"
 				ObjectFile="..\..\out\debug7\build\libserver-tcp-network\"
-				ProgramDataBaseFileName="..\..\out\debug7\build\libserver-tcp-network\server-tcp-network.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -122,10 +193,8 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
-				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile="..\..\out\debug7\build\libserver-tcp-network\server-tcp-network.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -133,13 +202,14 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
 				TypeLibraryName="..\..\out\debug7\build\libserver-tcp-network\libserver-tcp-network.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -147,7 +217,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_LIB;_WINDOWS;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\src\server\network\tcp;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
@@ -155,7 +225,77 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-	</Configurations>
+  		<Configuration
+			Name="Debug (with DLLs)|Win32"
+			OutputDirectory="..\..\out\debug7\build\libserver-tcp-network\"
+			IntermediateDirectory="..\..\out\debug7\build\libserver-tcp-network\"
+			ConfigurationType="4"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				MinimalRebuild="TRUE"
+				DebugInformationFormat="4"
+				RuntimeTypeInfo="TRUE"
+				RuntimeLibrary="3"
+
+				ProgramDataBaseFileName="..\..\out\debug7\build\libserver-tcp-network\server-tcp-network.pdb"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
+				OptimizeForProcessor="1"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PrecompiledHeaderFile="..\..\out\debug7\build\libserver-tcp-network\libserver-tcp-network.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\libserver-tcp-network\"
+				ObjectFile="..\..\out\debug7\build\libserver-tcp-network\"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="2"
+				GenerateDebugInformation="TRUE"
+				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				AdditionalOptions=" "
+				AdditionalDependencies=""
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories=""
+				TargetMachine="1"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug7\libs\libserver-tcp-network_d.lib"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="..\..\out\debug7\build\libserver-tcp-network\libserver-tcp-network.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
+				/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\src\server\network\tcp;..\..;..\..\src"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+		</Configuration>
+  	</Configurations>
 	<Files>
 	</Files>
 	<Globals>
