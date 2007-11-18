@@ -348,6 +348,8 @@ namespace PT
             pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
             //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
 
+            if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
+
             drmsg.setRotation(rot);
             drmsg.setPos(pos.x,pos.y,pos.z);
             if (sector && sector->QueryObject()->GetName())

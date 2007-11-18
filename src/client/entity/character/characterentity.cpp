@@ -101,8 +101,12 @@ namespace PT
 
         if (moveTo->elapsed_time == 0 && !moveTo->walking)
         {
-          pcactormove->SetRotationSpeed(moveTo->turn_speed);
-          pcactormove->RotateTo(moveTo->dest_angle);
+          // \todo: this is still buggy. fix it!
+          //pcactormove->SetRotationSpeed(moveTo->turn_speed);
+          //pcactormove->RotateTo(moveTo->dest_angle);
+
+          // Workaround:
+          pclinmove->SetPosition(pclinmove->GetPosition(), moveTo->dest_angle, pclinmove->GetSector());
         }
         else if (angular_vel.IsZero() && !moveTo->walking)
         {
@@ -153,6 +157,8 @@ namespace PT
 
         iSector* sector = 0;
         pclinmove->GetDRData(onGround, speed, pos, rot, sector, vel, wvel, avel);
+
+        if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
 
         sector = engine->FindSector(drupdate.sector.GetData());
         ///@bug It seems that CEL interface has some issues. The below method,
