@@ -102,7 +102,7 @@ void Skill::castPrepare(Character* caster, unsigned int target_id)
   // An error occurred, send error to caster.
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::sendMessage(target, bs);
+  NetworkHelper::sendMessage(caster, bs);
 }
 
 void Skill::castInterrupt(CharSkill* skilldata)

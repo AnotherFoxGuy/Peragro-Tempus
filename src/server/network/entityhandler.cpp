@@ -93,19 +93,16 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   const Entity* ent = NetworkHelper::getEntity(msg);
   if (!ent) return;
 
-  Entity* user_ent = ent->getLock();
-
-  int name_id = user_ent->getId();
-
   DrUpdateRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  //printf("DR of %s: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", name, request_msg.getSpeed(), request_msg.getPos()[0], request_msg.getPos()[1], request_msg.getPos()[2], request_msg.getRot());
 
+  Entity* user_ent = ent->getLock();
+  int name_id = user_ent->getId();
   user_ent->setPos(request_msg.getPos());
   user_ent->setSector(request_msg.getSectorId());
   user_ent->freeLock();
 
-  server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
+  server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
   DrUpdateMessage response_msg;
   response_msg.setRotation(request_msg.getRotation());
@@ -494,6 +491,8 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
 
 void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 {
+  printf("Start unmount character\n");
+
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
@@ -513,14 +512,17 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 
   if (mount_ent->getId() != mount_id) return;
 
-  PcEntity* e = pc_ent->getLock();
+  printf("Remove player from mount!\n");
   MountEntity* mount = c_mount->getLock();
-
-  e->setMount(0);
-  mount->delPassenger(e);
-
-  e->freeLock();
+  mount->delPassenger(pc_ent);
   mount->freeLock();
+
+  printf("Reset the player's mount status!\n");
+  PcEntity* e = pc_ent->getLock();
+  e->setMount(0);
+  e->freeLock();
+
+  printf("Unmount finished\n");
 
   UnmountMessage umount_msg;
   umount_msg.setMountEntityId(mount_ent->getId());
