@@ -249,6 +249,13 @@ namespace PT
     void CharacterEntity::UpdatePlayerStats()
     {
       csTicks time = csGetTicks();
+
+      if (!celEntity.IsValid())
+      {
+        Report(PT::Error, "Failed to player stats!");
+        return;
+      }
+
       csRef<iPcActorMove> pcactormove =
         CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
       csTicks diff = time - lastStatUpdate;

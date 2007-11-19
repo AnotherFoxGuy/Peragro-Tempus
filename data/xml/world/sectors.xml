@@ -3,4 +3,6 @@
 	<sector id="2">room</sector>
 	<sector id="3">house016indoors</sector>
 	<sector id="4">TavernInt</sector>
+	<sector id="5">outside1</sector>
+	<sector id="6">outside2</sector>
 </sectors>

@@ -177,6 +177,8 @@ namespace PT
 
     void PlayerEntity::Create()
     {
+      celEntity->SetName("player");
+
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
@@ -193,8 +195,16 @@ namespace PT
         camera->SetMode(iPcDefaultCamera::thirdperson, true);
         camera->SetPitch(-0.18f);
       }
-      else Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)",
-        name.c_str(), id);
+      else 
+        Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
+
+      // Zone manager.
+      csRef<iCelEntity> zonemgr =  pl->FindEntity("ptworld");
+
+      csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (zonemgr,
+        iPcZoneManager);
+
+      pczonemgr->PointCamera("player", "zone_all");
     }
 
     bool PlayerEntity::ActionForward(PT::Events::Eventp ev)

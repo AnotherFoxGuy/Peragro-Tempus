@@ -18,6 +18,8 @@
 
 #include "entity.h"
 
+#include "client/reporter/reporter.h"
+
 #include "client/pointer/pointer.h"
 #include "client/event/entityevent.h"
 #include "common/data/sectordatamanager.h"
@@ -58,15 +60,6 @@ namespace PT
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       csRef<iPcProperties> pcprop =
         CEL_QUERY_PROPCLASS_ENT(celEntity, iPcProperties);
-
-      // Place the entity in the world.
-      csRef<iCelEntity> region = pl->FindEntity("World");
-      if (region.IsValid())
-      {
-        csRef<iPcRegion> pcregion = CEL_QUERY_PROPCLASS_ENT(region, iPcRegion);
-        pcmesh->MoveMesh(pcregion->GetStartSector(),
-          pcregion->GetStartPosition());
-      }
 
       // Add some properties.
       pcprop->SetProperty("Entity Type", (long)type);

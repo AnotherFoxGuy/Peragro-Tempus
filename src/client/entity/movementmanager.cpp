@@ -129,11 +129,11 @@ namespace PT
       }
 
       MovementData movement;
-      movement.entity_id			= entityMoveEv->entityId;
-      movement.walk					= entityMoveEv->walkDirection;
-      movement.turn					= entityMoveEv->turnDirection;
-      movement.run           = entityMoveEv->run;
-      movement.jump          = entityMoveEv->jump;
+      movement.entity_id    = entityMoveEv->entityId;
+      movement.walk	    = entityMoveEv->walkDirection;
+      movement.turn	    = entityMoveEv->turnDirection;
+      movement.run          = entityMoveEv->run;
+      movement.jump         = entityMoveEv->jump;
 
       entity->Move(movement);
 
@@ -179,8 +179,6 @@ namespace PT
       csVector3 pos_dst = entityMoveEv->destination;
 
       // Getting the real world position of our entity.
-      // TODO Do some SoftDRUpdate with the server position(fv1)?
-      // Or is this redundant since the end position WILL be the same?
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
       float cur_yrot;
       csVector3 cur_position;
@@ -193,6 +191,10 @@ namespace PT
       cur_position.y = pos_dst.y;
       csVector3 direction = pos_dst - cur_position;
       float yrot_dst = atan2 (-direction.x, -direction.z);
+
+      //Calculate speed based on actual and server distance.
+      //float speed = ((pos_dst - cur_position).Norm() * entityMoveEv->speed )/
+      //  (pos_ori - cur_position).Norm();
 
       moveTo->turn_speed			= 2*PI; // 1 revolution per second
       moveTo->walk_speed			= entityMoveEv->speed;

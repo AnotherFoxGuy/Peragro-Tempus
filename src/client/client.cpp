@@ -84,7 +84,7 @@ namespace PT
     SetApplicationName ("Client");
     state = STATE_INITIAL;
     timer = 0;
-    limitFPS = 0;
+    limitFPS = 60;
     last_sleep = 0;
     world_loaded = false;
     last_seen = 0;
@@ -469,6 +469,14 @@ namespace PT
     // Register listener for ActionQuit.
     EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_QUIT", cbActionQuit);
+
+    // Create the zonemanager
+    csRef<iCelEntity> entity = pl->CreateEntity();
+    pl->CreatePropertyClass(entity, "pczonemanager");
+    entity->SetName("ptworld");
+    csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcZoneManager);
+    pczonemgr->SetLoadingMode(CEL_ZONE_KEEP);
 
     Run();
 
@@ -911,14 +919,10 @@ namespace PT
       Report(PT::Notify, "loadRegion: Using default world.");
     }
 
-    csRef<iCelEntity> entity = pl->CreateEntity();
-    pl->CreatePropertyClass(entity, "pczonemanager");
-
+    csRef<iCelEntity> entity = pl->FindEntity("ptworld");
     csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
       iPcZoneManager);
-
-    entity->SetName("ptworld");
-    pczonemgr->SetLoadingMode(CEL_ZONE_NORMAL);
+ 
     world_loaded = pczonemgr->Load("/peragro/art/world/", "regions.xml");
     iCelRegion* region = pczonemgr->FindRegion(regionname);
     if (region) pczonemgr->ActivateRegion(region);
