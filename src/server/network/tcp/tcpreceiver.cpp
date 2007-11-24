@@ -56,6 +56,7 @@ void Receiver::Run()
 
         if (conn != 0)
         {
+          conn->peerLost();
           tcpConnMgr->removeConnection(conn);
           printf("Disconnect of socket %d\n", ready_sockets[i]);
         }
