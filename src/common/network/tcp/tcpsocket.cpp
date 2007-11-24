@@ -155,14 +155,14 @@ SocketAddress TcpSocket::getSocketAddress(const char* host, unsigned short port)
 const int* TcpSocket::select(const int* sockets, size_t len, size_t& len_out)
 {
   fd_set socks;
-  socks.fd_count = 0;
+  FD_ZERO(&socks);
 
   for (size_t i = 0; i < len; i++)
   {
     FD_SET(sockets[i], &socks);
   }
 
-  len_out = ::select(0, &socks, 0, 0, 0);
+  len_out = ::select(FD_SETSIZE, &socks, 0, 0, 0);
 
   size_t ready_socks_count = 0;
   int* ready_socks = new int[len_out];
