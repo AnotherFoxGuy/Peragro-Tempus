@@ -28,7 +28,8 @@ namespace CONNECTION
 {
   enum TYPE
   {
-    UDP = 0
+    UDP = 0,
+    TCP = 1
   };
 }
 

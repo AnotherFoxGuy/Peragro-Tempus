@@ -19,11 +19,10 @@
 #ifndef _NETWORK_H_
 #define _NETWORK_H_
 
-#include "common/network/udp/udpreceiver.h"
-
 #include "server/server.h"
 
-#include "server/network/udp/udpnetwork.h"
+#include "server/network/tcp/tcpreceiver.h"
+#include "server/network/tcp/tcpnetwork.h"
 #include "server/network/userhandler.h"
 #include "server/network/doorhandler.h"
 #include "server/network/questhandler.h"
@@ -46,41 +45,41 @@ private:
   TradeHandler trade_handler;
   EnvironmentHandler environment_handler;
   BookHandler book_handler;
-  UdpNetwork udp_nw;
+  TcpNetwork tcp_nw;
 
 public:
   Network(Server* server) 
   : user_handler(server), ent_handler(server), chat_handler(server),
     door_handler(server), quest_handler(server), skill_handler(server),
     trade_handler(server), environment_handler(server), book_handler(server),
-    udp_nw()
+    tcp_nw()
   {
     server->setNetwork(this);
   }
 
   void init(unsigned short port)
   {
-    udp_nw.init(port);
-    udp_nw.registerHandler(&user_handler);
-    udp_nw.registerHandler(&ent_handler);
-    udp_nw.registerHandler(&chat_handler);
-    udp_nw.registerHandler(&door_handler);
-    udp_nw.registerHandler(&quest_handler);
-    udp_nw.registerHandler(&skill_handler);
-    udp_nw.registerHandler(&trade_handler);
-    udp_nw.registerHandler(&environment_handler);
-    udp_nw.registerHandler(&book_handler);
-    udp_nw.start();
+    tcp_nw.init(port);
+    tcp_nw.registerHandler(&user_handler);
+    tcp_nw.registerHandler(&ent_handler);
+    tcp_nw.registerHandler(&chat_handler);
+    tcp_nw.registerHandler(&door_handler);
+    tcp_nw.registerHandler(&quest_handler);
+    tcp_nw.registerHandler(&skill_handler);
+    tcp_nw.registerHandler(&trade_handler);
+    tcp_nw.registerHandler(&environment_handler);
+    tcp_nw.registerHandler(&book_handler);
+    tcp_nw.start();
   }
 
   void getStats(size_t& sentbyte, size_t& recvbyte, size_t& timestamp)
   {
-    udp_nw.getStats(sentbyte, recvbyte, timestamp);
+    tcp_nw.getStats(sentbyte, recvbyte, timestamp);
   }
 
   void shutdown()
   {
-    udp_nw.shutdown();
+    tcp_nw.shutdown();
   }
 };
 

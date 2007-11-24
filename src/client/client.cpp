@@ -283,7 +283,7 @@ namespace PT
     network = new Network (this);
     if (!network)
       return Report(PT::Error, "Failed to create Network object!");
-    network->init();
+    //network->init();
     pointerlib.setNetwork(network);
 
     // Create and Initialize the EventManager.
@@ -564,8 +564,8 @@ namespace PT
           if (host)
           {
             ConnectRequestMessage msg(CLIENTVERSION);
-            SocketAddress addr = Socket::getSocketAddress(host, 12345);
-            network->setServerAddress(addr);
+            network->setServerAddress(host);
+            network->init();
             network->send(&msg);
           }
         }

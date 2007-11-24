@@ -21,7 +21,7 @@
 
 #include "stdio.h"
 
-#include "common/network/udp/udpmessagehandler.h"
+#include "common/network/tcp/tcpmessagehandler.h"
 #include "common/network/netmessage.h"
 
 #include "client/client.h"
@@ -38,7 +38,7 @@
 #include "client/network/environmenthandler.h"
 #include "client/network/bookhandler.h"
 
-class ConnectionHandler : public UdpMessageHandler
+class ConnectionHandler : public TcpMessageHandler
 {
 private:
   Network* network;
@@ -63,7 +63,7 @@ public:
   {
   }
 
-  void handle(GenericMessage* msg, SocketAddress& sock_addr)
+  void handle(GenericMessage* msg, int socket)
   {
     client->sawServer();
 

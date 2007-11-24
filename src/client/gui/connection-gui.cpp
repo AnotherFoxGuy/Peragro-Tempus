@@ -60,8 +60,8 @@ bool ConnectWindow::ConnectButtonPressed(const CEGUI::EventArgs& e)
   GUIWindow::DisableWindow();
 
   ConnectRequestMessage msg(CLIENTVERSION);
-  SocketAddress addr = Socket::getSocketAddress(GetServer(), 12345);
-  network->setServerAddress(addr);
+  network->setServerAddress(GetServer());
+  network->init();
   network->send(&msg);
 
   return true;

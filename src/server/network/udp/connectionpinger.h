@@ -50,7 +50,7 @@ private:
       }
       else if (last_seen > 5)
       {
-        //printf("Ping!\n");
+        printf("Ping!\n");
         PingMessage ping_msg;
         ByteStream bs;
         ping_msg.serialise(&bs);

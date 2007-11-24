@@ -19,13 +19,14 @@
 #ifndef _NETWORK_H_
 #define _NETWORK_H_
 
-#include "common/network/udp/udpreceiver.h"
+#include "common/network/tcp/tcpsocket.h"
 #include "client/network/connectionhandler.h"
+#include "client/network/tcp/tcpreceiver.h"
 
 class Network
 {
 private:
-  Socket socket;
+  TcpSocket socket;
   ConnectionHandler conn_handler;
   Receiver receiver;
 
@@ -44,7 +45,7 @@ public:
 
   void init()
   {
-    socket.init(0);
+    socket.init(serveraddress.port, serveraddress.ip, false);
 
     receiver.registerHandler(&conn_handler);
     receiver.begin();
@@ -56,8 +57,9 @@ public:
     socket.kill();
   }
 
-  void setServerAddress(SocketAddress& addr)
+  void setServerAddress(const char* host)
   {
+    SocketAddress addr = TcpSocket::getSocketAddress(host, 12345);
     serveraddress = addr;
   }
 
@@ -65,7 +67,7 @@ public:
   {
     ByteStream bs;
     msg->serialise(&bs);
-    socket.publish((const char*)bs.getData(), bs.getSize(), &serveraddress);
+    TcpSocket::publish(socket.getSocket(), (const char*)bs.getData(), bs.getSize());
   }
 };
 
