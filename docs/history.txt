@@ -6,6 +6,7 @@ under each day.
 
 24-Nov-2007
  - PK implemented TCP connections for PT.
+ - swedishcoder fixed minor compile error on linux.
 
 18-Nov-2007
  - PK updated the CS Jamtemplates.

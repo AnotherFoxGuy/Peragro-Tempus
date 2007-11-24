@@ -19,6 +19,8 @@
 #ifndef _SOCKET_H_
 #define _SOCKET_H_
 
+#include <stdlib.h>
+
 class SocketAddress
 {
 public:
