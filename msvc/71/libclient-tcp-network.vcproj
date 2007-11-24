@@ -297,6 +297,20 @@
 		</Configuration>
   	</Configurations>
 	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\client\network\tcp\tcpreceiver.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\client\network\tcp\tcpreceiver.h">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

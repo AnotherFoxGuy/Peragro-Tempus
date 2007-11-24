@@ -356,6 +356,9 @@
 				RelativePath="..\..\src\common\network\environmentmessages.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\network\includes.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\messagehandler.h">
 			</File>
 			<File

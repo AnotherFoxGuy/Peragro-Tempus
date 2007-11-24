@@ -297,6 +297,23 @@
 		</Configuration>
   	</Configurations>
 	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\common\network\tcp\tcpsocket.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\common\network\tcp\tcpmessagehandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\tcp\tcpsocket.h">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

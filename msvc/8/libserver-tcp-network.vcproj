@@ -297,6 +297,38 @@
 		</Configuration>
   	</Configurations>
 	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\server\network\tcp\tcpconnection.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\tcp\tcpconnectionhandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\tcp\tcpreceiver.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\server\network\tcp\tcpconnection.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\tcp\tcpconnectionhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\tcp\tcpconnectionmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\tcp\tcpnetwork.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\tcp\tcpreceiver.h">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
