@@ -48,6 +48,9 @@ void TcpSocket::init(unsigned short port, unsigned ip, bool server)
 {
   socket_handler = (int) socket(AF_INET, SOCK_STREAM, 0);
 
+  int flag = 1;
+  setsockopt(socket_handler, IPPROTO_TCP, TCP_NODELAY, (const char*) &flag, sizeof(int));
+
   struct sockaddr_in addr;
 
   addr.sin_family = AF_INET;
@@ -122,7 +125,7 @@ int TcpSocket::receive(const int socket, char* msg, size_t length)
 
 bool TcpSocket::publish(const int socket, const char* msg, size_t length)
 {
-  int rv = send(socket, msg, (int)length, 0);
+  int rv = send(socket, msg, (int)length, MSG_OOB);
 
 #ifdef WIN32
   long error = WSAGetLastError();
