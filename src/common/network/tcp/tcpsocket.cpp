@@ -51,9 +51,8 @@ void TcpSocket::init(unsigned short port, unsigned ip, bool server)
   struct sockaddr_in addr;
 
   addr.sin_family = AF_INET;
-  addr.sin_addr.s_addr = INADDR_ANY;
+  addr.sin_addr.s_addr = htonl(ip);
   addr.sin_port = htons(port);
-  addr.sin_addr.S_un.S_addr = htonl(ip);
 
   if (server)
   {
