@@ -1,3 +1,7 @@
+#ifndef INCLUDES_H
+#define INCLUDES_H
+
+#undef FD_SETSIZE
 #define FD_SETSIZE 128
 
 #ifdef WIN32
@@ -12,4 +16,6 @@
   #include <sys/ioctl.h>
   #include <errno.h>
   #define socklen socklen_t
+#endif
+
 #endif
