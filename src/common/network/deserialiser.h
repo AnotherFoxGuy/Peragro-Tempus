@@ -30,8 +30,15 @@ private:
   size_t pos;
 
 public:
-  Deserialiser(ByteStream* bs) : data(bs->getData()), len(bs->getSize()), pos(0) {}
+  Deserialiser(ByteStream* bs) : data(bs->getData()), len(bs->getSize()), pos(2) {}
   ~Deserialiser() {}
+
+  unsigned short getSize()
+  {
+    short value = data[0];
+    value += data[1] * 0x100;
+    return value;
+  }
 
   char getInt8()
   {

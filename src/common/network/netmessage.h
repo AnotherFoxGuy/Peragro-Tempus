@@ -70,11 +70,13 @@ class GenericMessage : public NetMessage
 {
 private:
   ByteStream* bs;
+  unsigned short size;
 
 public:
   GenericMessage(ByteStream* bs) : bs(bs)
   {
     Deserialiser serial(bs);
+    size = serial.getSize();
     type = serial.getInt8();
     id = serial.getInt8();
   }
@@ -93,6 +95,11 @@ public:
     Deserialiser serial(bs);
     type = serial.getInt8();
     id = serial.getInt8();
+  }
+
+  unsigned short getSize()
+  {
+    return size;
   }
 
   ByteStream* getByteStream()

@@ -28,8 +28,16 @@ private:
   ByteStream* bs;
 
 public:
-  Serialiser(ByteStream* bs) : bs(bs) {}
-  ~Serialiser() {}
+  Serialiser(ByteStream* bs) : bs(bs)
+  {
+    bs->size = 2;
+  }
+
+  ~Serialiser()
+  {
+    bs->data[0]   = (unsigned char)(bs->size & 0x00FF);
+    bs->data[1] = (unsigned char)((bs->size & 0xFF00) / 0x100);
+  }
 
   void setInt8(char value)
   {

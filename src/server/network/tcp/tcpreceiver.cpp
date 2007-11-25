@@ -39,7 +39,7 @@ void Receiver::Run()
   {
     if (ready_sockets[i] == socket->getSocket())
     {
-      int newsocket = ::accept(ready_sockets[i], 0, 0);
+      int newsocket = (int) ::accept(ready_sockets[i], 0, 0);
       TcpConnection* connection = new TcpConnection(newsocket);
       tcpConnMgr->addConnection(connection);
       printf("New connection on socket %d\n", newsocket);
@@ -63,11 +63,20 @@ void Receiver::Run()
       }
       else
       {
-        GenericMessage message(&buffer);
+        //printf("--[NW]-- Received %d bytes\n", buffer.getSize());
+        while (true)
+        {
+          GenericMessage message(&buffer);
+          handlers->handle(&message, ready_sockets[i]);
 
-        //printf("Received Message [%d|%d] on socket %d\n", message.getMsgType(), message.getMsgId(), ready_sockets[i]);
+          //printf("--[NW]-- Message length %d bytes, remaining %d bytes\n", message.getSize(), buffer.getSize() - message.getSize());
 
-        handlers->handle(&message, ready_sockets[i]);
+          if (buffer.getSize() <= message.getSize()) break;
+
+          unsigned char* data = (unsigned char*) buffer.getData();
+          memmove(data, data + message.getSize(), buffer.getSize() - message.getSize());
+          buffer.setSize(buffer.getSize() - message.getSize());
+        }
       }
     }
   }

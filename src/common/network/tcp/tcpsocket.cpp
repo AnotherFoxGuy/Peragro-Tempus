@@ -125,7 +125,7 @@ int TcpSocket::receive(const int socket, char* msg, size_t length)
 
 bool TcpSocket::publish(const int socket, const char* msg, size_t length)
 {
-  int rv = send(socket, msg, (int)length, MSG_OOB);
+  int rv = send(socket, msg, (int)length, 0);
 
 #ifdef WIN32
   long error = WSAGetLastError();

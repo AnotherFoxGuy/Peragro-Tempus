@@ -631,9 +631,7 @@ namespace PT
       guimanager->GetConnectWindow ()->HideWindow ();
       guimanager->GetLoginWindow ()->ShowWindow ();
 
-      state = STATE_CONNECTED;
-
-      if (cmdline)
+      if (cmdline && state == STATE_INTRO)
       {
         user = cmdline->GetOption("user", 0);
         pass = cmdline->GetOption("pass", 0);
@@ -650,6 +648,8 @@ namespace PT
           login(user, pass);
         }
       }
+
+      state = STATE_CONNECTED;
     }
 
     Report(PT::Notify, "Connected!");
