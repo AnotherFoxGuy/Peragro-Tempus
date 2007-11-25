@@ -22,8 +22,10 @@
 
 void Receiver::Run()
 {
-  buffer.setSize(TcpSocket::receive(socket->getSocket(), (char*)buffer.getData() + buffer.getSize(), buffer.getMaxSize()));
-  if (buffer.getSize() == 0) return;
+  int size = TcpSocket::receive(socket->getSocket(), (char*)buffer.getData() + buffer.getSize(), buffer.getMaxSize() - buffer.getSize());
+  if (size <= 0) return;
+
+  buffer.setSize(size + buffer.getSize());
 
   printf("--[NW]-- Received %d bytes\n", buffer.getSize());
   while (true)
@@ -34,7 +36,12 @@ void Receiver::Run()
 
     handlers->handle(&message, socket->getSocket());
 
-    if (buffer.getSize() == message.getSize()) break;
+    if (buffer.getSize() == message.getSize())
+    {
+      buffer.clear();
+      break;
+    }
+
     printf("--[NW]-- Message length %d bytes, remaining %d bytes\n", message.getSize(), buffer.getSize() - message.getSize());
 
     unsigned char* data = (unsigned char*) buffer.getData();

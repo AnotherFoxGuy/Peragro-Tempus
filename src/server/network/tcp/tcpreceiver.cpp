@@ -50,7 +50,10 @@ void Receiver::Run()
 
       buffer = conn->getBuffer();
 
-      buffer.setSize(TcpSocket::receive(ready_sockets[i], (char*)buffer.getData() + buffer.getSize(), buffer.getMaxSize()));
+      int size = TcpSocket::receive(ready_sockets[i], (char*)buffer.getData() + buffer.getSize(), buffer.getMaxSize() - buffer.getSize());
+      if (size <= 0) return;
+
+      buffer.setSize(size + buffer.getSize());
 
       if (buffer.getSize() == 0)
       {
@@ -67,16 +70,18 @@ void Receiver::Run()
         while (true)
         {
           GenericMessage message(&buffer);
+
+          if (buffer.getSize() < message.getSize()) break;
+
           handlers->handle(&message, ready_sockets[i]);
-
-          if (buffer.getSize() < message.getSize())
-          {
-
-          }
 
           //printf("--[NW]-- Message length %d bytes, remaining %d bytes\n", message.getSize(), buffer.getSize() - message.getSize());
 
-          if (buffer.getSize() == message.getSize()) break;
+          if (buffer.getSize() == message.getSize())
+          {
+            buffer.clear();
+            break;
+          }
 
           unsigned char* data = (unsigned char*) buffer.getData();
           memmove(data, data + message.getSize(), buffer.getSize() - message.getSize());
