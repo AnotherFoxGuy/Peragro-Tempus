@@ -46,14 +46,14 @@ void Receiver::Run()
     }
     else
     {
-      buffer.clear();
+      TcpConnection* conn = tcpConnMgr->findBySocket(ready_sockets[i]);
 
-      buffer.setSize(TcpSocket::receive(ready_sockets[i], (char*)buffer.getData(), buffer.getMaxSize()));
+      buffer = conn->getBuffer();
+
+      buffer.setSize(TcpSocket::receive(ready_sockets[i], (char*)buffer.getData() + buffer.getSize(), buffer.getMaxSize()));
 
       if (buffer.getSize() == 0)
       {
-        TcpConnection* conn = tcpConnMgr->findBySocket(ready_sockets[i]);
-
         if (conn != 0)
         {
           conn->peerLost();
@@ -69,9 +69,14 @@ void Receiver::Run()
           GenericMessage message(&buffer);
           handlers->handle(&message, ready_sockets[i]);
 
+          if (buffer.getSize() < message.getSize())
+          {
+
+          }
+
           //printf("--[NW]-- Message length %d bytes, remaining %d bytes\n", message.getSize(), buffer.getSize() - message.getSize());
 
-          if (buffer.getSize() <= message.getSize()) break;
+          if (buffer.getSize() == message.getSize()) break;
 
           unsigned char* data = (unsigned char*) buffer.getData();
           memmove(data, data + message.getSize(), buffer.getSize() - message.getSize());

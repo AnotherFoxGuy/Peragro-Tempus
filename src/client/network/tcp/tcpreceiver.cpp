@@ -22,18 +22,20 @@
 
 void Receiver::Run()
 {
-  buffer.clear();
-  buffer.setSize(TcpSocket::receive(socket->getSocket(), (char*)buffer.getData(), buffer.getMaxSize()));
+  buffer.setSize(TcpSocket::receive(socket->getSocket(), (char*)buffer.getData() + buffer.getSize(), buffer.getMaxSize()));
   if (buffer.getSize() == 0) return;
 
-  //printf("--[NW]-- Received %d bytes\n", buffer.getSize());
+  printf("--[NW]-- Received %d bytes\n", buffer.getSize());
   while (true)
   {
     GenericMessage message(&buffer);
+
+    if (buffer.getSize() < message.getSize()) break;
+
     handlers->handle(&message, socket->getSocket());
 
-    if (buffer.getSize() <= message.getSize()) break;
-    //printf("--[NW]-- Message length %d bytes, remaining %d bytes\n", message.getSize(), buffer.getSize() - message.getSize());
+    if (buffer.getSize() == message.getSize()) break;
+    printf("--[NW]-- Message length %d bytes, remaining %d bytes\n", message.getSize(), buffer.getSize() - message.getSize());
 
     unsigned char* data = (unsigned char*) buffer.getData();
     memmove(data, data + message.getSize(), buffer.getSize() - message.getSize());

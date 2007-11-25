@@ -24,6 +24,7 @@
 class TcpConnection : public Connection
 {
   int socket;
+  ByteStream buffer;
 
 public:
   TcpConnection(int socket) 
@@ -40,6 +41,8 @@ public:
   int getSocket() const { return socket; }
 
   void peerLost();
+
+  ByteStream& getBuffer() { return buffer; }
 };
 
 #endif // _CLIENTCONNECTION_H_
