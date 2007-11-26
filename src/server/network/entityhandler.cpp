@@ -293,6 +293,11 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   {
     MountEntity* mount = entity->getMount()->getLock();
     float speed = mount->getSpeed();
+    // TODO
+    // moveEntity must be called without holding the lock.
+    // This is ugly since 'speed' could potentinally be
+    // changed since there is no lock.
+    mount->freeLock();
     server->moveEntity(mount, request_msg.getTo(), speed, request_msg.getRun());
   }
   else
