@@ -9,6 +9,8 @@ under each day.
    could be reproduced by riding the horse. The fix is just 
    temporary since it exposes a problem with the current locking
    mechanism. Which needs to be fixed in a bigger change.
+ - swedishcoder fixed some printf warnings with the SIZET type
+   being wrong.
 
 24-Nov-2007
  - PK implemented TCP connections for PT.
