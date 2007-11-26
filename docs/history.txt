@@ -11,6 +11,7 @@ under each day.
    mechanism. Which needs to be fixed in a bigger change.
  - swedishcoder fixed some printf warnings with the SIZET type
    being wrong.
+ - PK changed the DR Updates a bit, hoping to get rid of the horse jumping.
 
 24-Nov-2007
  - PK implemented TCP connections for PT.

@@ -104,6 +104,17 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
   server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
+  if (ent->getPlayerEntity()->getMount())
+  {
+    float* pos = request_msg.getPos();
+    pos[1] -= 1.0f; // Adjust the offset from the rider
+    user_ent = user_ent->getPlayerEntity()->getMount()->getEntity()->getLock();
+    name_id = user_ent->getId();
+    user_ent->setPos(pos);
+    user_ent->setSector(request_msg.getSectorId());
+    user_ent->freeLock();
+  }
+
   DrUpdateMessage response_msg;
   response_msg.setRotation(request_msg.getRotation());
   response_msg.setPos(request_msg.getPos());
@@ -418,8 +429,6 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
-  int name_id = user_ent->getId();
-
   TeleportMessage telemsg;
 
   const Character* character = NetworkHelper::getCharacter(msg);
@@ -430,14 +439,23 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
   if (!race) return;
 
-  Entity* ent = user_ent->getLock();
+  Entity* ent = 0;
+  if (user_ent->getPlayerEntity()->getMount())
+  {
+    ent = user_ent->getPlayerEntity()->getMount()->getEntity()->getLock();
+  }
+  else
+  {
+    ent = user_ent->getLock();
+  }
+  int ent_id = ent->getId();
   ent->setPos(race->getPos());
   ent->setSector(race->getSector());
   ent->freeLock();
 
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
-  telemsg.setEntityId(name_id);
+  telemsg.setEntityId(ent_id);
   unsigned short sector_id = server->getSectorManager()->getSectorId(race->getSector());
   telemsg.setSectorId(sector_id);
   telemsg.setPos(race->getPos());

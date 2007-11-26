@@ -348,6 +348,19 @@ namespace PT
             pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
             //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
 
+            pclinmove->GetYRotation();
+
+            // Don't want <0,1,0> when on horse!
+            iMovable* mov = pclinmove->GetAnchor()->GetMesh()->GetMovable();
+            pos = mov->GetFullPosition();
+            csVector3 rotv = mov->GetFullTransform ().GetT2O() * csVector3(0,0,1);
+
+            if (rotv.z > 1.0f )  rotv.z = 1.0f;
+            if (rotv.z < -1.0f ) rotv.z = -1.0f;
+
+            rot = acos (rotv.z);
+            if (rotv.x < 0.0f) rot = 2.0f * PI - rot;            
+
             if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
 
             drmsg.setRotation(rot);
