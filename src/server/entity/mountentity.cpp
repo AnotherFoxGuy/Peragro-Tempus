@@ -54,8 +54,9 @@ void MountEntity::walkTo(float* dst_pos, float speed)
   // If we are already walking, lets store how
   // far we have come...
   if (isWalking) {
+    const float *pos = getPos();
     Entity* ent = entity.get()->getLock();
-    ent->setPos(getPos());
+    ent->setPos(pos);
     ent->freeLock();
     isWalking = false;
   }
