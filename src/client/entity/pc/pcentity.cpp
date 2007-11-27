@@ -74,6 +74,13 @@ namespace PT
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
+      iCelEntity* ptworld = pl->FindEntity("ptworld");
+      csRef<iPcZoneManager> pczonemgr = 
+        CEL_QUERY_PROPCLASS_ENT (ptworld, iPcZoneManager);
+
+      iCelRegion* region = pczonemgr->FindRegion(sectorName.c_str());
+      pczonemgr->ActivateRegion(region);
+
       iSector* sector = engine->FindSector(sectorName.c_str());
       if (!sector)
       {
