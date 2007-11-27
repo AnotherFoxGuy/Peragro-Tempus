@@ -27,7 +27,7 @@ void Receiver::Run()
 
   buffer.setSize(size + buffer.getSize());
 
-  printf("--[NW]-- Received %d bytes\n", buffer.getSize());
+  //printf("--[NW]-- Received %d bytes\n", buffer.getSize());
   while (true)
   {
     GenericMessage message(&buffer);
@@ -42,7 +42,7 @@ void Receiver::Run()
       break;
     }
 
-    printf("--[NW]-- Message length %d bytes, remaining %d bytes\n", message.getSize(), buffer.getSize() - message.getSize());
+    //printf("--[NW]-- Message length %d bytes, remaining %d bytes\n", message.getSize(), buffer.getSize() - message.getSize());
 
     unsigned char* data = (unsigned char*) buffer.getData();
     memmove(data, data + message.getSize(), buffer.getSize() - message.getSize());

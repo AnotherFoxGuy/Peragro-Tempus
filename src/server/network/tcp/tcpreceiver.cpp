@@ -48,10 +48,9 @@ void Receiver::Run()
     {
       TcpConnection* conn = tcpConnMgr->findBySocket(ready_sockets[i]);
 
-      buffer = conn->getBuffer();
+      ByteStream& buffer = conn->getBuffer();
 
       int size = TcpSocket::receive(ready_sockets[i], (char*)buffer.getData() + buffer.getSize(), buffer.getMaxSize() - buffer.getSize());
-      if (size <= 0) return;
 
       buffer.setSize(size + buffer.getSize());
 
@@ -61,6 +60,7 @@ void Receiver::Run()
         {
           conn->peerLost();
           tcpConnMgr->removeConnection(conn);
+          delete conn;
           printf("Disconnect of socket %d\n", ready_sockets[i]);
         }
       }

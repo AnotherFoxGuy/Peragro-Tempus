@@ -30,7 +30,6 @@ class Receiver : public Thread
 {
 private:
   TcpSocket* socket;
-  ByteStream buffer;
 
   TcpMessageHandler* handlers;
   TcpConnectionManager* tcpConnMgr;
