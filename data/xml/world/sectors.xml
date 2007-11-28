@@ -1,8 +1,8 @@
 <sectors>
-	<sector id="1">Default_Sector</sector>
-	<sector id="2">room</sector>
-	<sector id="3">house016indoors</sector>
-	<sector id="4">TavernInt</sector>
-	<sector id="5">outside1</sector>
-	<sector id="6">outside2</sector>
+	<sector id="1" region="empty">Default_Sector</sector>
+	<sector id="2" region="keep">room</sector>
+	<sector id="3" region="house016indoor">house016indoors</sector>
+	<sector id="4" region="tavern">TavernInt</sector>
+	<sector id="5" region="outside1">outside1</sector>
+	<sector id="6" region="outside2">outside2</sector>
 </sectors>
