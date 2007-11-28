@@ -8,6 +8,7 @@ under each day.
  - PK fixed a bug which caused a memory leak in the server and crashed it.
  - PK added a quick patch so regions with the same name as sectors will be
    loaded.
+ - PK fixed a small memory leak on the server.
 
 26-Nov-2007
  - swedishcoder fixes a dead lock on the server. The dead lock

@@ -69,8 +69,10 @@ ResultSet* dbSQLite::query(const char* query, ...)
   {
     printf("SQL error: %s\n", zErrMsg);
     delete result;
+    sqlite3_free(zErrMsg);
     return 0;
   }
+
   return result;
 }
 
