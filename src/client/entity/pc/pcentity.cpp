@@ -25,6 +25,9 @@
 #include "client/event/interfaceevent.h"
 #include "client/event/entityevent.h"
 
+#include "common/data/sector.h"
+#include "common/data/sectordatamanager.h"
+
 namespace PT
 {
   namespace Entity
@@ -78,7 +81,11 @@ namespace PT
       csRef<iPcZoneManager> pczonemgr = 
         CEL_QUERY_PROPCLASS_ENT (ptworld, iPcZoneManager);
 
-      iCelRegion* region = pczonemgr->FindRegion(sectorName.c_str());
+      PT::Data::SectorDataManager* sectorMgr = 
+        PointerLibrary::getInstance()->getSectorDataManager();
+      PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sectorName.c_str());
+
+      iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
       pczonemgr->ActivateRegion(region);
 
       iSector* sector = engine->FindSector(sectorName.c_str());

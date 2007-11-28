@@ -55,6 +55,8 @@ namespace PT
 
         sector->SetId(atoi(sectorNode->Attribute("id")));
 
+        sector->SetRegion(sectorNode->Attribute("region"));
+
         sector->SetName(sectorNode->GetText());
 
         sectors.push_back(sector);

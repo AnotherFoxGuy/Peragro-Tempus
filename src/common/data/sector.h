@@ -40,6 +40,8 @@ namespace PT
       unsigned int id;
       ///Name of the sector (ie 'room').
       std::string name;
+      ///Name of the region (ie 'keep').
+      std::string region;
 
     public:
       Sector() : id(0) {}
@@ -49,6 +51,9 @@ namespace PT
 
       void SetName(const std::string& value) { name = value; }
       const std::string& GetName() const { return name; }
+
+      void SetRegion(const std::string& value) { region = value; }
+      const std::string& GetRegion() const { return region; }
     };
   } // Data namespace
 } // PT namespace

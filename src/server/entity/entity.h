@@ -135,7 +135,7 @@ public:
 
   const unsigned short getSector() const { return sector_id; }
   const ptString& getSectorName() const;
-  void setSector(unsigned short id) { sector_id = id; }
+  void setSector(unsigned short id);
   void setSector(ptString name);
 
   EntityType getType() const { return type; }

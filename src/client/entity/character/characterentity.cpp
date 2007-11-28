@@ -26,6 +26,9 @@
 
 #include "client/reporter/reporter.h"
 
+#include "common/data/sector.h"
+#include "common/data/sectordatamanager.h"
+
 namespace PT
 {
   namespace Entity
@@ -181,6 +184,18 @@ namespace PT
 
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       iMovable* mov = pcmesh->GetMesh()->GetMovable();
+
+      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      iCelEntity* ptworld = pl->FindEntity("ptworld");
+      csRef<iPcZoneManager> pczonemgr = 
+        CEL_QUERY_PROPCLASS_ENT (ptworld, iPcZoneManager);
+
+      PT::Data::SectorDataManager* sectorMgr = 
+        PointerLibrary::getInstance()->getSectorDataManager();
+      PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sector.c_str());
+
+      iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
+      pczonemgr->ActivateRegion(region);
 
       mov->SetSector(engine->GetSectors()->FindByName(sector.c_str()));
       mov->SetPosition(pos);

@@ -43,7 +43,9 @@ void SectorsFile::load()
 
     const char* name = itemNode->FirstChild()->ToText()->Value();
 
-    sector_mgr->addSector(id, ptString(name, strlen(name)));
+    const char* region = itemNode->Attribute("region");
+
+    sector_mgr->addSector(id, ptString(name, strlen(name)), ptString(region, strlen(region)));
 
     itemNode = itemNode->NextSiblingElement("sector");
   }

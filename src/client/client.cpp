@@ -476,7 +476,7 @@ namespace PT
     entity->SetName("ptworld");
     csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
       iPcZoneManager);
-    pczonemgr->SetLoadingMode(CEL_ZONE_KEEP);
+    pczonemgr->SetLoadingMode(CEL_ZONE_NORMAL);
 
     Run();
 

@@ -32,6 +32,7 @@ class SectorManager
 {
 private:
   Array<ptString> sectors;
+  Array<ptString> regions;
 
 public:
   SectorManager() {}
@@ -57,10 +58,19 @@ public:
     return sectors.get(id-1);
   }
 
-  void addSector(unsigned short id, ptString name)
+  const ptString& getRegionName(unsigned short id)
+  {
+    if (id > regions.getCount()) return ptString::Null;
+    return regions.get(id-1);
+  }
+
+  void addSector(unsigned short id, ptString name, ptString region)
   {
     if (sectors.getCount()+1 == id)
+    {
       sectors.add(name);
+      regions.add(region);
+    }
     else
       printf("Sectors out of order! Expected sector id %" SIZET 
              " but got %d!\n", sectors.getCount(), id);

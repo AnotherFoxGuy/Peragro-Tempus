@@ -17,12 +17,15 @@
 */
 
 #include "entity.h"
+#include "entitymanager.h"
 
 #include "pcentity.h"
 #include "npcentity.h"
 #include "doorentity.h"
 #include "itementity.h"
 #include "mountentity.h"
+
+#include "user.h"
 
 #include "sectormanager.h"
 
@@ -67,11 +70,53 @@ const ptString& Entity::getSectorName() const
   return Server::getServer()->getSectorManager()->getSectorName(sector_id);
 }
 
+void Entity::setSector(unsigned short id)
+{
+  if (pc_entity.get() && pc_entity.get()->getUser())
+  {
+    if (sector_id != id)
+    {
+      SectorManager* sectorMgr = Server::getServer()->getSectorManager();
+      const ptString& old_region = sectorMgr->getRegionName(sector_id);
+      const ptString& new_region = sectorMgr->getRegionName(id);
+
+      sector_id = id;
+
+      if ( ! ( old_region == new_region ) ) 
+      {
+        EntityManager* ent_mgr = Server::getServer()->getEntityManager();
+        ent_mgr->lock();
+        for (size_t i = 0; i < ent_mgr->getEntityCount(); i++)
+        {
+          const ptString& region = sectorMgr->getRegionName(ent_mgr->getEntity(i)->getSector());
+
+          User* user = pc_entity.get()->getUser()->getLock();
+          if (region == old_region)
+          {
+            user->sendRemoveEntity(ent_mgr->getEntity(i));
+          }
+          else if (region == new_region)
+          {
+            user->sendAddEntity(ent_mgr->getEntity(i));
+          }
+          user->freeLock();
+        }
+        ent_mgr->unlock();
+      }
+    }
+  }
+  sector_id = id;
+}
+
 void Entity::setSector(ptString name)
 {
-  sector_id = Server::getServer()->getSectorManager()->getSectorId(name);
-  if (sector_id == Sector::NoSector)
+  unsigned short id = Server::getServer()->getSectorManager()->getSectorId(name);
+  if (id == Sector::NoSector)
   {
     printf("Player %s is trying to get to a non existing sector!\n", *name_id);
+  }
+  else
+  {
+    setSector(id);
   }
 }

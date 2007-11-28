@@ -23,6 +23,7 @@
 #include "itementity.h"
 #include "user.h"
 #include "usermanager.h"
+#include "sectormanager.h"
 
 #include "common/network/entitymessages.h"
 
@@ -41,6 +42,14 @@ void User::sendAddEntity(const Entity* entity)
 
   if (!entity || !*(entity->getName()))
     return;
+
+  SectorManager* sectormanager = Server::getServer()->getSectorManager();
+  const ptString& entity_region = 
+    sectormanager->getRegionName( entity->getSector() );
+  const ptString& player_region = 
+    sectormanager->getRegionName(getEntity()->getEntity()->getSector());
+
+  if (!(player_region == entity_region)) return;
 
   printf("send addentity '%s' to '%s'\n", *entity->getName(), *this->getName());
 
