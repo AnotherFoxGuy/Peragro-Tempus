@@ -37,6 +37,7 @@ void TcpConnection::peerLost()
     printf("has user!\n");
     if (user->getConnection() == this)
     {
+      user->setConnection(0);
       printf("user->remove()!\n");
       user->remove();
     }

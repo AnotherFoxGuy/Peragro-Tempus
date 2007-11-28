@@ -361,7 +361,7 @@ namespace PT
             rot = acos (rotv.z);
             if (rotv.x < 0.0f) rot = 2.0f * PI - rot;            
 
-            if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
+            //if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
 
             drmsg.setRotation(rot);
             drmsg.setPos(pos.x,pos.y,pos.z);

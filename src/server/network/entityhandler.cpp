@@ -96,24 +96,29 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   DrUpdateRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  Entity* user_ent = ent->getLock();
-  int name_id = user_ent->getId();
-  user_ent->setPos(request_msg.getPos());
-  user_ent->setSector(request_msg.getSectorId());
-  user_ent->freeLock();
-
   server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
+  int name_id;
   if (ent->getPlayerEntity()->getMount())
   {
     float* pos = request_msg.getPos();
     pos[1] -= 1.0f; // Adjust the offset from the rider
-    user_ent = user_ent->getPlayerEntity()->getMount()->getEntity()->getLock();
-    name_id = user_ent->getId();
+    Entity* user_ent = ent->getPlayerEntity()->getMount()->getEntity()->getLock();
     user_ent->setPos(pos);
     user_ent->setSector(request_msg.getSectorId());
     user_ent->freeLock();
+
+    name_id = ent->getPlayerEntity()->getMount()->getEntity()->getId();
   }
+  else
+  {
+    name_id = ent->getId();
+  }
+
+  Entity* user_ent = ent->getLock();
+  user_ent->setPos(request_msg.getPos());
+  user_ent->setSector(request_msg.getSectorId());
+  user_ent->freeLock();
 
   DrUpdateMessage response_msg;
   response_msg.setRotation(request_msg.getRotation());

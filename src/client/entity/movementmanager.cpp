@@ -268,6 +268,10 @@ namespace PT
       unsigned int id = entityMoveEv->entityId;
       unsigned int sectorId = entityMoveEv->sectorId;
 
+      unsigned int self = PointerLibrary::getInstance()->getEntityManager()->GetPlayerId();
+
+      if (id == self) return true;
+
       PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
       std::string sectorName = sectorDataMgr->GetSectorById(sectorId)->GetName();
 

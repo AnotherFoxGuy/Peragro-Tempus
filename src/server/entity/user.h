@@ -67,7 +67,10 @@ public:
   const Connection* getConnection() const { return connection.get(); }
   void setConnection(Connection* connection)
   {
-    this->connection = connection->getRef();
+    if (connection)
+      this->connection = connection->getRef();
+    else
+      this->connection.clear();
   }
 
   void sendAddEntity(const Entity* entity);
