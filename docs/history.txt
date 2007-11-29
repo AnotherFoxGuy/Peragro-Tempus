@@ -4,13 +4,18 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+29-Nov-2007
+ - PK fixed teleporting to unloaded regions.
+
+28-Nov-2007
+ - PK fixed a small memory leak on the server.
+ - PK implemented entity culling based on regions. Client only gets those in
+   the same region.
+
 27-Nov-2007
  - PK fixed a bug which caused a memory leak in the server and crashed it.
  - PK added a quick patch so regions with the same name as sectors will be
    loaded.
- - PK fixed a small memory leak on the server.
- - PK implemented entity culling based on regions. Client only gets those in
-   the same region.
 
 26-Nov-2007
  - swedishcoder fixes a dead lock on the server. The dead lock

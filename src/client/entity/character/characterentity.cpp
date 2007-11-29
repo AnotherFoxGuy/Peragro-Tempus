@@ -194,6 +194,10 @@ namespace PT
         PointerLibrary::getInstance()->getSectorDataManager();
       PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sector.c_str());
 
+      // Temporary move to a void sector for unloading regions.
+      const char* default_sector = "Default_Sector";
+      mov->SetSector(engine->GetSectors()->FindByName(default_sector));
+
       iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
       pczonemgr->ActivateRegion(region);
 
