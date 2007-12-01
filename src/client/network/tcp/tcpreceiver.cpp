@@ -23,7 +23,11 @@
 void Receiver::Run()
 {
   int size = TcpSocket::receive(socket->getSocket(), (char*)buffer.getData() + buffer.getSize(), buffer.getMaxSize() - buffer.getSize());
-  if (size <= 0) return;
+  if (size <= 0)
+  {
+    this->end();
+    return;
+  }
 
   buffer.setSize(size + buffer.getSize());
 

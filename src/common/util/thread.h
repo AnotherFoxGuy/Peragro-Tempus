@@ -58,6 +58,7 @@ public:
 
   void begin()
   {
+    runThread = true;
 #ifdef WIN32
     threadHandle = CreateThread(0,0,(LPTHREAD_START_ROUTINE)ThreadStart, this, 0, 0);
 #else

@@ -45,10 +45,16 @@ public:
 
   void init()
   {
-    socket.init(serveraddress.port, serveraddress.ip, false);
+    if (socket.init(serveraddress.port, serveraddress.ip, false))
+    {
+      receiver.registerHandler(&conn_handler);
+      receiver.begin();
+    }
+  }
 
-    receiver.registerHandler(&conn_handler);
-    receiver.begin();
+  bool isRunning()
+  {
+    return receiver.isRunning();
   }
 
   void stop()

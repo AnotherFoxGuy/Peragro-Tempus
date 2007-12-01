@@ -46,6 +46,9 @@ namespace PT
   namespace Entity
   {
 
+    PlayerEntity* PlayerEntity::instance = 0;
+
+
     PlayerEntity::PlayerEntity(const Events::EntityAddEvent& ev) : PcEntity(ev)
     {
       Create();
@@ -157,22 +160,25 @@ namespace PT
         AddListener("input.ACTION_MOVETO", cbActionMoveTo);
     }
 
+    PlayerEntity::~PlayerEntity()
+    {
+      instance=0;
+    }
+
     PlayerEntity* PlayerEntity::Instance(const Events::EntityAddEvent* ev)
     {
-    static PlayerEntity* instance=0;
+      //If the instance already exists, and we're not
+      //requesting a reinitialization.
+      if (instance && !ev) return instance;
+      //If the instance already exists, and we're requesting
+      //a reinitialization
+      else if (instance && ev) delete instance;
 
-    //If the instance already exists, and we're not
-    //requesting a reinitialization.
-    if (instance && !ev) return instance;
-    //If the instance already exists, and we're requesting
-    //a reinitialization
-    else if (instance && ev) delete instance;
+      //We can't initialize without a valid event
+      if (!ev) return 0;
 
-    //We can't initialize without a valid event
-    if (!ev) return 0;
-
-    instance = new PlayerEntity(*ev);
-    return instance;
+      instance = new PlayerEntity(*ev);
+      return instance;
     }
 
     void PlayerEntity::Create()

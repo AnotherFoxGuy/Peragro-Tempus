@@ -319,11 +319,12 @@ namespace PT
 
     void EntityManager::delAllEntities()
     {
-      for (size_t i = 0; i < entities.GetSize(); i++)
+      while (0 < entities.GetSize())
       {
-        pl->RemoveEntity(entities[i]->GetCelEntity());
-        entities.DeleteIndex(i);
+        pl->RemoveEntity(entities[0]->GetCelEntity());
+        entities.DeleteIndex(0);
       }
+      Report(PT::Debug, "Deleted all Entities! %d remain...", pl->GetEntityCount() );
     }
 
     void EntityManager::DrUpdateOwnEntity()

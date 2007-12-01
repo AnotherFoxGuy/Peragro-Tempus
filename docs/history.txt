@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+01-Dec-2007
+ - PK implemeneted client reconnect on server crash, but it seems CS might
+   just crash after it.
+
 29-Nov-2007
  - PK fixed teleporting to unloaded regions.
 

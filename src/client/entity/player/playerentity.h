@@ -38,6 +38,8 @@ namespace PT
     class PlayerEntity : public PcEntity
     {
     private:
+      static PlayerEntity* instance;
+
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;
       ///Direction of moving. -1 for backward, 0 for standing still, 1 for
@@ -70,6 +72,7 @@ namespace PT
        * @param ev Event used for initialising the player properties.
        */
       PlayerEntity(const Events::EntityAddEvent& ev);
+      virtual ~PlayerEntity();
 
       void Create();
 

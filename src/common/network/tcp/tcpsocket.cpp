@@ -44,7 +44,7 @@ TcpSocket::TcpSocket()
   last_checked = (size_t)time(0);
 }
 
-void TcpSocket::init(unsigned short port, unsigned ip, bool server)
+bool TcpSocket::init(unsigned short port, unsigned ip, bool server)
 {
   socket_handler = (int) socket(AF_INET, SOCK_STREAM, 0);
 
@@ -62,11 +62,13 @@ void TcpSocket::init(unsigned short port, unsigned ip, bool server)
     if (bind(socket_handler, (struct sockaddr *)&addr, sizeof(struct sockaddr)) == -1)
     {
         perror("bind");
+        return false;
     }
 
     if (listen(socket_handler, 10) == -1)
     {
         perror("listen");
+        return false;
     }
   }
   else
@@ -74,8 +76,10 @@ void TcpSocket::init(unsigned short port, unsigned ip, bool server)
     if (connect(socket_handler, (struct sockaddr *)&addr, sizeof(struct sockaddr)) == -1)
     {
         perror("connect");
+        return false;
     }
   }
+  return true;
 }
 
 TcpSocket::~TcpSocket()

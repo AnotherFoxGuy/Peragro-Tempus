@@ -590,6 +590,7 @@ namespace PT
       }
     case STATE_RECONNECTED:
       {
+        checkConnection();
         entitymanager->Handle();
         break;
       }
@@ -599,18 +600,35 @@ namespace PT
   void Client::checkConnection()
   {
     //Report(PT::Notify, "Saw server %d ms ago.", csGetTicks() - last_seen);
-    if (last_seen > 0 && csGetTicks() - last_seen > 10000)
+    size_t ticks = csGetTicks();
+    if ( (last_seen > 0 && ticks - last_seen > 10000 ) 
+      || ( ! network->isRunning() && state == STATE_PLAY ) )
     {
-      // 10 seconds of no response... disconnect!
-      if (state == STATE_PLAY)
+      last_seen = csGetTicks();
+      Report(PT::Warning, "Disconnect!");
+
+      //TODO: Make it actually delete all entities like it claims to do...
+      entitymanager->delAllEntities();
+
+      entitymanager->Handle();
+
+      state = STATE_RECONNECTED;
+
+      network->init();
+
+      if (!network->isRunning())
       {
-        last_seen = 0;
-        Report(PT::Warning, "Disconnect!");
-        guimanager->CreateOkWindow()->SetText("Disconnect!\n Please restart the client!");
-        //entitymanager->delAllEntities();
-        //ConnectRequestMessage msg;
-        //network->send(&msg);
+        guimanager->CreateOkWindow()->SetText("Disconnect!\n Trying to reconnect, please wait!");
+        return;
       }
+
+      guimanager->CreateOkWindow()->HideWindow();
+
+      ConnectRequestMessage msg(CLIENTVERSION);
+      network->send(&msg);
+
+      //Client::login(user, pass);
+      //Client::selectCharacter(char_id);
     }
   }
 
@@ -621,9 +639,8 @@ namespace PT
     StateConnectedEvent* stateEv = GetStateEvent<StateConnectedEvent*>(ev);
     if (!stateEv) return false;
 
-    if (state == STATE_PLAY)
+    if (state == STATE_RECONNECTED)
     {
-      state = STATE_RECONNECTED;
       login(user, pass);
     }
     else

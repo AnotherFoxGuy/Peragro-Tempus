@@ -50,7 +50,7 @@ public:
   TcpSocket();
   ~TcpSocket();
 
-  void init(unsigned short port, unsigned ip = 0, bool server = true);
+  bool init(unsigned short port, unsigned ip = 0, bool server = true);
   void kill();
 
   static int receive(const int socket, char* msg, size_t len);
