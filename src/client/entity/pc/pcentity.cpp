@@ -77,28 +77,17 @@ namespace PT
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
-      iCelEntity* ptworld = pl->FindEntity("ptworld");
-      csRef<iPcZoneManager> pczonemgr = 
-        CEL_QUERY_PROPCLASS_ENT (ptworld, iPcZoneManager);
-
-      PT::Data::SectorDataManager* sectorMgr = 
-        PointerLibrary::getInstance()->getSectorDataManager();
-      PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sectorName.c_str());
-
-      iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
-      pczonemgr->ActivateRegion(region);
-
       iSector* sector = engine->FindSector(sectorName.c_str());
       if (!sector)
       {
         sector = engine->FindSector("Default_Sector");
         Report(PT::Warning,
-        "PtPcEntity: Failed to find sector switching to default!");
+        "PcEntity: Failed to find sector %s switching to default!", sectorName.c_str());
       }
 
       if (sector) pclinmove->SetPosition(pos,0,sector);
       else Report(PT::Error,
-        "PtPcEntity: Failed to set position, sector '%s' unknown!",
+        "PcEntity: Failed to set position, sector '%s' unknown!",
         sectorName.c_str());
 
       GetEquipment().ConstructMeshes();

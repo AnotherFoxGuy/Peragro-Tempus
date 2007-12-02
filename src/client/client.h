@@ -162,7 +162,7 @@ namespace PT
 
     // The sound source.
     csRef<iSndSysSource> sndsource;
-    csRef<iSndSysSourceSoftware3D> sndsource3d;
+    csRef<iSndSysSource3D> sndsource3d;
 
     // The config manager.
     csRef<iConfigManager> app_cfg;

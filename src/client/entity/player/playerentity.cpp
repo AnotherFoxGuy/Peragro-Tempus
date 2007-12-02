@@ -34,6 +34,9 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/chat-gui.h"
 
+#include "common/data/sector.h"
+#include "common/data/sectordatamanager.h"
+
 //These defines should probably go to configuration file
 #define WALK_PPS 0.01f
 #define WALK_PITCH_RANGE 0.02f
@@ -183,10 +186,12 @@ namespace PT
 
     void PlayerEntity::Create()
     {
+      printf("CREATING PLAYER");
       celEntity->SetName("player");
 
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
       //At this time PlayerEntity's Create() method takes care of the
       //appropriate stuff, so we only need to setup the camera.
@@ -210,7 +215,24 @@ namespace PT
       csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (zonemgr,
         iPcZoneManager);
 
-      pczonemgr->PointCamera("player", "zone_all");
+      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(false);
+
+      PT::Data::SectorDataManager* sectorMgr = 
+        PointerLibrary::getInstance()->getSectorDataManager();
+      PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sectorName.c_str());
+
+      iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
+      pczonemgr->ActivateRegion(region);
+      pczonemgr->PointMesh("player", ptsector->GetRegion().c_str());
+
+      iSector* sector = engine->FindSector(sectorName.c_str());
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      iMovable* mov = pcmesh->GetMesh()->GetMovable();
+      mov->SetSector(sector);
+      mov->SetPosition(pos);
+      mov->UpdateMove();  
+
+      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
     }
 
     bool PlayerEntity::ActionForward(PT::Events::Eventp ev)

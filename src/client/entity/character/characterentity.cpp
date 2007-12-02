@@ -22,6 +22,8 @@
 #include <imesh/gmeshskel2.h>
 #include <imesh/skeleton.h>
 
+#include "client/entity/entitymanager.h"
+
 #include "client/event/entityevent.h"
 
 #include "client/reporter/reporter.h"
@@ -195,15 +197,17 @@ namespace PT
       PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sector.c_str());
 
       // Temporary move to a void sector for unloading regions.
+      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(false);
       const char* default_sector = "Default_Sector";
-      mov->SetSector(engine->GetSectors()->FindByName(default_sector));
+      mov->SetSector(engine->FindSector(default_sector));
 
       iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
       pczonemgr->ActivateRegion(region);
 
-      mov->SetSector(engine->GetSectors()->FindByName(sector.c_str()));
+      mov->SetSector(engine->FindSector(sector.c_str()));
       mov->SetPosition(pos);
       mov->UpdateMove();
+      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
     }
 
     void CharacterEntity::SetCurrentStamina(float x)

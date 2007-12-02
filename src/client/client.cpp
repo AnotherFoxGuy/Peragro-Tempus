@@ -432,10 +432,10 @@ namespace PT
     sndsource = sndrenderer->CreateSource (sndstream);
     if (!sndsource)
       return Report(PT::Error,"Can't create source for '%s'!", fname);
-    sndsource3d = scfQueryInterface<iSndSysSourceSoftware3D> (sndsource);
+    sndsource3d = scfQueryInterface<iSndSysSource3D> (sndsource);
 
     sndsource3d->SetPosition (csVector3(0,0,0));
-    sndsource3d->SetVolume (1.0f);
+    sndsource->SetVolume (1.0f);
 
     sndstream->SetLoopState (CS_SNDSYS_STREAM_LOOP);
     sndstream->Unpause ();
@@ -477,6 +477,7 @@ namespace PT
     csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
       iPcZoneManager);
     pczonemgr->SetLoadingMode(CEL_ZONE_NORMAL);
+    pczonemgr->Load("/peragro/art/world/", "regions.xml");
 
     Run();
 
@@ -927,25 +928,6 @@ namespace PT
     // Little hack to restore focus.
     guimanager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
 
-
-    const char* regionname = cmdline->GetOption("world");
-
-    if (!regionname)
-    {
-      regionname = regionEv->regionName.c_str();
-      Report(PT::Notify, "loadRegion: Using default world.");
-    }
-
-    csRef<iCelEntity> entity = pl->FindEntity("ptworld");
-    csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
-      iPcZoneManager);
- 
-    world_loaded = pczonemgr->Load("/peragro/art/world/", "regions.xml");
-    iCelRegion* region = pczonemgr->FindRegion(regionname);
-    if (region) pczonemgr->ActivateRegion(region);
-
-    entitymanager->setWorldloaded(world_loaded);
-
     // Stop the intro music.
     sndstream->Pause ();
 
@@ -956,6 +938,9 @@ namespace PT
       Reflection::ReflectionUtils::SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
       Report(PT::Notify, "loadRegion: Enabled reflections!");
     }
+
+    world_loaded = true;
+    PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
 
     return true;
   }

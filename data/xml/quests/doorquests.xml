@@ -82,8 +82,8 @@
       <quest name='GateUpward'>
         <default name='x_on' value='0'/>
         <default name='x_off' value='0'/>
-        <default name='y_on' value='3'/>
-        <default name='y_off' value='-3'/>
+        <default name='y_on' value='5'/>
+        <default name='y_off' value='-5'/>
         <default name='z_on' value='0'/>
         <default name='z_off' value='0'/>
         <default name='duration' value='500'/>
