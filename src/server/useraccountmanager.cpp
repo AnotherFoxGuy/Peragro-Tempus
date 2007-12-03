@@ -66,5 +66,20 @@ const ptString UserAccountManager::signup(ptString username, const char* passwor
   }
 
   ut->insert(username, password);
+
+  User* user = ut->getUser(username);
+
+  if (user->getId() == 1) // first User, all rights!
+  {
+    user->getPermissionList().setLevel(Permission::Admin, 1);
+  }
+  else
+  {
+    user->getPermissionList().setLevel(Permission::Admin, 0);
+  }
+
+  // Temporary override for development, admin for all!
+  user->getPermissionList().setLevel(Permission::Admin, 1);
+
   return ptString(0,0);
 }

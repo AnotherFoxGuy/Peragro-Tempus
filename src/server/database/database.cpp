@@ -34,6 +34,7 @@
 #include "table-npcentities.h"
 #include "table-books.h"
 #include "table-doors.h"
+#include "table-permissions.h"
 
 Database::Database()
 {
@@ -75,6 +76,8 @@ void Database::init()
   npcentitiestable = new NpcEntitiesTable(this);
   bookstable = new BooksTable(this);
   doorstable = new DoorsTable(this);
+  permissionstable = new PermissionsTable(this);
+
 }
 
 Database::~Database()
@@ -96,5 +99,6 @@ Database::~Database()
   delete npcentitiestable;
   delete bookstable;
   delete doorstable;
+  delete permissionstable;
 }
 

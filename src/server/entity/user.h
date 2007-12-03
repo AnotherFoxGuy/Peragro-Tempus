@@ -25,6 +25,7 @@
 #include "server/network/connection.h"
 
 #include "entitylist.h"
+#include "permission.h"
 
 class Network;
 class Connection;
@@ -43,12 +44,13 @@ private:
 
   EntityList ent_list;
 
+  PermissionList permissions;
+
 public:
-  User() : pwhash(0) { }
+  User(size_t id) : id(id), pwhash(0), permissions(id) { }
   ~User() { delete [] pwhash; }
 
   size_t getId() const { return id; }
-  void setId(size_t id) { this->id = id; }
 
   const ptString& getName() const { return name; }
   void setName(ptString name) { this->name = name; }
@@ -78,6 +80,8 @@ public:
 
   void clearEntityList() { ent_list.clear(); }
   void remove();
+
+  PermissionList& getPermissionList() { return permissions; }
 };
 
 #endif // _USER_H_

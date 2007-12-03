@@ -36,6 +36,7 @@ class NpcDialogAnswersTable;
 class NpcEntitiesTable;
 class BooksTable;
 class DoorsTable;
+class PermissionsTable;
 
 #include "resultset.h"
 
@@ -59,6 +60,7 @@ private:
   NpcEntitiesTable* npcentitiestable;
   BooksTable* bookstable;
   DoorsTable* doorstable;
+  PermissionsTable* permissionstable;
 
 public:
   virtual ResultSet* query(const char*, ...) = 0;
@@ -89,6 +91,7 @@ public:
   NpcEntitiesTable* getNpcEntitiesTable() { return npcentitiestable; }
   BooksTable* getBooksTable() { return bookstable; }
   DoorsTable* getDoorsTable() { return doorstable; }
+  PermissionsTable* getPermissionsTable() { return permissionstable; }
 };
 
 #endif // DATABASE_H
