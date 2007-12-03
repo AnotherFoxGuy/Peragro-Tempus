@@ -334,6 +334,9 @@
 				RelativePath="..\..\src\server\entity\pcentity.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\permission.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\raceskills.cpp">
 			</File>
 			<File
@@ -405,6 +408,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\pcentity.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\permission.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\race.h">

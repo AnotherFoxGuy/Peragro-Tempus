@@ -337,6 +337,9 @@
 				RelativePath="..\..\src\server\database\table-npcentities.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-permissions.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-races.cpp">
 			</File>
 			<File
@@ -396,6 +399,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-npcentities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-permissions.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-races.h">
