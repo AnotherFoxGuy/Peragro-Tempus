@@ -6,6 +6,7 @@ under each day.
 
 04-Dec-2007
  - swedishcoder fixed compilation gcc compilation error.
+ - swedishcoder fixed profiling support.
 
 03-Dec-2007
  - PK quickly added a simple way of granting user permissions. For now everyone

@@ -15,7 +15,8 @@ include $(JAMCONFIG) ;
 COMPILER.CFLAGS = -Wall -Wno-unknown-pragmas ;
 COMPILER.CFLAGS.optimize = -O3 -fomit-frame-pointer -ffast-math ;
 COMPILER.CFLAGS.debug = -g3 -DCS_DEBUG ;
-COMPILER.CFLAGS.profile = -gp -O3 ;
+COMPILER.CFLAGS.profile = -pg -O2 ;
+COMPILER.LFLAGS.profile = -pg ;
 
 # Include CS build rules
 include $(TOP)/mk/jam/build.jam ;
