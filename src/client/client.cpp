@@ -64,6 +64,8 @@
 #include "common/data/itemdatamanager.h"
 #include "common/data/sectordatamanager.h"
 #include "common/data/skilldatamanager.h"
+#include "common/data/sector.h"
+#include "common/data/sectordatamanager.h"
 #include "client/entity/entitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
@@ -907,29 +909,31 @@ namespace PT
     sawServer();
     state = STATE_PLAY;
 
-    if (world_loaded) return true;
-
-    guimanager->GetSelectCharWindow ()->HideWindow();
-    guimanager->GetOptionsWindow ()->HideWindow();
-
-    guimanager->GetChatWindow ()->ShowWindow();
-    guimanager->GetHUDWindow ()->ShowWindow();
-
-    // Hide the background.
-    iCEGUI* cegui = guimanager->GetCEGUI();
-    if (cegui->GetWindowManagerPtr ()->isWindowPresent("Root")
-      && cegui->GetWindowManagerPtr ()->isWindowPresent("Background") )
+    if (!world_loaded) 
     {
-      CEGUI::Window* image = cegui->GetWindowManagerPtr ()->getWindow("Background");
-      CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
-      if (image && root) root->removeChildWindow(image);
+      guimanager->GetSelectCharWindow ()->HideWindow();
+      guimanager->GetOptionsWindow ()->HideWindow();
+
+      guimanager->GetChatWindow ()->ShowWindow();
+      guimanager->GetHUDWindow ()->ShowWindow();
+
+
+      // Hide the background.
+      iCEGUI* cegui = guimanager->GetCEGUI();
+      if (cegui->GetWindowManagerPtr ()->isWindowPresent("Root")
+        && cegui->GetWindowManagerPtr ()->isWindowPresent("Background") )
+      {
+        CEGUI::Window* image = cegui->GetWindowManagerPtr ()->getWindow("Background");
+        CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
+        if (image && root) root->removeChildWindow(image);
+      }
+
+      // Little hack to restore focus.
+      guimanager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
+
+      // Stop the intro music.
+      sndstream->Pause ();
     }
-
-    // Little hack to restore focus.
-    guimanager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
-
-    // Stop the intro music.
-    sndstream->Pause ();
 
     // Enable reflection.
     if (enable_reflections)
@@ -938,6 +942,30 @@ namespace PT
       Reflection::ReflectionUtils::SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
       Report(PT::Notify, "loadRegion: Enabled reflections!");
     }
+
+    // Zone manager.
+    csRef<iCelEntity> zonemgr =  pl->FindEntity("ptworld");
+
+    csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (zonemgr,
+      iPcZoneManager);
+
+    PT::Data::SectorDataManager* sectorMgr = 
+      PointerLibrary::getInstance()->getSectorDataManager();
+    PT::Data::Sector* ptsector = sectorMgr->GetSectorById(regionEv->sectorId);
+    if (!ptsector) 
+    {
+      Report(PT::Error, "Unknown sector with id %d!", regionEv->sectorId);
+      ptsector = sectorMgr->GetSectorByName("Default_Sector");
+    }
+
+    iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
+    pczonemgr->ActivateRegion(region);
+
+    //TODO move this printing bit to the BL for the zone entity.
+    csString string;
+    string.Format("Entering region: %s.", ptsector->GetRegion().c_str());
+    PointerLibrary::getInstance()->getGUIManager()->GetChatWindow()->
+      AddMessage(string.GetData());
 
     world_loaded = true;
     PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);

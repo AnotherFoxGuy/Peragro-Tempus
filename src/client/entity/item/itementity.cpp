@@ -76,8 +76,7 @@ namespace PT
         pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
           csVector3(0,0,0));
 
-        iSector* sector = engine->FindSector(sectorName.c_str());
-        pclinmove->SetPosition(pos,0,sector);
+        SetFullPosition(pos, sectorName.c_str());
       }
       else
         Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %d!\n", id);

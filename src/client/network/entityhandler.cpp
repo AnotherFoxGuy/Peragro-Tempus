@@ -193,6 +193,7 @@ void EntityHandler::handleStatsChange(GenericMessage* msg)
 
 void EntityHandler::handleMoveTo(GenericMessage* msg)
 {
+  Report(PT::Debug, "EntityHandler: Received MoveToEntity.");
   MoveToMessage move_msg;
   move_msg.deserialise(msg->getByteStream());
 
@@ -308,6 +309,13 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   poseEvent->poseId = entmsg.getPoseId();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(poseEvent);
+
+  //Region loading event
+  RegionLoadEvent* regionEvent = new RegionLoadEvent();
+
+  regionEvent->sectorId	    = entmsg.getSectorId();
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(regionEvent);
 }
 
 void EntityHandler::handleAddItemEntity(GenericMessage* msg)

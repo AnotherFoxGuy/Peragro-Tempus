@@ -66,6 +66,7 @@ namespace PT
     {
     public:
       std::string regionName;
+      int sectorId;
 
     public:
       RegionLoadEvent() : RegionEvent("RegionLoadEvent", true) {}

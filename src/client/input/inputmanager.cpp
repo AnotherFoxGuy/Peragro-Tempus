@@ -92,7 +92,7 @@ namespace PT
       return false;
     }
 
-    Report(PT::Debug, "Pressed key combo '(%s)', firing action '%s'", it->first.GetConfigKey().c_str(), it->second.c_str());
+    //Report(PT::Debug, "Pressed key combo '(%s)', firing action '%s'", it->first.GetConfigKey().c_str(), it->second.c_str());
 
     //Setup the event, and fire it
     Events::InputEvent* inputEvent = new Events::InputEvent();
@@ -118,7 +118,8 @@ namespace PT
       Report(PT::Warning, "No action for button '%s'(%s).", eventShortcut.GetConfigKey().c_str(), down?"down":"up");
       return false;
     }
-    Report(PT::Debug, "%s button '(%s)', firing action '%s'.", down ? "Pressed":"Released", it->first.GetConfigKey().c_str(), it->second.c_str());
+
+    //Report(PT::Debug, "%s button '(%s)', firing action '%s'.", down ? "Pressed":"Released", it->first.GetConfigKey().c_str(), it->second.c_str());
 
     Events::InputEvent* inputEvent = new Events::InputEvent();
     inputEvent->action   = it->second;

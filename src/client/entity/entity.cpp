@@ -66,5 +66,38 @@ namespace PT
       pcprop->SetProperty("Entity ID", (long)id);
       pcprop->SetProperty("Entity Name", name.c_str());
     }
-  }
-}
+
+    void Entity::SetFullPosition(const csVector3& pos,
+                                 const std::string& sector)
+    {
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+
+      if (celEntity.IsValid())
+      {
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+        csRef<iMovable> mov = pcmesh->GetMesh()->GetMovable();
+        csRef<iSector> sec = engine->FindSector(sector.c_str());
+
+        if (!sec.IsValid())
+        {
+          sec = engine->FindSector("Default_Sector");
+          Report(PT::Error,
+          "Entity: Failed to find sector %s switching to default!", sector.c_str());
+        }
+
+        if (pcmesh.IsValid() && mov.IsValid() && sec.IsValid())
+        {
+          mov->SetSector(sec);
+          mov->SetPosition(pos);
+          mov->UpdateMove();
+        }
+        return; // success so return.
+      }
+ 
+      Report(PT::Error, "Entity: SetFullPosition failed for %s(%d)!\n", name, id);
+    }
+
+  } // Entity namespace
+} // PT namespace

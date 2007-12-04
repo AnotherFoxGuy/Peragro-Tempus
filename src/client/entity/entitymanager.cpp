@@ -224,6 +224,7 @@ namespace PT
       {
         if (entities[i]->GetId() == id)
         {
+          movementManager->RemoveMoveTos(id);
           pl->RemoveEntity(entities[i]->GetCelEntity());
           entities.DeleteIndex(i);
         }
@@ -393,10 +394,12 @@ namespace PT
     bool EntityManager::EntityPose(PT::Events::Eventp ev)
     {
       using namespace PT::Events;
-      Report(PT::Debug, "I got something here");
+      
       EntityPoseEvent* entPoseEvent = GetEntityEvent<EntityPoseEvent*>(ev);
       if (!entPoseEvent) return false;
 
+      Report(PT::Debug, "EntityPose: Recieved Pose %d for entity %d.", 
+              entPoseEvent->poseId, entPoseEvent->entityId);
       Entity* entity = findPtEntById(entPoseEvent->entityId);
       if (entity) entity->Pose(entPoseEvent->poseId);
 

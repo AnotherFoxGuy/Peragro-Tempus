@@ -152,6 +152,14 @@ namespace PT
        * running.
        */
       void CameraDraw(unsigned int fpsLimit=1000);
+
+      /**
+       * Changes the entity position and sector immediatelly
+       * and activates the region for it to load.
+       * @param pos New position of an entity.
+       * @param sector New sector where the entity should reside.
+       */
+      void Teleport(const csVector3& pos, const std::string& sector);
     };
   }
 }

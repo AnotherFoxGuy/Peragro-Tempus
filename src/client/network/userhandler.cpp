@@ -109,8 +109,4 @@ void UserHandler::handleCharSelectResponse(GenericMessage* msg)
   StatePlayEvent* stateEvent = new StatePlayEvent();
   stateEvent->ownEntityId = answer_msg.getEntityId();
   PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
-
-  RegionLoadEvent* regionEvent = new RegionLoadEvent();
-  regionEvent->regionName = "keep";
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(regionEvent);
 }

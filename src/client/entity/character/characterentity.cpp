@@ -111,7 +111,14 @@ namespace PT
           //pcactormove->RotateTo(moveTo->dest_angle);
 
           // Workaround:
-          pclinmove->SetPosition(pclinmove->GetPosition(), moveTo->dest_angle, pclinmove->GetSector());
+          csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+          if (pcmesh.IsValid() && pcmesh->GetMesh ())
+          {
+            csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (moveTo->dest_angle);
+            pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+            pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+          }
+
         }
         else if (angular_vel.IsZero() && !moveTo->walking)
         {
@@ -178,36 +185,9 @@ namespace PT
     void CharacterEntity::Teleport(const csVector3& pos,
                                    const std::string& sector)
     {
-      csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      Report(PT::Warning, "CharacterEntity: teleport\n");
 
-      if (!celEntity.IsValid()) return;
-
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-      iMovable* mov = pcmesh->GetMesh()->GetMovable();
-
-      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      iCelEntity* ptworld = pl->FindEntity("ptworld");
-      csRef<iPcZoneManager> pczonemgr = 
-        CEL_QUERY_PROPCLASS_ENT (ptworld, iPcZoneManager);
-
-      PT::Data::SectorDataManager* sectorMgr = 
-        PointerLibrary::getInstance()->getSectorDataManager();
-      PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sector.c_str());
-
-      // Temporary move to a void sector for unloading regions.
-      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(false);
-      const char* default_sector = "Default_Sector";
-      mov->SetSector(engine->FindSector(default_sector));
-
-      iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
-      pczonemgr->ActivateRegion(region);
-
-      mov->SetSector(engine->FindSector(sector.c_str()));
-      mov->SetPosition(pos);
-      mov->UpdateMove();
-      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
+      SetFullPosition(pos, sector.c_str());
     }
 
     void CharacterEntity::SetCurrentStamina(float x)
@@ -234,15 +214,26 @@ namespace PT
 
       if (!animcontrol.IsValid()) return;
 
-      iSkeleton* skeleton = animcontrol->GetSkeleton ();
+      csRef<iSkeleton> skeleton = animcontrol->GetSkeleton ();
 
       if (!skeleton) return;
 
-      if (stopOthers) skeleton->StopAll();
+      iSkeletonAnimation* script;
+      if (stopOthers) script = 0;
+      else script  = skeleton->FindAnimation (animationName);
+      if (script)
+      {
+        if (script->GetLoop () != loop)
+          script->SetLoop (loop);
+      }
+      else
+      {
+        skeleton->StopAll ();
+        script = skeleton->Execute (animationName);
+        if (script) script->SetLoop (loop);
+      }
 
-      iSkeletonAnimation* inst = skeleton->Execute(animationName, blend_factor);
-
-      if (inst) inst->SetLoop(loop);
+      Report(PT::Warning, "PlayAnimation\n");
     }
 
     void CharacterEntity::Pose(unsigned int poseId)
@@ -254,18 +245,21 @@ namespace PT
         {
           sitting = false;
           PlayAnimation("Sit_up", 1.0f, false, true);
-          PlayAnimation("idle", 0.1f, true);
         }
+        PlayAnimation("idle", 0.1f, true, false);
       }
-      else if (poseId == 1) PlayAnimation("hit", 0.5f, false, false);
+      else if (poseId == 1) 
+      {
+        PlayAnimation("hit", 0.5f, false, false);
+      }
       else if (poseId == 2)
       {
         if (!sitting)
         {
           sitting = true;
-          PlayAnimation("Sit_down", 1.0f, false, true);
-          PlayAnimation("Sit", 0.1f, true);
+          PlayAnimation("Sit_down", 0.5f, false, true);
         }
+        PlayAnimation("Sit", 0.1f, false, false);
       }
     }
 

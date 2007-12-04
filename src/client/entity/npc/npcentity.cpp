@@ -73,17 +73,7 @@ namespace PT
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
-      iSector* sector = engine->FindSector(sectorName.c_str());
-      if (!sector)
-      {
-        sector = engine->FindSector("Default_Sector");
-        Report(PT::Warning,
-        "NpcEntity: Failed to find sector switching to default!");
-      }
-      if (sector) pclinmove->SetPosition(pos,0,sector);
-      else Report(PT::Error,
-        "NpcEntity: Failed to set position, sector '%s' unknown!",
-        sectorName.c_str());
+      SetFullPosition(pos, sectorName.c_str());
     }
 
     void NpcEntity::Interact()

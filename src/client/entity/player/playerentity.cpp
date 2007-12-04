@@ -215,24 +215,20 @@ namespace PT
       csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (zonemgr,
         iPcZoneManager);
 
-      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(false);
-
       PT::Data::SectorDataManager* sectorMgr = 
         PointerLibrary::getInstance()->getSectorDataManager();
       PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sectorName.c_str());
+      if (!ptsector) 
+      {
+        Report(PT::Error, "Unknown sector %s!", sectorName.c_str());
+        ptsector = sectorMgr->GetSectorByName("Default_Sector");
+      }
 
-      iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
+      csRef<iCelRegion> region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
       pczonemgr->ActivateRegion(region);
       pczonemgr->PointMesh("player", ptsector->GetRegion().c_str());
 
-      iSector* sector = engine->FindSector(sectorName.c_str());
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-      iMovable* mov = pcmesh->GetMesh()->GetMovable();
-      mov->SetSector(sector);
-      mov->SetPosition(pos);
-      mov->UpdateMove();  
-
-      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
+      SetFullPosition(pos, sectorName.c_str());  
     }
 
     bool PlayerEntity::ActionForward(PT::Events::Eventp ev)
@@ -614,5 +610,42 @@ namespace PT
       interfaceEvent->actions               = "Attack";
       PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
     }
+
+    void PlayerEntity::Teleport(const csVector3& pos,
+      const std::string& sector)
+    {
+      Report(PT::Warning, "PlayerEntity: teleport to %s\n", sector.c_str());
+
+      if (!celEntity.IsValid()) return;
+
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+
+      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      csRef<iCelEntity> ptworld = pl->FindEntity("ptworld");
+      csRef<iPcZoneManager> pczonemgr = 
+        CEL_QUERY_PROPCLASS_ENT (ptworld, iPcZoneManager);
+
+      PT::Data::SectorDataManager* sectorMgr = 
+        PointerLibrary::getInstance()->getSectorDataManager();
+      PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sector.c_str());
+
+      
+      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(false);
+
+      // Temporary move to a void sector for unloading regions.
+      SetFullPosition(pos, "Default_Sector");
+
+      Report(PT::Warning, "PlayerEntity: teleport to region %s\n", ptsector->GetRegion().c_str());
+      csRef<iCelRegion> region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
+      pczonemgr->ActivateRegion(region);
+
+      SetFullPosition(pos, sector.c_str());
+
+      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
+    }
+
+
+
   } //Entity namespace
 } //PT namespace

@@ -215,6 +215,7 @@ namespace PT
        * @param drupdate Dead reckoning movement data.
        */
       virtual void DrUpdate(const DrUpdateData& drupdate) {}
+
       /**
        * Changes the entity position and sector immediatelly.
        * @param pos New position of an entity.
@@ -241,8 +242,16 @@ namespace PT
        * @param poseId ID of the pose.
        */
       virtual void Pose(unsigned int poseId) {}
+
+      /**
+       * Changes the entity position and sector immediatelly.
+       * @param pos New position of an entity.
+       * @param sector New sector where the entity should reside.
+       */
+      virtual void SetFullPosition(const csVector3& pos,
+                                   const std::string& sector);
     };
-  }
-}
+  } // Entity namespace
+} // PT namespace
 
 #endif // PTENTITY_H

@@ -72,6 +72,8 @@ namespace PT
     public:
       bool GetEntityEvents(PT::Events::Eventp ev);
 
+      void RemoveMoveTos(unsigned int id);
+
     public:
       MovementManager (iObjectRegistry* obj_reg);
       ~MovementManager ();

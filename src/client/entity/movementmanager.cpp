@@ -140,16 +140,8 @@ namespace PT
       return true;
     }
 
-    bool MovementManager::MoveToEntity(PT::Events::Eventp ev)
+    void MovementManager::RemoveMoveTos(unsigned int id)
     {
-      using namespace PT::Events;
-
-      EntityMoveToEvent* entityMoveEv = GetEntityEvent<EntityMoveToEvent*>(ev);
-      if (!entityMoveEv) return false;
-
-      unsigned int id = entityMoveEv->entityId;
-
-      // Remove any other moveTo actions for this entity
       for (size_t i = 0; i < move_to_entity.GetSize(); i++)
       {
         MoveToData* m = move_to_entity.Get(i);
@@ -160,6 +152,19 @@ namespace PT
           break;
         }
       }
+    }
+
+    bool MovementManager::MoveToEntity(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
+
+      EntityMoveToEvent* entityMoveEv = GetEntityEvent<EntityMoveToEvent*>(ev);
+      if (!entityMoveEv) return false;
+
+      unsigned int id = entityMoveEv->entityId;
+
+      // Remove any other moveTo actions for this entity
+      RemoveMoveTos(id);
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)
