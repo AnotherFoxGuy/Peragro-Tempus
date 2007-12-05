@@ -73,6 +73,9 @@ namespace PT
       csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      
+      Entity::sectorName = sector;
+      Entity::pos = pos;
 
       if (celEntity.IsValid())
       {
@@ -92,8 +95,9 @@ namespace PT
           mov->SetSector(sec);
           mov->SetPosition(pos);
           mov->UpdateMove();
+
+          return; // success so return.
         }
-        return; // success so return.
       }
  
       Report(PT::Error, "Entity: SetFullPosition failed for %s(%d)!\n", name, id);
