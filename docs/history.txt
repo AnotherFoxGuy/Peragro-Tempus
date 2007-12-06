@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+06-Dec-2007
+ - swedishcoder fixed a compilation warning.
+
 04-Dec-2007
  - swedishcoder fixed compilation gcc compilation error.
  - swedishcoder fixed profiling support.

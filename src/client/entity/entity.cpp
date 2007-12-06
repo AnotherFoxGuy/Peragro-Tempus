@@ -100,7 +100,8 @@ namespace PT
         }
       }
  
-      Report(PT::Error, "Entity: SetFullPosition failed for %s(%d)!\n", name, id);
+      Report(PT::Error, "Entity: SetFullPosition failed for %s(%d)!\n", 
+             name.c_str(), id);
     }
 
   } // Entity namespace
