@@ -82,6 +82,11 @@ void NpcDialogsTable::createTable()
   insert(12,"2<30,20,178>",0,"teleport");
 }
 
+void NpcDialogsTable::dropTable()
+{
+  db->update("drop table npcdialogs");
+}
+
 void NpcDialogsTable::insert(int dialogid, const char* text, int start, const char* action)
 {
   const char* query = { "insert into npcdialogs(dialogid, text, isstart, action) values (%d, '%q', %d, '%q');" };

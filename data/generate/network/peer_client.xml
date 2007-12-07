@@ -62,6 +62,7 @@
 		<message type="Quest" name="NpcDialogAnswer" />
 		<message type="Quest" name="NpcStartDialog" />
 		<message type="Quest" name="NpcEndDialog" />
+		<message type="Quest" name="SetupDialogs" />
 		<message type="Door" name="BookReadRequest" />
 		<!--message type="Door" name="BookReadResponse" /-->
 		<message type="Door" name="BookWriteRequest" />
@@ -127,6 +128,7 @@
 		<message type="Door" name="UnlockDoorResponse" />
 		<message type="Quest" name="NpcDialog" />
 		<!--message type="Quest" name="NpcDialogAnswer" /-->
+		<!--message type="Quest" name="SetupDialogs" /-->		
 		<!--message type="Door" name="BookReadRequest" /-->
 		<message type="Door" name="BookReadResponse" />
 		<!--message type="Door" name="BookWriteRequest" /-->

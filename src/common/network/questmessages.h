@@ -28,7 +28,8 @@ namespace QUEST
     NPCDIALOG=0,
     NPCDIALOGANSWER=1,
     NPCSTARTDIALOG=2,
-    NPCENDDIALOG=3
+    NPCENDDIALOG=3,
+    SETUPDIALOGS=4
   };
 }
 
@@ -151,6 +152,107 @@ public:
 
   unsigned int getNpcId() { return npcid; }
   void setNpcId(unsigned int x) { npcid = x; }
+
+};
+
+class SetupDialogsMessage : public NetMessage
+{
+  bool deleteexisting;
+  class ListDialogs
+  {
+  public:
+    unsigned int dialogid;
+    ptString action;
+    const char* value;
+    bool isstartdialog;
+  };
+
+  unsigned char dialogscount;
+  ListDialogs* dialogs;
+
+  class ListAnswers
+  {
+  public:
+    unsigned int answerdialogid;
+    unsigned int answerid;
+    const char* answertext;
+    unsigned int answerlink;
+    bool isendanswer;
+  };
+
+  unsigned char answerscount;
+  ListAnswers* answers;
+
+
+public:
+  SetupDialogsMessage() : NetMessage(MESSAGES::QUEST,QUEST::SETUPDIALOGS)
+  {
+    dialogs = 0;
+    answers = 0;
+  }
+
+  ~SetupDialogsMessage()
+  {
+    delete [] dialogs;
+    delete [] answers;
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  bool getDeleteExisting() { return deleteexisting; }
+  void setDeleteExisting(bool x) { deleteexisting = x; }
+
+  unsigned char getDialogsCount() { return dialogscount; }
+  void setDialogsCount(unsigned char ic)
+  {
+    dialogscount = ic;
+    delete [] dialogs;
+    dialogs = new ListDialogs[ic];
+  }
+
+  // --- begin ListDialogs Getter and Setter ---
+
+  unsigned int getDialogId(size_t i) { return dialogs[i].dialogid; }
+  void setDialogId(size_t i, unsigned int x) { dialogs[i].dialogid = x; }
+
+  ptString getAction(size_t i) { return dialogs[i].action; }
+  void setAction(size_t i, ptString x) { dialogs[i].action = x; }
+
+  const char* getValue(size_t i) { return dialogs[i].value; }
+  void setValue(size_t i, const char* x) { dialogs[i].value = x; }
+
+  bool getIsStartDialog(size_t i) { return dialogs[i].isstartdialog; }
+  void setIsStartDialog(size_t i, bool x) { dialogs[i].isstartdialog = x; }
+
+  // --- end ListDialogs Getter and Setter ---
+
+  unsigned char getAnswersCount() { return answerscount; }
+  void setAnswersCount(unsigned char ic)
+  {
+    answerscount = ic;
+    delete [] answers;
+    answers = new ListAnswers[ic];
+  }
+
+  // --- begin ListAnswers Getter and Setter ---
+
+  unsigned int getAnswerDialogId(size_t i) { return answers[i].answerdialogid; }
+  void setAnswerDialogId(size_t i, unsigned int x) { answers[i].answerdialogid = x; }
+
+  unsigned int getAnswerId(size_t i) { return answers[i].answerid; }
+  void setAnswerId(size_t i, unsigned int x) { answers[i].answerid = x; }
+
+  const char* getAnswerText(size_t i) { return answers[i].answertext; }
+  void setAnswerText(size_t i, const char* x) { answers[i].answertext = x; }
+
+  unsigned int getAnswerLink(size_t i) { return answers[i].answerlink; }
+  void setAnswerLink(size_t i, unsigned int x) { answers[i].answerlink = x; }
+
+  bool getIsEndAnswer(size_t i) { return answers[i].isendanswer; }
+  void setIsEndAnswer(size_t i, bool x) { answers[i].isendanswer = x; }
+
+  // --- end ListAnswers Getter and Setter ---
 
 };
 

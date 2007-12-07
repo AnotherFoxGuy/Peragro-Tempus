@@ -90,6 +90,7 @@
 			<message id="1" name="NpcDialogAnswer" />
 			<message id="2" name="NpcStartDialog" />
 			<message id="3" name="NpcEndDialog" />
+			<message id="4" name="SetupDialogs" />
 		</type>
 		<type id="7" name="Trade">
 			<message id="0" name="TradeRequest" />

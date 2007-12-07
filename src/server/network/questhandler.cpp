@@ -28,6 +28,11 @@
 
 #include "common/quest/npcdialog.h"
 #include "common/quest/npcdialoganswer.h"
+#include "common/quest/npcdialogmanager.h"
+
+#include "server/database/database.h"
+#include "server/database/table-npcdialogs.h"
+#include "server/database/table-npcdialoganswers.h"
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
@@ -263,4 +268,52 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
     npc_entity->freeLock();
   }
   character->freeLock();
+}
+
+void QuestHandler::handleSetupDialogs(GenericMessage* msg)
+{
+  User* user = NetworkHelper::getUser(msg)->getLock();
+  size_t level = user->getPermissionList().getLevel(Permission::Admin);
+  user->freeLock();
+
+  // TODO: send "not authorised message"
+  if (level == 0) return;
+
+  SetupDialogsMessage setupmsg;
+  setupmsg.deserialise(msg->getByteStream());
+
+  NpcDialogsTable* dialogtable = 
+    Server::getServer()->getDatabase()->getNpcDialogsTable();
+
+  NpcDialogAnswersTable* answertable =
+    Server::getServer()->getDatabase()->getNpcDialogAnswersTable();
+
+  if (setupmsg.getDeleteExisting())
+  {
+    answertable->dropTable();
+    dialogtable->dropTable();
+    dialogtable->createTable();
+    answertable->createTable();
+  }
+
+  for (size_t i = 0; i < setupmsg.getDialogsCount(); i++)
+  {
+    unsigned int dialogid = setupmsg.getDialogId(i);
+    const char* text = setupmsg.getValue(i);
+    bool start = setupmsg.getIsStartDialog(i);
+    ptString action = setupmsg.getAction(i);
+    dialogtable->insert(dialogid, text, start, *action);
+  }
+
+  for (size_t i = 0; i < setupmsg.getAnswersCount(); i++)
+  {
+    unsigned int dialogid = setupmsg.getAnswerDialogId(i);
+    unsigned int answerid = setupmsg.getAnswerId(i);
+    const char* text = setupmsg.getAnswerText(i);
+    bool end = setupmsg.getIsEndAnswer(i);
+    unsigned int link = setupmsg.getAnswerLink(i);
+    answertable->insert(dialogid, answerid, text, end, link);
+  }
+
+  NPCDialogManager::getDialogManager().load();
 }

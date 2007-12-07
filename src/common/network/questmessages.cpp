@@ -103,3 +103,59 @@ void NpcEndDialogMessage::deserialise(ByteStream* bs)
   npcid = (unsigned int) serial.getInt32();
 }
 
+void SetupDialogsMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(deleteexisting?1:0);
+  serial.setInt8(dialogscount);
+  for ( size_t i = 0; i < dialogscount ; i++ )
+  {
+    serial.setInt32(dialogs[i].dialogid);
+    serial.setString(dialogs[i].action);
+    serial.setString(dialogs[i].value);
+    serial.setInt8(dialogs[i].isstartdialog?1:0);
+  };
+
+  serial.setInt8(answerscount);
+  for ( size_t i = 0; i < answerscount ; i++ )
+  {
+    serial.setInt32(answers[i].answerdialogid);
+    serial.setInt32(answers[i].answerid);
+    serial.setString(answers[i].answertext);
+    serial.setInt32(answers[i].answerlink);
+    serial.setInt8(answers[i].isendanswer?1:0);
+  };
+
+}
+
+void SetupDialogsMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  deleteexisting = serial.getInt8() != 0;
+  dialogscount = (unsigned char) serial.getInt8();
+  setDialogsCount(dialogscount);
+  for ( size_t i = 0; i < dialogscount ; i++ )
+  {
+    dialogs[i].dialogid = (unsigned int) serial.getInt32();
+    dialogs[i].action = serial.getString();
+    serial.getString(dialogs[i].value);
+    dialogs[i].isstartdialog = serial.getInt8() != 0;
+  };
+
+  answerscount = (unsigned char) serial.getInt8();
+  setAnswersCount(answerscount);
+  for ( size_t i = 0; i < answerscount ; i++ )
+  {
+    answers[i].answerdialogid = (unsigned int) serial.getInt32();
+    answers[i].answerid = (unsigned int) serial.getInt32();
+    serial.getString(answers[i].answertext);
+    answers[i].answerlink = (unsigned int) serial.getInt32();
+    answers[i].isendanswer = serial.getInt8() != 0;
+  };
+
+}
+

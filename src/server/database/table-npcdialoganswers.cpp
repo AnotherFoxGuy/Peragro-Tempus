@@ -83,6 +83,11 @@ void NpcDialogAnswersTable::createTable()
   insert(10, 2, "To sueastside's place or whatever!", 0, 12);
 }
 
+void NpcDialogAnswersTable::dropTable()
+{
+  db->update("drop table npcdialoganswers");
+}
+
 void NpcDialogAnswersTable::insert(int dialogid, int answerid, const char* text, int end, int nextdialogid)
 {
   const char* query = { "insert into npcdialoganswers(dialogid, answerid, text, isend, nextdialogid) values (%d, %d, '%q', %d, %d);" };

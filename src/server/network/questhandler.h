@@ -47,11 +47,13 @@ public:
     if (id == QUEST::NPCDIALOGANSWER) handleNpcDialogAnswer(msg);
     else if (id == QUEST::NPCSTARTDIALOG) handleNpcStartDialog(msg);
     else if (id == QUEST::NPCENDDIALOG) handleNpcEndDialog(msg);
+    else if (id == QUEST::SETUPDIALOGS) handleSetupDialogs(msg);
   }
 
   void handleNpcDialogAnswer(GenericMessage* msg);
   void handleNpcStartDialog(GenericMessage* msg);
   void handleNpcEndDialog(GenericMessage* msg);
+  void handleSetupDialogs(GenericMessage* msg);
 };
 
 #endif // _QUESTHANDLER_H_

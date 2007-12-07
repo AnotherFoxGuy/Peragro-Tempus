@@ -41,8 +41,6 @@
 #include "server/entity/charactermanager.h"
 #include "server/database/sqlite/sqlite.h"
 #include "server/database/table-entities.h"
-#include "server/database/table-npcdialogs.h"
-#include "server/database/table-npcdialoganswers.h"
 #include "server/loader/fileloader.h"
 #include "server/loader/file-doors.h"
 #include "server/loader/file-items.h"
@@ -170,44 +168,7 @@ int main(int argc, char ** argv)
   //timeEngine.registerTimer(&spawner);
 
   NPCDialogManager dialog_mgr;
-  // Load NPC Dialogs
-  Array<NpcDialogsTableVO*> dialogs = db.getNpcDialogsTable()->getAll();
-  for (size_t i=0; i<dialogs.getCount(); i++)
-  {
-    NpcDialogsTableVO* vo = dialogs.get(i);
-
-    NPCDialog::Action action;
-    if (vo->action == ptString("text", 4)) action = NPCDialog::SHOW_TEXT;
-    else if (vo->action == ptString("sell", 4)) action = NPCDialog::START_BUY;
-    else if (vo->action == ptString("buy", 3)) action = NPCDialog::START_SELL;
-    else if (vo->action == ptString("teleport", 8)) action = NPCDialog::TELEPORT;
-    else continue;
-
-    NPCDialog* dialog = new NPCDialog(vo->dialogid, vo->isstart != 0, vo->text.c_str(), action);
-    dialog_mgr.addDialog(dialog);
-
-    delete vo;
-  }
-
-  // Load NPC Dialog Answers
-  Array<NpcDialogAnswersTableVO*> answers = db.getNpcDialogAnswersTable()->getAll();
-  for (size_t i=0; i<answers.getCount(); i++)
-  {
-    NpcDialogAnswersTableVO* vo = answers.get(i);
-
-    NPCDialog* next_dialog = 0;
-
-    if (vo->isend == 0)
-    {
-      next_dialog = dialog_mgr.getDialog(vo->nextdialogid);
-    }
-
-    NPCDialogAnswer* answer = new NPCDialogAnswer(next_dialog, vo->text.c_str());
-    NPCDialog* dialog = dialog_mgr.getDialog(vo->dialogid);
-    dialog->addAnswer(answer);
-
-    delete vo;
-  }
+  dialog_mgr.load();
 
   // Finally initialising the network!
   Network network(&server);

@@ -45,6 +45,7 @@ public:
   NpcDialogAnswersTable(Database* db);
 
   void createTable();
+  void dropTable();
 
   void insert(int dialogid, int answerid, const char* text, int end, int nextdialogid);
   void remove(int dialogid, int answerid);

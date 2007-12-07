@@ -20,4 +20,23 @@
 	<message type="Quest" name="NpcEndDialog">
 		<uint32>NpcId</uint32>
 	</message>
+
+	<message type="Quest" name="SetupDialogs">
+		<bool>DeleteExisting</bool>
+		<list name="Dialogs">
+			<uint32>DialogId</uint32>
+			<string>Action</string>
+			<text>Value</text>
+			<bool>IsStartDialog</bool>
+		</list>
+		<!-- nested lists are not yet possible -->
+		<list name="Answers">
+			<uint32>AnswerDialogId</uint32>
+			<uint32>AnswerId</uint32>
+			<text>AnswerText</text>
+			<uint32>AnswerLink</uint32>
+			<bool>IsEndAnswer</bool>
+		</list>
+	</message>
+
 </message-implementation>

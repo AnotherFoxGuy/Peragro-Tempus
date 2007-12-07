@@ -33,6 +33,8 @@ public:
 
   void addDialog(NPCDialog* dialog);
   NPCDialog* getDialog(unsigned int dialog_id);
+
+  void load();
 };
 
 #endif // _NPC_DIALOG_MANAGER_H_
