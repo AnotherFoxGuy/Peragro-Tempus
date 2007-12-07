@@ -27,15 +27,11 @@
 	<dialog id="4">
 		<text>I've seen an apple laying in the grass over there.\n
 			If you hurry, it might still be there.</text>
-		<answer id="" href=""></answer>
-		<answer id="" href=""></answer>
 	</dialog>
 	<dialog id="5">
 		<text>Well, then.\n\nHave a nice day.</text>
-		<answer id="" href=""></answer>
-		<answer id="" href=""></answer>
 	</dialog>
-	<dialog id="6">
+	<dialog id="6" start="true">
 		<text>You there!\nWhat are you looking at me?</text>
 		<answer id="0" href="8">I heard you sell items.</answer>
 		<answer id="1" href="7">I want to sell my goods!</answer>
@@ -47,10 +43,8 @@
 	<dialog id="8">
 		<sell> <!-- TODO --> </sell>
 	</dialog>
-	<dialog id="9">
+	<dialog id="9" start="true">
 		<text>....</text>
-		<answer id="" href=""></answer>
-		<answer id="" href=""></answer>
 	</dialog>
 	<dialog id="10">
 		<text>Where would you like to go?</text>
