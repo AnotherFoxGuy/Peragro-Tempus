@@ -1,0 +1,68 @@
+<dialogs>
+	<dialog id="0" start="true">
+		<text>Hello\nWould you like to know more about keep?</text>
+		<answer id="0" href="1">Yes, I'm new here, please tell me.</answer>
+		<answer id="0" href="5">No, I'm not interested.</answer>
+		<answer id="0" href="10">I'm in a hurry, can you help me?</answer>
+		<answer id="0">I'm in a hurry, maybe another time.</answer>
+	</dialog>
+	<dialog id="1">
+		<text>Well, this is a bit embarrasing.\nI just wanted to sound smart,
+			you know.\nNoone ever wanted to know something about this town
+			and honestly, I don't know anything about it either...</text>
+		<answer id="0" href="2">No, it's ok. After all, it was worth the try.</answer>
+		<answer id="1" href="3">How dare you... If fighting were implemented I would so kill you, u n00b!!111</answer>
+	</dialog>
+	<dialog id="2">
+		<text>I'm glad you have no hard feelings. But ask me in a few days,
+			maybe I'll have found out something about this place by then.\n\n
+			Have a nice day.</text>
+	</dialog>
+	<dialog id="3">
+		<text>Look, I'm really sorry to have upset you... \n\n  hm... do you
+			want an apple instead?</text>
+		<answer id="0" href="5">No, I don't want anything from you.</answer>
+		<answer id="1" href="4">Yes, that would be very kind of you.</answer>
+	</dialog>
+	<dialog id="4">
+		<text>I've seen an apple laying in the grass over there.\n
+			If you hurry, it might still be there.</text>
+		<answer id="" href=""></answer>
+		<answer id="" href=""></answer>
+	</dialog>
+	<dialog id="5">
+		<text>Well, then.\n\nHave a nice day.</text>
+		<answer id="" href=""></answer>
+		<answer id="" href=""></answer>
+	</dialog>
+	<dialog id="6">
+		<text>You there!\nWhat are you looking at me?</text>
+		<answer id="0" href="8">I heard you sell items.</answer>
+		<answer id="1" href="7">I want to sell my goods!</answer>
+		<answer id="2">N..nothing...</answer>
+	</dialog>
+	<dialog id="7">
+		<buy> <!-- TODO --> </buy>
+	</dialog>
+	<dialog id="8">
+		<sell> <!-- TODO --> </sell>
+	</dialog>
+	<dialog id="9">
+		<text>....</text>
+		<answer id="" href=""></answer>
+		<answer id="" href=""></answer>
+	</dialog>
+	<dialog id="10">
+		<text>Where would you like to go?</text>
+		<answer id="0">I think I'll stay here for a bit.</answer>
+		<answer id="1" href="11">To the tavern!</answer>
+		<answer id="2" href="12">To sueastside's place or whatever!</answer>
+	</dialog>
+	<dialog id="11">
+		<teleport sector="TavernInt" x="110" y="4" z="11" />
+	</dialog>
+	<dialog id="12">
+		<teleport sector="room" x="30" y="20" z="178" />
+	</dialog>
+</dialogs>
+
