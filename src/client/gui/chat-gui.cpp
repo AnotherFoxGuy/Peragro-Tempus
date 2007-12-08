@@ -31,6 +31,7 @@
 ChatWindow::ChatWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
+  sumbitEventSubscriber = 0;
 }
 
 ChatWindow::~ChatWindow ()

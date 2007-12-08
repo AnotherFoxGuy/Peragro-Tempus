@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+08-Dec-2007
+ - PK fixed a few minor bugs in the book writing code.
+
 07-Dec-2007
  - PK added a first version of npcdialogs.xml
  - PK implemented npc dialog uploading on the server side.

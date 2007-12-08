@@ -369,7 +369,56 @@ namespace PT
       }
     };
     //--------------------------------------------------------------------------
+    class cmdTest : public Command
+    {
+    public:
+      cmdTest () { }
+      virtual ~cmdTest () { }
+      virtual const char* GetCommand () { return "test"; }
+      virtual const char* GetDescription () { return "Command used for developers to test stuff. Read the code!"; }
+      virtual void Help ()
+      {
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        if(!guimanager) return;
+        guimanager->GetChatWindow ()->AddMessage ("Usage: '/test #number [args]'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Write book: '/test 1 #itemid #bookid #name #text'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Read book: '/test 2 #itemid #bookid'");
+      }
+      virtual void Execute (const StringArray& args)
+      {
+        Network* network = PointerLibrary::getInstance()->getNetwork();
+        if(!network) return;
 
+        // Element 0 is '/', 1 is 'relocate'
+        if (args.size() < 3)
+        {
+          Help();
+          return;
+        }
+        else
+        {
+          if (args[2].compare("1") == 0)
+          {
+            BookWriteRequestMessage msg;
+            msg.setItemId(atoi(args[3].c_str()));
+            msg.setBookId(atoi(args[4].c_str()));
+            msg.setBookName(ptString(args[5].c_str(), args[5].size()));
+            msg.setText(args[6].c_str());
+            network->send(&msg);
+          }
+          else if (args[2].compare("2") == 0)
+          {
+            BookReadRequestMessage msg;
+            msg.setItemId(atoi(args[3].c_str()));
+            msg.setBookId(atoi(args[4].c_str()));
+            network->send(&msg);
+          }
+
+          return;
+        }
+      }
+    };
+    //--------------------------------------------------------------------------
   } // Chat namespace
 } // PT namespace
 

@@ -41,7 +41,7 @@ void BookHandler::handleBookReadRequest(GenericMessage* msg)
   if (!book)
   {
     // Item is no book!
-    printf("Item %i is no book!", bookId);
+    printf("Item %i is no book!\n", bookId);
     return;
   }
 
@@ -49,8 +49,9 @@ void BookHandler::handleBookReadRequest(GenericMessage* msg)
 
   if (slot == Inventory::NoSlot)
   {
-    printf("Player doesn't have book %i!", bookId);
     // Don't own book!
+    printf("Player doesn't have book %i!\n", bookId);
+    return;
   }
 
   BookReadResponseMessage out_msg;
@@ -78,13 +79,13 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
   if (!book)
   {
     // Item is no book!
-    printf("Item %i is no book!", bookId);
+    printf("Item %i is no book!\n", bookId);
     return;
   }
-  else if (!book->text.isNull())
+  else if (bookId > 0)
   {
     // Book is not emtpy!
-    printf("Book %i is not emtpy!", bookId);
+    printf("Book %i is not emtpy!\n", bookId);
     return;
   }
 
@@ -92,8 +93,9 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
 
   if (slot == Inventory::NoSlot)
   {
-    printf("Player doesn't have book %i!", bookId);
     // Don't own book!
+    printf("Player doesn't have book %i!\n", bookId);
+    return;
   }
 
   book->name = in_msg.getBookName();

@@ -40,7 +40,7 @@ protected:
   CONNECTION::TYPE type;
 
 public:
-  Connection(CONNECTION::TYPE type) : type(type)
+  Connection(CONNECTION::TYPE type) : user(0), type(type)
   {
   }
 
