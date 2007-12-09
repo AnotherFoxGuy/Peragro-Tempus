@@ -117,6 +117,7 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
   pchar->freeLock();
 
   BookWriteResponseMessage out_msg;
+  out_msg.setBookId(book->id);
 
   ByteStream bs;
   out_msg.serialise(&bs);

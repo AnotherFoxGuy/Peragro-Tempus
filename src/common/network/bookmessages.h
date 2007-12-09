@@ -117,6 +117,7 @@ public:
 
 class BookWriteResponseMessage : public NetMessage
 {
+  unsigned int bookid;
   ptString error;
 
 public:
@@ -130,6 +131,9 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned int getBookId() { return bookid; }
+  void setBookId(unsigned int x) { bookid = x; }
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }

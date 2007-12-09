@@ -17,6 +17,7 @@
 	</message>
 
 	<message type="Book" name="BookWriteResponse">
+		<uint32>BookId</uint32>
 		<string>Error</string> <!-- null is successful -->
 	</message>
 </message-implementation>
