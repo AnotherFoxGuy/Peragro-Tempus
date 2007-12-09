@@ -59,6 +59,7 @@ public:
 
 class BookReadResponseMessage : public NetMessage
 {
+  ptString bookname;
   const char* text;
 
 public:
@@ -72,6 +73,9 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  ptString getBookName() { return bookname; }
+  void setBookName(ptString x) { bookname = x; }
 
   const char* getText() { return text; }
   void setText(const char* x) { text = x; }

@@ -5,6 +5,7 @@
 	</message>
 
 	<message type="Book" name="BookReadResponse">
+		<string>BookName</string>
 		<text>Text</text> <!-- Limited to 400 byte, compressed! -->
 	</message>
 

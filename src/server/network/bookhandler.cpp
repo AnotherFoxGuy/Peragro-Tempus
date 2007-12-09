@@ -55,6 +55,7 @@ void BookHandler::handleBookReadRequest(GenericMessage* msg)
   }
 
   BookReadResponseMessage out_msg;
+  out_msg.setBookName(book->name);
   out_msg.setText(*book->text);
 
   ByteStream bs;

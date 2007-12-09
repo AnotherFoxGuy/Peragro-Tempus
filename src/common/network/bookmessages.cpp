@@ -43,6 +43,7 @@ void BookReadResponseMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  serial.setString(bookname);
   serial.setString(text);
 }
 
@@ -51,6 +52,7 @@ void BookReadResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
+  bookname = serial.getString();
   serial.getString(text);
 }
 
