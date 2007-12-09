@@ -47,7 +47,7 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
   return true;
 }
 
-bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
+bool InventoryWindow::AddItem(unsigned int itemid, unsigned int variationid, unsigned int slotid)
 {
   if(slotid > numberOfSlots) return false;
 
@@ -67,7 +67,7 @@ bool InventoryWindow::AddItem(unsigned int itemid, unsigned int slotid)
 
   // Create a new item.
   if(slot->IsEmpty())
-    slot->SetObject(dragdrop->CreateItem(itemid));
+    slot->SetObject(dragdrop->CreateItem(itemid, variationid));
 
   return true;
 }

@@ -71,7 +71,7 @@ namespace PT
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       if (!guimanager) return true;
-      guimanager->GetInventoryWindow()->AddItem(pickUpEv->itemId, pickUpEv->slotId);
+      guimanager->GetInventoryWindow()->AddItem(pickUpEv->itemId, pickUpEv->variationId, pickUpEv->slotId);
 
       return true;
     }

@@ -178,6 +178,52 @@ bool DragDrop::handleDragDroppedBuy(const CEGUI::EventArgs& args)
   return true;
 }
 
+bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
+{
+  using namespace CEGUI;
+
+  const MouseEventArgs& mouseArgs = static_cast<const MouseEventArgs&>(args);
+
+  // If TAB is pressed, do tabcompletion.
+  if (mouseArgs.button != RightButton)
+  {
+    return true;
+  }
+
+  printf("RightClicked\n");
+
+  int objectid = -1;
+
+  Slot* slot = static_cast<Slot*>(mouseArgs.window->getParent()->getUserData());
+  if (!slot) return false;
+  Object* object = slot->GetObject();
+  if (!object) return false;
+  objectid = object->GetId();
+
+  if (objectid < 1) return false;
+
+  printf("Iem %d %d \n", object->GetId(), object->GetVariationId());
+
+  if (object->GetVariationId() == 0)// Empty book.
+  {
+    BookWriteRequestMessage msg;
+    msg.setItemId(object->GetId());
+    msg.setBookId(0);
+    msg.setBookName(ptString("Blah", 4));
+    msg.setText("Once upon a time.");
+    if (network) network->send(&msg);
+  }
+  else 
+  {
+    BookReadRequestMessage msg;
+    msg.setItemId(object->GetId());
+    msg.setBookId(object->GetVariationId());
+    if (network) network->send(&msg);
+  }
+
+  return true;
+}
+
 CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactable)
 {
   char uniquename[1024];
@@ -201,6 +247,9 @@ CEGUI::Window* DragDrop::createIcon(int icontype, int objectid, bool interactabl
 
   // Setup event for swapping.
   icon->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedIcon, this));
+
+  // Setup event for interaction
+  icon->subscribeEvent(CEGUI::Window::EventMouseButtonDown, CEGUI::Event::Subscriber(&DragDrop::handleRightClickedIcon, this));
 
   // Set a static image as drag container's contents
   CEGUI::Window* iconImage = winMgr->createWindow("Peragro/StaticImage");
@@ -246,7 +295,7 @@ CEGUI::String DragDrop::IntToStr(int number)
   return value;
 }
 
-Object* DragDrop::CreateItem(uint itemid, bool interactable)
+Object* DragDrop::CreateItem(uint itemid, unsigned int variationid, bool interactable)
 {
   PT::Data::Item* clientitem = itemDataManager->GetItemById(itemid);
 
@@ -258,6 +307,7 @@ Object* DragDrop::CreateItem(uint itemid, bool interactable)
 
   Object* object = new Object();
   object->SetId(itemid);
+  object->SetVariationId(variationid);
   object->SetWindow(createIcon(DragDrop::Item, itemid, interactable));
 
   return object;

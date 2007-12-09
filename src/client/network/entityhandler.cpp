@@ -110,6 +110,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
     TradePickUpEvent* pickUpEv = new TradePickUpEvent();
 
     pickUpEv->itemId = response_msg.getItemId();
+    pickUpEv->variationId = response_msg.getVariation();
     pickUpEv->slotId = response_msg.getSlotId();
 
     PointerLibrary::getInstance()->getEventManager()->AddEvent(pickUpEv);
@@ -163,8 +164,8 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
-    Report(PT::Debug, "Item %d with amount 1 in slot %d.", item_msg.getItemId(i), item_msg.getSlotId(i));
-    guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getSlotId(i));
+    Report(PT::Debug, "Item %d(%d) in slot %d.", item_msg.getItemId(i), item_msg.getVariation(i), item_msg.getSlotId(i));
+    guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getVariation(i), item_msg.getSlotId(i));
   }
   Report(PT::Debug, "---------------------------\n");
 }

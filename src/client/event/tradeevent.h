@@ -69,6 +69,7 @@ namespace PT
     {
     public:
       unsigned int itemId;
+      unsigned int variationId;
       unsigned int slotId;
 
     public:

@@ -29,6 +29,7 @@ private:
   struct Item
   {
     unsigned int itemid;
+    unsigned int variationid;
     unsigned int price;
   };
 

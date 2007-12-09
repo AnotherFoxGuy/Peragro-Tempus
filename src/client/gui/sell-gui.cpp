@@ -55,11 +55,11 @@ bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid)
 
   if (!slot)
   {
-    Report(PT::Error, "SellWindow: Couldn't add item %d in slot %d!", itemid, slotid);
+    Report(PT::Error, "SellWindow: Couldn't add item %d in slot %d!", itemid,slotid);
     return false;
   }
 
-  slot->SetObject(dragdrop->CreateItem(itemid));
+  slot->SetObject(dragdrop->CreateItem(itemid, 0));
 
   return true;
 }
@@ -78,7 +78,7 @@ void SellWindow::AcceptTrade()
     if(!slot->IsEmpty())
     {
       Object* object = slot->GetObject();
-      while(!guimanager->GetInventoryWindow()->AddItem(object->GetId(), counter)
+      while(!guimanager->GetInventoryWindow()->AddItem(object->GetId(), object->GetVariationId(), counter)
         && counter < nrInventorySlots)
       {
         counter += 1;

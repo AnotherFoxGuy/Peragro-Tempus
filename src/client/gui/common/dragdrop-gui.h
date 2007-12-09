@@ -56,6 +56,7 @@ public:
   bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
   bool handleDragDroppedTrade(const CEGUI::EventArgs& args);
   bool handleDragDroppedBuy(const CEGUI::EventArgs& args);
+  bool handleRightClickedIcon(const CEGUI::EventArgs& args);
 
   enum Type
   {
@@ -68,7 +69,7 @@ public:
   virtual ~DragDrop();
 
   CEGUI::Window* createIcon(int icontype, int objectid, bool interactable = true);
-  Object* CreateItem(uint itemid, bool interactable = true);
+  Object* CreateItem(uint itemid, unsigned int variationid, bool interactable = true);
   void MoveObject(Slot* oldslot, Slot* newslot);
 
   CEGUI::String IntToStr(int number);

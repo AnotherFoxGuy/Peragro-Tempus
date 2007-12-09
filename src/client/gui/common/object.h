@@ -34,6 +34,7 @@ class Object
 {
 private:
   unsigned int objectid;
+  unsigned int variationid;
   unsigned int amount;
   unsigned int objecttype;
   bool stackable;
@@ -44,14 +45,14 @@ public:
   Object();
   ~Object();
   unsigned int GetId() { return objectid; }
-  unsigned int GetAmount() { return amount; }
+  unsigned int GetVariationId() { return variationid; }
   unsigned int GetType() { return objecttype; }
   bool IsStackable() { return stackable; }
   CEGUI::Window* GetWindow() { return objectwindow; }
   unsigned int GetPrice() { return price; }
 
   void SetId(unsigned int value) { this->objectid = value; }
-  void SetAmount(unsigned int value) { this->amount = value; }
+  void SetVariationId(unsigned int value) { this->variationid = value; }
   void SetType(unsigned int value) { this->objecttype = value; }
   void SetStackable(bool value) { this->stackable = value; }
   void SetWindow(CEGUI::Window* value) { this->objectwindow = value; }

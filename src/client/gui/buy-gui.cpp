@@ -148,7 +148,7 @@ void BuyWindow::Update(int linenr)
     if(counter > nrInventorySlots-1) break;
     Slot* slot = upperslots->GetSlot(counter);
     Item item = items.Get(i);
-    slot->SetObject(dragdrop->CreateItem(item.itemid));
+    slot->SetObject(dragdrop->CreateItem(item.itemid, item.variationid));
     slot->GetObject()->SetPrice(item.price);
     counter += 1;
   }
@@ -194,7 +194,8 @@ void BuyWindow::AcceptTrade()
   for (size_t i=0; i<objandslot.GetSize(); i++)
   {
     unsigned int objid = objandslot.Get(i).object->GetId();
-    while(!guimanager->GetInventoryWindow()->AddItem(objid, counter)
+    unsigned int varid = objandslot.Get(i).object->GetVariationId();
+    while(!guimanager->GetInventoryWindow()->AddItem(objid, varid, counter)
       && counter < nrInventorySlots)
     {
       counter += 1;

@@ -113,7 +113,7 @@ bool TradeWindow::AddItem(unsigned int player, unsigned int itemid, unsigned int
   }
 
   // Create a new non-interactable item.
-  slot->SetObject(dragdrop->CreateItem(itemid, false));
+  slot->SetObject(dragdrop->CreateItem(itemid, 0, false));
 
   Report(PT::Debug, "TradeWindow: Creating item %d!", itemid);
 
@@ -172,7 +172,7 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
     Object* object = oldslot->GetObject();
     object->GetWindow()->disable();
     // Create a new item in the trade inventory.
-    newslot->SetObject(dragdrop->CreateItem(object->GetId()));
+    newslot->SetObject(dragdrop->CreateItem(object->GetId(), object->GetVariationId()));
   }
 
   // Send an updated state of the trade inventory.
@@ -262,7 +262,7 @@ void TradeWindow::AcceptTrade()
     if(!slot->IsEmpty())
     {
       Object* object = slot->GetObject();
-      while(!guimanager->GetInventoryWindow()->AddItem(object->GetId(), counter)
+      while(!guimanager->GetInventoryWindow()->AddItem(object->GetId(), object->GetVariationId(), counter)
         && counter < nrInventorySlots)
       {
         counter += 1;

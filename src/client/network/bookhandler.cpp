@@ -26,6 +26,8 @@ void BookHandler::handleBookReadResponse(GenericMessage* msg)
   BookReadResponseMessage bookmsg;
   bookmsg.deserialise(msg->getByteStream());
 
+  printf("BOOK %s\n", bookmsg.getText());
+
   using namespace PT::Events;
   //BookReadEvent* bookEvent = new BookReadEvent();
   //bookEvent->nickName = *chatmsg.getText();
@@ -36,6 +38,8 @@ void BookHandler::handleBookWriteResponse(GenericMessage* msg)
 {
   BookWriteResponseMessage bookmsg;
   bookmsg.deserialise(msg->getByteStream());
+
+  printf("WROTE A BOOK\n");
 
   using namespace PT::Events;
   //BookWrittenEvent* bookEvent = new BookWrittenEvent();
