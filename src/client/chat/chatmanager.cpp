@@ -81,7 +81,7 @@ namespace PT
       cmd = new cmdRelocate(); RegisterCommand(cmd);
       cmd = new cmdGreet(); RegisterCommand(cmd);
       cmd = new cmdSit(); RegisterCommand(cmd);
-      cmd = new cmdTest(); RegisterCommand(cmd);
+      cmd = new cmdDbg(); RegisterCommand(cmd);
 
       return true;
     } // end Initialize ()

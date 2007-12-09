@@ -58,6 +58,7 @@
 			<message id="28" name="Unmount" />
 			<message id="29" name="PoseRequest" />
 			<message id="30" name="Pose" />
+			<message id="31" name="ToggleFlashStep" />
 		</type>
 		<type id="3" name="Chat">
 			<message id="0" name="Say" />

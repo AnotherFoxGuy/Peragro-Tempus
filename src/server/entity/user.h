@@ -82,6 +82,7 @@ public:
   void remove();
 
   PermissionList& getPermissionList() { return permissions; }
+  const PermissionList& getPermissionList() const { return permissions; }
 };
 
 #endif // _USER_H_

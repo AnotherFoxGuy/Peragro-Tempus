@@ -49,6 +49,9 @@ private:
 
   int pose_id;
 
+  // Moving to the destination instantly!
+  bool flashStep;
+
 public:
   PcEntity()
   {
@@ -62,6 +65,8 @@ public:
 
     isWalking = false;
     pose_id = 0;
+
+    flashStep = false;
   }
 
   ~PcEntity()
@@ -88,6 +93,9 @@ public:
 
   void walkTo(float* dst_pos, float speed);
   const float* getPos();
+
+  void toggleFlashStep() { flashStep = !flashStep; }
+  bool usesFlashStep() const { return flashStep; }
 };
 
 #endif // _PCENTITY_H_

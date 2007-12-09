@@ -49,6 +49,7 @@ public:
     else if (id == ENTITY::PICKREQUEST) handlePickRequest(msg);
     else if (id == ENTITY::DROPREQUEST) handleDropRequest(msg);
     else if (id == ENTITY::RELOCATE) handleRelocate(msg);
+    else if (id == ENTITY::TOGGLEFLASHSTEP) handleToggleFlashStep(msg);
     else if (id == ENTITY::DRUPDATEREQUEST) handleDrUpdateRequest(msg);
     else if (id == ENTITY::INVENTORYMOVEITEMREQUEST) handleInventoryMoveItemRequest(msg);
     else if (id == ENTITY::MOUNTREQUEST) handleMountRequest(msg);
@@ -61,6 +62,7 @@ public:
   void handlePickRequest(GenericMessage* msg);
   void handleDropRequest(GenericMessage* msg);
   void handleRelocate(GenericMessage* msg);
+  void handleToggleFlashStep(GenericMessage* msg);
   void handleDrUpdateRequest(GenericMessage* msg);
   void handleInventoryMoveItemRequest(GenericMessage* msg);
   void handleMountRequest(GenericMessage* msg);

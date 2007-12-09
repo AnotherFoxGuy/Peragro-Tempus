@@ -25,6 +25,7 @@
 #include "server/entity/statmanager.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/race.h"
+#include "server/entity/user.h"
 #include "network.h"
 #include "networkhelper.h"
 #include "server/entity/usermanager.h"
@@ -316,6 +317,21 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
     mount->freeLock();
     server->moveEntity(mount, request_msg.getTo(), speed, request_msg.getRun());
   }
+  else if(entity->usesFlashStep())
+  {
+    Entity* ent = entity->getEntity()->getLock();
+    ent->setPos(request_msg.getTo());
+    ent->freeLock();
+
+    TeleportMessage telemsg;
+    telemsg.setEntityId(ent->getId());
+    telemsg.setSectorId(ent->getSector());
+    telemsg.setPos(ent->getPos());
+
+    ByteStream bs;
+    telemsg.serialise(&bs);
+    server->broadCast(bs);
+  }
   else
   {
     float speed = (float)character->getStats()->getAmount(speed_stat);
@@ -468,6 +484,21 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
   ByteStream bs;
   telemsg.serialise(&bs);
   server->broadCast(bs);
+}
+
+void EntityHandler::handleToggleFlashStep(GenericMessage* msg)
+{
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
+  const PcEntity* c_pcent = NetworkHelper::getPcEntity(msg);
+  if (!user) return;
+
+  PcEntity* pcent = c_pcent->getLock();
+  pcent->toggleFlashStep();
 }
 
 void EntityHandler::handleMountRequest(GenericMessage* msg)

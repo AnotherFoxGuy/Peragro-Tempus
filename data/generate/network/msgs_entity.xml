@@ -138,6 +138,8 @@
 
 	<message type="Entity" name="Relocate"></message>
 
+	<message type="Entity" name="ToggleFlashStep"></message>
+
 	<message type="Entity" name="Teleport">
 		<uint32>EntityId</uint32>
 		<vector3f>Pos</vector3f>

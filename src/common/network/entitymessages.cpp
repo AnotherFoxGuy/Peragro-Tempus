@@ -756,3 +756,17 @@ void PoseMessage::deserialise(ByteStream* bs)
   poseid = (unsigned char) serial.getInt8();
 }
 
+void ToggleFlashStepMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+}
+
+void ToggleFlashStepMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+}
+

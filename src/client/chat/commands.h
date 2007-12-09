@@ -33,6 +33,8 @@
 #include "client/gui/chat-gui.h"
 #include "client/gui/whisper-gui.h"
 
+#include "client/entity/entitymanager.h"
+
 
 namespace PT
 {
@@ -369,25 +371,30 @@ namespace PT
       }
     };
     //--------------------------------------------------------------------------
-    class cmdTest : public Command
+    class cmdDbg : public Command
     {
     public:
-      cmdTest () { }
-      virtual ~cmdTest () { }
-      virtual const char* GetCommand () { return "test"; }
-      virtual const char* GetDescription () { return "Command used for developers to test stuff. Read the code!"; }
+      cmdDbg () { }
+      virtual ~cmdDbg () { }
+      virtual const char* GetCommand () { return "dbg"; }
+      virtual const char* GetDescription () { return "Command used for developers to debug stuff. Read the code!"; }
       virtual void Help ()
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/test #number [args]'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Write book: '/test 1 #itemid #bookid #name #text'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Read book: '/test 2 #itemid #bookid'");
+        guimanager->GetChatWindow ()->AddMessage ("Usage: '/dbg #number [args]'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Write book: '/dbg 1 #itemid #bookid #name #text'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Read book: '/dbg 2 #itemid #bookid'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Player Pos: '/dbg pos'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Flash Step: '/dbg enables moving instantly'");
       }
       virtual void Execute (const StringArray& args)
       {
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
+
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        if(!guimanager) return;
 
         // Element 0 is '/', 1 is 'relocate'
         if (args.size() < 3)
@@ -411,6 +418,31 @@ namespace PT
             BookReadRequestMessage msg;
             msg.setItemId(atoi(args[3].c_str()));
             msg.setBookId(atoi(args[4].c_str()));
+            network->send(&msg);
+          }
+          else if (args[2].compare("pos") == 0)
+          {
+            PointerLibrary* ptr_lib = PointerLibrary::getInstance();
+            Entity::EntityManager* ent_mgr = ptr_lib->getEntityManager();
+
+            iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
+
+            csRef<iPcLinearMovement> pclinmove =
+              CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+
+            csVector3 pos = pclinmove->GetFullPosition();
+            iSector* sector = pclinmove->GetSector();
+
+            char buffer[1024];
+
+            sprintf(buffer, "Position: %s <%f.2, %f.2, %f.2>", 
+              sector->QueryObject()->GetName(), pos.x, pos.y, pos.z);
+
+            guimanager->GetChatWindow ()->AddMessage (buffer);
+          }
+          else if (args[2].compare("flashstep") == 0)
+          {
+            ToggleFlashStepMessage msg;
             network->send(&msg);
           }
 

@@ -55,7 +55,8 @@ namespace ENTITY
     UNMOUNTREQUEST=27,
     UNMOUNT=28,
     POSEREQUEST=29,
-    POSE=30
+    POSE=30,
+    TOGGLEFLASHSTEP=31
   };
 }
 
@@ -1200,6 +1201,23 @@ public:
 
   unsigned char getPoseId() { return poseid; }
   void setPoseId(unsigned char x) { poseid = x; }
+
+};
+
+class ToggleFlashStepMessage : public NetMessage
+{
+
+public:
+  ToggleFlashStepMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::TOGGLEFLASHSTEP)
+  {
+  }
+
+  ~ToggleFlashStepMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
 };
 
