@@ -250,6 +250,11 @@ namespace PT
        */
       virtual void SetFullPosition(const csVector3& pos,
                                    const std::string& sector);
+
+      /**
+       * Reset any changes this entity might have caused.
+       */
+      virtual void Reset() {}
     };
   } // Entity namespace
 } // PT namespace

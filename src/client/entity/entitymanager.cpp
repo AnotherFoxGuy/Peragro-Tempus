@@ -225,6 +225,7 @@ namespace PT
         if (entities[i]->GetId() == id)
         {
           movementManager->RemoveMoveTos(id);
+          entities[i]->Reset();
           pl->RemoveEntity(entities[i]->GetCelEntity());
           entities.DeleteIndex(i);
         }

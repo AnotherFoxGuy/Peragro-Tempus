@@ -62,7 +62,11 @@ namespace PT
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
         csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshName.c_str());
 
-        if (doormesh) pcmesh->SetMesh(doormesh);
+        if (doormesh)
+        {
+          pcmesh->SetMesh(doormesh);
+          trans = doormesh->GetMovable()->GetTransform();
+        }
         else
         {
           Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.c_str());
@@ -126,6 +130,14 @@ namespace PT
       if (GetLocked()) interfaceEvent->actions = "Door, Unlock";
       else interfaceEvent->actions = "Door, Lock";
       PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
+    }
+
+    void DoorEntity::Reset()
+    {
+      if (!celEntity.IsValid()) return;
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      if (!pcmesh.IsValid() && !pcmesh->GetMesh()) return;
+      pcmesh->GetMesh()->GetMovable()->SetTransform(trans);
     }
   }
 }

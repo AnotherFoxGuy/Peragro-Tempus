@@ -40,6 +40,8 @@ namespace PT
       bool open;
       ///Specifies whether the door is locked or not.
       bool locked;
+      ///The transformation this mesh had when it was created.
+      csReversibleTransform trans;
 
       void Create();
 
@@ -70,6 +72,10 @@ namespace PT
 
       void UpdatePcProp(const UpdatePcPropData& update_pcprop);
       void Interact();
+
+      ///Resets any transforms that were performed 
+      ///after the mesh was created.
+      void Reset();
     };
   }
 }
