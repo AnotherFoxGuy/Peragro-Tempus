@@ -321,12 +321,13 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   {
     Entity* ent = entity->getEntity()->getLock();
     ent->setPos(request_msg.getTo());
-    ent->freeLock();
 
     TeleportMessage telemsg;
     telemsg.setEntityId(ent->getId());
     telemsg.setSectorId(ent->getSector());
     telemsg.setPos(ent->getPos());
+
+    ent->freeLock();
 
     ByteStream bs;
     telemsg.serialise(&bs);
