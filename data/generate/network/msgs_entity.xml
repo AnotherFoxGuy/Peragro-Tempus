@@ -49,12 +49,14 @@
 		<float>Walk</float>
 		<uint32>EntityId</uint32>
 		<bool>Run</bool>
+		<bool>Jump</bool>
 	</message>
 
 	<message type="Entity" name="MoveRequest">
 		<uint8>Turn</uint8>
 		<uint8>Walk</uint8>
 		<bool>Run</bool>
+		<bool>Jump</bool>
 	</message>
 
 	<message type="Entity" name="Pose">
@@ -74,6 +76,7 @@
 
 	<message type="Entity" name="PickResponse">
 		<uint32>ItemId</uint32>
+		<uint32>Variation</uint32>
 		<uint8>SlotId</uint8>
 		<string>Error</string> <!-- null if successful -->
 	</message>

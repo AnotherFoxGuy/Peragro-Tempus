@@ -167,6 +167,9 @@ namespace PT
         float speed = 0, rot = 0, avel = 0;
         csVector3 pos, vel, wvel;
 
+        if (pclinmove->GetAnchor()->GetMesh()->GetMovable()
+          ->GetSectors()->GetCount() == 0) return; // unloaded region
+
         iSector* sector = 0;
         pclinmove->GetDRData(onGround, speed, pos, rot, sector, vel, wvel, avel);
 
@@ -186,6 +189,19 @@ namespace PT
                                    const std::string& sector)
     {
       Report(PT::Warning, "CharacterEntity: teleport\n");
+
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      if (pcmesh.IsValid() && pcmesh->GetMesh ())
+      {
+        csVector3 cur_position = pcmesh->GetMesh()->GetMovable()->GetFullPosition();
+        cur_position.y = pos.y;
+        csVector3 direction = pos - cur_position;
+        float yrot_dst = atan2 (-direction.x, -direction.z);
+
+        csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot_dst);
+        pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+        pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+      }
 
       SetFullPosition(pos, sector.c_str());
     }

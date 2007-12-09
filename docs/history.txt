@@ -7,6 +7,7 @@ under each day.
 09-Dec-2007
  - PK two some debug command: pos and flashstep.
  - Sueastside added code to reset entity transformation when it is removed.
+ - PK added item variation to PickResponeMessage.
 
 08-Dec-2007
  - PK fixed a few minor bugs in the book writing code.

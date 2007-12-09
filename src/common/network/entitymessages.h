@@ -365,7 +365,7 @@ public:
   bool getRun() { return run; }
   void setRun(bool x) { run = x; }
 
-  bool getJump() const { return jump; }
+  bool getJump() { return jump; }
   void setJump(bool x) { jump = x; }
 
 };
@@ -398,7 +398,7 @@ public:
   bool getRun() { return run; }
   void setRun(bool x) { run = x; }
 
-  bool getJump() const { return jump; }
+  bool getJump() { return jump; }
   void setJump(bool x) { jump = x; }
 
 };
@@ -431,6 +431,7 @@ public:
 class PickResponseMessage : public NetMessage
 {
   unsigned int itemid;
+  unsigned int variation;
   unsigned char slotid;
   ptString error;
 
@@ -448,6 +449,9 @@ public:
 
   unsigned int getItemId() { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
+
+  unsigned int getVariation() { return variation; }
+  void setVariation(unsigned int x) { variation = x; }
 
   unsigned char getSlotId() { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }

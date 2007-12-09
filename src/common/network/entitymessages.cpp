@@ -251,6 +251,7 @@ void PickResponseMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(itemid);
+  serial.setInt32(variation);
   serial.setInt8(slotid);
   serial.setString(error);
 }
@@ -261,6 +262,7 @@ void PickResponseMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   itemid = (unsigned int) serial.getInt32();
+  variation = (unsigned int) serial.getInt32();
   slotid = (unsigned char) serial.getInt8();
   error = serial.getString();
 }

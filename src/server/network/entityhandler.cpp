@@ -200,6 +200,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         }
 
         response_msg.setItemId(item->getId());
+        response_msg.setVariation(item_entity->variation);
         response_msg.setSlotId(slot);
 
         ByteStream bs;

@@ -630,6 +630,18 @@ namespace PT
         PointerLibrary::getInstance()->getSectorDataManager();
       PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sector.c_str());
 
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      if (pcmesh.IsValid() && pcmesh->GetMesh ())
+      {
+        csVector3 cur_position = pcmesh->GetMesh()->GetMovable()->GetFullPosition();
+        cur_position.y = pos.y;
+        csVector3 direction = pos - cur_position;
+        float yrot_dst = atan2 (-direction.x, -direction.z);
+
+        csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot_dst);
+        pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+        pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+      }
       
       PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(false);
 
