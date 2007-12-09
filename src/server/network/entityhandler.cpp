@@ -500,6 +500,7 @@ void EntityHandler::handleToggleFlashStep(GenericMessage* msg)
 
   PcEntity* pcent = c_pcent->getLock();
   pcent->toggleFlashStep();
+  pcent->freeLock();
 }
 
 void EntityHandler::handleMountRequest(GenericMessage* msg)
