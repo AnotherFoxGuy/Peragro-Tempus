@@ -19,7 +19,7 @@
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
 			<Property Name='UnifiedAreaRect' Value='{{0.080000,0.000000},{0.51,0.000000},{0.93,0.000000},{0.73,0.000000}}'/>
 			<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
-			<Property Name='Text' Value='peragro.org'/>
+			<Property Name='Text' Value='1.peragro.org'/>
 		</Window>
 		<Window Type='Peragro/Button' Name='Connect_Button'>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
