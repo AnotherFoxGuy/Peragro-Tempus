@@ -97,7 +97,7 @@
 				<Property Name='Font' Value='Commonwealth-10'/>
 				<Property Name='InheritsAlpha' Value='False'/>
 				<Property Name='ReadOnly' Value='True'/>
-				<Property Name='Text' Value='Welcome to Peragro Tempus. Press F12 to open the inventory.'/>
+				<Property Name='Text' Value=''/>
 				<Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
 				<Property Name='Disabled' Value='False'/>
 				<Property Name='ImageColours' Value='tl:00000000 tr:00000000 bl:00000000 br:00000000'/>

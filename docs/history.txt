@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+11-Dec-2007
+ - PK added the Inventory and Stats window to the player context menu and
+   removed the F11 / F12 function keys.
+
 09-Dec-2007
  - PK two some debug command: pos and flashstep.
  - Sueastside added code to reset entity transformation when it is removed.

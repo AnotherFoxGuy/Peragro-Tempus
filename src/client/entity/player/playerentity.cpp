@@ -607,7 +607,7 @@ namespace PT
       InterfaceInteract* interfaceEvent = new InterfaceInteract();
 
       interfaceEvent->entityId              = id;
-      interfaceEvent->actions               = "Attack";
+      interfaceEvent->actions               = "Attack, Inventory, Stats";
       PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
     }
 

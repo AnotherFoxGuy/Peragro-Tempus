@@ -42,6 +42,8 @@
 #define UNLOCK_BUTTON "InteractDialog/Unlock"
 #define ATTACK_BUTTON "InteractDialog/Attack"
 #define TALK_BUTTON   "InteractDialog/Talk"
+#define INVENTORY_BUTTON "InteractDialog/Inventory"
+#define STATS_BUTTON  "InteractDialog/Stats"
 
 
 #define BUTTON_SIZE 50.0f
@@ -143,6 +145,14 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
     msg.setNpcId(interactId);
     network->send(&msg);
   }
+  else if (ddea.window->getName().compare(INVENTORY_BUTTON) == 0)
+  {
+    guimanager->GetInventoryWindow()->ShowWindow();
+  }
+  else if (ddea.window->getName().compare(STATS_BUTTON) == 0)
+  {
+    guimanager->GetStatusWindow()->ShowWindow();
+  }
 
 
   GUIWindow::HideWindow();
@@ -237,6 +247,18 @@ void InteractDialogWindow::AddAction(const char* action /*,Callback* callback*/)
     normal = "set:InteractionIcons image:talk_normal";
     hover = "set:InteractionIcons image:talk_hover";
   }
+  else if (strcmp(action, "Inventory") == 0)
+  {
+    name = INVENTORY_BUTTON;
+    normal = "set:InteractionIcons image:talk_normal";
+    hover = "set:InteractionIcons image:talk_hover";
+  }
+  else if (strcmp(action, "Stats") == 0)
+  {
+    name = STATS_BUTTON;
+    normal = "set:InteractionIcons image:talk_normal";
+    hover = "set:InteractionIcons image:talk_hover";
+  }
 
   if (!winMgr->isWindowPresent(name))
   {
@@ -294,6 +316,10 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
     AddAction("Attack");
   if (interfaceEv->Contains("Talk"))
     AddAction("Talk");
+  if (interfaceEv->Contains("Inventory"))
+    AddAction("Inventory");
+  if (interfaceEv->Contains("Stats"))
+    AddAction("Stats");
 
 
 
