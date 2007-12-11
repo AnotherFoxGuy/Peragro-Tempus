@@ -29,6 +29,8 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/gui.h"
 
+#include "client/event/interfaceevent.h"
+
 #include "client/reporter/reporter.h"
 
 using namespace PT;
@@ -198,28 +200,61 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   if (!slot) return false;
   Object* object = slot->GetObject();
   if (!object) return false;
-  objectid = object->GetId();
 
-  if (objectid < 1) return false;
+  using namespace PT::Events;
+  InterfaceInteract* interfaceEvent = new InterfaceInteract();
 
-  printf("Iem %d %d \n", object->GetId(), object->GetVariationId());
+  interfaceEvent->entityId              = slot->GetId();
 
-  if (object->GetVariationId() == 0)// Empty book.
+  interfaceEvent->actions             = "Drop";
+
+  PT::Data::Item* item = itemDataManager->GetItemById(object->GetId());
+
+  // TODO: Use equiptype in items.xml and add itemtype instead of hardcoding here.
+
+  if (object->GetId() == 1) // apple
   {
-    BookWriteRequestMessage msg;
-    msg.setItemId(object->GetId());
-    msg.setBookId(0);
-    msg.setBookName(ptString("Blah", 4));
-    msg.setText("Once upon a time.");
-    if (network) network->send(&msg);
+    interfaceEvent->actions += ", Eat";
   }
-  else 
+  if (object->GetId() == 2) // Tiny Ballpot
   {
-    BookReadRequestMessage msg;
-    msg.setItemId(object->GetId());
-    msg.setBookId(object->GetVariationId());
-    if (network) network->send(&msg);
+    // What the tiny ballpot good for?
   }
+  if (object->GetId() == 3) // Bastard Sword
+  {
+    interfaceEvent->actions += ", Equip";
+  }
+  if (object->GetId() == 4) // Scythe
+  {
+    interfaceEvent->actions += ", Equip";
+  }
+  if (object->GetId() == 5) // Mighty Helmet of the Holy Monkey's Mother 
+  {
+    interfaceEvent->actions += ", Equip";
+  }
+  if (object->GetId() == 6) // Book
+  {
+    if (object->GetVariationId() == 0) // empty
+    {
+      interfaceEvent->actions += ", Write";
+    }
+    // Yes, you can read empty books too... they are just emtpy
+    interfaceEvent->actions += ", Read";
+  }
+  if (object->GetId() == 7) // Key
+  {
+    // Is used with door automatically...
+  }
+  if (object->GetId() == 8) // Flaming Dragon Edge Sword
+  {
+    interfaceEvent->actions += ", Equip";
+  }
+  if (object->GetId() == 9) // Small Plate
+  {
+    // What the small plate good for?
+  }
+
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 
   return true;
 }

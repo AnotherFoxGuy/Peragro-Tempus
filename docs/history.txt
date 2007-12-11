@@ -7,6 +7,7 @@ under each day.
 11-Dec-2007
  - PK added the Inventory and Stats window to the player context menu and
    removed the F11 / F12 function keys.
+ - PK implements right click context menu for items.
 
 09-Dec-2007
  - PK two some debug command: pos and flashstep.

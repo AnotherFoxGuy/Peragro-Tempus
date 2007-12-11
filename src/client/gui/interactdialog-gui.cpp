@@ -35,16 +35,21 @@
 
 #define CANCEL_BUTTON "InteractDialog/Cancel"
 
-#define TRADE_BUTTON  "InteractDialog/Trade"
-#define PICKUP_BUTTON "InteractDialog/Pickup"
-#define DOOR_BUTTON   "InteractDialog/Door"
-#define LOCK_BUTTON   "InteractDialog/Lock"
-#define UNLOCK_BUTTON "InteractDialog/Unlock"
-#define ATTACK_BUTTON "InteractDialog/Attack"
-#define TALK_BUTTON   "InteractDialog/Talk"
+#define TRADE_BUTTON     "InteractDialog/Trade"
+#define PICKUP_BUTTON    "InteractDialog/Pickup"
+#define DROP_BUTTON      "InteractDialog/Drop"
+#define DOOR_BUTTON      "InteractDialog/Door"
+#define LOCK_BUTTON      "InteractDialog/Lock"
+#define UNLOCK_BUTTON    "InteractDialog/Unlock"
+#define ATTACK_BUTTON    "InteractDialog/Attack"
+#define TALK_BUTTON      "InteractDialog/Talk"
 #define INVENTORY_BUTTON "InteractDialog/Inventory"
-#define STATS_BUTTON  "InteractDialog/Stats"
-
+#define STATS_BUTTON     "InteractDialog/Stats"
+#define READ_BUTTON      "InteractDialog/Read"
+#define WRITE_BUTTON     "InteractDialog/Write"
+#define EQUIP_BUTTON     "InteractDialog/Equip"
+#define EAT_BUTTON       "InteractDialog/Eat"
+#define ACTIVATE_BUTTON  "InteractDialog/Activate"
 
 #define BUTTON_SIZE 50.0f
 #define ROOT_SIZE 70.0f
@@ -91,6 +96,16 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
       PickRequestMessage msg;
       msg.setItemEntityId(interactId);
       msg.setSlot(slotid); // TODO: get a free slot for this!
+      network->send(&msg);
+    }
+  }
+  else if (ddea.window->getName().compare(DROP_BUTTON) == 0)
+  {
+    if(interactId < 30) // slot id
+    {
+      Report(PT::Notify, "OnAction: Requesting dropping slot %d.", interactId);
+      DropRequestMessage msg;
+      msg.setSlot(interactId);
       network->send(&msg);
     }
   }
@@ -152,6 +167,26 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
   else if (ddea.window->getName().compare(STATS_BUTTON) == 0)
   {
     guimanager->GetStatusWindow()->ShowWindow();
+  }
+  else if (ddea.window->getName().compare(READ_BUTTON) == 0)
+  {
+    // Display Book Reading GUI
+  }
+  else if (ddea.window->getName().compare(WRITE_BUTTON) == 0)
+  {
+    // Display Book Writing GUI
+  }
+  else if (ddea.window->getName().compare(EQUIP_BUTTON) == 0)
+  {
+    // Read a suitable slot from items.xml and send equiprequest to server.
+  }
+  else if (ddea.window->getName().compare(EAT_BUTTON) == 0)
+  {
+    // Send UseMessage to server... not implemented
+  }
+  else if (ddea.window->getName().compare(ACTIVATE_BUTTON) == 0)
+  {
+    // Send UseMessage to server... not implemented
   }
 
 
@@ -217,6 +252,12 @@ void InteractDialogWindow::AddAction(const char* action /*,Callback* callback*/)
     normal = "set:InteractionIcons image:pickup_normal";
     hover = "set:InteractionIcons image:pickup_hover";
   }
+  else if (strcmp(action, "Drop") == 0)
+  {
+    name = DROP_BUTTON;
+    normal = "set:InteractionIcons image:pickup_normal";
+    hover = "set:InteractionIcons image:pickup_hover";
+  }
   else if (strcmp(action, "Door") == 0)
   {
     name = DOOR_BUTTON;
@@ -256,6 +297,36 @@ void InteractDialogWindow::AddAction(const char* action /*,Callback* callback*/)
   else if (strcmp(action, "Stats") == 0)
   {
     name = STATS_BUTTON;
+    normal = "set:InteractionIcons image:talk_normal";
+    hover = "set:InteractionIcons image:talk_hover";
+  }
+  else if (strcmp(action, "Read") == 0)
+  {
+    name = READ_BUTTON;
+    normal = "set:InteractionIcons image:talk_normal";
+    hover = "set:InteractionIcons image:talk_hover";
+  }
+  else if (strcmp(action, "Write") == 0)
+  {
+    name = WRITE_BUTTON;
+    normal = "set:InteractionIcons image:talk_normal";
+    hover = "set:InteractionIcons image:talk_hover";
+  }
+  else if (strcmp(action, "Equip") == 0)
+  {
+    name = EQUIP_BUTTON;
+    normal = "set:InteractionIcons image:talk_normal";
+    hover = "set:InteractionIcons image:talk_hover";
+  }
+  else if (strcmp(action, "Eat") == 0)
+  {
+    name = EAT_BUTTON;
+    normal = "set:InteractionIcons image:talk_normal";
+    hover = "set:InteractionIcons image:talk_hover";
+  }
+  else if (strcmp(action, "Activate") == 0)
+  {
+    name = ACTIVATE_BUTTON;
     normal = "set:InteractionIcons image:talk_normal";
     hover = "set:InteractionIcons image:talk_hover";
   }
@@ -306,6 +377,8 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
     AddAction("Trade");
   if (interfaceEv->Contains("Pickup"))
     AddAction("Pickup");
+  if (interfaceEv->Contains("Drop"))
+    AddAction("Drop");
   if (interfaceEv->Contains("Door"))
     AddAction("Door");
   if (interfaceEv->Contains("Lock"))
@@ -320,8 +393,16 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
     AddAction("Inventory");
   if (interfaceEv->Contains("Stats"))
     AddAction("Stats");
-
-
+  if (interfaceEv->Contains("Read"))
+    AddAction("Read");
+  if (interfaceEv->Contains("Write"))
+    AddAction("Write");
+  if (interfaceEv->Contains("Equip"))
+    AddAction("Equip");
+  if (interfaceEv->Contains("Eat"))
+    AddAction("Eat");
+  if (interfaceEv->Contains("Activate"))
+    AddAction("Activate");
 
   return true;
 }
