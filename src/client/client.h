@@ -80,6 +80,7 @@ namespace PT
     class EffectDataManager;
     class SectorDataManager;
     class SkillDataManager;
+    class ServerDataManager;
   } // Data namespace
 
   namespace Effect
@@ -179,6 +180,7 @@ namespace PT
     PT::Data::EffectDataManager* effectDataManager;
     PT::Data::SectorDataManager* sectorDataManager;
     PT::Data::SkillDataManager* skillDataManager;
+    PT::Data::ServerDataManager* serverDataManager;
 
     PT::Effect::EffectsManager* effectsmanager;
 
