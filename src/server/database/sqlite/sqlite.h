@@ -20,9 +20,11 @@
 #define _PT_SQLITE_H_
 
 #include "server/database/database.h"
-#include "common/util/array.h"
+
 #include "common/util/mutex.h"
 #include "common/util/thread.h"
+
+#include <queue>
 
 class ResultSet;
 struct sqlite3;
@@ -31,7 +33,7 @@ class dbSQLite : public Database, Thread
 {
   Mutex mutex;
 
-  Array<char*> updates;
+  std::queue<char*> updates;
 
   sqlite3 *db;
 

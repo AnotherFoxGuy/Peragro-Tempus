@@ -52,7 +52,7 @@ ResultSet* dbSQLite::query(const char* query, ...)
   char* escaped_query = sqlite3_vmprintf(query, args);
   va_end (args);
 
-  while (updates.getCount() > 0)
+  while (updates.size() > 0)
     pt_sleep(10);
 
   char *zErrMsg = 0;
@@ -84,7 +84,7 @@ void dbSQLite::update(const char* query, ...)
   va_end (args);
 
   mutex.lock();
-  updates.add(escaped_query);
+  updates.push(escaped_query);
   mutex.unlock();
 }
 
@@ -95,7 +95,7 @@ void dbSQLite::shutdown()
 
 void dbSQLite::Run()
 {
-  if (updates.getCount() == 0)
+  if (updates.size() == 0)
     pt_sleep(10);
   else
     update();
@@ -105,9 +105,9 @@ void dbSQLite::update()
 {
   char *zErrMsg = 0;
   mutex.lock();
-  char* query = updates.get(0);
+  char* query = updates.front();
   int rc = sqlite3_exec(db, query, callback, 0, &zErrMsg);
-  updates.remove(0);
+  updates.pop();
   sqlite3_free(query);
   mutex.unlock();
   if( rc!=SQLITE_OK )
