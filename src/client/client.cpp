@@ -569,6 +569,7 @@ namespace PT
 
         // Show the connect window.
         guimanager->GetConnectWindow ()->ShowWindow ();
+        guimanager->GetServerWindow ()->ShowWindow ();
 
         if (cmdline)
         {
@@ -658,6 +659,7 @@ namespace PT
     else
     {
       guimanager->GetConnectWindow ()->HideWindow ();
+      guimanager->GetServerWindow ()->HideWindow ();
       guimanager->GetLoginWindow ()->ShowWindow ();
 
       if (cmdline && state == STATE_INTRO)

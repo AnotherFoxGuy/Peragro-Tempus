@@ -29,6 +29,7 @@
 
 class LoginWindow;
 class ConnectWindow;
+class ServerWindow;
 class SelectCharWindow;
 class ChatWindow;
 class InventoryWindow;
@@ -54,6 +55,7 @@ class GUIManager
 private:
   LoginWindow* loginwindow;
   ConnectWindow* connectwindow;
+  ServerWindow* serverwindow;
   SelectCharWindow* selectcharwindow;
   ChatWindow* chatwindow;
   InventoryWindow* inventorywindow;
@@ -85,6 +87,7 @@ public:
   DragDrop* GetDragDrop (){return dragdrop;}
 
   ConnectWindow* CreateConnectWindow ();
+  ServerWindow* CreateServerWindow ();
   LoginWindow* CreateLoginWindow ();
   SelectCharWindow* CreateSelectCharWindow ();
   ChatWindow* CreateChatWindow ();
@@ -105,6 +108,11 @@ public:
   ConnectWindow* GetConnectWindow ()
   {
     return connectwindow;
+  }
+
+  ServerWindow* GetServerWindow ()
+  {
+    return serverwindow;
   }
 
   LoginWindow* GetLoginWindow ()

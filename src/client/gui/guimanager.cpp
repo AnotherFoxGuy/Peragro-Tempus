@@ -37,6 +37,7 @@ GUIManager::GUIManager ()
   dragdrop = 0;
   loginwindow = 0;
   connectwindow = 0;
+  serverwindow = 0;
   selectcharwindow = 0;
   chatwindow = 0;
   inventorywindow = 0;
@@ -59,6 +60,7 @@ GUIManager::~GUIManager ()
   delete dragdrop;
   delete loginwindow;
   delete connectwindow;
+  delete serverwindow;
   delete selectcharwindow;
   delete chatwindow;
   delete inventorywindow;
@@ -123,6 +125,7 @@ bool GUIManager::Initialize ()
     if (!dragdrop) return Report(PT::Error, "Failed to create DragDrop class!");
 
     CreateConnectWindow ();
+    CreateServerWindow ();
     CreateLoginWindow ();
     CreateSelectCharWindow ();
     CreateOptionsWindow ();
@@ -159,6 +162,13 @@ ConnectWindow* GUIManager::CreateConnectWindow ()
   connectwindow = new ConnectWindow (this);
   connectwindow->CreateGUIWindow();
   return connectwindow;
+}
+
+ServerWindow* GUIManager::CreateServerWindow ()
+{
+  serverwindow = new ServerWindow (this);
+  serverwindow->CreateGUIWindow();
+  return serverwindow;
 }
 
 LoginWindow* GUIManager::CreateLoginWindow ()
