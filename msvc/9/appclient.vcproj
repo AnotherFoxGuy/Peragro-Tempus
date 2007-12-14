@@ -55,7 +55,7 @@
 				ProgramDatabaseFile="..\..\out\release9\build\appclient\client.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase.lib CEGUIFalagardBase.lib libcrystalspace.lib libceltool.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib libcrystalspace.lib libceltool.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -131,7 +131,7 @@
 				ProgramDatabaseFile="..\..\out\release9\build\appclient\client.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase.lib CEGUIFalagardBase.lib libcrystalspace.lib libceltool.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib libcrystalspace.lib libceltool.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -204,7 +204,7 @@
 				ProgramDatabaseFile="..\..\out\debug9\build\appclient\client.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase_d.lib CEGUIFalagardBase_d.lib libcrystalspace_d.lib libceltool_d.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib libcrystalspace_d.lib libceltool_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -277,7 +277,7 @@
 				ProgramDatabaseFile="..\..\out\debug9\build\appclient\client.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase_d.lib CEGUIFalagardBase_d.lib libcrystalspace_d.lib libceltool_d.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib libcrystalspace_d.lib libceltool_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
