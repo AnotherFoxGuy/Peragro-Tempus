@@ -45,6 +45,7 @@ class OkDialogWindow;
 class BuyWindow;
 class SellWindow;
 class InteractDialogWindow;
+class BookWindow;
 
 class DragDrop;
 
@@ -71,6 +72,7 @@ private:
   BuyWindow* buywindow;
   SellWindow* sellwindow;
   InteractDialogWindow* interactwindow;
+  BookWindow* bookwindow;
 
   DragDrop* dragdrop;
 
@@ -104,6 +106,7 @@ public:
   BuyWindow* CreateBuyWindow();
   SellWindow* CreateSellWindow();
   InteractDialogWindow* CreateInteractDialogWindow();
+  BookWindow* CreateBookWindow();
 
   ConnectWindow* GetConnectWindow ()
   {
@@ -193,6 +196,11 @@ public:
   InteractDialogWindow* GetInteractDialogWindow()
   {
     return interactwindow;
+  }
+
+  BookWindow* GetBookWindow()
+  {
+    return bookwindow;
   }
 
 };

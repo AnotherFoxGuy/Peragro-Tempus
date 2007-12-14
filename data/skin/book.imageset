@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<Imageset Name="Book" Imagefile="empty_book.png" NativeHorzRes="1024" NativeVertRes="512" AutoScaled="true">
+
+	<Image Name="bookempty" XPos="100"   YPos="0" Width="850" Height="512" />
+
+</Imageset>

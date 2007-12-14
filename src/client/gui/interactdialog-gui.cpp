@@ -47,7 +47,6 @@
 #define STATS_BUTTON     "InteractDialog/Stats"
 #define READ_BUTTON      "InteractDialog/Read"
 #define WRITE_BUTTON     "InteractDialog/Write"
-#define EQUIP_BUTTON     "InteractDialog/Equip"
 #define EAT_BUTTON       "InteractDialog/Eat"
 #define ACTIVATE_BUTTON  "InteractDialog/Activate"
 
@@ -170,15 +169,16 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
   }
   else if (ddea.window->getName().compare(READ_BUTTON) == 0)
   {
-    // Display Book Reading GUI
+    BookReadRequestMessage msg;
+    msg.setItemId(6); //TODO hardcoded book.
+    msg.setBookId(interactId);
+    network->send(&msg);
   }
   else if (ddea.window->getName().compare(WRITE_BUTTON) == 0)
   {
+    printf("Opening book to write!\n");
+    //guimanager->GetBookWindow()->ShowWindow();
     // Display Book Writing GUI
-  }
-  else if (ddea.window->getName().compare(EQUIP_BUTTON) == 0)
-  {
-    // Read a suitable slot from items.xml and send equiprequest to server.
   }
   else if (ddea.window->getName().compare(EAT_BUTTON) == 0)
   {
@@ -212,7 +212,6 @@ void InteractDialogWindow::ClearActions()
 
 void InteractDialogWindow::LayoutIcons()
 {
-  // Clear the previous actions.
   for (size_t i = 0; i < rootwindow->getChildCount(); i++)
   {
     CEGUI::Window* button = rootwindow->getChildAtIdx(i);
@@ -312,12 +311,6 @@ void InteractDialogWindow::AddAction(const char* action /*,Callback* callback*/)
     normal = "set:InteractionIcons image:talk_normal";
     hover = "set:InteractionIcons image:talk_hover";
   }
-  else if (strcmp(action, "Equip") == 0)
-  {
-    name = EQUIP_BUTTON;
-    normal = "set:InteractionIcons image:talk_normal";
-    hover = "set:InteractionIcons image:talk_hover";
-  }
   else if (strcmp(action, "Eat") == 0)
   {
     name = EAT_BUTTON;
@@ -397,8 +390,6 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
     AddAction("Read");
   if (interfaceEv->Contains("Write"))
     AddAction("Write");
-  if (interfaceEv->Contains("Equip"))
-    AddAction("Equip");
   if (interfaceEv->Contains("Eat"))
     AddAction("Eat");
   if (interfaceEv->Contains("Activate"))

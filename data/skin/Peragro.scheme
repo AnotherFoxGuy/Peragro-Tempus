@@ -2,6 +2,7 @@
 <GUIScheme Name="Peragro">
 	<Imageset Name="Peragro" Filename="Peragro.imageset" />
 	<Imageset Name="InteractionIcons" Filename="icons.imageset" />
+	<Imageset Name="Book" Filename="book.imageset" />
 	<LookNFeel Filename="Peragro.looknfeel" />
 	<WindowSet Filename="CEGUIFalagardWRBase" />
 	<FalagardMapping WindowType="Peragro/ImageButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="Peragro/ImageButton" />

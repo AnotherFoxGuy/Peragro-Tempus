@@ -135,16 +135,6 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
     return true;
     break;
 
-  //case Key::F11:
-  //  statuswin->isVisible(true) ? statuswin->hide() : statuswin->show();
-  //  return true;
-  //  break;
-
-  //case Key::F12:
-  //  inventorywin->isVisible(true) ? inventorywin->hide() : inventorywin->show();
-  //  return true;
-  //  break;
-
   default: return false;
   }
 

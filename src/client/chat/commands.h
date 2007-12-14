@@ -383,8 +383,7 @@ namespace PT
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         guimanager->GetChatWindow ()->AddMessage ("Usage: '/dbg #number [args]'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Write book: '/dbg 1 #itemid #bookid #name #text'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Read book: '/dbg 2 #itemid #bookid'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Write book: '/dbg write #itemid #bookid #name #text'");
         guimanager->GetChatWindow ()->AddMessage ("  - Player Pos: '/dbg pos'");
         guimanager->GetChatWindow ()->AddMessage ("  - Flash Step: '/dbg enables moving instantly'");
       }
@@ -404,20 +403,18 @@ namespace PT
         }
         else
         {
-          if (args[2].compare("1") == 0)
+          if (args[2].compare("write") == 0)
           {
             BookWriteRequestMessage msg;
             msg.setItemId(atoi(args[3].c_str()));
             msg.setBookId(atoi(args[4].c_str()));
             msg.setBookName(ptString(args[5].c_str(), args[5].size()));
-            msg.setText(args[6].c_str());
-            network->send(&msg);
-          }
-          else if (args[2].compare("2") == 0)
-          {
-            BookReadRequestMessage msg;
-            msg.setItemId(atoi(args[3].c_str()));
-            msg.setBookId(atoi(args[4].c_str()));
+
+            std::string text;
+            for(size_t i = 6; i < args.size(); i++){ text += args[i]; text += " ";}
+
+            printf("%s\n", text.c_str());
+            msg.setText(text.c_str());
             network->send(&msg);
           }
           else if (args[2].compare("pos") == 0)

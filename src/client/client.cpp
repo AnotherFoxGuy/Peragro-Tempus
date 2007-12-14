@@ -366,7 +366,7 @@ namespace PT
     if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
 
     // It's used in PreProcessFrame(), so store this boolean.
-    enable_reflections = app_cfg->GetBool("Client.waterreflections");
+    enable_reflections = false;//app_cfg->GetBool("Client.waterreflections");
 
     iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
     if (nw) nw->SetTitle ("Peragro Tempus");

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+ <Window Type='Peragro/FrameWindow' Name='Book/Frame'>
+   <Property Name='UnifiedSize' Value='{{0.000000,500.000000},{0.000000,330.000000}}'/>
+   <Property Name='UnifiedPosition' Value='{{0.50000,-250.000000},{0.050000,0.000000}}'/>
+
+   <Property Name='TitlebarEnabled' Value='True'/>
+   <Property Name='SizingEnabled' Value='False'/>
+   <Property Name='Visible' Value='True'/>
+   <Property Name='Alpha' Value='1.0'/>
+   <Property Name='Text' Value='Book'/>
+
+   <Window Type='Peragro/StaticImage' Name='Book/Image'>
+     <Property Name='UnifiedSize' Value='{{1.000000,-4.000000},{1.000000,-30.000000}}'/>
+     <Property Name='UnifiedPosition' Value='{{0.000000,2.000000},{0.000000,25.000000}}'/>
+     <Property Name='Image' Value='set:Book image:bookempty'/>
+     <Property Name="BackgroundEnabled" Value="False" />
+     <Property Name="FrameEnabled" Value="False" />
+     <Property Name='InheritsAlpha' Value='False'/>
+     
+     	<Window Type='Peragro/MultiLineEditbox' Name='Book/Page1'>
+     		<Property Name='UnifiedSize' Value='{{0.50000,-45.000000},{1.00000,-70.000000}}'/>
+     		<Property Name='UnifiedPosition' Value='{{0.000000,50.000000},{0.000000,20.000000}}'/>
+     		<Property Name='InheritsAlpha' Value='False'/>
+     		<Property Name='ReadOnly' Value='True'/>
+     		<Property Name='Disabled' Value='True'/>
+     		<Property Name='ImageColours' Value='tl:00000000 tr:00000000 bl:00000000 br:00000000'/>
+     		<Property Name='NormalTextColour' Value='FF000000'/>
+     		<Property Name='MaxTextLength' Value='330'/>
+	</Window>
+	<Window Type='Peragro/Entity' Name='Book/Page1/PageNumber'>
+		<Property Name='Text' Value=''/>
+		<Property Name='UnifiedSize' Value='{{0.00000,30.000000},{0.00000,30.000000}}'/>
+     		<Property Name='UnifiedPosition' Value='{{0.000000,140.000000},{1.000000,-50.000000}}'/>
+     		<Property Name='NormalTextColour' Value='FF000000'/>
+	</Window>
+	
+	<Window Type='Peragro/MultiLineEditbox' Name='Book/Page2'>
+	     	<Property Name='UnifiedSize' Value='{{0.50000,-45.000000},{1.00000,-70.000000}}'/>
+	     	<Property Name='UnifiedPosition' Value='{{0.500000,20.000000},{0.000000,20.000000}}'/>
+	     	<Property Name='InheritsAlpha' Value='False'/>
+	     	<Property Name='ReadOnly' Value='True'/>
+	     	<Property Name='Disabled' Value='True'/>
+	     	<Property Name='ImageColours' Value='tl:00000000 tr:00000000 bl:00000000 br:00000000'/>
+		<Property Name='NormalTextColour' Value='FF000000'/>
+     		<Property Name='MaxTextLength' Value='330'/>
+	</Window>
+   </Window>
+
+ </Window>
+</GUILayout>

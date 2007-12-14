@@ -205,10 +205,7 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   InterfaceInteract* interfaceEvent = new InterfaceInteract();
 
   interfaceEvent->entityId              = slot->GetId();
-
   interfaceEvent->actions             = "Drop";
-
-  PT::Data::Item* item = itemDataManager->GetItemById(object->GetId());
 
   // TODO: Use equiptype in items.xml and add itemtype instead of hardcoding here.
 
@@ -216,43 +213,17 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   {
     interfaceEvent->actions += ", Eat";
   }
-  if (object->GetId() == 2) // Tiny Ballpot
-  {
-    // What the tiny ballpot good for?
-  }
-  if (object->GetId() == 3) // Bastard Sword
-  {
-    interfaceEvent->actions += ", Equip";
-  }
-  if (object->GetId() == 4) // Scythe
-  {
-    interfaceEvent->actions += ", Equip";
-  }
-  if (object->GetId() == 5) // Mighty Helmet of the Holy Monkey's Mother 
-  {
-    interfaceEvent->actions += ", Equip";
-  }
   if (object->GetId() == 6) // Book
   {
-    if (object->GetVariationId() == 0) // empty
+    interfaceEvent->entityId = object->GetVariationId();
+    interfaceEvent->actions += ", Read";
+    if (object->GetVariationId() == 0) 
     {
+      // empty, so you can also write in it.
       interfaceEvent->actions += ", Write";
     }
-    // Yes, you can read empty books too... they are just emtpy
-    interfaceEvent->actions += ", Read";
   }
-  if (object->GetId() == 7) // Key
-  {
-    // Is used with door automatically...
-  }
-  if (object->GetId() == 8) // Flaming Dragon Edge Sword
-  {
-    interfaceEvent->actions += ", Equip";
-  }
-  if (object->GetId() == 9) // Small Plate
-  {
-    // What the small plate good for?
-  }
+
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
 

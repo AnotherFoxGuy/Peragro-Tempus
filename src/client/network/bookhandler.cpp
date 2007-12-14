@@ -19,19 +19,20 @@
 #include "client/network/network.h"
 
 #include "client/event/eventmanager.h"
-//#include "client/event/bookevent.h"
+#include "client/event/bookevent.h"
 
 void BookHandler::handleBookReadResponse(GenericMessage* msg)
 {
   BookReadResponseMessage bookmsg;
   bookmsg.deserialise(msg->getByteStream());
 
-  printf("BOOK %s\n", bookmsg.getText());
+  printf("BOOK %s %s\n", *bookmsg.getBookName(), bookmsg.getText());
 
   using namespace PT::Events;
-  //BookReadEvent* bookEvent = new BookReadEvent();
-  //bookEvent->nickName = *chatmsg.getText();
-  //PointerLibrary::getInstance()->getEventManager()->AddEvent(bookEvent);
+  BookReadEvent* bookEvent = new BookReadEvent();
+  bookEvent->title = *bookmsg.getBookName();
+  bookEvent->text = bookmsg.getText();
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(bookEvent);
 }
 
 void BookHandler::handleBookWriteResponse(GenericMessage* msg)

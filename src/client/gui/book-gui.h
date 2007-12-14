@@ -16,26 +16,22 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef BOOK_GUI_H
+#define BOOK_GUI_H
 
-#include "connection-gui.h"
-#include "servers-gui.h"
-#include "login-gui.h"
-#include "charsel-gui.h"
-#include "chat-gui.h"
-#include "inventory-gui.h"
-#include "hud-gui.h"
-#include "options-gui.h"
-#include "status-gui.h"
-#include "buddylist-gui.h"
-#include "whisper-gui.h"
-#include "npcdialog-gui.h"
-#include "trade-gui.h"
-#include "confirmdialog-gui.h"
-#include "buy-gui.h"
-#include "sell-gui.h"
-#include "interactdialog-gui.h"
-#include "book-gui.h"
+#include "base-gui.h"
 
-#endif // GUI_H
+class BookWindow : public GUIWindow
+{
+private:
+  bool OnCloseButton(const CEGUI::EventArgs& args);
+  bool HandleRead(PT::Events::Eventp ev);
+
+public:
+  BookWindow(GUIManager* guimanager);
+  virtual ~BookWindow();
+  void CreateGUIWindow();    // load the chat guilayout and register button events.
+};
+
+
+#endif // BOOK_GUI_H
