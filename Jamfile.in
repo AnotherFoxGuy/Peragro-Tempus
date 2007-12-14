@@ -101,6 +101,8 @@ MsvcGenConfig CEGUI.LIBS.71 : "CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib" ;
 MsvcGenConfig CEGUI.LIBS.DEBUG.71 : "CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib" ;
 MsvcGenConfig CEGUI.LIBS.8 : "CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib" ;
 MsvcGenConfig CEGUI.LIBS.DEBUG.8 : "CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.9 : "CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.9 : "CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib" ;
 
 MsvcGenConfig PTHREAD.CFLAGS : "" ;
 MsvcGenConfig PTHREAD.LFLAGS : "" ;
