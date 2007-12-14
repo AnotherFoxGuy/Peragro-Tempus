@@ -372,7 +372,7 @@ namespace PT
     if (nw) nw->SetTitle ("Peragro Tempus");
 
     // Disable the lighting cache.
-    engine->SetLightingCacheMode (0);
+    engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
 
     // Let the engine prepare all lightmaps for use and also free all images
     // that were loaded for the texture manager.

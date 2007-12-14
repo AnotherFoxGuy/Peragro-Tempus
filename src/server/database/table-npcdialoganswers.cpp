@@ -80,7 +80,7 @@ void NpcDialogAnswersTable::createTable()
 
   insert(10, 0, "I think I'll stay here for a bit.", 1, 0);
   insert(10, 1, "To the tavern!", 0, 11);
-  insert(10, 2, "To sueastside's place or whatever!", 0, 12);
+  insert(10, 2, "To Vaalnor!", 0, 12);
 }
 
 void NpcDialogAnswersTable::dropTable()

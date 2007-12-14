@@ -136,7 +136,7 @@ namespace PT
     {
       if (!celEntity.IsValid()) return;
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-      if (!pcmesh.IsValid() && !pcmesh->GetMesh()) return;
+      if (!pcmesh.IsValid() || !pcmesh->GetMesh()) return;
       pcmesh->GetMesh()->GetMovable()->SetTransform(trans);
     }
   }

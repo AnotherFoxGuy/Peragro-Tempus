@@ -79,7 +79,7 @@ void NpcDialogsTable::createTable()
   insert(9,"....",1,"text");
   insert(10,"Where would you like to go?",0,"text");
   insert(11,"4<110,2,11>",0,"teleport");
-  insert(12,"2<30,20,178>",0,"teleport");
+  insert(12,"7<1022,6,594>",0,"teleport");
 }
 
 void NpcDialogsTable::dropTable()
