@@ -39,7 +39,7 @@ void ConnectionHandler::handleConnectionResponse(PT::Client *client, GenericMess
   }
   else
   {
-    printf("Client is to old\n");
+    printf("Client is too old\n");
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (client->GetObjectRegistry());
     if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(client->GetObjectRegistry()));
   }
