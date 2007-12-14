@@ -1,4 +1,5 @@
 <servers>
   <server host="1.peragro.org" port="12345">Main server</server>
-  <server host="2.peragro.org" port="12345">Secondary server?</server>
+  <server host="pk.peragro.org" port="12345">Testing Server</server>
+  <server host="localhost" port="12345">Local Server</server>
 </servers>
