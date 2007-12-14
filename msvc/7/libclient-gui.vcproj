@@ -358,6 +358,9 @@
 				RelativePath="..\..\src\client\gui\sell-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\servers-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\status-gui.cpp">
 			</File>
 			<File
@@ -429,6 +432,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\sell-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\servers-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\status-gui.h">
