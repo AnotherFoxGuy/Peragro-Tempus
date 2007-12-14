@@ -6,6 +6,7 @@ under each day.
 
 14-Dec-2007
  - Sueastside added Vaalnor.
+ - PK updated the jamtemplate to generate msvc9 files.
 
 11-Dec-2007
  - PK added the Inventory and Stats window to the player context menu and

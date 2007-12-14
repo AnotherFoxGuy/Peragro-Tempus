@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
-
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appclient_static", "appclient_static.vcproj", "{82DCACAF-1E65-356A-733F-09181ADDD5D1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appeventstest_static", "appeventstest_static.vcproj", "{3BFBF276-FB16-40C5-3A0B-5D689497BB74}"

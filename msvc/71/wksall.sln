@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-# Visual C++ Express 2005
+
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appclient", "appclient.vcproj", "{6F4FA155-A555-1DCF-A1EF-136EC2D1F54C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appeventstest", "appeventstest.vcproj", "{F3623D1D-468A-EED0-7396-EA1496E16408}"
