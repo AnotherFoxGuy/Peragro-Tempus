@@ -308,6 +308,9 @@
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\event\bookevent.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\event\chatevent.h">
 			</File>
 			<File
