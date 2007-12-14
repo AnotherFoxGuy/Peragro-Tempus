@@ -79,7 +79,11 @@ public:
 
   csArray<ObjectAndSlot> GetAllObjects();
 
-  Slot* GetSlot(unsigned int slotid) { return slotarray[slotid]; }
+  Slot* GetSlot(unsigned int slotid) 
+  { 
+    if (slotid >= slotarray.GetSize()) return 0;
+    return slotarray[slotid]; 
+  }
 
   csArray<Slot*>* GetSlotArray() { return &slotarray; }
 

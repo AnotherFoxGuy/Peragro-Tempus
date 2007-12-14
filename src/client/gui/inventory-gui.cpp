@@ -47,6 +47,11 @@ bool InventoryWindow::handleCloseButton(const CEGUI::EventArgs& args)
   return true;
 }
 
+Slot* InventoryWindow::GetSlot(unsigned int slotid)
+{
+  return inventory->GetSlot(slotid);
+}
+
 bool InventoryWindow::AddItem(unsigned int itemid, unsigned int variationid, unsigned int slotid)
 {
   if(slotid > numberOfSlots) return false;

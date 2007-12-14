@@ -36,6 +36,9 @@ BookWindow::BookWindow (GUIManager* guimanager)
 {
   iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
   vfs =  csQueryRegistry<iVFS> (obj_reg);
+
+  BookWindow::itemId = -1;
+  BookWindow::slotId = -1;
 }
 
 BookWindow::~BookWindow ()
@@ -78,7 +81,35 @@ bool BookWindow::HandleRead(PT::Events::Eventp ev)
   rootwindow->show();
 
   return true;
-} // end HandleSay ()
+} // end HandleRead ()
+
+bool BookWindow::HandleWrite(PT::Events::Eventp ev)
+{
+  using namespace PT::Events;
+
+  BookWriteEvent* bookEv = GetBookEvent<BookWriteEvent*>(ev);
+  if (!bookEv) return false;
+
+  InventoryWindow* inv = guimanager->GetInventoryWindow();
+  if (!inv) return true;
+
+  Slot* slot = inv->GetSlot(slotId);
+  if (!slot) return true;
+
+  Object* obj = slot->GetObject();
+  if (!obj) return true;
+
+  if (obj->GetId() == itemId)
+    obj->SetVariationId(bookEv->variationId);
+
+  return true;
+} // end HandleWrite ()
+
+void BookWindow::SetBook(unsigned int itemId, unsigned int slotId)
+{
+  BookWindow::itemId = itemId;
+  BookWindow::slotId = slotId;
+}// end SetBook ()
 
 void BookWindow::CreateGUIWindow ()
 {
@@ -101,5 +132,8 @@ void BookWindow::CreateGUIWindow ()
   using namespace PT::Events;
   EventHandler<BookWindow>* cbRead = new EventHandler<BookWindow>(&BookWindow::HandleRead, this);
   PointerLibrary::getInstance()->getEventManager()->AddListener("book.read", cbRead);
+
+  EventHandler<BookWindow>* cbWrite = new EventHandler<BookWindow>(&BookWindow::HandleWrite, this);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("book.write", cbWrite);
 
 } // end CreateGUIWindow ()

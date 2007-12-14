@@ -40,10 +40,11 @@ void BookHandler::handleBookWriteResponse(GenericMessage* msg)
   BookWriteResponseMessage bookmsg;
   bookmsg.deserialise(msg->getByteStream());
 
-  printf("WROTE A BOOK\n");
+
+  printf("WROTE A BOOK %d\n", bookmsg.getBookId());
 
   using namespace PT::Events;
-  //BookWrittenEvent* bookEvent = new BookWrittenEvent();
-  //bookEvent->bookId = *chatmsg.getSpeakerName();
-  //PointerLibrary::getInstance()->getEventManager()->AddEvent(bookEvent);
+  BookWriteEvent* bookEvent = new BookWriteEvent();
+  bookEvent->variationId = bookmsg.getBookId();
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(bookEvent);
 }

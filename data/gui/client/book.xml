@@ -9,6 +9,7 @@
    <Property Name='Visible' Value='True'/>
    <Property Name='Alpha' Value='1.0'/>
    <Property Name='Text' Value='Book'/>
+   <Property Name="FrameEnabled" Value="False" />
 
    <Window Type='Peragro/StaticImage' Name='Book/Image'>
      <Property Name='UnifiedSize' Value='{{1.000000,-4.000000},{1.000000,-30.000000}}'/>

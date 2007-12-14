@@ -60,7 +60,7 @@ namespace PT
     }
 
     /**
-    * Interface Event event.
+    * Book Read Event event.
     */
     class BookReadEvent : public BookEvent
     {
@@ -70,6 +70,18 @@ namespace PT
     public:
       BookReadEvent() : BookEvent("book.read", true) {}
       virtual ~BookReadEvent() {}
+    };
+
+    /**
+    * Book Write Event event.
+    */
+    class BookWriteEvent : public BookEvent
+    {
+    public:
+      unsigned int variationId;
+    public:
+      BookWriteEvent() : BookEvent("book.write", true) {}
+      virtual ~BookWriteEvent() {}
     };
 
 

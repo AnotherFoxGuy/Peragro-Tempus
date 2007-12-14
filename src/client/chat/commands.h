@@ -413,7 +413,6 @@ namespace PT
             std::string text;
             for(size_t i = 6; i < args.size(); i++){ text += args[i]; text += " ";}
 
-            printf("%s\n", text.c_str());
             msg.setText(text.c_str());
             network->send(&msg);
           }

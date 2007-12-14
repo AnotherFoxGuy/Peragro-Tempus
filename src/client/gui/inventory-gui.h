@@ -47,6 +47,7 @@ public:
   bool RemoveItem(unsigned int slotid);
   unsigned int FindItem(unsigned int itemid);
   unsigned int FindFreeSlot();
+  Slot* GetSlot(unsigned int slotid);
 };
 
 

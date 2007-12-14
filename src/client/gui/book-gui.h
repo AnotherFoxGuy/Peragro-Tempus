@@ -24,13 +24,20 @@
 class BookWindow : public GUIWindow
 {
 private:
+  unsigned int itemId;
+  unsigned int slotId;
+
+private:
   bool OnCloseButton(const CEGUI::EventArgs& args);
   bool HandleRead(PT::Events::Eventp ev);
+  bool HandleWrite(PT::Events::Eventp ev);
 
 public:
   BookWindow(GUIManager* guimanager);
   virtual ~BookWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
+
+  void SetBook(unsigned int itemId, unsigned int slotId);
 };
 
 

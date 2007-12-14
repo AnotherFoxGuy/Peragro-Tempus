@@ -170,9 +170,10 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
   else if (ddea.window->getName().compare(READ_BUTTON) == 0)
   {
     BookReadRequestMessage msg;
-    msg.setItemId(6); //TODO hardcoded book.
-    msg.setBookId(interactId);
+    msg.setItemId(itemId);
+    msg.setBookId(variationId);
     network->send(&msg);
+    guimanager->GetBookWindow()->SetBook(itemId, interactId);
   }
   else if (ddea.window->getName().compare(WRITE_BUTTON) == 0)
   {
@@ -350,6 +351,8 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
   if (!interfaceEv) return false;
 
   interactId = interfaceEv->entityId;
+  itemId = interfaceEv->objectId;
+  variationId = interfaceEv->variationId;
 
   newDialog = true;
   ClearActions();

@@ -66,6 +66,10 @@ namespace PT
     {
     public:
       unsigned int entityId;
+
+      unsigned int objectId;
+      unsigned int variationId;
+
       std::string actions;
       bool Contains(const char* action)
       {

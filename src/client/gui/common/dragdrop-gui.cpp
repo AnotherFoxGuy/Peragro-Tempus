@@ -205,7 +205,9 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   InterfaceInteract* interfaceEvent = new InterfaceInteract();
 
   interfaceEvent->entityId              = slot->GetId();
-  interfaceEvent->actions             = "Drop";
+  interfaceEvent->objectId              = object->GetId();
+  interfaceEvent->variationId           = object->GetVariationId();
+  interfaceEvent->actions               = "Drop";
 
   // TODO: Use equiptype in items.xml and add itemtype instead of hardcoding here.
 
@@ -215,7 +217,6 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   }
   if (object->GetId() == 6) // Book
   {
-    interfaceEvent->entityId = object->GetVariationId();
     interfaceEvent->actions += ", Read";
     if (object->GetVariationId() == 0) 
     {

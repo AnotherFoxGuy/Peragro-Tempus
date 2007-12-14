@@ -26,6 +26,9 @@ class InteractDialogWindow : public GUIWindow
 private:
   bool newDialog;
   unsigned int interactId;
+  unsigned int itemId;
+  unsigned int variationId;
+
   void ClearActions();
   void AddAction(const char* action);
   void LayoutIcons();
