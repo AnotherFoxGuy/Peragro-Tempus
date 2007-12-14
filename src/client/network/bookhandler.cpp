@@ -26,8 +26,6 @@ void BookHandler::handleBookReadResponse(GenericMessage* msg)
   BookReadResponseMessage bookmsg;
   bookmsg.deserialise(msg->getByteStream());
 
-  printf("BOOK %s %s\n", *bookmsg.getBookName(), bookmsg.getText());
-
   using namespace PT::Events;
   BookReadEvent* bookEvent = new BookReadEvent();
   bookEvent->title = *bookmsg.getBookName();
@@ -39,9 +37,6 @@ void BookHandler::handleBookWriteResponse(GenericMessage* msg)
 {
   BookWriteResponseMessage bookmsg;
   bookmsg.deserialise(msg->getByteStream());
-
-
-  printf("WROTE A BOOK %d\n", bookmsg.getBookId());
 
   using namespace PT::Events;
   BookWriteEvent* bookEvent = new BookWriteEvent();
