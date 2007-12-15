@@ -26,8 +26,8 @@
 #include "client/gui/guimanager.h"
 #include "common/version.h"
 
-#include "common/data/server.h"
-#include "common/data/serverdatamanager.h"
+#include "client/data/server/server.h"
+#include "client/data/server/serverdatamanager.h"
 
 ServerWindow::ServerWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
