@@ -6,6 +6,7 @@ under each day.
 
 15-Dec-2007
  - Sueastside converted to new event name format: 'type.subsection.name'.
+ - Sueastside moved ServerDataManager to client/data.
 
 14-Dec-2007
  - Sueastside added Vaalnor.

@@ -310,7 +310,7 @@ namespace PT
         if (!entityRemoveEv) return false;
 
         std::string playerName = playernames[entityRemoveEv->entityId];
-        if (playerName.size > 0)
+        if (playerName.size() > 0)
         {
           csString string; string.Format("%s has left.", playerName.c_str());
           guimanager->GetChatWindow ()->AddMessage (string.GetData());

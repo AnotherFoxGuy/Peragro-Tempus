@@ -32,41 +32,47 @@ namespace PT
     }
 
     ///@internal Currently the servers vector is not preallocated, since there's
-    ///no efficient way to get the count of items described in XML file. If need
+    ///no efficient way to get the count of servers described in XML file. If need
     ///be, we could traverse the XML file once before adding the actual data in
     ///order to determine the number of servers in file, and preallocate memory
     ///space.
     bool ServerDataManager::LoadServerData()
     {
       TiXmlDocument serverlist;
-      if(!serverlist.LoadFile((dataPath+"/xml/servers.xml").c_str())){printf("Failed to load serverlist.\n");return false;}
+      if (!serverlist.LoadFile((dataPath+"/xml/servers.xml").c_str()))
+      {
+        printf("Failed to load serverlist.\n");
+        return false;
+      }
+
       TiXmlElement* serverNode=serverlist.FirstChildElement( "servers" );
       serverNode = serverNode->FirstChildElement( "server" );
-      while(serverNode)
+      while (serverNode)
       {
         Server* server = new Server();
         server->SetName(serverNode->GetText());
         server->SetHost(serverNode->Attribute("host"));
         server->SetPort(serverNode->Attribute("port"));
         servers.push_back(server);
-        //printf("Server with the name \"%s\" at %s on port %s\n", serverNode->GetText(), serverNode->Attribute("host"), serverNode->Attribute("port"));
         serverNode = serverNode->NextSiblingElement("server");
-      }
+      } // end while
+
       return true;
-    }
+    } // end LoadServerData()
 
     Server* ServerDataManager::GetServerByName(const std::string& name) const
     {
       for (size_t i = 0; i<servers.size(); i++)
         if (servers[i]->GetName() == name) return servers[i];
       return 0;
-    }
+    } // end GetServerByName()
 
     Server* ServerDataManager::GetServerById(unsigned int id) const
     {
       if (id<servers.size())
         return servers[id];
       return 0;
-    }
+    } // end GetServerById()
+
   } // Data namespace
 } // PT namespace
