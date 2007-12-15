@@ -334,9 +334,6 @@
 				RelativePath="..\..\src\client\gui\confirmdialog-gui.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\gui\connection-gui.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\gui\guimanager.cpp">
 			</File>
 			<File
@@ -408,9 +405,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\confirmdialog-gui.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\gui\connection-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\gui.h">
