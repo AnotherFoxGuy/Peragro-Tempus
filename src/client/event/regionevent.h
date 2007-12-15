@@ -69,7 +69,7 @@ namespace PT
       int sectorId;
 
     public:
-      RegionLoadEvent() : RegionEvent("RegionLoadEvent", true) {}
+      RegionLoadEvent() : RegionEvent("region.load", true) {}
       virtual ~RegionLoadEvent() {}
     };
 

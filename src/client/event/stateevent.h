@@ -82,7 +82,7 @@ namespace PT
     class StateConnectedEvent : public StateEvent
     {
     public:
-      StateConnectedEvent() : StateEvent("StateConnectedEvent", true) 
+      StateConnectedEvent() : StateEvent("state.connected", true) 
       { newState = STATE_CONNECTED; }
       virtual ~StateConnectedEvent() {}
     };
@@ -97,7 +97,7 @@ namespace PT
       std::string errorMessage;
 
     public:
-      StateLoggedInEvent() : StateEvent("StateLoggedInEvent", true) 
+      StateLoggedInEvent() : StateEvent("state.loggedin", true) 
       { newState = STATE_LOGGED_IN; }
       virtual ~StateLoggedInEvent() {}
     };
@@ -111,7 +111,7 @@ namespace PT
       unsigned int ownEntityId;
 
     public:
-      StatePlayEvent() : StateEvent("StatePlayEvent", true) 
+      StatePlayEvent() : StateEvent("state.play", true) 
       { newState = STATE_PLAY; }
       virtual ~StatePlayEvent() {}
     };

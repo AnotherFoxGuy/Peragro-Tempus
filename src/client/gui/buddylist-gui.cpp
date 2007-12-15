@@ -98,9 +98,9 @@ void BuddyWindow::CreateGUIWindow()
 
   EventHandler<BuddyWindow>* cb = new EventHandler<BuddyWindow>(&BuddyWindow::ProcessEvents, this);
   // Register listener for EntityAddEvent.
-  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cb);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("entity.add", cb);
   // Register listener for EntityRemoveEvent.
-  PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cb);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("entity.remove", cb);
   // Key for buddylist toggle.
   EventHandler<BuddyWindow>* cbtoggle = new EventHandler<BuddyWindow>(&BuddyWindow::ToggleWindow, this);
   PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_TOGGLEBUDDYWINDOW", cbtoggle);
@@ -128,7 +128,7 @@ bool BuddyWindow::ProcessEvents(PT::Events::Eventp ev)
 {
   using namespace PT::Events;
 
-  if (ev->GetEventID().compare("EntityAddEvent") == 0)
+  if (ev->GetEventID().compare("entity.add") == 0)
   {
     EntityAddEvent* entityAddEv = GetEntityEvent<EntityAddEvent*>(ev);
     if (!entityAddEv) return false;
@@ -138,7 +138,7 @@ bool BuddyWindow::ProcessEvents(PT::Events::Eventp ev)
       AddPlayer(entityAddEv->entityName.c_str());
     }
   }
-  else if (ev->GetEventID().compare("EntityRemoveEvent") == 0)
+  else if (ev->GetEventID().compare("entity.remove") == 0)
   {
     EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
     if (!entityRemoveEv) return false;

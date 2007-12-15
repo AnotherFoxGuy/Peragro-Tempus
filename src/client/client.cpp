@@ -461,15 +461,15 @@ namespace PT
 
     // Register listener for StateConnectedEvent.
     EventHandler<Client>* cbConnected = new EventHandler<Client>(&Client::Connected, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("StateConnectedEvent", cbConnected);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("state.connected", cbConnected);
 
     // Register listener for StateLoggedInEvent.
     EventHandler<Client>* cbLoggedIn = new EventHandler<Client>(&Client::loggedIn, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("StateLoggedInEvent", cbLoggedIn);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("state.loggedin", cbLoggedIn);
 
     // Register listener for RegionLoadEvent.
     EventHandler<Client>* cbLoad = new EventHandler<Client>(&Client::LoadRegion, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("RegionLoadEvent", cbLoad);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("region.load", cbLoad);
 
     //Actions
 

@@ -51,15 +51,15 @@ namespace PT
       EventHandler<MovementManager>* cb = new EventHandler<MovementManager>(&MovementManager::GetEntityEvents, this);
 
       // Register listener for EntityMoveEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityMoveEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.move", cb);
       // Register listener for EntityMoveToEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityMoveToEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.moveto", cb);
       // Register listener for EntityTeleportEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityTeleportEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.teleport", cb);
       // Register listener for EntityDrUpdateEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityDrUpdateEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.drupdate", cb);
       // Register listener for EntityPcPropUpdateEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityPcPropUpdateEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pcpropupdate", cb);
 
       return true;
     }
@@ -71,15 +71,15 @@ namespace PT
       for (size_t i = 0; i < events.GetSize(); i++)
       {
         Eventp ev = events.Pop();
-        if (ev->GetEventID().compare("EntityMoveEvent") == 0)
+        if (ev->GetEventID().compare("entity.move") == 0)
           MoveEntity(ev);
-        else if (ev->GetEventID().compare("EntityMoveToEvent") == 0)
+        else if (ev->GetEventID().compare("entity.moveto") == 0)
           MoveToEntity(ev);
-        else if (ev->GetEventID().compare("EntityTeleportEvent") == 0)
+        else if (ev->GetEventID().compare("entity.teleport") == 0)
           TeleportEntity(ev);
-        else if (ev->GetEventID().compare("EntityDrUpdateEvent") == 0)
+        else if (ev->GetEventID().compare("entity.drupdate") == 0)
           DrUpdateEntity(ev);
-        else if (ev->GetEventID().compare("EntityPcPropUpdateEvent") == 0)
+        else if (ev->GetEventID().compare("entity.pcpropupdate") == 0)
           UpdatePcProp(ev);
 
       } // for

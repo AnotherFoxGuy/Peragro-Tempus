@@ -73,7 +73,7 @@ namespace PT
       unsigned int slotId;
 
     public:
-      TradePickUpEvent() : TradeEvent("TradePickUpEvent", true) {}
+      TradePickUpEvent() : TradeEvent("trade.pickup", true) {}
       virtual ~TradePickUpEvent() {}
     };
 
@@ -87,7 +87,7 @@ namespace PT
       unsigned int slotId;
 
     public:
-      TradeDropEvent() : TradeEvent("TradeDropEvent", true) {}
+      TradeDropEvent() : TradeEvent("trade.drop", true) {}
       virtual ~TradeDropEvent() {}
     };
 

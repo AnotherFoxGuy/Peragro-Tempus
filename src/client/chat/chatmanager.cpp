@@ -56,11 +56,11 @@ namespace PT
 
       // Register listener for ChatSayEvent.
       EventHandler<ChatManager>* cbSay = new EventHandler<ChatManager>(&ChatManager::HandleSay, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("ChatSayEvent", cbSay);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("chat.say", cbSay);
 
       // Register listener for ChatWhisperEvent.
       EventHandler<ChatManager>* cbWhisper = new EventHandler<ChatManager>(&ChatManager::HandleWhisper, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("ChatWhisperEvent", cbWhisper);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("chat.whisper", cbWhisper);
 
       // Handle submit.
       CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
@@ -69,9 +69,9 @@ namespace PT
 
       EventHandler<ChatManager>* cb = new EventHandler<ChatManager>(&ChatManager::ProcessEvents, this);
       // Register listener for EntityAddEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.add", cb);
       // Register listener for EntityRemoveEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.remove", cb);
 
       // Register commands.
       Command* cmd = new cmdHelp(); RegisterCommand(cmd);
@@ -292,22 +292,31 @@ namespace PT
     {
       using namespace PT::Events;
 
-      if (ev->GetEventID().compare("EntityAddEvent") == 0)
+      if (ev->GetEventID().compare("entity.add") == 0)
       {
         EntityAddEvent* entityAddEv = GetEntityEvent<EntityAddEvent*>(ev);
         if (!entityAddEv) return false;
 
         if (entityAddEv->entityType == PT::Entity::PCEntityType)
         {
+          csString string; string.Format("%s has joined.", entityAddEv->entityName.c_str());
+          guimanager->GetChatWindow ()->AddMessage (string.GetData());
           playernames.insert(std::pair<unsigned int, std::string>(entityAddEv->entityId, entityAddEv->entityName));
         } // end if
       } // end if
-      else if (ev->GetEventID().compare("EntityRemoveEvent") == 0)
+      else if (ev->GetEventID().compare("entity.remove") == 0)
       {
         EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
         if (!entityRemoveEv) return false;
 
-          playernames.erase(entityRemoveEv->entityId);
+        std::string playerName = playernames[entityRemoveEv->entityId];
+        if (playerName.size > 0)
+        {
+          csString string; string.Format("%s has left.", playerName.c_str());
+          guimanager->GetChatWindow ()->AddMessage (string.GetData());
+        }
+
+        playernames.erase(entityRemoveEv->entityId);
       } // end if
 
       return true;

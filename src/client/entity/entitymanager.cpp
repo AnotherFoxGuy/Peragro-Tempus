@@ -77,18 +77,18 @@ namespace PT
 
       EventHandler<EntityManager>* cb = new EventHandler<EntityManager>(&EntityManager::GetEntityEvents, this);
       // Register listener for EntityAddEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityAddEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.add", cb);
       // Register listener for EntityRemoveEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityRemoveEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.remove", cb);
       // Register listener for EntityEquipEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityEquipEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.equip", cb);
       // Register listener for EntityEquipEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityMountEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.mount", cb);
       // Register listener for EntityPoseEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("EntityPoseEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pose", cb);
 
       // Register listener for EntityEquipEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("StatePlayEvent", cb);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("state.play", cb);
 
       // Register listener for ActionInteract.
       EventHandler<EntityManager>* cbInteract = new EventHandler<EntityManager>(&EntityManager::OnInteract, this);
@@ -104,18 +104,18 @@ namespace PT
       for (size_t i = 0; i < events.GetSize(); i++)
       {
         Eventp ev = events.Pop();
-        if (ev->GetEventID().compare("EntityAddEvent") == 0)
+        if (ev->GetEventID().compare("entity.add") == 0)
           AddEntity(ev);
-        else if (ev->GetEventID().compare("EntityRemoveEvent") == 0)
+        else if (ev->GetEventID().compare("entity.remove") == 0)
           RemoveEntity(ev);
-        else if (ev->GetEventID().compare("EntityEquipEvent") == 0)
+        else if (ev->GetEventID().compare("entity.equip") == 0)
           Equip(ev);
-        else if (ev->GetEventID().compare("EntityMountEvent") == 0)
+        else if (ev->GetEventID().compare("entity.mount") == 0)
           Mount(ev);
-        else if (ev->GetEventID().compare("EntityPoseEvent") == 0)
+        else if (ev->GetEventID().compare("entity.pose") == 0)
           EntityPose(ev);
 
-        else if (ev->GetEventID().compare("StatePlayEvent") == 0)
+        else if (ev->GetEventID().compare("state.play") == 0)
           SetOwnId(ev);
       } // for
     }

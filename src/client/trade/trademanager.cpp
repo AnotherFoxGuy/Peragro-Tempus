@@ -53,11 +53,11 @@ namespace PT
 
       // Register listener for TradePickEvent.
       EventHandler<TradeManager>* cbPickUp = new EventHandler<TradeManager>(&TradeManager::PickUp, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("TradePickUpEvent", cbPickUp);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("trade.pickup", cbPickUp);
 
       // Register listener for TradePickEvent.
       EventHandler<TradeManager>* cbDrop = new EventHandler<TradeManager>(&TradeManager::Drop, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("TradeDropEvent", cbDrop);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("trade.drop", cbDrop);
 
       return true;
     }

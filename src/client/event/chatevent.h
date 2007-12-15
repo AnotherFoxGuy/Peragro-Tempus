@@ -69,7 +69,7 @@ namespace PT
       std::string message;
 
     public:
-      ChatSayEvent() : ChatEvent("ChatSayEvent", true) {}
+      ChatSayEvent() : ChatEvent("chat.say", true) {}
       virtual ~ChatSayEvent() {}
     };
 
@@ -83,7 +83,7 @@ namespace PT
       std::string message;
 
     public:
-      ChatWhisperEvent() : ChatEvent("ChatWhisperEvent", true) {}
+      ChatWhisperEvent() : ChatEvent("chat.whisper", true) {}
       virtual ~ChatWhisperEvent() {}
     };
 

@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+15-Dec-2007
+ - Sueastside converted to new event name format: 'type.subsection.name'.
+
 14-Dec-2007
  - Sueastside added Vaalnor.
  - Sueastside added book GUI.

@@ -96,7 +96,7 @@ namespace PT
       bool open;
 
     public:
-      EntityAddEvent() : EntityEvent("EntityAddEvent", true) {}
+      EntityAddEvent() : EntityEvent("entity.add", true) {}
       virtual ~EntityAddEvent() {}
     };
 
@@ -106,7 +106,7 @@ namespace PT
     class EntityRemoveEvent : public EntityEvent
     {
     public:
-      EntityRemoveEvent() : EntityEvent("EntityRemoveEvent", true) {}
+      EntityRemoveEvent() : EntityEvent("entity.remove", true) {}
       virtual ~EntityRemoveEvent() {}
     };
 
@@ -120,7 +120,7 @@ namespace PT
       unsigned int itemId;
 
     public:
-      EntityEquipEvent() : EntityEvent("EntityEquipEvent", true) {}
+      EntityEquipEvent() : EntityEvent("entity.equip", true) {}
       virtual ~EntityEquipEvent() {}
     };
 
@@ -135,7 +135,7 @@ namespace PT
       bool mount;
 
     public:
-      EntityMountEvent() : EntityEvent("EntityMountEvent", true) {}
+      EntityMountEvent() : EntityEvent("entity.mount", true) {}
       virtual ~EntityMountEvent() {}
     };
 
@@ -155,7 +155,7 @@ namespace PT
       bool jump;
 
     public:
-      EntityMoveEvent() : EntityEvent("EntityMoveEvent", true) {}
+      EntityMoveEvent() : EntityEvent("entity.move", true) {}
       virtual ~EntityMoveEvent() {}
     };
 
@@ -170,7 +170,7 @@ namespace PT
       csVector3 destination;
 
     public:
-      EntityMoveToEvent() : EntityEvent("EntityMoveToEvent", true) {}
+      EntityMoveToEvent() : EntityEvent("entity.moveto", true) {}
       virtual ~EntityMoveToEvent() {}
     };
 
@@ -184,7 +184,7 @@ namespace PT
       unsigned int sectorId;
 
     public:
-      EntityTeleportEvent() : EntityEvent("EntityTeleportEvent", true) {}
+      EntityTeleportEvent() : EntityEvent("entity.teleport", true) {}
       virtual ~EntityTeleportEvent() {}
     };
 
@@ -199,7 +199,7 @@ namespace PT
       unsigned int sectorId;
 
     public:
-      EntityDrUpdateEvent() : EntityEvent("EntityDrUpdateEvent", true) {}
+      EntityDrUpdateEvent() : EntityEvent("entity.drupdate", true) {}
       virtual ~EntityDrUpdateEvent() {}
     };
 
@@ -213,7 +213,7 @@ namespace PT
       celData celdata;
 
     public:
-      EntityPcPropUpdateEvent() : EntityEvent("EntityPcPropUpdateEvent", true) {}
+      EntityPcPropUpdateEvent() : EntityEvent("entity.pcpropupdate", true) {}
       virtual ~EntityPcPropUpdateEvent() {}
     };
 
@@ -226,7 +226,7 @@ namespace PT
       unsigned int poseId;
 
     public:
-      EntityPoseEvent() : EntityEvent("EntityPoseEvent", true) {}
+      EntityPoseEvent() : EntityEvent("entity.pose", true) {}
       virtual ~EntityPoseEvent() {}
     };
 
