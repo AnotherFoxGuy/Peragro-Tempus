@@ -310,9 +310,6 @@
 				RelativePath="..\..\src\common\data\sectordatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\data\serverdatamanager.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\common\data\skilldatamanager.cpp">
 			</File>
 			<File
@@ -339,12 +336,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\data\sectordatamanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\data\server.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\data\serverdatamanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\data\skill.h">
