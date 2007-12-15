@@ -43,6 +43,7 @@ private:
   void SaveConfig();
 
 public:
+  void UpdateLogin();
   LoginWindow(GUIManager* guimanager);
   virtual ~LoginWindow();
   void CreateGUIWindow();    // load the Login guilayout and register button events.

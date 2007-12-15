@@ -568,7 +568,7 @@ namespace PT
         }
 
         // Show the connect window.
-        guimanager->GetConnectWindow ()->ShowWindow ();
+        guimanager->GetLoginWindow ()->ShowWindow ();
         guimanager->GetServerWindow ()->ShowWindow ();
 
         if (cmdline)
@@ -614,7 +614,7 @@ namespace PT
   {
     //Report(PT::Notify, "Saw server %d ms ago.", csGetTicks() - last_seen);
     size_t ticks = csGetTicks();
-    if ( (last_seen > 0 && ticks - last_seen > 10000 ) 
+    if ( (last_seen > 0 && ticks - last_seen > 10000 && state > 1)
       || ( ! network->isRunning() && state == STATE_PLAY ) )
     {
       last_seen = csGetTicks();
@@ -658,10 +658,6 @@ namespace PT
     }
     else
     {
-      guimanager->GetConnectWindow ()->HideWindow ();
-      guimanager->GetServerWindow ()->HideWindow ();
-      guimanager->GetLoginWindow ()->ShowWindow ();
-
       if (cmdline && state == STATE_INTRO)
       {
         user = cmdline->GetOption("user", 0);
@@ -802,6 +798,9 @@ namespace PT
       Report(PT::Error, "Login Failed due to: %s.", stateev->errorMessage.c_str());
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       guimanager->GetLoginWindow()->EnableWindow();
+      guimanager->GetServerWindow()->EnableWindow();
+      network->stop();
+      state = STATE_INTRO;
       guimanager->CreateOkWindow(true)->SetText(stateev->errorMessage.c_str());
       return true;
     }
@@ -817,6 +816,7 @@ namespace PT
     {
 
       guimanager->GetLoginWindow ()->HideWindow ();
+      guimanager->GetServerWindow ()->HideWindow ();
       guimanager->GetSelectCharWindow ()->ShowWindow ();
 
       state = STATE_LOGGED_IN;

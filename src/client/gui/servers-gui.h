@@ -21,13 +21,20 @@
 
 #include "base-gui.h"
 
+#include "iutil/cfgmgr.h"
+#include "iutil/cfgfile.h"
+
 class ServerWindow : public GUIWindow
 {
 private:
+  csRef<iConfigManager> app_cfg;
   void AddServer(const char* name, const char* host);
   bool OnSelection(const CEGUI::EventArgs& e);
 
 public:
+  csString GetServer();
+  csString GetServerName();
+  bool IsCustom();
   ServerWindow(GUIManager* guimanager);
   virtual ~ServerWindow();
   void CreateGUIWindow();

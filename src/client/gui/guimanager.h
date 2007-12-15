@@ -28,7 +28,6 @@
 #include "common/dragdrop-gui.h"
 
 class LoginWindow;
-class ConnectWindow;
 class ServerWindow;
 class SelectCharWindow;
 class ChatWindow;
@@ -55,7 +54,6 @@ class GUIManager
 {
 private:
   LoginWindow* loginwindow;
-  ConnectWindow* connectwindow;
   ServerWindow* serverwindow;
   SelectCharWindow* selectcharwindow;
   ChatWindow* chatwindow;
@@ -88,7 +86,6 @@ public:
   iCEGUI* GetCEGUI () {return cegui;}
   DragDrop* GetDragDrop (){return dragdrop;}
 
-  ConnectWindow* CreateConnectWindow ();
   ServerWindow* CreateServerWindow ();
   LoginWindow* CreateLoginWindow ();
   SelectCharWindow* CreateSelectCharWindow ();
@@ -107,11 +104,6 @@ public:
   SellWindow* CreateSellWindow();
   InteractDialogWindow* CreateInteractDialogWindow();
   BookWindow* CreateBookWindow();
-
-  ConnectWindow* GetConnectWindow ()
-  {
-    return connectwindow;
-  }
 
   ServerWindow* GetServerWindow ()
   {

@@ -50,17 +50,60 @@ bool ServerWindow::OnSelection(const CEGUI::EventArgs& e)
   PT::Data::Server* server = servermgr->GetServerById(((CEGUI::MultiColumnList*)btn)->getItemRowIndex(item));
   if (server)
   {
-    btn = winMgr->getWindow("Server");
-    btn->setText(CEGUI::String(server->GetHost()));
+    btn = winMgr->getWindow("ServerList/Server");
+    if (server->GetHost()=="#CUSTOM#")
+    {
+      btn->setVisible(true);
+      btn->setText(app_cfg->GetStr("Client.Server.Custom"));
+    }else{
+      btn->setVisible(false);
+      btn->setText(CEGUI::String(server->GetHost()));
+    }
+    if(guimanager->GetLoginWindow()){guimanager->GetLoginWindow()->UpdateLogin();}
   }
 
   if (!item->isSelected()) return true;
   return true;
 }
 
-void ServerWindow::ShowWindow() 
+void ServerWindow::ShowWindow()
 {
   GUIWindow::ShowWindow();
+}
+
+csString ServerWindow::GetServer()
+{
+  btn = winMgr->getWindow("ServerList/Server");
+  CEGUI::String str = btn->getText();
+  csString serverip = str.c_str();
+  return serverip;
+}
+
+csString ServerWindow::GetServerName()
+{
+  btn = winMgr->getWindow("ServerList/Servers");
+  if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
+    return "";
+
+  CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+  return item->getText().c_str();
+}
+
+bool ServerWindow::IsCustom()
+{
+  btn = winMgr->getWindow("ServerList/Servers");
+  if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
+    return false;
+  CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+
+  PT::Data::ServerDataManager* servermgr = PointerLibrary::getInstance()->getServerDataManager();
+  PT::Data::Server* server = servermgr->GetServerById(((CEGUI::MultiColumnList*)btn)->getItemRowIndex(item));
+  if (server)
+  {
+    btn = winMgr->getWindow("ServerList/Server");
+    if (server->GetHost()=="#CUSTOM#"){return true;}
+  }
+  return false;
 }
 
 void ServerWindow::AddServer(const char* name, const char* host)
@@ -71,7 +114,7 @@ void ServerWindow::AddServer(const char* name, const char* host)
   unsigned row = ((CEGUI::MultiColumnList*)btn)->addRow();
   ((CEGUI::MultiColumnList*)btn)->setItem(serverItem, 1, row);
   ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-  if(winMgr->getWindow("Server")->getText()==host)
+  if (!strcmp(app_cfg->GetStr("Client.Server.LastUsed"), name))
   {
     ((CEGUI::MultiColumnList*)btn)->setItemSelectState(serverItem, true);
   }
@@ -79,6 +122,8 @@ void ServerWindow::AddServer(const char* name, const char* host)
 
 void ServerWindow::CreateGUIWindow()
 {
+  app_cfg =  csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+
   GUIWindow::CreateGUIWindow ("servers.xml");
 
   winMgr = cegui->GetWindowManagerPtr ();

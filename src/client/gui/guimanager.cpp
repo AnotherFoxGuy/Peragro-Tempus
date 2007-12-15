@@ -36,7 +36,6 @@ GUIManager::GUIManager ()
 {
   dragdrop = 0;
   loginwindow = 0;
-  connectwindow = 0;
   serverwindow = 0;
   selectcharwindow = 0;
   chatwindow = 0;
@@ -60,7 +59,6 @@ GUIManager::~GUIManager ()
 {
   delete dragdrop;
   delete loginwindow;
-  delete connectwindow;
   delete serverwindow;
   delete selectcharwindow;
   delete chatwindow;
@@ -126,7 +124,6 @@ bool GUIManager::Initialize ()
     dragdrop = new DragDrop (this);
     if (!dragdrop) return Report(PT::Error, "Failed to create DragDrop class!");
 
-    CreateConnectWindow ();
     CreateServerWindow ();
     CreateLoginWindow ();
     CreateSelectCharWindow ();
@@ -158,13 +155,6 @@ bool GUIManager::Initialize ()
 void GUIManager::Render ()
 {
   cegui->Render ();
-}
-
-ConnectWindow* GUIManager::CreateConnectWindow ()
-{
-  connectwindow = new ConnectWindow (this);
-  connectwindow->CreateGUIWindow();
-  return connectwindow;
 }
 
 ServerWindow* GUIManager::CreateServerWindow ()

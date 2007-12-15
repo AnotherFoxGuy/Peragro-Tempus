@@ -24,6 +24,7 @@
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
+#include "common/version.h"
 
 #include "client/reporter/reporter.h"
 
@@ -40,6 +41,9 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 {
   // Get the login window and disable it
   GUIWindow::DisableWindow();
+  guimanager->GetServerWindow()->DisableWindow();
+
+  SaveConfig();
 
   LoginRequestMessage answer_msg;
   CEGUI::String login = GetLogin();
@@ -47,7 +51,14 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
   if (login.empty() || password.empty()) 
   {
     GUIWindow::EnableWindow();
+    guimanager->GetServerWindow()->EnableWindow();
     return true;
+  }else{
+    // Connect to selected server
+    ConnectRequestMessage msg(CLIENTVERSION);
+    network->setServerAddress(guimanager->GetServerWindow()->GetServer());
+    network->init();
+    network->send(&msg);
   }
   PointerLibrary::getInstance()->getClient()->login(login.c_str(), password.c_str());
 
@@ -56,6 +67,12 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 
 bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 {
+  // Connect to selected server
+  ConnectRequestMessage msg(CLIENTVERSION);
+  network->setServerAddress(guimanager->GetServerWindow()->GetServer());
+  network->init();
+  network->send(&msg);
+
   RegisterRequestMessage answer_msg;
   CEGUI::String login = GetLogin();
   CEGUI::String password = GetPassword();
@@ -86,6 +103,23 @@ CEGUI::String LoginWindow::GetPassword()
 
 void LoginWindow::SaveConfig()
 {
+  btn = winMgr->getWindow("LoginUI/RemeberLogin");
+  bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
+  CEGUI::String login = GetLogin();
+  const char* string;
+
+  if (fs) 
+    string = login.c_str();
+  else
+    string = "";
+
+  app_cfg->SetStr("Client.Server["+guimanager->GetServerWindow()->GetServerName()+"].Login", string);
+  if(guimanager->GetServerWindow()->IsCustom())
+  {
+    string=guimanager->GetServerWindow()->GetServer().GetData();
+    app_cfg->SetStr("Client.Server.Custom", string);
+  }
+  app_cfg->SetStr("Client.Server.LastUsed", guimanager->GetServerWindow()->GetServerName());
   app_cfg->Save();
 }
 
@@ -122,17 +156,6 @@ bool LoginWindow::PasswordTextAccepted(const CEGUI::EventArgs &e)
 
 bool LoginWindow::OnCheckBox(const CEGUI::EventArgs& e) 
 {
-  btn = winMgr->getWindow("LoginUI/RemeberLogin");
-  bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
-  CEGUI::String login = GetLogin();
-  const char* string;
-
-  if (fs) 
-    string = login.c_str();
-  else
-    string = "";
-
-  app_cfg->SetStr("Client.Login", string);
   SaveConfig();
   return true;
 }
@@ -141,7 +164,7 @@ void LoginWindow::CreateCheckBox()
 {
   btn = winMgr->getWindow("LoginUI/RemeberLogin");
 
-  const char* login = app_cfg->GetStr("Client.Login");
+  const char* login = app_cfg->GetStr("Client.Server["+guimanager->GetServerWindow()->GetServerName()+"].Login");
 
   bool selected;
   if (!strcmp(login, ""))
@@ -154,6 +177,21 @@ void LoginWindow::CreateCheckBox()
   // Set the login
   btn = winMgr->getWindow("LoginUI/LoginEditBox");
   btn->setText(login);
+}
+
+void LoginWindow::UpdateLogin()
+{
+  const char* login = app_cfg->GetStr("Client.Server["+guimanager->GetServerWindow()->GetServerName()+"].Login");
+  btn = winMgr->getWindow("LoginUI/LoginEditBox");
+  btn->setText(login);
+
+  btn = winMgr->getWindow("LoginUI/RemeberLogin");
+  bool selected;
+  if (!strcmp(login, ""))
+    selected = false;
+  else
+    selected = true;
+  ((CEGUI::Checkbox*)btn)->setSelected(selected);
 }
 
 void LoginWindow::CreateGUIWindow()

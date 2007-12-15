@@ -2,4 +2,5 @@
   <server host="1.peragro.org" port="12345">Main server</server>
   <server host="pk.peragro.org" port="12345">Testing Server</server>
   <server host="localhost" port="12345">Local Server</server>
+  <server host="#CUSTOM#" port="12345">Custom Server</server>
 </servers>
