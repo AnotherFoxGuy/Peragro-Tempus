@@ -19,7 +19,6 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include "connection-gui.h"
 #include "servers-gui.h"
 #include "login-gui.h"
 #include "charsel-gui.h"
