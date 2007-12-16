@@ -487,7 +487,17 @@ namespace PT
     entity->SetName("ptworld");
     csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
       iPcZoneManager);
-    pczonemgr->SetLoadingMode(CEL_ZONE_NORMAL);
+
+    const char* zoneloading = cmdline->GetOption("zoneloading");
+    if (zoneloading != 0)
+    {
+      pczonemgr->SetLoadingMode(atoi(zoneloading));
+    }
+    else
+    {
+      pczonemgr->SetLoadingMode(CEL_ZONE_NORMAL);
+    }
+
     pczonemgr->Load("/peragro/art/world/", "regions.xml");
 
     Run();
