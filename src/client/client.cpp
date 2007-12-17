@@ -828,6 +828,7 @@ namespace PT
       guimanager->GetLoginWindow ()->HideWindow ();
       guimanager->GetServerWindow ()->HideWindow ();
       guimanager->GetSelectCharWindow ()->ShowWindow ();
+      if(stateev->isAdmin){guimanager->GetSelectCharWindow ()->ShowAdminButton();}
 
       state = STATE_LOGGED_IN;
 

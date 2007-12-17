@@ -115,6 +115,18 @@ bool SelectCharWindow::CancelButton(const CEGUI::EventArgs& e)
   return true;
 }
 
+bool SelectCharWindow::AdminButton(const CEGUI::EventArgs& e) 
+{
+  ToggleServerSetupWindow(true);
+  return true;
+}
+
+bool SelectCharWindow::AdminDoneButton(const CEGUI::EventArgs& e) 
+{
+  ToggleServerSetupWindow(false);
+  return true;
+}
+
 bool SelectCharWindow::DelChar(const CEGUI::EventArgs& e) 
 {
   return true;
@@ -133,11 +145,26 @@ void SelectCharWindow::ToggleNewWindow(bool visible)
   btn->setVisible(!visible);
 }
 
+void SelectCharWindow::ToggleServerSetupWindow(bool visible)  
+{
+  btn = winMgr->getWindow("ServerSetup/Frame");
+  btn->setVisible(visible);
+  btn = winMgr->getWindow("CharSelect/Frame");
+  btn->setVisible(!visible);
+}
+
+void SelectCharWindow::ShowAdminButton()
+{
+  btn = winMgr->getWindow("CharSelect/Admin");
+  btn->setVisible(true);
+}
+
 
 void SelectCharWindow::CreateGUIWindow()
 {
   GUIWindow::CreateGUIWindow ("charselect.xml");
   GUIWindow::CreateGUIWindow ("charselectnew.xml");
+  GUIWindow::CreateGUIWindow ("serversetup.xml");
 
   winMgr = cegui->GetWindowManagerPtr ();
 
@@ -156,6 +183,12 @@ void SelectCharWindow::CreateGUIWindow()
 
   btn = winMgr->getWindow("CharSelectNew/Ok");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::NewChar, this));
+
+  btn = winMgr->getWindow("CharSelect/Admin");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::AdminButton, this));
+
+  btn = winMgr->getWindow("ServerSetup/Done");
+  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SelectCharWindow::AdminDoneButton, this));
 
   btn = winMgr->getWindow("CharSelect/Characters");
   btn->subscribeEvent(CEGUI::MultiColumnList::EventSelectionChanged, CEGUI::Event::Subscriber(&SelectCharWindow::OnSelection, this));

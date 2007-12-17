@@ -39,13 +39,15 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
   if (!response.getError().isNull()) // An error occured.
   {
     stateEvent->errorMessage	= *response.getError();
-    stateEvent->error					= true;
+    stateEvent->error		= true;
   }
   else
   {
     stateEvent->errorMessage	= "blah";
-    stateEvent->error					= false;
+    stateEvent->error		= false;
   }
+
+  stateEvent->isAdmin = response.getIsAdmin();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
 }

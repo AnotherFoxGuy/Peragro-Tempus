@@ -95,6 +95,7 @@ namespace PT
     public:
       bool error;
       std::string errorMessage;
+      bool isAdmin;
 
     public:
       StateLoggedInEvent() : StateEvent("state.loggedin", true) 

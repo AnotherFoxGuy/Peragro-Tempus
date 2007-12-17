@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+	<Window Type='Peragro/FrameWindow' Name='ServerSetup/Frame'>
+		<Property Name='UnifiedSize' Value='{{0.000000,300.000000},{0.000000,125.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.310000,0.000000},{0.30000,0.000000}}'/>
+		<Property Name='CloseButtonEnabled' Value='True'/>
+		<Property Name='CaptionColour' Value='00FFFFFF'/>
+		<Property Name='Text' Value='Server setup'/>
+		<Property Name='TitlebarEnabled' Value='True'/>
+		<Property Name='TitlebarFont' Value='CommonWealth'/>
+		<Property Name='Visible' Value='False'/>
+		<Property Name='SizingEnabled' Value='False'/>
+		<Property Name='Alpha' Value='0.7'/>
+                <Window Type='Peragro/Button' Name='ServerSetup/Upload'>
+			<Property Name='Text' Value='Upload server data'/>
+			<Property Name='UnifiedSize' Value='{{0.000000,180.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,15.000000},{0.000000,30.000000}}'/>
+                </Window>
+                <Window Type='Peragro/Entity' Name='ServerSetup/Warning'>
+                        <Property Name='UnifiedSize' Value='{{0.000000,100.000000},{0.000000,65.000000}}'/>
+                        <Property Name='UnifiedPosition' Value='{{0.000000,190.000000},{0.000000,30.000000}}'/>
+                        <Property Name='Text' Value='Warning! this will overwrite any current settings'/>
+		        <Property Name='NormalTextColour' Value='FFFF0000'/>
+		</Window>
+                <Window Type='Peragro/Button' Name='ServerSetup/Download'>
+                        <Property Name='Text' Value='Download server data'/>
+                        <Property Name='UnifiedSize' Value='{{0.000000,180.000000},{0.000000,25.000000}}'/>
+                        <Property Name='UnifiedPosition' Value='{{0.000000,15.000000},{0.000000,60.000000}}'/>
+                </Window>
+                <Window Type='Peragro/Button' Name='ServerSetup/Done'>
+                      <Property Name='Text' Value='Done'/>
+                      <Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,25.000000}}'/>
+                      <Property Name='UnifiedPosition' Value='{{0.000000,75.000000},{0.000000,90.000000}}'/>
+		</Window>
+	</Window>
+</GUILayout>
