@@ -7,6 +7,7 @@ under each day.
 17-Dec-2007
  - Rakhun added a server setup window for administrators.
  - PK added an IsAdmin flag to the login response.
+ - Sueastside fixed a crash when idling on the charselection screen.
 
 15-Dec-2007
  - Rakhun put the server selector next to the login screen, connecting when you

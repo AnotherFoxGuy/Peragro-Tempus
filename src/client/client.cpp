@@ -670,8 +670,8 @@ namespace PT
     {
       if (cmdline && state == STATE_INTRO)
       {
-        user = cmdline->GetOption("user", 0);
-        pass = cmdline->GetOption("pass", 0);
+        const char* user = cmdline->GetOption("user", 0);
+        const char* pass = cmdline->GetOption("pass", 0);
 
         if (user && pass)
         {
@@ -699,7 +699,7 @@ namespace PT
     this->pass = pass;
 
     LoginRequestMessage answer_msg;
-    answer_msg.setUsername(ptString(user, strlen(user)));
+    answer_msg.setUsername(ptString(user.GetData(), strlen(user.GetData())));
     answer_msg.setPassword(pass);
     network->send(&answer_msg);
   }
