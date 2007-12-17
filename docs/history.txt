@@ -4,8 +4,12 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+17-Dec-2007
+ - PK added an IsAdmin flag to the login response.
+
 15-Dec-2007
- - Rakhun put the server selector next to the login screen, connecting when you click login.
+ - Rakhun put the server selector next to the login screen, connecting when you
+   click login.
  - Sueastside converted to new event name format: 'type.subsection.name'.
  - Sueastside moved ServerDataManager to client/data.
 

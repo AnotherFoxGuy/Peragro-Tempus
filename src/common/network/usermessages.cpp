@@ -44,6 +44,7 @@ void LoginResponseMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(error);
+  serial.setInt8(isadmin?1:0);
 }
 
 void LoginResponseMessage::deserialise(ByteStream* bs)
@@ -52,6 +53,7 @@ void LoginResponseMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   error = serial.getString();
+  isadmin = serial.getInt8() != 0;
 }
 
 void RegisterRequestMessage::serialise(ByteStream* bs)

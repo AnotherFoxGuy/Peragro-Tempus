@@ -6,6 +6,7 @@
 
 	<message type="User" name="LoginResponse">
 		<string>Error</string> <!-- null is successful -->
+		<bool>IsAdmin</bool>
 	</message>
 
 	<message type="User" name="RegisterRequest">

@@ -65,6 +65,7 @@ public:
 class LoginResponseMessage : public NetMessage
 {
   ptString error;
+  bool isadmin;
 
 public:
   LoginResponseMessage() : NetMessage(MESSAGES::USER,USER::LOGINRESPONSE)
@@ -80,6 +81,9 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
+
+  bool getIsAdmin() { return isadmin; }
+  void setIsAdmin(bool x) { isadmin = x; }
 
 };
 
