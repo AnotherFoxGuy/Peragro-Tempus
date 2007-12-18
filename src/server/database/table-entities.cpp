@@ -86,7 +86,7 @@ void EntityTable::createTable()
 
 
   // Creating Undead Squad.
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 100; i++)
   {
     std::string name("Evil Undead");
 
@@ -101,12 +101,40 @@ void EntityTable::createTable()
     insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel, pos, room);
   }
 
-  float pos4[14] = { 82, 2.2f, 37.2f };
+  float pos4[3] = { 82, 2.2f, 37.2f };
   insert(104, horse, Entity::MountEntityType, 0, 0, horse, pos4, room);
-  float pos5[15] = { -110, 0.2f, 5.05f };
+  float pos5[3] = { -110, 0.2f, 5.05f };
   insert(105, horse, Entity::MountEntityType, 0, 0, horse, pos5, room);
-  float pos6[16] = { -112, 0.2f, 4.8f };
+  float pos6[3] = { -112, 0.2f, 4.8f };
   insert(106, horse, Entity::MountEntityType, 0, 0, horse, pos6, room);
+
+  ptString canyon("Canyon", 6);
+
+  float pos7[3] = { 892.575256,17.702299,474.827728 };
+  insert(107, horse, Entity::MountEntityType, 0, 0, horse, pos7, canyon);
+  float pos8[3] = { 899.218506,17.665253,473.588654 };
+  insert(108, horse, Entity::MountEntityType, 0, 0, horse, pos8, canyon);
+  float pos9[3] = { 905.094604,17.629965,473.702515 };
+  insert(109, horse, Entity::MountEntityType, 0, 0, horse, pos9, canyon);
+  float pos10[3] = { 911.103638,17.593407,474.046356 };
+  insert(110, horse, Entity::MountEntityType, 0, 0, horse, pos10, canyon);
+
+  float pos11[3] = { 830.781616,17.534599,608.832093 };
+  insert(111, horse, Entity::MountEntityType, 0, 0, horse, pos11, canyon);
+  float pos12[3] = { 824.341431,17.534599,608.410400 };
+  insert(112, horse, Entity::MountEntityType, 0, 0, horse, pos12, canyon);
+  float pos13[3] = { 818.504272,17.534559,607.860107 };
+  insert(113, horse, Entity::MountEntityType, 0, 0, horse, pos13, canyon);
+  float pos14[3] = { 811.655457,17.534599,607.679810 };
+  insert(114, horse, Entity::MountEntityType, 0, 0, horse, pos14, canyon);
+
+  float pos15[3] = { 868.223511,17.529799,684.598511 };
+  insert(115, horse, Entity::MountEntityType, 0, 0, horse, pos15, canyon);
+  float pos16[3] = { 868.412720,17.529799,678.824524 };
+  insert(116, horse, Entity::MountEntityType, 0, 0, horse, pos16, canyon);
+  float pos17[3] = { 868.227600,17.529799,671.650208 };
+  insert(117, horse, Entity::MountEntityType, 0, 0, horse, pos17, canyon);
+
 }
 
 void EntityTable::insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], ptString sector)

@@ -45,8 +45,10 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
 
   LoginResponseMessage response_msg;
   response_msg.setError(retval);
-  if (!retval.isNull())
+
+  if (retval.isNull())
     response_msg.setIsAdmin(user->getPermissionList().getLevel(Permission::Admin) > 0);
+
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);

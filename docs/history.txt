@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+18-Dec-2007
+ - PK added more "Evil Undead" to keep and horses to vaalnor.
+
 17-Dec-2007
  - Rakhun added a server setup window for administrators.
  - PK added an IsAdmin flag to the login response.
