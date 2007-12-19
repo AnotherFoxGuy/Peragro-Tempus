@@ -43,6 +43,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   entityEvent->meshName     = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position     = pos;
+  entityEvent->rotation     = entmsg.getRotation();
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
   entityEvent->entityType   = PT::Entity::NPCEntityType;
@@ -284,6 +285,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->meshName     = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position     = pos;
+  entityEvent->rotation     = entmsg.getRotation();
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
   entityEvent->entityType   = PT::Entity::PCEntityType;
@@ -332,6 +334,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   entityEvent->typeId       = entmsg.getItemId();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position     = pos;
+  entityEvent->rotation     = 0;
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
   entityEvent->entityType   = PT::Entity::ItemEntityType;
@@ -352,6 +355,7 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   entityEvent->meshName     = *entmsg.getMesh();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position     = pos;
+  entityEvent->rotation     = entmsg.getRotation();
   entityEvent->sectorId	    = entmsg.getSectorId();
   entityEvent->entityId     = entmsg.getEntityId();
   entityEvent->entityType   = PT::Entity::MountEntityType;

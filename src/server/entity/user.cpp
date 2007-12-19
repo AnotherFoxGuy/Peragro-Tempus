@@ -20,6 +20,7 @@
 #include "doorentity.h"
 #include "entity.h"
 #include "pcentity.h"
+#include "npcentity.h"
 #include "itementity.h"
 #include "user.h"
 #include "usermanager.h"
@@ -85,6 +86,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setMesh(entity->getMesh());
     msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
+    msg.setPos(entity->getPos());
     msg.setSectorId(entity->getSector());
     //msg.setSector(entity->getSectorName());
     msg.setPoseId(entity->getPlayerEntity()->getPose());
@@ -110,9 +112,19 @@ void User::sendAddEntity(const Entity* entity)
     msg.setMesh(entity->getMesh());
     msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
+    msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
     //msg.setSector(entity->getSectorName());
+    Character* character = entity->getNpcEntity()->getCharacter()->getLock();
+    Inventory* inv = character->getInventory();
+    msg.setEquipmentCount(10);
+    for(int i=0; i<10; i++)
+    {
+      unsigned int item = inv->getItem(i)->id;
+      msg.setItemId(i, item);
+    }
     msg.serialise(&bs);
+    character->freeLock();
   }
   else if (entity->getType() == Entity::MountEntityType)
   {
@@ -122,6 +134,8 @@ void User::sendAddEntity(const Entity* entity)
     msg.setMesh(entity->getMesh());
     msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
+    msg.setPos(entity->getPos());
+    msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
     //msg.setSector(entity->getSectorName());
     msg.serialise(&bs);

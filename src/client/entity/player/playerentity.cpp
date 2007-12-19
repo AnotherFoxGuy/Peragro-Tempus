@@ -228,7 +228,7 @@ namespace PT
       pczonemgr->ActivateRegion(region);
       pczonemgr->PointMesh("player", ptsector->GetRegion().c_str());
 
-      SetFullPosition(pos, sectorName.c_str());  
+      SetFullPosition(pos, rot, sectorName.c_str());  
     }
 
     bool PlayerEntity::ActionForward(PT::Events::Eventp ev)
@@ -646,13 +646,13 @@ namespace PT
       PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(false);
 
       // Temporary move to a void sector for unloading regions.
-      SetFullPosition(pos, "Default_Sector");
+      SetFullPosition(pos, rot, "Default_Sector");
 
       Report(PT::Warning, "PlayerEntity: teleport to region %s\n", ptsector->GetRegion().c_str());
       csRef<iCelRegion> region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
       pczonemgr->ActivateRegion(region);
 
-      SetFullPosition(pos, sector.c_str());
+      SetFullPosition(pos, rot, sector.c_str());
 
       PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
     }

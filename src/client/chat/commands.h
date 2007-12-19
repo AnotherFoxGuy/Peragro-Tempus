@@ -390,6 +390,7 @@ namespace PT
         guimanager->GetChatWindow ()->AddMessage ("  - Flash Step: '/dbg flashstep'");
         guimanager->GetChatWindow ()->AddMessage ("  - Spawn Item: '/dbg spawn item #itemid #variation'");
         guimanager->GetChatWindow ()->AddMessage ("  - Spawn Mount: '/dbg spawn mount meshname entityname'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Sector: '/dbg sector sectorname'");
       }
       virtual void Execute (const StringArray& args)
       {
@@ -398,6 +399,11 @@ namespace PT
 
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
+
+        PointerLibrary* ptr_lib = PointerLibrary::getInstance();
+        Entity::EntityManager* ent_mgr = ptr_lib->getEntityManager();
+
+        PT::Data::SectorDataManager* sectorDataMgr = ptr_lib->getSectorDataManager();
 
         // Element 0 is '/', 1 is 'relocate'
         if (args.size() < 3)
@@ -422,9 +428,6 @@ namespace PT
           }
           else if (args[2].compare("pos") == 0)
           {
-            PointerLibrary* ptr_lib = PointerLibrary::getInstance();
-            Entity::EntityManager* ent_mgr = ptr_lib->getEntityManager();
-
             iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
 
             csRef<iPcLinearMovement> pclinmove =
@@ -447,20 +450,16 @@ namespace PT
           }
           else if (args[2].compare("spawn") == 0)
           {
-            PointerLibrary* ptr_lib = PointerLibrary::getInstance();
-            Entity::EntityManager* ent_mgr = ptr_lib->getEntityManager();
-
             iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
 
             csRef<iPcLinearMovement> pclinmove =
               CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
 
             csVector3 pos = pclinmove->GetFullPosition();
+            float rotation = pclinmove->GetYRotation();
             iSector* sector = pclinmove->GetSector();
 
             char buffer[1024];
-
-            PT::Data::SectorDataManager* sectorDataMgr = ptr_lib->getSectorDataManager();
 
             int sectorId = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName())->GetId();
 
@@ -479,11 +478,27 @@ namespace PT
               mountmsg.setMesh(ptString(args[4].c_str(), args[4].length()));
               mountmsg.setName(ptString(args[5].c_str(), args[5].length()));
               mountmsg.setPos(pos.x, pos.y, pos.z);
+              mountmsg.setRotation(rotation);
               mountmsg.setSectorId(sectorId);
               network->send(&mountmsg);
             }
           }
+          else if (args[2].compare("sector") == 0)
+          {
+            iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
 
+            csRef<iPcLinearMovement> pclinmove =
+              CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+
+            csVector3 pos = pclinmove->GetFullPosition();
+
+            using namespace PT::Events;
+            EntityTeleportEvent* ev = new EntityTeleportEvent();
+            ev->entityId = ent_mgr->GetPlayerId();
+            ev->position = pos;
+            ev->sectorId = sectorDataMgr->GetSectorByName(args[3])->GetId();
+            PointerLibrary::getInstance()->getEventManager()->AddEvent(ev);
+          }
           return;
         }
       }

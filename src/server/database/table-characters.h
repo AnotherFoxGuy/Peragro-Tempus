@@ -77,10 +77,11 @@ public:
   /**
    * Stores updated data for the character.
    * @param pos The new location for the character.
-   * @param sector The new sector location
+   * @param rot Rotation of the character.
+   * @param sector The new sector location.
    * @param char_id The id of the character for which to update the location.
    */
-  void update(const float* pos, ptString sector, int char_id);
+  void update(const float* pos, float rot, ptString sector, int char_id);
   /**
    * Checks if a character exists in the database based on its name.
    * @param name The name of the character.

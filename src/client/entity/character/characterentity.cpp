@@ -190,20 +190,18 @@ namespace PT
     {
       Report(PT::Warning, "CharacterEntity: teleport\n");
 
+      float yrot_dst = 0;
+
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       if (pcmesh.IsValid() && pcmesh->GetMesh ())
       {
         csVector3 cur_position = pcmesh->GetMesh()->GetMovable()->GetFullPosition();
         cur_position.y = pos.y;
         csVector3 direction = pos - cur_position;
-        float yrot_dst = atan2 (-direction.x, -direction.z);
-
-        csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot_dst);
-        pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
-        pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+        yrot_dst = atan2 (-direction.x, -direction.z);
       }
 
-      SetFullPosition(pos, sector.c_str());
+      SetFullPosition(pos, yrot_dst, sector.c_str());
     }
 
     void CharacterEntity::SetCurrentStamina(float x)

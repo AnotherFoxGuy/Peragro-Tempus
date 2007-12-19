@@ -117,6 +117,8 @@ namespace PT
       std::string sectorName;
       ///Position of the entity within a sector.
       csVector3 pos;
+      ///Rotation of the entity.
+      float rot;
 
       /**
        * This is a conveniance constructor possibly needed for children classes.
@@ -249,6 +251,7 @@ namespace PT
        * @param sector New sector where the entity should reside.
        */
       virtual void SetFullPosition(const csVector3& pos,
+                                   float rotation,
                                    const std::string& sector);
 
       /**

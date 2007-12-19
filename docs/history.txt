@@ -6,6 +6,7 @@ under each day.
 
 19-Dec-2007
  - PK implemented item and mount spawning.
+ - PK added the rotation of entities to the database.
 
 18-Dec-2007
  - PK added more "Evil Undead" to keep and horses to vaalnor.

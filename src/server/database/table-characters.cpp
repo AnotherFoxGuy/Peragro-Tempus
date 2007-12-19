@@ -58,6 +58,7 @@ void CharacterTable::createTable()
     "pos_x FLOAT, "
     "pos_y FLOAT, "
     "pos_z FLOAT, "
+    "rot FLOAT, "
     "sector TEXT, "
     "PRIMARY KEY (id) );");
 
@@ -92,10 +93,10 @@ void CharacterTable::insert(int id, ptString name, int user_id,
              "haircolour_r, haircolour_g, haircolour_b, "
              "skincolour_r, skincolour_g, skincolour_b, "
              "decalcolour_r, decalcolour_g, decalcolour_b, "
-             "pos_x, pos_y, pos_z, sector)"
+             "pos_x, pos_y, pos_z, rot, sector)"
              "values ('%d','%q',%d,'%q',%d,"
              "%d,%d,%d,"  "%d,%d,%d,"  "%d,%d,%d,"
-             "%.2f,%.2f,%.2f,'%q');", id, *name, user_id, *mesh, race_id, 
+             "%.2f,%.2f,%.2f,0,'%q');", id, *name, user_id, *mesh, race_id, 
              haircolour[0],haircolour[1],haircolour[2],
              skincolour[0],skincolour[1],skincolour[2],
              decalcolour[0],decalcolour[1],decalcolour[2],
@@ -124,13 +125,13 @@ void CharacterTable::remove(int id)
   db->update("delete from characters where id = %d;", id);
 }
 
-void CharacterTable::update(const float* pos, ptString sector, int char_id)
+void CharacterTable::update(const float* pos, float rotation, ptString sector, int char_id)
 {
   if (!pos) 
   {
     return;
   }
-  db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector='%q' where id = %d;",
+  db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, rot=%.2f, sector='%q' where id = %d;",
     pos[0], pos[1], pos[2], *sector, char_id);
 }
 
@@ -164,7 +165,8 @@ Character* CharacterTable::findCharacterById(int id, size_t user_id)
   character->setSkinColour(atoi(rs->GetData(0,8).c_str()), atoi(rs->GetData(0,9).c_str()), atoi(rs->GetData(0,10).c_str()));
   character->setDecalColour(atoi(rs->GetData(0,11).c_str()), atoi(rs->GetData(0,12).c_str()), atoi(rs->GetData(0,13).c_str()));
   character->setPos((float)atof(rs->GetData(0,14).c_str()), (float)atof(rs->GetData(0,15).c_str()), (float)atof(rs->GetData(0,16).c_str()));
-  character->setSector(ptString(rs->GetData(0,17).c_str(), rs->GetData(0,17).length()));
+  character->setRotation((float)(atof(rs->GetData(0,17).c_str())));
+  character->setSector(ptString(rs->GetData(0,18).c_str(), rs->GetData(0,18).length()));
   delete rs;
 
   return character;
@@ -190,7 +192,8 @@ void CharacterTable::getAllCharacters(Array<Character*>& characters, User* user)
     character->setSkinColour(atoi(rs->GetData(i,8).c_str()), atoi(rs->GetData(i,9).c_str()), atoi(rs->GetData(i,10).c_str()));
     character->setDecalColour(atoi(rs->GetData(i,11).c_str()), atoi(rs->GetData(i,12).c_str()), atoi(rs->GetData(i,13).c_str()));
     character->setPos((float)atof(rs->GetData(i,14).c_str()), (float)atof(rs->GetData(i,15).c_str()), (float)atof(rs->GetData(i,16).c_str()));
-    character->setSector(ptString(rs->GetData(i,17).c_str(), rs->GetData(i,17).length()));
+    character->setRotation((float)(atof(rs->GetData(i,17).c_str())));
+    character->setSector(ptString(rs->GetData(i,18).c_str(), rs->GetData(i,18).length()));
     characters.add(character);
   }
   delete rs;

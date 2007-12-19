@@ -634,6 +634,7 @@ void EntityHandler::handleSpawnItem(GenericMessage* msg)
   Entity* e = item_ent->getEntity()->getLock();
   e->setPos(itemmsg.getPos());
   e->setSector(itemmsg.getSectorId());
+  e->setRotation(0);
   e->freeLock();
 
   Server::getServer()->addEntity(item_ent->getEntity(), true);
@@ -650,6 +651,7 @@ void EntityHandler::handleSpawnMount(GenericMessage* msg)
   e->setName(mountmsg.getName());
   e->setMesh(mountmsg.getMesh());
   e->setPos(mountmsg.getPos());
+  e->setRotation(mountmsg.getRotation());
   e->setSector(mountmsg.getSectorId());
   e->freeLock();
 

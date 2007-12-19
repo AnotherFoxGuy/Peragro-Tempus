@@ -68,17 +68,30 @@ class AddNpcEntityMessage : public NetMessage
   ptString mesh;
   unsigned short meshid;
   float pos[3];
+  float rotation;
   unsigned short sectorid;
   unsigned int entityid;
   unsigned char poseid;
+  class ListEquipment
+  {
+  public:
+    unsigned int itemid;
+    unsigned int variation;
+  };
+
+  unsigned char equipmentcount;
+  ListEquipment* equipment;
+
 
 public:
   AddNpcEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDNPCENTITY)
   {
+    equipment = 0;
   }
 
   ~AddNpcEntityMessage()
   {
+    delete [] equipment;
   }
 
   void serialise(ByteStream* bs);
@@ -105,6 +118,9 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
+  float getRotation() { return rotation; }
+  void setRotation(float x) { rotation = x; }
+
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
@@ -113,6 +129,24 @@ public:
 
   unsigned char getPoseId() { return poseid; }
   void setPoseId(unsigned char x) { poseid = x; }
+
+  unsigned char getEquipmentCount() { return equipmentcount; }
+  void setEquipmentCount(unsigned char ic)
+  {
+    equipmentcount = ic;
+    delete [] equipment;
+    equipment = new ListEquipment[ic];
+  }
+
+  // --- begin ListEquipment Getter and Setter ---
+
+  unsigned int getItemId(size_t i) { return equipment[i].itemid; }
+  void setItemId(size_t i, unsigned int x) { equipment[i].itemid = x; }
+
+  unsigned int getVariation(size_t i) { return equipment[i].variation; }
+  void setVariation(size_t i, unsigned int x) { equipment[i].variation = x; }
+
+  // --- end ListEquipment Getter and Setter ---
 
 };
 
@@ -201,6 +235,7 @@ class AddPlayerEntityMessage : public NetMessage
   ptString mesh;
   unsigned short meshid;
   float pos[3];
+  float rotation;
   unsigned char haircolour[3];
   unsigned char skincolour[3];
   unsigned char decalcolour[3];
@@ -211,6 +246,7 @@ class AddPlayerEntityMessage : public NetMessage
   {
   public:
     unsigned int itemid;
+    unsigned int variation;
   };
 
   unsigned char equipmentcount;
@@ -251,6 +287,9 @@ public:
   {
     setPos(x[0], x[1], x[2]);
   }
+
+  float getRotation() { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned char* getHairColour() { return haircolour; }
   void setHairColour(unsigned char r, unsigned char g, unsigned char b)
@@ -309,6 +348,9 @@ public:
 
   unsigned int getItemId(size_t i) { return equipment[i].itemid; }
   void setItemId(size_t i, unsigned int x) { equipment[i].itemid = x; }
+
+  unsigned int getVariation(size_t i) { return equipment[i].variation; }
+  void setVariation(size_t i, unsigned int x) { equipment[i].variation = x; }
 
   // --- end ListEquipment Getter and Setter ---
 
@@ -695,6 +737,7 @@ class EquipMessage : public NetMessage
 {
   unsigned int entityid;
   unsigned int itemid;
+  unsigned int variation;
   unsigned char slotid;
 
 public:
@@ -714,6 +757,9 @@ public:
 
   unsigned int getItemId() { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
+
+  unsigned int getVariation() { return variation; }
+  void setVariation(unsigned int x) { variation = x; }
 
   unsigned char getSlotId() { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
@@ -1020,6 +1066,7 @@ class AddMountEntityMessage : public NetMessage
   ptString mesh;
   unsigned short meshid;
   float pos[3];
+  float rotation;
   unsigned short sectorid;
   unsigned int entityid;
   unsigned int inventoryid;
@@ -1056,6 +1103,9 @@ public:
   {
     setPos(x[0], x[1], x[2]);
   }
+
+  float getRotation() { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
@@ -1274,6 +1324,7 @@ class SpawnMountMessage : public NetMessage
   ptString name;
   ptString mesh;
   float pos[3];
+  float rotation;
   unsigned short sectorid;
 
 public:
@@ -1305,6 +1356,9 @@ public:
   {
     setPos(x[0], x[1], x[2]);
   }
+
+  float getRotation() { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }

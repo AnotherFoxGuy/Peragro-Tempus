@@ -47,11 +47,11 @@ void Server::addEntity(const Entity* entity, bool persistent)
     const ItemEntity* ie = entity->getItemEntity();
     if (ie)
     { 
-      db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh(), entity->getPos(), entity->getSectorName());
+      db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
     }
     else
     {
-      db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh(), entity->getPos(), entity->getSectorName());
+      db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
     }
   }
 
@@ -75,7 +75,7 @@ void Server::delEntity(const Entity* entity)
   {
     const PcEntity* pc_ent = entity->getPlayerEntity();
     int id = pc_ent->getCharacter()->getId();
-    db->getCharacterTable()->update(entity->getPos(), entity->getSectorName(), id);
+    db->getCharacterTable()->update(entity->getPos(), entity->getRotation(), entity->getSectorName(), id);
 
     // check if player was on mount
     const MountEntity* c_mount = pc_ent->getMount();

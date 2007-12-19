@@ -42,6 +42,7 @@ namespace PT
       if (sector) sectorName = sector->GetName();
       //End of ugly hack
       pos = ev.position;
+      rot = ev.rotation;
       celEntity = 0;
     }
 
@@ -68,6 +69,7 @@ namespace PT
     }
 
     void Entity::SetFullPosition(const csVector3& pos,
+                                 float rotation,
                                  const std::string& sector)
     {
       csRef<iObjectRegistry> obj_reg =
@@ -94,6 +96,7 @@ namespace PT
         {
           mov->SetSector(sec);
           mov->SetPosition(pos);
+          mov->GetTransform ().SetO2T (csYRotMatrix3(rotation));
           mov->UpdateMove();
 
           return; // success so return.

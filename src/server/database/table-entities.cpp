@@ -60,6 +60,7 @@ void EntityTable::createTable()
     "pos_x FLOAT, "
     "pos_y FLOAT, "
     "pos_z FLOAT, "
+    "rot FLOAT, "
     "sector TEXT, "
     "variation INTEGER, "
     "PRIMARY KEY (id) );");
@@ -76,13 +77,13 @@ void EntityTable::createTable()
   ptString horse("horse", 5);
 
   float pos1[3] = { 29, 2, 106 };
-  insert(1, dummy, Entity::NPCEntityType, 0, 0, test, pos1, room);
+  insert(1, dummy, Entity::NPCEntityType, 0, 0, test, pos1, 0, room);
 
   float pos2[3] = { 41, 2, 172};
-  insert(2, dummy1, Entity::NPCEntityType, 0, 0, test1, pos2, room);
+  insert(2, dummy1, Entity::NPCEntityType, 0, 0, test1, pos2, 0, room);
 
   float pos3[3] = { 35, 2, 120 };
-  insert(3, skel_trader, Entity::NPCEntityType, 0, 0, skel, pos3, room);
+  insert(3, skel_trader, Entity::NPCEntityType, 0, 0, skel, pos3, 0, room);
 
 
   // Creating Undead Squad.
@@ -98,51 +99,51 @@ void EntityTable::createTable()
     // y = 137 - 148 = 11
     float pos[3] = { 27 + x, 2.2f, 137 + y * 0.6};
 
-    insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel, pos, room);
+    insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel, pos, 0, room);
   }
 
   float pos4[3] = { 82, 2.2f, 37.2f };
-  insert(104, horse, Entity::MountEntityType, 0, 0, horse, pos4, room);
+  insert(104, horse, Entity::MountEntityType, 0, 0, horse, pos4, 0, room);
   float pos5[3] = { -110, 0.2f, 5.05f };
-  insert(105, horse, Entity::MountEntityType, 0, 0, horse, pos5, room);
+  insert(105, horse, Entity::MountEntityType, 0, 0, horse, pos5, 0, room);
   float pos6[3] = { -112, 0.2f, 4.8f };
-  insert(106, horse, Entity::MountEntityType, 0, 0, horse, pos6, room);
+  insert(106, horse, Entity::MountEntityType, 0, 0, horse, pos6, 0, room);
 
   ptString canyon("Canyon", 6);
 
   float pos7[3] = { 892.575256,17.702299,474.827728 };
-  insert(107, horse, Entity::MountEntityType, 0, 0, horse, pos7, canyon);
+  insert(107, horse, Entity::MountEntityType, 0, 0, horse, pos7, 0, canyon);
   float pos8[3] = { 899.218506,17.665253,473.588654 };
-  insert(108, horse, Entity::MountEntityType, 0, 0, horse, pos8, canyon);
+  insert(108, horse, Entity::MountEntityType, 0, 0, horse, pos8, 0, canyon);
   float pos9[3] = { 905.094604,17.629965,473.702515 };
-  insert(109, horse, Entity::MountEntityType, 0, 0, horse, pos9, canyon);
+  insert(109, horse, Entity::MountEntityType, 0, 0, horse, pos9, 0, canyon);
   float pos10[3] = { 911.103638,17.593407,474.046356 };
-  insert(110, horse, Entity::MountEntityType, 0, 0, horse, pos10, canyon);
+  insert(110, horse, Entity::MountEntityType, 0, 0, horse, pos10, 0, canyon);
 
   float pos11[3] = { 830.781616,17.534599,608.832093 };
-  insert(111, horse, Entity::MountEntityType, 0, 0, horse, pos11, canyon);
+  insert(111, horse, Entity::MountEntityType, 0, 0, horse, pos11, 0, canyon);
   float pos12[3] = { 824.341431,17.534599,608.410400 };
-  insert(112, horse, Entity::MountEntityType, 0, 0, horse, pos12, canyon);
+  insert(112, horse, Entity::MountEntityType, 0, 0, horse, pos12, 0, canyon);
   float pos13[3] = { 818.504272,17.534559,607.860107 };
-  insert(113, horse, Entity::MountEntityType, 0, 0, horse, pos13, canyon);
+  insert(113, horse, Entity::MountEntityType, 0, 0, horse, pos13, 0, canyon);
   float pos14[3] = { 811.655457,17.534599,607.679810 };
-  insert(114, horse, Entity::MountEntityType, 0, 0, horse, pos14, canyon);
+  insert(114, horse, Entity::MountEntityType, 0, 0, horse, pos14, 0, canyon);
 
   float pos15[3] = { 868.223511,17.529799,684.598511 };
-  insert(115, horse, Entity::MountEntityType, 0, 0, horse, pos15, canyon);
+  insert(115, horse, Entity::MountEntityType, 0, 0, horse, pos15, 0, canyon);
   float pos16[3] = { 868.412720,17.529799,678.824524 };
-  insert(116, horse, Entity::MountEntityType, 0, 0, horse, pos16, canyon);
+  insert(116, horse, Entity::MountEntityType, 0, 0, horse, pos16, 0, canyon);
   float pos17[3] = { 868.227600,17.529799,671.650208 };
-  insert(117, horse, Entity::MountEntityType, 0, 0, horse, pos17, canyon);
+  insert(117, horse, Entity::MountEntityType, 0, 0, horse, pos17, 0, canyon);
 
 }
 
-void EntityTable::insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], ptString sector)
+void EntityTable::insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], float rot, ptString sector)
 {
   if (item == -1) return;
 
-  db->update("insert into entities (id, name, type, item, variation, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d', '%q',%d,%d,%d,'%q',%.2f,%.2f,%.2f,'%q');", id, *name, type, item, variation, *mesh, pos[0], pos[1], pos[2], *sector);
+  db->update("insert into entities (id, name, type, item, variation, mesh, pos_x, pos_y, pos_z, rot, sector) values "
+    "('%d', '%q',%d,%d,%d,'%q',%.2f,%.2f,%.2f,%.2f,'%q');", id, *name, type, item, variation, *mesh, pos[0], pos[1], pos[2], rot, *sector);
 }
 
 int EntityTable::getMaxId()
@@ -169,8 +170,8 @@ void EntityTable::remove(int id)
 
 void EntityTable::update(Entity* entity)
 {
-  db->update("update entities set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, sector=%q where id = %d;",
-    entity->getPos()[0], entity->getPos()[1], entity->getPos()[2], *entity->getSectorName(), entity->getId() );
+  db->update("update entities set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, rot=%.2f, sector=%q where id = %d;",
+    entity->getPos()[0], entity->getPos()[1], entity->getPos()[2], entity->getRotation(), *entity->getSectorName(), entity->getId() );
 }
 
 bool EntityTable::existsEntity(ptString name)
@@ -275,7 +276,8 @@ const Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
   l_ent->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
   l_ent->setMesh(ptString(rs->GetData(i,4).c_str(), rs->GetData(i,4).length()));
   l_ent->setPos((float)atof(rs->GetData(i,5).c_str()), (float)atof(rs->GetData(i,6).c_str()), (float)atof(rs->GetData(i,7).c_str()));
-  l_ent->setSector(ptString(rs->GetData(i,8).c_str(), rs->GetData(i,8).length()));
+  l_ent->setRotation((float)atof(rs->GetData(i,8).c_str()));
+  l_ent->setSector(ptString(rs->GetData(i,9).c_str(), rs->GetData(i,9).length()));
   l_ent->freeLock();
 
   return entity;

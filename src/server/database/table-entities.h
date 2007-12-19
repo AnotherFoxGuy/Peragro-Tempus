@@ -34,7 +34,7 @@ private:
 public:
   EntityTable(Database* db);
   void createTable();
-  void insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], ptString sector);
+  void insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], float rot, ptString sector);
   int getMaxId();
   void dropTable();
   void remove(int id);

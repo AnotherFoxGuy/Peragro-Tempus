@@ -4,9 +4,14 @@
 		<string>Mesh</string>
 		<uint16>MeshId</uint16>
 		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 		<uint8>PoseId</uint8>
+		<list name="Equipment">
+			<uint32>ItemId</uint32>
+			<uint32>Variation</uint32>
+		</list>
 	</message>
 
 	<message type="Entity" name="AddItemEntity">
@@ -29,6 +34,7 @@
 		<string>Mesh</string>
 		<uint16>MeshId</uint16>
 		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
 		<colour24>HairColour</colour24>
 		<colour24>SkinColour</colour24>
 		<colour24>DecalColour</colour24>
@@ -37,6 +43,7 @@
 		<uint8>PoseId</uint8>
 		<list name="Equipment">
 			<uint32>ItemId</uint32>
+			<uint32>Variation</uint32>
 		</list>
 	</message>
 
@@ -123,6 +130,7 @@
 	<message type="Entity" name="Equip">
 		<uint32>EntityId</uint32>
 		<uint32>ItemId</uint32>
+		<uint32>Variation</uint32>
 		<uint8>SlotId</uint8>
 	</message>
 
@@ -182,6 +190,7 @@
 		<string>Mesh</string>
 		<uint16>MeshId</uint16>
 		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 		<uint32>InventoryId</uint32>
@@ -217,6 +226,7 @@
 		<string>Name</string>
 		<string>Mesh</string>
 		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
 		<uint16>SectorId</uint16>
 	</message>
 

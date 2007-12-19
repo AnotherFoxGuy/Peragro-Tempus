@@ -61,6 +61,9 @@ protected:
   float pos_last_saved[3];
   float pos[3];
 
+  float rot_last_saved;
+  float rotation;
+
 public:
   Entity() : id(-1)
   {
@@ -127,6 +130,9 @@ public:
   }
   const float* getPos() const { return pos; }
 
+  void setRotation(float rot) { rotation = rot; }
+  float getRotation() const { return rotation; }
+
   const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }
 
@@ -168,8 +174,6 @@ public:
   void setItemEntity(const ItemEntity*);
   void setDoorEntity(const DoorEntity*);
   void setMountEntity(const MountEntity*);
-
-  void checkForSave();
 };
 
 #endif // _ENTITY_H_

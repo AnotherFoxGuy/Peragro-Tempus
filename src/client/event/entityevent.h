@@ -81,6 +81,7 @@ namespace PT
       std::string meshName;
       unsigned int typeId;
       csVector3 position;
+      float rotation;
       unsigned int sectorId;
 
       struct SlotAndItem

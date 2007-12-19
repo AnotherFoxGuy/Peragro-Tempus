@@ -47,6 +47,7 @@ private:
   ptMonitor<Entity> entity;
 
   float pos[3];
+  float rotation;
 
   unsigned char haircolour[3]; //24bit color
   unsigned char skincolour[3]; //24bit color
@@ -90,6 +91,11 @@ public:
   float* getPos()
   {
     return pos;
+  }
+
+  void setRotation(float rot)
+  {
+    rotation = rot;
   }
 
   const ptString& getName() const { return name_id; }
