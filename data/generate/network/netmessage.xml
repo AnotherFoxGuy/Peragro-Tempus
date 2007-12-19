@@ -59,6 +59,8 @@
 			<message id="29" name="PoseRequest" />
 			<message id="30" name="Pose" />
 			<message id="31" name="ToggleFlashStep" />
+			<message id="32" name="SpawnItem" />
+			<message id="33" name="SpawnMount" />
 		</type>
 		<type id="3" name="Chat">
 			<message id="0" name="Say" />

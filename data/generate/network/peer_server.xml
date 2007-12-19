@@ -98,6 +98,8 @@
 		<message type="Entity" name="PoseRequest" />
 		<!--message type="Entity" name="Pose" /-->
 		<message type="Entity" name="ToggleFlashStep" />
+		<message type="Entity" name="SpawnItem" />
+		<message type="Entity" name="SpawnMount" />
 		<message type="Chat" name="Say" />
 		<message type="Chat" name="Shout" />
 		<message type="Chat" name="WhisperTo" />

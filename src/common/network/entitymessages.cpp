@@ -772,3 +772,55 @@ void ToggleFlashStepMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
+void SpawnItemMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(variation);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
+  serial.setInt16(sectorid);
+  serial.setInt32(entityid);
+}
+
+void SpawnItemMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  variation = (unsigned int) serial.getInt32();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
+  sectorid = (unsigned short) serial.getInt16();
+  entityid = (unsigned int) serial.getInt32();
+}
+
+void SpawnMountMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(name);
+  serial.setString(mesh);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
+  serial.setInt16(sectorid);
+}
+
+void SpawnMountMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  name = serial.getString();
+  mesh = serial.getString();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
+  sectorid = (unsigned short) serial.getInt16();
+}
+

@@ -55,6 +55,8 @@ public:
     else if (id == ENTITY::MOUNTREQUEST) handleMountRequest(msg);
     else if (id == ENTITY::UNMOUNTREQUEST) handleUnmountRequest(msg);
     else if (id == ENTITY::POSEREQUEST) handlePoseRequest(msg);
+    else if (id == ENTITY::SPAWNITEM) handleSpawnItem(msg);
+    else if (id == ENTITY::SPAWNMOUNT) handleSpawnMount(msg);
   }
 
   void handleMoveRequest(GenericMessage* msg);
@@ -68,6 +70,8 @@ public:
   void handleMountRequest(GenericMessage* msg);
   void handleUnmountRequest(GenericMessage* msg);
   void handlePoseRequest(GenericMessage* msg);
+  void handleSpawnItem(GenericMessage* msg);
+  void handleSpawnMount(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

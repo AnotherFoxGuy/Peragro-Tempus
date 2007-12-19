@@ -206,4 +206,18 @@
 		<uint32>MountEntityId</uint32>
 	</message>
 
+	<message type="Entity" name="SpawnItem">
+		<uint32>Variation</uint32>
+		<vector3f>Pos</vector3f>
+		<uint16>SectorId</uint16>
+		<uint32>EntityId</uint32>
+	</message>
+
+	<message type="Entity" name="SpawnMount">
+		<string>Name</string>
+		<string>Mesh</string>
+		<vector3f>Pos</vector3f>
+		<uint16>SectorId</uint16>
+	</message>
+
 </message-implementation>
