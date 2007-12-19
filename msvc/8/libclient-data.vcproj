@@ -301,6 +301,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\data\connection\connectiondatamanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\data\effect\effect.cpp">
 			</File>
 			<File
@@ -312,13 +315,16 @@
 			<File
 				RelativePath="..\..\src\client\data\effect\reflection.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\client\data\server\serverdatamanager.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\client\data\connection\connectiondatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\connection\server.h">
+			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\dataeffect.h">
 			</File>
@@ -333,12 +339,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\reflection.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\server\server.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\server\serverdatamanager.h">
 			</File>
 		</Filter>
 	</Files>
