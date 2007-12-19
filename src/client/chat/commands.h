@@ -387,7 +387,9 @@ namespace PT
         guimanager->GetChatWindow ()->AddMessage ("Usage: '/dbg #number [args]'");
         guimanager->GetChatWindow ()->AddMessage ("  - Write book: '/dbg write #itemid #bookid #name #text'");
         guimanager->GetChatWindow ()->AddMessage ("  - Player Pos: '/dbg pos'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Flash Step: '/dbg enables moving instantly'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Flash Step: '/dbg flashstep'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Spawn Item: '/dbg spawn item #itemid #variation'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Spawn Mount: '/dbg spawn mount meshname entityname'");
       }
       virtual void Execute (const StringArray& args)
       {
@@ -443,7 +445,7 @@ namespace PT
             ToggleFlashStepMessage msg;
             network->send(&msg);
           }
-          else if (args[2].compare("spawn"))
+          else if (args[2].compare("spawn") == 0)
           {
             PointerLibrary* ptr_lib = PointerLibrary::getInstance();
             Entity::EntityManager* ent_mgr = ptr_lib->getEntityManager();
@@ -462,22 +464,23 @@ namespace PT
 
             int sectorId = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName())->GetId();
 
-            if (args[3].compare("item"))
+            if (args[3].compare("item") == 0)
             {
               SpawnItemMessage itemmsg;
               itemmsg.setItemId(atoi(args[4].c_str()));
               itemmsg.setVariation(atoi(args[5].c_str()));
               itemmsg.setPos(pos.x, pos.y, pos.z);
-              itemmsg.setSector(sectorId);
+              itemmsg.setSectorId(sectorId);
               network->send(&itemmsg);
             }
-            else if(args[3].compare("mount"))
+            else if(args[3].compare("mount") == 0)
             {
               SpawnMountMessage mountmsg;
               mountmsg.setMesh(ptString(args[4].c_str(), args[4].length()));
               mountmsg.setName(ptString(args[5].c_str(), args[5].length()));
               mountmsg.setPos(pos.x, pos.y, pos.z);
-              mountmsg.setSector(sectorId);
+              mountmsg.setSectorId(sectorId);
+              network->send(&mountmsg);
             }
           }
 
