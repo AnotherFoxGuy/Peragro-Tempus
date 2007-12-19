@@ -26,8 +26,8 @@
 #include "client/gui/guimanager.h"
 #include "common/version.h"
 
-#include "client/data/server/server.h"
-#include "client/data/server/serverdatamanager.h"
+#include "client/data/connection/server.h"
+#include "client/data/connection/connectiondatamanager.h"
 
 ServerWindow::ServerWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
@@ -46,7 +46,7 @@ bool ServerWindow::OnSelection(const CEGUI::EventArgs& e)
 
   CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
 
-  PT::Data::ServerDataManager* servermgr = PointerLibrary::getInstance()->getServerDataManager();
+  PT::Data::ConnectionDataManager* servermgr = PointerLibrary::getInstance()->getConnectionDataManager();
   PT::Data::Server* server = servermgr->GetServerById(((CEGUI::MultiColumnList*)btn)->getItemRowIndex(item));
   if (server)
   {
@@ -96,7 +96,7 @@ bool ServerWindow::IsCustom()
     return false;
   CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
 
-  PT::Data::ServerDataManager* servermgr = PointerLibrary::getInstance()->getServerDataManager();
+  PT::Data::ConnectionDataManager* servermgr = PointerLibrary::getInstance()->getConnectionDataManager();
   PT::Data::Server* server = servermgr->GetServerById(((CEGUI::MultiColumnList*)btn)->getItemRowIndex(item));
   if (server)
   {
@@ -140,7 +140,7 @@ void ServerWindow::CreateGUIWindow()
   ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 
   int i=0;
-  PT::Data::ServerDataManager* servermgr = PointerLibrary::getInstance()->getServerDataManager();
+  PT::Data::ConnectionDataManager* servermgr = PointerLibrary::getInstance()->getConnectionDataManager();
   PT::Data::Server* server = servermgr->GetServerById(i);
   while (server)
   {

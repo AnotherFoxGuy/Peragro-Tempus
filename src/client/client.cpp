@@ -59,7 +59,7 @@
 #include "client/gui/guimanager.h"
 #include "client/data/effect/effectsmanager.h"
 #include "client/data/effect/effectdatamanager.h"
-#include "client/data/connection/serverdatamanager.h"
+#include "client/data/connection/connectiondatamanager.h"
 #include "client/combat/combatmanager.h"
 #include "common/data/doordatamanager.h"
 #include "common/data/itemdatamanager.h"
