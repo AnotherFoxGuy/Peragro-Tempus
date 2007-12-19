@@ -622,3 +622,37 @@ void EntityHandler::handlePoseRequest(GenericMessage* msg)
 
   NetworkHelper::broadcast(bs);
 }
+
+void EntityHandler::handleSpawnItem(GenericMessage* msg)
+{
+  SpawnItemMessage itemmsg;
+  itemmsg.deserialise(msg->getByteStream());
+
+  ItemEntity* item_ent = new ItemEntity();
+  item_ent->createFromItem(itemmsg.getItemId(), itemmsg.getVariation());
+
+  Entity* e = item_ent->getEntity()->getLock();
+  e->setPos(itemmsg.getPos());
+  e->setSector(itemmsg.getSectorId());
+  e->freeLock();
+
+  Server::getServer()->addEntity(item_ent->getEntity(), true);
+}
+
+void EntityHandler::handleSpawnMount(GenericMessage* msg)
+{
+  SpawnMountMessage mountmsg;
+  mountmsg.deserialise(msg->getByteStream());
+
+  MountEntity* mount_ent = new MountEntity();
+
+  Entity* e = mount_ent->getEntity()->getLock();
+  e->setName(mountmsg.getName());
+  e->setMesh(mountmsg.getMesh());
+  e->setPos(mountmsg.getPos());
+  e->setSector(mountmsg.getSectorId());
+  e->freeLock();
+
+  Server::getServer()->addEntity(mount_ent->getEntity(), true);
+}
+

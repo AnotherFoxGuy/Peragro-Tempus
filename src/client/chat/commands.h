@@ -441,6 +441,41 @@ namespace PT
             ToggleFlashStepMessage msg;
             network->send(&msg);
           }
+          else if (args[2].compare("spawn"))
+          {
+            PointerLibrary* ptr_lib = PointerLibrary::getInstance();
+            Entity::EntityManager* ent_mgr = ptr_lib->getEntityManager();
+
+            iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
+
+            csRef<iPcLinearMovement> pclinmove =
+              CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+
+            csVector3 pos = pclinmove->GetFullPosition();
+            iSector* sector = pclinmove->GetSector();
+
+            char buffer[1024];
+
+            int sectorId = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName())->GetId();
+
+            if (args[3].compare("item"))
+            {
+              SpawnItemMessage itemmsg;
+              itemmsg.setItemId(atoi(args[4].c_str()));
+              itemmsg.setItemVariation(atoi(args[5].c_str()));
+              itemmsg.setPos(pos.x, pos.y, pos.z));
+              itemmsg.setSector(sectorId)->GetName());
+              network->send(&itemmsg);
+            }
+            else if(args[3].compare("mount"))
+            {
+              SpawnMountMessage mountmsg;
+              mountmsg.setMesh(ptString(args[4].c_str(), args[4].length()));
+              mountmsg.setName(ptString(args[5].c_str(), args[5].length()));
+              mountmsg.setPos(pos.x, pos.y, pos.z));
+              mountmsg.setSector(sectorId)->GetName());
+            }
+          }
 
           return;
         }

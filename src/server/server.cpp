@@ -35,19 +35,24 @@
 
 Server* Server::server;
 
-void Server::addEntity(const Entity* entity, bool presistent)
+void Server::addEntity(const Entity* entity, bool persistent)
 {
   printf("Add Entity\n");
   ent_mgr->addEntity(entity);
 
   printf("Added %s with id: %d, mesh: %s\n", *entity->getName(), entity->getId(), *entity->getMesh());
 
-  if (presistent)
+  if (persistent)
   {
-    //Only dropped items are persistent Entities at the moment
-    const ItemEntity* e = entity->getItemEntity();
-    if (!e) return;
-    db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), e->getItem()->getId(), e->variation, entity->getMesh(), entity->getPos(), entity->getSectorName());
+    const ItemEntity* ie = entity->getItemEntity();
+    if (ie)
+    { 
+      db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh(), entity->getPos(), entity->getSectorName());
+    }
+    else
+    {
+      db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh(), entity->getPos(), entity->getSectorName());
+    }
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)
