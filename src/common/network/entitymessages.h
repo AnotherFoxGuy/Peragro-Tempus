@@ -1229,10 +1229,10 @@ public:
 
 class SpawnItemMessage : public NetMessage
 {
+  unsigned int itemid;
   unsigned int variation;
   float pos[3];
   unsigned short sectorid;
-  unsigned int entityid;
 
 public:
   SpawnItemMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::SPAWNITEM)
@@ -1245,6 +1245,9 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned int getItemId() { return itemid; }
+  void setItemId(unsigned int x) { itemid = x; }
 
   unsigned int getVariation() { return variation; }
   void setVariation(unsigned int x) { variation = x; }
@@ -1263,9 +1266,6 @@ public:
 
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
-
-  unsigned int getEntityId() { return entityid; }
-  void setEntityId(unsigned int x) { entityid = x; }
 
 };
 
