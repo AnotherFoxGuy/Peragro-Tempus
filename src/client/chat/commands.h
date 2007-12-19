@@ -35,6 +35,8 @@
 
 #include "client/entity/entitymanager.h"
 
+#include "common/data/sector.h"
+#include "common/data/sectordatamanager.h"
 
 namespace PT
 {
@@ -456,15 +458,17 @@ namespace PT
 
             char buffer[1024];
 
+            PT::Data::SectorDataManager* sectorDataMgr = ptr_lib->getSectorDataManager();
+
             int sectorId = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName())->GetId();
 
             if (args[3].compare("item"))
             {
               SpawnItemMessage itemmsg;
               itemmsg.setItemId(atoi(args[4].c_str()));
-              itemmsg.setItemVariation(atoi(args[5].c_str()));
-              itemmsg.setPos(pos.x, pos.y, pos.z));
-              itemmsg.setSector(sectorId)->GetName());
+              itemmsg.setVariation(atoi(args[5].c_str()));
+              itemmsg.setPos(pos.x, pos.y, pos.z);
+              itemmsg.setSector(sectorId);
               network->send(&itemmsg);
             }
             else if(args[3].compare("mount"))
@@ -472,8 +476,8 @@ namespace PT
               SpawnMountMessage mountmsg;
               mountmsg.setMesh(ptString(args[4].c_str(), args[4].length()));
               mountmsg.setName(ptString(args[5].c_str(), args[5].length()));
-              mountmsg.setPos(pos.x, pos.y, pos.z));
-              mountmsg.setSector(sectorId)->GetName());
+              mountmsg.setPos(pos.x, pos.y, pos.z);
+              mountmsg.setSector(sectorId);
             }
           }
 
