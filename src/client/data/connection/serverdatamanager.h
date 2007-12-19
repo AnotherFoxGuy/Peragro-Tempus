@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_SERVERDATAMANAGER_H
-#define PT_SERVERDATAMANAGER_H
+#ifndef PT_CONNECTIONDATAMANAGER_H
+#define PT_CONNECTIONDATAMANAGER_H
 
 #include <vector>
 #include <string>
@@ -35,10 +35,10 @@ namespace PT
      * resides in $DATA/xml/servers.xml file, where $DATA is the parent
      * directory where the Peragro Tempus data resides.
      */
-    class ServerDataManager
+    class ConnectionDataManager
     {
     private:
-      ///Servers descriptions. Instances are owned by ServerDataManager.
+      ///Servers descriptions. Instances are owned by ConnectionDataManager.
       ///@internal We're using a std::vector here since it's being populated
       ///only during application startup. It also offers speed when accessing
       ///elements.
@@ -50,14 +50,14 @@ namespace PT
       /**
        * Base constructor that doesn't do anything at all.
        */
-      ServerDataManager() {}
+      ConnectionDataManager() {}
       /**
        * Convenience constructor allowing for immediate setting of data
        * directory path.
        * @param path Path to the data directory.
        */
-      ServerDataManager(const std::string& path) : dataPath(path) {}
-      ~ServerDataManager();
+      ConnectionDataManager(const std::string& path) : dataPath(path) {}
+      ~ConnectionDataManager();
 
       /**
        * Set the data directory path used for loading 'servers.xml' file.
@@ -88,4 +88,4 @@ namespace PT
   } // Data namespace
 } // PT namespace
 
-#endif // PT_SERVERDATAMANAGER_H
+#endif // PT_CONNECTIONDATAMANAGER_H

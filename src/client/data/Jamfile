@@ -4,5 +4,5 @@ Description client-data : "client data" ;
 Library client-data :
   [ Wildcard *.h *.cpp ]
   [ Wildcard [ ConcatDirs effect ] : *.h *.cpp ]
-  [ Wildcard [ ConcatDirs server ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs connection ] : *.h *.cpp ] ;
 ExternalLibs client-data : CRYSTAL CEL BOOST ;

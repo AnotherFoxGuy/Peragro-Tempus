@@ -26,7 +26,7 @@ namespace PT
   namespace Data
   {
 
-    ServerDataManager::~ServerDataManager()
+    ConnectionDataManager::~ConnectionDataManager()
     {
       for (size_t i = 0; i<servers.size(); i++) delete servers[i];
     }
@@ -36,7 +36,7 @@ namespace PT
     ///be, we could traverse the XML file once before adding the actual data in
     ///order to determine the number of servers in file, and preallocate memory
     ///space.
-    bool ServerDataManager::LoadServerData()
+    bool ConnectionDataManager::LoadServerData()
     {
       TiXmlDocument serverlist;
       if (!serverlist.LoadFile((dataPath+"/xml/servers.xml").c_str()))
@@ -60,14 +60,14 @@ namespace PT
       return true;
     } // end LoadServerData()
 
-    Server* ServerDataManager::GetServerByName(const std::string& name) const
+    Server* ConnectionDataManager::GetServerByName(const std::string& name) const
     {
       for (size_t i = 0; i<servers.size(); i++)
         if (servers[i]->GetName() == name) return servers[i];
       return 0;
     } // end GetServerByName()
 
-    Server* ServerDataManager::GetServerById(unsigned int id) const
+    Server* ConnectionDataManager::GetServerById(unsigned int id) const
     {
       if (id<servers.size())
         return servers[id];

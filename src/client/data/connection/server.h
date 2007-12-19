@@ -27,10 +27,10 @@ namespace PT
   {
     /**
      * @ingroup data_handlers
-     * Helper class that contains basic information about server. Usually not
-     * created directly, but accessed via ServerDataManager instance. Use the
+     * Helper class that contains basic information about a server. Usually not
+     * created directly, but accessed via ConnectionDataManager instance. Use the
      * Set/Get methods to access the server properties.
-     * @see ServerDataManager
+     * @see ConnectionDataManager
      */
     class Server
     {
