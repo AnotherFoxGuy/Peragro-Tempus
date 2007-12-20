@@ -6,6 +6,7 @@ under each day.
 
 20-Dec-2007
  - Rakhun moved the GUI for server setup into its own file, serversetup-gui.cpp/h
+ - Rakhun fixed a few compilation warnings.
 
 19-Dec-2007
  - PK implemented item and mount spawning.

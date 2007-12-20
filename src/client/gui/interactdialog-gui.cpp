@@ -77,7 +77,7 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
 
   const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
 
-  if (interactId == -1) return true;
+  if (interactId == (unsigned int)-1) return true;
 
   if (ddea.window->getName().compare(TRADE_BUTTON) == 0)
   {

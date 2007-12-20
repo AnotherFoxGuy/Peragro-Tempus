@@ -459,8 +459,6 @@ namespace PT
             float rotation = pclinmove->GetYRotation();
             iSector* sector = pclinmove->GetSector();
 
-            char buffer[1024];
-
             int sectorId = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName())->GetId();
 
             if (args[3].compare("item") == 0)

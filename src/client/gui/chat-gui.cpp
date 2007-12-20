@@ -119,9 +119,6 @@ bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
 {
   using namespace CEGUI;
 
-  CEGUI::Window* inventorywin = winMgr->getWindow("Inventory/Frame");
-  CEGUI::Window* statuswin = winMgr->getWindow("Status/Frame");
-
   const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
   //printf("OnRootKeyDown: key %d pressed \n", keyArgs.scancode);

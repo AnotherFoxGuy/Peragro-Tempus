@@ -194,8 +194,6 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
 
   printf("RightClicked\n");
 
-  int objectid = -1;
-
   Slot* slot = static_cast<Slot*>(mouseArgs.window->getParent()->getUserData());
   if (!slot) return false;
   Object* object = slot->GetObject();
