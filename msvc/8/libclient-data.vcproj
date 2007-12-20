@@ -315,6 +315,9 @@
 			<File
 				RelativePath="..\..\src\client\data\effect\reflection.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\client\data\serversetup\serverdatamanager.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -339,6 +342,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\reflection.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\serversetup\serverdatamanager.h">
 			</File>
 		</Filter>
 	</Files>
