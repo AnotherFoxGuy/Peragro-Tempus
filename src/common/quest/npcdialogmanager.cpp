@@ -92,3 +92,4 @@ void NPCDialogManager::load()
     delete vo;
   }
 }
+
