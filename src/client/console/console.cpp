@@ -102,7 +102,7 @@ public:
     parent->GetOutputConsole ()->PutText (
       "  guimanager <window> <command> OR guimanager <command> <arg>\n");
     parent->GetOutputConsole ()->PutText (
-      " windows: buddy buy chat confirm servers hud inventory login npcdialog ok options selectchar sell status trade\n");
+      " windows: buddy buy chat confirm servers hud inventory login npcdialog ok options selectchar serversetup sell status trade\n");
     parent->GetOutputConsole ()->PutText (
       " commands: show hide / create(file arg)...\n");
   }
@@ -141,6 +141,8 @@ public:
       window = guimanager->GetOptionsWindow();
     else if (strcmp(args[1],"selectchar")==0)
       window = guimanager->GetSelectCharWindow();
+    else if (strcmp(args[1],"serversetup")==0)
+      window = guimanager->GetServerSetupWindow();
     else if(strcmp(args[1],"sell")==0)
       window = guimanager->GetSellWindow();
     else if (strcmp(args[1],"status")==0)

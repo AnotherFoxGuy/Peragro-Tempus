@@ -16,26 +16,24 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef SERVERSETUP_GUI_H
+#define SERVERSETUP_GUI_H
 
-#include "servers-gui.h"
-#include "login-gui.h"
-#include "charsel-gui.h"
-#include "serversetup-gui.h"
-#include "chat-gui.h"
-#include "inventory-gui.h"
-#include "hud-gui.h"
-#include "options-gui.h"
-#include "status-gui.h"
-#include "buddylist-gui.h"
-#include "whisper-gui.h"
-#include "npcdialog-gui.h"
-#include "trade-gui.h"
-#include "confirmdialog-gui.h"
-#include "buy-gui.h"
-#include "sell-gui.h"
-#include "interactdialog-gui.h"
-#include "book-gui.h"
+#include "base-gui.h"
 
-#endif // GUI_H
+#include "client/pointer/pointer.h"
+
+class ServerSetupWindow : public GUIWindow
+{
+private:
+  bool DoneButton(const CEGUI::EventArgs& e);    // returns to the character menu.
+  bool UploadButton(const CEGUI::EventArgs& e);  // Uploads the server data to the server.
+  bool DownloadButton(const CEGUI::EventArgs& e);  // Downloads the server data from the server.
+
+public:
+  ServerSetupWindow(GUIManager* guimanager);
+  virtual ~ServerSetupWindow();
+  void CreateGUIWindow();    // load the Server setup guilayout and register button events.
+};
+
+#endif // SERVERSETUP_GUI_H

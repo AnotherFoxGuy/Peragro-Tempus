@@ -4,9 +4,14 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+20-Dec-2007
+ - Rakhun moved the GUI for server setup into its own file, serversetup-gui.cpp/h
+
 19-Dec-2007
  - PK implemented item and mount spawning.
  - PK added the rotation of entities to the database.
+ - Rakhun renamed the ServerDataManager to ConnectionDataManager and added
+   another ServerDataManager stub for loading and sending settings to the server.
 
 18-Dec-2007
  - PK added more "Evil Undead" to keep and horses to vaalnor.

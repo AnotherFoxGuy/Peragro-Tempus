@@ -38,6 +38,7 @@ GUIManager::GUIManager ()
   loginwindow = 0;
   serverwindow = 0;
   selectcharwindow = 0;
+  serversetupwindow = 0;
   chatwindow = 0;
   inventorywindow = 0;
   hudwindow = 0;
@@ -61,6 +62,7 @@ GUIManager::~GUIManager ()
   delete loginwindow;
   delete serverwindow;
   delete selectcharwindow;
+  delete serversetupwindow;
   delete chatwindow;
   delete inventorywindow;
   delete hudwindow;
@@ -127,6 +129,7 @@ bool GUIManager::Initialize ()
     CreateServerWindow ();
     CreateLoginWindow ();
     CreateSelectCharWindow ();
+    CreateServerSetupWindow ();
     CreateOptionsWindow ();
     CreateWhisperWindow();
     CreateNpcDialogWindow();
@@ -176,6 +179,13 @@ SelectCharWindow* GUIManager::CreateSelectCharWindow ()
   selectcharwindow = new SelectCharWindow (this);
   selectcharwindow->CreateGUIWindow();
   return selectcharwindow;
+}
+
+ServerSetupWindow* GUIManager::CreateServerSetupWindow ()
+{
+  serversetupwindow = new ServerSetupWindow (this);
+  serversetupwindow->CreateGUIWindow();
+  return serversetupwindow;
 }
 
 ChatWindow* GUIManager::CreateChatWindow ()

@@ -30,6 +30,7 @@
 class LoginWindow;
 class ServerWindow;
 class SelectCharWindow;
+class ServerSetupWindow;
 class ChatWindow;
 class InventoryWindow;
 class HUDWindow;
@@ -56,6 +57,7 @@ private:
   LoginWindow* loginwindow;
   ServerWindow* serverwindow;
   SelectCharWindow* selectcharwindow;
+  ServerSetupWindow* serversetupwindow;
   ChatWindow* chatwindow;
   InventoryWindow* inventorywindow;
   HUDWindow* hudwindow;
@@ -89,6 +91,7 @@ public:
   ServerWindow* CreateServerWindow ();
   LoginWindow* CreateLoginWindow ();
   SelectCharWindow* CreateSelectCharWindow ();
+  ServerSetupWindow* CreateServerSetupWindow ();
   ChatWindow* CreateChatWindow ();
   InventoryWindow* CreateInventoryWindow();
   HUDWindow* CreateHUDWindow();
@@ -118,6 +121,11 @@ public:
   SelectCharWindow* GetSelectCharWindow ()
   {
     return selectcharwindow;
+  }
+
+  ServerSetupWindow* GetServerSetupWindow ()
+  {
+    return serversetupwindow;
   }
 
   ChatWindow* GetChatWindow ()

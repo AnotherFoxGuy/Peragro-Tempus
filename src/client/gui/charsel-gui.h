@@ -35,9 +35,7 @@ private:
   bool CreateButton(const CEGUI::EventArgs& e);   // Opens the Create character menu.
   bool CancelButton(const CEGUI::EventArgs& e);   // returns to the character menu.
   bool AdminButton(const CEGUI::EventArgs& e);    // Opens the server setup window.
-  bool AdminDoneButton(const CEGUI::EventArgs& e);// returns to the character menu.
   void ToggleNewWindow(bool visible);
-  void ToggleServerSetupWindow(bool visible);
 
 public:
   void ShowAdminButton();
