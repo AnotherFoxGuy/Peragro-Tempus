@@ -60,6 +60,7 @@
 #include "client/data/effect/effectsmanager.h"
 #include "client/data/effect/effectdatamanager.h"
 #include "client/data/connection/connectiondatamanager.h"
+#include "client/data/serversetup/serverdatamanager.h"
 #include "client/combat/combatmanager.h"
 #include "common/data/doordatamanager.h"
 #include "common/data/itemdatamanager.h"
@@ -103,6 +104,7 @@ namespace PT
     effectDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
+    serverDataManager = 0;
     cursor = 0;
     inputMgr = 0;
     last_seen = 0;
@@ -127,6 +129,7 @@ namespace PT
     delete effectDataManager;
     delete skillDataManager;
     delete connectionDataManager;
+    delete serverDataManager;
     delete inputMgr;
     delete reporter;
     delete trademanager;
@@ -332,6 +335,10 @@ namespace PT
     if (!connectionDataManager->LoadServerData())
       return Report(PT::Error, "Failed to initialize ConnectionDataManager!");
     pointerlib.setConnectionDataManager(connectionDataManager);
+
+    // Create the ServerDataManager but only initialize when the Server setup window is opened.
+    serverDataManager = new PT::Data::ServerDataManager (dataDir->GetData());
+    pointerlib.setServerDataManager(serverDataManager);
 
     // Create and Initialize the GUImanager.
     guimanager = new GUIManager ();
