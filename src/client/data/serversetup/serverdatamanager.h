@@ -26,8 +26,8 @@ namespace PT
 {
   namespace Data
   {
-    //Forward declarations
-    class Server;
+    //Forward declaration
+    class Network;
 
     /**
      * @ingroup data_handlers
@@ -63,10 +63,16 @@ namespace PT
       const std::string& GetDataPath() const { return dataPath; }
 
       /**
-       * Loads all the server information.
+       * Loads all the server information and sends it to the server.
        * @return True if successful, false if an error occured.
        */
-      bool LoadServerData();
+      bool UploadServerData();
+
+      /**
+       * Receives the server information from the server and saves it to files.
+       * @return True if successful, false if an error occured.
+       */
+      bool DownloadServerData();
     };
   } // Data namespace
 } // PT namespace

@@ -17,8 +17,8 @@
 */
 
 #include "serverdatamanager.h"
-
 #include "ext/tinyxml/tinyxml.h"
+#include "client/reporter/reporter.h"
 
 namespace PT
 {
@@ -29,11 +29,42 @@ namespace PT
     {
     }
 
-    bool ServerDataManager::LoadServerData()
+    bool ServerDataManager::UploadServerData()
     {
-      // Don't know how to best load the data yet, or what data to load
+      // Send a message to tell the server to wipe its current settings to make room for the new ones (Just don't know how yet)
+      Report(PT::Notify, "Not yet implemented (need to know how to send the messages)");
+
+      // ==[ Doors ]=============================================================
+      TiXmlDocument doc;
+      if (!doc.LoadFile("data/xml/doors/doors.xml"))
+        return false;
+
+      TiXmlElement* items = doc.FirstChildElement("doors");
+      TiXmlElement* itemNode = items->FirstChildElement("door");
+      while (itemNode)
+      {/* (uncomment when we know how to send the data, commented since they would cause "unused variable" warnings otherwise)
+        unsigned int door_id = atoi(itemNode->FirstChildElement("id")->FirstChild()->ToText()->Value());
+        const char* name = itemNode->FirstChildElement("name")->FirstChild()->ToText()->Value();
+        const char* mesh = itemNode->FirstChildElement("mesh")->FirstChild()->ToText()->Value();
+        const char* sector = itemNode->FirstChildElement("sector")->FirstChild()->ToText()->Value();
+
+        const char* str_x = itemNode->FirstChildElement("position")->Attribute("x");
+        const char* str_y = itemNode->FirstChildElement("position")->Attribute("y");
+        const char* str_z = itemNode->FirstChildElement("position")->Attribute("z");*/
+
+        // Just send the data here, one door/package (Just don't know how yet)
+
+        itemNode = itemNode->NextSiblingElement("door");
+      }
+
       return true;
-    } // end LoadServerData()
+    } // end UploadServerData()
+
+    bool ServerDataManager::DownloadServerData()
+    {
+      Report(PT::Notify, "Not yet implemented");
+      return true;
+    } // end DownloadServerData()
 
   } // Data namespace
 } // PT namespace

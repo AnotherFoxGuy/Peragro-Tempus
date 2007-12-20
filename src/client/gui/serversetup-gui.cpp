@@ -25,7 +25,7 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-#include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
 #include "client/data/serversetup/serverdatamanager.h"
 
@@ -49,13 +49,13 @@ bool ServerSetupWindow::DoneButton(const CEGUI::EventArgs& e)
 
 bool ServerSetupWindow::UploadButton(const CEGUI::EventArgs& e) 
 {
-  Report(PT::Notify, "Not yet implemented");
+  PointerLibrary::getInstance()->getServerDataManager()->UploadServerData();
   return true;
 }
 
 bool ServerSetupWindow::DownloadButton(const CEGUI::EventArgs& e) 
 {
-  Report(PT::Notify, "Not yet implemented");
+  PointerLibrary::getInstance()->getServerDataManager()->DownloadServerData();
   return true;
 }
 

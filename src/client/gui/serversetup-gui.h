@@ -21,8 +21,6 @@
 
 #include "base-gui.h"
 
-#include "client/pointer/pointer.h"
-
 class ServerSetupWindow : public GUIWindow
 {
 private:
