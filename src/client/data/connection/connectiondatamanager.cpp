@@ -39,14 +39,14 @@ namespace PT
     bool ConnectionDataManager::LoadServerData()
     {
       TiXmlDocument serverlist;
-      if (!serverlist.LoadFile((dataPath+"/xml/servers.xml").c_str()))
+      if (!serverlist.LoadFile((dataPath + "/xml/servers.xml").c_str()))
       {
         printf("Failed to load serverlist.\n");
         return false;
       }
 
-      TiXmlElement* serverNode=serverlist.FirstChildElement( "servers" );
-      serverNode = serverNode->FirstChildElement( "server" );
+      TiXmlElement* serverNode=serverlist.FirstChildElement("servers");
+      serverNode = serverNode->FirstChildElement("server");
       while (serverNode)
       {
         Server* server = new Server();
@@ -62,14 +62,18 @@ namespace PT
 
     Server* ConnectionDataManager::GetServerByName(const std::string& name) const
     {
-      for (size_t i = 0; i<servers.size(); i++)
-        if (servers[i]->GetName() == name) return servers[i];
+      for (size_t i = 0; i < servers.size(); i++)
+      {
+        if (servers[i]->GetName() == name) 
+          return servers[i];
+      } // end for
+
       return 0;
     } // end GetServerByName()
 
     Server* ConnectionDataManager::GetServerById(unsigned int id) const
     {
-      if (id<servers.size())
+      if (id < servers.size())
         return servers[id];
       return 0;
     } // end GetServerById()

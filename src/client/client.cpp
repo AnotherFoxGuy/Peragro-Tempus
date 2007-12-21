@@ -373,7 +373,7 @@ namespace PT
     if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
 
     // It's used in PreProcessFrame(), so store this boolean.
-    enable_reflections = false;//app_cfg->GetBool("Client.waterreflections");
+    enable_reflections = app_cfg->GetBool("Client.waterreflections");
 
     iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
     if (nw) nw->SetTitle ("Peragro Tempus");
@@ -700,14 +700,14 @@ namespace PT
     return true;
   }
 
-  void Client::login(csString user, csString pass)
+  void Client::login(const std::string& user, const std::string& pass)
   {
     this->user = user;
     this->pass = pass;
 
     LoginRequestMessage answer_msg;
-    answer_msg.setUsername(ptString(user.GetData(), strlen(user.GetData())));
-    answer_msg.setPassword(pass);
+    answer_msg.setUsername(ptString(user.c_str(), strlen(user.c_str())));
+    answer_msg.setPassword(pass.c_str());
     network->send(&answer_msg);
   }
 
@@ -816,8 +816,8 @@ namespace PT
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       guimanager->GetLoginWindow()->EnableWindow();
       guimanager->GetServerWindow()->EnableWindow();
-      network->stop();
-      state = STATE_INTRO;
+      //network->stop();
+      //state = STATE_INTRO;
       guimanager->CreateOkWindow(true)->SetText(stateev->errorMessage.c_str());
       return true;
     }

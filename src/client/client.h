@@ -211,8 +211,8 @@ namespace PT
     csTicks last_seen;
 
     // needed for relogin on disconnect
-    csString user;
-    csString pass;
+    std::string user;
+    std::string pass;
     unsigned int char_id;
 
   public:
@@ -230,7 +230,7 @@ namespace PT
     bool Application();
     void OnCommandLineHelp();
 
-    void login(csString user, csString pass);
+    void login(const std::string& user, const std::string& pass);
 
     void selectCharacter(unsigned int char_id);
 

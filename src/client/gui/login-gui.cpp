@@ -53,12 +53,17 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
     GUIWindow::EnableWindow();
     guimanager->GetServerWindow()->EnableWindow();
     return true;
-  }else{
-    // Connect to selected server
-    ConnectRequestMessage msg(CLIENTVERSION);
-    network->setServerAddress(guimanager->GetServerWindow()->GetServer());
-    network->init();
-    network->send(&msg);
+  }
+  else
+  {
+    if (PointerLibrary::getInstance()->getClient()->state < 2)
+    {
+      // Connect to selected server
+      ConnectRequestMessage msg(CLIENTVERSION);
+      network->setServerAddress(guimanager->GetServerWindow()->GetServer());
+      network->init();
+      network->send(&msg);
+    }
   }
   PointerLibrary::getInstance()->getClient()->login(login.c_str(), password.c_str());
 
@@ -67,11 +72,16 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 
 bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 {
-  // Connect to selected server
-  ConnectRequestMessage msg(CLIENTVERSION);
-  network->setServerAddress(guimanager->GetServerWindow()->GetServer());
-  network->init();
-  network->send(&msg);
+  printf("STATE %d\n", PointerLibrary::getInstance()->getClient()->state);
+  if (PointerLibrary::getInstance()->getClient()->state < 2)
+  {
+    
+    // Connect to selected server
+    ConnectRequestMessage msg(CLIENTVERSION);
+    network->setServerAddress(guimanager->GetServerWindow()->GetServer());
+    network->init();
+    network->send(&msg);
+  }
 
   RegisterRequestMessage answer_msg;
   CEGUI::String login = GetLogin();
