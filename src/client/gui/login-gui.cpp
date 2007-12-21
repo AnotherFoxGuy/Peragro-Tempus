@@ -72,10 +72,8 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 
 bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 {
-  printf("STATE %d\n", PointerLibrary::getInstance()->getClient()->state);
   if (PointerLibrary::getInstance()->getClient()->state < 2)
-  {
-    
+  {  
     // Connect to selected server
     ConnectRequestMessage msg(CLIENTVERSION);
     network->setServerAddress(guimanager->GetServerWindow()->GetServer());
