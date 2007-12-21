@@ -141,7 +141,8 @@ int main(int argc, char ** argv)
   // Initialising time broadcasting
   Environment environment;
 
-  // Loading sectors from file
+  sector_mgr.loadFromDB(db.getSectorsTable());
+  // Loading sectors from file (to be removed when server setup through the client is working)
   fileloader.getSectorsFile()->load();
 
   // Loading items from file

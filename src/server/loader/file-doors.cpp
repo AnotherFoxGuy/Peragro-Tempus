@@ -29,7 +29,7 @@
 
 void DoorsFile::load()
 {
-  // If the XML is not consistant, we just segfault!
+  // If the XML is not consistent, we just segfault!
   EntityManager* ent_mgr = Server::getServer()->getEntityManager();
 
   TiXmlDocument doc;
@@ -61,7 +61,7 @@ void DoorsFile::load()
     // --[Creating Entity]---------------------------------------------------
 
     DoorsTable* doors = Server::getServer()->getDatabase()->getDoorsTable();
-    
+
     DoorsTableVO* vo = doors->getById(door_id);
 
     if (vo == 0) // new door!

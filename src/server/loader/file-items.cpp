@@ -27,7 +27,7 @@ void ItemsFile::load()
 {
   ItemManager* item_mgr = Server::getServer()->getItemManager();
 
-  // If the XML is not consistant, we just segfault!
+  // If the XML is not consistent, we just segfault!
 
   TiXmlDocument doc;
   if (!doc.LoadFile("data/xml/items/items.xml"))

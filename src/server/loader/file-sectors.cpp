@@ -23,11 +23,14 @@
 
 #include "ext/tinyxml/tinyxml.h"
 
+#include "server/database/database.h"
+#include "server/database/table-sectors.h"
+
 void SectorsFile::load()
 {
   SectorManager* sector_mgr = Server::getServer()->getSectorManager();
 
-  // If the XML is not consistant, we just segfault!
+  // If the XML is not consistent, we just segfault!
 
   TiXmlDocument doc;
   if (!doc.LoadFile("data/xml/world/sectors.xml"))
@@ -45,8 +48,18 @@ void SectorsFile::load()
 
     const char* region = itemNode->Attribute("region");
 
-    sector_mgr->addSector(id, ptString(name, strlen(name)), ptString(region, strlen(region)));
+    SectorsTable* sectors = Server::getServer()->getDatabase()->getSectorsTable();
+    SectorsTableVO* vo = sectors->getById(id);
+    if (vo == 0) // new row!
+    {
+      vo = new SectorsTableVO();
+      vo->id = id;
+      vo->name = ptString(name, strlen(name));
+      vo->region = ptString(region, strlen(region));
+      sectors->insert(vo);
 
+      sector_mgr->addSector(id, ptString(name, strlen(name)), ptString(region, strlen(region)));
+    }
     itemNode = itemNode->NextSiblingElement("sector");
   }
 }

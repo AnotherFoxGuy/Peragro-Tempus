@@ -36,6 +36,7 @@ class NpcDialogAnswersTable;
 class NpcEntitiesTable;
 class BooksTable;
 class DoorsTable;
+class SectorsTable;
 class PermissionsTable;
 
 #include "resultset.h"
@@ -60,6 +61,7 @@ private:
   NpcEntitiesTable* npcentitiestable;
   BooksTable* bookstable;
   DoorsTable* doorstable;
+  SectorsTable* sectorstable;
   PermissionsTable* permissionstable;
 
 public:
@@ -91,6 +93,7 @@ public:
   NpcEntitiesTable* getNpcEntitiesTable() { return npcentitiestable; }
   BooksTable* getBooksTable() { return bookstable; }
   DoorsTable* getDoorsTable() { return doorstable; }
+  SectorsTable* getSectorsTable() { return sectorstable; }
   PermissionsTable* getPermissionsTable() { return permissionstable; }
 };
 

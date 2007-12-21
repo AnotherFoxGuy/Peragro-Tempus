@@ -104,7 +104,7 @@ void DoorsTable::remove(int id)
 
 unsigned int DoorsTable::getCount()
 {
-  ResultSet* rs = db->query("select count(*) from books;");
+  ResultSet* rs = db->query("select count(*) from doors;");
   if (!rs)
   {
     return 0;
