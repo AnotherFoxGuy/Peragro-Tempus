@@ -25,6 +25,7 @@
 #include "server/entity/pcentity.h"
 #include "server/entity/npcentity.h"
 #include "server/entity/doorentity.h"
+#include "server/entity/doormanager.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/itemmanager.h"
 #include "server/entity/statmanager.h"
@@ -124,6 +125,9 @@ int main(int argc, char ** argv)
   StatManager stat_mgr;
   server.setStatManager(&stat_mgr);
 
+  DoorManager door_mgr;
+  server.setDoorManager(&door_mgr);
+
   SkillManager skill_mgr;
   server.setSkillManager(&skill_mgr);
 
@@ -146,11 +150,12 @@ int main(int argc, char ** argv)
   ent_mgr->loadFromDB(db.getEntityTable());
 
   //item_mgr.loadFromDB(db.getItemTable());
+  door_mgr.loadFromDB(db.getDoorsTable());
   stat_mgr.loadFromDB(db.getStatTable());
   skill_mgr.loadFromDB(db.getSkillTable());
   race_mgr.loadFromDB(db.getRaceTable());
 
-  // Loading doors from file
+  // Loading doors from file (to be removed when server setup through the client is working)
   fileloader.getDoorsFile()->load();
 
   Spawner spawner;

@@ -38,6 +38,11 @@ private:
 
   bool open;
   bool locked;
+  ptString sector;
+  ptString mesh;
+  float x;
+  float y;
+  float z;
 
 public:
   DoorEntity() : open(false), locked(false)
@@ -64,6 +69,21 @@ public:
 
   void setLocked(bool locked) { this->locked = locked; }
   bool getLocked() const { return locked; }
+
+  void setSector(ptString sector) { this->sector = sector; }
+  ptString getSector() const { return sector; }
+
+  void setMesh(ptString mesh) { this->mesh = mesh; }
+  ptString getMesh() const { return mesh; }
+
+  void setX(float x) { this->x = x; }
+  float getX() const { return x; }
+
+  void setY(float y) { this->y = y; }
+  float getY() const { return y; }
+
+  void setZ(float z) { this->z = z; }
+  float getZ() const { return z; }
 };
 
 #endif // _DoorENTITY_H_

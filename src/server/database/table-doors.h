@@ -40,6 +40,16 @@ public:
   int islocked;
   /// The open state.
   int isopen;
+  /// The sector the door exists in
+  ptString sector;
+  /// The mesh of the door
+  ptString mesh;
+  /// X coordinate of the door
+  float x;
+  /// Y coordinate of the door
+  float y;
+  /// Z coordinate of the door
+  float z;
 };
 
 /**

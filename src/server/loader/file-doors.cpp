@@ -71,23 +71,29 @@ void DoorsFile::load()
       vo->name = ptString(name, strlen(name));
       vo->isopen = false;
       vo->islocked = true;
+      vo->sector = ptString(sector, strlen(sector));
+      vo->mesh = ptString(mesh, strlen(mesh));
+      vo->x = atof(str_x);
+      vo->y = atof(str_y);
+      vo->z = atof(str_z);
       doors->insert(vo);
+
+      // If it's not new then we have already loaded it from the database
+      DoorEntity* door_ent = new DoorEntity();
+
+      Entity* ent = door_ent->getEntity()->getLock();
+      ent->setName(ptString(name, strlen(name)));
+      ent->setSector(ptString(sector, strlen(sector)));
+      ent->setMesh(ptString(mesh, strlen(mesh)));
+      ent->setPos((float)atof(str_x),(float)atof(str_y),(float)atof(str_z));
+      ent->freeLock();
+
+      door_ent->setDoorId(vo->id);
+      door_ent->setLocked(vo->islocked > 0);
+      door_ent->setOpen(vo->isopen > 0);
+
+      ent_mgr->addEntity(ent);
     }
-
-    DoorEntity* door_ent = new DoorEntity();
-
-    Entity* ent = door_ent->getEntity()->getLock();
-    ent->setName(ptString(name, strlen(name)));
-    ent->setSector(ptString(sector, strlen(sector)));
-    ent->setMesh(ptString(mesh, strlen(mesh)));
-    ent->setPos((float)atof(str_x),(float)atof(str_y),(float)atof(str_z));
-    ent->freeLock();
-
-    door_ent->setDoorId(vo->id);
-    door_ent->setLocked(vo->islocked > 0);
-    door_ent->setOpen(vo->isopen > 0);
-
-    ent_mgr->addEntity(ent);
 
     delete vo;
 

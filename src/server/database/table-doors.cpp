@@ -38,6 +38,11 @@ DoorsTableVO* DoorsTable::parseSingleResultSet(ResultSet* rs, size_t row)
   vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
   vo->islocked = atoi(rs->GetData(row,2).c_str());
   vo->isopen = atoi(rs->GetData(row,3).c_str());
+  vo->sector = ptString(rs->GetData(row,4).c_str(), rs->GetData(row,4).length());
+  vo->mesh = ptString(rs->GetData(row,5).c_str(), rs->GetData(row,5).length());
+  vo->x = atof(rs->GetData(row,6).c_str());
+  vo->y = atof(rs->GetData(row,7).c_str());
+  vo->z = atof(rs->GetData(row,8).c_str());
   return vo;
 }
 
@@ -67,6 +72,11 @@ void DoorsTable::createTable()
              "name TEXT,"
              "islocked INTEGER,"
              "isopen INTEGER,"
+             "sector TEXT,"
+             "mesh TEXT,"
+             "x FLOAT,"
+             "y FLOAT,"
+             "z FLOAT,"
              "PRIMARY KEY (Id) );");
 }
 
@@ -77,14 +87,14 @@ void DoorsTable::dropTable()
 
 void DoorsTable::insert(DoorsTableVO* vo)
 {
-  const char* query = { "insert into doors(id, name, islocked, isopen) values (%d, '%s', %d, %d);" };
+  const char* query = { "insert into doors(id, name, islocked, isopen, sector, mesh, x, y, z) values (%d, '%s', %d, %d, '%s', '%s', %f, %f, %f);" };
 
   if (!vo)
   {
     return;
   }
 
-  db->update(query, vo->id, *vo->name, vo->islocked, vo->isopen);
+  db->update(query, vo->id, *vo->name, vo->islocked, vo->isopen, *vo->sector, *vo->mesh, vo->x, vo->y, vo->z);
 }
 
 void DoorsTable::remove(int id)

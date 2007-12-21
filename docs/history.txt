@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+21-Dec-2007
+ - Rakhun changed door data to primarily be stored in the database, part of moving all of
+   it to the database and use the server setup window of the client to set it up.
+
 20-Dec-2007
  - Rakhun moved the GUI for server setup into its own file, serversetup-gui.cpp/h
  - Rakhun fixed a few compilation warnings.

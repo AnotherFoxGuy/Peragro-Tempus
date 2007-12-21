@@ -25,6 +25,7 @@ class EntityManager;
 class RaceManager;
 class ItemManager;
 class StatManager;
+class DoorManager;
 class SkillManager;
 class Network;
 class UserManager;
@@ -52,6 +53,7 @@ private:
   RaceManager* race_mgr;
   ItemManager* item_mgr;
   StatManager* stat_mgr;
+  DoorManager* door_mgr;
   SkillManager* skill_mgr;
   UserManager* usr_mgr;
   UserAccountManager* usr_acc_mgr;
@@ -84,6 +86,9 @@ public:
 
   void setStatManager(StatManager* stat_mgr) { this->stat_mgr = stat_mgr; }
   StatManager* getStatManager() { return this->stat_mgr; }
+
+  void setDoorManager(DoorManager* door_mgr) { this->door_mgr = door_mgr; }
+  DoorManager* getDoorManager() { return this->door_mgr; }
 
   void setSkillManager(SkillManager* skill_mgr) { this->skill_mgr = skill_mgr; }
   SkillManager* getSkillManager() { return this->skill_mgr; }
