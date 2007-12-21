@@ -323,9 +323,6 @@
 				RelativePath="..\..\src\server\loader\file-items.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\loader\file-meshes.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\loader\file-sectors.h">
 			</File>
 			<File
