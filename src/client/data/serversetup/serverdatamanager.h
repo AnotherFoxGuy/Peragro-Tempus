@@ -22,6 +22,9 @@
 #include <vector>
 #include <string>
 
+#include <csutil/ref.h>
+#include <iutil/vfs.h>
+
 namespace PT
 {
   namespace Data
@@ -36,31 +39,14 @@ namespace PT
     class ServerDataManager
     {
     private:
-
-      ///Represents the parent directory of the Peragro Tempus data.
-      std::string dataPath;
+      csRef<iVFS> vfs;
 
     public:
       /**
-       * Base constructor that doesn't do anything at all.
+       * Base constructor
        */
-      ServerDataManager() {}
-      /**
-       * Convenience constructor allowing for immediate setting of data
-       * directory path.
-       * @param path Path to the data directory.
-       */
-      ServerDataManager(const std::string& path) : dataPath(path) {}
+      ServerDataManager();
       ~ServerDataManager();
-
-      /**
-       * Set the data directory path used for loading the server data files.
-       */
-      void SetDataPath(const std::string& value) { dataPath = value; }
-      /**
-       * @return Data directory path.
-       */
-      const std::string& GetDataPath() const { return dataPath; }
 
       /**
        * Loads all the server information and sends it to the server.

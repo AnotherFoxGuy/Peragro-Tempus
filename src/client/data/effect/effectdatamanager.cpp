@@ -16,6 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 #include "effectdatamanager.h"
 #include "dataeffect.h"
 
@@ -25,6 +27,12 @@ namespace PT
 {
   namespace Data
   {
+
+    EffectDataManager::EffectDataManager()
+    {
+      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
+      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
+    }
 
     EffectDataManager::~EffectDataManager()
     {
@@ -38,11 +46,12 @@ namespace PT
     ///space.
     bool EffectDataManager::LoadEffectData()
     {
-      TiXmlDocument doc;
-      std::string file;
+      const char* fname="/peragro/xml/effects/effects.xml";
+      csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
+      if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
 
-      file = dataPath + "/xml/effects/effects.xml";
-      if (!doc.LoadFile(file.c_str())) return false;
+      TiXmlDocument doc;
+      if (!doc.Parse(xmlfile->GetData())) return false;
 
       TiXmlElement* effectsXML = doc.FirstChildElement("effects");
 

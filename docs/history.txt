@@ -1,4 +1,4 @@
-﻿Peragro Tempus detailed change log.
+Peragro Tempus detailed change log.
 
 Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
@@ -12,6 +12,7 @@ under each day.
  - Rakhun added the sector data to the database, similarly to the door data.
  - PK fixed rotation on teleporting.
  - PK added removal command to delete spawned items and mounts.
+ - Rakhun made all client-only datamanagers use VFS to load their data files.
 
 20-Dec-2007
  - Rakhun moved the GUI for server setup into its own file, serversetup-gui.cpp/h

@@ -16,14 +16,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 #include "serverdatamanager.h"
 #include "ext/tinyxml/tinyxml.h"
-#include "client/reporter/reporter.h"
 
 namespace PT
 {
   namespace Data
   {
+
+    ServerDataManager::ServerDataManager()
+    {
+      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
+      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
+    }
 
     ServerDataManager::~ServerDataManager()
     {
@@ -35,8 +42,12 @@ namespace PT
       Report(PT::Notify, "Not yet implemented (need to know how to send the messages)");
 
       // ==[ Doors ]=============================================================
+      const char* fname="/peragro/xml/doors/doors.xml";
+      csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
+      if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
+
       TiXmlDocument doc;
-      if (!doc.LoadFile("data/xml/doors/doors.xml"))
+      if (!doc.Parse(xmlfile->GetData()))
         return false;
 
       TiXmlElement* items = doc.FirstChildElement("doors");

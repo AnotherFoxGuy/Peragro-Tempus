@@ -313,7 +313,7 @@ namespace PT
     pointerlib.setItemDataManager(itemDataManager);
 
     // Create and Initialize the ItemDataManager.
-    effectDataManager = new PT::Data::EffectDataManager (dataDir->GetData());
+    effectDataManager = new PT::Data::EffectDataManager ();
     if (!effectDataManager->LoadEffectData())
       return Report(PT::Error, "Failed to initialize EffectDataManager!");
     pointerlib.setEffectDataManager(effectDataManager);
@@ -331,13 +331,13 @@ namespace PT
     pointerlib.setSkillDataManager(skillDataManager);
 
     // Create and Initialize the ConnectionDataManager.
-    connectionDataManager = new PT::Data::ConnectionDataManager (dataDir->GetData());
+    connectionDataManager = new PT::Data::ConnectionDataManager ();
     if (!connectionDataManager->LoadServerData())
       return Report(PT::Error, "Failed to initialize ConnectionDataManager!");
     pointerlib.setConnectionDataManager(connectionDataManager);
 
     // Create the ServerDataManager but only initialize when the Server setup window is opened.
-    serverDataManager = new PT::Data::ServerDataManager (dataDir->GetData());
+    serverDataManager = new PT::Data::ServerDataManager ();
     pointerlib.setServerDataManager(serverDataManager);
 
     // Create and Initialize the GUImanager.

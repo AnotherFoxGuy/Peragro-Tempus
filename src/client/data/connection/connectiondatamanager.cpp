@@ -16,6 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 #include "connectiondatamanager.h"
 #include "server.h"
 
@@ -25,6 +27,12 @@ namespace PT
 {
   namespace Data
   {
+
+    ConnectionDataManager::ConnectionDataManager()
+    {
+      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
+      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
+    }
 
     ConnectionDataManager::~ConnectionDataManager()
     {
@@ -38,8 +46,12 @@ namespace PT
     ///space.
     bool ConnectionDataManager::LoadServerData()
     {
+      const char* fname="/peragro/xml/servers.xml";
+      csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
+      if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
+
       TiXmlDocument serverlist;
-      if (!serverlist.LoadFile((dataPath + "/xml/servers.xml").c_str()))
+      if (!serverlist.Parse(xmlfile->GetData()))
       {
         printf("Failed to load serverlist.\n");
         return false;

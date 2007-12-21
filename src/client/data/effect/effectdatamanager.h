@@ -22,6 +22,9 @@
 #include <vector>
 #include <string>
 
+#include <csutil/ref.h>
+#include <iutil/vfs.h>
+
 namespace PT
 {
   namespace Data
@@ -44,30 +47,15 @@ namespace PT
       ///only during application startup. It also offers speed when accessing
       ///elements.
       std::vector<Effect*> effects;
-      ///Represents the parent directory of the Peragro Tempus data.
-      std::string dataPath;
+
+      csRef<iVFS> vfs;
 
     public:
       /**
-       * Base constructor that doesn't do anything at all.
+       * Base constructor
        */
-      EffectDataManager() {}
-      /**
-       * Convenience constructor allowing for immediate setting of data
-       * directory path.
-       * @param path Path to the data directory.
-       */
-      EffectDataManager(const std::string& path) : dataPath(path) {}
+      EffectDataManager();
       ~EffectDataManager();
-
-      /**
-       * Set the data directory path used for loading 'effects.xml' file.
-       */
-      void SetDataPath(const std::string& value) { dataPath = value; }
-      /**
-       * @return Data directory path.
-       */
-      const std::string& GetDataPath() const { return dataPath; }
 
       /**
        * Loads all the effects information located in effects definition file.
