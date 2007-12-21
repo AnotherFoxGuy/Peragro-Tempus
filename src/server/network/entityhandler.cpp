@@ -625,6 +625,12 @@ void EntityHandler::handlePoseRequest(GenericMessage* msg)
 
 void EntityHandler::handleSpawnItem(GenericMessage* msg)
 {
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
   SpawnItemMessage itemmsg;
   itemmsg.deserialise(msg->getByteStream());
 
@@ -642,6 +648,12 @@ void EntityHandler::handleSpawnItem(GenericMessage* msg)
 
 void EntityHandler::handleSpawnMount(GenericMessage* msg)
 {
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
   SpawnMountMessage mountmsg;
   mountmsg.deserialise(msg->getByteStream());
 
@@ -658,3 +670,23 @@ void EntityHandler::handleSpawnMount(GenericMessage* msg)
   Server::getServer()->addEntity(mount_ent->getEntity(), true);
 }
 
+void EntityHandler::handleRemove(GenericMessage* msg)
+{
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
+  RemoveMessage rmmsg;
+  rmmsg.deserialise(msg->getByteStream());
+  
+  unsigned int entid = rmmsg.getEntityId();
+  const Entity* e = server->getEntityManager()->findById(entid);
+  if (e == 0) return;
+  if (e->getType() == Entity::ItemEntityType || 
+      e->getType() == Entity::MountEntityType)
+  {
+    server->delEntity(e);
+  }
+}

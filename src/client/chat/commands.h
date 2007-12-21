@@ -391,6 +391,7 @@ namespace PT
         guimanager->GetChatWindow ()->AddMessage ("  - Spawn Item: '/dbg spawn item #itemid #variation'");
         guimanager->GetChatWindow ()->AddMessage ("  - Spawn Mount: '/dbg spawn mount meshname entityname'");
         guimanager->GetChatWindow ()->AddMessage ("  - Sector: '/dbg sector sectorname'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Sector: '/dbg rm entity #id'");
       }
       virtual void Execute (const StringArray& args)
       {
@@ -496,6 +497,15 @@ namespace PT
             ev->position = pos;
             ev->sectorId = sectorDataMgr->GetSectorByName(args[3])->GetId();
             PointerLibrary::getInstance()->getEventManager()->AddEvent(ev);
+          }
+          else if (args[2].compare("rm") == 0)
+          {
+            if (args[3].compare("entity") == 0)
+            {
+              RemoveMessage rmmsg;
+              rmmsg.setEntityId(atoi(args[4].c_str()));
+              network->send(&rmmsg);
+            }
           }
           return;
         }
