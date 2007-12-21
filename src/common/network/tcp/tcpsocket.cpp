@@ -50,6 +50,7 @@ bool TcpSocket::init(unsigned short port, unsigned ip, bool server)
 
   int flag = 1;
   setsockopt(socket_handler, IPPROTO_TCP, TCP_NODELAY, (const char*) &flag, sizeof(int));
+  setsockopt(socket_handler, SOL_SOCKET, SO_REUSEADDR, (const char*) &flag, sizeof(int));
 
   struct sockaddr_in addr;
 
