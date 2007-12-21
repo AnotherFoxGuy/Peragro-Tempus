@@ -14,6 +14,7 @@ under each day.
  - PK added removal command to delete spawned items and mounts.
  - Rakhun made all client-only datamanagers use VFS to load their data files.
  - PK added SO_REUSEADDR to the socket config to allow a smoother restart after server crash.
+ - PK changed effectdatamanager.cpp to use the CS document system.
 
 20-Dec-2007
  - Rakhun moved the GUI for server setup into its own file, serversetup-gui.cpp/h

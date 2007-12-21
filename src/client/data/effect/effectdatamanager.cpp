@@ -16,6 +16,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <cssysdef.h>
+#include <iutil/document.h>
+
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 #include "effectdatamanager.h"
@@ -50,41 +53,44 @@ namespace PT
       csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
       if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
 
-      TiXmlDocument doc;
-      if (!doc.Parse(xmlfile->GetData())) return false;
+      csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (PointerLibrary::getInstance()->getObjectRegistry()));
 
-      TiXmlElement* effectsXML = doc.FirstChildElement("effects");
+      csRef<iDocument> doc (docsys->CreateDocument());
 
-      if (!effectsXML) return false;
-
-      TiXmlElement* effectNode = effectsXML->FirstChildElement("effect");
-      for (; effectNode; effectNode = effectNode->NextSiblingElement("effect"))
+      const char* error = doc->Parse (xmlfile, true);
+      if (error)
       {
+        Report(PT::Error, error);
+        return false;
+      }
+
+      csRef<iDocumentNode> effectsXML = doc->GetRoot ()->GetNode ("effects");
+
+      if (!effectsXML.IsValid()) return false;
+
+      csRef<iDocumentNodeIterator> it (effectsXML->GetNodes ("effect"));
+
+      while (it->HasNext())
+      {
+        csRef<iDocumentNode> effectNode (it->Next());
+
         Effect* effect = new Effect();
 
-        effect->SetId(atoi(effectNode->FirstChildElement("id")->FirstChild()
-            ->ToText()->Value()));
+        effect->SetId(effectNode->GetNode("id")->GetContentsValueAsInt());
 
-        effect->SetName(effectNode->FirstChildElement("name")->FirstChild()
-            ->ToText()->Value());
+        effect->SetName(effectNode->GetNode("name")->GetContentsValue());
 
-        effect->SetMeshFile(effectNode->FirstChildElement("file")->FirstChild()
-            ->ToText()->Value());
+        effect->SetMeshFile(effectNode->GetNode("file")->GetContentsValue());
 
-        effect->SetMeshName(effectNode->FirstChildElement("mesh")->FirstChild()
-            ->ToText()->Value());
+        effect->SetMeshName(effectNode->GetNode("mesh")->GetContentsValue());
 
-        effect->SetDuration(atoi(effectNode->FirstChildElement("duration")->FirstChild()
-            ->ToText()->Value()));
+        effect->SetDuration(effectNode->GetNode("duration")->GetContentsValueAsInt());
 
         PtVector3 pos;
-        double temp; //The Attribute() call requires a damn double
-        effectNode->FirstChildElement("offset")->Attribute("x", &temp);
-        pos.x = temp;
-        effectNode->FirstChildElement("offset")->Attribute("y", &temp);
-        pos.x = temp;
-        effectNode->FirstChildElement("offset")->Attribute("z", &temp);
-        pos.x = temp;
+
+        pos.x = effectNode->GetNode("offset")->GetAttributeValueAsFloat("x");
+        pos.y = effectNode->GetNode("offset")->GetAttributeValueAsFloat("y");
+        pos.z = effectNode->GetNode("offset")->GetAttributeValueAsFloat("z");
         effect->SetOffset(pos);
 
         effects.push_back(effect);
