@@ -490,7 +490,7 @@ namespace PT
 
     // Create the zonemanager
     csRef<iCelEntity> entity = pl->CreateEntity();
-    pl->CreatePropertyClass(entity, "pczonemanager");
+    pl->CreatePropertyClass(entity, "pcworld.zonemanager");
     entity->SetName("ptworld");
     csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
       iPcZoneManager);
