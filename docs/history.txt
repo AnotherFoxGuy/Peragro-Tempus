@@ -1,4 +1,4 @@
-﻿Peragro Tempus detailed change log.
+Peragro Tempus detailed change log.
 
 Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
@@ -15,6 +15,7 @@ under each day.
  - Rakhun made all client-only datamanagers use VFS to load their data files.
  - PK added SO_REUSEADDR to the socket config to allow a smoother restart after server crash.
  - PK changed effectdatamanager.cpp to use the CS document system.
+ - Rakhun fixed deprecation of cel.pcfactory.quest -> cel.pcfactory.logic.quest.
 
 20-Dec-2007
  - Rakhun moved the GUI for server setup into its own file, serversetup-gui.cpp/h

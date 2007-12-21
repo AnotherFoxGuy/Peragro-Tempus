@@ -79,7 +79,7 @@ namespace PT
         pcprop->SetProperty("Door Locked", locked);
 
         //Use CEL's quest system for door state and simple animating.
-        pl->CreatePropertyClass(celEntity, "pcquest");
+        pl->CreatePropertyClass(celEntity, "pclogic.quest");
         csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcQuest);
         celQuestParams parameters;
         pcquest->NewQuest(door->GetQuestName().c_str(),parameters);
