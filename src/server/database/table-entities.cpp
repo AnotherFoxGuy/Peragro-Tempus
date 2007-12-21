@@ -90,6 +90,7 @@ void EntityTable::createTable()
   for (int i = 0; i < 100; i++)
   {
     std::string name("Evil Undead");
+    ptString skel2("skeleton2", 9);
 
     int x = i % 6;
     int y = i / 6;
@@ -99,7 +100,7 @@ void EntityTable::createTable()
     // y = 137 - 148 = 11
     float pos[3] = { 27 + x, 2.2f, 137 + y * 0.6};
 
-    insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel, pos, 0, room);
+    insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel2, pos, 0, room);
   }
 
   float pos4[3] = { 82, 2.2f, 37.2f };
