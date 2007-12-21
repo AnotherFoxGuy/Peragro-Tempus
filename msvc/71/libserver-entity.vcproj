@@ -380,6 +380,9 @@
 				RelativePath="..\..\src\server\entity\doorentity.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\doormanager.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\entity.h">
 			</File>
 			<File
