@@ -1,4 +1,4 @@
-﻿Peragro Tempus detailed change log.
+Peragro Tempus detailed change log.
 
 Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
@@ -10,6 +10,7 @@ under each day.
  - Rakhun fixed a warning: ‘class PT::Data::DataManager’ has virtual functions
    but non-virtual destructor.
  - PK merged the items database class back from revision 427.
+ - Rakhun added scripts/networkcodegenerator.sh, not fully working yet.
 
 21-Dec-2007
  - Rakhun changed door data to primarily be stored in the database, part of
