@@ -22,6 +22,8 @@
 #include <vector>
 #include <string>
 
+#include "datamanager.h"
+
 namespace PT
 {
   namespace Data
@@ -36,7 +38,7 @@ namespace PT
      * directory where the Peragro Tempus data resides.
      * @author Branko Majic <branko.majic@gmail.com>
      */
-    class SectorDataManager
+    class SectorDataManager : public DataManager
     {
     private:
       ///Sector descriptions. Instances are owned by SectorDataManager.
@@ -44,36 +46,15 @@ namespace PT
       ///only during application startup. It also offers speed when accessing
       ///elements.
       std::vector<Sector*> sectors;
-      ///Represents the parent directory of the Peragro Tempus data.
-      std::string dataPath;
 
     public:
-      /**
-       * Base constructor that doesn't do anything at all.
-       */
-      SectorDataManager();
       /**
        * Convenience constructor allowing for immediate setting of data
        * directory path.
        * @param path Path to the data directory.
        */
-      SectorDataManager(const std::string& path) : dataPath(path) {}
+      SectorDataManager();
       ~SectorDataManager();
-
-      /**
-       * Set the data directory path used for loading 'sectors.xml' file.
-       */
-      void SetDataPath(const std::string& value) { dataPath = value; }
-      /**
-       * @return Data directory path.
-       */
-      const std::string& GetDataPath() const { return dataPath; }
-
-      /**
-       * Loads all the sectors information located in sectors definition file.
-       * @return True if successful, false if an error occured.
-       */
-      bool LoadSectorData();
 
       /**
        * @param id Unique ID of the wanted sector.
@@ -85,6 +66,15 @@ namespace PT
        * @return Pointer to item with given Name, or 0 if none was found.
        */
       Sector* GetSectorByName(const std::string& name) const;
+
+      /// Implements the DataManager superclass
+      bool parseElement(iDocumentNode* node);
+
+      /// Root Node of the xml: &lt;doors&gt;
+      const char* getRootName() { return "sectors"; }
+
+      /// Element Node of the xml: &lt;door&gt;
+      const char* getElementName() { return "sector"; }
     };
   } // Data namespace
 } // PT namespace

@@ -35,8 +35,8 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 
-#include "common/data/skill.h"
-#include "common/data/skilldatamanager.h"
+#include "client/data/skill.h"
+#include "client/data/skilldatamanager.h"
 
 #include "client/data/effect/effectsmanager.h"
 

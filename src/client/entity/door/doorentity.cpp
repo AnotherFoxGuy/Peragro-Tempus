@@ -18,8 +18,8 @@
 
 #include "doorentity.h"
 
-#include "common/data/doordatamanager.h"
-#include "common/data/door.h"
+#include "client/data/doordatamanager.h"
+#include "client/data/door.h"
 
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"

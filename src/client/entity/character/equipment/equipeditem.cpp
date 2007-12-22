@@ -29,8 +29,8 @@
 #include <physicallayer/entity.h>
 #include <propclass/mesh.h>
 
-#include "common/data/itemdatamanager.h"
-#include "common/data/item.h"
+#include "client/data/itemdatamanager.h"
+#include "client/data/item.h"
 
 #include "client/pointer/pointer.h"
 #include "client/reporter/reporter.h"

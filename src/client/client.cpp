@@ -62,12 +62,12 @@
 #include "client/data/connection/connectiondatamanager.h"
 #include "client/data/serversetup/serverdatamanager.h"
 #include "client/combat/combatmanager.h"
-#include "common/data/doordatamanager.h"
-#include "common/data/itemdatamanager.h"
-#include "common/data/sectordatamanager.h"
-#include "common/data/skilldatamanager.h"
-#include "common/data/sector.h"
-#include "common/data/sectordatamanager.h"
+#include "client/data/doordatamanager.h"
+#include "client/data/itemdatamanager.h"
+#include "client/data/sectordatamanager.h"
+#include "client/data/skilldatamanager.h"
+#include "client/data/sector.h"
+#include "client/data/sectordatamanager.h"
 #include "client/entity/entitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
@@ -284,9 +284,6 @@ namespace PT
     pointerlib.setObjectRegistry(GetObjectRegistry());
     pointerlib.setClient(this);
 
-    // Get the absolute file path for our data managers
-    csRef<iDataBuffer> dataDir = vfs->GetRealPath("/peragro/");
-
     // Create and Initialize the Network.
     network = new Network (this);
     if (!network)
@@ -301,14 +298,14 @@ namespace PT
     pointerlib.setEventManager(eventmanager);
 
     // Create and Initialize the DoorDataManager.
-    doorDataManager = new PT::Data::DoorDataManager (dataDir->GetData());
-    if (!doorDataManager->LoadDoorData())
+    doorDataManager = new PT::Data::DoorDataManager ();
+    if (!doorDataManager->parse())
       return Report(PT::Error, "Failed to initialize DoorDataManager!");
     pointerlib.setDoorDataManager(doorDataManager);
 
     // Create and Initialize the ItemDataManager.
-    itemDataManager = new PT::Data::ItemDataManager (dataDir->GetData());
-    if (!itemDataManager->LoadItemData())
+    itemDataManager = new PT::Data::ItemDataManager ();
+    if (!itemDataManager->parse())
       return Report(PT::Error, "Failed to initialize ItemDataManager!");
     pointerlib.setItemDataManager(itemDataManager);
 
@@ -319,14 +316,14 @@ namespace PT
     pointerlib.setEffectDataManager(effectDataManager);
 
     // Create and Initialize the SectorDataManager.
-    sectorDataManager = new PT::Data::SectorDataManager (dataDir->GetData());
-    if (!sectorDataManager->LoadSectorData())
+    sectorDataManager = new PT::Data::SectorDataManager ();
+    if (!sectorDataManager->parse())
       return Report(PT::Error, "Failed to initialize SectorManager!");
     pointerlib.setSectorDataManager(sectorDataManager);
 
     // Create and Initialize the SkillDataManager.
-    skillDataManager = new PT::Data::SkillDataManager (dataDir->GetData());
-    if (!skillDataManager->LoadSkillData())
+    skillDataManager = new PT::Data::SkillDataManager ();
+    if (!skillDataManager->parse())
       return Report(PT::Error, "Failed to initialize SkillDataManager!");
     pointerlib.setSkillDataManager(skillDataManager);
 

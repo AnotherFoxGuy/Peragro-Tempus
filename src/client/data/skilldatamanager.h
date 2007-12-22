@@ -22,6 +22,8 @@
 #include <vector>
 #include <string>
 
+#include "datamanager.h"
+
 namespace PT
 {
   namespace Data
@@ -36,7 +38,7 @@ namespace PT
      * directory where the Peragro Tempus data resides.
      * @author Jelle Hellemans
      */
-    class SkillDataManager
+    class SkillDataManager : public DataManager
     {
     private:
       ///Skills descriptions. Instances are owned by SkillDataManager.
@@ -44,36 +46,15 @@ namespace PT
       ///only during application startup. It also offers speed when accessing
       ///elements.
       std::vector<Skill*> skills;
-      ///Represents the parent directory of the Peragro Tempus data.
-      std::string dataPath;
 
     public:
-      /**
-       * Base constructor that doesn't do anything at all.
-       */
-      SkillDataManager() {}
       /**
        * Convenience constructor allowing for immediate setting of data
        * directory path.
        * @param path Path to the data directory.
        */
-      SkillDataManager(const std::string& path) : dataPath(path) {}
+      SkillDataManager();
       ~SkillDataManager();
-
-      /**
-       * Set the data directory path used for loading 'skills.xml' file.
-       */
-      void SetDataPath(const std::string& value) { dataPath = value; }
-      /**
-       * @return Data directory path.
-       */
-      const std::string& GetDataPath() const { return dataPath; }
-
-      /**
-       * Loads all the skills information located in skills definition file.
-       * @return True if successful, false if an error occured.
-       */
-      bool LoadSkillData();
 
       /**
        * @param id Unique ID of the wanted skill.
@@ -85,6 +66,15 @@ namespace PT
        * @return Pointer to skill with given Name, or 0 if none was found.
        */
       Skill* GetSkillByName(const std::string& name) const;
+
+      /// Implements the DataManager superclass
+      bool parseElement(iDocumentNode* node);
+
+      /// Root Node of the xml: &lt;doors&gt;
+      const char* getRootName() { return "skills"; }
+
+      /// Element Node of the xml: &lt;door&gt;
+      const char* getElementName() { return "skill"; }
     };
   } // Data namespace
 } // PT namespace

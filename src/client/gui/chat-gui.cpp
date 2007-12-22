@@ -51,7 +51,7 @@ void ChatWindow::CreateGUIWindow ()
   // Get the root window
   rootwindow = winMgr->getWindow("Chatlog/Frame");
 
-  winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(0.3);
+  winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(0.3f);
 
   CEGUI::Slider* slider = static_cast<CEGUI::Slider*>(winMgr->getWindow("Chatlog/Slider"));
   // set up slider config

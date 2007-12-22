@@ -24,8 +24,8 @@
 #include "client/event/eventmanager.h"
 #include "client/reporter/reporter.h"
 
-#include "common/data/sectordatamanager.h"
-#include "common/data/sector.h"
+#include "client/data/sectordatamanager.h"
+#include "client/data/sector.h"
 
 namespace PT
 {

@@ -30,7 +30,7 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
-#include "common/data/itemdatamanager.h"
+#include "client/data/itemdatamanager.h"
 #include "client/gui/common/slot.h"
 
 #include "client/entity/entitymanager.h"

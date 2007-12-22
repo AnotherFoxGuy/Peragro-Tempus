@@ -1,7 +1,0 @@
-SubDir TOP src common data ;
-
-Description data-manager : "data" ;
-Library data-manager :
-  [ Wildcard *.h *.cpp ] ;
-
-LinkWith data-manager : tinyxml ;

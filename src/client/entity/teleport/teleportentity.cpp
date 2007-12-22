@@ -18,8 +18,8 @@
 
 #include "teleportentity.h"
 
-#include "common/data/teleportdatamanager.h"
-#include "common/data/teleport.h"
+#include "client/data/teleportdatamanager.h"
+#include "client/data/teleport.h"
 
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"

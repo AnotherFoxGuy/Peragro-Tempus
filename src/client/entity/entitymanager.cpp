@@ -17,8 +17,8 @@
 */
 
 #include "client/entity/entitymanager.h"
-#include "common/data/sectordatamanager.h"
-#include "common/data/sector.h"
+#include "client/data/sectordatamanager.h"
+#include "client/data/sector.h"
 
 #include <iutil/objreg.h>
 #include <imap/loader.h>

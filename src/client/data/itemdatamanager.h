@@ -22,6 +22,8 @@
 #include <vector>
 #include <string>
 
+#include "datamanager.h"
+
 namespace PT
 {
   namespace Data
@@ -36,7 +38,7 @@ namespace PT
      * directory where the Peragro Tempus data resides.
      * @author Branko Majic <branko.majic@gmail.com>
      */
-    class ItemDataManager
+    class ItemDataManager : public DataManager
     {
     private:
       ///Items descriptions. Instances are owned by ItemDataManager.
@@ -44,36 +46,15 @@ namespace PT
       ///only during application startup. It also offers speed when accessing
       ///elements.
       std::vector<Item*> items;
-      ///Represents the parent directory of the Peragro Tempus data.
-      std::string dataPath;
 
     public:
-      /**
-       * Base constructor that doesn't do anything at all.
-       */
-      ItemDataManager() {}
       /**
        * Convenience constructor allowing for immediate setting of data
        * directory path.
        * @param path Path to the data directory.
        */
-      ItemDataManager(const std::string& path) : dataPath(path) {}
+      ItemDataManager();
       ~ItemDataManager();
-
-      /**
-       * Set the data directory path used for loading 'items.xml' file.
-       */
-      void SetDataPath(const std::string& value) { dataPath = value; }
-      /**
-       * @return Data directory path.
-       */
-      const std::string& GetDataPath() const { return dataPath; }
-
-      /**
-       * Loads all the items information located in items definition file.
-       * @return True if successful, false if an error occured.
-       */
-      bool LoadItemData();
 
       /**
        * @param id Unique ID of the wanted item.
@@ -85,6 +66,15 @@ namespace PT
        * @return Pointer to item with given Name, or 0 if none was found.
        */
       Item* GetItemByName(const std::string& name) const;
+
+      /// Implements the DataManager superclass
+      bool parseElement(iDocumentNode* node);
+
+      /// Root Node of the xml: &lt;doors&gt;
+      const char* getRootName() { return "items"; }
+
+      /// Element Node of the xml: &lt;door&gt;
+      const char* getElementName() { return "item"; }
     };
   } // Data namespace
 } // PT namespace

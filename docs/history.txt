@@ -1,33 +1,44 @@
-Peragro Tempus detailed change log.
+﻿Peragro Tempus detailed change log.
 
 Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+22-Dec-2007
+ - PK moved the common\data classes to client\data and implemented a 
+   DataManager super class.
+
 21-Dec-2007
- - Rakhun changed door data to primarily be stored in the database, part of moving all of
-   it to the database and use the server setup window of the client to set it up.
- - Rakhun fixed deprecation of cel.pcfactory.zonemanager -> cel.pcfactory.world.zonemanager.
- - Rakhun fixed another warning: "missing braces around initializer for ‘char [1]’".
+ - Rakhun changed door data to primarily be stored in the database, part of
+   moving all of it to the database and use the server setup window of the
+   client to set it up.
+ - Rakhun fixed deprecation of cel.pcfactory.zonemanager -> 
+   cel.pcfactory.world.zonemanager.
+ - Rakhun fixed another warning: "missing braces around initializer for
+   ‘char [1]’".
  - Rakhun added the sector data to the database, similarly to the door data.
  - PK fixed rotation on teleporting.
  - PK added removal command to delete spawned items and mounts.
  - Rakhun made all client-only datamanagers use VFS to load their data files.
- - PK added SO_REUSEADDR to the socket config to allow a smoother restart after server crash.
+ - PK added SO_REUSEADDR to the socket config to allow a smoother restart after
+   server crash.
  - PK changed effectdatamanager.cpp to use the CS document system.
  - Rakhun fixed deprecation of cel.pcfactory.quest -> cel.pcfactory.logic.quest.
- - Rakhun changed connectiondatamanager.cpp and serverdatamanager.cpp to use the CS document system.
+ - Rakhun changed connectiondatamanager.cpp and serverdatamanager.cpp to use
+   the CS document system.
 
 20-Dec-2007
  - Rakhun moved the GUI for server setup into its own file, serversetup-gui.cpp/h
  - Rakhun fixed a few compilation warnings.
- - Rakhun extended the ServerDataManager stub and connected serversetup-gui's buttons to it.
+ - Rakhun extended the ServerDataManager stub and connected serversetup-gui's
+   buttons to it.
 
 19-Dec-2007
  - PK implemented item and mount spawning.
  - PK added the rotation of entities to the database.
  - Rakhun renamed the ServerDataManager to ConnectionDataManager and added
-   another ServerDataManager stub for loading and sending settings to the server.
+   another ServerDataManager stub for loading and sending settings to the
+   server.
 
 18-Dec-2007
  - PK added more "Evil Undead" to keep and horses to vaalnor.

@@ -29,7 +29,7 @@
 #include "client/gui/guimanager.h"
 #include "client/data/effect/effectsmanager.h"
 #include "client/combat/combatmanager.h"
-#include "common/data/itemdatamanager.h"
+#include "client/data/itemdatamanager.h"
 #include "client/entity/player/playerentity.h"
 
 PtConsole::PtConsole ()
@@ -258,7 +258,7 @@ public:
       return;
     }
     else if(strcmp(args[1],"reload")==0)
-      itemDataMgr->LoadItemData();
+      itemDataMgr->parse();
     else
     {
       parent->GetOutputConsole ()->PutText ("Unknown command!\n");

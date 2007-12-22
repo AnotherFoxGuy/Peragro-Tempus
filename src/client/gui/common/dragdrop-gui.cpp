@@ -18,8 +18,8 @@
 
 #include "client/gui/common/dragdrop-gui.h"
 
-#include "common/data/itemdatamanager.h"
-#include "common/data/item.h"
+#include "client/data/itemdatamanager.h"
+#include "client/data/item.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h" 

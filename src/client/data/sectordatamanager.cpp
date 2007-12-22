@@ -16,15 +16,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <cssysdef.h>
+#include <iutil/document.h>
+
 #include "sectordatamanager.h"
 #include "sector.h"
-
-#include "ext/tinyxml/tinyxml.h"
 
 namespace PT
 {
   namespace Data
   {
+
+    SectorDataManager::SectorDataManager()
+    {
+      file = "/peragro/xml/world/sectors.xml";
+    }
 
     SectorDataManager::~SectorDataManager()
     {
@@ -36,31 +42,17 @@ namespace PT
     ///be, we could traverse the XML file once before adding the actual data in
     ///order to determine the number of sectors in file, and preallocate memory
     ///space.
-    bool SectorDataManager::LoadSectorData()
+    bool SectorDataManager::parseElement(iDocumentNode* node)
     {
-      TiXmlDocument doc;
-      std::string file;
+      Sector* sector = new Sector();
 
-      file = dataPath + "/xml/world/sectors.xml";
-      if (!doc.LoadFile(file.c_str())) return false;
+      sector->SetId(node->GetAttributeValueAsInt("id"));
 
-      TiXmlElement* sectorsXML = doc.FirstChildElement("sectors");
+      sector->SetRegion(node->GetAttributeValue("region"));
 
-      if (!sectorsXML) return false;
+      sector->SetName(node->GetContentsValue());
 
-      TiXmlElement* sectorNode = sectorsXML->FirstChildElement("sector");
-      for (; sectorNode; sectorNode = sectorNode->NextSiblingElement("sector"))
-      {
-        Sector* sector = new Sector();
-
-        sector->SetId(atoi(sectorNode->Attribute("id")));
-
-        sector->SetRegion(sectorNode->Attribute("region"));
-
-        sector->SetName(sectorNode->GetText());
-
-        sectors.push_back(sector);
-      }
+      sectors.push_back(sector);
 
       return true;
     }

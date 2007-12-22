@@ -16,15 +16,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <cssysdef.h>
+#include <iutil/document.h>
+
 #include "itemdatamanager.h"
 #include "item.h"
-
-#include "ext/tinyxml/tinyxml.h"
 
 namespace PT
 {
   namespace Data
   {
+
+    ItemDataManager::ItemDataManager()
+    {
+      file = "/peragro/xml/items/items.xml";
+    }
 
     ItemDataManager::~ItemDataManager()
     {
@@ -36,46 +42,25 @@ namespace PT
     ///be, we could traverse the XML file once before adding the actual data in
     ///order to determine the number of items in file, and preallocate memory
     ///space.
-    bool ItemDataManager::LoadItemData()
+    bool ItemDataManager::parseElement(iDocumentNode* node)
     {
-      TiXmlDocument doc;
-      std::string file;
+      Item* item = new Item();
 
-      file = dataPath + "/xml/items/items.xml";
-      if (!doc.LoadFile(file.c_str())) return false;
+      item->SetId(node->GetNode("id")->GetContentsValueAsInt());
 
-      TiXmlElement* itemsXML = doc.FirstChildElement("items");
+      item->SetName(node->GetNode("name")->GetContentsValue());
 
-      if (!itemsXML) return false;
+      item->SetIconName(node->GetNode("icon") ->GetContentsValue());
 
-      TiXmlElement* itemNode = itemsXML->FirstChildElement("item");
-      for (; itemNode; itemNode = itemNode->NextSiblingElement("item"))
-      {
-        Item* item = new Item();
+      item->SetDescription(node->GetNode("description")->GetContentsValue());
 
-        item->SetId(atoi(itemNode->FirstChildElement("id")->FirstChild()
-            ->ToText()->Value()));
+      item->SetMeshFile(node->GetNode("file")->GetContentsValue());
 
-        item->SetName(itemNode->FirstChildElement("name")->FirstChild()
-            ->ToText()->Value());
+      item->SetMeshName(node->GetNode("mesh")->GetContentsValue());
 
-        item->SetIconName(itemNode->FirstChildElement("icon") ->FirstChild()
-            ->ToText()->Value());
+      item->SetWeight(node->GetNode("weight")->GetContentsValueAsFloat());
 
-        item->SetDescription(itemNode->FirstChildElement("description")
-            ->FirstChild()->ToText()->Value());
-
-        item->SetMeshFile(itemNode->FirstChildElement("file")->FirstChild()
-            ->ToText()->Value());
-
-        item->SetMeshName(itemNode->FirstChildElement("mesh")->FirstChild()
-            ->ToText()->Value());
-
-        item->SetWeight(atof(itemNode->FirstChildElement("weight")->FirstChild()
-            ->ToText()->Value()));
-
-        items.push_back(item);
-      }
+      items.push_back(item);
 
       return true;
     }

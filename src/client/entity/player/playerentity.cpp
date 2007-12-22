@@ -34,8 +34,8 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/chat-gui.h"
 
-#include "common/data/sector.h"
-#include "common/data/sectordatamanager.h"
+#include "client/data/sector.h"
+#include "client/data/sectordatamanager.h"
 
 //These defines should probably go to configuration file
 #define WALK_PPS 0.01f

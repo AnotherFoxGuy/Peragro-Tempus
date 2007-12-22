@@ -16,15 +16,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <cssysdef.h>
+#include <iutil/document.h>
+
 #include "doordatamanager.h"
 #include "door.h"
-
-#include "ext/tinyxml/tinyxml.h"
 
 namespace PT
 {
   namespace Data
   {
+
+    DoorDataManager::DoorDataManager()
+    {
+      file = "/peragro/xml/doors/doors.xml";
+    }
 
     DoorDataManager::~DoorDataManager()
     {
@@ -36,53 +42,29 @@ namespace PT
     ///be, we could traverse the XML file once before adding the actual data in
     ///order to determine the number of doors in file, and preallocate memory
     ///space.
-    bool DoorDataManager::LoadDoorData()
+    bool DoorDataManager::parseElement(iDocumentNode* node)
     {
-      TiXmlDocument doc;
-      std::string file;
+      Door* door = new Door();
 
-      file = dataPath + "/xml/doors/doors.xml";
-      if (!doc.LoadFile(file.c_str())) return false;
+      door->SetId(node->GetNode("id")->GetContentsValueAsInt());
 
-      TiXmlElement* doorsXML = doc.FirstChildElement("doors");
+      door->SetName(node->GetNode("name")->GetContentsValue());
 
-      if (!doorsXML) return false;
+      door->SetMeshName(node->GetNode("mesh")->GetContentsValue());
 
-      TiXmlElement* doorNode = doorsXML->FirstChildElement("door");
-      for (; doorNode; doorNode = doorNode->NextSiblingElement("door"))
-      {
-        Door* door = new Door();
+      PtVector3 pos;
+      pos.x = node->GetNode("position")->GetAttributeValueAsFloat("x");
+      pos.y = node->GetNode("position")->GetAttributeValueAsFloat("y");
+      pos.z = node->GetNode("position")->GetAttributeValueAsFloat("z");
+      door->SetPosition(pos);
 
-        door->SetId(atoi(doorNode->FirstChildElement("id") ->FirstChild()
-            ->ToText()->Value()));
+      door->SetSectorName(node->GetNode("sector")->GetContentsValue());
 
-        door->SetName(doorNode->FirstChildElement("name")->FirstChild()
-            ->ToText()->Value());
+      door->SetKeyId(node->GetNode("keyId") ->GetContentsValueAsInt());
 
-        door->SetMeshName(doorNode->FirstChildElement("mesh")->FirstChild()
-            ->ToText()->Value());
+      door->SetQuestName(node->GetNode("quest")->GetContentsValue());
 
-        PtVector3 pos;
-        double temp; //The Attribute() call requires a damn double
-        doorNode->FirstChildElement("position")->Attribute("x", &temp);
-        pos.x = temp;
-        doorNode->FirstChildElement("position")->Attribute("y", &temp);
-        pos.y = temp;
-        doorNode->FirstChildElement("position")->Attribute("z", &temp);
-        pos.z = temp;
-        door->SetPosition(pos);
-
-        door->SetSectorName(doorNode->FirstChildElement("sector")->FirstChild()
-            ->ToText()->Value());
-
-        door->SetKeyId(atoi(doorNode->FirstChildElement("keyId") ->FirstChild()
-            ->ToText()->Value()));
-
-        door->SetQuestName(doorNode->FirstChildElement("quest")->FirstChild()
-            ->ToText()->Value());
-
-        doors.push_back(door);
-      }
+      doors.push_back(door);
 
       return true;
     }

@@ -25,8 +25,8 @@
 #include "client/event/interfaceevent.h"
 #include "client/event/entityevent.h"
 
-#include "common/data/sector.h"
-#include "common/data/sectordatamanager.h"
+#include "client/data/sector.h"
+#include "client/data/sectordatamanager.h"
 
 namespace PT
 {
