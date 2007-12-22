@@ -40,7 +40,7 @@ namespace PT
       std::string file;
 
       DataManager();
-      ~DataManager();
+      virtual ~DataManager();
 
       virtual bool parseElement(iDocumentNode* node) = 0;
 
