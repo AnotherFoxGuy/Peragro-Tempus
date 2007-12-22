@@ -16,10 +16,12 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <cssysdef.h>
+#include <iutil/document.h>
+
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 #include "serverdatamanager.h"
-#include "ext/tinyxml/tinyxml.h"
 
 namespace PT
 {
@@ -46,26 +48,43 @@ namespace PT
       csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
       if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
 
-      TiXmlDocument doc;
+      csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (PointerLibrary::getInstance()->getObjectRegistry()));
+      csRef<iDocument> doc (docsys->CreateDocument());
+
+      const char* error = doc->Parse (xmlfile, true);
+      if (error)
+      {
+        Report(PT::Error, error);
+        return false;
+      }
+
+
+/*      TiXmlDocument doc;
       if (!doc.Parse(xmlfile->GetData()))
         return false;
 
       TiXmlElement* items = doc.FirstChildElement("doors");
       TiXmlElement* itemNode = items->FirstChildElement("door");
-      while (itemNode)
-      {/* (uncomment when we know how to send the data, commented since they would cause "unused variable" warnings otherwise)
-        unsigned int door_id = atoi(itemNode->FirstChildElement("id")->FirstChild()->ToText()->Value());
-        const char* name = itemNode->FirstChildElement("name")->FirstChild()->ToText()->Value();
-        const char* mesh = itemNode->FirstChildElement("mesh")->FirstChild()->ToText()->Value();
-        const char* sector = itemNode->FirstChildElement("sector")->FirstChild()->ToText()->Value();
+      while (itemNode)*/
 
-        const char* str_x = itemNode->FirstChildElement("position")->Attribute("x");
-        const char* str_y = itemNode->FirstChildElement("position")->Attribute("y");
-        const char* str_z = itemNode->FirstChildElement("position")->Attribute("z");*/
+      csRef<iDocumentNode> doorsXML = doc->GetRoot ()->GetNode ("doors");
+      if (!doorsXML.IsValid()) return false;
+
+      csRef<iDocumentNodeIterator> it (doorsXML->GetNodes ("door"));
+      while (it->HasNext())
+      {
+        csRef<iDocumentNode> doorNode (it->Next());
+        /* (uncomment when we know how to send the data, commented since they would cause "unused variable" warnings otherwise)
+        unsigned int door_id = doorNode->GetNode("id")->GetContentsValueAsInt();
+        const char* name = doorNode->GetNode("name")->GetContentsValue();
+        const char* mesh = doorNode->GetNode("mesh")->GetContentsValue();
+        const char* sector = doorNode->GetNode("sector")->GetContentsValue();
+
+        const char* str_x = doorNode->GetNode("position")->GetAttributeValue("x");
+        const char* str_y = doorNode->GetNode("position")->GetAttributeValue("y");
+        const char* str_z = doorNode->GetNode("position")->GetAttributeValue("z");*/
 
         // Just send the data here, one door/package (Just don't know how yet)
-
-        itemNode = itemNode->NextSiblingElement("door");
       }
 
       return true;

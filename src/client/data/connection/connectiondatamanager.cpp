@@ -16,12 +16,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <cssysdef.h>
+#include <iutil/document.h>
+
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 #include "connectiondatamanager.h"
 #include "server.h"
-
-#include "ext/tinyxml/tinyxml.h"
 
 namespace PT
 {
@@ -50,23 +51,30 @@ namespace PT
       csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
       if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
 
-      TiXmlDocument serverlist;
-      if (!serverlist.Parse(xmlfile->GetData()))
+      csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (PointerLibrary::getInstance()->getObjectRegistry()));
+
+      csRef<iDocument> doc (docsys->CreateDocument());
+
+      const char* error = doc->Parse (xmlfile, true);
+      if (error)
       {
-        printf("Failed to load serverlist.\n");
+        Report(PT::Error, error);
         return false;
       }
 
-      TiXmlElement* serverNode=serverlist.FirstChildElement("servers");
-      serverNode = serverNode->FirstChildElement("server");
-      while (serverNode)
+      csRef<iDocumentNode> serversXML = doc->GetRoot ()->GetNode ("servers");
+      if (!serversXML.IsValid()) return false;
+
+      csRef<iDocumentNodeIterator> it (serversXML->GetNodes ("server"));
+      while (it->HasNext())
       {
+        csRef<iDocumentNode> serverNode (it->Next());
+
         Server* server = new Server();
-        server->SetName(serverNode->GetText());
-        server->SetHost(serverNode->Attribute("host"));
-        server->SetPort(serverNode->Attribute("port"));
+        server->SetName(serverNode->GetContentsValue());
+        server->SetHost(serverNode->GetAttributeValue("host"));
+        server->SetPort(serverNode->GetAttributeValueAsInt("port"));
         servers.push_back(server);
-        serverNode = serverNode->NextSiblingElement("server");
       } // end while
 
       return true;

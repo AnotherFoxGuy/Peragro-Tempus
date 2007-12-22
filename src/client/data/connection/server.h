@@ -40,7 +40,7 @@ namespace PT
       ///Host of the server.
       std::string host;
       ///Port of the server.
-      std::string port;
+      int port;
 
     public:
       Server() {}
@@ -51,8 +51,8 @@ namespace PT
       void SetHost(const std::string& value) { host = value; }
       const std::string& GetHost() const { return host; }
 
-      void SetPort(const std::string& value) { port = value; }
-      const std::string& GetPort() const { return port; }
+      void SetPort(const int& value) { port = value; }
+      const int& GetPort() const { return port; }
     };
   } // Data namespace
 } // PT namespace

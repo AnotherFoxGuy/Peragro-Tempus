@@ -16,6 +16,7 @@ under each day.
  - PK added SO_REUSEADDR to the socket config to allow a smoother restart after server crash.
  - PK changed effectdatamanager.cpp to use the CS document system.
  - Rakhun fixed deprecation of cel.pcfactory.quest -> cel.pcfactory.logic.quest.
+ - Rakhun changed connectiondatamanager.cpp and serverdatamanager.cpp to use the CS document system.
 
 20-Dec-2007
  - Rakhun moved the GUI for server setup into its own file, serversetup-gui.cpp/h
