@@ -18,7 +18,7 @@ Application client :
 [ Wildcard *.h *.cpp ] 
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs client : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
-LinkWith client : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager client-console util data-manager ;
+LinkWith client : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager client-console util ;
 
 MsvcExternalLibrary client : "wsock32.lib" ;
 
