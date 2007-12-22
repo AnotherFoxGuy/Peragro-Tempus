@@ -304,6 +304,12 @@
 				RelativePath="..\..\src\client\data\connection\connectiondatamanager.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\data\datamanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\doordatamanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\data\effect\effect.cpp">
 			</File>
 			<File
@@ -316,7 +322,19 @@
 				RelativePath="..\..\src\client\data\effect\reflection.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\data\itemdatamanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\sectordatamanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\data\serversetup\serverdatamanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\skilldatamanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\teleportdatamanager.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -327,6 +345,15 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\connection\server.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\datamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\door.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\doordatamanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\dataeffect.h">
@@ -344,7 +371,31 @@
 				RelativePath="..\..\src\client\data\effect\reflection.h">
 			</File>
 			<File
+				RelativePath="..\..\src\client\data\item.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\itemdatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\sector.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\sectordatamanager.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\data\serversetup\serverdatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\skill.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\skilldatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\teleport.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\teleportdatamanager.h">
 			</File>
 		</Filter>
 	</Files>
