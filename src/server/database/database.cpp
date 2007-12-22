@@ -20,6 +20,7 @@
 #include "table-users.h"
 #include "table-characters.h"
 #include "table-entities.h"
+#include "table-items.h"
 #include "table-inventory.h"
 #include "table-stats.h"
 #include "table-characterstats.h"
@@ -64,6 +65,7 @@ void Database::init()
   userstable = new UsersTable(this);
   charactertable = new CharacterTable(this);
   entitytable = new EntityTable(this);
+  itemtable = new ItemTable(this);
   inventorytable = new InventoryTable(this);
   stattable = new StatTable(this);
   characterstattable = new CharacterStatsTable(this);
@@ -88,6 +90,7 @@ Database::~Database()
   delete userstable;
   delete charactertable;
   delete entitytable;
+  delete itemtable;
   delete inventorytable;
   delete stattable;
   delete characterstattable;
