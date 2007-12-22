@@ -325,6 +325,9 @@
 				RelativePath="..\..\src\server\database\table-inventory.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-items.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-npcaisetting.cpp">
 			</File>
 			<File
@@ -390,6 +393,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-inventory.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-items.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-npcaisetting.h">
