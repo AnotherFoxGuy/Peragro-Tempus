@@ -4,17 +4,26 @@ if [ "$1" = "" ]; then
   echo "the script will generate the files ???messages.cpp and ???messages.h based on msgs_???.xml"
   echo "and of course, replace ??? with a suitable name (examples: door, book, user)"
   echo ""
-  echo "this script is still incomplete (lacking the <list> feature and maybe other things that have not been found yet, currently skips a message if it finds a list) but if you want to automate the whole process you can specify -auto as filename to generate all messages automatically (assumes you are aither in PT/scripts/ or PT/)"
+  echo "this script is still incomplete (lacking the <list> feature and maybe other things that have not been found yet, currently skips a message if it finds a list) but if you want to automate the whole process you can specify -auto [overwrite] as filename to generate all messages automatically (assumes you are either in PT/scripts/ or PT/)"
   exit
 fi
 if [ "$1" = "-auto" ]; then
   if [ "$(echo -n "$0" | sed -e "s/\/.*//;")" != "scripts" ]; then cd ..; fi
   cd src/common/network
   files="$(ls -1 ../../../data/generate/network | sed -n -e "/msgs_.*\.xml\$/p")"
-  files="$(echo "$files" | sed -e "s/^.*\$/echo \"Parsing &...\"\n\.\.\/\.\.\/\.\.\/scripts\/networkcodegenerator.sh \.\.\/\.\.\/\.\.\/data\/generate\/network\/&/")"
+  if [ "$2" != "overwrite" ]; then
+    overwritecheck1="if [ ! -e \"\$(echo \"&\" | sed -e \"s\\/^.*_\\/\\/;s\\/\\\.xml\\\$\\/\\/;\")messages.cpp\" ]; then "
+    overwritecheck2="; else echo \"Skipping & since it has already been generated.\"; fi"
+  fi
+  files="$(echo "$files" | sed -e "s/^.*\$/${overwritecheck1}echo \"Parsing &...\"\n\.\.\/\.\.\/\.\.\/scripts\/networkcodegenerator.sh \.\.\/\.\.\/\.\.\/data\/generate\/network\/&${overwritecheck2}/")"
   eval "$files"
   # Generate nwtypes.h
-  messagetypes="$(ls -1 ../../../data/generate/network | sed -n -e "/msgs_.*\.xml\$/{s/^msgs_/    /;s/\.xml\$/,/;y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/;p;}" | head -c -2)"
+  messagetypes="$(cat ../../../data/generate/network/netmessage.xml | grep "<type " | sed -e "s/^.*name=\"/    /;s/\">/,/;y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/;")"
+  while [ "$(echo "$messagetypes" | sed -n -e "/[^0-9],/p")" != "" ]; do
+    line="$(echo -n "$messagetypes" | sed -n -e "/[^0-9],/=" | head -n 1 | head -c -1)"
+    messagetypes="$(echo -n "$messagetypes" | sed -e "$line s/,/=$(($line-1)),/;")"
+  done
+  messagetypes="$(echo -n "$messagetypes" | head -c -1)"
   echo "/*
     Copyright (C) 2005 Development Team of Peragro Tempus
 
@@ -96,7 +105,7 @@ while [ "$(echo "$data" | grep "<LC>" -c)" != "0" ]; do
   line="$(echo -n "$data" | sed -n -e "/<LC>/=" | head -n 1 | head -c -1)"
   data="$(echo -n "$data" | sed -e "$line s/<LC>.*<\/LC>/$LC/")"
 done
-data="$(echo -n "$data" | sed -e "s/\t/ /g;s/<\!--.*-->//g;s/<\/message-implementation>/\n#endif\n/;s/ <\/message>/};/g;s/^ *private:/private:/;")"
+data="$(echo -n "$data" | sed -e "s/\t/ /g;s/<\!--.*-->//g;s/<\/message-implementation>/\n#endif \/\/ _${nameuc}MESSAGES_H_\n/;s/ <\/message>/};/g;s/^ *private:/private:/;")"
 echo -n "$data
 " > ${name}messages.h
 

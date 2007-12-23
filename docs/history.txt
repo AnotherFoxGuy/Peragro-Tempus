@@ -6,6 +6,7 @@ under each day.
 
 23-Dec-2007
  - Rakhun fixed some more warnings appearing with -Wall.
+ - Rakhun made some fixes for networkcodegenerator.sh.
 
 22-Dec-2007
  - PK moved the common\data classes to client\data and implemented a 
