@@ -313,6 +313,9 @@
 				RelativePath="..\..\src\ext\sqlite\auth.c">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\sqlite\btmutex.c">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\sqlite\btree.c">
 			</File>
 			<File
@@ -343,10 +346,43 @@
 				RelativePath="..\..\src\ext\sqlite\insert.c">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\sqlite\journal.c">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\sqlite\legacy.c">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\sqlite\loadext.c">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\sqlite\main.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\malloc.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mem1.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mem2.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mem3.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mem4.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mutex.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mutex_os2.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mutex_unix.c">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mutex_w32.c">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\sqlite\opcodes.c">
@@ -418,6 +454,9 @@
 				RelativePath="..\..\src\ext\sqlite\vdbeaux.c">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\sqlite\vdbeblob.c">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\sqlite\vdbefifo.c">
 			</File>
 			<File
@@ -437,10 +476,16 @@
 				RelativePath="..\..\src\ext\sqlite\btree.h">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\sqlite\btreeInt.h">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\sqlite\hash.h">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\sqlite\keywordhash.h">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\mutex.h">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\sqlite\opcodes.h">
@@ -461,7 +506,13 @@
 				RelativePath="..\..\src\ext\sqlite\sqlite3.h">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\sqlite\sqlite3ext.h">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\sqlite\sqliteInt.h">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\sqlite\sqliteLimit.h">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\sqlite\vdbe.h">
