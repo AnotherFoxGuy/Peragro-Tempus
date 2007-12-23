@@ -8,6 +8,7 @@ under each day.
  - Rakhun fixed some more warnings appearing with -Wall.
  - Rakhun made some fixes for networkcodegenerator.sh.
  - PK upgraded the sqlite files from version 3.3.7 to 3.5.4.
+ - PK added code to dump world's vertices. Shouldn't add entities though.
 
 22-Dec-2007
  - PK moved the common\data classes to client\data and implemented a 

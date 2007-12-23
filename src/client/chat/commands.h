@@ -20,6 +20,9 @@
 #define COMMANDS_H
 
 #include <cssysdef.h>
+#include <imesh/objmodel.h>
+#include <igeom/trimesh.h>
+#include <csgeom/tri.h>
 
 #include "command.h"
 
@@ -505,6 +508,94 @@ namespace PT
               RemoveMessage rmmsg;
               rmmsg.setEntityId(atoi(args[4].c_str()));
               network->send(&rmmsg);
+            }
+          }
+          else if (args[2].compare("dump") == 0)
+          {
+            iObjectRegistry* objreg = ptr_lib->getObjectRegistry();
+            csRef<iEngine> engine (csQueryRegistry<iEngine> (objreg));
+            csRef<iVFS> vfs (csQueryRegistry<iVFS> (objreg));
+
+            csRef<iStringSet> strings = 
+              csQueryRegistryTagInterface<iStringSet> (objreg, 
+              "crystalspace.shared.stringset");
+
+            csStringID colldetid = strings->Request ("base");
+
+            vfs->ChDir("/this");
+
+            csRef<iFile> file (vfs->Open("dbcreate.sql", VFS_FILE_WRITE));
+
+            std::string create;
+            create += "drop table vertices;\n";
+            create += "drop table triangles;\n";
+            create += "drop table meshes;\n";
+            create += "create table meshes (id INTEGER, sector INTEGER, name TEXT, PRIMARY KEY (id) );\n";
+            create += "create table triangles (mesh INTEGER, num INTEGER, a INTEGER, b INTEGER, c INTEGER, PRIMARY KEY (mesh, num) );\n";
+            create += "create table vertices (mesh INTEGER, num INTEGER, x FLOAT, y FLOAT, z FLOAT, PRIMARY KEY (mesh, num) );\n";
+
+            file->Write(create.c_str(), create.length());
+            file->Flush();
+
+            iSectorList* sectors = engine->GetSectors();
+
+            for (int i = 0; sectors && i < sectors->GetCount(); i++)
+            {
+              iSector* sector = sectors->Get(i);
+
+              csString str ("db_");
+              str += sector->QueryObject()->GetName();
+              str += ".sql";
+
+              csRef<iFile> file (vfs->Open(str.GetData(), VFS_FILE_WRITE));
+
+              std::stringstream data;
+
+              data << "\nBEGIN TRANSACTION;\n";
+
+              iMeshList* meshes = sector->GetMeshes();
+              for (int j = 0; meshes && j < meshes->GetCount(); j++)
+              {
+                iMeshWrapper* mesh = meshes->Get(j);
+
+                unsigned int sector_id = ptr_lib->getSectorDataManager()
+                  ->GetSectorByName(sector->QueryObject()->GetName())->GetId();
+
+                data << "insert into meshes (id, sector, name) values ( "
+                     << mesh->QueryObject()->GetID() << ", " 
+                     << sector_id << ", " 
+                     << "'" << mesh->QueryObject()->GetName() << "');\n";
+
+                iObjectModel* model = mesh->GetMeshObject()->GetObjectModel();
+                if (model == 0) continue;
+
+                iTriangleMesh* trimesh = model->GetTriangleData(colldetid);
+                if (trimesh == 0) continue;
+
+                csTriangle* triangles = trimesh->GetTriangles();
+                for (size_t k = 0; triangles && k < trimesh->GetTriangleCount(); k++)
+                {
+                  data << "insert into triangles (mesh, num, a, b, c) values ( "
+                       << mesh->QueryObject()->GetID() << ", " << k << ", "
+                       << triangles[k].a << ", " << triangles[k].b << ", " 
+                       << triangles[k].c << ");\n";
+                }
+
+                csVector3* vertices = trimesh->GetVertices();
+                for (size_t k = 0; vertices && k < trimesh->GetVertexCount(); k++)
+                {
+                  data << "insert into vertices (mesh, num, x, y, z) values ( "
+                       << mesh->QueryObject()->GetID() << ", " << k << ", "
+                       << vertices[k].x << ", " << vertices[k].y << ", " 
+                       << vertices[k].z << ");\n";
+                }
+
+              }
+
+              data << "\nCOMMIT;\n";
+
+              file->Write(data.str().c_str(), data.str().length());
+              file->Flush();
             }
           }
           return;
