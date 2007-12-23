@@ -1581,7 +1581,6 @@ void sqlite3VdbeDelete(Vdbe *p){
 int sqlite3VdbeCursorMoveto(Cursor *p){
   if( p->deferredMoveto ){
     int res, rc;
-    extern int sqlite3_search_count;
     assert( p->isTable );
     if( p->isTable ){
       rc = sqlite3BtreeMoveto(p->pCursor, 0, p->movetoTarget, &res);

@@ -47,7 +47,7 @@ public:
     BuyUpper=4,
     BuyLower=5,
     SellUpper=6,
-    SellLower=7,
+    SellLower=7
   };
 
   struct ObjectAndSlot

@@ -139,7 +139,7 @@ void sqlite3VtabBeginParse(
 */
 static void addArgumentToVtab(Parse *pParse){
   if( pParse->sArg.z && pParse->pNewTable ){
-    const char *z = pParse->sArg.z;
+    const char* z = (const char*) pParse->sArg.z;
     int n = pParse->sArg.n;
     addModuleArgument(pParse->pNewTable, sqliteStrNDup(z, n));
   }
