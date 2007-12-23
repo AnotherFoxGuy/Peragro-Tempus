@@ -15,10 +15,9 @@
 ** Random numbers are used by some of the database backends in order
 ** to generate random integer keys for tables or random filenames.
 **
-** $Id: random.c,v 1.15 2006/01/06 14:32:20 drh Exp $
+** $Id: random.c,v 1.20 2007/08/21 13:51:23 drh Exp $
 */
 #include "sqliteInt.h"
-#include "os.h"
 
 
 /*
@@ -37,7 +36,7 @@
 ** (Later):  Actually, OP_NewRowid does not depend on a good source of
 ** randomness any more.  But we will leave this code in all the same.
 */
-static int randomByte(){
+static int randomByte(void){
   unsigned char t;
 
   /* All threads share a single random number generator.
@@ -63,7 +62,7 @@ static int randomByte(){
     char k[256];
     prng.j = 0;
     prng.i = 0;
-    sqlite3OsRandomSeed(k);
+    sqlite3OsRandomness(sqlite3_vfs_find(0), 256, k);
     for(i=0; i<256; i++){
       prng.s[i] = i;
     }
@@ -92,9 +91,13 @@ static int randomByte(){
 */
 void sqlite3Randomness(int N, void *pBuf){
   unsigned char *zBuf = pBuf;
-  sqlite3OsEnterMutex();
+  static sqlite3_mutex *mutex = 0;
+  if( mutex==0 ){
+    mutex = sqlite3_mutex_alloc(SQLITE_MUTEX_STATIC_PRNG);
+  }
+  sqlite3_mutex_enter(mutex);
   while( N-- ){
     *(zBuf++) = randomByte();
   }
-  sqlite3OsLeaveMutex();
+  sqlite3_mutex_leave(mutex);
 }
