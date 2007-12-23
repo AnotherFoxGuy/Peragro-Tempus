@@ -11,6 +11,8 @@ under each day.
    but non-virtual destructor.
  - PK merged the items database class back from revision 427.
  - Rakhun added scripts/networkcodegenerator.sh, not fully working yet.
+ - Rakhun added all currently used datatypes and added generation of nwtypes.h to the
+   networkcodegenerator script and made it skip messagetypes using the yet missing list feature.
 
 21-Dec-2007
  - Rakhun changed door data to primarily be stored in the database, part of
