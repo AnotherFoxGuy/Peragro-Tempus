@@ -28,6 +28,7 @@
 #include "server/database/database.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-characters.h"
+#include "server/database/table-doors.h"
 #include "common/network/entitymessages.h"
 #include "server/network/connection.h"
 #include "server/network/networkhelper.h"
@@ -45,9 +46,25 @@ void Server::addEntity(const Entity* entity, bool persistent)
   if (persistent)
   {
     const ItemEntity* ie = entity->getItemEntity();
+    const DoorEntity* de = entity->getDoorEntity();
     if (ie)
     { 
       db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
+    }
+    else if (de)
+    {
+      // Doors don't go to entity table!
+      DoorsTableVO vo;
+      vo.id = de->getDoorId();
+      vo.islocked = de->getLocked();
+      vo.isopen = de->getOpen();
+      vo.mesh = entity->getMesh();
+      vo.name = entity->getName();
+      vo.sector = entity->getSectorName();
+      vo.x = entity->getPos()[0];
+      vo.y = entity->getPos()[1];
+      vo.z = entity->getPos()[2];
+      db->getDoorsTable()->insert(&vo);
     }
     else
     {

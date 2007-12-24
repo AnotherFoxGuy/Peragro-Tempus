@@ -702,5 +702,19 @@ void EntityHandler::handleSpawnDoor(GenericMessage* msg)
   SpawnDoorMessage doormsg;
   doormsg.deserialise(msg->getByteStream());
   
-  // TODO: implement rest
+  DoorEntity* door_ent = new DoorEntity();
+  door_ent->setDoorId(doormsg.getDoorId());
+  door_ent->setLocked(doormsg.getIsLocked());
+  door_ent->setOpen(doormsg.getIsOpen());
+  door_ent->setAnimation(doormsg.getAnimation());
+
+  Entity* e = door_ent->getEntity()->getLock();
+  e->setName(doormsg.getName());
+  e->setMesh(doormsg.getMesh());
+  e->setPos(doormsg.getPos());
+  e->setRotation(0.0f);
+  e->setSector(doormsg.getSectorId());
+  e->freeLock();
+
+  Server::getServer()->addEntity(door_ent->getEntity(), true);
 }

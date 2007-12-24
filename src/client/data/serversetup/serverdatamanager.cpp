@@ -96,7 +96,7 @@ namespace PT
         doormsg.setDoorId(door_id);
         doormsg.setName(ptString(name, strlen(name)));
         doormsg.setMesh(ptString(mesh, strlen(mesh)));
-        doormsg.setSectorId(secmgr->GetSectorByName(name)->GetId());
+        doormsg.setSectorId(secmgr->GetSectorByName(sector)->GetId());
         doormsg.setPos(x, y, z);
         doormsg.setAnimation(ptString(quest, strlen(quest)));
 

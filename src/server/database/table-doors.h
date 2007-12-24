@@ -44,6 +44,8 @@ public:
   ptString sector;
   /// The mesh of the door
   ptString mesh;
+  /// Animation, or CEL Quest
+  ptString animation;
   /// X coordinate of the door
   float x;
   /// Y coordinate of the door

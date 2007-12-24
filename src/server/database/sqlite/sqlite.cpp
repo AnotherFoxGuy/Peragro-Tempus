@@ -107,13 +107,14 @@ void dbSQLite::update()
   mutex.lock();
   char* query = updates.front();
   int rc = sqlite3_exec(db, query, callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK )
+  {
+    printf("SQL query: %s\n", query);
+    printf("SQL error: %s\n", zErrMsg);
+  }
   updates.pop();
   sqlite3_free(query);
   mutex.unlock();
-  if( rc!=SQLITE_OK )
-  {
-    printf("SQL error: %s\n", zErrMsg);
-  }
 }
 
 size_t dbSQLite::getLastInsertedId()

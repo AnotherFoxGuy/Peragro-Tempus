@@ -99,11 +99,7 @@ public:
       door->setDoorId(loadedDoors[i]->id);
       door->setLocked(loadedDoors[i]->islocked > 0);
       door->setOpen(loadedDoors[i]->isopen > 0);
-      door->setSector(loadedDoors[i]->sector);
-      door->setMesh(loadedDoors[i]->mesh);
-      door->setX(loadedDoors[i]->x);
-      door->setY(loadedDoors[i]->y);
-      door->setZ(loadedDoors[i]->z);
+      door->setAnimation(loadedDoors[i]->animation);
 
       EntityManager* ent_mgr = Server::getServer()->getEntityManager();
       DoorEntity* door_ent = new DoorEntity();

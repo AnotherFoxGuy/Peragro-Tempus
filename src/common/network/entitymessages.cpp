@@ -106,6 +106,7 @@ void AddDoorEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(isopen?1:0);
   serial.setInt8(islocked?1:0);
   serial.setInt32(entityid);
+  serial.setString(name);
   serial.setString(mesh);
   serial.setInt16(sectorid);
   serial.setString(animation);
@@ -120,6 +121,7 @@ void AddDoorEntityMessage::deserialise(ByteStream* bs)
   isopen = serial.getInt8() != 0;
   islocked = serial.getInt8() != 0;
   entityid = (unsigned int) serial.getInt32();
+  name = serial.getString();
   mesh = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
   animation = serial.getString();

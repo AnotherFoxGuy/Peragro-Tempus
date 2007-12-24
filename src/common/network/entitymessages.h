@@ -203,6 +203,7 @@ class AddDoorEntityMessage : public NetMessage
   bool isopen;
   bool islocked;
   unsigned int entityid;
+  ptString name;
   ptString mesh;
   unsigned short sectorid;
   ptString animation;
@@ -230,6 +231,9 @@ public:
 
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
+
+  ptString getName() { return name; }
+  void setName(ptString x) { name = x; }
 
   ptString getMesh() { return mesh; }
   void setMesh(ptString x) { mesh = x; }

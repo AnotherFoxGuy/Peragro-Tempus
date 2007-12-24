@@ -157,7 +157,7 @@ int main(int argc, char ** argv)
   race_mgr.loadFromDB(db.getRaceTable());
 
   // Loading doors from file (to be removed when server setup through the client is working)
-  fileloader.getDoorsFile()->load();
+  //fileloader.getDoorsFile()->load();
 
   Spawner spawner;
   server.setSpawner(&spawner);

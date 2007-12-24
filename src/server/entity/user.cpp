@@ -66,6 +66,10 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEntityId(entity->getId());
     msg.setIsOpen(entity->getDoorEntity()->getOpen());
     msg.setIsLocked(entity->getDoorEntity()->getLocked());
+    msg.setAnimation(entity->getDoorEntity()->getAnimation());
+    msg.setMesh(entity->getMesh());
+    msg.setSectorId(entity->getSector());
+    msg.setName(entity->getName());
     msg.serialise(&bs);
   }
   else if (entity->getType() == Entity::ItemEntityType)
