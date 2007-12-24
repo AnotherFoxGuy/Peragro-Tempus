@@ -16,20 +16,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <cssysdef.h>
-#include <iutil/document.h>
+#include "serversetupmanager.h"
 
-#include "client/reporter/reporter.h"
-#include "client/pointer/pointer.h"
+#include <iutil/document.h>
 
 // Comment this include out to build on Linux (currently a GCC specific problem)
 #include "client/network/network.h"
+#include "common/network/netmessage.h"
+
+#include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
 #include "client/data/doordatamanager.h"
-#include "serversetupmanager.h"
 
 namespace PT
 {
@@ -39,10 +40,13 @@ namespace PT
     ServerDataManager::ServerDataManager()
     {
       // Create and Initialize the DoorDataManager.
-      doorDataManager = new PT::Data::DoorDataManager ();
+      PT::Data::DoorDataManager* doorDataManager = new PT::Data::DoorDataManager ();
       if (!doorDataManager->parse())
-        return Report(PT::Error, "Failed to initialize DoorDataManager!");
-      pointerlib.setDoorDataManager(doorDataManager);
+      {
+        Report(PT::Error, "Failed to initialize DoorDataManager!");
+        return; 
+      }
+      PointerLibrary::getInstance()->setDoorDataManager(doorDataManager);
 
 //      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
 //      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
@@ -105,7 +109,7 @@ namespace PT
         bool open = doorNode->GetNode("default")->GetAttributeValueAsBool("open");
         bool locked = doorNode->GetNode("default")->GetAttributeValueAsBool("locked");
 
-        SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
+        PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
 
         // Just send the data here, one door/package. TCP will group it as suitable
         SpawnDoorMessage doormsg;

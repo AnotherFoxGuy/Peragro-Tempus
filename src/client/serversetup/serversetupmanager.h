@@ -19,6 +19,8 @@
 #ifndef PT_SERVERDATAMANAGER_H
 #define PT_SERVERDATAMANAGER_H
 
+#include <cssysdef.h>
+
 #include <vector>
 #include <string>
 

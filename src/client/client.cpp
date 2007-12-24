@@ -60,7 +60,7 @@
 #include "client/data/effect/effectsmanager.h"
 #include "client/data/effect/effectdatamanager.h"
 #include "client/data/connection/connectiondatamanager.h"
-#include "client/serversetupmanager/serversetupmanager.h"
+#include "client/serversetup/serversetupmanager.h"
 #include "client/combat/combatmanager.h"
 //#include "client/data/doordatamanager.h" // Moving this to serversetupmanager
 #include "client/data/itemdatamanager.h"
