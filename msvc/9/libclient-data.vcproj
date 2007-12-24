@@ -328,9 +328,6 @@
 				RelativePath="..\..\src\client\data\sectordatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\serversetup\serverdatamanager.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\data\skilldatamanager.cpp">
 			</File>
 			<File
@@ -381,9 +378,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\sectordatamanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\serversetup\serverdatamanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\skill.h">
