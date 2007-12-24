@@ -65,6 +65,10 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   entityEvent->open        = (entmsg.getIsOpen() != 0);
   entityEvent->entityId    = entmsg.getEntityId();
   entityEvent->entityType  = PT::Entity::DoorEntityType;
+  entityEvent->entityName  = *entmsg.getName();
+  entityEvent->meshName    = *entmsg.getMesh();
+  entityEvent->sectorId	   = entmsg.getSectorId();
+  entityEvent->questName   = *entmsg.getAnimation();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

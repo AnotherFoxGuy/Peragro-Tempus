@@ -59,6 +59,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
       vo.islocked = de->getLocked();
       vo.isopen = de->getOpen();
       vo.mesh = entity->getMesh();
+      vo.animation = de->getAnimation();
       vo.name = entity->getName();
       vo.sector = entity->getSectorName();
       vo.x = entity->getPos()[0];

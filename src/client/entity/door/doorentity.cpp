@@ -18,9 +18,6 @@
 
 #include "doorentity.h"
 
-#include "client/data/doordatamanager.h"
-#include "client/data/door.h"
-
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
@@ -38,7 +35,7 @@ namespace PT
       open = ev.open;
       locked = ev.locked;
       doorId = ev.typeId;
-
+      questName = ev.questName;
       Create();
     }
 
@@ -48,45 +45,36 @@ namespace PT
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      PT::Data::Door* door =
-        PointerLibrary::getInstance()->getDoorDataManager()->GetDoorById(doorId);
 
-      if (door)
+      CreateCelEntity();
+
+      celEntity->SetName(name.c_str());
+
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshName.c_str());
+
+      if (doormesh)
       {
-        name = door->GetName();
-        meshName = door->GetMeshName();
-        CreateCelEntity();
-
-        celEntity->SetName(name.c_str());
-
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-        csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshName.c_str());
-
-        if (doormesh)
-        {
-          pcmesh->SetMesh(doormesh);
-          trans = doormesh->GetMovable()->GetTransform();
-        }
-        else
-        {
-          Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.c_str());
-          return;
-        }
-
-        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,
-          iPcProperties);
-        pcprop->SetProperty("Door Open", open);
-        pcprop->SetProperty("Door Locked", locked);
-
-        //Use CEL's quest system for door state and simple animating.
-        pl->CreatePropertyClass(celEntity, "pclogic.quest");
-        csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcQuest);
-        celQuestParams parameters;
-        pcquest->NewQuest(door->GetQuestName().c_str(),parameters);
-        pcquest->GetQuest()->SwitchState("closed");
+        pcmesh->SetMesh(doormesh);
+        trans = doormesh->GetMovable()->GetTransform();
       }
       else
-        Report(PT::Error, "PtDoorEntity: Couldn't find mesh for door %d!\n", id);
+      {
+        Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.c_str());
+        return;
+      }
+
+      csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,
+        iPcProperties);
+      pcprop->SetProperty("Door Open", open);
+      pcprop->SetProperty("Door Locked", locked);
+
+      //Use CEL's quest system for door state and simple animating.
+      pl->CreatePropertyClass(celEntity, "pclogic.quest");
+      csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcQuest);
+      celQuestParams parameters;
+      pcquest->NewQuest(questName.c_str(), parameters);
+      pcquest->GetQuest()->SwitchState("closed");
     }
 
     void DoorEntity::UpdatePcProp(const UpdatePcPropData& update_pcprop)

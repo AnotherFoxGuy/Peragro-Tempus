@@ -62,6 +62,7 @@ Database::Database()
 
 void Database::init()
 {
+  update("begin transaction");
   userstable = new UsersTable(this);
   charactertable = new CharacterTable(this);
   entitytable = new EntityTable(this);
@@ -82,7 +83,7 @@ void Database::init()
   doorstable = new DoorsTable(this);
   sectorstable = new SectorsTable(this);
   permissionstable = new PermissionsTable(this);
-
+  update("commit");
 }
 
 Database::~Database()

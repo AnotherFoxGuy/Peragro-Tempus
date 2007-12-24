@@ -36,10 +36,15 @@ namespace PT
     private:
       ///Unique ID of the door.
       unsigned int doorId;
+
+      ///Quest to be used for door events (ie 'GateUpward').
+      std::string questName;
+
       ///Specifies whether the door is open or closed.
       bool open;
       ///Specifies whether the door is locked or not.
       bool locked;
+
       ///The transformation this mesh had when it was created.
       csReversibleTransform trans;
 
