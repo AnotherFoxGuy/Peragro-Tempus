@@ -1,0 +1,6 @@
+SubDir TOP src client serversetup ;
+
+Description client-serversetup : "client serversetup" ;
+Library client-serversetup :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-serversetup : CEGUI CRYSTAL CEL BOOST ;
