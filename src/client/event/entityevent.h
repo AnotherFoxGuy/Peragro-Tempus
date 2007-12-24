@@ -80,7 +80,7 @@ namespace PT
       std::string entityName;
       std::string meshName;
       unsigned int typeId;
-      std::string questName;
+      std::string animationName;
       csVector3 position;
       float rotation;
       unsigned int sectorId;

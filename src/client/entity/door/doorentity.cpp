@@ -35,7 +35,7 @@ namespace PT
       open = ev.open;
       locked = ev.locked;
       doorId = ev.typeId;
-      questName = ev.questName;
+      animationName = ev.animationName;
       Create();
     }
 
@@ -73,7 +73,7 @@ namespace PT
       pl->CreatePropertyClass(celEntity, "pclogic.quest");
       csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcQuest);
       celQuestParams parameters;
-      pcquest->NewQuest(questName.c_str(), parameters);
+      pcquest->NewQuest(animationName.c_str(), parameters);
       pcquest->GetQuest()->SwitchState("closed");
     }
 

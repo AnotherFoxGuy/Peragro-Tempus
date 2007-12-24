@@ -38,7 +38,7 @@ namespace PT
       unsigned int doorId;
 
       ///Quest to be used for door events (ie 'GateUpward').
-      std::string questName;
+      std::string animationName;
 
       ///Specifies whether the door is open or closed.
       bool open;

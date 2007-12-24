@@ -114,6 +114,7 @@ public:
       door_ent->setDoorId(loadedDoors[i]->id);
       door_ent->setLocked(loadedDoors[i]->islocked > 0);
       door_ent->setOpen(loadedDoors[i]->isopen > 0);
+      door_ent->setAnimation(loadedDoors[i]->animation);
       ent_mgr->addEntity(ent);
 
       doors.add(door);
