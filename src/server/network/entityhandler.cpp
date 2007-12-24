@@ -690,3 +690,17 @@ void EntityHandler::handleRemove(GenericMessage* msg)
     server->delEntity(e);
   }
 }
+
+void EntityHandler::handleSpawnDoor(GenericMessage* msg)
+{
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
+  SpawnDoorMessage doormsg;
+  doormsg.deserialise(msg->getByteStream());
+  
+  // TODO: implement rest
+}

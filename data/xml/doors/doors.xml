@@ -8,7 +8,8 @@
 		<position x="27.9388713837" y="179.982452393" z="-6.57791852951"/>
 		<sector>room</sector>
 		<keyId>7</keyId>
-    		<quest>GateUpward</quest>
+		<quest>GateUpward</quest>
+		<default open="false" locked="true" />
  	</door>
 
 	<door>
@@ -19,6 +20,7 @@
 		<sector>room</sector>
     		<keyId>7</keyId>
     		<quest>HouseDoorOutward</quest>
+		<default open="false" locked="true" />
 	</door>
 	
 	<door>
@@ -29,6 +31,7 @@
 		<sector>room</sector>
 		<keyId>7</keyId>
 		<quest>HouseDoorOutward</quest>
+		<default open="true" locked="true" />
 	</door>
 	
 	<door>
@@ -39,6 +42,7 @@
 		<sector>room</sector>
 		<keyId>7</keyId>
 		<quest>HouseDoorOutward</quest>
+		<default open="false" locked="false" />
 	</door>
 	
 	<door>
@@ -49,6 +53,7 @@
 		<sector>Canyon</sector>
 		<keyId>7</keyId>
 	    	<quest>GateUpward</quest>
+		<default open="false" locked="false" />
  	</door>
  	
  	<door>
@@ -59,6 +64,6 @@
 		<sector>Canyon</sector>
 		<keyId>7</keyId>
 		<quest>GateUpward</quest>
+		<default open="false" locked="false" />
  	</door>
-
 </doors>

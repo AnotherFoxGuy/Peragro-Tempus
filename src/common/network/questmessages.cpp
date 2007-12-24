@@ -48,7 +48,7 @@ void NpcDialogMessage::deserialise(ByteStream* bs)
   for ( size_t i = 0; i < answerscount ; i++ )
   {
     answers[i].answerid = (unsigned int) serial.getInt32();
-  serial.getString(answers[i].answertext);
+    serial.getString(answers[i].answertext);
   };
 
 }

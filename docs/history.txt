@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+24-Dec-2007
+ - PK added SpawnDoorMessage.
+
 23-Dec-2007
  - Rakhun fixed some more warnings appearing with -Wall.
  - Rakhun made some fixes for networkcodegenerator.sh.

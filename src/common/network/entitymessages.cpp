@@ -106,6 +106,9 @@ void AddDoorEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(isopen?1:0);
   serial.setInt8(islocked?1:0);
   serial.setInt32(entityid);
+  serial.setString(mesh);
+  serial.setInt16(sectorid);
+  serial.setString(animation);
 }
 
 void AddDoorEntityMessage::deserialise(ByteStream* bs)
@@ -117,6 +120,9 @@ void AddDoorEntityMessage::deserialise(ByteStream* bs)
   isopen = serial.getInt8() != 0;
   islocked = serial.getInt8() != 0;
   entityid = (unsigned int) serial.getInt32();
+  mesh = serial.getString();
+  sectorid = (unsigned short) serial.getInt16();
+  animation = serial.getString();
 }
 
 void AddPlayerEntityMessage::serialise(ByteStream* bs)
@@ -132,14 +138,14 @@ void AddPlayerEntityMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[2]);
   serial.setFloat(rotation);
   serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[0]);
+  serial.setInt8(haircolour[1]);
+  serial.setInt8(haircolour[2]);
   serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[0]);
+  serial.setInt8(skincolour[1]);
+  serial.setInt8(skincolour[2]);
   serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[0]);
+  serial.setInt8(decalcolour[1]);
+  serial.setInt8(decalcolour[2]);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
   serial.setInt8(poseid);
@@ -849,5 +855,39 @@ void SpawnMountMessage::deserialise(ByteStream* bs)
   pos[2] = serial.getFloat();
   rotation = serial.getFloat();
   sectorid = (unsigned short) serial.getInt16();
+}
+
+void SpawnDoorMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt16(doorid);
+  serial.setString(name);
+  serial.setString(mesh);
+  serial.setInt16(sectorid);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
+  serial.setInt8(isopen?1:0);
+  serial.setInt8(islocked?1:0);
+  serial.setString(animation);
+}
+
+void SpawnDoorMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  doorid = (unsigned short) serial.getInt16();
+  name = serial.getString();
+  mesh = serial.getString();
+  sectorid = (unsigned short) serial.getInt16();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
+  isopen = serial.getInt8() != 0;
+  islocked = serial.getInt8() != 0;
+  animation = serial.getString();
 }
 

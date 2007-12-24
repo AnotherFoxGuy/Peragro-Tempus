@@ -21,6 +21,11 @@
 
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
+
+#include "client/network/network.h"
+#include "client/data/sector.h"
+#include "client/data/sectordatamanager.h"
+
 #include "serverdatamanager.h"
 
 namespace PT
@@ -44,6 +49,10 @@ namespace PT
       Report(PT::Notify, "Not yet implemented (need to know how to send the messages)");
 
       // ==[ Doors ]=============================================================
+
+      //Maybe use this instead?
+      //DoorDataManager* doors = PointerLibrary::getInstance()->getSectorDataManager();
+
       const char* fname="/peragro/xml/doors/doors.xml";
       csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
       if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
@@ -58,15 +67,6 @@ namespace PT
         return false;
       }
 
-
-/*      TiXmlDocument doc;
-      if (!doc.Parse(xmlfile->GetData()))
-        return false;
-
-      TiXmlElement* items = doc.FirstChildElement("doors");
-      TiXmlElement* itemNode = items->FirstChildElement("door");
-      while (itemNode)*/
-
       csRef<iDocumentNode> doorsXML = doc->GetRoot ()->GetNode ("doors");
       if (!doorsXML.IsValid()) return false;
 
@@ -74,17 +74,36 @@ namespace PT
       while (it->HasNext())
       {
         csRef<iDocumentNode> doorNode (it->Next());
-        /* (uncomment when we know how to send the data, commented since they would cause "unused variable" warnings otherwise)
+
         unsigned int door_id = doorNode->GetNode("id")->GetContentsValueAsInt();
         const char* name = doorNode->GetNode("name")->GetContentsValue();
         const char* mesh = doorNode->GetNode("mesh")->GetContentsValue();
         const char* sector = doorNode->GetNode("sector")->GetContentsValue();
 
-        const char* str_x = doorNode->GetNode("position")->GetAttributeValue("x");
-        const char* str_y = doorNode->GetNode("position")->GetAttributeValue("y");
-        const char* str_z = doorNode->GetNode("position")->GetAttributeValue("z");*/
+        float x = doorNode->GetNode("position")->GetAttributeValueAsFloat("x");
+        float y = doorNode->GetNode("position")->GetAttributeValueAsFloat("y");
+        float z = doorNode->GetNode("position")->GetAttributeValueAsFloat("z");
 
-        // Just send the data here, one door/package (Just don't know how yet)
+        const char* quest = doorNode->GetNode("quest")->GetContentsValue();
+
+        bool open = doorNode->GetNode("default")->GetAttributeValueAsBool("open");
+        bool locked = doorNode->GetNode("default")->GetAttributeValueAsBool("locked");
+
+        SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
+
+        // Just send the data here, one door/package. TCP will group it as suitable
+        SpawnDoorMessage doormsg;
+        doormsg.setDoorId(door_id);
+        doormsg.setName(ptString(name, strlen(name)));
+        doormsg.setMesh(ptString(mesh, strlen(mesh)));
+        doormsg.setSectorId(secmgr->GetSectorByName(name)->GetId());
+        doormsg.setPos(x, y, z);
+        doormsg.setAnimation(ptString(quest, strlen(quest)));
+
+        doormsg.setIsOpen(open);
+        doormsg.setIsLocked(locked);
+
+        PointerLibrary::getInstance()->getNetwork()->send(&doormsg);
       }
 
       return true;

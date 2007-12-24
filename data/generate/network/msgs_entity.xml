@@ -27,6 +27,9 @@
 		<bool>IsOpen</bool>
 		<bool>IsLocked</bool>
 		<uint32>EntityId</uint32>
+		<string>Mesh</string>
+		<uint16>SectorId</uint16>
+		<string>Animation</string>
 	</message>
 
 	<message type="Entity" name="AddPlayerEntity">
@@ -230,4 +233,15 @@
 		<uint16>SectorId</uint16>
 	</message>
 
+	<message type="Entity" name="SpawnDoor">
+		<uint16>DoorId</uint16>
+		<string>Name</string>
+		<string>Mesh</string>
+		<uint16>SectorId</uint16>
+		<vector3f>Pos</vector3f>
+		<bool>IsOpen</bool>
+		<bool>IsLocked</bool>
+		<string>Animation</string>
+	</message>
+	
 </message-implementation>

@@ -58,7 +58,8 @@ namespace ENTITY
     POSE=30,
     TOGGLEFLASHSTEP=31,
     SPAWNITEM=32,
-    SPAWNMOUNT=33
+    SPAWNMOUNT=33,
+    SPAWNDOOR=34
   };
 }
 
@@ -202,6 +203,9 @@ class AddDoorEntityMessage : public NetMessage
   bool isopen;
   bool islocked;
   unsigned int entityid;
+  ptString mesh;
+  unsigned short sectorid;
+  ptString animation;
 
 public:
   AddDoorEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDDOORENTITY)
@@ -226,6 +230,15 @@ public:
 
   unsigned int getEntityId() { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
+
+  ptString getMesh() { return mesh; }
+  void setMesh(ptString x) { mesh = x; }
+
+  unsigned short getSectorId() { return sectorid; }
+  void setSectorId(unsigned short x) { sectorid = x; }
+
+  ptString getAnimation() { return animation; }
+  void setAnimation(ptString x) { animation = x; }
 
 };
 
@@ -1362,6 +1375,64 @@ public:
 
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
+
+};
+
+class SpawnDoorMessage : public NetMessage
+{
+  unsigned short doorid;
+  ptString name;
+  ptString mesh;
+  unsigned short sectorid;
+  float pos[3];
+  bool isopen;
+  bool islocked;
+  ptString animation;
+
+public:
+  SpawnDoorMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::SPAWNDOOR)
+  {
+  }
+
+  ~SpawnDoorMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned short getDoorId() { return doorid; }
+  void setDoorId(unsigned short x) { doorid = x; }
+
+  ptString getName() { return name; }
+  void setName(ptString x) { name = x; }
+
+  ptString getMesh() { return mesh; }
+  void setMesh(ptString x) { mesh = x; }
+
+  unsigned short getSectorId() { return sectorid; }
+  void setSectorId(unsigned short x) { sectorid = x; }
+
+  float* getPos() { return pos; }
+  void setPos(float x, float y, float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  void setPos(const float* x)
+  {
+    setPos(x[0], x[1], x[2]);
+  }
+
+  bool getIsOpen() { return isopen; }
+  void setIsOpen(bool x) { isopen = x; }
+
+  bool getIsLocked() { return islocked; }
+  void setIsLocked(bool x) { islocked = x; }
+
+  ptString getAnimation() { return animation; }
+  void setAnimation(ptString x) { animation = x; }
 
 };
 

@@ -58,6 +58,7 @@ public:
     else if (id == ENTITY::SPAWNITEM) handleSpawnItem(msg);
     else if (id == ENTITY::SPAWNMOUNT) handleSpawnMount(msg);
     else if (id == ENTITY::REMOVE) handleRemove(msg);
+    else if (id == ENTITY::SPAWNDOOR) handleSpawnDoor(msg);
   }
 
   void handleMoveRequest(GenericMessage* msg);
@@ -74,6 +75,7 @@ public:
   void handleSpawnItem(GenericMessage* msg);
   void handleSpawnMount(GenericMessage* msg);
   void handleRemove(GenericMessage* msg);
+  void handleSpawnDoor(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

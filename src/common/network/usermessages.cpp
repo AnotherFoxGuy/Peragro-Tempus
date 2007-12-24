@@ -144,14 +144,14 @@ void CharCreateRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[0]);
+  serial.setInt8(haircolour[1]);
+  serial.setInt8(haircolour[2]);
   serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[0]);
+  serial.setInt8(skincolour[1]);
+  serial.setInt8(skincolour[2]);
   serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[0]);
+  serial.setInt8(decalcolour[1]);
+  serial.setInt8(decalcolour[2]);
 }
 
 void CharCreateRequestMessage::deserialise(ByteStream* bs)
@@ -179,14 +179,14 @@ void CharCreateResponseMessage::serialise(ByteStream* bs)
   serial.setInt32(charid);
   serial.setString(name);
   serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[0]);
+  serial.setInt8(haircolour[1]);
+  serial.setInt8(haircolour[2]);
   serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[0]);
+  serial.setInt8(skincolour[1]);
+  serial.setInt8(skincolour[2]);
   serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[0]);
+  serial.setInt8(decalcolour[1]);
+  serial.setInt8(decalcolour[2]);
   serial.setString(error);
 }
 

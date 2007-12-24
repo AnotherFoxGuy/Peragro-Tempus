@@ -61,6 +61,7 @@
 			<message id="31" name="ToggleFlashStep" />
 			<message id="32" name="SpawnItem" />
 			<message id="33" name="SpawnMount" />
+			<message id="34" name="SpawnDoor" />
 		</type>
 		<type id="3" name="Chat">
 			<message id="0" name="Say" />
