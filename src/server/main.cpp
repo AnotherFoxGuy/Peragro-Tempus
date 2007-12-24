@@ -151,7 +151,6 @@ int main(int argc, char ** argv)
 
   ent_mgr->loadFromDB(db.getEntityTable());
 
-  //item_mgr.loadFromDB(db.getItemTable());
   door_mgr.loadFromDB(db.getDoorsTable());
   stat_mgr.loadFromDB(db.getStatTable());
   skill_mgr.loadFromDB(db.getSkillTable());

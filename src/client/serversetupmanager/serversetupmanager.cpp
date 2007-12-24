@@ -28,17 +28,24 @@
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
-#include "serverdatamanager.h"
+#include "client/data/doordatamanager.h"
+#include "serversetupmanager.h"
 
 namespace PT
 {
-  namespace Data
+  namespace Misc
   {
 
     ServerDataManager::ServerDataManager()
     {
-      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
-      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
+      // Create and Initialize the DoorDataManager.
+      doorDataManager = new PT::Data::DoorDataManager ();
+      if (!doorDataManager->parse())
+        return Report(PT::Error, "Failed to initialize DoorDataManager!");
+      pointerlib.setDoorDataManager(doorDataManager);
+
+//      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
+//      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
     }
 
     ServerDataManager::~ServerDataManager()

@@ -27,7 +27,7 @@
 
 namespace PT
 {
-  namespace Data
+  namespace Misc
   {
     //Forward declaration
     class Network;

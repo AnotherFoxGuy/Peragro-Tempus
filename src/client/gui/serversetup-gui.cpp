@@ -26,7 +26,7 @@
 
 #include "client/pointer/pointer.h"
 
-#include "client/data/serversetup/serverdatamanager.h"
+#include "client/serversetupmanager/serversetupmanager.h"
 
 ServerSetupWindow::ServerSetupWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)

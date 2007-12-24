@@ -36,10 +36,14 @@ namespace PT
     class SectorDataManager;
     class SkillDataManager;
     class ConnectionDataManager;
-    class ServerDataManager;
     class EffectDataManager;
     class TeleportDataManager;
   } // Data namespace
+
+  namespace Misc
+  {
+    class ServerDataManager;
+  } // Misc namespace
 
   namespace Effect
   {
@@ -77,9 +81,9 @@ private:
   PT::Data::SectorDataManager* sectorDataManager;
   PT::Data::SkillDataManager* skillDataManager;
   PT::Data::ConnectionDataManager* connectionDataManager;
-  PT::Data::ServerDataManager* serverDataManager;
   PT::Data::EffectDataManager* effectDataManager;
   PT::Data::TeleportDataManager* teleportDataManager;
+  PT::Misc::ServerDataManager* serverDataManager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
   CombatMGR* combatmanager;
@@ -139,14 +143,14 @@ public:
   void setConnectionDataManager(PT::Data::ConnectionDataManager* connectionDataManager) { this->connectionDataManager = connectionDataManager; }
   PT::Data::ConnectionDataManager* getConnectionDataManager() { return this->connectionDataManager; }
 
-  void setServerDataManager(PT::Data::ServerDataManager* serverDataManager) { this->serverDataManager = serverDataManager; }
-  PT::Data::ServerDataManager* getServerDataManager() { return this->serverDataManager; }
-
   void setEffectDataManager(PT::Data::EffectDataManager* effectDataManager) { this->effectDataManager = effectDataManager; }
   PT::Data::EffectDataManager* getEffectDataManager() { return this->effectDataManager; }
 
   void setTeleportDataManager(PT::Data::TeleportDataManager* teleportDataManager) { this->teleportDataManager = teleportDataManager; }
   PT::Data::TeleportDataManager* getTeleportDataManager() { return this->teleportDataManager; }
+
+  void setServerDataManager(PT::Misc::ServerDataManager* serverDataManager) { this->serverDataManager = serverDataManager; }
+  PT::Misc::ServerDataManager* getServerDataManager() { return this->serverDataManager; }
 
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }

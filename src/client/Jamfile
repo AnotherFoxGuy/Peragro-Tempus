@@ -12,6 +12,7 @@ SubInclude TOP src client event ;
 SubInclude TOP src client trade ;
 SubInclude TOP src client chat ;
 SubInclude TOP src client input ;
+SubInclude TOP src client serversetupmanager ;
 
 Description client : "Client" ;
 Application client : 
