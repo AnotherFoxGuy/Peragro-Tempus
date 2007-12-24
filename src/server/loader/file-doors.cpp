@@ -38,6 +38,7 @@ void DoorsFile::load()
 
   TiXmlElement* items = doc.FirstChildElement("doors");
 
+  DoorsTable* doors = Server::getServer()->getDatabase()->getDoorsTable();
   TiXmlElement* itemNode = items->FirstChildElement("door");
   while (itemNode)
   {
@@ -59,8 +60,6 @@ void DoorsFile::load()
     const char* str_z = itemNode->FirstChildElement("position")->Attribute("z");
 
     // --[Creating Entity]---------------------------------------------------
-
-    DoorsTable* doors = Server::getServer()->getDatabase()->getDoorsTable();
 
     DoorsTableVO* vo = doors->getById(door_id);
 

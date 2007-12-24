@@ -21,6 +21,7 @@
 
 #include "common/util/array.h"
 #include "item.h"
+#include "server/database/table-items.h"
 
 class ItemManager
 {
@@ -104,6 +105,17 @@ public:
       }
     }
     return 0;
+  }
+
+  void loadFromDB(ItemTable* it)
+  {
+    //Load all Items from Database
+    Array<Item*> loadedItems;
+    it->getAllItems(loadedItems);
+    for (size_t i = 0; i<loadedItems.getCount(); i++)
+    {
+      addItem(loadedItems[i]);
+    }
   }
 
   void clear()

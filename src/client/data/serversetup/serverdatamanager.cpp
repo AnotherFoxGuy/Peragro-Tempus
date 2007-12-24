@@ -22,7 +22,9 @@
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
+// Comment this include out to build on Linux (currently a GCC specific problem)
 #include "client/network/network.h"
+
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
@@ -46,7 +48,7 @@ namespace PT
     bool ServerDataManager::UploadServerData()
     {
       // Send a message to tell the server to wipe its current settings to make room for the new ones (Just don't know how yet)
-      Report(PT::Notify, "Not yet implemented (need to know how to send the messages)");
+      Report(PT::Notify, "Not yet implemented (need to fix issue with inclusion of network.h)");
 
       // ==[ Doors ]=============================================================
 
@@ -67,10 +69,10 @@ namespace PT
         return false;
       }
 
-      csRef<iDocumentNode> doorsXML = doc->GetRoot ()->GetNode ("doors");
-      if (!doorsXML.IsValid()) return false;
+      csRef<iDocumentNode> fileXML = doc->GetRoot ()->GetNode ("doors");
+      if (!fileXML.IsValid()) return false;
 
-      csRef<iDocumentNodeIterator> it (doorsXML->GetNodes ("door"));
+      csRef<iDocumentNodeIterator> it (fileXML->GetNodes ("door"));
       while (it->HasNext())
       {
         csRef<iDocumentNode> doorNode (it->Next());
@@ -84,6 +86,13 @@ namespace PT
         float y = doorNode->GetNode("position")->GetAttributeValueAsFloat("y");
         float z = doorNode->GetNode("position")->GetAttributeValueAsFloat("z");
 
+/* (For Linux)
+        // Just to avoid "unused variable" warnings, until there are better things to do with them:
+        printf("Loading door, door_id=%u, name=\"%s\", mesh=\"%s\", sector=\"%s\", x=%f, y=%f, z=%f\n", door_id, name, mesh, sector, x, y, z);
+
+        // Just send the data here, one door/package (Just don't know how yet)*/
+
+// Comment this out (down to the send call) to build on Linux (currently a GCC specific problem)
         const char* quest = doorNode->GetNode("quest")->GetContentsValue();
 
         bool open = doorNode->GetNode("default")->GetAttributeValueAsBool("open");
@@ -104,6 +113,45 @@ namespace PT
         doormsg.setIsLocked(locked);
 
         PointerLibrary::getInstance()->getNetwork()->send(&doormsg);
+      }
+
+      // ==[ Items ]=============================================================
+      fname="/peragro/xml/items/items.xml";
+      xmlfile = vfs->ReadFile (fname);
+      if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
+
+      docsys = csQueryRegistry<iDocumentSystem> (PointerLibrary::getInstance()->getObjectRegistry());
+      doc = docsys->CreateDocument();
+
+      error = doc->Parse (xmlfile, true);
+      if (error)
+      {
+        Report(PT::Error, error);
+        return false;
+      }
+
+      fileXML = doc->GetRoot ()->GetNode ("items");
+      if (!fileXML.IsValid()) return false;
+
+      it = fileXML->GetNodes ("item");
+      while (it->HasNext())
+      {
+        csRef<iDocumentNode> itemNode (it->Next());
+
+        unsigned int item_id = itemNode->GetNode("id")->GetContentsValueAsInt();
+        const char* name = itemNode->GetNode("name")->GetContentsValue();
+        const char* icon = itemNode->GetNode("icon")->GetContentsValue();
+        const char* description = itemNode->GetNode("description")->GetContentsValue();
+        const char* file = itemNode->GetNode("file")->GetContentsValue();
+        const char* mesh = itemNode->GetNode("mesh")->GetContentsValue();
+        unsigned int weight = itemNode->GetNode("weight")->GetContentsValueAsInt();
+        const char* equiptype = "";
+        if(itemNode->GetNode("equiptype")){equiptype = itemNode->GetNode("equiptype")->GetContentsValue();}
+
+        // Just to avoid "unused variable" warnings, until there are better things to do with them:
+        printf("Loading item, item_id=%u, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%u, equiptype=\"%s\"\n", item_id, name, icon, description, file, mesh, weight, equiptype);
+
+        // Just send the data here, one door/package (Just don't know how yet)
       }
 
       return true;

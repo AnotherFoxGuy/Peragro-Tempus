@@ -31,11 +31,16 @@ private:
   unsigned int id;
 
   ptString name_id;
-  ptString mesh_id;
+  ptString icon;
+  ptString description;
+  ptString file;
+  ptString mesh;
 
   //unsigned int stackmax;
 
   unsigned int weight;
+
+  ptString equiptype;
 
 public:
   enum ItemType
@@ -59,14 +64,26 @@ public:
   ptString& getName() { return name_id; }
   void setName(ptString id) { name_id = id; }
 
-  ptString& getMesh() { return mesh_id; }
-  void setMesh(ptString id) { mesh_id = id; }
+  ptString& getIcon() { return icon; }
+  void setIcon(ptString x) { icon = x; }
+
+  ptString& getDescription() { return description; }
+  void setDescription(ptString x) { description = x; }
+
+  ptString& getFile() { return file; }
+  void setFile(ptString x) { file = x; }
+
+  ptString& getMesh() { return mesh; }
+  void setMesh(ptString id) { mesh = id; }
 
   //void setStackMax(unsigned int stackmax) { this->stackmax = stackmax; }
   //unsigned int getStackMax() const { return stackmax; }
 
   void setWeight(unsigned int weight) { this->weight = weight; }
   unsigned int getWeight() const { return weight; }
+
+  ptString& getEquiptype() { return equiptype; }
+  void setEquiptype(ptString x) { equiptype = x; }
 
   bool isEquipable() { return false; }
 };

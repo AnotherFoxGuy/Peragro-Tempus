@@ -41,24 +41,18 @@ void ItemTable::createTable()
   db->update("create table items ("
     "id INTEGER, "
     "name TEXT, "
+    "icon TEXT, "
+    "description TEXT, "
+    "file TEXT, "
     "mesh TEXT, "
+    "weight INTEGER, "
+    "equiptype TEXT, "
     "PRIMARY KEY (id) );");
-
-  //Example Data! Should go somewhere else, imao
-  ptString apple("apple", strlen("apple"));
-  ptString plate("smallplate", strlen("smallplate"));
-  ptString pot("tiny ballpot", strlen("tiny ballpot"));
-  ptString platemesh("Stuff001_smallplate_64_plates", strlen("Stuff001_smallplate_64_plates"));
-  ptString potmesh("Stuff001_tinyballpot_84_pot", strlen("Stuff001_tinyballpot_84_pot"));
-
-  insert(plate, platemesh);
-  insert(pot, potmesh);
-  insert(apple, apple);
 }
 
-void ItemTable::insert(ptString name, ptString mesh)
+void ItemTable::insert(ptString name, ptString icon, ptString description, ptString file, ptString mesh, unsigned int weight, ptString equiptype)
 {
-  db->update("insert into items (name, mesh) values ('%q','%q');", *name, *mesh);
+  db->update("insert into items (name, icon, description, file, mesh, weight, equiptype) values ('%q','%q','%q','%q','%q',%u,'%q');", *name, *icon, *description, *file, *mesh, weight, *equiptype);
 }
 
 void ItemTable::dropTable()
@@ -85,7 +79,12 @@ Item* ItemTable::getItem(ptString name)
     item = new Item();
     item->setId(atoi(rs->GetData(0,0).c_str()));
     item->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-    item->setMesh(ptString(rs->GetData(0,2).c_str(), rs->GetData(0,2).length()));
+    item->setIcon(ptString(rs->GetData(0,2).c_str(), rs->GetData(0,2).length()));
+    item->setDescription(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
+    item->setFile(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,4).length()));
+    item->setMesh(ptString(rs->GetData(0,5).c_str(), rs->GetData(0,5).length()));
+    item->setWeight(atoi(rs->GetData(0,6).c_str()));
+    item->setEquiptype(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
   }
   delete rs;
   return item;
@@ -102,7 +101,12 @@ Item* ItemTable::getItem(int id)
     item = new Item();
     item->setId(atoi(rs->GetData(0,0).c_str()));
     item->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-    item->setMesh(ptString(rs->GetData(0,2).c_str(), rs->GetData(0,2).length()));
+    item->setIcon(ptString(rs->GetData(0,2).c_str(), rs->GetData(0,2).length()));
+    item->setDescription(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
+    item->setFile(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,4).length()));
+    item->setMesh(ptString(rs->GetData(0,5).c_str(), rs->GetData(0,5).length()));
+    item->setWeight(atoi(rs->GetData(0,6).c_str()));
+    item->setEquiptype(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
   }
   delete rs;
   return item;
@@ -112,13 +116,26 @@ void ItemTable::getAllItems(Array<Item*>& items)
 {
   ResultSet* rs = db->query("select * from items;");
   if (!rs) return;
+
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
     Item* item = new Item();
     item->setId(atoi(rs->GetData(i,0).c_str()));
+    item->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
+    item->setIcon(ptString(rs->GetData(i,2).c_str(), rs->GetData(i,2).length()));
+    item->setDescription(ptString(rs->GetData(i,3).c_str(), rs->GetData(i,3).length()));
+    item->setFile(ptString(rs->GetData(i,4).c_str(), rs->GetData(i,4).length()));
+    item->setMesh(ptString(rs->GetData(i,5).c_str(), rs->GetData(i,5).length()));
+    item->setWeight(atoi(rs->GetData(i,6).c_str()));
+    item->setEquiptype(ptString(rs->GetData(i,7).c_str(), rs->GetData(i,7).length()));
+
+/*    Item* item = new Item();
+    item->setId(atoi(rs->GetData(i,0).c_str()));
     item->setName(ptString(rs->GetData(i,1).c_str(),rs->GetData(i,1).length()));
     item->setMesh(ptString(rs->GetData(i,2).c_str(),rs->GetData(i,2).length()));
+    items.add(item);*/
+
     items.add(item);
   }
   delete rs;
-}  
+}
