@@ -62,6 +62,10 @@ namespace PT
 
       door->SetKeyId(node->GetNode("keyId") ->GetContentsValueAsInt());
 
+      door->SetOpenState(node->GetNode("default")->GetAttributeValueAsBool("open"));
+
+      door->SetLockState(node->GetNode("default")->GetAttributeValueAsBool("locked"));
+
       door->SetQuestName(node->GetNode("quest")->GetContentsValue());
 
       doors.push_back(door);

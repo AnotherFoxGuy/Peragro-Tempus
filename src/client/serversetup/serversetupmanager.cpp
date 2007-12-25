@@ -30,6 +30,7 @@
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
+#include "client/data/door.h"
 #include "client/data/doordatamanager.h"
 
 namespace PT
@@ -37,77 +38,48 @@ namespace PT
   namespace Misc
   {
 
-    ServerDataManager::ServerDataManager()
-    {
-      // Create and Initialize the DoorDataManager.
-      PT::Data::DoorDataManager* doorDataManager = new PT::Data::DoorDataManager ();
-      if (!doorDataManager->parse())
-      {
-        Report(PT::Error, "Failed to initialize DoorDataManager!");
-        return; 
-      }
-      PointerLibrary::getInstance()->setDoorDataManager(doorDataManager);
-
-//      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
-//      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
-    }
-
-    ServerDataManager::~ServerDataManager()
+    ServerSetupManager::ServerSetupManager()
     {
     }
 
-    bool ServerDataManager::UploadServerData()
+    ServerSetupManager::~ServerSetupManager()
     {
-      // Send a message to tell the server to wipe its current settings to make room for the new ones (Just don't know how yet)
-      Report(PT::Notify, "Not yet implemented (need to fix issue with inclusion of network.h)");
+    }
+
+    bool ServerSetupManager::UploadServerData()
+    {
+      Report(PT::Notify, "Not yet fully implemented");
+      // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones
 
       // ==[ Doors ]=============================================================
+      std::vector<PT::Data::Door*> doors;
 
-      //Maybe use this instead?
-      //DoorDataManager* doors = PointerLibrary::getInstance()->getSectorDataManager();
+      PointerLibrary::getInstance()->getDoorDataManager()->GetAllDoors(doors);
 
-      const char* fname="/peragro/xml/doors/doors.xml";
-      csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
-      if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
-
-      csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (PointerLibrary::getInstance()->getObjectRegistry()));
-      csRef<iDocument> doc (docsys->CreateDocument());
-
-      const char* error = doc->Parse (xmlfile, true);
-      if (error)
+      // Initialize the DoorDataManager, if it isn't already.
+      if(doors.size()==0)
       {
-        Report(PT::Error, error);
-        return false;
+        if (!PointerLibrary::getInstance()->getDoorDataManager()->parse())
+        {
+          Report(PT::Error, "Failed to initialize DoorDataManager!");
+          return false;
+        }
+        PointerLibrary::getInstance()->getDoorDataManager()->GetAllDoors(doors); // Update list
       }
 
-      csRef<iDocumentNode> fileXML = doc->GetRoot ()->GetNode ("doors");
-      if (!fileXML.IsValid()) return false;
-
-      csRef<iDocumentNodeIterator> it (fileXML->GetNodes ("door"));
-      while (it->HasNext())
+      for (size_t i = 0; i < doors.size(); i++ )
       {
-        csRef<iDocumentNode> doorNode (it->Next());
+        unsigned int door_id = doors[i]->GetId();
+        const char* name = doors[i]->GetName().c_str();
+        const char* mesh = doors[i]->GetMeshName().c_str();
+        const char* sector = doors[i]->GetSectorName().c_str();
 
-        unsigned int door_id = doorNode->GetNode("id")->GetContentsValueAsInt();
-        const char* name = doorNode->GetNode("name")->GetContentsValue();
-        const char* mesh = doorNode->GetNode("mesh")->GetContentsValue();
-        const char* sector = doorNode->GetNode("sector")->GetContentsValue();
+        PtVector3 position = doors[i]->GetPosition();
 
-        float x = doorNode->GetNode("position")->GetAttributeValueAsFloat("x");
-        float y = doorNode->GetNode("position")->GetAttributeValueAsFloat("y");
-        float z = doorNode->GetNode("position")->GetAttributeValueAsFloat("z");
+        const char* quest = doors[i]->GetQuestName().c_str();
 
-/* (For Linux)
-        // Just to avoid "unused variable" warnings, until there are better things to do with them:
-        printf("Loading door, door_id=%u, name=\"%s\", mesh=\"%s\", sector=\"%s\", x=%f, y=%f, z=%f\n", door_id, name, mesh, sector, x, y, z);
-
-        // Just send the data here, one door/package (Just don't know how yet)*/
-
-// Comment this out (down to the send call) to build on Linux (currently a GCC specific problem)
-        const char* quest = doorNode->GetNode("quest")->GetContentsValue();
-
-        bool open = doorNode->GetNode("default")->GetAttributeValueAsBool("open");
-        bool locked = doorNode->GetNode("default")->GetAttributeValueAsBool("locked");
+        bool open = doors[i]->GetOpenState();
+        bool locked = doors[i]->GetLockState();
 
         PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
 
@@ -117,7 +89,7 @@ namespace PT
         doormsg.setName(ptString(name, strlen(name)));
         doormsg.setMesh(ptString(mesh, strlen(mesh)));
         doormsg.setSectorId(secmgr->GetSectorByName(sector)->GetId());
-        doormsg.setPos(x, y, z);
+        doormsg.setPos(position.x, position.y, position.z);
         doormsg.setAnimation(ptString(quest, strlen(quest)));
 
         doormsg.setIsOpen(open);
@@ -126,7 +98,7 @@ namespace PT
         PointerLibrary::getInstance()->getNetwork()->send(&doormsg);
       }
 
-      // ==[ Items ]=============================================================
+/*      // ==[ Items ]=============================================================
       fname="/peragro/xml/items/items.xml";
       xmlfile = vfs->ReadFile (fname);
       if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
@@ -163,12 +135,12 @@ namespace PT
         printf("Loading item, item_id=%u, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%u, equiptype=\"%s\"\n", item_id, name, icon, description, file, mesh, weight, equiptype);
 
         // Just send the data here, one door/package (Just don't know how yet)
-      }
+      }*/
 
       return true;
     } // end UploadServerData()
 
-    bool ServerDataManager::DownloadServerData()
+    bool ServerSetupManager::DownloadServerData()
     {
       Report(PT::Notify, "Not yet implemented");
       return true;

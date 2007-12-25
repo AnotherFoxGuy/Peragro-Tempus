@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_SERVERDATAMANAGER_H
-#define PT_SERVERDATAMANAGER_H
+#ifndef PT_SERVERSETUPMANAGER_H
+#define PT_SERVERSETUPMANAGER_H
 
 #include <cssysdef.h>
 
@@ -38,17 +38,14 @@ namespace PT
      * @ingroup data_handlers
      * Handles the loading of server setup data from XML definition files.
      */
-    class ServerDataManager
+    class ServerSetupManager
     {
-    private:
-      csRef<iVFS> vfs;
-
     public:
       /**
        * Base constructor
        */
-      ServerDataManager();
-      ~ServerDataManager();
+      ServerSetupManager();
+      ~ServerSetupManager();
 
       /**
        * Loads all the server information and sends it to the server.
@@ -65,4 +62,4 @@ namespace PT
   } // Data namespace
 } // PT namespace
 
-#endif // PT_SERVERDATAMANAGER_H
+#endif // PT_SERVERSETUPMANAGER_H

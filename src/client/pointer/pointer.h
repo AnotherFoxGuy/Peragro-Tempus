@@ -42,7 +42,7 @@ namespace PT
 
   namespace Misc
   {
-    class ServerDataManager;
+    class ServerSetupManager;
   } // Misc namespace
 
   namespace Effect
@@ -83,7 +83,7 @@ private:
   PT::Data::ConnectionDataManager* connectionDataManager;
   PT::Data::EffectDataManager* effectDataManager;
   PT::Data::TeleportDataManager* teleportDataManager;
-  PT::Misc::ServerDataManager* serverDataManager;
+  PT::Misc::ServerSetupManager* serverSetupManager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
   CombatMGR* combatmanager;
@@ -104,7 +104,7 @@ public:
     sectorDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
-    serverDataManager = 0;
+    serverSetupManager = 0;
     effectDataManager = 0;
     guimanager = 0;
     entitymanager = 0;
@@ -149,8 +149,8 @@ public:
   void setTeleportDataManager(PT::Data::TeleportDataManager* teleportDataManager) { this->teleportDataManager = teleportDataManager; }
   PT::Data::TeleportDataManager* getTeleportDataManager() { return this->teleportDataManager; }
 
-  void setServerDataManager(PT::Misc::ServerDataManager* serverDataManager) { this->serverDataManager = serverDataManager; }
-  PT::Misc::ServerDataManager* getServerDataManager() { return this->serverDataManager; }
+  void setServerSetupManager(PT::Misc::ServerSetupManager* serverSetupManager) { this->serverSetupManager = serverSetupManager; }
+  PT::Misc::ServerSetupManager* getServerSetupManager() { return this->serverSetupManager; }
 
   void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
   GUIManager* getGUIManager() { return this->guimanager; }

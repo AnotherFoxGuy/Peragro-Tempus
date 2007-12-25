@@ -8,6 +8,8 @@ under each day.
  - PK added SpawnDoorMessage.
  - Rakhun moved item data into the database (same way as doors) and added item loading to the
    serverdatamanager along with some tidying up.
+ - Rakhun renamed ServerDataManager to ServerSetupManager, fixed the interaction with the doordatamanager
+   and moved the initialization of doordatamanager to the upload function.
 
 23-Dec-2007
  - Rakhun fixed some more warnings appearing with -Wall.

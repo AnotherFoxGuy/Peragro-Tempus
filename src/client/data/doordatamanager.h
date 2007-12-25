@@ -66,6 +66,10 @@ namespace PT
        * @return Pointer to door with given Name, or 0 if none was found.
        */
       Door* GetDoorByName(const std::string& name) const;
+      /**
+       * @return Pointers to all doors.
+       */
+      void GetAllDoors(std::vector<Door*>& list) { list = doors; }
 
       /// Implements the DataManager superclass
       bool parseElement(iDocumentNode* node);

@@ -62,7 +62,7 @@
 #include "client/data/connection/connectiondatamanager.h"
 #include "client/serversetup/serversetupmanager.h"
 #include "client/combat/combatmanager.h"
-//#include "client/data/doordatamanager.h" // Moving this to serversetupmanager
+#include "client/data/doordatamanager.h"
 #include "client/data/itemdatamanager.h"
 #include "client/data/sectordatamanager.h"
 #include "client/data/skilldatamanager.h"
@@ -99,12 +99,12 @@ namespace PT
     effectsmanager = 0;
     entitymanager = 0;
     combatmanager = 0;
-//    doorDataManager = 0; // Moving this to serversetupmanager
+    doorDataManager = 0;
     itemDataManager = 0;
     effectDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
-    serverDataManager = 0;
+    serverSetupManager = 0;
     cursor = 0;
     inputMgr = 0;
     last_seen = 0;
@@ -124,12 +124,12 @@ namespace PT
     delete guimanager;
     delete network;
     delete cursor;
-//    delete doorDataManager; // Moving this to serversetupmanager
+    delete doorDataManager;
     delete itemDataManager;
     delete effectDataManager;
     delete skillDataManager;
     delete connectionDataManager;
-    delete serverDataManager;
+    delete serverSetupManager;
     delete inputMgr;
     delete reporter;
     delete trademanager;
@@ -297,11 +297,9 @@ namespace PT
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventmanager);
 
-/*    // Create and Initialize the DoorDataManager. // Moving this to serversetupmanager
+    // Create the DoorDataManager, but don't initialize it here.
     doorDataManager = new PT::Data::DoorDataManager ();
-    if (!doorDataManager->parse())
-      return Report(PT::Error, "Failed to initialize DoorDataManager!");
-    pointerlib.setDoorDataManager(doorDataManager);*/
+    pointerlib.setDoorDataManager(doorDataManager);
 
     // Create and Initialize the ItemDataManager.
     itemDataManager = new PT::Data::ItemDataManager ();
@@ -333,9 +331,9 @@ namespace PT
       return Report(PT::Error, "Failed to initialize ConnectionDataManager!");
     pointerlib.setConnectionDataManager(connectionDataManager);
 
-    // Create the ServerDataManager but only initialize when the Server setup window is opened.
-    serverDataManager = new PT::Misc::ServerDataManager ();
-    pointerlib.setServerDataManager(serverDataManager);
+    // Create the ServerSetupManager.
+    serverSetupManager = new PT::Misc::ServerSetupManager ();
+    pointerlib.setServerSetupManager(serverSetupManager);
 
     // Create and Initialize the GUImanager.
     guimanager = new GUIManager ();

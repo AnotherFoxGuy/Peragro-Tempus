@@ -48,13 +48,13 @@ bool ServerSetupWindow::DoneButton(const CEGUI::EventArgs& e)
 
 bool ServerSetupWindow::UploadButton(const CEGUI::EventArgs& e) 
 {
-  PointerLibrary::getInstance()->getServerDataManager()->UploadServerData();
+  PointerLibrary::getInstance()->getServerSetupManager()->UploadServerData();
   return true;
 }
 
 bool ServerSetupWindow::DownloadButton(const CEGUI::EventArgs& e) 
 {
-  PointerLibrary::getInstance()->getServerDataManager()->DownloadServerData();
+  PointerLibrary::getInstance()->getServerSetupManager()->DownloadServerData();
   return true;
 }
 

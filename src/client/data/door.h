@@ -50,6 +50,10 @@ namespace PT
       std::string sectorName;
       ///ID of the key that locks/unlocks the door (ie '7').
       unsigned int keyId;
+      ///Whether the door is open or closed
+      bool open;
+      ///Whether the door is locked or not
+      bool locked;
       ///Quest to be used for door events (ie 'GateUpward').
       std::string questName;
 
@@ -75,6 +79,12 @@ namespace PT
 
       void SetKeyId(unsigned int value) { keyId = value; }
       unsigned int GetKeyId() const { return keyId; }
+
+      void SetOpenState(bool value) { open = value; }
+      bool GetOpenState() const { return open; }
+
+      void SetLockState(bool value) { locked = value; }
+      bool GetLockState() const { return locked; }
 
       void SetQuestName(const std::string& value) { questName = value; }
       const std::string& GetQuestName() const { return questName; }
