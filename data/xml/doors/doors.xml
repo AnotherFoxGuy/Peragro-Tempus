@@ -48,7 +48,7 @@
 	<door>
 		<id>5</id>
 		<name>East Arena Gate</name>
-		<mesh>Empty.1498_Gate1</mesh>
+		<mesh>Empty.1498_varena_gate_left</mesh>
 		<position y="19.0057" x="776.57" z="522.899" />
 		<sector>Canyon</sector>
 		<keyId>7</keyId>
@@ -59,7 +59,7 @@
  	<door>
 		<id>6</id>
 		<name>West Arena Gate</name>
-		<mesh>Empty.1498_a</mesh>
+		<mesh>Empty.1498_varena_gate_right</mesh>
 		<position y="19.0057" x="876.504" z="509.618" />
 		<sector>Canyon</sector>
 		<keyId>7</keyId>
