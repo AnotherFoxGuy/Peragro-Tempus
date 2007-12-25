@@ -67,6 +67,8 @@ namespace PT
        */
       Item* GetItemByName(const std::string& name) const;
 
+      void GetAllItems(std::vector<Item*>& list) { list = items; }
+
       /// Implements the DataManager superclass
       bool parseElement(iDocumentNode* node);
 

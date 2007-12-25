@@ -301,13 +301,11 @@ namespace PT
     doorDataManager = new PT::Data::DoorDataManager ();
     pointerlib.setDoorDataManager(doorDataManager);
 
-    // Create and Initialize the ItemDataManager.
+    // Create the ItemDataManager, but don't initialize it here.
     itemDataManager = new PT::Data::ItemDataManager ();
-    if (!itemDataManager->parse())
-      return Report(PT::Error, "Failed to initialize ItemDataManager!");
     pointerlib.setItemDataManager(itemDataManager);
 
-    // Create and Initialize the ItemDataManager.
+    // Create and Initialize the EffectDataManager.
     effectDataManager = new PT::Data::EffectDataManager ();
     if (!effectDataManager->LoadEffectData())
       return Report(PT::Error, "Failed to initialize EffectDataManager!");

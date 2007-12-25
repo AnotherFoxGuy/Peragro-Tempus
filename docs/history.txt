@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+25-Dec-2007
+ - Rakhun added loading of items in the serversetupmanager through the itemdatamanager instead of doing it
+   locally, and fixed some spelling.
+
 24-Dec-2007
  - PK added SpawnDoorMessage.
  - Rakhun moved item data into the database (same way as doors) and added item loading to the

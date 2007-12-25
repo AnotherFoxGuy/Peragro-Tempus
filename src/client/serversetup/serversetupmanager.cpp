@@ -33,6 +33,9 @@
 #include "client/data/door.h"
 #include "client/data/doordatamanager.h"
 
+#include "client/data/item.h"
+#include "client/data/itemdatamanager.h"
+
 namespace PT
 {
   namespace Misc
@@ -49,7 +52,7 @@ namespace PT
     bool ServerSetupManager::UploadServerData()
     {
       Report(PT::Notify, "Not yet fully implemented");
-      // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones
+      // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones (otherwise database entries cannot be updated, nor will they be possible to remove by removing them from the XML)
 
       // ==[ Doors ]=============================================================
       std::vector<PT::Data::Door*> doors;
@@ -98,44 +101,38 @@ namespace PT
         PointerLibrary::getInstance()->getNetwork()->send(&doormsg);
       }
 
-/*      // ==[ Items ]=============================================================
-      fname="/peragro/xml/items/items.xml";
-      xmlfile = vfs->ReadFile (fname);
-      if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
+      // ==[ Items ]=============================================================
+      std::vector<PT::Data::Item*> items;
 
-      docsys = csQueryRegistry<iDocumentSystem> (PointerLibrary::getInstance()->getObjectRegistry());
-      doc = docsys->CreateDocument();
+      PointerLibrary::getInstance()->getItemDataManager()->GetAllItems(items);
 
-      error = doc->Parse (xmlfile, true);
-      if (error)
+      // Initialize the ItemDataManager, if it isn't already.
+      if(items.size()==0)
       {
-        Report(PT::Error, error);
-        return false;
+        if (!PointerLibrary::getInstance()->getItemDataManager()->parse())
+        {
+          Report(PT::Error, "Failed to initialize ItemDataManager!");
+          return false;
+        }
+        PointerLibrary::getInstance()->getItemDataManager()->GetAllItems(items); // Update list
       }
 
-      fileXML = doc->GetRoot ()->GetNode ("items");
-      if (!fileXML.IsValid()) return false;
-
-      it = fileXML->GetNodes ("item");
-      while (it->HasNext())
+      for (size_t i = 0; i < items.size(); i++ )
       {
-        csRef<iDocumentNode> itemNode (it->Next());
+        unsigned int item_id = items[i]->GetId();
+        const char* name = items[i]->GetName().c_str();
+        const char* icon = items[i]->GetIconName().c_str();
+        const char* description = items[i]->GetDescription().c_str();
+        const char* file = items[i]->GetMeshFile().c_str();
+        const char* mesh = items[i]->GetMeshName().c_str();
+        float weight = items[i]->GetWeight();
+        const char* equiptype = items[i]->GetEquiptype().c_str();
 
-        unsigned int item_id = itemNode->GetNode("id")->GetContentsValueAsInt();
-        const char* name = itemNode->GetNode("name")->GetContentsValue();
-        const char* icon = itemNode->GetNode("icon")->GetContentsValue();
-        const char* description = itemNode->GetNode("description")->GetContentsValue();
-        const char* file = itemNode->GetNode("file")->GetContentsValue();
-        const char* mesh = itemNode->GetNode("mesh")->GetContentsValue();
-        unsigned int weight = itemNode->GetNode("weight")->GetContentsValueAsInt();
-        const char* equiptype = "";
-        if(itemNode->GetNode("equiptype")){equiptype = itemNode->GetNode("equiptype")->GetContentsValue();}
+        // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
+        printf("Loading item, item_id=%u, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"\n", item_id, name, icon, description, file, mesh, weight, equiptype);
 
-        // Just to avoid "unused variable" warnings, until there are better things to do with them:
-        printf("Loading item, item_id=%u, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%u, equiptype=\"%s\"\n", item_id, name, icon, description, file, mesh, weight, equiptype);
-
-        // Just send the data here, one door/package (Just don't know how yet)
-      }*/
+        // Just send the data here, one item/package
+      }
 
       return true;
     } // end UploadServerData()

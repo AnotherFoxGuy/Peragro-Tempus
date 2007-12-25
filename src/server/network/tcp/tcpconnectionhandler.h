@@ -53,7 +53,7 @@ public:
       // Check so client has the correct version
       if (request_msg.getVersion() < CLIENTMINVERSION)
       {
-        printf("Client is not good enough, its to old\n");
+        printf("Client is not good enough, it's too old\n");
         printf("Client version %d, min version %d\n", 
           request_msg.getVersion(), CLIENTMINVERSION);
         // Do not let this client connect its outdated
@@ -107,7 +107,7 @@ private:
   void handlePing(GenericMessage* msg)
   {
     printf("Received PingMessage\n");
-    // If the connection were null or if it weren't UdpConnection, this function wouldn't be called in the first place.
+    // If the connection was null or if it wasn't an UdpConnection, this function wouldn't be called in the first place.
     PongMessage pong_msg;
     ByteStream bs;
     pong_msg.serialise(&bs);
@@ -117,7 +117,7 @@ private:
   void handlePong(GenericMessage* msg)
   {
     printf("Received PongMessage\n");
-    // If the connection were null or if it weren't UdpConnection, this function wouldn't be called in the first place.
+    // If the connection was null or if it wasn't an UdpConnection, this function wouldn't be called in the first place.
     //((UdpConnection*)msg->getConnection())->seen();
   }
 };

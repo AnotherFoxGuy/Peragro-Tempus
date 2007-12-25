@@ -54,6 +54,8 @@ namespace PT
       std::string meshName;
       ///Weight of a single item in kilograms (ie '0.1').
       float weight;
+      ///Where the item can be equipped. (for example 'weapon2h' for a 2-handed weapon)
+      std::string equiptype;
 
     public:
       Item() : id(0), weight(0) {}
@@ -78,6 +80,9 @@ namespace PT
 
       void SetWeight(float value) { weight = value; }
       float GetWeight() const { return weight; }
+
+      void SetEquiptype(const std::string& value) { equiptype=value; }
+      const std::string& GetEquiptype() const { return equiptype; }
     };
   } // Data namespace
 } // PT namespace
