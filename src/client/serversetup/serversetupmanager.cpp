@@ -134,6 +134,34 @@ namespace PT
         // Just send the data here, one item/package
       }
 
+      // ==[ Sectors ]=============================================================
+      std::vector<PT::Data::Sector*> sectors;
+
+      PointerLibrary::getInstance()->getSectorDataManager()->GetAllSectors(sectors);
+
+/*      // Initialize the SectorDataManager, if it isn't already.
+      if(items.size()==0)
+      {
+        if (!PointerLibrary::getInstance()->getSectorDataManager()->parse())
+        {
+          Report(PT::Error, "Failed to initialize SectorDataManager!");
+          return false;
+        }
+        PointerLibrary::getInstance()->getSectorDataManager()->GetAllSectors(sectors); // Update list
+      }*/
+
+      for (size_t i = 0; i < sectors.size(); i++ )
+      {
+        unsigned int sector_id=sectors[i]->GetId();
+        const char* name=sectors[i]->GetName().c_str();
+        const char* region=sectors[i]->GetRegion().c_str();
+
+        // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
+        printf("Loading sector, sector_id=%u, name=\"%s\", region=\"%s\"\n", sector_id, name, region);
+
+        // Just send the data here, one sector/package
+      }
+
       return true;
     } // end UploadServerData()
 

@@ -67,6 +67,8 @@ namespace PT
        */
       Sector* GetSectorByName(const std::string& name) const;
 
+      void GetAllSectors(std::vector<Sector*>& list) { list = sectors; }
+
       /// Implements the DataManager superclass
       bool parseElement(iDocumentNode* node);
 
