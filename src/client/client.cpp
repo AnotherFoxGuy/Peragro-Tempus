@@ -303,6 +303,8 @@ namespace PT
 
     // Create the ItemDataManager, but don't initialize it here.
     itemDataManager = new PT::Data::ItemDataManager ();
+    if (!itemDataManager->parse())
+      return Report(PT::Error, "Failed to initialize ItemDataManager!");
     pointerlib.setItemDataManager(itemDataManager);
 
     // Create and Initialize the EffectDataManager.

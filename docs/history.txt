@@ -7,6 +7,7 @@ under each day.
 25-Dec-2007
  - Rakhun added loading of items in the serversetupmanager through the itemdatamanager instead of doing it
    locally, and fixed some spelling.
+ - Rakhun moved back the loading of items.
 
 24-Dec-2007
  - PK added SpawnDoorMessage.

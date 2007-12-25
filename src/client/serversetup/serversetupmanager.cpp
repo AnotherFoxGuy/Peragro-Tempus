@@ -106,7 +106,7 @@ namespace PT
 
       PointerLibrary::getInstance()->getItemDataManager()->GetAllItems(items);
 
-      // Initialize the ItemDataManager, if it isn't already.
+/*      // Initialize the ItemDataManager, if it isn't already.
       if(items.size()==0)
       {
         if (!PointerLibrary::getInstance()->getItemDataManager()->parse())
@@ -115,7 +115,7 @@ namespace PT
           return false;
         }
         PointerLibrary::getInstance()->getItemDataManager()->GetAllItems(items); // Update list
-      }
+      }*/
 
       for (size_t i = 0; i < items.size(); i++ )
       {
