@@ -313,6 +313,9 @@
 				RelativePath="..\..\src\server\ai\idle-ai.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\ai\path-ai.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\ai\stray-ai.cpp">
 			</File>
 		</Filter>
@@ -330,6 +333,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\ai\idle-ai.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\ai\path-ai.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\ai\stray-ai.h">
