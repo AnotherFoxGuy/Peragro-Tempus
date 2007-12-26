@@ -38,7 +38,7 @@ public:
   {
     char type = msg->getMsgType();
     if (type != MESSAGES::ADMIN) assert("wrong message type");
-    char id = msg->getMsgId();
+//    char id = msg->getMsgId(); // Until we need it..
 
   }
 
