@@ -6,4 +6,4 @@ Library bulletmath :
 [ Wildcard *.h *.cpp ]
 	;
 
-#InstallHeader [ Wildcard *.h ] ;
+CCFLAGS on $(bulletmath_OBJECTS) = [ Filter [ on $(bulletmath_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;

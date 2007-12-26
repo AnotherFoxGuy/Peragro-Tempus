@@ -12,3 +12,4 @@ Library bulletcollision :
 
 LinkWith bulletcollision : bulletmath ;
 
+CCFLAGS on $(bulletcollision_OBJECTS) = [ Filter [ on $(bulletcollision_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;
