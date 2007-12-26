@@ -301,6 +301,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\network\adminmessages.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\bookmessages.cpp">
 			</File>
 			<File
@@ -327,13 +330,13 @@
 			<File
 				RelativePath="..\..\src\common\network\usermessages.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\common\network\void.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\common\network\adminmessages.h">
+			</File>
 			<File
 				RelativePath="..\..\src\common\network\bookmessages.h">
 			</File>

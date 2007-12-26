@@ -312,9 +312,6 @@
 			<File
 				RelativePath="..\..\src\common\util\timerengine.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\common\util\void.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
