@@ -32,7 +32,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
 				PrecompiledHeaderFile="..\..\out\release9\build\appeventstest_static\appeventstest_static.pch"
 				AssemblerListingLocation="..\..\out\release9\build\appeventstest_static\"
 				ObjectFile="..\..\out\release9\build\appeventstest_static\"
@@ -80,7 +80,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src;..\..\.."
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -108,7 +108,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
 				PrecompiledHeaderFile="..\..\out\release9\build\appeventstest_static\appeventstest_static.pch"
 				AssemblerListingLocation="..\..\out\release9\build\appeventstest_static\"
 				ObjectFile="..\..\out\release9\build\appeventstest_static\"
@@ -156,7 +156,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src;..\..\.."
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -183,7 +183,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
 				PrecompiledHeaderFile="..\..\out\debug9\build\appeventstest_static\appeventstest_static.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\appeventstest_static\"
 				ObjectFile="..\..\out\debug9\build\appeventstest_static\"
@@ -229,7 +229,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src;..\..\.."
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -256,7 +256,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
 				PrecompiledHeaderFile="..\..\out\debug9\build\appeventstest_static\appeventstest_static.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\appeventstest_static\"
 				ObjectFile="..\..\out\debug9\build\appeventstest_static\"
@@ -302,7 +302,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src;..\..\.."
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
