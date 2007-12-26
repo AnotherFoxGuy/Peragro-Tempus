@@ -35,6 +35,7 @@ class NpcAiSettingTable;
 class NpcDialogsTable;
 class NpcDialogAnswersTable;
 class NpcEntitiesTable;
+class SpawnPointsTable;
 class BooksTable;
 class DoorsTable;
 class SectorsTable;
@@ -64,6 +65,7 @@ private:
   NpcDialogsTable* npcdialogstable;
   NpcDialogAnswersTable* npcdialoganswerstable;
   NpcEntitiesTable* npcentitiestable;
+  SpawnPointsTable* spawnpointstable;
   BooksTable* bookstable;
   DoorsTable* doorstable;
   SectorsTable* sectorstable;
@@ -100,6 +102,7 @@ public:
   NpcDialogsTable* getNpcDialogsTable() { return npcdialogstable; }
   NpcDialogAnswersTable* getNpcDialogAnswersTable() { return npcdialoganswerstable; }
   NpcEntitiesTable* getNpcEntitiesTable() { return npcentitiestable; }
+  SpawnPointsTable* getSpawnPointsTable() { return spawnpointstable; }
   BooksTable* getBooksTable() { return bookstable; }
   DoorsTable* getDoorsTable() { return doorstable; }
   SectorsTable* getSectorsTable() { return sectorstable; }

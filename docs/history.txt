@@ -10,6 +10,7 @@ under each day.
  - PK added a simple colldet example that compiles.
  - PK implemented a simple methode to load meshes from the database and pushing
    them to bullet.
+ - PK added the long overdue spawnpoints table.
 
 25-Dec-2007
  - Rakhun added loading of items in the serversetupmanager through the

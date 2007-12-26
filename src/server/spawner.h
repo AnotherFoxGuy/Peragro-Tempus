@@ -26,6 +26,8 @@
 #include "common/util/sleep.h"
 #include "server/server.h"
 
+#include "server/database/table-spawnpoints.h"
+
 class Spawner : public Timer
 {
 private:
@@ -88,10 +90,6 @@ private:
     }
   }
 
-public:
-  Spawner() : timeCounter(0) { this->setInverval(10); }
-  ~Spawner() { spawnpoints.delAll(); }
-
   void addSpawnPoint(float x, float y, float z, ptString sector, int item_id, unsigned int spawnInterval)
   {
     Item* item = Server::getServer()->getItemManager()->findById(item_id);
@@ -106,6 +104,42 @@ public:
     sp->spawnInterval = spawnInterval;
     spawnpoints.add(sp);
   }
+
+  int max_id;
+
+public:
+  Spawner() : timeCounter(0), max_id(-1) { this->setInverval(10); }
+  ~Spawner() { spawnpoints.delAll(); }
+
+  void loadFromDB(SpawnPointsTable* table)
+  {
+    Array<SpawnPointsTableVO*> points = table->getAll();
+    for (size_t i = 0; i < points.getCount(); i++)
+    {
+      SpawnPointsTableVO* p = points.get(i);
+      addSpawnPoint(p->pos_x, p->pos_y, p->pos_z, p->sector, p->item, p->interval);
+
+      if (p->id > max_id) max_id = p->id;
+    }
+  }
+
+  size_t getSpawnPointCount() const { return spawnpoints.getCount(); }
+
+  void createSpawnPoint(float x, float y, float z, ptString sector, int item_id, unsigned int spawnInterval)
+  {
+    SpawnPointsTable* table = Server::getServer()->getDatabase()->getSpawnPointsTable();
+    SpawnPointsTableVO p;
+    p.pos_x = x;
+    p.pos_y = y;
+    p.pos_z = z;
+    p.sector = sector;
+    p.item = item_id;
+    p.interval = spawnInterval;
+    p.id = ++max_id;
+    table->insert(&p);
+    addSpawnPoint(p.pos_x, p.pos_y, p.pos_z, p.sector, p.item, p.interval);
+  }
+
 };
 
 #endif // _SPAWNER_H_

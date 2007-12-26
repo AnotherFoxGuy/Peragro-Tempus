@@ -33,6 +33,7 @@
 #include "table-npcdialogs.h"
 #include "table-npcdialoganswers.h"
 #include "table-npcentities.h"
+#include "table-spawnpoints.h"
 #include "table-books.h"
 #include "table-doors.h"
 #include "table-sectors.h"
@@ -82,6 +83,7 @@ void Database::init()
   npcdialogstable = new NpcDialogsTable(this);
   npcdialoganswerstable = new NpcDialogAnswersTable(this);
   npcentitiestable = new NpcEntitiesTable(this);
+  spawnpointstable = new SpawnPointsTable(this);
   bookstable = new BooksTable(this);
   doorstable = new DoorsTable(this);
   sectorstable = new SectorsTable(this);
@@ -110,6 +112,7 @@ Database::~Database()
   delete npcdialogstable;
   delete npcdialoganswerstable;
   delete npcentitiestable;
+  delete spawnpointstable;
   delete bookstable;
   delete doorstable;
   delete sectorstable;
