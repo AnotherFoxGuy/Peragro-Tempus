@@ -27,6 +27,7 @@
 		<bool>IsOpen</bool>
 		<bool>IsLocked</bool>
 		<uint32>EntityId</uint32>
+		<string>Name</string>
 		<string>Mesh</string>
 		<uint16>SectorId</uint16>
 		<string>Animation</string>
