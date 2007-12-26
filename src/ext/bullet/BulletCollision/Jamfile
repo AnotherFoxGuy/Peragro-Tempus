@@ -10,7 +10,7 @@ Library bulletcollision :
   [ Wildcard NarrowPhaseCollision : *.h *.cpp ] 
 ;
 
-MsvcIncDirs bulletcollision : [ ConcatDirs .. ] ;
+MsvcIncDirs bulletcollision : [ ConcatDirs .. .. src ext bullet ] ;
 
 LinkWith bulletcollision : bulletmath ;
 
