@@ -8,7 +8,7 @@ if [ Property build : projgen_version ] != 6
 {
   SubVariant static ;
   
-  Application eventstest_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  Application eventstest_static : [ Wildcard *.cpp *.h ] : independent noinstall console ;
   LinkWith eventstest_static : events utils ;
   SubVariant ;
 }

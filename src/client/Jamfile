@@ -115,6 +115,8 @@ if [ Property build : projgen_version ] != 6
     glshader_cg
     thing
     thingldr
+    nullmesh
+    gmeshanimpdl
   ;
 
   cs_plugins_static_optional = 
