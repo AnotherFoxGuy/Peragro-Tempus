@@ -108,7 +108,7 @@ private:
   int max_id;
 
 public:
-  Spawner() : timeCounter(0), max_id(-1) { this->setInverval(10); }
+  Spawner() : timeCounter(0), max_id(-1) { this->setInterval(10); }
   ~Spawner() { spawnpoints.delAll(); }
 
   void loadFromDB(SpawnPointsTable* table)

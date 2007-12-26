@@ -60,11 +60,12 @@ void NpcEntitiesTable::createTable()
              "PRIMARY KEY (entity_id) );");
 
   ptString idle("idle",4);
+  ptString path("path",4);
   ptString stray("stray",5);
 
   insert(1, 1, stray, 0);
   insert(2, 2, stray, 9);
-  insert(3, 3, idle, 6);
+  insert(3, 3, path, 6);
 
   // Creating Undead Squad.
   for (int i = 0; i < 100; i++)

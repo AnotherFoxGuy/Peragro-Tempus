@@ -82,7 +82,7 @@ void EntityTable::createTable()
   float pos2[3] = { 41, 2, 172};
   insert(2, dummy1, Entity::NPCEntityType, 0, 0, test1, pos2, 0, room);
 
-  float pos3[3] = { 35, 2, 120 };
+  float pos3[3] = { 51.75f, 2.03f, 90.95f };
   insert(3, skel_trader, Entity::NPCEntityType, 0, 0, skel, pos3, 0, room);
 
 
@@ -136,7 +136,6 @@ void EntityTable::createTable()
   insert(116, horse, Entity::MountEntityType, 0, 0, horse, pos16, 0, canyon);
   float pos17[3] = { 868.227600,17.529799,671.650208 };
   insert(117, horse, Entity::MountEntityType, 0, 0, horse, pos17, 0, canyon);
-
 }
 
 void EntityTable::insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], float rot, ptString sector)

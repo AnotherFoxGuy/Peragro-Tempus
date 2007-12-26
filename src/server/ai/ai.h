@@ -30,6 +30,8 @@ private:
   static ptString idle;
   static ptString stray;
   static ptString guard;
+  static ptString path;
+
 protected:
   virtual void think() = 0;
   bool paused;

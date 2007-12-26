@@ -46,7 +46,7 @@ void StrayAI::setNPC(NpcEntity* npc)
   interval_rand = atoi(*table->getValue(id, ptString("interval_rand", 13)));
 
   // Timer
-  setInverval(interval_base);
+  setInterval(interval_base);
   start();
 }
 
@@ -64,7 +64,7 @@ void StrayAI::think()
   }
   // Timer
   float random = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
-  setInverval((int) (interval_base + random * interval_rand));
+  setInterval((int) (interval_base + random * interval_rand));
 
   float pos[3];
   pos [0] = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;

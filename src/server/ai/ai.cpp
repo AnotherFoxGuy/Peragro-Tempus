@@ -21,10 +21,12 @@
 #include "idle-ai.h"
 #include "stray-ai.h"
 #include "guard-ai.h"
+#include "path-ai.h"
 
 ptString AI::idle("idle", 4);
 ptString AI::stray("stray", 5);
 ptString AI::guard("guard", 5);
+ptString AI::path("path", 4);
 
 AI* AI::createAI(ptString ai_name)
 {
@@ -39,6 +41,10 @@ AI* AI::createAI(ptString ai_name)
   else if (ai_name == guard)
   {
     return new GuardAI();
+  }
+  else if (ai_name == path)
+  {
+    return new PathAI();
   }
   return 0;
 }

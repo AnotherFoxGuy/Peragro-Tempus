@@ -16,32 +16,35 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ENVIRONMENT_H_
-#define _ENVIRONMENT_H_
+#ifndef _PATH_AI_H_
+#define _PATH_AI_H_
 
-#include "common/util/timer.h"
-#include "common/util/sleep.h"
+#include "ai.h"
 
-class Environment : public Timer
+class PtVector3;
+
+class PathAI : public AI
 {
 private:
-  unsigned char daytime;
+  NpcEntity* npc;
 
-  // Timer implementation
-  void timeOut()
-  {
-    broadcastTime();
-  }
+  PtVector3* points;
+  unsigned int* intervals;
+  unsigned int pointCount;
 
-  void broadcastTime();
+  unsigned int currentPoint;
+
+  float speed;
+
+protected:
+  virtual void timeOut();
 
 public:
-  Environment()
-  {
-    daytime = 0;
-    this->setInterval(125); // 12.5 sec * 24 = 5 min
-    this->start();
-  }
+  PathAI() : points(0), intervals(0) {}
+  virtual ~PathAI();
+
+  virtual void setNPC(NpcEntity* npc);
+  virtual void think();
 };
 
-#endif // _ENVIRONMENT_H_
+#endif // _PATH_AI_H_

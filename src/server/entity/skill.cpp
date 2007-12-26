@@ -90,7 +90,7 @@ void Skill::castPrepare(Character* caster, unsigned int target_id)
     caster->getStats()->takeStat(mp, mpCost);
 
     skilldata->state = SkillState::CASTING;
-    skilldata->setInverval(skillTime);
+    skilldata->setInterval(skillTime);
     skilldata->start();
 
     // Broadcast the skill start.
@@ -111,7 +111,7 @@ void Skill::castInterrupt(CharSkill* skilldata)
   {
     skilldata->stop();
     skilldata->state = SkillState::RECOVER;
-    skilldata->setInverval(reuseDelay);
+    skilldata->setInterval(reuseDelay);
     skilldata->start();
   }
 
@@ -131,7 +131,7 @@ void Skill::castExecute(CharSkill* skilldata)
   {
     skilldata->stop();
     skilldata->state = SkillState::RECOVER;
-    skilldata->setInverval(reuseDelay);
+    skilldata->setInterval(reuseDelay);
     skilldata->start();
   }
 
