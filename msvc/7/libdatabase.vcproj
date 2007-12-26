@@ -328,6 +328,9 @@
 				RelativePath="..\..\src\server\database\table-items.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-meshes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-npcaisetting.cpp">
 			</File>
 			<File
@@ -361,7 +364,13 @@
 				RelativePath="..\..\src\server\database\table-stats.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-triangles.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-users.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-vertices.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -398,6 +407,9 @@
 				RelativePath="..\..\src\server\database\table-items.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-meshes.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-npcaisetting.h">
 			</File>
 			<File
@@ -431,7 +443,13 @@
 				RelativePath="..\..\src\server\database\table-stats.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-triangles.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-users.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-vertices.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table.h">

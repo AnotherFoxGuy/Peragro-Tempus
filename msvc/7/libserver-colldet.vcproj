@@ -301,7 +301,17 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\colldet\colldet.cpp">
+				RelativePath="..\..\src\server\colldet\bullet.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\server\colldet\bullet.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\colldet\colldet.h">
 			</File>
 		</Filter>
 	</Files>
