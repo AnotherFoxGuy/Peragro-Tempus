@@ -29,7 +29,7 @@
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release8\build\appeventstest_static\eventstest_static.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;WIN32"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
@@ -53,7 +53,7 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\eventstest_static.exe"
 				ProgramDatabaseFile="..\..\out\release8\build\appeventstest_static\eventstest_static.pdb"
-				SubSystem="2"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -64,7 +64,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -79,7 +79,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;PROJECTGEN_VERSION=8"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=8"
 				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
@@ -105,7 +105,7 @@
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release8\build\appeventstest_static\eventstest_static.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
@@ -129,7 +129,7 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\eventstest_static.exe"
 				ProgramDatabaseFile="..\..\out\release8\build\appeventstest_static\eventstest_static.pdb"
-				SubSystem="2"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -140,7 +140,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -155,7 +155,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;PROJECTGEN_VERSION=8"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=8"
 				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
@@ -180,7 +180,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug8\build\appeventstest_static\eventstest_static.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;WIN32"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
@@ -213,7 +213,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -228,7 +228,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;PROJECTGEN_VERSION=8"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=8"
 				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
@@ -253,7 +253,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug8\build\appeventstest_static\eventstest_static.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\src"
@@ -286,7 +286,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -301,7 +301,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;PROJECTGEN_VERSION=8"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CONSOLE;PROJECTGEN_VERSION=8"
 				AdditionalIncludeDirectories=".;..\..\src\tests\eventstest;..\..;..\..\src"
 				Culture="1033"/>
 			<Tool
