@@ -1,0 +1,19 @@
+<message-implementation>
+	<message type="Admin" name="CreateSector">
+		<uint16>SectorId</uint16>
+		<string>Name</string>
+		<string>Region</string>
+	</message>
+
+	<message type="Admin" name="CreateItem">
+		<uint32>ItemId</uint32>
+		<string>Name</string>
+		<string>Icon</string>
+		<string>Description</string>
+		<string>File</string>
+		<string>Mesh</string>
+		<uint32>Weight</uint32>
+		<string>EquipType</string>
+	</message>
+
+</message-implementation>

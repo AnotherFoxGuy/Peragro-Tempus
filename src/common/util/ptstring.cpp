@@ -18,4 +18,11 @@
 
 #include "ptstring.h"
 
+#include <string>
+
 ptString ptString::Null(0,0);
+
+ptString ptString::create(const std::string& str)
+{
+  return ptString(str.c_str(), str.length());
+}

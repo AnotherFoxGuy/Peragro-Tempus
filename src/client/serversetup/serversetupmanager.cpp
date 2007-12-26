@@ -54,21 +54,33 @@ namespace PT
       Report(PT::Notify, "Not yet fully implemented");
       // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones (otherwise database entries cannot be updated, nor will they be possible to remove by removing them from the XML)
 
+      // ==[ Sectors ]=============================================================
+      std::vector<PT::Data::Sector*> sectors;
+
+      PointerLibrary::getInstance()->getSectorDataManager()->GetAllSectors(sectors);
+
+      for (size_t i = 0; i < sectors.size(); i++ )
+      {
+        unsigned int sector_id=sectors[i]->GetId();
+        ptString name = ptString::create(sectors[i]->GetName());
+        ptString region = ptString::create(sectors[i]->GetRegion());
+
+        // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
+        Report(PT::Debug, "Loading sector, sector_id=%u, name=\"%s\", region=\"%s\"\n", sector_id, name, region);
+
+        // Just send the data here, one sector/package
+        CreateSectorMessage sectormsg;
+        sectormsg.setSectorId(sector_id);
+        sectormsg.setName(name);
+        sectormsg.setRegion(region);
+
+        PointerLibrary::getInstance()->getNetwork()->send(&sectormsg);
+      }
+
       // ==[ Doors ]=============================================================
       std::vector<PT::Data::Door*> doors;
 
       PointerLibrary::getInstance()->getDoorDataManager()->GetAllDoors(doors);
-
-      // Initialize the DoorDataManager, if it isn't already.
-      if(doors.size()==0)
-      {
-        if (!PointerLibrary::getInstance()->getDoorDataManager()->parse())
-        {
-          Report(PT::Error, "Failed to initialize DoorDataManager!");
-          return false;
-        }
-        PointerLibrary::getInstance()->getDoorDataManager()->GetAllDoors(doors); // Update list
-      }
 
       for (size_t i = 0; i < doors.size(); i++ )
       {
@@ -86,12 +98,16 @@ namespace PT
 
         PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
 
+        unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
+
+        Report(PT::Debug, "Loading doors, id=%u, name=\"%s\", sector=\"%s\"\n", door_id, name, sector);
+
         // Just send the data here, one door/package. TCP will group it as suitable
         SpawnDoorMessage doormsg;
         doormsg.setDoorId(door_id);
         doormsg.setName(ptString(name, strlen(name)));
         doormsg.setMesh(ptString(mesh, strlen(mesh)));
-        doormsg.setSectorId(secmgr->GetSectorByName(sector)->GetId());
+        doormsg.setSectorId(sector_id);
         doormsg.setPos(position.x, position.y, position.z);
         doormsg.setAnimation(ptString(quest, strlen(quest)));
 
@@ -106,60 +122,31 @@ namespace PT
 
       PointerLibrary::getInstance()->getItemDataManager()->GetAllItems(items);
 
-/*      // Initialize the ItemDataManager, if it isn't already.
-      if(items.size()==0)
-      {
-        if (!PointerLibrary::getInstance()->getItemDataManager()->parse())
-        {
-          Report(PT::Error, "Failed to initialize ItemDataManager!");
-          return false;
-        }
-        PointerLibrary::getInstance()->getItemDataManager()->GetAllItems(items); // Update list
-      }*/
-
       for (size_t i = 0; i < items.size(); i++ )
       {
         unsigned int item_id = items[i]->GetId();
-        const char* name = items[i]->GetName().c_str();
-        const char* icon = items[i]->GetIconName().c_str();
-        const char* description = items[i]->GetDescription().c_str();
-        const char* file = items[i]->GetMeshFile().c_str();
-        const char* mesh = items[i]->GetMeshName().c_str();
+        ptString name = ptString::create(items[i]->GetName());
+        ptString icon = ptString::create(items[i]->GetIconName());
+        ptString description = ptString::create(items[i]->GetDescription());
+        ptString file = ptString::create(items[i]->GetMeshFile());
+        ptString mesh = ptString::create(items[i]->GetMeshName());
         float weight = items[i]->GetWeight();
-        const char* equiptype = items[i]->GetEquiptype().c_str();
+        ptString equiptype = ptString::create(items[i]->GetEquiptype());
 
         // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
-        printf("Loading item, item_id=%u, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"\n", item_id, name, icon, description, file, mesh, weight, equiptype);
+        Report(PT::Debug, "Loading item, item_id=%u, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"\n", item_id, name, icon, description, file, mesh, weight, equiptype);
 
         // Just send the data here, one item/package
-      }
-
-      // ==[ Sectors ]=============================================================
-      std::vector<PT::Data::Sector*> sectors;
-
-      PointerLibrary::getInstance()->getSectorDataManager()->GetAllSectors(sectors);
-
-/*      // Initialize the SectorDataManager, if it isn't already.
-      if(items.size()==0)
-      {
-        if (!PointerLibrary::getInstance()->getSectorDataManager()->parse())
-        {
-          Report(PT::Error, "Failed to initialize SectorDataManager!");
-          return false;
-        }
-        PointerLibrary::getInstance()->getSectorDataManager()->GetAllSectors(sectors); // Update list
-      }*/
-
-      for (size_t i = 0; i < sectors.size(); i++ )
-      {
-        unsigned int sector_id=sectors[i]->GetId();
-        const char* name=sectors[i]->GetName().c_str();
-        const char* region=sectors[i]->GetRegion().c_str();
-
-        // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
-        printf("Loading sector, sector_id=%u, name=\"%s\", region=\"%s\"\n", sector_id, name, region);
-
-        // Just send the data here, one sector/package
+        CreateItemMessage itemmsg;
+        itemmsg.setItemId(item_id);
+        itemmsg.setName(name);
+        itemmsg.setIcon(icon);
+        itemmsg.setDescription(description);
+        itemmsg.setFile(file);
+        itemmsg.setMesh(mesh);
+        itemmsg.setWeight(weight);
+        itemmsg.setEquipType(equiptype);
+        PointerLibrary::getInstance()->getNetwork()->send(&itemmsg);
       }
 
       return true;

@@ -51,6 +51,8 @@ public:
     str_cache = str.str_cache;
   }
 
+  static ptString create(const std::string& str);
+
   inline const char* operator*() const
   {
     if (!str_cache && string_id > 0)

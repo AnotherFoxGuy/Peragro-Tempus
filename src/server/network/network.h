@@ -32,6 +32,7 @@
 #include "server/network/chathandler.h"
 #include "server/network/environmenthandler.h"
 #include "server/network/bookhandler.h"
+#include "server/network/adminhandler.h"
 
 class Network
 {
@@ -45,6 +46,7 @@ private:
   TradeHandler trade_handler;
   EnvironmentHandler environment_handler;
   BookHandler book_handler;
+  AdminHandler admin_handler;
   TcpNetwork tcp_nw;
 
 public:
@@ -52,6 +54,7 @@ public:
   : user_handler(server), ent_handler(server), chat_handler(server),
     door_handler(server), quest_handler(server), skill_handler(server),
     trade_handler(server), environment_handler(server), book_handler(server),
+    admin_handler(server),
     tcp_nw()
   {
     server->setNetwork(this);
@@ -69,6 +72,7 @@ public:
     tcp_nw.registerHandler(&trade_handler);
     tcp_nw.registerHandler(&environment_handler);
     tcp_nw.registerHandler(&book_handler);
+    tcp_nw.registerHandler(&admin_handler);
     tcp_nw.start();
   }
 
