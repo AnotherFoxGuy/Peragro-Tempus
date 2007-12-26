@@ -361,6 +361,9 @@
 				RelativePath="..\..\src\server\database\table-skills.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-spawnpoints.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-stats.cpp">
 			</File>
 			<File
@@ -438,6 +441,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-skills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-spawnpoints.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-stats.h">
