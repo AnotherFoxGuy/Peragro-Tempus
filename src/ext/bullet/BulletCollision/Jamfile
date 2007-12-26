@@ -1,6 +1,6 @@
 SubDir TOP src ext bullet BulletCollision ;
 
-IncludeDir .. ;
+IncludeDir $(TOP) src ext bullet : : literal transient ;
 
 Description bulletcollision : "Bullet Collision Detection" ;
 Library bulletcollision :
