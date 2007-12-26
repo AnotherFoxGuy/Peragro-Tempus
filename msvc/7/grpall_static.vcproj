@@ -29,7 +29,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\release7\build\grpall_static\grpall_static.pch"
 				AssemblerListingLocation="..\..\out\release7\build\grpall_static\"
 				ObjectFile="..\..\out\release7\build\grpall_static\"
@@ -75,7 +75,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -100,7 +100,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\release7\build\grpall_static\grpall_static.pch"
 				AssemblerListingLocation="..\..\out\release7\build\grpall_static\"
 				ObjectFile="..\..\out\release7\build\grpall_static\"
@@ -146,7 +146,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -171,7 +171,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\debug7\build\grpall_static\grpall_static.pch"
 				AssemblerListingLocation="..\..\out\debug7\build\grpall_static\"
 				ObjectFile="..\..\out\debug7\build\grpall_static\"
@@ -215,7 +215,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -240,7 +240,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\debug7\build\grpall_static\grpall_static.pch"
 				AssemblerListingLocation="..\..\out\debug7\build\grpall_static\"
 				ObjectFile="..\..\out\debug7\build\grpall_static\"
@@ -284,7 +284,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

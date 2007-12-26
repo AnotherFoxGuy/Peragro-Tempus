@@ -30,7 +30,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;SQLITE_OMIT_LOAD_EXTENSION;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\release7\build\libsqlite_lib\libsqlite_lib.pch"
 				AssemblerListingLocation="..\..\out\release7\build\libsqlite_lib\"
 				ObjectFile="..\..\out\release7\build\libsqlite_lib\"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;SQLITE_OMIT_LOAD_EXTENSION;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -102,7 +102,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;SQLITE_OMIT_LOAD_EXTENSION;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\release7\build\libsqlite_lib\libsqlite_lib.pch"
 				AssemblerListingLocation="..\..\out\release7\build\libsqlite_lib\"
 				ObjectFile="..\..\out\release7\build\libsqlite_lib\"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;SQLITE_OMIT_LOAD_EXTENSION;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -174,7 +174,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;SQLITE_OMIT_LOAD_EXTENSION;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\debug7\build\libsqlite_lib\libsqlite_lib.pch"
 				AssemblerListingLocation="..\..\out\debug7\build\libsqlite_lib\"
 				ObjectFile="..\..\out\debug7\build\libsqlite_lib\"
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;SQLITE_OMIT_LOAD_EXTENSION;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -244,7 +244,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;SQLITE_OMIT_LOAD_EXTENSION;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\debug7\build\libsqlite_lib\libsqlite_lib.pch"
 				AssemblerListingLocation="..\..\out\debug7\build\libsqlite_lib\"
 				ObjectFile="..\..\out\debug7\build\libsqlite_lib\"
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;SQLITE_OMIT_LOAD_EXTENSION;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

@@ -29,7 +29,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\release8\build\grpapps_static\grpapps_static.pch"
 				AssemblerListingLocation="..\..\out\release8\build\grpapps_static\"
 				ObjectFile="..\..\out\release8\build\grpapps_static\"
@@ -75,7 +75,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -100,7 +100,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\release8\build\grpapps_static\grpapps_static.pch"
 				AssemblerListingLocation="..\..\out\release8\build\grpapps_static\"
 				ObjectFile="..\..\out\release8\build\grpapps_static\"
@@ -146,7 +146,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -171,7 +171,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\debug8\build\grpapps_static\grpapps_static.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\grpapps_static\"
 				ObjectFile="..\..\out\debug8\build\grpapps_static\"
@@ -215,7 +215,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -240,7 +240,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\.."
 				PrecompiledHeaderFile="..\..\out\debug8\build\grpapps_static\grpapps_static.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\grpapps_static\"
 				ObjectFile="..\..\out\debug8\build\grpapps_static\"
@@ -284,7 +284,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\src;..\..\.."
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
