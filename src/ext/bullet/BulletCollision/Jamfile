@@ -10,6 +10,8 @@ Library bulletcollision :
   [ Wildcard NarrowPhaseCollision : *.h *.cpp ] 
 ;
 
+MsvcIncDirs bulletcollision : [ ConcatDirs .. ] ;
+
 LinkWith bulletcollision : bulletmath ;
 
 CCFLAGS on $(bulletcollision_OBJECTS) = [ Filter [ on $(bulletcollision_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;
