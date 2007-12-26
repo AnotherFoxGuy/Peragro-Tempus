@@ -1,7 +1,6 @@
 SubDir TOP src ext bullet ;
 
 SubInclude TOP src ext bullet BulletCollision ;
-SubInclude TOP src ext bullet BulletDynamics ;
 SubInclude TOP src ext bullet LinearMath ;
 
 Recurse InstallHeader : .h  ;

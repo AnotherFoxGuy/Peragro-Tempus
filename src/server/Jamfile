@@ -1,6 +1,7 @@
 SubDir TOP src server ;
 
 SubInclude TOP src server ai ;
+SubInclude TOP src server colldet ;
 SubInclude TOP src server database ;
 SubInclude TOP src server entity ;
 SubInclude TOP src server loader ;

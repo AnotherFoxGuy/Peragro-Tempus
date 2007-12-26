@@ -1,5 +1,6 @@
 SubDir TOP src ext bullet BulletCollision ;
 
+IncludeDir .. ;
 
 Description bulletcollision : "Bullet Collision Detection" ;
 Library bulletcollision :
@@ -8,5 +9,6 @@ Library bulletcollision :
   [ Wildcard CollisionShapes : *.h *.cpp ] 
   [ Wildcard NarrowPhaseCollision : *.h *.cpp ] 
 ;
+
 LinkWith bulletcollision : bulletmath ;
 

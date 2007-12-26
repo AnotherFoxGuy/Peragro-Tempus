@@ -27,7 +27,7 @@ if $(WSOCK32.LFLAGS) {
     LFlags client : $(WSOCK32.LFLAGS) ;
 }
 
-if [ Property build : projgen_version ] != 6
+if $(HAVE_STATIC_PLUGINS) = "yes"
 {
   SubVariant static ;
   
