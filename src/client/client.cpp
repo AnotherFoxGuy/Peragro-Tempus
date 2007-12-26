@@ -299,6 +299,8 @@ namespace PT
 
     // Create the DoorDataManager, but don't initialize it here.
     doorDataManager = new PT::Data::DoorDataManager ();
+    if (!doorDataManager->parse())
+      return Report(PT::Error, "Failed to initialize DoorDataManager!");
     pointerlib.setDoorDataManager(doorDataManager);
 
     // Create and Initialize the ItemDataManager.

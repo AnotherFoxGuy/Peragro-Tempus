@@ -66,7 +66,7 @@ namespace PT
         ptString region = ptString::create(sectors[i]->GetRegion());
 
         // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
-        Report(PT::Debug, "Loading sector, sector_id=%u, name=\"%s\", region=\"%s\"\n", sector_id, name, region);
+        Report(PT::Debug, "Loading sector, sector_id=%d, name=\"%s\", region=\"%s\"", sector_id, *name, *region);
 
         // Just send the data here, one sector/package
         CreateSectorMessage sectormsg;
@@ -100,7 +100,7 @@ namespace PT
 
         unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
 
-        Report(PT::Debug, "Loading doors, id=%u, name=\"%s\", sector=\"%s\"\n", door_id, name, sector);
+        Report(PT::Debug, "Loading doors, id=%d, name=\"%s\", sector=\"%s\"", door_id, name, sector);
 
         // Just send the data here, one door/package. TCP will group it as suitable
         SpawnDoorMessage doormsg;
@@ -134,7 +134,7 @@ namespace PT
         ptString equiptype = ptString::create(items[i]->GetEquiptype());
 
         // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
-        Report(PT::Debug, "Loading item, item_id=%u, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"\n", item_id, name, icon, description, file, mesh, weight, equiptype);
+        Report(PT::Debug, "Loading item, item_id=%d, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"", item_id, *name, *icon, *description, *file, *mesh, weight, *equiptype);
 
         // Just send the data here, one item/package
         CreateItemMessage itemmsg;
