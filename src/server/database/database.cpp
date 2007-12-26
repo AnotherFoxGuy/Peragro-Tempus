@@ -37,6 +37,9 @@
 #include "table-doors.h"
 #include "table-sectors.h"
 #include "table-permissions.h"
+#include "table-meshes.h"
+#include "table-vertices.h"
+#include "table-triangles.h"
 
 Database::Database()
 {
@@ -83,6 +86,9 @@ void Database::init()
   doorstable = new DoorsTable(this);
   sectorstable = new SectorsTable(this);
   permissionstable = new PermissionsTable(this);
+  meshestable = new MeshesTable(this);
+  verticestable = new VerticesTable(this);
+  trianglestable = new TrianglesTable(this);
   update("commit");
 }
 
@@ -108,5 +114,8 @@ Database::~Database()
   delete doorstable;
   delete sectorstable;
   delete permissionstable;
+  delete meshestable;
+  delete verticestable;
+  delete trianglestable;
 }
 

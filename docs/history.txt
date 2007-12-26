@@ -8,19 +8,22 @@ under each day.
  - PK fixed static msvc builds.
  - PK added the bullet library to ext. Not yet in the build system.
  - PK added a simple colldet example that compiles.
+ - PK implemented a simple methode to load meshes from the database and pushing
+   them to bullet.
 
 25-Dec-2007
- - Rakhun added loading of items in the serversetupmanager through the itemdatamanager instead of doing it
-   locally, and fixed some spelling.
+ - Rakhun added loading of items in the serversetupmanager through the
+   itemdatamanager instead of doing it locally, and fixed some spelling.
  - Rakhun moved back the loading of items.
  - Rakhun added sectors to the serversetupmanager.
 
 24-Dec-2007
  - PK added SpawnDoorMessage.
- - Rakhun moved item data into the database (same way as doors) and added item loading to the
-   serverdatamanager along with some tidying up.
- - Rakhun renamed ServerDataManager to ServerSetupManager, fixed the interaction with the doordatamanager
-   and moved the initialization of doordatamanager to the upload function.
+ - Rakhun moved item data into the database (same way as doors) and added item
+   loading to the serverdatamanager along with some tidying up.
+ - Rakhun renamed ServerDataManager to ServerSetupManager, fixed the interaction
+   with the doordatamanager and moved the initialization of doordatamanager to
+   the upload function.
 
 23-Dec-2007
  - Rakhun fixed some more warnings appearing with -Wall.
@@ -31,12 +34,13 @@ under each day.
 22-Dec-2007
  - PK moved the common\data classes to client\data and implemented a 
    DataManager super class.
- - Rakhun fixed a warning: ‘class PT::Data::DataManager’ has virtual functions
-   but non-virtual destructor.
+ - Rakhun fixed a warning: ‘class PT::Data::DataManager’ has virtual
+   functions but non-virtual destructor.
  - PK merged the items database class back from revision 427.
  - Rakhun added scripts/networkcodegenerator.sh, not fully working yet.
- - Rakhun added all currently used datatypes and added generation of nwtypes.h to the
-   networkcodegenerator script and made it skip messagetypes using the yet missing list feature.
+ - Rakhun added all currently used datatypes and added generation of nwtypes.h
+   to the networkcodegenerator script and made it skip messagetypes using the
+   yet missing list feature.
 
 21-Dec-2007
  - Rakhun changed door data to primarily be stored in the database, part of

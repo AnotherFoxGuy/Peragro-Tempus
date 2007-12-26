@@ -39,6 +39,9 @@ class BooksTable;
 class DoorsTable;
 class SectorsTable;
 class PermissionsTable;
+class MeshesTable;
+class VerticesTable;
+class TrianglesTable;
 
 #include "resultset.h"
 
@@ -65,6 +68,9 @@ private:
   DoorsTable* doorstable;
   SectorsTable* sectorstable;
   PermissionsTable* permissionstable;
+  MeshesTable* meshestable;
+  VerticesTable* verticestable;
+  TrianglesTable* trianglestable;
 
 public:
   virtual ResultSet* query(const char*, ...) = 0;
@@ -98,6 +104,10 @@ public:
   DoorsTable* getDoorsTable() { return doorstable; }
   SectorsTable* getSectorsTable() { return sectorstable; }
   PermissionsTable* getPermissionsTable() { return permissionstable; }
+  MeshesTable* getMeshesTable() { return meshestable; }
+  VerticesTable* getVerticesTable() { return verticestable; }
+  TrianglesTable* getTrianglesTable() { return trianglestable; }
+
 };
 
 #endif // DATABASE_H

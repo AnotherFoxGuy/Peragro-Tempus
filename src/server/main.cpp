@@ -51,6 +51,7 @@
 #include "server/environment.h"
 #include "server/spawner.h"
 #include "server/network/network.h"
+#include "server/colldet/bullet.h"
 
 #include "common/util/wincrashdump.h"
 
@@ -159,6 +160,12 @@ int main(int argc, char ** argv)
   // Loading doors from file (to be removed when server setup through the client is working)
   //fileloader.getDoorsFile()->load();
 
+  printf("Initialising collision detection... ");
+  BulletCD cd;
+  cd.setup();
+  printf("done\n");
+  //cd.begin();
+
   Spawner spawner;
   server.setSpawner(&spawner);
   // TODO: load that from DB rather than hardcoding
@@ -196,6 +203,8 @@ int main(int argc, char ** argv)
       printf("Network Usage: Up: %.2f kB/s\t Down: %.2f kB/s\n", uptraffic, downtraffic);
     }
   }
+
+  //cd.kill();
 
   StringStore::destroy();
 

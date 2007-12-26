@@ -1,9 +1,13 @@
 SubDir TOP src ext bullet LinearMath ;
 
+IncludeDir $(TOP) src ext bullet : : literal transient ;
+
 Description bulletmath : "Bullet Math Library" ;
 
 Library bulletmath :
 [ Wildcard *.h *.cpp ]
 	;
+
+LinkWith bulletcollision : bulletmath ;
 
 CCFLAGS on $(bulletmath_OBJECTS) = [ Filter [ on $(bulletmath_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;

@@ -16,25 +16,26 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#ifndef PT_BULLET_H
+#define PT_BULLET_H
 
-#undef FD_SETSIZE
-#define FD_SETSIZE 128
+#include "colldet.h"
 
-#ifdef WIN32
-  #include <winsock.h>
-  #define socklen int
-#else
-  #include <sys/socket.h>
-  #include <netinet/in.h>
-  #include <netinet/tcp.h>
-  #include <arpa/inet.h>
-  #include <unistd.h>
-  #include <netdb.h>
-  #include <sys/ioctl.h>
-  #include <errno.h>
-  #define socklen socklen_t
-#endif
+class btCollisionWorld;
 
-#endif
+class BulletCD : public CollisionDetection
+{
+private:
+  btCollisionWorld* collisionWorld;
+
+protected:
+  virtual void Run();
+
+public:
+  BulletCD() {}
+  virtual ~BulletCD() {}
+
+  virtual void setup();
+};
+
+#endif // PT_BULLET_H

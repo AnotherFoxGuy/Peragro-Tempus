@@ -16,25 +16,42 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#ifndef _TABLE_TRIANGLES_H_
+#define _TABLE_TRIANGLES_H_
 
-#undef FD_SETSIZE
-#define FD_SETSIZE 128
+class Database;
+class ResultSet;
 
-#ifdef WIN32
-  #include <winsock.h>
-  #define socklen int
-#else
-  #include <sys/socket.h>
-  #include <netinet/in.h>
-  #include <netinet/tcp.h>
-  #include <arpa/inet.h>
-  #include <unistd.h>
-  #include <netdb.h>
-  #include <sys/ioctl.h>
-  #include <errno.h>
-  #define socklen socklen_t
-#endif
+#include "common/util/ptstring.h"
 
-#endif
+class TrianglesTableVO
+{
+public:
+  int mesh;
+  int num;
+  int a;
+  int b;
+  int c;
+};
+
+class TrianglesTable
+{
+private:
+  Database* db;
+
+  TrianglesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
+  Array<TrianglesTableVO*> parseMultiResultSet(ResultSet* rs);
+public:
+  TrianglesTable(Database* db);
+
+  void createTable();
+
+  void insert(TrianglesTableVO* vo);
+  void remove(int mesh, int num);
+
+  Array<TrianglesTableVO*> getAll();
+  Array<TrianglesTableVO*> getAllByMesh(int mesh);
+};
+
+#endif // _TABLE_TRIANGLES_H_
+

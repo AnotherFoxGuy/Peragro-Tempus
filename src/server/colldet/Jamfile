@@ -3,4 +3,4 @@ SubDir TOP src server colldet ;
 Description server-colldet : "server collision detection" ;
 Library server-colldet :
   [ Wildcard *.h *.cpp ] ;
-LinkWith server-colldet : bulletcollision ;
+LinkWith server-colldet : bulletcollision bulletmath ;

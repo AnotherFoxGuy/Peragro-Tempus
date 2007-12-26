@@ -16,25 +16,42 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#ifndef _TABLE_VERTICES_H_
+#define _TABLE_VERTICES_H_
 
-#undef FD_SETSIZE
-#define FD_SETSIZE 128
+class Database;
+class ResultSet;
 
-#ifdef WIN32
-  #include <winsock.h>
-  #define socklen int
-#else
-  #include <sys/socket.h>
-  #include <netinet/in.h>
-  #include <netinet/tcp.h>
-  #include <arpa/inet.h>
-  #include <unistd.h>
-  #include <netdb.h>
-  #include <sys/ioctl.h>
-  #include <errno.h>
-  #define socklen socklen_t
-#endif
+#include "common/util/ptstring.h"
 
-#endif
+class VerticesTableVO
+{
+public:
+  int mesh;
+  int num;
+  float x;
+  float y;
+  float z;
+};
+
+class VerticesTable
+{
+private:
+  Database* db;
+
+  VerticesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
+  Array<VerticesTableVO*> parseMultiResultSet(ResultSet* rs);
+public:
+  VerticesTable(Database* db);
+
+  void createTable();
+
+  void insert(VerticesTableVO* vo);
+  void remove(int mesh, int num);
+
+  Array<VerticesTableVO*> getAll();
+  Array<VerticesTableVO*> getAllByMesh(int mesh);
+};
+
+#endif // _TABLE_VERTICES_H_
+

@@ -16,25 +16,39 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#ifndef _TABLE_MESHES_H_
+#define _TABLE_MESHES_H_
 
-#undef FD_SETSIZE
-#define FD_SETSIZE 128
+class Database;
+class ResultSet;
 
-#ifdef WIN32
-  #include <winsock.h>
-  #define socklen int
-#else
-  #include <sys/socket.h>
-  #include <netinet/in.h>
-  #include <netinet/tcp.h>
-  #include <arpa/inet.h>
-  #include <unistd.h>
-  #include <netdb.h>
-  #include <sys/ioctl.h>
-  #include <errno.h>
-  #define socklen socklen_t
-#endif
+#include "common/util/ptstring.h"
 
-#endif
+class MeshesTableVO
+{
+public:
+  int id;
+  int sector;
+  ptString name;
+};
+
+class MeshesTable
+{
+private:
+  Database* db;
+
+  MeshesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
+  Array<MeshesTableVO*> parseMultiResultSet(ResultSet* rs);
+public:
+  MeshesTable(Database* db);
+
+  void createTable();
+
+  void insert(MeshesTableVO* vo);
+  void remove(int id);
+
+  Array<MeshesTableVO*> getAll();
+};
+
+#endif // _TABLE_MESHES_H_
+

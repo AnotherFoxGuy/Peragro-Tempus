@@ -16,25 +16,18 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#ifndef PT_COLLDET_H
+#define PT_COLLDET_H
 
-#undef FD_SETSIZE
-#define FD_SETSIZE 128
+#include "common/util/thread.h"
 
-#ifdef WIN32
-  #include <winsock.h>
-  #define socklen int
-#else
-  #include <sys/socket.h>
-  #include <netinet/in.h>
-  #include <netinet/tcp.h>
-  #include <arpa/inet.h>
-  #include <unistd.h>
-  #include <netdb.h>
-  #include <sys/ioctl.h>
-  #include <errno.h>
-  #define socklen socklen_t
-#endif
+class CollisionDetection : public Thread
+{
+public:
+  CollisionDetection() {}
+  virtual ~CollisionDetection() {}
 
-#endif
+  virtual void setup() = 0;
+};
+
+#endif // PT_COLLDET_H
