@@ -1,0 +1,77 @@
+<npcs>
+	<npc>
+		<name>test-dummy</name>
+		<mesh>test</mesh>
+		<position sector="room" x="29" y="2" z="106"/>
+		<race>test</race> <!-- used for stats -->
+		<hair><color r="255" g="255" b="255" /></hair>
+		<skin><color r="255" g="255" b="255" /></skin>
+		<decal><color r="255" g="255" b="255" /></decal>
+		<dialog>0</dialog>
+		<ai>stray</ai>
+		<aisetting>
+			<value name="base_x">29.0</value>
+			<value name="base_y">0.15</value>
+			<value name="base_z">106.2</value>
+			<value name="radius_x">10.0</value>
+			<value name="radius_y">0.0</value>
+			<value name="radius_z">10.0</value>
+			<value name="interval_base">100</value>
+			<value name="interval_rand">50</value>
+		</aisetting>
+	</npc>
+	<npc>
+		<name>baby-dragonfly</name>
+		<mesh>test1</mesh>
+		<position sector="room" x="41" y="2" z="172"/>
+		<race>test</race> <!-- used for stats -->
+		<hair><color r="255" g="255" b="255" /></hair>
+		<skin><color r="255" g="255" b="255" /></skin>
+		<decal><color r="255" g="255" b="255" /></decal>
+		<dialog>9</dialog>
+		<ai>stray</ai>
+		<aisettings>
+			<value name="base_x">41</value>
+			<value name="base_y">4</value>
+			<value name="base_z">172</value>
+			<value name="radius_x">10.0</value>
+			<value name="radius_y">0.0</value>
+			<value name="radius_z">10.0</value>
+			<value name="interval_base">100</value>
+ 			<value name="interval_rand">50</value>
+		</aisettings>
+	</npc>
+	<npc>
+		<name>skeleton</name>
+		<mesh>skeleton</mesh>
+		<position sector="room" x="51.75" y="2.03" z="90.95"/>
+		<race>test</race> <!-- used for stats -->
+		<hair><color r="255" g="255" b="255" /></hair>
+		<skin><color r="255" g="255" b="255" /></skin>
+		<decal><color r="255" g="255" b="255" /></decal>
+		<dialog>6</dialog>
+		<ai>path</ai>
+		<aisettings>
+			<value name="start_delay">10</value>
+			<value name="speed">3</value>
+			<value name="waypoints">4</value>
+			<value name="point_0_x">51.75</value>
+			<value name="point_0_y">2.03</value>
+			<value name="point_0_z">90.95</value>
+			<value name="interval_0">120</value>
+			<value name="point_1_x">66.44</value>
+			<value name="point_1_y">2.03</value>
+			<value name="point_1_z">54.96</value>
+			<value name="interval_1">120</value>
+			<value name="point_2_x">6.16</value>
+			<value name="point_2_y">2.03</value>
+			<value name="point_2_z">68.14</value>
+			<value name="interval_2">200</value>
+			<value name="point_3_x">14.50</value>
+			<value name="point_3_y">2.03</value>
+			<value name="point_3_z">100.67</value>
+			<value name="interval_3">110</value>
+		</aisettings>
+	</npc>
+</npcs>
+

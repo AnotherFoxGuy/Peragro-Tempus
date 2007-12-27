@@ -1,8 +1,11 @@
-Peragro Tempus detailed change log.
+﻿Peragro Tempus detailed change log.
 
 Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
+
+27-Dec-2007
+ - PK wrote the current NPCs in data/xml/npcs/npcs.xml
 
 26-Dec-2007
  - PK fixed static msvc builds.
@@ -14,7 +17,8 @@ under each day.
  - PK added new adminmessage type and implemented CreateSector and CreateItem.
  - PK implemented new AI behaviour "path" which makes the NPC follow a
    predefined list of waypoints.
- - Rakhun fixed the linking of ServerSetupManager and commented out an unused variable.
+ - Rakhun fixed the linking of ServerSetupManager and commented out an unused
+   variable.
 
 25-Dec-2007
  - Rakhun added loading of items in the serversetupmanager through the
