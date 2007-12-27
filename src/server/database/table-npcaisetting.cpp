@@ -88,6 +88,11 @@ void NpcAiSettingTable::remove(int id, ptString key)
   db->update("delete from npcaisetting where id = %d and key like '%s'");
 }
 
+void NpcAiSettingTable::removeAll(int id)
+{
+  db->update("delete from npcaisetting where id = %d");
+}
+
 ptString NpcAiSettingTable::getValue(int id, ptString key)
 {
   ResultSet* rs = db->query("select value from npcaisetting where id = %d and key like '%s';", id, *key);

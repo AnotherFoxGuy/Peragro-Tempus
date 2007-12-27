@@ -70,3 +70,19 @@ void CreateItemMessage::deserialise(ByteStream* bs)
   equiptype = serial.getString();
 }
 
+void RemoveAllMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(datatype);
+}
+
+void RemoveAllMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  datatype = serial.getString();
+}
+

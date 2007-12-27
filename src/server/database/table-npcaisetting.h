@@ -44,6 +44,7 @@ public:
 
   void insert(int id, ptString key, const char* value);
   void remove(int id, ptString key);
+  void removeAll(int id);
 
   ptString getValue(int id, ptString key);
 };

@@ -120,6 +120,7 @@
 		<type id="10" name="Admin">
 			<message id="0" name="CreateSector" />
 			<message id="1" name="CreateItem" />
+			<message id="2" name="RemoveAll" />
 		</type>
 	</message-definitions>
 	<message-implementations>

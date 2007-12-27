@@ -23,6 +23,7 @@
 #include "doorentity.h"
 #include "server/database/table-doors.h"
 #include "server/server.h"
+#include "entitymanager.h"
 
 class DoorManager
 {

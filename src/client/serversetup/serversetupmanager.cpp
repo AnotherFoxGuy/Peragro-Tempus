@@ -51,6 +51,30 @@ namespace PT
 
     bool ServerSetupManager::UploadServerData()
     {
+      // Be careful about the order!
+
+      RemoveAllMessage rmmsg;
+      rmmsg.setDataType(ptString::create("npc-dialogs"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
+      rmmsg.setDataType(ptString::create("npc-entities"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
+      rmmsg.setDataType(ptString::create("item-entities"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
+      rmmsg.setDataType(ptString::create("mount-entities"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
+      rmmsg.setDataType(ptString::create("doors"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
+      rmmsg.setDataType(ptString::create("items"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
+      rmmsg.setDataType(ptString::create("sectors"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
       Report(PT::Notify, "Not yet fully implemented");
       // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones (otherwise database entries cannot be updated, nor will they be possible to remove by removing them from the XML)
 

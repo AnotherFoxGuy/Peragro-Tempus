@@ -40,7 +40,7 @@ public:
 
   Character* getCharacter(int id);
 
-
+  void delCharacter(const Character* character);
 };
 
 #endif // _CHARACTERMANAGER_H_

@@ -63,3 +63,9 @@ void CharacterManager::checkForSave(const PcEntity* e)
     l_ent->freeLock();
   }
 }
+
+void CharacterManager::delCharacter(const Character* character)
+{
+  CharacterTable* ct = server->getDatabase()->getCharacterTable();
+  ct->remove(character->getId());
+}

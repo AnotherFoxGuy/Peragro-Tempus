@@ -46,10 +46,12 @@ public:
 
     if (id == ADMIN::CREATESECTOR) handleCreateSector(msg);
     else if (id == ADMIN::CREATEITEM) handleCreateItem(msg);
+    else if (id == ADMIN::REMOVEALL) handleRemoveAll(msg);
   }
 
   void handleCreateSector(GenericMessage* msg);
   void handleCreateItem(GenericMessage* msg);
+  void handleRemoveAll(GenericMessage* msg);
 };
 
 #endif // _ADMINHANDLER_H_

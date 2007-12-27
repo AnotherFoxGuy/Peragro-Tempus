@@ -26,7 +26,8 @@ namespace ADMIN
   enum MESSAGES
   {
     CREATESECTOR=0,
-    CREATEITEM=1
+    CREATEITEM=1,
+    REMOVEALL=2
   };
 }
 
@@ -105,6 +106,27 @@ public:
 
   ptString getEquipType() { return equiptype; }
   void setEquipType(ptString x) { equiptype = x; }
+
+};
+
+class RemoveAllMessage : public NetMessage
+{
+  ptString datatype;
+
+public:
+  RemoveAllMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::REMOVEALL)
+  {
+  }
+
+  ~RemoveAllMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getDataType() { return datatype; }
+  void setDataType(ptString x) { datatype = x; }
 
 };
 

@@ -19,10 +19,116 @@
 #include "network.h"
 #include "networkhelper.h"
 
+#include "server/entity/charactermanager.h"
+#include "server/entity/doormanager.h"
+#include "server/entity/itemmanager.h"
+#include "server/entity/sectormanager.h"
+
+#include "server/database/database.h"
+#include "server/database/table-npcentities.h"
+#include "server/database/table-npcaisetting.h"
+
+
 void AdminHandler::handleCreateSector(GenericMessage* msg)
 {
 }
 
 void AdminHandler::handleCreateItem(GenericMessage* msg)
 {
+}
+
+void AdminHandler::handleRemoveAll(GenericMessage* msg)
+{
+  RemoveAllMessage rmmsg;
+  rmmsg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
+  if (rmmsg.getDataType() == ptString::create("npc-dialogs"))
+  {
+  }
+  else if (rmmsg.getDataType() == ptString::create("npc-entities"))
+  {
+    //EntityManager* entities = server->getEntityManager();
+    //Array<const Entity*> npcs;
+    //for (int i = 0; i < entities->getEntityCount(); i++)
+    //{
+    //  if (entities->getEntity(i)->getNpcEntity())
+    //  {
+    //    const Entity* e = entities->getEntity(i);
+    //    npcs.add(e);
+    //  }
+    //}
+    //for (int i = 0; i < npcs.getCount(); i++)
+    //{
+    //  const Character* c = npcs.get(i)->getNpcEntity()->getCharacter();
+    //  server->getCharacterManager()->delCharacter(c);
+
+    //  NpcEntitiesTable* net = server->getDatabase()->getNpcEntitiesTable();
+    //  net->remove(npcs.get(i)->getId());
+    //  
+    //  NpcAiSettingTable* nast = server->getDatabase()->getNpcAiSettingTable();
+    //  nast->removeAll(npcs.get(i)->getId());
+    //  
+    //  server->delEntity(npcs.get(i));
+    //}
+  }
+  else if (rmmsg.getDataType() == ptString::create("item-entities"))
+  {
+    //EntityManager* entities = server->getEntityManager();
+    //Array<const Entity*> items;
+    //for (int i = 0; i < entities->getEntityCount(); i++)
+    //{
+    //  if (entities->getEntity(i)->getItemEntity())
+    //  {
+    //    const Entity* e = entities->getEntity(i);
+    //    items.add(e);
+    //  }
+    //}
+    //for (int i = 0; i < items.getCount(); i++)
+    //{
+    //  server->delEntity(items.get(i));
+    //}
+  }
+  else if (rmmsg.getDataType() == ptString::create("mount-entities"))
+  {
+    //EntityManager* entities = server->getEntityManager();
+    //Array<const Entity*> mounts;
+    //for (int i = 0; i < entities->getEntityCount(); i++)
+    //{
+    //  if (entities->getEntity(i)->getMountEntity())
+    //  {
+    //    const Entity* e = entities->getEntity(i);
+    //    mounts.add(e);
+    //  }
+    //}
+    //for (int i = 0; i < mounts.getCount(); i++)
+    //{
+    //  server->delEntity(mounts.get(i));
+    //}
+  }
+  else if (rmmsg.getDataType() == ptString::create("doors"))
+  {
+    DoorManager* doors = server->getDoorManager();
+    while (doors->getDoorCount() > 0)
+    {
+      DoorEntity* entity = doors->getDoor(0);
+      doors->delDoor(entity);
+      server->getDatabase()->getDoorsTable()->remove(entity->getDoorId());
+      server->delEntity(entity->getEntity());
+    }
+  }
+  else if (rmmsg.getDataType() == ptString::create("items"))
+  {
+    //ItemManager* items = server->getItemManager();
+    //while (items->getItemCount() > 0)
+    //{
+    //  items->delItem((size_t)0);
+    //}
+  }
+  else if (rmmsg.getDataType() == ptString::create("sectors"))
+  {
+    //SectorManager* sectors = server->getSectorManager();
+    //sectors->delAll();
+  }
 }

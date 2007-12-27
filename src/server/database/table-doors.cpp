@@ -101,7 +101,7 @@ void DoorsTable::insert(DoorsTableVO* vo)
 
 void DoorsTable::remove(int id)
 {
-  db->update("delete from doors where id = %d");
+  db->update("delete from doors where id = %d", id);
 }
 
 unsigned int DoorsTable::getCount()

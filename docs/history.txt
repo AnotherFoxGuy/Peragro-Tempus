@@ -6,6 +6,8 @@ under each day.
 
 27-Dec-2007
  - PK wrote the current NPCs in data/xml/npcs/npcs.xml
+ - PK implemented a new RemoveAll message. Currently only implemented for
+   data we also upload.
 
 26-Dec-2007
  - PK fixed static msvc builds.
@@ -43,7 +45,7 @@ under each day.
 22-Dec-2007
  - PK moved the common\data classes to client\data and implemented a 
    DataManager super class.
- - Rakhun fixed a warning: ‘class PT::Data::DataManager’ has virtual
+ - Rakhun fixed a warning: 'class PT::Data::DataManager' has virtual
    functions but non-virtual destructor.
  - PK merged the items database class back from revision 427.
  - Rakhun added scripts/networkcodegenerator.sh, not fully working yet.
@@ -58,7 +60,7 @@ under each day.
  - Rakhun fixed deprecation of cel.pcfactory.zonemanager -> 
    cel.pcfactory.world.zonemanager.
  - Rakhun fixed another warning: "missing braces around initializer for
-   ‘char [1]’".
+   'char [1]'".
  - Rakhun added the sector data to the database, similarly to the door data.
  - PK fixed rotation on teleporting.
  - PK added removal command to delete spawned items and mounts.

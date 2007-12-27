@@ -1,365 +1,438 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="libutil"
 	ProjectGUID="{1020E648-2350-8556-4CD6-29FFD41D5DD6}"
-	SccProjectName=""
-	SccLocalPath="">
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
-  		<Configuration
+		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release8\build\libutil\"
 			IntermediateDirectory="..\..\out\release8\build\libutil\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				StringPooling="TRUE"
-				EnableFunctionLevelLinking="TRUE"
-				RuntimeLibrary="2"
-				DebugInformationFormat="3"
-				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\libutil\util.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release8\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\release8\build\libutil\"
-				ObjectFile="..\..\out\release8\build\libutil\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="TRUE"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				CompileAs="0"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions=" "
-				AdditionalDependencies=""
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
-				TargetMachine="1"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\libutil.lib"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\libutil\libutil.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
-				/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="2"
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				PrecompiledHeaderFile="..\..\out\release8\build\libutil\libutil.pch"
+				AssemblerListingLocation="..\..\out\release8\build\libutil\"
+				ObjectFile="..\..\out\release8\build\libutil\"
+				ProgramDataBaseFileName="..\..\out\release8\build\libutil\util.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=8"
+				Culture="1033"
 				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\src"
-				Culture="1033"/>
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release8\libs\libutil.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
+			/>
 		</Configuration>
-  		<Configuration
+		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release8\build\libutil\"
 			IntermediateDirectory="..\..\out\release8\build\libutil\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				StringPooling="TRUE"
-				EnableFunctionLevelLinking="TRUE"
-				RuntimeLibrary="2"
-				DebugInformationFormat="3"
-				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\libutil\util.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release8\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\release8\build\libutil\"
-				ObjectFile="..\..\out\release8\build\libutil\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="TRUE"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				CompileAs="0"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions=" "
-				AdditionalDependencies=""
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
-				TargetMachine="1"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\libutil.lib"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\libutil\libutil.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
-				/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="2"
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="true"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				PrecompiledHeaderFile="..\..\out\release8\build\libutil\libutil.pch"
+				AssemblerListingLocation="..\..\out\release8\build\libutil\"
+				ObjectFile="..\..\out\release8\build\libutil\"
+				ProgramDataBaseFileName="..\..\out\release8\build\libutil\util.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=8"
+				Culture="1033"
 				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\src"
-				Culture="1033"/>
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release8\libs\libutil.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
+			/>
 		</Configuration>
-    		<Configuration
+		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug8\build\libutil\"
 			IntermediateDirectory="..\..\out\debug8\build\libutil\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				MinimalRebuild="TRUE"
-				DebugInformationFormat="4"
-				RuntimeTypeInfo="TRUE"
-				RuntimeLibrary="3"
-
-				ProgramDataBaseFileName="..\..\out\debug8\build\libutil\util.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug8\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\libutil\"
-				ObjectFile="..\..\out\debug8\build\libutil\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="TRUE"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				CompileAs="0"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				AdditionalOptions=" "
-				AdditionalDependencies=""
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
-				TargetMachine="1"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\libutil_d.lib"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\libutil\libutil.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
-				/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="0"
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32"
+				MinimalRebuild="true"
+				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile="..\..\out\debug8\build\libutil\libutil.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\libutil\"
+				ObjectFile="..\..\out\debug8\build\libutil\"
+				ProgramDataBaseFileName="..\..\out\debug8\build\libutil\util.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="4"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=8"
+				Culture="1033"
 				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\src"
-				Culture="1033"/>
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug8\libs\libutil_d.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
+			/>
 		</Configuration>
-  		<Configuration
+		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug8\build\libutil\"
 			IntermediateDirectory="..\..\out\debug8\build\libutil\"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				MinimalRebuild="TRUE"
-				DebugInformationFormat="4"
-				RuntimeTypeInfo="TRUE"
-				RuntimeLibrary="3"
-
-				ProgramDataBaseFileName="..\..\out\debug8\build\libutil\util.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
-				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug8\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\libutil\"
-				ObjectFile="..\..\out\debug8\build\libutil\"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="TRUE"
-				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
-				CompileAs="0"/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCLinkerTool"
-				LinkIncremental="2"
-				GenerateDebugInformation="TRUE"
-				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				AdditionalOptions=" "
-				AdditionalDependencies=""
-				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
-				TargetMachine="1"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\libutil_d.lib"
-				SuppressStartupBanner="TRUE"/>
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\libutil\libutil.tlb"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
-				/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" "
+				Optimization="0"
+				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;WIN32;CS_BUILD_SHARED_LIBS"
+				MinimalRebuild="true"
+				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
+				ForceConformanceInForLoopScope="true"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile="..\..\out\debug8\build\libutil\libutil.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\libutil\"
+				ObjectFile="..\..\out\debug8\build\libutil\"
+				ProgramDataBaseFileName="..\..\out\debug8\build\libutil\util.pdb"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="4"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=8"
+				Culture="1033"
 				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\src"
-				Culture="1033"/>
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
+				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug8\libs\libutil_d.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
+			/>
 		</Configuration>
-  	</Configurations>
+	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\src\common\util\ptstring.cpp">
+				RelativePath="..\..\src\common\util\ptstring.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\ptvector3.cpp">
+				RelativePath="..\..\src\common\util\ptvector3.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\stringstore.cpp">
+				RelativePath="..\..\src\common\util\stringstore.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\timerengine.cpp">
+				RelativePath="..\..\src\common\util\timerengine.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\..\src\common\util\array.h">
+				RelativePath="..\..\src\common\util\array.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\monitor.h">
+				RelativePath="..\..\src\common\util\monitor.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\monitorable.h">
+				RelativePath="..\..\src\common\util\monitorable.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\mutex.h">
+				RelativePath="..\..\src\common\util\mutex.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\printhelper.h">
+				RelativePath="..\..\src\common\util\printhelper.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\ptstring.h">
+				RelativePath="..\..\src\common\util\ptstring.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\pttime.h">
+				RelativePath="..\..\src\common\util\pttime.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\ptvector3.h">
+				RelativePath="..\..\src\common\util\ptvector3.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\queue.h">
+				RelativePath="..\..\src\common\util\queue.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\sleep.h">
+				RelativePath="..\..\src\common\util\sleep.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\stringstore.h">
+				RelativePath="..\..\src\common\util\stringstore.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\thread.h">
+				RelativePath="..\..\src\common\util\thread.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\timer.h">
+				RelativePath="..\..\src\common\util\timer.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\timerengine.h">
+				RelativePath="..\..\src\common\util\timerengine.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\wincrashdump.h">
+				RelativePath="..\..\src\common\util\wincrashdump.h"
+				>
 			</File>
 		</Filter>
 	</Files>

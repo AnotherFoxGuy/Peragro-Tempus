@@ -16,4 +16,7 @@
 		<string>EquipType</string>
 	</message>
 
+	<message type="Admin" name="RemoveAll">
+		<string>DataType</string>
+	</message>
 </message-implementation>

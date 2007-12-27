@@ -23,6 +23,7 @@
 #include "common/util/ptstring.h"
 #include "common/util/printhelper.h"
 
+#include "server/database/database.h"
 #include "server/database/table-sectors.h"
 #include "server/server.h"
 
@@ -79,30 +80,25 @@ public:
              " but got %d!\n", sectors.getCount(), id);
   }
 
-  void loadFromDB(SectorsTable* dt)
+  void delAll()
   {
-    //Load all Sectors from Database
+    SectorsTable* dt = Server::getServer()->getDatabase()->getSectorsTable();
     Array<SectorsTableVO*> loadedSectors=dt->getAll();
     for (size_t i = 0; i<loadedSectors.getCount(); i++)
     {
+      dt->remove(loadedSectors[i]->id);
+    }
+    sectors.removeAll();
+    regions.removeAll();
+  }
+
+  void loadFromDB(SectorsTable* dt)
+  {
+    //Load all Sectors from Database
+    Array<SectorsTableVO*> loadedSectors = dt->getAll();
+    for (size_t i = 0; i < loadedSectors.getCount(); i++)
+    {
       addSector(loadedSectors[i]->id, loadedSectors[i]->name, loadedSectors[i]->region);
-/*      sectors.add(loadedDoors[i]->name);
-      regions.add(loadedDoors[i]->region);
-
-/ *      EntityManager* ent_mgr = Server::getServer()->getEntityManager();
-      DoorEntity* door_ent = new DoorEntity();
-      Entity* ent = door_ent->getEntity()->getLock();
-
-      ent->setName(loadedDoors[i]->name);
-      ent->setSector(ptString(*loadedDoors[i]->sector,strlen(*loadedDoors[i]->sector)));
-      ent->setMesh(loadedDoors[i]->mesh);
-      ent->setPos(loadedDoors[i]->x,loadedDoors[i]->y,loadedDoors[i]->z);
-      ent->freeLock();
-
-      door_ent->setDoorId(loadedDoors[i]->id);
-      door_ent->setLocked(loadedDoors[i]->islocked > 0);
-      door_ent->setOpen(loadedDoors[i]->isopen > 0);
-      ent_mgr->addEntity(ent);*/
     }
   }
 };
