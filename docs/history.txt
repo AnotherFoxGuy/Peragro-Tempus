@@ -7,12 +7,14 @@ under each day.
 28-Dec-2007
  - Rakhun added support for <list> in networkcodegenerator.sh.
  - Rakhun changed weight to float in CreateItemMessages.
+ - PK added CreateNpcMessage.
 
 27-Dec-2007
  - PK wrote the current NPCs in data/xml/npcs/npcs.xml
  - PK implemented a new RemoveAll message. Currently only implemented for
    data we also upload.
- - Rakhun updated networkcodegenerator.sh to more closely follow the layout of the existing files.
+ - Rakhun updated networkcodegenerator.sh to more closely follow the layout of
+   the existing files.
 
 26-Dec-2007
  - PK fixed static msvc builds.
