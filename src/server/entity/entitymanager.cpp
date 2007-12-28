@@ -39,8 +39,7 @@ void EntityManager::loadFromDB(EntityTable* et)
   ent_id = et->getMaxId();
 
   //Load all Entities from Database
-  Array<EntitiesTableVO*> entityVOs;
-  et->getAllEntities(entityVOs);
+  Array<EntitiesTableVO*> entityVOs = et->getAllEntities();
   for (size_t i = 0; i < entityVOs.getCount(); i++)
   {
     const Entity* entity = 0;

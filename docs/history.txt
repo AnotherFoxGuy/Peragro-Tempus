@@ -12,6 +12,7 @@ under each day.
  - Rakhun fixed return of reference to a local variable in 
    EntityTable::getAllEntities.
  - PK fixed Rakhun's fix as well as some bugs in colldettest.
+ - Rakhun fixed PK's fix/change of Rakhun's fix.
 
 27-Dec-2007
  - PK wrote the current NPCs in data/xml/npcs/npcs.xml
