@@ -42,6 +42,7 @@ dbSQLite::dbSQLite()
 
 dbSQLite::~dbSQLite()
 {
+  end();
   sqlite3_close(db);
 }
 

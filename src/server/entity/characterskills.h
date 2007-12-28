@@ -58,7 +58,7 @@ public:
       entry->skill_id = skill->getId();
       entries.add(entry);
     }
-    if (cstab) cstab->set(cs_id, entry);
+    if (cstab) cstab->set(cs_id, entry->skill_id);
   }
 
   size_t getSkillCount()
@@ -82,7 +82,18 @@ public:
     cstab = cst;
 
     //Load all Skills from Database
-    cst->getAllEntries(entries, id);
+    Array<CharSkillVO*> vos = cst->getAllEntries(id);
+    for (size_t i = 0; i < vos.getCount(); i++)
+    {
+      CharSkillVO* vo = vos.get(i);
+
+      CharSkill* skill = new CharSkill();
+      skill->skill_id = vo->skill_id;
+      skill->state = SkillState::READY;
+
+      entries.add(skill);
+    }
+
   }
 
   void sendAllSkills(Connection* conn);

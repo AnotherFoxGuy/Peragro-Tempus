@@ -76,17 +76,18 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   conn->setUser(user);
   user->setConnection(conn);
 
-  Array<Character*> characters;
-  server->getDatabase()->getCharacterTable()->getAllCharacters(characters, user);
+  Array<CharactersTableVO*> characters;
+  characters = server->getDatabase()->getCharacterTable()->getAllCharacters(user);
   CharListMessage char_msg;
   char_msg.setCharacterCount((char)characters.getCount());
   for (unsigned int i=0; i<characters.getCount(); i++)
   {
-    char_msg.setCharId(i, characters.get(i)->getId());
-    char_msg.setName(i, characters.get(i)->getName());
-    char_msg.setDecalColour(i, characters.get(i)->getDecalColour());
-    char_msg.setHairColour(i, characters.get(i)->getHairColour());
-    char_msg.setSkinColour(i, characters.get(i)->getSkinColour());
+    CharactersTableVO* vo = characters.get(i);
+    char_msg.setCharId(i, vo->id);
+    char_msg.setName(i, vo->name);
+    char_msg.setHairColour(i, vo->hair_r, vo->hair_g, vo->hair_b);
+    char_msg.setSkinColour(i, vo->skin_r, vo->skin_g, vo->skin_b);
+    char_msg.setDecalColour(i, vo->decal_r, vo->decal_g, vo->decal_b);
   }
 
   characters.delAll();
@@ -158,8 +159,8 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   // Assume the client knows nothing.
   user->clearEntityList();
 
-  Character* character = 
-    server->getDatabase()->getCharacterTable()->findCharacterById(request_msg.getCharId(), user->getId());
+  CharacterManager* cmgr = Server::getServer()->getCharacterManager();
+  Character* character = cmgr->getCharacter(request_msg.getCharId(), user);
 
   if (!character)
     return;

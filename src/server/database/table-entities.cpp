@@ -23,18 +23,8 @@
 #include "database.h"
 
 #include "table-entities.h"
-#include "table-characters.h"
-#include "table-npcentities.h"
 
 #include "server/entity/entity.h"
-#include "server/entity/itementity.h"
-#include "server/entity/itemmanager.h"
-#include "server/entity/pcentity.h"
-#include "server/entity/npcentity.h"
-#include "server/entity/doorentity.h"
-#include "server/entity/mountentity.h"
-
-#include "server/server.h"
 
 EntityTable::EntityTable(Database* db) : Table(db)
 {
@@ -168,10 +158,10 @@ void EntityTable::remove(int id)
   db->update("delete from entities where id = %d;", id);
 }
 
-void EntityTable::update(Entity* entity)
+void EntityTable::update(EntitiesTableVO* entity)
 {
   db->update("update entities set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, rot=%.2f, sector=%q where id = %d;",
-    entity->getPos()[0], entity->getPos()[1], entity->getPos()[2], entity->getRotation(), *entity->getSectorName(), entity->getId() );
+    entity->pos_x, entity->pos_y, entity->pos_z, entity->rotation, *entity->sector, entity->id );
 }
 
 bool EntityTable::existsEntity(ptString name)
@@ -182,103 +172,49 @@ bool EntityTable::existsEntity(ptString name)
   return existence;
 }
 
-const Entity* EntityTable::getEntity(ptString name)
+EntitiesTableVO* EntityTable::getEntity(ptString name)
 {
   ResultSet* rs = db->query("select * from entities where name = '%q';", *name);
   if (rs->GetRowCount() == 0) 
     return 0;
 
-  const Entity* entity = parseEntity(rs, 0);
+  EntitiesTableVO* entity = parseSingleResultSet(rs, 0);
 
   delete rs;
   return entity;
 }
 
-void EntityTable::getAllEntities(Array<const Entity*>& entities)
+Array<EntitiesTableVO*>& EntityTable::getAllEntities()
 {
   ResultSet* rs = db->query("select * from entities;");
-  if (!rs) return;
-  for (size_t i=0; i<rs->GetRowCount(); i++)
-  {
-    const Entity* entity = parseEntity(rs, i);
-    if (entity)
-    {
-      entities.add(entity);
-    }
-  }
+  Array<EntitiesTableVO*> entities = parseMultiResultSet(rs);
   delete rs;
+  return entities;
 }  
 
-const Entity* EntityTable::parseEntity(ResultSet* rs, size_t i)
+EntitiesTableVO* EntityTable::parseSingleResultSet(ResultSet* rs, size_t row)
 {
-  const Entity* entity = 0;
+  EntitiesTableVO* vo = new EntitiesTableVO();
+  vo->id = atoi(rs->GetData(row,0).c_str());
+  vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
+  vo->type = atoi(rs->GetData(row,2).c_str());
+  vo->item = atoi(rs->GetData(row,3).c_str());
+  vo->mesh = ptString(rs->GetData(row,4).c_str(), rs->GetData(row,4).length());
+  vo->pos_x = (float) atof(rs->GetData(row,5).c_str());
+  vo->pos_y = (float) atof(rs->GetData(row,6).c_str());
+  vo->pos_z = (float) atof(rs->GetData(row,7).c_str());
+  vo->rotation = (float) atof(rs->GetData(row,8).c_str());
+  vo->sector = ptString(rs->GetData(row,9).c_str(), rs->GetData(row,9).length());
+  vo->variation = atoi(rs->GetData(row,10).c_str());
+  return vo;
+}
 
-  switch (atoi(rs->GetData(i,2).c_str()))
+Array<EntitiesTableVO*> EntityTable::parseMultiResultSet(ResultSet* rs)
+{
+  Array<EntitiesTableVO*> arr;
+  for (size_t i = 0; rs && i < rs->GetRowCount(); i++)
   {
-    case Entity::ItemEntityType:
-    {
-      ItemEntity* ent = new ItemEntity();
-      Item* item = Server::getServer()->getItemManager()->findById(atoi(rs->GetData(i,3).c_str()));
-      assert(item);
-      ent->createFromItem(item->getId(), atoi(rs->GetData(i,9).c_str()));
-      entity = ent->getEntity();
-      break;
-    }
-    case Entity::PlayerEntityType:
-    {
-      entity = (new PcEntity())->getEntity();
-      break;
-    }
-    case Entity::NPCEntityType:
-    {
-      NpcEntitiesTableVO* npc_vo = 
-        db->getNpcEntitiesTable()->getById(atoi(rs->GetData(i,0).c_str()));
-
-      if (!npc_vo) return 0;
-
-      Character* character =
-        db->getCharacterTable()->findCharacterById(npc_vo->character, 0);
-
-      NpcEntity* npc = new NpcEntity();
-      npc->setCharacter(character);
-      npc->setAI(AI::createAI(npc_vo->ai));
-      npc->setStartDialog(npc_vo->dialog);
-
-      entity = npc->getEntity();
-
-      delete npc_vo;
-      break;
-    }
-    case Entity::DoorEntityType:
-    {
-      int packeddata = atoi(rs->GetData(i,3).c_str());
-      DoorEntity* ent = new DoorEntity();
-      ent->setOpen  ((packeddata & 1) != 0);
-      ent->setLocked((packeddata & 2) != 0);
-      entity = ent->getEntity();
-      break;
-    }
-    case Entity::MountEntityType:
-    {
-      MountEntity* ent = new MountEntity();
-      entity = ent->getEntity();
-      break;
-    }
-    default:
-    { 
-      // Unknown Entity!
-      return 0;
-    }
-  };
-
-  Entity* l_ent = entity->getLock();
-  l_ent->setId(atoi(rs->GetData(i,0).c_str()));
-  l_ent->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
-  l_ent->setMesh(ptString(rs->GetData(i,4).c_str(), rs->GetData(i,4).length()));
-  l_ent->setPos((float)atof(rs->GetData(i,5).c_str()), (float)atof(rs->GetData(i,6).c_str()), (float)atof(rs->GetData(i,7).c_str()));
-  l_ent->setRotation((float)atof(rs->GetData(i,8).c_str()));
-  l_ent->setSector(ptString(rs->GetData(i,9).c_str(), rs->GetData(i,9).length()));
-  l_ent->freeLock();
-
-  return entity;
+    EntitiesTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
+  }
+  return arr;
 }

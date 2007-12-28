@@ -66,7 +66,7 @@ bool UsersTable::existsUser(ptString name)
   return existence;
 }
 
-User* UsersTable::getUser(ptString name)
+UsersTableVO* UsersTable::getUser(ptString name)
 {
   ResultSet* rs = db->query("select * from users where name = '%q' and id > 0;", *name);
   if (!rs || rs->GetRowCount() == 0)
@@ -75,9 +75,11 @@ User* UsersTable::getUser(ptString name)
     return 0;
   }
 
-  User* user = new User(atoi(rs->GetData(0,0).c_str()));
-  user->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-  user->setPwHash(rs->GetData(0,2).c_str(), rs->GetData(0,2).length());
+  UsersTableVO* user = new UsersTableVO();
+  user->id = atoi(rs->GetData(0,0).c_str());
+  user->name = ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length());
+  user->passwd = rs->GetData(0,2).c_str();
+
   delete rs;
   return user;
 }

@@ -36,24 +36,19 @@ const ptString UserAccountManager::login(ptString username, const char* password
   // Fetch user from DB
   if (!user)
   {
-    user = server->getDatabase()->getUsersTable()->getUser(username);
+    UsersTableVO* vo = server->getDatabase()->getUsersTable()->getUser(username);
+    User* user = new User(vo->id);
+    user->setName(vo->name);
+    user->setPwHash(vo->passwd.c_str(), vo->passwd.length());
   }
 
   // Unknown User
-  if (!user)
+  if (!user || strcmp(user->getPwHash(), password) != 0 )
   {
-    return ptString("Unknown User", strlen("Unknown User"));
+    return ptString("Unknown user or invalid password", strlen("Unknown User"));
   }
 
-  printf("User: '%s':'%s' <-  '%s':'%s'\n", *username, password, *user->getName(), user->getPwHash());
-
-  if (strlen(user->getPwHash()) != strlen(password) || strcmp(user->getPwHash(), password))
-  {
-    user = 0;
-    return ptString("Invalid Password", strlen("Invalid Password"));
-  }
-
-  return ptString(0,0);
+  return ptString::Null;
 }
 
 const ptString UserAccountManager::signup(ptString username, const char* password)
@@ -67,19 +62,19 @@ const ptString UserAccountManager::signup(ptString username, const char* passwor
 
   ut->insert(username, password);
 
-  User* user = ut->getUser(username);
+  UsersTableVO* user = ut->getUser(username);
 
-  if (user->getId() == 1) // first User, all rights!
+  if (user->id == 1) // first User, all rights!
   {
-    user->getPermissionList().setLevel(Permission::Admin, 1);
+    User(user->id).getPermissionList().setLevel(Permission::Admin, 1);
   }
   else
   {
-    user->getPermissionList().setLevel(Permission::Admin, 0);
+    User(user->id).getPermissionList().setLevel(Permission::Admin, 0);
   }
 
   // Temporary override for development, admin for all!
-  user->getPermissionList().setLevel(Permission::Admin, 1);
+  User(user->id).getPermissionList().setLevel(Permission::Admin, 1);
 
-  return ptString(0,0);
+  return ptString::Null;
 }

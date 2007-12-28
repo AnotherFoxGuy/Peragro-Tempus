@@ -33,7 +33,8 @@ public:
 
   Skill* skill;
 
-  void timeOut()
+protected:
+  virtual void timeOut()
   {
     if (state == SkillState::CASTING)
       skill->castExecute(this);

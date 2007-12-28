@@ -90,11 +90,8 @@ private:
   int targetType;
   int power;
 
-  Stat* mp;
-  Stat* hp;
-
 public:
-  Skill();
+  Skill() : id(-1), range(0) {}
   ~Skill() {}
 
   void setId(int id) { this->id = id; }

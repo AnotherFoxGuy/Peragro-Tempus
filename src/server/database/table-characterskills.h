@@ -23,8 +23,12 @@
 #include "table.h"
 
 class Database;
-class Skill;
-class CharSkill;
+
+class CharSkillVO
+{
+public:
+  unsigned int skill_id;
+};
 
 class CharacterSkillsTable : public Table
 {
@@ -32,10 +36,10 @@ public:
   CharacterSkillsTable(Database* db);
   void createTable();
   void insert(int characterskill, int skill);
-  void set(int characterskill, CharSkill* skill);
-  int get(int characterskill, CharSkill* skill);
+  void set(int characterskill, unsigned int skill_id);
+  int get(int characterskill, unsigned int skill_id);
   void dropTable();
-  void getAllEntries(Array<CharSkill*>& entries, int id);
+  Array<CharSkillVO*> getAllEntries(int id);
 };
 
 #endif //_TABLE_CHARACTERSKILLS_H_

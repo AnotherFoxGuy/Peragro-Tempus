@@ -30,11 +30,11 @@
 
 #include "server/network/networkhelper.h"
 
-Skill::Skill() : id(-1), range(0) 
-{
-  mp = Server::getServer()->getStatManager()->findByName(ptString("Mana", strlen("Mana")));
-  hp = Server::getServer()->getStatManager()->findByName(ptString("Health", strlen("Health")));
-}
+//Skill::Skill() : id(-1), range(0) 
+//{
+//  mp = Server::getServer()->getStatManager()->findByName(ptString("Mana", strlen("Mana")));
+//  hp = Server::getServer()->getStatManager()->findByName(ptString("Health", strlen("Health")));
+//}
 
 //void Skill::triggerSkill(CharSkill* skilldata, CharacterEntity* caster)
 //{
@@ -58,6 +58,7 @@ void Skill::castPrepare(Character* caster, unsigned int target_id)
   printf("Casting: %s starts to cast %s on %s\n", *caster->getName(), *this->getName(), *target->getName());
   printf("Casting: Skill State: %d \n", skilldata->state);
 
+  Stat* mp = Server::getServer()->getStatManager()->findByName(ptString("Mana", strlen("Mana")));
   if (caster->getStats()->getAmount(mp) < mpCost)
   {
     //Abort 'Not enough MP'
@@ -148,6 +149,7 @@ void Skill::castExecute(CharSkill* skilldata)
   const Character* c_char = player->getCharacter();
   Character* l_char = c_char->getLock();
   CharacterStats* stats = l_char->getStats();
+  Stat* hp = Server::getServer()->getStatManager()->findByName(ptString("Health", strlen("Health")));
   if (type == TYPE_HURT)
   {
     unsigned int health = stats->getAmount(hp);

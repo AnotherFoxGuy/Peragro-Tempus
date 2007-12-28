@@ -135,6 +135,41 @@ void CharacterTable::update(const float* pos, float rotation, ptString sector, i
     pos[0], pos[1], pos[2], *sector, char_id);
 }
 
+CharactersTableVO* CharacterTable::parseSingleResultSet(ResultSet* rs, size_t row)
+{
+  CharactersTableVO* vo = new CharactersTableVO();
+  vo->id = atoi(rs->GetData(row,0).c_str());
+  vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
+  vo->user = atoi(rs->GetData(row,2).c_str());
+  vo->mesh = ptString(rs->GetData(row,3).c_str(), rs->GetData(row,3).length());
+  vo->race = atoi(rs->GetData(row,4).c_str());
+  vo->hair_r = atoi(rs->GetData(row,5).c_str());
+  vo->hair_g = atoi(rs->GetData(row,6).c_str());
+  vo->hair_b = atoi(rs->GetData(row,7).c_str());
+  vo->skin_r = atoi(rs->GetData(row,8).c_str());
+  vo->skin_g = atoi(rs->GetData(row,9).c_str());
+  vo->skin_b = atoi(rs->GetData(row,10).c_str());
+  vo->decal_r = atoi(rs->GetData(row,11).c_str());
+  vo->decal_g = atoi(rs->GetData(row,12).c_str());
+  vo->decal_b = atoi(rs->GetData(row,13).c_str());
+  vo->pos_x = (float) atof(rs->GetData(row,14).c_str());
+  vo->pos_y = (float) atof(rs->GetData(row,15).c_str());
+  vo->pos_z = (float) atof(rs->GetData(row,16).c_str());
+  vo->rotation = (float) atof(rs->GetData(row,17).c_str());
+  vo->sector = ptString(rs->GetData(row,18).c_str(), rs->GetData(row,18).length());
+  return vo;
+}
+
+Array<CharactersTableVO*> CharacterTable::parseMultiResultSet(ResultSet* rs)
+{
+  Array<CharactersTableVO*> arr;
+  for (size_t i = 0; rs && i < rs->GetRowCount(); i++)
+  {
+    CharactersTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
+  }
+  return arr;
+}
+
 bool CharacterTable::existsCharacter(ptString name)
 {
   ResultSet* rs = db->query("select id from characters where name = '%q';", *name);
@@ -147,7 +182,7 @@ bool CharacterTable::existsCharacter(ptString name)
   return existence;
 }
 
-Character* CharacterTable::findCharacterById(int id, size_t user_id)
+CharactersTableVO* CharacterTable::findCharacterById(int id, size_t user_id)
 {
   ResultSet* rs = db->query("select * from characters where id = '%d' and user = '%d';", id, user_id);
   if (!rs || rs->GetRowCount() == 0) 
@@ -156,45 +191,16 @@ Character* CharacterTable::findCharacterById(int id, size_t user_id)
     return 0;
   }
 
-  Character* character = new Character();
-  character->setId(atoi(rs->GetData(0,0).c_str()));
-  character->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-  character->setMesh(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
-  character->setRace(atoi(rs->GetData(0,4).c_str()));
-  character->setHairColour(atoi(rs->GetData(0,5).c_str()), atoi(rs->GetData(0,6).c_str()), atoi(rs->GetData(0,7).c_str()));
-  character->setSkinColour(atoi(rs->GetData(0,8).c_str()), atoi(rs->GetData(0,9).c_str()), atoi(rs->GetData(0,10).c_str()));
-  character->setDecalColour(atoi(rs->GetData(0,11).c_str()), atoi(rs->GetData(0,12).c_str()), atoi(rs->GetData(0,13).c_str()));
-  character->setPos((float)atof(rs->GetData(0,14).c_str()), (float)atof(rs->GetData(0,15).c_str()), (float)atof(rs->GetData(0,16).c_str()));
-  character->setRotation((float)(atof(rs->GetData(0,17).c_str())));
-  character->setSector(ptString(rs->GetData(0,18).c_str(), rs->GetData(0,18).length()));
+  CharactersTableVO* character = parseSingleResultSet(rs);
   delete rs;
 
   return character;
 }
 
-void CharacterTable::getAllCharacters(Array<Character*>& characters, User* user)
+Array<CharactersTableVO*> CharacterTable::getAllCharacters(User* user)
 {
-  if (!user)
-  {
-    return;
-  }
   ResultSet* rs = db->query("select * from characters where user = '%d';", user->getId());
-  if (!rs) return;
-  for (size_t i=0; i<rs->GetRowCount(); i++)
-  {
-    Character* character = new Character();
-    character->setId(atoi(rs->GetData(i,0).c_str()));
-    character->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
-    character->setUser(user);
-    character->setMesh(ptString(rs->GetData(i,3).c_str(), rs->GetData(i,3).length()));
-    character->setRace(atoi(rs->GetData(i,4).c_str()));
-    character->setHairColour(atoi(rs->GetData(i,5).c_str()), atoi(rs->GetData(i,6).c_str()), atoi(rs->GetData(i,7).c_str()));
-    character->setSkinColour(atoi(rs->GetData(i,8).c_str()), atoi(rs->GetData(i,9).c_str()), atoi(rs->GetData(i,10).c_str()));
-    character->setDecalColour(atoi(rs->GetData(i,11).c_str()), atoi(rs->GetData(i,12).c_str()), atoi(rs->GetData(i,13).c_str()));
-    character->setPos((float)atof(rs->GetData(i,14).c_str()), (float)atof(rs->GetData(i,15).c_str()), (float)atof(rs->GetData(i,16).c_str()));
-    character->setRotation((float)(atof(rs->GetData(i,17).c_str())));
-    character->setSector(ptString(rs->GetData(i,18).c_str(), rs->GetData(i,18).length()));
-    characters.add(character);
-  }
+  Array<CharactersTableVO*> characters = parseMultiResultSet(rs);
   delete rs;
+  return characters;
 }  

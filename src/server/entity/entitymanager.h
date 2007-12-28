@@ -26,7 +26,6 @@
 #include "itementity.h"
 #include "doorentity.h"
 #include "entitylist.h"
-#include "server/database/table-entities.h"
 
 class EntityManager
 {
@@ -94,12 +93,7 @@ public:
   void lock() { mutex.lock(); }
   void unlock() { mutex.unlock(); }
 
-  void loadFromDB(EntityTable* et)
-  {
-    ent_id = et->getMaxId();
-    //Load all Entities from Database
-    et->getAllEntities(entity_list.entities);
-  }
+  void loadFromDB(EntityTable* et);
 };
 
 #endif // _ENTITYMANAGER_H_

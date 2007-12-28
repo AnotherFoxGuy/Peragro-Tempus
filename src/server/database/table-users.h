@@ -22,8 +22,16 @@
 #include "table.h"
 
 class Database;
-class User;
-class ptString;
+
+#include "common/util/ptstring.h"
+
+class UsersTableVO
+{
+public:
+  int id;
+  ptString name;
+  std::string passwd;
+};
 
 /**
  * Provides an interface to the database for handle storage of Users.
@@ -63,7 +71,7 @@ public:
    * @param name The name of the user.
    * @return User if found, otherwise 0.
    */
-  User* getUser(ptString name);
+  UsersTableVO* getUser(ptString name);
 };
 
 #endif //_TABLE_USERS_H_

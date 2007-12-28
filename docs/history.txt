@@ -8,6 +8,7 @@ under each day.
  - Rakhun added support for <list> in networkcodegenerator.sh.
  - Rakhun changed weight to float in CreateItemMessages.
  - PK added CreateNpcMessage.
+ - PK started to implement the colldettest application.
 
 27-Dec-2007
  - PK wrote the current NPCs in data/xml/npcs/npcs.xml

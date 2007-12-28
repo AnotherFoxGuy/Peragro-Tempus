@@ -22,16 +22,45 @@
 #include "table.h"
 
 class Database;
-class Character;
+class ResultSet;
+
 class User;
-class PcEntity;
-class ptString;
+
+#include "common/util/ptstring.h"
+
+class CharactersTableVO
+{
+public:
+  int id;
+  ptString name;
+  int user;
+  ptString mesh;
+  int race;
+  int hair_r;
+  int hair_g;
+  int hair_b;
+  int skin_r;
+  int skin_g;
+  int skin_b;
+  int decal_r;
+  int decal_g;
+  int decal_b;
+  float pos_x;
+  float pos_y;
+  float pos_z;
+  float rotation;
+  ptString sector;
+};
 
 /**
  * Provides an interface to the database for handle storage of characters.
  */
 class CharacterTable : public Table
 {
+private:
+  CharactersTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
+  Array<CharactersTableVO*> parseMultiResultSet(ResultSet* rs);
+
 public:
   /**
    * Constructor for the CharacterTable.
@@ -96,15 +125,15 @@ public:
    * @param user_id The user id that owns the character.
    * @return Returns the character, or 0 if not found.
    */
-  Character* findCharacterById(int id, size_t user_id);
+  CharactersTableVO* findCharacterById(int id, size_t user_id);
   /**
    * Finds all characters that belongs to a single user.
    * The caller is responsible for deleting all characters in the array.
-   * @param characters The array that will contain all characters that
-   * belongs to this user.
    * @param user The user to find all characters for.
+   * @return The array that will contain all characters that
+   * belongs to this user.
    */
-  void getAllCharacters(Array<Character*>& characters, User* user);
+  Array<CharactersTableVO*>  getAllCharacters(User* user);
 };
 
 #endif // _TABLE_CHARACTERS_H_

@@ -24,6 +24,7 @@
 #include "server/entity/pcentity.h"
 
 class Server;
+class User;
 
 class CharacterManager
 {
@@ -38,7 +39,7 @@ public:
   ptString createCharacter(ptString name, int user_id, int& char_id, unsigned char* haircolour, unsigned char* skincolour, unsigned char* decalcolour);
   void checkForSave(const PcEntity* e);
 
-  Character* getCharacter(int id);
+  Character* getCharacter(int id, User* user);
 
   void delCharacter(const Character* character);
 };

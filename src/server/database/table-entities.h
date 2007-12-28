@@ -22,14 +22,31 @@
 #include "table.h"
 
 class Database;
-class Entity;
 class ResultSet;
-class ptString;
+
+#include "common/util/ptstring.h"
+
+class EntitiesTableVO
+{
+public:
+  int id;
+  ptString name;
+  int type;
+  int item;
+  int variation;
+  ptString mesh;
+  float pos_x;
+  float pos_y;
+  float pos_z;
+  float rotation;
+  ptString sector;
+};
 
 class EntityTable : public Table
 {
 private:
-  const Entity* parseEntity(ResultSet* rs, size_t i);
+  EntitiesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
+  Array<EntitiesTableVO*> parseMultiResultSet(ResultSet* rs);
 
 public:
   EntityTable(Database* db);
@@ -38,10 +55,10 @@ public:
   int getMaxId();
   void dropTable();
   void remove(int id);
-  void update(Entity* entity);
+  void update(EntitiesTableVO* entity);
   bool existsEntity(ptString name);
-  const Entity* getEntity(ptString name);
-  void getAllEntities(Array<const Entity*>& entities);
+  EntitiesTableVO* getEntity(ptString name);
+  Array<EntitiesTableVO*>& getAllEntities();
 };
 
 #endif // _TABLE_ENTITIES_H_

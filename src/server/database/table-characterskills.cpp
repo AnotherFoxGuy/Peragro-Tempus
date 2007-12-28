@@ -24,8 +24,6 @@
 
 #include "table-characterskills.h"
 
-#include "server/entity/characterskills.h"
-
 CharacterSkillsTable::CharacterSkillsTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from characterskill;");
@@ -51,15 +49,15 @@ void CharacterSkillsTable::insert(int characterskill, int skill)
     characterskill, skill);
 }
 
-void CharacterSkillsTable::set(int characterskill, CharSkill* skill)
+void CharacterSkillsTable::set(int characterskill, unsigned int skill_id)
 {
-  insert(characterskill, skill->skill_id);
+  insert(characterskill, skill_id);
 }
 
-int CharacterSkillsTable::get(int characterskill, CharSkill* skill)
+int CharacterSkillsTable::get(int characterskill, unsigned int skill_id)
 {
   ResultSet* rs = db->query("select * from characterskill where id = '%d' and skill = '%d';",
-    characterskill, skill->skill_id);
+    characterskill, skill_id);
 
   int level = 0;
 
@@ -86,17 +84,17 @@ void CharacterSkillsTable::dropTable()
   db->update("drop table characterskill;");
 }
 
-void CharacterSkillsTable::getAllEntries(Array<CharSkill*>& entries, int id)
+Array<CharSkillVO*> CharacterSkillsTable::getAllEntries(int id)
 {
   ResultSet* rs = db->query("select skill from characterskill where id = '%d';", id);
-  if (!rs) return;
-  for (size_t i=0; i<rs->GetRowCount(); i++)
+  Array<CharSkillVO*> entries;
+  for (size_t i=0; rs && i<rs->GetRowCount(); i++)
   {
-    CharSkill* entry = new CharSkill();
+    CharSkillVO* entry = new CharSkillVO();
     int skill_id = atoi(rs->GetData(i,0).c_str());
     entry->skill_id = skill_id;
-    entry->state = SkillState::READY;
     entries.add(entry);
   }
   delete rs;
+  return entries;
 }  

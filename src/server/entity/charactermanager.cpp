@@ -20,6 +20,7 @@
 #include "server/server.h"
 #include "server/database/database.h"
 #include "server/database/table-characters.h"
+#include "server/entity/user.h"
 #include "server/entity/racemanager.h"
 
 CharacterManager::CharacterManager(Server* server)
@@ -49,6 +50,32 @@ ptString CharacterManager::createCharacter(ptString name, int user_id, int& char
   race->getSkills()->copyToCharacter(char_id);
 
   return ptString(0,0);
+}
+
+Character* CharacterManager::getCharacter(int id, User* user)
+{
+  CharacterTable* ct = server->getDatabase()->getCharacterTable();
+
+  int userid = (user ? user->getId() : 0 );
+
+  CharactersTableVO* vo = ct->findCharacterById(id, userid);
+  if (vo)
+  {
+    Character* character = new Character();
+    character->setId(vo->id);
+    character->setName(vo->name);
+    character->setUser(user);
+    character->setMesh(vo->mesh);
+    character->setRace(vo->race);
+    character->setHairColour(vo->hair_r, vo->hair_g, vo->hair_b);
+    character->setSkinColour(vo->skin_r, vo->skin_g, vo->skin_b);
+    character->setDecalColour(vo->decal_r, vo->decal_g, vo->decal_b);
+    character->setPos(vo->pos_x, vo->pos_y, vo->pos_z);
+    character->setRotation(vo->rotation);
+    character->setSector(vo->sector);
+  }
+
+  return 0;
 }
 
 void CharacterManager::checkForSave(const PcEntity* e)
