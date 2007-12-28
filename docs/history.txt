@@ -9,7 +9,9 @@ under each day.
  - Rakhun changed weight to float in CreateItemMessages.
  - PK added CreateNpcMessage.
  - PK started to implement the colldettest application.
- - Rakhun fixed return of reference to a local variable in EntityTable::getAllEntities.
+ - Rakhun fixed return of reference to a local variable in 
+   EntityTable::getAllEntities.
+ - PK fixed Rakhun's fix as well as some bugs in colldettest.
 
 27-Dec-2007
  - PK wrote the current NPCs in data/xml/npcs/npcs.xml

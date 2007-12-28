@@ -581,13 +581,15 @@ namespace PT
                        << triangles[k].c << ");\n";
                 }
 
+                csReversibleTransform t = mesh->GetMovable()->GetFullTransform();
+
                 csVector3* vertices = trimesh->GetVertices();
                 for (size_t k = 0; vertices && k < trimesh->GetVertexCount(); k++)
                 {
+                  csVector3 v = t * vertices[k];
                   data << "insert into vertices (mesh, num, x, y, z) values ( "
                        << mesh->QueryObject()->GetID() << ", " << k << ", "
-                       << vertices[k].x << ", " << vertices[k].y << ", " 
-                       << vertices[k].z << ");\n";
+                       << v.x << ", " << v.y << ", " << v.z << ");\n";
                 }
 
               }

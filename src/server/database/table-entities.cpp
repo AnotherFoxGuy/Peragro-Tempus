@@ -184,11 +184,12 @@ EntitiesTableVO* EntityTable::getEntity(ptString name)
   return entity;
 }
 
-void EntityTable::getAllEntities(Array<EntitiesTableVO*> entities)
+Array<EntitiesTableVO*> EntityTable::getAllEntities()
 {
   ResultSet* rs = db->query("select * from entities;");
-  entities = parseMultiResultSet(rs);
+  Array<EntitiesTableVO*> entities = parseMultiResultSet(rs);
   delete rs;
+  return entities;
 }
 
 EntitiesTableVO* EntityTable::parseSingleResultSet(ResultSet* rs, size_t row)

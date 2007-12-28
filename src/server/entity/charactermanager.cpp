@@ -64,7 +64,7 @@ Character* CharacterManager::getCharacter(int id, User* user)
     Character* character = new Character();
     character->setId(vo->id);
     character->setName(vo->name);
-    character->setUser(user);
+    if (user) character->setUser(user);
     character->setMesh(vo->mesh);
     character->setRace(vo->race);
     character->setHairColour(vo->hair_r, vo->hair_g, vo->hair_b);
@@ -73,6 +73,7 @@ Character* CharacterManager::getCharacter(int id, User* user)
     character->setPos(vo->pos_x, vo->pos_y, vo->pos_z);
     character->setRotation(vo->rotation);
     character->setSector(vo->sector);
+    return character;
   }
 
   return 0;

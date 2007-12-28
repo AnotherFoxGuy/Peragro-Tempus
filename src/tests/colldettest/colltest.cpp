@@ -145,19 +145,15 @@ bool CollisionDetectionTest::SetupModules ()
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
 
   engine->SetLightingCacheMode (0);
-  //g3d->SetRenderState(G3DRENDERSTATE_EDGES, 1);
-  //g3d->SetRenderState(G3DRENDERSTATE_LIGHTINGENABLE, 0);
 
   LoadWorld();
-
-  engine->SetClearZBuf(true);
 
   engine->Prepare ();
 
   rotY = rotX = 0;
 
   view->GetCamera ()->SetSector (  engine->GetSectors()->Get(0) );
-  view->GetCamera ()->GetTransform ().SetOrigin (csVector3 (0, 5, -3));
+  view->GetCamera ()->GetTransform ().SetOrigin (csVector3 (86.8f, 2.0f, 11.2f));
 
   drawer.AttachNew(new FrameBegin3DDraw (GetObjectRegistry (), view));
   printer.AttachNew(new FramePrinter (GetObjectRegistry ()));
@@ -199,8 +195,8 @@ void CollisionDetectionTest::LoadWorld()
 
     for (size_t j = 0; j < vertices.getCount(); j++)
     {
-      csVector3 v1 ( vertices[0]->x, vertices[0]->y, vertices[0]->z );
-      gfact->AddVertex(v1, csVector2(0), csVector3(0,1,0), csColor4(0));
+      csVector3 v1 ( vertices[j]->x, vertices[j]->y, vertices[j]->z );
+      gfact->AddVertex(v1, csVector2(0), csVector3(0,0,0), csColor4(1));
     }
 
     Array<TrianglesTableVO*> triangles = 
@@ -208,9 +204,12 @@ void CollisionDetectionTest::LoadWorld()
 
     for (size_t j = 0; j < triangles.getCount(); j++)
     {
-      csTriangle tri(triangles[0]->a, triangles[0]->b, triangles[0]->c);
+      csTriangle tri(triangles[j]->a, triangles[j]->b, triangles[j]->c);
       gfact->AddTriangle(tri);
     }
+
+    gfact->CalculateNormals();
+    gfact->SetColor(csColor(1, 1, 1));
 
     csRef<iMeshWrapper> mesh ( 
       GeneralMeshBuilder::CreateMesh(engine, sector, *meshes[0]->name, fact)

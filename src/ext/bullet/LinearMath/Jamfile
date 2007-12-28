@@ -8,6 +8,6 @@ Library bulletmath :
 [ Wildcard *.h *.cpp ]
 	;
 
-LinkWith bulletcollision : bulletmath ;
+MsvcIncDirs bulletmath : [ ConcatDirs .. .. src ext bullet ] ;
 
 CCFLAGS on $(bulletmath_OBJECTS) = [ Filter [ on $(bulletmath_OBJECTS) GetVar C++FLAGS ] : -Wall ] ;
