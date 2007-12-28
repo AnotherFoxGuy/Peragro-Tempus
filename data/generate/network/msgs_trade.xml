@@ -55,7 +55,7 @@
 		</list>
 	</message>
 
-	<message type="Trade" name="TradeCancle">
+	<message type="Trade" name="TradeCancel">
 	</message>
 
 	<message type="Trade" name="TradeOfferAccept">
