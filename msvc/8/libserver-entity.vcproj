@@ -319,6 +319,9 @@
 				RelativePath="..\..\src\server\entity\entity.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\entitymanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\inventory.cpp">
 			</File>
 			<File

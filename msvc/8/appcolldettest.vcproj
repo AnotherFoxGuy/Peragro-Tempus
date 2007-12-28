@@ -32,7 +32,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8\build\appcolldettest\appcolldettest.pch"
 				AssemblerListingLocation="..\..\out\release8\build\appcolldettest\"
 				ObjectFile="..\..\out\release8\build\appcolldettest\"
@@ -55,9 +55,9 @@
 				ProgramDatabaseFile="..\..\out\release8\build\appcolldettest\colldettest.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -80,7 +80,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\tests\colldettest;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\tests\colldettest;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -108,7 +108,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release8\build\appcolldettest\appcolldettest.pch"
 				AssemblerListingLocation="..\..\out\release8\build\appcolldettest\"
 				ObjectFile="..\..\out\release8\build\appcolldettest\"
@@ -131,9 +131,9 @@
 				ProgramDatabaseFile="..\..\out\release8\build\appcolldettest\colldettest.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -156,7 +156,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\tests\colldettest;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\tests\colldettest;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -183,7 +183,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8\build\appcolldettest\appcolldettest.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\appcolldettest\"
 				ObjectFile="..\..\out\debug8\build\appcolldettest\"
@@ -204,9 +204,9 @@
 				ProgramDatabaseFile="..\..\out\debug8\build\appcolldettest\colldettest.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -229,7 +229,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\tests\colldettest;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\tests\colldettest;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -256,7 +256,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug8\build\appcolldettest\appcolldettest.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\appcolldettest\"
 				ObjectFile="..\..\out\debug8\build\appcolldettest\"
@@ -277,9 +277,9 @@
 				ProgramDatabaseFile="..\..\out\debug8\build\appcolldettest\colldettest.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -302,7 +302,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\tests\colldettest;..\..;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\tests\colldettest;..\..;..\..\src;..\..\..\CS\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -311,6 +311,20 @@
 		</Configuration>
   	</Configurations>
 	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\tests\colldettest\colltest.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\tests\colldettest\colltest.h">
+			</File>
+		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
