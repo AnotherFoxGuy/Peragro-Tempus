@@ -1,0 +1,9 @@
+SubDir TOP src tests colldettest ;
+
+Description colldettest : "Collision Detection Test" ;
+Application colldettest : 
+[ Wildcard *.h *.cpp ] 
+[ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
+ExternalLibs client : CRYSTAL ;
+LinkWith colldettest : database ;
+

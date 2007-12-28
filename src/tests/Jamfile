@@ -1,3 +1,4 @@
 SubDir TOP src tests ;
 
+SubInclude TOP src tests colldettest ;
 SubInclude TOP src tests eventstest ;
