@@ -58,7 +58,7 @@ public:
   void update(EntitiesTableVO* entity);
   bool existsEntity(ptString name);
   EntitiesTableVO* getEntity(ptString name);
-  Array<EntitiesTableVO*>& getAllEntities();
+  void getAllEntities(Array<EntitiesTableVO*>);
 };
 
 #endif // _TABLE_ENTITIES_H_
