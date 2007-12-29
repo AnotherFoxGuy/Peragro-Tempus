@@ -76,8 +76,9 @@ namespace PT
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       
-      Entity::sectorName = sector;
+      if (sector.compare("Default_Sector") != 0) Entity::sectorName = sector;
       Entity::pos = pos;
+      Entity::rot = rotation;
 
       if (celEntity.IsValid())
       {
@@ -88,8 +89,8 @@ namespace PT
         if (!sec.IsValid())
         {
           sec = engine->FindSector("Default_Sector");
-          Report(PT::Error,
-          "Entity: Failed to find sector %s switching to default!", sector.c_str());
+          Report(PT::Debug,
+            "Entity: Failed to find sector %s switching to default!", sector.c_str());
         }
 
         if (pcmesh.IsValid() && mov.IsValid() && sec.IsValid())

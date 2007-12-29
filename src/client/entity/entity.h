@@ -163,7 +163,7 @@ namespace PT
       unsigned int GetId () const { return id; }
       ///Set the entity's unique ID to a given value.
       ///@todo Should we really be allowed to do this?
-      void SetId (int value) { id = value; }
+      void SetId (unsigned int value) { id = value; }
 
       ///@return Entity's type.
       int GetType () const { return type; }
@@ -190,6 +190,11 @@ namespace PT
       const csVector3& GetPosition() const { return pos; }
       ///Set the position of entity within a sector to a given value.
       void SetPosition (csVector3 value) { pos = value; }
+
+      ///@return Rotation of entity.
+      const float GetRotation() const { return rot; }
+      ///Set the rotation of entity to a given value.
+      void SetRotation (float value) { rot = value; }
 
       ///@return Entity's CEL entity.
       iCelEntity* GetCelEntity () const { return celEntity; }

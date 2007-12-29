@@ -47,7 +47,7 @@ namespace PT
     {
       unsigned int entity_id;
       csVector3 position;
-      csString sector;
+      std::string sector;
     };
 
     struct MovementData
@@ -61,6 +61,7 @@ namespace PT
 
     struct MoveToData
     {
+      csVector3 destination;
       unsigned int entity_id;
       bool walking;
       float dest_angle;
@@ -73,14 +74,14 @@ namespace PT
     struct UpdatePcPropData
     {
       unsigned int entity_id;
-      csString pcprop;
+      std::string  pcprop;
       celData value;
     };
 
     struct DrUpdateData
     {
       unsigned int entity_id;
-      csString sector;
+      std::string  sector;
       csVector3 pos;
       float rot;
     };

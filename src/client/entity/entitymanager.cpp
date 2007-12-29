@@ -87,8 +87,9 @@ namespace PT
       // Register listener for EntityPoseEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pose", cb);
 
-      // Register listener for EntityEquipEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("state.play", cb);
+      // Register listener for state.play.
+      EventHandler<EntityManager>* cbPlay = new EventHandler<EntityManager>(&EntityManager::SetOwnId, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("state.play", cbPlay);
 
       // Register listener for ActionInteract.
       EventHandler<EntityManager>* cbInteract = new EventHandler<EntityManager>(&EntityManager::OnInteract, this);
@@ -104,29 +105,59 @@ namespace PT
       for (size_t i = 0; i < events.GetSize(); i++)
       {
         Eventp ev = events.Pop();
-        if (ev->GetEventID().compare("entity.add") == 0)
-          AddEntity(ev);
-        else if (ev->GetEventID().compare("entity.remove") == 0)
-          RemoveEntity(ev);
-        else if (ev->GetEventID().compare("entity.equip") == 0)
-          Equip(ev);
-        else if (ev->GetEventID().compare("entity.mount") == 0)
-          Mount(ev);
-        else if (ev->GetEventID().compare("entity.pose") == 0)
-          EntityPose(ev);
-
-        else if (ev->GetEventID().compare("state.play") == 0)
-          SetOwnId(ev);
+        if (playerId != 0) 
+        {
+          if (ev->GetEventID().compare("entity.add") == 0)
+            AddEntity(ev);
+        }
+        else if (world_loaded && playing) 
+        {
+          if (ev->GetEventID().compare("entity.remove") == 0)
+            RemoveEntity(ev);
+          else if (ev->GetEventID().compare("entity.equip") == 0)
+            Equip(ev);
+          else if (ev->GetEventID().compare("entity.mount") == 0)
+            Mount(ev);
+          else if (ev->GetEventID().compare("entity.pose") == 0)    
+            EntityPose(ev);
+        }
       } // for
+    }
+
+    void EntityManager::ProcessLostEntities()
+    {
+      // TODO move this to the region load callback.
+      iSector* defsector = engine->FindSector("Default_Sector");
+      if (!defsector) return;
+
+      iMeshList* list = defsector->GetMeshes();
+      for (size_t i = 0; i < list->GetCount(); i++)
+      {
+        iMeshWrapper* mesh = list->Get(i);
+        if (!mesh) continue;
+        iCelEntity* entity = pl->FindAttachedEntity(mesh->QueryObject());
+        if (!entity) continue;
+        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
+        if (!pcprop) continue;
+        Entity* ptent = findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        if (!ptent) continue;
+
+        iSector* sector = engine->FindSector(ptent->GetSectorName().c_str());
+        if (!sector) continue;
+
+        ptent->SetFullPosition(ptent->GetPosition(), ptent->GetRotation(), ptent->GetSectorName());
+        mesh->GetMovable()->GetSectors()->Remove(defsector);
+        Report(PT::Debug, "Lost entity '%s' relocated", ptent->GetName().c_str());
+      }  
     }
 
     void EntityManager::Handle ()
     {
-      if (!world_loaded || !playing) return;
-
       movementManager->Handle();
 
       ProcessEvents();
+
+      ProcessLostEntities();
     }
 
     Entity* EntityManager::findPtEntById(unsigned int id)

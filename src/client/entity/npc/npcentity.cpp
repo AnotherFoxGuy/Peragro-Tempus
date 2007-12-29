@@ -65,15 +65,15 @@ namespace PT
         pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
       }
 
-      // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
-      csRef<iSpriteCal3DState> sprcal3d =
-        scfQueryInterface<iSpriteCal3DState> (pcmesh->GetMesh()->GetMeshObject());
-      if (sprcal3d) sprcal3d->SetVelocity(0);
+      // Forcing into idle animation.
+      PlayAnimation("idle", 1.0f, true, true);
 
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
       SetFullPosition(pos, rot, sectorName.c_str());
+
+      GetEquipment().ConstructMeshes();
     }
 
     void NpcEntity::Interact()

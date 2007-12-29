@@ -85,14 +85,14 @@ namespace PT
       switch(update_pcprop.value.type)
       {
       case CEL_DATA_BOOL:
-        pcprop->SetProperty(update_pcprop.pcprop, update_pcprop.value.value.bo);
+        pcprop->SetProperty(update_pcprop.pcprop.c_str(), update_pcprop.value.value.bo);
         break;
       case CEL_DATA_LONG:
-        pcprop->SetProperty(update_pcprop.pcprop,
+        pcprop->SetProperty(update_pcprop.pcprop.c_str(),
           (long) update_pcprop.value.value.l);
         break;
       case CEL_DATA_STRING:
-        pcprop->SetProperty(update_pcprop.pcprop, update_pcprop.value.value.s);
+        pcprop->SetProperty(update_pcprop.pcprop.c_str(), update_pcprop.value.value.s);
         break;
       default:
         Report(PT::Error, "celData type not supported by updatePcProp!");
@@ -100,10 +100,11 @@ namespace PT
 
       if (update_pcprop.value.type == CEL_DATA_BOOL)
       {
-        if (update_pcprop.pcprop.CompareNoCase("Door Open"))
+        csString state = update_pcprop.pcprop.c_str();
+        if (state.CompareNoCase("Door Open"))
           this->SetOpen(update_pcprop.value.value.bo);
 
-        if (update_pcprop.pcprop.CompareNoCase("Door Locked"))
+        if (state.CompareNoCase("Door Locked"))
           this->SetLocked(update_pcprop.value.value.bo);
       }
     }

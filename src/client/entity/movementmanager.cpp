@@ -201,6 +201,7 @@ namespace PT
       //float speed = ((pos_dst - cur_position).Norm() * entityMoveEv->speed )/
       //  (pos_ori - cur_position).Norm();
 
+      moveTo->destination		        = pos_dst;
       moveTo->turn_speed			= 2*PI; // 1 revolution per second
       moveTo->walk_speed			= entityMoveEv->speed;
       moveTo->dest_angle			= yrot_dst;

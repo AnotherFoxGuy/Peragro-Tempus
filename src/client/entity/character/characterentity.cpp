@@ -137,7 +137,12 @@ namespace PT
         {
           if (moveTo->elapsed_time >= moveTo->walk_duration)
           {
+            // Arrived at destination. Return true for deletion.
             pcactormove->Forward(false);
+
+            this->SetPosition(moveTo->destination);
+            this->SetRotation(moveTo->dest_angle);
+
             return true;
           }
         }
@@ -175,13 +180,17 @@ namespace PT
 
         if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
 
-        sector = engine->FindSector(drupdate.sector.GetData());
+        sector = engine->FindSector(drupdate.sector.c_str());
         ///@bug It seems that CEL interface has some issues. The below method,
         ///SetDRData seems not to take const references/pointers as arguments.
         csVector3 tempPos = drupdate.pos;
         float tempRot = drupdate.rot;
         pclinmove->SetDRData(onGround, speed, tempPos, tempRot, sector, vel,
           wvel, avel);
+
+        this->SetPosition(drupdate.pos);
+        this->SetRotation(drupdate.rot);
+        this->SetSectorName(drupdate.sector);
       }
     }
 
@@ -246,8 +255,6 @@ namespace PT
         script = skeleton->Execute (animationName);
         if (script) script->SetLoop (loop);
       }
-
-      Report(PT::Warning, "PlayAnimation\n");
     }
 
     void CharacterEntity::Pose(unsigned int poseId)

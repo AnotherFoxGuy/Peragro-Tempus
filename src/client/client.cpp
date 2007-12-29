@@ -471,6 +471,10 @@ namespace PT
     EventHandler<Client>* cbLoggedIn = new EventHandler<Client>(&Client::loggedIn, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("state.loggedin", cbLoggedIn);
 
+    // Register listener for state.play.
+    EventHandler<Client>* cbPlay = new EventHandler<Client>(&Client::PlayingEvent, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("state.play", cbPlay);
+
     // Register listener for RegionLoadEvent.
     EventHandler<Client>* cbLoad = new EventHandler<Client>(&Client::LoadRegion, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("region.load", cbLoad);
@@ -911,6 +915,18 @@ namespace PT
     }
   }
 
+  bool Client::PlayingEvent(PT::Events::Eventp ev)
+  {
+    using namespace PT::Events;
+
+    StatePlayEvent* playEv = GetStateEvent<StatePlayEvent*>(ev);
+    if (!playEv) return false;
+
+    state = STATE_PLAY;
+
+    return true;
+  }
+
   bool Client::LoadRegion(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
@@ -968,30 +984,6 @@ namespace PT
       Reflection::ReflectionUtils::SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
       Report(PT::Notify, "loadRegion: Enabled reflections!");
     }
-
-    // Zone manager.
-    csRef<iCelEntity> zonemgr =  pl->FindEntity("ptworld");
-
-    csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (zonemgr,
-      iPcZoneManager);
-
-    PT::Data::SectorDataManager* sectorMgr = 
-      PointerLibrary::getInstance()->getSectorDataManager();
-    PT::Data::Sector* ptsector = sectorMgr->GetSectorById(regionEv->sectorId);
-    if (!ptsector) 
-    {
-      Report(PT::Error, "Unknown sector with id %d!", regionEv->sectorId);
-      ptsector = sectorMgr->GetSectorByName("Default_Sector");
-    }
-
-    iCelRegion* region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
-    pczonemgr->ActivateRegion(region);
-
-    //TODO move this printing bit to the BL for the zone entity.
-    csString string;
-    string.Format("Entering region: %s.", ptsector->GetRegion().c_str());
-    PointerLibrary::getInstance()->getGUIManager()->GetChatWindow()->
-      AddMessage(string.GetData());
 
     world_loaded = true;
     PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);

@@ -226,9 +226,21 @@ namespace PT
 
       csRef<iCelRegion> region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
       pczonemgr->ActivateRegion(region);
-      pczonemgr->PointMesh("player", ptsector->GetRegion().c_str());
+      pczonemgr->PointMesh("player", ptsector->GetRegion().c_str()); 
 
-      SetFullPosition(pos, rot, sectorName.c_str());  
+      //TODO move this printing bit to the BL for the zone entity.
+      csString string;
+      string.Format("Entering region: %s.", ptsector->GetRegion().c_str());
+      PointerLibrary::getInstance()->getGUIManager()->GetChatWindow()->
+        AddMessage(string.GetData());
+      Report(PT::Notify, "Entering region: %s.", ptsector->GetRegion().c_str());
+
+      //Region loading event
+      Events::RegionLoadEvent* regionEvent = new Events::RegionLoadEvent();
+      regionEvent->sectorId	   = ptsector->GetId();
+      PointerLibrary::getInstance()->getEventManager()->AddEvent(regionEvent);
+
+      SetFullPosition(pos, rot, sectorName.c_str()); 
     }
 
     bool PlayerEntity::ActionForward(PT::Events::Eventp ev)

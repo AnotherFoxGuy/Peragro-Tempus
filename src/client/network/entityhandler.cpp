@@ -48,6 +48,20 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   entityEvent->entityId     = entmsg.getEntityId();
   entityEvent->entityType   = PT::Entity::NPCEntityType;
 
+  unsigned char itemCount = entmsg.getEquipmentCount();
+  for (unsigned char i = 0; i < itemCount; i++)
+  {
+    unsigned int itemId = entmsg.getItemId(i);
+    unsigned int slotId = i;
+    if (itemId == 0)  continue;
+
+    EntityAddEvent::SlotAndItem pair;
+    pair.slotId = slotId;
+    pair.itemId = itemId;
+
+    entityEvent->equipment.Push(pair);
+  }
+
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
@@ -316,13 +330,6 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   poseEvent->poseId = entmsg.getPoseId();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(poseEvent);
-
-  //Region loading event
-  RegionLoadEvent* regionEvent = new RegionLoadEvent();
-
-  regionEvent->sectorId	    = entmsg.getSectorId();
-
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(regionEvent);
 }
 
 void EntityHandler::handleAddItemEntity(GenericMessage* msg)

@@ -78,6 +78,8 @@ namespace PT
       csArray<PT::Events::Eventp> events;
       void ProcessEvents();
 
+      void ProcessLostEntities();
+
     private:
       unsigned int playerId;
 

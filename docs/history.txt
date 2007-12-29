@@ -12,6 +12,7 @@ under each day.
  - PK fixed persisting of player positions and added also the rotation to it.
  - PK added NetworkHelper::localcast(...) function that works like broadcast
    but is limited to a region. Players in another region won't receive them.
+ - Sueastside fixed some issues with regions.
 
 28-Dec-2007
  - Rakhun added support for <list> in networkcodegenerator.sh.
