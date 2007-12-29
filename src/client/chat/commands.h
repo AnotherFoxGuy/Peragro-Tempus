@@ -586,7 +586,7 @@ namespace PT
                 csVector3* vertices = trimesh->GetVertices();
                 for (size_t k = 0; vertices && k < trimesh->GetVertexCount(); k++)
                 {
-                  csVector3 v = t * vertices[k];
+                  csVector3 v = t.This2Other(vertices[k]);
                   data << "insert into vertices (mesh, num, x, y, z) values ( "
                        << mesh->QueryObject()->GetID() << ", " << k << ", "
                        << v.x << ", " << v.y << ", " << v.z << ");\n";
