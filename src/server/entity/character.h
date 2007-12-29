@@ -93,10 +93,8 @@ public:
     return pos;
   }
 
-  void setRotation(float rot)
-  {
-    rotation = rot;
-  }
+  void setRotation(float rot) { rotation = rot; }
+  float getRotation() const { return rotation; }
 
   const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }

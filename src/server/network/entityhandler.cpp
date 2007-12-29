@@ -106,6 +106,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
     pos[1] -= 1.0f; // Adjust the offset from the rider
     Entity* user_ent = ent->getPlayerEntity()->getMount()->getEntity()->getLock();
     user_ent->setPos(pos);
+    user_ent->setRotation(request_msg.getRotation());
     user_ent->setSector(request_msg.getSectorId());
     user_ent->freeLock();
 
@@ -118,6 +119,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
   Entity* user_ent = ent->getLock();
   user_ent->setPos(request_msg.getPos());
+  user_ent->setRotation(request_msg.getRotation());
   user_ent->setSector(request_msg.getSectorId());
   user_ent->freeLock();
 

@@ -87,6 +87,7 @@ void CharacterManager::checkForSave(const PcEntity* e)
   {
     Entity* l_ent = ent->getLock();
     l_ent->resetSavePos();
+    printf("Save entity %s (%d / %d) at <%.2f,%.2f,%.2f> %f\n", *ent->getName(), e->getCharacter()->getId(),ent->getId(), ent->getPos()[0], ent->getPos()[1], ent->getPos()[2], ent->getRotation());
     server->getDatabase()->getCharacterTable()->update(ent->getPos(), ent->getRotation(), ent->getSectorName(), e->getCharacter()->getId());
     l_ent->freeLock();
   }

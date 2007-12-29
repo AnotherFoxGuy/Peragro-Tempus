@@ -132,7 +132,7 @@ void CharacterTable::update(const float* pos, float rotation, ptString sector, i
     return;
   }
   db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, rot=%.2f, sector='%q' where id = %d;",
-    pos[0], pos[1], pos[2], *sector, char_id);
+    pos[0], pos[1], pos[2], rotation, *sector, char_id);
 }
 
 CharactersTableVO* CharacterTable::parseSingleResultSet(ResultSet* rs, size_t row)

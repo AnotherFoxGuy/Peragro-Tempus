@@ -174,6 +174,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   ent->setName(character->getName());
   ent->setMesh(character->getMesh());
   ent->setPos(character->getPos());
+  ent->setRotation(character->getRotation());
   ent->setSector(character->getSector());
   ent->freeLock();
 

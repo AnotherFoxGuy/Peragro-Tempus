@@ -91,6 +91,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setPos(entity->getPos());
+    msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
     //msg.setSector(entity->getSectorName());
     msg.setPoseId(entity->getPlayerEntity()->getPose());
