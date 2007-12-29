@@ -110,7 +110,7 @@ namespace PT
           if (ev->GetEventID().compare("entity.add") == 0)
             AddEntity(ev);
         }
-        else if (world_loaded && playing) 
+        if (world_loaded && playing) 
         {
           if (ev->GetEventID().compare("entity.remove") == 0)
             RemoveEntity(ev);
