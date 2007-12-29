@@ -44,7 +44,14 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
   itemmsg.deserialise(msg->getByteStream());
 
   ItemManager* items = server->getItemManager();
-  //items->addItem(itemmsg.
+  ItemTable* it = Server::getServer()->getDatabase()->getItemTable();
+  it->insert(itemmsg.getName(), itemmsg.getIcon(), itemmsg.getDescription(),
+             itemmsg.getFile(), itemmsg.getMesh(), itemmsg.getWeight(),
+             itemmsg.getEquipType());
+
+  Item* item = it->getItem(itemmsg.getName());
+
+  items->addItem(item);
 }
 
 void AdminHandler::handleRemoveAll(GenericMessage* msg)
@@ -130,11 +137,11 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
   }
   else if (rmmsg.getDataType() == ptString::create("items"))
   {
-    //ItemManager* items = server->getItemManager();
-    //while (items->getItemCount() > 0)
-    //{
-    //  items->delItem((size_t)0);
-    //}
+    ItemManager* items = server->getItemManager();
+    while (items->getItemCount() > 0)
+    {
+      items->delItem((size_t)0);
+    }
   }
   else if (rmmsg.getDataType() == ptString::create("sectors"))
   {

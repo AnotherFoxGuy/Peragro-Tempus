@@ -4,12 +4,11 @@ SubInclude TOP src server ai ;
 SubInclude TOP src server colldet ;
 SubInclude TOP src server database ;
 SubInclude TOP src server entity ;
-SubInclude TOP src server loader ;
 SubInclude TOP src server network ;
 
 Description server : "Server" ;
 Application server : [ Wildcard *.h *.cpp ] : console ;
-LinkWith server : server-network server-entity server-ai server-colldet server-loader sqlite_adp database quest tinyxml util ;
+LinkWith server : server-network server-entity server-ai server-colldet sqlite_adp database quest tinyxml util ;
 
 MsvcExternalLibrary server : "wsock32.lib" ;
 
@@ -22,7 +21,7 @@ if [ Property build : projgen_version ] != 6
   SubVariant static ;
   
   Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall console ;
-  LinkWith server_static : server-network server-entity server-ai server-colldet server-loader sqlite_adp database quest tinyxml util ;
+  LinkWith server_static : server-network server-entity server-ai server-colldet sqlite_adp database quest tinyxml util ;
   MsvcExternalLibrary server_static : "wsock32.lib" ;
   SubVariant ;
 }

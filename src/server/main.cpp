@@ -43,10 +43,7 @@
 #include "server/database/sqlite/sqlite.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-spawnpoints.h"
-#include "server/loader/fileloader.h"
-#include "server/loader/file-doors.h"
-#include "server/loader/file-items.h"
-#include "server/loader/file-sectors.h"
+
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
 #include "server/environment.h"
@@ -104,8 +101,6 @@ int main(int argc, char ** argv)
   dbSQLite db;
   server.setDatabase(&db);
 
-  FileLoader fileloader;
-
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
 
@@ -144,12 +139,8 @@ int main(int argc, char ** argv)
   Environment environment;
 
   sector_mgr.loadFromDB(db.getSectorsTable());
-  // Loading sectors from file (to be removed when server setup through the client is working)
-  // fileloader.getSectorsFile()->load();
 
   item_mgr.loadFromDB(db.getItemTable());
-  // Loading items from file (to be removed when server setup through the client is working)
-  fileloader.getItemsFile()->load();
 
   ent_mgr->loadFromDB(db.getEntityTable());
 
@@ -157,9 +148,6 @@ int main(int argc, char ** argv)
   stat_mgr.loadFromDB(db.getStatTable());
   skill_mgr.loadFromDB(db.getSkillTable());
   race_mgr.loadFromDB(db.getRaceTable());
-
-  // Loading doors from file (to be removed when server setup through the client is working)
-  //fileloader.getDoorsFile()->load();
 
   printf("Initialising collision detection... ");
   BulletCD cd;
