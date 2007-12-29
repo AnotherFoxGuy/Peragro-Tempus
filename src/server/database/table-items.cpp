@@ -55,6 +55,11 @@ void ItemTable::insert(ptString name, ptString icon, ptString description, ptStr
   db->update("insert into items (name, icon, description, file, mesh, weight, equiptype) values ('%q','%q','%q','%q','%q',%u,'%q');", *name, *icon, *description, *file, *mesh, weight, *equiptype);
 }
 
+void ItemTable::remove(int id)
+{
+  db->update("delete from items where id = %d;", id);
+}
+
 void ItemTable::dropTable()
 {
   db->update("drop table items;");

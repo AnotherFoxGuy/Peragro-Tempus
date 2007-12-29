@@ -145,7 +145,7 @@ int main(int argc, char ** argv)
 
   sector_mgr.loadFromDB(db.getSectorsTable());
   // Loading sectors from file (to be removed when server setup through the client is working)
-  fileloader.getSectorsFile()->load();
+  // fileloader.getSectorsFile()->load();
 
   item_mgr.loadFromDB(db.getItemTable());
   // Loading items from file (to be removed when server setup through the client is working)

@@ -38,6 +38,18 @@ private:
   Array<ptString> sectors;
   Array<ptString> regions;
 
+  void loadSector(unsigned short id, ptString name, ptString region)
+  {
+    if (sectors.getCount()+1 == id)
+    {
+      sectors.add(name);
+      regions.add(region);
+    }
+    else
+      printf("Sectors out of order! Expected sector id %" SIZET 
+             " but got %d!\n", sectors.getCount(), id);
+  }
+
 public:
   SectorManager() {}
   ~SectorManager() {}
@@ -72,8 +84,13 @@ public:
   {
     if (sectors.getCount()+1 == id)
     {
-      sectors.add(name);
-      regions.add(region);
+      SectorsTable* dt = Server::getServer()->getDatabase()->getSectorsTable();
+      SectorsTableVO vo;
+      vo.id = id;
+      vo.name = name;
+      vo.region = region;
+      dt->insert(&vo);
+      loadSector(id, name, region);
     }
     else
       printf("Sectors out of order! Expected sector id %" SIZET 
@@ -98,7 +115,7 @@ public:
     Array<SectorsTableVO*> loadedSectors = dt->getAll();
     for (size_t i = 0; i < loadedSectors.getCount(); i++)
     {
-      addSector(loadedSectors[i]->id, loadedSectors[i]->name, loadedSectors[i]->region);
+      loadSector(loadedSectors[i]->id, loadedSectors[i]->name, loadedSectors[i]->region);
     }
   }
 };

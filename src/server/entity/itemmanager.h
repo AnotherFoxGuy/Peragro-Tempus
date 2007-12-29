@@ -21,6 +21,8 @@
 
 #include "common/util/array.h"
 #include "item.h"
+#include "server/server.h"
+#include "server/database/database.h"
 #include "server/database/table-items.h"
 
 class ItemManager
@@ -49,7 +51,10 @@ public:
 
   void delItem(size_t index)
   {
+    ItemTable* it = Server::getServer()->getDatabase()->getItemTable();
+    Item* item = getItem(index);
     items.remove(index);
+    it->remove(item->getId());
   }
 
   void delItem(Item* item)
@@ -64,6 +69,8 @@ public:
         return;
       }
     }
+    ItemTable* it = Server::getServer()->getDatabase()->getItemTable();
+    it->remove(item->getId());
   }
 
   bool exists(Item* item)

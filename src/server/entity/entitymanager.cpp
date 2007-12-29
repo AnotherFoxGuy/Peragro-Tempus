@@ -74,6 +74,8 @@ void EntityManager::loadFromDB(EntityTable* et)
         CharacterManager* cmgr = Server::getServer()->getCharacterManager();
         Character* character = cmgr->getCharacter(npc_vo->character, 0 /* npc */);
 
+        character->getInventory()->loadFromDatabase(db->getInventoryTable(), character->getId());
+
         NpcEntity* npc = new NpcEntity();
         npc->setCharacter(character);
         npc->setAI(AI::createAI(npc_vo->ai));

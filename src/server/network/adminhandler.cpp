@@ -31,10 +31,20 @@
 
 void AdminHandler::handleCreateSector(GenericMessage* msg)
 {
+  CreateSectorMessage sectormsg;
+  sectormsg.deserialise(msg->getByteStream());
+
+  SectorManager* sectors = server->getSectorManager();
+  sectors->addSector(sectormsg.getSectorId(), sectormsg.getName(), sectormsg.getRegion());
 }
 
 void AdminHandler::handleCreateItem(GenericMessage* msg)
 {
+  CreateItemMessage itemmsg;
+  itemmsg.deserialise(msg->getByteStream());
+
+  ItemManager* items = server->getItemManager();
+  //items->addItem(itemmsg.
 }
 
 void AdminHandler::handleRemoveAll(GenericMessage* msg)
@@ -128,7 +138,7 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
   }
   else if (rmmsg.getDataType() == ptString::create("sectors"))
   {
-    //SectorManager* sectors = server->getSectorManager();
-    //sectors->delAll();
+    SectorManager* sectors = server->getSectorManager();
+    sectors->delAll();
   }
 }
