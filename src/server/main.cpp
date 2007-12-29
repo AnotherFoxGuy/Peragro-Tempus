@@ -163,6 +163,7 @@ int main(int argc, char ** argv)
 
   printf("Initialising collision detection... ");
   BulletCD cd;
+  server.setCollisionDetection(&cd);
   cd.setup();
   printf("done\n");
   //cd.begin();

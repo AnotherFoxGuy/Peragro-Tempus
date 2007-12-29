@@ -5,9 +5,10 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 29-Dec-2007
- - Fixing vertex transformation in /dbg dump.
+ - PK fixed vertex transformation in /dbg dump.
  - Rakhun fixed some typos in scripts/ and added shebangs to scripts that did
    not have it.
+ - PK added entity spawning and removing to the collision detection.
 
 28-Dec-2007
  - Rakhun added support for <list> in networkcodegenerator.sh.

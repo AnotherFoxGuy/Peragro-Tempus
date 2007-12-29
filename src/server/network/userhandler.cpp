@@ -76,8 +76,8 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   conn->setUser(user);
   user->setConnection(conn);
 
-  Array<CharactersTableVO*> characters;
-  characters = server->getDatabase()->getCharacterTable()->getAllCharacters(user);
+  Array<CharactersTableVO*> characters
+    = server->getDatabase()->getCharacterTable()->getAllCharacters(user);
   CharListMessage char_msg;
   char_msg.setCharacterCount((char)characters.getCount());
   for (unsigned int i=0; i<characters.getCount(); i++)
