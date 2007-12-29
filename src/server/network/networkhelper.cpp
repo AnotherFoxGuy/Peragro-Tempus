@@ -3,6 +3,7 @@
 
 #include "server/entity/character.h"
 #include "server/entity/pcentity.h"
+#include "server/entity/sectormanager.h"
 #include "server/entity/usermanager.h"
 #include "server/server.h"
 
@@ -116,6 +117,26 @@ void NetworkHelper::sendMessage(const User* user, const ByteStream& bs)
     return;
 
   conn->send(bs);
+}
+
+void NetworkHelper::localcast(const ByteStream& bs, const Entity* entity)
+{
+  Server* server = Server::getServer();
+  SectorManager* sm = server->getSectorManager();
+  ptString region = sm->getRegionName(entity->getSector());
+
+  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
+  {
+    User* user = server->getUserManager()->getUser(i);
+    if (user && user->getConnection() && user->getEntity())
+    {
+      unsigned int sector = user->getEntity()->getEntity()->getSector();
+      if (sm->getRegionName(sector) == region)
+      {
+        user->getConnection()->send(bs);
+      }
+    }
+  }
 }
 
 void NetworkHelper::broadcast(const ByteStream& bs)

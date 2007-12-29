@@ -131,7 +131,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   ByteStream bs;
   response_msg.serialise(&bs);
 
-  NetworkHelper::broadcast(bs);
+  NetworkHelper::localcast(bs, user_ent);
 }
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
@@ -278,7 +278,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     unequip_msg.setItemId(Item::NoItem); // No Item!
     ByteStream bs;
     response_msg.serialise(&bs);
-    NetworkHelper::broadcast(bs);
+    NetworkHelper::localcast(bs, user_ent);
   }
 
   // Create new entity from item.
@@ -550,7 +550,7 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   ByteStream bs;
   umount_msg.serialise(&bs);
 
-  NetworkHelper::broadcast(bs);
+  NetworkHelper::localcast(bs, user_ent);
 }
 
 void EntityHandler::handleUnmountRequest(GenericMessage* msg)
@@ -595,7 +595,7 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   ByteStream bs;
   umount_msg.serialise(&bs);
 
-  NetworkHelper::broadcast(bs);
+  NetworkHelper::localcast(bs, user_ent);
 }
 
 void EntityHandler::handlePoseRequest(GenericMessage* msg)
@@ -622,7 +622,7 @@ void EntityHandler::handlePoseRequest(GenericMessage* msg)
   ByteStream bs;
   pose_msg.serialise(&bs);
 
-  NetworkHelper::broadcast(bs);
+  NetworkHelper::localcast(bs, user_ent);
 }
 
 void EntityHandler::handleSpawnItem(GenericMessage* msg)

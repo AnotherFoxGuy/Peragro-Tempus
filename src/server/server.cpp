@@ -169,7 +169,7 @@ void Server::moveEntity(PcEntity* entity, float* pos, float speed, bool run)
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::broadcast(bs);
+  NetworkHelper::localcast(bs, entity->getEntity());
 }
 
 void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run)
@@ -185,7 +185,7 @@ void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run)
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::broadcast(bs);
+  NetworkHelper::localcast(bs, entity->getEntity());
 }
 
 void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool run)
@@ -205,7 +205,7 @@ void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool r
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::broadcast(bs);
+  NetworkHelper::localcast(bs, entity->getEntity());
 }
 
 void Server::broadCast(const ByteStream& bs)
