@@ -1,3 +1,4 @@
+#!/bin/sh
 export CRYSTAL=/home/peragro/peragro/CS
 export LD_LIBRARY_PATH=$CRYSTAL
 export PATH=$CRYSTAL:$PATH

@@ -1,3 +1,4 @@
+#!/bin/sh
 echo -----------------------------------------------------------------------------
 echo `date`
 echo -----------------------------------------------------------------------------
@@ -5,7 +6,7 @@ cd /home/peragro/
 if [ -d msvcregenAuto ]
 then
   cd msvcregenAuto
-  echo "--> Updating working repoitory."
+  echo "--> Updating working repository."
   svn up
   echo "--> Reverting potential conflicts."
   svn revert . -R
@@ -39,7 +40,7 @@ svn add *
 cd ../9
 svn add *
 cd ../..
-echo "--> Commiting to SVN Repository if changes where found."
+echo "--> Committing to SVN Repository if changes were found."
 svn ci . -m "Automated MSVC project file regeneration."
 cd ../..
 echo "--> Done."

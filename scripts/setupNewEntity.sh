@@ -1,4 +1,5 @@
-# Use this script on your own risc.
+#!/bin/sh
+# Use this script on your own risk.
 # It has been tested on Gentoo amd64.
 
 # Place the script in a directory where you want to download 
@@ -50,7 +51,7 @@ bjam --prefix=../boost --with-python --with-filesystem --with-regex --with-date_
 
 cd ..
 
-#NOTE: libbost_python.so not being built by boost
+#NOTE: libbost_python.so is not being built by boost
 svn co https://cyanox.nl/peragro/branches/newentity newentity
 cd newentity
 ./autogen.sh
