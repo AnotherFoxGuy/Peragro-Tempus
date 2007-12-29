@@ -45,9 +45,7 @@ class dbSQLite : public Database, Thread
    * \param colArg array of strings representing the name of all collums.
    */
   static int callback(void *rs, int cols, char **colArg, char **colName);
-  ResultSet* query(const char*, ...);
   void update();
-  void update(const char*, ...);
   size_t getLastInsertedId();
 
   void shutdown();
@@ -57,6 +55,12 @@ class dbSQLite : public Database, Thread
 public:
   dbSQLite();
   ~dbSQLite();
+
+  //---[Implementing Database interface]-------------------------------------
+
+  ResultSet* query(const char*, ...);
+  void update(const char*, ...);
+
 };
 
 #endif // _PT_SQLITE_H_

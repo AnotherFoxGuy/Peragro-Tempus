@@ -37,14 +37,18 @@ const ptString UserAccountManager::login(ptString username, const char* password
   if (!user)
   {
     UsersTableVO* vo = server->getDatabase()->getUsersTable()->getUser(username);
-    User* user = new User(vo->id);
-    user->setName(vo->name);
-    user->setPwHash(vo->passwd.c_str(), vo->passwd.length());
+    if (vo)
+    {
+      user = new User(vo->id);
+      user->setName(vo->name);
+      user->setPwHash(vo->passwd.c_str(), vo->passwd.length());
+    }
   }
 
   // Unknown User
   if (!user || strcmp(user->getPwHash(), password) != 0 )
   {
+    user = 0;
     return ptString("Unknown user or invalid password", strlen("Unknown User"));
   }
 

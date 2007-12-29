@@ -19,14 +19,19 @@
 #ifndef PT_BULLET_H
 #define PT_BULLET_H
 
+#include <map>
+
 #include "colldet.h"
 
 class btCollisionWorld;
+class btCollisionObject;
 
 class BulletCD : public CollisionDetection
 {
 private:
   btCollisionWorld* collisionWorld;
+
+  std::map<const Entity*, btCollisionObject*> cobjs;
 
 protected:
   virtual void Run();
@@ -36,6 +41,10 @@ public:
   virtual ~BulletCD() {}
 
   virtual void setup();
+
+  virtual void addEntity(const Entity* entity);
+  virtual void removeEntity(const Entity* entity);
+  virtual void moveEntity(const Entity* entity, float* pos, float speed);
 };
 
 #endif // PT_BULLET_H

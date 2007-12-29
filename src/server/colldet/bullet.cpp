@@ -25,6 +25,7 @@
 #include "server/database/table-meshes.h"
 #include "server/database/table-triangles.h"
 #include "server/database/table-vertices.h"
+#include "server/entity/entity.h"
 
 void BulletCD::setup()
 {
@@ -85,4 +86,40 @@ void BulletCD::Run()
 {
   if (collisionWorld)
     collisionWorld->performDiscreteCollisionDetection();
+}
+
+void BulletCD::addEntity(const Entity* entity)
+{
+  printf("Adding entity %d to colldet", entity->getId());
+
+  btBoxShape* box = new btBoxShape(btVector3(1,2,1));
+
+  btCollisionObject* collObj = new btCollisionObject();
+  collObj->setCollisionShape(box);
+
+  btTransform& t = collObj->getWorldTransform();
+  btVector3 p(entity->getPos()[0], entity->getPos()[1], entity->getPos()[2]);
+  t.setOrigin(p);
+  t.setRotation(btQuaternion(entity->getRotation(), 0, 0));
+  collObj->setWorldTransform(t);
+
+  cobjs[entity] = collObj;
+
+  collisionWorld->addCollisionObject(collObj);
+}
+
+void BulletCD::removeEntity(const Entity* entity)
+{
+  printf("Removing entity %d from colldet", entity->getId());
+
+  collisionWorld->removeCollisionObject(cobjs[entity]);
+
+  cobjs.erase(entity);
+}
+
+void BulletCD::moveEntity(const Entity* entity, float* pos, float speed)
+{
+  btCollisionObject* collObj = cobjs[entity];
+
+  //TODO: Make entity walk from the current position to pos
 }

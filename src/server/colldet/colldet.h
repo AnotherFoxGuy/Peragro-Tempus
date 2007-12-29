@@ -21,6 +21,8 @@
 
 #include "common/util/thread.h"
 
+class Entity;
+
 class CollisionDetection : public Thread
 {
 public:
@@ -28,6 +30,10 @@ public:
   virtual ~CollisionDetection() {}
 
   virtual void setup() = 0;
+
+  virtual void addEntity(const Entity* entity) = 0;
+  virtual void removeEntity(const Entity* entity) = 0;
+  virtual void moveEntity(const Entity* entity, float* pos, float speed) = 0;
 };
 
 #endif // PT_COLLDET_H

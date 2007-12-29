@@ -40,6 +40,7 @@ class SkillEngine;
 class ByteStream;
 class SectorManager;
 class MountEntity;
+class CollisionDetection;
 
 class Server
 {
@@ -61,6 +62,7 @@ private:
   Spawner* spawner;
   SkillEngine* skillengine;
   SectorManager* sectormanager;
+  CollisionDetection* colldet;
 
 public:
   Server() { server = this; }
@@ -107,6 +109,9 @@ public:
 
   void setSectorManager(SectorManager* sectormanager) { this->sectormanager = sectormanager; }
   SectorManager* getSectorManager() { return this->sectormanager; }
+
+  void setCollisionDetection(CollisionDetection* colldet) { this->colldet = colldet; }
+  CollisionDetection* getCollisionDetection() { return this->colldet; }
 
   //void setSkillEngine(SkillEngine* spawner) { this->skillengine = skillengine; }
   //SkillEngine* getSkillEngine() { return this->skillengine; }

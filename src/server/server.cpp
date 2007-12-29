@@ -33,6 +33,7 @@
 #include "server/network/connection.h"
 #include "server/network/networkhelper.h"
 #include "common/util/sleep.h"
+#include "server/colldet/colldet.h"
 
 Server* Server::server;
 
@@ -71,6 +72,11 @@ void Server::addEntity(const Entity* entity, bool persistent)
     {
       db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
     }
+  }
+
+  if (entity->getPlayerEntity() || entity->getNpcEntity())
+  {
+    getCollisionDetection()->addEntity(entity);
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)
@@ -130,6 +136,11 @@ void Server::delEntity(const Entity* entity)
       e->freeLock();
       mount->freeLock();
     }
+  }
+
+  if (entity->getPlayerEntity() || entity->getNpcEntity())
+  {
+    getCollisionDetection()->removeEntity(entity);
   }
 
   for (size_t i = 0; i < usr_mgr->getUserCount(); i++)

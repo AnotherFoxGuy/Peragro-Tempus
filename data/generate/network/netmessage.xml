@@ -121,6 +121,7 @@
 			<message id="0" name="CreateSector" />
 			<message id="1" name="CreateItem" />
 			<message id="2" name="RemoveAll" />
+			<message id="3" name="CreateNpc" />
 		</type>
 	</message-definitions>
 	<message-implementations>

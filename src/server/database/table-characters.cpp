@@ -165,7 +165,8 @@ Array<CharactersTableVO*> CharacterTable::parseMultiResultSet(ResultSet* rs)
   Array<CharactersTableVO*> arr;
   for (size_t i = 0; rs && i < rs->GetRowCount(); i++)
   {
-    CharactersTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
+    CharactersTableVO* obj = parseSingleResultSet(rs, i);
+    arr.add(obj);
   }
   return arr;
 }

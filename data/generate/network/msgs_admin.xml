@@ -19,4 +19,23 @@
 	<message type="Admin" name="RemoveAll">
 		<string>DataType</string>
 	</message>
+
+	<message type="Admin" name="CreateNpc">
+		<string>Name</string>
+		<string>Mesh</string>
+		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
+		<uint16>SectorId</uint16>
+		<string>Race</string>
+		<colour24>HairColour</colour24>
+		<colour24>SkinColour</colour24>
+		<colour24>DecalColour</colour24>
+		<uint16>Dialog</uint16>
+		<string>Ai</string>
+		<list name="AiSetting">
+			<string>Key</string>
+			<string>Value</string>
+		</list>
+	</message>
+
 </message-implementation>
