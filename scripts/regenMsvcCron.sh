@@ -36,6 +36,8 @@ cd ../71
 svn add *
 cd ../8
 svn add *
+cd ../9
+svn add *
 cd ../..
 echo "--> Commiting to SVN Repository if changes where found."
 svn ci . -m "Automated MSVC project file regeneration."
