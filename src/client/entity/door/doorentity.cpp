@@ -39,29 +39,40 @@ namespace PT
       Create();
     }
 
+    DoorEntity::~DoorEntity()
+    {
+     csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+
+      engine->RemoveEngineSectorCallback(cb);
+    }
+
     void DoorEntity::Create()
     {
       csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
       CreateCelEntity();
-
       celEntity->SetName(name.c_str());
 
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshName.c_str());
 
-      if (doormesh)
+      if (doormesh.IsValid())
       {
         pcmesh->SetMesh(doormesh);
         trans = doormesh->GetMovable()->GetTransform();
+        Entity::pos = doormesh->GetMovable()->GetFullPosition();
       }
       else
       {
-        Report(PT::Warning, "PtDoorEntity: Couldn't find mesh for door %s!", name.c_str());
-        return;
+        Report(PT::Warning, "DoorEntity: Couldn't find mesh '%s' for door %s!", meshName.c_str(), name.c_str());
+        pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
+        cb.AttachNew(new SectorCallBack(this));
+        engine->AddEngineSectorCallback(cb);
       }
 
       csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,
@@ -127,6 +138,24 @@ namespace PT
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       if (!pcmesh.IsValid() || !pcmesh->GetMesh()) return;
       pcmesh->GetMesh()->GetMovable()->SetTransform(trans);
+    }
+
+    void DoorEntity::SectorCallBack::NewSector(iEngine* engine, iSector* sector)
+    {
+      if (!entity) return;
+      std::string meshName = entity->GetMeshName();
+      iCelEntity* celEntity = entity->GetCelEntity();
+      if (!celEntity) return;
+      csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshName.c_str());
+
+      if (doormesh.IsValid())
+      {
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+        if (!pcmesh.IsValid()) return;
+        pcmesh->SetMesh(doormesh);
+        engine->RemoveEngineSectorCallback(this);
+      }
+
     }
   }
 }

@@ -50,6 +50,16 @@ namespace PT
 
       void Create();
 
+      struct SectorCallBack : public scfImplementation1<SectorCallBack, iEngineSectorCallback>
+      {
+        DoorEntity* entity;
+        SectorCallBack (DoorEntity* ent) : scfImplementationType (this) { entity = ent;}
+        virtual void NewSector (iEngine* engine, iSector* sector);
+        virtual void RemoveSector (iEngine* engine, iSector* sector) {}
+      };
+
+      csRef<SectorCallBack> cb;
+
     public:
       /**
        * Constructor that sets up the door using the information provided by
@@ -58,6 +68,8 @@ namespace PT
        * @param ev Event used for initialising the door properties.
        */
       DoorEntity(const Events::EntityAddEvent& ev);
+
+      ~DoorEntity();
 
       ///@return Unique ID of the door.
       unsigned int GetDoorId() const { return doorId; }

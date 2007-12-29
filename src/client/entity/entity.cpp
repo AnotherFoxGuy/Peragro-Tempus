@@ -83,7 +83,7 @@ namespace PT
       if (celEntity.IsValid())
       {
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-        csRef<iMovable> mov = pcmesh->GetMesh()->GetMovable();
+        csRef<iMeshWrapper> mesh = pcmesh->GetMesh(); 
         csRef<iSector> sec = engine->FindSector(sector.c_str());
 
         if (!sec.IsValid())
@@ -93,12 +93,16 @@ namespace PT
             "Entity: Failed to find sector %s switching to default!", sector.c_str());
         }
 
-        if (pcmesh.IsValid() && mov.IsValid() && sec.IsValid())
+        if (pcmesh.IsValid() && mesh.IsValid() && sec.IsValid())
         {
-          mov->SetSector(sec);
-          mov->SetPosition(pos);
-          mov->GetTransform ().SetO2T (csYRotMatrix3(rotation));
-          mov->UpdateMove();
+          csRef<iMovable> mov = mesh->GetMovable();
+          if (mov.IsValid())
+          {
+            mov->SetSector(sec);
+            mov->SetPosition(pos);
+            mov->GetTransform ().SetO2T (csYRotMatrix3(rotation));
+            mov->UpdateMove();
+          }
 
           return; // success so return.
         }

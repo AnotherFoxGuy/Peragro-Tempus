@@ -251,6 +251,12 @@ namespace PT
       virtual void Pose(unsigned int poseId) {}
 
       /**
+       * Changes the entity position and sector immediatelly
+       * to the stored values.
+       */
+      virtual void SetFullPosition() { SetFullPosition(pos, rot, sectorName); }
+
+      /**
        * Changes the entity position and sector immediatelly.
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.

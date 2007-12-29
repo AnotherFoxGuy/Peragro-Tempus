@@ -145,7 +145,7 @@ namespace PT
         iSector* sector = engine->FindSector(ptent->GetSectorName().c_str());
         if (!sector) continue;
 
-        ptent->SetFullPosition(ptent->GetPosition(), ptent->GetRotation(), ptent->GetSectorName());
+        ptent->SetFullPosition();
         mesh->GetMovable()->GetSectors()->Remove(defsector);
         Report(PT::Debug, "Lost entity '%s' relocated", ptent->GetName().c_str());
       }  
@@ -255,6 +255,7 @@ namespace PT
       {
         if (entities[i]->GetId() == id)
         {
+          Report(PT::Notify, "Removing Entity '%s(%d)'.", entities[i]->GetName().c_str(), id);
           movementManager->RemoveMoveTos(id);
           entities[i]->Reset();
           pl->RemoveEntity(entities[i]->GetCelEntity());
