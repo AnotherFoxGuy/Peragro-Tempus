@@ -36,6 +36,11 @@
 			<string>Key</string>
 			<string>Value</string>
 		</list>
+		<list name="Inventory">
+			<uint8>SlotId</uint8>
+			<uint32>ItemId</uint32>
+			<uint32>Variation</uint32>
+		</list>
 	</message>
 
 </message-implementation>
