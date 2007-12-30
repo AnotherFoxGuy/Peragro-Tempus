@@ -5,8 +5,7 @@
 		<id>1</id>
 		<name>North Gate</name>
 		<mesh>gate_north_gate</mesh>
-		<position x="27.9388713837" y="179.982452393" z="-6.57791852951"/>
-		<sector>room</sector>
+		<position sector="room" x="27.9388713837" y="179.982452393" z="-6.57791852951"/>
 		<keyId>7</keyId>
 		<quest>GateUpward</quest>
 		<default open="false" locked="true" />
@@ -16,10 +15,9 @@
 		<id>2</id>
 		<name>Door</name>
 		<mesh>house016_devhouse_house016door</mesh>
-		<position x="85.2472610474" y="2.34153294563" z="2.31262850761"/>
-		<sector>room</sector>
-    		<keyId>7</keyId>
-    		<quest>HouseDoorOutward</quest>
+		<position sector="room" x="85.2472610474" y="2.34153294563" z="2.31262850761"/>
+   		<keyId>7</keyId>
+   		<quest>HouseDoorOutward</quest>
 		<default open="false" locked="true" />
 	</door>
 	
@@ -27,8 +25,7 @@
 		<id>3</id>
 		<name>Tavern</name>
 		<mesh>tavern01_tavern_door_left</mesh>
-		<position x="103.486" y="4.68919" z="15.8964"/>
-		<sector>room</sector>
+		<position sector="room" x="103.486" y="4.68919" z="15.8964"/>
 		<keyId>7</keyId>
 		<quest>HouseDoorOutward</quest>
 		<default open="true" locked="true" />
@@ -38,8 +35,7 @@
 		<id>4</id>
 		<name>Garden Gate</name>
 		<mesh>taverngardengate</mesh>
-		<position y="2.8912" x="122.054" z="5.22969" />
-		<sector>room</sector>
+		<position sector="room" y="2.8912" x="122.054" z="5.22969" />
 		<keyId>7</keyId>
 		<quest>HouseDoorOutward</quest>
 		<default open="false" locked="false" />
@@ -49,10 +45,9 @@
 		<id>5</id>
 		<name>East Arena Gate</name>
 		<mesh>Empty.1498_varena_gate_left</mesh>
-		<position y="19.0057" x="776.57" z="522.899" />
-		<sector>Canyon</sector>
+		<position sector="Canyon" y="19.0057" x="776.57" z="522.899" />
 		<keyId>7</keyId>
-	    	<quest>GateUpward</quest>
+		<quest>GateUpward</quest>
 		<default open="false" locked="false" />
  	</door>
  	
@@ -60,8 +55,7 @@
 		<id>6</id>
 		<name>West Arena Gate</name>
 		<mesh>Empty.1498_varena_gate_right</mesh>
-		<position y="19.0057" x="876.504" z="509.618" />
-		<sector>Canyon</sector>
+		<position sector="Canyon" y="19.0057" x="876.504" z="509.618" />
 		<keyId>7</keyId>
 		<quest>GateUpward</quest>
 		<default open="false" locked="false" />

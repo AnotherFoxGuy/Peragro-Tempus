@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.7.0 (http://www.liquid-technologies.com) -->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="doors">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="door">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="id" type="xs:unsignedInt" />
+              <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
+              <xs:element minOccurs="1" maxOccurs="1" name="mesh" type="xs:string" />
+              <xs:element minOccurs="1" maxOccurs="1" name="position">
+                <xs:complexType>
+                  <xs:attribute name="sector" type="xs:string" />
+                  <xs:attribute name="x" type="xs:float" use="required" />
+                  <xs:attribute name="y" type="xs:float" use="required" />
+                  <xs:attribute name="z" type="xs:float" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="keyId" type="xs:unsignedInt" />
+              <xs:element minOccurs="1" maxOccurs="1" name="quest" type="xs:string" />
+              <xs:element minOccurs="1" maxOccurs="1" name="default">
+                <xs:complexType>
+                  <xs:attribute name="open" type="xs:boolean" use="required" />
+                  <xs:attribute name="locked" type="xs:boolean" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

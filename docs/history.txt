@@ -10,6 +10,7 @@ under each day.
    consistent newline style, also changed the note about the code being generated
    and fixed a warning in entitymanager.
  - PK created a npcs.xsd so the npcs.xml can be validated against it.
+ - PK added xsd for the other xml files too.
 
 29-Dec-2007
  - PK fixed vertex transformation in /dbg dump.
