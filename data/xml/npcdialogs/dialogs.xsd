@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="dialogs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="dialog">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="teleport">
+                <xs:complexType>
+                  <xs:attribute name="sector" type="xs:string" use="required" />
+                  <xs:attribute name="x" type="xs:string" use="required" />
+                  <xs:attribute name="y" type="xs:string" use="required" />
+                  <xs:attribute name="z" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" name="sell" type="xs:string" />
+              <xs:element minOccurs="0" name="buy" type="xs:string" />
+              <xs:element minOccurs="0" name="text" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="answer">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                      <xs:attribute name="href" type="xs:unsignedInt" use="optional" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+            <xs:attribute default="false" name="start" type="xs:boolean" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
