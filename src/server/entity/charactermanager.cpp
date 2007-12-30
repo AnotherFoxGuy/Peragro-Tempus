@@ -56,7 +56,7 @@ Character* CharacterManager::getCharacter(int id, User* user)
 {
   CharacterTable* ct = server->getDatabase()->getCharacterTable();
 
-  int userid = (user ? user->getId() : 0 );
+  unsigned int userid = (user ? user->getId() : 0 );
 
   CharactersTableVO* vo = ct->findCharacterById(id, userid);
   if (vo)

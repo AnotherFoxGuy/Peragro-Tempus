@@ -38,7 +38,7 @@ private:
 
   //unsigned int stackmax;
 
-  unsigned int weight;
+  float weight;
 
   ptString equiptype;
 
@@ -79,8 +79,8 @@ public:
   //void setStackMax(unsigned int stackmax) { this->stackmax = stackmax; }
   //unsigned int getStackMax() const { return stackmax; }
 
-  void setWeight(unsigned int weight) { this->weight = weight; }
-  unsigned int getWeight() const { return weight; }
+  void setWeight(float weight) { this->weight = weight; }
+  float getWeight() const { return weight; }
 
   ptString getEquiptype() const { return equiptype; }
   void setEquiptype(ptString x) { equiptype = x; }

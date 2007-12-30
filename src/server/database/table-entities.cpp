@@ -88,7 +88,7 @@ void EntityTable::createTable()
     // Bridge 100 = 
     // x = 27 - 33 = 6
     // y = 137 - 148 = 11
-    float pos[3] = { 27 + x, 2.2f, 137 + y * 0.6};
+    float pos[3] = { 27.0f + x, 2.2f, 137.0f + y * 0.6f};
 
     insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel2, pos, 0, room);
   }
@@ -102,29 +102,29 @@ void EntityTable::createTable()
 
   ptString canyon("Canyon", 6);
 
-  float pos7[3] = { 892.575256,17.702299,474.827728 };
+  float pos7[3] = { 892.575256f,17.702299f,474.827728f };
   insert(107, horse, Entity::MountEntityType, 0, 0, horse, pos7, 0, canyon);
-  float pos8[3] = { 899.218506,17.665253,473.588654 };
+  float pos8[3] = { 899.218506f,17.665253f,473.588654f };
   insert(108, horse, Entity::MountEntityType, 0, 0, horse, pos8, 0, canyon);
-  float pos9[3] = { 905.094604,17.629965,473.702515 };
+  float pos9[3] = { 905.094604f,17.629965f,473.702515f };
   insert(109, horse, Entity::MountEntityType, 0, 0, horse, pos9, 0, canyon);
-  float pos10[3] = { 911.103638,17.593407,474.046356 };
+  float pos10[3] = { 911.103638f,17.593407f,474.046356f };
   insert(110, horse, Entity::MountEntityType, 0, 0, horse, pos10, 0, canyon);
 
-  float pos11[3] = { 830.781616,17.534599,608.832093 };
+  float pos11[3] = { 830.781616f,17.534599f,608.832093f };
   insert(111, horse, Entity::MountEntityType, 0, 0, horse, pos11, 0, canyon);
-  float pos12[3] = { 824.341431,17.534599,608.410400 };
+  float pos12[3] = { 824.341431f,17.534599f,608.410400f };
   insert(112, horse, Entity::MountEntityType, 0, 0, horse, pos12, 0, canyon);
-  float pos13[3] = { 818.504272,17.534559,607.860107 };
+  float pos13[3] = { 818.504272f,17.534559f,607.860107f };
   insert(113, horse, Entity::MountEntityType, 0, 0, horse, pos13, 0, canyon);
-  float pos14[3] = { 811.655457,17.534599,607.679810 };
+  float pos14[3] = { 811.655457f,17.534599f,607.679810f };
   insert(114, horse, Entity::MountEntityType, 0, 0, horse, pos14, 0, canyon);
 
-  float pos15[3] = { 868.223511,17.529799,684.598511 };
+  float pos15[3] = { 868.223511f,17.529799f,684.598511f };
   insert(115, horse, Entity::MountEntityType, 0, 0, horse, pos15, 0, canyon);
-  float pos16[3] = { 868.412720,17.529799,678.824524 };
+  float pos16[3] = { 868.412720f,17.529799f,678.824524f };
   insert(116, horse, Entity::MountEntityType, 0, 0, horse, pos16, 0, canyon);
-  float pos17[3] = { 868.227600,17.529799,671.650208 };
+  float pos17[3] = { 868.227600f,17.529799f,671.650208f };
   insert(117, horse, Entity::MountEntityType, 0, 0, horse, pos17, 0, canyon);
 }
 

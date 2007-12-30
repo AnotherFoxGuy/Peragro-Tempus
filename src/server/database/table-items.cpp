@@ -45,14 +45,14 @@ void ItemTable::createTable()
     "description TEXT, "
     "file TEXT, "
     "mesh TEXT, "
-    "weight INTEGER, "
+    "weight FLOAT, "
     "equiptype TEXT, "
     "PRIMARY KEY (id) );");
 }
 
-void ItemTable::insert(ptString name, ptString icon, ptString description, ptString file, ptString mesh, unsigned int weight, ptString equiptype)
+void ItemTable::insert(ptString name, ptString icon, ptString description, ptString file, ptString mesh, float weight, ptString equiptype)
 {
-  db->update("insert into items (name, icon, description, file, mesh, weight, equiptype) values ('%q','%q','%q','%q','%q',%u,'%q');", *name, *icon, *description, *file, *mesh, weight, *equiptype);
+  db->update("insert into items (name, icon, description, file, mesh, weight, equiptype) values ('%q','%q','%q','%q','%q',%.2f,'%q');", *name, *icon, *description, *file, *mesh, weight, *equiptype);
 }
 
 void ItemTable::remove(int id)
@@ -88,7 +88,7 @@ Item* ItemTable::getItem(ptString name)
     item->setDescription(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
     item->setFile(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,4).length()));
     item->setMesh(ptString(rs->GetData(0,5).c_str(), rs->GetData(0,5).length()));
-    item->setWeight(atoi(rs->GetData(0,6).c_str()));
+    item->setWeight((float)atof(rs->GetData(0,6).c_str()));
     item->setEquiptype(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
   }
   delete rs;
@@ -110,7 +110,7 @@ Item* ItemTable::getItem(int id)
     item->setDescription(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
     item->setFile(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,4).length()));
     item->setMesh(ptString(rs->GetData(0,5).c_str(), rs->GetData(0,5).length()));
-    item->setWeight(atoi(rs->GetData(0,6).c_str()));
+    item->setWeight((float)atof(rs->GetData(0,6).c_str()));
     item->setEquiptype(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
   }
   delete rs;
@@ -131,7 +131,7 @@ void ItemTable::getAllItems(Array<Item*>& items)
     item->setDescription(ptString(rs->GetData(i,3).c_str(), rs->GetData(i,3).length()));
     item->setFile(ptString(rs->GetData(i,4).c_str(), rs->GetData(i,4).length()));
     item->setMesh(ptString(rs->GetData(i,5).c_str(), rs->GetData(i,5).length()));
-    item->setWeight(atoi(rs->GetData(i,6).c_str()));
+    item->setWeight((float)atof(rs->GetData(i,6).c_str()));
     item->setEquiptype(ptString(rs->GetData(i,7).c_str(), rs->GetData(i,7).length()));
 
 /*    Item* item = new Item();

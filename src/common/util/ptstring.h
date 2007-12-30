@@ -41,10 +41,6 @@ public:
 
   inline ptString(const char* str, size_t len)
   {
-#ifdef DEBUG
-    printf("!! STRING STORE ERROR !!\n");
-    assert(strlen(str) == len);
-#endif
     string_id = StringStore::getStore()->lookupId(str, len);
     str_cache = str;
   }

@@ -72,7 +72,7 @@ void MountEntity::walkTo(float* dst_pos, float speed)
   float dist_z = fabsf(final_dst[2] - pos[2]);
   float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
   
-  t_org = time(0);
+  t_org = (size_t) time(0);
   //v = s / t => t = s / v
   t_stop = (size_t) (dist / speed + time(0));
 

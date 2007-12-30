@@ -41,9 +41,9 @@ DoorsTableVO* DoorsTable::parseSingleResultSet(ResultSet* rs, size_t row)
   vo->sector = ptString(rs->GetData(row,4).c_str(), rs->GetData(row,4).length());
   vo->mesh = ptString(rs->GetData(row,5).c_str(), rs->GetData(row,5).length());
   vo->animation = ptString(rs->GetData(row,6).c_str(), rs->GetData(row,6).length());
-  vo->x = atof(rs->GetData(row,7).c_str());
-  vo->y = atof(rs->GetData(row,8).c_str());
-  vo->z = atof(rs->GetData(row,9).c_str());
+  vo->x = (float) atof(rs->GetData(row,7).c_str());
+  vo->y = (float) atof(rs->GetData(row,8).c_str());
+  vo->z = (float) atof(rs->GetData(row,9).c_str());
   return vo;
 }
 

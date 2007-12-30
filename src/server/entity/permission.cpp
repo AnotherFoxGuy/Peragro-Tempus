@@ -22,7 +22,7 @@
 #include "server/database/database.h"
 #include "server/database/table-permissions.h"
 
-PermissionList::PermissionList(size_t user_id) : user_id(user_id)
+PermissionList::PermissionList(unsigned int user_id) : user_id(user_id)
 {
   Database* db = Server::getServer()->getDatabase();
   Array<PermissionsTableVO*> vos = db->getPermissionsTable()->getUserAll(user_id);

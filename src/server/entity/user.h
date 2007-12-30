@@ -35,7 +35,7 @@ class PcEntity;
 class User : public ptMonitorable<User>
 {
 private:
-  size_t id;
+  unsigned int id;
   ptString name;
   char* pwhash;
 
@@ -47,10 +47,10 @@ private:
   PermissionList permissions;
 
 public:
-  User(size_t id) : id(id), pwhash(0), permissions(id) { }
+  User(unsigned int id) : id(id), pwhash(0), permissions(id) { }
   ~User() { delete [] pwhash; }
 
-  size_t getId() const { return id; }
+  unsigned int getId() const { return id; }
 
   const ptString& getName() const { return name; }
   void setName(ptString name) { this->name = name; }
