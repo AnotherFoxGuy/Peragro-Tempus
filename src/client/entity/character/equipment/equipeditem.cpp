@@ -121,7 +121,7 @@ namespace PT
       case 0:
         socketName = "righthand";
         break;
-      default: Report(PT::Error, "Unknown slot with ID %d !", slotid); return 0;
+      default: Report(PT::Error, "Unknown slot with ID %d !", slotid); return "";
       }
 
       return socketName;

@@ -65,35 +65,37 @@ namespace PT
 
     void EventManager::Handle()
     {
-      if (events.empty()) return;
-
-      Eventp ev = events.front();
-      if (!ev) return;
-      EventID id = ev->GetEventID();
-
-      std::vector<Listener>::iterator it;
-      for(it = listeners.begin(); it != listeners.end(); ++it)
+      while (!events.empty())
       {
-        if ((id.length() == it->eventId.length()) && id == it->eventId)
+        Eventp ev = events.front();
+        if (!ev) continue;
+        EventID id = ev->GetEventID();
+
+        std::vector<Listener>::iterator it;
+        for(it = listeners.begin(); it != listeners.end(); ++it)
         {
-          if (!it->handler) continue;
-          //Report(PT::Debug, "Handling event: %s", it->GetEventId());
-          bool handled = it->handler->HandleEvent(ev);
-          if (handled && !ev->GetBroadCast())
+          if ((id.length() == it->eventId.length()) && id == it->eventId)
           {
-            Report(PT::Debug, "Event handled: deleting %s", it->GetEventId());
-            events.pop();
-            return;
-          }
-        } // if
-      } // for
+            if (!it->handler) continue;
+            //Report(PT::Debug, "Handling event: %s", it->GetEventId());
+            bool handled = it->handler->HandleEvent(ev);
+            if (handled && !ev->GetBroadCast())
+            {
+              Report(PT::Debug, "Event handled: deleting %s", it->GetEventId());
+              events.pop();
+              break;
+            }
+          } // if
+        } // for
 
-      // The event isn't broadcasting and it's still present at the end.
-      if (!ev->GetBroadCast())
-        Report(PT::Warning, "No listeners for event: deleting %s", id.c_str());
+        // The event isn't broadcasting and it's still present at the end.
+        if (!ev->GetBroadCast())
+          Report(PT::Warning, "No listeners for event: deleting %s", id.c_str());
 
-      events.pop();
-    }
+        events.pop();
+      } // while
+
+    } // end Handle()
 
   } // Events namespace 
 } // PT namespace 
