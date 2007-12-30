@@ -7,7 +7,6 @@ SubInclude TOP src client entity ;
 SubInclude TOP src client combat ;
 SubInclude TOP src client data ;
 SubInclude TOP src client pointer ;
-SubInclude TOP src client console ;
 SubInclude TOP src client event ;
 SubInclude TOP src client trade ;
 SubInclude TOP src client chat ;
@@ -19,7 +18,7 @@ Application client :
 [ Wildcard *.h *.cpp ] 
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs client : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
-LinkWith client : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager client-console util client-serversetup ;
+LinkWith client : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup ;
 
 MsvcExternalLibrary client : "wsock32.lib" ;
 
@@ -35,7 +34,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
   LFlags client_static : -lcrystalspace_staticplugins  -lcel_staticplugins ;
-  LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager client-console util client-serversetup ;
+  LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup ;
   LinkStaticPlugins client_static :
     addon_questdef
     mgr_quests

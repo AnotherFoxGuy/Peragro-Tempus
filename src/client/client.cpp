@@ -66,7 +66,6 @@
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 #include "client/entity/entitymanager.h"
-#include "client/console/console.h"
 #include "client/chat/chatmanager.h"
 #include "client/data/effect/reflection.h"
 
@@ -103,7 +102,6 @@ namespace PT
     cursor = 0;
     inputMgr = 0;
     last_seen = 0;
-    ptconsole = 0;
 
     eventmanager = 0;
     chatmanager = 0;
@@ -401,12 +399,6 @@ namespace PT
       return Report(PT::Error, "Failed to initialize TradeManager!");
     //pointerlib.setTradeManager(trademanager);
 
-    /*
-    // Create and Initialize the PTConsole.
-    ptconsole = new PtConsole ();
-    if (!ptconsole->Initialize())
-    return ReportError ("Failed to initialize PT Console!");
-    */
     view.AttachNew(new csView(engine, g3d));
 
     // intro sound

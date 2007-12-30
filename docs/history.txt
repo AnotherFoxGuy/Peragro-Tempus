@@ -16,6 +16,8 @@ under each day.
  - PK implemented SpawnPointDataManager.
  - PK added CreateSpawnPointMessage.
  - PK added Npc and SpawnPoint upload to the ServerSetupManager.
+ - Sueastside moved most datamanagers to ServerSetupManager.
+ - Sueastside removed ptConsole.
 
 29-Dec-2007
  - PK fixed vertex transformation in /dbg dump.

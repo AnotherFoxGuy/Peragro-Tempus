@@ -68,21 +68,16 @@ struct iView;
 class Network;
 class GUIManager;
 class CombatMGR;
-class PtConsole;
 class Cursor;
 
 namespace PT
 {
   namespace Data
   {
-    //class DoorDataManager;
-    //class ItemDataManager;
     class EffectDataManager;
     class SectorDataManager;
     class SkillDataManager;
     class ConnectionDataManager;
-    //class NpcDataManager;
-    //class SpawnPointDataManager;
   } // Data namespace
 
   namespace Misc
@@ -196,7 +191,6 @@ namespace PT
     PT::Effect::EffectsManager* effectsmanager;
 
     Cursor* cursor;
-    PtConsole* ptconsole;
     PT::InputManager *inputMgr;
 
     PT::Events::EventManager* eventmanager;
