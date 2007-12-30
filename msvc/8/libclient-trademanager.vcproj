@@ -301,12 +301,18 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\trade\playerinventory.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\trade\trademanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\client\trade\playerinventory.h">
+			</File>
 			<File
 				RelativePath="..\..\src\client\trade\trademanager.h">
 			</File>
