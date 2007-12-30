@@ -114,9 +114,12 @@ void User::sendAddEntity(const Entity* entity)
       msg.setItemId(i, inv->getItem(i)->id);
       msg.setVariation(i, inv->getItem(i)->variation);
 
-      Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
-      msg.setFile(i, item->getFile());
-      msg.setMesh(i, item->getMesh());
+      if (inv->getItem(i)->id > 0)
+      {
+        Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
+        msg.setFile(i, item->getFile());
+        msg.setMesh(i, item->getMesh());
+      }
     }
     msg.serialise(&bs);
     character->freeLock();
@@ -140,9 +143,12 @@ void User::sendAddEntity(const Entity* entity)
       msg.setItemId(i, inv->getItem(i)->id);
       msg.setVariation(i, inv->getItem(i)->variation);
 
-      Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
-      msg.setFile(i, item->getFile());
-      msg.setMesh(i, item->getMesh());
+      if (inv->getItem(i)->id > 0)
+      {
+        Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
+        msg.setFile(i, item->getFile());
+        msg.setMesh(i, item->getMesh());
+      }
     }
     msg.serialise(&bs);
     character->freeLock();
