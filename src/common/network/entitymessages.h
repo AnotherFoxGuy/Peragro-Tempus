@@ -620,6 +620,7 @@ class InventoryListMessage : public NetMessage
     ptString name;
     ptString icon;
     ptString description;
+    float weight;
     ptString equiptype;
   };
 
@@ -671,6 +672,9 @@ public:
 
   ptString getDescription(size_t i) { return inventory[i].description; }
   void setDescription(size_t i, ptString x) { inventory[i].description = x; }
+
+  float getWeight(size_t i) { return inventory[i].weight; }
+  void setWeight(size_t i, float x) { inventory[i].weight = x; }
 
   ptString getEquipType(size_t i) { return inventory[i].equiptype; }
   void setEquipType(size_t i, ptString x) { inventory[i].equiptype = x; }

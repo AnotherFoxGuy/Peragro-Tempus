@@ -367,6 +367,7 @@ void InventoryListMessage::serialise(ByteStream* bs)
     serial.setString(inventory[i].name);
     serial.setString(inventory[i].icon);
     serial.setString(inventory[i].description);
+    serial.setFloat(inventory[i].weight);
     serial.setString(inventory[i].equiptype);
   };
 
@@ -388,6 +389,7 @@ void InventoryListMessage::deserialise(ByteStream* bs)
     inventory[i].name = serial.getString();
     inventory[i].icon = serial.getString();
     inventory[i].description = serial.getString();
+    inventory[i].weight = serial.getFloat();
     inventory[i].equiptype = serial.getString();
   };
 

@@ -61,19 +61,19 @@ public:
   void setId(unsigned int id) { this->id = id; }
   unsigned int getId() const { return id; }
 
-  ptString& getName() { return name_id; }
+  ptString getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }
 
-  ptString& getIcon() { return icon; }
+  ptString getIcon() const { return icon; }
   void setIcon(ptString x) { icon = x; }
 
-  ptString& getDescription() { return description; }
+  ptString getDescription() const { return description; }
   void setDescription(ptString x) { description = x; }
 
-  ptString& getFile() { return file; }
+  ptString getFile() const { return file; }
   void setFile(ptString x) { file = x; }
 
-  ptString& getMesh() { return mesh; }
+  ptString getMesh() const { return mesh; }
   void setMesh(ptString id) { mesh = id; }
 
   //void setStackMax(unsigned int stackmax) { this->stackmax = stackmax; }
@@ -82,10 +82,10 @@ public:
   void setWeight(unsigned int weight) { this->weight = weight; }
   unsigned int getWeight() const { return weight; }
 
-  ptString& getEquiptype() { return equiptype; }
+  ptString getEquiptype() const { return equiptype; }
   void setEquiptype(ptString x) { equiptype = x; }
 
-  bool isEquipable() { return false; }
+  bool isEquipable() const { return false; }
 };
 
 #endif // ITEM_H_

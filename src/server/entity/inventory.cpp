@@ -32,14 +32,23 @@ void Inventory::sendAllItems(Connection* conn)
   size_t n = 0;
   for (size_t i=0; i<entries.getCount(); i++)
   {
-    const InventoryEntry& item = entries.get(i);
+    const InventoryEntry& invitem = entries.get(i);
 
-    if (item.id == Item::NoItem)
+    if (invitem.id == Item::NoItem)
       continue;
 
-    itemlist_msg.setItemId(n, item.id);
+    itemlist_msg.setItemId(n, invitem.id);
     itemlist_msg.setSlotId(n, (unsigned char) i);
-    itemlist_msg.setVariation(n, item.variation);
+    itemlist_msg.setVariation(n, invitem.variation);
+
+    Item* item = Server::getServer()->getItemManager()->findById(invitem.id);
+
+    itemlist_msg.setName(n, item->getName());
+    itemlist_msg.setIcon(n, item->getIcon());
+    itemlist_msg.setDescription(n, item->getDescription());
+    itemlist_msg.setWeight(n, item->getWeight());
+    itemlist_msg.setEquipType(n, item->getEquiptype());
+
     n++;
   }
   ByteStream bs2;

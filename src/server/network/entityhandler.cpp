@@ -205,6 +205,12 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         response_msg.setVariation(item_entity->variation);
         response_msg.setSlotId(slot);
 
+        response_msg.setName(item->getName());
+        response_msg.setIcon(item->getIcon());
+        response_msg.setDescription(item->getDescription());
+        response_msg.setWeight(item->getWeight());
+        response_msg.setEquipType(item->getEquiptype());
+
         ByteStream bs;
         response_msg.serialise(&bs);
         NetworkHelper::sendMessage(user_ent, bs);

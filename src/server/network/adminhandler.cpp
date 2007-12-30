@@ -149,3 +149,8 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
     sectors->delAll();
   }
 }
+
+void AdminHandler::handleCreateNpc(GenericMessage* msg)
+{
+  //TODO: Implement it! :)
+}

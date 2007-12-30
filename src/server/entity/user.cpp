@@ -74,11 +74,18 @@ void User::sendAddEntity(const Entity* entity)
   }
   else if (entity->getType() == Entity::ItemEntityType)
   {
+    const Item* item = entity->getItemEntity()->getItem();
+
     AddItemEntityMessage msg;
     msg.setEntityId(entity->getId());
-    msg.setItemId(entity->getItemEntity()->getItem()->getId());
+    msg.setItemId(item->getId());
     msg.setPos(entity->getPos());
     msg.setSectorId(entity->getSector());
+
+    msg.setName(item->getName());
+    msg.setFile(item->getFile());
+    msg.setMesh(item->getMesh());
+
     //msg.setSector(entity->getSectorName());
     msg.serialise(&bs);
   }
