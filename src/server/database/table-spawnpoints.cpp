@@ -37,7 +37,7 @@ SpawnPointsTableVO* SpawnPointsTable::parseSingleResultSet(ResultSet* rs, size_t
   vo->pos_x = (float) atof(rs->GetData(row,2).c_str());
   vo->pos_y = (float) atof(rs->GetData(row,3).c_str());
   vo->pos_z = (float) atof(rs->GetData(row,4).c_str());
-  vo->sector = ptString(rs->GetData(row,5).c_str(), rs->GetData(row,3).length());
+  vo->sector = ptString(rs->GetData(row,5).c_str(), rs->GetData(row,5).length());
   vo->interval = atoi(rs->GetData(row,6).c_str());
   return vo;
 }

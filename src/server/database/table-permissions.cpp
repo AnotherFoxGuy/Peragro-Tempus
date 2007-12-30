@@ -58,18 +58,18 @@ void PermissionsTable::createTable()
              "PRIMARY KEY (UserId, PermissionId) );");
 }
 
-void PermissionsTable::insert(int userid, int permissionid, unsigned char level)
+void PermissionsTable::insert(unsigned int userid, unsigned int permissionid, unsigned char level)
 {
   const char* query = { "insert or replace into permissions(userid, permissionid, permissionlevel) values (%d, %d, %d);" };
   db->update(query, userid, permissionid, level);
 }
 
-void PermissionsTable::remove(int userid, int permissionid)
+void PermissionsTable::remove(unsigned int userid, unsigned int permissionid)
 {
   db->update("delete from permissions where userid = %d and permissionid = %d");
 }
 
-Array<PermissionsTableVO*> PermissionsTable::getUserAll(int userid)
+Array<PermissionsTableVO*> PermissionsTable::getUserAll(unsigned int userid)
 {
   ResultSet* rs = db->query("select * from permissions where userid = %d;", userid);
   Array<PermissionsTableVO*> vo = parseMultiResultSet(rs);
@@ -77,7 +77,7 @@ Array<PermissionsTableVO*> PermissionsTable::getUserAll(int userid)
   return vo;
 }
 
-PermissionsTableVO* PermissionsTable::get(int userid, int permissionid)
+PermissionsTableVO* PermissionsTable::get(unsigned int userid, unsigned int permissionid)
 {
   ResultSet* rs = db->query("select * from permissions where userid = %d and permissionid = %d;", userid, permissionid);
   PermissionsTableVO* vo = parseSingleResultSet(rs);

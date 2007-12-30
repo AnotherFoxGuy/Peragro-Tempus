@@ -33,15 +33,15 @@ namespace Permission
 
 class PermissionList
 {
-  int user_id;
+  size_t user_id;
   unsigned char levels[PT_PERMISSION_COUNT];
 
 public:
-  PermissionList(int user_id);
+  PermissionList(size_t user_id);
   virtual ~PermissionList() {}
 
   size_t getLevel(Permission::Type type) const { return levels[type]; }
-  void setLevel(Permission::Type type, size_t level);
+  void setLevel(Permission::Type type, unsigned char level);
 };
 
 #endif // _PERMISSION_H_

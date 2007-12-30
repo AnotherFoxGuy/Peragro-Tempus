@@ -27,9 +27,9 @@ class ResultSet;
 class PermissionsTableVO
 {
 public:
-  int userid;
-  int permissionid;
-  int permissionlevel;
+  unsigned int userid;
+  unsigned int permissionid;
+  unsigned char permissionlevel;
 };
 
 class PermissionsTable
@@ -44,11 +44,11 @@ public:
 
   void createTable();
 
-  void insert(int userid, int permissionid, unsigned char level);
-  void remove(int userid, int permissionid);
+  void insert(unsigned int userid, unsigned int permissionid, unsigned char level);
+  void remove(unsigned int userid, unsigned int permissionid);
 
-  Array<PermissionsTableVO*> getUserAll(int userid);
-  PermissionsTableVO* get(int userid, int permissionid);
+  Array<PermissionsTableVO*> getUserAll(unsigned int userid);
+  PermissionsTableVO* get(unsigned int userid, unsigned int permissionid);
 };
 
 #endif // _TABLE_PERMISSIONS_H_
