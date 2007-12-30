@@ -28,6 +28,7 @@
 #include "server/database/table-npcentities.h"
 #include "server/database/table-npcaisetting.h"
 
+#include "server/spawner.h"
 
 void AdminHandler::handleCreateSector(GenericMessage* msg)
 {
@@ -135,6 +136,11 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
       server->delEntity(entity->getEntity());
     }
   }
+  else if (rmmsg.getDataType() == ptString::create("spawnpoints"))
+  {
+    Spawner* spawner = server->getSpawner();
+    spawner->removeAllSpawnPoints();
+  }
   else if (rmmsg.getDataType() == ptString::create("items"))
   {
     ItemManager* items = server->getItemManager();
@@ -153,4 +159,26 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
 void AdminHandler::handleCreateNpc(GenericMessage* msg)
 {
   //TODO: Implement it! :)
+}
+
+void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
+{
+  CreateSpawnPointMessage spawnmsg;
+  spawnmsg.deserialise(msg->getByteStream());
+
+  float x = spawnmsg.getPos()[0];
+  float y = spawnmsg.getPos()[1];
+  float z = spawnmsg.getPos()[2];
+
+  SectorManager* sectormgr = server->getSectorManager();
+
+  ptString sector = sectormgr->getSectorName(spawnmsg.getSectorId());
+
+  unsigned int item = spawnmsg.getItemId();
+  //unsigned int variation = spawnmsg.getVariation();
+
+  unsigned int interval = spawnmsg.getInterval();
+
+  Spawner* spawner = server->getSpawner();
+  spawner->createSpawnPoint(x, y, z, sector, item, interval);
 }

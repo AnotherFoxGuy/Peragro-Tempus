@@ -44,6 +44,8 @@ void AddNpcEntityMessage::serialise(ByteStream* bs)
   {
     serial.setInt32(equipment[i].itemid);
     serial.setInt32(equipment[i].variation);
+    serial.setString(equipment[i].file);
+    serial.setString(equipment[i].mesh);
   };
 
 }
@@ -69,6 +71,8 @@ void AddNpcEntityMessage::deserialise(ByteStream* bs)
   {
     equipment[i].itemid = (unsigned int) serial.getInt32();
     equipment[i].variation = (unsigned int) serial.getInt32();
+    equipment[i].file = serial.getString();
+    equipment[i].mesh = serial.getString();
   };
 
 }
@@ -166,6 +170,8 @@ void AddPlayerEntityMessage::serialise(ByteStream* bs)
   {
     serial.setInt32(equipment[i].itemid);
     serial.setInt32(equipment[i].variation);
+    serial.setString(equipment[i].file);
+    serial.setString(equipment[i].mesh);
   };
 
 }
@@ -200,6 +206,8 @@ void AddPlayerEntityMessage::deserialise(ByteStream* bs)
   {
     equipment[i].itemid = (unsigned int) serial.getInt32();
     equipment[i].variation = (unsigned int) serial.getInt32();
+    equipment[i].file = serial.getString();
+    equipment[i].mesh = serial.getString();
   };
 
 }
@@ -482,6 +490,8 @@ void EquipMessage::serialise(ByteStream* bs)
   serial.setInt32(itemid);
   serial.setInt32(variation);
   serial.setInt8(slotid);
+  serial.setString(file);
+  serial.setString(mesh);
 }
 
 void EquipMessage::deserialise(ByteStream* bs)
@@ -493,6 +503,8 @@ void EquipMessage::deserialise(ByteStream* bs)
   itemid = (unsigned int) serial.getInt32();
   variation = (unsigned int) serial.getInt32();
   slotid = (unsigned char) serial.getInt8();
+  file = serial.getString();
+  mesh = serial.getString();
 }
 
 void MoveToMessage::serialise(ByteStream* bs)

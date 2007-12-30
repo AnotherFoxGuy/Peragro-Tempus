@@ -54,14 +54,18 @@ private:
 
   Array<SpawnPoint*> spawnpoints;
 
+  Mutex mutex;
+
   // Thread implementation
   void timeOut()
   {
+    mutex.lock();
     for (size_t i=0; i<spawnpoints.getCount(); i++)
     {
       checkSpawnPoint(spawnpoints.get(i));
     }
     timeCounter++;
+    mutex.unlock();
   }
 
   void checkSpawnPoint(SpawnPoint* sp)
@@ -90,7 +94,7 @@ private:
     }
   }
 
-  void addSpawnPoint(float x, float y, float z, ptString sector, int item_id, unsigned int spawnInterval)
+  void addSpawnPoint(float x, float y, float z, ptString sector, unsigned int item_id, unsigned int spawnInterval)
   {
     Item* item = Server::getServer()->getItemManager()->findById(item_id);
     if (!item) return;
@@ -102,7 +106,10 @@ private:
     sp->z = z;
     sp->item = item;
     sp->spawnInterval = spawnInterval;
+
+    mutex.lock();
     spawnpoints.add(sp);
+    mutex.unlock();
   }
 
   int max_id;
@@ -125,7 +132,7 @@ public:
 
   size_t getSpawnPointCount() const { return spawnpoints.getCount(); }
 
-  void createSpawnPoint(float x, float y, float z, ptString sector, int item_id, unsigned int spawnInterval)
+  void createSpawnPoint(float x, float y, float z, ptString sector, unsigned int item_id, unsigned int spawnInterval)
   {
     SpawnPointsTable* table = Server::getServer()->getDatabase()->getSpawnPointsTable();
     SpawnPointsTableVO p;
@@ -140,6 +147,13 @@ public:
     addSpawnPoint(p.pos_x, p.pos_y, p.pos_z, p.sector, p.item, p.interval);
   }
 
+  void removeAllSpawnPoints()
+  {
+    while(spawnpoints.getCount() > 0)
+    {
+      SpawnPoint* point = spawnpoints.get(0);
+    }
+  }
 };
 
 #endif // _SPAWNER_H_

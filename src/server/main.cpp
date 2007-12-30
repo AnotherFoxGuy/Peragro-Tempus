@@ -161,19 +161,6 @@ int main(int argc, char ** argv)
   spawner.loadFromDB(db.getSpawnPointsTable());
   spawner.start();
 
-  //TODO: should be uploaded over the network!
-  if (spawner.getSpawnPointCount() == 0)
-  {
-    ptString room("room", 4);
-    spawner.createSpawnPoint( -114, 2, 22, room, SMALLPLATEID, 60); //spawn smallplate every 10 second after picking
-    spawner.createSpawnPoint( -97, 2, 88, room, BALLPOTID, 20); //spawn ballpot every 10 second after picking
-    spawner.createSpawnPoint( -73, 2.5, 105, room, APPLEID, 10); //spawn apple every 10 second after picking
-    spawner.createSpawnPoint( -23, 2.5, 110, room, APPLEID, 45); //spawn apple every 45 second after picking
-    spawner.createSpawnPoint( 17, 2.5, 117, room, APPLEID, 75); //spawn apple every 75 second after picking
-    spawner.createSpawnPoint( 85, 2.5, 108, room, APPLEID, 15); //spawn apple every 15 second after picking
-    spawner.createSpawnPoint( 87.8f, 2.0f, 11.2f, room, 4, 15); //spawn what?
-  }
-
   NPCDialogManager dialog_mgr;
   dialog_mgr.load();
 

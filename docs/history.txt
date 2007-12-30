@@ -7,8 +7,8 @@ under each day.
 30-Dec-2007
  - PK added more information about the items to various entity messages.
  - Rakhun made some fixes to networkcodegenerator.sh, some <list> issues and
-   consistent newline style, also changed the note about the code being generated
-   and fixed a warning in entitymanager.
+   consistent newline style, also changed the note about the code being
+   generated and fixed a warning in entitymanager.
  - PK created a npcs.xsd so the npcs.xml can be validated against it.
  - PK added xsd for the other xml files too.
  - PK changed the hardcoded interact icon size to be read from client.cfg.
@@ -20,6 +20,8 @@ under each day.
  - Sueastside removed ptConsole.
  - Rakhun fixed some syntax errors, spelling errors in door.h, incorrect
    comments and linking error in serversetupmanager.
+ - PK implemented serverside part of CreateSpawnPointMessage
+ - PK added file and mesh data to equip, add npc and add player messages.
 
 29-Dec-2007
  - PK fixed vertex transformation in /dbg dump.

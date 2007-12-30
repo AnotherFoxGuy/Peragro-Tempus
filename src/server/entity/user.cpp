@@ -22,6 +22,7 @@
 #include "pcentity.h"
 #include "npcentity.h"
 #include "itementity.h"
+#include "itemmanager.h"
 #include "user.h"
 #include "usermanager.h"
 #include "sectormanager.h"
@@ -110,8 +111,12 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEquipmentCount(10);
     for(int i=0; i<10; i++)
     {
-      unsigned int item = inv->getItem(i)->id;
-      msg.setItemId(i, item);
+      msg.setItemId(i, inv->getItem(i)->id);
+      msg.setVariation(i, inv->getItem(i)->variation);
+
+      Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
+      msg.setFile(i, item->getFile());
+      msg.setMesh(i, item->getMesh());
     }
     msg.serialise(&bs);
     character->freeLock();
@@ -132,8 +137,12 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEquipmentCount(10);
     for(int i=0; i<10; i++)
     {
-      unsigned int item = inv->getItem(i)->id;
-      msg.setItemId(i, item);
+      msg.setItemId(i, inv->getItem(i)->id);
+      msg.setVariation(i, inv->getItem(i)->variation);
+
+      Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
+      msg.setFile(i, item->getFile());
+      msg.setMesh(i, item->getMesh());
     }
     msg.serialise(&bs);
     character->freeLock();

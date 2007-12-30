@@ -82,6 +82,8 @@ class AddNpcEntityMessage : public NetMessage
   public:
     unsigned int itemid;
     unsigned int variation;
+    ptString file;
+    ptString mesh;
   };
 
   unsigned char equipmentcount;
@@ -150,6 +152,12 @@ public:
 
   unsigned int getVariation(size_t i) { return equipment[i].variation; }
   void setVariation(size_t i, unsigned int x) { equipment[i].variation = x; }
+
+  ptString getFile(size_t i) { return equipment[i].file; }
+  void setFile(size_t i, ptString x) { equipment[i].file = x; }
+
+  ptString getMesh(size_t i) { return equipment[i].mesh; }
+  void setMesh(size_t i, ptString x) { equipment[i].mesh = x; }
 
   // --- end ListEquipment Getter and Setter ---
 
@@ -280,6 +288,8 @@ class AddPlayerEntityMessage : public NetMessage
   public:
     unsigned int itemid;
     unsigned int variation;
+    ptString file;
+    ptString mesh;
   };
 
   unsigned char equipmentcount;
@@ -384,6 +394,12 @@ public:
 
   unsigned int getVariation(size_t i) { return equipment[i].variation; }
   void setVariation(size_t i, unsigned int x) { equipment[i].variation = x; }
+
+  ptString getFile(size_t i) { return equipment[i].file; }
+  void setFile(size_t i, ptString x) { equipment[i].file = x; }
+
+  ptString getMesh(size_t i) { return equipment[i].mesh; }
+  void setMesh(size_t i, ptString x) { equipment[i].mesh = x; }
 
   // --- end ListEquipment Getter and Setter ---
 
@@ -812,6 +828,8 @@ class EquipMessage : public NetMessage
   unsigned int itemid;
   unsigned int variation;
   unsigned char slotid;
+  ptString file;
+  ptString mesh;
 
 public:
   EquipMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::EQUIP)
@@ -836,6 +854,12 @@ public:
 
   unsigned char getSlotId() { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
+
+  ptString getFile() { return file; }
+  void setFile(ptString x) { file = x; }
+
+  ptString getMesh() { return mesh; }
+  void setMesh(ptString x) { mesh = x; }
 
 };
 

@@ -48,12 +48,14 @@ public:
     else if (id == ADMIN::CREATEITEM) handleCreateItem(msg);
     else if (id == ADMIN::REMOVEALL) handleRemoveAll(msg);
     else if (id == ADMIN::CREATENPC) handleCreateNpc(msg);
+    else if (id == ADMIN::CREATESPAWNPOINT) handleCreateSpawnPoint(msg);
   }
 
   void handleCreateSector(GenericMessage* msg);
   void handleCreateItem(GenericMessage* msg);
   void handleRemoveAll(GenericMessage* msg);
   void handleCreateNpc(GenericMessage* msg);
+  void handleCreateSpawnPoint(GenericMessage* msg);
 };
 
 #endif // _ADMINHANDLER_H_

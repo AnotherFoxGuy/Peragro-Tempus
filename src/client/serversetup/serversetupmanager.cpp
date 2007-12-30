@@ -93,6 +93,9 @@ namespace PT
       rmmsg.setDataType(ptString::create("doors"));
       PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
 
+      rmmsg.setDataType(ptString::create("spawnpoints"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
       rmmsg.setDataType(ptString::create("items"));
       PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
 

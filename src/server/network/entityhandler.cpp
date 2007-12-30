@@ -195,6 +195,8 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
           equip_msg.setEntityId(user_ent->getId());
           if (item) equip_msg.setItemId(item->getId());
           equip_msg.setSlotId(slot);
+          equip_msg.setFile(item->getFile());
+          equip_msg.setMesh(item->getMesh());
 
           ByteStream bs;
           equip_msg.serialise(&bs);
@@ -282,6 +284,8 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     unequip_msg.setEntityId(user_ent->getId());
     unequip_msg.setSlotId(slot_id);
     unequip_msg.setItemId(Item::NoItem); // No Item!
+    unequip_msg.setFile(ptString::Null);
+    unequip_msg.setMesh(ptString::Null);
     ByteStream bs;
     response_msg.serialise(&bs);
     NetworkHelper::localcast(bs, user_ent);
@@ -435,6 +439,8 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
       response_msg.setEntityId(user_ent->getId());
       response_msg.setItemId(old_item.id);
       response_msg.setSlotId(invent_slot);
+      response_msg.setFile(old->getFile());
+      response_msg.setMesh(old->getMesh());
 
       ByteStream bs;
       response_msg.serialise(&bs);
@@ -447,6 +453,8 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
       response_msg.setEntityId(user_ent->getId());
       response_msg.setItemId(new_item.id);
       response_msg.setSlotId(equip_slot);
+      response_msg.setFile(item->getFile());
+      response_msg.setMesh(item->getMesh());
 
       ByteStream bs;
       response_msg.serialise(&bs);

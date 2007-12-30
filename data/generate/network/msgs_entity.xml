@@ -11,12 +11,17 @@
 		<list name="Equipment">
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>
+			<string>File</string>
+			<string>Mesh</string>
 		</list>
 	</message>
 
 	<message type="Entity" name="AddItemEntity">
 		<uint32>ItemId</uint32>
 		<uint32>Variation</uint32>
+		<string>Name</string>
+		<string>File</string>
+		<string>Mesh</string>
 		<vector3f>Pos</vector3f>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
@@ -48,6 +53,8 @@
 		<list name="Equipment">
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>
+			<string>File</string>
+			<string>Mesh</string>
 		</list>
 	</message>
 
@@ -89,6 +96,11 @@
 		<uint32>ItemId</uint32>
 		<uint32>Variation</uint32>
 		<uint8>SlotId</uint8>
+		<string>Name</string>
+		<string>Icon</string>
+		<string>Description</string>
+		<float>Weight</float>
+		<string>EquipType</string>
 		<string>Error</string> <!-- null if successful -->
 	</message>
 
@@ -108,6 +120,11 @@
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>
 			<uint8>SlotId</uint8>
+			<string>Name</string>
+			<string>Icon</string>
+			<string>Description</string>
+			<float>Weight</float>
+			<string>EquipType</string>
 		</list>
 	</message>
 
@@ -136,6 +153,8 @@
 		<uint32>ItemId</uint32>
 		<uint32>Variation</uint32>
 		<uint8>SlotId</uint8>
+		<string>File</string>
+		<string>Mesh</string>
 	</message>
 
 	<message type="Entity" name="MoveTo">
