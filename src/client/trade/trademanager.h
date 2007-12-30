@@ -20,20 +20,8 @@
 #define PT_TRADEMANAGER_H
 
 #include <cssysdef.h>
-#include <csutil/ref.h>
-#include <iutil/vfs.h>
-#include <iutil/virtclk.h>
-#include <iengine/engine.h>
-#include <csgeom/path.h>
-#include <csgeom/math3d.h>
-#include <iengine/camera.h>
-#include <iutil/object.h>
-
-#include <physicallayer/pl.h>
 
 #include "client/event/tradeevent.h"
-
-struct iObjectRegistry;
 
 namespace PT
 {
@@ -41,13 +29,6 @@ namespace PT
   {
     class TradeManager
     {
-    private:
-      csRef<iEngine> engine;
-      csRef<iVFS> vfs;
-      csRef<iVirtualClock> vc;
-      csRef<iCelPlLayer> pl;
-      csRef<iObjectRegistry> obj_reg;
-
     public:
       bool PickUp(PT::Events::Eventp ev);
       bool Drop(PT::Events::Eventp ev);

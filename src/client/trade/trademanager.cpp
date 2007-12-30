@@ -18,8 +18,6 @@
 
 #include "trademanager.h"
 
-#include <iutil/objreg.h>
-
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
@@ -34,13 +32,6 @@ namespace PT
   {
     TradeManager::TradeManager ()
     {
-      this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-
-      engine =  csQueryRegistry<iEngine> (obj_reg);
-
-      vfs =  csQueryRegistry<iVFS> (obj_reg);
-
-      vc =  csQueryRegistry<iVirtualClock> (obj_reg);
     }
 
     TradeManager::~TradeManager ()

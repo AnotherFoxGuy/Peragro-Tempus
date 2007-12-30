@@ -22,6 +22,7 @@ under each day.
    comments and linking error in serversetupmanager.
  - PK implemented serverside part of CreateSpawnPointMessage
  - PK added file and mesh data to equip, add npc and add player messages.
+ - Sueastside added PlayerInventory.
 
 29-Dec-2007
  - PK fixed vertex transformation in /dbg dump.

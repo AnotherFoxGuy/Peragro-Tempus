@@ -183,8 +183,19 @@ void EntityHandler::handleInventoryList(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
-    Report(PT::Debug, "Item %d(%d) in slot %d.", item_msg.getItemId(i), item_msg.getVariation(i), item_msg.getSlotId(i));
-    guimanager->GetInventoryWindow()->AddItem(item_msg.getItemId(i), item_msg.getVariation(i), item_msg.getSlotId(i));
+    using namespace PT::Events;
+    InventoryAddEvent* tradeEvent = new InventoryAddEvent();
+
+    tradeEvent->name         = *item_msg.getName(i);
+    tradeEvent->itemId       = item_msg.getItemId(i);
+    tradeEvent->slotId       = item_msg.getSlotId(i);
+    tradeEvent->variationId  = item_msg.getVariation(i);
+    tradeEvent->weight       = item_msg.getWeight(i);
+    tradeEvent->description  = *item_msg.getDescription(i);
+    tradeEvent->equipType    = *item_msg.getEquipType(i);
+    tradeEvent->icon         = *item_msg.getIcon(i);
+
+    PointerLibrary::getInstance()->getEventManager()->AddEvent(tradeEvent);
   }
   Report(PT::Debug, "---------------------------\n");
 }

@@ -91,6 +91,26 @@ namespace PT
       virtual ~TradeDropEvent() {}
     };
 
+    /**
+    * Inventory add event.
+    */
+    class InventoryAddEvent : public TradeEvent
+    {
+    public:
+      std::string name;
+      unsigned int itemId;
+      unsigned int variationId;
+      unsigned int slotId;
+      float weight;
+      std::string description;
+      std::string equipType;
+      std::string icon;
+
+    public:
+      InventoryAddEvent() : TradeEvent("trade.inventory.add", true) {}
+      virtual ~InventoryAddEvent() {}
+    };
+
   } // Events namespace 
 } // PT namespace 
 
