@@ -50,9 +50,6 @@
 #define EAT_BUTTON       "InteractDialog/Eat"
 #define ACTIVATE_BUTTON  "InteractDialog/Activate"
 
-//#define BUTTON_SIZE 50.0f
-//#define ROOT_SIZE 70.0f
-
 InteractDialogWindow::InteractDialogWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {

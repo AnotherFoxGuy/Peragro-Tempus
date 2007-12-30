@@ -68,6 +68,8 @@
 #include "client/data/skilldatamanager.h"
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
+#include "client/data/npc.h"
+#include "client/data/npcdatamanager.h"
 #include "client/entity/entitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
@@ -114,6 +116,7 @@ namespace PT
     chatmanager = 0;
     trademanager = 0;
     sectorDataManager = 0;
+    npcDataManager = 0;
   }
 
   Client::~Client()
@@ -134,6 +137,7 @@ namespace PT
     delete reporter;
     delete trademanager;
     delete sectorDataManager;
+    delete npcDataManager;
   }
 
   void Client::PreProcessFrame()
@@ -332,6 +336,12 @@ namespace PT
     if (!connectionDataManager->LoadServerData())
       return Report(PT::Error, "Failed to initialize ConnectionDataManager!");
     pointerlib.setConnectionDataManager(connectionDataManager);
+
+    // Create and Initialize the NpcDataManager.
+    npcDataManager = new PT::Data::NpcDataManager ();
+    if (!npcDataManager->parse())
+      return Report(PT::Error, "Failed to initialize ConnectionDataManager!");
+    //pointerlib.setNpcDataManager(npcDataManager);
 
     // Create the ServerSetupManager.
     serverSetupManager = new PT::Misc::ServerSetupManager ();

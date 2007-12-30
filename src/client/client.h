@@ -81,6 +81,7 @@ namespace PT
     class SectorDataManager;
     class SkillDataManager;
     class ConnectionDataManager;
+    class NpcDataManager;
   } // Data namespace
 
   namespace Misc
@@ -186,6 +187,7 @@ namespace PT
     PT::Data::SectorDataManager* sectorDataManager;
     PT::Data::SkillDataManager* skillDataManager;
     PT::Data::ConnectionDataManager* connectionDataManager;
+    PT::Data::NpcDataManager* npcDataManager;
 
     PT::Misc::ServerSetupManager* serverSetupManager;
 
