@@ -334,6 +334,9 @@
 				RelativePath="..\..\src\client\data\skilldatamanager.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\data\spawnpointdatamanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\data\teleportdatamanager.cpp">
 			</File>
 		</Filter>
@@ -393,6 +396,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\skilldatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\spawnpoint.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\spawnpointdatamanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\teleport.h">
