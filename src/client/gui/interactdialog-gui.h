@@ -29,6 +29,9 @@ private:
   unsigned int itemId;
   unsigned int variationId;
 
+  float root_size;
+  float button_size;
+
   void ClearActions();
   void AddAction(const char* action);
   void LayoutIcons();

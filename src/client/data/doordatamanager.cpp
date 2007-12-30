@@ -58,7 +58,7 @@ namespace PT
       pos.z = node->GetNode("position")->GetAttributeValueAsFloat("z");
       door->SetPosition(pos);
 
-      door->SetSectorName(node->GetNode("sector")->GetContentsValue());
+      door->SetSectorName(node->GetNode("position")->GetAttributeValue("sector"));
 
       door->SetKeyId(node->GetNode("keyId") ->GetContentsValueAsInt());
 

@@ -50,12 +50,20 @@
 #define EAT_BUTTON       "InteractDialog/Eat"
 #define ACTIVATE_BUTTON  "InteractDialog/Activate"
 
-#define BUTTON_SIZE 50.0f
-#define ROOT_SIZE 70.0f
+//#define BUTTON_SIZE 50.0f
+//#define ROOT_SIZE 70.0f
 
 InteractDialogWindow::InteractDialogWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
+  iObjectRegistry* oreg = PointerLibrary::getInstance()->getObjectRegistry();
+  csRef<iConfigManager> app_cfg (
+    csQueryRegistry<iConfigManager> (oreg)
+  );
+
+  root_size = app_cfg->GetFloat("peragro.icons.interact.rootsize", 70.0f);
+  button_size = app_cfg->GetFloat("peragro.icons.interact.buttonsize", 50.0f);
+
   newDialog = true;
   interactId = -1;
 }
@@ -222,10 +230,10 @@ void InteractDialogWindow::LayoutIcons()
     float offset = (PI*2)/all;
     float y = (cos(((in/all)*PI*2)-offset)+1)/2;
     float x = (sin(((in/all)*PI*2)-offset)+1)/2;
-    x = x * ROOT_SIZE;
-    y = y * ROOT_SIZE;
-    x -= BUTTON_SIZE/2;
-    y -= BUTTON_SIZE/2;
+    x = x * root_size;
+    y = y * root_size;
+    x -= button_size/2;
+    y -= button_size/2;
     Report(PT::Notify, "COORDS: %f(%f)   %f   %f", in, all, x, y);
     button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,x), CEGUI::UDim(0.0f,y)));
   }
@@ -328,8 +336,8 @@ void InteractDialogWindow::AddAction(const char* action /*,Callback* callback*/)
   if (!winMgr->isWindowPresent(name))
   {
     CEGUI::Window* button = winMgr->createWindow("Peragro/ImageButton", name);
-    button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-BUTTON_SIZE/2), CEGUI::UDim(1.0f,-BUTTON_SIZE)));
-    button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,BUTTON_SIZE), CEGUI::UDim(0.0f,BUTTON_SIZE)));
+    button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-button_size/2), CEGUI::UDim(1.0f,-button_size)));
+    button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,button_size), CEGUI::UDim(0.0f,button_size)));
     button->setProperty("NormalImage", normal);
     button->setProperty("HoverImage", hover);
     button->setProperty("PushedImage", normal);
@@ -360,8 +368,8 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
 
   int x = PointerLibrary::getInstance()->getCursor()->GetMouseX();
   int y = PointerLibrary::getInstance()->getCursor()->GetMouseY();
-  x = (int)(x - ( ROOT_SIZE / 2 ));
-  y = (int)(y - ( ROOT_SIZE / 2 ));
+  x = (int)(x - ( root_size / 2 ));
+  y = (int)(y - ( root_size / 2 ));
   rootwindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0,x), CEGUI::UDim(0,y)));
 
   /* TODO
@@ -409,7 +417,7 @@ void InteractDialogWindow::CreateGUIWindow()
   rootwindow = winMgr->createWindow("Peragro/StaticImage", "InteractDialog/Frame");
   rootwindow->setVisible(false);
   rootwindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0.0f), CEGUI::UDim(0.5f,0.0f)));
-  rootwindow->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,ROOT_SIZE), CEGUI::UDim(0.0f,ROOT_SIZE)));
+  rootwindow->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,root_size), CEGUI::UDim(0.0f,root_size)));
   rootwindow->setProperty("FrameEnabled", "False");
   rootwindow->setProperty("BackgroundEnabled", "False");
   CEGUI::Window* root = winMgr->getWindow("Root");
@@ -422,8 +430,8 @@ void InteractDialogWindow::CreateGUIWindow()
 
   // Cancel Button
   CEGUI::Window* button = winMgr->createWindow("Peragro/ImageButton", CANCEL_BUTTON);
-  button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-BUTTON_SIZE/2), CEGUI::UDim(1.0f,-BUTTON_SIZE)));
-  button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,BUTTON_SIZE), CEGUI::UDim(0.0f,BUTTON_SIZE)));
+  button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-button_size/2), CEGUI::UDim(1.0f,-button_size)));
+  button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,button_size), CEGUI::UDim(0.0f,button_size)));
   button->setProperty("NormalImage", "set:InteractionIcons image:cancel_normal");
   button->setProperty("HoverImage", "set:InteractionIcons image:cancel_hover");
   button->setProperty("PushedImage", "set:InteractionIcons image:cancel_normal");
