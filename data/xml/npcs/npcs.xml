@@ -19,6 +19,9 @@
 			<value name="interval_base">100</value>
 			<value name="interval_rand">50</value>
 		</aisetting>
+		<inventory>
+			<item slot="0" item="3" variation="0" />
+		</inventory>
 	</npc>
 	<npc>
 		<name>baby-dragonfly</name>
@@ -30,7 +33,7 @@
 		<decal><color r="255" g="255" b="255" /></decal>
 		<dialog>9</dialog>
 		<ai>stray</ai>
-		<aisettings>
+		<aisetting>
 			<value name="base_x">41</value>
 			<value name="base_y">4</value>
 			<value name="base_z">172</value>
@@ -39,7 +42,8 @@
 			<value name="radius_z">10.0</value>
 			<value name="interval_base">100</value>
  			<value name="interval_rand">50</value>
-		</aisettings>
+		</aisetting>
+		<inventory />
 	</npc>
 	<npc>
 		<name>skeleton</name>
@@ -51,7 +55,7 @@
 		<decal><color r="255" g="255" b="255" /></decal>
 		<dialog>6</dialog>
 		<ai>path</ai>
-		<aisettings>
+		<aisetting>
 			<value name="start_delay">10</value>
 			<value name="speed">3</value>
 			<value name="waypoints">4</value>
@@ -71,7 +75,8 @@
 			<value name="point_3_y">2.03</value>
 			<value name="point_3_z">100.67</value>
 			<value name="interval_3">110</value>
-		</aisettings>
+		</aisetting>
+		<inventory />
 	</npc>
 </npcs>
 

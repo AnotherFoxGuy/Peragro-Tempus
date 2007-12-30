@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="npcs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="npc">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
+              <xs:element minOccurs="1" maxOccurs="1" name="mesh" type="xs:string" />
+              <xs:element minOccurs="1" maxOccurs="1" name="position">
+                <xs:complexType>
+                  <xs:attribute name="sector" type="xs:string" use="required" />
+                  <xs:attribute name="x" type="xs:float" use="required" />
+                  <xs:attribute name="y" type="xs:float" use="required" />
+                  <xs:attribute name="z" type="xs:float" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="race" type="xs:string" />
+              <xs:element minOccurs="1" maxOccurs="1" name="hair">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="color">
+                      <xs:complexType>
+                        <xs:attribute name="r" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="g" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="b" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="skin">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="color">
+                      <xs:complexType>
+                        <xs:attribute name="r" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="g" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="b" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="decal">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="color">
+                      <xs:complexType>
+                        <xs:attribute name="r" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="g" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="b" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="1" maxOccurs="1" name="dialog" type="xs:unsignedInt" />
+              <xs:element minOccurs="1" maxOccurs="1" name="ai" type="xs:string" />
+              <xs:element minOccurs="1" name="aisetting">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="value">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute name="name" type="xs:string" use="required" />
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="inventory">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="item">
+                      <xs:complexType>
+                        <xs:attribute name="slot" type="xs:unsignedInt" use="required" />
+                        <xs:attribute name="item" type="xs:unsignedInt" use="required" />
+                        <xs:attribute name="variation" type="xs:unsignedInt"  use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
