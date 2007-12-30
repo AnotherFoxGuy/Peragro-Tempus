@@ -36,6 +36,12 @@
 #include "client/data/item.h"
 #include "client/data/itemdatamanager.h"
 
+#include "client/data/npc.h"
+#include "client/data/npcdatamanager.h"
+
+#include "client/data/spawnpoint.h"
+#include "client/data/spawnpointdatamanager.h"
+
 namespace PT
 {
   namespace Misc
@@ -78,6 +84,9 @@ namespace PT
       Report(PT::Notify, "Not yet fully implemented");
       // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones (otherwise database entries cannot be updated, nor will they be possible to remove by removing them from the XML)
 
+
+      PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
+
       // ==[ Sectors ]=============================================================
       std::vector<PT::Data::Sector*> sectors;
 
@@ -119,8 +128,6 @@ namespace PT
 
         bool open = doors[i]->GetOpenState();
         bool locked = doors[i]->GetLockState();
-
-        PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
 
         unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
 
@@ -171,6 +178,102 @@ namespace PT
         itemmsg.setWeight(weight);
         itemmsg.setEquipType(equiptype);
         PointerLibrary::getInstance()->getNetwork()->send(&itemmsg);
+      }
+
+      // ==[ NPCs ]=============================================================
+      std::vector<PT::Data::Npc*> npcs;
+
+      PointerLibrary::getInstance()->getNpcDataManager()->GetAllNpcs(npcs);
+
+      for (size_t i = 0; i < npcs.size(); i++ )
+      {
+        ptString name = ptString::create(npcs[i]->GetName());
+        ptString mesh = ptString::create(npcs[i]->GetMeshName());
+        PtVector3 position = npcs[i]->GetPosition();
+        const char* sector = npcs[i]->GetSectorName().c_str();
+        ptString race = ptString::create(npcs[i]->GetRace());
+        const unsigned char* hair = npcs[i]->GetHairColor();
+        const unsigned char* skin = npcs[i]->GetSkinColor();
+        const unsigned char* decal = npcs[i]->GetDecalColor();
+        unsigned int dialog = npcs[i]->GetDialog();
+        ptString ai = ptString::create(npcs[i]->GetAi());
+
+        const std::map<std::string, std::string>& settings = 
+          npcs[i]->GetAllSetting();
+
+        const std::map<int, std::pair<int, int>>& inventory = 
+          npcs[i]->GetAllInventory();
+
+        unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
+
+        CreateNpcMessage npcmsg;
+
+        npcmsg.setName(name);
+        npcmsg.setMesh(mesh);
+        npcmsg.setPos(position.x, position.y, position.z);
+        npcmsg.setSectorId(sector_id);
+        npcmsg.setRace(race);
+        npcmsg.setHairColour(hair);
+        npcmsg.setSkinColour(skin);
+        npcmsg.setDecalColour(decal);
+        npcmsg.setDialog(dialog);
+        npcmsg.setAi(ai);
+
+        size_t j = 0;
+
+        npcmsg.setAiSettingCount(settings.size());
+        std::map<std::string, std::string>::const_iterator it_s;
+        for (it_s = settings.begin(); it_s != settings.end(); ++it_s)
+        {
+          npcmsg.setKey(j, ptString::create(it_s->first));
+          npcmsg.setValue(j, ptString::create(it_s->second));
+          j++;
+        }
+
+        j = 0;
+
+        // TODO: Inventory
+        npcmsg.setInventoryCount(inventory.size());
+        std::map<int, std::pair<int, int>>::const_iterator it_i;
+        for (it_i = inventory.begin(); it_i != inventory.end(); ++it_i)
+        {
+          npcmsg.setSlotId(j, it_i->first);
+          npcmsg.setItemId(j, it_i->second.first);
+          npcmsg.setVariation(j, it_i->second.second);
+          j++;
+        }
+        PointerLibrary::getInstance()->getNetwork()->send(&npcmsg);
+      }
+
+      // ==[ SpawnPoints ]=============================================================
+      std::vector<PT::Data::SpawnPoint*> spawnpoints;
+
+      PointerLibrary::getInstance()->getSpawnPointDataManager()->GetAllSpawnPoints(spawnpoints);
+      
+      for (size_t i = 0; i < spawnpoints.size(); i++ )
+      {
+        unsigned int itemid = spawnpoints[i]->GetItem();
+        unsigned int variation = spawnpoints[i]->GetVariation();
+
+        PtVector3 position = spawnpoints[i]->GetPosition();
+        const char* sector = spawnpoints[i]->GetSectorName().c_str();
+
+        unsigned int interval = spawnpoints[i]->GetInterval();
+
+        unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
+
+        // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
+        Report(PT::Debug, "Loading spawnpoint, item=%d, var=%d, %s <%.2f,%.2f,%.2f>, interval=%d\n", itemid, variation, sector, position.x, position.y, position.z, interval);
+
+        // Just send the data here, one spawnpoint/package
+        CreateSpawnPointMessage spawnmsg;
+        spawnmsg.setItemId(itemid);
+        spawnmsg.setVariation(variation);
+        spawnmsg.setPos(position.x, position.y, position.z);
+        spawnmsg.setSectorId(sector_id);
+        spawnmsg.setInterval(interval);
+
+        PointerLibrary::getInstance()->getNetwork()->send(&spawnmsg);
       }
 
       return true;

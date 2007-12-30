@@ -43,4 +43,12 @@
 		</list>
 	</message>
 
+	<message type="Admin" name="CreateSpawnPoint">
+		<uint32>ItemId</uint32>
+		<uint32>Variation</uint32>
+		<vector3f>Pos</vector3f>
+		<uint16>SectorId</uint16>
+		<uint32>Interval</uint32>
+	</message>
+
 </message-implementation>

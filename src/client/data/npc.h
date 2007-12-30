@@ -48,9 +48,9 @@ namespace PT
       
       std::string race;
 
-      unsigned int hair[3];
-      unsigned int skin[3];
-      unsigned int decal[3];
+      unsigned char hair[3];
+      unsigned char skin[3];
+      unsigned char decal[3];
 
       int dialog;
 
@@ -80,17 +80,17 @@ namespace PT
       void SetRace(const std::string& value) { race = value; }
       const std::string& GetRace() const { return race; }
 
-      void SetHairColor(unsigned int r, unsigned int g, unsigned int b)
+      void SetHairColor(unsigned char r, unsigned char g, unsigned char b)
       { hair[0] = r; hair[1] = g; hair[2] = b; }
-      const unsigned int* GetHairColor() { return hair; }
+      const unsigned char* GetHairColor() { return hair; }
 
-      void SetSkinColor(unsigned int r, unsigned int g, unsigned int b)
+      void SetSkinColor(unsigned char r, unsigned char g, unsigned char b)
       { skin[0] = r; skin[1] = g; skin[2] = b; }
-      const unsigned int* GetSkinColor() { return skin; }
+      const unsigned char* GetSkinColor() { return skin; }
 
-      void SetDecalColor(unsigned int r, unsigned int g, unsigned int b)
+      void SetDecalColor(unsigned char r, unsigned char g, unsigned char b)
       { decal[0] = r; decal[1] = g; decal[2] = b; }
-      const unsigned int* GetDecalColor() { return decal; }
+      const unsigned char* GetDecalColor() { return decal; }
 
       void SetDialog(unsigned int value) { dialog = value; }
       unsigned int GetDialog() const { return dialog; }
@@ -102,11 +102,15 @@ namespace PT
       { setting[key] = value; }
       const std::string& GetSetting(const std::string& key)
       { return setting[key]; }
+      const std::map<std::string, std::string>& GetAllSetting()
+      { return setting; }
 
       void SetInventory(int slot, int item, int variation)
       { inventory[slot] = std::pair<int, int>(item, variation); }
       const std::pair<int, int>& GetInventory(int slot)
       { return inventory[slot]; }
+      const std::map<int, std::pair<int, int>> & GetAllInventory()
+      { return inventory; }
     };
   } // Data namespace
 } // PT namespace

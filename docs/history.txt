@@ -14,6 +14,8 @@ under each day.
  - PK changed the hardcoded interact icon size to be read from client.cfg.
  - PK implemented NpcDataManager.
  - PK implemented SpawnPointDataManager.
+ - PK added CreateSpawnPointMessage.
+ - PK added Npc and SpawnPoint upload to the ServerSetupManager.
 
 29-Dec-2007
  - PK fixed vertex transformation in /dbg dump.

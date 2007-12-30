@@ -32,7 +32,8 @@ namespace ADMIN
     CREATESECTOR=0,
     CREATEITEM=1,
     REMOVEALL=2,
-    CREATENPC=3
+    CREATENPC=3,
+    CREATESPAWNPOINT=4
   };
 }
 
@@ -293,6 +294,52 @@ public:
   void setVariation(size_t i, unsigned int x) { inventory[i].variation = x; }
 
   // --- end ListInventory Getter and Setter ---
+
+};
+
+class CreateSpawnPointMessage : public NetMessage
+{
+  unsigned int itemid;
+  unsigned int variation;
+  float pos[3];
+  unsigned short sectorid;
+  unsigned int interval;
+
+public:
+  CreateSpawnPointMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATESPAWNPOINT)
+  {
+  }
+
+  ~CreateSpawnPointMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getItemId() { return itemid; }
+  void setItemId(unsigned int x) { itemid = x; }
+
+  unsigned int getVariation() { return variation; }
+  void setVariation(unsigned int x) { variation = x; }
+
+  float* getPos() { return pos; }
+  void setPos(float x, float y, float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  void setPos(const float* x)
+  {
+    setPos(x[0], x[1], x[2]);
+  }
+
+  unsigned short getSectorId() { return sectorid; }
+  void setSectorId(unsigned short x) { sectorid = x; }
+
+  unsigned int getInterval() { return interval; }
+  void setInterval(unsigned int x) { interval = x; }
 
 };
 

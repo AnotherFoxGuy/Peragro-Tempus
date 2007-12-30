@@ -122,6 +122,7 @@
 			<message id="1" name="CreateItem" />
 			<message id="2" name="RemoveAll" />
 			<message id="3" name="CreateNpc" />
+			<message id="4" name="CreateSpawnPoint" />
 		</type>
 	</message-definitions>
 	<message-implementations>
