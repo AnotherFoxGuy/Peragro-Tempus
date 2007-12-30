@@ -29,6 +29,14 @@
 
 namespace PT
 {
+  namespace Data
+  {
+    class DoorDataManager;
+    class ItemDataManager;
+    class NpcDataManager;
+    class SpawnPointDataManager;
+  } // Data namespace
+
   namespace Misc
   {
     //Forward declaration
@@ -40,6 +48,15 @@ namespace PT
      */
     class ServerSetupManager
     {
+    private:
+      PT::Data::DoorDataManager* doorDataManager;
+      PT::Data::ItemDataManager* itemDataManager;
+      PT::Data::NpcDataManager* npcDataManager;
+      PT::Data::SpawnPointDataManager* spawnpointDataManager;
+
+    public:
+      PT::Data::ItemDataManager* GetItemDataManager() { return itemDataManager; } // TODO remove
+
     public:
       /**
        * Base constructor

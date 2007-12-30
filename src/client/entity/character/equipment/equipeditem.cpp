@@ -29,6 +29,8 @@
 #include <physicallayer/entity.h>
 #include <propclass/mesh.h>
 
+#include "client/serversetup/serversetupmanager.h" //remove
+
 #include "client/data/itemdatamanager.h"
 #include "client/data/item.h"
 
@@ -57,7 +59,7 @@ namespace PT
       if(!obj_reg) return;
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
       if(!pl.IsValid()) return;
-      PT::Data::ItemDataManager* itemDataMgr =  PointerLibrary::getInstance()->getItemDataManager();
+      PT::Data::ItemDataManager* itemDataMgr =  PointerLibrary::getInstance()->getServerSetupManager()->GetItemDataManager();
       if(!itemDataMgr) return;
 
       // Find the item by  ID.

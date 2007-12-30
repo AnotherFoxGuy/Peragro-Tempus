@@ -62,16 +62,9 @@
 #include "client/data/connection/connectiondatamanager.h"
 #include "client/serversetup/serversetupmanager.h"
 #include "client/combat/combatmanager.h"
-#include "client/data/doordatamanager.h"
-#include "client/data/itemdatamanager.h"
-#include "client/data/sectordatamanager.h"
 #include "client/data/skilldatamanager.h"
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
-#include "client/data/npc.h"
-#include "client/data/npcdatamanager.h"
-#include "client/data/spawnpoint.h"
-#include "client/data/spawnpointdatamanager.h"
 #include "client/entity/entitymanager.h"
 #include "client/console/console.h"
 #include "client/chat/chatmanager.h"
@@ -103,8 +96,6 @@ namespace PT
     effectsmanager = 0;
     entitymanager = 0;
     combatmanager = 0;
-    doorDataManager = 0;
-    itemDataManager = 0;
     effectDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
@@ -118,8 +109,6 @@ namespace PT
     chatmanager = 0;
     trademanager = 0;
     sectorDataManager = 0;
-    npcDataManager = 0;
-    spawnpointDataManager = 0;
   }
 
   Client::~Client()
@@ -130,8 +119,6 @@ namespace PT
     delete guimanager;
     delete network;
     delete cursor;
-    delete doorDataManager;
-    delete itemDataManager;
     delete effectDataManager;
     delete skillDataManager;
     delete connectionDataManager;
@@ -140,8 +127,6 @@ namespace PT
     delete reporter;
     delete trademanager;
     delete sectorDataManager;
-    delete npcDataManager;
-    delete spawnpointDataManager;
   }
 
   void Client::PreProcessFrame()
@@ -305,18 +290,6 @@ namespace PT
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventmanager);
 
-    // Create the DoorDataManager, but don't initialize it here.
-    doorDataManager = new PT::Data::DoorDataManager ();
-    if (!doorDataManager->parse())
-      return Report(PT::Error, "Failed to initialize DoorDataManager!");
-    pointerlib.setDoorDataManager(doorDataManager);
-
-    // Create and Initialize the ItemDataManager.
-    itemDataManager = new PT::Data::ItemDataManager ();
-    if (!itemDataManager->parse())
-      return Report(PT::Error, "Failed to initialize ItemDataManager!");
-    pointerlib.setItemDataManager(itemDataManager);
-
     // Create and Initialize the EffectDataManager.
     effectDataManager = new PT::Data::EffectDataManager ();
     if (!effectDataManager->LoadEffectData())
@@ -340,18 +313,6 @@ namespace PT
     if (!connectionDataManager->LoadServerData())
       return Report(PT::Error, "Failed to initialize ConnectionDataManager!");
     pointerlib.setConnectionDataManager(connectionDataManager);
-
-    // Create and Initialize the NpcDataManager.
-    npcDataManager = new PT::Data::NpcDataManager ();
-    if (!npcDataManager->parse())
-      return Report(PT::Error, "Failed to initialize NpcDataManager!");
-    pointerlib.setNpcDataManager(npcDataManager);
-
-    // Create and Initialize the NpcDataManager.
-    spawnpointDataManager = new PT::Data::SpawnPointDataManager ();
-    if (!spawnpointDataManager->parse())
-      return Report(PT::Error, "Failed to initialize SpawnPointDataManager!");
-    pointerlib.setSpawnPointDataManager(spawnpointDataManager);
 
     // Create the ServerSetupManager.
     serverSetupManager = new PT::Misc::ServerSetupManager ();

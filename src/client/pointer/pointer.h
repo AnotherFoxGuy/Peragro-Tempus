@@ -31,15 +31,11 @@ namespace PT
 
   namespace Data
   {
-    class DoorDataManager;
-    class ItemDataManager;
     class SectorDataManager;
     class SkillDataManager;
     class ConnectionDataManager;
     class EffectDataManager;
     class TeleportDataManager;
-    class NpcDataManager;
-    class SpawnPointDataManager;
   } // Data namespace
 
   namespace Misc
@@ -78,15 +74,11 @@ private:
   PT::Client* client;
   Cursor* cursor;
   Network* network;
-  PT::Data::DoorDataManager* doorDataManager;
-  PT::Data::ItemDataManager* itemDataManager;
   PT::Data::SectorDataManager* sectorDataManager;
   PT::Data::SkillDataManager* skillDataManager;
   PT::Data::ConnectionDataManager* connectionDataManager;
   PT::Data::EffectDataManager* effectDataManager;
   PT::Data::TeleportDataManager* teleportDataManager;
-  PT::Data::NpcDataManager* npcDataManager;
-  PT::Data::SpawnPointDataManager* spawnpointDataManager;
   PT::Misc::ServerSetupManager* serverSetupManager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
@@ -103,13 +95,9 @@ public:
     client = 0;
     cursor = 0;
     network = 0;
-    doorDataManager = 0;
-    itemDataManager = 0;
     sectorDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
-    npcDataManager = 0;
-    spawnpointDataManager = 0;
     serverSetupManager = 0;
     effectDataManager = 0;
     guimanager = 0;
@@ -134,12 +122,6 @@ public:
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }
 
-  void setItemDataManager(PT::Data::ItemDataManager* itemDataManager) { this->itemDataManager = itemDataManager; }
-  PT::Data::ItemDataManager* getItemDataManager() { return this->itemDataManager; }
-
-  void setDoorDataManager(PT::Data::DoorDataManager* doorDataManager) { this->doorDataManager = doorDataManager; }
-  PT::Data::DoorDataManager* getDoorDataManager() { return this->doorDataManager; }
-
   void setSectorDataManager(PT::Data::SectorDataManager* sectorDataManager) { this->sectorDataManager = sectorDataManager; }
   PT::Data::SectorDataManager* getSectorDataManager() { return this->sectorDataManager; }
 
@@ -148,12 +130,6 @@ public:
 
   void setConnectionDataManager(PT::Data::ConnectionDataManager* connectionDataManager) { this->connectionDataManager = connectionDataManager; }
   PT::Data::ConnectionDataManager* getConnectionDataManager() { return this->connectionDataManager; }
-
-  void setNpcDataManager(PT::Data::NpcDataManager* npcDataManager) { this->npcDataManager = npcDataManager; }
-  PT::Data::NpcDataManager* getNpcDataManager() { return this->npcDataManager; }
-
-  void setSpawnPointDataManager(PT::Data::SpawnPointDataManager* spawnpointDataManager) { this->spawnpointDataManager = spawnpointDataManager; }
-  PT::Data::SpawnPointDataManager* getSpawnPointDataManager() { return this->spawnpointDataManager; }
 
   void setEffectDataManager(PT::Data::EffectDataManager* effectDataManager) { this->effectDataManager = effectDataManager; }
   PT::Data::EffectDataManager* getEffectDataManager() { return this->effectDataManager; }

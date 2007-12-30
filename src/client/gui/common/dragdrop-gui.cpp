@@ -18,6 +18,8 @@
 
 #include "client/gui/common/dragdrop-gui.h"
 
+#include "client/serversetup/serversetupmanager.h" //remove
+
 #include "client/data/itemdatamanager.h"
 #include "client/data/item.h"
 
@@ -39,7 +41,7 @@ DragDrop::DragDrop (GUIManager* guimanager)
 {
   this->guimanager = guimanager;
   winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr ();
-  itemDataManager = PointerLibrary::getInstance()->getItemDataManager();
+  itemDataManager = PointerLibrary::getInstance()->getServerSetupManager()->GetItemDataManager(); //TODO remove
   network = PointerLibrary::getInstance()->getNetwork();
 
   counter = 0;

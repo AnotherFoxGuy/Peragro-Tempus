@@ -18,6 +18,7 @@
 
 #include "itementity.h"
 
+#include "client/serversetup/serversetupmanager.h"
 #include "client/data/itemdatamanager.h"
 #include "client/data/item.h"
 
@@ -48,7 +49,7 @@ namespace PT
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
       PT::Data::Item* item =
-        PointerLibrary::getInstance()->getItemDataManager()->GetItemById(itemId);
+        PointerLibrary::getInstance()->getServerSetupManager()->GetItemDataManager()->GetItemById(itemId);
 
       if (item)
       {

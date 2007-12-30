@@ -75,14 +75,14 @@ namespace PT
 {
   namespace Data
   {
-    class DoorDataManager;
-    class ItemDataManager;
+    //class DoorDataManager;
+    //class ItemDataManager;
     class EffectDataManager;
     class SectorDataManager;
     class SkillDataManager;
     class ConnectionDataManager;
-    class NpcDataManager;
-    class SpawnPointDataManager;
+    //class NpcDataManager;
+    //class SpawnPointDataManager;
   } // Data namespace
 
   namespace Misc
@@ -182,14 +182,14 @@ namespace PT
     PT::Entity::EntityManager* entitymanager;
     CombatMGR* combatmanager;
 
-    PT::Data::DoorDataManager* doorDataManager;
-    PT::Data::ItemDataManager* itemDataManager;
+    //PT::Data::DoorDataManager* doorDataManager;
+    //PT::Data::ItemDataManager* itemDataManager;
     PT::Data::EffectDataManager* effectDataManager;
     PT::Data::SectorDataManager* sectorDataManager;
     PT::Data::SkillDataManager* skillDataManager;
     PT::Data::ConnectionDataManager* connectionDataManager;
-    PT::Data::NpcDataManager* npcDataManager;
-    PT::Data::SpawnPointDataManager* spawnpointDataManager;
+    //PT::Data::NpcDataManager* npcDataManager;
+    //PT::Data::SpawnPointDataManager* spawnpointDataManager;
 
     PT::Misc::ServerSetupManager* serverSetupManager;
 

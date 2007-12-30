@@ -49,6 +49,25 @@ namespace PT
 
     ServerSetupManager::ServerSetupManager()
     {
+      // Create and Initialize the DoorDataManager.
+      doorDataManager = new PT::Data::DoorDataManager ();
+      if (!doorDataManager->parse())
+        Report(PT::Error, "Failed to initialize DoorDataManager!");
+
+      // Create and Initialize the ItemDataManager.
+      itemDataManager = new PT::Data::ItemDataManager ();
+      if (!itemDataManager->parse())
+        Report(PT::Error, "Failed to initialize ItemDataManager!");
+
+      // Create and Initialize the NpcDataManager.
+      npcDataManager = new PT::Data::NpcDataManager ();
+      if (!npcDataManager->parse())
+        Report(PT::Error, "Failed to initialize NpcDataManager!");
+
+      // Create and Initialize the NpcDataManager.
+      spawnpointDataManager = new PT::Data::SpawnPointDataManager ();
+      if (!spawnpointDataManager->parse())
+        Report(PT::Error, "Failed to initialize SpawnPointDataManager!");
     }
 
     ServerSetupManager::~ServerSetupManager()
@@ -113,7 +132,7 @@ namespace PT
       // ==[ Doors ]=============================================================
       std::vector<PT::Data::Door*> doors;
 
-      PointerLibrary::getInstance()->getDoorDataManager()->GetAllDoors(doors);
+      doorDataManager->GetAllDoors(doors);
 
       for (size_t i = 0; i < doors.size(); i++ )
       {
@@ -151,7 +170,7 @@ namespace PT
       // ==[ Items ]=============================================================
       std::vector<PT::Data::Item*> items;
 
-      PointerLibrary::getInstance()->getItemDataManager()->GetAllItems(items);
+      itemDataManager->GetAllItems(items);
 
       for (size_t i = 0; i < items.size(); i++ )
       {
@@ -183,7 +202,7 @@ namespace PT
       // ==[ NPCs ]=============================================================
       std::vector<PT::Data::Npc*> npcs;
 
-      PointerLibrary::getInstance()->getNpcDataManager()->GetAllNpcs(npcs);
+      npcDataManager->GetAllNpcs(npcs);
 
       for (size_t i = 0; i < npcs.size(); i++ )
       {
@@ -248,7 +267,7 @@ namespace PT
       // ==[ SpawnPoints ]=============================================================
       std::vector<PT::Data::SpawnPoint*> spawnpoints;
 
-      PointerLibrary::getInstance()->getSpawnPointDataManager()->GetAllSpawnPoints(spawnpoints);
+      spawnpointDataManager->GetAllSpawnPoints(spawnpoints);
       
       for (size_t i = 0; i < spawnpoints.size(); i++ )
       {

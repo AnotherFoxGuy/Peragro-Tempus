@@ -32,6 +32,8 @@
 #include "client/data/itemdatamanager.h"
 #include "client/entity/player/playerentity.h"
 
+#include "client/serversetup/serversetupmanager.h" //remove
+
 PtConsole::PtConsole ()
 {
 }
@@ -249,7 +251,7 @@ public:
   }
   virtual void Execute (const csStringArray& args)
   {
-    PT::Data::ItemDataManager* itemDataMgr = PointerLibrary::getInstance()->getItemDataManager();
+    PT::Data::ItemDataManager* itemDataMgr = PointerLibrary::getInstance()->getServerSetupManager()->GetItemDataManager();
     if(!itemDataMgr) return;
 
     if (args.GetSize() < 2)

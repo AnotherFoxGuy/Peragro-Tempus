@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/serversetup/serversetupmanager.h"//remove
+
 #include "client/reporter/reporter.h"
 
 InventoryWindow::InventoryWindow(GUIManager* guimanager)
@@ -150,7 +152,9 @@ void InventoryWindow::CreateGUIWindow()
   winMgr = cegui->GetWindowManagerPtr ();
 
   dragdrop = guimanager->GetDragDrop();
-  itemDataManager = PointerLibrary::getInstance()->getItemDataManager();
+
+  //TODO remove
+  itemDataManager = PointerLibrary::getInstance()->getServerSetupManager()->GetItemDataManager();
 
   // Get the frame window
   CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("Inventory/Frame"));
