@@ -325,6 +325,9 @@
 				RelativePath="..\..\src\client\data\itemdatamanager.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\data\npcdatamanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\data\sectordatamanager.cpp">
 			</File>
 			<File
@@ -372,6 +375,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\itemdatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\npc.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\npcdatamanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\sector.h">
