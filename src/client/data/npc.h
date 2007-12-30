@@ -58,7 +58,7 @@ namespace PT
 
       std::map<std::string, std::string> setting;
 
-      std::map<int, std::pair<int, int>> inventory;
+      std::map<int, std::pair<int, int> > inventory;
 
     public:
       Npc() {}
@@ -109,7 +109,7 @@ namespace PT
       { inventory[slot] = std::pair<int, int>(item, variation); }
       const std::pair<int, int>& GetInventory(int slot)
       { return inventory[slot]; }
-      const std::map<int, std::pair<int, int>> & GetAllInventory()
+      const std::map<int, std::pair<int, int> > & GetAllInventory()
       { return inventory; }
     };
   } // Data namespace

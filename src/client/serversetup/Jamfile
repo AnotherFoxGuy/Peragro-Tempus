@@ -4,4 +4,4 @@ Description client-serversetup : "client serversetup" ;
 Library client-serversetup :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs client-serversetup : CEGUI CRYSTAL CEL BOOST ;
-LinkWith client-serversetup : client-network util ;
+LinkWith client-serversetup : client-network client-data util ;

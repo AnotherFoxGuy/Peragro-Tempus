@@ -37,24 +37,24 @@ namespace PT
     class Door
     {
     private:
-      ///Unique ID of the door (ie '1').
+      ///Unique ID of the door (e.g. '1').
       unsigned int id;
-      ///Name of the door (ie 'North Gate').
+      ///Name of the door (e.g. 'North Gate').
       std::string name;
-      ///meshName - name of the mesh in the mesh file used for this door (ie
-      ///'gate_north_gate').
+      ///meshName - name of the mesh in the mesh file used for this door
+      ///(e.g. 'gate_north_gate').
       std::string meshName;
-      ///Position of the door in a sector (ie x='20', y='30', z='40').
+      ///Position of the door in a sector (e.g. x='20', y='30', z='40').
       PtVector3 position;
-      ///Name of the sector where the door resides (ie 'room').
+      ///Name of the sector where the door resides (e.g. 'room').
       std::string sectorName;
-      ///ID of the key that locks/unlocks the door (ie '7').
+      ///ID of the key that locks/unlocks the door (e.g. '7').
       unsigned int keyId;
       ///Whether the door is open or closed
       bool open;
       ///Whether the door is locked or not
       bool locked;
-      ///Quest to be used for door events (ie 'GateUpward').
+      ///Quest to be used for door events (e.g. 'GateUpward').
       std::string questName;
 
     public:

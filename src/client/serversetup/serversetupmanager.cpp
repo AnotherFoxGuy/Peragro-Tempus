@@ -20,7 +20,6 @@
 
 #include <iutil/document.h>
 
-// Comment this include out to build on Linux (currently a GCC specific problem)
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
 
@@ -117,7 +116,6 @@ namespace PT
         ptString name = ptString::create(sectors[i]->GetName());
         ptString region = ptString::create(sectors[i]->GetRegion());
 
-        // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
         Report(PT::Debug, "Loading sector, sector_id=%d, name=\"%s\", region=\"%s\"", sector_id, *name, *region);
 
         // Just send the data here, one sector/package
@@ -183,7 +181,6 @@ namespace PT
         float weight = items[i]->GetWeight();
         ptString equiptype = ptString::create(items[i]->GetEquiptype());
 
-        // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
         Report(PT::Debug, "Loading item, item_id=%d, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"", item_id, *name, *icon, *description, *file, *mesh, weight, *equiptype);
 
         // Just send the data here, one item/package
@@ -220,7 +217,7 @@ namespace PT
         const std::map<std::string, std::string>& settings = 
           npcs[i]->GetAllSetting();
 
-        const std::map<int, std::pair<int, int>>& inventory = 
+        const std::map<int, std::pair<int, int> >& inventory = 
           npcs[i]->GetAllInventory();
 
         unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
@@ -253,7 +250,7 @@ namespace PT
 
         // TODO: Inventory
         npcmsg.setInventoryCount(inventory.size());
-        std::map<int, std::pair<int, int>>::const_iterator it_i;
+        std::map<int, std::pair<int, int> >::const_iterator it_i;
         for (it_i = inventory.begin(); it_i != inventory.end(); ++it_i)
         {
           npcmsg.setSlotId(j, it_i->first);
@@ -268,7 +265,7 @@ namespace PT
       std::vector<PT::Data::SpawnPoint*> spawnpoints;
 
       spawnpointDataManager->GetAllSpawnPoints(spawnpoints);
-      
+
       for (size_t i = 0; i < spawnpoints.size(); i++ )
       {
         unsigned int itemid = spawnpoints[i]->GetItem();
@@ -281,7 +278,6 @@ namespace PT
 
         unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
 
-        // Just to avoid "unused variable" warnings, until we have a message to send it to the server instead
         Report(PT::Debug, "Loading spawnpoint, item=%d, var=%d, %s <%.2f,%.2f,%.2f>, interval=%d\n", itemid, variation, sector, position.x, position.y, position.z, interval);
 
         // Just send the data here, one spawnpoint/package
