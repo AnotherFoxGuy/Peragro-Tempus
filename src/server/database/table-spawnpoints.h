@@ -47,6 +47,7 @@ public:
   SpawnPointsTable(Database* db);
 
   void createTable();
+  void truncate();
 
   void insert(SpawnPointsTableVO* vo);
   void remove(int id);

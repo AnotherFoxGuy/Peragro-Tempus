@@ -87,7 +87,7 @@ void SectorsTable::insert(SectorsTableVO* vo)
 
 void SectorsTable::remove(int id)
 {
-  db->update("delete from sectors where id = %d");
+  db->update("delete from sectors where id = %d", id);
 }
 
 unsigned int SectorsTable::getCount()

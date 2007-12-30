@@ -64,6 +64,11 @@ void SpawnPointsTable::createTable()
              "PRIMARY KEY (Id) );");
 }
 
+void SpawnPointsTable::truncate()
+{
+  db->update("delete from spawnpoints;");
+}
+
 void SpawnPointsTable::insert(SpawnPointsTableVO* vo)
 {
   const char* query = { "insert into spawnpoints(id, item, pos_x, pos_y, pos_z, sector, interval) values (%d, %d, %.4f, %.4f, %.4f, '%s', %d);" };

@@ -149,10 +149,13 @@ public:
 
   void removeAllSpawnPoints()
   {
-    while(spawnpoints.getCount() > 0)
-    {
-      SpawnPoint* point = spawnpoints.get(0);
-    }
+    SpawnPointsTable* table = Server::getServer()->getDatabase()->getSpawnPointsTable();
+    table->truncate();
+
+    mutex.lock();
+    spawnpoints.delAll();
+    max_id = 0;
+    mutex.unlock();
   }
 };
 
