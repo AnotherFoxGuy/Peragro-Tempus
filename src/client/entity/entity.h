@@ -113,6 +113,8 @@ namespace PT
       std::string name;
       ///Name of the mesh used for this entity.
       std::string meshName;
+      /// The file in which this entity's mesh resides.
+      std::string fileName;
       ///Name of the sector where the entity resides.
       std::string sectorName;
       ///Position of the entity within a sector.

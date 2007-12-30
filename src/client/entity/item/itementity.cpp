@@ -18,10 +18,6 @@
 
 #include "itementity.h"
 
-#include "client/serversetup/serversetupmanager.h"
-#include "client/data/itemdatamanager.h"
-#include "client/data/item.h"
-
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
@@ -48,39 +44,29 @@ namespace PT
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
 
-      PT::Data::Item* item =
-        PointerLibrary::getInstance()->getServerSetupManager()->GetItemDataManager()->GetItemById(itemId);
+      CreateCelEntity();
 
-      if (item)
+      char buffer[1024];
+      sprintf(buffer, "%s:%d:%d", name.c_str(), type, id);
+      celEntity->SetName(buffer);
+
+      // Load and assign the mesh to the entity.
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      if (!pcmesh->SetMesh(meshName.c_str(), fileName.c_str()))
       {
-        name = item->GetName();
-        meshName = item->GetMeshName();
-
-        CreateCelEntity();
-
-        char buffer[1024];
-        sprintf(buffer, "%s:%d:%d", name.c_str(), type, id);
-        celEntity->SetName(buffer);
-
-        // Load and assign the mesh to the entity.
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-        if (!pcmesh->SetMesh(meshName.c_str(), item->GetMeshFile().c_str()))
-        {
-          Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s",
-            meshName.c_str());
-          pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
-        }
-        pl->CreatePropertyClass(celEntity, "pcmove.linear");
-        csRef<iPcLinearMovement> pclinmove =
-          CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-
-        pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
-          csVector3(0,0,0));
-
-        SetFullPosition(pos, rot, sectorName.c_str());
+        Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s",
+          meshName.c_str());
+        pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
       }
-      else
-        Report(PT::Error, "PtItemEntity: Couldn't find mesh for item %d!\n", id);
+
+      pl->CreatePropertyClass(celEntity, "pcmove.linear");
+      csRef<iPcLinearMovement> pclinmove =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+
+      pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
+        csVector3(0,0,0));
+
+      SetFullPosition(pos, rot, sectorName.c_str());
     }
 
     void ItemEntity::Interact()

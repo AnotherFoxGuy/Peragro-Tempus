@@ -35,8 +35,8 @@ namespace PT
     {
     private:
       ///Represents the ID of item type. Not to be confused with entity ID.
-      ///Item ID is hooked to things like 'Long Sword', 'Apple' etc, found in
-      ///database.
+      ///@todo depricate since we don't have to do a lookup and recieve all 
+      ///data from the server.
       unsigned int itemId;
 
       void Create();

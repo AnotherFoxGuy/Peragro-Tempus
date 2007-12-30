@@ -79,6 +79,7 @@ namespace PT
       PT::Entity::EntityType entityType;
       std::string entityName;
       std::string meshName;
+      std::string fileName;
       unsigned int typeId;
       std::string animationName;
       csVector3 position;

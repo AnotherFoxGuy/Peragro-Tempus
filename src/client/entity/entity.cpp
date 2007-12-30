@@ -35,6 +35,7 @@ namespace PT
       type = ev.entityType;
       name = ev.entityName;
       meshName = ev.meshName;
+      fileName = ev.fileName;
       ///@todo This is an ugly hack. The server seems to send some impossible
       ///sector id from time to time.
       PT::Data::Sector* sector = PointerLibrary::getInstance()->

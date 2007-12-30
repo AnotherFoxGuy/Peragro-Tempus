@@ -342,7 +342,10 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   using namespace PT::Events;
   EntityAddEvent* entityEvent = new EntityAddEvent();
 
+  entityEvent->entityName   = *entmsg.getName();
   entityEvent->typeId       = entmsg.getItemId();
+  entityEvent->meshName     = *entmsg.getMesh();
+  entityEvent->fileName     = *entmsg.getFile();
   csVector3 pos(entmsg.getPos()[0], entmsg.getPos()[1], entmsg.getPos()[2]);
   entityEvent->position     = pos;
   entityEvent->rotation     = 0;
