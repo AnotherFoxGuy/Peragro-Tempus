@@ -1,0 +1,37 @@
+<spawnpoints>
+	<spawnpoint>
+		<item id="3" variation="0" />
+		<position sector="room" x="-114" y="2" z="22" />
+		<interval>60</interval>
+	</spawnpoint>
+	<spawnpoint>
+		<item id="2" variation="0" />
+		<position sector="room" x="-97" y="2" z="88" />
+		<interval>20</interval>
+	</spawnpoint>
+	<spawnpoint>
+		<item id="1" variation="0" />
+		<position sector="room" x="-73" y="2.5" z="105" />
+		<interval>10</interval>
+	</spawnpoint>
+	<spawnpoint>
+		<item id="1" variation="0" />
+		<position sector="room" x="-23" y="2.5" z="110" />
+		<interval>45</interval>
+	</spawnpoint>
+	<spawnpoint>
+		<item id="1" variation="0" />
+		<position sector="room" x="17" y="2.5" z="117" />
+		<interval>75</interval>
+	</spawnpoint>
+	<spawnpoint>
+		<item id="1" variation="0" />
+		<position sector="room" x="85" y="2.5" z="108" />
+		<interval>15</interval>
+	</spawnpoint>
+	<spawnpoint>
+		<item id="4" variation="0" />
+		<position sector="room" x="87.8" y="2.0" z="11.2" />
+		<interval>15</interval>
+	</spawnpoint>
+</spawnpoints>

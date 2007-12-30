@@ -13,6 +13,7 @@ under each day.
  - PK added xsd for the other xml files too.
  - PK changed the hardcoded interact icon size to be read from client.cfg.
  - PK implemented NpcDataManager.
+ - PK implemented SpawnPointDataManager.
 
 29-Dec-2007
  - PK fixed vertex transformation in /dbg dump.

@@ -38,6 +38,8 @@ namespace PT
     class ConnectionDataManager;
     class EffectDataManager;
     class TeleportDataManager;
+    class NpcDataManager;
+    class SpawnPointDataManager;
   } // Data namespace
 
   namespace Misc
@@ -83,6 +85,8 @@ private:
   PT::Data::ConnectionDataManager* connectionDataManager;
   PT::Data::EffectDataManager* effectDataManager;
   PT::Data::TeleportDataManager* teleportDataManager;
+  PT::Data::NpcDataManager* npcDataManager;
+  PT::Data::SpawnPointDataManager* spawnpointDataManager;
   PT::Misc::ServerSetupManager* serverSetupManager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
@@ -104,6 +108,8 @@ public:
     sectorDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
+    npcDataManager = 0;
+    spawnpointDataManager = 0;
     serverSetupManager = 0;
     effectDataManager = 0;
     guimanager = 0;
@@ -142,6 +148,12 @@ public:
 
   void setConnectionDataManager(PT::Data::ConnectionDataManager* connectionDataManager) { this->connectionDataManager = connectionDataManager; }
   PT::Data::ConnectionDataManager* getConnectionDataManager() { return this->connectionDataManager; }
+
+  void setNpcDataManager(PT::Data::NpcDataManager* npcDataManager) { this->npcDataManager = npcDataManager; }
+  PT::Data::NpcDataManager* getNpcDataManager() { return this->npcDataManager; }
+
+  void setSpawnPointDataManager(PT::Data::SpawnPointDataManager* spawnpointDataManager) { this->spawnpointDataManager = spawnpointDataManager; }
+  PT::Data::SpawnPointDataManager* getSpawnPointDataManager() { return this->spawnpointDataManager; }
 
   void setEffectDataManager(PT::Data::EffectDataManager* effectDataManager) { this->effectDataManager = effectDataManager; }
   PT::Data::EffectDataManager* getEffectDataManager() { return this->effectDataManager; }

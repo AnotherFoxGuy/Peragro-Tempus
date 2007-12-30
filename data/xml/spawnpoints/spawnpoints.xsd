@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="spawnpoints">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="spawnpoint">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="item">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="variation" type="xs:unsignedInt" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="position">
+                <xs:complexType>
+                  <xs:attribute name="sector" type="xs:string" use="required" />
+                  <xs:attribute name="x" type="xs:float" use="required" />
+                  <xs:attribute name="y" type="xs:float" use="required" />
+                  <xs:attribute name="z" type="xs:float" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="interval" type="xs:unsignedInt" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

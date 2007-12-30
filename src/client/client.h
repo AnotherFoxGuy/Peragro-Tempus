@@ -82,6 +82,7 @@ namespace PT
     class SkillDataManager;
     class ConnectionDataManager;
     class NpcDataManager;
+    class SpawnPointDataManager;
   } // Data namespace
 
   namespace Misc
@@ -188,6 +189,7 @@ namespace PT
     PT::Data::SkillDataManager* skillDataManager;
     PT::Data::ConnectionDataManager* connectionDataManager;
     PT::Data::NpcDataManager* npcDataManager;
+    PT::Data::SpawnPointDataManager* spawnpointDataManager;
 
     PT::Misc::ServerSetupManager* serverSetupManager;
 
