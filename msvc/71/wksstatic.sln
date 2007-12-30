@@ -12,8 +12,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-chatmanager", "li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-combatmanager", "libclient-combatmanager.vcproj", "{A083C033-9407-7708-ADAE-B98A9FF52564}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-console", "libclient-console.vcproj", "{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-data", "libclient-data.vcproj", "{5E112DF4-61D2-AA58-33BB-E2792810B156}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-entitymanager", "libclient-entitymanager.vcproj", "{BF4129D2-DB7C-DED2-8AC2-D31815CC0CA7}"
@@ -149,14 +147,6 @@ Global
 		{A083C033-9407-7708-ADAE-B98A9FF52564}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{A083C033-9407-7708-ADAE-B98A9FF52564}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{A083C033-9407-7708-ADAE-B98A9FF52564}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
-    		{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
-		{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}.Release (with static libs).Build.0 = Release (with static libs)|Win32
-  		{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
-		{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
-    		{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
-		{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
-  		{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
-		{89CAACA7-EE9D-973C-D2BB-EBD74E360C82}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{5E112DF4-61D2-AA58-33BB-E2792810B156}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{5E112DF4-61D2-AA58-33BB-E2792810B156}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{5E112DF4-61D2-AA58-33BB-E2792810B156}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
