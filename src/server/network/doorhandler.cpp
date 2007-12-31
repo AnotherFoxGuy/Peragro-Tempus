@@ -27,12 +27,19 @@ void DoorHandler::handleOpenDoorRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   if (!conn) return;
+
   const char* error = 0;
+
   OpenDoorRequestMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
   printf("Got open door request %d: \n---------------------------\n", door_msg.getDoorId());
+
   const Entity* e = server->getEntityManager()->findById(door_msg.getDoorId());
   if (!e) return;
+
   const DoorEntity* door = e->getDoorEntity();
   if (!door) return;
   if (door->getLocked())
@@ -69,9 +76,14 @@ void DoorHandler::handleCloseDoorRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   if (!conn) return;
+
   const char* error = 0;
+
   CloseDoorRequestMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
   printf("Got close door request %d: \n---------------------------\n", door_msg.getDoorId());
   const Entity* e = server->getEntityManager()->findById(door_msg.getDoorId());
   if (!e) return;
@@ -112,10 +124,16 @@ void DoorHandler::handleLockDoorRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   if (!conn) return;
+
   const char* error = 0;
+
   LockDoorRequestMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
   printf("Got lock door request %d: \n---------------------------\n", door_msg.getDoorId());
+
   const Entity* e = server->getEntityManager()->findById(door_msg.getDoorId());
   if (!e) return;
   const DoorEntity* door = e->getDoorEntity();
@@ -160,10 +178,16 @@ void DoorHandler::handleUnlockDoorRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
   if (!conn) return;
+
   const char* error = 0;
+
   UnlockDoorRequestMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
   printf("Got unlock door request %d: \n---------------------------\n", door_msg.getDoorId());
+
   const Entity* e = server->getEntityManager()->findById(door_msg.getDoorId());
   if (!e) return;
   const DoorEntity* door = e->getDoorEntity();

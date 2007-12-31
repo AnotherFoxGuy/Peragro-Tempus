@@ -56,6 +56,8 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   WhisperToMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
   const Entity* entity = server->getEntityManager()->findByName(in_msg.getListenerName());
   if (!entity || entity->getType() != Entity::PlayerEntityType) return;
 

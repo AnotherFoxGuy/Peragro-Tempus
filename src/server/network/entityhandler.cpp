@@ -43,7 +43,8 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 
   MoveRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  //printf("Received MoveRequest from: '%s' w(%d) t(%d)\n", name, request_msg.getWalk(), request_msg.getRot());
+
+  Server* server = Server::getServer();
 
   float speed = 0;
   float acc = 1;
@@ -97,6 +98,8 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   DrUpdateRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
   server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
   int name_id;
@@ -140,8 +143,12 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   if (!user_ent) return;
 
   ptString name = user_ent->getName();
+
   PickRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
   printf("Received PickRequest from: '%s' -> '%d' \n", *name, request_msg.getItemEntityId());
 
   const Entity* e = server->getEntityManager()->findById(request_msg.getItemEntityId());
@@ -300,7 +307,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   ent->setSector(user_ent->getSector());
   ent->freeLock();
 
-  server->addEntity(ent, true);
+  Server::getServer()->addEntity(ent, true);
 }
 
 void EntityHandler::handleMoveToRequest(GenericMessage* msg)
@@ -316,6 +323,8 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
 
   MoveToRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   Stat* speed_stat = server->getStatManager()->findByName(ptString("Speed", 5));
 
@@ -368,8 +377,11 @@ void EntityHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
   const char* error = 0;
 
   ptString name = user_ent->getName();
+
   InventoryMoveItemRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   unsigned char equip_slot = request_msg.getNewSlot();
   unsigned char invent_slot = request_msg.getOldSlot();
@@ -470,6 +482,8 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
   TeleportMessage telemsg;
 
+  Server* server = Server::getServer();
+
   const Character* character = NetworkHelper::getCharacter(msg);
   if (!character) return;
 
@@ -527,6 +541,8 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
 
   MountRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   unsigned int mount_id = request_msg.getMountEntityId();
 
@@ -697,6 +713,8 @@ void EntityHandler::handleRemove(GenericMessage* msg)
   RemoveMessage rmmsg;
   rmmsg.deserialise(msg->getByteStream());
   
+  Server* server = Server::getServer();
+
   unsigned int entid = rmmsg.getEntityId();
   const Entity* e = server->getEntityManager()->findById(entid);
   if (e == 0) return;

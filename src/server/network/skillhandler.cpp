@@ -34,6 +34,8 @@ void SkillHandler::handleSkillUsageStartRequest(GenericMessage* msg)
   SkillUsageStartRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
   if (skill)
   {
@@ -53,6 +55,8 @@ void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
 
   SkillUsageStopRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
   skill->castInterrupt(character->getSkills()->findSkill(skill->getId()));

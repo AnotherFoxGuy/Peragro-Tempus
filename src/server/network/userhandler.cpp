@@ -40,6 +40,8 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
 
   if (username.isNull() || !password) return;
 
+  Server* server = Server::getServer();
+
   User* user = 0;
   ptString retval = server->getUserAccountManager()->login(username, password, user);
 
@@ -104,6 +106,8 @@ void UserHandler::handleRegisterRequest(GenericMessage* msg)
   RegisterRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
   ptString username = request_msg.getUsername();
   const char* password = request_msg.getPassword();
 
@@ -120,6 +124,8 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
 {
   CharCreateRequestMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   const User* user = NetworkHelper::getUser(msg);
   //CharacterTable* ct = server->getDatabase()->getCharacterTable();
@@ -155,6 +161,8 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 
   CharSelectRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   // Assume the client knows nothing.
   user->clearEntityList();

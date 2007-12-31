@@ -32,6 +32,8 @@ void BookHandler::handleBookReadRequest(GenericMessage* msg)
   BookReadRequestMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
   int itemId = in_msg.getItemId();
   int bookId = in_msg.getBookId();
 
@@ -70,6 +72,8 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
 
   BookWriteRequestMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   int itemId = in_msg.getItemId();
   int bookId = in_msg.getBookId();

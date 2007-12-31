@@ -35,6 +35,8 @@ void AdminHandler::handleCreateSector(GenericMessage* msg)
   CreateSectorMessage sectormsg;
   sectormsg.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
   SectorManager* sectors = server->getSectorManager();
   sectors->addSector(sectormsg.getSectorId(), sectormsg.getName(), sectormsg.getRegion());
 }
@@ -44,8 +46,10 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
   CreateItemMessage itemmsg;
   itemmsg.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
   ItemManager* items = server->getItemManager();
-  ItemTable* it = Server::getServer()->getDatabase()->getItemTable();
+  ItemTable* it = server->getDatabase()->getItemTable();
   it->insert(itemmsg.getName(), itemmsg.getIcon(), itemmsg.getDescription(),
              itemmsg.getFile(), itemmsg.getMesh(), itemmsg.getWeight(),
              itemmsg.getEquipType());
@@ -165,6 +169,8 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 {
   CreateSpawnPointMessage spawnmsg;
   spawnmsg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   float x = spawnmsg.getPos()[0];
   float y = spawnmsg.getPos()[1];

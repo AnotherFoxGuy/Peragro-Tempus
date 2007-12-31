@@ -38,6 +38,8 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   TradeRequestMessage message;
   message.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
 #ifdef DEBUG_TRADE
   printf("Received TradeRequest from %s\n", *pc->getCharacter()->getName());
   this_peer->debugPrint();

@@ -51,11 +51,7 @@ private:
 
 public:
   Network(Server* server) 
-  : user_handler(server), ent_handler(server), chat_handler(server),
-    door_handler(server), quest_handler(server), skill_handler(server),
-    trade_handler(server), environment_handler(server), book_handler(server),
-    admin_handler(server),
-    tcp_nw()
+  : tcp_nw()
   {
     server->setNetwork(this);
   }

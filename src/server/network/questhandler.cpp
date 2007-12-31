@@ -46,6 +46,8 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   NpcDialogAnswerMessage message;
   message.deserialise(msg->getByteStream());
 
+  Server* server = Server::getServer();
+
   const NPCDialog* dialog = dia_state->giveAnswer(message.getDialogId(), message.getAnswerId());
 
   if (dialog == 0)
@@ -204,6 +206,8 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
 
   NpcStartDialogMessage message;
   message.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
 
   unsigned int npc_id = message.getNpcId();
   const Entity* npc_ent = server->getEntityManager()->findById(npc_id);
