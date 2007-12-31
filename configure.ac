@@ -196,7 +196,7 @@ AS_IF([test $with_CEGUI != no],
 	[$cs_cv_libCEGUI_cflags],
 	[$cs_cv_libCEGUI_lflags],
 	[$cs_cv_libCEGUI_libs])], [AC_MSG_ERROR([
-*** CEGUI could not be found. Version 0.4.0 is required.
+*** CEGUI could not be found. Version 0.5.0 is required.
 *** You can get it from http://www.cegui.org.uk/
 ])])])
 

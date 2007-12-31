@@ -9,6 +9,8 @@ under each day.
  - PK created a new message type "Player" and splitted up the type "Entity".
  - PK turned some horses so they face in the right direction.
  - PK added a mutex around EventManager::Handle() to make it thread safe.
+ - Dan set required CEGUI version to be 0.5.0 in the error message when 
+   CEGUI is not found.
 
 30-Dec-2007
  - PK added more information about the items to various entity messages.
