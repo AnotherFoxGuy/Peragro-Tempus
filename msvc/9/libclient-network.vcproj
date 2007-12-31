@@ -319,6 +319,9 @@
 				RelativePath="..\..\src\client\network\environmenthandler.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\network\playerhandler.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\network\questhandler.cpp">
 			</File>
 			<File
@@ -357,6 +360,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\network.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\network\playerhandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\questhandler.h">

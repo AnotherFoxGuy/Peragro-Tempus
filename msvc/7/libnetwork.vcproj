@@ -319,6 +319,9 @@
 				RelativePath="..\..\src\common\network\environmentmessages.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\network\playermessages.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\questmessages.cpp">
 			</File>
 			<File
@@ -369,6 +372,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\nwtypes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\playermessages.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\questmessages.h">
