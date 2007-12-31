@@ -58,7 +58,18 @@
 		</list>
 	</message>
 
-	<message type="Entity" name="Remove">
+	<message type="Entity" name="AddMountEntity">
+		<string>Name</string>
+		<string>Mesh</string>
+		<uint16>MeshId</uint16>
+		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
+		<uint16>SectorId</uint16>
+		<uint32>EntityId</uint32>
+		<uint32>InventoryId</uint32>
+	</message>
+
+	<message type="Entity" name="RemoveEntity">
 		<uint32>EntityId</uint32>
 	</message>
 
@@ -114,40 +125,6 @@
 		<string>Error</string> <!-- null if successful -->
 	</message>
 
-	<message type="Entity" name="InventoryList">
-		<uint32>InventoryId</uint32>
-		<list name="Inventory">
-			<uint32>ItemId</uint32>
-			<uint32>Variation</uint32>
-			<uint8>SlotId</uint8>
-			<string>Name</string>
-			<string>Icon</string>
-			<string>Description</string>
-			<float>Weight</float>
-			<string>EquipType</string>
-		</list>
-	</message>
-
-	<message type="Entity" name="StatsList">
-		<list name="Stats">
-			<uint16>StatId</uint16>
-			<string>Name</string>
-			<uint16>Level</uint16>
-		</list>
-	</message>
-
-	<message type="Entity" name="StatsChange">
-		<uint16>StatId</uint16>
-		<uint16>Level</uint16>
-	</message>
-
-	<message type="Entity" name="SkillsList">
-		<list name="Skills">
-			<uint16>SkillId</uint16>
-			<string>Name</string>
-		</list>
-	</message>
-
 	<message type="Entity" name="Equip">
 		<uint32>EntityId</uint32>
 		<uint32>ItemId</uint32>
@@ -172,8 +149,6 @@
 
 	<message type="Entity" name="Relocate"></message>
 
-	<message type="Entity" name="ToggleFlashStep"></message>
-
 	<message type="Entity" name="Teleport">
 		<uint32>EntityId</uint32>
 		<vector3f>Pos</vector3f>
@@ -191,32 +166,6 @@
 		<float>Rotation</float>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
-	</message>
-
-	<message type="Entity" name="InventoryMoveItemRequest">
-		<uint8>OldSlot</uint8>
-		<uint32>OldInventoryId</uint32>
-		<uint8>NewSlot</uint8>
-		<uint32>NewInventoryId</uint32>
-	</message>
-	
-	<message type="Entity" name="InventoryMoveItem">
-		<uint8>OldSlot</uint8>
-		<uint32>OldInventoryId</uint32>
-		<uint8>NewSlot</uint8>
-		<uint32>NewInventoryId</uint32>
-		<string>Error</string> <!-- null if successful -->
-	</message>
-
-	<message type="Entity" name="AddMountEntity">
-		<string>Name</string>
-		<string>Mesh</string>
-		<uint16>MeshId</uint16>
-		<vector3f>Pos</vector3f>
-		<float>Rotation</float>
-		<uint16>SectorId</uint16>
-		<uint32>EntityId</uint32>
-		<uint32>InventoryId</uint32>
 	</message>
 
 	<message type="Entity" name="MountRequest">
@@ -238,30 +187,4 @@
 		<uint32>MountEntityId</uint32>
 	</message>
 
-	<message type="Entity" name="SpawnItem">
-		<uint32>ItemId</uint32>
-		<uint32>Variation</uint32>
-		<vector3f>Pos</vector3f>
-		<uint16>SectorId</uint16>
-	</message>
-
-	<message type="Entity" name="SpawnMount">
-		<string>Name</string>
-		<string>Mesh</string>
-		<vector3f>Pos</vector3f>
-		<float>Rotation</float>
-		<uint16>SectorId</uint16>
-	</message>
-
-	<message type="Entity" name="SpawnDoor">
-		<uint16>DoorId</uint16>
-		<string>Name</string>
-		<string>Mesh</string>
-		<uint16>SectorId</uint16>
-		<vector3f>Pos</vector3f>
-		<bool>IsOpen</bool>
-		<bool>IsLocked</bool>
-		<string>Animation</string>
-	</message>
-	
 </message-implementation>

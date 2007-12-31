@@ -24,6 +24,22 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
+void RemoveAllMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(datatype);
+}
+
+void RemoveAllMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  datatype = serial.getString();
+}
+
 void CreateSectorMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
@@ -72,22 +88,6 @@ void CreateItemMessage::deserialise(ByteStream* bs)
   mesh = serial.getString();
   weight = serial.getFloat();
   equiptype = serial.getString();
-}
-
-void RemoveAllMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setString(datatype);
-}
-
-void RemoveAllMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  datatype = serial.getString();
 }
 
 void CreateNpcMessage::serialise(ByteStream* bs)
@@ -200,5 +200,123 @@ void CreateSpawnPointMessage::deserialise(ByteStream* bs)
   pos[2] = serial.getFloat();
   sectorid = (unsigned short) serial.getInt16();
   interval = (unsigned int) serial.getInt32();
+}
+
+void SpawnItemMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(itemid);
+  serial.setInt32(variation);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
+  serial.setInt16(sectorid);
+}
+
+void SpawnItemMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  itemid = (unsigned int) serial.getInt32();
+  variation = (unsigned int) serial.getInt32();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
+  sectorid = (unsigned short) serial.getInt16();
+}
+
+void SpawnMountMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(name);
+  serial.setString(mesh);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
+  serial.setFloat(rotation);
+  serial.setInt16(sectorid);
+}
+
+void SpawnMountMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  name = serial.getString();
+  mesh = serial.getString();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
+  rotation = serial.getFloat();
+  sectorid = (unsigned short) serial.getInt16();
+}
+
+void SpawnDoorMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt16(doorid);
+  serial.setString(name);
+  serial.setString(mesh);
+  serial.setInt16(sectorid);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
+  serial.setInt8(isopen?1:0);
+  serial.setInt8(islocked?1:0);
+  serial.setString(animation);
+}
+
+void SpawnDoorMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  doorid = (unsigned short) serial.getInt16();
+  name = serial.getString();
+  mesh = serial.getString();
+  sectorid = (unsigned short) serial.getInt16();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
+  isopen = serial.getInt8() != 0;
+  islocked = serial.getInt8() != 0;
+  animation = serial.getString();
+}
+
+void RemoveSpawnedEntityMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(entityid);
+}
+
+void RemoveSpawnedEntityMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  entityid = (unsigned int) serial.getInt32();
+}
+
+void ToggleFlashStepMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+}
+
+void ToggleFlashStepMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
 }
 

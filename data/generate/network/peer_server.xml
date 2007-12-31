@@ -21,17 +21,13 @@
 		<message type="Entity" name="AddItemEntity" />
 		<message type="Entity" name="AddDoorEntity" />
 		<message type="Entity" name="AddPlayerEntity" />
-		<message type="Entity" name="Remove" />
+		<message type="Entity" name="RemoveEntity" />
 		<message type="Entity" name="Move" />
 		<!--message type="Entity" name="MoveRequest" /-->
 		<!--message type="Entity" name="PickRequest" /-->
 		<message type="Entity" name="PickResponse" />
 		<!--message type="Entity" name="DropRequest" /-->
 		<message type="Entity" name="DropResponse" />
-		<message type="Entity" name="InventoryList" />
-		<message type="Entity" name="StatsList" />
-		<message type="Entity" name="StatsChange" />
-		<message type="Entity" name="SkillsList" />
 		<message type="Entity" name="Equip" />
 		<message type="Entity" name="MoveTo" />
 		<!--message type="Entity" name="MoveToRequest" /-->
@@ -39,8 +35,6 @@
 		<message type="Entity" name="Teleport" />
 		<!--message type="Entity" name="DrUpdateRequest" /-->
 		<message type="Entity" name="DrUpdate" />
-		<!--message type="Entity" name="InventoryMoveItemRequest" /-->
-		<message type="Entity" name="InventoryMoveItem" />
 		<message type="Entity" name="AddMountEntity" />
 		<!--message type="Entity" name="MountRequest" /-->
 		<message type="Entity" name="Mount" />
@@ -48,10 +42,6 @@
 		<message type="Entity" name="Unmount" />
 		<!--message type="Entity" name="PoseRequest" /-->
 		<message type="Entity" name="Pose" />
-		<!--message type="Entity" name="ToggleFlashStep" /-->
-		<!--message type="Entity" name="SpawnItem" /-->
-		<!--message type="Entity" name="SpawnMount" /-->
-		<!--message type="Entity" name="SpawnDoor" /-->
 
 		<message type="Chat" name="Say" />
 		<message type="Chat" name="Shout" />
@@ -100,11 +90,23 @@
 		<!--message type="Door" name="BookWriteRequest" /-->
 		<message type="Door" name="BookWriteResponse" />
 
+		<!--message type="Admin" name="RemoveAll" /-->
 		<!--message type="Admin" name="CreateSector" /-->
 		<!--message type="Admin" name="CreateItem" /-->
-		<!--message type="Admin" name="RemoveAll" /-->
 		<!--message type="Admin" name="CreateNpc" /-->
 		<!--message type="Admin" name="CreateSpawnPoint" /-->
+		<!--message type="Admin" name="SpawnItem" /-->
+		<!--message type="Admin" name="SpawnMount" /-->
+		<!--message type="Admin" name="SpawnDoor" /-->
+		<!--message type="Admin" name="RemoveSpawnedEntity" /-->
+		<!--message type="Admin" name="ToggleFlashStep" /-->
+
+		<message type="Player" name="InventoryList" />
+		<message type="Player" name="StatsList" />
+		<message type="Player" name="StatsChange" />
+		<message type="Player" name="SkillsList" />
+		<!--message type="Player" name="InventoryMoveItemRequest" /-->
+		<message type="Player" name="InventoryMoveItem" />
 	</send>
 	<receive>
 		<message type="Connection" name="Request" />
@@ -126,17 +128,13 @@
 		<!--message type="Entity" name="AddItemEntity" /-->
 		<!--message type="Entity" name="AddDoorEntity" /-->
 		<!--message type="Entity" name="AddPlayerEntity" /-->
-		<message type="Entity" name="Remove" />
+		<!--message type="Entity" name="RemoveEntity" /-->
 		<!--message type="Entity" name="Move" /-->
 		<message type="Entity" name="MoveRequest" />
 		<message type="Entity" name="PickRequest" />
 		<!--message type="Entity" name="PickResponse" /-->
 		<message type="Entity" name="DropRequest" />
 		<!--message type="Entity" name="DropResponse" /-->
-		<!--message type="Entity" name="InventoryList" /-->
-		<!--message type="Entity" name="StatsList" /-->
-		<!--message type="Entity" name="StatsChange" /-->
-		<!--message type="Entity" name="SkillsList" /-->
 		<!--message type="Entity" name="Equip" /-->
 		<!--message type="Entity" name="MoveTo" /-->
 		<message type="Entity" name="MoveToRequest" />
@@ -144,8 +142,6 @@
 		<!--message type="Entity" name="Teleport" /-->
 		<message type="Entity" name="DrUpdateRequest" />
 		<!--message type="Entity" name="DrUpdate" /-->
-		<message type="Entity" name="InventoryMoveItemRequest" />
-		<!--message type="Entity" name="InventoryMoveItem" /-->
 		<!--message type="Entity" name="AddMountEntity" /-->
 		<message type="Entity" name="MountRequest" />
 		<!--message type="Entity" name="Mount" /-->
@@ -153,10 +149,6 @@
 		<!--message type="Entity" name="Unmount" /-->
 		<message type="Entity" name="PoseRequest" />
 		<!--message type="Entity" name="Pose" /-->
-		<message type="Entity" name="ToggleFlashStep" />
-		<message type="Entity" name="SpawnItem" />
-		<message type="Entity" name="SpawnMount" />
-		<message type="Entity" name="SpawnDoor" />
 
 		<message type="Chat" name="Say" />
 		<message type="Chat" name="Shout" />
@@ -205,10 +197,22 @@
 		<message type="Book" name="BookWriteRequest" />
 		<!--message type="Book" name="BookWriteResponse" /-->
 
+		<message type="Admin" name="RemoveAll" />
 		<message type="Admin" name="CreateSector" />
 		<message type="Admin" name="CreateItem" />
-		<message type="Admin" name="RemoveAll" />
 		<message type="Admin" name="CreateNpc" />
 		<message type="Admin" name="CreateSpawnPoint" />
+		<message type="Admin" name="SpawnItem" />
+		<message type="Admin" name="SpawnMount" />
+		<message type="Admin" name="SpawnDoor" />
+		<message type="Admin" name="RemoveSpawnedEntity" />
+		<message type="Admin" name="ToggleFlashStep" />
+
+		<!--message type="Player" name="InventoryList" /-->
+		<!--message type="Player" name="StatsList" /-->
+		<!--message type="Player" name="StatsChange" /-->
+		<!--message type="Player" name="SkillsList" /-->
+		<message type="Player" name="InventoryMoveItemRequest" />
+		<!--message type="Player" name="InventoryMoveItem" /-->
 	</receive>
 </peer>

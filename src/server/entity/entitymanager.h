@@ -25,6 +25,7 @@
 #include "npcentity.h"
 #include "itementity.h"
 #include "doorentity.h"
+#include "mountentity.h"
 #include "entitylist.h"
 
 class EntityManager

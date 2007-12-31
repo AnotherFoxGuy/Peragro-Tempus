@@ -29,13 +29,39 @@ namespace ADMIN
 {
   enum MESSAGES
   {
-    CREATESECTOR=0,
-    CREATEITEM=1,
-    REMOVEALL=2,
+    REMOVEALL=0,
+    CREATESECTOR=1,
+    CREATEITEM=2,
     CREATENPC=3,
-    CREATESPAWNPOINT=4
+    CREATESPAWNPOINT=4,
+    SPAWNITEM=5,
+    SPAWNMOUNT=6,
+    SPAWNDOOR=7,
+    REMOVESPAWNEDENTITY=8,
+    TOGGLEFLASHSTEP=9
   };
 }
+
+class RemoveAllMessage : public NetMessage
+{
+  ptString datatype;
+
+public:
+  RemoveAllMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::REMOVEALL)
+  {
+  }
+
+  ~RemoveAllMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getDataType() { return datatype; }
+  void setDataType(ptString x) { datatype = x; }
+
+};
 
 class CreateSectorMessage : public NetMessage
 {
@@ -112,27 +138,6 @@ public:
 
   ptString getEquipType() { return equiptype; }
   void setEquipType(ptString x) { equiptype = x; }
-
-};
-
-class RemoveAllMessage : public NetMessage
-{
-  ptString datatype;
-
-public:
-  RemoveAllMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::REMOVEALL)
-  {
-  }
-
-  ~RemoveAllMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  ptString getDataType() { return datatype; }
-  void setDataType(ptString x) { datatype = x; }
 
 };
 
@@ -340,6 +345,190 @@ public:
 
   unsigned int getInterval() { return interval; }
   void setInterval(unsigned int x) { interval = x; }
+
+};
+
+class SpawnItemMessage : public NetMessage
+{
+  unsigned int itemid;
+  unsigned int variation;
+  float pos[3];
+  unsigned short sectorid;
+
+public:
+  SpawnItemMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SPAWNITEM)
+  {
+  }
+
+  ~SpawnItemMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getItemId() { return itemid; }
+  void setItemId(unsigned int x) { itemid = x; }
+
+  unsigned int getVariation() { return variation; }
+  void setVariation(unsigned int x) { variation = x; }
+
+  float* getPos() { return pos; }
+  void setPos(float x, float y, float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  void setPos(const float* x)
+  {
+    setPos(x[0], x[1], x[2]);
+  }
+
+  unsigned short getSectorId() { return sectorid; }
+  void setSectorId(unsigned short x) { sectorid = x; }
+
+};
+
+class SpawnMountMessage : public NetMessage
+{
+  ptString name;
+  ptString mesh;
+  float pos[3];
+  float rotation;
+  unsigned short sectorid;
+
+public:
+  SpawnMountMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SPAWNMOUNT)
+  {
+  }
+
+  ~SpawnMountMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getName() { return name; }
+  void setName(ptString x) { name = x; }
+
+  ptString getMesh() { return mesh; }
+  void setMesh(ptString x) { mesh = x; }
+
+  float* getPos() { return pos; }
+  void setPos(float x, float y, float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  void setPos(const float* x)
+  {
+    setPos(x[0], x[1], x[2]);
+  }
+
+  float getRotation() { return rotation; }
+  void setRotation(float x) { rotation = x; }
+
+  unsigned short getSectorId() { return sectorid; }
+  void setSectorId(unsigned short x) { sectorid = x; }
+
+};
+
+class SpawnDoorMessage : public NetMessage
+{
+  unsigned short doorid;
+  ptString name;
+  ptString mesh;
+  unsigned short sectorid;
+  float pos[3];
+  bool isopen;
+  bool islocked;
+  ptString animation;
+
+public:
+  SpawnDoorMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SPAWNDOOR)
+  {
+  }
+
+  ~SpawnDoorMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned short getDoorId() { return doorid; }
+  void setDoorId(unsigned short x) { doorid = x; }
+
+  ptString getName() { return name; }
+  void setName(ptString x) { name = x; }
+
+  ptString getMesh() { return mesh; }
+  void setMesh(ptString x) { mesh = x; }
+
+  unsigned short getSectorId() { return sectorid; }
+  void setSectorId(unsigned short x) { sectorid = x; }
+
+  float* getPos() { return pos; }
+  void setPos(float x, float y, float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  void setPos(const float* x)
+  {
+    setPos(x[0], x[1], x[2]);
+  }
+
+  bool getIsOpen() { return isopen; }
+  void setIsOpen(bool x) { isopen = x; }
+
+  bool getIsLocked() { return islocked; }
+  void setIsLocked(bool x) { islocked = x; }
+
+  ptString getAnimation() { return animation; }
+  void setAnimation(ptString x) { animation = x; }
+
+};
+
+class RemoveSpawnedEntityMessage : public NetMessage
+{
+  unsigned int entityid;
+
+public:
+  RemoveSpawnedEntityMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::REMOVESPAWNEDENTITY)
+  {
+  }
+
+  ~RemoveSpawnedEntityMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getEntityId() { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
+
+};
+
+class ToggleFlashStepMessage : public NetMessage
+{
+
+public:
+  ToggleFlashStepMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::TOGGLEFLASHSTEP)
+  {
+  }
+
+  ~ToggleFlashStepMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
 
 };
 

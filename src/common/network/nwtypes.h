@@ -23,7 +23,7 @@
 #ifndef _NWTYPES_H_
 #define _NWTYPES_H_
 
-#define MSG_HANDLER_COUNT 11
+#define MSG_HANDLER_COUNT 12
 
 namespace MESSAGES
 {
@@ -39,7 +39,8 @@ namespace MESSAGES
     TRADE=7,
     ENVIRONMENT=8,
     BOOK=9,
-    ADMIN=10
+    ADMIN=10,
+    PLAYER=11
   };
 }
 

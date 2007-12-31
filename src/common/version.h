@@ -18,7 +18,7 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define CLIENTMINVERSION 1
-#define CLIENTVERSION 1
+#define CLIENTMINVERSION 2
+#define CLIENTVERSION 2
 
 #endif

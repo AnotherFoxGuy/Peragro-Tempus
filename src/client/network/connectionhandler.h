@@ -38,6 +38,7 @@
 #include "client/network/environmenthandler.h"
 #include "client/network/bookhandler.h"
 #include "client/network/adminhandler.h"
+#include "client/network/playerhandler.h"
 
 class ConnectionHandler : public TcpMessageHandler
 {
@@ -55,13 +56,11 @@ private:
   EnvironmentHandler environment_handler;
   BookHandler book_handler;
   AdminHandler admin_handler;
+  PlayerHandler player_handler;
 
 public:
   ConnectionHandler(Network* network, PT::Client* client)
-    : network(network), client(client), user_handler(),
-    entity_handler(), chat_handler(), door_handler(),
-    skill_handler(), quest_handler(), trade_handler(),
-    environment_handler(), book_handler(), admin_handler()
+    : network(network), client(client)
   {
   }
 
@@ -87,6 +86,7 @@ public:
     else if (type == MESSAGES::ENVIRONMENT) environment_handler.handle(msg);
     else if (type == MESSAGES::BOOK) book_handler.handle(msg);
     else if (type == MESSAGES::ADMIN) admin_handler.handle(msg);
+    else if (type == MESSAGES::PLAYER) player_handler.handle(msg);
   }
 
   char getType()

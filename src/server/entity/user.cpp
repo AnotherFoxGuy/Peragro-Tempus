@@ -117,8 +117,11 @@ void User::sendAddEntity(const Entity* entity)
       if (inv->getItem(i)->id > 0)
       {
         Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
-        msg.setFile(i, item->getFile());
-        msg.setMesh(i, item->getMesh());
+        if (item)
+        {
+          msg.setFile(i, item->getFile());
+          msg.setMesh(i, item->getMesh());
+        }
       }
     }
     msg.serialise(&bs);
@@ -146,8 +149,11 @@ void User::sendAddEntity(const Entity* entity)
       if (inv->getItem(i)->id > 0)
       {
         Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
-        msg.setFile(i, item->getFile());
-        msg.setMesh(i, item->getMesh());
+        if (item)
+        {
+          msg.setFile(i, item->getFile());
+          msg.setMesh(i, item->getMesh());
+        }
       }
     }
     msg.serialise(&bs);
@@ -183,7 +189,7 @@ void User::sendRemoveEntity(const Entity* entity)
 
   ent_list.removeEntity(entity);
 
-  RemoveMessage msg;
+  RemoveEntityMessage msg;
   //msg.setName(entity->getName());
   msg.setEntityId(entity->getId());
   //msg.setType((char)entity->getType());

@@ -59,6 +59,14 @@ public:
         // Do not let this client connect its outdated
         handleConnectionRequest(socket, false);
       }
+      else if (request_msg.getVersion() > CLIENTVERSION)
+      {
+        printf("Client is too new!\n");
+        printf("Client version %d, this version %d\n", 
+          request_msg.getVersion(), CLIENTVERSION);
+        // Do not let this client connect its outdated
+        handleConnectionRequest(socket, false);
+      }
       else
       {
         printf("Client is good enough\n");

@@ -19,7 +19,7 @@
 #ifndef _SPAWNER_H_
 #define _SPAWNER_H_
 
-#include "server/entity/entity.h"
+#include "server/entity/entitymanager.h"
 #include "server/entity/item.h"
 #include "common/util/array.h"
 #include "common/util/thread.h"

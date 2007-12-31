@@ -6,6 +6,8 @@ under each day.
 
 31-Dec-2007
  - PK updated the peer.xml files for the generator.
+ - PK created a new message type "Player" and splitted up the type "Entity".
+ - PK turned some horses so they face in the right direction.
 
 30-Dec-2007
  - PK added more information about the items to various entity messages.

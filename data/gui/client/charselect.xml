@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <GUILayout>
 	<Window Type='Peragro/FrameWindow' Name='CharSelect/Frame'>
-		<Property Name='UnifiedSize' Value='{{0.000000,154.000000},{0.000000,230.000000}}'/>
+		<Property Name='UnifiedSize' Value='{{0.000000,154.000000},{0.000000,260.000000}}'/>
 		<Property Name='UnifiedPosition' Value='{{0.5,-77.000000},{0.30000,0.000000}}'/>
 		<Property Name='CloseButtonEnabled' Value='False'/>
 		<Property Name='CaptionColour' Value='00FFFFFF'/>

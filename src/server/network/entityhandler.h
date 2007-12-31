@@ -42,38 +42,26 @@ public:
     if (type != MESSAGES::ENTITY) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == ENTITY::REMOVE) handleRemove(msg);
-    else if (id == ENTITY::MOVEREQUEST) handleMoveRequest(msg);
+    if (id == ENTITY::MOVEREQUEST) handleMoveRequest(msg);
     else if (id == ENTITY::PICKREQUEST) handlePickRequest(msg);
     else if (id == ENTITY::DROPREQUEST) handleDropRequest(msg);
     else if (id == ENTITY::MOVETOREQUEST) handleMoveToRequest(msg);
     else if (id == ENTITY::RELOCATE) handleRelocate(msg);
     else if (id == ENTITY::DRUPDATEREQUEST) handleDrUpdateRequest(msg);
-    else if (id == ENTITY::INVENTORYMOVEITEMREQUEST) handleInventoryMoveItemRequest(msg);
     else if (id == ENTITY::MOUNTREQUEST) handleMountRequest(msg);
     else if (id == ENTITY::UNMOUNTREQUEST) handleUnmountRequest(msg);
     else if (id == ENTITY::POSEREQUEST) handlePoseRequest(msg);
-    else if (id == ENTITY::TOGGLEFLASHSTEP) handleToggleFlashStep(msg);
-    else if (id == ENTITY::SPAWNITEM) handleSpawnItem(msg);
-    else if (id == ENTITY::SPAWNMOUNT) handleSpawnMount(msg);
-    else if (id == ENTITY::SPAWNDOOR) handleSpawnDoor(msg);
   }
 
-  void handleRemove(GenericMessage* msg);
   void handleMoveRequest(GenericMessage* msg);
   void handlePickRequest(GenericMessage* msg);
   void handleDropRequest(GenericMessage* msg);
   void handleMoveToRequest(GenericMessage* msg);
   void handleRelocate(GenericMessage* msg);
   void handleDrUpdateRequest(GenericMessage* msg);
-  void handleInventoryMoveItemRequest(GenericMessage* msg);
   void handleMountRequest(GenericMessage* msg);
   void handleUnmountRequest(GenericMessage* msg);
   void handlePoseRequest(GenericMessage* msg);
-  void handleToggleFlashStep(GenericMessage* msg);
-  void handleSpawnItem(GenericMessage* msg);
-  void handleSpawnMount(GenericMessage* msg);
-  void handleSpawnDoor(GenericMessage* msg);
 };
 
 #endif // _ENTITYHANDLER_H_

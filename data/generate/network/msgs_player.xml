@@ -1,0 +1,52 @@
+<message-implementation>
+
+	<message type="Player" name="InventoryList">
+		<uint32>InventoryId</uint32>
+		<list name="Inventory">
+			<uint32>ItemId</uint32>
+			<uint32>Variation</uint32>
+			<uint8>SlotId</uint8>
+			<string>Name</string>
+			<string>Icon</string>
+			<string>Description</string>
+			<float>Weight</float>
+			<string>EquipType</string>
+		</list>
+	</message>
+
+	<message type="Player" name="StatsList">
+		<list name="Stats">
+			<uint16>StatId</uint16>
+			<string>Name</string>
+			<uint16>Level</uint16>
+		</list>
+	</message>
+
+	<message type="Player" name="StatsChange">
+		<uint16>StatId</uint16>
+		<uint16>Level</uint16>
+	</message>
+
+	<message type="Player" name="SkillsList">
+		<list name="Skills">
+			<uint16>SkillId</uint16>
+			<string>Name</string>
+		</list>
+	</message>
+
+	<message type="Player" name="InventoryMoveItemRequest">
+		<uint8>OldSlot</uint8>
+		<uint32>OldInventoryId</uint32>
+		<uint8>NewSlot</uint8>
+		<uint32>NewInventoryId</uint32>
+	</message>
+	
+	<message type="Player" name="InventoryMoveItem">
+		<uint8>OldSlot</uint8>
+		<uint32>OldInventoryId</uint32>
+		<uint8>NewSlot</uint8>
+		<uint32>NewInventoryId</uint32>
+		<string>Error</string> <!-- null if successful -->
+	</message>
+	
+</message-implementation>

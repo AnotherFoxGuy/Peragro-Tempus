@@ -33,6 +33,7 @@
 #include "server/network/environmenthandler.h"
 #include "server/network/bookhandler.h"
 #include "server/network/adminhandler.h"
+#include "server/network/playerhandler.h"
 
 class Network
 {
@@ -47,6 +48,7 @@ private:
   EnvironmentHandler environment_handler;
   BookHandler book_handler;
   AdminHandler admin_handler;
+  PlayerHandler player_handler;
   TcpNetwork tcp_nw;
 
 public:
@@ -69,6 +71,7 @@ public:
     tcp_nw.registerHandler(&environment_handler);
     tcp_nw.registerHandler(&book_handler);
     tcp_nw.registerHandler(&admin_handler);
+    tcp_nw.registerHandler(&player_handler);
     tcp_nw.start();
   }
 

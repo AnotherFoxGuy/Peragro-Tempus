@@ -505,7 +505,7 @@ namespace PT
           {
             if (args[3].compare("entity") == 0)
             {
-              RemoveMessage rmmsg;
+              RemoveSpawnedEntityMessage rmmsg;
               rmmsg.setEntityId(atoi(args[4].c_str()));
               network->send(&rmmsg);
             }

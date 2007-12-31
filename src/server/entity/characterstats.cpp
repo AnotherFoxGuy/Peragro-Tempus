@@ -19,7 +19,7 @@
 #include "characterstats.h"
 #include "server/entity/statmanager.h"
 #include "common/network/serialiser.h"
-#include "common/network/entitymessages.h"
+#include "common/network/playermessages.h"
 #include "server/network/connection.h"
 #include "server/server.h"
 

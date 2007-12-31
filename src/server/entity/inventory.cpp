@@ -19,7 +19,7 @@
 #include "inventory.h"
 #include "server/entity/itemmanager.h"
 #include "common/network/serialiser.h"
-#include "common/network/entitymessages.h"
+#include "common/network/playermessages.h"
 #include "server/network/connection.h"
 #include "server/server.h"
 

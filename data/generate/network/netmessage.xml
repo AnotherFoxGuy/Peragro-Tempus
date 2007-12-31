@@ -31,37 +31,27 @@
 			<message id="1" name="AddItemEntity" />
 			<message id="2" name="AddDoorEntity" />
 			<message id="3" name="AddPlayerEntity" />
-			<message id="4" name="Remove" />
-			<message id="5" name="Move" />
-			<message id="6" name="MoveRequest" />
-			<message id="7" name="PickRequest" />
-			<message id="8" name="PickResponse" />
-			<message id="9" name="DropRequest" />
-			<message id="10" name="DropResponse" />
-			<message id="11" name="InventoryList" />
-			<message id="12" name="StatsList" />
-			<message id="13" name="StatsChange" />
-			<message id="14" name="SkillsList" />
-			<message id="15" name="Equip" />
-			<message id="16" name="MoveTo" />
-			<message id="17" name="MoveToRequest" />
-			<message id="18" name="Relocate" />
-			<message id="19" name="Teleport" />
-			<message id="20" name="DrUpdateRequest" />
-			<message id="21" name="DrUpdate" />
-			<message id="22" name="InventoryMoveItemRequest" />
-			<message id="23" name="InventoryMoveItem" />
-			<message id="24" name="AddMountEntity" />
-			<message id="25" name="MountRequest" />
-			<message id="26" name="Mount" />
-			<message id="27" name="UnmountRequest" />
-			<message id="28" name="Unmount" />
-			<message id="29" name="PoseRequest" />
-			<message id="30" name="Pose" />
-			<message id="31" name="ToggleFlashStep" />
-			<message id="32" name="SpawnItem" />
-			<message id="33" name="SpawnMount" />
-			<message id="34" name="SpawnDoor" />
+			<message id="4" name="AddMountEntity" />
+			<message id="5" name="RemoveEntity" />
+			<message id="6" name="Move" />
+			<message id="7" name="MoveRequest" />
+			<message id="8" name="MoveTo" />
+			<message id="9" name="MoveToRequest" />
+			<message id="10" name="PickRequest" />
+			<message id="11" name="PickResponse" />
+			<message id="12" name="DropRequest" />
+			<message id="13" name="DropResponse" />
+			<message id="14" name="Equip" />
+			<message id="15" name="Relocate" />
+			<message id="16" name="Teleport" />
+			<message id="17" name="DrUpdateRequest" />
+			<message id="18" name="DrUpdate" />
+			<message id="19" name="MountRequest" />
+			<message id="20" name="Mount" />
+			<message id="21" name="UnmountRequest" />
+			<message id="22" name="Unmount" />
+			<message id="23" name="PoseRequest" />
+			<message id="24" name="Pose" />
 		</type>
 		<type id="3" name="Chat">
 			<message id="0" name="Say" />
@@ -118,11 +108,24 @@
 			<message id="3" name="BookWriteResponse" />
 		</type>
 		<type id="10" name="Admin">
-			<message id="0" name="CreateSector" />
-			<message id="1" name="CreateItem" />
-			<message id="2" name="RemoveAll" />
+			<message id="0" name="RemoveAll" />
+			<message id="1" name="CreateSector" />
+			<message id="2" name="CreateItem" />
 			<message id="3" name="CreateNpc" />
 			<message id="4" name="CreateSpawnPoint" />
+			<message id="5" name="SpawnItem" />
+			<message id="6" name="SpawnMount" />
+			<message id="7" name="SpawnDoor" />
+			<message id="8" name="RemoveSpawnedEntity" />
+			<message id="9" name="ToggleFlashStep" />
+		</type>
+		<type id="11" name="Player">
+			<message id="1" name="InventoryList" />
+			<message id="2" name="InventoryMoveItemRequest" />
+			<message id="3" name="InventoryMoveItem" />
+			<message id="4" name="StatsList" />
+			<message id="5" name="StatsChange" />
+			<message id="6" name="SkillsList" />
 		</type>
 	</message-definitions>
 	<message-implementations>
@@ -137,5 +140,6 @@
 		<message-implementation src="msgs_environment.xml" />
 		<message-implementation src="msgs_book.xml" />
 		<message-implementation src="msgs_admin.xml" />
+		<message-implementation src="msgs_player.xml" />
 	</message-implementations>
 </pt-gen>

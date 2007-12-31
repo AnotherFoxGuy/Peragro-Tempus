@@ -42,18 +42,28 @@ public:
     if (type != MESSAGES::ADMIN) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == ADMIN::CREATESECTOR) handleCreateSector(msg);
+    if (id == ADMIN::REMOVEALL) handleRemoveAll(msg);
+    else if (id == ADMIN::CREATESECTOR) handleCreateSector(msg);
     else if (id == ADMIN::CREATEITEM) handleCreateItem(msg);
-    else if (id == ADMIN::REMOVEALL) handleRemoveAll(msg);
     else if (id == ADMIN::CREATENPC) handleCreateNpc(msg);
     else if (id == ADMIN::CREATESPAWNPOINT) handleCreateSpawnPoint(msg);
+    else if (id == ADMIN::SPAWNITEM) handleSpawnItem(msg);
+    else if (id == ADMIN::SPAWNMOUNT) handleSpawnMount(msg);
+    else if (id == ADMIN::SPAWNDOOR) handleSpawnDoor(msg);
+    else if (id == ADMIN::REMOVESPAWNEDENTITY) handleRemoveSpawnedEntity(msg);
+    else if (id == ADMIN::TOGGLEFLASHSTEP) handleToggleFlashStep(msg);
   }
 
+  void handleRemoveAll(GenericMessage* msg);
   void handleCreateSector(GenericMessage* msg);
   void handleCreateItem(GenericMessage* msg);
-  void handleRemoveAll(GenericMessage* msg);
   void handleCreateNpc(GenericMessage* msg);
   void handleCreateSpawnPoint(GenericMessage* msg);
+  void handleSpawnItem(GenericMessage* msg);
+  void handleSpawnMount(GenericMessage* msg);
+  void handleSpawnDoor(GenericMessage* msg);
+  void handleRemoveSpawnedEntity(GenericMessage* msg);
+  void handleToggleFlashStep(GenericMessage* msg);
 };
 
 #endif // _ADMINHANDLER_H_

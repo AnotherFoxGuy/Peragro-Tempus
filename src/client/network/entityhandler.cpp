@@ -86,10 +86,10 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
-void EntityHandler::handleRemove(GenericMessage* msg)
+void EntityHandler::handleRemoveEntity(GenericMessage* msg)
 {
   Report(PT::Debug, "EntityHandler: Received RemoveEntity.");
-  RemoveMessage entmsg;
+  RemoveEntityMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
   using namespace PT::Events;
@@ -173,55 +173,6 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
-void EntityHandler::handleInventoryList(GenericMessage* msg)
-{
-  InventoryListMessage item_msg;
-  item_msg.deserialise(msg->getByteStream());
-
-  Report(PT::Debug, "---------------------------");
-  Report(PT::Debug, "EntityHandler: Got %d items in the Inventory:", item_msg.getInventoryCount());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  for (int i=0; i<item_msg.getInventoryCount(); i++)
-  {
-    using namespace PT::Events;
-    InventoryAddEvent* tradeEvent = new InventoryAddEvent();
-
-    tradeEvent->name         = *item_msg.getName(i);
-    tradeEvent->itemId       = item_msg.getItemId(i);
-    tradeEvent->slotId       = item_msg.getSlotId(i);
-    tradeEvent->variationId  = item_msg.getVariation(i);
-    tradeEvent->weight       = item_msg.getWeight(i);
-    tradeEvent->description  = *item_msg.getDescription(i);
-    tradeEvent->equipType    = *item_msg.getEquipType(i);
-    tradeEvent->icon         = *item_msg.getIcon(i);
-
-    PointerLibrary::getInstance()->getEventManager()->AddEvent(tradeEvent);
-  }
-  Report(PT::Debug, "---------------------------\n");
-}
-
-void EntityHandler::handleStatsList(GenericMessage* msg)
-{
-  StatsListMessage stat_msg;
-  stat_msg.deserialise(msg->getByteStream());
-  Report(PT::Debug, "---------------------------");
-  Report(PT::Debug, "EntityHandler: Got %d stats for the Character:", stat_msg.getStatsCount());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  for (int i=0; i<stat_msg.getStatsCount(); i++)
-  {
-    guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i));
-    Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
-  }
-  Report(PT::Debug, "---------------------------\n");
-}
-
-void EntityHandler::handleStatsChange(GenericMessage* msg)
-{
-  //TODO: Implement
-  StatsChangeMessage stat_msg;
-  Report(PT::Debug, "Changing stat %d to %d.", stat_msg.getStatId(), stat_msg.getLevel());
-}
-
 void EntityHandler::handleMoveTo(GenericMessage* msg)
 {
   Report(PT::Debug, "EntityHandler: Received MoveToEntity.");
@@ -242,21 +193,6 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 
-
-void EntityHandler::handleSkillsList(GenericMessage* msg)
-{
-  SkillsListMessage skill_msg;
-  skill_msg.deserialise(msg->getByteStream());
-  Report(PT::Debug, "---------------------------");
-  Report(PT::Debug, "EntityHandler: Got %d skill(s) for the Character:", skill_msg.getSkillsCount());
-  for (int i=0; i<skill_msg.getSkillsCount(); i++)
-  {
-    //guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
-    Report(PT::Debug, "Skill %s (%d)", *skill_msg.getName(i), skill_msg.getSkillId(i));
-  }
-  Report(PT::Debug, "---------------------------\n");
-}
-
 void EntityHandler::handleEquip(GenericMessage* msg)
 {
   EquipMessage equip_msg;
@@ -270,20 +206,6 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   entityEvent->itemId	= equip_msg.getItemId();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
-}
-
-void EntityHandler::handleInventoryMoveItem(GenericMessage* msg)
-{
-  InventoryMoveItemMessage invmove_msg;
-  invmove_msg.deserialise(msg->getByteStream());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-
-  unsigned char old_slot = invmove_msg.getOldSlot();
-  unsigned char new_slot = invmove_msg.getNewSlot();
-
-  Report(PT::Debug, "EquipMessage: You moved an item from slot %d to slot %d", old_slot, new_slot);
-
-  guimanager->GetInventoryWindow()->MoveItem(old_slot, new_slot);
 }
 
 void EntityHandler::handleTeleport(GenericMessage* msg)

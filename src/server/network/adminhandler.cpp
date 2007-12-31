@@ -21,43 +21,16 @@
 
 #include "server/entity/charactermanager.h"
 #include "server/entity/doormanager.h"
+#include "server/entity/entitymanager.h"
 #include "server/entity/itemmanager.h"
 #include "server/entity/sectormanager.h"
+#include "server/entity/user.h"
 
 #include "server/database/database.h"
 #include "server/database/table-npcentities.h"
 #include "server/database/table-npcaisetting.h"
 
 #include "server/spawner.h"
-
-void AdminHandler::handleCreateSector(GenericMessage* msg)
-{
-  CreateSectorMessage sectormsg;
-  sectormsg.deserialise(msg->getByteStream());
-
-  Server* server = Server::getServer();
-
-  SectorManager* sectors = server->getSectorManager();
-  sectors->addSector(sectormsg.getSectorId(), sectormsg.getName(), sectormsg.getRegion());
-}
-
-void AdminHandler::handleCreateItem(GenericMessage* msg)
-{
-  CreateItemMessage itemmsg;
-  itemmsg.deserialise(msg->getByteStream());
-
-  Server* server = Server::getServer();
-
-  ItemManager* items = server->getItemManager();
-  ItemTable* it = server->getDatabase()->getItemTable();
-  it->insert(itemmsg.getName(), itemmsg.getIcon(), itemmsg.getDescription(),
-             itemmsg.getFile(), itemmsg.getMesh(), itemmsg.getWeight(),
-             itemmsg.getEquipType());
-
-  Item* item = it->getItem(itemmsg.getName());
-
-  items->addItem(item);
-}
 
 void AdminHandler::handleRemoveAll(GenericMessage* msg)
 {
@@ -160,6 +133,35 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
   }
 }
 
+void AdminHandler::handleCreateSector(GenericMessage* msg)
+{
+  CreateSectorMessage sectormsg;
+  sectormsg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
+  SectorManager* sectors = server->getSectorManager();
+  sectors->addSector(sectormsg.getSectorId(), sectormsg.getName(), sectormsg.getRegion());
+}
+
+void AdminHandler::handleCreateItem(GenericMessage* msg)
+{
+  CreateItemMessage itemmsg;
+  itemmsg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
+  ItemManager* items = server->getItemManager();
+  ItemTable* it = server->getDatabase()->getItemTable();
+  it->insert(itemmsg.getName(), itemmsg.getIcon(), itemmsg.getDescription(),
+             itemmsg.getFile(), itemmsg.getMesh(), itemmsg.getWeight(),
+             itemmsg.getEquipType());
+
+  Item* item = it->getItem(itemmsg.getName());
+
+  items->addItem(item);
+}
+
 void AdminHandler::handleCreateNpc(GenericMessage* msg)
 {
   //TODO: Implement it! :)
@@ -187,4 +189,118 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 
   Spawner* spawner = server->getSpawner();
   spawner->createSpawnPoint(x, y, z, sector, item, interval);
+}
+
+void AdminHandler::handleSpawnItem(GenericMessage* msg)
+{
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
+  SpawnItemMessage itemmsg;
+  itemmsg.deserialise(msg->getByteStream());
+
+  ItemEntity* item_ent = new ItemEntity();
+  item_ent->createFromItem(itemmsg.getItemId(), itemmsg.getVariation());
+
+  Entity* e = item_ent->getEntity()->getLock();
+  e->setPos(itemmsg.getPos());
+  e->setSector(itemmsg.getSectorId());
+  e->setRotation(0);
+  e->freeLock();
+
+  Server::getServer()->addEntity(item_ent->getEntity(), true);
+}
+
+void AdminHandler::handleSpawnMount(GenericMessage* msg)
+{
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
+  SpawnMountMessage mountmsg;
+  mountmsg.deserialise(msg->getByteStream());
+
+  MountEntity* mount_ent = new MountEntity();
+
+  Entity* e = mount_ent->getEntity()->getLock();
+  e->setName(mountmsg.getName());
+  e->setMesh(mountmsg.getMesh());
+  e->setPos(mountmsg.getPos());
+  e->setRotation(mountmsg.getRotation());
+  e->setSector(mountmsg.getSectorId());
+  e->freeLock();
+
+  Server::getServer()->addEntity(mount_ent->getEntity(), true);
+}
+
+void AdminHandler::handleSpawnDoor(GenericMessage* msg)
+{
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
+  SpawnDoorMessage doormsg;
+  doormsg.deserialise(msg->getByteStream());
+  
+  DoorEntity* door_ent = new DoorEntity();
+  door_ent->setDoorId(doormsg.getDoorId());
+  door_ent->setLocked(doormsg.getIsLocked());
+  door_ent->setOpen(doormsg.getIsOpen());
+  door_ent->setAnimation(doormsg.getAnimation());
+
+  Entity* e = door_ent->getEntity()->getLock();
+  e->setName(doormsg.getName());
+  e->setMesh(doormsg.getMesh());
+  e->setPos(doormsg.getPos());
+  e->setRotation(0.0f);
+  e->setSector(doormsg.getSectorId());
+  e->freeLock();
+
+  Server::getServer()->addEntity(door_ent->getEntity(), true);
+}
+
+void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
+{
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
+  RemoveSpawnedEntityMessage rmmsg;
+  rmmsg.deserialise(msg->getByteStream());
+  
+  Server* server = Server::getServer();
+
+  unsigned int entid = rmmsg.getEntityId();
+  const Entity* e = server->getEntityManager()->findById(entid);
+  if (e == 0) return;
+  if (e->getType() == Entity::ItemEntityType || 
+      e->getType() == Entity::MountEntityType)
+  {
+    server->delEntity(e);
+  }
+}
+
+void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
+{
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
+
+  const PcEntity* c_pcent = NetworkHelper::getPcEntity(msg);
+  if (!user) return;
+
+  PcEntity* pcent = c_pcent->getLock();
+  pcent->toggleFlashStep();
+  pcent->freeLock();
 }
