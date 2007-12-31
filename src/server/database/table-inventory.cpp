@@ -46,8 +46,8 @@ void InventoryTable::createTable()
     "variation INTEGER, "
     "PRIMARY KEY (id, slot) );");
 
-  InventoryEntry e(3, 0);
-  set(1, e, 0, true);
+  //InventoryEntry e(3, 0);
+  //set(1, e, 0, true);
 }
 
 void InventoryTable::set(int inventory, const InventoryEntry& item, int slot, bool add)

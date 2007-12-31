@@ -59,19 +59,19 @@ void NpcEntitiesTable::createTable()
              "dialog INTEGER,"
              "PRIMARY KEY (entity_id) );");
 
-  ptString idle("idle",4);
-  ptString path("path",4);
-  ptString stray("stray",5);
+  //ptString idle("idle",4);
+  //ptString path("path",4);
+  //ptString stray("stray",5);
 
-  insert(1, 1, stray, 0);
-  insert(2, 2, stray, 9);
-  insert(3, 3, path, 6);
+  //insert(1, 1, stray, 0);
+  //insert(2, 2, stray, 9);
+  //insert(3, 3, path, 6);
 
   // Creating Undead Squad.
-  for (int i = 0; i < 100; i++)
-  {
-    insert(4 + i, 4 + i, idle, 9);
-  }
+  //for (int i = 0; i < 100; i++)
+  //{
+  //  insert(4 + i, 4 + i, idle, 9);
+  //}
 }
 
 void NpcEntitiesTable::insert(int id, int character, ptString ai, int dialog_id)

@@ -62,24 +62,24 @@ void CharacterTable::createTable()
     "sector TEXT, "
     "PRIMARY KEY (id) );");
 
-  unsigned char haircolour[3] = {255,255,255};
-  unsigned char skincolour[3] = {255,255,255};
-  unsigned char decalcolour[3] = {255,255,255};
-  float pos[3] = {0,0,0};
-  insert(1, ptString("test-dummy", 10), 0, ptString("test",4), 1, haircolour,
-            skincolour, decalcolour, pos, ptString("room",4));
-  insert(2, ptString("baby-dragonfly", 14), 0, ptString("test1",5), 1, haircolour,
-            skincolour, decalcolour, pos, ptString("room",4));
-  insert(3, ptString("skeleton", 8), 0, ptString("skeleton",8), 1, haircolour,
-            skincolour, decalcolour, pos, ptString("room",4));
+  //unsigned char haircolour[3] = {255,255,255};
+  //unsigned char skincolour[3] = {255,255,255};
+  //unsigned char decalcolour[3] = {255,255,255};
+  //float pos[3] = {0,0,0};
+  //insert(1, ptString("test-dummy", 10), 0, ptString("test",4), 1, haircolour,
+  //          skincolour, decalcolour, pos, ptString("room",4));
+  //insert(2, ptString("baby-dragonfly", 14), 0, ptString("test1",5), 1, haircolour,
+  //          skincolour, decalcolour, pos, ptString("room",4));
+  //insert(3, ptString("skeleton", 8), 0, ptString("skeleton",8), 1, haircolour,
+  //          skincolour, decalcolour, pos, ptString("room",4));
 
-  // Creating Undead Squad.
-  for (int i = 0; i < 100; i++)
-  {
-    std::string name("Evil Undead");
-    insert(4 + i, ptString(name.c_str(), name.length()), 0, ptString("skeleton",8), 1, haircolour,
-                  skincolour, decalcolour, pos, ptString("room",4));
-  }
+  //// Creating Undead Squad.
+  //for (int i = 0; i < 100; i++)
+  //{
+  //  std::string name("Evil Undead");
+  //  insert(4 + i, ptString(name.c_str(), name.length()), 0, ptString("skeleton",8), 1, haircolour,
+  //                skincolour, decalcolour, pos, ptString("room",4));
+  //}
 }
 
 void CharacterTable::insert(int id, ptString name, int user_id,

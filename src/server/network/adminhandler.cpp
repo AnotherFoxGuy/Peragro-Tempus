@@ -164,7 +164,55 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
 
 void AdminHandler::handleCreateNpc(GenericMessage* msg)
 {
-  //TODO: Implement it! :)
+  CreateNpcMessage npcmsg;
+  npcmsg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
+  CharacterManager* charmgr = server->getCharacterManager();
+
+  int charid = -1;
+  ptString error = charmgr->createCharacter(npcmsg.getName(), 0, charid, 
+    npcmsg.getHairColour(), npcmsg.getSkinColour(), npcmsg.getDecalColour());
+
+  if (! error.isNull())
+  {
+    printf(*error);
+    return;
+  }
+
+  Database* db = Server::getServer()->getDatabase();
+
+  Character* character = charmgr->getCharacter(charid, 0);
+  character->getInventory()->loadFromDatabase(db->getInventoryTable(), charid);
+
+  for (unsigned char i = 0; i < npcmsg.getInventoryCount(); i++)
+  {
+    InventoryEntry entry(npcmsg.getItemId(i), npcmsg.getVariation(i));
+    character->getInventory()->addItem(entry, npcmsg.getSlotId(i));
+  }
+
+  NpcEntity* npcentity = new NpcEntity();
+  npcentity->setCharacter(character);
+  npcentity->setStartDialog(npcmsg.getDialog());
+
+  Entity* entity = npcentity->getEntity()->getLock();
+  entity->setSector(npcmsg.getSectorId());
+  entity->setPos(npcmsg.getPos());
+  entity->setRotation(npcmsg.getRotation());
+  entity->setMesh(npcmsg.getMesh());
+  entity->setName(npcmsg.getName());
+  entity->freeLock();
+
+  server->addEntity(npcentity->getEntity(), true);
+
+  db->getNpcEntitiesTable()->insert(entity->getId(), charid, npcmsg.getAi(), npcmsg.getDialog());
+
+  for (unsigned char i = 0; i < npcmsg.getAiSettingCount(); i++)
+  {
+    db->getNpcAiSettingTable()->insert(charid, npcmsg.getKey(i), *npcmsg.getValue(i));
+  }
+  npcentity->setAI(AI::createAI(npcmsg.getAi()));
 }
 
 void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
