@@ -12,7 +12,7 @@
 	<FalagardMapping WindowType="Peragro/RadioButton" TargetType="CEGUI/RadioButton" Renderer="Falagard/ToggleButton" LookNFeel="Peragro/RadioButton" />
 	<FalagardMapping WindowType="Peragro/FrameWindow"  TargetType="CEGUI/FrameWindow" Renderer="Falagard/FrameWindow"  LookNFeel="Peragro/FrameWindow" />
 	<FalagardMapping WindowType="Peragro/Titlebar"     TargetType="CEGUI/Titlebar"    Renderer="Falagard/Titlebar"     LookNFeel="Peragro/Titlebar" />
-	<FalagardMapping WindowType="Peragro/SystemButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/SystemButton" LookNFeel="Peragro/Button" />
+	<FalagardMapping WindowType="Peragro/SystemButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/SystemButton" LookNFeel="Peragro/ImageButton" />
 	<FalagardMapping WindowType="Peragro/Editbox"          TargetType="CEGUI/Editbox"          Renderer="Falagard/Editbox"          LookNFeel="Peragro/Editbox" />
 	<FalagardMapping WindowType="Peragro/MultiLineEditbox" TargetType="CEGUI/MultiLineEditbox" Renderer="Falagard/MultiLineEditbox" LookNFeel="Peragro/MultiLineEditbox" />
 	<FalagardMapping WindowType="Peragro/Menubar"   TargetType="CEGUI/Menubar"   Renderer="Falagard/Menubar"   LookNFeel="Peragro/Menubar" />

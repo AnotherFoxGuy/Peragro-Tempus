@@ -34,8 +34,8 @@
 	<Image Name="SysAreaRight" XPos="122" YPos="127" Width="13" Height="16" />
 	<Image Name="StaticLeft" XPos="41" YPos="89" Width="6" Height="6" />
 	<Image Name="StaticRight" XPos="63" YPos="89" Width="6" Height="6" />
-	<Image Name="StaticTop" XPos="52" YPos="78" Width="6" Height="6" />
-	<Image Name="StaticBottom" XPos="52" YPos="100" Width="6" Height="6" />
+	<Image Name="StaticTop" XPos="52" YPos="78" Width="6" Height="2" />
+	<Image Name="StaticBottom" XPos="52" YPos="104" Width="6" Height="2" />
 	<Image Name="StaticTopLeft" XPos="41" YPos="78" Width="6" Height="6" />
 	<Image Name="StaticTopRight" XPos="63" YPos="78" Width="6" Height="6" />
 	<Image Name="StaticBottomLeft" XPos="41" YPos="100" Width="6" Height="6" />
@@ -155,9 +155,11 @@
 	<Image Name="CloseButtonNormal" XPos="41" YPos="128" Width="16" Height="16" />
 	<Image Name="CloseButtonHover" XPos="41" YPos="146" Width="16" Height="16" />
 	<Image Name="CloseButtonPressed" XPos="41" YPos="164" Width="16" Height="16" />
-	<Image Name="NewCloseButtonNormal" XPos="90" YPos="146" Width="10" Height="10" />
-	<Image Name="NewCloseButtonHover" XPos="90" YPos="146" Width="10" Height="10" />
-	<Image Name="NewCloseButtonPressed" XPos="90" YPos="146" Width="10" Height="10" />
+	
+	<Image Name="NewCloseButtonNormal" XPos="92" YPos="147" Width="16" Height="16" />
+	<Image Name="NewCloseButtonHover" XPos="92" YPos="147" Width="16" Height="16" />
+	<Image Name="NewCloseButtonPressed" XPos="92" YPos="147" Width="16" Height="16" />
+	
 	<Image Name="MultiLineEditboxLeft" XPos="41" YPos="89" Width="6" Height="6" />
 	<Image Name="MultiLineEditboxRight" XPos="63" YPos="89" Width="6" Height="6" />
 	<Image Name="MultiLineEditboxTop" XPos="52" YPos="78" Width="6" Height="6" />

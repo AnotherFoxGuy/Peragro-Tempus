@@ -8,6 +8,8 @@
     -->
 	<WidgetLook name="Peragro/Entity">
 		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+        	<PropertyDefinition name="HorzLabelFormatting" initialValue="WordWrapCentreAligned" />
 		<ImagerySection name="label">
 			<TextComponent>
 				<Area>
@@ -24,8 +26,8 @@
 						<UnifiedDim scale="1" offset="0" type="BottomEdge" />
 					</Dim>
 				</Area>
-				<VertFormat type="CentreAligned" />
-				<HorzFormat type="WordWrapCentreAligned" />
+				<VertFormatProperty name="VertLabelFormatting" />
+                		<HorzFormatProperty name="HorzLabelFormatting" />
 			</TextComponent>
 		</ImagerySection>
 		<StateImagery name="Normal">
@@ -898,18 +900,17 @@
                     </UnifiedDim>
                 </Dim>
                 <Dim type="TopEdge" >
-                    <AbsoluteDim value="0.5">
-                        <DimOperator op="Multiply">
-                            <WidgetDim widget="__auto_titlebar__" dimension="Height">
-                                <DimOperator op="Subtract">
-                                    <ImageDim imageset="Peragro" image="NewCloseButtonNormal" dimension="Width" />
-                                </DimOperator>
-                            </WidgetDim>
-                        </DimOperator>
-                    </AbsoluteDim>
+                    <AbsoluteDim value="7" />
                 </Dim>
                 <Dim type="Width" ><ImageDim imageset="Peragro" image="NewCloseButtonNormal" dimension="Width" /></Dim>
-                <Dim type="Height" ><ImageDim imageset="Peragro" image="NewCloseButtonNormal" dimension="Width" /></Dim>
+                <!--<Dim type="Height" ><ImageDim imageset="Peragro" image="NewCloseButtonNormal" dimension="Width" /></Dim>-->
+                <Dim type="Height" >
+		     <WidgetDim widget="__auto_titlebar__" dimension="Height">
+		          <DimOperator op="Subtract">
+		              <AbsoluteDim value="12" />
+		          </DimOperator>
+		     </WidgetDim>
+                </Dim>
             </Area>
             <Property name="AlwaysOnTop" value="True" />
             <Property name="NormalImage" value="set:Peragro image:NewCloseButtonNormal" />

@@ -4,10 +4,9 @@
 		<Property Name='UnifiedSize' Value='{{0.000000,230.000000},{0.000000,130.000000}}'/>
 		<Property Name='UnifiedPosition' Value='{{0.630000,0.000000},{0.020000,0.000000}}'/>
 		<Property Name='CaptionColour' Value='00FFFFFF'/>
-		<Property Name='Text' Value='Connect'/>
 		<Property Name='TitlebarEnabled' Value='True'/>
 		<Property Name='SizingEnabled' Value='False'/>
-		<Property Name='Alpha' Value='0.3'/>
+		<Property Name='Alpha' Value='1.0'/>
 		<Window Type='Peragro/StaticText' Name='Options/Reflections'>
 			<Property Name='UnifiedSize' Value='{{0.000000,105.000000},{0.000000,25.000000}}'/>
 			<Property Name='UnifiedPosition' Value='{{0.000000,6.000000},{0.000000,30.000000}}'/>
@@ -57,7 +56,7 @@
 			<Property Name='UnifiedPosition' Value='{{0.900000,0.000000},{0.930000,0.000000}}'/>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
 			<Property Name='Text' Value='Options'/>
-			<Property Name='Alpha' Value='0.3'/>
+			<Property Name='Alpha' Value='1.0'/>
 		</Window>
 	</Window>
 </GUILayout>

@@ -1,23 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <GUILayout>
   <Window Type='Peragro/FrameWindow' Name='ServerList/Frame'>
-    <Property Name='UnifiedSize' Value='{{0.000000,140.000000},{0.000000,150.000000}}'/>
+    <Property Name='UnifiedSize' Value='{{0.000000,200.000000},{0.000000,250.000000}}'/>
     <Property Name='UnifiedPosition' Value='{{0.660000,0.000000},{0.320000,0.000000}}'/>
     <Property Name='CloseButtonEnabled' Value='False'/>
     <Property Name='CaptionColour' Value='00FFFFFF'/>
     <Property Name='TitlebarEnabled' Value='True'/>
-    <Property Name='SizingEnabled' Value='False'/>
+    <Property Name='SizingEnabled' Value='True'/>
     <Property Name='Visible' Value='False'/>
-    <Property Name='Alpha' Value='0.3'/>
+    <Property Name='Alpha' Value='1.0'/>
     <Window Type='Peragro/MultiColumnList' Name='ServerList/Servers'>
-      <Property Name='UnifiedSize' Value='{{0.000000,130.000000},{0.000000,95.000000}}'/>
-      <Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,20.000000}}'/>
-      <Property Name='SelectedTextColour' Value='FF000000'/>
+      <Property Name='UnifiedAreaRect' Value='{{0.00000,6.000000},{0.0,30.0},{1.0,-6.000000},{1.0,-36.000000}}'/>
     </Window>
     <Window Type='Peragro/Editbox' Name='ServerList/Server'>
       <Property Name='MaxTextLength' Value='1073741823'/>
       <Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
-      <Property Name='UnifiedAreaRect' Value='{{0.080000,0.000000},{0.79,0.000000},{0.93,0.000000},{0.96,0.000000}}'/>
+      <Property Name='UnifiedAreaRect' Value='{{0.00000,6.000000},{1.0,-30.000000},{1.0,-6.000000},{1.0,-6.000000}}'/>
       <Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
       <Property Name='Visible' Value='False'/>
       <Property Name='Text' Value='1.peragro.org'/>

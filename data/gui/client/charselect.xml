@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <GUILayout>
 	<Window Type='Peragro/FrameWindow' Name='CharSelect/Frame'>
-		<Property Name='UnifiedSize' Value='{{0.000000,154.000000},{0.000000,260.000000}}'/>
-		<Property Name='UnifiedPosition' Value='{{0.010000,0.000000},{0.30000,0.000000}}'/>
+		<Property Name='UnifiedSize' Value='{{0.000000,154.000000},{0.000000,230.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.5,-77.000000},{0.30000,0.000000}}'/>
 		<Property Name='CloseButtonEnabled' Value='False'/>
 		<Property Name='CaptionColour' Value='00FFFFFF'/>
 		<Property Name='Text' Value='Character Selection'/>
@@ -10,7 +10,7 @@
 		<Property Name='TitlebarFont' Value='CommonWealth'/>
 		<Property Name='Visible' Value='False'/>
 		<Property Name='SizingEnabled' Value='False'/>
-		<Property Name='Alpha' Value='0.7'/>
+		<Property Name='Alpha' Value='1.0'/>
 		<Window Type='Peragro/MultiColumnList' Name='CharSelect/Characters'>
 			<Property Name='UnifiedSize' Value='{{0.000000,144.000000},{0.000000,170.000000}}'/>
 			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,30.000000}}'/>

@@ -12,7 +12,7 @@
 		<Property Name='TitlebarEnabled' Value='True'/>
 		<Property Name='SizingEnabled' Value='False'/>
 		<Property Name='Visible' Value='False'/>
-		<Property Name='Alpha' Value='0.7'/>
+		<Property Name='Alpha' Value='1.0'/>
 		<Window Type='Peragro/TabControl' Name='BuddyList/TabControl'>
 			<Property Name='UnifiedSize' Value='{{0.000000,144.000000},{0.000000,198.000000}}'/>
 			<Property Name='UnifiedPosition' Value='{{0.000000,5.000000},{0.000000,30.000000}}'/>
