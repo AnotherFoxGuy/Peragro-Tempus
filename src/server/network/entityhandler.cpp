@@ -514,7 +514,7 @@ void EntityHandler::handlePoseRequest(GenericMessage* msg)
   const PcEntity* pc_ent = user_ent->getPlayerEntity();
   if (!pc_ent) return;
 
-  unsigned int pose_id = request_msg.getPoseId();
+  unsigned char pose_id = request_msg.getPoseId();
 
   PcEntity* e = pc_ent->getLock();
   e->setPose(pose_id);

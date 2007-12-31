@@ -32,6 +32,9 @@ class MountEntity;
 
 class Entity : public ptMonitorable<Entity>
 {
+public:
+  static const unsigned int NoEntity = 0;
+
 private:
   unsigned int id;
 
@@ -65,7 +68,7 @@ protected:
   float rotation;
 
 public:
-  Entity() : id(-1)
+  Entity()
   {
     pos[0] = 0.0f;
     pos[1] = 0.0f;
@@ -76,7 +79,7 @@ public:
     pos_last_saved[2] = 0.0f;
   }
 
-  Entity(EntityType type) : id(-1), type(type)
+  Entity(EntityType type) : type(type)
   {
 
     pos[0] = 0.0f;

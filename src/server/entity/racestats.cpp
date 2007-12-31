@@ -23,7 +23,7 @@
 #include "server/network/connection.h"
 #include "server/server.h"
 
-void RaceStats::sendAllStats(Connection* conn)
+void RaceStats::sendAllStats(Connection* /*conn*/)
 {
 /*
   RaceStatsStatListMessage statlist_msg;

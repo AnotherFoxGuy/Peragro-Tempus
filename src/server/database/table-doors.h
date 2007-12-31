@@ -33,13 +33,13 @@ class DoorsTableVO
 {
 public:
   /// The id of the door.
-  int id;
+  unsigned short id;
   /// The name of the door.
   ptString name;
   /// The locked state.
-  int islocked;
+  unsigned char islocked;
   /// The open state.
-  int isopen;
+  unsigned char isopen;
   /// The sector the door exists in
   ptString sector;
   /// The mesh of the door

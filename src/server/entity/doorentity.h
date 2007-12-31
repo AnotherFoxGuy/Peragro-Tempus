@@ -33,7 +33,7 @@
 class DoorEntity : public ptMonitorable<DoorEntity>
 {
 private:
-  unsigned int doorid;
+  unsigned short doorid;
   ptMonitor<Entity> entity;
 
   bool open;
@@ -58,8 +58,8 @@ public:
   //void setEntity(Entity* entity);
   const Entity* getEntity() { return this->entity.get(); }
 
-  void setDoorId(unsigned int doorid) { this->doorid = doorid; }
-  unsigned int getDoorId() const { return doorid; }
+  void setDoorId(unsigned short doorid) { this->doorid = doorid; }
+  unsigned short getDoorId() const { return doorid; }
 
   void setOpen(bool open) { this->open = open; }
   bool getOpen() const { return open; }

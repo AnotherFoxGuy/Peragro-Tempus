@@ -34,7 +34,7 @@ PermissionsTableVO* PermissionsTable::parseSingleResultSet(ResultSet* rs, size_t
   PermissionsTableVO* vo = new PermissionsTableVO();
   vo->userid = atoi(rs->GetData(row,0).c_str());
   vo->permissionid = atoi(rs->GetData(row,1).c_str());
-  vo->permissionlevel = atoi(rs->GetData(row,2).c_str());
+  vo->permissionlevel = (unsigned char) atoi(rs->GetData(row,2).c_str());
   return vo;
 }
 
@@ -66,7 +66,7 @@ void PermissionsTable::insert(unsigned int userid, unsigned int permissionid, un
 
 void PermissionsTable::remove(unsigned int userid, unsigned int permissionid)
 {
-  db->update("delete from permissions where userid = %d and permissionid = %d");
+  db->update("delete from permissions where userid = %d and permissionid = %d", userid, permissionid);
 }
 
 Array<PermissionsTableVO*> PermissionsTable::getUserAll(unsigned int userid)

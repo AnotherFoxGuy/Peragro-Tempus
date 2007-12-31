@@ -18,7 +18,7 @@
 
 #include "idle-ai.h"
 
-void IdleAI::setNPC(NpcEntity* npc)
+void IdleAI::setNPC(NpcEntity* /*npc*/)
 {
 }
 

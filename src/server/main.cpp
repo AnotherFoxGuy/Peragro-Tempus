@@ -90,7 +90,7 @@ void sigfunc(int sig)
    }
 }
 
-int main(int argc, char ** argv)
+int main(int /*argc*/, char ** argv)
 {
   signal(SIGINT, sigfunc);
 

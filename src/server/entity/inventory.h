@@ -63,7 +63,7 @@ public:
 
   unsigned char getSlot(unsigned int item_id, unsigned int variation) const
   {
-    for(unsigned int i=0; i<entries.getCount(); i++)
+    for(unsigned char i=0; i<entries.getCount(); i++)
     {
       if (entries.get(i).id == item_id && entries.get(i).variation == variation)
       {
@@ -76,7 +76,7 @@ public:
 private:
   unsigned char getFreeSlot()
   {
-    for(unsigned int i=10; i<entries.getCount(); i++)
+    for(unsigned char i=10; i<entries.getCount(); i++)
     {
       if (entries.get(i).id == Item::NoItem)
       {

@@ -66,7 +66,7 @@ void MeshesTable::insert(MeshesTableVO* vo)
 
 void MeshesTable::remove(int id)
 {
-  db->update("delete from meshes where id = %d");
+  db->update("delete from meshes where id = %d", id);
 }
 
 Array<MeshesTableVO*> MeshesTable::getAll()

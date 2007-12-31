@@ -165,7 +165,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   {
     // yes, it's a hack. This shouldn't go here either.
     // sector_id <0.5, 0.6, 0.8>
-    int sector = 0;
+    unsigned short sector = 0;
     float x = 0, y = 0, z = 0;
     sscanf(dialog->getText(), "%d<%f,%f,%f>", &sector, &x, &y, &z);
 

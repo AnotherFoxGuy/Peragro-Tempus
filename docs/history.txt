@@ -12,6 +12,7 @@ under each day.
  - Dan set required CEGUI version to be 0.5.0 in the error message when 
    CEGUI is not found.
  - PK finished the npc upload implementation.
+ - PK fixed a bunch of warnings. Some were even bugs.
 
 30-Dec-2007
  - PK added more information about the items to various entity messages.

@@ -122,7 +122,7 @@ private:
     msg->getConnection()->send(bs);
   }
 
-  void handlePong(GenericMessage* msg)
+  void handlePong(GenericMessage* /*msg*/)
   {
     printf("Received PongMessage\n");
     // If the connection was null or if it wasn't an UdpConnection, this function wouldn't be called in the first place.

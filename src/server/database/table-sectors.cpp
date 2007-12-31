@@ -34,7 +34,7 @@ SectorsTableVO* SectorsTable::parseSingleResultSet(ResultSet* rs, size_t row)
   if (rs == 0 || rs->GetRowCount() <= row) return 0;
 
   SectorsTableVO* vo = new SectorsTableVO();
-  vo->id = atoi(rs->GetData(row,0).c_str());
+  vo->id = (unsigned short) atoi(rs->GetData(row,0).c_str());
   vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
   vo->region = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,2).length());
   return vo;
@@ -85,7 +85,7 @@ void SectorsTable::insert(SectorsTableVO* vo)
   db->update(query, vo->id, *vo->name, *vo->region);
 }
 
-void SectorsTable::remove(int id)
+void SectorsTable::remove(unsigned short id)
 {
   db->update("delete from sectors where id = %d", id);
 }

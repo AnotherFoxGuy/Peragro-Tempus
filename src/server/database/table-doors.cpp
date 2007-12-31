@@ -34,10 +34,10 @@ DoorsTableVO* DoorsTable::parseSingleResultSet(ResultSet* rs, size_t row)
   if (rs == 0 || rs->GetRowCount() <= row) return 0;
 
   DoorsTableVO* vo = new DoorsTableVO();
-  vo->id = atoi(rs->GetData(row,0).c_str());
+  vo->id = (unsigned short) atoi(rs->GetData(row,0).c_str());
   vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
-  vo->islocked = atoi(rs->GetData(row,2).c_str());
-  vo->isopen = atoi(rs->GetData(row,3).c_str());
+  vo->islocked = (unsigned char) atoi(rs->GetData(row,2).c_str());
+  vo->isopen = (unsigned char) atoi(rs->GetData(row,3).c_str());
   vo->sector = ptString(rs->GetData(row,4).c_str(), rs->GetData(row,4).length());
   vo->mesh = ptString(rs->GetData(row,5).c_str(), rs->GetData(row,5).length());
   vo->animation = ptString(rs->GetData(row,6).c_str(), rs->GetData(row,6).length());

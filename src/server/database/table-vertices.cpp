@@ -70,7 +70,7 @@ void VerticesTable::insert(VerticesTableVO* vo)
 
 void VerticesTable::remove(int mesh, int num)
 {
-  db->update("delete from vertices where mesh = %d and num = %d");
+  db->update("delete from vertices where mesh = %d and num = %d", mesh, num);
 }
 
 Array<VerticesTableVO*> VerticesTable::getAll()

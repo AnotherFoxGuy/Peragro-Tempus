@@ -42,7 +42,7 @@ void ChatHandler::handleSay(GenericMessage* msg)
   NetworkHelper::broadcast(bs);
 }
 
-void ChatHandler::handleShout(GenericMessage* msg)
+void ChatHandler::handleShout(GenericMessage* /*msg*/)
 {
 }
 
@@ -71,15 +71,15 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   NetworkHelper::sendMessage(entity->getPlayerEntity(), bs);
 }
 
-void ChatHandler::handleParty(GenericMessage* msg)
+void ChatHandler::handleParty(GenericMessage* /*msg*/)
 {
 }
 
-void ChatHandler::handleGuild(GenericMessage* msg)
+void ChatHandler::handleGuild(GenericMessage* /*msg*/)
 {
 }
 
-void ChatHandler::handleFamily(GenericMessage* msg)
+void ChatHandler::handleFamily(GenericMessage* /*msg*/)
 {
 }
 

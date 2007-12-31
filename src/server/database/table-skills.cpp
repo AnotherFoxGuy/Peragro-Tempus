@@ -91,14 +91,14 @@ Skill* SkillTable::getSkill(ptString name)
   if (rs && rs->GetRowCount() == 1) 
   {
     skill = new Skill();
-    skill->setId(atoi(rs->GetData(0,0).c_str()));
+    skill->setId((unsigned short)atoi(rs->GetData(0,0).c_str()));
     skill->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
     skill->setType(Skill::SkillType(atoi(rs->GetData(0,2).c_str())));
     skill->setRange((float)atof(rs->GetData(0,5).c_str()));
     skill->setSkillTime(atoi(rs->GetData(0,6).c_str()));
     skill->setReuseDelay(atoi(rs->GetData(0,8).c_str()));
     skill->setPower(atoi(rs->GetData(0,11).c_str()));
-    skill->setMpCost(atoi(rs->GetData(0,12).c_str()));
+    skill->setMpCost((unsigned short)atoi(rs->GetData(0,12).c_str()));
   }
   delete rs;
   return skill;
@@ -112,14 +112,14 @@ void SkillTable::getAllSkills(Array<Skill*>& skills)
   for (size_t i=0; i<rs->GetRowCount(); i++)
   {
     Skill* skill = new Skill();
-    skill->setId(atoi(rs->GetData(i,0).c_str()));
+    skill->setId((unsigned short)atoi(rs->GetData(i,0).c_str()));
     skill->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
     skill->setType(Skill::SkillType(atoi(rs->GetData(i,2).c_str())));
     skill->setRange((float)atof(rs->GetData(i,5).c_str()));
     skill->setSkillTime(atoi(rs->GetData(i,6).c_str()));
     skill->setReuseDelay(atoi(rs->GetData(i,8).c_str()));
     skill->setPower(atoi(rs->GetData(i,11).c_str()));
-    skill->setMpCost(atoi(rs->GetData(i,12).c_str()));
+    skill->setMpCost((unsigned short)atoi(rs->GetData(i,12).c_str()));
     skills.add(skill);
   }
   delete rs;

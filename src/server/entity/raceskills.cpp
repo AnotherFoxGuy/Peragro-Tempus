@@ -23,7 +23,7 @@
 #include "server/network/connection.h"
 #include "server/server.h"
 
-void RaceSkills::sendAllSkills(Connection* conn)
+void RaceSkills::sendAllSkills(Connection* /*conn*/)
 {
 /*
   RaceSkillsSkillListMessage skilllist_msg;

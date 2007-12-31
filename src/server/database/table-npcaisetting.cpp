@@ -85,12 +85,12 @@ void NpcAiSettingTable::insert(int id, ptString key, const char* value)
 
 void NpcAiSettingTable::remove(int id, ptString key)
 {
-  db->update("delete from npcaisetting where id = %d and key like '%s'");
+  db->update("delete from npcaisetting where id = %d and key like '%q'", id, *key);
 }
 
 void NpcAiSettingTable::removeAll(int id)
 {
-  db->update("delete from npcaisetting where id = %d");
+  db->update("delete from npcaisetting where id = %d", id);
 }
 
 ptString NpcAiSettingTable::getValue(int id, ptString key)

@@ -33,7 +33,7 @@ class SectorsTableVO
 {
 public:
   /// The id of the sector.
-  int id;
+  unsigned short id;
   /// The name of the sector.
   ptString name;
   /// The region corresponding to the sector.
@@ -87,7 +87,7 @@ public:
    * Removes a sector from the database.
    * @param id The id of the sector to remove.
    */
-  void remove(int id);
+  void remove(unsigned short id);
   /**
    * Returns the number of sector rows stored in the database.
    * @return The amount of sector rows.

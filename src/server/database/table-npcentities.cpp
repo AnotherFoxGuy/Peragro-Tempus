@@ -82,7 +82,7 @@ void NpcEntitiesTable::insert(int id, int character, ptString ai, int dialog_id)
 
 void NpcEntitiesTable::remove(int id)
 {
-  db->update("delete from npcentities where entity_id = %d");
+  db->update("delete from npcentities where entity_id = %d", id);
 }
 
 bool NpcEntitiesTable::existsById(int id)

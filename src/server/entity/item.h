@@ -55,7 +55,7 @@ private:
   ItemType type;
 
 public:
-  Item() : id(-1), weight(0) {}
+  Item() : id(0), weight(0) {}
   ~Item() {}
 
   void setId(unsigned int id) { this->id = id; }

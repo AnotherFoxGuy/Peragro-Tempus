@@ -77,7 +77,7 @@ void SpawnPointsTable::insert(SpawnPointsTableVO* vo)
 
 void SpawnPointsTable::remove(int id)
 {
-  db->update("delete from spawnpoints where id = %d");
+  db->update("delete from spawnpoints where id = %d", id);
 }
 
 Array<SpawnPointsTableVO*> SpawnPointsTable::getAll()

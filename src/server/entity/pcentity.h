@@ -47,7 +47,7 @@ private:
 
   float tmp_pos[3]; //used only for temporary calculations!
 
-  int pose_id;
+  unsigned char pose_id;
 
   // Moving to the destination instantly!
   bool flashStep;
@@ -88,8 +88,8 @@ public:
 
   TradePeer* getTradePeer() { return &tradepeer; }
 
-  void setPose(int pose_id) { this->pose_id = pose_id; }
-  const int getPose() const { return pose_id; }
+  void setPose(unsigned char pose_id) { this->pose_id = pose_id; }
+  const unsigned char getPose() const { return pose_id; }
 
   void walkTo(float* dst_pos, float speed);
   const float* getPos();

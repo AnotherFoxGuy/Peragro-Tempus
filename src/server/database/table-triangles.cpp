@@ -70,7 +70,7 @@ void TrianglesTable::insert(TrianglesTableVO* vo)
 
 void TrianglesTable::remove(int mesh, int num)
 {
-  db->update("delete from triangles where mesh = %d and num = %d");
+  db->update("delete from triangles where mesh = %d and num = %d", mesh, num);
 }
 
 Array<TrianglesTableVO*> TrianglesTable::getAll()

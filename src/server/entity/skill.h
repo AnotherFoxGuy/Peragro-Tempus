@@ -40,7 +40,7 @@ namespace SkillState
 class Skill
 {
 private:
-  int id;
+  unsigned short id;
 
   ptString name_id;
 
@@ -85,17 +85,17 @@ private:
   int reuseDelay;
   int buffDuration;
 
-  unsigned int mpCost;
+  unsigned short mpCost;
 
   int targetType;
   int power;
 
 public:
-  Skill() : id(-1), range(0) {}
+  Skill() {}
   ~Skill() {}
 
-  void setId(int id) { this->id = id; }
-  int getId() { return id; }
+  void setId(unsigned short id) { this->id = id; }
+  unsigned short getId() { return id; }
 
   ptString& getName() { return name_id; }
   void setName(ptString id) { name_id = id; }
@@ -110,7 +110,7 @@ public:
   void setSkillTime(int skillTime) { this->skillTime = skillTime; }
   void setReuseDelay(int reuseDelay) { this->reuseDelay = reuseDelay; }
   void setPower(int power) { this->power = power; }
-  void setMpCost(unsigned int mpCost) { this->mpCost = mpCost; }
+  void setMpCost(unsigned short mpCost) { this->mpCost = mpCost; }
 
   //virtual void triggerSkill(CharSkill* skilldata, CharacterEntity* caster);
 

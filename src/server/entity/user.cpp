@@ -109,7 +109,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setSkinColour(character->getSkinColour());
     Inventory* inv = character->getInventory();
     msg.setEquipmentCount(10);
-    for(int i=0; i<10; i++)
+    for(unsigned char i=0; i<10; i++)
     {
       msg.setItemId(i, inv->getItem(i)->id);
       msg.setVariation(i, inv->getItem(i)->variation);
@@ -141,7 +141,7 @@ void User::sendAddEntity(const Entity* entity)
     Character* character = entity->getNpcEntity()->getCharacter()->getLock();
     Inventory* inv = character->getInventory();
     msg.setEquipmentCount(10);
-    for(int i=0; i<10; i++)
+    for(unsigned char i=0; i<10; i++)
     {
       msg.setItemId(i, inv->getItem(i)->id);
       msg.setVariation(i, inv->getItem(i)->variation);

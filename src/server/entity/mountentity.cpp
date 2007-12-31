@@ -100,7 +100,7 @@ const float* MountEntity::getPos()
   const float* pos = entity.get()->getPos();
 
   // TODO: Probably fixed now, need to verify though... 
-  size_t delta = (time(0) - t_org) / (t_stop - t_org);
+  size_t delta = ((size_t)time(0) - t_org) / (t_stop - t_org);
   tmp_pos[0] = (final_dst[0] - pos[0]) * delta + pos[0];
   tmp_pos[1] = (final_dst[1] - pos[1]) * delta + pos[1];
   tmp_pos[2] = (final_dst[2] - pos[2]) * delta + pos[2];
