@@ -13,6 +13,8 @@ under each day.
    CEGUI is not found.
  - PK finished the npc upload implementation.
  - PK fixed a bunch of warnings. Some were even bugs.
+ - Dan fixed sscanf warning where it got short unsigned int but expected 
+   int.
 
 30-Dec-2007
  - PK added more information about the items to various entity messages.

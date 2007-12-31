@@ -167,7 +167,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     // sector_id <0.5, 0.6, 0.8>
     unsigned short sector = 0;
     float x = 0, y = 0, z = 0;
-    sscanf(dialog->getText(), "%d<%f,%f,%f>", &sector, &x, &y, &z);
+    sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
     Entity* ent = character->getEntity()->getLock();
     ent->setSector(sector);
