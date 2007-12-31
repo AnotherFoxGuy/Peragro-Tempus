@@ -65,9 +65,11 @@ namespace PT
 
     void EventManager::Handle()
     {
+      mutex.lock();
       while (!events.empty())
       {
         Eventp ev = events.front();
+
         if (!ev) continue;
         EventID id = ev->GetEventID();
 
@@ -94,7 +96,7 @@ namespace PT
 
         events.pop();
       } // while
-
+      mutex.unlock();
     } // end Handle()
 
   } // Events namespace 
