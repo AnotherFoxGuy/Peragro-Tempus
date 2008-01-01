@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _EVENTS_ENGINE_
-#define _EVENTS_ENGINE_
+#ifndef EVENTS_ENGINE
+#define EVENTS_ENGINE
 
 #include "common/util/array.h"
 
@@ -55,6 +55,6 @@ public:
   void stop() { workers.stop(); }
 };
 
-#endif // _EVENTS_ENGINE_
+#endif // EVENTS_ENGINE
 
 

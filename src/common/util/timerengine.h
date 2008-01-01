@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TIMERENGINE_H_
-#define _TIMERENGINE_H_
+#ifndef TIMERENGINE_H
+#define TIMERENGINE_H
 
 #include "array.h"
 #include "mutex.h"
@@ -61,4 +61,4 @@ public:
   static TimerEngine* getTimerEngine() { return self; }
 };
 
-#endif // _TIMERENGINE_H_
+#endif // TIMERENGINE_H

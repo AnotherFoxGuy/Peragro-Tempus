@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _ENTITYMESSAGES_H_
-#define _ENTITYMESSAGES_H_
+#ifndef ENTITYMESSAGES_H
+#define ENTITYMESSAGES_H
 
 #include "netmessage.h"
 
@@ -52,8 +52,8 @@ namespace ENTITY
     MOUNT=20,
     UNMOUNTREQUEST=21,
     UNMOUNT=22,
-    POSEREQUEST=23,
-    POSE=24
+    POSE=23,
+    POSEREQUEST=24
   };
 }
 
@@ -78,7 +78,6 @@ class AddNpcEntityMessage : public NetMessage
 
   unsigned char equipmentcount;
   ListEquipment* equipment;
-
 
 public:
   AddNpcEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDNPCENTITY)
@@ -284,7 +283,6 @@ class AddPlayerEntityMessage : public NetMessage
 
   unsigned char equipmentcount;
   ListEquipment* equipment;
-
 
 public:
   AddPlayerEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDPLAYERENTITY)
@@ -633,6 +631,7 @@ public:
 
 };
 
+ 
 class PickRequestMessage : public NetMessage
 {
   unsigned int itementityid;
@@ -708,7 +707,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* null if successful */
 };
 
 class DropRequestMessage : public NetMessage
@@ -758,7 +757,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* null if successful */
 };
 
 class EquipMessage : public NetMessage
@@ -857,6 +856,7 @@ public:
 
 };
 
+ 
 class DrUpdateRequestMessage : public NetMessage
 {
   float pos[3];
@@ -1033,27 +1033,6 @@ public:
 
 };
 
-class PoseRequestMessage : public NetMessage
-{
-  unsigned char poseid;
-
-public:
-  PoseRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::POSEREQUEST)
-  {
-  }
-
-  ~PoseRequestMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned char getPoseId() { return poseid; }
-  void setPoseId(unsigned char x) { poseid = x; }
-
-};
-
 class PoseMessage : public NetMessage
 {
   unsigned int entityid;
@@ -1079,4 +1058,25 @@ public:
 
 };
 
-#endif // _ENTITYMESSAGES_H_
+class PoseRequestMessage : public NetMessage
+{
+  unsigned char poseid;
+
+public:
+  PoseRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::POSEREQUEST)
+  {
+  }
+
+  ~PoseRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getPoseId() { return poseid; }
+  void setPoseId(unsigned char x) { poseid = x; }
+
+};
+
+#endif // ENTITYMESSAGES_H

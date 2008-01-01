@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_TRIANGLES_H_
-#define _TABLE_TRIANGLES_H_
+#ifndef TABLE_TRIANGLES_H
+#define TABLE_TRIANGLES_H
 
 class Database;
 class ResultSet;
@@ -53,5 +53,4 @@ public:
   Array<TrianglesTableVO*> getAllByMesh(int mesh);
 };
 
-#endif // _TABLE_TRIANGLES_H_
-
+#endif // TABLE_TRIANGLES_H

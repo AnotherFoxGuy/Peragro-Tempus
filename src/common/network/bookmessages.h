@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _BOOKMESSAGES_H_
-#define _BOOKMESSAGES_H_
+#ifndef BOOKMESSAGES_H
+#define BOOKMESSAGES_H
 
 #include "netmessage.h"
 
@@ -83,7 +83,7 @@ public:
 
   const char* getText() { return text; }
   void setText(const char* x) { text = x; }
-
+ /* Limited to 400 byte, compressed! */
 };
 
 class BookWriteRequestMessage : public NetMessage
@@ -116,7 +116,7 @@ public:
 
   const char* getText() { return text; }
   void setText(const char* x) { text = x; }
-
+ /* Limited to 400 byte, compressed! */
 };
 
 class BookWriteResponseMessage : public NetMessage
@@ -141,7 +141,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* null is successful */
 };
 
-#endif // _BOOKMESSAGES_H_
+#endif // BOOKMESSAGES_H

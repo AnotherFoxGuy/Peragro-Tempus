@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _SKILLMESSAGES_H_
-#define _SKILLMESSAGES_H_
+#ifndef SKILLMESSAGES_H
+#define SKILLMESSAGES_H
 
 #include "netmessage.h"
 
@@ -100,7 +100,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* null if successful */
 };
 
 class SkillUsageStopRequestMessage : public NetMessage
@@ -182,4 +182,4 @@ public:
 
 };
 
-#endif // _SKILLMESSAGES_H_
+#endif // SKILLMESSAGES_H

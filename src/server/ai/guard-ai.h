@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _GUARD_AI_H_
-#define _GUARD_AI_H_
+#ifndef GUARD_AI_H
+#define GUARD_AI_H
 
 #include "ai.h"
 
@@ -34,4 +34,4 @@ public:
   virtual void think();
 };
 
-#endif // _GUARD_AI_H_
+#endif // GUARD_AI_H

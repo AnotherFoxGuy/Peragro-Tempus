@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CONNECTIONHANDLER_H_
-#define _CONNECTIONHANDLER_H_
+#ifndef CONNECTIONHANDLER_H
+#define CONNECTIONHANDLER_H
 
 #include "stdio.h"
 
@@ -124,4 +124,4 @@ private:
   }
 };
 
-#endif // _CONNECTIONHANDLER_H_
+#endif // CONNECTIONHANDLER_H

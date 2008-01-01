@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MONITORABLE_H_
-#define _MONITORABLE_H_
+#ifndef MONITORABLE_H
+#define MONITORABLE_H
 
 #include "monitor.h"
 #include "mutex.h"
@@ -50,4 +50,4 @@ public:
   }
 };
 
-#endif // _MONITORABLE_H_
+#endif // MONITORABLE_H

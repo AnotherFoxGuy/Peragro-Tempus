@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TCPNETWORK_H_
-#define _TCPNETWORK_H_
+#ifndef TCPNETWORK_H
+#define TCPNETWORK_H
 
 #include "server/network/tcp/tcpreceiver.h"
 
@@ -67,4 +67,4 @@ public:
   }
 };
 
-#endif // _UDPNETWORK_H_
+#endif // UDPNETWORK_H

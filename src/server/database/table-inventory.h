@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_INVENTORY_H_
-#define _TABLE_INVENTORY_H_
+#ifndef TABLE_INVENTORY_H
+#define TABLE_INVENTORY_H
 
 #include "common/util/array.h"
 #include "table.h"
@@ -49,4 +49,4 @@ public:
   void getAllEntries(Array<InventoryEntry>& entries, int id);
 };
 
-#endif //_TABLE_INVENTORY_H_
+#endif //TABLE_INVENTORY_H

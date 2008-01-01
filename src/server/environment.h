@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ENVIRONMENT_H_
-#define _ENVIRONMENT_H_
+#ifndef ENVIRONMENT_H
+#define ENVIRONMENT_H
 
 #include "common/util/timer.h"
 #include "common/util/sleep.h"
@@ -44,4 +44,4 @@ public:
   }
 };
 
-#endif // _ENVIRONMENT_H_
+#endif // ENVIRONMENT_H

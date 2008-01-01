@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SLEEP_H_
-#define _SLEEP_H_
+#ifndef SLEEP_H
+#define SLEEP_H
 
 #ifdef WIN32
   #define WIN32_LEAN_AND_MEAN
@@ -39,4 +39,4 @@ inline void pt_sleep(size_t ms)
   #endif
 }
 
-#endif // _SLEEP_H_
+#endif // SLEEP_H

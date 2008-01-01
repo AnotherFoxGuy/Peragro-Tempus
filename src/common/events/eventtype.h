@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _EVENTS_EVENTTYPE_
-#define _EVENTS_EVENTTYPE_
+#ifndef EVENTS_EVENTTYPE
+#define EVENTS_EVENTTYPE
 
 /**
  * Each type of event has its ID which is stored here.
@@ -32,6 +32,4 @@ namespace Events
   const size_t Count = 1;
 };
 
-#endif // _EVENTS_EVENTTYPE_
-
-
+#endif // EVENTS_EVENTTYPE

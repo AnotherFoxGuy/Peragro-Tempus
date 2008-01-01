@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CONNECTIONMANAGER_H_
-#define _CONNECTIONMANAGER_H_
+#ifndef CONNECTIONMANAGER_H
+#define CONNECTIONMANAGER_H
 
 #include "common/util/array.h"
 #include "udpconnection.h"
@@ -87,4 +87,4 @@ public:
   }
 };
 
-#endif // _CONNECTIONMANAGER_H_
+#endif // CONNECTIONMANAGER_H

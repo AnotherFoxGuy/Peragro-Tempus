@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _NETMESSAGE_H_
-#define _NETMESSAGE_H_
+#ifndef NETMESSAGE_H
+#define NETMESSAGE_H
 
 #include "assert.h"
 #include "string.h"
@@ -108,4 +108,4 @@ public:
   }
 };
 
-#endif // _NETMESSAGE_H_
+#endif // NETMESSAGE_H

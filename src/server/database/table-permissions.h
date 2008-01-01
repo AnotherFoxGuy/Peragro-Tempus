@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_PERMISSIONS_H_
-#define _TABLE_PERMISSIONS_H_
+#ifndef TABLE_PERMISSIONS_H
+#define TABLE_PERMISSIONS_H
 
 class Database;
 class ResultSet;
@@ -51,5 +51,4 @@ public:
   PermissionsTableVO* get(unsigned int userid, unsigned int permissionid);
 };
 
-#endif // _TABLE_PERMISSIONS_H_
-
+#endif // TABLE_PERMISSIONS_H

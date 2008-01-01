@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SERVER_H_
-#define _SERVER_H_
+#ifndef SERVER_H
+#define SERVER_H
 
 class CharacterManager;
 class Database;
@@ -124,4 +124,4 @@ public:
   void broadCast(const ByteStream& bs);
 };
 
-#endif // _SERVER_H_
+#endif // SERVER_H

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PCENTITY_H_
-#define _PCENTITY_H_
+#ifndef PCENTITY_H
+#define PCENTITY_H
 
 #include "common/util/monitorable.h"
 
@@ -98,4 +98,4 @@ public:
   bool usesFlashStep() const { return flashStep; }
 };
 
-#endif // _PCENTITY_H_
+#endif // PCENTITY_H

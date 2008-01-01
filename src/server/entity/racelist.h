@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _RACELIST_H_
-#define _RACELIST_H_
+#ifndef RACELIST_H
+#define RACELIST_H
 
 #include "common/util/array.h"
 #include "race.h"
@@ -124,4 +124,4 @@ public:
   }
 };
 
-#endif // _RACELIST_H_
+#endif // RACELIST_H

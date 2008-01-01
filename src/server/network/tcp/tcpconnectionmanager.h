@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TCP_CONNECTIONMANAGER_H_
-#define _TCP_CONNECTIONMANAGER_H_
+#ifndef TCP_CONNECTIONMANAGER_H
+#define TCP_CONNECTIONMANAGER_H
 
 #include "common/util/array.h"
 #include "common/util/thread.h"
@@ -68,4 +68,4 @@ public:
   }
 };
 
-#endif // _TCP_CONNECTIONMANAGER_H_
+#endif // TCP_CONNECTIONMANAGER_H

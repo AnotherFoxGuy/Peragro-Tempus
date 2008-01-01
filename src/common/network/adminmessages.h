@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _ADMINMESSAGES_H_
-#define _ADMINMESSAGES_H_
+#ifndef ADMINMESSAGES_H
+#define ADMINMESSAGES_H
 
 #include "netmessage.h"
 
@@ -163,7 +163,6 @@ class CreateNpcMessage : public NetMessage
 
   unsigned char aisettingcount;
   ListAiSetting* aisetting;
-
   class ListInventory
   {
   public:
@@ -174,7 +173,6 @@ class CreateNpcMessage : public NetMessage
 
   unsigned char inventorycount;
   ListInventory* inventory;
-
 
 public:
   CreateNpcMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATENPC)
@@ -494,6 +492,7 @@ public:
 
 };
 
+ 
 class RemoveSpawnedEntityMessage : public NetMessage
 {
   unsigned int entityid;
@@ -515,6 +514,7 @@ public:
 
 };
 
+ 
 class ToggleFlashStepMessage : public NetMessage
 {
 
@@ -532,4 +532,4 @@ public:
 
 };
 
-#endif // _ADMINMESSAGES_H_
+#endif // ADMINMESSAGES_H

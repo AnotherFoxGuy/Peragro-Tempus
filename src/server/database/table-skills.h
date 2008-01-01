@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_SKILLS_H_
-#define _TABLE_SKILLS_H_
+#ifndef TABLE_SKILLS_H
+#define TABLE_SKILLS_H
 
 #include "table.h"
 
@@ -78,4 +78,4 @@ public:
   void getAllSkills(Array<Skill*>& skills);
 };
 
-#endif //_TABLE_SKILLS_H_
+#endif //TABLE_SKILLS_H

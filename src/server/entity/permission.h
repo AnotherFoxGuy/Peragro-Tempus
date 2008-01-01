@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PERMISSION_H_
-#define _PERMISSION_H_
+#ifndef PERMISSION_H
+#define PERMISSION_H
 
 #define PT_PERMISSION_COUNT 1
 
@@ -44,4 +44,4 @@ public:
   void setLevel(Permission::Type type, unsigned char level);
 };
 
-#endif // _PERMISSION_H_
+#endif // PERMISSION_H

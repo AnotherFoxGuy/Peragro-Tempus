@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _DOORMANAGER_H_
-#define _DOORMANAGER_H_
+#ifndef DOORMANAGER_H
+#define DOORMANAGER_H
 
 #include "common/util/array.h"
 #include "doorentity.h"
@@ -128,4 +128,4 @@ public:
   }
 };
 
-#endif // _DOORMANAGER_H_
+#endif // DOORMANAGER_H

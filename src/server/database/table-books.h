@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_BOOKS_H_
-#define _TABLE_BOOKS_H_
+#ifndef TABLE_BOOKS_H
+#define TABLE_BOOKS_H
 
 class Database;
 class ResultSet;
@@ -153,5 +153,4 @@ public:
   Array<BooksTableVO*> getAll();
 };
 
-#endif // _TABLE_BOOKS_H_
-
+#endif // TABLE_BOOKS_H

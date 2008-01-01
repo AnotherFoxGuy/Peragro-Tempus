@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _EVENTS_HANDLERFACTORY_
-#define _EVENTS_HANDLERFACTORY_
+#ifndef EVENTS_HANDLERFACTORY
+#define EVENTS_HANDLERFACTORY
 
 /**
  * All EventHandler will be known by this class. It will create them all on
@@ -31,6 +31,4 @@ public:
 
 };
 
-#endif // _EVENTS_HANDLERFACTORY_
-
-
+#endif // EVENTS_HANDLERFACTORY

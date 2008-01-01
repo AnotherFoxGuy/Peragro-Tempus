@@ -123,4 +123,3 @@ void SkillUsageInterruptMessage::deserialise(ByteStream* bs)
   target = (unsigned int) serial.getInt32();
   skill = (unsigned short) serial.getInt16();
 }
-

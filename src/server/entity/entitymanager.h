@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ENTITYMANAGER_H_
-#define _ENTITYMANAGER_H_
+#ifndef ENTITYMANAGER_H
+#define ENTITYMANAGER_H
 
 #include "common/util/array.h"
 #include "entity.h"
@@ -97,4 +97,4 @@ public:
   void loadFromDB(EntityTable* et);
 };
 
-#endif // _ENTITYMANAGER_H_
+#endif // ENTITYMANAGER_H

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _EVENTS_WORKERHOME_
-#define _EVENTS_WORKERHOME_
+#ifndef EVENTS_WORKERHOME
+#define EVENTS_WORKERHOME
 
 #include "common/util/array.h"
 #include "worker.h"
@@ -55,6 +55,4 @@ public:
   }
 };
 
-#endif // _EVENTS_WORKERHOME_
-
-
+#endif // EVENTS_WORKERHOME

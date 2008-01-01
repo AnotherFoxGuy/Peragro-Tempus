@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CONNECTION_H_
-#define _CONNECTION_H_
+#ifndef CONNECTION_H
+#define CONNECTION_H
 
 #include "common/network/bytestream.h"
 #include "common/util/monitorable.h"
@@ -67,4 +67,4 @@ public:
   virtual void send(const ByteStream& bs) const = 0;
 };
 
-#endif // _CONNECTION_H_
+#endif // CONNECTION_H

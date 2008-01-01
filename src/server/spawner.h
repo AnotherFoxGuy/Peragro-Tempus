@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SPAWNER_H_
-#define _SPAWNER_H_
+#ifndef SPAWNER_H
+#define SPAWNER_H
 
 #include "server/entity/entitymanager.h"
 #include "server/entity/item.h"
@@ -159,4 +159,4 @@ public:
   }
 };
 
-#endif // _SPAWNER_H_
+#endif // SPAWNER_H

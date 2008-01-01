@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_NPCENTITIES_H_
-#define _TABLE_NPCENTITIES_H_
+#ifndef TABLE_NPCENTITIES_H
+#define TABLE_NPCENTITIES_H
 
 class Database;
 class ResultSet;
@@ -53,5 +53,4 @@ public:
   Array<NpcEntitiesTableVO*> getAll();
 };
 
-#endif // _TABLE_NPCENTITIES_H_
-
+#endif // TABLE_NPCENTITIES_H

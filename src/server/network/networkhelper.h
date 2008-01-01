@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _NETWORKHELPER_H_
-#define _NETWORKHELPER_H_
+#ifndef NETWORKHELPER_H
+#define NETWORKHELPER_H
 
 class GenericMessage;
 class User;
@@ -43,4 +43,4 @@ public:
   static void broadcast(const ByteStream& bs);
 };
 
-#endif // _NETWORKHELPER_H_
+#endif // NETWORKHELPER_H

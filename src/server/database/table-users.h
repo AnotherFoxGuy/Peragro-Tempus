@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_USERS_H_
-#define _TABLE_USERS_H_
+#ifndef TABLE_USERS_H
+#define TABLE_USERS_H
 
 #include "table.h"
 
@@ -74,4 +74,4 @@ public:
   UsersTableVO* getUser(ptString name);
 };
 
-#endif //_TABLE_USERS_H_
+#endif //TABLE_USERS_H

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _RACE_H_
-#define _RACE_H_
+#ifndef RACE_H
+#define RACE_H
 
 #include <string.h>
 #include <time.h>
@@ -104,4 +104,4 @@ public:
   RaceSkills* getSkills() { return &skills; }
 };
 
-#endif // _RACE_H_
+#endif // RACE_H

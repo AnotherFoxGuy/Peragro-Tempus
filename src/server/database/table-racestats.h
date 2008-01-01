@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_RACESTATS_H_
-#define _TABLE_RACESTATS_H_
+#ifndef TABLE_RACESTATS_H
+#define TABLE_RACESTATS_H
 
 #include "common/util/array.h"
 #include "table.h"
@@ -72,4 +72,4 @@ public:
   void getAllEntries(Array<RaceStat*>& entries, int id);
 };
 
-#endif //_TABLE_RACESTATS_H_
+#endif //TABLE_RACESTATS_H

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_RACES_H_
-#define _TABLE_RACES_H_
+#ifndef TABLE_RACES_H
+#define TABLE_RACES_H
 
 #include "table.h"
 
@@ -86,4 +86,4 @@ public:
   void getAllRaces(Array<Race*>& races);
 };
 
-#endif // _TABLE_RACES_H_
+#endif // TABLE_RACES_H

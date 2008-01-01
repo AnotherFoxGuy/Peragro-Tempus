@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_ENTITIES_H_
-#define _TABLE_ENTITIES_H_
+#ifndef TABLE_ENTITIES_H
+#define TABLE_ENTITIES_H
 
 #include "table.h"
 
@@ -61,4 +61,4 @@ public:
   Array<EntitiesTableVO*> getAllEntities();
 };
 
-#endif // _TABLE_ENTITIES_H_
+#endif // TABLE_ENTITIES_H

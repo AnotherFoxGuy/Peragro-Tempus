@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_SECTORS_H_
-#define _TABLE_SECTORS_H_
+#ifndef TABLE_SECTORS_H
+#define TABLE_SECTORS_H
 
 class Database;
 class ResultSet;
@@ -128,4 +128,4 @@ public:
   Array<SectorsTableVO*> getAll();
 };
 
-#endif // _TABLE_SECTORS_H_
+#endif // TABLE_SECTORS_H

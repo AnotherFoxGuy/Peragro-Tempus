@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
  
-#ifndef _THREAD_H_
-#define _THREAD_H_
+#ifndef THREAD_H
+#define THREAD_H
 
 #ifdef WIN32
   #define WIN32_LEAN_AND_MEAN
@@ -90,4 +90,4 @@ public:
   }
 };
 
-#endif // _THREAD_H_
+#endif // THREAD_H

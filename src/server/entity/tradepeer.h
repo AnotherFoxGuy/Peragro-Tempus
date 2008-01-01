@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TRADE_PEER_H_
-#define _TRADE_PEER_H_
+#ifndef TRADE_PEER_H
+#define TRADE_PEER_H
 
 #include "common/util/monitor.h"
 #include "tradesession.h"
@@ -57,4 +57,4 @@ public:
   void debugPrint();
 };
 
-#endif // _TRADE_PEER_H_
+#endif // TRADE_PEER_H

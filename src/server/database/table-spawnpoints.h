@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_SPAWNPOINTS_H_
-#define _TABLE_SPAWNPOINTS_H_
+#ifndef TABLE_SPAWNPOINTS_H
+#define TABLE_SPAWNPOINTS_H
 
 class Database;
 class ResultSet;
@@ -55,5 +55,4 @@ public:
   Array<SpawnPointsTableVO*> getAll();
 };
 
-#endif // _TABLE_SPAWNPOINTS_H_
-
+#endif // TABLE_SPAWNPOINTS_H

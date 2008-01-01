@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _BYTESTREAM_H_
-#define _BYTESTREAM_H_
+#ifndef BYTESTREAM_H
+#define BYTESTREAM_H
 
 #define MAX_STREAM_SIZE 512
 
@@ -61,4 +61,4 @@ public:
 
 };
 
-#endif // _BYTESTREAM_H_
+#endif // BYTESTREAM_H

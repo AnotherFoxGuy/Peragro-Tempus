@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MONITOR_H_
-#define _MONITOR_H_
+#ifndef MONITOR_H
+#define MONITOR_H
 
 template<class T> 
 class ptMonitor
@@ -93,4 +93,4 @@ public:
   }
 };
 
-#endif // _MONITOR_H_
+#endif // MONITOR_H

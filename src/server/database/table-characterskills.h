@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_CHARACTERSKILLS_H_
-#define _TABLE_CHARACTERSKILLS_H_
+#ifndef TABLE_CHARACTERSKILLS_H
+#define TABLE_CHARACTERSKILLS_H
 
 #include "common/util/array.h"
 #include "table.h"
@@ -42,4 +42,4 @@ public:
   Array<CharSkillVO*> getAllEntries(int id);
 };
 
-#endif //_TABLE_CHARACTERSKILLS_H_
+#endif //TABLE_CHARACTERSKILLS_H

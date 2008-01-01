@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SOCKET_H_
-#define _SOCKET_H_
+#ifndef SOCKET_H
+#define SOCKET_H
 
 #include <stdlib.h>
 
@@ -61,4 +61,4 @@ public:
   void getNetworkStats(size_t& sentbytes, size_t& recvbytes, size_t& lastchecked);
 };
 
-#endif // _SOCKET_H_
+#endif // SOCKET_H

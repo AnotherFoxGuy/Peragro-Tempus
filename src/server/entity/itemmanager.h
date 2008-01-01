@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ITEMMANAGER_H_
-#define _ITEMMANAGER_H_
+#ifndef ITEMMANAGER_H
+#define ITEMMANAGER_H
 
 #include "common/util/array.h"
 #include "item.h"
@@ -131,4 +131,4 @@ public:
   }
 };
 
-#endif // _ITEMMANAGER_H_
+#endif // ITEMMANAGER_H

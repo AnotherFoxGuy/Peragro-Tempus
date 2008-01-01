@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _UDPNETWORK_H_
-#define _UDPNETWORK_H_
+#ifndef UDPNETWORK_H
+#define UDPNETWORK_H
 
 #include "common/network/udp/udpreceiver.h"
 
@@ -71,4 +71,4 @@ public:
   }
 };
 
-#endif // _UDPNETWORK_H_
+#endif // UDPNETWORK_H

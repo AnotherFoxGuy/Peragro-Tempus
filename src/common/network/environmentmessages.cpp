@@ -55,4 +55,3 @@ void WeatherMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   weatherid = (unsigned char) serial.getInt8();
 }
-

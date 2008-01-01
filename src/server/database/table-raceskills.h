@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_RACESKILLS_H_
-#define _TABLE_RACESKILLS_H_
+#ifndef TABLE_RACESKILLS_H
+#define TABLE_RACESKILLS_H
 
 #include "common/util/array.h"
 #include "table.h"
@@ -38,4 +38,4 @@ public:
   void getAllEntries(Array<RaceSkill*>& entries, int id);
 };
 
-#endif //_TABLE_RACESKILLS_H_
+#endif //TABLE_RACESKILLS_H

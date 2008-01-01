@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MESSAGEHANDLER_H_
-#define _MESSAGEHANDLER_H_
+#ifndef MESSAGEHANDLER_H
+#define MESSAGEHANDLER_H
 
 class GenericMessage;
 
@@ -30,4 +30,4 @@ public:
   virtual char getType() = 0;
 };
 
-#endif // _MESSAGEHANDLER_H_
+#endif // MESSAGEHANDLER_H

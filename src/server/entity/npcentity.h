@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _NPCENTITY_H_
-#define _NPCENTITY_H_
+#ifndef NPCENTITY_H
+#define NPCENTITY_H
 
 #include "common/util/ptstring.h"
 #include "common/util/monitorable.h"
@@ -81,4 +81,4 @@ public:
   void pause(bool pause) { if (ai) ai->pause(pause); }
 };
 
-#endif // _NPCENTITY_H_
+#endif // NPCENTITY_H

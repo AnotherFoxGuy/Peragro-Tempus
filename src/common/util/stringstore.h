@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _STRINGSTORE_H
-#define _STRINGSTORE_H
+#ifndef STRINGSTORE_H
+#define STRINGSTORE_H
 
 #include "array.h"
 #include "mutex.h"
@@ -112,4 +112,4 @@ public:
   static void destroy() { delete getStore(); }
 };
 
-#endif //_STRINGSTORE_H
+#endif //STRINGSTORE_H

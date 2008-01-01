@@ -88,15 +88,18 @@
 		<bool>Jump</bool>
 	</message>
 
-	<message type="Entity" name="Pose">
+	<message type="Entity" name="MoveTo">
+		<vector3f>From</vector3f>
+		<vector3f>To</vector3f>
+		<float>Speed</float>
 		<uint32>EntityId</uint32>
-		<uint8>PoseId</uint8>
+		<bool>Run</bool>
 	</message>
 
-	<message type="Entity" name="PoseRequest">
-		<uint8>PoseId</uint8>
+	<message type="Entity" name="MoveToRequest">
+		<vector3f>To</vector3f>
+		<bool>Run</bool>
 	</message>
-
 	
 	<message type="Entity" name="PickRequest">
 		<uint32>ItemEntityId</uint32>
@@ -132,19 +135,6 @@
 		<uint8>SlotId</uint8>
 		<string>File</string>
 		<string>Mesh</string>
-	</message>
-
-	<message type="Entity" name="MoveTo">
-		<vector3f>From</vector3f>
-		<vector3f>To</vector3f>
-		<float>Speed</float>
-		<uint32>EntityId</uint32>
-		<bool>Run</bool>
-	</message>
-
-	<message type="Entity" name="MoveToRequest">
-		<vector3f>To</vector3f>
-		<bool>Run</bool>
 	</message>
 
 	<message type="Entity" name="Relocate"></message>
@@ -185,6 +175,15 @@
 	<message type="Entity" name="Unmount">
 		<uint32>PlayerEntityId</uint32>
 		<uint32>MountEntityId</uint32>
+	</message>
+
+	<message type="Entity" name="Pose">
+		<uint32>EntityId</uint32>
+		<uint8>PoseId</uint8>
+	</message>
+
+	<message type="Entity" name="PoseRequest">
+		<uint8>PoseId</uint8>
 	</message>
 
 </message-implementation>

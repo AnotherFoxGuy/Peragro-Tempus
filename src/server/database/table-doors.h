@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_DOORS_H_
-#define _TABLE_DOORS_H_
+#ifndef TABLE_DOORS_H
+#define TABLE_DOORS_H
 
 class Database;
 class ResultSet;
@@ -142,5 +142,4 @@ public:
   Array<DoorsTableVO*> getAll();
 };
 
-#endif // _TABLE_DOORS_H_
-
+#endif // TABLE_DOORS_H

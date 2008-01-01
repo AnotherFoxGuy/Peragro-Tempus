@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PT_TIME_H_
-#define _PT_TIME_H_
+#ifndef PT_TIME_H
+#define PT_TIME_H
 
 #include <time.h>
 
@@ -33,4 +33,4 @@ inline size_t pt_time_s()
   return clock() / CLOCKS_PER_SEC;
 }
 
-#endif // _SLEEP_H_
+#endif // PT_TIME_H

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CONNECTIONPINGER_H_
-#define _CONNECTIONPINGER_H_
+#ifndef CONNECTIONPINGER_H
+#define CONNECTIONPINGER_H
 
 #include "common/util/thread.h"
 #include "common/util/sleep.h"
@@ -70,4 +70,4 @@ public:
   }
 };
 
-#endif // _CONNECTIONPINGER_H_
+#endif // CONNECTIONPINGER_H

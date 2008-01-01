@@ -319,4 +319,3 @@ void ToggleFlashStepMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
 }
-

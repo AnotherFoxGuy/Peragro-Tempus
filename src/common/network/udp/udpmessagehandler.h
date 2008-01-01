@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _UDPMESSAGEHANDLER_H_
-#define _UDPMESSAGEHANDLER_H_
+#ifndef UDPMESSAGEHANDLER_H
+#define UDPMESSAGEHANDLER_H
 
 #include "common/network/messagehandler.h"
 
@@ -31,4 +31,4 @@ public:
   virtual char getType() = 0;
 };
 
-#endif // _UDPMESSAGEHANDLER_H_
+#endif // UDPMESSAGEHANDLER_H

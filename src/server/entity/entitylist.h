@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ENTITYLIST_H_
-#define _ENTITYLIST_H_
+#ifndef ENTITYLIST_H
+#define ENTITYLIST_H
 
 #include "common/util/array.h"
 #include "entity.h"
@@ -144,4 +144,4 @@ public:
   }
 };
 
-#endif // _ENTITYLIST_H_
+#endif // ENTITYLIST_H

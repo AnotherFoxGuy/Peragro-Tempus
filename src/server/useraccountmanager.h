@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _USERACCOUNTMANAGER_H_
-#define _USERACCOUNTMANAGER_H_
+#ifndef USERACCOUNTMANAGER_H
+#define USERACCOUNTMANAGER_H
 
 class Server;
 class User;
@@ -34,4 +34,4 @@ public:
   const ptString signup(ptString username, const char* password);
 };
 
-#endif // _USERACCOUNTMANAGER_H_
+#endif // USERACCOUNTMANAGER_H

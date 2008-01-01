@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_CHARACTERSTATS_H_
-#define _TABLE_CHARACTERSTATS_H_
+#ifndef TABLE_CHARACTERSTATS_H
+#define TABLE_CHARACTERSTATS_H
 
 #include "common/util/array.h"
 #include "table.h"
@@ -38,4 +38,4 @@ public:
   void getAllEntries(Array<CharStat*>& entries, int id);
 };
 
-#endif //_TABLE_CHARACTERSTATS_H_
+#endif //TABLE_CHARACTERSTATS_H

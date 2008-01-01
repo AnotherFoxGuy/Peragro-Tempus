@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _NETWORK_H_
-#define _NETWORK_H_
+#ifndef NETWORK_H
+#define NETWORK_H
 
 #include "common/network/tcp/tcpsocket.h"
 #include "client/network/connectionhandler.h"
@@ -77,4 +77,4 @@ public:
   }
 };
 
-#endif // _NETWORK_H_
+#endif // NETWORK_H

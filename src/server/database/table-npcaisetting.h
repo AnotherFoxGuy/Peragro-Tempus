@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_NPCAISETTING_H_
-#define _TABLE_NPCAISETTING_H_
+#ifndef TABLE_NPCAISETTING_H
+#define TABLE_NPCAISETTING_H
 
 class Database;
 class ResultSet;
@@ -49,5 +49,4 @@ public:
   ptString getValue(int id, ptString key);
 };
 
-#endif // _TABLE_NPCAISETTING_H_
-
+#endif // TABLE_NPCAISETTING_H

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _UDP_CONNECTION_H_
-#define _UDP_CONNECTION_H_
+#ifndef UDP_CONNECTION_H
+#define UDP_CONNECTION_H
 
 #include <time.h>
 
@@ -72,4 +72,4 @@ public:
   void peerLost();
 };
 
-#endif // _UDP_CONNECTION_H_
+#endif // UDP_CONNECTION_H

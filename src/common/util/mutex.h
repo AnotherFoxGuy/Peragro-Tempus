@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MUTEX_H_
-#define _MUTEX_H_
+#ifndef MUTEX_H
+#define MUTEX_H
 
 #ifdef WIN32
 #  define WIN32_LEAN_AND_MEAN
@@ -78,4 +78,4 @@ public:
   }
 };
 
-#endif // _MUTEX_H_
+#endif // MUTEX_H

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ENTITY_H_
-#define _ENTITY_H_
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include <math.h>
 
@@ -179,4 +179,4 @@ public:
   void setMountEntity(const MountEntity*);
 };
 
-#endif // _ENTITY_H_
+#endif // ENTITY_H

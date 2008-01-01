@@ -204,4 +204,3 @@ void TradeConfirmResponseMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   error = serial.getString();
 }
-

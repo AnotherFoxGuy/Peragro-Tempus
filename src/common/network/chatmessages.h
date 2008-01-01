@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _CHATMESSAGES_H_
-#define _CHATMESSAGES_H_
+#ifndef CHATMESSAGES_H
+#define CHATMESSAGES_H
 
 #include "netmessage.h"
 
@@ -58,7 +58,7 @@ public:
 
   ptString getSpeakerName() { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
-
+ /* null if client sends */
   const char* getMessage() { return message; }
   void setMessage(const char* x) { message = x; }
 
@@ -83,7 +83,7 @@ public:
 
   ptString getSpeakerName() { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
-
+ /* null if client sends */
   const char* getMessage() { return message; }
   void setMessage(const char* x) { message = x; }
 
@@ -114,6 +114,7 @@ public:
 
 };
 
+ 
 class WhisperFromMessage : public NetMessage
 {
   ptString speakername;
@@ -139,6 +140,7 @@ public:
 
 };
 
+ 
 class PartyMessage : public NetMessage
 {
   ptString speakername;
@@ -158,7 +160,7 @@ public:
 
   ptString getSpeakerName() { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
-
+ /* null if client sends */
   const char* getMessage() { return message; }
   void setMessage(const char* x) { message = x; }
 
@@ -183,7 +185,7 @@ public:
 
   ptString getSpeakerName() { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
-
+ /* null if client sends */
   const char* getMessage() { return message; }
   void setMessage(const char* x) { message = x; }
 
@@ -208,10 +210,10 @@ public:
 
   ptString getSpeakerName() { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
-
+ /* null if client sends */
   const char* getMessage() { return message; }
   void setMessage(const char* x) { message = x; }
 
 };
 
-#endif // _CHATMESSAGES_H_
+#endif // CHATMESSAGES_H

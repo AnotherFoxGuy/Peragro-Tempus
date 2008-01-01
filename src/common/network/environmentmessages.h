@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _ENVIRONMENTMESSAGES_H_
-#define _ENVIRONMENTMESSAGES_H_
+#ifndef ENVIRONMENTMESSAGES_H
+#define ENVIRONMENTMESSAGES_H
 
 #include "netmessage.h"
 
@@ -76,4 +76,4 @@ public:
 
 };
 
-#endif // _ENVIRONMENTMESSAGES_H_
+#endif // ENVIRONMENTMESSAGES_H

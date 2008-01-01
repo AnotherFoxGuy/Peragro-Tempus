@@ -632,22 +632,6 @@ void UnmountMessage::deserialise(ByteStream* bs)
   mountentityid = (unsigned int) serial.getInt32();
 }
 
-void PoseRequestMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setInt8(poseid);
-}
-
-void PoseRequestMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  poseid = (unsigned char) serial.getInt8();
-}
-
 void PoseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
@@ -666,3 +650,18 @@ void PoseMessage::deserialise(ByteStream* bs)
   poseid = (unsigned char) serial.getInt8();
 }
 
+void PoseRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(poseid);
+}
+
+void PoseRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  poseid = (unsigned char) serial.getInt8();
+}

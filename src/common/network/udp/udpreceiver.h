@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _RECEIVER_H_
-#define _RECEIVER_H_
+#ifndef RECEIVER_H
+#define RECEIVER_H
 
 #include "common/util/array.h"
 #include "common/util/thread.h"
@@ -61,4 +61,4 @@ public:
   }
 };
 
-#endif // _RECEIVER_H_
+#endif // RECEIVER_H

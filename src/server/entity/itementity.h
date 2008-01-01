@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ITEMENTITY_H_
-#define _ITEMENTITY_H_
+#ifndef ITEMENTITY_H
+#define ITEMENTITY_H
 
 #include "common/util/monitorable.h"
 
@@ -51,4 +51,4 @@ public:
   //void createFromItem(Item* item, unsigned int variation);
 };
 
-#endif // _ITEMENTITY_H_
+#endif // ITEMENTITY_H

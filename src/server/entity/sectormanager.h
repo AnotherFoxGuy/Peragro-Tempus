@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SECTORMANAGER_H_
-#define _SECTORMANAGER_H_
+#ifndef SECTORMANAGER_H
+#define SECTORMANAGER_H
 
 #include "common/util/array.h"
 #include "common/util/ptstring.h"
@@ -120,4 +120,4 @@ public:
   }
 };
 
-#endif // _SECTORMANAGER_H_
+#endif // SECTORMANAGER_H

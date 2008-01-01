@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _DOORMESSAGES_H_
-#define _DOORMESSAGES_H_
+#ifndef DOORMESSAGES_H
+#define DOORMESSAGES_H
 
 #include "netmessage.h"
 
@@ -224,4 +224,4 @@ public:
 
 };
 
-#endif // _DOORMESSAGES_H_
+#endif // DOORMESSAGES_H

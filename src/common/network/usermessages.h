@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _USERMESSAGES_H_
-#define _USERMESSAGES_H_
+#ifndef USERMESSAGES_H
+#define USERMESSAGES_H
 
 #include "netmessage.h"
 
@@ -85,7 +85,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* null is successful */
   bool getIsAdmin() { return isadmin; }
   void setIsAdmin(bool x) { isadmin = x; }
 
@@ -134,7 +134,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* null is successful */
 };
 
 class CharListMessage : public NetMessage
@@ -151,7 +151,6 @@ class CharListMessage : public NetMessage
 
   unsigned char charactercount;
   ListCharacter* character;
-
 
 public:
   CharListMessage() : NetMessage(MESSAGES::USER,USER::CHARLIST)
@@ -348,7 +347,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* null is successful */
 };
 
 class CharSelectRequestMessage : public NetMessage
@@ -394,7 +393,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* null is successful */
 };
 
-#endif // _USERMESSAGES_H_
+#endif // USERMESSAGES_H

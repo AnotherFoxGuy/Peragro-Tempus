@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _DESERIALISER_H_
-#define _DESERIALISER_H_
+#ifndef DESERIALISER_H
+#define DESERIALISER_H
 
 #include "bytestream.h"
 #include "common/util/ptstring.h"
@@ -105,4 +105,4 @@ public:
   }
 };
 
-#endif // _DESERIALISER_H_
+#endif // DESERIALISER_H

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _NPC_DIALOG_MANAGER_H_
-#define _NPC_DIALOG_MANAGER_H_
+#ifndef NPC_DIALOG_MANAGER_H
+#define NPC_DIALOG_MANAGER_H
 
 class NPCDialogManager
 {
@@ -37,4 +37,4 @@ public:
   void load();
 };
 
-#endif // _NPC_DIALOG_MANAGER_H_
+#endif // NPC_DIALOG_MANAGER_H

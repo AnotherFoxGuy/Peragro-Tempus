@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _USERMANAGER_H_
-#define _USERMANAGER_H_
+#ifndef USERMANAGER_H
+#define USERMANAGER_H
 
 #include "common/util/array.h"
 #include "common/util/ptstring.h"
@@ -90,4 +90,4 @@ public:
   }
 };
 
-#endif // _USERMANAGER_H_
+#endif // USERMANAGER_H

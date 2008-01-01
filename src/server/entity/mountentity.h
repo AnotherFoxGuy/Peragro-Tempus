@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MOUNTENTITY_H_
-#define _MOUNTENTITY_H_
+#ifndef MOUNTENTITY_H
+#define MOUNTENTITY_H
 
 #include "common/util/ptstring.h"
 #include "common/util/monitorable.h"
@@ -92,4 +92,4 @@ public:
   float getSpeed() const { return speed; }
 };
 
-#endif // _MOUNTENTITY_H_
+#endif // MOUNTENTITY_H

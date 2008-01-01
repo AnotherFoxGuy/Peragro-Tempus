@@ -67,52 +67,6 @@ void InventoryListMessage::deserialise(ByteStream* bs)
 
 }
 
-void InventoryMoveItemRequestMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setInt8(oldslot);
-  serial.setInt32(oldinventoryid);
-  serial.setInt8(newslot);
-  serial.setInt32(newinventoryid);
-}
-
-void InventoryMoveItemRequestMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  oldslot = (unsigned char) serial.getInt8();
-  oldinventoryid = (unsigned int) serial.getInt32();
-  newslot = (unsigned char) serial.getInt8();
-  newinventoryid = (unsigned int) serial.getInt32();
-}
-
-void InventoryMoveItemMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setInt8(oldslot);
-  serial.setInt32(oldinventoryid);
-  serial.setInt8(newslot);
-  serial.setInt32(newinventoryid);
-  serial.setString(error);
-}
-
-void InventoryMoveItemMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  oldslot = (unsigned char) serial.getInt8();
-  oldinventoryid = (unsigned int) serial.getInt32();
-  newslot = (unsigned char) serial.getInt8();
-  newinventoryid = (unsigned int) serial.getInt32();
-  error = serial.getString();
-}
-
 void StatsListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
@@ -191,3 +145,48 @@ void SkillsListMessage::deserialise(ByteStream* bs)
 
 }
 
+void InventoryMoveItemRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(oldslot);
+  serial.setInt32(oldinventoryid);
+  serial.setInt8(newslot);
+  serial.setInt32(newinventoryid);
+}
+
+void InventoryMoveItemRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  oldslot = (unsigned char) serial.getInt8();
+  oldinventoryid = (unsigned int) serial.getInt32();
+  newslot = (unsigned char) serial.getInt8();
+  newinventoryid = (unsigned int) serial.getInt32();
+}
+
+void InventoryMoveItemMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(oldslot);
+  serial.setInt32(oldinventoryid);
+  serial.setInt8(newslot);
+  serial.setInt32(newinventoryid);
+  serial.setString(error);
+}
+
+void InventoryMoveItemMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  oldslot = (unsigned char) serial.getInt8();
+  oldinventoryid = (unsigned int) serial.getInt32();
+  newslot = (unsigned char) serial.getInt8();
+  newinventoryid = (unsigned int) serial.getInt32();
+  error = serial.getString();
+}

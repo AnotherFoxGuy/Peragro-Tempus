@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TCP_CONNECTION_H_
-#define _TCP_CONNECTION_H_
+#ifndef TCP_CONNECTION_H
+#define TCP_CONNECTION_H
 
 #include "server/network/connection.h"
 
@@ -45,4 +45,4 @@ public:
   ByteStream& getBuffer() { return buffer; }
 };
 
-#endif // _CLIENTCONNECTION_H_
+#endif // CLIENTCONNECTION_H

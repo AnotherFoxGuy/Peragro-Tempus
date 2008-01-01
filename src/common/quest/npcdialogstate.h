@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _NPC_DIALOG_STATE_H_
-#define _NPC_DIALOG_STATE_H_
+#ifndef NPC_DIALOG_STATE_H
+#define NPC_DIALOG_STATE_H
 
 #include "common/util/monitor.h"
 
@@ -47,4 +47,4 @@ public:
   const NpcEntity* getNpc() { return npc.get(); }
 };
 
-#endif // _NPC_DIALOG_STATE_H_
+#endif // NPC_DIALOG_STATE_H

@@ -122,6 +122,7 @@ void SetupDialogsMessage::serialise(ByteStream* bs)
     serial.setInt8(dialogs[i].isstartdialog?1:0);
   };
 
+
   serial.setInt8(answerscount);
   for ( size_t i = 0; i < answerscount ; i++ )
   {
@@ -150,6 +151,7 @@ void SetupDialogsMessage::deserialise(ByteStream* bs)
     dialogs[i].isstartdialog = serial.getInt8() != 0;
   };
 
+
   answerscount = (unsigned char) serial.getInt8();
   setAnswersCount(answerscount);
   for ( size_t i = 0; i < answerscount ; i++ )
@@ -162,4 +164,3 @@ void SetupDialogsMessage::deserialise(ByteStream* bs)
   };
 
 }
-

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _STATMANAGER_H_
-#define _STATMANAGER_H_
+#ifndef STATMANAGER_H
+#define STATMANAGER_H
 
 #include "common/util/array.h"
 #include "stat.h"
@@ -116,4 +116,4 @@ public:
   }
 };
 
-#endif // _STATMANAGER_H_
+#endif // STATMANAGER_H

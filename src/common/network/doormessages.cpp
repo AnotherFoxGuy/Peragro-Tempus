@@ -159,4 +159,3 @@ void UnlockDoorResponseMessage::deserialise(ByteStream* bs)
   doorid = (unsigned int) serial.getInt32();
   error = serial.getString();
 }
-

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ARRAY_H_
-#define _ARRAY_H_
+#ifndef ARRAY_H
+#define ARRAY_H
 
 #include <assert.h>
 #include <new>
@@ -313,4 +313,4 @@ public:
 
 };
 
-#endif //_ARRAY_H_
+#endif //ARRAY_H

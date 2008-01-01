@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_VERTICES_H_
-#define _TABLE_VERTICES_H_
+#ifndef TABLE_VERTICES_H
+#define TABLE_VERTICES_H
 
 class Database;
 class ResultSet;
@@ -53,5 +53,4 @@ public:
   Array<VerticesTableVO*> getAllByMesh(int mesh);
 };
 
-#endif // _TABLE_VERTICES_H_
-
+#endif // TABLE_VERTICES_H

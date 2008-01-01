@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TABLE_NPCDIALOGS_H_
-#define _TABLE_NPCDIALOGS_H_
+#ifndef TABLE_NPCDIALOGS_H
+#define TABLE_NPCDIALOGS_H
 
 class Database;
 class ResultSet;
@@ -53,5 +53,4 @@ public:
   Array<NpcDialogsTableVO*> getAll();
 };
 
-#endif // _TABLE_NPCDIALOGS_H_
-
+#endif // TABLE_NPCDIALOGS_H

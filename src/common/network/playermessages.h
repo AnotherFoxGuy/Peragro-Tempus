@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _PLAYERMESSAGES_H_
-#define _PLAYERMESSAGES_H_
+#ifndef PLAYERMESSAGES_H
+#define PLAYERMESSAGES_H
 
 #include "netmessage.h"
 
@@ -29,12 +29,12 @@ namespace PLAYER
 {
   enum MESSAGES
   {
-    INVENTORYLIST=1,
-    INVENTORYMOVEITEMREQUEST=2,
-    INVENTORYMOVEITEM=3,
-    STATSLIST=4,
-    STATSCHANGE=5,
-    SKILLSLIST=6
+    INVENTORYLIST=0,
+    STATSLIST=1,
+    STATSCHANGE=2,
+    SKILLSLIST=3,
+    INVENTORYMOVEITEMREQUEST=4,
+    INVENTORYMOVEITEM=5
   };
 }
 
@@ -56,7 +56,6 @@ class InventoryListMessage : public NetMessage
 
   unsigned char inventorycount;
   ListInventory* inventory;
-
 
 public:
   InventoryListMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::INVENTORYLIST)
@@ -113,76 +112,6 @@ public:
 
 };
 
-class InventoryMoveItemRequestMessage : public NetMessage
-{
-  unsigned char oldslot;
-  unsigned int oldinventoryid;
-  unsigned char newslot;
-  unsigned int newinventoryid;
-
-public:
-  InventoryMoveItemRequestMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::INVENTORYMOVEITEMREQUEST)
-  {
-  }
-
-  ~InventoryMoveItemRequestMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned char getOldSlot() { return oldslot; }
-  void setOldSlot(unsigned char x) { oldslot = x; }
-
-  unsigned int getOldInventoryId() { return oldinventoryid; }
-  void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
-
-  unsigned char getNewSlot() { return newslot; }
-  void setNewSlot(unsigned char x) { newslot = x; }
-
-  unsigned int getNewInventoryId() { return newinventoryid; }
-  void setNewInventoryId(unsigned int x) { newinventoryid = x; }
-
-};
-
-class InventoryMoveItemMessage : public NetMessage
-{
-  unsigned char oldslot;
-  unsigned int oldinventoryid;
-  unsigned char newslot;
-  unsigned int newinventoryid;
-  ptString error;
-
-public:
-  InventoryMoveItemMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::INVENTORYMOVEITEM)
-  {
-  }
-
-  ~InventoryMoveItemMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned char getOldSlot() { return oldslot; }
-  void setOldSlot(unsigned char x) { oldslot = x; }
-
-  unsigned int getOldInventoryId() { return oldinventoryid; }
-  void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
-
-  unsigned char getNewSlot() { return newslot; }
-  void setNewSlot(unsigned char x) { newslot = x; }
-
-  unsigned int getNewInventoryId() { return newinventoryid; }
-  void setNewInventoryId(unsigned int x) { newinventoryid = x; }
-
-  ptString getError() { return error; }
-  void setError(ptString x) { error = x; }
-
-};
-
 class StatsListMessage : public NetMessage
 {
   class ListStats
@@ -195,7 +124,6 @@ class StatsListMessage : public NetMessage
 
   unsigned char statscount;
   ListStats* stats;
-
 
 public:
   StatsListMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::STATSLIST)
@@ -271,7 +199,6 @@ class SkillsListMessage : public NetMessage
   unsigned char skillscount;
   ListSkills* skills;
 
-
 public:
   SkillsListMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::SKILLSLIST)
   {
@@ -306,4 +233,76 @@ public:
 
 };
 
-#endif // _PLAYERMESSAGES_H_
+class InventoryMoveItemRequestMessage : public NetMessage
+{
+  unsigned char oldslot;
+  unsigned int oldinventoryid;
+  unsigned char newslot;
+  unsigned int newinventoryid;
+
+public:
+  InventoryMoveItemRequestMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::INVENTORYMOVEITEMREQUEST)
+  {
+  }
+
+  ~InventoryMoveItemRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getOldSlot() { return oldslot; }
+  void setOldSlot(unsigned char x) { oldslot = x; }
+
+  unsigned int getOldInventoryId() { return oldinventoryid; }
+  void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
+
+  unsigned char getNewSlot() { return newslot; }
+  void setNewSlot(unsigned char x) { newslot = x; }
+
+  unsigned int getNewInventoryId() { return newinventoryid; }
+  void setNewInventoryId(unsigned int x) { newinventoryid = x; }
+
+};
+
+ 
+class InventoryMoveItemMessage : public NetMessage
+{
+  unsigned char oldslot;
+  unsigned int oldinventoryid;
+  unsigned char newslot;
+  unsigned int newinventoryid;
+  ptString error;
+
+public:
+  InventoryMoveItemMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::INVENTORYMOVEITEM)
+  {
+  }
+
+  ~InventoryMoveItemMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getOldSlot() { return oldslot; }
+  void setOldSlot(unsigned char x) { oldslot = x; }
+
+  unsigned int getOldInventoryId() { return oldinventoryid; }
+  void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
+
+  unsigned char getNewSlot() { return newslot; }
+  void setNewSlot(unsigned char x) { newslot = x; }
+
+  unsigned int getNewInventoryId() { return newinventoryid; }
+  void setNewInventoryId(unsigned int x) { newinventoryid = x; }
+
+  ptString getError() { return error; }
+  void setError(ptString x) { error = x; }
+ /* null if successful */
+};
+
+ 
+#endif // PLAYERMESSAGES_H

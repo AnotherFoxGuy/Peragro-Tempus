@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SOCKET_H_
-#define _SOCKET_H_
+#ifndef SOCKET_H
+#define SOCKET_H
 
 #include <stdlib.h>
 
@@ -64,4 +64,4 @@ public:
   int getSocket() { return socket_handler; }
 };
 
-#endif // _SOCKET_H_
+#endif // SOCKET_H

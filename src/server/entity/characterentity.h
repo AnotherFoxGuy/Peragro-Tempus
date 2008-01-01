@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CHARACTERENTITY_H_
-#define _CHARACTERENTITY_H_
+#ifndef CHARACTERENTITY_H
+#define CHARACTERENTITY_H
 
 #include <string.h>
 #include <time.h>
@@ -190,4 +190,4 @@ public:
 
 };
 
-#endif // _CHARACTERENTITY_H_
+#endif // CHARACTERENTITY_H

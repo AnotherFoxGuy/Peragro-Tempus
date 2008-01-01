@@ -131,7 +131,7 @@ namespace PT
       if (!defsector) return;
 
       iMeshList* list = defsector->GetMeshes();
-      for (size_t i = 0; i < (unsigned int)list->GetCount(); i++)
+      for (size_t i = 0; i < (size_t)list->GetCount(); i++)
       {
         iMeshWrapper* mesh = list->Get(i);
         if (!mesh) continue;

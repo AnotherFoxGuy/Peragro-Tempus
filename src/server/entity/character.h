@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CHARACTER_H_
-#define _CHARACTER_H_
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
 #include "common/util/ptstring.h"
 #include "common/util/monitorable.h"
@@ -142,4 +142,4 @@ public:
   const Entity* getEntity() const { return entity.get(); }
 };
 
-#endif // _CHARACTER_H_
+#endif // CHARACTER_H

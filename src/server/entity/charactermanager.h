@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CHARACTERMANAGER_H_
-#define _CHARACTERMANAGER_H_
+#ifndef CHARACTERMANAGER_H
+#define CHARACTERMANAGER_H
 
 #include "common/util/array.h"
 #include "server/entity/character.h"
@@ -44,4 +44,4 @@ public:
   void delCharacter(const Character* character);
 };
 
-#endif // _CHARACTERMANAGER_H_
+#endif // CHARACTERMANAGER_H

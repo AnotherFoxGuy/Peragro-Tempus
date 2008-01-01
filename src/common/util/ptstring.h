@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PTSTRING_H_
-#define _PTSTRING_H_
+#ifndef PTSTRING_H
+#define PTSTRING_H
 
 #include "stringstore.h"
 
@@ -75,4 +75,4 @@ public:
   }
 };
 
-#endif // _PTSTRING_H_
+#endif // PTSTRING_H

@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+01-Jan-2008
+ - Rakhun changed some include guards not to start with underscore in their
+   symbols and made some fixes to networkcodegenerator.sh.
+
 31-Dec-2007
  - PK updated the peer.xml files for the generator.
  - PK created a new message type "Player" and splitted up the type "Entity".

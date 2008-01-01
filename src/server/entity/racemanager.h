@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _RACEMANAGER_H_
-#define _RACEMANAGER_H_
+#ifndef RACEMANAGER_H
+#define RACEMANAGER_H
 
 #include "common/util/array.h"
 #include "race.h"
@@ -91,4 +91,4 @@ public:
   }
 };
 
-#endif // _RACEMANAGER_H_
+#endif // RACEMANAGER_H

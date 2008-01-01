@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _AI_H_
-#define _AI_H_
+#ifndef AI_H
+#define AI_H
 
 #include "common/util/ptstring.h"
 #include "common/util/timer.h"
@@ -47,4 +47,4 @@ public:
   static AI* createAI(ptString ai_name);
 };
 
-#endif // _AI_H_
+#endif // AI_H

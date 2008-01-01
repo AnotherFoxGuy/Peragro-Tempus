@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _TCP_CONNECTIONHANDLER_H_
-#define _TCP_CONNECTIONHANDLER_H_
+#ifndef TCP_CONNECTIONHANDLER_H
+#define TCP_CONNECTIONHANDLER_H
 
 #include "stdio.h"
 
@@ -130,4 +130,4 @@ private:
   }
 };
 
-#endif // _TCP_CONNECTIONHANDLER_H_
+#endif // TCP_CONNECTIONHANDLER_H

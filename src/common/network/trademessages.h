@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _TRADEMESSAGES_H_
-#define _TRADEMESSAGES_H_
+#ifndef TRADEMESSAGES_H
+#define TRADEMESSAGES_H
 
 #include "netmessage.h"
 
@@ -41,6 +41,25 @@ namespace TRADE
   };
 }
 
+ /*
+ NPC Trade
+ - C -> S: TradeRequest
+ - S -> C: OffersListNpc
+ - C -> S: BuyItemRequestNpc
+ - S -> C: BuyItemResponseNpc
+ */
+ /*
+ PVP Trade (Msg via Server)
+ - C1 -> C1: TradeRequest
+ - C2 -> C1: TradeResponse
+ - Cx -> Cy: OffersListPvp // both send offers 
+ - Cx -> Cy: OfferAccept // both send accept.
+ // if another offer is sent, all accepts are reset.
+ // if both accepted
+ - Cn -> S: ConfirmRequest
+ // if both confirmed
+ - S -> Cn: ConfirmResponse
+ */
 class TradeRequestMessage : public NetMessage
 {
   unsigned int entityid;
@@ -80,7 +99,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* Null if success, else contains reason */
 };
 
 class TradeOffersListNpcMessage : public NetMessage
@@ -95,7 +114,6 @@ class TradeOffersListNpcMessage : public NetMessage
 
   unsigned char offerscount;
   ListOffers* offers;
-
 
 public:
   TradeOffersListNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEOFFERSLISTNPC)
@@ -147,7 +165,6 @@ class TradeOffersListPvpMessage : public NetMessage
   unsigned char offerscount;
   ListOffers* offers;
 
-
 public:
   TradeOffersListPvpMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEOFFERSLISTPVP)
   {
@@ -196,7 +213,6 @@ class TradeOrderListNpcMessage : public NetMessage
 
   unsigned char orderscount;
   ListOrders* orders;
-
 
 public:
   TradeOrderListNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEORDERLISTNPC)
@@ -301,7 +317,7 @@ public:
 
   ptString getError() { return error; }
   void setError(ptString x) { error = x; }
-
+ /* Null if success, else contains reason */
 };
 
-#endif // _TRADEMESSAGES_H_
+#endif // TRADEMESSAGES_H

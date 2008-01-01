@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _EVENTS_WORKERFACTORY_
-#define _EVENTS_WORKERFACTORY_
+#ifndef EVENTS_WORKERFACTORY
+#define EVENTS_WORKERFACTORY
 
 /**
  * This class creates a new worker and introduces it to the engine.
@@ -30,5 +30,4 @@ public:
 
 };
 
-#endif // _EVENTS_WORKERFACTORY_
-
+#endif // EVENTS_WORKERFACTORY

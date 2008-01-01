@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _QUEUE_H_
-#define _QUEUE_H_
+#ifndef QUEUE_H
+#define QUEUE_H
 
 #include "mutex.h"
 
@@ -74,4 +74,4 @@ public:
   }
 };
 
-#endif // _QUEUE_H_
+#endif // QUEUE_H

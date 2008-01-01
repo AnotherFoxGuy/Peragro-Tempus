@@ -149,4 +149,3 @@ void FamilyMessage::deserialise(ByteStream* bs)
   speakername = serial.getString();
   serial.getString(message);
 }
-

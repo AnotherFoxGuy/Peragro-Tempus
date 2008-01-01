@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SKILLMANAGER_H_
-#define _SKILLMANAGER_H_
+#ifndef SKILLMANAGER_H
+#define SKILLMANAGER_H
 
 #include "common/util/array.h"
 #include "skill.h"
@@ -115,4 +115,4 @@ public:
   }
 };
 
-#endif // _SKILLMANAGER_H_
+#endif // SKILLMANAGER_H

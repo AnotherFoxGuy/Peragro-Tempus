@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _NPC_DIALOG_ANSWER_H_
-#define _NPC_DIALOG_ANSWER_H_
+#ifndef NPC_DIALOG_ANSWER_H
+#define NPC_DIALOG_ANSWER_H
 
 #include <string>
 
@@ -39,4 +39,4 @@ public:
   const char* getText() const { return text.c_str(); }
 };
 
-#endif // _NPC_DIALOG_ANSWER_H_
+#endif // NPC_DIALOG_ANSWER_H

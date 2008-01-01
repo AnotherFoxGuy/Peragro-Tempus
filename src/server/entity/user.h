@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _USER_H_
-#define _USER_H_
+#ifndef USER_H
+#define USER_H
 
 #include "common/util/monitorable.h"
 #include "common/util/ptstring.h"
@@ -85,4 +85,4 @@ public:
   const PermissionList& getPermissionList() const { return permissions; }
 };
 
-#endif // _USER_H_
+#endif // USER_H

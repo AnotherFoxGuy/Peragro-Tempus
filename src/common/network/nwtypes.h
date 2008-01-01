@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _NWTYPES_H_
-#define _NWTYPES_H_
+#ifndef NWTYPES_H
+#define NWTYPES_H
 
 #define MSG_HANDLER_COUNT 12
 
@@ -44,4 +44,4 @@ namespace MESSAGES
   };
 }
 
-#endif // _NWTYPES_H_
+#endif // NWTYPES_H

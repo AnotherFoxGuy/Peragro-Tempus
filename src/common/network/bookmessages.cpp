@@ -99,4 +99,3 @@ void BookWriteResponseMessage::deserialise(ByteStream* bs)
   bookid = (unsigned int) serial.getInt32();
   error = serial.getString();
 }
-

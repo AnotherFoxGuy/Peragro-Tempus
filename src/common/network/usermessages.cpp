@@ -246,4 +246,3 @@ void CharSelectResponseMessage::deserialise(ByteStream* bs)
   entityid = (unsigned int) serial.getInt32();
   error = serial.getString();
 }
-

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SKILLENGINE_H_
-#define _SKILLENGINE_H_
+#ifndef SKILLENGINE_H
+#define SKILLENGINE_H
 
 #include "server/entity/entity.h"
 #include "server/entity/characterentity.h"
@@ -68,4 +68,4 @@ public:
   }
 };
 
-#endif // _SKILLENGINE_H_
+#endif // SKILLENGINE_H

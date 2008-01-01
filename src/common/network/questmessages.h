@@ -20,8 +20,8 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef _QUESTMESSAGES_H_
-#define _QUESTMESSAGES_H_
+#ifndef QUESTMESSAGES_H
+#define QUESTMESSAGES_H
 
 #include "netmessage.h"
 
@@ -50,7 +50,6 @@ class NpcDialogMessage : public NetMessage
 
   unsigned char answerscount;
   ListAnswers* answers;
-
 
 public:
   NpcDialogMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCDIALOG)
@@ -173,7 +172,6 @@ class SetupDialogsMessage : public NetMessage
 
   unsigned char dialogscount;
   ListDialogs* dialogs;
-
   class ListAnswers
   {
   public:
@@ -186,7 +184,6 @@ class SetupDialogsMessage : public NetMessage
 
   unsigned char answerscount;
   ListAnswers* answers;
-
 
 public:
   SetupDialogsMessage() : NetMessage(MESSAGES::QUEST,QUEST::SETUPDIALOGS)
@@ -231,6 +228,7 @@ public:
 
   // --- end ListDialogs Getter and Setter ---
 
+  /* nested lists are not yet possible */
   unsigned char getAnswersCount() { return answerscount; }
   void setAnswersCount(unsigned char ic)
   {
@@ -260,4 +258,4 @@ public:
 
 };
 
-#endif // _QUESTMESSAGES_H_
+#endif // QUESTMESSAGES_H

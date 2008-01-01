@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CONNECTIONMESSAGES_H_
-#define _CONNECTIONMESSAGES_H_
+#ifndef CONNECTIONMESSAGES_H
+#define CONNECTIONMESSAGES_H
 
 #include "common/network/netmessage.h"
 
@@ -166,4 +166,4 @@ public:
   }
 };
 
-#endif // _CONNECTIONMESSAGES_H_
+#endif // CONNECTIONMESSAGES_H
