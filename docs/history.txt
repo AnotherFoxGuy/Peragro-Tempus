@@ -7,6 +7,7 @@ under each day.
 01-Jan-2008
  - Rakhun changed some include guards not to start with underscore in their
    symbols and made some fixes to networkcodegenerator.sh.
+ - Rakhun changed server selection to work better with varying window sizes.
 
 31-Dec-2007
  - PK updated the peer.xml files for the generator.
