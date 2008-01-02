@@ -65,10 +65,14 @@ namespace PT
 
     void EventManager::Handle()
     {
-      mutex.lock();
       while (!events.empty())
       {
+        bool handled = false;
+
+        mutex.lock();
         Eventp ev = events.front();
+        events.pop();
+        mutex.unlock();
 
         if (!ev) continue;
         EventID id = ev->GetEventID();
@@ -80,23 +84,20 @@ namespace PT
           {
             if (!it->handler) continue;
             //Report(PT::Debug, "Handling event: %s", it->GetEventId());
-            bool handled = it->handler->HandleEvent(ev);
+            handled = it->handler->HandleEvent(ev);
             if (handled && !ev->GetBroadCast())
             {
               Report(PT::Debug, "Event handled: deleting %s", it->GetEventId());
-              events.pop();
               break;
             }
           } // if
         } // for
 
         // The event isn't broadcasting and it's still present at the end.
-        if (!ev->GetBroadCast())
+        if (!handled && !ev->GetBroadCast())
           Report(PT::Warning, "No listeners for event: deleting %s", id.c_str());
 
-        events.pop();
       } // while
-      mutex.unlock();
     } // end Handle()
 
   } // Events namespace 

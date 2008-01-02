@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+02-Jan-2008
+ - Sueastside fixed a freeze on linux in the eventmanager.
+
 01-Jan-2008
  - Rakhun changed some include guards not to start with underscore in their
    symbols and made some fixes to networkcodegenerator.sh.
