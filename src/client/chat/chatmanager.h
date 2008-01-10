@@ -46,6 +46,8 @@ namespace PT
       GUIManager* guimanager;
 
       std::vector<Commandp> commands;
+      std::vector<CEGUI::String> history;
+      int historypointer;
       std::map<unsigned int, std::string> playernames;
 
     private:
@@ -56,6 +58,18 @@ namespace PT
 
     public: // CEGUI events.
       bool OnSubmit (const CEGUI::EventArgs& e);
+      /**
+       * Get the previous message in the list, remembering which one was
+       * accessed last and choosing the one before it.
+       * @return The previous message in the message history.
+       */
+      const char* PreviousMessage();
+      /**
+       * Get the next message in the list, remembering which one was
+       * accessed last and choosing the one after it.
+       * @return The next message in the message history.
+       */
+      const char* NextMessage();
 
     public: // PT events.
       bool HandleSay(PT::Events::Eventp ev);

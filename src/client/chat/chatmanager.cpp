@@ -83,6 +83,8 @@ namespace PT
       cmd = new cmdSit(); RegisterCommand(cmd);
       cmd = new cmdDbg(); RegisterCommand(cmd);
 
+      historypointer=0;
+
       return true;
     } // end Initialize ()
 
@@ -159,18 +161,59 @@ namespace PT
         // Handle submitted text.
         HandleOutput(text.c_str());
 
+        history.push_back(text);
+        historypointer=0; // Reset pointer
+
         // Erase the text.
         btn->setText(text.erase());
 
-        // TODO: Push the messages on a stack to get some 
-        // 'command history'.
-
+        return true;
+      }
+      // Get previous message in history
+      else if (keyArgs.scancode == Key::ArrowUp)
+      {
+        CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+        CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+        if (!btn)
+        {
+          Report(PT::Error, "Inputbox of Chat not found!");
+          return false;
+        } // end if
+        btn->setText(PreviousMessage());
+        return true;
+      }
+      // Get next message in history
+      else if (keyArgs.scancode == Key::ArrowDown)
+      {
+        CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+        CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+        if (!btn)
+        {
+          Report(PT::Error, "Inputbox of Chat not found!");
+          return false;
+        } // end if
+        btn->setText(NextMessage());
         return true;
       } // end if
 
       return false;
 
     } // end OnSubmit ()
+
+    const char* ChatManager::PreviousMessage()
+    {
+      historypointer++;
+      if(historypointer>(int)history.size()){historypointer=0;return "";}
+      return history[history.size()-historypointer].c_str();
+    }
+
+    const char* ChatManager::NextMessage()
+    {
+      historypointer--;
+      if(historypointer<0){historypointer=history.size();}
+      if(historypointer==0){return "";}
+      return history[history.size()-historypointer].c_str();
+    }
 
     StringArray ChatManager::ParseString (const char* texti)
     {
