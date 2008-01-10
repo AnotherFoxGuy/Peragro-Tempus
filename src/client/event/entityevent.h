@@ -171,6 +171,8 @@ namespace PT
       float speed;
       csVector3 origin;
       csVector3 destination;
+      char turn;
+      bool jump;
 
     public:
       EntityMoveToEvent() : EntityEvent("entity.moveto", true) {}
@@ -231,6 +233,21 @@ namespace PT
     public:
       EntityPoseEvent() : EntityEvent("entity.pose", true) {}
       virtual ~EntityPoseEvent() {}
+    };
+
+    /**
+    * Entity Stat event.
+    */
+    class EntityStatEvent : public EntityEvent
+    {
+    public:
+      const char* name;
+      unsigned int id;
+      unsigned int level;
+
+    public:
+      EntityStatEvent() : EntityEvent("entity.stat", true) {}
+      virtual ~EntityStatEvent() {}
     };
 
   } // Events namespace

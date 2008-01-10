@@ -68,6 +68,7 @@
 #include "client/entity/entitymanager.h"
 #include "client/chat/chatmanager.h"
 #include "client/data/effect/reflection.h"
+#include "client/entity/statmanager.h"
 
 #include "client/trade/trademanager.h"
 
@@ -102,6 +103,7 @@ namespace PT
     cursor = 0;
     inputMgr = 0;
     last_seen = 0;
+    statmanager = 0;
 
     eventmanager = 0;
     chatmanager = 0;
@@ -125,6 +127,7 @@ namespace PT
     delete reporter;
     delete trademanager;
     delete sectorDataManager;
+    delete statmanager;
   }
 
   void Client::PreProcessFrame()
@@ -398,6 +401,12 @@ namespace PT
     if (!trademanager->Initialize())
       return Report(PT::Error, "Failed to initialize TradeManager!");
     //pointerlib.setTradeManager(trademanager);
+
+    // Create and Initialize the StatManager.
+    statmanager = new PT::Entity::StatManager ();
+    if (!statmanager->Initialize())
+      return Report(PT::Error, "Failed to initialize StatManager!");
+    pointerlib.setStatManager(statmanager);
 
     view.AttachNew(new csView(engine, g3d));
 

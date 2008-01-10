@@ -119,7 +119,7 @@ void NetworkHelper::sendMessage(const User* user, const ByteStream& bs)
   conn->send(bs);
 }
 
-void NetworkHelper::localcast(const ByteStream& bs, const Entity* entity)
+void NetworkHelper::localcast(const ByteStream& bs, const Entity* entity, bool omitSelf)
 {
   Server* server = Server::getServer();
   SectorManager* sm = server->getSectorManager();
@@ -131,7 +131,7 @@ void NetworkHelper::localcast(const ByteStream& bs, const Entity* entity)
     if (user && user->getConnection() && user->getEntity())
     {
       unsigned short sector = user->getEntity()->getEntity()->getSector();
-      if (sm->getRegionName(sector) == region)
+      if (sm->getRegionName(sector) == region && (!omitSelf || user->getEntity()->getEntity()->getId()!=entity->getId()))
       {
         user->getConnection()->send(bs);
       }

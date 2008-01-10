@@ -94,11 +94,16 @@
 		<float>Speed</float>
 		<uint32>EntityId</uint32>
 		<bool>Run</bool>
+		<uint8>Turn</uint8>
+		<bool>Jump</bool>
 	</message>
 
 	<message type="Entity" name="MoveToRequest">
 		<vector3f>To</vector3f>
 		<bool>Run</bool>
+		<bool>Backwards</bool>
+		<uint8>Turn</uint8>
+		<bool>Jump</bool>
 	</message>
 	
 	<message type="Entity" name="PickRequest">

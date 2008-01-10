@@ -34,7 +34,6 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
 
   Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d items in the Inventory:", item_msg.getInventoryCount());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
     using namespace PT::Events;
@@ -63,8 +62,16 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<stat_msg.getStatsCount(); i++)
   {
-    guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i));
+    guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
     Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
+
+    using namespace PT::Events;
+    EntityStatEvent* statEvent=new EntityStatEvent();
+    statEvent->name  = *stat_msg.getName(i);
+    statEvent->id    = stat_msg.getStatId(i);
+    statEvent->level = stat_msg.getLevel(i);
+
+    PointerLibrary::getInstance()->getEventManager()->AddEvent(statEvent);
   }
   Report(PT::Debug, "---------------------------\n");
 }

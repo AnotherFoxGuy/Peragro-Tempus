@@ -69,6 +69,8 @@ namespace PT
       float turn_speed;
       float elapsed_time;
       float walk_duration;
+      char turn;
+      bool jump;
     };
 
     struct UpdatePcPropData

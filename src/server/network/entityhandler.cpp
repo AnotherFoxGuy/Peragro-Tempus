@@ -332,12 +332,13 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   {
     MountEntity* mount = entity->getMount()->getLock();
     float speed = mount->getSpeed();
+    if(request_msg.getBackwards()){speed=-speed;}
     // TODO
     // moveEntity must be called without holding the lock.
     // This is ugly since 'speed' could potentinally be
     // changed since there is no lock.
     mount->freeLock();
-    server->moveEntity(mount, request_msg.getTo(), speed, request_msg.getRun());
+    server->moveEntity(mount, request_msg.getTo(), speed, request_msg.getRun(), request_msg.getTurn(), request_msg.getJump());
   }
   else if(entity->usesFlashStep())
   {
@@ -358,7 +359,8 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   else
   {
     float speed = (float)character->getStats()->getAmount(speed_stat);
-    server->moveEntity(entity, request_msg.getTo(), speed, request_msg.getRun());
+    if(request_msg.getBackwards()){speed=-speed;}
+    server->moveEntity(entity, request_msg.getTo(), speed, request_msg.getRun(), request_msg.getTurn(), request_msg.getJump());
   }
 
   server->getCharacterManager()->checkForSave(entity);

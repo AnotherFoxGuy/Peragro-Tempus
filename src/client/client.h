@@ -93,6 +93,7 @@ namespace PT
   namespace Entity
   {
     class EntityManager;
+    class StatManager;
   } // Entity namespace
 
   namespace Events
@@ -175,6 +176,7 @@ namespace PT
     GUIManager* guimanager;
 
     PT::Entity::EntityManager* entitymanager;
+    PT::Entity::StatManager* statmanager;
     CombatMGR* combatmanager;
 
     //PT::Data::DoorDataManager* doorDataManager;

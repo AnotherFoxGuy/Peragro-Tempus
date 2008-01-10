@@ -51,6 +51,7 @@ namespace PT
   namespace Entity
   {
     class EntityManager;
+    class StatManager;
   } // Entity namespace
 
   namespace Events
@@ -82,6 +83,7 @@ private:
   PT::Misc::ServerSetupManager* serverSetupManager;
   GUIManager* guimanager;
   PT::Entity::EntityManager* entitymanager;
+  PT::Entity::StatManager* statmanager;
   CombatMGR* combatmanager;
   PT::Events::EventManager* eventmanager;
   PT::Chat::ChatManager* chatmanager;
@@ -102,6 +104,7 @@ public:
     effectDataManager = 0;
     guimanager = 0;
     entitymanager = 0;
+    statmanager = 0;
     effectsmanager = 0;
     combatmanager = 0;
     eventmanager = 0;
@@ -145,6 +148,9 @@ public:
 
   void setEntityManager(PT::Entity::EntityManager* entitymanager) { this->entitymanager = entitymanager; }
   PT::Entity::EntityManager* getEntityManager() { return this->entitymanager; }
+
+  void setStatManager(PT::Entity::StatManager* statmanager) { this->statmanager = statmanager; }
+  PT::Entity::StatManager* getStatManager() { return this->statmanager; }
 
   void setEffectsManager(PT::Effect::EffectsManager* effectsmanager) { this->effectsmanager = effectsmanager; }
   PT::Effect::EffectsManager* getEffectsManager() { return this->effectsmanager; }

@@ -34,6 +34,8 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/chat-gui.h"
 
+#include "client/entity/statmanager.h"
+
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
@@ -507,21 +509,22 @@ namespace PT
 
     bool PlayerEntity::PerformMovementAction()
     {
-      MoveRequestMessage msg;
+      // TODO: If there is a MoveTo in progress it should only be changed and re-sent if possible (for jump and maybe turning)
 
-      msg.setWalk(walk+1);
+      int id=PointerLibrary::getInstance()->getEntityManager()->GetPlayerId();
+      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
 
-      if (walk == -1) msg.setTurn(-turn+1);
-      else msg.setTurn(turn+1);
-
-      msg.setRun(run);
-      msg.setJump(jump);
-      //Jumping is not a constant action, so we need to turn it off once we've
-      //sent the request.
-      jump=false;
-      PointerLibrary::getInstance()->getNetwork()->send(&msg);
+      // Create the event to do the movement locally
+      PT::Events::EntityMoveEvent* entityEvent = new PT::Events::EntityMoveEvent();
+      entityEvent->entityId		= id;
+      entityEvent->walkDirection	= PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1);
+      entityEvent->turnDirection	= turn;
+      entityEvent->run			= run;
+      entityEvent->jump			= jump;
+      PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 
       //When we move, we turn off sitting.
+        // Shouldn't this be done for mouse walk too?
       if (sitting)
       {
         PoseRequestMessage poseMsg;
@@ -529,6 +532,25 @@ namespace PT
         PointerLibrary::getInstance()->getNetwork()->send(&poseMsg);
       }
 
+      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
+      float yrot;
+      csVector3 position;
+      iSector* sector;
+      pclinmove->GetLastFullPosition(position, yrot, sector);
+
+      csVector3 gotoPosition=position+csVector3(sin(yrot+PI)*500*walk,0,cos(yrot+PI)*500*walk); // 500 tells how far we try to walk. Either we should make this very big or we should somehow update it before the position is reached somehow
+
+      MoveToRequestMessage msg;
+      msg.setTo(gotoPosition.x, gotoPosition.y, gotoPosition.z);
+      msg.setRun(run);
+      msg.setBackwards(walk!=1);
+      msg.setTurn(turn);
+      msg.setJump(jump);
+      PointerLibrary::getInstance()->getNetwork()->send(&msg);
+
+      //Jumping is not a constant action, so we need to turn it off when we've
+      //jumped once.
+      jump=false;
       return true;
     }
 
@@ -597,10 +619,29 @@ namespace PT
           csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
           if (!pclinmove) return false;
 
+          float yrot;
+          csVector3 position;
+          iSector* sector;
+          pclinmove->GetLastFullPosition(position, yrot, sector);
+
+          // Send the movement message
           MoveToRequestMessage msg;
           msg.setTo(isect.x, isect.y, isect.z);
           msg.setRun(run);
+          msg.setBackwards(false);
+          msg.setTurn(turn);
+          msg.setJump(false);
           PointerLibrary::getInstance()->getNetwork()->send(&msg);
+
+          // Create the event to do the movement locally
+          EntityMoveToEvent* entityEvent = new EntityMoveToEvent();
+          entityEvent->entityId		= id;
+          entityEvent->origin	   	= position;
+          entityEvent->destination	= csVector3(isect.x, isect.y, isect.z);
+          entityEvent->jump		= jump;
+          entityEvent->turn		= turn;
+          entityEvent->speed		= PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*(char(run)+1);
+          PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 
           Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
         }

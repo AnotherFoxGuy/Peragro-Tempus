@@ -549,6 +549,8 @@ class MoveToMessage : public NetMessage
   float speed;
   unsigned int entityid;
   bool run;
+  unsigned char turn;
+  bool jump;
 
 public:
   MoveToMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVETO)
@@ -595,12 +597,21 @@ public:
   bool getRun() { return run; }
   void setRun(bool x) { run = x; }
 
+  unsigned char getTurn() { return turn; }
+  void setTurn(unsigned char x) { turn = x; }
+
+  bool getJump() { return jump; }
+  void setJump(bool x) { jump = x; }
+
 };
 
 class MoveToRequestMessage : public NetMessage
 {
   float to[3];
   bool run;
+  bool backwards;
+  unsigned char turn;
+  bool jump;
 
 public:
   MoveToRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVETOREQUEST)
@@ -628,6 +639,15 @@ public:
 
   bool getRun() { return run; }
   void setRun(bool x) { run = x; }
+
+  bool getBackwards() { return backwards; }
+  void setBackwards(bool x) { backwards = x; }
+
+  unsigned char getTurn() { return turn; }
+  void setTurn(unsigned char x) { turn = x; }
+
+  bool getJump() { return jump; }
+  void setJump(bool x) { jump = x; }
 
 };
 

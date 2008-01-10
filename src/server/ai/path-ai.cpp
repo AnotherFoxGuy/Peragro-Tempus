@@ -85,7 +85,7 @@ void PathAI::think()
   pos[1] = points[currentPoint].y;
   pos[2] = points[currentPoint].z;
 
-  Server::getServer()->moveEntity(npc, pos, speed, false);
+  Server::getServer()->moveEntity(npc, pos, speed, false, 0, false);
 
   setInterval(intervals[currentPoint]);
 }
