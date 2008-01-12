@@ -387,7 +387,7 @@ namespace PT
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/dbg #number [args]'");
+        guimanager->GetChatWindow ()->AddMessage ("Usage: '/dbg [command] [args]'");
         guimanager->GetChatWindow ()->AddMessage ("  - Write book: '/dbg write #itemid #bookid #name #text'");
         guimanager->GetChatWindow ()->AddMessage ("  - Player Pos: '/dbg pos'");
         guimanager->GetChatWindow ()->AddMessage ("  - Flash Step: '/dbg flashstep'");
@@ -495,10 +495,15 @@ namespace PT
             csVector3 pos = pclinmove->GetFullPosition();
 
             using namespace PT::Events;
+            PT::Data::Sector* sector=sectorDataMgr->GetSectorByName(args[3]);
+            if(!sector){
+              guimanager->GetChatWindow ()->AddMessage ("Invalid sector!");
+              return;
+            }
             EntityTeleportEvent* ev = new EntityTeleportEvent();
             ev->entityId = ent_mgr->GetPlayerId();
             ev->position = pos;
-            ev->sectorId = sectorDataMgr->GetSectorByName(args[3])->GetId();
+            ev->sectorId = sector->GetId();
             PointerLibrary::getInstance()->getEventManager()->AddEvent(ev);
           }
           else if (args[2].compare("rm") == 0)

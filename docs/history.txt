@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+12-Jan-2008
+ - Rakhun added check for invalid sector on the /dbg sector command.
+
 10-Jan-2008
  - Rakhun changed the movement code to use MoveTo instead of move and do
    movement locally to avoid control lag.
