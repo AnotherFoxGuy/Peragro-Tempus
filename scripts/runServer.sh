@@ -10,7 +10,7 @@ wait
 
 if [ -e server.pid ]; then
   crashtime=`date +%Y%m%d-%H.%S.%M`
-  if [ -e core ]; then
+  if [ -e "core.` cat server.pid `" ]; then
     cp bin/server crashed/server.$crashtime
     mv core* crashed/core.$crashtime
   fi
