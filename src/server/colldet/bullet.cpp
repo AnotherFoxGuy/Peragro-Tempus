@@ -27,6 +27,8 @@
 #include "server/database/table-vertices.h"
 #include "server/entity/entity.h"
 
+#include "common/util/sleep.h"
+
 void BulletCD::setup()
 {
   Database* db = Server::getServer()->getDatabase();
@@ -103,7 +105,12 @@ void BulletCD::Run()
 {
   if (world)
   {
-    world->performDiscreteCollisionDetection();
+    static btClock clock;
+    
+    float dt = clock.getTimeMicroseconds() * 0.000001f;
+    world->stepSimulation(dt);
+
+    pt_sleep(100);
   }
 }
 
@@ -113,44 +120,43 @@ void BulletCD::addEntity(const Entity* entity)
 
   btBoxShape* box = new btBoxShape(btVector3(1,2,1));
 
-  btCollisionObject* collObj = new btCollisionObject();
-  collObj->setCollisionShape(box);
+  btRigidBody* body = new btRigidBody(10.0f, 0, box);
 
-  cobjs[entity] = collObj;
+  cobjs[entity] = body;
 
   loadPosition(entity);
 
-  world->addCollisionObject(collObj);
+  world->addRigidBody(body);
 }
 
 void BulletCD::removeEntity(const Entity* entity)
 {
   printf("Removing entity %d from colldet", entity->getId());
 
-  world->removeCollisionObject(cobjs[entity]);
+  world->removeRigidBody(cobjs[entity]);
 
   cobjs.erase(entity);
 }
 
 void BulletCD::loadPosition(const Entity* entity)
 {
-  btCollisionObject* collObj = cobjs[entity];
+  btRigidBody* body = cobjs[entity];
 
   const float* pos = entity->getPos();
   float  rot = entity->getRotation();
 
-  btTransform& t = collObj->getWorldTransform();
+  btTransform& t = body->getWorldTransform();
   btVector3 p(pos[0], pos[1], pos[2]);
   t.setOrigin(p);
   t.setRotation(btQuaternion(entity->getRotation(), 0, 0));
-  collObj->setWorldTransform(t);
+  body->setWorldTransform(t);
 }
 
 void BulletCD::savePosition(const Entity* entity)
 {
-  btCollisionObject* collObj = cobjs[entity];
+  btRigidBody* body = cobjs[entity];
 
-  btTransform& t = collObj->getWorldTransform();
+  btTransform& t = body->getWorldTransform();
   btVector3 p = t.getOrigin();
   float rot = 0; // TODO: t.getRotation().getYaw();
 
@@ -162,14 +168,14 @@ void BulletCD::savePosition(const Entity* entity)
 
 void BulletCD::moveEntity(const Entity* entity, float* pos, float speed)
 {
-  btCollisionObject* collObj = cobjs[entity];
+  btRigidBody* body = cobjs[entity];
 
   //TODO: Make entity walk from the current position to pos
 }
 
 void BulletCD::moveEntity(const Entity* entity, float speed, float rot)
 {
-  btCollisionObject* collObj = cobjs[entity];
+  btRigidBody* body = cobjs[entity];
 
   //TODO: Make entity walk from the current position to pos
 }

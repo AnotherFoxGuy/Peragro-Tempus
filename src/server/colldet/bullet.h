@@ -24,14 +24,14 @@
 #include "colldet.h"
 
 class btDiscreteDynamicsWorld;
-class btCollisionObject;
+class btRigidBody;
 
 class BulletCD : public CollisionDetection
 {
 private:
   btDiscreteDynamicsWorld* world;
 
-  std::map<const Entity*, btCollisionObject*> cobjs;
+  std::map<const Entity*, btRigidBody*> cobjs;
 
 protected:
   virtual void Run();
