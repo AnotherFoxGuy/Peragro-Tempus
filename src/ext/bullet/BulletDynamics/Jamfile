@@ -7,5 +7,7 @@ Library bulletdynamics :
   [ Wildcard Vehicle : *.h *.cpp ] 
 ;
 
+MsvcIncDirs bulletcollision : [ ConcatDirs .. .. src ext bullet ] ;
+
 LibDepends bulletdynamics : bulletcollision  ;
 
