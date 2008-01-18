@@ -65,10 +65,10 @@ namespace PT
         pcactormove->SetMovementSpeed(abs((int)movement.walk));
         if (movement.halfspeed)
         {
-          pcactormove->SetRunningSpeed(fabs((int)movement.walk)/2);
+          pcactormove->SetRunningSpeed(fabsf((int)movement.walk)/2);
           pcactormove->SetRotationSpeed(PI/2);
         }else{
-          pcactormove->SetRunningSpeed(abs((int)movement.walk));
+          pcactormove->SetRunningSpeed(fabsf((int)movement.walk));
           pcactormove->SetRotationSpeed(PI);
         }
 
