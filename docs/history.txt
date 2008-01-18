@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+18-Jan-2008
+ - PK continued with the server-cd stuff
+
 13-Jan-2008
  - PK fixed the core file moving in scripts/runServer.sh
  - PK fixed the msvc generation for static builds.

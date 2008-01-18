@@ -44,7 +44,12 @@ public:
 
   virtual void addEntity(const Entity* entity);
   virtual void removeEntity(const Entity* entity);
+
+  virtual void loadPosition(const Entity* entity);
+  virtual void savePosition(const Entity* entity);
+
   virtual void moveEntity(const Entity* entity, float* pos, float speed);
+  virtual void moveEntity(const Entity* entity, float speed, float rot);
 };
 
 #endif // PT_BULLET_H

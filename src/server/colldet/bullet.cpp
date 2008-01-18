@@ -85,7 +85,9 @@ void BulletCD::setup()
 void BulletCD::Run()
 {
   if (collisionWorld)
+  {
     collisionWorld->performDiscreteCollisionDetection();
+  }
 }
 
 void BulletCD::addEntity(const Entity* entity)
@@ -97,13 +99,9 @@ void BulletCD::addEntity(const Entity* entity)
   btCollisionObject* collObj = new btCollisionObject();
   collObj->setCollisionShape(box);
 
-  btTransform& t = collObj->getWorldTransform();
-  btVector3 p(entity->getPos()[0], entity->getPos()[1], entity->getPos()[2]);
-  t.setOrigin(p);
-  t.setRotation(btQuaternion(entity->getRotation(), 0, 0));
-  collObj->setWorldTransform(t);
-
   cobjs[entity] = collObj;
+
+  loadPosition(entity);
 
   collisionWorld->addCollisionObject(collObj);
 }
@@ -117,7 +115,42 @@ void BulletCD::removeEntity(const Entity* entity)
   cobjs.erase(entity);
 }
 
+void BulletCD::loadPosition(const Entity* entity)
+{
+  btCollisionObject* collObj = cobjs[entity];
+
+  const float* pos = entity->getPos();
+  float  rot = entity->getRotation();
+
+  btTransform& t = collObj->getWorldTransform();
+  btVector3 p(pos[0], pos[1], pos[2]);
+  t.setOrigin(p);
+  t.setRotation(btQuaternion(entity->getRotation(), 0, 0));
+  collObj->setWorldTransform(t);
+}
+
+void BulletCD::savePosition(const Entity* entity)
+{
+  btCollisionObject* collObj = cobjs[entity];
+
+  btTransform& t = collObj->getWorldTransform();
+  btVector3 p = t.getOrigin();
+  float rot = 0; // TODO: t.getRotation().getYaw();
+
+  Entity* e = entity->getLock();
+  e->setPos(p.getX(), p.getY(), p.getZ());
+  e->setRotation(rot);
+  e->freeLock();
+}
+
 void BulletCD::moveEntity(const Entity* entity, float* pos, float speed)
+{
+  btCollisionObject* collObj = cobjs[entity];
+
+  //TODO: Make entity walk from the current position to pos
+}
+
+void BulletCD::moveEntity(const Entity* entity, float speed, float rot)
 {
   btCollisionObject* collObj = cobjs[entity];
 

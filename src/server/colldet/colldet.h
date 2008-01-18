@@ -29,11 +29,26 @@ public:
   CollisionDetection() {}
   virtual ~CollisionDetection() {}
 
+  /// Initialises the CD system and load world data
   virtual void setup() = 0;
 
+  /// Adds a new entity to the collision world
   virtual void addEntity(const Entity* entity) = 0;
+
+  /// Removes the entity from the collision world
   virtual void removeEntity(const Entity* entity) = 0;
+
+  /// Reads position and rotation from the entity.
+  virtual void loadPosition(const Entity* entity) = 0;
+
+  /// Writes position and rotation from CD to entity.
+  virtual void savePosition(const Entity* entity) = 0;
+
+  /// Simulates walking of an entity to the specified destination
   virtual void moveEntity(const Entity* entity, float* pos, float speed) = 0;
+
+  /// Simulates continuous walking of an entity without destination
+  virtual void moveEntity(const Entity* entity, float speed, float rot) = 0;
 };
 
 #endif // PT_COLLDET_H
