@@ -45,6 +45,7 @@ namespace PT
       lastStatUpdate = 0;
       recoverStamina = 0.001f;
       drainStamina = 0.002f;
+      hasMount = false;
 
       //Add the equipment
       for(size_t i = 0; i < ev.equipment.GetSize(); i++)
@@ -62,8 +63,14 @@ namespace PT
       {
         pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
         pcactormove->SetMovementSpeed(abs((int)movement.walk));
-        pcactormove->SetRunningSpeed(abs((int)movement.walk));
-        pcactormove->SetRotationSpeed(movement.run ? PI : PI);
+        if (movement.halfspeed)
+        {
+          pcactormove->SetRunningSpeed(fabs((int)movement.walk)/2);
+          pcactormove->SetRotationSpeed(PI/2);
+        }else{
+          pcactormove->SetRunningSpeed(abs((int)movement.walk));
+          pcactormove->SetRotationSpeed(PI);
+        }
 
         pcactormove->RotateLeft(movement.turn < 0.0f);
         pcactormove->RotateRight(movement.turn > 0.0f);
@@ -99,7 +106,6 @@ namespace PT
 
       if (pclinmove.IsValid() && pcactormove.IsValid())
       {
-//if(moveTo->walk_speed<0.0f){printf("Receiving a negative MoveTo speed!\n");moveTo->dest_angle+=PI;}
         csVector3 angular_vel;
 
         pclinmove->GetAngularVelocity(angular_vel);
@@ -107,43 +113,30 @@ namespace PT
 
         if (moveTo->elapsed_time == 0 && !moveTo->walking)
         {
-//          if(moveTo->walk_speed != 0)
-          if(moveTo->destination != this->GetPosition())
+          // \todo: this is still buggy. fix it!
+          //pcactormove->SetRotationSpeed(moveTo->turn_speed);
+          //pcactormove->RotateTo(moveTo->dest_angle);
+
+          // Workaround:
+          csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+          if (pcmesh.IsValid() && pcmesh->GetMesh ())
           {
-            // \todo: this is still buggy. fix it!
-            //pcactormove->SetRotationSpeed(moveTo->turn_speed);
-            //pcactormove->RotateTo(moveTo->dest_angle);
-
-            // Workaround:
-            csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-            if (pcmesh.IsValid() && pcmesh->GetMesh ())
-            {
-              csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (moveTo->dest_angle);
-              pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
-              pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
-            }
+            csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (moveTo->dest_angle);
+            pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+            pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
           }
-
-          pcactormove->RotateLeft(moveTo->turn < 0.0f);
-          pcactormove->RotateRight(moveTo->turn > 0.0f);
 
         }
         else if (angular_vel.IsZero() && !moveTo->walking)
         {
-          if (moveTo->jump) pcactormove->Jump(); // Hmm, I'm not sure where to put this line, trying random location
-          pcactormove->SetMovementSpeed(fabs(moveTo->walk_speed));
-          if(moveTo->walk_speed<0.0f){
-            pcactormove->Backward(true);
-          }else{
-            pcactormove->Forward(true);
-          }
+          pcactormove->SetMovementSpeed(moveTo->walk_speed);
+          pcactormove->Forward(true);
           moveTo->walking = true;
           moveTo->elapsed_time = 0;
         }
         else if (moveTo->elapsed_time >= moveTo->walk_duration &&
                  moveTo->walking)
         {
-          pcactormove->Backward(false);
           pcactormove->Forward(false);
         }
 
@@ -152,7 +145,6 @@ namespace PT
           if (moveTo->elapsed_time >= moveTo->walk_duration)
           {
             // Arrived at destination. Return true for deletion.
-            pcactormove->Backward(false);
             pcactormove->Forward(false);
 
             this->SetPosition(moveTo->destination);

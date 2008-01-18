@@ -39,7 +39,7 @@ public:
   static void sendMessage(const Entity*, const ByteStream& bs);
   static void sendMessage(const User*, const ByteStream& bs);
 
-  static void localcast(const ByteStream& bs, const Entity* entity, bool omitSelf=false);
+  static void localcast(const ByteStream& bs, const Entity* entity);
   static void broadcast(const ByteStream& bs);
 };
 

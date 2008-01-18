@@ -119,7 +119,7 @@ namespace PT
       EntityMoveEvent* entityMoveEv = GetEntityEvent<EntityMoveEvent*>(ev);
       if (!entityMoveEv) return false;
 
-      int id = entityMoveEv->entityId;
+      unsigned int id = entityMoveEv->entityId;
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)
@@ -134,8 +134,9 @@ namespace PT
       movement.turn	    = entityMoveEv->turnDirection;
       movement.run          = entityMoveEv->run;
       movement.jump         = entityMoveEv->jump;
+      movement.halfspeed    = entityMoveEv->halfspeed;
 
-      // TODO: Bug: Sometimes you can autowalk by pressing forward quickly
+      // TODO: Bug: Sometimes you can autowalk by pressing forward quickly, same with turning
       if(movement.walk){
         Report(PT::Debug, "MoveEntity: Doing walk movement", id);
       }else{
@@ -208,17 +209,14 @@ namespace PT
       //float speed = ((pos_dst - cur_position).Norm() * entityMoveEv->speed )/
       //  (pos_ori - cur_position).Norm();
 
-      if(entityMoveEv->speed<0){yrot_dst+=PI;}
       moveTo->destination		        = pos_dst;
       moveTo->turn_speed			= 2*PI; // 1 revolution per second
       moveTo->walk_speed			= entityMoveEv->speed;
       moveTo->dest_angle			= yrot_dst;
-      moveTo->walk_duration		        = (pos_dst - cur_position).Norm() / fabs(moveTo->walk_speed);
+      moveTo->walk_duration		        = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
       moveTo->elapsed_time		        = 0;
       moveTo->walking				= false;
       moveTo->entity_id				= id;
-      moveTo->turn				= entityMoveEv->turn;
-      moveTo->jump				= entityMoveEv->jump;
 
 
       entity->MoveTo(moveTo);

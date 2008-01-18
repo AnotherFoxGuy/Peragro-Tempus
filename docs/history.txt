@@ -6,6 +6,7 @@ under each day.
 
 18-Jan-2008
  - PK continued with the server-cd stuff
+ - Rakhun reverted old movement changes and added new ones.
 
 13-Jan-2008
  - PK fixed the core file moving in scripts/runServer.sh

@@ -156,7 +156,7 @@ void Server::delEntity(const Entity* entity)
   delete entity;
 }
 
-void Server::moveEntity(PcEntity* entity, float* pos, float speed, bool run, char turn, bool jump)
+void Server::moveEntity(PcEntity* entity, float* pos, float speed, bool run)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
@@ -164,17 +164,15 @@ void Server::moveEntity(PcEntity* entity, float* pos, float speed, bool run, cha
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
   response_msg.setRun(run);
-  response_msg.setTurn(turn);
-  response_msg.setJump(jump);
 
   entity->walkTo(pos, speed);
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity->getEntity(), true);
+  NetworkHelper::localcast(bs, entity->getEntity());
 }
 
-void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run, char turn, bool jump)
+void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
@@ -182,17 +180,15 @@ void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run, 
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
   response_msg.setRun(run);
-  response_msg.setTurn(turn);
-  response_msg.setJump(jump);
 
   entity->walkTo(pos, speed);
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity->getEntity(), true);
+  NetworkHelper::localcast(bs, entity->getEntity());
 }
 
-void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool run, char turn, bool jump)
+void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool run)
 {
   if (!entity) return;
 
@@ -202,8 +198,6 @@ void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool r
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
   response_msg.setRun(run);
-  response_msg.setTurn(turn);
-  response_msg.setJump(jump);
 
   NpcEntity* npc = entity->getLock();
   npc->walkTo(pos, speed);
@@ -211,7 +205,7 @@ void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool r
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity->getEntity(), true);
+  NetworkHelper::localcast(bs, entity->getEntity());
 }
 
 void Server::broadCast(const ByteStream& bs)

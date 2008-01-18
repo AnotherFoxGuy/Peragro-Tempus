@@ -156,6 +156,7 @@ namespace PT
       float turnDirection;
       bool run;
       bool jump;
+      bool halfspeed;
 
     public:
       EntityMoveEvent() : EntityEvent("entity.move", true) {}
@@ -171,8 +172,6 @@ namespace PT
       float speed;
       csVector3 origin;
       csVector3 destination;
-      char turn;
-      bool jump;
 
     public:
       EntityMoveToEvent() : EntityEvent("entity.moveto", true) {}

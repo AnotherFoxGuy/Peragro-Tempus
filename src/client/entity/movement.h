@@ -57,6 +57,7 @@ namespace PT
       float turn;
       bool run;
       bool jump;
+      bool halfspeed;
     };
 
     struct MoveToData
@@ -69,8 +70,6 @@ namespace PT
       float turn_speed;
       float elapsed_time;
       float walk_duration;
-      char turn;
-      bool jump;
     };
 
     struct UpdatePcPropData

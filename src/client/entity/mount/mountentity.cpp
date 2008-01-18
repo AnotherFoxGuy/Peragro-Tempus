@@ -106,6 +106,7 @@ namespace PT
       ptplayer->PlayAnimation("horse_mount", true, true);
 
       mounted = true;
+      ptplayer->SetHasMount(true);
     }
 
     void MountEntity::UnMount(Entity* player)
@@ -133,6 +134,7 @@ namespace PT
       ptplayer->PlayAnimation("idle", true, true);
 
       mounted = false;
+      ptplayer->SetHasMount(false);
     }
 
     void MountEntity::Interact()

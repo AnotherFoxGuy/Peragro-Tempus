@@ -114,6 +114,7 @@ void EntityHandler::handleMove(GenericMessage* msg)
   entityEvent->turnDirection = entmsg.getTurn();
   entityEvent->run           = entmsg.getRun();
   entityEvent->jump          = entmsg.getJump();
+  entityEvent->halfspeed     = false;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
@@ -189,8 +190,6 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
   entityEvent->origin	    = csVector3(fv1[0],fv1[1],fv1[2]);
   entityEvent->destination  = csVector3(fv2[0],fv2[1],fv2[2]);
   entityEvent->speed	    = move_msg.getSpeed();
-  entityEvent->turn	    = move_msg.getTurn();
-  entityEvent->jump	    = move_msg.getJump();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

@@ -66,6 +66,8 @@ namespace PT
       ///@todo It's not very logical to have boats sit, is it? (boats will
       ///probably be MountEntities).
       bool sitting;
+      ///Whether character is on a mount or not.
+      bool hasMount; 
 
     public:
       void Move(const MovementData& movement);
@@ -105,6 +107,17 @@ namespace PT
        * some change.
        */
       void UpdatePlayerStats();
+
+      /**
+       * Notes if the character is on a mount.
+       * @param v Value
+       */
+      void SetHasMount(bool v){ hasMount=v; }
+      /**
+       * Tells us if the character is on a mount.
+       * @return If the character is on a mount
+       */
+      bool GetHasMount(){ return hasMount; }
     };
   }
 }
