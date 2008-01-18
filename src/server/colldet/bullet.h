@@ -23,13 +23,13 @@
 
 #include "colldet.h"
 
-class btCollisionWorld;
+class btDiscreteDynamicsWorld;
 class btCollisionObject;
 
 class BulletCD : public CollisionDetection
 {
 private:
-  btCollisionWorld* collisionWorld;
+  btDiscreteDynamicsWorld* world;
 
   std::map<const Entity*, btCollisionObject*> cobjs;
 

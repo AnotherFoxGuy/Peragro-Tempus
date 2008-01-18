@@ -18,7 +18,7 @@
 
 #include "bullet.h"
 
-#include "ext/bullet/btBulletCollisionCommon.h"
+#include "ext/bullet/btBulletDynamicsCommon.h"
 
 #include "server/server.h"
 #include "server/database/database.h"
@@ -31,12 +31,29 @@ void BulletCD::setup()
 {
   Database* db = Server::getServer()->getDatabase();
 
+  Array<VerticesTableVO*> vertices = 
+    db->getVerticesTable()->getAll();
+
+  btVector3 worldMin, worldMax;
+  for (size_t i = 0; i < vertices.getCount(); i++)
+  {
+    VerticesTableVO* vertex = vertices.get(i);
+    
+    if ( i == 0 || worldMin.getX() < vertex->x ) worldMin.setX(vertex->x);
+    if ( i == 0 || worldMin.getY() < vertex->y ) worldMin.setY(vertex->y);
+    if ( i == 0 || worldMin.getZ() < vertex->z ) worldMin.setZ(vertex->z);
+
+    if ( i == 0 || worldMax.getX() > vertex->x ) worldMax.setX(vertex->x);
+    if ( i == 0 || worldMax.getY() > vertex->y ) worldMax.setY(vertex->y);
+    if ( i == 0 || worldMax.getZ() > vertex->z ) worldMax.setZ(vertex->z);
+  }
+
   // Setup World
   btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
   btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
-  btSimpleBroadphase* broadphase = new btSimpleBroadphase();
-
-  collisionWorld = new btCollisionWorld(dispatcher,broadphase,collisionConfiguration);
+  btAxisSweep3* overlappingPairCache = new btAxisSweep3(worldMin,worldMax);
+  btSequentialImpulseConstraintSolver* constraintSolver = new btSequentialImpulseConstraintSolver();
+  world = new btDiscreteDynamicsWorld(dispatcher,overlappingPairCache,constraintSolver,collisionConfiguration);
 
   // Create Mesh
   Array<MeshesTableVO*> meshes = db->getMeshesTable()->getAll();
@@ -78,15 +95,15 @@ void BulletCD::setup()
 
     collObj->setCollisionShape(shape);
 
-    collisionWorld->addCollisionObject(collObj);
+    world->addCollisionObject(collObj);
   }
 }
 
 void BulletCD::Run()
 {
-  if (collisionWorld)
+  if (world)
   {
-    collisionWorld->performDiscreteCollisionDetection();
+    world->performDiscreteCollisionDetection();
   }
 }
 
@@ -103,14 +120,14 @@ void BulletCD::addEntity(const Entity* entity)
 
   loadPosition(entity);
 
-  collisionWorld->addCollisionObject(collObj);
+  world->addCollisionObject(collObj);
 }
 
 void BulletCD::removeEntity(const Entity* entity)
 {
   printf("Removing entity %d from colldet", entity->getId());
 
-  collisionWorld->removeCollisionObject(cobjs[entity]);
+  world->removeCollisionObject(cobjs[entity]);
 
   cobjs.erase(entity);
 }
