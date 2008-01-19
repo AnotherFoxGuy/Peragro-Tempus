@@ -60,17 +60,17 @@ namespace PT
 
       npc->SetRace(node->GetNode("race") ->GetContentsValue());
 
-      iDocumentNode* hair = node->GetNode("hair")->GetNode("color");
+      csRef<iDocumentNode> hair = node->GetNode("hair")->GetNode("color");
       npc->SetHairColor(hair->GetAttributeValueAsInt("r"),
                         hair->GetAttributeValueAsInt("g"), 
                         hair->GetAttributeValueAsInt("b"));
 
-      iDocumentNode* skin = node->GetNode("skin")->GetNode("color");
+      csRef<iDocumentNode> skin = node->GetNode("skin")->GetNode("color");
       npc->SetSkinColor(skin->GetAttributeValueAsInt("r"),
                         skin->GetAttributeValueAsInt("g"), 
                         skin->GetAttributeValueAsInt("b"));
 
-      iDocumentNode* decal = node->GetNode("decal")->GetNode("color");
+      csRef<iDocumentNode> decal = node->GetNode("decal")->GetNode("color");
       npc->SetDecalColor(decal->GetAttributeValueAsInt("r"),
                          decal->GetAttributeValueAsInt("g"), 
                          decal->GetAttributeValueAsInt("b"));
@@ -85,7 +85,7 @@ namespace PT
 
       while (setting->HasNext())
       {
-        iDocumentNode* value = setting->Next();
+        csRef<iDocumentNode> value = setting->Next();
         npc->SetSetting(value->GetAttributeValue("name"), value->GetContentsValue());
       }
 
@@ -95,7 +95,7 @@ namespace PT
 
       while (inventory->HasNext())
       {
-        iDocumentNode* item = inventory->Next();
+        csRef<iDocumentNode> item = inventory->Next();
         int slot = item->GetAttributeValueAsInt("slot");
         int itemid = item->GetAttributeValueAsInt("item");
         int variation = item->GetAttributeValueAsInt("variation");
