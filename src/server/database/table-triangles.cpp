@@ -42,7 +42,7 @@ TrianglesTableVO* TrianglesTable::parseSingleResultSet(ResultSet* rs, size_t row
 
 Array<TrianglesTableVO*> TrianglesTable::parseMultiResultSet(ResultSet* rs)
 {
-  Array<TrianglesTableVO*> arr;
+  Array<TrianglesTableVO*> arr(rs->GetRowCount());
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
     TrianglesTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);

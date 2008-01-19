@@ -42,10 +42,11 @@ VerticesTableVO* VerticesTable::parseSingleResultSet(ResultSet* rs, size_t row)
 
 Array<VerticesTableVO*> VerticesTable::parseMultiResultSet(ResultSet* rs)
 {
-  Array<VerticesTableVO*> arr;
+  Array<VerticesTableVO*> arr(rs->GetRowCount());
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
-    VerticesTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
+    VerticesTableVO* obj = parseSingleResultSet(rs, i);
+    arr.add(obj);
   }
   return arr;
 }

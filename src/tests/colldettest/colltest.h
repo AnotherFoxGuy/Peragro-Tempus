@@ -4,6 +4,10 @@
 
 #include <crystalspace.h>
 
+class Database;
+class btDiscreteDynamicsWorld;
+class btRigidBody;
+
 class CollisionDetectionTest : public csApplicationFramework, public csBaseEventHandler
 {
  private:
@@ -13,6 +17,10 @@ class CollisionDetectionTest : public csApplicationFramework, public csBaseEvent
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
   csRef<iView> view;
+
+  btDiscreteDynamicsWorld* world;
+  btRigidBody* pc;
+  csRef<iMeshWrapper> mesh;
 
   /// Current orientation of the camera.
   float rotX, rotY;
@@ -27,7 +35,9 @@ class CollisionDetectionTest : public csApplicationFramework, public csBaseEvent
 
   void Frame ();
   
-  void LoadWorld ();
+  void LoadWorld (Database* db);
+  void SetupPhysics (Database* db);
+  void AddCharacter ();
     
   CollisionDetectionTest ();
   ~CollisionDetectionTest ();

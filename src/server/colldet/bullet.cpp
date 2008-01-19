@@ -177,5 +177,8 @@ void BulletCD::moveEntity(const Entity* entity, float speed, float rot)
 {
   btRigidBody* body = cobjs[entity];
 
-  //TODO: Make entity walk from the current position to pos
+  //TODO: Make entity walk continuously
+  btQuaternion qrot(rot, 0, 0);
+  //body->setAngularVelocity(qrot.);
+  body->setLinearVelocity(btVector3(1, 0, 0) * speed);
 }

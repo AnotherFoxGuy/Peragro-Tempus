@@ -17,6 +17,7 @@
 */
 
 #include <string>
+#include <vector>
 #include "common/util/array.h"
 
 /// contains the return value of a sql query
@@ -24,7 +25,7 @@ class ResultSet
 {
 private:
   ///array of rows where as each row is an array of strings.
-  Array<Array<std::string>* > data;
+  std::vector<std::vector<std::string>> data;
 public:
   ResultSet() {}
   ResultSet(const ResultSet& o)
@@ -35,30 +36,27 @@ public:
 
   ~ResultSet()
   {
-    data.delAll();
   }
 
-  size_t GetRowCount() { return data.getCount(); }
-  size_t GetColCount() { return data[0]->getCount(); }
+  size_t GetRowCount() { return data.size(); }
+  size_t GetColCount() { return data[0].size(); }
 
   void AddData(size_t row, size_t col, const char* string)
   {
-    if (data.getCount() <= row)
+    if (data.size() <= row)
     {
-      Array<std::string>* newarray = new Array<std::string>;
-      data.add(newarray);
+      data.resize(data.size() + 1);
     }
 
-    if (data[row]->getCount() <= col)
+    if (data[row].size() <= col)
     {
-      std::string str;
-      data[row]->add(str);
+      data[row].resize(data[row].size() + 1);
     }
-    data[row]->get(col) = string?string:"";
+    data[row][col] = string?string:"";
   }
 
   std::string GetData(size_t row, size_t col)
   {
-    return data[row]->get(col);
+    return data[row][col];
   }
 };
