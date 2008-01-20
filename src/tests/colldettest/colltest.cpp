@@ -74,15 +74,18 @@ void CollisionDetectionTest::Frame ()
   else if (kbd->GetKeyState (CSKEY_CTRL))
   {
     btVector3 v(0,0,0);
+    btVector3 r(0,0,0);
     if (kbd->GetKeyState (CSKEY_RIGHT))
-      v.setX(4);
+      r.setY(4);
     if (kbd->GetKeyState (CSKEY_LEFT))
-      v.setX(-4);
+      r.setY(-4);
     if (kbd->GetKeyState (CSKEY_UP))
-      v.setZ(4);
+      v.setX(4);
     if (kbd->GetKeyState (CSKEY_DOWN))
-      v.setZ(-4);
-    pc->setLinearVelocity(v);
+      v.setX(-4);
+    pc->activate(true);
+    pc->setLinearVelocity(v * pc->getInterpolationWorldTransform().getRotation());
+    pc->setAngularVelocity(r);
   }
   else
   {
@@ -103,8 +106,8 @@ void CollisionDetectionTest::Frame ()
   static btClock clock;
   
   // slow motion, should be: clock.getTimeMicroseconds() * 0.000001f
-  float dt = clock.getTimeMilliseconds() * 0.00000001f;
-  world->stepSimulation(dt);
+  float dt = clock.getTimeMicroseconds() * 0.000001f;
+  world->stepSimulation(dt, 1);
 
   mesh->GetMovable()->SetTransform(BulletToCS(pc->getInterpolationWorldTransform()));
 

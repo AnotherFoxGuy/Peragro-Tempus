@@ -67,15 +67,20 @@ void BulletCD::setup()
     basis.setIdentity();
     collObj->getWorldTransform().setBasis(basis);
 
-    //TODO: Use indexed triangle mesh!
-    btTriangleMesh* mesh = new btTriangleMesh();
-
     //TODO: reduce amount of queries!
     Array<TrianglesTableVO*> triangles = 
       db->getTrianglesTable()->getAllByMesh(meshes.get(i)->id);
 
+    if (triangles.getCount() == 0) continue;
+
     Array<VerticesTableVO*> vertices = 
       db->getVerticesTable()->getAllByMesh(meshes.get(i)->id);
+
+    //TODO: Use indexed triangle mesh!
+    btTriangleMesh* mesh = new btTriangleMesh();
+
+    mesh->preallocateIndices(triangles.getCount());
+    mesh->preallocateVertices(vertices.getCount());
 
     for (size_t j = 0; j < triangles.getCount(); j++)
     {
@@ -96,6 +101,8 @@ void BulletCD::setup()
     btBvhTriangleMeshShape* shape = new btBvhTriangleMeshShape(mesh, true);
 
     collObj->setCollisionShape(shape);
+
+    collObj->setCollisionFlags(btCollisionObject::CF_STATIC_OBJECT);
 
     world->addCollisionObject(collObj);
   }
@@ -121,6 +128,7 @@ void BulletCD::addEntity(const Entity* entity)
   btBoxShape* box = new btBoxShape(btVector3(1,2,1));
 
   btRigidBody* body = new btRigidBody(10.0f, 0, box);
+  body->setFriction(1);
 
   cobjs[entity] = body;
 
