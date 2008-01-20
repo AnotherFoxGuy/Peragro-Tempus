@@ -180,6 +180,7 @@ namespace PT
           return false;
         } // end if
         btn->setText(PreviousMessage());
+        static_cast<CEGUI::Editbox*>(btn)->setCaratIndex((size_t)-1);
         return true;
       }
       // Get next message in history
@@ -193,6 +194,7 @@ namespace PT
           return false;
         } // end if
         btn->setText(NextMessage());
+        static_cast<CEGUI::Editbox*>(btn)->setCaratIndex((size_t)-1);
         return true;
       } // end if
 
@@ -209,8 +211,7 @@ namespace PT
 
     const char* ChatManager::NextMessage()
     {
-      historypointer--;
-      if(historypointer<0){historypointer=history.size();}
+      if(historypointer>0){historypointer--;}
       if(historypointer==0){return "";}
       return history[history.size()-historypointer].c_str();
     }

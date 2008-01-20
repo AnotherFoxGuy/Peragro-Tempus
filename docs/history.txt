@@ -11,6 +11,8 @@ under each day.
    ground when mounting, and half fix for running off the horse when
    running/walking and mounting.
  - Rakhun removed the half-fix because it had some bad code.
+ - Rakhun added fix by sueastside to move the text cursor to the end of the
+   line when going through chat history, and made it not loop back at the end.
 
 18-Jan-2008
  - PK continued with the server-cd stuff
