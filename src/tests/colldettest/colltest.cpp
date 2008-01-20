@@ -73,14 +73,16 @@ void CollisionDetectionTest::Frame ()
   }
   else if (kbd->GetKeyState (CSKEY_CTRL))
   {
+    btVector3 v(0,0,0);
     if (kbd->GetKeyState (CSKEY_RIGHT))
-      rotY += speed;
+      v.setX(4);
     if (kbd->GetKeyState (CSKEY_LEFT))
-      rotY -= speed;
-    if (kbd->GetKeyState (CSKEY_PGUP))
-      rotX += speed;
-    if (kbd->GetKeyState (CSKEY_PGDN))
-      rotX -= speed;
+      v.setX(-4);
+    if (kbd->GetKeyState (CSKEY_UP))
+      v.setZ(4);
+    if (kbd->GetKeyState (CSKEY_DOWN))
+      v.setZ(-4);
+    pc->setLinearVelocity(v);
   }
   else
   {
@@ -241,7 +243,10 @@ void CollisionDetectionTest::LoadWorld(Database* db)
 
   iSector* sector = engine->GetSectors()->Get(0);
 
-  iMaterialWrapper* mat = engine->CreateMaterial("none", 0);
+  if (!loader->LoadTexture ("stone", "/lib/std/stone4.gif"))
+    ReportError("Error loading 'stone4' texture!");
+
+  iMaterialWrapper* mat = engine->GetMaterialList ()->FindByName ("stone");
 
   // Create Mesh
   Array<MeshesTableVO*> meshes = db->getMeshesTable()->getAll();
@@ -356,9 +361,9 @@ void CollisionDetectionTest::SetupPhysics(Database* db)
 
     collObj->setCollisionShape(shape);
 
+    collObj->setCollisionFlags(btCollisionObject::CF_STATIC_OBJECT);
+
     world->addCollisionObject(collObj);
-    if (i > 475)
-      continue;
   }
 }
 
@@ -366,7 +371,8 @@ void CollisionDetectionTest::AddCharacter()
 {
   btBoxShape* shape = new btBoxShape(btVector3(1,2,1));
 
-  pc = new btRigidBody(10.0f, 0, shape);
+  pc = new btRigidBody(1.0f, 0, shape);
+  pc->setFriction(1);
 
   btTransform& t = pc->getWorldTransform();
   btVector3 p(86.8f, 4.0f, 11.2f);
@@ -384,7 +390,7 @@ void CollisionDetectionTest::AddCharacter()
   mesh = GeneralMeshBuilder::CreateFactoryAndMesh (
         engine, sector, "cube", "cubeFact", &box);
 
-  iMaterialWrapper* mat = engine->FindMaterial("none");
+  iMaterialWrapper* mat = engine->FindMaterial("stone");
   mesh->GetMeshObject ()->SetMaterialWrapper (mat);
 }
 
