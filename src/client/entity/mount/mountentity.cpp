@@ -86,8 +86,6 @@ namespace PT
       if (mounted) return;
       if (!player->GetCelEntity()) return;
 
-      static_cast<PlayerEntity*>(player)->Stop();
-
       bool on_ground;
       float speed, rot, avel;
       csVector3 pos, vel, wvel;

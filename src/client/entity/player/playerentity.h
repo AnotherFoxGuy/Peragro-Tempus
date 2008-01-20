@@ -160,11 +160,6 @@ namespace PT
        * @param sector New sector where the entity should reside.
        */
       void Teleport(const csVector3& pos, const std::string& sector);
-
-      /**
-       * Make the entity halt.
-       */
-      void Stop();
     };
   }
 }

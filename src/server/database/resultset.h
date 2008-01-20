@@ -25,7 +25,7 @@ class ResultSet
 {
 private:
   ///array of rows where as each row is an array of strings.
-  std::vector<std::vector<std::string>> data;
+  std::vector<std::vector<std::string> > data;
 public:
   ResultSet() {}
   ResultSet(const ResultSet& o)

@@ -10,6 +10,7 @@ under each day.
  - Rakhun fixed the bug where you occasionally appear halfway through the
    ground when mounting, and half fix for running off the horse when
    running/walking and mounting.
+ - Rakhun removed the half-fix because it had some bad code.
 
 18-Jan-2008
  - PK continued with the server-cd stuff
