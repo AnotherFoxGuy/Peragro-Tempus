@@ -7,6 +7,9 @@ under each day.
 19-Jan-2008
  - PK fixed a pure virtual call error.
  - PK added bullet and a character to appcolldettest.
+ - Rakhun fixed the bug where you occasionally appear halfway through the
+   ground when mounting, and half fix for running off the horse when
+   running/walking and mounting.
 
 18-Jan-2008
  - PK continued with the server-cd stuff

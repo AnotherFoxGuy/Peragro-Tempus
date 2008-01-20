@@ -690,7 +690,14 @@ namespace PT
       PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
     }
 
-
+    void PlayerEntity::Stop()
+    {
+      // TODO: Make it stop completely, as it is now you'll fall through mounts
+      //       if you are walking when you mount.
+      walk=0;
+      turn=0;
+      PerformMovementAction();
+    }
 
   } //Entity namespace
 } //PT namespace

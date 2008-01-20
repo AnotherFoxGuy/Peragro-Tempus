@@ -18,6 +18,8 @@
 
 #include "mountentity.h"
 
+#include "client/entity/player/playerentity.h"
+
 #include "client/reporter/reporter.h"
 #include "client/event/entityevent.h"
 #include "client/network/network.h"
@@ -84,6 +86,8 @@ namespace PT
       if (mounted) return;
       if (!player->GetCelEntity()) return;
 
+      static_cast<PlayerEntity*>(player)->Stop();
+
       bool on_ground;
       float speed, rot, avel;
       csVector3 pos, vel, wvel;
@@ -100,6 +104,7 @@ namespace PT
       // Anchor the player.
       mtlinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
       pos.y += 1.0f;
+      on_ground = true;
       pclinmove->SetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
       pclinmove->SetAnchor(mtmesh);
 
