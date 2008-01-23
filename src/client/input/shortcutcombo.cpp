@@ -175,7 +175,7 @@ namespace PT
       //TODO: Do the same with !@# etc characters?
       if (keyCode>='A' && keyCode) keyCode+='a'-'A';
       }
-    else if ((i = Lookup(key)) != NOT_SPECIAL_KEY) keyCode = Keys[i].code; //Was our key a special key
+    else if ((i = Lookup(key)) != NOT_SPECIAL_KEY) keyCode = Keys[i].code; //Was our key a special key?
     else return false; //Failed to recognize the key
 
     return true; //The key was properly recognized

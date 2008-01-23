@@ -60,7 +60,7 @@ namespace PT
       void Mount(Entity* player);
       /**
        * Unmount an entity from a mount.
-       * @todo Should we allow only for PcEntity instances to mount? Currently
+       * @todo Should we allow only for PcEntity instances to unmount? Currently
        * we're doing casting to PcEntity anyway.
        * @param player Entity to be unmounted.
        */

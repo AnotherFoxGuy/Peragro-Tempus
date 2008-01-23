@@ -123,7 +123,7 @@ namespace PT
       float rot;
 
       /**
-       * This is a conveniance constructor possibly needed for children classes.
+       * This is a convenience constructor possibly needed for children classes.
        * @todo Recheck if this is actually needed.
        */
       Entity() : id(-1), celEntity(0) {}

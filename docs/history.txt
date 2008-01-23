@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+23-Jan-2008
+ - Rakhun rewrote networkcodegenerator.sh and fixed some small unclarities in
+   comments.
+
 20-Jan-2008
  - Rakhun added fix by sueastside to move the text cursor to the end of the
    line when going through chat history, and made it not loop back at the end.

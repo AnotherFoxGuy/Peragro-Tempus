@@ -35,7 +35,7 @@ namespace PT
     {
     private:
       ///Represents the ID of item type. Not to be confused with entity ID.
-      ///@todo depricate since we don't have to do a lookup and recieve all 
+      ///@todo deprecate since we don't have to do a lookup and recieve all 
       ///data from the server.
       unsigned int itemId;
 

@@ -192,10 +192,10 @@
 		<message type="Environment" name="DayTime" />
 		<message type="Environment" name="Weather" />
 		
-		<!--message type="Door" name="BookReadRequest" /-->
-		<message type="Door" name="BookReadResponse" />
-		<!--message type="Door" name="BookWriteRequest" /-->
-		<message type="Door" name="BookWriteResponse" />
+		<!--message type="Book" name="BookReadRequest" /-->
+		<message type="Book" name="BookReadResponse" />
+		<!--message type="Book" name="BookWriteRequest" /-->
+		<message type="Book" name="BookWriteResponse" />
 
 		<!--message type="Admin" name="RemoveAll" /-->
 		<!--message type="Admin" name="CreateSector" /-->
