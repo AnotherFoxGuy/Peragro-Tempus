@@ -31,4 +31,4 @@ public:
   virtual char getType() = 0;
 };
 
-#endif // UDPMESSAGEHANDLER_H
+#endif // TCPMESSAGEHANDLER_H
