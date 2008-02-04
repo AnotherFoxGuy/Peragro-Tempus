@@ -121,7 +121,22 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   cs_plugins_static_optional = 
   ;
 
-  if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 ; }
+  # Plugins needed by both software & GL renderers
+  if $(X11.AVAILABLE) = "yes"
+  {
+    cs_plugins_static += xwin xextshm ;
+    if $(XFREE86VM.AVAILABLE) = "yes" { cs_plugins_static += xext86vm ; }
+  }
+
+  if $(GL.AVAILABLE) = "yes"
+  {
+    WALKALL.PLUGINLIST += gl3d glshader_arb glshader_fixed ;
+  
+    # GL canvases
+    if $(GLX.AVAILABLE) = "yes" { cs_plugins_static += glx2d ; }
+    if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 ; }
+    if $(TARGET.OS) = "MACOS_X" { cs_plugins_static += glosx2d ; }
+  }
 
   LinkStaticPlugins client_static :  $(cs_plugins_static)  : $(cs_plugins_static_optional) : CRYSTAL  ;
 
