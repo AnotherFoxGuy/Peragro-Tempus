@@ -243,6 +243,20 @@ AC_DEFINE_UNQUOTED([CEL_PLUGIN_DIR], ["$CEL_PLUGIN_DIR"],
   [Define with path to CEL plugins.])
 ])])
 
+#----------------------------------------------------------------------------
+# Check if the Crystal Space static plugins lib was built.
+#----------------------------------------------------------------------------
+AS_IF([test $with_cs != no],
+    [AC_MSG_CHECKING([for Crystal Space static plugins])
+    pt_have_crystal_static=no
+    for m in $CRYSTAL_AVAILABLE_LIBS; do
+	AS_IF([test crystalspace_staticplugins = "$m"],
+	    [pt_have_crystal_static=yes
+	    break])
+    done
+    AC_MSG_RESULT([$pt_have_crystal_static])
+    CS_EMIT_BUILD_PROPERTY([HAVE_STATIC_PLUGINS], [$pt_have_crystal_static])])
+
 #------------------------------------------------------------------------------
 # Check for pthread.  Also check if pthread implementation supports the
 # recursive mutex extension.
