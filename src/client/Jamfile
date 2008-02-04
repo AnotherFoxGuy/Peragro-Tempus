@@ -63,7 +63,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     csconin
     csconout
     sndsyssoft
-    sndsyswin
     imgplex
     xmlread
     bindoc
@@ -121,20 +120,10 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   cs_plugins_static_optional = 
   ;
 
-  # Plugins needed by both software & GL renderers
-  if $(X11.AVAILABLE) = "yes"
-  {
-    cs_plugins_static += xwin xextshm ;
-    if $(XFREE86VM.AVAILABLE) = "yes" { cs_plugins_static += xext86vm ; }
-  }
-
-  if $(GL.AVAILABLE) = "yes"
-  {
-    # GL canvases
-    if $(GLX.AVAILABLE) = "yes" { cs_plugins_static += glx2d ; }
-    if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 ; }
-    if $(TARGET.OS) = "MACOS_X" { cs_plugins_static += glosx2d ; }
-  }
+  if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 sndsyswin ; }
+  if $(TARGET.OS) = "MACOS_X" { cs_plugins_static += glosx2d sndsyscoreaudio ; }
+  if $(TARGET.OS) = "UNIX" { cs_plugins_static += glx2d x2d xwin ; }
+  if $(TARGET.OS) = "UNIX" { cs_plugins_static_optional += sndsysoss sndsysalsa ; }
 
   LinkStaticPlugins client_static :  $(cs_plugins_static)  : $(cs_plugins_static_optional) : CRYSTAL  ;
 
