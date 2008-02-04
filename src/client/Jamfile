@@ -130,8 +130,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
 
   if $(GL.AVAILABLE) = "yes"
   {
-    WALKALL.PLUGINLIST += gl3d glshader_arb glshader_fixed ;
-  
     # GL canvases
     if $(GLX.AVAILABLE) = "yes" { cs_plugins_static += glx2d ; }
     if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 ; }
