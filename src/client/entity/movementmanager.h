@@ -67,7 +67,7 @@ namespace PT
       float GetAngle (const csVector3& v1, const csVector3& v2);
 
     private:
-      csArray<PT::Events::Eventp> events;
+      std::queue<PT::Events::Eventp> events;
       void ProcessEvents();
     public:
       bool GetEntityEvents(PT::Events::Eventp ev);

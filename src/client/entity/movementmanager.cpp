@@ -68,9 +68,10 @@ namespace PT
     {
       using namespace PT::Events;
 
-      for (size_t i = 0; i < events.GetSize(); i++)
+      while (!events.empty())
       {
-        Eventp ev = events.Pop();
+        Eventp ev = events.front();
+        events.pop();
         if (ev->GetEventID().compare("entity.move") == 0)
           MoveEntity(ev);
         else if (ev->GetEventID().compare("entity.moveto") == 0)
@@ -97,7 +98,7 @@ namespace PT
       using namespace PT::Events;
 
       Eventp evcopy(ev);
-      events.Push(evcopy);
+      events.push(evcopy);
 
       return true;
     }
@@ -135,13 +136,6 @@ namespace PT
       movement.run          = entityMoveEv->run;
       movement.jump         = entityMoveEv->jump;
       movement.halfspeed    = entityMoveEv->halfspeed;
-
-      // TODO: Bug: Sometimes you can autowalk by pressing forward quickly, same with turning
-      if(movement.walk){
-        Report(PT::Debug, "MoveEntity: Doing walk movement", id);
-      }else{
-        Report(PT::Debug, "MoveEntity: Doing stop movement", id);
-      }
 
       entity->Move(movement);
 

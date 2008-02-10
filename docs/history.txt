@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+10-Feb-2008
+ - Rakhun changed movementmanager to use std::queue - fixes movement.
+
 04-Feb-2008
  - Rakhun fixed detection of static CS libs.
 
