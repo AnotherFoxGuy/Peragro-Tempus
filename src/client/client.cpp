@@ -75,6 +75,8 @@
 #include "common/util/wincrashdump.h"
 #include "common/version.h"
 
+#define NO_CHARACTER_SELECTED_0 0
+
 CS_IMPLEMENT_APPLICATION
 
 namespace PT
@@ -89,6 +91,7 @@ namespace PT
     last_sleep = 0;
     world_loaded = false;
     last_seen = 0;
+    char_id = NO_CHARACTER_SELECTED_0;
 
     reporter = 0;
     network = 0;
@@ -805,7 +808,7 @@ namespace PT
       Report(PT::Notify, "Login succeeded!");
 
 
-    if (state == STATE_RECONNECTED)
+    if (state == STATE_RECONNECTED && char_id != NO_CHARACTER_SELECTED_0)
     {
       selectCharacter(char_id);
     }

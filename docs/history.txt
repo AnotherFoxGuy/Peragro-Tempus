@@ -7,6 +7,8 @@ under each day.
 11-Feb-2008
  - Rakhun fixed the connection check and made it clear the character selection
    list before adding characters again upon reconnect.
+ - Rakhun changed reconnect not to send random character IDs when no character
+   is selected yet.
 
 10-Feb-2008
  - Rakhun changed movementmanager to use std::queue - fixes movement.
