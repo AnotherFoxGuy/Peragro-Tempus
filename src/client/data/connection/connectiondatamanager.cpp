@@ -73,7 +73,7 @@ namespace PT
         Server* server = new Server();
         server->SetName(serverNode->GetContentsValue());
         server->SetHost(serverNode->GetAttributeValue("host"));
-        server->SetPort(serverNode->GetAttributeValueAsInt("port"));
+        server->SetPort(serverNode->GetAttributeValue("port"));
         servers.push_back(server);
       } // end while
 

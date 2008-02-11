@@ -576,10 +576,12 @@ namespace PT
         if (cmdline)
         {
           const char* host = cmdline->GetOption("host");
+          const char* port = cmdline->GetOption("port");
           if (host)
           {
+            if(!port){port = "12345";}
             ConnectRequestMessage msg(CLIENTVERSION);
-            network->setServerAddress(host);
+            network->setServerAddress(host, atoi(port));
             network->init();
             network->send(&msg);
           }
@@ -847,15 +849,16 @@ namespace PT
 
   void Client::OnCommandLineHelp()
   {
-    const size_t NUM_OPTIONS = 5;
+    const size_t NUM_OPTIONS = 6;
 
     const csOptionDescription pt_config_options [NUM_OPTIONS] =
     {
       { 0, "host", "Hostname the client will connect to (peragro.org)", CSVAR_STRING },
-      { 1, "useCD", "Enable/Disable Collision Detection on the client", CSVAR_BOOL },
-      { 2, "user", "Automatic Login with the given Username", CSVAR_STRING },
-      { 3, "pass", "Automatic Login with the given Password", CSVAR_STRING },
-      { 4, "char", "Automatic selection of the character with the given ID", CSVAR_LONG },
+      { 1, "port", "Port number the client will use to connect to the server", CSVAR_STRING },
+      { 2, "useCD", "Enable/Disable Collision Detection on the client", CSVAR_BOOL },
+      { 3, "user", "Automatic Login with the given Username", CSVAR_STRING },
+      { 4, "pass", "Automatic Login with the given Password", CSVAR_STRING },
+      { 5, "char", "Automatic selection of the character with the given ID", CSVAR_LONG },
     };
 
     for (unsigned int i = 0; i<NUM_OPTIONS ; i++)

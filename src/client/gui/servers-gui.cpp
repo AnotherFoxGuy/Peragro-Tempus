@@ -55,9 +55,15 @@ bool ServerWindow::OnSelection(const CEGUI::EventArgs& e)
     {
       btn->setVisible(true);
       btn->setText(app_cfg->GetStr("Client.Server.Custom"));
+      btn = winMgr->getWindow("ServerList/Port");
+      btn->setVisible(true);
+      btn->setText(app_cfg->GetStr("Client.Server.Customport"));
     }else{
       btn->setVisible(false);
       btn->setText(CEGUI::String(server->GetHost()));
+      btn = winMgr->getWindow("ServerList/Port");
+      btn->setVisible(false);
+      btn->setText(CEGUI::String(server->GetPort()));
     }
     if(guimanager->GetLoginWindow()){guimanager->GetLoginWindow()->UpdateLogin();}
   }
@@ -71,12 +77,19 @@ void ServerWindow::ShowWindow()
   GUIWindow::ShowWindow();
 }
 
-csString ServerWindow::GetServer()
+csString ServerWindow::GetServerHost()
 {
   btn = winMgr->getWindow("ServerList/Server");
   CEGUI::String str = btn->getText();
   csString serverip = str.c_str();
   return serverip;
+}
+
+unsigned int ServerWindow::GetServerPort()
+{
+  btn = winMgr->getWindow("ServerList/Port");
+  CEGUI::String str = btn->getText();
+  return atoi(str.c_str());
 }
 
 csString ServerWindow::GetServerName()

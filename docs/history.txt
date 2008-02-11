@@ -11,6 +11,7 @@ under each day.
    is selected yet.
  - Rakhun fixed bug where the reconnect window would only appear the first time
    if you were disconnected more than once.
+ - Rakhun added client-side support for other ports than 12345.
 
 10-Feb-2008
  - Rakhun changed movementmanager to use std::queue - fixes movement.

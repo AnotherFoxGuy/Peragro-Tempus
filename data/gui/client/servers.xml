@@ -15,10 +15,19 @@
     <Window Type='Peragro/Editbox' Name='ServerList/Server'>
       <Property Name='MaxTextLength' Value='1073741823'/>
       <Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
-      <Property Name='UnifiedAreaRect' Value='{{0.00000,6.000000},{1.0,-30.000000},{1.0,-6.000000},{1.0,-6.000000}}'/>
+      <Property Name='UnifiedAreaRect' Value='{{0.00000,6.000000},{1.0,-30.000000},{1.0,-56.000000},{1.0,-6.000000}}'/>
       <Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
       <Property Name='Visible' Value='False'/>
       <Property Name='Text' Value='1.peragro.org'/>
+    </Window>
+    <Window Type='Peragro/Editbox' Name='ServerList/Port'>
+      <Property Name='MaxTextLength' Value='5'/>
+      <Property Name='MouseCursorImage' Value='set:Peragro image:MouseTextBar'/>
+      <Property Name='UnifiedAreaRect' Value='{{1.000000,-56.000000},{1.0,-30.000000},{1.0,-6.000000},{1.0,-6.000000}}'/>
+      <Property Name='UnifiedMaxSize' Value='{{1.000000,0.000000},{1.000000,0.000000}}'/>
+      <Property Name='Visible' Value='False'/>
+      <Property Name='Text' Value='12345'/>
+      <Property Name='ValidationString' Value='[0-9]*'/>
     </Window>
   </Window>
 </GUILayout>

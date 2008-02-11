@@ -63,9 +63,9 @@ public:
     socket.kill();
   }
 
-  void setServerAddress(const char* host)
+  void setServerAddress(const char* host, unsigned int port)
   {
-    SocketAddress addr = TcpSocket::getSocketAddress(host, 12345);
+    SocketAddress addr = TcpSocket::getSocketAddress(host, port);
     serveraddress = addr;
   }
 

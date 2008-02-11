@@ -60,7 +60,7 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
     {
       // Connect to selected server
       ConnectRequestMessage msg(CLIENTVERSION);
-      network->setServerAddress(guimanager->GetServerWindow()->GetServer());
+      network->setServerAddress(guimanager->GetServerWindow()->GetServerHost(), guimanager->GetServerWindow()->GetServerPort());
       network->init();
       network->send(&msg);
     }
@@ -76,7 +76,7 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
   {  
     // Connect to selected server
     ConnectRequestMessage msg(CLIENTVERSION);
-    network->setServerAddress(guimanager->GetServerWindow()->GetServer());
+    network->setServerAddress(guimanager->GetServerWindow()->GetServerHost(), guimanager->GetServerWindow()->GetServerPort());
     network->init();
     network->send(&msg);
   }
@@ -115,6 +115,7 @@ void LoginWindow::SaveConfig()
   bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
   CEGUI::String login = GetLogin();
   const char* string;
+  unsigned int integer;
 
   if (fs) 
     string = login.c_str();
@@ -124,8 +125,10 @@ void LoginWindow::SaveConfig()
   app_cfg->SetStr("Client.Server["+guimanager->GetServerWindow()->GetServerName()+"].Login", string);
   if(guimanager->GetServerWindow()->IsCustom())
   {
-    string=guimanager->GetServerWindow()->GetServer().GetData();
+    string=guimanager->GetServerWindow()->GetServerHost().GetData();
     app_cfg->SetStr("Client.Server.Custom", string);
+    integer=guimanager->GetServerWindow()->GetServerPort();
+    app_cfg->SetInt("Client.Server.Customport", integer);
   }
   app_cfg->SetStr("Client.Server.LastUsed", guimanager->GetServerWindow()->GetServerName());
   app_cfg->Save();

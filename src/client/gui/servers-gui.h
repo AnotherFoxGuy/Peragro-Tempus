@@ -32,7 +32,8 @@ private:
   bool OnSelection(const CEGUI::EventArgs& e);
 
 public:
-  csString GetServer();
+  csString GetServerHost();
+  unsigned int GetServerPort();
   csString GetServerName();
   bool IsCustom();
   ServerWindow(GUIManager* guimanager);
