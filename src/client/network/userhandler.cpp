@@ -75,6 +75,7 @@ void UserHandler::handleCharList(GenericMessage* msg)
   char_msg.deserialise(msg->getByteStream());
   //printf("Got %d character:\n---------------------------\n", char_msg.getCharacterCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  guimanager->GetSelectCharWindow()->EmptyCharList();
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
     guimanager->GetSelectCharWindow ()->AddCharacter(

@@ -102,7 +102,6 @@ namespace PT
     serverSetupManager = 0;
     cursor = 0;
     inputMgr = 0;
-    last_seen = 0;
     statmanager = 0;
 
     eventmanager = 0;
@@ -613,9 +612,7 @@ namespace PT
   void Client::checkConnection()
   {
     //Report(PT::Notify, "Saw server %d ms ago.", csGetTicks() - last_seen);
-    size_t ticks = csGetTicks();
-    if ( (last_seen > 0 && ticks - last_seen > 10000 && state > 1)
-      || ( ! network->isRunning() && state == STATE_PLAY ) )
+    if ( ! network->isRunning() && state >= STATE_CONNECTED )
     {
       last_seen = csGetTicks();
       Report(PT::Warning, "Disconnect!");
@@ -997,7 +994,7 @@ int main (int argc, char* argv[])
 #ifdef __TIMESTAMP__
   printf("Peragro Tempus - Client\n$Revision$\tBuild-Date: %s\n", __TIMESTAMP__);
 #else
-  printf("Peragro Tempus - Client\n$Revision$\tnBuild-Data: %s %s\n", __DATE__, __TIME__);
+  printf("Peragro Tempus - Client\n$Revision$\tBuild-Date: %s %s\n", __DATE__, __TIME__);
 #endif
   setWinCrashDump(argv[0]);
 

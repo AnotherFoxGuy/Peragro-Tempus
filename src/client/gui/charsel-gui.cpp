@@ -201,3 +201,14 @@ void SelectCharWindow::AddCharacter(unsigned int charId, const char* name, unsig
   ((CEGUI::MultiColumnList*)btn)->setItem(charNameItem, 1, row);
   ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
 }
+
+void SelectCharWindow::EmptyCharList()
+{
+  btn = winMgr->getWindow("CharSelect/Characters");
+  unsigned int i=0;
+  while(i<((CEGUI::MultiColumnList*)btn)->getRowCount())
+  {
+    ((CEGUI::MultiColumnList*)btn)->removeRow(i);
+    i++;
+  }
+}
