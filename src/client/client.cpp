@@ -631,6 +631,8 @@ namespace PT
 
       if (!network->isRunning())
       {
+        guimanager->CreateOkWindow()->ShowWindow();
+        guimanager->CreateOkWindow()->BringToFront();
         guimanager->CreateOkWindow()->SetText("Disconnect!\n Trying to reconnect, please wait!");
         return;
       }

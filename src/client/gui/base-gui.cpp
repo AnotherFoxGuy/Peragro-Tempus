@@ -76,3 +76,8 @@ void GUIWindow::EnableWindow()
 {
   rootwindow->setEnabled(true);
 }
+
+void GUIWindow::BringToFront() 
+{
+  rootwindow->activate();
+}

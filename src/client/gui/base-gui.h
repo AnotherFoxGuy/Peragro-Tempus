@@ -58,6 +58,7 @@ public:
   bool IsVisible();
   void EnableWindow();
   void DisableWindow();
+  void BringToFront();
 };
 
 #endif // BASE_GUI_H
