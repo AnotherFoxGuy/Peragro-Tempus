@@ -43,6 +43,7 @@ class PermissionsTable;
 class MeshesTable;
 class VerticesTable;
 class TrianglesTable;
+class ConfigTable;
 
 #include "resultset.h"
 
@@ -73,6 +74,7 @@ private:
   MeshesTable* meshestable;
   VerticesTable* verticestable;
   TrianglesTable* trianglestable;
+  ConfigTable* configtable;
 
 public:
   virtual ResultSet* query(const char*, ...) = 0;
@@ -110,6 +112,7 @@ public:
   MeshesTable* getMeshesTable() { return meshestable; }
   VerticesTable* getVerticesTable() { return verticestable; }
   TrianglesTable* getTrianglesTable() { return trianglestable; }
+  ConfigTable* getConfigTable() { return configtable; }
 
 };
 

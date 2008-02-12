@@ -43,6 +43,7 @@
 #include "server/database/sqlite/sqlite.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-spawnpoints.h"
+#include "server/database/table-config.h"
 
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
@@ -90,7 +91,7 @@ void sigfunc(int sig)
    }
 }
 
-int main(int /*argc*/, char ** argv)
+int main(int argc, char ** argv)
 {
   signal(SIGINT, sigfunc);
 
@@ -100,6 +101,35 @@ int main(int /*argc*/, char ** argv)
 
   dbSQLite db;
   server.setDatabase(&db);
+
+  unsigned int port = 12345;
+  if(*db.getConfigTable()->GetConfigValue(ptString("port",4)) != *ptString("",0))
+  {
+    port = atoi(*db.getConfigTable()->GetConfigValue(ptString("port",4)));
+  }
+
+  for(int i = 1; i < argc; i++)
+  {
+    if(!strcmp(argv[i], "-port"))
+    {
+      i++;
+      if(i < argc)
+      {
+        port = atoi(argv[i]);
+        ConfigTableVO* config = new ConfigTableVO();
+        config->name = ptString("port", 4);
+        config->value = ptString(argv[i], strlen(argv[i]));
+        db.getConfigTable()->Insert(config);
+      }
+    }
+    else
+    {
+      printf("Invalid argument: %s\n", argv[i]);
+      printf("Valid arguments are:\n");
+      printf("-port [port number] - Set which network port number the server will use.\n");
+      return true;
+    }
+  }
 
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
@@ -166,7 +196,7 @@ int main(int /*argc*/, char ** argv)
 
   // Finally initialising the network!
   Network network(&server);
-  network.init(12345);
+  network.init(port);
 
   printf("Server up and running!\n");
 

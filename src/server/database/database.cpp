@@ -41,6 +41,7 @@
 #include "table-meshes.h"
 #include "table-vertices.h"
 #include "table-triangles.h"
+#include "table-config.h"
 
 Database::Database()
 {
@@ -62,6 +63,7 @@ Database::Database()
   bookstable = 0;
   doorstable = 0;
   sectorstable = 0;
+  configtable = 0;
 }
 
 void Database::init()
@@ -91,6 +93,7 @@ void Database::init()
   meshestable = new MeshesTable(this);
   verticestable = new VerticesTable(this);
   trianglestable = new TrianglesTable(this);
+  configtable = new ConfigTable(this);
   update("commit");
 }
 
@@ -120,5 +123,6 @@ Database::~Database()
   delete meshestable;
   delete verticestable;
   delete trianglestable;
+  delete configtable;
 }
 
