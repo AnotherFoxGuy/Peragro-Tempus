@@ -378,7 +378,7 @@ AC_OUTPUT
 
 AC_MSG_NOTICE([
 
-Please note that this project uses Jam as its build tool,
+Please note that Peragro Tempus uses Jam as its build tool,
 therefore you must type 'jam' to build the project.
 
 Jam home: http://www.perforce.com/jam/jam.html

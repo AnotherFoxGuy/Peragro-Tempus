@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+14-Feb-2008
+ - Rakhun fixed client_static's linking with CS and CEL.
+
 12-Feb-2008
  - Rakhun added command-line arguments to the server to set which port to
    listen to.

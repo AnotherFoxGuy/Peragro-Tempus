@@ -33,7 +33,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   Application client_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
-  LFlags client_static : -lcrystalspace_staticplugins  -lcel_staticplugins ;
+  LFlags client_static : -lcrystalspace_staticplugins-1.3  -lcel_staticplugins-1.3 ;
   LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup ;
   LinkStaticPlugins client_static :
     addon_questdef
