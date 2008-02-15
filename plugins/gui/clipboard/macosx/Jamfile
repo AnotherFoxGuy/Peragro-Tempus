@@ -1,0 +1,6 @@
+SubDir TOP plugins gui clipboard macosx ;
+
+Description csclipboard : "Clipboard plugin for Mac OS/X" ;
+Plugin csclipboard : [ Wildcard *.cpp *.h ] ;
+ExternalLibs csclipboard : CRYSTAL ;
+

@@ -4,6 +4,7 @@ BUILDTOP ?= "@top_builddir@" ;
 SubDir TOP ;
 
 IncludeDir ;
+IncludeDir "include" ;
 IncludeDir src ;
 IncludeDir $(BUILDTOP) : : literal transient ;
 
@@ -116,5 +117,8 @@ MsvcGenConfig WX.DEFINES.DEBUG : wxUSE_GUI=1 WXUSINGDLL=1 WXDEBUG=1 ;
 MsvcGenConfig WX.LIBS.DEBUG : wxbase26d.lib wxmsw26d_core.lib wxmsw26d_gl.lib opengl32.lib ;
 
 SubInclude TOP docs ;
+SubInclude TOP plugins ;
 SubInclude TOP src ;
+
+
 

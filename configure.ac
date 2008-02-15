@@ -352,6 +352,50 @@ CS_EMIT_BUILD_FLAGS([how to enable compiler debug output],
 	[$cs_cv_prog_cxx_debug], [+])])
 
 #------------------------------------------------------------------------------
+# Check for X-Windows and several extensions. This check can identify both
+# new-style modular X.Org installations and old-style monolithic installations,
+# such as XFree86.
+#------------------------------------------------------------------------------
+AC_DEFUN([CS_X_CHECK_PREPARE],
+    [AC_REQUIRE([AC_CANONICAL_HOST])
+    AC_REQUIRE([CS_CHECK_HOST])
+
+    # Explicitly disable X checking on Windows to avoid discovering XFree86 in
+    # case Cygwin is installed.  Doing so allows us to avoid Mesa's OpenGL
+    # headers during the OpenGL check, and prefer Microsoft's OpenGL headers.
+    # The Mesa OpenGL headers cause link errors because they do not employ
+    # __stdcall.
+    case $host_os in
+	mingw*|cygwin*) with_x=no ;;
+    esac
+
+    # Explicitly disable X checking on MacOS/X in case the optional XFree86 is
+    # installed since we want to avoid an undesirable dependency upon XFree86
+    # in the CS executables and plugins.  If the user is actually
+    # cross-building for Darwin on MacOS/X, then the --with-x option will
+    # override this test (by setting cs_host_macosx to "no").
+    AS_IF([test x$cs_host_macosx = xyes], [with_x=no])])
+
+CS_X_CHECK_PREPARE
+AC_PATH_X
+AC_PATH_XTRA
+
+AS_IF([test "$no_x" != yes],
+    [# We must be especially careful to instruct CS_EMIT_BUILD_PROPERTY() to
+    # emit the following properties even if their values are empty.  This is
+    # necessary because of the way that Jam performs "product-wise" variable
+    # expansion.  For example, if X is "x" and Y is undefined, Jam will expand
+    # "$(X) $(Y)" to "", whereas every other tool in the world will expand it
+    # to "x ".  Since the emitted X11.CFLAGS, X11.LFLAGS, XFREE86VM.CFLAGS, and
+    # XFREE86VM.LFLAGS properties reference the other variables by name, we
+    # must ensure that those other variables are defined (even if only with an
+    # empty string).
+    CS_EMIT_BUILD_PROPERTY([X11.AVAILABLE], [yes])
+    CS_EMIT_BUILD_PROPERTY([X11.CFLAGS], [$X_CFLAGS])
+    CS_EMIT_BUILD_PROPERTY([X11.LFLAGS], [$X_LIBS $X_LFLAGS])
+    ])
+
+#------------------------------------------------------------------------------
 # Check how to set default symbol visibility, and how to override the setting
 # in code.
 #------------------------------------------------------------------------------
@@ -362,6 +406,16 @@ AS_IF([test -n "$cs_cv_prog_cc_visibility_hidden"],
     [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS],
         [$cs_cv_prog_cc_visibility_hidden], [+])])
 
+#------------------------------------------------------------------------------
+# Determine if plugin meta-information should be embedded directly into plugin
+# modules or if it should exist in stand-alone .csplugin files.
+#------------------------------------------------------------------------------
+CS_META_INFO_EMBED([emit], [no])
+AS_IF([test $enable_meta_info_embedding = yes],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS],
+	[AS_ESCAPE([$(EMBED_META.CFLAGS)])], [+])
+    CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS],
+	[AS_ESCAPE([$(EMBED_META.LFLAGS)])], [+])])
 
 #-----------------------------------------------------------------------------
 # Emit install paths and package information.

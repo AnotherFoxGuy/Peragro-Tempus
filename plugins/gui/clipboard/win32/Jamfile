@@ -1,0 +1,6 @@
+SubDir TOP plugins gui clipboard win32 ;
+
+Description csclipboard : "Clipboard plugin for Windows" ;
+Plugin csclipboard : [ Wildcard *.cpp *.h ] ;
+ExternalLibs csclipboard : CRYSTAL ;
+

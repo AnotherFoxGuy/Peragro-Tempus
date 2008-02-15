@@ -1,0 +1,6 @@
+SubDir TOP plugins gui clipboard xwindows ;
+
+Description csclipboard : "Clipboard plugin for X Windows" ;
+Plugin csclipboard : [ Wildcard *.cpp *.h ] ;
+ExternalLibs csclipboard : X11 CRYSTAL ;
+

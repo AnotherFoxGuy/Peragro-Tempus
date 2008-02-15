@@ -1,0 +1,19 @@
+SubDir TOP plugins gui clipboard ;
+
+if $(TARGET.OS) = "WIN32"                              # Windows 
+{
+    SubInclude TOP plugins gui clipboard win32 ;
+}
+else if $(X11.AVAILABLE) = "yes"                       # Any OS using X11 including MacOSX
+{
+    SubInclude TOP plugins gui clipboard xwindows ;
+}
+else if $(TARGET.OS) = "MACOS_X"                       # MacOS/X
+{
+    SubInclude TOP plugins gui clipboard default ;     # This is not a mistake. It is disabled by default until testing is done.
+}
+else                                                   # Anything not supported above
+{
+    SubInclude TOP plugins gui clipboard default ;
+}
+

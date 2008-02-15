@@ -45,6 +45,7 @@
 #include <iutil/eventq.h>
 #include <iutil/object.h>
 #include <iutil/vfs.h>
+#include "include/clipboard.h"
 #include <ivaria/collider.h>
 #include <ivideo/graph2d.h>
 #include <ivideo/natwin.h>
@@ -277,6 +278,13 @@ namespace PT
     g3d = csQueryRegistry<iGraphics3D> (GetObjectRegistry());
     if (!g3d) return Report(PT::Error, "Failed to locate 3D renderer!");
 
+    csRef<iPluginManager> plugin_mgr (csQueryRegistry<iPluginManager> (object_reg));
+    csTheClipboard = csLoadPlugin<iClipboard> (plugin_mgr, "crystalspace.gui.clipboard");
+    if(csTheClipboard.IsValid())
+        object_reg->Register (csTheClipboard, "iClipboard");
+    else
+        Report(PT::Error, "Failed to load the iClipboard!");
+
     pointerlib.setObjectRegistry(GetObjectRegistry());
     pointerlib.setClient(this);
 
@@ -472,6 +480,23 @@ namespace PT
     // Register listener for ActionQuit.
     EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_QUIT", cbActionQuit);
+
+    // Register listeners for Clipboard Events
+    if (csTheClipboard) 
+    {
+        EventHandler<Client>* cbClipboardCopy = new EventHandler<Client>(&Client::ClipboardCopy, this);
+        PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_COPYTEXT", cbClipboardCopy);
+
+        EventHandler<Client>* cbClipboardPaste = new EventHandler<Client>(&Client::ClipboardPaste, this);
+        PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_PASTETEXT", cbClipboardPaste);
+
+        EventHandler<Client>* cbClipboardCut = new EventHandler<Client>(&Client::ClipboardCut, this);
+        PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_CUTTEXT", cbClipboardCut);
+    }
+    else
+    {
+        Report(PT::Warning, "Clipboard object unavailable. Disabling clipboard.");
+    }
 
     // Create the zonemanager
     csRef<iCelEntity> entity = pl->CreateEntity();
@@ -990,6 +1015,71 @@ namespace PT
       return 0;
     csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
     return pcactormove;
+  }
+
+  bool Client::ClipboardCut(PT::Events::Eventp ev)
+  {
+     using namespace PT::Events;
+
+     DoCopy(true);
+     return true;
+  }
+
+  bool Client::ClipboardCopy (PT::Events::Eventp ev)
+  {
+	 using namespace PT::Events;
+
+	 DoCopy(false);
+     return true;
+  }
+  
+  bool Client::DoCopy(bool cuttext)
+  {
+     iCEGUI* cegui = guimanager->GetCEGUI();
+     CEGUI::Window* activeChildWindow = cegui->GetWindowManagerPtr()->getWindow("Root")->getActiveChild();
+     if ( activeChildWindow )
+     {
+        CEGUI::String wintype = activeChildWindow->getType();
+        if ( wintype == "Peragro/Editbox")
+        {
+            // get the selected text
+            CEGUI::Editbox* ceguiEditBox = static_cast< CEGUI::Editbox* >( activeChildWindow );
+            CEGUI::String::size_type index = ceguiEditBox->getSelectionStartIndex();
+            CEGUI::String::size_type length = ceguiEditBox->getSelectionLength();
+            csString selectedText = ceguiEditBox->getText().substr( index, length ).c_str();
+
+            // cut text support
+            if ( cuttext && !ceguiEditBox->isReadOnly() )
+            {
+                CEGUI::String text = ceguiEditBox->getText();
+                ceguiEditBox->setText( text.erase( index, length ) );
+                ceguiEditBox->setCaratIndex(index);
+            }
+
+            // copy text to clipboard
+            csTheClipboard->SetData(selectedText,0);
+
+        }
+        else 
+        {
+            //Report what type it is for future use!
+            Report(PT::Warning, "Attempting to copy text from %s!", wintype.c_str());
+        }
+     }
+	 return true;
+  }
+
+  bool Client::ClipboardPaste(PT::Events::Eventp ev)
+  {
+     csString text;
+     csTheClipboard->GetData(text, 0);
+     if ( text.Length() > 0)
+     {
+        CEGUI::String newText = text.GetData();
+        for ( std::size_t length = newText.length(), count = 0; count < length; ++count )
+            CEGUI::System::getSingleton().injectChar( static_cast< CEGUI::utf32 >( newText[ count ] ) );
+     }
+     return true;
   }
 
 } // PT namespace

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- csclipboard.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>crystalspace.gui.clipboard.x</name>
+        <implementation>csClipboard</implementation>
+        <description>Crystal Space clipboard plugin for X Windows</description>
+      </class>
+      <class>
+        <name>crystalspace.gui.clipboard</name>
+        <implementation>csClipboard</implementation>
+        <description>Crystal Space clipboard plugin for X Windows</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

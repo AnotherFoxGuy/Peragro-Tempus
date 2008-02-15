@@ -64,6 +64,7 @@ struct iSector;
 struct iCommandLineParser;
 struct iPath;
 struct iView;
+struct iClipboard;
 
 class Network;
 class GUIManager;
@@ -154,6 +155,7 @@ namespace PT
     csRef<iCelPlLayer> pl;
     csRef<iCelBlLayer> bl;
     csRef<iCelEntity> zonemanager;
+    csRef<iClipboard> csTheClipboard;    ///< Clipboard access provider
 
     // The sound renderer.
     csRef<iSndSysRenderer> sndrenderer;
@@ -225,6 +227,11 @@ namespace PT
     bool PlayingEvent(PT::Events::Eventp ev);
     bool LoadRegion(PT::Events::Eventp ev);
     bool Connected(PT::Events::Eventp ev);
+
+    bool ClipboardCopy(PT::Events::Eventp ev);
+    bool ClipboardCut(PT::Events::Eventp ev);
+    bool ClipboardPaste(PT::Events::Eventp ev);
+    bool DoCopy(bool cuttext);
 
   public:
     Client();
