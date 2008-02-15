@@ -70,6 +70,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libudp-network", "libudp-ne
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libutil", "libutil.vcproj", "{1020E648-2350-8556-4CD6-29FFD41D5DD6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcsclipboard", "plgcsclipboard.vcproj", "{9C172335-623B-ADD5-E9C6-A8D78257C581}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
   		ConfigName.0 = Release (with static libs)
@@ -407,6 +409,14 @@ Global
 		{1020E648-2350-8556-4CD6-29FFD41D5DD6}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{1020E648-2350-8556-4CD6-29FFD41D5DD6}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{1020E648-2350-8556-4CD6-29FFD41D5DD6}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
   	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
