@@ -4,6 +4,13 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+15-Feb-2008
+ - Rolenun added embedded meta-data/standalone support for plugins.
+ - Rolenun added multiplatform clipboard plugin
+ - Rolenun added plugin directory structure comparable to CS
+ - Rolenun added X detection support.
+ - Rolenun disabled MacOSX support by default.
+ 
 14-Feb-2008
  - Rakhun fixed client_static's linking with CS and CEL.
 
