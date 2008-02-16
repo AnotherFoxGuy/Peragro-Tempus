@@ -37,6 +37,8 @@ struct iClipboard : public virtual iBase
 
     virtual bool SetData(csString text, int clipboardType) = 0;
 
+    virtual void GetOS(csString &ostype) = 0;
+
 };
 
 enum ClipboardType { ClipboardClipboard = 0,PrimaryClipboard = 1,SecondaryClipboard = 2 };

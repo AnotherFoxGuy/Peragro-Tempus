@@ -99,6 +99,7 @@ public:
    virtual void DoCopy(XSelectionRequestEvent* rq);
    virtual void SetDisplay(Display* display);
    virtual void SetWindow(Window window);
+   virtual void GetOS(csString &ostype);
 
    Bool convertProperty(Display *display, Window w, Atom target, Atom property);
 

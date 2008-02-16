@@ -334,3 +334,8 @@ void csClipboard::SetWindow(Window win)
 {
     window = win;
 }
+
+void csClipboard::GetOS(csString &ostype)
+{
+    ostype = "XWindow";
+}

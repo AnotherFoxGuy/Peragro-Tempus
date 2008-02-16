@@ -199,5 +199,10 @@ bool csClipboard::SetData(csString text)
 	Close(); 
 
 	return (err == noErr);
-}
+}
+void csClipboard::GetOS(csString &ostype)
+{
+    ostype = "MacOSX";
+}
+
 

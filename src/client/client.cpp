@@ -492,6 +492,9 @@ namespace PT
 
         EventHandler<Client>* cbClipboardCut = new EventHandler<Client>(&Client::ClipboardCut, this);
         PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_CUTTEXT", cbClipboardCut);
+        csString ostype = "";
+        csTheClipboard->GetOS(ostype);
+        Report(PT::Debug, "Clipboard plugin is using '%s' implementation.",ostype.GetData()); 
     }
     else
     {

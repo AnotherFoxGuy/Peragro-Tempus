@@ -60,6 +60,8 @@ public:
     //The SetData function places data on the clipboard in a specified clipboard format. 
     virtual bool SetData(csString text, int clipboardType);
 
+    virtual void GetOS(csString &ostype);
+
 private:
     PasteboardRef clipboardRef;
 };

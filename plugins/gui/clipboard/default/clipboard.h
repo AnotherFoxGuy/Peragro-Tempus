@@ -45,6 +45,7 @@ public:
     virtual bool Empty();
     virtual void GetData(csString &text, int clipboardType);
     virtual bool SetData(csString text, int clipboardType);
+    virtual void GetOS(csString &ostype);
 };
 
 #endif

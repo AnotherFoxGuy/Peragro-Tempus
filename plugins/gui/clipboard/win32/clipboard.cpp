@@ -122,6 +122,11 @@ bool csClipboard::SetData(csString text, int clipboardType)
     return true;
 }
 
+void csClipboard::GetOS(csString &ostype)
+{
+    ostype = "Windows";
+}
+
 //Retrieves from the clipboard the name of the specified registered format. The function copies the name to the specified buffer. 
 int csClipboard::GetFormatName(UINT format, LPSTR lpszFormatName, int cchMaxCount)
 {
