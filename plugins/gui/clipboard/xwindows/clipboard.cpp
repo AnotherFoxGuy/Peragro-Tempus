@@ -131,7 +131,6 @@ bool csClipboard::Empty()
 //During a paste, SelectionNotify is sent from the local window to the remote window asking for text.
 void csClipboard::GetData(csString &text, int clipboardType)
 {
-    printf("Entering GetData() (Aka Paste):\n");
     XEvent event;
     Atom theClipboard;
 

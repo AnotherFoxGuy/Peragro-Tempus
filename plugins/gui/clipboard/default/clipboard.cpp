@@ -63,5 +63,4 @@ bool csClipboard::SetData(csString text, int clipboardType)
 {
     return true;
 }
-}
 
