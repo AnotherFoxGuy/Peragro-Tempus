@@ -1026,7 +1026,7 @@ namespace PT
 
     InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
     if (!inputEv) return false;
-    if (!inputEv->released) return false;
+    if (inputEv->released) return false;
 
     DoCopy(true);
     return true;
@@ -1038,7 +1038,7 @@ namespace PT
 
     InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
     if (!inputEv) return false;
-    if (!inputEv->released) return false;
+    if (inputEv->released) return false;
 
     DoCopy(false);
     return true;
@@ -1086,7 +1086,7 @@ namespace PT
 
     InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
     if (!inputEv) return false;
-    if (!inputEv->released) return false;
+    if (inputEv->released) return false;
 
     csString text;
     csTheClipboard->GetData(text, 0);
