@@ -69,6 +69,11 @@ public:
     return string_id == other.string_id;
   }
 
+  inline bool operator!=(const ptString& other) const
+  {
+    return string_id != other.string_id;
+  }
+
   inline bool isNull() const
   {
     return string_id == 0;

@@ -6,6 +6,7 @@ under each day.
 
 16-Feb-2008
  - Rakhun fixed the default key definitions for clipboard actions.
+ - Rakhun tried to fix the server port problem.
 
 15-Feb-2008
  - Rolenun added embedded meta-data/standalone support for plugins.

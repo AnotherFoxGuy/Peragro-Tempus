@@ -103,7 +103,7 @@ int main(int argc, char ** argv)
   server.setDatabase(&db);
 
   unsigned int port = 12345;
-  if(*db.getConfigTable()->GetConfigValue(ptString("port",4)) != *ptString("",0))
+  if(db.getConfigTable()->GetConfigValue(ptString("port",4)) != ptString())
   {
     port = atoi(*db.getConfigTable()->GetConfigValue(ptString("port",4)));
   }
