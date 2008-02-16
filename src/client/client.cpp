@@ -1022,67 +1022,81 @@ namespace PT
 
   bool Client::ClipboardCut(PT::Events::Eventp ev)
   {
-     using namespace PT::Events;
+    using namespace PT::Events;
 
-     DoCopy(true);
-     return true;
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
+    if (!inputEv->released) return false;
+
+    DoCopy(true);
+    return true;
   }
 
   bool Client::ClipboardCopy (PT::Events::Eventp ev)
   {
-	 using namespace PT::Events;
+    using namespace PT::Events;
 
-	 DoCopy(false);
-     return true;
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
+    if (!inputEv->released) return false;
+
+    DoCopy(false);
+    return true;
   }
-  
+
   bool Client::DoCopy(bool cuttext)
   {
-     iCEGUI* cegui = guimanager->GetCEGUI();
-     CEGUI::Window* activeChildWindow = cegui->GetWindowManagerPtr()->getWindow("Root")->getActiveChild();
-     if ( activeChildWindow )
-     {
-        CEGUI::String wintype = activeChildWindow->getType();
-        if ( wintype == "Peragro/Editbox")
+    iCEGUI* cegui = guimanager->GetCEGUI();
+    CEGUI::Window* activeChildWindow = cegui->GetWindowManagerPtr()->getWindow("Root")->getActiveChild();
+    if ( activeChildWindow )
+    {
+      CEGUI::String wintype = activeChildWindow->getType();
+      if ( wintype == "Peragro/Editbox")
+      {
+        // get the selected text
+        CEGUI::Editbox* ceguiEditBox = static_cast< CEGUI::Editbox* >( activeChildWindow );
+        CEGUI::String::size_type index = ceguiEditBox->getSelectionStartIndex();
+        CEGUI::String::size_type length = ceguiEditBox->getSelectionLength();
+        csString selectedText = ceguiEditBox->getText().substr( index, length ).c_str();
+
+        // cut text support
+        if ( cuttext && !ceguiEditBox->isReadOnly() )
         {
-            // get the selected text
-            CEGUI::Editbox* ceguiEditBox = static_cast< CEGUI::Editbox* >( activeChildWindow );
-            CEGUI::String::size_type index = ceguiEditBox->getSelectionStartIndex();
-            CEGUI::String::size_type length = ceguiEditBox->getSelectionLength();
-            csString selectedText = ceguiEditBox->getText().substr( index, length ).c_str();
-
-            // cut text support
-            if ( cuttext && !ceguiEditBox->isReadOnly() )
-            {
-                CEGUI::String text = ceguiEditBox->getText();
-                ceguiEditBox->setText( text.erase( index, length ) );
-                ceguiEditBox->setCaratIndex(index);
-            }
-
-            // copy text to clipboard
-            csTheClipboard->SetData(selectedText,0);
-
+          CEGUI::String text = ceguiEditBox->getText();
+          ceguiEditBox->setText( text.erase( index, length ) );
+          ceguiEditBox->setCaratIndex(index);
         }
-        else 
-        {
-            //Report what type it is for future use!
-            Report(PT::Warning, "Attempting to copy text from %s!", wintype.c_str());
-        }
-     }
-	 return true;
+
+        // copy text to clipboard
+        csTheClipboard->SetData(selectedText,0);
+
+      }
+      else 
+      {
+        //Report what type it is for future use!
+        Report(PT::Warning, "Attempting to copy text from %s!", wintype.c_str());
+      }
+    }
+    return true;
   }
 
   bool Client::ClipboardPaste(PT::Events::Eventp ev)
   {
-     csString text;
-     csTheClipboard->GetData(text, 0);
-     if ( text.Length() > 0)
-     {
-        CEGUI::String newText = text.GetData();
-        for ( std::size_t length = newText.length(), count = 0; count < length; ++count )
-            CEGUI::System::getSingleton().injectChar( static_cast< CEGUI::utf32 >( newText[ count ] ) );
-     }
-     return true;
+    using namespace PT::Events;
+
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
+    if (!inputEv->released) return false;
+
+    csString text;
+    csTheClipboard->GetData(text, 0);
+    if ( text.Length() > 0)
+    {
+      CEGUI::String newText = text.GetData();
+      for ( std::size_t length = newText.length(), count = 0; count < length; ++count )
+        CEGUI::System::getSingleton().injectChar( static_cast< CEGUI::utf32 >( newText[ count ] ) );
+    }
+    return true;
   }
 
 } // PT namespace

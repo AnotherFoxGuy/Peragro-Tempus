@@ -61,7 +61,7 @@ public:
     //The SetData function places data on the clipboard in a specified clipboard format. The window must be the current clipboard owner, and the application must have called the OpenClipboard function. (When responding to the WM_RENDERFORMAT and WM_RENDERALLFORMATS messages, the clipboard owner must not call OpenClipboard before calling SetClipboardData.) 
     virtual bool SetData(csString text, int clipboardType);
 
-    virtual void GetOS(csString &ostype) = 0;
+    virtual void GetOS(csString &ostype);
 
     //The GetFormatName function retrieves from the clipboard the name of the specified registered format. The function copies the name to the specified buffer. 
     int GetFormatName(UINT format, LPSTR lpszFormatName, int cchMaxCount);
