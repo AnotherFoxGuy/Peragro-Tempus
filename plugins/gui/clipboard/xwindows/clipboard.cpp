@@ -226,7 +226,13 @@ bool csClipboard::SetData(csString text, int clipboardType)
             theClipboard = XInternAtom(display, "CLIPBOARD", 0);
             break;
     }
-    XSetSelectionOwner(display,theClipboard,window,CurrentTime);
+
+   //XSetSelectionOwner(display,theClipboard,window,CurrentTime);
+   
+   //Override standard behavior and copy to BOTH clipboards. 
+   //This allows middle-click to access the text in the clipboard in legacy X applications.
+   XSetSelectionOwner(display, XInternAtom(display, "CLIPBOARD", 0), window, CurrentTime);
+   XSetSelectionOwner(display, XA_PRIMARY, window, CurrentTime);
 
     //Verify XSetSelectionOwner by getting Selection owner and comparing to current window.
     Window owner = XGetSelectionOwner (display,theClipboard);
