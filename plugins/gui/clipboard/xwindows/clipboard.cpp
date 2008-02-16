@@ -167,7 +167,8 @@ void csClipboard::GetData(csString &text, int clipboardType)
         // the back and forth messages with the X Server and just set the text value.
         text = string_storage;
     } 
-    else if (event.type == SelectionNotify)     {
+    else if (event.type == SelectionNotify) 
+    {
         DoPaste (event.xselection.requestor, event.xselection.property, True, text);
     } 
 }

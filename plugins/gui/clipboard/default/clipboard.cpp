@@ -63,7 +63,8 @@ bool csClipboard::SetData(csString text, int clipboardType)
 {
     return true;
 }
-void csClipboard::GetOS(csString &ostype)
+
+void csClipboard::GetOS(csString &ostype)
 {
     ostype = "Default";
 }
