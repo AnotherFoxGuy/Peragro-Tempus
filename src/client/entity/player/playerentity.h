@@ -40,6 +40,8 @@ namespace PT
     private:
       static PlayerEntity* instance;
 
+      void ReInit(const Events::EntityAddEvent* ev);
+
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;
       ///Direction of moving. -1 for backward, 0 for standing still, 1 for

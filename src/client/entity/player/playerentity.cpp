@@ -177,7 +177,11 @@ namespace PT
       if (instance && !ev) return instance;
       //If the instance already exists, and we're requesting
       //a reinitialization
-      else if (instance && ev) delete instance;
+      else if (instance && ev) 
+      {
+        instance->ReInit(ev);
+        return instance;/*delete instance;*/
+      }
 
       //We can't initialize without a valid event
       if (!ev) return 0;
@@ -186,9 +190,27 @@ namespace PT
       return instance;
     }
 
+    void PlayerEntity::ReInit(const Events::EntityAddEvent* ev)
+    {
+      equipment.ClearAll();
+
+      //Add the equipment
+      for(size_t i = 0; i < ev->equipment.GetSize(); i++)
+        equipment.Equip(ev->equipment.Get(i).slotId, ev->equipment.Get(i).itemId);
+
+      ///@todo This is an ugly hack. The server seems to send some impossible
+      ///sector id from time to time.
+      PT::Data::Sector* sector = PointerLibrary::getInstance()->
+        getSectorDataManager()->GetSectorById(ev->sectorId);
+      if (sector) sectorName = sector->GetName();
+      //End of ugly hack
+
+      SetFullPosition(ev->position, ev->rotation, sectorName);
+    }
+
     void PlayerEntity::Create()
     {
-      printf("CREATING PLAYER");
+      Report(PT::Notify, "CREATING PLAYER");
       celEntity->SetName("player");
 
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -511,12 +533,9 @@ namespace PT
     {
       using namespace PT::Events;
 
-      int id=PointerLibrary::getInstance()->getEntityManager()->GetPlayerId();
-      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
-
       // Start moving, but only if we're not on a mount, mounts would react a
       // bit slower, so the small network lag makes sense there
-      if(!static_cast<PcEntity*>(entity)->GetHasMount()){
+      if(instance && !static_cast<PcEntity*>(instance)->GetHasMount()){
         EntityMoveEvent* entityEvent = new EntityMoveEvent();
         entityEvent->entityId      = id;
         entityEvent->walkDirection = PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1);
@@ -595,7 +614,7 @@ namespace PT
 
       if (!inputEv->released)
       {
-        if (!Instance()) return false;
+        if (!instance) return false;
         csRef<iPcDefaultCamera> pccamera = GetCamera();
         if (!pccamera) return false;
         csRef<iCamera> cam = pccamera->GetCamera();

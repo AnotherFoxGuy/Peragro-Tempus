@@ -35,7 +35,7 @@ namespace PT
      */
     class CharacterEntity : public Entity
     {
-    private:
+    protected:
       ///Equipment that character entity carries/owns.
       Equipment equipment;
       ///Time of last update of character's statistics.

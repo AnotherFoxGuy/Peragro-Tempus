@@ -353,10 +353,14 @@ namespace PT
 
     void EntityManager::delAllEntities()
     {
-      while (0 < entities.GetSize())
+      while (!entities.IsEmpty())
       {
-        pl->RemoveEntity(entities[0]->GetCelEntity());
-        entities.DeleteIndex(0);
+        Entity* ent = entities.Pop();
+        if (ent->GetId() != playerId)
+        {
+          pl->RemoveEntity(ent->GetCelEntity());
+          delete ent;
+        }
       }
       Report(PT::Debug, "Deleted all Entities! %d remain...", pl->GetEntityCount() );
     }
