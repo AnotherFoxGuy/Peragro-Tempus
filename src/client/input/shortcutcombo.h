@@ -99,4 +99,4 @@ namespace PT
   bool operator<(const ShortcutCombo& c1, const ShortcutCombo& c2);
 }
 
-#endif
+#endif // PTSHORTCUTCOMBO_H

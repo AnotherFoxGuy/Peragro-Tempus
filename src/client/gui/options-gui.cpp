@@ -211,17 +211,23 @@ void OptionsWindow::CreateDropListTexture()
 
   int quality = app_cfg->GetInt("Video.OpenGL.TextureDownsample");
 
-  if (quality == 0)
-    ((CEGUI::Combobox*)btn)->setText("High"); 
-  else if (quality == 1)
-    ((CEGUI::Combobox*)btn)->setText("Normal");
-  else if (quality == 2)
-    ((CEGUI::Combobox*)btn)->setText("Low");
-  else if (quality == 3)
-    ((CEGUI::Combobox*)btn)->setText("Very Low");
-  else
-    ((CEGUI::Combobox*)btn)->setText("Custom");
-
+  switch(quality)
+  {
+    case 0:
+      ((CEGUI::Combobox*)btn)->setText("High"); 
+      break;
+    case 1:
+      ((CEGUI::Combobox*)btn)->setText("Normal");
+      break;
+    case 2:
+      ((CEGUI::Combobox*)btn)->setText("Low");
+      break;
+    case 3:
+      ((CEGUI::Combobox*)btn)->setText("Very Low");
+      break;
+    default:
+      ((CEGUI::Combobox*)btn)->setText("Custom");
+  }
 
   CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"High", 0);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);

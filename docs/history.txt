@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+17-Feb-2008
+ - Rakhun applied some fixes by Mononoke.
+
 16-Feb-2008
  - Rakhun fixed the default key definitions for clipboard actions.
  - Rakhun tried to fix the server port problem.
