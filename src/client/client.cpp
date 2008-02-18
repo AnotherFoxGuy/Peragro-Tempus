@@ -645,7 +645,8 @@ namespace PT
   void Client::checkConnection()
   {
     //Report(PT::Notify, "Saw server %d ms ago.", csGetTicks() - last_seen);
-    if ( ! network->isRunning() && state >= STATE_CONNECTED )
+    size_t ticks = csGetTicks();
+    if ( last_seen > 0 && ticks - last_seen > 10000 && ! network->isRunning() && state >= STATE_CONNECTED )
     {
       last_seen = csGetTicks();
       Report(PT::Warning, "Disconnect!");

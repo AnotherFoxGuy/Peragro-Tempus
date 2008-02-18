@@ -5,7 +5,8 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 18-Feb-2008
- - PK fixed some issues with mouning horses and teleporting when on a horse.
+ - PK fixed some issues with mounting horses and teleporting when on a horse.
+ - Rakhun added back the reconnect delay.
 
 17-Feb-2008
  - Rakhun applied some fixes by Mononoke.
