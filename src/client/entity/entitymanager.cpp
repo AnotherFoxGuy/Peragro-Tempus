@@ -102,9 +102,10 @@ namespace PT
     {
       using namespace PT::Events;
 
-      for (size_t i = 0; i < events.GetSize(); i++)
+      while (!events.empty())
       {
-        Eventp ev = events.Pop();
+        Eventp ev = events.front();
+        events.pop();
         if (playerId != 0) 
         {
           if (ev->GetEventID().compare("entity.add") == 0)
@@ -191,7 +192,7 @@ namespace PT
       using namespace PT::Events;
 
       Eventp evcopy(ev);
-      events.Push(evcopy);
+      events.push(evcopy);
 
       return true;
     }

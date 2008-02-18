@@ -109,8 +109,8 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
     // Make sure the character is up in the saddle
     // TODO: Maybe use a confirmation message from the client instead
-    const float* mountpos = ent->getPlayerEntity()->getMount()->getEntity()->getPos();
-    if (pos[1]<mountpos[1]+0.5f){ return; }
+    //const float* mountpos = ent->getPlayerEntity()->getMount()->getEntity()->getPos();
+    //if (pos[1]<mountpos[1]+0.5f){ return; }
 
     pos[1] -= 1.0f; // Adjust the offset from the rider
     Entity* user_ent = ent->getPlayerEntity()->getMount()->getEntity()->getLock();
@@ -451,7 +451,18 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   e->freeLock();
   mount->freeLock();
 
-  // Do something!
+  // Don't run into the horse!
+  MoveMessage mmsg;
+  mmsg.setEntityId(user_ent->getId());
+  mmsg.setWalk(0);
+  mmsg.setTurn(0);
+  mmsg.setJump(false);
+  mmsg.setRun(false);
+
+  ByteStream bs1;
+  mmsg.serialise(&bs1);
+
+  NetworkHelper::localcast(bs1, user_ent);
 
   MountMessage umount_msg;
   umount_msg.setMountEntityId(mount_ent->getId());

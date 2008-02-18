@@ -75,7 +75,7 @@ namespace PT
       MovementManager* movementManager;
 
     private:
-      csArray<PT::Events::Eventp> events;
+      std::queue<PT::Events::Eventp> events;
       void ProcessEvents();
 
       void ProcessLostEntities();

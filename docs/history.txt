@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+18-Feb-2008
+ - PK fixed some issues with mouning horses and teleporting when on a horse.
+
 17-Feb-2008
  - Rakhun applied some fixes by Mononoke.
 
