@@ -110,6 +110,7 @@ namespace PT
   namespace Trade
   {
     class TradeManager;
+    class PlayerInventory;
   } // Trade namespace
 
   class Reporter;
@@ -200,6 +201,7 @@ namespace PT
     PT::Events::EventManager* eventmanager;
     PT::Chat::ChatManager* chatmanager;
     PT::Trade::TradeManager* trademanager;
+    PT::Trade::PlayerInventory* playerinventory;
 
     bool ActionActivateSkill(PT::Events::Eventp);
     bool ActionQuit(PT::Events::Eventp);

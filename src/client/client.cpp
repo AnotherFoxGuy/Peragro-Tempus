@@ -72,6 +72,7 @@
 #include "client/entity/statmanager.h"
 
 #include "client/trade/trademanager.h"
+#include "client/trade/playerinventory.h"
 
 #include "common/util/wincrashdump.h"
 #include "common/version.h"
@@ -112,6 +113,8 @@ namespace PT
     chatmanager = 0;
     trademanager = 0;
     sectorDataManager = 0;
+
+    playerinventory = 0;
   }
 
   Client::~Client()
@@ -131,6 +134,7 @@ namespace PT
     delete trademanager;
     delete sectorDataManager;
     delete statmanager;
+    delete playerinventory;
   }
 
   void Client::PreProcessFrame()
@@ -411,6 +415,11 @@ namespace PT
     if (!trademanager->Initialize())
       return Report(PT::Error, "Failed to initialize TradeManager!");
     //pointerlib.setTradeManager(trademanager);
+
+    // Create and Initialize the PlayerInventory.
+    playerinventory = new PT::Trade::PlayerInventory ();
+    if (!playerinventory->Initialize())
+      return Report(PT::Error, "Failed to initialize PlayerInventory!");
 
     // Create and Initialize the StatManager.
     statmanager = new PT::Entity::StatManager ();
