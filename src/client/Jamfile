@@ -129,6 +129,9 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
 
   ExternalLibs client_static : CRYSTAL CEL CEGUI ;
   MsvcExternalLibrary client_static : "wsock32.lib" ;
+  if $(WSOCK32.LFLAGS) {
+      LFlags client_static : $(WSOCK32.LFLAGS) ;
+  }
   MsvcExternalLibrary client_static : "libcrystalspace_staticplugins.lib libcel_staticplugins.lib" : release ;
   MsvcExternalLibrary client_static : "libcrystalspace_staticplugins_d.lib libcel_staticplugins_d.lib" : debug ;
   

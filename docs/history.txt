@@ -11,6 +11,7 @@ under each day.
  - PK fixed inventory population of the character on login.
  - PK increased the MAX_STREAM_SIZE from 512 to 32768. TCP doesn't have that
    restriction anymore.
+ - Rakhun fixed winsock linking in static client for MinGW.
 
 17-Feb-2008
  - Rakhun applied some fixes by Mononoke.
