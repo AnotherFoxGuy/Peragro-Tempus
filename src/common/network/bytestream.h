@@ -19,7 +19,7 @@
 #ifndef BYTESTREAM_H
 #define BYTESTREAM_H
 
-#define MAX_STREAM_SIZE 512
+#define MAX_STREAM_SIZE 32768
 
 class ByteStream
 {
