@@ -300,7 +300,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     unequip_msg.setFile(ptString::Null);
     unequip_msg.setMesh(ptString::Null);
     ByteStream bs;
-    response_msg.serialise(&bs);
+    unequip_msg.serialise(&bs);
     NetworkHelper::localcast(bs, user_ent);
   }
 

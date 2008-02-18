@@ -7,6 +7,10 @@ under each day.
 18-Feb-2008
  - PK fixed some issues with mounting horses and teleporting when on a horse.
  - Rakhun added back the reconnect delay.
+ - PK fixed a bug that prevented unequiping of items.
+ - PK fixed inventory population of the character on login.
+ - PK increased the MAX_STREAM_SIZE from 512 to 32768. TCP doesn't have that
+   restriction anymore.
 
 17-Feb-2008
  - Rakhun applied some fixes by Mononoke.

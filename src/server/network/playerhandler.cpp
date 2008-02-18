@@ -110,8 +110,8 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
       response_msg.setEntityId(user_ent->getId());
       response_msg.setItemId(old_item.id);
       response_msg.setSlotId(invent_slot);
-      response_msg.setFile(old->getFile());
-      response_msg.setMesh(old->getMesh());
+      response_msg.setFile(old?old->getFile():ptString::Null);
+      response_msg.setMesh(old?old->getMesh():ptString::Null);
 
       ByteStream bs;
       response_msg.serialise(&bs);
