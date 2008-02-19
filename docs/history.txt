@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+19-Feb-2008
+ - Rakhun fixed winsock linking in static server for MinGW.
+
 18-Feb-2008
  - PK fixed some issues with mounting horses and teleporting when on a horse.
  - Rakhun added back the reconnect delay.

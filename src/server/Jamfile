@@ -23,5 +23,8 @@ if [ Property build : projgen_version ] != 6
   Application server_static : [ Wildcard *.cpp *.h ] : independent noinstall console ;
   LinkWith server_static : server-network server-entity server-ai server-colldet sqlite_adp database quest tinyxml util ;
   MsvcExternalLibrary server_static : "wsock32.lib" ;
+  if $(WSOCK32.LFLAGS) {
+      LFlags server_static : $(WSOCK32.LFLAGS) ;
+  }
   SubVariant ;
 }
