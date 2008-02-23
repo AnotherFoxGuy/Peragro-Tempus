@@ -18,8 +18,6 @@
 
 #include "playerentity.h"
 
-#include <propclass/steer.h>
-
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
@@ -35,6 +33,8 @@
 #include "client/gui/chat-gui.h"
 
 #include "client/entity/statmanager.h"
+
+#include "client/world/world.h"
 
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
@@ -163,6 +163,12 @@ namespace PT
         new EventHandler<PlayerEntity>(&PlayerEntity::ActionMoveTo, this);
       PointerLibrary::getInstance()->getEventManager()->
         AddListener("input.ACTION_MOVETO", cbActionMoveTo);
+
+      // Register listener for WorldLoaded.
+      EventHandler<PlayerEntity>* cbWorldLoaded = 
+        new EventHandler<PlayerEntity>(&PlayerEntity::WorldLoaded, this);
+      PointerLibrary::getInstance()->getEventManager()->
+        AddListener("world.loaded", cbWorldLoaded);
     }
 
     PlayerEntity::~PlayerEntity()
@@ -205,6 +211,7 @@ namespace PT
       if (sector) sectorName = sector->GetName();
       //End of ugly hack
 
+      PointerLibrary::getInstance()->getWorld()->EnterWorld(ev->position.x, ev->position.z);
       SetFullPosition(ev->position, ev->rotation, sectorName);
     }
 
@@ -215,7 +222,6 @@ namespace PT
 
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
       //At this time PlayerEntity's Create() method takes care of the
       //appropriate stuff, so we only need to setup the camera.
@@ -233,38 +239,20 @@ namespace PT
       else 
         Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
 
-      // Zone manager.
-      csRef<iCelEntity> zonemgr =  pl->FindEntity("ptworld");
+      PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
+      SetFullPosition(pos, rot, sectorName.c_str());
+    }
 
-      csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (zonemgr,
-        iPcZoneManager);
+    bool PlayerEntity::WorldLoaded(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
 
-      PT::Data::SectorDataManager* sectorMgr = 
-        PointerLibrary::getInstance()->getSectorDataManager();
-      PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sectorName.c_str());
-      if (!ptsector) 
-      {
-        Report(PT::Error, "Unknown sector %s!", sectorName.c_str());
-        ptsector = sectorMgr->GetSectorByName("Default_Sector");
-      }
+      WorldLoadedEvent* worldEv = GetWorldEvent<WorldLoadedEvent*>(ev);
+      if (!worldEv) return false;
 
-      csRef<iCelRegion> region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
-      pczonemgr->ActivateRegion(region);
-      pczonemgr->PointMesh("player", ptsector->GetRegion().c_str()); 
+      SetFullPosition(pos, rot, sectorName.c_str());
 
-      //TODO move this printing bit to the BL for the zone entity.
-      csString string;
-      string.Format("Entering region: %s.", ptsector->GetRegion().c_str());
-      PointerLibrary::getInstance()->getGUIManager()->GetChatWindow()->
-        AddMessage(string.GetData());
-      Report(PT::Notify, "Entering region: %s.", ptsector->GetRegion().c_str());
-
-      //Region loading event
-      Events::RegionLoadEvent* regionEvent = new Events::RegionLoadEvent();
-      regionEvent->sectorId	   = ptsector->GetId();
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(regionEvent);
-
-      SetFullPosition(pos, rot, sectorName.c_str()); 
+      return true;
     }
 
     bool PlayerEntity::ActionForward(PT::Events::Eventp ev)
@@ -587,7 +575,7 @@ namespace PT
       ///will perform this.
 
       //If moving in first person view, add the hopping effect
-      if (camera->GetMode()==iPcDefaultCamera::firstperson && walk!=0)
+      if (camera->GetMode() == iPcDefaultCamera::firstperson && walk != 0)
       {
         //divide by zero problem
         if (fpsLimit==0) fpsLimit=1000;
@@ -668,20 +656,7 @@ namespace PT
 
       if (!celEntity.IsValid()) return;
 
-      csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-
-      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      csRef<iCelEntity> ptworld = pl->FindEntity("ptworld");
-      csRef<iPcZoneManager> pczonemgr = 
-        CEL_QUERY_PROPCLASS_ENT (ptworld, iPcZoneManager);
-
-      PT::Data::SectorDataManager* sectorMgr = 
-        PointerLibrary::getInstance()->getSectorDataManager();
-      PT::Data::Sector* ptsector = sectorMgr->GetSectorByName(sector.c_str());
-
       float rot = 0;
-
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       if (pcmesh.IsValid() && pcmesh->GetMesh ())
       {
@@ -689,25 +664,46 @@ namespace PT
         cur_position.y = pos.y;
         csVector3 direction = pos - cur_position;
         rot = atan2 (-direction.x, -direction.z);
-
-        //csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot_dst);
-        //pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
-        //pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
       }
-      
-      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(false);
 
-      // Temporary move to a void sector for unloading regions.
-      SetFullPosition(pos, rot, "Default_Sector");
-
-      Report(PT::Warning, "PlayerEntity: teleport to region %s\n", ptsector->GetRegion().c_str());
-      csRef<iCelRegion> region = pczonemgr->FindRegion(ptsector->GetRegion().c_str());
-      pczonemgr->ActivateRegion(region);
-
+      PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
       SetFullPosition(pos, rot, sector.c_str());
-
-      PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
     }
+
+    void PlayerEntity::SetFullPosition(const csVector3& pos,
+                                      float rotation,
+                                      const std::string& sector)
+    {
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+
+      if (celEntity.IsValid())
+      {
+        csRef<iPcDefaultCamera> camera = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcDefaultCamera);
+        csRef<iSector> sec = engine->FindSector(sector.c_str());
+
+        if (!sec.IsValid())
+        {
+          sec = engine->FindSector("World");
+        }
+
+        if (camera.IsValid() && camera->GetCamera() && sec.IsValid())
+        {
+          csRef<iMovable> mov = camera->GetCamera()->QuerySceneNode()->GetMovable();
+          if (mov.IsValid())
+          {
+            csVector3 offset = this->pos - mov->GetPosition();
+            mov->SetSector(sec);
+            mov->SetPosition(pos + offset);
+            mov->UpdateMove();
+          }
+        }
+      }
+
+      Entity::SetFullPosition(pos, rotation, sector);
+
+    } // end SetFullPosition()
 
   } //Entity namespace
 } //PT namespace

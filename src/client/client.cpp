@@ -74,8 +74,10 @@
 #include "client/trade/trademanager.h"
 #include "client/trade/playerinventory.h"
 
-#include "common/util/wincrashdump.h"
+//#include "common/util/wincrashdump.h"
 #include "common/version.h"
+
+#include "client/world/world.h"
 
 #define NO_CHARACTER_SELECTED_0 0
 
@@ -158,26 +160,6 @@ namespace PT
       if (state == STATE_PLAY)
       {
         entitymanager->DrUpdateOwnEntity();
-      }
-    }
-
-    if (
-      enable_reflections &&
-      entitymanager &&
-      (state == STATE_PLAY)
-    ) {
-      PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
-      if (player)
-      {
-        csRef<iPcDefaultCamera> cam = player->GetCamera();
-	if (cam)
-	{
-	  iView *view = cam->GetView();
-	  if (view)
-	  {
-            Reflection::ReflectionUtils::RenderReflections(view);
-	  }
-	}
       }
     }
   }
@@ -275,7 +257,6 @@ namespace PT
     reporter->SetLoggingLevel(PT::Insane);
 #endif
 
-
     vfs = csQueryRegistry<iVFS> (GetObjectRegistry());
     if (!vfs) return Report(PT::Error, "Failed to locate VFS!");
 
@@ -283,7 +264,7 @@ namespace PT
     if (!g3d) return Report(PT::Error, "Failed to locate 3D renderer!");
 
     csRef<iPluginManager> plugin_mgr (csQueryRegistry<iPluginManager> (object_reg));
-    csTheClipboard = csLoadPlugin<iClipboard> (plugin_mgr, "crystalspace.gui.clipboard");
+    csRef<iClipboard> csTheClipboard = csLoadPlugin<iClipboard> (plugin_mgr, "crystalspace.gui.clipboard");
     if(csTheClipboard.IsValid())
         object_reg->Register (csTheClipboard, "iClipboard");
     else
@@ -353,9 +334,6 @@ namespace PT
     vc = csQueryRegistry<iVirtualClock> (GetObjectRegistry());
     if (!vc) return Report(PT::Error, "Failed to locate Virtual Clock!");
 
-    //kbd = csQueryRegistry<iKeyboardDriver> (GetObjectRegistry());
-    //if (!kbd) return ReportError("Failed to locate Keyboard Driver!");
-
     sndrenderer = csQueryRegistry<iSndSysRenderer> (GetObjectRegistry());
     if (!sndrenderer) return Report(PT::Error, "Failed to locate sound renderer!");
 
@@ -370,14 +348,6 @@ namespace PT
 
     iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
     if (nw) nw->SetTitle ("Peragro Tempus");
-
-    // Disable the lighting cache.
-    engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
-
-    // Let the engine prepare all lightmaps for use and also free all images
-    // that were loaded for the texture manager.
-    engine->Prepare ();
-
 
     InitializeCEL();
 
@@ -478,7 +448,7 @@ namespace PT
 
     // Register listener for RegionLoadEvent.
     EventHandler<Client>* cbLoad = new EventHandler<Client>(&Client::LoadRegion, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("region.load", cbLoad);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbLoad);
 
     //Actions
 
@@ -490,45 +460,17 @@ namespace PT
     EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_QUIT", cbActionQuit);
 
-    // Register listeners for Clipboard Events
-    if (csTheClipboard) 
-    {
-        EventHandler<Client>* cbClipboardCopy = new EventHandler<Client>(&Client::ClipboardCopy, this);
-        PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_COPYTEXT", cbClipboardCopy);
+    // Disable the lighting cache.
+    engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
 
-        EventHandler<Client>* cbClipboardPaste = new EventHandler<Client>(&Client::ClipboardPaste, this);
-        PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_PASTETEXT", cbClipboardPaste);
+    // Create the world.
+    world = new World("MyWorld", GetObjectRegistry());
+    pointerlib.setWorld(world);
 
-        EventHandler<Client>* cbClipboardCut = new EventHandler<Client>(&Client::ClipboardCut, this);
-        PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_CUTTEXT", cbClipboardCut);
-        csString ostype = "";
-        csTheClipboard->GetOS(ostype);
-        Report(PT::Debug, "Clipboard plugin is using '%s' implementation.",ostype.GetData()); 
-    }
-    else
-    {
-        Report(PT::Warning, "Clipboard object unavailable. Disabling clipboard.");
-    }
-
-    // Create the zonemanager
-    csRef<iCelEntity> entity = pl->CreateEntity();
-    pl->CreatePropertyClass(entity, "pcworld.zonemanager");
-    entity->SetName("ptworld");
-    csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity,
-      iPcZoneManager);
-
-    const char* zoneloading = cmdline->GetOption("zoneloading");
-    if (zoneloading != 0)
-    {
-      pczonemgr->SetLoadingMode(atoi(zoneloading));
-    }
-    else
-    {
-      pczonemgr->SetLoadingMode(CEL_ZONE_NORMAL);
-    }
-
-    pczonemgr->Load("/peragro/art/world/", "regions.xml");
-
+    // Let the engine prepare all lightmaps for use and also free all images
+    // that were loaded for the texture manager.
+    engine->Prepare ();
+    
     Run();
 
     return true;
@@ -681,9 +623,6 @@ namespace PT
 
       ConnectRequestMessage msg(CLIENTVERSION);
       network->send(&msg);
-
-      //Client::login(user, pass);
-      //Client::selectCharacter(char_id);
     }
   }
 
@@ -856,7 +795,6 @@ namespace PT
     }
     else if (state == STATE_CONNECTED)
     {
-
       guimanager->GetLoginWindow ()->HideWindow ();
       guimanager->GetServerWindow ()->HideWindow ();
       guimanager->GetSelectCharWindow ()->ShowWindow ();
@@ -956,8 +894,8 @@ namespace PT
   {
     using namespace PT::Events;
 
-    RegionLoadEvent* regionEv = GetRegionEvent<RegionLoadEvent*>(ev);
-    if (!regionEv) return false;
+    WorldLoadedEvent* worldEv = GetWorldEvent<WorldLoadedEvent*>(ev);
+    if (!worldEv) return false;
 
     iCelEntity* ent = pl->FindEntity("ptIntroWorld");
     if (ent)
@@ -1030,85 +968,6 @@ namespace PT
     return pcactormove;
   }
 
-  bool Client::ClipboardCut(PT::Events::Eventp ev)
-  {
-    using namespace PT::Events;
-
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-    if (inputEv->released) return false;
-
-    DoCopy(true);
-    return true;
-  }
-
-  bool Client::ClipboardCopy (PT::Events::Eventp ev)
-  {
-    using namespace PT::Events;
-
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-    if (inputEv->released) return false;
-
-    DoCopy(false);
-    return true;
-  }
-
-  bool Client::DoCopy(bool cuttext)
-  {
-    iCEGUI* cegui = guimanager->GetCEGUI();
-    CEGUI::Window* activeChildWindow = cegui->GetWindowManagerPtr()->getWindow("Root")->getActiveChild();
-    if ( activeChildWindow )
-    {
-      CEGUI::String wintype = activeChildWindow->getType();
-      if ( wintype == "Peragro/Editbox")
-      {
-        // get the selected text
-        CEGUI::Editbox* ceguiEditBox = static_cast< CEGUI::Editbox* >( activeChildWindow );
-        CEGUI::String::size_type index = ceguiEditBox->getSelectionStartIndex();
-        CEGUI::String::size_type length = ceguiEditBox->getSelectionLength();
-        csString selectedText = ceguiEditBox->getText().substr( index, length ).c_str();
-
-        // cut text support
-        if ( cuttext && !ceguiEditBox->isReadOnly() )
-        {
-          CEGUI::String text = ceguiEditBox->getText();
-          ceguiEditBox->setText( text.erase( index, length ) );
-          ceguiEditBox->setCaratIndex(index);
-        }
-
-        // copy text to clipboard
-        csTheClipboard->SetData(selectedText,0);
-
-      }
-      else 
-      {
-        //Report what type it is for future use!
-        Report(PT::Warning, "Attempting to copy text from %s!", wintype.c_str());
-      }
-    }
-    return true;
-  }
-
-  bool Client::ClipboardPaste(PT::Events::Eventp ev)
-  {
-    using namespace PT::Events;
-
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-    if (inputEv->released) return false;
-
-    csString text;
-    csTheClipboard->GetData(text, 0);
-    if ( text.Length() > 0)
-    {
-      CEGUI::String newText = text.GetData();
-      for ( std::size_t length = newText.length(), count = 0; count < length; ++count )
-        CEGUI::System::getSingleton().injectChar( static_cast< CEGUI::utf32 >( newText[ count ] ) );
-    }
-    return true;
-  }
-
 } // PT namespace
 
 /*---------------*
@@ -1121,7 +980,7 @@ int main (int argc, char* argv[])
 #else
   printf("Peragro Tempus - Client\n$Revision$\tBuild-Date: %s %s\n", __DATE__, __TIME__);
 #endif
-  setWinCrashDump(argv[0]);
+  //setWinCrashDump(argv[0]);
 
 #ifdef CS_STATIC_LINKED
   //Overwrite existing env-vars for static linked client

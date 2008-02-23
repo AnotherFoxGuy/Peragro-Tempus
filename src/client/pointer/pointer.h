@@ -25,6 +25,8 @@ class Network;
 class GUIManager;
 class CombatMGR;
 
+class World;
+
 namespace PT
 {
   class Client;
@@ -89,6 +91,8 @@ private:
   PT::Chat::ChatManager* chatmanager;
   PT::Effect::EffectsManager* effectsmanager;
 
+  World* world;
+
 public:
   PointerLibrary() {
     pointerlib = this;
@@ -109,6 +113,7 @@ public:
     combatmanager = 0;
     eventmanager = 0;
     chatmanager = 0;
+    world = 0;
   }
 
   static PointerLibrary* getInstance() { return pointerlib; }
@@ -163,6 +168,9 @@ public:
 
   void setChatManager(PT::Chat::ChatManager* chatmanager) { this->chatmanager = chatmanager; }
   PT::Chat::ChatManager* getChatManager() { return this->chatmanager; }
+
+  void setWorld(World* world) { this->world = world; }
+  World* getWorld() { return this->world; }
 
 };
 

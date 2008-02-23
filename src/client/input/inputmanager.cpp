@@ -22,6 +22,12 @@
 #include "client/pointer/pointer.h"
 #include "client/event/eventmanager.h"
 #include "client/event/inputevent.h"
+#include "include/clipboard.h"
+
+#include "CEGUI.h"
+#include "CEGUIWindowManager.h"
+#include "CEGUILogger.h"
+#include "client/gui/guimanager.h"
 
 #include <utility>
 
@@ -67,6 +73,29 @@ namespace PT
       numberOfKeys++;
     }
     Report(PT::Debug, "================================ %d keybinding(s)\n", numberOfKeys);
+
+    // Register listeners for Clipboard Events
+    csTheClipboard = csQueryRegistry<iClipboard> (obj_reg);
+    if (csTheClipboard) 
+    {
+      using namespace PT::Events;
+
+      EventHandler<InputManager>* cbClipboardCopy = new EventHandler<InputManager>(&InputManager::ClipboardCopy, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_COPYTEXT", cbClipboardCopy);
+
+      EventHandler<InputManager>* cbClipboardPaste = new EventHandler<InputManager>(&InputManager::ClipboardPaste, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_PASTETEXT", cbClipboardPaste);
+
+      EventHandler<InputManager>* cbClipboardCut = new EventHandler<InputManager>(&InputManager::ClipboardCut, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_CUTTEXT", cbClipboardCut);
+      csString ostype = "";
+      csTheClipboard->GetOS(ostype);
+      Report(PT::Debug, "Clipboard plugin is using '%s' implementation.", ostype.GetData()); 
+    }
+    else
+    {
+      Report(PT::Warning, "Clipboard object unavailable. Disabling clipboard.");
+    }
 
     return true;
   }
@@ -140,4 +169,83 @@ namespace PT
     return OnMouse(ev);
   }
 
-}
+  bool InputManager::ClipboardCut(PT::Events::Eventp ev)
+  {
+    using namespace PT::Events;
+
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
+    if (inputEv->released) return false;
+
+    DoCopy(true);
+    return true;
+  }
+
+  bool InputManager::ClipboardCopy (PT::Events::Eventp ev)
+  {
+    using namespace PT::Events;
+
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
+    if (inputEv->released) return false;
+
+    DoCopy(false);
+    return true;
+  }
+
+  bool InputManager::DoCopy(bool cuttext)
+  {
+    iCEGUI* cegui = PointerLibrary::getInstance()->getGUIManager()->GetCEGUI();
+    CEGUI::Window* activeChildWindow = cegui->GetWindowManagerPtr()->getWindow("Root")->getActiveChild();
+    if ( activeChildWindow )
+    {
+      CEGUI::String wintype = activeChildWindow->getType();
+      if ( wintype == "Peragro/Editbox")
+      {
+        // get the selected text
+        CEGUI::Editbox* ceguiEditBox = static_cast< CEGUI::Editbox* >( activeChildWindow );
+        CEGUI::String::size_type index = ceguiEditBox->getSelectionStartIndex();
+        CEGUI::String::size_type length = ceguiEditBox->getSelectionLength();
+        csString selectedText = ceguiEditBox->getText().substr( index, length ).c_str();
+
+        // cut text support
+        if ( cuttext && !ceguiEditBox->isReadOnly() )
+        {
+          CEGUI::String text = ceguiEditBox->getText();
+          ceguiEditBox->setText( text.erase( index, length ) );
+          ceguiEditBox->setCaratIndex(index);
+        }
+
+        // copy text to clipboard
+        csTheClipboard->SetData(selectedText,0);
+
+      }
+      else 
+      {
+        //Report what type it is for future use!
+        Report(PT::Warning, "Attempting to copy text from %s!", wintype.c_str());
+      }
+    }
+    return true;
+  }
+
+  bool InputManager::ClipboardPaste(PT::Events::Eventp ev)
+  {
+    using namespace PT::Events;
+
+    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
+    if (!inputEv) return false;
+    if (inputEv->released) return false;
+
+    csString text;
+    csTheClipboard->GetData(text, 0);
+    if ( text.Length() > 0)
+    {
+      CEGUI::String newText = text.GetData();
+      for ( std::size_t length = newText.length(), count = 0; count < length; ++count )
+        CEGUI::System::getSingleton().injectChar( static_cast< CEGUI::utf32 >( newText[ count ] ) );
+    }
+    return true;
+  }
+
+} // PT namespace

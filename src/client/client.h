@@ -64,12 +64,13 @@ struct iSector;
 struct iCommandLineParser;
 struct iPath;
 struct iView;
-struct iClipboard;
 
 class Network;
 class GUIManager;
 class CombatMGR;
 class Cursor;
+
+class World;
 
 namespace PT
 {
@@ -155,8 +156,6 @@ namespace PT
     csRef<iView> view;
     csRef<iCelPlLayer> pl;
     csRef<iCelBlLayer> bl;
-    csRef<iCelEntity> zonemanager;
-    csRef<iClipboard> csTheClipboard;    ///< Clipboard access provider
 
     // The sound renderer.
     csRef<iSndSysRenderer> sndrenderer;
@@ -182,17 +181,11 @@ namespace PT
     PT::Entity::StatManager* statmanager;
     CombatMGR* combatmanager;
 
-    //PT::Data::DoorDataManager* doorDataManager;
-    //PT::Data::ItemDataManager* itemDataManager;
     PT::Data::EffectDataManager* effectDataManager;
     PT::Data::SectorDataManager* sectorDataManager;
     PT::Data::SkillDataManager* skillDataManager;
     PT::Data::ConnectionDataManager* connectionDataManager;
-    //PT::Data::NpcDataManager* npcDataManager;
-    //PT::Data::SpawnPointDataManager* spawnpointDataManager;
-
     PT::Misc::ServerSetupManager* serverSetupManager;
-
     PT::Effect::EffectsManager* effectsmanager;
 
     Cursor* cursor;
@@ -202,6 +195,8 @@ namespace PT
     PT::Chat::ChatManager* chatmanager;
     PT::Trade::TradeManager* trademanager;
     PT::Trade::PlayerInventory* playerinventory;
+
+    World* world;
 
     bool ActionActivateSkill(PT::Events::Eventp);
     bool ActionQuit(PT::Events::Eventp);
@@ -229,11 +224,6 @@ namespace PT
     bool PlayingEvent(PT::Events::Eventp ev);
     bool LoadRegion(PT::Events::Eventp ev);
     bool Connected(PT::Events::Eventp ev);
-
-    bool ClipboardCopy(PT::Events::Eventp ev);
-    bool ClipboardCut(PT::Events::Eventp ev);
-    bool ClipboardPaste(PT::Events::Eventp ev);
-    bool DoCopy(bool cuttext);
 
   public:
     Client();

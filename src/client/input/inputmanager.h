@@ -29,6 +29,10 @@
 #include <map>
 #include "shortcutcombo.h"
 
+#include "client/event/event.h"
+
+struct iClipboard;
+
 namespace PT
 {
   class Client;
@@ -36,6 +40,13 @@ namespace PT
   class InputManager : public csBaseEventHandler
   {
   private:
+    /// Clipboard access provider
+    csRef<iClipboard> csTheClipboard; 
+    bool ClipboardCopy(PT::Events::Eventp ev);
+    bool ClipboardCut(PT::Events::Eventp ev);
+    bool ClipboardPaste(PT::Events::Eventp ev);
+    bool DoCopy(bool cuttext);
+
     std::map<ShortcutCombo,std::string> functions;
 
     /**
@@ -75,5 +86,7 @@ namespace PT
      */
     bool OnMouseUp(iEvent& ev);
   };
-}
-#endif
+
+}// PT namespace
+
+#endif // INPUTMANAGER_H

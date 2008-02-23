@@ -78,6 +78,8 @@ namespace PT
 
       void Create();
 
+      ///Handler for when the world has been loaded.
+      bool WorldLoaded(PT::Events::Eventp ev);
       ///Handler for a walk forward event.
       bool ActionForward(PT::Events::Eventp ev);
       ///Handler for a walk backward event.
@@ -162,6 +164,16 @@ namespace PT
        * @param sector New sector where the entity should reside.
        */
       void Teleport(const csVector3& pos, const std::string& sector);
+
+      /**
+       * Changes the entity position and sector immediatelly.
+       * This also updates the camera.
+       * @param pos New position of an entity.
+       * @param sector New sector where the entity should reside.
+       */
+      void SetFullPosition(const csVector3& pos,
+                           float rotation,
+                           const std::string& sector);
     };
   }
 }

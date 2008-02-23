@@ -139,6 +139,8 @@ namespace PT
       }
     }
 
+    //TODO register a framecallback for this function.
+    // Nothing is calling it atm.
     void ReflectionUtils::RenderReflections(csRef<iView> view)
     {
       /// Throttle. Reflections are expensive.

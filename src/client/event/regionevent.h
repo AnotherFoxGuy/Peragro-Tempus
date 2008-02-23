@@ -30,26 +30,26 @@ namespace PT
     /**
     * Region event base class.
     */
-    class RegionEvent : public Event
+    class WorldEvent : public Event
     {
     public:
-      RegionEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~RegionEvent() {}
+      WorldEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
+      virtual ~WorldEvent() {}
     };
 
     /**
     * RegionEvent helper function.
     */
     template <class T>
-    T GetRegionEvent(Eventp ev)
+    T GetWorldEvent(Eventp ev)
     {
-      RegionEvent* regionEv = static_cast<RegionEvent*> (ev.get());
-      if (!regionEv)
+      WorldEvent* worldEv = static_cast<WorldEvent*> (ev.get());
+      if (!worldEv)
       {
-        printf("E: Not a Region event!\n");
+        printf("E: Not a World event!\n");
         return 0;
       }
-      T tEv = static_cast<T> (regionEv);
+      T tEv = static_cast<T> (worldEv);
       if (!tEv)
       {
         printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
@@ -60,17 +60,26 @@ namespace PT
     }
 
     /**
-    * Region load event.
+    * World loading event.
     */
-    class RegionLoadEvent : public RegionEvent
+    class WorldLoadingEvent : public WorldEvent
     {
     public:
-      std::string regionName;
-      int sectorId;
+      float progress;
 
     public:
-      RegionLoadEvent() : RegionEvent("region.load", true) {}
-      virtual ~RegionLoadEvent() {}
+      WorldLoadingEvent() : WorldEvent("world.loading", true), progress (0.0f) {}
+      virtual ~WorldLoadingEvent() {}
+    };
+
+    /**
+    * World loaded event.
+    */
+    class WorldLoadedEvent : public WorldEvent
+    {
+    public:
+      WorldLoadedEvent() : WorldEvent("world.loaded", true) {}
+      virtual ~WorldLoadedEvent() {}
     };
 
   } // Events namespace 
