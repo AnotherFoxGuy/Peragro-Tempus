@@ -6,7 +6,7 @@
     <description>This is a magical horse! Pull its tail to move!</description>
     <mesh>horse</mesh>
     <position x="" y="" z=""/>
-    <sector>room</sector>
+    <sector>World</sector>
     <destination x="" y="" z=""></destination>
   </teleport>
 </teleports>

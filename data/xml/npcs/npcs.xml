@@ -2,7 +2,7 @@
 	<npc>
 		<name>test-dummy</name>
 		<mesh>test</mesh>
-		<position sector="room" x="29" y="2" z="106"/>
+		<position sector="World" x="29" y="2" z="106"/>
 		<race>test</race> <!-- used for stats -->
 		<hair><color r="255" g="255" b="255" /></hair>
 		<skin><color r="255" g="255" b="255" /></skin>
@@ -26,7 +26,7 @@
 	<npc>
 		<name>baby-dragonfly</name>
 		<mesh>test1</mesh>
-		<position sector="room" x="41" y="2" z="172"/>
+		<position sector="World" x="41" y="2" z="172"/>
 		<race>test</race> <!-- used for stats -->
 		<hair><color r="255" g="255" b="255" /></hair>
 		<skin><color r="255" g="255" b="255" /></skin>
@@ -48,7 +48,7 @@
 	<npc>
 		<name>skeleton</name>
 		<mesh>skeleton</mesh>
-		<position sector="room" x="51.75" y="2.03" z="90.95"/>
+		<position sector="World" x="51.75" y="2.03" z="90.95"/>
 		<race>test</race> <!-- used for stats -->
 		<hair><color r="255" g="255" b="255" /></hair>
 		<skin><color r="255" g="255" b="255" /></skin>
