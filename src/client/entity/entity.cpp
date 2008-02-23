@@ -108,7 +108,7 @@ namespace PT
 
         if (!sec.IsValid())
         {
-          sec = engine->FindSector("Default_Sector");
+          sec = engine->FindSector("World");
           Report(PT::Debug,
             "Entity: Failed to find sector %s switching to default!", sector.c_str());
         }
