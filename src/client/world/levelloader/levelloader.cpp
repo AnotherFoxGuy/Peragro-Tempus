@@ -121,8 +121,7 @@ void LevelLoader::LoaderJob::Run()
 csPtr<iDocumentNode> LevelLoader::LoaderJob::WrapNode(iDocumentNode* node)
 {
   csRef<iDocument> doc;
-  csRef<iDocumentSystem> docsys;
-  if (!docsys) docsys = csPtr<iDocumentSystem> (new csTinyDocumentSystem ());
+  csRef<iDocumentSystem> docsys; docsys.AttachNew(new csTinyDocumentSystem ());
   doc = docsys->CreateDocument ();
   csRef<iDocumentNode> root = doc->CreateRoot();
   csRef<iDocumentNode> newNode = root->CreateNodeBefore(node->GetType());
