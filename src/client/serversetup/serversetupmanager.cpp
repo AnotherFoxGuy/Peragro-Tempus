@@ -149,6 +149,12 @@ namespace PT
         bool open = doors[i]->GetOpenState();
         bool locked = doors[i]->GetLockState();
 
+        if(!secmgr->GetSectorByName(sector))
+        {
+          Report(PT::Debug, "Failed to load door, couldn't find sector \"%s\"", sector);
+          continue;
+        }
+
         unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
 
         Report(PT::Debug, "Loading doors, id=%d, name=\"%s\", sector=\"%s\"", door_id, name, sector);
@@ -223,6 +229,12 @@ namespace PT
         const std::map<int, std::pair<int, int> >& inventory = 
           npcs[i]->GetAllInventory();
 
+        if(!secmgr->GetSectorByName(sector))
+        {
+          Report(PT::Debug, "Failed to load NPC, couldn't find sector \"%s\"", sector);
+          continue;
+        }
+
         unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
 
         CreateNpcMessage npcmsg;
@@ -278,6 +290,12 @@ namespace PT
         const char* sector = spawnpoints[i]->GetSectorName().c_str();
 
         unsigned int interval = spawnpoints[i]->GetInterval();
+
+        if(!secmgr->GetSectorByName(sector))
+        {
+          Report(PT::Debug, "Failed to load spawn point, couldn't find sector \"%s\"", sector);
+          continue;
+        }
 
         unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
 
