@@ -11,7 +11,7 @@
 			you know.\nNoone ever wanted to know something about this town
 			and honestly, I don't know anything about it either...</text>
 		<answer id="0" href="2">No, it's ok. After all, it was worth the try.</answer>
-		<answer id="1" href="3">How dare you... If fighting were implemented I would so kill you, u n00b!!111</answer>
+		<answer id="1" href="3">How dare you... If fighting was implemented I would so kill you, u n00b!!111</answer>
 	</dialog>
 	<dialog id="2">
 		<text>I'm glad you have no hard feelings. But ask me in a few days,
@@ -32,7 +32,7 @@
 		<text>Well, then.\n\nHave a nice day.</text>
 	</dialog>
 	<dialog id="6" start="true">
-		<text>You there!\nWhat are you looking at me?</text>
+		<text>You there!\nWhat are you looking at?</text>
 		<answer id="0" href="8">I heard you sell items.</answer>
 		<answer id="1" href="7">I want to sell my goods!</answer>
 		<answer id="2">N..nothing...</answer>

@@ -69,7 +69,7 @@ void NpcDialogAnswersTable::createTable()
   insert(0,3,"I'm in a hurry, maybe another time.", 1, 0);
 
   insert(1,0,"No, it's ok. After all, it was worth the try.", 0, 2);
-  insert(1,1,"How dare you... If fighting were implemented I would so kill you, u n00b!!111", 0, 3);
+  insert(1,1,"How dare you... If fighting was implemented I would so kill you, u n00b!!111", 0, 3);
 
   insert(3,0,"No, I don't want anything from you.", 0, 5);
   insert(3,1,"Yes, that would be very kind of you.", 0, 4);

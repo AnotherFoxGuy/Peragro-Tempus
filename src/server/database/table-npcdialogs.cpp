@@ -73,12 +73,12 @@ void NpcDialogsTable::createTable()
   insert(4,"I've seen an apple laying in the grass over there.\n"
            "If you hurry, it might still be there.", 0,"text");
   insert(5,"Well, then.\n\nHave a nice day.",0,"text");
-  insert(6,"You there!\nWhat are you looking at me?",1,"text");
+  insert(6,"You there!\nWhat are you looking at?",1,"text");
   insert(7,"",0,"buy");
   insert(8,"",0,"sell");
   insert(9,"....",1,"text");
   insert(10,"Where would you like to go?",0,"text");
-  insert(11,"4<110,2,11>",0,"teleport");
+  insert(11,"4<110,3,11>",0,"teleport");
   insert(12,"7<1022,6,594>",0,"teleport");
 }
 
