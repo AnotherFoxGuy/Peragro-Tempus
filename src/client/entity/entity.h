@@ -69,6 +69,7 @@
 #include <string>
 
 #include "client/entity/movement.h"
+#include "client/event/event.h"
 
 namespace PT
 {
@@ -145,6 +146,9 @@ namespace PT
        * calls from here maybe should be moved to the constructor.
        */
       virtual void Create() = 0;
+
+      ///Handler for when the world has been loaded.
+      bool WorldLoaded(PT::Events::Eventp ev);
 
     public:
       /**

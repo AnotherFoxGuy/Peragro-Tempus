@@ -25,7 +25,7 @@ World::World(const char* name, iObjectRegistry* object_reg) : basename(name)
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs) Report(PT::Error, "Failed to locate VFS!");
 
-  vfs->ChDir("/peragro/sky");
+  vfs->ChDir("/peragro/art/world/");
   loader->LoadMapFile("world");
 
   this->object_reg = object_reg;

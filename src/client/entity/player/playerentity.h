@@ -78,8 +78,6 @@ namespace PT
 
       void Create();
 
-      ///Handler for when the world has been loaded.
-      bool WorldLoaded(PT::Events::Eventp ev);
       ///Handler for a walk forward event.
       bool ActionForward(PT::Events::Eventp ev);
       ///Handler for a walk backward event.

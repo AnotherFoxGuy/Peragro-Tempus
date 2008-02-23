@@ -163,12 +163,6 @@ namespace PT
         new EventHandler<PlayerEntity>(&PlayerEntity::ActionMoveTo, this);
       PointerLibrary::getInstance()->getEventManager()->
         AddListener("input.ACTION_MOVETO", cbActionMoveTo);
-
-      // Register listener for WorldLoaded.
-      EventHandler<PlayerEntity>* cbWorldLoaded = 
-        new EventHandler<PlayerEntity>(&PlayerEntity::WorldLoaded, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("world.loaded", cbWorldLoaded);
     }
 
     PlayerEntity::~PlayerEntity()
@@ -241,18 +235,6 @@ namespace PT
 
       PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
       SetFullPosition(pos, rot, sectorName.c_str());
-    }
-
-    bool PlayerEntity::WorldLoaded(PT::Events::Eventp ev)
-    {
-      using namespace PT::Events;
-
-      WorldLoadedEvent* worldEv = GetWorldEvent<WorldLoadedEvent*>(ev);
-      if (!worldEv) return false;
-
-      SetFullPosition(pos, rot, sectorName.c_str());
-
-      return true;
     }
 
     bool PlayerEntity::ActionForward(PT::Events::Eventp ev)

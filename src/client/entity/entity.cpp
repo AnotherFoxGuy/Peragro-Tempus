@@ -21,7 +21,9 @@
 #include "client/reporter/reporter.h"
 
 #include "client/pointer/pointer.h"
+#include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
+#include "client/event/regionevent.h"
 #include "client/data/sectordatamanager.h"
 #include "client/data/sector.h"
 
@@ -44,7 +46,24 @@ namespace PT
       //End of ugly hack
       pos = ev.position;
       rot = ev.rotation;
-      celEntity = 0;
+
+      // Register listener for WorldLoaded.
+      PT::Events::EventHandler<Entity>* cbWorldLoaded = 
+        new PT::Events::EventHandler<Entity>(&Entity::WorldLoaded, this);
+      PointerLibrary::getInstance()->getEventManager()->
+        AddListener("world.loaded", cbWorldLoaded);
+    }
+
+    bool Entity::WorldLoaded(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
+
+      WorldLoadedEvent* worldEv = GetWorldEvent<WorldLoadedEvent*>(ev);
+      if (!worldEv) return false;
+
+      this->SetFullPosition(pos, rot, sectorName.c_str());
+
+      return true;
     }
 
     void Entity::CreateCelEntity()
@@ -89,7 +108,7 @@ namespace PT
 
         if (!sec.IsValid())
         {
-          sec = engine->FindSector("World");
+          sec = engine->FindSector("Default_Sector");
           Report(PT::Debug,
             "Entity: Failed to find sector %s switching to default!", sector.c_str());
         }

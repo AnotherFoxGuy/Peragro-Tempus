@@ -16,7 +16,7 @@ MapTile::MapTile(int x0, int z0, const std::string& fileName, World* world): Lev
   sprintf(buffer, "instances-%d-%d",x,z);
   regionName = buffer;
 
-  OpenFile("/peragro/tiles/", fileName);
+  OpenFile("/peragro/art/tiles/", fileName);
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   sector = engine->FindSector("World");
