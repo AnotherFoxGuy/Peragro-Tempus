@@ -52,7 +52,7 @@ void RaceTable::createTable()
 
   float pos[3] = { 86.8f, 2.0f, 11.2f };
   ptString test("test", 4);
-  ptString room("room", 4);
+  ptString room("World", 4);
 
   insert(1, test, test, pos, room);
 }

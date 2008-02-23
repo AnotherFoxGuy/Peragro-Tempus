@@ -58,7 +58,7 @@ void EntityTable::createTable()
 
   ptString dummy("test-dummy", 10);
   ptString test("test", 4);
-  ptString room("room", 4);
+  ptString room("World", 4);
   ptString apple("apple", 5);
   ptString dummy1("Baby Dragonfly", 14);
   ptString test1("test1", 5);
