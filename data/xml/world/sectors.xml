@@ -1,4 +1,6 @@
 <sectors>
 	<sector id="1" region="empty">Default_Sector</sector>
 	<sector id="2" region="World">World</sector>
+	<sector id="3" region="World">interior</sector>
+	<sector id="4" region="World">interior2</sector>
 </sectors>
