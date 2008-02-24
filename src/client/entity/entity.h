@@ -147,9 +147,6 @@ namespace PT
        */
       virtual void Create() = 0;
 
-      ///Handler for when the world has been loaded.
-      bool WorldLoaded(PT::Events::Eventp ev);
-
     public:
       /**
        * Constructor that sets up the entity using the information provided by

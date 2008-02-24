@@ -658,6 +658,8 @@ namespace PT
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
+      printf("PlayerEntity::SetFullPosition\n");
+
       if (celEntity.IsValid())
       {
         csRef<iPcDefaultCamera> camera = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcDefaultCamera);
@@ -666,6 +668,7 @@ namespace PT
         if (!sec.IsValid())
         {
           sec = engine->FindSector("Default_Sector");
+          if (!sec.IsValid()) printf("AAAARRRGG\n");
         }
 
         if (camera.IsValid() && camera->GetCamera() && sec.IsValid())

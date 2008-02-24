@@ -80,6 +80,9 @@ namespace PT
 
       void ProcessLostEntities();
 
+      // A default sector for entities to be added in.
+      csRef<iSector> defaultSector;
+
     private:
       unsigned int playerId;
 
@@ -106,6 +109,13 @@ namespace PT
        * @return True if successful, false otherwise.
        */
       bool EntityPose(PT::Events::Eventp ev);
+
+      /**
+       * Handler for when the world has been loaded.
+       * @param ev WorldLoaded event to be processed.
+       * @return True if successful, false otherwise.
+       */
+      bool WorldLoaded(PT::Events::Eventp ev);
 
       void DrUpdateOwnEntity();
 

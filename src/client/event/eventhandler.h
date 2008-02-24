@@ -30,6 +30,7 @@ namespace PT
     {
     public:
       virtual bool HandleEvent(Eventp ev) = 0;
+      virtual bool IsValid() = 0;
       virtual ~EventHandlerCallback() { };
     };
 
@@ -47,6 +48,11 @@ namespace PT
       bool HandleEvent(Eventp ev)
       {
         return (theclass->*thefunc)(ev);
+      }
+
+      bool IsValid()
+      {
+        return theclass != 0;
       }
 
       Class *theclass;

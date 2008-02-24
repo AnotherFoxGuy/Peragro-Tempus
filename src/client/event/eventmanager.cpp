@@ -80,6 +80,11 @@ namespace PT
         std::vector<Listener>::iterator it;
         for(it = listeners.begin(); it != listeners.end(); ++it)
         {
+          if (!it->handler->IsValid())
+          {
+            listeners.erase(it);
+            continue;
+          }
           if ((id.length() == it->eventId.length()) && id == it->eventId)
           {
             if (!it->handler) continue;

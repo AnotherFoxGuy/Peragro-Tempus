@@ -46,24 +46,6 @@ namespace PT
       //End of ugly hack
       pos = ev.position;
       rot = ev.rotation;
-
-      // Register listener for WorldLoaded.
-      PT::Events::EventHandler<Entity>* cbWorldLoaded = 
-        new PT::Events::EventHandler<Entity>(&Entity::WorldLoaded, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("world.loaded", cbWorldLoaded);
-    }
-
-    bool Entity::WorldLoaded(PT::Events::Eventp ev)
-    {
-      using namespace PT::Events;
-
-      WorldLoadedEvent* worldEv = GetWorldEvent<WorldLoadedEvent*>(ev);
-      if (!worldEv) return false;
-
-      this->SetFullPosition(pos, rot, sectorName.c_str());
-
-      return true;
     }
 
     void Entity::CreateCelEntity()

@@ -71,7 +71,8 @@ namespace PT
       movementManager->Initialize();
 
       // Create a default sector for entities to be added in.
-      csRef<iSector> sector = engine->CreateSector("Default_Sector");
+      defaultSector = engine->CreateSector("Default_Sector");
+      if (!defaultSector.IsValid()) printf("AAAARRRRR\n");
 
       using namespace PT::Events;
 
@@ -94,6 +95,10 @@ namespace PT
       // Register listener for ActionInteract.
       EventHandler<EntityManager>* cbInteract = new EventHandler<EntityManager>(&EntityManager::OnInteract, this);
       PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_INTERACT", cbInteract);
+
+      // Register listener for WorldLoaded.
+      EventHandler<EntityManager>* cbWorldLoaded = new PT::Events::EventHandler<EntityManager>(&EntityManager::WorldLoaded, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbWorldLoaded);
 
       return true;
     }
@@ -123,6 +128,24 @@ namespace PT
             EntityPose(ev);
         }
       } // for
+    }
+
+    bool EntityManager::WorldLoaded(PT::Events::Eventp ev)
+    {
+      using namespace PT::Events;
+
+      WorldLoadedEvent* worldEv = GetWorldEvent<WorldLoadedEvent*>(ev);
+      if (!worldEv) return false;
+
+      for (size_t i = 0; i < entities.GetSize(); i++)
+      {
+        if (entities.Get(i))
+        {
+          entities.Get(i)->SetFullPosition();
+        }
+      }
+
+      return true;
     }
 
     void EntityManager::ProcessLostEntities()

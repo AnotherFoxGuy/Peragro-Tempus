@@ -50,7 +50,7 @@ namespace PT
     if (!vfs) Report(PT::Error, "Failed to locate VFS!");
 
     vfs->ChDir("/peragro/art/world/");
-    loader->LoadMapFile("world");
+    loader->LoadMapFile("world", false);
 
     this->object_reg = object_reg;
     modelManager = new ModelManager(object_reg);
