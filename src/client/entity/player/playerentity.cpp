@@ -45,6 +45,8 @@
 #define RUN_PPS 0.06f
 #define RUN_PITCH_RANGE 0.01f
 
+//#define _MOVEMENT_DEBUG_CHARACTER_
+
 namespace PT
 {
 
@@ -235,6 +237,31 @@ namespace PT
 
       PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
       SetFullPosition(pos, rot, sectorName.c_str());
+
+#ifdef _MOVEMENT_DEBUG_CHARACTER_
+      other_self = pl->CreateEntity();
+
+      pl->CreatePropertyClass(other_self, "pcobject.mesh");
+      pl->CreatePropertyClass(other_self, "pcmove.solid");
+      pl->CreatePropertyClass(other_self, "pcmove.actor.standard");
+      pl->CreatePropertyClass(other_self, "pcmove.linear");
+
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(other_self, iPcMesh);
+
+      pcmesh->SetMesh(meshName.c_str(), fileName.c_str());
+
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      csRef<iSector> sector = engine->FindSector(sectorName.c_str());
+
+      csRef<iMovable> mov = pcmesh->GetMesh()->GetMovable();
+      if (mov.IsValid())
+      {
+        mov->SetSector(sector);
+        mov->SetPosition(pos);
+        mov->GetTransform ().SetO2T (csYRotMatrix3(rot));
+        mov->UpdateMove();
+      }
+#endif
     }
 
     bool PlayerEntity::ActionForward(PT::Events::Eventp ev)
@@ -248,6 +275,12 @@ namespace PT
 
         if (!inputEv->released) walk = 1;
         else walk = 0;
+
+#ifdef _MOVEMENT_DEBUG_CHARACTER_
+        csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
+        pcactormove->SetMovementSpeed(4);
+        pcactormove->Forward(walk != 0);
+#endif
       }
       PerformMovementAction();
 
@@ -265,6 +298,12 @@ namespace PT
 
         if (!inputEv->released) walk = -1;
         else walk = 0;
+
+#ifdef _MOVEMENT_DEBUG_CHARACTER_
+        csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
+        pcactormove->SetMovementSpeed(4);
+        pcactormove->Backward(walk != 0);
+#endif
       }
       PerformMovementAction();
 
@@ -282,6 +321,12 @@ namespace PT
 
         if (!inputEv->released) turn = -1;
         else turn = 0;
+
+#ifdef _MOVEMENT_DEBUG_CHARACTER_
+        csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
+        pcactormove->SetRotationSpeed(3);
+        pcactormove->RotateLeft(turn != 0);
+#endif
       }
       PerformMovementAction();
 
@@ -299,6 +344,12 @@ namespace PT
 
         if (!inputEv->released) turn = 1;
         else turn = 0;
+
+#ifdef _MOVEMENT_DEBUG_CHARACTER_
+        csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
+        pcactormove->SetRotationSpeed(3);
+        pcactormove->RotateRight(turn != 0);
+#endif
       }
       PerformMovementAction();
 

@@ -67,6 +67,8 @@ namespace PT
       ///substracting from it) when moving in first person view.
       int pitchDirection;
 
+      csRef<iCelEntity> other_self;
+
       /**
        * Constructor that sets up the player using the information provided by
        * EntityAddEvent event.
