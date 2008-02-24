@@ -61,7 +61,14 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
       // Connect to selected server
       ConnectRequestMessage msg(CLIENTVERSION);
       network->setServerAddress(guimanager->GetServerWindow()->GetServerHost(), guimanager->GetServerWindow()->GetServerPort());
-      network->init();
+      if (! network->init())
+      {
+        //unable to etablish tcp connection
+        GUIWindow::EnableWindow();
+        guimanager->GetServerWindow()->EnableWindow();
+        guimanager->CreateOkWindow(true)->SetText("Unable to connect to server!");
+        return true;
+      }
       network->send(&msg);
     }
   }
@@ -77,7 +84,14 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
     // Connect to selected server
     ConnectRequestMessage msg(CLIENTVERSION);
     network->setServerAddress(guimanager->GetServerWindow()->GetServerHost(), guimanager->GetServerWindow()->GetServerPort());
-    network->init();
+    if (! network->init())
+    {
+      //unable to etablish tcp connection
+      GUIWindow::EnableWindow();
+      guimanager->GetServerWindow()->EnableWindow();
+      guimanager->CreateOkWindow(true)->SetText("Unable to connect to server!");
+      return true;
+    }
     network->send(&msg);
   }
 

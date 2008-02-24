@@ -4,8 +4,13 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+24-Feb-2008
+ - PK added an error message if the client can't establish a tcp connection to
+   the server.
+
 23-Feb-2008
- - Rakhun added checks to make sure the referenced sectors are found in serversetup.
+ - Rakhun added checks to make sure the referenced sectors are found in
+   serversetup.
 
 19-Feb-2008
  - Rakhun fixed winsock linking in static server for MinGW.

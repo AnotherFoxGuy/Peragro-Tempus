@@ -51,7 +51,7 @@ protected:
 public:
   Thread()
   {
-    runThread = true;
+    runThread = false;
   }
 
   virtual ~Thread() {}

@@ -43,13 +43,15 @@ public:
     receiver.kill();
   }
 
-  void init()
+  bool init()
   {
     if (socket.init(serveraddress.port, serveraddress.ip, false))
     {
       receiver.registerHandler(&conn_handler);
       receiver.begin();
+      return true;
     }
+    return false;
   }
 
   bool isRunning()
