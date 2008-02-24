@@ -183,9 +183,10 @@ void User::sendAddEntity(const Entity* entity)
 
 void User::sendRemoveEntity(const Entity* entity)
 {
-  printf("send delentity '%s' to '%s'\n", *entity->getName(), *this->getName());
   if (!ent_list.exists(entity))
     return;
+
+  printf("send delentity '%s' to '%s'\n", *entity->getName(), *this->getName());
 
   ent_list.removeEntity(entity);
 

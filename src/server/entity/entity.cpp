@@ -72,40 +72,72 @@ const ptString& Entity::getSectorName() const
 
 void Entity::setSector(unsigned short id)
 {
-  if (pc_entity.get() && pc_entity.get()->getUser())
+  sector_id = id;
+}
+
+void Entity::setPos(float x, float y, float z)
+{
+  pos[0] = x;
+  pos[1] = y;
+  pos[2] = z;
+
+  const float dist_square = this->getDistanceTo2(this->getLastSaved());
+  if (dist_square > 100)
   {
-    if (sector_id != id)
+    const User* this_user = 0;
+    if (this->getPlayerEntity() != 0)
     {
-      SectorManager* sectorMgr = Server::getServer()->getSectorManager();
-      const ptString& old_region = sectorMgr->getRegionName(sector_id);
-      const ptString& new_region = sectorMgr->getRegionName(id);
+      this_user = this->getPlayerEntity()->getUser();
+    }
 
-      sector_id = id;
-
-      if ( ! ( old_region == new_region ) ) 
+    EntityManager* ent_mgr = Server::getServer()->getEntityManager();
+    ent_mgr->lock();
+    for (size_t i = 0; i < ent_mgr->getEntityCount(); i++)
+    {
+      const Entity* other_ent = ent_mgr->getEntity(i);
+      const User* other_user = 0;
+      if (other_ent->getPlayerEntity() != 0)
       {
-        EntityManager* ent_mgr = Server::getServer()->getEntityManager();
-        ent_mgr->lock();
-        for (size_t i = 0; i < ent_mgr->getEntityCount(); i++)
-        {
-          const ptString& region = sectorMgr->getRegionName(ent_mgr->getEntity(i)->getSector());
+        other_user = other_ent->getPlayerEntity()->getUser();
+      }
 
-          User* user = pc_entity.get()->getUser()->getLock();
-          if (region == old_region)
-          {
-            user->sendRemoveEntity(ent_mgr->getEntity(i));
-          }
-          else if (region == new_region)
-          {
-            user->sendAddEntity(ent_mgr->getEntity(i));
-          }
+      if (this_user == 0 && other_user == 0)
+        continue;
+
+      if (this->getSector() == other_ent->getSector() &&
+         (this->getDistanceTo2(other_ent) < 10000))
+      {
+        if (this_user)
+        {
+          User* user = this_user->getLock();
+          user->sendAddEntity(other_ent);
           user->freeLock();
         }
-        ent_mgr->unlock();
+        if (other_user)
+        {
+          User* user = other_user->getLock();
+          user->sendAddEntity(this);
+          user->freeLock();
+        }
+      }
+      else
+      {
+        if (this_user)
+        {
+          User* user = this_user->getLock();
+          user->sendRemoveEntity(other_ent);
+          user->freeLock();
+        }
+        if (other_user)
+        {
+          User* user = other_user->getLock();
+          user->sendRemoveEntity(this);
+          user->freeLock();
+        }
       }
     }
+    ent_mgr->unlock();
   }
-  sector_id = id;
 }
 
 void Entity::setSector(ptString name)

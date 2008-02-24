@@ -7,6 +7,7 @@ under each day.
 24-Feb-2008
  - PK added an error message if the client can't establish a tcp connection to
    the server.
+ - PK implemented distance based adding of entities to the client.
 
 23-Feb-2008
  - Rakhun added checks to make sure the referenced sectors are found in

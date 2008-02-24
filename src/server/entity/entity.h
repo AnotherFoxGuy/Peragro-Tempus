@@ -125,12 +125,7 @@ public:
   const float* getLastSaved() const { return pos_last_saved; }
 
   void setPos(const float p[3]) { setPos(p[0],p[1],p[2]); }
-  void setPos(float x, float y, float z)
-  {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
+  void setPos(float x, float y, float z);
   const float* getPos() const { return pos; }
 
   void setRotation(float rot) { rotation = rot; }
