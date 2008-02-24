@@ -71,7 +71,7 @@ namespace PT
       movementManager->Initialize();
 
       // Create a default sector for entities to be added in.
-      engine->CreateSector("Default_Sector");
+      csRef<iSector> sector = engine->CreateSector("Default_Sector");
 
       using namespace PT::Events;
 
@@ -414,7 +414,7 @@ namespace PT
                 Report(PT::Debug, "Couldn't find sector %s", sector->QueryObject()->GetName());
                 return;
               }
-              Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), dataSector->GetId());
+              //Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), dataSector->GetId());
               drmsg.setSectorId(dataSector->GetId());
             }
             else

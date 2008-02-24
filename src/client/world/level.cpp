@@ -1,4 +1,20 @@
-#include <crystalspace.h>
+/*
+    Copyright (C) 2005 Development Team of Peragro Tempus
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 
 #include "level.h"
 #include "world.h"
@@ -8,212 +24,215 @@
 #include "interior.h"
 #include "levelloader/levelloader.h"
 
-
-Level::Level(World* world)
+namespace PT
 {
-  this->object_reg = world->GetObjectRegistry();
-  modelManager =  world->GetModelManager();
-  interiorManager = world->GetInteriorManager();
-
-  levelLoader = 0;
-  finished = false;
-
-  missingData.AttachNew(new MissingData(this));
-}
-
-Level::~Level()
-{
-  //printf("Unloading Level %s\n", regionName.c_str());
-
-  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-
-  // Remove callback.
-  if (cb.IsValid())
+  Level::Level(World* world)
   {
-    engine->RemoveEngineFrameCallback(cb);
+    this->object_reg = world->GetObjectRegistry();
+    modelManager =  world->GetModelManager();
+    interiorManager = world->GetInteriorManager();
+
+    levelLoader = 0;
+    finished = false;
+
+    missingData.AttachNew(new MissingData(this));
   }
 
-  // Unload instances.
-  if (instances.IsValid())
+  Level::~Level()
   {
-    instances->DeleteAll();
-    engine->GetRegions()->Remove(instances);
-  }
+    //printf("Unloading Level %s\n", regionName.c_str());
 
-  // Unload factories.
-  // Just empty the array to decrease ref.
-  factories.Empty();
+    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
 
-  // Delete the tileloader.
-  if (levelLoader) delete levelLoader;
-  levelLoader = 0;
-}
+    // Remove callback.
+    if (cb.IsValid())
+    {
+      engine->RemoveEngineFrameCallback(cb);
+    }
 
-void Level::OpenFile(const std::string& path, const std::string& fileName)
-{
-  // Create the threaded fileloader.
-  levelLoader = new LevelLoader(object_reg);
-  levelLoader->Load(path, fileName);
+    // Unload instances.
+    if (instances.IsValid())
+    {
+      instances->DeleteAll();
+      engine->GetRegions()->Remove(instances);
+    }
 
-  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+    // Unload factories.
+    // Just empty the array to decrease ref.
+    factories.Empty();
 
-  // Create instances' region.
-  instances = engine->CreateRegion(regionName.c_str());
-
-  // Wait for the resources to be loaded.
-  cb.AttachNew(new FrameCallBack(this));
-  engine->AddEngineFrameCallback(cb);
-
-} // end OpenFile()
-
-void Level::ParseFactories()
-{
-  csArray<std::string>* facts = levelLoader->GetFactories();
-  if (!facts) return;
-
-  // For each library tag.
-  for (size_t i =0; i < facts->GetSize(); i++)
-  {
-    csRef<Factory> fact = modelManager->Get(facts->Get(i));
-    factories.Push(fact);
-  }
-
-} // end ParseFactories()
-
-void Level::ParseInstances()
-{
-  csRefArray<iDocumentNode>* insts = levelLoader->GetInstances();
-  if (!insts) return;
-
-  // For each meshobj tag.
-  for (size_t i =0; i < insts->GetSize(); i++)
-  {
-    instanceNodes.Push(insts->Get(i));
-  }
-
-} // end ParseInstances()
-
-void Level::ParseInteriors()
-{
-  csRefArray<iDocumentNode>* ints = levelLoader->GetInteriors();
-  if (!ints) return;
-
-  // For each meshobj tag.
-  for (size_t i =0; i < ints->GetSize(); i++)
-  {
-    csRef<Interior> interior = interiorManager->Get(ints->Get(i));
-    interiors.Push(interior);
-    // TODO: just load it for now.
-    interior->Load();
-  }
-
-} // end ParseInteriors()
-
-bool Level::CheckResources()
-{
-  /*
-  static int counter = 0;
-  counter++;
-  if (counter < 2) return false;
-  counter = 0;
-  */
-
-  if (levelLoader && !levelLoader->IsReady())
-    return false;
-  else if (levelLoader)
-  {
-    ParseFactories();
-    ParseInstances();
-    ParseInteriors();
-    delete levelLoader;
+    // Delete the tileloader.
+    if (levelLoader) delete levelLoader;
     levelLoader = 0;
   }
 
-  // Wait till all loaders have finished.
-  for (size_t i = 0; i < factories.GetSize(); i++)
+  void Level::OpenFile(const std::string& path, const std::string& fileName)
   {
-    Factory* fact = factories.Get(i);
-    if (fact->IsReady() && !fact->IsAdded())
+    // Create the threaded fileloader.
+    levelLoader = new LevelLoader(object_reg);
+    levelLoader->Load(path, fileName);
+
+    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+
+    // Create instances' region.
+    instances = engine->CreateRegion(regionName.c_str());
+
+    // Wait for the resources to be loaded.
+    cb.AttachNew(new FrameCallBack(this));
+    engine->AddEngineFrameCallback(cb);
+
+  } // end OpenFile()
+
+  void Level::ParseFactories()
+  {
+    csArray<std::string>* facts = levelLoader->GetFactories();
+    if (!facts) return;
+
+    // For each library tag.
+    for (size_t i =0; i < facts->GetSize(); i++)
     {
-      fact->AddToEngine();
-      return false;
+      csRef<Factory> fact = modelManager->Get(facts->Get(i));
+      factories.Push(fact);
     }
-    else if (!fact->IsReady())
-      return false;
-  }
 
-  // Wait till everything is precached.
-  for (size_t i = 0; i < factories.GetSize(); i++)
+  } // end ParseFactories()
+
+  void Level::ParseInstances()
   {
-    Factory* fact = factories.Get(i);
-    if (!fact->IsPrecached())
+    csRefArray<iDocumentNode>* insts = levelLoader->GetInstances();
+    if (!insts) return;
+
+    // For each meshobj tag.
+    for (size_t i =0; i < insts->GetSize(); i++)
     {
-      fact->Precache();
-      return false;
+      instanceNodes.Push(insts->Get(i));
     }
-  }
 
+  } // end ParseInstances()
 
-  while (!instanceNodes.IsEmpty())
+  void Level::ParseInteriors()
   {
-    csRef<iDocumentNode> node = instanceNodes.Get(0);
-    instanceNodes.DeleteIndex(0);
-    LoadInstance(node);
-    return false;
-  }
+    csRefArray<iDocumentNode>* ints = levelLoader->GetInteriors();
+    if (!ints) return;
 
-  finished = true;
-  
-  return true;
-
-} // end CheckResources()
-
-void Level::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
-{
-  if (!level || level->CheckResources())
-  {
-    engine->RemoveEngineFrameCallback(this);
-  }
-} // end StartFrame()
-
-iMeshFactoryWrapper* Level::MissingData::MissingFactory(const char* name)
-{
-  if (!level) return 0;
-
-  for (size_t i = 0; i < level->factories.GetSize(); i++)
-  {
-    Factory* fact = level->factories.Get(i);
-    if (fact->IsReady() && fact->IsAdded())
+    // For each meshobj tag.
+    for (size_t i =0; i < ints->GetSize(); i++)
     {
-      iRegion* region = fact->GetRegion();
-      if (region)
+      csRef<Interior> interior = interiorManager->Get(ints->Get(i));
+      interiors.Push(interior);
+      // TODO: just load it for now.
+      interior->Load();
+    }
+
+  } // end ParseInteriors()
+
+  bool Level::CheckResources()
+  {
+    /*
+    static int counter = 0;
+    counter++;
+    if (counter < 2) return false;
+    counter = 0;
+    */
+
+    if (levelLoader && !levelLoader->IsReady())
+      return false;
+    else if (levelLoader)
+    {
+      ParseFactories();
+      ParseInstances();
+      ParseInteriors();
+      delete levelLoader;
+      levelLoader = 0;
+    }
+
+    // Wait till all loaders have finished.
+    for (size_t i = 0; i < factories.GetSize(); i++)
+    {
+      Factory* fact = factories.Get(i);
+      if (fact->IsReady() && !fact->IsAdded())
       {
-        iMeshFactoryWrapper* mesh = region->FindMeshFactory(name);
-        if (mesh) return mesh;
+        fact->AddToEngine();
+        return false;
+      }
+      else if (!fact->IsReady())
+        return false;
+    }
+
+    // Wait till everything is precached.
+    for (size_t i = 0; i < factories.GetSize(); i++)
+    {
+      Factory* fact = factories.Get(i);
+      if (!fact->IsPrecached())
+      {
+        fact->Precache();
+        return false;
       }
     }
-  }
 
-  return 0;
-} // end MissingFactory()
 
-iTextureWrapper* Level::MissingData::MissingTexture(const char* name, const char* filename)
-{
-  if (!level) return 0;
-
-  for (size_t i = 0; i < level->factories.GetSize(); i++)
-  {
-    Factory* fact = level->factories.Get(i);
-    if (fact->IsReady() && fact->IsAdded())
+    while (!instanceNodes.IsEmpty())
     {
-      iRegion* region = fact->GetRegion();
-      if (region)
+      csRef<iDocumentNode> node = instanceNodes.Get(0);
+      instanceNodes.DeleteIndex(0);
+      LoadInstance(node);
+      return false;
+    }
+
+    finished = true;
+
+    return true;
+
+  } // end CheckResources()
+
+  void Level::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
+  {
+    if (!level || level->CheckResources())
+    {
+      engine->RemoveEngineFrameCallback(this);
+    }
+  } // end StartFrame()
+
+  iMeshFactoryWrapper* Level::MissingData::MissingFactory(const char* name)
+  {
+    if (!level) return 0;
+
+    for (size_t i = 0; i < level->factories.GetSize(); i++)
+    {
+      Factory* fact = level->factories.Get(i);
+      if (fact->IsReady() && fact->IsAdded())
       {
-        iTextureWrapper* tex = region->FindTexture(name);
-        if (tex) return tex;
+        iRegion* region = fact->GetRegion();
+        if (region)
+        {
+          iMeshFactoryWrapper* mesh = region->FindMeshFactory(name);
+          if (mesh) return mesh;
+        }
       }
     }
-  }
 
-  return 0;
-} // end MissingFactory()
+    return 0;
+  } // end MissingFactory()
+
+  iTextureWrapper* Level::MissingData::MissingTexture(const char* name, const char* filename)
+  {
+    if (!level) return 0;
+
+    for (size_t i = 0; i < level->factories.GetSize(); i++)
+    {
+      Factory* fact = level->factories.Get(i);
+      if (fact->IsReady() && fact->IsAdded())
+      {
+        iRegion* region = fact->GetRegion();
+        if (region)
+        {
+          iTextureWrapper* tex = region->FindTexture(name);
+          if (tex) return tex;
+        }
+      }
+    }
+
+    return 0;
+  } // end MissingFactory()
+
+} // PT namespace

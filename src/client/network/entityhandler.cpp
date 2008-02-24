@@ -102,7 +102,7 @@ void EntityHandler::handleRemoveEntity(GenericMessage* msg)
 
 void EntityHandler::handleMove(GenericMessage* msg)
 {
-  Report(PT::Debug, "EntityHandler: Received MoveEntity.");
+  //Report(PT::Debug, "EntityHandler: Received MoveEntity.");
   MoveMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
@@ -176,7 +176,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
 
 void EntityHandler::handleMoveTo(GenericMessage* msg)
 {
-  Report(PT::Debug, "EntityHandler: Received MoveToEntity.");
+  //Report(PT::Debug, "EntityHandler: Received MoveToEntity.");
   MoveToMessage move_msg;
   move_msg.deserialise(msg->getByteStream());
 

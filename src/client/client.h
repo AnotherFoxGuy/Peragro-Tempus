@@ -70,10 +70,10 @@ class GUIManager;
 class CombatMGR;
 class Cursor;
 
-class World;
-
 namespace PT
 {
+  class World;
+
   namespace Data
   {
     class EffectDataManager;
@@ -111,7 +111,6 @@ namespace PT
   namespace Trade
   {
     class TradeManager;
-    class PlayerInventory;
   } // Trade namespace
 
   class Reporter;
@@ -194,7 +193,6 @@ namespace PT
     PT::Events::EventManager* eventmanager;
     PT::Chat::ChatManager* chatmanager;
     PT::Trade::TradeManager* trademanager;
-    PT::Trade::PlayerInventory* playerinventory;
 
     World* world;
 

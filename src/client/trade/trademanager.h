@@ -27,11 +27,15 @@ namespace PT
 {
   namespace Trade
   {
+    class PlayerInventory;
+
     class TradeManager
     {
-    public:
+    private:
       bool PickUp(PT::Events::Eventp ev);
       bool Drop(PT::Events::Eventp ev);
+
+      PT::Trade::PlayerInventory* playerinventory;
 
     public:
       TradeManager ();

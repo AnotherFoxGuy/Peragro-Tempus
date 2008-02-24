@@ -96,7 +96,7 @@ namespace PT
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       
-      Entity::sectorName = sector;
+      if (sector != "Default_Sector") Entity::sectorName = sector;
       Entity::pos = pos;
       Entity::rot = rotation;
 
@@ -108,7 +108,7 @@ namespace PT
 
         if (!sec.IsValid())
         {
-          sec = engine->FindSector("World");
+          sec = engine->FindSector("Default_Sector");
           Report(PT::Debug,
             "Entity: Failed to find sector %s switching to default!", sector.c_str());
         }
@@ -122,6 +122,12 @@ namespace PT
             mov->SetPosition(pos);
             mov->GetTransform ().SetO2T (csYRotMatrix3(rotation));
             mov->UpdateMove();
+          }
+
+          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+          if (pclinmove.IsValid())
+          {
+            pclinmove->SetOnGround(false);
           }
 
           return; // success so return.

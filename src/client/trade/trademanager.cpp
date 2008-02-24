@@ -26,16 +26,20 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/gui.h"
 
+#include "client/trade/playerinventory.h"
+
 namespace PT
 {
   namespace Trade
   {
     TradeManager::TradeManager ()
     {
+      playerinventory = 0;
     }
 
     TradeManager::~TradeManager ()
     {
+      delete playerinventory;
     }
 
     bool TradeManager::Initialize ()
@@ -49,6 +53,11 @@ namespace PT
       // Register listener for TradePickEvent.
       EventHandler<TradeManager>* cbDrop = new EventHandler<TradeManager>(&TradeManager::Drop, this);
       PointerLibrary::getInstance()->getEventManager()->AddListener("trade.drop", cbDrop);
+
+      // Create and Initialize the PlayerInventory.
+      playerinventory = new PT::Trade::PlayerInventory ();
+      if (!playerinventory->Initialize())
+        return Report(PT::Error, "Failed to initialize PlayerInventory!");
 
       return true;
     }

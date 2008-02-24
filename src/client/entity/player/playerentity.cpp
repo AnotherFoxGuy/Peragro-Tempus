@@ -634,8 +634,6 @@ namespace PT
     void PlayerEntity::Teleport(const csVector3& pos,
       const std::string& sector)
     {
-      Report(PT::Warning, "PlayerEntity: teleport to %s\n", sector.c_str());
-
       if (!celEntity.IsValid()) return;
 
       float rot = 0;
@@ -649,7 +647,7 @@ namespace PT
       }
 
       PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
-      SetFullPosition(pos, rot, sector.c_str());
+      this->SetFullPosition(pos, rot, sector.c_str());
     }
 
     void PlayerEntity::SetFullPosition(const csVector3& pos,
@@ -667,19 +665,17 @@ namespace PT
 
         if (!sec.IsValid())
         {
-          sec = engine->FindSector("World");
+          sec = engine->FindSector("Default_Sector");
         }
 
         if (camera.IsValid() && camera->GetCamera() && sec.IsValid())
         {
-          csRef<iMovable> mov = camera->GetCamera()->QuerySceneNode()->GetMovable();
-          if (mov.IsValid())
-          {
-            csVector3 offset = this->pos - mov->GetPosition();
-            mov->SetSector(sec);
-            mov->SetPosition(pos + offset);
-            mov->UpdateMove();
-          }
+          // TODO: How to stop the camera from tracking,
+          // so that the relocation is instantaneous??
+          csVector3 offset = pos - this->pos;
+          camera->GetCamera()->SetSector(sec);
+          camera->GetCamera()->Move(offset, false);
+          camera->UpdateCamera();
         }
       }
 

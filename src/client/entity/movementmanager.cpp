@@ -259,7 +259,7 @@ namespace PT
         return true;
       }
 
-      Report(PT::Debug, "MovementManager: Teleporting entity '%d'", entityId);
+      Report(PT::Debug, "MovementManager: Teleporting entity '%d' to %s(%d)", entityId, sectorName.c_str(), sectorId);
 
       entity->Teleport(entityMoveEv->position, sectorName.c_str());
 
