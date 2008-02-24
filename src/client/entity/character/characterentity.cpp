@@ -142,6 +142,10 @@ namespace PT
 
         if (moveTo->walking)
         {
+          // Update current position.
+          this->SetPosition(pclinmove->GetFullPosition());
+          this->SetRotation(pclinmove->GetYRotation());
+
           if (moveTo->elapsed_time >= moveTo->walk_duration)
           {
             // Arrived at destination. Return true for deletion.
