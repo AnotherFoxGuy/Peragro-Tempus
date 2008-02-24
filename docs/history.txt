@@ -10,6 +10,7 @@ under each day.
  - PK implemented distance based adding of entities to the client.
  - PK started the implementation of a second player character that is 
    controlled by keyboard rather than network messages from the server.
+ - Rakhun made reversing turning when walking backwards optional.
 
 23-Feb-2008
  - Rakhun added checks to make sure the referenced sectors are found in

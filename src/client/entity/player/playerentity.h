@@ -22,6 +22,9 @@
 #include "client/entity/pc/pcentity.h"
 #include "client/event/event.h"
 
+#include "iutil/cfgmgr.h"
+#include "iutil/cfgfile.h"
+
 namespace PT
 {
   namespace Entity
@@ -66,6 +69,11 @@ namespace PT
       ///"Direction" in which the pitch offset should be changed (ie adding or
       ///substracting from it) when moving in first person view.
       int pitchDirection;
+      ///Whether to reverse turning when walking backwards.
+      bool backwardReverse;
+
+      csRef<iConfigManager> app_cfg;
+      csRef<iVFS> vfs;
 
       csRef<iCelEntity> other_self;
 

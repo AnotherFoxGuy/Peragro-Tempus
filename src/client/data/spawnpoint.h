@@ -44,7 +44,7 @@ namespace PT
 
       ///Position of the spawnpoint in a sector (ie x='20', y='30', z='40').
       PtVector3 position;
-      ///Name of the sector where the spawnpoint resides (ie 'room').
+      ///Name of the sector where the spawnpoint resides (e.g. 'room').
       std::string sectorName;
 
       unsigned int interval;

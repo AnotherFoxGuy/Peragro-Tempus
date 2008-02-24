@@ -47,8 +47,11 @@ private:
   bool OnDropListTexture(const CEGUI::EventArgs& e); 
   void CreateDropListTexture();
 
-  void CreateCheckBox();
-  bool OnCheckBox(const CEGUI::EventArgs& e); 
+  void CreateFullScreenCheckBox();
+  bool OnFullScreenCheckBox(const CEGUI::EventArgs& e); 
+
+  void CreateReverseCheckBox();
+  bool OnReverseCheckBox(const CEGUI::EventArgs& e); 
 
 public:
   OptionsWindow(GUIManager* guimanager);

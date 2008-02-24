@@ -165,6 +165,22 @@ namespace PT
         new EventHandler<PlayerEntity>(&PlayerEntity::ActionMoveTo, this);
       PointerLibrary::getInstance()->getEventManager()->
         AddListener("input.ACTION_MOVETO", cbActionMoveTo);
+
+      app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+      if (!app_cfg) 
+      {
+        Report(PT::Error, "Can't find the config manager!"); 
+        return;
+      }
+
+      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+      if (!vfs) 
+      {
+        Report(PT::Error, "Can't find the vfs!"); 
+        return;
+      }
+
+      backwardReverse = app_cfg->GetBool("Client.backwardreverse");
     }
 
     PlayerEntity::~PlayerEntity()
@@ -560,7 +576,7 @@ namespace PT
         EntityMoveEvent* entityEvent = new EntityMoveEvent();
         entityEvent->entityId      = id;
         entityEvent->walkDirection = PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1);
-        entityEvent->turnDirection = (walk == -1 ? -turn : turn);
+        entityEvent->turnDirection = (walk == -1 && backwardReverse ? -turn : turn);
         entityEvent->run           = run;
         entityEvent->jump          = jump;
         entityEvent->halfspeed     = true;
@@ -571,7 +587,7 @@ namespace PT
 
       msg.setWalk(walk+1);
 
-      if (walk == -1) msg.setTurn(-turn+1);
+      if (walk == -1 && backwardReverse) msg.setTurn(-turn+1);
       else msg.setTurn(turn+1);
       msg.setRun(run);
       msg.setJump(jump);

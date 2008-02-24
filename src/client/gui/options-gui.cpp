@@ -62,6 +62,10 @@ void OptionsWindow::CreateGUIWindow ()
     return;
   }
 
+  // Set up the close button.
+  btn = winMgr->getWindow("Options/Frame");
+  btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&OptionsWindow::OkButtonPressed, this));
+
   // Set up the button behaviour for Reflections.
   CreateDropListReflections();
   btn = winMgr->getWindow("Options/Reflections/DropList");
@@ -82,9 +86,14 @@ void OptionsWindow::CreateGUIWindow ()
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsWindow::OptionButtonPressed, this));
 
   // Set up the Fullscreen checkbox.
-  CreateCheckBox();
+  CreateFullScreenCheckBox();
   btn = winMgr->getWindow("Options/Fullscreen");
-  btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnCheckBox, this));
+  btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnFullScreenCheckBox, this));
+
+  // Set up the Backward reverse checkbox.
+  CreateReverseCheckBox();
+  btn = winMgr->getWindow("Options/Reverse");
+  btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnReverseCheckBox, this));
 }
 
 void OptionsWindow::SaveConfig()
@@ -112,16 +121,17 @@ bool OptionsWindow::OptionButtonPressed(const CEGUI::EventArgs& e)
   // Show the Option menu.
   btn = winMgr->getWindow("Options/Frame");
   btn->setVisible(true);
+  btn->activate();
   return true;
 }
 
 bool OptionsWindow::OkButtonPressed(const CEGUI::EventArgs& e) 
 {
-  // Hide the Options button.
+  // Show the Options button.
   btn = winMgr->getWindow("Options/Options_Button");
   btn->setVisible(true);
 
-  // Show the Option menu.
+  // Hide the Option menu.
   btn = winMgr->getWindow("Options/Frame");
   btn->setVisible(false);
   return true;
@@ -245,7 +255,7 @@ void OptionsWindow::CreateDropListTexture()
 
 }
 
-bool OptionsWindow::OnCheckBox(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OnFullScreenCheckBox(const CEGUI::EventArgs& e) 
 {
   btn = winMgr->getWindow("Options/Fullscreen");
   bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
@@ -255,11 +265,31 @@ bool OptionsWindow::OnCheckBox(const CEGUI::EventArgs& e)
   return true;
 }
 
-void OptionsWindow::CreateCheckBox()
+void OptionsWindow::CreateFullScreenCheckBox()
 {
   btn = winMgr->getWindow("Options/Fullscreen");
 
   bool fs = app_cfg->GetBool("Video.FullScreen");
+
+  ((CEGUI::Checkbox*)btn)->setSelected(fs);
+}
+
+
+bool OptionsWindow::OnReverseCheckBox(const CEGUI::EventArgs& e) 
+{
+  btn = winMgr->getWindow("Options/Reverse");
+  bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
+
+  app_cfg->SetBool("Client.backwardreverse", fs);
+  SaveConfig();
+  return true;
+}
+
+void OptionsWindow::CreateReverseCheckBox()
+{
+  btn = winMgr->getWindow("Options/Reverse");
+
+  bool fs = app_cfg->GetBool("Client.backwardreverse");
 
   ((CEGUI::Checkbox*)btn)->setSelected(fs);
 }
