@@ -33,6 +33,7 @@ namespace PT
   {
     this->world = world;
     this->object_reg = world->GetObjectRegistry();
+    finished = true;
   }
 
   InteriorManager::~InteriorManager()
