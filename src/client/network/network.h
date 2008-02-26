@@ -40,7 +40,7 @@ public:
 
   virtual ~Network()
   {
-    receiver.kill();
+    if(receiver.isRunning()){receiver.kill();}
   }
 
   bool init()

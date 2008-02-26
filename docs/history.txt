@@ -6,6 +6,8 @@ under each day.
 
 26-Feb-2008
  - Rakhun implemented StateManager.
+ - Rakhun fixed segfault on exit before logging in due to trying to close
+   networking that isn't open.
 
 24-Feb-2008
  - PK added an error message if the client can't establish a tcp connection to
