@@ -1,0 +1,5 @@
+SubDir TOP src client state ;
+
+Description client-statemanager : "client statemanager" ;
+Library client-statemanager :
+  [ Wildcard *.h *.cpp ] ;

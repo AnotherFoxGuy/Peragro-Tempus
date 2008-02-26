@@ -592,7 +592,7 @@ namespace PT
   }
 
   void Client::checkConnection()
-  {printf("State: %i\n",statemanager->GetState());
+  {
     //Report(PT::Notify, "Saw server %d ms ago.", csGetTicks() - last_seen);
     size_t ticks = csGetTicks();
     if ( last_seen > 0 && ticks - last_seen > 10000 && ! network->isRunning() && statemanager->GetState() >= STATE_CONNECTED )
