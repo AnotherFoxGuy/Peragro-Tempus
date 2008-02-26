@@ -24,6 +24,7 @@
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
+#include "client/state/statemanager.h"
 #include "common/version.h"
 
 #include "client/reporter/reporter.h"
@@ -56,7 +57,7 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
   }
   else
   {
-    if (PointerLibrary::getInstance()->getClient()->state < 2)
+    if (PointerLibrary::getInstance()->getStateManager()->GetState() < 2)
     {
       // Connect to selected server
       ConnectRequestMessage msg(CLIENTVERSION);
@@ -79,7 +80,7 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 
 bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 {
-  if (PointerLibrary::getInstance()->getClient()->state < 2)
+  if (PointerLibrary::getInstance()->getStateManager()->GetState() < 2)
   {  
     // Connect to selected server
     ConnectRequestMessage msg(CLIENTVERSION);

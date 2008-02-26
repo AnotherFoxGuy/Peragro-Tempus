@@ -56,8 +56,6 @@ private:
   PT::Data::SkillDataManager* skillmanager;
   Network* network;
 
-  bool playing; /**Determines if the client is ready for playing.*/
-
   iMeshWrapper* getMesh(PT::Entity::Entity* entity);
 
 public:
@@ -74,10 +72,6 @@ public:
   void SkillUsageComplete (unsigned int casterId, unsigned int targetId, int skillId);
   void RequestSkillUsageStart (iCelEntity* target, unsigned int skillId);
   void RequestSkillUsageStart (unsigned int targetId, unsigned int skillId);
-  /**
-   * Set playing-ready state of client.
-   */
-  void SetPlaying(bool value) { playing = value; }
 
   /**
    * Handler for ACTION_HIT event.

@@ -29,6 +29,8 @@
 
 #include "client/event/eventmanager.h"
 
+#include "client/state/statemanager.h"
+
 #include "client/reporter/reporter.h"
 
 #include "client/cursor.h"
@@ -65,7 +67,6 @@ namespace PT
     bool EntityManager::Initialize ()
     {
       world_loaded = false;
-      playing = false;
       playerId = 0;
 
       movementManager->Initialize();
@@ -116,7 +117,7 @@ namespace PT
           if (ev->GetEventID().compare("entity.add") == 0)
             AddEntity(ev);
         }
-        if (world_loaded && playing) 
+        if (world_loaded && PointerLibrary::getInstance()->getStateManager()->GetState() == STATE_PLAY) 
         {
           if (ev->GetEventID().compare("entity.remove") == 0)
             RemoveEntity(ev);

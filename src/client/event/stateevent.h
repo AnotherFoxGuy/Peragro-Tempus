@@ -28,27 +28,10 @@ namespace PT
   namespace Events
   {
     /**
-    * Game states.
-    */
-    enum eSTATE
-    {
-      STATE_INITIAL = 0,
-      STATE_INTRO = 1,
-      STATE_CONNECTED = 2,
-      STATE_LOGGED_IN = 3,
-      STATE_SELECTING_CHAR = 4,
-      STATE_PLAY = 5,
-      STATE_RECONNECTED = 6
-    };
-
-    /**
     * State event base class.
     */
     class StateEvent : public Event
     {
-    public:
-      eSTATE newState;
-
     public:
       StateEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
       virtual ~StateEvent() {}
@@ -82,8 +65,7 @@ namespace PT
     class StateConnectedEvent : public StateEvent
     {
     public:
-      StateConnectedEvent() : StateEvent("state.connected", true) 
-      { newState = STATE_CONNECTED; }
+      StateConnectedEvent() : StateEvent("state.connected", true) {}
       virtual ~StateConnectedEvent() {}
     };
 
@@ -98,8 +80,7 @@ namespace PT
       bool isAdmin;
 
     public:
-      StateLoggedInEvent() : StateEvent("state.loggedin", true) 
-      { newState = STATE_LOGGED_IN; }
+      StateLoggedInEvent() : StateEvent("state.loggedin", true) {}
       virtual ~StateLoggedInEvent() {}
     };
 
@@ -112,8 +93,7 @@ namespace PT
       unsigned int ownEntityId;
 
     public:
-      StatePlayEvent() : StateEvent("state.play", true) 
-      { newState = STATE_PLAY; }
+      StatePlayEvent() : StateEvent("state.play", true) {}
       virtual ~StatePlayEvent() {}
     };
 

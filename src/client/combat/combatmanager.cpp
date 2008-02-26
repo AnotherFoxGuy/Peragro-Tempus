@@ -45,7 +45,9 @@
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
 
-CombatMGR::CombatMGR() : playing(false)
+#include "client/state/statemanager.h"
+
+CombatMGR::CombatMGR()
 {
 }
 
@@ -377,7 +379,7 @@ bool CombatMGR::ActionHit(PT::Events::Eventp ev)
 {
   using namespace PT::Events;
 
-  if (playing)
+  if (PointerLibrary::getInstance()->getStateManager()->GetState() == PT::STATE_PLAY)
   {
     InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
     if (!inputEv) return false;

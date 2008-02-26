@@ -52,6 +52,7 @@
 #include "client/pointer/pointer.h"
 
 #include "client/input/inputmanager.h"
+#include "client/state/statemanager.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
@@ -117,22 +118,6 @@ namespace PT
 
   class Client : public csApplicationFramework, public csBaseEventHandler
   {
-  public:
-    /// Game states
-    enum eSTATE
-    {
-      STATE_INITIAL = 0,
-      STATE_INTRO = 1,
-      STATE_CONNECTED = 2,
-      STATE_LOGGED_IN = 3,
-      STATE_SELECTING_CHAR = 4,
-      STATE_PLAY = 5,
-      STATE_RECONNECTED = 6
-    };
-
-    ///Game internal state
-    eSTATE state;
-
   private:
     void PreProcessFrame();
     void ProcessFrame();
@@ -186,6 +171,7 @@ namespace PT
     PT::Data::ConnectionDataManager* connectionDataManager;
     PT::Misc::ServerSetupManager* serverSetupManager;
     PT::Effect::EffectsManager* effectsmanager;
+    PT::StateManager* statemanager;
 
     Cursor* cursor;
     PT::InputManager *inputMgr;
@@ -202,7 +188,6 @@ namespace PT
     bool NoQuit(const CEGUI::EventArgs &args);
 
   private:
-    bool playing;
     Mutex mutex;
     csTicks timer;
     iSector *room;

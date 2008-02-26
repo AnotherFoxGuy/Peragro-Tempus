@@ -85,10 +85,9 @@ CS_IMPLEMENT_APPLICATION
 namespace PT
 {
 
-  Client::Client() : playing(false)
+  Client::Client()
   {
     SetApplicationName ("Client");
-    state = STATE_INITIAL;
     timer = 0;
     limitFPS = 60;
     last_sleep = 0;
@@ -109,6 +108,7 @@ namespace PT
     cursor = 0;
     inputMgr = 0;
     statmanager = 0;
+    statemanager = 0;
 
     eventmanager = 0;
     chatmanager = 0;
@@ -133,6 +133,7 @@ namespace PT
     delete trademanager;
     delete sectorDataManager;
     delete statmanager;
+    delete statemanager;
   }
 
   void Client::PreProcessFrame()
@@ -153,7 +154,7 @@ namespace PT
     if (timer > 1000)
     {
       timer = 0;
-      if (state == STATE_PLAY)
+      if (statemanager->GetState() == STATE_PLAY)
       {
         entitymanager->DrUpdateOwnEntity();
       }
@@ -172,7 +173,7 @@ namespace PT
     //TODO: Implement some way of getting the current FPS, and pass that instead of limit.
     if (Entity::PlayerEntity::Instance()) Entity::PlayerEntity::Instance()->CameraDraw(limitFPS);
 
-    if (state == STATE_PLAY)
+    if (statemanager->GetState() == STATE_PLAY)
     {
       if (entitymanager)
       {
@@ -320,6 +321,12 @@ namespace PT
     inputMgr = new InputManager();
     if(!inputMgr->Initialize())
       return Report(PT::Error, "Failed to create InputManager object!");
+
+    // Create and Initialize the StateManager.
+    statemanager = new StateManager();
+    if(!statemanager->Initialize())
+      return Report(PT::Error, "Failed to create StateManager object!");
+    pointerlib.setStateManager(statemanager);
 
     if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
       return Report(PT::Error, "Failed to set up event handler!");
@@ -469,7 +476,7 @@ namespace PT
 
   void Client::handleStates()
   {
-    switch(state)
+    switch(statemanager->GetState())
     {
     case STATE_INITIAL: // Initial state. Load intro sector and go to STATE_INTRO.
       {
@@ -557,7 +564,7 @@ namespace PT
           }
         }
 
-        state = STATE_INTRO;
+        statemanager->SetState(STATE_INTRO);
         break;
       }
     case STATE_INTRO: // Introduction screen already loaded. Once user connects switch to STATE_CONNECTED.
@@ -585,10 +592,10 @@ namespace PT
   }
 
   void Client::checkConnection()
-  {
+  {printf("State: %i\n",statemanager->GetState());
     //Report(PT::Notify, "Saw server %d ms ago.", csGetTicks() - last_seen);
     size_t ticks = csGetTicks();
-    if ( last_seen > 0 && ticks - last_seen > 10000 && ! network->isRunning() && state >= STATE_CONNECTED )
+    if ( last_seen > 0 && ticks - last_seen > 10000 && ! network->isRunning() && statemanager->GetState() >= STATE_CONNECTED )
     {
       last_seen = csGetTicks();
       Report(PT::Warning, "Disconnect!");
@@ -598,7 +605,7 @@ namespace PT
 
       entitymanager->Handle();
 
-      state = STATE_RECONNECTED;
+      statemanager->SetState(STATE_RECONNECTED);
 
       network->init();
 
@@ -624,13 +631,13 @@ namespace PT
     StateConnectedEvent* stateEv = GetStateEvent<StateConnectedEvent*>(ev);
     if (!stateEv) return false;
 
-    if (state == STATE_RECONNECTED)
+    if (statemanager->GetState() == STATE_RECONNECTED)
     {
       login(user, pass);
     }
     else
     {
-      if (cmdline && state == STATE_INTRO)
+      if (cmdline && statemanager->GetState() == STATE_INTRO)
       {
         const char* user = cmdline->GetOption("user", 0);
         const char* pass = cmdline->GetOption("pass", 0);
@@ -648,7 +655,7 @@ namespace PT
         }
       }
 
-      state = STATE_CONNECTED;
+      statemanager->SetState(STATE_CONNECTED);
     }
 
     Report(PT::Notify, "Connected!");
@@ -670,7 +677,7 @@ namespace PT
   {
     using namespace PT::Events;
 
-    if (playing)
+    if (statemanager->GetState() == STATE_PLAY)
     {
       InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
       if (!inputEv) return false;
@@ -707,7 +714,7 @@ namespace PT
   {
     using namespace PT::Events;
 
-    if (playing)
+    if (statemanager->GetState() == STATE_PLAY)
     {
       ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
       dialog->SetText("Are you sure you want to quit?");
@@ -772,7 +779,7 @@ namespace PT
       guimanager->GetLoginWindow()->EnableWindow();
       guimanager->GetServerWindow()->EnableWindow();
       //network->stop();
-      //state = STATE_INTRO;
+      //statemanager->SetState(STATE_INTRO);
       guimanager->CreateOkWindow(true)->SetText(stateev->errorMessage.c_str());
       return true;
     }
@@ -780,18 +787,18 @@ namespace PT
       Report(PT::Notify, "Login succeeded!");
 
 
-    if (state == STATE_RECONNECTED && char_id != NO_CHARACTER_SELECTED_0)
+    if (statemanager->GetState() == STATE_RECONNECTED && char_id != NO_CHARACTER_SELECTED_0)
     {
       selectCharacter(char_id);
     }
-    else if (state == STATE_CONNECTED)
+    else if (statemanager->GetState() == STATE_CONNECTED)
     {
       guimanager->GetLoginWindow ()->HideWindow ();
       guimanager->GetServerWindow ()->HideWindow ();
       guimanager->GetSelectCharWindow ()->ShowWindow ();
       if(stateev->isAdmin){guimanager->GetSelectCharWindow ()->ShowAdminButton();}
 
-      state = STATE_LOGGED_IN;
+      statemanager->SetState(STATE_LOGGED_IN);
 
       if (cmdline)
       {
@@ -876,7 +883,7 @@ namespace PT
     StatePlayEvent* playEv = GetStateEvent<StatePlayEvent*>(ev);
     if (!playEv) return false;
 
-    state = STATE_PLAY;
+    statemanager->SetState(STATE_PLAY);
 
     return true;
   }
@@ -896,14 +903,9 @@ namespace PT
       pl->RemoveEntity(ent);
     }
 
-    //TODO: We need a StateManager singleton class for this kind of thing.
-    //It really sucks as it is now.
-    playing = true;
-    entitymanager->setPlaying(playing);
-    combatmanager->SetPlaying(playing);
+    statemanager->SetState(STATE_PLAY);
 
     sawServer();
-    state = STATE_PLAY;
 
     if (!world_loaded) 
     {

@@ -87,7 +87,6 @@ namespace PT
       unsigned int playerId;
 
     private:
-      bool playing;
       bool world_loaded;
 
     public:
@@ -128,7 +127,6 @@ namespace PT
 
       unsigned int GetPlayerId() { return playerId; }
 
-      void setPlaying(bool value) { playing = value; }
       void setWorldloaded(bool value) { world_loaded = value; }
 
       void delAllEntities();
