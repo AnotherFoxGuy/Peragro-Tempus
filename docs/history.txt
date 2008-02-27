@@ -11,6 +11,10 @@ under each day.
  - Rakhun implemented StateManager.
  - Rakhun fixed segfault on exit before logging in due to trying to close
    networking that isn't open.
+ - Rakhun added checks for user/char names containing only spaces, added a
+   "Registration succeeded" message and made the new character namebox clear
+   after creation (either the name is invalid or the character was created
+   so the name is taken).
 
 24-Feb-2008
  - PK added an error message if the client can't establish a tcp connection to

@@ -59,6 +59,15 @@ const ptString UserAccountManager::signup(ptString username, const char* passwor
 {
   Database* db = server->getDatabase();
   UsersTable* ut = db->getUsersTable();
+
+  std::string username_str = *username;
+  bool nonspace=false;
+  for (size_t i=0; i < username_str.length(); i++)
+  {
+    if (username_str[i] != ' '){nonspace=true;}
+  }
+  if (!nonspace){return ptString("Username may not contain only space", 35);}
+
   if (ut->existsUser(username))
   {
     return ptString("User exists already", strlen("User exists already"));

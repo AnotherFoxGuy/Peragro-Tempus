@@ -33,6 +33,14 @@ ptString CharacterManager::createCharacter(ptString name, int user_id, int& char
 {
   CharacterTable* ct = server->getDatabase()->getCharacterTable();
 
+  std::string username_str = *name;
+  bool nonspace=false;
+  for (size_t i=0; i < username_str.length(); i++)
+  {
+    if (username_str[i] != ' '){nonspace=true;}
+  }
+  if (!nonspace){return ptString("Character name may not contain only space", 41);}
+
   if (ct->existsCharacter(name))
   {
     return ptString("Character exists already", strlen("Character exists already")); // <-- TODO: Error Message Container

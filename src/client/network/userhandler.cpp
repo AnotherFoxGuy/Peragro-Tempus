@@ -66,6 +66,8 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
     return;
   }
 
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  guimanager->CreateOkWindow()->SetText("Registration succeeded");
   Report(PT::Notify, "Registration succeeded!");
 }
 

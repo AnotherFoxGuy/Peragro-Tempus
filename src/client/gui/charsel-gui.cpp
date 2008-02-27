@@ -90,6 +90,7 @@ bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
 bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e) 
 {
   CEGUI::String NewCharName = GetNewCharName();
+  ClearNewCharName();
   if (NewCharName.empty()) return true;
   CharCreateRequestMessage answer_msg;
   answer_msg.setName(ptString(NewCharName.c_str(), NewCharName.length()));
@@ -132,6 +133,11 @@ bool SelectCharWindow::DelChar(const CEGUI::EventArgs& e)
 CEGUI::String SelectCharWindow::GetNewCharName()  
 {
   return winMgr->getWindow("CharSelectNew/NickNameEditBox")->getText();
+}
+
+void SelectCharWindow::ClearNewCharName()  
+{
+  winMgr->getWindow("CharSelectNew/NickNameEditBox")->setText("");
 }
 
 void SelectCharWindow::ToggleNewWindow(bool visible)  

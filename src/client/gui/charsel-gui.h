@@ -24,17 +24,18 @@
 class SelectCharWindow : public GUIWindow
 {
 private:
-  bool SelectChar(const CEGUI::EventArgs& e);  // Connects with the current character.
-  bool OnSelection(const CEGUI::EventArgs& e); // Shows the currently selected character.
-  bool NewChar(const CEGUI::EventArgs& e);     // Makes a new character.
-  bool DelChar(const CEGUI::EventArgs& e);     // Deletes the selected character.
-  CEGUI::String GetNewCharName();              // Returns the character name.
-  void ScrollLeft();                           // Scroll left throught the characterlist.
-  void ScrollRight();                          // Scroll right throught the characterlist.
+  bool SelectChar(const CEGUI::EventArgs& e);  ///< Connects with the current character.
+  bool OnSelection(const CEGUI::EventArgs& e); ///< Shows the currently selected character.
+  bool NewChar(const CEGUI::EventArgs& e);     ///< Makes a new character.
+  bool DelChar(const CEGUI::EventArgs& e);     ///< Deletes the selected character.
+  CEGUI::String GetNewCharName();              ///< Returns the character name.
+  void ClearNewCharName();                     ///< Clears the character name textbox.
+  void ScrollLeft();                           ///< Scroll left throught the characterlist.
+  void ScrollRight();                          ///< Scroll right throught the characterlist.
 
-  bool CreateButton(const CEGUI::EventArgs& e);   // Opens the Create character menu.
-  bool CancelButton(const CEGUI::EventArgs& e);   // returns to the character menu.
-  bool AdminButton(const CEGUI::EventArgs& e);    // Opens the server setup window.
+  bool CreateButton(const CEGUI::EventArgs& e);   ///< Opens the Create character menu.
+  bool CancelButton(const CEGUI::EventArgs& e);   ///< returns to the character menu.
+  bool AdminButton(const CEGUI::EventArgs& e);    ///< Opens the server setup window.
   void ToggleNewWindow(bool visible);
 
 public:
