@@ -38,7 +38,7 @@ LoginWindow::~LoginWindow()
 {
 }
 
-bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e) 
+bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 {
   // Get the login window and disable it
   GUIWindow::DisableWindow();
@@ -49,8 +49,9 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
   LoginRequestMessage answer_msg;
   CEGUI::String login = GetLogin();
   CEGUI::String password = GetPassword();
-  if (login.empty() || password.empty()) 
+  if (login.empty() || password.empty())
   {
+    guimanager->CreateOkWindow(true)->SetText("You must enter username and password");
     GUIWindow::EnableWindow();
     guimanager->GetServerWindow()->EnableWindow();
     return true;
@@ -81,7 +82,7 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
 bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 {
   if (PointerLibrary::getInstance()->getStateManager()->GetState() < 2)
-  {  
+  {
     // Connect to selected server
     ConnectRequestMessage msg(CLIENTVERSION);
     network->setServerAddress(guimanager->GetServerWindow()->GetServerHost(), guimanager->GetServerWindow()->GetServerPort());
@@ -99,7 +100,11 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
   RegisterRequestMessage answer_msg;
   CEGUI::String login = GetLogin();
   CEGUI::String password = GetPassword();
-  if (login.empty() || password.empty()) return true;
+  if (login.empty() || password.empty())
+  {
+    guimanager->CreateOkWindow(true)->SetText("You must enter username and password");
+    return true;
+  }
   answer_msg.setUsername(ptString(login.c_str(), login.length()));
   answer_msg.setPassword(password.c_str());
   network->send(&answer_msg);

@@ -111,6 +111,8 @@ void UserHandler::handleRegisterRequest(GenericMessage* msg)
   ptString username = request_msg.getUsername();
   const char* password = request_msg.getPassword();
 
+  if (username.isNull() || !password) { return; }
+
   ptString retval = server->getUserAccountManager()->signup(username, password);
 
   RegisterResponseMessage response_msg;
