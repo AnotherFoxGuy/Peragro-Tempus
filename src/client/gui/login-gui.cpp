@@ -74,6 +74,20 @@ bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
       network->send(&msg);
     }
   }
+  if (login.length() > 255)
+  {
+    GUIWindow::EnableWindow();
+    guimanager->GetServerWindow()->EnableWindow();
+    guimanager->CreateOkWindow(true)->SetText("Username is too long");
+    return true;
+  }
+  if (password.length() > 255)
+  {
+    GUIWindow::EnableWindow();
+    guimanager->GetServerWindow()->EnableWindow();
+    guimanager->CreateOkWindow(true)->SetText("Password is too long");
+    return true;
+  }
   PointerLibrary::getInstance()->getClient()->login(login.c_str(), password.c_str());
 
   return true;
@@ -103,6 +117,16 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
   if (login.empty() || password.empty())
   {
     guimanager->CreateOkWindow(true)->SetText("You must enter username and password");
+    return true;
+  }
+  if (login.length() > 255)
+  {
+    guimanager->CreateOkWindow(true)->SetText("Username is too long");
+    return true;
+  }
+  if (password.length() > 255)
+  {
+    guimanager->CreateOkWindow(true)->SetText("Password is too long");
     return true;
   }
   answer_msg.setUsername(ptString(login.c_str(), login.length()));
