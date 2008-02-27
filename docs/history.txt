@@ -6,6 +6,7 @@ under each day.
 
 27-Feb-2008
  - Rakhun added errormessage for empty username/password.
+ - Rakhun added a password minimum length.
 
 26-Feb-2008
  - Rakhun implemented StateManager.

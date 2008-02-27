@@ -68,6 +68,7 @@ bool UsersTable::existsUser(ptString name)
 
 UsersTableVO* UsersTable::getUser(ptString name)
 {
+printf("select * from users where name = '%s' and id > 0;", *name);
   ResultSet* rs = db->query("select * from users where name = '%q' and id > 0;", *name);
   if (!rs || rs->GetRowCount() == 0)
   {

@@ -28,6 +28,7 @@
 
 const ptString UserAccountManager::login(ptString username, const char* password, User*& user)
 {
+  if (username.isNull() || !password) return ptString("You must enter username and password", 36);
   UserManager* um = server->getUserManager();
 
   // See if already logged in
@@ -49,7 +50,7 @@ const ptString UserAccountManager::login(ptString username, const char* password
   if (!user || strcmp(user->getPwHash(), password) != 0 )
   {
     user = 0;
-    return ptString("Unknown user or invalid password", strlen("Unknown User"));
+    return ptString("Unknown user or invalid password", strlen("Unknown User or invalid password"));
   }
 
   return ptString::Null;
@@ -57,8 +58,10 @@ const ptString UserAccountManager::login(ptString username, const char* password
 
 const ptString UserAccountManager::signup(ptString username, const char* password)
 {
-  Database* db = server->getDatabase();
-  UsersTable* ut = db->getUsersTable();
+  if (username.isNull() || !password)
+  {
+    return ptString("You must enter username and password", 36);
+  }
 
   std::string username_str = *username;
   bool nonspace=false;
@@ -67,6 +70,14 @@ const ptString UserAccountManager::signup(ptString username, const char* passwor
     if (username_str[i] != ' '){nonspace=true;}
   }
   if (!nonspace){return ptString("Username may not contain only space", 35);}
+
+  if (strlen(password)<6)
+  {
+    return ptString("Password may not be shorter than 6 characters", 45);
+  }
+
+  Database* db = server->getDatabase();
+  UsersTable* ut = db->getUsersTable();
 
   if (ut->existsUser(username))
   {

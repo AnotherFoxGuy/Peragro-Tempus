@@ -38,8 +38,6 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   ptString username = request_msg.getUsername();
   const char* password = request_msg.getPassword();
 
-  if (username.isNull() || !password) return;
-
   Server* server = Server::getServer();
 
   User* user = 0;
@@ -110,8 +108,6 @@ void UserHandler::handleRegisterRequest(GenericMessage* msg)
 
   ptString username = request_msg.getUsername();
   const char* password = request_msg.getPassword();
-
-  if (username.isNull() || !password) { return; }
 
   ptString retval = server->getUserAccountManager()->signup(username, password);
 
