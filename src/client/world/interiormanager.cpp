@@ -98,6 +98,7 @@ namespace PT
       csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
       cb.AttachNew(new FrameCallBack(this));
       engine->AddEngineFrameCallback(cb);
+      cb->DecRef();
     }
   }
 
