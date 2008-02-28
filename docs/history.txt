@@ -6,6 +6,7 @@ under each day.
 
 28-Feb-2008
  - PK fixed crash when relocating with horse on tiles.
+ - PK stopped the server from sending all entities on login.
 
 27-Feb-2008
  - Rakhun added errormessage for empty username/password.

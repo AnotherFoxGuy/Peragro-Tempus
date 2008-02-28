@@ -203,14 +203,4 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   character->getInventory()->sendAllItems(msg->getConnection());
   character->getStats()->sendAllStats(msg->getConnection());
   character->getSkills()->sendAllSkills(msg->getConnection());
-
-  /// \todo Implement message packing (all entities in one package).
-  server->getEntityManager()->lock();
-  for (size_t i=0; i<server->getEntityManager()->getEntityCount(); i++)
-  {
-    const Entity* c_ent = server->getEntityManager()->getEntity(i);
-    if (!c_ent) return;
-    user->sendAddEntity(c_ent);
-  }
-  server->getEntityManager()->unlock();
 }
