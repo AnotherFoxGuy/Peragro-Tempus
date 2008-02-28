@@ -81,6 +81,18 @@ void Entity::setPos(float x, float y, float z)
   pos[1] = y;
   pos[2] = z;
 
+  if (getMountEntity())
+  {
+    MountEntity* me = getMountEntity()->getLock();
+    for (size_t i = 0; i < me->getPassengerCount(); i++)
+    {
+      Entity* entity = me->getPassenger(i)->getEntity()->getLock();
+      entity->setPos(x, y, z);
+      entity->freeLock();
+    }
+    me->freeLock();
+  }
+
   const float dist_square = this->getDistanceTo2(this->getLastSaved());
   if (dist_square > 100)
   {

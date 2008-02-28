@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+28-Feb-2008
+ - PK fixed crash when relocating with horse on tiles.
+
 27-Feb-2008
  - Rakhun added errormessage for empty username/password.
  - Rakhun added a password minimum length.
