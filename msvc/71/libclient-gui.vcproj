@@ -346,6 +346,9 @@
 				RelativePath="..\..\src\client\gui\inventory-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\loadscreen-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\login-gui.cpp">
 			</File>
 			<File
@@ -423,6 +426,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\inventory-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\loadscreen-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\login-gui.h">
