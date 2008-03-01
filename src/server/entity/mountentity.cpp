@@ -19,7 +19,6 @@
 
 #include "server/entity/user.h"
 #include "server/entity/character.h"
-#include "server/entity/entity.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/mountentity.h"
 

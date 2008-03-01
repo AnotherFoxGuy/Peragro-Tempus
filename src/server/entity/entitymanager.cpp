@@ -23,7 +23,6 @@
 #include "server/database/table-characters.h"
 #include "server/database/table-npcentities.h"
 
-#include "entity.h"
 #include "itementity.h"
 #include "itemmanager.h"
 #include "pcentity.h"
