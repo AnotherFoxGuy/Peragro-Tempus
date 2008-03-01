@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GUILayout>
+	<Window Type='Peragro/StaticImage' Name='LoadScreen'>
+		<Property Name='UnifiedSize' Value='{{1.00000,0.000000},{1.00000,0.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.000000,0.000000},{0.00000,0.000000}}'/>
+		<Property Name='BackgroundEnabled' Value='True'/>
+		<Property Name='FrameEnabled' Value='False'/>
+		<Property Name='Disabled' Value='True'/>
+		<Property Name='Visible' Value='False'/>
+		<Property Name='AlwaysOnTop' Value='True'/>
+		<Window Type='Peragro/ProgressBar' Name='LoadScreen/Bar'>
+                  <!--
+                      1241, 1102
+                      893, 28
+                      -->
+			<Property Name='UnifiedSize' Value='{{0.558125,0.000000},{0.0233333333333333,0.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.2175,0.000000},{0.895,0.000000}}'/>
+			<Property Name='FrameEnabled' Value='False'/>
+		</Window>
+	</Window>
+</GUILayout>

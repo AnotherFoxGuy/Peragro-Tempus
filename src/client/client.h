@@ -205,6 +205,7 @@ namespace PT
   public:
     bool loggedIn(PT::Events::Eventp ev);
     bool PlayingEvent(PT::Events::Eventp ev);
+    bool LoadingRegion(PT::Events::Eventp ev);
     bool LoadRegion(PT::Events::Eventp ev);
     bool Connected(PT::Events::Eventp ev);
 

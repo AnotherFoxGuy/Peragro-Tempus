@@ -444,9 +444,13 @@ namespace PT
     EventHandler<Client>* cbPlay = new EventHandler<Client>(&Client::PlayingEvent, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("state.play", cbPlay);
 
-    // Register listener for RegionLoadEvent.
-    EventHandler<Client>* cbLoad = new EventHandler<Client>(&Client::LoadRegion, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbLoad);
+    // Register listener for RegionLoadingEvent.
+    EventHandler<Client>* cbLoading = new EventHandler<Client>(&Client::LoadingRegion, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("world.loading", cbLoading);
+
+    // Register listener for RegionLoadedEvent.
+    EventHandler<Client>* cbLoaded = new EventHandler<Client>(&Client::LoadRegion, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbLoaded);
 
     //Actions
 
@@ -888,6 +892,28 @@ namespace PT
     return true;
   }
 
+  bool Client::LoadingRegion(PT::Events::Eventp ev)
+  {
+    using namespace PT::Events;
+
+    WorldLoadingEvent* worldEv = GetWorldEvent<WorldLoadingEvent*>(ev);
+    if (!worldEv) return false;
+    if(!guimanager->GetLoadScreenWindow()->IsVisible())
+    {
+      guimanager->GetLoadScreenWindow()->ShowWindow();
+      iCEGUI* cegui = guimanager->GetCEGUI();
+      if(!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen")){ // TODO: Different loading screens for different tiles(?)
+        vfs->ChDir ("/peragro/skin/");
+        cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("LoadScreen", "loadscreen.jpg");
+        CEGUI::Window* image = cegui->GetWindowManagerPtr()->getWindow("LoadScreen");
+        image->setProperty("Image", "set:LoadScreen image:full_image");
+        image->setProperty("BackgroundEnabled", "True");
+      }
+    }
+    guimanager->GetLoadScreenWindow()->SetProgress(worldEv->progress);
+    return true;
+  }
+
   bool Client::LoadRegion(PT::Events::Eventp ev)
   {
     using namespace PT::Events;
@@ -932,6 +958,8 @@ namespace PT
       // Stop the intro music.
       sndstream->Pause ();
     }
+
+    guimanager->GetLoadScreenWindow()->HideWindow();
 
     // Enable reflection.
     if (enable_reflections)

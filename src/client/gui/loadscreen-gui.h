@@ -16,27 +16,25 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef LOADSCREEN_GUI_H
+#define LOADSCREEN_GUI_H
 
-#include "servers-gui.h"
-#include "login-gui.h"
-#include "charsel-gui.h"
-#include "serversetup-gui.h"
-#include "chat-gui.h"
-#include "inventory-gui.h"
-#include "hud-gui.h"
-#include "options-gui.h"
-#include "status-gui.h"
-#include "buddylist-gui.h"
-#include "whisper-gui.h"
-#include "npcdialog-gui.h"
-#include "trade-gui.h"
-#include "confirmdialog-gui.h"
-#include "buy-gui.h"
-#include "sell-gui.h"
-#include "interactdialog-gui.h"
-#include "book-gui.h"
-#include "loadscreen-gui.h"
+#include "base-gui.h"
 
-#endif // GUI_H
+class GUIManager;
+
+class LoadScreenWindow : public GUIWindow
+{
+public:
+  LoadScreenWindow(GUIManager* guimanager);
+  virtual ~LoadScreenWindow();
+  void CreateGUIWindow();    // load the chat guilayout and register button events.
+  void ShowWindow();
+  void HideWindow();
+  void SetProgress(float progress);
+  bool IsVisible();
+
+};
+
+
+#endif // LOADSCREEN_GUI_H

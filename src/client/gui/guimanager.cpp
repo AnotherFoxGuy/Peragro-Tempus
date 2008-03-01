@@ -54,6 +54,7 @@ GUIManager::GUIManager ()
   tradewindow = 0;
   interactwindow = 0;
   bookwindow = 0;
+  loadscreenwindow = 0;
 }
 
 GUIManager::~GUIManager ()
@@ -78,6 +79,7 @@ GUIManager::~GUIManager ()
   delete tradewindow;
   delete interactwindow;
   delete bookwindow;
+  delete loadscreenwindow;
 }
 
 bool GUIManager::Initialize ()
@@ -138,6 +140,7 @@ bool GUIManager::Initialize ()
     CreateInventoryWindow ();
     CreateStatusWindow ();
     CreateBuddyWindow();
+    CreateLoadScreenWindow();
 
     CreateChatWindow ();
     CreateHUDWindow ();
@@ -293,4 +296,11 @@ BookWindow* GUIManager::CreateBookWindow ()
   bookwindow = new BookWindow (this);
   bookwindow->CreateGUIWindow();
   return bookwindow;
+}
+
+LoadScreenWindow* GUIManager::CreateLoadScreenWindow ()
+{
+  loadscreenwindow = new LoadScreenWindow (this);
+  loadscreenwindow->CreateGUIWindow();
+  return loadscreenwindow;
 }
