@@ -36,7 +36,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
   LFlags client_static : -lcrystalspace_staticplugins-1.3  -lcel_staticplugins-1.3 ;
-  LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager ;
+  LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager pt_staticplugins ;
   LinkStaticPlugins client_static :
     addon_questdef
     mgr_quests
