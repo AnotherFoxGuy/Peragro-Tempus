@@ -419,11 +419,11 @@ namespace PT
         {
           if (args[2].compare("write") == 0)
           {
-						if (args.size() < 7)
-						{
-							Help();
-							return;
-						}
+            if (args.size() < 7)
+            {
+              Help();
+              return;
+            }
             BookWriteRequestMessage msg;
             msg.setItemId(atoi(args[3].c_str()));
             msg.setBookId(atoi(args[4].c_str()));
@@ -459,11 +459,11 @@ namespace PT
           }
           else if (args[2].compare("spawn") == 0)
           {
-						if (args.size() < 6)
-						{
-							Help();
-							return;
-						}
+            if (args.size() < 6)
+            {
+              Help();
+              return;
+            }
             iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
 
             csRef<iPcLinearMovement> pclinmove =
@@ -497,11 +497,11 @@ namespace PT
           }
           else if (args[2].compare("sector") == 0)
           {
-						if (args.size() < 4)
-						{
-							Help();
-							return;
-						}
+            if (args.size() < 4)
+            {
+              Help();
+              return;
+            }
             iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
 
             csRef<iPcLinearMovement> pclinmove =
@@ -523,11 +523,11 @@ namespace PT
           }
           else if (args[2].compare("rm") == 0)
           {
-						if (args.size() < 5)
-						{
-							Help();
-							return;
-						}
+            if (args.size() < 5)
+            {
+              Help();
+              return;
+            }
             if (args[3].compare("entity") == 0)
             {
               RemoveSpawnedEntityMessage rmmsg;
