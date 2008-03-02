@@ -34,34 +34,42 @@ Help distclean : "Remove built targets and configuration" ;
 Help maintainerclean :
     "Remove built targets, configuration, and generated files." ;
 
+# Set up subdirectories into which the different generated project for 
+# different go.
+MsvcGenSubDir TOP msvc common : common ;
 MsvcGenSubDir TOP msvc 7 : 7 ;
 MsvcGenSubDir TOP msvc 71 : 71 ;
 MsvcGenSubDir TOP msvc 8 : 8 ;
 MsvcGenSubDir TOP msvc 9 : 9 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
-# What the typical user will need. Presently, everything but static.
+
+# Customize the build configurations to contain some defines required by
+# CrystalSpace.  NOTE: The file with the customization options is assumed
+# to reside in mk/msvcgen/.
+MsvcGenVariable customize : custom.cslib ;
+
+# What the typical user will need. 
 MsvcGenWorkspace all : : "grp.+_(?!typical$)" static ;
 # Workspace for static variants of plugins and apps.
 MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!typical$)" ;
-MsvcGenConfig MSVCGEN.WELL_KNOWN_GROUPS_REGISTERED : yes ;
 
 local hash = "\$" ;
 MsvcGenConfig HAVE_STATIC_PLUGINS : yes ;
 
 MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
 MsvcGenConfig CRYSTAL.DEFINES ;
-MsvcGenConfig CRYSTAL.CFLAGS : "" ;
-MsvcGenConfig CRYSTAL.LFLAGS : "" ;
+MsvcGenConfig CRYSTAL.CFLAGS ;
+MsvcGenConfig CRYSTAL.LFLAGS ;
 MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
 MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib" ;
 MsvcGenConfig CRYSTAL.INCDIRS :
   [ ConcatDirs .. .. .. CS include ]
+  [ ConcatDirs .. .. .. CS include csutil win32 ]
   [ ConcatDirs "$(hash)(CRYSTAL)" include ]
   [ ConcatDirs "$(hash)(CRYSTAL)" include crystalspace ]
   [ ConcatDirs "$(hash)(CRYSTAL)" include csutil win32 ] ;
 MsvcGenConfig CRYSTAL.LIBDIRS :
   [ ConcatDirs .. .. .. CS out release$(MSVC_VERSION) libs ]
-
   [ ConcatDirs .. .. .. CS libs csutil win32 libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" out release$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
@@ -72,12 +80,12 @@ MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
   [ ConcatDirs "$(hash)(CRYSTAL)" out debug$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 libs ] ;
-MsvcGenConfig CRYSTAL.STATICDEPS : $(TOP)/cs_static.jam ;
+MsvcGenConfig CRYSTAL.STATICDEPS : $(TOP)/mk/staticplugins/crystalspace_staticplugins_msvc.jam
 
 MsvcGenConfig CEL.AVAILABLE : yes ;
 MsvcGenConfig CEL.DEFINES : USE_CEL ;
-MsvcGenConfig CEL.CFLAGS : "" ;
-MsvcGenConfig CEL.LFLAGS : "" ;
+MsvcGenConfig CEL.CFLAGS ;
+MsvcGenConfig CEL.LFLAGS ;
 MsvcGenConfig CEL.LIBS : "libceltool.lib" ;
 MsvcGenConfig CEL.LIBS.DEBUG : "libceltool_d.lib" ;
 MsvcGenConfig CEL.INCDIRS :
@@ -92,6 +100,7 @@ MsvcGenConfig CEL.LIBDIRS.DEBUG :
   [ ConcatDirs .. .. .. cel out debug$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CEL)" out debug$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CEL)" libs ] ;
+MsvcGenConfig CEL.STATICDEPS : $(TOP)/mk/staticplugins/cel_staticplugins_msvc.jam
 
 MsvcGenConfig CEGUI.AVAILABLE : yes ;
 MsvcGenConfig CEGUI.CFLAGS : "" ;
@@ -119,6 +128,3 @@ MsvcGenConfig WX.LIBS.DEBUG : wxbase26d.lib wxmsw26d_core.lib wxmsw26d_gl.lib op
 SubInclude TOP docs ;
 SubInclude TOP plugins ;
 SubInclude TOP src ;
-
-
-

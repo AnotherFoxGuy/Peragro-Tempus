@@ -35,8 +35,11 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   Application client_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
-  LFlags client_static : -lcrystalspace_staticplugins-1.3  -lcel_staticplugins-1.3 ;
-  LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager pt_staticplugins ;
+  LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager ;
+  LinkStaticPlugins client_static :
+   csclipboard
+  ;
+
   LinkStaticPlugins client_static :
     addon_questdef
     mgr_quests
@@ -52,11 +55,11 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfzone
     stdphyslayer
     pfsteer
-    csclipboard
   :
+  : CEL
   ;
 
-  cs_plugins_static = 
+  LinkStaticPlugins client_static : 
     vfs
     bugplug
     freefnt2
@@ -118,25 +121,20 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     thingldr
     nullmesh
     gmeshanimpdl
+  :
+    glwin32 glx2d glosx2d xwin xext86vm
+    sndmanager sndsyssoft sndsysloader sndsysnull sndsysogg sndsyswav sndsyswin
+    sndsyscoreaudio sndsysoss sndsysalsa
+  : CRYSTAL
   ;
-
-  cs_plugins_static_optional = 
-  ;
-
-  if $(TARGET.OS) = "WIN32" { cs_plugins_static += glwin32 sndsyswin ; }
-  if $(TARGET.OS) = "MACOS_X" { cs_plugins_static += glosx2d sndsyscoreaudio ; }
-  if $(TARGET.OS) = "UNIX" { cs_plugins_static += glx2d x2d xwin ; }
-  if $(TARGET.OS) = "UNIX" { cs_plugins_static_optional += sndsysoss sndsysalsa ; }
-
-  LinkStaticPlugins client_static :  $(cs_plugins_static)  : $(cs_plugins_static_optional) : CRYSTAL  ;
 
   ExternalLibs client_static : CRYSTAL CEL CEGUI ;
+
   MsvcExternalLibrary client_static : "wsock32.lib" ;
+
   if $(WSOCK32.LFLAGS) {
       LFlags client_static : $(WSOCK32.LFLAGS) ;
   }
-  MsvcExternalLibrary client_static : "libcrystalspace_staticplugins.lib libcel_staticplugins.lib" : release ;
-  MsvcExternalLibrary client_static : "libcrystalspace_staticplugins_d.lib libcel_staticplugins_d.lib" : debug ;
-  
+
   SubVariant ;
 }

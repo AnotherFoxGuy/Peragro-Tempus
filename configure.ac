@@ -10,11 +10,11 @@ AC_PREREQ([2.54])
 AC_INIT(
     [peragro],
     [0.1],
-    [info@peragro.nl])
+    [info@peragro.org])
 CS_PACKAGEINFO(
     [Peragro Tempus],
     [Peragro Team],
-    [peragro.nl])
+    [http://peragro.org])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST
@@ -112,69 +112,6 @@ CS_EMIT_BUILD_PROPERTY([BOOST.CFLAGS], [$BOOST_CPPFLAGS])
 CS_EMIT_BUILD_PROPERTY([BOOST.LFLAGS], [$BOOST_LDFLAGS])
 
 CS_CHECK_BOOST_PYTHON([emit])
-
-#------------------------------------------------------------------------------
-# Check for wxWidgets. Also check if it was built with OpenGL support since it
-# is required by the Crystal Space wxWidgets canvas.
-#
-# IMPLEMENTATION NOTE
-#
-# On Windows, wx-config's --gl-libs options incorrectly emits a reference to a
-# non-existent library (wxmsw_glxxx.lib). To handle this broken case, we first
-# try the result of --libs and --gl-libs together; if that fails, then we try
-# only --libs augmented with the results of our own OpenGL checks. On more
-# recent WX versions it seems that on Win32 both the libraries from --gl-libs
-# and the OpenGL checks are needed - the last case.
-#------------------------------------------------------------------------------
-CS_CHECK_LIB_WITH([wx],
-    [AC_LANG_PROGRAM(
-        [[#include "wx/wxprec.h"
-        #ifdef __BORLANDC__
-        #pragma hdrstop
-        #endif
-        #ifndef WX_PRECOMP
-        #include "wx/wx.h"
-        #endif
-        ]],
-        [[wxWindow* p = 0; int w,h; p->GetClientSize(&w,&h);]])],
-    [], [C++])
-
-AS_IF([test $cs_cv_libwx = yes],
-    [AS_IF([test -z "$cs_cv_libwx_opengl"],
-        [AS_IF([test -n "$CONFIG_WX"],
-            [cs_cv_libwx_gllibs=CS_RUN_PATH_NORMALIZE([$CONFIG_WX --gl-libs])],
-            [cs_cv_libwx_gllibs=''])])
-    CS_CHECK_BUILD([if wxWidgets is built with OpenGL support],
-        [cs_cv_libwx_opengl],
-        [AC_LANG_PROGRAM(
-            [[#include "wx/wxprec.h"
-            #ifdef __BORLANDC__
-            #pragma hdrstop
-            #endif
-            #ifndef WX_PRECOMP
-            #include "wx/wx.h"
-            #endif
-            #include "wx/glcanvas.h"
-            ]],
-            [wxGLCanvas* f = new wxGLCanvas(0, wxID_ANY); glVertex3f(0,0,0)])],
-        [CS_CREATE_TUPLE(
-            [$cs_cv_libwx_cflags],
-            [$cs_cv_libwx_lflags],
-            [$cs_cv_libwx_libs   $cs_cv_libwx_gllibs]) \
-        CS_CREATE_TUPLE(
-            [$cs_cv_libwx_cflags $cs_cv_libglu_cflags],
-            [$cs_cv_libwx_lflags $cs_cv_libglu_lflags],
-            [$cs_cv_libwx_libs   $cs_cv_libglu_libs])  \
-        CS_CREATE_TUPLE(
-            [$cs_cv_libwx_cflags $cs_cv_libglu_cflags],
-            [$cs_cv_libwx_lflags $cs_cv_libglu_lflags],
-            [$cs_cv_libwx_libs   $cs_cv_libwx_gllibs $cs_cv_libglu_libs])],
-        [C++])],
-    [cs_cv_libwx_opengl=no])
-
-AS_IF([test $cs_cv_libwx_opengl = yes],
-    [CS_EMIT_BUILD_RESULT([cs_cv_libwx_opengl], [WX])])
-
 
 #----------------------------------------------------------------------------
 # Check for CEGUI.
@@ -277,125 +214,6 @@ case "$host_os" in
 esac
 
 #------------------------------------------------------------------------------
-# Determine build mode; either "optimize", "debug", or "profile".
-#------------------------------------------------------------------------------
-AC_ARG_ENABLE([optimize], [AC_HELP_STRING([--enable-optimize],
-    [build with optimizations enabled (default YES);
-        same as --enable-mode=optimize])],
-    [test "$enableval" = "yes" && cs_build_mode=optimize])
-
-AC_ARG_ENABLE([debug], [AC_HELP_STRING([--enable-debug],
-    [build with debugging information (default NO);
-        same as --enable-mode=debug])],
-    [test "$enableval" = "yes" && cs_build_mode=debug])
-
-AC_ARG_ENABLE([profile], [AC_HELP_STRING([--enable-profile],
-    [build with profiling information (default NO);
-        same as --enable-mode=profile])],
-    [test "$enableval" = "yes" && cs_build_mode=profile])
-
-AC_ARG_ENABLE([mode], [AC_HELP_STRING([--enable-mode=mode],
-    [set build mode; recognized modes are `optimize', `debug', `profile'
-        (default OPTIMIZE)])],
-    [case $enableval in
-        optimize|debug|profile) cs_build_mode=$enableval ;;
-        *) CS_MSG_ERROR([m4_text_wrap(
-            [unrecognized mode --enable-mode=$enableval;
-            use `optimize', `debug', or `profile'], [    ], [[]], [60])]) ;;
-    esac])
-
-AC_MSG_CHECKING([build mode])
-AS_VAR_SET_IF([cs_build_mode], [], [cs_build_mode=optimize])
-AC_MSG_RESULT([$cs_build_mode])
-CS_EMIT_BUILD_PROPERTY([MODE], [$cs_build_mode])
-
-#------------------------------------------------------------------------------
-# Check for compiler optimization flags.
-#------------------------------------------------------------------------------
-AC_DEFUN([CS_CHECK_OPTIMIZE_FLAGS],
-    [AC_REQUIRE([AC_PROG_CC])
-    AC_REQUIRE([AC_PROG_CXX])
-
-    cs_optimize_flags=''
-
-    CS_EMIT_BUILD_FLAGS([how to enable optimizations],
-	[cs_cv_prog_cxx_optimize],
-	[CS_CREATE_TUPLE([-O3]) CS_CREATE_TUPLE([-O2]) CS_CREATE_TUPLE([-O])],
-	[C++], [COMPILER.CFLAGS.optimize], [+],
-	[cs_optimize_flags="$cs_optimize_flags $cs_cv_prog_cxx_optimize"])
-
-    CS_EMIT_BUILD_FLAGS([if -fomit-frame-pointer is accepted],
-	[cs_cv_prog_cxx_omit_frame_pointer],
-	[CS_CREATE_TUPLE([-fomit-frame-pointer])],
-	[C++], [COMPILER.CFLAGS.optimize], [+],
-	[cs_optimize_flags="$cs_optimize_flags \
-	    $cs_cv_prog_cxx_omit_frame_pointer"])
-
-    CS_EMIT_BUILD_FLAGS([if -ffast-math is accepted],
-	[cs_cv_prog_cxx_fast_math],
-	[CS_CREATE_TUPLE([-ffast-math])], [C++],
-	[COMPILER.CFLAGS.optimize], [+],
-	[cs_optimize_flags="$cs_optimize_flags $cs_cv_prog_cxx_fast_math"])])
-
-CS_CHECK_OPTIMIZE_FLAGS
-
-
-
-#------------------------------------------------------------------------------
-# Check for compiler debug flags.
-#------------------------------------------------------------------------------
-CS_EMIT_BUILD_FLAGS([how to enable compiler debug output],
-    [cs_cv_prog_cxx_debug],
-    [CS_CREATE_TUPLE([-g3]) CS_CREATE_TUPLE([-g2]) CS_CREATE_TUPLE([-g])],
-    [C++], [COMPILER.CFLAGS.debug], [+],
-    [CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS.debug],
-	[$cs_cv_prog_cxx_debug], [+])])
-
-#------------------------------------------------------------------------------
-# Check for X-Windows and several extensions. This check can identify both
-# new-style modular X.Org installations and old-style monolithic installations,
-# such as XFree86.
-#------------------------------------------------------------------------------
-AC_DEFUN([CS_X_CHECK_PREPARE],
-    [AC_REQUIRE([AC_CANONICAL_HOST])
-    AC_REQUIRE([CS_CHECK_HOST])
-
-    # Explicitly disable X checking on Windows to avoid discovering XFree86 in
-    # case Cygwin is installed.  Doing so allows us to avoid Mesa's OpenGL
-    # headers during the OpenGL check, and prefer Microsoft's OpenGL headers.
-    # The Mesa OpenGL headers cause link errors because they do not employ
-    # __stdcall.
-    case $host_os in
-	mingw*|cygwin*) with_x=no ;;
-    esac
-
-    # Explicitly disable X checking on MacOS/X in case the optional XFree86 is
-    # installed since we want to avoid an undesirable dependency upon XFree86
-    # in the CS executables and plugins.  If the user is actually
-    # cross-building for Darwin on MacOS/X, then the --with-x option will
-    # override this test (by setting cs_host_macosx to "no").
-    AS_IF([test x$cs_host_macosx = xyes], [with_x=no])])
-
-CS_X_CHECK_PREPARE
-AC_PATH_X
-AC_PATH_XTRA
-
-AS_IF([test "$no_x" != yes],
-    [# We must be especially careful to instruct CS_EMIT_BUILD_PROPERTY() to
-    # emit the following properties even if their values are empty.  This is
-    # necessary because of the way that Jam performs "product-wise" variable
-    # expansion.  For example, if X is "x" and Y is undefined, Jam will expand
-    # "$(X) $(Y)" to "", whereas every other tool in the world will expand it
-    # to "x ".  Since the emitted X11.CFLAGS, X11.LFLAGS, XFREE86VM.CFLAGS, and
-    # XFREE86VM.LFLAGS properties reference the other variables by name, we
-    # must ensure that those other variables are defined (even if only with an
-    # empty string).
-    CS_EMIT_BUILD_PROPERTY([X11.AVAILABLE], [yes])
-    CS_EMIT_BUILD_PROPERTY([X11.CFLAGS], [$X_CFLAGS])
-    CS_EMIT_BUILD_PROPERTY([X11.LFLAGS], [$X_LIBS $X_LFLAGS])
-    ])
-
-#------------------------------------------------------------------------------
 # Check how to set default symbol visibility, and how to override the setting
 # in code.
 #------------------------------------------------------------------------------
@@ -408,14 +226,35 @@ AS_IF([test -n "$cs_cv_prog_cc_visibility_hidden"],
 
 #------------------------------------------------------------------------------
 # Determine if plugin meta-information should be embedded directly into plugin
-# modules or if it should exist in stand-alone .csplugin files.
+# modules or if it should exist in stand-alone .csplugin files.  On Unix,
+# embedding is accomplished via libbfd which carries a GPL license.  If your
+# project is compatible with GPL, then set gpl_compatible to "yes".  This will
+# cause embedding to be enabled on Unix by default. Otherwise, set it to "no",
+# which will cause embedding to be disabled by default on Unix. (In any event,
+# the user can override the default setting with the
+# --enable-meta-info-embedding option.)
 #------------------------------------------------------------------------------
-CS_META_INFO_EMBED([emit], [no])
+m4_define([gpl_compatible], [yes])
+CS_META_INFO_EMBED([emit], gpl_compatible)
 AS_IF([test $enable_meta_info_embedding = yes],
     [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS],
 	[AS_ESCAPE([$(EMBED_META.CFLAGS)])], [+])
     CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS],
 	[AS_ESCAPE([$(EMBED_META.LFLAGS)])], [+])])
+
+#----------------------------------------------------------------------------
+# Package configuration switches.
+#----------------------------------------------------------------------------
+AC_ARG_ENABLE([debug],
+    [AC_HELP_STRING([--enable-debug],
+	[build with debugging information (default NO)])],
+    [], [enable_debug=no])
+
+AC_MSG_CHECKING([build mode])
+AS_IF([test $enable_debug = yes], [build_mode=debug], [build_mode=optimize])
+AC_MSG_RESULT([$build_mode])
+
+CS_EMIT_BUILD_PROPERTY([MODE], [$build_mode])
 
 #-----------------------------------------------------------------------------
 # Emit install paths and package information.
