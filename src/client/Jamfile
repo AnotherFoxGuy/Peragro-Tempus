@@ -90,7 +90,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     csbmpimg
     csddsimg
     csgifimg
-    csjngimg
     csjpgimg
     cspngimg
     particlesldr
@@ -135,9 +134,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   if $(WSOCK32.LFLAGS) {
       LFlags client_static : $(WSOCK32.LFLAGS) ;
   }
-
-  Echo "PK" ;
-  Echo "PK: $(client_static)" ;
 
   SubVariant ;
 }
