@@ -52,6 +52,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfzone
     stdphyslayer
     pfsteer
+    csclipboard
   :
   ;
 
