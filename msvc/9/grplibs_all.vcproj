@@ -75,7 +75,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -146,7 +146,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -215,7 +215,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -284,7 +284,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
