@@ -22,7 +22,6 @@
 #include "server/entity/user.h"
 
 #include "server/entity/character.h"
-#include "server/entity/pcentity.h"
 #include "server/entity/entitymanager.h"
 #include "server/entity/charactermanager.h"
 
