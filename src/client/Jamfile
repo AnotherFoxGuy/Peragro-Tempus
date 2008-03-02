@@ -136,5 +136,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
       LFlags client_static : $(WSOCK32.LFLAGS) ;
   }
 
+  Echo "PK" ;
+  Echo "PK: $(client_static)" ;
+
   SubVariant ;
 }
