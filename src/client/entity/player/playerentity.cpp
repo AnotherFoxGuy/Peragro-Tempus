@@ -161,22 +161,22 @@ namespace PT
         AddListener("input.ACTION_JUMP", cbActionJump);
 
       // Register listener for ActionMoveTo.
-      EventHandler<PlayerEntity>* cbActionMoveTo = 
+      EventHandler<PlayerEntity>* cbActionMoveTo =
         new EventHandler<PlayerEntity>(&PlayerEntity::ActionMoveTo, this);
       PointerLibrary::getInstance()->getEventManager()->
         AddListener("input.ACTION_MOVETO", cbActionMoveTo);
 
       app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
-      if (!app_cfg) 
+      if (!app_cfg)
       {
-        Report(PT::Error, "Can't find the config manager!"); 
+        Report(PT::Error, "Can't find the config manager!");
         return;
       }
 
       vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
-      if (!vfs) 
+      if (!vfs)
       {
-        Report(PT::Error, "Can't find the vfs!"); 
+        Report(PT::Error, "Can't find the vfs!");
         return;
       }
 
@@ -195,7 +195,7 @@ namespace PT
       if (instance && !ev) return instance;
       //If the instance already exists, and we're requesting
       //a reinitialization
-      else if (instance && ev) 
+      else if (instance && ev)
       {
         instance->ReInit(ev);
         return instance;/*delete instance;*/
@@ -210,6 +210,12 @@ namespace PT
 
     void PlayerEntity::ReInit(const Events::EntityAddEvent* ev)
     {
+      // Reset the Id.
+      id = ev->entityId;
+
+      // TODO: Clear the inventory.
+      // TODO: Clear the skills and skillbar.
+
       equipment.ClearAll();
 
       //Add the equipment
@@ -248,7 +254,7 @@ namespace PT
         camera->SetMode(iPcDefaultCamera::thirdperson, true);
         camera->SetPitch(-0.18f);
       }
-      else 
+      else
         Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
 
       PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
