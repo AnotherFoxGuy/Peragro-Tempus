@@ -28,7 +28,7 @@ struct iEngine;
 struct iVFS;
 struct iObjectRegistry;
 struct iLoader;
-struct iRegion;
+struct iCollection;
 
 //---------------------------------------------------------------------------
 
@@ -154,7 +154,7 @@ protected:
   mutable csRef<iJobQueue> jobQueue;
 
   iObjectRegistry* object_reg;
-  csRef<iRegion> region;
+  csRef<iCollection> collection;
 
 private:
   std::string path;
@@ -192,7 +192,7 @@ public:
   FileLoader (iObjectRegistry* object_reg);
   virtual ~FileLoader ();
 
-  virtual bool Load (const std::string& path, const std::string& fileName, iRegion* region=0);
+  virtual bool Load (const std::string& path, const std::string& fileName, iCollection* collection=0);
 
   void WaitForJob() const;
 

@@ -20,7 +20,7 @@
 
 #include <cssysdef.h>
 #include <iutil/document.h>
-#include <iengine/region.h>
+#include <iengine/collection.h>
 #include <iengine/sector.h>
 #include <iengine/movable.h>
 #include <iengine/portalcontainer.h>
@@ -71,10 +71,14 @@ namespace PT
     // If it's a portal allow it to look for sectors beyond the region.
     csLoadResult rc;
     if (meshNode && meshNode->GetNode("portals").IsValid())
-      rc = loader->Load(meshNode, instances, false, false, 0, 0, missingData, true);
+      rc = loader->Load(meshNode, instances, false, false, 0, 0, missingData, KEEP_USED);
     else
-      rc = loader->Load(meshNode, instances, true, false, 0, 0, missingData, true);
-    if (!rc.success) return;
+      rc = loader->Load(meshNode, instances, true, false, 0, 0, missingData, KEEP_USED);
+    if (!rc.success) 
+    {
+      printf("BLAAAH %s\n", meshNode->GetNode("portals").IsValid()? "portal":"");
+      return;
+    }
 
     csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper>(rc.result);
     csRef<iLight> light = scfQueryInterface<iLight>(rc.result);

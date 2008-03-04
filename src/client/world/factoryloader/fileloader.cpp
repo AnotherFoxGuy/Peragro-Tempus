@@ -265,7 +265,7 @@ FileLoader::~FileLoader ()
     jobQueue->Unqueue (loadJob);
 }
 
-bool FileLoader::Load (const std::string& path, const std::string& fileName, iRegion* region)
+bool FileLoader::Load (const std::string& path, const std::string& fileName, iCollection* collection)
 {
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   csRef<iSyntaxService> SyntaxService = csQueryRegistryOrLoad<iSyntaxService> (object_reg, "crystalspace.syntax.loader.service.text");
@@ -274,7 +274,7 @@ bool FileLoader::Load (const std::string& path, const std::string& fileName, iRe
   loadJob.AttachNew (new LoaderJob (path, fileName));
   this->path = path;
   this->fileName = fileName;
-  this->region = region;
+  this->collection = collection;
 
   // Add the plugins.
   loadJob->vfs = vfs;
@@ -454,15 +454,15 @@ bool FileLoader::AddToEngine()
       {
         info = "(W: From main thread!)";
         vfs->ChDir(path.c_str());
-        tex.texture = loader->LoadTexture(tex.name.c_str(), tex.fileName.c_str(), tex.flags, textureManager, true, false, !tex.keepImage, region);
+        tex.texture = loader->LoadTexture(tex.name.c_str(), tex.fileName.c_str(), tex.flags, textureManager, true, false, !tex.keepImage, collection, KEEP_USED);
         SetFileName(tex.texture, tex.fileName);
       }
       //printf("- %s %s (%s)(%s)\n", tex.name.c_str(), info.GetData(), tex.fileName.c_str(), tex.usedFileName.c_str());
       if ( tex.texture.IsValid())
       {
         SetTextureProperties(this, tex);
-        if (region && !region->IsInRegion(tex.texture->QueryObject()))
-          region->Add(tex.texture->QueryObject());
+        if (collection && !collection->IsParentOf(tex.texture->QueryObject()))
+          collection->Add(tex.texture->QueryObject());
       }
     } // end for
     //lTimeMeasurer.PrintIntermediate ("Textures ");
@@ -473,7 +473,7 @@ bool FileLoader::AddToEngine()
       MaterialPrototype mat = loadJob->materials[i];
       SetMaterialProperties(this, mat, GetTexture(mat.textureName));
       //printf("- %s\n", mat.name.c_str());
-      if (region && mat.materialWrapper.IsValid()) region->Add(mat.materialWrapper->QueryObject());
+      if (collection && mat.materialWrapper.IsValid()) collection->Add(mat.materialWrapper->QueryObject());
     } // end for
     //lTimeMeasurer.PrintIntermediate ("Materials ");
 
@@ -495,7 +495,7 @@ bool FileLoader::AddToEngine()
           obj->SetMaterialWrapper(GetMaterial(proto.materialName));
           csRef<iMeshFactoryWrapper> fact = engine->CreateMeshFactory(obj, proto.name.c_str());
           SetFactoryProperties(this, proto, fact);
-          if (region && fact.IsValid()) region->Add(fact->QueryObject());
+          if (collection && fact.IsValid()) collection->Add(fact->QueryObject());
           // Add the generated iCollider.
           csRef<csColliderWrapper> cw;
           cw.AttachNew(new csColliderWrapper (fact->QueryObject(), cdsys, proto.collider));

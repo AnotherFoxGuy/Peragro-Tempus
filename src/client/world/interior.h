@@ -51,7 +51,7 @@ namespace PT
     bool loading;
     csRef<iDocumentNode> interiorNode;
     csRef<InteriorFactory> factory;
-    csRef<iRegion> region;
+    csRef<iCollection> instances;
     csRef<iSector> sector;
     csVector3 position;
 

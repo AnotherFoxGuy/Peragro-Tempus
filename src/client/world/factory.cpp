@@ -20,7 +20,7 @@
 #include <csutil/ref.h>
 #include <iengine/texture.h>
 #include <csutil/scf_implementation.h>
-#include <iengine/region.h>
+#include <iengine/collection.h>
 
 #include "factory.h"
 #include "factoryloader/fileloader.h"
@@ -46,13 +46,6 @@ namespace PT
       delete fileLoader;
       fileLoader = 0;
     }
-
-    if (region.IsValid())
-    {
-      csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-      iRegionList* list = engine->GetRegions();
-      list->Remove(region);
-    }
   }
 
   void Factory::Load()
@@ -66,9 +59,9 @@ namespace PT
 
     // Create our region.
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-    region = engine->CreateRegion(fileName.c_str());
+    collection = engine->CreateCollection(fileName.c_str());
 
-    fileLoader->Load(path, file, region);
+    fileLoader->Load(path, file, collection);
   } // end Load()
 
   bool Factory::IsReady() const
@@ -92,12 +85,12 @@ namespace PT
   void Factory::Precache()
   {
     if (!IsReady()) return;
-    if (!region.IsValid()) return;
+    if (!collection.IsValid()) return;
     if (IsPrecached()) return;
 
     // Precaches "one" texture and then returns, so you have to call 
     // this repeately and check IsPrecached() wether 'everything' is done.
-    csRef<iObjectIterator> iter = region->QueryObject()->GetIterator();
+    csRef<iObjectIterator> iter = collection->QueryObject()->GetIterator();
     while (iter->HasNext ())
     {
       csRef<iTextureWrapper> csth (scfQueryInterface<iTextureWrapper> (iter->Next ()));

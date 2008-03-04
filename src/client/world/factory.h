@@ -22,6 +22,7 @@
 #include <string>
 
 struct iObjectRegistry;
+struct iCollection;
 class FileLoader;
 
 namespace PT
@@ -34,7 +35,7 @@ namespace PT
   struct Factory : public scfImplementation1<Factory, iModelFactory>
   {
   private:
-    csRef<iRegion> region;
+    csRef<iCollection> collection;
     FileLoader* fileLoader;
     iObjectRegistry* object_reg;
     bool isPrecached;
@@ -62,8 +63,8 @@ namespace PT
     *  Call IsPrecached() to see if everything has been precached.
     */
     void Precache();
-    /// Get the region that is used internally for holding the data.
-    iRegion* GetRegion() { return region; }
+    /// Get the collection that is used internally for holding the data.
+    iCollection* GetCollection() { return collection; }
   };
 
 } // PT namespace

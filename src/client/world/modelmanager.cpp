@@ -19,7 +19,7 @@
 #include "modelmanager.h"
 
 #include <csutil/scf_implementation.h>
-#include <iengine/region.h>
+#include <iengine/collection.h>
 
 #include "factory.h"
 

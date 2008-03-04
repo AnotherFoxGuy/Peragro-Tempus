@@ -50,13 +50,6 @@ namespace PT
       engine->RemoveEngineFrameCallback(cb);
     }
 
-    // Unload instances.
-    if (instances.IsValid())
-    {
-      instances->DeleteAll();
-      engine->GetRegions()->Remove(instances);
-    }
-
     // Unload factories.
     // Just empty the array to decrease ref.
     factories.Empty();
@@ -75,7 +68,7 @@ namespace PT
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
 
     // Create instances' region.
-    instances = engine->CreateRegion(regionName.c_str());
+    instances = engine->CreateCollection(regionName.c_str());
 
     // Wait for the resources to be loaded.
     cb.AttachNew(new FrameCallBack(this));
@@ -202,10 +195,10 @@ namespace PT
       Factory* fact = level->factories.Get(i);
       if (fact->IsReady() && fact->IsAdded())
       {
-        iRegion* region = fact->GetRegion();
-        if (region)
+        iCollection* coll = fact->GetCollection();
+        if (coll)
         {
-          iMeshFactoryWrapper* mesh = region->FindMeshFactory(name);
+          iMeshFactoryWrapper* mesh = coll->FindMeshFactory(name);
           if (mesh) return mesh;
         }
       }
@@ -223,10 +216,10 @@ namespace PT
       Factory* fact = level->factories.Get(i);
       if (fact->IsReady() && fact->IsAdded())
       {
-        iRegion* region = fact->GetRegion();
-        if (region)
+        iCollection* coll = fact->GetCollection();
+        if (coll)
         {
-          iTextureWrapper* tex = region->FindTexture(name);
+          iTextureWrapper* tex = coll->FindTexture(name);
           if (tex) return tex;
         }
       }

@@ -21,7 +21,7 @@
 #include <iutil/objreg.h>
 #include <csutil/refarr.h>
 #include <csutil/scf_implementation.h>
-#include <iengine/region.h>
+#include <iengine/collection.h>
 #include <iutil/document.h>
 #include <iengine/sector.h>
 #include <csutil/csstring.h>
@@ -30,7 +30,7 @@
 #include <iengine/movable.h>
 #include <iengine/portalcontainer.h>
 #include <iengine/mesh.h>
-#include <ivaria/collider.h>
+//#include <ivaria/collider.h>
 #include <cstool/collider.h>
 #include <csgeom/plane3.h>
 #include <iengine/portal.h>
@@ -75,18 +75,10 @@ namespace PT
   {
     Report(PT::Debug, "Unloading Interior %s", interiorName.c_str());
 
-    csRef<iEngine> engine = csQueryRegistry<iEngine> (factory->object_reg);
-
-    if (region.IsValid())
-    {
-      region->DeleteAll();
-      iRegionList* list = engine->GetRegions();
-      list->Remove(region);
-    }
-
     // Remove callback.
     if (cb.IsValid())
     {
+      csRef<iEngine> engine = csQueryRegistry<iEngine> (factory->object_reg);
       engine->RemoveEngineFrameCallback(cb);
     }
   }
@@ -100,9 +92,9 @@ namespace PT
 
     csRef<iEngine> engine = csQueryRegistry<iEngine> (factory->object_reg);
 
-    region = engine->CreateRegion(interiorName.c_str());
+    instances = engine->CreateCollection(interiorName.c_str());
     sector = engine->CreateSector(interiorName.c_str());
-    region->Add(sector->QueryObject());
+    instances->Add(sector->QueryObject());
 
     // Wait for the resources to be loaded.
     if (!cb.IsValid())
@@ -140,14 +132,14 @@ namespace PT
     float portalRot = GetPortalYRotation(portalMesh);
     csVector3 portalCenter = GetPortalPosition(portalMesh);
 
-    // Load our mesh into the instances region and ONLY look for 
+    // Load our mesh into the instances collection and ONLY look for 
     // meshfactories in our own factory list.
-    // If it's a portal allow it to look for sectors beyond the region.
+    // If it's a portal allow it to look for sectors beyond the collection.
     csLoadResult rc;
     if(meshNode && meshNode->GetNode("portals").IsValid())
-      rc = loader->Load(meshNode, region, false, false, 0, 0, factory->missingData, true);
+      rc = loader->Load(meshNode, instances, false, false, 0, 0, factory->missingData, KEEP_USED);
     else
-      rc = loader->Load(meshNode, region, true, false, 0, 0, factory->missingData, true);
+      rc = loader->Load(meshNode, instances, true, false, 0, 0, factory->missingData, KEEP_USED);
 
     if (!rc.success) return;
     csRef<iSceneNode> node = scfQueryInterface<iSceneNode>(rc.result);

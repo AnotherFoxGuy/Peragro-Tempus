@@ -57,7 +57,7 @@ namespace PT
 
     // Resources.
     csRefArray<Factory> factories;
-    csRef<iRegion> instances;
+    csRef<iCollection> instances;
     csRefArray<iDocumentNode> instanceNodes;
     csRefArray<Interior> interiors;
 
