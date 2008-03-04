@@ -181,7 +181,10 @@ private:
     virtual iShader* FindShader (const char* name) { return 0; }
     virtual bool CheckDupes () const  { return true; }
     virtual iRegion* GetRegion () const  { return 0; }
+    virtual iCollection* GetCollection () const  { return 0; }
     virtual bool CurrentRegionOnly () const { return true; }
+    virtual bool CurrentCollectionOnly () const { return true; }
+    virtual uint GetKeepFlags() const { return 0; }
   };
   csRef<LoaderContext> loaderContext;
 

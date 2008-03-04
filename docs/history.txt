@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+04-Mar-2008
+ - Rakhun added some functions for compatibility with recent changes in CS.
+
 02-Mar-2008
  - PK updated the buildsystem and fixed static builds with msvc. Linux builds
    won't work yet due to the "LinkApplication actions too long (max 10240)!"
