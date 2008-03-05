@@ -73,6 +73,7 @@ public:
 
   void send(NetMessage* msg)
   {
+    if (!receiver.isRunning()){return;}
     ByteStream bs;
     msg->serialise(&bs);
     TcpSocket::publish(socket.getSocket(), (const char*)bs.getData(), bs.getSize());

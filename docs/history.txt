@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+05-Mar-2008
+ - Rakhun fixed handling of losing the connection to the server.
+
 04-Mar-2008
  - Rakhun added some functions for compatibility with recent changes in CS.
 
