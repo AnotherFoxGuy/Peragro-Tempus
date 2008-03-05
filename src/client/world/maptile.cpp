@@ -71,9 +71,9 @@ namespace PT
     // If it's a portal allow it to look for sectors beyond the region.
     csLoadResult rc;
     if (meshNode && meshNode->GetNode("portals").IsValid())
-      rc = loader->Load(meshNode, instances, false, false, 0, 0, missingData, KEEP_USED);
+      rc = loader->Load(meshNode, instances, false, false, 0, 0, missingData, KEEP_ALL);
     else
-      rc = loader->Load(meshNode, instances, true, false, 0, 0, missingData, KEEP_USED);
+      rc = loader->Load(meshNode, instances, true, false, 0, 0, missingData, KEEP_ALL);
     if (!rc.success) 
     {
       printf("BLAAAH %s\n", meshNode->GetNode("portals").IsValid()? "portal":"");

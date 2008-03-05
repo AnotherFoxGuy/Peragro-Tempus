@@ -454,7 +454,7 @@ bool FileLoader::AddToEngine()
       {
         info = "(W: From main thread!)";
         vfs->ChDir(path.c_str());
-        tex.texture = loader->LoadTexture(tex.name.c_str(), tex.fileName.c_str(), tex.flags, textureManager, true, false, !tex.keepImage, collection, KEEP_USED);
+        tex.texture = loader->LoadTexture(tex.name.c_str(), tex.fileName.c_str(), tex.flags, textureManager, true, false, !tex.keepImage, collection, KEEP_ALL);
         SetFileName(tex.texture, tex.fileName);
       }
       //printf("- %s %s (%s)(%s)\n", tex.name.c_str(), info.GetData(), tex.fileName.c_str(), tex.usedFileName.c_str());

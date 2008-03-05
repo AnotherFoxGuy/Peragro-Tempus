@@ -137,9 +137,9 @@ namespace PT
     // If it's a portal allow it to look for sectors beyond the collection.
     csLoadResult rc;
     if(meshNode && meshNode->GetNode("portals").IsValid())
-      rc = loader->Load(meshNode, instances, false, false, 0, 0, factory->missingData, KEEP_USED);
+      rc = loader->Load(meshNode, instances, false, false, 0, 0, factory->missingData, KEEP_ALL);
     else
-      rc = loader->Load(meshNode, instances, true, false, 0, 0, factory->missingData, KEEP_USED);
+      rc = loader->Load(meshNode, instances, true, false, 0, 0, factory->missingData, KEEP_ALL);
 
     if (!rc.success) return;
     csRef<iSceneNode> node = scfQueryInterface<iSceneNode>(rc.result);
