@@ -3,7 +3,7 @@ echo ---------------------------------------------------------------------------
 echo `date`
 echo -----------------------------------------------------------------------------
 cd /home/peragro/peragro
-
+svn up
 # echo "--> Autogen"
 # ./autogen.sh
 # echo "--> Configuring source tree."
