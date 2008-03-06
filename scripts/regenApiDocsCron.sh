@@ -8,7 +8,7 @@ svn up
 # ./autogen.sh
 # echo "--> Configuring source tree."
 # ./configure --without-cs --without-cel --without-CEGUI --without-pthread --without-boost
-export PTREV=`svn info|grep Revision`
+export PTREV="`svn info|grep Revision`"
 echo "--> Generating project files."
 jam apidocs
 echo "--> Copying generated files to website."
