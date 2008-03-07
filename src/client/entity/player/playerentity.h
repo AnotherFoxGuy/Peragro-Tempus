@@ -22,8 +22,8 @@
 #include "client/entity/pc/pcentity.h"
 #include "client/event/event.h"
 
-#include "iutil/cfgmgr.h"
-#include "iutil/cfgfile.h"
+#include <iutil/cfgmgr.h>
+#include <iutil/cfgfile.h>
 
 namespace PT
 {

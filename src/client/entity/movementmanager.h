@@ -28,8 +28,6 @@
 #include <csgeom/math3d.h>
 #include <iengine/camera.h>
 #include <iutil/object.h>
-#include "iutil/cfgmgr.h"
-#include "iutil/cfgfile.h"
 
 #include <physicallayer/pl.h>
 #include <physicallayer/datatype.h>
