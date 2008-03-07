@@ -156,7 +156,7 @@ namespace PT
       float turnDirection;
       bool run;
       bool jump;
-      bool halfspeed;
+      bool local;
 
     public:
       EntityMoveEvent() : EntityEvent("entity.move", true) {}

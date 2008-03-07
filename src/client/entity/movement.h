@@ -57,7 +57,6 @@ namespace PT
       float turn;
       bool run;
       bool jump;
-      bool halfspeed;
     };
 
     struct MoveToData

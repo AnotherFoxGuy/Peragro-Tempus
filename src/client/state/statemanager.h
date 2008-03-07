@@ -41,6 +41,10 @@ namespace PT
     StateManager();
     ~StateManager();
 
+   /**
+    *Initialize the statemanager, setting state to STATE_INITIAL (0)
+    *@return True, indicating success
+    */
     bool Initialize();
 
     ///Get the current state of the game.

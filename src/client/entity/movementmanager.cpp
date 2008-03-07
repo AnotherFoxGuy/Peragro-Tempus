@@ -61,6 +61,32 @@ namespace PT
       // Register listener for EntityPcPropUpdateEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pcpropupdate", cb);
 
+      cb = new EventHandler<MovementManager>(&MovementManager::UpdateOptions, this);
+      // Register listener for InterfaceOptionsEvent.
+      PointerLibrary::getInstance()->getEventManager()->AddListener("interface.options", cb);
+
+      app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+      if (!app_cfg)
+      {
+        Report(PT::Error, "Can't find the config manager!");
+        return false;
+      }
+
+      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+      if (!vfs)
+      {
+        Report(PT::Error, "Can't find the vfs!");
+        return false;
+      }
+
+      local_movement = app_cfg->GetBool("Client.local_movement");
+
+      return true;
+    }
+
+    bool MovementManager::UpdateOptions(PT::Events::Eventp ev)
+    {
+      local_movement = app_cfg->GetBool("Client.local_movement");
       return true;
     }
 
@@ -120,6 +146,8 @@ namespace PT
       EntityMoveEvent* entityMoveEv = GetEntityEvent<EntityMoveEvent*>(ev);
       if (!entityMoveEv) return false;
 
+      if (!entityMoveEv->local && local_movement || entityMoveEv->local && !local_movement) return false;
+
       unsigned int id = entityMoveEv->entityId;
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
@@ -135,7 +163,6 @@ namespace PT
       movement.turn	    = entityMoveEv->turnDirection;
       movement.run          = entityMoveEv->run;
       movement.jump         = entityMoveEv->jump;
-      movement.halfspeed    = entityMoveEv->halfspeed;
 
       entity->Move(movement);
 

@@ -28,6 +28,8 @@
 #include <csgeom/math3d.h>
 #include <iengine/camera.h>
 #include <iutil/object.h>
+#include "iutil/cfgmgr.h"
+#include "iutil/cfgfile.h"
 
 #include <physicallayer/pl.h>
 #include <physicallayer/datatype.h>
@@ -44,7 +46,6 @@
 #include "client/entity/movement.h"
 #include "client/event/entityevent.h"
 
-
 struct iObjectRegistry;
 
 namespace PT
@@ -57,6 +58,11 @@ namespace PT
       csRef<iEngine> engine;
       csRef<iVirtualClock> vc;
       csRef<iObjectRegistry> obj_reg;
+      csRef<iConfigManager> app_cfg;
+      csRef<iVFS> vfs;
+
+      bool local_movement;
+      bool UpdateOptions(PT::Events::Eventp ev);
 
     private:
       csPDelArray<MoveToData> move_to_entity;

@@ -585,7 +585,7 @@ namespace PT
         entityEvent->turnDirection = (walk == -1 && backwardReverse ? -turn : turn);
         entityEvent->run           = run;
         entityEvent->jump          = jump;
-        entityEvent->halfspeed     = true;
+        entityEvent->local         = true;
         PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
       }
 

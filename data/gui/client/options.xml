@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <GUILayout>
 	<Window Type='Peragro/FrameWindow' Name='Options/Frame'>
-		<Property Name='UnifiedSize' Value='{{0.000000,330.000000},{0.000000,165.000000}}'/>
-		<Property Name='UnifiedPosition' Value='{{0.500000,-165.000000},{0.500000,-82.500000}}'/>
+		<Property Name='UnifiedSize' Value='{{0.000000,330.000000},{0.000000,200.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.500000,-165.000000},{0.500000,-100.000000}}'/>
 		<Property Name='CaptionColour' Value='00FFFFFF'/>
 		<Property Name='TitlebarEnabled' Value='True'/>
 		<Property Name='SizingEnabled' Value='False'/>
@@ -39,21 +39,37 @@
 			<Property Name='SelectedEditTextColour' Value='FF000000'/>
 			<Property Name='ClippedByParent' Value='False'/>
 		</Window>
+		<Window Type='Peragro/StaticText' Name='Options/MovementMode'>
+			<Property Name='UnifiedSize' Value='{{0.000000,205.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,6.000000},{0.000000,100.000000}}'/>
+			<Property Name='Text' Value='Movement'/>
+		</Window>
+		<Window Type='Peragro/Combobox' Name='Options/MovementMode/DropList'>
+			<Property Name='UnifiedSize' Value='{{0.000000,105.000000},{0.000000,80.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,215.000000},{0.000000,100.000000}}'/>
+			<Property Name='ActiveEditSelectionColour' Value='FF6060FF'/>
+			<Property Name='Font' Value='Commonwealth-10'/>
+			<Property Name='InactiveEditSelectionColour' Value='FF808080'/>
+			<Property Name='MaxEditTextLength' Value='1073741823'/>
+			<Property Name='NormalEditTextColour' Value='FFFFFFFF'/>
+			<Property Name='SelectedEditTextColour' Value='FF000000'/>
+			<Property Name='ClippedByParent' Value='False'/>
+		</Window>
 		<Window Type='Peragro/Checkbox' Name='Options/Reverse'>
 			<Property Name='UnifiedSize' Value='{{0.000000,300.000000},{0.000000,25.000000}}'/>
-			<Property Name='UnifiedPosition' Value='{{0.000000,15.000000},{0.000000,100.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,15.000000},{0.000000,135.000000}}'/>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
 			<Property Name='Text' Value='Reverse turning when going backwards'/>
 		</Window>
 		<Window Type='Peragro/Checkbox' Name='Options/Fullscreen'>
 			<Property Name='UnifiedSize' Value='{{0.000000,110.000000},{0.000000,25.000000}}'/>
-			<Property Name='UnifiedPosition' Value='{{0.000000,15.000000},{0.000000,130.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,15.000000},{0.000000,165.000000}}'/>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
 			<Property Name='Text' Value='Fullscreen'/>
 		</Window>
 		<Window Type='Peragro/Button' Name='Options/OK_Button'>
 			<Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,25.000000}}'/>
-			<Property Name='UnifiedPosition' Value='{{0.700000,0.000000},{0.800000,0.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.700000,0.000000},{1.00000,-35.000000}}'/>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
 			<Property Name='Text' Value='OK'/>
 		</Window>

@@ -47,6 +47,9 @@ private:
   bool OnDropListTexture(const CEGUI::EventArgs& e); 
   void CreateDropListTexture();
 
+  bool OnDropListMovement(const CEGUI::EventArgs& e); 
+  void CreateDropListMovement();
+
   void CreateFullScreenCheckBox();
   bool OnFullScreenCheckBox(const CEGUI::EventArgs& e); 
 

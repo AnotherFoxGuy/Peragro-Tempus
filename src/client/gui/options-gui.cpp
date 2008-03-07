@@ -26,6 +26,7 @@
 #include "client/gui/guimanager.h"
 
 #include "client/reporter/reporter.h"
+#include "client/event/interfaceevent.h"
 
 OptionsWindow::OptionsWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
@@ -75,6 +76,11 @@ void OptionsWindow::CreateGUIWindow ()
   CreateDropListTexture();
   btn = winMgr->getWindow("Options/TextureQuality/DropList");
   btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&OptionsWindow::OnDropListTexture, this));
+
+  // Set up the button behaviour for Movement Mode.
+  CreateDropListMovement();
+  btn = winMgr->getWindow("Options/MovementMode/DropList");
+  btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted, CEGUI::Event::Subscriber(&OptionsWindow::OnDropListMovement, this));
 
   // Set up the OK button.
   btn = winMgr->getWindow("Options/OK_Button");
@@ -134,6 +140,10 @@ bool OptionsWindow::OkButtonPressed(const CEGUI::EventArgs& e)
   // Hide the Option menu.
   btn = winMgr->getWindow("Options/Frame");
   btn->setVisible(false);
+
+  using namespace PT::Events;
+  InterfaceOptionsEvent* interfaceEvent = new InterfaceOptionsEvent();
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
   return true;
 }
 
@@ -224,7 +234,7 @@ void OptionsWindow::CreateDropListTexture()
   switch(quality)
   {
     case 0:
-      ((CEGUI::Combobox*)btn)->setText("High"); 
+      ((CEGUI::Combobox*)btn)->setText("High");
       break;
     case 1:
       ((CEGUI::Combobox*)btn)->setText("Normal");
@@ -249,6 +259,58 @@ void OptionsWindow::CreateDropListTexture()
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
 
   charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Very Low", 3);
+  ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+
+  ((CEGUI::Combobox*)btn)->setReadOnly(true);
+
+}
+
+bool OptionsWindow::OnDropListMovement(const CEGUI::EventArgs& e) 
+{
+  btn = winMgr->getWindow("Options/MovementMode/DropList");
+  uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
+
+  bool local = true;
+
+  switch(id)
+  {
+  case 0: // Direct
+    local = true;
+    break;
+  case 1: // Via server
+    local = false;
+    break;
+  default: Report(PT::Error, "OnDropListMovement: failed %d", id);
+  }
+
+  app_cfg->SetBool("Client.local_movement", local);
+  SaveConfig();
+  return true;
+}
+
+void OptionsWindow::CreateDropListMovement()
+{
+
+  btn = winMgr->getWindow("Options/MovementMode/DropList");
+
+  bool local = app_cfg->GetBool("Client.local_movement");
+
+  switch(local)
+  {
+    case true:
+      ((CEGUI::Combobox*)btn)->setText("Direct");
+      break;
+    case false:
+      ((CEGUI::Combobox*)btn)->setText("Via server");
+      break;
+    default:
+      ((CEGUI::Combobox*)btn)->setText("Custom");
+  }
+
+  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Direct", 0);
+  ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+
+  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Via server", 1);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
 
   ((CEGUI::Combobox*)btn)->setReadOnly(true);

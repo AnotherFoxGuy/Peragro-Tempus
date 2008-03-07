@@ -60,7 +60,7 @@ namespace PT
     }
 
     /**
-    * Interface Event event.
+    * Interface Event for interaction menues.
     */
     class InterfaceInteract : public InterfaceEvent
     {
@@ -83,6 +83,15 @@ namespace PT
       virtual ~InterfaceInteract() {}
     };
 
+    /**
+    * Event when the options might have changed (ok button pressed).
+    */
+    class InterfaceOptionsEvent : public InterfaceEvent
+    {
+    public:
+      InterfaceOptionsEvent() : InterfaceEvent("interface.options", true) {}
+      virtual ~InterfaceOptionsEvent() {}
+    };
 
   } // Events namespace 
 } // PT namespace 

@@ -114,7 +114,7 @@ void EntityHandler::handleMove(GenericMessage* msg)
   entityEvent->turnDirection = entmsg.getTurn();
   entityEvent->run           = entmsg.getRun();
   entityEvent->jump          = entmsg.getJump();
-  entityEvent->halfspeed     = false;
+  entityEvent->local         = false;
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }

@@ -63,14 +63,8 @@ namespace PT
       {
         pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
         pcactormove->SetMovementSpeed(abs((int)movement.walk));
-        if (movement.halfspeed)
-        {
-          pcactormove->SetRunningSpeed(fabsf((int)movement.walk)/2);
-          pcactormove->SetRotationSpeed(PI/2);
-        }else{
-          pcactormove->SetRunningSpeed(fabsf((int)movement.walk));
-          pcactormove->SetRotationSpeed(PI);
-        }
+        pcactormove->SetRunningSpeed(fabsf((int)movement.walk));
+        pcactormove->SetRotationSpeed(PI);
 
         pcactormove->RotateLeft(movement.turn < 0.0f);
         pcactormove->RotateRight(movement.turn > 0.0f);
