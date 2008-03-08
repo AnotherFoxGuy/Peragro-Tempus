@@ -46,6 +46,7 @@
 #include "common/util/mutex.h"
 
 #include "client/event/eventmanager.h"
+#include "client/event/environmentevent.h"
 #include "client/event/regionevent.h"
 #include "client/event/inputevent.h"
 
@@ -208,6 +209,7 @@ namespace PT
     bool LoadingRegion(PT::Events::Eventp ev);
     bool LoadRegion(PT::Events::Eventp ev);
     bool Connected(PT::Events::Eventp ev);
+    bool SetDayTime(PT::Events::Eventp ev);
 
   public:
     Client();

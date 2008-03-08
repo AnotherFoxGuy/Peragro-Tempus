@@ -18,13 +18,22 @@
 
 #include "client/network/network.h"
 
+#include "client/event/eventmanager.h"
+#include "client/event/environmentevent.h"
+
 #include "client/reporter/reporter.h"
 
 void EnvironmentHandler::handleDayTime(GenericMessage* msg)
 {
   DayTimeMessage time_msg;
   time_msg.deserialise(msg->getByteStream());
-  Report(PT::Debug, "The time after next beep is %d o'clock..... *beep*", time_msg.getHour());
+  unsigned char hour = time_msg.getHour();
+  Report(PT::Debug, "The time after next beep is %d o'clock..... *beep*", hour);
+
+  using namespace PT::Events;
+  EnvironmentDayTimeEvent* environmentEvent = new EnvironmentDayTimeEvent();
+  environmentEvent->hour = hour;
+  PointerLibrary::getInstance()->getEventManager()->AddEvent(environmentEvent);
 }
 
 void EnvironmentHandler::handleWeather(GenericMessage* msg)

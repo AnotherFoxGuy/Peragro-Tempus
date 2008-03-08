@@ -462,6 +462,12 @@ namespace PT
     EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
     PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_QUIT", cbActionQuit);
 
+    // Environment
+
+    // Register listener for RegionLoadedEvent.
+    EventHandler<Client>* cbDayTime = new EventHandler<Client>(&Client::SetDayTime, this);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("environment.daytime", cbDayTime);
+
     // Disable the lighting cache.
     engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
 
@@ -972,6 +978,39 @@ namespace PT
     world_loaded = true;
     PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
 
+    return true;
+  }
+
+  bool Client::SetDayTime(PT::Events::Eventp ev)
+  {
+    //TODO: have a nicer way to get to the sun.
+    iMeshWrapper* clouds = engine->FindMeshObject("clouds");
+    if (!clouds) return;
+    iMovable* move = clouds->GetMovable();
+    if (!move->GetSceneNode()->GetChildren().GetSize() == 0) return;
+    iSceneNode* obj = move->GetSceneNode()->GetChildren().Get(0);
+    iLight* light = obj->QueryLight();
+    if (light)
+    {
+      using namespace PT::Events;
+      EnvironmentDayTimeEvent* envEv = GetEnvironmentEvent<EnvironmentDayTimeEvent*>(ev);
+
+      float brightness;
+      if (envEv->hour < 7 || envEv->hour > 20)
+      {
+        brightness = 0.1;
+      }
+      else if (envEv->hour == 8 || envEv->hour == 19)
+      {
+        brightness = 0.6;
+      }
+      else
+      {
+        brightness = 1;
+      }
+      csColor color(brightness);
+      light->SetColor(color);
+    }
     return true;
   }
 
