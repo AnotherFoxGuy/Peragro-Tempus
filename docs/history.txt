@@ -9,6 +9,7 @@ under each day.
  - PK set some svn:eol-styles to native
  - PK changed msvcgen to work correctly even if ./configure was run without
    --without-boost.
+ - PK added item variation to trade offer list to fix trading of books.
 
 07-Mar-2008
  - Rakhun added option for doing movement directly or via server.

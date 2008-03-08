@@ -36,6 +36,7 @@
 		<uint8>IsBuy</uint8>
 		<list name="Offers">
 			<uint32>ItemId</uint32>
+			<uint32>Variation</uint32>
 			<uint32>Price</uint32>
 		</list>
 	</message>
@@ -43,6 +44,7 @@
 	<message type="Trade" name="TradeOffersListPvp">
 		<list name="Offers">
 			<uint32>ItemId</uint32>
+			<uint32>Variation</uint32>
 			<uint32>Amount</uint32>
 			<uint8>SlotId</uint8>
 		</list>
@@ -52,6 +54,7 @@
 		<uint8>IsBuy</uint8>
 		<list name="Orders">
 			<uint32>ItemId</uint32>
+			<uint32>Variation</uint32>
 		</list>
 	</message>
 

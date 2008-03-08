@@ -66,6 +66,7 @@ void TradeOffersListNpcMessage::serialise(ByteStream* bs)
   for ( size_t i = 0; i < offerscount ; i++ )
   {
     serial.setInt32(offers[i].itemid);
+    serial.setInt32(offers[i].variation);
     serial.setInt32(offers[i].price);
   };
 
@@ -82,6 +83,7 @@ void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
   for ( size_t i = 0; i < offerscount ; i++ )
   {
     offers[i].itemid = (unsigned int) serial.getInt32();
+    offers[i].variation = (unsigned int) serial.getInt32();
     offers[i].price = (unsigned int) serial.getInt32();
   };
 
@@ -96,6 +98,7 @@ void TradeOffersListPvpMessage::serialise(ByteStream* bs)
   for ( size_t i = 0; i < offerscount ; i++ )
   {
     serial.setInt32(offers[i].itemid);
+    serial.setInt32(offers[i].variation);
     serial.setInt32(offers[i].amount);
     serial.setInt8(offers[i].slotid);
   };
@@ -112,6 +115,7 @@ void TradeOffersListPvpMessage::deserialise(ByteStream* bs)
   for ( size_t i = 0; i < offerscount ; i++ )
   {
     offers[i].itemid = (unsigned int) serial.getInt32();
+    offers[i].variation = (unsigned int) serial.getInt32();
     offers[i].amount = (unsigned int) serial.getInt32();
     offers[i].slotid = (unsigned char) serial.getInt8();
   };
@@ -128,6 +132,7 @@ void TradeOrderListNpcMessage::serialise(ByteStream* bs)
   for ( size_t i = 0; i < orderscount ; i++ )
   {
     serial.setInt32(orders[i].itemid);
+    serial.setInt32(orders[i].variation);
   };
 
 }
@@ -143,6 +148,7 @@ void TradeOrderListNpcMessage::deserialise(ByteStream* bs)
   for ( size_t i = 0; i < orderscount ; i++ )
   {
     orders[i].itemid = (unsigned int) serial.getInt32();
+    orders[i].variation = (unsigned int) serial.getInt32();
   };
 
 }
