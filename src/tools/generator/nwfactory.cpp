@@ -1,0 +1,181 @@
+/*
+    Copyright (C) 2007 Development Team of Peragro Tempus
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#include "nwfactory.h"
+#include "network.h"
+#include "stdio.h"
+
+nwFactory::nwFactory()
+{
+}
+
+nwFactory::~nwFactory()
+{
+}
+
+void nwFactory::createNetwork(int version, int subversion, int microversion)
+{
+  nw = new nwNetwork();
+  nw->version = version;
+  nw->subversion = subversion;
+  nw->microversion = microversion;
+}
+
+void nwFactory::createType(unsigned int id, const char* name)
+{
+  nwType* type = new nwType();
+  type->id = id;
+  type->name = name;
+  nw->types.push_back(type);
+}
+
+void nwFactory::createMessage(unsigned int id, const char* name, const char* typeName)
+{
+  nwMessage* msg = new nwMessage();
+  msg->id = id;
+  msg->name = name;
+  nwType* type = nw->getType(typeName);
+  msg->type = type;
+  type->msgs.push_back(msg);
+  nw->msgs.push_back(msg);
+}
+
+void nwFactory::createPeer(const char* name)
+{
+  nwPeer* peer = new nwPeer();
+  peer->name = name;
+  nw->peers.push_back(peer);
+}
+
+void nwFactory::createPeerSendMsg(const char* peerName, const char* msgName)
+{
+  nwPeer* peer = nw->getPeer(peerName);
+  nwMessage* msg = nw->getMessage(msgName);
+  peer->sendMsg.push_back(msg);
+}
+
+void nwFactory::createPeerReceiveMsg(const char* peerName, const char* msgName)
+{
+  nwPeer* peer = nw->getPeer(peerName);
+  nwMessage* msg = nw->getMessage(msgName);
+  peer->recvMsg.push_back(msg);
+}
+
+void nwFactory::createMessageParameter(const char* msgName, const char* paramName, const char* type)
+{
+  nwMessage* msg = nw->getMessage(msgName);
+  nwParams* param = new nwParams();
+  param->name = paramName;
+  msg->params.push_back(param);
+
+  if (!strncmp(type, "string", 6))
+  {
+    param->type = nwParamType::STRING;
+  }
+  else if (!strncmp(type, "text", 4))
+  {
+    param->type = nwParamType::TEXT;
+  }
+  else if (!strncmp(type, "vector3f", 8))
+  {
+    param->type = nwParamType::VECTOR3F;
+  }
+  else if (!strncmp(type, "bool", 4))
+  {
+    param->type = nwParamType::BOOL;
+  }
+  else if (!strncmp(type, "uint8", 5))
+  {
+    param->type = nwParamType::UINT8;
+  }
+  else if (!strncmp(type, "uint16", 6))
+  {
+    param->type = nwParamType::UINT16;
+  }
+  else if (!strncmp(type, "uint32", 6))
+  {
+    param->type = nwParamType::UINT32;
+  }
+  else if (!strncmp(type, "float", 6))
+  {
+    param->type = nwParamType::FLOAT;
+  }
+  else if (!strncmp(type, "colour24", 8))
+  {
+    param->type = nwParamType::COLOUR24;
+  }
+  else if (!strncmp(type, "list", 4))
+  {
+    param->type = nwParamType::LIST;
+  }
+}
+
+void nwFactory::createListParameter(const char* msgName, const char* listName, const char* paramName, const char* type)
+{
+  nwMessage* msg = nw->getMessage(msgName);
+  nwParams* param = new nwParams();
+  nwParams* list = msg->getParam(listName);
+  param->name = paramName;
+  list->params.push_back(param);
+
+  if (!strncmp(type, "string", 6))
+  {
+    param->type = nwParamType::STRING;
+  }
+  else if (!strncmp(type, "text", 4))
+  {
+    param->type = nwParamType::TEXT;
+  }
+  else if (!strncmp(type, "vector3f", 8))
+  {
+    param->type = nwParamType::VECTOR3F;
+  }
+  else if (!strncmp(type, "bool", 4))
+  {
+    param->type = nwParamType::BOOL;
+  }
+  else if (!strncmp(type, "uint8", 5))
+  {
+    param->type = nwParamType::UINT8;
+  }
+  else if (!strncmp(type, "uint16", 6))
+  {
+    param->type = nwParamType::UINT16;
+  }
+  else if (!strncmp(type, "uint32", 6))
+  {
+    param->type = nwParamType::UINT32;
+  }
+  else if (!strncmp(type, "float", 6))
+  {
+    param->type = nwParamType::FLOAT;
+  }
+  else if (!strncmp(type, "colour24", 8))
+  {
+    param->type = nwParamType::COLOUR24;
+  }
+  else if (!strncmp(type, "list", 4))
+  {
+    param->type = nwParamType::LIST;
+  }
+}
+
+nwNetwork* nwFactory::getNetwork()
+{
+  return nw;
+}

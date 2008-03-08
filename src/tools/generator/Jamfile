@@ -1,0 +1,7 @@
+SubDir TOP src tools generator ;
+
+Description generator : "Code Generator" ;
+Application generator : [ Wildcard *.h *.cpp ] : console ;
+
+LinkWith generator : tinyxml util ;
+

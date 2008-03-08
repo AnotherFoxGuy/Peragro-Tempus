@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+08-Mar-2008
+ - PK commited his c++ implementation of the network code generator.
+
 07-Mar-2008
  - Rakhun added option for doing movement directly or via server.
 

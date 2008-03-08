@@ -54,4 +54,4 @@ public:
   void handleSetupDialogs(GenericMessage* msg);
 };
 
-#endif // _QUESTHANDLER_H_
+#endif // QUESTHANDLER_H
