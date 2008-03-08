@@ -214,8 +214,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   peer->clearOffer();
   for (unsigned char i = 0; i < offer_req.getOffersCount(); i++)
   {
-    //TODO: Fix so variations can be traded as well!
-    InventoryEntry entry(offer_req.getItemId(i), 0);
+    InventoryEntry entry(offer_req.getItemId(i), offer_req.getVariation(i));
     peer->addToOffer(pc, &entry);
   }
 
@@ -228,6 +227,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   for (size_t i = 0; real_offer && i < real_offer->getCount(); i++)
   {
     offer.setItemId(i, real_offer->get(i).item->id);
+    offer.setVariation(i, real_offer->get(i).item->variation);
     offer.setAmount(i, real_offer->get(i).amount);
     offer.setSlotId(i, offer_req.getSlotId(i));
   }

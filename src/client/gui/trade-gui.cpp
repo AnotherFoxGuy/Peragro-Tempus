@@ -197,6 +197,7 @@ void TradeWindow::UpdateOffer()
     Inventory::ObjectAndSlot objslot = objandslot.Get(i);
     Report(PT::Debug, "item %d in slot %d!", objslot.object->GetId(), objslot.slot->GetId());
     msg.setItemId(i, objslot.object->GetId());
+    msg.setVariation(i, objslot.object->GetVariationId());
     msg.setSlotId(i, objslot.slot->GetId());
   }
 
