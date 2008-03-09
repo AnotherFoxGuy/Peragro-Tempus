@@ -4,6 +4,13 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+09-Mar-2008
+ - Rakhun fixed a bug where the client would not connect to the new server
+   when changing after connecting to the previous (registering or failing to
+   login) by removing a check that required the client to be in state 1
+   (STATE_INTRO) before connecting, the reason for that check seems to be fixed
+   with the return of the reconnect delay.
+
 08-Mar-2008
  - PK commited his c++ implementation of the network code generator.
  - PK set some svn:eol-styles to native

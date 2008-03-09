@@ -985,9 +985,9 @@ namespace PT
   {
     //TODO: have a nicer way to get to the sun.
     iMeshWrapper* clouds = engine->FindMeshObject("clouds");
-    if (!clouds) return;
+    if (!clouds) return true;
     iMovable* move = clouds->GetMovable();
-    if (!move->GetSceneNode()->GetChildren().GetSize() == 0) return;
+    if (!move->GetSceneNode()->GetChildren().GetSize() == 0) return true;
     iSceneNode* obj = move->GetSceneNode()->GetChildren().Get(0);
     iLight* light = obj->QueryLight();
     if (light)
