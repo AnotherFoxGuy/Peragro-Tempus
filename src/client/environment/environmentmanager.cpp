@@ -22,7 +22,7 @@
 #include "client/reporter/reporter.h"
 #include "client/event/eventmanager.h"
 
-#include <cstool/csapplicationframework.h>
+#include <iengine/engine.h>
 #include <iengine/mesh.h>
 #include <iengine/scenenode.h>
 #include <iengine/movable.h>
@@ -73,7 +73,7 @@ bool EnvironmentManager::SetDayTime(PT::Events::Eventp ev)
 
 bool EnvironmentManager::Initialize()
 {
-  engine = csQueryRegistry<iEngine> (csApplicationFramework::GetObjectRegistry());
+  engine = csQueryRegistry<iEngine> (PointerLibrary::getInstance()->getObjectRegistry());
   if (!engine) return Report(PT::Error, "Failed to locate 3D engine!");
 
   Events::EventHandler<EnvironmentManager>* cbDayTime = new Events::EventHandler<EnvironmentManager>(&EnvironmentManager::SetDayTime, this);
