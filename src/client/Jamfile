@@ -14,13 +14,14 @@ SubInclude TOP src client input ;
 SubInclude TOP src client serversetup ;
 SubInclude TOP src client world ;
 SubInclude TOP src client state ;
+SubInclude TOP src client environment ;
 
 Description client : "Client" ;
 Application client : 
 [ Wildcard *.h *.cpp ] 
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs client : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
-LinkWith client : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager ;
+LinkWith client : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager client-environmentmanager ;
 
 MsvcExternalLibrary client : "wsock32.lib" ;
 
@@ -35,7 +36,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   Application client_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
-  LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager ;
+  LinkWith client_static : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager client-environmentmanager ;
   LinkStaticPlugins client_static :
    csclipboard
   ;

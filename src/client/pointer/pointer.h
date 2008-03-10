@@ -30,6 +30,7 @@ namespace PT
   class Client;
   class World;
   class StateManager;
+  class EnvironmentManager;
 
   namespace Data
   {
@@ -91,6 +92,7 @@ private:
   PT::Chat::ChatManager* chatmanager;
   PT::Effect::EffectsManager* effectsmanager;
   PT::StateManager* statemanager;
+  PT::EnvironmentManager* environmentmanager;
 
   PT::World* world;
 
@@ -114,6 +116,8 @@ public:
     combatmanager = 0;
     eventmanager = 0;
     chatmanager = 0;
+    statemanager = 0;
+    environmentmanager = 0;
     world = 0;
   }
 
@@ -175,6 +179,9 @@ public:
 
   void setStateManager(PT::StateManager* statemanager) { this->statemanager = statemanager; }
   PT::StateManager* getStateManager() { return this->statemanager; }
+
+  void setEnvironmentManager(PT::EnvironmentManager* environmentmanager) { this->environmentmanager = environmentmanager; }
+  PT::EnvironmentManager* getEnvironmentManager() { return this->environmentmanager; }
 
 };
 
