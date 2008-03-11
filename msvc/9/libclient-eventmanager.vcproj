@@ -317,6 +317,9 @@
 				RelativePath="..\..\src\client\event\entityevent.h">
 			</File>
 			<File
+				RelativePath="..\..\src\client\event\environmentevent.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\event\event.h">
 			</File>
 			<File
