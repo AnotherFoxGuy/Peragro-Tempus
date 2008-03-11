@@ -7,7 +7,7 @@ if [ -d msvcregenAuto ]
 then
   cd msvcregenAuto
   echo "--> Updating working repository."
-  svn up
+  svn up --ignore-externals
   echo "--> Reverting potential conflicts."
   svn revert . -R
   echo "--> Jam maintiner cleaning."
@@ -19,7 +19,7 @@ else
   mkdir msvcregenAuto
   cd msvcregenAuto
   echo "Checking out repository."
-  svn co https://cyanox.nl/peragro/trunk/ . > /dev/null
+  svn co --ignore-externals https://cyanox.nl/peragro/trunk/ . > /dev/null
   echo "--> Generating configure scripts."
   ./autogen.sh
 fi
