@@ -23,6 +23,8 @@
 #ifndef NWTYPES_H
 #define NWTYPES_H
 
+#define MSG_NET_VERSION 2871893320
+
 #define MSG_HANDLER_COUNT 12
 
 namespace MESSAGES

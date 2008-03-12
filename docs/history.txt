@@ -6,6 +6,7 @@ under each day.
 
 12-Mar-2008
  - PK removed old world.zip files from vfs-static.cfg
+ - PK added an automatically generated network id to generator.
 
 10-Mar-2008
  - Rakhun moved brightness adjusting to EnvironmentManager.

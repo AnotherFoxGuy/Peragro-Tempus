@@ -18,15 +18,19 @@
 
 class nwNetwork;
 
+#include <boost/crc.hpp>
+
 class nwFactory
 {
   nwNetwork* nw;
+
+  boost::crc_32_type hasher;
 
 public:
   nwFactory();
   ~nwFactory();
 
-  void createNetwork(int version, int subversion, int microversion);
+  void createNetwork();
   void createType(unsigned int id, const char* type);
   void createMessage(unsigned int id, const char* name, const char* typeName);
   void createPeer(const char* name);

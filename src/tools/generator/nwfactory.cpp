@@ -28,12 +28,9 @@ nwFactory::~nwFactory()
 {
 }
 
-void nwFactory::createNetwork(int version, int subversion, int microversion)
+void nwFactory::createNetwork()
 {
   nw = new nwNetwork();
-  nw->version = version;
-  nw->subversion = subversion;
-  nw->microversion = microversion;
 }
 
 void nwFactory::createType(unsigned int id, const char* name)
@@ -42,6 +39,9 @@ void nwFactory::createType(unsigned int id, const char* name)
   type->id = id;
   type->name = name;
   nw->types.push_back(type);
+
+  hasher.process_bytes(&id, sizeof(id));
+  hasher.process_bytes(name, strlen(name));
 }
 
 void nwFactory::createMessage(unsigned int id, const char* name, const char* typeName)
@@ -53,6 +53,10 @@ void nwFactory::createMessage(unsigned int id, const char* name, const char* typ
   msg->type = type;
   type->msgs.push_back(msg);
   nw->msgs.push_back(msg);
+
+  hasher.process_bytes(&id, sizeof(id));
+  hasher.process_bytes(name, strlen(name));
+  hasher.process_bytes(typeName, strlen(typeName));
 }
 
 void nwFactory::createPeer(const char* name)
@@ -60,6 +64,8 @@ void nwFactory::createPeer(const char* name)
   nwPeer* peer = new nwPeer();
   peer->name = name;
   nw->peers.push_back(peer);
+
+  hasher.process_bytes(name, strlen(name));
 }
 
 void nwFactory::createPeerSendMsg(const char* peerName, const char* msgName)
@@ -67,6 +73,9 @@ void nwFactory::createPeerSendMsg(const char* peerName, const char* msgName)
   nwPeer* peer = nw->getPeer(peerName);
   nwMessage* msg = nw->getMessage(msgName);
   peer->sendMsg.push_back(msg);
+
+  hasher.process_bytes(peerName, strlen(peerName));
+  hasher.process_bytes(msgName, strlen(msgName));
 }
 
 void nwFactory::createPeerReceiveMsg(const char* peerName, const char* msgName)
@@ -74,6 +83,9 @@ void nwFactory::createPeerReceiveMsg(const char* peerName, const char* msgName)
   nwPeer* peer = nw->getPeer(peerName);
   nwMessage* msg = nw->getMessage(msgName);
   peer->recvMsg.push_back(msg);
+
+  hasher.process_bytes(peerName, strlen(peerName));
+  hasher.process_bytes(msgName, strlen(msgName));
 }
 
 void nwFactory::createMessageParameter(const char* msgName, const char* paramName, const char* type)
@@ -123,6 +135,10 @@ void nwFactory::createMessageParameter(const char* msgName, const char* paramNam
   {
     param->type = nwParamType::LIST;
   }
+
+  hasher.process_bytes(msgName, strlen(msgName));
+  hasher.process_bytes(paramName, strlen(paramName));
+  hasher.process_bytes(type, strlen(type));
 }
 
 void nwFactory::createListParameter(const char* msgName, const char* listName, const char* paramName, const char* type)
@@ -173,9 +189,15 @@ void nwFactory::createListParameter(const char* msgName, const char* listName, c
   {
     param->type = nwParamType::LIST;
   }
+
+  hasher.process_bytes(msgName, strlen(msgName));
+  hasher.process_bytes(listName, strlen(listName));
+  hasher.process_bytes(paramName, strlen(paramName));
+  hasher.process_bytes(type, strlen(type));
 }
 
 nwNetwork* nwFactory::getNetwork()
 {
+  nw->netId = hasher.checksum();
   return nw;
 }

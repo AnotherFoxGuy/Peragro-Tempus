@@ -83,6 +83,8 @@ void nwWriter::writeNetwork(std::ofstream& out)
   out << "#define NWTYPES_H\n";
 
   out << "\n"
+         "#define MSG_NET_VERSION " << nw->netId << "\n"
+         "\n"
          "#define MSG_HANDLER_COUNT " << nw->types.size() << "\n"
          "\n"
          "namespace MESSAGES\n"

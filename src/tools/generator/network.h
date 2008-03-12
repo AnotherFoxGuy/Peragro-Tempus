@@ -32,7 +32,7 @@ public:
   std::vector<nwMessage*> msgs;
   std::vector<nwType*> types;
 
-  size_t version, subversion, microversion;
+  unsigned int netId;
 
   nwPeer* getPeer(const char* name);
   nwMessage* getMessage(const char* name);

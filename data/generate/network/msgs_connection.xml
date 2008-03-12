@@ -1,8 +1,6 @@
 <message-implementation>
 	<message type="Connection" name="Request">
-		<uint8>VersionMajor</uint8>
-		<uint8>VersionMinor</uint8>
-		<uint8>VersionMicro</uint8>
+		<uint32>NetworkId</uint32>
 	</message>
 
 	<message type="Connection" name="Response">

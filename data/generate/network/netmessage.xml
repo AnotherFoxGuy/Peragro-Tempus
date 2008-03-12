@@ -1,5 +1,4 @@
 <pt-gen plugin="network">
-	<version major="0" minor="0" micro="1" />
 	<peers>
 		<peer name="Client" src="peer_client.xml" />
 		<peer name="Server" src="peer_server.xml" />

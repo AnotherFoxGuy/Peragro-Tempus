@@ -5,3 +5,5 @@ Application generator : [ Wildcard *.h *.cpp ] : console ;
 
 LinkWith generator : tinyxml util ;
 
+ExternalLibs generator : BOOST ;
+

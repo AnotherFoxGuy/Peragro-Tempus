@@ -34,12 +34,7 @@ nwXmlParser::~nwXmlParser()
 
 void nwXmlParser::parseNetwork(TiXmlElement* node)
 {
-  TiXmlElement* nwversion = node->FirstChildElement("version");
-  unsigned int version = (unsigned int) atoi(nwversion->Attribute("major"));
-  unsigned int subversion = (unsigned int) atoi(nwversion->Attribute("minor"));
-  unsigned int microversion = (unsigned int) atoi(nwversion->Attribute("micro"));
-  
-  factory->createNetwork(version, subversion, microversion);
+  factory->createNetwork();
 
   parseMessageDefinitions(node->FirstChildElement("message-definitions"));
   parseMessageImplementations(node->FirstChildElement("message-implementations"));
