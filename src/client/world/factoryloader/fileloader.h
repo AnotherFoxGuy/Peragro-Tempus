@@ -131,6 +131,7 @@ protected:
     std::string path;
     std::string fileName;
 
+    csArray<csString> shaders;
     csArray<TexturePrototype> textures;
     csArray<MaterialPrototype> materials;
     csArray<csObjectPrototype> prototypes;
@@ -205,6 +206,8 @@ public:
   iTextureWrapper* GetTexture(const std::string& name);
   iObjectRegistry* GetObjectRegistry() { return object_reg; }
   LoaderContext* GetLoaderContext() { return loaderContext; }
+
+  csRef<iShader> LoadShader (const char* filename);
 };
 
 #endif // LODTHREAD_H

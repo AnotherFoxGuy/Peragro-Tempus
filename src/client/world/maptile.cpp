@@ -74,11 +74,7 @@ namespace PT
       rc = loader->Load(meshNode, instances, false, false, 0, 0, missingData, KEEP_ALL);
     else
       rc = loader->Load(meshNode, instances, true, false, 0, 0, missingData, KEEP_ALL);
-    if (!rc.success) 
-    {
-      printf("BLAAAH %s\n", meshNode->GetNode("portals").IsValid()? "portal":"");
-      return;
-    }
+    if (!rc.success) return;
 
     csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper>(rc.result);
     csRef<iLight> light = scfQueryInterface<iLight>(rc.result);

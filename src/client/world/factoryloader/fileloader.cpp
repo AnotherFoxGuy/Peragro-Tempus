@@ -109,6 +109,23 @@ void FileLoader::LoaderJob::Run()
 
 void FileLoader::LoaderJob::ParseLibrary(iDocumentNode* libraryNode)
 {
+  //Parse the shaders.
+  csRef<iDocumentNode> shaderNodes = libraryNode->GetNode("shaders");
+  if (shaderNodes)
+  {
+    csRef<iDocumentNodeIterator> nodes = shaderNodes->GetNodes("shader");
+    while (nodes->HasNext())
+    {
+      csRef<iDocumentNode> fact = nodes->Next();
+      csRef<iDocumentNode> fileNode = fact->GetNode("file");
+      if (fileNode)
+      {
+        csString shaderFile = fileNode->GetContentsValue();
+        shaders.Push(shaderFile);
+      }
+    }
+  }
+
   //Parse the textures.
   csRef<iDocumentNode> textures = libraryNode->GetNode("textures");
   if (textures)
@@ -408,6 +425,60 @@ iTextureWrapper* FileLoader::FindTextureInEngine(TexturePrototype& tex)
 
 } // end FindTextureInEngine()
 
+csRef<iShader> FileLoader::LoadShader (const char* filename)
+{
+  csRef<iShaderManager> shaderMgr = csQueryRegistry<iShaderManager> (object_reg);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+
+  csVfsDirectoryChanger dirChanger (vfs);
+
+  csRef<iFile> shaderFile = vfs->Open (filename, VFS_FILE_READ);
+  if (!shaderFile)
+  {
+    printf ("Unable to open shader file '%s'!", filename);
+    return 0;
+  }
+
+  csRef<iDocumentSystem> docsys = csQueryRegistry<iDocumentSystem> (object_reg);
+  if (docsys == 0)
+    docsys.AttachNew (new csTinyDocumentSystem ());
+
+  csRef<iDocument> shaderDoc = docsys->CreateDocument ();
+  const char* err = shaderDoc->Parse (shaderFile, false);
+  if (err != 0)
+  {
+    printf ("Could not parse shader file '%s': %s", filename, err);
+    return 0;
+  }
+  csRef<iDocumentNode> shaderNode = shaderDoc->GetRoot ()->GetNode ("shader");
+  if (!shaderNode)
+  {
+    printf ("Shader file '%s' is not a valid shader XML file!", filename);
+    return 0;
+  }
+
+  dirChanger.ChangeTo (filename);
+
+  const char* type = shaderNode->GetAttributeValue ("compiler");
+  if (type == 0)
+    type = shaderNode->GetAttributeValue ("type");
+  if (type == 0)
+    type = "xmlshader";
+  csRef<iShaderCompiler> shcom = shaderMgr->GetCompiler (type);
+
+  csRef<iShader> shader = shcom->CompileShader (loaderContext, shaderNode);
+  if (shader)
+  {
+    shader->SetFileName (filename);
+    shaderMgr->RegisterShader (shader);
+    return shader;
+  }
+  else 
+  {
+    return 0;
+  }
+} // end LoadShader()
+
 bool FileLoader::AddToEngine()
 {
   if (!IsReady())
@@ -429,6 +500,13 @@ bool FileLoader::AddToEngine()
     csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
     csRef<iTextureManager> textureManager = csQueryRegistry<iTextureManager> (object_reg);
     csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+
+    //printf("Adding shaders:\n");
+    for (size_t i = 0; i < loadJob->shaders.GetSize(); i++)
+    {
+      csString shaderFile = loadJob->shaders[i];
+      LoadShader (shaderFile.GetData());    
+    }
 
     //printf("Adding Textures:\n");
     for (size_t i = 0; i < loadJob->textures.GetSize(); i++)
