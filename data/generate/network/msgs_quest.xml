@@ -24,13 +24,14 @@
 	<message type="Quest" name="SetupDialogs">
 		<bool>DeleteExisting</bool>
 		<list name="Dialogs">
+			<string>NpcName</string>
 			<uint32>DialogId</uint32>
 			<string>Action</string>
 			<text>Value</text>
-			<bool>IsStartDialog</bool>
 		</list>
 		<!-- nested lists are not yet possible -->
 		<list name="Answers">
+			<string>AnswerNpcName</string>
 			<uint32>AnswerDialogId</uint32>
 			<uint32>AnswerId</uint32>
 			<text>AnswerText</text>

@@ -27,23 +27,13 @@
 
 NPCDialogManager* NPCDialogManager::self;
 
-void NPCDialogManager::addDialog(NPCDialog* dialog)
+NPCDialog* NPCDialogManager::getDialog(unsigned int npc_id, unsigned int dialog_id)
 {
-  if (dialog->getDialogId() == dialogs.getCount())
+  for(unsigned int i=0; i<dialogs.getCount(); i++)
   {
-    dialogs.add(dialog);
+    if(dialogs[i]->getNpcId() == npc_id && dialogs[i]->getDialogId() == dialog_id){return dialogs[i];}
   }
-  else
-  {
-    printf("Error: Dialog out of order!\n");
-  }
-}
-
-NPCDialog* NPCDialogManager::getDialog(unsigned int dialog_id)
-{
-  if (dialog_id >= dialogs.getCount()) return 0;
-
-  return dialogs.get(dialog_id);
+  return 0;
 }
 
 void NPCDialogManager::load()
@@ -66,8 +56,8 @@ void NPCDialogManager::load()
     else if (vo->action == ptString("teleport", 8)) action = NPCDialog::TELEPORT;
     else continue;
 
-    NPCDialog* dialog = new NPCDialog(vo->dialogid, vo->isstart != 0, vo->text.c_str(), action);
-    this->addDialog(dialog);
+    NPCDialog* dialog = new NPCDialog(vo->npcid, vo->dialogid, vo->text.c_str(), action);
+    this->dialogs.add(dialog);
 
     delete vo;
   }
@@ -82,11 +72,12 @@ void NPCDialogManager::load()
 
     if (vo->isend == 0)
     {
-      next_dialog = this->getDialog(vo->nextdialogid);
+      next_dialog = this->getDialog(vo->npcid, vo->nextdialogid);
     }
 
     NPCDialogAnswer* answer = new NPCDialogAnswer(next_dialog, vo->text.c_str());
-    NPCDialog* dialog = this->getDialog(vo->dialogid);
+    NPCDialog* dialog = this->getDialog(vo->npcid, vo->dialogid);
+    if(!dialog){printf("Failed to match answer to dialog, npcid=%i, dialogid=%i\n", vo->npcid, vo->dialogid);continue;} // This only happens if you edit the DB without knowing what you're doing
     dialog->addAnswer(answer);
 
     delete vo;

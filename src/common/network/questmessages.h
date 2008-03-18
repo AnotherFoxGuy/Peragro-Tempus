@@ -165,10 +165,10 @@ class SetupDialogsMessage : public NetMessage
   class ListDialogs
   {
   public:
+    ptString npcname;
     unsigned int dialogid;
     ptString action;
     const char* value;
-    bool isstartdialog;
   };
 
   unsigned char dialogscount;
@@ -177,6 +177,7 @@ class SetupDialogsMessage : public NetMessage
   class ListAnswers
   {
   public:
+    ptString answernpcname;
     unsigned int answerdialogid;
     unsigned int answerid;
     const char* answertext;
@@ -217,6 +218,9 @@ public:
 
   // --- begin ListDialogs Getter and Setter ---
 
+  ptString getNpcName(size_t i) { return dialogs[i].npcname; }
+  void setNpcName(size_t i, ptString x) { dialogs[i].npcname = x; }
+
   unsigned int getDialogId(size_t i) { return dialogs[i].dialogid; }
   void setDialogId(size_t i, unsigned int x) { dialogs[i].dialogid = x; }
 
@@ -225,9 +229,6 @@ public:
 
   const char* getValue(size_t i) { return dialogs[i].value; }
   void setValue(size_t i, const char* x) { dialogs[i].value = x; }
-
-  bool getIsStartDialog(size_t i) { return dialogs[i].isstartdialog; }
-  void setIsStartDialog(size_t i, bool x) { dialogs[i].isstartdialog = x; }
 
   // --- end ListDialogs Getter and Setter ---
 
@@ -240,6 +241,9 @@ public:
   }
 
   // --- begin ListAnswers Getter and Setter ---
+
+  ptString getAnswerNpcName(size_t i) { return answers[i].answernpcname; }
+  void setAnswerNpcName(size_t i, ptString x) { answers[i].answernpcname = x; }
 
   unsigned int getAnswerDialogId(size_t i) { return answers[i].answerdialogid; }
   void setAnswerDialogId(size_t i, unsigned int x) { answers[i].answerdialogid = x; }

@@ -40,7 +40,6 @@ namespace PT
     class EntityEvent : public Event
     {
     public:
-    public:
       unsigned int entityId;
 
     public:

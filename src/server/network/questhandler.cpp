@@ -32,6 +32,8 @@
 #include "server/database/database.h"
 #include "server/database/table-npcdialogs.h"
 #include "server/database/table-npcdialoganswers.h"
+#include "server/database/table-npcentities.h"
+#include "server/database/table-characters.h"
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
@@ -214,7 +216,7 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   if (!npc_ent || npc_ent->getType() != Entity::NPCEntityType)
     return;
 
-  // TODO: NPC will be unpaused when its done with the chat. 
+  // TODO: NPC will be unpaused when its done with the chat.
   // However, the player might press the "X" before the chat is over
   // this needs to unpause the NPC as well. Problem is if we are done
   // with our chat, someone else starts to chat with the NPC
@@ -228,9 +230,11 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   npc_entity->pause(true);
 
   dia_state->setNpc(npc_entity);
-  const NPCDialog* dialog = dia_state->startDialog(npc_entity->getStartDialog());
+  const NPCDialog* dialog = dia_state->startDialog(npc_id);
 
   npc_entity->freeLock();
+
+  if (!dialog){character->freeLock();return;}
 
   NpcDialogMessage dialog_msg;
   dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
@@ -262,7 +266,7 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
   NpcEndDialogMessage message;
   message.deserialise(msg->getByteStream());
 
-  dia_state->endDialog(0);
+  dia_state->endDialog(message.getNpcId(),0);
   NpcEntity* npc_entity = dia_state->getNpc()->getLock();
   if (npc_entity) 
   {
@@ -279,13 +283,19 @@ void QuestHandler::handleSetupDialogs(GenericMessage* msg)
   size_t level = user->getPermissionList().getLevel(Permission::Admin);
   user->freeLock();
 
-  // TODO: send "not authorised message"
+  // TODO: send "not authorized message"
   if (level == 0) return;
 
   SetupDialogsMessage setupmsg;
   setupmsg.deserialise(msg->getByteStream());
 
-  NpcDialogsTable* dialogtable = 
+  CharacterTable* charactertable =
+    Server::getServer()->getDatabase()->getCharacterTable();
+
+  NpcEntitiesTable* npcentitytable =
+    Server::getServer()->getDatabase()->getNpcEntitiesTable();
+
+  NpcDialogsTable* dialogtable =
     Server::getServer()->getDatabase()->getNpcDialogsTable();
 
   NpcDialogAnswersTable* answertable =
@@ -301,21 +311,30 @@ void QuestHandler::handleSetupDialogs(GenericMessage* msg)
 
   for (size_t i = 0; i < setupmsg.getDialogsCount(); i++)
   {
+    ptString npcname = setupmsg.getNpcName(i);
+    CharactersTableVO* character = charactertable->FindCharacterByName(*npcname);
+    if(!character){ printf("Failed to find NPC %s\n",*npcname); continue; }
+    NpcEntitiesTableVO* npc = npcentitytable->getByCharacter(character->id);
+    if(!npc){ printf("Failed to find NPC %s's ID\n",*npcname); continue; }
     unsigned int dialogid = setupmsg.getDialogId(i);
     const char* text = setupmsg.getValue(i);
-    bool start = setupmsg.getIsStartDialog(i);
     ptString action = setupmsg.getAction(i);
-    dialogtable->insert(dialogid, text, start, *action);
+    dialogtable->insert(npc->id, dialogid, text, *action);
   }
 
   for (size_t i = 0; i < setupmsg.getAnswersCount(); i++)
   {
+    ptString npcname = setupmsg.getAnswerNpcName(i);
+    CharactersTableVO* character = charactertable->FindCharacterByName(*npcname);
+    if(!character){ printf("Failed to find NPC %s\n",*npcname); continue; }
+    NpcEntitiesTableVO* npc = npcentitytable->getByCharacter(character->id);
+    if(!npc){ printf("Failed to find NPC %s's ID\n",*npcname); continue; }
     unsigned int dialogid = setupmsg.getAnswerDialogId(i);
     unsigned int answerid = setupmsg.getAnswerId(i);
     const char* text = setupmsg.getAnswerText(i);
     bool end = setupmsg.getIsEndAnswer(i);
     unsigned int link = setupmsg.getAnswerLink(i);
-    answertable->insert(dialogid, answerid, text, end, link);
+    answertable->insert(npc->id, dialogid, answerid, text, end, link);
   }
 
   NPCDialogManager::getDialogManager().load();

@@ -112,7 +112,6 @@ void CreateNpcMessage::serialise(ByteStream* bs)
   serial.setInt8(decalcolour[0]);
   serial.setInt8(decalcolour[1]);
   serial.setInt8(decalcolour[2]);
-  serial.setInt16(dialog);
   serial.setString(ai);
   serial.setInt8(aisettingcount);
   for ( size_t i = 0; i < aisettingcount ; i++ )
@@ -153,7 +152,6 @@ void CreateNpcMessage::deserialise(ByteStream* bs)
   decalcolour[0] = (unsigned char) serial.getInt8();
   decalcolour[1] = (unsigned char) serial.getInt8();
   decalcolour[2] = (unsigned char) serial.getInt8();
-  dialog = (unsigned short) serial.getInt16();
   ai = serial.getString();
   aisettingcount = (unsigned char) serial.getInt8();
   setAiSettingCount(aisettingcount);

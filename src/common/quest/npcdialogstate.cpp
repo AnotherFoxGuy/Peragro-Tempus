@@ -29,19 +29,20 @@ void NPCDialogState::setCharacter(Character* character)
   this->character = character->getRef(); 
 }
 
-const NPCDialog* NPCDialogState::startDialog(unsigned int dialog_id)
+const NPCDialog* NPCDialogState::startDialog(unsigned int npc_id)
 {
-  current_dialog = NPCDialogManager::getDialogManager().getDialog(dialog_id);
-  if (!current_dialog || !current_dialog->isStartDialog())
+  current_dialog = NPCDialogManager::getDialogManager().getDialog(npc_id, 0); // Start-dialogs are always 0
+  if (!current_dialog)
   {
     current_dialog = 0;
+    printf("Dialog not found! (npc_id=%u, dialog id=0)\n",npc_id);
   }
   return current_dialog;
 }
 
-void NPCDialogState::endDialog(unsigned int dialog_id)
+void NPCDialogState::endDialog(unsigned int npc_id, unsigned int dialog_id)
 {
-  if (current_dialog != 0 && dialog_id == current_dialog->getDialogId())
+  if (current_dialog != 0 && npc_id == current_dialog->getNpcId() && dialog_id == current_dialog->getDialogId())
   {
     current_dialog = 0;
   }

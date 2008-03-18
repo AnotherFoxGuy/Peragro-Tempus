@@ -91,7 +91,7 @@ public:
   }
   void setString(const char* str)
   {
-    if (str == 0)
+    if (str == 0 || strlen(str) == 0)
     {
       bs->data[bs->size] = 0;
       bs->size++;

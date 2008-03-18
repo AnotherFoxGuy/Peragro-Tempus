@@ -30,7 +30,6 @@ public:
   int id;
   int character;
   ptString ai;
-  int dialog;
 };
 
 class NpcEntitiesTable
@@ -45,11 +44,12 @@ public:
 
   void createTable();
 
-  void insert(int id, int character, ptString ai, int dialog);
+  void insert(int id, int character, ptString ai);
   void remove(int id);
 
   bool existsById(int id);
   NpcEntitiesTableVO* getById(int id);
+  NpcEntitiesTableVO* getByCharacter(int char_id);
   Array<NpcEntitiesTableVO*> getAll();
 };
 

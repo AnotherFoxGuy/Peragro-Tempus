@@ -38,8 +38,17 @@ public:
 
   void setCharacter(Character* character);
 
-  const NPCDialog* startDialog(unsigned int dialog_id);
-  void endDialog(unsigned int dialog_id);
+  /**
+   *Start a dialog between the player and an NPC.
+   *@param npc_id Which NPC to start the dialog with
+   */
+  const NPCDialog* startDialog(unsigned int npc_id);
+  /**
+   *End a dialog between the player and an NPC.
+   *@param npc_id ID of the NPC which the dialog is with.
+   *@param dialog_id ID of the dialog you are on.
+   */
+  void endDialog(unsigned int npc_id, unsigned int dialog_id);
 
   const NPCDialog* giveAnswer(unsigned int dialog_id, unsigned int answer_number);
 

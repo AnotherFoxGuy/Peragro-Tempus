@@ -22,11 +22,36 @@
 #include <map>
 #include <string>
 #include "common/util/ptvector3.h"
+#include "common/util/ptstring.h"
 
 namespace PT
 {
   namespace Data
   {
+    /**
+     * Class for storing data about answers to NPC dialogs.
+     */
+    class NpcAnswer
+    {
+    public:
+      unsigned int id;
+      unsigned int dialogId;
+      std::string value;
+      unsigned int nextDialog;
+      bool isEnd;
+    };
+
+    /**
+     * Class for storing data about NPC dialogs.
+     */
+    class NpcDialog
+    {
+    public:
+      unsigned int id;
+      ptString action;
+      std::string value;
+    };
+
     /**
      * @ingroup data_handlers
      * Helper class that contains basic information about npc. Usually not
@@ -41,24 +66,25 @@ namespace PT
       std::string name;
       ///meshName - name of the mesh in the mesh file used for this npc.
       std::string meshName;
-      ///Position of the npc in a sector (ie x='20', y='30', z='40').
+      ///Position of the npc in a sector (e.g. x='20', y='30', z='40').
       PtVector3 position;
-      ///Name of the sector where the npc resides (ie 'room').
+      ///Name of the sector where the npc resides (e.g. 'room').
       std::string sectorName;
-      
+
       std::string race;
 
       unsigned char hair[3];
       unsigned char skin[3];
       unsigned char decal[3];
 
-      int dialog;
-
       std::string ai;
 
       std::map<std::string, std::string> setting;
 
       std::map<int, std::pair<int, int> > inventory;
+
+      Array<NpcDialog*> dialogs;
+      Array<NpcAnswer*> answers;
 
     public:
       Npc() {}
@@ -92,9 +118,6 @@ namespace PT
       { decal[0] = r; decal[1] = g; decal[2] = b; }
       const unsigned char* GetDecalColor() { return decal; }
 
-      void SetDialog(unsigned int value) { dialog = value; }
-      unsigned int GetDialog() const { return dialog; }
-
       void SetAi(const std::string& value) { ai = value; }
       const std::string& GetAi() const { return ai; }
 
@@ -111,6 +134,17 @@ namespace PT
       { return inventory[slot]; }
       const std::map<int, std::pair<int, int> > & GetAllInventory()
       { return inventory; }
+
+      void AddDialog(NpcDialog* dialog)
+      { dialogs.add(dialog); }
+      Array<NpcDialog*> GetDialogs()
+      { return dialogs; }
+
+      void AddDialogAnswer(NpcAnswer* answer)
+      { answers.add(answer); }
+      Array<NpcAnswer*> GetDialogAnswers()
+      { return answers; }
+
     };
   } // Data namespace
 } // PT namespace

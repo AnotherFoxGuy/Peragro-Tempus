@@ -31,8 +31,7 @@ public:
 
   static NPCDialogManager& getDialogManager() { return *self; }
 
-  void addDialog(NPCDialog* dialog);
-  NPCDialog* getDialog(unsigned int dialog_id);
+  NPCDialog* getDialog(unsigned int npc_id, unsigned int dialog_id);
 
   void load();
 };

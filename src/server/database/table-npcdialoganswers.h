@@ -27,6 +27,7 @@ class ResultSet;
 class NpcDialogAnswersTableVO
 {
 public:
+  int npcid;
   int dialogid;
   int answerid;
   std::string text;
@@ -47,8 +48,8 @@ public:
   void createTable();
   void dropTable();
 
-  void insert(int dialogid, int answerid, const char* text, int end, int nextdialogid);
-  void remove(int dialogid, int answerid);
+  void insert(int npcid, int dialogid, int answerid, const char* text, int end, int nextdialogid);
+  void remove(int npcid, int dialogid, int answerid);
 
   Array<NpcDialogAnswersTableVO*> getAll();
 };

@@ -152,7 +152,6 @@ class CreateNpcMessage : public NetMessage
   unsigned char haircolour[3];
   unsigned char skincolour[3];
   unsigned char decalcolour[3];
-  unsigned short dialog;
   ptString ai;
   class ListAiSetting
   {
@@ -254,9 +253,6 @@ public:
   {
     setDecalColour(x[0], x[1], x[2]);
   }
-
-  unsigned short getDialog() { return dialog; }
-  void setDialog(unsigned short x) { dialog = x; }
 
   ptString getAi() { return ai; }
   void setAi(ptString x) { ai = x; }

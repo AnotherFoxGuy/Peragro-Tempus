@@ -76,8 +76,6 @@ public:
   void walkTo(float* dst_pos, float speed);
   const float* getPos();
 
-  void setStartDialog(unsigned int id) { dialog_id = id; }
-  unsigned int getStartDialog() { return dialog_id; }
   void pause(bool pause) { if (ai) ai->pause(pause); }
 };
 

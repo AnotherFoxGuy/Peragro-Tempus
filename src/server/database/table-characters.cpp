@@ -198,6 +198,21 @@ CharactersTableVO* CharacterTable::findCharacterById(int id, size_t user_id)
   return character;
 }
 
+CharactersTableVO* CharacterTable::FindCharacterByName(const char* name)
+{
+  ResultSet* rs = db->query("select * from characters where name = '%q';", name);
+  if (!rs || rs->GetRowCount() == 0) 
+  {
+    delete rs;
+    return 0;
+  }
+
+  CharactersTableVO* character = parseSingleResultSet(rs);
+  delete rs;
+
+  return character;
+}
+
 Array<CharactersTableVO*> CharacterTable::getAllCharacters(User* user)
 {
   ResultSet* rs = db->query("select * from characters where user = '%d';", user->getId());

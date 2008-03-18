@@ -194,7 +194,6 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
 
   NpcEntity* npcentity = new NpcEntity();
   npcentity->setCharacter(character);
-  npcentity->setStartDialog(npcmsg.getDialog());
 
   Entity* entity = npcentity->getEntity()->getLock();
   entity->setSector(npcmsg.getSectorId());
@@ -206,7 +205,7 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
 
   server->addEntity(npcentity->getEntity(), true);
 
-  db->getNpcEntitiesTable()->insert(entity->getId(), charid, npcmsg.getAi(), npcmsg.getDialog());
+  db->getNpcEntitiesTable()->insert(entity->getId(), charid, npcmsg.getAi());
 
   for (unsigned char i = 0; i < npcmsg.getAiSettingCount(); i++)
   {

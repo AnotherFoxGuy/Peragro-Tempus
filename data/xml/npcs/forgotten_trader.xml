@@ -1,0 +1,46 @@
+<npcs>
+	<npc>
+		<name>skeleton</name>
+		<mesh>skeleton</mesh>
+		<position sector="World" x="51.75" y="2.03" z="90.95"/>
+		<race>test</race> <!-- used for stats -->
+		<hair><color r="255" g="255" b="255" /></hair>
+		<skin><color r="255" g="255" b="255" /></skin>
+		<decal><color r="255" g="255" b="255" /></decal>
+		<ai>path</ai>
+		<aisetting>
+			<value name="start_delay">10</value>
+			<value name="speed">3</value>
+			<value name="waypoints">4</value>
+			<value name="point_0_x">51.75</value>
+			<value name="point_0_y">2.03</value>
+			<value name="point_0_z">90.95</value>
+			<value name="interval_0">120</value>
+			<value name="point_1_x">66.44</value>
+			<value name="point_1_y">2.03</value>
+			<value name="point_1_z">54.96</value>
+			<value name="interval_1">120</value>
+			<value name="point_2_x">6.16</value>
+			<value name="point_2_y">2.03</value>
+			<value name="point_2_z">68.14</value>
+			<value name="interval_2">200</value>
+			<value name="point_3_x">14.50</value>
+			<value name="point_3_y">2.03</value>
+			<value name="point_3_z">100.67</value>
+			<value name="interval_3">110</value>
+		</aisetting>
+		<inventory />
+		<dialog id="0">
+			<text>You there! What are you looking at?</text>
+			<answer href="1">I heard you sell items.</answer>
+			<answer href="2">I want to sell my goods!</answer>
+			<answer>N..nothing...</answer>
+		</dialog>
+		<dialog id="1">
+			<buy />
+		</dialog>
+		<dialog id="2">
+			<sell />
+		</dialog>
+	</npc>
+</npcs>

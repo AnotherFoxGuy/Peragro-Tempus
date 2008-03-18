@@ -35,7 +35,6 @@ NpcEntitiesTableVO* NpcEntitiesTable::parseSingleResultSet(ResultSet* rs, size_t
   vo->id = atoi(rs->GetData(row,0).c_str());
   vo->character = atoi(rs->GetData(row,1).c_str());
   vo->ai = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,2).length());
-  vo->dialog = atoi(rs->GetData(row,3).c_str());
   return vo;
 }
 
@@ -56,7 +55,6 @@ void NpcEntitiesTable::createTable()
              "entity_id INTEGER,"
              "character INTEGER,"
              "ai TEXT,"
-             "dialog INTEGER,"
              "PRIMARY KEY (entity_id) );");
 
   //ptString idle("idle",4);
@@ -74,10 +72,10 @@ void NpcEntitiesTable::createTable()
   //}
 }
 
-void NpcEntitiesTable::insert(int id, int character, ptString ai, int dialog_id)
+void NpcEntitiesTable::insert(int id, int character, ptString ai)
 {
-  const char* query = { "insert into npcentities(entity_id, character, ai, dialog) values (%d, %d, '%q', %d);" };
-  db->update(query, id, character, *ai, dialog_id);
+  const char* query = { "insert into npcentities(entity_id, character, ai) values (%d, %d, '%q');" };
+  db->update(query, id, character, *ai);
 }
 
 void NpcEntitiesTable::remove(int id)
@@ -96,6 +94,17 @@ bool NpcEntitiesTable::existsById(int id)
 NpcEntitiesTableVO* NpcEntitiesTable::getById(int id)
 {
   ResultSet* rs = db->query("select * from npcentities where entity_id = %d;", id);
+
+  if (!rs || rs->GetRowCount() == 0) return 0;
+
+  NpcEntitiesTableVO* vo = parseSingleResultSet(rs);
+  delete rs;
+  return vo;
+}
+
+NpcEntitiesTableVO* NpcEntitiesTable::getByCharacter(int char_id)
+{
+  ResultSet* rs = db->query("select * from npcentities where character = %d;", char_id);
 
   if (!rs || rs->GetRowCount() == 0) return 0;
 

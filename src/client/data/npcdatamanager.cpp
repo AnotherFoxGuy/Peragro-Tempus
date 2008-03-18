@@ -18,9 +18,12 @@
 
 #include <cssysdef.h>
 #include <iutil/document.h>
+#include <iutil/stringarray.h>
 
 #include "npcdatamanager.h"
 #include "npc.h"
+#include "client/pointer/pointer.h"
+#include "client/reporter/reporter.h"
 
 namespace PT
 {
@@ -29,12 +32,24 @@ namespace PT
 
     NpcDataManager::NpcDataManager()
     {
-      file = "/peragro/xml/npcs/npcs.xml";
     }
 
     NpcDataManager::~NpcDataManager()
     {
       for (size_t i = 0; i<npcs.size(); i++) delete npcs[i];
+    }
+
+    bool NpcDataManager::parseNPCs()
+    {
+      csRef<iVFS> vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
+      csRef<iStringArray> npcs=vfs->FindFiles("/peragro/xml/npcs/*.xml");
+      while(npcs->GetSize()>0)
+      {
+        file = (std::string)npcs->Pop();
+        printf("Parsing %s\n", file.c_str());
+        parse();
+      }
+      return true;
     }
 
     ///@internal Currently the npcs vector is not preallocated, since there's
@@ -75,11 +90,9 @@ namespace PT
                          decal->GetAttributeValueAsInt("g"), 
                          decal->GetAttributeValueAsInt("b"));
 
-      npc->SetDialog(node->GetNode("dialog")->GetContentsValueAsInt());
-
       npc->SetAi(node->GetNode("ai")->GetContentsValue());
 
-      csRef<iDocumentNodeIterator> setting ( 
+      csRef<iDocumentNodeIterator> setting (
         node->GetNode("aisetting")->GetNodes("value")
       );
 
@@ -89,7 +102,7 @@ namespace PT
         npc->SetSetting(value->GetAttributeValue("name"), value->GetContentsValue());
       }
 
-      csRef<iDocumentNodeIterator> inventory ( 
+      csRef<iDocumentNodeIterator> inventory (
         node->GetNode("inventory")->GetNodes("item")
       );
 
@@ -100,6 +113,66 @@ namespace PT
         int itemid = item->GetAttributeValueAsInt("item");
         int variation = item->GetAttributeValueAsInt("variation");
         npc->SetInventory(slot, itemid, variation);
+      }
+
+      csRef<iDocumentNodeIterator> dialogs (node->GetNodes("dialog"));
+      while (dialogs->HasNext())
+      {
+        NpcDialog* npcdialog = new NpcDialog();
+        csRef<iDocumentNode> dialognode = dialogs->Next();
+        npcdialog->id = dialognode->GetAttributeValueAsInt("id");
+        csRef<iDocumentNode> action;
+        if(action = dialognode->GetNode("text"))
+        {
+          npcdialog->action = ptString("text", 4);
+          npcdialog->value = action->GetContentsValue();
+        }
+        else if(action = dialognode->GetNode("teleport"))
+        {
+          npcdialog->action = ptString("teleport", 8);
+          char buf[128];
+          sprintf(buf, "2<%f,%f,%f>",
+          action->GetAttributeValueAsFloat("x"),
+          action->GetAttributeValueAsFloat("y"),
+          action->GetAttributeValueAsFloat("z"));
+          npcdialog->value = buf;
+        }
+        else if(action = dialognode->GetNode("buy"))
+        {
+          npcdialog->action = ptString("buy", 3);
+          npcdialog->value = "";
+        }
+        else if(action = dialognode->GetNode("sell"))
+        {
+          npcdialog->action = ptString("sell", 4);
+          npcdialog->value = "";
+        }
+        else
+        {
+          Report(PT::Debug, "Action type unknown (src/client/data/npcdatamanager.cpp)");
+          npcdialog->action = ptString("unknown", 7);
+          npcdialog->value = "unknown";
+        }
+
+        csRef<iDocumentNodeIterator> answers (dialognode->GetNodes("answer"));
+        unsigned int answerId = 0;
+        while (answers->HasNext())
+        {
+          NpcAnswer* npcanswer = new NpcAnswer();
+          csRef<iDocumentNode> answernode = answers->Next();
+          npcanswer->id = answerId;
+          npcanswer->dialogId = npcdialog->id;
+          npcanswer->value = (char*)answernode->GetContentsValue();
+          npcanswer->nextDialog = answernode->GetAttributeValueAsInt("href");
+          if(npcanswer->nextDialog)
+            {npcanswer->isEnd = false;}
+          else
+            {npcanswer->isEnd = true;}
+          npc->AddDialogAnswer(npcanswer);
+          answerId++;
+        }
+
+        npc->AddDialog(npcdialog);
       }
 
       npcs.push_back(npc);

@@ -66,6 +66,8 @@ namespace PT
       /// Implements the DataManager superclass
       bool parseElement(iDocumentNode* node);
 
+      bool parseNPCs();
+
       /// Root Node of the xml: &lt;npcs&gt;
       const char* getRootName() { return "npcs"; }
 

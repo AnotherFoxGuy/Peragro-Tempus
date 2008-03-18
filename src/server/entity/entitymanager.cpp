@@ -78,7 +78,6 @@ void EntityManager::loadFromDB(EntityTable* et)
         NpcEntity* npc = new NpcEntity();
         npc->setCharacter(character);
         npc->setAI(AI::createAI(npc_vo->ai));
-        npc->setStartDialog(npc_vo->dialog);
 
         entity = npc->getEntity();
 

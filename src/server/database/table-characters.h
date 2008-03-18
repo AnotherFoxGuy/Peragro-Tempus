@@ -127,6 +127,14 @@ public:
    */
   CharactersTableVO* findCharacterById(int id, size_t user_id);
   /**
+   * Find a character based on character name.
+   * The caller is responsible for freeing the returned
+   * character.
+   * @param name The name of the character.
+   * @return Returns the character, or 0 if not found.
+   */
+  CharactersTableVO* FindCharacterByName(const char* name);
+  /**
    * Finds all characters that belongs to a single user.
    * The caller is responsible for deleting all characters in the array.
    * @param user The user to find all characters for.

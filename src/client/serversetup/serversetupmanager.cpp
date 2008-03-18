@@ -60,7 +60,7 @@ namespace PT
 
       // Create and Initialize the NpcDataManager.
       npcDataManager = new PT::Data::NpcDataManager ();
-      if (!npcDataManager->parse())
+      if (!npcDataManager->parseNPCs())
         Report(PT::Error, "Failed to initialize NpcDataManager!");
 
       // Create and Initialize the NpcDataManager.
@@ -220,13 +220,12 @@ namespace PT
         const unsigned char* hair = npcs[i]->GetHairColor();
         const unsigned char* skin = npcs[i]->GetSkinColor();
         const unsigned char* decal = npcs[i]->GetDecalColor();
-        unsigned int dialog = npcs[i]->GetDialog();
         ptString ai = ptString::create(npcs[i]->GetAi());
 
-        const std::map<std::string, std::string>& settings = 
+        const std::map<std::string, std::string>& settings =
           npcs[i]->GetAllSetting();
 
-        const std::map<int, std::pair<int, int> >& inventory = 
+        const std::map<int, std::pair<int, int> >& inventory =
           npcs[i]->GetAllInventory();
 
         if(!secmgr->GetSectorByName(sector))
@@ -247,7 +246,6 @@ namespace PT
         npcmsg.setHairColour(hair);
         npcmsg.setSkinColour(skin);
         npcmsg.setDecalColour(decal);
-        npcmsg.setDialog(dialog);
         npcmsg.setAi(ai);
 
         size_t j = 0;
@@ -274,6 +272,30 @@ namespace PT
           j++;
         }
         PointerLibrary::getInstance()->getNetwork()->send(&npcmsg);
+
+        SetupDialogsMessage dialogsmsg;
+        dialogsmsg.setDeleteExisting(i==0);
+        Array<PT::Data::NpcDialog*> dialogs = npcs[i]->GetDialogs();
+        dialogsmsg.setDialogsCount(dialogs.getCount());
+        for (size_t d_i=0; d_i<dialogs.getCount(); d_i++)
+        {
+          dialogsmsg.setNpcName(d_i, name);
+          dialogsmsg.setDialogId(d_i, dialogs[d_i]->id);
+          dialogsmsg.setAction(d_i, dialogs[d_i]->action);
+          dialogsmsg.setValue(d_i, dialogs[d_i]->value.c_str());
+        }
+        Array<PT::Data::NpcAnswer*> answers = npcs[i]->GetDialogAnswers();
+        dialogsmsg.setAnswersCount(answers.getCount());
+        for (size_t a_i=0; a_i<answers.getCount(); a_i++)
+        {
+          dialogsmsg.setAnswerNpcName(a_i, name);
+          dialogsmsg.setAnswerId(a_i, answers[a_i]->id);
+          dialogsmsg.setAnswerDialogId(a_i, answers[a_i]->dialogId);
+          dialogsmsg.setAnswerText(a_i, answers[a_i]->value.c_str());
+          dialogsmsg.setAnswerLink(a_i, answers[a_i]->nextDialog);
+          dialogsmsg.setIsEndAnswer(a_i, answers[a_i]->isEnd);
+        }
+        PointerLibrary::getInstance()->getNetwork()->send(&dialogsmsg);
       }
 
       // ==[ SpawnPoints ]=============================================================
