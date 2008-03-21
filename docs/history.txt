@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+21-Mar-2008
+ - PK fixed a server crash reported by Rakhun.
+
 18-Mar-2008
  - Rakhun added uploading of NPC dialogs and reorganized the NPC data so
    that each NPC has its own file.

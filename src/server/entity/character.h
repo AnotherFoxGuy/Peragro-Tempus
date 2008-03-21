@@ -88,7 +88,7 @@ public:
     pos[1] = p[1];
     pos[2] = p[2];
   }
-  float* getPos()
+  const float* getPos() const
   {
     return pos;
   }
@@ -99,10 +99,10 @@ public:
   const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }
 
-  ptString& getMesh() { return mesh_id; }
+  const ptString& getMesh() const { return mesh_id; }
   void setMesh(ptString id) { mesh_id = id; }
 
-  ptString& getSector() { return sector_id; }
+  const ptString& getSector() const { return sector_id; }
   void setSector(ptString id) { sector_id = id; }
 
   void setUser(User* user);

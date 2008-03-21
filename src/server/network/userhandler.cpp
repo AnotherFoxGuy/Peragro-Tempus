@@ -165,33 +165,59 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   // Assume the client knows nothing.
   user->clearEntityList();
 
-  CharacterManager* cmgr = Server::getServer()->getCharacterManager();
-  Character* character = cmgr->getCharacter(request_msg.getCharId(), user);
+  const PcEntity* entity = 0;
+  const Character* character = 0;
 
-  if (!character)
-    return;
+  if (user->getEntity())
+  {
+    // User has already an entity loaded
+    entity = user->getEntity();
+    character = entity->getCharacter();
+    
+    if (character->getId() != request_msg.getCharId())
+    {
+      // User tries to login with a new character, remove the old.
+      Server::getServer()->delEntity(entity->getEntity());
+      entity = 0;
+      character = 0;
+    }
+  }
 
-  character->setUser(user);
+  if (character == 0)
+  {
+    // Load new character and create an entity for it.
+    CharacterManager* cmgr = Server::getServer()->getCharacterManager();
+    Character* newchar = cmgr->getCharacter(request_msg.getCharId(), user);
+    character = newchar;
 
-  PcEntity* entity = new PcEntity();
-  entity->setCharacter(character);
+    if (!character)
+      return;
 
-  Entity* ent = entity->getEntity()->getLock();
-  ent->setName(character->getName());
-  ent->setMesh(character->getMesh());
-  ent->setPos(character->getPos());
-  ent->setRotation(character->getRotation());
-  ent->setSector(character->getSector());
-  ent->freeLock();
+    newchar->setUser(user);
 
-  printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getEntity()->getName());
-  user->setEntity(entity);
+    PcEntity* newEntity = new PcEntity();
+    entity = newEntity;
 
-  character->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
-  character->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
-  character->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
+    newEntity->setCharacter(character);
 
-  server->addEntity(ent, false);
+    Entity* ent = entity->getEntity()->getLock();
+    ent->setName(character->getName());
+    ent->setMesh(character->getMesh());
+
+    printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getEntity()->getName());
+    user->setEntity(newEntity);
+
+    ent->setRotation(character->getRotation());
+    ent->setSector(character->getSector());
+    ent->setPos(character->getPos());
+    ent->freeLock();
+
+    newchar->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
+    newchar->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
+    newchar->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
+
+    server->addEntity(ent, false);
+  }
 
   CharSelectResponseMessage response_msg;
   response_msg.setError(ptString::Null);
@@ -200,7 +226,9 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
 
-  character->getInventory()->sendAllItems(msg->getConnection());
-  character->getStats()->sendAllStats(msg->getConnection());
-  character->getSkills()->sendAllSkills(msg->getConnection());
+  Character* lockedChar = character->getLock();
+  lockedChar->getInventory()->sendAllItems(msg->getConnection());
+  lockedChar->getStats()->sendAllStats(msg->getConnection());
+  lockedChar->getSkills()->sendAllSkills(msg->getConnection());
+  lockedChar->freeLock();
 }
