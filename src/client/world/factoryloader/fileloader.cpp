@@ -505,7 +505,8 @@ bool FileLoader::AddToEngine()
     for (size_t i = 0; i < loadJob->shaders.GetSize(); i++)
     {
       csString shaderFile = loadJob->shaders[i];
-      LoadShader (shaderFile.GetData());    
+      csRef<iShader> shader = LoadShader (shaderFile.GetData());
+      //if (collection && shader.IsValid()) collection->Add(shader->QueryObject());
     }
 
     //printf("Adding Textures:\n");

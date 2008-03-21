@@ -20,14 +20,8 @@
 #define PTENVIRONMENT_EVENT_H
 
 #include <cssysdef.h>
-#include <csgeom/vector3.h>
-#include <csutil/array.h>
-
-#include <vector>
 
 #include "client/event/event.h"
-
-#include <physicallayer/datatype.h>
 
 namespace PT
 {
@@ -52,7 +46,7 @@ namespace PT
       EnvironmentEvent* environmentEv = static_cast<EnvironmentEvent*> (ev.get());
       if (!environmentEv)
       {
-        printf("E: Not an Entity event!\n");
+        printf("E: Not an Environment event!\n");
         return 0;
       }
       T tEv = static_cast<T> (environmentEv);

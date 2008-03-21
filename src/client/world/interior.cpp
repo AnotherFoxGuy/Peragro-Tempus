@@ -66,7 +66,7 @@ namespace PT
   {
     this->interiorNode = interiorNode->GetNode("interior");
     this->factory = factory;
-    this->interiorName = this->interiorNode->GetAttributeValue("name");;
+    this->interiorName = this->interiorNode->GetAttributeValue("name");
     loading = false;
     finished = false;
   }
@@ -95,6 +95,10 @@ namespace PT
     instances = engine->CreateCollection(interiorName.c_str());
     sector = engine->CreateSector(interiorName.c_str());
     instances->Add(sector->QueryObject());
+
+    iSector* world = engine->FindSector("World");
+    if (world)
+      sector->SetRenderLoop(world->GetRenderLoop());
 
     // Wait for the resources to be loaded.
     if (!cb.IsValid())
@@ -127,7 +131,11 @@ namespace PT
         }
       }
     }
-    if (!portalMesh.IsValid()) return;
+    if (!portalMesh.IsValid()) 
+    {
+      Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
+      return;
+    }
 
     float portalRot = GetPortalYRotation(portalMesh);
     csVector3 portalCenter = GetPortalPosition(portalMesh);
@@ -139,11 +147,20 @@ namespace PT
     if(meshNode && meshNode->GetNode("portals").IsValid())
       rc = loader->Load(meshNode, instances, false, false, 0, 0, factory->missingData, KEEP_ALL);
     else
-      rc = loader->Load(meshNode, instances, true, false, 0, 0, factory->missingData, KEEP_ALL);
+      rc = loader->Load(meshNode, instances, false, false, 0, 0, factory->missingData, KEEP_ALL);
 
-    if (!rc.success) return;
+    if (!rc.success) 
+    {
+      Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
+      return;
+    }
+
     csRef<iSceneNode> node = scfQueryInterface<iSceneNode>(rc.result);
-    if (!node) return;
+    if (!node)
+    {
+      Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
+      return;
+    }
 
     // Rotating to face the portal.
     csReversibleTransform trans = node->GetMovable()->GetFullTransform();
@@ -183,6 +200,11 @@ namespace PT
       light->DecRef();
       light->GetMovable()->SetTransform(trans);
       light->GetMovable()->UpdateMove();
+    }
+    else
+    {
+      Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
+      return;
     }
 
   } // end LoadInstance()
@@ -247,6 +269,7 @@ namespace PT
     {
       csRef<iDocumentNode> inst = factory->instanceNodes.Get(i);
       LoadInstance(inst);
+      //Report(PT::Error, "Loading instance %s", inst->GetAttributeValue("name"));
     }
 
     Report(PT::Debug, "Finished loading Interior %s", interiorName.c_str());

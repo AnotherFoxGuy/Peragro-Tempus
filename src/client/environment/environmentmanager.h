@@ -19,9 +19,15 @@
 #ifndef ENVIRONMENTMANAGER_H_
 #define ENVIRONMENTMANAGER_H_
 
-#include "client/event/event.h"
+#include <cssysdef.h>
 #include <csutil/ref.h>
-class iEngine;
+#include <imap/loader.h>
+#include <iengine/engine.h>
+
+#include "client/event/event.h"
+
+struct iEngine;
+struct iLight;
 
 namespace PT
 {
@@ -29,6 +35,17 @@ namespace PT
   {
   private:
     csRef<iEngine> engine;
+    csRef<iLight> sun;
+    csRef<iMeshWrapper> sky;
+
+    struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+    {
+      EnvironmentManager* envmgr;
+      FrameCallBack (EnvironmentManager* mgr) : scfImplementationType (this) { envmgr = mgr; }
+      virtual void StartFrame (iEngine* engine, iRenderView* rview);
+    };
+    friend struct FrameCallBack;
+    csRef<FrameCallBack> cb;
 
   public:
     EnvironmentManager();
