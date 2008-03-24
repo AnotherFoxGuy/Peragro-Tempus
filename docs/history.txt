@@ -7,6 +7,7 @@ under each day.
 24-Mar-2008
 - swedishcoder fixed memleak in bullet code.
 - swedishcoder fixed compilation warnings in bullet code.
+- swedishcoder fixed memleak in table-config.
 
 21-Mar-2008
  - PK fixed a server crash reported by Rakhun.
