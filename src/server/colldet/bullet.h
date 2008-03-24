@@ -22,6 +22,7 @@
 #include <map>
 
 #include "colldet.h"
+#include "ext/bullet/btBulletDynamicsCommon.h"
 
 class btDiscreteDynamicsWorld;
 class btRigidBody;
@@ -33,12 +34,17 @@ private:
 
   std::map<const Entity*, btRigidBody*> cobjs;
 
+  btDefaultCollisionConfiguration* collisionConfiguration;
+  btCollisionDispatcher* dispatcher;
+  btAxisSweep3* overlappingPairCache;
+  btSequentialImpulseConstraintSolver* constraintSolver;
+
 protected:
   virtual void Run();
 
 public:
-  BulletCD() {}
-  virtual ~BulletCD() {}
+  BulletCD();
+  virtual ~BulletCD();
 
   virtual void setup();
 

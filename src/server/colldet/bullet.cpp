@@ -29,6 +29,24 @@
 
 #include "common/util/sleep.h"
 
+BulletCD::BulletCD() 
+{
+  collisionConfiguration = NULL;
+  dispatcher = NULL;
+  overlappingPairCache = NULL;
+  constraintSolver = NULL;
+}
+
+BulletCD::~BulletCD() 
+{
+  delete world;
+  delete constraintSolver;
+  delete overlappingPairCache;
+  delete dispatcher;
+  // TODO check if this is enough, just adding it still causes memleak..
+  // delete collisionConfiguration;
+}
+
 void BulletCD::setup()
 {
   Database* db = Server::getServer()->getDatabase();
@@ -51,11 +69,12 @@ void BulletCD::setup()
   }
 
   // Setup World
-  btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
-  btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
-  btAxisSweep3* overlappingPairCache = new btAxisSweep3(worldMin,worldMax);
-  btSequentialImpulseConstraintSolver* constraintSolver = new btSequentialImpulseConstraintSolver();
+  collisionConfiguration = new btDefaultCollisionConfiguration();
+  dispatcher = new btCollisionDispatcher(collisionConfiguration);
+  overlappingPairCache = new btAxisSweep3(worldMin,worldMax);
+  constraintSolver = new btSequentialImpulseConstraintSolver();
   world = new btDiscreteDynamicsWorld(dispatcher,overlappingPairCache,constraintSolver,collisionConfiguration);
+
 
   // Create Mesh
   Array<MeshesTableVO*> meshes = db->getMeshesTable()->getAll();

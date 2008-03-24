@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+24-Mar-2008
+- swedishcoder fixed memleak in bullet code.
+
 21-Mar-2008
  - PK fixed a server crash reported by Rakhun.
 
