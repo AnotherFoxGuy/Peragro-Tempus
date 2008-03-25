@@ -353,8 +353,18 @@ namespace PT
     app_cfg = csQueryRegistry<iConfigManager> (GetObjectRegistry());
     if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
 
-    // It's used in PreProcessFrame(), so store this boolean.
-    enable_reflections = app_cfg->GetBool("Client.waterreflections");
+    // Enable reflection.
+    bool enable_reflections = app_cfg->GetBool("Client.waterreflections");
+    if (enable_reflections)
+    {
+      ///@TODO: this doesn't get deleted. 
+      PT::Reflection::ReflectionRenderer* reflection = new PT::Reflection::ReflectionRenderer();
+      if (!reflection->Initialize())
+        return Report(PT::Error, "Failed to initialize reflection!");
+
+      reflection->SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
+      Report(PT::Notify, "Enabled reflections!");
+    }
 
     iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
     if (nw) nw->SetTitle ("Peragro Tempus");
@@ -967,14 +977,6 @@ namespace PT
     }
 
     guimanager->GetLoadScreenWindow()->HideWindow();
-
-    // Enable reflection.
-    if (enable_reflections)
-    {
-      Reflection::ReflectionUtils::ApplyReflection(view, GetObjectRegistry());
-      Reflection::ReflectionUtils::SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
-      Report(PT::Notify, "loadRegion: Enabled reflections!");
-    }
 
     world_loaded = true;
     PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);

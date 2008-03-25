@@ -20,11 +20,11 @@
 #define REFLECTION_H
 
 #include <cssysdef.h>
+#include <csutil/csbaseeventh.h>
 #include <csutil/ref.h>
 #include <csutil/refarr.h>
 #include <csutil/parray.h>
 #include <csutil/csbaseeventh.h>
-#include <cstool/csapplicationframework.h>
 #include <iengine/engine.h>
 #include <iengine/camera.h>
 #include <iutil/vfs.h>
@@ -34,10 +34,49 @@
 #include <iengine/mesh.h>
 #include <ivaria/view.h>
 
+#include <csutil/weakrefarr.h>
+
+#include "client/event/event.h"
+
 namespace PT
 {
   namespace Reflection
   {
+    class ReflectionRenderer : public csBaseEventHandler
+    {
+    public:
+      ReflectionRenderer();
+      ~ReflectionRenderer();
+
+      bool Initialize();
+
+      void Render();
+
+      /**
+       * Configure the RenderReflections function to skip some number of
+       * frames, since it is an expensive operation.
+       * @param skip The number of frames to skip. For example, a value of
+       * '2' means draw reflections on every other frame or 1/2 frames.
+       */
+      void SetFrameSkip(size_t skip);
+
+    private:
+      size_t frame, frameskip;
+      csWeakRefArray<iMeshWrapper> reflectiveMeshes;
+      csWeakRefArray<iMeshWrapper> refractiveMeshes;
+
+      csRef<iEngine> engine;
+      csRef<iGraphics3D> g3d;
+      csRef<iTextureManager> texm;
+
+    private:
+      bool TileLoaded (PT::Events::Eventp ev);
+      bool HandleEvent(iEvent &ev);
+
+      CS_EVENTHANDLER_NAMES("pt.reflection")
+      CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS
+    };
+
     class ReflectionUtils
     {
     friend class ReflectionRenderer;
@@ -97,42 +136,30 @@ namespace PT
                                   min-y
                                    [1]
        </pre>
-       *
-       * This function creates a set of shader variables attached to the mesh
-       * called 'reflection_texture_x', that holds up to 6 textures x=[0-5],
-       * the sides specified in 'reflection_sides'. NOTE: Only the [0] index
-       * reflection_texture_0 the max-Y plane is currently supported!
        */
-      static void ApplyReflection(csRef<iView>, csRef<iObjectRegistry>);
 
       /**
-       * Render all reflections previously applied via ApplyReflection(),
-       * to their cubemaps.
+       * Render reflection to the mesh's cubemap.
        */
-      static void RenderReflections(csRef<iView> view);
+      static void RenderReflection(iMeshWrapper* m, iView* view);
 
       /**
-       * Configure the RenderReflections function to skip some number of
-       * frames, since it is an expensive operation.
-       * @param skip The number of frames to skip. For example, a value of
-       * '2' means draw reflections on every other frame or 1/2 frames.
+       * Render refraction to the mesh's cubemap.
        */
-      static void SetFrameSkip(size_t skip);
+      static void RenderRefraction(iMeshWrapper* m, iView* view);
+
+      
 
     private:
       static inline void Render2Texture(
-	csRef<iView>& view,
-        iGraphics3D*& g3d,
-        iCamera*& cam,
-        iMeshWrapper*& m,
+	iView* view,
+        iMeshWrapper* m,
         csOrthoTransform& oldcamera,
         csOrthoTransform& newcamera,
         csPlane3& nearclip,
-        iTextureHandle*& texture,
-        bool mirror
-      );
-      static size_t frame, frameskip;
-      static csArray<iMeshWrapper*> reflective_meshes, refractive_meshes;
+        iTextureHandle* texture,
+        bool mirror);
+
       static csStringID reflection_resolution_str, reflection_enable_str;
       static csStringID reflection_sides_str, reflection_texture0_str;
       static csStringID refraction_enable_str, refraction_texture_str;

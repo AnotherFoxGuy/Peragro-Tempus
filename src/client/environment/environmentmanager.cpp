@@ -75,7 +75,9 @@ namespace PT
     ambient.Clamp(0.37f, 0.34f, 0.34f);
     if (ambient.blue < 0.2)
       ambient.blue = 0.1f;
-    engine->SetAmbientLight(ambient);
+    iSector* world = engine->FindSector("World");
+    if (world)
+      world->SetDynamicAmbientLight(ambient);
 
     if (color.blue < 0.2)
       color.blue = 0.2f;

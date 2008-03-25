@@ -192,7 +192,6 @@ namespace PT
     csTicks timer;
     iSector *room;
     bool world_loaded;
-    bool enable_reflections;
     int limitFPS;
     csTicks last_sleep;
     csTicks last_seen;

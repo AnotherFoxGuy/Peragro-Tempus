@@ -26,251 +26,302 @@
 #include <iengine/movable.h>
 #include <imesh/object.h>
 #include <ivideo/material.h>
+#include <ivideo/txtmgr.h>
 #include <cstool/proctex.h>
 #include <igeom/clip2d.h>
+
+#include "client/event/eventmanager.h"
+#include "client/event/regionevent.h"
+
+#include "client/pointer/pointer.h"
+
+#include "client/entity/player/playerentity.h"
 
 namespace PT
 {
   namespace Reflection
   {
-    /// Yes they may as well be globals. So shoot me :-)
-    csArray<iMeshWrapper*> ReflectionUtils::reflective_meshes = 0;
-    csArray<iMeshWrapper*> ReflectionUtils::refractive_meshes = 0;
     csStringID ReflectionUtils::reflection_resolution_str = 0;
     csStringID ReflectionUtils::reflection_enable_str = 0;
     csStringID ReflectionUtils::reflection_sides_str = 0;
     csStringID ReflectionUtils::reflection_texture0_str = 0;
     csStringID ReflectionUtils::refraction_texture_str = 0;
     csStringID ReflectionUtils::refraction_enable_str = 0;
-    size_t ReflectionUtils::frame = 0;
-    size_t ReflectionUtils::frameskip = 3;
 
-    void ReflectionUtils::ApplyReflection(
-      csRef<iView> view,
-      csRef<iObjectRegistry> obj_reg
-    ) {
-      reflective_meshes.DeleteAll();
-      iEngine* engine = view->GetEngine();
-      iGraphics3D* g3d = view->GetContext();
-      iTextureManager* texm = g3d->GetTextureManager();
-
-      /// Initialize strings.
-      csRef<iStringSet> stringset = csQueryRegistryTagInterface<iStringSet> (
-        obj_reg, "crystalspace.shared.stringset"
-      );
-
-      reflection_enable_str = stringset->Request("reflection_enable");
-      refraction_enable_str = stringset->Request("refraction_enable");
-      reflection_resolution_str = stringset->Request("reflection_resolution");
-      reflection_sides_str = stringset->Request("reflection_sides");
-      reflection_texture0_str = stringset->Request("reflection_texture_0");
-      refraction_texture_str = stringset->Request("refraction_texture");
-
-      /// Iterate over the meshes, finding `reflection_enable=true` shadervar.
-      iMeshList* meshes = engine->GetMeshes();
-      for (int i=0; i<meshes->GetCount(); i++)
-      {
-        iMeshWrapper* mesh = meshes->Get(i);
-        iShaderVariableContext* vars = mesh->GetSVContext();
-
-        /// Test if we care about this mesh.
-        if (!vars) continue;
-        csShaderVariable* enabled_var =
-          vars->GetVariable(reflection_enable_str);
-        if (!enabled_var) continue;
-        int reflection_enable = 0;
-        enabled_var->GetValue(reflection_enable);
-        if (!reflection_enable) continue;
-        reflective_meshes.Push(mesh);
-
-        /// How big should the reflection be? Remember it's this number
-        /// squared, times the # of sides.
-        csShaderVariable* resolution_var =
-          vars->GetVariable(reflection_resolution_str);
-        int rez = 256;
-        resolution_var->GetValue(rez);
-        if (rez < 2) rez = 256;
-
-        /// Reflection texture.
-        /// @todo This is currently hard-coded for the MaxY plane.
-        csShaderVariable* reflection_texture0_var =
-          new csShaderVariable(reflection_texture0_str);
-        iTextureWrapper* a0 = engine->CreateBlackTexture(
-          "a0", rez, rez, NULL, CS_TEXTURE_2D
-        );
-        a0->Register(texm);
-        reflection_texture0_var->SetValue(a0);
-        vars->AddVariable(reflection_texture0_var);
-      }
-
-      /// Iterate over the meshes, finding `refraction_enable=true` shadervar.
-      for (int i=0; i<meshes->GetCount(); i++)
-      {
-        iMeshWrapper* mesh = meshes->Get(i);
-        iShaderVariableContext* vars = mesh->GetSVContext();
-
-        /// Test if we care about this mesh.
-        if (!vars) continue;
-        csShaderVariable* enabled_var =
-          vars->GetVariable(refraction_enable_str);
-        if (!enabled_var) continue;
-        int refraction_enable = 0;
-        enabled_var->GetValue(refraction_enable);
-        if (!refraction_enable) continue;
-        refractive_meshes.Push(mesh);
-
-        /// How big should the refraction be? Remember it's this number
-        /// squared, times the # of sides.
-        csShaderVariable* resolution_var =
-          vars->GetVariable(reflection_resolution_str);
-        int rez = 256;
-        resolution_var->GetValue(rez);
-        if (rez < 2) rez = 256;
-
-        /// Refraction texture.
-        csShaderVariable* refraction_texture_var =
-          new csShaderVariable(refraction_texture_str);
-        iTextureWrapper* rt = engine->CreateBlackTexture(
-          "a0", rez, rez, NULL, CS_TEXTURE_2D
-        );
-        rt->Register(texm);
-        refraction_texture_var->SetValue(rt);
-        vars->AddVariable(refraction_texture_var);
-      }
+    ReflectionRenderer::ReflectionRenderer()
+    {
+      size_t frame = 0;
+      size_t frameskip = 3;
     }
 
-    //TODO register a framecallback for this function.
-    // Nothing is calling it atm.
-    void ReflectionUtils::RenderReflections(csRef<iView> view)
+    ReflectionRenderer::~ReflectionRenderer()
     {
+    }
+
+    bool ReflectionRenderer::Initialize()
+    {
+      iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+
+      reflectiveMeshes.DeleteAll();
+      engine = csQueryRegistry<iEngine> (obj_reg);
+      if (!engine) return false;
+      g3d = csQueryRegistry<iGraphics3D> (obj_reg);
+      if (!g3d) return false;
+      texm = g3d->GetTextureManager();
+      if (!texm) return false;
+
+       /// Initialize strings.
+      csRef<iStringSet> stringset = csQueryRegistryTagInterface<iStringSet> (
+        obj_reg, "crystalspace.shared.stringset");
+
+      ReflectionUtils::reflection_enable_str = stringset->Request("reflection_enable");
+      ReflectionUtils::refraction_enable_str = stringset->Request("refraction_enable");
+      ReflectionUtils::reflection_resolution_str = stringset->Request("reflection_resolution");
+      ReflectionUtils::reflection_sides_str = stringset->Request("reflection_sides");
+      ReflectionUtils::reflection_texture0_str = stringset->Request("reflection_texture_0");
+      ReflectionUtils::refraction_texture_str = stringset->Request("refraction_texture");
+
+      // Register for PreProcess events.
+      csBaseEventHandler::Initialize (obj_reg);
+      RegisterQueue (obj_reg, csevPreProcess (obj_reg));
+
+      using namespace PT::Events;
+      // Register listener for RegionLoadedEvent.
+      EventHandler<ReflectionRenderer>* cbLoaded = new EventHandler<ReflectionRenderer>(&ReflectionRenderer::TileLoaded, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbLoaded);
+
+      return true;
+    }
+
+    void ReflectionRenderer::SetFrameSkip(size_t skip)
+    {
+      frameskip = skip;
+      frame = skip; // draw on first frame
+    }
+
+    bool ReflectionRenderer::HandleEvent(iEvent &ev)
+    {
+      if (ev.Name == PreProcess)
+        Render();
+
+      return true;
+    }
+
+    void ReflectionRenderer::Render()
+    {
+      PT::Entity::PlayerEntity* player = PT::Entity::PlayerEntity::Instance();
+      if (!player) return;
+
+      csRef<iPcDefaultCamera> cam = player->GetCamera();
+      if (!cam) return;
+
+      csRef<iView> view = cam->GetView();
+      if (!view) return;
+
       /// Throttle. Reflections are expensive.
       bool render_reflections = false;
       bool render_refractions = false;
-      ReflectionUtils::frame++;
-      if (ReflectionUtils::frameskip <= 1)
+      frame++;
+      if (frameskip <= 1)
       {
         render_reflections = true;
         render_refractions = true;
       }
-      else if (ReflectionUtils::frame == ReflectionUtils::frameskip-1)
+      else if (frame == frameskip-1)
       {
         render_refractions = true;
       }
-      else if (ReflectionUtils::frame >= ReflectionUtils::frameskip)
+      else if (frame >= frameskip)
       {
         render_reflections = true;
-	ReflectionUtils::frame = 0;
+	frame = 0;
       }
       if (!render_reflections && !render_refractions)
       {
         return;
       }
 
-      iCamera* cam = view->GetCamera();
-      iGraphics3D* g3d = view->GetContext();
-
       /// Render reflections.
       if (render_reflections)
       {
-        size_t len = reflective_meshes.GetSize();
+        size_t len = reflectiveMeshes.GetSize();
         for (size_t i=0; i<len; i++)
         {
-          /// @todo This is all currently hard-coded for the MaxY plane.
-
-          iMeshWrapper* m = reflective_meshes.Get(i);
-
-          /// Bounding box based visibility test.
-          csScreenBoxResult sbbox = m->GetScreenBoundingBox(cam);
-          if (view->GetClipper()->ClassifyBox(sbbox.sbox)==-1)
-          {
-            continue;
-          }
-
-          iShaderVariableContext* vars = m->GetSVContext();
-          csBox3 bbox = m->GetWorldBoundingBox();
-
-          /// Marshall the texture handle.
-          iTextureWrapper* a0 = 0;
-          csShaderVariable* reflection_texture0_var =
-            vars->GetVariable(reflection_texture0_str);
-          reflection_texture0_var->GetValue(a0);
-          iTextureHandle* t = a0->GetTextureHandle();
-
-
-          /// Make a clipping plane from the world bounding box.
-          csVector3 v1(bbox.MinX(), bbox.MaxY(), bbox.MaxZ());
-          csVector3 v2(bbox.MaxX(), bbox.MaxY(), bbox.MaxZ());
-          csVector3 v3(bbox.MaxX(), bbox.MaxY(), bbox.MinZ());
-          csPlane3 newnp(v1, v2, v3);
-
-          csVector3 watert = m->GetMovable()->GetFullPosition();
-          csOrthoTransform origt = cam->GetTransform();
-          csOrthoTransform newt;
-
-          /// Mirror transformation.
-          newt.SetO2T(origt.GetO2T() * csYScaleMatrix3(-1));
-          newt.SetOrigin(
-            csVector3(origt.GetOrigin().x,
-                      bbox.MaxY() - (origt.GetOrigin().y - bbox.MaxY()),
-                      origt.GetOrigin().z)
-          );
-
-          Render2Texture(view, g3d, cam, m, origt, newt, newnp, t, true);
+          iMeshWrapper* m = reflectiveMeshes.Get(i);
+          ReflectionUtils::RenderReflection(m, view);
         }
       } // Render reflections.
 
       /// Render refractions.
       if (render_refractions)
       {
-        size_t len = refractive_meshes.GetSize();
+        size_t len = refractiveMeshes.GetSize();
         for (size_t i=0; i<len; i++)
         {
-          /// @todo This is all currently hard-coded for the MaxY plane.
-
-          iMeshWrapper* m = refractive_meshes.Get(i);
-
-          /// Bounding box based visibility test.
-          csScreenBoxResult sbbox = m->GetScreenBoundingBox(cam);
-          if (view->GetClipper()->ClassifyBox(sbbox.sbox)==-1)
-          {
-            continue;
-          }
-
-          iShaderVariableContext* vars = m->GetSVContext();
-          csBox3 bbox = m->GetWorldBoundingBox();
-
-          /// Marshall the texture handle.
-          iTextureWrapper* a0 = 0;
-          csShaderVariable* refraction_texture0_var =
-            vars->GetVariable(refraction_texture_str);
-          refraction_texture0_var->GetValue(a0);
-          iTextureHandle* t = a0->GetTextureHandle();
-
-          /// Make a clipping plane from the world bounding box.
-          csVector3 v1(bbox.MinX(), bbox.MaxY(), bbox.MaxZ());
-          csVector3 v2(bbox.MaxX(), bbox.MaxY(), bbox.MaxZ());
-          csVector3 v3(bbox.MaxX(), bbox.MaxY(), bbox.MinZ());
-          csPlane3 newnp(v3, v2, v1);
-
-          csVector3 watert = m->GetMovable()->GetFullPosition();
-          csOrthoTransform ctrans = cam->GetTransform();
-
-          Render2Texture(view, g3d, cam, m, ctrans, ctrans, newnp, t, false);
+          iMeshWrapper* m = refractiveMeshes.Get(i);
+          ReflectionUtils::RenderRefraction(m, view);
         }
       } // Render refractions.
+    } // end Render()
+
+    bool ReflectionRenderer::TileLoaded (PT::Events::Eventp ev)
+    {
+      /// Refresh our mesh list.
+      reflectiveMeshes.DeleteAll();
+      refractiveMeshes.DeleteAll();
+
+      /// Iterate over the meshes, finding `reflection_enable=true` shadervar.
+      iMeshList* meshes = engine->GetMeshes();
+      for (int i=0; i<meshes->GetCount(); i++)
+      {
+        csRef<iMeshWrapper> mesh = meshes->Get(i);
+        iShaderVariableContext* vars = mesh->GetSVContext();
+
+        /// Test if we care about this mesh.
+        if (!vars) continue;
+        csShaderVariable* enabled_var =
+          vars->GetVariable(ReflectionUtils::reflection_enable_str);
+        if (!enabled_var) continue;
+        int reflection_enable = 0;
+        enabled_var->GetValue(reflection_enable);
+        if (!reflection_enable) continue;
+        reflectiveMeshes.Push(mesh);
+
+        /// How big should the reflection be? Remember it's this number
+        /// squared, times the # of sides.
+        csShaderVariable* resolution_var = vars->GetVariable(ReflectionUtils::reflection_resolution_str);
+        int rez = 256;
+        resolution_var->GetValue(rez);
+        if (rez < 2) rez = 256;
+
+        /// Reflection texture.
+        /// @todo This is currently hard-coded for the MaxY plane.
+        csRef<csShaderVariable> reflection_texture0_var = vars->GetVariableAdd(ReflectionUtils::reflection_texture0_str);
+        csRef<iTextureHandle> a0 = texm->CreateTexture(rez, rez, csimg2D, "rgba8", 2);
+        reflection_texture0_var->SetValue(a0);  
+      }
+
+      /// Iterate over the meshes, finding `refraction_enable=true` shadervar.
+      for (int i=0; i<meshes->GetCount(); i++)
+      {
+        csRef<iMeshWrapper> mesh = meshes->Get(i);
+        iShaderVariableContext* vars = mesh->GetSVContext();
+
+        /// Test if we care about this mesh.
+        if (!vars) continue;
+        csShaderVariable* enabled_var =
+          vars->GetVariable(ReflectionUtils::refraction_enable_str);
+        if (!enabled_var) continue;
+        int refraction_enable = 0;
+        enabled_var->GetValue(refraction_enable);
+        if (!refraction_enable) continue;
+        refractiveMeshes.Push(mesh);
+
+        /// How big should the refraction be? Remember it's this number
+        /// squared, times the # of sides.
+        csShaderVariable* resolution_var =
+          vars->GetVariable(ReflectionUtils::reflection_resolution_str);
+        int rez = 256;
+        resolution_var->GetValue(rez);
+        if (rez < 2) rez = 256;
+
+        /// Refraction texture.
+        csRef<csShaderVariable> refraction_texture_var = vars->GetVariableAdd(ReflectionUtils::refraction_texture_str);
+        csRef<iTextureHandle> a0 = texm->CreateTexture(rez, rez, csimg2D, "rgb8", 2);
+        refraction_texture_var->SetValue(a0);
+      }
+
+      return true;
     }
 
+    void ReflectionUtils::RenderReflection(iMeshWrapper* m, iView* view)
+    {
+      /// @todo This is all currently hard-coded for the MaxY plane.
+
+      iCamera* cam = view->GetCamera();
+
+      /// Bounding box based visibility test.
+      csScreenBoxResult sbbox = m->GetScreenBoundingBox(cam);
+      if (view->GetClipper()->ClassifyBox(sbbox.sbox)==-1)
+      {
+        return;
+      }
+
+      iShaderVariableContext* vars = m->GetSVContext();
+      csBox3 bbox = m->GetWorldBoundingBox();
+
+      /// Marshall the texture handle.
+      iTextureHandle* t = 0;
+      csShaderVariable* reflection_texture0_var = vars->GetVariable(reflection_texture0_str);
+      reflection_texture0_var->GetValue(t);
+
+      /// Make a clipping plane from the world bounding box.
+      csVector3 v1(bbox.MinX(), bbox.MaxY(), bbox.MaxZ());
+      csVector3 v2(bbox.MaxX(), bbox.MaxY(), bbox.MaxZ());
+      csVector3 v3(bbox.MaxX(), bbox.MaxY(), bbox.MinZ());
+      csPlane3 newnp(v1, v2, v3);
+
+      csVector3 watert = m->GetMovable()->GetFullPosition();
+      csOrthoTransform origt = cam->GetTransform();
+      csOrthoTransform newt;
+
+      /// Mirror transformation.
+      newt.SetO2T(origt.GetO2T() * csYScaleMatrix3(-1));
+      newt.SetOrigin(csVector3(origt.GetOrigin().x,
+                     bbox.MaxY() - (origt.GetOrigin().y - bbox.MaxY()),
+                     origt.GetOrigin().z));
+
+      ReflectionUtils::Render2Texture(view, m, origt, newt, newnp, t, true);
+
+    } // end RenderReflection()
+
+    void ReflectionUtils::RenderRefraction(iMeshWrapper* m, iView* view)
+    {
+      /// @todo This is all currently hard-coded for the MaxY plane.
+
+      iCamera* cam = view->GetCamera();
+
+      /// Bounding box based visibility test.
+      csScreenBoxResult sbbox = m->GetScreenBoundingBox(cam);
+      if (view->GetClipper()->ClassifyBox(sbbox.sbox)==-1)
+      {
+        return;
+      }
+
+      iShaderVariableContext* vars = m->GetSVContext();
+      csBox3 bbox = m->GetWorldBoundingBox();
+
+      /// Marshall the texture handle.
+      iTextureHandle* t = 0;
+      csShaderVariable* refraction_texture0_var =
+        vars->GetVariable(refraction_texture_str);
+      refraction_texture0_var->GetValue(t);
+
+      /// Make a clipping plane from the world bounding box.
+      csVector3 v1(bbox.MinX(), bbox.MaxY(), bbox.MaxZ());
+      csVector3 v2(bbox.MaxX(), bbox.MaxY(), bbox.MaxZ());
+      csVector3 v3(bbox.MaxX(), bbox.MaxY(), bbox.MinZ());
+      csPlane3 newnp(v3, v2, v1);
+
+      csVector3 watert = m->GetMovable()->GetFullPosition();
+      csOrthoTransform ctrans = cam->GetTransform();
+
+      ReflectionUtils::Render2Texture(view, m, ctrans, ctrans, newnp, t, false);
+
+    } // end RenderReflection()
+
     void ReflectionUtils::Render2Texture(
-      csRef<iView>& view,
-      iGraphics3D*& g3d,
-      iCamera*& cam,
-      iMeshWrapper*& m,
+      iView* view,
+      iMeshWrapper* m,
       csOrthoTransform& oldcamera,
       csOrthoTransform& newcamera,
       csPlane3& nearclip,
-      iTextureHandle*& texture,
-      bool mirror
-    ) {
+      iTextureHandle* texture,
+      bool mirror) 
+    {
+      iCamera* cam = view->GetCamera();
+      iGraphics3D* g3d = view->GetContext();
+
       csPlane3 orignp = g3d->GetNearPlane();
 
       /// The rendering sequence is: 
@@ -300,12 +351,6 @@ namespace PT
       cam->SetTransform(oldcamera);
       if (mirror) cam->SetMirrored(false);
       m->SetFlagsRecursive(CS_ENTITY_INVISIBLEMESH, 0);
-    }
-
-    void ReflectionUtils::SetFrameSkip(size_t skip)
-    {
-      ReflectionUtils::frameskip = skip;
-      ReflectionUtils::frame = skip; // draw on first frame
     }
 
   } // Reflection namespace
