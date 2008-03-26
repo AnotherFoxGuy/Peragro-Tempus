@@ -197,7 +197,7 @@ namespace PT
         /// Reflection texture.
         /// @todo This is currently hard-coded for the MaxY plane.
         csRef<csShaderVariable> reflection_texture0_var = vars->GetVariableAdd(ReflectionUtils::reflection_texture0_str);
-        csRef<iTextureHandle> a0 = texm->CreateTexture(rez, rez, csimg2D, "rgba8", 2);
+        csRef<iTextureHandle> a0 = texm->CreateTexture(rez, rez, csimg2D, "rgba8", CS_TEXTURE_3D | CS_TEXTURE_NOMIPMAPS );
         reflection_texture0_var->SetValue(a0);  
       }
 
@@ -227,7 +227,7 @@ namespace PT
 
         /// Refraction texture.
         csRef<csShaderVariable> refraction_texture_var = vars->GetVariableAdd(ReflectionUtils::refraction_texture_str);
-        csRef<iTextureHandle> a0 = texm->CreateTexture(rez, rez, csimg2D, "rgb8", 2);
+        csRef<iTextureHandle> a0 = texm->CreateTexture(rez, rez, csimg2D, "rgba8", CS_TEXTURE_3D | CS_TEXTURE_NOMIPMAPS );
         refraction_texture_var->SetValue(a0);
       }
 
@@ -265,11 +265,36 @@ namespace PT
       csOrthoTransform origt = cam->GetTransform();
       csOrthoTransform newt;
 
+      /*csVector3 a(0,1,0);
+      float mat[3][3];
+
+      for (int j = 0; j < 3; j++)
+      {
+        for (int i = 0; i < 3; i++)
+        {
+          //KroneckerDelta(i,j)
+          float delta = 0;
+          if (i == j) delta = 1;
+          mat[j][i] = delta - 2 * (a[i]*a[j])/a.SquaredNorm();
+        }
+      }
+
+      csMatrix3 matr;
+      matr.m11 = mat[0][0]; matr.m12 = mat[0][1]; matr.m13 = mat[0][2];
+      matr.m21 = mat[1][0]; matr.m22 = mat[1][1]; matr.m23 = mat[1][2];
+      matr.m31 = mat[2][0]; matr.m32 = mat[2][1]; matr.m33 = mat[2][2];
+
+      csOrthoTransform reflect(matr, csVector3(0,0,0));*/
+
+      
       /// Mirror transformation.
       newt.SetO2T(origt.GetO2T() * csYScaleMatrix3(-1));
+      //newt.SetO2T(origt.GetO2T());
       newt.SetOrigin(csVector3(origt.GetOrigin().x,
                      bbox.MaxY() - (origt.GetOrigin().y - bbox.MaxY()),
                      origt.GetOrigin().z));
+
+      //newt = newt * reflect;
 
       ReflectionUtils::Render2Texture(view, m, origt, newt, newnp, t, true);
 
@@ -337,6 +362,9 @@ namespace PT
       cam->SetTransform(newcamera);
       if (mirror) cam->SetMirrored(true);
       g3d->SetRenderTarget(texture);
+
+      g3d->ValidateRenderTargets ();
+      //printf("%s\n", g3d->ValidateRenderTargets ()? "VALID" : "ERROR");
 
       // "We need to hack CS!" "No, use a portal!" OMG <3 g3d
       g3d->SetNearPlane(nearclip);
