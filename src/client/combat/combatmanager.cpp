@@ -202,7 +202,7 @@ void CombatMGR::experience (int exp)
 void CombatMGR::SkillUsageStart (unsigned int casterId, unsigned int targetId, int skillId, ptString error)
 {
 
-  /*
+ /*
   *  Here the we start using skill, so we create the effect on the caster.
   */
 

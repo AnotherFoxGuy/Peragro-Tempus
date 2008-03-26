@@ -4,10 +4,15 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+26-Mar-2008
+ - Rakhun made Character::id unsigned and made a small correction in reflection
+   where variables were created as local to a function rather than assigning
+   values to variables of the object.
+
 24-Mar-2008
-- swedishcoder fixed memleak in bullet code.
-- swedishcoder fixed compilation warnings in bullet code.
-- swedishcoder fixed memleak in table-config.
+ - swedishcoder fixed memleak in bullet code.
+ - swedishcoder fixed compilation warnings in bullet code.
+ - swedishcoder fixed memleak in table-config.
 
 21-Mar-2008
  - PK fixed a server crash reported by Rakhun.

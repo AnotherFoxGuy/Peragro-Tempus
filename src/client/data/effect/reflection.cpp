@@ -50,8 +50,8 @@ namespace PT
 
     ReflectionRenderer::ReflectionRenderer()
     {
-      size_t frame = 0;
-      size_t frameskip = 3;
+      frame = 0;
+      frameskip = 3;
     }
 
     ReflectionRenderer::~ReflectionRenderer()
