@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+27-Mar-2008
+ - Fixing double to int conversion in environment.h.
+
 26-Mar-2008
  - Rakhun made Character::id unsigned and made a small correction in reflection
    where variables were created as local to a function rather than assigning
