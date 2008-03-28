@@ -39,7 +39,7 @@ public:
   Environment()
   {
     daytime = 0;
-    this->setInterval(12); // 12 sec * 24 = 4 min 48 sec
+    this->setInterval(125); // 12.5 sec * 24 = 4 min 48 sec
     this->start();
   }
 };
