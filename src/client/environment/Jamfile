@@ -3,4 +3,4 @@ SubDir TOP src client environment ;
 Description client-environmentmanager : "client environmentmanager" ;
 Library client-environmentmanager :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-environmentmanager : CRYSTAL CEL BOOST ;
+ExternalLibs client-environmentmanager : CRYSTAL CEL ;
