@@ -6,6 +6,5 @@ SubInclude TOP src client world factoryloader ;
 Description worldloader : "World loader" ;
 Library worldloader :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs worldloader : CRYSTAL CEL ;
-CFlags worldloader : $(BOOST.CFLAGS) ;
+ExternalLibs worldloader : CRYSTAL CEL BOOST ;
 LinkWith worldloader : threadedlevelloader threadedfactoryloader ;

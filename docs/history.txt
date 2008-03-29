@@ -4,10 +4,6 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
-29-Mar-2008
- - Added include flags (-I) for Boost to client/environment and client/world
-   as is required by events.
-
 27-Mar-2008
  - Fixing double to int conversion in environment.h.
 
