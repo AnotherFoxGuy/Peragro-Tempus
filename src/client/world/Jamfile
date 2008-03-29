@@ -7,4 +7,5 @@ Description worldloader : "World loader" ;
 Library worldloader :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs worldloader : CRYSTAL CEL ;
+CFlags worldloader : $(BOOST.CFLAGS) ;
 LinkWith worldloader : threadedlevelloader threadedfactoryloader ;
