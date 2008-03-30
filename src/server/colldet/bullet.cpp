@@ -43,8 +43,7 @@ BulletCD::~BulletCD()
   delete constraintSolver;
   delete overlappingPairCache;
   delete dispatcher;
-  // TODO check if this is enough, just adding it still causes memleak..
-  // delete collisionConfiguration;
+  delete collisionConfiguration;
 }
 
 void BulletCD::setup()
