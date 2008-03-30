@@ -19,6 +19,8 @@
 #ifndef STRINGSTORE_H
 #define STRINGSTORE_H
 
+#include <string.h>
+
 #include "array.h"
 #include "mutex.h"
 

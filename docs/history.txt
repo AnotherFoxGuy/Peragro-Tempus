@@ -6,6 +6,8 @@ under each day.
 
 30-Mar-2008
  - swedishcoder fixed mem leaks in bullet.cpp
+ - swedishcoder applied patch from Mononoke that makes PT compile cleanly with
+   gcc 4.3
 
 27-Mar-2008
  - swedishcoder fixed double to int conversion in environment.h.

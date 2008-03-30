@@ -16,6 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <stdlib.h>
+
 #include "database.h"
 #include "table-books.h"
 #include "common/items/itemsid.h"
