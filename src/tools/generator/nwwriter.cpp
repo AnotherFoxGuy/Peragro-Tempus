@@ -660,6 +660,42 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
       if (param->type == nwParamType::LIST)
       {
         out << "    " << toVariable(param->name).c_str() << " = 0;\n";
+      } 
+      else if (param->type == nwParamType::BOOL) 
+      {
+        out << "    " << toVariable(param->name).c_str() << " = false;\n";
+      } 
+      else if (param->type == nwParamType::UINT8 ||
+                 param->type == nwParamType::UINT16 ||
+                 param->type == nwParamType::UINT32) 
+      {
+        out << "    " << toVariable(param->name).c_str() << " = 0;\n";
+      } 
+      else if (param->type == nwParamType::FLOAT)
+      {
+        out << "    " << toVariable(param->name).c_str() << " = 0.0;\n";
+      }
+      else if (param->type == nwParamType::VECTOR3F)
+      {
+        out << "    " << toVariable(param->name).c_str() << "[0] = 0.0;\n";
+        out << "    " << toVariable(param->name).c_str() << "[1] = 0.0;\n";
+        out << "    " << toVariable(param->name).c_str() << "[2] = 0.0;\n";
+      }
+      else if (param->type == nwParamType::COLOUR24)
+      {
+        out << "    " << toVariable(param->name).c_str() << "[0] = \'\\0\';\n";
+        out << "    " << toVariable(param->name).c_str() << "[1] = \'\\0\';\n";
+        out << "    " << toVariable(param->name).c_str() << "[2] = \'\\0\';\n";
+      }
+      else if (param->type == nwParamType::TEXT)
+      {
+        out << "    " << toVariable(param->name).c_str() << " = \'\\0\';\n";
+      }
+      else if (param->type == nwParamType::COLOUR24)
+      {
+        out << "    " << toVariable(param->name).c_str() << "[0] = \'\\0\';\n";
+        out << "    " << toVariable(param->name).c_str() << "[1] = \'\\0\';\n";
+        out << "    " << toVariable(param->name).c_str() << "[2] = \'\\0\';\n";
       }
     }
 

@@ -49,6 +49,7 @@ class LoginRequestMessage : public NetMessage
 public:
   LoginRequestMessage() : NetMessage(MESSAGES::USER,USER::LOGINREQUEST)
   {
+    password = '\0';
   }
 
   ~LoginRequestMessage()
@@ -74,6 +75,7 @@ class LoginResponseMessage : public NetMessage
 public:
   LoginResponseMessage() : NetMessage(MESSAGES::USER,USER::LOGINRESPONSE)
   {
+    isadmin = false;
   }
 
   ~LoginResponseMessage()
@@ -99,6 +101,7 @@ class RegisterRequestMessage : public NetMessage
 public:
   RegisterRequestMessage() : NetMessage(MESSAGES::USER,USER::REGISTERREQUEST)
   {
+    password = '\0';
   }
 
   ~RegisterRequestMessage()
@@ -233,6 +236,15 @@ class CharCreateRequestMessage : public NetMessage
 public:
   CharCreateRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARCREATEREQUEST)
   {
+    haircolour[0] = '\0';
+    haircolour[1] = '\0';
+    haircolour[2] = '\0';
+    skincolour[0] = '\0';
+    skincolour[1] = '\0';
+    skincolour[2] = '\0';
+    decalcolour[0] = '\0';
+    decalcolour[1] = '\0';
+    decalcolour[2] = '\0';
   }
 
   ~CharCreateRequestMessage()
@@ -295,6 +307,16 @@ class CharCreateResponseMessage : public NetMessage
 public:
   CharCreateResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARCREATERESPONSE)
   {
+    charid = 0;
+    haircolour[0] = '\0';
+    haircolour[1] = '\0';
+    haircolour[2] = '\0';
+    skincolour[0] = '\0';
+    skincolour[1] = '\0';
+    skincolour[2] = '\0';
+    decalcolour[0] = '\0';
+    decalcolour[1] = '\0';
+    decalcolour[2] = '\0';
   }
 
   ~CharCreateResponseMessage()
@@ -358,6 +380,7 @@ class CharSelectRequestMessage : public NetMessage
 public:
   CharSelectRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARSELECTREQUEST)
   {
+    charid = 0;
   }
 
   ~CharSelectRequestMessage()
@@ -380,6 +403,7 @@ class CharSelectResponseMessage : public NetMessage
 public:
   CharSelectResponseMessage() : NetMessage(MESSAGES::USER,USER::CHARSELECTRESPONSE)
   {
+    entityid = 0;
   }
 
   ~CharSelectResponseMessage()

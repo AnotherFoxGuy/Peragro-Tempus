@@ -5,6 +5,10 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 30-Mar-2008
+ - swedishcoder made the nwgenerator initialize values. This solves issues
+   where, for example, jumps where taken based on uninitialized values.
+
+30-Mar-2008
  - swedishcoder fixed mem leaks in bullet.cpp
  - swedishcoder applied patch from Mononoke that makes PT compile cleanly with
    gcc 4.3

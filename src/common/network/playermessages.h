@@ -61,6 +61,7 @@ class InventoryListMessage : public NetMessage
 public:
   InventoryListMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::INVENTORYLIST)
   {
+    inventoryid = 0;
     inventory = 0;
   }
 
@@ -123,6 +124,10 @@ class InventoryMoveItemRequestMessage : public NetMessage
 public:
   InventoryMoveItemRequestMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::INVENTORYMOVEITEMREQUEST)
   {
+    oldslot = 0;
+    oldinventoryid = 0;
+    newslot = 0;
+    newinventoryid = 0;
   }
 
   ~InventoryMoveItemRequestMessage()
@@ -157,6 +162,10 @@ class InventoryMoveItemMessage : public NetMessage
 public:
   InventoryMoveItemMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::INVENTORYMOVEITEM)
   {
+    oldslot = 0;
+    oldinventoryid = 0;
+    newslot = 0;
+    newinventoryid = 0;
   }
 
   ~InventoryMoveItemMessage()
@@ -242,6 +251,8 @@ class StatsChangeMessage : public NetMessage
 public:
   StatsChangeMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::STATSCHANGE)
   {
+    statid = 0;
+    level = 0;
   }
 
   ~StatsChangeMessage()

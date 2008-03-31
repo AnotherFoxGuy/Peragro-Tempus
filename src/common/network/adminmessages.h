@@ -72,6 +72,7 @@ class CreateSectorMessage : public NetMessage
 public:
   CreateSectorMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATESECTOR)
   {
+    sectorid = 0;
   }
 
   ~CreateSectorMessage()
@@ -106,6 +107,8 @@ class CreateItemMessage : public NetMessage
 public:
   CreateItemMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATEITEM)
   {
+    itemid = 0;
+    weight = 0.0;
   }
 
   ~CreateItemMessage()
@@ -178,6 +181,20 @@ class CreateNpcMessage : public NetMessage
 public:
   CreateNpcMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATENPC)
   {
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    rotation = 0.0;
+    sectorid = 0;
+    haircolour[0] = '\0';
+    haircolour[1] = '\0';
+    haircolour[2] = '\0';
+    skincolour[0] = '\0';
+    skincolour[1] = '\0';
+    skincolour[2] = '\0';
+    decalcolour[0] = '\0';
+    decalcolour[1] = '\0';
+    decalcolour[2] = '\0';
     aisetting = 0;
     inventory = 0;
   }
@@ -309,6 +326,13 @@ class CreateSpawnPointMessage : public NetMessage
 public:
   CreateSpawnPointMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATESPAWNPOINT)
   {
+    itemid = 0;
+    variation = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    sectorid = 0;
+    interval = 0;
   }
 
   ~CreateSpawnPointMessage()
@@ -354,6 +378,12 @@ class SpawnItemMessage : public NetMessage
 public:
   SpawnItemMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SPAWNITEM)
   {
+    itemid = 0;
+    variation = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    sectorid = 0;
   }
 
   ~SpawnItemMessage()
@@ -397,6 +427,11 @@ class SpawnMountMessage : public NetMessage
 public:
   SpawnMountMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SPAWNMOUNT)
   {
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    rotation = 0.0;
+    sectorid = 0;
   }
 
   ~SpawnMountMessage()
@@ -446,6 +481,13 @@ class SpawnDoorMessage : public NetMessage
 public:
   SpawnDoorMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SPAWNDOOR)
   {
+    doorid = 0;
+    sectorid = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    isopen = false;
+    islocked = false;
   }
 
   ~SpawnDoorMessage()
@@ -497,6 +539,7 @@ class RemoveSpawnedEntityMessage : public NetMessage
 public:
   RemoveSpawnedEntityMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::REMOVESPAWNEDENTITY)
   {
+    entityid = 0;
   }
 
   ~RemoveSpawnedEntityMessage()

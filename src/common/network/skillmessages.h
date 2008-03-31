@@ -46,6 +46,9 @@ class SkillUsageStartRequestMessage : public NetMessage
 public:
   SkillUsageStartRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTARTREQUEST)
   {
+    caster = 0;
+    target = 0;
+    skill = 0;
   }
 
   ~SkillUsageStartRequestMessage()
@@ -77,6 +80,10 @@ class SkillUsageStartResponseMessage : public NetMessage
 public:
   SkillUsageStartResponseMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTARTRESPONSE)
   {
+    caster = 0;
+    target = 0;
+    skill = 0;
+    mpcost = 0;
   }
 
   ~SkillUsageStartResponseMessage()
@@ -110,6 +117,7 @@ class SkillUsageStopRequestMessage : public NetMessage
 public:
   SkillUsageStopRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTOPREQUEST)
   {
+    skill = 0;
   }
 
   ~SkillUsageStopRequestMessage()
@@ -133,6 +141,9 @@ class SkillUsageCompletionMessage : public NetMessage
 public:
   SkillUsageCompletionMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGECOMPLETION)
   {
+    caster = 0;
+    target = 0;
+    skill = 0;
   }
 
   ~SkillUsageCompletionMessage()
@@ -162,6 +173,9 @@ class SkillUsageInterruptMessage : public NetMessage
 public:
   SkillUsageInterruptMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGEINTERRUPT)
   {
+    caster = 0;
+    target = 0;
+    skill = 0;
   }
 
   ~SkillUsageInterruptMessage()

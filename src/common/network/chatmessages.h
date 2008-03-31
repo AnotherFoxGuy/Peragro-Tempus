@@ -47,6 +47,7 @@ class SayMessage : public NetMessage
 public:
   SayMessage() : NetMessage(MESSAGES::CHAT,CHAT::SAY)
   {
+    message = '\0';
   }
 
   ~SayMessage()
@@ -72,6 +73,7 @@ class ShoutMessage : public NetMessage
 public:
   ShoutMessage() : NetMessage(MESSAGES::CHAT,CHAT::SHOUT)
   {
+    message = '\0';
   }
 
   ~ShoutMessage()
@@ -97,6 +99,7 @@ class WhisperToMessage : public NetMessage
 public:
   WhisperToMessage() : NetMessage(MESSAGES::CHAT,CHAT::WHISPERTO)
   {
+    message = '\0';
   }
 
   ~WhisperToMessage()
@@ -122,6 +125,7 @@ class WhisperFromMessage : public NetMessage
 public:
   WhisperFromMessage() : NetMessage(MESSAGES::CHAT,CHAT::WHISPERFROM)
   {
+    message = '\0';
   }
 
   ~WhisperFromMessage()
@@ -147,6 +151,7 @@ class PartyMessage : public NetMessage
 public:
   PartyMessage() : NetMessage(MESSAGES::CHAT,CHAT::PARTY)
   {
+    message = '\0';
   }
 
   ~PartyMessage()
@@ -172,6 +177,7 @@ class GuildMessage : public NetMessage
 public:
   GuildMessage() : NetMessage(MESSAGES::CHAT,CHAT::GUILD)
   {
+    message = '\0';
   }
 
   ~GuildMessage()
@@ -197,6 +203,7 @@ class FamilyMessage : public NetMessage
 public:
   FamilyMessage() : NetMessage(MESSAGES::CHAT,CHAT::FAMILY)
   {
+    message = '\0';
   }
 
   ~FamilyMessage()

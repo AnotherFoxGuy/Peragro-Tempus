@@ -83,6 +83,14 @@ class AddNpcEntityMessage : public NetMessage
 public:
   AddNpcEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDNPCENTITY)
   {
+    meshid = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    rotation = 0.0;
+    sectorid = 0;
+    entityid = 0;
+    poseid = 0;
     equipment = 0;
   }
 
@@ -167,6 +175,13 @@ class AddItemEntityMessage : public NetMessage
 public:
   AddItemEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDITEMENTITY)
   {
+    itemid = 0;
+    variation = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    sectorid = 0;
+    entityid = 0;
   }
 
   ~AddItemEntityMessage()
@@ -225,6 +240,11 @@ class AddDoorEntityMessage : public NetMessage
 public:
   AddDoorEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDDOORENTITY)
   {
+    doorid = 0;
+    isopen = false;
+    islocked = false;
+    entityid = 0;
+    sectorid = 0;
   }
 
   ~AddDoorEntityMessage()
@@ -289,6 +309,23 @@ class AddPlayerEntityMessage : public NetMessage
 public:
   AddPlayerEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDPLAYERENTITY)
   {
+    meshid = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    rotation = 0.0;
+    haircolour[0] = '\0';
+    haircolour[1] = '\0';
+    haircolour[2] = '\0';
+    skincolour[0] = '\0';
+    skincolour[1] = '\0';
+    skincolour[2] = '\0';
+    decalcolour[0] = '\0';
+    decalcolour[1] = '\0';
+    decalcolour[2] = '\0';
+    sectorid = 0;
+    entityid = 0;
+    poseid = 0;
     equipment = 0;
   }
 
@@ -409,6 +446,14 @@ class AddMountEntityMessage : public NetMessage
 public:
   AddMountEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::ADDMOUNTENTITY)
   {
+    meshid = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    rotation = 0.0;
+    sectorid = 0;
+    entityid = 0;
+    inventoryid = 0;
   }
 
   ~AddMountEntityMessage()
@@ -460,6 +505,7 @@ class RemoveEntityMessage : public NetMessage
 public:
   RemoveEntityMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::REMOVEENTITY)
   {
+    entityid = 0;
   }
 
   ~RemoveEntityMessage()
@@ -485,6 +531,11 @@ class MoveMessage : public NetMessage
 public:
   MoveMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVE)
   {
+    turn = 0.0;
+    walk = 0.0;
+    entityid = 0;
+    run = false;
+    jump = false;
   }
 
   ~MoveMessage()
@@ -521,6 +572,10 @@ class MoveRequestMessage : public NetMessage
 public:
   MoveRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVEREQUEST)
   {
+    turn = 0;
+    walk = 0;
+    run = false;
+    jump = false;
   }
 
   ~MoveRequestMessage()
@@ -557,6 +612,17 @@ class MoveToMessage : public NetMessage
 public:
   MoveToMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVETO)
   {
+    from[0] = 0.0;
+    from[1] = 0.0;
+    from[2] = 0.0;
+    to[0] = 0.0;
+    to[1] = 0.0;
+    to[2] = 0.0;
+    speed = 0.0;
+    entityid = 0;
+    run = false;
+    turn = 0;
+    jump = false;
   }
 
   ~MoveToMessage()
@@ -618,6 +684,13 @@ class MoveToRequestMessage : public NetMessage
 public:
   MoveToRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOVETOREQUEST)
   {
+    to[0] = 0.0;
+    to[1] = 0.0;
+    to[2] = 0.0;
+    run = false;
+    backwards = false;
+    turn = 0;
+    jump = false;
   }
 
   ~MoveToRequestMessage()
@@ -661,6 +734,8 @@ class PickRequestMessage : public NetMessage
 public:
   PickRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::PICKREQUEST)
   {
+    itementityid = 0;
+    slot = 0;
   }
 
   ~PickRequestMessage()
@@ -693,6 +768,10 @@ class PickResponseMessage : public NetMessage
 public:
   PickResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::PICKRESPONSE)
   {
+    itemid = 0;
+    variation = 0;
+    slotid = 0;
+    weight = 0.0;
   }
 
   ~PickResponseMessage()
@@ -739,6 +818,8 @@ class DropRequestMessage : public NetMessage
 public:
   DropRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DROPREQUEST)
   {
+    slot = 0;
+    inventoryid = 0;
   }
 
   ~DropRequestMessage()
@@ -764,6 +845,7 @@ class DropResponseMessage : public NetMessage
 public:
   DropResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DROPRESPONSE)
   {
+    slotid = 0;
   }
 
   ~DropResponseMessage()
@@ -793,6 +875,10 @@ class EquipMessage : public NetMessage
 public:
   EquipMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::EQUIP)
   {
+    entityid = 0;
+    itemid = 0;
+    variation = 0;
+    slotid = 0;
   }
 
   ~EquipMessage()
@@ -848,6 +934,11 @@ class TeleportMessage : public NetMessage
 public:
   TeleportMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::TELEPORT)
   {
+    entityid = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    sectorid = 0;
   }
 
   ~TeleportMessage()
@@ -886,6 +977,11 @@ class DrUpdateRequestMessage : public NetMessage
 public:
   DrUpdateRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DRUPDATEREQUEST)
   {
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    rotation = 0.0;
+    sectorid = 0;
   }
 
   ~DrUpdateRequestMessage()
@@ -925,6 +1021,12 @@ class DrUpdateMessage : public NetMessage
 public:
   DrUpdateMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DRUPDATE)
   {
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    rotation = 0.0;
+    sectorid = 0;
+    entityid = 0;
   }
 
   ~DrUpdateMessage()
@@ -964,6 +1066,7 @@ class MountRequestMessage : public NetMessage
 public:
   MountRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOUNTREQUEST)
   {
+    mountentityid = 0;
   }
 
   ~MountRequestMessage()
@@ -987,6 +1090,9 @@ class MountMessage : public NetMessage
 public:
   MountMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::MOUNT)
   {
+    playerentityid = 0;
+    mountentityid = 0;
+    cancontrol = false;
   }
 
   ~MountMessage()
@@ -1014,6 +1120,7 @@ class UnmountRequestMessage : public NetMessage
 public:
   UnmountRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::UNMOUNTREQUEST)
   {
+    mountentityid = 0;
   }
 
   ~UnmountRequestMessage()
@@ -1036,6 +1143,8 @@ class UnmountMessage : public NetMessage
 public:
   UnmountMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::UNMOUNT)
   {
+    playerentityid = 0;
+    mountentityid = 0;
   }
 
   ~UnmountMessage()
@@ -1060,6 +1169,7 @@ class PoseRequestMessage : public NetMessage
 public:
   PoseRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::POSEREQUEST)
   {
+    poseid = 0;
   }
 
   ~PoseRequestMessage()
@@ -1082,6 +1192,8 @@ class PoseMessage : public NetMessage
 public:
   PoseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::POSE)
   {
+    entityid = 0;
+    poseid = 0;
   }
 
   ~PoseMessage()
