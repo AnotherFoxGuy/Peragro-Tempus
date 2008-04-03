@@ -6,6 +6,7 @@ under each day.
 
 03-Apr-2008
  - swedishcoder fixed memleak in doormanager.h in server.
+ - swedishcoder fixed memleak in charactermanager.cpp in server.
 
 30-Mar-2008
  - swedishcoder made the nwgenerator initialize values. This solves issues

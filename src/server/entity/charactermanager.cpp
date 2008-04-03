@@ -81,6 +81,7 @@ Character* CharacterManager::getCharacter(int id, User* user)
     character->setPos(vo->pos_x, vo->pos_y, vo->pos_z);
     character->setRotation(vo->rotation);
     character->setSector(vo->sector);
+    delete vo;
     return character;
   }
 
