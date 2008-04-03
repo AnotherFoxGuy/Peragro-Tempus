@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+03-Apr-2008
+ - swedishcoder fixed memleak in doormanager.h in server.
+
 30-Mar-2008
  - swedishcoder made the nwgenerator initialize values. This solves issues
    where, for example, jumps where taken based on uninitialized values.

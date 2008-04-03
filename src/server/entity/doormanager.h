@@ -120,6 +120,7 @@ public:
 
       doors.add(door);
     }
+    loadedDoors.delAll();
   }
 
   void clear()
