@@ -128,6 +128,7 @@ public:
 
       if (p->id > max_id) max_id = p->id;
     }
+    points.delAll();
   }
 
   size_t getSpawnPointCount() const { return spawnpoints.getCount(); }

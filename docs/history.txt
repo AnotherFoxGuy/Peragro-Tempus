@@ -9,6 +9,7 @@ under each day.
  - swedishcoder fixed memleak in charactermanager.cpp in server.
  - swedishcoder fixed memleak in entitymanager.cpp in server.
  - swedishcoder fixed memleak in sectormanager.h in server.
+ - swedishcoder fixed memleak in spawner.h in server.
 
 30-Mar-2008
  - swedishcoder made the nwgenerator initialize values. This solves issues
