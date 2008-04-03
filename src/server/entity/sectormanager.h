@@ -117,6 +117,7 @@ public:
     {
       loadSector(loadedSectors[i]->id, loadedSectors[i]->name, loadedSectors[i]->region);
     }
+    loadedSectors.delAll();
   }
 };
 
