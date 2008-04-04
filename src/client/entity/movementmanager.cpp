@@ -288,7 +288,7 @@ namespace PT
 
       Report(PT::Debug, "MovementManager: Teleporting entity '%d' to %s(%d)", entityId, sectorName.c_str(), sectorId);
 
-      entity->Teleport(entityMoveEv->position, sectorName.c_str());
+      entity->Teleport(entityMoveEv->position, entityMoveEv->rotation, sectorName.c_str());
 
       return true;
     }

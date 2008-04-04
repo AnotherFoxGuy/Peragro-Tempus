@@ -217,8 +217,9 @@ void EntityHandler::handleTeleport(GenericMessage* msg)
   using namespace PT::Events;
   EntityTeleportEvent* entityEvent = new EntityTeleportEvent();
 
-  entityEvent->entityId	= telemsg.getEntityId();
-  entityEvent->position	= csVector3(telemsg.getPos()[0],telemsg.getPos()[1],telemsg.getPos()[2]);
+  entityEvent->entityId = telemsg.getEntityId();
+  entityEvent->position = csVector3(telemsg.getPos()[0],telemsg.getPos()[1],telemsg.getPos()[2]);
+  entityEvent->rotation = telemsg.getRotation();
   entityEvent->sectorId = telemsg.getSectorId();
 
   PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);

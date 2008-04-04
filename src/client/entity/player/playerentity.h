@@ -171,7 +171,7 @@ namespace PT
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.
        */
-      void Teleport(const csVector3& pos, const std::string& sector);
+      void Teleport(const csVector3& pos, float rotation, const std::string& sector);
 
       /**
        * Changes the entity position and sector immediatelly.

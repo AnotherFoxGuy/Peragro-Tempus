@@ -73,7 +73,7 @@ namespace PT
       void Move(const MovementData& movement);
       bool MoveTo(MoveToData* moveTo);
       void DrUpdate(const DrUpdateData& drupdate);
-      void Teleport(const csVector3& pos, const std::string& sector);
+      void Teleport(const csVector3& pos, float rotation, const std::string& sector);
 
       ///@todo Stats shouldn't be defined like this.
       float GetCurrentStamina() const { return currentStamina; }

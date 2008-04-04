@@ -929,6 +929,7 @@ class TeleportMessage : public NetMessage
 {
   unsigned int entityid;
   float pos[3];
+  float rotation;
   unsigned short sectorid;
 
 public:
@@ -938,6 +939,7 @@ public:
     pos[0] = 0.0;
     pos[1] = 0.0;
     pos[2] = 0.0;
+    rotation = 0.0;
     sectorid = 0;
   }
 
@@ -962,6 +964,9 @@ public:
   {
     setPos(x[0], x[1], x[2]);
   }
+
+  float getRotation() { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned short getSectorId() { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }

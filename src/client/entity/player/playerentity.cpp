@@ -705,22 +705,13 @@ namespace PT
     }
 
     void PlayerEntity::Teleport(const csVector3& pos,
-      const std::string& sector)
+                                float rotation,
+                                const std::string& sector)
     {
       if (!celEntity.IsValid()) return;
 
-      float rot = 0;
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-      if (pcmesh.IsValid() && pcmesh->GetMesh ())
-      {
-        csVector3 cur_position = pcmesh->GetMesh()->GetMovable()->GetFullPosition();
-        cur_position.y = pos.y;
-        csVector3 direction = pos - cur_position;
-        rot = atan2 (-direction.x, -direction.z);
-      }
-
       PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
-      this->SetFullPosition(pos, rot, sector.c_str());
+      this->SetFullPosition(pos, rotation, sector.c_str());
     }
 
     void PlayerEntity::SetFullPosition(const csVector3& pos,

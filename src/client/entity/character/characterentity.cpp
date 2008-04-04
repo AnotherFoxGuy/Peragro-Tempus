@@ -200,22 +200,12 @@ namespace PT
     }
 
     void CharacterEntity::Teleport(const csVector3& pos,
+                                   float rotation,
                                    const std::string& sector)
     {
       Report(PT::Warning, "CharacterEntity: teleport\n");
 
-      float yrot_dst = 0;
-
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-      if (pcmesh.IsValid() && pcmesh->GetMesh ())
-      {
-        csVector3 cur_position = pcmesh->GetMesh()->GetMovable()->GetFullPosition();
-        cur_position.y = pos.y;
-        csVector3 direction = pos - cur_position;
-        yrot_dst = atan2 (-direction.x, -direction.z);
-      }
-
-      SetFullPosition(pos, yrot_dst, sector.c_str());
+      SetFullPosition(pos, rotation, sector.c_str());
     }
 
     void CharacterEntity::SetCurrentStamina(float x)

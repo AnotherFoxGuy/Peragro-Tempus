@@ -354,6 +354,7 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
     telemsg.setEntityId(ent->getId());
     telemsg.setSectorId(ent->getSector());
     telemsg.setPos(ent->getPos());
+    telemsg.setRotation(ent->getRotation());
 
     ent->freeLock();
 

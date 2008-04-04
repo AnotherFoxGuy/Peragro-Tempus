@@ -147,6 +147,7 @@
 	<message type="Entity" name="Teleport">
 		<uint32>EntityId</uint32>
 		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
 		<uint16>SectorId</uint16>
 	</message>
 	

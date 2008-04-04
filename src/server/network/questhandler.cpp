@@ -181,6 +181,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     telemsg.setEntityId(ent->getId());
     telemsg.setSectorId(ent->getSector());
     telemsg.setPos(ent->getPos());
+    telemsg.setRotation(ent->getRotation());
 
     ByteStream bs;
     telemsg.serialise(&bs);

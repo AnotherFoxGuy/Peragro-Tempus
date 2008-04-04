@@ -231,7 +231,7 @@ namespace PT
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.
        */
-      virtual void Teleport(const csVector3& pos, const std::string& sector) {}
+      virtual void Teleport(const csVector3& pos, float rotation, const std::string& sector) {}
 
       /**
        * Updates iPcProperties of a CEL entity. See CEL documentation for more

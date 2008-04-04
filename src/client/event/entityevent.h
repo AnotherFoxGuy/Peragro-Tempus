@@ -183,6 +183,7 @@ namespace PT
     class EntityTeleportEvent : public EntityEvent
     {
     public:
+      float rotation;
       csVector3 position;
       unsigned int sectorId;
 
