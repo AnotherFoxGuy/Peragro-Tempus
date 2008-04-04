@@ -74,6 +74,12 @@ namespace PT
       bool backwardReverse;
       ///Whether to invert the look up and down controls, like an aeroplane.
       bool invertYAxis;
+      ///Minimum FPS for the adaptive distance clipping
+      float minFPS;
+      ///Maximum FPS for the adaptive distance clipping
+      float maxFPS;
+      ///Minimum view distance for the adaptive distance clipping
+      float minDistance;
 
       csRef<iConfigManager> app_cfg;
       csRef<iVFS> vfs;
@@ -125,6 +131,8 @@ namespace PT
       bool ActionJump(PT::Events::Eventp ev);
       ///Handler for a move-to event.
       bool ActionMoveTo(PT::Events::Eventp ev);
+      ///Handler for a configuration update event
+      bool UpdateOptions(PT::Events::Eventp ev);
 
       ///Helper method for sending new movement information.
       bool PerformMovementAction();

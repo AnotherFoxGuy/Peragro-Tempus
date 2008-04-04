@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <GUILayout>
 	<Window Type='Peragro/FrameWindow' Name='Options/Frame'>
-		<Property Name='UnifiedSize' Value='{{0.000000,330.000000},{0.000000,200.000000}}'/>
-		<Property Name='UnifiedPosition' Value='{{0.500000,-165.000000},{0.500000,-100.000000}}'/>
+		<Property Name='UnifiedSize' Value='{{0.000000,330.000000},{0.000000,330.000000}}'/>
+		<Property Name='UnifiedPosition' Value='{{0.500000,-165.000000},{0.500000,-165.000000}}'/>
 		<Property Name='CaptionColour' Value='00FFFFFF'/>
 		<Property Name='TitlebarEnabled' Value='True'/>
 		<Property Name='SizingEnabled' Value='False'/>
@@ -66,6 +66,48 @@
 			<Property Name='UnifiedPosition' Value='{{0.000000,15.000000},{0.000000,165.000000}}'/>
 			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
 			<Property Name='Text' Value='Fullscreen'/>
+		</Window>
+		<Window Type='Peragro/Checkbox' Name='Options/Invert_Y_Axis'>
+			<Property Name='UnifiedSize' Value='{{0.000000,110.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.500000,15.000000},{0.000000,165.000000}}'/>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
+			<Property Name='Text' Value='Invert Y Axis'/>
+		</Window>
+		<Window Type='Peragro/StaticText' Name='Options/Minimum_FPS'>
+			<Property Name='UnifiedSize' Value='{{0.000000,205.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,6.000000},{0.000000,195.000000}}'/>
+			<Property Name='Text' Value='Minimum FPS'/>
+		</Window>
+		<Window Type='Peragro/Spinner' Name='Options/Minimum_FPS/Spinner'>
+			<Property Name='UnifiedSize' Value='{{0.000000,105.00000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,215.000000},{0.000000,195.000000}}'/>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
+			<Property Name='MinimumValue' Value='0.0'/>
+			<Property Name='MaximumValue' Value='100.0'/>
+		</Window>
+		<Window Type='Peragro/StaticText' Name='Options/Maximum_FPS'>
+			<Property Name='UnifiedSize' Value='{{0.000000,205.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,6.000000},{0.000000,225.000000}}'/>
+			<Property Name='Text' Value='Maximum FPS'/>
+		</Window>
+		<Window Type='Peragro/Spinner' Name='Options/Maximum_FPS/Spinner'>
+			<Property Name='UnifiedSize' Value='{{0.000000,105.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,215.000000},{0.000000,225.000000}}'/>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
+			<Property Name='MinimumValue' Value='0.0'/>
+			<Property Name='MaximumValue' Value='1000.0'/>
+		</Window>
+		<Window Type='Peragro/StaticText' Name='Options/Minimum_Distance'>
+			<Property Name='UnifiedSize' Value='{{0.000000,205.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,6.000000},{0.000000,255.000000}}'/>
+			<Property Name='Text' Value='Minimum Distance'/>
+		</Window>
+		<Window Type='Peragro/Spinner' Name='Options/Minimum_Distance/Spinner'>
+			<Property Name='UnifiedSize' Value='{{0.000000,105.000000},{0.000000,25.000000}}'/>
+			<Property Name='UnifiedPosition' Value='{{0.000000,215.000000},{0.000000,255.000000}}'/>
+			<Property Name='MouseCursorImage' Value='set:Peragro image:MouseArrow'/>
+			<Property Name='MinimumValue' Value='0.0'/>
+			<Property Name='MaximumValue' Value='1000.0'/>
 		</Window>
 		<Window Type='Peragro/Button' Name='Options/OK_Button'>
 			<Property Name='UnifiedSize' Value='{{0.000000,60.000000},{0.000000,25.000000}}'/>

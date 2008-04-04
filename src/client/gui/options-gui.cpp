@@ -100,6 +100,20 @@ void OptionsWindow::CreateGUIWindow ()
   CreateReverseCheckBox();
   btn = winMgr->getWindow("Options/Reverse");
   btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnReverseCheckBox, this));
+
+  // Set up the Invert Y Axis checkbox.
+  CreateYAxisCheckBox();
+  btn = winMgr->getWindow("Options/Invert_Y_Axis");
+  btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnYAxisCheckBox, this));
+
+  // Set up the Adaptive distance clipping spinners.
+  CreateAdaptiveSpinners();
+  btn = winMgr->getWindow("Options/Minimum_FPS/Spinner");
+  btn->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnMinFPSSpinnerChanged, this));
+  btn = winMgr->getWindow("Options/Maximum_FPS/Spinner");
+  btn->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnMaxFPSSpinnerChanged, this));
+  btn = winMgr->getWindow("Options/Minimum_Distance/Spinner");
+  btn->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnMinDistanceSpinnerChanged, this));
 }
 
 void OptionsWindow::SaveConfig()
@@ -354,4 +368,65 @@ void OptionsWindow::CreateReverseCheckBox()
   bool fs = app_cfg->GetBool("Client.backwardreverse");
 
   ((CEGUI::Checkbox*)btn)->setSelected(fs);
+}
+
+bool OptionsWindow::OnYAxisCheckBox(const CEGUI::EventArgs& e) 
+{
+  btn = winMgr->getWindow("Options/Invert_Y_Axis");
+  bool ya = ((CEGUI::Checkbox*)btn)->isSelected();
+
+  app_cfg->SetBool("Client.invertYAxis", ya);
+  SaveConfig();
+  return true;
+}
+
+void OptionsWindow::CreateYAxisCheckBox()
+{
+  btn = winMgr->getWindow("Options/Invert_Y_Axis");
+
+  bool ya = app_cfg->GetBool("Client.invertYAxis");
+
+  ((CEGUI::Checkbox*)btn)->setSelected(ya);
+}
+
+bool OptionsWindow::OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e)
+{
+  btn = winMgr->getWindow("Options/Minimum_FPS/Spinner");
+  float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
+
+  app_cfg->SetFloat("Client.minFPS", value);
+  SaveConfig();
+  return true;
+}
+
+bool OptionsWindow::OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e)
+{
+  btn = winMgr->getWindow("Options/Maximum_FPS/Spinner");
+  float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
+
+  app_cfg->SetFloat("Client.maxFPS", value);
+  SaveConfig();
+  return true;
+}
+
+bool OptionsWindow::OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e)
+{
+  btn = winMgr->getWindow("Options/Minimum_Distance/Spinner");
+  float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
+
+  app_cfg->SetFloat("Client.minDistance", value);
+  SaveConfig();
+  return true;
+}
+
+void OptionsWindow::CreateAdaptiveSpinners()
+{
+  btn = winMgr->getWindow("Options/Minimum_FPS/Spinner");
+  ((CEGUI::Spinner*)btn)->setCurrentValue(app_cfg->GetFloat("Client.minFPS"));
+
+  btn = winMgr->getWindow("Options/Maximum_FPS/Spinner");
+  ((CEGUI::Spinner*)btn)->setCurrentValue(app_cfg->GetFloat("Client.maxFPS"));
+
+  btn = winMgr->getWindow("Options/Minimum_Distance/Spinner");
+  ((CEGUI::Spinner*)btn)->setCurrentValue(app_cfg->GetFloat("Client.minDistance"));
 }

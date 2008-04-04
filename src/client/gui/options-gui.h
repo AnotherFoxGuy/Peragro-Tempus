@@ -56,6 +56,14 @@ private:
   void CreateReverseCheckBox();
   bool OnReverseCheckBox(const CEGUI::EventArgs& e); 
 
+  void CreateYAxisCheckBox();
+  bool OnYAxisCheckBox(const CEGUI::EventArgs& e); 
+
+  void CreateAdaptiveSpinners();
+  bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);
+  bool OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e);
+  bool OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e);
+
 public:
   OptionsWindow(GUIManager* guimanager);
   virtual ~OptionsWindow();

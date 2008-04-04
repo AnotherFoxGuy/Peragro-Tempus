@@ -67,11 +67,17 @@ namespace PT
       //This should be replaced by some external StateManager. We already have
       //things like this in several places
       ready = true;
-      cameraDistance = 3.0;
+      cameraDistance = 3.0f;
       pitchDirection = 1;
       pitchPerSecond = WALK_PPS;
       pitchRange = WALK_PITCH_RANGE;
       currentPitch = 0.0f;
+
+      backwardReverse = false;
+      invertYAxis = false;
+      minFPS = 20.0f;
+      maxFPS = 60.0f;
+      minDistance = 50.0f;
 
       //Register actions for events
       using namespace PT::Events;
@@ -166,6 +172,12 @@ namespace PT
       PointerLibrary::getInstance()->getEventManager()->
         AddListener("input.ACTION_MOVETO", cbActionMoveTo);
 
+      // Register listener for InterfaceOptionsEvent.
+      EventHandler<PlayerEntity>* cbUpdateOptions =
+        new EventHandler<PlayerEntity>(&PlayerEntity::UpdateOptions, this);
+      PointerLibrary::getInstance()->getEventManager()->
+        AddListener("interface.options", cbUpdateOptions);
+
       app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
       if (!app_cfg)
       {
@@ -180,7 +192,8 @@ namespace PT
         return;
       }
 
-      backwardReverse = app_cfg->GetBool("Client.backwardreverse");
+      PT::Events::Eventp dummyEv(new PT::Events::InterfaceOptionsEvent());
+      UpdateOptions(dummyEv);
     }
 
     PlayerEntity::~PlayerEntity()
@@ -513,7 +526,7 @@ namespace PT
             AddMessage("Toggled Distance Clipping.");
 
           if (camera->UseDistanceClipping()) camera->DisableDistanceClipping();
-          else camera->EnableAdaptiveDistanceClipping(95, 100, 50);
+          else camera->EnableAdaptiveDistanceClipping(minFPS, maxFPS, minDistance);
         }
       }
 
@@ -759,6 +772,17 @@ namespace PT
       Entity::SetFullPosition(pos, rotation, sector);
 
     } // end SetFullPosition()
+
+    bool PlayerEntity::UpdateOptions(PT::Events::Eventp ev)
+    {
+      backwardReverse = app_cfg->GetBool("Client.backwardreverse", backwardReverse);
+      invertYAxis = app_cfg->GetBool("Client.invertYAxis", invertYAxis);
+      minFPS = app_cfg->GetFloat("Client.minFPS", minFPS);
+      maxFPS = app_cfg->GetFloat("Client.maxFPS", maxFPS);
+      minDistance = app_cfg->GetFloat("Client.minDistance", minDistance);
+
+      return true;
+    } // end UpdateOptions()
 
   } //Entity namespace
 } //PT namespace
