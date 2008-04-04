@@ -434,11 +434,16 @@ namespace PT
       {
         InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
         if (!inputEv) return false;
+        if (!celEntity) return false;
 
         if (!inputEv->released)
         {
-          if (!celEntity) return false;
-          camera->SetPitch(camera->GetPitch()-0.1f);
+          if (invertYAxis) camera->SetPitchVelocity(-1.0f);
+          else camera->SetPitchVelocity(1.0f);
+        }
+        else
+        {
+            camera->SetPitchVelocity(0.0f);
         }
       }
 
@@ -453,11 +458,16 @@ namespace PT
       {
         InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
         if (!inputEv) return false;
+        if (!celEntity) return false;
 
         if (!inputEv->released)
         {
-          if (!celEntity) return false;
-          camera->SetPitch(camera->GetPitch()+0.1f);
+          if (invertYAxis) camera->SetPitchVelocity(1.0f);
+          else camera->SetPitchVelocity(-1.0f);
+        }
+        else
+        {
+            camera->SetPitchVelocity(0.0f);
         }
       }
 

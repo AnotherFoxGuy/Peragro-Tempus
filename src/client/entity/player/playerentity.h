@@ -69,8 +69,11 @@ namespace PT
       ///"Direction" in which the pitch offset should be changed (ie adding or
       ///substracting from it) when moving in first person view.
       int pitchDirection;
+
       ///Whether to reverse turning when walking backwards.
       bool backwardReverse;
+      ///Whether to invert the look up and down controls, like an aeroplane.
+      bool invertYAxis;
 
       csRef<iConfigManager> app_cfg;
       csRef<iVFS> vfs;
