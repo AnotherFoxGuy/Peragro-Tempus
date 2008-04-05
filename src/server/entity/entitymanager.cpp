@@ -116,7 +116,6 @@ void EntityManager::loadFromDB(EntityTable* et)
     l_ent->freeLock();
 
     entity_list.addEntity(entity);
-
-    entityVOs.delAll();
   }
+  entityVOs.delAll();
 }

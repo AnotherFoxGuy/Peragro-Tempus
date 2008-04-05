@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+04-Apr-2008
+ - swedishcoder fixed a bug in entitymanager.cpp
+
 03-Apr-2008
  - swedishcoder fixed memleak in doormanager.h in server.
  - swedishcoder fixed memleak in charactermanager.cpp in server.
