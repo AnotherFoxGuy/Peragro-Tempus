@@ -355,12 +355,9 @@ bool InteractDialogWindow::OnInteract (iEvent& ev)
   if (ev.Retrieve("entityId", interactId))
     return Report(PT::Error, "InteractDialogWindow::OnInteract failed!");
 
-  if (ev.Retrieve("objectId", itemId))
-    return Report(PT::Error, "InteractDialogWindow::OnInteract failed!");
-
-  if (ev.Retrieve("variationId", variationId))
-    return Report(PT::Error, "InteractDialogWindow::OnInteract failed!");
-
+  ev.Retrieve("objectId", itemId);
+  ev.Retrieve("variationId", variationId);
+    
   newDialog = true;
   ClearActions();
   rootwindow->setVisible(true);

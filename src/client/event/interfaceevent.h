@@ -29,12 +29,7 @@ namespace PT
     {
       static bool ContainsAction(const iEvent* event, const char* action)
       {
-        bool state = false;
-        if (event->Retrieve("buttonState", state) != csEventErrNone)
-          Report(PT::Error, "InputHelper::GetButtonState failed!");
-        return state;
-
-        const char* actionsstr = 0;
+        const char* actionsstr = "";
         if (event->Retrieve("actions", actionsstr) != csEventErrNone)
           return Report(PT::Error, "InterfaceHelper::ContainsAction failed!");
 
