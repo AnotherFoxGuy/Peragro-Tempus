@@ -27,7 +27,7 @@ namespace PT
 {
   namespace Events
   {
-    namespace StateHelper
+    struct StateHelper
     {
       
       static unsigned int GetState(const iEvent* event)
@@ -58,7 +58,8 @@ namespace PT
         return text;
       }
 
-    } // StateHelper namespace 
+    }; 
+
   } // Events namespace 
 } // PT namespace
 

@@ -25,7 +25,7 @@ namespace PT
 {
   namespace Events
   {
-    namespace BookHelper
+    struct BookHelper
     {
       static std::string GetTitle(const iEvent* event)
       {
@@ -47,7 +47,7 @@ namespace PT
         return text;
       }
 
-    } // BookHelper namespace 
+    };
   } // Events namespace 
 } // PT namespace 
 

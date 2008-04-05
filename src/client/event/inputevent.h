@@ -27,7 +27,7 @@ namespace PT
 {
   namespace Events
   {
-    namespace InputHelper
+    struct InputHelper
     {
 
       static const char* GetAction(const iEvent* event)
@@ -46,7 +46,7 @@ namespace PT
         return state;
       }
 
-    } // InputHelper namespace 
+    }; 
   } // Events namespace 
 } // PT namespace 
 

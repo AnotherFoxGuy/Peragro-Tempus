@@ -37,7 +37,7 @@ namespace PT
 {
   namespace Events
   {
-    namespace EntityHelper
+    struct EntityHelper
     {
       static void SetVector3(iEvent* ev, const char* name, float* pos)
       {
@@ -125,7 +125,7 @@ namespace PT
       }
 
 
-    } // EntityHelper namespace 
+    };
   } // Events namespace 
 } // PT namespace
 

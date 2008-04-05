@@ -29,7 +29,7 @@ namespace PT
 {
   namespace Events
   {
-    namespace EnvironmentHelper
+    struct EnvironmentHelper
     {
 
       static unsigned int GetDayTime(const iEvent* event)
@@ -41,7 +41,7 @@ namespace PT
         return hour;
       }
 
-    } // EnvironmentHelper namespace 
+    };
   } // Events namespace 
 } // PT namespace 
 

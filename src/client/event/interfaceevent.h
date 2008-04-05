@@ -25,7 +25,7 @@ namespace PT
 {
   namespace Events
   {
-    namespace InterfaceHelper
+    struct InterfaceHelper
     {
       static bool ContainsAction(const iEvent* event, const char* action)
       {
@@ -37,7 +37,8 @@ namespace PT
         return (actions.find(action) != std::string::npos);
       }
 
-    } // InterfaceHelper namespace 
+    };
+
   } // Events namespace 
 } // PT namespace
 

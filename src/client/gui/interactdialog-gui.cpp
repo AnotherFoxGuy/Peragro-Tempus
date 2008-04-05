@@ -373,34 +373,34 @@ bool InteractDialogWindow::OnInteract (iEvent& ev)
     and on that event register their action(s) with a callback to this
     window which will create a button for each callback.
   */
-  using namespace PT::Events::InterfaceHelper;
-  if (ContainsAction(&ev, "Trade"))
+  using namespace PT::Events;
+  if (InterfaceHelper::ContainsAction(&ev, "Trade"))
     AddAction("Trade");
-  if (ContainsAction(&ev, "Pickup"))
+  if (InterfaceHelper::ContainsAction(&ev, "Pickup"))
     AddAction("Pickup");
-  if (ContainsAction(&ev, "Drop"))
+  if (InterfaceHelper::ContainsAction(&ev, "Drop"))
     AddAction("Drop");
-  if (ContainsAction(&ev, "Door"))
+  if (InterfaceHelper::ContainsAction(&ev, "Door"))
     AddAction("Door");
-  if (ContainsAction(&ev, "Lock"))
+  if (InterfaceHelper::ContainsAction(&ev, "Lock"))
     AddAction("Lock");
-  if (ContainsAction(&ev, "Unlock"))
+  if (InterfaceHelper::ContainsAction(&ev, "Unlock"))
     AddAction("Unlock");
-  if (ContainsAction(&ev, "Attack"))
+  if (InterfaceHelper::ContainsAction(&ev, "Attack"))
     AddAction("Attack");
-  if (ContainsAction(&ev, "Talk"))
+  if (InterfaceHelper::ContainsAction(&ev, "Talk"))
     AddAction("Talk");
-  if (ContainsAction(&ev, "Inventory"))
+  if (InterfaceHelper::ContainsAction(&ev, "Inventory"))
     AddAction("Inventory");
-  if (ContainsAction(&ev, "Stats"))
+  if (InterfaceHelper::ContainsAction(&ev, "Stats"))
     AddAction("Stats");
-  if (ContainsAction(&ev, "Read"))
+  if (InterfaceHelper::ContainsAction(&ev, "Read"))
     AddAction("Read");
-  if (ContainsAction(&ev, "Write"))
+  if (InterfaceHelper::ContainsAction(&ev, "Write"))
     AddAction("Write");
-  if (ContainsAction(&ev, "Eat"))
+  if (InterfaceHelper::ContainsAction(&ev, "Eat"))
     AddAction("Eat");
-  if (ContainsAction(&ev, "Activate"))
+  if (InterfaceHelper::ContainsAction(&ev, "Activate"))
     AddAction("Activate");
 
   return true;

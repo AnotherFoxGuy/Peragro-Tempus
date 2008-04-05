@@ -25,7 +25,7 @@ namespace PT
 {
   namespace Events
   {
-    namespace ChatHelper
+    struct ChatHelper
     {
 
       static std::string GetNickName(const iEvent* event)
@@ -48,7 +48,7 @@ namespace PT
         return message;
       }
 
-    } // ChatHelper namespace 
+    }; 
   } // Events namespace 
 } // PT namespace 
 
