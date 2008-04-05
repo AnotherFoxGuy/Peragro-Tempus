@@ -144,13 +144,20 @@
 
 	<message type="Entity" name="Relocate"></message>
 
-	<message type="Entity" name="Teleport">
+	<message type="Entity" name="TeleportRequest">
 		<uint32>EntityId</uint32>
 		<vector3f>Pos</vector3f>
 		<float>Rotation</float>
 		<uint16>SectorId</uint16>
 	</message>
-	
+
+	<message type="Entity" name="TeleportResponse">
+		<uint32>EntityId</uint32>
+		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
+		<uint16>SectorId</uint16>
+	</message>
+
 	<message type="Entity" name="DrUpdateRequest">
 		<vector3f>Pos</vector3f>
 		<float>Rotation</float>

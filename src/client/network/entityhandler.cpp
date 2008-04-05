@@ -206,9 +206,9 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   evmgr->AddEvent(entityEvent);
 }
 
-void EntityHandler::handleTeleport(GenericMessage* msg)
+void EntityHandler::handleTeleportResponse(GenericMessage* msg)
 {
-  TeleportMessage telemsg;
+  TeleportResponseMessage telemsg;
   telemsg.deserialise(msg->getByteStream());
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();

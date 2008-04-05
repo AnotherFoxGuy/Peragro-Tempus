@@ -177,11 +177,11 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
     server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
-    TeleportMessage telemsg;
+    TeleportResponseMessage telemsg;
     telemsg.setEntityId(ent->getId());
-    telemsg.setSectorId(ent->getSector());
     telemsg.setPos(ent->getPos());
     telemsg.setRotation(ent->getRotation());
+    telemsg.setSectorId(ent->getSector());
 
     ByteStream bs;
     telemsg.serialise(&bs);

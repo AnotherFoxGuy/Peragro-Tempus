@@ -42,15 +42,16 @@
 			<message id="13" name="DropResponse" />
 			<message id="14" name="Equip" />
 			<message id="15" name="Relocate" />
-			<message id="16" name="Teleport" />
-			<message id="17" name="DrUpdateRequest" />
-			<message id="18" name="DrUpdate" />
-			<message id="19" name="MountRequest" />
-			<message id="20" name="Mount" />
-			<message id="21" name="UnmountRequest" />
-			<message id="22" name="Unmount" />
-			<message id="23" name="PoseRequest" />
-			<message id="24" name="Pose" />
+			<message id="16" name="TeleportRequest" />
+			<message id="17" name="TeleportResponse" />
+			<message id="18" name="DrUpdateRequest" />
+			<message id="19" name="DrUpdate" />
+			<message id="20" name="MountRequest" />
+			<message id="21" name="Mount" />
+			<message id="22" name="UnmountRequest" />
+			<message id="23" name="Unmount" />
+			<message id="24" name="PoseRequest" />
+			<message id="25" name="Pose" />
 		</type>
 		<type id="3" name="Chat">
 			<message id="0" name="Say" />

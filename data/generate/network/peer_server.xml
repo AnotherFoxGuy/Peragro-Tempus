@@ -32,7 +32,8 @@
 		<message type="Entity" name="MoveTo" />
 		<!--message type="Entity" name="MoveToRequest" /-->
 		<!--message type="Entity" name="Relocate" /-->
-		<message type="Entity" name="Teleport" />
+		<!--message type="Entity" name="TeleportRequest" /-->
+		<message type="Entity" name="TeleportResponse" />
 		<!--message type="Entity" name="DrUpdateRequest" /-->
 		<message type="Entity" name="DrUpdate" />
 		<message type="Entity" name="AddMountEntity" />
@@ -139,7 +140,8 @@
 		<!--message type="Entity" name="MoveTo" /-->
 		<message type="Entity" name="MoveToRequest" />
 		<message type="Entity" name="Relocate" />
-		<!--message type="Entity" name="Teleport" /-->
+		<message type="Entity" name="TeleportRequest" />
+		<!--message type="Entity" name="TeleportResponse" /-->
 		<message type="Entity" name="DrUpdateRequest" />
 		<!--message type="Entity" name="DrUpdate" /-->
 		<!--message type="Entity" name="AddMountEntity" /-->

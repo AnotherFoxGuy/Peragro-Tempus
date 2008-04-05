@@ -393,7 +393,8 @@ namespace PT
         guimanager->GetChatWindow ()->AddMessage ("  - Flash Step: '/dbg flashstep'");
         guimanager->GetChatWindow ()->AddMessage ("  - Spawn Item: '/dbg spawn item #itemid #variation'");
         guimanager->GetChatWindow ()->AddMessage ("  - Spawn Mount: '/dbg spawn mount meshname entityname'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Sector: '/dbg sector sectorname'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Sector: '/dbg sector sectorname [x y z]'");
+        guimanager->GetChatWindow ()->AddMessage ("  - Move: '/dbg move f|b|l|r|u|d [distance]'");
         guimanager->GetChatWindow ()->AddMessage ("  - Sector: '/dbg rm entity #id'");
       }
       virtual void Execute (const StringArray& args)
@@ -497,34 +498,140 @@ namespace PT
           }
           else if (args[2].compare("sector") == 0)
           {
+            Network* network = PointerLibrary::getInstance()->getNetwork();
+            if(!network) return;
+
             if (args.size() < 4)
             {
               Help();
               return;
             }
-            iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
 
-            csRef<iPcLinearMovement> pclinmove =
-              CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-
-            csVector3 pos = pclinmove->GetFullPosition();
-
-            using namespace PT::Events;
-            PT::Data::Sector* sector=sectorDataMgr->GetSectorByName(args[3]);
-            if(!sector){
+            PT::Data::Sector* sector;
+            if (args[3].compare("here") == 0)
+            {
+              sector = sectorDataMgr->GetSectorByName(ent_mgr->findPtEntById(ent_mgr->GetPlayerId())->GetSectorName());
+            }
+            else
+            {
+              sector = sectorDataMgr->GetSectorByName(args[3]);
+            }
+            if(!sector)
+            {
               guimanager->GetChatWindow ()->AddMessage ("Invalid sector!");
               return;
             }
 
-            PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-            csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.teleport", true);
-            entityEvent->Add("entityId", ent_mgr->GetPlayerId());
-            float position[3]; 
-            position[0] = pos.x; position[1] = pos.y; position[2] = pos.z;
-            PT::Events::EntityHelper::SetPosition(entityEvent, position);
-            entityEvent->Add("sectorId", sector->GetId());
-            evmgr->AddEvent(entityEvent);
+            iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
+            csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
 
+            csVector3 pos;
+            if (args.size() == 4)
+            {
+              pos = pclinmove->GetFullPosition();
+            }
+            else if (args.size() < 7)
+            {
+              guimanager->GetChatWindow ()->AddMessage ("Invalid position! Enter x, y, and z values.");
+              return;
+            }
+            else
+            {
+              pos.x = atof(args[4].c_str());
+              pos.y = atof(args[5].c_str());
+              pos.z = atof(args[6].c_str());
+            }
+
+            TeleportRequestMessage msg;
+            msg.setEntityId(ent_mgr->GetPlayerId());
+            msg.setPos(pos.x, pos.y, pos.z);
+            msg.setRotation(pclinmove->GetYRotation());
+            msg.setSectorId(sector->GetId());
+            network->send(&msg);
+          }
+          else if (args[2].compare("move") == 0)
+          {
+            Network* network = PointerLibrary::getInstance()->getNetwork();
+            if(!network) return;
+
+            if (args.size() < 4)
+            {
+              Help();
+              return;
+            }
+
+            PT::Data::Sector* sector = sectorDataMgr->GetSectorByName(ent_mgr->findPtEntById(ent_mgr->GetPlayerId())->GetSectorName());
+            if(!sector)
+            {
+              guimanager->GetChatWindow ()->AddMessage ("Invalid sector!");
+              return;
+            }
+
+            iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
+            csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+            csVector3 pos = pclinmove->GetFullPosition();
+            float rot = pclinmove->GetYRotation();
+
+            char direction;
+            float distance;
+            // Loop over the arguments starting with the first direction
+            int commandIndex = 3, commands = args.size();
+            while (commandIndex < commands)
+            {
+              direction = tolower(args[commandIndex].at(0));
+
+              // Check if the distance was also specified
+              if (commandIndex+1 < commands && isdigit(args[commandIndex+1].at(0)))
+              {
+                distance = atof(args[commandIndex+1].c_str());
+                if (distance == 0.0f || distance > 10000.0f || distance < -10000.0f)
+                {
+                  guimanager->GetChatWindow ()->AddMessage("Invalid distance!");
+                }
+                commandIndex += 2;
+              }
+              else
+              {
+                distance = 1.0f;
+                commandIndex += 1;
+              }
+
+              switch (direction)
+              {
+                case 'f':
+                  pos.x -= distance * sinf(rot);
+                  pos.z -= distance * cosf(rot);
+                  break;
+                case 'b':
+                  pos.x += distance * sinf(rot);
+                  pos.z += distance * cosf(rot);
+                  break;
+                case 'l':
+                  pos.x += distance * cosf(rot);
+                  pos.z -= distance * sinf(rot);
+                  break;
+                case 'r':
+                  pos.x -= distance * cosf(rot);
+                  pos.z += distance * sinf(rot);
+                  break;
+                case 'u':
+                  pos.y += distance;
+                  break;
+                case 'd':
+                  pos.y -= distance;
+                  break;
+                default:
+                  guimanager->GetChatWindow ()->AddMessage("Invalid direction! Enter f[orwards], b[ackwards], l[eft], r[ight], u[p], or d[own].");
+                  break;
+              }
+            }
+
+            TeleportRequestMessage msg;
+            msg.setEntityId(ent_mgr->GetPlayerId());
+            msg.setPos(pos.x, pos.y, pos.z);
+            msg.setRotation(rot);
+            msg.setSectorId(sector->GetId());
+            network->send(&msg);
           }
           else if (args[2].compare("rm") == 0)
           {

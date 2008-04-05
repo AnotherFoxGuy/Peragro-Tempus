@@ -350,7 +350,7 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
     Entity* ent = entity->getEntity()->getLock();
     ent->setPos(request_msg.getTo());
 
-    TeleportMessage telemsg;
+    TeleportResponseMessage telemsg;
     telemsg.setEntityId(ent->getId());
     telemsg.setSectorId(ent->getSector());
     telemsg.setPos(ent->getPos());
@@ -378,7 +378,7 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
-  TeleportMessage telemsg;
+  TeleportResponseMessage telemsg;
 
   Server* server = Server::getServer();
 
@@ -400,8 +400,8 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
     ent = user_ent->getLock();
   }
   int ent_id = ent->getId();
-  ent->setPos(race->getPos());
   ent->setSector(race->getSector());
+  ent->setPos(race->getPos());
   ent->freeLock();
 
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
@@ -410,9 +410,50 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
   unsigned short sector_id = server->getSectorManager()->getSectorId(race->getSector());
   telemsg.setSectorId(sector_id);
   telemsg.setPos(race->getPos());
+  telemsg.setRotation(ent->getRotation());
 
   ByteStream bs;
   telemsg.serialise(&bs);
+  server->broadCast(bs);
+}
+
+void EntityHandler::handleTeleportRequest(GenericMessage* msg)
+{
+  // TODO Check if the requesting player entity is an admin
+
+  TeleportRequestMessage request_msg;
+  request_msg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
+  const Entity* target_ent = server->getEntityManager()->findById(request_msg.getEntityId());
+  if (!target_ent) return;
+
+  Entity* ent = 0;
+  if (target_ent->getPlayerEntity()->getMount())
+  {
+    ent = target_ent->getPlayerEntity()->getMount()->getEntity()->getLock();
+  }
+  else
+  {
+    ent = target_ent->getLock();
+  }
+
+  ent->setSector(request_msg.getSectorId()); 
+  ent->setPos(request_msg.getPos());
+  ent->setRotation(request_msg.getRotation());
+  ent->freeLock();
+
+  server->getCharacterManager()->checkForSave(target_ent->getPlayerEntity());
+
+  TeleportResponseMessage response_msg;
+  response_msg.setEntityId(ent->getId());
+  response_msg.setSectorId(ent->getSector());
+  response_msg.setPos(ent->getPos());
+  response_msg.setRotation(ent->getRotation());
+
+  ByteStream bs;
+  response_msg.serialise(&bs);
   server->broadCast(bs);
 }
 

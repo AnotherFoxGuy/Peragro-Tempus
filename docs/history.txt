@@ -9,8 +9,12 @@ under each day.
  - Sueastside fixed interaction.
  - swedishcoder made minor fix to make client compile with gcc.
  - Sueastside restored equipment functionality new event style.
+ - vornne added a teleport request message and handling on the server, added
+   more teleport commands to the client.
 
 04-Apr-2008
+ - vornne changed the default adaptive clipping values, modified the pan camera
+   up and down code, and added configuration options.
  - swedishcoder fixed a bug in entitymanager.cpp
 
 03-Apr-2008

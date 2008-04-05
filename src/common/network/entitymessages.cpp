@@ -498,7 +498,7 @@ void RelocateMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
-void TeleportMessage::serialise(ByteStream* bs)
+void TeleportRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -511,7 +511,33 @@ void TeleportMessage::serialise(ByteStream* bs)
   serial.setInt16(sectorid);
 }
 
-void TeleportMessage::deserialise(ByteStream* bs)
+void TeleportRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  entityid = (unsigned int) serial.getInt32();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
+  rotation = serial.getFloat();
+  sectorid = (unsigned short) serial.getInt16();
+}
+
+void TeleportResponseMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(entityid);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
+  serial.setFloat(rotation);
+  serial.setInt16(sectorid);
+}
+
+void TeleportResponseMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();

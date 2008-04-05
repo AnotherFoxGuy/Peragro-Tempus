@@ -52,7 +52,7 @@ public:
     else if (id == ENTITY::DROPRESPONSE) handleDropResponse(msg);
     else if (id == ENTITY::EQUIP) handleEquip(msg);
     else if (id == ENTITY::MOVETO) handleMoveTo(msg);
-    else if (id == ENTITY::TELEPORT) handleTeleport(msg);
+    else if (id == ENTITY::TELEPORTRESPONSE) handleTeleportResponse(msg);
     else if (id == ENTITY::DRUPDATE) handleDrUpdate(msg);
     else if (id == ENTITY::ADDMOUNTENTITY) handleAddMountEntity(msg);
     else if (id == ENTITY::MOUNT) handleMount(msg);
@@ -70,7 +70,7 @@ public:
   void handleDropResponse(GenericMessage* msg);
   void handleEquip(GenericMessage* msg);
   void handleMoveTo(GenericMessage* msg);
-  void handleTeleport(GenericMessage* msg);
+  void handleTeleportResponse(GenericMessage* msg);
   void handleDrUpdate(GenericMessage* msg);
   void handleAddMountEntity(GenericMessage* msg);
   void handleMount(GenericMessage* msg);

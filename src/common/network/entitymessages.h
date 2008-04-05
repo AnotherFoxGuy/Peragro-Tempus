@@ -45,15 +45,16 @@ namespace ENTITY
     DROPRESPONSE=13,
     EQUIP=14,
     RELOCATE=15,
-    TELEPORT=16,
-    DRUPDATEREQUEST=17,
-    DRUPDATE=18,
-    MOUNTREQUEST=19,
-    MOUNT=20,
-    UNMOUNTREQUEST=21,
-    UNMOUNT=22,
-    POSEREQUEST=23,
-    POSE=24
+    TELEPORTREQUEST=16,
+    TELEPORTRESPONSE=17,
+    DRUPDATEREQUEST=18,
+    DRUPDATE=19,
+    MOUNTREQUEST=20,
+    MOUNT=21,
+    UNMOUNTREQUEST=22,
+    UNMOUNT=23,
+    POSEREQUEST=24,
+    POSE=25
   };
 }
 
@@ -925,7 +926,7 @@ public:
 
 };
 
-class TeleportMessage : public NetMessage
+class TeleportRequestMessage : public NetMessage
 {
   unsigned int entityid;
   float pos[3];
@@ -933,7 +934,7 @@ class TeleportMessage : public NetMessage
   unsigned short sectorid;
 
 public:
-  TeleportMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::TELEPORT)
+  TeleportRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::TELEPORTREQUEST)
   {
     entityid = 0;
     pos[0] = 0.0;
@@ -943,7 +944,55 @@ public:
     sectorid = 0;
   }
 
-  ~TeleportMessage()
+  ~TeleportRequestMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getEntityId() { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
+
+  float* getPos() { return pos; }
+  void setPos(float x, float y, float z)
+  {
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
+  }
+  void setPos(const float* x)
+  {
+    setPos(x[0], x[1], x[2]);
+  }
+
+  float getRotation() { return rotation; }
+  void setRotation(float x) { rotation = x; }
+
+  unsigned short getSectorId() { return sectorid; }
+  void setSectorId(unsigned short x) { sectorid = x; }
+
+};
+
+class TeleportResponseMessage : public NetMessage
+{
+  unsigned int entityid;
+  float pos[3];
+  float rotation;
+  unsigned short sectorid;
+
+public:
+  TeleportResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::TELEPORTRESPONSE)
+  {
+    entityid = 0;
+    pos[0] = 0.0;
+    pos[1] = 0.0;
+    pos[2] = 0.0;
+    rotation = 0.0;
+    sectorid = 0;
+  }
+
+  ~TeleportResponseMessage()
   {
   }
 

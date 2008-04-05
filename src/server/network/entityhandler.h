@@ -47,6 +47,7 @@ public:
     else if (id == ENTITY::DROPREQUEST) handleDropRequest(msg);
     else if (id == ENTITY::MOVETOREQUEST) handleMoveToRequest(msg);
     else if (id == ENTITY::RELOCATE) handleRelocate(msg);
+    else if (id == ENTITY::TELEPORTREQUEST) handleTeleportRequest(msg);
     else if (id == ENTITY::DRUPDATEREQUEST) handleDrUpdateRequest(msg);
     else if (id == ENTITY::MOUNTREQUEST) handleMountRequest(msg);
     else if (id == ENTITY::UNMOUNTREQUEST) handleUnmountRequest(msg);
@@ -58,6 +59,7 @@ public:
   void handleDropRequest(GenericMessage* msg);
   void handleMoveToRequest(GenericMessage* msg);
   void handleRelocate(GenericMessage* msg);
+  void handleTeleportRequest(GenericMessage* msg);
   void handleDrUpdateRequest(GenericMessage* msg);
   void handleMountRequest(GenericMessage* msg);
   void handleUnmountRequest(GenericMessage* msg);
