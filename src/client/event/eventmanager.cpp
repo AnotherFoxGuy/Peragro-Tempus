@@ -105,7 +105,7 @@ namespace PT
         //Report(PT::Debug, "Handling event: %s for listener %s", Retrieve(id), Retrieve(it->eventId));
         if (id == it->eventId)
         {
-          Report(PT::Debug, "Handling event: %s", Retrieve(it->eventId));
+          //Report(PT::Debug, "Handling event: %s", Retrieve(it->eventId));
           it->handler->HandleEvent(ev);
         } // if
       } // for

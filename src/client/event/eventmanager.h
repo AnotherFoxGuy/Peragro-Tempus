@@ -45,23 +45,6 @@ namespace PT
 {
   namespace Events
   {
-    namespace Helper
-    {
-      /*
-      void DisplayEvent(iEvent* event)
-      {
-        csRef<iEventAttributeIterator> it = event->GetAttributeIterator();
-        printf("------------------\n");
-        printf("event:\n");
-        while (it->HasNext())
-        {
-          const char* at = it->Next();
-          printf("%s\n", at);
-        }
-        printf("------------------\n");
-      }*/
-    }
-
     class EventManager : public scfImplementation1<EventManager, iEventHandler>
     {
     private:

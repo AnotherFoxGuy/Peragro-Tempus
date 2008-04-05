@@ -21,6 +21,8 @@
 
 #include <cssysdef.h>
 
+#include "client/event/event.h"
+
 namespace PT
 {
   namespace Events

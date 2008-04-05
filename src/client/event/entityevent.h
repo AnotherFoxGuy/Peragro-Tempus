@@ -22,14 +22,12 @@
 #include <cssysdef.h>
 #include <csgeom/vector3.h>
 #include <csutil/array.h>
+#include <csutil/parray.h>
 
-#include <iutil/event.h>
+#include "client/event/event.h"
 
 #include <vector>
 #include <string>
-
-#include <physicallayer/datatype.h>
-#include "client/entity/entity.h"
 
 #include "client/reporter/reporter.h"
 
@@ -39,6 +37,60 @@ namespace PT
   {
     struct EntityHelper
     {
+      struct EquipmentData
+      {
+        struct Equipment
+        {
+          unsigned int slotId;
+          unsigned int itemId;
+          unsigned int variation;
+          std::string file;
+          std::string mesh;
+        };
+        csArray<Equipment> equipment;
+
+        ~EquipmentData() 
+        {
+          equipment.DeleteAll();
+        }
+
+        void Add(unsigned int slotId, unsigned int itemId, unsigned int variation, const char* file, const char* mesh)
+        {
+          Equipment eq;
+          eq.slotId = slotId;
+          eq.itemId = itemId;
+          eq.variation = variation;
+          eq.file = file;
+          eq.mesh = mesh;
+          equipment.Push(eq);
+        }
+
+        size_t GetSize() { return equipment.GetSize(); }
+        Equipment Get(size_t idx) { return equipment.Get(idx); }
+      };
+
+      static EquipmentData* GetEquipment(const iEvent* ev)
+      {
+        const void* constEquipment = 0;
+        size_t size = sizeof(EquipmentData);
+        if (ev->Retrieve("equipment", constEquipment, size) != csEventErrNone)
+        {
+          Report(PT::Error, "EntityHelper::GetEquipment failed!");
+          return 0;
+        }
+
+        EquipmentData* equipment = 0;
+        void* temp = const_cast<void*>(constEquipment);
+        equipment = static_cast<EquipmentData*>(temp);
+        if (!equipment)
+        {
+          Report(PT::Error, "EntityHelper::GetEquipment failed!");
+          return 0;
+        }
+
+        return equipment;
+      }
+
       static void SetVector3(iEvent* ev, const char* name, float* pos)
       {
         std::string nm = name;
@@ -118,7 +170,7 @@ namespace PT
       {
         const char* str = "";
         if (event->Retrieve(name, str) != csEventErrNone)
-          Report(PT::Error, "EntityHelper::GetString failed!");
+          Report(PT::Error, "EntityHelper::GetString '%s' failed!", name);
 
         std::string text = str;
         return text;

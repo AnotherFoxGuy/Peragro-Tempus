@@ -46,21 +46,16 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   entityEvent->Add("entityId", entmsg.getEntityId());
   entityEvent->Add("entityType", PT::Entity::NPCEntityType);
 
-  /* @TODO: Add this to the event.
+  // Gets deleted by the event.
+  PT::Events::EntityHelper::EquipmentData* eqData = new PT::Events::EntityHelper::EquipmentData();
   unsigned char itemCount = entmsg.getEquipmentCount();
   for (unsigned char i = 0; i < itemCount; i++)
   {
-    unsigned int itemId = entmsg.getItemId(i);
-    unsigned int slotId = i;
-    if (itemId == 0)  continue;
-
-    EntityAddEvent::SlotAndItem pair;
-    pair.slotId = slotId;
-    pair.itemId = itemId;
-
-    entityEvent->equipment.Push(pair);
+    if (entmsg.getItemId(i) == 0)  continue;
+    eqData->Add(i, entmsg.getItemId(i), entmsg.getVariation(i), *entmsg.getFile(i), *entmsg.getMesh(i));
   }
-  */
+
+  entityEvent->Add("equipment", eqData, sizeof(PT::Events::EntityHelper::EquipmentData));
 
   evmgr->AddEvent(entityEvent);
 }
@@ -76,6 +71,9 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
 
   entityEvent->Add("entityName", *entmsg.getName());
   entityEvent->Add("meshName", *entmsg.getMesh());
+  entityEvent->Add("fileName", "none");
+  float pos[3]; // Door has no position.
+  PT::Events::EntityHelper::SetPosition(entityEvent, pos);
   entityEvent->Add("sectorId", entmsg.getSectorId());
   entityEvent->Add("entityId", entmsg.getEntityId());
   entityEvent->Add("entityType", PT::Entity::DoorEntityType);
@@ -241,21 +239,16 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->Add("entityId", entmsg.getEntityId());
   entityEvent->Add("entityType", PT::Entity::PCEntityType);
 
-/* @TODO
+  // Gets deleted by the event.
+  PT::Events::EntityHelper::EquipmentData* eqData = new PT::Events::EntityHelper::EquipmentData();
   unsigned char itemCount = entmsg.getEquipmentCount();
   for (unsigned char i = 0; i < itemCount; i++)
   {
-    unsigned int itemId = entmsg.getItemId(i);
-    unsigned int slotId = i;
-    if (itemId == 0)  continue;
-
-    EntityAddEvent::SlotAndItem pair;
-    pair.slotId = slotId;
-    pair.itemId = itemId;
-
-    entityEvent->equipment.Push(pair);
+    if (entmsg.getItemId(i) == 0)  continue;
+    eqData->Add(i, entmsg.getItemId(i), entmsg.getVariation(i), *entmsg.getFile(i), *entmsg.getMesh(i));
   }
-*/
+
+  entityEvent->Add("equipment", eqData, sizeof(PT::Events::EntityHelper::EquipmentData));
   evmgr->AddEvent(entityEvent);
 
   // Pose event.

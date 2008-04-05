@@ -21,6 +21,8 @@
 
 #include <cssysdef.h>
 
+#include "client/event/event.h"
+
 namespace PT
 {
   namespace Events
@@ -30,7 +32,7 @@ namespace PT
 
       static std::string GetNickName(const iEvent* event)
       {
-        const char* nickstr = 0;
+        const char* nickstr = "";
         if (event->Retrieve("nickName", nickstr) != csEventErrNone)
           Report(PT::Error, "ChatHelper::GetNickName failed!");
 
@@ -40,7 +42,7 @@ namespace PT
 
       static std::string GetMessage(const iEvent* event)
       {
-        const char* messagestr = 0;
+        const char* messagestr = "";
         if (event->Retrieve("message", messagestr) != csEventErrNone)
           Report(PT::Error, "ChatHelper::GetMessage failed!");
 

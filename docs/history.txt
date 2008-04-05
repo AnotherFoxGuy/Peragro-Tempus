@@ -8,6 +8,7 @@ under each day.
  - Sueastside rewrote events.
  - Sueastside fixed interaction.
  - swedishcoder made minor fix to make client compile with gcc.
+ - Sueastside restored equipment functionality new event style.
 
 04-Apr-2008
  - swedishcoder fixed a bug in entitymanager.cpp

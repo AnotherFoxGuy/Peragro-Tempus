@@ -213,10 +213,6 @@ namespace PT
 
       events.Push(&ev);
 
-      unsigned int id = EntityHelper::GetEntityID(&ev);
-      std::string name = PT::Events::EntityHelper::GetString(&ev, "entityName");
-      Report(PT::Warning, "GetEntityEvents:  '%s(%d)'", name.c_str(), id);
-
       return true;
     }
 
@@ -288,7 +284,6 @@ namespace PT
       using namespace PT::Events;
 
       unsigned int id = EntityHelper::GetEntityID(&ev);
-      unsigned int type = EntityHelper::GetEntityType(&ev);
 
       unsigned int itemId = -1;
       ev.Retrieve("itemId", itemId);
@@ -304,7 +299,7 @@ namespace PT
       Entity* entity = findPtEntById(id);
       if (entity)
       {
-        if (type == PCEntityType)
+        if (entity->GetType() == PCEntityType)
         {
           if (!itemId == 0)
             {

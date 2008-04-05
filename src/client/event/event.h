@@ -21,10 +21,29 @@
 
 #include <cssysdef.h>
 
+#include <iutil/event.h>
+
 namespace PT
 {
   namespace Events
   {
+
+    struct Helper
+    {
+      
+      void DisplayEvent(iEvent* event)
+      {
+        csRef<iEventAttributeIterator> it = event->GetAttributeIterator();
+        printf("------------------\n");
+        printf("event:\n");
+        while (it->HasNext())
+        {
+          const char* at = it->Next();
+          printf("%s\n", at);
+        }
+        printf("------------------\n");
+      }
+    };
 
 
   } // Events namespace

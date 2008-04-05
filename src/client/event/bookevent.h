@@ -21,6 +21,8 @@
 
 #include <cssysdef.h>
 
+#include "client/event/event.h"
+
 namespace PT
 {
   namespace Events
@@ -29,7 +31,7 @@ namespace PT
     {
       static std::string GetTitle(const iEvent* event)
       {
-        const char* titlestr = 0;
+        const char* titlestr = "";
         if (event->Retrieve("title", titlestr) != csEventErrNone)
           Report(PT::Error, "BookHelper::GetTitle failed!");
 
@@ -39,7 +41,7 @@ namespace PT
 
       static std::string GetText(const iEvent* event)
       {
-        const char* textstr = 0;
+        const char* textstr = "";
         if (event->Retrieve("text", textstr) != csEventErrNone)
           Report(PT::Error, "BookHelper::GetMessage failed!");
 

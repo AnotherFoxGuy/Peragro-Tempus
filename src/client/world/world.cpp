@@ -295,7 +295,7 @@ namespace PT
     if (loading)
     {
       bool allLoaded = true;
-      float tilesLoaded = 0;
+      float tilesLoaded = 0.0f;
       for (int j = 0; j < GetGridSize(); j++) 
       {
         for (int i = 0; i < GetGridSize(); i++) 
@@ -374,7 +374,7 @@ namespace PT
 
     PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
     csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading", false);
-    worldEvent->Add("progress", 0);
+    worldEvent->Add("progress", 0.0f);
     evmgr->AddEvent(worldEvent);
 
     camera.x = x;

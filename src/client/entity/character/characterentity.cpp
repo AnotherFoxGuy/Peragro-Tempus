@@ -47,10 +47,17 @@ namespace PT
       drainStamina = 0.002f;
       hasMount = false;
 
-      /* @TODO
+
       //Add the equipment
-      for(size_t i = 0; i < ev.equipment.GetSize(); i++)
-        equipment.Equip(ev.equipment.Get(i).slotId, ev.equipment.Get(i).itemId);*/
+      using namespace Events;
+      EntityHelper::EquipmentData* evequipment = EntityHelper::GetEquipment(&ev);
+      if (evequipment)
+      {
+        for(size_t i = 0; i < evequipment->GetSize(); i++)
+          equipment.Equip(evequipment->Get(i).slotId, evequipment->Get(i).itemId);
+      }
+      else
+        Report(PT::Error, "CharacterEntity failed to get equipment!");
     }
 
     void CharacterEntity::Move(const MovementData& movement)

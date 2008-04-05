@@ -21,6 +21,8 @@
 
 #include <cssysdef.h>
 
+#include "client/event/event.h"
+
 #include "client/reporter/reporter.h"
 
 namespace PT
@@ -32,7 +34,7 @@ namespace PT
 
       static const char* GetAction(const iEvent* event)
       {
-        const char* action = 0;
+        const char* action = "";
         if (event->Retrieve("action", action) != csEventErrNone)
           Report(PT::Error, "InputHelper::GetButtonState failed!");
         return action;

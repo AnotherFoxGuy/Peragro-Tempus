@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <cssysdef.h>
 
+#include "client/event/event.h"
+
 #include "client/reporter/reporter.h"
 
 namespace PT
@@ -50,7 +52,7 @@ namespace PT
 
       static std::string GetErrorMessage(const iEvent* event)
       {
-        const char* textstr = 0;
+        const char* textstr = "";
         if (event->Retrieve("errorMessage", textstr) != csEventErrNone)
           Report(PT::Error, "StateHelper::GetErrorMessage failed!");
 
