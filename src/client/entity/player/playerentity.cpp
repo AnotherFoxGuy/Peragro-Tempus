@@ -192,8 +192,7 @@ namespace PT
         return;
       }
 
-      PT::Events::Eventp dummyEv(new PT::Events::InterfaceOptionsEvent());
-      UpdateOptions(dummyEv);
+      UpdateOptions();
     }
 
     PlayerEntity::~PlayerEntity()
@@ -774,6 +773,11 @@ namespace PT
     } // end SetFullPosition()
 
     bool PlayerEntity::UpdateOptions(PT::Events::Eventp ev)
+    {
+      return UpdateOptions();
+    } // end UpdateOptions()
+
+    bool PlayerEntity::UpdateOptions()
     {
       backwardReverse = app_cfg->GetBool("Client.backwardreverse", backwardReverse);
       invertYAxis = app_cfg->GetBool("Client.invertYAxis", invertYAxis);

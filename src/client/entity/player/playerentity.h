@@ -193,6 +193,11 @@ namespace PT
       void SetFullPosition(const csVector3& pos,
                            float rotation,
                            const std::string& sector);
+
+      /**
+       * Reloads values from the configuration manager
+       */
+      bool UpdateOptions();
     };
   }
 }
