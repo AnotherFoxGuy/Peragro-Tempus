@@ -515,11 +515,16 @@ namespace PT
               guimanager->GetChatWindow ()->AddMessage ("Invalid sector!");
               return;
             }
-            EntityTeleportEvent* ev = new EntityTeleportEvent();
-            ev->entityId = ent_mgr->GetPlayerId();
-            ev->position = pos;
-            ev->sectorId = sector->GetId();
-            PointerLibrary::getInstance()->getEventManager()->AddEvent(ev);
+
+            PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+            csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.teleport", true);
+            entityEvent->Add("entityId", ent_mgr->GetPlayerId());
+            float position[3]; 
+            position[0] = pos.x; position[1] = pos.y; position[2] = pos.z;
+            PT::Events::EntityHelper::SetPosition(entityEvent, position);
+            entityEvent->Add("sectorId", sector->GetId());
+            evmgr->AddEvent(entityEvent);
+
           }
           else if (args[2].compare("rm") == 0)
           {

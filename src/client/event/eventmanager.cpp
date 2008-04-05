@@ -18,17 +18,16 @@
 
 #include "eventmanager.h"
 
-#include "entityevent.h"
-
-#include "common/util/mutex.h"
+#include <csutil/csevent.h>
 
 #include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
 namespace PT
 {
   namespace Events
   {
-    EventManager::EventManager()
+    EventManager::EventManager() : scfImplementationType (this)
     {
     }
 
@@ -38,72 +37,82 @@ namespace PT
 
     bool EventManager::Initialize()
     {
+      iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      if (!obj_reg) return false;
+
+      eventQueue = csQueryRegistry<iEventQueue> (obj_reg);
+      if (!eventQueue) return false;
+
+      nameRegistry = csEventNameRegistry::GetRegistry(obj_reg);
+      if (!eventQueue) return false;
+
+      eventQueue->RegisterListener(this);
 
       return true;
     }
 
-    void EventManager::AddEvent(Event* ev)
+    csRef<iEvent> EventManager::CreateEvent(csEventID eventId, bool fromNetwork)
+    {
+      if (!fromNetwork)
+        return eventQueue->CreateEvent(eventId);
+      else
+        return csPtr<iEvent>(new csEvent(0, eventId, true));
+    }
+
+    void EventManager::AddEvent(iEvent* ev)
     {
       mutex.lock();
 
-      //Report(PT::Debug, "Adding event.");
-
-      Eventp evp(ev);
-      events.push(evp);
+      events.Push(ev);
 
       mutex.unlock();
-    }
+    } // end AddEvent()
 
-    void EventManager::AddListener(EventID eventId, EventHandlerCallback* handler)
+    void EventManager::AddListener(csEventID eventId, EventHandlerCallback* handler)
     {
-      Report(PT::Debug, "Adding event listener: %s", eventId.c_str());
+      Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
+      eventQueue->Subscribe(this, eventId);
       Listener listen;
       listen.handler = boost::shared_ptr<EventHandlerCallback>(handler);
       listen.eventId = eventId;
       listeners.push_back(listen);
+    } // end AddListener()
+
+    void EventManager::AddListener(const std::string& eventId, EventHandlerCallback* handler)
+    {
+      AddListener(nameRegistry->GetID(eventId.c_str()), handler);
     }
 
     void EventManager::Handle()
     {
-      while (!events.empty())
+      mutex.lock();
+      while (!events.IsEmpty())
       {
-        bool handled = false;
-
-        mutex.lock();
-        Eventp ev = events.front();
-        events.pop();
-        mutex.unlock();
-
-        if (!ev) continue;
-        EventID id = ev->GetEventID();
-
-        std::vector<Listener>::iterator it;
-        for(it = listeners.begin(); it != listeners.end(); ++it)
-        {
-          if (!it->handler->IsValid())
-          {
-            listeners.erase(it);
-            continue;
-          }
-          if ((id.length() == it->eventId.length()) && id == it->eventId)
-          {
-            if (!it->handler) continue;
-            //Report(PT::Debug, "Handling event: %s", it->GetEventId());
-            handled = it->handler->HandleEvent(ev);
-            if (handled && !ev->GetBroadCast())
-            {
-              Report(PT::Debug, "Event handled: deleting %s", it->GetEventId());
-              break;
-            }
-          } // if
-        } // for
-
-        // The event isn't broadcasting and it's still present at the end.
-        if (!handled && !ev->GetBroadCast())
-          Report(PT::Warning, "No listeners for event: deleting %s", id.c_str());
-
-      } // while
+        csRef<iEvent> ev = events.Get(0);
+        eventQueue->Post(ev);
+        events.DeleteIndex(0);
+      }
+      mutex.unlock();
     } // end Handle()
+
+    bool EventManager::HandleEvent(iEvent& ev)
+    {
+      csEventID id = ev.GetName();
+
+      std::vector<Listener>::iterator it;
+      for(it = listeners.begin(); it != listeners.end(); ++it)
+      {
+        //Report(PT::Debug, "Handling event: %s for listener %s", Retrieve(id), Retrieve(it->eventId));
+        if (id == it->eventId)
+        {
+          Report(PT::Debug, "Handling event: %s", Retrieve(it->eventId));
+          it->handler->HandleEvent(ev);
+        } // if
+      } // for
+
+      return false;
+
+  } // end HandleEvent()
 
   } // Events namespace 
 } // PT namespace 

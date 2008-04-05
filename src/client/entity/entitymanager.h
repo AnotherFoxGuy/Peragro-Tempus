@@ -75,7 +75,7 @@ namespace PT
       MovementManager* movementManager;
 
     private:
-      std::queue<PT::Events::Eventp> events;
+      csRefArray<iEvent> events;
       void ProcessEvents();
 
       void ProcessLostEntities();
@@ -96,34 +96,34 @@ namespace PT
       bool Initialize ();
       void Handle();
 
-      bool GetEntityEvents(PT::Events::Eventp ev);
+      bool GetEntityEvents(iEvent& ev);
 
-      bool AddEntity(PT::Events::Eventp ev);
-      bool RemoveEntity(PT::Events::Eventp ev);
-      bool Equip(PT::Events::Eventp ev);
-      bool Mount(PT::Events::Eventp ev);
+      bool AddEntity(iEvent& ev);
+      bool RemoveEntity(iEvent& ev);
+      bool Equip(iEvent& ev);
+      bool Mount(iEvent& ev);
       /**
        * Handler for received EntityPose events.
        * @param ev Entity pose event to be processed.
        * @return True if successful, false otherwise.
        */
-      bool EntityPose(PT::Events::Eventp ev);
+      bool EntityPose(iEvent& ev);
 
       /**
        * Handler for when the world has been loaded.
        * @param ev WorldLoaded event to be processed.
        * @return True if successful, false otherwise.
        */
-      bool WorldLoaded(PT::Events::Eventp ev);
+      bool WorldLoaded(iEvent& ev);
 
       void DrUpdateOwnEntity();
 
-      bool OnInteract(PT::Events::Eventp ev);
+      bool OnInteract(iEvent& ev);
 
       iCelEntity* findCelEntById(unsigned int id);
       Entity* findPtEntById(unsigned int id);
 
-      bool SetOwnId(PT::Events::Eventp ev);
+      bool SetOwnId(iEvent& ev);
 
       unsigned int GetPlayerId() { return playerId; }
 

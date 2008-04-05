@@ -188,45 +188,43 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
 
   const MouseEventArgs& mouseArgs = static_cast<const MouseEventArgs&>(args);
 
-  // If TAB is pressed, do tabcompletion.
+  // If input is different from RightButton, 
+  // swallow the event and don't do anything.
   if (mouseArgs.button != RightButton)
   {
     return true;
   }
-
-  printf("RightClicked\n");
 
   Slot* slot = static_cast<Slot*>(mouseArgs.window->getParent()->getUserData());
   if (!slot) return false;
   Object* object = slot->GetObject();
   if (!object) return false;
 
-  using namespace PT::Events;
-  InterfaceInteract* interfaceEvent = new InterfaceInteract();
-
-  interfaceEvent->entityId              = slot->GetId();
-  interfaceEvent->objectId              = object->GetId();
-  interfaceEvent->variationId           = object->GetVariationId();
-  interfaceEvent->actions               = "Drop";
-
-  // TODO: Use equiptype in items.xml and add itemtype instead of hardcoding here.
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+  interfaceEvent->Add("entityId", slot->GetId());
+  interfaceEvent->Add("objectId", object->GetId());
+  interfaceEvent->Add("variationId", object->GetVariationId());
+  
+  // @TODO: Use equiptype in items.xml and add itemtype instead of hardcoding here.
+  std::string actions = "Drop";
 
   if (object->GetId() == 1) // apple
   {
-    interfaceEvent->actions += ", Eat";
+    actions += ", Eat";
   }
   if (object->GetId() == 6) // Book
   {
-    interfaceEvent->actions += ", Read";
+    actions += ", Read";
     if (object->GetVariationId() == 0) 
     {
       // empty, so you can also write in it.
-      interfaceEvent->actions += ", Write";
+      actions += ", Write";
     }
   }
 
-
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
+  interfaceEvent->Add("actions", actions.c_str());
+  evmgr->AddEvent(interfaceEvent);
 
   return true;
 }

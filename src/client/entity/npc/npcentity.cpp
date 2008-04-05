@@ -30,7 +30,7 @@ namespace PT
   namespace Entity
   {
 
-    NpcEntity::NpcEntity(const Events::EntityAddEvent& ev) : CharacterEntity(ev)
+    NpcEntity::NpcEntity(const iEvent& ev) : CharacterEntity(ev)
     {
       Create();
     }
@@ -78,11 +78,12 @@ namespace PT
 
     void NpcEntity::Interact()
     {
-      using namespace PT::Events;
-      InterfaceInteract* interfaceEvent = new InterfaceInteract();
-      interfaceEvent->entityId              = id;
-      interfaceEvent->actions               = "Talk";
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
+      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+      interfaceEvent->Add("entityId", id);
+      std::string actions = "Talk";
+      interfaceEvent->Add("actions", actions.c_str());
+      evmgr->AddEvent(interfaceEvent);
     }
   }
 }

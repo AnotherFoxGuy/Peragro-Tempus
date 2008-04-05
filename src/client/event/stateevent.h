@@ -21,83 +21,45 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
+#include "client/reporter/reporter.h"
 
 namespace PT
 {
   namespace Events
   {
-    /**
-    * State event base class.
-    */
-    class StateEvent : public Event
+    namespace StateHelper
     {
-    public:
-      StateEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~StateEvent() {}
-    };
+      
+      static unsigned int GetState(const iEvent* event)
+      {
+        unsigned int state = -1;
+        if (event->Retrieve("state", state) != csEventErrNone)
+          Report(PT::Error, "StateHelper::GetState failed!");
 
-    /**
-    * StateEvent helper function.
-    */
-    template <class T>
-    T GetStateEvent(Eventp ev)
-    {
-      StateEvent* stateEv = static_cast<StateEvent*> (ev.get());
-      if (!stateEv)
-      {
-        printf("E: Not a State event!\n");
-        return 0;
-      }
-      T tEv = static_cast<T> (stateEv);
-      if (!tEv)
-      {
-        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-        return 0;
+        return state;
       }
 
-      return tEv;
-    }
+      static bool GetError(const iEvent* event)
+      {
+        bool state = false;
+        if (event->Retrieve("error", state) != csEventErrNone)
+          Report(PT::Error, "StateHelper::GetError failed!");
 
-    /**
-    * State Play event.
-    */
-    class StateConnectedEvent : public StateEvent
-    {
-    public:
-      StateConnectedEvent() : StateEvent("state.connected", true) {}
-      virtual ~StateConnectedEvent() {}
-    };
+        return state;
+      }
 
-    /**
-    * State Logged In event.
-    */
-    class StateLoggedInEvent : public StateEvent
-    {
-    public:
-      bool error;
-      std::string errorMessage;
-      bool isAdmin;
+      static std::string GetErrorMessage(const iEvent* event)
+      {
+        const char* textstr = 0;
+        if (event->Retrieve("errorMessage", textstr) != csEventErrNone)
+          Report(PT::Error, "StateHelper::GetErrorMessage failed!");
 
-    public:
-      StateLoggedInEvent() : StateEvent("state.loggedin", true) {}
-      virtual ~StateLoggedInEvent() {}
-    };
+        std::string text = textstr;
+        return text;
+      }
 
-    /**
-    * State Play event.
-    */
-    class StatePlayEvent : public StateEvent
-    {
-    public:
-      unsigned int ownEntityId;
-
-    public:
-      StatePlayEvent() : StateEvent("state.play", true) {}
-      virtual ~StatePlayEvent() {}
-    };
-
+    } // StateHelper namespace 
   } // Events namespace 
-} // PT namespace 
+} // PT namespace
 
 #endif // PT_STATE_EVENT_H

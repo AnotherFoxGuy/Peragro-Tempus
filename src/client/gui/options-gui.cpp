@@ -26,7 +26,6 @@
 #include "client/gui/guimanager.h"
 
 #include "client/reporter/reporter.h"
-#include "client/event/interfaceevent.h"
 
 OptionsWindow::OptionsWindow (GUIManager* guimanager)
 : GUIWindow (guimanager)
@@ -155,9 +154,10 @@ bool OptionsWindow::OkButtonPressed(const CEGUI::EventArgs& e)
   btn = winMgr->getWindow("Options/Frame");
   btn->setVisible(false);
 
-  using namespace PT::Events;
-  InterfaceOptionsEvent* interfaceEvent = new InterfaceOptionsEvent();
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.options", false);
+  evmgr->AddEvent(interfaceEvent);
+
   return true;
 }
 
@@ -309,17 +309,10 @@ void OptionsWindow::CreateDropListMovement()
 
   bool local = app_cfg->GetBool("Client.local_movement");
 
-  switch(local)
-  {
-    case true:
+  if (local)
       ((CEGUI::Combobox*)btn)->setText("Direct");
-      break;
-    case false:
+  else
       ((CEGUI::Combobox*)btn)->setText("Via server");
-      break;
-    default:
-      ((CEGUI::Combobox*)btn)->setText("Custom");
-  }
 
   CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Direct", 0);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);

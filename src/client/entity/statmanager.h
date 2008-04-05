@@ -42,7 +42,7 @@ namespace PT
       ~StatManager ();
 
       bool Initialize();
-      bool AddStat(PT::Events::Eventp ev);
+      bool AddStat(iEvent& ev);
       int GetStat(const char* name);
 
     };

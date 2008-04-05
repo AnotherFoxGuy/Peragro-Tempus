@@ -21,79 +21,29 @@
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
-
 namespace PT
 {
   namespace Events
   {
-    /**
-    * Interface event base class.
-    */
-    class InterfaceEvent : public Event
+    namespace InterfaceHelper
     {
-    public:
-      InterfaceEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~InterfaceEvent() {}
-    };
+      static bool ContainsAction(const iEvent* event, const char* action)
+      {
+        bool state = false;
+        if (event->Retrieve("buttonState", state) != csEventErrNone)
+          Report(PT::Error, "InputHelper::GetButtonState failed!");
+        return state;
 
-    /**
-    * InterfaceEvent helper function.
-    */
-    template <class T>
-    T GetInterfaceEvent(Eventp ev)
-    {
-      InterfaceEvent* interfaceEv = static_cast<InterfaceEvent*> (ev.get());
-      if (!interfaceEv)
-      {
-        printf("E: Not an Interface event!\n");
-        return 0;
-      }
-      T tEv = static_cast<T> (interfaceEv);
-      if (!tEv)
-      {
-        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-        return 0;
+        const char* actionsstr = 0;
+        if (event->Retrieve("actions", actionsstr) != csEventErrNone)
+          return Report(PT::Error, "InterfaceHelper::ContainsAction failed!");
+
+        std::string actions = actionsstr;
+        return (actions.find(action) != std::string::npos);
       }
 
-      return tEv;
-    }
-
-    /**
-    * Interface Event for interaction menues.
-    */
-    class InterfaceInteract : public InterfaceEvent
-    {
-    public:
-      unsigned int entityId;
-
-      unsigned int objectId;
-      unsigned int variationId;
-
-      std::string actions;
-      bool Contains(const char* action)
-      {
-        if (actions.find(action) != std::string::npos)
-          return true;
-        else
-          return false;
-      }
-    public:
-      InterfaceInteract() : InterfaceEvent("interface.interact", true) {}
-      virtual ~InterfaceInteract() {}
-    };
-
-    /**
-    * Event when the options might have changed (ok button pressed).
-    */
-    class InterfaceOptionsEvent : public InterfaceEvent
-    {
-    public:
-      InterfaceOptionsEvent() : InterfaceEvent("interface.options", true) {}
-      virtual ~InterfaceOptionsEvent() {}
-    };
-
+    } // InterfaceHelper namespace 
   } // Events namespace 
-} // PT namespace 
+} // PT namespace
 
 #endif // PT_INTERFACE_EVENT_H

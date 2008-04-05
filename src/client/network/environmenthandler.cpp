@@ -30,10 +30,10 @@ void EnvironmentHandler::handleDayTime(GenericMessage* msg)
   unsigned char hour = time_msg.getHour();
   Report(PT::Debug, "The time after next beep is %d o'clock..... *beep*", hour);
 
-  using namespace PT::Events;
-  EnvironmentDayTimeEvent* environmentEvent = new EnvironmentDayTimeEvent();
-  environmentEvent->hour = hour;
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(environmentEvent);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> envEvent = evmgr->CreateEvent("environment.daytime", true);
+  envEvent->Add("hour", hour);
+  evmgr->AddEvent(envEvent);
 }
 
 void EnvironmentHandler::handleWeather(GenericMessage* msg)

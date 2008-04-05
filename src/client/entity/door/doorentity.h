@@ -67,7 +67,7 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the door properties.
        */
-      DoorEntity(const Events::EntityAddEvent& ev);
+      DoorEntity(const iEvent& ev);
 
       ~DoorEntity();
 

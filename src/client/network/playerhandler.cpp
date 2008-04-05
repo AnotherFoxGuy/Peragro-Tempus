@@ -22,8 +22,6 @@
 #include "client/gui/guimanager.h"
 
 #include "client/event/eventmanager.h"
-#include "client/event/entityevent.h"
-#include "client/event/tradeevent.h"
 
 #include "client/reporter/reporter.h"
 
@@ -32,23 +30,24 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
   InventoryListMessage item_msg;
   item_msg.deserialise(msg->getByteStream());
 
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
   Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d items in the Inventory:", item_msg.getInventoryCount());
   for (int i=0; i<item_msg.getInventoryCount(); i++)
   {
-    using namespace PT::Events;
-    InventoryAddEvent* tradeEvent = new InventoryAddEvent();
+    csRef<iEvent> playerEvent = evmgr->CreateEvent("trade.inventory.add", true);
 
-    tradeEvent->name         = *item_msg.getName(i);
-    tradeEvent->itemId       = item_msg.getItemId(i);
-    tradeEvent->slotId       = item_msg.getSlotId(i);
-    tradeEvent->variationId  = item_msg.getVariation(i);
-    tradeEvent->weight       = item_msg.getWeight(i);
-    tradeEvent->description  = *item_msg.getDescription(i);
-    tradeEvent->equipType    = *item_msg.getEquipType(i);
-    tradeEvent->icon         = *item_msg.getIcon(i);
+    playerEvent->Add("name", *item_msg.getName(i));
+    playerEvent->Add("itemId", item_msg.getItemId(i));
+    playerEvent->Add("slotId", item_msg.getSlotId(i));
+    playerEvent->Add("variationId", item_msg.getVariation(i));
+    playerEvent->Add("weight", item_msg.getWeight(i));
+    playerEvent->Add("description", *item_msg.getDescription(i));
+    playerEvent->Add("equipType", *item_msg.getEquipType(i));
+    playerEvent->Add("icon", *item_msg.getIcon(i));
 
-    PointerLibrary::getInstance()->getEventManager()->AddEvent(tradeEvent);
+    evmgr->AddEvent(playerEvent);
   }
   Report(PT::Debug, "---------------------------\n");
 }
@@ -57,6 +56,9 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
 {
   StatsListMessage stat_msg;
   stat_msg.deserialise(msg->getByteStream());
+
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
   Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d stats for the Character:", stat_msg.getStatsCount());
   GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
@@ -65,13 +67,13 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
     guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
     Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
 
-    using namespace PT::Events;
-    EntityStatEvent* statEvent=new EntityStatEvent();
-    statEvent->name  = *stat_msg.getName(i);
-    statEvent->id    = stat_msg.getStatId(i);
-    statEvent->level = stat_msg.getLevel(i);
+    csRef<iEvent> playerEvent = evmgr->CreateEvent("entity.stat", true);
 
-    PointerLibrary::getInstance()->getEventManager()->AddEvent(statEvent);
+    playerEvent->Add("name", *stat_msg.getName(i));
+    playerEvent->Add("id", stat_msg.getStatId(i));
+    playerEvent->Add("level", stat_msg.getLevel(i));
+
+    evmgr->AddEvent(playerEvent);
   }
   Report(PT::Debug, "---------------------------\n");
 }
@@ -87,6 +89,7 @@ void PlayerHandler::handleSkillsList(GenericMessage* msg)
 {
   SkillsListMessage skill_msg;
   skill_msg.deserialise(msg->getByteStream());
+
   Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d skill(s) for the Character:", skill_msg.getSkillsCount());
   for (int i=0; i<skill_msg.getSkillsCount(); i++)

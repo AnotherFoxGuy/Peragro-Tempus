@@ -30,8 +30,8 @@ private:
   bool handleCloseButton(const CEGUI::EventArgs& args); 
 
 public:
-  bool ProcessEvents(PT::Events::Eventp ev);
-  bool ToggleWindow(PT::Events::Eventp ev);
+  bool ProcessEvents(iEvent& ev);
+  bool ToggleWindow(iEvent& ev);
 
 public:
   BuddyWindow(GUIManager* guimanager);

@@ -31,6 +31,8 @@
 #include "client/gui/chat-gui.h"
 #include "client/gui/whisper-gui.h"
 
+#include "client/event/chatevent.h"
+
 #include "commands.h"
 
 namespace PT
@@ -88,39 +90,38 @@ namespace PT
       return true;
     } // end Initialize ()
 
-    bool ChatManager::HandleSay(PT::Events::Eventp ev)
+    bool ChatManager::HandleSay(iEvent& ev)
     {
       using namespace PT::Events;
 
-      ChatSayEvent* chatEv = GetChatEvent<ChatSayEvent*>(ev);
-      if (!chatEv) return false;
+      std::string nick = ChatHelper::GetNickName(&ev);
+      std::string message = ChatHelper::GetMessage(&ev);
 
       // TODO: input command handler.
-      if (strncmp (chatEv->message.c_str(),"/me",3) == 0)
+      if (strncmp (message.c_str(),"/me",3) == 0)
       {
-        std::string ownnick = chatEv->nickName;
-        std::string text = ownnick + chatEv->message.substr(3, chatEv->message.size());
+        std::string text = nick + message.substr(3, message.size());
         guimanager->GetChatWindow ()->AddMessage (text.c_str());
       }
-      else if (strncmp (chatEv->message.c_str(),"/greet",3) == 0)
+      else if (strncmp (message.c_str(),"/greet",3) == 0)
       {
-        std::string text = chatEv->nickName + " waves at" + chatEv->message.substr(6, chatEv->message.size());
+        std::string text = nick + " waves at" + message.substr(6, message.size());
         guimanager->GetChatWindow ()->AddMessage (text.c_str());
       }
       else
-        guimanager->GetChatWindow ()->AddChatMessage (chatEv->nickName.c_str(), chatEv->message.c_str());
+        guimanager->GetChatWindow ()->AddChatMessage (nick.c_str(), message.c_str());
 
       return true;
     } // end HandleSay ()
 
-    bool ChatManager::HandleWhisper(PT::Events::Eventp ev)
+    bool ChatManager::HandleWhisper(iEvent& ev)
     {
       using namespace PT::Events;
 
-      ChatSayEvent* chatEv = GetChatEvent<ChatSayEvent*>(ev);
-      if (!chatEv) return false;
+      std::string nick = ChatHelper::GetNickName(&ev);
+      std::string message = ChatHelper::GetMessage(&ev);
 
-      guimanager->GetWhisperWindow()->AddWhisper(chatEv->nickName.c_str(), chatEv->message.c_str());
+      guimanager->GetWhisperWindow()->AddWhisper(nick.c_str(), message.c_str());
 
       return true;
     } // end HandleWhisper ()
@@ -332,35 +333,37 @@ namespace PT
       } // end for
     } // end TabCompletion ()
 
-    bool ChatManager::ProcessEvents(PT::Events::Eventp ev)
+    bool ChatManager::ProcessEvents(iEvent& ev)
     {
       using namespace PT::Events;
 
-      if (ev->GetEventID().compare("entity.add") == 0)
-      {
-        EntityAddEvent* entityAddEv = GetEntityEvent<EntityAddEvent*>(ev);
-        if (!entityAddEv) return false;
+      std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev.GetName());
 
-        if (entityAddEv->entityType == PT::Entity::PCEntityType)
+      if (id.compare("entity.add") == 0)
+      {
+        if (EntityHelper::GetEntityType(&ev) == PT::Entity::PCEntityType)
         {
-          csString string; string.Format("%s has joined.", entityAddEv->entityName.c_str());
+          const char * nick = 0;
+          ev.Retrieve("entityName", nick);
+          unsigned int id = EntityHelper::GetEntityID(&ev);
+
+          csString string; string.Format("%s has joined.", nick);
           guimanager->GetChatWindow ()->AddMessage (string.GetData());
-          playernames.insert(std::pair<unsigned int, std::string>(entityAddEv->entityId, entityAddEv->entityName));
+          playernames.insert(std::pair<unsigned int, std::string>(id, nick));
         } // end if
       } // end if
-      else if (ev->GetEventID().compare("entity.remove") == 0)
+      else if (id.compare("entity.remove") == 0)
       {
-        EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
-        if (!entityRemoveEv) return false;
-
-        std::string playerName = playernames[entityRemoveEv->entityId];
+        unsigned int id = EntityHelper::GetEntityID(&ev);
+ 
+        std::string playerName = playernames[id];
         if (playerName.size() > 0)
         {
           csString string; string.Format("%s has left.", playerName.c_str());
           guimanager->GetChatWindow ()->AddMessage (string.GetData());
         }
 
-        playernames.erase(entityRemoveEv->entityId);
+        playernames.erase(id);
       } // end if
 
       return true;

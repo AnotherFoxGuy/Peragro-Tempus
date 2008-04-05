@@ -124,10 +124,11 @@ namespace PT
     //Report(PT::Debug, "Pressed key combo '(%s)', firing action '%s'", it->first.GetConfigKey().c_str(), it->second.c_str());
 
     //Setup the event, and fire it
-    Events::InputEvent* inputEvent = new Events::InputEvent();
-    inputEvent->action     = it->second;
-    inputEvent->released   = !down;
-    inputEvent->name      += "." + it->second;
+    PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+    std::string eventName = "input."; eventName += it->second;
+    csRef<iEvent> inputEvent = evmgr->CreateEvent(eventName);
+    inputEvent->Add("action", it->second.c_str());
+    inputEvent->Add("buttonState", down);
     PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);
 
     return true;
@@ -150,10 +151,10 @@ namespace PT
 
     //Report(PT::Debug, "%s button '(%s)', firing action '%s'.", down ? "Pressed":"Released", it->first.GetConfigKey().c_str(), it->second.c_str());
 
-    Events::InputEvent* inputEvent = new Events::InputEvent();
-    inputEvent->action   = it->second;
-    inputEvent->released = !down;
-    inputEvent->name    += "." + it->second;
+    PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+    csRef<iEvent> inputEvent = evmgr->CreateEvent("input." + it->second);
+    inputEvent->Add("action", it->second.c_str());
+    inputEvent->Add("buttonState", down);
     PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);
 
     return true;
@@ -169,25 +170,21 @@ namespace PT
     return OnMouse(ev);
   }
 
-  bool InputManager::ClipboardCut(PT::Events::Eventp ev)
+  bool InputManager::ClipboardCut(iEvent& ev)
   {
     using namespace PT::Events;
 
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-    if (inputEv->released) return false;
+    if (!InputHelper::GetButtonDown(&ev)) return false;
 
     DoCopy(true);
     return true;
   }
 
-  bool InputManager::ClipboardCopy (PT::Events::Eventp ev)
+  bool InputManager::ClipboardCopy (iEvent& ev)
   {
     using namespace PT::Events;
 
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-    if (inputEv->released) return false;
+    if (!InputHelper::GetButtonDown(&ev)) return false;
 
     DoCopy(false);
     return true;
@@ -229,13 +226,11 @@ namespace PT
     return true;
   }
 
-  bool InputManager::ClipboardPaste(PT::Events::Eventp ev)
+  bool InputManager::ClipboardPaste(iEvent& ev)
   {
     using namespace PT::Events;
 
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-    if (inputEv->released) return false;
+    if (!InputHelper::GetButtonDown(&ev)) return false;
 
     csString text;
     csTheClipboard->GetData(text, 0);

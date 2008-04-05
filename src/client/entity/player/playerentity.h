@@ -43,7 +43,7 @@ namespace PT
     private:
       static PlayerEntity* instance;
 
-      void ReInit(const Events::EntityAddEvent* ev);
+      void ReInit(const iEvent& ev);
 
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;
@@ -92,47 +92,47 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the player properties.
        */
-      PlayerEntity(const Events::EntityAddEvent& ev);
+      PlayerEntity(const iEvent& ev);
       virtual ~PlayerEntity();
 
       void Create();
 
       ///Handler for a walk forward event.
-      bool ActionForward(PT::Events::Eventp ev);
+      bool ActionForward(iEvent& ev);
       ///Handler for a walk backward event.
-      bool ActionBackward(PT::Events::Eventp);
+      bool ActionBackward(iEvent& ev);
       ///Handler for a turn left event.
-      bool ActionLeft(PT::Events::Eventp);
+      bool ActionLeft(iEvent& ev);
       ///Handler for a turn right event.
-      bool ActionRight(PT::Events::Eventp);
+      bool ActionRight(iEvent& ev);
       ///Handler for a toggle walk event. Called when player presses the "keep
       ///walking" key.
-      bool ActionToggleWalk(PT::Events::Eventp);
+      bool ActionToggleWalk(iEvent& ev);
       ///Handler for a toggle run event. Called when switching from walking to
       ///running and back.
-      bool ActionToggleRun(PT::Events::Eventp);
+      bool ActionToggleRun(iEvent& ev);
       ///Handler for a pan up event.
-      bool ActionPanUp(PT::Events::Eventp);
+      bool ActionPanUp(iEvent& ev);
       ///Handler for a pan down event.
-      bool ActionPanDown(PT::Events::Eventp);
+      bool ActionPanDown(iEvent& ev);
       ///Handler for a camera toggle event. Called when changing camera type.
-      bool ActionToggleCamera(PT::Events::Eventp);
+      bool ActionToggleCamera(iEvent& ev);
       ///Handler for a distance clipping event. Called when removing entities
       ///beyond some distance.
-      bool ActionToggleDistClipping(PT::Events::Eventp);
+      bool ActionToggleDistClipping(iEvent& ev);
       ///Handler for an activate weapon event. Called when attacking with a
       ///weapon (in order to produce animation).
-      bool ActionActivateWeapon(PT::Events::Eventp ev);
+      bool ActionActivateWeapon(iEvent& ev);
       ///Handler for a zoom-in event.
-      bool ActionZoomIn(PT::Events::Eventp ev);
+      bool ActionZoomIn(iEvent& ev);
       ///Handler for a zoom-out event.
-      bool ActionZoomOut(PT::Events::Eventp ev);
+      bool ActionZoomOut(iEvent& ev);
       ///Handler for a jump event.
-      bool ActionJump(PT::Events::Eventp ev);
+      bool ActionJump(iEvent& ev);
       ///Handler for a move-to event.
-      bool ActionMoveTo(PT::Events::Eventp ev);
+      bool ActionMoveTo(iEvent& ev);
       ///Handler for a configuration update event
-      bool UpdateOptions(PT::Events::Eventp ev);
+      bool UpdateOptions(iEvent& ev);
 
       ///Helper method for sending new movement information.
       bool PerformMovementAction();
@@ -149,7 +149,7 @@ namespace PT
        * @return 0 if an error occured, or if no instance was created yet.
        * Otherwise returns a pointer to an instance of the class.
        */
-      static PlayerEntity* Instance(const Events::EntityAddEvent* ev = 0);
+      static PlayerEntity* Instance(const iEvent* ev = 0);
 
       /**
        * Set whether the client is ready or not.

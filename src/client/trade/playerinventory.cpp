@@ -51,16 +51,22 @@ namespace PT
       return true;
     }
 
-    bool PlayerInventory::Add(PT::Events::Eventp ev)
+    bool PlayerInventory::Add(iEvent& ev)
     {
       using namespace PT::Events;
 
-      InventoryAddEvent* tradeEv = GetTradeEvent<InventoryAddEvent*>(ev);
-      if (!tradeEv) return false;
+      unsigned int itemId = -1;
+      ev.Retrieve("itemId", itemId);
+
+      unsigned int variationId = -1;
+      ev.Retrieve("variationId", variationId);
+
+      unsigned int slotId = -1;
+      ev.Retrieve("slotId", slotId);
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       if (!guimanager) return true;
-      guimanager->GetInventoryWindow()->AddItem(tradeEv->itemId, tradeEv->variationId, tradeEv->slotId);
+      guimanager->GetInventoryWindow()->AddItem(itemId, variationId, slotId);
 
       return true;
     }

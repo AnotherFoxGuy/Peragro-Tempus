@@ -348,16 +348,18 @@ void InteractDialogWindow::AddAction(const char* action /*,Callback* callback*/)
   LayoutIcons();
 }
 
-bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
+bool InteractDialogWindow::OnInteract (iEvent& ev)
 {
   using namespace PT::Events;
 
-  InterfaceInteract* interfaceEv = GetInterfaceEvent<InterfaceInteract*>(ev);
-  if (!interfaceEv) return false;
+  if (ev.Retrieve("entityId", interactId))
+    return Report(PT::Error, "InteractDialogWindow::OnInteract failed!");
 
-  interactId = interfaceEv->entityId;
-  itemId = interfaceEv->objectId;
-  variationId = interfaceEv->variationId;
+  if (ev.Retrieve("objectId", itemId))
+    return Report(PT::Error, "InteractDialogWindow::OnInteract failed!");
+
+  if (ev.Retrieve("variationId", variationId))
+    return Report(PT::Error, "InteractDialogWindow::OnInteract failed!");
 
   newDialog = true;
   ClearActions();
@@ -369,38 +371,39 @@ bool InteractDialogWindow::OnInteract (PT::Events::Eventp ev)
   y = (int)(y - ( root_size / 2 ));
   rootwindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0,x), CEGUI::UDim(0,y)));
 
-  /* TODO
+  /* @TODO
     Behaviours should listen to the interface.interact event
     and on that event register their action(s) with a callback to this
     window which will create a button for each callback.
   */
-  if (interfaceEv->Contains("Trade"))
+  using namespace PT::Events::InterfaceHelper;
+  if (ContainsAction(&ev, "Trade"))
     AddAction("Trade");
-  if (interfaceEv->Contains("Pickup"))
+  if (ContainsAction(&ev, "Pickup"))
     AddAction("Pickup");
-  if (interfaceEv->Contains("Drop"))
+  if (ContainsAction(&ev, "Drop"))
     AddAction("Drop");
-  if (interfaceEv->Contains("Door"))
+  if (ContainsAction(&ev, "Door"))
     AddAction("Door");
-  if (interfaceEv->Contains("Lock"))
+  if (ContainsAction(&ev, "Lock"))
     AddAction("Lock");
-  if (interfaceEv->Contains("Unlock"))
+  if (ContainsAction(&ev, "Unlock"))
     AddAction("Unlock");
-  if (interfaceEv->Contains("Attack"))
+  if (ContainsAction(&ev, "Attack"))
     AddAction("Attack");
-  if (interfaceEv->Contains("Talk"))
+  if (ContainsAction(&ev, "Talk"))
     AddAction("Talk");
-  if (interfaceEv->Contains("Inventory"))
+  if (ContainsAction(&ev, "Inventory"))
     AddAction("Inventory");
-  if (interfaceEv->Contains("Stats"))
+  if (ContainsAction(&ev, "Stats"))
     AddAction("Stats");
-  if (interfaceEv->Contains("Read"))
+  if (ContainsAction(&ev, "Read"))
     AddAction("Read");
-  if (interfaceEv->Contains("Write"))
+  if (ContainsAction(&ev, "Write"))
     AddAction("Write");
-  if (interfaceEv->Contains("Eat"))
+  if (ContainsAction(&ev, "Eat"))
     AddAction("Eat");
-  if (interfaceEv->Contains("Activate"))
+  if (ContainsAction(&ev, "Activate"))
     AddAction("Activate");
 
   return true;

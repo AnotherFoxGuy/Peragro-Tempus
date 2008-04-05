@@ -51,19 +51,16 @@ bool BookWindow::OnCloseButton(const CEGUI::EventArgs& args)
   return true;
 } // end OnCloseButton ()
 
-bool BookWindow::HandleRead(PT::Events::Eventp ev)
+bool BookWindow::HandleRead(iEvent& ev)
 {
   using namespace PT::Events;
 
-  BookReadEvent* bookEv = GetBookEvent<BookReadEvent*>(ev);
-  if (!bookEv) return false;
-
   // Set the book title.
-  rootwindow->setText(bookEv->title.c_str());
+  rootwindow->setText(PT::Events::BookHelper::GetTitle(&ev).c_str());
 
   // Set the book text.
   CEGUI::Window* page1 = winMgr->getWindow("Book/Page1");
-  std::string text = bookEv->text;
+  std::string text = PT::Events::BookHelper::GetText(&ev);
   if (text.compare("(NULL)") == 0)
   {
     text = "";
@@ -83,12 +80,12 @@ bool BookWindow::HandleRead(PT::Events::Eventp ev)
   return true;
 } // end HandleRead ()
 
-bool BookWindow::HandleWrite(PT::Events::Eventp ev)
+bool BookWindow::HandleWrite(iEvent& ev)
 {
   using namespace PT::Events;
 
-  BookWriteEvent* bookEv = GetBookEvent<BookWriteEvent*>(ev);
-  if (!bookEv) return false;
+  unsigned int variationId = -1;
+  ev.Retrieve("variationId", variationId);
 
   InventoryWindow* inv = guimanager->GetInventoryWindow();
   if (!inv) return true;
@@ -100,7 +97,7 @@ bool BookWindow::HandleWrite(PT::Events::Eventp ev)
   if (!obj) return true;
 
   if (obj->GetId() == itemId)
-    obj->SetVariationId(bookEv->variationId);
+    obj->SetVariationId(variationId);
 
   return true;
 } // end HandleWrite ()

@@ -30,12 +30,12 @@ namespace PT
   namespace Entity
   {
 
-    DoorEntity::DoorEntity(const Events::EntityAddEvent& ev) : Entity(ev)
+    DoorEntity::DoorEntity(const iEvent& ev) : Entity(ev)
     {
-      open = ev.open;
-      locked = ev.locked;
-      doorId = ev.typeId;
-      animationName = ev.animationName;
+      ev.Retrieve("open", open);
+      ev.Retrieve("locked", locked);
+      ev.Retrieve("typeId", doorId);
+      animationName = PT::Events::EntityHelper::GetString(&ev, "animationName");
       Create();
     }
 
@@ -122,14 +122,14 @@ namespace PT
 
     void DoorEntity::Interact()
     {
-      using namespace PT::Events;
-
-      InterfaceInteract* interfaceEvent = new InterfaceInteract();
-
-      interfaceEvent->entityId = id;
-      if (GetLocked()) interfaceEvent->actions = "Door, Unlock";
-      else interfaceEvent->actions = "Door, Lock";
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
+      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+      interfaceEvent->Add("entityId", id);
+      std::string actions = "Door";
+      if (GetLocked()) actions += ", Unlock";
+      else actions += ", Lock";
+      interfaceEvent->Add("actions", actions.c_str());
+      evmgr->AddEvent(interfaceEvent);
     }
 
     void DoorEntity::Reset()

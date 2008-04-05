@@ -45,10 +45,10 @@ namespace PT
       /**
        * Constructor that sets up the mount using the information provided by
        * EntityAddEvent event.
-       * @see Entity::Entity(const Events::EntityAddEvent&)
+       * @see Entity::Entity(const iEvent& ev)
        * @param ev Event used for initialising the door properties.
        */
-      MountEntity(const Events::EntityAddEvent& ev);
+      MountEntity(const iEvent& ev);
       ~MountEntity(){}
 
       /**

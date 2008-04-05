@@ -35,17 +35,15 @@ void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
     return;
   }
 
-  using namespace PT::Events;
-  EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.pcpropupdate", true);
 
-  celData data;
-  data.Set(true);
+  entityEvent->Add("entityId", door_msg.getDoorId());
+  entityEvent->Add("pcprop", "Door Open");
+  entityEvent->Add("celdata", true);
 
-  entityEvent->entityId			= door_msg.getDoorId();
-  entityEvent->pcprop				= "Door Open";
-  entityEvent->celdata			= data;
+  evmgr->AddEvent(entityEvent);
 
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
 }
 void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
 {
@@ -59,17 +57,14 @@ void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
     return;
   }
 
-  using namespace PT::Events;
-  EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.pcpropupdate", true);
 
-  celData data;
-  data.Set(false);
+  entityEvent->Add("entityId", door_msg.getDoorId());
+  entityEvent->Add("pcprop", "Door Open");
+  entityEvent->Add("celdata", false);
 
-  entityEvent->entityId			= door_msg.getDoorId();
-  entityEvent->pcprop				= "Door Open";
-  entityEvent->celdata			= data;
-
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  evmgr->AddEvent(entityEvent);
 }
 
 void DoorHandler::handleLockDoorResponse(GenericMessage* msg)
@@ -84,17 +79,14 @@ void DoorHandler::handleLockDoorResponse(GenericMessage* msg)
     return;
   }
 
-  using namespace PT::Events;
-  EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.pcpropupdate", true);
 
-  celData data;
-  data.Set(true);
+  entityEvent->Add("entityId", door_msg.getDoorId());
+  entityEvent->Add("pcprop", "Door Locked");
+  entityEvent->Add("celdata", true);
 
-  entityEvent->entityId			= door_msg.getDoorId();
-  entityEvent->pcprop				= "Door Locked";
-  entityEvent->celdata			= data;
-
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  evmgr->AddEvent(entityEvent);
 }
 
 void DoorHandler::handleUnlockDoorResponse(GenericMessage* msg)
@@ -109,15 +101,12 @@ void DoorHandler::handleUnlockDoorResponse(GenericMessage* msg)
     return;
   }
 
-  using namespace PT::Events;
-  EntityPcPropUpdateEvent* entityEvent = new EntityPcPropUpdateEvent();
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.pcpropupdate", true);
 
-  celData data;
-  data.Set(false);
+  entityEvent->Add("entityId", door_msg.getDoorId());
+  entityEvent->Add("pcprop", "Door Locked");
+  entityEvent->Add("celdata", false);
 
-  entityEvent->entityId			= door_msg.getDoorId();
-  entityEvent->pcprop				= "Door Locked";
-  entityEvent->celdata			= data;
-
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
+  evmgr->AddEvent(entityEvent);
 }

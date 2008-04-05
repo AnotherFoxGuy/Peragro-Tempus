@@ -70,7 +70,7 @@ namespace PT
       csRef<iTextureManager> texm;
 
     private:
-      bool TileLoaded (PT::Events::Eventp ev);
+      bool TileLoaded (iEvent& ev);
       bool HandleEvent(iEvent &ev);
 
       CS_EVENTHANDLER_NAMES("pt.reflection")

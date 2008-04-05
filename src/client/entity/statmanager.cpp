@@ -47,16 +47,15 @@ namespace PT
       return true;
     }
 
-    bool StatManager::AddStat(PT::Events::Eventp ev)
+    bool StatManager::AddStat(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityStatEvent* entityStatEv = GetEntityEvent<EntityStatEvent*>(ev);
-      if (!entityStatEv) return false;
-
       Stat stat;
-      stat.name=entityStatEv->name;
-      stat.level=entityStatEv->level;
+
+      ev.Retrieve("name", stat.name);
+      ev.Retrieve("level", stat.level);
+
       stats.push_back(stat);
       return true;
     }

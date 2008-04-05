@@ -375,16 +375,13 @@ void CombatMGR::RequestSkillUsageStart (unsigned int targetId, unsigned int skil
 
 }
 
-bool CombatMGR::ActionHit(PT::Events::Eventp ev)
+bool CombatMGR::ActionHit(iEvent& ev)
 {
   using namespace PT::Events;
 
   if (PointerLibrary::getInstance()->getStateManager()->GetState() == PT::STATE_PLAY)
   {
-    InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-    if (!inputEv) return false;
-
-    if (!inputEv->released)
+    if (InputHelper::GetButtonDown(&ev))
     {
       hit(entitymgr->GetPlayerId(), 20);
     }

@@ -23,233 +23,110 @@
 #include <csgeom/vector3.h>
 #include <csutil/array.h>
 
-#include <vector>
+#include <iutil/event.h>
 
-#include "client/event/event.h"
+#include <vector>
+#include <string>
 
 #include <physicallayer/datatype.h>
 #include "client/entity/entity.h"
+
+#include "client/reporter/reporter.h"
 
 namespace PT
 {
   namespace Events
   {
-    /**
-    * Entity event base class.
-    */
-    class EntityEvent : public Event
+    namespace EntityHelper
     {
-    public:
-      unsigned int entityId;
-
-    public:
-      EntityEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~EntityEvent() {}
-    };
-
-    /**
-    * EntityEvent helper function.
-    */
-    template <class T>
-    T GetEntityEvent(Eventp ev)
-    {
-      EntityEvent* entityEv = static_cast<EntityEvent*> (ev.get());
-      if (!entityEv)
+      static void SetVector3(iEvent* ev, const char* name, float* pos)
       {
-        printf("E: Not an Entity event!\n");
-        return 0;
-      }
-      T tEv = static_cast<T> (entityEv);
-      if (!tEv)
-      {
-        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-        return 0;
+        std::string nm = name;
+        std::string nmX = nm + "_x";
+        std::string nmY = nm + "_y";
+        std::string nmZ = nm + "_z";
+
+        float x, y, z;
+        x = pos[0];
+        y = pos[1];
+        z = pos[2];
+
+        ev->Add(nmX.c_str(), x);
+        ev->Add(nmY.c_str(), y);
+        ev->Add(nmZ.c_str(), z);
       }
 
-      return tEv;
-    }
-
-    /**
-    * Entity Add event.
-    */
-    class EntityAddEvent : public EntityEvent
-    {
-    public:
-      PT::Entity::EntityType entityType;
-      std::string entityName;
-      std::string meshName;
-      std::string fileName;
-      unsigned int typeId;
-      std::string animationName;
-      csVector3 position;
-      float rotation;
-      unsigned int sectorId;
-
-      struct SlotAndItem
+      static csVector3 GetVector3(const iEvent* ev, const char* name)
       {
-        unsigned int slotId;
-        unsigned int itemId;
-      };
+        std::string nm = name;
+        std::string nmX = nm + "_x";
+        std::string nmY = nm + "_y";
+        std::string nmZ = nm + "_z";
 
-      //std::vector<SlotAndItem> equipment;
-      csArray<SlotAndItem> equipment;
+        float x, y, z;
+        x = y = z =0;
 
-      bool locked;
-      bool open;
+        if (ev->Retrieve(nmX.c_str(), x) != csEventErrNone)
+          Report(PT::Error, "EntityHelper::GetVector3 failed! X attribute not present!");
+        if (ev->Retrieve(nmY.c_str(), y) != csEventErrNone)
+          Report(PT::Error, "EntityHelper::GetVector3 failed! Y attribute not present!");
+        if (ev->Retrieve(nmZ.c_str(), z) != csEventErrNone)
+          Report(PT::Error, "EntityHelper::GetVector3 failed! Z attribute not present!");
 
-    public:
-      EntityAddEvent() : EntityEvent("entity.add", true) {}
-      virtual ~EntityAddEvent() {}
-    };
+        csVector3 pos(x, y, z);
+        return pos;
+      }
 
-    /**
-    * Entity Remove event.
-    */
-    class EntityRemoveEvent : public EntityEvent
-    {
-    public:
-      EntityRemoveEvent() : EntityEvent("entity.remove", true) {}
-      virtual ~EntityRemoveEvent() {}
-    };
+      static void SetPosition(iEvent* ev, float* pos)
+      {
+        SetVector3(ev, "position", pos);
+      }
 
-    /**
-    * Entity Equip event.
-    */
-    class EntityEquipEvent : public EntityEvent
-    {
-    public:
-      unsigned char slotId;
-      unsigned int itemId;
+      static csVector3 GetPosition(const iEvent* ev)
+      {
+        return GetVector3(ev, "position");
+      }
 
-    public:
-      EntityEquipEvent() : EntityEvent("entity.equip", true) {}
-      virtual ~EntityEquipEvent() {}
-    };
+      static unsigned int GetEntityID(const iEvent* event)
+      {
+        unsigned int id = -1;
+        if (event->Retrieve("entityId", id) != csEventErrNone)
+          Report(PT::Error, "EntityHelper::GetEntityID failed!");
 
-    /**
-    * Entity Mount event.
-    */
-    class EntityMountEvent : public EntityEvent
-    {
-    public:
-      unsigned int mountId;
-      bool control;
-      bool mount;
+        return id;
+      }
 
-    public:
-      EntityMountEvent() : EntityEvent("entity.mount", true) {}
-      virtual ~EntityMountEvent() {}
-    };
+      static unsigned int GetEntityType(const iEvent* event)
+      {
+        unsigned int type = -1;
+        if (event->Retrieve("entityType", type) != csEventErrNone)
+          Report(PT::Error, "EntityHelper::GetEntityType failed!");
 
-    /*---------------*
-    *     Movement
-    *----------------*/
+        return type;
+      }
 
-    /**
-    * Entity Move event.
-    */
-    class EntityMoveEvent : public EntityEvent
-    {
-    public:
-      float walkDirection;
-      float turnDirection;
-      bool run;
-      bool jump;
-      bool local;
+      static unsigned int GetSectorId(const iEvent* event)
+      {
+        unsigned int sector = -1;
+        if (event->Retrieve("sectorId", sector) != csEventErrNone)
+          Report(PT::Error, "EntityHelper::GetSectorId failed!");
 
-    public:
-      EntityMoveEvent() : EntityEvent("entity.move", true) {}
-      virtual ~EntityMoveEvent() {}
-    };
+        return sector;
+      }
 
-    /**
-    * Entity MoveTo event.
-    */
-    class EntityMoveToEvent : public EntityEvent
-    {
-    public:
-      float speed;
-      csVector3 origin;
-      csVector3 destination;
+      static std::string GetString(const iEvent* event, const char* name)
+      {
+        const char* str = "";
+        if (event->Retrieve(name, str) != csEventErrNone)
+          Report(PT::Error, "EntityHelper::GetString failed!");
 
-    public:
-      EntityMoveToEvent() : EntityEvent("entity.moveto", true) {}
-      virtual ~EntityMoveToEvent() {}
-    };
+        std::string text = str;
+        return text;
+      }
 
-    /**
-    * Entity Teleport event.
-    */
-    class EntityTeleportEvent : public EntityEvent
-    {
-    public:
-      float rotation;
-      csVector3 position;
-      unsigned int sectorId;
 
-    public:
-      EntityTeleportEvent() : EntityEvent("entity.teleport", true) {}
-      virtual ~EntityTeleportEvent() {}
-    };
-
-    /**
-    * Entity DrUpdate event.
-    */
-    class EntityDrUpdateEvent : public EntityEvent
-    {
-    public:
-      float rotation;
-      csVector3 position;
-      unsigned int sectorId;
-
-    public:
-      EntityDrUpdateEvent() : EntityEvent("entity.drupdate", true) {}
-      virtual ~EntityDrUpdateEvent() {}
-    };
-
-    /**
-    * Entity PcPropUpdate event.
-    */
-    class EntityPcPropUpdateEvent : public EntityEvent
-    {
-    public:
-      std::string pcprop;
-      celData celdata;
-
-    public:
-      EntityPcPropUpdateEvent() : EntityEvent("entity.pcpropupdate", true) {}
-      virtual ~EntityPcPropUpdateEvent() {}
-    };
-
-    /**
-    * Entity Pose event.
-    */
-    class EntityPoseEvent : public EntityEvent
-    {
-    public:
-      unsigned int poseId;
-
-    public:
-      EntityPoseEvent() : EntityEvent("entity.pose", true) {}
-      virtual ~EntityPoseEvent() {}
-    };
-
-    /**
-    * Entity Stat event.
-    */
-    class EntityStatEvent : public EntityEvent
-    {
-    public:
-      const char* name;
-      unsigned int id;
-      unsigned int level;
-
-    public:
-      EntityStatEvent() : EntityEvent("entity.stat", true) {}
-      virtual ~EntityStatEvent() {}
-    };
-
-  } // Events namespace
+    } // EntityHelper namespace 
+  } // Events namespace 
 } // PT namespace
 
 #endif // PTENTITY_EVENT_H

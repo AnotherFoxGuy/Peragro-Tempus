@@ -33,23 +33,27 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
   LoginResponseMessage response;
   response.deserialise(msg->getByteStream());
 
-  using namespace PT::Events;
-  StateLoggedInEvent* stateEvent = new StateLoggedInEvent();
-
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> stateEvent = evmgr->CreateEvent("state.loggedin", true);
+  
+  bool error = false;
+  const char* emsg = 0;
   if (!response.getError().isNull()) // An error occured.
   {
-    stateEvent->errorMessage	= *response.getError();
-    stateEvent->error		= true;
+    emsg  = *response.getError();
+    error = true;
   }
   else
   {
-    stateEvent->errorMessage	= "blah";
-    stateEvent->error		= false;
+    emsg  = "blah";
+    error = false;
   }
 
-  stateEvent->isAdmin = response.getIsAdmin();
+  stateEvent->Add("error", error);
+  stateEvent->Add("errorMessage", emsg);
+  stateEvent->Add("isAdmin", response.getIsAdmin());
 
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
+  evmgr->AddEvent(stateEvent);
 }
 
 void UserHandler::handleRegisterResponse(GenericMessage* msg)
@@ -110,8 +114,8 @@ void UserHandler::handleCharSelectResponse(GenericMessage* msg)
   CharSelectResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
 
-  using namespace PT::Events;
-  StatePlayEvent* stateEvent = new StatePlayEvent();
-  stateEvent->ownEntityId = answer_msg.getEntityId();
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> stateEvent = evmgr->CreateEvent("state.play", true);
+  stateEvent->Add("ownEntityId", answer_msg.getEntityId());
+  evmgr->AddEvent(stateEvent);
 }

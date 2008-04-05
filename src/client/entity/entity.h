@@ -155,7 +155,7 @@ namespace PT
        * duplication.
        * @param ev Event used for initialising the entity properties.
        */
-      Entity(const Events::EntityAddEvent& ev);
+      Entity(const iEvent& ev);
 
       /**
        * Virtual destructor.

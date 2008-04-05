@@ -164,7 +164,7 @@ namespace PT
       } // Render refractions.
     } // end Render()
 
-    bool ReflectionRenderer::TileLoaded (PT::Events::Eventp ev)
+    bool ReflectionRenderer::TileLoaded (iEvent& ev)
     {
       /// Refresh our mesh list.
       reflectiveMeshes.DeleteAll();

@@ -107,14 +107,11 @@ void BuddyWindow::CreateGUIWindow()
 
 }
 
-bool BuddyWindow::ToggleWindow(PT::Events::Eventp ev)
+bool BuddyWindow::ToggleWindow(iEvent& ev)
 {
   using namespace PT::Events;
 
-  InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-  if (!inputEv) return false;
-
-  if (!inputEv->released)
+  if (InputHelper::GetButtonDown(&ev))
   {
     CEGUI::Window* buddylist = winMgr->getWindow("BuddyList/Frame");
     if (!buddylist) return false;
@@ -124,26 +121,26 @@ bool BuddyWindow::ToggleWindow(PT::Events::Eventp ev)
   return true;
 }
 
-bool BuddyWindow::ProcessEvents(PT::Events::Eventp ev)
+bool BuddyWindow::ProcessEvents(iEvent& ev)
 {
   using namespace PT::Events;
 
-  if (ev->GetEventID().compare("entity.add") == 0)
-  {
-    EntityAddEvent* entityAddEv = GetEntityEvent<EntityAddEvent*>(ev);
-    if (!entityAddEv) return false;
+  std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev.GetName());
 
-    if (entityAddEv->entityType == PT::Entity::PCEntityType)
+  if (id.compare("entity.add") == 0)
+  {
+    if (EntityHelper::GetEntityType(&ev) == PT::Entity::PCEntityType)
     {
-      AddPlayer(entityAddEv->entityName.c_str());
+      const char * nick = 0;
+      ev.Retrieve("entityName", nick);
+      AddPlayer(nick);
     }
   }
-  else if (ev->GetEventID().compare("entity.remove") == 0)
+  else if (id.compare("entity.remove") == 0)
   {
-    EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
-    if (!entityRemoveEv) return false;
+    unsigned int entid = EntityHelper::GetEntityID(&ev);
 
-    PT::Entity::Entity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityRemoveEv->entityId);
+    PT::Entity::Entity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entid);
     if (!ent) return false;
 
     if (ent->GetType() == PT::Entity::PCEntityType)

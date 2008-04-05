@@ -26,11 +26,13 @@ void ChatHandler::handleSay(GenericMessage* msg)
   SayMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
 
-  using namespace PT::Events;
-  ChatSayEvent* chatEvent = new ChatSayEvent();
-  chatEvent->nickName		= *chatmsg.getSpeakerName();
-  chatEvent->message		= chatmsg.getMessage();
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(chatEvent);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> chatEvent = evmgr->CreateEvent("chat.say", true);
+
+  chatEvent->Add("nickName", *chatmsg.getSpeakerName());
+  chatEvent->Add("message", chatmsg.getMessage());
+
+  evmgr->AddEvent(chatEvent);
 }
 
 void ChatHandler::handleWhisperFrom(GenericMessage* msg)
@@ -38,11 +40,13 @@ void ChatHandler::handleWhisperFrom(GenericMessage* msg)
   WhisperFromMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
 
-  using namespace PT::Events;
-  ChatWhisperEvent* chatEvent = new ChatWhisperEvent();
-  chatEvent->nickName		= *chatmsg.getSpeakerName();
-  chatEvent->message		= chatmsg.getMessage();
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(chatEvent);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> chatEvent = evmgr->CreateEvent("chat.whisper", true);
+
+  chatEvent->Add("nickName", *chatmsg.getSpeakerName());
+  chatEvent->Add("message", chatmsg.getMessage());
+
+  evmgr->AddEvent(chatEvent);
 }
 
 void ChatHandler::handleShout(GenericMessage* msg)

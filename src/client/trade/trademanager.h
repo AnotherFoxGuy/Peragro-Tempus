@@ -23,6 +23,8 @@
 
 #include "client/event/tradeevent.h"
 
+struct iEvent;
+
 namespace PT
 {
   namespace Trade
@@ -32,8 +34,8 @@ namespace PT
     class TradeManager
     {
     private:
-      bool PickUp(PT::Events::Eventp ev);
-      bool Drop(PT::Events::Eventp ev);
+      bool PickUp(iEvent& ev);
+      bool Drop(iEvent& ev);
 
       PT::Trade::PlayerInventory* playerinventory;
 

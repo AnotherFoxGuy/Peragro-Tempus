@@ -21,34 +21,13 @@
 
 #include <cssysdef.h>
 
-#include <string>
-
-#include <boost/shared_ptr.hpp>
-
-
-#define EventID std::string
-
 namespace PT
 {
   namespace Events
   {
-    class Event
-    {
-    public:
-      EventID name;
-      bool broadCast;
 
-    public:
-      Event(EventID name, bool broadCast) : name(name), broadCast(broadCast) {}
-      virtual ~Event(){}
 
-      virtual const EventID GetEventID() { return name; }
-      virtual const bool GetBroadCast() { return broadCast; }
-    };
-
-    typedef boost::shared_ptr<Event> Eventp;
-
-  } // Events namespace 
-} // PT namespace 
+  } // Events namespace
+} // PT namespace
 
 #endif // EVENT_H

@@ -182,8 +182,8 @@ namespace PT
 
     World* world;
 
-    bool ActionActivateSkill(PT::Events::Eventp);
-    bool ActionQuit(PT::Events::Eventp);
+    bool ActionActivateSkill(iEvent& ev);
+    bool ActionQuit(iEvent& ev);
     bool Quit(const CEGUI::EventArgs &args);
     bool NoQuit(const CEGUI::EventArgs &args);
 
@@ -202,11 +202,11 @@ namespace PT
     unsigned int char_id;
 
   public:
-    bool loggedIn(PT::Events::Eventp ev);
-    bool PlayingEvent(PT::Events::Eventp ev);
-    bool LoadingRegion(PT::Events::Eventp ev);
-    bool LoadRegion(PT::Events::Eventp ev);
-    bool Connected(PT::Events::Eventp ev);
+    bool loggedIn(iEvent& ev);
+    bool PlayingEvent(iEvent& ev);
+    bool LoadingRegion(iEvent& ev);
+    bool LoadRegion(iEvent& ev);
+    bool Connected(iEvent& ev);
 
   public:
     Client();

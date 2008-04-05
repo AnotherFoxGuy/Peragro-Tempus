@@ -645,12 +645,9 @@ namespace PT
     }
   }
 
-  bool Client::Connected (PT::Events::Eventp ev)
+  bool Client::Connected (iEvent& ev)
   {
     using namespace PT::Events;
-
-    StateConnectedEvent* stateEv = GetStateEvent<StateConnectedEvent*>(ev);
-    if (!stateEv) return false;
 
     if (statemanager->GetState() == STATE_RECONNECTED)
     {
@@ -694,16 +691,13 @@ namespace PT
     network->send(&answer_msg);
   }
 
-  bool Client::ActionActivateSkill(PT::Events::Eventp ev)
+  bool Client::ActionActivateSkill(iEvent& ev)
   {
     using namespace PT::Events;
 
     if (statemanager->GetState() == STATE_PLAY)
     {
-      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-      if (!inputEv) return false;
-
-      if (!inputEv->released)
+      if (InputHelper::GetButtonDown(&ev))
       {
         // Activate the skill
         csRef<iCelEntity> ent = cursor->GetSelectedEntity();
@@ -731,7 +725,7 @@ namespace PT
     return true;
   }
 
-  bool Client::ActionQuit(PT::Events::Eventp ev)
+  bool Client::ActionQuit(iEvent& ev)
   {
     using namespace PT::Events;
 
@@ -786,22 +780,19 @@ namespace PT
     return true;
   }
 
-  bool Client::loggedIn(PT::Events::Eventp ev)
+  bool Client::loggedIn(iEvent& ev)
   {
     using namespace PT::Events;
 
-    StateLoggedInEvent* stateev = GetStateEvent<StateLoggedInEvent*>(ev);
-    if (!stateev) return false;
-
-    if (stateev->error)
+    if (StateHelper::GetError(&ev))
     {
-      Report(PT::Error, "Login Failed due to: %s.", stateev->errorMessage.c_str());
+      Report(PT::Error, "Login Failed due to: %s.", StateHelper::GetErrorMessage(&ev).c_str());
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       guimanager->GetLoginWindow()->EnableWindow();
       guimanager->GetServerWindow()->EnableWindow();
       //network->stop();
       //statemanager->SetState(STATE_INTRO);
-      guimanager->CreateOkWindow(true)->SetText(stateev->errorMessage.c_str());
+      guimanager->CreateOkWindow(true)->SetText(StateHelper::GetErrorMessage(&ev).c_str());
       return true;
     }
     else
@@ -817,7 +808,10 @@ namespace PT
       guimanager->GetLoginWindow ()->HideWindow ();
       guimanager->GetServerWindow ()->HideWindow ();
       guimanager->GetSelectCharWindow ()->ShowWindow ();
-      if(stateev->isAdmin){guimanager->GetSelectCharWindow ()->ShowAdminButton();}
+
+      bool isAdmin = false;
+      ev.Retrieve("isAdmin", isAdmin);
+      if(isAdmin){guimanager->GetSelectCharWindow ()->ShowAdminButton();}
 
       statemanager->SetState(STATE_LOGGED_IN);
 
@@ -897,24 +891,19 @@ namespace PT
     }
   }
 
-  bool Client::PlayingEvent(PT::Events::Eventp ev)
+  bool Client::PlayingEvent(iEvent& ev)
   {
     using namespace PT::Events;
-
-    StatePlayEvent* playEv = GetStateEvent<StatePlayEvent*>(ev);
-    if (!playEv) return false;
 
     statemanager->SetState(STATE_PLAY);
 
     return true;
   }
 
-  bool Client::LoadingRegion(PT::Events::Eventp ev)
+  bool Client::LoadingRegion(iEvent& ev)
   {
     using namespace PT::Events;
 
-    WorldLoadingEvent* worldEv = GetWorldEvent<WorldLoadingEvent*>(ev);
-    if (!worldEv) return false;
     if(!guimanager->GetLoadScreenWindow()->IsVisible())
     {
       guimanager->GetLoadScreenWindow()->ShowWindow();
@@ -927,16 +916,13 @@ namespace PT
         image->setProperty("BackgroundEnabled", "True");
       }
     }
-    guimanager->GetLoadScreenWindow()->SetProgress(worldEv->progress);
+    guimanager->GetLoadScreenWindow()->SetProgress(WorldHelper::GetProgress(&ev));
     return true;
   }
 
-  bool Client::LoadRegion(PT::Events::Eventp ev)
+  bool Client::LoadRegion(iEvent& ev)
   {
     using namespace PT::Events;
-
-    WorldLoadedEvent* worldEv = GetWorldEvent<WorldLoadedEvent*>(ev);
-    if (!worldEv) return false;
 
     iCelEntity* ent = pl->FindEntity("ptIntroWorld");
     if (ent)

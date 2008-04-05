@@ -45,7 +45,7 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the PC properties.
        */
-      PcEntity(const Events::EntityAddEvent& ev);
+      PcEntity(const iEvent& ev);
 
       void Interact();
     };

@@ -30,9 +30,9 @@ namespace PT
   namespace Entity
   {
 
-    ItemEntity::ItemEntity(const Events::EntityAddEvent& ev) : Entity(ev)
+    ItemEntity::ItemEntity(const iEvent& ev) : Entity(ev)
     {
-      itemId = ev.typeId;
+      ev.Retrieve("itemId", itemId);
 
       Create();
     }
@@ -71,13 +71,12 @@ namespace PT
 
     void ItemEntity::Interact()
     {
-      using namespace PT::Events;
-
-      InterfaceInteract* interfaceEvent = new InterfaceInteract();
-
-      interfaceEvent->entityId = id;
-      interfaceEvent->actions  = "Pickup";
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
+      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+      interfaceEvent->Add("entityId", id);
+      std::string actions = "Pickup";
+      interfaceEvent->Add("actions", actions.c_str());
+      evmgr->AddEvent(interfaceEvent);
     }
   }
 }

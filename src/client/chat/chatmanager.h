@@ -22,7 +22,7 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 
-#include "client/event/chatevent.h"
+#include "client/event/eventmanager.h"
 
 #include "command.h"
 
@@ -72,9 +72,9 @@ namespace PT
       const char* NextMessage();
 
     public: // PT events.
-      bool HandleSay(PT::Events::Eventp ev);
-      bool HandleWhisper(PT::Events::Eventp ev);
-      bool ProcessEvents(PT::Events::Eventp ev);
+      bool HandleSay(iEvent& ev);
+      bool HandleWhisper(iEvent& ev);
+      bool ProcessEvents(iEvent& ev);
 
     public:
       ChatManager ();

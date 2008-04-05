@@ -48,7 +48,7 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the door properties.
        */
-      ItemEntity(const Events::EntityAddEvent& ev);
+      ItemEntity(const iEvent& ev);
 
       ///@return Item type ID.
       int GetItemId () const { return itemId; }

@@ -78,7 +78,7 @@ public:
    * @param ev Event describing the hit.
    * @return False if an error occured, true otherwise.
    */
-  bool ActionHit(PT::Events::Eventp ev);
+  bool ActionHit(iEvent& ev);
 };
 
 #endif // COMBATMANAGER_H

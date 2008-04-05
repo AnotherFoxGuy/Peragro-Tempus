@@ -21,59 +21,32 @@
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
+#include "client/reporter/reporter.h"
 
 namespace PT
 {
   namespace Events
   {
-    /**
-    * Input event base class.
-    */
-    class _InputEvent : public Event
+    namespace InputHelper
     {
-    public:
-      std::string action;
-      bool released;
 
-    public:
-      _InputEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~_InputEvent() {}
-    };
-
-    /**
-    * InputEvent helper function.
-    */
-    template <class T>
-    T GetInputEvent(Eventp ev)
-    {
-      _InputEvent* inputEv = static_cast<_InputEvent*> (ev.get());
-      if (!inputEv)
+      static const char* GetAction(const iEvent* event)
       {
-        printf("E: Not an Input event!\n");
-        return 0;
-      }
-      T tEv = static_cast<T> (inputEv);
-      if (!tEv)
-      {
-        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-        return 0;
+        const char* action = 0;
+        if (event->Retrieve("action", action) != csEventErrNone)
+          Report(PT::Error, "InputHelper::GetButtonState failed!");
+        return action;
       }
 
-      return tEv;
-    }
+      static bool GetButtonDown(const iEvent* event)
+      {
+        bool state = false;
+        if (event->Retrieve("buttonState", state) != csEventErrNone)
+          Report(PT::Error, "InputHelper::GetButtonState failed!");
+        return state;
+      }
 
-    /**
-    * Input Event event.
-    */
-    class InputEvent : public _InputEvent
-    {
-    public:
-      InputEvent() : _InputEvent("input", true) {}
-      virtual ~InputEvent() {}
-    };
-
-
+    } // InputHelper namespace 
   } // Events namespace 
 } // PT namespace 
 

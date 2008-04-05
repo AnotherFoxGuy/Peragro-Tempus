@@ -21,68 +21,26 @@
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
+#include "client/reporter/reporter.h"
 
 namespace PT
 {
   namespace Events
   {
-    /**
-    * Region event base class.
-    */
-    class WorldEvent : public Event
+    namespace WorldHelper
     {
-    public:
-      WorldEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~WorldEvent() {}
-    };
+      
+      static float GetProgress(const iEvent* event)
+      {
+        float progress = 0.0f;
+        if (event->Retrieve("progress", progress) != csEventErrNone)
+          Report(PT::Error, "WorldHelper::GetProgress failed!");
 
-    /**
-    * RegionEvent helper function.
-    */
-    template <class T>
-    T GetWorldEvent(Eventp ev)
-    {
-      WorldEvent* worldEv = static_cast<WorldEvent*> (ev.get());
-      if (!worldEv)
-      {
-        printf("E: Not a World event!\n");
-        return 0;
-      }
-      T tEv = static_cast<T> (worldEv);
-      if (!tEv)
-      {
-        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-        return 0;
+        return progress;
       }
 
-      return tEv;
-    }
-
-    /**
-    * World loading event.
-    */
-    class WorldLoadingEvent : public WorldEvent
-    {
-    public:
-      float progress;
-
-    public:
-      WorldLoadingEvent() : WorldEvent("world.loading", true), progress (0.0f) {}
-      virtual ~WorldLoadingEvent() {}
-    };
-
-    /**
-    * World loaded event.
-    */
-    class WorldLoadedEvent : public WorldEvent
-    {
-    public:
-      WorldLoadedEvent() : WorldEvent("world.loaded", true) {}
-      virtual ~WorldLoadedEvent() {}
-    };
-
+    } // WorldHelper namespace 
   } // Events namespace 
-} // PT namespace 
+} // PT namespace
 
 #endif // PT_REGION_EVENT_H

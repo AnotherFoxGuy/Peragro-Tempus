@@ -20,7 +20,8 @@
 #define EVENT_HANDLER_H
 
 #include <cssysdef.h>
-#include "event.h"
+
+struct iEvent;
 
 namespace PT
 {
@@ -29,15 +30,14 @@ namespace PT
     class EventHandlerCallback
     {
     public:
-      virtual bool HandleEvent(Eventp ev) = 0;
-      virtual bool IsValid() = 0;
+      virtual bool HandleEvent(iEvent& ev) = 0;
       virtual ~EventHandlerCallback() { };
     };
 
     template <class Class> class EventHandler : public EventHandlerCallback
     {
     public:
-      typedef bool (Class::*Func)(Eventp);
+      typedef bool (Class::*Func)(iEvent&);
 
       EventHandler(Func function, Class *classy)
       {
@@ -45,14 +45,9 @@ namespace PT
         thefunc = function;
       }
 
-      bool HandleEvent(Eventp ev)
+      bool HandleEvent(iEvent& ev)
       {
         return (theclass->*thefunc)(ev);
-      }
-
-      bool IsValid()
-      {
-        return theclass != 0;
       }
 
       Class *theclass;

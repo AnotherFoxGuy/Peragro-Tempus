@@ -310,15 +310,16 @@ namespace PT
         allLoaded = false;
 
       //printf("I: World loading progress %.2f!\n", (tilesLoaded/(float)(GetGridSize()*GetGridSize())));
-      PT::Events::WorldLoadingEvent* worldEvent = new PT::Events::WorldLoadingEvent();
-      worldEvent->progress = tilesLoaded/(float)(GetGridSize()*GetGridSize());
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(worldEvent);
+      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading", false);
+      worldEvent->Add("progress", tilesLoaded/(float)(GetGridSize()*GetGridSize()));
+      evmgr->AddEvent(worldEvent);
 
       if (allLoaded)
       {
         Report(PT::Notify, "World loaded!");
-        PT::Events::WorldLoadedEvent* worldEvent = new PT::Events::WorldLoadedEvent();
-        PointerLibrary::getInstance()->getEventManager()->AddEvent(worldEvent);
+        csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loaded", false);
+        evmgr->AddEvent(worldEvent);
         loading = false;
       }
 
@@ -370,8 +371,11 @@ namespace PT
   void World::EnterWorld(float x, float z)
   {
     Report(PT::Notify, "World loading...");
-    PT::Events::WorldLoadingEvent* worldEvent = new PT::Events::WorldLoadingEvent();
-    PointerLibrary::getInstance()->getEventManager()->AddEvent(worldEvent);
+
+    PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+    csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading", false);
+    worldEvent->Add("progress", 0);
+    evmgr->AddEvent(worldEvent);
 
     camera.x = x;
     camera.z = z;

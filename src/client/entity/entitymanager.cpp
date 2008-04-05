@@ -108,35 +108,31 @@ namespace PT
     {
       using namespace PT::Events;
 
-      while (!events.empty())
+      while (!events.IsEmpty())
       {
-        Eventp ev = events.front();
-        events.pop();
+        csRef<iEvent> ev = events.Pop();
+        std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev->GetName());
         if (playerId != 0) 
         {
-          if (ev->GetEventID().compare("entity.add") == 0)
-            AddEntity(ev);
+          if (id.compare("entity.add") == 0)
+            AddEntity(*ev);
         }
         if (world_loaded && PointerLibrary::getInstance()->getStateManager()->GetState() == STATE_PLAY) 
         {
-          if (ev->GetEventID().compare("entity.remove") == 0)
-            RemoveEntity(ev);
-          else if (ev->GetEventID().compare("entity.equip") == 0)
-            Equip(ev);
-          else if (ev->GetEventID().compare("entity.mount") == 0)
-            Mount(ev);
-          else if (ev->GetEventID().compare("entity.pose") == 0)    
-            EntityPose(ev);
+          if (id.compare("entity.remove") == 0)
+            RemoveEntity(*ev);
+          else if (id.compare("entity.equip") == 0)
+            Equip(*ev);
+          else if (id.compare("entity.mount") == 0)
+            Mount(*ev);
+          else if (id.compare("entity.pose") == 0)    
+            EntityPose(*ev);
         }
       } // for
     }
 
-    bool EntityManager::WorldLoaded(PT::Events::Eventp ev)
+    bool EntityManager::WorldLoaded(iEvent& ev)
     {
-      using namespace PT::Events;
-
-      WorldLoadedEvent* worldEv = GetWorldEvent<WorldLoadedEvent*>(ev);
-      if (!worldEv) return false;
 
       for (size_t i = 0; i < entities.GetSize(); i++)
       {
@@ -211,70 +207,66 @@ namespace PT
       return 0;
     }
 
-    bool EntityManager::GetEntityEvents(PT::Events::Eventp ev)
+    bool EntityManager::GetEntityEvents(iEvent& ev)
     {
       using namespace PT::Events;
 
-      Eventp evcopy(ev);
-      events.push(evcopy);
+      events.Push(&ev);
+
+      unsigned int id = EntityHelper::GetEntityID(&ev);
+      std::string name = PT::Events::EntityHelper::GetString(&ev, "entityName");
+      Report(PT::Warning, "GetEntityEvents:  '%s(%d)'", name.c_str(), id);
 
       return true;
     }
 
-    bool EntityManager::SetOwnId(PT::Events::Eventp ev)
+    bool EntityManager::SetOwnId(iEvent& ev)
     {
       using namespace PT::Events;
 
-      StatePlayEvent* playEv = GetStateEvent<StatePlayEvent*>(ev);
-      if (!playEv) return false;
-
-      playerId = playEv->ownEntityId;
+      ev.Retrieve("ownEntityId", playerId);
 
       return true;
     }
 
-    bool EntityManager::AddEntity(PT::Events::Eventp ev)
+    bool EntityManager::AddEntity(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityAddEvent* entityAddEv = GetEntityEvent<EntityAddEvent*>(ev);
-      if (!entityAddEv) return false;
+      unsigned int id = EntityHelper::GetEntityID(&ev);
+      std::string name = PT::Events::EntityHelper::GetString(&ev, "entityName");
+      unsigned int type = EntityHelper::GetEntityType(&ev);
 
-      if ( findPtEntById(entityAddEv->entityId) )
+      if ( findPtEntById(id) )
       {
-        Report(PT::Warning, "AddEntity: Skipping already existing entity '%s(%d)'", entityAddEv->entityName.c_str(), entityAddEv->entityId);
+        Report(PT::Warning, "AddEntity: Skipping already existing entity '%s(%d)'", name.c_str(), id);
         return true;
       }
 
       Entity* entity;
 
-      if (entityAddEv->entityType == DoorEntityType) entity = new DoorEntity(*entityAddEv);
-      else if (entityAddEv->entityType == ItemEntityType) entity = new ItemEntity(*entityAddEv);
-      else if (entityAddEv->entityType == MountEntityType) entity = new MountEntity(*entityAddEv);
-      else if (entityAddEv->entityType == NPCEntityType) entity = new NpcEntity(*entityAddEv);
-      else if (entityAddEv->entityType == PCEntityType && playerId == entityAddEv->entityId) entity = PlayerEntity::Instance(entityAddEv);
-      else if (entityAddEv->entityType == PCEntityType) entity = new PcEntity(*entityAddEv);
+      if (type == DoorEntityType) entity = new DoorEntity(ev);
+      else if (type == ItemEntityType) entity = new ItemEntity(ev);
+      else if (type == MountEntityType) entity = new MountEntity(ev);
+      else if (type == NPCEntityType) entity = new NpcEntity(ev);
+      else if (type == PCEntityType && playerId == id) entity = PlayerEntity::Instance(&ev);
+      else if (type == PCEntityType) entity = new PcEntity(ev);
       else
       {
-        Report(PT::Error, "Invalid entity type: %d !", entityAddEv->entityType);
+        Report(PT::Error, "Invalid entity type: %d !", type);
         return true;
       }
 
-      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entityAddEv->position.Description().GetData(), (playerId == entityAddEv->entityId) ? " as me":"");
+      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPosition().Description().GetData(), (playerId == id) ? " as me":"");
       // Add our entity to the list.
       entities.Push(entity);
 
       return true;
     }
 
-    bool EntityManager::RemoveEntity(PT::Events::Eventp ev)
+    bool EntityManager::RemoveEntity(iEvent& ev)
     {
-      using namespace PT::Events;
-
-      EntityRemoveEvent* entityRemoveEv = GetEntityEvent<EntityRemoveEvent*>(ev);
-      if (!entityRemoveEv) return false;
-
-      unsigned int id = entityRemoveEv->entityId;
+      unsigned int id = PT::Events::EntityHelper::GetEntityID(&ev);
 
       for (size_t i = 0; i < entities.GetSize(); i++)
       {
@@ -291,27 +283,36 @@ namespace PT
       return true;
     }
 
-    bool EntityManager::Equip(PT::Events::Eventp ev)
+    bool EntityManager::Equip(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityEquipEvent* entityEquipEv = GetEntityEvent<EntityEquipEvent*>(ev);
-      if (!entityEquipEv) return false;
+      unsigned int id = EntityHelper::GetEntityID(&ev);
+      unsigned int type = EntityHelper::GetEntityType(&ev);
 
-      Report(PT::Debug, "Equip for '%d': item %d in slot %d", entityEquipEv->entityId, entityEquipEv->itemId, entityEquipEv->slotId);
+      unsigned int itemId = -1;
+      ev.Retrieve("itemId", itemId);
 
-      Entity* entity = findPtEntById(entityEquipEv->entityId);
+      //unsigned int variationId = -1;
+      //ev.Retrieve("variationId", variationId);
+
+      unsigned int slotId = -1;
+      ev.Retrieve("slotId", slotId);
+
+      Report(PT::Debug, "Equip for '%d': item %d in slot %d", id, itemId, slotId);
+
+      Entity* entity = findPtEntById(id);
       if (entity)
       {
-        if (entity->GetType() == PCEntityType)
+        if (type == PCEntityType)
         {
-          if (!entityEquipEv->itemId == 0)
+          if (!itemId == 0)
             {
-            ((PcEntity*) entity)->GetEquipment().Equip(entityEquipEv->slotId, entityEquipEv->itemId);
+            ((PcEntity*) entity)->GetEquipment().Equip(slotId, itemId);
             }
           else
             {
-            ((PcEntity*) entity)->GetEquipment().UnEquip(entityEquipEv->slotId);
+            ((PcEntity*) entity)->GetEquipment().UnEquip(slotId);
             }
         }
       }
@@ -319,21 +320,26 @@ namespace PT
       return true;
     }
 
-    bool EntityManager::Mount(PT::Events::Eventp ev)
+    bool EntityManager::Mount(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityMountEvent* entityMountEv = GetEntityEvent<EntityMountEvent*>(ev);
-      if (!entityMountEv) return false;
+      unsigned int entityId = EntityHelper::GetEntityID(&ev);
 
-      Entity* entity = findPtEntById(entityMountEv->entityId);
-      Entity* mount = findPtEntById(entityMountEv->mountId);
+      unsigned int mountId = -1;
+      ev.Retrieve("mountId", mountId);
+
+      bool mounting = false;
+      ev.Retrieve("mount", mounting);
+
+      Entity* entity = findPtEntById(entityId);
+      Entity* mount = findPtEntById(mountId);
       if (entity && mount)
       {
         if (entity->GetType() == PCEntityType && mount->GetType() == MountEntityType)
         {
           MountEntity* m = static_cast<MountEntity*>(mount);
-          if (entityMountEv->mount)
+          if (mounting)
           {
             m->Mount(entity);
             //Set camera to follow the mount after mounting. Only done for player's mount.
@@ -352,14 +358,11 @@ namespace PT
       return true;
     }
 
-    bool EntityManager::OnInteract(PT::Events::Eventp ev)
+    bool EntityManager::OnInteract(iEvent& ev)
     {
       using namespace PT::Events;
 
-      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-      if (!inputEv) return false;
-
-      if (!inputEv->released)
+      if (InputHelper::GetButtonDown(&ev))
       {
         csRef<iCelEntity> ent = PointerLibrary::getInstance()->getCursor()->GetSelectedEntity();
         if (!ent) return false;
@@ -453,17 +456,17 @@ namespace PT
       }
     }
 
-    bool EntityManager::EntityPose(PT::Events::Eventp ev)
+    bool EntityManager::EntityPose(iEvent& ev)
     {
       using namespace PT::Events;
       
-      EntityPoseEvent* entPoseEvent = GetEntityEvent<EntityPoseEvent*>(ev);
-      if (!entPoseEvent) return false;
+      unsigned int id = EntityHelper::GetEntityID(&ev);
 
-      Report(PT::Debug, "EntityPose: Recieved Pose %d for entity %d.", 
-              entPoseEvent->poseId, entPoseEvent->entityId);
-      Entity* entity = findPtEntById(entPoseEvent->entityId);
-      if (entity) entity->Pose(entPoseEvent->poseId);
+      unsigned int poseId = -1;
+      ev.Retrieve("poseId", poseId);
+
+      Entity* entity = findPtEntById(id);
+      if (entity) entity->Pose(poseId);
 
       return true;
     }

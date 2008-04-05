@@ -56,7 +56,7 @@ namespace PT
     PlayerEntity* PlayerEntity::instance = 0;
 
 
-    PlayerEntity::PlayerEntity(const Events::EntityAddEvent& ev) : PcEntity(ev)
+    PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
     {
       Create();
 
@@ -200,7 +200,7 @@ namespace PT
       instance=0;
     }
 
-    PlayerEntity* PlayerEntity::Instance(const Events::EntityAddEvent* ev)
+    PlayerEntity* PlayerEntity::Instance(const iEvent* ev)
     {
       //If the instance already exists, and we're not
       //requesting a reinitialization.
@@ -209,8 +209,8 @@ namespace PT
       //a reinitialization
       else if (instance && ev)
       {
-        instance->ReInit(ev);
-        return instance;/*delete instance;*/
+        instance->ReInit(*ev);
+        return instance;
       }
 
       //We can't initialize without a valid event
@@ -220,29 +220,35 @@ namespace PT
       return instance;
     }
 
-    void PlayerEntity::ReInit(const Events::EntityAddEvent* ev)
+    void PlayerEntity::ReInit(const iEvent& ev)
     {
       // Reset the Id.
-      id = ev->entityId;
+      ev.Retrieve("entityId", id);
 
       // TODO: Clear the inventory.
       // TODO: Clear the skills and skillbar.
 
       equipment.ClearAll();
 
+      /* @TODO
       //Add the equipment
       for(size_t i = 0; i < ev->equipment.GetSize(); i++)
-        equipment.Equip(ev->equipment.Get(i).slotId, ev->equipment.Get(i).itemId);
+        equipment.Equip(ev->equipment.Get(i).slotId, ev->equipment.Get(i).itemId);*/
 
+      unsigned int sectorId = -1;
+      ev.Retrieve("sectorId", sectorId);
       ///@todo This is an ugly hack. The server seems to send some impossible
       ///sector id from time to time.
       PT::Data::Sector* sector = PointerLibrary::getInstance()->
-        getSectorDataManager()->GetSectorById(ev->sectorId);
+        getSectorDataManager()->GetSectorById(sectorId);
       if (sector) sectorName = sector->GetName();
       //End of ugly hack
 
-      PointerLibrary::getInstance()->getWorld()->EnterWorld(ev->position.x, ev->position.z);
-      SetFullPosition(ev->position, ev->rotation, sectorName);
+      pos = PT::Events::EntityHelper::GetPosition(&ev);
+      ev.Retrieve("rotation", rot);
+
+      PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
+      SetFullPosition(pos, rot, sectorName);
     }
 
     void PlayerEntity::Create()
@@ -298,16 +304,13 @@ namespace PT
 #endif
     }
 
-    bool PlayerEntity::ActionForward(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionForward(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released) walk = 1;
+        if (InputHelper::GetButtonDown(&ev)) walk = 1;
         else walk = 0;
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
@@ -321,16 +324,13 @@ namespace PT
       return true;
     }
 
-    bool PlayerEntity::ActionBackward(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionBackward(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released) walk = -1;
+        if (InputHelper::GetButtonDown(&ev)) walk = -1;
         else walk = 0;
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
@@ -344,16 +344,13 @@ namespace PT
       return true;
     }
 
-    bool PlayerEntity::ActionLeft(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionLeft(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released) turn = -1;
+        if (InputHelper::GetButtonDown(&ev)) turn = -1;
         else turn = 0;
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
@@ -367,16 +364,13 @@ namespace PT
       return true;
     }
 
-    bool PlayerEntity::ActionRight(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionRight(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released) turn = 1;
+        if (InputHelper::GetButtonDown(&ev)) turn = 1;
         else turn = 0;
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
@@ -390,32 +384,26 @@ namespace PT
       return true;
     }
 
-    bool PlayerEntity::ActionToggleWalk(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionToggleWalk(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released) (walk == 0) ? walk = 1 : walk = 0;
+        if (InputHelper::GetButtonDown(&ev)) (walk == 0) ? walk = 1 : walk = 0;
       }
       PerformMovementAction();
 
       return true;
     }
 
-    bool PlayerEntity::ActionToggleRun(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionToggleRun(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released)
+        if (InputHelper::GetButtonDown(&ev))
         {
           if (run==false)
           {
@@ -438,17 +426,15 @@ namespace PT
       return true;
     }
 
-  bool PlayerEntity::ActionPanUp(PT::Events::Eventp ev)
+  bool PlayerEntity::ActionPanUp(iEvent& ev)
     {
       using namespace PT::Events;
 
+      if (!celEntity) return false;
+
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-        if (!celEntity) return false;
-
-        if (!inputEv->released)
+        if (InputHelper::GetButtonDown(&ev))
         {
           if (invertYAxis) camera->SetPitchVelocity(-1.0f);
           else camera->SetPitchVelocity(1.0f);
@@ -462,17 +448,15 @@ namespace PT
       return true;
     }
 
-  bool PlayerEntity::ActionPanDown(PT::Events::Eventp ev)
+  bool PlayerEntity::ActionPanDown(iEvent& ev)
     {
       using namespace PT::Events;
 
+      if (!celEntity) return false;
+
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-        if (!celEntity) return false;
-
-        if (!inputEv->released)
+        if (InputHelper::GetButtonDown(&ev))
         {
           if (invertYAxis) camera->SetPitchVelocity(1.0f);
           else camera->SetPitchVelocity(-1.0f);
@@ -486,16 +470,13 @@ namespace PT
       return true;
     }
 
-  bool PlayerEntity::ActionToggleCamera(PT::Events::Eventp ev)
+  bool PlayerEntity::ActionToggleCamera(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released)
+        if (InputHelper::GetButtonDown(&ev))
         {
           csRef<iPcActorMove> pcactormove =
             CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
@@ -507,16 +488,13 @@ namespace PT
       return true;
     }
 
-  bool PlayerEntity::ActionToggleDistClipping(PT::Events::Eventp ev)
+  bool PlayerEntity::ActionToggleDistClipping(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released)
+        if (InputHelper::GetButtonDown(&ev))
         {
 
           if (!celEntity) return false;
@@ -532,16 +510,13 @@ namespace PT
       return true;
     }
 
-    bool PlayerEntity::ActionActivateWeapon(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionActivateWeapon(iEvent& ev)
     {
       using namespace PT::Events;
 
       if (ready)
       {
-        InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-        if (!inputEv) return false;
-
-        if (!inputEv->released)
+        if (InputHelper::GetButtonDown(&ev))
         {
           PlayAnimation("attack_sword_s");
         }
@@ -550,14 +525,11 @@ namespace PT
       return true;
     }
 
-    bool PlayerEntity::ActionZoomIn(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionZoomIn(iEvent& ev)
     {
       using namespace PT::Events;
 
-      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-      if (!inputEv) return false;
-
-      if (!inputEv->released)
+      if (InputHelper::GetButtonDown(&ev))
       {
         if (!celEntity) return false;
         cameraDistance -= 0.5;
@@ -566,13 +538,11 @@ namespace PT
       return true;
     }
 
-    bool PlayerEntity::ActionZoomOut(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionZoomOut(iEvent& ev)
     {
       using namespace PT::Events;
-      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-      if (!inputEv) return false;
 
-      if (!inputEv->released)
+      if (InputHelper::GetButtonDown(&ev))
       {
         if (!celEntity) return false;
         cameraDistance += 0.5;
@@ -581,14 +551,11 @@ namespace PT
       return true;
     }
 
-    bool PlayerEntity::ActionJump(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionJump(iEvent& ev)
     {
       using namespace PT::Events;
-      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
 
-      if (!inputEv) return false;
-
-      if (!inputEv->released) jump=true;
+      if (InputHelper::GetButtonDown(&ev)) jump=true;
 
       PerformMovementAction();
       return true;
@@ -598,6 +565,7 @@ namespace PT
     {
       using namespace PT::Events;
 
+      /* @TODO
       // Start moving, but only if we're not on a mount, mounts would react a
       // bit slower, so the small network lag makes sense there
       if(instance && !static_cast<PcEntity*>(instance)->GetHasMount()){
@@ -609,7 +577,7 @@ namespace PT
         entityEvent->jump          = jump;
         entityEvent->local         = true;
         PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
-      }
+      }*/
 
       MoveRequestMessage msg;
 
@@ -670,14 +638,11 @@ namespace PT
       camera->Draw();
     }
 
-    bool PlayerEntity::ActionMoveTo(PT::Events::Eventp ev)
+    bool PlayerEntity::ActionMoveTo(iEvent& ev)
     {
       using namespace PT::Events;
 
-      InputEvent* inputEv = GetInputEvent<InputEvent*>(ev);
-      if (!inputEv) return false;
-
-      if (!inputEv->released)
+      if (InputHelper::GetButtonDown(&ev))
       {
         if (!instance) return false;
         csRef<iPcDefaultCamera> pccamera = GetCamera();
@@ -718,12 +683,12 @@ namespace PT
 
     void PlayerEntity::Interact()
     {
-      using namespace PT::Events;
-      InterfaceInteract* interfaceEvent = new InterfaceInteract();
-
-      interfaceEvent->entityId              = id;
-      interfaceEvent->actions               = "Attack, Inventory, Stats";
-      PointerLibrary::getInstance()->getEventManager()->AddEvent(interfaceEvent);
+      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+      interfaceEvent->Add("entityId", id);
+      std::string actions = "Attack, Inventory, Stats";
+      interfaceEvent->Add("actions", actions.c_str());
+      evmgr->AddEvent(interfaceEvent);
     }
 
     void PlayerEntity::Teleport(const csVector3& pos,
@@ -772,7 +737,7 @@ namespace PT
 
     } // end SetFullPosition()
 
-    bool PlayerEntity::UpdateOptions(PT::Events::Eventp ev)
+    bool PlayerEntity::UpdateOptions(iEvent& ev)
     {
       return UpdateOptions();
     } // end UpdateOptions()

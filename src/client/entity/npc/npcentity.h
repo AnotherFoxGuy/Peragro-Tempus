@@ -43,7 +43,7 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the NPC properties.
        */
-      NpcEntity(const Events::EntityAddEvent& ev);
+      NpcEntity(const iEvent& ev);
 
       void Interact();
     };

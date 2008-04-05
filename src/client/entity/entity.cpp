@@ -31,21 +31,23 @@ namespace PT
 {
   namespace Entity
   {
-    Entity::Entity(const Events::EntityAddEvent& ev)
+    Entity::Entity(const iEvent& ev)
     {
-      id = ev.entityId;
-      type = ev.entityType;
-      name = ev.entityName;
-      meshName = ev.meshName;
-      fileName = ev.fileName;
+      id = PT::Events::EntityHelper::GetEntityID(&ev);
+      type = (EntityType)PT::Events::EntityHelper::GetEntityType(&ev);
+      name = PT::Events::EntityHelper::GetString(&ev, "entityName");
+      meshName = PT::Events::EntityHelper::GetString(&ev, "meshName");
+      fileName = PT::Events::EntityHelper::GetString(&ev, "fileName");
+      unsigned int sectorId = PT::Events::EntityHelper::GetSectorId(&ev);
+      pos = PT::Events::EntityHelper::GetPosition(&ev);
+      ev.Retrieve("rotation", rot);
+
       ///@todo This is an ugly hack. The server seems to send some impossible
       ///sector id from time to time.
       PT::Data::Sector* sector = PointerLibrary::getInstance()->
-        getSectorDataManager()->GetSectorById(ev.sectorId);
+        getSectorDataManager()->GetSectorById(sectorId);
       if (sector) sectorName = sector->GetName();
       //End of ugly hack
-      pos = ev.position;
-      rot = ev.rotation;
     }
 
     void Entity::CreateCelEntity()

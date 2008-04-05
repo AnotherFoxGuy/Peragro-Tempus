@@ -30,7 +30,7 @@ namespace PT
   namespace Entity
   {
 
-    MountEntity::MountEntity(const Events::EntityAddEvent& ev) :
+    MountEntity::MountEntity(const iEvent& ev) :
       CharacterEntity(ev)
     {
       mounted = false;

@@ -21,72 +21,34 @@
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
-
 namespace PT
 {
   namespace Events
   {
-    /**
-    * Chat event base class.
-    */
-    class ChatEvent : public Event
+    namespace ChatHelper
     {
-    public:
-      ChatEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~ChatEvent() {}
-    };
 
-    /**
-    * ChatEvent helper function.
-    */
-    template <class T>
-    T GetChatEvent(Eventp ev)
-    {
-      ChatEvent* chatEv = static_cast<ChatEvent*> (ev.get());
-      if (!chatEv)
+      static std::string GetNickName(const iEvent* event)
       {
-        printf("E: Not a Chat event!\n");
-        return 0;
-      }
-      T tEv = static_cast<T> (chatEv);
-      if (!tEv)
-      {
-        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-        return 0;
+        const char* nickstr = 0;
+        if (event->Retrieve("nickName", nickstr) != csEventErrNone)
+          Report(PT::Error, "ChatHelper::GetNickName failed!");
+
+        std::string nick = nickstr;
+        return nick;
       }
 
-      return tEv;
-    }
+      static std::string GetMessage(const iEvent* event)
+      {
+        const char* messagestr = 0;
+        if (event->Retrieve("message", messagestr) != csEventErrNone)
+          Report(PT::Error, "ChatHelper::GetMessage failed!");
 
-    /**
-    * Chat say event.
-    */
-    class ChatSayEvent : public ChatEvent
-    {
-    public:
-      std::string nickName;
-      std::string message;
+        std::string message = messagestr;
+        return message;
+      }
 
-    public:
-      ChatSayEvent() : ChatEvent("chat.say", true) {}
-      virtual ~ChatSayEvent() {}
-    };
-
-    /**
-    * Chat Whisper event.
-    */
-    class ChatWhisperEvent : public ChatEvent
-    {
-    public:
-      std::string nickName;
-      std::string message;
-
-    public:
-      ChatWhisperEvent() : ChatEvent("chat.whisper", true) {}
-      virtual ~ChatWhisperEvent() {}
-    };
-
+    } // ChatHelper namespace 
   } // Events namespace 
 } // PT namespace 
 

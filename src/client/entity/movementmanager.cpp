@@ -84,7 +84,7 @@ namespace PT
       return true;
     }
 
-    bool MovementManager::UpdateOptions(PT::Events::Eventp ev)
+    bool MovementManager::UpdateOptions(iEvent& ev)
     {
       local_movement = app_cfg->GetBool("Client.local_movement");
       return true;
@@ -92,23 +92,22 @@ namespace PT
 
     void MovementManager::ProcessEvents()
     {
-      using namespace PT::Events;
-
-      while (!events.empty())
+      while (!events.IsEmpty())
       {
-        Eventp ev = events.front();
-        events.pop();
-        if (ev->GetEventID().compare("entity.move") == 0)
-          MoveEntity(ev);
-        else if (ev->GetEventID().compare("entity.moveto") == 0)
-          MoveToEntity(ev);
-        else if (ev->GetEventID().compare("entity.teleport") == 0)
-          TeleportEntity(ev);
-        else if (ev->GetEventID().compare("entity.drupdate") == 0)
-          DrUpdateEntity(ev);
-        else if (ev->GetEventID().compare("entity.pcpropupdate") == 0)
-          UpdatePcProp(ev);
+        csRef<iEvent> ev = events.Get(0);
+        std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev->GetName());
+        if (id.compare("entity.move") == 0)
+          MoveEntity(*ev);
+        else if (id.compare("entity.moveto") == 0)
+          MoveToEntity(*ev);
+        else if (id.compare("entity.teleport") == 0)
+          TeleportEntity(*ev);
+        else if (id.compare("entity.drupdate") == 0)
+          DrUpdateEntity(*ev);
+        else if (id.compare("entity.pcpropupdate") == 0)
+          UpdatePcProp(*ev);
 
+        events.DeleteIndex(0);
       } // for
     }
 
@@ -119,12 +118,11 @@ namespace PT
       moveToUpdate();
     }
 
-    bool MovementManager::GetEntityEvents(PT::Events::Eventp ev)
+    bool MovementManager::GetEntityEvents(iEvent& ev)
     {
       using namespace PT::Events;
 
-      Eventp evcopy(ev);
-      events.push(evcopy);
+      events.Push(&ev);
 
       return true;
     }
@@ -139,16 +137,16 @@ namespace PT
       return angle;
     }
 
-    bool MovementManager::MoveEntity(PT::Events::Eventp ev)
+    bool MovementManager::MoveEntity(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityMoveEvent* entityMoveEv = GetEntityEvent<EntityMoveEvent*>(ev);
-      if (!entityMoveEv) return false;
+      bool local = false;
+      ev.Retrieve("local", local);
 
-      if (!entityMoveEv->local && local_movement || entityMoveEv->local && !local_movement) return false;
+      if (!local && local_movement || local && !local_movement) return false;
 
-      unsigned int id = entityMoveEv->entityId;
+      unsigned int id = EntityHelper::GetEntityID(&ev);
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)
@@ -158,11 +156,11 @@ namespace PT
       }
 
       MovementData movement;
-      movement.entity_id    = entityMoveEv->entityId;
-      movement.walk	    = entityMoveEv->walkDirection;
-      movement.turn	    = entityMoveEv->turnDirection;
-      movement.run          = entityMoveEv->run;
-      movement.jump         = entityMoveEv->jump;
+      movement.entity_id    = id;
+      ev.Retrieve("walkDirection", movement.walk);
+      ev.Retrieve("turnDirection", movement.turn);
+      ev.Retrieve("run", movement.run);
+      ev.Retrieve("jump", movement.jump);
 
       entity->Move(movement);
 
@@ -183,14 +181,11 @@ namespace PT
       }
     }
 
-    bool MovementManager::MoveToEntity(PT::Events::Eventp ev)
+    bool MovementManager::MoveToEntity(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityMoveToEvent* entityMoveEv = GetEntityEvent<EntityMoveToEvent*>(ev);
-      if (!entityMoveEv) return false;
-
-      unsigned int id = entityMoveEv->entityId;
+      unsigned int id = EntityHelper::GetEntityID(&ev);
 
       // Remove any other moveTo actions for this entity
       RemoveMoveTos(id);
@@ -209,8 +204,11 @@ namespace PT
 
       MoveToData* moveTo = new MoveToData();
 
-      csVector3 pos_ori = entityMoveEv->origin;
-      csVector3 pos_dst = entityMoveEv->destination;
+      csVector3 pos_ori = EntityHelper::GetVector3(&ev, "origin");
+      csVector3 pos_dst = EntityHelper::GetVector3(&ev, "destination");
+
+      float speed = 0.0f;
+      ev.Retrieve("speed", speed);
 
       // Getting the real world position of our entity.
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
@@ -232,7 +230,7 @@ namespace PT
 
       moveTo->destination		        = pos_dst;
       moveTo->turn_speed			= 2*PI; // 1 revolution per second
-      moveTo->walk_speed			= entityMoveEv->speed;
+      moveTo->walk_speed			= speed;
       moveTo->dest_angle			= yrot_dst;
       moveTo->walk_duration		        = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
       moveTo->elapsed_time		        = 0;
@@ -263,15 +261,16 @@ namespace PT
       }
     }
 
-    bool MovementManager::TeleportEntity(PT::Events::Eventp ev)
+    bool MovementManager::TeleportEntity(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityTeleportEvent* entityMoveEv = GetEntityEvent<EntityTeleportEvent*>(ev);
-      if (!entityMoveEv) return false;
+      unsigned int entityId = EntityHelper::GetEntityID(&ev);
+      unsigned int sectorId = EntityHelper::GetSectorId(&ev);
+      csVector3 pos = EntityHelper::GetPosition(&ev);
 
-      unsigned int entityId = entityMoveEv->entityId;
-      unsigned int sectorId = entityMoveEv->sectorId;
+      float rotation = 0.0f;
+      ev.Retrieve("rotation", rotation);
 
       PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
       PT::Data::Sector* dataSector = sectorDataMgr->GetSectorById(sectorId);
@@ -288,39 +287,40 @@ namespace PT
 
       Report(PT::Debug, "MovementManager: Teleporting entity '%d' to %s(%d)", entityId, sectorName.c_str(), sectorId);
 
-      entity->Teleport(entityMoveEv->position, entityMoveEv->rotation, sectorName.c_str());
+      entity->Teleport(pos, rotation, sectorName.c_str());
 
       return true;
     }
 
-    bool MovementManager::DrUpdateEntity(PT::Events::Eventp ev)
+    bool MovementManager::DrUpdateEntity(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityDrUpdateEvent* entityMoveEv = GetEntityEvent<EntityDrUpdateEvent*>(ev);
-      if (!entityMoveEv) return false;
+      unsigned int entityId = EntityHelper::GetEntityID(&ev);
+      unsigned int sectorId = EntityHelper::GetSectorId(&ev);
+      csVector3 position = EntityHelper::GetPosition(&ev);
 
-      unsigned int id = entityMoveEv->entityId;
-      unsigned int sectorId = entityMoveEv->sectorId;
+      float rotation = 0.0f;
+      ev.Retrieve("rotation", rotation);
 
       unsigned int self = PointerLibrary::getInstance()->getEntityManager()->GetPlayerId();
 
-      if (id == self) return true;
+      if (entityId == self) return true;
 
       PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
       std::string sectorName = sectorDataMgr->GetSectorById(sectorId)->GetName();
 
-      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
+      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
       if (!entity)
       {
-        Report(PT::Error, "DrUpdateEntity: Couldn't find entity with ID %d!", id);
+        Report(PT::Error, "DrUpdateEntity: Couldn't find entity with ID %d!", entityId);
         return true;
       }
 
       DrUpdateData drupdate;
-      drupdate.entity_id	= entityMoveEv->entityId;
-      drupdate.pos		= entityMoveEv->position;
-      drupdate.rot		= entityMoveEv->rotation;
+      drupdate.entity_id	= entityId;
+      drupdate.pos		= position;
+      drupdate.rot		= rotation;
       drupdate.sector		= sectorName.c_str();
 
       entity->DrUpdate(drupdate);
@@ -328,26 +328,31 @@ namespace PT
       return true;
     }
 
-    bool MovementManager::UpdatePcProp(PT::Events::Eventp ev)
+    bool MovementManager::UpdatePcProp(iEvent& ev)
     {
       using namespace PT::Events;
 
-      EntityPcPropUpdateEvent* entityMoveEv = GetEntityEvent<EntityPcPropUpdateEvent*>(ev);
-      if (!entityMoveEv) return false;
+      unsigned int entityId = EntityHelper::GetEntityID(&ev);
 
-      int id = entityMoveEv->entityId;
+      const char* prop = 0;
+      ev.Retrieve("pcprop", prop);
 
-      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
+      bool data = false;
+      ev.Retrieve("pcprop", data);
+      celData celdata;
+      celdata.Set(data);
+
+      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
       if (!entity)
       {
-        Report(PT::Error, "UpdatePcProp: Couldn't find entity with ID %d!\n", id);
+        Report(PT::Error, "UpdatePcProp: Couldn't find entity with ID %d!\n", entityId);
         return true;
       }
 
       UpdatePcPropData updatePcprop;
-      updatePcprop.entity_id	      = entityMoveEv->entityId;
-      updatePcprop.pcprop	      = entityMoveEv->pcprop.c_str();
-      updatePcprop.value	      = entityMoveEv->celdata;
+      updatePcprop.entity_id	      = entityId;
+      updatePcprop.pcprop	      = prop;
+      updatePcprop.value	      = celdata;
 
       entity->UpdatePcProp(updatePcprop);
 

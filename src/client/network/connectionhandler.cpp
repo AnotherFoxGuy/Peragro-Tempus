@@ -33,13 +33,14 @@ void ConnectionHandler::handleConnectionResponse(PT::Client *client, GenericMess
   connect_msg.deserialise(msg->getByteStream());
   if (connect_msg.connectionSucceeded())
   {
-    using namespace PT::Events;
-    StateConnectedEvent* stateEvent = new StateConnectedEvent();
-    PointerLibrary::getInstance()->getEventManager()->AddEvent(stateEvent);
+    PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+    csRef<iEvent> stateEvent = evmgr->CreateEvent("state.connected", true);
+    evmgr->AddEvent(stateEvent);
   }
   else
   {
     printf("Client is too old\n");
+    //@TODO: Don't quit like this!
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (client->GetObjectRegistry());
     if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(client->GetObjectRegistry()));
   }

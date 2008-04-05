@@ -21,57 +21,28 @@
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
+#include <iutil/event.h>
+
+#include "client/reporter/reporter.h"
 
 namespace PT
 {
   namespace Events
   {
-    /**
-    * EnvironmentEvent event base class.
-    */
-    class EnvironmentEvent : public Event
+    namespace EnvironmentHelper
     {
-    public:
-      EnvironmentEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~EnvironmentEvent() {}
-    };
 
-    /**
-    * EntityEvent helper function.
-    */
-    template <class T>
-    T GetEnvironmentEvent(Eventp ev)
-    {
-      EnvironmentEvent* environmentEv = static_cast<EnvironmentEvent*> (ev.get());
-      if (!environmentEv)
+      static unsigned int GetDayTime(const iEvent* event)
       {
-        printf("E: Not an Environment event!\n");
-        return 0;
-      }
-      T tEv = static_cast<T> (environmentEv);
-      if (!tEv)
-      {
-        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-        return 0;
+        unsigned int hour = 0;
+        if (event->Retrieve("hour", hour) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetDayTime failed!");
+
+        return hour;
       }
 
-      return tEv;
-    }
-
-    /**
-    * Set Day Time.
-    */
-    class EnvironmentDayTimeEvent : public EnvironmentEvent
-    {
-    public:
-      unsigned char hour;
-
-    public:
-      EnvironmentDayTimeEvent() : EnvironmentEvent("environment.daytime", true) {}
-      virtual ~EnvironmentDayTimeEvent() {}
-    };
-  } // Events namespace
-} // PT namespace
+    } // EnvironmentHelper namespace 
+  } // Events namespace 
+} // PT namespace 
 
 #endif // PTENVIRONMENT_EVENT_H

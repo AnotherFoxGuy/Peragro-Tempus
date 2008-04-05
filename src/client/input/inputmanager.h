@@ -19,6 +19,7 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
+#include <cssysdef.h>
 #include <csutil/csbaseeventh.h>
 #include <csutil/event.h>
 #include <csutil/cfgmgr.h>
@@ -42,9 +43,9 @@ namespace PT
   private:
     /// Clipboard access provider
     csRef<iClipboard> csTheClipboard; 
-    bool ClipboardCopy(PT::Events::Eventp ev);
-    bool ClipboardCut(PT::Events::Eventp ev);
-    bool ClipboardPaste(PT::Events::Eventp ev);
+    bool ClipboardCopy(iEvent& ev);
+    bool ClipboardCut(iEvent& ev);
+    bool ClipboardPaste(iEvent& ev);
     bool DoCopy(bool cuttext);
 
     std::map<ShortcutCombo,std::string> functions;

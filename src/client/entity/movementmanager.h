@@ -33,6 +33,8 @@
 #include <physicallayer/datatype.h>
 #include <propclass/quest.h>
 
+#include <queue>
+
 #include "client/entity/entity.h"
 #include "client/entity/pc/pcentity.h"
 #include "client/entity/npc/npcentity.h"
@@ -42,7 +44,6 @@
 
 #include "client/network/network.h"
 #include "client/entity/movement.h"
-#include "client/event/entityevent.h"
 
 struct iObjectRegistry;
 
@@ -60,7 +61,7 @@ namespace PT
       csRef<iVFS> vfs;
 
       bool local_movement;
-      bool UpdateOptions(PT::Events::Eventp ev);
+      bool UpdateOptions(iEvent& ev);
 
     private:
       csPDelArray<MoveToData> move_to_entity;
@@ -71,10 +72,10 @@ namespace PT
       float GetAngle (const csVector3& v1, const csVector3& v2);
 
     private:
-      std::queue<PT::Events::Eventp> events;
+      csRefArray<iEvent> events;
       void ProcessEvents();
     public:
-      bool GetEntityEvents(PT::Events::Eventp ev);
+      bool GetEntityEvents(iEvent& ev);
 
       void RemoveMoveTos(unsigned int id);
 
@@ -85,11 +86,11 @@ namespace PT
       bool Initialize ();
       void Handle();
 
-      bool MoveEntity(PT::Events::Eventp ev);
-      bool MoveToEntity(PT::Events::Eventp ev);
-      bool TeleportEntity(PT::Events::Eventp ev);
-      bool DrUpdateEntity(PT::Events::Eventp ev);
-      bool UpdatePcProp(PT::Events::Eventp ev);
+      bool MoveEntity(iEvent& ev);
+      bool MoveToEntity(iEvent& ev);
+      bool TeleportEntity(iEvent& ev);
+      bool DrUpdateEntity(iEvent& ev);
+      bool UpdatePcProp(iEvent& ev);
     };
 
   } // Entity namespace 

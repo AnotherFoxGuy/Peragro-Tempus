@@ -19,18 +19,17 @@
 #include "client/network/network.h"
 
 #include "client/event/eventmanager.h"
-#include "client/event/bookevent.h"
 
 void BookHandler::handleBookReadResponse(GenericMessage* msg)
 {
   BookReadResponseMessage bookmsg;
   bookmsg.deserialise(msg->getByteStream());
 
-  using namespace PT::Events;
-  BookReadEvent* bookEvent = new BookReadEvent();
-  bookEvent->title = *bookmsg.getBookName();
-  bookEvent->text = bookmsg.getText();
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(bookEvent);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> bookEvent = evmgr->CreateEvent("book.read", true);
+  bookEvent->Add("title", *bookmsg.getBookName());
+  bookEvent->Add("text", bookmsg.getText());
+  evmgr->AddEvent(bookEvent);
 }
 
 void BookHandler::handleBookWriteResponse(GenericMessage* msg)
@@ -38,8 +37,8 @@ void BookHandler::handleBookWriteResponse(GenericMessage* msg)
   BookWriteResponseMessage bookmsg;
   bookmsg.deserialise(msg->getByteStream());
 
-  using namespace PT::Events;
-  BookWriteEvent* bookEvent = new BookWriteEvent();
-  bookEvent->variationId = bookmsg.getBookId();
-  PointerLibrary::getInstance()->getEventManager()->AddEvent(bookEvent);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> bookEvent = evmgr->CreateEvent("book.write", true);
+  bookEvent->Add("variationId",  bookmsg.getBookId());
+  evmgr->AddEvent(bookEvent);
 }

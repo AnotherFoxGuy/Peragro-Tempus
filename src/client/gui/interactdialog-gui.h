@@ -44,7 +44,7 @@ public:
   virtual ~InteractDialogWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
 
-  bool OnInteract (PT::Events::Eventp ev);
+  bool OnInteract (iEvent& ev);
 };
 
 

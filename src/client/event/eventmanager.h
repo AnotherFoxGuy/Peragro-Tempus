@@ -20,35 +20,69 @@
 #define EVENT_MANAGER_H
 
 #include <cssysdef.h>
+#include <csutil/scf_implementation.h>
 
-#include <vector>
-#include <queue>  
+#include <iutil/event.h>
+#include <iutil/eventh.h>
+#include <iutil/eventq.h>
 
-#include "event.h"
+#include <csutil/refarr.h>
+
+#include <vector> 
+
+#include <boost/shared_ptr.hpp>
+
 #include "eventhandler.h"
 
 #include "common/util/mutex.h"
+
+#ifdef _WINBASE_
+#undef _WINBASE_
+#endif
 
 namespace PT
 {
   namespace Events
   {
-    class EventManager
+    namespace Helper
+    {
+      /*
+      void DisplayEvent(iEvent* event)
+      {
+        csRef<iEventAttributeIterator> it = event->GetAttributeIterator();
+        printf("------------------\n");
+        printf("event:\n");
+        while (it->HasNext())
+        {
+          const char* at = it->Next();
+          printf("%s\n", at);
+        }
+        printf("------------------\n");
+      }*/
+    }
+
+    class EventManager : public scfImplementation1<EventManager, iEventHandler>
     {
     private:
       struct Listener
       {
-        EventID eventId;
+        csEventID eventId;
         boost::shared_ptr<EventHandlerCallback> handler;
-
-        const char* GetEventId() { return eventId.c_str(); }
       };
 
     private:
-      std::queue<Eventp> events;
+      csRefArray<iEvent> events;
       std::vector<Listener> listeners;
 
       Mutex mutex;
+
+      csRef<iEventQueue> eventQueue;
+      csRef<iEventNameRegistry> nameRegistry;
+
+      virtual bool HandleEvent(iEvent& ev);
+      CS_EVENTHANDLER_NAMES ("peragro.events")
+      CS_EVENTHANDLER_NIL_CONSTRAINTS
+      //CS_DECLARE_EVENT_SHORTCUTS;
 
     public:
       EventManager();
@@ -56,8 +90,29 @@ namespace PT
 
       bool Initialize();
 
-      void AddEvent(Event* ev);
-      void AddListener(EventID eventId, EventHandlerCallback* handler);
+      csRef<iEvent> CreateEvent(csEventID eventId, bool fromNetwork = false);
+
+      csRef<iEvent> CreateEvent(const std::string& name, bool fromNetwork = false)
+      {
+        csRef<iEvent> ev = CreateEvent(Retrieve(name.c_str()), fromNetwork);
+        return ev;
+      }
+
+      void AddEvent(iEvent* ev);
+
+      void AddListener(csEventID eventId, EventHandlerCallback* handler);
+      void AddListener(const std::string& eventId, EventHandlerCallback* handler);
+
+      const char* Retrieve(csStringID id)
+      {
+        return nameRegistry->GetString(id);
+      }
+
+      csStringID Retrieve(const char* id)
+      {
+        return nameRegistry->GetID(id);
+      }
+
 
       void Handle();
 

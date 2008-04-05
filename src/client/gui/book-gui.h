@@ -29,8 +29,8 @@ private:
 
 private:
   bool OnCloseButton(const CEGUI::EventArgs& args);
-  bool HandleRead(PT::Events::Eventp ev);
-  bool HandleWrite(PT::Events::Eventp ev);
+  bool HandleRead(iEvent& ev);
+  bool HandleWrite(iEvent& ev);
 
 public:
   BookWindow(GUIManager* guimanager);

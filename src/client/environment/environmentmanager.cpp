@@ -46,22 +46,21 @@ namespace PT
     }
   }
 
-  bool EnvironmentManager::SetDayTime(PT::Events::Eventp ev)
+  bool EnvironmentManager::SetDayTime(iEvent& ev)
   {
     // Calculate the light color.
-    using namespace PT::Events;
-    EnvironmentDayTimeEvent* envEv = GetEnvironmentEvent<EnvironmentDayTimeEvent*>(ev);
+    unsigned int hour = PT::Events::EnvironmentHelper::GetDayTime(&ev);
 
     float brightness;
-    if (envEv->hour < 6 || envEv->hour > 20)
+    if (hour < 6 || hour > 20)
     {
       brightness = 0.1;
     }
-    else if (envEv->hour == 6 || envEv->hour == 20)
+    else if (hour == 6 || hour == 20)
     {
       brightness = 0.3;
     }
-    else if (envEv->hour == 7 || envEv->hour == 19)
+    else if (hour == 7 || hour == 19)
     {
       brightness = 0.6;
     }

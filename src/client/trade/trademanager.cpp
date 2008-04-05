@@ -62,30 +62,32 @@ namespace PT
       return true;
     }
 
-    bool TradeManager::PickUp(PT::Events::Eventp ev)
+    bool TradeManager::PickUp(iEvent& ev)
     {
-      using namespace PT::Events;
+      unsigned int itemId = -1;
+      ev.Retrieve("itemId", itemId);
 
-      TradePickUpEvent* pickUpEv = GetTradeEvent<TradePickUpEvent*>(ev);
-      if (!pickUpEv) return false;
+      unsigned int variationId = -1;
+      ev.Retrieve("variationId", variationId);
+
+      unsigned int slotId = -1;
+      ev.Retrieve("slotId", slotId);
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       if (!guimanager) return true;
-      guimanager->GetInventoryWindow()->AddItem(pickUpEv->itemId, pickUpEv->variationId, pickUpEv->slotId);
+      guimanager->GetInventoryWindow()->AddItem(itemId, variationId, slotId);
 
       return true;
     }
 
-    bool TradeManager::Drop(PT::Events::Eventp ev)
+    bool TradeManager::Drop(iEvent& ev)
     {
-      using namespace PT::Events;
-
-      TradeDropEvent* dropEv = GetTradeEvent<TradeDropEvent*>(ev);
-      if (!dropEv) return false;
+      unsigned int slotId = -1;
+      ev.Retrieve("slotId", slotId);
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       if (!guimanager) return true;
-      guimanager->GetInventoryWindow()->RemoveItem(dropEv->slotId);
+      guimanager->GetInventoryWindow()->RemoveItem(slotId);
 
       return true;
     }

@@ -23,6 +23,8 @@
 
 #include "client/event/tradeevent.h"
 
+struct iEvent;
+
 namespace PT
 {
   namespace Trade
@@ -30,7 +32,7 @@ namespace PT
     class PlayerInventory
     {
     public:
-      bool Add(PT::Events::Eventp ev);
+      bool Add(iEvent& ev);
 
     public:
       PlayerInventory ();

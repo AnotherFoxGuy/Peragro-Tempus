@@ -52,7 +52,7 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the character properties.
        */
-      CharacterEntity(const Events::EntityAddEvent& ev);
+      CharacterEntity(const iEvent& ev);
 
       ///@todo Stats shouldn't be defined like this.
       float maxStamina;

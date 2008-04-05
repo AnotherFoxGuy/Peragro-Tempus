@@ -28,6 +28,7 @@
 
 struct iEngine;
 struct iLight;
+struct iEvent;
 
 namespace PT
 {
@@ -55,7 +56,7 @@ namespace PT
     *Set the time of day, affecting the sky graphics
     *@return True, indicating that the event was handled
     */
-    bool SetDayTime(PT::Events::Eventp ev);
+    bool SetDayTime(iEvent& ev);
 
    /**
     *Initialize the environmentmanager

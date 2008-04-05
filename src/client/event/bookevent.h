@@ -21,70 +21,33 @@
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
-
 namespace PT
 {
   namespace Events
   {
-    /**
-    * Interface event base class.
-    */
-    class BookEvent : public Event
+    namespace BookHelper
     {
-    public:
-      BookEvent(EventID name, bool broadCast) : Event(name, broadCast) {}
-      virtual ~BookEvent() {}
-    };
+      static std::string GetTitle(const iEvent* event)
+      {
+        const char* titlestr = 0;
+        if (event->Retrieve("title", titlestr) != csEventErrNone)
+          Report(PT::Error, "BookHelper::GetTitle failed!");
 
-    /**
-    * InterfaceEvent helper function.
-    */
-    template <class T>
-    T GetBookEvent(Eventp ev)
-    {
-      BookEvent* bookEv = static_cast<BookEvent*> (ev.get());
-      if (!bookEv)
-      {
-        printf("E: Not a Book event!\n");
-        return 0;
-      }
-      T tEv = static_cast<T> (bookEv);
-      if (!tEv)
-      {
-        printf("E: Wasn't listening for this %s event!\n", ev->name.c_str());
-        return 0;
+        std::string title = titlestr;
+        return title;
       }
 
-      return tEv;
-    }
+      static std::string GetText(const iEvent* event)
+      {
+        const char* textstr = 0;
+        if (event->Retrieve("text", textstr) != csEventErrNone)
+          Report(PT::Error, "BookHelper::GetMessage failed!");
 
-    /**
-    * Book Read Event event.
-    */
-    class BookReadEvent : public BookEvent
-    {
-    public:
-      std::string title;
-      std::string text;
-    public:
-      BookReadEvent() : BookEvent("book.read", true) {}
-      virtual ~BookReadEvent() {}
-    };
+        std::string text = textstr;
+        return text;
+      }
 
-    /**
-    * Book Write Event event.
-    */
-    class BookWriteEvent : public BookEvent
-    {
-    public:
-      unsigned int variationId;
-    public:
-      BookWriteEvent() : BookEvent("book.write", true) {}
-      virtual ~BookWriteEvent() {}
-    };
-
-
+    } // BookHelper namespace 
   } // Events namespace 
 } // PT namespace 
 
