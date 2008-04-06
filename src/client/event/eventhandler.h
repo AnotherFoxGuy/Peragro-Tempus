@@ -46,7 +46,9 @@ namespace PT
     public:
       typedef bool (Class::*Func)(iEvent&);
 
-      EventHandler(Func function, Class *classy) : scfImplementationType (this)
+      EventHandler(Func function, Class *classy) : 
+                   scfImplementation1<EventHandler<Class>,
+                                      EventHandlerCallback> (this)
       {
         theclass = classy;
         thefunc = function;
