@@ -82,101 +82,103 @@ namespace PT
       //Register actions for events
       using namespace PT::Events;
 
+      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
       // Register listener for ActionForward.
-      EventHandler<PlayerEntity>* cbActionForward =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionForward, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_FORWARD", cbActionForward);
+      csRef<EventHandlerCallback> cbActionForward;
+      cbActionForward.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionForward, this));
+      evmgr->AddListener("input.ACTION_FORWARD", cbActionForward);
+      eventHandlers.Push(cbActionForward);
 
       // Register listener for ActionBackward.
-      EventHandler<PlayerEntity>* cbActionBackward =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionBackward, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_BACKWARD", cbActionBackward);
+      csRef<EventHandlerCallback> cbActionBackward;
+        cbActionBackward.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionBackward, this));
+      evmgr->AddListener("input.ACTION_BACKWARD", cbActionBackward);
+      eventHandlers.Push(cbActionBackward);
 
       // Register listener for ActionLeft.
-      EventHandler<PlayerEntity>* cbActionLeft =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionLeft, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_LEFT", cbActionLeft);
+      csRef<EventHandlerCallback> cbActionLeft;
+        cbActionLeft.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionLeft, this));
+      evmgr->AddListener("input.ACTION_LEFT", cbActionLeft);
+      eventHandlers.Push(cbActionLeft);
 
       // Register listener for ActionRight.
-      EventHandler<PlayerEntity>* cbActionRight =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionRight, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_RIGHT", cbActionRight);
+      csRef<EventHandlerCallback> cbActionRight;
+        cbActionRight.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionRight, this));
+      evmgr->AddListener("input.ACTION_RIGHT", cbActionRight);
+      eventHandlers.Push(cbActionRight);
 
       // Register listener for ActionToggleWalk.
-      EventHandler<PlayerEntity>* cbActionToggleWalk =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleWalk, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_TOGGLEWALK", cbActionToggleWalk);
+      csRef<EventHandlerCallback> cbActionToggleWalk;
+        cbActionToggleWalk.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleWalk, this));
+      evmgr->AddListener("input.ACTION_TOGGLEWALK", cbActionToggleWalk);
+      eventHandlers.Push(cbActionToggleWalk);
 
       // Register listener for ActionToggleRun.
-      EventHandler<PlayerEntity>* cbActionToggleRun =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleRun, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_TOGGLERUN", cbActionToggleRun);
+      csRef<EventHandlerCallback> cbActionToggleRun;
+        cbActionToggleRun.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleRun, this));
+      evmgr->AddListener("input.ACTION_TOGGLERUN", cbActionToggleRun);
+      eventHandlers.Push(cbActionToggleRun);
 
       // Register listener for ActionPanUp.
-      EventHandler<PlayerEntity>* cbActionPanUp =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionPanUp, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_PANUP", cbActionPanUp);
+      csRef<EventHandlerCallback> cbActionPanUp;
+        cbActionPanUp.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionPanUp, this));
+      evmgr->AddListener("input.ACTION_PANUP", cbActionPanUp);
+      eventHandlers.Push(cbActionPanUp);
 
       // Register listener for ActionPanDown.
-      EventHandler<PlayerEntity>* cbActionPanDown =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionPanDown, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_PANDOWN", cbActionPanDown);
+      csRef<EventHandlerCallback> cbActionPanDown;
+        cbActionPanDown.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionPanDown, this));
+      evmgr->AddListener("input.ACTION_PANDOWN", cbActionPanDown);
+      eventHandlers.Push(cbActionPanDown);
 
       // Register listener for ActionToggleCamera.
-      EventHandler<PlayerEntity>* cbActionToggleCamera =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleCamera, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_TOGGLECAMERA", cbActionToggleCamera);
+      csRef<EventHandlerCallback> cbActionToggleCamera;
+        cbActionToggleCamera.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleCamera, this));
+      evmgr->AddListener("input.ACTION_TOGGLECAMERA", cbActionToggleCamera);
+      eventHandlers.Push(cbActionToggleCamera);
 
       // Register listener for ActionToggleDistClipping.
-      EventHandler<PlayerEntity>* cbActionToggleDistClipping =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleDistClipping, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_TOGGLEDISTCLIP", cbActionToggleDistClipping);
+      csRef<EventHandlerCallback> cbActionToggleDistClipping;
+        cbActionToggleDistClipping.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleDistClipping, this));
+      evmgr->AddListener("input.ACTION_TOGGLEDISTCLIP", cbActionToggleDistClipping);
+      eventHandlers.Push(cbActionToggleDistClipping);
 
       // Register listener for ActionActivateWeapon.
-      EventHandler<PlayerEntity>* cbActionActivateWeapon =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionActivateWeapon, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_ACTIVATEWEAPON", cbActionActivateWeapon);
+      csRef<EventHandlerCallback> cbActionActivateWeapon;
+        cbActionActivateWeapon.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionActivateWeapon, this));
+      evmgr->AddListener("input.ACTION_ACTIVATEWEAPON", cbActionActivateWeapon);
+      eventHandlers.Push(cbActionActivateWeapon);
 
       // Register listener for ActionZoomIn.
-      EventHandler<PlayerEntity>* cbActionZoomIn =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomIn, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_ZOOMIN", cbActionZoomIn);
+      csRef<EventHandlerCallback> cbActionZoomIn;
+        cbActionZoomIn.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomIn, this));
+      evmgr->AddListener("input.ACTION_ZOOMIN", cbActionZoomIn);
+      eventHandlers.Push(cbActionZoomIn);
 
       // Register listener for ActionZoomOut.
-      EventHandler<PlayerEntity>* cbActionZoomOut =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomOut, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_ZOOMOUT", cbActionZoomOut);
+      csRef<EventHandlerCallback> cbActionZoomOut;
+        cbActionZoomOut.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomOut, this));
+      evmgr->AddListener("input.ACTION_ZOOMOUT", cbActionZoomOut);
+      eventHandlers.Push(cbActionZoomOut);
 
       // Register listener for ActionJump.
-      EventHandler<PlayerEntity>* cbActionJump =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionJump, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_JUMP", cbActionJump);
+      csRef<EventHandlerCallback> cbActionJump;
+        cbActionJump.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionJump, this));
+      evmgr->AddListener("input.ACTION_JUMP", cbActionJump);
+      eventHandlers.Push(cbActionJump);
 
       // Register listener for ActionMoveTo.
-      EventHandler<PlayerEntity>* cbActionMoveTo =
-        new EventHandler<PlayerEntity>(&PlayerEntity::ActionMoveTo, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("input.ACTION_MOVETO", cbActionMoveTo);
+      csRef<EventHandlerCallback> cbActionMoveTo;
+        cbActionMoveTo.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionMoveTo, this));
+      evmgr->AddListener("input.ACTION_MOVETO", cbActionMoveTo);
+      eventHandlers.Push(cbActionMoveTo);
 
       // Register listener for InterfaceOptionsEvent.
-      EventHandler<PlayerEntity>* cbUpdateOptions =
-        new EventHandler<PlayerEntity>(&PlayerEntity::UpdateOptions, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener("interface.options", cbUpdateOptions);
+      csRef<EventHandlerCallback> cbUpdateOptions;
+        cbUpdateOptions.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::UpdateOptions, this));
+      evmgr->AddListener("interface.options", cbUpdateOptions);
+      eventHandlers.Push(cbUpdateOptions);
 
       app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
       if (!app_cfg)

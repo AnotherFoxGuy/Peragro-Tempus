@@ -28,6 +28,8 @@
 #include <iutil/eventq.h>
 
 #include <csutil/refarr.h>
+#include <csutil/weakref.h>
+#include <csutil/parray.h>
 
 #include <vector> 
 
@@ -48,15 +50,24 @@ namespace PT
     class EventManager : public scfImplementation1<EventManager, iEventHandler>
     {
     private:
+      struct Listener;
+
+      csRefArray<iEvent> events;
+      csPDelArray<Listener> listeners;
+
       struct Listener
       {
+        EventManager* evmgr;
+        Listener(EventManager* evmgr) : evmgr(evmgr), handler(0){}
         csEventID eventId;
-        boost::shared_ptr<EventHandlerCallback> handler;
+        csWeakRef<EventHandlerCallback> handler;
+        bool HandleEvent(iEvent& ev);
+        bool operator==(const Listener& other)
+        {
+          return (this->handler == other.handler && this->eventId == other.eventId);
+        }
       };
-
-    private:
-      csRefArray<iEvent> events;
-      std::vector<Listener> listeners;
+      friend struct Listener;
 
       Mutex mutex;
 
@@ -86,6 +97,8 @@ namespace PT
 
       void AddListener(csEventID eventId, EventHandlerCallback* handler);
       void AddListener(const std::string& eventId, EventHandlerCallback* handler);
+
+      void RemoveListener (EventHandlerCallback* handler);
 
       const char* Retrieve(csStringID id)
       {

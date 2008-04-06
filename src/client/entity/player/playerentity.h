@@ -27,6 +27,10 @@
 
 namespace PT
 {
+  namespace Events
+  {
+    struct EventHandlerCallback;
+  }
   namespace Entity
   {
     /**
@@ -44,6 +48,8 @@ namespace PT
       static PlayerEntity* instance;
 
       void ReInit(const iEvent& ev);
+
+      csRefArray<Events::EventHandlerCallback> eventHandlers;
 
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;

@@ -9,6 +9,7 @@ under each day.
  - vornne changed CombatMGR to CombatManager and put it in a namespace, added
    some missing deletes, coding style changes.
  - Rakhun fixed an int/size_t comparison warning.
+ - Sueastside made event handlers employ ref counting.
 
 05-Apr-2008
  - Sueastside rewrote events.

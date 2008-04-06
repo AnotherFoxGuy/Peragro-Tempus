@@ -27,6 +27,21 @@ namespace PT
 {
   namespace Events
   {
+    
+    bool EventManager::Listener::HandleEvent(iEvent& ev)
+    {
+      if (handler.IsValid())
+        return handler->HandleEvent(ev);
+      else
+      {
+        //Report(PT::Error, "Listener: handler invalid! (%s)", evmgr->Retrieve(eventId));
+        evmgr->listeners.Delete(this);
+        return false;
+      }
+    }
+
+    //--------------------------------------------------------------------
+
     EventManager::EventManager() : scfImplementationType (this)
     {
     }
@@ -72,15 +87,41 @@ namespace PT
     {
       Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
       eventQueue->Subscribe(this, eventId);
-      Listener listen;
-      listen.handler = boost::shared_ptr<EventHandlerCallback>(handler);
-      listen.eventId = eventId;
-      listeners.push_back(listen);
+      Listener* listen = new Listener(this);
+      listen->eventId = eventId;
+      listen->handler = handler;
+      listeners.Push(listen);
     } // end AddListener()
 
     void EventManager::AddListener(const std::string& eventId, EventHandlerCallback* handler)
     {
-      AddListener(nameRegistry->GetID(eventId.c_str()), handler);
+      AddListener(Retrieve(eventId.c_str()), handler);
+    }
+
+    void EventManager::RemoveListener (EventHandlerCallback* handler)
+    {
+      // There are no duplicate subscriptions for iEventHandler,
+      // so we can't just remove 'handler->GetName()' since there
+      // might be multiple EventHandlers. So remove all and readd.
+
+      // Unsubscribe all.
+      eventQueue->RemoveListener(this);
+      eventQueue->RegisterListener(this);
+
+      // Remove our listener.
+      for(size_t i = 0; i < listeners.GetSize(); i++)
+      {
+        if (listeners.Get(i)->handler == handler)
+        {
+          listeners.DeleteIndex(i);
+        }
+      }
+
+      // Resubscribe all.
+      for(size_t i = 0; i < listeners.GetSize(); i++)
+      {
+        eventQueue->Subscribe(this, listeners.Get(i)->eventId);
+      }
     }
 
     void EventManager::Handle()
@@ -99,14 +140,14 @@ namespace PT
     {
       csEventID id = ev.GetName();
 
-      std::vector<Listener>::iterator it;
-      for(it = listeners.begin(); it != listeners.end(); ++it)
+      for(size_t i = 0; i < listeners.GetSize(); i++)
       {
-        //Report(PT::Debug, "Handling event: %s for listener %s", Retrieve(id), Retrieve(it->eventId));
-        if (id == it->eventId)
+        Listener* listen = listeners.Get(i);
+        //Report(PT::Debug, "Handling event: %s for listener %s", Retrieve(id), Retrieve(listen->eventId));
+        if (nameRegistry->IsKindOf(id, listen->eventId))
         {
-          //Report(PT::Debug, "Handling event: %s", Retrieve(it->eventId));
-          it->handler->HandleEvent(ev);
+          //Report(PT::Debug, "Handling event: %s", Retrieve(listen->eventId));
+          listen->HandleEvent(ev);
         } // if
       } // for
 

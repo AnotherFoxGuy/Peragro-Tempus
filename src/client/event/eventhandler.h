@@ -20,6 +20,12 @@
 #define EVENT_HANDLER_H
 
 #include <cssysdef.h>
+#include <csutil/scf_implementation.h>
+
+#include "eventmanager.h"
+
+#include "client/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
 struct iEvent;
 
@@ -27,19 +33,20 @@ namespace PT
 {
   namespace Events
   {
-    class EventHandlerCallback
+
+    struct EventHandlerCallback : public virtual iBase
     {
-    public:
+      SCF_INTERFACE(EventHandlerCallback, 1,0,0);
       virtual bool HandleEvent(iEvent& ev) = 0;
-      virtual ~EventHandlerCallback() { };
     };
 
-    template <class Class> class EventHandler : public EventHandlerCallback
+    template <class Class> 
+    class EventHandler : public scfImplementation1<EventHandler<Class>, EventHandlerCallback>
     {
     public:
       typedef bool (Class::*Func)(iEvent&);
 
-      EventHandler(Func function, Class *classy)
+      EventHandler(Func function, Class *classy) : scfImplementationType (this)
       {
         theclass = classy;
         thefunc = function;
