@@ -41,7 +41,7 @@ namespace PT
 
   private:
     iObjectRegistry* object_reg;
-    int cachesize;
+    size_t cachesize;
 
     /// If there are more effects then our cachesize,
     /// make them overflow in the csWeakRefArray.

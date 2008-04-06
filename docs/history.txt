@@ -8,6 +8,7 @@ under each day.
  - Sueastside rewrote effects.
  - vornne changed CombatMGR to CombatManager and put it in a namespace, added
    some missing deletes, coding style changes.
+ - Rakhun fixed an int/size_t comparison warning.
 
 05-Apr-2008
  - Sueastside rewrote events.
