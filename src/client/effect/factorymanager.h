@@ -16,31 +16,46 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "effect.h"
+#ifndef MODELMANAGER_H
+#define MODELMANAGER_H
+
+#include <cssysdef.h>
+#include <csutil/weakrefarr.h>
+#include <csutil/refarr.h>
+
+#include <string>
+
+struct iObjectRegistry;
 
 namespace PT
 {
   namespace Effect
   {
-    Effect::Effect (iMeshWrapper* mesh, int timeleft)
-    {
-      Effect::mesh = mesh;
-      Effect::timeleft = timeleft;
-    }
+  struct Factory;
 
-    Effect::~Effect()
-    {
-    }
+  class FactoryManager 
+  {
+  private:
+    csWeakRefArray<Factory> weakFactories;
+    csRefArray<Factory> normalfactories;
 
-    bool Effect::Handle (csTicks elapsed_ticks)
-    {
-      timeleft -= elapsed_ticks;
-      if (timeleft <= 0)
-      {
-        return false;
-      }
-      return true;
-    }
+  private:
+    iObjectRegistry* object_reg;
+    int cachesize;
 
-  } // Data namespace 
-} // PT namespace 
+    /// If there are more effects then our cachesize,
+    /// make them overflow in the csWeakRefArray.
+    void Overflow();
+
+  public:
+    FactoryManager(iObjectRegistry* object_reg);
+    ~FactoryManager();
+
+    /// Get or create a new Factory. 
+    csRef<Factory> Get(const std::string& fileName);
+
+  };
+} // Effect namespace 
+} // PT namespace
+
+#endif // MODELMANAGER_H

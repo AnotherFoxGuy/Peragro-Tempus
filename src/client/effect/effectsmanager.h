@@ -30,15 +30,18 @@ struct iEngine;
 struct iVFS;
 struct iObjectRegistry;
 struct iLoader;
+struct iCollection;
+struct iSector;
 
 namespace PT
 {
   namespace Effect
   {
+    class FactoryManager;
+
     /**
      * @ingroup effects
      * Handles the creation of particle/mesh effects.
-     * @author Jelle Hellemans
      */
     class EffectsManager
     {
@@ -48,8 +51,8 @@ namespace PT
 
       csRef<iObjectRegistry> obj_reg;
       csRef<iEngine> engine;
-      csRef<iVFS> vfs;
-      csRef<iLoader> loader;
+
+      FactoryManager* factoryManager;
 
       /**
        * Looks up an effect by name in the EffectDataManager
@@ -61,9 +64,9 @@ namespace PT
 
     public:
       /**
-       * Base constructor that doesn't do anything at all.
+       * Base constructor.
        */
-      EffectsManager () {}
+      EffectsManager ();
       ~EffectsManager ();
 
       /**
@@ -84,7 +87,7 @@ namespace PT
        * @param pos Position to where to create this effect.
        * @return True if successful, false if an error occured.
        */
-      bool CreateEffect (const std::string& effectName, csVector3 pos);
+      bool CreateEffect (const std::string& effectName, csVector3 pos, iSector* sector = 0);
 
       /**
        * @param pos Position to where to create this effect.
@@ -101,7 +104,7 @@ namespace PT
 
     };
 
-  } // Data namespace 
+  } // Effect namespace 
 } // PT namespace 
 
 #endif // EFFECTSMANAGER_H

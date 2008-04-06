@@ -155,7 +155,7 @@ bool OptionsWindow::OkButtonPressed(const CEGUI::EventArgs& e)
   btn->setVisible(false);
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.options", false);
+  csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.options");
   evmgr->AddEvent(interfaceEvent);
 
   return true;

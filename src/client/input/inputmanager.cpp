@@ -152,7 +152,8 @@ namespace PT
     //Report(PT::Debug, "%s button '(%s)', firing action '%s'.", down ? "Pressed":"Released", it->first.GetConfigKey().c_str(), it->second.c_str());
 
     PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-    csRef<iEvent> inputEvent = evmgr->CreateEvent("input." + it->second);
+    std::string eventName = "input."; eventName += it->second;
+    csRef<iEvent> inputEvent = evmgr->CreateEvent(eventName);
     inputEvent->Add("action", it->second.c_str());
     inputEvent->Add("buttonState", down);
     PointerLibrary::getInstance()->getEventManager()->AddEvent(inputEvent);

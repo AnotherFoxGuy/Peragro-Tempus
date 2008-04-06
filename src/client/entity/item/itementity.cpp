@@ -72,7 +72,7 @@ namespace PT
     void ItemEntity::Interact()
     {
       PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact");
       interfaceEvent->Add("entityId", id);
       std::string actions = "Pickup";
       interfaceEvent->Add("actions", actions.c_str());

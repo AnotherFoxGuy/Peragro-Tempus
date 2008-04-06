@@ -201,7 +201,7 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   if (!object) return false;
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+  csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact");
   interfaceEvent->Add("entityId", slot->GetId());
   interfaceEvent->Add("objectId", object->GetId());
   interfaceEvent->Add("variationId", object->GetVariationId());

@@ -115,12 +115,12 @@ iCelEntity* Cursor::GetSelectedEntity()
   return selent;
 }
 
-iMeshWrapper* Cursor::Get3DPointFrom2D(iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord)
+iMeshWrapper* Cursor::Get3DPointFrom2D(iCamera* camera, csVector3* worldCoord, csVector3* untransfCoord, iSector** sector)
 {
-  return Get3DPointFrom2D(mousex, mousey, camera, worldCoord, untransfCoord);
+  return Get3DPointFrom2D(mousex, mousey, camera, worldCoord, untransfCoord, sector);
 }
 
-iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 * worldCoord, csVector3 * untransfCoord)
+iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3* worldCoord, csVector3* untransfCoord, iSector** sector)
 {
   csVector3 vc, vo, vw;
 
@@ -128,14 +128,14 @@ iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 
   vc = camera->InvPerspective( perspective, 1);
   vw = camera->GetTransform().This2Other( vc );
 
-  iSector* sector = camera->GetSector();
+  iSector* camsector = camera->GetSector();
 
-  if ( sector )
+  if ( camsector )
   {
     vo = camera->GetTransform().GetO2TTranslation();
     csVector3 end = vo + (vw-vo)*600;
 
-    csSectorHitBeamResult result = sector->HitBeamPortals(vo, end);
+    csSectorHitBeamResult result = camsector->HitBeamPortals(vo, end);
 
     csVector3 isect = result.isect;
     iMeshWrapper* sel = result.mesh;
@@ -144,6 +144,8 @@ iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3 
       *worldCoord = isect;
     if (untransfCoord)
       *untransfCoord = vo + (vw-vo).Unit()/**csQsqrt(dist)*/;
+
+    *sector = result.final_sector;
 
     return sel;
   }

@@ -58,7 +58,7 @@
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
-#include "client/data/effect/effectsmanager.h"
+#include "client/effect/effectsmanager.h"
 #include "client/data/effect/effectdatamanager.h"
 #include "client/data/connection/connectiondatamanager.h"
 #include "client/serversetup/serversetupmanager.h"

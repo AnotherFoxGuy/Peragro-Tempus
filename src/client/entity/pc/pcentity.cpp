@@ -83,7 +83,7 @@ namespace PT
     void PcEntity::Interact()
     {
       PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact");
       interfaceEvent->Add("entityId", id);
       std::string actions = "Trade, Attack, Party";
       interfaceEvent->Add("actions", actions.c_str());

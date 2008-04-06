@@ -38,7 +38,7 @@
 #include "client/data/skill.h"
 #include "client/data/skilldatamanager.h"
 
-#include "client/data/effect/effectsmanager.h"
+#include "client/effect/effectsmanager.h"
 
 #include "client/entity/entitymanager.h"
 

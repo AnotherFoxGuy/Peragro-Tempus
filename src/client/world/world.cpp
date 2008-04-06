@@ -311,14 +311,14 @@ namespace PT
 
       //printf("I: World loading progress %.2f!\n", (tilesLoaded/(float)(GetGridSize()*GetGridSize())));
       PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading", false);
+      csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
       worldEvent->Add("progress", tilesLoaded/(float)(GetGridSize()*GetGridSize()));
       evmgr->AddEvent(worldEvent);
 
       if (allLoaded)
       {
         Report(PT::Notify, "World loaded!");
-        csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loaded", false);
+        csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loaded");
         evmgr->AddEvent(worldEvent);
         loading = false;
       }
@@ -373,7 +373,7 @@ namespace PT
     Report(PT::Notify, "World loading...");
 
     PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-    csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading", false);
+    csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
     worldEvent->Add("progress", 0.0f);
     evmgr->AddEvent(worldEvent);
 

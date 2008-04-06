@@ -22,7 +22,7 @@
 #include "client/pointer/pointer.h"
 
 #include "client/cursor.h"
-#include "client/data/effect/effectsmanager.h"
+#include "client/effect/effectsmanager.h"
 #include "client/event/eventmanager.h"
 #include "client/event/interfaceevent.h"
 #include "client/event/entityevent.h"
@@ -657,13 +657,14 @@ namespace PT
         if (!cam) return false;
 
         csVector3 isect, untransfCoord;
+        iSector* sector = 0;
         Cursor* cursor = PointerLibrary::getInstance()->getCursor();
-        csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord);
+        csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord, &sector);
 
         if (mesh)
         {
           PT::Effect::EffectsManager* effectsmanager = PointerLibrary::getInstance()->getEffectsManager();
-          effectsmanager->CreateEffect("MoveMarker", isect+csVector3(0,0.01f,0));
+          effectsmanager->CreateEffect("MoveMarker", isect+csVector3(0,0.01f,0), sector);
           //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0));
 
           csRef<iCelEntity> ownent = GetCelEntity();
@@ -690,7 +691,7 @@ namespace PT
     void PlayerEntity::Interact()
     {
       PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact", true);
+      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.interact");
       interfaceEvent->Add("entityId", id);
       std::string actions = "Attack, Inventory, Stats";
       interfaceEvent->Add("actions", actions.c_str());
