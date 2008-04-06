@@ -74,11 +74,11 @@ namespace PT
       bool backwardReverse;
       ///Whether to invert the look up and down controls, like an aeroplane.
       bool invertYAxis;
-      ///Minimum FPS for the adaptive distance clipping
+      ///Minimum FPS for the adaptive distance clipping.
       float minFPS;
-      ///Maximum FPS for the adaptive distance clipping
+      ///Maximum FPS for the adaptive distance clipping.
       float maxFPS;
-      ///Minimum view distance for the adaptive distance clipping
+      ///Minimum view distance for the adaptive distance clipping.
       float minDistance;
 
       csRef<iConfigManager> app_cfg;

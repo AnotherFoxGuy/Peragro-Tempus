@@ -41,44 +41,51 @@ class Network;
 struct iObjectRegistry;
 struct iLoader;
 
-class CombatMGR
+namespace PT
 {
-private:
+  namespace Combat
+  {
+    class CombatManager
+    {
+    private:
+    
+      csRef<iEngine> engine;
+      csRef<iVFS> vfs;
+      csRef<iLoader> loader;
+      csRef<iCelPlLayer> pl;
+    
+      PT::Effect::EffectsManager* effectsManager;
+      PT::Entity::EntityManager* entityManager;
+      GUIManager* guiManager;
+      PT::Data::SkillDataManager* skillManager;
+      Network* network;
+    
+      iMeshWrapper* GetMesh(PT::Entity::Entity* entity);
+    
+    public:
+      CombatManager();
+      ~CombatManager();
+    
+      bool Initialize();
+    
+      void Hit(int targetId, int damage);
+      void Die(int targetId);
+      void LevelUp(int targetId);
+      void Experience(int exp);
+      void SkillUsageStart(unsigned int casterId, unsigned int targetId, int skillId, ptString error);
+      void SkillUsageComplete(unsigned int casterId, unsigned int targetId, int skillId);
+      void RequestSkillUsageStart(iCelEntity* target, unsigned int skillId);
+      void RequestSkillUsageStart(unsigned int targetId, unsigned int skillId);
+    
+      /**
+       * Handler for ACTION_HIT event.
+       * @param ev Event describing the hit.
+       * @return False if an error occured, true otherwise.
+       */
+      bool ActionHit(iEvent& ev);
+    };
 
-  csRef<iEngine> engine;
-  csRef<iVFS> vfs;
-  csRef<iLoader> loader;
-  csRef<iCelPlLayer> pl;
-
-  PT::Effect::EffectsManager* effectsmgr;
-  PT::Entity::EntityManager* entitymgr;
-  GUIManager* guimanager;
-  PT::Data::SkillDataManager* skillmanager;
-  Network* network;
-
-  iMeshWrapper* getMesh(PT::Entity::Entity* entity);
-
-public:
-  CombatMGR ();
-  ~CombatMGR ();
-
-  bool Initialize ();
-
-  void hit (int targetId, int damage);
-  void die (int targetId);
-  void levelup (int targetId);
-  void experience (int exp);
-  void SkillUsageStart (unsigned int casterId, unsigned int targetId, int skillId, ptString error);
-  void SkillUsageComplete (unsigned int casterId, unsigned int targetId, int skillId);
-  void RequestSkillUsageStart (iCelEntity* target, unsigned int skillId);
-  void RequestSkillUsageStart (unsigned int targetId, unsigned int skillId);
-
-  /**
-   * Handler for ACTION_HIT event.
-   * @param ev Event describing the hit.
-   * @return False if an error occured, true otherwise.
-   */
-  bool ActionHit(iEvent& ev);
-};
+  } // Combat namespace
+} // PT namespace
 
 #endif // COMBATMANAGER_H

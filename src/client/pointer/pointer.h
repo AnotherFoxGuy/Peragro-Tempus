@@ -23,7 +23,6 @@ class Cursor;
 struct iObjectRegistry;
 class Network;
 class GUIManager;
-class CombatMGR;
 
 namespace PT
 {
@@ -31,6 +30,11 @@ namespace PT
   class World;
   class StateManager;
   class EnvironmentManager;
+
+  namespace Events
+  {
+    class EventManager;
+  } // Events namespace
 
   namespace Data
   {
@@ -46,21 +50,21 @@ namespace PT
     class ServerSetupManager;
   } // Misc namespace
 
-  namespace Effect
-  {
-    class EffectsManager;
-  } // Effect namespace
-
   namespace Entity
   {
     class EntityManager;
     class StatManager;
   } // Entity namespace
 
-  namespace Events
+  namespace Effect
   {
-    class EventManager;
-  } // Events namespace
+    class EffectsManager;
+  } // Effect namespace
+
+  namespace Combat
+  {
+    class CombatManager;
+  } // Combat namespace
 
   namespace Chat
   {
@@ -76,23 +80,24 @@ private:
 
   iObjectRegistry* objreg;
   PT::Client* client;
-  Cursor* cursor;
   Network* network;
+  Cursor* cursor;
+
+  PT::Events::EventManager* eventManager;
+  PT::Data::EffectDataManager* effectDataManager;
   PT::Data::SectorDataManager* sectorDataManager;
   PT::Data::SkillDataManager* skillDataManager;
   PT::Data::ConnectionDataManager* connectionDataManager;
-  PT::Data::EffectDataManager* effectDataManager;
   PT::Data::TeleportDataManager* teleportDataManager;
   PT::Misc::ServerSetupManager* serverSetupManager;
-  GUIManager* guimanager;
-  PT::Entity::EntityManager* entitymanager;
-  PT::Entity::StatManager* statmanager;
-  CombatMGR* combatmanager;
-  PT::Events::EventManager* eventmanager;
-  PT::Chat::ChatManager* chatmanager;
-  PT::Effect::EffectsManager* effectsmanager;
-  PT::StateManager* statemanager;
-  PT::EnvironmentManager* environmentmanager;
+  GUIManager* guiManager;
+  PT::StateManager* stateManager;
+  PT::Entity::EntityManager* entityManager;
+  PT::Entity::StatManager* statManager;
+  PT::Effect::EffectsManager* effectsManager;
+  PT::Combat::CombatManager* combatManager;
+  PT::Chat::ChatManager* chatManager;
+  PT::EnvironmentManager* environmentManager;
 
   PT::World* world;
 
@@ -102,22 +107,24 @@ public:
 
     objreg = 0;
     client = 0;
-    cursor = 0;
     network = 0;
+    cursor = 0;
+
+    eventManager = 0;
+    effectDataManager = 0;
     sectorDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
     serverSetupManager = 0;
-    effectDataManager = 0;
-    guimanager = 0;
-    entitymanager = 0;
-    statmanager = 0;
-    effectsmanager = 0;
-    combatmanager = 0;
-    eventmanager = 0;
-    chatmanager = 0;
-    statemanager = 0;
-    environmentmanager = 0;
+    guiManager = 0;
+    stateManager = 0;
+    environmentManager = 0;
+    entityManager = 0;
+    statManager = 0;
+    effectsManager = 0;
+    combatManager = 0;
+    chatManager = 0;
+
     world = 0;
   }
 
@@ -153,35 +160,35 @@ public:
   void setServerSetupManager(PT::Misc::ServerSetupManager* serverSetupManager) { this->serverSetupManager = serverSetupManager; }
   PT::Misc::ServerSetupManager* getServerSetupManager() { return this->serverSetupManager; }
 
-  void setGUIManager(GUIManager* guimanager) { this->guimanager = guimanager; }
-  GUIManager* getGUIManager() { return this->guimanager; }
+  void setGUIManager(GUIManager* guiManager) { this->guiManager = guiManager; }
+  GUIManager* getGUIManager() { return this->guiManager; }
 
-  void setEntityManager(PT::Entity::EntityManager* entitymanager) { this->entitymanager = entitymanager; }
-  PT::Entity::EntityManager* getEntityManager() { return this->entitymanager; }
+  void setEntityManager(PT::Entity::EntityManager* entityManager) { this->entityManager = entityManager; }
+  PT::Entity::EntityManager* getEntityManager() { return this->entityManager; }
 
-  void setStatManager(PT::Entity::StatManager* statmanager) { this->statmanager = statmanager; }
-  PT::Entity::StatManager* getStatManager() { return this->statmanager; }
+  void setStatManager(PT::Entity::StatManager* statManager) { this->statManager = statManager; }
+  PT::Entity::StatManager* getStatManager() { return this->statManager; }
 
-  void setEffectsManager(PT::Effect::EffectsManager* effectsmanager) { this->effectsmanager = effectsmanager; }
-  PT::Effect::EffectsManager* getEffectsManager() { return this->effectsmanager; }
+  void setEffectsManager(PT::Effect::EffectsManager* effectsManager) { this->effectsManager = effectsManager; }
+  PT::Effect::EffectsManager* getEffectsManager() { return this->effectsManager; }
 
-  void setCombatManager(CombatMGR* combatmanager) { this->combatmanager = combatmanager; }
-  CombatMGR* getCombatManager() { return this->combatmanager; }
+  void setCombatManager(PT::Combat::CombatManager* combatManager) { this->combatManager = combatManager; }
+  PT::Combat::CombatManager* getCombatManager() { return this->combatManager; }
 
-  void setEventManager(PT::Events::EventManager* eventmanager) { this->eventmanager = eventmanager; }
-  PT::Events::EventManager* getEventManager() { return this->eventmanager; }
+  void setEventManager(PT::Events::EventManager* eventManager) { this->eventManager = eventManager; }
+  PT::Events::EventManager* getEventManager() { return this->eventManager; }
 
-  void setChatManager(PT::Chat::ChatManager* chatmanager) { this->chatmanager = chatmanager; }
-  PT::Chat::ChatManager* getChatManager() { return this->chatmanager; }
+  void setChatManager(PT::Chat::ChatManager* chatManager) { this->chatManager = chatManager; }
+  PT::Chat::ChatManager* getChatManager() { return this->chatManager; }
 
   void setWorld(PT::World* world) { this->world = world; }
   PT::World* getWorld() { return this->world; }
 
-  void setStateManager(PT::StateManager* statemanager) { this->statemanager = statemanager; }
-  PT::StateManager* getStateManager() { return this->statemanager; }
+  void setStateManager(PT::StateManager* stateManager) { this->stateManager = stateManager; }
+  PT::StateManager* getStateManager() { return this->stateManager; }
 
-  void setEnvironmentManager(PT::EnvironmentManager* environmentmanager) { this->environmentmanager = environmentmanager; }
-  PT::EnvironmentManager* getEnvironmentManager() { return this->environmentmanager; }
+  void setEnvironmentManager(PT::EnvironmentManager* environmentManager) { this->environmentManager = environmentManager; }
+  PT::EnvironmentManager* getEnvironmentManager() { return this->environmentManager; }
 
 };
 

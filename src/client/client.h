@@ -68,12 +68,18 @@ struct iView;
 
 class Network;
 class GUIManager;
-class CombatMGR;
+class CombatManager;
 class Cursor;
 
 namespace PT
 {
+  class Reporter;
   class World;
+
+  namespace Events
+  {
+    class EventManager;
+  } // Events namespace
 
   namespace Data
   {
@@ -88,10 +94,10 @@ namespace PT
     class ServerSetupManager;
   } // Misc namespace
 
-  namespace Effect
+  namespace Reflection
   {
-    class EffectsManager;
-  } // Effect namespace
+    class ReflectionRenderer;
+  } // Reflection namespace
 
   namespace Entity
   {
@@ -99,10 +105,15 @@ namespace PT
     class StatManager;
   } // Entity namespace
 
-  namespace Events
+  namespace Effect
   {
-    class EventManager;
-  } // Events namespace
+    class EffectsManager;
+  } // Effect namespace
+
+  namespace Combat
+  {
+    class CombatManager;
+  } // Combat namespace
 
   namespace Chat
   {
@@ -114,100 +125,8 @@ namespace PT
     class TradeManager;
   } // Trade namespace
 
-  class Reporter;
-
   class Client : public csApplicationFramework, public csBaseEventHandler
   {
-  private:
-    void PreProcessFrame();
-    void ProcessFrame();
-    void FinishFrame();
-
-    bool OnMouseMove(iEvent&);
-    iPcActorMove* getPcActorMove();
-    bool InitializeCEL();
-    void checkConnection();
-    void handleStates();
-
-  private:
-    PointerLibrary pointerlib;
-
-    csRef<iEngine> engine;
-    csRef<iGraphics3D> g3d;
-    csRef<iVirtualClock> vc;
-    csRef<iVFS> vfs;
-    csRef<iCommandLineParser> cmdline;
-    csRef<iView> view;
-    csRef<iCelPlLayer> pl;
-    csRef<iCelBlLayer> bl;
-
-    // The sound renderer.
-    csRef<iSndSysRenderer> sndrenderer;
-
-    // The sound loader.
-    csRef<iSndSysLoader> sndloader;
-
-    // The sound stream.
-    csRef<iSndSysStream> sndstream;
-
-    // The sound source.
-    csRef<iSndSysSource> sndsource;
-    csRef<iSndSysSource3D> sndsource3d;
-
-    // The config manager.
-    csRef<iConfigManager> app_cfg;
-
-    Reporter* reporter;
-    Network* network;
-    GUIManager* guimanager;
-
-    PT::Entity::EntityManager* entitymanager;
-    PT::Entity::StatManager* statmanager;
-    CombatMGR* combatmanager;
-
-    PT::Data::EffectDataManager* effectDataManager;
-    PT::Data::SectorDataManager* sectorDataManager;
-    PT::Data::SkillDataManager* skillDataManager;
-    PT::Data::ConnectionDataManager* connectionDataManager;
-    PT::Misc::ServerSetupManager* serverSetupManager;
-    PT::Effect::EffectsManager* effectsmanager;
-    PT::StateManager* statemanager;
-
-    Cursor* cursor;
-    PT::InputManager *inputMgr;
-
-    PT::Events::EventManager* eventmanager;
-    PT::Chat::ChatManager* chatmanager;
-    PT::Trade::TradeManager* trademanager;
-
-    World* world;
-
-    bool ActionActivateSkill(iEvent& ev);
-    bool ActionQuit(iEvent& ev);
-    bool Quit(const CEGUI::EventArgs &args);
-    bool NoQuit(const CEGUI::EventArgs &args);
-
-  private:
-    Mutex mutex;
-    csTicks timer;
-    iSector *room;
-    bool world_loaded;
-    int limitFPS;
-    csTicks last_sleep;
-    csTicks last_seen;
-
-    // needed for relogin on disconnect
-    std::string user;
-    std::string pass;
-    unsigned int char_id;
-
-  public:
-    bool loggedIn(iEvent& ev);
-    bool PlayingEvent(iEvent& ev);
-    bool LoadingRegion(iEvent& ev);
-    bool LoadRegion(iEvent& ev);
-    bool Connected(iEvent& ev);
-
   public:
     Client();
     ~Client();
@@ -232,6 +151,94 @@ namespace PT
       PostProcessFrame();
       FinishFrame();
     }
+
+    bool loggedIn(iEvent& ev);
+    bool PlayingEvent(iEvent& ev);
+    bool LoadingRegion(iEvent& ev);
+    bool LoadRegion(iEvent& ev);
+    bool Connected(iEvent& ev);
+
+  private:
+    void PreProcessFrame();
+    void ProcessFrame();
+    void FinishFrame();
+
+    bool OnMouseMove(iEvent&);
+    iPcActorMove* getPcActorMove();
+    bool InitializeCEL();
+    void checkConnection();
+    void handleStates();
+
+    bool ActionActivateSkill(iEvent& ev);
+    bool ActionQuit(iEvent& ev);
+    bool Quit(const CEGUI::EventArgs &args);
+    bool NoQuit(const CEGUI::EventArgs &args);
+
+  private:
+    PointerLibrary pointerlib;
+
+    csRef<iEngine> engine;
+    csRef<iGraphics3D> g3d;
+    csRef<iVirtualClock> vc;
+    csRef<iVFS> vfs;
+    csRef<iCommandLineParser> cmdline;
+    csRef<iView> view;
+    csRef<iCelPlLayer> pl;
+    csRef<iCelBlLayer> bl;
+
+    ///The sound renderer.
+    csRef<iSndSysRenderer> sndrenderer;
+
+    ///The sound loader.
+    csRef<iSndSysLoader> sndloader;
+
+    ///The sound stream.
+    csRef<iSndSysStream> sndstream;
+
+    ///The sound source.
+    csRef<iSndSysSource> sndsource;
+    csRef<iSndSysSource3D> sndsource3d;
+
+    ///The config manager.
+    csRef<iConfigManager> app_cfg;
+
+    Reporter* reporter;
+    Network* network;
+    Cursor* cursor;
+
+    PT::Events::EventManager* eventManager;
+    PT::Data::EffectDataManager* effectDataManager;
+    PT::Data::SectorDataManager* sectorDataManager;
+    PT::Data::SkillDataManager* skillDataManager;
+    PT::Data::ConnectionDataManager* connectionDataManager;
+    PT::Misc::ServerSetupManager* serverSetupManager;
+    GUIManager* guiManager;
+    PT::InputManager* inputManager;
+    PT::StateManager* stateManager;
+    PT::EnvironmentManager* environmentManager;
+    PT::Reflection::ReflectionRenderer* reflectionRenderer;
+
+    PT::Entity::EntityManager* entityManager;
+    PT::Entity::StatManager* statManager;
+    PT::Effect::EffectsManager* effectsManager;
+    PT::Combat::CombatManager* combatManager;
+    PT::Chat::ChatManager* chatManager;
+    PT::Trade::TradeManager* tradeManager;
+
+    World* world;
+
+    Mutex mutex;
+    csTicks timer;
+    iSector* room;
+    bool world_loaded;
+    int limitFPS;
+    csTicks last_sleep;
+    csTicks last_seen;
+
+    // needed for relogin on disconnect
+    std::string user;
+    std::string pass;
+    unsigned int char_id;
   };
 
 } // PT namespace

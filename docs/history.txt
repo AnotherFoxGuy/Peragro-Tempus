@@ -6,6 +6,8 @@ under each day.
 
 06-Apr-2008
  - Sueastside rewrote effects.
+ - vornne changed CombatMGR to CombatManager and put it in a namespace, added
+   some missing deletes, coding style changes.
 
 05-Apr-2008
  - Sueastside rewrote events.

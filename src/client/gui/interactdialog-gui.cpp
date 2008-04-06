@@ -153,7 +153,7 @@ bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
   {
     Report(PT::Notify, "OnAction: Requesting attack with: %d.", interactId);
 
-    CombatMGR* combatmanager = PointerLibrary::getInstance()->getCombatManager();
+    PT::Combat::CombatManager* combatmanager = PointerLibrary::getInstance()->getCombatManager();
 
     combatmanager->RequestSkillUsageStart (interactId, guimanager->GetHUDWindow()->GetActiveSkillId());
   }

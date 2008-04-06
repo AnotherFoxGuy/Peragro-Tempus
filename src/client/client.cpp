@@ -98,43 +98,57 @@ namespace PT
 
     reporter = 0;
     network = 0;
-    guimanager = 0;
-    effectsmanager = 0;
-    entitymanager = 0;
-    combatmanager = 0;
+    cursor = 0;
+
+    eventManager = 0;
     effectDataManager = 0;
+    sectorDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
     serverSetupManager = 0;
-    cursor = 0;
-    inputMgr = 0;
-    statmanager = 0;
-    statemanager = 0;
+    guiManager = 0;
+    inputManager = 0;
+    stateManager = 0;
+    // Don't set environmentManager = 0;
+    reflectionRenderer = 0;
 
-    eventmanager = 0;
-    chatmanager = 0;
-    trademanager = 0;
-    sectorDataManager = 0;
+    entityManager = 0;
+    statManager = 0;
+    effectsManager = 0;
+    combatManager = 0;
+    chatManager = 0;
+    tradeManager = 0;
+
+    // Don't set world = 0;
   }
 
   Client::~Client()
   {
-    delete combatmanager;
-    delete entitymanager;
-    delete effectsmanager;
-    delete guimanager;
+    delete reporter;
     delete network;
     delete cursor;
+
+    // Don't delete eventManager, that is taken care of by the boost::shared_ptr
+    // in struct PT:Events::EventManager::Listener
     delete effectDataManager;
+    delete sectorDataManager;
     delete skillDataManager;
     delete connectionDataManager;
     delete serverSetupManager;
-    delete inputMgr;
-    delete reporter;
-    delete trademanager;
-    delete sectorDataManager;
-    delete statmanager;
-    delete statemanager;
+    delete guiManager;
+    delete inputManager;
+    delete stateManager;
+    // Don't delete environmentManager;
+    delete reflectionRenderer;
+
+    delete entityManager;
+    delete statManager;
+    delete effectsManager;
+    delete combatManager;
+    delete chatManager;
+    delete tradeManager;
+
+    // Don't delete world;
   }
 
   void Client::PreProcessFrame()
@@ -142,9 +156,9 @@ namespace PT
     csTicks ticks = vc->GetElapsedTicks();
     timer += ticks;
 
-    effectsmanager->HandleEffects(ticks);
+    effectsManager->HandleEffects(ticks);
 
-    eventmanager->Handle();
+    eventManager->Handle();
 
     if (limitFPS > 0)
     {
@@ -155,9 +169,9 @@ namespace PT
     if (timer > 1000)
     {
       timer = 0;
-      if (statemanager->GetState() == STATE_PLAY)
+      if (stateManager->GetState() == STATE_PLAY)
       {
-        entitymanager->DrUpdateOwnEntity();
+        entityManager->DrUpdateOwnEntity();
       }
     }
   }
@@ -174,9 +188,9 @@ namespace PT
     //TODO: Implement some way of getting the current FPS, and pass that instead of limit.
     if (Entity::PlayerEntity::Instance()) Entity::PlayerEntity::Instance()->CameraDraw(limitFPS);
 
-    if (statemanager->GetState() == STATE_PLAY)
+    if (stateManager->GetState() == STATE_PLAY)
     {
-      if (entitymanager)
+      if (entityManager)
       {
         PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
         if (player)
@@ -185,20 +199,20 @@ namespace PT
           float currentStamina = player->GetCurrentStamina();
           float maxStamina = player->GetMaxStamina();
           float ratio = currentStamina / maxStamina;
-          if (guimanager)
+          if (guiManager)
           {
-            guimanager->GetHUDWindow()->SetSP(ratio);
+            guiManager->GetHUDWindow()->SetSP(ratio);
             char buffer[40];
             sprintf(buffer, "            %d/%d", (int)currentStamina,
                                                  (int)maxStamina);
-            guimanager->GetHUDWindow()->SetText("PlayerHUD/SPValue", buffer);
+            guiManager->GetHUDWindow()->SetText("PlayerHUD/SPValue", buffer);
           }
         }
       }
     }
 
     // Paint the interface over the engine
-    if (guimanager) guimanager->Render ();
+    if (guiManager) guiManager->Render ();
     if (cursor) cursor->Draw();
   }
 
@@ -245,7 +259,7 @@ namespace PT
       return ReportError("Error opening system!");
 
     // Create and Initialize the Reporter.
-    reporter= new Reporter ();
+    reporter = new Reporter ();
     if (!reporter) return ReportError("Error loading Reporter!");
     reporter->Initialize();
 
@@ -260,6 +274,9 @@ namespace PT
 
     g3d = csQueryRegistry<iGraphics3D> (GetObjectRegistry());
     if (!g3d) return Report(PT::Error, "Failed to locate 3D renderer!");
+
+    iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
+    if (nw) nw->SetTitle ("Peragro Tempus");
 
     csRef<iPluginManager> plugin_mgr (csQueryRegistry<iPluginManager> (object_reg));
     csRef<iClipboard> csTheClipboard = csLoadPlugin<iClipboard> (plugin_mgr, "crystalspace.gui.clipboard");
@@ -279,10 +296,10 @@ namespace PT
     pointerlib.setNetwork(network);
 
     // Create and Initialize the EventManager.
-    eventmanager = new PT::Events::EventManager();
-    if (!eventmanager->Initialize())
+    eventManager = new PT::Events::EventManager();
+    if (!eventManager->Initialize())
       return Report(PT::Error, "Failed to initialize EventManager!");
-    pointerlib.setEventManager(eventmanager);
+    pointerlib.setEventManager(eventManager);
 
     // Create and Initialize the EffectDataManager.
     effectDataManager = new PT::Data::EffectDataManager ();
@@ -312,28 +329,28 @@ namespace PT
     serverSetupManager = new PT::Misc::ServerSetupManager ();
     pointerlib.setServerSetupManager(serverSetupManager);
 
-    // Create and Initialize the GUImanager.
-    guimanager = new GUIManager ();
-    if (!guimanager->Initialize ())
+    // Create and Initialize the GUIManager.
+    guiManager = new GUIManager ();
+    if (!guiManager->Initialize ())
       return Report(PT::Error, "Failed to initialize GUIManager!");
-    pointerlib.setGUIManager(guimanager);
+    pointerlib.setGUIManager(guiManager);
 
     // Create and Initialize the InputManager.
-    inputMgr = new InputManager();
-    if(!inputMgr->Initialize())
+    inputManager = new InputManager();
+    if(!inputManager->Initialize())
       return Report(PT::Error, "Failed to create InputManager object!");
 
     // Create and Initialize the StateManager.
-    statemanager = new StateManager();
-    if(!statemanager->Initialize())
+    stateManager = new StateManager();
+    if(!stateManager->Initialize())
       return Report(PT::Error, "Failed to create StateManager object!");
-    pointerlib.setStateManager(statemanager);
+    pointerlib.setStateManager(stateManager);
 
     // Create and Initialize the EnvironmentManager.
-    PT::EnvironmentManager* environmentmanager = new EnvironmentManager();
-    if(!environmentmanager->Initialize())
+    environmentManager = new EnvironmentManager();
+    if(!environmentManager->Initialize())
       return Report(PT::Error, "Failed to create EnvironmentManager object!");
-    pointerlib.setEnvironmentManager(environmentmanager);
+    pointerlib.setEnvironmentManager(environmentManager);
 
     if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
       return Report(PT::Error, "Failed to set up event handler!");
@@ -357,17 +374,15 @@ namespace PT
     bool enable_reflections = app_cfg->GetBool("Client.waterreflections");
     if (enable_reflections)
     {
-      ///@TODO: this doesn't get deleted. 
-      PT::Reflection::ReflectionRenderer* reflection = new PT::Reflection::ReflectionRenderer();
-      if (!reflection->Initialize())
+      reflectionRenderer = new PT::Reflection::ReflectionRenderer();
+      if (!reflectionRenderer->Initialize())
         return Report(PT::Error, "Failed to initialize reflection!");
 
-      reflection->SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
+      reflectionRenderer->SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
       Report(PT::Notify, "Enabled reflections!");
     }
 
-    iNativeWindow* nw = g3d->GetDriver2D()->GetNativeWindow ();
-    if (nw) nw->SetTitle ("Peragro Tempus");
+    limitFPS = static_cast<int>( app_cfg->GetFloat("Client.maxFPS", limitFPS) );
 
     InitializeCEL();
 
@@ -377,40 +392,40 @@ namespace PT
     pointerlib.setCursor(cursor);
 
     // Create and Initialize the EntityManager.
-    entitymanager = new PT::Entity::EntityManager ();
-    if (!entitymanager->Initialize())
+    entityManager = new PT::Entity::EntityManager ();
+    if (!entityManager->Initialize())
       return Report(PT::Error, "Failed to initialize EntityManager!");
-    pointerlib.setEntityManager(entitymanager);
-
-    // Create and Initialize the Effectsmanager.
-    effectsmanager = new PT::Effect::EffectsManager ();
-    if (!effectsmanager->Initialize())
-      return Report(PT::Error, "Failed to initialize EffectsManager!");
-    pointerlib.setEffectsManager(effectsmanager);
-
-    // Create and Initialize the Combatmanager.
-    combatmanager = new CombatMGR ();
-    if (!combatmanager->Initialize())
-      return Report(PT::Error, "Failed to initialize CombatManager!");
-    pointerlib.setCombatManager(combatmanager);
-
-    // Create and Initialize the ChatManager.
-    chatmanager = new PT::Chat::ChatManager ();
-    if (!chatmanager->Initialize())
-      return Report(PT::Error, "Failed to initialize ChatManager!");
-    pointerlib.setChatManager(chatmanager);
-
-    // Create and Initialize the TradeManager.
-    trademanager = new PT::Trade::TradeManager ();
-    if (!trademanager->Initialize())
-      return Report(PT::Error, "Failed to initialize TradeManager!");
-    //pointerlib.setTradeManager(trademanager);
+    pointerlib.setEntityManager(entityManager);
 
     // Create and Initialize the StatManager.
-    statmanager = new PT::Entity::StatManager ();
-    if (!statmanager->Initialize())
+    statManager = new PT::Entity::StatManager ();
+    if (!statManager->Initialize())
       return Report(PT::Error, "Failed to initialize StatManager!");
-    pointerlib.setStatManager(statmanager);
+    pointerlib.setStatManager(statManager);
+
+    // Create and Initialize the EffectsManager.
+    effectsManager = new PT::Effect::EffectsManager ();
+    if (!effectsManager->Initialize())
+      return Report(PT::Error, "Failed to initialize EffectsManager!");
+    pointerlib.setEffectsManager(effectsManager);
+
+    // Create and Initialize the CombatManager.
+    combatManager = new PT::Combat::CombatManager ();
+    if (!combatManager->Initialize())
+      return Report(PT::Error, "Failed to initialize CombatManager!");
+    pointerlib.setCombatManager(combatManager);
+
+    // Create and Initialize the ChatManager.
+    chatManager = new PT::Chat::ChatManager ();
+    if (!chatManager->Initialize())
+      return Report(PT::Error, "Failed to initialize ChatManager!");
+    pointerlib.setChatManager(chatManager);
+
+    // Create and Initialize the TradeManager.
+    tradeManager = new PT::Trade::TradeManager ();
+    if (!tradeManager->Initialize())
+      return Report(PT::Error, "Failed to initialize TradeManager!");
+    //pointerlib.setTradeManager(tradeManager);
 
     view.AttachNew(new csView(engine, g3d));
 
@@ -497,7 +512,7 @@ namespace PT
 
   void Client::handleStates()
   {
-    switch(statemanager->GetState())
+    switch(stateManager->GetState())
     {
     case STATE_INITIAL: // Initial state. Load intro sector and go to STATE_INTRO.
       {
@@ -507,7 +522,7 @@ namespace PT
         if (!path)
         {
           path = 0;
-          iCEGUI* cegui = guimanager->GetCEGUI();
+          iCEGUI* cegui = guiManager->GetCEGUI();
 
           // load the background
           vfs->ChDir ("/peragro/skin/");
@@ -568,8 +583,8 @@ namespace PT
         }
 
         // Show the connect window.
-        guimanager->GetLoginWindow ()->ShowWindow ();
-        guimanager->GetServerWindow ()->ShowWindow ();
+        guiManager->GetLoginWindow ()->ShowWindow ();
+        guiManager->GetServerWindow ()->ShowWindow ();
 
         if (cmdline)
         {
@@ -585,7 +600,7 @@ namespace PT
           }
         }
 
-        statemanager->SetState(STATE_INTRO);
+        stateManager->SetState(STATE_INTRO);
         break;
       }
     case STATE_INTRO: // Introduction screen already loaded. Once user connects switch to STATE_CONNECTED.
@@ -600,13 +615,13 @@ namespace PT
     case STATE_PLAY:
       {
         checkConnection();
-        entitymanager->Handle();
+        entityManager->Handle();
         break;
       }
     case STATE_RECONNECTED:
       {
         checkConnection();
-        entitymanager->Handle();
+        entityManager->Handle();
         break;
       }
     }
@@ -616,29 +631,29 @@ namespace PT
   {
     //Report(PT::Notify, "Saw server %d ms ago.", csGetTicks() - last_seen);
     size_t ticks = csGetTicks();
-    if ( last_seen > 0 && ticks - last_seen > 10000 && ! network->isRunning() && statemanager->GetState() >= STATE_CONNECTED )
+    if ( last_seen > 0 && ticks - last_seen > 10000 && ! network->isRunning() && stateManager->GetState() >= STATE_CONNECTED )
     {
       last_seen = csGetTicks();
       Report(PT::Warning, "Disconnect!");
 
       //TODO: Make it actually delete all entities like it claims to do...
-      entitymanager->delAllEntities();
+      entityManager->delAllEntities();
 
-      entitymanager->Handle();
+      entityManager->Handle();
 
-      statemanager->SetState(STATE_RECONNECTED);
+      stateManager->SetState(STATE_RECONNECTED);
 
       network->init();
 
       if (!network->isRunning())
       {
-        guimanager->CreateOkWindow()->ShowWindow();
-        guimanager->CreateOkWindow()->BringToFront();
-        guimanager->CreateOkWindow()->SetText("Disconnect!\n Trying to reconnect, please wait!");
+        guiManager->CreateOkWindow()->ShowWindow();
+        guiManager->CreateOkWindow()->BringToFront();
+        guiManager->CreateOkWindow()->SetText("Disconnect!\n Trying to reconnect, please wait!");
         return;
       }
 
-      guimanager->CreateOkWindow()->HideWindow();
+      guiManager->CreateOkWindow()->HideWindow();
 
       ConnectRequestMessage msg(CLIENTVERSION);
       network->send(&msg);
@@ -649,13 +664,13 @@ namespace PT
   {
     using namespace PT::Events;
 
-    if (statemanager->GetState() == STATE_RECONNECTED)
+    if (stateManager->GetState() == STATE_RECONNECTED)
     {
       login(user, pass);
     }
     else
     {
-      if (cmdline && statemanager->GetState() == STATE_INTRO)
+      if (cmdline && stateManager->GetState() == STATE_INTRO)
       {
         const char* user = cmdline->GetOption("user", 0);
         const char* pass = cmdline->GetOption("pass", 0);
@@ -673,7 +688,7 @@ namespace PT
         }
       }
 
-      statemanager->SetState(STATE_CONNECTED);
+      stateManager->SetState(STATE_CONNECTED);
     }
 
     Report(PT::Notify, "Connected!");
@@ -695,7 +710,7 @@ namespace PT
   {
     using namespace PT::Events;
 
-    if (statemanager->GetState() == STATE_PLAY)
+    if (stateManager->GetState() == STATE_PLAY)
     {
       if (InputHelper::GetButtonDown(&ev))
       {
@@ -706,7 +721,7 @@ namespace PT
         if (!pcprop) return false;
         if (pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type")) == PT::Entity::PCEntityType)
         {
-          combatmanager->levelup(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+          combatManager->LevelUp(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         }
         // Animate the player.
         iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
@@ -729,9 +744,9 @@ namespace PT
   {
     using namespace PT::Events;
 
-    if (statemanager->GetState() == STATE_PLAY)
+    if (stateManager->GetState() == STATE_PLAY)
     {
-      ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
+      ConfirmDialogWindow* dialog = guiManager->CreateConfirmWindow();
       dialog->SetText("Are you sure you want to quit?");
       dialog->SetYesEvent(CEGUI::Event::Subscriber(&Client::Quit, this));
       dialog->SetNoEvent(CEGUI::Event::Subscriber(&Client::NoQuit, this));
@@ -787,33 +802,33 @@ namespace PT
     if (StateHelper::GetError(&ev))
     {
       Report(PT::Error, "Login Failed due to: %s.", StateHelper::GetErrorMessage(&ev).c_str());
-      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      guimanager->GetLoginWindow()->EnableWindow();
-      guimanager->GetServerWindow()->EnableWindow();
+      GUIManager* guiManager = PointerLibrary::getInstance()->getGUIManager();
+      guiManager->GetLoginWindow()->EnableWindow();
+      guiManager->GetServerWindow()->EnableWindow();
       //network->stop();
-      //statemanager->SetState(STATE_INTRO);
-      guimanager->CreateOkWindow(true)->SetText(StateHelper::GetErrorMessage(&ev).c_str());
+      //stateManager->SetState(STATE_INTRO);
+      guiManager->CreateOkWindow(true)->SetText(StateHelper::GetErrorMessage(&ev).c_str());
       return true;
     }
     else
       Report(PT::Notify, "Login succeeded!");
 
 
-    if (statemanager->GetState() == STATE_RECONNECTED && char_id != NO_CHARACTER_SELECTED_0)
+    if (stateManager->GetState() == STATE_RECONNECTED && char_id != NO_CHARACTER_SELECTED_0)
     {
       selectCharacter(char_id);
     }
-    else if (statemanager->GetState() == STATE_CONNECTED)
+    else if (stateManager->GetState() == STATE_CONNECTED)
     {
-      guimanager->GetLoginWindow ()->HideWindow ();
-      guimanager->GetServerWindow ()->HideWindow ();
-      guimanager->GetSelectCharWindow ()->ShowWindow ();
+      guiManager->GetLoginWindow ()->HideWindow ();
+      guiManager->GetServerWindow ()->HideWindow ();
+      guiManager->GetSelectCharWindow ()->ShowWindow ();
 
       bool isAdmin = false;
       ev.Retrieve("isAdmin", isAdmin);
-      if(isAdmin){guimanager->GetSelectCharWindow ()->ShowAdminButton();}
+      if(isAdmin){guiManager->GetSelectCharWindow ()->ShowAdminButton();}
 
-      statemanager->SetState(STATE_LOGGED_IN);
+      stateManager->SetState(STATE_LOGGED_IN);
 
       if (cmdline)
       {
@@ -895,7 +910,7 @@ namespace PT
   {
     using namespace PT::Events;
 
-    statemanager->SetState(STATE_PLAY);
+    stateManager->SetState(STATE_PLAY);
 
     return true;
   }
@@ -904,10 +919,10 @@ namespace PT
   {
     using namespace PT::Events;
 
-    if(!guimanager->GetLoadScreenWindow()->IsVisible())
+    if(!guiManager->GetLoadScreenWindow()->IsVisible())
     {
-      guimanager->GetLoadScreenWindow()->ShowWindow();
-      iCEGUI* cegui = guimanager->GetCEGUI();
+      guiManager->GetLoadScreenWindow()->ShowWindow();
+      iCEGUI* cegui = guiManager->GetCEGUI();
       if(!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen")){ // TODO: Different loading screens for different tiles(?)
         vfs->ChDir ("/peragro/skin/");
         cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("LoadScreen", "loadscreen.jpg");
@@ -916,7 +931,7 @@ namespace PT
         image->setProperty("BackgroundEnabled", "True");
       }
     }
-    guimanager->GetLoadScreenWindow()->SetProgress(WorldHelper::GetProgress(&ev));
+    guiManager->GetLoadScreenWindow()->SetProgress(WorldHelper::GetProgress(&ev));
     return true;
   }
 
@@ -932,21 +947,21 @@ namespace PT
       pl->RemoveEntity(ent);
     }
 
-    statemanager->SetState(STATE_PLAY);
+    stateManager->SetState(STATE_PLAY);
 
     sawServer();
 
     if (!world_loaded) 
     {
-      guimanager->GetSelectCharWindow ()->HideWindow();
-      guimanager->GetOptionsWindow ()->HideWindow();
+      guiManager->GetSelectCharWindow ()->HideWindow();
+      guiManager->GetOptionsWindow ()->HideWindow();
 
-      guimanager->GetChatWindow ()->ShowWindow();
-      guimanager->GetHUDWindow ()->ShowWindow();
+      guiManager->GetChatWindow ()->ShowWindow();
+      guiManager->GetHUDWindow ()->ShowWindow();
 
 
       // Hide the background.
-      iCEGUI* cegui = guimanager->GetCEGUI();
+      iCEGUI* cegui = guiManager->GetCEGUI();
       if (cegui->GetWindowManagerPtr ()->isWindowPresent("Root")
         && cegui->GetWindowManagerPtr ()->isWindowPresent("Background") )
       {
@@ -956,13 +971,13 @@ namespace PT
       }
 
       // Little hack to restore focus.
-      guimanager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
+      guiManager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
 
       // Stop the intro music.
       sndstream->Pause ();
     }
 
-    guimanager->GetLoadScreenWindow()->HideWindow();
+    guiManager->GetLoadScreenWindow()->HideWindow();
 
     world_loaded = true;
     PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
