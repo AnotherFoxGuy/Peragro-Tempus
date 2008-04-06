@@ -310,13 +310,7 @@
 				RelativePath="..\..\src\client\data\doordatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\effect\effect.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\data\effect\effectdatamanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\effect\effectsmanager.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\reflection.cpp">
@@ -362,13 +356,7 @@
 				RelativePath="..\..\src\client\data\effect\dataeffect.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\effect\effect.h">
-			</File>
-			<File
 				RelativePath="..\..\src\client\data\effect\effectdatamanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\effect\effectsmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\reflection.h">
