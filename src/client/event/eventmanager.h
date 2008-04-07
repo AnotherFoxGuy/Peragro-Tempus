@@ -71,13 +71,14 @@ namespace PT
 
       Mutex mutex;
 
+      void Handle();
+
       csRef<iEventQueue> eventQueue;
       csRef<iEventNameRegistry> nameRegistry;
 
       virtual bool HandleEvent(iEvent& ev);
       CS_EVENTHANDLER_NAMES ("peragro.events")
       CS_EVENTHANDLER_NIL_CONSTRAINTS
-      //CS_DECLARE_EVENT_SHORTCUTS;
 
     public:
       EventManager();
@@ -109,9 +110,6 @@ namespace PT
       {
         return nameRegistry->GetID(id);
       }
-
-
-      void Handle();
 
     };
 

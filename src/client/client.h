@@ -163,7 +163,6 @@ namespace PT
     void ProcessFrame();
     void FinishFrame();
 
-    bool OnMouseMove(iEvent&);
     iPcActorMove* getPcActorMove();
     bool InitializeCEL();
     void checkConnection();

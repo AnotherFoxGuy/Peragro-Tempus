@@ -158,8 +158,6 @@ namespace PT
 
     effectsManager->HandleEffects(ticks);
 
-    eventManager->Handle();
-
     if (limitFPS > 0)
     {
       if (ticks < 1000.0f/limitFPS)
@@ -208,18 +206,11 @@ namespace PT
             guiManager->GetHUDWindow()->SetText("PlayerHUD/SPValue", buffer);
           }
         }
-
-        if (cursor)
-        {
-          csRef<iPcDefaultCamera> cam = player->GetCamera();
-          if (cam && cam->GetCamera()->GetSector()) cursor->UpdateSelected(pl, cam->GetCamera());
-        }
       }
     }
 
     // Paint the interface over the engine
     if (guiManager) guiManager->Render ();
-    if (cursor) cursor->Draw();
   }
 
   void Client::FinishFrame()
@@ -393,7 +384,7 @@ namespace PT
     InitializeCEL();
 
     // Create the cursor.
-    cursor = new Cursor(this);
+    cursor = new Cursor();
     if (!cursor) return Report(PT::Error, "Can't create cursor!");
     pointerlib.setCursor(cursor);
 
@@ -779,14 +770,6 @@ namespace PT
   bool Client::NoQuit(const CEGUI::EventArgs &args)
   {
     return true;
-  }
-
-  bool Client::OnMouseMove(iEvent& e)
-  {
-    cursor->MouseMove(csMouseEventHelper::GetX(&e), csMouseEventHelper::GetY(&e));
-
-    // This returns false so the event is also handled by CEGUI.
-    return false;
   }
 
   bool Client::InitializeCEL()

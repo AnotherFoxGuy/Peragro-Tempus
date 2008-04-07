@@ -63,6 +63,9 @@ namespace PT
 
       eventQueue->RegisterListener(this);
 
+      //Register for the Frame event, for Handle().
+      eventQueue->RegisterListener (this, Retrieve("crystalspace.frame"));
+
       return true;
     }
 
@@ -122,6 +125,9 @@ namespace PT
       {
         eventQueue->Subscribe(this, listeners.Get(i)->eventId);
       }
+
+      //Register for the Frame event, for Handle().
+      eventQueue->RegisterListener (this, Retrieve("crystalspace.frame"));
     }
 
     void EventManager::Handle()
@@ -139,6 +145,13 @@ namespace PT
     bool EventManager::HandleEvent(iEvent& ev)
     {
       csEventID id = ev.GetName();
+
+      //Listen for the Frame event, for Handle().
+      if (id == Retrieve("crystalspace.frame"))
+      {
+        Handle();
+        return false;
+      }
 
       for(size_t i = 0; i < listeners.GetSize(); i++)
       {

@@ -17,26 +17,9 @@
 */
 
 #include "cursor.h"
-#include "client.h"
 
-#include "iengine/camera.h"
-#include "iengine/campos.h"
-#include "iengine/mesh.h"
-#include "iengine/movable.h"
-#include "iengine/sector.h"
-//#include "imesh/objmodel.h"
-#include "imesh/object.h"
-#include "ivideo/graph3d.h"
-#include "ivideo/graph2d.h"
-#include "csqsqrt.h"
-
-#include "physicallayer/propclas.h"
-#include "propclass/mesh.h"
-#include "propclass/tooltip.h"
-#include "propclass/prop.h"
-
-
-#include "client/gui/gui.h"
+#include <cstool/collider.h>
+#include <iengine/camera.h>
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
@@ -44,11 +27,9 @@
 #include "client/gui/guimanager.h"
 
 #include "client/pointer/pointer.h"
+#include "client/entity/player/playerentity.h"
 
-#include "client/entity/entitymanager.h"
-
-Cursor::Cursor(PT::Client* client)
-: client(client)
+Cursor::Cursor() : scfImplementationType (this)
 {
   selectedEntity = 0;
 
@@ -56,10 +37,75 @@ Cursor::Cursor(PT::Client* client)
   CEGUI::Window* root = winMgr->getWindow("Root");
   nameTag = winMgr->createWindow("Peragro/Entity", "NameTag");
   root->addChildWindow(nameTag);
+
+  iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+
+  // Register for mouse and frame events.
+  mouse = csevMouseEvent (object_reg);
+  frame = csevFrame (object_reg);
+  csEventID events[] = { frame, mouse, CS_EVENTLIST_END };
+  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+  q->RegisterListener (this, events);
 }
 
 Cursor::~Cursor()
 {
+  iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+  q->RemoveListener (this);
+}
+
+bool Cursor::HandleEvent(iEvent& event)
+{
+  iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+
+  if (event.Name == frame)
+  {
+    Frame(event);
+    return false;
+  }
+  else if (CS_IS_MOUSE_EVENT(object_reg, event))
+  {
+    switch(csMouseEventHelper::GetEventType(&event))
+    {
+    case csMouseEventTypeMove:
+      return OnMouseMove(event);
+    }
+  }
+  return false;
+}
+
+void Cursor::Frame(iEvent& e)
+{
+  static int x = 0;
+  static int y = 0;
+
+  PT::Entity::PlayerEntity *player = PT::Entity::PlayerEntity::Instance();
+  iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  if (player && pl)
+  {
+    if (x != mouseX  && y != mouseY)
+    {
+      csRef<iPcDefaultCamera> cam = player->GetCamera();
+      if (cam && cam->GetCamera()->GetSector()) 
+        UpdateSelected(pl, cam->GetCamera());
+    }
+  }
+
+  x = mouseX;
+  y = mouseY;
+
+  Draw();
+}
+
+bool Cursor::OnMouseMove(iEvent& e)
+{
+  mouseX = csMouseEventHelper::GetX(&e);
+  mouseY = csMouseEventHelper::GetY(&e);
+
+  // This returns false so the event is also handled by CEGUI.
+  return false;
 }
 
 void Cursor::Draw()
@@ -101,12 +147,6 @@ void Cursor::Draw()
   {
     nameTag->setVisible(false);
   }
-}
-
-void Cursor::MouseMove(int x, int y)
-{
-  mouseX = x;
-  mouseY = y;
 }
 
 void Cursor::UpdateSelected(iCelPlLayer* pl, iCamera* camera)

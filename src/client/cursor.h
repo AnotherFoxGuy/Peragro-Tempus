@@ -22,29 +22,29 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 #include <csutil/weakref.h>
-#include <cstool/collider.h>
-
-#include "CEGUI.h"
-
-namespace PT
-{
-  class Client;
-} // PT namespace 
+#include <csutil/scf_implementation.h>
+#include <iutil/eventh.h>
 
 struct iCelEntity;
 struct iCelPlLayer;
 struct iCamera;
 struct iPcTooltip;
 struct iCollideSystem;
+struct iMeshWrapper;
+class csVector3;
+struct iSector;
+
+namespace CEGUI
+{
+  class Window;
+}
 
 /**
  * Class representing the game mouse cursor.
  */
-class Cursor
+class Cursor : public scfImplementation1<Cursor, iEventHandler>
 {
 private:
-  /// Pointer to the client.
-  PT::Client* client;
   /// Pointer to the selected entity.
   csWeakRef<iCelEntity> selectedEntity;
   /// The mouse x coordinate.
@@ -54,25 +54,15 @@ private:
   /// Pointer to the name tag object.
   CEGUI::Window* nameTag;
 
-public:
-  /**
-   * Constructor.
-   * @param client Pointer to the client.
-   */
-  Cursor(PT::Client* client);
+  csEventID mouse;
+  csEventID frame;
 
-  /// Destructor.
-  ~Cursor();
+  bool OnMouseMove(iEvent&);
+  void Frame(iEvent&);
 
-  /// Draw the cursor.
-  void Draw();
-
-  /**
-   * Set the mouse coordinates.
-   * @param x X coordinate.
-   * @param y Y coordinate.
-   */
-  void MouseMove(int x, int y);
+  virtual bool HandleEvent(iEvent& ev);
+  CS_EVENTHANDLER_NAMES ("peragro.cursor")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
 
   /**
    * Update the pointer to the selected entity.
@@ -80,6 +70,18 @@ public:
    * @param camera Pointer to the camera.
    */
   void UpdateSelected(iCelPlLayer* pl, iCamera* camera);
+
+public:
+  /**
+   * Constructor.
+   */
+  Cursor();
+
+  /// Destructor.
+  ~Cursor();
+
+  /// Draw the cursor.
+  void Draw();
   
   /**
    * Returns a pointer to the selected entity.
