@@ -247,8 +247,12 @@ namespace PT
         }
         else
         {
-          arg.push_back( tail.substr(0, pos) );
-          Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, pos).c_str() );
+          // Don't add an empty string, happens with double spaces.
+          if (pos != 0)
+          {
+            arg.push_back( tail.substr(0, pos) );
+            Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, pos).c_str() );
+          }
           tail = tail.substr(pos+1, tail.size());
         } // end if
       } // end while

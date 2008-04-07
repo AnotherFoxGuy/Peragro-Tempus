@@ -7,6 +7,9 @@ under each day.
 07-Apr-2008
  - vornne changed cursor.cpp so the selected entity is only updated every frame,
    added comments, coding style fixes.
+ - vornne added sueastside's fix for a crash in CreateEffect, fixed a crash in
+   commands.h and chatmanager.cpp where typing double spaces would insert an
+   empty string in the array.
 
 06-Apr-2008
  - Sueastside rewrote effects.

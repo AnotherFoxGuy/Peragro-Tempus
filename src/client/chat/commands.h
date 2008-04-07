@@ -578,10 +578,19 @@ namespace PT
             int commandIndex = 3, commands = args.size();
             while (commandIndex < commands)
             {
-              direction = tolower(args[commandIndex].at(0));
+              if (!args[commandIndex].empty())
+              {
+                direction = tolower(args[commandIndex].at(0));
+              }
+              else
+              {
+                commandIndex += 1;
+                continue;
+              }
 
               // Check if the distance was also specified
-              if (commandIndex+1 < commands && isdigit(args[commandIndex+1].at(0)))
+              if (commandIndex+1 < commands && !args[commandIndex+1].empty() &&
+                  isdigit(args[commandIndex+1].at(0)))
               {
                 distance = atof(args[commandIndex+1].c_str());
                 if (distance == 0.0f || distance > 10000.0f || distance < -10000.0f)

@@ -144,15 +144,13 @@ namespace PT
       // Offset the effect.
       csVector3 curpos = effectmw->QuerySceneNode()->GetMovable()->GetFullPosition();
       effectmw->QuerySceneNode()->GetMovable()->SetPosition(curpos + pos);
-      if (playersector)
-      {
-        effectmw->QuerySceneNode()->GetMovable()->GetSectors()->Add(playersector);
-        effectmw->QuerySceneNode()->GetMovable()->SetSector(playersector);
-      }
       if (sector)
       {
-        effectmw->QuerySceneNode()->GetMovable()->GetSectors()->Add(sector);
         effectmw->QuerySceneNode()->GetMovable()->SetSector(sector);
+      }
+      else if (playersector)
+      {
+        effectmw->QuerySceneNode()->GetMovable()->SetSector(playersector);
       }
       effectmw->PlaceMesh();
       effectmw->QuerySceneNode()->GetMovable()->UpdateMove();

@@ -87,27 +87,24 @@ public:
   iCelEntity* GetSelectedEntity();
 
   /**
-   * Get the mesh, intesection point, and sector, in the world at the cursor
-   * position in the 2D view.
-   * return a meshwrapper created there.
+   * Get the mesh in the world intersected by the cursor.
    * @param camera Pointer to the camera.
-   * @param worldCoord Assigned the coordinates of the intersection in world space.
-   * @param untransfCoord TODO: I don't know.
-   * @param sector Assigned the sector of the intersection.
-   * @return The intersected mesh.
+   * @param worldCoord Set to resulting position of the hit in world space.
+   * @param untransfCoord Set to resulting position of the hit in camera space.
+   * @param sector Set to resulting sector in which the point lies.
+   * @return The intersected meshwrapper.
    */
   iMeshWrapper* Get3DPointFrom2D(iCamera* camera, csVector3* worldCoord, csVector3* untransfCoord, iSector** sector = 0);
 
   /**
-   * Get the mesh, intesection point, and sector, in the world at a point
-   * in the 2D view.
-   * @param x X coordinate.
-   * @param y Y coordinate.
+   * Get the mesh in the world intersected by a 2D point in the view.
+   * @param x X coordinate in screen space.
+   * @param y Y coordinate in screen space.
    * @param camera Pointer to the camera.
-   * @param worldCoord Assigned the coordinates of the intersection in world space.
-   * @param untransfCoord TODO: I don't know.
-   * @param sector Assigned the sector of the intersection.
-   * @return The intersected mesh.
+   * @param worldCoord Set to resulting position of the hit in world space.
+   * @param untransfCoord Set to resulting position of the hit in camera space.
+   * @param sector Set to resulting sector in which the point lies.
+   * @return The intersected meshwrapper.
    */
   iMeshWrapper* Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3* worldCoord, csVector3* untransfCoord, iSector** sector = 0);
 
