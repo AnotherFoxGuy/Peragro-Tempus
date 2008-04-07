@@ -10,6 +10,7 @@ under each day.
  - vornne added sueastside's fix for a crash in CreateEffect, fixed a crash in
    commands.h and chatmanager.cpp where typing double spaces would insert an
    empty string in the array.
+ - Rakhun fixed statmanager and the local movement option.
 
 06-Apr-2008
  - Sueastside rewrote effects.

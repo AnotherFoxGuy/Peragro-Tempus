@@ -79,14 +79,14 @@ namespace PT
         return false;
       }
 
-      local_movement = app_cfg->GetBool("Client.local_movement");
+      local_movement = app_cfg->GetBool("Client.local_movement", false);
 
       return true;
     }
 
     bool MovementManager::UpdateOptions(iEvent& ev)
     {
-      local_movement = app_cfg->GetBool("Client.local_movement");
+      local_movement = app_cfg->GetBool("Client.local_movement", false);
       return true;
     }
 
@@ -144,9 +144,9 @@ namespace PT
       bool local = false;
       ev.Retrieve("local", local);
 
-      if (!local && local_movement || local && !local_movement) return false;
-
       unsigned int id = EntityHelper::GetEntityID(&ev);
+
+      if (!local && local_movement && PointerLibrary::getInstance()->getEntityManager()->GetPlayerId() == id){ return false; }
 
       Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
       if (!entity)

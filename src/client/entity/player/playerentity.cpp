@@ -573,15 +573,14 @@ namespace PT
     {
       using namespace PT::Events;
 
-      // Start moving, but only if we're not on a mount, mounts would react a
-      // bit slower, so the small network lag makes sense there
-      if(instance && !static_cast<PcEntity*>(instance)->GetHasMount())
+      // Local movement option
+      if(local_movement && instance && !static_cast<PcEntity*>(instance)->GetHasMount())
       {
         PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
         csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.move");
         entityEvent->Add("entityId", id);
-        entityEvent->Add("walkDirection", PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1));
-        entityEvent->Add("turnDirection", (walk == -1 && backwardReverse ? -turn : turn));
+        entityEvent->Add("walkDirection", float(PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1)));
+        entityEvent->Add("turnDirection", float(walk == -1 && backwardReverse ? -turn : turn));
         entityEvent->Add("run", run);
         entityEvent->Add("jump", jump);
         entityEvent->Add("local", true);
@@ -755,6 +754,7 @@ namespace PT
     bool PlayerEntity::UpdateOptions()
     {
       backwardReverse = app_cfg->GetBool("Client.backwardreverse", backwardReverse);
+      local_movement = app_cfg->GetBool("Client.local_movement", false);
       invertYAxis = app_cfg->GetBool("Client.invertYAxis", invertYAxis);
       minFPS = app_cfg->GetFloat("Client.minFPS", minFPS);
       maxFPS = app_cfg->GetFloat("Client.maxFPS", maxFPS);

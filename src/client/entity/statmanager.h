@@ -20,6 +20,7 @@
 #define STATMANAGER_H
 
 #include <vector>
+#include <string>
 #include "client/event/eventmanager.h"
 
 namespace PT
@@ -28,7 +29,7 @@ namespace PT
   {
 
     struct Stat{
-      const char* name;
+      std::string name;
       int level;
     };
 

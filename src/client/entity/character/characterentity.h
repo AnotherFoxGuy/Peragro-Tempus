@@ -67,7 +67,7 @@ namespace PT
       ///probably be MountEntities).
       bool sitting;
       ///Whether character is on a mount or not.
-      bool hasMount; 
+      bool hasMount;
 
     public:
       void Move(const MovementData& movement);

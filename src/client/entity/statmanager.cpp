@@ -52,8 +52,10 @@ namespace PT
       using namespace PT::Events;
 
       Stat stat;
+      const char* tmpname;
 
-      ev.Retrieve("name", stat.name);
+      ev.Retrieve("name", tmpname);
+      stat.name = tmpname;
       ev.Retrieve("level", stat.level);
 
       stats.push_back(stat);
@@ -65,7 +67,7 @@ namespace PT
       unsigned int i=0;
       while(i<stats.size())
       {
-        if(!strcmp(stats[i].name,name)){return stats[i].level;}
+        if(stats[i].name == name){return stats[i].level;}
         i++;
       }
       return 0;

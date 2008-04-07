@@ -78,6 +78,8 @@ namespace PT
 
       ///Whether to reverse turning when walking backwards.
       bool backwardReverse;
+      ///Whether to do local movement instead of waiting for the server.
+      bool local_movement;
       ///Whether to invert the look up and down controls, like an aeroplane.
       bool invertYAxis;
       ///Minimum FPS for the adaptive distance clipping.
