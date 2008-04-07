@@ -573,19 +573,20 @@ namespace PT
     {
       using namespace PT::Events;
 
-      /* @TODO
       // Start moving, but only if we're not on a mount, mounts would react a
       // bit slower, so the small network lag makes sense there
-      if(instance && !static_cast<PcEntity*>(instance)->GetHasMount()){
-        EntityMoveEvent* entityEvent = new EntityMoveEvent();
-        entityEvent->entityId      = id;
-        entityEvent->walkDirection = PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1);
-        entityEvent->turnDirection = (walk == -1 && backwardReverse ? -turn : turn);
-        entityEvent->run           = run;
-        entityEvent->jump          = jump;
-        entityEvent->local         = true;
-        PointerLibrary::getInstance()->getEventManager()->AddEvent(entityEvent);
-      }*/
+      if(instance && !static_cast<PcEntity*>(instance)->GetHasMount())
+      {
+        PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+        csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.move");
+        entityEvent->Add("entityId", id);
+        entityEvent->Add("walkDirection", PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1));
+        entityEvent->Add("turnDirection", (walk == -1 && backwardReverse ? -turn : turn));
+        entityEvent->Add("run", run);
+        entityEvent->Add("jump", jump);
+        entityEvent->Add("local", true);
+        evmgr->AddEvent(entityEvent);
+      }
 
       MoveRequestMessage msg;
 
