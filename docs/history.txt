@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+07-Apr-2008
+ - vornne changed cursor.cpp so the selected entity is only updated every frame,
+   added comments, coding style fixes.
+
 06-Apr-2008
  - Sueastside rewrote effects.
  - vornne changed CombatMGR to CombatManager and put it in a namespace, added

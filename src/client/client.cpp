@@ -182,31 +182,37 @@ namespace PT
 
     handleStates();
 
-    // Draw the player camera manually.
-    // To get the hopping effect, change the limitFPS attribute in constructor to something sane,
-    // like 50 FPS or so.
-    //TODO: Implement some way of getting the current FPS, and pass that instead of limit.
-    if (Entity::PlayerEntity::Instance()) Entity::PlayerEntity::Instance()->CameraDraw(limitFPS);
-
-    if (stateManager->GetState() == STATE_PLAY)
+    if (entityManager)
     {
-      if (entityManager)
+      PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
+      if (player)
       {
-        PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
-        if (player)
+        // Draw the player camera manually.
+        // To get the hopping effect, change the limitFPS attribute in constructor to something sane,
+        // like 50 FPS or so.
+        //TODO: Implement some way of getting the current FPS, and pass that instead of limit.
+        player->CameraDraw(limitFPS);
+
+        if (stateManager->GetState() == STATE_PLAY)
         {
           player->UpdatePlayerStats();
-          float currentStamina = player->GetCurrentStamina();
-          float maxStamina = player->GetMaxStamina();
-          float ratio = currentStamina / maxStamina;
           if (guiManager)
           {
+            float currentStamina = player->GetCurrentStamina();
+            float maxStamina = player->GetMaxStamina();
+            float ratio = currentStamina / maxStamina;
             guiManager->GetHUDWindow()->SetSP(ratio);
             char buffer[40];
             sprintf(buffer, "            %d/%d", (int)currentStamina,
                                                  (int)maxStamina);
             guiManager->GetHUDWindow()->SetText("PlayerHUD/SPValue", buffer);
           }
+        }
+
+        if (cursor)
+        {
+          csRef<iPcDefaultCamera> cam = player->GetCamera();
+          if (cam && cam->GetCamera()->GetSector()) cursor->UpdateSelected(pl, cam->GetCamera());
         }
       }
     }
@@ -777,11 +783,9 @@ namespace PT
 
   bool Client::OnMouseMove(iEvent& e)
   {
-    if (!Entity::PlayerEntity::Instance()) return false;
-    csRef<iPcDefaultCamera> cam = Entity::PlayerEntity::Instance()->GetCamera();
-    if (!cam) return false;
-    if (!cam->GetCamera()->GetSector()) return false;
-    cursor->MouseMove(pl, cam->GetCamera(), csMouseEventHelper::GetX(&e), csMouseEventHelper::GetY(&e));
+    cursor->MouseMove(csMouseEventHelper::GetX(&e), csMouseEventHelper::GetY(&e));
+
+    // This returns false so the event is also handled by CEGUI.
     return false;
   }
 

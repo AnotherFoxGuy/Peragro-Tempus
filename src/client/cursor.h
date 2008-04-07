@@ -37,27 +37,84 @@ struct iCamera;
 struct iPcTooltip;
 struct iCollideSystem;
 
+/**
+ * Class representing the game mouse cursor.
+ */
 class Cursor
 {
 private:
+  /// Pointer to the client.
   PT::Client* client;
-  csWeakRef<iCelEntity> selent;
-  int mousex;
-  int mousey;
-  CEGUI::Window* nametag;
+  /// Pointer to the selected entity.
+  csWeakRef<iCelEntity> selectedEntity;
+  /// The mouse x coordinate.
+  int mouseX;
+  /// The mouse y coordinate.
+  int mouseY;
+  /// Pointer to the name tag object.
+  CEGUI::Window* nameTag;
 
 public:
+  /**
+   * Constructor.
+   * @param client Pointer to the client.
+   */
   Cursor(PT::Client* client);
+
+  /// Destructor.
   ~Cursor();
 
+  /// Draw the cursor.
   void Draw();
-  void MouseMove(iCelPlLayer* pl, iCamera* camera, int x, int y);
+
+  /**
+   * Set the mouse coordinates.
+   * @param x X coordinate.
+   * @param y Y coordinate.
+   */
+  void MouseMove(int x, int y);
+
+  /**
+   * Update the pointer to the selected entity.
+   * @param pl Pointer to the CEL physical layer.
+   * @param camera Pointer to the camera.
+   */
+  void UpdateSelected(iCelPlLayer* pl, iCamera* camera);
+  
+  /**
+   * Returns a pointer to the selected entity.
+   */
   iCelEntity* GetSelectedEntity();
+
+  /**
+   * Get the mesh, intesection point, and sector, in the world at the cursor
+   * position in the 2D view.
+   * return a meshwrapper created there.
+   * @param camera Pointer to the camera.
+   * @param worldCoord Assigned the coordinates of the intersection in world space.
+   * @param untransfCoord TODO: I don't know.
+   * @param sector Assigned the sector of the intersection.
+   * @return The intersected mesh.
+   */
   iMeshWrapper* Get3DPointFrom2D(iCamera* camera, csVector3* worldCoord, csVector3* untransfCoord, iSector** sector = 0);
+
+  /**
+   * Get the mesh, intesection point, and sector, in the world at a point
+   * in the 2D view.
+   * @param x X coordinate.
+   * @param y Y coordinate.
+   * @param camera Pointer to the camera.
+   * @param worldCoord Assigned the coordinates of the intersection in world space.
+   * @param untransfCoord TODO: I don't know.
+   * @param sector Assigned the sector of the intersection.
+   * @return The intersected mesh.
+   */
   iMeshWrapper* Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3* worldCoord, csVector3* untransfCoord, iSector** sector = 0);
 
-  int GetMouseX(){ return mousex; }
-  int GetMouseY(){ return mousey; }
+  /// Returns the mouse cursor x coordinate.
+  int GetMouseX(){ return mouseX; }
+  /// Returns the mouse cursor y coordinate.
+  int GetMouseY(){ return mouseY; }
 };
 
 #endif // __Selector_h

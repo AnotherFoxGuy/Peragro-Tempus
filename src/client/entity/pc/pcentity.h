@@ -33,7 +33,7 @@ namespace PT
     {
     protected:
       /**
-       * Conveniance constructor used for PlayerEntity class.
+       * Convenience constructor used for PlayerEntity class.
        */
       PcEntity() {}
       virtual void Create();

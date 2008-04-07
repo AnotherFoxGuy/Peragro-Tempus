@@ -50,12 +50,12 @@
 Cursor::Cursor(PT::Client* client)
 : client(client)
 {
-  selent = 0;
+  selectedEntity = 0;
 
   CEGUI::WindowManager* winMgr = PointerLibrary::getInstance()->getGUIManager()->GetCEGUI()->GetWindowManagerPtr();
   CEGUI::Window* root = winMgr->getWindow("Root");
-  nametag = winMgr->createWindow("Peragro/Entity", "NameTag");
-  root->addChildWindow(nametag);
+  nameTag = winMgr->createWindow("Peragro/Entity", "NameTag");
+  root->addChildWindow(nameTag);
 }
 
 Cursor::~Cursor()
@@ -64,60 +64,64 @@ Cursor::~Cursor()
 
 void Cursor::Draw()
 {
-  if (selent.IsValid())
+  if (selectedEntity.IsValid())
   {
-    csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(selent, iPcProperties);
+    csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(selectedEntity, iPcProperties);
     if (!pcprop) return;
 
     int type = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type"));
     switch(type)
     {
     case PT::Entity::PCEntityType:
-      nametag->setProperty("NormalTextColour", "FF05AA05");
+      nameTag->setProperty("NormalTextColour", "FF05AA05");
       break;
     case PT::Entity::NPCEntityType:
-      nametag->setProperty("NormalTextColour", "FFFF00FF");
+      nameTag->setProperty("NormalTextColour", "FFFF00FF");
       break;
     case PT::Entity::DoorEntityType:
-      nametag->setProperty("NormalTextColour", "FF550505");
+      nameTag->setProperty("NormalTextColour", "FF550505");
       break;
     case PT::Entity::ItemEntityType:
-      nametag->setProperty("NormalTextColour", "FF0505AA");
+      nameTag->setProperty("NormalTextColour", "FF0505AA");
       break;
     default:
-      nametag->setVisible(false);
+      nameTag->setVisible(false);
     }
 
     CEGUI::String name = pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"));
-    CEGUI::Font* font = nametag->getFont();
+    CEGUI::Font* font = nameTag->getFont();
     float height = font->getFontHeight(1.3f);
     float width = font->getFormattedTextExtent(name, CEGUI::Rect(0,0,5,5),CEGUI::Centred, 1.1f);
-    nametag->setText(name);
-    nametag->setPosition(CEGUI::UVector2(CEGUI::UDim(0,mousex-(width/2)), CEGUI::UDim(0,mousey-25)));
-    nametag->setSize( CEGUI::UVector2(CEGUI::UDim(0,width), CEGUI::UDim(0,height)));
-    nametag->setVisible(true);
+    nameTag->setText(name);
+    nameTag->setPosition(CEGUI::UVector2(CEGUI::UDim(0,mouseX-(width/2)), CEGUI::UDim(0,mouseY-25)));
+    nameTag->setSize( CEGUI::UVector2(CEGUI::UDim(0,width), CEGUI::UDim(0,height)));
+    nameTag->setVisible(true);
   }
   else
   {
-    nametag->setVisible(false);
+    nameTag->setVisible(false);
   }
 }
 
-void Cursor::MouseMove(iCelPlLayer* pl, iCamera* camera, int x, int y)
+void Cursor::MouseMove(int x, int y)
 {
-  selent = pl->GetHitEntity(camera, x, y);
-  mousex = x;
-  mousey = y;
+  mouseX = x;
+  mouseY = y;
+}
+
+void Cursor::UpdateSelected(iCelPlLayer* pl, iCamera* camera)
+{
+  selectedEntity = pl->GetHitEntity(camera, mouseX, mouseY);
 }
 
 iCelEntity* Cursor::GetSelectedEntity()
 {
-  return selent;
+  return selectedEntity;
 }
 
 iMeshWrapper* Cursor::Get3DPointFrom2D(iCamera* camera, csVector3* worldCoord, csVector3* untransfCoord, iSector** sector)
 {
-  return Get3DPointFrom2D(mousex, mousey, camera, worldCoord, untransfCoord, sector);
+  return Get3DPointFrom2D(mouseX, mouseY, camera, worldCoord, untransfCoord, sector);
 }
 
 iMeshWrapper* Cursor::Get3DPointFrom2D(int x, int y, iCamera* camera, csVector3* worldCoord, csVector3* untransfCoord, iSector** sector)
