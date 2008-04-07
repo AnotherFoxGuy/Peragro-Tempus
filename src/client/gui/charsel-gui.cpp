@@ -152,6 +152,8 @@ void SelectCharWindow::ShowAdminButton()
 {
   btn = winMgr->getWindow("CharSelect/Admin");
   btn->setVisible(true);
+  btn = winMgr->getWindow("CharSelect/Frame");
+  btn->setHeight(btn->getHeight()+CEGUI::UDim(0,28));
 }
 
 

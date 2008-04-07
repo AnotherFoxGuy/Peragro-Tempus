@@ -11,6 +11,8 @@ under each day.
    commands.h and chatmanager.cpp where typing double spaces would insert an
    empty string in the array.
  - Rakhun fixed statmanager and the local movement option.
+ - Rakhun made the character selection window resize accordingly with the
+   visibility of the "Setup server" button.
 
 06-Apr-2008
  - Sueastside rewrote effects.
