@@ -133,8 +133,7 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
 void LoginWindow::ShowWindow() 
 {
   GUIWindow::ShowWindow();
-  CEGUI::Window * wnd = winMgr->getWindow("LoginUI/LoginEditBox");
-  wnd->activate();
+  UpdateLogin();
 }
 
 CEGUI::String LoginWindow::GetLogin() 
@@ -209,25 +208,6 @@ bool LoginWindow::OnCheckBox(const CEGUI::EventArgs& e)
   return true;
 }
 
-void LoginWindow::CreateCheckBox()
-{
-  btn = winMgr->getWindow("LoginUI/RemeberLogin");
-
-  const char* login = app_cfg->GetStr("Client.Server["+guimanager->GetServerWindow()->GetServerName()+"].Login");
-
-  bool selected;
-  if (!strcmp(login, ""))
-    selected = false;
-  else
-    selected = true;
-
-  ((CEGUI::Checkbox*)btn)->setSelected(selected);
-
-  // Set the login
-  btn = winMgr->getWindow("LoginUI/LoginEditBox");
-  btn->setText(login);
-}
-
 void LoginWindow::UpdateLogin()
 {
   const char* login = app_cfg->GetStr("Client.Server["+guimanager->GetServerWindow()->GetServerName()+"].Login");
@@ -237,9 +217,15 @@ void LoginWindow::UpdateLogin()
   btn = winMgr->getWindow("LoginUI/RemeberLogin");
   bool selected;
   if (!strcmp(login, ""))
+  {
     selected = false;
+    winMgr->getWindow("LoginUI/LoginEditBox")->activate();
+  }
   else
+  {
     selected = true;
+    winMgr->getWindow("LoginUI/PasswordEditBox")->activate();
+  }
   ((CEGUI::Checkbox*)btn)->setSelected(selected);
 }
 
@@ -277,9 +263,7 @@ void LoginWindow::CreateGUIWindow()
   btn = winMgr->getWindow("LoginUI/Register_Button");
   btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::RegisterButtonPressed, this));
 
-  // Set up the Fullscreen checkbox.
-  CreateCheckBox();
+  // Set up the remember-login checkbox.
   btn = winMgr->getWindow("LoginUI/RemeberLogin");
   btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&LoginWindow::OnCheckBox, this));
-
 }

@@ -13,6 +13,8 @@ under each day.
  - Rakhun fixed statmanager and the local movement option.
  - Rakhun made the character selection window resize accordingly with the
    visibility of the "Setup server" button.
+ - Rakhun changed the login window to select the password box automatically if
+   the login was saved instead of selecting the login name box.
 
 06-Apr-2008
  - Sueastside rewrote effects.
