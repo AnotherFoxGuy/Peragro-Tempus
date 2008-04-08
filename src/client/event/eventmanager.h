@@ -59,6 +59,7 @@ namespace PT
       {
         EventManager* evmgr;
         Listener(EventManager* evmgr, csEventID eventId, EventHandlerCallback* handler);
+        ~Listener();
         csEventID eventId;
         csWeakRef<EventHandlerCallback> handler;
         virtual bool HandleEvent(iEvent& ev);

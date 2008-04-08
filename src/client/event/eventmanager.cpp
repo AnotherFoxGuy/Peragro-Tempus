@@ -37,6 +37,11 @@ namespace PT
 
       evmgr->eventQueue->RegisterListener(this, eventId);
     }
+
+    EventManager::Listener::~Listener()
+    {
+      evmgr->eventQueue->RemoveListener(this);
+    }
     
     bool EventManager::Listener::HandleEvent(iEvent& ev)
     {
@@ -45,7 +50,6 @@ namespace PT
       else
       {
         Report(PT::Error, "Listener: handler invalid! (%s)", evmgr->Retrieve(eventId));
-        evmgr->eventQueue->RemoveListener(this);
         this->DecRef();
         return false;
       }
@@ -119,6 +123,7 @@ namespace PT
         if (listeners.Get(i)->handler == handler)
         {
           listeners.DeleteIndex(i);
+          // Don't return, remove _all_ occurences of our handler. 
         }
       }
     }
