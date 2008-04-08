@@ -53,19 +53,17 @@ namespace PT
       struct Listener;
 
       csRefArray<iEvent> events;
-      csPDelArray<Listener> listeners;
+      csRefArray<Listener> listeners;
 
-      struct Listener
+      struct Listener : public scfImplementation1<Listener, iEventHandler>
       {
         EventManager* evmgr;
-        Listener(EventManager* evmgr) : evmgr(evmgr), handler(0){}
+        Listener(EventManager* evmgr, csEventID eventId, EventHandlerCallback* handler);
         csEventID eventId;
         csWeakRef<EventHandlerCallback> handler;
-        bool HandleEvent(iEvent& ev);
-        bool operator==(const Listener& other)
-        {
-          return (this->handler == other.handler && this->eventId == other.eventId);
-        }
+        virtual bool HandleEvent(iEvent& ev);
+        CS_EVENTHANDLER_NAMES ("peragro.listener")
+        CS_EVENTHANDLER_NIL_CONSTRAINTS
       };
       friend struct Listener;
 
@@ -99,7 +97,10 @@ namespace PT
       void AddListener(csEventID eventId, EventHandlerCallback* handler);
       void AddListener(const std::string& eventId, EventHandlerCallback* handler);
 
+      /// Remove a handler for _all_ events.
       void RemoveListener (EventHandlerCallback* handler);
+      /// Remove a handler for a specific event.
+      void RemoveListener (EventHandlerCallback* handler, csEventID eventId);
 
       const char* Retrieve(csStringID id)
       {

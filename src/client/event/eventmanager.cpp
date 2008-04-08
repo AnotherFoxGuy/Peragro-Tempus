@@ -27,6 +27,16 @@ namespace PT
 {
   namespace Events
   {
+
+    EventManager::Listener::Listener(EventManager* evmgr, csEventID eventId, EventHandlerCallback* handler)
+      : scfImplementationType (this)
+    {
+      this->evmgr = evmgr;
+      this->eventId = eventId;
+      this->handler = handler;
+
+      evmgr->eventQueue->RegisterListener(this, eventId);
+    }
     
     bool EventManager::Listener::HandleEvent(iEvent& ev)
     {
@@ -34,8 +44,9 @@ namespace PT
         return handler->HandleEvent(ev);
       else
       {
-        //Report(PT::Error, "Listener: handler invalid! (%s)", evmgr->Retrieve(eventId));
-        evmgr->listeners.Delete(this);
+        Report(PT::Error, "Listener: handler invalid! (%s)", evmgr->Retrieve(eventId));
+        evmgr->eventQueue->RemoveListener(this);
+        this->DecRef();
         return false;
       }
     }
@@ -59,7 +70,7 @@ namespace PT
       if (!eventQueue) return false;
 
       nameRegistry = csEventNameRegistry::GetRegistry(obj_reg);
-      if (!eventQueue) return false;
+      if (!nameRegistry) return false;
 
       eventQueue->RegisterListener(this);
 
@@ -71,8 +82,10 @@ namespace PT
 
     csRef<iEvent> EventManager::CreateEvent(csEventID eventId, bool fromNetwork)
     {
+      ///@TODO: Don't make everything broadcast, requires all handlers
+      /// to return correct values.
       if (!fromNetwork)
-        return eventQueue->CreateEvent(eventId);
+        return eventQueue->CreateBroadcastEvent(eventId);
       else
         return csPtr<iEvent>(new csEvent(0, eventId, true));
     }
@@ -89,10 +102,7 @@ namespace PT
     void EventManager::AddListener(csEventID eventId, EventHandlerCallback* handler)
     {
       Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
-      eventQueue->Subscribe(this, eventId);
-      Listener* listen = new Listener(this);
-      listen->eventId = eventId;
-      listen->handler = handler;
+      csRef<Listener> listen; listen.AttachNew(new Listener(this, eventId, handler));
       listeners.Push(listen);
     } // end AddListener()
 
@@ -103,14 +113,6 @@ namespace PT
 
     void EventManager::RemoveListener (EventHandlerCallback* handler)
     {
-      // There are no duplicate subscriptions for iEventHandler,
-      // so we can't just remove 'handler->GetName()' since there
-      // might be multiple EventHandlers. So remove all and readd.
-
-      // Unsubscribe all.
-      eventQueue->RemoveListener(this);
-      eventQueue->RegisterListener(this);
-
       // Remove our listener.
       for(size_t i = 0; i < listeners.GetSize(); i++)
       {
@@ -119,15 +121,20 @@ namespace PT
           listeners.DeleteIndex(i);
         }
       }
+    }
 
-      // Resubscribe all.
+    void EventManager::RemoveListener (EventHandlerCallback* handler, csEventID eventId)
+    {
+      // Remove our listener.
       for(size_t i = 0; i < listeners.GetSize(); i++)
       {
-        eventQueue->Subscribe(this, listeners.Get(i)->eventId);
+        if (   (listeners.Get(i)->handler == handler)
+            && (listeners.Get(i)->eventId == eventId))
+        {
+          listeners.DeleteIndex(i);
+          return;
+        }
       }
-
-      //Register for the Frame event, for Handle().
-      eventQueue->RegisterListener (this, Retrieve("crystalspace.frame"));
     }
 
     void EventManager::Handle()
@@ -144,25 +151,11 @@ namespace PT
 
     bool EventManager::HandleEvent(iEvent& ev)
     {
-      csEventID id = ev.GetName();
-
       //Listen for the Frame event, for Handle().
-      if (id == Retrieve("crystalspace.frame"))
+      if (ev.GetName() == Retrieve("crystalspace.frame"))
       {
         Handle();
-        return false;
       }
-
-      for(size_t i = 0; i < listeners.GetSize(); i++)
-      {
-        Listener* listen = listeners.Get(i);
-        //Report(PT::Debug, "Handling event: %s for listener %s", Retrieve(id), Retrieve(listen->eventId));
-        if (nameRegistry->IsKindOf(id, listen->eventId))
-        {
-          //Report(PT::Debug, "Handling event: %s", Retrieve(listen->eventId));
-          listen->HandleEvent(ev);
-        } // if
-      } // for
 
       return false;
 

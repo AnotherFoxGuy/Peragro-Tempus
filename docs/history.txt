@@ -15,6 +15,7 @@ under each day.
    visibility of the "Setup server" button.
  - Rakhun changed the login window to select the password box automatically if
    the login was saved instead of selecting the login name box.
+ - Sueastside rewrote more event stuff.
 
 06-Apr-2008
  - Sueastside rewrote effects.
