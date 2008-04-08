@@ -70,6 +70,12 @@ bool Cursor::HandleEvent(iEvent& event)
     {
     case csMouseEventTypeMove:
       return OnMouseMove(event);
+      break;
+    case csMouseEventTypeUp:
+    case csMouseEventTypeDown:
+    case csMouseEventTypeClick:
+    case csMouseEventTypeDoubleClick:
+      break;
     }
   }
   return false;

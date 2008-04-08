@@ -507,10 +507,13 @@ namespace PT
               return;
             }
 
+            iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
+            csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
+
             PT::Data::Sector* sector;
             if (args[3].compare("here") == 0)
             {
-              sector = sectorDataMgr->GetSectorByName(ent_mgr->findPtEntById(ent_mgr->GetPlayerId())->GetSectorName());
+              sector = sectorDataMgr->GetSectorByName(pclinmove->GetSector()->QueryObject()->GetName());
             }
             else
             {
@@ -521,9 +524,6 @@ namespace PT
               guimanager->GetChatWindow ()->AddMessage ("Invalid sector!");
               return;
             }
-
-            iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
-            csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
 
             csVector3 pos;
             if (args.size() == 4)

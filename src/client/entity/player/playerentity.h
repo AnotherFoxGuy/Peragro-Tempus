@@ -66,15 +66,15 @@ namespace PT
       bool ready;
       ///Distance between camera and player entity, aka zoom.
       float cameraDistance;
-      ///Current pitch offset for hopping while walking and running.
-      float currentPitch;
-      ///Pitch per second change for pitch offset while walking and running.
-      float pitchPerSecond;
-      ///Pitch offset range for hopping while walking and running.
-      float pitchRange;
-      ///"Direction" in which the pitch offset should be changed (ie adding or
+      ///Current camera offset for hopping while walking and running.
+      float currentOffset;
+      ///Offset per second change for camera offset while walking and running.
+      float offsetPerSecond;
+      ///Offset range for hopping while walking and running.
+      float offsetRange;
+      ///"Direction" in which the camera offset should be changed (ie adding or
       ///substracting from it) when moving in first person view.
-      int pitchDirection;
+      int offsetDirection;
 
       ///Whether to reverse turning when walking backwards.
       bool backwardReverse;

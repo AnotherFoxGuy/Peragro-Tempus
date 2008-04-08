@@ -39,11 +39,14 @@
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
+#include <csgeom/vector3.h>
+
 //These defines should probably go to configuration file
-#define WALK_PPS 0.01f
-#define WALK_PITCH_RANGE 0.02f
-#define RUN_PPS 0.06f
-#define RUN_PITCH_RANGE 0.01f
+#define WALK_OPS 0.2f
+#define WALK_OFFSET_RANGE 0.03f
+#define RUN_OPS 0.8f
+#define RUN_OFFSET_RANGE 0.08f
+#define HEAD_HEIGHT 1.6f
 
 //#define _MOVEMENT_DEBUG_CHARACTER_
 
@@ -68,10 +71,10 @@ namespace PT
       //things like this in several places
       ready = true;
       cameraDistance = 3.0f;
-      pitchDirection = 1;
-      pitchPerSecond = WALK_PPS;
-      pitchRange = WALK_PITCH_RANGE;
-      currentPitch = 0.0f;
+      offsetDirection = 1;
+      offsetPerSecond = WALK_OPS;
+      offsetRange = WALK_OFFSET_RANGE;
+      currentOffset = 0.0f;
 
       backwardReverse = false;
       invertYAxis = false;
@@ -279,6 +282,8 @@ namespace PT
         camera->SetAutoDraw(false);
         camera->SetMode(iPcDefaultCamera::thirdperson, true);
         camera->SetPitch(-0.18f);
+        csVector3 offset(0.0f, HEAD_HEIGHT, 0.0f);
+        camera->SetFirstPersonOffset(offset);
       }
       else
         Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
@@ -417,15 +422,15 @@ namespace PT
           {
             run = true;
             //Setup values needed for hopping during run
-            pitchRange = RUN_PITCH_RANGE;
-            pitchPerSecond = RUN_PPS;
+            offsetRange = RUN_OFFSET_RANGE;
+            offsetPerSecond = RUN_OPS;
           }
           else
           {
             run = false;
             //Setup values needed for hopping during walk
-            pitchRange = WALK_PITCH_RANGE;
-            pitchPerSecond = WALK_PPS;
+            offsetRange = WALK_OFFSET_RANGE;
+            offsetPerSecond = WALK_OPS;
           }
         }
       }
@@ -632,16 +637,17 @@ namespace PT
       {
         //divide by zero problem
         if (fpsLimit==0) fpsLimit=1000;
-        //Our pitch moves in range [-pitchRange; pitchRange]. When we break
-        //through those values, change the direction of pitch change.
-        if (currentPitch >= pitchRange) pitchDirection = -1;
-        else if (currentPitch <= -pitchRange) pitchDirection = 1;
+        //Our offset moves in range [-offsetRange; offsetRange]. When we break
+        //through those values, change the direction of offset change.
+        if (currentOffset >= offsetRange) offsetDirection = -1;
+        else if (currentOffset <= -offsetRange) offsetDirection = 1;
 
-        //Pitch up or pitch down, depending on pitch direction.
-        currentPitch+=pitchDirection*pitchPerSecond/(float) fpsLimit;
+        //Shift camera up or down, depending on offset direction.
+        currentOffset+=offsetDirection*offsetPerSecond/(float) fpsLimit;
 
-        //Update the camera pitch finally
-        camera->SetPitch(currentPitch);
+        //Update the camera offset finally
+        csVector3 offset(0.0f, HEAD_HEIGHT+currentOffset, 0.0f);
+        camera->SetFirstPersonOffset(offset);
       }
       camera->Draw();
     }

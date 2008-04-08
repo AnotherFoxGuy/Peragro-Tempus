@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+08-Apr-2008
+- vornne fixed the hopping effect when moving to work with pan up/down controls
+  by changing the camera height instead, and other misc fixes.
+
 07-Apr-2008
  - vornne changed cursor.cpp so the selected entity is only updated every frame,
    added comments, coding style fixes.

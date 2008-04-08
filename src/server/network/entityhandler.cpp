@@ -419,7 +419,11 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
 void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 {
-  // TODO Check if the requesting player entity is an admin
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+  
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin == 0) return;
 
   TeleportRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
