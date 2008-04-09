@@ -84,6 +84,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libutil", "libutil.vcproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libworldloader", "libworldloader.vcproj", "{86FD713F-4B25-B113-4FB2-B754B1728EB6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent-networkmove", "plgcomponent-networkmove.vcproj", "{D4041AC9-851E-1DD4-4C97-D967303CD71A}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcsclipboard", "plgcsclipboard.vcproj", "{9C172335-623B-ADD5-E9C6-A8D78257C581}"
 EndProject
 Global
@@ -487,6 +489,14 @@ Global
 		{86FD713F-4B25-B113-4FB2-B754B1728EB6}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{86FD713F-4B25-B113-4FB2-B754B1728EB6}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{86FD713F-4B25-B113-4FB2-B754B1728EB6}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{D4041AC9-851E-1DD4-4C97-D967303CD71A}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{D4041AC9-851E-1DD4-4C97-D967303CD71A}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{D4041AC9-851E-1DD4-4C97-D967303CD71A}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{D4041AC9-851E-1DD4-4C97-D967303CD71A}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{D4041AC9-851E-1DD4-4C97-D967303CD71A}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{D4041AC9-851E-1DD4-4C97-D967303CD71A}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{D4041AC9-851E-1DD4-4C97-D967303CD71A}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{D4041AC9-851E-1DD4-4C97-D967303CD71A}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
