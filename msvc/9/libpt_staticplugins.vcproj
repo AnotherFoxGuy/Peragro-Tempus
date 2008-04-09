@@ -301,28 +301,28 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\common\libcomponent-networkmove_staticreg.cpp">
+				RelativePath="..\..\msvc\common\libcomponent_networkmove_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcomponent-networkmove_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcomponent-networkmove_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcomponent-networkmove_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcomponent-networkmove_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
