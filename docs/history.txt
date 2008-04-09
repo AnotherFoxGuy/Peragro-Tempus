@@ -7,6 +7,7 @@ under each day.
 09-Apr-2008
  - Sueastside started implementation of NetworkMove, an entity specific component
    that handles move events from a unique entity.
+ - swedishcoder, Rakhun and Sueastside fixed compilation errors with gcc.
 
 08-Apr-2008
  - vornne fixed the hopping effect when moving to work with pan up/down controls

@@ -1,6 +1,8 @@
 SubDir TOP plugins component entity move ;
 
-Description component-networkmove : "networkmove" ;
-Plugin component-networkmove : [ Wildcard *.cpp *.h ] ;
-ExternalLibs component-networkmove : CRYSTAL ;
+Description component_networkmove : "networkmove" ;
+Plugin component_networkmove : [ Wildcard *.cpp *.h ] ;
+ExternalLibs component_networkmove : CRYSTAL CEL ;
+
+LinkWith component_networkmove : client-reporter client-eventmanager ;
 
