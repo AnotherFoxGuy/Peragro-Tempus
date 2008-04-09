@@ -17,12 +17,15 @@
 */
 
 #include <cssysdef.h>
-#include <iutil/objreg.h>
 #include "networkmove.h"
+
+#include <iutil/objreg.h>
+#include <iutil/cfgmgr.h>
 
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
 
+//#include "client/entity/entitymanager.h"
 #include "client/entity/entity.h"
 
 #include "client/reporter/reporter.h"
@@ -63,8 +66,24 @@ bool NetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
   evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()), cbMove);
   eventHandlers.Push(cbMove);
 
+  // Register listener for InterfaceOptionsEvent.
+  csRef<EventHandlerCallback> cbUpdate;
+  cbUpdate.AttachNew(new EventHandler<NetworkMove>(&NetworkMove::UpdateOptions, this));
+  evmgr->AddListener("interface.options", cbUpdate);
+  eventHandlers.Push(cbUpdate);
+
+  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
+  local_movement = app_cfg->GetBool("Client.local_movement", false);
+
   pointerlib->getReporter()->Report(PT::Error, "WOOT Initialize() %d!", entity->GetId());
 
+  return true;
+}
+
+bool NetworkMove::UpdateOptions(iEvent& ev)
+{/*
+  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
+  local_movement = app_cfg->GetBool("Client.local_movement", false);*/
   return true;
 }
 
@@ -73,6 +92,52 @@ bool NetworkMove::Move(iEvent& ev)
   using namespace PT::Events;
 
   pointerlib->getReporter()->Report(PT::Error, "WOOT Move() %d!", entity->GetId());
+
+  unsigned int id = entity->GetId();
+
+  float walk = 0;
+  float turn = 0;
+  bool run = false;
+  bool jump = false;
+  bool local = false;
+  csEventError error = csEventErrNone;
+  
+
+  error = ev.Retrieve("walkDirection", walk);
+  error = ev.Retrieve("turnDirection", turn);
+  error = ev.Retrieve("run", run);
+  error = ev.Retrieve("jump", jump);
+  error = ev.Retrieve("local", local);
+
+  if (error != csEventErrNone)
+  {
+    pointerlib->getReporter()->Report(PT::Error, "NetworkMove::Move(): Failed to retrieve an attribute for %d!", id);
+    return false;
+  }
+
+  //if (!local && local_movement && pointerlib->getEntityManager()->GetPlayerId() == id){ return false; }
+
+  csWeakRef<iCelEntity> celEntity = entity->GetCelEntity();
+  if(!celEntity.IsValid()) return false;
+
+  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
+  if (pcactormove.IsValid())
+  {
+    pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
+    pcactormove->SetMovementSpeed(fabsf(walk));
+    pcactormove->SetRunningSpeed(fabsf(walk));
+    pcactormove->SetRotationSpeed(PI);
+
+    pcactormove->RotateLeft(turn < 0.0f);
+    pcactormove->RotateRight(turn > 0.0f);
+
+    pcactormove->Forward(walk > 0.0f);
+    pcactormove->Backward(walk < 0.0f);
+
+    if (jump) pcactormove->Jump();
+    else if (abs((int)walk) > 0) pcactormove->Run(run);
+    else pcactormove->Run(false);
+  }
 
   return false;
 }

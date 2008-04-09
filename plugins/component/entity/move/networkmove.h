@@ -49,6 +49,9 @@ private:
   PT::Entity::Entity* entity;
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
+  bool local_movement;
+  bool UpdateOptions(iEvent& ev);
+
   bool Move(iEvent& ev);
 
 public:

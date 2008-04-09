@@ -50,8 +50,6 @@ namespace PT
 
       EventHandler<MovementManager>* cb = new EventHandler<MovementManager>(&MovementManager::GetEntityEvents, this);
 
-      // Register listener for EntityMoveEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.move", cb);
       // Register listener for EntityMoveToEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.moveto", cb);
       // Register listener for EntityTeleportEvent.
@@ -61,32 +59,13 @@ namespace PT
       // Register listener for EntityPcPropUpdateEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pcpropupdate", cb);
 
-      cb = new EventHandler<MovementManager>(&MovementManager::UpdateOptions, this);
-      // Register listener for InterfaceOptionsEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("interface.options", cb);
-
-      app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
-      if (!app_cfg)
-      {
-        Report(PT::Error, "Can't find the config manager!");
-        return false;
-      }
-
-      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
       if (!vfs)
       {
         Report(PT::Error, "Can't find the vfs!");
         return false;
       }
 
-      local_movement = app_cfg->GetBool("Client.local_movement", false);
-
-      return true;
-    }
-
-    bool MovementManager::UpdateOptions(iEvent& ev)
-    {
-      local_movement = app_cfg->GetBool("Client.local_movement", false);
       return true;
     }
 
@@ -96,9 +75,7 @@ namespace PT
       {
         csRef<iEvent> ev = events.Get(0);
         PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-        if (evmgr->IsKindOf(ev->GetName(), "entity.move"))
-          MoveEntity(*ev);
-        else if (evmgr->IsKindOf(ev->GetName(), "entity.moveto"))
+        if (evmgr->IsKindOf(ev->GetName(), "entity.moveto"))
           MoveToEntity(*ev);
         else if (evmgr->IsKindOf(ev->GetName(), "entity.teleport"))
           TeleportEntity(*ev);
@@ -135,36 +112,6 @@ namespace PT
       angle += PI / 2.0f;
       if (angle > 2*PI) angle -= 2*PI;
       return angle;
-    }
-
-    bool MovementManager::MoveEntity(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      bool local = false;
-      ev.Retrieve("local", local);
-
-      unsigned int id = EntityHelper::GetEntityID(&ev);
-
-      if (!local && local_movement && PointerLibrary::getInstance()->getEntityManager()->GetPlayerId() == id){ return false; }
-
-      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(id);
-      if (!entity)
-      {
-        Report(PT::Error, "MoveEntity: Couldn't find entity with ID %d!", id);
-        return true;
-      }
-
-      MovementData movement;
-      movement.entity_id    = id;
-      ev.Retrieve("walkDirection", movement.walk);
-      ev.Retrieve("turnDirection", movement.turn);
-      ev.Retrieve("run", movement.run);
-      ev.Retrieve("jump", movement.jump);
-
-      entity->Move(movement);
-
-      return true;
     }
 
     void MovementManager::RemoveMoveTos(unsigned int id)

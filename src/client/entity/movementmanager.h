@@ -60,9 +60,6 @@ namespace PT
       csRef<iConfigManager> app_cfg;
       csRef<iVFS> vfs;
 
-      bool local_movement;
-      bool UpdateOptions(iEvent& ev);
-
     private:
       csPDelArray<MoveToData> move_to_entity;
 
