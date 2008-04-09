@@ -16,19 +16,19 @@
 namespace csStaticPluginInit
 {
 static char const metainfo_component-networkmove[] =
-"<?xml version=\"1.0\"?>"
-"<!-- NetworkMove.csplugin -->"
-"<plugin>"
-"  <scf>"
-"    <classes>"
-"      <class>"
-"        <name>peragro.entity.move.networkmove</name>"
-"        <implementation>NetworkMove</implementation>"
-"        <description>Perago entity movement controlled by network component</description>"
-"      </class>"
-"    </classes>"
-"  </scf>"
-"</plugin>"
+"<?xml version=\"1.0\"?>"
+"<!-- NetworkMove.csplugin -->"
+"<plugin>"
+"  <scf>"
+"    <classes>"
+"      <class>"
+"        <name>peragro.entity.move.networkmove</name>"
+"        <implementation>NetworkMove</implementation>"
+"        <description>Perago entity movement controlled by network component</description>"
+"      </class>"
+"    </classes>"
+"  </scf>"
+"</plugin>"
 ;
   #ifndef NetworkMove_FACTORY_REGISTER_DEFINED 
   #define NetworkMove_FACTORY_REGISTER_DEFINED 
