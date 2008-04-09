@@ -132,6 +132,18 @@ namespace PT
 
   }
 
+  bool Reporter::Report(SeverityLevel severity, const char* msg, ...)
+  {
+    va_list arg;
+    va_start (arg, msg);
+
+    Report(severity, msg, arg);
+
+    va_end (arg);
+
+    return false;
+  }
+
   bool Report(SeverityLevel severity, const char* msg, ...)
   {
     va_list arg;

@@ -68,6 +68,8 @@ namespace PT
       };
       friend struct Listener;
 
+      PointerLibrary* pointerlib;
+
       Mutex mutex;
 
       void Handle();
@@ -83,7 +85,7 @@ namespace PT
       EventManager();
       ~EventManager();
 
-      bool Initialize();
+      bool Initialize(PointerLibrary* pl);
 
       csRef<iEvent> CreateEvent(csEventID eventId, bool fromNetwork = false);
 
@@ -111,6 +113,16 @@ namespace PT
       csStringID Retrieve(const char* id)
       {
         return nameRegistry->GetID(id);
+      }
+
+      bool IsKindOf(csStringID child, csStringID parent)
+      {
+        return nameRegistry->IsKindOf(child, parent);
+      }
+
+      bool IsKindOf(csStringID child, const char* parent)
+      {
+        return IsKindOf(child, Retrieve(parent));
       }
 
     };

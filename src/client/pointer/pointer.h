@@ -30,6 +30,7 @@ namespace PT
   class World;
   class StateManager;
   class EnvironmentManager;
+  class Reporter;
 
   namespace Events
   {
@@ -100,6 +101,7 @@ private:
   PT::EnvironmentManager* environmentManager;
 
   PT::World* world;
+  PT::Reporter* reporter;
 
 public:
   PointerLibrary() {
@@ -126,6 +128,7 @@ public:
     chatManager = 0;
 
     world = 0;
+    reporter = 0;
   }
 
   static PointerLibrary* getInstance() { return pointerlib; }
@@ -189,6 +192,9 @@ public:
 
   void setEnvironmentManager(PT::EnvironmentManager* environmentManager) { this->environmentManager = environmentManager; }
   PT::EnvironmentManager* getEnvironmentManager() { return this->environmentManager; }
+
+  void setReporter(PT::Reporter* reporter) { this->reporter = reporter; }
+  PT::Reporter* getReporter() { return this->reporter; }
 
 };
 

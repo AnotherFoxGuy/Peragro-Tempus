@@ -31,6 +31,8 @@
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
+#include "include/client/component/entity/move/networkmove.h"
+
 namespace PT
 {
   namespace Entity
@@ -58,6 +60,16 @@ namespace PT
       }
       else
         Report(PT::Error, "CharacterEntity failed to get equipment!");
+
+      //--------------------------------------------------------------
+      iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+
+      csRef<iPluginManager> plugin_mgr (csQueryRegistry<iPluginManager> (object_reg));
+      csRef<iNetworkMove> networkMove = csLoadPlugin<iNetworkMove> (plugin_mgr, "peragro.entity.move.networkmove");
+      if(networkMove.IsValid())
+        networkMove->Initialize(PointerLibrary::getInstance(), this);
+      else
+        Report(PT::Error, "Failed to load the networkMove!");
     }
 
     void CharacterEntity::Move(const MovementData& movement)

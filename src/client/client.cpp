@@ -259,6 +259,7 @@ namespace PT
     reporter = new Reporter ();
     if (!reporter) return ReportError("Error loading Reporter!");
     reporter->Initialize();
+    pointerlib.setReporter(reporter);
 
 #ifdef CS_STATIC_LINKED
     reporter->SetLoggingLevel(PT::Errors);
@@ -294,7 +295,7 @@ namespace PT
 
     // Create and Initialize the EventManager.
     eventManager = new PT::Events::EventManager();
-    if (!eventManager->Initialize())
+    if (!eventManager->Initialize(&pointerlib))
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventManager);
 

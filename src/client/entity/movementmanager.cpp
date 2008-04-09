@@ -95,16 +95,16 @@ namespace PT
       while (!events.IsEmpty())
       {
         csRef<iEvent> ev = events.Get(0);
-        std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev->GetName());
-        if (id.compare("entity.move") == 0)
+        PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+        if (evmgr->IsKindOf(ev->GetName(), "entity.move"))
           MoveEntity(*ev);
-        else if (id.compare("entity.moveto") == 0)
+        else if (evmgr->IsKindOf(ev->GetName(), "entity.moveto"))
           MoveToEntity(*ev);
-        else if (id.compare("entity.teleport") == 0)
+        else if (evmgr->IsKindOf(ev->GetName(), "entity.teleport"))
           TeleportEntity(*ev);
-        else if (id.compare("entity.drupdate") == 0)
+        else if (evmgr->IsKindOf(ev->GetName(), "entity.drupdate"))
           DrUpdateEntity(*ev);
-        else if (id.compare("entity.pcpropupdate") == 0)
+        else if (evmgr->IsKindOf(ev->GetName(), "entity.pcpropupdate"))
           UpdatePcProp(*ev);
 
         events.DeleteIndex(0);

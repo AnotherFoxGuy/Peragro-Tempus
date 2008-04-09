@@ -69,6 +69,7 @@ namespace PT
 
     void SetLoggingLevel(LoggingLevel level) { Reporter::loggingLevel = level; }
 
+    bool Report(SeverityLevel severity, const char* msg, ...);
     void Report(SeverityLevel severity, const char* msg, va_list arg);
   };
 

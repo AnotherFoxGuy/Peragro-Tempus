@@ -49,7 +49,7 @@ namespace PT
         return handler->HandleEvent(ev);
       else
       {
-        Report(PT::Error, "Listener: handler invalid! (%s)", evmgr->Retrieve(eventId));
+        evmgr->pointerlib->getReporter()->Report(PT::Error, "Listener: handler invalid! (%s)", evmgr->Retrieve(eventId));
         this->DecRef();
         return false;
       }
@@ -65,9 +65,11 @@ namespace PT
     {
     }
 
-    bool EventManager::Initialize()
+    bool EventManager::Initialize(PointerLibrary* pl)
     {
-      iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      pointerlib = pl;
+
+      iObjectRegistry* obj_reg = pointerlib->getObjectRegistry();
       if (!obj_reg) return false;
 
       eventQueue = csQueryRegistry<iEventQueue> (obj_reg);
@@ -105,7 +107,7 @@ namespace PT
 
     void EventManager::AddListener(csEventID eventId, EventHandlerCallback* handler)
     {
-      Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
+      pointerlib->getReporter()->Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
       csRef<Listener> listen; listen.AttachNew(new Listener(this, eventId, handler));
       listeners.Push(listen);
     } // end AddListener()

@@ -1,6 +1,7 @@
 SubDir TOP plugins ;
 
 SubInclude TOP plugins gui ;
+SubInclude TOP plugins component ;
 
 StaticPluginLibrary pt_staticplugins ;
 ExternalLibs pt_staticplugins : CRYSTAL CEL ;

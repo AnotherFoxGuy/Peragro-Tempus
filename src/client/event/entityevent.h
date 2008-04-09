@@ -28,6 +28,7 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
 
 #include "client/reporter/reporter.h"
 
@@ -68,6 +69,15 @@ namespace PT
         size_t GetSize() { return equipment.GetSize(); }
         Equipment Get(size_t idx) { return equipment.Get(idx); }
       };
+
+      static std::string MakeEntitySpecific(const char* eventname, unsigned int id)
+      {
+        std::string str;
+        std::stringstream out;
+        out << eventname << "." <<id;
+        str = out.str();
+        return str;
+      }
 
       static EquipmentData* GetEquipment(const iEvent* ev)
       {

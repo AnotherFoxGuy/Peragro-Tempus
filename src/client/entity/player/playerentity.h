@@ -207,7 +207,7 @@ namespace PT
        */
       bool UpdateOptions();
     };
-  }
-}
+  } //Entity namespace
+} //PT namespace
 
 #endif

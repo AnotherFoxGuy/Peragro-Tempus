@@ -104,8 +104,10 @@ void EntityHandler::handleMove(GenericMessage* msg)
   MoveMessage entmsg;
   entmsg.deserialise(msg->getByteStream());
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.move", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.move", entmsg.getEntityId()), true);
 
   entityEvent->Add("entityId", entmsg.getEntityId());
   entityEvent->Add("walkDirection", entmsg.getWalk());
