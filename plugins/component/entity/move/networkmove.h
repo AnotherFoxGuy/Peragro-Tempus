@@ -24,6 +24,9 @@
 #include <csutil/csstring.h>
 #include <csutil/refarr.h>
 #include "include/client/component/entity/move/networkmove.h"
+#include "include/client/component/componenttmpl.h"
+
+#include "client/component/stdcomponentimp.h"
 
 struct iObjectRegistry;
 struct iEvent;
@@ -40,7 +43,9 @@ namespace PT
   }
 } //PT namespace
 
-class NetworkMove : public scfImplementation2<NetworkMove,iNetworkMove,iComponent>
+DECLARE_COMPONENTFACTORY (NetworkMove)
+
+class ComponentNetworkMove : public scfImplementationExt1<ComponentNetworkMove, ComponentCommon, iNetworkMove>
 {
 private:
   iObjectRegistry* object_reg;
@@ -55,13 +60,9 @@ private:
   bool Move(iEvent& ev);
 
 public:
-    NetworkMove (iBase* parent);
-    virtual ~NetworkMove();
+    ComponentNetworkMove (iObjectRegistry*);
+    virtual ~ComponentNetworkMove();
 
-    // From iComponent.
-    virtual bool Initialize (iObjectRegistry*);
-
-    // From NetworkMove
     virtual bool Initialize (PointerLibrary*, PT::Entity::Entity*);
 };
 

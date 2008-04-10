@@ -16,31 +16,37 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INETWORKMOVE_H
-#define INETWORKMOVE_H
+#ifndef STDCOMPONENT_H
+#define STDCOMPONENT_H
 
+#include <cstypes.h>
+#include <iutil/comp.h>
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
 
 #include "include/client/component/component.h"
 
-class PointerLibrary;
 
-namespace PT
+struct iObjectRegistry;
+
+class ComponentCommon : public scfImplementation1<ComponentCommon, ComponentInterface>
 {
-  namespace Entity
-  {
-    class Entity;
-  }
-} //PT namespace
+private:
+  char* tag;
+  const char* name;
+  iObjectRegistry* object_reg;
 
-struct iNetworkMove : public virtual iBase
-{
-    SCF_INTERFACE(iNetworkMove, 1,0,0);
+public:
+  ComponentCommon (iObjectRegistry* object_reg);
+  virtual ~ComponentCommon ();
 
-    virtual bool Initialize(PointerLibrary*, PT::Entity::Entity*) = 0;
+  virtual void SetTag (const char* tagname);
+  virtual const char* GetTag () const { return tag; }
+
+  virtual void SetName (const char* pcname);
+  virtual const char* GetName () const { return name; }
 
 };
 
+#endif // STDCOMPONENT_H
 
-#endif // INETWORKMOVE_H

@@ -5,7 +5,7 @@
     <classes>
       <class>
         <name>peragro.entity.move.networkmove</name>
-        <implementation>NetworkMove</implementation>
+        <implementation>ComponentFNetworkMove</implementation>
         <description>Perago entity movement controlled by network component</description>
       </class>
     </classes>

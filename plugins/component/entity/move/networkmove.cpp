@@ -17,7 +17,7 @@
 */
 
 #include <cssysdef.h>
-#include "networkmove.h"
+#include "plugins/component/entity/move/networkmove.h"
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>
@@ -32,25 +32,19 @@
 #include "client/pointer/pointer.h"
 
 CS_IMPLEMENT_PLUGIN
-SCF_IMPLEMENT_FACTORY (NetworkMove)
+IMPLEMENT_COMPONENTFACTORY (NetworkMove, "peragro.entity.move.networkmove")
 
-NetworkMove::NetworkMove(iBase* parent) :
-	scfImplementationType (this, parent),
-	object_reg(0)
+ComponentNetworkMove::ComponentNetworkMove(iObjectRegistry* object_reg) :
+	scfImplementationType (this, object_reg)
 {
 }
 
-NetworkMove::~NetworkMove()
+ComponentNetworkMove::~ComponentNetworkMove()
 {
+  pointerlib->getReporter()->Report(PT::Error, "WOOT ~NetworkMove() %d!", entity->GetId());
 }
 
-bool NetworkMove::Initialize (iObjectRegistry* r)
-{
-  object_reg = r;
-  return true;
-}
-
-bool NetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
+bool ComponentNetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
 {
   pointerlib = pl;
   entity = ent;
@@ -62,13 +56,13 @@ bool NetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
 
   // Register listener for ActionForward.
   csRef<EventHandlerCallback> cbMove;
-  cbMove.AttachNew(new EventHandler<NetworkMove>(&NetworkMove::Move, this));
+  cbMove.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::Move, this));
   evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()), cbMove);
   eventHandlers.Push(cbMove);
 
   // Register listener for InterfaceOptionsEvent.
   csRef<EventHandlerCallback> cbUpdate;
-  cbUpdate.AttachNew(new EventHandler<NetworkMove>(&NetworkMove::UpdateOptions, this));
+  cbUpdate.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::UpdateOptions, this));
   evmgr->AddListener("interface.options", cbUpdate);
   eventHandlers.Push(cbUpdate);
 
@@ -80,14 +74,14 @@ bool NetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
   return true;
 }
 
-bool NetworkMove::UpdateOptions(iEvent& ev)
-{/*
+bool ComponentNetworkMove::UpdateOptions(iEvent& ev)
+{
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
-  local_movement = app_cfg->GetBool("Client.local_movement", false);*/
+  local_movement = app_cfg->GetBool("Client.local_movement", false);
   return true;
 }
 
-bool NetworkMove::Move(iEvent& ev)
+bool ComponentNetworkMove::Move(iEvent& ev)
 {
   using namespace PT::Events;
 

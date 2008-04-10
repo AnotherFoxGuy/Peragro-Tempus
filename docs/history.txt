@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+10-Apr-2008
+ - Sueastside made ComponentFactory, a class that's implemented as a plugin
+   which can instance Components of its type. Instead of having to load a
+   component plugin several times to instance it for each entity.
+
 09-Apr-2008
  - Sueastside started implementation of NetworkMove, an entity specific component
    that handles move events from a unique entity.

@@ -63,13 +63,24 @@ namespace PT
 
       //--------------------------------------------------------------
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      if (object_reg == 0)
+        Report(PT::Error, "object_reg!");
 
-      csRef<iPluginManager> plugin_mgr (csQueryRegistry<iPluginManager> (object_reg));
-      csRef<iNetworkMove> networkMove = csLoadPlugin<iNetworkMove> (plugin_mgr, "peragro.entity.move.networkmove");
+      csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
+      if (plugin_mgr == 0)
+        Report(PT::Error, "plugin_mgr!");
+
+      csRef<ComponentFactoryInterface> fact = csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, "peragro.entity.move.networkmove");
+      csRef<ComponentInterface> networkMoveInt = fact->CreateComponent("peragro.entity.move.networkmove");
+      csRef<iNetworkMove> networkMove = scfQueryInterface<iNetworkMove> (networkMoveInt);
       if(networkMove.IsValid())
         networkMove->Initialize(PointerLibrary::getInstance(), this);
       else
         Report(PT::Error, "Failed to load the networkMove!");
+
+      networkMove->IncRef(); //HACK
+
+      Report(PT::Error, "COUNT! %d", networkMove->GetRefCount());
     }
 
     void CharacterEntity::Move(const MovementData& movement)

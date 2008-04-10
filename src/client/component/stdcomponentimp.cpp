@@ -16,31 +16,32 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INETWORKMOVE_H
-#define INETWORKMOVE_H
+#include <cssysdef.h>
+#include <csutil/util.h>
+#include <iutil/objreg.h>
+#include "stdcomponentimp.h"
 
-#include <csutil/scf.h>
-#include <csutil/scf_implementation.h>
-
-#include "include/client/component/component.h"
-
-class PointerLibrary;
-
-namespace PT
+ComponentCommon::ComponentCommon (iObjectRegistry* object_reg) : scfImplementationType (this)
 {
-  namespace Entity
-  {
-    class Entity;
-  }
-} //PT namespace
+  ComponentCommon::object_reg = object_reg;
+  tag = 0;
+  name = 0;
+}
 
-struct iNetworkMove : public virtual iBase
+ComponentCommon::~ComponentCommon ()
 {
-    SCF_INTERFACE(iNetworkMove, 1,0,0);
+  delete[] tag;
+  delete[] name;
+}
 
-    virtual bool Initialize(PointerLibrary*, PT::Entity::Entity*) = 0;
+void ComponentCommon::SetTag (const char* tagname)
+{
+  delete[] tag;
+  tag = csStrNew (tagname);
+}
 
-};
-
-
-#endif // INETWORKMOVE_H
+void ComponentCommon::SetName (const char* cname)
+{
+  delete[] name;
+  name = csStrNew (cname);
+}

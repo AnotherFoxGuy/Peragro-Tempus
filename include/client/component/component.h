@@ -32,11 +32,40 @@ namespace PT
   }
 } //PT namespace
 
+struct ComponentInterface;
+
+struct PropertyChangeCallback;
+
+
+struct ComponentFactoryInterface : public virtual iBase
+{
+  SCF_INTERFACE (ComponentFactoryInterface, 0, 0, 1);
+
+  virtual const char* GetName () const = 0;
+
+  virtual csPtr<ComponentInterface> CreateComponent (const char* name) = 0;
+};
+
 struct ComponentInterface : public virtual iBase
 {
-    SCF_INTERFACE(ComponentInterface, 1,0,0);
+  SCF_INTERFACE(ComponentInterface, 1,0,0);
 
-    virtual bool Initialize(PointerLibrary*, PT::Entity::Entity*) = 0;
+  virtual const char* GetName () const = 0;
+
+  virtual void SetName (const char* name) = 0;
+
+  virtual const char* GetTag () const = 0;
+
+  virtual void SetTag (const char* tagname) = 0;
+/*
+  virtual bool AddPropertyChangeCallback (PropertyChangeCallback* cb) = 0;
+
+  virtual bool RemovePropertyChangeCallback (PropertyChangeCallback* cb) = 0;
+
+  virtual bool SetProperty (const char* propertyID, const char* value) = 0;
+
+  virtual const char* GetProperty (const char* propertyID) = 0;
+  */
 
 };
 

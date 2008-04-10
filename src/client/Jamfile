@@ -16,6 +16,7 @@ SubInclude TOP src client world ;
 SubInclude TOP src client state ;
 SubInclude TOP src client environment ;
 SubInclude TOP src client effect ;
+SubInclude TOP src client component ;
 
 Description client : "Client" ;
 Application client :
