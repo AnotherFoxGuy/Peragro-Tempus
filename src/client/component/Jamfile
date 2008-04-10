@@ -3,3 +3,5 @@ SubDir TOP src client component ;
 Description component : "component" ;
 Library component :
   [ Wildcard *.h *.cpp ] ;
+
+ExternalLibs component : CRYSTAL ;
