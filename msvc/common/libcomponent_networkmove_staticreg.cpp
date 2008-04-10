@@ -23,24 +23,24 @@ static char const metainfo_component_networkmove[] =
 "    <classes>"
 "      <class>"
 "        <name>peragro.entity.move.networkmove</name>"
-"        <implementation>NetworkMove</implementation>"
+"        <implementation>ComponentFNetworkMove</implementation>"
 "        <description>Perago entity movement controlled by network component</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef NetworkMove_FACTORY_REGISTER_DEFINED 
-  #define NetworkMove_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(NetworkMove) 
+  #ifndef ComponentFNetworkMove_FACTORY_REGISTER_DEFINED 
+  #define ComponentFNetworkMove_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(ComponentFNetworkMove) 
   #endif
 
 class component_networkmove
 {
 SCF_REGISTER_STATIC_LIBRARY(component_networkmove,metainfo_component_networkmove)
-  #ifndef NetworkMove_FACTORY_REGISTERED 
-  #define NetworkMove_FACTORY_REGISTERED 
-    NetworkMove_StaticInit NetworkMove_static_init__; 
+  #ifndef ComponentFNetworkMove_FACTORY_REGISTERED 
+  #define ComponentFNetworkMove_FACTORY_REGISTERED 
+    ComponentFNetworkMove_StaticInit ComponentFNetworkMove_static_init__; 
   #endif
 public:
  component_networkmove();
