@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -142,7 +142,7 @@ void BuyWindow::Update(int linenr)
   upperslots->ClearSlotsDelete();
 
   // Putting the items in.
-  int counter = 0; 
+  int counter = 0;
   for (size_t i=linenr; i<items.GetSize(); i++)
   {
     if(counter > nrInventorySlots-1) break;

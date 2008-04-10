@@ -32,17 +32,17 @@ namespace PT
 
   enum LoggingLevel
   {
-    Errors,	    // Bugs and errors are logged.
+    Errors,         // Bugs and errors are logged.
     Standard,       // Bugs, errors and warnings are logged.
     Informative,    // Bugs, errors, warnings and notify are logged.
-    Insane	    // Everything is logged.
+    Insane          // Everything is logged.
   };
 
   enum SeverityLevel
   {
-    Bug,			  
-    Error,		  
-    Warning,	
+    Bug,
+    Error,
+    Warning,
     Notify,
     Debug
   };

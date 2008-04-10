@@ -49,7 +49,7 @@ namespace Texture
   csStringHash xmltokens;
 #define CS_TOKEN_ITEM_FILE "src/client/world/factoryloader/csloader.tok"
 #include <cstool/tokenlist.h>
-#undef CS_TOKEN_ITEM_FILE 
+#undef CS_TOKEN_ITEM_FILE
 
 
   bool ParseTexture (iDocumentNode* node, TexturePrototype& proto, iSyntaxService* SyntaxService)

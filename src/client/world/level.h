@@ -39,9 +39,9 @@ namespace PT
   class InteriorManager;
   struct Interior;
 
-  class Level 
+  class Level
   {
-  private: 
+  private:
     struct MissingData;
 
   protected:

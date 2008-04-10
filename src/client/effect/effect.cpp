@@ -32,7 +32,7 @@ namespace PT
 {
   namespace Effect
   {
-    Factory::Factory(const std::string& fileName, 
+    Factory::Factory(const std::string& fileName,
       iObjectRegistry* object_reg) : scfImplementationType (this)
     {
       this->fileName = fileName;
@@ -51,9 +51,9 @@ namespace PT
       collection = engine->CreateCollection(fileName.c_str());
 
       // load the factory for the effect from file
-      if ( !loader->LoadLibraryFile (fileName.c_str(), collection) )  
+      if ( !loader->LoadLibraryFile (fileName.c_str(), collection) )
       {
-        Report(PT::Error, "Effect::Factory: Couldn't load effect file: ' %s ' !", 
+        Report(PT::Error, "Effect::Factory: Couldn't load effect file: ' %s ' !",
           fileName.c_str());
       }
 
@@ -105,5 +105,5 @@ namespace PT
       return true;
     }
 
-  } // Data namespace 
-} // PT namespace 
+  } // Data namespace
+} // PT namespace

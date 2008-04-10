@@ -50,7 +50,7 @@ CEGUI::Window* Inventory::createDragDropSlot(CEGUI::Window* parent, const CEGUI:
 
 void Inventory::ClearSlotsDelete()
 {
-  // Clears the inventory and deletes the objects. 
+  // Clears the inventory and deletes the objects.
   for (size_t i=0; i<slotarray.GetSize(); i++)
   {
     Slot* slot = slotarray[i];
@@ -70,14 +70,14 @@ unsigned int Inventory::FindFreeSlot()
   for (size_t i = 10; i < slotarray.GetSize(); i++)
   {
     Slot* slot = slotarray.Get(i);
-    
-    if (!slot) 
+
+    if (!slot)
       continue;
-    
+
     if (slot->IsEmpty())
       return slot->GetId();
   }
-	Report(PT::Error, "Inventory: Inventory full!");
+  Report(PT::Error, "Inventory: Inventory full!");
   return ~0;
 }
 
@@ -86,10 +86,10 @@ unsigned int Inventory::FindObject(unsigned int itemid)
   for (size_t i = 0; i < slotarray.GetSize(); i++)
   {
     Slot* slot = slotarray.Get(i);
-    
-    if (!slot) 
+
+    if (!slot)
       continue;
-    
+
     if (!slot->GetObject())
       continue;
 
@@ -150,12 +150,12 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, DragDro
       {
       case Inventory::BuyUpper:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
-        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
+        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
           CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedBuy, dragdrop));
         break;
       case Inventory::BuyLower:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
-        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
+        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
           CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedBuy, dragdrop));
         break;
       case Inventory::InventoryLower:
@@ -163,7 +163,7 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, DragDro
         break;
       case Inventory::TradeLeft:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
-        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, 
+        slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
           CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedTrade, dragdrop));
         break;
       case Inventory::TradeRight:

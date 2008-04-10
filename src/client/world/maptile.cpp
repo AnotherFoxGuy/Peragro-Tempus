@@ -66,7 +66,7 @@ namespace PT
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
 
-    // Load our mesh into the instances region and ONLY look for 
+    // Load our mesh into the instances region and ONLY look for
     // meshfactories in our own factory list.
     // If it's a portal allow it to look for sectors beyond the region.
     csLoadResult rc;

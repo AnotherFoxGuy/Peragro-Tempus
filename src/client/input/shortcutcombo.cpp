@@ -141,9 +141,9 @@ namespace PT
     //Lookup the index of keyCode in special characters
     i = Lookup(keyCode);
 
-    if (i == NOT_SPECIAL_KEY) 
+    if (i == NOT_SPECIAL_KEY)
       shortcut += keyCode;
-    else 
+    else
       shortcut += Keys[i].name;
 
     return shortcut;
@@ -214,7 +214,7 @@ namespace PT
 //
   bool operator==(const ShortcutCombo& c1, const ShortcutCombo& c2)
   {
-    return (c1.keyCode == c2.keyCode && c1.shift == c2.shift 
+    return (c1.keyCode == c2.keyCode && c1.shift == c2.shift
             && c1.ctrl == c2.ctrl && c1.alt == c2.alt);
   }
 

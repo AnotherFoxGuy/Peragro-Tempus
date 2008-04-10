@@ -89,5 +89,5 @@ namespace PT
 
       return fact;
     } // end Get()
-  } // Effect namespace 
+  } // Effect namespace
 } // PT namespace

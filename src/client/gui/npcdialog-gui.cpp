@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -30,7 +30,7 @@
 NpcDialogWindow::NpcDialogWindow(GUIManager* guimanager)
 : GUIWindow (guimanager)
 {
-  dialogId = -1; 
+  dialogId = -1;
   newDialog = false;
 }
 
@@ -122,7 +122,7 @@ void NpcDialogWindow::AddAnswer(uint number, csString answer)
   btn = winMgr->getWindow("NpcDialog/Answers");
   CEGUI::ListboxItem* answerItem = new CEGUI::ListboxTextItem(answer.GetData(), number);
 
-  ((CEGUI::Listbox*)btn)->addItem(answerItem); 
+  ((CEGUI::Listbox*)btn)->addItem(answerItem);
 }
 
 void NpcDialogWindow::CreateGUIWindow()

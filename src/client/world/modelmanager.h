@@ -30,7 +30,7 @@ namespace PT
 {
   struct Factory;
 
-  class ModelManager 
+  class ModelManager
   {
   private:
     csWeakRefArray<Factory> factories;
@@ -42,7 +42,7 @@ namespace PT
     ModelManager(iObjectRegistry* object_reg);
     ~ModelManager();
 
-    /// Get or create a new Factory. 
+    /// Get or create a new Factory.
     csRef<Factory> Get(const std::string& fileName);
 
   };

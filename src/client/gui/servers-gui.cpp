@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -38,7 +38,7 @@ ServerWindow::~ServerWindow()
 {
 }
 
-bool ServerWindow::OnSelection(const CEGUI::EventArgs& e) 
+bool ServerWindow::OnSelection(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("ServerList/Servers");
   if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)

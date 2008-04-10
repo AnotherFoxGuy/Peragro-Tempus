@@ -86,7 +86,7 @@ namespace PT
        * shader variable 'reflection_enable=(INT)1'. The callback produces up
        * to six reflection buffers, creating a cube map around the mesh object
        * using it's bounding box.
-       * 
+       *
        * Here's the basic idea as ASCII art:
        *
        *<pre>
@@ -116,7 +116,7 @@ namespace PT
                | \                 \
                |  \                 \
                |   \      max-Y      \
-               |    \       [0]       \    
+               |    \       [0]       \
                |     \                 \
                |      \                 \-- max-X
                |       \                 \   [2]
@@ -148,17 +148,15 @@ namespace PT
        */
       static void RenderRefraction(iMeshWrapper* m, iView* view);
 
-      
-
     private:
       static inline void Render2Texture(
-	iView* view,
-        iMeshWrapper* m,
-        csOrthoTransform& oldcamera,
-        csOrthoTransform& newcamera,
-        csPlane3& nearclip,
-        iTextureHandle* texture,
-        bool mirror);
+      iView* view,
+      iMeshWrapper* m,
+      csOrthoTransform& oldcamera,
+      csOrthoTransform& newcamera,
+      csPlane3& nearclip,
+      iTextureHandle* texture,
+      bool mirror);
 
       static csStringID reflection_resolution_str, reflection_enable_str;
       static csStringID reflection_sides_str, reflection_texture0_str;

@@ -27,9 +27,9 @@ namespace PT
 {
   Reporter* Reporter::reporter;
 
-  Reporter::Reporter() 
-  { 
-    reporter = this; 
+  Reporter::Reporter()
+  {
+    reporter = this;
   }
 
   Reporter::~Reporter()
@@ -65,15 +65,15 @@ namespace PT
   void Reporter::Report(SeverityLevel severity, const char* msg, va_list arg)
   {
     // Return when the severity is ignored on this logging level.
-    if (loggingLevel == PT::Errors) 
+    if (loggingLevel == PT::Errors)
     {
       if (severity > PT::Error) return;
     }
-    else if (loggingLevel == PT::Standard) 
+    else if (loggingLevel == PT::Standard)
     {
       if (severity > PT::Warning) return;
     }
-    else if (loggingLevel == PT::Informative) 
+    else if (loggingLevel == PT::Informative)
     {
       if (severity > PT::Notify) return;
     }

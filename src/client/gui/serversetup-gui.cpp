@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/gui/guimanager.h"
@@ -37,7 +37,7 @@ ServerSetupWindow::~ServerSetupWindow()
 {
 }
 
-bool ServerSetupWindow::DoneButton(const CEGUI::EventArgs& e) 
+bool ServerSetupWindow::DoneButton(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("CharSelect/Frame");
   btn->setVisible(true);
@@ -46,13 +46,13 @@ bool ServerSetupWindow::DoneButton(const CEGUI::EventArgs& e)
   return true;
 }
 
-bool ServerSetupWindow::UploadButton(const CEGUI::EventArgs& e) 
+bool ServerSetupWindow::UploadButton(const CEGUI::EventArgs& e)
 {
   PointerLibrary::getInstance()->getServerSetupManager()->UploadServerData();
   return true;
 }
 
-bool ServerSetupWindow::DownloadButton(const CEGUI::EventArgs& e) 
+bool ServerSetupWindow::DownloadButton(const CEGUI::EventArgs& e)
 {
   PointerLibrary::getInstance()->getServerSetupManager()->DownloadServerData();
   return true;

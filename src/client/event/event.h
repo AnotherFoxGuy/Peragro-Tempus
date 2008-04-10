@@ -30,7 +30,7 @@ namespace PT
 
     struct Helper
     {
-      
+
       void DisplayEvent(iEvent* event)
       {
         csRef<iEventAttributeIterator> it = event->GetAttributeIterator();

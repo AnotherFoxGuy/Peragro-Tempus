@@ -40,13 +40,13 @@ namespace PT
       virtual bool HandleEvent(iEvent& ev) = 0;
     };
 
-    template <class Class> 
+    template <class Class>
     class EventHandler : public scfImplementation1<EventHandler<Class>, EventHandlerCallback>
     {
     public:
       typedef bool (Class::*Func)(iEvent&);
 
-      EventHandler(Func function, Class *classy) : 
+      EventHandler(Func function, Class *classy) :
                    scfImplementation1<EventHandler<Class>,
                                       EventHandlerCallback> (this)
       {
@@ -62,7 +62,7 @@ namespace PT
       Class *theclass;
       Func thefunc;
     };
-  } // Events namespace 
-} // PT namespace 
+  } // Events namespace
+} // PT namespace
 
 #endif // EVENT_HANDLER_H

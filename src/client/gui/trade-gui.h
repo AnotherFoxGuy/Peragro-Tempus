@@ -36,7 +36,7 @@ private:
   csArray<Slot*> inventory;
 
 private:
-  bool OnCloseButton(const CEGUI::EventArgs& args); 
+  bool OnCloseButton(const CEGUI::EventArgs& args);
   bool OnAcceptPlayer1(const CEGUI::EventArgs& args);
   bool OnAcceptPlayer2(const CEGUI::EventArgs& args);
 
@@ -57,7 +57,7 @@ public:
   void SetName(unsigned int player, csString name);
   bool AddItem(unsigned int player, unsigned int itemid, unsigned int slotid);
   bool AddItem(Slot* oldslot, Slot* newslot);
-  void SetMoney(unsigned int player, unsigned int amount); 
+  void SetMoney(unsigned int player, unsigned int amount);
   void SetAccept(unsigned int player, bool value);
   void SetNotificationMsg(csString errormsg);
   void CancelTrade();

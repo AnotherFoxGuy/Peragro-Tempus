@@ -42,7 +42,7 @@ void Slot::Clear()
 }
 
 void Slot::MoveObjectTo(Slot* slot)
-{ 
+{
   slot->SetObject(this->GetObject());
   this->Clear();
 }

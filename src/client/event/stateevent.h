@@ -31,7 +31,7 @@ namespace PT
   {
     struct StateHelper
     {
-      
+
       static unsigned int GetState(const iEvent* event)
       {
         unsigned int state = -1;
@@ -60,9 +60,9 @@ namespace PT
         return text;
       }
 
-    }; 
+    };
 
-  } // Events namespace 
+  } // Events namespace
 } // PT namespace
 
 #endif // PT_STATE_EVENT_H

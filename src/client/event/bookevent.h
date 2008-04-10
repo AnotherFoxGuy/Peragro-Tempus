@@ -50,7 +50,7 @@ namespace PT
       }
 
     };
-  } // Events namespace 
-} // PT namespace 
+  } // Events namespace
+} // PT namespace
 
 #endif // PT_BOOK_EVENT_H

@@ -24,7 +24,7 @@
 #include "client/data/item.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -81,7 +81,7 @@ bool DragDrop::handleDragDropped(const CEGUI::EventArgs& args)
   Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
   Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
-  if(!newslot->IsEmpty()) 
+  if(!newslot->IsEmpty())
   {
     Object* obj = newslot->GetObject();
     if(obj->GetWindow()->isDisabled())
@@ -176,7 +176,7 @@ bool DragDrop::handleDragDroppedBuy(const CEGUI::EventArgs& args)
   Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
   Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
-  if(oldslot->GetParent() == Inventory::BuyLower || oldslot->GetParent() == Inventory::BuyUpper) 
+  if(oldslot->GetParent() == Inventory::BuyLower || oldslot->GetParent() == Inventory::BuyUpper)
     guimanager->GetBuyWindow()->MoveItem(oldslot, newslot);
 
   return true;
@@ -188,7 +188,7 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
 
   const MouseEventArgs& mouseArgs = static_cast<const MouseEventArgs&>(args);
 
-  // If input is different from RightButton, 
+  // If input is different from RightButton,
   // swallow the event and don't do anything.
   if (mouseArgs.button != RightButton)
   {
@@ -205,7 +205,7 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   interfaceEvent->Add("entityId", slot->GetId());
   interfaceEvent->Add("objectId", object->GetId());
   interfaceEvent->Add("variationId", object->GetVariationId());
-  
+
   // @TODO: Use equiptype in items.xml and add itemtype instead of hardcoding here.
   std::string actions = "Drop";
 
@@ -216,7 +216,7 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   if (object->GetId() == 6) // Book
   {
     actions += ", Read";
-    if (object->GetVariationId() == 0) 
+    if (object->GetVariationId() == 0)
     {
       // empty, so you can also write in it.
       actions += ", Write";

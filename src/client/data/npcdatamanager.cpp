@@ -77,17 +77,17 @@ namespace PT
 
       csRef<iDocumentNode> hair = node->GetNode("hair")->GetNode("color");
       npc->SetHairColor(hair->GetAttributeValueAsInt("r"),
-                        hair->GetAttributeValueAsInt("g"), 
+                        hair->GetAttributeValueAsInt("g"),
                         hair->GetAttributeValueAsInt("b"));
 
       csRef<iDocumentNode> skin = node->GetNode("skin")->GetNode("color");
       npc->SetSkinColor(skin->GetAttributeValueAsInt("r"),
-                        skin->GetAttributeValueAsInt("g"), 
+                        skin->GetAttributeValueAsInt("g"),
                         skin->GetAttributeValueAsInt("b"));
 
       csRef<iDocumentNode> decal = node->GetNode("decal")->GetNode("color");
       npc->SetDecalColor(decal->GetAttributeValueAsInt("r"),
-                         decal->GetAttributeValueAsInt("g"), 
+                         decal->GetAttributeValueAsInt("g"),
                          decal->GetAttributeValueAsInt("b"));
 
       npc->SetAi(node->GetNode("ai")->GetContentsValue());

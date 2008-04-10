@@ -76,7 +76,7 @@ namespace PT
 
     // Register listeners for Clipboard Events
     csTheClipboard = csQueryRegistry<iClipboard> (obj_reg);
-    if (csTheClipboard) 
+    if (csTheClipboard)
     {
       using namespace PT::Events;
 
@@ -90,7 +90,7 @@ namespace PT
       PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_CUTTEXT", cbClipboardCut);
       csString ostype = "";
       csTheClipboard->GetOS(ostype);
-      Report(PT::Debug, "Clipboard plugin is using '%s' implementation.", ostype.GetData()); 
+      Report(PT::Debug, "Clipboard plugin is using '%s' implementation.", ostype.GetData());
     }
     else
     {
@@ -218,7 +218,7 @@ namespace PT
         csTheClipboard->SetData(selectedText,0);
 
       }
-      else 
+      else
       {
         //Report what type it is for future use!
         Report(PT::Warning, "Attempting to copy text from %s!", wintype.c_str());

@@ -37,27 +37,27 @@ private:
 
   void SaveConfig();
 
-  bool OptionButtonPressed(const CEGUI::EventArgs& e); 
+  bool OptionButtonPressed(const CEGUI::EventArgs& e);
 
-  bool OkButtonPressed(const CEGUI::EventArgs& e); 
+  bool OkButtonPressed(const CEGUI::EventArgs& e);
 
-  bool OnDropListReflections(const CEGUI::EventArgs& e); 
+  bool OnDropListReflections(const CEGUI::EventArgs& e);
   void CreateDropListReflections();
 
-  bool OnDropListTexture(const CEGUI::EventArgs& e); 
+  bool OnDropListTexture(const CEGUI::EventArgs& e);
   void CreateDropListTexture();
 
-  bool OnDropListMovement(const CEGUI::EventArgs& e); 
+  bool OnDropListMovement(const CEGUI::EventArgs& e);
   void CreateDropListMovement();
 
   void CreateFullScreenCheckBox();
-  bool OnFullScreenCheckBox(const CEGUI::EventArgs& e); 
+  bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
 
   void CreateReverseCheckBox();
-  bool OnReverseCheckBox(const CEGUI::EventArgs& e); 
+  bool OnReverseCheckBox(const CEGUI::EventArgs& e);
 
   void CreateYAxisCheckBox();
-  bool OnYAxisCheckBox(const CEGUI::EventArgs& e); 
+  bool OnYAxisCheckBox(const CEGUI::EventArgs& e);
 
   void CreateAdaptiveSpinners();
   bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);

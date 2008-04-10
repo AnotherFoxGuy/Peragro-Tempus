@@ -51,9 +51,9 @@ public:
   CEGUI::Window* GetWindow() { return slotwindow; }
 
   void SetId(uint value) { this->slotid = value; }
-  void SetObject(Object* value) 
-  { 
-    this->object = value; 
+  void SetObject(Object* value)
+  {
+    this->object = value;
     slotwindow->addChildWindow(value->GetWindow());
     value->GetWindow()->notifyScreenAreaChanged();
   }

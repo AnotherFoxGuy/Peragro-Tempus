@@ -18,8 +18,8 @@ SubInclude TOP src client environment ;
 SubInclude TOP src client effect ;
 
 Description client : "Client" ;
-Application client : 
-[ Wildcard *.h *.cpp ] 
+Application client :
+[ Wildcard *.h *.cpp ]
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs client : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
 LinkWith client : client-reporter client-network client-gui client-entitymanager client-eventmanager client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager client-environmentmanager client-effect ;
@@ -33,7 +33,7 @@ if $(WSOCK32.LFLAGS) {
 if $(HAVE_STATIC_PLUGINS) = "yes"
 {
   SubVariant static ;
-  
+
   Application client_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags client_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine client_static : CS_STATIC_LINKED ;
@@ -61,7 +61,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   : CEL
   ;
 
-  LinkStaticPlugins client_static : 
+  LinkStaticPlugins client_static :
     vfs
     bugplug
     freefnt2

@@ -175,14 +175,14 @@ namespace PT
       //float speed = ((pos_dst - cur_position).Norm() * entityMoveEv->speed )/
       //  (pos_ori - cur_position).Norm();
 
-      moveTo->destination		        = pos_dst;
-      moveTo->turn_speed			= 2*PI; // 1 revolution per second
-      moveTo->walk_speed			= speed;
-      moveTo->dest_angle			= yrot_dst;
-      moveTo->walk_duration		        = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
-      moveTo->elapsed_time		        = 0;
-      moveTo->walking				= false;
-      moveTo->entity_id				= id;
+      moveTo->destination = pos_dst;
+      moveTo->turn_speed = 2*PI; // 1 revolution per second
+      moveTo->walk_speed = speed;
+      moveTo->dest_angle = yrot_dst;
+      moveTo->walk_duration = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
+      moveTo->elapsed_time = 0;
+      moveTo->walking = false;
+      moveTo->entity_id = id;
 
 
       entity->MoveTo(moveTo);
@@ -265,10 +265,10 @@ namespace PT
       }
 
       DrUpdateData drupdate;
-      drupdate.entity_id	= entityId;
-      drupdate.pos		= position;
-      drupdate.rot		= rotation;
-      drupdate.sector		= sectorName.c_str();
+      drupdate.entity_id = entityId;
+      drupdate.pos = position;
+      drupdate.rot = rotation;
+      drupdate.sector = sectorName.c_str();
 
       entity->DrUpdate(drupdate);
 
@@ -297,9 +297,9 @@ namespace PT
       }
 
       UpdatePcPropData updatePcprop;
-      updatePcprop.entity_id	      = entityId;
-      updatePcprop.pcprop	      = prop;
-      updatePcprop.value	      = celdata;
+      updatePcprop.entity_id = entityId;
+      updatePcprop.pcprop = prop;
+      updatePcprop.value = celdata;
 
       entity->UpdatePcProp(updatePcprop);
 

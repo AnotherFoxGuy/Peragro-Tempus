@@ -26,7 +26,7 @@
 
 //---------------------------------------------------------------------------
 
-FileLoader::LoaderJob::LoaderJob (const std::string& path, const std::string& fileName) 
+FileLoader::LoaderJob::LoaderJob (const std::string& path, const std::string& fileName)
   : scfImplementationType (this)
 {
   LoaderJob::path = path;
@@ -230,7 +230,7 @@ void FileLoader::LoaderJob::ParseMeshFact(iDocumentNode* node)
   fact = type->NewFactory ();
   proto.object = fact;
 
-  if (!GenMesh::Parse(node->GetNode("params"), proto, SyntaxService)) 
+  if (!GenMesh::Parse(node->GetNode("params"), proto, SyntaxService))
   {
     printf("E: Failed to load GenMesh %s\n", proto.name.c_str());
     return;
@@ -262,7 +262,7 @@ void FileLoader::LoaderJob::ParseMeshFact(iDocumentNode* node)
 
 FileLoader::FileLoader (iObjectRegistry* object_reg)
 {
-  FileLoader::object_reg = object_reg; 
+  FileLoader::object_reg = object_reg;
 
   static const char queueTag[] = "crystalspace.jobqueue.fileload";
   jobQueue = csQueryRegistryTagInterface<iJobQueue> (object_reg, queueTag);
@@ -344,7 +344,7 @@ iMaterialWrapper* FileLoader::GetMaterial(const std::string& name)
     printf("E: Failed to find material %s! (%s)\n", name.c_str(), fileName.c_str());
     mat = engine->GetMaterialList ()->FindByName("stone2"); // error material
   }
-  
+
   return mat;
 } // end GetMaterial()
 
@@ -473,7 +473,7 @@ csRef<iShader> FileLoader::LoadShader (const char* filename)
     shaderMgr->RegisterShader (shader);
     return shader;
   }
-  else 
+  else
   {
     return 0;
   }
@@ -596,7 +596,7 @@ bool FileLoader::AddToEngine()
 
   }//block, to measure time.
   //printf("===========================================================\n");
-  
+
 
   return true;
 } // end AddToEngine()

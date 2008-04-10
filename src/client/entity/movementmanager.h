@@ -90,7 +90,7 @@ namespace PT
       bool UpdatePcProp(iEvent& ev);
     };
 
-  } // Entity namespace 
-} // PT namespace 
+  } // Entity namespace
+} // PT namespace
 
 #endif // PT_ENTITY_MOVEMENT_MANAGER_H

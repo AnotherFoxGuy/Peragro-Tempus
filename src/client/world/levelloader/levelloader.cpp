@@ -20,7 +20,7 @@
 
 //---------------------------------------------------------------------------
 
-LevelLoader::LoaderJob::LoaderJob (const std::string& path, const std::string& fileName) 
+LevelLoader::LoaderJob::LoaderJob (const std::string& path, const std::string& fileName)
   : scfImplementationType (this)
 {
   LoaderJob::path = path;
@@ -134,7 +134,7 @@ csPtr<iDocumentNode> LevelLoader::LoaderJob::WrapNode(iDocumentNode* node)
 
 LevelLoader::LevelLoader (iObjectRegistry* object_reg)
 {
-  LevelLoader::object_reg = object_reg; 
+  LevelLoader::object_reg = object_reg;
 
   static const char queueTag[] = "crystalspace.jobqueue.levelloader";
   jobQueue = csQueryRegistryTagInterface<iJobQueue> (object_reg, queueTag);

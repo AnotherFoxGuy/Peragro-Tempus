@@ -44,7 +44,7 @@ private:
   unsigned int totalmoney;
 
 private:
-  bool OnCloseButton(const CEGUI::EventArgs& args); 
+  bool OnCloseButton(const CEGUI::EventArgs& args);
   bool OnAccept(const CEGUI::EventArgs& args);
   bool OnScroll(const CEGUI::EventArgs& args);
   void Update(int linenr);
@@ -57,7 +57,7 @@ public:
   void CreateGUIWindow();    // load the chat guilayout and register button events.
 
 public:
-  bool AddItem(unsigned int itemid, unsigned int price); 
+  bool AddItem(unsigned int itemid, unsigned int price);
   void CancelTrade();
   void AcceptTrade();
 

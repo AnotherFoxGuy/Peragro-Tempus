@@ -33,7 +33,7 @@ namespace PT
   {
   struct Factory;
 
-  class FactoryManager 
+  class FactoryManager
   {
   private:
     csWeakRefArray<Factory> weakFactories;
@@ -51,11 +51,11 @@ namespace PT
     FactoryManager(iObjectRegistry* object_reg);
     ~FactoryManager();
 
-    /// Get or create a new Factory. 
+    /// Get or create a new Factory.
     csRef<Factory> Get(const std::string& fileName);
 
   };
-} // Effect namespace 
+} // Effect namespace
 } // PT namespace
 
 #endif // MODELMANAGER_H

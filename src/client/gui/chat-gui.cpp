@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -69,7 +69,7 @@ void ChatWindow::CreateGUIWindow ()
   HideWindow();
 }
 
-void ChatWindow::HideWindow()  
+void ChatWindow::HideWindow()
 {
   winMgr->getWindow("Chatlog/Frame")->setVisible(false);
   winMgr->getWindow("InputPanel/Frame")->setVisible(false);
@@ -77,7 +77,7 @@ void ChatWindow::HideWindow()
   visible = false;
 }
 
-void ChatWindow::ShowWindow() 
+void ChatWindow::ShowWindow()
 {
   winMgr->getWindow("Chatlog/Frame")->setVisible(true);
   //winMgr->getWindow("InputPanel/Frame")->setVisible(true);
@@ -94,7 +94,7 @@ void ChatWindow::SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber)
   if (btn) btn->subscribeEvent(CEGUI::Editbox::EventKeyDown, sumbitEventSubscriber);
 }
 
-bool ChatWindow::OnDropList(const CEGUI::EventArgs& e) 
+bool ChatWindow::OnDropList(const CEGUI::EventArgs& e)
 {
   Report(PT::Debug, "success.");
   return true;

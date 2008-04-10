@@ -56,7 +56,7 @@ struct csObjectPrototype
   // Transforms
   csReversibleTransform move;
   csReversibleTransform hardMove;
-  
+
   csRefArray<iDocumentNode> shaderVariables;
   csArray<GeneralMeshSubMeshWrapper> submeshes;
 

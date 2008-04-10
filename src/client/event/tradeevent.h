@@ -29,7 +29,7 @@ namespace PT
   {
 
 
-  } // Events namespace 
-} // PT namespace 
+  } // Events namespace
+} // PT namespace
 
 #endif // PT_TRADE_EVENT_H

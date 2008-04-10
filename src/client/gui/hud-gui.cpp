@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -88,14 +88,14 @@ void HUDWindow::CreateGUIWindow ()
   AddSkill(2);
 }
 
-void HUDWindow::HideWindow()  
+void HUDWindow::HideWindow()
 {
   winMgr->getWindow("PlayerHUD/Frame")->setVisible(false);
   //winMgr->getWindow("EntityHUD/Frame")->setVisible(false);
   winMgr->getWindow("SkillHUD/Frame")->setVisible(false);
 }
 
-void HUDWindow::ShowWindow() 
+void HUDWindow::ShowWindow()
 {
   winMgr->getWindow("PlayerHUD/Frame")->setVisible(true);
   //winMgr->getWindow("EntityHUD/Frame")->setVisible(true);
@@ -183,7 +183,7 @@ CEGUI::Window* HUDWindow::CreateSkillIcon(int skillid)
   skillIcon->setHorizontalAlignment(CEGUI::HA_CENTRE);
   skillIcon->setVerticalAlignment(CEGUI::VA_CENTRE);
   skillIcon->setProperty("FrameEnabled", "False");
-  
+
   // disable to allow inputs to pass through.
   skillIcon->disable();
 
@@ -212,7 +212,7 @@ bool HUDWindow::HandleSkillSelected(const CEGUI::EventArgs& args)
 
   const DragDropEventArgs& ddea = static_cast<const DragDropEventArgs&>(args);
 
-  SetActiveSkill(ddea.window); 
+  SetActiveSkill(ddea.window);
 
   return true;
 }
@@ -241,13 +241,13 @@ bool HUDWindow::HandleDragDroppedOnSkill(const CEGUI::EventArgs& args)
   return true;
 }
 
-int HUDWindow::GetActiveSkillId() 
-{ 
-  return selectedskill->SkillId; 
+int HUDWindow::GetActiveSkillId()
+{
+  return selectedskill->SkillId;
 }
 
-void HUDWindow::SetActiveSkill(CEGUI::Window* window) 
-{ 
+void HUDWindow::SetActiveSkill(CEGUI::Window* window)
+{
   // See if its actually a skill in the slot.
   if (window->isUserStringDefined("skillid"))
   {
@@ -259,7 +259,7 @@ void HUDWindow::SetActiveSkill(CEGUI::Window* window)
     window->setAlpha(1.0f);
 
     // Set the new window as the selected one
-    selectedskill->SkillId     =  atoi( (window->getUserString("skillid")).c_str() ); 
+    selectedskill->SkillId     =  atoi( (window->getUserString("skillid")).c_str() );
   }
 }
 

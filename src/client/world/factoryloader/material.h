@@ -48,7 +48,7 @@ namespace Material
   csStringHash xmltokens;
 #define CS_TOKEN_ITEM_FILE "src/client/world/factoryloader/csloader.tok"
 #include <cstool/tokenlist.h>
-#undef CS_TOKEN_ITEM_FILE 
+#undef CS_TOKEN_ITEM_FILE
 
   bool ParseMaterial (iDocumentNode* node, MaterialPrototype& mat, iSyntaxService* SyntaxService)
   {

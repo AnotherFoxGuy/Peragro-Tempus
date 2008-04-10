@@ -152,7 +152,7 @@ namespace PT
         CEGUI::String text = btn->getText();
 
         // If the submitted text is empty, hide the InputPanel.
-        if (text.empty()) 
+        if (text.empty())
         {
           winMgr->getWindow("InputPanel/Frame")->setVisible(false);
           winMgr->getWindow("Chatlog/Frame")->activate();
@@ -239,7 +239,7 @@ namespace PT
       while (tail.size() > 0)
       {
         size_t pos = tail.find_first_of(" ");
-        if ( pos == std::string::npos ) 
+        if ( pos == std::string::npos )
         {
           arg.push_back( tail.substr(0, tail.size()+1) );
           Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, tail.size()).c_str() );
@@ -359,7 +359,7 @@ namespace PT
       else if (id.compare("entity.remove") == 0)
       {
         unsigned int id = EntityHelper::GetEntityID(&ev);
- 
+
         std::string playerName = playernames[id];
         if (playerName.size() > 0)
         {
@@ -373,5 +373,5 @@ namespace PT
       return true;
     } // end ProcessEvents ()
 
-  } // Chat namespace 
-} // PT namespace 
+  } // Chat namespace
+} // PT namespace

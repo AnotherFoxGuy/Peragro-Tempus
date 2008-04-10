@@ -54,7 +54,7 @@ public:
   {
     Object* object;
     Slot*  slot;
-  }; 
+  };
 
 private:
   ParentType parent;
@@ -79,10 +79,10 @@ public:
 
   csArray<ObjectAndSlot> GetAllObjects();
 
-  Slot* GetSlot(unsigned int slotid) 
-  { 
+  Slot* GetSlot(unsigned int slotid)
+  {
     if (slotid >= slotarray.GetSize()) return 0;
-    return slotarray[slotid]; 
+    return slotarray[slotid];
   }
 
   csArray<Slot*>* GetSlotArray() { return &slotarray; }

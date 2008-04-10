@@ -57,7 +57,7 @@ namespace PT
 
     float GetPortalYRotation(iMeshWrapper* portalMesh);
     csVector3 GetPortalPosition(iMeshWrapper* portalMesh);
-    bool IsPortal(iMeshWrapper* portalMesh); 
+    bool IsPortal(iMeshWrapper* portalMesh);
 
     void LoadInstance(iDocumentNode* meshNode);
 

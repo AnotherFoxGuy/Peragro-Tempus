@@ -35,7 +35,7 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   csRef<iEvent> stateEvent = evmgr->CreateEvent("state.loggedin", true);
-  
+
   bool error = false;
   const char* emsg = 0;
   if (!response.getError().isNull()) // An error occured.

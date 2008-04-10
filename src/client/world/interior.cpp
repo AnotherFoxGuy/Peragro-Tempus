@@ -50,19 +50,19 @@ namespace PT
     OpenFile("", fileName);
   }
 
-  InteriorFactory::~InteriorFactory() 
+  InteriorFactory::~InteriorFactory()
   {
     Report(PT::Debug, "Unloading InteriorFactory %s", fileName.c_str());
   }
 
-  void InteriorFactory::LoadInstance(iDocumentNode* meshNode) 
-  { 
-    instanceNodes.Push(meshNode); 
+  void InteriorFactory::LoadInstance(iDocumentNode* meshNode)
+  {
+    instanceNodes.Push(meshNode);
   }
 
   //--------------------------------------------------------------
 
-  Interior::Interior(iDocumentNode* interiorNode, InteriorFactory* factory) : scfImplementationType (this) 
+  Interior::Interior(iDocumentNode* interiorNode, InteriorFactory* factory) : scfImplementationType (this)
   {
     this->interiorNode = interiorNode->GetNode("interior");
     this->factory = factory;
@@ -71,7 +71,7 @@ namespace PT
     finished = false;
   }
 
-  Interior::~Interior() 
+  Interior::~Interior()
   {
     Report(PT::Debug, "Unloading Interior %s", interiorName.c_str());
 
@@ -83,7 +83,7 @@ namespace PT
     }
   }
 
-  void Interior::Load() 
+  void Interior::Load()
   {
     if (loading) return;
 
@@ -109,7 +109,7 @@ namespace PT
 
   } // end Load()
 
-  void Interior::LoadInstance(iDocumentNode* meshNode) 
+  void Interior::LoadInstance(iDocumentNode* meshNode)
   {
     csRef<iEngine> engine = csQueryRegistry<iEngine> (factory->object_reg);
     csRef<iLoader> loader = csQueryRegistry<iLoader> (factory->object_reg);
@@ -124,14 +124,14 @@ namespace PT
       {
         std::string portalName = current->GetContentsValue();
         csRef<iMeshWrapper> mesh = engine->FindMeshObject(portalName.c_str());
-        if (IsPortal(mesh)) 
+        if (IsPortal(mesh))
         {
           portalMesh = mesh;
           break;
         }
       }
     }
-    if (!portalMesh.IsValid()) 
+    if (!portalMesh.IsValid())
     {
       Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
       return;
@@ -140,7 +140,7 @@ namespace PT
     float portalRot = GetPortalYRotation(portalMesh);
     csVector3 portalCenter = GetPortalPosition(portalMesh);
 
-    // Load our mesh into the instances collection and ONLY look for 
+    // Load our mesh into the instances collection and ONLY look for
     // meshfactories in our own factory list.
     // If it's a portal allow it to look for sectors beyond the collection.
     csLoadResult rc;
@@ -149,7 +149,7 @@ namespace PT
     else
       rc = loader->Load(meshNode, instances, false, false, 0, 0, factory->missingData, KEEP_ALL);
 
-    if (!rc.success) 
+    if (!rc.success)
     {
       Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
       return;
@@ -209,7 +209,7 @@ namespace PT
 
   } // end LoadInstance()
 
-  float Interior::GetPortalYRotation(iMeshWrapper* portalMesh) 
+  float Interior::GetPortalYRotation(iMeshWrapper* portalMesh)
   {
     csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());
     csRef<iPortal> portal = pc->GetPortal(0);
@@ -220,7 +220,7 @@ namespace PT
     return portalrot;
   } // end GetPortalYRotation()
 
-  csVector3 Interior::GetPortalPosition(iMeshWrapper* portalMesh) 
+  csVector3 Interior::GetPortalPosition(iMeshWrapper* portalMesh)
   {
     csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());
     csRef<iPortal> portal = pc->GetPortal(0);
@@ -233,7 +233,7 @@ namespace PT
     return portalcenter;
   } // end GetPortalCenter()
 
-  bool Interior::IsPortal(iMeshWrapper* portalMesh) 
+  bool Interior::IsPortal(iMeshWrapper* portalMesh)
   {
     if (!portalMesh) return false;
     csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());

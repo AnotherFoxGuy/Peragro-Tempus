@@ -166,14 +166,14 @@ static bool SetTextureProperties(FileLoader* fileloader, TexturePrototype& texPr
 {
   iObjectRegistry* object_reg = fileloader->GetObjectRegistry();
   csRef<iSyntaxService> SyntaxService = csQueryRegistryOrLoad<iSyntaxService> (object_reg, "crystalspace.syntax.loader.service.text");
-   
+
   csRef<iTextureWrapper> tex = texProto.texture;
   if (!tex.IsValid()) return false;
 
   if (texProto.keepImage) tex->SetKeepImage (true);
   if (!texProto.Transparency.IsBlack())
     tex->SetKeyColor (csQint (texProto.Transparency.red * 255.99),
-                      csQint (texProto.Transparency.green * 255.99), 
+                      csQint (texProto.Transparency.green * 255.99),
                       csQint (texProto.Transparency.blue * 255.99));
   tex->SetTextureClass (texProto.textureClass.c_str());
   tex->GetTextureHandle()->SetAlphaType (texProto.alphaType);
@@ -227,7 +227,7 @@ static bool SetMaterialProperties(FileLoader* fileloader, MaterialPrototype& mat
     if (!SyntaxService->ParseShaderVar (loaderContext, current, *sv)) continue;
     mat.material->AddVariable (sv);
   }
-    
+
 
   return true;
 }

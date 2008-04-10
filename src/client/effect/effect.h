@@ -67,7 +67,7 @@ namespace PT
      * Helper class that holds the CS mesh and remaining time.
      * @see EffectsManager
      */
-    class Effect 
+    class Effect
     {
     private:
       ///iMeshWrapper - CS mesh of the effect.
@@ -94,7 +94,7 @@ namespace PT
       void Load();
 
       /**
-       * This function is called every frame by the EffectsManager, 
+       * This function is called every frame by the EffectsManager,
        * don't call this yourself!
        * @param elapsed_ticks Ticks elapsed since last frame.
        */
@@ -103,10 +103,10 @@ namespace PT
       /**
        * @return CS mesh of the effect.
        */
-      iMeshWrapper* GetMesh () const { return mesh; }	  
+      iMeshWrapper* GetMesh () const { return mesh; }
     };
 
-  } // Data namespace 
-} // PT namespace 
+  } // Data namespace
+} // PT namespace
 
 #endif // EFFECT_H

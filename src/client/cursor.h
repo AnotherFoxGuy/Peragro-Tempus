@@ -82,7 +82,7 @@ public:
 
   /// Draw the cursor.
   void Draw();
-  
+
   /**
    * Returns a pointer to the selected entity.
    */

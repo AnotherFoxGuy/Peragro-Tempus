@@ -94,7 +94,7 @@ void Cursor::Frame(iEvent& e)
     if (x != mouseX  && y != mouseY)
     {
       csRef<iPcDefaultCamera> cam = player->GetCamera();
-      if (cam && cam->GetCamera()->GetSector()) 
+      if (cam && cam->GetCamera()->GetSector())
         UpdateSelected(pl, cam->GetCamera());
     }
   }

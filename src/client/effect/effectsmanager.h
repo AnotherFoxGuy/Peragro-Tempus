@@ -104,7 +104,7 @@ namespace PT
 
     };
 
-  } // Effect namespace 
-} // PT namespace 
+  } // Effect namespace
+} // PT namespace
 
 #endif // EFFECTSMANAGER_H

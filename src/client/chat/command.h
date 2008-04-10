@@ -23,7 +23,7 @@
 
 #include <string>
 #include <vector>
-#include <queue> 
+#include <queue>
 
 #include <boost/shared_ptr.hpp>
 
@@ -45,7 +45,7 @@ namespace PT
 
     typedef boost::shared_ptr<Command> Commandp;
 
-  } // Chat namespace 
-} // PT namespace 
+  } // Chat namespace
+} // PT namespace
 
 #endif // COMMAND_H

@@ -27,7 +27,7 @@
 class BuddyWindow : public GUIWindow
 {
 private:
-  bool handleCloseButton(const CEGUI::EventArgs& args); 
+  bool handleCloseButton(const CEGUI::EventArgs& args);
 
 public:
   bool ProcessEvents(iEvent& ev);

@@ -84,7 +84,7 @@ namespace PT
     {
       for (size_t i = 0; i < servers.size(); i++)
       {
-        if (servers[i]->GetName() == name) 
+        if (servers[i]->GetName() == name)
           return servers[i];
       } // end for
 

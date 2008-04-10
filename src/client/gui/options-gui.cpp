@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -49,16 +49,16 @@ void OptionsWindow::CreateGUIWindow ()
   btn->setVisible(false);
 
   app_cfg =  csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
-  if (!app_cfg) 
+  if (!app_cfg)
   {
-    Report(PT::Error, "Can't find the config manager!"); 
+    Report(PT::Error, "Can't find the config manager!");
     return;
   }
 
   vfs =  csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
-  if (!vfs) 
+  if (!vfs)
   {
-    Report(PT::Error, "Can't find the vfs!"); 
+    Report(PT::Error, "Can't find the vfs!");
     return;
   }
 
@@ -131,7 +131,7 @@ void OptionsWindow::HideWindow()
   btn->setVisible(false);
 }
 
-bool OptionsWindow::OptionButtonPressed(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OptionButtonPressed(const CEGUI::EventArgs& e)
 {
   // Hide the Options button.
   btn = winMgr->getWindow("Options/Options_Button");
@@ -144,7 +144,7 @@ bool OptionsWindow::OptionButtonPressed(const CEGUI::EventArgs& e)
   return true;
 }
 
-bool OptionsWindow::OkButtonPressed(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OkButtonPressed(const CEGUI::EventArgs& e)
 {
   // Show the Options button.
   btn = winMgr->getWindow("Options/Options_Button");
@@ -161,7 +161,7 @@ bool OptionsWindow::OkButtonPressed(const CEGUI::EventArgs& e)
   return true;
 }
 
-bool OptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("Options/Reflections/DropList");
   uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
@@ -193,8 +193,8 @@ void OptionsWindow::CreateDropListReflections()
   bool ref = app_cfg->GetBool("Client.waterreflections");
 
   if (ref)
-    ((CEGUI::Combobox*)btn)->setText("On"); 
-  else 
+    ((CEGUI::Combobox*)btn)->setText("On");
+  else
     ((CEGUI::Combobox*)btn)->setText("Off");
 
 
@@ -208,7 +208,7 @@ void OptionsWindow::CreateDropListReflections()
 
 }
 
-bool OptionsWindow::OnDropListTexture(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OnDropListTexture(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("Options/TextureQuality/DropList");
   uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
@@ -279,7 +279,7 @@ void OptionsWindow::CreateDropListTexture()
 
 }
 
-bool OptionsWindow::OnDropListMovement(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OnDropListMovement(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("Options/MovementMode/DropList");
   uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
@@ -324,7 +324,7 @@ void OptionsWindow::CreateDropListMovement()
 
 }
 
-bool OptionsWindow::OnFullScreenCheckBox(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OnFullScreenCheckBox(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("Options/Fullscreen");
   bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
@@ -344,7 +344,7 @@ void OptionsWindow::CreateFullScreenCheckBox()
 }
 
 
-bool OptionsWindow::OnReverseCheckBox(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OnReverseCheckBox(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("Options/Reverse");
   bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
@@ -363,7 +363,7 @@ void OptionsWindow::CreateReverseCheckBox()
   ((CEGUI::Checkbox*)btn)->setSelected(fs);
 }
 
-bool OptionsWindow::OnYAxisCheckBox(const CEGUI::EventArgs& e) 
+bool OptionsWindow::OnYAxisCheckBox(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("Options/Invert_Y_Axis");
   bool ya = ((CEGUI::Checkbox*)btn)->isSelected();

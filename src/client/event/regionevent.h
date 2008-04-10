@@ -31,7 +31,7 @@ namespace PT
   {
     struct WorldHelper
     {
-      
+
       static float GetProgress(const iEvent* event)
       {
         float progress = 0.0f;
@@ -42,7 +42,7 @@ namespace PT
       }
 
     };
-  } // Events namespace 
+  } // Events namespace
 } // PT namespace
 
 #endif // PT_REGION_EVENT_H

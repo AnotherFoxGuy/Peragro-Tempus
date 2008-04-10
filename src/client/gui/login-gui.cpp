@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -127,21 +127,21 @@ bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
   answer_msg.setPassword(password.c_str());
   network->send(&answer_msg);
 
-  return true; 
+  return true;
 }
 
-void LoginWindow::ShowWindow() 
+void LoginWindow::ShowWindow()
 {
   GUIWindow::ShowWindow();
   UpdateLogin();
 }
 
-CEGUI::String LoginWindow::GetLogin() 
+CEGUI::String LoginWindow::GetLogin()
 {
   return winMgr->getWindow("LoginUI/LoginEditBox")->getText();
 }
 
-CEGUI::String LoginWindow::GetPassword() 
+CEGUI::String LoginWindow::GetPassword()
 {
   return winMgr->getWindow("LoginUI/PasswordEditBox")->getText();
 }
@@ -154,7 +154,7 @@ void LoginWindow::SaveConfig()
   const char* string;
   unsigned int integer;
 
-  if (fs) 
+  if (fs)
     string = login.c_str();
   else
     string = "";
@@ -202,7 +202,7 @@ bool LoginWindow::PasswordTextAccepted(const CEGUI::EventArgs &e)
   return true;
 }
 
-bool LoginWindow::OnCheckBox(const CEGUI::EventArgs& e) 
+bool LoginWindow::OnCheckBox(const CEGUI::EventArgs& e)
 {
   SaveConfig();
   return true;
@@ -239,9 +239,9 @@ void LoginWindow::CreateGUIWindow()
   rootwindow = winMgr->getWindow("LoginUI/Frame");
 
   app_cfg =  csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
-  if (!app_cfg) 
+  if (!app_cfg)
   {
-    Report(PT::Error, "Can't find the config manager!"); 
+    Report(PT::Error, "Can't find the config manager!");
     return;
   }
 

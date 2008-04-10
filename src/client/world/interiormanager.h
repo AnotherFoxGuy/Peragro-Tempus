@@ -34,7 +34,7 @@ namespace PT
   struct InteriorFactory;
   class World;
 
-  class InteriorManager 
+  class InteriorManager
   {
   private:
     bool finished;
@@ -63,10 +63,10 @@ namespace PT
     InteriorManager(World* world);
     ~InteriorManager();
 
-    /// Get or create a new Factory. 
+    /// Get or create a new Factory.
     csRef<Interior> Get(iDocumentNode* node);
 
-    /// Registers a interior to be loaded the moment it is created. 
+    /// Registers a interior to be loaded the moment it is created.
     void RegisterLoad(const std::string& interiorName);
 
     /// @return True if finished loading, false otherwise.

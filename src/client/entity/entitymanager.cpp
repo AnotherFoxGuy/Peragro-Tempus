@@ -112,12 +112,12 @@ namespace PT
       {
         csRef<iEvent> ev = events.Pop();
         std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev->GetName());
-        if (playerId != 0) 
+        if (playerId != 0)
         {
           if (id.compare("entity.add") == 0)
             AddEntity(*ev);
         }
-        if (world_loaded && PointerLibrary::getInstance()->getStateManager()->GetState() == STATE_PLAY) 
+        if (world_loaded && PointerLibrary::getInstance()->getStateManager()->GetState() == STATE_PLAY)
         {
           if (id.compare("entity.remove") == 0)
             RemoveEntity(*ev);
@@ -125,7 +125,7 @@ namespace PT
             Equip(*ev);
           else if (id.compare("entity.mount") == 0)
             Mount(*ev);
-          else if (id.compare("entity.pose") == 0)    
+          else if (id.compare("entity.pose") == 0)
             EntityPose(*ev);
         }
       } // for
@@ -169,7 +169,7 @@ namespace PT
         ptent->SetFullPosition();
         mesh->GetMovable()->GetSectors()->Remove(defsector);
         Report(PT::Debug, "Lost entity '%s' relocated", ptent->GetName().c_str());
-      }  
+      }
     }
 
     void EntityManager::Handle ()
@@ -421,7 +421,7 @@ namespace PT
             if (rotv.z < -1.0f ) rotv.z = -1.0f;
 
             rot = acos (rotv.z);
-            if (rotv.x < 0.0f) rot = 2.0f * PI - rot;            
+            if (rotv.x < 0.0f) rot = 2.0f * PI - rot;
 
             //if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
 
@@ -454,7 +454,7 @@ namespace PT
     bool EntityManager::EntityPose(iEvent& ev)
     {
       using namespace PT::Events;
-      
+
       unsigned int id = EntityHelper::GetEntityID(&ev);
 
       unsigned int poseId = -1;

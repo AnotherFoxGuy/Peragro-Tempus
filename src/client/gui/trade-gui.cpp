@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -141,7 +141,7 @@ void TradeWindow::SetAccept(unsigned int player, bool value)
     ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
     dialog->SetText("You sure you want to trade?");
     dialog->SetYesEvent(CEGUI::Event::Subscriber(&TradeWindow::OnYesConfirm, this));
-    dialog->SetNoEvent(CEGUI::Event::Subscriber(&TradeWindow::OnNoConfirm, this)); 
+    dialog->SetNoEvent(CEGUI::Event::Subscriber(&TradeWindow::OnNoConfirm, this));
   }
 }
 
@@ -153,7 +153,7 @@ bool TradeWindow::AddItem(Slot* oldslot, Slot* newslot)
     return false;
   }
 
-  // If we drag the icon around to the same 
+  // If we drag the icon around to the same
   // slot in the trade window, return.
   if((oldslot->GetParent() == Inventory::TradeLeft)
     && oldslot->GetId() == newslot->GetId())

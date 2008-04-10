@@ -48,8 +48,8 @@ namespace PT
         return state;
       }
 
-    }; 
-  } // Events namespace 
-} // PT namespace 
+    };
+  } // Events namespace
+} // PT namespace
 
 #endif // PT_INPUT_EVENT_H

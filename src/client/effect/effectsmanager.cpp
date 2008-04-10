@@ -55,7 +55,7 @@ namespace PT
 
       factoryManager = new FactoryManager(obj_reg);
     }
-    
+
     EffectsManager::~EffectsManager ()
     {
       // Delete the factory manager.
@@ -65,7 +65,7 @@ namespace PT
     bool EffectsManager::Initialize ()
     {
       engine =  csQueryRegistry<iEngine> (obj_reg);
-      if (!engine) 
+      if (!engine)
         return Report(PT::Bug, "EffectsManager: Failed to locate 3D engine!");
 
 
@@ -90,9 +90,9 @@ namespace PT
       Data::EffectDataManager* effMgr = PointerLibrary::getInstance()->getEffectDataManager();
       PT::Data::Effect* effect = effMgr->GetEffectByName(effectName);
 
-      if (!effect)  
+      if (!effect)
       {
-        Report(PT::Error, "EffectsManager: No such effect: ' %s ' !", 
+        Report(PT::Error, "EffectsManager: No such effect: ' %s ' !",
           effectName.c_str());
         return 0;
       }
@@ -161,15 +161,15 @@ namespace PT
     bool EffectsManager::CreateDecal (csVector3 pos)
     {
       iCamera* camera = PT::Entity::PlayerEntity::Instance()->GetCamera()->GetCamera();
-      if (!camera) 
+      if (!camera)
         return Report(PT::Error, "EffectsManager: Unable to find camera!");
 
       csRef<iDecalManager> decalMgr = csLoadPluginCheck<iDecalManager> (obj_reg, "crystalspace.decal.manager");
-      if (!decalMgr) 
+      if (!decalMgr)
         return Report(PT::Error, "EffectsManager: Unable to find decalmanager!");
 
       iMaterialWrapper * material = engine->GetMaterialList()->FindByName("movemarkermat");
-      if (!material) 
+      if (!material)
         return Report(PT::Error, "EffectsManager: Unable to find material!");
 
       // create a template for our new decal
@@ -187,6 +187,6 @@ namespace PT
       return true;
     }
 
-  } // Data namespace 
-} // PT namespace 
+  } // Data namespace
+} // PT namespace
 

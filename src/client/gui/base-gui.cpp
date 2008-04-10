@@ -19,7 +19,7 @@
 #include "gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -52,12 +52,12 @@ CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
   return winMgr->loadWindowLayout(layoutFile);
 }
 
-void GUIWindow::HideWindow()  
+void GUIWindow::HideWindow()
 {
   rootwindow->setVisible(false);
 }
 
-void GUIWindow::ShowWindow() 
+void GUIWindow::ShowWindow()
 {
   rootwindow->setVisible(true);
 }
@@ -67,17 +67,17 @@ bool GUIWindow::IsVisible()
   return rootwindow->isVisible();
 }
 
-void GUIWindow::DisableWindow() 
+void GUIWindow::DisableWindow()
 {
   rootwindow->setEnabled(false);
 }
 
-void GUIWindow::EnableWindow() 
+void GUIWindow::EnableWindow()
 {
   rootwindow->setEnabled(true);
 }
 
-void GUIWindow::BringToFront() 
+void GUIWindow::BringToFront()
 {
   rootwindow->activate();
 }

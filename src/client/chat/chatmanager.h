@@ -86,7 +86,7 @@ namespace PT
       const std::vector<Commandp>& GetAllCommands() { return commands; }
     };
 
-  } // Chat namespace 
-} // PT namespace 
+  } // Chat namespace
+} // PT namespace
 
 #endif // PT_TRADE_MANAGER_H

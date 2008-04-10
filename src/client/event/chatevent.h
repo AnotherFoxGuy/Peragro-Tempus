@@ -50,8 +50,8 @@ namespace PT
         return message;
       }
 
-    }; 
-  } // Events namespace 
-} // PT namespace 
+    };
+  } // Events namespace
+} // PT namespace
 
 #endif // PT_CHAT_EVENT_H

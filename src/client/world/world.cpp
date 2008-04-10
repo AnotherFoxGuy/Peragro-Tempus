@@ -77,7 +77,7 @@ namespace PT
     // Delete the cache array AND it's elements.
     if (maptilecache != 0)
     {
-      for (int i=0; i< GetCacheSize(); i++) 
+      for (int i=0; i< GetCacheSize(); i++)
       {
         if (maptilecache[i] != 0) delete maptilecache[i];
       }
@@ -132,9 +132,9 @@ namespace PT
       int offset = (min - 1) / 2;
       int oldIdx = oldCenter-offset;
       int newIdx = newCenter-offset;
-      for (int j = 0; j < min; j++) 
+      for (int j = 0; j < min; j++)
       {
-        for (int i = 0; i < min; i++) 
+        for (int i = 0; i < min; i++)
         {
           newGrid[newIdx+i][newIdx+j] = current[oldIdx+i][oldIdx+j];
         }
@@ -241,9 +241,9 @@ namespace PT
 
     // Load the surrounding tiles.
     int offset = (GetGridSize() - 1) / 2;
-    for (int j = 0; j < GetGridSize(); j++) 
+    for (int j = 0; j < GetGridSize(); j++)
     {
-      for (int i = 0; i < GetGridSize(); i++) 
+      for (int i = 0; i < GetGridSize(); i++)
       {
         current[j][i] = LoadTile(x-offset+i, z-offset+j);
         current[j][i]->SetVisible(true);
@@ -254,9 +254,9 @@ namespace PT
   MapTile* World::LoadTile(int x, int z)
   {
     int firstnull = maptilecachesize;
-    for (int i = 0; i < maptilecachesize; i++) 
+    for (int i = 0; i < maptilecachesize; i++)
     {
-      if ((maptilecache[i] != 0) && (maptilecache[i]->x == x) && (maptilecache[i]->z == z)) 
+      if ((maptilecache[i] != 0) && (maptilecache[i]->x == x) && (maptilecache[i]->z == z))
       {
         return maptilecache[i];
       }
@@ -264,14 +264,14 @@ namespace PT
     }
 
     // We need to find a place in the cache.
-    if (firstnull == maptilecachesize) 
+    if (firstnull == maptilecachesize)
     {
       int score, maxscore = 0, maxidx = 0;
       // Oh shit! we need to throw away a tile!
-      for (int i = 0; i < maptilecachesize; i++) 
+      for (int i = 0; i < maptilecachesize; i++)
       {
         score = abs(maptilecache[i]->x - cx) + abs(maptilecache[i]->z - cz);
-        if (score > maxscore) 
+        if (score > maxscore)
         {
           maxscore = score;
           maxidx = i;
@@ -296,9 +296,9 @@ namespace PT
     {
       bool allLoaded = true;
       float tilesLoaded = 0.0f;
-      for (int j = 0; j < GetGridSize(); j++) 
+      for (int j = 0; j < GetGridSize(); j++)
       {
-        for (int i = 0; i < GetGridSize(); i++) 
+        for (int i = 0; i < GetGridSize(); i++)
         {
           if ( (current[j][i] == 0) || !current[j][i]->IsReady() )
             allLoaded = false;
@@ -327,7 +327,7 @@ namespace PT
     }
 
     int p = (GetGridSize() - 1) / 2;
-    if (current[p][p] != 0) 
+    if (current[p][p] != 0)
     {
       // If we're out of bounds of our center tile, we're entering a new tile.
       if (  (camera.x < current[p][p]->xbase) || (camera.x > (current[p][p]->xbase+TILESIZE))

@@ -106,7 +106,7 @@ bool GUIManager::Initialize ()
     cegui->GetSystemPtr ()->setDefaultMouseCursor("Peragro", "MouseArrow");
 
     // Load the default font.
-    CEGUI::Font* font = cegui->GetFontManagerPtr()->createFont("FreeType","Vera", 
+    CEGUI::Font* font = cegui->GetFontManagerPtr()->createFont("FreeType","Vera",
       "/peragro/skin/Vera.ttf");
     font->setProperty("PointSize", "10");
     font->load();

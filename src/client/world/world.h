@@ -36,7 +36,7 @@ namespace PT
   class ModelManager;
   class InteriorManager;
 
-  class World 
+  class World
   {
   private:
     bool loading;

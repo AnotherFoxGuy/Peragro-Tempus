@@ -357,7 +357,7 @@ bool InteractDialogWindow::OnInteract (iEvent& ev)
 
   ev.Retrieve("objectId", itemId);
   ev.Retrieve("variationId", variationId);
-    
+
   newDialog = true;
   ClearActions();
   rootwindow->setVisible(true);

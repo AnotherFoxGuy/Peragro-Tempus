@@ -41,7 +41,7 @@ namespace PT
 
     };
 
-  } // Events namespace 
+  } // Events namespace
 } // PT namespace
 
 #endif // PT_INTERFACE_EVENT_H

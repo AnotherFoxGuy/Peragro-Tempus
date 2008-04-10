@@ -29,8 +29,8 @@ namespace GenMesh
   csStringHash xmltokens;
 #define CS_TOKEN_ITEM_FILE "src/client/world/factoryloader/gmeshldr.tok"
 #include <cstool/tokenlist.h>
-#undef CS_TOKEN_ITEM_FILE 
-  
+#undef CS_TOKEN_ITEM_FILE
+
 
   bool ParseSubMesh(csObjectPrototype& proto, iDocumentNode *node,
     iGeneralFactoryState* factstate,
@@ -59,13 +59,13 @@ namespace GenMesh
         if (!synldr->ParseMixmode (child, mixmode))
           return 0;
         break;
-        
+
       case XMLTOKEN_MATERIAL:
         {
           const char* matname = child->GetContentsValue ();
           submeshWrapper.materialName = matname;
           break;
-        } 
+        }
       case XMLTOKEN_INDEXBUFFER:
         {
           indexbuffer = synldr->ParseRenderBuffer (child);
@@ -94,12 +94,12 @@ namespace GenMesh
       }
     }
 
-    iGeneralMeshSubMesh* submesh = factstate->AddSubMesh (indexbuffer, 0, 
+    iGeneralMeshSubMesh* submesh = factstate->AddSubMesh (indexbuffer, 0,
       node->GetAttributeValue ("name"), mixmode);
     submesh->SetZMode (zmode);
     submesh->SetRenderPriority (renderPrio);
     submesh->SetBack2Front (b2f);
-    
+
     submeshWrapper.submesh = submesh;
 
     proto.submeshes.Push(submeshWrapper);
@@ -450,36 +450,36 @@ namespace GenMesh
         }
         break;
 
-        case XMLTOKEN_COLOR:
+      case XMLTOKEN_COLOR:
         {
-	  if (!num_vt_given)
-	  {
-	    synldr->ReportError (
-		    "crystalspace.genmeshfactoryloader.parse.frame.badformat",
-		    child, "You didn't specify 'numvt'. You should add color information to the vertex!");
-	    return false;
-	  }
-	  csColor4* co = state->GetColors ();
-	  if (num_col >= state->GetVertexCount ())
-	  {
-	    synldr->ReportError (
-		    "crystalspace.genmeshfactoryloader.parse.frame.badformat",
-		    child, "Too many colors for a general mesh factory!");
-	    return false;
-	  }
-	  float r, g, b, alpha;
-	  r = child->GetAttributeValueAsFloat ("red");
-	  g = child->GetAttributeValueAsFloat ("green");
-	  b = child->GetAttributeValueAsFloat ("blue");
-	  csRef<iDocumentAttribute> attr_alpha = child->GetAttribute ("alpha");
-	  if (attr_alpha)
-	    alpha = child->GetAttributeValueAsFloat ("alpha");
-	  else
-	    alpha = 1.0f;
-	  co[num_col].Set (r, g, b, alpha);
-	  num_col++;
-	}
-	break;
+          if (!num_vt_given)
+          {
+            synldr->ReportError (
+              "crystalspace.genmeshfactoryloader.parse.frame.badformat",
+              child, "You didn't specify 'numvt'. You should add color information to the vertex!");
+           return false;
+          }
+          csColor4* co = state->GetColors ();
+          if (num_col >= state->GetVertexCount ())
+          {
+            synldr->ReportError (
+              "crystalspace.genmeshfactoryloader.parse.frame.badformat",
+              child, "Too many colors for a general mesh factory!");
+            return false;
+          }
+          float r, g, b, alpha;
+          r = child->GetAttributeValueAsFloat ("red");
+          g = child->GetAttributeValueAsFloat ("green");
+          b = child->GetAttributeValueAsFloat ("blue");
+          csRef<iDocumentAttribute> attr_alpha = child->GetAttribute ("alpha");
+          if (attr_alpha)
+            alpha = child->GetAttributeValueAsFloat ("alpha");
+          else
+            alpha = 1.0f;
+          co[num_col].Set (r, g, b, alpha);
+          num_col++;
+        }
+        break;
 
       case XMLTOKEN_SUBMESH:
         if (!state)

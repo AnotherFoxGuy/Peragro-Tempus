@@ -33,7 +33,7 @@ private:
   SocketAddress serveraddress;
 
 public:
-  Network(PT::Client* client) 
+  Network(PT::Client* client)
     : conn_handler(this, client), receiver(&socket)
   {
   }

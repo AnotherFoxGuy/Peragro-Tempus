@@ -134,7 +134,7 @@ namespace PT
       else if (frame >= frameskip)
       {
         render_reflections = true;
-	frame = 0;
+        frame = 0;
       }
       if (!render_reflections && !render_refractions)
       {
@@ -198,7 +198,7 @@ namespace PT
         /// @todo This is currently hard-coded for the MaxY plane.
         csRef<csShaderVariable> reflection_texture0_var = vars->GetVariableAdd(ReflectionUtils::reflection_texture0_str);
         csRef<iTextureHandle> a0 = texm->CreateTexture(rez, rez, csimg2D, "rgba8", CS_TEXTURE_3D | CS_TEXTURE_NOMIPMAPS );
-        reflection_texture0_var->SetValue(a0);  
+        reflection_texture0_var->SetValue(a0);
       }
 
       /// Iterate over the meshes, finding `refraction_enable=true` shadervar.
@@ -286,7 +286,7 @@ namespace PT
 
       csOrthoTransform reflect(matr, csVector3(0,0,0));*/
 
-      
+
       /// Mirror transformation.
       newt.SetO2T(origt.GetO2T() * csYScaleMatrix3(-1));
       //newt.SetO2T(origt.GetO2T());
@@ -342,16 +342,16 @@ namespace PT
       csOrthoTransform& newcamera,
       csPlane3& nearclip,
       iTextureHandle* texture,
-      bool mirror) 
+      bool mirror)
     {
       iCamera* cam = view->GetCamera();
       iGraphics3D* g3d = view->GetContext();
 
       csPlane3 orignp = g3d->GetNearPlane();
 
-      /// The rendering sequence is: 
+      /// The rendering sequence is:
       /// 1) Hide the reflection mesh
-      /// 2) set the camera 
+      /// 2) set the camera
       /// 3) set the rendering target texture
       /// 4) set the near plane
       /// 5) draw

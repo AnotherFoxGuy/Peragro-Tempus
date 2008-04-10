@@ -79,7 +79,7 @@ namespace PT
       csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-      
+
       if (sector != "Default_Sector") Entity::sectorName = sector;
       Entity::pos = pos;
       Entity::rot = rotation;
@@ -87,7 +87,7 @@ namespace PT
       if (celEntity.IsValid())
       {
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-        csRef<iMeshWrapper> mesh = pcmesh->GetMesh(); 
+        csRef<iMeshWrapper> mesh = pcmesh->GetMesh();
         csRef<iSector> sec = engine->FindSector(sector.c_str());
 
         if (!sec.IsValid())
@@ -117,8 +117,8 @@ namespace PT
           return; // success so return.
         }
       }
- 
-      Report(PT::Error, "Entity: SetFullPosition failed for %s(%d)!\n", 
+
+      Report(PT::Error, "Entity: SetFullPosition failed for %s(%d)!\n",
              name.c_str(), id);
     }
 

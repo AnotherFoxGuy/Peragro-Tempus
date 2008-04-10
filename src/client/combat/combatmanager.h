@@ -48,26 +48,26 @@ namespace PT
     class CombatManager
     {
     private:
-    
+
       csRef<iEngine> engine;
       csRef<iVFS> vfs;
       csRef<iLoader> loader;
       csRef<iCelPlLayer> pl;
-    
+
       PT::Effect::EffectsManager* effectsManager;
       PT::Entity::EntityManager* entityManager;
       GUIManager* guiManager;
       PT::Data::SkillDataManager* skillManager;
       Network* network;
-    
+
       iMeshWrapper* GetMesh(PT::Entity::Entity* entity);
-    
+
     public:
       CombatManager();
       ~CombatManager();
-    
+
       bool Initialize();
-    
+
       void Hit(int targetId, int damage);
       void Die(int targetId);
       void LevelUp(int targetId);
@@ -76,7 +76,7 @@ namespace PT
       void SkillUsageComplete(unsigned int casterId, unsigned int targetId, int skillId);
       void RequestSkillUsageStart(iCelEntity* target, unsigned int skillId);
       void RequestSkillUsageStart(unsigned int targetId, unsigned int skillId);
-    
+
       /**
        * Handler for ACTION_HIT event.
        * @param ev Event describing the hit.

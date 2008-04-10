@@ -42,7 +42,7 @@ namespace PT
       }
 
     };
-  } // Events namespace 
-} // PT namespace 
+  } // Events namespace
+} // PT namespace
 
 #endif // PTENVIRONMENT_EVENT_H

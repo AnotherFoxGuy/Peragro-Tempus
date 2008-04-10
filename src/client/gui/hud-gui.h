@@ -50,10 +50,10 @@ public:
   HUDWindow(GUIManager* guimanager);
   virtual ~HUDWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
-  void SetHP (float hp);       // set the hp. 
-  void SetMP (float mp);       // set the mp. 
-  void SetXP (float xp);       // set the xp. 
-  void SetSP (float sp);       // set the sp. 
+  void SetHP (float hp);       // set the hp.
+  void SetMP (float mp);       // set the mp.
+  void SetXP (float xp);       // set the xp.
+  void SetSP (float sp);       // set the sp.
   void SetName (const char* name); // set the name;
   void SetText (const char* name, const char* test); // set the text;
   bool AddSkill(int skillid);

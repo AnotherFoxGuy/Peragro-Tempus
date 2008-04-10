@@ -19,7 +19,7 @@
 #include "client/gui/gui.h"
 
 #include "CEGUI.h"
-#include "CEGUIWindowManager.h" 
+#include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
@@ -37,7 +37,7 @@ SelectCharWindow::~SelectCharWindow()
 {
 }
 
-bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e) 
+bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("CharSelect/Characters");
   if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
@@ -57,7 +57,7 @@ bool SelectCharWindow::SelectChar(const CEGUI::EventArgs& e)
   return true;
 }
 
-bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e) 
+bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("CharSelect/Characters");
   if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
@@ -87,7 +87,7 @@ bool SelectCharWindow::OnSelection(const CEGUI::EventArgs& e)
   return true;
 }
 
-bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e) 
+bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e)
 {
   CEGUI::String NewCharName = GetNewCharName();
   ClearNewCharName();
@@ -104,19 +104,19 @@ bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e)
   return true;
 }
 
-bool SelectCharWindow::CreateButton(const CEGUI::EventArgs& e) 
+bool SelectCharWindow::CreateButton(const CEGUI::EventArgs& e)
 {
   ToggleNewWindow(true);
   return true;
 }
 
-bool SelectCharWindow::CancelButton(const CEGUI::EventArgs& e) 
+bool SelectCharWindow::CancelButton(const CEGUI::EventArgs& e)
 {
-  ToggleNewWindow(false);  
+  ToggleNewWindow(false);
   return true;
 }
 
-bool SelectCharWindow::AdminButton(const CEGUI::EventArgs& e) 
+bool SelectCharWindow::AdminButton(const CEGUI::EventArgs& e)
 {
   btn = winMgr->getWindow("ServerSetup/Frame");
   btn->setVisible(true);
@@ -125,22 +125,22 @@ bool SelectCharWindow::AdminButton(const CEGUI::EventArgs& e)
   return true;
 }
 
-bool SelectCharWindow::DelChar(const CEGUI::EventArgs& e) 
+bool SelectCharWindow::DelChar(const CEGUI::EventArgs& e)
 {
   return true;
 }
 
-CEGUI::String SelectCharWindow::GetNewCharName()  
+CEGUI::String SelectCharWindow::GetNewCharName()
 {
   return winMgr->getWindow("CharSelectNew/NickNameEditBox")->getText();
 }
 
-void SelectCharWindow::ClearNewCharName()  
+void SelectCharWindow::ClearNewCharName()
 {
   winMgr->getWindow("CharSelectNew/NickNameEditBox")->setText("");
 }
 
-void SelectCharWindow::ToggleNewWindow(bool visible)  
+void SelectCharWindow::ToggleNewWindow(bool visible)
 {
   btn = winMgr->getWindow("CharSelectNew/Frame");
   btn->setVisible(visible);

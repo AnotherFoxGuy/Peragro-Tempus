@@ -99,8 +99,8 @@ public:
   HUDWindow* CreateHUDWindow();
   OptionsWindow* CreateOptionsWindow();
   StatusWindow* CreateStatusWindow();
-  BuddyWindow* CreateBuddyWindow(); 
-  WhisperWindow* CreateWhisperWindow(); 
+  BuddyWindow* CreateBuddyWindow();
+  WhisperWindow* CreateWhisperWindow();
   NpcDialogWindow* CreateNpcDialogWindow();
   TradeWindow* CreateTradeWindow();
   ConfirmDialogWindow* CreateConfirmWindow();

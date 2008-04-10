@@ -50,7 +50,7 @@ namespace PT
         };
         csArray<Equipment> equipment;
 
-        ~EquipmentData() 
+        ~EquipmentData()
         {
           equipment.DeleteAll();
         }
@@ -188,7 +188,7 @@ namespace PT
 
 
     };
-  } // Events namespace 
+  } // Events namespace
 } // PT namespace
 
 #endif // PTENTITY_EVENT_H

@@ -448,7 +448,7 @@ namespace PT
 
             char buffer[1024];
 
-            sprintf(buffer, "Position: %s <%f.2, %f.2, %f.2>", 
+            sprintf(buffer, "Position: %s <%f.2, %f.2, %f.2>",
               sector->QueryObject()->GetName(), pos.x, pos.y, pos.z);
 
             guimanager->GetChatWindow ()->AddMessage (buffer);
@@ -662,8 +662,8 @@ namespace PT
             csRef<iEngine> engine (csQueryRegistry<iEngine> (objreg));
             csRef<iVFS> vfs (csQueryRegistry<iVFS> (objreg));
 
-            csRef<iStringSet> strings = 
-              csQueryRegistryTagInterface<iStringSet> (objreg, 
+            csRef<iStringSet> strings =
+              csQueryRegistryTagInterface<iStringSet> (objreg,
               "crystalspace.shared.stringset");
 
             csStringID colldetid = strings->Request ("base");
@@ -708,8 +708,8 @@ namespace PT
                   ->GetSectorByName(sector->QueryObject()->GetName())->GetId();
 
                 data << "insert into meshes (id, sector, name) values ( "
-                     << mesh->QueryObject()->GetID() << ", " 
-                     << sector_id << ", " 
+                     << mesh->QueryObject()->GetID() << ", "
+                     << sector_id << ", "
                      << "'" << mesh->QueryObject()->GetName() << "');\n";
 
                 iObjectModel* model = mesh->GetMeshObject()->GetObjectModel();
@@ -723,7 +723,7 @@ namespace PT
                 {
                   data << "insert into triangles (mesh, num, a, b, c) values ( "
                        << mesh->QueryObject()->GetID() << ", " << k << ", "
-                       << triangles[k].a << ", " << triangles[k].b << ", " 
+                       << triangles[k].a << ", " << triangles[k].b << ", "
                        << triangles[k].c << ");\n";
                 }
 

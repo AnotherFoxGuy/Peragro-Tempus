@@ -31,7 +31,7 @@
 #include <csutil/weakref.h>
 #include <csutil/parray.h>
 
-#include <vector> 
+#include <vector>
 
 #include <boost/shared_ptr.hpp>
 
@@ -127,7 +127,7 @@ namespace PT
 
     };
 
-  } // Events namespace 
-} // PT namespace 
+  } // Events namespace
+} // PT namespace
 
 #endif // EVENT_MANAGER_H

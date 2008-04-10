@@ -80,25 +80,25 @@ public:
 
   bool IsReady() const;
 
-  csArray<std::string>* GetFactories() 
-  { 
+  csArray<std::string>* GetFactories()
+  {
     if (!loadJob) return 0;
     WaitForJob();
-    return &loadJob->factories; 
+    return &loadJob->factories;
   }
 
-  csRefArray<iDocumentNode>* GetInstances() 
-  { 
+  csRefArray<iDocumentNode>* GetInstances()
+  {
     if (!loadJob) return 0;
     WaitForJob();
-    return &loadJob->instances; 
+    return &loadJob->instances;
   }
 
-  csRefArray<iDocumentNode>* GetInteriors() 
-  { 
+  csRefArray<iDocumentNode>* GetInteriors()
+  {
     if (!loadJob) return 0;
     WaitForJob();
-    return &loadJob->interiors; 
+    return &loadJob->interiors;
   }
 };
 

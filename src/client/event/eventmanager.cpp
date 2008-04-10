@@ -42,7 +42,7 @@ namespace PT
     {
       evmgr->eventQueue->RemoveListener(this);
     }
-    
+
     bool EventManager::Listener::HandleEvent(iEvent& ev)
     {
       if (handler.IsValid())
@@ -125,7 +125,7 @@ namespace PT
         if (listeners.Get(i)->handler == handler)
         {
           listeners.DeleteIndex(i);
-          // Don't return, remove _all_ occurences of our handler. 
+          // Don't return, remove _all_ occurences of our handler.
         }
       }
     }
@@ -168,6 +168,6 @@ namespace PT
 
   } // end HandleEvent()
 
-  } // Events namespace 
-} // PT namespace 
+  } // Events namespace
+} // PT namespace
 

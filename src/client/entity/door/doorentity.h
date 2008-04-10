@@ -90,7 +90,7 @@ namespace PT
       void UpdatePcProp(const UpdatePcPropData& update_pcprop);
       void Interact();
 
-      ///Resets any transforms that were performed 
+      ///Resets any transforms that were performed
       ///after the mesh was created.
       void Reset();
     };

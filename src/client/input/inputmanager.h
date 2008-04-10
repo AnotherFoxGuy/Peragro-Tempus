@@ -42,7 +42,7 @@ namespace PT
   {
   private:
     /// Clipboard access provider
-    csRef<iClipboard> csTheClipboard; 
+    csRef<iClipboard> csTheClipboard;
     bool ClipboardCopy(iEvent& ev);
     bool ClipboardCut(iEvent& ev);
     bool ClipboardPaste(iEvent& ev);

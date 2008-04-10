@@ -29,7 +29,7 @@
 
 namespace PT
 {
-  Factory::Factory(const std::string& fileName, 
+  Factory::Factory(const std::string& fileName,
     iObjectRegistry* object_reg) : scfImplementationType (this)
   {
     this->fileName = fileName;
@@ -66,7 +66,7 @@ namespace PT
 
   bool Factory::IsReady() const
   {
-    if (fileLoader) 
+    if (fileLoader)
       return fileLoader->IsReady();
     else
       return true;
@@ -88,7 +88,7 @@ namespace PT
     if (!collection.IsValid()) return;
     if (IsPrecached()) return;
 
-    // Precaches "one" texture and then returns, so you have to call 
+    // Precaches "one" texture and then returns, so you have to call
     // this repeately and check IsPrecached() wether 'everything' is done.
     csRef<iObjectIterator> iter = collection->QueryObject()->GetIterator();
     while (iter->HasNext ())
@@ -96,7 +96,7 @@ namespace PT
       csRef<iTextureWrapper> csth (scfQueryInterface<iTextureWrapper> (iter->Next ()));
       if (csth)
       {
-        if (csth->GetTextureHandle ()) 
+        if (csth->GetTextureHandle ())
         {
           if (csth->GetTextureHandle ()->IsPrecached())
             continue;

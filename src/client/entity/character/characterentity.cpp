@@ -284,7 +284,7 @@ namespace PT
         }
         PlayAnimation("idle", 0.1f, true, false);
       }
-      else if (poseId == 1) 
+      else if (poseId == 1)
       {
         PlayAnimation("hit", 0.5f, false, false);
       }

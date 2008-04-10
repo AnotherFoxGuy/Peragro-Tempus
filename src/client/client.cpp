@@ -502,7 +502,7 @@ namespace PT
     // Let the engine prepare all lightmaps for use and also free all images
     // that were loaded for the texture manager.
     engine->Prepare ();
-    
+
     Run();
 
     return true;
@@ -939,7 +939,7 @@ namespace PT
 
     sawServer();
 
-    if (!world_loaded) 
+    if (!world_loaded)
     {
       guiManager->GetSelectCharWindow ()->HideWindow();
       guiManager->GetOptionsWindow ()->HideWindow();
