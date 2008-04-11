@@ -25,6 +25,8 @@
 #include <csutil/ref.h>
 #include <iutil/vfs.h>
 
+#include "../datamanager.h"
+
 namespace PT
 {
   namespace Data
@@ -38,7 +40,7 @@ namespace PT
      * resides in $DATA/xml/servers.xml file, where $DATA is the parent
      * directory where the Peragro Tempus data resides.
      */
-    class ConnectionDataManager
+    class ConnectionDataManager : public DataManager
     {
     private:
       ///Servers descriptions. Instances are owned by ConnectionDataManager.
@@ -53,14 +55,8 @@ namespace PT
       /**
        * Base constructor
        */
-      ConnectionDataManager();
+      ConnectionDataManager(PointerLibrary* ptrlib);
       ~ConnectionDataManager();
-
-      /**
-       * Loads all the servers information located in servers definition file.
-       * @return True if successful, false if an error occured.
-       */
-      bool LoadServerData();
 
       /**
        * @param id Unique ID of the wanted server.
@@ -72,6 +68,17 @@ namespace PT
        * @return Pointer to server with given Name, or 0 if none was found.
        */
       Server* GetServerByName(const std::string& name) const;
+
+      void GetAllServers(std::vector<Server*>& list) { list = servers; }
+
+      /// Implements the DataManager superclass
+      bool parseElement(iDocumentNode* node);
+
+      /// Root Node of the xml: &lt;servers&gt;
+      const char* getRootName() { return "servers"; }
+
+      /// Element Node of the xml: &lt;server&gt;
+      const char* getElementName() { return "server"; }
     };
   } // Data namespace
 } // PT namespace

@@ -30,7 +30,7 @@ namespace PT
   namespace Data
   {
 
-    NpcDataManager::NpcDataManager()
+    NpcDataManager::NpcDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
     }
 

@@ -77,10 +77,7 @@ namespace PT
         networkMove->Initialize(PointerLibrary::getInstance(), this);
       else
         Report(PT::Error, "Failed to load the networkMove!");
-
-      networkMove->IncRef(); //HACK
-
-      Report(PT::Error, "COUNT! %d", networkMove->GetRefCount());
+      components.Push(networkMove);
     }
 
     void CharacterEntity::Move(const MovementData& movement)

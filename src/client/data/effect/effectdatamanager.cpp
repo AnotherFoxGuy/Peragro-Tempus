@@ -31,10 +31,9 @@ namespace PT
   namespace Data
   {
 
-    EffectDataManager::EffectDataManager()
+    EffectDataManager::EffectDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
-      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
-      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
+      file = "/peragro/xml/effects/effects.xml";
     }
 
     EffectDataManager::~EffectDataManager()
@@ -42,59 +41,28 @@ namespace PT
       for (size_t i = 0; i<effects.size(); i++) delete effects[i];
     }
 
-    ///@internal Currently the effects vector is not preallocated, since there's
-    ///no efficient way to get the count of effects described in XML file. If need
-    ///be, we could traverse the XML file once before adding the actual data in
-    ///order to determine the number of effects in file, and preallocate memory
-    ///space.
-    bool EffectDataManager::LoadEffectData()
+    bool EffectDataManager::parseElement(iDocumentNode* node)
     {
-      const char* fname="/peragro/xml/effects/effects.xml";
-      csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
-      if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
+      Effect* effect = new Effect();
 
-      csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (PointerLibrary::getInstance()->getObjectRegistry()));
+      effect->SetId(node->GetNode("id")->GetContentsValueAsInt());
 
-      csRef<iDocument> doc (docsys->CreateDocument());
+      effect->SetName(node->GetNode("name")->GetContentsValue());
 
-      const char* error = doc->Parse (xmlfile, true);
-      if (error)
-      {
-        Report(PT::Error, error);
-        return false;
-      }
+      effect->SetMeshFile(node->GetNode("file")->GetContentsValue());
 
-      csRef<iDocumentNode> effectsXML = doc->GetRoot ()->GetNode ("effects");
+      effect->SetMeshName(node->GetNode("mesh")->GetContentsValue());
 
-      if (!effectsXML.IsValid()) return false;
+      effect->SetDuration(node->GetNode("duration")->GetContentsValueAsInt());
 
-      csRef<iDocumentNodeIterator> it (effectsXML->GetNodes ("effect"));
+      PtVector3 pos;
 
-      while (it->HasNext())
-      {
-        csRef<iDocumentNode> effectNode (it->Next());
+      pos.x = node->GetNode("offset")->GetAttributeValueAsFloat("x");
+      pos.y = node->GetNode("offset")->GetAttributeValueAsFloat("y");
+      pos.z = node->GetNode("offset")->GetAttributeValueAsFloat("z");
+      effect->SetOffset(pos);
 
-        Effect* effect = new Effect();
-
-        effect->SetId(effectNode->GetNode("id")->GetContentsValueAsInt());
-
-        effect->SetName(effectNode->GetNode("name")->GetContentsValue());
-
-        effect->SetMeshFile(effectNode->GetNode("file")->GetContentsValue());
-
-        effect->SetMeshName(effectNode->GetNode("mesh")->GetContentsValue());
-
-        effect->SetDuration(effectNode->GetNode("duration")->GetContentsValueAsInt());
-
-        PtVector3 pos;
-
-        pos.x = effectNode->GetNode("offset")->GetAttributeValueAsFloat("x");
-        pos.y = effectNode->GetNode("offset")->GetAttributeValueAsFloat("y");
-        pos.z = effectNode->GetNode("offset")->GetAttributeValueAsFloat("z");
-        effect->SetOffset(pos);
-
-        effects.push_back(effect);
-      }
+      effects.push_back(effect);
 
       return true;
     }

@@ -27,7 +27,7 @@ namespace PT
   namespace Data
   {
 
-    ItemDataManager::ItemDataManager()
+    ItemDataManager::ItemDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
       file = "/peragro/xml/items/items.xml";
     }

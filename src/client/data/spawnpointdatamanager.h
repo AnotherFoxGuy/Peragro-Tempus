@@ -53,7 +53,7 @@ namespace PT
        * directory path.
        * @param path Path to the data directory.
        */
-      SpawnPointDataManager();
+      SpawnPointDataManager(PointerLibrary* ptrlib);
       ~SpawnPointDataManager();
 
       void GetAllSpawnPoints(std::vector<SpawnPoint*>& list) { list = spawnpoints; }

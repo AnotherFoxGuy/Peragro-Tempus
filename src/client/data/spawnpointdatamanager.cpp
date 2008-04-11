@@ -27,7 +27,7 @@ namespace PT
   namespace Data
   {
 
-    SpawnPointDataManager::SpawnPointDataManager()
+    SpawnPointDataManager::SpawnPointDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
       file = "/peragro/xml/spawnpoints/spawnpoints.xml";
     }

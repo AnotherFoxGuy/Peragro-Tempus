@@ -25,6 +25,8 @@
 #include <csutil/ref.h>
 #include <iutil/vfs.h>
 
+#include "../datamanager.h"
+
 namespace PT
 {
   namespace Data
@@ -39,7 +41,7 @@ namespace PT
      * directory where the Peragro Tempus data resides.
      * @author Jelle Hellemans
      */
-    class EffectDataManager
+    class EffectDataManager : public DataManager
     {
     private:
       ///Effects descriptions. Instances are owned by EffectDataManager.
@@ -54,14 +56,8 @@ namespace PT
       /**
        * Base constructor
        */
-      EffectDataManager();
+      EffectDataManager(PointerLibrary* ptrlib);
       ~EffectDataManager();
-
-      /**
-       * Loads all the effects information located in effects definition file.
-       * @return True if successful, false if an error occured.
-       */
-      bool LoadEffectData();
 
       /**
        * @param id Unique ID of the wanted effect.
@@ -73,6 +69,17 @@ namespace PT
        * @return Pointer to effect with given Name, or 0 if none was found.
        */
       Effect* GetEffectByName(const std::string& name) const;
+
+      void GetAllEffects(std::vector<Effect*>& list) { list = effects; }
+
+      /// Implements the DataManager superclass
+      bool parseElement(iDocumentNode* node);
+
+      /// Root Node of the xml: &lt;effects&gt;
+      const char* getRootName() { return "effects"; }
+
+      /// Element Node of the xml: &lt;effect&gt;
+      const char* getElementName() { return "effect"; }
     };
   } // Data namespace
 } // PT namespace

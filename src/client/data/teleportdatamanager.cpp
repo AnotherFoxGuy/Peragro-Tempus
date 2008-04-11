@@ -27,7 +27,7 @@ namespace PT
   namespace Data
   {
 
-    TeleportDataManager::TeleportDataManager()
+    TeleportDataManager::TeleportDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
       file = "/peragro/xml/teleports/teleports.xml";
     }

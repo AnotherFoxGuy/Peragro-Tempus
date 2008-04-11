@@ -27,7 +27,7 @@ namespace PT
   namespace Data
   {
 
-    SectorDataManager::SectorDataManager()
+    SectorDataManager::SectorDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
       file = "/peragro/xml/world/sectors.xml";
     }

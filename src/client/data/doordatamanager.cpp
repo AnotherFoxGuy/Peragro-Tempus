@@ -27,7 +27,7 @@ namespace PT
   namespace Data
   {
 
-    DoorDataManager::DoorDataManager()
+    DoorDataManager::DoorDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
       file = "/peragro/xml/doors/doors.xml";
     }

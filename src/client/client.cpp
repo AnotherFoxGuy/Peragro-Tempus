@@ -303,26 +303,26 @@ namespace PT
     pointerlib.setEventManager(eventManager);
 
     // Create and Initialize the EffectDataManager.
-    effectDataManager = new PT::Data::EffectDataManager ();
-    if (!effectDataManager->LoadEffectData())
+    effectDataManager = new PT::Data::EffectDataManager (&pointerlib);
+    if (!effectDataManager->parse())
       return Report(PT::Error, "Failed to initialize EffectDataManager!");
     pointerlib.setEffectDataManager(effectDataManager);
 
     // Create and Initialize the SectorDataManager.
-    sectorDataManager = new PT::Data::SectorDataManager ();
+    sectorDataManager = new PT::Data::SectorDataManager (&pointerlib);
     if (!sectorDataManager->parse())
       return Report(PT::Error, "Failed to initialize SectorManager!");
     pointerlib.setSectorDataManager(sectorDataManager);
 
     // Create and Initialize the SkillDataManager.
-    skillDataManager = new PT::Data::SkillDataManager ();
+    skillDataManager = new PT::Data::SkillDataManager (&pointerlib);
     if (!skillDataManager->parse())
       return Report(PT::Error, "Failed to initialize SkillDataManager!");
     pointerlib.setSkillDataManager(skillDataManager);
 
     // Create and Initialize the ConnectionDataManager.
-    connectionDataManager = new PT::Data::ConnectionDataManager ();
-    if (!connectionDataManager->LoadServerData())
+    connectionDataManager = new PT::Data::ConnectionDataManager (&pointerlib);
+    if (!connectionDataManager->parse())
       return Report(PT::Error, "Failed to initialize ConnectionDataManager!");
     pointerlib.setConnectionDataManager(connectionDataManager);
 

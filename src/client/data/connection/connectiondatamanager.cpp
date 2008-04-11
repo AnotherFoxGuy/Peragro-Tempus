@@ -29,10 +29,9 @@ namespace PT
   namespace Data
   {
 
-    ConnectionDataManager::ConnectionDataManager()
+    ConnectionDataManager::ConnectionDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
-      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
-      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
+      file = "/peragro/xml/servers.xml";
     }
 
     ConnectionDataManager::~ConnectionDataManager()
@@ -40,45 +39,16 @@ namespace PT
       for (size_t i = 0; i<servers.size(); i++) delete servers[i];
     }
 
-    ///@internal Currently the servers vector is not preallocated, since there's
-    ///no efficient way to get the count of servers described in XML file. If need
-    ///be, we could traverse the XML file once before adding the actual data in
-    ///order to determine the number of servers in file, and preallocate memory
-    ///space.
-    bool ConnectionDataManager::LoadServerData()
+    bool ConnectionDataManager::parseElement(iDocumentNode* node)
     {
-      const char* fname="/peragro/xml/servers.xml";
-      csRef<iDataBuffer> xmlfile = vfs->ReadFile (fname);
-      if (!xmlfile){return Report(PT::Error, "Can't load file '%s'!", fname);}
-
-      csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (PointerLibrary::getInstance()->getObjectRegistry()));
-
-      csRef<iDocument> doc (docsys->CreateDocument());
-
-      const char* error = doc->Parse (xmlfile, true);
-      if (error)
-      {
-        Report(PT::Error, error);
-        return false;
-      }
-
-      csRef<iDocumentNode> serversXML = doc->GetRoot ()->GetNode ("servers");
-      if (!serversXML.IsValid()) return false;
-
-      csRef<iDocumentNodeIterator> it (serversXML->GetNodes ("server"));
-      while (it->HasNext())
-      {
-        csRef<iDocumentNode> serverNode (it->Next());
-
-        Server* server = new Server();
-        server->SetName(serverNode->GetContentsValue());
-        server->SetHost(serverNode->GetAttributeValue("host"));
-        server->SetPort(serverNode->GetAttributeValue("port"));
-        servers.push_back(server);
-      } // end while
+      Server* server = new Server();
+      server->SetName(node->GetContentsValue());
+      server->SetHost(node->GetAttributeValue("host"));
+      server->SetPort(node->GetAttributeValue("port"));
+      servers.push_back(server);
 
       return true;
-    } // end LoadServerData()
+    } // end parseElement()
 
     Server* ConnectionDataManager::GetServerByName(const std::string& name) const
     {

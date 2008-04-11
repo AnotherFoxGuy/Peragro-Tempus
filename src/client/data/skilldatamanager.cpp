@@ -27,7 +27,7 @@ namespace PT
   namespace Data
   {
 
-    SkillDataManager::SkillDataManager()
+    SkillDataManager::SkillDataManager(PointerLibrary* ptrlib) : DataManager(ptrlib)
     {
       file = "/peragro/xml/skills/skills.xml";
     }

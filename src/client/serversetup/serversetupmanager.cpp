@@ -41,6 +41,8 @@
 #include "client/data/spawnpoint.h"
 #include "client/data/spawnpointdatamanager.h"
 
+#include "client/pointer/pointer.h"
+
 namespace PT
 {
   namespace Misc
@@ -48,23 +50,25 @@ namespace PT
 
     ServerSetupManager::ServerSetupManager()
     {
+      PointerLibrary* ptrlib = PointerLibrary::getInstance();
+
       // Create and Initialize the DoorDataManager.
-      doorDataManager = new PT::Data::DoorDataManager ();
+      doorDataManager = new PT::Data::DoorDataManager (ptrlib);
       if (!doorDataManager->parse())
         Report(PT::Error, "Failed to initialize DoorDataManager!");
 
       // Create and Initialize the ItemDataManager.
-      itemDataManager = new PT::Data::ItemDataManager ();
+      itemDataManager = new PT::Data::ItemDataManager (ptrlib);
       if (!itemDataManager->parse())
         Report(PT::Error, "Failed to initialize ItemDataManager!");
 
       // Create and Initialize the NpcDataManager.
-      npcDataManager = new PT::Data::NpcDataManager ();
+      npcDataManager = new PT::Data::NpcDataManager (ptrlib);
       if (!npcDataManager->parseNPCs())
         Report(PT::Error, "Failed to initialize NpcDataManager!");
 
       // Create and Initialize the NpcDataManager.
-      spawnpointDataManager = new PT::Data::SpawnPointDataManager ();
+      spawnpointDataManager = new PT::Data::SpawnPointDataManager (ptrlib);
       if (!spawnpointDataManager->parse())
         Report(PT::Error, "Failed to initialize SpawnPointDataManager!");
     }

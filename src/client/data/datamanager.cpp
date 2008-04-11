@@ -26,12 +26,11 @@ namespace PT
 {
   namespace Data
   {
-    DataManager::DataManager()
+    DataManager::DataManager(PointerLibrary* ptrlib)
     {
-      PointerLibrary* ptrlib = PointerLibrary::getInstance();
-      oreg = ptrlib->getObjectRegistry();
+      obj_reg = ptrlib->getObjectRegistry();
 
-      vfs = csQueryRegistry<iVFS> (oreg);
+      vfs = csQueryRegistry<iVFS> (obj_reg);
       if (!vfs) Report(PT::Error, "Failed to locate VFS!");
     }
 
@@ -47,7 +46,7 @@ namespace PT
         return Report(PT::Error, "Can't load file '%s'!", file.c_str());
       }
 
-      csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (oreg));
+      csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (obj_reg));
 
       csRef<iDocument> doc (docsys->CreateDocument());
 
@@ -58,12 +57,12 @@ namespace PT
         return false;
       }
 
-      csRef<iDocumentNode> effectsXML = doc->GetRoot ()->GetNode (getRootName());
+      csRef<iDocumentNode> xml = doc->GetRoot ()->GetNode (getRootName());
 
-      if (!effectsXML.IsValid())
+      if (!xml.IsValid())
         return false;
 
-      csRef<iDocumentNodeIterator> it (effectsXML->GetNodes (getElementName()));
+      csRef<iDocumentNodeIterator> it (xml->GetNodes (getElementName()));
 
       while (it->HasNext())
       {

@@ -53,7 +53,7 @@ namespace PT
        * directory path.
        * @param path Path to the data directory.
        */
-      DoorDataManager();
+      DoorDataManager(PointerLibrary* ptrlib);
       ~DoorDataManager();
 
       /**

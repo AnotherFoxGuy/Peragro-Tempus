@@ -53,7 +53,7 @@ namespace PT
        * directory path.
        * @param path Path to the data directory.
        */
-      ItemDataManager();
+      ItemDataManager(PointerLibrary* ptrlib);
       ~ItemDataManager();
 
       /**
@@ -72,10 +72,10 @@ namespace PT
       /// Implements the DataManager superclass
       bool parseElement(iDocumentNode* node);
 
-      /// Root Node of the xml: &lt;doors&gt;
+      /// Root Node of the xml: &lt;items&gt;
       const char* getRootName() { return "items"; }
 
-      /// Element Node of the xml: &lt;door&gt;
+      /// Element Node of the xml: &lt;item&gt;
       const char* getElementName() { return "item"; }
     };
   } // Data namespace

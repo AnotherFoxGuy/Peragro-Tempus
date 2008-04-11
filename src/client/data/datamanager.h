@@ -26,20 +26,22 @@
 #include <iutil/objreg.h>
 #include <iutil/vfs.h>
 
+class PointerLibrary;
+
 namespace PT
 {
   namespace Data
   {
     class DataManager
     {
-    private:
-      iObjectRegistry* oreg;
+    protected:
+      iObjectRegistry* obj_reg;
       csRef<iVFS> vfs;
 
     protected:
       std::string file;
 
-      DataManager();
+      DataManager(PointerLibrary* ptrlib);
       virtual ~DataManager();
 
       virtual bool parseElement(iDocumentNode* node) = 0;

@@ -52,7 +52,7 @@ namespace PT
        * directory path.
        * @param path Path to the data directory.
        */
-      NpcDataManager();
+      NpcDataManager(PointerLibrary* ptrlib);
       ~NpcDataManager();
 
       /**
