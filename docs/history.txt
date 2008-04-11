@@ -10,6 +10,8 @@ under each day.
  - Sueastside converted the few data managers that didn't inheret from
    DataManager yet.
  - Sueastside more work on NetworkMove component.
+ - swedishcoder fixed a Jamfile to prevent unresolved symbol when running
+   client.
 
 10-Apr-2008
  - Sueastside made ComponentFactory, a class that's implemented as a plugin
