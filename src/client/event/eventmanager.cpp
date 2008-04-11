@@ -40,7 +40,7 @@ namespace PT
 
     EventManager::Listener::~Listener()
     {
-      evmgr->eventQueue->RemoveListener(this);
+      evmgr->pointerlib->getReporter()->Report(PT::Debug, "Listener: ~Listener()");
     }
 
     bool EventManager::Listener::HandleEvent(iEvent& ev)
@@ -50,7 +50,7 @@ namespace PT
       else
       {
         evmgr->pointerlib->getReporter()->Report(PT::Error, "Listener: handler invalid! (%s)", evmgr->Retrieve(eventId));
-        this->DecRef();
+        evmgr->RemoveListener(this);
         return false;
       }
     }
@@ -63,6 +63,8 @@ namespace PT
 
     EventManager::~EventManager()
     {
+      if (eventQueue)
+        eventQueue->RemoveListener(this);
     }
 
     bool EventManager::Initialize(PointerLibrary* pl)
@@ -117,6 +119,12 @@ namespace PT
       AddListener(Retrieve(eventId.c_str()), handler);
     }
 
+    void EventManager::RemoveListener (Listener* handler)
+    {
+      eventQueue->RemoveListener(handler);
+      listeners.Delete(handler);
+    }
+
     void EventManager::RemoveListener (EventHandlerCallback* handler)
     {
       // Remove our listener.
@@ -124,6 +132,7 @@ namespace PT
       {
         if (listeners.Get(i)->handler == handler)
         {
+          eventQueue->RemoveListener(listeners.Get(i));
           listeners.DeleteIndex(i);
           // Don't return, remove _all_ occurences of our handler.
         }
@@ -138,6 +147,7 @@ namespace PT
         if (   (listeners.Get(i)->handler == handler)
             && (listeners.Get(i)->eventId == eventId))
         {
+          eventQueue->RemoveListener(listeners.Get(i));
           listeners.DeleteIndex(i);
           return;
         }

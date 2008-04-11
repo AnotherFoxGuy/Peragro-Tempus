@@ -44,8 +44,6 @@ namespace PT
     {
       this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
-      movementManager = new MovementManager(obj_reg);
-
       engine =  csQueryRegistry<iEngine> (obj_reg);
 
       vfs =  csQueryRegistry<iVFS> (obj_reg);
@@ -61,15 +59,12 @@ namespace PT
 
     EntityManager::~EntityManager ()
     {
-      delete movementManager;
     }
 
     bool EntityManager::Initialize ()
     {
       world_loaded = false;
       playerId = 0;
-
-      movementManager->Initialize();
 
       // Create a default sector for entities to be added in.
       defaultSector = engine->CreateSector("Default_Sector");
@@ -174,8 +169,6 @@ namespace PT
 
     void EntityManager::Handle ()
     {
-      movementManager->Handle();
-
       ProcessEvents();
 
       ProcessLostEntities();
@@ -269,7 +262,6 @@ namespace PT
         if (entities[i]->GetId() == id)
         {
           Report(PT::Notify, "Removing Entity '%s(%d)'.", entities[i]->GetName().c_str(), id);
-          movementManager->RemoveMoveTos(id);
           entities[i]->Reset();
           pl->RemoveEntity(entities[i]->GetCelEntity());
           entities.DeleteIndex(i);

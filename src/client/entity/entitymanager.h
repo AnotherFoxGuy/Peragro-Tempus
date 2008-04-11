@@ -47,7 +47,6 @@
 #include "client/event/stateevent.h"
 #include "client/event/inputevent.h"
 
-#include "client/entity/movementmanager.h"
 
 class Effect;
 
@@ -72,7 +71,6 @@ namespace PT
       csRef<iObjectRegistry> obj_reg;
 
       Client* client;
-      MovementManager* movementManager;
 
     private:
       csRefArray<iEvent> events;

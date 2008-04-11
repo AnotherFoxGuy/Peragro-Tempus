@@ -21,6 +21,7 @@
 
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>
+#include <csgeom/vector3.h>
 #include <csutil/csstring.h>
 #include <csutil/refarr.h>
 #include "include/client/component/entity/move/networkmove.h"
@@ -48,6 +49,18 @@ DECLARE_COMPONENTFACTORY (NetworkMove)
 class ComponentNetworkMove : public scfImplementationExt1<ComponentNetworkMove, ComponentCommon, iNetworkMove>
 {
 private:
+  struct MoveToData
+    {
+      csVector3 destination;
+      bool walking;
+      float dest_angle;
+      float walk_speed;
+      float turn_speed;
+      float elapsed_time;
+      float walk_duration;
+    };
+
+private:
   iObjectRegistry* object_reg;
   PointerLibrary* pointerlib;
 
@@ -63,6 +76,20 @@ private:
    * @param movement Movement data for the entity.
    */
   bool Move(iEvent& ev);
+
+  /**
+   * Move entity from point A to point B, in linear manner.
+   * @param moveTo Movement data for the entity.
+   * @return True if the movement has been done, false otherwise.
+   * @internal The reason we use non-const pointer (and not a const
+   * reference) is that moveTo data needs to be changed inside this method.
+   */
+  bool MoveTo(iEvent& ev);
+
+  MoveToData* moveTo;
+  csRef<PT::Events::EventHandlerCallback> cbMoveToUpdate;
+  bool MoveToUpdate(iEvent& ev);
+  bool RemoveMoveToUpdate();
 
   bool Teleport(iEvent& ev);
 

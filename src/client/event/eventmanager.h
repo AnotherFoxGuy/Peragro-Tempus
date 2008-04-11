@@ -68,6 +68,8 @@ namespace PT
       };
       friend struct Listener;
 
+      void RemoveListener (Listener* handler);
+
       PointerLibrary* pointerlib;
 
       Mutex mutex;

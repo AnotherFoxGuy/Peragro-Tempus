@@ -41,6 +41,7 @@ IMPLEMENT_COMPONENTFACTORY (NetworkMove, "peragro.entity.move.networkmove")
 ComponentNetworkMove::ComponentNetworkMove(iObjectRegistry* object_reg) :
 	scfImplementationType (this, object_reg)
 {
+  moveTo = 0;
 }
 
 ComponentNetworkMove::~ComponentNetworkMove()
@@ -74,6 +75,12 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* e
   cbDRUpdate.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::DrUpdate, this));
   evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.drupdate", entity->GetId()), cbDRUpdate);
   eventHandlers.Push(cbDRUpdate);
+
+  // Register listener for moveto.
+  csRef<EventHandlerCallback> cbMoveTo;
+  cbMoveTo.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::MoveTo, this));
+  evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.moveto", entity->GetId()), cbMoveTo);
+  eventHandlers.Push(cbMoveTo);
 
   // Register listener for InterfaceOptionsEvent.
   csRef<EventHandlerCallback> cbUpdate;
@@ -225,3 +232,153 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
 
   return false;
 } // end DrUpdateEntity()
+
+bool ComponentNetworkMove::MoveTo(iEvent& ev)
+{
+  using namespace PT::Events;
+
+  csRef<iCelEntity> celEntity = entity->GetCelEntity();
+  if(!celEntity.IsValid()) return false; 
+
+  if (moveTo) delete moveTo;
+  moveTo = new MoveToData();
+
+  csVector3 pos_ori = EntityHelper::GetVector3(&ev, "origin");
+  csVector3 pos_dst = EntityHelper::GetVector3(&ev, "destination");
+
+  float speed = 0.0f;
+  ev.Retrieve("speed", speed);
+
+  // Getting the real world position of our entity.
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+  float cur_yrot;
+  csVector3 cur_position;
+  iSector* cur_sector;
+  pclinmove->GetLastFullPosition(cur_position, cur_yrot, cur_sector);
+
+  cur_position.y = pos_dst.y;
+  csVector3 direction = pos_dst - cur_position;
+  float yrot_dst = atan2 (-direction.x, -direction.z);
+
+  moveTo->destination = pos_dst;
+  moveTo->turn_speed = 2*PI; // 1 revolution per second
+  moveTo->walk_speed = speed;
+  moveTo->dest_angle = yrot_dst;
+  moveTo->walk_duration = (pos_dst - cur_position).Norm() / moveTo->walk_speed;
+  moveTo->elapsed_time = 0;
+  moveTo->walking = false;
+
+  using namespace PT::Events;
+  EventManager* evmgr = pointerlib->getEventManager();
+
+  // Register listener for frame.
+  if (!cbMoveToUpdate.IsValid())
+    cbMoveToUpdate.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::MoveToUpdate, this));
+  evmgr->AddListener("crystalspace.frame", cbMoveToUpdate);
+
+  return true;
+} // end MoveTo()
+
+bool ComponentNetworkMove::MoveToUpdate(iEvent& ev)
+{
+  csRef<iCelEntity> celEntity = entity->GetCelEntity();
+  if(!celEntity.IsValid()) 
+  { 
+    RemoveMoveToUpdate(); 
+    return false;
+  }
+
+  csRef<iObjectRegistry> obj_reg = pointerlib->getObjectRegistry();
+  csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+
+  csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (obj_reg);
+  csTicks ticks = vc->GetElapsedTicks ();
+
+  if (!ticks) 
+  { 
+    RemoveMoveToUpdate();
+    return false;
+  }
+
+  float elapsed = ticks/1000.0;
+
+  csRef<iPcLinearMovement> pclinmove =
+    CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+  csRef<iPcActorMove> pcactormove =
+    CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
+
+  if (pclinmove.IsValid() && pcactormove.IsValid())
+  {
+    csVector3 angular_vel;
+
+    pclinmove->GetAngularVelocity(angular_vel);
+    pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
+
+    if (moveTo->elapsed_time == 0 && !moveTo->walking)
+    {
+      // \todo: this is still buggy. fix it!
+      //pcactormove->SetRotationSpeed(moveTo->turn_speed);
+      //pcactormove->RotateTo(moveTo->dest_angle);
+
+      // Workaround:
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      if (pcmesh.IsValid() && pcmesh->GetMesh ())
+      {
+        csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (moveTo->dest_angle);
+        pcmesh->GetMesh ()->GetMovable ()->GetTransform ().SetO2T (matrix);
+        pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+      }
+
+    }
+    else if (angular_vel.IsZero() && !moveTo->walking)
+    {
+      pcactormove->SetMovementSpeed(moveTo->walk_speed);
+      pcactormove->Forward(true);
+      moveTo->walking = true;
+      moveTo->elapsed_time = 0;
+    }
+    else if (moveTo->elapsed_time >= moveTo->walk_duration &&
+      moveTo->walking)
+    {
+      pcactormove->Forward(false);
+    }
+
+    if (moveTo->walking)
+    {
+      // Update current position.
+      entity->SetPosition(pclinmove->GetFullPosition());
+      entity->SetRotation(pclinmove->GetYRotation());
+
+      if (moveTo->elapsed_time >= moveTo->walk_duration)
+      {
+        // Arrived at destination. Return true for deletion.
+        pcactormove->Forward(false);
+
+        entity->SetPosition(moveTo->destination);
+        entity->SetRotation(moveTo->dest_angle);
+
+        RemoveMoveToUpdate();
+        return false;
+      }
+    }
+
+    moveTo->elapsed_time += elapsed;
+
+    return false;
+  }
+
+  RemoveMoveToUpdate();
+
+  return false;
+  
+} // end MoveToUpdate()
+
+bool ComponentNetworkMove::RemoveMoveToUpdate()
+{
+  using namespace PT::Events;
+
+  EventManager* evmgr = pointerlib->getEventManager();
+  evmgr->RemoveListener(cbMoveToUpdate);
+
+  return true;
+}

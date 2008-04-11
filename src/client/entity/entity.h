@@ -68,7 +68,6 @@
 
 #include <string>
 
-#include "client/entity/movement.h"
 #include "client/event/event.h"
 #include "client/event/eventmanager.h"
 
@@ -207,15 +206,6 @@ namespace PT
       ///Make entity use some other CEL entity instead of its own.
       ///@todo Should we really be allowed to do this?
       void SetCelEntity (iCelEntity* value) { celEntity = value; }
-
-      /**
-       * Move entity from point A to point B, in linear manner.
-       * @param moveTo Movement data for the entity.
-       * @return True if the movement has been done, false otherwise.
-       * @internal The reason we use non-const pointer (and not a const
-       * reference) is that moveTo data needs to be changed inside this method.
-       */
-      virtual bool MoveTo(MoveToData* moveTo) {return true;}
 
       /**
        * Changes the entity position and sector immediatelly.
