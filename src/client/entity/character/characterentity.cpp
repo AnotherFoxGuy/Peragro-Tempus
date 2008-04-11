@@ -70,6 +70,7 @@ namespace PT
       if (plugin_mgr == 0)
         Report(PT::Error, "plugin_mgr!");
 
+      // @TODO: Move to ComponentManager or something.
       csRef<ComponentFactoryInterface> fact = csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, "peragro.entity.move.networkmove");
       csRef<ComponentInterface> networkMoveInt = fact->CreateComponent("peragro.entity.move.networkmove");
       csRef<iNetworkMove> networkMove = scfQueryInterface<iNetworkMove> (networkMoveInt);
@@ -78,32 +79,6 @@ namespace PT
       else
         Report(PT::Error, "Failed to load the networkMove!");
       components.Push(networkMove);
-    }
-
-    void CharacterEntity::Move(const MovementData& movement)
-    {
-      if(!celEntity.IsValid()) return;
-
-      csRef<iPcActorMove> pcactormove =
-        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
-
-      if (pcactormove.IsValid())
-      {
-        pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
-        pcactormove->SetMovementSpeed(abs((int)movement.walk));
-        pcactormove->SetRunningSpeed(fabsf((int)movement.walk));
-        pcactormove->SetRotationSpeed(PI);
-
-        pcactormove->RotateLeft(movement.turn < 0.0f);
-        pcactormove->RotateRight(movement.turn > 0.0f);
-
-        pcactormove->Forward(movement.walk > 0.0f);
-        pcactormove->Backward(movement.walk < 0.0f);
-
-        if (movement.jump) pcactormove->Jump();
-        else if (abs((int)movement.walk) > 0) pcactormove->Run(movement.run);
-        else pcactormove->Run(false);
-      }
     }
 
     bool CharacterEntity::MoveTo(MoveToData* moveTo)
@@ -186,45 +161,6 @@ namespace PT
       }
 
       return true;
-    }
-
-    void CharacterEntity::DrUpdate(const DrUpdateData& drupdate)
-    {
-      csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-
-      if(!celEntity.IsValid()) return;
-
-      csRef<iPcLinearMovement> pclinmove =
-        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-
-      if (pclinmove.IsValid())
-      {
-        bool onGround = true;
-        float speed = 0, rot = 0, avel = 0;
-        csVector3 pos, vel, wvel;
-
-        if (pclinmove->GetAnchor()->GetMesh()->GetMovable()
-          ->GetSectors()->GetCount() == 0) return; // unloaded region
-
-        iSector* sector = 0;
-        pclinmove->GetDRData(onGround, speed, pos, rot, sector, vel, wvel, avel);
-
-        if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
-
-        sector = engine->FindSector(drupdate.sector.c_str());
-        ///@bug It seems that CEL interface has some issues. The below method,
-        ///SetDRData seems not to take const references/pointers as arguments.
-        csVector3 tempPos = drupdate.pos;
-        float tempRot = drupdate.rot;
-        pclinmove->SetDRData(onGround, speed, tempPos, tempRot, sector, vel,
-          wvel, avel);
-
-        this->SetPosition(drupdate.pos);
-        this->SetRotation(drupdate.rot);
-        this->SetSectorName(drupdate.sector);
-      }
     }
 
     void CharacterEntity::Teleport(const csVector3& pos,

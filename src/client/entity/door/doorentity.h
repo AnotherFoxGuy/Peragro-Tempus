@@ -87,7 +87,12 @@ namespace PT
       ///Set the door's lock status to given value.
       void SetLocked(bool value) { locked = value; }
 
-      void UpdatePcProp(const UpdatePcPropData& update_pcprop);
+      /**
+       * Updates iPcProperties of a CEL entity. See CEL documentation for more
+       * details.
+       */
+      bool UpdatePcProp(iEvent& ev);
+
       void Interact();
 
       ///Resets any transforms that were performed

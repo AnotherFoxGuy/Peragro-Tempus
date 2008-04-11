@@ -108,8 +108,6 @@ namespace PT
 
       void ReInit(const iEvent& ev);
 
-      csRefArray<Events::EventHandlerCallback> eventHandlers;
-
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;
       ///Direction of moving. -1 for backward, 0 for standing still, 1 for

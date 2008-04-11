@@ -23,42 +23,6 @@ namespace PT
 {
   namespace Entity
   {
-    struct EquipData
-    {
-      unsigned int entity_id;
-      unsigned int item_id;
-      unsigned int slot_id;
-    };
-
-    struct MountData
-    {
-      unsigned int entity_id;
-      unsigned int mount_id;
-      unsigned char control;
-    };
-
-    struct UnMountData
-    {
-      unsigned int entity_id;
-      unsigned int mount_id;
-    };
-
-    struct TeleportData
-    {
-      unsigned int entity_id;
-      csVector3 position;
-      std::string sector;
-    };
-
-    struct MovementData
-    {
-      unsigned int entity_id;
-      float walk;
-      float turn;
-      bool run;
-      bool jump;
-    };
-
     struct MoveToData
     {
       csVector3 destination;
@@ -69,21 +33,6 @@ namespace PT
       float turn_speed;
       float elapsed_time;
       float walk_duration;
-    };
-
-    struct UpdatePcPropData
-    {
-      unsigned int entity_id;
-      std::string  pcprop;
-      celData value;
-    };
-
-    struct DrUpdateData
-    {
-      unsigned int entity_id;
-      std::string  sector;
-      csVector3 pos;
-      float rot;
     };
   }
 }

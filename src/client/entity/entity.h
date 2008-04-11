@@ -70,15 +70,12 @@
 
 #include "client/entity/movement.h"
 #include "client/event/event.h"
+#include "client/event/eventmanager.h"
+
+#include "include/client/component/component.h"
 
 namespace PT
 {
-  namespace Events
-  {
-    //Forward declaration. Including "entityevent.h" file
-    //will cause circular dependency.
-    class EntityAddEvent;
-  }
 
   namespace Entity
   {
@@ -122,6 +119,12 @@ namespace PT
       csVector3 pos;
       ///Rotation of the entity.
       float rot;
+
+      /// List of components this entity has.
+      csRefArray<iBase> components;
+
+      /// List of listeners this entity has.
+      csRefArray<Events::EventHandlerCallback> eventHandlers;
 
       /**
        * This is a convenience constructor possibly needed for children classes.
@@ -206,12 +209,6 @@ namespace PT
       void SetCelEntity (iCelEntity* value) { celEntity = value; }
 
       /**
-       * Change entity's 'linear' movement information (changing turning and
-       * speed of an entity, or jumping status).
-       * @param movement Movement data for the entity.
-       */
-      virtual void Move(const MovementData& movement) {}
-      /**
        * Move entity from point A to point B, in linear manner.
        * @param moveTo Movement data for the entity.
        * @return True if the movement has been done, false otherwise.
@@ -219,12 +216,6 @@ namespace PT
        * reference) is that moveTo data needs to be changed inside this method.
        */
       virtual bool MoveTo(MoveToData* moveTo) {return true;}
-      /**
-       * Move entity using 'dead reckoning' method.
-       * @see http://en.wikipedia.org/wiki/Dead_reckoning
-       * @param drupdate Dead reckoning movement data.
-       */
-      virtual void DrUpdate(const DrUpdateData& drupdate) {}
 
       /**
        * Changes the entity position and sector immediatelly.
@@ -232,13 +223,6 @@ namespace PT
        * @param sector New sector where the entity should reside.
        */
       virtual void Teleport(const csVector3& pos, float rotation, const std::string& sector) {}
-
-      /**
-       * Updates iPcProperties of a CEL entity. See CEL documentation for more
-       * details.
-       * @param updatePcProp Information about property to be changed.
-       */
-      virtual void UpdatePcProp(const UpdatePcPropData& updatePcProp) {}
 
       /**
        * Method called when player wants to interact with an entity.

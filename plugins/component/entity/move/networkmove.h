@@ -57,7 +57,21 @@ private:
   bool local_movement;
   bool UpdateOptions(iEvent& ev);
 
+  /**
+   * Change entity's 'linear' movement information (changing turning and
+   * speed of an entity, or jumping status).
+   * @param movement Movement data for the entity.
+   */
   bool Move(iEvent& ev);
+
+  bool Teleport(iEvent& ev);
+
+  /**
+   * Move entity using 'dead reckoning' method.
+   * @see http://en.wikipedia.org/wiki/Dead_reckoning
+   * @param drupdate Dead reckoning movement data.
+   */
+  bool DrUpdate(iEvent& ev);
 
 public:
     ComponentNetworkMove (iObjectRegistry*);

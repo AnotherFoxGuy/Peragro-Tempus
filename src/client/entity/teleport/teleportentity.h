@@ -47,7 +47,7 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the teleport properties.
        */
-      TeleportEntity(const Events::EntityAddEvent& ev);
+      TeleportEntity(const iEvent& ev);
 
       void Interact();
 

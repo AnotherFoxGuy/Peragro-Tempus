@@ -9,6 +9,7 @@ under each day.
  - vornne rewrote the view bobbing effect.
  - Sueastside converted the few data managers that didn't inheret from
    DataManager yet.
+ - Sueastside more work on NetworkMove component.
 
 10-Apr-2008
  - Sueastside made ComponentFactory, a class that's implemented as a plugin

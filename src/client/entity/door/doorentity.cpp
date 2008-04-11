@@ -37,6 +37,15 @@ namespace PT
       ev.Retrieve("typeId", doorId);
       animationName = PT::Events::EntityHelper::GetString(&ev, "animationName");
       Create();
+
+      ///@TODO: Move this to a component?
+      using namespace PT::Events;
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      // Register listener for InterfaceOptionsEvent.
+      csRef<EventHandlerCallback> cb;
+      cb.AttachNew(new EventHandler<DoorEntity>(&DoorEntity::UpdatePcProp, this));
+      evmgr->AddListener("entity.pcpropupdate", cb);
+      eventHandlers.Push(cb);
     }
 
     DoorEntity::~DoorEntity()
@@ -88,37 +97,49 @@ namespace PT
       pcquest->GetQuest()->SwitchState("closed");
     }
 
-    void DoorEntity::UpdatePcProp(const UpdatePcPropData& update_pcprop)
+    bool DoorEntity::UpdatePcProp(iEvent& ev)
     {
+      using namespace PT::Events;
+
+      unsigned int entityId = EntityHelper::GetEntityID(&ev);
+
+      const char* prop = 0;
+      ev.Retrieve("pcprop", prop);
+
+      bool data = false;
+      ev.Retrieve("pcprop", data);
+      celData celdata;
+      celdata.Set(data);
+
       csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,
         iPcProperties);
 
-      switch(update_pcprop.value.type)
+      switch(celdata.type)
       {
       case CEL_DATA_BOOL:
-        pcprop->SetProperty(update_pcprop.pcprop.c_str(), update_pcprop.value.value.bo);
+        pcprop->SetProperty(prop, celdata.value.bo);
         break;
       case CEL_DATA_LONG:
-        pcprop->SetProperty(update_pcprop.pcprop.c_str(),
-          (long) update_pcprop.value.value.l);
+        pcprop->SetProperty(prop, (long) celdata.value.l);
         break;
       case CEL_DATA_STRING:
-        pcprop->SetProperty(update_pcprop.pcprop.c_str(), update_pcprop.value.value.s);
+        pcprop->SetProperty(prop, celdata.value.s);
         break;
       default:
         Report(PT::Error, "celData type not supported by updatePcProp!");
       }
 
-      if (update_pcprop.value.type == CEL_DATA_BOOL)
+      if (celdata.type == CEL_DATA_BOOL)
       {
-        csString state = update_pcprop.pcprop.c_str();
+        csString state = prop;
         if (state.CompareNoCase("Door Open"))
-          this->SetOpen(update_pcprop.value.value.bo);
+          this->SetOpen(celdata.value.bo);
 
         if (state.CompareNoCase("Door Locked"))
-          this->SetLocked(update_pcprop.value.value.bo);
+          this->SetLocked(celdata.value.bo);
       }
-    }
+      return false;
+    } //end UpdatePcProp()
 
     void DoorEntity::Interact()
     {

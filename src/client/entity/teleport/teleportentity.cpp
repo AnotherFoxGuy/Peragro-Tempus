@@ -32,7 +32,7 @@ namespace PT
 {
   namespace Entity
   {
-    TeleportEntity::TeleportEntity(const Events::EntityAddEvent& ev)
+    TeleportEntity::TeleportEntity(const iEvent& ev)
     {
       Create();
     }

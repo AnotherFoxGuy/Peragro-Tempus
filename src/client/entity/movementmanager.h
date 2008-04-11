@@ -83,11 +83,7 @@ namespace PT
       bool Initialize ();
       void Handle();
 
-      bool MoveEntity(iEvent& ev);
       bool MoveToEntity(iEvent& ev);
-      bool TeleportEntity(iEvent& ev);
-      bool DrUpdateEntity(iEvent& ev);
-      bool UpdatePcProp(iEvent& ev);
     };
 
   } // Entity namespace

@@ -52,12 +52,6 @@ namespace PT
 
       // Register listener for EntityMoveToEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.moveto", cb);
-      // Register listener for EntityTeleportEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.teleport", cb);
-      // Register listener for EntityDrUpdateEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.drupdate", cb);
-      // Register listener for EntityPcPropUpdateEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pcpropupdate", cb);
 
       vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
       if (!vfs)
@@ -77,12 +71,6 @@ namespace PT
         PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
         if (evmgr->IsKindOf(ev->GetName(), "entity.moveto"))
           MoveToEntity(*ev);
-        else if (evmgr->IsKindOf(ev->GetName(), "entity.teleport"))
-          TeleportEntity(*ev);
-        else if (evmgr->IsKindOf(ev->GetName(), "entity.drupdate"))
-          DrUpdateEntity(*ev);
-        else if (evmgr->IsKindOf(ev->GetName(), "entity.pcpropupdate"))
-          UpdatePcProp(*ev);
 
         events.DeleteIndex(0);
       } // for
@@ -207,105 +195,6 @@ namespace PT
         }
       }
     }
-
-    bool MovementManager::TeleportEntity(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      unsigned int entityId = EntityHelper::GetEntityID(&ev);
-      unsigned int sectorId = EntityHelper::GetSectorId(&ev);
-      csVector3 pos = EntityHelper::GetPosition(&ev);
-
-      float rotation = 0.0f;
-      ev.Retrieve("rotation", rotation);
-
-      PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
-      PT::Data::Sector* dataSector = sectorDataMgr->GetSectorById(sectorId);
-      std::string sectorName = "Default_Sector";
-      if (dataSector)
-        sectorName = dataSector->GetName();
-
-      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
-      if (!entity)
-      {
-        Report(PT::Error, "MovementManager: Couldn't find entity with ID %d!", entityId);
-        return true;
-      }
-
-      Report(PT::Debug, "MovementManager: Teleporting entity '%d' to %s(%d)", entityId, sectorName.c_str(), sectorId);
-
-      entity->Teleport(pos, rotation, sectorName.c_str());
-
-      return true;
-    }
-
-    bool MovementManager::DrUpdateEntity(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      unsigned int entityId = EntityHelper::GetEntityID(&ev);
-      unsigned int sectorId = EntityHelper::GetSectorId(&ev);
-      csVector3 position = EntityHelper::GetPosition(&ev);
-
-      float rotation = 0.0f;
-      ev.Retrieve("rotation", rotation);
-
-      unsigned int self = PointerLibrary::getInstance()->getEntityManager()->GetPlayerId();
-
-      if (entityId == self) return true;
-
-      PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
-      std::string sectorName = sectorDataMgr->GetSectorById(sectorId)->GetName();
-
-      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
-      if (!entity)
-      {
-        Report(PT::Error, "DrUpdateEntity: Couldn't find entity with ID %d!", entityId);
-        return true;
-      }
-
-      DrUpdateData drupdate;
-      drupdate.entity_id = entityId;
-      drupdate.pos = position;
-      drupdate.rot = rotation;
-      drupdate.sector = sectorName.c_str();
-
-      entity->DrUpdate(drupdate);
-
-      return true;
-    }
-
-    bool MovementManager::UpdatePcProp(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      unsigned int entityId = EntityHelper::GetEntityID(&ev);
-
-      const char* prop = 0;
-      ev.Retrieve("pcprop", prop);
-
-      bool data = false;
-      ev.Retrieve("pcprop", data);
-      celData celdata;
-      celdata.Set(data);
-
-      Entity* entity = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entityId);
-      if (!entity)
-      {
-        Report(PT::Error, "UpdatePcProp: Couldn't find entity with ID %d!\n", entityId);
-        return true;
-      }
-
-      UpdatePcPropData updatePcprop;
-      updatePcprop.entity_id = entityId;
-      updatePcprop.pcprop = prop;
-      updatePcprop.value = celdata;
-
-      entity->UpdatePcProp(updatePcprop);
-
-      return true;
-    }
-
 
   } // Entity namespace
 } // PT namespace

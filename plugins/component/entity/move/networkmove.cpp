@@ -27,6 +27,10 @@
 
 //#include "client/entity/entitymanager.h"
 #include "client/entity/entity.h"
+#include "client/entity/player/playerentity.h"
+
+#include "client/data/sectordatamanager.h"
+#include "client/data/sector.h"
 
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
@@ -41,7 +45,6 @@ ComponentNetworkMove::ComponentNetworkMove(iObjectRegistry* object_reg) :
 
 ComponentNetworkMove::~ComponentNetworkMove()
 {
-  pointerlib->getReporter()->Report(PT::Error, "WOOT ~NetworkMove() %d!", entity->GetId());
 }
 
 bool ComponentNetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
@@ -54,11 +57,23 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* e
 
   EventManager* evmgr = pointerlib->getEventManager();
 
-  // Register listener for ActionForward.
+  // Register listener for move.
   csRef<EventHandlerCallback> cbMove;
   cbMove.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::Move, this));
   evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()), cbMove);
   eventHandlers.Push(cbMove);
+
+  // Register listener for teleport.
+  csRef<EventHandlerCallback> cbTeleport;
+  cbTeleport.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::Teleport, this));
+  evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.teleport", entity->GetId()), cbTeleport);
+  eventHandlers.Push(cbTeleport);
+
+  // Register listener for drupdate.
+  csRef<EventHandlerCallback> cbDRUpdate;
+  cbDRUpdate.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::DrUpdate, this));
+  evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.drupdate", entity->GetId()), cbDRUpdate);
+  eventHandlers.Push(cbDRUpdate);
 
   // Register listener for InterfaceOptionsEvent.
   csRef<EventHandlerCallback> cbUpdate;
@@ -69,23 +84,19 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* e
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
   local_movement = app_cfg->GetBool("Client.local_movement", false);
 
-  pointerlib->getReporter()->Report(PT::Error, "WOOT Initialize() %d!", entity->GetId());
-
   return true;
-}
+} // end Initialize()
 
 bool ComponentNetworkMove::UpdateOptions(iEvent& ev)
 {
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
   local_movement = app_cfg->GetBool("Client.local_movement", false);
   return true;
-}
+} // end UpdateOptions()
 
 bool ComponentNetworkMove::Move(iEvent& ev)
 {
   using namespace PT::Events;
-
-  pointerlib->getReporter()->Report(PT::Error, "WOOT Move() %d!", entity->GetId());
 
   unsigned int id = entity->GetId();
 
@@ -109,9 +120,11 @@ bool ComponentNetworkMove::Move(iEvent& ev)
     return false;
   }
 
-  //if (!local && local_movement && pointerlib->getEntityManager()->GetPlayerId() == id){ return false; }
+  // If it's the player and local movement, do nothing.
+  PT::Entity::PlayerEntity* player = static_cast<PT::Entity::PlayerEntity*>(entity);
+  if (!local && local_movement && player){ return false; }
 
-  csWeakRef<iCelEntity> celEntity = entity->GetCelEntity();
+  csRef<iCelEntity> celEntity = entity->GetCelEntity();
   if(!celEntity.IsValid()) return false;
 
   csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
@@ -134,4 +147,81 @@ bool ComponentNetworkMove::Move(iEvent& ev)
   }
 
   return false;
-}
+} // end Move()
+
+bool ComponentNetworkMove::Teleport(iEvent& ev)
+{
+  using namespace PT::Events;
+
+  unsigned int entityId = EntityHelper::GetEntityID(&ev);
+  unsigned int sectorId = EntityHelper::GetSectorId(&ev);
+  csVector3 pos = EntityHelper::GetPosition(&ev);
+
+  float rotation = 0.0f;
+  ev.Retrieve("rotation", rotation);
+
+  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->getSectorDataManager();
+  PT::Data::Sector* dataSector = sectorDataMgr->GetSectorById(sectorId);
+  std::string sectorName = "Default_Sector";
+  if (dataSector)
+    sectorName = dataSector->GetName();
+
+  pointerlib->getReporter()->Report(PT::Debug, "MovementManager: Teleporting entity '%d' to %s(%d)", entityId, sectorName.c_str(), sectorId);
+
+  entity->Teleport(pos, rotation, sectorName.c_str());
+
+  return true;
+} // end Teleport()
+
+bool ComponentNetworkMove::DrUpdate(iEvent& ev)
+{
+  using namespace PT::Events;
+
+  // If it's the player, do nothing.
+  PT::Entity::PlayerEntity* player = static_cast<PT::Entity::PlayerEntity*>(entity);
+  if (player) return false;
+
+  unsigned int entityId = EntityHelper::GetEntityID(&ev);
+  unsigned int sectorId = EntityHelper::GetSectorId(&ev);
+  csVector3 position = EntityHelper::GetPosition(&ev);
+
+  float rotation = 0.0f;
+  ev.Retrieve("rotation", rotation);
+
+  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->getSectorDataManager();
+  std::string sectorName = sectorDataMgr->GetSectorById(sectorId)->GetName();
+
+  csRef<iObjectRegistry> obj_reg = pointerlib->getObjectRegistry();
+  csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+
+  csRef<iCelEntity> celEntity = entity->GetCelEntity();
+  if(!celEntity.IsValid()) return false; 
+
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+  if (pclinmove.IsValid())
+  {
+    bool onGround = true;
+    float speed = 0, rot = 0, avel = 0;
+    csVector3 pos, vel, wvel;
+
+    if (pclinmove->GetAnchor()->GetMesh()->GetMovable()
+      ->GetSectors()->GetCount() == 0) return false; // unloaded region
+
+    iSector* sector = 0;
+    pclinmove->GetDRData(onGround, speed, pos, rot, sector, vel, wvel, avel);
+
+    if (vel.Norm() > 0 || avel > 0) return false; // Don't update while moving!
+
+    sector = engine->FindSector(sectorName.c_str());
+    ///@bug It seems that CEL interface has some issues. The below method,
+    ///SetDRData seems not to take const references/pointers as arguments.
+    csVector3 tempPos = position;
+    float tempRot = rotation;
+    pclinmove->SetDRData(onGround, speed, tempPos, tempRot, sector, vel,
+      wvel, avel);
+
+    entity->SetFullPosition(position, rotation, sectorName);
+  }
+
+  return false;
+} // end DrUpdateEntity()

@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef EVENT_HANDLER_H
-#define EVENT_HANDLER_H
+#ifndef EVENT_HANDLER_CALLBACK_H
+#define EVENT_HANDLER_CALLBACK_H
 
 #include <cssysdef.h>
 #include <csutil/scf_implementation.h>
@@ -65,4 +65,4 @@ namespace PT
   } // Events namespace
 } // PT namespace
 
-#endif // EVENT_HANDLER_H
+#endif // EVENT_HANDLER_CALLBACK_H

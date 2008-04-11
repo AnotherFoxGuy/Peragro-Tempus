@@ -162,8 +162,10 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
   DrUpdateMessage dr_msg;
   dr_msg.deserialise(msg->getByteStream());
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.drupdate", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.drupdate", dr_msg.getEntityId()), true);
 
   entityEvent->Add("entityId", dr_msg.getEntityId());
   PT::Events::EntityHelper::SetPosition(entityEvent, dr_msg.getPos());
@@ -179,11 +181,13 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
   MoveToMessage move_msg;
   move_msg.deserialise(msg->getByteStream());
 
+  using namespace PT::Events;
+
   float* fv1 = move_msg.getFrom();
   float* fv2 = move_msg.getTo();
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.moveto", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.moveto", move_msg.getEntityId()), true);
 
   entityEvent->Add("entityId", move_msg.getEntityId());
   PT::Events::EntityHelper::SetVector3(entityEvent, "origin", fv1);
@@ -198,8 +202,10 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   EquipMessage equip_msg;
   equip_msg.deserialise(msg->getByteStream());
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.equip", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.equip", equip_msg.getEntityId()), true);
 
   entityEvent->Add("entityId", equip_msg.getEntityId());
   entityEvent->Add("slotId", equip_msg.getSlotId());
@@ -213,8 +219,10 @@ void EntityHandler::handleTeleportResponse(GenericMessage* msg)
   TeleportResponseMessage telemsg;
   telemsg.deserialise(msg->getByteStream());
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.teleport", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.teleport", telemsg.getEntityId()), true);
 
   entityEvent->Add("entityId", telemsg.getEntityId());
   PT::Events::EntityHelper::SetPosition(entityEvent, telemsg.getPos());
@@ -342,8 +350,10 @@ void EntityHandler::handlePose(GenericMessage* msg)
   PoseMessage poseMsg;
   poseMsg.deserialise(msg->getByteStream());
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> poseEvent = evmgr->CreateEvent("entity.pose", true);
+  csRef<iEvent> poseEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.pose", poseMsg.getEntityId()), true);
 
   poseEvent->Add("entityId", poseMsg.getEntityId());
   poseEvent->Add("poseId", poseMsg.getPoseId());
