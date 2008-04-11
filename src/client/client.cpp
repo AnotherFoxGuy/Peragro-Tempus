@@ -186,10 +186,13 @@ namespace PT
       if (player)
       {
         // Draw the player camera manually.
-        // To get the hopping effect, change the limitFPS attribute in constructor to something sane,
-        // like 50 FPS or so.
-        //TODO: Implement some way of getting the current FPS, and pass that instead of limit.
-        player->CameraDraw(limitFPS);
+        static csTicks lastTicks = vc->GetCurrentTicks();
+        csTicks elapsedTicks = vc->GetCurrentTicks() - lastTicks;
+        player->CameraDraw(elapsedTicks);
+
+        // This is done so that the time accumulates when the elapsed time is
+        // less than 0 ticks, to keep any calculations correct.
+        if (elapsedTicks > 0) lastTicks = vc->GetCurrentTicks();
 
         if (stateManager->GetState() == STATE_PLAY)
         {

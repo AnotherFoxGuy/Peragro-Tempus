@@ -6,6 +6,7 @@ under each day.
 
 11-Apr-2008
  - swedishcoder fixed a Jamfile to make it compile with gcc.
+ - vornne rewrote the view bobbing effect.
 
 10-Apr-2008
  - Sueastside made ComponentFactory, a class that's implemented as a plugin

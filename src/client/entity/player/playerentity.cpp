@@ -41,12 +41,14 @@
 
 #include <csgeom/vector3.h>
 
-//These defines should probably go to configuration file
-#define WALK_OPS 0.2f
+// These defines should probably go to configuration file.
+// PERIOD defines were calculated from the player character animations.
+// OFFSET_RANGE defines were made up.
+#define WALK_PERIOD 499
 #define WALK_OFFSET_RANGE 0.03f
-#define RUN_OPS 0.8f
+#define RUN_PERIOD 416
 #define RUN_OFFSET_RANGE 0.08f
-#define HEAD_HEIGHT 1.6f
+#define HEAD_HEIGHT 1.55f
 
 //#define _MOVEMENT_DEBUG_CHARACTER_
 
@@ -61,8 +63,6 @@ namespace PT
 
     PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
     {
-      Create();
-
       walk = 0;
       turn = 0;
       run = false;
@@ -71,16 +71,19 @@ namespace PT
       //things like this in several places
       ready = true;
       cameraDistance = 3.0f;
-      offsetDirection = 1;
-      offsetPerSecond = WALK_OPS;
-      offsetRange = WALK_OFFSET_RANGE;
-      currentOffset = 0.0f;
+
+      viewBobEffect.base = HEAD_HEIGHT;
+      viewBobEffect.offset = 0.0f;
+      viewBobEffect.period = WALK_PERIOD;
+      viewBobEffect.range = WALK_OFFSET_RANGE;
 
       backwardReverse = false;
       invertYAxis = false;
       minFPS = 20.0f;
       maxFPS = 60.0f;
       minDistance = 50.0f;
+
+      Create();
 
       //Register actions for events
       using namespace PT::Events;
@@ -282,7 +285,7 @@ namespace PT
         camera->SetAutoDraw(false);
         camera->SetMode(iPcDefaultCamera::thirdperson, true);
         camera->SetPitch(-0.18f);
-        csVector3 offset(0.0f, HEAD_HEIGHT, 0.0f);
+        csVector3 offset(0.0f, viewBobEffect.base, 0.0f);
         camera->SetFirstPersonOffset(offset);
       }
       else
@@ -421,16 +424,16 @@ namespace PT
           if (run==false)
           {
             run = true;
-            //Setup values needed for hopping during run
-            offsetRange = RUN_OFFSET_RANGE;
-            offsetPerSecond = RUN_OPS;
+            //Setup values needed for bobbing during run
+            viewBobEffect.range = RUN_OFFSET_RANGE;
+            viewBobEffect.period = RUN_PERIOD;
           }
           else
           {
             run = false;
-            //Setup values needed for hopping during walk
-            offsetRange = WALK_OFFSET_RANGE;
-            offsetPerSecond = WALK_OPS;
+            //Setup values needed for bobbing during walk
+            viewBobEffect.range = WALK_OFFSET_RANGE;
+            viewBobEffect.period = WALK_PERIOD;
           }
         }
       }
@@ -624,31 +627,48 @@ namespace PT
       return cam->GetSector();
     }
 
-    void PlayerEntity::CameraDraw(unsigned int fpsLimit)
+    void PlayerEntity::CameraDraw(csTicks elapsedTicks)
     {
       if (!camera.IsValid()) return;
 
-      ///@todo It would be nice to have the screen move a bit to left and to
-      ///right as well. It would be nice to implement our own camera mode that
-      ///will perform this.
-
-      //If moving in first person view, add the hopping effect
-      if (camera->GetMode() == iPcDefaultCamera::firstperson && walk != 0)
+      if (elapsedTicks > 0)
       {
-        //divide by zero problem
-        if (fpsLimit==0) fpsLimit=1000;
-        //Our offset moves in range [-offsetRange; offsetRange]. When we break
-        //through those values, change the direction of offset change.
-        if (currentOffset >= offsetRange) offsetDirection = -1;
-        else if (currentOffset <= -offsetRange) offsetDirection = 1;
+        bool offsetChanged;
+        if (camera->GetMode() == iPcDefaultCamera::firstperson &&
+            celEntity.IsValid())
+        {
+          // TODO: Make the effect work with mounts.
+          csRef<iPcLinearMovement> pclinmove =
+            CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+          if (pclinmove && !pclinmove->GetVelocity().IsZero() &&
+              pclinmove->IsOnGround())
+          {
+            // In first person mode, moving and on the ground.
+            offsetChanged = viewBobEffect.Move(elapsedTicks);
+            if (!offsetChanged) Report(PT::Error,
+              "Camera offset change too small for bobbing effect, elapsed ticks: %lu",
+              elapsedTicks);
+          }
+          else
+          {
+            // In first person mode, not moving or in the air.
+            offsetChanged = viewBobEffect.Reset(false, elapsedTicks);
+          }
+        }
+        else
+        {
+          // Not in first person mode, reset the height now.
+          offsetChanged = viewBobEffect.Reset(true);
+        }
 
-        //Shift camera up or down, depending on offset direction.
-        currentOffset+=offsetDirection*offsetPerSecond/(float) fpsLimit;
-
-        //Update the camera offset finally
-        csVector3 offset(0.0f, HEAD_HEIGHT+currentOffset, 0.0f);
-        camera->SetFirstPersonOffset(offset);
+        // If offset was changed, shift the camera.
+        if (offsetChanged)
+        {
+          csVector3 offset(0.0f, viewBobEffect.base+viewBobEffect.offset, 0.0f);
+          camera->SetFirstPersonOffset(offset);
+        }
       }
+
       camera->Draw();
     }
 
@@ -768,6 +788,81 @@ namespace PT
 
       return true;
     } // end UpdateOptions()
+
+    bool PlayerEntity::ViewBobEffect::Move(float elapsedTicks)
+    {
+      // 4 parts of the cycle, increases and decreases through + and -.
+      float offsetChange = elapsedTicks / (period/4) * range;
+      if (offsetChange < 0.00001f && offsetChange > -0.00001f) return false;
+
+      if (upwards)
+      {
+        // If the offset is above the range, change the direction.
+        if (offset + offsetChange >= range)
+        {
+          offset = range;
+          upwards = false;
+        }
+        else
+        {
+            offset += offsetChange;
+        }
+      }
+      else
+      {
+        // If the offset is below the range, change the direction.
+        if (offset - offsetChange <= -1.0f * range)
+        {
+          offset = -1.0f * range;
+          upwards = true;
+        }
+        else
+        {
+          offset -= offsetChange;
+        }
+      }
+      return true;
+    } // end ViewBobEffect::Move()
+
+    bool PlayerEntity::ViewBobEffect::Reset(bool hard, float elapsedTicks)
+    {
+      if (offset < 0.00001f && offset > -0.00001f) return false;
+      if (hard)
+      {
+        offset = 0.0f;
+        return true;
+      }
+
+      // 4 parts of the cycle, increases and decreases through + and -.
+      float offsetChange = elapsedTicks / (period/4) * range;
+      // Above the base height, change down toward it.
+      if (offset > 0.0f)
+      {
+        if (offset - offsetChange <= 0.0f)
+        {
+          offset = 0.0f;
+          upwards = true;
+        }
+        else
+        {
+          offset -= offsetChange;
+        }
+      }
+      // Below the base height, change up toward it.
+      else if (offset < 0.0f)
+      {
+        if (offset + offsetChange >= 0.0f)
+        {
+          offset = 0.0f;
+          upwards = true;
+        }
+        else
+        {
+          offset += offsetChange;
+        }
+      }
+      return true;
+    } // end ViewBobEffect::Reset()
 
   } //Entity namespace
 } //PT namespace

@@ -44,6 +44,65 @@ namespace PT
     */
     class PlayerEntity : public PcEntity
     {
+    public:
+      void Interact();
+
+      /**
+       * Returns a pointer to an instance of the class. Initiate the instance
+       * by passing a non-null valid Events::EntityAddEvent pointer.
+       * @param ev Pointer to an EntityAddEvent object. If NULL, existing
+       * instance is returned, otherwise the object is used for initialisation
+       * of the new class instance, while deleting the old instance as needed.
+       * @return 0 if an error occured, or if no instance was created yet.
+       * Otherwise returns a pointer to an instance of the class.
+       */
+      static PlayerEntity* Instance(const iEvent* ev = 0);
+
+      /**
+       * Set whether the client is ready or not.
+       * @param value New value.
+       */
+      void SetReady(bool value) { ready = value; }
+
+      /**
+       * @return Returns the player entity's camera.
+       */
+      iPcDefaultCamera* GetCamera() { return camera; }
+
+      /**
+       * @return Returns the player entity's current sector.
+       */
+      iSector* GetSector();
+
+      /**
+       * Draws player's camera view.
+       * @param elapsedTicks Ticks elapsed since last call.
+       */
+      void CameraDraw(csTicks elapsedTicks);
+
+      /**
+       * Changes the entity position and sector immediatelly
+       * and activates the region for it to load.
+       * @param pos New position of an entity.
+       * @param sector New sector where the entity should reside.
+       */
+      void Teleport(const csVector3& pos, float rotation, const std::string& sector);
+
+      /**
+       * Changes the entity position and sector immediatelly.
+       * This also updates the camera.
+       * @param pos New position of an entity.
+       * @param sector New sector where the entity should reside.
+       */
+      void SetFullPosition(const csVector3& pos,
+                           float rotation,
+                           const std::string& sector);
+
+      /**
+       * Reloads values from the configuration manager
+       */
+      bool UpdateOptions();
+
     private:
       static PlayerEntity* instance;
 
@@ -66,15 +125,36 @@ namespace PT
       bool ready;
       ///Distance between camera and player entity, aka zoom.
       float cameraDistance;
-      ///Current camera offset for hopping while walking and running.
-      float currentOffset;
-      ///Offset per second change for camera offset while walking and running.
-      float offsetPerSecond;
-      ///Offset range for hopping while walking and running.
-      float offsetRange;
-      ///"Direction" in which the camera offset should be changed (ie adding or
-      ///substracting from it) when moving in first person view.
-      int offsetDirection;
+
+      ///Configuration of the bobbing effect while walking and running.
+      struct ViewBobEffect
+      {
+        /**
+         * Change the view height when moving.
+         * @param elapsedTicks The ticks elapsed since last frame.
+         * @return Whether the offset was changed.
+         */
+        bool Move(float elapsedTicks);
+
+        /**
+         * Change the view height to the standard.
+         * @param hard Whether to reset it now or change gradually.
+         * @param elapsedTicks The ticks elapsed since last frame.
+         * @return Whether the offset was changed.
+         */
+        bool Reset(bool hard, float elapsedTicks = 0.0f);
+
+        ///Base height of the view.
+        float base;
+        ///Offset to the height for the bobbing effect.
+        float offset;
+        ///Time period of one cycle of view movement change.
+        float period;
+        ///Camera offset range.
+        float range;
+        ///The direction of camera movement, true is up, false is down.
+        bool upwards;
+      } viewBobEffect;
 
       ///Whether to reverse turning when walking backwards.
       bool backwardReverse;
@@ -144,68 +224,6 @@ namespace PT
 
       ///Helper method for sending new movement information.
       bool PerformMovementAction();
-
-    public:
-      void Interact();
-
-      /**
-       * Returns a pointer to an instance of the class. Initiate the instance
-       * by passing a non-null valid Events::EntityAddEvent pointer.
-       * @param ev Pointer to an EntityAddEvent object. If NULL, existing
-       * instance is returned, otherwise the object is used for initialisation
-       * of the new class instance, while deleting the old instance as needed.
-       * @return 0 if an error occured, or if no instance was created yet.
-       * Otherwise returns a pointer to an instance of the class.
-       */
-      static PlayerEntity* Instance(const iEvent* ev = 0);
-
-      /**
-       * Set whether the client is ready or not.
-       * @param value New value.
-       */
-      void SetReady(bool value) { ready = value; }
-
-      /**
-       * @return Returns the player entity's camera.
-       */
-      iPcDefaultCamera* GetCamera() { return camera; }
-
-      /**
-       * @return Returns the player entity's current sector.
-       */
-      iSector* GetSector();
-
-      /**
-       * Draws player's camera view.
-       * @todo We need a reliable way for determining FPS. The hopping effect
-       * doesn't work for PT::Client::ActionMoveTo()
-       * @param fpsLimit FPS limit used for calculating hopping while walking or
-       * running.
-       */
-      void CameraDraw(unsigned int fpsLimit=1000);
-
-      /**
-       * Changes the entity position and sector immediatelly
-       * and activates the region for it to load.
-       * @param pos New position of an entity.
-       * @param sector New sector where the entity should reside.
-       */
-      void Teleport(const csVector3& pos, float rotation, const std::string& sector);
-
-      /**
-       * Changes the entity position and sector immediatelly.
-       * This also updates the camera.
-       * @param pos New position of an entity.
-       * @param sector New sector where the entity should reside.
-       */
-      void SetFullPosition(const csVector3& pos,
-                           float rotation,
-                           const std::string& sector);
-
-      /**
-       * Reloads values from the configuration manager
-       */
-      bool UpdateOptions();
     };
   } //Entity namespace
 } //PT namespace
