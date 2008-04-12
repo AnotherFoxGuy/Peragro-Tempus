@@ -5,17 +5,17 @@
 		<id>1</id>
 		<name>North Gate</name>
 		<mesh>gate_north_gate</mesh>
-		<position sector="World" x="27.9388713837" y="179.982452393" z="-6.57791852951"/>
-		<keyId>7</keyId>
-		<quest>GateUpward</quest>
-		<default open="false" locked="true" />
- 	</door>
+		<position sector="World" x="282.913" y="4.0" z="397.743" tileX="2" tileY="0"/>
+                <keyId>7</keyId>
+                <quest>GateUpward</quest>
+                <default open="false" locked="true" />
+              </door>
 
-	<door>
-		<id>2</id>
-		<name>Door</name>
-		<mesh>house016_devhouse_house016door</mesh>
-		<position sector="World" x="85.2472610474" y="2.34153294563" z="2.31262850761"/>
+              <door>
+                <id>2</id>
+                <name>Door</name>
+                <mesh>house016_devhouse_house016door</mesh>
+                <position sector="World" x="338.106" y="1.9217" z="267.337" tileX="2" tileY="0"/>
    		<keyId>7</keyId>
    		<quest>HouseDoorOutward</quest>
 		<default open="false" locked="true" />
@@ -25,17 +25,17 @@
 		<id>3</id>
 		<name>Tavern</name>
 		<mesh>tavern01_tavern_door_left</mesh>
-		<position sector="World" x="103.486" y="4.68919" z="15.8964"/>
-		<keyId>7</keyId>
-		<quest>HouseDoorOutward</quest>
-		<default open="true" locked="true" />
-	</door>
-	
-	<door>
-		<id>4</id>
-		<name>Garden Gate</name>
-		<mesh>taverngardengate</mesh>
-		<position sector="World" y="2.8912" x="122.054" z="5.22969" />
+		<position sector="World" x="356.34" y="4.309" z="280.891" tileX="2" tileY="0"/>
+                <keyId>7</keyId>
+                <quest>HouseDoorOutward</quest>
+                <default open="true" locked="true" />
+              </door>
+
+              <door>
+                <id>4</id>
+                <name>Garden Gate</name>
+                <mesh>taverngardengate</mesh>
+                <position sector="World" x="374.908" y="2.511" z="270.224" tileX="2" tileY="0"/>
 		<keyId>7</keyId>
 		<quest>HouseDoorOutward</quest>
 		<default open="false" locked="false" />

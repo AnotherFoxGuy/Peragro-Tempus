@@ -22,6 +22,8 @@
 #include "doordatamanager.h"
 #include "door.h"
 
+#include "client/world/maptile.h"
+
 namespace PT
 {
   namespace Data
@@ -52,10 +54,14 @@ namespace PT
 
       door->SetMeshName(node->GetNode("mesh")->GetContentsValue());
 
+      int offsetX, offsetY;
+      offsetX = node->GetNode("position")->GetAttributeValueAsInt("tileX") * TILESIZE;
+      offsetY = node->GetNode("position")->GetAttributeValueAsInt("tileY") * TILESIZE;
+
       PtVector3 pos;
-      pos.x = node->GetNode("position")->GetAttributeValueAsFloat("x");
+      pos.x = node->GetNode("position")->GetAttributeValueAsFloat("x") + offsetX;
       pos.y = node->GetNode("position")->GetAttributeValueAsFloat("y");
-      pos.z = node->GetNode("position")->GetAttributeValueAsFloat("z");
+      pos.z = node->GetNode("position")->GetAttributeValueAsFloat("z") + offsetY;
       door->SetPosition(pos);
 
       door->SetSectorName(node->GetNode("position")->GetAttributeValue("sector"));
