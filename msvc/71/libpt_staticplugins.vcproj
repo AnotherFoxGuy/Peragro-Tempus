@@ -326,6 +326,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libcomponent_viewbob_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libcsclipboard_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -376,6 +401,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\component\entity\move\viewbob\viewbob.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\plugins_component_entity_move_viewbob_viewbob.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\plugins_component_entity_move_viewbob_viewbob.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\plugins_component_entity_move_viewbob_viewbob.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\plugins_component_entity_move_viewbob_viewbob.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\gui\clipboard\win32\clipboard.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -406,6 +456,9 @@
 			Filter="">
 			<File
 				RelativePath="..\..\plugins\component\entity\move\networkmove.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\component\entity\move\viewbob\viewbob.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\gui\clipboard\win32\clipboard.h">
