@@ -1,5 +1,7 @@
 SubDir TOP plugins component entity move ;
 
+SubInclude TOP plugins component entity move viewbob ;
+
 Description component_networkmove : "networkmove" ;
 Plugin component_networkmove : [ Wildcard *.cpp *.h ] ;
 ExternalLibs component_networkmove : CRYSTAL CEL ;

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- NetworkMove.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.entity.input.playercontrols</name>
+        <implementation>ComponentFPlayerControls</implementation>
+        <description>Perago player entity movement controls</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

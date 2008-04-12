@@ -41,6 +41,8 @@
 
 #include <csgeom/vector3.h>
 
+#include "include/client/component/entity/input/playercontrols.h"
+
 // These defines should probably go to configuration file.
 // PERIOD defines were calculated from the player character animations.
 // OFFSET_RANGE defines were made up.
@@ -186,19 +188,33 @@ namespace PT
       evmgr->AddListener("interface.options", cbUpdateOptions);
       eventHandlers.Push(cbUpdateOptions);
 
-      app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+      iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+
+      app_cfg = csQueryRegistry<iConfigManager> (object_reg);
       if (!app_cfg)
       {
         Report(PT::Error, "Can't find the config manager!");
         return;
       }
 
-      vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+      vfs = csQueryRegistry<iVFS> (object_reg);
       if (!vfs)
       {
         Report(PT::Error, "Can't find the vfs!");
         return;
       }
+
+      csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
+
+      // @TODO: Move to ComponentManager or something.
+      csRef<ComponentFactoryInterface> fact = csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, "peragro.entity.input.playercontrols");
+      csRef<ComponentInterface> playerControlsInt = fact->CreateComponent("peragro.entity.input.playercontrols");
+      csRef<iPlayerControls> playerControls = scfQueryInterface<iPlayerControls> (playerControlsInt);
+      if(playerControls.IsValid())
+        playerControls->Initialize(PointerLibrary::getInstance(), this);
+      else
+        Report(PT::Error, "Failed to load the playerControls!");
+      components.Push(playerControls);
 
       UpdateOptions();
     }

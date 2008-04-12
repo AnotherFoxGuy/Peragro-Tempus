@@ -6,6 +6,7 @@ under each day.
 
 12-Apr-2008
  - Rakhun fixed local movement.
+ - Sueastside started implementation of PlayerControls and ViewBob components.
 
 11-Apr-2008
  - swedishcoder fixed a Jamfile to make it compile with gcc.
