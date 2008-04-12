@@ -48,17 +48,9 @@ namespace PT
       ///The transformation this mesh had when it was created.
       csReversibleTransform trans;
 
+      bool TileLoaded(iEvent& ev);
+
       void Create();
-
-      struct SectorCallBack : public scfImplementation1<SectorCallBack, iEngineSectorCallback>
-      {
-        DoorEntity* entity;
-        SectorCallBack (DoorEntity* ent) : scfImplementationType (this) { entity = ent;}
-        virtual void NewSector (iEngine* engine, iSector* sector);
-        virtual void RemoveSector (iEngine* engine, iSector* sector) {}
-      };
-
-      csRef<SectorCallBack> cb;
 
     public:
       /**

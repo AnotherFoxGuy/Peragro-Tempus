@@ -44,17 +44,12 @@ namespace PT
       // Register listener for InterfaceOptionsEvent.
       csRef<EventHandlerCallback> cb;
       cb.AttachNew(new EventHandler<DoorEntity>(&DoorEntity::UpdatePcProp, this));
-      evmgr->AddListener("entity.pcpropupdate", cb);
+      evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.pcpropupdate", GetId()), cb);
       eventHandlers.Push(cb);
     }
 
     DoorEntity::~DoorEntity()
     {
-     csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-
-      engine->RemoveEngineSectorCallback(cb);
     }
 
     void DoorEntity::Create()
@@ -80,8 +75,12 @@ namespace PT
       {
         Report(PT::Warning, "DoorEntity: Couldn't find mesh '%s' for door %s!", meshName.c_str(), name.c_str());
         pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
-        cb.AttachNew(new SectorCallBack(this));
-        engine->AddEngineSectorCallback(cb);
+        // Register listener for WorldLoaded.
+        using namespace PT::Events;
+        csRef<EventHandlerCallback> cbWorldLoaded;
+        cbWorldLoaded.AttachNew(new EventHandler<DoorEntity>(&DoorEntity::TileLoaded, this));
+        PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbWorldLoaded);
+        eventHandlers.Push(cbWorldLoaded);
       }
 
       csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,
@@ -101,13 +100,11 @@ namespace PT
     {
       using namespace PT::Events;
 
-//    unsigned int entityId = EntityHelper::GetEntityID(&ev);
-
       const char* prop = 0;
       ev.Retrieve("pcprop", prop);
 
       bool data = false;
-      ev.Retrieve("pcprop", data);
+      ev.Retrieve("celdata", data);
       celData celdata;
       celdata.Set(data);
 
@@ -138,6 +135,7 @@ namespace PT
         if (state.CompareNoCase("Door Locked"))
           this->SetLocked(celdata.value.bo);
       }
+
       return false;
     } //end UpdatePcProp()
 
@@ -161,22 +159,25 @@ namespace PT
       pcmesh->GetMesh()->GetMovable()->SetTransform(trans);
     }
 
-    void DoorEntity::SectorCallBack::NewSector(iEngine* engine, iSector* sector)
+    bool DoorEntity::TileLoaded(iEvent& ev)
     {
-      if (!entity) return;
-      std::string meshName = entity->GetMeshName();
-      iCelEntity* celEntity = entity->GetCelEntity();
-      if (!celEntity) return;
+      std::string meshName = GetMeshName();
+      csRef<iCelEntity> celEntity = GetCelEntity();
+      if (!celEntity) return false;
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshName.c_str());
 
       if (doormesh.IsValid())
       {
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-        if (!pcmesh.IsValid()) return;
+        if (!pcmesh.IsValid()) return false;
         pcmesh->SetMesh(doormesh);
-        engine->RemoveEngineSectorCallback(this);
+        csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcQuest);
+        pcquest->GetQuest()->SwitchState(open ? "open" : "closed");
       }
 
+      return false;
     }
   }
 }

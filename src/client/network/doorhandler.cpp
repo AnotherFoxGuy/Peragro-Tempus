@@ -35,8 +35,10 @@ void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
     return;
   }
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.pcpropupdate", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.pcpropupdate", door_msg.getDoorId()), true);
 
   entityEvent->Add("entityId", door_msg.getDoorId());
   entityEvent->Add("pcprop", "Door Open");
@@ -57,8 +59,10 @@ void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
     return;
   }
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.pcpropupdate", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.pcpropupdate", door_msg.getDoorId()), true);
 
   entityEvent->Add("entityId", door_msg.getDoorId());
   entityEvent->Add("pcprop", "Door Open");
@@ -72,15 +76,17 @@ void DoorHandler::handleLockDoorResponse(GenericMessage* msg)
   LockDoorResponseMessage door_msg;
   door_msg.deserialise(msg->getByteStream());
 
-  Report(PT::Debug, "EntityHandler: Got unlock door %d.", door_msg.getDoorId());
+  Report(PT::Debug, "EntityHandler: Got lock door %d.", door_msg.getDoorId());
   if (!door_msg.getError().isNull())
   {
     Report(PT::Error, "Can't lock %d! Reason: '%s'.", door_msg.getDoorId(), *door_msg.getError());
     return;
   }
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.pcpropupdate", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.pcpropupdate", door_msg.getDoorId()), true);
 
   entityEvent->Add("entityId", door_msg.getDoorId());
   entityEvent->Add("pcprop", "Door Locked");
@@ -101,8 +107,10 @@ void DoorHandler::handleUnlockDoorResponse(GenericMessage* msg)
     return;
   }
 
+  using namespace PT::Events;
+
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.pcpropupdate", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.pcpropupdate", door_msg.getDoorId()), true);
 
   entityEvent->Add("entityId", door_msg.getDoorId());
   entityEvent->Add("pcprop", "Door Locked");
