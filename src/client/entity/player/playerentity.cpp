@@ -585,7 +585,7 @@ namespace PT
       if(local_movement && instance && !static_cast<PcEntity*>(instance)->GetHasMount())
       {
         PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-        csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.move");
+        csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.move", GetId()));
         entityEvent->Add("entityId", id);
         entityEvent->Add("walkDirection", float(PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1)));
         entityEvent->Add("turnDirection", float(walk == -1 && backwardReverse ? -turn : turn));

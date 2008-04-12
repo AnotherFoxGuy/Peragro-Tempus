@@ -188,7 +188,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
   PT::Entity::PlayerEntity* player = static_cast<PT::Entity::PlayerEntity*>(entity);
   if (player) return false;
 
-  unsigned int entityId = EntityHelper::GetEntityID(&ev);
+//unsigned int entityId = EntityHelper::GetEntityID(&ev);
   unsigned int sectorId = EntityHelper::GetSectorId(&ev);
   csVector3 position = EntityHelper::GetPosition(&ev);
 

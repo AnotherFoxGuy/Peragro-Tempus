@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+12-Apr-2008
+ - Rakhun fixed local movement.
+
 11-Apr-2008
  - swedishcoder fixed a Jamfile to make it compile with gcc.
  - vornne rewrote the view bobbing effect.

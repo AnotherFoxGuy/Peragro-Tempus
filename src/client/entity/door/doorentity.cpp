@@ -101,7 +101,7 @@ namespace PT
     {
       using namespace PT::Events;
 
-      unsigned int entityId = EntityHelper::GetEntityID(&ev);
+//    unsigned int entityId = EntityHelper::GetEntityID(&ev);
 
       const char* prop = 0;
       ev.Retrieve("pcprop", prop);
