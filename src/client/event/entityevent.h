@@ -101,6 +101,15 @@ namespace PT
         return equipment;
       }
 
+      static void SetVector3(iEvent* ev, const char* name, csVector3 pos)
+      {
+        float tmp[3];
+        tmp[0] = pos.x;
+        tmp[1] = pos.y;
+        tmp[2] = pos.z;
+        SetVector3(ev, name, tmp);
+      }
+
       static void SetVector3(iEvent* ev, const char* name, float* pos)
       {
         std::string nm = name;

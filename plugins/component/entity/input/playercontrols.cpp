@@ -26,9 +26,13 @@
 #include <physicallayer/propfact.h>
 #include <physicallayer/propclas.h>
 #include <propclass/actormove.h>
+#include <propclass/linmove.h>
 
 #include <propclass/defcam.h>
 #include <iengine/camera.h>
+
+#include "client/cursor.h"
+#include "client/effect/effectsmanager.h"
 
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
@@ -135,6 +139,8 @@ bool ComponentPlayerControls::UpdateOptions()
   backwardReverse = app_cfg->GetBool("Client.backwardreverse", backwardReverse);
   local_movement = app_cfg->GetBool("Client.local_movement", false);
   invertYAxis = app_cfg->GetBool("Client.invertYAxis", invertYAxis);
+  minFPS = app_cfg->GetFloat("Client.minFPS", minFPS);
+  maxFPS = app_cfg->GetFloat("Client.maxFPS", maxFPS);
   minDistance = app_cfg->GetFloat("Client.minDistance", minDistance);
 
   return true;
@@ -158,7 +164,7 @@ bool ComponentPlayerControls::PerformMovementAction()
     entityEvent->Add("local", true);
     evmgr->AddEvent(entityEvent);
   }
-/*
+
   MoveRequestMessage msg;
 
   msg.setWalk(walk+1);
@@ -179,7 +185,7 @@ bool ComponentPlayerControls::PerformMovementAction()
     poseMsg.setPoseId(0); //TODO: do a posemanager lookup for "idle"!
     pointerlib->getNetwork()->send(&poseMsg);
   }
-*/
+
   return true;
 } // end PerformMovementAction()
 
@@ -430,11 +436,16 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
 
     if (mesh)
     {
-      PT::Effect::EffectsManager* effectsmanager = PointerLibrary::getInstance()->getEffectsManager();
-      effectsmanager->CreateEffect("MoveMarker", isect+csVector3(0,0.01f,0), sector);
-      //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0));
+      using namespace PT::Events;
 
-      csRef<iCelEntity> ownent = GetCelEntity();
+      PT::Events::EventManager* evmgr = pointerlib->getEventManager();
+      csRef<iEvent> effectEvent = evmgr->CreateEvent("effect.atposition");
+      effectEvent->Add("effect", "MoveMarker");
+      PT::Events::EntityHelper::SetVector3(effectEvent, "position", isect+csVector3(0,0.01f,0));
+      effectEvent->Add("sector", sector);
+      evmgr->AddEvent(effectEvent);
+
+      csRef<iCelEntity> ownent = entity->GetCelEntity();
       if (!ownent) return false;
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
       if (!pclinmove) return false;
@@ -450,7 +461,7 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
     {
       //Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
     }
-  */
+    */
   }
 
   return true;
