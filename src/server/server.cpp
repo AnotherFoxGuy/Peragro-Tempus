@@ -164,6 +164,8 @@ void Server::moveEntity(PcEntity* entity, float* pos, float speed, bool run)
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
   response_msg.setRun(run);
+  response_msg.setTurn(0); // No continuous rotation
+  response_msg.setJump(false);
 
   entity->walkTo(pos, speed);
 
@@ -180,6 +182,8 @@ void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run)
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
   response_msg.setRun(run);
+  response_msg.setTurn(0); // No continuous rotation
+  response_msg.setJump(false);
 
   entity->walkTo(pos, speed);
 
@@ -198,6 +202,8 @@ void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool r
   response_msg.setSpeed(speed);
   response_msg.setEntityId(entity->getEntity()->getId());
   response_msg.setRun(run);
+  response_msg.setTurn(0); // No continuous rotation
+  response_msg.setJump(false);
 
   NpcEntity* npc = entity->getLock();
   npc->walkTo(pos, speed);

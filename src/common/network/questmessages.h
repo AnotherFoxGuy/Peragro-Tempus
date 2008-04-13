@@ -55,8 +55,6 @@ class NpcDialogMessage : public NetMessage
 public:
   NpcDialogMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCDIALOG)
   {
-    dialogid = 0;
-    dialogtext = '\0';
     answers = 0;
   }
 
@@ -102,8 +100,6 @@ class NpcDialogAnswerMessage : public NetMessage
 public:
   NpcDialogAnswerMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCDIALOGANSWER)
   {
-    dialogid = 0;
-    answerid = 0;
   }
 
   ~NpcDialogAnswerMessage()
@@ -128,7 +124,6 @@ class NpcStartDialogMessage : public NetMessage
 public:
   NpcStartDialogMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCSTARTDIALOG)
   {
-    npcid = 0;
   }
 
   ~NpcStartDialogMessage()
@@ -150,7 +145,6 @@ class NpcEndDialogMessage : public NetMessage
 public:
   NpcEndDialogMessage() : NetMessage(MESSAGES::QUEST,QUEST::NPCENDDIALOG)
   {
-    npcid = 0;
   }
 
   ~NpcEndDialogMessage()
@@ -198,7 +192,6 @@ class SetupDialogsMessage : public NetMessage
 public:
   SetupDialogsMessage() : NetMessage(MESSAGES::QUEST,QUEST::SETUPDIALOGS)
   {
-    deleteexisting = false;
     dialogs = 0;
     answers = 0;
   }

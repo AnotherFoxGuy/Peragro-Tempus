@@ -44,8 +44,6 @@ class BookReadRequestMessage : public NetMessage
 public:
   BookReadRequestMessage() : NetMessage(MESSAGES::BOOK,BOOK::BOOKREADREQUEST)
   {
-    itemid = 0;
-    bookid = 0;
   }
 
   ~BookReadRequestMessage()
@@ -71,7 +69,6 @@ class BookReadResponseMessage : public NetMessage
 public:
   BookReadResponseMessage() : NetMessage(MESSAGES::BOOK,BOOK::BOOKREADRESPONSE)
   {
-    text = '\0';
   }
 
   ~BookReadResponseMessage()
@@ -99,9 +96,6 @@ class BookWriteRequestMessage : public NetMessage
 public:
   BookWriteRequestMessage() : NetMessage(MESSAGES::BOOK,BOOK::BOOKWRITEREQUEST)
   {
-    itemid = 0;
-    bookid = 0;
-    text = '\0';
   }
 
   ~BookWriteRequestMessage()
@@ -133,7 +127,6 @@ class BookWriteResponseMessage : public NetMessage
 public:
   BookWriteResponseMessage() : NetMessage(MESSAGES::BOOK,BOOK::BOOKWRITERESPONSE)
   {
-    bookid = 0;
   }
 
   ~BookWriteResponseMessage()

@@ -48,7 +48,6 @@ class TradeRequestMessage : public NetMessage
 public:
   TradeRequestMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEREQUEST)
   {
-    entityid = 0;
   }
 
   ~TradeRequestMessage()
@@ -102,7 +101,6 @@ class TradeOffersListNpcMessage : public NetMessage
 public:
   TradeOffersListNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEOFFERSLISTNPC)
   {
-    isbuy = 0;
     offers = 0;
   }
 
@@ -212,7 +210,6 @@ class TradeOrderListNpcMessage : public NetMessage
 public:
   TradeOrderListNpcMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEORDERLISTNPC)
   {
-    isbuy = 0;
     orders = 0;
   }
 

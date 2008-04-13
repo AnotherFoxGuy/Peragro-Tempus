@@ -41,7 +41,6 @@ class DayTimeMessage : public NetMessage
 public:
   DayTimeMessage() : NetMessage(MESSAGES::ENVIRONMENT,ENVIRONMENT::DAYTIME)
   {
-    hour = 0;
   }
 
   ~DayTimeMessage()
@@ -63,7 +62,6 @@ class WeatherMessage : public NetMessage
 public:
   WeatherMessage() : NetMessage(MESSAGES::ENVIRONMENT,ENVIRONMENT::WEATHER)
   {
-    weatherid = 0;
   }
 
   ~WeatherMessage()

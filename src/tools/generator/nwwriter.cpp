@@ -653,7 +653,6 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
            toConst(type->name).c_str() << "," << toConst(type->name).c_str() << 
            "::" << toConst(msg->name).c_str() << ")\n"
            "  {\n";
-
     for (size_t j = 0; j < msg->params.size(); j++)
     {
       nwParams* param = msg->params[j];
@@ -661,6 +660,7 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
       {
         out << "    " << toVariable(param->name).c_str() << " = 0;\n";
       } 
+/*
       else if (param->type == nwParamType::BOOL) 
       {
         out << "    " << toVariable(param->name).c_str() << " = false;\n";
@@ -697,6 +697,7 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
         out << "    " << toVariable(param->name).c_str() << "[1] = \'\\0\';\n";
         out << "    " << toVariable(param->name).c_str() << "[2] = \'\\0\';\n";
       }
+*/
     }
 
     out << "  }\n\n"

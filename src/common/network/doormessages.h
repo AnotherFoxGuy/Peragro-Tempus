@@ -47,7 +47,6 @@ class OpenDoorRequestMessage : public NetMessage
 public:
   OpenDoorRequestMessage() : NetMessage(MESSAGES::DOOR,DOOR::OPENDOORREQUEST)
   {
-    doorid = 0;
   }
 
   ~OpenDoorRequestMessage()
@@ -70,7 +69,6 @@ class OpenDoorResponseMessage : public NetMessage
 public:
   OpenDoorResponseMessage() : NetMessage(MESSAGES::DOOR,DOOR::OPENDOORRESPONSE)
   {
-    doorid = 0;
   }
 
   ~OpenDoorResponseMessage()
@@ -95,7 +93,6 @@ class CloseDoorRequestMessage : public NetMessage
 public:
   CloseDoorRequestMessage() : NetMessage(MESSAGES::DOOR,DOOR::CLOSEDOORREQUEST)
   {
-    doorid = 0;
   }
 
   ~CloseDoorRequestMessage()
@@ -118,7 +115,6 @@ class CloseDoorResponseMessage : public NetMessage
 public:
   CloseDoorResponseMessage() : NetMessage(MESSAGES::DOOR,DOOR::CLOSEDOORRESPONSE)
   {
-    doorid = 0;
   }
 
   ~CloseDoorResponseMessage()
@@ -143,7 +139,6 @@ class LockDoorRequestMessage : public NetMessage
 public:
   LockDoorRequestMessage() : NetMessage(MESSAGES::DOOR,DOOR::LOCKDOORREQUEST)
   {
-    doorid = 0;
   }
 
   ~LockDoorRequestMessage()
@@ -166,7 +161,6 @@ class LockDoorResponseMessage : public NetMessage
 public:
   LockDoorResponseMessage() : NetMessage(MESSAGES::DOOR,DOOR::LOCKDOORRESPONSE)
   {
-    doorid = 0;
   }
 
   ~LockDoorResponseMessage()
@@ -191,7 +185,6 @@ class UnlockDoorRequestMessage : public NetMessage
 public:
   UnlockDoorRequestMessage() : NetMessage(MESSAGES::DOOR,DOOR::UNLOCKDOORREQUEST)
   {
-    doorid = 0;
   }
 
   ~UnlockDoorRequestMessage()
@@ -214,7 +207,6 @@ class UnlockDoorResponseMessage : public NetMessage
 public:
   UnlockDoorResponseMessage() : NetMessage(MESSAGES::DOOR,DOOR::UNLOCKDOORRESPONSE)
   {
-    doorid = 0;
   }
 
   ~UnlockDoorResponseMessage()

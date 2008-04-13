@@ -6,6 +6,8 @@ under each day.
 
 13-Apr-2008
  - Adding a small test app to reproduce a crash with gcc when using -O3.
+ - Changing the generator to not initialise variables on its own and adding
+   the missing set* calls in the code which caused the problem.
 
 12-Apr-2008
  - Rakhun fixed local movement.
