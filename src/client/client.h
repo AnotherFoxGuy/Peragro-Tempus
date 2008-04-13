@@ -54,10 +54,6 @@
 #include "client/input/inputmanager.h"
 #include "client/state/statemanager.h"
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
-
 struct iPcDefaultCamera;
 struct iSector;
 
@@ -69,6 +65,11 @@ class Network;
 class GUIManager;
 class CombatManager;
 class Cursor;
+
+namespace CEGUI
+{
+  struct EventArgs;
+}
 
 namespace PT
 {

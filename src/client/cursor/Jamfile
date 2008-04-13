@@ -3,5 +3,4 @@ SubDir TOP src client cursor ;
 Description client-cursor : "client cursor" ;
 Library client-cursor :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-cursor : CRYSTAL CEL ;
-
+ExternalLibs client-cursor : CEGUI CRYSTAL CEL ;

@@ -55,8 +55,8 @@ namespace PT
       door->SetMeshName(node->GetNode("mesh")->GetContentsValue());
 
       int offsetX, offsetY;
-      offsetX = node->GetNode("position")->GetAttributeValueAsInt("tileX") * TILESIZE;
-      offsetY = node->GetNode("position")->GetAttributeValueAsInt("tileY") * TILESIZE;
+      offsetX = node->GetNode("position")->GetAttributeValueAsInt("tileX") * (int)TILESIZE;
+      offsetY = node->GetNode("position")->GetAttributeValueAsInt("tileY") * (int)TILESIZE;
 
       PtVector3 pos;
       pos.x = node->GetNode("position")->GetAttributeValueAsFloat("x") + offsetX;
