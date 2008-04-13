@@ -327,9 +327,6 @@
 				RelativePath="..\..\src\client\client.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\cursor.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\pointer\pointer.cpp">
 			</File>
 		</Filter>
@@ -338,9 +335,6 @@
 			Filter="">
 			<File
 				RelativePath="..\..\src\client\client.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\cursor.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\pointer\pointer.h">
