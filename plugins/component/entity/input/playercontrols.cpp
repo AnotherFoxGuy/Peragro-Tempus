@@ -59,10 +59,10 @@ CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (PlayerControls, "peragro.entity.input.playercontrols")
 
 //-------------------------------------------------------------------------------------
-#define REGISTER_LISTENER(Class, funct, ev, specific)			              \
+#define REGISTER_LISTENER(Class, funct, ev, specific)	              		              \
 using namespace PT::Events;                                                           \
 csRef<EventHandlerCallback> cb##funct;                                                \
-cb##funct.AttachNew(new EventHandler<##Class>(&##Class::##funct, this));              \
+cb##funct.AttachNew(new EventHandler</**/Class>(&/**/Class::/**/funct, this));        \
 if (specific)                                                                         \
 evmgr->AddListener(EntityHelper::MakeEntitySpecific(ev, entity->GetId()), cb##funct); \
 else                                                                                  \

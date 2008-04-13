@@ -9,6 +9,7 @@ under each day.
  - Changing the generator to not initialise variables on its own and adding
    the missing set* calls in the code which caused the problem.
  - Rakhun made connectionhandler CEGUI-independant.
+ - swedishcoder fixed macro in order for gcc preprocessor to not complain.
 
 12-Apr-2008
  - Rakhun fixed local movement.
