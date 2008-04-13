@@ -59,7 +59,6 @@
 #include "CEGUILogger.h"
 
 struct iPcDefaultCamera;
-struct iPcActorMove;
 struct iSector;
 
 struct iCommandLineParser;
@@ -163,7 +162,6 @@ namespace PT
     void ProcessFrame();
     void FinishFrame();
 
-    iPcActorMove* getPcActorMove();
     bool InitializeCEL();
     void checkConnection();
     void handleStates();

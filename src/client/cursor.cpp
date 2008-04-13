@@ -20,6 +20,12 @@
 
 #include <cstool/collider.h>
 #include <iengine/camera.h>
+#include <iengine/sector.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/prop.h>
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"

@@ -18,19 +18,23 @@
 
 #include "playerentity.h"
 
+#include <iengine/sector.h>
+#include <iengine/camera.h>
+#include <csgeom/vector3.h>
+#include <iutil/plugin.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/defcam.h>
+#include <propclass/linmove.h>
+
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
-#include "client/cursor.h"
-#include "client/effect/effectsmanager.h"
 #include "client/event/eventmanager.h"
 #include "client/event/interfaceevent.h"
 #include "client/event/entityevent.h"
-#include "client/event/inputevent.h"
-#include "common/network/entitymessages.h"
-#include "client/network/network.h"
-#include "client/gui/guimanager.h"
-#include "client/gui/chat-gui.h"
 
 #include "client/entity/statmanager.h"
 
@@ -38,8 +42,6 @@
 
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
-
-#include <csgeom/vector3.h>
 
 #include "include/client/component/entity/input/playercontrols.h"
 
@@ -65,137 +67,14 @@ namespace PT
 
     PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
     {
-      walk = 0;
-      turn = 0;
-      run = false;
-      jump = false;
-      //This should be replaced by some external StateManager. We already have
-      //things like this in several places
-      ready = true;
-      cameraDistance = 3.0f;
-
       viewBobEffect.base = HEAD_HEIGHT;
       viewBobEffect.offset = 0.0f;
       viewBobEffect.period = WALK_PERIOD;
       viewBobEffect.range = WALK_OFFSET_RANGE;
 
-      backwardReverse = false;
-      invertYAxis = false;
-      minFPS = 20.0f;
-      maxFPS = 60.0f;
-      minDistance = 50.0f;
-
       Create();
 
-      //Register actions for events
-      using namespace PT::Events;
-
-      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-      // Register listener for ActionForward.
-      csRef<EventHandlerCallback> cbActionForward;
-      cbActionForward.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionForward, this));
-      evmgr->AddListener("input.ACTION_FORWARD", cbActionForward);
-      eventHandlers.Push(cbActionForward);
-
-      // Register listener for ActionBackward.
-      csRef<EventHandlerCallback> cbActionBackward;
-        cbActionBackward.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionBackward, this));
-      evmgr->AddListener("input.ACTION_BACKWARD", cbActionBackward);
-      eventHandlers.Push(cbActionBackward);
-
-      // Register listener for ActionLeft.
-      csRef<EventHandlerCallback> cbActionLeft;
-        cbActionLeft.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionLeft, this));
-      evmgr->AddListener("input.ACTION_LEFT", cbActionLeft);
-      eventHandlers.Push(cbActionLeft);
-
-      // Register listener for ActionRight.
-      csRef<EventHandlerCallback> cbActionRight;
-        cbActionRight.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionRight, this));
-      evmgr->AddListener("input.ACTION_RIGHT", cbActionRight);
-      eventHandlers.Push(cbActionRight);
-
-      // Register listener for ActionToggleWalk.
-      csRef<EventHandlerCallback> cbActionToggleWalk;
-        cbActionToggleWalk.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleWalk, this));
-      evmgr->AddListener("input.ACTION_TOGGLEWALK", cbActionToggleWalk);
-      eventHandlers.Push(cbActionToggleWalk);
-
-      // Register listener for ActionToggleRun.
-      csRef<EventHandlerCallback> cbActionToggleRun;
-        cbActionToggleRun.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleRun, this));
-      evmgr->AddListener("input.ACTION_TOGGLERUN", cbActionToggleRun);
-      eventHandlers.Push(cbActionToggleRun);
-
-      // Register listener for ActionPanUp.
-      csRef<EventHandlerCallback> cbActionPanUp;
-        cbActionPanUp.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionPanUp, this));
-      evmgr->AddListener("input.ACTION_PANUP", cbActionPanUp);
-      eventHandlers.Push(cbActionPanUp);
-
-      // Register listener for ActionPanDown.
-      csRef<EventHandlerCallback> cbActionPanDown;
-        cbActionPanDown.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionPanDown, this));
-      evmgr->AddListener("input.ACTION_PANDOWN", cbActionPanDown);
-      eventHandlers.Push(cbActionPanDown);
-
-      // Register listener for ActionToggleCamera.
-      csRef<EventHandlerCallback> cbActionToggleCamera;
-        cbActionToggleCamera.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleCamera, this));
-      evmgr->AddListener("input.ACTION_TOGGLECAMERA", cbActionToggleCamera);
-      eventHandlers.Push(cbActionToggleCamera);
-
-      // Register listener for ActionToggleDistClipping.
-      csRef<EventHandlerCallback> cbActionToggleDistClipping;
-        cbActionToggleDistClipping.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionToggleDistClipping, this));
-      evmgr->AddListener("input.ACTION_TOGGLEDISTCLIP", cbActionToggleDistClipping);
-      eventHandlers.Push(cbActionToggleDistClipping);
-
-      // Register listener for ActionActivateWeapon.
-      csRef<EventHandlerCallback> cbActionActivateWeapon;
-        cbActionActivateWeapon.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionActivateWeapon, this));
-      evmgr->AddListener("input.ACTION_ACTIVATEWEAPON", cbActionActivateWeapon);
-      eventHandlers.Push(cbActionActivateWeapon);
-
-      // Register listener for ActionZoomIn.
-      csRef<EventHandlerCallback> cbActionZoomIn;
-        cbActionZoomIn.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomIn, this));
-      evmgr->AddListener("input.ACTION_ZOOMIN", cbActionZoomIn);
-      eventHandlers.Push(cbActionZoomIn);
-
-      // Register listener for ActionZoomOut.
-      csRef<EventHandlerCallback> cbActionZoomOut;
-        cbActionZoomOut.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionZoomOut, this));
-      evmgr->AddListener("input.ACTION_ZOOMOUT", cbActionZoomOut);
-      eventHandlers.Push(cbActionZoomOut);
-
-      // Register listener for ActionJump.
-      csRef<EventHandlerCallback> cbActionJump;
-        cbActionJump.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionJump, this));
-      evmgr->AddListener("input.ACTION_JUMP", cbActionJump);
-      eventHandlers.Push(cbActionJump);
-
-      // Register listener for ActionMoveTo.
-      csRef<EventHandlerCallback> cbActionMoveTo;
-        cbActionMoveTo.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::ActionMoveTo, this));
-      evmgr->AddListener("input.ACTION_MOVETO", cbActionMoveTo);
-      eventHandlers.Push(cbActionMoveTo);
-
-      // Register listener for InterfaceOptionsEvent.
-      csRef<EventHandlerCallback> cbUpdateOptions;
-        cbUpdateOptions.AttachNew(new EventHandler<PlayerEntity>(&PlayerEntity::UpdateOptions, this));
-      evmgr->AddListener("interface.options", cbUpdateOptions);
-      eventHandlers.Push(cbUpdateOptions);
-
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
-
-      app_cfg = csQueryRegistry<iConfigManager> (object_reg);
-      if (!app_cfg)
-      {
-        Report(PT::Error, "Can't find the config manager!");
-        return;
-      }
 
       vfs = csQueryRegistry<iVFS> (object_reg);
       if (!vfs)
@@ -216,7 +95,6 @@ namespace PT
         Report(PT::Error, "Failed to load the playerControls!");
       components.Push(playerControls);
 
-      UpdateOptions();
     }
 
     PlayerEntity::~PlayerEntity()
@@ -336,305 +214,6 @@ namespace PT
 #endif
     }
 
-    bool PlayerEntity::ActionForward(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev)) walk = 1;
-        else walk = 0;
-
-#ifdef _MOVEMENT_DEBUG_CHARACTER_
-        csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
-        pcactormove->SetMovementSpeed(4);
-        pcactormove->Forward(walk != 0);
-#endif
-      }
-      PerformMovementAction();
-
-      return true;
-    }
-
-    bool PlayerEntity::ActionBackward(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev)) walk = -1;
-        else walk = 0;
-
-#ifdef _MOVEMENT_DEBUG_CHARACTER_
-        csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
-        pcactormove->SetMovementSpeed(4);
-        pcactormove->Backward(walk != 0);
-#endif
-      }
-      PerformMovementAction();
-
-      return true;
-    }
-
-    bool PlayerEntity::ActionLeft(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev)) turn = -1;
-        else turn = 0;
-
-#ifdef _MOVEMENT_DEBUG_CHARACTER_
-        csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
-        pcactormove->SetRotationSpeed(3);
-        pcactormove->RotateLeft(turn != 0);
-#endif
-      }
-      PerformMovementAction();
-
-      return true;
-    }
-
-    bool PlayerEntity::ActionRight(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev)) turn = 1;
-        else turn = 0;
-
-#ifdef _MOVEMENT_DEBUG_CHARACTER_
-        csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
-        pcactormove->SetRotationSpeed(3);
-        pcactormove->RotateRight(turn != 0);
-#endif
-      }
-      PerformMovementAction();
-
-      return true;
-    }
-
-    bool PlayerEntity::ActionToggleWalk(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev)) (walk == 0) ? walk = 1 : walk = 0;
-      }
-      PerformMovementAction();
-
-      return true;
-    }
-
-    bool PlayerEntity::ActionToggleRun(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev))
-        {
-          if (run==false)
-          {
-            run = true;
-            //Setup values needed for bobbing during run
-            viewBobEffect.range = RUN_OFFSET_RANGE;
-            viewBobEffect.period = RUN_PERIOD;
-          }
-          else
-          {
-            run = false;
-            //Setup values needed for bobbing during walk
-            viewBobEffect.range = WALK_OFFSET_RANGE;
-            viewBobEffect.period = WALK_PERIOD;
-          }
-        }
-      }
-      PerformMovementAction();
-
-      return true;
-    }
-
-  bool PlayerEntity::ActionPanUp(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (!celEntity) return false;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev))
-        {
-          if (invertYAxis) camera->SetPitchVelocity(-1.0f);
-          else camera->SetPitchVelocity(1.0f);
-        }
-        else
-        {
-            camera->SetPitchVelocity(0.0f);
-        }
-      }
-
-      return true;
-    }
-
-  bool PlayerEntity::ActionPanDown(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (!celEntity) return false;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev))
-        {
-          if (invertYAxis) camera->SetPitchVelocity(1.0f);
-          else camera->SetPitchVelocity(-1.0f);
-        }
-        else
-        {
-            camera->SetPitchVelocity(0.0f);
-        }
-      }
-
-      return true;
-    }
-
-  bool PlayerEntity::ActionToggleCamera(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev))
-        {
-          csRef<iPcActorMove> pcactormove =
-            CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
-          if (!pcactormove) return false;
-          pcactormove->ToggleCameraMode();
-        }
-      }
-
-      return true;
-    }
-
-  bool PlayerEntity::ActionToggleDistClipping(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev))
-        {
-
-          if (!celEntity) return false;
-
-          PointerLibrary::getInstance()->getGUIManager()->GetChatWindow()->
-            AddMessage("Toggled Distance Clipping.");
-
-          if (camera->UseDistanceClipping()) camera->DisableDistanceClipping();
-          else camera->EnableAdaptiveDistanceClipping(minFPS, maxFPS, minDistance);
-        }
-      }
-
-      return true;
-    }
-
-    bool PlayerEntity::ActionActivateWeapon(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (ready)
-      {
-        if (InputHelper::GetButtonDown(&ev))
-        {
-          PlayAnimation("attack_sword_s");
-        }
-      }
-
-      return true;
-    }
-
-    bool PlayerEntity::ActionZoomIn(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (InputHelper::GetButtonDown(&ev))
-      {
-        if (!celEntity) return false;
-        cameraDistance -= 0.5;
-        if (camera.IsValid()) camera->SetDistance(cameraDistance);
-      }
-      return true;
-    }
-
-    bool PlayerEntity::ActionZoomOut(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (InputHelper::GetButtonDown(&ev))
-      {
-        if (!celEntity) return false;
-        cameraDistance += 0.5;
-        if (camera.IsValid()) camera->SetDistance(cameraDistance);
-      }
-      return true;
-    }
-
-    bool PlayerEntity::ActionJump(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (InputHelper::GetButtonDown(&ev)) jump=true;
-
-      PerformMovementAction();
-      return true;
-    }
-
-    bool PlayerEntity::PerformMovementAction()
-    {
-      using namespace PT::Events;
-
-      // Local movement option
-      if(local_movement && instance && !static_cast<PcEntity*>(instance)->GetHasMount())
-      {
-        PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-        csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.move", GetId()));
-        entityEvent->Add("entityId", id);
-        entityEvent->Add("walkDirection", float(PointerLibrary::getInstance()->getStatManager()->GetStat("Speed")*walk*(char(run)+1)));
-        entityEvent->Add("turnDirection", float(walk == -1 && backwardReverse ? -turn : turn));
-        entityEvent->Add("run", run);
-        entityEvent->Add("jump", jump);
-        entityEvent->Add("local", true);
-        evmgr->AddEvent(entityEvent);
-      }
-
-      MoveRequestMessage msg;
-
-      msg.setWalk(walk+1);
-
-      if (walk == -1 && backwardReverse) msg.setTurn(-turn+1);
-      else msg.setTurn(turn+1);
-      msg.setRun(run);
-      msg.setJump(jump);
-      jump=false; //Jumping is not a constant action, so we need to turn it off once we've
-                  //sent the request.
-      PointerLibrary::getInstance()->getNetwork()->send(&msg);
-
-      //When we move, we turn off sitting.
-        // Shouldn't this be done for mouse walk too?
-      if (sitting)
-      {
-        PoseRequestMessage poseMsg;
-        poseMsg.setPoseId(0); //TODO: do a posemanager lookup for "idle"!
-        PointerLibrary::getInstance()->getNetwork()->send(&poseMsg);
-      }
-
-      return true;
-    }
-
     iSector* PlayerEntity::GetSector()
     {
       if (!camera.IsValid()) return 0;
@@ -686,50 +265,6 @@ namespace PT
       }
 
       camera->Draw();
-    }
-
-    bool PlayerEntity::ActionMoveTo(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      if (InputHelper::GetButtonDown(&ev))
-      {
-        if (!instance) return false;
-        csRef<iPcDefaultCamera> pccamera = GetCamera();
-        if (!pccamera) return false;
-        csRef<iCamera> cam = pccamera->GetCamera();
-        if (!cam) return false;
-
-        csVector3 isect, untransfCoord;
-        iSector* sector = 0;
-        Cursor* cursor = PointerLibrary::getInstance()->getCursor();
-        csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord, &sector);
-
-        if (mesh)
-        {
-          PT::Effect::EffectsManager* effectsmanager = PointerLibrary::getInstance()->getEffectsManager();
-          effectsmanager->CreateEffect("MoveMarker", isect+csVector3(0,0.01f,0), sector);
-          //effectsmanager->CreateDecal(isect+csVector3(0,0.25,0));
-
-          csRef<iCelEntity> ownent = GetCelEntity();
-          if (!ownent) return false;
-          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
-          if (!pclinmove) return false;
-
-          MoveToRequestMessage msg;
-          msg.setTo(isect.x, isect.y, isect.z);
-          msg.setRun(run);
-          PointerLibrary::getInstance()->getNetwork()->send(&msg);
-
-          Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
-        }
-        else
-        {
-          Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
-        }
-      }
-
-      return true;
     }
 
     void PlayerEntity::Interact()
@@ -787,23 +322,6 @@ namespace PT
       Entity::SetFullPosition(pos, rotation, sector);
 
     } // end SetFullPosition()
-
-    bool PlayerEntity::UpdateOptions(iEvent& ev)
-    {
-      return UpdateOptions();
-    } // end UpdateOptions()
-
-    bool PlayerEntity::UpdateOptions()
-    {
-      backwardReverse = app_cfg->GetBool("Client.backwardreverse", backwardReverse);
-      local_movement = app_cfg->GetBool("Client.local_movement", false);
-      invertYAxis = app_cfg->GetBool("Client.invertYAxis", invertYAxis);
-      minFPS = app_cfg->GetFloat("Client.minFPS", minFPS);
-      maxFPS = app_cfg->GetFloat("Client.maxFPS", maxFPS);
-      minDistance = app_cfg->GetFloat("Client.minDistance", minDistance);
-
-      return true;
-    } // end UpdateOptions()
 
     bool PlayerEntity::ViewBobEffect::Move(float elapsedTicks)
     {

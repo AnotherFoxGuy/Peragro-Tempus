@@ -20,8 +20,18 @@
 #include "client/data/sectordatamanager.h"
 #include "client/data/sector.h"
 
+#include <iengine/sector.h>
+#include <iengine/movable.h>
+#include <iengine/mesh.h>
 #include <iutil/objreg.h>
 #include <imap/loader.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/mesh.h>
+#include <propclass/linmove.h>
+#include <propclass/prop.h>
 
 #include "client/network/network.h"
 

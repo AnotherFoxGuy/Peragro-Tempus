@@ -52,6 +52,15 @@
 #include <ivideo/txtmgr.h>
 #include <ivideo/material.h>
 
+#include <celtool/initapp.h>
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/region.h>
+#include <propclass/zone.h>
+#include <propclass/prop.h>
+#include <propclass/mesh.h>
+
 #include "client/reporter/reporter.h"
 
 #include "cursor.h"
@@ -979,15 +988,6 @@ namespace PT
   void Client::sawServer()
   {
     last_seen = csGetTicks();
-  }
-
-  iPcActorMove* Client::getPcActorMove()
-  {
-    iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
-    if (entity == 0)
-      return 0;
-    csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(entity, iPcActorMove);
-    return pcactormove;
   }
 
 } // PT namespace

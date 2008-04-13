@@ -18,6 +18,20 @@
 
 #include "entity.h"
 
+#include <iengine/mesh.h>
+
+#include <iutil/objreg.h>
+#include <iengine/engine.h>
+#include <iengine/movable.h>
+#include <iengine/sector.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/mesh.h>
+#include <propclass/linmove.h>
+#include <propclass/prop.h>
+
 #include "client/reporter/reporter.h"
 
 #include "client/pointer/pointer.h"

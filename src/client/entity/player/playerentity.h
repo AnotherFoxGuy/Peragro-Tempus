@@ -25,6 +25,8 @@
 #include <iutil/cfgmgr.h>
 #include <iutil/cfgfile.h>
 
+#include <propclass/defcam.h>
+
 namespace PT
 {
   namespace Events
@@ -98,11 +100,6 @@ namespace PT
                            float rotation,
                            const std::string& sector);
 
-      /**
-       * Reloads values from the configuration manager
-       */
-      bool UpdateOptions();
-
     private:
       static PlayerEntity* instance;
 
@@ -110,19 +107,8 @@ namespace PT
 
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;
-      ///Direction of moving. -1 for backward, 0 for standing still, 1 for
-      ///forward.
-      char walk;
-      ///Direction of turning. -1 for left, 0 for straight, 1 for right.
-      char turn;
-      ///Determines if player is running or not.
-      bool run;
-      ///Determines if player is jumping or not.
-      bool jump;
       ///Determines if the client is ready for movement and other actions or not.
       bool ready;
-      ///Distance between camera and player entity, aka zoom.
-      float cameraDistance;
 
       ///Configuration of the bobbing effect while walking and running.
       struct ViewBobEffect
@@ -154,20 +140,7 @@ namespace PT
         bool upwards;
       } viewBobEffect;
 
-      ///Whether to reverse turning when walking backwards.
-      bool backwardReverse;
-      ///Whether to do local movement instead of waiting for the server.
-      bool local_movement;
-      ///Whether to invert the look up and down controls, like an aeroplane.
-      bool invertYAxis;
-      ///Minimum FPS for the adaptive distance clipping.
-      float minFPS;
-      ///Maximum FPS for the adaptive distance clipping.
-      float maxFPS;
-      ///Minimum view distance for the adaptive distance clipping.
-      float minDistance;
-
-      csRef<iConfigManager> app_cfg;
+      
       csRef<iVFS> vfs;
 
       csRef<iCelEntity> other_self;
@@ -183,45 +156,6 @@ namespace PT
 
       void Create();
 
-      ///Handler for a walk forward event.
-      bool ActionForward(iEvent& ev);
-      ///Handler for a walk backward event.
-      bool ActionBackward(iEvent& ev);
-      ///Handler for a turn left event.
-      bool ActionLeft(iEvent& ev);
-      ///Handler for a turn right event.
-      bool ActionRight(iEvent& ev);
-      ///Handler for a toggle walk event. Called when player presses the "keep
-      ///walking" key.
-      bool ActionToggleWalk(iEvent& ev);
-      ///Handler for a toggle run event. Called when switching from walking to
-      ///running and back.
-      bool ActionToggleRun(iEvent& ev);
-      ///Handler for a pan up event.
-      bool ActionPanUp(iEvent& ev);
-      ///Handler for a pan down event.
-      bool ActionPanDown(iEvent& ev);
-      ///Handler for a camera toggle event. Called when changing camera type.
-      bool ActionToggleCamera(iEvent& ev);
-      ///Handler for a distance clipping event. Called when removing entities
-      ///beyond some distance.
-      bool ActionToggleDistClipping(iEvent& ev);
-      ///Handler for an activate weapon event. Called when attacking with a
-      ///weapon (in order to produce animation).
-      bool ActionActivateWeapon(iEvent& ev);
-      ///Handler for a zoom-in event.
-      bool ActionZoomIn(iEvent& ev);
-      ///Handler for a zoom-out event.
-      bool ActionZoomOut(iEvent& ev);
-      ///Handler for a jump event.
-      bool ActionJump(iEvent& ev);
-      ///Handler for a move-to event.
-      bool ActionMoveTo(iEvent& ev);
-      ///Handler for a configuration update event
-      bool UpdateOptions(iEvent& ev);
-
-      ///Helper method for sending new movement information.
-      bool PerformMovementAction();
     };
   } //Entity namespace
 } //PT namespace

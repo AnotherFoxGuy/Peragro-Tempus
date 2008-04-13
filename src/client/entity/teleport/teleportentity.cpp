@@ -18,6 +18,14 @@
 
 #include "teleportentity.h"
 
+#include <iengine/engine.h>
+#include <iengine/mesh.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/mesh.h>
+
 #include "client/data/teleportdatamanager.h"
 #include "client/data/teleport.h"
 

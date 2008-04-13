@@ -23,6 +23,17 @@
 #include <imesh/objmodel.h>
 #include <igeom/trimesh.h>
 #include <csgeom/tri.h>
+#include <iengine/mesh.h>
+#include <imesh/object.h>
+#include <iengine/sector.h>
+#include <iengine/movable.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <physicallayer/entity.h>
+#include <physicallayer/persist.h>
+#include <propclass/linmove.h>
 
 #include "command.h"
 

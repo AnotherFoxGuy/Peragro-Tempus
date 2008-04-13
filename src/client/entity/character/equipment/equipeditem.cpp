@@ -26,6 +26,8 @@
 #include <iengine/mesh.h>
 
 #include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
 #include <physicallayer/entity.h>
 #include <propclass/mesh.h>
 

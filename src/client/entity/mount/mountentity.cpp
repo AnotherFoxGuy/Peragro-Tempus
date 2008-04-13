@@ -18,6 +18,16 @@
 
 #include "mountentity.h"
 
+#include <imesh/object.h>
+#include <iengine/mesh.h>
+#include <imesh/spritecal3d.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/mesh.h>
+#include <propclass/linmove.h>
+
 #include "client/entity/player/playerentity.h"
 
 #include "client/reporter/reporter.h"

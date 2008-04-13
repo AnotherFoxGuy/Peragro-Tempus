@@ -9,6 +9,7 @@ under each day.
  - Sueastside started implementation of PlayerControls and ViewBob components.
  - Sueastside changed doordatamanger to include tile coordinates, so doors can
    have their position specified relative to the tile.
+ - Sueastside performed more work on the PlayerControls component. Breaking Change!
 
 11-Apr-2008
  - swedishcoder fixed a Jamfile to make it compile with gcc.

@@ -23,6 +23,8 @@
 
 #include "client/pointer/pointer.h"
 
+#include <csgeom/transfrm.h>
+
 namespace PT
 {
   namespace Entity

@@ -18,9 +18,17 @@
 
 #include "characterentity.h"
 
+#include <imesh/object.h>
+#include <iengine/mesh.h>
 #include <imesh/genmesh.h>
 #include <imesh/gmeshskel2.h>
 #include <imesh/skeleton.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/mesh.h>
+#include <propclass/actormove.h>
 
 #include "client/entity/entitymanager.h"
 

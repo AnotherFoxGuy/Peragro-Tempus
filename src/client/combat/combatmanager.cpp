@@ -21,14 +21,17 @@
 #include <iutil/objreg.h>
 #include <imap/loader.h>
 
+#include <imesh/genmesh.h>
+#include <imesh/gmeshskel2.h>
+#include <imesh/skeleton.h>
+
 #include <physicallayer/pl.h>
 #include <physicallayer/propfact.h>
 #include <physicallayer/propclas.h>
 #include <physicallayer/entity.h>
 #include <propclass/colldet.h>
-#include <imesh/genmesh.h>
-#include <imesh/gmeshskel2.h>
-#include <imesh/skeleton.h>
+#include <propclass/mesh.h>
+#include <propclass/prop.h>
 
 #include "client/reporter/reporter.h"
 

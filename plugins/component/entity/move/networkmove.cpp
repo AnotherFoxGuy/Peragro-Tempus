@@ -19,8 +19,21 @@
 #include <cssysdef.h>
 #include "plugins/component/entity/move/networkmove.h"
 
+#include <iengine/engine.h>
+#include <iengine/sector.h>
+#include <iengine/movable.h>
+
+#include <iengine/mesh.h>
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>
+#include <iutil/virtclk.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/mesh.h>
+#include <propclass/linmove.h>
+#include <propclass/actormove.h>
 
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"

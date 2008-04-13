@@ -18,6 +18,18 @@
 
 #include "doorentity.h"
 
+#include <iengine/mesh.h>
+#include <iengine/engine.h>
+#include <iengine/movable.h>
+
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/mesh.h>
+//#include <propclass/linmove.h>
+#include <propclass/prop.h>
+#include <propclass/quest.h>
+
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
