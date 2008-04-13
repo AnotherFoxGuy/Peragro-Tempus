@@ -63,7 +63,7 @@
 
 #include "client/reporter/reporter.h"
 
-#include "cursor.h"
+#include "cursor/cursor.h"
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
@@ -397,7 +397,7 @@ namespace PT
     InitializeCEL();
 
     // Create the cursor.
-    cursor = new Cursor();
+    cursor = new Cursor(&pointerlib);
     if (!cursor) return Report(PT::Error, "Can't create cursor!");
     pointerlib.setCursor(cursor);
 

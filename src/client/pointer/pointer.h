@@ -55,6 +55,7 @@ namespace PT
   {
     class EntityManager;
     class StatManager;
+    class PlayerEntity;
   } // Entity namespace
 
   namespace Effect
@@ -103,6 +104,8 @@ private:
   PT::World* world;
   PT::Reporter* reporter;
 
+  PT::Entity::PlayerEntity* playerEntity;
+
 public:
   PointerLibrary() {
     pointerlib = this;
@@ -129,6 +132,8 @@ public:
 
     world = 0;
     reporter = 0;
+
+    playerEntity = 0;
   }
 
   static PointerLibrary* getInstance() { return pointerlib; }
@@ -195,6 +200,9 @@ public:
 
   void setReporter(PT::Reporter* reporter) { this->reporter = reporter; }
   PT::Reporter* getReporter() { return this->reporter; }
+
+  void setPlayer(PT::Entity::PlayerEntity* playerEntity) { this->playerEntity = playerEntity; }
+  PT::Entity::PlayerEntity* getPlayer() { return this->playerEntity; }
 
 };
 

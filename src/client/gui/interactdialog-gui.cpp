@@ -24,7 +24,7 @@
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
-#include "client/cursor.h"
+#include "client/cursor/cursor.h"
 
 #include "client/reporter/reporter.h"
 

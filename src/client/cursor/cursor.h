@@ -34,6 +34,8 @@ struct iMeshWrapper;
 class csVector3;
 struct iSector;
 
+class PointerLibrary;
+
 namespace CEGUI
 {
   class Window;
@@ -45,6 +47,8 @@ namespace CEGUI
 class Cursor : public scfImplementation1<Cursor, iEventHandler>
 {
 private:
+  PointerLibrary* pointerlib;
+
   /// Pointer to the selected entity.
   csWeakRef<iCelEntity> selectedEntity;
   /// The mouse x coordinate.
@@ -75,7 +79,7 @@ public:
   /**
    * Constructor.
    */
-  Cursor();
+  Cursor(PointerLibrary* pl);
 
   /// Destructor.
   ~Cursor();

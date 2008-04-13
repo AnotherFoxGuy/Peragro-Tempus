@@ -21,6 +21,8 @@
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>
+#include <iengine/sector.h>
+#include <iutil/object.h>
 
 #include <physicallayer/pl.h>
 #include <physicallayer/propfact.h>
@@ -31,7 +33,7 @@
 #include <propclass/defcam.h>
 #include <iengine/camera.h>
 
-#include "client/cursor.h"
+#include "client/cursor/cursor.h"
 #include "client/effect/effectsmanager.h"
 
 #include "client/event/eventmanager.h"
@@ -39,7 +41,8 @@
 #include "client/event/inputevent.h"
 
 #include "client/entity/entity.h"
-#include "client/entity/player/playerentity.h"
+//#include "client/entity/player/playerentity.h"
+#include "client/entity/pc/pcentity.h"
 
 //#include "client/entity/statmanager.h"
 
@@ -157,6 +160,7 @@ bool ComponentPlayerControls::PerformMovementAction()
     PT::Events::EventManager* evmgr = pointerlib->getEventManager();
     csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()));
     entityEvent->Add("entityId", entity->GetId());
+    ///@TODO
     entityEvent->Add("walkDirection", float(/*pointerlib->getStatManager()->GetStat("Speed")*/walk*(char(run)+1)));
     entityEvent->Add("turnDirection", float(walk == -1 && backwardReverse ? -turn : turn));
     entityEvent->Add("run", run);
@@ -359,6 +363,7 @@ bool ComponentPlayerControls::ActionToggleDistClipping(iEvent& ev)
   {
     if (!entity->GetCelEntity()) return false;
 
+    ///@TODO
     //pointerlib->getGUIManager()->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
 
     if (camera->UseDistanceClipping()) camera->DisableDistanceClipping();
@@ -376,6 +381,7 @@ bool ComponentPlayerControls::ActionActivateWeapon(iEvent& ev)
   {
     PT::Entity::CharacterEntity* character = static_cast<PT::Entity::CharacterEntity*>(entity);
     if (character) return false;
+    ///@TODO
     //character->PlayAnimation("attack_sword_s");
   }
 
@@ -430,7 +436,6 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
 
     csVector3 isect, untransfCoord;
     iSector* sector = 0;
-    /*
     Cursor* cursor = pointerlib->getCursor();
     csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord, &sector);
 
@@ -442,7 +447,8 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
       csRef<iEvent> effectEvent = evmgr->CreateEvent("effect.atposition");
       effectEvent->Add("effect", "MoveMarker");
       PT::Events::EntityHelper::SetVector3(effectEvent, "position", isect+csVector3(0,0.01f,0));
-      effectEvent->Add("sector", sector);
+      if (sector)
+        effectEvent->Add("sector", sector->QueryObject()->GetName());
       evmgr->AddEvent(effectEvent);
 
       csRef<iCelEntity> ownent = entity->GetCelEntity();
@@ -455,13 +461,12 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
       msg.setRun(run);
       pointerlib->getNetwork()->send(&msg);
 
-      //Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
+      pointerlib->getReporter()->Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
     }
     else
     {
-      //Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
+      pointerlib->getReporter()->Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
     }
-    */
   }
 
   return true;

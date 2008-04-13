@@ -95,11 +95,13 @@ namespace PT
         Report(PT::Error, "Failed to load the playerControls!");
       components.Push(playerControls);
 
+      PointerLibrary::getInstance()->setPlayer(this);
     }
 
     PlayerEntity::~PlayerEntity()
     {
       instance=0;
+      PointerLibrary::getInstance()->setPlayer(0);
     }
 
     PlayerEntity* PlayerEntity::Instance(const iEvent* ev)

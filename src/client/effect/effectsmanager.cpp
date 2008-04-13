@@ -36,6 +36,9 @@
 
 #include <iengine/engine.h>
 
+#include "client/event/eventmanager.h"
+#include "client/event/entityevent.h"
+
 #include "client/data/effect/effectdatamanager.h"
 #include "client/data/effect/dataeffect.h"
 
@@ -68,9 +71,32 @@ namespace PT
       if (!engine)
         return Report(PT::Bug, "EffectsManager: Failed to locate 3D engine!");
 
+      // Register listener for atposition.
+      using namespace PT::Events;
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      csRef<EventHandlerCallback> cbEffect;
+      cbEffect.AttachNew(new EventHandler<EffectsManager>(&EffectsManager::CreateEffect, this));
+      evmgr->AddListener("effect.atposition", cbEffect);
+      eventHandlers.Push(cbEffect);
+
 
       return true;
     }
+
+    bool EffectsManager::CreateEffect (iEvent& ev)
+    {
+      using namespace PT::Events;
+
+      std::string effectName = EntityHelper::GetString(&ev, "effect");
+      csVector3 pos = EntityHelper::GetPosition(&ev);
+      std::string sectorName = EntityHelper::GetString(&ev, "sector");
+
+      iSector* sector = engine->FindSector(sectorName.c_str());
+
+      CreateEffect (effectName, pos, sector);
+
+      return false;
+    } // end CreateEffect()
 
     void EffectsManager::HandleEffects (csTicks elapsed_ticks)
     {
@@ -83,7 +109,7 @@ namespace PT
           effects.DeleteIndex (i);
         }
       }
-    }
+    } // end HandleEffects()
 
     iMeshWrapper* EffectsManager::CreateEffectMesh (const std::string& effectName)
     {
@@ -111,7 +137,7 @@ namespace PT
       effects.Push (eff);
 
       return eff.GetMesh();
-    }
+    } // end CreateEffectMesh()
 
     bool EffectsManager::CreateEffect (const std::string& effectName, iMeshWrapper* parent)
     {
@@ -129,7 +155,7 @@ namespace PT
       effectmw->QuerySceneNode()->SetParent(parent->QuerySceneNode());
 
       return true;
-    }
+    } // end CreateEffect()
 
     bool EffectsManager::CreateEffect (const std::string& effectName, csVector3 pos, iSector* sector)
     {
@@ -156,7 +182,7 @@ namespace PT
       effectmw->QuerySceneNode()->GetMovable()->UpdateMove();
 
       return true;
-    }
+    } // end CreateEffect()
 
     bool EffectsManager::CreateDecal (csVector3 pos)
     {
@@ -185,7 +211,7 @@ namespace PT
       decalMgr->CreateDecal(decalTemplate, camera->GetSector(), pos, up, normal, 1.0f, 1.0f);
 
       return true;
-    }
+    } // end CreateDecal()
 
   } // Data namespace
 } // PT namespace

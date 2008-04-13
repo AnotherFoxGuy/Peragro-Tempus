@@ -10,6 +10,7 @@ under each day.
  - Sueastside changed doordatamanger to include tile coordinates, so doors can
    have their position specified relative to the tile.
  - Sueastside performed more work on the PlayerControls component. Breaking Change!
+ - Sueastside finished the PlayerControls component.
 
 11-Apr-2008
  - swedishcoder fixed a Jamfile to make it compile with gcc.

@@ -32,9 +32,15 @@ struct iObjectRegistry;
 struct iLoader;
 struct iCollection;
 struct iSector;
+struct iEvent;
 
 namespace PT
 {
+  namespace Events
+  {
+    struct EventHandlerCallback;
+  }
+
   namespace Effect
   {
     class FactoryManager;
@@ -49,6 +55,8 @@ namespace PT
       ///Effect instances. Instances are owned by EffectsManager.
       csArray<Effect> effects;
 
+      csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
+
       csRef<iObjectRegistry> obj_reg;
       csRef<iEngine> engine;
 
@@ -61,6 +69,8 @@ namespace PT
        * @return Pointer to the created iMeshWrapper, 0 if an error occured.
        */
       iMeshWrapper* CreateEffectMesh (const std::string& effectName);
+
+      bool CreateEffect (iEvent& ev);
 
     public:
       /**

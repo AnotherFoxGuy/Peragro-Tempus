@@ -35,16 +35,17 @@
 #include "client/pointer/pointer.h"
 #include "client/entity/player/playerentity.h"
 
-Cursor::Cursor() : scfImplementationType (this)
+Cursor::Cursor(PointerLibrary* pl) : scfImplementationType (this)
 {
   selectedEntity = 0;
+  pointerlib = pl;
 
-  CEGUI::WindowManager* winMgr = PointerLibrary::getInstance()->getGUIManager()->GetCEGUI()->GetWindowManagerPtr();
+  CEGUI::WindowManager* winMgr = pointerlib->getGUIManager()->GetCEGUI()->GetWindowManagerPtr();
   CEGUI::Window* root = winMgr->getWindow("Root");
   nameTag = winMgr->createWindow("Peragro/Entity", "NameTag");
   root->addChildWindow(nameTag);
 
-  iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  iObjectRegistry* object_reg = pointerlib->getObjectRegistry();
 
   // Register for mouse and frame events.
   mouse = csevMouseEvent (object_reg);
@@ -56,14 +57,14 @@ Cursor::Cursor() : scfImplementationType (this)
 
 Cursor::~Cursor()
 {
-  iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  iObjectRegistry* object_reg = pointerlib->getObjectRegistry();
   csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
   q->RemoveListener (this);
 }
 
 bool Cursor::HandleEvent(iEvent& event)
 {
-  iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  iObjectRegistry* object_reg = pointerlib->getObjectRegistry();
 
   if (event.Name == frame)
   {
@@ -92,8 +93,8 @@ void Cursor::Frame(iEvent& e)
   static int x = 0;
   static int y = 0;
 
-  PT::Entity::PlayerEntity *player = PT::Entity::PlayerEntity::Instance();
-  iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+  PT::Entity::PlayerEntity* player = pointerlib->getPlayer();
+  iObjectRegistry* object_reg = pointerlib->getObjectRegistry();
   csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (player && pl)
   {

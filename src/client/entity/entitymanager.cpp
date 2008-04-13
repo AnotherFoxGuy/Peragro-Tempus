@@ -43,7 +43,7 @@
 
 #include "client/reporter/reporter.h"
 
-#include "client/cursor.h"
+#include "client/cursor/cursor.h"
 
 namespace PT
 {
