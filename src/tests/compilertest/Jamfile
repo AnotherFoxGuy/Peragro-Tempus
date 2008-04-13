@@ -1,0 +1,8 @@
+SubDir TOP src tests compilertest ;
+
+Description compilertest : "Compiler Test" ;
+Application compilertest : [ Wildcard *.h *.cpp ] : console ;
+LinkWith compilertest : tinyxml util ;
+
+ExternalLibs compilertest : CRYSTAL ;
+

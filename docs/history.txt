@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+13-Apr-2008
+ - Adding a small test app to reproduce a crash with gcc when using -O3.
+
 12-Apr-2008
  - Rakhun fixed local movement.
  - Sueastside started implementation of PlayerControls and ViewBob components.
