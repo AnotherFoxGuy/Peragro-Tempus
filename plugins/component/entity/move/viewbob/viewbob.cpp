@@ -55,7 +55,7 @@ bool ComponentViewBob::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
   using namespace PT::Events;
   using namespace PT::Entity;
 
-  EventManager* evmgr = pointerlib->getEventManager();
+//EventManager* evmgr = pointerlib->getEventManager();
 /*
   // Register listener for move.
   csRef<EventHandlerCallback> cbMove;

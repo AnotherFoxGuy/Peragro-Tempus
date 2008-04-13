@@ -59,7 +59,7 @@ CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (PlayerControls, "peragro.entity.input.playercontrols")
 
 //-------------------------------------------------------------------------------------
-#define REGISTER_LISTENER(Class, funct, ev, specific)	              		              \
+#define REGISTER_LISTENER(Class, funct, ev, specific)                                 \
 using namespace PT::Events;                                                           \
 csRef<EventHandlerCallback> cb##funct;                                                \
 cb##funct.AttachNew(new EventHandler</**/Class>(&/**/Class::/**/funct, this));        \
@@ -161,7 +161,7 @@ bool ComponentPlayerControls::PerformMovementAction()
     csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()));
     entityEvent->Add("entityId", entity->GetId());
     ///@TODO
-    entityEvent->Add("walkDirection", float(/*pointerlib->getStatManager()->GetStat("Speed")*/walk*(char(run)+1)));
+    entityEvent->Add("walkDirection", float(/*pointerlib->getStatManager()->GetStat("Speed")*/4*walk*(char(run)+1)));
     entityEvent->Add("turnDirection", float(walk == -1 && backwardReverse ? -turn : turn));
     entityEvent->Add("run", run);
     entityEvent->Add("jump", jump);
