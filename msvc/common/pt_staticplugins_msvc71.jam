@@ -21,5 +21,5 @@ STATICPLUGIN.component_networkmove.LFLAGS.release.71 = libpt_staticplugins.lib l
 STATICPLUGINS.AVAILABLE += component_playercontrols ;
 STATICPLUGIN.component_playercontrols.CFLAGS.debug.71 = "/D USE_CEL" ;
 STATICPLUGIN.component_playercontrols.CFLAGS.release.71 = "/D USE_CEL" ;
-STATICPLUGIN.component_playercontrols.LFLAGS.debug.71 = libpt_staticplugins_d.lib libclient-reporter_d.lib libclient-eventmanager_d.lib libcomponent_d.lib libclient-data_d.lib libcrystalspace_d.lib libceltool_d.lib ;
-STATICPLUGIN.component_playercontrols.LFLAGS.release.71 = libpt_staticplugins.lib libclient-reporter.lib libclient-eventmanager.lib libcomponent.lib libclient-data.lib libcrystalspace.lib libceltool.lib ;
+STATICPLUGIN.component_playercontrols.LFLAGS.debug.71 = libpt_staticplugins_d.lib libclient-reporter_d.lib libclient-eventmanager_d.lib libcomponent_d.lib libclient-data_d.lib libnetwork_d.lib libclient-cursor_d.lib libutil_d.lib libtcp-network_d.lib libcrystalspace_d.lib libceltool_d.lib ;
+STATICPLUGIN.component_playercontrols.LFLAGS.release.71 = libpt_staticplugins.lib libclient-reporter.lib libclient-eventmanager.lib libcomponent.lib libclient-data.lib libnetwork.lib libclient-cursor.lib libutil.lib libtcp-network.lib libcrystalspace.lib libceltool.lib ;
