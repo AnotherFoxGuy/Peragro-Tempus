@@ -68,7 +68,7 @@ class Cursor;
 
 namespace CEGUI
 {
-  struct EventArgs;
+  class EventArgs;
 }
 
 namespace PT

@@ -24,7 +24,7 @@
 #include <vector>
 
 class Server;
-struct PtVector2;
+class PtVector2;
 
 class ZoneManager
 {
