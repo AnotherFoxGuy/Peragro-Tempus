@@ -304,6 +304,9 @@
 				RelativePath="..\..\src\common\util\ptstring.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\ptvector2.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\ptvector3.cpp">
 			</File>
 			<File
@@ -318,6 +321,9 @@
 			Filter="">
 			<File
 				RelativePath="..\..\src\common\util\array.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\math.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\monitor.h">
@@ -336,6 +342,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\pttime.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\ptvector2.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\ptvector3.h">
