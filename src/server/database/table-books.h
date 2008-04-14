@@ -127,7 +127,7 @@ public:
   /**
    * Checks if a book exists based on its id.
    * @param id The id of the book to search for.
-   * return True if the book where found, otherwise false.
+   * return True if the book was found, otherwise false.
    */
   bool existsById(int id);
   /**

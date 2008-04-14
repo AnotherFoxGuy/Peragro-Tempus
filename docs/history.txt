@@ -6,6 +6,7 @@ under each day.
 
 14-Apr-2008
  - vornne added some doxgen comments to the src/client/event/ headers.
+ - Rakhun implemented ZoneManager.
 
 13-Apr-2008
  - Adding a small test app to reproduce a crash with gcc when using -O3.

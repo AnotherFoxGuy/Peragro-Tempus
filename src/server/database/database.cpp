@@ -42,6 +42,7 @@
 #include "table-vertices.h"
 #include "table-triangles.h"
 #include "table-config.h"
+#include "table-zones.h"
 
 Database::Database()
 {
@@ -64,6 +65,7 @@ Database::Database()
   doorstable = 0;
   sectorstable = 0;
   configtable = 0;
+  zonestable = 0;
 }
 
 void Database::init()
@@ -94,6 +96,7 @@ void Database::init()
   verticestable = new VerticesTable(this);
   trianglestable = new TrianglesTable(this);
   configtable = new ConfigTable(this);
+  zonestable = new ZonesTable(this);
   update("commit");
 }
 
@@ -124,5 +127,6 @@ Database::~Database()
   delete verticestable;
   delete trianglestable;
   delete configtable;
+  delete zonestable;
 }
 

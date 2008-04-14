@@ -167,4 +167,3 @@ Array<BooksTableVO*> BooksTable::getAll()
   delete rs;
   return vo;
 }
-
