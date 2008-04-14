@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file bookevent.h
+ *
+ * @brief Helper classes for book events.
+ */
 
 #ifndef PT_BOOK_EVENT_H
 #define PT_BOOK_EVENT_H
@@ -27,8 +32,17 @@ namespace PT
 {
   namespace Events
   {
+    /**
+     * @ingroup events
+     * Provides helper functions for books events.
+     */
     struct BookHelper
     {
+      /**
+       * Gets the title of a book.
+       * @param event The event.
+       * @return The book title.
+       */
       static std::string GetTitle(const iEvent* event)
       {
         const char* titlestr = "";
@@ -39,6 +53,11 @@ namespace PT
         return title;
       }
 
+      /**
+       * Gets the text of a book.
+       * @param event The event.
+       * @return The book text.
+       */
       static std::string GetText(const iEvent* event)
       {
         const char* textstr = "";

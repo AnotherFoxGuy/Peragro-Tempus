@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file interfaceevent.h
+ *
+ * @brief Helper classes for interface events.
+ */
 
 #ifndef PT_INTERFACE_EVENT_H
 #define PT_INTERFACE_EVENT_H
@@ -27,8 +32,18 @@ namespace PT
 {
   namespace Events
   {
+    /**
+     * @ingroup events
+     * Provides helper functions for interface events.
+     */
     struct InterfaceHelper
     {
+      /**
+       * Get whether an event contains the action.
+       * @param event The event.
+       * @param action The action name.
+       * @return True if the action is contained in the event.
+       */
       static bool ContainsAction(const iEvent* event, const char* action)
       {
         const char* actionsstr = "";

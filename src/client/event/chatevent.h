@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file chatevent.h
+ *
+ * @brief Helper classes for chat events.
+ */
 
 #ifndef PT_CHAT_EVENT_H
 #define PT_CHAT_EVENT_H
@@ -27,9 +32,17 @@ namespace PT
 {
   namespace Events
   {
+    /**
+     * @ingroup events
+     * Provides helper funtions for chat events.
+     */
     struct ChatHelper
     {
-
+      /**
+       * Gets the nickname from a chat event.
+       * @param event The event.
+       * @return The nickname.
+       */
       static std::string GetNickName(const iEvent* event)
       {
         const char* nickstr = "";
@@ -40,6 +53,11 @@ namespace PT
         return nick;
       }
 
+      /**
+       * Gets the message content of a chat event.
+       * @param event The event.
+       * @return The message.
+       */
       static std::string GetMessage(const iEvent* event)
       {
         const char* messagestr = "";

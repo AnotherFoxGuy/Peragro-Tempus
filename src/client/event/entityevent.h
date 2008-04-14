@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file entityevent.h
+ *
+ * @brief Helper classes for entity events.
+ */
 
 #ifndef PTENTITY_EVENT_H
 #define PTENTITY_EVENT_H
@@ -36,25 +41,50 @@ namespace PT
 {
   namespace Events
   {
+    /**
+     * @ingroup events
+     * Provides helper functions for entity events.
+     */
     struct EntityHelper
     {
+      /**
+       * Provides helper functions for equipment data.
+       */
       struct EquipmentData
       {
+        /**
+         * Structure to store equipment data passed with an entity event.
+         */
         struct Equipment
         {
+          /// The slot ID.
           unsigned int slotId;
+          /// The item ID.
           unsigned int itemId;
+          /// The variation ID.
           unsigned int variation;
+          /// The file name.
           std::string file;
+          /// The mesh name.
           std::string mesh;
         };
+        /// The array of equipment.
         csArray<Equipment> equipment;
 
+        /// Destructor.
         ~EquipmentData()
         {
           equipment.DeleteAll();
         }
 
+        /**
+         * Add an item of equipment to the array.
+         * @param slotId The slot ID.
+         * @param itemId The item ID.
+         * @param variation The variation ID.
+         * @param file The file name.
+         * @param mesh The mesh name.
+         */    
         void Add(unsigned int slotId, unsigned int itemId, unsigned int variation, const char* file, const char* mesh)
         {
           Equipment eq;
@@ -66,10 +96,18 @@ namespace PT
           equipment.Push(eq);
         }
 
+        /// Returns the size of the equipment array.
         size_t GetSize() { return equipment.GetSize(); }
+        /// Returns the equipment item at the index from the array.
         Equipment Get(size_t idx) { return equipment.Get(idx); }
       };
 
+      /**
+       * Returns a string with the event name and an ID appended.
+       * @param eventname The event name.
+       * @param id The event ID.
+       * @return A string with the name, a period, then the ID.
+       */
       static std::string MakeEntitySpecific(const char* eventname, unsigned int id)
       {
         std::string str;
@@ -79,6 +117,11 @@ namespace PT
         return str;
       }
 
+      /**
+       * Create an equipment data stucture from an entity event.
+       * @param ev An entity event.
+       * @return The equipment data.
+       */
       static EquipmentData* GetEquipment(const iEvent* ev)
       {
         const void* constEquipment = 0;
@@ -101,6 +144,12 @@ namespace PT
         return equipment;
       }
 
+      /**
+       * Add coordinates to an event parameter, as a csVector3.
+       * @param ev An entity event.
+       * @param name The name of the event parameter to add the coordinates to.
+       * @param pos The coordinates.
+       */
       static void SetVector3(iEvent* ev, const char* name, csVector3 pos)
       {
         float tmp[3];
@@ -110,6 +159,12 @@ namespace PT
         SetVector3(ev, name, tmp);
       }
 
+      /**
+       * Add coordinates to an event parameter, as a float pointer.
+       * @param ev An entity event.
+       * @param name The name of the event parameter to add the coordinates to.
+       * @param pos The coordinates.
+       */
       static void SetVector3(iEvent* ev, const char* name, float* pos)
       {
         std::string nm = name;
@@ -127,6 +182,12 @@ namespace PT
         ev->Add(nmZ.c_str(), z);
       }
 
+      /**
+       * Get coordinates from an event parameter.
+       * @param ev An entity event.
+       * @param name The name of the event parameter to get the coordinates from.
+       * @return The coordinates.
+       */
       static csVector3 GetVector3(const iEvent* ev, const char* name)
       {
         std::string nm = name;
@@ -148,16 +209,31 @@ namespace PT
         return pos;
       }
 
+      /**
+       * Set the position for an entity event.
+       * @param ev An entity event.
+       * @param pos The coordinates.
+       */
       static void SetPosition(iEvent* ev, float* pos)
       {
         SetVector3(ev, "position", pos);
       }
 
+      /**
+       * Get the position from an entity event.
+       * @param ev An entity event.
+       * @return The coordinates.
+       */
       static csVector3 GetPosition(const iEvent* ev)
       {
         return GetVector3(ev, "position");
       }
 
+      /**
+       * Get the entity's ID from an event.
+       * @param ev An entity event.
+       * @return The entity's ID.
+       */
       static unsigned int GetEntityID(const iEvent* event)
       {
         unsigned int id = -1;
@@ -167,6 +243,11 @@ namespace PT
         return id;
       }
 
+      /**
+       * Get the entity's type from an event.
+       * @param ev An entity event.
+       * @return The entity's type.
+       */
       static unsigned int GetEntityType(const iEvent* event)
       {
         unsigned int type = -1;
@@ -176,6 +257,11 @@ namespace PT
         return type;
       }
 
+      /**
+       * Get the entity's sector ID from an event.
+       * @param ev An entity event.
+       * @return The entity's sector ID.
+       */
       static unsigned int GetSectorId(const iEvent* event)
       {
         unsigned int sector = -1;
@@ -185,6 +271,12 @@ namespace PT
         return sector;
       }
 
+      /**
+       * Get an entity event parameter's value.
+       * @param ev An entity event.
+       * @param name The name of the parameter.
+       * @return The parameter's value.
+       */
       static std::string GetString(const iEvent* event, const char* name)
       {
         const char* str = "";

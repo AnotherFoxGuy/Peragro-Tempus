@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file inputevent.h
+ *
+ * @brief Helper classes for input events.
+ */
 
 #ifndef PT_INPUT_EVENT_H
 #define PT_INPUT_EVENT_H
@@ -29,9 +34,17 @@ namespace PT
 {
   namespace Events
   {
+    /**
+     * @ingroup events
+     * Provides helper functions for input events.
+     */
     struct InputHelper
     {
-
+      /**
+       * Get the action from an event.
+       * @param event The event.
+       * @return The action string.
+       */
       static const char* GetAction(const iEvent* event)
       {
         const char* action = "";
@@ -40,6 +53,11 @@ namespace PT
         return action;
       }
 
+      /**
+       * Get the button state from an event.
+       * @param event The event.
+       * @return True if the button is down, false if up.
+       */
       static bool GetButtonDown(const iEvent* event)
       {
         bool state = false;

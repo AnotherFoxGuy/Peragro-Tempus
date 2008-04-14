@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file regionevent.h
+ *
+ * @brief Helper classes for region events.
+ */
 
 #ifndef PT_REGION_EVENT_H
 #define PT_REGION_EVENT_H
@@ -29,9 +34,17 @@ namespace PT
 {
   namespace Events
   {
+    /**
+     * @ingroup events
+     * Provides helper functions for region events.
+     */
     struct WorldHelper
     {
-
+      /**
+       * Get the current progress in loading the world.
+       * @param event The event.
+       * @return A decimal number from 0 to 1 representing the current progress.
+       */ 
       static float GetProgress(const iEvent* event)
       {
         float progress = 0.0f;

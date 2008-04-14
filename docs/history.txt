@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+14-Apr-2008
+ - vornne added some doxgen comments to the src/client/event/ headers.
+
 13-Apr-2008
  - Adding a small test app to reproduce a crash with gcc when using -O3.
  - Changing the generator to not initialise variables on its own and adding

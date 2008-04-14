@@ -11,3 +11,11 @@
   properties. Class MovementManager handles the moving of entities. The base
   class to be inherited when adding new entity type is class Entity.
  */
+/**
+  @defgroup events Event Handling System
+  The event handling system contains the EventManager that registers listeners
+  for specific events, recieves events and puts them in a queue, and sends
+  them to the subscribed listeners. It also contains classes with helper
+  functions for various types of events.
+  @TODO: write a better description, maybe?
+ */

@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file event.h
+ *
+ * @brief General helper classes for events.
+ */
 
 #ifndef EVENT_H
 #define EVENT_H
@@ -27,10 +32,16 @@ namespace PT
 {
   namespace Events
   {
-
+    /**
+     * @ingroup events
+     * Provides helper functions for events.
+     */
     struct Helper
     {
-
+      /**
+       * Print all the event's attributes to the console.
+       * @param event The event.
+       */
       void DisplayEvent(iEvent* event)
       {
         csRef<iEventAttributeIterator> it = event->GetAttributeIterator();

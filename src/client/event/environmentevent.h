@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file enviromentevent.h
+ *
+ * @brief Helper classes for enviroment events.
+ */
 
 #ifndef PTENVIRONMENT_EVENT_H
 #define PTENVIRONMENT_EVENT_H
@@ -29,9 +34,17 @@ namespace PT
 {
   namespace Events
   {
+    /**
+     * @ingroup events
+     * Helper functions for enviroment events.
+     */
     struct EnvironmentHelper
     {
-
+      /**
+       * Get the time of day from an event.
+       * @param event The event.
+       * @return The hour as an integer from 0 to 23.
+       */
       static unsigned int GetDayTime(const iEvent* event)
       {
         unsigned int hour = 0;

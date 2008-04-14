@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file eventhandler.h
+ *
+ * @brief Event handler template.
+ */
 
 #ifndef EVENT_HANDLER_CALLBACK_H
 #define EVENT_HANDLER_CALLBACK_H
@@ -33,19 +38,39 @@ namespace PT
 {
   namespace Events
   {
-
+    /**
+     * @ingroup events
+     * The callback to an event handler.
+     */
     struct EventHandlerCallback : public virtual iBase
     {
       SCF_INTERFACE(EventHandlerCallback, 1,0,0);
+
+      /**
+       * Handle an event.
+       * @param ev The event.
+       * @return Whether the event was handled.
+       */
       virtual bool HandleEvent(iEvent& ev) = 0;
     };
 
+    /**
+     * @ingroup events
+     * The event handler template.
+     */
     template <class Class>
     class EventHandler : public scfImplementation1<EventHandler<Class>, EventHandlerCallback>
     {
     public:
+      /// TODO: is this correct?
       typedef bool (Class::*Func)(iEvent&);
 
+      /**
+       * TODO: is this correct?
+       * Constructor. Creates a handler of the class for the function.
+       * @param function The function.
+       * @param classy The class.
+       */
       EventHandler(Func function, Class *classy) :
                    scfImplementation1<EventHandler<Class>,
                                       EventHandlerCallback> (this)
@@ -54,12 +79,20 @@ namespace PT
         thefunc = function;
       }
 
+      /**
+       * Handle an event.
+       * @param ev The event.
+       * @return Whether the event was handled.
+       */
       bool HandleEvent(iEvent& ev)
       {
         return (theclass->*thefunc)(ev);
       }
 
+      /// TODO: are these correct?
+      /// A pointer to the templated class.
       Class *theclass;
+      /// The function.
       Func thefunc;
     };
   } // Events namespace
