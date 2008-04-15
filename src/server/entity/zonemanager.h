@@ -26,6 +26,11 @@
 class Server;
 class PtVector2;
 
+/**
+ * ZoneManager
+ * Holds zones and determines what type of zone a coordinate is in
+ *   (from a player probably)
+ */
 class ZoneManager
 {
 private:
@@ -38,13 +43,20 @@ private:
 public:
   enum ZoneType
   {
-    Ground=0,
-    Water=1, // Water and other swimmable fluids (including lava if you find a way to survive the heat?)
-    Slow=2 // Anything that would slow you down, like high grass or sticky goo
+    GROUND=0,
+    WATER=1, // Water and other swimmable fluids (including lava if you find a way to survive the heat?)
+    SLOW=2 // Anything that would slow you down, like high grass or sticky goo
   };
 
+  /// Standard loadFromDB function.
   void loadFromDB(ZonesTable* zonestable);
 
+  /**
+   * Get the zonetype a coordinate is in.
+   * \param x The X position of the coordinate to get the zonetype for.
+   * \param y The Y position of the coordinate to get the zonetype for.
+   * \return Zonetype for the given coordinate, returns Ground (0) if no zone is found.
+   */
   ZoneType GetZone(float x, float z);
 };
 

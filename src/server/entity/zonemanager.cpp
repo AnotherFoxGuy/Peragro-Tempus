@@ -48,5 +48,5 @@ ZoneManager::ZoneType ZoneManager::GetZone(float x, float z)
       return ZoneType(zones[i].type);
     }
   }
-  return Ground;
+  return GROUND;
 }
