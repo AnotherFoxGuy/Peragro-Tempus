@@ -177,8 +177,8 @@ namespace PT
 
     csRef<iEngine> engine;
     csRef<iGraphics3D> g3d;
-    csRef<iVirtualClock> vc;
     csRef<iVFS> vfs;
+    csRef<iVirtualClock> vc;
     csRef<iCommandLineParser> cmdline;
     csRef<iView> view;
     csRef<iCelPlLayer> pl;

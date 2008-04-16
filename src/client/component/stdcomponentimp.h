@@ -29,6 +29,18 @@
 
 struct iObjectRegistry;
 
+//-------------------------------------------------------------------------------------
+#define REGISTER_LISTENER(Class, funct, ev, specific)                                 \
+using namespace PT::Events;                                                           \
+csRef<EventHandlerCallback> cb##funct;                                                \
+cb##funct.AttachNew(new EventHandler</**/Class>(&/**/Class::/**/funct, this));        \
+if (specific)                                                                         \
+evmgr->AddListener(EntityHelper::MakeEntitySpecific(ev, entity->GetId()), cb##funct); \
+else                                                                                  \
+  evmgr->AddListener(ev, cb##funct);                                                  \
+eventHandlers.Push(cb##funct);                                                        \
+//-------------------------------------------------------------------------------------
+
 class ComponentCommon : public scfImplementation1<ComponentCommon, ComponentInterface>
 {
 private:

@@ -22,6 +22,15 @@
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>
 
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+//#include <propclass/actormove.h>
+#include <propclass/linmove.h>
+
+#include <propclass/defcam.h>
+#include <iengine/camera.h>
+
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
 
@@ -38,9 +47,22 @@
 CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (ViewBob, "peragro.entity.move.viewbob")
 
+// These defines should probably go to configuration file.
+// PERIOD defines were calculated from the player character animations.
+// OFFSET_RANGE defines were made up.
+#define WALK_PERIOD 499
+#define WALK_OFFSET_RANGE 0.03f
+#define RUN_PERIOD 416
+#define RUN_OFFSET_RANGE 0.08f
+#define HEAD_HEIGHT 1.55f
+
 ComponentViewBob::ComponentViewBob(iObjectRegistry* object_reg) :
 	scfImplementationType (this, object_reg)
 {
+  viewBobEffect.base = HEAD_HEIGHT;
+  viewBobEffect.offset = 0.0f;
+  viewBobEffect.period = WALK_PERIOD;
+  viewBobEffect.range = WALK_OFFSET_RANGE;
 }
 
 ComponentViewBob::~ComponentViewBob()
@@ -52,26 +74,140 @@ bool ComponentViewBob::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
   pointerlib = pl;
   entity = ent;
 
+  camera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
+
+  vc = csQueryRegistry<iVirtualClock> (pointerlib->getObjectRegistry());
+  if (!vc) return pointerlib->getReporter()->Report(PT::Error, "Failed to locate Virtual Clock!");
+
   using namespace PT::Events;
   using namespace PT::Entity;
 
-//EventManager* evmgr = pointerlib->getEventManager();
-/*
-  // Register listener for move.
-  csRef<EventHandlerCallback> cbMove;
-  cbMove.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::Move, this));
-  evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()), cbMove);
-  eventHandlers.Push(cbMove);
+  EventManager* evmgr = pointerlib->getEventManager();
 
-  // Register listener for InterfaceOptionsEvent.
-  csRef<EventHandlerCallback> cbUpdate;
-  cbUpdate.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::UpdateOptions, this));
-  evmgr->AddListener("interface.options", cbUpdate);
-  eventHandlers.Push(cbUpdate);
+  REGISTER_LISTENER(ComponentViewBob, Frame, "crystalspace.frame", false)
 
-  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
-  local_movement = app_cfg->GetBool("Client.local_movement", false);
-*/
   return true;
 } // end Initialize()
+
+bool ComponentViewBob::Frame(iEvent& ev)
+{
+  if (!camera.IsValid()) return false;
+
+  csTicks elapsedTicks = vc->GetElapsedTicks();
+
+  if (elapsedTicks > 0)
+  {
+    bool offsetChanged;
+    if (camera->GetMode() == iPcDefaultCamera::firstperson &&
+      entity->GetCelEntity())
+    {
+      // TODO: Make the effect work with mounts.
+      csRef<iPcLinearMovement> pclinmove =
+        CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
+      if (pclinmove && !pclinmove->GetVelocity().IsZero() &&
+        pclinmove->IsOnGround())
+      {
+        // In first person mode, moving and on the ground.
+        offsetChanged = viewBobEffect.Move(elapsedTicks);
+        if (!offsetChanged) Report(PT::Error,
+          "Camera offset change too small for bobbing effect, elapsed ticks: %lu",
+          elapsedTicks);
+      }
+      else
+      {
+        // In first person mode, not moving or in the air.
+        offsetChanged = viewBobEffect.Reset(false, elapsedTicks);
+      }
+    }
+    else
+    {
+      // Not in first person mode, reset the height now.
+      offsetChanged = viewBobEffect.Reset(true);
+    }
+
+    // If offset was changed, shift the camera.
+    if (offsetChanged)
+    {
+      csVector3 offset(0.0f, viewBobEffect.base+viewBobEffect.offset, 0.0f);
+      camera->SetFirstPersonOffset(offset);
+    }
+  }
+
+  return false;
+}
+
+bool ComponentViewBob::ViewBobEffect::Move(float elapsedTicks)
+{
+  // 4 parts of the cycle, increases and decreases through + and -.
+  float offsetChange = elapsedTicks / (period/4) * range;
+  if (offsetChange < 0.00001f && offsetChange > -0.00001f) return false;
+
+  if (upwards)
+  {
+    // If the offset is above the range, change the direction.
+    if (offset + offsetChange >= range)
+    {
+      offset = range;
+      upwards = false;
+    }
+    else
+    {
+      offset += offsetChange;
+    }
+  }
+  else
+  {
+    // If the offset is below the range, change the direction.
+    if (offset - offsetChange <= -1.0f * range)
+    {
+      offset = -1.0f * range;
+      upwards = true;
+    }
+    else
+    {
+      offset -= offsetChange;
+    }
+  }
+  return true;
+} // end ViewBobEffect::Move()
+
+bool ComponentViewBob::ViewBobEffect::Reset(bool hard, float elapsedTicks)
+{
+  if (offset < 0.00001f && offset > -0.00001f) return false;
+  if (hard)
+  {
+    offset = 0.0f;
+    return true;
+  }
+
+  // 4 parts of the cycle, increases and decreases through + and -.
+  float offsetChange = elapsedTicks / (period/4) * range;
+  // Above the base height, change down toward it.
+  if (offset > 0.0f)
+  {
+    if (offset - offsetChange <= 0.0f)
+    {
+      offset = 0.0f;
+      upwards = true;
+    }
+    else
+    {
+      offset -= offsetChange;
+    }
+  }
+  // Below the base height, change up toward it.
+  else if (offset < 0.0f)
+  {
+    if (offset + offsetChange >= 0.0f)
+    {
+      offset = 0.0f;
+      upwards = true;
+    }
+    else
+    {
+      offset += offsetChange;
+    }
+  }
+  return true;
+} // end ViewBobEffect::Reset()
 

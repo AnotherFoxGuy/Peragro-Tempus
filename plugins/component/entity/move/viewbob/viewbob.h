@@ -24,6 +24,9 @@
 #include <csgeom/vector3.h>
 #include <csutil/csstring.h>
 #include <csutil/refarr.h>
+#include <iutil/virtclk.h>
+#include <csutil/weakref.h>
+
 #include "include/client/component/entity/move/viewbob.h"
 #include "include/client/component/componenttmpl.h"
 
@@ -31,6 +34,7 @@
 
 struct iObjectRegistry;
 struct iEvent;
+struct iPcDefaultCamera;
 
 namespace PT
 {
@@ -52,8 +56,45 @@ private:
   iObjectRegistry* object_reg;
   PointerLibrary* pointerlib;
 
+  csRef<iVirtualClock> vc;
+
   PT::Entity::Entity* entity;
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
+
+  ///Player entity's camera.
+  csWeakRef<iPcDefaultCamera> camera;
+
+  bool Frame(iEvent& ev);
+
+  ///Configuration of the bobbing effect while walking and running.
+  struct ViewBobEffect
+  {
+    /**
+    * Change the view height when moving.
+    * @param elapsedTicks The ticks elapsed since last frame.
+    * @return Whether the offset was changed.
+    */
+    bool Move(float elapsedTicks);
+
+    /**
+    * Change the view height to the standard.
+    * @param hard Whether to reset it now or change gradually.
+    * @param elapsedTicks The ticks elapsed since last frame.
+    * @return Whether the offset was changed.
+    */
+    bool Reset(bool hard, float elapsedTicks = 0.0f);
+
+    ///Base height of the view.
+    float base;
+    ///Offset to the height for the bobbing effect.
+    float offset;
+    ///Time period of one cycle of view movement change.
+    float period;
+    ///Camera offset range.
+    float range;
+    ///The direction of camera movement, true is up, false is down.
+    bool upwards;
+  } viewBobEffect;
 
 public:
     ComponentViewBob (iObjectRegistry*);

@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+16-Apr-2008
+ - Sueastside finished the ViewBob component.
+
 15-Apr-2008
  - Rakhun added doxygen and fixed some coding style in the ZoneManager.
 

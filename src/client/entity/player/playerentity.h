@@ -61,12 +61,6 @@ namespace PT
       static PlayerEntity* Instance(const iEvent* ev = 0);
 
       /**
-       * Set whether the client is ready or not.
-       * @param value New value.
-       */
-      void SetReady(bool value) { ready = value; }
-
-      /**
        * @return Returns the player entity's camera.
        */
       iPcDefaultCamera* GetCamera() { return camera; }
@@ -107,39 +101,6 @@ namespace PT
 
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;
-      ///Determines if the client is ready for movement and other actions or not.
-      bool ready;
-
-      ///Configuration of the bobbing effect while walking and running.
-      struct ViewBobEffect
-      {
-        /**
-         * Change the view height when moving.
-         * @param elapsedTicks The ticks elapsed since last frame.
-         * @return Whether the offset was changed.
-         */
-        bool Move(float elapsedTicks);
-
-        /**
-         * Change the view height to the standard.
-         * @param hard Whether to reset it now or change gradually.
-         * @param elapsedTicks The ticks elapsed since last frame.
-         * @return Whether the offset was changed.
-         */
-        bool Reset(bool hard, float elapsedTicks = 0.0f);
-
-        ///Base height of the view.
-        float base;
-        ///Offset to the height for the bobbing effect.
-        float offset;
-        ///Time period of one cycle of view movement change.
-        float period;
-        ///Camera offset range.
-        float range;
-        ///The direction of camera movement, true is up, false is down.
-        bool upwards;
-      } viewBobEffect;
-
       
       csRef<iVFS> vfs;
 

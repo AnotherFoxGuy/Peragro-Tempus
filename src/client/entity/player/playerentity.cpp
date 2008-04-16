@@ -44,15 +44,7 @@
 #include "client/data/sectordatamanager.h"
 
 #include "include/client/component/entity/input/playercontrols.h"
-
-// These defines should probably go to configuration file.
-// PERIOD defines were calculated from the player character animations.
-// OFFSET_RANGE defines were made up.
-#define WALK_PERIOD 499
-#define WALK_OFFSET_RANGE 0.03f
-#define RUN_PERIOD 416
-#define RUN_OFFSET_RANGE 0.08f
-#define HEAD_HEIGHT 1.55f
+#include "include/client/component/entity/move/viewbob.h"
 
 //#define _MOVEMENT_DEBUG_CHARACTER_
 
@@ -67,11 +59,6 @@ namespace PT
 
     PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
     {
-      viewBobEffect.base = HEAD_HEIGHT;
-      viewBobEffect.offset = 0.0f;
-      viewBobEffect.period = WALK_PERIOD;
-      viewBobEffect.range = WALK_OFFSET_RANGE;
-
       Create();
 
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -94,6 +81,15 @@ namespace PT
       else
         Report(PT::Error, "Failed to load the playerControls!");
       components.Push(playerControls);
+
+      csRef<ComponentFactoryInterface> fact2 = csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, "peragro.entity.move.viewbob");
+      csRef<ComponentInterface> viewBobInt = fact2->CreateComponent("peragro.entity.move.viewbob");
+      csRef<iViewBob> viewBob = scfQueryInterface<iViewBob> (viewBobInt);
+      if(viewBob.IsValid())
+        viewBob->Initialize(PointerLibrary::getInstance(), this);
+      else
+        Report(PT::Error, "Failed to load the viewBob!");
+      components.Push(viewBob);
 
       PointerLibrary::getInstance()->setPlayer(this);
     }
@@ -181,8 +177,6 @@ namespace PT
         camera->SetAutoDraw(false);
         camera->SetMode(iPcDefaultCamera::thirdperson, true);
         camera->SetPitch(-0.18f);
-        csVector3 offset(0.0f, viewBobEffect.base, 0.0f);
-        camera->SetFirstPersonOffset(offset);
       }
       else
         Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
@@ -226,46 +220,6 @@ namespace PT
 
     void PlayerEntity::CameraDraw(csTicks elapsedTicks)
     {
-      if (!camera.IsValid()) return;
-
-      if (elapsedTicks > 0)
-      {
-        bool offsetChanged;
-        if (camera->GetMode() == iPcDefaultCamera::firstperson &&
-            celEntity.IsValid())
-        {
-          // TODO: Make the effect work with mounts.
-          csRef<iPcLinearMovement> pclinmove =
-            CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-          if (pclinmove && !pclinmove->GetVelocity().IsZero() &&
-              pclinmove->IsOnGround())
-          {
-            // In first person mode, moving and on the ground.
-            offsetChanged = viewBobEffect.Move(elapsedTicks);
-            if (!offsetChanged) Report(PT::Error,
-              "Camera offset change too small for bobbing effect, elapsed ticks: %lu",
-              elapsedTicks);
-          }
-          else
-          {
-            // In first person mode, not moving or in the air.
-            offsetChanged = viewBobEffect.Reset(false, elapsedTicks);
-          }
-        }
-        else
-        {
-          // Not in first person mode, reset the height now.
-          offsetChanged = viewBobEffect.Reset(true);
-        }
-
-        // If offset was changed, shift the camera.
-        if (offsetChanged)
-        {
-          csVector3 offset(0.0f, viewBobEffect.base+viewBobEffect.offset, 0.0f);
-          camera->SetFirstPersonOffset(offset);
-        }
-      }
-
       camera->Draw();
     }
 
@@ -324,81 +278,6 @@ namespace PT
       Entity::SetFullPosition(pos, rotation, sector);
 
     } // end SetFullPosition()
-
-    bool PlayerEntity::ViewBobEffect::Move(float elapsedTicks)
-    {
-      // 4 parts of the cycle, increases and decreases through + and -.
-      float offsetChange = elapsedTicks / (period/4) * range;
-      if (offsetChange < 0.00001f && offsetChange > -0.00001f) return false;
-
-      if (upwards)
-      {
-        // If the offset is above the range, change the direction.
-        if (offset + offsetChange >= range)
-        {
-          offset = range;
-          upwards = false;
-        }
-        else
-        {
-            offset += offsetChange;
-        }
-      }
-      else
-      {
-        // If the offset is below the range, change the direction.
-        if (offset - offsetChange <= -1.0f * range)
-        {
-          offset = -1.0f * range;
-          upwards = true;
-        }
-        else
-        {
-          offset -= offsetChange;
-        }
-      }
-      return true;
-    } // end ViewBobEffect::Move()
-
-    bool PlayerEntity::ViewBobEffect::Reset(bool hard, float elapsedTicks)
-    {
-      if (offset < 0.00001f && offset > -0.00001f) return false;
-      if (hard)
-      {
-        offset = 0.0f;
-        return true;
-      }
-
-      // 4 parts of the cycle, increases and decreases through + and -.
-      float offsetChange = elapsedTicks / (period/4) * range;
-      // Above the base height, change down toward it.
-      if (offset > 0.0f)
-      {
-        if (offset - offsetChange <= 0.0f)
-        {
-          offset = 0.0f;
-          upwards = true;
-        }
-        else
-        {
-          offset -= offsetChange;
-        }
-      }
-      // Below the base height, change up toward it.
-      else if (offset < 0.0f)
-      {
-        if (offset + offsetChange >= 0.0f)
-        {
-          offset = 0.0f;
-          upwards = true;
-        }
-        else
-        {
-          offset += offsetChange;
-        }
-      }
-      return true;
-    } // end ViewBobEffect::Reset()
 
   } //Entity namespace
 } //PT namespace
