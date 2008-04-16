@@ -22,7 +22,7 @@ static char const metainfo_component_viewbob[] =
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>peragro.entity.input.move.viewbob</name>"
+"        <name>peragro.entity.move.viewbob</name>"
 "        <implementation>ComponentFViewBob</implementation>"
 "        <description>Perago player entity movement view bobbing</description>"
 "      </class>"
