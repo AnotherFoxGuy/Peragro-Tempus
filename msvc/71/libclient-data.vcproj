@@ -333,6 +333,9 @@
 			<File
 				RelativePath="..\..\src\client\data\teleportdatamanager.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\client\data\zonedatamanager.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -396,6 +399,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\teleportdatamanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\zone.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\data\zonedatamanager.h">
 			</File>
 		</Filter>
 	</Files>

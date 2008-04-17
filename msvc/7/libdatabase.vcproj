@@ -379,6 +379,9 @@
 				RelativePath="..\..\src\server\database\table-vertices.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-zonenodes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-zones.cpp">
 			</File>
 		</Filter>
@@ -465,6 +468,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-vertices.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-zonenodes.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-zones.h">
