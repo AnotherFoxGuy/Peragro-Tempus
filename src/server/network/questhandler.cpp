@@ -29,11 +29,52 @@
 #include "common/quest/npcdialoganswer.h"
 #include "common/quest/npcdialogmanager.h"
 
+#include "server/entity/statmanager.h"
+
 #include "server/database/database.h"
 #include "server/database/table-npcdialogs.h"
 #include "server/database/table-npcdialoganswers.h"
 #include "server/database/table-npcentities.h"
 #include "server/database/table-characters.h"
+
+void QuestHandler::SendDialog(Character* character, const NPCDialog* dialog)
+{
+  Server* server = Server::getServer();
+  NPCDialogState* dia_state = character->getNPCDialogState();
+
+  NpcDialogMessage dialog_msg;
+  dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
+  dialog_msg.setDialogText(dialog->getText());
+  dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
+
+  // The npc has nothing more to say, let him walk away.
+  if (!dialog->getAnswerCount()) {
+    NpcEntity* npc_entity = dia_state->getNpc()->getLock();
+    if (npc_entity) 
+    {
+      npc_entity->pause(false);
+      npc_entity->freeLock();
+
+      NpcEndDialogMessage endmsg;
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      ByteStream bs;
+      endmsg.serialise(&bs);
+      server->broadCast(bs);
+    }
+  }
+
+  for (size_t i = 0; i < dialog->getAnswerCount(); i++)
+  {
+    const NPCDialogAnswer* answer = dialog->getAnswer(i);
+    dialog_msg.setAnswerId(i, (unsigned int)i);
+    dialog_msg.setAnswerText(i, answer->getText());
+  }
+
+  ByteStream bs;
+  dialog_msg.serialise(&bs);
+
+  NetworkHelper::sendMessage(character, bs);
+}
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
@@ -71,38 +112,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
   if (dialog->getAction() == NPCDialog::SHOW_TEXT)
   {
-    NpcDialogMessage dialog_msg;
-    dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
-    dialog_msg.setDialogText(dialog->getText());
-    dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
-
-    // The npc has nothing more to say, let him walk away.
-    if (!dialog->getAnswerCount()) {
-      NpcEntity* npc_entity = dia_state->getNpc()->getLock();
-      if (npc_entity) 
-      {
-        npc_entity->pause(false);
-        npc_entity->freeLock();
-
-        NpcEndDialogMessage endmsg;
-        endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
-        ByteStream bs;
-        endmsg.serialise(&bs);
-        server->broadCast(bs);
-      }
-    }
-
-    for (size_t i = 0; i < dialog->getAnswerCount(); i++)
-    {
-      const NPCDialogAnswer* answer = dialog->getAnswer(i);
-      dialog_msg.setAnswerId(i, (unsigned int)i);
-      dialog_msg.setAnswerText(i, answer->getText());
-    }
-
-    ByteStream bs;
-    dialog_msg.serialise(&bs);
-
-    NetworkHelper::sendMessage(character, bs);
+    SendDialog(character, dialog);
   }
   else if (dialog->getAction() == NPCDialog::START_BUY)
   {
@@ -193,8 +203,161 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     endmsg.serialise(&bs2);
     server->broadCast(bs2);
   }
+  else if (dialog->getAction() == NPCDialog::FUNCTION)
+  {
+    Parse(character, dialog->getText());
+  } // end ABILITYCHECK
 
   character->freeLock();
+}
+
+int QuestHandler::Parse(Character* character, const std::string& function)
+{
+  std::string func = function;
+  RemoveSpaces(func);
+
+  if (IsAtom(func))
+  {
+    if (func.compare("true") == 0)
+      return 1;
+    else if (func.compare("false") == 0)
+      return 0;
+    else
+      return atoi(func.c_str());
+  }
+  else 
+  {
+    return Apply(character, GetOperation(func), GetArguments(func));
+  }
+}
+
+int QuestHandler::Apply( Character* character,const std::string& op, const std::vector<std::string>& args)
+{
+  if (op.compare("?") == 0)
+  {
+    if (args.size() < 3) {printf("ERROR: Not enough params for operation '?'\n"); return 0;}
+    if (Parse(character, args[0]))
+    {
+      return Parse(character, args[1]);
+    }
+    else
+    {
+      if (args.size() < 3)
+        return 0;
+      else
+        return Parse(character, args[2]);
+    }
+  }
+  else if (op.compare(">") == 0)
+  {
+    if (args.size() < 2) {printf("ERROR: Not enough params for operation '>'\n"); return 0;}
+    if (Parse(character, args[0]) > Parse(character, args[1]))
+      return 1;
+    else
+      return 0;
+  }
+  else if (op.compare("stat") == 0)
+  {
+    if (args.size() < 1) {printf("ERROR: Not enough params for operation 'stat'\n"); return 0;}
+    Server* server = Server::getServer();
+    Stat* stat = server->getStatManager()->findByName(ptString(args[0].c_str(), strlen(args[0].c_str())));
+    if (!stat)
+    {
+      return 0;
+    }
+    return character->getStats()->getAmount(stat);
+  }
+  else if (op.compare("dialog") == 0)
+  {
+    if (args.size() < 1) {printf("ERROR: Not enough params for operation 'dialog'\n"); return 0;}
+    unsigned int id = Parse(character, args[0]);
+    NPCDialogState* dia_state = character->getNPCDialogState();
+    const NPCDialog* dialog = dia_state->startDialog(dia_state->getNpc()->getEntity()->getId(), id);
+    SendDialog(character, dialog);
+  }
+
+  return 0;
+}
+
+std::string QuestHandler::GetOperation(const std::string& function)
+{
+  std::string::size_type idx =  function.find_first_of(" ");
+  std::string op = function.substr(1, idx-1);
+
+  return op;
+}
+
+void QuestHandler::RemoveSpaces(std::string& function)
+{
+  size_t left = 0;
+  for (size_t i = 0; i < function.length(); i++)
+  {
+    if (function[i] == ' ') left++;
+    else break;
+  }
+
+  function = function.substr(left, function.length()-left);
+
+  size_t right = function.length();
+  for (size_t i = 0; i < function.length(); i++)
+  {
+    if (function[function.length()-1-i] == ' ') right--;
+    else break;
+  }
+
+  function = function.substr(0, right);
+}
+
+std::vector<std::string> QuestHandler::GetArguments(const std::string& function)
+{
+  std::vector<std::string> argvec;
+  
+  std::string::size_type oplen = GetOperation(function).length()+1;
+  std::string args = function.substr(oplen, function.length() - oplen);
+  std::string::size_type right = args.find_last_of(")");
+  if (right == std::string::npos) right = args.length();
+  args = args.substr(0, right);
+
+  while (args.length() > 0)
+  {
+    int left = 0;
+    std::string::size_type idx1 = std::string::npos;
+    for(size_t i = 0; i < args.length(); i++)
+    {
+      if ('(' == args[i])
+        left++;
+      else if (')' == args[i])
+      {
+        left--;
+        if (left == 0) 
+        {
+          idx1 = i+1;
+          break;
+        }
+      }
+    }
+    if (idx1 != std::string::npos && idx1 < args.length())
+    {
+      std::string arg = args.substr(0, idx1);
+      RemoveSpaces(arg);
+      argvec.push_back(arg);
+      args = args.substr(idx1+1, args.length());
+    }
+    else
+    {
+      RemoveSpaces(args);
+      argvec.push_back(args);
+      break;
+    }
+  }
+
+  return argvec;
+}
+
+bool QuestHandler::IsAtom(const std::string& function)
+{
+  std::string::size_type idx =  function.find_first_of("(");
+  return idx == std::string::npos;
 }
 
 void QuestHandler::handleNpcStartDialog(GenericMessage* msg)

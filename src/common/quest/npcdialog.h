@@ -33,7 +33,8 @@ public:
     SHOW_TEXT = 0,
     START_BUY = 1,
     START_SELL = 2,
-    TELEPORT = 3
+    TELEPORT = 3,
+    FUNCTION = 4
   };
 
 private:

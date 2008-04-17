@@ -26,6 +26,7 @@
 			<answer href="1">Yes, I'm new here, please tell me.</answer>
 			<answer href="5">No, I'm not interested.</answer>
 			<answer href="6">I'm in a hurry, can you help me?</answer>
+                        <answer href="9">Do you have a quest for me?</answer>
 			<answer>I'm in a hurry, maybe another time.</answer>
 		</dialog>
 		<dialog id="1">
@@ -59,5 +60,16 @@
 		<dialog id="8">
 			<teleport sector="World" x="1306" y="4" z="400" />
 		</dialog>
+                <dialog id="9">
+                  <function>(? (> (stat Endurance) 5) (dialog 10) (dialog 11))</function>
+                </dialog>
+                <dialog id="10">
+                    <text>You seems strong enough, I think I might have something ...</text>
+                    <answer href="0">You were saying?</answer>
+                </dialog>
+                <dialog id="11">
+                    <text>Not right now. Come back when you're stronger.</text>
+                    <answer href="0">You were saying?</answer>
+                </dialog>
 	</npc>
 </npcs>

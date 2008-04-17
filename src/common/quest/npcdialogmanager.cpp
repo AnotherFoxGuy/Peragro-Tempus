@@ -54,6 +54,7 @@ void NPCDialogManager::load()
     else if (vo->action == ptString("sell", 4)) action = NPCDialog::START_BUY;
     else if (vo->action == ptString("buy", 3)) action = NPCDialog::START_SELL;
     else if (vo->action == ptString("teleport", 8)) action = NPCDialog::TELEPORT;
+    else if (vo->action == ptString("function", strlen("function"))) action = NPCDialog::FUNCTION;
     else continue;
 
     NPCDialog* dialog = new NPCDialog(vo->npcid, vo->dialogid, vo->text.c_str(), action);

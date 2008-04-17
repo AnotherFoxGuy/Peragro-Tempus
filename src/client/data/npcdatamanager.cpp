@@ -147,6 +147,11 @@ namespace PT
           npcdialog->action = ptString("sell", 4);
           npcdialog->value = "";
         }
+        if(action = dialognode->GetNode("function"))
+        {
+          npcdialog->action = ptString("function", strlen("function"));
+          npcdialog->value = action->GetContentsValue();
+        }
         else
         {
           Report(PT::Debug, "Action type unknown (src/client/data/npcdatamanager.cpp)");
@@ -163,11 +168,17 @@ namespace PT
           npcanswer->id = answerId;
           npcanswer->dialogId = npcdialog->id;
           npcanswer->value = (char*)answernode->GetContentsValue();
-          npcanswer->nextDialog = answernode->GetAttributeValueAsInt("href");
-          if(npcanswer->nextDialog)
-            {npcanswer->isEnd = false;}
+          csRef<iDocumentAttribute> href = answernode->GetAttribute("href");
+          if (href.IsValid())
+          {
+            npcanswer->nextDialog = href->GetValueAsInt();
+            npcanswer->isEnd = false;
+          }
           else
-            {npcanswer->isEnd = true;}
+          {
+            npcanswer->nextDialog = 0;
+            npcanswer->isEnd = true;
+          }
           npc->AddDialogAnswer(npcanswer);
           answerId++;
         }

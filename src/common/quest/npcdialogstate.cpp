@@ -29,9 +29,9 @@ void NPCDialogState::setCharacter(Character* character)
   this->character = character->getRef(); 
 }
 
-const NPCDialog* NPCDialogState::startDialog(unsigned int npc_id)
+const NPCDialog* NPCDialogState::startDialog(unsigned int npc_id, unsigned int dialog_id)
 {
-  current_dialog = NPCDialogManager::getDialogManager().getDialog(npc_id, 0); // Start-dialogs are always 0
+  current_dialog = NPCDialogManager::getDialogManager().getDialog(npc_id, dialog_id); // Start-dialogs are always 0
   if (!current_dialog)
   {
     current_dialog = 0;

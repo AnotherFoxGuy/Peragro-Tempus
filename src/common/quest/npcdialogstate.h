@@ -42,7 +42,7 @@ public:
    *Start a dialog between the player and an NPC.
    *@param npc_id Which NPC to start the dialog with
    */
-  const NPCDialog* startDialog(unsigned int npc_id);
+  const NPCDialog* startDialog(unsigned int npc_id, unsigned int dialog_id = 0);
   /**
    *End a dialog between the player and an NPC.
    *@param npc_id ID of the NPC which the dialog is with.
