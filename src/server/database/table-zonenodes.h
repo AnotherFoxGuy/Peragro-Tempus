@@ -16,46 +16,47 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef TABLE_ZONES_H
-#define TABLE_ZONES_H
+#ifndef TABLE_ZONENODES_H
+#define TABLE_ZONENODES_H
 
 class Database;
 class ResultSet;
 
-#include "common/util/ptstring.h"
-#include "common/util/ptvector2.h"
 #include "table.h"
 
 /**
  * Class holding data associated with a zone.
  */
-class ZonesTableVO
+class ZonenodesTableVO
 {
 public:
   /// The id of the zone.
   int id;
-  /// Which type of zone it is.
-  const char* type;
+  /// The x coord of the node.
+  float x;
+  /// The z coord of the node.
+  float z;
 
   /**
    * Simple empty contstructor.
    */
-  ZonesTableVO() {}
+  ZonenodesTableVO() {}
   /**
    * More advanced construtor.
-   * @param id The id of the zone.
-   * @param type Which type of zone it is.
+   * @param id The id of the zone the node belongs to.
+   * @param x The x coordinate of the node.
+   * @param z The z coordinate of the node.
    */
-  ZonesTableVO(int id, const char* type)
-  : id(id), type(type)
+  ZonenodesTableVO(int id, float x, float z)
+  : id(id), x(x), z(z)
   {
   }
 };
 
 /**
- * Provides an interface to the database to handle storage of zones.
+ * Provides an interface to the database to handle storage of zonenodes.
  */
-class ZonesTable : public Table
+class ZonenodesTable : public Table
 {
 private:
   /**
@@ -63,40 +64,40 @@ private:
    * The caller is responsible for freeing the returned object.
    * @param rs The database result set.
    * @param row The row in the result table to use, default row is 0.
-   * @return Pointer to ZonesTableVO which hold all data associated with a zone.
+   * @return Pointer to ZonenodesTableVO which hold all data associated with a zone.
    */
-  ZonesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
+  ZonenodesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
   /**
    * Will parse all data returned from the database query and insert it
    * into an array.
    * The caller is responsible for freeing the objects in the returned array.
    * @param rs The result set containing the database query result.
-   * @return An array containing all ZonesTableVO found in the result set.
+   * @return An array containing all ZonenodesTableVO found in the result set.
    */
-  Array<ZonesTableVO*> parseMultiResultSet(ResultSet* rs);
+  Array<ZonenodesTableVO*> parseMultiResultSet(ResultSet* rs);
 
 public:
   /**
-   * Construtor for ZonesTable class.
+   * Construtor for ZonenodesTable class.
    * If database is empty, the createTable function will be called.
    * @param db Pointer to the database.
    */
-  ZonesTable(Database* db);
+  ZonenodesTable(Database* db);
 
   /**
-   * Creates a table in the database that will store the zones table.
+   * Creates a table in the database that will store the zonenodes table.
    */
   void createTable();
   /**
-   * Removes all zones table from the database.
+   * Removes all zonenodes table from the database.
    */
   void dropTable();
 
   /**
    * Insert a zone table into the database.
-   * @param vo The zones table to insert.
+   * @param vo The zonenodes table to insert.
    */
-  void insert(ZonesTableVO* vo);
+  void insert(ZonenodesTableVO* vo);
   /**
    * Removes a zone from the database.
    * Matches the zone by its id.
@@ -104,12 +105,12 @@ public:
    */
   void remove(unsigned int id);
   /**
-   * Removes all zones from the database.
+   * Removes all zonenodes from the database.
    */
   void removeAll();
   /**
-   * Gives the total number of zones in the database.
-   * @return The number of zones.
+   * Gives the total number of zonenodes in the database.
+   * @return The number of zonenodes.
    */
   unsigned int getCount();
   /**
@@ -119,19 +120,19 @@ public:
    */
   bool existsById(int id);
   /**
-   * Returns a zone table given its name.
-   * The caller is responsible for freeing the returned zone table.
+   * Returns a set of nodes given their zone's id.
+   * The caller is responsible for freeing the zonenode rows in the array.
    * @param id The id of the zone to return.
-   * @return The zone VO class.
+   * @return An array containing the zone VOs for the zone.
    */
-  ZonesTableVO* getById(int id);
+  Array<ZonenodesTableVO*> getById(int id);
   /**
-   * This function will load all zone tables from the database
+   * This function will load all zonenode tables from the database
    * and return an array containing them.
-   * The caller is responsible for freeing all zone tables in the array.
-   * @return An array containing all available zones.
+   * The caller is responsible for freeing all zonenode tables in the array.
+   * @return An array containing all available zonenodes.
    */
-  Array<ZonesTableVO*> getAll();
+  Array<ZonenodesTableVO*> getAll();
 };
 
-#endif // TABLE_ZONES_H
+#endif // TABLE_ZONENODES_H

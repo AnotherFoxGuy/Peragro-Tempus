@@ -318,3 +318,36 @@ void ToggleFlashStepMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
+void CreateZoneMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt16(zoneid);
+  serial.setString(zonetype);
+  serial.setInt8(nodescount);
+  for ( size_t i = 0; i < nodescount ; i++ )
+  {
+    serial.setFloat(nodes[i].x);
+    serial.setFloat(nodes[i].z);
+  };
+
+}
+
+void CreateZoneMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  zoneid = (unsigned short) serial.getInt16();
+  zonetype = serial.getString();
+  nodescount = (unsigned char) serial.getInt8();
+  setNodesCount(nodescount);
+  for ( size_t i = 0; i < nodescount ; i++ )
+  {
+    nodes[i].x = serial.getFloat();
+    nodes[i].z = serial.getFloat();
+  };
+
+}
+

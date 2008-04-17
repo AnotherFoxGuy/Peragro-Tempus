@@ -19,45 +19,54 @@
 #ifndef ZONEMANAGER_H
 #define ZONEMANAGER_H
 
-#include "server/database/table-zones.h"
+#include "common/util/ptvector2.h"
+#include "common/util/ptstring.h"
 
 #include <vector>
 
 class Server;
-class PtVector2;
+class ZonesTable;
+class ZonenodesTable;
 
 /**
  * ZoneManager
  * Holds zones and determines what type of zone a coordinate is in
- *   (from a player probably)
+ *   (coordinate from a player probably)
  */
 class ZoneManager
 {
-private:
+public:
   struct Zone{
-    int type;
+    ptString type;
     std::vector<PtVector2> coords;
   };
+private:
   Server* server;
   std::vector<Zone> zones;
 public:
-  enum ZoneType
-  {
-    GROUND=0,
-    WATER=1, // Water and other swimmable fluids (including lava if you find a way to survive the heat?)
-    SLOW=2 // Anything that would slow you down, like high grass or sticky goo
-  };
+  /// Clear all zones.
+  void delAll();
 
-  /// Standard loadFromDB function.
-  void loadFromDB(ZonesTable* zonestable);
+  /// Add a zone.
+  void addZone(Zone zone)
+  {
+    zones.push_back(zone);
+  }
+
+  /**
+   * Standard loadFromDB function.
+   * \param zonestable The database table containing the zones to load.
+   * \param zonenodestable The database table containing the nodes of the zones to load.
+   */
+  void loadFromDB(ZonesTable* zonestable, ZonenodesTable* zonenodestable);
 
   /**
    * Get the zonetype a coordinate is in.
    * \param x The X position of the coordinate to get the zonetype for.
-   * \param y The Y position of the coordinate to get the zonetype for.
-   * \return Zonetype for the given coordinate, returns Ground (0) if no zone is found.
+   * \param z The Z position of the coordinate to get the zonetype for.
+   * \return ptString with the zonetype for the given coordinate, returns "" if no zone is found.
    */
-  ZoneType GetZone(float x, float z);
+  ptString GetZone(float x, float z);
 };
 
 #endif // ZONEMANAGER_H

@@ -52,6 +52,7 @@ public:
     else if (id == ADMIN::SPAWNDOOR) handleSpawnDoor(msg);
     else if (id == ADMIN::REMOVESPAWNEDENTITY) handleRemoveSpawnedEntity(msg);
     else if (id == ADMIN::TOGGLEFLASHSTEP) handleToggleFlashStep(msg);
+    else if (id == ADMIN::CREATEZONE) handleCreateZone(msg);
   }
 
   void handleRemoveAll(GenericMessage* msg);
@@ -64,6 +65,7 @@ public:
   void handleSpawnDoor(GenericMessage* msg);
   void handleRemoveSpawnedEntity(GenericMessage* msg);
   void handleToggleFlashStep(GenericMessage* msg);
+  void handleCreateZone(GenericMessage* msg);
 };
 
 #endif // ADMINHANDLER_H

@@ -182,7 +182,7 @@ int main(int argc, char ** argv)
   stat_mgr.loadFromDB(db.getStatTable());
   skill_mgr.loadFromDB(db.getSkillTable());
   race_mgr.loadFromDB(db.getRaceTable());
-  zone_mgr.loadFromDB(db.getZonesTable());
+  zone_mgr.loadFromDB(db.getZonesTable(), db.getZonenodesTable());
 
   printf("Initialising collision detection... ");
   BulletCD cd;

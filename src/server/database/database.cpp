@@ -43,6 +43,7 @@
 #include "table-triangles.h"
 #include "table-config.h"
 #include "table-zones.h"
+#include "table-zonenodes.h"
 
 Database::Database()
 {
@@ -66,6 +67,7 @@ Database::Database()
   sectorstable = 0;
   configtable = 0;
   zonestable = 0;
+  zonenodestable = 0;
 }
 
 void Database::init()
@@ -97,6 +99,7 @@ void Database::init()
   trianglestable = new TrianglesTable(this);
   configtable = new ConfigTable(this);
   zonestable = new ZonesTable(this);
+  zonenodestable = new ZonenodesTable(this);
   update("commit");
 }
 
@@ -128,5 +131,6 @@ Database::~Database()
   delete trianglestable;
   delete configtable;
   delete zonestable;
+  delete zonenodestable;
 }
 

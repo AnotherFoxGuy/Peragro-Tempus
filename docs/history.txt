@@ -7,6 +7,9 @@ under each day.
 17-Apr-2008
  - vornne made a small change to world.cpp to stop the loading event from
    getting sent when teleporting within the same tile.
+ - Rakhun split up the zones table into zones and zonenodes, made zones
+   uploadable through server setup and changed the zonetypes to be strings
+   rather than ZoneType IDs.
 
 16-Apr-2008
  - Sueastside finished the ViewBob component.

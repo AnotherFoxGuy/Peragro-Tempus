@@ -18,35 +18,45 @@
 
 #include "common/util/math.h"
 
+#include "server/database/database.h"
+#include "server/database/table-zones.h"
+#include "server/database/table-zonenodes.h"
+#include "server/server.h"
+
 #include "zonemanager.h"
 
-void ZoneManager::loadFromDB(ZonesTable* zonestable)
+void ZoneManager::delAll()
+{
+  Server::getServer()->getDatabase()->getZonesTable()->removeAll();
+  Server::getServer()->getDatabase()->getZonenodesTable()->removeAll();
+  zones.clear();
+}
+
+void ZoneManager::loadFromDB(ZonesTable* zonestable, ZonenodesTable* zonenodestable)
 {
   Array<ZonesTableVO*>rows=zonestable->getAll();
-  Zone zone;
-  // The nodes need to be inverted here to be in the right order when checking
-  // if a position is within the zone.
-  for(int i=rows.getCount()-1; i>-1; i--)
+  for(size_t i=0; i<rows.getCount(); i++)
   {
-    zone.coords.push_back(rows[i]->coords);
-    if(i<1 || rows[i]->id!=rows[i-1]->id)
+    Zone zone;
+    zone.type=ptString::create(rows[i]->type);
+    Array<ZonenodesTableVO*> nodes=zonenodestable->getById(rows[i]->id);
+    for(size_t i2=0; i2<nodes.getCount(); i2++)
     {
-      zone.type=rows[i]->type;
-      zones.push_back(zone);
-      zone.coords.clear();
+      zone.coords.push_back(PtVector2(nodes[i2]->x,nodes[i2]->z));
     }
+    zones.push_back(zone);
   }
 }
 
-ZoneManager::ZoneType ZoneManager::GetZone(float x, float z)
+ptString ZoneManager::GetZone(float x, float z)
 {
   PtVector2 position(x,z);
   for(size_t i=0; i<zones.size(); i++)
   {
     if(Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(), position))
     {
-      return ZoneType(zones[i].type);
+      return zones[i].type;
     }
   }
-  return GROUND;
+  return ptString("",0);
 }

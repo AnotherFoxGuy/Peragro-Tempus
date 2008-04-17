@@ -24,11 +24,14 @@
 #include "server/entity/entitymanager.h"
 #include "server/entity/itemmanager.h"
 #include "server/entity/sectormanager.h"
+#include "server/entity/zonemanager.h"
 #include "server/entity/user.h"
 
 #include "server/database/database.h"
 #include "server/database/table-npcentities.h"
 #include "server/database/table-npcaisetting.h"
+#include "server/database/table-zones.h"
+#include "server/database/table-zonenodes.h"
 
 #include "server/spawner.h"
 
@@ -130,6 +133,11 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
   {
     SectorManager* sectors = server->getSectorManager();
     sectors->delAll();
+  }
+  else if (rmmsg.getDataType() == ptString::create("zones"))
+  {
+    ZoneManager* zones = server->getZoneManager();
+    zones->delAll();
   }
 }
 
@@ -242,7 +250,7 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
 {
   const User* user = NetworkHelper::getUser(msg);
   if (!user) return;
-  
+
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin == 0) return;
 
@@ -265,7 +273,7 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
 {
   const User* user = NetworkHelper::getUser(msg);
   if (!user) return;
-  
+
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin == 0) return;
 
@@ -289,13 +297,13 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
 {
   const User* user = NetworkHelper::getUser(msg);
   if (!user) return;
-  
+
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin == 0) return;
 
   SpawnDoorMessage doormsg;
   doormsg.deserialise(msg->getByteStream());
-  
+
   DoorEntity* door_ent = new DoorEntity();
   door_ent->setDoorId(doormsg.getDoorId());
   door_ent->setLocked(doormsg.getIsLocked());
@@ -317,13 +325,13 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
 {
   const User* user = NetworkHelper::getUser(msg);
   if (!user) return;
-  
+
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin == 0) return;
 
   RemoveSpawnedEntityMessage rmmsg;
   rmmsg.deserialise(msg->getByteStream());
-  
+
   Server* server = Server::getServer();
 
   unsigned int entid = rmmsg.getEntityId();
@@ -340,7 +348,7 @@ void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
 {
   const User* user = NetworkHelper::getUser(msg);
   if (!user) return;
-  
+
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin == 0) return;
 
@@ -350,4 +358,24 @@ void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
   PcEntity* pcent = c_pcent->getLock();
   pcent->toggleFlashStep();
   pcent->freeLock();
+}
+
+void AdminHandler::handleCreateZone(GenericMessage* msg)
+{
+  CreateZoneMessage zonemsg;
+  zonemsg.deserialise(msg->getByteStream());
+
+  ZoneManager* zonemgr = Server::getServer()->getZoneManager();
+  Database* db = Server::getServer()->getDatabase();
+
+  ZoneManager::Zone zone;
+  zone.type = zonemsg.getZoneType();
+  db->getZonesTable()->insert(new ZonesTableVO(zonemsg.getZoneId(), *zonemsg.getZoneType()));
+  //The nodes need to be reversed here to be in the right order for GetZone(..)
+  for(int i=zonemsg.getNodesCount()-1; i>-1; i--)
+  {
+    db->getZonenodesTable()->insert(new ZonenodesTableVO(zonemsg.getZoneId(), zonemsg.getX(i), zonemsg.getZ(i)));
+    zone.coords.push_back(PtVector2(zonemsg.getX(i), zonemsg.getZ(i)));
+  }
+  zonemgr->addZone(zone);
 }

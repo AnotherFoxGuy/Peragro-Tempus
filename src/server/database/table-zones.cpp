@@ -37,9 +37,7 @@ ZonesTableVO* ZonesTable::parseSingleResultSet(ResultSet* rs, size_t row)
 
   ZonesTableVO* vo = new ZonesTableVO();
   vo->id = atoi(rs->GetData(row,0).c_str());
-  vo->coords.x = atof(rs->GetData(row,1).c_str());
-  vo->coords.y = atof(rs->GetData(row,2).c_str());
-  vo->type = atoi(rs->GetData(row,3).c_str());
+  vo->type = rs->GetData(row,1).c_str();
   return vo;
 }
 
@@ -63,19 +61,12 @@ void ZonesTable::createTable()
   printf("Creating Table zones...\n");
   db->update("create table zones ("
              "id INTEGER, "
-             "x FLOAT, "
-             "y FLOAT, "
-             "type INTEGER );");
+             "type TINYTEXT, "
+             "PRIMARY KEY (id) );");
 
-  // Hard coded test zone (at the red sphere)
-  ZonesTableVO zone(0,PtVector2(0.0f,0.0f),1/*water*/);
-  insert(&zone);
-  zone.coords.x=10.0f;
-  insert(&zone);
-  zone.coords.y=10.0f;
-  insert(&zone);
-  zone.coords.x=0.0f;
-  insert(&zone);
+/*  // Hard coded test zone (at the red sphere)
+  ZonesTableVO zone(0,"water");
+  insert(&zone);*/
 }
 
 void ZonesTable::dropTable()
@@ -85,17 +76,22 @@ void ZonesTable::dropTable()
 
 void ZonesTable::insert(ZonesTableVO* vo)
 {
-  const char* query = { "insert into zones(id, x, y, type) values (%d, %f, %f, %d);" };
+  const char* query = { "insert into zones(id, type) values (%d, \"%s\");" };
   if (!vo)
   {
     return;
   }
-  db->update(query, vo->id, vo->coords.x, vo->coords.y, vo->type);
+  db->update(query, vo->id, vo->type);
 }
 
 void ZonesTable::remove(unsigned int id)
 {
   db->update("delete from zones where id = %d", id);
+}
+
+void ZonesTable::removeAll()
+{
+  db->update("delete from zones");
 }
 
 unsigned int ZonesTable::getCount()

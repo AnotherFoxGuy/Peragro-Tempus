@@ -45,6 +45,7 @@ class VerticesTable;
 class TrianglesTable;
 class ConfigTable;
 class ZonesTable;
+class ZonenodesTable;
 
 #include "resultset.h"
 
@@ -77,6 +78,7 @@ private:
   TrianglesTable* trianglestable;
   ConfigTable* configtable;
   ZonesTable* zonestable;
+  ZonenodesTable* zonenodestable;
 
 public:
   virtual ResultSet* query(const char*, ...) = 0;
@@ -116,6 +118,7 @@ public:
   TrianglesTable* getTrianglesTable() { return trianglestable; }
   ConfigTable* getConfigTable() { return configtable; }
   ZonesTable* getZonesTable() { return zonestable; }
+  ZonenodesTable* getZonenodesTable() { return zonenodestable; }
 
 };
 

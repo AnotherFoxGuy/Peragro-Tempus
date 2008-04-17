@@ -38,7 +38,8 @@ namespace ADMIN
     SPAWNMOUNT=6,
     SPAWNDOOR=7,
     REMOVESPAWNEDENTITY=8,
-    TOGGLEFLASHSTEP=9
+    TOGGLEFLASHSTEP=9,
+    CREATEZONE=10
   };
 }
 
@@ -525,6 +526,61 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+};
+
+class CreateZoneMessage : public NetMessage
+{
+  unsigned short zoneid;
+  ptString zonetype;
+  class ListNodes
+  {
+  public:
+    float x;
+    float z;
+  };
+
+  unsigned char nodescount;
+  ListNodes* nodes;
+
+
+public:
+  CreateZoneMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATEZONE)
+  {
+    nodes = 0;
+  }
+
+  ~CreateZoneMessage()
+  {
+    delete [] nodes;
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned short getZoneId() { return zoneid; }
+  void setZoneId(unsigned short x) { zoneid = x; }
+
+  ptString getZoneType() { return zonetype; }
+  void setZoneType(ptString x) { zonetype = x; }
+
+  unsigned char getNodesCount() { return nodescount; }
+  void setNodesCount(unsigned char ic)
+  {
+    nodescount = ic;
+    delete [] nodes;
+    nodes = new ListNodes[ic];
+  }
+
+  // --- begin ListNodes Getter and Setter ---
+
+  float getX(size_t i) { return nodes[i].x; }
+  void setX(size_t i, float x) { nodes[i].x = x; }
+
+  float getZ(size_t i) { return nodes[i].z; }
+  void setZ(size_t i, float x) { nodes[i].z = x; }
+
+  // --- end ListNodes Getter and Setter ---
 
 };
 

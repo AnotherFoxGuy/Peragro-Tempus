@@ -41,6 +41,9 @@
 #include "client/data/spawnpoint.h"
 #include "client/data/spawnpointdatamanager.h"
 
+#include "client/data/zone.h"
+#include "client/data/zonedatamanager.h"
+
 #include "client/pointer/pointer.h"
 
 namespace PT
@@ -71,6 +74,11 @@ namespace PT
       spawnpointDataManager = new PT::Data::SpawnPointDataManager (ptrlib);
       if (!spawnpointDataManager->parse())
         Report(PT::Error, "Failed to initialize SpawnPointDataManager!");
+
+      // Create and Initialize the ZoneDataManager.
+      zoneDataManager = new PT::Data::ZoneDataManager (ptrlib);
+      if (!zoneDataManager->parse())
+        Report(PT::Error, "Failed to initialize ZoneDataManager!");
     }
 
     ServerSetupManager::~ServerSetupManager()
@@ -106,13 +114,16 @@ namespace PT
       rmmsg.setDataType(ptString::create("sectors"));
       PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
 
+      rmmsg.setDataType(ptString::create("zones"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
       Report(PT::Notify, "Not yet fully implemented");
       // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones (otherwise database entries cannot be updated, nor will they be possible to remove by removing them from the XML)
 
 
       PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
 
-      // ==[ Sectors ]=============================================================
+      // ==[ Sectors ]=========================================================
       std::vector<PT::Data::Sector*> sectors;
 
       PointerLibrary::getInstance()->getSectorDataManager()->GetAllSectors(sectors);
@@ -134,7 +145,7 @@ namespace PT
         PointerLibrary::getInstance()->getNetwork()->send(&sectormsg);
       }
 
-      // ==[ Doors ]=============================================================
+      // ==[ Doors ]===========================================================
       std::vector<PT::Data::Door*> doors;
 
       doorDataManager->GetAllDoors(doors);
@@ -178,7 +189,7 @@ namespace PT
         PointerLibrary::getInstance()->getNetwork()->send(&doormsg);
       }
 
-      // ==[ Items ]=============================================================
+      // ==[ Items ]===========================================================
       std::vector<PT::Data::Item*> items;
 
       itemDataManager->GetAllItems(items);
@@ -209,7 +220,7 @@ namespace PT
         PointerLibrary::getInstance()->getNetwork()->send(&itemmsg);
       }
 
-      // ==[ NPCs ]=============================================================
+      // ==[ NPCs ]============================================================
       std::vector<PT::Data::Npc*> npcs;
 
       npcDataManager->GetAllNpcs(npcs);
@@ -302,7 +313,7 @@ namespace PT
         PointerLibrary::getInstance()->getNetwork()->send(&dialogsmsg);
       }
 
-      // ==[ SpawnPoints ]=============================================================
+      // ==[ SpawnPoints ]=====================================================
       std::vector<PT::Data::SpawnPoint*> spawnpoints;
 
       spawnpointDataManager->GetAllSpawnPoints(spawnpoints);
@@ -336,6 +347,31 @@ namespace PT
         spawnmsg.setInterval(interval);
 
         PointerLibrary::getInstance()->getNetwork()->send(&spawnmsg);
+      }
+
+      // ==[ Zones ]===========================================================
+      std::vector<PT::Data::Zone*> zones;
+
+      zoneDataManager->GetAllZones(zones);
+
+      for (size_t i = 0; i < zones.size(); i++ )
+      {
+        unsigned int zoneid = zones[i]->GetId();
+        ptString zonetype = zones[i]->GetType();
+
+        Report(PT::Debug, "Loading zone, id=%d, type=%s\n", zoneid, *zonetype);
+
+        CreateZoneMessage zonemsg;
+        zonemsg.setZoneId(zoneid);
+        zonemsg.setZoneType(zonetype);
+        zonemsg.setNodesCount(zones[i]->GetSize());
+        for(size_t a_i=0; a_i<zones[i]->GetSize(); a_i++)
+        {
+          zonemsg.setX(a_i, zones[i]->GetNode(a_i).x);
+          zonemsg.setZ(a_i, zones[i]->GetNode(a_i).y);
+        }
+
+        PointerLibrary::getInstance()->getNetwork()->send(&zonemsg);
       }
 
       return true;

@@ -82,4 +82,13 @@
 	
 	<message type="Admin" name="ToggleFlashStep"></message>
 
+	<message type="Admin" name="CreateZone">
+		<uint16>ZoneId</uint16>
+		<string>ZoneType</string>
+		<list name="Nodes">
+			<float>X</float>
+			<float>Z</float>
+		</list>
+	</message>
+
 </message-implementation>

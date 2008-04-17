@@ -35,6 +35,7 @@ namespace PT
     class ItemDataManager;
     class NpcDataManager;
     class SpawnPointDataManager;
+    class ZoneDataManager;
   } // Data namespace
 
   namespace Misc
@@ -53,6 +54,7 @@ namespace PT
       PT::Data::ItemDataManager* itemDataManager;
       PT::Data::NpcDataManager* npcDataManager;
       PT::Data::SpawnPointDataManager* spawnpointDataManager;
+      PT::Data::ZoneDataManager* zoneDataManager;
 
     public:
       PT::Data::ItemDataManager* GetItemDataManager() { return itemDataManager; } // TODO remove
