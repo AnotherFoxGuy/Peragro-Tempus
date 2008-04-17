@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file world.h
+ *
+ * @basic Manager for outside world tiles.
+ */
 
 #ifndef WORLD_H
 #define WORLD_H
@@ -36,35 +41,59 @@ namespace PT
   class ModelManager;
   class InteriorManager;
 
+  /**
+   * Manages the tile grid array around the camera, by loading and deleting
+   * tiles as the camera moves.
+   */
   class World
   {
   private:
+    /// Whether tiles need to be loaded.
     bool loading;
 
-    /// Tile cache.
+    /// Number of tiles in the cache.
     int maptilecachesize;
+    /// Tile cache.
     MapTile** maptilecache;
 
-    /// Loaded subset of the world
+    /// Number of tiles currently loaded.
     int current_size;
+    /// Loaded subset of the world.
     MapTile*** current;
 
-    /// Coordinates in tile space.
-    int cx,cz;
+    /// Current x coordinate in tile space.
+    int cx;
+    /// Current z coordinate in tile space.
+    int cz;
 
-    /// Load a tile with the given coordinates or return
-    /// it from the cache if it was already loaded.
+    /**
+     * Load a tile with the given coordinates or return
+     * it from the cache if it was already loaded.
+     * @param x Tile index in the x dimension.
+     * @param z Tile index in the z dimension.
+     * @return The tile at the coordinates.
+     */
     MapTile* LoadTile(int x, int z);
 
-    /// Enter a tile and load all surrounding tiles.
+    /**
+     * Enter a tile and load all surrounding tiles.
+     * @param x Tile index in the x dimension.
+     * @param z Tile index in the z dimension.
+     */
     void EnterTile(int x, int z);
 
-    /// Check if player position is within tile boundaries.
+    /**
+     * Check if player position is within tile boundaries.
+     * @param dt Time delta (seems unused).
+     */
     void Tick(float dt);
 
   private:
+    /// The object registry.
     iObjectRegistry* object_reg;
+    /// The model manager.
     ModelManager* modelManager;
+    /// The interior manager.
     InteriorManager* interiorManager;
 
     // Updates the camera.
@@ -75,25 +104,46 @@ namespace PT
       virtual void StartFrame (iEngine* engine, iRenderView* rview);
     };
     friend struct FrameCallBack;
+    /// Callback to update the camera coordinates.
     csRef<FrameCallBack> cb;
+    /// The current coordinates of the camera.
     csVector3 camera;
 
   public:
+    /// The name of the world.
     std::string basename;
 
+    /**
+     * Constructor.
+     * @param name The world name.
+     * @param object_reg The object registry.
+     */
     World(const char* name, iObjectRegistry* object_reg);
+    /// Destructor.
     ~World();
 
+    /// Returns the object registry.
     iObjectRegistry* GetObjectRegistry() { return object_reg; }
+    /// Returns the model manager.
     ModelManager* GetModelManager() { return modelManager; }
+    /// Returns the interior manager.
     InteriorManager* GetInteriorManager() { return interiorManager; }
 
+    /**
+     * Enter the world at a horizontal (x, z) coordinate in world space.
+     * @param x X coordinate.
+     * @param z Z coordinate.
+     */
     void EnterWorld(float x, float z);
 
+    /// Set the loaded tile grid size.
     void SetGridSize(int size);
+    /// Get the loaded tile grid size.
     int GetGridSize() const;
 
+    /// Set the cached tile grid size.
     void SetCacheSize(int size);
+    /// Get the cached tile grid size.
     int GetCacheSize() const;
   };
 

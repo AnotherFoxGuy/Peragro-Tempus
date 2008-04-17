@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+17-Apr-2008
+ - vornne made a small change to world.cpp to stop the loading event from
+   getting sent when teleporting within the same tile.
+
 16-Apr-2008
  - Sueastside finished the ViewBob component.
 

@@ -41,6 +41,8 @@ namespace PT
     maptilecache = 0;
     current_size = 0;
     current = 0;
+    // Set to a very big number, so if they are changed to "0,0" it can be detected.
+    cx = cz = ~0;
 
     Report(PT::Notify, "Loading world %s", basename.c_str());
 
@@ -370,16 +372,10 @@ namespace PT
 
   void World::EnterWorld(float x, float z)
   {
-    Report(PT::Notify, "World loading...");
-
-    PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-    csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
-    worldEvent->Add("progress", 0.0f);
-    evmgr->AddEvent(worldEvent);
-
     camera.x = x;
     camera.z = z;
 
+    // This is so the int cast below rounds to the correct value.
     if (x < 0)
     {
       x -= TILESIZE;
@@ -389,15 +385,25 @@ namespace PT
       z -= TILESIZE;
     }
 
-    int ex,ez;
+    int ex, ez;
     ex = (int)(x / TILESIZE);
     ez = (int)(z / TILESIZE);
 
-    EnterTile(ex,ez);
+    if (ex != cx || ez != cz)
+    {
+      Report(PT::Notify, "World loading...");
 
-    loading = true;
+      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
+      worldEvent->Add("progress", 0.0f);
+      evmgr->AddEvent(worldEvent);
 
-    //Register a callback for the camera coordinates.
+      loading = true;
+    }
+
+    EnterTile(ex, ez);
+
+    // Register a callback for the camera coordinates.
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     if (!cb.IsValid())
     {
