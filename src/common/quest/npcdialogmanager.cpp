@@ -27,6 +27,11 @@
 
 NPCDialogManager* NPCDialogManager::self;
 
+NPCDialogManager::~NPCDialogManager()
+{
+  dialogs.delAll();
+}
+
 NPCDialog* NPCDialogManager::getDialog(unsigned int npc_id, unsigned int dialog_id)
 {
   for(unsigned int i=0; i<dialogs.getCount(); i++)
@@ -85,3 +90,10 @@ void NPCDialogManager::load()
   }
 }
 
+void NPCDialogManager::delAll()
+{
+  Database* db = Server::getServer()->getDatabase();
+  db->getNpcDialogsTable()->removeAll();
+  db->getNpcDialogAnswersTable()->removeAll();
+  dialogs.delAll();
+}

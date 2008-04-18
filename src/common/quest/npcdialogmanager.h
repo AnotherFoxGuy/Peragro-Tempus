@@ -27,13 +27,22 @@ private:
 
 public:
   NPCDialogManager() { self = this; }
-  ~NPCDialogManager() { dialogs.delAll(); }
+  ~NPCDialogManager();
 
   static NPCDialogManager& getDialogManager() { return *self; }
 
+  /**
+   * Get a dialog from an NPCs ID and the dialog's ID (unique for each NPC)
+   * \param npc_id The ID of the NPC.
+   * \param dialog_id The dialog's ID.
+   * \return A pointer to the corresponding NPCDialog.
+   */
   NPCDialog* getDialog(unsigned int npc_id, unsigned int dialog_id);
 
   void load();
+
+  /// Clear out all dialogs
+  void delAll();
 };
 
 #endif // NPC_DIALOG_MANAGER_H

@@ -14,6 +14,7 @@ under each day.
  - Rakhun fixed an incomplete 'else if' which broke npcdatamanager.
  - Sueastside expanded 'function' support with: (stat StatName <add/sub> <#>)
    and (inventory add/remove/count itemId <#>).
+ - Rakhun made the server delete NPCs and their dialogs when told to (setup).
 
 17-Apr-2008
  - vornne made a small change to world.cpp to stop the loading event from

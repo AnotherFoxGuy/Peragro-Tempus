@@ -102,6 +102,11 @@ void NpcDialogAnswersTable::remove(int npcid, int dialogid, int answerid)
   db->update("delete from npcdialoganswers where dialogid = %d and answerid = %d and npcid = %d", dialogid, answerid, npcid);
 }
 
+void NpcDialogAnswersTable::removeAll()
+{
+  db->update("delete from npcdialoganswers");
+}
+
 Array<NpcDialogAnswersTableVO*> NpcDialogAnswersTable::getAll()
 {
   ResultSet* rs = db->query("select * from npcdialoganswers;");

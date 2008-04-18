@@ -50,6 +50,7 @@ public:
 
   void insert(int npcid, int dialogid, int answerid, const char* text, int end, int nextdialogid);
   void remove(int npcid, int dialogid, int answerid);
+  void removeAll();
 
   Array<NpcDialogAnswersTableVO*> getAll();
 };

@@ -27,6 +27,8 @@
 #include "server/entity/zonemanager.h"
 #include "server/entity/user.h"
 
+#include "common/quest/npcdialogmanager.h"
+
 #include "server/database/database.h"
 #include "server/database/table-npcentities.h"
 #include "server/database/table-npcaisetting.h"
@@ -44,32 +46,33 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
 
   if (rmmsg.getDataType() == ptString::create("npc-dialogs"))
   {
+      NPCDialogManager::getDialogManager().delAll();
   }
   else if (rmmsg.getDataType() == ptString::create("npc-entities"))
   {
-    //EntityManager* entities = server->getEntityManager();
-    //Array<const Entity*> npcs;
-    //for (int i = 0; i < entities->getEntityCount(); i++)
-    //{
-    //  if (entities->getEntity(i)->getNpcEntity())
-    //  {
-    //    const Entity* e = entities->getEntity(i);
-    //    npcs.add(e);
-    //  }
-    //}
-    //for (int i = 0; i < npcs.getCount(); i++)
-    //{
-    //  const Character* c = npcs.get(i)->getNpcEntity()->getCharacter();
-    //  server->getCharacterManager()->delCharacter(c);
+    EntityManager* entities = server->getEntityManager();
+    Array<const Entity*> npcs;
+    for (size_t i = 0; i < entities->getEntityCount(); i++)
+    {
+      if (entities->getEntity(i)->getNpcEntity())
+      {
+        const Entity* e = entities->getEntity(i);
+        npcs.add(e);
+      }
+    }
+    for (size_t i = 0; i < npcs.getCount(); i++)
+    {
+      const Character* c = npcs.get(i)->getNpcEntity()->getCharacter();
+      server->getCharacterManager()->delCharacter(c);
 
-    //  NpcEntitiesTable* net = server->getDatabase()->getNpcEntitiesTable();
-    //  net->remove(npcs.get(i)->getId());
-    //  
-    //  NpcAiSettingTable* nast = server->getDatabase()->getNpcAiSettingTable();
-    //  nast->removeAll(npcs.get(i)->getId());
-    //  
-    //  server->delEntity(npcs.get(i));
-    //}
+      NpcEntitiesTable* net = server->getDatabase()->getNpcEntitiesTable();
+      net->remove(npcs.get(i)->getId());
+
+      NpcAiSettingTable* nast = server->getDatabase()->getNpcAiSettingTable();
+      nast->removeAll(npcs.get(i)->getId());
+
+      server->delEntity(npcs.get(i));
+    }
   }
   else if (rmmsg.getDataType() == ptString::create("item-entities"))
   {

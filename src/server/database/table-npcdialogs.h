@@ -49,6 +49,7 @@ public:
 
   void insert(int npcid, int dialogid, const char* text, const char* action);
   void remove(int npcid, int dialogid);
+  void removeAll();
 
   Array<NpcDialogsTableVO*> getAll();
 };
