@@ -37,7 +37,7 @@
 			<text>I'm glad you have no hard feelings. But ask me in a few days, maybe I'll have found out something about this place by then. Have a nice day.</text>
 		</dialog>
 		<dialog id="3">
-     <function>(? (> (stat Endurance) 5) (dialog 4) (dialog 6))</function>
+     <function>(if (> (stat Endurance) 5) (begin (stat Endurance add 1)(inventory add 1)(dialog 4)) (dialog 6))</function>
     </dialog>
 		<dialog id="4">
 			<text>Look, I'm really sorry to have upset you... hm... do you want an apple instead?</text>

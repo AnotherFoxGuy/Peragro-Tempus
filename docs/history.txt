@@ -12,6 +12,8 @@ under each day.
    - Example: "(? (> (stat Endurance) 5) (dialog 10) (dialog 11))" 
  - vornne cleaned up viewbob, misc tweaks.
  - Rakhun fixed an incomplete 'else if' which broke npcdatamanager.
+ - Sueastside expanded 'function' support with: (stat StatName <add/sub> <#>)
+   and (inventory add/remove/count itemId <#>).
 
 17-Apr-2008
  - vornne made a small change to world.cpp to stop the loading event from

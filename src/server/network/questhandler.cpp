@@ -30,6 +30,7 @@
 #include "common/quest/npcdialogmanager.h"
 
 #include "server/entity/statmanager.h"
+#include "server/entity/itemmanager.h"
 
 #include "server/database/database.h"
 #include "server/database/table-npcdialogs.h"
@@ -233,7 +234,7 @@ int QuestHandler::Parse(Character* character, const std::string& function)
 
 int QuestHandler::Apply( Character* character,const std::string& op, const std::vector<std::string>& args)
 {
-  if (op.compare("?") == 0)
+  if (op.compare("if") == 0)
   {
     if (args.size() < 3) {printf("ERROR: Not enough params for operation '?'\n"); return 0;}
     if (Parse(character, args[0]))
@@ -248,6 +249,38 @@ int QuestHandler::Apply( Character* character,const std::string& op, const std::
         return Parse(character, args[2]);
     }
   }
+  else if (op.compare("begin") == 0)
+  {
+    for (size_t i = 0; i < args.size()-1; i++)
+    {
+      Parse(character, args[i]);
+    }
+    return Parse(character, args[args.size()-1]);
+  }
+  else if (op.compare("not") == 0)
+  {
+    if (args.size() < 1) {printf("ERROR: Not enough params for operation 'not'\n"); return 0;}
+    if (Parse(character, args[0]))
+      return 0;
+    else
+      return 1;
+  }
+  else if (op.compare("and") == 0)
+  {
+    if (args.size() < 2) {printf("ERROR: Not enough params for operation 'and'\n"); return 0;}
+    if (Parse(character, args[0]) && Parse(character, args[1]))
+      return 1;
+    else
+      return 0;
+  }
+  else if (op.compare("or") == 0)
+  {
+    if (args.size() < 2) {printf("ERROR: Not enough params for operation 'or'\n"); return 0;}
+    if (Parse(character, args[0]) || Parse(character, args[1]))
+      return 1;
+    else
+      return 0;
+  }
   else if (op.compare(">") == 0)
   {
     if (args.size() < 2) {printf("ERROR: Not enough params for operation '>'\n"); return 0;}
@@ -258,14 +291,86 @@ int QuestHandler::Apply( Character* character,const std::string& op, const std::
   }
   else if (op.compare("stat") == 0)
   {
+    //(stat StatName <add/sub> <#>)
     if (args.size() < 1) {printf("ERROR: Not enough params for operation 'stat'\n"); return 0;}
     Server* server = Server::getServer();
     Stat* stat = server->getStatManager()->findByName(ptString(args[0].c_str(), strlen(args[0].c_str())));
-    if (!stat)
+    if (!stat) { return 0; }
+    if (args.size() > 2)
     {
-      return 0;
+      int val = Parse(character, args[2]);
+      bool success = true;
+      if (args[1].compare("add") == 0)
+        character->getStats()->addStat(stat, val);
+      if (args[1].compare("sub") == 0)
+        success = character->getStats()->takeStat(stat, val);
+      printf("STAT: Updated %s to %d!\n", *stat->getName(), character->getStats()->getAmount(stat));
+      return success ? val:0;
     }
-    return character->getStats()->getAmount(stat);
+    else
+      return character->getStats()->getAmount(stat);
+  }
+  else if (op.compare("inventory") == 0)
+  {
+    //(inventory add/remove/count itemId <#>)
+    if (args.size() < 2) {printf("ERROR: Not enough params for operation 'inventory'\n"); return 0;}
+    printf("INVENTORY: Updated1 %s!\n", args[1].c_str());
+    unsigned int itemId = Parse(character, args[1]);
+    if (args[0].compare("count") == 0)
+      return character->getInventory()->getTotalAmount(itemId, 0);
+    else if (args[0].compare("add") == 0)
+    {
+      Server* server = Server::getServer();
+      Item* item = server->getItemManager()->findById(itemId);
+      if (!item) {printf("ERROR: inventory:No such item!!\n"); return 0;}
+
+      InventoryEntry entry(itemId, 0);
+      unsigned char slot = character->getInventory()->getFreeSlot();
+      bool succes = character->getInventory()->addItem(entry, slot);
+
+      if (succes)
+      {
+        const Entity* user_ent = character->getEntity();
+        PickResponseMessage response_msg;
+        response_msg.setItemId(item->getId());
+        response_msg.setVariation(0);
+        response_msg.setSlotId(slot);
+
+        response_msg.setName(item->getName());
+        response_msg.setIcon(item->getIcon());
+        response_msg.setDescription(item->getDescription());
+        response_msg.setWeight(item->getWeight());
+        response_msg.setEquipType(item->getEquiptype());
+
+        ByteStream bs;
+        response_msg.serialise(&bs);
+        NetworkHelper::sendMessage(user_ent, bs);
+      }
+
+      return succes;
+    }
+    else if (args[0].compare("remove") == 0 && args.size() > 2)
+    {
+      unsigned int nr = Parse(character, args[2]);
+      unsigned int amount = character->getInventory()->getTotalAmount(itemId, 0);
+      if (nr != amount) {printf("ERROR: inventory: Not enough items of type %d !\n", itemId); return 0;}
+      const Entity* user_ent = character->getEntity();
+      for (size_t i = 0; i < amount+1; i++)
+      {
+        unsigned char slot = character->getInventory()->getSlot(itemId, 0);
+        bool succes = character->getInventory()->takeItem(slot);
+        if (succes)
+        {
+          DropResponseMessage response_msg;
+          response_msg.setSlotId(slot);
+
+          ByteStream bs;
+          response_msg.serialise(&bs);
+          NetworkHelper::sendMessage(user_ent, bs);
+        }
+      }
+    }
+    return 0;
   }
   else if (op.compare("dialog") == 0)
   {
@@ -274,6 +379,7 @@ int QuestHandler::Apply( Character* character,const std::string& op, const std::
     NPCDialogState* dia_state = character->getNPCDialogState();
     const NPCDialog* dialog = dia_state->startDialog(dia_state->getNpc()->getEntity()->getId(), id);
     SendDialog(character, dialog);
+    return id;
   }
 
   return 0;
@@ -289,6 +395,7 @@ std::string QuestHandler::GetOperation(const std::string& function)
 
 void QuestHandler::RemoveSpaces(std::string& function)
 {
+  //printf("RemoveSpaces: %s\n", function.c_str());
   size_t left = 0;
   for (size_t i = 0; i < function.length(); i++)
   {
@@ -306,6 +413,7 @@ void QuestHandler::RemoveSpaces(std::string& function)
   }
 
   function = function.substr(0, right);
+  //printf("RemoveSpaces: %s\n", function.c_str());
 }
 
 std::vector<std::string> QuestHandler::GetArguments(const std::string& function)
@@ -336,18 +444,32 @@ std::vector<std::string> QuestHandler::GetArguments(const std::string& function)
         }
       }
     }
-    if (idx1 != std::string::npos && idx1 < args.length())
+    if (idx1 != std::string::npos)
     {
       std::string arg = args.substr(0, idx1);
       RemoveSpaces(arg);
       argvec.push_back(arg);
-      args = args.substr(idx1+1, args.length());
+      args = args.substr(idx1, args.length()-1);
+      //printf("GetArguments1: %s  rest: %s\n", arg.c_str(), args.c_str());
     }
     else
     {
       RemoveSpaces(args);
-      argvec.push_back(args);
-      break;
+      std::string::size_type next = args.find_first_of(" ");
+      if (next == std::string::npos)
+      {
+        //printf("GetArguments2: %s\n", args.c_str());
+        argvec.push_back(args);
+        break;
+      }
+      else
+      {
+        std::string arg = args.substr(0, next);
+        argvec.push_back(arg);
+        args = args.substr(next, args.length()-1);
+        //printf("GetArguments3: %s  rest: %s\n", arg.c_str(), args.c_str());
+      }
+      
     }
   }
 

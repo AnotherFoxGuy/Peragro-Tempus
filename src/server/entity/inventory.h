@@ -73,7 +73,7 @@ public:
     return NoSlot; // no slot!
   }
 
-private:
+public:
   unsigned char getFreeSlot()
   {
     for(unsigned char i=10; i<entries.getCount(); i++)
