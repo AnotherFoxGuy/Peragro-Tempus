@@ -11,6 +11,7 @@ under each day.
    - 'dialog' goes to a certain dialog.
    - Example: "(? (> (stat Endurance) 5) (dialog 10) (dialog 11))" 
  - vornne cleaned up viewbob, misc tweaks.
+ - Rakhun fixed an incomplete 'else if' which broke npcdatamanager.
 
 17-Apr-2008
  - vornne made a small change to world.cpp to stop the loading event from

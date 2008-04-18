@@ -147,14 +147,14 @@ namespace PT
           npcdialog->action = ptString("sell", 4);
           npcdialog->value = "";
         }
-        if(action = dialognode->GetNode("function"))
+        else if(action = dialognode->GetNode("function"))
         {
           npcdialog->action = ptString("function", strlen("function"));
           npcdialog->value = action->GetContentsValue();
         }
         else
         {
-          Report(PT::Debug, "Action type unknown (src/client/data/npcdatamanager.cpp)");
+          Report(PT::Error, "Action type unknown (src/client/data/npcdatamanager.cpp)");
           npcdialog->action = ptString("unknown", 7);
           npcdialog->value = "unknown";
         }
