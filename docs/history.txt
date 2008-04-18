@@ -10,6 +10,7 @@ under each day.
    - 'stat' Get a stat of the player.
    - 'dialog' goes to a certain dialog.
    - Example: "(? (> (stat Endurance) 5) (dialog 10) (dialog 11))" 
+ - vornne cleaned up viewbob, misc tweaks.
 
 17-Apr-2008
  - vornne made a small change to world.cpp to stop the loading event from

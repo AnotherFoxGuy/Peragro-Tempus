@@ -59,10 +59,10 @@ IMPLEMENT_COMPONENTFACTORY (ViewBob, "peragro.entity.move.viewbob")
 ComponentViewBob::ComponentViewBob(iObjectRegistry* object_reg) :
 	scfImplementationType (this, object_reg)
 {
-  viewBobEffect.base = HEAD_HEIGHT;
-  viewBobEffect.offset = 0.0f;
-  viewBobEffect.period = WALK_PERIOD;
-  viewBobEffect.range = WALK_OFFSET_RANGE;
+  baseHeight = HEAD_HEIGHT;
+  currentOffset = 0.0f;
+  timePeriod = WALK_PERIOD;
+  offsetRange = WALK_OFFSET_RANGE;
 }
 
 ComponentViewBob::~ComponentViewBob()
@@ -75,9 +75,12 @@ bool ComponentViewBob::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
   entity = ent;
 
   camera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
+  csVector3 offset(0.0f, baseHeight, 0.0f);
+  camera->SetFirstPersonOffset(offset);
 
   vc = csQueryRegistry<iVirtualClock> (pointerlib->getObjectRegistry());
   if (!vc) return pointerlib->getReporter()->Report(PT::Error, "Failed to locate Virtual Clock!");
+  lastTicks = vc->GetCurrentTicks();
 
   using namespace PT::Events;
   using namespace PT::Entity;
@@ -93,8 +96,8 @@ bool ComponentViewBob::Frame(iEvent& ev)
 {
   if (!camera.IsValid()) return false;
 
-  csTicks elapsedTicks = vc->GetElapsedTicks();
-
+  // If at least 1 tick has elapsed.
+  csTicks elapsedTicks = vc->GetCurrentTicks() - lastTicks;
   if (elapsedTicks > 0)
   {
     bool offsetChanged;
@@ -108,104 +111,110 @@ bool ComponentViewBob::Frame(iEvent& ev)
         pclinmove->IsOnGround())
       {
         // In first person mode, moving and on the ground.
-        offsetChanged = viewBobEffect.Move(elapsedTicks);
-        if (!offsetChanged) Report(PT::Error,
-          "Camera offset change too small for bobbing effect, elapsed ticks: %lu",
-          elapsedTicks);
+        offsetChanged = Move(elapsedTicks);
+        if (!offsetChanged)
+        {
+          // The distance moved is probably too small to measure for this time
+          // period, return without updating offset or lastTicks.
+          return false;
+        }
       }
       else
       {
         // In first person mode, not moving or in the air.
-        offsetChanged = viewBobEffect.Reset(false, elapsedTicks);
+        offsetChanged = Reset(false, elapsedTicks);
       }
     }
     else
     {
       // Not in first person mode, reset the height now.
-      offsetChanged = viewBobEffect.Reset(true);
+      offsetChanged = Reset(true);
     }
 
     // If offset was changed, shift the camera.
     if (offsetChanged)
     {
-      csVector3 offset(0.0f, viewBobEffect.base+viewBobEffect.offset, 0.0f);
+      csVector3 offset(0.0f, baseHeight + currentOffset, 0.0f);
       camera->SetFirstPersonOffset(offset);
     }
+    // This is done here so that the time accumulates when the elapsed time is
+    // less than 0 ticks, to keep the calculations correct.
+    lastTicks = vc->GetCurrentTicks();
   }
 
   return false;
 }
 
-bool ComponentViewBob::ViewBobEffect::Move(float elapsedTicks)
+bool ComponentViewBob::Move(float elapsedTicks)
 {
   // 4 parts of the cycle, increases and decreases through + and -.
-  float offsetChange = elapsedTicks / (period/4) * range;
+  float offsetChange = elapsedTicks / (timePeriod/4) * offsetRange;
   if (offsetChange < 0.00001f && offsetChange > -0.00001f) return false;
 
   if (upwards)
   {
     // If the offset is above the range, change the direction.
-    if (offset + offsetChange >= range)
+    if (currentOffset + offsetChange >= offsetRange)
     {
-      offset = range;
+      currentOffset = offsetRange;
       upwards = false;
     }
     else
     {
-      offset += offsetChange;
+      currentOffset += offsetChange;
     }
   }
   else
   {
     // If the offset is below the range, change the direction.
-    if (offset - offsetChange <= -1.0f * range)
+    if (currentOffset - offsetChange <= -1.0f * offsetRange)
     {
-      offset = -1.0f * range;
+      currentOffset = -1.0f * offsetRange;
       upwards = true;
     }
     else
     {
-      offset -= offsetChange;
+      currentOffset -= offsetChange;
     }
   }
   return true;
 } // end ViewBobEffect::Move()
 
-bool ComponentViewBob::ViewBobEffect::Reset(bool hard, float elapsedTicks)
+bool ComponentViewBob::Reset(bool hard, float elapsedTicks)
 {
-  if (offset < 0.00001f && offset > -0.00001f) return false;
+  if (currentOffset < 0.00001f && currentOffset > -0.00001f) return false;
   if (hard)
   {
-    offset = 0.0f;
+    currentOffset = 0.0f;
     return true;
   }
 
   // 4 parts of the cycle, increases and decreases through + and -.
-  float offsetChange = elapsedTicks / (period/4) * range;
+  float offsetChange = elapsedTicks / (timePeriod/4) * offsetRange;
   // Above the base height, change down toward it.
-  if (offset > 0.0f)
+  if (currentOffset > 0.0f)
   {
-    if (offset - offsetChange <= 0.0f)
+    if (currentOffset - offsetChange <= 0.0f)
     {
-      offset = 0.0f;
+      currentOffset = 0.0f;
       upwards = true;
     }
     else
     {
-      offset -= offsetChange;
+      currentOffset -= offsetChange;
     }
   }
   // Below the base height, change up toward it.
-  else if (offset < 0.0f)
+  else if (currentOffset < 0.0f)
   {
-    if (offset + offsetChange >= 0.0f)
+    if (currentOffset + offsetChange >= 0.0f)
     {
-      offset = 0.0f;
+      currentOffset = 0.0f;
       upwards = true;
     }
     else
     {
-      offset += offsetChange;
+      currentOffset += offsetChange;
     }
   }
   return true;

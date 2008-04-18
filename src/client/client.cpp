@@ -195,13 +195,7 @@ namespace PT
       if (player)
       {
         // Draw the player camera manually.
-        static csTicks lastTicks = vc->GetCurrentTicks();
-        csTicks elapsedTicks = vc->GetCurrentTicks() - lastTicks;
-        player->CameraDraw(elapsedTicks);
-
-        // This is done so that the time accumulates when the elapsed time is
-        // less than 0 ticks, to keep any calculations correct.
-        if (elapsedTicks > 0) lastTicks = vc->GetCurrentTicks();
+        player->CameraDraw();
 
         if (stateManager->GetState() == STATE_PLAY)
         {

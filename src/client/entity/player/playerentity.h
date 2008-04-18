@@ -72,9 +72,8 @@ namespace PT
 
       /**
        * Draws player's camera view.
-       * @param elapsedTicks Ticks elapsed since last call.
        */
-      void CameraDraw(csTicks elapsedTicks);
+      void CameraDraw();
 
       /**
        * Changes the entity position and sector immediatelly

@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file viewbob.h
+ *
+ * @basic The view bobbing effect.
+ */
 
 #ifndef CLIPBOARD_DEFAULT_HEADER
 #define CLIPBOARD_DEFAULT_HEADER
@@ -50,57 +55,80 @@ namespace PT
 
 DECLARE_COMPONENTFACTORY (ViewBob)
 
+/**
+ * The view bobbing effect applied to the view as the player character moves.
+ */
 class ComponentViewBob : public scfImplementationExt1<ComponentViewBob, ComponentCommon, iViewBob>
 {
 private:
+  /// The object registry.
   iObjectRegistry* object_reg;
+  /// The pointer library.
   PointerLibrary* pointerlib;
 
+  /// The virtual clock.
   csRef<iVirtualClock> vc;
+  /// The ticks at the last valid offset change.
+  csTicks lastTicks;
 
+  /// The player entity.
   PT::Entity::Entity* entity;
+  /// The event handlers.
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
-  ///Player entity's camera.
+  /// Player entity's camera.
   csWeakRef<iPcDefaultCamera> camera;
 
+  /**
+   * Advance to the next frame of the effect.
+   * @param ev The event.
+   * @return False, so the crystalspace.frame event is still handled elsewhere.
+   */
   bool Frame(iEvent& ev);
 
-  ///Configuration of the bobbing effect while walking and running.
-  struct ViewBobEffect
-  {
-    /**
-    * Change the view height when moving.
-    * @param elapsedTicks The ticks elapsed since last frame.
-    * @return Whether the offset was changed.
-    */
-    bool Move(float elapsedTicks);
+  /**
+   * Change the view height when moving.
+   * @param elapsedTicks The ticks elapsed since last frame.
+   * @return Whether the offset was changed.
+   */
+  bool Move(float elapsedTicks);
 
-    /**
-    * Change the view height to the standard.
-    * @param hard Whether to reset it now or change gradually.
-    * @param elapsedTicks The ticks elapsed since last frame.
-    * @return Whether the offset was changed.
-    */
-    bool Reset(bool hard, float elapsedTicks = 0.0f);
+  /**
+   * Change the view height to the standard.
+   * @param hard Whether to reset it now or change gradually.
+   * @param elapsedTicks The ticks elapsed since last frame.
+   * @return Whether the offset was changed.
+   */
+  bool Reset(bool hard, float elapsedTicks = 0.0f);
 
-    ///Base height of the view.
-    float base;
-    ///Offset to the height for the bobbing effect.
-    float offset;
-    ///Time period of one cycle of view movement change.
-    float period;
-    ///Camera offset range.
-    float range;
-    ///The direction of camera movement, true is up, false is down.
-    bool upwards;
-  } viewBobEffect;
+  /// Base height of the view.
+  float baseHeight;
+  /// Offset to the height for the bobbing effect.
+  float currentOffset;
+  /// Time period of one cycle of view movement change.
+  float timePeriod;
+  /// Camera offset range.
+  float offsetRange;
+  /// The direction of camera movement, true is up, false is down.
+  bool upwards;
 
 public:
-    ComponentViewBob (iObjectRegistry*);
-    virtual ~ComponentViewBob();
+  /// Constructor.
+  ComponentViewBob (iObjectRegistry*);
+  /// Destructor.
+  virtual ~ComponentViewBob();
 
-    virtual bool Initialize (PointerLibrary*, PT::Entity::Entity*);
+  /**
+   * Initialize the effect
+   * @param pl The pointer library.
+   * @param ent The entity to apply the effect to.
+   */
+  virtual bool Initialize (PointerLibrary* pl, PT::Entity::Entity* ent);
+  
+  // TODO: add functions or events to change the range and time period,
+  // currently the effect is not changed when you run. Might be a good idea
+  // to tie it in with the pose manager somehow, and have the values stored in
+  // an xml or the database along with the animations.
 };
 
 #endif

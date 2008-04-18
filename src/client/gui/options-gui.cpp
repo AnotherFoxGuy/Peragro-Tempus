@@ -217,16 +217,16 @@ bool OptionsWindow::OnDropListTexture(const CEGUI::EventArgs& e)
 
   switch(id)
   {
-  case 0: // High
+  case 0: // Normal
     quality = 0;
     break;
-  case 1: // Normal
+  case 1: // Low
     quality = 1;
     break;
-  case 2: // Low
+  case 2: // Very Low
     quality = 2;
     break;
-  case 3: // Very low
+  case 3: // Lowest
     quality = 3;
     break;
 
@@ -248,31 +248,31 @@ void OptionsWindow::CreateDropListTexture()
   switch(quality)
   {
     case 0:
-      ((CEGUI::Combobox*)btn)->setText("High");
-      break;
-    case 1:
       ((CEGUI::Combobox*)btn)->setText("Normal");
       break;
-    case 2:
+    case 1:
       ((CEGUI::Combobox*)btn)->setText("Low");
       break;
-    case 3:
+    case 2:
       ((CEGUI::Combobox*)btn)->setText("Very Low");
+      break;
+    case 3:
+      ((CEGUI::Combobox*)btn)->setText("Lowest");
       break;
     default:
       ((CEGUI::Combobox*)btn)->setText("Custom");
   }
 
-  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"High", 0);
+  CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Normal", 0);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
 
-  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Normal", 1);
+  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Low", 1);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
 
-  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Low", 2);
+  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Very Low", 2);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
 
-  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Very Low", 3);
+  charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Lowest", 3);
   ((CEGUI::Combobox*)btn)->addItem(charIdItem);
 
   ((CEGUI::Combobox*)btn)->setReadOnly(true);

@@ -20,7 +20,6 @@
 
 #include <iengine/sector.h>
 #include <iengine/camera.h>
-#include <csgeom/vector3.h>
 #include <iutil/plugin.h>
 
 #include <physicallayer/pl.h>
@@ -218,7 +217,7 @@ namespace PT
       return cam->GetSector();
     }
 
-    void PlayerEntity::CameraDraw(csTicks elapsedTicks)
+    void PlayerEntity::CameraDraw()
     {
       camera->Draw();
     }
