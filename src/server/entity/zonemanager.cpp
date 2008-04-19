@@ -61,7 +61,7 @@ ptString ZoneManager::GetZone(float x, float z)
   return ptString("",0);
 }
 
-ptString ZoneManager::GetZones(float x, float z)
+std::vector<ptString> ZoneManager::GetZones(float x, float z)
 {
   std::vector<ptString> inzones;
   PtVector2 position(x,z);
