@@ -84,7 +84,16 @@ void nwWriter::writeNetwork(std::ofstream& out)
 
   out << "\n"
          "#define MSG_NET_VERSION " << nw->netId << "\n"
-         "\n"
+         "\n";
+  
+  size_t i = 0;
+  for (i = 0; i < nw->peers.size(); i++)
+  {
+    out << "#define MSG_" << toConst(nw->peers[i]->name).c_str() 
+        << "_PEER_VERSION " << nw->peers[i]->netId << "\n";
+  }
+
+  out << "\n"
          "#define MSG_HANDLER_COUNT " << nw->types.size() << "\n"
          "\n"
          "namespace MESSAGES\n"
@@ -92,7 +101,6 @@ void nwWriter::writeNetwork(std::ofstream& out)
          "  enum HANDLERS\n"
          "  {\n";
 
-  size_t i = 0;
   for (i = 0; i < nw->types.size()-1; i++)
   {
     out <<  "    " << toConst(nw->types[i]->name).c_str() << 

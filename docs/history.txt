@@ -6,6 +6,7 @@ under each day.
 
 19-Apr-2008
  - Rakhun implemented ZoneManager::GetZones(..) for getting multiple zones.
+ - PK added a network id for each peer to the generator.
 
 18-Apr-2008
  - Sueastside added experimental 'function' support:

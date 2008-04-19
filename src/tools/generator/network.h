@@ -45,6 +45,8 @@ public:
   std::string name;
   std::vector<nwMessage*> sendMsg;
   std::vector<nwMessage*> recvMsg;
+
+  unsigned int netId;
 };
 
 class nwType

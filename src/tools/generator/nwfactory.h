@@ -20,11 +20,19 @@ class nwNetwork;
 
 #include <boost/crc.hpp>
 
+class nwPeer;
+class nwMessage;
+class nwParams;
+
 class nwFactory
 {
   nwNetwork* nw;
 
   boost::crc_32_type hasher;
+
+  void calcHash(boost::crc_32_type& peerhasher, nwPeer* peer);
+  void calcHash(boost::crc_32_type& peerhasher, nwMessage* peer);
+  void calcHash(boost::crc_32_type& peerhasher, nwParams* peer);
 
 public:
   nwFactory();

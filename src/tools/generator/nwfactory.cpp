@@ -198,8 +198,53 @@ void nwFactory::createListParameter(const char* msgName, const char* listName, c
   hasher.process_bytes(type, strlen(type));
 }
 
+void nwFactory::calcHash(boost::crc_32_type& peerhasher, nwPeer* peer)
+{
+  peerhasher.process_bytes(peer->name.c_str(), peer->name.length());
+  for (size_t i = 0; i < peer->recvMsg.size(); i++)
+  {
+    nwMessage* msg = peer->recvMsg[i];
+    calcHash(peerhasher, msg);
+  }
+  for (size_t i = 0; i < peer->sendMsg.size(); i++)
+  {
+    nwMessage* msg = peer->sendMsg[i];
+    calcHash(peerhasher, msg);
+  }
+}
+
+void nwFactory::calcHash(boost::crc_32_type& peerhasher, nwMessage* msg)
+{
+  peerhasher.process_bytes(&msg->id, sizeof(msg->id));
+  peerhasher.process_bytes(msg->name.c_str(), msg->name.length());
+  peerhasher.process_bytes(msg->type, sizeof(msg->type));
+  for (size_t i = 0; i < msg->params.size(); i++)
+  {
+    nwParams* param = msg->params[i];
+    calcHash(peerhasher, param);
+  }
+}
+
+void nwFactory::calcHash(boost::crc_32_type& peerhasher, nwParams* param)
+{
+  peerhasher.process_bytes(param->name.c_str(), param->name.length());
+  peerhasher.process_bytes(&param->type, sizeof(param->type));
+  for (size_t i = 0; i < param->params.size(); i++)
+  {
+    nwParams* subparam = param->params[i];
+    calcHash(peerhasher, subparam);
+  }
+}
+
 nwNetwork* nwFactory::getNetwork()
 {
+  for (size_t i = 0; i < nw->peers.size(); i++)
+  {
+    boost::crc_32_type peerhasher;
+    nwPeer* peer = nw->peers[i];
+    calcHash(peerhasher, peer);
+    peer->netId = peerhasher.checksum();
+  }
   nw->netId = hasher.checksum();
   return nw;
 }
