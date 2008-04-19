@@ -67,6 +67,15 @@ public:
    * \return ptString with the zonetype for the given coordinate, returns "" if no zone is found.
    */
   ptString GetZone(float x, float z);
+
+  /**
+   * Get the zonetypes a coordinate is in (for multiple zones).
+   * \param x The X position of the coordinate to get the zonetypes for.
+   * \param z The Z position of the coordinate to get the zonetypes for.
+   * \return std::vector&lt;ptString&gt; with the zonetypes for the
+             given coordinate, returns an empty vector if no zone is found.
+   */
+  std::vector<ptString> GetZones(float x, float z);
 };
 
 #endif // ZONEMANAGER_H

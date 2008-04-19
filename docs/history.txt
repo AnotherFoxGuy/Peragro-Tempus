@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+19-Apr-2008
+ - Rakhun implemented ZoneManager::GetZones(..) for getting multiple zones.
+
 18-Apr-2008
  - Sueastside added experimental 'function' support:
    - predicate and boolean functions: ?(if), < >, ==
