@@ -47,7 +47,7 @@ const ptString UserAccountManager::login(ptString username, const char* password
   }
 
   // Unknown User
-  if (!user || strcmp(user->getPwHash(), password) != 0 )
+  if (!user || strlen(user->getPwHash()) != strlen(password) || strcmp(user->getPwHash(), password) != 0 )
   {
     user = 0;
     return ptString("Unknown user or invalid password", strlen("Unknown User or invalid password"));
