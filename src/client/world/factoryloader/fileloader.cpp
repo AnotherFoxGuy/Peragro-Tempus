@@ -459,6 +459,15 @@ csRef<iShader> FileLoader::LoadShader (const char* filename)
 
   dirChanger.ChangeTo (filename);
 
+  // Check if the shader was already loaded previously.
+  const char* shaderName = shaderNode->GetAttributeValue ("name");
+  if (shaderName)
+  {
+    csRef<iShader> shader = shaderMgr->GetShader(shaderName);
+    if (shader.IsValid())
+      return shader;
+  }
+
   const char* type = shaderNode->GetAttributeValue ("compiler");
   if (type == 0)
     type = shaderNode->GetAttributeValue ("type");
@@ -506,7 +515,7 @@ bool FileLoader::AddToEngine()
     {
       csString shaderFile = loadJob->shaders[i];
       csRef<iShader> shader = LoadShader (shaderFile.GetData());
-      //if (collection && shader.IsValid()) collection->Add(shader->QueryObject());
+      if (collection && shader.IsValid()) collection->Add(shader->QueryObject());
     }
 
     //printf("Adding Textures:\n");
