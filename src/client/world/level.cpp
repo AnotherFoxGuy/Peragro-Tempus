@@ -50,6 +50,9 @@ namespace PT
       engine->RemoveEngineFrameCallback(cb);
     }
 
+    // Stab Xordan for this!!
+    engine->RemoveCollection(regionName.c_str());
+
     // Unload factories.
     // Just empty the array to decrease ref.
     factories.Empty();
@@ -108,7 +111,7 @@ namespace PT
     csRefArray<iDocumentNode>* ints = levelLoader->GetInteriors();
     if (!ints) return;
 
-    // For each meshobj tag.
+    // For each interior tag.
     for (size_t i =0; i < ints->GetSize(); i++)
     {
       csRef<Interior> interior = interiorManager->Get(ints->Get(i));
@@ -172,7 +175,7 @@ namespace PT
       return false;
     }
 
-    finished = true;
+    SetReady();
 
     return true;
 

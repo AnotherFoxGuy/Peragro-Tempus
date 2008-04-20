@@ -113,7 +113,14 @@ namespace PT
       light->GetMovable()->SetPosition(pos);
       light->GetMovable()->UpdateMove();
     }
+
     //}//to measure time
+  }
+
+  void MapTile::SetReady()
+  {
+    SetVisible(visible);
+    Level::SetReady();
   }
 
   void MapTile::SetVisible(bool visible)

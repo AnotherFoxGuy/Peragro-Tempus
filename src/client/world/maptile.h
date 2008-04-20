@@ -37,6 +37,8 @@ namespace PT
 
     void LoadInstance(iDocumentNode* meshNode);
 
+    virtual void SetReady();
+
   public:
     /// Coordinates in tile space.
     int x, z;

@@ -46,6 +46,10 @@ namespace PT
       delete fileLoader;
       fileLoader = 0;
     }
+
+    // Stab Xordan for this!!
+    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+    engine->RemoveCollection(fileName.c_str());
   }
 
   void Factory::Load()

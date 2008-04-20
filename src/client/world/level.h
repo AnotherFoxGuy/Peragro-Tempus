@@ -46,6 +46,8 @@ namespace PT
 
   protected:
     bool finished;
+    virtual void SetReady() { finished = true; }
+
     LevelLoader* levelLoader;
     std::string regionName;
 

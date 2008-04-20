@@ -6,6 +6,8 @@ under each day.
 
 20-Apr-2008
  - Eklina trimmed down a large if-then chain in interactdialog-gui.cpp.
+ - Sueastside fixed an issue where meshes in a collection didn't get 
+   removed. This requires latest CS.
 
 19-Apr-2008
  - Rakhun implemented ZoneManager::GetZones(..) for getting multiple zones.
