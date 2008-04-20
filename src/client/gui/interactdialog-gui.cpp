@@ -245,91 +245,17 @@ void InteractDialogWindow::AddAction(const char* action /*,Callback* callback*/)
   }
 
   CEGUI::String name, normal, hover;
-  if (strcmp(action, "Trade") == 0)
-  {
-    name = TRADE_BUTTON;
-    normal = "set:InteractionIcons image:trade_normal";
-    hover = "set:InteractionIcons image:trade_hover";
-  }
-  else if (strcmp(action, "Pickup") == 0)
-  {
-    name = PICKUP_BUTTON;
-    normal = "set:InteractionIcons image:pickup_normal";
-    hover = "set:InteractionIcons image:pickup_hover";
-  }
-  else if (strcmp(action, "Drop") == 0)
-  {
-    name = DROP_BUTTON;
-    normal = "set:InteractionIcons image:pickup_normal";
-    hover = "set:InteractionIcons image:pickup_hover";
-  }
-  else if (strcmp(action, "Door") == 0)
-  {
-    name = DOOR_BUTTON;
-    normal = "set:InteractionIcons image:door_normal";
-    hover = "set:InteractionIcons image:door_hover";
-  }
-  else if (strcmp(action, "Lock") == 0)
-  {
-    name = LOCK_BUTTON;
-    normal = "set:InteractionIcons image:lock_normal";
-    hover = "set:InteractionIcons image:lock_hover";
-  }
-  else if (strcmp(action, "Unlock") == 0)
-  {
-    name = UNLOCK_BUTTON;
-    normal = "set:InteractionIcons image:unlock_normal";
-    hover = "set:InteractionIcons image:unlock_hover";
-  }
-  else if (strcmp(action, "Attack") == 0)
-  {
-    name = ATTACK_BUTTON;
-    normal = "set:InteractionIcons image:attack_normal";
-    hover = "set:InteractionIcons image:attack_hover";
-  }
-  else if (strcmp(action, "Talk") == 0)
-  {
-    name = TALK_BUTTON;
-    normal = "set:InteractionIcons image:talk_normal";
-    hover = "set:InteractionIcons image:talk_hover";
-  }
-  else if (strcmp(action, "Inventory") == 0)
-  {
-    name = INVENTORY_BUTTON;
-    normal = "set:InteractionIcons image:talk_normal";
-    hover = "set:InteractionIcons image:talk_hover";
-  }
-  else if (strcmp(action, "Stats") == 0)
-  {
-    name = STATS_BUTTON;
-    normal = "set:InteractionIcons image:talk_normal";
-    hover = "set:InteractionIcons image:talk_hover";
-  }
-  else if (strcmp(action, "Read") == 0)
-  {
-    name = READ_BUTTON;
-    normal = "set:InteractionIcons image:talk_normal";
-    hover = "set:InteractionIcons image:talk_hover";
-  }
-  else if (strcmp(action, "Write") == 0)
-  {
-    name = WRITE_BUTTON;
-    normal = "set:InteractionIcons image:talk_normal";
-    hover = "set:InteractionIcons image:talk_hover";
-  }
-  else if (strcmp(action, "Eat") == 0)
-  {
-    name = EAT_BUTTON;
-    normal = "set:InteractionIcons image:talk_normal";
-    hover = "set:InteractionIcons image:talk_hover";
-  }
-  else if (strcmp(action, "Activate") == 0)
-  {
-    name = ACTIVATE_BUTTON;
-    normal = "set:InteractionIcons image:talk_normal";
-    hover = "set:InteractionIcons image:talk_hover";
-  }
+  name = "InteractDialog/";
+  name += action;
 
+  normal = "set:InteractionIcons image:";
+  int x = normal.length();
+  normal += action;
+  normal[x] += 'a' - 'A';
+  hover = normal;
+  normal += "_normal";
+  hover += "_hover";
+  
   if (!winMgr->isWindowPresent(name))
   {
     CEGUI::Window* button = winMgr->createWindow("Peragro/ImageButton", name);
