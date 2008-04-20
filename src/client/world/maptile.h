@@ -51,8 +51,10 @@ namespace PT
     /**
     * Set the visibility of the tile.
     * @param visible True is visible, false is invisible.
+    * @param force Resets visibility on _all_ meshes, don't use unless you
+    * know what you're doing.
     */
-    void SetVisible(bool visible);
+    void SetVisible(bool visible, bool force = false);
   };
 
 } // PT namespace

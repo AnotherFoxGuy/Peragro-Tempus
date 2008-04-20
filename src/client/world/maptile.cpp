@@ -119,13 +119,13 @@ namespace PT
 
   void MapTile::SetReady()
   {
-    SetVisible(visible);
+    SetVisible(visible, true);
     Level::SetReady();
   }
 
-  void MapTile::SetVisible(bool visible)
+  void MapTile::SetVisible(bool visible, bool force)
   {
-    if (this->visible == visible) return;
+    if (this->visible == visible && !force) return;
     this->visible = visible;
     if (!instances.IsValid()) return;
 
