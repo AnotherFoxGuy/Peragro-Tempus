@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\quest;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\quest;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\quest;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\quest;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\quest;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\quest;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\quest;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\quest;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -301,26 +301,29 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\quest\npcdialogmanager.cpp">
+				RelativePath="..\..\src\server\quest\npcdialogmanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\quest\npcdialogstate.cpp">
+				RelativePath="..\..\src\server\quest\npcdialogstate.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\quest\npcdialog.h">
+				RelativePath="..\..\src\server\quest\npcdialog.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\quest\npcdialoganswer.h">
+				RelativePath="..\..\src\server\quest\npcdialoganswer.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\quest\npcdialogmanager.h">
+				RelativePath="..\..\src\server\quest\npcdialogmanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\quest\npcdialogstate.h">
+				RelativePath="..\..\src\server\quest\npcdialogstate.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\quest\questutils.h">
 			</File>
 		</Filter>
 	</Files>
