@@ -27,7 +27,7 @@
 #include "server/entity/zonemanager.h"
 #include "server/entity/user.h"
 
-#include "common/quest/npcdialogmanager.h"
+#include "server/quest/npcdialogmanager.h"
 
 #include "server/database/database.h"
 #include "server/database/table-npcentities.h"

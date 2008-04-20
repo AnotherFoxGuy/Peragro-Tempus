@@ -1,4 +1,4 @@
-SubDir TOP src common quest ;
+SubDir TOP src server quest ;
 
 Description quest : "quest" ;
 Library quest :

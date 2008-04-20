@@ -26,7 +26,7 @@
 #include "characterstats.h"
 #include "characterskills.h"
 
-#include "common/quest/npcdialogstate.h"
+#include "server/quest/npcdialogstate.h"
 
 class Entity;
 class User;

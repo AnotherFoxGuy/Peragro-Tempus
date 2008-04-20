@@ -157,7 +157,12 @@ void BulletCD::addEntity(const Entity* entity)
 
 void BulletCD::removeEntity(const Entity* entity)
 {
-  printf("Removing entity %d from colldet", entity->getId());
+  printf("Removing entity %d from colldet\n", entity->getId());
+  if(!cobjs[entity])
+  {
+    printf("Error: entity %d was not in colldet.\n", entity->getId());
+    return;
+  }
 
   world->removeRigidBody(cobjs[entity]);
 

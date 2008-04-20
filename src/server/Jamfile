@@ -5,6 +5,7 @@ SubInclude TOP src server colldet ;
 SubInclude TOP src server database ;
 SubInclude TOP src server entity ;
 SubInclude TOP src server network ;
+SubInclude TOP src server quest ;
 
 Description server : "Server" ;
 Application server : [ Wildcard *.h *.cpp ] : console ;
