@@ -36,9 +36,9 @@ namespace PT
     class Command
     {
     public:
-      virtual const char* GetCommand () = 0;
-      virtual const char* GetDescription () = 0;
-      virtual void Help () = 0;
+      virtual const char* GetCommand () = 0;     // returns the command name
+      virtual const char* GetDescription () = 0; // describes command function
+      virtual const char* Help () = 0;           // returns a Usage string
       virtual void Execute (const StringArray& args) = 0;
       virtual ~Command() { };
     };

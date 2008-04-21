@@ -64,12 +64,7 @@ namespace PT
       virtual ~cmdHelp () { }
       virtual const char* GetCommand () { return "help"; }
       virtual const char* GetDescription () { return "Prints this help."; }
-      virtual void Help ()
-      {
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/help'");
-      }
+      virtual const char* Help () { return "Usage: '/help'"; }
       virtual void Execute (const StringArray& args)
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
@@ -80,7 +75,7 @@ namespace PT
         // Element 0 is '/', 1 is 'help'
         if (args.size() < 2 || args.size() > 2)
         {
-          Help();
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
           return;
         }
         else
@@ -108,12 +103,7 @@ namespace PT
       virtual ~cmdSay () { }
       virtual const char* GetCommand () { return "say"; }
       virtual const char* GetDescription () { return "Say something to the world."; }
-      virtual void Help ()
-      {
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/say <message>'");
-      }
+      virtual const char* Help () { return "Usage: '/say <message>'"; }
       virtual void Execute (const StringArray& args)
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
@@ -138,7 +128,7 @@ namespace PT
         }
         else if (args.size() < 3)
         {
-          Help();
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
           return;
         }
         else
@@ -167,21 +157,18 @@ namespace PT
       virtual ~cmdSayMe () { }
       virtual const char* GetCommand () { return "me"; }
       virtual const char* GetDescription () { return "Say something in third person to the world."; }
-      virtual void Help ()
-      {
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/me <message>'");
-      }
+      virtual const char* Help () { return "Usage: '/me <message>'"; }
       virtual void Execute (const StringArray& args)
       {
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        if(!guimanager) return;
 
         // Element 0 is '/', 1 is 'me'
         if (args.size() < 3)
         {
-          Help();
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
           return;
         }
         else
@@ -210,14 +197,11 @@ namespace PT
       virtual ~cmdGreet () { }
       virtual const char* GetCommand () { return "greet"; }
       virtual const char* GetDescription () { return "Wave at someone."; }
-      virtual void Help ()
+      virtual const char* Help () { return "Usage: '/greet <target>'"; }
+      virtual void Execute (const StringArray& args)
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/greet <target>'");
-      }
-      virtual void Execute (const StringArray& args)
-      {
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
         PT::Entity::EntityManager* entmgr = PointerLibrary::getInstance()->getEntityManager();
@@ -226,7 +210,7 @@ namespace PT
         // Element 0 is '/', 1 is 'greet'
         if (args.size() < 3 || args.size() > 3)
         {
-          Help();
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
           return;
         }
         else
@@ -267,14 +251,11 @@ namespace PT
       virtual ~cmdSit () { }
       virtual const char* GetCommand () { return "sit"; }
       virtual const char* GetDescription () { return "Sit down."; }
-      virtual void Help ()
+      virtual const char* Help () { return "Usage: '/sit'"; }
+      virtual void Execute (const StringArray& args)
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/sit'");
-      }
-      virtual void Execute (const StringArray& args)
-      {
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
         PT::Entity::EntityManager* entmgr = PointerLibrary::getInstance()->getEntityManager();
@@ -283,7 +264,7 @@ namespace PT
         // Element 0 is '/', 1 is 'sit'
         if (args.size() < 2 || args.size() > 3)
         {
-          Help();
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
           return;
         }
         else
@@ -308,21 +289,18 @@ namespace PT
       virtual ~cmdRelocate () { }
       virtual const char* GetCommand () { return "relocate"; }
       virtual const char* GetDescription () { return "Teleport yourself to the start location."; }
-      virtual void Help ()
+      virtual const char* Help () { return "Usage: '/relocate'"; }
+      virtual void Execute (const StringArray& args)
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/relocate'");
-      }
-      virtual void Execute (const StringArray& args)
-      {
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
 
         // Element 0 is '/', 1 is 'relocate'
         if (args.size() < 2)
         {
-          Help();
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
           return;
         }
         else
@@ -342,12 +320,7 @@ namespace PT
       virtual ~cmdWhisper () { }
       virtual const char* GetCommand () { return "whisper"; }
       virtual const char* GetDescription () { return "Start a private conversation with the target."; }
-      virtual void Help ()
-      {
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/whisper <target> <message>'");
-      }
+      virtual const char* Help () { return "Usage: '/whisper <target> <message>'"; }
       virtual void Execute (const StringArray& args)
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
@@ -358,7 +331,7 @@ namespace PT
         // Element 0 is '/', 1 is 'whisper'
         if (args.size() < 4)
         {
-          Help();
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
           return;
         }
         else
@@ -394,19 +367,18 @@ namespace PT
       virtual ~cmdDbg () { }
       virtual const char* GetCommand () { return "dbg"; }
       virtual const char* GetDescription () { return "Command used for developers to debug stuff. Read the code!"; }
-      virtual void Help ()
+      virtual const char* Help ()
       {
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if(!guimanager) return;
-        guimanager->GetChatWindow ()->AddMessage ("Usage: '/dbg [command] [args]'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Write book: '/dbg write #itemid #bookid #name #text'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Player Pos: '/dbg pos'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Flash Step: '/dbg flashstep'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Spawn Item: '/dbg spawn item #itemid #variation'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Spawn Mount: '/dbg spawn mount meshname entityname'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Sector: '/dbg sector sectorname [x y z]'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Move: '/dbg move f|b|l|r|u|d [distance]'");
-        guimanager->GetChatWindow ()->AddMessage ("  - Sector: '/dbg rm entity #id'");
+        return
+          "Usage: '/dbg [command] [args]'\n"
+          "  - Write book: '/dbg write #itemid #bookid #name #text'\n"
+          "  - Player Pos: '/dbg pos'\n"
+          "  - Flash Step: '/dbg flashstep'\n"
+          "  - Spawn Item: '/dbg spawn item #itemid #variation'\n"
+          "  - Spawn Mount: '/dbg spawn mount meshname entityname'\n"
+          "  - Sector: '/dbg sector sectorname [x y z]'\n"
+          "  - Move: '/dbg move f|b|l|r|u|d [distance]'\n"
+          "  - Sector: '/dbg rm entity #id'";
       }
       virtual void Execute (const StringArray& args)
       {
@@ -424,7 +396,7 @@ namespace PT
         // Element 0 is '/', 1 is 'relocate'
         if (args.size() < 3)
         {
-          Help();
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
           return;
         }
         else
@@ -433,7 +405,7 @@ namespace PT
           {
             if (args.size() < 7)
             {
-              Help();
+              guimanager->GetChatWindow ()->AddMessage ( Help() );
               return;
             }
             BookWriteRequestMessage msg;
@@ -473,7 +445,7 @@ namespace PT
           {
             if (args.size() < 6)
             {
-              Help();
+              guimanager->GetChatWindow ()->AddMessage ( Help() );
               return;
             }
             iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
@@ -514,7 +486,7 @@ namespace PT
 
             if (args.size() < 4)
             {
-              Help();
+              guimanager->GetChatWindow ()->AddMessage ( Help() );
               return;
             }
 
@@ -567,7 +539,7 @@ namespace PT
 
             if (args.size() < 4)
             {
-              Help();
+              guimanager->GetChatWindow ()->AddMessage ( Help() );
               return;
             }
 
@@ -657,7 +629,7 @@ namespace PT
           {
             if (args.size() < 5)
             {
-              Help();
+              guimanager->GetChatWindow ()->AddMessage ( Help() );
               return;
             }
             if (args[3].compare("entity") == 0)
