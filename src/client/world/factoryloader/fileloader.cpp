@@ -155,7 +155,9 @@ void FileLoader::LoaderJob::ParseLibrary(iDocumentNode* libraryNode)
   while (nodes->HasNext())
   {
     csRef<iDocumentNode> fact = nodes->Next();
-    ParseMeshFact(fact);
+    csObjectPrototype proto;
+    ParseMeshFact(fact, proto, 0);
+    if (!proto.failedLoading) prototypes.Push(proto);
   }
 } // end ParseLibrary()
 
@@ -202,16 +204,10 @@ void FileLoader::LoaderJob::ParseMaterial(iDocumentNode* node)
   materials.Push(mat);
 } // end ParseMaterial()
 
-void FileLoader::LoaderJob::ParseMeshFact(iDocumentNode* node)
+csPtr<iMeshObjectFactory> FileLoader::LoaderJob::NewFactory (const std::string& plug)
 {
-  csObjectPrototype proto;
-
-  proto.name = node->GetAttribute("name")->GetValue();
-  proto.type = csObjectPrototype::iMeshObjectFactory;
-
   // Get the right plugin.
   csRef<iMeshObjectType> type;
-  std::string plug = node->GetNode("plugin")->GetContentsValue();
   for (size_t i = 0; i < plugins.GetSize(); i++)
   {
     if (plugins[i].name == plug || plugins[i].classId == plug)
@@ -222,40 +218,74 @@ void FileLoader::LoaderJob::ParseMeshFact(iDocumentNode* node)
   }
   if (!type.IsValid())
   {
-    printf("E: Don't know how to load %s (%s)\n", proto.name.c_str(), plug.c_str());
-    return;
+    printf("E: Don't know how to load %s\n", plug.c_str());
+    return 0;
   }
 
-  csRef<iMeshObjectFactory> fact;
-  fact = type->NewFactory ();
+  return type->NewFactory ();
+}
+
+void FileLoader::LoaderJob::ParseMeshFact(iDocumentNode* node, csObjectPrototype& proto, csObjectPrototype* parent)
+{
+  proto.name = node->GetAttribute("name")->GetValue();
+
+  std::string plug = "nullmesh";
+  if (node->GetNode("plugin")) plug = node->GetNode("plugin")->GetContentsValue();
+
+  csRef<iMeshObjectFactory> fact = NewFactory (plug);
   proto.object = fact;
 
-  if (!GenMesh::Parse(node->GetNode("params"), proto, SyntaxService))
-  {
-    printf("E: Failed to load GenMesh %s\n", proto.name.c_str());
-    return;
-  }
-
-  if (!MeshObjectFactory::LoadMeshObjectFactory (node, proto, SyntaxService))
+  if (!proto.object.IsValid())
   {
     printf("E: Failed to load MeshObjectFactory %s\n", proto.name.c_str());
     return;
   }
 
+  if (!MeshObjectFactory::LoadMeshObjectFactory (node, parent, proto, SyntaxService))
+  {
+    printf("E: Failed to load MeshObjectFactory %s\n", proto.name.c_str());
+    return;
+  }
+
+  if (proto.nullMesh)
+  {
+    csRef<iMeshObjectFactory> fact = NewFactory ("nullmesh");
+    proto.object = fact;
+    csRef<iNullFactoryState> nullmesh = scfQueryInterface<iNullFactoryState> (fact);
+    nullmesh->SetBoundingBox (proto.boundingbox);
+  }
+  else if (!GenMesh::Parse(node->GetNode("params"), proto, SyntaxService))
+  {
+    printf("E: Failed to load GenMesh %s\n", proto.name.c_str());
+    return;
+  }
+
+  // Parse the children.
+  for (size_t i = 0; i < proto.childNodes.GetSize(); i++)
+  {
+    csObjectPrototype child;
+    ParseMeshFact(proto.childNodes.Get(i), child, &proto);
+    if (!child.failedLoading) proto.children.Push(child);
+  }
+  proto.childNodes.DeleteAll();
+
   // Create the collider for this mesh.
   iObjectModel* fact_objmodel = fact->GetObjectModel ();
-  iTriangleMesh* obj_trimesh;
-  // Check if a CD mesh has been set, trimesh.
-  bool obj_trimesh_set = fact_objmodel->IsTriangleDataSet (trianglemesh_id);
-  if (obj_trimesh_set)
-    obj_trimesh = fact_objmodel->GetTriangleData (trianglemesh_id);
-  else
-    obj_trimesh = fact_objmodel->GetTriangleData (basemesh_id);
-  // Create a collider with the triangle data.
-  proto.collider = collide_system->CreateCollider(obj_trimesh);
+  if (fact_objmodel)
+  {
+    iTriangleMesh* obj_trimesh;
+    // Check if a CD mesh has been set, trimesh.
+    bool obj_trimesh_set = fact_objmodel->IsTriangleDataSet (trianglemesh_id);
+    if (obj_trimesh_set)
+      obj_trimesh = fact_objmodel->GetTriangleData (trianglemesh_id);
+    else
+      obj_trimesh = fact_objmodel->GetTriangleData (basemesh_id);
+    // Create a collider with the triangle data.
+    proto.collider = collide_system->CreateCollider(obj_trimesh);
+  }
 
-  // Push it on our list.
-  prototypes.Push(proto);
+  proto.failedLoading = false;
+
 } // end ParseMeshFact()
 
 //---------------------------------------------------------------------------
@@ -303,7 +333,15 @@ bool FileLoader::Load (const std::string& path, const std::string& fileName, iCo
   plugin.name = "genmeshfact"; // wrong
   plugin.classId = "crystalspace.mesh.object.genmesh";
   plugin.plugin = csLoadPluginCheck<iMeshObjectType> (object_reg, plugin.classId.c_str(), false);
+  plugin.classId = "crystalspace.mesh.loader.genmesh";// wrong
   loadJob->plugins.Push(plugin);
+
+  // Create the nullmesh plugin.
+  ObjectPlugin plugin2;
+  plugin2.name = "nullmesh"; // wrong
+  plugin2.classId = "crystalspace.mesh.object.null";
+  plugin2.plugin = csLoadPluginCheck<iMeshObjectType> (object_reg, plugin2.classId.c_str(), false);
+  loadJob->plugins.Push(plugin2);
 
   //Misc
   loadJob->basemesh_id = loadJob->collide_system->GetBaseDataID ();
@@ -508,7 +546,6 @@ bool FileLoader::AddToEngine()
     csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
     csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
     csRef<iTextureManager> textureManager = csQueryRegistry<iTextureManager> (object_reg);
-    csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
     //printf("Adding shaders:\n");
     for (size_t i = 0; i < loadJob->shaders.GetSize(); i++)
@@ -569,32 +606,32 @@ bool FileLoader::AddToEngine()
     for (size_t i = 0; i < loadJob->prototypes.GetSize(); i++)
     {
       csObjectPrototype proto = loadJob->prototypes[i];
-      //printf("- %s (%d)\n", proto.name.c_str(), proto.type);
-      switch (proto.type)
+
+      csRef<iMeshObjectFactory> obj = scfQueryInterface<iMeshObjectFactory>(proto.object);
+      obj->SetMaterialWrapper(GetMaterial(proto.materialName));
+      csRef<iMeshFactoryWrapper> fact = engine->CreateMeshFactory(obj, proto.name.c_str());
+      SetFactoryProperties(this, proto, fact);
+
+      // Parse the children.
+      for (size_t i = 0; i < proto.children.GetSize(); i++)
       {
-      case csObjectPrototype::iMeshObject:
+        csObjectPrototype child = proto.children[i];
+
+        csRef<iMeshObjectFactory> childobj = scfQueryInterface<iMeshObjectFactory>(child.object);
+        childobj->SetMaterialWrapper(GetMaterial(child.materialName));
+        csRef<iMeshFactoryWrapper> childfact = engine->CreateMeshFactory(childobj, child.name.c_str());
+        SetFactoryProperties(this, child, fact);
+
+        fact->GetChildren ()->Add (childfact);
+
+        if (child.lodLevel > -1)
         {
-          //csRef<iMeshWrapper> mesh = engine->CreateMeshWrapper(fact, "test", engine->FindSector("room"));
+          fact->AddFactoryToStaticLOD(child.lodLevel, childfact);
         }
-        break;
-      case csObjectPrototype::iMeshObjectFactory:
-        {
-          csRef<iMeshObjectFactory> obj = scfQueryInterface<iMeshObjectFactory>(proto.object);
-          obj->SetMaterialWrapper(GetMaterial(proto.materialName));
-          csRef<iMeshFactoryWrapper> fact = engine->CreateMeshFactory(obj, proto.name.c_str());
-          SetFactoryProperties(this, proto, fact);
-          if (collection && fact.IsValid()) collection->Add(fact->QueryObject());
-          // Add the generated iCollider.
-          csRef<csColliderWrapper> cw;
-          cw.AttachNew(new csColliderWrapper (fact->QueryObject(), cdsys, proto.collider));
-          if (cw) cw->SetName (fact->QueryObject ()->GetName());
-        }
-        break;
-      default:
-        {
-          printf("E: Unknown csObjectPrototype type!\n");
-        }
-      } // end switch
+      }
+
+      if (collection && fact.IsValid()) collection->Add(fact->QueryObject());
+
     } // end for
     //lTimeMeasurer.PrintIntermediate ("Meshes ");
 

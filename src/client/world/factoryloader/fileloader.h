@@ -41,14 +41,21 @@ struct GeneralMeshSubMeshWrapper
 
 struct csObjectPrototype
 {
-  enum Type
-  {
-    iMeshObject,
-    iMeshObjectFactory
-  };
+  csObjectPrototype () : failedLoading(true), nullMesh(false), lodLevel(-1) {}
+  bool failedLoading;
+
+  bool nullMesh;
+  csBox3 boundingbox;
+
+  //LOD stuff.
+  csRef<iDocumentNode> staticLodNode;
+  int lodLevel;
+
+  //Children
+  csRefArray<iDocumentNode> childNodes;
+  csArray<csObjectPrototype> children;
 
   // General
-  Type type;
   std::string name;
   csRef<iBase> object;
   std::string materialName;
@@ -110,6 +117,7 @@ struct ObjectPlugin
 
 class FileLoader
 {
+  
 protected:
 
   class LoaderJob : public scfImplementation1<LoaderJob, iJob>
@@ -142,10 +150,12 @@ protected:
 
     virtual void Run();
 
+    csPtr<iMeshObjectFactory> NewFactory(const std::string& plug);
+
     void ParseLibrary(iDocumentNode* libraryNode);
     void ParseTexture(iDocumentNode* node);
     void ParseMaterial(iDocumentNode* node);
-    void ParseMeshFact(iDocumentNode* node);
+    void ParseMeshFact(iDocumentNode* node, csObjectPrototype& proto, csObjectPrototype* parent);
   };
 
 protected:

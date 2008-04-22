@@ -29,7 +29,7 @@ namespace MeshObjectFactory
 #include "cstool/tokenlist.h"
 #undef CS_TOKEN_ITEM_FILE
 
-  bool LoadMeshObjectFactory (iDocumentNode* node, csObjectPrototype& proto, iSyntaxService* SyntaxService)
+  bool LoadMeshObjectFactory (iDocumentNode* node, csObjectPrototype* parent, csObjectPrototype& proto, iSyntaxService* SyntaxService)
   {
     InitTokenTable (xmltokens);
 
@@ -46,6 +46,30 @@ namespace MeshObjectFactory
       csStringID id = xmltokens.Request (value);
       switch (id)
       {
+      case XMLTOKEN_LODLEVEL:
+        {
+          if (!parent)
+          {
+            SyntaxService->ReportError (
+              "crystalspace.maploader.load.meshfactory", child,
+              "Factory must be part of a hierarchy for <lodlevel>!");
+            return false;
+          }
+          proto.lodLevel = child->GetContentsValueAsInt ();
+        }
+        break;
+      case XMLTOKEN_STATICLOD:
+        {
+          proto.staticLodNode = child;
+        }
+        break;
+        case XMLTOKEN_NULLMESH:
+        {
+          proto.nullMesh = true;
+	  if (!SyntaxService->ParseBox (child, proto.boundingbox))
+	    return false;
+	}
+        break;
       case XMLTOKEN_STATICSHAPE:
         if (!SyntaxService->ParseBool (child, staticshape, true))
           return false;
@@ -96,12 +120,16 @@ namespace MeshObjectFactory
           }
         }
         break;
+        case XMLTOKEN_MESHFACT:
+        {
+          proto.childNodes.Push(child);
+        }
+	break;
       case XMLTOKEN_MATERIAL:
         {
           proto.materialName = child->GetContentsValue ();
         }
         break;
-
       case XMLTOKEN_MOVE:
         {
           csRef<iDocumentNode> matrix_node = child->GetNode ("matrix");

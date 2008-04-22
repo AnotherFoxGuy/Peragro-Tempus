@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+22-Apr-2008
+ - Sueastside added support for static lod to the threaded loader.
+   Requires CS rev 29386!!
+
 21-Apr-2008
  - Eklina made Command::Help() return a usage message instead of printing
    the message to the GUI.  Done to reduce redundant code.

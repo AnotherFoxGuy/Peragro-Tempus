@@ -87,6 +87,15 @@ void LevelLoader::LoaderJob::Run()
     instances.Push(newNode);
   }
 
+  // Parse instances (meshrefs).
+  /*csRef<iDocumentNodeIterator>*/ nodes = parentNode->GetNodes("meshref");
+  while (nodes->HasNext())
+  {
+    csRef<iDocumentNode> current = nodes->Next();
+    csRef<iDocumentNode> newNode = WrapNode(current);
+    instances.Push(newNode);
+  }
+
   // Parse portals.
   /*csRef<iDocumentNodeIterator>*/ nodes = parentNode->GetNodes("portals");
   while (nodes->HasNext())

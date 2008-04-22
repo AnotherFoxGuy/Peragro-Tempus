@@ -30,65 +30,6 @@ static float GetDef (iDocumentNode* node, const char* attrname, float def)
     return def;
 }
 
-/* Unused stuff
-static bool GetFloat (char*& p, float& f)
-{
-  while (*p && isspace (*p)) p++;
-  if (!*p) return false;
-  char* start = p;
-  while (*p && !isspace (*p)) p++;
-  char old = *p;
-  *p = 0;
-  f = atof (start);
-  *p = old;
-  return true;
-}
-
-static bool GetInt (char*& p, int& f)
-{
-  while (*p && isspace (*p)) p++;
-  if (!*p) return false;
-  f = 0;
-  while (*p && !isspace (*p))
-  {
-    f = f * 10 + (*p - '0');
-    p++;
-  }
-  return true;
-}
-
-static bool GetVector3 (char*& p, csVector3& v)
-{
-  if (!GetFloat (p, v.x)) return false;
-  if (!GetFloat (p, v.y)) return false;
-  if (!GetFloat (p, v.z)) return false;
-  return true;
-}
-
-static bool GetVector2 (char*& p, csVector2& v)
-{
-  if (!GetFloat (p, v.x)) return false;
-  if (!GetFloat (p, v.y)) return false;
-  return true;
-}
-
-static bool GetColor (char*& p, csColor4& v)
-{
-  if (!GetFloat (p, v.red)) return false;
-  if (!GetFloat (p, v.green)) return false;
-  if (!GetFloat (p, v.blue)) return false;
-  if (!GetFloat (p, v.alpha)) return false;
-  return true;
-}
-
-static bool GetTri (char*& p, csTriangle& v)
-{
-  if (!GetInt (p, v.a)) return false;
-  if (!GetInt (p, v.b)) return false;
-  if (!GetInt (p, v.c)) return false;
-  return true;
-}*/
-
 static void AppendOrSetData (iGeneralFactoryState* factory,
                              const csDirtyAccessArray<csVector3>& mesh_vertices,
                              const csDirtyAccessArray<csVector2>& mesh_texels,
@@ -111,11 +52,53 @@ static void AppendOrSetData (iGeneralFactoryState* factory,
   }
 }
 
+static bool LoadLodControl (iLODControl* lodctrl, iDocumentNode* node)
+{
+  lodctrl->SetLOD (0, 1);
+  csRef<iDocumentNodeIterator> it = node->GetNodes ();
+  while (it->HasNext ())
+  {
+    csRef<iDocumentNode> child = it->Next ();
+
+    csRef<iDocumentAttribute> at = child->GetAttribute ("varm");
+    /*if (at)
+    {
+      // We use variables.
+      iSharedVariable *varm = Engine->GetVariableList()->FindByName (
+        child->GetAttributeValue ("varm"));
+      iSharedVariable *vara = Engine->GetVariableList()->FindByName (
+        child->GetAttributeValue ("vara"));
+      lodctrl->SetLOD (varm, vara);
+      break;
+    }*/
+
+    at = child->GetAttribute ("m");
+    if (at)
+    {
+      float lodm = child->GetAttributeValueAsFloat ("m");
+      float loda = child->GetAttributeValueAsFloat ("a");
+      lodctrl->SetLOD (lodm, loda);
+    }
+    else
+    {
+      float d0 = child->GetAttributeValueAsFloat ("d0");
+      float d1 = child->GetAttributeValueAsFloat ("d1");
+      float lodm = 1.0 / (d1-d0);
+      float loda = -lodm * d0;
+      lodctrl->SetLOD (lodm, loda);
+    }
+
+  } // end while
+
+  return true;
+}
+
 static bool SetFactoryProperties(FileLoader* fileloader, csObjectPrototype& proto, iMeshFactoryWrapper* mfactwrap)
 {
   csRef<iLoaderContext> loaderContext = fileloader->GetLoaderContext();
   iObjectRegistry* object_reg = fileloader->GetObjectRegistry();
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+  csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   csRef<iSyntaxService> SyntaxService = csQueryRegistryOrLoad<iSyntaxService> (object_reg, "crystalspace.syntax.loader.service.text");
 
   mfactwrap->GetFlags() = proto.flags;
@@ -123,6 +106,19 @@ static bool SetFactoryProperties(FileLoader* fileloader, csObjectPrototype& prot
   mfactwrap->SetZBufMode (proto.zBuffMode);
   long pri = engine->GetRenderPriority (proto.priority.c_str());
   mfactwrap->SetRenderPriority (pri);
+
+  //=[ LOD ]=======================================
+  if (proto.staticLodNode.IsValid())
+  {
+    csRef<iLODControl> lodctrl = mfactwrap->CreateStaticLOD();
+    LoadLodControl(lodctrl, proto.staticLodNode);
+  }
+
+  //=[ CD ]========================================
+  // Add the generated iCollider.
+  csRef<csColliderWrapper> childcw;
+  childcw.AttachNew(new csColliderWrapper (mfactwrap->QueryObject(), cdsys, proto.collider));
+  if (childcw) childcw->SetName (mfactwrap->QueryObject ()->GetName());
 
   //=[ ShaderVariables ]===========================
   csRef<iShaderVariableContext> svc = mfactwrap->GetSVContext();
