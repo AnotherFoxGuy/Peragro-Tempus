@@ -2,6 +2,6 @@ SubDir TOP plugins component entity move viewbob ;
 
 Description component_viewbob : "viewbob" ;
 Plugin component_viewbob : [ Wildcard *.cpp *.h ] ;
-ExternalLibs component_viewbob : CRYSTAL CEL ;
+ExternalLibs component_viewbob : CRYSTAL CEL BOOST ;
 LinkWith component_viewbob : client-reporter client-eventmanager component client-data ;
 
