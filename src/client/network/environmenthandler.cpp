@@ -28,11 +28,13 @@ void EnvironmentHandler::handleDayTime(GenericMessage* msg)
   DayTimeMessage time_msg;
   time_msg.deserialise(msg->getByteStream());
   unsigned char hour = time_msg.getHour();
-  Report(PT::Debug, "The time after next beep is %d o'clock..... *beep*", hour);
+  unsigned char minute = time_msg.getMinute();
+  Report(PT::Debug, "The time after next beep is %d:%02d..... *beep*", hour, minute);
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   csRef<iEvent> envEvent = evmgr->CreateEvent("environment.daytime", true);
   envEvent->Add("hour", hour);
+  envEvent->Add("minute", minute);
   evmgr->AddEvent(envEvent);
 }
 

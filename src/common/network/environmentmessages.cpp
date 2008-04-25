@@ -29,6 +29,7 @@ void DayTimeMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  serial.setInt8(minute);
   serial.setInt8(hour);
 }
 
@@ -37,6 +38,7 @@ void DayTimeMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
+  minute = (unsigned char) serial.getInt8();
   hour = (unsigned char) serial.getInt8();
 }
 

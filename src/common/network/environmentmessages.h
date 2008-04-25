@@ -36,6 +36,7 @@ namespace ENVIRONMENT
 
 class DayTimeMessage : public NetMessage
 {
+  unsigned char minute;
   unsigned char hour;
 
 public:
@@ -49,6 +50,9 @@ public:
 
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
+
+  unsigned char getMinute() { return minute; }
+  void setMinute(unsigned char x) { minute = x; }
 
   unsigned char getHour() { return hour; }
   void setHour(unsigned char x) { hour = x; }

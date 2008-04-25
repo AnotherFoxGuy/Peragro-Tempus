@@ -20,13 +20,34 @@
 #include "server/network/network.h"
 #include "server/network/networkhelper.h"
 
-void Environment::broadcastTime()
+Environment::Environment()
 {
-  daytime++;
-  if (daytime >= 24) daytime = 0;
+  timeHour = 0;
+  timeMinute = 0;
+  minutesPerHour = 60;
+  hoursPerDay = 24;
+  minutesPerUpdate = 60;
+  updateInterval = 125;
+  this->setInterval(updateInterval);
+  this->start();
+}
+
+void Environment::BroadcastTime()
+{
+  timeMinute += minutesPerUpdate;
+  while (timeMinute >= minutesPerHour)
+  {
+    timeMinute -= minutesPerHour;
+    timeHour++;
+  }
+  while (timeHour >= hoursPerDay)
+  {
+    timeHour -= hoursPerDay;
+  }
 
   DayTimeMessage time_msg;
-  time_msg.setHour(daytime);
+  time_msg.setMinute(static_cast<unsigned char>(timeMinute));
+  time_msg.setHour(static_cast<unsigned char>(timeHour));
 
   ByteStream bs;
   time_msg.serialise(&bs);

@@ -1,5 +1,6 @@
 <message-implementation>
 	<message type="Environment" name="DayTime">
+		<uint8>Minute</uint8>
 		<uint8>Hour</uint8>
 	</message>
 

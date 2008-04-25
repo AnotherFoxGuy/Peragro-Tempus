@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file enviroment.h
+ *
+ * @brief Controls the game time.
+ */
 
 #ifndef ENVIRONMENT_H
 #define ENVIRONMENT_H
@@ -22,26 +27,39 @@
 #include "common/util/timer.h"
 #include "common/util/sleep.h"
 
+/**
+ * Controls the current game time.
+ * Broadcasts the current game time to all clients, at specified intervals.
+ */
 class Environment : public Timer
 {
-private:
-  unsigned char daytime;
+public:
+  /// Constructor.
+  Environment();
 
-  // Timer implementation
+private:
+  /// Timer implementation.
   void timeOut()
   {
-    broadcastTime();
+    BroadcastTime();
   }
 
-  void broadcastTime();
+  /// Broadcast the current game time to all clients.
+  void BroadcastTime();
 
-public:
-  Environment()
-  {
-    daytime = 0;
-    this->setInterval(125); // 12.5 sec * 24 = 4 min 48 sec
-    this->start();
-  }
+  /// The hour of the day.
+  size_t timeHour;
+  /// The minute of the hour.
+  size_t timeMinute;
+  /// Minutes in an hour.
+  size_t minutesPerHour;
+  /// Hours in a day.
+  size_t hoursPerDay;
+  /// Game time between update broadcasts in minutes.
+  size_t minutesPerUpdate;
+  /// Real time between update broadcasts in tenths of seconds.
+  size_t updateInterval;
+
 };
 
 #endif // ENVIRONMENT_H

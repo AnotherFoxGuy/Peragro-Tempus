@@ -62,11 +62,11 @@ namespace PT
     class EventHandler : public scfImplementation1<EventHandler<Class>, EventHandlerCallback>
     {
     public:
-      /// TODO: is this correct?
+      /// @todo: is this correct?
       typedef bool (Class::*Func)(iEvent&);
 
       /**
-       * TODO: is this correct?
+       * @todo: is this correct?
        * Constructor. Creates a handler of the class for the function.
        * @param function The function.
        * @param classy The class.
@@ -89,7 +89,7 @@ namespace PT
         return (theclass->*thefunc)(ev);
       }
 
-      /// TODO: are these correct?
+      /// @todo: are these correct?
       /// A pointer to the templated class.
       Class *theclass;
       /// The function.

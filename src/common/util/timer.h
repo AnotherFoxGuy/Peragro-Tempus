@@ -63,7 +63,7 @@ public:
     running = false;
   }
 
-  void setInterval(int interval)
+  void setInterval(size_t interval)
   {
     duration = interval;
     timer = interval;

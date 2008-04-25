@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+25-Apr-2008
+ - vornne added support for minutes to the environment messages.
+
 22-Apr-2008
  - Sueastside added support for static lod to the threaded loader.
    Requires CS rev 29386!!
