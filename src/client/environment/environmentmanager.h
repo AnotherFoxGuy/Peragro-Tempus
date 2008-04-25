@@ -29,6 +29,8 @@
 struct iEngine;
 struct iLight;
 struct iEvent;
+struct iCamera;
+struct iShaderManager;
 
 namespace PT
 {
@@ -36,8 +38,15 @@ namespace PT
   {
   private:
     csRef<iEngine> engine;
+    csRef<iShaderManager> shaderMgr;
+    csRef<iStringSet> strings;
     csRef<iLight> sun;
     csRef<iMeshWrapper> sky;
+
+    float sun_alfa;
+    float sun_theta;
+
+    csStringID string_sunDirection;
 
     struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
     {
@@ -47,6 +56,8 @@ namespace PT
     };
     friend struct FrameCallBack;
     csRef<FrameCallBack> cb;
+
+    void Update(iCamera* cam);
 
   public:
     EnvironmentManager();

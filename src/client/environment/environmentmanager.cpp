@@ -29,12 +29,16 @@
 #include <iengine/sector.h>
 #include <iengine/rview.h>
 #include <iengine/camera.h>
+#include <ivideo/shader/shader.h>
+#include <iutil/virtclk.h>
 
 namespace PT
 {
 
   EnvironmentManager::EnvironmentManager()
   {
+    sun_alfa = 3.21f;//2.91f; //horizontal
+    sun_theta = 0.206f;//0.256f; //vertical
   }
 
   EnvironmentManager::~EnvironmentManager()
@@ -55,18 +59,22 @@ namespace PT
     if (hour < 6 || hour > 20)
     {
       brightness = 0.1;
+      sun_theta = -0.2f;
     }
     else if (hour == 6 || hour == 20)
     {
       brightness = 0.3;
+      sun_theta = 0.016f;
     }
     else if (hour == 7 || hour == 19)
     {
       brightness = 0.6;
+      sun_theta = 0.128f;
     }
     else
     {
       brightness = 1;
+      sun_theta = 0.712f;
     }
     csColor color(brightness);
 
@@ -85,14 +93,6 @@ namespace PT
 
     if (sky)
     {
-      /*
-      iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iStringSet> stringSet = csQueryRegistryTagInterface<iStringSet> (obj_reg, "crystalspace.shared.stringset");
-      csStringID time = stringSet->Request("timeOfDay");
-      csRef<iShaderVariableContext> svc = sky->GetSVContext();
-      csRef<csShaderVariable> sv = svc->GetVariableAdd(time);
-      sv->SetValue(brightness);*/
-
       iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iStringSet> stringSet = csQueryRegistryTagInterface<iStringSet> (obj_reg, "crystalspace.shared.stringset");
       csRef<iShaderManager> shaderMgr = csQueryRegistry<iShaderManager> (obj_reg);
@@ -107,7 +107,8 @@ namespace PT
 
   bool EnvironmentManager::Initialize()
   {
-    engine = csQueryRegistry<iEngine> (PointerLibrary::getInstance()->getObjectRegistry());
+    iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+    engine = csQueryRegistry<iEngine> (object_reg);
     if (!engine) return Report(PT::Error, "Failed to locate 3D engine!");
 
     Events::EventHandler<EnvironmentManager>* cbDayTime = new Events::EventHandler<EnvironmentManager>(&EnvironmentManager::SetDayTime, this);
@@ -122,6 +123,10 @@ namespace PT
 
     world->GetLights()->Add(sun);
 
+    shaderMgr = csQueryRegistry<iShaderManager> (object_reg);
+    strings = csQueryRegistryTagInterface<iStringSet> (object_reg, "crystalspace.shared.stringset");
+    string_sunDirection = strings->Request ("sun direction");
+
     // Update our manager each frame.
     cb.AttachNew(new FrameCallBack(this));
     engine->AddEngineFrameCallback(cb);
@@ -129,6 +134,22 @@ namespace PT
 
     return true;
   } // end Initialize()
+
+  void EnvironmentManager::Update(iCamera* cam)
+  {
+    if (cam && sun)
+      sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
+
+
+    csVector3 sun_vec;
+    sun_vec.x = cos(sun_theta)*sin(sun_alfa);
+    sun_vec.y = sin(sun_theta);
+    sun_vec.z = cos(sun_theta)*cos(sun_alfa);
+    csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
+    var->SetValue(sun_vec);
+
+
+  } // end Update()
 
   void EnvironmentManager::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
   {
@@ -143,9 +164,7 @@ namespace PT
         envmgr->sky = engine->FindMeshObject("sky");
       }
 
-      iCamera* cam = rview->GetCamera();
-      if (cam && envmgr->sun)
-        envmgr->sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
+      envmgr->Update(rview->GetCamera());
     }
 
   } // end StartFrame()
