@@ -6,6 +6,7 @@ under each day.
 
 25-Apr-2008
  - vornne added support for minutes to the environment messages.
+ - Sueastside played some God.
 
 22-Apr-2008
  - Sueastside added support for static lod to the threaded loader.

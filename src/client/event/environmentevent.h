@@ -41,18 +41,32 @@ namespace PT
     struct EnvironmentHelper
     {
       /**
-       * Get the time of day from an event.
-       * @param event The event.
-       * @return The hour as an integer from 0 to 23.
-       */
-      static unsigned int GetDayTime(const iEvent* event)
-      {
-        unsigned int hour = 0;
-        if (event->Retrieve("hour", hour) != csEventErrNone)
-          Report(PT::Error, "EnvironmentHelper::GetDayTime failed!");
+        * Get the hour of the day from an event.
+        * @param event The event.
+        * @return The hour as a number.
+        */
+       static unsigned int GetTimeHour(const iEvent* event)
+       {
+         unsigned int hour = 0;
+         if (event->Retrieve("hour", hour) != csEventErrNone)
+           Report(PT::Error, "EnvironmentHelper::GetTimeHour failed!");
+ 
+         return hour;
+       }
 
-        return hour;
-      }
+       /**
+        * Get the minute of the hour from an event.
+        * @param event The event.
+        * @return The minute as a number.
+        */
+       static unsigned int GetTimeMinute(const iEvent* event)
+       {
+         unsigned int minute = 0;
+         if (event->Retrieve("minute", minute) != csEventErrNone)
+           Report(PT::Error, "EnvironmentHelper::GetTimeMinute failed!");
+ 
+         return minute;
+       }
 
     };
   } // Events namespace

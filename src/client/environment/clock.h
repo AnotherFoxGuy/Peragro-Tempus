@@ -16,59 +16,57 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef ENVIRONMENTMANAGER_H_
-#define ENVIRONMENTMANAGER_H_
+#ifndef CLOCK_H_
+#define CLOCK_H_
 
 #include <cssysdef.h>
 #include <csutil/ref.h>
-#include <imap/loader.h>
 #include <iengine/engine.h>
 
-#include "client/event/event.h"
-
-#include "client/environment/clock.h"
+#include "client/event/eventmanager.h"
 
 struct iEngine;
-struct iLight;
+struct iVirtualClock;
 struct iEvent;
-struct iCamera;
-struct iShaderManager;
 
 namespace PT
 {
-  class EnvironmentManager
+  class Clock
   {
   private:
     csRef<iEngine> engine;
-    csRef<iShaderManager> shaderMgr;
-    csRef<iStringSet> strings;
-    csRef<iLight> sun;
-    csRef<iMeshWrapper> sky;
+    csRef<iVirtualClock> vc;
 
-    Clock* clock;
+    size_t timeScale;
+    csTicks ticksPerHour;
 
-    float sun_alfa;
-    float sun_theta;
+    csTicks timer;
 
-    csStringID string_sunDirection;
+    csRef<Events::EventHandlerCallback> cbDayTime;
 
     struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
     {
-      EnvironmentManager* envmgr;
-      FrameCallBack (EnvironmentManager* mgr) : scfImplementationType (this) { envmgr = mgr; }
+      Clock* clock;
+      FrameCallBack (Clock* clk) : scfImplementationType (this) { clock = clk; }
       virtual void StartFrame (iEngine* engine, iRenderView* rview);
     };
     friend struct FrameCallBack;
     csRef<FrameCallBack> cb;
 
-    void Update(iCamera* cam);
+    void Update();
+
+    bool SetDayTime(iEvent& ev);
 
   public:
-    EnvironmentManager();
-    ~EnvironmentManager();
+    Clock();
+    ~Clock();
+
+    csTicks GetTime() { return timer; }
+
+    float GetMilliSecondsADay() { return 86400000.0f; }//(24*60*60*1000)
 
    /**
-    *Initialize the environmentmanager
+    *Initialize the clock
     *@return True, indicating success
     */
     bool Initialize();
@@ -76,4 +74,4 @@ namespace PT
   };
 }
 
-#endif // ENVIRONMENTMANAGER_H_
+#endif // CLOCK_H_

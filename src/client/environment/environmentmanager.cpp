@@ -39,6 +39,8 @@ namespace PT
   {
     sun_alfa = 3.21f;//2.91f; //horizontal
     sun_theta = 0.206f;//0.256f; //vertical
+
+    clock = 0;
   }
 
   EnvironmentManager::~EnvironmentManager()
@@ -48,71 +50,18 @@ namespace PT
     {
       engine->RemoveEngineFrameCallback(cb);
     }
+
+    if (clock) delete clock;
   }
-
-  bool EnvironmentManager::SetDayTime(iEvent& ev)
-  {
-    // Calculate the light color.
-    unsigned int hour = PT::Events::EnvironmentHelper::GetDayTime(&ev);
-
-    float brightness;
-    if (hour < 6 || hour > 20)
-    {
-      brightness = 0.1;
-      sun_theta = -0.2f;
-    }
-    else if (hour == 6 || hour == 20)
-    {
-      brightness = 0.3;
-      sun_theta = 0.016f;
-    }
-    else if (hour == 7 || hour == 19)
-    {
-      brightness = 0.6;
-      sun_theta = 0.128f;
-    }
-    else
-    {
-      brightness = 1;
-      sun_theta = 0.712f;
-    }
-    csColor color(brightness);
-
-    csColor ambient(color);
-    ambient.Clamp(0.37f, 0.34f, 0.34f);
-    if (ambient.blue < 0.2)
-      ambient.blue = 0.1f;
-    iSector* world = engine->FindSector("World");
-    if (world)
-      world->SetDynamicAmbientLight(ambient);
-
-    if (color.blue < 0.2)
-      color.blue = 0.2f;
-    if (sun)
-      sun->SetColor(color*1.5);
-
-    if (sky)
-    {
-      iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iStringSet> stringSet = csQueryRegistryTagInterface<iStringSet> (obj_reg, "crystalspace.shared.stringset");
-      csRef<iShaderManager> shaderMgr = csQueryRegistry<iShaderManager> (obj_reg);
-
-      csStringID time = stringSet->Request("timeOfDay");
-      csRef<csShaderVariable> sv = shaderMgr->GetVariableAdd(time);
-      sv->SetValue(brightness);
-    }
-
-    return true;
-  } // end SetDayTime()
 
   bool EnvironmentManager::Initialize()
   {
+    clock = new Clock();
+    clock->Initialize();
+
     iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
     engine = csQueryRegistry<iEngine> (object_reg);
     if (!engine) return Report(PT::Error, "Failed to locate 3D engine!");
-
-    Events::EventHandler<EnvironmentManager>* cbDayTime = new Events::EventHandler<EnvironmentManager>(&EnvironmentManager::SetDayTime, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("environment.daytime", cbDayTime);
 
     // Create our sun.
     sun = engine->CreateLight("Sun", csVector3(0,40,0),9999999.0f, csColor(1.0f), CS_LIGHT_DYNAMICTYPE_DYNAMIC);
@@ -137,16 +86,55 @@ namespace PT
 
   void EnvironmentManager::Update(iCamera* cam)
   {
+    if (!clock) return;
+
+    // Move the sun relative to the player.
     if (cam && sun)
       sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
 
+    float timeofDay = (float)clock->GetTime();
+    float step = timeofDay / clock->GetMilliSecondsADay();
+   
+    //=[ Sun position ]===================================
+    //TODO: Make the sun stay longer at its highest point at noon.
+     float temp = step * 2;
+    if (temp > 1.0f) { temp -= 1.0f; temp = 1 - temp; }
+    
+    sun_theta = (2*temp - 1)*0.85;
 
+    sun_alfa = 1.605f * sin(-step * 2*PI) - 3.21f;
+
+    // Update the values.
     csVector3 sun_vec;
     sun_vec.x = cos(sun_theta)*sin(sun_alfa);
     sun_vec.y = sin(sun_theta);
     sun_vec.z = cos(sun_theta)*cos(sun_alfa);
     csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
     var->SetValue(sun_vec);
+
+    // TODO: set the sun position.
+
+    //=[ Sun brightness ]===================================
+    float brightness = pow(sin(step * PI), 5);
+    csColor color(brightness);
+    csColor ambient(brightness);
+
+    // Clamp the values so it doesn't go all dark at night.
+    ambient.Clamp(0.37f, 0.34f, 0.34f);
+    if (ambient.blue < 0.1f) ambient.blue = 0.1f;
+    if (color.blue < 0.2) color.blue = 0.2f;
+
+    // Update the values.
+    iSector* world = engine->FindSector("World");
+    if (world) world->SetDynamicAmbientLight(ambient);
+    if (sun) sun->SetColor(color*1.5);
+
+    //=[ Clouds ]========================================
+    //<shadervar type="vector3" name="cloudcol">0.98,0.59,0.46</shadervar>
+    float brightnessc = pow(sin(step * PI), 3);
+    csStringID time = strings->Request("timeOfDay");
+    csRef<csShaderVariable> sv = shaderMgr->GetVariableAdd(time);
+    sv->SetValue(brightnessc);
 
 
   } // end Update()

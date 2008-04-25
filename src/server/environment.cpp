@@ -27,7 +27,7 @@ Environment::Environment()
   minutesPerHour = 60;
   hoursPerDay = 24;
   minutesPerUpdate = 60;
-  updateInterval = 125;
+  updateInterval = 12.5*4;
   this->setInterval(updateInterval);
   this->start();
 }
