@@ -301,12 +301,18 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\environment\clock.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\environment\environmentmanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\client\environment\clock.h">
+			</File>
 			<File
 				RelativePath="..\..\src\client\environment\environmentmanager.h">
 			</File>
