@@ -315,9 +315,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\environment.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\main.cpp">
 			</File>
 			<File
@@ -330,9 +327,6 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
-			<File
-				RelativePath="..\..\src\server\environment.h">
-			</File>
 			<File
 				RelativePath="..\..\src\server\server.h">
 			</File>
