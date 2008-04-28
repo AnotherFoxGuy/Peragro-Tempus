@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file environmentmanager.h
+ *
+ * @brief Changes the sky graphics.
+ */
 
 #ifndef ENVIRONMENTMANAGER_H_
 #define ENVIRONMENTMANAGER_H_
@@ -36,21 +41,34 @@ struct iShaderManager;
 
 namespace PT
 {
+  /**
+   * Changes the sky graphics as the time of day changes.
+   */
   class EnvironmentManager
   {
   private:
+    /// The engine.
     csRef<iEngine> engine;
+    /// The shader manager.
     csRef<iShaderManager> shaderMgr;
+    /// The string set.
     csRef<iStringSet> strings;
+
+    /// The light for the sun.
     csRef<iLight> sun;
+    /// The sky mesh.
     csRef<iMeshWrapper> sky;
 
+    /// The game clock.
     Clock* clock;
-
-    float sun_alfa;
+    /// The horizontal angle of the sun.
+    float sun_alpha;
+    /// The vertical angle of the sun.
     float sun_theta;
-
+    /// The sun direction string.
     csStringID string_sunDirection;
+    /// Elapsed ticks counter to limit the calculations done.
+    csTicks elapsedTicks;
 
     struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
     {
@@ -60,17 +78,23 @@ namespace PT
     };
     friend struct FrameCallBack;
     csRef<FrameCallBack> cb;
-
+ 
+    /**
+     * Update the sun and sky graphics.
+     * @return True, indicating that the event was handled.
+     */
     void Update(iCamera* cam);
 
   public:
+    /// Constructor.
     EnvironmentManager();
+    /// Destructor.
     ~EnvironmentManager();
 
-   /**
-    *Initialize the environmentmanager
-    *@return True, indicating success
-    */
+    /**
+     * Initialize the environmentmanager.
+     * @return True, indicating success.
+     */
     bool Initialize();
 
   };

@@ -1,0 +1,5 @@
+SubDir TOP src server environment ;
+
+Description server-environment : "environment" ;
+Library server-environment :
+  [ Wildcard *.h *.cpp ] ;

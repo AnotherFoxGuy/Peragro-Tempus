@@ -28,6 +28,8 @@
 #include "server/entity/entitymanager.h"
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
+#include "server/environment/environmentmanager.h"
+#include "server/environment/clock.h"
 
 void UserHandler::handleLoginRequest(GenericMessage* msg)
 {
@@ -231,4 +233,6 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   lockedChar->getStats()->sendAllStats(msg->getConnection());
   lockedChar->getSkills()->sendAllSkills(msg->getConnection());
   lockedChar->freeLock();
+
+  server->getEnvironmentManager()->GetClock()->InitTime(entity->getEntity());
 }

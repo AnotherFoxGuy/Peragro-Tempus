@@ -98,8 +98,9 @@
 			<message id="8" name="TradeConfirmResponse" />
 		</type>
 		<type id="8" name="Environment">
-			<message id="0" name="DayTime" />
-			<message id="1" name="Weather" />
+			<message id="0" name="InitTime" />
+			<message id="1" name="UpdateTime" />
+			<message id="2" name="Weather" />
 		</type>
 		<type id="9" name="Book">
 			<message id="0" name="BookReadRequest" />

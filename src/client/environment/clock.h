@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file clock.h
+ *
+ * @brief The game clock.
+ */
 
 #ifndef CLOCK_H_
 #define CLOCK_H_
@@ -31,18 +36,32 @@ struct iEvent;
 
 namespace PT
 {
+  /**
+   * The game clock.
+   */
   class Clock
   {
   private:
+    /// The engine.
     csRef<iEngine> engine;
+    /// The crystal space virtual clock.
     csRef<iVirtualClock> vc;
 
-    size_t timeScale;
-    csTicks ticksPerHour;
+    /// The current game minute.
+    size_t minute;
+    /// The current game hour.
+    size_t hour;
+    /// Game time minutes per hour.
+    size_t minutesPerHour;
+    /// Game time hours per day.
+    size_t hoursPerDay;
+    /// Milliseconds real time per in game minute.
+    csTicks realPerGame;
 
-    csTicks timer;
-
-    csRef<Events::EventHandlerCallback> cbDayTime;
+    /// Callback for the inittime event.
+    csRef<Events::EventHandlerCallback> cbInitTime;
+    /// Callback for the updatetime event.
+    csRef<Events::EventHandlerCallback> cbUpdateTime;
 
     struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
     {
@@ -53,22 +72,34 @@ namespace PT
     friend struct FrameCallBack;
     csRef<FrameCallBack> cb;
 
-    void Update();
-
-    bool SetDayTime(iEvent& ev);
+    /// Advance the local clock.
+    void Tick();
+    /// Initialize the time parameters from an event.
+    bool InitTime(iEvent& ev);
+    /// Update the time from an event.
+    bool UpdateTime(iEvent& ev);
 
   public:
+    /// Constructor.
     Clock();
+    /// Destructor.
     ~Clock();
 
-    csTicks GetTime() { return timer; }
+    /// Get a number from 0 to 1 representing the time of day.
+    float GetTimeDecimal();
+    /// Return the game time as minutes since the start of the day.
+    size_t GetMinuteOfDay() { return (hour * minutesPerHour + minute); }
+    /// Get the number of minutes in a game day.
+    size_t GetMinutesPerDay() { return minutesPerHour * hoursPerDay; }
+    /// Get the current hour.
+    size_t GetHour() { return hour; }
+    /// Get the current minute.
+    size_t GetMinute() { return minute; }
 
-    float GetMilliSecondsADay() { return 86400000.0f; }//(24*60*60*1000)
-
-   /**
-    *Initialize the clock
-    *@return True, indicating success
-    */
+    /**
+     * Initialize the clock
+     * @return True, indicating success
+     */
     bool Initialize();
 
   };

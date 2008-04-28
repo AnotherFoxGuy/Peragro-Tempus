@@ -1,5 +1,13 @@
 <message-implementation>
-	<message type="Environment" name="DayTime">
+	<message type="Environment" name="InitTime">
+		<uint8>Minute</uint8>
+		<uint8>Hour</uint8>
+		<uint8>MinutesPerHour</uint8>
+		<uint8>HoursPerDay</uint8>
+		<uint32>RealPerGame</uint32>
+    </message>
+
+	<message type="Environment" name="UpdateTime">
 		<uint8>Minute</uint8>
 		<uint8>Hour</uint8>
 	</message>
@@ -7,4 +15,5 @@
 	<message type="Environment" name="Weather">
 		<uint8>WeatherId</uint8>
 	</message>
+
 </message-implementation>

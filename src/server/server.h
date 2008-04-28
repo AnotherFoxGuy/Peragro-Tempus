@@ -42,6 +42,7 @@ class SectorManager;
 class MountEntity;
 class CollisionDetection;
 class ZoneManager;
+class EnvironmentManager;
 
 class Server
 {
@@ -65,6 +66,7 @@ private:
   SectorManager* sectormanager;
   CollisionDetection* colldet;
   ZoneManager* zone_mgr;
+  EnvironmentManager* environment_mgr;
 
 public:
   Server() { server = this; }
@@ -120,6 +122,9 @@ public:
 
   //void setSkillEngine(SkillEngine* spawner) { this->skillengine = skillengine; }
   //SkillEngine* getSkillEngine() { return this->skillengine; }
+
+  void setEnvironmentManager(EnvironmentManager* environment_mgr) { this->environment_mgr = environment_mgr; }
+  EnvironmentManager* getEnvironmentManager() { return this->environment_mgr; }
 
   void addEntity(const Entity* entity, bool presistent);
   void delEntity(const Entity* entity);

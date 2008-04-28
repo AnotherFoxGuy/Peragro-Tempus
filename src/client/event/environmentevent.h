@@ -16,9 +16,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file enviromentevent.h
+ * @file environmentevent.h
  *
- * @brief Helper classes for enviroment events.
+ * @brief Helper classes for environment events.
  */
 
 #ifndef PTENVIRONMENT_EVENT_H
@@ -36,37 +36,79 @@ namespace PT
   {
     /**
      * @ingroup events
-     * Helper functions for enviroment events.
+     * Helper functions for environment events.
      */
     struct EnvironmentHelper
     {
       /**
-        * Get the hour of the day from an event.
-        * @param event The event.
-        * @return The hour as a number.
-        */
-       static unsigned int GetTimeHour(const iEvent* event)
-       {
-         unsigned int hour = 0;
-         if (event->Retrieve("hour", hour) != csEventErrNone)
-           Report(PT::Error, "EnvironmentHelper::GetTimeHour failed!");
- 
-         return hour;
-       }
+       * Get the hour of the day from an event.
+       * @param event The event.
+       * @return The hour as a number.
+       */
+      static size_t GetTimeHour(const iEvent* event)
+      {
+        unsigned char hour = 0;
+        if (event->Retrieve("hour", hour) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetTimeHour failed!");
 
-       /**
-        * Get the minute of the hour from an event.
-        * @param event The event.
-        * @return The minute as a number.
-        */
-       static unsigned int GetTimeMinute(const iEvent* event)
-       {
-         unsigned int minute = 0;
-         if (event->Retrieve("minute", minute) != csEventErrNone)
-           Report(PT::Error, "EnvironmentHelper::GetTimeMinute failed!");
- 
-         return minute;
-       }
+        return static_cast<size_t>(hour);
+      }
+
+      /**
+       * Get the minute of the hour from an event.
+       * @param event The event.
+       * @return The minute as a number.
+       */
+      static size_t GetTimeMinute(const iEvent* event)
+      {
+        unsigned char minute = 0;
+        if (event->Retrieve("minute", minute) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetTimeMinute failed!");
+
+        return static_cast<size_t>(minute);
+      }
+
+      /**
+       * Get the number of minutes per hour of game time.
+       * @param event The event.
+       * @return The minutes per hour.
+       */
+      static size_t GetMinutesPerHour(const iEvent* event)
+      {
+        size_t minutesPerHour = 0;
+        if (event->Retrieve("minutesperhour", minutesPerHour) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetMinutesPerHour failed!");
+
+        return minutesPerHour;
+      }
+
+      /**
+       * Get the number of hours per day of game time.
+       * @param event The event.
+       * @return The hours per day.
+       */
+      static size_t GetHoursPerDay(const iEvent* event)
+      {
+        size_t hoursPerDay = 0;
+        if (event->Retrieve("hoursperday", hoursPerDay) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetHoursPerDay failed!");
+
+        return hoursPerDay;
+      }
+
+      /**
+       * Get the real time in tenths of seconds per minute of game time.
+       * @param event The event.
+       * @return The real time in tenths of seconds.
+       */
+      static size_t GetRealPerGame(const iEvent* event)
+      {
+        size_t realPerGame = 0;
+        if (event->Retrieve("realpergame", realPerGame) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetRealPerGame failed!");
+
+        return realPerGame;
+      }
 
     };
   } // Events namespace

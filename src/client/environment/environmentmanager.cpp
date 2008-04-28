@@ -37,7 +37,7 @@ namespace PT
 
   EnvironmentManager::EnvironmentManager()
   {
-    sun_alfa = 3.21f;//2.91f; //horizontal
+    sun_alpha = 3.21f;//2.91f; //horizontal
     sun_theta = 0.206f;//0.256f; //vertical
 
     clock = 0;
@@ -92,8 +92,12 @@ namespace PT
     if (cam && sun)
       sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
 
-    float timeofDay = (float)clock->GetTime();
-    float step = timeofDay / clock->GetMilliSecondsADay();
+    // Don't update if the time has not changed
+    static size_t counter = 0;
+    if (counter == clock->GetMinuteOfDay()) return;
+    counter = clock->GetMinuteOfDay();
+
+    float step = clock->GetTimeDecimal();
    
     //=[ Sun position ]===================================
     //TODO: Make the sun stay longer at its highest point at noon.
@@ -102,13 +106,13 @@ namespace PT
     
     sun_theta = (2*temp - 1)*0.85;
 
-    sun_alfa = 1.605f * sin(-step * 2*PI) - 3.21f;
+    sun_alpha = 1.605f * sin(-step * 2*PI) - 3.21f;
 
     // Update the values.
     csVector3 sun_vec;
-    sun_vec.x = cos(sun_theta)*sin(sun_alfa);
+    sun_vec.x = cos(sun_theta)*sin(sun_alpha);
     sun_vec.y = sin(sun_theta);
-    sun_vec.z = cos(sun_theta)*cos(sun_alfa);
+    sun_vec.z = cos(sun_theta)*cos(sun_alpha);
     csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
     var->SetValue(sun_vec);
 
@@ -135,7 +139,6 @@ namespace PT
     csStringID time = strings->Request("timeOfDay");
     csRef<csShaderVariable> sv = shaderMgr->GetVariableAdd(time);
     sv->SetValue(brightnessc);
-
 
   } // end Update()
 

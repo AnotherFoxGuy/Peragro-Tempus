@@ -137,8 +137,8 @@ bool ComponentViewBob::Frame(iEvent& ev)
       csVector3 offset(0.0f, baseHeight + currentOffset, 0.0f);
       camera->SetFirstPersonOffset(offset);
     }
-    // This is done here so that the time accumulates when the elapsed time is
-    // less than 0 ticks, to keep the calculations correct.
+    // This is done here so that the time accumulates when the distance moved
+    // is too small, to keep the calculations correct.
     lastTicks = vc->GetCurrentTicks();
   }
 

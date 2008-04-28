@@ -23,18 +23,37 @@
 
 #include "client/reporter/reporter.h"
 
-void EnvironmentHandler::handleDayTime(GenericMessage* msg)
+void EnvironmentHandler::handleInitTime(GenericMessage* msg)
 {
-  DayTimeMessage time_msg;
+  InitTimeMessage time_msg;
   time_msg.deserialise(msg->getByteStream());
-  unsigned char hour = time_msg.getHour();
   unsigned char minute = time_msg.getMinute();
-  Report(PT::Debug, "The time after next beep is %d:%02d..... *beep*", hour, minute);
+  unsigned char hour = time_msg.getHour();
+  unsigned char minutesPerHour = time_msg.getMinutesPerHour();
+  unsigned char hoursPerDay = time_msg.getHoursPerDay();
+  size_t realPerGame = time_msg.getRealPerGame();
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> envEvent = evmgr->CreateEvent("environment.daytime", true);
-  envEvent->Add("hour", hour);
+  csRef<iEvent> envEvent = evmgr->CreateEvent("environment.inittime", true);
   envEvent->Add("minute", minute);
+  envEvent->Add("hour", hour);
+  envEvent->Add("minutesperhour", minutesPerHour);
+  envEvent->Add("hoursperday", hoursPerDay);
+  envEvent->Add("realpergame", realPerGame);
+  evmgr->AddEvent(envEvent);
+}
+
+void EnvironmentHandler::handleUpdateTime(GenericMessage* msg)
+{
+  UpdateTimeMessage time_msg;
+  time_msg.deserialise(msg->getByteStream());
+  unsigned char minute = time_msg.getMinute();
+  unsigned char hour = time_msg.getHour();
+
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> envEvent = evmgr->CreateEvent("environment.updatetime", true);
+  envEvent->Add("minute", minute);
+  envEvent->Add("hour", hour);
   evmgr->AddEvent(envEvent);
 }
 

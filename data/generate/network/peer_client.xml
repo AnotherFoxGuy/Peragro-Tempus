@@ -83,7 +83,8 @@
 		<message type="Trade" name="TradeConfirmRequest" />
 		<!--message type="Trade" name="TradeConfirmResponse" /-->
 		
-		<!--message type="Environment" name="DayTime" /-->
+		<!--message type="Environment" name="InitTime" /-->
+		<!--message type="Environment" name="UpdateTime" /-->
 		<!--message type="Environment" name="Weather" /-->
 		
 		<message type="Book" name="BookReadRequest" />
@@ -192,7 +193,8 @@
 		<!--message type="Trade" name="TradeConfirmRequest" /-->
 		<message type="Trade" name="TradeConfirmResponse" />
 		
-		<message type="Environment" name="DayTime" />
+		<message type="Environment" name="InitTime" />
+		<message type="Environment" name="UpdateTime" />
 		<message type="Environment" name="Weather" />
 		
 		<!--message type="Book" name="BookReadRequest" /-->

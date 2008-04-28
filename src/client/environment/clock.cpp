@@ -37,10 +37,13 @@ namespace PT
 
   Clock::Clock()
   {
-    ticksPerHour = 0;
-    timer = 0;
-    timeScale = 700;//24*60;
-  }
+    minute = 0;
+    hour = 0;
+    // Set up some likely defaults.
+    minutesPerHour = 60;
+    hoursPerDay = 24;
+    realPerGame = 60000;
+  } // end Clock()
 
   Clock::~Clock()
   {
@@ -49,29 +52,7 @@ namespace PT
     {
       engine->RemoveEngineFrameCallback(cb);
     }
-  }
-
-  bool Clock::SetDayTime(iEvent& ev)
-  {
-    // Calculate the light color.
-    unsigned int hour = PT::Events::EnvironmentHelper::GetTimeHour(&ev);
-    unsigned int minutes = PT::Events::EnvironmentHelper::GetTimeMinute(&ev);
-
-    timer = (hour*60*60*1000);
-    timer += (minutes*60*1000);
-    timer += 1;
-
-
-    /* TODO: Adjust the rate the clock progresses based
-     on the interval the time updates are recieved.
-    csTicks elapsed = vc->GetCurrentTicks() - ticksPerHour;
-    //timeScale = elapsed/1000;
-
-    ticksPerHour = vc->GetCurrentTicks();
-    */
-
-    return true;
-  } // end SetDayTime()
+  } // end ~Clock()
 
   bool Clock::Initialize()
   {
@@ -83,8 +64,11 @@ namespace PT
     vc = csQueryRegistry<iVirtualClock> (object_reg);
     if (!vc) return Report(PT::Error, "Failed to locate Virtual Clock!");
 
-    cbDayTime.AttachNew(new Events::EventHandler<Clock>(&Clock::SetDayTime, this));
-    PointerLibrary::getInstance()->getEventManager()->AddListener("environment.daytime", cbDayTime);
+    cbInitTime.AttachNew(new Events::EventHandler<Clock>(&Clock::InitTime, this));
+    PointerLibrary::getInstance()->getEventManager()->AddListener("environment.inittime", cbInitTime);
+
+    cbUpdateTime.AttachNew(new Events::EventHandler<Clock>(&Clock::UpdateTime, this));
+    PointerLibrary::getInstance()->getEventManager()->AddListener("environment.updatetime", cbUpdateTime);
 
     // Update our manager each frame.
     cb.AttachNew(new FrameCallBack(this));
@@ -93,15 +77,51 @@ namespace PT
     return true;
   } // end Initialize()
 
-  void Clock::Update()
+  bool Clock::InitTime(iEvent& ev)
   {
-    csTicks ticks = vc->GetElapsedTicks();
-    timer += ticks*timeScale;
+    minutesPerHour = PT::Events::EnvironmentHelper::GetMinutesPerHour(&ev);
+    hoursPerDay = PT::Events::EnvironmentHelper::GetHoursPerDay(&ev);
 
-    if (timer >= GetMilliSecondsADay())
-      timer = 1;
+    size_t tenthsOfSeconds = PT::Events::EnvironmentHelper::GetRealPerGame(&ev);
+    // Convert from tenths of seconds to milliseconds.
+    realPerGame = tenthsOfSeconds * 100;
 
-  } // end Update()
+    UpdateTime(ev);
+
+    return true;
+  } // end InitTime()
+
+  bool Clock::UpdateTime(iEvent& ev)
+  {
+    hour = PT::Events::EnvironmentHelper::GetTimeHour(&ev);
+    minute = PT::Events::EnvironmentHelper::GetTimeMinute(&ev);
+
+    return true;
+  } // end UpdateTime()
+
+  void Clock::Tick()
+  {
+    static csTicks counter = 0;
+    counter += vc->GetElapsedTicks();
+    if (counter < realPerGame) return;
+
+    while (counter >= realPerGame)
+    {
+      counter -= realPerGame;
+      minute++;
+    }
+    while (minute >= minutesPerHour)
+    {
+      minute -= minutesPerHour;
+      hour++;
+      Report(PT::Debug, "%d o'clock.", hour, minute);
+    }
+    while (hour >= hoursPerDay)
+    {
+      hour -= hoursPerDay;
+      Report(PT::Debug, "A new day dawns...");
+    }
+  } // end Tick()
 
   void Clock::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
   {
@@ -111,9 +131,16 @@ namespace PT
     }
     else
     {
-      clock->Update();
+      clock->Tick();
     }
 
   } // end StartFrame()
+
+  float Clock::GetTimeDecimal()
+  {
+    float step = static_cast<float>(GetMinuteOfDay()) /
+      static_cast<float>(GetMinutesPerDay());
+    return step;
+  } // end GetTimeDecimal()
 
 }

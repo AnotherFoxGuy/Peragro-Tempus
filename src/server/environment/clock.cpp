@@ -16,25 +16,55 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "environment.h"
+#include "clock.h"
 #include "server/network/network.h"
 #include "server/network/networkhelper.h"
+#include "server/entity/entity.h"
 
-Environment::Environment()
+Clock::Clock()
 {
   timeHour = 0;
   timeMinute = 0;
   minutesPerHour = 60;
   hoursPerDay = 24;
-  minutesPerUpdate = 60;
-  updateInterval = 12.5*4;
-  this->setInterval(updateInterval);
+
+  // Real time in tenths of seconds per game minute.
+  realPerGame = 5;
+  // Broadcast updates once a game hour.
+  broadcastInterval = 60;
+
+  this->setInterval(realPerGame);
   this->start();
 }
 
-void Environment::BroadcastTime()
+void Clock::InitTime(const Entity* entity)
 {
-  timeMinute += minutesPerUpdate;
+  InitTimeMessage time_msg;
+  time_msg.setMinute(static_cast<unsigned char>(timeMinute));
+  time_msg.setHour(static_cast<unsigned char>(timeHour));
+  time_msg.setMinutesPerHour(static_cast<unsigned char>(minutesPerHour));
+  time_msg.setHoursPerDay(static_cast<unsigned char>(hoursPerDay));
+  time_msg.setRealPerGame(realPerGame);
+
+  ByteStream bs;
+  time_msg.serialise(&bs);
+  NetworkHelper::localcast(bs, entity);
+}
+
+void Clock::BroadcastTime()
+{
+  UpdateTimeMessage time_msg;
+  time_msg.setMinute(static_cast<unsigned char>(timeMinute));
+  time_msg.setHour(static_cast<unsigned char>(timeHour));
+
+  ByteStream bs;
+  time_msg.serialise(&bs);
+  NetworkHelper::broadcast(bs);
+}
+
+void Clock::timeOut()
+{
+  timeMinute++;
   while (timeMinute >= minutesPerHour)
   {
     timeMinute -= minutesPerHour;
@@ -44,12 +74,12 @@ void Environment::BroadcastTime()
   {
     timeHour -= hoursPerDay;
   }
-
-  DayTimeMessage time_msg;
-  time_msg.setMinute(static_cast<unsigned char>(timeMinute));
-  time_msg.setHour(static_cast<unsigned char>(timeHour));
-
-  ByteStream bs;
-  time_msg.serialise(&bs);
-  NetworkHelper::broadcast(bs);
+  
+  static size_t counter = 0;
+  counter++;
+  if (counter >= broadcastInterval)
+  {
+    counter = 0;
+    BroadcastTime();
+  }
 }

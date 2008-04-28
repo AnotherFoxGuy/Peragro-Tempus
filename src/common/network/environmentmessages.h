@@ -29,22 +29,60 @@ namespace ENVIRONMENT
 {
   enum MESSAGES
   {
-    DAYTIME=0,
-    WEATHER=1
+    INITTIME=0,
+    UPDATETIME=1,
+    WEATHER=2
   };
 }
 
-class DayTimeMessage : public NetMessage
+class InitTimeMessage : public NetMessage
+{
+  unsigned char minute;
+  unsigned char hour;
+  unsigned char minutesperhour;
+  unsigned char hoursperday;
+  unsigned int realpergame;
+
+public:
+  InitTimeMessage() : NetMessage(MESSAGES::ENVIRONMENT,ENVIRONMENT::INITTIME)
+  {
+  }
+
+  ~InitTimeMessage()
+  {
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getMinute() { return minute; }
+  void setMinute(unsigned char x) { minute = x; }
+
+  unsigned char getHour() { return hour; }
+  void setHour(unsigned char x) { hour = x; }
+
+  unsigned char getMinutesPerHour() { return minutesperhour; }
+  void setMinutesPerHour(unsigned char x) { minutesperhour = x; }
+
+  unsigned char getHoursPerDay() { return hoursperday; }
+  void setHoursPerDay(unsigned char x) { hoursperday = x; }
+
+  unsigned int getRealPerGame() { return realpergame; }
+  void setRealPerGame(unsigned int x) { realpergame = x; }
+
+};
+
+class UpdateTimeMessage : public NetMessage
 {
   unsigned char minute;
   unsigned char hour;
 
 public:
-  DayTimeMessage() : NetMessage(MESSAGES::ENVIRONMENT,ENVIRONMENT::DAYTIME)
+  UpdateTimeMessage() : NetMessage(MESSAGES::ENVIRONMENT,ENVIRONMENT::UPDATETIME)
   {
   }
 
-  ~DayTimeMessage()
+  ~UpdateTimeMessage()
   {
   }
 

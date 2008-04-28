@@ -42,11 +42,13 @@ public:
     if (type != MESSAGES::ENVIRONMENT) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == ENVIRONMENT::DAYTIME) handleDayTime(msg);
+    if (id == ENVIRONMENT::INITTIME) handleInitTime(msg);
+    else if (id == ENVIRONMENT::UPDATETIME) handleUpdateTime(msg);
     else if (id == ENVIRONMENT::WEATHER) handleWeather(msg);
   }
 
-  void handleDayTime(GenericMessage* msg);
+  void handleInitTime(GenericMessage* msg);
+  void handleUpdateTime(GenericMessage* msg);
   void handleWeather(GenericMessage* msg);
 };
 

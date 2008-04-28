@@ -16,36 +16,41 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file enviroment.h
+ * @file clock.h
  *
  * @brief Controls the game time.
  */
 
-#ifndef ENVIRONMENT_H
-#define ENVIRONMENT_H
+#ifndef CLOCK_H
+#define CLOCK_H
 
 #include "common/util/timer.h"
 #include "common/util/sleep.h"
+
+class Entity;
 
 /**
  * Controls the current game time.
  * Broadcasts the current game time to all clients, at specified intervals.
  */
-class Environment : public Timer
+class Clock : public Timer
 {
 public:
   /// Constructor.
-  Environment();
+  Clock();
+
+  /**
+   * Send the initial time details to an entity.
+   * @param entity The entity.
+   */
+  void InitTime(const Entity* entity);
 
 private:
-  /// Timer implementation.
-  void timeOut()
-  {
-    BroadcastTime();
-  }
-
   /// Broadcast the current game time to all clients.
   void BroadcastTime();
+
+  /// Timer implementation.
+  void timeOut();
 
   /// The hour of the day.
   size_t timeHour;
@@ -55,11 +60,12 @@ private:
   size_t minutesPerHour;
   /// Hours in a day.
   size_t hoursPerDay;
-  /// Game time between update broadcasts in minutes.
-  size_t minutesPerUpdate;
-  /// Real time between update broadcasts in tenths of seconds.
-  size_t updateInterval;
+
+  /// Real time in tenths of seconds per game minute.
+  size_t realPerGame;
+  /// Game minutes between update broadcasts.
+  size_t broadcastInterval;
 
 };
 
-#endif // ENVIRONMENT_H
+#endif // CLOCK_H

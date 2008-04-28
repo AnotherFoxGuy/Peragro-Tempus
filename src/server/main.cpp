@@ -48,7 +48,7 @@
 
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
-#include "server/environment.h"
+#include "server/environment/environmentmanager.h"
 #include "server/spawner.h"
 #include "server/network/network.h"
 #include "server/colldet/bullet.h"
@@ -169,8 +169,9 @@ int main(int argc, char ** argv)
   timeEngine.begin();
   server.setTimerEngine(&timeEngine);
 
-  // Initialising time broadcasting
-  Environment environment;
+  EnvironmentManager environment_mgr;
+  server.setEnvironmentManager(&environment_mgr);
+  environment_mgr.Initialize();
 
   sector_mgr.loadFromDB(db.getSectorsTable());
 
