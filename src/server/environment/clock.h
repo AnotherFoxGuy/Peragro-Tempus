@@ -38,6 +38,8 @@ class Clock : public Timer
 public:
   /// Constructor.
   Clock();
+  /// Destructor
+  ~Clock() {}
 
   /**
    * Send the initial time details to an entity.
