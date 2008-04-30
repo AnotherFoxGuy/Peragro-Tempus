@@ -55,12 +55,13 @@
 		</type>
 		<type id="3" name="Chat">
 			<message id="0" name="Say" />
-			<message id="1" name="Shout" />
+			<!--message id="1" name="Shout" /-->
 			<message id="2" name="WhisperTo" />
-			<message id="3" name="WhisperFrom" />
-			<message id="4" name="Party" />
-			<message id="5" name="Guild" />
-			<message id="6" name="Family" />
+			<!--message id="3" name="WhisperFrom" /-->
+			<message id="4" name="Group" />
+			<!--message id="4" name="Party" /-->
+			<!--message id="5" name="Guild" /-->
+			<!--message id="6" name="Family" /-->
 		</type>
 		<type id="4" name="Skill">
 			<message id="0" name="SkillUsageStartRequest" />

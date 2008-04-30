@@ -30,6 +30,7 @@ void SayMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(speakername);
+  serial.setInt8(volume);
   serial.setString(message);
 }
 
@@ -39,24 +40,7 @@ void SayMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   speakername = serial.getString();
-  serial.getString(message);
-}
-
-void ShoutMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setString(speakername);
-  serial.setString(message);
-}
-
-void ShoutMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  speakername = serial.getString();
+  volume = (unsigned char) serial.getInt8();
   serial.getString(message);
 }
 
@@ -78,75 +62,23 @@ void WhisperToMessage::deserialise(ByteStream* bs)
   serial.getString(message);
 }
 
-void WhisperFromMessage::serialise(ByteStream* bs)
+void GroupMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(speakername);
+  serial.setString(channel);
   serial.setString(message);
 }
 
-void WhisperFromMessage::deserialise(ByteStream* bs)
+void GroupMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
   speakername = serial.getString();
-  serial.getString(message);
-}
-
-void PartyMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setString(speakername);
-  serial.setString(message);
-}
-
-void PartyMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  speakername = serial.getString();
-  serial.getString(message);
-}
-
-void GuildMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setString(speakername);
-  serial.setString(message);
-}
-
-void GuildMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  speakername = serial.getString();
-  serial.getString(message);
-}
-
-void FamilyMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setString(speakername);
-  serial.setString(message);
-}
-
-void FamilyMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  speakername = serial.getString();
+  channel = serial.getString();
   serial.getString(message);
 }
 

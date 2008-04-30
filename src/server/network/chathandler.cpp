@@ -34,16 +34,16 @@ void ChatHandler::handleSay(GenericMessage* msg)
 
   SayMessage out_msg;
   out_msg.setSpeakerName(name);
+  out_msg.setVolume(in_msg.getVolume());
   out_msg.setMessage(in_msg.getMessage());
 
   ByteStream bs;
   out_msg.serialise(&bs);
 
-  NetworkHelper::broadcast(bs);
-}
-
-void ChatHandler::handleShout(GenericMessage* /*msg*/)
-{
+  if (in_msg.getVolume() > 1) 
+    NetworkHelper::distancecast(bs, ent->getEntity(), in_msg.getVolume());
+  else if (in_msg.getVolume() == 0)
+    NetworkHelper::broadcast(bs);
 }
 
 void ChatHandler::handleWhisperTo(GenericMessage* msg)
@@ -61,8 +61,9 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   const Entity* entity = server->getEntityManager()->findByName(in_msg.getListenerName());
   if (!entity || entity->getType() != Entity::PlayerEntityType) return;
 
-  WhisperFromMessage out_msg;
+  SayMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
+  out_msg.setVolume(1); /* whisper */
   out_msg.setSpeakerName(name);
 
   ByteStream bs;
@@ -71,15 +72,6 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   NetworkHelper::sendMessage(entity->getPlayerEntity(), bs);
 }
 
-void ChatHandler::handleParty(GenericMessage* /*msg*/)
+void ChatHandler::handleGroup(GenericMessage* /*msg*/)
 {
 }
-
-void ChatHandler::handleGuild(GenericMessage* /*msg*/)
-{
-}
-
-void ChatHandler::handleFamily(GenericMessage* /*msg*/)
-{
-}
-

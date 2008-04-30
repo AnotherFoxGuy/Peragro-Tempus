@@ -45,12 +45,13 @@
 		<message type="Entity" name="Pose" />
 
 		<message type="Chat" name="Say" />
-		<message type="Chat" name="Shout" />
+		<!--message type="Chat" name="Shout" /-->
 		<!--message type="Chat" name="WhisperTo" /-->
-		<message type="Chat" name="WhisperFrom" />
-		<message type="Chat" name="Party" />
-		<message type="Chat" name="Guild" />
-		<message type="Chat" name="Family" />
+		<!--message type="Chat" name="WhisperFrom" /-->
+		<message type="Chat" name="Group" />
+		<!--message type="Chat" name="Party" /-->
+		<!--message type="Chat" name="Guild" /-->
+		<!--message type="Chat" name="Family" /-->
 
 		<!--message type="Skill" name="SkillUsageStartRequest" /-->
 		<message type="Skill" name="SkillUsageStartResponse" />
@@ -154,12 +155,13 @@
 		<!--message type="Entity" name="Pose" /-->
 
 		<message type="Chat" name="Say" />
-		<message type="Chat" name="Shout" />
+		<!--message type="Chat" name="Shout" /-->
 		<message type="Chat" name="WhisperTo" />
 		<!--message type="Chat" name="WhisperFrom" /-->
-		<message type="Chat" name="Party" />
-		<message type="Chat" name="Guild" />
-		<message type="Chat" name="Family" />
+		<message type="Chat" name="Group" />
+		<!--message type="Chat" name="Party" /-->
+		<!--message type="Chat" name="Guild" /-->
+		<!--message type="Chat" name="Family" /-->
 
 		<message type="Skill" name="SkillUsageStartRequest" />
 		<!--message type="Skill" name="SkillUsageStartResponse" /-->

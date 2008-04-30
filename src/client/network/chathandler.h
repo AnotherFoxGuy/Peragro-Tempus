@@ -43,19 +43,11 @@ public:
     char id = msg->getMsgId();
 
     if (id == CHAT::SAY) handleSay(msg);
-    else if (id == CHAT::SHOUT) handleShout(msg);
-    else if (id == CHAT::WHISPERFROM) handleWhisperFrom(msg);
-    else if (id == CHAT::PARTY) handleParty(msg);
-    else if (id == CHAT::GUILD) handleGuild(msg);
-    else if (id == CHAT::FAMILY) handleFamily(msg);
+    else if (id == CHAT::GROUP) handleGroup(msg);
   }
 
   void handleSay(GenericMessage* msg);
-  void handleShout(GenericMessage* msg);
-  void handleWhisperFrom(GenericMessage* msg);
-  void handleParty(GenericMessage* msg);
-  void handleGuild(GenericMessage* msg);
-  void handleFamily(GenericMessage* msg);
+  void handleGroup(GenericMessage* msg);
 };
 
 #endif // CHATHANDLER_H

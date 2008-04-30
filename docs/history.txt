@@ -7,6 +7,13 @@ under each day.
 30-Apr-2008
  - Eklina made the code generator tool use the 'const' directive more
    rigorously.
+ - Eklina added NetworkHelper::distancecast, which broadcasts a message to
+   all entities within 100m of the given entity.
+ - Eklina made the chat messsages sent more concise, so that now, there
+   are only Say (with a volume field), WhisperTo, and Group (guild, party,
+   etc, with a channel field).  
+ - Eklina changed Say messages to use the distancecast, so that conversations
+   will only be heard within a certain range.
 
 29-Apr-2008
  - vornne rewrote the server and client clocks. Server does not link, upgrade

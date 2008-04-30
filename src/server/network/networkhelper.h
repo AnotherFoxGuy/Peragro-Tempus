@@ -40,6 +40,7 @@ public:
   static void sendMessage(const User*, const ByteStream& bs);
 
   static void localcast(const ByteStream& bs, const Entity* entity);
+  static void distancecast(const ByteStream& bs, const Entity* entity, unsigned dist);
   static void broadcast(const ByteStream& bs);
 };
 

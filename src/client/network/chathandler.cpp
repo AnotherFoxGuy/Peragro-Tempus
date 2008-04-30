@@ -25,9 +25,11 @@ void ChatHandler::handleSay(GenericMessage* msg)
 {
   SayMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
+  const char* chattype = "chat.say";
+  if (chatmsg.getVolume() == 1) chattype = "chat.whisper";
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> chatEvent = evmgr->CreateEvent("chat.say", true);
+  csRef<iEvent> chatEvent = evmgr->CreateEvent(chattype, true);
 
   chatEvent->Add("nickName", *chatmsg.getSpeakerName());
   chatEvent->Add("message", chatmsg.getMessage());
@@ -35,32 +37,6 @@ void ChatHandler::handleSay(GenericMessage* msg)
   evmgr->AddEvent(chatEvent);
 }
 
-void ChatHandler::handleWhisperFrom(GenericMessage* msg)
-{
-  WhisperFromMessage chatmsg;
-  chatmsg.deserialise(msg->getByteStream());
-
-  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> chatEvent = evmgr->CreateEvent("chat.whisper", true);
-
-  chatEvent->Add("nickName", *chatmsg.getSpeakerName());
-  chatEvent->Add("message", chatmsg.getMessage());
-
-  evmgr->AddEvent(chatEvent);
-}
-
-void ChatHandler::handleShout(GenericMessage* msg)
-{
-}
-
-void ChatHandler::handleParty(GenericMessage* msg)
-{
-}
-
-void ChatHandler::handleGuild(GenericMessage* msg)
-{
-}
-
-void ChatHandler::handleFamily(GenericMessage* msg)
+void ChatHandler::handleGroup(GenericMessage* msg)
 {
 }

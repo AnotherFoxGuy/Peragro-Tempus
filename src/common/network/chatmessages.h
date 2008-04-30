@@ -30,18 +30,15 @@ namespace CHAT
   enum MESSAGES
   {
     SAY=0,
-    SHOUT=1,
     WHISPERTO=2,
-    WHISPERFROM=3,
-    PARTY=4,
-    GUILD=5,
-    FAMILY=6
+    GROUP=4
   };
 }
 
 class SayMessage : public NetMessage
 {
   ptString speakername;
+  unsigned char volume;
   const char* message;
 
 public:
@@ -59,30 +56,8 @@ public:
   ptString getSpeakerName() const { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage() const { return message; }
-  void setMessage(const char* x) { message = x; }
-
-};
-
-class ShoutMessage : public NetMessage
-{
-  ptString speakername;
-  const char* message;
-
-public:
-  ShoutMessage() : NetMessage(MESSAGES::CHAT,CHAT::SHOUT)
-  {
-  }
-
-  ~ShoutMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  ptString getSpeakerName() const { return speakername; }
-  void setSpeakerName(ptString x) { speakername = x; }
+  unsigned char getVolume() const { return volume; }
+  void setVolume(unsigned char x) { volume = x; }
 
   const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }
@@ -114,17 +89,18 @@ public:
 
 };
 
-class WhisperFromMessage : public NetMessage
+class GroupMessage : public NetMessage
 {
   ptString speakername;
+  ptString channel;
   const char* message;
 
 public:
-  WhisperFromMessage() : NetMessage(MESSAGES::CHAT,CHAT::WHISPERFROM)
+  GroupMessage() : NetMessage(MESSAGES::CHAT,CHAT::GROUP)
   {
   }
 
-  ~WhisperFromMessage()
+  ~GroupMessage()
   {
   }
 
@@ -134,80 +110,8 @@ public:
   ptString getSpeakerName() const { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage() const { return message; }
-  void setMessage(const char* x) { message = x; }
-
-};
-
-class PartyMessage : public NetMessage
-{
-  ptString speakername;
-  const char* message;
-
-public:
-  PartyMessage() : NetMessage(MESSAGES::CHAT,CHAT::PARTY)
-  {
-  }
-
-  ~PartyMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  ptString getSpeakerName() const { return speakername; }
-  void setSpeakerName(ptString x) { speakername = x; }
-
-  const char* getMessage() const { return message; }
-  void setMessage(const char* x) { message = x; }
-
-};
-
-class GuildMessage : public NetMessage
-{
-  ptString speakername;
-  const char* message;
-
-public:
-  GuildMessage() : NetMessage(MESSAGES::CHAT,CHAT::GUILD)
-  {
-  }
-
-  ~GuildMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  ptString getSpeakerName() const { return speakername; }
-  void setSpeakerName(ptString x) { speakername = x; }
-
-  const char* getMessage() const { return message; }
-  void setMessage(const char* x) { message = x; }
-
-};
-
-class FamilyMessage : public NetMessage
-{
-  ptString speakername;
-  const char* message;
-
-public:
-  FamilyMessage() : NetMessage(MESSAGES::CHAT,CHAT::FAMILY)
-  {
-  }
-
-  ~FamilyMessage()
-  {
-  }
-
-  void serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  ptString getSpeakerName() const { return speakername; }
-  void setSpeakerName(ptString x) { speakername = x; }
+  ptString getChannel() const { return channel; }
+  void setChannel(ptString x) { channel = x; }
 
   const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }

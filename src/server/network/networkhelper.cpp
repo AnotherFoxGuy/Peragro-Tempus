@@ -139,6 +139,26 @@ void NetworkHelper::localcast(const ByteStream& bs, const Entity* entity)
   }
 }
 
+void NetworkHelper::distancecast(const ByteStream& bs, const Entity* entity, unsigned dist)
+{
+  Server* server = Server::getServer();
+  if (!entity) return;
+  dist *= dist * 10000;  /* use square-distance, instead of distance, and
+                            multiply by 100m^2 */
+
+  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
+  {
+    User* user = server->getUserManager()->getUser(i);
+    if (user && user->getConnection())
+    {
+      const Entity* other_ent = user->getEntity()->getEntity();
+      if (other_ent && entity->getSector() == other_ent->getSector() &&
+          entity->getDistanceTo2(other_ent) < dist)
+        user->getConnection()->send(bs);
+    }
+  }
+}
+
 void NetworkHelper::broadcast(const ByteStream& bs)
 {
   Server* server = Server::getServer();
