@@ -147,8 +147,8 @@ namespace PT
         size_t len = reflectiveMeshes.GetSize();
         for (size_t i=0; i<len; i++)
         {
-          iMeshWrapper* m = reflectiveMeshes.Get(i);
-          ReflectionUtils::RenderReflection(m, view);
+          csWeakRef<iMeshWrapper> m = reflectiveMeshes.Get(i);
+          if (m.IsValid()) ReflectionUtils::RenderReflection(m, view);
         }
       } // Render reflections.
 
@@ -158,8 +158,8 @@ namespace PT
         size_t len = refractiveMeshes.GetSize();
         for (size_t i=0; i<len; i++)
         {
-          iMeshWrapper* m = refractiveMeshes.Get(i);
-          ReflectionUtils::RenderRefraction(m, view);
+          csWeakRef<iMeshWrapper> m = refractiveMeshes.Get(i);
+          if (m.IsValid()) ReflectionUtils::RenderRefraction(m, view);
         }
       } // Render refractions.
     } // end Render()
