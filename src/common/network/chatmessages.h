@@ -56,10 +56,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getSpeakerName() { return speakername; }
+  ptString getSpeakerName() const { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage() { return message; }
+  const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }
 
 };
@@ -81,10 +81,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getSpeakerName() { return speakername; }
+  ptString getSpeakerName() const { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage() { return message; }
+  const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }
 
 };
@@ -106,10 +106,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getListenerName() { return listenername; }
+  ptString getListenerName() const { return listenername; }
   void setListenerName(ptString x) { listenername = x; }
 
-  const char* getMessage() { return message; }
+  const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }
 
 };
@@ -131,10 +131,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getSpeakerName() { return speakername; }
+  ptString getSpeakerName() const { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage() { return message; }
+  const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }
 
 };
@@ -156,10 +156,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getSpeakerName() { return speakername; }
+  ptString getSpeakerName() const { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage() { return message; }
+  const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }
 
 };
@@ -181,10 +181,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getSpeakerName() { return speakername; }
+  ptString getSpeakerName() const { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage() { return message; }
+  const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }
 
 };
@@ -206,10 +206,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getSpeakerName() { return speakername; }
+  ptString getSpeakerName() const { return speakername; }
   void setSpeakerName(ptString x) { speakername = x; }
 
-  const char* getMessage() { return message; }
+  const char* getMessage() const { return message; }
   void setMessage(const char* x) { message = x; }
 
 };

@@ -55,13 +55,13 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCaster() { return caster; }
+  unsigned int getCaster() const { return caster; }
   void setCaster(unsigned int x) { caster = x; }
 
-  unsigned int getTarget() { return target; }
+  unsigned int getTarget() const { return target; }
   void setTarget(unsigned int x) { target = x; }
 
-  unsigned short getSkill() { return skill; }
+  unsigned short getSkill() const { return skill; }
   void setSkill(unsigned short x) { skill = x; }
 
 };
@@ -86,19 +86,19 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCaster() { return caster; }
+  unsigned int getCaster() const { return caster; }
   void setCaster(unsigned int x) { caster = x; }
 
-  unsigned int getTarget() { return target; }
+  unsigned int getTarget() const { return target; }
   void setTarget(unsigned int x) { target = x; }
 
-  unsigned short getSkill() { return skill; }
+  unsigned short getSkill() const { return skill; }
   void setSkill(unsigned short x) { skill = x; }
 
-  unsigned short getMpCost() { return mpcost; }
+  unsigned short getMpCost() const { return mpcost; }
   void setMpCost(unsigned short x) { mpcost = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -119,7 +119,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned short getSkill() { return skill; }
+  unsigned short getSkill() const { return skill; }
   void setSkill(unsigned short x) { skill = x; }
 
 };
@@ -142,13 +142,13 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCaster() { return caster; }
+  unsigned int getCaster() const { return caster; }
   void setCaster(unsigned int x) { caster = x; }
 
-  unsigned int getTarget() { return target; }
+  unsigned int getTarget() const { return target; }
   void setTarget(unsigned int x) { target = x; }
 
-  unsigned short getSkill() { return skill; }
+  unsigned short getSkill() const { return skill; }
   void setSkill(unsigned short x) { skill = x; }
 
 };
@@ -171,13 +171,13 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCaster() { return caster; }
+  unsigned int getCaster() const { return caster; }
   void setCaster(unsigned int x) { caster = x; }
 
-  unsigned int getTarget() { return target; }
+  unsigned int getTarget() const { return target; }
   void setTarget(unsigned int x) { target = x; }
 
-  unsigned short getSkill() { return skill; }
+  unsigned short getSkill() const { return skill; }
   void setSkill(unsigned short x) { skill = x; }
 
 };

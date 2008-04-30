@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+30-Apr-2008
+ - Eklina made the code generator tool use the 'const' directive more
+   rigorously.
+
 29-Apr-2008
  - vornne rewrote the server and client clocks. Server does not link, upgrade
    at your own risk.

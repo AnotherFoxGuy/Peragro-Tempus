@@ -56,7 +56,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDoorId() { return doorid; }
+  unsigned int getDoorId() const { return doorid; }
   void setDoorId(unsigned int x) { doorid = x; }
 
 };
@@ -78,10 +78,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDoorId() { return doorid; }
+  unsigned int getDoorId() const { return doorid; }
   void setDoorId(unsigned int x) { doorid = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -102,7 +102,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDoorId() { return doorid; }
+  unsigned int getDoorId() const { return doorid; }
   void setDoorId(unsigned int x) { doorid = x; }
 
 };
@@ -124,10 +124,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDoorId() { return doorid; }
+  unsigned int getDoorId() const { return doorid; }
   void setDoorId(unsigned int x) { doorid = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -148,7 +148,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDoorId() { return doorid; }
+  unsigned int getDoorId() const { return doorid; }
   void setDoorId(unsigned int x) { doorid = x; }
 
 };
@@ -170,10 +170,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDoorId() { return doorid; }
+  unsigned int getDoorId() const { return doorid; }
   void setDoorId(unsigned int x) { doorid = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -194,7 +194,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDoorId() { return doorid; }
+  unsigned int getDoorId() const { return doorid; }
   void setDoorId(unsigned int x) { doorid = x; }
 
 };
@@ -216,10 +216,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDoorId() { return doorid; }
+  unsigned int getDoorId() const { return doorid; }
   void setDoorId(unsigned int x) { doorid = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };

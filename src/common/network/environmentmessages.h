@@ -55,19 +55,19 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getMinute() { return minute; }
+  unsigned char getMinute() const { return minute; }
   void setMinute(unsigned char x) { minute = x; }
 
-  unsigned char getHour() { return hour; }
+  unsigned char getHour() const { return hour; }
   void setHour(unsigned char x) { hour = x; }
 
-  unsigned char getMinutesPerHour() { return minutesperhour; }
+  unsigned char getMinutesPerHour() const { return minutesperhour; }
   void setMinutesPerHour(unsigned char x) { minutesperhour = x; }
 
-  unsigned char getHoursPerDay() { return hoursperday; }
+  unsigned char getHoursPerDay() const { return hoursperday; }
   void setHoursPerDay(unsigned char x) { hoursperday = x; }
 
-  unsigned int getRealPerGame() { return realpergame; }
+  unsigned int getRealPerGame() const { return realpergame; }
   void setRealPerGame(unsigned int x) { realpergame = x; }
 
 };
@@ -89,10 +89,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getMinute() { return minute; }
+  unsigned char getMinute() const { return minute; }
   void setMinute(unsigned char x) { minute = x; }
 
-  unsigned char getHour() { return hour; }
+  unsigned char getHour() const { return hour; }
   void setHour(unsigned char x) { hour = x; }
 
 };
@@ -113,7 +113,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getWeatherId() { return weatherid; }
+  unsigned char getWeatherId() const { return weatherid; }
   void setWeatherId(unsigned char x) { weatherid = x; }
 
 };

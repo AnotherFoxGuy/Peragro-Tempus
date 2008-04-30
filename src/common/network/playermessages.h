@@ -72,10 +72,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getInventoryId() { return inventoryid; }
+  unsigned int getInventoryId() const { return inventoryid; }
   void setInventoryId(unsigned int x) { inventoryid = x; }
 
-  unsigned char getInventoryCount() { return inventorycount; }
+  unsigned char getInventoryCount() const { return inventorycount; }
   void setInventoryCount(unsigned char ic)
   {
     inventorycount = ic;
@@ -132,16 +132,16 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getOldSlot() { return oldslot; }
+  unsigned char getOldSlot() const { return oldslot; }
   void setOldSlot(unsigned char x) { oldslot = x; }
 
-  unsigned int getOldInventoryId() { return oldinventoryid; }
+  unsigned int getOldInventoryId() const { return oldinventoryid; }
   void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
 
-  unsigned char getNewSlot() { return newslot; }
+  unsigned char getNewSlot() const { return newslot; }
   void setNewSlot(unsigned char x) { newslot = x; }
 
-  unsigned int getNewInventoryId() { return newinventoryid; }
+  unsigned int getNewInventoryId() const { return newinventoryid; }
   void setNewInventoryId(unsigned int x) { newinventoryid = x; }
 
 };
@@ -166,19 +166,19 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getOldSlot() { return oldslot; }
+  unsigned char getOldSlot() const { return oldslot; }
   void setOldSlot(unsigned char x) { oldslot = x; }
 
-  unsigned int getOldInventoryId() { return oldinventoryid; }
+  unsigned int getOldInventoryId() const { return oldinventoryid; }
   void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
 
-  unsigned char getNewSlot() { return newslot; }
+  unsigned char getNewSlot() const { return newslot; }
   void setNewSlot(unsigned char x) { newslot = x; }
 
-  unsigned int getNewInventoryId() { return newinventoryid; }
+  unsigned int getNewInventoryId() const { return newinventoryid; }
   void setNewInventoryId(unsigned int x) { newinventoryid = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -211,7 +211,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getStatsCount() { return statscount; }
+  unsigned char getStatsCount() const { return statscount; }
   void setStatsCount(unsigned char ic)
   {
     statscount = ic;
@@ -251,10 +251,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned short getStatId() { return statid; }
+  unsigned short getStatId() const { return statid; }
   void setStatId(unsigned short x) { statid = x; }
 
-  unsigned short getLevel() { return level; }
+  unsigned short getLevel() const { return level; }
   void setLevel(unsigned short x) { level = x; }
 
 };
@@ -286,7 +286,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getSkillsCount() { return skillscount; }
+  unsigned char getSkillsCount() const { return skillscount; }
   void setSkillsCount(unsigned char ic)
   {
     skillscount = ic;

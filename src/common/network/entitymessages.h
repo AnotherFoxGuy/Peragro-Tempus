@@ -95,13 +95,13 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getName() { return name; }
+  ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getMesh() { return mesh; }
+  ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  unsigned short getMeshId() { return meshid; }
+  unsigned short getMeshId() const { return meshid; }
   void setMeshId(unsigned short x) { meshid = x; }
 
   float* getPos() { return pos; }
@@ -116,19 +116,19 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  float getRotation() { return rotation; }
+  float getRotation() const { return rotation; }
   void setRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  unsigned char getPoseId() { return poseid; }
+  unsigned char getPoseId() const { return poseid; }
   void setPoseId(unsigned char x) { poseid = x; }
 
-  unsigned char getEquipmentCount() { return equipmentcount; }
+  unsigned char getEquipmentCount() const { return equipmentcount; }
   void setEquipmentCount(unsigned char ic)
   {
     equipmentcount = ic;
@@ -177,19 +177,19 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() { return itemid; }
+  unsigned int getItemId() const { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
 
-  unsigned int getVariation() { return variation; }
+  unsigned int getVariation() const { return variation; }
   void setVariation(unsigned int x) { variation = x; }
 
-  ptString getName() { return name; }
+  ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getFile() { return file; }
+  ptString getFile() const { return file; }
   void setFile(ptString x) { file = x; }
 
-  ptString getMesh() { return mesh; }
+  ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
   float* getPos() { return pos; }
@@ -204,10 +204,10 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
 };
@@ -235,28 +235,28 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned short getDoorId() { return doorid; }
+  unsigned short getDoorId() const { return doorid; }
   void setDoorId(unsigned short x) { doorid = x; }
 
-  bool getIsOpen() { return isopen; }
+  bool getIsOpen() const { return isopen; }
   void setIsOpen(bool x) { isopen = x; }
 
-  bool getIsLocked() { return islocked; }
+  bool getIsLocked() const { return islocked; }
   void setIsLocked(bool x) { islocked = x; }
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  ptString getName() { return name; }
+  ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getMesh() { return mesh; }
+  ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
-  ptString getAnimation() { return animation; }
+  ptString getAnimation() const { return animation; }
   void setAnimation(ptString x) { animation = x; }
 
 };
@@ -301,13 +301,13 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getName() { return name; }
+  ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getMesh() { return mesh; }
+  ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  unsigned short getMeshId() { return meshid; }
+  unsigned short getMeshId() const { return meshid; }
   void setMeshId(unsigned short x) { meshid = x; }
 
   float* getPos() { return pos; }
@@ -322,7 +322,7 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  float getRotation() { return rotation; }
+  float getRotation() const { return rotation; }
   void setRotation(float x) { rotation = x; }
 
   unsigned char* getHairColour() { return haircolour; }
@@ -361,16 +361,16 @@ public:
     setDecalColour(x[0], x[1], x[2]);
   }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  unsigned char getPoseId() { return poseid; }
+  unsigned char getPoseId() const { return poseid; }
   void setPoseId(unsigned char x) { poseid = x; }
 
-  unsigned char getEquipmentCount() { return equipmentcount; }
+  unsigned char getEquipmentCount() const { return equipmentcount; }
   void setEquipmentCount(unsigned char ic)
   {
     equipmentcount = ic;
@@ -419,13 +419,13 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getName() { return name; }
+  ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getMesh() { return mesh; }
+  ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  unsigned short getMeshId() { return meshid; }
+  unsigned short getMeshId() const { return meshid; }
   void setMeshId(unsigned short x) { meshid = x; }
 
   float* getPos() { return pos; }
@@ -440,16 +440,16 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  float getRotation() { return rotation; }
+  float getRotation() const { return rotation; }
   void setRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  unsigned int getInventoryId() { return inventoryid; }
+  unsigned int getInventoryId() const { return inventoryid; }
   void setInventoryId(unsigned int x) { inventoryid = x; }
 
 };
@@ -470,7 +470,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
 };
@@ -495,19 +495,19 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  float getTurn() { return turn; }
+  float getTurn() const { return turn; }
   void setTurn(float x) { turn = x; }
 
-  float getWalk() { return walk; }
+  float getWalk() const { return walk; }
   void setWalk(float x) { walk = x; }
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  bool getRun() { return run; }
+  bool getRun() const { return run; }
   void setRun(bool x) { run = x; }
 
-  bool getJump() { return jump; }
+  bool getJump() const { return jump; }
   void setJump(bool x) { jump = x; }
 
 };
@@ -531,16 +531,16 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getTurn() { return turn; }
+  unsigned char getTurn() const { return turn; }
   void setTurn(unsigned char x) { turn = x; }
 
-  unsigned char getWalk() { return walk; }
+  unsigned char getWalk() const { return walk; }
   void setWalk(unsigned char x) { walk = x; }
 
-  bool getRun() { return run; }
+  bool getRun() const { return run; }
   void setRun(bool x) { run = x; }
 
-  bool getJump() { return jump; }
+  bool getJump() const { return jump; }
   void setJump(bool x) { jump = x; }
 
 };
@@ -591,19 +591,19 @@ public:
     setTo(x[0], x[1], x[2]);
   }
 
-  float getSpeed() { return speed; }
+  float getSpeed() const { return speed; }
   void setSpeed(float x) { speed = x; }
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  bool getRun() { return run; }
+  bool getRun() const { return run; }
   void setRun(bool x) { run = x; }
 
-  unsigned char getTurn() { return turn; }
+  unsigned char getTurn() const { return turn; }
   void setTurn(unsigned char x) { turn = x; }
 
-  bool getJump() { return jump; }
+  bool getJump() const { return jump; }
   void setJump(bool x) { jump = x; }
 
 };
@@ -640,16 +640,16 @@ public:
     setTo(x[0], x[1], x[2]);
   }
 
-  bool getRun() { return run; }
+  bool getRun() const { return run; }
   void setRun(bool x) { run = x; }
 
-  bool getBackwards() { return backwards; }
+  bool getBackwards() const { return backwards; }
   void setBackwards(bool x) { backwards = x; }
 
-  unsigned char getTurn() { return turn; }
+  unsigned char getTurn() const { return turn; }
   void setTurn(unsigned char x) { turn = x; }
 
-  bool getJump() { return jump; }
+  bool getJump() const { return jump; }
   void setJump(bool x) { jump = x; }
 
 };
@@ -671,10 +671,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemEntityId() { return itementityid; }
+  unsigned int getItemEntityId() const { return itementityid; }
   void setItemEntityId(unsigned int x) { itementityid = x; }
 
-  unsigned char getSlot() { return slot; }
+  unsigned char getSlot() const { return slot; }
   void setSlot(unsigned char x) { slot = x; }
 
 };
@@ -703,31 +703,31 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() { return itemid; }
+  unsigned int getItemId() const { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
 
-  unsigned int getVariation() { return variation; }
+  unsigned int getVariation() const { return variation; }
   void setVariation(unsigned int x) { variation = x; }
 
-  unsigned char getSlotId() { return slotid; }
+  unsigned char getSlotId() const { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
 
-  ptString getName() { return name; }
+  ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getIcon() { return icon; }
+  ptString getIcon() const { return icon; }
   void setIcon(ptString x) { icon = x; }
 
-  ptString getDescription() { return description; }
+  ptString getDescription() const { return description; }
   void setDescription(ptString x) { description = x; }
 
-  float getWeight() { return weight; }
+  float getWeight() const { return weight; }
   void setWeight(float x) { weight = x; }
 
-  ptString getEquipType() { return equiptype; }
+  ptString getEquipType() const { return equiptype; }
   void setEquipType(ptString x) { equiptype = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -749,10 +749,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getSlot() { return slot; }
+  unsigned char getSlot() const { return slot; }
   void setSlot(unsigned char x) { slot = x; }
 
-  unsigned int getInventoryId() { return inventoryid; }
+  unsigned int getInventoryId() const { return inventoryid; }
   void setInventoryId(unsigned int x) { inventoryid = x; }
 
 };
@@ -774,10 +774,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getSlotId() { return slotid; }
+  unsigned char getSlotId() const { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -803,22 +803,22 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  unsigned int getItemId() { return itemid; }
+  unsigned int getItemId() const { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
 
-  unsigned int getVariation() { return variation; }
+  unsigned int getVariation() const { return variation; }
   void setVariation(unsigned int x) { variation = x; }
 
-  unsigned char getSlotId() { return slotid; }
+  unsigned char getSlotId() const { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
 
-  ptString getFile() { return file; }
+  ptString getFile() const { return file; }
   void setFile(ptString x) { file = x; }
 
-  ptString getMesh() { return mesh; }
+  ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
 };
@@ -859,7 +859,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
   float* getPos() { return pos; }
@@ -874,10 +874,10 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  float getRotation() { return rotation; }
+  float getRotation() const { return rotation; }
   void setRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
 };
@@ -901,7 +901,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
   float* getPos() { return pos; }
@@ -916,10 +916,10 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  float getRotation() { return rotation; }
+  float getRotation() const { return rotation; }
   void setRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
 };
@@ -954,10 +954,10 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  float getRotation() { return rotation; }
+  float getRotation() const { return rotation; }
   void setRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
 };
@@ -993,13 +993,13 @@ public:
     setPos(x[0], x[1], x[2]);
   }
 
-  float getRotation() { return rotation; }
+  float getRotation() const { return rotation; }
   void setRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() { return sectorid; }
+  unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
 };
@@ -1020,7 +1020,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getMountEntityId() { return mountentityid; }
+  unsigned int getMountEntityId() const { return mountentityid; }
   void setMountEntityId(unsigned int x) { mountentityid = x; }
 
 };
@@ -1043,13 +1043,13 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getPlayerEntityId() { return playerentityid; }
+  unsigned int getPlayerEntityId() const { return playerentityid; }
   void setPlayerEntityId(unsigned int x) { playerentityid = x; }
 
-  unsigned int getMountEntityId() { return mountentityid; }
+  unsigned int getMountEntityId() const { return mountentityid; }
   void setMountEntityId(unsigned int x) { mountentityid = x; }
 
-  bool getCanControl() { return cancontrol; }
+  bool getCanControl() const { return cancontrol; }
   void setCanControl(bool x) { cancontrol = x; }
 
 };
@@ -1070,7 +1070,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getMountEntityId() { return mountentityid; }
+  unsigned int getMountEntityId() const { return mountentityid; }
   void setMountEntityId(unsigned int x) { mountentityid = x; }
 
 };
@@ -1092,10 +1092,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getPlayerEntityId() { return playerentityid; }
+  unsigned int getPlayerEntityId() const { return playerentityid; }
   void setPlayerEntityId(unsigned int x) { playerentityid = x; }
 
-  unsigned int getMountEntityId() { return mountentityid; }
+  unsigned int getMountEntityId() const { return mountentityid; }
   void setMountEntityId(unsigned int x) { mountentityid = x; }
 
 };
@@ -1116,7 +1116,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getPoseId() { return poseid; }
+  unsigned char getPoseId() const { return poseid; }
   void setPoseId(unsigned char x) { poseid = x; }
 
 };
@@ -1138,10 +1138,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  unsigned char getPoseId() { return poseid; }
+  unsigned char getPoseId() const { return poseid; }
   void setPoseId(unsigned char x) { poseid = x; }
 
 };

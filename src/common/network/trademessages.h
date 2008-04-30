@@ -57,7 +57,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
 };
@@ -78,7 +78,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -112,10 +112,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getIsBuy() { return isbuy; }
+  unsigned char getIsBuy() const { return isbuy; }
   void setIsBuy(unsigned char x) { isbuy = x; }
 
-  unsigned char getOffersCount() { return offerscount; }
+  unsigned char getOffersCount() const { return offerscount; }
   void setOffersCount(unsigned char ic)
   {
     offerscount = ic;
@@ -167,7 +167,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getOffersCount() { return offerscount; }
+  unsigned char getOffersCount() const { return offerscount; }
   void setOffersCount(unsigned char ic)
   {
     offerscount = ic;
@@ -221,10 +221,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getIsBuy() { return isbuy; }
+  unsigned char getIsBuy() const { return isbuy; }
   void setIsBuy(unsigned char x) { isbuy = x; }
 
-  unsigned char getOrdersCount() { return orderscount; }
+  unsigned char getOrdersCount() const { return orderscount; }
   void setOrdersCount(unsigned char ic)
   {
     orderscount = ic;
@@ -311,7 +311,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };

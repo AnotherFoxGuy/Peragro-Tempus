@@ -53,10 +53,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() { return itemid; }
+  unsigned int getItemId() const { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
 
-  unsigned int getBookId() { return bookid; }
+  unsigned int getBookId() const { return bookid; }
   void setBookId(unsigned int x) { bookid = x; }
 
 };
@@ -78,10 +78,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getBookName() { return bookname; }
+  ptString getBookName() const { return bookname; }
   void setBookName(ptString x) { bookname = x; }
 
-  const char* getText() { return text; }
+  const char* getText() const { return text; }
   void setText(const char* x) { text = x; }
 
 };
@@ -105,16 +105,16 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() { return itemid; }
+  unsigned int getItemId() const { return itemid; }
   void setItemId(unsigned int x) { itemid = x; }
 
-  unsigned int getBookId() { return bookid; }
+  unsigned int getBookId() const { return bookid; }
   void setBookId(unsigned int x) { bookid = x; }
 
-  ptString getBookName() { return bookname; }
+  ptString getBookName() const { return bookname; }
   void setBookName(ptString x) { bookname = x; }
 
-  const char* getText() { return text; }
+  const char* getText() const { return text; }
   void setText(const char* x) { text = x; }
 
 };
@@ -136,10 +136,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getBookId() { return bookid; }
+  unsigned int getBookId() const { return bookid; }
   void setBookId(unsigned int x) { bookid = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };

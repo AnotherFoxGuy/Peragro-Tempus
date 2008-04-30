@@ -66,13 +66,13 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDialogId() { return dialogid; }
+  unsigned int getDialogId() const { return dialogid; }
   void setDialogId(unsigned int x) { dialogid = x; }
 
-  const char* getDialogText() { return dialogtext; }
+  const char* getDialogText() const { return dialogtext; }
   void setDialogText(const char* x) { dialogtext = x; }
 
-  unsigned char getAnswersCount() { return answerscount; }
+  unsigned char getAnswersCount() const { return answerscount; }
   void setAnswersCount(unsigned char ic)
   {
     answerscount = ic;
@@ -109,10 +109,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getDialogId() { return dialogid; }
+  unsigned int getDialogId() const { return dialogid; }
   void setDialogId(unsigned int x) { dialogid = x; }
 
-  unsigned int getAnswerId() { return answerid; }
+  unsigned int getAnswerId() const { return answerid; }
   void setAnswerId(unsigned int x) { answerid = x; }
 
 };
@@ -133,7 +133,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getNpcId() { return npcid; }
+  unsigned int getNpcId() const { return npcid; }
   void setNpcId(unsigned int x) { npcid = x; }
 
 };
@@ -154,7 +154,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getNpcId() { return npcid; }
+  unsigned int getNpcId() const { return npcid; }
   void setNpcId(unsigned int x) { npcid = x; }
 
 };
@@ -205,10 +205,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  bool getDeleteExisting() { return deleteexisting; }
+  bool getDeleteExisting() const { return deleteexisting; }
   void setDeleteExisting(bool x) { deleteexisting = x; }
 
-  unsigned char getDialogsCount() { return dialogscount; }
+  unsigned char getDialogsCount() const { return dialogscount; }
   void setDialogsCount(unsigned char ic)
   {
     dialogscount = ic;
@@ -232,7 +232,7 @@ public:
 
   // --- end ListDialogs Getter and Setter ---
 
-  unsigned char getAnswersCount() { return answerscount; }
+  unsigned char getAnswersCount() const { return answerscount; }
   void setAnswersCount(unsigned char ic)
   {
     answerscount = ic;

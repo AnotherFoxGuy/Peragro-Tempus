@@ -290,49 +290,49 @@ void nwWriter::writeParamGetterSetter(std::ofstream& out, nwParams* param)
 {
   if (param->type == nwParamType::STRING)
   {
-    out <<  "  ptString get" << param->name.c_str() << "() { return " 
+    out <<  "  ptString get" << param->name.c_str() << "() const { return " 
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(ptString x) { " 
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::TEXT)
   {
-    out <<  "  const char* get" << param->name.c_str() << "() { return " 
+    out <<  "  const char* get" << param->name.c_str() << "() const { return " 
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(const char* x) { " 
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::BOOL)
   {
-    out <<  "  bool get" << param->name.c_str() << "() { return " 
+    out <<  "  bool get" << param->name.c_str() << "() const { return " 
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(bool x) { " 
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT8)
   {
-    out <<  "  unsigned char get" << param->name.c_str() << "() { return " 
+    out <<  "  unsigned char get" << param->name.c_str() << "() const { return " 
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(unsigned char x) { " 
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT16)
   {
-    out <<  "  unsigned short get" << param->name.c_str() << "() { return " 
+    out <<  "  unsigned short get" << param->name.c_str() << "() const { return " 
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(unsigned short x) { " 
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT32)
   {
-    out <<  "  unsigned int get" << param->name.c_str() << "() { return " 
+    out <<  "  unsigned int get" << param->name.c_str() << "() const { return " 
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(unsigned int x) { " 
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::FLOAT)
   {
-    out <<  "  float get" << param->name.c_str() << "() { return " 
+    out <<  "  float get" << param->name.c_str() << "() const { return " 
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(float x) { " 
         << toVariable(param->name).c_str() << " = x; }\n\n";
@@ -369,7 +369,7 @@ void nwWriter::writeParamGetterSetter(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::LIST)
   {
-    out <<  "  unsigned char get" << param->name.c_str() << "Count() { return " 
+    out <<  "  unsigned char get" << param->name.c_str() << "Count() const { return " 
         <<  toVariable(param->name).c_str() << "count; }\n"
         <<  "  void set" << param->name.c_str() << "Count(unsigned char ic)\n"
         <<  "  {\n"

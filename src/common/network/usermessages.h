@@ -58,10 +58,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getUsername() { return username; }
+  ptString getUsername() const { return username; }
   void setUsername(ptString x) { username = x; }
 
-  const char* getPassword() { return password; }
+  const char* getPassword() const { return password; }
   void setPassword(const char* x) { password = x; }
 
 };
@@ -83,10 +83,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
-  bool getIsAdmin() { return isadmin; }
+  bool getIsAdmin() const { return isadmin; }
   void setIsAdmin(bool x) { isadmin = x; }
 
 };
@@ -108,10 +108,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getUsername() { return username; }
+  ptString getUsername() const { return username; }
   void setUsername(ptString x) { username = x; }
 
-  const char* getPassword() { return password; }
+  const char* getPassword() const { return password; }
   void setPassword(const char* x) { password = x; }
 
 };
@@ -132,7 +132,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -167,7 +167,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getCharacterCount() { return charactercount; }
+  unsigned char getCharacterCount() const { return charactercount; }
   void setCharacterCount(unsigned char ic)
   {
     charactercount = ic;
@@ -242,7 +242,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  ptString getName() { return name; }
+  ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
   unsigned char* getHairColour() { return haircolour; }
@@ -304,10 +304,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCharId() { return charid; }
+  unsigned int getCharId() const { return charid; }
   void setCharId(unsigned int x) { charid = x; }
 
-  ptString getName() { return name; }
+  ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
   unsigned char* getHairColour() { return haircolour; }
@@ -346,7 +346,7 @@ public:
     setDecalColour(x[0], x[1], x[2]);
   }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
@@ -367,7 +367,7 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCharId() { return charid; }
+  unsigned int getCharId() const { return charid; }
   void setCharId(unsigned int x) { charid = x; }
 
 };
@@ -389,10 +389,10 @@ public:
   void serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() { return entityid; }
+  unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  ptString getError() { return error; }
+  ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
 
 };
