@@ -143,8 +143,10 @@ void NetworkHelper::distancecast(const ByteStream& bs, const Entity* entity, uns
 {
   Server* server = Server::getServer();
   if (!entity) return;
-  dist *= dist * 10000;  /* use square-distance, instead of distance, and
-                            multiply by 100m^2 */
+  if (dist == 0) return;
+
+  /* use square-distance multipied by 100m^2 */
+  float sqdist = 10000.0 * dist * dist;
 
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
   {
@@ -153,7 +155,7 @@ void NetworkHelper::distancecast(const ByteStream& bs, const Entity* entity, uns
     {
       const Entity* other_ent = user->getEntity()->getEntity();
       if (other_ent && entity->getSector() == other_ent->getSector() &&
-          entity->getDistanceTo2(other_ent) < dist)
+          entity->getDistanceTo2(other_ent) < sqdist)
         user->getConnection()->send(bs);
     }
   }

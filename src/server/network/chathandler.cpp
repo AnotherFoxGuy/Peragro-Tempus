@@ -40,10 +40,12 @@ void ChatHandler::handleChat(GenericMessage* msg)
   ByteStream bs;
   out_msg.serialise(&bs);
 
-  if (in_msg.getVolume() > 1) 
+  if (in_msg.getVolume() == 0xFF) NetworkHelper::broadcast(bs);
+  else
     NetworkHelper::distancecast(bs, ent->getEntity(), in_msg.getVolume());
-  else if (in_msg.getVolume() == 0)
-    NetworkHelper::broadcast(bs);
+  /* TODO: client decides how loud a message is.  If there is to be a 
+     policy to limit how far one can shout, here's the place to implement 
+     it. */
 }
 
 void ChatHandler::handleWhisperTo(GenericMessage* msg)
@@ -63,7 +65,7 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
 
   ChatMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
-  out_msg.setVolume(1); /* whisper */
+  out_msg.setVolume(0); /* whisper */
   out_msg.setSpeakerName(name);
 
   ByteStream bs;

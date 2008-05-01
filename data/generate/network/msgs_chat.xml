@@ -1,7 +1,7 @@
 <message-implementation>
 	<message type="Chat" name="Chat">
 		<string>SpeakerName</string> <!-- null if client sends -->
-                <uint8>Volume</uint8> <!-- 0 = broadcast, 1 = whisper -->
+                <uint8>Volume</uint8> <!-- 0xFF = broadcast, 0 = whisper -->
 		<text>Message</text>
 	</message>
 

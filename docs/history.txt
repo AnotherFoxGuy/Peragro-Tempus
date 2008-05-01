@@ -6,6 +6,8 @@ under each day.
 
 01-May-2008
  - Eklina renamed SayMessage -> ChatMessage at sueastside's recommendation.
+ - Eklina switched broadcast messages to use volume 0xFF, and put a TODO
+   comment requesting a policy for deciding how "loud" a client can shout.
 
 30-Apr-2008
  - Eklina made the code generator tool use the 'const' directive more

@@ -26,7 +26,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
   ChatMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
   const char* chattype = "chat.say";
-  if (chatmsg.getVolume() == 1) chattype = "chat.whisper";
+  if (chatmsg.getVolume() == 0) chattype = "chat.whisper";
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   csRef<iEvent> chatEvent = evmgr->CreateEvent(chattype, true);
