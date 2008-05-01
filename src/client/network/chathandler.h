@@ -42,11 +42,11 @@ public:
     if (type != MESSAGES::CHAT) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == CHAT::SAY) handleSay(msg);
+    if (id == CHAT::CHAT) handleChat(msg);
     else if (id == CHAT::GROUP) handleGroup(msg);
   }
 
-  void handleSay(GenericMessage* msg);
+  void handleChat(GenericMessage* msg);
   void handleGroup(GenericMessage* msg);
 };
 

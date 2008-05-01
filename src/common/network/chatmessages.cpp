@@ -24,7 +24,7 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void SayMessage::serialise(ByteStream* bs)
+void ChatMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -34,7 +34,7 @@ void SayMessage::serialise(ByteStream* bs)
   serial.setString(message);
 }
 
-void SayMessage::deserialise(ByteStream* bs)
+void ChatMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();

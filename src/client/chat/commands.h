@@ -122,7 +122,7 @@ namespace PT
             text += " ";
           }
           Report(PT::Debug, "Say1: %s", text.c_str());
-          SayMessage msg;
+          ChatMessage msg;
           msg.setVolume(2);
           msg.setMessage(text.c_str());
           network->send(&msg);
@@ -142,7 +142,7 @@ namespace PT
           }
 
           Report(PT::Debug, "Say2: %s", text.c_str());
-          SayMessage msg;
+          ChatMessage msg;
           msg.setVolume(2);
           msg.setMessage(text.c_str());
           network->send(&msg);
@@ -183,7 +183,7 @@ namespace PT
           }
 
           Report(PT::Debug, "Say3: %s", text.c_str());
-          SayMessage msg;
+          ChatMessage msg;
           msg.setVolume(2);
           msg.setMessage(text.c_str());
           network->send(&msg);
@@ -230,7 +230,7 @@ namespace PT
           */
 
           Report(PT::Debug, "waving at %s", target.c_str());
-          SayMessage msg;
+          ChatMessage msg;
           msg.setVolume(2);
           msg.setMessage(text.c_str());
           network->send(&msg);

@@ -29,24 +29,24 @@ namespace CHAT
 {
   enum MESSAGES
   {
-    SAY=0,
+    CHAT=0,
     WHISPERTO=2,
     GROUP=4
   };
 }
 
-class SayMessage : public NetMessage
+class ChatMessage : public NetMessage
 {
   ptString speakername;
   unsigned char volume;
   const char* message;
 
 public:
-  SayMessage() : NetMessage(MESSAGES::CHAT,CHAT::SAY)
+  ChatMessage() : NetMessage(MESSAGES::CHAT,CHAT::CHAT)
   {
   }
 
-  ~SayMessage()
+  ~ChatMessage()
   {
   }
 

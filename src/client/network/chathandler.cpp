@@ -21,9 +21,9 @@
 #include "client/event/eventmanager.h"
 #include "client/event/chatevent.h"
 
-void ChatHandler::handleSay(GenericMessage* msg)
+void ChatHandler::handleChat(GenericMessage* msg)
 {
-  SayMessage chatmsg;
+  ChatMessage chatmsg;
   chatmsg.deserialise(msg->getByteStream());
   const char* chattype = "chat.say";
   if (chatmsg.getVolume() == 1) chattype = "chat.whisper";

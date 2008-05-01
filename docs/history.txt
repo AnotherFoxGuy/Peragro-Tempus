@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+01-May-2008
+ - Eklina renamed SayMessage -> ChatMessage at sueastside's recommendation.
+
 30-Apr-2008
  - Eklina made the code generator tool use the 'const' directive more
    rigorously.

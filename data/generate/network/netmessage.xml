@@ -54,7 +54,7 @@
 			<message id="25" name="Pose" />
 		</type>
 		<type id="3" name="Chat">
-			<message id="0" name="Say" />
+			<message id="0" name="Chat" />
 			<!--message id="1" name="Shout" /-->
 			<message id="2" name="WhisperTo" />
 			<!--message id="3" name="WhisperFrom" /-->

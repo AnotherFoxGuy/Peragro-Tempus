@@ -22,17 +22,17 @@
 #include "server/entity/entitymanager.h"
 #include "server/entity/pcentity.h"
 
-void ChatHandler::handleSay(GenericMessage* msg)
+void ChatHandler::handleChat(GenericMessage* msg)
 {
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
   const ptString name = ent->getEntity()->getName();
 
-  SayMessage in_msg;
+  ChatMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
-  SayMessage out_msg;
+  ChatMessage out_msg;
   out_msg.setSpeakerName(name);
   out_msg.setVolume(in_msg.getVolume());
   out_msg.setMessage(in_msg.getMessage());
@@ -61,7 +61,7 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   const Entity* entity = server->getEntityManager()->findByName(in_msg.getListenerName());
   if (!entity || entity->getType() != Entity::PlayerEntityType) return;
 
-  SayMessage out_msg;
+  ChatMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
   out_msg.setVolume(1); /* whisper */
   out_msg.setSpeakerName(name);
