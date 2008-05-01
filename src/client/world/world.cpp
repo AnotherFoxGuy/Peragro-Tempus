@@ -42,7 +42,7 @@ namespace PT
     current_size = 0;
     current = 0;
     // Set to a very big number, so if they are changed to "0,0" it can be detected.
-    cx = cz = ~0;
+    cx = cz = INT_MAX;
 
     Report(PT::Notify, "Loading world %s", basename.c_str());
 

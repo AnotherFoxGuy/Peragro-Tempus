@@ -8,6 +8,7 @@ under each day.
  - Eklina renamed SayMessage -> ChatMessage at sueastside's recommendation.
  - Eklina switched broadcast messages to use volume 0xFF, and put a TODO
    comment requesting a policy for deciding how "loud" a client can shout.
+ - Rakhun substituted ~0 for INT_MAX in World::World for a very big number.
 
 30-Apr-2008
  - Eklina made the code generator tool use the 'const' directive more
