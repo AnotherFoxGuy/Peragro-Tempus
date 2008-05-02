@@ -19,6 +19,8 @@
 #ifndef NETWORKHELPER_H
 #define NETWORKHELPER_H
 
+#include "common/util/array.h"
+
 class GenericMessage;
 class User;
 class Character;
@@ -42,6 +44,10 @@ public:
   static void localcast(const ByteStream& bs, const Entity* entity);
   static void distancecast(const ByteStream& bs, const Entity* entity, unsigned dist);
   static void broadcast(const ByteStream& bs);
+
+  /* returns an array of players associated with the given player/channelname
+     combination.  */
+  static Array<const PcEntity*> getUserList(const PcEntity*, const char* channel);
 };
 
 #endif // NETWORKHELPER_H

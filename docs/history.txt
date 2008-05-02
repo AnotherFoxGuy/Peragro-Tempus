@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+02-May-2008
+ - Eklina began server-side support for group-chat (ie guild, party, etc).
+   Included a skeleton routine NetworkHelper::getUserList which is supposed
+   to return the members of a group.
+
 01-May-2008
  - Eklina renamed SayMessage -> ChatMessage at sueastside's recommendation.
  - Eklina switched broadcast messages to use volume 0xFF, and put a TODO

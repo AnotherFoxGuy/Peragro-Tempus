@@ -171,3 +171,12 @@ void NetworkHelper::broadcast(const ByteStream& bs)
       user->getConnection()->send(bs);
   }
 }
+
+Array<const PcEntity*> NetworkHelper::getUserList(const PcEntity* ent, const char* channel)
+{
+  Array<const PcEntity*> channelusers;
+
+  // TODO : selecting members of a guild, party, help-group, etc, goes here.
+
+  return channelusers;
+}

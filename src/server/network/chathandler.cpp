@@ -74,6 +74,25 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   NetworkHelper::sendMessage(entity->getPlayerEntity(), bs);
 }
 
-void ChatHandler::handleGroup(GenericMessage* /*msg*/)
+void ChatHandler::handleGroup(GenericMessage* msg)
 {
+  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
+  if (!ent) return;
+
+  const ptString name = ent->getEntity()->getName();
+
+  GroupMessage in_msg;
+  in_msg.deserialise(msg->getByteStream());
+
+  GroupMessage out_msg;
+  out_msg.setMessage(in_msg.getMessage());
+  out_msg.setChannel(in_msg.getChannel()); 
+  out_msg.setSpeakerName(name);
+
+  ByteStream bs;
+  out_msg.serialise(&bs);
+
+  Array<const PcEntity*> ulist = NetworkHelper::getUserList(ent, *(in_msg.getChannel()));
+  for (unsigned i=0;  i<ulist.getCount();  i++)
+    NetworkHelper::sendMessage(ulist[i], bs);
 }
