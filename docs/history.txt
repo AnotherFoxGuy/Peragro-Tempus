@@ -12,6 +12,7 @@ under each day.
    and modified TimerEngine to use it - because clock() was not returning
    correct values when run alongside nanosleep(), on linux.
  - Rakhun implemented ReputationManager and reputation function in quests.
+ - Rakhun added support for non-text in initial dialogs.
 
 01-May-2008
  - Eklina renamed SayMessage -> ChatMessage at sueastside's recommendation.

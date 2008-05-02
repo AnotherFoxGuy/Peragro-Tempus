@@ -211,21 +211,104 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
 
   if (!dialog){character->freeLock();return;}
 
-  NpcDialogMessage dialog_msg;
-  dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
-  dialog_msg.setDialogText(dialog->getText());
-  dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
-  for (size_t i = 0; i < dialog->getAnswerCount(); i++)
+  if (dialog->getAction() == NPCDialog::SHOW_TEXT)
   {
-    const NPCDialogAnswer* answer = dialog->getAnswer(i);
-    dialog_msg.setAnswerId(i, (unsigned int)i);
-    dialog_msg.setAnswerText(i, answer->getText());
+    QuestUtils::SendDialog(character, dialog);
+  }
+  else if (dialog->getAction() == NPCDialog::START_BUY)
+  {
+    const NpcEntity* c_npc = dia_state->getNpc();
+    if (c_npc)
+    {
+      // hardcoded! just to test it!
+      // All this should go to the trade handler anyway!
+      TradeOffersListNpcMessage trade_msg;
+      trade_msg.setIsBuy(1);
+      trade_msg.setOffersCount(4);
+      trade_msg.setItemId(0, 4);
+      trade_msg.setPrice(0, 200);
+      trade_msg.setItemId(1, 3);
+      trade_msg.setPrice(1, 100);
+      trade_msg.setItemId(2, 6); //empty book
+      trade_msg.setPrice(2, 10);
+      trade_msg.setItemId(3, 7); //gate key
+      trade_msg.setPrice(3, 300);
+
+      ByteStream bs;
+      trade_msg.serialise(&bs);
+
+      NetworkHelper::sendMessage(character, bs);
+
+      NpcEndDialogMessage endmsg;
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      ByteStream bs2;
+      endmsg.serialise(&bs2);
+      server->broadCast(bs2);
+    }
+  }
+  else if (dialog->getAction() == NPCDialog::START_SELL)
+  {
+    const NpcEntity* c_npc = dia_state->getNpc();
+    if (c_npc)
+    {
+      // hardcoded! just to test it!
+      // All this should go to the trade handler anyway!
+      TradeOffersListNpcMessage trade_msg;
+      trade_msg.setIsBuy(0);
+      trade_msg.setOffersCount(2);
+      trade_msg.setItemId(0, 4);
+      trade_msg.setPrice(0, 175);
+      trade_msg.setItemId(1, 3);
+      trade_msg.setPrice(1,  75);
+
+      ByteStream bs;
+      trade_msg.serialise(&bs);
+
+      NetworkHelper::sendMessage(character, bs);
+
+      NpcEndDialogMessage endmsg;
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      ByteStream bs2;
+      endmsg.serialise(&bs2);
+      server->broadCast(bs2);
+    }
+  }
+  else if (dialog->getAction() == NPCDialog::TELEPORT)
+  {
+    // yes, it's a hack. This shouldn't go here either.
+    // sector_id <0.5, 0.6, 0.8>
+    unsigned short sector = 0;
+    float x = 0, y = 0, z = 0;
+    sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
+
+    Entity* ent = character->getEntity()->getLock();
+    ent->setSector(sector);
+    ent->setPos(x, y, z);
+    ent->freeLock();
+
+    server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
+
+    TeleportResponseMessage telemsg;
+    telemsg.setEntityId(ent->getId());
+    telemsg.setPos(ent->getPos());
+    telemsg.setRotation(ent->getRotation());
+    telemsg.setSectorId(ent->getSector());
+
+    ByteStream bs;
+    telemsg.serialise(&bs);
+    server->broadCast(bs);
+
+    NpcEndDialogMessage endmsg;
+    endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+    ByteStream bs2;
+    endmsg.serialise(&bs2);
+    server->broadCast(bs2);
+  }
+  else if (dialog->getAction() == NPCDialog::FUNCTION)
+  {
+    QuestUtils::Parse(character, dialog->getText());
   }
 
-  ByteStream bs;
-  dialog_msg.serialise(&bs);
-
-  NetworkHelper::sendMessage(character, bs);
   character->freeLock();
 }
 

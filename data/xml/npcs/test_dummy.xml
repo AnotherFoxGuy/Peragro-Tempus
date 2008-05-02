@@ -22,10 +22,6 @@
 			<item slot="0" item="3" variation="0" />
 		</inventory>
 		<dialog id="0">
-			<text>[bad workaround for functions not working in first dialog, just click next]</text>
-			<answer href="12">Next</answer>
-		</dialog>
-		<dialog id="12">
 			<function>(if (> (reputation test_dummy) -1) (dialog 10) (dialog 11))</function>
 		</dialog>
 		<dialog id="1">
