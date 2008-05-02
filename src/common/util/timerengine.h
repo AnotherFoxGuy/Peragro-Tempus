@@ -22,6 +22,7 @@
 #include "array.h"
 #include "mutex.h"
 #include "thread.h"
+#include "pttime.h"
 
 class Timer;
 
@@ -34,12 +35,12 @@ private:
 
   Mutex mutex;
 
-  size_t last;
+  PTTime last;
 
   static TimerEngine* self;
 
 public:
-  TimerEngine() : last(0) { self = this; }
+  TimerEngine(); 
   ~TimerEngine() {}
 
   void registerTimer(Timer* timer) 

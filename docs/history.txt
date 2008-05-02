@@ -8,6 +8,9 @@ under each day.
  - Eklina began server-side support for group-chat (ie guild, party, etc).
    Included a skeleton routine NetworkHelper::getUserList which is supposed
    to return the members of a group.
+ - vornne added a PTTime class using operating system specific time functions,
+   and modified TimerEngine to use it - because clock() was not returning
+   correct values when run alongside nanosleep(), on linux.
 
 01-May-2008
  - Eklina renamed SayMessage -> ChatMessage at sueastside's recommendation.

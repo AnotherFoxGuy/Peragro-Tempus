@@ -1,20 +1,44 @@
-#include <time.h>
-
 #include "sleep.h"
 #include "timerengine.h"
-#include "pttime.h"
 #include "timer.h"
+
+//#define TIMERENGINE_DEBUG true
+#define INTERVAL_MS 100
 
 TimerEngine* TimerEngine::self;
 
+TimerEngine::TimerEngine()
+{
+  self = this;
+  last.Initialize();
+}
+
 void TimerEngine::Run()
 {
-  size_t now = pt_time_ms();
+  // Time since last run.
+  time_t elapsed = last.GetElapsedMS();
 
-  if (now - last < 100)
-    pt_sleep(100 - now + last);
+  while (elapsed < INTERVAL_MS)
+  {
+#ifdef TIMERENGINE_DEBUG
+    if (elapsed > 0)
+      printf("elapsed: %ld ms, sleeping: %ld ms\n", elapsed, INTERVAL_MS - elapsed);
+#endif
 
-  last = pt_time_ms();
+    pt_sleep(INTERVAL_MS - elapsed);
+
+    elapsed = last.GetElapsedMS();
+  }
+  // Check if we slept too long.
+  time_t offset = INTERVAL_MS - elapsed;  
+
+#ifdef TIMERENGINE_DEBUG
+  if (offset != 0)
+    printf("overslept: %ld ms\n", -1*offset);
+#endif
+
+  // Set last to the current time, offset by the time overslept.
+  last.Initialize(offset);
 
   mutex.lock();
   for (size_t i=0; i<timers.getCount(); i++)
