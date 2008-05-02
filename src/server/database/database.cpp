@@ -44,6 +44,8 @@
 #include "table-config.h"
 #include "table-zones.h"
 #include "table-zonenodes.h"
+#include "table-reputations.h"
+#include "table-characterreputations.h"
 
 Database::Database()
 {
@@ -68,6 +70,8 @@ Database::Database()
   configtable = 0;
   zonestable = 0;
   zonenodestable = 0;
+  reputationstable = 0;
+  characterreputationstable = 0;
 }
 
 void Database::init()
@@ -100,6 +104,8 @@ void Database::init()
   configtable = new ConfigTable(this);
   zonestable = new ZonesTable(this);
   zonenodestable = new ZonenodesTable(this);
+  reputationstable = new ReputationsTable(this);
+  characterreputationstable = new CharacterReputationsTable(this);
   update("commit");
 }
 
@@ -132,5 +138,6 @@ Database::~Database()
   delete configtable;
   delete zonestable;
   delete zonenodestable;
+  delete reputationstable;
+  delete characterreputationstable;
 }
-

@@ -18,6 +18,8 @@
 
 #include "server/entity/statmanager.h"
 #include "server/entity/itemmanager.h"
+#include "server/entity/reputationmanager.h"
+#include "server/entity/entitymanager.h"
 
 namespace QuestUtils
 {
@@ -255,6 +257,60 @@ namespace QuestUtils
       }
       else
         return character->getStats()->getAmount(stat);
+    }
+    else if (op.compare("reputation") == 0)
+    {
+      //(reputation RepName [CharName] <add/sub> <#>)
+      // CharName is supposed to allow NPCs to ask about other players or
+      // NPCs, defaults to the current player if not supplied, for players this
+      // would require variables, so for now I guess it's only fixed NPC names.
+      if (args.size() < 1) {printf("ERROR: Not enough params for operation 'reputation'\n"); return 0;}
+      Server* server = Server::getServer();
+      Reputation* reputation = server->getReputationManager()->findByName(ptString::create(args[0].c_str()));
+      if (args.size() > 2)
+      {
+        if (!reputation) { reputation = server->getReputationManager()->addReputation(ptString::create(args[0].c_str())); } // Make a new one
+        if (!reputation) {printf("Uh-oh! Something's wrong with this reputation\n");}
+        if (args.size() > 3)
+        {
+          EntityManager* entitymanager = server->getEntityManager();
+          const Entity* entity = entitymanager->findByName(ptString::create(args[1]));
+          if (!entity){printf("Error: Failed to find entity named \"%s\"\n", args[1].c_str());return 0;}
+          int val = Parse(character, args[3]);
+          bool success = true;
+          if (args[2].compare("add") == 0)
+            character->getReputation()->addReputation(reputation, val);
+          if (args[2].compare("sub") == 0)
+            success = character->getReputation()->takeReputation(reputation, val);
+          printf("REPUTATION: Updated %s for entity %d to %d!\n", *reputation->getName(), entity->getId(), character->getReputation()->getAmount(reputation));
+          return success ? val:0;
+        }else{
+          int val = Parse(character, args[2]);
+          bool success = true;
+          if (args[1].compare("add") == 0)
+            character->getReputation()->addReputation(reputation, val);
+          if (args[1].compare("sub") == 0)
+            success = character->getReputation()->takeReputation(reputation, val);
+          printf("REPUTATION: Updated %s to %d!\n", *reputation->getName(), character->getReputation()->getAmount(reputation));
+          return success ? val:0;
+        }
+      }
+      else
+      {
+        if (!reputation) { return 0; }
+        if (args.size() > 1)
+        {
+          EntityManager* entitymanager = server->getEntityManager();
+          const Entity* entity = entitymanager->findByName(ptString::create(args[1]));
+          if (!entity){printf("Error: Failed to find entity named \"%s\"\n", args[1].c_str());return 0;}
+          Character* character = (Character*)entity->getPlayerEntity()->getCharacter();
+          return character->getReputation()->getAmount(reputation);
+        }
+        else
+        {
+          return character->getReputation()->getAmount(reputation);
+        }
+      }
     }
     else if (op.compare("inventory") == 0)
     {

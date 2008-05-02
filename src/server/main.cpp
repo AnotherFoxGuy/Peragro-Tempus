@@ -32,6 +32,7 @@
 #include "server/entity/skillmanager.h"
 #include "server/entity/sectormanager.h"
 #include "server/entity/zonemanager.h"
+#include "server/entity/reputationmanager.h"
 #include "server/quest/npcdialog.h"
 #include "server/quest/npcdialoganswer.h"
 #include "server/quest/npcdialogmanager.h"
@@ -165,6 +166,9 @@ int main(int argc, char ** argv)
   ZoneManager zone_mgr;
   server.setZoneManager(&zone_mgr);
 
+  ReputationManager reputation_mgr;
+  server.setReputationManager(&reputation_mgr);
+
   TimerEngine timeEngine;
   timeEngine.begin();
   server.setTimerEngine(&timeEngine);
@@ -184,6 +188,7 @@ int main(int argc, char ** argv)
   skill_mgr.loadFromDB(db.getSkillTable());
   race_mgr.loadFromDB(db.getRaceTable());
   zone_mgr.loadFromDB(db.getZonesTable(), db.getZonenodesTable());
+  reputation_mgr.loadFromDB(db.getReputationsTable());
 
   printf("Initialising collision detection... ");
   BulletCD cd;

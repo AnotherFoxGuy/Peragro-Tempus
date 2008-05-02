@@ -43,6 +43,7 @@ class MountEntity;
 class CollisionDetection;
 class ZoneManager;
 class EnvironmentManager;
+class ReputationManager;
 
 class Server
 {
@@ -67,6 +68,7 @@ private:
   CollisionDetection* colldet;
   ZoneManager* zone_mgr;
   EnvironmentManager* environment_mgr;
+  ReputationManager* reputation_mgr;
 
 public:
   Server() { server = this; }
@@ -125,6 +127,9 @@ public:
 
   void setEnvironmentManager(EnvironmentManager* environment_mgr) { this->environment_mgr = environment_mgr; }
   EnvironmentManager* getEnvironmentManager() { return this->environment_mgr; }
+
+  void setReputationManager(ReputationManager* reputation_mgr) { this->reputation_mgr = reputation_mgr; }
+  ReputationManager* getReputationManager() { return this->reputation_mgr; }
 
   void addEntity(const Entity* entity, bool presistent);
   void delEntity(const Entity* entity);

@@ -22,11 +22,11 @@
 			<item slot="0" item="3" variation="0" />
 		</inventory>
 		<dialog id="0">
-			<text>Hello Would you like to know more about Keep?</text>
-			<answer href="1">Yes, I'm new here, please tell me.</answer>
-			<answer href="6">No, I'm not interested.</answer>
-			<answer href="7">I'm in a hurry, can you help me?</answer>
-			<answer>I'm in a hurry, maybe another time.</answer>
+			<text>[bad workaround for functions not working in first dialog, just click next]</text>
+			<answer href="12">Next</answer>
+		</dialog>
+		<dialog id="12">
+			<function>(if (> (reputation test_dummy) -1) (dialog 10) (dialog 11))</function>
 		</dialog>
 		<dialog id="1">
 			<text>Well, this is a bit embarrasing. I just wanted to sound smart, you know. Noone ever wanted to know something about this town and honestly, I don't know anything about it either...</text>
@@ -37,7 +37,7 @@
 			<text>I'm glad you have no hard feelings. But ask me in a few days, maybe I'll have found out something about this place by then. Have a nice day.</text>
 		</dialog>
 		<dialog id="3">
-			<function>(if (> (stat Endurance) 5) (begin (stat Endurance add 1)(inventory add 1)(dialog 4)) (dialog 6))</function>
+			<function>(begin (reputation test_dummy sub 1)(if (> (stat Endurance) 5) (begin (stat Endurance add 1)(inventory add 1)(dialog 4)) (dialog 6)))</function>
 		</dialog>
 		<dialog id="4">
 			<text>Look, I'm really sorry to have upset you... hm... do you want an apple instead?</text>
@@ -61,6 +61,17 @@
 		</dialog>
 		<dialog id="9">
 			<teleport sector="World" x="1306" y="4" z="400" />
+		</dialog>
+		<dialog id="10">
+			<text>Hello Would you like to know more about Keep?</text>
+			<answer href="1">Yes, I'm new here, please tell me.</answer>
+			<answer href="6">No, I'm not interested.</answer>
+			<answer href="7">I'm in a hurry, can you help me?</answer>
+			<answer>I'm in a hurry, maybe another time.</answer>
+		</dialog>
+		<dialog id="11">
+			<text>You have hurt my feelings! I do not want to talk to you.</text>
+			<answer>Ok</answer>
 		</dialog>
 
 	</npc>

@@ -11,6 +11,7 @@ under each day.
  - vornne added a PTTime class using operating system specific time functions,
    and modified TimerEngine to use it - because clock() was not returning
    correct values when run alongside nanosleep(), on linux.
+ - Rakhun implemented ReputationManager and reputation function in quests.
 
 01-May-2008
  - Eklina renamed SayMessage -> ChatMessage at sueastside's recommendation.

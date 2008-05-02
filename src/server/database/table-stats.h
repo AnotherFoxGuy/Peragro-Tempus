@@ -59,7 +59,7 @@ public:
   /**
    * This function will load all stats from the database.
    * The caller is responsible for freeing all stats in the array.
-   * @param stats An array that will contain all skills.
+   * @param stats An array that will contain all stats.
    */
   void getAllStats(Array<Stat*>& stats);
 };

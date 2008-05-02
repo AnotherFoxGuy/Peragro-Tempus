@@ -25,6 +25,7 @@
 #include "inventory.h"
 #include "characterstats.h"
 #include "characterskills.h"
+#include "characterreputations.h"
 
 #include "server/quest/npcdialogstate.h"
 
@@ -58,6 +59,7 @@ private:
   Inventory inventory;
   CharacterStats stats;
   CharacterSkills skills;
+  CharacterReputations reputations;
 
 public:
   Character() : id(-1), inventory(30) // slot count
@@ -135,6 +137,7 @@ public:
   NPCDialogState* getNPCDialogState() { return &dialog_state; }
   CharacterSkills* getSkills() { return &skills; }
   CharacterStats* getStats() { return &stats; }
+  CharacterReputations* getReputation() { return &reputations; }
   Inventory* getInventory() { return &inventory; }
   const Inventory* getInventory() const { return &inventory; }
 

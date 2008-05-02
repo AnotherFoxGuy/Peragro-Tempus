@@ -217,6 +217,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     newchar->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
     newchar->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
     newchar->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
+    newchar->getReputation()->loadFromDatabase(server->getDatabase()->getCharacterReputationsTable(), character->getId());
 
     server->addEntity(ent, false);
   }

@@ -46,6 +46,8 @@ class TrianglesTable;
 class ConfigTable;
 class ZonesTable;
 class ZonenodesTable;
+class ReputationsTable;
+class CharacterReputationsTable;
 
 #include "resultset.h"
 
@@ -79,6 +81,8 @@ private:
   ConfigTable* configtable;
   ZonesTable* zonestable;
   ZonenodesTable* zonenodestable;
+  ReputationsTable* reputationstable;
+  CharacterReputationsTable* characterreputationstable;
 
 public:
   virtual ResultSet* query(const char*, ...) = 0;
@@ -119,6 +123,8 @@ public:
   ConfigTable* getConfigTable() { return configtable; }
   ZonesTable* getZonesTable() { return zonestable; }
   ZonenodesTable* getZonenodesTable() { return zonenodestable; }
+  ReputationsTable* getReputationsTable() { return reputationstable; }
+  CharacterReputationsTable* getCharacterReputationsTable() { return characterreputationstable; }
 
 };
 
