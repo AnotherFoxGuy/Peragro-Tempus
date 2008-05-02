@@ -374,6 +374,9 @@
 				RelativePath="..\..\src\server\entity\charactermanager.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\characterreputations.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\characterskill.h">
 			</File>
 			<File
@@ -435,6 +438,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\racestats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\reputation.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\reputationmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\sectormanager.h">

@@ -307,6 +307,9 @@
 				RelativePath="..\..\src\server\database\table-books.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-characterreputations.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-characters.cpp">
 			</File>
 			<File
@@ -358,6 +361,9 @@
 				RelativePath="..\..\src\server\database\table-racestats.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-reputations.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-sectors.cpp">
 			</File>
 			<File
@@ -396,6 +402,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-books.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characterreputations.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-characters.h">
@@ -447,6 +456,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-racestats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-reputations.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-sectors.h">
