@@ -48,12 +48,14 @@ public:
 #ifdef WIN32
     time_init = clock();
     time_init += (offset * CLOCKS_PER_SEC) / 1000;
+
 #else // not WIN32
     gettimeofday(&time_init, 0);
     // The quotient of the conversion is the seconds value.
     time_init.tv_sec += offset / 1000;
     // Convert the remainder to microseconds.
     time_init.tv_usec += (offset % 1000) * 1000;
+
 #endif // WIN32
   }
 
@@ -62,14 +64,14 @@ public:
   {
 #ifdef WIN32
     return (clock() - time_init) * 1000 / CLOCKS_PER_SEC;
+
 #else // not WIN32
     timeval time_now;
     gettimeofday(&time_now, 0);
     // Truncate to milliseconds.
-    time_t elapsed = ((time_now.tv_sec - time_init.tv_sec) * 1000) +
-      ((time_now.tv_usec - time_init.tv_usec) / 1000);
+    return (((time_now.tv_sec - time_init.tv_sec) * 1000) +
+      ((time_now.tv_usec - time_init.tv_usec) / 1000));
 
-    return elapsed;
 #endif // WIN32
   }
 
@@ -78,21 +80,23 @@ public:
   {
 #ifdef WIN32
     return (clock() - time_init) / CLOCKS_PER_SEC;
+
 #else // not WIN32
     timeval time_now;
     gettimeofday(&time_now, 0);
-    time_t elapsed = (time_now.tv_sec - time_init.tv_sec);
+    return (time_now.tv_sec - time_init.tv_sec);
 
-    return elapsed;
 #endif // WIN32
   }
 
 private:
 #ifdef WIN32
-  clock_t time_init;
-#else
+  time_t time_init;
+
+#else // not WIN32
   timeval time_init;
-#endif
+
+#endif // WIN32
 };
 
 #endif // PT_TIME_H
