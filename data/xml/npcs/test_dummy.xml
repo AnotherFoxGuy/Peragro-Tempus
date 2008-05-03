@@ -104,13 +104,13 @@
    <dialog id="27">
     <text>Hello again. Did you bring me that apple?</text>
       <answer href="22">Yeah! It's right here!</answer>
-      <answer href="28">No, I haven't gotten it.<answer>
+      <answer href="28">No, I haven't gotten it.</answer>
    </dialog>
    <dialog id="28">
     <text>Oh. How can I help you?</text>
       <answer href="10">Can you tell me about keep?</answer>
-      <answer href="70">I'm in a hurry, can you help?<answer>
-      <answer href="69">Nah, just saying hi.<answer>
+      <answer href="70">I'm in a hurry, can you help?</answer>
+      <answer href="69">Nah, just saying hi.</answer>
    </dialog>
    
   
@@ -118,7 +118,7 @@
     <text>Actually, there was a favor I wanted to ask you for when you came back... but I forget now</text>
       <answer href="31">Let me know if you remember.</answer>
       <answer href="60">No problem.</answer>
-      <answer>Yeah, whatever.</answer
+      <answer>Yeah, whatever.</answer>
    </dialog>
    <dialog id="31">
     <function>(begin (reputation test_dummy add 1) (dialog 25))</function>
