@@ -22,52 +22,139 @@
 			<item slot="0" item="3" variation="0" />
 		</inventory>
 		<dialog id="0">
-			<function>(if (> (reputation test_dummy) -1) (dialog 10) (dialog 11))</function>
+			<function>(if (> (reputation test_dummy) -1) (dialog 01) (dialog 09))</function>
 		</dialog>
-		<dialog id="1">
-			<text>Well, this is a bit embarrasing. I just wanted to sound smart, you know. Noone ever wanted to know something about this town and honestly, I don't know anything about it either...</text>
-			<answer href="2">No, it's ok. After all, it was worth the try.</answer>
-			<answer href="3">How dare you... If fighting was implemented I would so kill you, u n00b!!111</answer>
-		</dialog>
-		<dialog id="2">
-			<text>I'm glad you have no hard feelings. But ask me in a few days, maybe I'll have found out something about this place by then. Have a nice day.</text>
-		</dialog>
-		<dialog id="3">
-			<function>(begin (reputation test_dummy sub 1)(if (> (stat Endurance) 5) (begin (stat Endurance add 1)(inventory add 1)(dialog 4)) (dialog 6)))</function>
-		</dialog>
-		<dialog id="4">
-			<text>Look, I'm really sorry to have upset you... hm... do you want an apple instead?</text>
-			<answer href="6">No, I don't want anything from you.</answer>
-			<answer href="5">Yes, that would be very kind of you.</answer>
-		</dialog>
-		<dialog id="5">
-			<text>I've seen an apple laying in the grass over there. If you hurry, it might still be there.</text>
-		</dialog>
-		<dialog id="6">
-			<text>Well, then. Have a nice day.</text>
-		</dialog>
-		<dialog id="7">
-			<text>Where would you like to go?</text>
-			<answer>I think I'll stay here for a bit.</answer>
-			<answer href="8">To the dev area!</answer>
-			<answer href="9">To the Keep!</answer>
-		</dialog>
-		<dialog id="8">
-			<teleport sector="World" x="2304" y="4" z="11" />
-		</dialog>
-		<dialog id="9">
-			<teleport sector="World" x="1306" y="4" z="400" />
-		</dialog>
-		<dialog id="10">
-			<text>Hello Would you like to know more about Keep?</text>
-			<answer href="1">Yes, I'm new here, please tell me.</answer>
-			<answer href="6">No, I'm not interested.</answer>
-			<answer href="7">I'm in a hurry, can you help me?</answer>
+		<dialog id="01">
+    <function>(if (> (reputation aq_test_dummy) 0) (dialog 27) (dialog 02))</function>
+   </dialog>
+   <dialog id="02">
+  		<function>(if (> (reputation ask_test_dummy) 0) (dialog 03) (dialog 04))</function>
+    </dialog>
+    
+  <dialog id="03">
+    <text>Hello again.</text>
 			<answer>I'm in a hurry, maybe another time.</answer>
+			<answer href="70">I'm in a hurry, can you help me?</answer>
+			<answer href="20">I'm just wondering around looking for something to do.</answer>
+			<answer href="60">Nevermind.</answer>
+  </dialog>
+  <dialog id="04">
+			<text>Hello. Would you like to know more about Keep?</text>
+			<answer href="10">Yes, I'm new here, please tell me.</answer>
+			<answer href="60">No, I'm not interested.</answer>
+			<answer>I'm in a hurry, maybe another time.</answer>
+			<answer href="70">I'm in a hurry, can you help me?</answer>
 		</dialog>
-		<dialog id="11">
+		<dialog id="09">
 			<text>You have hurt my feelings! I do not want to talk to you.</text>
 			<answer>Ok</answer>
+		</dialog>
+
+		<dialog id="10">
+			<text>Well, this is a bit embarrasing. I just wanted to sound smart, you know. Not many people want to know something about this town and honestly, I don't know anything about it either...</text>
+			<answer href="11">No, it's ok. After all, it was worth the try.</answer>
+			<answer href="12">How dare you... When fighting's implemented I'm going to come back and kill you!!</answer>
+		</dialog>
+		<dialog id="11">
+			<text>I'm glad you have no hard feelings. But ask me in a few days, maybe I'll have found out something about this place by then. Have a nice day.</text>
+		</dialog>
+		<dialog id="12">
+      <function>(begin (reputation test_dummy sub 1)(dialog 13))</function>
+		</dialog>
+		<dialog id="13">
+			<text>Look, I'm really sorry to have upset you... hm... do you want an apple instead?</text>
+			<answer href="60">No, I don't want anything from you.</answer>
+			<answer href="14">Give me the apple.</answer>
+		</dialog>
+		<dialog id="14">
+			<text>Here have my lunch...</text>
+			<answer href="15">Shut up and give me the apple!</answer>	
+			<answer href="60">No, keep it.</answer>
+		</dialog>
+		<dialog id="15">
+			<function>(begin (inventory add 1)(reputation test_dummy sub 1))</function>
+		</dialog>		
+		
+  <dialog id="20">
+  		<function>(if (> (reputation ask_test_dummy) 5) (dialog 30) (dialog 21))</function>
+  </dialog>
+  <dialog id="21">
+        <text>Well... I could use a snack, and I'd love an apple... but I have to stay here.</text>
+          <answer href="22">Well, I've got one right here.</answer>
+          <answer href="26">I could bring you one.</answer>
+          <answer href="60">I'm sure I can find something better to do with my time.</answer>
+		</dialog>
+	<dialog id="22">
+  		<function>(if (> (inventory 1) 0) (begin (inventory sub 1) (begin (reputation test_dummy add 1) (dialog 24))) (dialog 23))</function>
+  </dialog>
+	<dialog id="23">
+      <text>Where?</text>
+        <answer href="60">Ummm... nevermind!</answer>
+        <answer href="26">I'll bring you one.</answer>
+    </dialog>
+   <dialog id="24">
+    <function>(begin (if (> (reputation aq_test_dummy) 0) (reputation aq_test_dummy sub 1) ()) (dialog 25))</function>
+   </dialog>
+   <dialog id="25">
+    <text>Thanks!</text>
+   </dialog>
+   <dialog id="26">
+  		<function>(if (> (reputation aq_test_dummy) 0) (dialog 25) (begin (reputation aq_test_dummy add 1) (dialog 25))</function>
+   </dialog>
+   <dialog id="27">
+    <text>Hello again. Did you bring me that apple?</text>
+      <answer href="22">Yeah! It's right here!</answer>
+      <answer href="28">No, I haven't gotten it.<answer>
+   </dialog>
+   <dialog id="28">
+    <text>Oh. How can I help you?</text>
+      <answer href="10">Can you tell me about keep?</answer>
+      <answer href="70">I'm in a hurry, can you help?<answer>
+      <answer href="69">Nah, just saying hi.<answer>
+   </dialog>
+   
+  
+   <dialog id="30">
+    <text>Actually, there was a favor I wanted to ask you for when you came back... but I forget now</text>
+      <answer href="31">Let me know if you remember.</answer>
+      <answer href="60">No problem.</answer>
+      <answer>Yeah, whatever.</answer
+   </dialog>
+   <dialog id="31">
+    <function>(begin (reputation test_dummy add 1) (dialog 25))</function>
+   </dialog>
+
+		<dialog id="60">
+			<text>Well, then. Have a nice day.</text>
+		</dialog>
+		
+		<dialog id="70">
+      <function>(if (> (reputation test_dummy) 5) (dialog 72) (dialog 71))</function>
+		</dialog>
+		<dialog id="71">
+      <text>Ah... no... I don't think I can. Sorry.</text>
+        <answer href="20">No, it's ok. After all, it was worth the try.</answer>
+			<answer href="30">How dare you... If fighting was implemented I would so kill you, u n00b!!111</answer>
+		</dialog>
+		<dialog id="72">
+      <function>(if (> (reputation test_dummy) 10) (dialog 74) (dialog 73))</function>
+		</dialog>
+    <dialog id="73">
+      <text>Well... I do have the ability to transport you to the Keep if you want...</text>
+			<answer>I think I'll stay here for a bit.</answer>
+			<answer href="79">To the Keep!</answer>
+		</dialog>
+		<dialog id="74">
+      <text>Where would you like to go?</text>
+			<answer>I think I'll stay here for a bit.</answer>
+			<answer href="78">To the dev area!</answer>
+			<answer href="79">To the Keep!</answer>
+		</dialog>
+		<dialog id="78">
+			<teleport sector="World" x="2304" y="4" z="11" />
+		</dialog>
+		<dialog id="79">
+			<teleport sector="World" x="1306" y="4" z="400" />
 		</dialog>
 
 	</npc>
