@@ -92,6 +92,25 @@ public:
     return true;
   }
 
+  bool setReputation(Reputation* reputation, int level)
+  {
+    CharReputation* entry = findEntry(reputation->getId());
+    if (!entry)
+    {
+      entry = new CharReputation();
+      entry->reputation_id = reputation->getId();
+      entry->level = level;
+      entries.add(entry);
+    }
+    else
+    {
+      entry->level = level;
+    }
+    if (crtab) crtab->set(cr_id, reputation, entry->level);
+
+    return true;
+  }
+
   unsigned int getAmount(Reputation* reputation)
   {
     CharReputation* entry = findEntry(reputation->getId());

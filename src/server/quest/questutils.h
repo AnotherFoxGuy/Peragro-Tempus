@@ -239,7 +239,7 @@ namespace QuestUtils
     }
     else if (op.compare("stat") == 0)
     {
-      //(stat StatName <add/sub> <#>)
+      //(stat StatName <add/sub/set> <#>)
       if (args.size() < 1) {printf("ERROR: Not enough params for operation 'stat'\n"); return 0;}
       Server* server = Server::getServer();
       Stat* stat = server->getStatManager()->findByName(ptString(args[0].c_str(), strlen(args[0].c_str())));
@@ -252,6 +252,8 @@ namespace QuestUtils
           character->getStats()->addStat(stat, val);
         if (args[1].compare("sub") == 0)
           success = character->getStats()->takeStat(stat, val);
+        if (args[1].compare("set") == 0)
+          character->getStats()->setStat(stat, val);
         printf("STAT: Updated %s to %d!\n", *stat->getName(), character->getStats()->getAmount(stat));
         return success ? val:0;
       }
@@ -260,7 +262,7 @@ namespace QuestUtils
     }
     else if (op.compare("reputation") == 0)
     {
-      //(reputation RepName [CharName] <add/sub> <#>)
+      //(reputation RepName [CharName] <add/sub/set> <#>)
       // CharName is supposed to allow NPCs to ask about other players or
       // NPCs, defaults to the current player if not supplied, for players this
       // would require variables, so for now I guess it's only fixed NPC names.
@@ -270,7 +272,6 @@ namespace QuestUtils
       if (args.size() > 2)
       {
         if (!reputation) { reputation = server->getReputationManager()->addReputation(ptString::create(args[0].c_str())); } // Make a new one
-        if (!reputation) {printf("Uh-oh! Something's wrong with this reputation\n");}
         if (args.size() > 3)
         {
           EntityManager* entitymanager = server->getEntityManager();
@@ -282,6 +283,8 @@ namespace QuestUtils
             character->getReputation()->addReputation(reputation, val);
           if (args[2].compare("sub") == 0)
             success = character->getReputation()->takeReputation(reputation, val);
+          if (args[2].compare("set") == 0)
+            character->getReputation()->setReputation(reputation, val);
           printf("REPUTATION: Updated %s for entity %d to %d!\n", *reputation->getName(), entity->getId(), character->getReputation()->getAmount(reputation));
           return success ? val:0;
         }else{
@@ -291,6 +294,8 @@ namespace QuestUtils
             character->getReputation()->addReputation(reputation, val);
           if (args[1].compare("sub") == 0)
             success = character->getReputation()->takeReputation(reputation, val);
+          if (args[1].compare("set") == 0)
+            character->getReputation()->setReputation(reputation, val);
           printf("REPUTATION: Updated %s to %d!\n", *reputation->getName(), character->getReputation()->getAmount(reputation));
           return success ? val:0;
         }

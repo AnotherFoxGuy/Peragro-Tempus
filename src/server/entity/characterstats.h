@@ -91,6 +91,23 @@ public:
     return true;
   }
 
+  void setStat(Stat* stat, int level)
+  {
+    CharStat* entry = findEntry(stat->getId());
+    if (!entry)
+    {
+      entry = new CharStat();
+      entry->stat_id = stat->getId();
+      entry->level = level;
+      entries.add(entry);
+    }
+    else
+    {
+      entry->level = level;
+    }
+    if (cstab) cstab->set(cs_id, stat, entry->level);
+  }
+
   unsigned int getAmount(Stat* stat)
   {
     CharStat* entry = findEntry(stat->getId());
