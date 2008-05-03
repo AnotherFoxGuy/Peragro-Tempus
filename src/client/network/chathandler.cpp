@@ -39,4 +39,14 @@ void ChatHandler::handleChat(GenericMessage* msg)
 
 void ChatHandler::handleGroup(GenericMessage* msg)
 {
+  GroupMessage grpmsg;
+  grpmsg.deserialise(msg->getByteStream());
+
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> chatEvent = evmgr->CreateEvent("chat.group", true);
+
+  chatEvent->Add("nickName", *grpmsg.getSpeakerName());
+  chatEvent->Add("message", grpmsg.getMessage());
+
+  evmgr->AddEvent(chatEvent);
 }

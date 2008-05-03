@@ -234,6 +234,46 @@ namespace PT
       }
     };
     //--------------------------------------------------------------------------
+    class cmdGroup : public Command
+    {
+    public:
+      cmdGroup () { }
+      virtual ~cmdGroup () { }
+      virtual const char* GetCommand () { return "group"; }
+      virtual const char* GetDescription () { return "Send a message to all group members."; }
+      virtual const char* Help () { return "Usage: '/group <message>'"; }
+      virtual void Execute (const StringArray& args)
+      {
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        if(!guimanager) return;
+        Network* network = PointerLibrary::getInstance()->getNetwork();
+        if(!network) return;
+
+        // Element 0 is '/', 1 is 'say'
+        if (args.size() < 3)
+        {
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
+          return;
+        }
+        else
+        {
+          std::string text;
+          for(size_t i = 2; i < args.size(); i++)
+          {
+            text += args[i];
+            text += " ";
+          }
+
+          Report(PT::Debug, "Group: %s", text.c_str());
+          GroupMessage msg;
+          msg.setMessage(text.c_str());
+          network->send(&msg);
+
+          return;
+        }
+      }
+    };
+    //--------------------------------------------------------------------------
     class cmdGreet : public Command
     {
     public:

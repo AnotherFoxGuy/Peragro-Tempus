@@ -10,6 +10,7 @@ under each day.
    time drift calculations the start time instead of the last tick time, to
    keep in time with the system clock.
  - Eklina added a /shout command.
+ - Eklina added test code for group chat, including the /group command.
 
 02-May-2008
  - Eklina began server-side support for group-chat (ie guild, party, etc).

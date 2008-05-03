@@ -74,6 +74,7 @@ namespace PT
     public: // PT events.
       bool HandleSay(iEvent& ev);
       bool HandleWhisper(iEvent& ev);
+      bool HandleGroup(iEvent& ev);
       bool ProcessEvents(iEvent& ev);
 
     public:

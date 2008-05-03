@@ -64,6 +64,10 @@ namespace PT
       EventHandler<ChatManager>* cbWhisper = new EventHandler<ChatManager>(&ChatManager::HandleWhisper, this);
       PointerLibrary::getInstance()->getEventManager()->AddListener("chat.whisper", cbWhisper);
 
+      // Register listener for ChatGroupEvent.
+      EventHandler<ChatManager>* cbGroup = new EventHandler<ChatManager>(&ChatManager::HandleGroup, this);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("chat.group", cbGroup);
+
       // Handle submit.
       CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
@@ -81,6 +85,7 @@ namespace PT
       cmd = new cmdShout();  RegisterCommand(cmd);
       cmd = new cmdSayMe(); RegisterCommand(cmd);
       cmd = new cmdWhisper(); RegisterCommand(cmd);
+      cmd = new cmdGroup(); RegisterCommand(cmd);
       cmd = new cmdRelocate(); RegisterCommand(cmd);
       cmd = new cmdGreet(); RegisterCommand(cmd);
       cmd = new cmdSit(); RegisterCommand(cmd);
@@ -126,6 +131,21 @@ namespace PT
 
       return true;
     } // end HandleWhisper ()
+
+    bool ChatManager::HandleGroup(iEvent& ev)
+    {
+      using namespace PT::Events;
+
+      std::string nick = ChatHelper::GetNickName(&ev);
+      std::string message = ChatHelper::GetMessage(&ev);
+
+      /* TODO: Message is only added to main chat window, because there's
+         no distinct window yet */
+      std::string text = "Groupmember <" + nick + "> " + message;
+      guimanager->GetChatWindow ()->AddMessage (text.c_str());
+
+      return true;
+    } // end HandleGroup ()
 
     bool ChatManager::OnSubmit (const CEGUI::EventArgs& e)
     {

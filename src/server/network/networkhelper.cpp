@@ -177,6 +177,7 @@ Array<const PcEntity*> NetworkHelper::getUserList(const PcEntity* ent, const cha
   Array<const PcEntity*> channelusers;
 
   // TODO : selecting members of a guild, party, help-group, etc, goes here.
+  channelusers.add(ent);
 
   return channelusers;
 }
