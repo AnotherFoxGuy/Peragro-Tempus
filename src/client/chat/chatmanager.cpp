@@ -78,6 +78,7 @@ namespace PT
       // Register commands.
       Command* cmd = new cmdHelp(); RegisterCommand(cmd);
       cmd = new cmdSay(); RegisterCommand(cmd);
+      cmd = new cmdShout();  RegisterCommand(cmd);
       cmd = new cmdSayMe(); RegisterCommand(cmd);
       cmd = new cmdWhisper(); RegisterCommand(cmd);
       cmd = new cmdRelocate(); RegisterCommand(cmd);

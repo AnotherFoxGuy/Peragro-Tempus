@@ -9,6 +9,7 @@ under each day.
  - vornne modified the TimerEngine class again, to take as a reference for
    time drift calculations the start time instead of the last tick time, to
    keep in time with the system clock.
+ - Eklina added a /shout command.
 
 02-May-2008
  - Eklina began server-side support for group-chat (ie guild, party, etc).

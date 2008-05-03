@@ -152,6 +152,47 @@ namespace PT
       }
     };
     //--------------------------------------------------------------------------
+    class cmdShout : public Command
+    {
+    public:
+      cmdShout () { }
+      virtual ~cmdShout () { }
+      virtual const char* GetCommand () { return "shout"; }
+      virtual const char* GetDescription () { return "Shout something to the world."; }
+      virtual const char* Help () { return "Usage: '/shout <message>'"; }
+      virtual void Execute (const StringArray& args)
+      {
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        if(!guimanager) return;
+        Network* network = PointerLibrary::getInstance()->getNetwork();
+        if(!network) return;
+
+        // Element 0 is '/', 1 is 'say'
+        if (args.size() < 3)
+        {
+          guimanager->GetChatWindow ()->AddMessage ( Help() );
+          return;
+        }
+        else
+        {
+          std::string text;
+          for(size_t i = 2; i < args.size(); i++)
+          {
+            text += args[i];
+            text += " ";
+          }
+
+          Report(PT::Debug, "Shout: %s", text.c_str());
+          ChatMessage msg;
+          msg.setVolume(20);
+          msg.setMessage(text.c_str());
+          network->send(&msg);
+
+          return;
+        }
+      }
+    };
+    //--------------------------------------------------------------------------
     class cmdSayMe : public Command
     {
     public:
