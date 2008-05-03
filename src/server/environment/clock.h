@@ -54,10 +54,10 @@ private:
   /// Timer implementation.
   void timeOut();
 
-  /// The hour of the day.
-  size_t timeHour;
   /// The minute of the hour.
-  size_t timeMinute;
+  size_t minute;
+  /// The hour of the day.
+  size_t hour;
   /// Minutes in an hour.
   size_t minutesPerHour;
   /// Hours in a day.
@@ -67,7 +67,8 @@ private:
   size_t realPerGame;
   /// Game minutes between update broadcasts.
   size_t broadcastInterval;
-
+  /// Minute counter, for the broadcast interval.
+  size_t counter;
 };
 
 #endif // CLOCK_H

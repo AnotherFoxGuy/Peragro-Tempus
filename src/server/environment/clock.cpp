@@ -23,8 +23,8 @@
 
 Clock::Clock()
 {
-  timeHour = 0;
-  timeMinute = 0;
+  hour = 10;
+  minute = 0;
   minutesPerHour = 60;
   hoursPerDay = 24;
 
@@ -40,10 +40,10 @@ Clock::Clock()
 void Clock::InitTime(const Entity* entity)
 {
   InitTimeMessage time_msg;
-  time_msg.setMinute(static_cast<unsigned char>(timeMinute));
-  time_msg.setHour(static_cast<unsigned char>(timeHour));
-  time_msg.setMinutesPerHour(static_cast<unsigned char>(minutesPerHour));
-  time_msg.setHoursPerDay(static_cast<unsigned char>(hoursPerDay));
+  time_msg.setMinute(minute);
+  time_msg.setHour(hour);
+  time_msg.setMinutesPerHour(minutesPerHour);
+  time_msg.setHoursPerDay(hoursPerDay);
   time_msg.setRealPerGame(realPerGame);
 
   ByteStream bs;
@@ -54,8 +54,8 @@ void Clock::InitTime(const Entity* entity)
 void Clock::BroadcastTime()
 {
   UpdateTimeMessage time_msg;
-  time_msg.setMinute(static_cast<unsigned char>(timeMinute));
-  time_msg.setHour(static_cast<unsigned char>(timeHour));
+  time_msg.setMinute(minute);
+  time_msg.setHour(hour);
 
   ByteStream bs;
   time_msg.serialise(&bs);
@@ -64,22 +64,22 @@ void Clock::BroadcastTime()
 
 void Clock::timeOut()
 {
-  timeMinute++;
-  while (timeMinute >= minutesPerHour)
+  ++minute;
+  while (minute >= minutesPerHour)
   {
-    timeMinute -= minutesPerHour;
-    timeHour++;
+    minute -= minutesPerHour;
+    ++hour;
   }
-  while (timeHour >= hoursPerDay)
+  while (hour >= hoursPerDay)
   {
-    timeHour -= hoursPerDay;
+    hour -= hoursPerDay;
   }
-  
-  static size_t counter = 0;
-  counter++;
+
+  ++counter;
   if (counter >= broadcastInterval)
   {
     counter = 0;
     BroadcastTime();
   }
 }
+
