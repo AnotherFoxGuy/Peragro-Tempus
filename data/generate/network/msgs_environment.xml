@@ -5,7 +5,7 @@
 		<uint8>MinutesPerHour</uint8>
 		<uint8>HoursPerDay</uint8>
 		<uint32>RealPerGame</uint32>
-    </message>
+	</message>
 
 	<message type="Environment" name="UpdateTime">
 		<uint8>Minute</uint8>

@@ -29,9 +29,9 @@
 #include <iengine/engine.h>
 
 #include "client/event/eventmanager.h"
+#include "common/util/pttime.h"
 
 struct iEngine;
-struct iVirtualClock;
 struct iEvent;
 
 namespace PT
@@ -41,22 +41,32 @@ namespace PT
    */
   class Clock
   {
-  private:
-    /// The engine.
-    csRef<iEngine> engine;
-    /// The crystal space virtual clock.
-    csRef<iVirtualClock> vc;
+  public:
+    /// Constructor.
+    Clock();
+    /// Destructor.
+    ~Clock();
 
-    /// The current game minute.
-    size_t minute;
-    /// The current game hour.
-    size_t hour;
-    /// Game time minutes per hour.
-    size_t minutesPerHour;
-    /// Game time hours per day.
-    size_t hoursPerDay;
-    /// Milliseconds real time per in game minute.
-    csTicks realPerGame;
+    /// Get a number from 0 to 1 representing the time of day.
+    float GetTimeDecimal();
+    /// Get the current hour.
+    size_t GetHour() const { return hour; }
+    /// Get the current minute.
+    size_t GetMinute() const { return minute; }
+
+    /**
+     * Initialize the clock
+     * @return True, indicating success
+     */
+    bool Initialize();
+
+  private:
+    /// Advance the local clock.
+    void Tick();
+    /// Initialize the time parameters from an event.
+    bool InitTime(iEvent& ev);
+    /// Update the time from an event.
+    bool UpdateTime(iEvent& ev);
 
     /// Callback for the inittime event.
     csRef<Events::EventHandlerCallback> cbInitTime;
@@ -72,35 +82,22 @@ namespace PT
     friend struct FrameCallBack;
     csRef<FrameCallBack> cb;
 
-    /// Advance the local clock.
-    void Tick();
-    /// Initialize the time parameters from an event.
-    bool InitTime(iEvent& ev);
-    /// Update the time from an event.
-    bool UpdateTime(iEvent& ev);
+    /// The engine.
+    csRef<iEngine> engine;
 
-  public:
-    /// Constructor.
-    Clock();
-    /// Destructor.
-    ~Clock();
+    /// The current game minute.
+    size_t minute;
+    /// The current game hour.
+    size_t hour;
+    /// Game time minutes per hour.
+    size_t minutesPerHour;
+    /// Game time hours per day.
+    size_t hoursPerDay;
+    /// Milliseconds real time per in game minute.
+    size_t realPerGame;
 
-    /// Get a number from 0 to 1 representing the time of day.
-    float GetTimeDecimal();
-    /// Return the game time as minutes since the start of the day.
-    size_t GetMinuteOfDay() { return (hour * minutesPerHour + minute); }
-    /// Get the number of minutes in a game day.
-    size_t GetMinutesPerDay() { return minutesPerHour * hoursPerDay; }
-    /// Get the current hour.
-    size_t GetHour() { return hour; }
-    /// Get the current minute.
-    size_t GetMinute() { return minute; }
-
-    /**
-     * Initialize the clock
-     * @return True, indicating success
-     */
-    bool Initialize();
+    /// Millisecond timer since last clock tick.
+    PTTime timer;
 
   };
 }

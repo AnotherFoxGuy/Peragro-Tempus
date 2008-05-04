@@ -65,12 +65,12 @@ void Clock::BroadcastTime()
 void Clock::timeOut()
 {
   ++minute;
-  while (minute >= minutesPerHour)
+  while (minute >= minutesPerHour && minutesPerHour != 0)
   {
     minute -= minutesPerHour;
     ++hour;
   }
-  while (hour >= hoursPerDay)
+  while (hour >= hoursPerDay && hoursPerDay != 0)
   {
     hour -= hoursPerDay;
   }

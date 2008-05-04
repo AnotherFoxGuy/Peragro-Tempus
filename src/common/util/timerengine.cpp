@@ -16,7 +16,7 @@ TimerEngine::TimerEngine()
 
   // The maximum number of timer ticks that can be done before a time_t storing
   // the milliseconds elapsed would overflow, one minute later.
-  counter_max = (TIME_T_MAX / INTERVAL_MS) - (60000 / INTERVAL_MS);
+  counter_max = (TIME_T_MAX / INTERVAL_MS) - (60000 / INTERVAL_MS) - 2;
 }
 
 void TimerEngine::Run()

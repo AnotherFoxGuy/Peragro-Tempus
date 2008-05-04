@@ -8,6 +8,8 @@ under each day.
  - Rakhun fixed QuestUtils::GetArguments to handle (begin ..)s in the end of an
    if properly. Before it cut off the ending ')' of the if function, making it
    interpret '(begin' as a function on its own.
+ - vornne modified the client clock to use the same time function as the
+   server, csTicks are not equal to milliseconds.
 
 03-May-2008
  - Rakhun added 'set' to the stat and reputation dialog functions.

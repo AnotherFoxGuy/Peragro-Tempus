@@ -92,12 +92,11 @@ namespace PT
     if (cam && sun)
       sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
 
-    // Don't update if the time has not changed
-    static size_t counter = 0;
-    if (counter == clock->GetMinuteOfDay()) return;
-    counter = clock->GetMinuteOfDay();
-
+    static float lastStep = clock->GetTimeDecimal();
     float step = clock->GetTimeDecimal();
+    // Don't update if the time has not changed much.
+    if ((step - lastStep) < 0.0001f) return;
+    lastStep = step;
    
     //=[ Sun position ]===================================
     //TODO: Make the sun stay longer at its highest point at noon.
