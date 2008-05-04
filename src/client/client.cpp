@@ -88,6 +88,8 @@
 
 #include "client/world/world.h"
 
+#include "imystarbox.h"
+
 #define NO_CHARACTER_SELECTED_0 0
 
 CS_IMPLEMENT_APPLICATION
