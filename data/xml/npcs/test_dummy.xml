@@ -1,6 +1,6 @@
 <npcs>
 	<npc>
-		<name>test-dummy</name>
+		<name>Estragon</name>
 		<mesh>test</mesh>
 		<position sector="World" x="29" y="2" z="106"/>
 		<race>test</race> <!-- used for stats -->
@@ -85,7 +85,7 @@
 			<answer href="60">I'm sure I can find something better to do with my time.</answer>
 		</dialog>
 		<dialog id="22">
-			<function>(if (> (inventory 1) 0) (begin (inventory sub 1) (reputation test_dummy add 1) (dialog 24)) (dialog 23))</function>
+			<function>(if (> (inventory count 1) 0) (begin (inventory sub 1) (reputation test_dummy add 1) (dialog 24)) (dialog 23))</function>
 		</dialog>
 		<dialog id="23">
 			<text>Where?</text>
