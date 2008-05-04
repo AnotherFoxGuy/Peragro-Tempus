@@ -70,7 +70,7 @@ namespace QuestUtils
     std::string args = function.substr(oplen, function.length() - oplen);
     std::string::size_type right = args.find_last_of(")");
     if (right == std::string::npos) right = args.length();
-    else args = args.substr(0, right+1);
+    else args = args.substr(0, right);
 
     while (args.length() > 0)
     {
@@ -180,9 +180,72 @@ namespace QuestUtils
     }
   }
 
-  int static Apply( Character* character,const std::string& op, const std::vector<std::string>& args)
+  bool static IsPrimitive(const std::string& op)
   {
-    if (op.compare("if") == 0)
+    std::string operands[7] = {"not", "and", "or", ">", "<", "!=", "="}; 
+    for (size_t i = 0; i < 7; i++)
+    {
+      if (op.compare(operands[i]) == 0)
+        return true;
+    }
+
+    return false;
+  }
+
+  int static ApplyPrimitive( Character* character, const std::string& op, const std::vector<std::string>& args)
+  {
+    bool result = false;
+    if (op.compare("not") == 0)
+    {
+      if (args.size() < 1) 
+      {
+        printf("ERROR: Not enough params for operation '%s'\n", op.c_str()); 
+        return 0;
+      }
+      result = (Parse(character, args[0])) == 0;
+    }
+
+    if (args.size() < 2) 
+    {
+      printf("ERROR: Not enough params for operation '%s'\n", op.c_str()); 
+      return 0;
+    }
+    
+    if (op.compare("and") == 0)
+    {
+      result = (Parse(character, args[0]) && Parse(character, args[1]));
+    }
+    else if (op.compare("or") == 0)
+    {
+      result = (Parse(character, args[0]) || Parse(character, args[1]));
+    }
+    else if (op.compare(">") == 0)
+    {
+      result = (Parse(character, args[0]) > Parse(character, args[1]));
+    }
+    else if (op.compare("<") == 0)
+    {
+      result = (Parse(character, args[0]) < Parse(character, args[1]));
+    }
+    else if (op.compare("!=") == 0)
+    {
+      result = (Parse(character, args[0]) != Parse(character, args[1]));
+    }
+    else if (op.compare("=") == 0)
+    {
+      result = (Parse(character, args[0]) == Parse(character, args[1]));
+    }
+
+    return result ? 1 : 0;
+  }
+
+  int static Apply( Character* character, const std::string& op, const std::vector<std::string>& args)
+  {
+    if (IsPrimitive(op))
+    {
+      return ApplyPrimitive(character, op, args);
+    }
+    else if (op.compare("if") == 0)
     {
       if (args.size() < 3) {printf("ERROR: Not enough params for operation 'if'\n"); return 0;}
       if (Parse(character, args[0]))
@@ -205,38 +268,6 @@ namespace QuestUtils
         Parse(character, args[i]);
       }
       return Parse(character, args[args.size()-1]);
-    }
-    else if (op.compare("not") == 0)
-    {
-      if (args.size() < 1) {printf("ERROR: Not enough params for operation 'not'\n"); return 0;}
-      if (Parse(character, args[0]))
-        return 0;
-      else
-        return 1;
-    }
-    else if (op.compare("and") == 0)
-    {
-      if (args.size() < 2) {printf("ERROR: Not enough params for operation 'and'\n"); return 0;}
-      if (Parse(character, args[0]) && Parse(character, args[1]))
-        return 1;
-      else
-        return 0;
-    }
-    else if (op.compare("or") == 0)
-    {
-      if (args.size() < 2) {printf("ERROR: Not enough params for operation 'or'\n"); return 0;}
-      if (Parse(character, args[0]) || Parse(character, args[1]))
-        return 1;
-      else
-        return 0;
-    }
-    else if (op.compare(">") == 0)
-    {
-      if (args.size() < 2) {printf("ERROR: Not enough params for operation '>'\n"); return 0;}
-      if (Parse(character, args[0]) > Parse(character, args[1]))
-        return 1;
-      else
-        return 0;
     }
     else if (op.compare("stat") == 0)
     {
@@ -277,7 +308,7 @@ namespace QuestUtils
         {
           EntityManager* entitymanager = server->getEntityManager();
           const Entity* entity = entitymanager->findByName(ptString::create(args[1]));
-          if (!entity){printf("Error: Failed to find entity named \"%s\"\n", args[1].c_str());return 0;}
+          if (!entity) { printf("Error: Failed to find entity named \"%s\"\n", args[1].c_str()); return 0; }
           int val = Parse(character, args[3]);
           bool success = true;
           if (args[2].compare("add") == 0)
@@ -288,7 +319,9 @@ namespace QuestUtils
             character->getReputation()->setReputation(reputation, val);
           printf("REPUTATION: Updated %s for entity %d to %d!\n", *reputation->getName(), entity->getId(), character->getReputation()->getAmount(reputation));
           return success ? val:0;
-        }else{
+        }
+        else
+        {
           int val = Parse(character, args[2]);
           bool success = true;
           if (args[1].compare("add") == 0)

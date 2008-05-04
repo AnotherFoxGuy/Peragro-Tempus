@@ -85,7 +85,7 @@
 			<answer href="60">I'm sure I can find something better to do with my time.</answer>
 		</dialog>
 		<dialog id="22">
-			<function>(if (> (inventory 1) 0) (begin (inventory sub 1) (begin (reputation test_dummy add 1) (dialog 24))) (dialog 23))</function>
+			<function>(if (> (inventory 1) 0) (begin (inventory sub 1) (reputation test_dummy add 1) (dialog 24)) (dialog 23))</function>
 		</dialog>
 		<dialog id="23">
 			<text>Where?</text>
@@ -93,7 +93,7 @@
 			<answer href="26">I'll bring you one.</answer>
 		</dialog>
 		<dialog id="24">
-			<function>(begin (if (!= (reputation aq_test_dummy) 0) (reputation aq_test_dummy set 0) ()) (dialog 25))</function>
+			<function>(begin (if (!= (reputation aq_test_dummy) 0) (reputation aq_test_dummy set 0)) (dialog 25))</function>
 		</dialog>
 		<dialog id="25">
 			<text>Thanks!</text>
