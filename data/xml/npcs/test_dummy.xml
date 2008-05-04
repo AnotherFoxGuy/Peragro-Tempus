@@ -39,10 +39,13 @@
 		</dialog>
 		<dialog id="04">
 			<text>Hello. Would you like to know more about Keep?</text>
-			<answer href="10">Yes, I'm new here, please tell me.</answer>
+			<answer href="5">Yes, I'm new here, please tell me.</answer>
 			<answer href="60">No, I'm not interested.</answer>
 			<answer>I'm in a hurry, maybe another time.</answer>
 			<answer href="70">I'm in a hurry, can you help me?</answer>
+		</dialog>
+		<dialog id="05">
+			<function>(begin (reputation ask_test_dummy add 1) (dialog 10)) </function>
 		</dialog>
 		<dialog id="09">
 			<text>You have hurt my feelings! I do not want to talk to you.</text>
@@ -57,7 +60,7 @@
 			<text>I'm glad you have no hard feelings. But ask me in a few days, maybe I'll have found out something about this place by then. Have a nice day.</text>
 		</dialog>
 		<dialog id="12">
-			<function>(begin (reputation test_dummy sub 1)(dialog 13))</function>
+			<function>(begin (reputation test_dummy sub 5)(dialog 13))</function>
 		</dialog>
 		<dialog id="13">
 			<text>Look, I'm really sorry to have upset you... hm... do you want an apple instead?</text>
@@ -73,12 +76,12 @@
 			<function>(begin (inventory add 1)(reputation test_dummy sub 1))</function>
 		</dialog>		
 		<dialog id="20">
-			<function>(if (> (reputation ask_test_dummy) 5) (dialog 30) (dialog 21))</function>
+			<function>(if (> (reputation test_dummy) 5) (dialog 30) (dialog 21))</function>
 		</dialog>
 		<dialog id="21">
 			<text>Well... I could use a snack, and I'd love an apple... but I have to stay here.</text>
-			<answer href="22">Well, I've got one right here.</answer>
 			<answer href="26">I could bring you one.</answer>
+			<answer href="22">Well, I've got one right here.</answer>
 			<answer href="60">I'm sure I can find something better to do with my time.</answer>
 		</dialog>
 		<dialog id="22">
@@ -90,13 +93,13 @@
 			<answer href="26">I'll bring you one.</answer>
 		</dialog>
 		<dialog id="24">
-			<function>(begin (if (> (reputation aq_test_dummy) 0) (reputation aq_test_dummy sub 1) ()) (dialog 25))</function>
+			<function>(begin (if (!= (reputation aq_test_dummy) 0) (reputation aq_test_dummy set 0) ()) (dialog 25))</function>
 		</dialog>
 		<dialog id="25">
 			<text>Thanks!</text>
 		</dialog>
 		<dialog id="26">
-			<function>(if (> (reputation aq_test_dummy) 0) (dialog 25) (begin (reputation aq_test_dummy add 1) (dialog 25))</function>
+			<function>(if (!= (reputation aq_test_dummy) 1) (dialog 25) (begin (reputation aq_test_dummy set 1) (dialog 25))</function>
 		</dialog>
 		<dialog id="27">
 			<text>Hello again. Did you bring me that apple?</text>
