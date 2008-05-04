@@ -1,0 +1,7 @@
+SubDir TOP plugins environment loader_starbox ;
+
+Description loader_template : "Starbox loader plugin" ;
+Plugin loader_starbox : [ Wildcard *.cpp *.h ] ;
+
+ExternalLibs starboxfactory : CRYSTAL ;  
+
