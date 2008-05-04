@@ -16,11 +16,31 @@
 namespace csStaticPluginInit
 {
 static char const metainfo_mystarbox[] =
+"<?xml version=\"1.0\"?>"
+"<plugin>"
+"  <scf>"
+"    <classes>"
+"      <class>"
+"        <name>recon69.starboxfactory</name>"
+"        <implementation>MyStarboxFactory</implementation>"
+"        <description>Recon69s Starbox factory, displays a starscape by drawing 2d points on the 2d canvas before 3d objects drawn. It clears the screen before drawing stars.</description>"
+"      </class>     "
+"    </classes>"
+"  </scf>"
+"</plugin>"
 ;
+  #ifndef MyStarboxFactory_FACTORY_REGISTER_DEFINED 
+  #define MyStarboxFactory_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(MyStarboxFactory) 
+  #endif
 
 class mystarbox
 {
 SCF_REGISTER_STATIC_LIBRARY(mystarbox,metainfo_mystarbox)
+  #ifndef MyStarboxFactory_FACTORY_REGISTERED 
+  #define MyStarboxFactory_FACTORY_REGISTERED 
+    MyStarboxFactory_StaticInit MyStarboxFactory_static_init__; 
+  #endif
 public:
  mystarbox();
 };

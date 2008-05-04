@@ -16,11 +16,33 @@
 namespace csStaticPluginInit
 {
 static char const metainfo_loader_starbox[] =
+"<?xml version=\"1.0\"?>"
+"<!-- loader_starbox.csplugin -->"
+"<plugin>"
+"  <scf>"
+"    <classes>"
+"      <class>"
+"        <name>recon69.loader.starbox</name>"
+"        <implementation>myLoaderStarbox</implementation>"
+"        <description>Loader plugin for starbox objects</description>"
+"        <requires>recon69.starboxfactory</requires>"
+"      </class>"
+"    </classes>"
+"  </scf>"
+"</plugin>"
 ;
+  #ifndef myLoaderStarbox_FACTORY_REGISTER_DEFINED 
+  #define myLoaderStarbox_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(myLoaderStarbox) 
+  #endif
 
 class loader_starbox
 {
 SCF_REGISTER_STATIC_LIBRARY(loader_starbox,metainfo_loader_starbox)
+  #ifndef myLoaderStarbox_FACTORY_REGISTERED 
+  #define myLoaderStarbox_FACTORY_REGISTERED 
+    myLoaderStarbox_StaticInit myLoaderStarbox_static_init__; 
+  #endif
 public:
  loader_starbox();
 };
