@@ -100,6 +100,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewbob", "plg
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcsclipboard", "plgcsclipboard.vcproj", "{9C172335-623B-ADD5-E9C6-A8D78257C581}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgloader_starbox", "plgloader_starbox.vcproj", "{E4639D84-9AE0-ED24-D475-6F56C2A01855}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgmystarbox", "plgmystarbox.vcproj", "{79E56CF8-49D5-EBAE-770F-7B707BD067CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
   		ConfigName.0 = Release (with static libs)
@@ -571,6 +575,22 @@ Global
 		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{9C172335-623B-ADD5-E9C6-A8D78257C581}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{E4639D84-9AE0-ED24-D475-6F56C2A01855}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{E4639D84-9AE0-ED24-D475-6F56C2A01855}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{E4639D84-9AE0-ED24-D475-6F56C2A01855}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{E4639D84-9AE0-ED24-D475-6F56C2A01855}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{E4639D84-9AE0-ED24-D475-6F56C2A01855}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{E4639D84-9AE0-ED24-D475-6F56C2A01855}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{E4639D84-9AE0-ED24-D475-6F56C2A01855}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{E4639D84-9AE0-ED24-D475-6F56C2A01855}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{79E56CF8-49D5-EBAE-770F-7B707BD067CD}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{79E56CF8-49D5-EBAE-770F-7B707BD067CD}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{79E56CF8-49D5-EBAE-770F-7B707BD067CD}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{79E56CF8-49D5-EBAE-770F-7B707BD067CD}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{79E56CF8-49D5-EBAE-770F-7B707BD067CD}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{79E56CF8-49D5-EBAE-770F-7B707BD067CD}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{79E56CF8-49D5-EBAE-770F-7B707BD067CD}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{79E56CF8-49D5-EBAE-770F-7B707BD067CD}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
   	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
