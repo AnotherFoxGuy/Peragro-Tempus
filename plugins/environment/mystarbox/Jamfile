@@ -1,0 +1,10 @@
+SubDir TOP plugins environment mystarbox ;
+
+Description mystarbox : " Plugin for making starbox" ;
+
+Plugin mystarbox
+	: [ Wildcard *.cpp *.h ]
+
+;
+
+ExternalLibs mystarbox : CRYSTAL ;     
