@@ -70,7 +70,7 @@ namespace QuestUtils
     std::string args = function.substr(oplen, function.length() - oplen);
     std::string::size_type right = args.find_last_of(")");
     if (right == std::string::npos) right = args.length();
-    args = args.substr(0, right);
+    else args = args.substr(0, right+1);
 
     while (args.length() > 0)
     {
@@ -184,7 +184,7 @@ namespace QuestUtils
   {
     if (op.compare("if") == 0)
     {
-      if (args.size() < 3) {printf("ERROR: Not enough params for operation '?'\n"); return 0;}
+      if (args.size() < 3) {printf("ERROR: Not enough params for operation 'if'\n"); return 0;}
       if (Parse(character, args[0]))
       {
         return Parse(character, args[1]);
@@ -199,6 +199,7 @@ namespace QuestUtils
     }
     else if (op.compare("begin") == 0)
     {
+      if (args.size() < 1) {printf("ERROR: Not enough params for operation 'begin'\n"); return 0;}
       for (size_t i = 0; i < args.size()-1; i++)
       {
         Parse(character, args[i]);

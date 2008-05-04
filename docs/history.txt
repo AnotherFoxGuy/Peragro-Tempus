@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+04-May-2008
+ - Rakhun fixed QuestUtils::GetArguments to handle (begin ..)s in the end of an
+   if properly. Before it cut off the ending ')' of the if function, making it
+   interpret '(begin' as a function on its own.
+
 03-May-2008
  - Rakhun added 'set' to the stat and reputation dialog functions.
  - vornne modified the TimerEngine class again, to take as a reference for
