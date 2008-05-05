@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+05-May-2008
+ - Eklina updated a Jamfile so that recon69's starbox plugin will build.
+
 04-May-2008
  - Rakhun fixed QuestUtils::GetArguments to handle (begin ..)s in the end of an
    if properly. Before it cut off the ending ')' of the if function, making it
