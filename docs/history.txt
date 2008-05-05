@@ -6,6 +6,7 @@ under each day.
 
 05-May-2008
  - Eklina updated a Jamfile so that recon69's starbox plugin will build.
+ - swedishcoder added some doxygen comments.
 
 04-May-2008
  - Rakhun fixed QuestUtils::GetArguments to handle (begin ..)s in the end of an
