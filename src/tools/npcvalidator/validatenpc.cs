@@ -26,74 +26,86 @@ using System.IO;
 class NpcValidator
 {
 
-  public static string filename;
-  public static string schema = "npcs.xsd";
+  	public static string filename;
+	public static string schemaname = "npcs.xsd";
+	public static string schema;
 
-  static void Main(string[] args)
-  {
-    if (args.Length < 1)
-    {
-      Console.WriteLine("You stupid idiot! You forgot to type out the name of the npc file you want to get.\nExample Usage: validatenpc.exe baby-dragonfly.xml\n");
-      return;
-    }
-    else
-    {
-      string inputarg = (string)args.GetValue(0);
+	static void Main(string[] args)
+	{
+		if (args.Length < 1)
+		{
+		Console.WriteLine("You idiot! You forgot to type out the name of the npc file you want to get.\nExample Usage: validatenpc.exe baby-dragonfly.xml\n");
+		return;
+		}
+		else
+		{
 
-      if (File.Exists(inputarg))
-      {
-        if (File.Exists(schema))
-        {
-          filename = (string)args.GetValue(0);
-          validateXML(inputarg);
-          //Path.GetDirectoryName(testPath))
-        }
-        else
-        {
-          Console.WriteLine("Please run this tool from the npcs directory located in peragro/data/xml/npcs\nJust copy this exe there and run from within that directory.");
-          return;
-        }
-      }
-      else
-      {
-        Console.WriteLine("That file doesn't even exist you loser.\nTry using a valid filename next time!");
-        return;
-      }
-    }
-  }
+		string inputarg = (string)args.GetValue(0);
 
-  public static void validateXML(string document)
-  {
+			if (File.Exists(inputarg))
+			{
 
-    Console.WriteLine("\n\nPeragro Tempus NPC Validator\nValidating {0}.\n", filename);
+			filename = (string)args.GetValue(0);
 
-    // create XmlReader settings
-    XmlReaderSettings settings = new XmlReaderSettings();
-    settings.Schemas.Add(null, schema);
-    settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
-    settings.ValidationType = ValidationType.Schema;
+			string dirname = (string)Path.GetDirectoryName(inputarg);
+			schema = (string)Path.Combine(dirname,schemaname);
+			
+				if (File.Exists(schema))
+				{
+					validateXML(inputarg);
+				}
+				
+				else
+				{
+					Console.WriteLine("The file you specified exists but no schema was found.  Make sure a valid schema file exists in the directory containing your xml files. It should be named npcs.xsd");
+				return;
+				}
+			
 
-    // create an XML document
-    XmlDocument doc = new XmlDocument();
-    doc.Load(XmlReader.Create(document, settings));
+			}
+			else
+			{
 
-    //validate the XmlDocument
-    doc.Validate(new ValidationEventHandler(ValidationCallback));
+        		Console.WriteLine("That file doesn't even exist you loser.\nTry using a valid filename next time!");
+			return;
 
-    Console.WriteLine("It would appear that validation has succeeded.");
-    // Console.ReadLine();
-  }
+			}
+		}
+	}
 
-  public static void ValidationCallback(object sender, ValidationEventArgs args)
-  {
-    if (args.Severity == XmlSeverityType.Warning)
-      Console.Write("WARNING: ");
-    else if (args.Severity == XmlSeverityType.Error)
-      Console.Write("ERROR: ");
+	public static void validateXML(string document)
+	{
 
-    // Print the error to the screen.
-    Console.WriteLine(args.Message);
+	Console.WriteLine("\n\nPeragro Tempus NPC Validator\nValidating {0}.\n", filename);
 
-    Console.WriteLine("Validation Failed");
-  }
-}
+	// create XmlReader settings
+	XmlReaderSettings settings = new XmlReaderSettings();
+	settings.Schemas.Add(null, schema);
+	settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
+	settings.ValidationType = ValidationType.Schema;
+
+	// create an XML document
+	XmlDocument doc = new XmlDocument();
+	doc.Load(XmlReader.Create(document, settings));
+
+	//validate the XmlDocument
+	doc.Validate(new ValidationEventHandler(ValidationCallback));
+
+	Console.WriteLine("It would appear that validation has succeeded.");
+	// Console.ReadLine();
+	}
+
+	public static void ValidationCallback(object sender, ValidationEventArgs args)
+	{
+	if (args.Severity == XmlSeverityType.Warning)
+	Console.Write("WARNING: ");
+	else if (args.Severity == XmlSeverityType.Error)
+	Console.Write("ERROR: ");
+
+	// Print the error to the screen.
+	Console.WriteLine(args.Message);
+
+	Console.WriteLine("Validation Failed");
+	}
+
+} // end class NpcValidator
