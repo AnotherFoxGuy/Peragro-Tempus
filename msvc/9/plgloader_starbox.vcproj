@@ -31,7 +31,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9\build\plgloader_starbox\plgloader_starbox.pch"
 				AssemblerListingLocation="..\..\out\release9\build\plgloader_starbox\"
 				ObjectFile="..\..\out\release9\build\plgloader_starbox\"
@@ -56,9 +56,9 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release9\build\plgloader_starbox\plgloader_starbox.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\environment\loader_starbox;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\plugins\environment\loader_starbox;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -108,7 +108,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release9\build\plgloader_starbox\plgloader_starbox.pch"
 				AssemblerListingLocation="..\..\out\release9\build\plgloader_starbox\"
 				ObjectFile="..\..\out\release9\build\plgloader_starbox\"
@@ -133,9 +133,9 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release9\build\plgloader_starbox\plgloader_starbox.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -158,7 +158,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\environment\loader_starbox;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\plugins\environment\loader_starbox;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -184,7 +184,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9\build\plgloader_starbox\plgloader_starbox.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\plgloader_starbox\"
 				ObjectFile="..\..\out\debug9\build\plgloader_starbox\"
@@ -207,9 +207,9 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\debug9\build\plgloader_starbox\plgloader_starbox.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -232,7 +232,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\environment\loader_starbox;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\plugins\environment\loader_starbox;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -258,7 +258,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug9\build\plgloader_starbox\plgloader_starbox.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\plgloader_starbox\"
 				ObjectFile="..\..\out\debug9\build\plgloader_starbox\"
@@ -281,9 +281,9 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\debug9\build\plgloader_starbox\plgloader_starbox.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -306,7 +306,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins\environment\loader_starbox;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\plugins\environment\loader_starbox;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
