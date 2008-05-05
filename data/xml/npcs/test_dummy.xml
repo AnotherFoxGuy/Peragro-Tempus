@@ -1,6 +1,6 @@
 <npcs>
 	<npc>
-		<name>Estragon</name>
+		<name>Vladimir</name>
 		<mesh>test</mesh>
 		<position sector="World" x="29" y="2" z="106"/>
 		<race>test</race> <!-- used for stats -->
@@ -13,7 +13,7 @@
 			<value name="base_y">0.15</value>
 			<value name="base_z">106.2</value>
 			<value name="radius_x">10.0</value>
-			<value name="radius_y">0.0</value>
+			<value name="radius_y">10.0</value>
 			<value name="radius_z">10.0</value>
 			<value name="interval_base">100</value>
 			<value name="interval_rand">50</value>
