@@ -22,24 +22,21 @@
 // --------------------------------------------------------------------------------//
 // Star member functions ----------------------------------------------------------//
 // --------------------------------------------------------------------------------//
-Star::Star (   std::string star_name, 
-					std::string new_classification,
-					float new_luminosity,
-					int color,
-					System* parent_system )  {
+Star::Star (   std::string star_name,
+               std::string new_classification,
+               float new_luminosity,
+               int color,
+               System* parent_system )  {
 
+  name = star_name;
+  classification = new_classification;
+  luminosity = new_luminosity;
 
-	name = star_name;
-	classification = new_classification;
-	luminosity = new_luminosity;
+  mass = pow ( cbrt(luminosity) , 2 ) ;
+  starcolor = color;
+  system = parent_system;
 
-	mass = pow ( cbrt(luminosity) , 2 ) ;
-	starcolor = color;
-	system = parent_system;
-
-
-
-//	printf ( "SUN mass:%2.19f \n" , mass);
+//  printf ( "SUN mass:%2.19f \n" , mass);
 }
 
 Star::~Star() {

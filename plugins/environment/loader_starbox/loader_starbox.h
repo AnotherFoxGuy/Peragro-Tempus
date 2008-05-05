@@ -27,36 +27,34 @@
 #include "iutil/plugin.h"
 #include "imap/reader.h"
 
-
 #include <iengine/engine.h>
 #include <iengine/region.h>
 #include <imap/services.h>
 
-#include "imystarbox.h" 
+#include "imystarbox.h"
 
 class myLoaderStarbox :
   public scfImplementation2<myLoaderStarbox, iComponent, iLoaderPlugin>
 {
 
 protected:
-	iObjectRegistry* object_reg;
-	csRef<iMyStarbox> starbox;
-	csRef<iSyntaxService> synldr;
+  iObjectRegistry* object_reg;
+  csRef<iMyStarbox> starbox;
+  csRef<iSyntaxService> synldr;
 
-	csStringHash xmltokens;
+  csStringHash xmltokens;
 
-	bool ParseXML ( iDocumentNode* node);
+  bool ParseXML ( iDocumentNode* node);
 
 public:
 
-	myLoaderStarbox (iBase *p);
-	virtual ~myLoaderStarbox ();
+  myLoaderStarbox (iBase *p);
+  virtual ~myLoaderStarbox ();
 
-	virtual bool Initialize(iObjectRegistry *object_reg);
+  virtual bool Initialize(iObjectRegistry *object_reg);
 
-	virtual csPtr<iBase> Parse (iDocumentNode* node, 
-		iStreamSource*, iLoaderContext* ldr_context, iBase* context);
-};  
-
+  virtual csPtr<iBase> Parse (iDocumentNode* node,
+    iStreamSource*, iLoaderContext* ldr_context, iBase* context);
+};
 
 #endif   //  __MY_LOADER_STARBOX_H__

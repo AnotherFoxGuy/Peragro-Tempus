@@ -104,7 +104,7 @@ void CollisionDetectionTest::Frame ()
   }
 
   static btClock clock;
-  
+
   // slow motion, should be: clock.getTimeMicroseconds() * 0.000001f
   float dt = clock.getTimeMicroseconds() * 0.000001f;
   world->stepSimulation(dt, 1);
@@ -134,10 +134,10 @@ bool CollisionDetectionTest::OnKeyboard(iEvent& ev)
     utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
     if (code == CSKEY_ESC)
     {
-      csRef<iEventQueue> q = 
+      csRef<iEventQueue> q =
         csQueryRegistry<iEventQueue> (GetObjectRegistry());
       if (q.IsValid()) q->GetEventOutlet()->Broadcast(
-      	csevQuit(GetObjectRegistry()));
+        csevQuit(GetObjectRegistry()));
     }
   }
   return false;
@@ -236,7 +236,7 @@ void CollisionDetectionTest::LoadWorld(Database* db)
 {
   //Load all Sectors from Database
   Array<SectorsTableVO*> loadedSectors = db->getSectorsTable()->getAll();
-  
+
   if (loadedSectors.getCount() == 0) return;
 
   for (size_t i = 0; i < loadedSectors.getCount(); i++)
@@ -257,14 +257,14 @@ void CollisionDetectionTest::LoadWorld(Database* db)
   {
     using namespace CS::Geometry;
 
-    csRef<iMeshFactoryWrapper> fact ( 
+    csRef<iMeshFactoryWrapper> fact (
       GeneralMeshBuilder::CreateFactory(engine, *meshes[0]->name, 0)
     );
 
-    csRef<iGeneralFactoryState> gfact = 
+    csRef<iGeneralFactoryState> gfact =
       scfQueryInterface<iGeneralFactoryState> (fact->GetMeshObjectFactory ());
 
-    Array<VerticesTableVO*> vertices = 
+    Array<VerticesTableVO*> vertices =
       db->getVerticesTable()->getAllByMesh(meshes.get(i)->id);
 
     for (size_t j = 0; j < vertices.getCount(); j++)
@@ -273,7 +273,7 @@ void CollisionDetectionTest::LoadWorld(Database* db)
       gfact->AddVertex(v1, csVector2(j % 2, (j / 2) % 2), csVector3(0,0,0), csColor4(1));
     }
 
-    Array<TrianglesTableVO*> triangles = 
+    Array<TrianglesTableVO*> triangles =
       db->getTrianglesTable()->getAllByMesh(meshes.get(i)->id);
 
     for (size_t j = 0; j < triangles.getCount(); j++)
@@ -285,7 +285,7 @@ void CollisionDetectionTest::LoadWorld(Database* db)
     gfact->CalculateNormals();
     gfact->SetColor(csColor(1, 1, 1));
 
-    csRef<iMeshWrapper> mesh ( 
+    csRef<iMeshWrapper> mesh (
       GeneralMeshBuilder::CreateMesh(engine, sector, *meshes[0]->name, fact)
     );
 
@@ -295,14 +295,14 @@ void CollisionDetectionTest::LoadWorld(Database* db)
 
 void CollisionDetectionTest::SetupPhysics(Database* db)
 {
-  Array<VerticesTableVO*> vertices = 
+  Array<VerticesTableVO*> vertices =
     db->getVerticesTable()->getAll();
 
   btVector3 worldMin, worldMax;
   for (size_t i = 0; i < vertices.getCount(); i++)
   {
     VerticesTableVO* vertex = vertices.get(i);
-    
+
     if ( i == 0 || worldMin.getX() < vertex->x ) worldMin.setX(vertex->x);
     if ( i == 0 || worldMin.getY() < vertex->y ) worldMin.setY(vertex->y);
     if ( i == 0 || worldMin.getZ() < vertex->z ) worldMin.setZ(vertex->z);
@@ -330,12 +330,12 @@ void CollisionDetectionTest::SetupPhysics(Database* db)
     collObj->getWorldTransform().setBasis(basis);
 
     //TODO: reduce amount of queries!
-    Array<TrianglesTableVO*> triangles = 
+    Array<TrianglesTableVO*> triangles =
       db->getTrianglesTable()->getAllByMesh(meshes.get(i)->id);
 
     if (triangles.getCount() == 0) continue;
 
-    Array<VerticesTableVO*> vertices = 
+    Array<VerticesTableVO*> vertices =
       db->getVerticesTable()->getAllByMesh(meshes.get(i)->id);
 
     //TODO: Use indexed triangle mesh!

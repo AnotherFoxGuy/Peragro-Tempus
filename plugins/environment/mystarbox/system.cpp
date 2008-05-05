@@ -24,81 +24,74 @@
 // System member functions --------------------------------------------------------//
 // --------------------------------------------------------------------------------//
 System::System() {
-	id = 0;
+  id = 0;
 }
 
 System::~System() {
-	// Delete all stars from this system first
-	for (std::vector<Star*>::iterator itr = stars.begin();
-		itr != stars.end();
-			++itr) {
-			delete(*itr);
-	} // end for iterate systems
+  // Delete all stars from this system first
+  for (std::vector<Star*>::iterator itr = stars.begin();
+    itr != stars.end();
+      ++itr) {
+      delete(*itr);
+  } // end for iterate systems
 }
 
 // --------------------------------------------------------------------------------//
 // --------------------------------------------------------------------------------//
 bool System::Init ( int Id, std::string Name , float Ra, float Dec, float Distance ) {
 
-	id = Id;
-	right_ascension = Ra;
-	declination = Dec;
-	distance = Distance;
-	name = Name;
-	// Calculate a coordinate position for this system
-	pos = Calculate_Cords( Ra , Dec , Distance );
-	return true;
+  id = Id;
+  right_ascension = Ra;
+  declination = Dec;
+  distance = Distance;
+  name = Name;
+  // Calculate a coordinate position for this system
+  pos = Calculate_Cords( Ra , Dec , Distance );
+  return true;
 }
 
 float System::Get_lum() {
-	// return the total luminosity of all stars in system
-	float tot_lum;
-	
-	for (std::vector<Star*>::iterator itr = stars.begin();
-		itr != stars.end();
-			++itr) {
-			tot_lum += (*itr)->Get_Luminosity();
-	} // end for iterate stars
-	return tot_lum;
+  // return the total luminosity of all stars in system
+  float tot_lum;
+
+  for (std::vector<Star*>::iterator itr = stars.begin();
+    itr != stars.end();
+      ++itr) {
+      tot_lum += (*itr)->Get_Luminosity();
+  } // end for iterate stars
+  return tot_lum;
 }
 // --------------------------------------------------------------------------------//
 // --------------------------------------------------------------------------------//
 Cords System::Calculate_Cords( float ra , float dec ,float dis ) {
 // Create 3D cords for each system
-	Cords result;
-	
-	result.x = sin ( ra * (PI /180) ) * dis;
-	result.y = sin ( dec * (PI / 180) ) * dis ;
-	result.z = cos ( ra * (PI /180)) * ( cos (dec*(PI /180)) * dis) ;
+  Cords result;
 
-//	printf ( " dis:%6.2f dec:%6.2f ra:%6.2f \n" , dis , dec , ra  );
-//	printf ( " pos: ( %6.2f , %6.2f , %6.2f )\n " , result.x , result.y , result.z );
-	
-	return result;
+  result.x = sin ( ra * (PI /180) ) * dis;
+  result.y = sin ( dec * (PI / 180) ) * dis ;
+  result.z = cos ( ra * (PI /180)) * ( cos (dec*(PI /180)) * dis) ;
+
+//printf ( " dis:%6.2f dec:%6.2f ra:%6.2f \n" , dis , dec , ra  );
+//printf ( " pos: ( %6.2f , %6.2f , %6.2f )\n " , result.x , result.y , result.z );
+
+  return result;
 }
 
 // --------------------------------------------------------------------------------//
 // --------------------------------------------------------------------------------//
 bool System::Add_Star ( std::string name, std::string classification,
-							 float luminosity, int color ) {
+               float luminosity, int color ) {
 try {
-		Star* star;
-		star = new Star( name, classification , luminosity, color, this );
-		// printf( "%s\n" ,classification.c_str() );
-		stars.push_back(star);
-		return true;
-	}
+    Star* star;
+    star = new Star( name, classification , luminosity, color, this );
+    //printf( "%s\n" ,classification.c_str() );
+    stars.push_back(star);
+    return true;
+  }
 catch( char * str ) {
-		printf ("Exception raised:System::Add_Star %s \n" , str );
-		return false;
+    printf ("Exception raised:System::Add_Star %s \n" , str );
+    return false;
    }
-		
-}	
 
-
-
-
-
-
-
+}
 

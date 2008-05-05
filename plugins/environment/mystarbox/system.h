@@ -27,73 +27,68 @@
 
 #include <string>
 #include <cstdlib>
-#include	<cmath>
-#include	<ctime>
+#include <cmath>
+#include <ctime>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
 
-
-
 struct Cords {
-	float x ;
-	float y ;
-	float z; 
+  float x ;
+  float y ;
+  float z;
 };
 
 #include "star.h"
-
-
 
 // --------------------------------------------------------------------------------//
 // System, Class that give the position of a star system from earth
 // --------------------------------------------------------------------------------//
 class System {
-	private:
-		int id;
-		std::string name;
-		float right_ascension; 
-		float declination;
-		float distance; 
+private:
+  int id;
+  std::string name;
+  float right_ascension;
+  float declination;
+  float distance;
 
-		Cords pos;
-		
-		std::vector < Star* > stars ;
+  Cords pos;
 
-	public:
+  std::vector < Star* > stars ;
 
-		// Member Functions 
-		System();
-		~System();
+public:
 
-		bool Init ( int Id, std::string Name , float Ra, float Dec, float Distance );  
+  // Member Functions
+  System();
+  ~System();
 
-		int Get_Id () { return id; }
-		std::string Get_Name () { return ( name ); } 
-		Cords Get_Pos () { return pos; }
-		float Get_Ra () { return right_ascension; } 
-		float Get_Dec () { return declination; }
-		float GetDistance(){ return distance; }
-		float Get_lum();
+  bool Init ( int Id, std::string Name , float Ra, float Dec, float Distance );
 
-		Star* Get_Star() { return stars.front(); }
-		
-		bool Add_Star ( std::string new_name, std::string classification,
-							 float new_luminosity, int color );
+  int Get_Id () { return id; }
+  std::string Get_Name () { return ( name ); }
+  Cords Get_Pos () { return pos; }
+  float Get_Ra () { return right_ascension; }
+  float Get_Dec () { return declination; }
+  float GetDistance(){ return distance; }
+  float Get_lum();
 
-		Cords Calculate_Cords( float Right_Ascension ,
-											float Declination,
-											float Distance );
+  Star* Get_Star() { return stars.front(); }
 
-      csPixelCoord * Get_Pixel ();
+  bool Add_Star ( std::string new_name, std::string classification,
+             float new_luminosity, int color );
 
-		int GetPixelX(const int size){return int((right_ascension/360)*size); };
-		int GetPixelY(const int size){
-				return int( ( ((declination/180)*size) + (size/2) ) );
-		};
+  Cords Calculate_Cords( float Right_Ascension ,
+                    float Declination,
+                    float Distance );
 
+    csPixelCoord * Get_Pixel ();
+
+  int GetPixelX(const int size){return int((right_ascension/360)*size); };
+  int GetPixelY(const int size){
+      return int( ( ((declination/180)*size) + (size/2) ) );
+  };
 
 };
 
-#endif
+#endif // __STARBOX_SYSTEM_H

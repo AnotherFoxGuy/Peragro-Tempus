@@ -63,12 +63,12 @@ namespace MeshObjectFactory
           proto.staticLodNode = child;
         }
         break;
-        case XMLTOKEN_NULLMESH:
+      case XMLTOKEN_NULLMESH:
         {
           proto.nullMesh = true;
-	  if (!SyntaxService->ParseBox (child, proto.boundingbox))
-	    return false;
-	}
+          if (!SyntaxService->ParseBox (child, proto.boundingbox))
+            return false;
+        }
         break;
       case XMLTOKEN_STATICSHAPE:
         if (!SyntaxService->ParseBool (child, staticshape, true))
@@ -124,7 +124,7 @@ namespace MeshObjectFactory
         {
           proto.childNodes.Push(child);
         }
-	break;
+        break;
       case XMLTOKEN_MATERIAL:
         {
           proto.materialName = child->GetContentsValue ();
@@ -237,12 +237,9 @@ namespace MeshObjectFactory
 
     meshObjfact->GetFlags ().SetBool (CS_FACTORY_STATICSHAPE, staticshape);
 
-
     return true;
   }
 
-
 } // end MeshObjectFactory
-
 
 #endif // MESHOBJECTFACTORY_H

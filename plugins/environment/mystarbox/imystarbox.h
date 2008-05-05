@@ -18,26 +18,25 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // File: `istarbox.h'
-  
-	
+
 #ifndef __IMYSTARBOX_H__
 #define __IMYSTARBOX_H__
 
 #include "csutil/scf.h"
 
 #include <string>
- 
+
 // Interface header
 struct iMyStarbox : public virtual iBase
 {
   SCF_INTERFACE(iMyStarbox,1,0,0);
- 
-	virtual void SetName(char const* name) = 0;  
-	virtual char const*  GetName() const = 0;
 
-	virtual bool LoadStarCatalogue(const std::string& file_name ) = 0;
-	virtual bool SetCurrentSystem(const int& new_id ) = 0;
-	virtual bool Background(const iCamera* c) = 0;
+  virtual void SetName(char const* name) = 0;
+  virtual char const*  GetName() const = 0;
+
+  virtual bool LoadStarCatalogue(const std::string& file_name ) = 0;
+  virtual bool SetCurrentSystem(const int& new_id ) = 0;
+  virtual bool Background(const iCamera* c) = 0;
 
 };
 
@@ -46,7 +45,7 @@ struct iMyStarbox : public virtual iBase
 struct iMyStarboxFactory : public virtual iBase
 {
   SCF_INTERFACE(iMyStarboxFactory,1,0,0);
- 
+
   virtual csPtr<iMyStarbox> CreateObject () = 0;
 };
 

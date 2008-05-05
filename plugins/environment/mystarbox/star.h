@@ -41,32 +41,32 @@ class System;
 // --------------------------------------------------------------------------------//
 class Star {
 
-	private:
-		std::string name;
-		std::string classification;
-		float luminosity ;
-		System* system;
+private:
+  std::string name;
+  std::string classification;
+  float luminosity ;
+  System* system;
 
-		float mass ;
-		int starcolor;
+  float mass ;
+  int starcolor;
 
-	public:  
+public:
 
-		//Functions 
-		Star (   std::string star_name, 
-					std::string new_classification,
-					float new_luminosity,
-					int color,
-					System* parent_system ) ;
+  //Functions
+  Star (   std::string star_name,
+           std::string new_classification,
+           float new_luminosity,
+           int color,
+           System* parent_system ) ;
 
-		~Star();
+  ~Star();
 
-		std::string Get_Name () { return ( name ); } ;
+  std::string Get_Name () { return ( name ); } ;
 
-		float Get_Luminosity () { return (luminosity ); } ;
-		float Get_Mass () { return ( mass ); };
-		float Get_Color () { return ( starcolor ); };
+  float Get_Luminosity () { return (luminosity ); } ;
+  float Get_Mass () { return ( mass ); };
+  float Get_Color () { return ( starcolor ); };
 
 };
 
-#endif
+#endif // __STARBOX_SYSTEM_STAR_H
