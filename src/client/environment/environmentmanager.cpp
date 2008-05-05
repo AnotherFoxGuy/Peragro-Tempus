@@ -64,7 +64,7 @@ namespace PT
     if (!engine) return Report(PT::Error, "Failed to locate 3D engine!");
 
     // Create our sun.
-    sun = engine->CreateLight("Sun", csVector3(0,40,0),9999999.0f, csColor(1.0f), CS_LIGHT_DYNAMICTYPE_DYNAMIC);
+    sun = engine->CreateLight("Sun", csVector3(0,40,0),9999999999.0f, csColor(1.0f), CS_LIGHT_DYNAMICTYPE_DYNAMIC);
 
     iSector* world = engine->FindSector("World");
     if (!world)
@@ -115,7 +115,13 @@ namespace PT
     csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
     var->SetValue(sun_vec);
 
-    // TODO: set the sun position.
+    // Set the sun position.
+    csVector3 sun_pos = sun_vec * 1500.0f;
+    if (sun) 
+    {
+      //sun->GetMovable()->SetPosition(sun_pos);
+      //sun->GetMovable()->UpdateMove();
+    }
 
     //=[ Sun brightness ]===================================
     float brightness = pow(sin(step * PI), 5);
