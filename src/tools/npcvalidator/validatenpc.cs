@@ -90,6 +90,7 @@ class NpcValidator
 
 		try
 		{
+			// Load the xml file
 			doc.Load(XmlReader.Create(document, settings));
 		}
 	
@@ -97,10 +98,17 @@ class NpcValidator
 		{
 
 		string message = e.Message;
-		string ln = e.LineNumber.ToString();
-		string lp = e.LinePosition.ToString();
+		int ln = e.LineNumber;
+		int lp = e.LinePosition;
+		int lnn = e.LineNumber;
+		int lnb = lnn - 1;
 		
-		Console.WriteLine("An error has occurred.\nLine Number: {0}\nPosition: {1}\nFull Error Message: {2}", ln, lp, message);
+		// Lets generate some useful output.
+		
+		Console.WriteLine("\nExtra Error Output: ");
+		Console.WriteLine("An error has occurred.\nLine Number: {0}\nPosition: {1}\nFull Error Message: {2}", ln.ToString(), lp.ToString(), message);
+
+		Console.WriteLine("\nSince error checking counts where it hits the next element though, you might wish to check on line {0} instead for the source of your problem.\nNote: this is not always accurate, particularly for sub-elements.", lnb.ToString());
 
 		return;
 		
@@ -114,11 +122,15 @@ class NpcValidator
 
 		catch(XmlSchemaValidationException a)
 		{
+		string nodeobject = a.SourceObject.ToString();
 		string message = a.Message;
-		string ln = a.LineNumber.ToString();
-		string lp = a.LinePosition.ToString();
-		
-		Console.WriteLine("An error has occurred.\nLine Number: {0}\nPosition: {1}\nFull Error Message: {2}", ln, lp, message);
+		int lna = a.LineNumber;
+		int lpa = a.LinePosition;
+
+		Console.WriteLine("\nExtra Error Output: ");
+		Console.WriteLine("An error has occurred.\nLine Number: {0}\nPosition: {1}\nFull Error Message: {2}", lna.ToString(), lpa.ToString(), message);
+	
+		Console.WriteLine("\nNode where error occurred: {0}\n", nodeobject);
 
 		}
 	
@@ -126,10 +138,18 @@ class NpcValidator
 
 	public static void ValidationCallback(object sender, ValidationEventArgs args)
 	{
-	if (args.Severity == XmlSeverityType.Warning)
-	Console.Write("WARNING: ");
-	else if (args.Severity == XmlSeverityType.Error)
-	Console.Write("ERROR: ");
+		if (args.Severity == XmlSeverityType.Warning)
+		{
+			Console.Write("WARNING: ");
+		}
+		else if (args.Severity == XmlSeverityType.Error)
+		{
+			Console.Write("ERROR: ");
+		}
+	///	else
+	///	{
+	///		Console.WriteLine("Validation was sucessful!");
+	///	}
 
 	// Print the error to the screen.
 	Console.WriteLine(args.Message);
