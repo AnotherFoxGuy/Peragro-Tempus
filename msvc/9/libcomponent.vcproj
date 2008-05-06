@@ -301,12 +301,18 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\component\componentmanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\component\stdcomponentimp.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\client\component\componentmanager.h">
+			</File>
 			<File
 				RelativePath="..\..\src\client\component\stdcomponentimp.h">
 			</File>
