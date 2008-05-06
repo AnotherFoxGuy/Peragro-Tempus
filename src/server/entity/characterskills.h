@@ -76,13 +76,21 @@ public:
     return findEntry(id);
   }
 
-  void loadFromDatabase(CharacterSkillsTable* cst, int id)
+  /**
+   *
+   * Function that will load all skills belonging to a character.
+   *
+   * @param cst The given database table.
+   * @param characterID The id of the character for which to load the skills.
+   *
+   */
+  void loadFromDatabase(CharacterSkillsTable* cst, int characterID)
   {
-    cs_id = id;
+    cs_id = characterID;
     cstab = cst;
 
     //Load all Skills from Database
-    Array<CharSkillVO*> vos = cst->getAllEntries(id);
+    Array<CharSkillVO*> vos = cst->getAllEntries(characterID);
     for (size_t i = 0; i < vos.getCount(); i++)
     {
       CharSkillVO* vo = vos.get(i);
