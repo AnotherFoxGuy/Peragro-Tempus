@@ -82,17 +82,43 @@ class NpcValidator
 	XmlReaderSettings settings = new XmlReaderSettings();
 	settings.Schemas.Add(null, schema);
 	settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
+	
 	settings.ValidationType = ValidationType.Schema;
 
 	// create an XML document
 	XmlDocument doc = new XmlDocument();
-	doc.Load(XmlReader.Create(document, settings));
 
-	//validate the XmlDocument
-	doc.Validate(new ValidationEventHandler(ValidationCallback));
+		try
+		{
+			doc.Load(XmlReader.Create(document, settings));
+		}
+	
+		catch(XmlException e)
+		{
 
-	Console.WriteLine("It would appear that validation has succeeded.");
-	// Console.ReadLine();
+		string message = e.Message;
+		string ln = e.LineNumber.ToString();
+		string lp = e.LinePosition.ToString();
+		
+		Console.WriteLine("An error has occurred.\nLine Number: {0}\nPosition: {1}\nFull Error Message: {2}", ln, lp, message);
+
+		return;
+		
+		}
+	
+		//validate the XmlDocument
+		try
+		{
+			doc.Validate(new ValidationEventHandler(ValidationCallback));
+		}
+
+		catch(Exception)
+		{
+	
+		Console.WriteLine("Useful Message: An unknown error has occurred. You are screwed.");
+
+		}
+	
 	}
 
 	public static void ValidationCallback(object sender, ValidationEventArgs args)
@@ -105,7 +131,8 @@ class NpcValidator
 	// Print the error to the screen.
 	Console.WriteLine(args.Message);
 
-	Console.WriteLine("Validation Failed");
 	}
+
+
 
 } // end class NpcValidator
