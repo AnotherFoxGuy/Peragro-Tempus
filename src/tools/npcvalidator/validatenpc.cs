@@ -112,7 +112,7 @@ class NpcValidator
 			doc.Validate(new ValidationEventHandler(ValidationCallback));
 		}
 
-		catch(XmlException a)
+		catch(XmlSchemaValidationException a)
 		{
 		string message = a.Message;
 		string ln = a.LineNumber.ToString();
