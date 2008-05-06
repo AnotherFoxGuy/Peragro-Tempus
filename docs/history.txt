@@ -7,6 +7,7 @@ under each day.
 06-May-2008
  - swedishcoder renamed some variable name to make them more clean, also added
    a function comment while at it.
+ - swedishcoder changed dragdrop-gui.cpp to use APPLEID enum value.
 
 05-May-2008
  - Eklina updated a Jamfile so that recon69's starbox plugin will build.

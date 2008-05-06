@@ -35,6 +35,8 @@
 
 #include "client/reporter/reporter.h"
 
+#include "src/common/items/itemsid.h"
+
 using namespace PT;
 
 DragDrop::DragDrop (GUIManager* guimanager)
@@ -209,7 +211,7 @@ bool DragDrop::handleRightClickedIcon(const CEGUI::EventArgs& args)
   // @TODO: Use equiptype in items.xml and add itemtype instead of hardcoding here.
   std::string actions = "Drop";
 
-  if (object->GetId() == 1) // apple
+  if (object->GetId() == APPLEID)
   {
     actions += ", Eat";
   }
