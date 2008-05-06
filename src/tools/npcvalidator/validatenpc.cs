@@ -112,10 +112,13 @@ class NpcValidator
 			doc.Validate(new ValidationEventHandler(ValidationCallback));
 		}
 
-		catch(Exception)
+		catch(XmlException a)
 		{
-	
-		Console.WriteLine("Useful Message: An unknown error has occurred. You are screwed.");
+		string message = a.Message;
+		string ln = a.LineNumber.ToString();
+		string lp = a.LinePosition.ToString();
+		
+		Console.WriteLine("An error has occurred.\nLine Number: {0}\nPosition: {1}\nFull Error Message: {2}", ln, lp, message);
 
 		}
 	
