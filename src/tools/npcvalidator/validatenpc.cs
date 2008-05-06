@@ -52,7 +52,15 @@ class NpcValidator
 			
 				if (File.Exists(schema))
 				{
+					try
+					{			
 					validateXML(inputarg);
+					}
+
+					catch(NullReferenceException)
+					{
+					Console.WriteLine("An error has occurred during parsing. An attribute is likely missing.");
+					}
 				}
 				
 				else
@@ -80,7 +88,11 @@ class NpcValidator
 
 	// create XmlReader settings
 	XmlReaderSettings settings = new XmlReaderSettings();
+
 	settings.Schemas.Add(null, schema);
+
+	
+
 	settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
 	
 	settings.ValidationType = ValidationType.Schema;
@@ -110,8 +122,12 @@ class NpcValidator
 
 		Console.WriteLine("\nSince error checking counts where it hits the next element though, you might wish to check on line {0} instead for the source of your problem.\nNote: this is not always accurate, particularly for sub-elements.", lnb.ToString());
 
-		return;
-		
+		return;		
+		}
+
+		catch(NullReferenceException)
+		{
+		Console.WriteLine("An error has occurred during parsing. An attribute is likely missing.");
 		}
 	
 		//validate the XmlDocument
@@ -132,6 +148,11 @@ class NpcValidator
 	
 		Console.WriteLine("\nNode where error occurred: {0}\n", nodeobject);
 
+		}
+
+		catch(NullReferenceException)
+		{
+		Console.WriteLine("An error has occurred during parsing. An attribute is likely missing.");
 		}
 	
 	}
