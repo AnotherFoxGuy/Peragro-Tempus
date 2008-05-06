@@ -36,7 +36,6 @@ namespace PT
      * Handles the loading of door data from XML definition file. The data
      * resides in $DATA/xml/doors/doors.xml file, where $DATA is the parent
      * directory where the Peragro Tempus data resides.
-     * @author Branko Majic <branko.majic@gmail.com>
      */
     class DoorDataManager : public DataManager
     {
@@ -49,9 +48,7 @@ namespace PT
 
     public:
       /**
-       * Convenience constructor allowing for immediate setting of data
-       * directory path.
-       * @param path Path to the data directory.
+       * Base constructor
        */
       DoorDataManager(PointerLibrary* ptrlib);
       ~DoorDataManager();

@@ -39,7 +39,6 @@ namespace PT
      * Handles the loading of effects data from XML definition file. The data
      * resides in $DATA/xml/effects/effects.xml file, where $DATA is the parent
      * directory where the Peragro Tempus data resides.
-     * @author Jelle Hellemans
      */
     class EffectDataManager : public DataManager
     {

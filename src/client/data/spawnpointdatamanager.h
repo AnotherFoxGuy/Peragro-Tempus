@@ -49,9 +49,7 @@ namespace PT
 
     public:
       /**
-       * Convenience constructor allowing for immediate setting of data
-       * directory path.
-       * @param path Path to the data directory.
+       * Base constructor
        */
       SpawnPointDataManager(PointerLibrary* ptrlib);
       ~SpawnPointDataManager();
