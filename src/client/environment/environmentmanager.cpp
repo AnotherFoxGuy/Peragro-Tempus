@@ -95,7 +95,7 @@ namespace PT
     static float lastStep = clock->GetTimeDecimal();
     float step = clock->GetTimeDecimal();
     // Don't update if the time has not changed much.
-    if ((step - lastStep) < 0.0001f) return;
+    if ((step - lastStep) < 0.0001f && (step - lastStep) > -0.0001f) return;
     lastStep = step;
    
     //=[ Sun position ]===================================
