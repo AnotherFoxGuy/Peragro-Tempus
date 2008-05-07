@@ -131,7 +131,7 @@ public:
   {
     if ( rview ) {
       camera = rview->GetCamera ();
-      starbox->Background ( camera );
+      if ( camera ) starbox->Background ( camera );
      }
       else { printf("No rview\n"); } //end if
   }
