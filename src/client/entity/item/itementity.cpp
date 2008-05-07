@@ -54,8 +54,8 @@ namespace PT
 
       CreateCelEntity();
 
-      char buffer[1024];
-      sprintf(buffer, "%s:%d:%d", name.c_str(), type, id);
+      csString buffer;
+      buffer.Format("%s:%d:%d", name.c_str(), type, id);
       celEntity->SetName(buffer);
 
       // Load and assign the mesh to the entity.

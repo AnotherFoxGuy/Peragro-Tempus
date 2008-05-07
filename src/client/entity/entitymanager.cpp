@@ -394,61 +394,56 @@ namespace PT
     {
       DrUpdateRequestMessage drmsg;
 
-      // TODO this should be >0;
-     // if (playerId != -1)
+      if (!PlayerEntity::Instance()) return;
+
+      csWeakRef<iCelEntity> playerCelEnt = PlayerEntity::Instance()->GetCelEntity();
+      if (playerCelEnt.IsValid())
       {
-        if (!PlayerEntity::Instance()) return;
-        csWeakRef<iCelEntity> playerCelEnt = PlayerEntity::Instance()->GetCelEntity();
-        if (playerCelEnt.IsValid())
+        csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(playerCelEnt, iPcLinearMovement);
+        if (pclinmove.IsValid())
         {
-          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(playerCelEnt, iPcLinearMovement);
-          if (pclinmove.IsValid())
+          bool on_ground;
+          float speed, rot, avel;
+          csVector3 pos, vel, wvel;
+          iSector* sector = 0;
+
+          pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
+          //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
+
+          pclinmove->GetYRotation();
+
+          // Don't want <0,1,0> when on horse!
+          iMovable* mov = pclinmove->GetAnchor()->GetMesh()->GetMovable();
+          pos = mov->GetFullPosition();
+          csVector3 rotv = mov->GetFullTransform ().GetT2O() * csVector3(0,0,1);
+
+          if (rotv.z > 1.0f )  rotv.z = 1.0f;
+          if (rotv.z < -1.0f ) rotv.z = -1.0f;
+
+          rot = acos (rotv.z);
+          if (rotv.x < 0.0f) rot = 2.0f * PI - rot;
+
+          drmsg.setRotation(rot);
+          drmsg.setPos(pos.x,pos.y,pos.z);
+          if (sector && sector->QueryObject()->GetName())
           {
-            bool on_ground;
-            float speed, rot, avel;
-            csVector3 pos, vel, wvel;
-            iSector* sector = 0;
-
-            pclinmove->GetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
-            //printf("Send DR: %.2f, <%.2f,%.2f,%.2f>, %.2f\n", speed, pos.x, pos.y, pos.z, rot);
-
-            pclinmove->GetYRotation();
-
-            // Don't want <0,1,0> when on horse!
-            iMovable* mov = pclinmove->GetAnchor()->GetMesh()->GetMovable();
-            pos = mov->GetFullPosition();
-            csVector3 rotv = mov->GetFullTransform ().GetT2O() * csVector3(0,0,1);
-
-            if (rotv.z > 1.0f )  rotv.z = 1.0f;
-            if (rotv.z < -1.0f ) rotv.z = -1.0f;
-
-            rot = acos (rotv.z);
-            if (rotv.x < 0.0f) rot = 2.0f * PI - rot;
-
-            //if (vel.Norm() > 0 || avel > 0) return; // Don't update while moving!
-
-            drmsg.setRotation(rot);
-            drmsg.setPos(pos.x,pos.y,pos.z);
-            if (sector && sector->QueryObject()->GetName())
+            PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
+            PT::Data::Sector* dataSector = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName());
+            if (!dataSector)
             {
-              PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
-              PT::Data::Sector* dataSector = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName());
-              if (!dataSector)
-              {
-                Report(PT::Debug, "Couldn't find sector %s", sector->QueryObject()->GetName());
-                return;
-              }
-              //Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), dataSector->GetId());
-              drmsg.setSectorId(dataSector->GetId());
+              Report(PT::Debug, "Couldn't find sector %s", sector->QueryObject()->GetName());
+              return;
             }
-            else
-            {
-              return; // no sector? something odd, isn't it?
-              //drmsg.setSectorId(0);
-            }
-
-            PointerLibrary::getInstance()->getNetwork()->send(&drmsg);
+            //Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), dataSector->GetId());
+            drmsg.setSectorId(dataSector->GetId());
           }
+          else
+          {
+            return; // no sector? something odd, isn't it?
+            //drmsg.setSectorId(0);
+          }
+
+          PointerLibrary::getInstance()->getNetwork()->send(&drmsg);
         }
       }
     }

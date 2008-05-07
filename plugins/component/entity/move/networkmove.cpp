@@ -52,7 +52,7 @@ CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (NetworkMove, "peragro.entity.move.networkmove")
 
 ComponentNetworkMove::ComponentNetworkMove(iObjectRegistry* object_reg) :
-	scfImplementationType (this, object_reg)
+  scfImplementationType (this, object_reg)
 {
   moveTo = 0;
 }
@@ -141,8 +141,8 @@ bool ComponentNetworkMove::Move(iEvent& ev)
   }
 
   // If it's the player and local movement, do nothing.
-  PT::Entity::PlayerEntity* player = static_cast<PT::Entity::PlayerEntity*>(entity);
-  if (!local && local_movement && player){ return false; }
+  if (!local && local_movement &&
+    entity->GetType() == PT::Entity::PlayerEntityType) return false;
 
   csRef<iCelEntity> celEntity = entity->GetCelEntity();
   if(!celEntity.IsValid()) return false;
@@ -197,9 +197,12 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
 {
   using namespace PT::Events;
 
-  // If it's the player, do nothing.
-  PT::Entity::PlayerEntity* player = static_cast<PT::Entity::PlayerEntity*>(entity);
-  if (player) return false;
+  // Skip DR updates for the player. This only works with local movement, with
+  // server controlled movement other clients will see your char jerk about.
+  // @TODO I'm not sure this is a good idea,  along with
+  // EntityManager::DrUpdateOwnEntity(), it puts the client totally in charge.
+  if (local_movement &&
+    entity->GetType() == PT::Entity::PlayerEntityType) return false;
 
 //unsigned int entityId = EntityHelper::GetEntityID(&ev);
   unsigned int sectorId = EntityHelper::GetSectorId(&ev);
@@ -229,8 +232,6 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
 
     iSector* sector = 0;
     pclinmove->GetDRData(onGround, speed, pos, rot, sector, vel, wvel, avel);
-
-    if (vel.Norm() > 0 || avel > 0) return false; // Don't update while moving!
 
     sector = engine->FindSector(sectorName.c_str());
     ///@bug It seems that CEL interface has some issues. The below method,

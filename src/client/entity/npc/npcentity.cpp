@@ -53,8 +53,8 @@ namespace PT
 
       CreateCelEntity();
 
-      char buffer[32];
-      cs_snprintf(buffer, 32, "npc_%d", id);
+      csString buffer;
+      buffer.Format("npc_%d", id);
       celEntity->SetName(buffer);
 
       pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");

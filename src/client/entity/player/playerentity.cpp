@@ -58,6 +58,8 @@ namespace PT
 
     PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
     {
+      type = PlayerEntityType;
+
       Create();
 
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -249,8 +251,6 @@ namespace PT
       csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-
-      printf("PlayerEntity::SetFullPosition\n");
 
       if (celEntity.IsValid())
       {

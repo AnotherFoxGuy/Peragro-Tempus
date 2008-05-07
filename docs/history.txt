@@ -4,6 +4,16 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+07-May-2008
+ - vornne added PlayerEntityType and set it as the type for the PlayerEntity,
+   so the NetworkMove and PlayerControls components can identify the player
+   when local movement is on. Using static_cast to check the type of a pointer
+   does not work, it casts from PcEntity to PlayerEntity as well - what you
+   wanted was dynamic_cast, but that crashes it.
+ - vornne enabled DR updates when moving. The inherent inaccuracy in the move
+   messages mean you can walk around without stopping for a minute or two, and
+   then the next DR update can move your char on other clients a fair bit.
+
 06-May-2008
  - swedishcoder renamed some variable name to make them more clean, also added
    a function comment while at it.

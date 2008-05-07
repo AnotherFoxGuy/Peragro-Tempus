@@ -50,7 +50,8 @@ namespace PT
       DoorEntityType    =2,
       ItemEntityType    =3,
       MountEntityType   =4,
-      TeleportEntityType=5
+      TeleportEntityType=5,
+      PlayerEntityType  =6
     };
 
     /**
