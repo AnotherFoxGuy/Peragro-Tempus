@@ -73,6 +73,11 @@ namespace PT
     class ChatManager;
   } // Chat namespace
 
+  namespace Component
+  {
+    class ComponentManager;
+  } // Component namespace
+
 } // PT namespace
 
 class PointerLibrary
@@ -100,6 +105,7 @@ private:
   PT::Combat::CombatManager* combatManager;
   PT::Chat::ChatManager* chatManager;
   PT::EnvironmentManager* environmentManager;
+  PT::Component::ComponentManager* componentManager;
 
   PT::World* world;
   PT::Reporter* reporter;
@@ -129,6 +135,7 @@ public:
     effectsManager = 0;
     combatManager = 0;
     chatManager = 0;
+    componentManager = 0;
 
     world = 0;
     reporter = 0;
@@ -197,6 +204,9 @@ public:
 
   void setEnvironmentManager(PT::EnvironmentManager* environmentManager) { this->environmentManager = environmentManager; }
   PT::EnvironmentManager* getEnvironmentManager() { return this->environmentManager; }
+
+  void setComponentManager(PT::Component::ComponentManager* componentManager) { this->componentManager = componentManager; }
+  PT::Component::ComponentManager* getComponentManager() { return this->componentManager; }
 
   void setReporter(PT::Reporter* reporter) { this->reporter = reporter; }
   PT::Reporter* getReporter() { return this->reporter; }

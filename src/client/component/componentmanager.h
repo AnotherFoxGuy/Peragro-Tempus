@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file componentmanager.h
+ *
+ * @basic The component manager.
+ */
 
 #ifndef COMPONENTMANAGER_H_
 #define COMPONENTMANAGER_H_
@@ -22,7 +27,6 @@
 #include <cssysdef.h>
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>
-#include <csutil/scf_implementation.h>
 #include <csutil/hash.h>
 
 #include "include/client/component/component.h"
@@ -35,38 +39,69 @@ namespace PT
   namespace Entity
   {
     class Entity;
-  }
+  } // Entity namespace
 
-  class ComponentManager
+  namespace Component
   {
-  private:
-    PointerLibrary* ptrlib;
-    iObjectRegistry* obj_reg;
-    csRef<iPluginManager> plugin_mgr;
+    /**
+     * Contains an array of component factories, and creates from them components
+     * as required.
+     */
+    class ComponentManager
+    {
+    private:
+      /// The pointer library.
+      PointerLibrary* ptrlib;
+      /// The object registry.
+      iObjectRegistry* obj_reg;
+      /// The CS plugin manager.
+      csRef<iPluginManager> plugin_mgr;
 
-    csHash<csRef<ComponentFactoryInterface>, const char*> components;
+      /// The hash table of component factories.
+      csHash<csRef<ComponentFactoryInterface>, const char*> components;
 
-    csRef<ComponentInterface> CreateComponent(const char* name);
+      /**
+       * Create a component interface.
+       * @param name The name of the component to create.
+       * @return The component interface.
+       */
+      csRef<ComponentInterface> CreateComponent(const char* name);
 
-  public:
-   /**
-    * Base constructor
-    */
-    ComponentManager(PointerLibrary* ptrlib);
-    ~ComponentManager();
+    public:
+      /**
+       * Base constructor.
+       */
+      ComponentManager(PointerLibrary* ptrlib);
+      /**
+       * Destructor.
+       */
+      ~ComponentManager();
 
-   /**
-    *Initialize the ComponentManager
-    *@return True, indicating success
-    */
-    bool Initialize();
+      /**
+       * Initialize the ComponentManager.
+       * @return True, indicating success.
+       */
+      bool Initialize();
 
-    template<class Interface>
-    csRef<ComponentInterface> CreateComponent(PT::Entity::Entity * entity, const char* name);
+      /**
+       * Create an instance of the templated component, initialize it, and return it.
+       * @param Interface The interface of the component to be created.
+       * @param entity The entity to create the component for.
+       * @param name The name of the component.
+       * @return The component interface.
+       */
+      template<class Interface>
+      csRef<ComponentInterface> CreateComponent(PT::Entity::Entity* entity, const char* name);
 
-    bool LoadComponentFactory(const char* name);
+      /**
+       * Check if a component factory is in the hash table, and load it if not.
+       * @param name The name of the component to get the factory of.
+       * @return Whether the factory was successfully loaded.
+       */
+      bool LoadComponentFactory(const char* name);
 
-  };
-}
+    };
+  } // Component namespace
+} // PT namespace
 
 #endif // COMPONENTMANAGER_H_

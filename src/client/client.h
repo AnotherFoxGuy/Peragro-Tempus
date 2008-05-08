@@ -125,6 +125,11 @@ namespace PT
     class TradeManager;
   } // Trade namespace
 
+  namespace Component
+  {
+    class ComponentManager;
+  } // Component namespace
+
   class Client : public csApplicationFramework, public csBaseEventHandler
   {
   public:
@@ -222,6 +227,7 @@ namespace PT
     PT::Combat::CombatManager* combatManager;
     PT::Chat::ChatManager* chatManager;
     PT::Trade::TradeManager* tradeManager;
+    PT::Component::ComponentManager* componentManager;
 
     World* world;
 

@@ -80,7 +80,7 @@
 #include "client/data/effect/reflection.h"
 #include "client/entity/statmanager.h"
 #include "client/environment/environmentmanager.h"
-
+#include "client/component/componentmanager.h"
 #include "client/trade/trademanager.h"
 
 //#include "common/util/wincrashdump.h"
@@ -129,6 +129,7 @@ namespace PT
     combatManager = 0;
     chatManager = 0;
     tradeManager = 0;
+    componentManager = 0;
 
     // Don't set world = 0;
   }
@@ -158,6 +159,7 @@ namespace PT
     delete combatManager;
     delete chatManager;
     delete tradeManager;
+    delete componentManager;
 
     // Don't delete world;
   }
@@ -432,6 +434,12 @@ namespace PT
     if (!tradeManager->Initialize())
       return Report(PT::Error, "Failed to initialize TradeManager!");
     //pointerlib.setTradeManager(tradeManager);
+
+    // Create and Initialize the ComponentManager.
+    componentManager = new PT::Component::ComponentManager (&pointerlib);
+    if (!componentManager->Initialize())
+      return Report(PT::Error, "Failed to initialize ComponentManager!");
+    pointerlib.setComponentManager(componentManager);
 
     view.AttachNew(new csView(engine, g3d));
 

@@ -42,6 +42,7 @@
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
+#include "client/component/componentmanager.h"
 #include "include/client/component/entity/input/playercontrols.h"
 #include "include/client/component/entity/move/viewbob.h"
 
@@ -71,26 +72,21 @@ namespace PT
         return;
       }
 
-      csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
-
-      // @TODO: Move to ComponentManager or something.
-      csRef<ComponentFactoryInterface> fact = csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, "peragro.entity.input.playercontrols");
-      csRef<ComponentInterface> playerControlsInt = fact->CreateComponent("peragro.entity.input.playercontrols");
-      csRef<iPlayerControls> playerControls = scfQueryInterface<iPlayerControls> (playerControlsInt);
+      csRef<ComponentInterface> playerControls =
+        PointerLibrary::getInstance()->getComponentManager()->CreateComponent
+        <iPlayerControls>(this, "peragro.entity.input.playercontrols");
       if(playerControls.IsValid())
-        playerControls->Initialize(PointerLibrary::getInstance(), this);
+        components.Push(playerControls);
       else
         Report(PT::Error, "Failed to load the playerControls!");
-      components.Push(playerControls);
 
-      csRef<ComponentFactoryInterface> fact2 = csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, "peragro.entity.move.viewbob");
-      csRef<ComponentInterface> viewBobInt = fact2->CreateComponent("peragro.entity.move.viewbob");
-      csRef<iViewBob> viewBob = scfQueryInterface<iViewBob> (viewBobInt);
+      csRef<ComponentInterface> viewBob =
+        PointerLibrary::getInstance()->getComponentManager()->CreateComponent
+        <iViewBob>(this, "peragro.entity.move.viewbob");
       if(viewBob.IsValid())
-        viewBob->Initialize(PointerLibrary::getInstance(), this);
+        components.Push(viewBob);
       else
         Report(PT::Error, "Failed to load the viewBob!");
-      components.Push(viewBob);
 
       PointerLibrary::getInstance()->setPlayer(this);
     }

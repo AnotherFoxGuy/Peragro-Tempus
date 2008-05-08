@@ -1,7 +1,7 @@
 SubDir TOP src client component ;
 
-Description component : "component" ;
-Library component :
+Description client-component : "client component" ;
+Library client-component :
   [ Wildcard *.h *.cpp ] ;
 
-ExternalLibs component : CRYSTAL ;
+ExternalLibs client-component : CRYSTAL ;

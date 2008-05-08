@@ -39,6 +39,7 @@
 #include "client/data/sector.h"
 #include "client/data/sectordatamanager.h"
 
+#include "client/component/componentmanager.h"
 #include "include/client/component/entity/move/networkmove.h"
 
 namespace PT
@@ -74,19 +75,13 @@ namespace PT
       if (object_reg == 0)
         Report(PT::Error, "object_reg!");
 
-      csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
-      if (plugin_mgr == 0)
-        Report(PT::Error, "plugin_mgr!");
-
-      // @TODO: Move to ComponentManager or something.
-      csRef<ComponentFactoryInterface> fact = csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, "peragro.entity.move.networkmove");
-      csRef<ComponentInterface> networkMoveInt = fact->CreateComponent("peragro.entity.move.networkmove");
-      csRef<iNetworkMove> networkMove = scfQueryInterface<iNetworkMove> (networkMoveInt);
+      csRef<ComponentInterface> networkMove =
+        PointerLibrary::getInstance()->getComponentManager()->CreateComponent
+        <iNetworkMove> (this, "peragro.entity.move.networkmove");
       if(networkMove.IsValid())
-        networkMove->Initialize(PointerLibrary::getInstance(), this);
+        components.Push(networkMove);
       else
         Report(PT::Error, "Failed to load the networkMove!");
-      components.Push(networkMove);
     }
 
     void CharacterEntity::Teleport(const csVector3& pos,

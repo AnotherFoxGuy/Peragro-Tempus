@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+08-May-2008
+ - vornne helped sueastside implement the component manager.
+
 07-May-2008
  - vornne added PlayerEntityType and set it as the type for the PlayerEntity,
    so the NetworkMove and PlayerControls components can identify the player
