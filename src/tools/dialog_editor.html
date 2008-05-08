@@ -57,9 +57,11 @@ function drawdialog(id,parents){
     if(dialogs[i].id==id){array_pos=i;}
   }
   note("Found dialog with ID "+id+" at "+array_pos);
-  if(array_pos==-1){note("Error - answer pointing to inexistant dialog ID "+id);return "Error - answer pointing to inexistant dialog ID "+id;}
+  if(array_pos==-1){note("Error - answer pointing to nonexistant dialog ID "+id);return "Error - answer pointing to nonexistant dialog ID "+id;}
   var colspan=dialogs[array_pos].answers.length;if(colspan<1){colspan=1;}
-  var dialog="<table border=\"2\"><tr><td colspan=\""+colspan+"\"><b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"</td></tr><tr>";
+  var color="#FFFFFF";
+  if(parents.split("|").length/2==Math.round(parents.split("|").length/2)){color="#E0E0E0";}
+  var dialog="<table border=\"2\" bgcolor=\""+color+"\"><tr><td colspan=\""+colspan+"\"><b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"</td></tr><tr>";
   for(var i=0;i<dialogs[array_pos].answers.length;i++){
     dialog+="<td valign=\"top\"><b><nobr>Answer: "+dialogs[array_pos].answers[i].label+"</nobr></b><br>"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</td>";
   }
