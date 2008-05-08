@@ -49,7 +49,11 @@ namespace PT
 
     csRef<Interface> infa = scfQueryInterface<Interface> (comp);
 
+    if (!infa.IsValid()) return 0;
+
     infa->Initialize(ptrlib, entity);
+
+    return infa;
   }
 
   csRef<ComponentInterface> ComponentManager::CreateComponent(const char* name)
