@@ -32,13 +32,21 @@ class PointerLibrary;
 
 namespace PT
 {
+  namespace Entity
+  {
+    class Entity;
+  }
+
   class ComponentManager
   {
   private:
+    PointerLibrary* ptrlib;
     iObjectRegistry* obj_reg;
     csRef<iPluginManager> plugin_mgr;
 
-    csHash<ComponentFactoryInterface, const char*> components;
+    csHash<csRef<ComponentFactoryInterface>, const char*> components;
+
+    csRef<ComponentInterface> CreateComponent(const char* name);
 
   public:
    /**
@@ -53,7 +61,8 @@ namespace PT
     */
     bool Initialize();
 
-    csRef<ComponentInterface> CreateComponent(const char* name);
+    template<class Interface>
+    csRef<ComponentInterface> CreateComponent(PT::Entity::Entity * entity, const char* name);
 
     bool LoadComponentFactory(const char* name);
 

@@ -26,6 +26,7 @@ namespace PT
 
   ComponentManager::ComponentManager(PointerLibrary* ptrlib)
   {
+    this->ptrlib = ptrlib;
     obj_reg = ptrlib->getObjectRegistry();
   }
 
@@ -40,29 +41,37 @@ namespace PT
     return true;
   }
 
-  csRef<ComponentInterface>
-    ComponentManager::CreateComponent(const char* name)
+  template<class Interface>
+  csRef<ComponentInterface> ComponentManager::CreateComponent(PT::Entity::Entity * entity, const char* name)
+  {
+    csRef<ComponentInterface> comp = CreateComponent(name);
+    if (!comp.IsValid()) return 0;
+
+    csRef<Interface> infa = scfQueryInterface<Interface> (comp);
+
+    infa->Initialize(ptrlib, entity);
+  }
+
+  csRef<ComponentInterface> ComponentManager::CreateComponent(const char* name)
   {
     if (!LoadComponentFactory(name)) return 0;
 
-    csRef<ComponentFactoryInterface> fact;
-    components.Get(name, fact);
-    csRef<ComponentInterface> interface =
-      fact->CreateComponent(name);
+    csRef<ComponentFactoryInterface> fact = components.Get(name, 0);
+    csRef<ComponentInterface> interf = fact->CreateComponent(name);
 
-    return interface;
+    return interf;
   }
 
-  bool LoadComponentFactory(const char* name)
+  bool ComponentManager::LoadComponentFactory(const char* name)
   {
     if (components.Contains(name)) return true;
 
     csRef<ComponentFactoryInterface> fact =
-      csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, name)
+      csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, name);
 
     if (fact)
     {
-      components.Put(fact);
+      components.Put(name, fact);
       return true;
     }
     else
