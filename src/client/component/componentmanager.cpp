@@ -35,7 +35,40 @@ namespace PT
 
   bool ComponentManager::Initialize()
   {
+    plugin_mgr = csQueryRegistry<iPluginManager> (obj_reg);
+
     return true;
+  }
+
+  csRef<ComponentInterface>
+    ComponentManager::CreateComponent(const char* name)
+  {
+    if (!LoadComponentFactory(name)) return 0;
+
+    csRef<ComponentFactoryInterface> fact;
+    components.Get(name, fact);
+    csRef<ComponentInterface> interface =
+      fact->CreateComponent(name);
+
+    return interface;
+  }
+
+  bool LoadComponentFactory(const char* name)
+  {
+    if (components.Contains(name)) return true;
+
+    csRef<ComponentFactoryInterface> fact =
+      csLoadPlugin<ComponentFactoryInterface> (plugin_mgr, name)
+
+    if (fact)
+    {
+      components.Put(fact);
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
 }

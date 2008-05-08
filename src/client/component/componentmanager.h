@@ -21,6 +21,12 @@
 
 #include <cssysdef.h>
 #include <iutil/objreg.h>
+#include <iutil/plugin.h>
+#include <csutil/scf_implementation.h>
+#include <csutil/hash.h>
+
+#include "include/client/component/component.h"
+#include "include/client/component/componenttmpl.h"
 
 class PointerLibrary;
 
@@ -30,6 +36,9 @@ namespace PT
   {
   private:
     iObjectRegistry* obj_reg;
+    csRef<iPluginManager> plugin_mgr;
+
+    csHash<ComponentFactoryInterface, const char*> components;
 
   public:
    /**
@@ -43,6 +52,10 @@ namespace PT
     *@return True, indicating success
     */
     bool Initialize();
+
+    csRef<ComponentInterface> CreateComponent(const char* name);
+
+    bool LoadComponentFactory(const char* name);
 
   };
 }
