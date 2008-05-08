@@ -1,0 +1,90 @@
+<html>
+<head><title>Simple Dialog Editor</title>
+<script>
+<!--
+// If you're wondering why I'm using parseFloat rather than parseInt even though we know it's never gonna be floating-point, it's because of a bug in Firefox that makes parseInt("08" or "09") = 0
+var dialogs=new Array();
+
+function note(msg){
+document.getElementById("notes").value+=msg+"\n";
+}
+
+function Replace(rep,wit,inside){
+  while(inside.indexOf(rep)>-1){inside=inside.replace(rep,wit);}
+  return inside;
+}
+
+function Answer(label,href){
+this.label=label;
+this.href=parseFloat(href);
+}
+
+function Dialog(dialogcode){
+  this.id=parseFloat(dialogcode.substring(dialogcode.indexOf(" id=")+4,dialogcode.indexOf(">",dialogcode.indexOf(" id="))).replace("\"","").replace("\"","").replace("'","").replace("'",""));
+  dialogcode=dialogcode.substring(dialogcode.indexOf("<",dialogcode.indexOf(">")),dialogcode.length);
+  this.dialogtype=dialogcode.substring(dialogcode.indexOf("<")+1,dialogcode.indexOf(">"));
+  this.dialogtext=dialogcode.substring(dialogcode.indexOf(">")+1,dialogcode.indexOf("</"+this.dialogtype+">"));
+  note("Added dialog with type '"+this.dialogtype+"', id: "+this.id+" and text: '"+this.dialogtext+"'");
+  this.answers=new Array(); // A function dialog can also produce answers. Label those as the function call, e.g. "Answer: (dialog 64)"
+  if(this.dialogtype=="function"){
+    var pos=0;
+    while(this.dialogtext.indexOf("(dialog ",pos)>-1){
+      pos=this.dialogtext.indexOf("(dialog ",pos);
+      var answer=new Answer(this.dialogtext.substring(pos,this.dialogtext.indexOf(")",pos)+1),this.dialogtext.substring(this.dialogtext.indexOf(" ",pos)+1,this.dialogtext.indexOf(")",pos)));
+      note("Adding answer \""+answer.label+"\" linking to dialog "+answer.href);
+      this.answers.push(answer);
+      pos++;
+    }
+  }
+  while(dialogcode.toLowerCase().indexOf("<answer")>-1){
+    dialogcode=dialogcode.substring(dialogcode.toLowerCase().indexOf("<answer"),dialogcode.length);
+    var href=-1;
+    if(dialogcode.indexOf(" href=")>-1&&dialogcode.indexOf(" href=")<dialogcode.indexOf("</answer>")){
+      href=dialogcode.substring(dialogcode.indexOf(" href=")+6,dialogcode.indexOf(">")).replace("\"","").replace("\"","").replace("'","").replace("'","");
+    }
+    var answer=new Answer(dialogcode.substring(dialogcode.indexOf(">")+1,dialogcode.toLowerCase().indexOf("</answer>")),href);
+    note("Adding answer \""+answer.label+"\" linking to dialog "+(answer.href>-1?answer.href:"None (ends dialog)"));
+    this.answers.push(answer);
+    dialogcode=dialogcode.substring(dialogcode.toLowerCase().indexOf("</answer>")+9,dialogcode.length);
+  }
+}
+
+function drawdialog(id,parents){
+  if(id==-1){return "[End of conversation]";}
+  if(parents.indexOf("|"+id+"|")>-1){return "Linking to message with ID "+id+", [insert select button here]";}
+  var array_pos=-1;
+  for(var i=0;i<dialogs.length;i++){
+    if(dialogs[i].id==id){array_pos=i;}
+  }
+  note("Found dialog with ID "+id+" at "+array_pos);
+  if(array_pos==-1){note("Error - answer pointing to inexistant dialog ID "+id);return "Error - answer pointing to inexistant dialog ID "+id;}
+  var colspan=dialogs[array_pos].answers.length;if(colspan<1){colspan=1;}
+  var dialog="<table border=\"2\"><tr><td colspan=\""+colspan+"\"><b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"</td></tr><tr>";
+  for(var i=0;i<dialogs[array_pos].answers.length;i++){
+    dialog+="<td valign=\"top\"><b><nobr>Answer: "+dialogs[array_pos].answers[i].label+"</nobr></b><br>"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</td>";
+  }
+  return dialog+"</tr></table>";
+}
+
+function render(){
+  document.getElementById("notes").value="";
+  dialogs=new Array();
+  var code=document.getElementById("dialogcode").value;
+  while(code.toLowerCase().indexOf("<dialog ")>-1){
+    code=code.substring(code.toLowerCase().indexOf("<dialog "),code.length);
+    var dialog=new Dialog(code.substring(0,code.toLowerCase().indexOf("</dialog>")));
+    dialogs.push(dialog);
+    code=code.substring(code.toLowerCase().indexOf("</dialog>")+9,code.length);
+  }
+  document.getElementById("dialog_tables").innerHTML=drawdialog(0,"|");
+}
+//-->
+</script></head>
+<body>
+<textarea id="dialogcode" rows="10" cols="70">Paste the content of an NPC's XML here and click "Render"</textarea>
+<textarea id="notes" rows="10" cols="70">Message field, this field will be filled with debug messages, rather than those pesky popups</textarea><br><button onclick="render();">Render</button>
+<div id="dialog_tables">
+
+</div>
+</body>
+</html>
