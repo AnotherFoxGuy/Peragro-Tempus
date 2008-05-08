@@ -99,48 +99,52 @@ namespace PT
     lastStep = step;
    
     //=[ Sun position ]===================================
-    //TODO: Make the sun stay longer at its highest point at noon.
-     float temp = step * 2;
-    if (temp > 1.0f) { temp -= 1.0f; temp = 1 - temp; }
+    float temp = step * 2.0f;
+    if (temp > 1.0f) temp = 2.0f - temp;
     
-    sun_theta = (2*temp - 1)*0.85;
+    sun_theta = ((2.0f * temp) - 1.0f) * 0.85;
 
-    sun_alpha = 1.605f * sin(-step * 2*PI) - 3.21f;
+    sun_alpha = 1.605f * sin(-step * 2.0f * PI) - 3.21f;
 
     // Update the values.
     csVector3 sun_vec;
-    sun_vec.x = cos(sun_theta)*sin(sun_alpha);
+    sun_vec.x = cos(sun_theta) * sin(sun_alpha);
     sun_vec.y = sin(sun_theta);
-    sun_vec.z = cos(sun_theta)*cos(sun_alpha);
+    sun_vec.z = cos(sun_theta) * cos(sun_alpha);
     csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
     var->SetValue(sun_vec);
 
     // Set the sun position.
     csVector3 sun_pos = sun_vec * 1500.0f;
-    if (sun) 
+    if (sun)
     {
       //sun->GetMovable()->SetPosition(sun_pos);
       //sun->GetMovable()->UpdateMove();
     }
 
     //=[ Sun brightness ]===================================
-    float brightness = pow(sin(step * PI), 5);
-    csColor color(brightness);
-    csColor ambient(brightness);
-
-    // Clamp the values so it doesn't go all dark at night.
-    ambient.Clamp(0.37f, 0.34f, 0.34f);
-    if (ambient.blue < 0.1f) ambient.blue = 0.1f;
-    if (color.blue < 0.2) color.blue = 0.2f;
+    // This is just "Lambert's cosine law" shifted so midday is 0, and
+    // multiplied by 1.9 instead of 2 to extend the daylight after sunset to
+    // approximate twilight.
+    float brightness = cos((step - 0.5f) * PI * 1.9f);
+    csColor sunlight(brightness * 1.5f);
+    // The ambient color is adjusted to give a more yellow colour at midday,
+    // graduating to a purplish blue at midnight. Adjust "darkness" to stop the
+    // players complaining it's too dark.
+    float darkness = 0.2f;
+    float amb = cos((step - 0.5f) * PI * 2.2f);
+    csColor ambient((amb*0.125f)+0.075f+darkness, (amb*0.15f)+0.05f+darkness,
+      (amb*0.075f)+0.075f+darkness);
 
     // Update the values.
     iSector* world = engine->FindSector("World");
     if (world) world->SetDynamicAmbientLight(ambient);
-    if (sun) sun->SetColor(color*1.5);
+    if (sun) sun->SetColor(sunlight);
 
     //=[ Clouds ]========================================
     //<shadervar type="vector3" name="cloudcol">0.98,0.59,0.46</shadervar>
-    float brightnessc = pow(sin(step * PI), 3);
+    //float brightnessc = pow(sin(step * PI), 3);
+    float brightnessc = (amb * 0.6f) + 0.4f;
     csStringID time = strings->Request("timeOfDay");
     csRef<csShaderVariable> sv = shaderMgr->GetVariableAdd(time);
     sv->SetValue(brightnessc);

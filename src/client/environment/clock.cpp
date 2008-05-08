@@ -81,7 +81,7 @@ namespace PT
       Report(PT::Error, "Invalid minutes per hour value recieved!");
     else minutesPerHour = PT::Events::EnvironmentHelper::GetMinutesPerHour(&ev);
 
-    if (PT::Events::EnvironmentHelper::GetHoursPerDay(&ev))
+    if (PT::Events::EnvironmentHelper::GetHoursPerDay(&ev) == 0)
       Report(PT::Error, "Invalid hours per day value recieved!");
     else hoursPerDay = PT::Events::EnvironmentHelper::GetHoursPerDay(&ev);
 
