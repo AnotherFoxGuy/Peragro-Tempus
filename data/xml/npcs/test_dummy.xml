@@ -110,7 +110,7 @@
 			<text>Oh. How can I help you?</text>
 			<answer href="10">Can you tell me about keep?</answer>
 			<answer href="70">I'm in a hurry, can you help?</answer>
-			<answer href="69">Nah, just saying hi.</answer>
+			<answer href="60">Nah, just saying hi.</answer>
 		</dialog>
 		<dialog id="30">
 			<text>Actually, there was a favor I wanted to ask you for when you came back... but I forget now</text>
