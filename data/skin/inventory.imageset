@@ -10,4 +10,7 @@
 	<Image Name="Scythe"          XPos="512" YPos="0"   Width="256" Height="256" />
 	<Image Name="Key01"           XPos="768" YPos="0"   Width="256" Height="256" />
 	<Image Name="bastardsword01"  XPos="0"   YPos="256" Width="256" Height="256" />
+	<Image Name="primabuckler"    XPos="256" YPos="256" Width="256" Height="256" />
+	<Image Name="oldbook"         XPos="512" YPos="256" Width="256" Height="256" />
+	
 </Imageset>
