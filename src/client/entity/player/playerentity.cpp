@@ -72,7 +72,7 @@ namespace PT
         return;
       }
 
-      csRef<ComponentInterface> playerControls =
+      csRef<iPlayerControls> playerControls =
         PointerLibrary::getInstance()->getComponentManager()->CreateComponent
         <iPlayerControls>(this, "peragro.entity.input.playercontrols");
       if(playerControls.IsValid())
@@ -80,7 +80,7 @@ namespace PT
       else
         Report(PT::Error, "Failed to load the playerControls!");
 
-      csRef<ComponentInterface> viewBob =
+      csRef<iViewBob> viewBob =
         PointerLibrary::getInstance()->getComponentManager()->CreateComponent
         <iViewBob>(this, "peragro.entity.move.viewbob");
       if(viewBob.IsValid())

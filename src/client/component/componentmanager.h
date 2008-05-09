@@ -84,14 +84,15 @@ namespace PT
       bool Initialize();
 
       /**
-       * Create an instance of the templated component, initialize it, and return it.
+       * Create an instance of the templated component, initialize it, and
+       * return it.
        * @param Interface The interface of the component to be created.
        * @param entity The entity to create the component for.
        * @param name The name of the component.
        * @return The component interface.
        */
       template<class Interface>
-      csRef<ComponentInterface> CreateComponent(PT::Entity::Entity* entity, const char* name);
+      csRef<Interface> CreateComponent(PT::Entity::Entity* entity, const char* name);
 
       /**
        * Check if a component factory is in the hash table, and load it if not.
@@ -101,6 +102,24 @@ namespace PT
       bool LoadComponentFactory(const char* name);
 
     };
+
+    // Template implementations must reside in the header, both its declaration
+    // and definition must be available in every translation unit that uses it.
+    template<class Interface>
+    csRef<Interface> ComponentManager::CreateComponent(PT::Entity::Entity * entity, const char* name)
+    {
+      csRef<ComponentInterface> comp = CreateComponent(name);
+      if (!comp.IsValid()) return 0;
+
+      csRef<Interface> infa = scfQueryInterface<Interface> (comp);
+
+      if (!infa.IsValid()) return 0;
+
+      infa->Initialize(ptrlib, entity);
+
+      return infa;
+    } // end CreateComponent()
+
   } // Component namespace
 } // PT namespace
 

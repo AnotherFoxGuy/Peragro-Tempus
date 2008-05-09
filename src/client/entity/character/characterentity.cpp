@@ -75,7 +75,7 @@ namespace PT
       if (object_reg == 0)
         Report(PT::Error, "object_reg!");
 
-      csRef<ComponentInterface> networkMove =
+      csRef<iNetworkMove> networkMove =
         PointerLibrary::getInstance()->getComponentManager()->CreateComponent
         <iNetworkMove> (this, "peragro.entity.move.networkmove");
       if(networkMove.IsValid())

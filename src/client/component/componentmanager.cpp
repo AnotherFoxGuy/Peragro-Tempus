@@ -42,21 +42,6 @@ namespace PT
       return true;
     } // end Initialize()
 
-    template<class Interface>
-    csRef<ComponentInterface> ComponentManager::CreateComponent(PT::Entity::Entity * entity, const char* name)
-    {
-      csRef<ComponentInterface> comp = CreateComponent(name);
-      if (!comp.IsValid()) return 0;
-
-      csRef<Interface> infa = scfQueryInterface<Interface> (comp);
-
-      if (!infa.IsValid()) return 0;
-
-      infa->Initialize(ptrlib, entity);
-
-      return infa;
-    } // end CreateComponent()
-
     csRef<ComponentInterface> ComponentManager::CreateComponent(const char* name)
     {
       if (!LoadComponentFactory(name)) return 0;
