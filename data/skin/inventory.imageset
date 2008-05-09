@@ -12,5 +12,5 @@
 	<Image Name="bastardsword01"  XPos="0"   YPos="256" Width="256" Height="256" />
 	<Image Name="primabuckler"    XPos="256" YPos="256" Width="256" Height="256" />
 	<Image Name="oldbook"         XPos="512" YPos="256" Width="256" Height="256" />
-	
+	<Image Name="fancyclaymore"   XPos="768" YPos="256" Width="256" Height="256" />	
 </Imageset>
