@@ -66,7 +66,7 @@
 	<item>
 		<id>6</id>
 		<name>Book</name>
-		<icon>set:Inventory image:apple</icon>
+		<icon>set:Inventory image:oldbook</icon>
 		<description>A book.</description>
 		<file>/peragro/meshes/books/book.xml</file>
 		<mesh>book</mesh>
@@ -107,6 +107,17 @@
 		<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
 		<mesh>Stuff001_smallplate_64_plates</mesh>
 		<weight>0</weight>
+	</item>
+
+	<item>
+		<id>10</id>
+		<name>Prima Buckler</name>
+		<icon>set:Inventory image:primabuckler</icon>
+		<description>A small buckler style shield.</description>
+		<file>/peragro/data/art/3d_art/props/shields/primabuckler/buckler1.xml</file>
+		<mesh>buckler1</mesh>
+		<weight>18</weight>
+		<equiptype>shield</equiptype>
 	</item>
 	
 </items>
