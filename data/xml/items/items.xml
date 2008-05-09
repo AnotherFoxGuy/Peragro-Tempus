@@ -109,7 +109,7 @@
 		<weight>0</weight>
 	</item>
 
-	<item>
+	<!--<item>
 		<id>10</id>
 		<name>Prima Buckler</name>
 		<icon>set:Inventory image:primabuckler</icon>
@@ -118,6 +118,6 @@
 		<mesh>buckler1</mesh>
 		<weight>18</weight>
 		<equiptype>shield</equiptype>
-	</item>
+	</item> -->
 	
 </items>
