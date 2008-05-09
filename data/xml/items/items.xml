@@ -23,8 +23,8 @@
 
 	<item>
 		<id>3</id>
-		<name>Bastard Sword</name>
-		<icon>set:Inventory image:bastardsword01</icon>
+		<name>Daedalian Claymore</name>
+		<icon>set:Inventory image:fancyclaymore</icon>
 		<description>
 			A masterful sword for those born out
 			of wedlock.
