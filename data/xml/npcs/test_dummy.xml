@@ -19,7 +19,7 @@
 			<value name="interval_rand">50</value>
 		</aisetting>
 		<inventory>
-			<item slot="0" item="3" variation="0" />
+			<item slot="0" item="10" variation="0" />
 		</inventory>
 		<dialog id="0">
 			<function>(if (> (reputation test_dummy) -1) (dialog 01) (dialog 09))</function>

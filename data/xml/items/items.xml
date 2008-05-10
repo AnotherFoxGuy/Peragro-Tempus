@@ -109,15 +109,15 @@
 		<weight>0</weight>
 	</item>
 
-	<!--<item>
+	<item>
 		<id>10</id>
 		<name>Prima Buckler</name>
 		<icon>set:Inventory image:primabuckler</icon>
 		<description>A small buckler style shield.</description>
-		<file>/peragro/data/art/3d_art/props/shields/primabuckler/buckler1.xml</file>
+		<file>/peragro/art/3d_art/props/shields/primabuckler/buckler1.xml</file>
 		<mesh>buckler1</mesh>
 		<weight>18</weight>
 		<equiptype>shield</equiptype>
-	</item> -->
+	</item>
 	
 </items>
