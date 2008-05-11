@@ -130,7 +130,7 @@
 		<dialog id="71">
 			<text>Ah... no... I don't think I can. Sorry.</text>
 			<answer href="20">No, it's ok. After all, it was worth the try.</answer>
-			<answer href="30">How dare you... If fighting was implemented I would so kill you, u n00b!!111</answer>
+			<answer href="12">How dare you... If fighting was implemented I would so kill you, u n00b!!111</answer>
 		</dialog>
 		<dialog id="72">
 			<function>(if (> (reputation test_dummy) 10) (dialog 74) (dialog 73))</function>
