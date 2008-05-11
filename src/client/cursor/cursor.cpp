@@ -143,6 +143,9 @@ void Cursor::Draw()
     case PT::Entity::ItemEntityType:
       nameTag->setProperty("NormalTextColour", "FF0505AA");
       break;
+    case PT::Entity::PlayerEntityType:
+      nameTag->setProperty("NormalTextColour", "FF05AA05");
+      break;
     default:
       nameTag->setVisible(false);
     }

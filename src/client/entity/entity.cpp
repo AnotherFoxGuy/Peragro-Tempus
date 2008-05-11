@@ -52,16 +52,21 @@ namespace PT
       name = PT::Events::EntityHelper::GetString(&ev, "entityName");
       meshName = PT::Events::EntityHelper::GetString(&ev, "meshName");
       fileName = PT::Events::EntityHelper::GetString(&ev, "fileName");
-      unsigned int sectorId = PT::Events::EntityHelper::GetSectorId(&ev);
       pos = PT::Events::EntityHelper::GetPosition(&ev);
       ev.Retrieve("rotation", rot);
 
-      ///@todo This is an ugly hack. The server seems to send some impossible
-      ///sector id from time to time.
+      unsigned int sectorId = PT::Events::EntityHelper::GetSectorId(&ev);
       PT::Data::Sector* sector = PointerLibrary::getInstance()->
         getSectorDataManager()->GetSectorById(sectorId);
-      if (sector) sectorName = sector->GetName();
-      //End of ugly hack
+      if (sector)
+      {
+        sectorName = sector->GetName();
+      }
+      else
+      {
+        sectorName = "Default_Sector";
+        Report(PT::Error, "Unknown sectorID: %u!", sectorId);
+      }
     }
 
     void Entity::CreateCelEntity()

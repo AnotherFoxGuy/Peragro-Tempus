@@ -285,7 +285,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   entityEvent->Add("meshName", *entmsg.getMesh());
   entityEvent->Add("fileName", *entmsg.getFile());
   PT::Events::EntityHelper::SetPosition(entityEvent, entmsg.getPos());
-  entityEvent->Add("rotation", 0); // @TODO: add item rotation
+  entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
   entityEvent->Add("entityId", entmsg.getEntityId());
   entityEvent->Add("entityType", PT::Entity::ItemEntityType);

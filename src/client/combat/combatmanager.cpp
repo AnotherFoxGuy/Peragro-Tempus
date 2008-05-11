@@ -248,7 +248,8 @@ namespace PT
       {
         effectsManager->CreateEffect(skill->GetEffects().caster.c_str(), GetMesh(caster));
         caststring = skill->GetStartString();
-        if (caster->GetType() == PT::Entity::PCEntityType)
+        if (caster->GetType() == PT::Entity::PlayerEntityType ||
+            caster->GetType() == PT::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*)caster)->PlayAnimation(skill->GetEffects().castanim.c_str());
         }
@@ -293,7 +294,8 @@ namespace PT
       {
         effectsManager->CreateEffect(skill->GetEffects().target.c_str(), GetMesh(target));
         caststring = skill->GetCompleteString();
-        if (target->GetType() == PT::Entity::PCEntityType)
+        if (target->GetType() == PT::Entity::PlayerEntityType ||
+            target->GetType() == PT::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*)target)->PlayAnimation(skill->GetEffects().targetanim.c_str());
         }

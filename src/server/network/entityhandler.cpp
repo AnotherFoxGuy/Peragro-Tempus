@@ -310,6 +310,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 
   Entity* ent = e->getEntity()->getLock();
   ent->setPos(user_ent->getPos());
+  ent->setRotation(user_ent->getRotation());
   ent->setSector(user_ent->getSector());
   ent->freeLock();
 

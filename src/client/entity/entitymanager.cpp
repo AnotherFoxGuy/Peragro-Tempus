@@ -89,7 +89,7 @@ namespace PT
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.remove", cb);
       // Register listener for EntityEquipEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.equip", cb);
-      // Register listener for EntityEquipEvent.
+      // Register listener for EntityMountEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.mount", cb);
       // Register listener for EntityPoseEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pose", cb);
@@ -112,25 +112,26 @@ namespace PT
     void EntityManager::ProcessEvents()
     {
       using namespace PT::Events;
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
       while (!events.IsEmpty())
       {
         csRef<iEvent> ev = events.Pop();
-        std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev->GetName());
+        csStringID id = ev->GetName();
         if (playerId != 0)
         {
-          if (id.compare("entity.add") == 0)
+          if (evmgr->IsKindOf(id, "entity.add"))
             AddEntity(*ev);
         }
         if (world_loaded && PointerLibrary::getInstance()->getStateManager()->GetState() == STATE_PLAY)
         {
-          if (id.compare("entity.remove") == 0)
+          if (evmgr->IsKindOf(id, "entity.remove"))
             RemoveEntity(*ev);
-          else if (id.compare("entity.equip") == 0)
+          else if (evmgr->IsKindOf(id, "entity.equip"))
             Equip(*ev);
-          else if (id.compare("entity.mount") == 0)
+          else if (evmgr->IsKindOf(id, "entity.mount"))
             Mount(*ev);
-          else if (id.compare("entity.pose") == 0)
+          else if (evmgr->IsKindOf(id, "entity.pose"))
             EntityPose(*ev);
         }
       } // for
@@ -301,16 +302,18 @@ namespace PT
       Entity* entity = findPtEntById(id);
       if (entity)
       {
-        if (entity->GetType() == PCEntityType)
+        if (entity->GetType() == PlayerEntityType ||
+            entity->GetType() == PCEntityType ||
+            entity->GetType() == NPCEntityType)
         {
           if (!itemId == 0)
-            {
+          {
             ((PcEntity*) entity)->GetEquipment().Equip(slotId, itemId);
-            }
+          }
           else
-            {
+          {
             ((PcEntity*) entity)->GetEquipment().UnEquip(slotId);
-            }
+          }
         }
       }
 
@@ -333,7 +336,9 @@ namespace PT
       Entity* mount = findPtEntById(mountId);
       if (entity && mount)
       {
-        if (entity->GetType() == PCEntityType && mount->GetType() == MountEntityType)
+        if ((entity->GetType() == PlayerEntityType ||
+            entity->GetType() == PCEntityType) &&
+            mount->GetType() == MountEntityType)
         {
           MountEntity* m = static_cast<MountEntity*>(mount);
           if (mounting)

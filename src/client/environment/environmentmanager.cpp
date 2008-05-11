@@ -131,7 +131,7 @@ namespace PT
     // The ambient color is adjusted to give a more yellow colour at midday,
     // graduating to a purplish blue at midnight. Adjust "darkness" to stop the
     // players complaining it's too dark.
-    float darkness = 0.2f;
+    const float darkness = 0.2f;
     float amb = cos((step - 0.5f) * PI * 2.2f);
     csColor ambient((amb*0.125f)+0.075f+darkness, (amb*0.15f)+0.05f+darkness,
       (amb*0.075f)+0.075f+darkness);

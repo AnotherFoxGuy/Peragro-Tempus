@@ -23,6 +23,7 @@
 		<string>File</string>
 		<string>Mesh</string>
 		<vector3f>Pos</vector3f>
+		<float>Rotation</float>
 		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 	</message>

@@ -90,6 +90,7 @@ void AddItemEntityMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[0]);
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
+  serial.setFloat(rotation);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
 }
@@ -107,6 +108,7 @@ void AddItemEntityMessage::deserialise(ByteStream* bs)
   pos[0] = serial.getFloat();
   pos[1] = serial.getFloat();
   pos[2] = serial.getFloat();
+  rotation = serial.getFloat();
   sectorid = (unsigned short) serial.getInt16();
   entityid = (unsigned int) serial.getInt32();
 }

@@ -162,6 +162,7 @@ class AddItemEntityMessage : public NetMessage
   ptString file;
   ptString mesh;
   float pos[3];
+  float rotation;
   unsigned short sectorid;
   unsigned int entityid;
 
@@ -203,6 +204,9 @@ public:
   {
     setPos(x[0], x[1], x[2]);
   }
+
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }

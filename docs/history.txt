@@ -6,6 +6,7 @@ under each day.
 
 08-May-2008
  - vornne helped sueastside implement the component manager.
+ - vornne added rotation to item entity messages, fixed some bugs.
 
 07-May-2008
  - vornne added PlayerEntityType and set it as the type for the PlayerEntity,

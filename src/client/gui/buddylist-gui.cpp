@@ -124,10 +124,11 @@ bool BuddyWindow::ToggleWindow(iEvent& ev)
 bool BuddyWindow::ProcessEvents(iEvent& ev)
 {
   using namespace PT::Events;
+  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
-  std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev.GetName());
+  csStringID id = ev.GetName();
 
-  if (id.compare("entity.add") == 0)
+  if (evmgr->IsKindOf(id, "entity.add"))
   {
     if (EntityHelper::GetEntityType(&ev) == PT::Entity::PCEntityType)
     {
@@ -136,7 +137,7 @@ bool BuddyWindow::ProcessEvents(iEvent& ev)
       AddPlayer(nick);
     }
   }
-  else if (id.compare("entity.remove") == 0)
+  else if (evmgr->IsKindOf(id, "entity.remove"))
   {
     unsigned int entid = EntityHelper::GetEntityID(&ev);
 

@@ -81,13 +81,13 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEntityId(entity->getId());
     msg.setItemId(item->getId());
     msg.setPos(entity->getPos());
+    msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
 
     msg.setName(item->getName());
     msg.setFile(item->getFile());
     msg.setMesh(item->getMesh());
 
-    //msg.setSector(entity->getSectorName());
     msg.serialise(&bs);
   }
   else if (entity->getType() == Entity::PlayerEntityType)
@@ -101,7 +101,6 @@ void User::sendAddEntity(const Entity* entity)
     msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
-    //msg.setSector(entity->getSectorName());
     msg.setPoseId(entity->getPlayerEntity()->getPose());
     Character* character = entity->getPlayerEntity()->getCharacter()->getLock();
     msg.setDecalColour(character->getDecalColour());
@@ -137,7 +136,6 @@ void User::sendAddEntity(const Entity* entity)
     msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
-    //msg.setSector(entity->getSectorName());
     Character* character = entity->getNpcEntity()->getCharacter()->getLock();
     Inventory* inv = character->getInventory();
     msg.setEquipmentCount(10);
@@ -170,7 +168,6 @@ void User::sendAddEntity(const Entity* entity)
     msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
-    //msg.setSector(entity->getSectorName());
     msg.serialise(&bs);
   }
   else
