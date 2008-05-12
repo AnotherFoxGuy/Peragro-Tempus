@@ -28,6 +28,8 @@ class CombatManager {
     CombatManager();
     ~CombatManager();
     int AttackRequest(const PcEntity* attackerEntity, unsigned int targetID);
+    int AttackRequest(Character* lockedAttackerCharacter,
+                      Character* lockedTargetCharacter);
     bool CheckIfReadyToAttack(const Character* attacker);
     bool CheckIfTargetIsAttackable(const Character* attacker,
                                   const Character* target);

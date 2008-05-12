@@ -53,32 +53,28 @@ unsigned int CombatManager::GetMaxLife(CharacterStats *lockedStats) {
   // Max life is 1 * endurance
   return lockedStats->getAmount(endurance);
 }
-  
+
 /**
- * Handles a request from a player to attack a target
- * @todo Add support for non player attacker as well.
- * @todo This function is just way to big, divide it.
- * @param attackerEntity The PcEntity for the attacking player
- * @param targetID the Entity ID of the target
- * @return 0 upon failure
+ * Handles a request from a player to attack a target.
+ * @param attackerEntity The PcEntity for the attacking player.
+ * @param targetID the Entity ID of the target.
+ * @return 0 upon failure.
  */
-int
-CombatManager::AttackRequest(const PcEntity *attackerEntity,
-                             unsigned int targetID)
+int CombatManager::AttackRequest(const PcEntity *attackerEntity,
+                                 unsigned int targetID) 
 {
-  unsigned int damage = 0;
-  float attackChance = 0.0f;
   const Entity* targetEntity;
-  Character* lockedTargetCharacter;
+  Character* lockedAttacker;
+  Character* lockedTarget;
   const Character* c_char;
-  Character* lockedAttackerCharacter;
-  CharacterStats* stats;
-  int attackResult;
-  
-  // TODO
-  // Get the attacking character - currently only support a player attacking
+  int status = 0;
+
   if (!attackerEntity || !attackerEntity->getCharacter()) {
     // Invalid attacker.
+    return 0;
+  }
+
+  if (!(lockedAttacker = attackerEntity->getCharacter()->getLock())) {
     return 0;
   }
 
@@ -90,19 +86,39 @@ CombatManager::AttackRequest(const PcEntity *attackerEntity,
   }
   if (targetEntity->getType() == Entity::PlayerEntityType) {
     c_char = targetEntity->getPlayerEntity()->getCharacter();
-    lockedTargetCharacter = c_char->getLock();
+    lockedTarget = c_char->getLock();
   } else if (targetEntity->getType() == Entity::NPCEntityType) {
     c_char = targetEntity->getNpcEntity()->getCharacter();
-    lockedTargetCharacter = c_char->getLock();
+    lockedTarget = c_char->getLock();
   } else {
     // Should not happen, but do not crash on release build, since fake message
     // could bring down the server then
-    lockedTargetCharacter->freeLock();
+    lockedTarget->freeLock();
     return 0;
   }
 
-  lockedAttackerCharacter = attackerEntity->getCharacter()->getLock();
-
+  status = AttackRequest(lockedAttacker, lockedTarget);
+  lockedAttacker->freeLock();
+  lockedTarget->freeLock();
+  return status;
+}
+  
+/**
+ * Handles a request from a player to attack a target
+ * @todo This function is just way to big, divide it.
+ * @param lockedAttackerCharacter The attacking character.
+ * @param lockedTargetCharacter The attacked character.
+ * @return 0 upon failure
+ */
+int
+CombatManager::AttackRequest(Character* lockedAttackerCharacter,
+                             Character* lockedTargetCharacter)
+{
+  unsigned int damage = 0;
+  float attackChance = 0.0f;
+  CharacterStats* stats;
+  int attackResult;
+  
   if (!CheckIfReadyToAttack(lockedAttackerCharacter)) {
     // The player needs to wait a bit before attacking again
     lockedAttackerCharacter->freeLock();
@@ -158,7 +174,7 @@ CombatManager::AttackRequest(const PcEntity *attackerEntity,
   StatsChangeMessage msg;
   ByteStream statsbs;
   msg.setStatId(hp->getId());
-  msg.setEntityId(targetID);
+  msg.setEntityId(lockedTargetCharacter->getEntity()->getId());
   msg.setName(ptString("Health", strlen("Health")));
   msg.setLevel(stats->getAmount(hp));
   msg.serialise(&statsbs);
@@ -216,7 +232,7 @@ CombatManager::AttackRequest(const PcEntity *attackerEntity,
     NetworkHelper::broadcast(statsbs);
   } else {
     // Only report the damage to the affected player
-    if (targetEntity->getType() == Entity::PlayerEntityType) {
+    if (lockedTargetCharacter->getEntity()->getType() == Entity::PlayerEntityType) {
       NetworkHelper::sendMessage(lockedTargetCharacter, statsbs);
     }
   }
