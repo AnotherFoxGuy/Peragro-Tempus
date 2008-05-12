@@ -234,7 +234,7 @@ CombatManager::AttackRequest(const PcEntity *attackerEntity,
  * @return Returns a number between 0 and 100.
  */
 int CombatManager::RollDice() {
-  return (int) random() % 100;
+  return (int) rand() % 101;
 }
 
   

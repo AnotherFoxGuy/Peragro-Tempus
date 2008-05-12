@@ -13,6 +13,8 @@ under each day.
  - swedishcoder fminf etc was not available implemted PT specific functions
    instead. Feel free to remove and use public available if you find any
    avaialable on both platforms.
+ - swedishcoder changed to rand, hopefully that will work on all OS's. Also
+   fixed a % operation error spotted by sueastside.
 
 08-May-2008
  - vornne helped sueastside implement the component manager.
