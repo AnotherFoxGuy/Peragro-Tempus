@@ -26,15 +26,23 @@
 			<function>(if (> (reputation test_dummy) -1) (dialog 01) (dialog 10))</function>
 		</dialog>
 		<dialog id="01">
-			<text>Let us not waste our time in idle discourse! Let us do something, while we have the chance! It is not every day that we are needed. Not indeed that we personally are needed. Others would meet the case equally well, if not better. To all mankind they were addressed, those cries for help still ringing in our ears!</text>
+			<text>Let us not waste our time in idle discourse! Let us do something, while we have the chance!</text>
 			<answer href="02">...</answer>
 		</dialog>
 		<dialog id="02">
-			<text>But at this place, at this moment of time, all mankind is us, whether we like it or not. Let us make the most of it, before it is too late! Let us represent worthily for once the foul brood to which a cruel fate consigned us! What do you say?</text>
-				<answer href="03">...</answer>
+			<text>It is not every day that we are needed. Not that we personally are needed. Others would meet the case equally well, if not better. To all mankind they were addressed, those cries for help still ringing in our ears!</text>
+				<answer href="03">ahh...</answer>
 		</dialog>
 		<dialog id="03">
-			<text>It is true that when with folded arms we weigh the pros and cons we are no less a credit to our species. The tiger bounds to the help of his congeners without the least reflection, or else he slinks away into the depths of the thickets. But that is not the question. What are we doing here, that is the question. And we are blessed in this, that we happen to know the answer. Yes, in this immense confusion one thing alone is clear. We are waiting for Godot to come...</text>
+			<text>But at this place, at this moment of time, all mankind is us, whether we like it or not. Let us make the most of it, before it is too late! Let us represent worthily for once the foul brood to which a cruel fate consigned us! What do you say?</text>
+				<answer href="04">I...</answer>
+		</dialog>
+		<dialog id="04">
+			<text>It is true that when with folded arms we weigh the pros and cons we are no less a credit to our species. The tiger bounds to the help of his congeners without the least reflection, or else he slinks away into the depths of the thickets.</text>
+				<answer href="05">what...</answer>
+		</dialog>
+		<dialog id="05">
+			<text>But that is not the question. What are we doing here, that is the question. And we are blessed in this, that we happen to know the answer. Yes, in this immense confusion one thing alone is clear. We are waiting for Godot to come...</text>
 		</dialog>
 		<dialog id="11">
 			<text>We are all born mad. Some remain so.</text>
