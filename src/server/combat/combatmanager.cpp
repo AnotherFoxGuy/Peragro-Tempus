@@ -22,7 +22,7 @@
 #include "iutil/vfs.h"
 #include "csutil/ref.h"
 #include "csutil/csstring.h"
-#include <math.h>
+#include "src/common/ptmath.h"
 #include <stdlib.h> // random
 
 #include "src/server/entity/entity.h"
@@ -310,8 +310,8 @@ float CombatManager::GetAttackChance(const Character* lockedAttacker,
                                      const Character* lockedTarget) 
 {
   return GetAgility(lockedAttacker) * GetSkillBonus(lockedAttacker) - 
-     fminf(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
-     fmaxf(fmaxf(GetBlock(lockedTarget), GetDodge(lockedTarget)),
+     ptminf(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
+     ptmaxf(ptmaxf(GetBlock(lockedTarget), GetDodge(lockedTarget)),
          GetParry(lockedTarget));
   return 10000;
 }

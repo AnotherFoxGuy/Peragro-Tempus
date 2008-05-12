@@ -10,6 +10,9 @@ under each day.
    DarkerDreams. This code is rather untested and not complete, but my local
    tree grow to big to keep track of all changes, hence the commit. 
  - swedishcoder implemented a simple RollDice function for the combat system.
+ - swedishcoder fminf etc was not available implemted PT specific functions
+   instead. Feel free to remove and use public available if you find any
+   avaialable on both platforms.
 
 08-May-2008
  - vornne helped sueastside implement the component manager.
