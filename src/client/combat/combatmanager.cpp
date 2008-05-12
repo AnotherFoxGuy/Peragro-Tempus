@@ -88,17 +88,19 @@ namespace PT
       skillManager = PointerLibrary::getInstance()->getSkillDataManager();
       network      = PointerLibrary::getInstance()->getNetwork();
 
+      using namespace PT::Events; 
 
       // Register listener for ActionHit.
-      PT::Events::EventHandler<CombatManager>* cbActionHit = new PT::Events::EventHandler<CombatManager>(&CombatManager::ActionHit, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_HIT", cbActionHit);
+      csRef<EventHandlerCallback> cbActionHit;
+      cbActionHit.AttachNew(new EventHandler<CombatManager>(&CombatManager::ActionHit, this));                                                                             \
+      evmgr->AddListener("input.ACTION_HIT", cbActionHit);
+      eventHandlers.Push(cbActionHit);
 
-  // TODO this leaks, need to remove at destruction
-  // Register listener for AttackTarget
-  PT::Events::EventHandler<CombatManager>* cbAttackTarget = 
-    new PT::Events::EventHandler<CombatManager>(&CombatManager::ActionAttackTarget, this);
-  PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ATTACK",
-                                                                cbAttackTarget);
+      // Register listener for AttackTarget.
+      csRef<EventHandlerCallback> cbAttackTarget;
+      cbAttackTarget.AttachNew(new EventHandler<CombatManager>(&CombatManager::ActionAttackTarget, this));                                                                             \
+      evmgr->AddListener("input.ACTION_ATTACK", cbAttackTarget);
+      eventHandlers.Push(cbAttackTarget);
 
       if (!entityManager)
         return Report(PT::Bug, "CombatManager: Failed to locate ptEntityManager plugin");

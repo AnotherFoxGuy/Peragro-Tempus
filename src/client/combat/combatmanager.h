@@ -54,6 +54,8 @@ namespace PT
       csRef<iLoader> loader;
       csRef<iCelPlLayer> pl;
 
+      csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
+
       PT::Effect::EffectsManager* effectsManager;
       PT::Entity::EntityManager* entityManager;
       GUIManager* guiManager;
