@@ -23,6 +23,7 @@
 #include "csutil/ref.h"
 #include "csutil/csstring.h"
 #include <math.h>
+#include <stdlib.h> // random
 
 #include "src/server/entity/entity.h"
 
@@ -121,8 +122,8 @@ CombatManager::AttackRequest(const PcEntity *attackerEntity,
                                  lockedTargetCharacter);
 
   
+  attackResult = RollDice();
   // TODO
-  //attackResult = RollDice();
   //DeductStamina(lockedAttackerCharacter);
 
   if (attackResult > attackChance) {
@@ -227,6 +228,15 @@ CombatManager::AttackRequest(const PcEntity *attackerEntity,
   //CalculateAttack();
   return 1;
 }
+
+/**
+ * Roll the dice.
+ * @return Returns a number between 0 and 100.
+ */
+int CombatManager::RollDice() {
+  return (int) random() % 100;
+}
+
   
 /**
  * Checks if the player is ready to attack.

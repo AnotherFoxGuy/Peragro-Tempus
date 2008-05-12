@@ -46,6 +46,7 @@ class CombatManager {
     float GetBlock(const Character* lockedCharacter);
     float GetDodge(const Character* lockedCharacter);
     float GetParry(const Character* lockedCharacter);
+    int RollDice();
 
 
 };

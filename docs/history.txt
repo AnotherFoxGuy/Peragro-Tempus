@@ -9,6 +9,7 @@ under each day.
    based on the http://wiki.peragro.org/index.php/Combat written by
    DarkerDreams. This code is rather untested and not complete, but my local
    tree grow to big to keep track of all changes, hence the commit. 
+ - swedishcoder implemented a simple RollDice function for the combat system.
 
 08-May-2008
  - vornne helped sueastside implement the component manager.
