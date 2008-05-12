@@ -89,6 +89,7 @@ namespace PT
       network      = PointerLibrary::getInstance()->getNetwork();
 
       using namespace PT::Events; 
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
       // Register listener for ActionHit.
       csRef<EventHandlerCallback> cbActionHit;
