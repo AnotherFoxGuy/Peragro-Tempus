@@ -61,6 +61,7 @@ class NpcValidator
 					{
 					Console.WriteLine("An error has occurred during parsing. An attribute is likely missing.");
 					}
+
 				}
 				
 				else
@@ -86,12 +87,12 @@ class NpcValidator
 
 	Console.WriteLine("\n\nPeragro Tempus NPC Validator\nValidating {0}.\n", filename);
 
+ 	CheckLength(filename);
+
 	// create XmlReader settings
 	XmlReaderSettings settings = new XmlReaderSettings();
 
-	settings.Schemas.Add(null, schema);
-
-	
+	settings.Schemas.Add(null, schema);	
 
 	settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
 	
@@ -175,6 +176,61 @@ class NpcValidator
 	// Print the error to the screen.
 	Console.WriteLine(args.Message);
 
+	}
+
+	public static void CheckLength(string xmlfilename)
+	{
+
+	// Retrieve XML document  
+	XmlTextReader reader = new XmlTextReader(xmlfilename);
+
+	// Skip non-significant whitespace  
+	reader.WhitespaceHandling = WhitespaceHandling.Significant;  
+  
+	// Read nodes one at a time  
+	while (reader.Read())  
+	{  
+
+		switch (reader.NodeType) 
+		{
+
+		case XmlNodeType.Element:
+
+			switch (reader.Name)
+			{
+				case "text":
+
+				string teststring = reader.ReadString().ToString();
+
+				if ( teststring.Length > 254 )
+				{
+				Console.WriteLine("\nString is too long.\nThe offending string is: {0}\n Length: {1}\nPlease keep the number of characters less than 255", teststring, teststring.Length);
+				}
+				else
+				{
+				}	
+					
+				break;
+				case "answer":
+
+				string teststringb = reader.ReadString().ToString();
+
+				if ( teststringb.Length > 254 )
+				{
+				Console.WriteLine("\nString is too long.\nThe offending string is: {0}\n Length: {1}\nPlease keep the number of characters less than 255", teststringb, teststringb.Length);
+				}
+				else
+				{
+				}
+
+				break;
+			}
+			break;
+		}
+
+	
+	}
+	
 	}
 
 
