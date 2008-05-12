@@ -310,6 +310,9 @@
 				RelativePath="..\..\src\server\network\chathandler.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\network\combathandler.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\network\doorhandler.cpp">
 			</File>
 			<File
@@ -345,6 +348,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\chathandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\network\combathandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\connection.h">

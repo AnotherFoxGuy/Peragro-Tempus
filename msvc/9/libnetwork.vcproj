@@ -310,6 +310,9 @@
 				RelativePath="..\..\src\common\network\chatmessages.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\network\combatmessages.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\doormessages.cpp">
 			</File>
 			<File
@@ -348,6 +351,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\chatmessages.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\combatmessages.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\deserialiser.h">

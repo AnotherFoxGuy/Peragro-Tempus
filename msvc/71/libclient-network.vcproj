@@ -347,6 +347,9 @@
 				RelativePath="..\..\src\client\network\chathandler.h">
 			</File>
 			<File
+				RelativePath="..\..\src\client\network\combathandler.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\network\connectionhandler.h">
 			</File>
 			<File

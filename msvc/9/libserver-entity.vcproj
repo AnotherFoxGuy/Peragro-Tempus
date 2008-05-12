@@ -307,6 +307,9 @@
 				RelativePath="..\..\src\server\entity\charactermanager.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\charactermasteries.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\characterskills.cpp">
 			</File>
 			<File
@@ -374,6 +377,12 @@
 				RelativePath="..\..\src\server\entity\charactermanager.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\charactermasteries.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\charactermastery.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\characterreputations.h">
 			</File>
 			<File
@@ -411,6 +420,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\itemmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\mastery.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\mountentity.h">
