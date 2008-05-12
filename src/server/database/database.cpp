@@ -46,6 +46,7 @@
 #include "table-zonenodes.h"
 #include "table-reputations.h"
 #include "table-characterreputations.h"
+#include "table-charactermasteries.h"
 
 Database::Database()
 {

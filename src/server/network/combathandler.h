@@ -20,34 +20,32 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef NWTYPES_H
-#define NWTYPES_H
+#ifndef COMBATHANDLER_H
+#define COMBATHANDLER_H
 
-#define MSG_NET_VERSION 1574421576
+#include "common/network/nwtypes.h"
 
-#define MSG_CLIENT_PEER_VERSION 579857121
-#define MSG_SERVER_PEER_VERSION 2638775992
+#include "common/network/combatmessages.h"
 
-#define MSG_HANDLER_COUNT 13
-
-namespace MESSAGES
+class CombatHandler : public MessageHandler
 {
-  enum HANDLERS
+public:
+  CombatHandler()
   {
-    CONNECTION=0,
-    USER=1,
-    ENTITY=2,
-    CHAT=3,
-    SKILL=4,
-    DOOR=5,
-    QUEST=6,
-    TRADE=7,
-    ENVIRONMENT=8,
-    BOOK=9,
-    ADMIN=10,
-    PLAYER=11,
-    COMBAT=12
-  };
-}
+  }
 
-#endif // NWTYPES_H
+  char getType() { return MESSAGES::COMBAT; }
+
+  void handle(GenericMessage* msg)
+  {
+    char type = msg->getMsgType();
+    if (type != MESSAGES::COMBAT) assert("wrong message type");
+    char id = msg->getMsgId();
+
+    if (id == COMBAT::ATTACKREQUEST) handleAttackRequest(msg);
+  }
+
+  void handleAttackRequest(GenericMessage* msg);
+};
+
+#endif // COMBATHANDLER_H

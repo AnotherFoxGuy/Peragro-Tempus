@@ -72,7 +72,8 @@ namespace PT
       void Die(int targetId);
       void LevelUp(int targetId);
       void Experience(int exp);
-      void SkillUsageStart(unsigned int casterId, unsigned int targetId, int skillId, ptString error);
+      void SkillUsageStart(unsigned int casterId, unsigned int targetId,
+                           int skillId, ptString error);
       void SkillUsageComplete(unsigned int casterId, unsigned int targetId, int skillId);
       void RequestSkillUsageStart(iCelEntity* target, unsigned int skillId);
       void RequestSkillUsageStart(unsigned int targetId, unsigned int skillId);
@@ -83,8 +84,14 @@ namespace PT
        * @return False if an error occured, true otherwise.
        */
       bool ActionHit(iEvent& ev);
-    };
 
+      /**
+       * Handler for ACTION_ATTACK event.
+       * @param ev Event describing the attack.
+       * @return False if an error occured, true otherwise.
+       */
+      bool ActionAttackTarget(iEvent& ev);
+    };
   } // Combat namespace
 } // PT namespace
 

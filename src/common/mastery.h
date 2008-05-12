@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2008 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,42 +16,23 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef STATMANAGER_H
-#define STATMANAGER_H
+#ifndef COMMON_MASTERY_H
+#define COMMON_MASTERY_H
 
-#include <vector>
-#include <string>
-#include "client/event/eventmanager.h"
+enum {
+  WEIGHT = 1,
+  REACH,
+  DAMAGE,
+  QUALITY,
+  HEFT,
+  DURABILITY,
+  PULL,
+  RANGE,
+  AMOUNT,
+  MObilIty,
+  HARDNESS,
+  BULK,
+  TOUGHNESS,
+};
 
-namespace PT
-{
-  namespace Entity
-  {
-
-    struct Stat{
-      std::string name;
-      int level;
-      int id;
-      unsigned int entityId;
-    };
-
-    class StatManager
-    {
-    private:
-      std::vector<Stat> stats;
-
-    public:
-      StatManager ();
-      ~StatManager ();
-
-      bool Initialize();
-      bool AddStat(iEvent& ev);
-      int GetStat(const char* name);
-      bool UpdateStat(iEvent& ev);
-
-    };
-
-  } // Entity namespace
-} // PT namespace
-
-#endif // STATMANAGER_H
+#endif // COMMON_MASTERY_H

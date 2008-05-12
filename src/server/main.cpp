@@ -55,6 +55,7 @@
 #include "server/colldet/bullet.h"
 
 #include "common/util/wincrashdump.h"
+#include "server/combat/combatmanager.h"
 
 #include <signal.h>
 
@@ -135,6 +136,9 @@ int main(int argc, char ** argv)
 
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
+
+  CombatManager *combatMgr = new CombatManager();
+  server.setCombatManager(combatMgr);
 
   UserManager usr_mgr;
   server.setUserManager(&usr_mgr);

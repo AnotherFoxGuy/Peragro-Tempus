@@ -21,6 +21,14 @@
 #include "client/event/entityevent.h"
 
 #include "client/pointer/pointer.h"
+#include "client/entity/entitymanager.h"
+#include "client/event/eventmanager.h"
+#include "client/combat/combatmanager.h"
+
+#include "client/gui/gui.h"
+#include "client/gui/guimanager.h"
+
+#include "client/entity/player/playerentity.h"
 
 namespace PT
 {
@@ -44,6 +52,58 @@ namespace PT
       // Register listener for EntityStatEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.stat", cb);
 
+      EventHandler<StatManager>* update = new EventHandler<StatManager>(
+                                              &StatManager::UpdateStat, this);
+      // Register listener for EntityStatEvent.
+      PointerLibrary::getInstance()->getEventManager()->
+                      AddListener("entity.stat.change", update);
+
+      return true;
+    }
+
+    /**
+     *
+     * Will take care of stat updates and take appropriate actions.
+     *
+     * @param ev The iEvent containing the stat update.
+     *
+     */
+    bool StatManager::UpdateStat(iEvent& ev)
+    {
+      using namespace PT::Events;
+      Stat stat;
+      const char* tmpname;
+      int maxLife;
+
+      ev.Retrieve("name", tmpname);
+      stat.name = tmpname;
+      ev.Retrieve("level", stat.level);
+      ev.Retrieve("id", stat.id);
+      ev.Retrieve("entityid", stat.entityId);
+
+      // Locate the correct stat.
+      for (unsigned int i = 0; i < stats.size(); i++) {
+        if(stats[i].id == stat.id) {
+          stats[i].level = stat.level;
+        }
+      }
+
+      // TODO really shouldn't calculate it here, but get it from the character.
+      // Life 1 * endurance
+      maxLife = GetStat("Endurance");
+
+      if (strncmp("Health", stat.name.c_str(), strlen("Health")) == 0) {
+        // If the health update belong to the player, update the gui.
+        if (stat.entityId == PlayerEntity::Instance()->GetId()) {
+          GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+          HUDWindow* hudWindow = guimanager->GetHUDWindow();
+          hudWindow->SetHP(stat.level, maxLife);
+        }
+        // If HP = 0, then play the die animation for the dying entity.
+        if (stat.level == 0) {
+          PointerLibrary::getInstance()->getCombatManager()->Die(stat.entityId);
+        }
+      }
       return true;
     }
 
@@ -57,6 +117,7 @@ namespace PT
       ev.Retrieve("name", tmpname);
       stat.name = tmpname;
       ev.Retrieve("level", stat.level);
+      ev.Retrieve("id", stat.id);
 
       stats.push_back(stat);
       return true;
@@ -72,6 +133,5 @@ namespace PT
       }
       return 0;
     }
-
   } // Entity namespace
 } // PT namespace

@@ -6,11 +6,13 @@ SubInclude TOP src server database ;
 SubInclude TOP src server entity ;
 SubInclude TOP src server environment ;
 SubInclude TOP src server network ;
+SubInclude TOP src server combat ;
 SubInclude TOP src server quest ;
 
 Description server : "Server" ;
 Application server : [ Wildcard *.h *.cpp ] : console ;
-LinkWith server : server-network server-entity server-environment server-ai server-colldet sqlite_adp database quest tinyxml util ;
+
+LinkWith server : server-network server-entity server-environment server-ai server-colldet sqlite_adp database quest tinyxml util server-combat ;
 
 MsvcExternalLibrary server : "wsock32.lib" ;
 

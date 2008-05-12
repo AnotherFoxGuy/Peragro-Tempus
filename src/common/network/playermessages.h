@@ -34,7 +34,8 @@ namespace PLAYER
     INVENTORYMOVEITEM=3,
     STATSLIST=4,
     STATSCHANGE=5,
-    SKILLSLIST=6
+    SKILLSLIST=6,
+    MASTERIESLIST=7
   };
 }
 
@@ -237,6 +238,8 @@ public:
 class StatsChangeMessage : public NetMessage
 {
   unsigned short statid;
+  unsigned short entityid;
+  ptString name;
   unsigned short level;
 
 public:
@@ -253,6 +256,12 @@ public:
 
   unsigned short getStatId() const { return statid; }
   void setStatId(unsigned short x) { statid = x; }
+
+  unsigned short getEntityId() const { return entityid; }
+  void setEntityId(unsigned short x) { entityid = x; }
+
+  ptString getName() const { return name; }
+  void setName(ptString x) { name = x; }
 
   unsigned short getLevel() const { return level; }
   void setLevel(unsigned short x) { level = x; }
@@ -303,6 +312,57 @@ public:
   void setName(size_t i, ptString x) { skills[i].name = x; }
 
   // --- end ListSkills Getter and Setter ---
+
+};
+
+class MasteriesListMessage : public NetMessage
+{
+  class ListMasteries
+  {
+  public:
+    unsigned char level;
+    unsigned short id;
+    unsigned short type;
+  };
+
+  unsigned char masteriescount;
+  ListMasteries* masteries;
+
+
+public:
+  MasteriesListMessage() : NetMessage(MESSAGES::PLAYER,PLAYER::MASTERIESLIST)
+  {
+    masteries = 0;
+  }
+
+  ~MasteriesListMessage()
+  {
+    delete [] masteries;
+  }
+
+  void serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getMasteriesCount() const { return masteriescount; }
+  void setMasteriesCount(unsigned char ic)
+  {
+    masteriescount = ic;
+    delete [] masteries;
+    masteries = new ListMasteries[ic];
+  }
+
+  // --- begin ListMasteries Getter and Setter ---
+
+  unsigned char getLevel(size_t i) { return masteries[i].level; }
+  void setLevel(size_t i, unsigned char x) { masteries[i].level = x; }
+
+  unsigned short getID(size_t i) { return masteries[i].id; }
+  void setID(size_t i, unsigned short x) { masteries[i].id = x; }
+
+  unsigned short getType(size_t i) { return masteries[i].type; }
+  void setType(size_t i, unsigned short x) { masteries[i].type = x; }
+
+  // --- end ListMasteries Getter and Setter ---
 
 };
 

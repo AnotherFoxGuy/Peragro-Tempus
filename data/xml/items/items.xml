@@ -86,6 +86,22 @@
 	<item>
 		<id>8</id>
 		<name>Flaming Dragon Edge Sword</name>
+    <reach>10</reach>
+    <damage>11</damage>
+    <quality>12</quality>
+    <heft>14</heft>
+    <durability>15</durability>
+    <itemtype>weapon</itemtype> <--! weapon, rangedweapon, armor, ammunition -->
+    <pull>16</pull>
+    <--! Only for ranged weapon -->
+    <range>-1</range> 
+    <--! Only for ammunition -->
+    <amount>-1</amount> 
+    <--! Only for armor -->
+    <mobility>-1</mobility> 
+    <hardness>-1</hardness>
+    <bulk>-1</bulk>
+    <toughness>-1</toughness>
 		<icon>set:Inventory image:DragonEdgeSword</icon>
 		<description>
 			Past on from generation to generation of Tibet Monks

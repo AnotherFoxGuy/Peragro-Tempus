@@ -50,7 +50,7 @@ public:
   HUDWindow(GUIManager* guimanager);
   virtual ~HUDWindow();
   void CreateGUIWindow();    // load the chat guilayout and register button events.
-  void SetHP (float hp);       // set the hp.
+  void SetHP (int hp, int maxHp);       // set the hp.
   void SetMP (float mp);       // set the mp.
   void SetXP (float xp);       // set the xp.
   void SetSP (float sp);       // set the sp.

@@ -38,15 +38,20 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 
+#include "client/cursor/cursor.h"
+
 #include "client/data/skill.h"
 #include "client/data/skilldatamanager.h"
 
 #include "client/effect/effectsmanager.h"
 
+#include "client/entity/entity.h"
 #include "client/entity/entitymanager.h"
 
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
+#include "common/network/combatmessages.h"
+#include "common/combat/combat.h"
 
 #include "client/state/statemanager.h"
 
@@ -83,9 +88,17 @@ namespace PT
       skillManager = PointerLibrary::getInstance()->getSkillDataManager();
       network      = PointerLibrary::getInstance()->getNetwork();
 
+
       // Register listener for ActionHit.
       PT::Events::EventHandler<CombatManager>* cbActionHit = new PT::Events::EventHandler<CombatManager>(&CombatManager::ActionHit, this);
       PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_HIT", cbActionHit);
+
+  // TODO this leaks, need to remove at destruction
+  // Register listener for AttackTarget
+  PT::Events::EventHandler<CombatManager>* cbAttackTarget = 
+    new PT::Events::EventHandler<CombatManager>(&CombatManager::ActionAttackTarget, this);
+  PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ATTACK",
+                                                                cbAttackTarget);
 
       if (!entityManager)
         return Report(PT::Bug, "CombatManager: Failed to locate ptEntityManager plugin");
@@ -396,9 +409,40 @@ namespace PT
           Hit(entityManager->GetPlayerId(), 20);
         }
       }
-
       return true;
     }
 
+    /**
+     * Will send attack request to the server.
+     * @param iEvent The event.
+     * @return true if action taken, false otherwise.
+     */
+    bool CombatManager::ActionAttackTarget(iEvent& ev)
+    {
+      using namespace PT::Events;
+
+      // Only attack upon button down events.
+      if (InputHelper::GetButtonDown(&ev))
+      {
+        csRef<iCelEntity> ent = PointerLibrary::getInstance()->getCursor()->GetSelectedEntity();
+        if (!ent) return false;
+        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
+        if (!pcprop) return false;
+
+        unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
+
+        // Send message to server requesting an attack
+        AttackRequestMessage msg;
+        msg.setAttackType(STANDARD_ATTACK);
+        msg.setTargetID(id);
+        network->send(&msg);
+
+        // TODO
+        // Do local check as well (to check if we can attack yet etc) and if so
+        // play animation.
+        return true;
+      }
+      return false;
+    }
   } // Combat namespace
 } // PT namespace

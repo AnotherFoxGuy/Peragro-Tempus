@@ -129,6 +129,14 @@
 			<message id="4" name="StatsList" />
 			<message id="5" name="StatsChange" />
 			<message id="6" name="SkillsList" />
+			<message id="7" name="MasteriesList" />
+		</type>
+		<type id="12" name="Combat">
+			<message id="1" name="AttackRequest" />
+			<message id="2" name="AttackNotification" />
+			<message id="3" name="UpdateArmor" />
+			<message id="4" name="UpdateWeapon" />
+			<message id="5" name="AttackResult" />
 		</type>
 	</message-definitions>
 	<message-implementations>
@@ -144,5 +152,6 @@
 		<message-implementation src="msgs_book.xml" />
 		<message-implementation src="msgs_admin.xml" />
 		<message-implementation src="msgs_player.xml" />
+		<message-implementation src="msgs_combat.xml" />
 	</message-implementations>
 </pt-gen>

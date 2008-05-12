@@ -221,5 +221,10 @@
 		<message type="Player" name="SkillsList" />
 		<!--message type="Player" name="InventoryMoveItemRequest" /-->
 		<message type="Player" name="InventoryMoveItem" />
+
+		<message type="Combat" name="AttackNotification" />
+		<message type="Combat" name="UpdateArmor" />
+		<message type="Combat" name="UpdateWeapon" />
+		<message type="Combat" name="AttackResult" />
 	</receive>
 </peer>

@@ -110,6 +110,7 @@
 		<message type="Player" name="SkillsList" />
 		<!--message type="Player" name="InventoryMoveItemRequest" /-->
 		<message type="Player" name="InventoryMoveItem" />
+		<message type="Player" name="MasteriesList" />
 	</send>
 	<receive>
 		<message type="Connection" name="Request" />
@@ -221,5 +222,7 @@
 		<!--message type="Player" name="SkillsList" /-->
 		<message type="Player" name="InventoryMoveItemRequest" />
 		<!--message type="Player" name="InventoryMoveItem" /-->
+
+		<message type="Combat" name="AttackRequest" />
 	</receive>
 </peer>

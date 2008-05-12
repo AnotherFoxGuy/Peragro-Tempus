@@ -102,9 +102,28 @@ void HUDWindow::ShowWindow()
   winMgr->getWindow("SkillHUD/Frame")->setVisible(true);
 }
 
-void HUDWindow::SetHP (float hp)
+/**
+ *
+ * Function that will update the HP bar in the gui.
+ *
+ * @param hp The current health.
+ * @param maxHP The maximum health.
+ *
+ */
+void HUDWindow::SetHP(int hp, int maxHp)
 {
-  hpbar->setProgress(hp);
+  char buf[30];
+  float progress;
+  if (maxHp == 0) {
+    progress = 0.0f;
+  } else {
+    progress = hp/(float)maxHp;
+  }
+  hpbar->setProgress(progress);
+  snprintf(buf, 29, "           %d / %d", hp, maxHp);
+  buf[29] = '\0';
+
+  SetText("PlayerHUD/HPValue", buf);
 }
 
 void HUDWindow::SetMP (float mp)

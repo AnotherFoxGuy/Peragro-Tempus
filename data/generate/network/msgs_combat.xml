@@ -1,0 +1,17 @@
+<message-implementation>
+	<message type="Combat" name="AttackRequest">
+		<uint32>TargetID</uint32>
+		<uint32>AttackType</uint32>
+	</message>
+
+	<message type="Combat" name="AttackNotification">
+		<uint32>PlayerID</uint32>
+		<uint32>Health</uint32>
+	</message>
+
+	<message type="Combat" name="AttackResult">
+		<uint32>PlayerID</uint32>
+		<uint32>Health</uint32>
+	</message>
+
+</message-implementation>

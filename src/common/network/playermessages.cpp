@@ -150,6 +150,8 @@ void StatsChangeMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt16(statid);
+  serial.setInt16(entityid);
+  serial.setString(name);
   serial.setInt16(level);
 }
 
@@ -159,6 +161,8 @@ void StatsChangeMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   statid = (unsigned short) serial.getInt16();
+  entityid = (unsigned short) serial.getInt16();
+  name = serial.getString();
   level = (unsigned short) serial.getInt16();
 }
 
@@ -187,6 +191,37 @@ void SkillsListMessage::deserialise(ByteStream* bs)
   {
     skills[i].skillid = (unsigned short) serial.getInt16();
     skills[i].name = serial.getString();
+  };
+
+}
+
+void MasteriesListMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(masteriescount);
+  for ( size_t i = 0; i < masteriescount ; i++ )
+  {
+    serial.setInt8(masteries[i].level);
+    serial.setInt16(masteries[i].id);
+    serial.setInt16(masteries[i].type);
+  };
+
+}
+
+void MasteriesListMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  masteriescount = (unsigned char) serial.getInt8();
+  setMasteriesCount(masteriescount);
+  for ( size_t i = 0; i < masteriescount ; i++ )
+  {
+    masteries[i].level = (unsigned char) serial.getInt8();
+    masteries[i].id = (unsigned short) serial.getInt16();
+    masteries[i].type = (unsigned short) serial.getInt16();
   };
 
 }

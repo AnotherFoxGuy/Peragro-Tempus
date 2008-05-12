@@ -38,6 +38,14 @@ public:
   TcpConnectionHandler(TcpConnectionManager* updConnMgr, TcpSocket* socket)
   : updConnMgr(updConnMgr), socket(socket)
   {
+    // If all handlers are correctly setup this should not be needed.
+    // However, if a new handler is added, but not correctly integrated
+    // into the code base, handlers will contain illeagal values, hence adding
+    // this for debuging perpose - and its also just done once, so no time
+    // penalty
+    for (int i = 0; i < MSG_HANDLER_COUNT; i++) {
+      handlers[i] = 0;
+    }
   }
 
   void handle(GenericMessage* msg, int socket)
