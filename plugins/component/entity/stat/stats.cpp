@@ -17,7 +17,7 @@
 */
 
 #include <cssysdef.h>
-#include "plugins/component/entity/stats/stats.h"
+#include "plugins/component/entity/stat/stats.h"
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>
@@ -86,7 +86,7 @@ bool ComponentStats::UpdateStat(iEvent& ev)
 
   // TODO really shouldn't calculate it here, but get it from the character.
   // Life 1 * endurance
-  maxLife = GetStat("Endurance");
+  maxLife = GetStatLevel("Endurance");
 
 /*
   if (strncmp("Health", stat->name.c_str(), strlen("Health")) == 0) 
@@ -149,7 +149,7 @@ Stat* ComponentStats::GetStat(const char* name)
 
 int ComponentStats::GetStatLevel(const char* name)
 {
-  Stat* stat = GetStat(const char* name);
+  Stat* stat = GetStat(name);
   if (stat)
   {
     return stat->level;

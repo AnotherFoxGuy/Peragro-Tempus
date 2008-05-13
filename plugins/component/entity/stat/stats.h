@@ -77,8 +77,8 @@ public:
 
     virtual bool Initialize (PointerLibrary*, PT::Entity::Entity*);
 
-    virtual PT::Entity::Stat* GetStat(unsigned int id);
-    virtual PT::Entity::Stat* GetStat(const char* name);
+    virtual Stat* GetStat(unsigned int id);
+    virtual Stat* GetStat(const char* name);
     virtual int GetStatLevel(const char* name);
 };
 
