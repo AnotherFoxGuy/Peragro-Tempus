@@ -54,7 +54,6 @@ namespace PT
   namespace Entity
   {
     class EntityManager;
-    class StatManager;
     class PlayerEntity;
   } // Entity namespace
 
@@ -100,7 +99,6 @@ private:
   GUIManager* guiManager;
   PT::StateManager* stateManager;
   PT::Entity::EntityManager* entityManager;
-  PT::Entity::StatManager* statManager;
   PT::Effect::EffectsManager* effectsManager;
   PT::Combat::CombatManager* combatManager;
   PT::Chat::ChatManager* chatManager;
@@ -131,7 +129,6 @@ public:
     stateManager = 0;
     environmentManager = 0;
     entityManager = 0;
-    statManager = 0;
     effectsManager = 0;
     combatManager = 0;
     chatManager = 0;
@@ -180,9 +177,6 @@ public:
 
   void setEntityManager(PT::Entity::EntityManager* entityManager) { this->entityManager = entityManager; }
   PT::Entity::EntityManager* getEntityManager() { return this->entityManager; }
-
-  void setStatManager(PT::Entity::StatManager* statManager) { this->statManager = statManager; }
-  PT::Entity::StatManager* getStatManager() { return this->statManager; }
 
   void setEffectsManager(PT::Effect::EffectsManager* effectsManager) { this->effectsManager = effectsManager; }
   PT::Effect::EffectsManager* getEffectsManager() { return this->effectsManager; }

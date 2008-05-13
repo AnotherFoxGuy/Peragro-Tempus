@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- Stats.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.entity.stats</name>
+        <implementation>ComponentFStats</implementation>
+        <description>Perago player entity stats</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

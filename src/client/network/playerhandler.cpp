@@ -68,7 +68,7 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
     guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
     Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
 
-    csRef<iEvent> playerEvent = evmgr->CreateEvent("entity.stat", true);
+    csRef<iEvent> playerEvent = evmgr->CreateEvent("entity.stat.add", true);
 
     playerEvent->Add("name", *stat_msg.getName(i));
     playerEvent->Add("id", stat_msg.getStatId(i));

@@ -29,7 +29,7 @@ Clock::Clock()
   hoursPerDay = 24;
 
   // Real time in tenths of seconds per game minute.
-  realPerGame = 5;
+  realPerGame = 1;
   // Broadcast updates once a game hour.
   broadcastInterval = 60;
 

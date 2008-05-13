@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef CLIPBOARD_DEFAULT_HEADER
-#define CLIPBOARD_DEFAULT_HEADER
+#ifndef NETWORKMOVE_H
+#define NETWORKMOVE_H
 
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>

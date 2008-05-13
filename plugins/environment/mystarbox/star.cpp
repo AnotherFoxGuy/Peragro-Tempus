@@ -32,7 +32,8 @@ Star::Star (   std::string star_name,
   classification = new_classification;
   luminosity = new_luminosity;
 
-  mass = pow ( cbrt(luminosity) , 2 ) ;
+  //mass = pow ( cbrt(luminosity) , 2 );
+  mass = pow ( pow(luminosity, 1.0f/3) , 2 );
   starcolor = color;
   system = parent_system;
 

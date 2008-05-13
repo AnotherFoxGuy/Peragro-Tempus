@@ -35,8 +35,6 @@
 #include "client/event/interfaceevent.h"
 #include "client/event/entityevent.h"
 
-#include "client/entity/statmanager.h"
-
 #include "client/world/world.h"
 
 #include "client/data/sector.h"

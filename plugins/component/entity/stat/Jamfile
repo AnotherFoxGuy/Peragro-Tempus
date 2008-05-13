@@ -1,0 +1,7 @@
+SubDir TOP plugins component entity stat ;
+
+Description componentstats : "stats component" ;
+Plugin componentstats : [ Wildcard *.cpp *.h ] ;
+ExternalLibs componentstats : CRYSTAL CEL BOOST ;
+LinkWith componentstats : client-reporter client-eventmanager client-component ;
+

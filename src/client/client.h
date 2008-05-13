@@ -102,7 +102,6 @@ namespace PT
   namespace Entity
   {
     class EntityManager;
-    class StatManager;
   } // Entity namespace
 
   namespace Effect
@@ -222,7 +221,6 @@ namespace PT
     PT::Reflection::ReflectionRenderer* reflectionRenderer;
 
     PT::Entity::EntityManager* entityManager;
-    PT::Entity::StatManager* statManager;
     PT::Effect::EffectsManager* effectsManager;
     PT::Combat::CombatManager* combatManager;
     PT::Chat::ChatManager* chatManager;

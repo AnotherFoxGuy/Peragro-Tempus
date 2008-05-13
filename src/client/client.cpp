@@ -78,7 +78,6 @@
 #include "client/entity/entitymanager.h"
 #include "client/chat/chatmanager.h"
 #include "client/data/effect/reflection.h"
-#include "client/entity/statmanager.h"
 #include "client/environment/environmentmanager.h"
 #include "client/component/componentmanager.h"
 #include "client/trade/trademanager.h"
@@ -124,7 +123,6 @@ namespace PT
     reflectionRenderer = 0;
 
     entityManager = 0;
-    statManager = 0;
     effectsManager = 0;
     combatManager = 0;
     chatManager = 0;
@@ -154,7 +152,6 @@ namespace PT
     delete reflectionRenderer;
 
     delete entityManager;
-    delete statManager;
     delete effectsManager;
     delete combatManager;
     delete chatManager;
@@ -404,12 +401,6 @@ namespace PT
     if (!entityManager->Initialize())
       return Report(PT::Error, "Failed to initialize EntityManager!");
     pointerlib.setEntityManager(entityManager);
-
-    // Create and Initialize the StatManager.
-    statManager = new PT::Entity::StatManager ();
-    if (!statManager->Initialize())
-      return Report(PT::Error, "Failed to initialize StatManager!");
-    pointerlib.setStatManager(statManager);
 
     // Create and Initialize the EffectsManager.
     effectsManager = new PT::Effect::EffectsManager ();
