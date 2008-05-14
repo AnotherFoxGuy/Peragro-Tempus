@@ -11,6 +11,8 @@ under each day.
  - swedishcoder Made a temporary fix to make the server send damage > 0 if
    someone is attacked. Some various clean up and marked a few function "todo".
  - swedishcoder added some extended server logging to debug the combat system.
+ - swedishcoder added missing freeLock for attacking character in one of the
+   error paths in the combat system
 
 13-May-2008
  - vornne changed networkmove to turn gravity off while the world loads, so the

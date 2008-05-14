@@ -99,6 +99,7 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
     // Should not happen, but do not crash on release build, since fake message
     // could bring down the server then
     lockedTarget->freeLock();
+    lockedAttacker->freeLock();
     printf("CombatManager: Target neither player nor npc\n");
     return 0;
   }
