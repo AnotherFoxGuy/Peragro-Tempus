@@ -55,6 +55,8 @@
 
 #include "client/state/statemanager.h"
 
+#include "include/client/component/entity/stat/stats.h"
+
 namespace PT
 {
   namespace Combat
@@ -103,6 +105,12 @@ namespace PT
       evmgr->AddListener("input.ACTION_ATTACK", cbAttackTarget);
       eventHandlers.Push(cbAttackTarget);
 
+      // Register listener for UpdateStat.
+      csRef<EventHandlerCallback> cbUpdateStat;
+      cbUpdateStat.AttachNew(new EventHandler<CombatManager>(&CombatManager::UpdateStat, this));                                                                             \
+      evmgr->AddListener("entity.stat.change", cbUpdateStat);
+      eventHandlers.Push(cbUpdateStat);
+
       if (!entityManager)
         return Report(PT::Bug, "CombatManager: Failed to locate ptEntityManager plugin");
 
@@ -120,6 +128,64 @@ namespace PT
 
       return true;
     }
+
+    bool CombatManager::UpdateStat(iEvent& ev)
+    {
+      using namespace PT::Events;
+      using namespace PT::Entity;
+
+      unsigned int entityid = -1;
+      ev.Retrieve("entityid", entityid);
+
+      PT::Entity::Entity* target = entityManager->findPtEntById(entityid);
+      if (!target)
+      {
+        Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !", entityid);
+        return true;
+      }
+
+      // TODO
+      csRef<iStats> stats ;//= target->GetComponent<iStats>("peragro.entity.stats");
+      if (!stats)
+      {
+        Report(PT::Error, "CombatManager: Couldn't find stats for entity with ID %d !", entityid);
+        return true;
+      }
+
+      unsigned int statId = -1;
+      ev.Retrieve("id", statId);
+
+      // TODO really shouldn't calculate it here, but get it from the character.
+      // Life 1 * endurance
+      int maxLife = stats->GetStatLevel("Endurance");
+
+      // Locate the correct stat.
+      Stat* stat = stats->GetStat(statId);
+      if (!stat)
+      {
+        Report(PT::Error, "CombatManager: Couldn't find stats for entity with ID %d !", entityid);
+        return true;
+      }
+
+      if (strncmp("Health", stat->name.c_str(), strlen("Health")) == 0) 
+      {
+        // If the health update belong to the player, update the gui.
+        if (target->GetType() == PlayerEntityType) 
+        {
+          GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+          HUDWindow* hudWindow = guimanager->GetHUDWindow();
+          hudWindow->SetHP(stat->level, maxLife);
+        }
+        // If HP = 0, then play the die animation for the dying entity.
+        if (stat->level == 0) 
+        {
+          Die(entityid);
+        }
+      }
+
+      return true;
+
+    } // end UpdateStat()
 
     void CombatManager::Hit(int targetId, int damage)
     {

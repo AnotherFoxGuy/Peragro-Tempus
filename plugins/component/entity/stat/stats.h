@@ -20,11 +20,7 @@
 #define CLIPBOARD_DEFAULT_HEADER
 
 #include <csutil/scf_implementation.h>
-//#include <iutil/comp.h>
-//#include <csgeom/vector3.h>
-//#include <csutil/csstring.h>
 #include <csutil/refarr.h>
-//#include <csutil/weakref.h>
 
 #include <vector>
 #include <string>

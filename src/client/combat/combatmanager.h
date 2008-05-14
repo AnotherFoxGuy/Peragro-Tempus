@@ -64,6 +64,22 @@ namespace PT
 
       iMeshWrapper* GetMesh(PT::Entity::Entity* entity);
 
+      /**
+       * Handler for ACTION_HIT event.
+       * @param ev Event describing the hit.
+       * @return False if an error occured, true otherwise.
+       */
+      bool ActionHit(iEvent& ev);
+
+      /**
+       * Handler for ACTION_ATTACK event.
+       * @param ev Event describing the attack.
+       * @return False if an error occured, true otherwise.
+       */
+      bool ActionAttackTarget(iEvent& ev);
+
+      bool UpdateStat(iEvent& ev);
+
     public:
       CombatManager();
       ~CombatManager();
@@ -79,20 +95,6 @@ namespace PT
       void SkillUsageComplete(unsigned int casterId, unsigned int targetId, int skillId);
       void RequestSkillUsageStart(iCelEntity* target, unsigned int skillId);
       void RequestSkillUsageStart(unsigned int targetId, unsigned int skillId);
-
-      /**
-       * Handler for ACTION_HIT event.
-       * @param ev Event describing the hit.
-       * @return False if an error occured, true otherwise.
-       */
-      bool ActionHit(iEvent& ev);
-
-      /**
-       * Handler for ACTION_ATTACK event.
-       * @param ev Event describing the attack.
-       * @return False if an error occured, true otherwise.
-       */
-      bool ActionAttackTarget(iEvent& ev);
     };
   } // Combat namespace
 } // PT namespace

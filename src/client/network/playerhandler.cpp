@@ -23,6 +23,7 @@
 
 #include "client/entity/entitymanager.h"
 #include "client/event/eventmanager.h"
+#include "client/event/entityevent.h"
 
 #include "client/reporter/reporter.h"
 
@@ -68,7 +69,7 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
     guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
     Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
 
-    csRef<iEvent> playerEvent = evmgr->CreateEvent("entity.stat.add", true);
+    csRef<iEvent> playerEvent = evmgr->CreateEvent("entity.stat.add.player", true);
 
     playerEvent->Add("name", *stat_msg.getName(i));
     playerEvent->Add("id", stat_msg.getStatId(i));
@@ -81,12 +82,12 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
 
 void PlayerHandler::handleStatsChange(GenericMessage* msg)
 {
-  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> playerEvent = evmgr->CreateEvent("entity.stat.change", true);
-
   StatsChangeMessage stat_msg;
-
   stat_msg.deserialise(msg->getByteStream());
+
+  using namespace PT::Events;
+  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> playerEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.stat.change", stat_msg.getEntityId()), true);
 
   playerEvent->Add("name", *stat_msg.getName());
   playerEvent->Add("level", stat_msg.getLevel());

@@ -56,8 +56,12 @@ bool ComponentStats::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
 
   EventManager* evmgr = pointerlib->getEventManager();
 
-  REGISTER_LISTENER(ComponentStats, AddStat, "entity.stat.add", true)
-  REGISTER_LISTENER(ComponentStats, UpdateStat, "entity.stat.add", true)
+  const char* addEventName = "entity.stat.add";
+  // If this is player entity, listen to player stat events instead.
+  if (entity->GetType() == PlayerEntityType)
+     addEventName = "entity.stat.add.player";
+  REGISTER_LISTENER(ComponentStats, AddStat, addEventName, true)
+  REGISTER_LISTENER(ComponentStats, UpdateStat, "entity.stat.change", true)
 
   return true;
 } // end Initialize()
@@ -66,8 +70,6 @@ bool ComponentStats::UpdateStat(iEvent& ev)
 {
   using namespace PT::Events;
   using namespace PT::Entity;
-
-  int maxLife;
 
   unsigned int statId = -1;
   ev.Retrieve("id", statId);
@@ -83,28 +85,6 @@ bool ComponentStats::UpdateStat(iEvent& ev)
   unsigned int statlevel = -1;
   ev.Retrieve("level", statlevel);
   stat->level = statlevel;
-
-  // TODO really shouldn't calculate it here, but get it from the character.
-  // Life 1 * endurance
-  maxLife = GetStatLevel("Endurance");
-
-/*
-  if (strncmp("Health", stat->name.c_str(), strlen("Health")) == 0) 
-  {
-    // If the health update belong to the player, update the gui.
-    if (entity->GetId() == PlayerEntity::Instance()->GetId()) 
-    {
-      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      HUDWindow* hudWindow = guimanager->GetHUDWindow();
-      hudWindow->SetHP(stat.level, maxLife);
-    }
-    // If HP = 0, then play the die animation for the dying entity.
-    if (stat->level == 0) 
-    {
-      PointerLibrary::getInstance()->getCombatManager()->Die(stat.entityId);
-    }
-  }
-*/
 
   return true;
 } // end UpdateStat()
