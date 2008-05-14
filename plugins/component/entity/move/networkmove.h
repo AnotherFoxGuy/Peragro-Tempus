@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file networkmove.h
+ *
+ * @basic Component to handle the movement of an entity.
+ */
 
 #ifndef NETWORKMOVE_H
 #define NETWORKMOVE_H
@@ -46,65 +51,114 @@ namespace PT
 
 DECLARE_COMPONENTFACTORY (NetworkMove)
 
+/**
+ * Component to handle the movement of an entity.
+ */
 class ComponentNetworkMove : public scfImplementationExt1<ComponentNetworkMove, ComponentCommon, iNetworkMove>
 {
 private:
+  /**
+   * Contains the data for a "move to" event.
+   */
   struct MoveToData
     {
+      /// The destination coordinates.
       csVector3 destination;
+      /// Whether the entity is walking or running.
       bool walking;
+      /// The angle to the destination.
       float dest_angle;
+      /// The movement speed.
       float walk_speed;
+      /// The rotation speed.
       float turn_speed;
+      /// The elapsed time since the move to started.
       float elapsed_time;
+      /// The time the move to is expected to take.
       float walk_duration;
     };
 
 private:
+  /// The object registry.
   iObjectRegistry* object_reg;
+  /// The pointer library.
   PointerLibrary* pointerlib;
 
+  /// The entity this component moves.
   PT::Entity::Entity* entity;
+  /// The event handlers.
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
+  /// Whether to use local movement events or wait for the server.
   bool local_movement;
+  /// Read the movement options from the configuration.
   bool UpdateOptions(iEvent& ev);
 
   /**
    * Change entity's 'linear' movement information (changing turning and
    * speed of an entity, or jumping status).
-   * @param movement Movement data for the entity.
+   * @param ev Event containing the movement data for the entity.
+   * @return False, so the event will also be handled elsewhere.
    */
   bool Move(iEvent& ev);
 
   /**
    * Move entity from point A to point B, in linear manner.
-   * @param moveTo Movement data for the entity.
+   * @param ev Event containing the movement data for the entity.
    * @return True if the movement has been done, false otherwise.
-   * @internal The reason we use non-const pointer (and not a const
-   * reference) is that moveTo data needs to be changed inside this method.
    */
   bool MoveTo(iEvent& ev);
 
+  /// The current move to data.
   MoveToData* moveTo;
+  /// The callback for the move to event.
   csRef<PT::Events::EventHandlerCallback> cbMoveToUpdate;
+  /// Update the current move to.
   bool MoveToUpdate(iEvent& ev);
+  /// Remove the current move to callback.
   bool RemoveMoveToUpdate();
 
+  /**
+   * Teleport the entity to a position.
+   * @param ev Event containing the teleport data.
+   * @return True, indicating the event was handled.
+   */
   bool Teleport(iEvent& ev);
 
   /**
    * Move entity using 'dead reckoning' method.
    * @see http://en.wikipedia.org/wiki/Dead_reckoning
-   * @param drupdate Dead reckoning movement data.
+   * @param ev Event containing dead reckoning movement data.
+   * @return False, so the event will also be handled elsewhere.
    */
   bool DrUpdate(iEvent& ev);
 
+  /**
+   * Sets the gravity to 0 while the world loads.
+   * @param ev The world loading event.
+   * @return False, so the event will also be handled elsewhere.
+   */
+  bool WorldLoading(iEvent& ev);
+
+  /**
+   * Resets the gravity to normal after the world has loaded.
+   * @param ev The world loaded event.
+   * @return False, so the event will also be handled elsewhere.
+   */
+  bool WorldLoaded(iEvent& ev);
+
 public:
-    ComponentNetworkMove (iObjectRegistry*);
+    /// Constructor.
+    ComponentNetworkMove (iObjectRegistry* object_reg);
+    /// Destructor.
     virtual ~ComponentNetworkMove();
 
-    virtual bool Initialize (PointerLibrary*, PT::Entity::Entity*);
+    /**
+     * Initialize this component.
+     * @param pl The pointer library.
+     * @param ent The entity to handle movement of.
+     */
+    virtual bool Initialize (PointerLibrary* pl, PT::Entity::Entity* ent);
 };
 
 #endif

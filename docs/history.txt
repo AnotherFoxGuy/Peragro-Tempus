@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+13-May-2008
+ - vornne changed networkmove to turn gravity off while the world loads, so the
+   character doesn't fall.
+
 12-May-2008
  - swedishcoder commited the first temporary piece of the combat system. This is
    based on the http://wiki.peragro.org/index.php/Combat written by

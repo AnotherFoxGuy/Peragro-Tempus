@@ -387,7 +387,7 @@ namespace PT
       Report(PT::Notify, "Enabled reflections!");
     }
 
-    limitFPS = static_cast<int>( app_cfg->GetFloat("Client.maxFPS", limitFPS) );
+    limitFPS = app_cfg->GetInt("Client.maxFPS", limitFPS);
 
     InitializeCEL();
 

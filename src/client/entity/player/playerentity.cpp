@@ -259,8 +259,6 @@ namespace PT
 
         if (camera.IsValid() && camera->GetCamera() && sec.IsValid())
         {
-          // TODO: How to stop the camera from tracking,
-          // so that the relocation is instantaneous??
           csVector3 offset = pos - this->pos;
           camera->GetCamera()->SetSector(sec);
           camera->GetCamera()->Move(offset, false);

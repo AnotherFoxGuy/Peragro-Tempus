@@ -38,7 +38,6 @@
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
 
-//#include "client/entity/entitymanager.h"
 #include "client/entity/entity.h"
 #include "client/entity/player/playerentity.h"
 
@@ -61,7 +60,8 @@ ComponentNetworkMove::~ComponentNetworkMove()
 {
 }
 
-bool ComponentNetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
+bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
+                                       PT::Entity::Entity* ent)
 {
   pointerlib = pl;
   entity = ent;
@@ -71,37 +71,16 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* e
 
   EventManager* evmgr = pointerlib->getEventManager();
 
-  // Register listener for move.
-  csRef<EventHandlerCallback> cbMove;
-  cbMove.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::Move, this));
-  evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()), cbMove);
-  eventHandlers.Push(cbMove);
+  REGISTER_LISTENER(ComponentNetworkMove, Move, "entity.move", true);
+  REGISTER_LISTENER(ComponentNetworkMove, Teleport, "entity.teleport", true);
+  REGISTER_LISTENER(ComponentNetworkMove, DrUpdate, "entity.drupdate", true);
+  REGISTER_LISTENER(ComponentNetworkMove, MoveTo, "entity.moveto", true);
+  REGISTER_LISTENER(ComponentNetworkMove, UpdateOptions, "interface.options", false);
+  REGISTER_LISTENER(ComponentNetworkMove, WorldLoading, "world.loading", false);
+  REGISTER_LISTENER(ComponentNetworkMove, WorldLoaded, "world.loaded", false);
 
-  // Register listener for teleport.
-  csRef<EventHandlerCallback> cbTeleport;
-  cbTeleport.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::Teleport, this));
-  evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.teleport", entity->GetId()), cbTeleport);
-  eventHandlers.Push(cbTeleport);
-
-  // Register listener for drupdate.
-  csRef<EventHandlerCallback> cbDRUpdate;
-  cbDRUpdate.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::DrUpdate, this));
-  evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.drupdate", entity->GetId()), cbDRUpdate);
-  eventHandlers.Push(cbDRUpdate);
-
-  // Register listener for moveto.
-  csRef<EventHandlerCallback> cbMoveTo;
-  cbMoveTo.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::MoveTo, this));
-  evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.moveto", entity->GetId()), cbMoveTo);
-  eventHandlers.Push(cbMoveTo);
-
-  // Register listener for InterfaceOptionsEvent.
-  csRef<EventHandlerCallback> cbUpdate;
-  cbUpdate.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::UpdateOptions, this));
-  evmgr->AddListener("interface.options", cbUpdate);
-  eventHandlers.Push(cbUpdate);
-
-  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
+  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
+    (pointerlib->getObjectRegistry());
   local_movement = app_cfg->GetBool("Client.local_movement", false);
 
   return true;
@@ -109,7 +88,8 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl, PT::Entity::Entity* e
 
 bool ComponentNetworkMove::UpdateOptions(iEvent& ev)
 {
-  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
+  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
+    (pointerlib->getObjectRegistry());
   local_movement = app_cfg->GetBool("Client.local_movement", false);
   return true;
 } // end UpdateOptions()
@@ -136,7 +116,8 @@ bool ComponentNetworkMove::Move(iEvent& ev)
 
   if (error != csEventErrNone)
   {
-    pointerlib->getReporter()->Report(PT::Error, "NetworkMove::Move(): Failed to retrieve an attribute for %d!", id);
+    pointerlib->getReporter()->Report(PT::Error,
+      "NetworkMove::Move(): Failed to retrieve an attribute for %d!", id);
     return false;
   }
 
@@ -147,7 +128,8 @@ bool ComponentNetworkMove::Move(iEvent& ev)
   csRef<iCelEntity> celEntity = entity->GetCelEntity();
   if(!celEntity.IsValid()) return false;
 
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
+  csRef<iPcActorMove> pcactormove =
+    CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
   if (pcactormove.IsValid())
   {
     pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
@@ -186,7 +168,9 @@ bool ComponentNetworkMove::Teleport(iEvent& ev)
   if (dataSector)
     sectorName = dataSector->GetName();
 
-  pointerlib->getReporter()->Report(PT::Debug, "MovementManager: Teleporting entity '%d' to %s(%d)", entityId, sectorName.c_str(), sectorId);
+  pointerlib->getReporter()->Report(PT::Debug,
+    "NetworkMove: Teleporting entity '%d' to %s(%d)",
+    entityId, sectorName.c_str(), sectorId);
 
   entity->Teleport(pos, rotation, sectorName.c_str());
 
@@ -245,7 +229,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
   }
 
   return false;
-} // end DrUpdateEntity()
+} // end DrUpdate()
 
 bool ComponentNetworkMove::MoveTo(iEvent& ev)
 {
@@ -264,7 +248,8 @@ bool ComponentNetworkMove::MoveTo(iEvent& ev)
   ev.Retrieve("speed", speed);
 
   // Getting the real world position of our entity.
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove =
+    CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
   float cur_yrot;
   csVector3 cur_position;
   iSector* cur_sector;
@@ -287,7 +272,10 @@ bool ComponentNetworkMove::MoveTo(iEvent& ev)
 
   // Register listener for frame.
   if (!cbMoveToUpdate.IsValid())
-    cbMoveToUpdate.AttachNew(new EventHandler<ComponentNetworkMove>(&ComponentNetworkMove::MoveToUpdate, this));
+  {
+    cbMoveToUpdate.AttachNew(new EventHandler<ComponentNetworkMove>
+      (&ComponentNetworkMove::MoveToUpdate, this));
+  }
   evmgr->AddListener("crystalspace.frame", cbMoveToUpdate);
 
   return true;
@@ -395,4 +383,23 @@ bool ComponentNetworkMove::RemoveMoveToUpdate()
   evmgr->RemoveListener(cbMoveToUpdate);
 
   return true;
-}
+} // end RemoveMoveToUpdate()
+
+bool ComponentNetworkMove::WorldLoading(iEvent& ev)
+{
+  csRef<iPcLinearMovement> pclinmove =
+    CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
+  pclinmove->ClearWorldVelocity();
+  pclinmove->SetGravity(0.0f);
+
+  return false;
+} // end WorldLoading()
+
+bool ComponentNetworkMove::WorldLoaded(iEvent& ev)
+{
+  csRef<iPcLinearMovement> pclinmove =
+    CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
+  pclinmove->ResetGravity();
+
+  return false;
+} // end WorldLoaded()
