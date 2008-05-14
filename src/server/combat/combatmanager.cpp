@@ -86,6 +86,7 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
   targetEntity = Server::getServer()->getEntityManager()->findById(targetID);
   if (!targetEntity) {
     // Invalid target.
+    lockedAttacker->freeLock();
     printf("CombatManager: Invalid target\n");
     return 0;
   }
