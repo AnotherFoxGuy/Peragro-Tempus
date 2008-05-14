@@ -73,10 +73,12 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
 
   if (!attackerEntity || !attackerEntity->getCharacter()) {
     // Invalid attacker.
+    printf("CombatManager: Invalid attacker\n");
     return 0;
   }
 
   if (!(lockedAttacker = attackerEntity->getCharacter()->getLock())) {
+    printf("CombatManager: Unable to lock attacker\n");
     return 0;
   }
 
@@ -84,6 +86,7 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
   targetEntity = Server::getServer()->getEntityManager()->findById(targetID);
   if (!targetEntity) {
     // Invalid target.
+    printf("CombatManager: Invalid target\n");
     return 0;
   }
   if (targetEntity->getType() == Entity::PlayerEntityType) {
@@ -96,6 +99,7 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
     // Should not happen, but do not crash on release build, since fake message
     // could bring down the server then
     lockedTarget->freeLock();
+    printf("CombatManager: Target neither player nor npc\n");
     return 0;
   }
 
@@ -125,6 +129,7 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
     // The player needs to wait a bit before attacking again
     lockedAttackerCharacter->freeLock();
     lockedTargetCharacter->freeLock();
+    printf("CombatManager: Attacker not ready to attack\n");
     return 0;
   }
 
@@ -133,6 +138,7 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
     // Target is not within range or something like that
     lockedAttackerCharacter->freeLock();
     lockedTargetCharacter->freeLock();
+    printf("CombatManager: Target not attackable\n");
     return 0;
   }
 
@@ -169,9 +175,9 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
                                              strlen("Health")));
 
   stats = lockedAttackerCharacter->getStats();
-  printf("HP before deduction: %d\n", stats->getAmount(hp));
+  printf("CombatManager: HP before deduction: %d\n", stats->getAmount(hp));
   stats->takeStat(hp, (int)damage);
-  printf("HP after deduction: %d\n", stats->getAmount(hp));
+  printf("CombatManager: HP after deduction: %d\n", stats->getAmount(hp));
 
   StatsChangeMessage msg;
   ByteStream statsbs;
