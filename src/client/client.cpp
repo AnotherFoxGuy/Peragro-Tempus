@@ -28,6 +28,7 @@
 #include <csutil/event.h>
 #include <csutil/sysfunc.h>
 #include <csutil/syspath.h>
+#include <csutil/setenv.h>
 #include <iengine/camera.h>
 #include <iengine/campos.h>
 #include <iengine/mesh.h>
@@ -228,7 +229,7 @@ namespace PT
 
   bool Client::OnInitialize(int argc, char* argv[])
   {
-    setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]).GetData(), true);
+    CS::Utility::setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]).GetData(), true);
 
     if (!csInitializer::SetupConfigManager(GetObjectRegistry(),
       "/peragro/config/client.cfg", GetApplicationName()))
@@ -1002,8 +1003,8 @@ int main (int argc, char* argv[])
 
 #ifdef CS_STATIC_LINKED
   //Overwrite existing env-vars for static linked client
-  setenv("CRYSTAL", ".", true);
-  setenv("CEL", ".", true);
+  CS::Utility::setenv("CRYSTAL", ".", true);
+  CS::Utility::setenv("CEL", ".", true);
 #endif
 
   return csApplicationRunner<PT::Client>::Run (argc, argv);
