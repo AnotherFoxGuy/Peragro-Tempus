@@ -1,14 +1,14 @@
 #!/bin/sh
 
-if [ ! -e server.pid ]; then
+if [ ! -e peragro-server.pid ]; then
   echo "Server is not running."
   exit
 fi
 
 echo "Stopping server."
 
-pid=`cat server.pid`
-rm server.pid
+pid=`cat peragro-server.pid`
+rm peragro-server.pid
 kill $pid
 
 sleep 1

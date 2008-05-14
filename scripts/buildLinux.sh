@@ -9,7 +9,7 @@ else
   buildtype="static"
 fi                                                                                             
 
-RELEASENAME="ptclient-$buildtype-$VERSION-r$REV"
+RELEASENAME="peragro-$buildtype-$VERSION-r$REV"
 RELEASEDIR="$RELEASENAME"
 
 if [ -e "$RELEASEDIR" ] ; then
@@ -23,7 +23,7 @@ if [ $buildtype = "dynamic" ] ; then
   jam client
   jam anvil
 
-  cp client "$RELEASEDIR/client"
+  cp peragro "$RELEASEDIR/peragro"
   cp anvil "$RELEASEDIR/anvil"
 
   CSLIBS=`find ../CS | grep \\.so`
@@ -46,7 +46,7 @@ if [ $buildtype = "dynamic" ] ; then
 else
   jam client_static
   jam anvil_static
-  cp client_static "$RELEASEDIR/client"
+  cp peragro_static "$RELEASEDIR/peragro"
   cp anvil_static "$RELEASEDIR/anvil"
 fi
 

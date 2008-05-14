@@ -5,5 +5,5 @@ fi
 
 scripts/shutdownServer.sh &&
 echo "Deploying Server."
-cp server bin &&
+cp peragro-server bin &&
 scripts/startServer.sh
