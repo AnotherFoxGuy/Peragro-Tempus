@@ -86,7 +86,9 @@ WARN_LOGFILE           = $(TOP)/out/docs/html/devapi.log
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = $(TOP)/docs/doxygrps \
-                         $(TOP)/src
+                         $(TOP)/src \
+                         $(TOP)/include \
+                         $(TOP)/plugins
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
