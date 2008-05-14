@@ -69,6 +69,8 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
   const Character* c_char;
   int status = 0;
 
+  printf("CombatManager: Got attack request\n");
+
   if (!attackerEntity || !attackerEntity->getCharacter()) {
     // Invalid attacker.
     return 0;
@@ -114,10 +116,10 @@ int
 CombatManager::AttackRequest(Character* lockedAttackerCharacter,
                              Character* lockedTargetCharacter)
 {
-  unsigned int damage = 0;
-  float attackChance = 0.0f;
+  float damage = 0;
+  float attackChance = 0.0;
   CharacterStats* stats;
-  int attackResult;
+  float attackResult;
   
   if (!CheckIfReadyToAttack(lockedAttackerCharacter)) {
     // The player needs to wait a bit before attacking again
@@ -147,15 +149,15 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
     damage = 0;
   } else {
     // TODO
-    //damage = (attackChance - attackResult) * 
-    //         GetWeaponDamage(lockedAttackerCharacter) + 
-    //         GetStrength(lockedAttackerCharacter);
+    damage = (attackChance - attackResult) * 
+             GetWeaponDamage(lockedAttackerCharacter) + 
+             GetStrength(lockedAttackerCharacter);
   }
 
   // If attackResult was 10% or less of attacChance, critcal hit
   if (attackResult <= (attackChance * 0.1)) {
     // Double the damage
-    damage = (damage << 1);
+    damage = 2 * damage;
   }
 
   // TODO
@@ -168,7 +170,7 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
 
   stats = lockedAttackerCharacter->getStats();
   printf("HP before deduction: %d\n", stats->getAmount(hp));
-  stats->takeStat(hp, damage);
+  stats->takeStat(hp, (int)damage);
   printf("HP after deduction: %d\n", stats->getAmount(hp));
 
   StatsChangeMessage msg;
@@ -260,27 +262,30 @@ int CombatManager::RollDice() {
  * @param lockedCharacter the locked version of a character.
  * @return true if ready to attack, otherwise false.
  */
-bool CombatManager::CheckIfReadyToAttack(const Character* lockedCharacter) {
+bool CombatManager::CheckIfReadyToAttack(const Character* lockedCharacter) 
+{
   return true;
 }
 
-int
-CombatManager::PrepareAttack()
+/**
+ *@todo Is this really needed
+ */
+int CombatManager::PrepareAttack()
 {
   // Arm bow etc
   return 100;
 }
 
-int
-CombatManager::CalculateAttack()
+int CombatManager::CalculateAttack()
 {
   //CalculateAttackChance();
   //DecreaseItemDurability();
   return 100;
 }
 
-bool 
-CombatManager::CheckIfTargetIsAttackable(const Character* attacker, const Character* target) {
+bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
+                                              const Character* target)
+{
   const float* attackerPos;
   const float* targetPos;
   float attackerRotation;
@@ -329,11 +334,11 @@ float CombatManager::GetAttackChance(const Character* lockedAttacker,
      ptminf(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
      ptmaxf(ptmaxf(GetBlock(lockedTarget), GetDodge(lockedTarget)),
          GetParry(lockedTarget));
-  return 10000;
 }
  
 /**
  * Returns the combined agility for a character (incl, bonuses).
+ * @todo
  * @param lockedCharacter The locked version of the character.
  * @return The characters agility.
  */
@@ -343,6 +348,7 @@ float CombatManager::GetAgility(const Character* lockedCharacter) {
 
 /**
  * Returns the combined skill bonuses.
+ * @todo
  * @param lockedCharacter The locked version of the character.
  * @return The characters skill bonuses.
  */
@@ -351,6 +357,7 @@ float CombatManager::GetSkillBonus(const Character* lockedCharacter) {
 }
 /**
  * Returns the combined sapience for a character (incl, bonuses).
+ * @todo
  * @param lockedCharacter The locked version of the character.
  * @return The characters sapience.
  */
@@ -359,6 +366,7 @@ float CombatManager::GetSapience(const Character* lockedCharacter) {
 }
 /**
  * Returns the combined block for a character (incl, bonuses).
+ * @todo
  * @param lockedCharacter The locked version of the character.
  * @return The characters block.
  */
@@ -367,6 +375,7 @@ float CombatManager::GetBlock(const Character* lockedCharacter) {
 }
 /**
  * Returns the combined dodge for a character (incl, bonuses).
+ * @todo
  * @param lockedCharacter The locked version of the character.
  * @return The characters dodge.
  */
@@ -376,9 +385,31 @@ float CombatManager::GetDodge(const Character* lockedCharacter) {
 
 /**
  * Returns the combined parry for a character (incl, bonuses).
+ * @todo
  * @param lockedCharacter The locked version of the character.
  * @return The characters parry.
  */
 float CombatManager::GetParry(const Character* lockedCharacter) {
   return 0.0f;
 }
+
+/**
+ * Returns the combined strength for a character (incl, bonuses).
+ * @todo
+ * @param lockedCharacter The locked version of the character.
+ * @return The characters strength.
+ */
+float CombatManager::GetStrength(const Character* lockedCharacter) {
+  return 5.0f;
+}
+
+/**
+ * Calculates the damage given by the character's weapon(s).
+ * @todo
+ * @param lockedCharacter The locked version of the character.
+ * @return The weapon damage.
+ */
+float CombatManager::GetWeaponDamage(const Character* lockedCharacter) {
+  return 10.0f;
+}
+

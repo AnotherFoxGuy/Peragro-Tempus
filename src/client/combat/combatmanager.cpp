@@ -434,6 +434,8 @@ namespace PT
 
         unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
 
+        Report(PT::Debug, "CombatManager: Sending AttackRequest\n");
+
         // Send message to server requesting an attack
         AttackRequestMessage msg;
         msg.setAttackType(STANDARD_ATTACK);

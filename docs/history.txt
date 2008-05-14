@@ -8,6 +8,8 @@ under each day.
  - swedishcoder renamed "client" to "peragro" and "server" to "peragro-server".
    Also updated all the scripts that used the old names. Libraries/plugins are
    still prefixed with server/client however.
+ - swedishcoder Made a temporary fix to make the server send damage > 0 if
+   someone is attacked. Some various clean up and marked a few function "todo".
 
 13-May-2008
  - vornne changed networkmove to turn gravity off while the world loads, so the
