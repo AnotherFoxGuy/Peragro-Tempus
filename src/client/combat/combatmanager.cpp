@@ -500,7 +500,8 @@ namespace PT
 
         unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
 
-        Report(PT::Debug, "CombatManager: Sending AttackRequest\n");
+        Report(PT::Debug, "CombatManager: Sending AttackRequest, target: %u\n",
+               id);
 
         // Send message to server requesting an attack
         AttackRequestMessage msg;

@@ -69,7 +69,7 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
   const Character* c_char;
   int status = 0;
 
-  printf("CombatManager: Got attack request\n");
+  printf("CombatManager: Got attack request, target: %u\n", targetID);
 
   if (!attackerEntity || !attackerEntity->getCharacter()) {
     // Invalid attacker.
