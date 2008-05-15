@@ -253,7 +253,7 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
  * @return Returns a number between 0 and 100.
  */
 int CombatManager::RollDice() {
-  return (int) rand() % 101;
+  return (int) (rand()*100);
 }
 
   
