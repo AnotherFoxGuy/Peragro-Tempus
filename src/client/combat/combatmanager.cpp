@@ -493,6 +493,7 @@ namespace PT
       // Only attack upon button down events.
       if (InputHelper::GetButtonDown(&ev))
       {
+         
         csRef<iCelEntity> ent = PointerLibrary::getInstance()->getCursor()->GetSelectedEntity();
         if (!ent) return false;
         csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
@@ -500,8 +501,7 @@ namespace PT
 
         unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
 
-        Report(PT::Debug, "CombatManager: Sending AttackRequest, target: %u\n",
-               id);
+        Report(PT::Debug, "CombatManager: Sending AttackRequest, target: %u\n",id);
 
         // Send message to server requesting an attack
         AttackRequestMessage msg;

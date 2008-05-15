@@ -158,7 +158,7 @@ public:
 
   const InventoryEntry* getItem(unsigned char slot) const
   {
-    if (slot >= entries.getCount()) return false; // invalid slot;
+    if (slot >= entries.getCount()) return 0; // invalid slot;
     return &entries.get(slot);
   }
 

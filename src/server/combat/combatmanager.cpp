@@ -125,7 +125,7 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
   float damage = 0;
   float attackChance = 0.0;
   CharacterStats* stats;
-  float attackResult;
+  int attackResult;
   
   if (!CheckIfReadyToAttack(lockedAttackerCharacter)) {
     // The player needs to wait a bit before attacking again
@@ -158,9 +158,9 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
              GetStrength(lockedAttackerCharacter);
   }
 
-  printf("Damage is set to:%f\n", damage);
+  printf("Damage:%f\n", damage);
   printf("attackChance is set to:%f\n", attackChance);
-  printf("attackResult is set to:%f\n", attackResult);
+  printf("attackResult is set to:%d\n", attackResult);
   printf("weapondamage is set to:%f\n", GetWeaponDamage(lockedAttackerCharacter));
   printf("strength is set to:%f\n", GetStrength(lockedAttackerCharacter));
 
@@ -197,44 +197,51 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
     // Player died
     // Need to spawn all the items
     Inventory* inventory = lockedTargetCharacter->getInventory();
-    for (unsigned char slot = 0; slot < inventory->NoSlot; slot++) {
-
+    for (unsigned char slot = 0; slot < inventory->NoSlot; slot++) 
+    {
       const InventoryEntry* entry = inventory->getItem(slot);
-      if (!entry || entry->id == 0) {
+      if (!entry || entry->id == 0) 
+      {
         continue;
       }
-      //Item* item = server->getItemManager()->findById(entry->id);
-      //if (!item) {
+      // Save this information here since the entry 
+      // will get invalid, if we take the item.
+      unsigned int itemId = entry->id;
+      unsigned int variation = entry->variation;
+      if (inventory->takeItem(slot))
+      {
+        //Item* item = server->getItemManager()->findById(entry->id);
+        //if (!item) {
         //continue;
-      //}
-      //printf("\n\n\nIn place %c, type %u\n\n", slot, entry->getId());
-      // TODO
-      // Remove all items from the players slot
-      // Make sure to send those udpates
-      inventory->takeItem(slot);
-      EquipMessage unequip_msg;
-      unequip_msg.setEntityId(lockedTargetCharacter->getEntity()->getId());
-      unequip_msg.setSlotId(slot);
-      unequip_msg.setItemId(Item::NoItem); // No Item!
-      unequip_msg.setFile(ptString::Null);
-      unequip_msg.setMesh(ptString::Null);
-      ByteStream bs;
-      unequip_msg.serialise(&bs);
-      NetworkHelper::localcast(bs, lockedTargetCharacter->getEntity());
+        //}
+        //printf("\n\n\nIn place %c, type %u\n\n", slot, entry->getId());
+        // TODO
+        // Remove all items from the players slot
+        // Make sure to send those updates
+        EquipMessage unequip_msg;
+        unequip_msg.setEntityId(lockedTargetCharacter->getEntity()->getId());
+        unequip_msg.setSlotId(slot);
+        unequip_msg.setItemId(Item::NoItem); // No Item!
+        unequip_msg.setFile(ptString::Null);
+        unequip_msg.setMesh(ptString::Null);
+        ByteStream bs;
+        unequip_msg.serialise(&bs);
+        NetworkHelper::localcast(bs, lockedTargetCharacter->getEntity());
 
-        
-      // Create new entity from item.
-      ItemEntity* e = new ItemEntity();
-      e->createFromItem(entry->id, entry->variation);
 
-      Entity* ent = e->getEntity()->getLock();
-      // TODO make it being released in a circle pattern
-      ent->setPos(lockedTargetCharacter->getEntity()->getPos());
-      ent->setSector(lockedTargetCharacter->getEntity()->getSector());
-      ent->freeLock();
+        // Create new entity from item.
+        ItemEntity* e = new ItemEntity();
+        e->createFromItem(itemId, variation);
 
-      Server::getServer()->addEntity(ent, true);
-    }
+        Entity* ent = e->getEntity()->getLock();
+        // TODO make it being released in a circle pattern
+        ent->setPos(lockedTargetCharacter->getEntity()->getPos());
+        ent->setSector(lockedTargetCharacter->getEntity()->getSector());
+
+        Server::getServer()->addEntity(ent, true);
+        ent->freeLock();
+      } // end if
+    } // end for
 
       //if (invitem.id == Item::NoItem) {
       //  continue;
@@ -242,10 +249,14 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
       //printf("\n\nThe dying character have items: %u\n\n", invitem.id);
      // TODO send die message to all
     NetworkHelper::broadcast(statsbs);
-  } else {
+  } 
+  else 
+  {
     // Only report the damage to the affected player
-    if (lockedTargetCharacter->getEntity()->getType() == Entity::PlayerEntityType) {
+    if (lockedTargetCharacter->getEntity()->getType() == Entity::PlayerEntityType) 
+    {
       NetworkHelper::sendMessage(lockedTargetCharacter, statsbs);
+      //TODO: Send a hurt message to the surrounding players for animation purposes??
     }
   }
 
@@ -258,8 +269,9 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
  * Roll the dice.
  * @return Returns a number between 0 and 100.
  */
-float CombatManager::RollDice() {
-  return (float) (rand() % 101);
+int CombatManager::RollDice() 
+{
+  return rand() % 101;
 }
 
   
@@ -304,7 +316,7 @@ bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
   const float* targetPos;
   float attackerRotation;
   float distance = 0;
-  // TODO should not be 100, but calculated by GetReach(attacker);
+  // TODO should not be 200, but calculated by GetReach(attacker);
   float maxAttackDistance = 200;
 
   attackerPos = attacker->getPos();
@@ -316,13 +328,15 @@ bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
   //maxAttackDistance = GetReach(attacker);
 
   
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++) 
+  {
     distance += (attackerPos[i] - targetPos[i]) * (attackerPos[i] - targetPos[i]);
   }
 
   // Should have used sqrt(distance) but faster to multiply the
   // maxAttackDistance
-  if (distance > maxAttackDistance * maxAttackDistance) {
+  if (distance > maxAttackDistance * maxAttackDistance) 
+  {
     // Target out of reach
     printf("CombatManager: Target not attackable, distance %f, "
            "maxAttackDistance: %f\n", distance, maxAttackDistance);
@@ -332,7 +346,8 @@ bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
   // TODO this should be made better, basically check
   // so the attacker and target is not differing too much
   // in height level.
-  if (abs((int)(attackerPos[2] - targetPos[2])) > 200) {
+  if (abs((int)(attackerPos[2] - targetPos[2])) > 200) 
+  {
     printf("CombatManager: To big hight difference\n");
     return false;
   }
