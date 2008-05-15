@@ -42,6 +42,7 @@
 
 #include "client/component/componentmanager.h"
 #include "include/client/component/entity/input/playercontrols.h"
+#include "include/client/component/entity/input/viewcontrols.h"
 #include "include/client/component/entity/move/viewbob.h"
 
 //#define _MOVEMENT_DEBUG_CHARACTER_
@@ -61,7 +62,8 @@ namespace PT
 
       Create();
 
-      iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      iObjectRegistry* object_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
 
       vfs = csQueryRegistry<iVFS> (object_reg);
       if (!vfs)
@@ -70,21 +72,14 @@ namespace PT
         return;
       }
 
-      csRef<iPlayerControls> playerControls =
-        PointerLibrary::getInstance()->getComponentManager()->CreateComponent
-        <iPlayerControls>(this, "peragro.entity.input.playercontrols");
-      if(playerControls.IsValid())
-        components.Push(playerControls);
-      else
-        Report(PT::Error, "Failed to load the playerControls!");
+      PT::Component::ComponentManager* componentManager =
+        PointerLibrary::getInstance()->getComponentManager();
 
-      csRef<iViewBob> viewBob =
-        PointerLibrary::getInstance()->getComponentManager()->CreateComponent
-        <iViewBob>(this, "peragro.entity.move.viewbob");
-      if(viewBob.IsValid())
-        components.Push(viewBob);
-      else
-        Report(PT::Error, "Failed to load the viewBob!");
+      ADD_COMPONENT(componentManager, iPlayerControls,
+        "peragro.entity.input.playercontrols")
+      ADD_COMPONENT(componentManager, iViewControls,
+        "peragro.entity.input.viewcontrols")
+      ADD_COMPONENT(componentManager, iViewBob, "peragro.entity.move.viewbob")
 
       PointerLibrary::getInstance()->setPlayer(this);
     }

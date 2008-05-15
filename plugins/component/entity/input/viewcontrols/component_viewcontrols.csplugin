@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- ViewControls.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.entity.input.viewcontrols</name>
+        <implementation>ComponentFViewControls</implementation>
+        <description>Perago player entity view controls</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

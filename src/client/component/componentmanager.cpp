@@ -18,7 +18,6 @@
 
 #include "componentmanager.h"
 
-#include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 namespace PT

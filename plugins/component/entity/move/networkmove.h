@@ -138,14 +138,14 @@ private:
    * @param ev The world loading event.
    * @return False, so the event will also be handled elsewhere.
    */
-  bool WorldLoading(iEvent& ev);
+  bool DisableGravity(iEvent& ev);
 
   /**
    * Resets the gravity to normal after the world has loaded.
    * @param ev The world loaded event.
    * @return False, so the event will also be handled elsewhere.
    */
-  bool WorldLoaded(iEvent& ev);
+  bool ResetGravity(iEvent& ev);
 
 public:
     /// Constructor.

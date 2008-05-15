@@ -75,13 +75,11 @@ namespace PT
       if (object_reg == 0)
         Report(PT::Error, "object_reg!");
 
-      csRef<iNetworkMove> networkMove =
-        PointerLibrary::getInstance()->getComponentManager()->CreateComponent
-        <iNetworkMove> (this, "peragro.entity.move.networkmove");
-      if(networkMove.IsValid())
-        components.Push(networkMove);
-      else
-        Report(PT::Error, "Failed to load the networkMove!");
+      PT::Component::ComponentManager* componentManager =
+        PointerLibrary::getInstance()->getComponentManager();
+
+      ADD_COMPONENT(componentManager, iNetworkMove,
+        "peragro.entity.move.networkmove")
     }
 
     void CharacterEntity::Teleport(const csVector3& pos,

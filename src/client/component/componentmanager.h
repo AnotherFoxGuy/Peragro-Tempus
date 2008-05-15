@@ -32,6 +32,18 @@
 #include "include/client/component/component.h"
 #include "include/client/component/componenttmpl.h"
 
+#include "client/reporter/reporter.h"
+
+//-----------------------------------------------------------------------------
+#define ADD_COMPONENT(componentManager, Interface, ID)                        \
+csRef<Interface> component_##Interface =                                      \
+  componentManager->CreateComponent<Interface>(this, ID);                     \
+if (component_##Interface.IsValid())                                          \
+  components.Push(component_##Interface);                                     \
+else                                                                          \
+  Report(PT::Error, "Failed to load the %s component!", #Interface);          \
+//-----------------------------------------------------------------------------
+
 class PointerLibrary;
 
 namespace PT

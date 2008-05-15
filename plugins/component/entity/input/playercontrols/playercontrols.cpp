@@ -17,7 +17,7 @@
 */
 
 #include <cssysdef.h>
-#include "plugins/component/entity/input/playercontrols.h"
+#include "plugins/component/entity/input/playercontrols/playercontrols.h"
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>
@@ -41,8 +41,7 @@
 #include "client/event/inputevent.h"
 
 #include "client/entity/entity.h"
-//#include "client/entity/player/playerentity.h"
-#include "client/entity/pc/pcentity.h"
+#include "client/entity/character/characterentity.h"
 
 //#include "client/entity/statmanager.h"
 
@@ -65,19 +64,16 @@ ComponentPlayerControls::ComponentPlayerControls(iObjectRegistry* object_reg) :
   turn = 0;
   run = false;
   jump = false;
-  cameraDistance = 3.0f;
   backwardReverse = false;
-  invertYAxis = false;
-  minDistance = 50.0f;
-  minFPS = 20.0f;
-  maxFPS = 60.0f;
+  local_movement = false;
 }
 
 ComponentPlayerControls::~ComponentPlayerControls()
 {
 }
 
-bool ComponentPlayerControls::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
+bool ComponentPlayerControls::Initialize (PointerLibrary* pl,
+  PT::Entity::Entity* ent)
 {
   pointerlib = pl;
   entity = ent;
@@ -85,32 +81,28 @@ bool ComponentPlayerControls::Initialize (PointerLibrary* pl, PT::Entity::Entity
   camera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
 
   using namespace PT::Events;
-  using namespace PT::Entity;
-
   EventManager* evmgr = pointerlib->getEventManager();
 
-    REGISTER_LISTENER(ComponentPlayerControls, ActionForward, "input.ACTION_FORWARD", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionBackward, "input.ACTION_BACKWARD", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionLeft, "input.ACTION_LEFT", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionRight, "input.ACTION_RIGHT", false)
-
-    REGISTER_LISTENER(ComponentPlayerControls, ActionJump, "input.ACTION_JUMP", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionMoveTo, "input.ACTION_MOVETO", false)
-
-    REGISTER_LISTENER(ComponentPlayerControls, ActionToggleWalk, "input.ACTION_TOGGLEWALK", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionToggleRun, "input.ACTION_TOGGLERUN", false)
-
-    REGISTER_LISTENER(ComponentPlayerControls, ActionActivateWeapon, "input.ACTION_ACTIVATEWEAPON", false)
-
-    REGISTER_LISTENER(ComponentPlayerControls, UpdateOptions, "interface.options", false)
-
-    ///@TODO: Move to a camera component.
-    REGISTER_LISTENER(ComponentPlayerControls, ActionPanUp, "input.ACTION_PANUP", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionPanDown, "input.ACTION_PANDOWN", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionToggleCamera, "input.ACTION_TOGGLECAMERA", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionToggleDistClipping, "input.ACTION_TOGGLEDISTCLIP", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionZoomIn, "input.ACTION_ZOOMIN", false)
-    REGISTER_LISTENER(ComponentPlayerControls, ActionZoomOut, "input.ACTION_ZOOMOUT", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionForward,
+    "input.ACTION_FORWARD", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionBackward,
+    "input.ACTION_BACKWARD", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionLeft,
+    "input.ACTION_LEFT", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionRight,
+    "input.ACTION_RIGHT", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionJump,
+    "input.ACTION_JUMP", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionMoveTo,
+    "input.ACTION_MOVETO", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionToggleWalk,
+    "input.ACTION_TOGGLEWALK", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionToggleRun,
+    "input.ACTION_TOGGLERUN", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionActivateWeapon,
+    "input.ACTION_ACTIVATEWEAPON", false)
+  REGISTER_LISTENER(ComponentPlayerControls, UpdateOptions,
+    "interface.options", false)
 
   UpdateOptions();
 
@@ -125,14 +117,11 @@ bool ComponentPlayerControls::UpdateOptions(iEvent& ev)
 
 bool ComponentPlayerControls::UpdateOptions()
 {
-  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
+  csRef<iConfigManager> app_cfg =
+    csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
   backwardReverse = app_cfg->GetBool("Client.backwardreverse", backwardReverse);
-  local_movement = app_cfg->GetBool("Client.local_movement", false);
-  invertYAxis = app_cfg->GetBool("Client.invertYAxis", invertYAxis);
-  minFPS = app_cfg->GetFloat("Client.minFPS", minFPS);
-  maxFPS = app_cfg->GetFloat("Client.maxFPS", maxFPS);
-  minDistance = app_cfg->GetFloat("Client.minDistance", minDistance);
+  local_movement = app_cfg->GetBool("Client.local_movement", local_movement);
 
   return true;
 } // end UpdateOptions()
@@ -144,14 +133,17 @@ bool ComponentPlayerControls::PerformMovementAction()
 
   // Local movement option.
   if (local_movement && (entity->GetType() == PT::Entity::PlayerEntityType &&
-    !static_cast<PcEntity*>(entity)->GetHasMount()))
+    !static_cast<CharacterEntity*>(entity)->GetHasMount()))
   {
     PT::Events::EventManager* evmgr = pointerlib->getEventManager();
-    csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()));
+    csRef<iEvent> entityEvent = evmgr->CreateEvent(
+      EntityHelper::MakeEntitySpecific("entity.move", entity->GetId()));
     entityEvent->Add("entityId", entity->GetId());
     ///@TODO
-    entityEvent->Add("walkDirection", float(/*pointerlib->getStatManager()->GetStat("Speed")*/4*walk*(char(run)+1)));
-    entityEvent->Add("turnDirection", float(walk == -1 && backwardReverse ? -turn : turn));
+    entityEvent->Add("walkDirection",
+     float(/*pointerlib->getStatManager()->GetStat("Speed")*/4*walk*(char(run)+1)));
+    entityEvent->Add("turnDirection",
+      float(walk == -1 && backwardReverse ? -turn : turn));
     entityEvent->Add("run", run);
     entityEvent->Add("jump", jump);
     entityEvent->Add("local", true);
@@ -160,17 +152,18 @@ bool ComponentPlayerControls::PerformMovementAction()
 
   MoveRequestMessage msg;
 
-  msg.setWalk(walk+1);
+  msg.setWalk(walk + 1);
 
-  if (walk == -1 && backwardReverse) msg.setTurn(-turn+1);
-  else msg.setTurn(turn+1);
+  if (walk == -1 && backwardReverse) msg.setTurn(-turn + 1);
+  else msg.setTurn(turn + 1);
   msg.setRun(run);
   msg.setJump(jump);
-  jump=false; //Jumping is not a constant action, so we need to turn it off once we've
-  //sent the request.
+  // Jumping is not a constant action, so we need to turn it off once we've
+  // sent the request.
+  jump=false;
   pointerlib->getNetwork()->send(&msg);
 
-  //When we move, we turn off sitting.
+  // When we move, we turn off sitting.
   // Shouldn't this be done for mouse walk too?
   if (sitting)
   {
@@ -187,10 +180,11 @@ bool ComponentPlayerControls::ActionForward(iEvent& ev)
   using namespace PT::Events;
 
   if (InputHelper::GetButtonDown(&ev)) walk = 1;
-  else walk = 0;
+  else if (walk > 0) walk = 0;
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
+  csRef<iPcActorMove> pcactormove =
+    CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
   pcactormove->SetMovementSpeed(4);
   pcactormove->Forward(walk != 0);
 #endif
@@ -205,10 +199,11 @@ bool ComponentPlayerControls::ActionBackward(iEvent& ev)
   using namespace PT::Events;
 
   if (InputHelper::GetButtonDown(&ev)) walk = -1;
-  else walk = 0;
+  else if (walk < 0) walk = 0;
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
+  csRef<iPcActorMove> pcactormove =
+    CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
   pcactormove->SetMovementSpeed(4);
   pcactormove->Backward(walk != 0);
 #endif
@@ -223,10 +218,11 @@ bool ComponentPlayerControls::ActionLeft(iEvent& ev)
   using namespace PT::Events;
 
   if (InputHelper::GetButtonDown(&ev)) turn = -1;
-  else turn = 0;
+  else if (turn < 0) turn = 0;
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
+  csRef<iPcActorMove> pcactormove =
+    CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
   pcactormove->SetRotationSpeed(3);
   pcactormove->RotateLeft(turn != 0);
 #endif
@@ -241,10 +237,11 @@ bool ComponentPlayerControls::ActionRight(iEvent& ev)
   using namespace PT::Events;
 
   if (InputHelper::GetButtonDown(&ev)) turn = 1;
-  else turn = 0;
+  else if (turn > 0) turn = 0;
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
+  csRef<iPcActorMove> pcactormove =
+    CEL_QUERY_PROPCLASS_ENT(other_self, iPcActorMove);
   pcactormove->SetRotationSpeed(3);
   pcactormove->RotateRight(turn != 0);
 #endif
@@ -271,96 +268,14 @@ bool ComponentPlayerControls::ActionToggleRun(iEvent& ev)
 
   if (InputHelper::GetButtonDown(&ev))
   {
-    if (run==false)
-    {
-      run = true;
-      //Setup values needed for bobbing during run
-      //viewBobEffect.range = RUN_OFFSET_RANGE;
-      //viewBobEffect.period = RUN_PERIOD;
-    }
-    else
-    {
-      run = false;
-      //Setup values needed for bobbing during walk
-      //viewBobEffect.range = WALK_OFFSET_RANGE;
-      //viewBobEffect.period = WALK_PERIOD;
-    }
+    if (run == false) run = true;
+    else run = false;
   }
+
   PerformMovementAction();
 
   return true;
 } // end ActionToggleRun()
-
-bool ComponentPlayerControls::ActionPanUp(iEvent& ev)
-{
-  using namespace PT::Events;
-
-  if (!entity->GetCelEntity()) return false;
-
-  if (InputHelper::GetButtonDown(&ev))
-  {
-    if (invertYAxis) camera->SetPitchVelocity(-1.0f);
-    else camera->SetPitchVelocity(1.0f);
-  }
-  else
-  {
-    camera->SetPitchVelocity(0.0f);
-  }
-
-  return true;
-} // end ActionPanUp()
-
-bool ComponentPlayerControls::ActionPanDown(iEvent& ev)
-{
-  using namespace PT::Events;
-
-  if (!entity->GetCelEntity()) return false;
-
-  if (InputHelper::GetButtonDown(&ev))
-  {
-    if (invertYAxis) camera->SetPitchVelocity(1.0f);
-    else camera->SetPitchVelocity(-1.0f);
-  }
-  else
-  {
-    camera->SetPitchVelocity(0.0f);
-  }
-
-  return true;
-} // end ActionPanDown()
-
-bool ComponentPlayerControls::ActionToggleCamera(iEvent& ev)
-{
-  using namespace PT::Events;
-
-  if (InputHelper::GetButtonDown(&ev))
-  {
-    csRef<iPcActorMove> pcactormove =
-      CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcActorMove);
-    if (!pcactormove) return false;
-    pcactormove->ToggleCameraMode();
-  }
-
-  return true;
-} // end ActionToggleCamera()
-
-bool ComponentPlayerControls::ActionToggleDistClipping(iEvent& ev)
-{
-  using namespace PT::Events;
-
-  if (InputHelper::GetButtonDown(&ev))
-  {
-    if (!entity->GetCelEntity()) return false;
-
-    ///@TODO
-    //pointerlib->getGUIManager()->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
-
-    if (camera->UseDistanceClipping()) camera->DisableDistanceClipping();
-    else camera->EnableAdaptiveDistanceClipping(minFPS, maxFPS, minDistance);
-  }
-
-  return true;
-} // end ActionToggleDistClipping()
 
 bool ComponentPlayerControls::ActionActivateWeapon(iEvent& ev)
 {
@@ -377,32 +292,6 @@ bool ComponentPlayerControls::ActionActivateWeapon(iEvent& ev)
   return true;
 } // end ActionActivateWeapon()
 
-bool ComponentPlayerControls::ActionZoomIn(iEvent& ev)
-{
-  using namespace PT::Events;
-
-  if (InputHelper::GetButtonDown(&ev))
-  {
-    if (!entity->GetCelEntity()) return false;
-    cameraDistance -= 0.5;
-    if (camera.IsValid()) camera->SetDistance(cameraDistance);
-  }
-  return true;
-} // end ActionZoomIn()
-
-bool ComponentPlayerControls::ActionZoomOut(iEvent& ev)
-{
-  using namespace PT::Events;
-
-  if (InputHelper::GetButtonDown(&ev))
-  {
-    if (!entity->GetCelEntity()) return false;
-    cameraDistance += 0.5;
-    if (camera.IsValid()) camera->SetDistance(cameraDistance);
-  }
-  return true;
-} // end ActionZoomOut()
-
 bool ComponentPlayerControls::ActionJump(iEvent& ev)
 {
   using namespace PT::Events;
@@ -410,6 +299,7 @@ bool ComponentPlayerControls::ActionJump(iEvent& ev)
   if (InputHelper::GetButtonDown(&ev)) jump=true;
 
   PerformMovementAction();
+
   return true;
 } // end ActionJump()
 
@@ -426,7 +316,8 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
     csVector3 isect, untransfCoord;
     iSector* sector = 0;
     Cursor* cursor = pointerlib->getCursor();
-    csRef<iMeshWrapper> mesh = cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord, &sector);
+    csRef<iMeshWrapper> mesh =
+      cursor->Get3DPointFrom2D(cam, &isect, &untransfCoord, &sector);
 
     if (mesh)
     {
@@ -435,14 +326,16 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
       PT::Events::EventManager* evmgr = pointerlib->getEventManager();
       csRef<iEvent> effectEvent = evmgr->CreateEvent("effect.atposition");
       effectEvent->Add("effect", "MoveMarker");
-      PT::Events::EntityHelper::SetVector3(effectEvent, "position", isect+csVector3(0,0.01f,0));
+      PT::Events::EntityHelper::SetVector3(
+        effectEvent, "position", isect+csVector3(0,0.01f,0));
       if (sector)
         effectEvent->Add("sector", sector->QueryObject()->GetName());
       evmgr->AddEvent(effectEvent);
 
       csRef<iCelEntity> ownent = entity->GetCelEntity();
       if (!ownent) return false;
-      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
+      csRef<iPcLinearMovement> pclinmove =
+        CEL_QUERY_PROPCLASS_ENT(ownent, iPcLinearMovement);
       if (!pclinmove) return false;
 
       MoveToRequestMessage msg;
@@ -450,11 +343,13 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
       msg.setRun(run);
       pointerlib->getNetwork()->send(&msg);
 
-      pointerlib->getReporter()->Report(PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
+      pointerlib->getReporter()->Report(
+        PT::Debug, "OnMouseDown: position: %s", isect.Description().GetData());
     }
     else
     {
-      pointerlib->getReporter()->Report(PT::Warning, "OnMouseDown: Failed to find mesh!");
+      pointerlib->getReporter()->Report(
+        PT::Warning, "OnMouseDown: Failed to find mesh!");
     }
   }
 

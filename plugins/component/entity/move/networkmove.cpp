@@ -76,8 +76,8 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
   REGISTER_LISTENER(ComponentNetworkMove, DrUpdate, "entity.drupdate", true);
   REGISTER_LISTENER(ComponentNetworkMove, MoveTo, "entity.moveto", true);
   REGISTER_LISTENER(ComponentNetworkMove, UpdateOptions, "interface.options", false);
-  REGISTER_LISTENER(ComponentNetworkMove, WorldLoading, "world.loading", false);
-  REGISTER_LISTENER(ComponentNetworkMove, WorldLoaded, "world.loaded", false);
+  REGISTER_LISTENER(ComponentNetworkMove, DisableGravity, "world.loading", false);
+  REGISTER_LISTENER(ComponentNetworkMove, ResetGravity, "world.loaded", false);
 
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
     (pointerlib->getObjectRegistry());
@@ -385,7 +385,7 @@ bool ComponentNetworkMove::RemoveMoveToUpdate()
   return true;
 } // end RemoveMoveToUpdate()
 
-bool ComponentNetworkMove::WorldLoading(iEvent& ev)
+bool ComponentNetworkMove::DisableGravity(iEvent& ev)
 {
   csRef<iPcLinearMovement> pclinmove =
     CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);
@@ -395,7 +395,7 @@ bool ComponentNetworkMove::WorldLoading(iEvent& ev)
   return false;
 } // end WorldLoading()
 
-bool ComponentNetworkMove::WorldLoaded(iEvent& ev)
+bool ComponentNetworkMove::ResetGravity(iEvent& ev)
 {
   csRef<iPcLinearMovement> pclinmove =
     CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcLinearMovement);

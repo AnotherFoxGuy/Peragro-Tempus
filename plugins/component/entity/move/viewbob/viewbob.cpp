@@ -79,7 +79,8 @@ bool ComponentViewBob::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
   camera->SetFirstPersonOffset(offset);
 
   vc = csQueryRegistry<iVirtualClock> (pointerlib->getObjectRegistry());
-  if (!vc) return pointerlib->getReporter()->Report(PT::Error, "Failed to locate Virtual Clock!");
+  if (!vc) return pointerlib->getReporter()->
+    Report(PT::Error, "Failed to locate Virtual Clock!");
   lastTicks = vc->GetCurrentTicks();
 
   using namespace PT::Events;
@@ -143,7 +144,7 @@ bool ComponentViewBob::Frame(iEvent& ev)
   }
 
   return false;
-}
+} // end Frame()
 
 bool ComponentViewBob::Move(float elapsedTicks)
 {
@@ -178,7 +179,7 @@ bool ComponentViewBob::Move(float elapsedTicks)
     }
   }
   return true;
-} // end ViewBobEffect::Move()
+} // end Move()
 
 bool ComponentViewBob::Reset(bool hard, float elapsedTicks)
 {
@@ -218,5 +219,5 @@ bool ComponentViewBob::Reset(bool hard, float elapsedTicks)
     }
   }
   return true;
-} // end ViewBobEffect::Reset()
+} // end Reset()
 
