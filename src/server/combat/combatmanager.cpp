@@ -69,7 +69,7 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
   const Character* c_char;
   int status = 0;
 
-  printf("CombatManager: Got attack request, target: %u\n", targetID);
+  printf("CombatManager: Got attack request, target: %d\n", targetID);
 
   if (!attackerEntity || !attackerEntity->getCharacter()) {
     // Invalid attacker.
@@ -87,7 +87,7 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
   if (!targetEntity) {
     // Invalid target.
     lockedAttacker->freeLock();
-    printf("CombatManager: Invalid target\n");
+    printf("CombatManager: Invalid target %d\n", targetID);
     return 0;
   }
   if (targetEntity->getType() == Entity::PlayerEntityType) {
@@ -129,8 +129,6 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
   
   if (!CheckIfReadyToAttack(lockedAttackerCharacter)) {
     // The player needs to wait a bit before attacking again
-    lockedAttackerCharacter->freeLock();
-    lockedTargetCharacter->freeLock();
     printf("CombatManager: Attacker not ready to attack\n");
     return 0;
   }
@@ -138,8 +136,6 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
   if (!CheckIfTargetIsAttackable(lockedAttackerCharacter,
                                  lockedTargetCharacter)) {
     // Target is not within range or something like that
-    lockedAttackerCharacter->freeLock();
-    lockedTargetCharacter->freeLock();
     printf("CombatManager: Target not attackable\n");
     return 0;
   }
