@@ -158,6 +158,12 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
              GetStrength(lockedAttackerCharacter);
   }
 
+  printf("Damage is set to:%f\n", damage);
+  printf("attackChance is set to:%f\n", attackChance);
+  printf("attackResult is set to:%f\n", attackResult);
+  printf("weapondamage is set to:%f\n", GetWeaponDamage(lockedAttackerCharacter));
+  printf("strength is set to:%f\n", GetStrength(lockedAttackerCharacter));
+
   // If attackResult was 10% or less of attacChance, critcal hit
   if (attackResult <= (attackChance * 0.1)) {
     // Double the damage
@@ -252,8 +258,8 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
  * Roll the dice.
  * @return Returns a number between 0 and 100.
  */
-int CombatManager::RollDice() {
-  return (int) rand() % 101;
+float CombatManager::RollDice() {
+  return (float) (rand() % 101);
 }
 
   
@@ -284,6 +290,13 @@ int CombatManager::CalculateAttack()
   return 100;
 }
 
+/**
+ * Checks if the target is attackable, in reach etc.
+ * @todo
+ * @param attacker The attacking character.
+ * @param target The target character.
+ * @return True if target is attackable, otherwise false.
+ */
 bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
                                               const Character* target)
 {
@@ -291,7 +304,8 @@ bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
   const float* targetPos;
   float attackerRotation;
   float distance = 0;
-  float maxAttackDistance;
+  // TODO should not be 100, but calculated by GetReach(attacker);
+  float maxAttackDistance = 200;
 
   attackerPos = attacker->getPos();
   targetPos = target->getPos();
@@ -310,13 +324,16 @@ bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
   // maxAttackDistance
   if (distance > maxAttackDistance * maxAttackDistance) {
     // Target out of reach
+    printf("CombatManager: Target not attackable, distance %f, "
+           "maxAttackDistance: %f\n", distance, maxAttackDistance);
     return false;
   }
 
   // TODO this should be made better, basically check
   // so the attacker and target is not differing too much
   // in height level.
-  if (attackerPos[2] - targetPos[2] > 2) {
+  if (abs((int)(attackerPos[2] - targetPos[2])) > 200) {
+    printf("CombatManager: To big hight difference\n");
     return false;
   }
 
