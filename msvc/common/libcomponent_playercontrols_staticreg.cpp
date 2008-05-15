@@ -17,7 +17,7 @@ namespace csStaticPluginInit
 {
 static char const metainfo_component_playercontrols[] =
 "<?xml version=\"1.0\"?>"
-"<!-- NetworkMove.csplugin -->"
+"<!-- PlayerControls.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"

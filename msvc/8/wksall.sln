@@ -100,6 +100,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_playercontrols
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewbob", "plgcomponent_viewbob.vcproj", "{1EED6EED-AFE2-424B-386C-37378CECF6BF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewcontrols", "plgcomponent_viewcontrols.vcproj", "{F017066D-1A68-2A29-CC7A-7942AB7CED64}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponentstats", "plgcomponentstats.vcproj", "{011AF637-7035-F4D4-000C-4DEB1831ECEA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcsclipboard", "plgcsclipboard.vcproj", "{9C172335-623B-ADD5-E9C6-A8D78257C581}"
@@ -581,6 +583,14 @@ Global
 		{1EED6EED-AFE2-424B-386C-37378CECF6BF}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{1EED6EED-AFE2-424B-386C-37378CECF6BF}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{1EED6EED-AFE2-424B-386C-37378CECF6BF}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{F017066D-1A68-2A29-CC7A-7942AB7CED64}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{F017066D-1A68-2A29-CC7A-7942AB7CED64}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{F017066D-1A68-2A29-CC7A-7942AB7CED64}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{F017066D-1A68-2A29-CC7A-7942AB7CED64}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{F017066D-1A68-2A29-CC7A-7942AB7CED64}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{F017066D-1A68-2A29-CC7A-7942AB7CED64}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{F017066D-1A68-2A29-CC7A-7942AB7CED64}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{F017066D-1A68-2A29-CC7A-7942AB7CED64}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{011AF637-7035-F4D4-000C-4DEB1831ECEA}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{011AF637-7035-F4D4-000C-4DEB1831ECEA}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{011AF637-7035-F4D4-000C-4DEB1831ECEA}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32

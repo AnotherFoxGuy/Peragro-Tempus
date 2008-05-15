@@ -17,7 +17,7 @@ namespace csStaticPluginInit
 {
 static char const metainfo_component_viewbob[] =
 "<?xml version=\"1.0\"?>"
-"<!-- NetworkMove.csplugin -->"
+"<!-- ViewBob.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"

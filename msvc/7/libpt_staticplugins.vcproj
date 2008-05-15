@@ -376,6 +376,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libcomponent_viewcontrols_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libcomponentstats_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -476,28 +501,53 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\component\entity\input\playercontrols.cpp">
+				RelativePath="..\..\plugins\component\entity\input\playercontrols\playercontrols.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols.cpp.obj"/>
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols_playercontrols.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols.cpp.obj"/>
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols_playercontrols.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols.cpp.obj"/>
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols_playercontrols.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols.cpp.obj"/>
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols_playercontrols.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\component\entity\input\viewcontrols\viewcontrols.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -705,7 +755,10 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\component\entity\input\playercontrols.h">
+				RelativePath="..\..\plugins\component\entity\input\playercontrols\playercontrols.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\component\entity\input\viewcontrols\viewcontrols.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\component\entity\move\networkmove.h">
