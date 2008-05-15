@@ -361,7 +361,7 @@ float CombatManager::GetAttackChance(const Character* lockedAttacker,
  * @return The characters agility.
  */
 float CombatManager::GetAgility(const Character* lockedCharacter) {
-  return 0.0f;
+  return 10.0f;
 }
 
 /**
@@ -371,7 +371,7 @@ float CombatManager::GetAgility(const Character* lockedCharacter) {
  * @return The characters skill bonuses.
  */
 float CombatManager::GetSkillBonus(const Character* lockedCharacter) {
-  return 0.0f;
+  return 8.0f;
 }
 /**
  * Returns the combined sapience for a character (incl, bonuses).
@@ -380,7 +380,7 @@ float CombatManager::GetSkillBonus(const Character* lockedCharacter) {
  * @return The characters sapience.
  */
 float CombatManager::GetSapience(const Character* lockedCharacter) {
-  return 0.0f;
+  return 1.0f;
 }
 /**
  * Returns the combined block for a character (incl, bonuses).
@@ -389,7 +389,7 @@ float CombatManager::GetSapience(const Character* lockedCharacter) {
  * @return The characters block.
  */
 float CombatManager::GetBlock(const Character* lockedCharacter) {
-  return 0.0f;
+  return 1.0f;
 }
 /**
  * Returns the combined dodge for a character (incl, bonuses).
@@ -398,7 +398,7 @@ float CombatManager::GetBlock(const Character* lockedCharacter) {
  * @return The characters dodge.
  */
 float CombatManager::GetDodge(const Character* lockedCharacter) {
-  return 0.0f;
+  return 1.0f;
 }
 
 /**
@@ -408,7 +408,7 @@ float CombatManager::GetDodge(const Character* lockedCharacter) {
  * @return The characters parry.
  */
 float CombatManager::GetParry(const Character* lockedCharacter) {
-  return 0.0f;
+  return 1.0f;
 }
 
 /**

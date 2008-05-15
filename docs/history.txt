@@ -10,6 +10,7 @@ under each day.
  - swedishcoder adding some debug prints to track down a bug in the combat code.
  - swedishcoder added debugging, changed some default values etc for the combat
    system.
+ - swedishcoder bumped some default stats so now damage will be generated.
 
 13-May-2008
  - swedishcoder renamed "client" to "peragro" and "server" to "peragro-server".
