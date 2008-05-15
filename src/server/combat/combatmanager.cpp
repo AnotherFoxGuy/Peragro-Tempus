@@ -243,9 +243,6 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
     }
   }
 
-  lockedAttackerCharacter->freeLock();
-  lockedTargetCharacter->freeLock();
-
   //PrepareAttack();
   //CalculateAttack();
   return 1;
