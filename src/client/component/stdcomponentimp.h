@@ -42,7 +42,11 @@ REGISTER_LISTENER2(Class, funct, ev, specific, FUNC(funct)) \
 // Some macro magic to generate unique variable names.
 #define FUNC2(x,y) cb##x##y
 #define FUNC1(x,y) FUNC2(x,y)
-#define FUNC(x) FUNC1(x,__COUNTER__)
+#ifdef WIN32
+  #define FUNC(x) FUNC1(x,__COUNTER__)
+#else
+  #define FUNC(x) FUNC1(x,__LINE__)
+#endif
 //-------------------------------------------------------------------------------------
 #define REGISTER_LISTENER2(Class, funct, ev, specific, var)                           \
 using namespace PT::Events;                                                           \
