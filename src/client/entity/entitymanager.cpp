@@ -64,7 +64,6 @@ namespace PT
       vc =  csQueryRegistry<iVirtualClock> (obj_reg);
 
       pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-
     }
 
     EntityManager::~EntityManager ()
@@ -93,6 +92,8 @@ namespace PT
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.mount", cb);
       // Register listener for EntityPoseEvent.
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pose", cb);
+      // Register listener for entity.stat.
+      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.stat.add.player", cb);
 
       // Register listener for state.play.
       EventHandler<EntityManager>* cbPlay = new EventHandler<EntityManager>(&EntityManager::SetOwnId, this);
@@ -114,6 +115,8 @@ namespace PT
       using namespace PT::Events;
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
+      csRefArray<iEvent> unhandledEvents;
+
       while (!events.IsEmpty())
       {
         csRef<iEvent> ev = events.Pop();
@@ -123,7 +126,8 @@ namespace PT
           if (evmgr->IsKindOf(id, "entity.add"))
             AddEntity(*ev);
         }
-        if (world_loaded && PointerLibrary::getInstance()->getStateManager()->GetState() == STATE_PLAY)
+        bool statePlay = (PointerLibrary::getInstance()->getStateManager()->GetState() == STATE_PLAY);
+        if (world_loaded && statePlay)
         {
           if (evmgr->IsKindOf(id, "entity.remove"))
             RemoveEntity(*ev);
@@ -133,8 +137,14 @@ namespace PT
             Mount(*ev);
           else if (evmgr->IsKindOf(id, "entity.pose"))
             EntityPose(*ev);
+          else if (PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.stat.add.player"))
+            evmgr->AddEvent(ev);
         }
-      } // for
+        if (world_loaded && statePlay && !PlayerEntity::Instance())
+            unhandledEvents.Push(ev);
+      } // while
+
+      events = unhandledEvents;
     }
 
     bool EntityManager::WorldLoaded(iEvent& ev)

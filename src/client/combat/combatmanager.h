@@ -78,6 +78,7 @@ namespace PT
        */
       bool ActionAttackTarget(iEvent& ev);
 
+      bool AddStatPlayer(iEvent& ev);
       bool UpdateStat(iEvent& ev);
 
     public:
@@ -86,8 +87,8 @@ namespace PT
 
       bool Initialize();
 
-      void Hit(int targetId, int damage);
-      void Die(int targetId);
+      void Hit(PT::Entity::Entity*, int damage);
+      void Die(PT::Entity::Entity*);
       void LevelUp(int targetId);
       void Experience(int exp);
       void SkillUsageStart(unsigned int casterId, unsigned int targetId,

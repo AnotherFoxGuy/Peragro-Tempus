@@ -56,11 +56,11 @@ bool ComponentStats::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
 
   EventManager* evmgr = pointerlib->getEventManager();
 
-  const char* addEventName = "entity.stat.add";
-  // If this is player entity, listen to player stat events instead.
-  if (entity->GetType() == PlayerEntityType)
-     addEventName = "entity.stat.add.player";
-  REGISTER_LISTENER(ComponentStats, AddStat, addEventName, true)
+  // TODO: Listen to one of the two, not both.
+  // But entityType isn't known at this point.
+  REGISTER_LISTENER(ComponentStats, AddStat, "entity.stat.add", true)
+  REGISTER_LISTENER(ComponentStats, AddStat, "entity.stat.add.player", false)
+
   REGISTER_LISTENER(ComponentStats, UpdateStat, "entity.stat.change", true)
 
   return true;
@@ -78,12 +78,13 @@ bool ComponentStats::UpdateStat(iEvent& ev)
   Stat* stat = GetStat(statId);
   if (!stat)
   {
-    printf("E: Failed to find stat %d for entity %d", statId, entity->GetId());
+    pointerlib->getReporter()->Report(PT::Error, "Failed to find stat %d for entity %d", statId, entity->GetId());
     return true;
   }
 
   unsigned int statlevel = -1;
   ev.Retrieve("level", statlevel);
+  ev.Add("delta", stat->level - statlevel);
   stat->level = statlevel;
 
   return true;

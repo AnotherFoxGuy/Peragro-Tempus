@@ -105,6 +105,12 @@ namespace PT
       evmgr->AddListener("input.ACTION_ATTACK", cbAttackTarget);
       eventHandlers.Push(cbAttackTarget);
 
+      // Register listener for AddStat.
+      csRef<EventHandlerCallback> cbAddStat;
+      cbAddStat.AttachNew(new EventHandler<CombatManager>(&CombatManager::AddStatPlayer, this));                                                                             \
+      evmgr->AddListener("entity.stat.add.player", cbAddStat);
+      eventHandlers.Push(cbAddStat);
+
       // Register listener for UpdateStat.
       csRef<EventHandlerCallback> cbUpdateStat;
       cbUpdateStat.AttachNew(new EventHandler<CombatManager>(&CombatManager::UpdateStat, this));                                                                             \
@@ -129,6 +135,39 @@ namespace PT
       return true;
     }
 
+    bool CombatManager::AddStatPlayer(iEvent& ev)
+    {
+      static int hp = 0;
+      static int maxhp = 0;
+
+      //TODO: This can be removed when stats component is fixed. (line 59)
+      if (ev.GetName() != PointerLibrary::getInstance()->getEventManager()->Retrieve("entity.stat.add.player"))
+        return true;
+
+      //Report(PT::Notify, "AddStatPlayer !");
+
+      const char* name;
+      unsigned int level = -1;
+      ev.Retrieve("name", name);
+      ev.Retrieve("level", level);
+
+      if (strncmp("Endurance", name, strlen("Endurance")) == 0) 
+      {
+        maxhp = level;
+      }
+
+      if (strncmp("Health", name, strlen("Health")) == 0) 
+      {
+        hp = level;
+      }
+
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      HUDWindow* hudWindow = guimanager->GetHUDWindow();
+      hudWindow->SetHP(hp, maxhp);
+
+      return true;
+    } // end AddStatPlayer()
+
     bool CombatManager::UpdateStat(iEvent& ev)
     {
       using namespace PT::Events;
@@ -144,8 +183,7 @@ namespace PT
         return true;
       }
 
-      // TODO
-      csRef<iStats> stats ;//= target->GetComponent<iStats>("peragro.entity.stats");
+      csRef<iStats> stats = target->GetComponent<iStats>("peragro.entity.stats");
       if (!stats)
       {
         Report(PT::Error, "CombatManager: Couldn't find stats for entity with ID %d !", entityid);
@@ -154,11 +192,7 @@ namespace PT
 
       unsigned int statId = -1;
       ev.Retrieve("id", statId);
-
-      // TODO really shouldn't calculate it here, but get it from the character.
-      // Life 1 * endurance
-      int maxLife = stats->GetStatLevel("Endurance");
-
+      
       // Locate the correct stat.
       Stat* stat = stats->GetStat(statId);
       if (!stat)
@@ -167,36 +201,43 @@ namespace PT
         return true;
       }
 
+      unsigned int oldValue = stat->level;
+      ev.Retrieve("level", stat->level);
+
       if (strncmp("Health", stat->name.c_str(), strlen("Health")) == 0) 
       {
         // If the health update belong to the player, update the gui.
         if (target->GetType() == PlayerEntityType) 
         {
+          // Life = 1 * endurance
+          int maxLife = stats->GetStatLevel("Endurance");
+
           GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
           HUDWindow* hudWindow = guimanager->GetHUDWindow();
           hudWindow->SetHP(stat->level, maxLife);
         }
+
+        if (oldValue != 0 && stat->level != 0)
+        {
+          int damage = 0;
+          if (ev.AttributeExists("delta"))
+            ev.Retrieve("delta", damage);
+          else
+            damage = oldValue - stat->level;
+          Hit(target, damage);
+        }
         // If HP = 0, then play the die animation for the dying entity.
         if (stat->level == 0) 
-        {
-          Die(entityid);
-        }
+          Die(target);
       }
 
       return true;
 
     } // end UpdateStat()
 
-    void CombatManager::Hit(int targetId, int damage)
+    void CombatManager::Hit(PT::Entity::Entity* target, int damage)
     {
-      // Lookup the ID to get the actual entity.
-      PT::Entity::Entity* target = entityManager->findPtEntById(targetId);
-
-      if (!target)
-      {
-        Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !", targetId);
-        return;
-      }
+      using namespace PT::Entity;
 
       // Damage is positive, we got hurt.
       if (damage > 0)
@@ -218,31 +259,17 @@ namespace PT
         effectsManager->CreateEffect("Deflect", GetMesh(target));
         //target->SetAction("deflect");
       }
-      // Update the entity's HP(this will update the GUI aswell).
-      //target->AddToHP(-damage);
+
       Report(PT::Debug, "You %s %d points!", damage < 0 ? "healed" : "got hit for", damage);
 
-      //test
-      //guiManager->GetHUDWindow()->SetHP(target->GetHP());
+    } // end Hit()
 
-    }
-
-    void CombatManager::Die(int targetId)
+    void CombatManager::Die(PT::Entity::Entity* target)
     {
-      // Lookup the ID to get the actual entity.
-      PT::Entity::Entity* target = entityManager->findPtEntById(targetId);
-
-      if (!target)
-      {
-        Report(PT::Error, "CombatManager: Couldn't find dieing entity with ID %d !", targetId);
-        return;
-      }
-
       effectsManager->CreateEffect("Die", GetMesh(target));
       //target->SetHP(0);
       // Perfrom the die animation and lock it.
       //target->SetAction("die", true);
-
     }
 
     void CombatManager::LevelUp(int targetId)
@@ -475,7 +502,7 @@ namespace PT
       {
         if (InputHelper::GetButtonDown(&ev))
         {
-          Hit(entityManager->GetPlayerId(), 20);
+          Hit(PT::Entity::PlayerEntity::Instance(), 20);
         }
       }
       return true;

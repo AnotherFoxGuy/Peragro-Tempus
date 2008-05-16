@@ -423,7 +423,7 @@ float CombatManager::GetDodge(const Character* lockedCharacter) {
  * @return The characters parry.
  */
 float CombatManager::GetParry(const Character* lockedCharacter) {
-  return 1.0f;
+  return 10.0f;
 }
 
 /**

@@ -41,6 +41,9 @@
 #include "client/data/sectordatamanager.h"
 #include "client/data/sector.h"
 
+#include "client/component/componentmanager.h"
+#include "include/client/component/entity/stat/stats.h"
+
 namespace PT
 {
   namespace Entity
@@ -67,6 +70,11 @@ namespace PT
         sectorName = "Default_Sector";
         Report(PT::Error, "Unknown sectorID: %u!", sectorId);
       }
+
+      PT::Component::ComponentManager* componentManager =
+        PointerLibrary::getInstance()->getComponentManager();
+
+      ADD_COMPONENT(componentManager, iStats, "peragro.entity.stats")
     }
 
     void Entity::CreateCelEntity()

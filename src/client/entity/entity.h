@@ -81,7 +81,7 @@ namespace PT
       float rot;
 
       /// List of components this entity has.
-      csRefArray<iBase> components;
+      csRefArray<ComponentInterface> components;
 
       /// List of listeners this entity has.
       csRefArray<Events::EventHandlerCallback> eventHandlers;
@@ -167,6 +167,22 @@ namespace PT
       ///Make entity use some other CEL entity instead of its own.
       ///@todo Should we really be allowed to do this?
       void SetCelEntity (iCelEntity* value) { celEntity = value; }
+
+      template<class Interface>
+      csRef<Interface> GetComponent(const char* name)
+      {
+        for (size_t i = 0; i < components.GetSize(); i++)
+        {
+          csRef<ComponentInterface> comp = components.Get(i);
+          if (comp.IsValid() && strcmp(name, comp->GetName()) == 0)
+          {
+            csRef<Interface> infa = scfQueryInterface<Interface> (comp);
+            return infa;
+          }
+        }
+
+        return 0;
+      } // end GetComponent()
 
       /**
        * Changes the entity position and sector immediatelly.
