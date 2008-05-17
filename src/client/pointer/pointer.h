@@ -29,7 +29,6 @@ namespace PT
   class Client;
   class World;
   class StateManager;
-  class EnvironmentManager;
   class Reporter;
 
   namespace Events
@@ -72,11 +71,6 @@ namespace PT
     class ChatManager;
   } // Chat namespace
 
-  namespace Environment
-  {
-    class EnvironmentManager;
-  } // Environment namespace
-
   namespace Component
   {
     class ComponentManager;
@@ -107,7 +101,6 @@ private:
   PT::Effect::EffectsManager* effectsManager;
   PT::Combat::CombatManager* combatManager;
   PT::Chat::ChatManager* chatManager;
-  PT::Environment::EnvironmentManager* environmentManager;
   PT::Component::ComponentManager* componentManager;
 
   PT::World* world;
@@ -132,7 +125,6 @@ public:
     serverSetupManager = 0;
     guiManager = 0;
     stateManager = 0;
-    environmentManager = 0;
     entityManager = 0;
     effectsManager = 0;
     combatManager = 0;
@@ -200,9 +192,6 @@ public:
 
   void setStateManager(PT::StateManager* stateManager) { this->stateManager = stateManager; }
   PT::StateManager* getStateManager() { return this->stateManager; }
-
-  void setEnvironmentManager(PT::Environment::EnvironmentManager* environmentManager) { this->environmentManager = environmentManager; }
-  PT::Environment::EnvironmentManager* getEnvironmentManager() { return this->environmentManager; }
 
   void setComponentManager(PT::Component::ComponentManager* componentManager) { this->componentManager = componentManager; }
   PT::Component::ComponentManager* getComponentManager() { return this->componentManager; }
