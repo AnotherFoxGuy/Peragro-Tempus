@@ -34,7 +34,7 @@ namespace PT
     this->world = world;
     this->object_reg = world->GetObjectRegistry();
     finished = true;
-  }
+  } // end InteriorManager()
 
   InteriorManager::~InteriorManager()
   {
@@ -44,7 +44,7 @@ namespace PT
       csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
       engine->RemoveEngineFrameCallback(cb);
     }
-  }
+  } // end ~InteriorManager()
 
   csRef<Interior> InteriorManager::Get(iDocumentNode* node)
   {
@@ -100,7 +100,7 @@ namespace PT
       engine->AddEngineFrameCallback(cb);
       cb->DecRef();
     }
-  }
+  } // end RegisterLoad()
 
   bool InteriorManager::CheckResources()
   {
@@ -132,7 +132,8 @@ namespace PT
 
   } // end CheckResources()
 
-  void InteriorManager::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
+  void InteriorManager::FrameCallBack::StartFrame(iEngine* engine,
+                                                  iRenderView* rview)
   {
     if (!intmgr || intmgr->CheckResources())
     {

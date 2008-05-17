@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file interiormanager.h
+ *
+ * @basic Manages interior spaces.
+ */
 
 #ifndef INTERIORMANAGER_H
 #define INTERIORMANAGER_H
@@ -34,22 +39,33 @@ namespace PT
   struct InteriorFactory;
   class World;
 
+  /**
+   * Manages interior spaces.
+   */
   class InteriorManager
   {
   private:
+    /// Whether this has finished loading all interiors.
     bool finished;
+    /// The interiors.
     csWeakRefArray<Interior> interiors;
+    /// The interior factories.
     csWeakRefArray<InteriorFactory> interiorFactories;
+    /// The names of interiors waiting to be loaded.
     csArray<std::string> toLoad;
 
   private:
+    /// The game world.
     World* world;
+    /// The object registry.
     iObjectRegistry* object_reg;
 
   private:
+    /**
+     * Check the status and process the resources each frame.
+     */
     bool CheckResources();
 
-    // Check the status and process the resources each frame.
     struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
     {
       InteriorManager* intmgr;
@@ -57,19 +73,37 @@ namespace PT
       virtual void StartFrame (iEngine* engine, iRenderView* rview);
     };
     friend struct FrameCallBack;
+    /// Callback from the engine to check progress.
     csRef<FrameCallBack> cb;
 
   public:
+    /**
+     * Constructor.
+     * @param world The game world.
+     */
     InteriorManager(World* world);
+
+    /// Destructor.
     ~InteriorManager();
 
-    /// Get or create a new Factory.
+    /**
+     * Get an instance of an interior, create a new factory if needed.
+     * @param node The document node of the interior.
+     * @return The interior.
+     */
     csRef<Interior> Get(iDocumentNode* node);
 
-    /// Registers a interior to be loaded the moment it is created.
+    /**
+     * Registers a interior to be loaded the moment it is created.
+     * @param interiorName The name of the interior.
+     */
     void RegisterLoad(const std::string& interiorName);
 
-    /// @return True if finished loading, false otherwise.
+    /**
+     * Check if the interior manager has finished loading all interiors
+     * requested.
+     * @return True if finished, false otherwise.
+     */
     bool IsReady() const { return finished; }
 
   };

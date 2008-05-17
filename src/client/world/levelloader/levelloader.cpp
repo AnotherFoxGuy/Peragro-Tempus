@@ -20,19 +20,20 @@
 
 //---------------------------------------------------------------------------
 
-LevelLoader::LoaderJob::LoaderJob (const std::string& path, const std::string& fileName)
+LevelLoader::LoaderJob::LoaderJob (const std::string& path,
+                                   const std::string& fileName)
   : scfImplementationType (this)
 {
   LoaderJob::path = path;
   LoaderJob::fileName = fileName;
   finished = false;
-}
+} // end LoaderJob()
 
 LevelLoader::LoaderJob::~LoaderJob()
 {
   factories.DeleteAll();
   instances.DeleteAll();
-}
+} // end ~LoaderJob()
 
 void LevelLoader::LoaderJob::Run()
 {
@@ -152,14 +153,13 @@ LevelLoader::LevelLoader (iObjectRegistry* object_reg)
     jobQueue.AttachNew (new CS::Threading::ThreadedJobQueue (1, CS::Threading::THREAD_PRIO_LOW));
     object_reg->Register (jobQueue, queueTag);
   }
-
-}
+} // end LevelLoader()
 
 LevelLoader::~LevelLoader ()
 {
   if (loadJob.IsValid())
     jobQueue->Unqueue (loadJob);
-}
+} // end ~LevelLoader()
 
 bool LevelLoader::Load (const std::string& path, const std::string& fileName)
 {
@@ -180,9 +180,9 @@ bool LevelLoader::Load (const std::string& path, const std::string& fileName)
 void LevelLoader::WaitForJob() const
 {
   jobQueue->PullAndRun (loadJob);
-}
+} // end WaitForJob()
 
 bool LevelLoader::IsReady() const
 {
   return loadJob->finished;
-}
+} // end IsReady()

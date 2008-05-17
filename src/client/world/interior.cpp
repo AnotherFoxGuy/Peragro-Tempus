@@ -43,33 +43,35 @@
 
 namespace PT
 {
-  InteriorFactory::InteriorFactory(const std::string& fileName, World* world) : scfImplementationType (this), Level(world)
+  InteriorFactory::InteriorFactory(const std::string& fileName, World* world)
+    : scfImplementationType (this), Level(world)
   {
     this->fileName = fileName;
 
     OpenFile("", fileName);
-  }
+  } // end InteriorFactory()
 
   InteriorFactory::~InteriorFactory()
   {
     Report(PT::Debug, "Unloading InteriorFactory %s", fileName.c_str());
-  }
+  } // end ~InteriorFactory()
 
   void InteriorFactory::LoadInstance(iDocumentNode* meshNode)
   {
     instanceNodes.Push(meshNode);
-  }
+  } // end LoadInstance()
 
   //--------------------------------------------------------------
 
-  Interior::Interior(iDocumentNode* interiorNode, InteriorFactory* factory) : scfImplementationType (this)
+  Interior::Interior(iDocumentNode* interiorNode, InteriorFactory* factory)
+    : scfImplementationType (this)
   {
     this->interiorNode = interiorNode->GetNode("interior");
     this->factory = factory;
     this->interiorName = this->interiorNode->GetAttributeValue("name");
     loading = false;
     finished = false;
-  }
+  } // end Interior()
 
   Interior::~Interior()
   {
@@ -81,7 +83,7 @@ namespace PT
       csRef<iEngine> engine = csQueryRegistry<iEngine> (factory->object_reg);
       engine->RemoveEngineFrameCallback(cb);
     }
-  }
+  } // end ~Interior()
 
   void Interior::Load()
   {
@@ -145,9 +147,11 @@ namespace PT
     // If it's a portal allow it to look for sectors beyond the collection.
     csLoadResult rc;
     if(meshNode && meshNode->GetNode("portals").IsValid())
-      rc = loader->Load(meshNode, instances, false, false, 0, 0, factory->missingData, KEEP_ALL);
+      rc = loader->Load(meshNode, instances, false, false, 0, 0,
+        factory->missingData, KEEP_ALL);
     else
-      rc = loader->Load(meshNode, instances, false, false, 0, 0, factory->missingData, KEEP_ALL);
+      rc = loader->Load(meshNode, instances, false, false, 0, 0,
+        factory->missingData, KEEP_ALL);
 
     if (!rc.success)
     {
@@ -176,7 +180,8 @@ namespace PT
     if (mesh && sector)
     {
       // If it's a portal we have to do a hardtransform.
-      csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer>(mesh->GetMeshObject ());
+      csRef<iPortalContainer> pc =
+        scfQueryInterface<iPortalContainer>(mesh->GetMeshObject ());
       if (pc.IsValid())
       {
         mesh->HardTransform(trans);
@@ -186,7 +191,8 @@ namespace PT
         mesh->GetMovable()->SetTransform(trans);
 
         // Create collider.
-        csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (factory->object_reg);
+        csRef<iCollideSystem> cdsys =
+          csQueryRegistry<iCollideSystem> (factory->object_reg);
         csColliderHelper::InitializeCollisionWrapper (cdsys, mesh);
       }
 
@@ -211,7 +217,8 @@ namespace PT
 
   float Interior::GetPortalYRotation(iMeshWrapper* portalMesh)
   {
-    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());
+    csRef<iPortalContainer> pc =
+      scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());
     csRef<iPortal> portal = pc->GetPortal(0);
 
     csPlane3 plane = portal->GetWorldPlane();
@@ -222,7 +229,8 @@ namespace PT
 
   csVector3 Interior::GetPortalPosition(iMeshWrapper* portalMesh)
   {
-    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());
+    csRef<iPortalContainer> pc =
+      scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());
     csRef<iPortal> portal = pc->GetPortal(0);
     csVector3 portalcenter = portal->GetWorldSphere().GetCenter();
 
@@ -236,7 +244,8 @@ namespace PT
   bool Interior::IsPortal(iMeshWrapper* portalMesh)
   {
     if (!portalMesh) return false;
-    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());
+    csRef<iPortalContainer> pc =
+      scfQueryInterface<iPortalContainer>(portalMesh->GetMeshObject ());
     if (!pc.IsValid()) return false;
     csRef<iPortal> portal = pc->GetPortal(0);
     if (!portal.IsValid()) return false;
@@ -258,7 +267,8 @@ namespace PT
       if (offsetBool.CompareNoCase("true"))
       {
         std::string portalName = current->GetContentsValue();
-        csRef<iMeshWrapper> portalmesh = engine->FindMeshObject(portalName.c_str());
+        csRef<iMeshWrapper> portalmesh =
+          engine->FindMeshObject(portalName.c_str());
         if (!IsPortal(portalmesh)) return false;
       }
       else

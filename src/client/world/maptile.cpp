@@ -36,7 +36,8 @@
 
 namespace PT
 {
-  MapTile::MapTile(int x0, int z0, const std::string& fileName, World* world): Level(world), x(x0), z(z0)
+  MapTile::MapTile(int x0, int z0, const std::string& fileName, World* world)
+    : Level(world), x(x0), z(z0)
   {
     xbase = x * TILESIZE;
     zbase = z * TILESIZE;
@@ -45,18 +46,18 @@ namespace PT
 
     char buffer[256];
     sprintf(buffer, "instances-%d-%d",x,z);
-    regionName = buffer;
+    collectionName = buffer;
 
     OpenFile("/peragro/art/tiles/", fileName);
 
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     sector = engine->FindSector("World");
-  }
+  } // end MapTile()
 
   MapTile::~MapTile()
   {
     Report(PT::Debug, "Unloading tile %d,%d", x, z);
-  }
+  } // end ~MapTile()
 
   void MapTile::LoadInstance(iDocumentNode* meshNode)
   {
@@ -71,9 +72,11 @@ namespace PT
     // If it's a portal allow it to look for sectors beyond the region.
     csLoadResult rc;
     if (meshNode && meshNode->GetNode("portals").IsValid())
-      rc = loader->Load(meshNode, instances, false, false, 0, 0, missingData, KEEP_ALL);
+      rc = loader->Load(meshNode, instances, false, false, 0, 0,
+        missingData, KEEP_ALL);
     else
-      rc = loader->Load(meshNode, instances, true, false, 0, 0, missingData, KEEP_ALL);
+      rc = loader->Load(meshNode, instances, true, false, 0, 0,
+        missingData, KEEP_ALL);
     if (!rc.success) return;
 
     csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper>(rc.result);
@@ -81,7 +84,8 @@ namespace PT
     if (mesh && sector)
     {
       // If it's a portal we have to do a hardtransform.
-      csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer>(mesh->GetMeshObject ());
+      csRef<iPortalContainer> pc =
+        scfQueryInterface<iPortalContainer>(mesh->GetMeshObject ());
       if (pc.IsValid())
       {
         csReversibleTransform trans;
@@ -96,7 +100,8 @@ namespace PT
         mesh->GetMovable()->SetPosition(pos);
 
         // Create collider.
-        csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+        csRef<iCollideSystem> cdsys =
+          csQueryRegistry<iCollideSystem> (object_reg);
         csColliderHelper::InitializeCollisionWrapper (cdsys, mesh);
       }
 
@@ -115,13 +120,13 @@ namespace PT
     }
 
     //}//to measure time
-  }
+  } // end LoadInstance()
 
   void MapTile::SetReady()
   {
     SetVisible(visible, true);
     Level::SetReady();
-  }
+  } // end SetReady()
 
   void MapTile::SetVisible(bool visible, bool force)
   {

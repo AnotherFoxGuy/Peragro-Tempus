@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file factory.h
+ *
+ * @basic Used to create instances of a model.
+ */
 
 #ifndef FACTORY_H
 #define FACTORY_H
@@ -32,37 +37,61 @@ namespace PT
     SCF_INTERFACE(iModelFactory, 1,0,0);
   };
 
+  /**
+   * Used to create instances of a model.
+   */
   struct Factory : public scfImplementation1<Factory, iModelFactory>
   {
   private:
+    /// The collection that is used for this factory.
     csRef<iCollection> collection;
+    /// The file loader.
     FileLoader* fileLoader;
+    /// The object registry.
     iObjectRegistry* object_reg;
+    /// Whether all textures have been precached.
     bool isPrecached;
+    /// Whether everything has been added to the engine.
     bool isAdded;
 
   public:
+    /**
+     * Constructor.
+     * @param fileName The file name.
+     * @param object_reg The object registry.
+     */
     Factory(const std::string& fileName, iObjectRegistry* object_reg);
+    /// Destructor.
     ~Factory();
+
+    /// The file name.
     std::string fileName;
-    /// Don't call this function yourself!
+
+    /**
+     * Start loading the file. Don't call this function yourself!
+     * This is called by ModelManager::Get().
+     */
     void Load();
-    /// @return True if finished loading, false otherwise.
+    /// Returns true if finished loading, false otherwise.
     bool IsReady() const;
-    /// Return true if all textures have been precached.
+    /// Returns true if all textures have been precached.
     bool IsPrecached() const { return isPrecached; }
-    /// Check if everything has been added to the engine.
+    /// Returns true if everything has been added to the engine.
     bool IsAdded() const { return isAdded; }
-    /** Add the contents to the engine.
-    *  Careful, this will block when it isn't ready yet!
-    */
+
+    /**
+     * Add the contents to the engine.
+     * Careful, this will block when it isn't ready yet!
+     */
     void AddToEngine();
-    /** Precaches 'one' texture (if any) and returns.
-    *  Call this repeatetly over a period of time
-    *  to smooth out texture loading.
-    *  Call IsPrecached() to see if everything has been precached.
-    */
+
+    /**
+     * Precaches 'one' texture (if any) and returns.
+     * Call this repeatedly over a period of time to smooth out texture loading.
+     * Call IsPrecached() to see if everything has been precached.
+     */
     void Precache();
+
     /// Get the collection that is used internally for holding the data.
     iCollection* GetCollection() { return collection; }
   };

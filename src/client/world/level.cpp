@@ -36,11 +36,11 @@ namespace PT
     finished = false;
 
     missingData.AttachNew(new MissingData(this));
-  }
+  } // end Level()
 
   Level::~Level()
   {
-    //printf("Unloading Level %s\n", regionName.c_str());
+    //printf("Unloading Level %s\n", collectionName.c_str());
 
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
 
@@ -51,7 +51,7 @@ namespace PT
     }
 
     // Stab Xordan for this!!
-    engine->RemoveCollection(regionName.c_str());
+    engine->RemoveCollection(collectionName.c_str());
 
     // Unload factories.
     // Just empty the array to decrease ref.
@@ -60,7 +60,7 @@ namespace PT
     // Delete the tileloader.
     if (levelLoader) delete levelLoader;
     levelLoader = 0;
-  }
+  } // end ~Level()
 
   void Level::OpenFile(const std::string& path, const std::string& fileName)
   {
@@ -70,8 +70,8 @@ namespace PT
 
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
 
-    // Create instances' region.
-    instances = engine->CreateCollection(regionName.c_str());
+    // Create instances' collection.
+    instances = engine->CreateCollection(collectionName.c_str());
 
     // Wait for the resources to be loaded.
     cb.AttachNew(new FrameCallBack(this));
@@ -166,7 +166,6 @@ namespace PT
       }
     }
 
-
     while (!instanceNodes.IsEmpty())
     {
       csRef<iDocumentNode> node = instanceNodes.Get(0);
@@ -210,7 +209,8 @@ namespace PT
     return 0;
   } // end MissingFactory()
 
-  iTextureWrapper* Level::MissingData::MissingTexture(const char* name, const char* filename)
+  iTextureWrapper* Level::MissingData::MissingTexture(const char* name,
+                                                      const char* filename)
   {
     if (!level) return 0;
 
@@ -229,6 +229,6 @@ namespace PT
     }
 
     return 0;
-  } // end MissingFactory()
+  } // end MissingTexture()
 
 } // PT namespace

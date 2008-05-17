@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file modelmanager.h
+ *
+ * @brief Manages model factories.
+ */
 
 #ifndef MODELMANAGER_H
 #define MODELMANAGER_H
@@ -30,19 +35,29 @@ namespace PT
 {
   struct Factory;
 
+  /**
+   * Keeps an array of factories, and either returns the existing factory or
+   * loads it on request.
+   */
   class ModelManager
   {
   private:
+    /// The array of loaded factories.
     csWeakRefArray<Factory> factories;
 
-  private:
+    /// The object registry.
     iObjectRegistry* object_reg;
 
   public:
+    /// Constructor.
     ModelManager(iObjectRegistry* object_reg);
+    /// Destructor.
     ~ModelManager();
 
-    /// Get or create a new Factory.
+    /**
+     * Get or create a new factory.
+     * @param fileName The file name of the factory.
+     */
     csRef<Factory> Get(const std::string& fileName);
 
   };

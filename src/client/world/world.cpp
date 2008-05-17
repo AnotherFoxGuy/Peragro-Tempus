@@ -33,7 +33,8 @@
 
 namespace PT
 {
-  World::World(const char* name, iObjectRegistry* object_reg) : basename(name)
+  World::World(const char* name, iObjectRegistry* object_reg)
+    : basename(name)
   {
     loading = false;
     camera.Set(0.0f);
@@ -41,7 +42,8 @@ namespace PT
     maptilecache = 0;
     current_size = 0;
     current = 0;
-    // Set to a very big number, so if they are changed to "0,0" it can be detected.
+    // Set to a very big number, so if they are changed to "0,0"
+    // it can be detected.
     cx = cz = INT_MAX;
 
     Report(PT::Notify, "Loading world %s", basename.c_str());
@@ -63,7 +65,7 @@ namespace PT
 
     // Init current.
     SetGridSize(3); // default 3x3
-  }
+  } // end World() :P
 
   World::~World()
   {
@@ -101,7 +103,7 @@ namespace PT
 
     // Delete the interior manager.
     delete interiorManager;
-  }
+  } // end ~World()
 
   void World::SetGridSize(int size)
   {
@@ -156,12 +158,12 @@ namespace PT
     current_size = size;
     current = newGrid;
     if (load) EnterTile(cx, cz); // Load new surrounding tiles.
-  }
+  } // end SetGridSize()
 
   int World::GetGridSize() const
   {
     return current_size;
-  }
+  } // end GetGridSize()
 
   void World::SetCacheSize(int size)
   {
@@ -185,11 +187,13 @@ namespace PT
           unsigned int score_i = ~0;
           if (maptilecache[i-1] != 0)
           {
-            score_i_1 = abs(maptilecache[i-1]->x - cx) + abs(maptilecache[i-1]->z - cz);
+            score_i_1 = abs(maptilecache[i-1]->x - cx) +
+              abs(maptilecache[i-1]->z - cz);
           }
           if (maptilecache[i] != 0)
           {
-            score_i   = abs(maptilecache[i]->x - cx) + abs(maptilecache[i]->z - cz);
+            score_i = abs(maptilecache[i]->x - cx) +
+              abs(maptilecache[i]->z - cz);
           }
           // If score is bigger: swap.
           if (score_i_1 > score_i)
@@ -219,12 +223,12 @@ namespace PT
 
     maptilecachesize = size;
     maptilecache = newCache;
-  }
+  } // end SetCacheSize()
 
   int World::GetCacheSize() const
   {
     return maptilecachesize;
-  }
+  } // end GetCacheSize()
 
   void World::EnterTile(int x, int z)
   {
@@ -251,14 +255,15 @@ namespace PT
         current[j][i]->SetVisible(true);
       }
     }
-  }
+  } // end EnterTile()
 
   MapTile* World::LoadTile(int x, int z)
   {
     int firstnull = maptilecachesize;
     for (int i = 0; i < maptilecachesize; i++)
     {
-      if ((maptilecache[i] != 0) && (maptilecache[i]->x == x) && (maptilecache[i]->z == z))
+      if ((maptilecache[i] != 0) && (maptilecache[i]->x == x) &&
+        (maptilecache[i]->z == z))
       {
         return maptilecache[i];
       }
@@ -280,7 +285,7 @@ namespace PT
         }
       }
 
-      // maxidx is the winner (loser)
+      // maxidx is the winner. (loser)
       delete maptilecache[maxidx];
       firstnull = maxidx;
     }
@@ -290,7 +295,7 @@ namespace PT
 
     maptilecache[firstnull] = new MapTile(x,z,name, this);
     return maptilecache[firstnull];
-  }
+  } // end LoadTile()
 
   void World::Tick(float dt)
   {
@@ -311,10 +316,13 @@ namespace PT
       if (!interiorManager->IsReady())
         allLoaded = false;
 
-      //printf("I: World loading progress %.2f!\n", (tilesLoaded/(float)(GetGridSize()*GetGridSize())));
-      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      //printf("I: World loading progress %.2f!\n",
+      //  (tilesLoaded/(float)(GetGridSize()*GetGridSize())));
+      PT::Events::EventManager* evmgr =
+        PointerLibrary::getInstance()->getEventManager();
       csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
-      worldEvent->Add("progress", tilesLoaded/(float)(GetGridSize()*GetGridSize()));
+      worldEvent->Add("progress",
+        tilesLoaded/static_cast<float>(GetGridSize()*GetGridSize()));
       evmgr->AddEvent(worldEvent);
 
       if (allLoaded)
@@ -332,8 +340,10 @@ namespace PT
     if (current[p][p] != 0)
     {
       // If we're out of bounds of our center tile, we're entering a new tile.
-      if (  (camera.x < current[p][p]->xbase) || (camera.x > (current[p][p]->xbase+TILESIZE))
-        ||(camera.z < current[p][p]->zbase) || (camera.z > (current[p][p]->zbase+TILESIZE)) )
+      if ((camera.x < current[p][p]->xbase) ||
+          (camera.x > (current[p][p]->xbase+TILESIZE)) ||
+          (camera.z < current[p][p]->zbase) ||
+          (camera.z > (current[p][p]->zbase+TILESIZE)))
       {
         if (camera.x < 0)
         {
@@ -349,10 +359,11 @@ namespace PT
         ez = (int)(camera.z / TILESIZE);
 
         EnterTile(ex,ez);
-        Report(PT::Notify, "EnterTile (%d,%d) (%f, %f)", ex, ez, camera.x, camera.z);
+        Report(PT::Debug, "EnterTile (%d,%d) (%f, %f)",
+          ex, ez, camera.x, camera.z);
       }
     }
-  }
+  } // end Tick()
 
   void World::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
   {
@@ -386,14 +397,15 @@ namespace PT
     }
 
     int ex, ez;
-    ex = (int)(x / TILESIZE);
-    ez = (int)(z / TILESIZE);
+    ex = static_cast<int>(x / TILESIZE);
+    ez = static_cast<int>(z / TILESIZE);
 
     if (ex != cx || ez != cz)
     {
       Report(PT::Notify, "World loading...");
 
-      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      PT::Events::EventManager* evmgr =
+        PointerLibrary::getInstance()->getEventManager();
       csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
       worldEvent->Add("progress", 0.0f);
       evmgr->AddEvent(worldEvent);

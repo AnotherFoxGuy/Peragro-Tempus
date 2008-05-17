@@ -28,11 +28,11 @@ namespace PT
   ModelManager::ModelManager(iObjectRegistry* object_reg)
   {
     this->object_reg = object_reg;
-  }
+  } // end ModelManager()
 
   ModelManager::~ModelManager()
   {
-  }
+  } // end ~ModelManager()
 
   csRef<Factory> ModelManager::Get(const std::string& fileName)
   {

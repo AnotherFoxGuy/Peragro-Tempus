@@ -18,7 +18,7 @@
 /**
  * @file world.h
  *
- * @basic Manager for outside world tiles.
+ * @basic Manages the game world.
  */
 
 #ifndef WORLD_H
@@ -48,7 +48,7 @@ namespace PT
   class World
   {
   private:
-    /// Whether tiles need to be loaded.
+    /// Whether more tiles need to be loaded.
     bool loading;
 
     /// Number of tiles in the cache.
@@ -56,7 +56,7 @@ namespace PT
     /// Tile cache.
     MapTile** maptilecache;
 
-    /// Number of tiles currently loaded.
+    /// The current grid size.
     int current_size;
     /// Loaded subset of the world.
     MapTile*** current;
@@ -84,7 +84,7 @@ namespace PT
 
     /**
      * Check if player position is within tile boundaries.
-     * @param dt Time delta (seems unused).
+     * @param dt Time delta. (currently unused)
      */
     void Tick(float dt);
 
@@ -96,7 +96,6 @@ namespace PT
     /// The interior manager.
     InteriorManager* interiorManager;
 
-    // Updates the camera.
     struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
     {
       World* world;

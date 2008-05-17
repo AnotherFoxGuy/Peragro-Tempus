@@ -29,15 +29,15 @@
 
 namespace PT
 {
-  Factory::Factory(const std::string& fileName,
-    iObjectRegistry* object_reg) : scfImplementationType (this)
+  Factory::Factory(const std::string& fileName, iObjectRegistry* object_reg)
+    : scfImplementationType (this)
   {
     this->fileName = fileName;
     this->object_reg = object_reg;
     fileLoader = 0;
     isPrecached = false;
     isAdded = false;
-  }
+  } // end Factory()
 
   Factory::~Factory()
   {
@@ -50,7 +50,7 @@ namespace PT
     // Stab Xordan for this!!
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     engine->RemoveCollection(fileName.c_str());
-  }
+  } // end ~Factory()
 
   void Factory::Load()
   {
@@ -93,11 +93,12 @@ namespace PT
     if (IsPrecached()) return;
 
     // Precaches "one" texture and then returns, so you have to call
-    // this repeately and check IsPrecached() wether 'everything' is done.
+    // this repeately and check IsPrecached() whether 'everything' is done.
     csRef<iObjectIterator> iter = collection->QueryObject()->GetIterator();
-    while (iter->HasNext ())
+    while (iter->HasNext())
     {
-      csRef<iTextureWrapper> csth (scfQueryInterface<iTextureWrapper> (iter->Next ()));
+      csRef<iTextureWrapper> csth(
+        scfQueryInterface<iTextureWrapper> (iter->Next()) );
       if (csth)
       {
         if (csth->GetTextureHandle ())
@@ -107,7 +108,8 @@ namespace PT
           else
           {
             csth->GetTextureHandle()->Precache();
-            Report(PT::Debug, "Precached texture '%s'", csth->QueryObject()->GetName());
+            Report(PT::Debug, "Precached texture '%s'",
+              csth->QueryObject()->GetName());
             return;
           }
         }
