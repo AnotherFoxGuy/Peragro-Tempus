@@ -36,70 +36,73 @@ struct iEvent;
 
 namespace PT
 {
-  /**
-   * The game clock.
-   */
-  class Clock
+  namespace Environment
   {
-  public:
-    /// Constructor.
-    Clock();
-    /// Destructor.
-    ~Clock();
-
-    /// Get a number from 0 to 1 representing the time of day.
-    float GetTimeDecimal();
-    /// Get the current hour.
-    size_t GetHour() const { return hour; }
-    /// Get the current minute.
-    size_t GetMinute() const { return minute; }
-
     /**
-     * Initialize the clock
-     * @return True, indicating success
+     * The game clock.
      */
-    bool Initialize();
-
-  private:
-    /// Advance the local clock.
-    void Tick();
-    /// Initialize the time parameters from an event.
-    bool InitTime(iEvent& ev);
-    /// Update the time from an event.
-    bool UpdateTime(iEvent& ev);
-
-    /// Callback for the inittime event.
-    csRef<Events::EventHandlerCallback> cbInitTime;
-    /// Callback for the updatetime event.
-    csRef<Events::EventHandlerCallback> cbUpdateTime;
-
-    struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+    class Clock
     {
-      Clock* clock;
-      FrameCallBack (Clock* clk) : scfImplementationType (this) { clock = clk; }
-      virtual void StartFrame (iEngine* engine, iRenderView* rview);
+    public:
+      /// Constructor.
+      Clock();
+      /// Destructor.
+      ~Clock();
+
+      /// Get a number from 0 to 1 representing the time of day.
+      float GetTimeDecimal();
+      /// Get the current hour.
+      size_t GetHour() const { return hour; }
+      /// Get the current minute.
+      size_t GetMinute() const { return minute; }
+
+      /**
+       * Initialize the clock
+       * @return True, indicating success
+       */
+      bool Initialize();
+
+    private:
+      /// Advance the local clock.
+      void Tick();
+      /// Initialize the time parameters from an event.
+      bool InitTime(iEvent& ev);
+      /// Update the time from an event.
+      bool UpdateTime(iEvent& ev);
+
+      /// Callback for the inittime event.
+      csRef<Events::EventHandlerCallback> cbInitTime;
+      /// Callback for the updatetime event.
+      csRef<Events::EventHandlerCallback> cbUpdateTime;
+
+      struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+      {
+        Clock* clock;
+        FrameCallBack (Clock* clk) : scfImplementationType (this) { clock = clk; }
+        virtual void StartFrame (iEngine* engine, iRenderView* rview);
+      };
+      friend struct FrameCallBack;
+      csRef<FrameCallBack> cb;
+
+      /// The engine.
+      csRef<iEngine> engine;
+
+      /// The current game minute.
+      size_t minute;
+      /// The current game hour.
+      size_t hour;
+      /// Game time minutes per hour.
+      size_t minutesPerHour;
+      /// Game time hours per day.
+      size_t hoursPerDay;
+      /// Milliseconds real time per in game minute.
+      size_t realPerGame;
+
+      /// Millisecond timer since last clock tick.
+      PTTime timer;
     };
-    friend struct FrameCallBack;
-    csRef<FrameCallBack> cb;
 
-    /// The engine.
-    csRef<iEngine> engine;
-
-    /// The current game minute.
-    size_t minute;
-    /// The current game hour.
-    size_t hour;
-    /// Game time minutes per hour.
-    size_t minutesPerHour;
-    /// Game time hours per day.
-    size_t hoursPerDay;
-    /// Milliseconds real time per in game minute.
-    size_t realPerGame;
-
-    /// Millisecond timer since last clock tick.
-    PTTime timer;
-
-  };
-}
+  } // Environment namespace
+} // PT namespace
 
 #endif // CLOCK_H_

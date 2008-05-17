@@ -41,63 +41,66 @@ struct iShaderManager;
 
 namespace PT
 {
-  /**
-   * Changes the sky graphics as the time of day changes.
-   */
-  class EnvironmentManager
+  namespace Environment
   {
-  private:
-    /// The engine.
-    csRef<iEngine> engine;
-    /// The shader manager.
-    csRef<iShaderManager> shaderMgr;
-    /// The string set.
-    csRef<iStringSet> strings;
-
-    /// The light for the sun.
-    csRef<iLight> sun;
-    /// The sky mesh.
-    csRef<iMeshWrapper> sky;
-
-    /// The game clock.
-    Clock* clock;
-    /// The horizontal angle of the sun.
-    float sun_alpha;
-    /// The vertical angle of the sun.
-    float sun_theta;
-    /// The sun direction string.
-    csStringID string_sunDirection;
-    /// Elapsed ticks counter to limit the calculations done.
-    csTicks elapsedTicks;
-
-    struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+    /**
+     * Changes the sky graphics as the time of day changes.
+     */
+    class EnvironmentManager
     {
-      EnvironmentManager* envmgr;
-      FrameCallBack (EnvironmentManager* mgr) : scfImplementationType (this) { envmgr = mgr; }
-      virtual void StartFrame (iEngine* engine, iRenderView* rview);
+    private:
+      /// The engine.
+      csRef<iEngine> engine;
+      /// The shader manager.
+      csRef<iShaderManager> shaderMgr;
+      /// The string set.
+      csRef<iStringSet> strings;
+
+      /// The light for the sun.
+      csRef<iLight> sun;
+      /// The sky mesh.
+      csRef<iMeshWrapper> sky;
+
+      /// The game clock.
+      Clock* clock;
+      /// The horizontal angle of the sun.
+      float sun_alpha;
+      /// The vertical angle of the sun.
+      float sun_theta;
+      /// The sun direction string.
+      csStringID string_sunDirection;
+      /// Elapsed ticks counter to limit the calculations done.
+      csTicks elapsedTicks;
+
+      struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+      {
+        EnvironmentManager* envmgr;
+        FrameCallBack (EnvironmentManager* mgr) : scfImplementationType (this) { envmgr = mgr; }
+        virtual void StartFrame (iEngine* engine, iRenderView* rview);
+      };
+      friend struct FrameCallBack;
+      csRef<FrameCallBack> cb;
+
+      /**
+       * Update the sun and sky graphics.
+       * @return True, indicating that the event was handled.
+       */
+      void Update(iCamera* cam);
+
+    public:
+      /// Constructor.
+      EnvironmentManager();
+      /// Destructor.
+      ~EnvironmentManager();
+
+      /**
+       * Initialize the environmentmanager.
+       * @return True, indicating success.
+       */
+      bool Initialize();
+
     };
-    friend struct FrameCallBack;
-    csRef<FrameCallBack> cb;
- 
-    /**
-     * Update the sun and sky graphics.
-     * @return True, indicating that the event was handled.
-     */
-    void Update(iCamera* cam);
-
-  public:
-    /// Constructor.
-    EnvironmentManager();
-    /// Destructor.
-    ~EnvironmentManager();
-
-    /**
-     * Initialize the environmentmanager.
-     * @return True, indicating success.
-     */
-    bool Initialize();
-
-  };
-}
+  } // Environment namespace
+} // PT namespace
 
 #endif // ENVIRONMENTMANAGER_H_
