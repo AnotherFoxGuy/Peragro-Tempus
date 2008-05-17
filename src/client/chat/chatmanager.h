@@ -43,7 +43,7 @@ namespace PT
     private:
       csRef<iObjectRegistry> obj_reg;
       Network* network;
-      GUIManager* guimanager;
+      PT::GUI::GUIManager* guimanager;
 
       std::vector<Commandp> commands;
       std::vector<CEGUI::String> history;

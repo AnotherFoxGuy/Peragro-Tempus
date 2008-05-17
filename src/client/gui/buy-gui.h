@@ -23,49 +23,63 @@
 
 #include "client/gui/common/inventory.h"
 
-class BuyWindow : public GUIWindow
+#define BUYWINDOW "BuyWindow/Frame"
+
+namespace PT
 {
-private:
-  struct Item
+  namespace GUI
   {
-    unsigned int itemid;
-    unsigned int variationid;
-    unsigned int price;
-  };
+    class DragDrop;
 
-private:
-  DragDrop* dragdrop;
-  PT::Data::ItemDataManager* itemDataManager;
+    namespace Windows
+    {
 
-  Inventory* upperslots;
-  Inventory* lowerslots;
+	class BuyWindow : public GUIWindow
+	{
+	private:
+	  struct Item
+	  {
+		unsigned int itemid;
+		unsigned int variationid;
+		unsigned int price;
+	  };
 
-  csArray<Item> items;
-  unsigned int totalmoney;
+	private:
+      PT::GUI::Windows::DragDrop* dragdrop;
+	  PT::Data::ItemDataManager* itemDataManager;
 
-private:
-  bool OnCloseButton(const CEGUI::EventArgs& args);
-  bool OnAccept(const CEGUI::EventArgs& args);
-  bool OnScroll(const CEGUI::EventArgs& args);
-  void Update(int linenr);
-  void UpdateOffer();
-  void SetTotalMoney(unsigned int price);
+	  Inventory* upperslots;
+	  Inventory* lowerslots;
 
-public:
-  BuyWindow(GUIManager* guimanager);
-  virtual ~BuyWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
+	  csArray<Item> items;
+	  unsigned int totalmoney;
 
-public:
-  bool AddItem(unsigned int itemid, unsigned int price);
-  void CancelTrade();
-  void AcceptTrade();
+	private:
+	  bool OnCloseButton(const CEGUI::EventArgs& args);
+	  bool OnAccept(const CEGUI::EventArgs& args);
+	  bool OnScroll(const CEGUI::EventArgs& args);
+	  void Update(int linenr);
+	  void UpdateOffer();
+	  void SetTotalMoney(unsigned int price);
 
-  void MoveItem(Slot* oldslot, Slot* newslot);
+	public:
+	  BuyWindow(GUIManager* guimanager);
+	  virtual ~BuyWindow();
+      bool Create();
+	  bool ReloadWindow();
 
-  void SetYourMoney(unsigned int price);
+	public:
+	  bool AddItem(unsigned int itemid, unsigned int price);
+	  void CancelTrade();
+	  void AcceptTrade();
 
-};
+	  void MoveItem(Slot* oldslot, Slot* newslot);
 
+	  void SetYourMoney(unsigned int price);
+
+	};
+	}
+  }
+}
 
 #endif // BUY_GUI_H

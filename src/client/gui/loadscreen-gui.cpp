@@ -26,41 +26,56 @@
 
 #include "loadscreen-gui.h"
 
-LoadScreenWindow::LoadScreenWindow (GUIManager* guimanager)
-: GUIWindow (guimanager)
+namespace PT
 {
-}
+  namespace GUI
+  {
+    namespace Windows
+    {
+	LoadScreenWindow::LoadScreenWindow (GUIManager* guimanager)
+	: GUIWindow (guimanager)
+	{
+      windowName = LOADSCREENWINDOW;
+	}
 
-LoadScreenWindow::~LoadScreenWindow ()
-{
-}
+	LoadScreenWindow::~LoadScreenWindow ()
+	{
+	}
 
-void LoadScreenWindow::CreateGUIWindow ()
-{
-  GUIWindow::CreateGUIWindow ("loadscreen.xml");
-  winMgr = cegui->GetWindowManagerPtr ();
+	void LoadScreenWindow::SetProgress(float progress)
+	{
+	  CEGUI::ProgressBar* bar = static_cast<CEGUI::ProgressBar*>(winMgr->getWindow("LoadScreen/Bar"));
+	  bar->setProgress(progress);
+	}
 
-  // Get the root window
-  rootwindow = winMgr->getWindow("LoadScreen");
-}
+    bool LoadScreenWindow::Create()
+    {
+      ReloadWindow();
+      return true;
+    }
 
-void LoadScreenWindow::ShowWindow()
-{
-  rootwindow->show();
-}
+    bool LoadScreenWindow::ReloadWindow()
+    {
+	  window = GUIWindow::LoadLayout ("client/loadscreen.xml");
+      GUIWindow::AddToRoot(window);
+      return true;
+    }
 
-void LoadScreenWindow::HideWindow()
-{
-  rootwindow->hide();
-}
+    void LoadScreenWindow::ShowWindow()
+    {
+		GUIWindow::ShowWindow();
+    }
 
-void LoadScreenWindow::SetProgress(float progress)
-{
-  CEGUI::ProgressBar* bar = static_cast<CEGUI::ProgressBar*>(winMgr->getWindow("LoadScreen/Bar"));
-  bar->setProgress(progress);
-}
+    void LoadScreenWindow::HideWindow()
+    {
+		GUIWindow::HideWindow();
+    }
 
-bool LoadScreenWindow::IsVisible()
-{
-  return rootwindow->isVisible();
+    bool LoadScreenWindow::IsVisible()
+    {
+        return GUIWindow::IsVisible();
+    }
+
+    }
+  }
 }

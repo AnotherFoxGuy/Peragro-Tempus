@@ -3,7 +3,8 @@ Peragro Tempus detailed change log.
 Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
-
+17-May-2008
+ - Rolenun committed the newgui merge. This is the first step.
 15-May-2008
  - vornne moved part of the playercontrols component to viewcontrols,
    added pan left and right controls, bug fixes.

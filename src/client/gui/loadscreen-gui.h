@@ -21,20 +21,29 @@
 
 #include "base-gui.h"
 
-class GUIManager;
+#define LOADSCREENWINDOW "LoadScreen"
 
-class LoadScreenWindow : public GUIWindow
+namespace PT
 {
-public:
-  LoadScreenWindow(GUIManager* guimanager);
-  virtual ~LoadScreenWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
-  void ShowWindow();
-  void HideWindow();
-  void SetProgress(float progress);
-  bool IsVisible();
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class LoadScreenWindow : public GUIWindow
+	{
+	public:
+	  LoadScreenWindow(GUIManager* guimanager);
+	  virtual ~LoadScreenWindow();
+      bool Create();
+	  bool ReloadWindow();
+	  void ShowWindow();
+	  void HideWindow();
+	  void SetProgress(float progress);
+	  bool IsVisible();
 
-};
-
+	};
+	}
+  }
+}
 
 #endif // LOADSCREEN_GUI_H

@@ -28,54 +28,70 @@
 
 #include "client/serversetup/serversetupmanager.h"
 
-ServerSetupWindow::ServerSetupWindow(GUIManager* guimanager)
-: GUIWindow (guimanager)
+namespace PT
 {
-}
+  namespace GUI
+  {
+    namespace Windows
+    {
 
-ServerSetupWindow::~ServerSetupWindow()
-{
-}
+	ServerSetupWindow::ServerSetupWindow(GUIManager* guimanager)
+	: GUIWindow (guimanager)
+	{
+       windowName = SERVERSETUPWINDOW;
+	}
 
-bool ServerSetupWindow::DoneButton(const CEGUI::EventArgs& e)
-{
-  btn = winMgr->getWindow("CharSelect/Frame");
-  btn->setVisible(true);
-  btn = winMgr->getWindow("ServerSetup/Frame");
-  btn->setVisible(false);
-  return true;
-}
+	ServerSetupWindow::~ServerSetupWindow()
+	{
+	}
 
-bool ServerSetupWindow::UploadButton(const CEGUI::EventArgs& e)
-{
-  PointerLibrary::getInstance()->getServerSetupManager()->UploadServerData();
-  return true;
-}
+	bool ServerSetupWindow::DoneButton(const CEGUI::EventArgs& e)
+	{
+	  btn = winMgr->getWindow("CharSelect/Frame");
+	  btn->setVisible(true);
+	  btn = winMgr->getWindow("ServerSetup/Frame");
+	  btn->setVisible(false);
+	  return true;
+	}
 
-bool ServerSetupWindow::DownloadButton(const CEGUI::EventArgs& e)
-{
-  PointerLibrary::getInstance()->getServerSetupManager()->DownloadServerData();
-  return true;
-}
+	bool ServerSetupWindow::UploadButton(const CEGUI::EventArgs& e)
+	{
+	  PointerLibrary::getInstance()->getServerSetupManager()->UploadServerData();
+	  return true;
+	}
 
-void ServerSetupWindow::CreateGUIWindow()
-{
-  GUIWindow::CreateGUIWindow ("serversetup.xml");
+	bool ServerSetupWindow::DownloadButton(const CEGUI::EventArgs& e)
+	{
+	  PointerLibrary::getInstance()->getServerSetupManager()->DownloadServerData();
+	  return true;
+	}
 
-  winMgr = cegui->GetWindowManagerPtr ();
+    bool ServerSetupWindow::Create()
+    {
+      ReloadWindow();
+      return true;
+    }
 
-  // Get the root window
-  rootwindow = winMgr->getWindow("CharSelect/Frame");
+    bool ServerSetupWindow::ReloadWindow()
+    {
+	  window = GUIWindow::LoadLayout ("client/serversetup.xml");
+      GUIWindow::AddToRoot(window);
 
-  // Register the button events.
-  btn = winMgr->getWindow("ServerSetup/Done");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ServerSetupWindow::DoneButton, this));
-  btn = winMgr->getWindow("ServerSetup/Upload");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ServerSetupWindow::UploadButton, this));
-  btn = winMgr->getWindow("ServerSetup/Download");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ServerSetupWindow::DownloadButton, this));
+	  winMgr = cegui->GetWindowManagerPtr ();
 
-  btn = winMgr->getWindow("ServerSetup/Frame");
-  btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&ServerSetupWindow::DoneButton, this));
+	  // Register the button events.
+	  btn = winMgr->getWindow("ServerSetup/Done");
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ServerSetupWindow::DoneButton, this));
+	  btn = winMgr->getWindow("ServerSetup/Upload");
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ServerSetupWindow::UploadButton, this));
+	  btn = winMgr->getWindow("ServerSetup/Download");
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ServerSetupWindow::DownloadButton, this));
 
+	  btn = winMgr->getWindow("ServerSetup/Frame");
+	  btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&ServerSetupWindow::DoneButton, this));
+
+      return true;
+    }
+    }
+  }
 }

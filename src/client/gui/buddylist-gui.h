@@ -24,22 +24,33 @@
 #include "client/event/entityevent.h"
 #include "client/event/inputevent.h"
 
-class BuddyWindow : public GUIWindow
+#define BUDDYLISTWINDOW "BuddyList/Frame"
+
+namespace PT
 {
-private:
-  bool handleCloseButton(const CEGUI::EventArgs& args);
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class BuddyWindow : public GUIWindow
+	{
+	private:
+	  bool handleCloseButton(const CEGUI::EventArgs& args);
 
-public:
-  bool ProcessEvents(iEvent& ev);
-  bool ToggleWindow(iEvent& ev);
+	public:
+	  bool ProcessEvents(iEvent& ev);
+	  bool ToggleWindow(iEvent& ev);
 
-public:
-  BuddyWindow(GUIManager* guimanager);
-  virtual ~BuddyWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
-  void AddPlayer(const char* name);
-  void RemovePlayer(const char* name);
-};
-
+	public:
+	  BuddyWindow(GUIManager* guimanager);
+	  virtual ~BuddyWindow();
+      bool Create();
+	  bool ReloadWindow();
+	  void AddPlayer(const char* name);
+	  void RemovePlayer(const char* name);
+	};
+	}
+  }
+}
 
 #endif // BUDDY_GUI_H

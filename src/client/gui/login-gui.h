@@ -26,29 +26,40 @@
 #include "iutil/cfgmgr.h"
 #include "iutil/cfgfile.h"
 
-class LoginWindow : public GUIWindow
+#define LOGINWINDOW "LoginUI/Frame"
+
+namespace PT
 {
-private:
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class LoginWindow : public GUIWindow
+	{
+	private:
 
-  csRef<iConfigManager> app_cfg;
+	  csRef<iConfigManager> app_cfg;
 
-  bool LoginButtonPressed(const CEGUI::EventArgs& e);     // Executed when the Connect button is pressed.
-  bool RegisterButtonPressed(const CEGUI::EventArgs& e);  // Executed when the Register button is pressed.
-  bool LoginTextAccepted(const CEGUI::EventArgs &e);      // Executed when the Login's text has been accepted.
-  bool PasswordTextAccepted(const CEGUI::EventArgs &e);   // Executed when the Registers text has been accepted.
-  CEGUI::String GetLogin();                               // Return the login input.
-  CEGUI::String GetPassword();                            // Return the password input.
-  bool OnCheckBox(const CEGUI::EventArgs& e);             // Return "Remember login" checkbox.
-  void CreateCheckBox();
-  void SaveConfig();
+	  bool LoginButtonPressed(const CEGUI::EventArgs& e);     // Executed when the Connect button is pressed.
+	  bool RegisterButtonPressed(const CEGUI::EventArgs& e);  // Executed when the Register button is pressed.
+	  bool LoginTextAccepted(const CEGUI::EventArgs &e);      // Executed when the Login's text has been accepted.
+	  bool PasswordTextAccepted(const CEGUI::EventArgs &e);   // Executed when the Registers text has been accepted.
+	  CEGUI::String GetLogin();                               // Return the login input.
+	  CEGUI::String GetPassword();                            // Return the password input.
+	  bool OnCheckBox(const CEGUI::EventArgs& e);             // Return "Remember login" checkbox.
+	  void CreateCheckBox();
+	  void SaveConfig();
 
-public:
-  void UpdateLogin();
-  LoginWindow(GUIManager* guimanager);
-  virtual ~LoginWindow();
-  void CreateGUIWindow();    // load the Login guilayout and register button events.
+	public:
+	  void UpdateLogin();
+	  LoginWindow(GUIManager* guimanager);
+	  virtual ~LoginWindow();
+      bool Create();
+	  bool ReloadWindow();
 
-  void ShowWindow();
-};
-
+	  void ShowWindow();
+	};
+	}
+  }
+}
 #endif // LOGIN_GUI_H

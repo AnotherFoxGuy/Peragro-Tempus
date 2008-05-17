@@ -21,22 +21,33 @@
 
 #include "base-gui.h"
 
-class WhisperWindow : public GUIWindow
+#define WHISPERWINDOW "Whisper/Frame"
+
+namespace PT
 {
-private:
-  bool OnSay(const CEGUI::EventArgs& args);
-  bool OnRollup (const CEGUI::EventArgs& args);
-  bool OnCloseButton(const CEGUI::EventArgs& args);
-  bool OnCaptureGained(const CEGUI::EventArgs& args);
-  void AddText(CEGUI::Window* logwindow, CEGUI::String msg);
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class WhisperWindow : public GUIWindow
+	{
+	private:
+	  bool OnSay(const CEGUI::EventArgs& args);
+	  bool OnRollup (const CEGUI::EventArgs& args);
+	  bool OnCloseButton(const CEGUI::EventArgs& args);
+	  bool OnCaptureGained(const CEGUI::EventArgs& args);
+	  void AddText(CEGUI::Window* logwindow, CEGUI::String msg);
 
-public:
-  WhisperWindow(GUIManager* guimanager);
-  virtual ~WhisperWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
+	public:
+	  WhisperWindow(GUIManager* guimanager);
+	  virtual ~WhisperWindow();
+      bool Create();
+	  bool ReloadWindow();
 
-  void AddWhisper (const char* nick, const char* msg, const char* ownnick=0);
-};
-
+	  void AddWhisper (const char* nick, const char* msg, const char* ownnick=0);
+	};
+	}
+  }
+}
 
 #endif // WHISPER_GUI_H

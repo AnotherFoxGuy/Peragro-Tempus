@@ -22,7 +22,6 @@
 class Cursor;
 struct iObjectRegistry;
 class Network;
-class GUIManager;
 
 namespace PT
 {
@@ -30,6 +29,11 @@ namespace PT
   class World;
   class StateManager;
   class Reporter;
+
+  namespace GUI
+  {
+    class GUIManager;
+  } // GUI namespace
 
   namespace Events
   {
@@ -95,7 +99,7 @@ private:
   PT::Data::ConnectionDataManager* connectionDataManager;
   PT::Data::TeleportDataManager* teleportDataManager;
   PT::Misc::ServerSetupManager* serverSetupManager;
-  GUIManager* guiManager;
+  PT::GUI::GUIManager* guiManager;
   PT::StateManager* stateManager;
   PT::Entity::EntityManager* entityManager;
   PT::Effect::EffectsManager* effectsManager;
@@ -169,8 +173,8 @@ public:
   void setServerSetupManager(PT::Misc::ServerSetupManager* serverSetupManager) { this->serverSetupManager = serverSetupManager; }
   PT::Misc::ServerSetupManager* getServerSetupManager() { return this->serverSetupManager; }
 
-  void setGUIManager(GUIManager* guiManager) { this->guiManager = guiManager; }
-  GUIManager* getGUIManager() { return this->guiManager; }
+  void setGUIManager(PT::GUI::GUIManager* guiManager) { this->guiManager = guiManager; }
+  PT::GUI::GUIManager* getGUIManager() { return this->guiManager; }
 
   void setEntityManager(PT::Entity::EntityManager* entityManager) { this->entityManager = entityManager; }
   PT::Entity::EntityManager* getEntityManager() { return this->entityManager; }

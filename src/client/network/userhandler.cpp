@@ -62,16 +62,18 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
   RegisterResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
   ptString error = answer_msg.getError();
+  
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guimanager);
+  
   if (!error.isNull())
   {
     Report(PT::Warning, "Registration Failed due to: %s", *error);
-    GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-    guimanager->CreateOkWindow()->SetText(*error);
+	dialog->SetText(*error);
     return;
   }
 
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  guimanager->CreateOkWindow()->SetText("Registration succeeded");
+  dialog->SetText("Registration succeeded");
   Report(PT::Notify, "Registration succeeded!");
 }
 
@@ -80,11 +82,12 @@ void UserHandler::handleCharList(GenericMessage* msg)
   CharListMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
   //printf("Got %d character:\n---------------------------\n", char_msg.getCharacterCount());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  guimanager->GetSelectCharWindow()->EmptyCharList();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::Windows::SelectCharWindow* selectCharWindow = (PT::GUI::Windows::SelectCharWindow*)guimanager->GetWindow(SELECTCHARWINDOW);
+  selectCharWindow->EmptyCharList();
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
-    guimanager->GetSelectCharWindow ()->AddCharacter(
+    selectCharWindow->AddCharacter(
       char_msg.getCharId(i), *char_msg.getName(i),
       char_msg.getSkinColour(i), char_msg.getHairColour(i), char_msg.getDecalColour(i));
     //printf("Char %d: %s\n", char_msg.getCharacterId(i), char_msg.getCharacterName(i));
@@ -95,17 +98,19 @@ void UserHandler::handleCharCreateResponse(GenericMessage* msg)
 {
   CharCreateResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   if (answer_msg.getError().isNull())
   {
-    guimanager->GetSelectCharWindow ()->AddCharacter(answer_msg.getCharId(), *answer_msg.getName(),
+	  PT::GUI::Windows::SelectCharWindow* selectCharWindow = (PT::GUI::Windows::SelectCharWindow*)guimanager->GetWindow(SELECTCHARWINDOW);
+      selectCharWindow->AddCharacter(answer_msg.getCharId(), *answer_msg.getName(),
       answer_msg.getSkinColour(), answer_msg.getHairColour(), answer_msg.getDecalColour());
   }
   else
   {
     Report(PT::Warning, "Character creation failed due to: %s", *answer_msg.getError());
-    guimanager->CreateOkWindow()->SetText(*answer_msg.getError());
+    PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guimanager);
+    dialog->SetText(*answer_msg.getError());
   }
 }
 

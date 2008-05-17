@@ -21,30 +21,41 @@
 
 #include "base-gui.h"
 
-class SelectCharWindow : public GUIWindow
+#define SELECTCHARWINDOW "CharSelect/Frame"
+
+namespace PT
 {
-private:
-  bool SelectChar(const CEGUI::EventArgs& e);  ///< Connects with the current character.
-  bool OnSelection(const CEGUI::EventArgs& e); ///< Shows the currently selected character.
-  bool NewChar(const CEGUI::EventArgs& e);     ///< Makes a new character.
-  bool DelChar(const CEGUI::EventArgs& e);     ///< Deletes the selected character.
-  CEGUI::String GetNewCharName();              ///< Returns the character name.
-  void ClearNewCharName();                     ///< Clears the character name textbox.
-  void ScrollLeft();                           ///< Scroll left throught the characterlist.
-  void ScrollRight();                          ///< Scroll right throught the characterlist.
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class SelectCharWindow : public GUIWindow
+	{
+	private:
+	  bool SelectChar(const CEGUI::EventArgs& e);  ///< Connects with the current character.
+	  bool OnSelection(const CEGUI::EventArgs& e); ///< Shows the currently selected character.
+	  bool NewChar(const CEGUI::EventArgs& e);     ///< Makes a new character.
+	  bool DelChar(const CEGUI::EventArgs& e);     ///< Deletes the selected character.
+	  CEGUI::String GetNewCharName();              ///< Returns the character name.
+	  void ClearNewCharName();                     ///< Clears the character name textbox.
+	  void ScrollLeft();                           ///< Scroll left throught the characterlist.
+	  void ScrollRight();                          ///< Scroll right throught the characterlist.
 
-  bool CreateButton(const CEGUI::EventArgs& e);   ///< Opens the Create character menu.
-  bool CancelButton(const CEGUI::EventArgs& e);   ///< returns to the character menu.
-  bool AdminButton(const CEGUI::EventArgs& e);    ///< Opens the server setup window.
-  void ToggleNewWindow(bool visible);
+	  bool CreateButton(const CEGUI::EventArgs& e);   ///< Opens the Create character menu.
+	  bool CancelButton(const CEGUI::EventArgs& e);   ///< returns to the character menu.
+	  bool AdminButton(const CEGUI::EventArgs& e);    ///< Opens the server setup window.
+	  void ToggleNewWindow(bool visible);
 
-public:
-  void ShowAdminButton();
-  SelectCharWindow(GUIManager* guimanager);
-  virtual ~SelectCharWindow();
-  void CreateGUIWindow();    // load the Login guilayout and register button events.
-  void AddCharacter(unsigned int charId, const char* name, unsigned char* skincolour, unsigned char* hairncolour, unsigned char* decalcolour);
-  void EmptyCharList();
-};
-
+	public:
+	  void ShowAdminButton();
+	  SelectCharWindow(GUIManager* guimanager);
+	  virtual ~SelectCharWindow();
+      bool Create();
+	  bool ReloadWindow();
+	  void AddCharacter(unsigned int charId, const char* name, unsigned char* skincolour, unsigned char* hairncolour, unsigned char* decalcolour);
+	  void EmptyCharList();
+	};
+	}
+  }
+}
 #endif // CHARSEL_GUI_H

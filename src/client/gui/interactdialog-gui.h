@@ -21,31 +21,42 @@
 
 #include "base-gui.h"
 
-class InteractDialogWindow : public GUIWindow
+#define INTERACTDIALOGWINDOW "InteractDialog/Frame"
+
+namespace PT
 {
-private:
-  bool newDialog;
-  unsigned int interactId;
-  unsigned int itemId;
-  unsigned int variationId;
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class InteractDialogWindow : public GUIWindow
+	{
+	private:
+	  bool newDialog;
+	  unsigned int interactId;
+	  unsigned int itemId;
+	  unsigned int variationId;
 
-  float root_size;
-  float button_size;
+	  float root_size;
+	  float button_size;
 
-  void ClearActions();
-  void AddAction(const char* action);
-  void LayoutIcons();
+	  void ClearActions();
+	  void AddAction(const char* action);
+	  void LayoutIcons();
 
-  bool OnCancelButton(const CEGUI::EventArgs& args);
-  bool OnAction(const CEGUI::EventArgs& args);
+	  bool OnCancelButton(const CEGUI::EventArgs& args);
+	  bool OnAction(const CEGUI::EventArgs& args);
 
-public:
-  InteractDialogWindow(GUIManager* guimanager);
-  virtual ~InteractDialogWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
+	public:
+	  InteractDialogWindow(GUIManager* guimanager);
+	  virtual ~InteractDialogWindow();
+      bool Create();
+	  bool ReloadWindow();
 
-  bool OnInteract (iEvent& ev);
-};
-
+	  bool OnInteract (iEvent& ev);
+	};
+	}
+  }
+}
 
 #endif // INTERACTDIALOG_GUI_H

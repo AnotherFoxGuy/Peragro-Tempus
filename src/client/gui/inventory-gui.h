@@ -23,32 +23,43 @@
 
 #include "client/gui/common/inventory.h"
 
+#define INVENTORYWINDOW "Inventory/Frame"
+
 class DragDrop;
 
-class InventoryWindow : public GUIWindow
+namespace PT
 {
-private:
-  bool handleCloseButton(const CEGUI::EventArgs& args);
-  DragDrop* dragdrop;
-  PT::Data::ItemDataManager* itemDataManager;
-  unsigned int numberOfSlots;
-  Inventory* inventory;
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class InventoryWindow : public GUIWindow
+	{
+	private:
+	  bool handleCloseButton(const CEGUI::EventArgs& args);
+	  PT::GUI::Windows::DragDrop* dragdrop;
+	  PT::Data::ItemDataManager* itemDataManager;
+	  unsigned int numberOfSlots;
+	  Inventory* inventory;
 
-private:
-  void SetupEquipSlot(unsigned int id, const char* window);
+	private:
+	  void SetupEquipSlot(unsigned int id, const char* window);
 
-public:
-  InventoryWindow(GUIManager* guimanager);
-  virtual ~InventoryWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
-  bool AddItem(unsigned int itemid, unsigned int variationid, unsigned int slotid);
-  bool MoveItem(unsigned int oldslotid, unsigned int newslotid);
-  bool MoveItem(Slot* oldslot, Slot* newslot);
-  bool RemoveItem(unsigned int slotid);
-  unsigned int FindItem(unsigned int itemid);
-  unsigned int FindFreeSlot();
-  Slot* GetSlot(unsigned int slotid);
-};
-
+	public:
+	  InventoryWindow(GUIManager* guimanager);
+	  virtual ~InventoryWindow();
+      bool Create();
+	  bool ReloadWindow();
+	  bool AddItem(unsigned int itemid, unsigned int variationid, unsigned int slotid);
+	  bool MoveItem(unsigned int oldslotid, unsigned int newslotid);
+	  bool MoveItem(Slot* oldslot, Slot* newslot);
+	  bool RemoveItem(unsigned int slotid);
+	  unsigned int FindItem(unsigned int itemid);
+	  unsigned int FindFreeSlot();
+	  Slot* GetSlot(unsigned int slotid);
+	};
+	}
+  }
+}
 
 #endif // INV_GUI_H

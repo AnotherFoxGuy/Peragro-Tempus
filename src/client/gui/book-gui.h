@@ -21,24 +21,36 @@
 
 #include "base-gui.h"
 
-class BookWindow : public GUIWindow
+#define BOOKWINDOW "Book/Frame"
+
+struct iEvent;
+
+namespace PT
 {
-private:
-  unsigned int itemId;
-  unsigned int slotId;
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class BookWindow : public GUIWindow
+	{
+	private:
+	  unsigned int itemId;
+	  unsigned int slotId;
 
-private:
-  bool OnCloseButton(const CEGUI::EventArgs& args);
-  bool HandleRead(iEvent& ev);
-  bool HandleWrite(iEvent& ev);
+	private:
+	  bool OnCloseButton(const CEGUI::EventArgs& args);
+	  bool HandleRead(iEvent& ev);
+	  bool HandleWrite(iEvent& ev);
 
-public:
-  BookWindow(GUIManager* guimanager);
-  virtual ~BookWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
-
-  void SetBook(unsigned int itemId, unsigned int slotId);
-};
-
+	public:
+	  BookWindow(PT::GUI::GUIManager* guimanager);
+	  virtual ~BookWindow();
+      bool Create();
+	  bool ReloadWindow();
+	  void SetBook(unsigned int itemId, unsigned int slotId);
+	};
+	}
+  }
+}
 
 #endif // BOOK_GUI_H

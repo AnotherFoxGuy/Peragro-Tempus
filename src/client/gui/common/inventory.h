@@ -33,7 +33,16 @@
 
 #include "client/gui/common/dragdrop-gui.h"
 
-//class DragDrop;
+namespace PT
+{
+  namespace GUI
+  {
+    namespace Windows
+    {
+      class DragDrop;
+    }
+  }
+}
 
 class Inventory
 {
@@ -60,17 +69,17 @@ private:
   ParentType parent;
   csArray<Slot*> slotarray;
   CEGUI::Window* bag;
-  DragDrop* dragdrop;
-  GUIManager* guimanager;
+  PT::GUI::Windows::DragDrop* dragdrop;
+  PT::GUI::GUIManager* guimanager;
   CEGUI::WindowManager* winMgr;
 
 private:
   CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
 
 public:
-  Inventory(GUIManager* guimanager);
+  Inventory(PT::GUI::GUIManager* guimanager);
   ~Inventory();
-  void Create(CEGUI::Window* bag, Inventory::ParentType parent, DragDrop::Type type , int rows, int columns, int offset=0);
+  void Create(CEGUI::Window* bag, Inventory::ParentType parent, PT::GUI::Windows::DragDrop::Type type , int rows, int columns, int offset=0);
 
   void ClearSlotsDelete();
   unsigned int FindFreeSlot();

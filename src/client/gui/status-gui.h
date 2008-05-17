@@ -21,23 +21,34 @@
 
 #include "base-gui.h"
 
-class StatusWindow : public GUIWindow
+#define STATUSWINDOW "Status/Frame"
+
+namespace PT
 {
-private:
+  namespace GUI
+  {
+    namespace Windows
+    {
+		class StatusWindow : public GUIWindow
+		{
+		private:
 
-  bool handleCloseButton(const CEGUI::EventArgs& args);
-  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
-  CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
-  int counter;
+		  bool handleCloseButton(const CEGUI::EventArgs& args);
+		  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
+		  CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
+		  int counter;
 
 
-public:
-  StatusWindow(GUIManager* guimanager);
-  virtual ~StatusWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
-  bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
-  void AddSkil(const char* skillname, unsigned int skillvalue);
-};
-
+		public:
+		  StatusWindow(GUIManager* guimanager);
+		  virtual ~StatusWindow();
+          bool Create();
+	      bool ReloadWindow();
+		  bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
+		  void AddSkil(const char* skillname, unsigned int skillvalue);
+		};
+	}
+  }
+}
 
 #endif // STATUS_GUI_H

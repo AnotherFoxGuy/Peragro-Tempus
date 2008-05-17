@@ -24,23 +24,34 @@
 #include "iutil/cfgmgr.h"
 #include "iutil/cfgfile.h"
 
-class ServerWindow : public GUIWindow
+#define SERVERWINDOW "ServerWindow"
+
+namespace PT
 {
-private:
-  csRef<iConfigManager> app_cfg;
-  void AddServer(const char* name, const char* host);
-  bool OnSelection(const CEGUI::EventArgs& e);
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class ServerWindow : public GUIWindow
+	{
+	private:
+	  csRef<iConfigManager> app_cfg;
+	  void AddServer(const char* name, const char* host);
+	  bool OnSelection(const CEGUI::EventArgs& e);
 
-public:
-  csString GetServerHost();
-  unsigned int GetServerPort();
-  csString GetServerName();
-  bool IsCustom();
-  ServerWindow(GUIManager* guimanager);
-  virtual ~ServerWindow();
-  void CreateGUIWindow();
+	public:
+	  csString GetServerHost();
+	  unsigned int GetServerPort();
+	  csString GetServerName();
+	  bool IsCustom();
+	  ServerWindow(GUIManager* guimanager);
+	  virtual ~ServerWindow();
+      bool Create();
+	  bool ReloadWindow();
 
-  void ShowWindow();
-};
-
+	  void ShowWindow();
+	};
+	}
+  }
+}
 #endif // SERVERS_GUI_H

@@ -21,48 +21,59 @@
 
 #include "base-gui.h"
 
-class HUDWindow : public GUIWindow
+#define HUDWINDOW "PlayerHUD/Frame"
+
+namespace PT
 {
-private:
-
-  struct SelectedSkill
+  namespace GUI
   {
-    int SkillId;
-    CEGUI::Window* SkillWindow;
-  };
-  SelectedSkill* selectedskill;
+    namespace Windows
+    {
+	class HUDWindow : public GUIWindow
+	{
+	private:
 
-  CEGUI::ProgressBar* hpbar;
-  CEGUI::ProgressBar* mpbar;
-  CEGUI::ProgressBar* xpbar;
-  CEGUI::ProgressBar* spbar;
+	  struct SelectedSkill
+	  {
+		int SkillId;
+		CEGUI::Window* SkillWindow;
+	  };
+	  SelectedSkill* selectedskill;
 
-  int counter;
-  CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id);
-  CEGUI::Window* CreateSkillIcon(int skillid);
-  bool HandleSkillSelected(const CEGUI::EventArgs& args);
-  bool HandleDragDropped(const CEGUI::EventArgs& args);
-  bool HandleDragDroppedOnSkill(const CEGUI::EventArgs& args);
-  bool OnRootKeyDown(const CEGUI::EventArgs& e);
-  void SetActiveSkill(CEGUI::Window* window);
+	  CEGUI::ProgressBar* hpbar;
+	  CEGUI::ProgressBar* mpbar;
+	  CEGUI::ProgressBar* xpbar;
+	  CEGUI::ProgressBar* spbar;
 
-public:
-  HUDWindow(GUIManager* guimanager);
-  virtual ~HUDWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
-  void SetHP (int hp, int maxHp);       // set the hp.
-  void SetMP (float mp);       // set the mp.
-  void SetXP (float xp);       // set the xp.
-  void SetSP (float sp);       // set the sp.
-  void SetName (const char* name); // set the name;
-  void SetText (const char* name, const char* test); // set the text;
-  bool AddSkill(int skillid);
-  int GetActiveSkillId();
+	  int counter;
+	  CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id);
+	  CEGUI::Window* CreateSkillIcon(int skillid);
+	  bool HandleSkillSelected(const CEGUI::EventArgs& args);
+	  bool HandleDragDropped(const CEGUI::EventArgs& args);
+	  bool HandleDragDroppedOnSkill(const CEGUI::EventArgs& args);
+	  bool OnRootKeyDown(const CEGUI::EventArgs& e);
+	  void SetActiveSkill(CEGUI::Window* window);
 
-  void HideWindow();
-  void ShowWindow();
+	public:
+	  HUDWindow(GUIManager* guimanager);
+	  virtual ~HUDWindow();
+      bool Create();
+	  bool ReloadWindow();
+	  void SetHP (int hp, int maxHp); // set the hp.
+	  void SetMP (float mp);          // set the mp.
+	  void SetXP (float xp);          // set the xp.
+	  void SetSP (float sp);          // set the sp.
+	  void SetName (const char* name); // set the name;
+	  void SetText (const char* name, const char* test); // set the text;
+	  bool AddSkill(int skillid);
+	  int GetActiveSkillId();
 
-};
+	  void HideWindow();
+	  void ShowWindow();
 
+	};
+	}
+  }
+}
 
 #endif // HUD_GUI_H

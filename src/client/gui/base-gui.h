@@ -30,35 +30,51 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
+#define ROOTWINDOW "Root"
+
 class Network;
-class GUIManager;
 
-class GUIWindow
+namespace PT
 {
-private:
+  namespace GUI
+  {
+    class GUIManager;
 
-protected:
-  CEGUI::Window* rootwindow;
-  CEGUI::Window* btn;
-  CEGUI::WindowManager* winMgr;
-  csRef<iCEGUI> cegui;
-  csRef<iVFS> vfs;
-  Network* network;
+	class GUIWindow
+	{
+	private:
 
-  GUIManager* guimanager;
+	protected:
+	  std::string windowName;
+	  CEGUI::Window* btn;
+	  CEGUI::WindowManager* winMgr;
+	  csRef<iCEGUI> cegui;
+	  csRef<iVFS> vfs;
+	  Network* network;
+      CEGUI::Window* window;
 
-  CEGUI::Window* LoadLayout(const char* layoutFile);
+	  GUIManager* guimanager;
 
-public:
-  GUIWindow(GUIManager* guimanager);
-  ~GUIWindow();
-  void CreateGUIWindow(const char* layoutFile);
-  void HideWindow();
-  void ShowWindow();
-  bool IsVisible();
-  void EnableWindow();
-  void DisableWindow();
-  void BringToFront();
-};
+	  CEGUI::Window* LoadLayout(const char* layoutFile);
+      bool AddToRoot (CEGUI::Window* window);
 
+	public:
+	  GUIWindow(GUIManager* guimanager);
+	  ~GUIWindow();
+	  /// Get the window name.
+      const char* GetName() { return windowName.c_str(); }
+      /// Set the window name.
+      void SetName(const char* name) { windowName = name; }
+      virtual bool Create () =0;
+      /// Loads the layout and subscribes to events.
+      virtual bool ReloadWindow () =0;
+	  void HideWindow();
+	  void ShowWindow();
+	  bool IsVisible();
+	  void EnableWindow();
+	  void DisableWindow();
+	  void BringToFront();
+	};
+  }
+}
 #endif // BASE_GUI_H

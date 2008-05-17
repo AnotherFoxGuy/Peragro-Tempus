@@ -70,8 +70,9 @@ namespace PT
 
       // Handle submit.
       CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
-      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      guimanager->GetChatWindow()->SetSubmitEvent(function);
+	  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+      chatWindow->SetSubmitEvent(function);
 
       EventHandler<ChatManager>* cb = new EventHandler<ChatManager>(&ChatManager::ProcessEvents, this);
       // Register listener for EntityAddEvent.
@@ -102,20 +103,21 @@ namespace PT
 
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
-
+      
+	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
       // TODO: input command handler.
       if (strncmp (message.c_str(),"/me",3) == 0)
       {
         std::string text = nick + message.substr(3, message.size());
-        guimanager->GetChatWindow ()->AddMessage (text.c_str());
+        chatWindow->AddMessage (text.c_str());
       }
       else if (strncmp (message.c_str(),"/greet",3) == 0)
       {
         std::string text = nick + " waves at" + message.substr(6, message.size());
-        guimanager->GetChatWindow ()->AddMessage (text.c_str());
+        chatWindow->AddMessage (text.c_str());
       }
       else
-        guimanager->GetChatWindow ()->AddChatMessage (nick.c_str(), message.c_str());
+        chatWindow->AddChatMessage (nick.c_str(), message.c_str());
 
       return true;
     } // end HandleSay ()
@@ -126,8 +128,9 @@ namespace PT
 
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
-
-      guimanager->GetWhisperWindow()->AddWhisper(nick.c_str(), message.c_str());
+      
+	  PT::GUI::Windows::WhisperWindow* whisperWindow = (PT::GUI::Windows::WhisperWindow*)guimanager->GetWindow(WHISPERWINDOW);
+      whisperWindow->AddWhisper(nick.c_str(), message.c_str());
 
       return true;
     } // end HandleWhisper ()
@@ -142,7 +145,8 @@ namespace PT
       /* TODO: Message is only added to main chat window, because there's
          no distinct window yet */
       std::string text = "Groupmember <" + nick + "> " + message;
-      guimanager->GetChatWindow ()->AddMessage (text.c_str());
+	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+      chatWindow->AddMessage (text.c_str());
 
       return true;
     } // end HandleGroup ()
@@ -373,7 +377,8 @@ namespace PT
           unsigned int id = EntityHelper::GetEntityID(&ev);
 
           csString string; string.Format("%s has joined.", nick);
-          guimanager->GetChatWindow ()->AddMessage (string.GetData());
+		  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+          chatWindow->AddMessage (string.GetData());
           playernames.insert(std::pair<unsigned int, std::string>(id, nick));
         } // end if
       } // end if
@@ -385,7 +390,8 @@ namespace PT
         if (playerName.size() > 0)
         {
           csString string; string.Format("%s has left.", playerName.c_str());
-          guimanager->GetChatWindow ()->AddMessage (string.GetData());
+		  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+          chatWindow->AddMessage (string.GetData());
         }
 
         playernames.erase(id);

@@ -23,48 +23,60 @@
 
 #include "client/gui/common/inventory.h"
 
-class TradeWindow : public GUIWindow
+#define TRADEWINDOW "TradeWindow/Frame"
+
+namespace PT
 {
-private:
-  DragDrop* dragdrop;
-  PT::Data::ItemDataManager* itemDataManager;
-  unsigned int numberOfSlots;
-  bool accept1;
-  bool accept2;
-  Inventory* trade1;
-  Inventory* trade2;
-  csArray<Slot*> inventory;
+  namespace GUI
+  {
+    namespace Windows
+    {
 
-private:
-  bool OnCloseButton(const CEGUI::EventArgs& args);
-  bool OnAcceptPlayer1(const CEGUI::EventArgs& args);
-  bool OnAcceptPlayer2(const CEGUI::EventArgs& args);
+	class TradeWindow : public GUIWindow
+	{
+	private:
+      PT::GUI::Windows::DragDrop* dragdrop;
+	  PT::Data::ItemDataManager* itemDataManager;
+	  unsigned int numberOfSlots;
+	  bool accept1;
+	  bool accept2;
+	  Inventory* trade1;
+	  Inventory* trade2;
+	  csArray<Slot*> inventory;
 
-public:
-  TradeWindow(GUIManager* guimanager);
-  virtual ~TradeWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
-  Slot* GetOldSlot(Slot* slot);
-  void UpdateOffer();
+	private:
+	  bool OnCloseButton(const CEGUI::EventArgs& args);
+	  bool OnAcceptPlayer1(const CEGUI::EventArgs& args);
+	  bool OnAcceptPlayer2(const CEGUI::EventArgs& args);
 
-public:
-  bool OnYesRequest(const CEGUI::EventArgs& args);
-  bool OnNoRequest(const CEGUI::EventArgs& args);
-  bool OnYesConfirm(const CEGUI::EventArgs& args);
-  bool OnNoConfirm(const CEGUI::EventArgs& args);
+	public:
+	  TradeWindow(GUIManager* guimanager);
+	  virtual ~TradeWindow();
+      bool Create();
+	  bool ReloadWindow();
+	  Slot* GetOldSlot(Slot* slot);
+	  void UpdateOffer();
 
-public:
-  void SetName(unsigned int player, csString name);
-  bool AddItem(unsigned int player, unsigned int itemid, unsigned int slotid);
-  bool AddItem(Slot* oldslot, Slot* newslot);
-  void SetMoney(unsigned int player, unsigned int amount);
-  void SetAccept(unsigned int player, bool value);
-  void SetNotificationMsg(csString errormsg);
-  void CancelTrade();
-  void AcceptTrade();
-  void ClearItems();
+	public:
+	  bool OnYesRequest(const CEGUI::EventArgs& args);
+	  bool OnNoRequest(const CEGUI::EventArgs& args);
+	  bool OnYesConfirm(const CEGUI::EventArgs& args);
+	  bool OnNoConfirm(const CEGUI::EventArgs& args);
 
-};
+	public:
+	  void SetName(unsigned int player, csString name);
+	  bool AddItem(unsigned int player, unsigned int itemid, unsigned int slotid);
+	  bool AddItem(Slot* oldslot, Slot* newslot);
+	  void SetMoney(unsigned int player, unsigned int amount);
+	  void SetAccept(unsigned int player, bool value);
+	  void SetNotificationMsg(csString errormsg);
+	  void CancelTrade();
+	  void AcceptTrade();
+	  void ClearItems();
 
+	};
+	}
+  }
+}
 
 #endif // TRADE_GUI_H

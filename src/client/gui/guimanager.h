@@ -23,194 +23,100 @@
 #include <csutil/ref.h>
 #include <iutil/vfs.h>
 
-#include <ivaria/icegui.h>
+//#include <ivaria/icegui.h>
+#include <CEGUI.h>
 
 #include "common/dragdrop-gui.h"
 
-class LoginWindow;
-class ServerWindow;
-class SelectCharWindow;
-class ServerSetupWindow;
-class ChatWindow;
-class InventoryWindow;
-class HUDWindow;
-class OptionsWindow;
-class StatusWindow;
-class BuddyWindow;
-class WhisperWindow;
-class NpcDialogWindow;
-class TradeWindow;
-class ConfirmDialogWindow;
-class OkDialogWindow;
-class BuyWindow;
-class SellWindow;
-class InteractDialogWindow;
-class BookWindow;
-class LoadScreenWindow;
-
-class DragDrop;
-
 struct iObjectRegistry;
+struct iVFS;
+struct iCEGUI;
 
-class GUIManager
+namespace PT
 {
-private:
-  LoginWindow* loginwindow;
-  ServerWindow* serverwindow;
-  SelectCharWindow* selectcharwindow;
-  ServerSetupWindow* serversetupwindow;
-  ChatWindow* chatwindow;
-  InventoryWindow* inventorywindow;
-  HUDWindow* hudwindow;
-  OptionsWindow* optionswindow;
-  StatusWindow* statuswindow;
-  BuddyWindow* buddywindow;
-  WhisperWindow* whisperwindow;
-  NpcDialogWindow* npcdialogwindow;
-  TradeWindow* tradewindow;
-  ConfirmDialogWindow* confirmwindow;
-  OkDialogWindow* okwindow;
-  BuyWindow* buywindow;
-  SellWindow* sellwindow;
-  InteractDialogWindow* interactwindow;
-  BookWindow* bookwindow;
-  LoadScreenWindow* loadscreenwindow;
-
-  DragDrop* dragdrop;
-
-  csRef<iCEGUI> cegui;
-
-public:
-  GUIManager ();
-  ~GUIManager ();
-
-  bool Initialize ();
-  void Render ();
-
-  iCEGUI* GetCEGUI () {return cegui;}
-  DragDrop* GetDragDrop (){return dragdrop;}
-
-  ServerWindow* CreateServerWindow ();
-  LoginWindow* CreateLoginWindow ();
-  SelectCharWindow* CreateSelectCharWindow ();
-  ServerSetupWindow* CreateServerSetupWindow ();
-  ChatWindow* CreateChatWindow ();
-  InventoryWindow* CreateInventoryWindow();
-  HUDWindow* CreateHUDWindow();
-  OptionsWindow* CreateOptionsWindow();
-  StatusWindow* CreateStatusWindow();
-  BuddyWindow* CreateBuddyWindow();
-  WhisperWindow* CreateWhisperWindow();
-  NpcDialogWindow* CreateNpcDialogWindow();
-  TradeWindow* CreateTradeWindow();
-  ConfirmDialogWindow* CreateConfirmWindow();
-  OkDialogWindow* CreateOkWindow(bool activate = false);
-  BuyWindow* CreateBuyWindow();
-  SellWindow* CreateSellWindow();
-  InteractDialogWindow* CreateInteractDialogWindow();
-  BookWindow* CreateBookWindow();
-  LoadScreenWindow* CreateLoadScreenWindow();
-
-  ServerWindow* GetServerWindow ()
+  namespace GUI
   {
-    return serverwindow;
-  }
+    namespace Windows
+    {
+      class LoginWindow;
+      class ServerWindow;
+      class SelectCharWindow;
+      class ServerSetupWindow;
+      class ChatWindow;
+      class InventoryWindow;
+      class HUDWindow;
+      class OptionsWindow;
+      class StatusWindow;
+      class BuddyWindow;
+      class WhisperWindow;
+      class NpcDialogWindow;
+      class TradeWindow;
+      class ConfirmDialogWindow;
+      class OkDialogWindow;
+      class BuyWindow;
+      class SellWindow;
+      class InteractDialogWindow;
+      class BookWindow;
+      class LoadScreenWindow;
+      class SkinWindow;
+      class MenuWindow;
+	  class DragDrop;
+	}
+	class SkinManager;
+	class GUIWindow;
+	class DialogConfiguration;
+    class MenuManager;
+    
 
-  LoginWindow* GetLoginWindow ()
-  {
-    return loginwindow;
-  }
+	class GUIManager
+    {
+    private:  
+      csRef<iCEGUI> cegui;
+      csRef<iObjectRegistry> obj_reg;
+      SkinManager* skinMgr;
+      DialogConfiguration * dlgConfig;
+	  PT::GUI::MenuManager * menuMgr;
+      PT::GUI::Windows::DragDrop* dragdrop;
+      bool isInitialized;
 
-  SelectCharWindow* GetSelectCharWindow ()
-  {
-    return selectcharwindow;
-  }
+      CEGUI::SchemeManager* schMgr;
+      CEGUI::WindowManager* winMgr;
+      CEGUI::System* system;
 
-  ServerSetupWindow* GetServerSetupWindow ()
-  {
-    return serversetupwindow;
-  }
+      csArray<PT::GUI::GUIWindow*> windows;
 
-  ChatWindow* GetChatWindow ()
-  {
-    return chatwindow;
-  }
+    public:
+      GUIManager ();
+      ~GUIManager ();
 
-  InventoryWindow* GetInventoryWindow ()
-  {
-    return inventorywindow;
-  }
+      /// Initialize the manager.
+      bool Initialize ();
+      /// Renders CEGUI to the screen.
+      void Render ();
 
-  HUDWindow* GetHUDWindow()
-  {
-    return hudwindow;
-  }
+      /// Returns the cegui singleton.
+      iCEGUI* GetCEGUI () {return cegui;}
+      /// Returns the ObjectRegistry.
+      iObjectRegistry* GetObjectRegistry () {return obj_reg;}
+      /// Returns the skin manager.
+      SkinManager* GetSkinMananger () {return skinMgr;}
+      /// Returns windows array.
+      csArray<GUIWindow*> GetWindows () {return windows;}
+      /// Return a window by name.
+      GUIWindow* GetWindow (const char* name);
+      /// Get a CEGUI window by name.
+      CEGUI::Window* GetCeguiWindow (const char* name);
+      /// Creates the root window.
+      bool CreateRootWindow ();
+      /// Verifies if the guimanager has completed initialization.
+	  bool IsInitialized();
 
-  OptionsWindow* GetOptionsWindow()
-  {
-    return optionswindow;
-  }
+      void SavePositions ();
+      void Reload ();
 
-  StatusWindow* GetStatusWindow()
-  {
-    return statuswindow;
-  }
-
-  BuddyWindow* GetBuddyWindow()
-  {
-    return buddywindow;
-  }
-
-  WhisperWindow* GetWhisperWindow()
-  {
-    return whisperwindow;
-  }
-
-  NpcDialogWindow* GetNpcDialogWindow()
-  {
-    return npcdialogwindow;
-  }
-
-  TradeWindow* GetTradeWindow()
-  {
-    return tradewindow;
-  }
-
-  ConfirmDialogWindow* GetConfirmWindow()
-  {
-    return confirmwindow;
-  }
-
-  OkDialogWindow* GetOkWindow()
-  {
-    return okwindow;
-  }
-
-  BuyWindow* GetBuyWindow()
-  {
-    return buywindow;
-  }
-
-  SellWindow* GetSellWindow()
-  {
-    return sellwindow;
-  }
-
-  InteractDialogWindow* GetInteractDialogWindow()
-  {
-    return interactwindow;
-  }
-
-  BookWindow* GetBookWindow()
-  {
-    return bookwindow;
-  }
-
-  LoadScreenWindow* GetLoadScreenWindow()
-  {
-    return loadscreenwindow;
-  }
-
-};
-
+      MenuManager * GetMenuManager() { return menuMgr; }
+	  PT::GUI::Windows::DragDrop* GetDragDrop (){return dragdrop;}
+	};
+}
+}
 #endif // GUIMANAGER_H

@@ -23,30 +23,41 @@
 
 #include "client/gui/common/inventory.h"
 
-class SellWindow : public GUIWindow
+#define SELLWINDOW "SellWindow/Frame"
+
+namespace PT
 {
-private:
-  DragDrop* dragdrop;
-  PT::Data::ItemDataManager* itemDataManager;
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class SellWindow : public GUIWindow
+	{
+	private:
+      PT::GUI::Windows::DragDrop* dragdrop;
+	  PT::Data::ItemDataManager* itemDataManager;
 
-  csArray<Slot*> upperslots;
-  csArray<Slot*> lowerslots;
+	  csArray<Slot*> upperslots;
+	  csArray<Slot*> lowerslots;
 
-private:
-  bool OnCloseButton(const CEGUI::EventArgs& args);
-  bool OnAccept(const CEGUI::EventArgs& args);
+	private:
+	  bool OnCloseButton(const CEGUI::EventArgs& args);
+	  bool OnAccept(const CEGUI::EventArgs& args);
 
-public:
-  SellWindow(GUIManager* guimanager);
-  virtual ~SellWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
+	public:
+	  SellWindow(GUIManager* guimanager);
+	  virtual ~SellWindow();
+      bool Create();
+	  bool ReloadWindow();
 
-public:
-  bool AddItem(unsigned int itemid, unsigned int slotid);
-  void CancelTrade();
-  void AcceptTrade();
+	public:
+	  bool AddItem(unsigned int itemid, unsigned int slotid);
+	  void CancelTrade();
+	  void AcceptTrade();
 
-};
-
+	};
+	}
+  }
+}
 
 #endif // SELL_GUI_H

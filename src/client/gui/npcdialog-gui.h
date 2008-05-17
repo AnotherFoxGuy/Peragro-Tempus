@@ -21,25 +21,36 @@
 
 #include "base-gui.h"
 
-class NpcDialogWindow : public GUIWindow
+#define NPCDIALOGWINDOW "NpcDialog/Frame"
+
+namespace PT
 {
-private:
-  bool newDialog;
-  void ClearAnswers();
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class NpcDialogWindow : public GUIWindow
+	{
+	private:
+	  bool newDialog;
+	  void ClearAnswers();
 
-  uint dialogId;
-  bool OnCloseButton(const CEGUI::EventArgs& args);
-  bool OnAnswer(const CEGUI::EventArgs& args);
+	  uint dialogId;
+	  bool OnCloseButton(const CEGUI::EventArgs& args);
+	  bool OnAnswer(const CEGUI::EventArgs& args);
 
-public:
-  NpcDialogWindow(GUIManager* guimanager);
-  virtual ~NpcDialogWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
+	public:
+	  NpcDialogWindow(GUIManager* guimanager);
+	  virtual ~NpcDialogWindow();
+      bool Create();
+	  bool ReloadWindow();
 
-  void SetName(csString name);
-  void AddDialog(uint dialogueId, csString dialog);
-  void AddAnswer(uint number, csString answer);
-};
-
+	  void SetName(csString name);
+	  void AddDialog(uint dialogueId, csString dialog);
+	  void AddAnswer(uint number, csString answer);
+	};
+	}
+  }
+}
 
 #endif // NPCDIALOG_GUI_H

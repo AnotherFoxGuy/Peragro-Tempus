@@ -25,124 +25,140 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-OkDialogWindow::OkDialogWindow(GUIManager* guimanager)
-: GUIWindow (guimanager)
+namespace PT
 {
-}
-
-OkDialogWindow::~OkDialogWindow()
-{
-}
-
-bool OkDialogWindow::OnOkButton(const CEGUI::EventArgs& args)
-{
-  using namespace CEGUI;
-
-  winMgr->destroyWindow(rootwindow);
-
-  return true;
-}
-
-void OkDialogWindow::SetOkEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow)
-{
-  btn = winMgr->getWindow("OkDialog/OkButton");
-  if(!destroywindow)
-    btn->removeEvent(CEGUI::PushButton::EventClicked);
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
-}
-
-void OkDialogWindow::SetText(const char* text)
-{
-  btn = winMgr->getWindow("OkDialog/Dialog");
-  btn->setText(text);
-}
-
-void OkDialogWindow::CreateGUIWindow(bool activate)
-{
-  winMgr = cegui->GetWindowManagerPtr ();
-
-  if(!winMgr->isWindowPresent("OkDialog/Frame"))
-    GUIWindow::CreateGUIWindow ("okdialog.xml");
-
-  // Get the root window
-  rootwindow = winMgr->getWindow("OkDialog/Frame");
-  if (activate && rootwindow)
+  namespace GUI
   {
-    rootwindow->activate();
+    namespace Windows
+    {
+
+	OkDialogWindow::OkDialogWindow(GUIManager* guimanager)
+	: GUIWindow (guimanager)
+	{
+       windowName = OKDIALOGWINDOW;
+	}
+
+	OkDialogWindow::~OkDialogWindow()
+	{
+	}
+
+	bool OkDialogWindow::OnOkButton(const CEGUI::EventArgs& args)
+	{
+	  using namespace CEGUI;
+
+      winMgr->destroyWindow(window);
+	  return true;
+	}
+
+	void OkDialogWindow::SetOkEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow)
+	{
+	  btn = winMgr->getWindow("OkDialog/OkButton");
+	  if(!destroywindow)
+		btn->removeEvent(CEGUI::PushButton::EventClicked);
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
+	}
+
+	void OkDialogWindow::SetText(const char* text)
+	{
+	  btn = winMgr->getWindow("OkDialog/Dialog");
+	  btn->setText(text);
+	}
+
+	bool OkDialogWindow::Create()
+    {
+      ReloadWindow();
+      return true;
+    }
+
+    bool OkDialogWindow::ReloadWindow()
+    {
+      winMgr = cegui->GetWindowManagerPtr ();
+
+	  if(!winMgr->isWindowPresent("OkDialog/Frame"))
+	  {
+        window = GUIWindow::LoadLayout ("okdialog.xml");
+        GUIWindow::AddToRoot(window);
+	  }
+
+	  // Get the Ok Button
+	  btn = winMgr->getWindow("OkDialog/OkButton");
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OkDialogWindow::OnOkButton, this));
+      return true;
+	}
+
+	ConfirmDialogWindow::ConfirmDialogWindow(GUIManager* guimanager)
+	: GUIWindow (guimanager)
+	{
+      windowName = CONFIRMDIALOGWINDOW;
+	}
+
+	ConfirmDialogWindow::~ConfirmDialogWindow()
+	{
+	}
+
+	bool ConfirmDialogWindow::OnYesButton(const CEGUI::EventArgs& args)
+	{
+	  using namespace CEGUI;
+
+	  winMgr->destroyWindow(window);
+
+	  return true;
+	}
+
+	bool ConfirmDialogWindow::OnNoButton(const CEGUI::EventArgs& args)
+	{
+	  using namespace CEGUI;
+
+	  winMgr->destroyWindow(window);
+
+	  return true;
+	}
+
+	void ConfirmDialogWindow::SetText(const char* text)
+	{
+	  btn = winMgr->getWindow("ConfirmDialog/Dialog");
+	  btn->setText(text);
+	}
+
+	void ConfirmDialogWindow::SetYesEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow)
+	{
+	  btn = winMgr->getWindow("ConfirmDialog/YesButton");
+	  if(!destroywindow)
+		btn->removeEvent(CEGUI::PushButton::EventClicked);
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
+	}
+
+	void ConfirmDialogWindow::SetNoEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow)
+	{
+	  btn = winMgr->getWindow("ConfirmDialog/NoButton");
+	  if(!destroywindow)
+		btn->removeEvent(CEGUI::PushButton::EventClicked);
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
+	}
+
+	bool ConfirmDialogWindow::Create()
+    {
+      ReloadWindow();
+      return true;
+    }
+
+    bool ConfirmDialogWindow::ReloadWindow()
+    {
+	  if(!winMgr->isWindowPresent("ConfirmDialog/Frame"))
+	  {
+        window = GUIWindow::LoadLayout ("client/confirmdialog.xml");
+        GUIWindow::AddToRoot(window);
+      }
+
+	  // Get the Yes Button
+	  btn = winMgr->getWindow("ConfirmDialog/YesButton");
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConfirmDialogWindow::OnYesButton, this));
+
+	  // Get the No Button
+	  btn = winMgr->getWindow("ConfirmDialog/NoButton");
+	  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConfirmDialogWindow::OnNoButton, this));
+      return true;
+    }
+    }
   }
-
-  // Get the Ok Button
-  btn = winMgr->getWindow("OkDialog/OkButton");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OkDialogWindow::OnOkButton, this));
-
-}
-
-
-ConfirmDialogWindow::ConfirmDialogWindow(GUIManager* guimanager)
-: GUIWindow (guimanager)
-{
-}
-
-ConfirmDialogWindow::~ConfirmDialogWindow()
-{
-}
-
-bool ConfirmDialogWindow::OnYesButton(const CEGUI::EventArgs& args)
-{
-  using namespace CEGUI;
-
-  winMgr->destroyWindow(rootwindow);
-
-  return true;
-}
-
-bool ConfirmDialogWindow::OnNoButton(const CEGUI::EventArgs& args)
-{
-  using namespace CEGUI;
-
-  winMgr->destroyWindow(rootwindow);
-
-  return true;
-}
-
-void ConfirmDialogWindow::SetText(const char* text)
-{
-  btn = winMgr->getWindow("ConfirmDialog/Dialog");
-  btn->setText(text);
-}
-
-void ConfirmDialogWindow::SetYesEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow)
-{
-  btn = winMgr->getWindow("ConfirmDialog/YesButton");
-  if(!destroywindow)
-    btn->removeEvent(CEGUI::PushButton::EventClicked);
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
-}
-
-void ConfirmDialogWindow::SetNoEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow)
-{
-  btn = winMgr->getWindow("ConfirmDialog/NoButton");
-  if(!destroywindow)
-    btn->removeEvent(CEGUI::PushButton::EventClicked);
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
-}
-
-void ConfirmDialogWindow::CreateGUIWindow()
-{
-  winMgr = cegui->GetWindowManagerPtr ();
-
-  if(!winMgr->isWindowPresent("ConfirmDialog/Frame"))
-    GUIWindow::CreateGUIWindow ("confirmdialog.xml");
-
-  // Get the root window
-  rootwindow = winMgr->getWindow("ConfirmDialog/Frame");
-
-  // Get the Yes Button
-  btn = winMgr->getWindow("ConfirmDialog/YesButton");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConfirmDialogWindow::OnYesButton, this));
-
-  // Get the No Button
-  btn = winMgr->getWindow("ConfirmDialog/NoButton");
-  btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&ConfirmDialogWindow::OnNoButton, this));
-
 }

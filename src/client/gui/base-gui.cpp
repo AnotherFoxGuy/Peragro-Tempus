@@ -16,7 +16,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "base-gui.h"
 #include "gui.h"
+#include "skinmanager.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
@@ -25,59 +27,78 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-GUIWindow::GUIWindow(GUIManager* guimanager)
-: guimanager(guimanager)
+namespace PT
 {
-  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-  vfs = csQueryRegistry<iVFS>(obj_reg);
-  cegui = guimanager->GetCEGUI ();
-  network = PointerLibrary::getInstance()->getNetwork();
-  winMgr = cegui->GetWindowManagerPtr ();
-}
-GUIWindow::~GUIWindow()
-{
-}
+  namespace GUI
+  {
+	GUIWindow::GUIWindow(GUIManager* guimanager)
+	: guimanager(guimanager)
+	{
+	  window = 0;
+	  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+	  vfs = csQueryRegistry<iVFS>(obj_reg);
+	  cegui = guimanager->GetCEGUI ();
+	  network = PointerLibrary::getInstance()->getNetwork();
+	  winMgr = cegui->GetWindowManagerPtr ();
+	}
+	GUIWindow::~GUIWindow()
+	{
+	}
 
-void GUIWindow::CreateGUIWindow(const char* layoutFile)
-{
-  //cegui->GetSystemPtr ()->setGUISheet(LoadLayout (layoutFile));
-  CEGUI::Window* root = winMgr->getWindow("Root");
-  root->addChildWindow(LoadLayout (layoutFile));
-}
+	CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
+	{
+	  // Load layout and set as root
+	  CEGUI::Window* win = guimanager->GetSkinMananger()->loadLayout(layoutFile);
+      return win;
+	}
 
-CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
-{
-  // Load layout and set as root
-  vfs->ChDir ("/peragro/gui/client/");
-  return winMgr->loadWindowLayout(layoutFile);
-}
+	bool GUIWindow::AddToRoot (CEGUI::Window* window)
+	{
+	  CEGUI::Window* root = guimanager->GetCeguiWindow(ROOTWINDOW);
+	  if (root && window)   
+	  {
+		root->addChildWindow(window);
+		HideWindow();
+		return true;
+	  }
+	  else
+	  {
+		printf("E: Failed adding a window to root!\n");
+		return false;
+	  }
+	}
 
-void GUIWindow::HideWindow()
-{
-  rootwindow->setVisible(false);
-}
+	void GUIWindow::HideWindow()
+	{
+	  if (window) window->setVisible(false);
+	}
 
-void GUIWindow::ShowWindow()
-{
-  rootwindow->setVisible(true);
-}
+	void GUIWindow::ShowWindow()
+	{
+	  if (window) window->setVisible(true);
+	}
 
-bool GUIWindow::IsVisible()
-{
-  return rootwindow->isVisible();
-}
+	bool GUIWindow::IsVisible()
+	{
+ 	  if (window) 
+        return window->isVisible();
+      else
+        return false;
+	}
 
-void GUIWindow::DisableWindow()
-{
-  rootwindow->setEnabled(false);
-}
+	void GUIWindow::DisableWindow()
+	{
+	  if (window) window->setEnabled(false);
+	}
 
-void GUIWindow::EnableWindow()
-{
-  rootwindow->setEnabled(true);
-}
+	void GUIWindow::EnableWindow()
+	{
+	  if (window) window->setEnabled(true);
+	}
 
-void GUIWindow::BringToFront()
-{
-  rootwindow->activate();
+	void GUIWindow::BringToFront()
+	{
+		if (window) window->activate();
+	}
+  }
 }

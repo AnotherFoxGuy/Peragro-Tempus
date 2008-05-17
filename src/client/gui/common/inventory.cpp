@@ -21,7 +21,7 @@
 #include "client/reporter/reporter.h"
 
 
-Inventory::Inventory(GUIManager* guimanager)
+Inventory::Inventory(PT::GUI::GUIManager* guimanager)
 {
   this->guimanager = guimanager;
   dragdrop = guimanager->GetDragDrop();
@@ -41,9 +41,9 @@ CEGUI::Window* Inventory::createDragDropSlot(CEGUI::Window* parent, const CEGUI:
   parent->addChildWindow(slot);
   slot->setPosition(position);
   slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&DragDrop::handleDragEnter, dragdrop));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&DragDrop::handleDragLeave, dragdrop));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&DragDrop::handleDragDropped, dragdrop));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragEnter, dragdrop));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragLeave, dragdrop));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDropped, dragdrop));
 
   return slot;
 }
@@ -133,7 +133,7 @@ csArray<Inventory::ObjectAndSlot> Inventory::GetAllObjects()
   return objects;
 }
 
-void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, DragDrop::Type type , int rows, int columns, int offset)
+void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, PT::GUI::Windows::DragDrop::Type type , int rows, int columns, int offset)
 {
   for (int j=0; j<rows; j++)
   {
@@ -151,12 +151,12 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, DragDro
       case Inventory::BuyUpper:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
         slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
-          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedBuy, dragdrop));
+        CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedBuy, dragdrop));
         break;
       case Inventory::BuyLower:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
         slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
-          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedBuy, dragdrop));
+          CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedBuy, dragdrop));
         break;
       case Inventory::InventoryLower:
         // Nothing to do.
@@ -164,7 +164,7 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, DragDro
       case Inventory::TradeLeft:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
         slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
-          CEGUI::Event::Subscriber(&DragDrop::handleDragDroppedTrade, dragdrop));
+          CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedTrade, dragdrop));
         break;
       case Inventory::TradeRight:
         slot->GetWindow()->removeAllEvents();

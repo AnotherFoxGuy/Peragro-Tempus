@@ -27,24 +27,26 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
   NpcDialogMessage dialog_msg;
   dialog_msg.deserialise(msg->getByteStream());
   Report(PT::Debug, "QuestHandler: Added Dialog %d with %d answers.", dialog_msg.getDialogId(), dialog_msg.getAnswersCount());
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   Report(PT::Debug, "---------------------------");
   if(dialog_msg.getDialogText()==0)
     dialog_msg.setDialogText("ERROR: handleNpcDialog: DialogText is zero\n");
-  guimanager->GetNpcDialogWindow()->AddDialog(dialog_msg.getDialogId(), dialog_msg.getDialogText());
+  PT::GUI::Windows::NpcDialogWindow* npcWindow = (PT::GUI::Windows::NpcDialogWindow*)guimanager->GetWindow(NPCDIALOGWINDOW);
+  npcWindow->AddDialog(dialog_msg.getDialogId(), dialog_msg.getDialogText());
 
   for (int i=0; i<dialog_msg.getAnswersCount(); i++)
   {
     if(dialog_msg.getAnswerText(i)==0)
       dialog_msg.setAnswerText(i, "ERROR: handleNpcDialog: getAnswerText is zero\n");
     Report(PT::Debug, "Added answer %d: %s", dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
-    guimanager->GetNpcDialogWindow()->AddAnswer(dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
+    npcWindow->AddAnswer(dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
   }
   Report(PT::Debug, "---------------------------");
 }
 
 void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
 {
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  guimanager->GetNpcDialogWindow()->HideWindow();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::Windows::NpcDialogWindow* npcWindow = (PT::GUI::Windows::NpcDialogWindow*)guimanager->GetWindow(NPCDIALOGWINDOW);
+  npcWindow->HideWindow();
 }

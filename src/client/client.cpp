@@ -1,4 +1,4 @@
-/*
+	/*
     Copyright (C) 2005 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
@@ -207,11 +207,12 @@ namespace PT
             float currentStamina = player->GetCurrentStamina();
             float maxStamina = player->GetMaxStamina();
             float ratio = currentStamina / maxStamina;
-            guiManager->GetHUDWindow()->SetSP(ratio);
+            PT::GUI::Windows::HUDWindow* hudWindow = (PT::GUI::Windows::HUDWindow*)guiManager->GetWindow(HUDWINDOW);
+            hudWindow->SetSP(ratio);
             char buffer[40];
             sprintf(buffer, "            %d/%d", (int)currentStamina,
                                                  (int)maxStamina);
-            guiManager->GetHUDWindow()->SetText("PlayerHUD/SPValue", buffer);
+            hudWindow->SetText("PlayerHUD/SPValue", buffer);
           }
         }
       }
@@ -336,7 +337,7 @@ namespace PT
     pointerlib.setServerSetupManager(serverSetupManager);
 
     // Create and Initialize the GUIManager.
-    guiManager = new GUIManager ();
+	guiManager = new PT::GUI::GUIManager ();
     if (!guiManager->Initialize ())
       return Report(PT::Error, "Failed to initialize GUIManager!");
     pointerlib.setGUIManager(guiManager);
@@ -588,8 +589,10 @@ namespace PT
         }
 
         // Show the connect window.
-        guiManager->GetLoginWindow ()->ShowWindow ();
-        guiManager->GetServerWindow ()->ShowWindow ();
+        PT::GUI::Windows::LoginWindow* loginWindow = (PT::GUI::Windows::LoginWindow*)guiManager->GetWindow(LOGINWINDOW);
+		loginWindow->ShowWindow();
+		PT::GUI::Windows::ServerWindow* serverWindow = (PT::GUI::Windows::ServerWindow*)guiManager->GetWindow(SERVERWINDOW);
+        serverWindow->ShowWindow ();
 
         if (cmdline)
         {
@@ -650,15 +653,17 @@ namespace PT
 
       network->init();
 
+	  PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guiManager);
+
       if (!network->isRunning())
       {
-        guiManager->CreateOkWindow()->ShowWindow();
-        guiManager->CreateOkWindow()->BringToFront();
-        guiManager->CreateOkWindow()->SetText("Disconnect!\n Trying to reconnect, please wait!");
+        dialog->ShowWindow();
+        dialog->BringToFront();
+        dialog->SetText("Disconnect!\n Trying to reconnect, please wait!");
         return;
       }
 
-      guiManager->CreateOkWindow()->HideWindow();
+      dialog->HideWindow();
 
       ConnectRequestMessage msg(CLIENTVERSION);
       network->send(&msg);
@@ -752,7 +757,7 @@ namespace PT
 
     if (stateManager->GetState() == STATE_PLAY)
     {
-      ConfirmDialogWindow* dialog = guiManager->CreateConfirmWindow();
+      PT::GUI::Windows::ConfirmDialogWindow* dialog = new PT::GUI::Windows::ConfirmDialogWindow(guiManager);
       dialog->SetText("Are you sure you want to quit?");
       dialog->SetYesEvent(CEGUI::Event::Subscriber(&Client::Quit, this));
       dialog->SetNoEvent(CEGUI::Event::Subscriber(&Client::NoQuit, this));
@@ -798,12 +803,15 @@ namespace PT
     if (StateHelper::GetError(&ev))
     {
       Report(PT::Error, "Login Failed due to: %s.", StateHelper::GetErrorMessage(&ev).c_str());
-      GUIManager* guiManager = PointerLibrary::getInstance()->getGUIManager();
-      guiManager->GetLoginWindow()->EnableWindow();
-      guiManager->GetServerWindow()->EnableWindow();
+	  PT::GUI::GUIManager* guiManager = PointerLibrary::getInstance()->getGUIManager();
+      PT::GUI::Windows::LoginWindow* loginWindow = (PT::GUI::Windows::LoginWindow*)guiManager->GetWindow(LOGINWINDOW);
+      loginWindow->EnableWindow();
+	  PT::GUI::Windows::ServerWindow* serverWindow = (PT::GUI::Windows::ServerWindow*)guiManager->GetWindow(SERVERWINDOW);
+      serverWindow->EnableWindow();
       //network->stop();
       //stateManager->SetState(STATE_INTRO);
-      guiManager->CreateOkWindow(true)->SetText(StateHelper::GetErrorMessage(&ev).c_str());
+	  PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guiManager);
+      dialog->SetText(StateHelper::GetErrorMessage(&ev).c_str());
       return true;
     }
     else
@@ -816,13 +824,16 @@ namespace PT
     }
     else if (stateManager->GetState() == STATE_CONNECTED)
     {
-      guiManager->GetLoginWindow ()->HideWindow ();
-      guiManager->GetServerWindow ()->HideWindow ();
-      guiManager->GetSelectCharWindow ()->ShowWindow ();
+      PT::GUI::Windows::LoginWindow* loginWindow = (PT::GUI::Windows::LoginWindow*)guiManager->GetWindow(LOGINWINDOW);
+      loginWindow->HideWindow();
+      PT::GUI::Windows::ServerWindow* serverWindow = (PT::GUI::Windows::ServerWindow*)guiManager->GetWindow(SERVERWINDOW);
+	  serverWindow->HideWindow();
+	  PT::GUI::Windows::SelectCharWindow* selectCharWindow = (PT::GUI::Windows::SelectCharWindow*)guiManager->GetWindow(SELECTCHARWINDOW);
+      selectCharWindow->ShowWindow ();
 
       bool isAdmin = false;
       ev.Retrieve("isAdmin", isAdmin);
-      if(isAdmin){guiManager->GetSelectCharWindow ()->ShowAdminButton();}
+      if(isAdmin){selectCharWindow->ShowAdminButton();}
 
       stateManager->SetState(STATE_LOGGED_IN);
 
@@ -915,9 +926,10 @@ namespace PT
   {
     using namespace PT::Events;
 
-    if(!guiManager->GetLoadScreenWindow()->IsVisible())
+	PT::GUI::Windows::LoadScreenWindow* loadScreenWindow = (PT::GUI::Windows::LoadScreenWindow*)guiManager->GetWindow(LOADSCREENWINDOW);
+    if(!loadScreenWindow->IsVisible())
     {
-      guiManager->GetLoadScreenWindow()->ShowWindow();
+      loadScreenWindow->ShowWindow();
       iCEGUI* cegui = guiManager->GetCEGUI();
       if(!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen")){ // TODO: Different loading screens for different tiles(?)
         vfs->ChDir ("/peragro/skin/");
@@ -927,7 +939,7 @@ namespace PT
         image->setProperty("BackgroundEnabled", "True");
       }
     }
-    guiManager->GetLoadScreenWindow()->SetProgress(WorldHelper::GetProgress(&ev));
+    loadScreenWindow->SetProgress(WorldHelper::GetProgress(&ev));
     return true;
   }
 
@@ -949,11 +961,15 @@ namespace PT
 
     if (!world_loaded)
     {
-      guiManager->GetSelectCharWindow ()->HideWindow();
-      guiManager->GetOptionsWindow ()->HideWindow();
+      PT::GUI::Windows::SelectCharWindow* selectCharWindow = (PT::GUI::Windows::SelectCharWindow*)guiManager->GetWindow(SELECTCHARWINDOW);
+      selectCharWindow->HideWindow();
+	  PT::GUI::Windows::OptionsWindow* optionsWindow = (PT::GUI::Windows::OptionsWindow*)guiManager->GetWindow(OPTIONSWINDOW);
+      optionsWindow->HideWindow();
 
-      guiManager->GetChatWindow ()->ShowWindow();
-      guiManager->GetHUDWindow ()->ShowWindow();
+      PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guiManager->GetWindow(CHATWINDOW);
+      chatWindow->ShowWindow();
+      PT::GUI::Windows::HUDWindow* hudWindow = (PT::GUI::Windows::HUDWindow*)guiManager->GetWindow(HUDWINDOW);
+      hudWindow->ShowWindow();
 
 
       // Hide the background.
@@ -973,7 +989,8 @@ namespace PT
       sndstream->Pause ();
     }
 
-    guiManager->GetLoadScreenWindow()->HideWindow();
+    PT::GUI::Windows::LoadScreenWindow* loadScreenWindow = (PT::GUI::Windows::LoadScreenWindow*)guiManager->GetWindow(LOADSCREENWINDOW);
+    loadScreenWindow->HideWindow();
 
     world_loaded = true;
     PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);

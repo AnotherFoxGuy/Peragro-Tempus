@@ -64,9 +64,10 @@ namespace PT
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);
 
-      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+	  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       if (!guimanager) return true;
-      guimanager->GetInventoryWindow()->AddItem(itemId, variationId, slotId);
+	  PT::GUI::Windows::InventoryWindow* inventoryWindow = (PT::GUI::Windows::InventoryWindow*)guimanager->GetWindow(INVENTORYWINDOW);
+      inventoryWindow->AddItem(itemId, variationId, slotId);
 
       return true;
     }

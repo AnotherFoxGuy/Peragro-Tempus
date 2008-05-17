@@ -39,12 +39,13 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   char buffer[1024];
   sprintf(buffer, "Do you want to trade with %s?", ent->GetName().c_str());
 
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  TradeWindow* tradewindow = guimanager->GetTradeWindow();
-  ConfirmDialogWindow* dialog = guimanager->CreateConfirmWindow();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::Windows::TradeWindow* tradeWindow = (PT::GUI::Windows::TradeWindow*)guimanager->GetWindow(TRADEWINDOW);
+
+  PT::GUI::Windows::ConfirmDialogWindow* dialog = new PT::GUI::Windows::ConfirmDialogWindow(guimanager);
   dialog->SetText(buffer);
-  dialog->SetYesEvent(CEGUI::Event::Subscriber(&TradeWindow::OnYesRequest, tradewindow));
-  dialog->SetNoEvent(CEGUI::Event::Subscriber(&TradeWindow::OnNoRequest, tradewindow));
+  dialog->SetYesEvent(CEGUI::Event::Subscriber(&PT::GUI::Windows::TradeWindow::OnYesRequest, tradeWindow));
+  dialog->SetNoEvent(CEGUI::Event::Subscriber(&PT::GUI::Windows::TradeWindow::OnNoRequest, tradeWindow));
 }
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)
@@ -54,13 +55,16 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
   TradeResponseMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   if (trade_msg.getError().isNull())
-    guimanager->GetTradeWindow()->ShowWindow();
+  {
+    PT::GUI::Windows::TradeWindow* tradeWindow = (PT::GUI::Windows::TradeWindow*)guimanager->GetWindow(TRADEWINDOW);
+	tradeWindow->ShowWindow();
+  }
   else
   {
-    OkDialogWindow* dialog = guimanager->CreateOkWindow();
+    PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guimanager);
     dialog->SetText(*trade_msg.getError());
   }
 }
@@ -72,26 +76,29 @@ void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
   TradeConfirmResponseMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::Windows::TradeWindow* tradeWindow = (PT::GUI::Windows::TradeWindow*)guimanager->GetWindow(TRADEWINDOW);
+  PT::GUI::Windows::BuyWindow* buyWindow = (PT::GUI::Windows::BuyWindow*)guimanager->GetWindow(BUYWINDOW);
+  PT::GUI::Windows::SellWindow* sellWindow = (PT::GUI::Windows::SellWindow*)guimanager->GetWindow(SELLWINDOW);
 
   if (trade_msg.getError().isNull())
   {
-    if (guimanager->GetTradeWindow() && guimanager->GetTradeWindow()->IsVisible())
+    if (tradeWindow && tradeWindow->IsVisible())
     {
-      guimanager->GetTradeWindow()->AcceptTrade();
+      tradeWindow->AcceptTrade();
     }
-    else if (guimanager->GetBuyWindow() && guimanager->GetBuyWindow()->IsVisible())
+    else if (buyWindow && buyWindow->IsVisible())
     {
-      guimanager->GetBuyWindow()->AcceptTrade();
+      buyWindow->AcceptTrade();
     }
-    else if (guimanager->GetSellWindow() && guimanager->GetSellWindow()->IsVisible())
+    else if (sellWindow && sellWindow->IsVisible())
     {
-      guimanager->GetSellWindow()->AcceptTrade();
+      sellWindow->AcceptTrade();
     }
   }
   else
   {
-    OkDialogWindow* dialog = guimanager->CreateOkWindow();
+    PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guimanager);
     dialog->SetText(*trade_msg.getError());
   }
 }
@@ -100,16 +107,18 @@ void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 {
   Report(PT::Debug, "TradeHandler: handleTradeOfferAccept.");
 
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  guimanager->GetTradeWindow()->SetAccept(2, true);
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::Windows::TradeWindow* tradeWindow = (PT::GUI::Windows::TradeWindow*)guimanager->GetWindow(TRADEWINDOW);
+  tradeWindow->SetAccept(2, true);
 }
 
 void TradeHandler::handleTradeCancel(GenericMessage* msg)
 {
   Report(PT::Debug, "TradeHandler: handleTradeCancel.");
 
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  guimanager->GetTradeWindow()->CancelTrade();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::Windows::TradeWindow* tradeWindow = (PT::GUI::Windows::TradeWindow*)guimanager->GetWindow(TRADEWINDOW);
+  tradeWindow->CancelTrade();
 }
 
 void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
@@ -119,15 +128,15 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
 
   Report(PT::Debug, "TradeHandler: About to add % items.", trade_msg.getOffersCount());
 
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-
-  guimanager->GetTradeWindow()->SetAccept(2, false);
-  guimanager->GetTradeWindow()->ClearItems();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::Windows::TradeWindow* tradeWindow = (PT::GUI::Windows::TradeWindow*)guimanager->GetWindow(TRADEWINDOW);
+  tradeWindow->SetAccept(2, false);
+  tradeWindow->ClearItems();
 
   for (int i=0; i<trade_msg.getOffersCount(); i++)
   {
     Report(PT::Debug, "Item %d in slot %d", trade_msg.getItemId(i), trade_msg.getSlotId(i));
-    guimanager->GetTradeWindow()->AddItem(2, trade_msg.getItemId(i), trade_msg.getSlotId(i));
+    tradeWindow->AddItem(2, trade_msg.getItemId(i), trade_msg.getSlotId(i));
   }
 }
 
@@ -136,14 +145,15 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
   TradeOffersListNpcMessage trade_msg;
   trade_msg.deserialise(msg->getByteStream());
 
-  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   if (trade_msg.getIsBuy() == 1)
   {
     Report(PT::Debug, "TradeHandler: Got %d Buy Offers from NPC!", trade_msg.getOffersCount());
     for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
     {
       Report(PT::Debug, " %d) Item %d \t %d money", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
-      guimanager->GetBuyWindow()->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
+	  PT::GUI::Windows::BuyWindow* buyWindow = (PT::GUI::Windows::BuyWindow*)guimanager->GetWindow(BUYWINDOW);
+      buyWindow->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
     }
   }
   else
@@ -152,7 +162,8 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
     for (unsigned char i = 0; i < trade_msg.getOffersCount(); i++)
     {
       Report(PT::Debug, " %d) Item %d \t %d money", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
-      //guimanager->GetSellWindow()->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
+	  PT::GUI::Windows::SellWindow* sellWindow = (PT::GUI::Windows::SellWindow*)guimanager->GetWindow(SELLWINDOW);
+      sellWindow->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
     }
   }
 }

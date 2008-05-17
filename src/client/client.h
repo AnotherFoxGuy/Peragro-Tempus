@@ -54,8 +54,13 @@
 #include "client/input/inputmanager.h"
 #include "client/state/statemanager.h"
 
+#include "CEGUI.h"
+#include "CEGUIWindowManager.h"
+#include "CEGUILogger.h"
+
 struct iPcDefaultCamera;
 struct iSector;
+struct iCEGUI;
 
 struct iCommandLineParser;
 struct iPath;
@@ -88,6 +93,16 @@ namespace PT
     class SkillDataManager;
     class ConnectionDataManager;
   } // Data namespace
+
+  namespace GUI
+  { 
+    class GUIManager;
+    
+    namespace Windows
+    {
+      class HUDWindow;
+    }
+  } // GUI namespace
 
   namespace Misc
   {
@@ -219,7 +234,7 @@ namespace PT
     PT::Data::SkillDataManager* skillDataManager;
     PT::Data::ConnectionDataManager* connectionDataManager;
     PT::Misc::ServerSetupManager* serverSetupManager;
-    GUIManager* guiManager;
+	PT::GUI::GUIManager* guiManager;
     PT::InputManager* inputManager;
     PT::StateManager* stateManager;
     PT::Environment::EnvironmentManager* environmentManager;

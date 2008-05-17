@@ -58,7 +58,7 @@ namespace PT
 
       PT::Effect::EffectsManager* effectsManager;
       PT::Entity::EntityManager* entityManager;
-      GUIManager* guiManager;
+	  PT::GUI::GUIManager* guiManager;
       PT::Data::SkillDataManager* skillManager;
       Network* network;
 

@@ -56,7 +56,6 @@ namespace PT
       }
     };
 
-
   } // Events namespace
 } // PT namespace
 

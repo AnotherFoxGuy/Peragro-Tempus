@@ -21,17 +21,28 @@
 
 #include "base-gui.h"
 
-class ServerSetupWindow : public GUIWindow
+#define SERVERSETUPWINDOW "CharSelect/Frame"
+
+namespace PT
 {
-private:
-  bool DoneButton(const CEGUI::EventArgs& e);     // returns to the character menu.
-  bool UploadButton(const CEGUI::EventArgs& e);   // Uploads the server data to the server.
-  bool DownloadButton(const CEGUI::EventArgs& e); // Downloads the server data from the server.
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class ServerSetupWindow : public GUIWindow
+	{
+	private:
+	  bool DoneButton(const CEGUI::EventArgs& e);     // returns to the character menu.
+	  bool UploadButton(const CEGUI::EventArgs& e);   // Uploads the server data to the server.
+	  bool DownloadButton(const CEGUI::EventArgs& e); // Downloads the server data from the server.
 
-public:
-  ServerSetupWindow(GUIManager* guimanager);
-  virtual ~ServerSetupWindow();
-  void CreateGUIWindow();    // load the Server setup guilayout and register button events.
-};
-
+	public:
+	  ServerSetupWindow(GUIManager* guimanager);
+	  virtual ~ServerSetupWindow();
+      bool Create();
+	  bool ReloadWindow();
+	};
+	}
+  }
+}
 #endif // SERVERSETUP_GUI_H

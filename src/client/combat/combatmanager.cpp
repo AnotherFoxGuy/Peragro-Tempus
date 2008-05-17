@@ -161,8 +161,8 @@ namespace PT
         hp = level;
       }
 
-      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      HUDWindow* hudWindow = guimanager->GetHUDWindow();
+	  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+	  PT::GUI::Windows::HUDWindow* hudWindow = (PT::GUI::Windows::HUDWindow*) guimanager->GetWindow(HUDWINDOW);
       hudWindow->SetHP(hp, maxhp);
 
       return true;
@@ -212,8 +212,8 @@ namespace PT
           // Life = 1 * endurance
           int maxLife = stats->GetStatLevel("Endurance");
 
-          GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-          HUDWindow* hudWindow = guimanager->GetHUDWindow();
+		  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+		  PT::GUI::Windows::HUDWindow* hudWindow = (PT::GUI::Windows::HUDWindow*) guimanager->GetWindow(HUDWINDOW);
           hudWindow->SetHP(stat->level, maxLife);
         }
 
@@ -330,7 +330,8 @@ namespace PT
         Report(PT::Notify, "CombatManager: %s \n", *error);
         char msg[1024];
         sprintf(msg,"%s", *error);
-        guiManager->GetChatWindow()->AddMessage(msg);
+        PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guiManager->GetWindow(CHATWINDOW);
+		chatWindow->AddMessage(msg);
         return;
       }
 
@@ -370,7 +371,8 @@ namespace PT
       sprintf(msg,"%s %s %s.", caster->GetName().c_str(),
                                caststring.c_str(),
                                target->GetName().c_str());
-      guiManager->GetChatWindow()->AddMessage(msg);
+	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guiManager->GetWindow(CHATWINDOW);
+      chatWindow->AddMessage(msg);
 
     }
 
@@ -416,7 +418,8 @@ namespace PT
       sprintf(msg,"%s %s %s.", caster->GetName().c_str(),
                                caststring.c_str(),
                                target->GetName().c_str());
-      guiManager->GetChatWindow()->AddMessage(msg);
+	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guiManager->GetWindow(CHATWINDOW);
+      chatWindow->AddMessage(msg);
 
 
     }

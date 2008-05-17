@@ -26,51 +26,78 @@
 #include "iutil/cfgmgr.h"
 #include "iutil/cfgfile.h"
 
+#define OPTIONSWINDOW "Options/Options_Button"
+
 class GUIManager;
 
-class OptionsWindow : public GUIWindow
+namespace PT
 {
-private:
+  namespace GUI
+  {
+    namespace Windows
+    {
+	class OptionsWindow : public GUIWindow
+	{
+    private:
+      struct Option
+      {
+        std::string name;
+        std::string window;
 
-  csRef<iConfigManager> app_cfg;
-  csRef<iVFS> vfs;
+        const char* GetName () { return name.c_str();}
+        const char* GetWindow () { return window.c_str(); }
+      };
+	  
+	  bool CreateOptionItem (const char* optionName);
 
-  void SaveConfig();
+	private:
 
-  bool OptionButtonPressed(const CEGUI::EventArgs& e);
+	  csRef<iConfigManager> app_cfg;
+	  csRef<iVFS> vfs;
+      csArray<Option> optionList;
 
-  bool OkButtonPressed(const CEGUI::EventArgs& e);
+	  void SaveConfig();
 
-  bool OnDropListReflections(const CEGUI::EventArgs& e);
-  void CreateDropListReflections();
+	  bool OptionButtonPressed(const CEGUI::EventArgs& e);
 
-  bool OnDropListTexture(const CEGUI::EventArgs& e);
-  void CreateDropListTexture();
+	  bool OkButtonPressed(const CEGUI::EventArgs& e);
 
-  bool OnDropListMovement(const CEGUI::EventArgs& e);
-  void CreateDropListMovement();
+	  bool OnDropListReflections(const CEGUI::EventArgs& e);
+	  void CreateDropListReflections();
 
-  void CreateFullScreenCheckBox();
-  bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
+	  bool OnDropListTexture(const CEGUI::EventArgs& e);
+	  void CreateDropListTexture();
 
-  void CreateReverseCheckBox();
-  bool OnReverseCheckBox(const CEGUI::EventArgs& e);
+	  bool OnDropListMovement(const CEGUI::EventArgs& e);
+	  void CreateDropListMovement();
 
-  void CreateYAxisCheckBox();
-  bool OnYAxisCheckBox(const CEGUI::EventArgs& e);
+	  void CreateFullScreenCheckBox();
+	  bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
 
-  void CreateAdaptiveSpinners();
-  bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);
-  bool OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e);
-  bool OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e);
+	  void CreateReverseCheckBox();
+	  bool OnReverseCheckBox(const CEGUI::EventArgs& e);
 
-public:
-  OptionsWindow(GUIManager* guimanager);
-  virtual ~OptionsWindow();
-  void CreateGUIWindow();    // load the chat guilayout and register button events.
-  void HideWindow();
+	  void CreateYAxisCheckBox();
+	  bool OnYAxisCheckBox(const CEGUI::EventArgs& e);
 
-};
+	  void CreateAdaptiveSpinners();
+	  bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);
+	  bool OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e);
+	  bool OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e);
+
+	public:
+	  OptionsWindow(GUIManager* guimanager);
+	  virtual ~OptionsWindow();
+      bool Create();
+	  bool ReloadWindow();
+	  void HideWindow();
+
+      /// Add an option item.
+      bool AddOption (const char* optionName, const char* windowName);
+	};
+	}
+  }
+}
 
 
 #endif // OPTIONS_GUI_H
