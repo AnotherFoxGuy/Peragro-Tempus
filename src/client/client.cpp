@@ -353,7 +353,7 @@ namespace PT
     pointerlib.setStateManager(stateManager);
 
     // Create and Initialize the EnvironmentManager.
-    environmentManager = new EnvironmentManager();
+    environmentManager = new PT::Environment::EnvironmentManager();
     if(!environmentManager->Initialize())
       return Report(PT::Error, "Failed to create EnvironmentManager object!");
     pointerlib.setEnvironmentManager(environmentManager);

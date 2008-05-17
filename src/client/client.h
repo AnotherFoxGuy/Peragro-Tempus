@@ -94,6 +94,11 @@ namespace PT
     class ServerSetupManager;
   } // Misc namespace
 
+  namespace Environment
+  {
+    class EnvironmentManager;
+  } // Environment namespace
+
   namespace Reflection
   {
     class ReflectionRenderer;
@@ -217,7 +222,7 @@ namespace PT
     GUIManager* guiManager;
     PT::InputManager* inputManager;
     PT::StateManager* stateManager;
-    PT::EnvironmentManager* environmentManager;
+    PT::Environment::EnvironmentManager* environmentManager;
     PT::Reflection::ReflectionRenderer* reflectionRenderer;
 
     PT::Entity::EntityManager* entityManager;

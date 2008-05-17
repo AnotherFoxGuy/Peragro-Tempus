@@ -72,6 +72,11 @@ namespace PT
     class ChatManager;
   } // Chat namespace
 
+  namespace Environment
+  {
+    class EnvironmentManager;
+  } // Environment namespace
+
   namespace Component
   {
     class ComponentManager;
@@ -102,7 +107,7 @@ private:
   PT::Effect::EffectsManager* effectsManager;
   PT::Combat::CombatManager* combatManager;
   PT::Chat::ChatManager* chatManager;
-  PT::EnvironmentManager* environmentManager;
+  PT::Environment::EnvironmentManager* environmentManager;
   PT::Component::ComponentManager* componentManager;
 
   PT::World* world;
@@ -196,8 +201,8 @@ public:
   void setStateManager(PT::StateManager* stateManager) { this->stateManager = stateManager; }
   PT::StateManager* getStateManager() { return this->stateManager; }
 
-  void setEnvironmentManager(PT::EnvironmentManager* environmentManager) { this->environmentManager = environmentManager; }
-  PT::EnvironmentManager* getEnvironmentManager() { return this->environmentManager; }
+  void setEnvironmentManager(PT::Environment::EnvironmentManager* environmentManager) { this->environmentManager = environmentManager; }
+  PT::Environment::EnvironmentManager* getEnvironmentManager() { return this->environmentManager; }
 
   void setComponentManager(PT::Component::ComponentManager* componentManager) { this->componentManager = componentManager; }
   PT::Component::ComponentManager* getComponentManager() { return this->componentManager; }
