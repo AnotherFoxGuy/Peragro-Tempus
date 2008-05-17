@@ -334,6 +334,9 @@
 				RelativePath="..\..\src\client\gui\confirmdialog-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\dialogconfiguration.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\guimanager.cpp">
 			</File>
 			<File
@@ -352,6 +355,15 @@
 				RelativePath="..\..\src\client\gui\login-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\menu-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\menuitem.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\menumanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\npcdialog-gui.cpp">
 			</File>
 			<File
@@ -365,6 +377,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\serversetup-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\skin-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\skinmanager.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\status-gui.cpp">
@@ -413,6 +431,9 @@
 				RelativePath="..\..\src\client\gui\confirmdialog-gui.h">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\dialogconfiguration.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\gui.h">
 			</File>
 			<File
@@ -434,6 +455,18 @@
 				RelativePath="..\..\src\client\gui\login-gui.h">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\menu-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\menuitem.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\menuitemwindow.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\menumanager.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\npcdialog-gui.h">
 			</File>
 			<File
@@ -447,6 +480,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\serversetup-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\skin-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\skinmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\status-gui.h">
