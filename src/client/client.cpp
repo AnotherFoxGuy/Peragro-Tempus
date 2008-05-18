@@ -207,7 +207,8 @@ namespace PT
             float currentStamina = player->GetCurrentStamina();
             float maxStamina = player->GetMaxStamina();
             float ratio = currentStamina / maxStamina;
-            PT::GUI::Windows::HUDWindow* hudWindow = (PT::GUI::Windows::HUDWindow*)guiManager->GetWindow(HUDWINDOW);
+            using namespace PT::GUI::Windows;
+            HUDWindow* hudWindow = guiManager->GetWindow<HUDWindow>(HUDWINDOW);
             hudWindow->SetSP(ratio);
             char buffer[40];
             sprintf(buffer, "            %d/%d", (int)currentStamina,
@@ -589,9 +590,10 @@ namespace PT
         }
 
         // Show the connect window.
-        PT::GUI::Windows::LoginWindow* loginWindow = (PT::GUI::Windows::LoginWindow*)guiManager->GetWindow(LOGINWINDOW);
-		loginWindow->ShowWindow();
-		PT::GUI::Windows::ServerWindow* serverWindow = (PT::GUI::Windows::ServerWindow*)guiManager->GetWindow(SERVERWINDOW);
+        using namespace PT::GUI::Windows;
+        LoginWindow* loginWindow = guiManager->GetWindow<LoginWindow>(LOGINWINDOW);
+	loginWindow->ShowWindow();
+	ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);
         serverWindow->ShowWindow ();
 
         if (cmdline)
@@ -799,18 +801,21 @@ namespace PT
   bool Client::loggedIn(iEvent& ev)
   {
     using namespace PT::Events;
+    using namespace PT::GUI::Windows;
+
+    LoginWindow* loginWindow = guiManager->GetWindow<LoginWindow>(LOGINWINDOW);
+    ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);
+    SelectCharWindow* selectCharWindow = guiManager->GetWindow<SelectCharWindow>(SELECTCHARWINDOW);
 
     if (StateHelper::GetError(&ev))
     {
       Report(PT::Error, "Login Failed due to: %s.", StateHelper::GetErrorMessage(&ev).c_str());
-	  PT::GUI::GUIManager* guiManager = PointerLibrary::getInstance()->getGUIManager();
-      PT::GUI::Windows::LoginWindow* loginWindow = (PT::GUI::Windows::LoginWindow*)guiManager->GetWindow(LOGINWINDOW);
+      
       loginWindow->EnableWindow();
-	  PT::GUI::Windows::ServerWindow* serverWindow = (PT::GUI::Windows::ServerWindow*)guiManager->GetWindow(SERVERWINDOW);
       serverWindow->EnableWindow();
       //network->stop();
       //stateManager->SetState(STATE_INTRO);
-	  PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guiManager);
+      OkDialogWindow* dialog = new OkDialogWindow(guiManager);
       dialog->SetText(StateHelper::GetErrorMessage(&ev).c_str());
       return true;
     }
@@ -824,11 +829,8 @@ namespace PT
     }
     else if (stateManager->GetState() == STATE_CONNECTED)
     {
-      PT::GUI::Windows::LoginWindow* loginWindow = (PT::GUI::Windows::LoginWindow*)guiManager->GetWindow(LOGINWINDOW);
       loginWindow->HideWindow();
-      PT::GUI::Windows::ServerWindow* serverWindow = (PT::GUI::Windows::ServerWindow*)guiManager->GetWindow(SERVERWINDOW);
-	  serverWindow->HideWindow();
-	  PT::GUI::Windows::SelectCharWindow* selectCharWindow = (PT::GUI::Windows::SelectCharWindow*)guiManager->GetWindow(SELECTCHARWINDOW);
+      serverWindow->HideWindow();
       selectCharWindow->ShowWindow ();
 
       bool isAdmin = false;
@@ -925,8 +927,9 @@ namespace PT
   bool Client::LoadingRegion(iEvent& ev)
   {
     using namespace PT::Events;
+    using namespace PT::GUI::Windows;
 
-	PT::GUI::Windows::LoadScreenWindow* loadScreenWindow = (PT::GUI::Windows::LoadScreenWindow*)guiManager->GetWindow(LOADSCREENWINDOW);
+    LoadScreenWindow* loadScreenWindow = guiManager->GetWindow<LoadScreenWindow>(LOADSCREENWINDOW);
     if(!loadScreenWindow->IsVisible())
     {
       loadScreenWindow->ShowWindow();
@@ -946,6 +949,7 @@ namespace PT
   bool Client::LoadRegion(iEvent& ev)
   {
     using namespace PT::Events;
+    using namespace PT::GUI::Windows;
 
     iCelEntity* ent = pl->FindEntity("ptIntroWorld");
     if (ent)
@@ -961,14 +965,14 @@ namespace PT
 
     if (!world_loaded)
     {
-      PT::GUI::Windows::SelectCharWindow* selectCharWindow = (PT::GUI::Windows::SelectCharWindow*)guiManager->GetWindow(SELECTCHARWINDOW);
+      SelectCharWindow* selectCharWindow = guiManager->GetWindow<SelectCharWindow>(SELECTCHARWINDOW);
       selectCharWindow->HideWindow();
-	  PT::GUI::Windows::OptionsWindow* optionsWindow = (PT::GUI::Windows::OptionsWindow*)guiManager->GetWindow(OPTIONSWINDOW);
+      OptionsWindow* optionsWindow = guiManager->GetWindow<OptionsWindow>(OPTIONSWINDOW);
       optionsWindow->HideWindow();
 
-      PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guiManager->GetWindow(CHATWINDOW);
+      ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->ShowWindow();
-      PT::GUI::Windows::HUDWindow* hudWindow = (PT::GUI::Windows::HUDWindow*)guiManager->GetWindow(HUDWINDOW);
+      HUDWindow* hudWindow = guiManager->GetWindow<HUDWindow>(HUDWINDOW);
       hudWindow->ShowWindow();
 
 
@@ -989,7 +993,7 @@ namespace PT
       sndstream->Pause ();
     }
 
-    PT::GUI::Windows::LoadScreenWindow* loadScreenWindow = (PT::GUI::Windows::LoadScreenWindow*)guiManager->GetWindow(LOADSCREENWINDOW);
+    LoadScreenWindow* loadScreenWindow = guiManager->GetWindow<LoadScreenWindow>(LOADSCREENWINDOW);
     loadScreenWindow->HideWindow();
 
     world_loaded = true;

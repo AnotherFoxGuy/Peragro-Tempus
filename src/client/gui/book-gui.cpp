@@ -93,7 +93,7 @@ namespace PT
 	  unsigned int variationId = -1;
 	  ev.Retrieve("variationId", variationId);
 
-      PT::GUI::Windows::InventoryWindow* inv = (PT::GUI::Windows::InventoryWindow*)guimanager->GetWindow(INVENTORYWINDOW);
+          InventoryWindow* inv = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
 	  if (!inv) return true;
 
 	  Slot* slot = inv->GetSlot(slotId);
@@ -130,10 +130,6 @@ namespace PT
 
 	  //Register the close event.
 	  //rootwindow->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&BookWindow::OnCloseButton, this));
-      
-	  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.skinwindow.buttons.load", false); 
-	  evmgr->AddEvent(interfaceEvent);
 
 	  // Register the button events.
 	  //btn = winMgr->getWindow("Connect_Button");

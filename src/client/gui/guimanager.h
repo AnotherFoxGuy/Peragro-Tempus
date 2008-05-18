@@ -102,8 +102,22 @@ namespace PT
       SkinManager* GetSkinMananger () {return skinMgr;}
       /// Returns windows array.
       csArray<GUIWindow*> GetWindows () {return windows;}
+
       /// Return a window by name.
-      GUIWindow* GetWindow (const char* name);
+      template<class Interface>
+      Interface* GetWindow (const char* name)
+      {
+        for (size_t i = 0; i < windows.GetSize();i++)
+        {
+          GUIWindow* win = windows.Get(i);
+          if (win && strcmp(win->GetName(), name) == 0)
+            return (Interface*)win;
+        }// for
+
+        printf("E: Couldn't find window: '%s'\n", name);
+        return 0;
+      }
+
       /// Get a CEGUI window by name.
       CEGUI::Window* GetCeguiWindow (const char* name);
       /// Creates the root window.

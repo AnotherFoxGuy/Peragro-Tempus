@@ -202,7 +202,7 @@ namespace PT
 	  // Putting the new items in the inventory.
 	  int counter = 10;
 
-      PT::GUI::Windows::InventoryWindow* inventoryWindow = (PT::GUI::Windows::InventoryWindow*)guimanager->GetWindow(INVENTORYWINDOW);
+          InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
 	  for (size_t i=0; i<objandslot.GetSize(); i++)
 	  {
 		unsigned int objid = objandslot.Get(i).object->GetId();

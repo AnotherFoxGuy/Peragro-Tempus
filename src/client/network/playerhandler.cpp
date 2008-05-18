@@ -56,6 +56,9 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
 
 void PlayerHandler::handleStatsList(GenericMessage* msg)
 {
+  using namespace PT::GUI;
+  using namespace PT::GUI::Windows;
+
   StatsListMessage stat_msg;
   stat_msg.deserialise(msg->getByteStream());
 
@@ -63,11 +66,11 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
 
   Report(PT::Debug, "---------------------------");
   Report(PT::Debug, "EntityHandler: Got %d stats for the Character:", stat_msg.getStatsCount());
-  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   for (int i=0; i<stat_msg.getStatsCount(); i++)
   {
-	PT::GUI::Windows::StatusWindow* statusWindow = (PT::GUI::Windows::StatusWindow*)guimanager->GetWindow(STATUSWINDOW);
-	statusWindow->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
+    StatusWindow* statusWindow = guimanager->GetWindow<StatusWindow>(STATUSWINDOW);
+    statusWindow->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
     //guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
     Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
 
@@ -116,16 +119,18 @@ void PlayerHandler::handleSkillsList(GenericMessage* msg)
 
 void PlayerHandler::handleInventoryMoveItem(GenericMessage* msg)
 {
+  using namespace PT::GUI;
+  using namespace PT::GUI::Windows;
+
   InventoryMoveItemMessage invmove_msg;
   invmove_msg.deserialise(msg->getByteStream());
-  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   unsigned char old_slot = invmove_msg.getOldSlot();
   unsigned char new_slot = invmove_msg.getNewSlot();
 
   Report(PT::Debug, "EquipMessage: You moved an item from slot %d to slot %d", old_slot, new_slot);
 
-  PT::GUI::Windows::InventoryWindow* inventoryWindow = (PT::GUI::Windows::InventoryWindow*)guimanager->GetWindow(INVENTORYWINDOW);
-  //guimanager->GetInventoryWindow()->MoveItem(old_slot, new_slot);
+  InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
   inventoryWindow->MoveItem(old_slot, new_slot);
 }

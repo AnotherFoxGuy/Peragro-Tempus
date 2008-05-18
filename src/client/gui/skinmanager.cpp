@@ -46,7 +46,7 @@ namespace PT
       vfs = csQueryRegistry<iVFS>(obj_reg);
       cegui = guiManager->GetCEGUI ();
       app_cfg = csQueryRegistry<iConfigManager>(obj_reg);
-      std::string skinpath = "/peragro/skins/";
+      std::string skinpath = "/peragro/art/skins/";
       skinpath += app_cfg->GetStr("Client.Skin");
       skinpath += "/";
 
@@ -62,9 +62,7 @@ namespace PT
     {
       using namespace CEGUI;
 
-      GUIWindow* window = guiManager->GetWindow("SkinWindow");
-      if (!window) return false;
-      PT::GUI::Windows::SkinWindow* skinWindow = static_cast<PT::GUI::Windows::SkinWindow*>(window);
+      Windows::SkinWindow* skinWindow = guiManager->GetWindow<Windows::SkinWindow>("SkinWindow");
       if (!skinWindow) return false;
 
       Skin* skin = skinWindow->GetSelectedSkin();
@@ -295,9 +293,7 @@ namespace PT
 
     bool SkinManager::Populate ()
     {
-      GUIWindow* window = guiManager->GetWindow("SkinWindow");
-      if (!window) return false;
-      PT::GUI::Windows::SkinWindow* skinWindow = static_cast<PT::GUI::Windows::SkinWindow*>(window);
+      Windows::SkinWindow* skinWindow = guiManager->GetWindow<Windows::SkinWindow>("SkinWindow");
       if (!skinWindow) return false;
 
       // Add the skins to the GUI.

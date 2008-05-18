@@ -48,6 +48,9 @@ namespace PT
 
 	bool ServerWindow::OnSelection(const CEGUI::EventArgs& e)
 	{
+          using namespace PT::GUI;
+          using namespace PT::GUI::Windows;
+
 	  btn = winMgr->getWindow("ServerList/Servers");
 	  if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
 		return true;
@@ -75,7 +78,7 @@ namespace PT
 		}
 		if (guimanager->IsInitialized())
         {
-		  PT::GUI::Windows::LoginWindow* loginWindow = (PT::GUI::Windows::LoginWindow*)guimanager->GetWindow(LOGINWINDOW);
+		  LoginWindow* loginWindow = guimanager->GetWindow<LoginWindow>(LOGINWINDOW);
 		  loginWindow->UpdateLogin();
         }
 	  }

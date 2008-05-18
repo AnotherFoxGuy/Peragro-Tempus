@@ -50,19 +50,6 @@ namespace PT
 	  delete dragdrop;
 	}
 
-    GUIWindow* GUIManager::GetWindow (const char* name)
-    {
-      for (size_t i = 0; i < windows.GetSize();i++)
-      {
-        GUIWindow* win = windows.Get(i);
-        if (win && strcmp(win->GetName(), name) == 0)
-          return win;
-      }// for
-
-      printf("E: Couldn't find window: '%s'\n", name);
-      return 0;
-    }
-
     CEGUI::Window* GUIManager::GetCeguiWindow (const char* name)
     {
       if (winMgr->isWindowPresent(name)) 

@@ -62,14 +62,14 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
   RegisterResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
   ptString error = answer_msg.getError();
-  
+
   PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guimanager);
-  
+
   if (!error.isNull())
   {
     Report(PT::Warning, "Registration Failed due to: %s", *error);
-	dialog->SetText(*error);
+    dialog->SetText(*error);
     return;
   }
 
@@ -79,11 +79,15 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
 
 void UserHandler::handleCharList(GenericMessage* msg)
 {
+  using namespace PT::GUI;
+  using namespace PT::GUI::Windows;
+
   CharListMessage char_msg;
   char_msg.deserialise(msg->getByteStream());
+
   //printf("Got %d character:\n---------------------------\n", char_msg.getCharacterCount());
-  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-  PT::GUI::Windows::SelectCharWindow* selectCharWindow = (PT::GUI::Windows::SelectCharWindow*)guimanager->GetWindow(SELECTCHARWINDOW);
+  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+  SelectCharWindow* selectCharWindow = guimanager->GetWindow<SelectCharWindow>(SELECTCHARWINDOW);
   selectCharWindow->EmptyCharList();
   for (int i=0; i<char_msg.getCharacterCount(); i++)
   {
@@ -96,20 +100,23 @@ void UserHandler::handleCharList(GenericMessage* msg)
 
 void UserHandler::handleCharCreateResponse(GenericMessage* msg)
 {
+  using namespace PT::GUI;
+  using namespace PT::GUI::Windows;
+
   CharCreateResponseMessage answer_msg;
   answer_msg.deserialise(msg->getByteStream());
   PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
 
   if (answer_msg.getError().isNull())
   {
-	  PT::GUI::Windows::SelectCharWindow* selectCharWindow = (PT::GUI::Windows::SelectCharWindow*)guimanager->GetWindow(SELECTCHARWINDOW);
-      selectCharWindow->AddCharacter(answer_msg.getCharId(), *answer_msg.getName(),
+    SelectCharWindow* selectCharWindow = guimanager->GetWindow<SelectCharWindow>(SELECTCHARWINDOW);
+    selectCharWindow->AddCharacter(answer_msg.getCharId(), *answer_msg.getName(),
       answer_msg.getSkinColour(), answer_msg.getHairColour(), answer_msg.getDecalColour());
   }
   else
   {
     Report(PT::Warning, "Character creation failed due to: %s", *answer_msg.getError());
-    PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guimanager);
+    OkDialogWindow* dialog = new OkDialogWindow(guimanager);
     dialog->SetText(*answer_msg.getError());
   }
 }

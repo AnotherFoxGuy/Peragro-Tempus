@@ -55,6 +55,8 @@ namespace PT
     bool ChatManager::Initialize ()
     {
       using namespace PT::Events;
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
 
       // Register listener for ChatSayEvent.
       EventHandler<ChatManager>* cbSay = new EventHandler<ChatManager>(&ChatManager::HandleSay, this);
@@ -70,8 +72,8 @@ namespace PT
 
       // Handle submit.
       CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
-	  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->SetSubmitEvent(function);
 
       EventHandler<ChatManager>* cb = new EventHandler<ChatManager>(&ChatManager::ProcessEvents, this);
@@ -100,11 +102,13 @@ namespace PT
     bool ChatManager::HandleSay(iEvent& ev)
     {
       using namespace PT::Events;
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
 
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
       
-	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+      ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
       // TODO: input command handler.
       if (strncmp (message.c_str(),"/me",3) == 0)
       {
@@ -125,11 +129,13 @@ namespace PT
     bool ChatManager::HandleWhisper(iEvent& ev)
     {
       using namespace PT::Events;
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
 
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
       
-	  PT::GUI::Windows::WhisperWindow* whisperWindow = (PT::GUI::Windows::WhisperWindow*)guimanager->GetWindow(WHISPERWINDOW);
+      WhisperWindow* whisperWindow = guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
       whisperWindow->AddWhisper(nick.c_str(), message.c_str());
 
       return true;
@@ -138,6 +144,8 @@ namespace PT
     bool ChatManager::HandleGroup(iEvent& ev)
     {
       using namespace PT::Events;
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
 
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
@@ -145,7 +153,7 @@ namespace PT
       /* TODO: Message is only added to main chat window, because there's
          no distinct window yet */
       std::string text = "Groupmember <" + nick + "> " + message;
-	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+      ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->AddMessage (text.c_str());
 
       return true;
@@ -365,6 +373,8 @@ namespace PT
     bool ChatManager::ProcessEvents(iEvent& ev)
     {
       using namespace PT::Events;
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
 
       std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev.GetName());
 
@@ -377,7 +387,7 @@ namespace PT
           unsigned int id = EntityHelper::GetEntityID(&ev);
 
           csString string; string.Format("%s has joined.", nick);
-		  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage (string.GetData());
           playernames.insert(std::pair<unsigned int, std::string>(id, nick));
         } // end if
@@ -390,7 +400,7 @@ namespace PT
         if (playerName.size() > 0)
         {
           csString string; string.Format("%s has left.", playerName.c_str());
-		  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guimanager->GetWindow(CHATWINDOW);
+	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage (string.GetData());
         }
 

@@ -67,7 +67,6 @@ struct iPath;
 struct iView;
 
 class Network;
-class GUIManager;
 class CombatManager;
 class Cursor;
 

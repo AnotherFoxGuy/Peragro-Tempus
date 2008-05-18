@@ -161,8 +161,11 @@ namespace PT
         hp = level;
       }
 
-	  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-	  PT::GUI::Windows::HUDWindow* hudWindow = (PT::GUI::Windows::HUDWindow*) guimanager->GetWindow(HUDWINDOW);
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
+
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
       hudWindow->SetHP(hp, maxhp);
 
       return true;
@@ -172,6 +175,8 @@ namespace PT
     {
       using namespace PT::Events;
       using namespace PT::Entity;
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
 
       unsigned int entityid = -1;
       ev.Retrieve("entityid", entityid);
@@ -212,8 +217,8 @@ namespace PT
           // Life = 1 * endurance
           int maxLife = stats->GetStatLevel("Endurance");
 
-		  PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-		  PT::GUI::Windows::HUDWindow* hudWindow = (PT::GUI::Windows::HUDWindow*) guimanager->GetWindow(HUDWINDOW);
+	  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+	  HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
           hudWindow->SetHP(stat->level, maxLife);
         }
 
@@ -318,6 +323,8 @@ namespace PT
 
     void CombatManager::SkillUsageStart(unsigned int casterId, unsigned int targetId, int skillId, ptString error)
     {
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
 
      /*
       *  Here the we start using skill, so we create the effect on the caster.
@@ -330,8 +337,8 @@ namespace PT
         Report(PT::Notify, "CombatManager: %s \n", *error);
         char msg[1024];
         sprintf(msg,"%s", *error);
-        PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guiManager->GetWindow(CHATWINDOW);
-		chatWindow->AddMessage(msg);
+        ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
+	chatWindow->AddMessage(msg);
         return;
       }
 
@@ -371,13 +378,15 @@ namespace PT
       sprintf(msg,"%s %s %s.", caster->GetName().c_str(),
                                caststring.c_str(),
                                target->GetName().c_str());
-	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guiManager->GetWindow(CHATWINDOW);
+      ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->AddMessage(msg);
 
     }
 
     void CombatManager::SkillUsageComplete(unsigned int casterId, unsigned int targetId, int skillId)
     {
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
       /*
       *  Here the used skill completed succesfully, so we create the effect on the target.
       */
@@ -418,7 +427,7 @@ namespace PT
       sprintf(msg,"%s %s %s.", caster->GetName().c_str(),
                                caststring.c_str(),
                                target->GetName().c_str());
-	  PT::GUI::Windows::ChatWindow* chatWindow = (PT::GUI::Windows::ChatWindow*)guiManager->GetWindow(CHATWINDOW);
+      ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->AddMessage(msg);
 
 

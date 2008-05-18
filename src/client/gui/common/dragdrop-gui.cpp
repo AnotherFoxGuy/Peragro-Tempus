@@ -97,7 +97,7 @@ namespace PT
 	  if(oldslot->GetParent() == Inventory::TradeLeft)
 	  {
 		// Enable the inventory icon again.
-		PT::GUI::Windows::TradeWindow* tradeWindow = (PT::GUI::Windows::TradeWindow*)guimanager->GetWindow(TRADEWINDOW);
+		TradeWindow* tradeWindow = guimanager->GetWindow<TradeWindow>(TRADEWINDOW);
 		Slot* oldinvslot = tradeWindow->GetOldSlot(oldslot);
 		oldinvslot->GetObject()->GetWindow()->enable();
 		// Destroy the trade icon.
@@ -168,7 +168,7 @@ namespace PT
 	  Slot* oldslot = static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
 	  Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
-	  PT::GUI::Windows::TradeWindow* tradeWindow = (PT::GUI::Windows::TradeWindow*)guimanager->GetWindow(TRADEWINDOW);
+	  TradeWindow* tradeWindow = guimanager->GetWindow<TradeWindow>(TRADEWINDOW);
 	  tradeWindow->AddItem(oldslot, newslot);
 
 	  return true;
@@ -186,7 +186,7 @@ namespace PT
 
 	  if(oldslot->GetParent() == Inventory::BuyLower || oldslot->GetParent() == Inventory::BuyUpper)
 	  {
-		PT::GUI::Windows::BuyWindow* buyWindow = (PT::GUI::Windows::BuyWindow*)guimanager->GetWindow(BUYWINDOW);
+		BuyWindow* buyWindow = guimanager->GetWindow<BuyWindow>(BUYWINDOW);
 		buyWindow->MoveItem(oldslot, newslot);
 	  }
 	  return true;

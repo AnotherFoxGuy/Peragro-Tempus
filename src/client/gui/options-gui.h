@@ -28,8 +28,6 @@
 
 #define OPTIONSWINDOW "Options/Options_Button"
 
-class GUIManager;
-
 namespace PT
 {
   namespace GUI
