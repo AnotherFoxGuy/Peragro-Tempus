@@ -531,8 +531,9 @@ namespace PT
           path = 0;
           iCEGUI* cegui = guiManager->GetCEGUI();
 
+          //TODO
           // load the background
-          vfs->ChDir ("/peragro/skin/");
+          vfs->ChDir ("/peragro/art/skins/default/images/");
           cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("Background", "background1600.jpg");
 
           // Get root window.
@@ -935,7 +936,8 @@ namespace PT
       loadScreenWindow->ShowWindow();
       iCEGUI* cegui = guiManager->GetCEGUI();
       if(!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen")){ // TODO: Different loading screens for different tiles(?)
-        vfs->ChDir ("/peragro/skin/");
+        //TODO
+        vfs->ChDir ("/peragro/art/skins/default/images/");
         cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("LoadScreen", "loadscreen.jpg");
         CEGUI::Window* image = cegui->GetWindowManagerPtr()->getWindow("LoadScreen");
         image->setProperty("Image", "set:LoadScreen image:full_image");

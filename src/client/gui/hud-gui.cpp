@@ -396,9 +396,10 @@ namespace PT
 	  xpbar->setProgress(1.0f);
 	  spbar->setProgress(1.0f);
 
+          //TODO
 	  //Load the skill icon imageset
-	  vfs->ChDir ("/peragro/skin/");
-	  cegui->GetImagesetManagerPtr()->createImageset("/peragro/skin/skill.imageset", "Skill");
+	  vfs->ChDir ("/peragro/art/skins/default/");
+	  cegui->GetImagesetManagerPtr()->createImageset("/peragro/art/skins/default/images/skill.imageset", "Skill");
 
 	  // Create the skill holders.
 	  CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");

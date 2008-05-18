@@ -34,21 +34,19 @@
 
 #include "client/reporter/reporter.h"
 
-using namespace PT;
-
 namespace PT
 {
   namespace GUI
   {
-	GUIManager::GUIManager ()
-	{
-	  dragdrop = 0;
-	}
+    GUIManager::GUIManager ()
+    {
+      dragdrop = 0;
+    }
 
-	GUIManager::~GUIManager ()
-	{
-	  delete dragdrop;
-	}
+    GUIManager::~GUIManager ()
+    {
+      delete dragdrop;
+    }
 
     CEGUI::Window* GUIManager::GetCeguiWindow (const char* name)
     {
@@ -61,7 +59,7 @@ namespace PT
       }
     }
 
-	bool GUIManager::CreateRootWindow ()
+    bool GUIManager::CreateRootWindow ()
     {
       if (winMgr->isWindowPresent(ROOTWINDOW)) return false;
 
@@ -75,16 +73,16 @@ namespace PT
     }
 
     bool GUIManager::Initialize ()
-	{
-	  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+    {
+      iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
-	  cegui =  csQueryRegistry<iCEGUI> (obj_reg);
-	  if (!cegui) return Report(PT::Error, "Failed to locate CEGUI plugin!");
+      cegui =  csQueryRegistry<iCEGUI> (obj_reg);
+      if (!cegui) return Report(PT::Error, "Failed to locate CEGUI plugin!");
 
-	  try
-	  {
-		// Initialize CEGUI wrapper
-		cegui->Initialize ();
+      try
+      {
+        // Initialize CEGUI wrapper
+        cegui->Initialize ();
 
         // Initialize the skin manager.
         skinMgr = new SkinManager(this);
@@ -94,132 +92,132 @@ namespace PT
         dlgConfig = new DialogConfiguration(obj_reg);
 
         // Initialize the menu manager.
-		menuMgr = new PT::GUI::MenuManager();
+        menuMgr = new PT::GUI::MenuManager();
 
-		// Set the logging level
-		cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
+        // Set the logging level
+        cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
-		csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
-		vfs->ChDir ("/peragro/skin/");
+        csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
+        vfs->ChDir ("/peragro/skin/");
 
-		// Get some pointers.
-      schMgr = cegui->GetSchemeManagerPtr ();
-      winMgr = cegui->GetWindowManagerPtr ();
-      system = cegui->GetSystemPtr ();
+        // Get some pointers.
+        schMgr = cegui->GetSchemeManagerPtr ();
+        winMgr = cegui->GetWindowManagerPtr ();
+        system = cegui->GetSystemPtr ();
 
-      // Create the Root window and set it as the GUI sheet.
-	  CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
-	  root->setArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
-	  CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
-	  root->setMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
-      cegui->GetSystemPtr ()->setGUISheet(root);
+        // Create the Root window and set it as the GUI sheet.
+        CEGUI::Window* root = cegui->GetWindowManagerPtr ()->createWindow("DefaultWindow","Root");
+        root->setArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
+          CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
+        root->setMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
+        cegui->GetSystemPtr ()->setGUISheet(root);
 
-      // Set up the drag and drop.
-      dragdrop = new PT::GUI::Windows::DragDrop (this);
-      if (!dragdrop) return Report(PT::Error, "Failed to create DragDrop class!");
+        // Set up the drag and drop.
+        dragdrop = new PT::GUI::Windows::DragDrop (this);
+        if (!dragdrop) return Report(PT::Error, "Failed to create DragDrop class!");
 
-	  isInitialized = false;
+        isInitialized = false;
 
-      // Create windows.
-      PT::GUI::Windows::OptionsWindow* options = new PT::GUI::Windows::OptionsWindow(this);
-      options->Create();
-      windows.Push(options);
+        // Create windows.
+        PT::GUI::Windows::OptionsWindow* options = new PT::GUI::Windows::OptionsWindow(this);
+        options->Create();
+        windows.Push(options);
 
-      PT::GUI::Windows::SkinWindow* skins = new PT::GUI::Windows::SkinWindow(this);
-      skins->Create();
-      windows.Push(skins);
+        PT::GUI::Windows::SkinWindow* skins = new PT::GUI::Windows::SkinWindow(this);
+        skins->Create();
+        windows.Push(skins);
 
-      options->AddOption("Skins", skins->GetName());
-      skinMgr->Populate();
+        options->AddOption("Skins", skins->GetName());
+        skinMgr->Populate();
 
-	  // Create the windows to be registered and used later.
-	  PT::GUI::Windows::ServerWindow* server = new PT::GUI::Windows::ServerWindow(this);
-      server->Create();
-      windows.Push(server);
+        // Create the windows to be registered and used later.
+        PT::GUI::Windows::ServerWindow* server = new PT::GUI::Windows::ServerWindow(this);
+        server->Create();
+        windows.Push(server);
 
-      PT::GUI::Windows::LoginWindow* login = new PT::GUI::Windows::LoginWindow(this);
-      login->Create();
-      windows.Push(login);
+        PT::GUI::Windows::LoginWindow* login = new PT::GUI::Windows::LoginWindow(this);
+        login->Create();
+        windows.Push(login);
 
-      PT::GUI::Windows::MenuWindow* menu = new PT::GUI::Windows::MenuWindow(this);
-      menu->Create();
-      windows.Push(menu);
+        PT::GUI::Windows::MenuWindow* menu = new PT::GUI::Windows::MenuWindow(this);
+        menu->Create();
+        windows.Push(menu);
 
-      PT::GUI::Windows::BuyWindow* buy = new PT::GUI::Windows::BuyWindow(this);
-      buy->Create();
-      windows.Push(buy);
+        PT::GUI::Windows::BuyWindow* buy = new PT::GUI::Windows::BuyWindow(this);
+        buy->Create();
+        windows.Push(buy);
 
-      PT::GUI::Windows::ChatWindow* chat = new PT::GUI::Windows::ChatWindow(this);
-      chat->Create();
-      windows.Push(chat);
+        PT::GUI::Windows::ChatWindow* chat = new PT::GUI::Windows::ChatWindow(this);
+        chat->Create();
+        windows.Push(chat);
 
-      PT::GUI::Windows::HUDWindow* hud = new PT::GUI::Windows::HUDWindow(this);
-      hud->Create();
-      windows.Push(hud);
+        PT::GUI::Windows::HUDWindow* hud = new PT::GUI::Windows::HUDWindow(this);
+        hud->Create();
+        windows.Push(hud);
 
-      PT::GUI::Windows::SelectCharWindow* charsel = new PT::GUI::Windows::SelectCharWindow(this);
-      charsel->Create();
-      windows.Push(charsel);
+        PT::GUI::Windows::SelectCharWindow* charsel = new PT::GUI::Windows::SelectCharWindow(this);
+        charsel->Create();
+        windows.Push(charsel);
 
-      PT::GUI::Windows::SellWindow* sell = new PT::GUI::Windows::SellWindow(this);
-      sell->Create();
-      windows.Push(sell);
+        PT::GUI::Windows::SellWindow* sell = new PT::GUI::Windows::SellWindow(this);
+        sell->Create();
+        windows.Push(sell);
 
-      PT::GUI::Windows::StatusWindow* status = new PT::GUI::Windows::StatusWindow(this);
-      status->Create();
-      windows.Push(status);
+        PT::GUI::Windows::StatusWindow* status = new PT::GUI::Windows::StatusWindow(this);
+        status->Create();
+        windows.Push(status);
 
-      PT::GUI::Windows::TradeWindow* trade = new PT::GUI::Windows::TradeWindow(this);
-      trade->Create();
-      windows.Push(trade);
+        PT::GUI::Windows::TradeWindow* trade = new PT::GUI::Windows::TradeWindow(this);
+        trade->Create();
+        windows.Push(trade);
 
-      PT::GUI::Windows::ServerSetupWindow* serverSetupWindow = new PT::GUI::Windows::ServerSetupWindow(this);
-      serverSetupWindow->Create();
-	  windows.Push(serverSetupWindow);
+        PT::GUI::Windows::ServerSetupWindow* serverSetupWindow = new PT::GUI::Windows::ServerSetupWindow(this);
+        serverSetupWindow->Create();
+        windows.Push(serverSetupWindow);
 
-      PT::GUI::Windows::WhisperWindow* whisperWindow = new PT::GUI::Windows::WhisperWindow(this);
-      whisperWindow->Create();
-	  windows.Push(whisperWindow);
+        PT::GUI::Windows::WhisperWindow* whisperWindow = new PT::GUI::Windows::WhisperWindow(this);
+        whisperWindow->Create();
+        windows.Push(whisperWindow);
 
-	  PT::GUI::Windows::NpcDialogWindow* npcWindow = new PT::GUI::Windows::NpcDialogWindow(this);
-      npcWindow->Create();
-	  windows.Push(npcWindow);
+        PT::GUI::Windows::NpcDialogWindow* npcWindow = new PT::GUI::Windows::NpcDialogWindow(this);
+        npcWindow->Create();
+        windows.Push(npcWindow);
 
-	  PT::GUI::Windows::InventoryWindow* inventoryWindow = new PT::GUI::Windows::InventoryWindow(this);
-      inventoryWindow->Create();
-	  windows.Push(inventoryWindow);
+        PT::GUI::Windows::InventoryWindow* inventoryWindow = new PT::GUI::Windows::InventoryWindow(this);
+        inventoryWindow->Create();
+        windows.Push(inventoryWindow);
 
-      PT::GUI::Windows::BuddyWindow* buddyWindow = new PT::GUI::Windows::BuddyWindow(this);
-      buddyWindow->Create();
-	  windows.Push(buddyWindow);
+        PT::GUI::Windows::BuddyWindow* buddyWindow = new PT::GUI::Windows::BuddyWindow(this);
+        buddyWindow->Create();
+        windows.Push(buddyWindow);
 
-      PT::GUI::Windows::LoadScreenWindow* loadScreenWindow = new PT::GUI::Windows::LoadScreenWindow(this);
-      loadScreenWindow->Create();
-	  windows.Push(loadScreenWindow);
+        PT::GUI::Windows::LoadScreenWindow* loadScreenWindow = new PT::GUI::Windows::LoadScreenWindow(this);
+        loadScreenWindow->Create();
+        windows.Push(loadScreenWindow);
 
-/*      PT::GUI::Windows::InteractDialogWindow* interactDialogWindow = new PT::GUI::Windows::InteractDialogWindow(this);
-      interactDialogWindow->Create();
-	  windows.Push(interactDialogWindow);
-*/
-      PT::GUI::Windows::BookWindow* bookWindow = new PT::GUI::Windows::BookWindow(this);
-      bookWindow->Create();
-	  windows.Push(bookWindow);
+        /*      PT::GUI::Windows::InteractDialogWindow* interactDialogWindow = new PT::GUI::Windows::InteractDialogWindow(this);
+        interactDialogWindow->Create();
+        windows.Push(interactDialogWindow);
+        */
+        PT::GUI::Windows::BookWindow* bookWindow = new PT::GUI::Windows::BookWindow(this);
+        bookWindow->Create();
+        windows.Push(bookWindow);
 
-      isInitialized = true;
-	  }
-	  catch ( CEGUI::Exception& e )
-	  {
-		Report(PT::Error, "Failed Initializing GUIManager! %s", e.getMessage().c_str());
-		return false;
-	  }
+        isInitialized = true;
+      }
+      catch ( CEGUI::Exception& e )
+      {
+        Report(PT::Error, "Failed Initializing GUIManager! %s", e.getMessage().c_str());
+        return false;
+      }
 
-	  return true;
-	}
+      return true;
+    }
 
-	void GUIManager::Render ()
-	{
-	  cegui->Render ();
-	}
+    void GUIManager::Render ()
+    {
+      cegui->Render ();
+    }
 
     void GUIManager::SavePositions ()
     {
@@ -232,10 +230,10 @@ namespace PT
       dlgConfig->Reload();
     }
 
-	bool GUIManager::IsInitialized()
-	{
-		return isInitialized;
-	}
+    bool GUIManager::IsInitialized()
+    {
+      return isInitialized;
+    }
 
 
   }
