@@ -195,10 +195,10 @@ namespace PT
         loadScreenWindow->Create();
         windows.Push(loadScreenWindow);
 
-        /*      PT::GUI::Windows::InteractDialogWindow* interactDialogWindow = new PT::GUI::Windows::InteractDialogWindow(this);
+        PT::GUI::Windows::InteractDialogWindow* interactDialogWindow = new PT::GUI::Windows::InteractDialogWindow(this);
         interactDialogWindow->Create();
         windows.Push(interactDialogWindow);
-        */
+
         PT::GUI::Windows::BookWindow* bookWindow = new PT::GUI::Windows::BookWindow(this);
         bookWindow->Create();
         windows.Push(bookWindow);

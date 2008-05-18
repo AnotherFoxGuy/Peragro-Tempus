@@ -354,15 +354,13 @@ namespace PT
       {
         winMgr = cegui->GetWindowManagerPtr ();
 
-        window = GUIWindow::LoadLayout ("client/TODO.xml");
+        window = winMgr->createWindow("StaticImage", "InteractDialog/Frame");
         GUIWindow::AddToRoot(window);
         window->setVisible(false);
         window->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0.0f), CEGUI::UDim(0.5f,0.0f)));
         window->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,root_size), CEGUI::UDim(0.0f,root_size)));
         window->setProperty("FrameEnabled", "False");
         window->setProperty("BackgroundEnabled", "False");
-        CEGUI::Window* root = winMgr->getWindow("Root");
-        root->addChildWindow(window);
 
         // Register listener for interact.
         using namespace PT::Events;

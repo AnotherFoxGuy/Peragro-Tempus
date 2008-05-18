@@ -71,7 +71,7 @@ namespace PT
         }
       }
 
-      return true;
+      return false;
     }
 
     bool MenuWindow::Create ()
