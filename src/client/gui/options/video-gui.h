@@ -19,7 +19,7 @@
 #ifndef PT_GUI_VIDEOWINDOW_H
 #define PT_GUI_VIDEOWINDOW_H
 
-#include "base-gui.h"
+#include "client/gui/base-gui.h"
 
 #include <csutil/array.h>
 
