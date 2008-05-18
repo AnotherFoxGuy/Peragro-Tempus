@@ -370,6 +370,12 @@
 				RelativePath="..\..\src\client\gui\options-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\options\skin-gui.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\options\video-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\sell-gui.cpp">
 			</File>
 			<File
@@ -377,9 +383,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\serversetup-gui.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\gui\skin-gui.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\skinmanager.cpp">
@@ -473,6 +476,12 @@
 				RelativePath="..\..\src\client\gui\options-gui.h">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\options\skin-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\options\video-gui.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\sell-gui.h">
 			</File>
 			<File
@@ -480,9 +489,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\serversetup-gui.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\gui\skin-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\skinmanager.h">
