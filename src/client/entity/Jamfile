@@ -12,13 +12,13 @@ SubInclude TOP src client entity teleport ;
 Description client-entitymanager : "client entitymanager" ;
 Library client-entitymanager :
   [ Wildcard *.h *.cpp ]
-  [ Wildcard [ ConcatDirs character ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs character equipment ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs mount ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs pc ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs player ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ] 
-  [ Wildcard [ ConcatDirs door ] : *.h *.cpp ] 
+  [ Wildcard [ ConcatDirs character ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs character equipment ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs mount ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs pc ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs player ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs door ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs item ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs teleport ] : *.h *.cpp ] ;
 ExternalLibs client-entitymanager : CEGUI CRYSTAL CEL BOOST ;

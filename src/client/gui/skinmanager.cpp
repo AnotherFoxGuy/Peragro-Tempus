@@ -135,8 +135,8 @@ namespace PT
       vfs->ChDir(defaultSkin.GetPath());
 
       // Load the default skin.
-      cegui->GetSchemeManagerPtr()->loadScheme("widgets/Peragro.scheme");
-      cegui->GetSchemeManagerPtr()->loadScheme("widgets/Alias.scheme");
+      cegui->GetSchemeManagerPtr()->loadScheme("widgets/peragro.scheme");
+      cegui->GetSchemeManagerPtr()->loadScheme("widgets/alias.scheme");
 
       // Set the default mouse cursor.
       cegui->GetSystemPtr()->setDefaultMouseCursor(defaultSkin.GetName(), "MouseArrow");
@@ -257,15 +257,15 @@ namespace PT
         vfs->ChDir (currentSkin.GetPath());
 
         if (!schMgr->isSchemePresent(currentSkin.GetName()))
-          schMgr->loadScheme("widgets/Peragro.scheme");
-        schMgr->loadScheme("widgets/Alias.scheme");
+          schMgr->loadScheme("widgets/peragro.scheme");
+        schMgr->loadScheme("widgets/alias.scheme");
       }
       catch ( CEGUI::Exception& e )
       {
         Report(PT::Error, "Failed switching skin: %s", e.getMessage().c_str());
         // Switch to default skin.
         vfs->ChDir (defaultSkin.GetPath());
-        schMgr->loadScheme("widgets/Alias.scheme");
+        schMgr->loadScheme("widgets/alias.scheme");
       }
 
       // Recreate layouts.

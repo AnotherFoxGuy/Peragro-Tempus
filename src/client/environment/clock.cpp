@@ -88,7 +88,7 @@ namespace PT
 
       size_t tenthsOfSeconds = PT::Events::EnvironmentHelper::GetRealPerGame(&ev);
       // Convert from tenths of seconds to milliseconds.
-      if (tenthsOfSeconds == 0) 
+      if (tenthsOfSeconds == 0)
         Report(PT::Error, "Invalid real time per game minute value!");
       else realPerGame = tenthsOfSeconds * 100;
 

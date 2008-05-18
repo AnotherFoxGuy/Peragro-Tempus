@@ -100,7 +100,7 @@ namespace PT
 
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;
-      
+
       csRef<iVFS> vfs;
 
       csRef<iCelEntity> other_self;
