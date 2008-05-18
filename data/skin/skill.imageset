@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<Imageset Name="Skill" Imagefile="skill.png" NativeHorzRes="1024" NativeVertRes="1024" AutoScaled="true">
-	<Image Name="Heal" XPos="0" YPos="0" Width="128" Height="128" />
-	<Image Name="2" XPos="128" YPos="0" Width="128" Height="128" />
-	<Image Name="3" XPos="256" YPos="0" Width="128" Height="128" />
-</Imageset>
