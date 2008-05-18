@@ -68,6 +68,9 @@ namespace PT
       virtual bool Create () = 0;
       /// Loads the layout and subscribes to events.
       virtual bool ReloadWindow () = 0;
+
+      CEGUI::Window* GetCeguiWindow() { return window; }
+
       void HideWindow();
       void ShowWindow();
       bool IsVisible();

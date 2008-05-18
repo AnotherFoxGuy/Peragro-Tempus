@@ -298,6 +298,8 @@ namespace PT
         // Set up the remember-login checkbox.
         btn = winMgr->getWindow("LoginUI/RemeberLogin");
         btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&LoginWindow::OnCheckBox, this));
+
+
         return true;
       }
     }

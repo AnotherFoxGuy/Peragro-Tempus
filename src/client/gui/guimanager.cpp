@@ -127,8 +127,13 @@ namespace PT
         skins->Create();
         windows.Push(skins);
 
+        PT::GUI::Windows::VideoWindow* video = new PT::GUI::Windows::VideoWindow(this);
+        video->Create();
+        windows.Push(video);
+
         options->AddOption("Skins", skins->GetName());
         skinMgr->Populate();
+        options->AddOption("Video", video->GetName());
 
         // Create the windows to be registered and used later.
         PT::GUI::Windows::ServerWindow* server = new PT::GUI::Windows::ServerWindow(this);

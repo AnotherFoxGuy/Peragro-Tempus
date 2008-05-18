@@ -32,7 +32,7 @@
 #include <CEGUILogger.h>
 #include <ivaria/icegui.h>
 
-#include "client/gui/skin-gui.h"
+#include "client/gui/options/skin-gui.h"
 
 namespace PT
 {
@@ -181,7 +181,7 @@ namespace PT
       if (!LoadDefaultSkin())
         return false;
 
-      SearchForSkins("/peragro/skins/");
+      SearchForSkins("/peragro/art/skins/");
 
       using namespace PT::Events;
 

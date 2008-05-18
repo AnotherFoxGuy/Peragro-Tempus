@@ -69,7 +69,6 @@ namespace PT
     {
       // Load the layout.
       window = GUIWindow::LoadLayout ("client/options/skin.xml");
-      GUIWindow::AddToRoot(window);
 
       // Readd the skins.
       for (size_t i = 0; i < skinList.GetSize();i++)
