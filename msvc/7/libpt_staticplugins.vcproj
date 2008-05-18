@@ -651,6 +651,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\environment\mystarbox\halogen2.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\environment\mystarbox\mystarbox.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -771,6 +796,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\loader_starbox\loader_starbox.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mystarbox\halogen.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\mystarbox\imystarbox.h">
