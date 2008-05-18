@@ -17,15 +17,15 @@
 */
 // File: loader_template.cpp
 
-#include "cssysdef.h"
+#include <cssysdef.h>
 
-#include "csutil/util.h"
-#include "iutil/document.h"
-#include "iutil/objreg.h"
-#include "iutil/object.h"
-#include "imap/services.h"
-#include "imap/ldrctxt.h"
-#include "ivaria/reporter.h"
+#include <csutil/util.h>
+#include <iutil/document.h>
+#include <iutil/objreg.h>
+#include <iutil/object.h>
+#include <imap/services.h>
+#include <imap/ldrctxt.h>
+#include <ivaria/reporter.h>
 
 #include "loader_starbox.h"
 
