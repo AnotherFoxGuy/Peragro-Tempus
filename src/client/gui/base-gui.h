@@ -60,7 +60,7 @@ namespace PT
 
 	public:
 	  GUIWindow(GUIManager* guimanager);
-	  ~GUIWindow();
+	  virtual ~GUIWindow();
 	  /// Get the window name.
       const char* GetName() { return windowName.c_str(); }
       /// Set the window name.

@@ -58,8 +58,6 @@ namespace PT
       using namespace CEGUI;
       using namespace PT::Events;
 
-      PT::GUI::SkinManager* mgr = guimanager->GetSkinMananger();
-     
 	  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
       csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.skinwindow.buttons.load", false); 
 	  evmgr->AddEvent(interfaceEvent);

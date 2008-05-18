@@ -27,6 +27,7 @@
 #include <CEGUI.h>
 
 #include "common/dragdrop-gui.h"
+#include "base-gui.h"
 
 struct iObjectRegistry;
 struct iVFS;
@@ -63,7 +64,6 @@ namespace PT
 	  class DragDrop;
 	}
 	class SkinManager;
-	class GUIWindow;
 	class DialogConfiguration;
     class MenuManager;
     
