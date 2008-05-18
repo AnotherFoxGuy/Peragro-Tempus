@@ -68,7 +68,7 @@ namespace PT
     bool SkinWindow::ReloadWindow ()
     {
       // Load the layout.
-      window = GUIWindow::LoadLayout ("client/skin.xml");
+      window = GUIWindow::LoadLayout ("client/options/skin.xml");
       GUIWindow::AddToRoot(window);
 
       // Readd the skins.

@@ -34,66 +34,66 @@ namespace PT
   {
     namespace Windows
     {
-	class OptionsWindow : public GUIWindow
-	{
-    private:
-      struct Option
+      class OptionsWindow : public GUIWindow
       {
-        std::string name;
-        std::string window;
+      private:
+        struct Option
+        {
+          std::string name;
+          std::string window;
 
-        const char* GetName () { return name.c_str();}
-        const char* GetWindow () { return window.c_str(); }
+          const char* GetName () { return name.c_str();}
+          const char* GetWindow () { return window.c_str(); }
+        };
+
+        bool CreateOptionItem (const char* optionName);
+
+      private:
+
+        csRef<iConfigManager> app_cfg;
+        csRef<iVFS> vfs;
+        csArray<Option> optionList;
+
+        void SaveConfig();
+
+        bool OptionButtonPressed(const CEGUI::EventArgs& e);
+
+        bool OkButtonPressed(const CEGUI::EventArgs& e);
+
+        bool OnDropListReflections(const CEGUI::EventArgs& e);
+        void CreateDropListReflections();
+
+        bool OnDropListTexture(const CEGUI::EventArgs& e);
+        void CreateDropListTexture();
+
+        bool OnDropListMovement(const CEGUI::EventArgs& e);
+        void CreateDropListMovement();
+
+        void CreateFullScreenCheckBox();
+        bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
+
+        void CreateReverseCheckBox();
+        bool OnReverseCheckBox(const CEGUI::EventArgs& e);
+
+        void CreateYAxisCheckBox();
+        bool OnYAxisCheckBox(const CEGUI::EventArgs& e);
+
+        void CreateAdaptiveSpinners();
+        bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);
+        bool OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e);
+        bool OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e);
+
+      public:
+        OptionsWindow(GUIManager* guimanager);
+        virtual ~OptionsWindow();
+        bool Create();
+        bool ReloadWindow();
+        void HideWindow();
+
+        /// Add an option item.
+        bool AddOption (const char* optionName, const char* windowName);
       };
-	  
-	  bool CreateOptionItem (const char* optionName);
-
-	private:
-
-	  csRef<iConfigManager> app_cfg;
-	  csRef<iVFS> vfs;
-      csArray<Option> optionList;
-
-	  void SaveConfig();
-
-	  bool OptionButtonPressed(const CEGUI::EventArgs& e);
-
-	  bool OkButtonPressed(const CEGUI::EventArgs& e);
-
-	  bool OnDropListReflections(const CEGUI::EventArgs& e);
-	  void CreateDropListReflections();
-
-	  bool OnDropListTexture(const CEGUI::EventArgs& e);
-	  void CreateDropListTexture();
-
-	  bool OnDropListMovement(const CEGUI::EventArgs& e);
-	  void CreateDropListMovement();
-
-	  void CreateFullScreenCheckBox();
-	  bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
-
-	  void CreateReverseCheckBox();
-	  bool OnReverseCheckBox(const CEGUI::EventArgs& e);
-
-	  void CreateYAxisCheckBox();
-	  bool OnYAxisCheckBox(const CEGUI::EventArgs& e);
-
-	  void CreateAdaptiveSpinners();
-	  bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);
-	  bool OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e);
-	  bool OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e);
-
-	public:
-	  OptionsWindow(GUIManager* guimanager);
-	  virtual ~OptionsWindow();
-      bool Create();
-	  bool ReloadWindow();
-	  void HideWindow();
-
-      /// Add an option item.
-      bool AddOption (const char* optionName, const char* windowName);
-	};
-	}
+    }
   }
 }
 
