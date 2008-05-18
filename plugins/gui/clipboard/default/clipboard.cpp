@@ -23,9 +23,8 @@
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY (csClipboard)
 
-csClipboard::csClipboard(iBase* parent) :
-	scfImplementationType (this, parent),
-	object_reg(0)
+csClipboard::csClipboard(iBase* parent)
+  : scfImplementationType (this, parent), object_reg(0)
 {
 }
 
@@ -39,33 +38,33 @@ bool csClipboard::Initialize (iObjectRegistry* r)
   return true;
 }
 
-bool csClipboard::Open() 
+bool csClipboard::Open()
 {
-    return false;
+  return false;
 }
 
 bool csClipboard::Close()
 {
-    return true;
+  return true;
 }
 
 bool csClipboard::Empty()
 {
-    return true;
+  return true;
 }
 
 void csClipboard::GetData(csString &text, int clipboardType)
 {
-    text = "";
+  text = "";
 }
 
 bool csClipboard::SetData(csString text, int clipboardType)
 {
-    return true;
+  return true;
 }
 
 void csClipboard::GetOS(csString &ostype)
 {
-    ostype = "Default";
+  ostype = "Default";
 }
 

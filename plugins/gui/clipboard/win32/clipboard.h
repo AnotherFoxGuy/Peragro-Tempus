@@ -40,49 +40,49 @@ private:
   iObjectRegistry* object_reg;
 
 public:
-    csClipboard (iBase* parent);
-    virtual ~csClipboard();
+  csClipboard (iBase* parent);
+  virtual ~csClipboard();
 
-    // From iComponent.
-    virtual bool Initialize (iObjectRegistry*);
+  // From iComponent.
+  virtual bool Initialize (iObjectRegistry*);
 
-    //The Open function opens the clipboard for examination and prevents other applications from modifying the clipboard content. 
-    virtual bool Open();
+  //The Open function opens the clipboard for examination and prevents other applications from modifying the clipboard content.
+  virtual bool Open();
 
-    //The Close function closes the clipboard. 
-    virtual bool Close();
+  //The Close function closes the clipboard.
+  virtual bool Close();
 
-    //The Empty function empties the clipboard and frees handles to data in the clipboard. The function then assigns ownership of the clipboard to the window that currently has the clipboard open. 
-    virtual bool Empty();
+  //The Empty function empties the clipboard and frees handles to data in the clipboard. The function then assigns ownership of the clipboard to the window that currently has the clipboard open.
+  virtual bool Empty();
 
-    //The GetData function retrieves data from the clipboard in a specified format. The clipboard must have been opened previously. 
-    virtual void GetData(csString &text, int clipboardType);
+  //The GetData function retrieves data from the clipboard in a specified format. The clipboard must have been opened previously.
+  virtual void GetData(csString &text, int clipboardType);
 
-    //The SetData function places data on the clipboard in a specified clipboard format. The window must be the current clipboard owner, and the application must have called the OpenClipboard function. (When responding to the WM_RENDERFORMAT and WM_RENDERALLFORMATS messages, the clipboard owner must not call OpenClipboard before calling SetClipboardData.) 
-    virtual bool SetData(csString text, int clipboardType);
+  //The SetData function places data on the clipboard in a specified clipboard format. The window must be the current clipboard owner, and the application must have called the OpenClipboard function. (When responding to the WM_RENDERFORMAT and WM_RENDERALLFORMATS messages, the clipboard owner must not call OpenClipboard before calling SetClipboardData.)
+  virtual bool SetData(csString text, int clipboardType);
 
-    virtual void GetOS(csString &ostype);
+  virtual void GetOS(csString &ostype);
 
-    //The GetFormatName function retrieves from the clipboard the name of the specified registered format. The function copies the name to the specified buffer. 
-    int GetFormatName(UINT format, LPSTR lpszFormatName, int cchMaxCount);
+  //The GetFormatName function retrieves from the clipboard the name of the specified registered format. The function copies the name to the specified buffer.
+  int GetFormatName(UINT format, LPSTR lpszFormatName, int cchMaxCount);
 
-    //The GetOwner function retrieves the window handle of the current owner of the clipboard. 
-    HWND GetOwner();
+  //The GetOwner function retrieves the window handle of the current owner of the clipboard.
+  HWND GetOwner();
 
-    //The GetOpenWindow function retrieves the handle to the window that currently has the clipboard open. 
-    HWND GetOpenWindow();
+  //The GetOpenWindow function retrieves the handle to the window that currently has the clipboard open.
+  HWND GetOpenWindow();
 
-    //The GetPriorityFormat function retrieves the first available clipboard format in the specified list. 
-    int GetPriorityFormat(UINT *paFormatPriorityList, int cFormats);
-    
-    //The IsFormatAvailable function determines whether the clipboard contains data in the specified format. 
-    bool IsFormatAvailable(UINT format);
+  //The GetPriorityFormat function retrieves the first available clipboard format in the specified list.
+  int GetPriorityFormat(UINT *paFormatPriorityList, int cFormats);
 
-    //The RegisterFormat function registers a new clipboard format. This format can then be used as a valid clipboard format. 
-    UINT RegisterFormat(LPCSTR lpszFormat);
+  //The IsFormatAvailable function determines whether the clipboard contains data in the specified format.
+  bool IsFormatAvailable(UINT format);
 
-    //The DataFormat enumeration lists all the available clipboard formats.
-    //The list is available in winuser.h as CF_*.
+  //The RegisterFormat function registers a new clipboard format. This format can then be used as a valid clipboard format.
+  UINT RegisterFormat(LPCSTR lpszFormat);
+
+  //The DataFormat enumeration lists all the available clipboard formats.
+  //The list is available in winuser.h as CF_*.
 };
 
 #endif

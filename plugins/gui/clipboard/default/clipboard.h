@@ -34,18 +34,18 @@ private:
   iObjectRegistry* object_reg;
 
 public:
-    csClipboard (iBase* parent);
-    virtual ~csClipboard();
+  csClipboard (iBase* parent);
+  virtual ~csClipboard();
 
-    // From iComponent.
-    virtual bool Initialize (iObjectRegistry*);
+  // From iComponent.
+  virtual bool Initialize (iObjectRegistry*);
 
-    virtual bool Open();
-    virtual bool Close();
-    virtual bool Empty();
-    virtual void GetData(csString &text, int clipboardType);
-    virtual bool SetData(csString text, int clipboardType);
-    virtual void GetOS(csString &ostype);
+  virtual bool Open();
+  virtual bool Close();
+  virtual bool Empty();
+  virtual void GetData(csString &text, int clipboardType);
+  virtual bool SetData(csString text, int clipboardType);
+  virtual void GetOS(csString &ostype);
 };
 
 #endif

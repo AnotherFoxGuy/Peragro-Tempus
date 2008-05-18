@@ -24,19 +24,19 @@
  * Component name must be of the form ComponentMyName if you've given
  * MyName as Factory Name.
  */
-#define DECLARE_COMPONENTFACTORY(name)					    \
-class ComponentF##name : public scfImplementation2<ComponentF##name,        \
-  ComponentFactoryInterface, iComponent>				    \
-{									    \
-private:								    \
-  iObjectRegistry* object_reg;						    \
-									    \
-public:									    \
-  ComponentF##name (iBase* parent) : scfImplementationType (this, parent) { }    \
-  virtual ~ComponentF##name () { }				            \
-  bool Initialize (iObjectRegistry* object_reg);			    \
-  virtual const char* GetName() const;					    \
-  virtual csPtr<ComponentInterface> CreateComponent (const char* name);     \
+#define DECLARE_COMPONENTFACTORY(name)                                        \
+class ComponentF##name : public scfImplementation2<ComponentF##name,          \
+  ComponentFactoryInterface, iComponent>                                      \
+{                                                                             \
+private:                                                                      \
+  iObjectRegistry* object_reg;                                                \
+                                                                              \
+public:                                                                       \
+  ComponentF##name (iBase* parent) : scfImplementationType (this, parent) { } \
+  virtual ~ComponentF##name () { }                                            \
+  bool Initialize (iObjectRegistry* object_reg);                              \
+  virtual const char* GetName() const;                                        \
+  virtual csPtr<ComponentInterface> CreateComponent (const char* name);       \
 };
 
 /** 
@@ -47,22 +47,22 @@ public:									    \
  * factories in 1 file. The name to export for the factory MyFactory is:
  *   celPfMyFactory
  */
-#define IMPLEMENT_COMPONENTFACTORY(name, strname)			    \
-SCF_IMPLEMENT_FACTORY (ComponentF##name)				    \
-bool ComponentF##name::Initialize (iObjectRegistry* object_reg)		    \
-{									    \
-  ComponentF##name::object_reg = object_reg;				    \
-  return true;								    \
-}									    \
-const char* ComponentF##name::GetName() const				    \
-{									    \
-  return strname;							    \
-}									    \
+#define IMPLEMENT_COMPONENTFACTORY(name, strname)                             \
+SCF_IMPLEMENT_FACTORY (ComponentF##name)                                      \
+bool ComponentF##name::Initialize (iObjectRegistry* object_reg)               \
+{                                                                             \
+  ComponentF##name::object_reg = object_reg;                                  \
+  return true;                                                                \
+}                                                                             \
+const char* ComponentF##name::GetName() const                                 \
+{                                                                             \
+  return strname;                                                             \
+}                                                                             \
 csPtr<ComponentInterface> ComponentF##name::CreateComponent(const char* name) \
-{									    \
-  ComponentInterface* c = new Component##name (object_reg);	    	    \
-  c->SetName (name); 							    \
-  return csPtr<ComponentInterface> (c); 				    \
-}									    \
+{                                                                             \
+  ComponentInterface* c = new Component##name (object_reg);                   \
+  c->SetName (name);                                                          \
+  return csPtr<ComponentInterface> (c);                                       \
+}                                                                             \
 
 #endif

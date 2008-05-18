@@ -39,31 +39,31 @@ private:
 
 public:
 
-    csClipboard (iBase* parent);
-    virtual ~csClipboard();    
+  csClipboard (iBase* parent);
+  virtual ~csClipboard();    
 
-    // From iComponent.
-    virtual bool Initialize (iObjectRegistry*);
+  // From iComponent.
+  virtual bool Initialize (iObjectRegistry*);
 
-    //The Open function opens the clipboard for examination and prevents other applications from modifying the clipboard content. 
-    virtual bool Open();
+  //The Open function opens the clipboard for examination and prevents other applications from modifying the clipboard content. 
+  virtual bool Open();
 
-    //The Close function closes the clipboard. 
-    virtual bool Close();
+  //The Close function closes the clipboard. 
+  virtual bool Close();
 
-    //The Empty function empties the clipboard and frees handles to data in the clipboard. 
-    virtual bool Empty();
+  //The Empty function empties the clipboard and frees handles to data in the clipboard. 
+  virtual bool Empty();
 
-    //The GetData function retrieves data from the clipboard in a specified format.
-    virtual void GetData(csString &text, int clipboardType);
+  //The GetData function retrieves data from the clipboard in a specified format.
+  virtual void GetData(csString &text, int clipboardType);
 
-    //The SetData function places data on the clipboard in a specified clipboard format. 
-    virtual bool SetData(csString text, int clipboardType);
+  //The SetData function places data on the clipboard in a specified clipboard format. 
+  virtual bool SetData(csString text, int clipboardType);
 
-    virtual void GetOS(csString &ostype);
+  virtual void GetOS(csString &ostype);
 
 private:
-    PasteboardRef clipboardRef;
+  PasteboardRef clipboardRef;
 };
 
 #endif
