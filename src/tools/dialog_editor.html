@@ -7,7 +7,7 @@ var dialogs=new Array();
 
 function note(msg)
 {
-  document.getElementById("notes").value+=msg+"\n";
+  document.getElementById("notes").innerHTML+="<br/>"+msg;
 }
 
 function Replace(rep,wit,inside)
@@ -19,8 +19,9 @@ function Replace(rep,wit,inside)
   return inside;
 }
 
-function Answer(label, href)
+function Answer(type,label, href)
 {
+  this.type=type;
   this.label=label;
   this.href=parseFloat(href);
 }
@@ -38,26 +39,24 @@ function GetType(dialogNode)
   {
     if (x[j].nodeType != 3)
     {
-		if (x[j].nodeName == "function")
-		{
-		  return "function";
-		}
-		else if (x[j].nodeName == "text")
-		{
-		  return "text";
-		}
-		else if (x[j].nodeName == "teleport")
-		{
-		  return "teleport";
-		}
-		else if (x[j].nodeName == "buy")
-		{
-		  return "buy";
-		}
+      if (x[j].nodeName == "function")
+      {
+        return "function";
+      }
+      else if (x[j].nodeName == "text")
+      {
+        return "text";
+      }
+      else if (x[j].nodeName == "teleport")
+      {
+        return "teleport";
+      }
+      else if (x[j].nodeName == "buy")
+      {
+        return "buy";
+      }
     }
-
   }
-
   note("ERROR: Unkown dialog type!");
   return "UNKNOWN";
 }
@@ -68,6 +67,14 @@ function GetText(dialogNode)
   typenode = dialogNode.getElementsByTagName(type)[0];
 
   return typenode.textContent;
+}
+
+function EmptyDialog()
+{
+  this.id = -1;
+  this.dialogtype = "empty";
+  this.dialogtext = "";
+  this.answers = new Array();
 }
 
 function Dialog(dialogNode)
@@ -86,7 +93,7 @@ function Dialog(dialogNode)
     while(this.dialogtext.indexOf("(dialog ",pos)>-1)
     {
       pos=this.dialogtext.indexOf("(dialog ",pos);
-      var answer=new Answer(this.dialogtext.substring(pos, this.dialogtext.indexOf(")", pos)+1),
+      var answer=new Answer("function",this.dialogtext.substring(pos, this.dialogtext.indexOf(")", pos)+1),
                             this.dialogtext.substring(this.dialogtext.indexOf(" ",pos)+1,this.dialogtext.indexOf(")",pos)));
       note("Adding answer \""+answer.label+"\" linking to dialog "+answer.href);
       this.answers.push(answer);
@@ -98,14 +105,71 @@ function Dialog(dialogNode)
   answerNodes = dialogNode.getElementsByTagName("answer");
   for (var i=0; i < answerNodes.length; i++)
   {
-    href = -1;
-	if (answerNodes[i].attributes.getNamedItem("href"))
-	{ href = answerNodes[i].attributes.getNamedItem("href").nodeValue; }
+    var href = -1;
+    if (answerNodes[i].attributes.getNamedItem("href"))
+    { href = answerNodes[i].attributes.getNamedItem("href").nodeValue; }
 
-    var answer=new Answer(answerNodes[i].textContent, href);
-	note("Adding answer \""+answer.label+"\" linking to dialog "+(answer.href>-1?answer.href:"None (ends dialog)"));
+    var answer=new Answer("answer",answerNodes[i].textContent, href);
+    note("Adding answer \""+answer.label+"\" linking to dialog "+(answer.href>-1?answer.href:"None (ends dialog)"));
     this.answers.push(answer);
   }
+}
+
+function getAll(id){
+  var elements=new Array();
+  var i=0;
+  while(i<document.all.length){
+    if(document.all[i].id==id){elements.push(document.all[i]);}
+    i++;
+  }
+  return elements;
+}
+
+function change_dialogtext(array_pos){
+  dialogs[array_pos].dialogtext=prompt("Enter new value:",dialogs[array_pos].dialogtext);
+  var elements=getAll('dialogtext_'+dialogs[array_pos].id);
+  for(var i=0;i<elements.length;i++){
+    elements[i].innerHTML="<b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button>";
+  }
+  regencode();
+}
+
+function getdialog(id){
+  for(var i=0;i<dialogs.length;i++){
+    if(dialogs[i].id==id){return dialogs[i];}
+  }
+  return false;
+}
+
+function make_unique(array_pos,parents){
+  alert("This feature is buggy, sometimes it doesn't change the href");
+  var occurences=0;
+  for(var i=0;i<dialogs.length;i++){for(var i2=0;i2<dialogs[i].answers.length;i2++){if(dialogs[i].answers[i2].href==dialogs[array_pos].id){occurences++;}}}
+  if(occurences<2){alert("This dialog is already unique");return;}
+  var parent=0;
+  while(parent<dialogs.length&&parseFloat(dialogs[parent].id)!=parseFloat(parents.substring(parents.substring(0,parents.length-1).lastIndexOf("|")+1,parents.length-1))){parent++;}
+  var id=1;
+  while(getdialog(id)){id++;}
+  var dialog=new EmptyDialog();
+  dialog.id=id;
+  dialog.dialogtype=dialogs[array_pos].dialogtype;
+  dialog.dialogtext=dialogs[array_pos].dialogtext;
+  dialog.answers=dialogs[array_pos].answers;
+  for(var i=0;i<dialogs[parent].answers.length;i++){
+//alert(dialogs[parent].answers[i].href+'=='+dialogs[array_pos].id);
+    if(dialogs[parent].answers[i].href==dialogs[array_pos].id){dialogs[parent].answers[i].href=id;/*alert('Changed to '+dialogs[parent].answers[i].href+" for answer "+i+" in dialog '"+dialogs[parent].id+"'");*/}
+  }
+  alert("New ID: "+id+", used to be: "+dialogs[array_pos].id);
+  if(confirm("Rerender now? required to be able to change the unique dialog again.")){render();}
+  dialogs.push(dialog);
+  regencode();
+}
+
+function rm_answer(dialog,answer){
+  dialogs[dialog].answers[answer]=null;
+  document.getElementById("dialog"+dialogs[dialog].id+"_answer"+answer).innerHTML="";
+  document.getElementById("dialog"+dialogs[dialog].id+"_answer"+answer).outerHTML="";
+  regencode();
 }
 
 function drawdialog(id, parents)
@@ -136,51 +200,73 @@ function drawdialog(id, parents)
     return "<B>Error - answer pointing to nonexistant dialog ID </B>"+id;
   }
 
-  var colspan=dialogs[array_pos].answers.length;if(colspan<1){colspan=1;}
+  var span=dialogs[array_pos].answers.length;if(span<1){span=1;}
   var color="#FFFFFF";
   if(parents.split("|").length/2 == Math.round(parents.split("|").length/2))
   {
     color="#E0E0E0";
   }
 
-  var dialog="<table border=\"2\" bgcolor=\""+color+"\"><tr><td colspan=\""+colspan+"\"><b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"</td></tr><tr>";
-  for(var i=0;i<dialogs[array_pos].answers.length;i++)
-  {
-    dialog+="<td valign=\"top\"><b><nobr>Answer: "+dialogs[array_pos].answers[i].label+"</nobr></b><br>"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</td>";
+  if(document.getElementById("orientation").selectedIndex==1){
+    var dialog="<table border=\"2\" bgcolor=\""+color+"\"><tr><td colspan=\""+span+"\" id=\"dialogtext_"+id+"\" onmouseover=\"self.status='ID: "+id+"';\"><b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button><button onclick=\"make_unique("+array_pos+",'"+parents+"');\">Make unique<!-- TODO: Consider making all dialogs unique at edit-time and optimize later --></button></td></tr><tr>";
+    for(var i=0;i<dialogs[array_pos].answers.length;i++){
+      dialog+="<td id=\"dialog"+dialogs[array_pos].id+"_answer"+i+"\" valign=\"top\"><b><nobr>Answer: "+dialogs[array_pos].answers[i].label+(dialogs[array_pos].dialogtype=="text"?"<button onclick=\"rm_answer("+array_pos+","+i+");\">Remove</button>":"")+"</nobr></b><br>"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</td>";
+    }
+  }else{
+    var dialog="<table border=\"2\" bgcolor=\""+color+"\"><tr><td rowspan=\""+span+"\" id=\"dialogtext_"+id+"\" onmouseover=\"self.status='ID: "+id+"';\"><b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button><button onclick=\"make_unique("+array_pos+",'"+parents+"');\">Make unique<!-- TODO: Consider making all dialogs unique at edit-time and optimize later --></button></td>";
+    for(var i=0;i<dialogs[array_pos].answers.length;i++)
+    {
+      if(i>0){dialog+="</tr><tr>";}
+      dialog+="<td id=\"dialog"+dialogs[array_pos].id+"_answer"+i+"\"><b>Answer:</b> "+dialogs[array_pos].answers[i].label+(dialogs[array_pos].dialogtype=="text"?"<button onclick=\"rm_answer("+array_pos+","+i+");\">Remove</button>":"")+"</td><td>"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</td>";
+    }
   }
-
   return dialog+"</tr></table>";
 }
 
 function render()
 {
-  note("Found dialogs ");
-  document.getElementById("notes").value="";
+  document.getElementById("notes").innerHTML="";
   dialogs=new Array();
   var code=document.getElementById("dialogcode").value;
 
   parser=new DOMParser();
-  xmlDoc=parser.parseFromString(code,"text/xml");
+  xmlDoc=parser.parseFromString("<buggyDOM>"+code+"</buggyDOM>","text/xml");
 
   dias = xmlDoc.getElementsByTagName("dialog");
 
-  for (var i=0; i < dias.length; i++)
+  for(var i=0;i<dias.length;i++)
   {
-    var dialog = new Dialog(dias[i]);
+    var dialog=new Dialog(dias[i]);
     dialogs.push(dialog);
   }
 
   document.getElementById("dialog_tables").innerHTML=drawdialog(0,"|");
 }
+
+function regencode()
+{
+  var code="";
+  for(var i=0;i<dialogs.length;i++){
+    code+="\t\t<dialog id=\""+dialogs[i].id+"\">\n";
+    code+="\t\t\t<"+dialogs[i].dialogtype+">"+dialogs[i].dialogtext+"</"+dialogs[i].dialogtype+">\n";
+    for(var ai=0;ai<dialogs[i].answers.length;ai++){note("C");
+      if(dialogs[i].answers[ai]!=null&&dialogs[i].answers[ai].type!="function"){
+        code+="\t\t\t<answer"+(dialogs[i].answers[ai].href>-1?" href=\""+dialogs[i].answers[ai].href+"\"":"")+">"+dialogs[i].answers[ai].label+"</answer>\n";
+      }
+    }
+    code+="\t\t</dialog>\n";
+  }
+  document.getElementById("dialogcode").value=code;
+}
 //-->
 </script></head>
 <body>
 <textarea id="dialogcode" rows="10" cols="70">Paste the content of an NPC's XML here and click "Render"</textarea>
-<textarea id="notes" rows="10" cols="70">Message field, this field will be filled with debug messages, rather than those pesky popups</textarea>
 <br>
-<button onclick="render();">Render</button>
+Orientation:<select id="orientation"><option>Horizontal</option><option>Vertical</option></select> <button onclick="render();">Render</button>
 <div id="dialog_tables">
 
 </div>
+<div id="notes"></div>
 </body>
 </html>
