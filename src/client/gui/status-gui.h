@@ -29,25 +29,25 @@ namespace PT
   {
     namespace Windows
     {
-		class StatusWindow : public GUIWindow
-		{
-		private:
+        class StatusWindow : public GUIWindow
+        {
+        private:
 
-		  bool handleCloseButton(const CEGUI::EventArgs& args);
-		  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
-		  CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
-		  int counter;
+          bool handleCloseButton(const CEGUI::EventArgs& args);
+          CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
+          CEGUI::Window* createItemIcon(CEGUI::String itemname, int itemtype, bool stackable);
+          int counter;
 
 
-		public:
-		  StatusWindow(GUIManager* guimanager);
-		  virtual ~StatusWindow();
+        public:
+          StatusWindow(GUIManager* guimanager);
+          virtual ~StatusWindow();
           bool Create();
-	      bool ReloadWindow();
-		  bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
-		  void AddSkil(const char* skillname, unsigned int skillvalue);
-		};
-	}
+          bool ReloadWindow();
+          bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
+          void AddSkil(const char* skillname, unsigned int skillvalue);
+        };
+    }
   }
 }
 

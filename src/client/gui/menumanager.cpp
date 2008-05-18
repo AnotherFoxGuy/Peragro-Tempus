@@ -161,7 +161,7 @@ namespace PT
     bool MenuManager::OnDragItemDropped(const CEGUI::EventArgs &e)
     {
       // Determine what menu item has been dragged.
-      const CEGUI::DragDropEventArgs& ddea = static_cast<const CEGUI::DragDropEventArgs&>(e); 
+      const CEGUI::DragDropEventArgs& ddea = static_cast<const CEGUI::DragDropEventArgs&>(e);
       std::pair<MenuItem*, MenuItemWindow*> menuEntry = GetMenuEntry(ddea.dragDropItem);
       if (menuEntry.first != 0 || menuEntry.second != 0)
       {
@@ -196,7 +196,7 @@ namespace PT
     bool MenuManager::OnDragEnded(const CEGUI::EventArgs &e)
     {
       // Determine if a menu item ended dragging.
-      const CEGUI::WindowEventArgs& ddea = static_cast<const CEGUI::WindowEventArgs&>(e); 
+      const CEGUI::WindowEventArgs& ddea = static_cast<const CEGUI::WindowEventArgs&>(e);
       std::pair<MenuItem*, MenuItemWindow*> menuEntry = GetMenuEntry((CEGUI::DragContainer*)ddea.window);
       if (menuEntry.first != 0 || menuEntry.second != 0)
       {

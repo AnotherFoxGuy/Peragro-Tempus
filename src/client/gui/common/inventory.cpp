@@ -20,33 +20,36 @@
 
 #include "client/reporter/reporter.h"
 
-
 Inventory::Inventory(PT::GUI::GUIManager* guimanager)
 {
   this->guimanager = guimanager;
   dragdrop = guimanager->GetDragDrop();
   winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr ();
-}
+} // end Inventory()
 
 Inventory::~Inventory()
 {
   ClearSlotsDelete();
   slotarray.DeleteAll();
-}
+} // end ~Inventory()
 
-CEGUI::Window* Inventory::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
+CEGUI::Window* Inventory::createDragDropSlot(CEGUI::Window* parent,
+                                             const CEGUI::UVector2& position)
 {
   // Create the slot
   CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
   parent->addChildWindow(slot);
   slot->setPosition(position);
   slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters, CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragEnter, dragdrop));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves, CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragLeave, dragdrop));
-  slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDropped, dragdrop));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters,
+    CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragEnter, dragdrop));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves,
+    CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragLeave, dragdrop));
+  slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
+    CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDropped, dragdrop));
 
   return slot;
-}
+} // end createDragDropSlot()
 
 void Inventory::ClearSlotsDelete()
 {
@@ -63,7 +66,7 @@ void Inventory::ClearSlotsDelete()
       slot->Clear();
     }
   }
-}
+} // end ClearSlotsDelete()
 
 unsigned int Inventory::FindFreeSlot()
 {
@@ -79,7 +82,7 @@ unsigned int Inventory::FindFreeSlot()
   }
   Report(PT::Error, "Inventory: Inventory full!");
   return ~0;
-}
+} // end FindFreeSlot()
 
 unsigned int Inventory::FindObject(unsigned int itemid)
 {
@@ -99,7 +102,7 @@ unsigned int Inventory::FindObject(unsigned int itemid)
     }
   }
   return ~0;
-}
+} // end FindObject()
 
 bool Inventory::RemoveObject(unsigned int slotid)
 {
@@ -111,7 +114,7 @@ bool Inventory::RemoveObject(unsigned int slotid)
   delete object;
   slot->Clear();
   return true;
-}
+} // end RemoveObject()
 
 csArray<Inventory::ObjectAndSlot> Inventory::GetAllObjects()
 {
@@ -131,9 +134,11 @@ csArray<Inventory::ObjectAndSlot> Inventory::GetAllObjects()
   }
 
   return objects;
-}
+} // end GetAllObjects()
 
-void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, PT::GUI::Windows::DragDrop::Type type , int rows, int columns, int offset)
+void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent,
+                       PT::GUI::Windows::DragDrop::Type type , int rows,
+                       int columns, int offset)
 {
   for (int j=0; j<rows; j++)
   {
@@ -143,7 +148,8 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, PT::GUI
       slot->SetId((i+(j*columns))+offset);
       slot->SetType(type);
       slot->SetParent(parent);
-      slot->SetWindow(createDragDropSlot(bag, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
+      slot->SetWindow(createDragDropSlot(bag,
+        CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
       slot->GetWindow()->setUserData(slot);
 
       switch(parent)
@@ -151,12 +157,14 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, PT::GUI
       case Inventory::BuyUpper:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
         slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
-        CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedBuy, dragdrop));
+          CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedBuy,
+            dragdrop));
         break;
       case Inventory::BuyLower:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
         slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
-          CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedBuy, dragdrop));
+          CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedBuy,
+            dragdrop));
         break;
       case Inventory::InventoryLower:
         // Nothing to do.
@@ -164,7 +172,8 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, PT::GUI
       case Inventory::TradeLeft:
         slot->GetWindow()->removeEvent(CEGUI::Window::EventDragDropItemDropped);
         slot->GetWindow()->subscribeEvent(CEGUI::Window::EventDragDropItemDropped,
-          CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedTrade, dragdrop));
+          CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragDroppedTrade,
+            dragdrop));
         break;
       case Inventory::TradeRight:
         slot->GetWindow()->removeAllEvents();
@@ -176,4 +185,5 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent, PT::GUI
       slotarray.Put(slot->GetId(), slot);
     }
   }
-}
+} // end Create()
+

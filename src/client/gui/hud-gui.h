@@ -29,50 +29,50 @@ namespace PT
   {
     namespace Windows
     {
-	class HUDWindow : public GUIWindow
-	{
-	private:
+    class HUDWindow : public GUIWindow
+    {
+    private:
 
-	  struct SelectedSkill
-	  {
-		int SkillId;
-		CEGUI::Window* SkillWindow;
-	  };
-	  SelectedSkill* selectedskill;
+      struct SelectedSkill
+      {
+        int SkillId;
+        CEGUI::Window* SkillWindow;
+      };
+      SelectedSkill* selectedskill;
 
-	  CEGUI::ProgressBar* hpbar;
-	  CEGUI::ProgressBar* mpbar;
-	  CEGUI::ProgressBar* xpbar;
-	  CEGUI::ProgressBar* spbar;
+      CEGUI::ProgressBar* hpbar;
+      CEGUI::ProgressBar* mpbar;
+      CEGUI::ProgressBar* xpbar;
+      CEGUI::ProgressBar* spbar;
 
-	  int counter;
-	  CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id);
-	  CEGUI::Window* CreateSkillIcon(int skillid);
-	  bool HandleSkillSelected(const CEGUI::EventArgs& args);
-	  bool HandleDragDropped(const CEGUI::EventArgs& args);
-	  bool HandleDragDroppedOnSkill(const CEGUI::EventArgs& args);
-	  bool OnRootKeyDown(const CEGUI::EventArgs& e);
-	  void SetActiveSkill(CEGUI::Window* window);
+      int counter;
+      CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id);
+      CEGUI::Window* CreateSkillIcon(int skillid);
+      bool HandleSkillSelected(const CEGUI::EventArgs& args);
+      bool HandleDragDropped(const CEGUI::EventArgs& args);
+      bool HandleDragDroppedOnSkill(const CEGUI::EventArgs& args);
+      bool OnRootKeyDown(const CEGUI::EventArgs& e);
+      void SetActiveSkill(CEGUI::Window* window);
 
-	public:
-	  HUDWindow(GUIManager* guimanager);
-	  virtual ~HUDWindow();
+    public:
+      HUDWindow(GUIManager* guimanager);
+      virtual ~HUDWindow();
       bool Create();
-	  bool ReloadWindow();
-	  void SetHP (int hp, int maxHp); // set the hp.
-	  void SetMP (float mp);          // set the mp.
-	  void SetXP (float xp);          // set the xp.
-	  void SetSP (float sp);          // set the sp.
-	  void SetName (const char* name); // set the name;
-	  void SetText (const char* name, const char* test); // set the text;
-	  bool AddSkill(int skillid);
-	  int GetActiveSkillId();
+      bool ReloadWindow();
+      void SetHP (int hp, int maxHp); // set the hp.
+      void SetMP (float mp);          // set the mp.
+      void SetXP (float xp);          // set the xp.
+      void SetSP (float sp);          // set the sp.
+      void SetName (const char* name); // set the name;
+      void SetText (const char* name, const char* test); // set the text;
+      bool AddSkill(int skillid);
+      int GetActiveSkillId();
 
-	  void HideWindow();
-	  void ShowWindow();
+      void HideWindow();
+      void ShowWindow();
 
-	};
-	}
+    };
+    }
   }
 }
 

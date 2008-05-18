@@ -42,6 +42,10 @@
 #include <physicallayer/pl.h>
 #include <physicallayer/entity.h>
 
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
+
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
@@ -53,10 +57,6 @@
 
 #include "client/input/inputmanager.h"
 #include "client/state/statemanager.h"
-
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
 
 struct iPcDefaultCamera;
 struct iSector;
@@ -94,9 +94,9 @@ namespace PT
   } // Data namespace
 
   namespace GUI
-  { 
+  {
     class GUIManager;
-    
+
     namespace Windows
     {
       class HUDWindow;
@@ -233,7 +233,7 @@ namespace PT
     PT::Data::SkillDataManager* skillDataManager;
     PT::Data::ConnectionDataManager* connectionDataManager;
     PT::Misc::ServerSetupManager* serverSetupManager;
-	PT::GUI::GUIManager* guiManager;
+    PT::GUI::GUIManager* guiManager;
     PT::InputManager* inputManager;
     PT::StateManager* stateManager;
     PT::Environment::EnvironmentManager* environmentManager;

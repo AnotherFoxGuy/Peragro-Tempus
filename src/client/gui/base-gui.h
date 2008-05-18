@@ -40,41 +40,42 @@ namespace PT
   {
     class GUIManager;
 
-	class GUIWindow
-	{
-	private:
+    class GUIWindow
+    {
+    private:
 
-	protected:
-	  std::string windowName;
-	  CEGUI::Window* btn;
-	  CEGUI::WindowManager* winMgr;
-	  csRef<iCEGUI> cegui;
-	  csRef<iVFS> vfs;
-	  Network* network;
+    protected:
+      std::string windowName;
+      CEGUI::Window* btn;
+      CEGUI::WindowManager* winMgr;
+      csRef<iCEGUI> cegui;
+      csRef<iVFS> vfs;
+      Network* network;
       CEGUI::Window* window;
 
-	  GUIManager* guimanager;
+      GUIManager* guimanager;
 
-	  CEGUI::Window* LoadLayout(const char* layoutFile);
+      CEGUI::Window* LoadLayout(const char* layoutFile);
       bool AddToRoot (CEGUI::Window* window);
 
-	public:
-	  GUIWindow(GUIManager* guimanager);
-	  virtual ~GUIWindow();
-	  /// Get the window name.
+    public:
+      GUIWindow(GUIManager* guimanager);
+      virtual ~GUIWindow();
+      /// Get the window name.
       const char* GetName() { return windowName.c_str(); }
       /// Set the window name.
       void SetName(const char* name) { windowName = name; }
-      virtual bool Create () =0;
+      virtual bool Create () = 0;
       /// Loads the layout and subscribes to events.
-      virtual bool ReloadWindow () =0;
-	  void HideWindow();
-	  void ShowWindow();
-	  bool IsVisible();
-	  void EnableWindow();
-	  void DisableWindow();
-	  void BringToFront();
-	};
-  }
-}
+      virtual bool ReloadWindow () = 0;
+      void HideWindow();
+      void ShowWindow();
+      bool IsVisible();
+      void EnableWindow();
+      void DisableWindow();
+      void BringToFront();
+    };
+  } // GUI namespace
+} // PT namespace
+
 #endif // BASE_GUI_H

@@ -45,43 +45,47 @@ namespace PT
     class GUIManager;
 
     namespace Windows
-	{
-	class DragDrop
-	{
-	private:
-	  PT::GUI::GUIManager* guimanager;
-	  Network* network;
-	  CEGUI::WindowManager* winMgr;
-	  PT::Data::ItemDataManager* itemDataManager;
-	  int counter;
+    {
+      class DragDrop
+      {
+      private:
+        PT::GUI::GUIManager* guimanager;
+        Network* network;
+        CEGUI::WindowManager* winMgr;
+        PT::Data::ItemDataManager* itemDataManager;
+        int counter;
 
-	public:
-	  bool handleDragEnter(const CEGUI::EventArgs& args);
-	  bool handleDragLeave(const CEGUI::EventArgs& args);
-	  bool handleDragDropped(const CEGUI::EventArgs& args);
-	  bool handleDragDroppedIcon(const CEGUI::EventArgs& args);
-	  bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
-	  bool handleDragDroppedTrade(const CEGUI::EventArgs& args);
-	  bool handleDragDroppedBuy(const CEGUI::EventArgs& args);
-	  bool handleRightClickedIcon(const CEGUI::EventArgs& args);
+      public:
+        bool handleDragEnter(const CEGUI::EventArgs& args);
+        bool handleDragLeave(const CEGUI::EventArgs& args);
+        bool handleDragDropped(const CEGUI::EventArgs& args);
+        bool handleDragDroppedIcon(const CEGUI::EventArgs& args);
+        bool handleDragDroppedRoot(const CEGUI::EventArgs& args);
+        bool handleDragDroppedTrade(const CEGUI::EventArgs& args);
+        bool handleDragDroppedBuy(const CEGUI::EventArgs& args);
+        bool handleRightClickedIcon(const CEGUI::EventArgs& args);
 
-	  enum Type
-	  {
-		Item=0,
-		Skill=1
-	  };
+        enum Type
+        {
+          Item=0,
+          Skill=1
+        };
 
-	public:
-	  DragDrop(PT::GUI::GUIManager* guimanager);
-	  virtual ~DragDrop();
+      public:
+        DragDrop(PT::GUI::GUIManager* guimanager);
+        virtual ~DragDrop();
 
-	  CEGUI::Window* createIcon(int icontype, int objectid, bool interactable = true);
-	  Object* CreateItem(uint itemid, unsigned int variationid, bool interactable = true);
-	  void MoveObject(Slot* oldslot, Slot* newslot);
+        CEGUI::Window* createIcon(int icontype, int objectid,
+          bool interactable = true);
+        Object* CreateItem(uint itemid, unsigned int variationid,
+          bool interactable = true);
+        void MoveObject(Slot* oldslot, Slot* newslot);
 
-	  CEGUI::String IntToStr(int number);
-	};
-    }
-  }
-}
+        CEGUI::String IntToStr(int number);
+      };
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
+
 #endif // DRAGDROP_GUI_H

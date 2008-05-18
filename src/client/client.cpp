@@ -1,4 +1,4 @@
-	/*
+    /*
     Copyright (C) 2005 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
@@ -338,7 +338,7 @@ namespace PT
     pointerlib.setServerSetupManager(serverSetupManager);
 
     // Create and Initialize the GUIManager.
-	guiManager = new PT::GUI::GUIManager ();
+    guiManager = new PT::GUI::GUIManager ();
     if (!guiManager->Initialize ())
       return Report(PT::Error, "Failed to initialize GUIManager!");
     pointerlib.setGUIManager(guiManager);
@@ -593,8 +593,8 @@ namespace PT
         // Show the connect window.
         using namespace PT::GUI::Windows;
         LoginWindow* loginWindow = guiManager->GetWindow<LoginWindow>(LOGINWINDOW);
-	loginWindow->ShowWindow();
-	ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);
+        loginWindow->ShowWindow();
+        ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);
         serverWindow->ShowWindow ();
 
         if (cmdline)
@@ -656,7 +656,7 @@ namespace PT
 
       network->init();
 
-	  PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guiManager);
+      PT::GUI::Windows::OkDialogWindow* dialog = new PT::GUI::Windows::OkDialogWindow(guiManager);
 
       if (!network->isRunning())
       {
@@ -811,7 +811,7 @@ namespace PT
     if (StateHelper::GetError(&ev))
     {
       Report(PT::Error, "Login Failed due to: %s.", StateHelper::GetErrorMessage(&ev).c_str());
-      
+
       loginWindow->EnableWindow();
       serverWindow->EnableWindow();
       //network->stop();

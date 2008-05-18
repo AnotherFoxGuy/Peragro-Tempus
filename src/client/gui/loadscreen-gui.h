@@ -29,20 +29,20 @@ namespace PT
   {
     namespace Windows
     {
-	class LoadScreenWindow : public GUIWindow
-	{
-	public:
-	  LoadScreenWindow(GUIManager* guimanager);
-	  virtual ~LoadScreenWindow();
+    class LoadScreenWindow : public GUIWindow
+    {
+    public:
+      LoadScreenWindow(GUIManager* guimanager);
+      virtual ~LoadScreenWindow();
       bool Create();
-	  bool ReloadWindow();
-	  void ShowWindow();
-	  void HideWindow();
-	  void SetProgress(float progress);
-	  bool IsVisible();
+      bool ReloadWindow();
+      void ShowWindow();
+      void HideWindow();
+      void SetProgress(float progress);
+      bool IsVisible();
 
-	};
-	}
+    };
+    }
   }
 }
 

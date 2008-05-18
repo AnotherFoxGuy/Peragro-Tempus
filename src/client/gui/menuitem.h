@@ -53,7 +53,7 @@ namespace PT
       *
       * Get the drag container.
       *
-      * \return	A pointer to the Drag container.
+      * \return    A pointer to the Drag container.
       */
       CEGUI::DragContainer * GetDragContainer() const;
 
@@ -61,7 +61,7 @@ namespace PT
       *
       * Get the icon button.
       *
-      * \return	A pointer to the button.
+      * \return    A pointer to the button.
       */
       CEGUI::PushButton * GetIconButton() const;
 
@@ -69,7 +69,7 @@ namespace PT
       *
       * Get the text button.
       *
-      * \return	A pointer to the text button.
+      * \return    A pointer to the text button.
       */
       CEGUI::PushButton * GetTextButton() const;
 
@@ -77,7 +77,7 @@ namespace PT
       *
       * Get the label of this item.
       *
-      * \return	A string with the name.
+      * \return    A string with the name.
       */
       const std::string GetName() const;
 
@@ -85,7 +85,7 @@ namespace PT
       *
       * Get the base string.
       *
-      * \return	The base string.
+      * \return    The base string.
       */
       const std::string GetBase() const;
 

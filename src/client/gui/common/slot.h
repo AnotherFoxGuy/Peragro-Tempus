@@ -19,7 +19,6 @@
 #ifndef SLOT_H
 #define SLOT_H
 
-
 #include "cssysdef.h"
 
 #include "iutil/string.h"

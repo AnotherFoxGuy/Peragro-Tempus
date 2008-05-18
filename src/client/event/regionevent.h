@@ -44,7 +44,7 @@ namespace PT
        * Get the current progress in loading the world.
        * @param event The event.
        * @return A decimal number from 0 to 1 representing the current progress.
-       */ 
+       */
       static float GetProgress(const iEvent* event)
       {
         float progress = 0.0f;

@@ -50,7 +50,7 @@ namespace PT
 
     CEGUI::Window* GUIManager::GetCeguiWindow (const char* name)
     {
-      if (winMgr->isWindowPresent(name)) 
+      if (winMgr->isWindowPresent(name))
         return winMgr->getWindow(name);
       else
       {

@@ -32,25 +32,26 @@ namespace PT
   {
     namespace Windows
     {
-	class BuddyWindow : public GUIWindow
-	{
-	private:
-	  bool handleCloseButton(const CEGUI::EventArgs& args);
+      class BuddyWindow : public GUIWindow
+      {
+      private:
+        bool handleCloseButton(const CEGUI::EventArgs& args);
 
-	public:
-	  bool ProcessEvents(iEvent& ev);
-	  bool ToggleWindow(iEvent& ev);
+      public:
+        bool ProcessEvents(iEvent& ev);
+        bool ToggleWindow(iEvent& ev);
 
-	public:
-	  BuddyWindow(GUIManager* guimanager);
-	  virtual ~BuddyWindow();
-      bool Create();
-	  bool ReloadWindow();
-	  void AddPlayer(const char* name);
-	  void RemovePlayer(const char* name);
-	};
-	}
-  }
-}
+      public:
+        BuddyWindow(GUIManager* guimanager);
+        virtual ~BuddyWindow();
+          bool Create();
+        bool ReloadWindow();
+        void AddPlayer(const char* name);
+        void RemovePlayer(const char* name);
+      };
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
 #endif // BUDDY_GUI_H

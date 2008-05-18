@@ -82,7 +82,7 @@ namespace PT
         /**
          * Handle an event.
          * @param ev The event.
-         * @return Wether the event was handled.
+         * @return Whether the event was handled.
          */
         virtual bool HandleEvent(iEvent& ev);
 

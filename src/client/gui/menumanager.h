@@ -52,8 +52,8 @@ namespace PT
       *
       * Adds a newly created item to the manager.
       *
-      * @param		menuItem		The menuItem to add.
-      * @param		menuWindow	The registrant.
+      * @param        menuItem        The menuItem to add.
+      * @param        menuWindow    The registrant.
       * \return True if successful, false if not.
       */
       bool AddMenuItem(MenuItem * menuItem, MenuItemWindow * menuWindow);
@@ -62,7 +62,7 @@ namespace PT
       *
       * Removes a menu item from the manager.
       *
-      * @param	menuItem	The menuItem to remove.
+      * @param    menuItem    The menuItem to remove.
       * \return True if successful, false if not.
       */
       bool RemoveMenuItem(MenuItem * menuItem);
@@ -71,7 +71,7 @@ namespace PT
       *
       * Get a menu entry.
       *
-      * @param		dragcontainer		The dragcontainer associated to this menu entry.
+      * @param        dragcontainer        The dragcontainer associated to this menu entry.
       * \return A reference to a std::pair, containing pointers to MenuItem and MenuWindow.
       */
       std::pair<MenuItem*, MenuItemWindow*> GetMenuEntry(CEGUI::DragContainer * dragcontainer);
@@ -80,7 +80,7 @@ namespace PT
       *
       * Get a menu entry.
       *
-      * @param		name	The name of the menu item.
+      * @param        name    The name of the menu item.
       * \return A reference to a std::pair, containing pointers to MenuItem and MenuWindow.
       */
       std::pair<MenuItem*, MenuItemWindow*> GetMenuEntry(const std::string& name);
@@ -89,8 +89,8 @@ namespace PT
       *
       * Get a menu (item) Window.
       *
-      * @param		menuItem	The menu item associated to this menu window.
-      * \return	A pointer to the menu (item) window.
+      * @param        menuItem    The menu item associated to this menu window.
+      * \return    A pointer to the menu (item) window.
       */
       MenuItemWindow * GetMenuWindow(MenuItem * menuItem);
 
@@ -98,7 +98,7 @@ namespace PT
       *
       * Return if something is currently dragged.
       *
-      * \return	True if so, false if not.
+      * \return    True if so, false if not.
       */
       bool IsDragging() const;
 
@@ -117,7 +117,7 @@ namespace PT
       * Called when a item has been clicked, can only be called by a MenuItem
       *  instance.
       *
-      * \return	void.
+      * \return    void.
       */
       void OnItemClicked(MenuItem * item);
       friend class MenuItem;

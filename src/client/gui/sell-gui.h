@@ -31,32 +31,32 @@ namespace PT
   {
     namespace Windows
     {
-	class SellWindow : public GUIWindow
-	{
-	private:
+    class SellWindow : public GUIWindow
+    {
+    private:
       PT::GUI::Windows::DragDrop* dragdrop;
-	  PT::Data::ItemDataManager* itemDataManager;
+      PT::Data::ItemDataManager* itemDataManager;
 
-	  csArray<Slot*> upperslots;
-	  csArray<Slot*> lowerslots;
+      csArray<Slot*> upperslots;
+      csArray<Slot*> lowerslots;
 
-	private:
-	  bool OnCloseButton(const CEGUI::EventArgs& args);
-	  bool OnAccept(const CEGUI::EventArgs& args);
+    private:
+      bool OnCloseButton(const CEGUI::EventArgs& args);
+      bool OnAccept(const CEGUI::EventArgs& args);
 
-	public:
-	  SellWindow(GUIManager* guimanager);
-	  virtual ~SellWindow();
+    public:
+      SellWindow(GUIManager* guimanager);
+      virtual ~SellWindow();
       bool Create();
-	  bool ReloadWindow();
+      bool ReloadWindow();
 
-	public:
-	  bool AddItem(unsigned int itemid, unsigned int slotid);
-	  void CancelTrade();
-	  void AcceptTrade();
+    public:
+      bool AddItem(unsigned int itemid, unsigned int slotid);
+      void CancelTrade();
+      void AcceptTrade();
 
-	};
-	}
+    };
+    }
   }
 }
 

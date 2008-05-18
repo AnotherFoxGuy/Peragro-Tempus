@@ -107,7 +107,7 @@ namespace PT
 
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
-      
+
       ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
       // TODO: input command handler.
       if (strncmp (message.c_str(),"/me",3) == 0)
@@ -134,7 +134,7 @@ namespace PT
 
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
-      
+
       WhisperWindow* whisperWindow = guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
       whisperWindow->AddWhisper(nick.c_str(), message.c_str());
 
@@ -387,7 +387,7 @@ namespace PT
           unsigned int id = EntityHelper::GetEntityID(&ev);
 
           csString string; string.Format("%s has joined.", nick);
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage (string.GetData());
           playernames.insert(std::pair<unsigned int, std::string>(id, nick));
         } // end if
@@ -400,7 +400,7 @@ namespace PT
         if (playerName.size() > 0)
         {
           csString string; string.Format("%s has left.", playerName.c_str());
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage (string.GetData());
         }
 

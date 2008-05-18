@@ -33,135 +33,153 @@ namespace PT
   {
     namespace Windows
     {
-	BuddyWindow::BuddyWindow(GUIManager* guimanager)
-	: GUIWindow (guimanager)
-	{
-       windowName = BUDDYLISTWINDOW;
-	}
+      BuddyWindow::BuddyWindow(GUIManager* guimanager)
+        : GUIWindow (guimanager)
+      {
+        windowName = BUDDYLISTWINDOW;
+      } // end BuddyWindow()
 
-	BuddyWindow::~BuddyWindow()
-	{
-	}
+      BuddyWindow::~BuddyWindow()
+      {
+      } // end ~BuddyWindow()
 
-	bool BuddyWindow::handleCloseButton(const CEGUI::EventArgs& args)
-	{
-	  winMgr->getWindow("BuddyList/Frame")->setVisible(false);
-	  return true;
-	}
+      bool BuddyWindow::handleCloseButton(const CEGUI::EventArgs& args)
+      {
+        winMgr->getWindow("BuddyList/Frame")->setVisible(false);
+        return true;
+      } // end handleCloseButton()
 
-	void BuddyWindow::AddPlayer(const char* name)
-	{
-	  btn = winMgr->getWindow("BuddyList/SkillTab");
-	  CEGUI::ListboxItem* nameItem = new CEGUI::ListboxTextItem(name);
+      void BuddyWindow::AddPlayer(const char* name)
+      {
+        btn = winMgr->getWindow("BuddyList/SkillTab");
+        CEGUI::ListboxItem* nameItem = new CEGUI::ListboxTextItem(name);
 
-	  unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
-	  ((CEGUI::MultiColumnList*)btn)->setItem(nameItem, 0, row);
-	}
+        unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
+        ((CEGUI::MultiColumnList*)btn)->setItem(nameItem, 0, row);
+      } // end AddPlayer()
 
-	void BuddyWindow::RemovePlayer(const char* name)
-	{
-	  btn = winMgr->getWindow("BuddyList/SkillTab");
+      void BuddyWindow::RemovePlayer(const char* name)
+      {
+        btn = winMgr->getWindow("BuddyList/SkillTab");
 
-	  CEGUI::ListboxItem* nameItem = ((CEGUI::MultiColumnList*)btn)->findListItemWithText(name,0);
-	  if (!nameItem)
-	  {
-		Report(PT::Error, "BuddyWindow: ERROR Couldn't find player %s in buddylist!", name);
-		return;
-	  }
-	  nameItem->setAutoDeleted(true);
-	  unsigned int row = ((CEGUI::MultiColumnList*)btn)->getItemRowIndex(nameItem);
-	  ((CEGUI::MultiColumnList*)btn)->removeRow(row);
-	}
+        CEGUI::ListboxItem* nameItem =
+          ((CEGUI::MultiColumnList*)btn)->findListItemWithText(name,0);
+        if (!nameItem)
+        {
+          Report(PT::Error,
+            "BuddyWindow: ERROR Couldn't find player %s in buddylist!", name);
+          return;
+        }
+        nameItem->setAutoDeleted(true);
+        unsigned int row =
+          ((CEGUI::MultiColumnList*)btn)->getItemRowIndex(nameItem);
+        ((CEGUI::MultiColumnList*)btn)->removeRow(row);
+      } // end RemovePlayer()
 
-	bool BuddyWindow::ToggleWindow(iEvent& ev)
-	{
-	  using namespace PT::Events;
+      bool BuddyWindow::ToggleWindow(iEvent& ev)
+      {
+        using namespace PT::Events;
 
-	  if (InputHelper::GetButtonDown(&ev))
-	  {
-		CEGUI::Window* buddylist = winMgr->getWindow("BuddyList/Frame");
-		if (!buddylist) return false;
-		buddylist->isVisible() ? buddylist->setVisible(false) : buddylist->setVisible(true);
-	  }
+        if (InputHelper::GetButtonDown(&ev))
+        {
+          CEGUI::Window* buddylist = winMgr->getWindow("BuddyList/Frame");
+          if (!buddylist) return false;
+          buddylist->isVisible() ?
+            buddylist->setVisible(false) : buddylist->setVisible(true);
+        }
 
-	  return true;
-	}
+        return true;
+      } // end ToggleWindow()
 
-	bool BuddyWindow::ProcessEvents(iEvent& ev)
-	{
-	  using namespace PT::Events;
-      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      bool BuddyWindow::ProcessEvents(iEvent& ev)
+      {
+        using namespace PT::Events;
+        EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
-	  csStringID id = ev.GetName(); 
+        csStringID id = ev.GetName();
 
-	  if (evmgr->IsKindOf(id, "entity.add"))
-	  {
-		if (EntityHelper::GetEntityType(&ev) == PT::Entity::PCEntityType)
-		{
-		  const char * nick = 0;
-		  ev.Retrieve("entityName", nick);
-		  AddPlayer(nick);
-		}
-	  }
-	  else if (evmgr->IsKindOf(id, "entity.remove"))
-	  {
-		unsigned int entid = EntityHelper::GetEntityID(&ev);
+        if (evmgr->IsKindOf(id, "entity.add"))
+        {
+          if (EntityHelper::GetEntityType(&ev) == PT::Entity::PCEntityType)
+          {
+            const char * nick = 0;
+            ev.Retrieve("entityName", nick);
+            AddPlayer(nick);
+          }
+        }
+        else if (evmgr->IsKindOf(id, "entity.remove"))
+        {
+          unsigned int entid = EntityHelper::GetEntityID(&ev);
 
-		PT::Entity::Entity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(entid);
-		if (!ent) return false;
+          PT::Entity::Entity* ent = PointerLibrary::getInstance()->
+            getEntityManager()->findPtEntById(entid);
+          if (!ent) return false;
 
-		if (ent->GetType() == PT::Entity::PCEntityType)
-		{
-		  RemovePlayer(ent->GetName().c_str());
-		}
-	  }
+          if (ent->GetType() == PT::Entity::PCEntityType)
+          {
+            RemovePlayer(ent->GetName().c_str());
+          }
+        }
 
-	  return true;
-	}
-    bool BuddyWindow::Create()
-    {
-      ReloadWindow();
-      return true;
-    }
+        return true;
+      } // end ProcessEvents()
 
-    bool BuddyWindow::ReloadWindow()
-    {
-      window = GUIWindow::LoadLayout ("client/buddylist.xml");
-      GUIWindow::AddToRoot(window);
+      bool BuddyWindow::Create()
+      {
+        ReloadWindow();
+        return true;
+      }  // end Create()
 
-	  // Create the UserTab
-	  CEGUI::MultiColumnList* usertab = static_cast<CEGUI::MultiColumnList*>(winMgr->createWindow("Peragro/MultiColumnList","BuddyList/SkillTab"));
-	  usertab->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
-	  usertab->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
-	  CEGUI::String name("Name");
-	  usertab->addColumn(name,0,CEGUI::UDim(0.9f,0));
-	  usertab->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-	  usertab->setUserColumnSizingEnabled(false);
-	  usertab->setProperty("Font", "Commonwealth-8");
-	  usertab->setText(" Players");
+      bool BuddyWindow::ReloadWindow()
+      {
+        window = GUIWindow::LoadLayout ("client/buddylist.xml");
+        GUIWindow::AddToRoot(window);
 
-	  // Get the tabcontrol.
-	  CEGUI::TabControl* tabcontrol = static_cast<CEGUI::TabControl*>(winMgr->getWindow("BuddyList/TabControl"));
-	  tabcontrol->setTabHeight(CEGUI::UDim(0.10f,0));
-	  tabcontrol->addTab(usertab);
-      //EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+        // Create the UserTab
+        CEGUI::MultiColumnList* usertab = static_cast<CEGUI::MultiColumnList*>
+          (winMgr->createWindow("Peragro/MultiColumnList","BuddyList/SkillTab"));
+        usertab->
+          setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
+        usertab->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
+        CEGUI::String name("Name");
+        usertab->addColumn(name,0,CEGUI::UDim(0.9f,0));
+        usertab->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+        usertab->setUserColumnSizingEnabled(false);
+        usertab->setProperty("Font", "Commonwealth-8");
+        usertab->setText(" Players");
 
-	  // Get the frame window
-	  CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("BuddyList/Frame"));
-	  frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&BuddyWindow::handleCloseButton, this));
+        // Get the tabcontrol.
+        CEGUI::TabControl* tabcontrol = static_cast<CEGUI::TabControl*>
+          (winMgr->getWindow("BuddyList/TabControl"));
+        tabcontrol->setTabHeight(CEGUI::UDim(0.10f,0));
+        tabcontrol->addTab(usertab);
+        //EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
-	  using namespace PT::Events;
+        // Get the frame window
+        CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>
+          (winMgr->getWindow("BuddyList/Frame"));
+        frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
+          CEGUI::Event::Subscriber(&BuddyWindow::handleCloseButton, this));
 
-	  EventHandler<BuddyWindow>* cb = new EventHandler<BuddyWindow>(&BuddyWindow::ProcessEvents, this);
-	  // Register listener for EntityAddEvent.
-	  PointerLibrary::getInstance()->getEventManager()->AddListener("entity.add", cb);
-	  // Register listener for EntityRemoveEvent.
-	  PointerLibrary::getInstance()->getEventManager()->AddListener("entity.remove", cb);
-	  // Key for buddylist toggle.
-	  EventHandler<BuddyWindow>* cbtoggle = new EventHandler<BuddyWindow>(&BuddyWindow::ToggleWindow, this);
-	  PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_TOGGLEBUDDYWINDOW", cbtoggle);
-      return true;
-    }
-    }
-  }
-}
+        using namespace PT::Events;
+
+        EventHandler<BuddyWindow>* cb =
+          new EventHandler<BuddyWindow>(&BuddyWindow::ProcessEvents, this);
+        // Register listener for EntityAddEvent.
+        PointerLibrary::getInstance()->getEventManager()->
+          AddListener("entity.add", cb);
+        // Register listener for EntityRemoveEvent.
+        PointerLibrary::getInstance()->getEventManager()->
+          AddListener("entity.remove", cb);
+        // Key for buddylist toggle.
+        EventHandler<BuddyWindow>* cbtoggle =
+          new EventHandler<BuddyWindow>(&BuddyWindow::ToggleWindow, this);
+        PointerLibrary::getInstance()->getEventManager()->
+          AddListener("input.ACTION_TOGGLEBUDDYWINDOW", cbtoggle);
+        return true;
+      } // end ReloadWindow()
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
+

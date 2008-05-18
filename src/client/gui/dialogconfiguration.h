@@ -110,7 +110,7 @@ namespace PT
       bool ApplyDialogConfiguration(const std::string& windowName);
 
       /* AddDialog
-      * 
+      *
       * Adds a dialog to the system, which position and size are to
       *  be saved.
       *
@@ -165,10 +165,10 @@ namespace PT
       *
       * Sets the dialog back to it's default settings.
       *
-      * @param	 windowName	The name of the window.
-      * @param   position		True if the position needs to be set to default.
-      * @param   size				True if the size needs to be set to default.
-      * @param   visible		True if the visibility needs to be set to default.
+      * @param     windowName    The name of the window.
+      * @param   position        True if the position needs to be set to default.
+      * @param   size                True if the size needs to be set to default.
+      * @param   visible        True if the visibility needs to be set to default.
       * \return  True if successful, false if not.
       */
       bool SetDialogToDefault(const std::string& windowName, bool position = true, bool size = true, bool visible = true);

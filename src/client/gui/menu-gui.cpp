@@ -44,7 +44,7 @@ namespace PT
     {
     }
 
-    bool MenuWindow::MenuButtonPressed (const CEGUI::EventArgs& e) 
+    bool MenuWindow::MenuButtonPressed (const CEGUI::EventArgs& e)
     {
       CEGUI::Window* btn = guimanager->GetCeguiWindow("Menu/Dialog");
       if (btn)

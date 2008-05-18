@@ -90,7 +90,7 @@ namespace PT
       skillManager = PointerLibrary::getInstance()->getSkillDataManager();
       network      = PointerLibrary::getInstance()->getNetwork();
 
-      using namespace PT::Events; 
+      using namespace PT::Events;
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
       // Register listener for ActionHit.
@@ -151,12 +151,12 @@ namespace PT
       ev.Retrieve("name", name);
       ev.Retrieve("level", level);
 
-      if (strncmp("Endurance", name, strlen("Endurance")) == 0) 
+      if (strncmp("Endurance", name, strlen("Endurance")) == 0)
       {
         maxhp = level;
       }
 
-      if (strncmp("Health", name, strlen("Health")) == 0) 
+      if (strncmp("Health", name, strlen("Health")) == 0)
       {
         hp = level;
       }
@@ -197,7 +197,7 @@ namespace PT
 
       unsigned int statId = -1;
       ev.Retrieve("id", statId);
-      
+
       // Locate the correct stat.
       Stat* stat = stats->GetStat(statId);
       if (!stat)
@@ -209,16 +209,16 @@ namespace PT
       unsigned int oldValue = stat->level;
       ev.Retrieve("level", stat->level);
 
-      if (strncmp("Health", stat->name.c_str(), strlen("Health")) == 0) 
+      if (strncmp("Health", stat->name.c_str(), strlen("Health")) == 0)
       {
         // If the health update belong to the player, update the gui.
-        if (target->GetType() == PlayerEntityType) 
+        if (target->GetType() == PlayerEntityType)
         {
           // Life = 1 * endurance
           int maxLife = stats->GetStatLevel("Endurance");
 
-	  GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-	  HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
+          GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+          HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
           hudWindow->SetHP(stat->level, maxLife);
         }
 
@@ -232,7 +232,7 @@ namespace PT
           Hit(target, damage);
         }
         // If HP = 0, then play the die animation for the dying entity.
-        if (stat->level == 0) 
+        if (stat->level == 0)
           Die(target);
       }
 
@@ -338,7 +338,7 @@ namespace PT
         char msg[1024];
         sprintf(msg,"%s", *error);
         ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
-	chatWindow->AddMessage(msg);
+        chatWindow->AddMessage(msg);
         return;
       }
 
@@ -532,7 +532,7 @@ namespace PT
       // Only attack upon button down events.
       if (InputHelper::GetButtonDown(&ev))
       {
-         
+
         csRef<iCelEntity> ent = PointerLibrary::getInstance()->getCursor()->GetSelectedEntity();
         if (!ent) return false;
         csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);

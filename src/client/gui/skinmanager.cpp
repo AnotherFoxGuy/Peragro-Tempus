@@ -67,13 +67,13 @@ namespace PT
 
       Skin* skin = skinWindow->GetSelectedSkin();
       if (!skin) return false;
-  
-	  if (skin->name == currentSkin.name && skin->path == currentSkin.path)
+
+      if (skin->name == currentSkin.name && skin->path == currentSkin.path)
       {
         Report(PT::Notify, "User attempted to load skin already in use.");
-	    return false;
+        return false;
       }
-	  else
+      else
       {
         ChangeSkin(skin->GetName());
       }
@@ -179,7 +179,7 @@ namespace PT
       system = cegui->GetSystemPtr();
 
       if (!LoadDefaultSkin())
-        return false; 
+        return false;
 
       SearchForSkins("/peragro/skins/");
 
@@ -187,9 +187,9 @@ namespace PT
 
       // Register listener for interface.
       EventHandler<SkinManager>* cb = new EventHandler<SkinManager>(&SkinManager::LoadPressed, this);
-	  PT::Events::EventManager* eventManager = PointerLibrary::getInstance()->getEventManager();
+      PT::Events::EventManager* eventManager = PointerLibrary::getInstance()->getEventManager();
       eventManager->AddListener("interface.skinwindow.buttons.load", cb);
-      
+
       return true;
     }
 
@@ -202,7 +202,7 @@ namespace PT
       CEGUI::Window* win = 0;
       try
       {
-		  win = winMgr->loadWindowLayout(layoutFile);
+          win = winMgr->loadWindowLayout(layoutFile);
       }
       catch ( CEGUI::Exception& e )
       {
@@ -248,7 +248,7 @@ namespace PT
       // Switch to the new skin.
       Skin newSkin = FindSkin (skinname);
 
-	  currentSkin = newSkin;
+      currentSkin = newSkin;
       Report(PT::Notify, "Switching to new skin: '%s' at '%s'", currentSkin.GetName(), currentSkin.GetPath());
 
       // Load new scheme.
@@ -305,9 +305,9 @@ namespace PT
 
       return true;
     }
-	Skin SkinManager::GetCurrentSkin()
-	{
-		return currentSkin;
-	}
+    Skin SkinManager::GetCurrentSkin()
+    {
+        return currentSkin;
+    }
   } // GUI namespace
 } // PT namespace

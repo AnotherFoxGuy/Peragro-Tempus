@@ -33,69 +33,69 @@ namespace PT
   {
     namespace Windows
     {
-	SellWindow::SellWindow(GUIManager* guimanager)
-	: GUIWindow (guimanager)
-	{
+    SellWindow::SellWindow(GUIManager* guimanager)
+    : GUIWindow (guimanager)
+    {
        windowName = SELLWINDOW;
-	}
+    }
 
-	SellWindow::~SellWindow()
-	{
-	}
+    SellWindow::~SellWindow()
+    {
+    }
 
-	bool SellWindow::OnCloseButton(const CEGUI::EventArgs& args)
-	{
+    bool SellWindow::OnCloseButton(const CEGUI::EventArgs& args)
+    {
 
-	  return true;
-	}
+      return true;
+    }
 
-	bool SellWindow::OnAccept(const CEGUI::EventArgs& args)
-	{
-	  return true;
-	}
+    bool SellWindow::OnAccept(const CEGUI::EventArgs& args)
+    {
+      return true;
+    }
 
-	bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid)
-	{
-	  if(slotid > 12) return false;
+    bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid)
+    {
+      if(slotid > 12) return false;
 
-	  Slot* slot = upperslots[slotid];
+      Slot* slot = upperslots[slotid];
 
-	  if (!slot)
-	  {
-		Report(PT::Error, "SellWindow: Couldn't add item %d in slot %d!", itemid,slotid);
-		return false;
-	  }
+      if (!slot)
+      {
+        Report(PT::Error, "SellWindow: Couldn't add item %d in slot %d!", itemid,slotid);
+        return false;
+      }
 
-	  slot->SetObject(dragdrop->CreateItem(itemid, 0));
+      slot->SetObject(dragdrop->CreateItem(itemid, 0));
 
-	  return true;
-	}
+      return true;
+    }
 
-	void SellWindow::AcceptTrade()
-	{
-	  winMgr->getWindow("SellWindow/Frame")->setVisible(false);
+    void SellWindow::AcceptTrade()
+    {
+      winMgr->getWindow("SellWindow/Frame")->setVisible(false);
 
-	  int nrInventorySlots = 30;
+      int nrInventorySlots = 30;
 
-	  // Putting the new items in the inventory.
-	  int counter = 10;
-	  InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
+      // Putting the new items in the inventory.
+      int counter = 10;
+      InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
 
-	  for (size_t i=0; i<lowerslots.GetSize(); i++)
-	  {
-		Slot* slot = lowerslots[i];
-		if(!slot->IsEmpty())
-		{
-		  Object* object = slot->GetObject();
+      for (size_t i=0; i<lowerslots.GetSize(); i++)
+      {
+        Slot* slot = lowerslots[i];
+        if(!slot->IsEmpty())
+        {
+          Object* object = slot->GetObject();
 
-		  while(!inventoryWindow->AddItem(object->GetId(), object->GetVariationId(), counter)
-			&& counter < nrInventorySlots)
-		  {
-			counter += 1;
-		  }
-		}
-	  }
-	}
+          while(!inventoryWindow->AddItem(object->GetId(), object->GetVariationId(), counter)
+            && counter < nrInventorySlots)
+          {
+            counter += 1;
+          }
+        }
+      }
+    }
 
     bool SellWindow::Create()
     {
@@ -105,27 +105,27 @@ namespace PT
 
     bool SellWindow::ReloadWindow()
     {
-	  window = GUIWindow::LoadLayout ("client/sell.xml");
+      window = GUIWindow::LoadLayout ("client/sell.xml");
       GUIWindow::AddToRoot(window);
-	  winMgr = cegui->GetWindowManagerPtr ();
+      winMgr = cegui->GetWindowManagerPtr ();
 
-	  dragdrop = guimanager->GetDragDrop();
+      dragdrop = guimanager->GetDragDrop();
 
-	  // Get the frame window
-	  CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("SellWindow/Frame"));
-	  frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&SellWindow::OnCloseButton, this));
+      // Get the frame window
+      CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("SellWindow/Frame"));
+      frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&SellWindow::OnCloseButton, this));
 
-	  // Get the frame window
-	  CEGUI::PushButton* accept1 = static_cast<CEGUI::PushButton*>(winMgr->getWindow("SellWindow/Accept"));
-	  accept1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SellWindow::OnAccept, this));
+      // Get the frame window
+      CEGUI::PushButton* accept1 = static_cast<CEGUI::PushButton*>(winMgr->getWindow("SellWindow/Accept"));
+      accept1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SellWindow::OnAccept, this));
 
-	  // Populate the Player1 bag with slots.
-	  //CEGUI::Window* bag1 = winMgr->getWindow("SellWindow/UpperSlots/UpperBag");
-	  //dragdrop->CreateBag(bag1, &upperslots, Inventory::SellUpper, DragDrop::Item, 3, 4);
+      // Populate the Player1 bag with slots.
+      //CEGUI::Window* bag1 = winMgr->getWindow("SellWindow/UpperSlots/UpperBag");
+      //dragdrop->CreateBag(bag1, &upperslots, Inventory::SellUpper, DragDrop::Item, 3, 4);
 
-	  // Populate the lower bag with slots.
-	  //CEGUI::Window* bag2 = winMgr->getWindow("SellWindow/LowerSlots/LowerBag");
-	  //dragdrop->CreateBag(bag2, &lowerslots, Inventory::SellLower, DragDrop::Item, 2, 4);
+      // Populate the lower bag with slots.
+      //CEGUI::Window* bag2 = winMgr->getWindow("SellWindow/LowerSlots/LowerBag");
+      //dragdrop->CreateBag(bag2, &lowerslots, Inventory::SellLower, DragDrop::Item, 2, 4);
 
       return true;
     }

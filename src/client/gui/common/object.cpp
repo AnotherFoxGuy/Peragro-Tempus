@@ -18,15 +18,15 @@
 
 #include "client/gui/common/object.h"
 
-
-Object::Object ()
+Object::Object()
 {
   objectid = 0;
   amount = 0;
   variationid = 0;
   stackable = false;
-}
+} // end Object()
 
 Object::~Object()
 {
-}
+} // end ~Object()
+

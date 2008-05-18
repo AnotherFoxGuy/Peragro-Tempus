@@ -69,7 +69,7 @@ namespace PT
       {
         using namespace PT::GUI;
         using namespace PT::GUI::Windows;
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         PT::Chat::ChatManager* chatmgr = PointerLibrary::getInstance()->getChatManager();
         if(!chatmgr) return;
@@ -77,8 +77,8 @@ namespace PT
         // Element 0 is '/', 1 is 'help'
         if (args.size() < 2 || args.size() > 2)
         {
-          
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -92,7 +92,7 @@ namespace PT
             std::string text = it->get()->GetCommand();
             text += ": ";
             text += it->get()->GetDescription();
-	    ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+            ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
             chatWindow->AddMessage (text.c_str());
           } // for
 
@@ -114,7 +114,7 @@ namespace PT
         using namespace PT::GUI;
         using namespace PT::GUI::Windows;
 
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
@@ -137,7 +137,7 @@ namespace PT
         }
         else if (args.size() < 3)
         {
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -174,7 +174,7 @@ namespace PT
         using namespace PT::GUI;
         using namespace PT::GUI::Windows;
 
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
@@ -182,7 +182,7 @@ namespace PT
         // Element 0 is '/', 1 is 'say'
         if (args.size() < 3)
         {
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -221,13 +221,13 @@ namespace PT
 
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
 
         // Element 0 is '/', 1 is 'me'
         if (args.size() < 3)
         {
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -264,7 +264,7 @@ namespace PT
         using namespace PT::GUI;
         using namespace PT::GUI::Windows;
 
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
@@ -272,7 +272,7 @@ namespace PT
         // Element 0 is '/', 1 is 'say'
         if (args.size() < 3)
         {
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -308,7 +308,7 @@ namespace PT
         using namespace PT::GUI;
         using namespace PT::GUI::Windows;
 
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
@@ -318,7 +318,7 @@ namespace PT
         // Element 0 is '/', 1 is 'greet'
         if (args.size() < 3 || args.size() > 3)
         {
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -367,7 +367,7 @@ namespace PT
         using namespace PT::GUI;
         using namespace PT::GUI::Windows;
 
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
@@ -377,7 +377,7 @@ namespace PT
         // Element 0 is '/', 1 is 'sit'
         if (args.size() < 2 || args.size() > 3)
         {
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -409,7 +409,7 @@ namespace PT
         using namespace PT::GUI;
         using namespace PT::GUI::Windows;
 
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
@@ -417,7 +417,7 @@ namespace PT
         // Element 0 is '/', 1 is 'relocate'
         if (args.size() < 2)
         {
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -444,7 +444,7 @@ namespace PT
         using namespace PT::GUI;
         using namespace PT::GUI::Windows;
 
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
@@ -452,7 +452,7 @@ namespace PT
         // Element 0 is '/', 1 is 'whisper'
         if (args.size() < 4)
         {
-	  ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
           chatWindow->AddMessage ( Help() );
           return;
         }
@@ -470,7 +470,7 @@ namespace PT
           // Get your own nickname.
           std::string ownnick = Entity::PlayerEntity::Instance()->GetName();
           // Add your own text to the whisper.
-	  WhisperWindow* whisperWindow = guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
+          WhisperWindow* whisperWindow = guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
           whisperWindow->AddWhisper(nick.c_str(), text.c_str(), ownnick.c_str());
           // Send the whisper to the network.
           WhisperToMessage nmsg;
@@ -511,7 +511,7 @@ namespace PT
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
 
-	GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if(!guimanager) return;
         ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
         if(!chatWindow) return;

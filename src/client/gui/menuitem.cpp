@@ -121,15 +121,15 @@ namespace PT
     bool MenuItem::OnButtonUp(const CEGUI::EventArgs &e)
     {
       using namespace CEGUI;
- 
+
       const MouseEventArgs& args = static_cast<const MouseEventArgs&>(e);
- 
+
       if (args.button == LeftButton)
       {
         textButton->setProperty("DisabledTextColour", "FFBBBBFF");
         std::string value = "set:Buttons image:Button_" + imageBase + "_Over";
         iconButton->setProperty("NormalImage", value);
- 
+
         if (!menuManager->IsDragging())
         {
           menuManager->OnItemClicked(this);

@@ -18,15 +18,14 @@
 
 #include "client/gui/common/slot.h"
 
-
-Slot::Slot ()
+Slot::Slot()
 {
   object = 0;
-}
+} // end Slot()
 
 Slot::~Slot()
 {
-}
+} // end ~Slot()
 
 bool Slot::IsEmpty()
 {
@@ -34,15 +33,16 @@ bool Slot::IsEmpty()
     return true;
   else
     return false;
-}
+} // end IsEmpty()
 
 void Slot::Clear()
 {
   object = 0;
-}
+} // end Clear()
 
 void Slot::MoveObjectTo(Slot* slot)
 {
   slot->SetObject(this->GetObject());
   this->Clear();
-}
+} // end MoveObjectTo()
+

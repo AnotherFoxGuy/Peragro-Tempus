@@ -31,74 +31,79 @@ namespace PT
 {
   namespace GUI
   {
-	GUIWindow::GUIWindow(GUIManager* guimanager)
-	: guimanager(guimanager)
-	{
-	  window = 0;
-	  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-	  vfs = csQueryRegistry<iVFS>(obj_reg);
-	  cegui = guimanager->GetCEGUI ();
-	  network = PointerLibrary::getInstance()->getNetwork();
-	  winMgr = cegui->GetWindowManagerPtr ();
-	}
-	GUIWindow::~GUIWindow()
-	{
-	}
+    GUIWindow::GUIWindow(GUIManager* guimanager)
+    : guimanager(guimanager)
+    {
+      window = 0;
+      iObjectRegistry* obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+      vfs = csQueryRegistry<iVFS>(obj_reg);
+      cegui = guimanager->GetCEGUI ();
+      network = PointerLibrary::getInstance()->getNetwork();
+      winMgr = cegui->GetWindowManagerPtr ();
+    } // end GUIWindow()
 
-	CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
-	{
-	  // Load layout and set as root
-	  CEGUI::Window* win = guimanager->GetSkinMananger()->loadLayout(layoutFile);
+    GUIWindow::~GUIWindow()
+    {
+    } // end ~GUIWindow()
+
+    CEGUI::Window* GUIWindow::LoadLayout(const char* layoutFile)
+    {
+      // Load layout and set as root
+      CEGUI::Window* win =
+        guimanager->GetSkinMananger()->loadLayout(layoutFile);
       return win;
-	}
+    } // end LoadLayout()
 
-	bool GUIWindow::AddToRoot (CEGUI::Window* window)
-	{
-	  CEGUI::Window* root = guimanager->GetCeguiWindow(ROOTWINDOW);
-	  if (root && window)   
-	  {
-		root->addChildWindow(window);
-		HideWindow();
-		return true;
-	  }
-	  else
-	  {
-		printf("E: Failed adding a window to root!\n");
-		return false;
-	  }
-	}
-
-	void GUIWindow::HideWindow()
-	{
-	  if (window) window->setVisible(false);
-	}
-
-	void GUIWindow::ShowWindow()
-	{
-	  if (window) window->setVisible(true);
-	}
-
-	bool GUIWindow::IsVisible()
-	{
- 	  if (window) 
-        return window->isVisible();
+    bool GUIWindow::AddToRoot(CEGUI::Window* window)
+    {
+      CEGUI::Window* root = guimanager->GetCeguiWindow(ROOTWINDOW);
+      if (root && window)
+      {
+        root->addChildWindow(window);
+        HideWindow();
+        return true;
+      }
       else
+      {
+        printf("E: Failed adding a window to root!\n");
         return false;
-	}
+      }
+    } // end AddToRoot()
 
-	void GUIWindow::DisableWindow()
-	{
-	  if (window) window->setEnabled(false);
-	}
+    void GUIWindow::HideWindow()
+    {
+      if (window) window->setVisible(false);
+    } // end HideWindow()
 
-	void GUIWindow::EnableWindow()
-	{
-	  if (window) window->setEnabled(true);
-	}
+    void GUIWindow::ShowWindow()
+    {
+      if (window) window->setVisible(true);
+    } // end ShowWindow()
 
-	void GUIWindow::BringToFront()
-	{
-		if (window) window->activate();
-	}
-  }
-}
+    bool GUIWindow::IsVisible()
+    {
+       if (window)
+          return window->isVisible();
+        else
+          return false;
+    } // end IsVisible()
+
+    void GUIWindow::DisableWindow()
+    {
+      if (window) window->setEnabled(false);
+    } // end DisableWindow()
+
+    void GUIWindow::EnableWindow()
+    {
+      if (window) window->setEnabled(true);
+    } // end EnableWindow()
+
+    void GUIWindow::BringToFront()
+    {
+      if (window) window->activate();
+    } // end BringToFront()
+
+  } // GUI namespace
+} // PT namespace
+

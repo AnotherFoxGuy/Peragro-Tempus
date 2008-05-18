@@ -58,11 +58,11 @@ namespace PT
       using namespace CEGUI;
       using namespace PT::Events;
 
-	  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.skinwindow.buttons.load", false); 
-	  evmgr->AddEvent(interfaceEvent);
+      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.skinwindow.buttons.load", false);
+      evmgr->AddEvent(interfaceEvent);
 
-	  return true;
+      return true;
     }
 
     bool SkinWindow::ReloadWindow ()
@@ -113,7 +113,7 @@ namespace PT
     {
       // Get the window.
       CEGUI::Window* window = guimanager->GetCeguiWindow("Skins/List");
-      if (!window) 
+      if (!window)
       {
         Report(PT::Error, "SkinWindow: the 'Skins/List' window couldn't be found!");
         return 0;
@@ -121,14 +121,14 @@ namespace PT
 
       // Get the listbox.
       CEGUI::Listbox* listbox = static_cast<CEGUI::Listbox*>(window);
-      if (!listbox) 
+      if (!listbox)
       {
         Report(PT::Error, "SkinWindow: the 'Skins/List' window isn't a Listbox!");
         return 0;
       }
       // Get the item.
       CEGUI::ListboxItem* item = listbox->getFirstSelectedItem();
-      if (!item) 
+      if (!item)
       {
         Report(PT::Error, "SkinWindow: Invalid item!");
         return 0;
@@ -136,7 +136,7 @@ namespace PT
 
       //Get the skin.
       Skin* skin = static_cast<Skin*>(item->getUserData());
-      if (!skin) 
+      if (!skin)
       {
         Report(PT::Error, "SkinWindow: Invalid Skin!");
         return 0;
@@ -144,6 +144,6 @@ namespace PT
 
       return skin;
     }
-	}
+    }
   }
 } // PT namespace

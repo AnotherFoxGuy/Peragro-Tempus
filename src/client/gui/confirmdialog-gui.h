@@ -30,39 +30,39 @@ namespace PT
   {
     namespace Windows
     {
-	class OkDialogWindow : public GUIWindow
-	{
-	private:
-	  bool OnOkButton(const CEGUI::EventArgs& args);
+    class OkDialogWindow : public GUIWindow
+    {
+    private:
+      bool OnOkButton(const CEGUI::EventArgs& args);
 
-	public:
-	  OkDialogWindow(GUIManager* guimanager);
-	  virtual ~OkDialogWindow();
-	  // load the chat guilayout and register button events.
+    public:
+      OkDialogWindow(GUIManager* guimanager);
+      virtual ~OkDialogWindow();
+      // load the chat guilayout and register button events.
       bool Create();
-	  bool ReloadWindow();
+      bool ReloadWindow();
 
-	  void SetText(const char* text);
-	  void SetOkEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow);
-	};
+      void SetText(const char* text);
+      void SetOkEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow);
+    };
 
-	class ConfirmDialogWindow : public GUIWindow
-	{
-	private:
-	  bool OnYesButton(const CEGUI::EventArgs& args);
-	  bool OnNoButton(const CEGUI::EventArgs& args);
+    class ConfirmDialogWindow : public GUIWindow
+    {
+    private:
+      bool OnYesButton(const CEGUI::EventArgs& args);
+      bool OnNoButton(const CEGUI::EventArgs& args);
 
-	public:
-	  ConfirmDialogWindow(GUIManager* guimanager);
-	  virtual ~ConfirmDialogWindow();
+    public:
+      ConfirmDialogWindow(GUIManager* guimanager);
+      virtual ~ConfirmDialogWindow();
       bool Create();
-	  bool ReloadWindow();
+      bool ReloadWindow();
 
-	  void SetText(const char* text);
-	  void SetYesEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow=true);
-	  void SetNoEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow=true);
-	};
-	}
+      void SetText(const char* text);
+      void SetYesEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow=true);
+      void SetNoEvent(CEGUI::Event::Subscriber subscriber, bool destroywindow=true);
+    };
+    }
   }
 }
 

@@ -31,26 +31,26 @@ namespace PT
   {
     namespace Windows
     {
-	class BookWindow : public GUIWindow
-	{
-	private:
-	  unsigned int itemId;
-	  unsigned int slotId;
+      class BookWindow : public GUIWindow
+      {
+      private:
+        unsigned int itemId;
+        unsigned int slotId;
 
-	private:
-	  bool OnCloseButton(const CEGUI::EventArgs& args);
-	  bool HandleRead(iEvent& ev);
-	  bool HandleWrite(iEvent& ev);
+      private:
+        bool OnCloseButton(const CEGUI::EventArgs& args);
+        bool HandleRead(iEvent& ev);
+        bool HandleWrite(iEvent& ev);
 
-	public:
-	  BookWindow(PT::GUI::GUIManager* guimanager);
-	  virtual ~BookWindow();
-      bool Create();
-	  bool ReloadWindow();
-	  void SetBook(unsigned int itemId, unsigned int slotId);
-	};
-	}
-  }
-}
+      public:
+        BookWindow(PT::GUI::GUIManager* guimanager);
+        virtual ~BookWindow();
+        bool Create();
+        bool ReloadWindow();
+        void SetBook(unsigned int itemId, unsigned int slotId);
+      };
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
 #endif // BOOK_GUI_H

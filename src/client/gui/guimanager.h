@@ -61,21 +61,21 @@ namespace PT
       class LoadScreenWindow;
       class SkinWindow;
       class MenuWindow;
-	  class DragDrop;
-	}
-	class SkinManager;
-	class DialogConfiguration;
+      class DragDrop;
+    }
+    class SkinManager;
+    class DialogConfiguration;
     class MenuManager;
-    
 
-	class GUIManager
+
+    class GUIManager
     {
-    private:  
+    private:
       csRef<iCEGUI> cegui;
       csRef<iObjectRegistry> obj_reg;
       SkinManager* skinMgr;
       DialogConfiguration * dlgConfig;
-	  PT::GUI::MenuManager * menuMgr;
+      PT::GUI::MenuManager * menuMgr;
       PT::GUI::Windows::DragDrop* dragdrop;
       bool isInitialized;
 
@@ -123,14 +123,14 @@ namespace PT
       /// Creates the root window.
       bool CreateRootWindow ();
       /// Verifies if the guimanager has completed initialization.
-	  bool IsInitialized();
+      bool IsInitialized();
 
       void SavePositions ();
       void Reload ();
 
       MenuManager * GetMenuManager() { return menuMgr; }
-	  PT::GUI::Windows::DragDrop* GetDragDrop (){return dragdrop;}
-	};
+      PT::GUI::Windows::DragDrop* GetDragDrop (){return dragdrop;}
+    };
 }
 }
 #endif // GUIMANAGER_H

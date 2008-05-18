@@ -29,20 +29,20 @@ namespace PT
   {
     namespace Windows
     {
-	class ServerSetupWindow : public GUIWindow
-	{
-	private:
-	  bool DoneButton(const CEGUI::EventArgs& e);     // returns to the character menu.
-	  bool UploadButton(const CEGUI::EventArgs& e);   // Uploads the server data to the server.
-	  bool DownloadButton(const CEGUI::EventArgs& e); // Downloads the server data from the server.
+    class ServerSetupWindow : public GUIWindow
+    {
+    private:
+      bool DoneButton(const CEGUI::EventArgs& e);     // returns to the character menu.
+      bool UploadButton(const CEGUI::EventArgs& e);   // Uploads the server data to the server.
+      bool DownloadButton(const CEGUI::EventArgs& e); // Downloads the server data from the server.
 
-	public:
-	  ServerSetupWindow(GUIManager* guimanager);
-	  virtual ~ServerSetupWindow();
+    public:
+      ServerSetupWindow(GUIManager* guimanager);
+      virtual ~ServerSetupWindow();
       bool Create();
-	  bool ReloadWindow();
-	};
-	}
+      bool ReloadWindow();
+    };
+    }
   }
 }
 #endif // SERVERSETUP_GUI_H

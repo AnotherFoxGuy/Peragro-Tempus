@@ -29,35 +29,36 @@ namespace PT
   {
     namespace Windows
     {
-	class ChatWindow : public GUIWindow
-	{
-	private:
-	  bool OnDropList(const CEGUI::EventArgs& e);
-	  bool Onslider(const CEGUI::EventArgs& e);
-	  bool OnRootKeyDown(const CEGUI::EventArgs& e);
-	  void CreateDropList();
-	  bool HandleCommand(const char* texti);
+      class ChatWindow : public GUIWindow
+      {
+      private:
+        bool OnDropList(const CEGUI::EventArgs& e);
+        bool OnSlider(const CEGUI::EventArgs& e);
+        bool OnRootKeyDown(const CEGUI::EventArgs& e);
+        void CreateDropList();
+        bool HandleCommand(const char* texti);
 
-	  CEGUI::SlotFunctorBase* sumbitEventSubscriber;
-	  bool visible;
+        CEGUI::SlotFunctorBase* sumbitEventSubscriber;
+        bool visible;
 
-	public:
-	  ChatWindow(GUIManager* guimanager);
-	  virtual ~ChatWindow();
-      bool Create();
-	  bool ReloadWindow();
+      public:
+        ChatWindow(GUIManager* guimanager);
+        virtual ~ChatWindow();
+        bool Create();
+        bool ReloadWindow();
 
-	  void AddChatMessage (const char* nick, const char* msg);
-	  void AddMessage (const char* msg);
+        void AddChatMessage (const char* nick, const char* msg);
+        void AddMessage (const char* msg);
 
-	  /// Set the behaviour for the load button.
-	  void SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber);
+        /// Set the behaviour for the load button.
+        void SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber);
 
-	  void HideWindow();
-	  void ShowWindow();
-	};
-	}
-  }
-}
+        void HideWindow();
+        void ShowWindow();
+      };
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
 #endif // CHAT_GUI_H

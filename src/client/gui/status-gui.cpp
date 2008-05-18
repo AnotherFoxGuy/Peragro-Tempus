@@ -32,87 +32,87 @@ namespace PT
     namespace Windows
     {
 
-	StatusWindow::StatusWindow(GUIManager* guimanager)
-	: GUIWindow (guimanager)
-	{
+    StatusWindow::StatusWindow(GUIManager* guimanager)
+    : GUIWindow (guimanager)
+    {
        windowName = STATUSWINDOW;
-	}
+    }
 
-	StatusWindow::~StatusWindow()
-	{
-	}
+    StatusWindow::~StatusWindow()
+    {
+    }
 
-	bool StatusWindow::handleCloseButton(const CEGUI::EventArgs& args)
-	{
-	  winMgr->getWindow("Status/Frame")->setVisible(false);
-	  //winMgr->getWindow("Chatlog/Frame")->activate();
-	  return true;
-	}
-	CEGUI::Window* StatusWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
-	{
-	  // Create the slot
-	  CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
-	  parent->addChildWindow(slot);
-	  slot->setPosition(position);
-	  slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
+    bool StatusWindow::handleCloseButton(const CEGUI::EventArgs& args)
+    {
+      winMgr->getWindow("Status/Frame")->setVisible(false);
+      //winMgr->getWindow("Chatlog/Frame")->activate();
+      return true;
+    }
+    CEGUI::Window* StatusWindow::createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position)
+    {
+      // Create the slot
+      CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
+      parent->addChildWindow(slot);
+      slot->setPosition(position);
+      slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
 
-	  return slot;
-	}
+      return slot;
+    }
 
-	CEGUI::Window* StatusWindow::createItemIcon(CEGUI::String itemname, int itemtype, bool stackable)
-	{
-	  using namespace CEGUI;
+    CEGUI::Window* StatusWindow::createItemIcon(CEGUI::String itemname, int itemtype, bool stackable)
+    {
+      using namespace CEGUI;
 
-	  char uniquename[1024];
-	  counter += 1;
-	  sprintf(uniquename, "%d_%d_icon", itemtype, counter);
+      char uniquename[1024];
+      counter += 1;
+      sprintf(uniquename, "%d_%d_icon", itemtype, counter);
 
-	  // create a drag/drop item
-	  CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
-		winMgr->createWindow("DragContainer", uniquename));
-	  item->setPosition(CEGUI::UVector2(cegui_reldim(0.05f), cegui_reldim(0.05f)));
-	  item->setSize(CEGUI::UVector2(cegui_reldim(0.9f), cegui_reldim(0.9f)));
-	  item->setTooltipText(itemname);
-	  // Set the itemID.
-	  char itemtypestr[1024];
-	  sprintf(itemtypestr, "%d", itemtype);
-	  item->setUserString("itemtype" , itemtypestr);
-	  // Set wether or not the item is stackable
-	  if (stackable)
-		item->setUserString("stackable" , "true");
-	  else item->setUserString("stackable" , "false");
+      // create a drag/drop item
+      CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>(
+        winMgr->createWindow("DragContainer", uniquename));
+      item->setPosition(CEGUI::UVector2(cegui_reldim(0.05f), cegui_reldim(0.05f)));
+      item->setSize(CEGUI::UVector2(cegui_reldim(0.9f), cegui_reldim(0.9f)));
+      item->setTooltipText(itemname);
+      // Set the itemID.
+      char itemtypestr[1024];
+      sprintf(itemtypestr, "%d", itemtype);
+      item->setUserString("itemtype" , itemtypestr);
+      // Set wether or not the item is stackable
+      if (stackable)
+        item->setUserString("stackable" , "true");
+      else item->setUserString("stackable" , "false");
 
-	  // set a static image as drag container's contents
-	  CEGUI::Window* itemIcon = winMgr->createWindow("Peragro/StaticImage");
-	  item->addChildWindow(itemIcon);
-	  itemIcon->setPosition(CEGUI::UVector2(cegui_reldim(0), cegui_reldim(0)));
-	  itemIcon->setSize(CEGUI::UVector2(cegui_reldim(1), cegui_reldim(1)));
-	  //itemIcon->setProperty("Image", "set:Peragro image:CloseButtonNormal");
-	  char inventoryimage[1024];
-	  sprintf(inventoryimage, "set:Inventory image:%d", itemtype);
-	  itemIcon->setProperty("Image", inventoryimage);
-	  // disable to allow inputs to pass through.
-	  itemIcon->disable();
+      // set a static image as drag container's contents
+      CEGUI::Window* itemIcon = winMgr->createWindow("Peragro/StaticImage");
+      item->addChildWindow(itemIcon);
+      itemIcon->setPosition(CEGUI::UVector2(cegui_reldim(0), cegui_reldim(0)));
+      itemIcon->setSize(CEGUI::UVector2(cegui_reldim(1), cegui_reldim(1)));
+      //itemIcon->setProperty("Image", "set:Peragro image:CloseButtonNormal");
+      char inventoryimage[1024];
+      sprintf(inventoryimage, "set:Inventory image:%d", itemtype);
+      itemIcon->setProperty("Image", inventoryimage);
+      // disable to allow inputs to pass through.
+      itemIcon->disable();
 
-	  return item;
-	}
+      return item;
+    }
 
-	void StatusWindow::AddSkil(const char* skillname, unsigned int skillvalue)
-	{
-	  btn = winMgr->getWindow("Status/SkillTab");
-	  char charskillvalue[10];
-	  sprintf(charskillvalue, "%d", skillvalue);
-	  CEGUI::ListboxItem* skillvalueItem = new CEGUI::ListboxTextItem(charskillvalue);
-	  CEGUI::ListboxItem* skillnameItem = new CEGUI::ListboxTextItem(skillname);
+    void StatusWindow::AddSkil(const char* skillname, unsigned int skillvalue)
+    {
+      btn = winMgr->getWindow("Status/SkillTab");
+      char charskillvalue[10];
+      sprintf(charskillvalue, "%d", skillvalue);
+      CEGUI::ListboxItem* skillvalueItem = new CEGUI::ListboxTextItem(charskillvalue);
+      CEGUI::ListboxItem* skillnameItem = new CEGUI::ListboxTextItem(skillname);
 
-	  //skillvalueItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
-	  //skillnameItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
+      //skillvalueItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
+      //skillnameItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
 
-	  unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
-	  ((CEGUI::MultiColumnList*)btn)->setItem(skillnameItem, 0, row);
-	  ((CEGUI::MultiColumnList*)btn)->setItem(skillvalueItem, 1, row);
-	  //((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-	}
+      unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
+      ((CEGUI::MultiColumnList*)btn)->setItem(skillnameItem, 0, row);
+      ((CEGUI::MultiColumnList*)btn)->setItem(skillvalueItem, 1, row);
+      //((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+    }
 
     bool StatusWindow::Create()
     {
@@ -122,58 +122,58 @@ namespace PT
 
     bool StatusWindow::ReloadWindow()
     {
-	  using namespace CEGUI;
+      using namespace CEGUI;
 
-	  window = GUIWindow::LoadLayout ("client/status.xml");
+      window = GUIWindow::LoadLayout ("client/status.xml");
       GUIWindow::AddToRoot(window);
 
-	  winMgr = cegui->GetWindowManagerPtr ();
+      winMgr = cegui->GetWindowManagerPtr ();
 
-	  // Create the SkillTab
-	  CEGUI::MultiColumnList* skilltab = static_cast<CEGUI::MultiColumnList*>(winMgr->createWindow("Peragro/MultiColumnList","Status/SkillTab"));
-	  skilltab->setPosition(CEGUI::UVector2(cegui_reldim(0), cegui_reldim(0)));
-	  skilltab->setSize(CEGUI::UVector2(cegui_reldim(1), cegui_reldim(1)));
-	  CEGUI::String str_skill("Skill");
-	  CEGUI::String str_value("Value");
-	  skilltab->addColumn(str_skill,0,CEGUI::UDim(0.65f,0));
-	  skilltab->addColumn(str_value,1,CEGUI::UDim(0.35f,0));
-	  skilltab->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-	  skilltab->setUserColumnSizingEnabled(false);
-	  skilltab->setProperty("Font", "Commonwealth-8");
-	  skilltab->setText("Skills");
+      // Create the SkillTab
+      CEGUI::MultiColumnList* skilltab = static_cast<CEGUI::MultiColumnList*>(winMgr->createWindow("Peragro/MultiColumnList","Status/SkillTab"));
+      skilltab->setPosition(CEGUI::UVector2(cegui_reldim(0), cegui_reldim(0)));
+      skilltab->setSize(CEGUI::UVector2(cegui_reldim(1), cegui_reldim(1)));
+      CEGUI::String str_skill("Skill");
+      CEGUI::String str_value("Value");
+      skilltab->addColumn(str_skill,0,CEGUI::UDim(0.65f,0));
+      skilltab->addColumn(str_value,1,CEGUI::UDim(0.35f,0));
+      skilltab->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+      skilltab->setUserColumnSizingEnabled(false);
+      skilltab->setProperty("Font", "Commonwealth-8");
+      skilltab->setText("Skills");
 
-	  // Create the SpellTab
-	  CEGUI::Window* spelltab = winMgr->createWindow("Peragro/StaticImage","Status/SpellTab");
-	  spelltab->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
-	  spelltab->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
-	  spelltab->setProperty("Font", "Commonwealth-8");
-	  spelltab->setText("Spells");
-	  for (int j=0; j<6; j++)
-	  {
-		for (int i=0; i<5; i++)
-		{
-		  createDragDropSlot(spelltab, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j))));
-		}
-	  }
+      // Create the SpellTab
+      CEGUI::Window* spelltab = winMgr->createWindow("Peragro/StaticImage","Status/SpellTab");
+      spelltab->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
+      spelltab->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
+      spelltab->setProperty("Font", "Commonwealth-8");
+      spelltab->setText("Spells");
+      for (int j=0; j<6; j++)
+      {
+        for (int i=0; i<5; i++)
+        {
+          createDragDropSlot(spelltab, CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j))));
+        }
+      }
 
-	  // Create the QuestTab
-	  CEGUI::Window* questtab = winMgr->createWindow("Peragro/StaticImage","Status/QuestTab");
-	  questtab->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
-	  questtab->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
-	  questtab->setProperty("Font", "Commonwealth-8");
-	  questtab->setText("Quests");
+      // Create the QuestTab
+      CEGUI::Window* questtab = winMgr->createWindow("Peragro/StaticImage","Status/QuestTab");
+      questtab->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
+      questtab->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
+      questtab->setProperty("Font", "Commonwealth-8");
+      questtab->setText("Quests");
 
-	  // Get the tabcontrol.
-	  CEGUI::TabControl* tabcontrol = static_cast<CEGUI::TabControl*>(winMgr->getWindow("Status/TabControl"));
-	  tabcontrol->setTabHeight(CEGUI::UDim(0.10f,0));
-	  tabcontrol->addTab(skilltab);
-	  tabcontrol->addTab(spelltab);
-	  tabcontrol->addTab(questtab);
+      // Get the tabcontrol.
+      CEGUI::TabControl* tabcontrol = static_cast<CEGUI::TabControl*>(winMgr->getWindow("Status/TabControl"));
+      tabcontrol->setTabHeight(CEGUI::UDim(0.10f,0));
+      tabcontrol->addTab(skilltab);
+      tabcontrol->addTab(spelltab);
+      tabcontrol->addTab(questtab);
 
 
-	  // Get the frame window
-	  CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("Status/Frame"));
-	  frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&StatusWindow::handleCloseButton, this));
+      // Get the frame window
+      CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("Status/Frame"));
+      frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&StatusWindow::handleCloseButton, this));
 
       return true;
     }

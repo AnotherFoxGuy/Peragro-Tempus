@@ -29,33 +29,33 @@ namespace PT
   {
     namespace Windows
     {
-	class InteractDialogWindow : public GUIWindow
-	{
-	private:
-	  bool newDialog;
-	  unsigned int interactId;
-	  unsigned int itemId;
-	  unsigned int variationId;
+    class InteractDialogWindow : public GUIWindow
+    {
+    private:
+      bool newDialog;
+      unsigned int interactId;
+      unsigned int itemId;
+      unsigned int variationId;
 
-	  float root_size;
-	  float button_size;
+      float root_size;
+      float button_size;
 
-	  void ClearActions();
-	  void AddAction(const char* action);
-	  void LayoutIcons();
+      void ClearActions();
+      void AddAction(const char* action);
+      void LayoutIcons();
 
-	  bool OnCancelButton(const CEGUI::EventArgs& args);
-	  bool OnAction(const CEGUI::EventArgs& args);
+      bool OnCancelButton(const CEGUI::EventArgs& args);
+      bool OnAction(const CEGUI::EventArgs& args);
 
-	public:
-	  InteractDialogWindow(GUIManager* guimanager);
-	  virtual ~InteractDialogWindow();
+    public:
+      InteractDialogWindow(GUIManager* guimanager);
+      virtual ~InteractDialogWindow();
       bool Create();
-	  bool ReloadWindow();
+      bool ReloadWindow();
 
-	  bool OnInteract (iEvent& ev);
-	};
-	}
+      bool OnInteract (iEvent& ev);
+    };
+    }
   }
 }
 

@@ -40,9 +40,9 @@ namespace PT
     namespace Windows
     {
       class DragDrop;
-    }
-  }
-}
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
 class Inventory
 {
@@ -74,12 +74,15 @@ private:
   CEGUI::WindowManager* winMgr;
 
 private:
-  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent, const CEGUI::UVector2& position);
+  CEGUI::Window* createDragDropSlot(CEGUI::Window* parent,
+                                    const CEGUI::UVector2& position);
 
 public:
   Inventory(PT::GUI::GUIManager* guimanager);
   ~Inventory();
-  void Create(CEGUI::Window* bag, Inventory::ParentType parent, PT::GUI::Windows::DragDrop::Type type , int rows, int columns, int offset=0);
+  void Create(CEGUI::Window* bag, Inventory::ParentType parent,
+              PT::GUI::Windows::DragDrop::Type type , int rows,
+              int columns, int offset = 0);
 
   void ClearSlotsDelete();
   unsigned int FindFreeSlot();
@@ -95,7 +98,6 @@ public:
   }
 
   csArray<Slot*>* GetSlotArray() { return &slotarray; }
-
 
 };
 

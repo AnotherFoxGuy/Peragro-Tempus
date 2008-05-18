@@ -30,11 +30,11 @@
 struct iObjectRegistry;
 
 /**
- * A macro to help register an eventhandler. 
+ * A macro to help register an eventhandler.
  * @param Class The class which is registering the eventhandler.
  * @param funct The function which will handle the event.
  * @param ev The event which to subscribe to.
- * @param specific Wether or not to make this event entity specific.
+ * @param specific Whether or not to make this event entity specific.
  */
 #define REGISTER_LISTENER(Class, funct, ev, specific)       \
 REGISTER_LISTENER2(Class, funct, ev, specific, FUNC(funct)) \

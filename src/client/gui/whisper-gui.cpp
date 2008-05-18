@@ -35,151 +35,151 @@ namespace PT
     namespace Windows
     {
 
-	WhisperWindow::WhisperWindow (GUIManager* guimanager)
-	: GUIWindow (guimanager)
-	{
+    WhisperWindow::WhisperWindow (GUIManager* guimanager)
+    : GUIWindow (guimanager)
+    {
       windowName = WHISPERWINDOW;
-	  iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-	  vfs =  csQueryRegistry<iVFS> (obj_reg);
-	}
+      iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      vfs =  csQueryRegistry<iVFS> (obj_reg);
+    }
 
-	WhisperWindow::~WhisperWindow ()
-	{
-	}
+    WhisperWindow::~WhisperWindow ()
+    {
+    }
 
-	bool WhisperWindow::OnSay (const CEGUI::EventArgs& args)
-	{
-	  const CEGUI::WindowEventArgs& ddea = static_cast<const CEGUI::WindowEventArgs&>(args);
+    bool WhisperWindow::OnSay (const CEGUI::EventArgs& args)
+    {
+      const CEGUI::WindowEventArgs& ddea = static_cast<const CEGUI::WindowEventArgs&>(args);
 
-	  CEGUI::String text = ddea.window->getText();
-	  if (text.empty()) return true;
+      CEGUI::String text = ddea.window->getText();
+      if (text.empty()) return true;
 
-	  if (!ddea.window->getParent()->isUserStringDefined("Nickname"))
-	  {
-		Report(PT::Error, "WhisperWindow: Nickname wasn't defined!");
-		return true;
-	  }
+      if (!ddea.window->getParent()->isUserStringDefined("Nickname"))
+      {
+        Report(PT::Error, "WhisperWindow: Nickname wasn't defined!");
+        return true;
+      }
 
-	  if (!ddea.window->getParent()->isUserStringDefined("OwnNickname"))
-	  {
-		Report(PT::Error, "WhisperWindow: Own nickname wasn't defined!");
-		return true;
-	  }
+      if (!ddea.window->getParent()->isUserStringDefined("OwnNickname"))
+      {
+        Report(PT::Error, "WhisperWindow: Own nickname wasn't defined!");
+        return true;
+      }
 
-	  CEGUI::String nick = ddea.window->getParent()->getUserString("Nickname");
-	  Report(PT::Debug, "Whisper: %s to %s.", text.c_str(), nick.c_str());
+      CEGUI::String nick = ddea.window->getParent()->getUserString("Nickname");
+      Report(PT::Debug, "Whisper: %s to %s.", text.c_str(), nick.c_str());
 
-	  // Send the whisper to the network.
-	  WhisperToMessage nmsg;
-	  nmsg.setListenerName(ptString(nick.c_str(), nick.length())); //<-- name of who you want to talk to...
-	  nmsg.setMessage(text.c_str());
-	  network->send(&nmsg);
+      // Send the whisper to the network.
+      WhisperToMessage nmsg;
+      nmsg.setListenerName(ptString(nick.c_str(), nick.length())); //<-- name of who you want to talk to...
+      nmsg.setMessage(text.c_str());
+      network->send(&nmsg);
 
-	  // Get the chatlog and add your own message.
-	  CEGUI::String ownnick = ddea.window->getParent()->getUserString("OwnNickname");
-	  btn = winMgr->getWindow(nick+"Whisper/Chatlog");
-	  text = "<"+ownnick+">"+text;
-	  AddText(btn, text);
+      // Get the chatlog and add your own message.
+      CEGUI::String ownnick = ddea.window->getParent()->getUserString("OwnNickname");
+      btn = winMgr->getWindow(nick+"Whisper/Chatlog");
+      text = "<"+ownnick+">"+text;
+      AddText(btn, text);
 
-	  ddea.window->setText(text.erase());
-	  return true;
-	}
+      ddea.window->setText(text.erase());
+      return true;
+    }
 
-	bool WhisperWindow::OnRollup (const CEGUI::EventArgs& args)
-	{
-	  using namespace CEGUI;
+    bool WhisperWindow::OnRollup (const CEGUI::EventArgs& args)
+    {
+      using namespace CEGUI;
 
-	  const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
-	  ddea.window->setProperty("CaptionColour", "FFFFFFFF");
+      const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
+      ddea.window->setProperty("CaptionColour", "FFFFFFFF");
 
-	  return true;
-	}
+      return true;
+    }
 
-	bool WhisperWindow::OnCloseButton(const CEGUI::EventArgs& args)
-	{
-	  using namespace CEGUI;
+    bool WhisperWindow::OnCloseButton(const CEGUI::EventArgs& args)
+    {
+      using namespace CEGUI;
 
-	  const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
-	  winMgr->destroyWindow(ddea.window);
+      const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
+      winMgr->destroyWindow(ddea.window);
 
-	  return true;
-	}
+      return true;
+    }
 
-	bool WhisperWindow::OnCaptureGained(const CEGUI::EventArgs& args)
-	{
-	  using namespace CEGUI;
+    bool WhisperWindow::OnCaptureGained(const CEGUI::EventArgs& args)
+    {
+      using namespace CEGUI;
 
-	  const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
-	  ddea.window->setProperty("CaptionColour", "FFFFFFFF");
+      const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
+      ddea.window->setProperty("CaptionColour", "FFFFFFFF");
 
-	  return true;
-	}
+      return true;
+    }
 
-	void WhisperWindow::AddText(CEGUI::Window* logwindow, CEGUI::String msg)
-	{
-	  CEGUI::MultiLineEditbox* chatlog = static_cast<CEGUI::MultiLineEditbox*>(btn);
-	  if (!msg.empty())
-	  {
-		// append newline to this entry
-		msg += '\n';
-		// append new text to history output
-		chatlog->setText(chatlog->getText() + msg);
-		// scroll to bottom of history output
-		chatlog->setCaratIndex((size_t)-1);
-	  }
-	}
+    void WhisperWindow::AddText(CEGUI::Window* logwindow, CEGUI::String msg)
+    {
+      CEGUI::MultiLineEditbox* chatlog = static_cast<CEGUI::MultiLineEditbox*>(btn);
+      if (!msg.empty())
+      {
+        // append newline to this entry
+        msg += '\n';
+        // append new text to history output
+        chatlog->setText(chatlog->getText() + msg);
+        // scroll to bottom of history output
+        chatlog->setCaratIndex((size_t)-1);
+      }
+    }
 
-	void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* ownnick)
-	{
-	  CEGUI::String nickstr = (CEGUI::String)(nick);
-	  CEGUI::String window_nick = nickstr;
-	  CEGUI::String window_nick_input = nickstr;
-	  CEGUI::String window_nick_log = nickstr;
-	  window_nick += "Whisper/Frame";
-	  window_nick_input += "Whisper/InputBox";
-	  window_nick_log += "Whisper/Chatlog";
+    void WhisperWindow::AddWhisper (const char* nick, const char* msg, const char* ownnick)
+    {
+      CEGUI::String nickstr = (CEGUI::String)(nick);
+      CEGUI::String window_nick = nickstr;
+      CEGUI::String window_nick_input = nickstr;
+      CEGUI::String window_nick_log = nickstr;
+      window_nick += "Whisper/Frame";
+      window_nick_input += "Whisper/InputBox";
+      window_nick_log += "Whisper/Chatlog";
 
-	  // If the window doesn't exist already, create it.
-	  if (!winMgr->isWindowPresent(window_nick))
-	  {
-		vfs->ChDir ("/peragro/gui/client/");
-		CEGUI::Window* root = winMgr->getWindow("Root");
-		btn = winMgr->loadWindowLayout("whisper.xml", nickstr);
-		root->addChildWindow(btn);
-		btn->setUserString("Nickname",nickstr);
-		btn->setText(nickstr);
-		((CEGUI::FrameWindow*)btn)->toggleRollup();
-		btn->subscribeEvent(CEGUI::FrameWindow::EventRollupToggled, CEGUI::Event::Subscriber(&WhisperWindow::OnRollup, this));
-		btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&WhisperWindow::OnCloseButton, this));
-		btn->subscribeEvent(CEGUI::FrameWindow::EventActivated, CEGUI::Event::Subscriber(&WhisperWindow::OnCaptureGained, this));
-		CEGUI::String ownnickstr = (CEGUI::String)(PT::Entity::PlayerEntity::Instance()->GetName());
-		btn->setUserString("OwnNickname",ownnickstr);
-	  }
+      // If the window doesn't exist already, create it.
+      if (!winMgr->isWindowPresent(window_nick))
+      {
+        vfs->ChDir ("/peragro/gui/client/");
+        CEGUI::Window* root = winMgr->getWindow("Root");
+        btn = winMgr->loadWindowLayout("whisper.xml", nickstr);
+        root->addChildWindow(btn);
+        btn->setUserString("Nickname",nickstr);
+        btn->setText(nickstr);
+        ((CEGUI::FrameWindow*)btn)->toggleRollup();
+        btn->subscribeEvent(CEGUI::FrameWindow::EventRollupToggled, CEGUI::Event::Subscriber(&WhisperWindow::OnRollup, this));
+        btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&WhisperWindow::OnCloseButton, this));
+        btn->subscribeEvent(CEGUI::FrameWindow::EventActivated, CEGUI::Event::Subscriber(&WhisperWindow::OnCaptureGained, this));
+        CEGUI::String ownnickstr = (CEGUI::String)(PT::Entity::PlayerEntity::Instance()->GetName());
+        btn->setUserString("OwnNickname",ownnickstr);
+      }
 
-	  // Color the titlebar text to signal new text.
-	  btn = winMgr->getWindow(window_nick);
-	  btn->setProperty("CaptionColour", "FFFF0000");
+      // Color the titlebar text to signal new text.
+      btn = winMgr->getWindow(window_nick);
+      btn->setProperty("CaptionColour", "FFFF0000");
 
-	  // Set some additional things when ownnick is given.
-	  CEGUI::String message = (CEGUI::String)(msg);
-	  if (ownnick)
-	  {
-		CEGUI::String ownnickstr = (CEGUI::String)(ownnick);
-		message = "<"+ownnickstr+"> "+message;
-	  }
-	  else
-	  {
-		message = "<"+nickstr+"> "+message;
-	  }
+      // Set some additional things when ownnick is given.
+      CEGUI::String message = (CEGUI::String)(msg);
+      if (ownnick)
+      {
+        CEGUI::String ownnickstr = (CEGUI::String)(ownnick);
+        message = "<"+ownnickstr+"> "+message;
+      }
+      else
+      {
+        message = "<"+nickstr+"> "+message;
+      }
 
-	  // set up submitting message on enter
-	  btn = winMgr->getWindow(window_nick_input);
-	  btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&WhisperWindow::OnSay, this));
+      // set up submitting message on enter
+      btn = winMgr->getWindow(window_nick_input);
+      btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&WhisperWindow::OnSay, this));
 
-	  // Get the log and add the message.
-	  btn = winMgr->getWindow(window_nick_log);
-	  AddText(btn, message);
-	}
+      // Get the log and add the message.
+      btn = winMgr->getWindow(window_nick_log);
+      AddText(btn, message);
+    }
 
     bool WhisperWindow::Create()
     {

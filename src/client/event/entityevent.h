@@ -84,7 +84,7 @@ namespace PT
          * @param variation The variation ID.
          * @param file The file name.
          * @param mesh The mesh name.
-         */    
+         */
         void Add(unsigned int slotId, unsigned int itemId, unsigned int variation, const char* file, const char* mesh)
         {
           Equipment eq;

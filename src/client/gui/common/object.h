@@ -19,7 +19,6 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-
 #include "cssysdef.h"
 
 #include "iutil/string.h"

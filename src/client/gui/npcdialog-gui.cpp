@@ -33,102 +33,102 @@ namespace PT
   {
     namespace Windows
     {
-	NpcDialogWindow::NpcDialogWindow(GUIManager* guimanager)
-	: GUIWindow (guimanager)
-	{
+    NpcDialogWindow::NpcDialogWindow(GUIManager* guimanager)
+    : GUIWindow (guimanager)
+    {
       windowName = NPCDIALOGWINDOW;
-	  dialogId = -1;
-	  newDialog = false;
-	}
+      dialogId = -1;
+      newDialog = false;
+    }
 
-	NpcDialogWindow::~NpcDialogWindow()
-	{
-	}
+    NpcDialogWindow::~NpcDialogWindow()
+    {
+    }
 
-	bool NpcDialogWindow::OnCloseButton(const CEGUI::EventArgs& args)
-	{
-	  GUIWindow::HideWindow();
+    bool NpcDialogWindow::OnCloseButton(const CEGUI::EventArgs& args)
+    {
+      GUIWindow::HideWindow();
 
-	  // End the dialog.
-	  NpcEndDialogMessage msg;
-	  network->send(&msg);
+      // End the dialog.
+      NpcEndDialogMessage msg;
+      network->send(&msg);
 
-	  return true;
-	}
+      return true;
+    }
 
-	bool NpcDialogWindow::OnAnswer(const CEGUI::EventArgs& args)
-	{
-	  btn = winMgr->getWindow("NpcDialog/Answers");
+    bool NpcDialogWindow::OnAnswer(const CEGUI::EventArgs& args)
+    {
+      btn = winMgr->getWindow("NpcDialog/Answers");
 
-	  if (((CEGUI::Listbox*)btn)->getSelectedCount() == 0)
-		return true;
+      if (((CEGUI::Listbox*)btn)->getSelectedCount() == 0)
+        return true;
 
-	  CEGUI::ListboxItem* answerItem = ((CEGUI::Listbox*)btn)->getFirstSelectedItem();
+      CEGUI::ListboxItem* answerItem = ((CEGUI::Listbox*)btn)->getFirstSelectedItem();
 
-	  if (!answerItem->isSelected()) return true;
+      if (!answerItem->isSelected()) return true;
 
-	  uint answer_id = answerItem->getID();
+      uint answer_id = answerItem->getID();
 
-	  Report(PT::Debug, "NpcDialogWindow: Answered dialog %d with answer %d.", dialogId, answer_id);
+      Report(PT::Debug, "NpcDialogWindow: Answered dialog %d with answer %d.", dialogId, answer_id);
 
-	  if (answer_id == 0xff)
-	  {
-		GUIWindow::HideWindow();
-		return true;
-	  }
+      if (answer_id == 0xff)
+      {
+        GUIWindow::HideWindow();
+        return true;
+      }
 
-	  NpcDialogAnswerMessage answer_msg;
-	  answer_msg.setDialogId(dialogId);
-	  answer_msg.setAnswerId(answer_id);
-	  network->send(&answer_msg);
+      NpcDialogAnswerMessage answer_msg;
+      answer_msg.setDialogId(dialogId);
+      answer_msg.setAnswerId(answer_id);
+      network->send(&answer_msg);
 
-	  return true;
-	}
+      return true;
+    }
 
-	void NpcDialogWindow::ClearAnswers()
-	{
-	  // Clear the previous answers.
-	  btn = winMgr->getWindow("NpcDialog/Answers");
-	  ((CEGUI::Listbox*)btn)->resetList();
-	}
+    void NpcDialogWindow::ClearAnswers()
+    {
+      // Clear the previous answers.
+      btn = winMgr->getWindow("NpcDialog/Answers");
+      ((CEGUI::Listbox*)btn)->resetList();
+    }
 
-	void NpcDialogWindow::SetName(csString name)
-	{
-	  // Set the dialog text.
-	  btn = winMgr->getWindow("NpcDialog/Frame");
-	  btn->setText(name.GetData());
-	}
+    void NpcDialogWindow::SetName(csString name)
+    {
+      // Set the dialog text.
+      btn = winMgr->getWindow("NpcDialog/Frame");
+      btn->setText(name.GetData());
+    }
 
-	void NpcDialogWindow::AddDialog(uint dialogId, csString dialog)
-	{
-	  // Set the dialog text.
-	  btn = winMgr->getWindow("NpcDialog/Dialog");
-	  btn->setText(dialog.GetData());
-	  this->dialogId = dialogId;
+    void NpcDialogWindow::AddDialog(uint dialogId, csString dialog)
+    {
+      // Set the dialog text.
+      btn = winMgr->getWindow("NpcDialog/Dialog");
+      btn->setText(dialog.GetData());
+      this->dialogId = dialogId;
 
-	  ClearAnswers();
+      ClearAnswers();
 
-	  AddAnswer(0xff, (csString)"Goodbye.");
+      AddAnswer(0xff, (csString)"Goodbye.");
 
-	  GUIWindow::ShowWindow();
-	  GUIWindow::EnableWindow();
+      GUIWindow::ShowWindow();
+      GUIWindow::EnableWindow();
 
-	  newDialog = true;
-	}
+      newDialog = true;
+    }
 
-	void NpcDialogWindow::AddAnswer(uint number, csString answer)
-	{
-	  if (newDialog)
-	  {
-		ClearAnswers();
-		newDialog = false;
-	  }
+    void NpcDialogWindow::AddAnswer(uint number, csString answer)
+    {
+      if (newDialog)
+      {
+        ClearAnswers();
+        newDialog = false;
+      }
 
-	  btn = winMgr->getWindow("NpcDialog/Answers");
-	  CEGUI::ListboxItem* answerItem = new CEGUI::ListboxTextItem(answer.GetData(), number);
+      btn = winMgr->getWindow("NpcDialog/Answers");
+      CEGUI::ListboxItem* answerItem = new CEGUI::ListboxTextItem(answer.GetData(), number);
 
-	  ((CEGUI::Listbox*)btn)->addItem(answerItem);
-	}
+      ((CEGUI::Listbox*)btn)->addItem(answerItem);
+    }
 
     bool NpcDialogWindow::Create()
     {
@@ -141,16 +141,16 @@ namespace PT
       window = GUIWindow::LoadLayout ("client/npcdialog.xml");
       GUIWindow::AddToRoot(window);
 
-	  winMgr = cegui->GetWindowManagerPtr ();
+      winMgr = cegui->GetWindowManagerPtr ();
 
-	  // Get the frame window
-	  CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("NpcDialog/Frame"));
-	  frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&NpcDialogWindow::OnCloseButton, this));
+      // Get the frame window
+      CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>(winMgr->getWindow("NpcDialog/Frame"));
+      frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, CEGUI::Event::Subscriber(&NpcDialogWindow::OnCloseButton, this));
 
-	  // Get the frame window
-	  CEGUI::Listbox* answers = static_cast<CEGUI::Listbox*>(winMgr->getWindow("NpcDialog/Answers"));
-	  answers->setMultiselectEnabled(false);
-	  answers->subscribeEvent(CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber(&NpcDialogWindow::OnAnswer, this));
+      // Get the frame window
+      CEGUI::Listbox* answers = static_cast<CEGUI::Listbox*>(winMgr->getWindow("NpcDialog/Answers"));
+      answers->setMultiselectEnabled(false);
+      answers->subscribeEvent(CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber(&NpcDialogWindow::OnAnswer, this));
 
       return true;
     }

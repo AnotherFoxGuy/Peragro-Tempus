@@ -66,7 +66,7 @@ namespace PT
       Skin defaultSkin;
       Skin currentSkin;
 
-    private:  
+    private:
       csRef<iCEGUI> cegui;
       csRef<iObjectRegistry> obj_reg;
       csRef<iVFS> vfs;
@@ -99,8 +99,8 @@ namespace PT
       bool ChangeSkin (const char* skinName);
       /// Add the skinlist to the GUI.
       bool Populate ();
-	  /// Return the current skin of the GUI.
-	  Skin GetCurrentSkin();
+      /// Return the current skin of the GUI.
+      Skin GetCurrentSkin();
 
     };
   } // GUI namespace

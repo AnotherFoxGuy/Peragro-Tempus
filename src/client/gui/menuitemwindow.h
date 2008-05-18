@@ -44,7 +44,7 @@ namespace PT
       *
       * Creates the window.
       *
-      * @param	position	Where to place the window.
+      * @param    position    Where to place the window.
       * \return void.
       */
       virtual void Create(CEGUI::UVector2 position) = 0;
@@ -53,7 +53,7 @@ namespace PT
       *
       * Returns the window where the layout is created.
       *
-      * \return	A window.
+      * \return    A window.
       */
       virtual CEGUI::Window * GetWindow() = 0;
 
@@ -61,7 +61,7 @@ namespace PT
       *
       * Set if this window is opened or not.
       *
-      * @param	state		The state.
+      * @param    state        The state.
       * \return void.
       */
       void SetOpened(bool state) { isOpened = state; }
@@ -70,7 +70,7 @@ namespace PT
       *
       * Get if this window is opened or not.
       *
-      * \return	The state.
+      * \return    The state.
       */
       bool GetOpened() { return isOpened; }
     };

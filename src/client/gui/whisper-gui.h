@@ -29,24 +29,24 @@ namespace PT
   {
     namespace Windows
     {
-	class WhisperWindow : public GUIWindow
-	{
-	private:
-	  bool OnSay(const CEGUI::EventArgs& args);
-	  bool OnRollup (const CEGUI::EventArgs& args);
-	  bool OnCloseButton(const CEGUI::EventArgs& args);
-	  bool OnCaptureGained(const CEGUI::EventArgs& args);
-	  void AddText(CEGUI::Window* logwindow, CEGUI::String msg);
+    class WhisperWindow : public GUIWindow
+    {
+    private:
+      bool OnSay(const CEGUI::EventArgs& args);
+      bool OnRollup (const CEGUI::EventArgs& args);
+      bool OnCloseButton(const CEGUI::EventArgs& args);
+      bool OnCaptureGained(const CEGUI::EventArgs& args);
+      void AddText(CEGUI::Window* logwindow, CEGUI::String msg);
 
-	public:
-	  WhisperWindow(GUIManager* guimanager);
-	  virtual ~WhisperWindow();
+    public:
+      WhisperWindow(GUIManager* guimanager);
+      virtual ~WhisperWindow();
       bool Create();
-	  bool ReloadWindow();
+      bool ReloadWindow();
 
-	  void AddWhisper (const char* nick, const char* msg, const char* ownnick=0);
-	};
-	}
+      void AddWhisper (const char* nick, const char* msg, const char* ownnick=0);
+    };
+    }
   }
 }
 

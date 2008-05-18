@@ -33,53 +33,52 @@ namespace PT
 
     namespace Windows
     {
+      class BuyWindow : public GUIWindow
+      {
+      private:
+        struct Item
+        {
+          unsigned int itemid;
+          unsigned int variationid;
+          unsigned int price;
+        };
 
-	class BuyWindow : public GUIWindow
-	{
-	private:
-	  struct Item
-	  {
-		unsigned int itemid;
-		unsigned int variationid;
-		unsigned int price;
-	  };
+      private:
+        PT::GUI::Windows::DragDrop* dragdrop;
+        PT::Data::ItemDataManager* itemDataManager;
 
-	private:
-      PT::GUI::Windows::DragDrop* dragdrop;
-	  PT::Data::ItemDataManager* itemDataManager;
+        Inventory* upperslots;
+        Inventory* lowerslots;
 
-	  Inventory* upperslots;
-	  Inventory* lowerslots;
+        csArray<Item> items;
+        unsigned int totalmoney;
 
-	  csArray<Item> items;
-	  unsigned int totalmoney;
+      private:
+        bool OnCloseButton(const CEGUI::EventArgs& args);
+        bool OnAccept(const CEGUI::EventArgs& args);
+        bool OnScroll(const CEGUI::EventArgs& args);
+        void Update(int linenr);
+        void UpdateOffer();
+        void SetTotalMoney(unsigned int price);
 
-	private:
-	  bool OnCloseButton(const CEGUI::EventArgs& args);
-	  bool OnAccept(const CEGUI::EventArgs& args);
-	  bool OnScroll(const CEGUI::EventArgs& args);
-	  void Update(int linenr);
-	  void UpdateOffer();
-	  void SetTotalMoney(unsigned int price);
+      public:
+        BuyWindow(GUIManager* guimanager);
+        virtual ~BuyWindow();
+        bool Create();
+        bool ReloadWindow();
 
-	public:
-	  BuyWindow(GUIManager* guimanager);
-	  virtual ~BuyWindow();
-      bool Create();
-	  bool ReloadWindow();
+      public:
+        bool AddItem(unsigned int itemid, unsigned int price);
+        void CancelTrade();
+        void AcceptTrade();
 
-	public:
-	  bool AddItem(unsigned int itemid, unsigned int price);
-	  void CancelTrade();
-	  void AcceptTrade();
+        void MoveItem(Slot* oldslot, Slot* newslot);
 
-	  void MoveItem(Slot* oldslot, Slot* newslot);
+        void SetYourMoney(unsigned int price);
+      };
 
-	  void SetYourMoney(unsigned int price);
-
-	};
-	}
-  }
-}
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
 #endif // BUY_GUI_H

@@ -155,7 +155,7 @@ namespace PT
         GUIWindow::ShowWindow();
         CEGUI::Window * wnd = winMgr->getWindow("LoginUI/LoginEditBox");
         wnd->activate();
-        //	  if (guimanager->IsInitialized())
+        //      if (guimanager->IsInitialized())
         //      {
         UpdateLogin();
         //      }
@@ -303,3 +303,4 @@ namespace PT
     }
   }
 }
+
