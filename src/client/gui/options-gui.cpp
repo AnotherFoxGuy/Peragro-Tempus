@@ -383,6 +383,8 @@ namespace PT
           Report(PT::Error, "Can't find the vfs!");
           return false;
         }
+        
+        /*
 
         // Set up the close button.
         btn = winMgr->getWindow("Options/Frame");
@@ -435,6 +437,8 @@ namespace PT
         btn->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnMaxFPSSpinnerChanged, this));
         btn = winMgr->getWindow("Video/Minimum_Distance/Spinner");
         btn->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OptionsWindow::OnMinDistanceSpinnerChanged, this));
+
+        */
         return true;
       }
 
