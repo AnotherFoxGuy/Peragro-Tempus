@@ -23,16 +23,14 @@
 #ifndef __MYSTARBOX_H__
 #define __MYSTARBOX_H__
 
-#include "crystalspace.h"
-#include "imystarbox.h"
-
-
+#include <crystalspace.h>
 #include <string>
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <csgfx/rgbpixel.h>
 
+#include "imystarbox.h"
 #include "system.h"
 
 
