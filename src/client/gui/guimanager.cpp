@@ -99,7 +99,7 @@ namespace PT
         cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
         csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
-        vfs->ChDir ("/peragro/skin/");
+        vfs->ChDir ("/peragro/art/skin/");
 
         // Get some pointers.
         schMgr = cegui->GetSchemeManagerPtr();
