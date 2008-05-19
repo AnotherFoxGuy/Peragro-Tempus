@@ -465,7 +465,7 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture (int startype)
       csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 255,203,131 ) );
       break; 
     case 6:
-      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 242,92,35 ) );
+      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 231,0,0 ) );
       break; 
     default: 
       csImgMem = NovaImageRGB ( 23410 , default_star_size_tex_px , 10 , .9 ,csRGBcolor ( 255,255,255 ) );
