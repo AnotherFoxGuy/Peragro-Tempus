@@ -34,32 +34,41 @@ namespace PT
   {
     namespace Windows
     {
-    class LoginWindow : public GUIWindow
-    {
-    private:
+      class LoginWindow : public GUIWindow
+      {
+      private:
 
-      csRef<iConfigManager> app_cfg;
+        csRef<iConfigManager> app_cfg;
 
-      bool LoginButtonPressed(const CEGUI::EventArgs& e);     // Executed when the Connect button is pressed.
-      bool RegisterButtonPressed(const CEGUI::EventArgs& e);  // Executed when the Register button is pressed.
-      bool LoginTextAccepted(const CEGUI::EventArgs &e);      // Executed when the Login's text has been accepted.
-      bool PasswordTextAccepted(const CEGUI::EventArgs &e);   // Executed when the Registers text has been accepted.
-      CEGUI::String GetLogin();                               // Return the login input.
-      CEGUI::String GetPassword();                            // Return the password input.
-      bool OnCheckBox(const CEGUI::EventArgs& e);             // Return "Remember login" checkbox.
-      void CreateCheckBox();
-      void SaveConfig();
+        /// Executed when the Connect button is pressed.
+        bool LoginButtonPressed(const CEGUI::EventArgs& e);
+        /// Executed when the Register button is pressed.
+        bool RegisterButtonPressed(const CEGUI::EventArgs& e);
+        /// Executed when the Login's text has been accepted.
+        bool LoginTextAccepted(const CEGUI::EventArgs &e);
+        /// Executed when the Registers text has been accepted.
+        bool PasswordTextAccepted(const CEGUI::EventArgs &e);
+        /// Return the login input.
+        CEGUI::String GetLogin();
+        /// Return the password input.
+        CEGUI::String GetPassword();
+        /// Return "Remember login" checkbox.
+        bool OnCheckBox(const CEGUI::EventArgs& e);
+        void CreateCheckBox();
+        void SaveConfig();
 
-    public:
-      void UpdateLogin();
-      LoginWindow(GUIManager* guimanager);
-      virtual ~LoginWindow();
-      bool Create();
-      bool ReloadWindow();
+      public:
+        void UpdateLogin();
+        LoginWindow(GUIManager* guimanager);
+        virtual ~LoginWindow();
+        bool Create();
+        bool ReloadWindow();
 
-      void ShowWindow();
-    };
-    }
-  }
-}
+        void ShowWindow();
+      };
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
+
 #endif // LOGIN_GUI_H

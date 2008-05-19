@@ -29,20 +29,25 @@ namespace PT
   {
     namespace Windows
     {
-    class ServerSetupWindow : public GUIWindow
-    {
-    private:
-      bool DoneButton(const CEGUI::EventArgs& e);     // returns to the character menu.
-      bool UploadButton(const CEGUI::EventArgs& e);   // Uploads the server data to the server.
-      bool DownloadButton(const CEGUI::EventArgs& e); // Downloads the server data from the server.
+      class ServerSetupWindow : public GUIWindow
+      {
+      private:
+        /// Returns to the character menu.
+        bool DoneButton(const CEGUI::EventArgs& e);
+        /// Uploads the server data to the server.
+        bool UploadButton(const CEGUI::EventArgs& e);
+        /// Downloads the server data from the server.
+        bool DownloadButton(const CEGUI::EventArgs& e);
 
-    public:
-      ServerSetupWindow(GUIManager* guimanager);
-      virtual ~ServerSetupWindow();
-      bool Create();
-      bool ReloadWindow();
-    };
-    }
-  }
-}
+      public:
+        ServerSetupWindow(GUIManager* guimanager);
+        virtual ~ServerSetupWindow();
+        bool Create();
+        bool ReloadWindow();
+      };
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
+
 #endif // SERVERSETUP_GUI_H

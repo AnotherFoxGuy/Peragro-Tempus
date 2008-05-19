@@ -27,12 +27,14 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
+#include "client/reporter/reporter.h"
+
 namespace PT
 {
   namespace GUI
   {
     GUIWindow::GUIWindow(GUIManager* guimanager)
-    : guimanager(guimanager)
+      : guimanager(guimanager)
     {
       window = 0;
       iObjectRegistry* obj_reg =
@@ -66,7 +68,7 @@ namespace PT
       }
       else
       {
-        printf("E: Failed adding a window to root!\n");
+        Report(PT::Error, "Failed adding a window to root!");
         return false;
       }
     } // end AddToRoot()

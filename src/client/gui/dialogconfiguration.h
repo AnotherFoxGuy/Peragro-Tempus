@@ -62,155 +62,127 @@ namespace PT
       DialogConfiguration(iObjectRegistry* objReg);
       ~DialogConfiguration();
 
-      /* LoadConfiguration
-      *
-      * Loads the configuration.
-      *
-      * @param   file  The XML file to load the configuration from.
-      * \return  True if successful, false if not.
-      */
-      bool LoadConfiguration(const std::string& file = "/this/dialogconfiguration.xml");
+      /**
+       * Loads the configuration.
+       * @param file The XML file to load the configuration from.
+       * @return True if successful, false if not.
+       */
+      bool LoadConfiguration(const std::string& file =
+                             "/this/dialogconfiguration.xml");
 
-      /* SaveConfiguration
-      *
-      * Saves the current configuration to a specified XML file.
-      *
-      * @param   fileName  The XML to write the configuration to.
-      * \return  True if successful, false if not.
-      */
-      bool SaveConfiguration(const std::string& fileName = "/this/dialogconfiguration.xml");
+      /**
+       * Saves the current configuration to a specified XML file.
+       * @param fileName The XML to write the configuration to.
+       * @return True if successful, false if not.
+       */
+      bool SaveConfiguration(const std::string& fileName =
+                             "/this/dialogconfiguration.xml");
 
-      /* ApplyDialogConfiguration
-      *
-      * Manually update the dialog configuration. Also used internally. You don't have to
-      *  call this.
-      *
-      * \return  True if successful, false if not.
-      */
+      /**
+       * Manually update the dialog configuration. Also used internally. You
+       * don't have to call this.
+       * @return  True if successful, false if not.
+       */
       bool ApplyDialogConfiguration();
 
-      /* ApplyDialogConfiguration
-      *
-      * Manually update a dialog's configuration. Used internally, you don't have to call
-      *  this.
-      *
-      * @param   window  The window to apply it's configuration.
-      * \return True if successful, false if not.
-      */
+      /**
+       * Manually update a dialog's configuration. Used internally, you don't
+       * have to call this.
+       * @param window The window to apply it's configuration.
+       * @return True if successful, false if not.
+       */
       bool ApplyDialogConfiguration(CEGUI::Window * window);
 
-      /* ApplyDialogConfiguration
-      *
-      * Manually update a dialog's configuration. Used internally, you don't have to call
-      *  this.
-      *
-      * @param   windowName  The window to apply it's configuration.
-      * \return True if successful, false if not.
-      */
+      /**
+       * Manually update a dialog's configuration. Used internally, you don't
+       * have to call this.
+       * @param windowName The window to apply it's configuration.
+       * @return True if successful, false if not.
+       */
       bool ApplyDialogConfiguration(const std::string& windowName);
 
-      /* AddDialog
-      *
-      * Adds a dialog to the system, which position and size are to
-      *  be saved.
-      *
-      * @param   window  The window to add.
-      * \return  True if adding was successful, false if not.
-      */
+      /**
+       * Adds a dialog to the system, which position and size are to
+       * be saved.
+       * @param window The window to add.
+       * @return True if adding was successful, false if not.
+       */
       bool AddDialog(CEGUI::Window * window);
 
-      /* AddDialog
-      *
-      * Adds a dialog to the system, which position and size are to
-      *  be saved.
-      *
-      * @param   windowName  The window's name to add.
-      * \return  True if successful, false if not.
-      */
+      /**
+       * Adds a dialog to the system, which position and size are to
+       * be saved.
+       * @param windowName The window's name to add.
+       * @return True if successful, false if not.
+       */
       bool AddDialog(const std::string& windowName);
 
-      /* RemoveDialog
-      *
-      * Removes a dialog from the system, therefore making sure this window's
-      *  attributes are not saved.
-      *
-      * @param   window  The window to remove.
-      * \return  True if successful, false if not.
-      */
+      /**
+       * Removes a dialog from the system, therefore making sure this window's
+       * attributes are not saved.
+       * @param window The window to remove.
+       * @return True if successful, false if not.
+       */
       bool RemoveDialog(CEGUI::Window * window);
 
-      /* RemoveDialog
-      *
-      * Removes a dialog from the system, therefore making sure this window's
-      *  attributes are not saved.
-      *
-      * @param   windowName  The window's to remove.
-      * \return  True if successful, false if not.
-      */
+      /**
+       * Removes a dialog from the system, therefore making sure this window's
+       * attributes are not saved.
+       * @param windowName The window's to remove.
+       * @return True if successful, false if not.
+       */
       bool RemoveDialog(const std::string& windowName);
 
-      /* SetDialogToDefault
-      *
-      * Sets the dialog back to it's default settings.
-      *
-      * @param   window    The window to set back.
-      * @param   position  True if the position needs to be set to default.
-      * @param   size      True if the size needs to be set to default.
-      * @param   visible   True if the visibility needs to be set to default.
-      * \return  True if successful, false if not.
-      */
-      bool SetDialogToDefault(CEGUI::Window * window, bool position = true, bool size = true, bool visible = true);
+      /**
+       * Sets the dialog back to it's default settings.
+       * @param window The window to set back.
+       * @param position True if the position needs to be set to default.
+       * @param size True if the size needs to be set to default.
+       * @param visible True if the visibility needs to be set to default.
+       * @return True if successful, false if not.
+       */
+      bool SetDialogToDefault(CEGUI::Window * window, bool position = true,
+                              bool size = true, bool visible = true);
 
-      /* SetDialogToDefault
-      *
-      * Sets the dialog back to it's default settings.
-      *
-      * @param     windowName    The name of the window.
-      * @param   position        True if the position needs to be set to default.
-      * @param   size                True if the size needs to be set to default.
-      * @param   visible        True if the visibility needs to be set to default.
-      * \return  True if successful, false if not.
-      */
-      bool SetDialogToDefault(const std::string& windowName, bool position = true, bool size = true, bool visible = true);
+      /**
+       * Sets the dialog back to it's default settings.
+       * @param windowName The name of the window.
+       * @param position True if the position needs to be set to default.
+       * @param size True if the size needs to be set to default.
+       * @param visible True if the visibility needs to be set to default.
+       * @return True if successful, false if not.
+       */
+      bool SetDialogToDefault(const std::string& windowName,
+                              bool position = true, bool size = true,
+                              bool visible = true);
 
-      /* Reload
-      *
-      * Reloads the system, creating new pointers to the dialogs.
-      *
-      * \return void.
-      */
+      /**
+       * Reloads the system, creating new pointers to the dialogs.
+       */
       void Reload();
 
-      /* SavePositions
-      *
-      * Updates all the elements with new information.
-      *
-      * \return void.
-      */
+      /**
+       * Updates all the elements with new information.
+       */
       void SavePositions();
 
-      /* IsPresent
-      *
-      * Checks whether given window is present within the system or not.
-      *
-      * @param   window  The window to check.
-      * \return  True if so, false if not.
-      */
+      /**
+       * Checks whether given window is present within the system or not.
+       * @param window The window to check.
+       * @return True if so, false if not.
+       */
       bool IsPresent(CEGUI::Window * window);
 
-      /* IsPresent
-      *
-      * Checks whether given window is present within the system or not.
-      *
-      * @param    windowName  The window's name to check.
-      * \return True if so, false if not.
-      */
+      /**
+       * Checks whether given window is present within the system or not.
+       * @param windowName The window's name to check.
+       * @return True if so, false if not.
+       */
       bool IsPresent(const std::string& windowName);
 
     private:
 
       std::vector<std::string> split(std::string str, std::string delimiter);
-
 
     };
 

@@ -33,33 +33,35 @@ namespace PT
   {
     namespace Windows
     {
-    class InventoryWindow : public GUIWindow
-    {
-    private:
-      bool handleCloseButton(const CEGUI::EventArgs& args);
-      PT::GUI::Windows::DragDrop* dragdrop;
-      PT::Data::ItemDataManager* itemDataManager;
-      unsigned int numberOfSlots;
-      Inventory* inventory;
+      class InventoryWindow : public GUIWindow
+      {
+      private:
+        bool handleCloseButton(const CEGUI::EventArgs& args);
+        PT::GUI::Windows::DragDrop* dragdrop;
+        PT::Data::ItemDataManager* itemDataManager;
+        unsigned int numberOfSlots;
+        Inventory* inventory;
 
-    private:
-      void SetupEquipSlot(unsigned int id, const char* window);
+      private:
+        void SetupEquipSlot(unsigned int id, const char* window);
 
-    public:
-      InventoryWindow(GUIManager* guimanager);
-      virtual ~InventoryWindow();
-      bool Create();
-      bool ReloadWindow();
-      bool AddItem(unsigned int itemid, unsigned int variationid, unsigned int slotid);
-      bool MoveItem(unsigned int oldslotid, unsigned int newslotid);
-      bool MoveItem(Slot* oldslot, Slot* newslot);
-      bool RemoveItem(unsigned int slotid);
-      unsigned int FindItem(unsigned int itemid);
-      unsigned int FindFreeSlot();
-      Slot* GetSlot(unsigned int slotid);
-    };
-    }
-  }
-}
+      public:
+        InventoryWindow(GUIManager* guimanager);
+        virtual ~InventoryWindow();
+        bool Create();
+        bool ReloadWindow();
+        bool AddItem(unsigned int itemid, unsigned int variationid,
+                     unsigned int slotid);
+        bool MoveItem(unsigned int oldslotid, unsigned int newslotid);
+        bool MoveItem(Slot* oldslot, Slot* newslot);
+        bool RemoveItem(unsigned int slotid);
+        unsigned int FindItem(unsigned int itemid);
+        unsigned int FindFreeSlot();
+        Slot* GetSlot(unsigned int slotid);
+      };
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
 #endif // INV_GUI_H

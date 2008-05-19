@@ -33,487 +33,507 @@ namespace PT
 {
   namespace GUI
   {
-    DialogConfiguration::DialogConfiguration (iObjectRegistry* obj_reg) :
-  objReg(obj_reg)
-  {
-    cegui = csQueryRegistry<iCEGUI>(objReg);
-    vfs = csQueryRegistry<iVFS> (obj_reg);
-  }
-
-  DialogConfiguration::~DialogConfiguration ()
-  {
-  }
-
-  bool DialogConfiguration::LoadConfiguration (const std::string& file)
-  {
-    csRef<iFile> buf = vfs->Open(file.c_str(), VFS_FILE_READ);
-    csRef<iDocumentSystem> docsys = csQueryRegistry<iDocumentSystem>(objReg);
-    CEGUI::WindowManager * winMgr = cegui->GetWindowManagerPtr();
-
-    if (!buf)
+    DialogConfiguration::DialogConfiguration(iObjectRegistry* obj_reg)
+      : objReg(obj_reg)
     {
-      return false;
-    }
+      cegui = csQueryRegistry<iCEGUI>(objReg);
+      vfs = csQueryRegistry<iVFS> (obj_reg);
+    } // end DialogConfiguration()
 
-    csRef<iDocument> doc;
-    csRef<iDocumentNode> node;
+    DialogConfiguration::~DialogConfiguration()
+    {
+    } // end ~DialogConfiguration()
 
-    if (!docsys)
+    bool DialogConfiguration::LoadConfiguration(const std::string& file)
     {
-      docsys = csPtr<iDocumentSystem>(new csTinyDocumentSystem());
-    }
-    doc = docsys->CreateDocument();
-    const char* error = doc->Parse(buf, true);
-    if (error != 0)
-    {
-      return false;
-    }
+      csRef<iFile> buf = vfs->Open(file.c_str(), VFS_FILE_READ);
+      csRef<iDocumentSystem> docsys = csQueryRegistry<iDocumentSystem>(objReg);
+      CEGUI::WindowManager * winMgr = cegui->GetWindowManagerPtr();
 
-    if (doc)
-    {
-      node = doc->GetRoot()->GetNode("dialogs");
-      if (!node)
+      if (!buf)
       {
         return false;
       }
-    }
 
-    // Get all the nodes from the node 'dialogs'.
-    csRef<iDocumentNodeIterator> it = node->GetNodes();
+      csRef<iDocument> doc;
+      csRef<iDocumentNode> node;
 
-    while (it->HasNext())
-    {
-      // For each dialog
-      csRef<iDocumentNode> child = it->Next();
-
-      DialogConfig dialogConfig;
-      std::string windowName = child->GetAttributeValue("name");
-      CEGUI::Window * window = 0;
-      try
+      if (!docsys)
       {
-        window = winMgr->getWindow(windowName);
+        docsys = csPtr<iDocumentSystem>(new csTinyDocumentSystem());
       }
-      catch (CEGUI::Exception)
+      doc = docsys->CreateDocument();
+      const char* error = doc->Parse(buf, true);
+      if (error != 0)
       {
-        continue;
-      }
-      dialogConfig.defaultPosition = window->getPosition();
-      dialogConfig.defaultSize = window->getSize();
-      dialogConfig.windowName = windowName;
-
-
-      csRef<iDocumentNode> position = child->GetNode("position");
-      csRef<iDocumentNode> size = child->GetNode("size");
-      csRef<iDocumentNode> visible = child->GetNode("visible");
-
-      if (!position || !size || !visible)
-      {
-        continue;
-      }
-      std::string positionVal = position->GetContentsValue();
-      float xScale, xOffset, yScale, yOffset;
-      xScale = xOffset = yScale = yOffset = 0.0f;
-
-      std::vector<std::string> parts = split(positionVal, ",");
-
-      if (parts.size() != 4)
-      {
-        continue;
-      }
-      if (sscanf(parts.at(0).c_str(), "%f", &xScale) == 0 || sscanf(parts.at(1).c_str(), "%f", &xOffset) == 0)
-      {
-        continue;
-      }
-      if (sscanf(parts.at(2).c_str(), "%f", &yScale) == 0 || sscanf(parts.at(3).c_str(), "%f", &yOffset) == 0)
-      {
-        continue;
+        return false;
       }
 
-      dialogConfig.userPosition = CEGUI::UVector2(CEGUI::UDim(xScale, xOffset), CEGUI::UDim(yScale, yOffset));
-
-      std::string sizeVal = size->GetContentsValue();
-      xScale = xOffset = yScale = yOffset = 0.0f;
-
-      parts = split(sizeVal, ",");
-
-      if (parts.size() != 4)
+      if (doc)
       {
-        continue;
-      }
-      if (sscanf(parts.at(0).c_str(), "%f", &xScale) == 0 || sscanf(parts.at(1).c_str(), "%f", &xOffset) == 0)
-      {
-        continue;
-      }
-      if (sscanf(parts.at(2).c_str(), "%f", &yScale) == 0 || sscanf(parts.at(3).c_str(), "%f", &yOffset) == 0)
-      {
-        continue;
-      }
-
-      dialogConfig.userSize = CEGUI::UVector2(CEGUI::UDim(xScale, xOffset), CEGUI::UDim(yScale, yOffset));
-
-      std::string visibleVal = visible->GetContentsValue();
-      if (!visibleVal.empty())
-      {
-        if (visibleVal == "true" || visibleVal == "True")
+        node = doc->GetRoot()->GetNode("dialogs");
+        if (!node)
         {
-          dialogConfig.visible = true;
+          return false;
+        }
+      }
+
+      // Get all the nodes from the node 'dialogs'.
+      csRef<iDocumentNodeIterator> it = node->GetNodes();
+
+      while (it->HasNext())
+      {
+        // For each dialog
+        csRef<iDocumentNode> child = it->Next();
+
+        DialogConfig dialogConfig;
+        std::string windowName = child->GetAttributeValue("name");
+        CEGUI::Window * window = 0;
+        try
+        {
+          window = winMgr->getWindow(windowName);
+        }
+        catch (CEGUI::Exception)
+        {
+          continue;
+        }
+        dialogConfig.defaultPosition = window->getPosition();
+        dialogConfig.defaultSize = window->getSize();
+        dialogConfig.windowName = windowName;
+
+
+        csRef<iDocumentNode> position = child->GetNode("position");
+        csRef<iDocumentNode> size = child->GetNode("size");
+        csRef<iDocumentNode> visible = child->GetNode("visible");
+
+        if (!position || !size || !visible)
+        {
+          continue;
+        }
+        std::string positionVal = position->GetContentsValue();
+        float xScale, xOffset, yScale, yOffset;
+        xScale = xOffset = yScale = yOffset = 0.0f;
+
+        std::vector<std::string> parts = split(positionVal, ",");
+
+        if (parts.size() != 4)
+        {
+          continue;
+        }
+        if (sscanf(parts.at(0).c_str(), "%f", &xScale) == 0 ||
+            sscanf(parts.at(1).c_str(), "%f", &xOffset) == 0)
+        {
+          continue;
+        }
+        if (sscanf(parts.at(2).c_str(), "%f", &yScale) == 0 ||
+            sscanf(parts.at(3).c_str(), "%f", &yOffset) == 0)
+        {
+          continue;
+        }
+
+        dialogConfig.userPosition = CEGUI::UVector2(CEGUI::UDim(xScale, xOffset),
+          CEGUI::UDim(yScale, yOffset));
+
+        std::string sizeVal = size->GetContentsValue();
+        xScale = xOffset = yScale = yOffset = 0.0f;
+
+        parts = split(sizeVal, ",");
+
+        if (parts.size() != 4)
+        {
+          continue;
+        }
+        if (sscanf(parts.at(0).c_str(), "%f", &xScale) == 0 ||
+            sscanf(parts.at(1).c_str(), "%f", &xOffset) == 0)
+        {
+          continue;
+        }
+        if (sscanf(parts.at(2).c_str(), "%f", &yScale) == 0 ||
+            sscanf(parts.at(3).c_str(), "%f", &yOffset) == 0)
+        {
+          continue;
+        }
+
+        dialogConfig.userSize = CEGUI::UVector2(CEGUI::UDim(xScale, xOffset),
+          CEGUI::UDim(yScale, yOffset));
+
+        std::string visibleVal = visible->GetContentsValue();
+        if (!visibleVal.empty())
+        {
+          if (visibleVal == "true" || visibleVal == "True")
+          {
+            dialogConfig.visible = true;
+          }
+          else
+          {
+            dialogConfig.visible = false;
+          }
+        }
+
+        dialogConfigurations[window] = dialogConfig;
+      }
+      return ApplyDialogConfiguration();
+    } // end LoadConfiguration()
+
+    bool DialogConfiguration::SaveConfiguration(const std::string& fileName)
+    {
+      csRef<iDocumentSystem> docsys = csQueryRegistry<iDocumentSystem>(objReg);
+      if (!docsys)
+      {
+        docsys = csPtr<iDocumentSystem>(new csTinyDocumentSystem());
+      }
+
+      csRef<iDocument> doc = docsys->CreateDocument();
+      csRef<iDocumentNode> root = doc->CreateRoot();
+      root->SetValue("configuration");
+
+      csRef<iDocumentNode> dialogs = root->CreateNodeBefore(CS_NODE_ELEMENT);
+      dialogs->SetValue("dialogs");
+
+      WindowMap::iterator ppkNode = dialogConfigurations.begin();
+      WindowMap::iterator ppkEnd = dialogConfigurations.end();
+      for (; ppkNode != ppkEnd; ++ppkNode)
+      {
+        CEGUI::Window * wnd = (*ppkNode).first;
+        DialogConfig dlgConfig = (*ppkNode).second;
+
+        if (!wnd->testClassName("FrameWindow"))
+        {
+          continue;
+        }
+        csRef<iDocumentNode> dialogNode =
+          dialogs->CreateNodeBefore(CS_NODE_ELEMENT);
+        dialogNode->SetValue("dialog");
+        dialogNode->SetAttribute("name", wnd->getName().c_str());
+
+        csRef<iDocumentNode> position =
+          dialogNode->CreateNodeBefore(CS_NODE_ELEMENT);
+        position->SetValue("position");
+
+        csRef<iDocumentNode> positionText =
+          position->CreateNodeBefore(CS_NODE_TEXT);
+
+        std::stringstream str;
+        CEGUI::UVector2 pos = wnd->getPosition();
+        str << pos.d_x.d_scale << "," << pos.d_x.d_offset << ","
+          << pos.d_y.d_scale << "," << pos.d_y.d_offset;
+        positionText->SetValue(str.str().c_str());
+
+        csRef<iDocumentNode> size =
+          dialogNode->CreateNodeBefore(CS_NODE_ELEMENT);
+        size->SetValue("size");
+
+        csRef<iDocumentNode> sizeText =
+          size->CreateNodeBefore(CS_NODE_TEXT);
+
+        CEGUI::UVector2 sz = wnd->getSize();
+        str.str("");
+        str << sz.d_x.d_scale << "," << sz.d_x.d_offset << ","
+          << sz.d_y.d_scale << "," << sz.d_y.d_offset;
+        sizeText->SetValue(str.str().c_str());
+
+        csRef<iDocumentNode> visible =
+          dialogNode->CreateNodeBefore(CS_NODE_ELEMENT);
+        visible->SetValue("visible");
+
+        csRef<iDocumentNode> visibleText =
+          visible->CreateNodeBefore(CS_NODE_TEXT);
+        if (wnd->isVisible())
+        {
+          visibleText->SetValue("true");
         }
         else
         {
-          dialogConfig.visible = false;
+          visibleText->SetValue("false");
         }
+
       }
 
-      dialogConfigurations[window] = dialogConfig;
-    }
-    return ApplyDialogConfiguration();
-  }
-
-  bool DialogConfiguration::SaveConfiguration (const std::string& fileName)
-  {
-    csRef<iDocumentSystem> docsys = csQueryRegistry<iDocumentSystem>(objReg);
-    if (!docsys)
-    {
-      docsys = csPtr<iDocumentSystem>(new csTinyDocumentSystem());
-    }
-
-    csRef<iDocument> doc = docsys->CreateDocument();
-    csRef<iDocumentNode> root = doc->CreateRoot();
-    root->SetValue("configuration");
-
-    csRef<iDocumentNode> dialogs = root->CreateNodeBefore(CS_NODE_ELEMENT);
-    dialogs->SetValue("dialogs");
-
-    WindowMap::iterator ppkNode = dialogConfigurations.begin();
-    WindowMap::iterator ppkEnd = dialogConfigurations.end();
-    for (; ppkNode != ppkEnd; ++ppkNode)
-    {
-      CEGUI::Window * wnd = (*ppkNode).first;
-      DialogConfig dlgConfig = (*ppkNode).second;
-
-      if (!wnd->testClassName("FrameWindow"))
+      iString * str = new scfString();
+      if (doc->Write(str) != 0)
       {
-        continue;
+        return false;
       }
-      csRef<iDocumentNode> dialogNode = dialogs->CreateNodeBefore(CS_NODE_ELEMENT);
-      dialogNode->SetValue("dialog");
-      dialogNode->SetAttribute("name", wnd->getName().c_str());
 
-      csRef<iDocumentNode> position = dialogNode->CreateNodeBefore(CS_NODE_ELEMENT);
-      position->SetValue("position");
-
-      csRef<iDocumentNode> positionText = position->CreateNodeBefore(CS_NODE_TEXT);
-
-      std::stringstream str;
-      CEGUI::UVector2 pos = wnd->getPosition();
-      str << pos.d_x.d_scale << "," << pos.d_x.d_offset << "," << pos.d_y.d_scale << "," << pos.d_y.d_offset;
-      positionText->SetValue(str.str().c_str());
-
-      csRef<iDocumentNode> size = dialogNode->CreateNodeBefore(CS_NODE_ELEMENT);
-      size->SetValue("size");
-
-      csRef<iDocumentNode> sizeText = size->CreateNodeBefore(CS_NODE_TEXT);
-
-      CEGUI::UVector2 sz = wnd->getSize();
-      str.str("");
-      str << sz.d_x.d_scale << "," << sz.d_x.d_offset << "," << sz.d_y.d_scale << "," << sz.d_y.d_offset;
-      sizeText->SetValue(str.str().c_str());
-
-      csRef<iDocumentNode> visible = dialogNode->CreateNodeBefore(CS_NODE_ELEMENT);
-      visible->SetValue("visible");
-
-      csRef<iDocumentNode> visibleText = visible->CreateNodeBefore(CS_NODE_TEXT);
-      if (wnd->isVisible())
+      if (!vfs->WriteFile(fileName.c_str(), str->GetData(), str->Length()))
       {
-        visibleText->SetValue("true");
-      }
-      else
-      {
-        visibleText->SetValue("false");
+        return false;
       }
 
-    }
-
-    iString * str = new scfString();
-    if (doc->Write(str) != 0)
-    {
-      return false;
-    }
-
-    if (!vfs->WriteFile(fileName.c_str(), str->GetData(), str->Length()))
-    {
-      return false;
-    }
-
-    return true;
-  }
-
-  bool DialogConfiguration::ApplyDialogConfiguration ()
-  {
-    if (dialogConfigurations.empty())
-    {
-      return false;
-    }
-    WindowMap::iterator ppkNode = dialogConfigurations.begin();
-    WindowMap::iterator ppkEnd = dialogConfigurations.end();
-
-    for (; ppkNode != ppkEnd; ++ppkNode)
-    {
-      ApplyDialogConfiguration((*ppkNode).first);
-    }
-    return true;
-  }
-
-  bool DialogConfiguration::ApplyDialogConfiguration(CEGUI::Window * window)
-  {
-    WindowMap::iterator result = dialogConfigurations.find(window);
-
-    // Check if the window exists.
-    if (result == dialogConfigurations.end())
-    {
-      // The window has NOT been found.
-      return false;
-    }
-
-    result->first->setPosition(result->second.userPosition);
-    result->first->setSize(result->second.userSize);
-    result->first->setVisible(result->second.visible);
-    return true;
-  }
-
-  bool DialogConfiguration::ApplyDialogConfiguration(const std::string& windowName)
-  {
-    try
-    {
-      return ApplyDialogConfiguration(cegui->GetWindowManagerPtr()->getWindow(windowName));
-    }
-    catch (CEGUI::Exception)
-    {
-      return false;
-    }
-  }
-
-  bool DialogConfiguration::AddDialog (CEGUI::Window * window)
-  {
-    WindowMap::iterator result = dialogConfigurations.find(window);
-
-    // Check if the window has already been added.
-    if (result != dialogConfigurations.end())
-    {
-      return false;
-    }
-    for (unsigned int i = 0; i != window->getChildCount(); ++i)
-    {
-      CEGUI::Window * child = window->getChildAtIdx(i);
-      // Check if its a FrameWindow.
-      if (child->testClassName("FrameWindow"))
-      {
-        DialogConfig cfg;
-        cfg.defaultPosition = child->getPosition();
-        cfg.defaultSize = child->getSize();
-        cfg.windowName = child->getName().c_str();
-        cfg.visible = child->isVisible();
-        dialogConfigurations[child] = cfg;
-      }
-    }
-
-    if (window->testClassName("FrameWindow"))
-    {
-      DialogConfig defaults;
-      defaults.defaultPosition = window->getPosition();
-      defaults.defaultSize = window->getSize();
-      defaults.windowName = window->getName().c_str();
-      defaults.visible = window->isVisible();
-      dialogConfigurations[window] = defaults;
-    }
-    return true;
-  }
-
-  bool DialogConfiguration::AddDialog (const std::string& windowName)
-  {
-    try
-    {
-      return AddDialog(cegui->GetWindowManagerPtr()->getWindow(windowName));
-    }
-    catch (CEGUI::Exception)
-    {
-      // Most probably the window could not been found.
-      return false;
-    }
-  }
-
-  bool DialogConfiguration::RemoveDialog (CEGUI::Window * window)
-  {
-    WindowMap::iterator result = dialogConfigurations.find(window);
-
-    // Check if the window exists.
-    if (result == dialogConfigurations.end())
-    {
-      // The window has been found: erase it.
-      dialogConfigurations.erase(result);
       return true;
-    }
-    return false;
-  }
+    } // end SaveConfiguration()
 
-  bool DialogConfiguration::RemoveDialog (const std::string& windowName)
-  {
-    try
+    bool DialogConfiguration::ApplyDialogConfiguration()
     {
-      return RemoveDialog(cegui->GetWindowManagerPtr()->getWindow(windowName));
-    }
-    catch (CEGUI::Exception)
+      if (dialogConfigurations.empty())
+      {
+        return false;
+      }
+      WindowMap::iterator ppkNode = dialogConfigurations.begin();
+      WindowMap::iterator ppkEnd = dialogConfigurations.end();
+
+      for (; ppkNode != ppkEnd; ++ppkNode)
+      {
+        ApplyDialogConfiguration((*ppkNode).first);
+      }
+      return true;
+    } // end ApplyDialogConfiguration()
+
+    bool DialogConfiguration::ApplyDialogConfiguration(CEGUI::Window * window)
     {
-      // Most probably the window could not been found.
-      return false;
-    }
-  }
+      WindowMap::iterator result = dialogConfigurations.find(window);
 
-  bool DialogConfiguration::SetDialogToDefault (CEGUI::Window * window, bool position, bool size, bool visible)
-  {
-    WindowMap::iterator result = dialogConfigurations.find(window);
+      // Check if the window exists.
+      if (result == dialogConfigurations.end())
+      {
+        // The window has NOT been found.
+        return false;
+      }
 
-    // Check if the window exists.
-    if (result != dialogConfigurations.end())
-    {
-      // The window has NOT been found.
-      return false;
-    }
-    if (position)
-    {
-      result->second.userPosition = result->second.defaultPosition;
-    }
-    if (size)
-    {
-      result->second.userSize = result->second.defaultSize;
-    }
-    return true;
-  }
+      result->first->setPosition(result->second.userPosition);
+      result->first->setSize(result->second.userSize);
+      result->first->setVisible(result->second.visible);
+      return true;
+    } // end ApplyDialogConfiguration()
 
-  bool DialogConfiguration::SetDialogToDefault (const std::string& windowName, bool position, bool size, bool visible)
-  {
-    try
-    {
-      return SetDialogToDefault(cegui->GetWindowManagerPtr()->getWindow(windowName), position, size);
-    }
-    catch (CEGUI::Exception)
-    {
-      return false;
-    }
-  }
-
-  void DialogConfiguration::Reload ()
-  {
-    WindowMap tempMap;
-
-    CEGUI::WindowManager * winMgr = cegui->GetWindowManagerPtr();
-
-    WindowMap::iterator ppkNode = dialogConfigurations.begin();
-    WindowMap::iterator ppkEnd = dialogConfigurations.end();
-
-    for (; ppkNode != ppkEnd; ++ppkNode)
+    bool DialogConfiguration::ApplyDialogConfiguration(const std::string& windowName)
     {
       try
       {
-        DialogConfig cfg = (*ppkNode).second;
-        CEGUI::Window * wnd = winMgr->getWindow(cfg.windowName);
-        tempMap[wnd] = cfg;
+        return ApplyDialogConfiguration(cegui->GetWindowManagerPtr()->getWindow(windowName));
       }
       catch (CEGUI::Exception)
       {
-        continue;
+        return false;
       }
-    }
-    dialogConfigurations.clear();
-    dialogConfigurations.insert(tempMap.begin(), tempMap.end());
-    //dialogConfigurations = tempMap;
+    } // end ApplyDialogConfiguration()
 
-    ApplyDialogConfiguration();
-  }
-
-  void DialogConfiguration::SavePositions()
-  {
-    WindowMap tempMap;
-
-
-    WindowMap::iterator ppkNode = dialogConfigurations.begin();
-    WindowMap::iterator ppkEnd = dialogConfigurations.end();
-
-    for (; ppkNode != ppkEnd; ++ppkNode)
+    bool DialogConfiguration::AddDialog(CEGUI::Window * window)
     {
-      CEGUI::Window * wnd = (*ppkNode).first;
-      DialogConfig cfg = (*ppkNode).second;
+      WindowMap::iterator result = dialogConfigurations.find(window);
 
-      cfg.userPosition = wnd->getPosition();
-      cfg.userSize = wnd->getSize();
+      // Check if the window has already been added.
+      if (result != dialogConfigurations.end())
+      {
+        return false;
+      }
+      for (unsigned int i = 0; i != window->getChildCount(); ++i)
+      {
+        CEGUI::Window * child = window->getChildAtIdx(i);
+        // Check if its a FrameWindow.
+        if (child->testClassName("FrameWindow"))
+        {
+          DialogConfig cfg;
+          cfg.defaultPosition = child->getPosition();
+          cfg.defaultSize = child->getSize();
+          cfg.windowName = child->getName().c_str();
+          cfg.visible = child->isVisible();
+          dialogConfigurations[child] = cfg;
+        }
+      }
 
-      tempMap[wnd] = cfg;
-    }
-    dialogConfigurations.clear();
-    dialogConfigurations.insert(tempMap.begin(), tempMap.end());
-  }
-
-  bool DialogConfiguration::IsPresent (CEGUI::Window * window)
-  {
-    WindowMap::iterator result = dialogConfigurations.find(window);
-
-    // Check if the window exists.
-    if (result == dialogConfigurations.end())
-    {
-      // The window has been found.
+      if (window->testClassName("FrameWindow"))
+      {
+        DialogConfig defaults;
+        defaults.defaultPosition = window->getPosition();
+        defaults.defaultSize = window->getSize();
+        defaults.windowName = window->getName().c_str();
+        defaults.visible = window->isVisible();
+        dialogConfigurations[window] = defaults;
+      }
       return true;
-    }
-    return false;
-  }
+    } // end AddDialog()
 
-  bool DialogConfiguration::IsPresent (const std::string& windowName)
-  {
-    try
+    bool DialogConfiguration::AddDialog(const std::string& windowName)
     {
-      return IsPresent(cegui->GetWindowManagerPtr()->getWindow(windowName));
-    }
-    catch (CEGUI::Exception)
+      try
+      {
+        return AddDialog(cegui->GetWindowManagerPtr()->getWindow(windowName));
+      }
+      catch (CEGUI::Exception)
+      {
+        // Most probably the window could not been found.
+        return false;
+      }
+    } // end AddDialog()
+
+    bool DialogConfiguration::RemoveDialog(CEGUI::Window * window)
     {
-      // Most probably the window could not been found.
+      WindowMap::iterator result = dialogConfigurations.find(window);
+
+      // Check if the window exists.
+      if (result == dialogConfigurations.end())
+      {
+        // The window has been found: erase it.
+        dialogConfigurations.erase(result);
+        return true;
+      }
       return false;
-    }
-  }
+    } // end RemoveDialog()
 
-  std::vector<std::string> DialogConfiguration::split (std::string str, std::string delimiter)
-  {
-    std::vector<std::string> retvector;
-
-    if (delimiter.length() > 1)
+    bool DialogConfiguration::RemoveDialog(const std::string& windowName)
     {
+      try
+      {
+        return RemoveDialog(cegui->GetWindowManagerPtr()->getWindow(windowName));
+      }
+      catch (CEGUI::Exception)
+      {
+        // Most probably the window could not been found.
+        return false;
+      }
+    } // end RemoveDialog()
+
+    bool DialogConfiguration::SetDialogToDefault(CEGUI::Window * window,
+                                                 bool position, bool size,
+                                                 bool visible)
+    {
+      WindowMap::iterator result = dialogConfigurations.find(window);
+
+      // Check if the window exists.
+      if (result != dialogConfigurations.end())
+      {
+        // The window has NOT been found.
+        return false;
+      }
+      if (position)
+      {
+        result->second.userPosition = result->second.defaultPosition;
+      }
+      if (size)
+      {
+        result->second.userSize = result->second.defaultSize;
+      }
+      return true;
+    } // end SetDialogToDefault()
+
+    bool DialogConfiguration::SetDialogToDefault(const std::string& windowName,
+                                                 bool position, bool size,
+                                                 bool visible)
+    {
+      try
+      {
+        return SetDialogToDefault(cegui->GetWindowManagerPtr()->getWindow(windowName), position, size);
+      }
+      catch (CEGUI::Exception)
+      {
+        return false;
+      }
+    } // end SetDialogToDefault()
+
+    void DialogConfiguration::Reload()
+    {
+      WindowMap tempMap;
+
+      CEGUI::WindowManager * winMgr = cegui->GetWindowManagerPtr();
+
+      WindowMap::iterator ppkNode = dialogConfigurations.begin();
+      WindowMap::iterator ppkEnd = dialogConfigurations.end();
+
+      for (; ppkNode != ppkEnd; ++ppkNode)
+      {
+        try
+        {
+          DialogConfig cfg = (*ppkNode).second;
+          CEGUI::Window * wnd = winMgr->getWindow(cfg.windowName);
+          tempMap[wnd] = cfg;
+        }
+        catch (CEGUI::Exception)
+        {
+          continue;
+        }
+      }
+      dialogConfigurations.clear();
+      dialogConfigurations.insert(tempMap.begin(), tempMap.end());
+      //dialogConfigurations = tempMap;
+
+      ApplyDialogConfiguration();
+    } // end Reload()
+
+    void DialogConfiguration::SavePositions()
+    {
+      WindowMap tempMap;
+
+
+      WindowMap::iterator ppkNode = dialogConfigurations.begin();
+      WindowMap::iterator ppkEnd = dialogConfigurations.end();
+
+      for (; ppkNode != ppkEnd; ++ppkNode)
+      {
+        CEGUI::Window * wnd = (*ppkNode).first;
+        DialogConfig cfg = (*ppkNode).second;
+
+        cfg.userPosition = wnd->getPosition();
+        cfg.userSize = wnd->getSize();
+
+        tempMap[wnd] = cfg;
+      }
+      dialogConfigurations.clear();
+      dialogConfigurations.insert(tempMap.begin(), tempMap.end());
+    } // end SavePositions()
+
+    bool DialogConfiguration::IsPresent(CEGUI::Window * window)
+    {
+      WindowMap::iterator result = dialogConfigurations.find(window);
+
+      // Check if the window exists.
+      if (result == dialogConfigurations.end())
+      {
+        // The window has been found.
+        return true;
+      }
+      return false;
+    } // end IsPresent()
+
+    bool DialogConfiguration::IsPresent(const std::string& windowName)
+    {
+      try
+      {
+        return IsPresent(cegui->GetWindowManagerPtr()->getWindow(windowName));
+      }
+      catch (CEGUI::Exception)
+      {
+        // Most probably the window could not been found.
+        return false;
+      }
+    } // end IsPresent()
+
+    std::vector<std::string> DialogConfiguration::split(std::string str,
+                                                        std::string delimiter)
+    {
+      std::vector<std::string> retvector;
+
+      if (delimiter.length() > 1)
+      {
+        return retvector;
+      }
+
+      size_t start = 0;
+      size_t pos;
+
+      do
+      {
+        pos = str.find_first_of(delimiter, start);
+
+        if (pos == start)
+        {
+          start = pos + 1;
+        }
+        else if (pos == str.npos)
+        {
+          retvector.push_back(str.substr(start));
+        }
+        else
+        {
+          retvector.push_back(str.substr(start, pos - start));
+          start = pos + 1;
+        }
+        start = str.find_first_not_of(delimiter, start);
+      } while(pos != str.npos);
+
       return retvector;
-    }
+    } // end split()
 
-    size_t start = 0;
-    size_t pos;
+  } // GUI namespace
+} // PT namespace
 
-    do
-    {
-      pos = str.find_first_of(delimiter, start);
-
-
-      if (pos == start)
-      {
-        start = pos + 1;
-      }
-      else if (pos == str.npos)
-      {
-        retvector.push_back(str.substr(start));
-      }
-      else
-      {
-        retvector.push_back(str.substr(start, pos - start));
-        start = pos + 1;
-      }
-      start = str.find_first_not_of(delimiter, start);
-    } while(pos != str.npos);
-
-    return retvector;
-  }
-
-  }
-}

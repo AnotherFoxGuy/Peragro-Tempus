@@ -86,26 +86,26 @@ namespace PT
       csArray<PT::GUI::GUIWindow*> windows;
 
     public:
-      GUIManager ();
-      ~GUIManager ();
+      GUIManager();
+      ~GUIManager();
 
       /// Initialize the manager.
-      bool Initialize ();
+      bool Initialize();
       /// Renders CEGUI to the screen.
-      void Render ();
+      void Render();
 
       /// Returns the cegui singleton.
-      iCEGUI* GetCEGUI () {return cegui;}
+      iCEGUI* GetCEGUI() {return cegui;}
       /// Returns the ObjectRegistry.
-      iObjectRegistry* GetObjectRegistry () {return obj_reg;}
+      iObjectRegistry* GetObjectRegistry() {return obj_reg;}
       /// Returns the skin manager.
-      SkinManager* GetSkinMananger () {return skinMgr;}
+      SkinManager* GetSkinMananger() {return skinMgr;}
       /// Returns windows array.
-      csArray<GUIWindow*> GetWindows () {return windows;}
+      csArray<GUIWindow*> GetWindows() {return windows;}
 
       /// Return a window by name.
       template<class Interface>
-      Interface* GetWindow (const char* name)
+      Interface* GetWindow(const char* name)
       {
         for (size_t i = 0; i < windows.GetSize();i++)
         {
@@ -114,14 +114,14 @@ namespace PT
             return (Interface*)win;
         }// for
 
-        printf("E: Couldn't find window: '%s'\n", name);
+        Report(PT::Error, "Couldn't find window: '%s'", name);
         return 0;
       }
 
       /// Get a CEGUI window by name.
-      CEGUI::Window* GetCeguiWindow (const char* name);
+      CEGUI::Window* GetCeguiWindow(const char* name);
       /// Creates the root window.
-      bool CreateRootWindow ();
+      bool CreateRootWindow();
       /// Verifies if the guimanager has completed initialization.
       bool IsInitialized();
 
@@ -129,8 +129,10 @@ namespace PT
       void Reload ();
 
       MenuManager * GetMenuManager() { return menuMgr; }
-      PT::GUI::Windows::DragDrop* GetDragDrop (){return dragdrop;}
+      PT::GUI::Windows::DragDrop* GetDragDrop(){ return dragdrop; }
     };
-}
-}
+
+  } // GUI namespace
+} // PT namespace
+
 #endif // GUIMANAGER_H

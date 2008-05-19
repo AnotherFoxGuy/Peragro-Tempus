@@ -20,7 +20,7 @@
 #include "gui.h"
 #include "guimanager.h"
 #include "client/event/eventmanager.h"
-#include "../reporter/reporter.h"
+#include "client/reporter/reporter.h"
 
 #include <iutil/vfs.h>
 #include <iutil/objreg.h>
@@ -38,11 +38,11 @@ namespace PT
 {
   namespace GUI
   {
-    SkinManager::SkinManager (GUIManager* guiManager)
+    SkinManager::SkinManager(GUIManager* guiManager)
       : guiManager(guiManager)
     {
-      iObjectRegistry* obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
- //     obj_reg = guiManager->GetObjectRegistry();
+      iObjectRegistry* obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
       vfs = csQueryRegistry<iVFS>(obj_reg);
       cegui = guiManager->GetCEGUI ();
       app_cfg = csQueryRegistry<iConfigManager>(obj_reg);
@@ -52,17 +52,18 @@ namespace PT
 
       defaultSkin.name = "Peragro";
       defaultSkin.path = skinpath;
-    }
+    } // end SkinManager()
 
-    SkinManager::~SkinManager ()
+    SkinManager::~SkinManager()
     {
-    }
+    } // end ~SkinManager()
 
-    bool SkinManager::LoadPressed (iEvent &ev)
+    bool SkinManager::LoadPressed(iEvent &ev)
     {
       using namespace CEGUI;
 
-      Windows::SkinWindow* skinWindow = guiManager->GetWindow<Windows::SkinWindow>("SkinWindow");
+      Windows::SkinWindow* skinWindow =
+        guiManager->GetWindow<Windows::SkinWindow>("SkinWindow");
       if (!skinWindow) return false;
 
       Skin* skin = skinWindow->GetSelectedSkin();
@@ -79,9 +80,9 @@ namespace PT
       }
 
       return true;
-    }
+    } // end LoadPressed()
 
-    Skin SkinManager::FindSkin (const char* name)
+    Skin SkinManager::FindSkin(const char* name)
     {
       for (size_t i = 0; i < skinList.GetSize();i++)
       {
@@ -92,16 +93,17 @@ namespace PT
 
       Report(PT::Warning, "Couldn't find skin: '%s'", name);
       return defaultSkin;
-    }
+    } // end FindSkin()
 
-    void SkinManager::SearchForSkins (const char* path)
+    void SkinManager::SearchForSkins(const char* path)
     {
       Report(PT::Notify,"Looking for skins:");
 
       // Clear the skinlist and add the default.
       skinList.DeleteAll();
       skinList.Push(defaultSkin);
-      Report(PT::Notify, "Found '%s' at '%s'", defaultSkin.GetName(), defaultSkin.GetPath());
+      Report(PT::Notify, "Found '%s' at '%s'", defaultSkin.GetName(),
+        defaultSkin.GetPath());
 
       // Search for directories in the path.
       vfs->ChDir (path);
@@ -120,17 +122,18 @@ namespace PT
         // Add 'Peragro_' to the name.
         std::string skinName = "Peragro_";
         skinName += name;
-        Report(PT::Notify, "Found '%s' at '%s'", skinName.c_str(), file.c_str());
+        Report(PT::Notify, "Found '%s' at '%s'", skinName.c_str(),
+          file.c_str());
         Skin skin;
         skin.name = skinName;
         skin.path = file;
         skinList.Push(skin);
       } // for
 
-      printf("\n");
-    }
+      Report(PT::Debug, "");
+    } // end SearchForSkins()
 
-    bool SkinManager::LoadDefaultSkin ()
+    bool SkinManager::LoadDefaultSkin()
     {
       vfs->ChDir(defaultSkin.GetPath());
 
@@ -139,21 +142,23 @@ namespace PT
       cegui->GetSchemeManagerPtr()->loadScheme("widgets/alias.scheme");
 
       // Set the default mouse cursor.
-      cegui->GetSystemPtr()->setDefaultMouseCursor(defaultSkin.GetName(), "MouseArrow");
+      cegui->GetSystemPtr()->
+        setDefaultMouseCursor(defaultSkin.GetName(), "MouseArrow");
 
       // Load the default font.
-      CEGUI::Font* font = cegui->GetFontManagerPtr()->createFont("FreeType",
-        "Vera", "/fonts/ttf/Vera.ttf");
+      CEGUI::Font* font = cegui->GetFontManagerPtr()->
+        createFont("FreeType", "Vera", "/fonts/ttf/Vera.ttf");
       font->setProperty("PointSize", "10");
       font->load();
 
       currentSkin = defaultSkin;
-      Report(PT::Notify, "Current skin is: '%s' at '%s'",currentSkin.GetName(), currentSkin.GetPath());
+      Report(PT::Notify, "Current skin is: '%s' at '%s'",
+        currentSkin.GetName(), currentSkin.GetPath());
 
       return true;
-    }
+    } // end LoadDefaultSkin()
 
-    bool SkinManager::ReloadWindows ()
+    bool SkinManager::ReloadWindows()
     {
       // Create the root window.
       guiManager->CreateRootWindow();
@@ -169,9 +174,9 @@ namespace PT
       guiManager->Reload();
 
       return true;
-    }
+    } // end ReloadWindows()
 
-    bool SkinManager::Initialize ()
+    bool SkinManager::Initialize()
     {
       // Get some pointers.
       schMgr = cegui->GetSchemeManagerPtr();
@@ -186,14 +191,16 @@ namespace PT
       using namespace PT::Events;
 
       // Register listener for interface.
-      EventHandler<SkinManager>* cb = new EventHandler<SkinManager>(&SkinManager::LoadPressed, this);
-      PT::Events::EventManager* eventManager = PointerLibrary::getInstance()->getEventManager();
+      EventHandler<SkinManager>* cb =
+        new EventHandler<SkinManager>(&SkinManager::LoadPressed, this);
+      PT::Events::EventManager* eventManager =
+        PointerLibrary::getInstance()->getEventManager();
       eventManager->AddListener("interface.skinwindow.buttons.load", cb);
 
       return true;
-    }
+    } // end Initialize()
 
-    CEGUI::Window* SkinManager::loadLayout (const char* layoutFile)
+    CEGUI::Window* SkinManager::loadLayout(const char* layoutFile)
     {
       std::string layoutPath = currentSkin.path;
       layoutPath += "layouts/";
@@ -206,7 +213,8 @@ namespace PT
       }
       catch ( CEGUI::Exception& e )
       {
-        Report(PT::Warning, "No layout supplied for: %s, using Default.", e.getMessage().c_str());
+        Report(PT::Warning, "No layout supplied for: %s, using Default.",
+          e.getMessage().c_str());
         layoutPath = defaultSkin.path;
         layoutPath += "layouts/";
         vfs->ChDir (layoutPath.c_str());
@@ -216,13 +224,14 @@ namespace PT
         }
         catch ( CEGUI::Exception& e )
         {
-          Report(PT::Error, "Failed setting layout: %s!", e.getMessage().c_str());
+          Report(PT::Error, "Failed setting layout: %s!",
+            e.getMessage().c_str());
         }
       }
       return win;
-    }
+    } // end loadLayout()
 
-    bool SkinManager::ChangeSkin (const char* skinname)
+    bool SkinManager::ChangeSkin(const char* skinname)
     {
       Report(PT::Notify, "Reloading!");
 
@@ -239,7 +248,8 @@ namespace PT
       {
         if (schMgr->isSchemePresent(currentSkin.GetName()))
         {
-          Report(PT::Notify, "Unloading scheme file: '%s'", currentSkin.GetName());
+          Report(PT::Notify, "Unloading scheme file: '%s'",
+            currentSkin.GetName());
           schMgr->getScheme(currentSkin.GetName())->unloadResources();
           schMgr->unloadScheme(currentSkin.GetName());
         }
@@ -249,7 +259,8 @@ namespace PT
       Skin newSkin = FindSkin (skinname);
 
       currentSkin = newSkin;
-      Report(PT::Notify, "Switching to new skin: '%s' at '%s'", currentSkin.GetName(), currentSkin.GetPath());
+      Report(PT::Notify, "Switching to new skin: '%s' at '%s'",
+        currentSkin.GetName(), currentSkin.GetPath());
 
       // Load new scheme.
       try
@@ -275,7 +286,8 @@ namespace PT
       }
       catch ( CEGUI::Exception& e )
       {
-        Report(PT::Error, "Failed recreating windows: %s", e.getMessage().c_str());
+        Report(PT::Error, "Failed recreating windows: %s",
+          e.getMessage().c_str());
       }
 
       // Set mousepointer.
@@ -285,15 +297,17 @@ namespace PT
       }
       catch ( CEGUI::Exception& e )
       {
-        Report(PT::Error, "Failed switching Mouse cursor: %s", e.getMessage().c_str());
+        Report(PT::Error, "Failed switching Mouse cursor: %s",
+          e.getMessage().c_str());
       }
 
       return true;
-    }
+    } // end ChangeSkin()
 
-    bool SkinManager::Populate ()
+    bool SkinManager::Populate()
     {
-      Windows::SkinWindow* skinWindow = guiManager->GetWindow<Windows::SkinWindow>("SkinWindow");
+      Windows::SkinWindow* skinWindow =
+        guiManager->GetWindow<Windows::SkinWindow>("SkinWindow");
       if (!skinWindow) return false;
 
       // Add the skins to the GUI.
@@ -304,10 +318,12 @@ namespace PT
       } // for
 
       return true;
-    }
+    } // end Populate()
     Skin SkinManager::GetCurrentSkin()
     {
         return currentSkin;
-    }
+    } // end GetCurrentSkin()
+
   } // GUI namespace
 } // PT namespace
+

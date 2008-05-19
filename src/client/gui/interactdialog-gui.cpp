@@ -61,51 +61,58 @@ namespace PT
         : GUIWindow (guimanager)
       {
         windowName = INTERACTDIALOGWINDOW;
-        iObjectRegistry* oreg = PointerLibrary::getInstance()->getObjectRegistry();
+        iObjectRegistry* oreg =
+          PointerLibrary::getInstance()->getObjectRegistry();
         csRef<iConfigManager> app_cfg (
           csQueryRegistry<iConfigManager> (oreg)
           );
 
-        root_size = app_cfg->GetFloat("peragro.icons.interact.rootsize", 70.0f);
-        button_size = app_cfg->GetFloat("peragro.icons.interact.buttonsize", 50.0f);
+        root_size =
+          app_cfg->GetFloat("peragro.icons.interact.rootsize", 70.0f);
+        button_size =
+          app_cfg->GetFloat("peragro.icons.interact.buttonsize", 50.0f);
 
         newDialog = true;
         interactId = -1;
-      }
+      } // end InteractDialogWindow()
 
       InteractDialogWindow::~InteractDialogWindow()
       {
-      }
+      } // end ~InteractDialogWindow()
 
       bool InteractDialogWindow::OnCancelButton(const CEGUI::EventArgs& args)
       {
         GUIWindow::HideWindow();
 
         return true;
-      }
+      } // end OnCancelButton()
 
       bool InteractDialogWindow::OnAction(const CEGUI::EventArgs& args)
       {
         using namespace CEGUI;
 
-        const WindowEventArgs& ddea = static_cast<const WindowEventArgs&>(args);
+        const WindowEventArgs& ddea =
+          static_cast<const WindowEventArgs&>(args);
 
         if (interactId == (unsigned int)-1) return true;
 
         if (ddea.window->getName().compare(TRADE_BUTTON) == 0)
         {
-          Report(PT::Notify, "OnAction: Requesting trade with: %d.", interactId);
+          Report(PT::Notify, "OnAction: Requesting trade with: %d.",
+            interactId);
           TradeRequestMessage msg;
           msg.setEntityId(interactId);
           network->send(&msg);
         }
         else if (ddea.window->getName().compare(PICKUP_BUTTON) == 0)
         {
-          InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
+          InventoryWindow* inventoryWindow =
+            guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
           unsigned int slotid = inventoryWindow->FindFreeSlot();
           if(slotid < 30)
           {
-            Report(PT::Notify, "OnAction: Requesting picking up: %d for slot %d.", interactId, slotid);
+            Report(PT::Notify, "OnAction: Requesting picking up: %d for slot %d.",
+              interactId, slotid);
             PickRequestMessage msg;
             msg.setItemEntityId(interactId);
             msg.setSlot(slotid); // TODO: get a free slot for this!
@@ -116,7 +123,8 @@ namespace PT
         {
           if(interactId < 30) // slot id
           {
-            Report(PT::Notify, "OnAction: Requesting dropping slot %d.", interactId);
+            Report(PT::Notify, "OnAction: Requesting dropping slot %d.",
+              interactId);
             DropRequestMessage msg;
             msg.setSlot(interactId);
             network->send(&msg);
@@ -124,20 +132,23 @@ namespace PT
         }
         else if (ddea.window->getName().compare(DOOR_BUTTON) == 0)
         {
-          PT::Entity::Entity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(interactId);
+          PT::Entity::Entity* ent = PointerLibrary::getInstance()->
+            getEntityManager()->findPtEntById(interactId);
           if (!ent) return true;
           if (ent->GetType() == 2)// door
           {
             if (((PT::Entity::DoorEntity*)ent)->GetOpen())
             {
-              Report(PT::Notify, "OnAction: Requesting open of: %d.", interactId);
+              Report(PT::Notify, "OnAction: Requesting open of: %d.",
+                interactId);
               CloseDoorRequestMessage msg;
               msg.setDoorId(interactId);
               network->send(&msg);
             }
             else
             {
-              Report(PT::Notify, "OnAction: Requesting close of: %d.", interactId);
+              Report(PT::Notify, "OnAction: Requesting close of: %d.",
+                interactId);
               OpenDoorRequestMessage msg;
               msg.setDoorId(interactId);
               network->send(&msg);
@@ -146,41 +157,49 @@ namespace PT
         }
         else if (ddea.window->getName().compare(LOCK_BUTTON) == 0)
         {
-          Report(PT::Notify, "OnAction: Requesting lock of: %d.", interactId);
+          Report(PT::Notify, "OnAction: Requesting lock of: %d.",
+            interactId);
           LockDoorRequestMessage msg;
           msg.setDoorId(interactId);
           network->send(&msg);
         }
         else if (ddea.window->getName().compare(UNLOCK_BUTTON) == 0)
         {
-          Report(PT::Notify, "OnAction: Requesting unlock of: %d.", interactId);
+          Report(PT::Notify, "OnAction: Requesting unlock of: %d.",
+            interactId);
           UnlockDoorRequestMessage msg;
           msg.setDoorId(interactId);
           network->send(&msg);
         }
         else if (ddea.window->getName().compare(ATTACK_BUTTON) == 0)
         {
-          Report(PT::Notify, "OnAction: Requesting attack with: %d.", interactId);
+          Report(PT::Notify, "OnAction: Requesting attack with: %d.",
+            interactId);
 
-          PT::Combat::CombatManager* combatmanager = PointerLibrary::getInstance()->getCombatManager();
+          PT::Combat::CombatManager* combatmanager =
+            PointerLibrary::getInstance()->getCombatManager();
           HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
-          combatmanager->RequestSkillUsageStart (interactId, hudWindow->GetActiveSkillId());
+          combatmanager->
+            RequestSkillUsageStart(interactId, hudWindow->GetActiveSkillId());
         }
         else if (ddea.window->getName().compare(TALK_BUTTON) == 0)
         {
-          Report(PT::Notify, "OnAction: Requesting dialog with: %d.", interactId);
+          Report(PT::Notify, "OnAction: Requesting dialog with: %d.",
+            interactId);
           NpcStartDialogMessage msg;
           msg.setNpcId(interactId);
           network->send(&msg);
         }
         else if (ddea.window->getName().compare(INVENTORY_BUTTON) == 0)
         {
-          InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
+          InventoryWindow* inventoryWindow =
+            guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
           inventoryWindow->ShowWindow();
         }
         else if (ddea.window->getName().compare(STATS_BUTTON) == 0)
         {
-          StatusWindow* statusWindow = guimanager->GetWindow<StatusWindow>(STATUSWINDOW);
+          StatusWindow* statusWindow =
+            guimanager->GetWindow<StatusWindow>(STATUSWINDOW);
           statusWindow->ShowWindow();
         }
         else if (ddea.window->getName().compare(READ_BUTTON) == 0)
@@ -189,12 +208,13 @@ namespace PT
           msg.setItemId(itemId);
           msg.setBookId(variationId);
           network->send(&msg);
-          BookWindow* bookWindow = guimanager->GetWindow<BookWindow>(BOOKWINDOW);
+          BookWindow* bookWindow =
+            guimanager->GetWindow<BookWindow>(BOOKWINDOW);
           bookWindow->SetBook(itemId, interactId);
         }
         else if (ddea.window->getName().compare(WRITE_BUTTON) == 0)
         {
-          printf("Opening book to write!\n");
+          Report(PT::Debug, "Opening book to write.");
           //guimanager->GetBookWindow()->ShowWindow();
           // Display Book Writing GUI
         }
@@ -211,7 +231,7 @@ namespace PT
         GUIWindow::HideWindow();
 
         return true;
-      }
+      } // end OnAction()
 
       void InteractDialogWindow::ClearActions()
       {
@@ -226,7 +246,7 @@ namespace PT
             winMgr->destroyWindow(button);
           }
         }
-      }
+      } // end ClearActions()
 
       void InteractDialogWindow::LayoutIcons()
       {
@@ -244,9 +264,10 @@ namespace PT
           x -= button_size/2;
           y -= button_size/2;
           Report(PT::Notify, "COORDS: %f(%f)   %f   %f", in, all, x, y);
-          button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,x), CEGUI::UDim(0.0f,y)));
+          button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,x),
+            CEGUI::UDim(0.0f,y)));
         }
-      }
+      } // end LayoutIcons()
 
       void InteractDialogWindow::AddAction(const char* action /*,Callback* callback*/)
       {
@@ -270,9 +291,12 @@ namespace PT
 
         if (!winMgr->isWindowPresent(name))
         {
-          CEGUI::Window* button = winMgr->createWindow("Peragro/ImageButton", name);
-          button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-button_size/2), CEGUI::UDim(1.0f,-button_size)));
-          button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,button_size), CEGUI::UDim(0.0f,button_size)));
+          CEGUI::Window* button =
+            winMgr->createWindow("Peragro/ImageButton", name);
+          button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-button_size/2),
+            CEGUI::UDim(1.0f,-button_size)));
+          button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,button_size),
+            CEGUI::UDim(0.0f,button_size)));
           button->setProperty("NormalImage", normal);
           button->setProperty("HoverImage", hover);
           button->setProperty("PushedImage", normal);
@@ -280,13 +304,14 @@ namespace PT
           button->setProperty("ClippedByParent", "False");
           button->setTooltipText(action);
           window->addChildWindow(button);
-          button->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
+          button->subscribeEvent(CEGUI::PushButton::EventClicked,
+            CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
         }
 
         LayoutIcons();
-      }
+      } // end AddAction()
 
-      bool InteractDialogWindow::OnInteract (iEvent& ev)
+      bool InteractDialogWindow::OnInteract(iEvent& ev)
       {
         using namespace PT::Events;
 
@@ -304,7 +329,8 @@ namespace PT
         int y = PointerLibrary::getInstance()->getCursor()->GetMouseY();
         x = (int)(x - ( root_size / 2 ));
         y = (int)(y - ( root_size / 2 ));
-        window->setPosition(CEGUI::UVector2(CEGUI::UDim(0,x), CEGUI::UDim(0,y)));
+        window->setPosition(CEGUI::UVector2(CEGUI::UDim(0,x),
+          CEGUI::UDim(0,y)));
 
         /* @TODO
         Behaviours should listen to the interface.interact event
@@ -342,13 +368,13 @@ namespace PT
           AddAction("Activate");
 
         return true;
-      }
+      } // end OnInteract()
 
       bool InteractDialogWindow::Create()
       {
         ReloadWindow();
         return true;
-      }
+      } // end Create()
 
       bool InteractDialogWindow::ReloadWindow()
       {
@@ -357,71 +383,103 @@ namespace PT
         window = winMgr->createWindow("StaticImage", "InteractDialog/Frame");
         GUIWindow::AddToRoot(window);
         window->setVisible(false);
-        window->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0.0f), CEGUI::UDim(0.5f,0.0f)));
-        window->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,root_size), CEGUI::UDim(0.0f,root_size)));
+        window->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,0.0f),
+          CEGUI::UDim(0.5f,0.0f)));
+        window->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,root_size),
+          CEGUI::UDim(0.0f,root_size)));
         window->setProperty("FrameEnabled", "False");
         window->setProperty("BackgroundEnabled", "False");
 
         // Register listener for interact.
         using namespace PT::Events;
-        EventHandler<InteractDialogWindow>* cbInteract = new EventHandler<InteractDialogWindow>(&InteractDialogWindow::OnInteract, this);
-        PointerLibrary::getInstance()->getEventManager()->AddListener("interface.interact", cbInteract);
+        EventHandler<InteractDialogWindow>* cbInteract =
+          new EventHandler<InteractDialogWindow>
+          (&InteractDialogWindow::OnInteract, this);
+        PointerLibrary::getInstance()->getEventManager()->
+          AddListener("interface.interact", cbInteract);
 
         // Cancel Button
-        CEGUI::Window* button = winMgr->createWindow("Peragro/ImageButton", CANCEL_BUTTON);
-        button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-button_size/2), CEGUI::UDim(1.0f,-button_size)));
-        button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,button_size), CEGUI::UDim(0.0f,button_size)));
-        button->setProperty("NormalImage", "set:InteractionIcons image:cancel_normal");
-        button->setProperty("HoverImage", "set:InteractionIcons image:cancel_hover");
-        button->setProperty("PushedImage", "set:InteractionIcons image:cancel_normal");
-        button->setProperty("DisabledImage", "set:InteractionIcons image:cancel_normal");
+        CEGUI::Window* button = winMgr->createWindow("Peragro/ImageButton",
+          CANCEL_BUTTON);
+        button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-button_size/2),
+          CEGUI::UDim(1.0f,-button_size)));
+        button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,button_size),
+          CEGUI::UDim(0.0f,button_size)));
+        button->setProperty("NormalImage",
+          "set:InteractionIcons image:cancel_normal");
+        button->setProperty("HoverImage",
+          "set:InteractionIcons image:cancel_hover");
+        button->setProperty("PushedImage",
+          "set:InteractionIcons image:cancel_normal");
+        button->setProperty("DisabledImage",
+          "set:InteractionIcons image:cancel_normal");
         button->setProperty("ClippedByParent", "False");
         button->setTooltipText("Cancel");
         window->addChildWindow(button);
-        button->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InteractDialogWindow::OnCancelButton, this));
+        button->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&InteractDialogWindow::OnCancelButton, this));
         /*
         // Trade Button
         button = winMgr->createWindow("Peragro/ImageButton", TRADE_BUTTON);
         button->setVisible(false);
-        button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-BUTTON_SIZE/2), CEGUI::UDim(0.0f,0.0f)));
-        button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,BUTTON_SIZE), CEGUI::UDim(0.0f,BUTTON_SIZE)));
-        button->setProperty("NormalImage", "set:InteractionIcons image:trade_normal");
-        button->setProperty("HoverImage", "set:InteractionIcons image:trade_hover");
-        button->setProperty("PushedImage", "set:InteractionIcons image:trade_normal");
+        button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f,-BUTTON_SIZE/2),
+          CEGUI::UDim(0.0f,0.0f)));
+        button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,BUTTON_SIZE),
+          CEGUI::UDim(0.0f,BUTTON_SIZE)));
+        button->setProperty("NormalImage",
+          "set:InteractionIcons image:trade_normal");
+        button->setProperty("HoverImage",
+          "set:InteractionIcons image:trade_hover");
+        button->setProperty("PushedImage",
+          "set:InteractionIcons image:trade_normal");
         button->setProperty("ClippedByParent", "False");
         button->setTooltipText("Trade");
         rootwindow->addChildWindow(button);
-        button->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
+        button->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
 
         // Attack Button
         button = winMgr->createWindow("Peragro/ImageButton", ATTACK_BUTTON);
         button->setVisible(false);
-        button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.5f,-BUTTON_SIZE/2)));
-        button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,BUTTON_SIZE), CEGUI::UDim(0.0f,BUTTON_SIZE)));
-        button->setProperty("NormalImage", "set:InteractionIcons image:attack_normal");
-        button->setProperty("HoverImage", "set:InteractionIcons image:attack_hover");
-        button->setProperty("PushedImage", "set:InteractionIcons image:attack_normal");
+        button->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f),
+          CEGUI::UDim(0.5f,-BUTTON_SIZE/2)));
+        button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,BUTTON_SIZE),
+          CEGUI::UDim(0.0f,BUTTON_SIZE)));
+        button->setProperty("NormalImage",
+          "set:InteractionIcons image:attack_normal");
+        button->setProperty("HoverImage",
+          "set:InteractionIcons image:attack_hover");
+        button->setProperty("PushedImage",
+          "set:InteractionIcons image:attack_normal");
         button->setProperty("ClippedByParent", "False");
         button->setTooltipText("Attack");
         rootwindow->addChildWindow(button);
-        button->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
+        button->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
 
         // Talk Button
         button = winMgr->createWindow("Peragro/ImageButton", TALK_BUTTON);
         button->setVisible(false);
-        button->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0f,-BUTTON_SIZE), CEGUI::UDim(0.5f,-BUTTON_SIZE/2)));
-        button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,BUTTON_SIZE), CEGUI::UDim(0.0f,BUTTON_SIZE)));
-        button->setProperty("NormalImage", "set:InteractionIcons image:talk_normal");
-        button->setProperty("HoverImage", "set:InteractionIcons image:talk_hover");
-        button->setProperty("PushedImage", "set:InteractionIcons image:talk_normal");
+        button->setPosition(CEGUI::UVector2(CEGUI::UDim(1.0f,-BUTTON_SIZE),
+          CEGUI::UDim(0.5f,-BUTTON_SIZE/2)));
+        button->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,BUTTON_SIZE),
+          CEGUI::UDim(0.0f,BUTTON_SIZE)));
+        button->setProperty("NormalImage",
+          "set:InteractionIcons image:talk_normal");
+        button->setProperty("HoverImage",
+          "set:InteractionIcons image:talk_hover");
+        button->setProperty("PushedImage",
+          "set:InteractionIcons image:talk_normal");
         button->setProperty("ClippedByParent", "False");
         button->setTooltipText("Talk");
         rootwindow->addChildWindow(button);
-        button->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
+        button->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
         */
         return true;
-      }
-    }
-  }
-}
+      } // end ReloadWindow()
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 

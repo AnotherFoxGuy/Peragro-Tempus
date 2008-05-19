@@ -29,34 +29,33 @@ namespace PT
 {
   namespace GUI
   {
-
     struct Skin;
 
-namespace Windows
+    namespace Windows
     {
+      class SkinWindow : public GUIWindow
+      {
+      private:
+        csArray<Skin> skinList;
+        bool CreateSkinItem (Skin& skin);
 
-    class SkinWindow : public GUIWindow
-    {
-    private:
-      csArray<Skin> skinList;
-      bool CreateSkinItem (Skin& skin);
+      private:
+        bool LoadPressed (const CEGUI::EventArgs& e);
 
-    private:
-      bool LoadPressed (const CEGUI::EventArgs& e);
+      public:
+        SkinWindow (GUIManager* guiManager);
+        virtual ~SkinWindow ();
+        bool Create ();
+        bool ReloadWindow ();
 
-    public:
-      SkinWindow (GUIManager* guiManager);
-      virtual ~SkinWindow ();
-      bool Create ();
-      bool ReloadWindow ();
+        /// Add a skin item.
+        bool AddSkin(Skin skin);
+        /// Get selected skin.
+        Skin* GetSelectedSkin();
+      };
 
-      /// Add a skin item.
-      bool AddSkin(Skin skin);
-      /// Get selected skin.
-      Skin* GetSelectedSkin();
-    };
-    }
-  }
+    } // Windows namespace
+  } // GUI namespace
 } // PT namespace
 
 #endif // PT_GUI_SKINWINDOW_H

@@ -32,26 +32,28 @@ namespace PT
   {
     namespace Windows
     {
-    class ServerWindow : public GUIWindow
-    {
-    private:
-      csRef<iConfigManager> app_cfg;
-      void AddServer(const char* name, const char* host);
-      bool OnSelection(const CEGUI::EventArgs& e);
+      class ServerWindow : public GUIWindow
+      {
+      private:
+        csRef<iConfigManager> app_cfg;
+        void AddServer(const char* name, const char* host);
+        bool OnSelection(const CEGUI::EventArgs& e);
 
-    public:
-      csString GetServerHost();
-      unsigned int GetServerPort();
-      csString GetServerName();
-      bool IsCustom();
-      ServerWindow(GUIManager* guimanager);
-      virtual ~ServerWindow();
-      bool Create();
-      bool ReloadWindow();
+      public:
+        csString GetServerHost();
+        unsigned int GetServerPort();
+        csString GetServerName();
+        bool IsCustom();
+        ServerWindow(GUIManager* guimanager);
+        virtual ~ServerWindow();
+        bool Create();
+        bool ReloadWindow();
 
-      void ShowWindow();
-    };
-    }
-  }
-}
+        void ShowWindow();
+      };
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
+
 #endif // SERVERS_GUI_H

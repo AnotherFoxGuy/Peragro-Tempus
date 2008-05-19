@@ -29,28 +29,29 @@ namespace PT
   {
     namespace Windows
     {
-    class NpcDialogWindow : public GUIWindow
-    {
-    private:
-      bool newDialog;
-      void ClearAnswers();
+      class NpcDialogWindow : public GUIWindow
+      {
+      private:
+        bool newDialog;
+        void ClearAnswers();
 
-      uint dialogId;
-      bool OnCloseButton(const CEGUI::EventArgs& args);
-      bool OnAnswer(const CEGUI::EventArgs& args);
+        uint dialogId;
+        bool OnCloseButton(const CEGUI::EventArgs& args);
+        bool OnAnswer(const CEGUI::EventArgs& args);
 
-    public:
-      NpcDialogWindow(GUIManager* guimanager);
-      virtual ~NpcDialogWindow();
-      bool Create();
-      bool ReloadWindow();
+      public:
+        NpcDialogWindow(GUIManager* guimanager);
+        virtual ~NpcDialogWindow();
+        bool Create();
+        bool ReloadWindow();
 
-      void SetName(csString name);
-      void AddDialog(uint dialogueId, csString dialog);
-      void AddAnswer(uint number, csString answer);
-    };
-    }
-  }
-}
+        void SetName(csString name);
+        void AddDialog(uint dialogueId, csString dialog);
+        void AddAnswer(uint number, csString answer);
+      };
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
 #endif // NPCDIALOG_GUI_H

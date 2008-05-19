@@ -36,113 +36,121 @@ namespace PT
     namespace Windows
     {
 
-    SkinWindow::SkinWindow (GUIManager* guiManager)
-      : GUIWindow (guiManager)
-    {
-      windowName = SKINWINDOW;
-    }
-
-    SkinWindow::~SkinWindow ()
-    {
-    }
-
-    bool SkinWindow::Create ()
-    {
-      ReloadWindow();
-
-      return true;
-    }
-
-    bool SkinWindow::LoadPressed (const CEGUI::EventArgs& e)
-    {
-      using namespace CEGUI;
-      using namespace PT::Events;
-
-      PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      csRef<iEvent> interfaceEvent = evmgr->CreateEvent("interface.skinwindow.buttons.load", false);
-      evmgr->AddEvent(interfaceEvent);
-
-      return true;
-    }
-
-    bool SkinWindow::ReloadWindow ()
-    {
-      // Load the layout.
-      window = GUIWindow::LoadLayout ("client/options/skin.xml");
-
-      // Readd the skins.
-      for (size_t i = 0; i < skinList.GetSize();i++)
+      SkinWindow::SkinWindow(GUIManager* guiManager)
+        : GUIWindow (guiManager)
       {
-        CreateSkinItem(skinList.Get(i));
-      }// for
+        windowName = SKINWINDOW;
+      } // end SkinWindow()
 
-      // Readd the Load button event.
-      CEGUI::Window* btn = guimanager->GetCeguiWindow("Skins/LoadButton");
-      btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::SubscriberSlot(&SkinWindow::LoadPressed, this));
-
-      return true;
-    }
-
-    bool SkinWindow::CreateSkinItem(Skin& skin)
-    {
-      // Get the window.
-      CEGUI::Window* btn = guimanager->GetCeguiWindow("Skins/List");
-      if (!btn) return false;
-
-      // Create and add the item to the list window.
-      CEGUI::ListboxItem* skinItem = new CEGUI::ListboxTextItem(skin.GetName()); // CEGUI deletes this.
-      skinItem->setSelectionBrushImage("Peragro", "TextSelectionBrush");
-      skinItem->setUserData(&skin);
-      ((CEGUI::Listbox*)btn)->addItem(skinItem);
-
-      return true;
-    }
-
-    bool SkinWindow::AddSkin(Skin skin)
-    {
-      // Add the skin to the array.
-      size_t idx = skinList.Push(skin);
-
-      CreateSkinItem(skinList.Get(idx));
-
-      return true;
-    }
-
-    Skin* SkinWindow::GetSelectedSkin()
-    {
-      // Get the window.
-      CEGUI::Window* window = guimanager->GetCeguiWindow("Skins/List");
-      if (!window)
+      SkinWindow::~SkinWindow()
       {
-        Report(PT::Error, "SkinWindow: the 'Skins/List' window couldn't be found!");
-        return 0;
-      }
+      } // end ~SkinWindow()
 
-      // Get the listbox.
-      CEGUI::Listbox* listbox = static_cast<CEGUI::Listbox*>(window);
-      if (!listbox)
+      bool SkinWindow::Create()
       {
-        Report(PT::Error, "SkinWindow: the 'Skins/List' window isn't a Listbox!");
-        return 0;
-      }
-      // Get the item.
-      CEGUI::ListboxItem* item = listbox->getFirstSelectedItem();
-      if (!item)
-      {
-        Report(PT::Error, "SkinWindow: Invalid item!");
-        return 0;
-      }
+        ReloadWindow();
 
-      //Get the skin.
-      Skin* skin = static_cast<Skin*>(item->getUserData());
-      if (!skin)
-      {
-        Report(PT::Error, "SkinWindow: Invalid Skin!");
-        return 0;
-      }
+        return true;
+      } // end Create()
 
-      return skin;
-    }
-    }
-  }
+      bool SkinWindow::LoadPressed(const CEGUI::EventArgs& e)
+      {
+        using namespace CEGUI;
+        using namespace PT::Events;
+
+        PT::Events::EventManager* evmgr =
+          PointerLibrary::getInstance()->getEventManager();
+        csRef<iEvent> interfaceEvent =
+          evmgr->CreateEvent("interface.skinwindow.buttons.load", false);
+        evmgr->AddEvent(interfaceEvent);
+
+        return true;
+      } // end LoadPressed()
+
+      bool SkinWindow::ReloadWindow()
+      {
+        // Load the layout.
+        window = GUIWindow::LoadLayout ("client/options/skin.xml");
+
+        // Readd the skins.
+        for (size_t i = 0; i < skinList.GetSize();i++)
+        {
+          CreateSkinItem(skinList.Get(i));
+        }// for
+
+        // Readd the Load button event.
+        CEGUI::Window* btn = guimanager->GetCeguiWindow("Skins/LoadButton");
+        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::SubscriberSlot(&SkinWindow::LoadPressed, this));
+
+        return true;
+      } // end ReloadWindow()
+
+      bool SkinWindow::CreateSkinItem(Skin& skin)
+      {
+        // Get the window.
+        CEGUI::Window* btn = guimanager->GetCeguiWindow("Skins/List");
+        if (!btn) return false;
+
+        // Create and add the item to the list window.
+        CEGUI::ListboxItem* skinItem =
+          new CEGUI::ListboxTextItem(skin.GetName()); // CEGUI deletes this.
+        skinItem->setSelectionBrushImage("Peragro", "TextSelectionBrush");
+        skinItem->setUserData(&skin);
+        ((CEGUI::Listbox*)btn)->addItem(skinItem);
+
+        return true;
+      } // end CreateSkinItem()
+
+      bool SkinWindow::AddSkin(Skin skin)
+      {
+        // Add the skin to the array.
+        size_t idx = skinList.Push(skin);
+
+        CreateSkinItem(skinList.Get(idx));
+
+        return true;
+      } // end AddSkin()
+
+      Skin* SkinWindow::GetSelectedSkin()
+      {
+        // Get the window.
+        CEGUI::Window* window = guimanager->GetCeguiWindow("Skins/List");
+        if (!window)
+        {
+          Report(PT::Error,
+            "SkinWindow: the 'Skins/List' window couldn't be found!");
+          return 0;
+        }
+
+        // Get the listbox.
+        CEGUI::Listbox* listbox = static_cast<CEGUI::Listbox*>(window);
+        if (!listbox)
+        {
+          Report(PT::Error,
+            "SkinWindow: the 'Skins/List' window isn't a Listbox!");
+          return 0;
+        }
+        // Get the item.
+        CEGUI::ListboxItem* item = listbox->getFirstSelectedItem();
+        if (!item)
+        {
+          Report(PT::Error, "SkinWindow: Invalid item!");
+          return 0;
+        }
+
+        //Get the skin.
+        Skin* skin = static_cast<Skin*>(item->getUserData());
+        if (!skin)
+        {
+          Report(PT::Error, "SkinWindow: Invalid Skin!");
+          return 0;
+        }
+
+        return skin;
+      } // end GetSelectedSkin()
+
+    } // Windows namespace
+  } // GUI namespace
 } // PT namespace
+

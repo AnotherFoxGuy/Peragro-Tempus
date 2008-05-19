@@ -28,7 +28,6 @@
 
 #include "client/reporter/reporter.h"
 
-
 namespace PT
 {
   namespace GUI
@@ -102,7 +101,7 @@ namespace PT
 
         const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
-        //printf("OnRootKeyDown: key %d pressed \n", keyArgs.scancode);
+        //Report(PT::Debug, "OnRootKeyDown: key %d pressed.", keyArgs.scancode);
 
         switch (keyArgs.scancode)
         {

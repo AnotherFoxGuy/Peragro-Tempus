@@ -398,7 +398,7 @@ void MyStarbox::DrawStar2D ( iGraphics2D* g2d,
         DrawStar3D
         (
           (int)screen_spot.x ,
-          (int)h - screen_spot.y,
+          (int)(h - screen_spot.y),
           35/itr->GetDistance(),
           itr->Get_StarType()
         );

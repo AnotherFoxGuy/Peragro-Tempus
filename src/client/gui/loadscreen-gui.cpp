@@ -32,50 +32,52 @@ namespace PT
   {
     namespace Windows
     {
-    LoadScreenWindow::LoadScreenWindow (GUIManager* guimanager)
-    : GUIWindow (guimanager)
-    {
-      windowName = LOADSCREENWINDOW;
-    }
+      LoadScreenWindow::LoadScreenWindow(GUIManager* guimanager)
+        : GUIWindow (guimanager)
+      {
+        windowName = LOADSCREENWINDOW;
+      } // end LoadScreenWindow()
 
-    LoadScreenWindow::~LoadScreenWindow ()
-    {
-    }
+      LoadScreenWindow::~LoadScreenWindow()
+      {
+      } // end ~LoadScreenWindow()
 
-    void LoadScreenWindow::SetProgress(float progress)
-    {
-      CEGUI::ProgressBar* bar = static_cast<CEGUI::ProgressBar*>(winMgr->getWindow("LoadScreen/Bar"));
-      bar->setProgress(progress);
-    }
+      void LoadScreenWindow::SetProgress(float progress)
+      {
+        CEGUI::ProgressBar* bar = static_cast<CEGUI::ProgressBar*>
+          (winMgr->getWindow("LoadScreen/Bar"));
+        bar->setProgress(progress);
+      } // end SetProgress()
 
-    bool LoadScreenWindow::Create()
-    {
-      ReloadWindow();
-      return true;
-    }
+      bool LoadScreenWindow::Create()
+      {
+        ReloadWindow();
+        return true;
+      } // end Create()
 
-    bool LoadScreenWindow::ReloadWindow()
-    {
-      window = GUIWindow::LoadLayout ("client/loadscreen.xml");
-      GUIWindow::AddToRoot(window);
-      return true;
-    }
+      bool LoadScreenWindow::ReloadWindow()
+      {
+        window = GUIWindow::LoadLayout ("client/loadscreen.xml");
+        GUIWindow::AddToRoot(window);
+        return true;
+      } // end ReloadWindow()
 
-    void LoadScreenWindow::ShowWindow()
-    {
-        GUIWindow::ShowWindow();
-    }
+      void LoadScreenWindow::ShowWindow()
+      {
+          GUIWindow::ShowWindow();
+      } // end ShowWindow()
 
-    void LoadScreenWindow::HideWindow()
-    {
-        GUIWindow::HideWindow();
-    }
+      void LoadScreenWindow::HideWindow()
+      {
+          GUIWindow::HideWindow();
+      } // end HideWindow()
 
-    bool LoadScreenWindow::IsVisible()
-    {
-        return GUIWindow::IsVisible();
-    }
+      bool LoadScreenWindow::IsVisible()
+      {
+          return GUIWindow::IsVisible();
+      } // end IsVisible()
 
-    }
-  }
-}
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
+

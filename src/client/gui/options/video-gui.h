@@ -60,8 +60,9 @@ namespace PT
         bool ReloadWindow ();
 
       };
-    }
-  }
+
+    } // Windows namespace
+  } // GUI namespace
 } // PT namespace
 
 #endif // PT_GUI_VIDEOWINDOW_H

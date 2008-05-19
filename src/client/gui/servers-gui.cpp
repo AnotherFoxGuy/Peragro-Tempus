@@ -36,152 +36,168 @@ namespace PT
     namespace Windows
     {
 
-    ServerWindow::ServerWindow(GUIManager* guimanager)
-    : GUIWindow (guimanager)
-    {
-       windowName = SERVERWINDOW;
-    }
+      ServerWindow::ServerWindow(GUIManager* guimanager)
+        : GUIWindow (guimanager)
+      {
+         windowName = SERVERWINDOW;
+      } // end ServerWindow()
 
-    ServerWindow::~ServerWindow()
-    {
-    }
+      ServerWindow::~ServerWindow()
+      {
+      } // end ~ServerWindow()
 
-    bool ServerWindow::OnSelection(const CEGUI::EventArgs& e)
-    {
-          using namespace PT::GUI;
-          using namespace PT::GUI::Windows;
+      bool ServerWindow::OnSelection(const CEGUI::EventArgs& e)
+      {
+            using namespace PT::GUI;
+            using namespace PT::GUI::Windows;
 
-      btn = winMgr->getWindow("ServerList/Servers");
-      if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
+        btn = winMgr->getWindow("ServerList/Servers");
+        if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
+          return true;
+
+        CEGUI::ListboxItem* item =
+          ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+
+        PT::Data::ConnectionDataManager* servermgr =
+          PointerLibrary::getInstance()->getConnectionDataManager();
+        PT::Data::Server* server = servermgr->GetServerById(
+          ((CEGUI::MultiColumnList*)btn)->getItemRowIndex(item));
+        if (server)
+        {
+          btn = winMgr->getWindow("ServerList/Server");
+          if (server->GetHost()=="#CUSTOM#")
+          {
+            btn->setVisible(true);
+            btn->setText(app_cfg->GetStr("Client.Server.Custom"));
+            btn = winMgr->getWindow("ServerList/Port");
+            btn->setVisible(true);
+            btn->setText(app_cfg->GetStr("Client.Server.Customport"));
+          }else{
+            btn->setVisible(false);
+            btn->setText(CEGUI::String(server->GetHost()));
+            btn = winMgr->getWindow("ServerList/Port");
+            btn->setVisible(false);
+            btn->setText(CEGUI::String(server->GetPort()));
+          }
+          if (guimanager->IsInitialized())
+          {
+            LoginWindow* loginWindow =
+              guimanager->GetWindow<LoginWindow>(LOGINWINDOW);
+            loginWindow->UpdateLogin();
+          }
+        }
+
+        if (!item->isSelected()) return true;
         return true;
+      } // end OnSelection()
 
-      CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+      void ServerWindow::ShowWindow()
+      {
+        GUIWindow::ShowWindow();
+      } // end ShowWindow()
 
-      PT::Data::ConnectionDataManager* servermgr = PointerLibrary::getInstance()->getConnectionDataManager();
-      PT::Data::Server* server = servermgr->GetServerById(((CEGUI::MultiColumnList*)btn)->getItemRowIndex(item));
-      if (server)
+      csString ServerWindow::GetServerHost()
       {
         btn = winMgr->getWindow("ServerList/Server");
-        if (server->GetHost()=="#CUSTOM#")
+        CEGUI::String str = btn->getText();
+        csString serverip = str.c_str();
+        return serverip;
+      } // end GetServerHost()
+
+      unsigned int ServerWindow::GetServerPort()
+      {
+        btn = winMgr->getWindow("ServerList/Port");
+        CEGUI::String str = btn->getText();
+        return atoi(str.c_str());
+      } // end GetServerPort()
+
+      csString ServerWindow::GetServerName()
+      {
+        btn = winMgr->getWindow("ServerList/Servers");
+        if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
+          return "";
+
+        CEGUI::ListboxItem* item =
+          ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+        return item->getText().c_str();
+      } // end GetServerName()
+
+      bool ServerWindow::IsCustom()
+      {
+        btn = winMgr->getWindow("ServerList/Servers");
+        if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
+          return false;
+        CEGUI::ListboxItem* item =
+          ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+
+        PT::Data::ConnectionDataManager* servermgr =
+          PointerLibrary::getInstance()->getConnectionDataManager();
+        PT::Data::Server* server = servermgr->GetServerById(
+          ((CEGUI::MultiColumnList*)btn)->getItemRowIndex(item));
+        if (server)
         {
-          btn->setVisible(true);
-          btn->setText(app_cfg->GetStr("Client.Server.Custom"));
-          btn = winMgr->getWindow("ServerList/Port");
-          btn->setVisible(true);
-          btn->setText(app_cfg->GetStr("Client.Server.Customport"));
-        }else{
-          btn->setVisible(false);
-          btn->setText(CEGUI::String(server->GetHost()));
-          btn = winMgr->getWindow("ServerList/Port");
-          btn->setVisible(false);
-          btn->setText(CEGUI::String(server->GetPort()));
+          btn = winMgr->getWindow("ServerList/Server");
+          if (server->GetHost()=="#CUSTOM#"){return true;}
         }
-        if (guimanager->IsInitialized())
-        {
-          LoginWindow* loginWindow = guimanager->GetWindow<LoginWindow>(LOGINWINDOW);
-          loginWindow->UpdateLogin();
-        }
-      }
-
-      if (!item->isSelected()) return true;
-      return true;
-    }
-
-    void ServerWindow::ShowWindow()
-    {
-      GUIWindow::ShowWindow();
-    }
-
-    csString ServerWindow::GetServerHost()
-    {
-      btn = winMgr->getWindow("ServerList/Server");
-      CEGUI::String str = btn->getText();
-      csString serverip = str.c_str();
-      return serverip;
-    }
-
-    unsigned int ServerWindow::GetServerPort()
-    {
-      btn = winMgr->getWindow("ServerList/Port");
-      CEGUI::String str = btn->getText();
-      return atoi(str.c_str());
-    }
-
-    csString ServerWindow::GetServerName()
-    {
-      btn = winMgr->getWindow("ServerList/Servers");
-      if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
-        return "";
-
-      CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
-      return item->getText().c_str();
-    }
-
-    bool ServerWindow::IsCustom()
-    {
-      btn = winMgr->getWindow("ServerList/Servers");
-      if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
         return false;
-      CEGUI::ListboxItem* item = ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
+      } // end IsCustom()
 
-      PT::Data::ConnectionDataManager* servermgr = PointerLibrary::getInstance()->getConnectionDataManager();
-      PT::Data::Server* server = servermgr->GetServerById(((CEGUI::MultiColumnList*)btn)->getItemRowIndex(item));
-      if (server)
+      void ServerWindow::AddServer(const char* name, const char* host)
       {
-        btn = winMgr->getWindow("ServerList/Server");
-        if (server->GetHost()=="#CUSTOM#"){return true;}
-      }
-      return false;
-    }
+        btn = winMgr->getWindow("ServerList/Servers");
+        CEGUI::ListboxItem* serverItem = new CEGUI::ListboxTextItem(name);
+        serverItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro",
+          (CEGUI::utf8*)"TextSelectionBrush");
+        unsigned row = ((CEGUI::MultiColumnList*)btn)->addRow();
+        ((CEGUI::MultiColumnList*)btn)->setItem(serverItem, 1, row);
+        ((CEGUI::MultiColumnList*)btn)->
+          setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+        if (!strcmp(app_cfg->GetStr("Client.Server.LastUsed"), name))
+        {
+          ((CEGUI::MultiColumnList*)btn)->setItemSelectState(serverItem, true);
+        }
+      } // end AddServer()
 
-    void ServerWindow::AddServer(const char* name, const char* host)
-    {
-      btn = winMgr->getWindow("ServerList/Servers");
-      CEGUI::ListboxItem* serverItem = new CEGUI::ListboxTextItem(name);
-      serverItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro", (CEGUI::utf8*)"TextSelectionBrush");
-      unsigned row = ((CEGUI::MultiColumnList*)btn)->addRow();
-      ((CEGUI::MultiColumnList*)btn)->setItem(serverItem, 1, row);
-      ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-      if (!strcmp(app_cfg->GetStr("Client.Server.LastUsed"), name))
+      bool ServerWindow::Create()
       {
-        ((CEGUI::MultiColumnList*)btn)->setItemSelectState(serverItem, true);
-      }
-    }
+        ReloadWindow();
+        return true;
+      } // end Create()
 
-    bool ServerWindow::Create()
-    {
-      ReloadWindow();
-      return true;
-    }
-
-    bool ServerWindow::ReloadWindow()
-    {
-      app_cfg =  csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
-
-      window = GUIWindow::LoadLayout ("client/servers.xml");
-      GUIWindow::AddToRoot(window);
-
-      winMgr = cegui->GetWindowManagerPtr ();
-
-      btn = winMgr->getWindow("ServerList/Servers");
-
-      btn->subscribeEvent(CEGUI::MultiColumnList::EventSelectionChanged, CEGUI::Event::Subscriber(&ServerWindow::OnSelection, this));
-
-      CEGUI::String str_name("Servers");
-      ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,CEGUI::UDim(1,0));
-      ((CEGUI::MultiColumnList*)btn)->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-
-      int i=0;
-      PT::Data::ConnectionDataManager* servermgr = PointerLibrary::getInstance()->getConnectionDataManager();
-      PT::Data::Server* server = servermgr->GetServerById(i);
-      while (server)
+      bool ServerWindow::ReloadWindow()
       {
-        AddServer(server->GetName().c_str(), server->GetHost().c_str());
-        i++;
-        server = servermgr->GetServerById(i);
-      }
-      return true;
-    }
-    }
-  }
-}
+        app_cfg = csQueryRegistry<iConfigManager>
+          (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+
+        window = GUIWindow::LoadLayout ("client/servers.xml");
+        GUIWindow::AddToRoot(window);
+
+        winMgr = cegui->GetWindowManagerPtr ();
+
+        btn = winMgr->getWindow("ServerList/Servers");
+
+        btn->subscribeEvent(CEGUI::MultiColumnList::EventSelectionChanged,
+          CEGUI::Event::Subscriber(&ServerWindow::OnSelection, this));
+
+        CEGUI::String str_name("Servers");
+        ((CEGUI::MultiColumnList*)btn)->addColumn(str_name,1,CEGUI::UDim(1,0));
+        ((CEGUI::MultiColumnList*)btn)->
+          setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+
+        int i = 0;
+        PT::Data::ConnectionDataManager* servermgr =
+          PointerLibrary::getInstance()->getConnectionDataManager();
+        PT::Data::Server* server = servermgr->GetServerById(i);
+        while (server)
+        {
+          AddServer(server->GetName().c_str(), server->GetHost().c_str());
+          ++i;
+          server = servermgr->GetServerById(i);
+        }
+        return true;
+      } // end ReloadWindow()
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
+

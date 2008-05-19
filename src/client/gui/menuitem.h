@@ -49,55 +49,42 @@ namespace PT
       MenuItem(CEGUI::Window * dragcontainer, MenuManager * menumanager);
       virtual ~MenuItem();
 
-      /* GetDragContainer
-      *
-      * Get the drag container.
-      *
-      * \return    A pointer to the Drag container.
-      */
+      /**
+       * Get the drag container.
+       * @return A pointer to the Drag container.
+       */
       CEGUI::DragContainer * GetDragContainer() const;
 
-      /* GetIconButton
-      *
-      * Get the icon button.
-      *
-      * \return    A pointer to the button.
-      */
+      /**
+       * Get the icon button.
+       * @return A pointer to the button.
+       */
       CEGUI::PushButton * GetIconButton() const;
 
-      /* GetTextButton
-      *
-      * Get the text button.
-      *
-      * \return    A pointer to the text button.
-      */
+      /**
+       * Get the text button.
+       * @return A pointer to the text button.
+       */
       CEGUI::PushButton * GetTextButton() const;
 
-      /* GetName
-      *
-      * Get the label of this item.
-      *
-      * \return    A string with the name.
-      */
+      /**
+       * Get the label of this item.
+       * @return A string with the name.
+       */
       const std::string GetName() const;
 
-      /* GetBase
-      *
-      * Get the base string.
-      *
-      * \return    The base string.
-      */
+      /**
+       * Get the base string.
+       * @return The base string.
+       */
       const std::string GetBase() const;
 
 
     protected:
 
-      /* Initialize
-      *
-      * Initializes this menu item.
-      *
-      * \return void.
-      */
+      /**
+       * Initializes this menu item.
+       */
       void Initialize();
 
       bool OnMouseEnters(const CEGUI::EventArgs &e);
@@ -106,9 +93,7 @@ namespace PT
       bool OnButtonUp(const CEGUI::EventArgs &e);
     };
 
-  }
-}
-
-
+  } // GUI namespace
+} // PT namespace
 
 #endif // PT_GUI_MENUITEM_H

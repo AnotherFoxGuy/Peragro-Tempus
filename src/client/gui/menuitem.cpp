@@ -27,20 +27,24 @@ namespace PT
   namespace GUI
   {
 
-    MenuItem::MenuItem (CEGUI::Window * dragcontainer, MenuManager * menumanager)
+    MenuItem::MenuItem(CEGUI::Window * dragcontainer, MenuManager * menumanager)
     {
       menuManager = menumanager;
       dragContainer = (CEGUI::DragContainer*)dragcontainer;
-      dragcontainer->subscribeEvent(CEGUI::Window::EventMouseEnters, CEGUI::SubscriberSlot(&MenuItem::OnMouseEnters, this));
-      dragcontainer->subscribeEvent(CEGUI::Window::EventMouseLeaves, CEGUI::SubscriberSlot(&MenuItem::OnMouseLeaves, this));
-      dragcontainer->subscribeEvent(CEGUI::Window::EventMouseButtonDown, CEGUI::SubscriberSlot(&MenuItem::OnButtonDown, this));
-      dragcontainer->subscribeEvent(CEGUI::Window::EventMouseButtonUp, CEGUI::SubscriberSlot(&MenuItem::OnButtonUp, this));
+      dragcontainer->subscribeEvent(CEGUI::Window::EventMouseEnters,
+        CEGUI::SubscriberSlot(&MenuItem::OnMouseEnters, this));
+      dragcontainer->subscribeEvent(CEGUI::Window::EventMouseLeaves,
+        CEGUI::SubscriberSlot(&MenuItem::OnMouseLeaves, this));
+      dragcontainer->subscribeEvent(CEGUI::Window::EventMouseButtonDown,
+        CEGUI::SubscriberSlot(&MenuItem::OnButtonDown, this));
+      dragcontainer->subscribeEvent(CEGUI::Window::EventMouseButtonUp,
+        CEGUI::SubscriberSlot(&MenuItem::OnButtonUp, this));
       Initialize();
-    }
+    } // end MenuItem()
 
-    MenuItem::~MenuItem ()
+    MenuItem::~MenuItem()
     {
-    }
+    } // end ~MenuItem()
 
     void MenuItem::Initialize()
     {
@@ -51,7 +55,8 @@ namespace PT
       std::string tempBase = baseTemp.substr(12, base.length() - 1).c_str();
       std::string firstChar = tempBase.substr(0, 1);
       std::string rest = tempBase.substr(1, tempBase.length());
-      std::transform(firstChar.begin(), firstChar.end(), firstChar.begin(), static_cast<int(*)(int)>(::toupper));
+      std::transform(firstChar.begin(), firstChar.end(), firstChar.begin(),
+        static_cast<int(*)(int)>(::toupper));
       imageBase = firstChar + rest;
       imageBase = imageBase.erase(imageBase.length() - 1, 1);
 
@@ -59,7 +64,7 @@ namespace PT
       textButton = (CEGUI::PushButton*)winMgr->getWindow(baseTemp + "text");
 
       name = textButton->getText().c_str();
-    }
+    } // end Initialize()
 
     CEGUI::DragContainer * MenuItem::GetDragContainer () const
     {
@@ -92,7 +97,7 @@ namespace PT
       std::string value = "set:Buttons image:Button_" + imageBase + "_Over";
       iconButton->setProperty("NormalImage", value);
       return true;
-    }
+    } // end OnMouseEnters()
 
     bool MenuItem::OnMouseLeaves(const CEGUI::EventArgs &e)
     {
@@ -100,13 +105,14 @@ namespace PT
       std::string value = "set:Buttons image:Button_" + imageBase + "_Normal";
       iconButton->setProperty("NormalImage", value);
       return true;
-    }
+    } // end OnMouseLeaves()
 
     bool MenuItem::OnButtonDown(const CEGUI::EventArgs &e)
     {
       using namespace CEGUI;
 
-      const CEGUI::MouseEventArgs& args = static_cast<const CEGUI::MouseEventArgs&>(e);
+      const CEGUI::MouseEventArgs& args =
+        static_cast<const CEGUI::MouseEventArgs&>(e);
 
       if (args.button == LeftButton)
       {
@@ -116,13 +122,14 @@ namespace PT
       }
 
       return true;
-    }
+    } // end OnButtonDown()
 
     bool MenuItem::OnButtonUp(const CEGUI::EventArgs &e)
     {
       using namespace CEGUI;
 
-      const MouseEventArgs& args = static_cast<const MouseEventArgs&>(e);
+      const CEGUI::MouseEventArgs& args =
+        static_cast<const MouseEventArgs&>(e);
 
       if (args.button == LeftButton)
       {
@@ -136,9 +143,8 @@ namespace PT
         }
       }
       return true;
-    }
+    } // end OnButtonUp()
 
+  } // GUI namespace
+} // PT namespace
 
-
-  }
-}

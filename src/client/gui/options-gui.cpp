@@ -33,54 +33,57 @@ namespace PT
   {
     namespace Windows
     {
-      OptionsWindow::OptionsWindow (GUIManager* guimanager)
+      OptionsWindow::OptionsWindow(GUIManager* guimanager)
         : GUIWindow (guimanager)
       {
         windowName = OPTIONSWINDOW;
 
         currentOption.name = "";
         currentOption.window = "";
-      }
+      } // end OptionsWindow()
 
-      OptionsWindow::~OptionsWindow ()
+      OptionsWindow::~OptionsWindow()
       {
-      }
+      } // end ~OptionsWindow()
 
-      OptionsWindow::Option OptionsWindow::FindOption (const char* name)
+      OptionsWindow::Option OptionsWindow::FindOption(const char* name)
       {
         for (size_t i = 0; i < optionList.GetSize();i++)
         {
           Option option = optionList.Get(i);
           if (strcmp(option.GetName(), name) == 0)
           {
-            printf("TT: : '%s'  %s \n", option.GetName(), option.GetWindow ());
+            Report(PT::Debug, "TT: '%s' %s", option.GetName(),
+              option.GetWindow());
             return option;
           }
         }// for
 
-        printf("W: Couldn't find option: '%s'\n", name);
+        Report(PT::Warning, "Couldn't find option: '%s'", name);
         return currentOption;
       } // end FindOption()
 
-      bool OptionsWindow::ChangeOption (OptionsWindow::Option option)
+      bool OptionsWindow::ChangeOption(OptionsWindow::Option option)
       {
         CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/Info");
         if (!btn) return false;
 
         // Remove current child window from the view window.
-        GUIWindow* curWindow = guimanager->GetWindow<GUIWindow>(currentOption.GetWindow());
+        GUIWindow* curWindow =
+          guimanager->GetWindow<GUIWindow>(currentOption.GetWindow());
         if (curWindow && curWindow->GetCeguiWindow())
           btn->removeChildWindow(curWindow->GetCeguiWindow());
 
         // And add the new window.
-        GUIWindow* window = guimanager->GetWindow<GUIWindow>(option.GetWindow());
-        if (window && window->GetCeguiWindow()) 
+        GUIWindow* window =
+          guimanager->GetWindow<GUIWindow>(option.GetWindow());
+        if (window && window->GetCeguiWindow())
           btn->addChildWindow(window->GetCeguiWindow());
 
         return true;
       } // end ChangeOption()
 
-      bool OptionsWindow::OptionPressed (const CEGUI::EventArgs& e)
+      bool OptionsWindow::OptionPressed(const CEGUI::EventArgs& e)
       {
         using namespace CEGUI;
 
@@ -88,22 +91,24 @@ namespace PT
 
         // Get the listbox.
         CEGUI::Listbox* listbox = static_cast<CEGUI::Listbox*>(ddea.window);
-        if (!listbox) 
+        if (!listbox)
         {
-          printf("E: OptionsWindow: the 'Options/List' window couldn't be found or not a Listbox!\n");
+          Report(PT::Error,
+            "OptionsWindow: the 'Options/List' window couldn't be found or not a Listbox!");
           return true;
         }
 
         // Get the item.
         CEGUI::ListboxItem* item = listbox->getFirstSelectedItem();
-        if (!item) 
+        if (!item)
         {
-          printf("E: OptionsWindow: Invalid item!\n");
+          Report(PT::Error, "OptionsWindow: Invalid item!");
           return true;
         }
 
         // And switch.
-        printf("I: switching to option: '%s'\n", item->getText().c_str());
+        Report(PT::Debug, "Switching to option: '%s'",
+          item->getText().c_str());
         Option option = FindOption(item->getText().c_str());
         ChangeOption(option);
 
@@ -111,14 +116,14 @@ namespace PT
         currentOption = option;
 
         return true;
-      }
+      } // end OptionPressed()
 
-      bool OptionsWindow::Create ()
+      bool OptionsWindow::Create()
       {
         ReloadWindow();
 
         return true;
-      }
+      } // end Create()
 
       bool OptionsWindow::OptionButtonPressed(const CEGUI::EventArgs& e)
       {
@@ -131,7 +136,7 @@ namespace PT
         btn->setVisible(true);
         btn->activate();
         return true;
-      }
+      } // end OptionButtonPressed()
 
       bool OptionsWindow::ReloadWindow()
       {
@@ -144,7 +149,8 @@ namespace PT
 
         // Register the selection changed event.
         CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/List");
-        if (btn) btn->subscribeEvent(CEGUI::Listbox::EventSelectionChanged, CEGUI::SubscriberSlot(&OptionsWindow::OptionPressed, this));
+        if (btn) btn->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,
+          CEGUI::SubscriberSlot(&OptionsWindow::OptionPressed, this));
 
         // Readd the options.
         for (size_t i = 0; i < optionList.GetSize();i++)
@@ -156,10 +162,11 @@ namespace PT
         // Set up the Options button.
         btn = guimanager->GetCeguiWindow("Options/Options_Button");
         guimanager->GetCeguiWindow("Root")->addChildWindow(btn);
-        btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OptionsWindow::OptionButtonPressed, this));
+        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&OptionsWindow::OptionButtonPressed, this));
 
         return true;
-      }
+      } // end ReloadWindow()
 
       bool OptionsWindow::CreateOptionItem(const char* optionname)
       {
@@ -167,15 +174,16 @@ namespace PT
         CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/List");
         if (!btn) return false;
 
-        // Create and add the item to the list window.
-        CEGUI::ListboxItem* optionItem = new CEGUI::ListboxTextItem(optionname); // CEGUI deletes this.
+        // Create and add the item to the list window. CEGUI deletes this.
+        CEGUI::ListboxItem* optionItem = new CEGUI::ListboxTextItem(optionname);
         optionItem->setSelectionBrushImage("Peragro", "TextSelectionBrush");
         ((CEGUI::Listbox*)btn)->addItem(optionItem);
 
         return true;
-      }
+      } // end CreateOptionItem()
 
-      bool OptionsWindow::AddOption(const char* optionName, const char* windowName)
+      bool OptionsWindow::AddOption(const char* optionName,
+                                    const char* windowName)
       {
         CreateOptionItem(optionName);
 
@@ -186,7 +194,9 @@ namespace PT
         optionList.Push(option);
 
         return true;
-      }
-    }
-  }
-}
+      } // end AddOption()
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
+

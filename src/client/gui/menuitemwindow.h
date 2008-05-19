@@ -24,7 +24,6 @@
 #include <string>
 #include <CEGUI.h>
 
-
 namespace PT
 {
   namespace GUI
@@ -40,43 +39,34 @@ namespace PT
       MenuItemWindow() { isOpened = false; };
       virtual ~MenuItemWindow() { };
 
-      /* CreateWindow
-      *
-      * Creates the window.
-      *
-      * @param    position    Where to place the window.
-      * \return void.
-      */
+      /**
+       * Creates the window.
+       * @param position Where to place the window.
+       * @return void.
+       */
       virtual void Create(CEGUI::UVector2 position) = 0;
 
-      /* GetWindow
-      *
-      * Returns the window where the layout is created.
-      *
-      * \return    A window.
-      */
+      /**
+       * Returns the window where the layout is created.
+       * @return A window.
+       */
       virtual CEGUI::Window * GetWindow() = 0;
 
-      /* SetOpened
-      *
-      * Set if this window is opened or not.
-      *
-      * @param    state        The state.
-      * \return void.
-      */
+      /**
+       * Set if this window is opened or not.
+       * @param state The state.
+       * @return void.
+       */
       void SetOpened(bool state) { isOpened = state; }
 
-      /* GetOpened
-      *
-      * Get if this window is opened or not.
-      *
-      * \return    The state.
-      */
+      /**
+       * Get if this window is opened or not.
+       * @return The state.
+       */
       bool GetOpened() { return isOpened; }
     };
-  }
-}
 
-
+  } // GUI namespace
+} // PT namespace
 
 #endif // PT_GUI_MENUITEMWINDOW_H

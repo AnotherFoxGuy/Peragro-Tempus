@@ -44,9 +44,9 @@ namespace PT
     class GUIManager;
 
     /**
-    * Holds information
-    * over a GUI skin.
-    */
+     * Holds information
+     * over a GUI skin.
+     */
     struct Skin
     {
       std::string name;
@@ -57,9 +57,9 @@ namespace PT
     };
 
     /**
-    * Manages all GUI skins and
-    * related tasks.
-    */
+     * Manages all GUI skins and
+     * related tasks.
+     */
     class SkinManager
     {
     private:
@@ -101,8 +101,8 @@ namespace PT
       bool Populate ();
       /// Return the current skin of the GUI.
       Skin GetCurrentSkin();
-
     };
+
   } // GUI namespace
 } // PT namespace
 

@@ -65,9 +65,9 @@ namespace PT
         /// Add an option item.
         bool AddOption (const char* optionName, const char* windowName);
       };
-    }
-  }
-}
 
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
 #endif // OPTIONS_GUI_H

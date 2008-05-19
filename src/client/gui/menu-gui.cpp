@@ -34,75 +34,79 @@ namespace PT
     namespace Windows
     {
 
-    MenuWindow::MenuWindow (GUIManager* guiManager)
-      : GUIWindow (guiManager)
-    {
-      windowName = MENUWINDOW;
-    }
-
-    MenuWindow::~MenuWindow ()
-    {
-    }
-
-    bool MenuWindow::MenuButtonPressed (const CEGUI::EventArgs& e)
-    {
-      CEGUI::Window* btn = guimanager->GetCeguiWindow("Menu/Dialog");
-      if (btn)
-        btn->isVisible() ? btn->hide() : btn->show();
-
-      return true;
-    }
-
-    bool MenuWindow::MouseLeaves (const CEGUI::EventArgs& e)
-    {
-      using namespace CEGUI;
-      Window* btn = guimanager->GetCeguiWindow("Menu/Dialog");
-      if (btn && btn->isVisible())
+      MenuWindow::MenuWindow(GUIManager* guiManager)
+        : GUIWindow (guiManager)
       {
-        const MouseEventArgs & ddeam = static_cast<const MouseEventArgs&>(e);
+        windowName = MENUWINDOW;
+      } // end MenuWindow()
 
-        Rect rect = btn->getPixelRect();
-        if (!rect.isPointInRect(ddeam.position))
+      MenuWindow::~MenuWindow()
+      {
+      } // end ~MenuWindow()
+
+      bool MenuWindow::MenuButtonPressed(const CEGUI::EventArgs& e)
+      {
+        CEGUI::Window* btn = guimanager->GetCeguiWindow("Menu/Dialog");
+        if (btn)
+          btn->isVisible() ? btn->hide() : btn->show();
+
+        return true;
+      } // end MenuButtonPressed()
+
+      bool MenuWindow::MouseLeaves(const CEGUI::EventArgs& e)
+      {
+        using namespace CEGUI;
+        Window* btn = guimanager->GetCeguiWindow("Menu/Dialog");
+        if (btn && btn->isVisible())
         {
-          if (!guimanager->GetMenuManager()->IsDragging())
+          const MouseEventArgs & ddeam = static_cast<const MouseEventArgs&>(e);
+
+          Rect rect = btn->getPixelRect();
+          if (!rect.isPointInRect(ddeam.position))
           {
-            btn->hide();
+            if (!guimanager->GetMenuManager()->IsDragging())
+            {
+              btn->hide();
+            }
           }
         }
-      }
 
-      return false;
-    }
+        return false;
+      } // end MouseLeaves()
 
-    bool MenuWindow::Create ()
-    {
-      ReloadWindow();
+      bool MenuWindow::Create()
+      {
+        ReloadWindow();
 
-      return true;
-    }
+        return true;
+      } // end Create()
 
-    bool MenuWindow::ReloadWindow ()
-    {
-      CEGUI::Window* btn;
+      bool MenuWindow::ReloadWindow()
+      {
+        CEGUI::Window* btn;
 
-      // Load the layout and parent it to the root window.
-      window = GUIWindow::LoadLayout ("client/menu.xml");
-      GUIWindow::AddToRoot(window);
+        // Load the layout and parent it to the root window.
+        window = GUIWindow::LoadLayout ("client/menu.xml");
+        GUIWindow::AddToRoot(window);
 
-      // Register the menu button event.
-      btn = guimanager->GetCeguiWindow("Menu/MenuButton");
-      if (btn) btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::SubscriberSlot(&MenuWindow::MenuButtonPressed, this));
+        // Register the menu button event.
+        btn = guimanager->GetCeguiWindow("Menu/MenuButton");
+        if (btn) btn->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::SubscriberSlot(&MenuWindow::MenuButtonPressed, this));
 
-      // Register the mouse leave event.
-      btn = guimanager->GetCeguiWindow(ROOTWINDOW);
-      if (btn) btn->subscribeEvent(CEGUI::Window::EventMouseMove, CEGUI::SubscriberSlot(&MenuWindow::MouseLeaves, this));
+        // Register the mouse leave event.
+        btn = guimanager->GetCeguiWindow(ROOTWINDOW);
+        if (btn) btn->subscribeEvent(CEGUI::Window::EventMouseMove,
+          CEGUI::SubscriberSlot(&MenuWindow::MouseLeaves, this));
 
-      // Hide the dialog.
-      btn = guimanager->GetCeguiWindow("Menu/Dialog");
-      if (btn) btn->hide();
+        // Hide the dialog.
+        btn = guimanager->GetCeguiWindow("Menu/Dialog");
+        if (btn) btn->hide();
 
-      return true;
-    }
-    }
-  }
+        return true;
+      } // end ReloadWindow()
+
+    } // Windows namespace
+  } // GUI namespace
 } // PT namespace
+

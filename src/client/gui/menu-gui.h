@@ -30,20 +30,21 @@ namespace PT
     namespace Windows
     {
 
-    class MenuWindow : public GUIWindow
-    {
-    private:
-      bool MenuButtonPressed (const CEGUI::EventArgs& e);
-      bool MouseLeaves (const CEGUI::EventArgs& e);
+      class MenuWindow : public GUIWindow
+      {
+      private:
+        bool MenuButtonPressed (const CEGUI::EventArgs& e);
+        bool MouseLeaves (const CEGUI::EventArgs& e);
 
-    public:
-      MenuWindow (GUIManager* guiManager);
-      virtual ~MenuWindow ();
-      bool Create ();
-      bool ReloadWindow ();
-    };
-    }
-  }
+      public:
+        MenuWindow (GUIManager* guiManager);
+        virtual ~MenuWindow ();
+        bool Create ();
+        bool ReloadWindow ();
+      };
+
+    } // Windows namespace
+  } // GUI namespace
 } // PT namespace
 
 #endif // PT_GUI_MENUWINDOW_H

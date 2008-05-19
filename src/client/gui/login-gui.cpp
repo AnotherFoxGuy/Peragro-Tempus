@@ -42,17 +42,18 @@ namespace PT
         : GUIWindow (guimanager)
       {
         windowName = LOGINWINDOW;
-      }
+      } // end LoginWindow()
 
       LoginWindow::~LoginWindow()
       {
-      }
+      } // end ~LoginWindow()
 
       bool LoginWindow::LoginButtonPressed(const CEGUI::EventArgs& e)
       {
         // Get the login window and disable it
         GUIWindow::DisableWindow();
-        ServerWindow* serverWindow = guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
+        ServerWindow* serverWindow =
+          guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
         serverWindow->DisableWindow();
 
         SaveConfig();
@@ -72,7 +73,8 @@ namespace PT
         {
           // Connect to selected server
           ConnectRequestMessage msg(CLIENTVERSION);
-          network->setServerAddress(serverWindow->GetServerHost(), serverWindow->GetServerPort());
+          network->setServerAddress(serverWindow->GetServerHost(),
+            serverWindow->GetServerPort());
           if (! network->init())
           {
             //unable to etablish tcp connection
@@ -100,17 +102,20 @@ namespace PT
           dialog->SetText("Password is too long");
           return true;
         }
-        PointerLibrary::getInstance()->getClient()->login(login.c_str(), password.c_str());
+        PointerLibrary::getInstance()->getClient()->
+          login(login.c_str(), password.c_str());
 
         return true;
-      }
+      } // end LoginButtonPressed()
 
       bool LoginWindow::RegisterButtonPressed(const CEGUI::EventArgs& e)
       {
         // Connect to selected server
         ConnectRequestMessage msg(CLIENTVERSION);
-        ServerWindow* serverWindow = guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
-        network->setServerAddress(serverWindow->GetServerHost(), serverWindow->GetServerPort());
+        ServerWindow* serverWindow =
+          guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
+        network->setServerAddress(serverWindow->GetServerHost(),
+          serverWindow->GetServerPort());
         if (! network->init())
         {
           //unable to etablish tcp connection
@@ -148,28 +153,28 @@ namespace PT
         network->send(&answer_msg);
 
         return true;
-      }
+      } // end RegisterButtonPressed()
 
       void LoginWindow::ShowWindow()
       {
         GUIWindow::ShowWindow();
         CEGUI::Window * wnd = winMgr->getWindow("LoginUI/LoginEditBox");
         wnd->activate();
-        //      if (guimanager->IsInitialized())
-        //      {
+        //if (guimanager->IsInitialized())
+        //{
         UpdateLogin();
-        //      }
-      }
+        //}
+      } // end ShowWindow()
 
       CEGUI::String LoginWindow::GetLogin()
       {
         return winMgr->getWindow("LoginUI/LoginEditBox")->getText();
-      }
+      } // end GetLogin()
 
       CEGUI::String LoginWindow::GetPassword()
       {
         return winMgr->getWindow("LoginUI/PasswordEditBox")->getText();
-      }
+      } // end GetPassword()
 
       void LoginWindow::SaveConfig()
       {
@@ -184,8 +189,11 @@ namespace PT
         else
           string = "";
 
-        ServerWindow* serverWindow = guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
-        app_cfg->SetStr("Client.Server["+serverWindow->GetServerName()+"].Login", string);
+        ServerWindow* serverWindow =
+          guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
+        app_cfg->
+          SetStr("Client.Server["+serverWindow->GetServerName()+"].Login",
+            string);
 
         if(serverWindow->IsCustom())
         {
@@ -194,9 +202,10 @@ namespace PT
           integer=serverWindow->GetServerPort();
           app_cfg->SetInt("Client.Server.Customport", integer);
         }
-        app_cfg->SetStr("Client.Server.LastUsed", serverWindow->GetServerName());
+        app_cfg->
+          SetStr("Client.Server.LastUsed", serverWindow->GetServerName());
         app_cfg->Save();
-      }
+      } // end SaveConfig()
 
       bool LoginWindow::LoginTextAccepted(const CEGUI::EventArgs &e)
       {
@@ -206,7 +215,7 @@ namespace PT
           wnd->activate();
         }
         return true;
-      }
+      } // end LoginTextAccepted()
 
       bool LoginWindow::PasswordTextAccepted(const CEGUI::EventArgs &e)
       {
@@ -227,18 +236,20 @@ namespace PT
           }
         }
         return true;
-      }
+      } // end PasswordTextAccepted()
 
       bool LoginWindow::OnCheckBox(const CEGUI::EventArgs& e)
       {
         SaveConfig();
         return true;
-      }
+      } // end OnCheckBox()
 
       void LoginWindow::UpdateLogin()
       {
-        ServerWindow* serverWindow = guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
-        const char* login = app_cfg->GetStr("Client.Server["+serverWindow->GetServerName()+"].Login");
+        ServerWindow* serverWindow =
+          guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
+        const char* login = app_cfg->
+          GetStr("Client.Server["+serverWindow->GetServerName()+"].Login");
         btn = winMgr->getWindow("LoginUI/LoginEditBox");
         btn->setText(login);
 
@@ -255,13 +266,13 @@ namespace PT
           winMgr->getWindow("LoginUI/PasswordEditBox")->activate();
         }
         ((CEGUI::Checkbox*)btn)->setSelected(selected);
-      }
+      } // end UpdateLogin()
 
       bool LoginWindow::Create()
       {
         ReloadWindow();
         return true;
-      }
+      } // end Create()
 
       bool LoginWindow::ReloadWindow()
       {
@@ -270,7 +281,8 @@ namespace PT
 
         winMgr = cegui->GetWindowManagerPtr ();
 
-        app_cfg =  csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+        app_cfg =  csQueryRegistry<iConfigManager>
+          (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
         if (!app_cfg)
         {
           Report(PT::Error, "Can't find the config manager!");
@@ -284,25 +296,31 @@ namespace PT
 
         // Register the button events.
         btn = winMgr->getWindow("LoginUI/PasswordEditBox");
-        btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&LoginWindow::PasswordTextAccepted, this));
+        btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted,
+          CEGUI::Event::Subscriber(&LoginWindow::PasswordTextAccepted, this));
 
         btn = winMgr->getWindow("LoginUI/LoginEditBox");
-        btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&LoginWindow::LoginTextAccepted, this));
+        btn->subscribeEvent(CEGUI::Editbox::EventTextAccepted,
+          CEGUI::Event::Subscriber(&LoginWindow::LoginTextAccepted, this));
 
         btn = winMgr->getWindow("LoginUI/Login_Button");
-        btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::LoginButtonPressed, this));
+        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&LoginWindow::LoginButtonPressed, this));
 
         btn = winMgr->getWindow("LoginUI/Register_Button");
-        btn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&LoginWindow::RegisterButtonPressed, this));
+        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&LoginWindow::RegisterButtonPressed, this));
 
         // Set up the remember-login checkbox.
         btn = winMgr->getWindow("LoginUI/RemeberLogin");
-        btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&LoginWindow::OnCheckBox, this));
+        btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
+          CEGUI::Event::Subscriber(&LoginWindow::OnCheckBox, this));
 
 
         return true;
-      }
-    }
-  }
-}
+      } // end ReloadWindow()
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace
 
