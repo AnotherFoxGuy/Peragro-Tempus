@@ -30,62 +30,65 @@
 
 namespace PT
 {
-  struct Interior;
-
-  /**
-   * A map tile of the world.
-   */
-  class MapTile : public Level
+  namespace World
   {
-  private:
-    /// Whether this tile is currently visible.
-    bool visible;
-
-    /// The sector this tile is in.
-    csRef<iSector> sector;
+    struct Interior;
 
     /**
-     * Load an instance into this tile. (meshes/portals/lights/...)
-     * @param meshNode The document node of the mesh.
+     * A map tile of the world.
      */
-    void LoadInstance(iDocumentNode* meshNode);
+    class MapTile : public Level
+    {
+    private:
+      /// Whether this tile is currently visible.
+      bool visible;
 
-    /**
-     * Make this tile and it's instances visible.
-     */
-    virtual void SetReady();
+      /// The sector this tile is in.
+      csRef<iSector> sector;
 
-  public:
-    /// X coordinate in tile space.
-    int x;
-    /// Z coordinate in tile space.
-    int z;
-    /// X coordinate in world space.
-    float xbase;
-    /// Z coordinate in world space.
-    float zbase;
+      /**
+       * Load an instance into this tile. (meshes/portals/lights/...)
+       * @param meshNode The document node of the mesh.
+       */
+      void LoadInstance(iDocumentNode* meshNode);
 
-    /**
-     * Create a new map tile.
-     * @param x0 The x coordinate in tile space.
-     * @param z0 The z coordinate in tile space.
-     * @param fileName The data file for this tile.
-     * @param world The world to add this tile to.
-     */
-    MapTile(int x0, int z0, const std::string& fileName, World* world);
+      /**
+       * Make this tile and it's instances visible.
+       */
+      virtual void SetReady();
 
-    /// Destructor.
-    ~MapTile();
+    public:
+      /// X coordinate in tile space.
+      int x;
+      /// Z coordinate in tile space.
+      int z;
+      /// X coordinate in world space.
+      float xbase;
+      /// Z coordinate in world space.
+      float zbase;
 
-    /**
-     * Set the visibility of the tile.
-     * @param visible True is visible, false is invisible.
-     * @param force Resets visibility on _all_ meshes, don't use unless you
-     * know what you're doing.
-     */
-    void SetVisible(bool visible, bool force = false);
-  };
+      /**
+       * Create a new map tile.
+       * @param x0 The x coordinate in tile space.
+       * @param z0 The z coordinate in tile space.
+       * @param fileName The data file for this tile.
+       * @param world The world to add this tile to.
+       */
+      MapTile(int x0, int z0, const std::string& fileName, World* world);
 
+      /// Destructor.
+      ~MapTile();
+
+      /**
+       * Set the visibility of the tile.
+       * @param visible True is visible, false is invisible.
+       * @param force Resets visibility on _all_ meshes, don't use unless you
+       * know what you're doing.
+       */
+      void SetVisible(bool visible, bool force = false);
+    };
+
+  } // World namespace
 } // PT namespace
 
 #endif // MAPTILE_H

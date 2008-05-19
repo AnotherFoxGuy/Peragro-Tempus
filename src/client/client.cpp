@@ -505,7 +505,7 @@ namespace PT
     engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
 
     // Create the world.
-    world = new World("MyWorld", GetObjectRegistry());
+    world = new PT::World::World("MyWorld", GetObjectRegistry());
     pointerlib.setWorld(world);
 
     // Let the engine prepare all lightmaps for use and also free all images

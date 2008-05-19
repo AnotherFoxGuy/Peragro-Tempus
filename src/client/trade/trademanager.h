@@ -46,7 +46,7 @@ namespace PT
       bool Initialize ();
     };
 
-  } // Trade namespace 
-} // PT namespace 
+  } // Trade namespace
+} // PT namespace
 
 #endif // PT_TRADE_MANAGER_H

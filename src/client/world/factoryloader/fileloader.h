@@ -117,7 +117,7 @@ struct ObjectPlugin
 
 class FileLoader
 {
-  
+
 protected:
 
   class LoaderJob : public scfImplementation1<LoaderJob, iJob>

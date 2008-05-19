@@ -33,35 +33,38 @@ struct iObjectRegistry;
 
 namespace PT
 {
-  struct Factory;
-
-  /**
-   * Keeps an array of factories, and either returns the existing factory or
-   * loads it on request.
-   */
-  class ModelManager
+  namespace World
   {
-  private:
-    /// The array of loaded factories.
-    csWeakRefArray<Factory> factories;
-
-    /// The object registry.
-    iObjectRegistry* object_reg;
-
-  public:
-    /// Constructor.
-    ModelManager(iObjectRegistry* object_reg);
-    /// Destructor.
-    ~ModelManager();
+    struct Factory;
 
     /**
-     * Get or create a new factory.
-     * @param fileName The file name of the factory.
+     * Keeps an array of factories, and either returns the existing factory or
+     * loads it on request.
      */
-    csRef<Factory> Get(const std::string& fileName);
+    class ModelManager
+    {
+    private:
+      /// The array of loaded factories.
+      csWeakRefArray<Factory> factories;
 
-  };
+      /// The object registry.
+      iObjectRegistry* object_reg;
 
+    public:
+      /// Constructor.
+      ModelManager(iObjectRegistry* object_reg);
+      /// Destructor.
+      ~ModelManager();
+
+      /**
+       * Get or create a new factory.
+       * @param fileName The file name of the factory.
+       */
+      csRef<Factory> Get(const std::string& fileName);
+
+    };
+
+  } // World namespace
 } // PT namespace
 
 #endif // MODELMANAGER_H

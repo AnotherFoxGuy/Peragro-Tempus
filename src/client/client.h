@@ -78,7 +78,6 @@ namespace CEGUI
 namespace PT
 {
   class Reporter;
-  class World;
 
   namespace Events
   {
@@ -147,6 +146,11 @@ namespace PT
   {
     class ComponentManager;
   } // Component namespace
+
+  namespace World
+  {
+    class World;
+  } // World namespace
 
   class Client : public csApplicationFramework, public csBaseEventHandler
   {
@@ -246,7 +250,7 @@ namespace PT
     PT::Trade::TradeManager* tradeManager;
     PT::Component::ComponentManager* componentManager;
 
-    World* world;
+    PT::World::World* world;
 
     Mutex mutex;
     csTicks timer;

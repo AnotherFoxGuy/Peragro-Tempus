@@ -28,141 +28,147 @@
 
 namespace PT
 {
-  struct iInterior : public virtual iBase
+  namespace World
   {
-    SCF_INTERFACE(iInterior, 1,0,0);
-  };
-
-  struct Interior;
-
-  /**
-   * An interior factory.
-   */
-  struct InteriorFactory
-    : public scfImplementation1<InteriorFactory, iInterior>, Level
-  {
-  private:
-    /// An array containing the document node of every instance in this
-    /// interior factory.
-    csRefArray<iDocumentNode> instanceNodes;
-
     /**
-     * Load an instance into this interior. (meshes/portals/lights/...)
-     * @param meshNode The document node of the mesh.
+     * The interior interface.
      */
-    void LoadInstance(iDocumentNode* meshNode);
-
-  public:
-
-    /**
-     * Creates a new interior factory.
-     * @param fileName The mesh file path.
-     * @param world The world the interior is part of.
-     */
-    InteriorFactory(const std::string& fileName, World* world);
-
-    /// Destructor.
-    ~InteriorFactory();
-
-    /// The mesh file path.
-    std::string fileName;
-
-    friend struct Interior;
-  };
-
-  /**
-   * An interior space of the world.
-   * For example, a room. This creates one CS sector.
-   */
-  struct Interior : public scfImplementation1<Interior, iInterior>
-  {
-  private:
-    /// Whether the interior has loaded.
-    bool finished;
-    /// Whether the interior is loading.
-    bool loading;
-    /// The document node for this interior.
-    csRef<iDocumentNode> interiorNode;
-    /// The interior factory.
-    csRef<InteriorFactory> factory;
-    /// The collection containing all instances in this interior.
-    csRef<iCollection> instances;
-    /// The sector for this interior.
-    csRef<iSector> sector;
-    /// A position. Not currently used.
-    csVector3 position;
-
-    /**
-     * Get the Y rotation angle of a portal in this interior.
-     * @param portalMesh The portal mesh.
-     * @return The Y rotation angle.
-     */
-    float GetPortalYRotation(iMeshWrapper* portalMesh);
-
-    /**
-     * Get the position coordinates of a portal in this interior.
-     * @param portalMesh The portal mesh.
-     * @return The position.
-     */
-    csVector3 GetPortalPosition(iMeshWrapper* portalMesh);
-
-    /**
-     * Check if a mesh in this interior is a portal.
-     * @param portalMesh The mesh.
-     * @return True if the mesh is a portal, otherwise false.
-     */
-    bool IsPortal(iMeshWrapper* portalMesh);
-
-    /**
-     * Load an instance into this interior. (meshes/portals/lights/...)
-     * @param meshNode The document node of the mesh.
-     */
-    void LoadInstance(iDocumentNode* meshNode);
-
-    /**
-     * Check the status and process the resources each frame.
-     */
-    bool CheckResources();
-
-    struct FrameCallBack
-      : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+    struct iInterior : public virtual iBase
     {
-      Interior* inter;
-      FrameCallBack (Interior* interior)
-        : scfImplementationType (this) { inter = interior; }
-      virtual void StartFrame (iEngine* engine, iRenderView* rview);
+      SCF_INTERFACE(iInterior, 1,0,0);
     };
-    friend struct FrameCallBack;
-    /// Callback from the engine to check progress.
-    csRef<FrameCallBack> cb;
 
-  public:
-    /**
-     * Create a new interior.
-     * @param interiorNode The document node of the interior.
-     * @param factory The factory of the interior.
-     */
-    Interior(iDocumentNode* interiorNode, InteriorFactory* factory);
-
-    /// Destructor.
-    ~Interior();
-
-    /// The name of this interior.
-    std::string interiorName;
+    struct Interior;
 
     /**
-     * Start loading the interior, add a frame callback to the engine to check
-     * progress.
+     * An interior factory.
      */
-    void Load();
+    struct InteriorFactory
+      : public scfImplementation1<InteriorFactory, iInterior>, Level
+    {
+    private:
+      /// An array containing the document node of every instance in this
+      /// interior factory.
+      csRefArray<iDocumentNode> instanceNodes;
+
+      /**
+       * Load an instance into this interior. (meshes/portals/lights/...)
+       * @param meshNode The document node of the mesh.
+       */
+      void LoadInstance(iDocumentNode* meshNode);
+
+    public:
+
+      /**
+       * Creates a new interior factory.
+       * @param fileName The mesh file path.
+       * @param world The world the interior is part of.
+       */
+      InteriorFactory(const std::string& fileName, World* world);
+
+      /// Destructor.
+      ~InteriorFactory();
+
+      /// The mesh file path.
+      std::string fileName;
+
+      friend struct Interior;
+    };
 
     /**
-     * Check if this interior is loaded.
-     * @return True if finished, false otherwise.
+     * An interior space of the world.
+     * For example, a room. This creates one CS sector.
      */
-    bool IsReady() const { return finished; }
-  };
+    struct Interior : public scfImplementation1<Interior, iInterior>
+    {
+    private:
+      /// Whether the interior has loaded.
+      bool finished;
+      /// Whether the interior is loading.
+      bool loading;
+      /// The document node for this interior.
+      csRef<iDocumentNode> interiorNode;
+      /// The interior factory.
+      csRef<InteriorFactory> factory;
+      /// The collection containing all instances in this interior.
+      csRef<iCollection> instances;
+      /// The sector for this interior.
+      csRef<iSector> sector;
+      /// A position. Not currently used.
+      csVector3 position;
 
+      /**
+       * Get the Y rotation angle of a portal in this interior.
+       * @param portalMesh The portal mesh.
+       * @return The Y rotation angle.
+       */
+      float GetPortalYRotation(iMeshWrapper* portalMesh);
+
+      /**
+       * Get the position coordinates of a portal in this interior.
+       * @param portalMesh The portal mesh.
+       * @return The position.
+       */
+      csVector3 GetPortalPosition(iMeshWrapper* portalMesh);
+
+      /**
+       * Check if a mesh in this interior is a portal.
+       * @param portalMesh The mesh.
+       * @return True if the mesh is a portal, otherwise false.
+       */
+      bool IsPortal(iMeshWrapper* portalMesh);
+
+      /**
+       * Load an instance into this interior. (meshes/portals/lights/...)
+       * @param meshNode The document node of the mesh.
+       */
+      void LoadInstance(iDocumentNode* meshNode);
+
+      /**
+       * Check the status and process the resources each frame.
+       */
+      bool CheckResources();
+
+      struct FrameCallBack
+        : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+      {
+        Interior* inter;
+        FrameCallBack (Interior* interior)
+          : scfImplementationType (this) { inter = interior; }
+        virtual void StartFrame (iEngine* engine, iRenderView* rview);
+      };
+      friend struct FrameCallBack;
+      /// Callback from the engine to check progress.
+      csRef<FrameCallBack> cb;
+
+    public:
+      /**
+       * Create a new interior.
+       * @param interiorNode The document node of the interior.
+       * @param factory The factory of the interior.
+       */
+      Interior(iDocumentNode* interiorNode, InteriorFactory* factory);
+
+      /// Destructor.
+      ~Interior();
+
+      /// The name of this interior.
+      std::string interiorName;
+
+      /**
+       * Start loading the interior, add a frame callback to the engine to
+       * check progress.
+       */
+      void Load();
+
+      /**
+       * Check if this interior is loaded.
+       * @return True if finished, false otherwise.
+       */
+      bool IsReady() const { return finished; }
+    };
+
+  } // World namespace
 } // PT namespace
 
 #endif // INTERIOR_H

@@ -100,5 +100,5 @@ namespace PT
       return true;
     }
 
-  } // Trade namespace 
-} // PT namespace 
+  } // Trade namespace
+} // PT namespace

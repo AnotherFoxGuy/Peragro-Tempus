@@ -29,94 +29,98 @@
 
 namespace PT
 {
-  Factory::Factory(const std::string& fileName, iObjectRegistry* object_reg)
-    : scfImplementationType (this)
+  namespace World
   {
-    this->fileName = fileName;
-    this->object_reg = object_reg;
-    fileLoader = 0;
-    isPrecached = false;
-    isAdded = false;
-  } // end Factory()
-
-  Factory::~Factory()
-  {
-    if (fileLoader)
+    Factory::Factory(const std::string& fileName, iObjectRegistry* object_reg)
+      : scfImplementationType (this)
     {
+      this->fileName = fileName;
+      this->object_reg = object_reg;
+      fileLoader = 0;
+      isPrecached = false;
+      isAdded = false;
+    } // end Factory()
+
+    Factory::~Factory()
+    {
+      if (fileLoader)
+      {
+        delete fileLoader;
+        fileLoader = 0;
+      }
+
+      // Stab Xordan for this!!
+      csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+      engine->RemoveCollection(fileName.c_str());
+    } // end ~Factory()
+
+    void Factory::Load()
+    {
+      fileLoader = new FileLoader(object_reg);
+
+      // Seperate the path of the filename.
+      size_t p = fileName.find_last_of("/");
+      std::string path = fileName.substr(0,p+1);
+      std::string file = fileName.substr(p+1,fileName.length());
+
+      // Create our region.
+      csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+      collection = engine->CreateCollection(fileName.c_str());
+
+      fileLoader->Load(path, file, collection);
+    } // end Load()
+
+    bool Factory::IsReady() const
+    {
+      if (fileLoader)
+        return fileLoader->IsReady();
+      else
+        return true;
+    } // end IsReady()
+
+    void Factory::AddToEngine()
+    {
+      if (!IsReady()) return;
+
+      fileLoader->AddToEngine();
       delete fileLoader;
       fileLoader = 0;
-    }
+      isAdded = true;
+    } // end AddToEngine()
 
-    // Stab Xordan for this!!
-    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-    engine->RemoveCollection(fileName.c_str());
-  } // end ~Factory()
-
-  void Factory::Load()
-  {
-    fileLoader = new FileLoader(object_reg);
-
-    // Seperate the path of the filename.
-    size_t p = fileName.find_last_of("/");
-    std::string path = fileName.substr(0,p+1);
-    std::string file = fileName.substr(p+1,fileName.length());
-
-    // Create our region.
-    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-    collection = engine->CreateCollection(fileName.c_str());
-
-    fileLoader->Load(path, file, collection);
-  } // end Load()
-
-  bool Factory::IsReady() const
-  {
-    if (fileLoader)
-      return fileLoader->IsReady();
-    else
-      return true;
-  } // end IsReady()
-
-  void Factory::AddToEngine()
-  {
-    if (!IsReady()) return;
-
-    fileLoader->AddToEngine();
-    delete fileLoader;
-    fileLoader = 0;
-    isAdded = true;
-  } // end AddToEngine()
-
-  void Factory::Precache()
-  {
-    if (!IsReady()) return;
-    if (!collection.IsValid()) return;
-    if (IsPrecached()) return;
-
-    // Precaches "one" texture and then returns, so you have to call
-    // this repeately and check IsPrecached() whether 'everything' is done.
-    csRef<iObjectIterator> iter = collection->QueryObject()->GetIterator();
-    while (iter->HasNext())
+    void Factory::Precache()
     {
-      csRef<iTextureWrapper> csth(
-        scfQueryInterface<iTextureWrapper> (iter->Next()) );
-      if (csth)
+      if (!IsReady()) return;
+      if (!collection.IsValid()) return;
+      if (IsPrecached()) return;
+
+      // Precaches "one" texture and then returns, so you have to call
+      // this repeately and check IsPrecached() whether 'everything' is done.
+      csRef<iObjectIterator> iter = collection->QueryObject()->GetIterator();
+      while (iter->HasNext())
       {
-        if (csth->GetTextureHandle ())
+        csRef<iTextureWrapper> csth(
+          scfQueryInterface<iTextureWrapper> (iter->Next()) );
+        if (csth)
         {
-          if (csth->GetTextureHandle ()->IsPrecached())
-            continue;
-          else
+          if (csth->GetTextureHandle ())
           {
-            csth->GetTextureHandle()->Precache();
-            Report(PT::Debug, "Precached texture '%s'",
-              csth->QueryObject()->GetName());
-            return;
+            if (csth->GetTextureHandle ()->IsPrecached())
+              continue;
+            else
+            {
+              csth->GetTextureHandle()->Precache();
+              Report(PT::Debug, "Precached texture '%s'",
+                csth->QueryObject()->GetName());
+              return;
+            }
           }
         }
       }
-    }
 
-    isPrecached = true;
-  } // end Precache()
+      isPrecached = true;
+    } // end Precache()
 
+  } // World namespace
 } // PT namespace
+

@@ -32,70 +32,77 @@ class FileLoader;
 
 namespace PT
 {
-  struct iModelFactory : public virtual iBase
+  namespace World
   {
-    SCF_INTERFACE(iModelFactory, 1,0,0);
-  };
-
-  /**
-   * Used to create instances of a model.
-   */
-  struct Factory : public scfImplementation1<Factory, iModelFactory>
-  {
-  private:
-    /// The collection that is used for this factory.
-    csRef<iCollection> collection;
-    /// The file loader.
-    FileLoader* fileLoader;
-    /// The object registry.
-    iObjectRegistry* object_reg;
-    /// Whether all textures have been precached.
-    bool isPrecached;
-    /// Whether everything has been added to the engine.
-    bool isAdded;
-
-  public:
     /**
-     * Constructor.
-     * @param fileName The file name.
-     * @param object_reg The object registry.
+     * The model factory interface.
      */
-    Factory(const std::string& fileName, iObjectRegistry* object_reg);
-    /// Destructor.
-    ~Factory();
-
-    /// The file name.
-    std::string fileName;
+    struct iModelFactory : public virtual iBase
+    {
+      SCF_INTERFACE(iModelFactory, 1,0,0);
+    };
 
     /**
-     * Start loading the file. Don't call this function yourself!
-     * This is called by ModelManager::Get().
+     * Used to create instances of a model.
      */
-    void Load();
-    /// Returns true if finished loading, false otherwise.
-    bool IsReady() const;
-    /// Returns true if all textures have been precached.
-    bool IsPrecached() const { return isPrecached; }
-    /// Returns true if everything has been added to the engine.
-    bool IsAdded() const { return isAdded; }
+    struct Factory : public scfImplementation1<Factory, iModelFactory>
+    {
+    private:
+      /// The collection that is used for this factory.
+      csRef<iCollection> collection;
+      /// The file loader.
+      FileLoader* fileLoader;
+      /// The object registry.
+      iObjectRegistry* object_reg;
+      /// Whether all textures have been precached.
+      bool isPrecached;
+      /// Whether everything has been added to the engine.
+      bool isAdded;
 
-    /**
-     * Add the contents to the engine.
-     * Careful, this will block when it isn't ready yet!
-     */
-    void AddToEngine();
+    public:
+      /**
+       * Constructor.
+       * @param fileName The file name.
+       * @param object_reg The object registry.
+       */
+      Factory(const std::string& fileName, iObjectRegistry* object_reg);
+      /// Destructor.
+      ~Factory();
 
-    /**
-     * Precaches 'one' texture (if any) and returns.
-     * Call this repeatedly over a period of time to smooth out texture loading.
-     * Call IsPrecached() to see if everything has been precached.
-     */
-    void Precache();
+      /// The file name.
+      std::string fileName;
 
-    /// Get the collection that is used internally for holding the data.
-    iCollection* GetCollection() { return collection; }
-  };
+      /**
+       * Start loading the file. Don't call this function yourself!
+       * This is called by ModelManager::Get().
+       */
+      void Load();
+      /// Returns true if finished loading, false otherwise.
+      bool IsReady() const;
+      /// Returns true if all textures have been precached.
+      bool IsPrecached() const { return isPrecached; }
+      /// Returns true if everything has been added to the engine.
+      bool IsAdded() const { return isAdded; }
 
+      /**
+       * Add the contents to the engine.
+       * Careful, this will block when it isn't ready yet!
+       */
+      void AddToEngine();
+
+      /**
+       * Precaches 'one' texture (if any) and returns.
+       * Call this repeatedly over a period of time to smooth out texture
+       * loading.
+       * Call IsPrecached() to see if everything has been precached.
+       */
+      void Precache();
+
+      /// Get the collection that is used internally for holding the data.
+      iCollection* GetCollection() { return collection; }
+    };
+
+  } // World namespace
 } // PT namespace
 
 #endif // FACTORY_H
