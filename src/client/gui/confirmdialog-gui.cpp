@@ -36,6 +36,8 @@ namespace PT
     : GUIWindow (guimanager)
     {
        windowName = OKDIALOGWINDOW;
+	   Create();
+	   ShowWindow();
     }
 
     OkDialogWindow::~OkDialogWindow()
@@ -74,11 +76,8 @@ namespace PT
     {
       winMgr = cegui->GetWindowManagerPtr ();
 
-      if(!winMgr->isWindowPresent("OkDialog/Frame"))
-      {
-        window = GUIWindow::LoadLayout ("okdialog.xml");
-        GUIWindow::AddToRoot(window);
-      }
+      window = GUIWindow::LoadLayout ("client/okdialog.xml");
+      GUIWindow::AddToRoot(window);
 
       // Get the Ok Button
       btn = winMgr->getWindow("OkDialog/OkButton");
@@ -90,6 +89,8 @@ namespace PT
     : GUIWindow (guimanager)
     {
       windowName = CONFIRMDIALOGWINDOW;
+      Create();
+      ShowWindow();
     }
 
     ConfirmDialogWindow::~ConfirmDialogWindow()
