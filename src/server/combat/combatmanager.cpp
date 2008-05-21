@@ -99,7 +99,6 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
   } else {
     // Should not happen, but do not crash on release build, since fake message
     // could bring down the server then
-    lockedTarget->freeLock();
     lockedAttacker->freeLock();
     printf("CombatManager: Target neither player nor npc\n");
     return 0;
@@ -281,7 +280,7 @@ int CombatManager::RollDice()
  * @param lockedCharacter the locked version of a character.
  * @return true if ready to attack, otherwise false.
  */
-bool CombatManager::CheckIfReadyToAttack(const Character* lockedCharacter) 
+bool CombatManager::CheckIfReadyToAttack(Character* lockedCharacter) 
 {
   return true;
 }
@@ -309,8 +308,8 @@ int CombatManager::CalculateAttack()
  * @param target The target character.
  * @return True if target is attackable, otherwise false.
  */
-bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
-                                              const Character* target)
+bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
+                                              Character* target)
 {
   const float* attackerPos;
   const float* targetPos;
@@ -326,7 +325,6 @@ bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
 
   // TODO
   //maxAttackDistance = GetReach(attacker);
-
   
   for (int i = 0; i < 3; i++) 
   {
@@ -360,8 +358,8 @@ bool CombatManager::CheckIfTargetIsAttackable(const Character* attacker,
  * @param lockedCharacter The locked version of the attacking character.
  * @return attack chance.
  */
-float CombatManager::GetAttackChance(const Character* lockedAttacker,
-                                     const Character* lockedTarget) 
+float CombatManager::GetAttackChance(Character* lockedAttacker,
+                                     Character* lockedTarget) 
 {
   return GetAgility(lockedAttacker) * GetSkillBonus(lockedAttacker) - 
      ptminf(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
@@ -371,12 +369,13 @@ float CombatManager::GetAttackChance(const Character* lockedAttacker,
  
 /**
  * Returns the combined agility for a character (incl, bonuses).
- * @todo
+ * @todo Currently only returns the character agility without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters agility.
  */
-float CombatManager::GetAgility(const Character* lockedCharacter) {
-  return 10.0f;
+float CombatManager::GetAgility(Character* lockedCharacter) 
+{
+  return GetStatValue(lockedCharacter, "agility");
 }
 
 /**
@@ -385,55 +384,61 @@ float CombatManager::GetAgility(const Character* lockedCharacter) {
  * @param lockedCharacter The locked version of the character.
  * @return The characters skill bonuses.
  */
-float CombatManager::GetSkillBonus(const Character* lockedCharacter) {
+float CombatManager::GetSkillBonus(Character* lockedCharacter) 
+{
   return 8.0f;
 }
 /**
  * Returns the combined sapience for a character (incl, bonuses).
- * @todo
+ * @todo Currently only returns the character sapience without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters sapience.
  */
-float CombatManager::GetSapience(const Character* lockedCharacter) {
-  return 1.0f;
+float CombatManager::GetSapience(Character* lockedCharacter) 
+{
+  return GetStatValue(lockedCharacter, "sapience");
 }
 /**
  * Returns the combined block for a character (incl, bonuses).
- * @todo
+ * @todo Currently only returns the character block without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters block.
  */
-float CombatManager::GetBlock(const Character* lockedCharacter) {
-  return 1.0f;
+float CombatManager::GetBlock(Character* lockedCharacter) 
+{
+  return GetStatValue(lockedCharacter, "block");
 }
 /**
  * Returns the combined dodge for a character (incl, bonuses).
- * @todo
+ * @todo Currently only returns the character dodge without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters dodge.
  */
-float CombatManager::GetDodge(const Character* lockedCharacter) {
-  return 1.0f;
+float CombatManager::GetDodge(Character* lockedCharacter) 
+{
+   return GetStatValue(lockedCharacter, "dodge");
 }
 
 /**
  * Returns the combined parry for a character (incl, bonuses).
- * @todo
+ * @todo Currently only returns the character parry without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters parry.
  */
-float CombatManager::GetParry(const Character* lockedCharacter) {
-  return 10.0f;
+float CombatManager::GetParry(Character* lockedCharacter) 
+{
+  return GetStatValue(lockedCharacter, "parry");
 }
 
 /**
  * Returns the combined strength for a character (incl, bonuses).
- * @todo
+ * @todo Currently only returns the character strength without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters strength.
  */
-float CombatManager::GetStrength(const Character* lockedCharacter) {
-  return 5.0f;
+float CombatManager::GetStrength(Character* lockedCharacter) 
+{
+  return GetStatValue(lockedCharacter, "strength");
 }
 
 /**
@@ -442,7 +447,28 @@ float CombatManager::GetStrength(const Character* lockedCharacter) {
  * @param lockedCharacter The locked version of the character.
  * @return The weapon damage.
  */
-float CombatManager::GetWeaponDamage(const Character* lockedCharacter) {
+float CombatManager::GetWeaponDamage(Character* lockedCharacter) 
+{
   return 10.0f;
 }
 
+/**
+ * Queries the stat for a character based on the stats name.
+ * @param lockedCharacter The locked version of the character.
+ * @param statName The stat's name.
+ * @return The stats current value.
+ */
+float CombatManager::GetStatValue(Character* lockedCharacter,
+                                  const char* statName) 
+{
+  // It would be tempting to use this function directly, however a character
+  // can get bonuses, therefore this function should be called from the
+  // different getters for stats.
+  Server *server = Server::getServer();
+
+  Stat* stat = server->getStatManager()->findByName(ptString(statName, 
+    strlen(statName)));
+  if (!stat) { return 0; }
+  lockedCharacter->getStats();
+  return 0.0; //->getAmount(stat);
+}

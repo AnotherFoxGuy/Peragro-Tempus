@@ -4,9 +4,14 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+21-May-2008
+ - swedishcoder made the combat system use the character's stats. Also did 
+   a locking fix as well as cleaning up the coding style a bit, plus some 
+   other minor fixes in the combatmanager.
+
 19-May-2008
-- vornne cleaned up coding style in src/client/gui/ and src/client/world/,
-  added the PT::World namespace, small warning and error fixes.
+ - vornne cleaned up coding style in src/client/gui/ and src/client/world/,
+   added the PT::World namespace, small warning and error fixes.
 
 17-May-2008
  - Rolenun committed the newgui merge. This is the first step.

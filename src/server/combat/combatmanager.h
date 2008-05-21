@@ -30,26 +30,28 @@ class CombatManager {
     int AttackRequest(const PcEntity* attackerEntity, unsigned int targetID);
     int AttackRequest(Character* lockedAttackerCharacter,
                       Character* lockedTargetCharacter);
-    bool CheckIfReadyToAttack(const Character* attacker);
-    bool CheckIfTargetIsAttackable(const Character* attacker,
-                                  const Character* target);
+    bool CheckIfReadyToAttack(Character* attacker);
+    bool CheckIfTargetIsAttackable(Character* attacker,
+                                   Character* target);
     void DecreaseItemDurability();
     unsigned int GetMaxLife(CharacterStats*);
-    float GetAttackChance(const Character* lockedAttacker,
-                          const Character* lockedTarget);
-    float GetStaminaDeduction(const Character* attacker);
-    float GetDamage(const Character* attacker);
-    void SetLastAttackTime(const Character* attacker);
+    float GetAttackChance(Character* lockedAttacker,
+                          Character* lockedTarget);
+    float GetStaminaDeduction(Character* attacker);
+    float GetDamage(Character* attacker);
+    void SetLastAttackTime(Character* attacker);
     int PrepareAttack();
     int CalculateAttack();
-    float GetAgility(const Character* lockedCharacter);
-    float GetSkillBonus(const Character* lockedCharacter);
-    float GetSapience(const Character* lockedCharacter);
-    float GetBlock(const Character* lockedCharacter);
-    float GetDodge(const Character* lockedCharacter);
-    float GetParry(const Character* lockedCharacter);
-    float GetStrength(const Character* lockedCharacter);
-    float GetWeaponDamage(const Character* lockedCharacter);
+    float GetAgility(Character* lockedCharacter);
+    float GetSkillBonus(Character* lockedCharacter);
+    float GetSapience(Character* lockedCharacter);
+    float GetBlock(Character* lockedCharacter);
+    float GetDodge(Character* lockedCharacter);
+    float GetParry(Character* lockedCharacter);
+    float GetStrength(Character* lockedCharacter);
+    float GetWeaponDamage(Character* lockedCharacter);
+    float GetStatValue(Character* lockedCharacter,
+                       const char* statName);
     int RollDice();
 
 
