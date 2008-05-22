@@ -61,6 +61,7 @@
 
 int running = 2;
 EntityManager* ent_mgr;
+CombatManager* combatMgr;
 
 void shutdown()
 {
@@ -70,6 +71,7 @@ void shutdown()
   printf("Server Shutdown initialised!\n");
 
   delete ent_mgr;
+  delete combatMgr;
 
   printf("- Shutdown Network:     \t");
   Server::getServer()->getNetwork()->shutdown();
@@ -137,7 +139,7 @@ int main(int argc, char ** argv)
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
 
-  CombatManager *combatMgr = new CombatManager();
+  combatMgr = new CombatManager();
   server.setCombatManager(combatMgr);
 
   UserManager usr_mgr;

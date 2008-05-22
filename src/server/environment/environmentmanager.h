@@ -32,6 +32,8 @@
 class EnvironmentManager
 {
 public:
+  EnvironmentManager() { clock = NULL; }
+  ~EnvironmentManager() { delete clock; }
   /**
    * Initialize the environment.
    * @return Whether it was successful.

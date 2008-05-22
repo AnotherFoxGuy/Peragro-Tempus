@@ -9,6 +9,8 @@ under each day.
    change.
  - swedishcoder removed some CS dependencies from the server that should not be
    there.
+ - swedishcoder did the first step in order to solve some memleaks on the server
+   side.
 
 21-May-2008
  - swedishcoder made the combat system use the character's stats. Also did 

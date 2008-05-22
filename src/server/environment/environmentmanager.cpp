@@ -20,6 +20,11 @@
 
 bool EnvironmentManager::Initialize()
 {
+  if (clock)
+  {
+    delete clock;
+  }
+
   clock = new Clock();
   if (!clock)
     return false;
