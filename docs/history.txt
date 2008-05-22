@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+22-May-2008
+ - swedishcoder fixed the updateServer.sh that got broken by the server name
+   change.
+
 21-May-2008
  - swedishcoder made the combat system use the character's stats. Also did 
    a locking fix as well as cleaning up the coding style a bit, plus some 
