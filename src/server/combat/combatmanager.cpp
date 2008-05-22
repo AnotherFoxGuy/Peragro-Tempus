@@ -16,12 +16,12 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "cssysdef.h"
+//#include "cssysdef.h"
 
-#include "iutil/string.h"
-#include "iutil/vfs.h"
-#include "csutil/ref.h"
-#include "csutil/csstring.h"
+//#include "iutil/string.h"
+//#include "iutil/vfs.h"
+//#include "csutil/ref.h"
+//#include "csutil/csstring.h"
 #include "src/common/ptmath.h"
 #include <stdlib.h> // random
 

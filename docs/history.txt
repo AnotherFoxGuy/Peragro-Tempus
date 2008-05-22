@@ -7,6 +7,8 @@ under each day.
 22-May-2008
  - swedishcoder fixed the updateServer.sh that got broken by the server name
    change.
+ - swedishcoder removed some CS dependencies from the server that should not be
+   there.
 
 21-May-2008
  - swedishcoder made the combat system use the character's stats. Also did 
