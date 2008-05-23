@@ -88,6 +88,22 @@ void RaceStatsTable::createTable()
   stat = db->getStatTable()->getStat(ptString("Speed", strlen("Speed")));
   set(1, stat, 4);
   delete stat;
+
+  stat = db->getStatTable()->getStat(ptString("Dodge", strlen("Dodge")));
+  set(1, stat, 40);
+  delete stat;
+
+  stat = db->getStatTable()->getStat(ptString("Sapience", strlen("Sapience")));
+  set(1, stat, 40);
+  delete stat;
+
+  stat = db->getStatTable()->getStat(ptString("Parry", strlen("Parry")));
+  set(1, stat, 40);
+  delete stat;
+
+  stat = db->getStatTable()->getStat(ptString("Block", strlen("Block")));
+  set(1, stat, 40);
+  delete stat;
 }
 
 void RaceStatsTable::insert(int race, int stat, int level)

@@ -375,7 +375,7 @@ float CombatManager::GetAttackChance(Character* lockedAttacker,
  */
 float CombatManager::GetAgility(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "agility");
+  return GetStatValue(lockedCharacter, "Agility");
 }
 
 /**
@@ -396,7 +396,7 @@ float CombatManager::GetSkillBonus(Character* lockedCharacter)
  */
 float CombatManager::GetSapience(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "sapience");
+  return GetStatValue(lockedCharacter, "Sapience");
 }
 /**
  * Returns the combined block for a character (incl, bonuses).
@@ -406,7 +406,7 @@ float CombatManager::GetSapience(Character* lockedCharacter)
  */
 float CombatManager::GetBlock(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "block");
+  return GetStatValue(lockedCharacter, "Block");
 }
 /**
  * Returns the combined dodge for a character (incl, bonuses).
@@ -416,7 +416,7 @@ float CombatManager::GetBlock(Character* lockedCharacter)
  */
 float CombatManager::GetDodge(Character* lockedCharacter) 
 {
-   return GetStatValue(lockedCharacter, "dodge");
+   return GetStatValue(lockedCharacter, "Dodge");
 }
 
 /**
@@ -427,7 +427,7 @@ float CombatManager::GetDodge(Character* lockedCharacter)
  */
 float CombatManager::GetParry(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "parry");
+  return GetStatValue(lockedCharacter, "Parry");
 }
 
 /**
@@ -438,7 +438,7 @@ float CombatManager::GetParry(Character* lockedCharacter)
  */
 float CombatManager::GetStrength(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "strength");
+  return GetStatValue(lockedCharacter, "Strength");
 }
 
 /**
@@ -468,7 +468,10 @@ float CombatManager::GetStatValue(Character* lockedCharacter,
 
   Stat* stat = server->getStatManager()->findByName(ptString(statName, 
     strlen(statName)));
-  if (!stat) { return 0; }
-  lockedCharacter->getStats();
-  return 0.0; //->getAmount(stat);
+  if (!stat) { 
+    server->getStatManager()->dumpAllStatNames();
+    printf("BUG: Unable to find stat: %s\n", statName);
+    return 0.0f;
+  }
+  return lockedCharacter->getStats()->getAmount(stat);
 }

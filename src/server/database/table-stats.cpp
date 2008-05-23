@@ -55,6 +55,10 @@ void StatTable::createTable()
   insert(ptString("Concentration", strlen("Concentration")));
   insert(ptString("Witness", strlen("Witness")));
   insert(ptString("Speed", strlen("Speed")));
+  insert(ptString("Block", strlen("Block")));
+  insert(ptString("Dodge", strlen("Dodge")));
+  insert(ptString("Parry", strlen("Parry")));
+  insert(ptString("Sapience", strlen("Sapience")));
 }
 
 void StatTable::insert(ptString name)

@@ -114,6 +114,18 @@ public:
   {
     stats.removeAll();
   }
+
+  /**
+   * Simple debug function to list the all stats.
+   */
+  void dumpAllStatNames() 
+  {
+    for (size_t i = 0; i<stats.getCount(); i++)
+    {
+      Stat* stat = stats.get(i);
+      printf("Stat id:%u, name: %s\n", (unsigned int)i, *stat->getName());
+    }
+  }
 };
 
 #endif // STATMANAGER_H

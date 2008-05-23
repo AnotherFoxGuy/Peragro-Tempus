@@ -4,6 +4,11 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+23-May-2008
+ - swedishcoder fixed some combat functions, they should now return some
+   actually stat's and not just 0 for use in combat calculation. Added simple
+   debug function to stats. Also added a few more stats.
+
 22-May-2008
  - swedishcoder fixed the updateServer.sh that got broken by the server name
    change.
