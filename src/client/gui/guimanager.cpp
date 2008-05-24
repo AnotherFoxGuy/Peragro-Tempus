@@ -85,6 +85,9 @@ namespace PT
         // Initialize CEGUI wrapper
         cegui->Initialize ();
 
+		// Set the logging level
+        cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
+
         // Initialize the skin manager.
         skinMgr = new SkinManager(this);
         if (!skinMgr->Initialize()) return false;
@@ -99,7 +102,7 @@ namespace PT
         cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
         csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
-        vfs->ChDir ("/peragro/art/skin/");
+        vfs->ChDir ("/peragro/art/skins/");
 
         // Get some pointers.
         schMgr = cegui->GetSchemeManagerPtr();

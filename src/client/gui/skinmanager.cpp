@@ -151,6 +151,26 @@ namespace PT
       font->setProperty("PointSize", "10");
       font->load();
 
+	  CEGUI::Font* font2 = cegui->GetFontManagerPtr ()->
+        createFont("FreeType", "Commonwealth-8", "/peragro/art/skins/default/font/commonv2c.ttf");
+      font2->setProperty("PointSize", "8");
+      font2->load();
+
+      CEGUI::Font* font3 = cegui->GetFontManagerPtr ()->
+        createFont("FreeType", "Commonwealth-10", "/peragro/art/skins/default/font/commonv2c.ttf");
+      font3->setProperty("PointSize", "10");
+      font3->load();
+
+      CEGUI::Font* font4 = cegui->GetFontManagerPtr ()->
+        createFont("FreeType", "CommonWealth", "/peragro/art/skins/default/font/commonv2c.ttf");
+      font4->setProperty("PointSize", "10");
+      font4->load();
+
+      CEGUI::Font* font5 = cegui->GetFontManagerPtr ()->
+      createFont("FreeType", "Tahoma-12", "/peragro/art/skins/default/font/commonv2c.ttf");
+      font5->setProperty("PointSize", "12");
+      font5->load();
+
       currentSkin = defaultSkin;
       Report(PT::Notify, "Current skin is: '%s' at '%s'",
         currentSkin.GetName(), currentSkin.GetPath());
