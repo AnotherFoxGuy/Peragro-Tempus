@@ -60,8 +60,9 @@ namespace PT
         PointerLibrary::getInstance()->getClient()->
           selectCharacter(own_char_id);
 
-        GUIWindow::DisableWindow();
-        GUIWindow::HideWindow();
+        // Remove the window from view.
+        btn = winMgr->getWindow(SELECTCHARWINDOW);
+        btn->setVisible(false);
 
         return true;
       } // end SelectChar()
@@ -249,6 +250,11 @@ namespace PT
         return true;
       } // end ReloadWindow()
 
+      void SelectCharWindow::ShowWindow()
+      {
+        btn = winMgr->getWindow("CharSelect/Frame");
+        btn->setVisible(true);
+      }
     } // Windows namespace
   } // GUI namespace
 } // PT namespace

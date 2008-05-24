@@ -832,7 +832,7 @@ namespace PT
     {
       loginWindow->HideWindow();
       serverWindow->HideWindow();
-      selectCharWindow->ShowWindow ();
+      selectCharWindow->ShowWindow();
 
       bool isAdmin = false;
       ev.Retrieve("isAdmin", isAdmin);

@@ -67,6 +67,7 @@ namespace PT
                           unsigned char* skincolour, unsigned char* hairncolour,
                           unsigned char* decalcolour);
         void EmptyCharList();
+        void ShowWindow();
       };
 
     } // Windows namespace
