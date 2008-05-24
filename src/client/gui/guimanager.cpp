@@ -98,9 +98,6 @@ namespace PT
         // Initialize the menu manager.
         menuMgr = new PT::GUI::MenuManager();
 
-        // Set the logging level
-        cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
-
         csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
         vfs->ChDir ("/peragro/art/skins/");
 
