@@ -138,6 +138,18 @@ namespace PT
         return true;
       } // end OptionButtonPressed()
 
+      bool OptionsWindow::OnCloseButton(const CEGUI::EventArgs& e)
+      {
+        // Show the Options button.
+        btn = winMgr->getWindow("Options/Options_Button");
+        btn->setVisible(true);
+        
+        // Hide the Option menu.
+        btn = winMgr->getWindow("Options/Frame");
+        btn->setVisible(false);
+        return true;
+      } // end OnCloseButton()
+
       bool OptionsWindow::ReloadWindow()
       {
         window = GUIWindow::LoadLayout ("client/options.xml");
@@ -146,6 +158,8 @@ namespace PT
         // Hide the Option menu.
         btn = guimanager->GetCeguiWindow("Options/Frame");
         btn->setVisible(false);
+        if (btn) btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
+          CEGUI::Event::Subscriber(&OptionsWindow::OnCloseButton, this));
 
         // Register the selection changed event.
         CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/List");
