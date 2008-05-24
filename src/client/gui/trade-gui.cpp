@@ -110,8 +110,8 @@ namespace PT
       bool TradeWindow::AddItem(unsigned int player, unsigned int itemid,
                                 unsigned int slotid)
       {
-        if(!(player == 2)) return false;
-        if(slotid > numberOfSlots) return false;
+        if (!(player == 2)) return false;
+        if (slotid > numberOfSlots) return false;
 
         Slot* slot = trade2->GetSlot(slotid);
 
@@ -132,13 +132,13 @@ namespace PT
 
       void TradeWindow::SetAccept(unsigned int player, bool value)
       {
-        if(player == 1)
+        if (player == 1)
         {
           btn = winMgr->getWindow("TradeWindow/Player1/Accept");
           value ? btn->disable() : btn->enable();
           accept1 = value;
         }
-        else if(player == 2)
+        else if (player == 2)
         {
           btn = winMgr->getWindow("TradeWindow/Player2/Accept");
           value ? btn->disable() : btn->enable();
@@ -146,7 +146,7 @@ namespace PT
         }
 
         // Check if both are in accept state.
-        if(accept1 && accept2)
+        if (accept1 && accept2)
         {
           PT::GUI::Windows::ConfirmDialogWindow* dialog =
             new PT::GUI::Windows::ConfirmDialogWindow(guimanager);
@@ -169,11 +169,11 @@ namespace PT
 
         // If we drag the icon around to the same
         // slot in the trade window, return.
-        if((oldslot->GetParent() == Inventory::TradeLeft)
+        if ((oldslot->GetParent() == Inventory::TradeLeft)
           && oldslot->GetId() == newslot->GetId())
           return true;
 
-        if(oldslot->GetParent() == Inventory::TradeLeft)
+        if (oldslot->GetParent() == Inventory::TradeLeft)
         {
           dragdrop->MoveObject(oldslot, newslot);
           inventory.Put(newslot->GetId(), inventory[oldslot->GetId()]);
@@ -281,10 +281,10 @@ namespace PT
         for (unsigned int i=0; i<numberOfSlots; i++)
         {
           Slot* slot = trade2->GetSlot(i);
-          if(!slot->IsEmpty())
+          if (!slot->IsEmpty())
           {
             Object* object = slot->GetObject();
-            while(!inventoryWindow->
+            while (!inventoryWindow->
               AddItem(object->GetId(), object->GetVariationId(), counter)
               && counter < nrInventorySlots)
             {
@@ -297,7 +297,7 @@ namespace PT
         for (unsigned int i=0; i<numberOfSlots; i++)
         {
           Slot* slot = trade1->GetSlot(i);
-          if(!slot->IsEmpty())
+          if (!slot->IsEmpty())
           {
             Slot* oldslot = inventory[i];
             inventoryWindow->RemoveItem(oldslot->GetId());

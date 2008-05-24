@@ -43,7 +43,7 @@ namespace PT
     {
       csRef<iVFS> vfs = csQueryRegistry<iVFS> (PointerLibrary::getInstance()->getObjectRegistry());
       csRef<iStringArray> npcs=vfs->FindFiles("/peragro/xml/npcs/*.xml");
-      while(npcs->GetSize()>0)
+      while (npcs->GetSize()>0)
       {
         file = (std::string)npcs->Pop();
         printf("Parsing %s\n", file.c_str());
@@ -122,12 +122,12 @@ namespace PT
         csRef<iDocumentNode> dialognode = dialogs->Next();
         npcdialog->id = dialognode->GetAttributeValueAsInt("id");
         csRef<iDocumentNode> action;
-        if(action = dialognode->GetNode("text"))
+        if (action = dialognode->GetNode("text"))
         {
           npcdialog->action = ptString("text", 4);
           npcdialog->value = action->GetContentsValue();
         }
-        else if(action = dialognode->GetNode("teleport"))
+        else if (action = dialognode->GetNode("teleport"))
         {
           npcdialog->action = ptString("teleport", 8);
           char buf[128];
@@ -137,17 +137,17 @@ namespace PT
           action->GetAttributeValueAsFloat("z"));
           npcdialog->value = buf;
         }
-        else if(action = dialognode->GetNode("buy"))
+        else if (action = dialognode->GetNode("buy"))
         {
           npcdialog->action = ptString("buy", 3);
           npcdialog->value = "";
         }
-        else if(action = dialognode->GetNode("sell"))
+        else if (action = dialognode->GetNode("sell"))
         {
           npcdialog->action = ptString("sell", 4);
           npcdialog->value = "";
         }
-        else if(action = dialognode->GetNode("function"))
+        else if (action = dialognode->GetNode("function"))
         {
           npcdialog->action = ptString("function", strlen("function"));
           npcdialog->value = action->GetContentsValue();

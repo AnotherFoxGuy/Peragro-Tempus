@@ -90,7 +90,7 @@ void shutdown()
 
 void sigfunc(int sig)
 {
-   if(sig == SIGINT)
+   if (sig == SIGINT)
    {
      shutdown();
    }
@@ -108,17 +108,17 @@ int main(int argc, char ** argv)
   server.setDatabase(&db);
 
   unsigned int port = 12345;
-  if(db.getConfigTable()->GetConfigValue(ptString("port",4)) != ptString())
+  if (db.getConfigTable()->GetConfigValue(ptString("port",4)) != ptString())
   {
     port = atoi(*db.getConfigTable()->GetConfigValue(ptString("port",4)));
   }
 
   for(int i = 1; i < argc; i++)
   {
-    if(!strcmp(argv[i], "-port"))
+    if (!strcmp(argv[i], "-port"))
     {
       i++;
-      if(i < argc)
+      if (i < argc)
       {
         port = atoi(argv[i]);
         ConfigTableVO* config = new ConfigTableVO();

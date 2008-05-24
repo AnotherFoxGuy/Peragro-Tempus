@@ -109,7 +109,7 @@ bool ComponentStats::AddStat(iEvent& ev)
 Stat* ComponentStats::GetStat(unsigned int id)
 {
   unsigned int i = 0;
-  while(i<stats.size())
+  while (i<stats.size())
   {
     if (stats[i].id == id) {return &stats[i];}
     i++;
@@ -120,7 +120,7 @@ Stat* ComponentStats::GetStat(unsigned int id)
 Stat* ComponentStats::GetStat(const char* name)
 {
   unsigned int i = 0;
-  while(i<stats.size())
+  while (i<stats.size())
   {
     if (stats[i].name == name) {return &stats[i];}
     i++;

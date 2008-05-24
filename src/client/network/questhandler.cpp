@@ -32,14 +32,14 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
   Report(PT::Debug, "QuestHandler: Added Dialog %d with %d answers.", dialog_msg.getDialogId(), dialog_msg.getAnswersCount());
   PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
   Report(PT::Debug, "---------------------------");
-  if(dialog_msg.getDialogText()==0)
+  if (dialog_msg.getDialogText()==0)
     dialog_msg.setDialogText("ERROR: handleNpcDialog: DialogText is zero\n");
   NpcDialogWindow* npcWindow = guimanager->GetWindow<NpcDialogWindow>(NPCDIALOGWINDOW);
   npcWindow->AddDialog(dialog_msg.getDialogId(), dialog_msg.getDialogText());
 
   for (int i=0; i<dialog_msg.getAnswersCount(); i++)
   {
-    if(dialog_msg.getAnswerText(i)==0)
+    if (dialog_msg.getAnswerText(i)==0)
       dialog_msg.setAnswerText(i, "ERROR: handleNpcDialog: getAnswerText is zero\n");
     Report(PT::Debug, "Added answer %d: %s", dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));
     npcWindow->AddAnswer(dialog_msg.getAnswerId(i), dialog_msg.getAnswerText(i));

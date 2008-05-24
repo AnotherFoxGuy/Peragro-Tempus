@@ -67,7 +67,7 @@ namespace PT
                                     unsigned int variationid,
                                     unsigned int slotid)
       {
-        if(slotid > numberOfSlots) return false;
+        if (slotid > numberOfSlots) return false;
 
         Slot* slot = inventory->GetSlot(slotid);
 
@@ -86,7 +86,7 @@ namespace PT
         }
 
         // Create a new item.
-        if(slot->IsEmpty())
+        if (slot->IsEmpty())
           slot->SetObject(dragdrop->CreateItem(itemid, variationid));
 
         return true;
@@ -95,7 +95,7 @@ namespace PT
       bool InventoryWindow::MoveItem(unsigned int oldslotid,
                                      unsigned int newslotid)
       {
-        if(oldslotid == newslotid) return true;
+        if (oldslotid == newslotid) return true;
         Slot* oldslot = inventory->GetSlot(oldslotid);
         Slot* newslot = inventory->GetSlot(newslotid);
 
@@ -118,9 +118,9 @@ namespace PT
 
       bool InventoryWindow::RemoveItem(unsigned int slotid)
       {
-        if(slotid > numberOfSlots) return false;
+        if (slotid > numberOfSlots) return false;
 
-        if(inventory->RemoveObject(slotid))
+        if (inventory->RemoveObject(slotid))
           return true;
         else
         {

@@ -32,7 +32,7 @@ void TcpConnection::send(const ByteStream& bs) const
 void TcpConnection::peerLost()
 {
   printf("peerLost!\n");
-  if(user)
+  if (user)
   {
     printf("has user!\n");
     if (user->getConnection() == this)

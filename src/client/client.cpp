@@ -288,7 +288,7 @@ namespace PT
 
     csRef<iPluginManager> plugin_mgr (csQueryRegistry<iPluginManager> (object_reg));
     csRef<iClipboard> csTheClipboard = csLoadPlugin<iClipboard> (plugin_mgr, "crystalspace.gui.clipboard");
-    if(csTheClipboard.IsValid())
+    if (csTheClipboard.IsValid())
         object_reg->Register (csTheClipboard, "iClipboard");
     else
         Report(PT::Error, "Failed to load the iClipboard!");
@@ -345,18 +345,18 @@ namespace PT
 
     // Create and Initialize the InputManager.
     inputManager = new InputManager();
-    if(!inputManager->Initialize())
+    if (!inputManager->Initialize())
       return Report(PT::Error, "Failed to create InputManager object!");
 
     // Create and Initialize the StateManager.
     stateManager = new StateManager();
-    if(!stateManager->Initialize())
+    if (!stateManager->Initialize())
       return Report(PT::Error, "Failed to create StateManager object!");
     pointerlib.setStateManager(stateManager);
 
     // Create and Initialize the EnvironmentManager.
     environmentManager = new PT::Environment::EnvironmentManager();
-    if(!environmentManager->Initialize())
+    if (!environmentManager->Initialize())
       return Report(PT::Error, "Failed to create EnvironmentManager object!");
 
     if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
@@ -603,7 +603,7 @@ namespace PT
           const char* port = cmdline->GetOption("port");
           if (host)
           {
-            if(!port){port = "12345";}
+            if (!port){port = "12345";}
             ConnectRequestMessage msg(CLIENTVERSION);
             network->setServerAddress(host, atoi(port));
             network->init();
@@ -836,7 +836,7 @@ namespace PT
 
       bool isAdmin = false;
       ev.Retrieve("isAdmin", isAdmin);
-      if(isAdmin){selectCharWindow->ShowAdminButton();}
+      if (isAdmin){selectCharWindow->ShowAdminButton();}
 
       stateManager->SetState(STATE_LOGGED_IN);
 
@@ -931,11 +931,11 @@ namespace PT
     using namespace PT::GUI::Windows;
 
     LoadScreenWindow* loadScreenWindow = guiManager->GetWindow<LoadScreenWindow>(LOADSCREENWINDOW);
-    if(!loadScreenWindow->IsVisible())
+    if (!loadScreenWindow->IsVisible())
     {
       loadScreenWindow->ShowWindow();
       iCEGUI* cegui = guiManager->GetCEGUI();
-      if(!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen")){ // TODO: Different loading screens for different tiles(?)
+      if (!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen")){ // TODO: Different loading screens for different tiles(?)
         //TODO
         vfs->ChDir ("/peragro/art/skins/default/images/");
         cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("LoadScreen", "loadscreen.jpg");

@@ -54,19 +54,19 @@ namespace PT
 
     void EquipedItem::ConstructMesh()
     {
-      if(itementity) return;
-      if(!entity->GetCelEntity()) return;
+      if (itementity) return;
+      if (!entity->GetCelEntity()) return;
 
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      if(!obj_reg) return;
+      if (!obj_reg) return;
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      if(!pl.IsValid()) return;
+      if (!pl.IsValid()) return;
       PT::Data::ItemDataManager* itemDataMgr =  PointerLibrary::getInstance()->getServerSetupManager()->GetItemDataManager();
-      if(!itemDataMgr) return;
+      if (!itemDataMgr) return;
 
       // Find the item by  ID.
       PT::Data::Item* item = itemDataMgr->GetItemById(id);
-      if(item)
+      if (item)
       {
         // Create the item.
         csRef<iCelEntity> itement = pl->CreateEntity();
@@ -80,7 +80,7 @@ namespace PT
 
         iMeshWrapper* mesh = itempcmesh->GetMesh();
         iMeshWrapper* parent = pcmesh->GetMesh();
-        if(parent && mesh)
+        if (parent && mesh)
         {
           // Attach the item.
           if (pcmesh->AttachSocketMesh(GetSocketName(slotId).c_str(), mesh))
@@ -96,7 +96,7 @@ namespace PT
 
     void EquipedItem::DestructMesh()
     {
-      if(!itementity) return;
+      if (!itementity) return;
 
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);

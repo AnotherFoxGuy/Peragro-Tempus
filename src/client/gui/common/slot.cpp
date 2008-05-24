@@ -29,7 +29,7 @@ Slot::~Slot()
 
 bool Slot::IsEmpty()
 {
-  if(!object)
+  if (!object)
     return true;
   else
     return false;

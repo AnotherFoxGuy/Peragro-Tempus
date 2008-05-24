@@ -176,7 +176,7 @@ const int* TcpSocket::select(const int* sockets, size_t len, size_t& len_out)
   int* ready_socks = new int[len_out];
   for (size_t i = 0; i < len; i++)
   {
-    if(FD_ISSET(sockets[i], &socks))
+    if (FD_ISSET(sockets[i], &socks))
     {
       ready_socks[ready_socks_count] = sockets[i];
       ready_socks_count++;

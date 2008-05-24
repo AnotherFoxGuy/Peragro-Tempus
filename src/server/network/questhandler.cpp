@@ -371,9 +371,9 @@ void QuestHandler::handleSetupDialogs(GenericMessage* msg)
   {
     ptString npcname = setupmsg.getNpcName(i);
     CharactersTableVO* character = charactertable->FindCharacterByName(*npcname);
-    if(!character){ printf("Failed to find NPC %s\n",*npcname); continue; }
+    if (!character){ printf("Failed to find NPC %s\n",*npcname); continue; }
     NpcEntitiesTableVO* npc = npcentitytable->getByCharacter(character->id);
-    if(!npc){ printf("Failed to find NPC %s's ID\n",*npcname); continue; }
+    if (!npc){ printf("Failed to find NPC %s's ID\n",*npcname); continue; }
     unsigned int dialogid = setupmsg.getDialogId(i);
     const char* text = setupmsg.getValue(i);
     ptString action = setupmsg.getAction(i);
@@ -384,9 +384,9 @@ void QuestHandler::handleSetupDialogs(GenericMessage* msg)
   {
     ptString npcname = setupmsg.getAnswerNpcName(i);
     CharactersTableVO* character = charactertable->FindCharacterByName(*npcname);
-    if(!character){ printf("Failed to find NPC %s\n",*npcname); continue; }
+    if (!character){ printf("Failed to find NPC %s\n",*npcname); continue; }
     NpcEntitiesTableVO* npc = npcentitytable->getByCharacter(character->id);
-    if(!npc){ printf("Failed to find NPC %s's ID\n",*npcname); continue; }
+    if (!npc){ printf("Failed to find NPC %s's ID\n",*npcname); continue; }
     unsigned int dialogid = setupmsg.getAnswerDialogId(i);
     unsigned int answerid = setupmsg.getAnswerId(i);
     const char* text = setupmsg.getAnswerText(i);

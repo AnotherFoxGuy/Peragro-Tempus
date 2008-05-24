@@ -59,7 +59,7 @@ void Inventory::ClearSlotsDelete()
     Slot* slot = slotarray[i];
     if (!slot) continue;
     Object* object = slot->GetObject();
-    if(object)
+    if (object)
     {
       object->GetWindow()->destroy();
       delete object;
@@ -124,7 +124,7 @@ csArray<Inventory::ObjectAndSlot> Inventory::GetAllObjects()
     Slot* slot = slotarray[i];
     if (!slot) continue;
     Object* object = slot->GetObject();
-    if(object)
+    if (object)
     {
       ObjectAndSlot objandslot;
       objandslot.object = object;

@@ -55,7 +55,7 @@ namespace PT
                                       bool destroywindow)
       {
         btn = winMgr->getWindow("OkDialog/OkButton");
-        if(!destroywindow)
+        if (!destroywindow)
           btn->removeEvent(CEGUI::PushButton::EventClicked);
         btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
       } // end SetOkEvent()
@@ -126,7 +126,7 @@ namespace PT
                                             bool destroywindow)
       {
         btn = winMgr->getWindow("ConfirmDialog/YesButton");
-        if(!destroywindow)
+        if (!destroywindow)
           btn->removeEvent(CEGUI::PushButton::EventClicked);
         btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
       } // end SetYesEvent()
@@ -135,7 +135,7 @@ namespace PT
                                            bool destroywindow)
       {
         btn = winMgr->getWindow("ConfirmDialog/NoButton");
-        if(!destroywindow)
+        if (!destroywindow)
           btn->removeEvent(CEGUI::PushButton::EventClicked);
         btn->subscribeEvent(CEGUI::PushButton::EventClicked, subscriber);
       } // end SetNoEvent()
@@ -148,7 +148,7 @@ namespace PT
 
       bool ConfirmDialogWindow::ReloadWindow()
       {
-        if(!winMgr->isWindowPresent("ConfirmDialog/Frame"))
+        if (!winMgr->isWindowPresent("ConfirmDialog/Frame"))
         {
           window = GUIWindow::LoadLayout ("client/confirmdialog.xml");
           GUIWindow::AddToRoot(window);

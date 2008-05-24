@@ -109,7 +109,7 @@ namespace PT
           InventoryWindow* inventoryWindow =
             guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
           unsigned int slotid = inventoryWindow->FindFreeSlot();
-          if(slotid < 30)
+          if (slotid < 30)
           {
             Report(PT::Notify, "OnAction: Requesting picking up: %d for slot %d.",
               interactId, slotid);
@@ -121,7 +121,7 @@ namespace PT
         }
         else if (ddea.window->getName().compare(DROP_BUTTON) == 0)
         {
-          if(interactId < 30) // slot id
+          if (interactId < 30) // slot id
           {
             Report(PT::Notify, "OnAction: Requesting dropping slot %d.",
               interactId);

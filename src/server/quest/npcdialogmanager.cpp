@@ -36,7 +36,7 @@ NPCDialog* NPCDialogManager::getDialog(unsigned int npc_id, unsigned int dialog_
 {
   for(unsigned int i=0; i<dialogs.getCount(); i++)
   {
-    if(dialogs[i]->getNpcId() == npc_id && dialogs[i]->getDialogId() == dialog_id){return dialogs[i];}
+    if (dialogs[i]->getNpcId() == npc_id && dialogs[i]->getDialogId() == dialog_id){return dialogs[i];}
   }
   return 0;
 }
@@ -83,7 +83,7 @@ void NPCDialogManager::load()
 
     NPCDialogAnswer* answer = new NPCDialogAnswer(next_dialog, vo->text.c_str());
     NPCDialog* dialog = this->getDialog(vo->npcid, vo->dialogid);
-    if(!dialog){printf("Failed to match answer to dialog, npcid=%i, dialogid=%i\n", vo->npcid, vo->dialogid);continue;} // This only happens if you edit the DB without knowing what you're doing
+    if (!dialog){printf("Failed to match answer to dialog, npcid=%i, dialogid=%i\n", vo->npcid, vo->dialogid);continue;} // This only happens if you edit the DB without knowing what you're doing
     dialog->addAnswer(answer);
 
     delete vo;

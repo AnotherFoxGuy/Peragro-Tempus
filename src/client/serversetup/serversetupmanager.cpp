@@ -164,7 +164,7 @@ namespace PT
         bool open = doors[i]->GetOpenState();
         bool locked = doors[i]->GetLockState();
 
-        if(!secmgr->GetSectorByName(sector))
+        if (!secmgr->GetSectorByName(sector))
         {
           Report(PT::Debug, "Failed to load door, couldn't find sector \"%s\"", sector);
           continue;
@@ -243,7 +243,7 @@ namespace PT
         const std::map<int, std::pair<int, int> >& inventory =
           npcs[i]->GetAllInventory();
 
-        if(!secmgr->GetSectorByName(sector))
+        if (!secmgr->GetSectorByName(sector))
         {
           Report(PT::Debug, "Failed to load NPC, couldn't find sector \"%s\"", sector);
           continue;
@@ -328,7 +328,7 @@ namespace PT
 
         unsigned int interval = spawnpoints[i]->GetInterval();
 
-        if(!secmgr->GetSectorByName(sector))
+        if (!secmgr->GetSectorByName(sector))
         {
           Report(PT::Debug, "Failed to load spawn point, couldn't find sector \"%s\"", sector);
           continue;

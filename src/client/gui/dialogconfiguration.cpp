@@ -529,7 +529,7 @@ namespace PT
           start = pos + 1;
         }
         start = str.find_first_not_of(delimiter, start);
-      } while(pos != str.npos);
+      } while (pos != str.npos);
 
       return retvector;
     } // end split()

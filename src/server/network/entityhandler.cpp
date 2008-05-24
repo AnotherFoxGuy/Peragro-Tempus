@@ -346,7 +346,7 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
     mount->freeLock();
     server->moveEntity(mount, request_msg.getTo(), speed, request_msg.getRun());
   }
-  else if(entity->usesFlashStep())
+  else if (entity->usesFlashStep())
   {
     Entity* ent = entity->getEntity()->getLock();
     ent->setPos(request_msg.getTo());

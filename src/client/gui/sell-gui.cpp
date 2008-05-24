@@ -55,7 +55,7 @@ namespace PT
 
       bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid)
       {
-        if(slotid > 12) return false;
+        if (slotid > 12) return false;
 
         Slot* slot = upperslots[slotid];
 
@@ -85,11 +85,11 @@ namespace PT
         for (size_t i=0; i<lowerslots.GetSize(); i++)
         {
           Slot* slot = lowerslots[i];
-          if(!slot->IsEmpty())
+          if (!slot->IsEmpty())
           {
             Object* object = slot->GetObject();
 
-            while(!inventoryWindow->
+            while (!inventoryWindow->
               AddItem(object->GetId(), object->GetVariationId(), counter)
               && counter < nrInventorySlots)
             {

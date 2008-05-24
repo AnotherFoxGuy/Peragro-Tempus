@@ -194,7 +194,7 @@ namespace PT
       {
         btn = winMgr->getWindow("CharSelect/Characters");
         unsigned int i=0;
-        while(i < ((CEGUI::MultiColumnList*)btn)->getRowCount())
+        while (i < ((CEGUI::MultiColumnList*)btn)->getRowCount())
         {
           ((CEGUI::MultiColumnList*)btn)->removeRow(i);
           ++i;

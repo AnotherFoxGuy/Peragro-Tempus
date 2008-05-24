@@ -5,6 +5,9 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 23-May-2008
+ - swedishcoder did some code clean style cleanup.
+
+23-May-2008
  - swedishcoder fixed some combat functions, they should now return some
    actually stat's and not just 0 for use in combat calculation. Added simple
    debug function to stats. Also added a few more stats.

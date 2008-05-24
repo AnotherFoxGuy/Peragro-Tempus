@@ -96,7 +96,7 @@ void NpcAiSettingTable::removeAll(int id)
 ptString NpcAiSettingTable::getValue(int id, ptString key)
 {
   ResultSet* rs = db->query("select value from npcaisetting where id = %d and key like '%s';", id, *key);
-  if(!rs || rs->GetRowCount() == 0) return ptString::Null;
+  if (!rs || rs->GetRowCount() == 0) return ptString::Null;
   ptString value(rs->GetData(0,0).c_str(), rs->GetData(0,0).length());
   delete rs;
   return value;

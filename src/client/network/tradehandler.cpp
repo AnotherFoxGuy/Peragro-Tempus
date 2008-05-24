@@ -37,7 +37,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   trade_msg.deserialise(msg->getByteStream());
 
   PT::Entity::Entity* ent = PointerLibrary::getInstance()->getEntityManager()->findPtEntById(trade_msg.getEntityId());
-  if(!ent) return;
+  if (!ent) return;
 
   char buffer[1024];
   sprintf(buffer, "Do you want to trade with %s?", ent->GetName().c_str());

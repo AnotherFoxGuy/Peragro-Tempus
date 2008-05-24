@@ -60,7 +60,7 @@ namespace PT
 
       item->SetWeight(node->GetNode("weight")->GetContentsValueAsFloat());
 
-      if(node->GetNode("equiptype")) // Not always specified
+      if (node->GetNode("equiptype")) // Not always specified
       {
         item->SetEquiptype(node->GetNode("equiptype")->GetContentsValue());
       }

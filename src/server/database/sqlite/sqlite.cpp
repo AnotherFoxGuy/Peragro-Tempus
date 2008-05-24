@@ -30,7 +30,7 @@ dbSQLite::dbSQLite()
   const char* database = "test_db.sqlite";
 
   int rc = sqlite3_open(database, &db);
-  if( rc )
+  if ( rc )
   {
     printf("Can't open database: %s\n", sqlite3_errmsg(db));
   }
@@ -66,7 +66,7 @@ ResultSet* dbSQLite::query(const char* query, ...)
 
   mutex.unlock();
 
-  if( rc!=SQLITE_OK )
+  if ( rc!=SQLITE_OK )
   {
     printf("SQL error: %s\n", zErrMsg);
     delete result;
@@ -108,7 +108,7 @@ void dbSQLite::update()
   mutex.lock();
   char* query = updates.front();
   int rc = sqlite3_exec(db, query, callback, 0, &zErrMsg);
-  if( rc!=SQLITE_OK )
+  if ( rc!=SQLITE_OK )
   {
     printf("SQL query: %s\n", query);
     printf("SQL error: %s\n", zErrMsg);

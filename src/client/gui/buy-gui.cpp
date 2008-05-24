@@ -90,11 +90,11 @@ namespace PT
         unsigned int itemid = oldslot->GetObject()->GetId();
 
         // Item has been moved to be bought. Add to totalmoney.
-        if(oldslot->GetParent() == Inventory::BuyUpper)
+        if (oldslot->GetParent() == Inventory::BuyUpper)
         {
           for (size_t i = 0; i < items.GetSize(); i++)
           {
-            if(itemid == items.Get(i).itemid)
+            if (itemid == items.Get(i).itemid)
             {
               Report(PT::Debug, "BuyWindow:: Deleted index for itemid %d\n",
                 itemid);
@@ -105,7 +105,7 @@ namespace PT
           }
         }
         // Item has been moved back, substract from totalmoney.
-        else if(oldslot->GetParent() == Inventory::BuyLower)
+        else if (oldslot->GetParent() == Inventory::BuyLower)
         {
           Item item;
           item.itemid = oldslot->GetObject()->GetId();
@@ -157,7 +157,7 @@ namespace PT
         int counter = 0;
         for (size_t i=linenr; i<items.GetSize(); i++)
         {
-          if(counter > nrInventorySlots-1) break;
+          if (counter > nrInventorySlots-1) break;
           Slot* slot = upperslots->GetSlot(counter);
           Item item = items.Get(i);
           slot->SetObject(dragdrop->CreateItem(item.itemid, item.variationid));
@@ -212,7 +212,7 @@ namespace PT
         {
           unsigned int objid = objandslot.Get(i).object->GetId();
           unsigned int varid = objandslot.Get(i).object->GetVariationId();
-          while(!inventoryWindow->AddItem(objid, varid, counter)
+          while (!inventoryWindow->AddItem(objid, varid, counter)
             && counter < nrInventorySlots)
           {
             counter += 1;

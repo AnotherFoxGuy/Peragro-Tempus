@@ -41,7 +41,7 @@ namespace PT
       for (size_t i=0; i < equipment.GetSize(); i++)
       {
         EquipedItem* item = equipment.Get(i);
-        if(item->GetSlotId() == slotid)
+        if (item->GetSlotId() == slotid)
         {
           item->DestructMesh();
           equipment.DeleteIndex(i);

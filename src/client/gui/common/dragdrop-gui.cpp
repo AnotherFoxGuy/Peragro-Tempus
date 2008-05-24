@@ -95,14 +95,14 @@ namespace PT
           static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
         Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
-        if(!newslot->IsEmpty())
+        if (!newslot->IsEmpty())
         {
           Object* obj = newslot->GetObject();
-          if(obj->GetWindow()->isDisabled())
+          if (obj->GetWindow()->isDisabled())
             return true;
         }
 
-        if(oldslot->GetParent() == Inventory::TradeLeft)
+        if (oldslot->GetParent() == Inventory::TradeLeft)
         {
           // Enable the inventory icon again.
           TradeWindow* tradeWindow =
@@ -115,7 +115,7 @@ namespace PT
           delete tradeobj;
           oldslot->Clear();
 
-          if(oldinvslot) oldslot = oldinvslot;
+          if (oldinvslot) oldslot = oldinvslot;
           tradeWindow->UpdateOffer();
         }
 
@@ -203,7 +203,7 @@ namespace PT
           static_cast<Slot*>(ddea.dragDropItem->getParent()->getUserData());
         Slot* newslot = static_cast<Slot*>(ddea.window->getUserData());
 
-        if(oldslot->GetParent() == Inventory::BuyLower ||
+        if (oldslot->GetParent() == Inventory::BuyLower ||
            oldslot->GetParent() == Inventory::BuyUpper)
         {
           BuyWindow* buyWindow = guimanager->GetWindow<BuyWindow>(BUYWINDOW);
@@ -273,7 +273,7 @@ namespace PT
 
         // Create a drag/drop Icon
         CEGUI::Window* icon;
-        if(interactable)
+        if (interactable)
           icon = winMgr->createWindow("DragContainer", uniquename);
         else
         {
@@ -310,7 +310,7 @@ namespace PT
         iconImage->disable();
 
         // Lets decide what to make of the icon: Item or Skill.
-        if(icontype == DragDrop::Item)
+        if (icontype == DragDrop::Item)
         {
           PT::Data::Item* clientitem = itemDataManager->GetItemById(objectid);
 
@@ -326,7 +326,7 @@ namespace PT
 
           iconImage->setProperty("Image", clientitem->GetIconName());
         }
-        else if(icontype == DragDrop::Skill)
+        else if (icontype == DragDrop::Skill)
         {
 
         }
@@ -364,7 +364,7 @@ namespace PT
 
       void DragDrop::MoveObject(Slot* oldslot, Slot* newslot)
       {
-        if(!newslot->IsEmpty())
+        if (!newslot->IsEmpty())
         {
           // If slot is occupied: swap.
           Report(PT::Debug, "DragDrop: Swapping objects!");

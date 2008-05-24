@@ -195,7 +195,7 @@ namespace PT
           SetStr("Client.Server["+serverWindow->GetServerName()+"].Login",
             string);
 
-        if(serverWindow->IsCustom())
+        if (serverWindow->IsCustom())
         {
           string=serverWindow->GetServerHost().GetData();
           app_cfg->SetStr("Client.Server.Custom", string);

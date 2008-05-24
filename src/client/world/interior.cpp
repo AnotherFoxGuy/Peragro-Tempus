@@ -148,7 +148,7 @@ namespace PT
       // meshfactories in our own factory list.
       // If it's a portal allow it to look for sectors beyond the collection.
       csLoadResult rc;
-      if(meshNode && meshNode->GetNode("portals").IsValid())
+      if (meshNode && meshNode->GetNode("portals").IsValid())
         rc = loader->Load(meshNode, instances, false, false, 0, 0,
           factory->missingData, KEEP_ALL);
       else

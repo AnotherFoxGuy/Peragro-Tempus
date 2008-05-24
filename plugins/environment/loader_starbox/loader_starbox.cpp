@@ -103,7 +103,7 @@ csPtr<iBase> myLoaderStarbox::Parse (iDocumentNode* node,
       return 0;
     }
     return 0;
-  }// end if(!engine)
+  }// end if (!engine)
 
 
   obj_fact = csQueryRegistry<iMyStarboxFactory> (object_reg);
@@ -117,7 +117,7 @@ csPtr<iBase> myLoaderStarbox::Parse (iDocumentNode* node,
       return 0;
     }
     return 0;
-  }// end if(!obj_fact)
+  }// end if (!obj_fact)
 
   obj = obj_fact->CreateObject ();
   if (!obj)
@@ -130,7 +130,7 @@ csPtr<iBase> myLoaderStarbox::Parse (iDocumentNode* node,
       return 0;
     }
     return 0;
-  }// end if(!obj_fact)
+  }// end if (!obj_fact)
 
 
 
@@ -190,8 +190,8 @@ csPtr<iBase> myLoaderStarbox::Parse (iDocumentNode* node,
         }
       } // end swith(id)
 
-    } // end while(it->HasNext())
-  } // end if(node)
+    } // end while (it->HasNext())
+  } // end if (node)
 
   starbox = obj; // Keep a referance to starbox in the loader
   return csPtr<iBase> (obj);

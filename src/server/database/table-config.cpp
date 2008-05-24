@@ -74,9 +74,9 @@ ptString ConfigTable::GetConfigValue(ptString name)
   if (!rs) return ptString("",0);
   Array<ConfigTableVO*> vo = ParseMultiResultSet(rs);
   unsigned int i = 0;
-  while(i<vo.getCount())
+  while (i<vo.getCount())
   {
-    if(vo[i]->name == name){return vo[i]->value;}
+    if (vo[i]->name == name){return vo[i]->value;}
     i++;
   }
   delete rs;

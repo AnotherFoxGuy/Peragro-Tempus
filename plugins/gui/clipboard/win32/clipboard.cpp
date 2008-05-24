@@ -90,7 +90,7 @@ bool csClipboard::SetData(csString text, int clipboardType)
   HGLOBAL dataHandle;
   LPWSTR dataPtr;
 
-  if(!Open())
+  if (!Open())
     return false;
 
   Empty();

@@ -239,14 +239,14 @@ namespace PT
     const char* ChatManager::PreviousMessage()
     {
       historypointer++;
-      if(historypointer>(int)history.size()){historypointer=0;return "";}
+      if (historypointer>(int)history.size()){historypointer=0;return "";}
       return history[history.size()-historypointer].c_str();
     }
 
     const char* ChatManager::NextMessage()
     {
-      if(historypointer>0){historypointer--;}
-      if(historypointer==0){return "";}
+      if (historypointer>0){historypointer--;}
+      if (historypointer==0){return "";}
       return history[history.size()-historypointer].c_str();
     }
 
@@ -355,7 +355,7 @@ namespace PT
         std::string playername = p->second;
         // Convert playername to lowercase for compare.
         std::transform(playername.begin(), playername.end(),playername.begin(),tolower);
-        if(playername.find(incompleteWord.c_str(), 0, incompleteWord.length()) != std::string::npos )
+        if (playername.find(incompleteWord.c_str(), 0, incompleteWord.length()) != std::string::npos )
         {
           // Restore playername.
           playername = p->second;

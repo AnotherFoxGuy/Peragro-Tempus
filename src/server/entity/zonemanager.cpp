@@ -53,7 +53,7 @@ ptString ZoneManager::GetZone(float x, float z)
   PtVector2 position(x,z);
   for(size_t i=0; i<zones.size(); i++)
   {
-    if(Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(), position))
+    if (Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(), position))
     {
       return zones[i].type;
     }
@@ -67,7 +67,7 @@ std::vector<ptString> ZoneManager::GetZones(float x, float z)
   PtVector2 position(x,z);
   for(size_t i=0; i<zones.size(); i++)
   {
-    if(Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(), position))
+    if (Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(), position))
     {
       inzones.push_back(zones[i].type);
     }

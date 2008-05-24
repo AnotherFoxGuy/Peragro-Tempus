@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
     printf("Remaining Events: %" SIZET "\n", eng.getEventCount());
   }
 
-  while(eng.getEventCount())
+  while (eng.getEventCount())
   {
     printf("Remaining Events: %" SIZET "\n", eng.getEventCount());
     pt_sleep(1);

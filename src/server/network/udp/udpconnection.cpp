@@ -24,7 +24,7 @@
 void UdpConnection::peerLost()
 {
   printf("peerLost!\n");
-  if(user)
+  if (user)
   {
     printf("has user!\n");
     if (user->getConnection() == this)
