@@ -55,6 +55,7 @@ namespace PT
       private:
         bool OptionPressed (const CEGUI::EventArgs& e);
         bool OptionButtonPressed(const CEGUI::EventArgs& e);
+        bool OnCloseButton(const CEGUI::EventArgs& e);
 
       public:
         OptionsWindow(GUIManager* guimanager);
