@@ -271,10 +271,16 @@ namespace PT
 
     void CombatManager::Die(PT::Entity::Entity* target)
     {
+      using namespace Entity;
+      CharacterEntity *character;
       effectsManager->CreateEffect("Die", GetMesh(target));
-      //target->SetHP(0);
-      // Perfrom the die animation and lock it.
-      //target->SetAction("die", true);
+      if (target->GetType() == PCEntityType || 
+          target->GetType() == NPCEntityType || 
+          target->GetType() == PlayerEntityType) 
+      {
+        character = static_cast<CharacterEntity*>(target);
+        character->PlayAnimation("die", 0.1f, false, false);
+      }
     }
 
     void CombatManager::LevelUp(int targetId)

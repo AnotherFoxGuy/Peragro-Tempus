@@ -4,6 +4,9 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+26-May-2008
+ - swedishcoder added code to support a "die" animation.
+
 23-May-2008
  - swedishcoder did some code clean style cleanup.
 
