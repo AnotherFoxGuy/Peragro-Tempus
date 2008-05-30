@@ -269,7 +269,7 @@ namespace PT
       {
         char uniquename[1024];
         counter += 1;
-        sprintf(uniquename, "%d_%d_icon", objectid, counter);
+        snprintf(uniquename, 1024, "%d_%d_icon", objectid, counter);
 
         // Create a drag/drop Icon
         CEGUI::Window* icon;
@@ -337,7 +337,7 @@ namespace PT
       CEGUI::String DragDrop::IntToStr(int number)
       {
         char buffer[1024];
-        sprintf(buffer, "%d", number);
+        snprintf(buffer, 1024, "%d", number);
         CEGUI::String value = (CEGUI::String)buffer;
 
         return value;

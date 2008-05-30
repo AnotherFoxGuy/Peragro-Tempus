@@ -46,7 +46,7 @@ LONG WriteDump(struct _EXCEPTION_POINTERS *pExceptionInfo)
       HINSTANCE hinst = LoadLibraryA("dbghelp.dll");
 
       char dmpfile[256];
-      sprintf(dmpfile, "%s-%d.dmp", prefix, time(0));
+      snprintf(dmpfile, 256, "%s-%d.dmp", prefix, time(0));
 
       typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(
         HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,

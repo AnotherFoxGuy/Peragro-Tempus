@@ -293,7 +293,7 @@ namespace PT
       }
 
       char name[256];
-      sprintf(name,"tile-%d-%d", x, z);
+      snprintf(name, 256, "tile-%d-%d", x, z);
 
       maptilecache[firstnull] = new MapTile(x,z,name, this);
       return maptilecache[firstnull];

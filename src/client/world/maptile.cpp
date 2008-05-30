@@ -47,7 +47,7 @@ namespace PT
       Report(PT::Debug, "Loading tile %d,%d (%.2f, %.2f)",x0,z0,xbase,zbase);
 
       char buffer[256];
-      sprintf(buffer, "instances-%d-%d",x,z);
+      snprintf(buffer, 256, "instances-%d-%d",x,z);
       collectionName = buffer;
 
       OpenFile("/peragro/art/tiles/", fileName);

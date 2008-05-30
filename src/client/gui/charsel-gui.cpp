@@ -175,7 +175,7 @@ namespace PT
       {
         btn = winMgr->getWindow("CharSelect/Characters");
         char charIdstr[10];
-        sprintf(charIdstr, "%d", charId);
+        snprintf(charIdstr, 10, "%d", charId);
         CEGUI::ListboxItem* charIdItem = new CEGUI::ListboxTextItem(charIdstr);
         CEGUI::ListboxItem* charNameItem = new CEGUI::ListboxTextItem(name);
 

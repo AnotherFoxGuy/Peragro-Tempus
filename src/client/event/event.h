@@ -28,6 +28,8 @@
 
 #include <iutil/event.h>
 
+#include "client/reporter/reporter.h"
+
 namespace PT
 {
   namespace Events
@@ -45,14 +47,14 @@ namespace PT
       void DisplayEvent(iEvent* event)
       {
         csRef<iEventAttributeIterator> it = event->GetAttributeIterator();
-        printf("------------------\n");
-        printf("event:\n");
+        Report(PT::Debug, "------------------");
+        Report(PT::Debug, "event:");
         while (it->HasNext())
         {
           const char* at = it->Next();
-          printf("%s\n", at);
+          Report(PT::Debug, "%s", at);
         }
-        printf("------------------\n");
+        Report(PT::Debug, "------------------");
       }
     };
 

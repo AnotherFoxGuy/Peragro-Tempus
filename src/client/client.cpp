@@ -211,7 +211,7 @@ namespace PT
             HUDWindow* hudWindow = guiManager->GetWindow<HUDWindow>(HUDWINDOW);
             hudWindow->SetSP(ratio);
             char buffer[40];
-            sprintf(buffer, "            %d/%d", (int)currentStamina,
+            snprintf(buffer, 40, "            %d/%d", (int)currentStamina,
                                                  (int)maxStamina);
             hudWindow->SetText("PlayerHUD/SPValue", buffer);
           }

@@ -58,7 +58,8 @@ namespace PT
       logFile.flush();
     }
     else
-      csPrintf ("%s", CS_ANSI_FR CS_ANSI_TEXT_BOLD_ON "Creation log file failed!\n" CS_ANSI_RST);
+      csPrintf ("%s", CS_ANSI_FR CS_ANSI_TEXT_BOLD_ON
+        "Creation log file failed!\n" CS_ANSI_RST);
 
   }
 
@@ -106,7 +107,7 @@ namespace PT
 
     // Prepare the string.
     char buffer[1024];
-    vsprintf(buffer, msg, arg);
+    vsnprintf(buffer, 1024, msg, arg);
 
     if (logFile)
     {
@@ -116,7 +117,8 @@ namespace PT
       time ( &rawtime );
       ptm = localtime ( &rawtime );
       char timeBuf[64];
-      sprintf(timeBuf, "%2d:%02d:%02d ", ptm->tm_hour+2, ptm->tm_min, ptm->tm_sec);
+      snprintf(timeBuf, 64, "%2d:%02d:%02d ",
+        ptm->tm_hour+2, ptm->tm_min, ptm->tm_sec);
 
       // Write to file.
       logFile << timeBuf << prefix << buffer << "\n";

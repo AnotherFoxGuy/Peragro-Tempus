@@ -342,7 +342,7 @@ namespace PT
       {
         Report(PT::Notify, "CombatManager: %s \n", *error);
         char msg[1024];
-        sprintf(msg,"%s", *error);
+        snprintf(msg, 1024, "%s", *error);
         ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
         chatWindow->AddMessage(msg);
         return;
@@ -381,7 +381,7 @@ namespace PT
         Report(PT::Error, "CombatManager: Unknown skill with ID %d !", skillId);
 
       char msg[1024];
-      sprintf(msg,"%s %s %s.", caster->GetName().c_str(),
+      snprintf(msg, 1024, "%s %s %s.", caster->GetName().c_str(),
                                caststring.c_str(),
                                target->GetName().c_str());
       ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
@@ -430,9 +430,8 @@ namespace PT
         Report(PT::Error, "CombatManager: Unknown skill with ID %d !", skillId);
 
       char msg[1024];
-      sprintf(msg,"%s %s %s.", caster->GetName().c_str(),
-                               caststring.c_str(),
-                               target->GetName().c_str());
+      snprintf(msg, 1024, "%s %s %s.", caster->GetName().c_str(),
+        caststring.c_str(), target->GetName().c_str());
       ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->AddMessage(msg);
 

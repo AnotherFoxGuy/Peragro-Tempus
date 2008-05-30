@@ -126,7 +126,7 @@ namespace PT
       {
         // Create a name.
         char uniquename[64];
-        sprintf(uniquename, "SkillHUD/quickslot_%d", id+1);
+        snprintf(uniquename, 64, "SkillHUD/quickslot_%d", id+1);
         // Create the slot
         CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage", uniquename);
         parent->addChildWindow(slot);
@@ -141,7 +141,7 @@ namespace PT
       {
         char uniquename[1024];
         counter += 1;
-        sprintf(uniquename, "SkillHUD/%d_%d_skillicon", skillid, counter);
+        snprintf(uniquename, 1024, "SkillHUD/%d_%d_skillicon", skillid, counter);
 
         // create a drag/drop item
         CEGUI::DragContainer* skill = static_cast<CEGUI::DragContainer*>(
@@ -152,7 +152,7 @@ namespace PT
         skill->setVerticalAlignment(CEGUI::VA_CENTRE);
         // Set the itemID.
         char itemtypestr[1024];
-        sprintf(itemtypestr, "%d", skillid);
+        snprintf(itemtypestr, 1024, "%d", skillid);
         skill->setUserString("skillid" , itemtypestr);
 
         // set a static image as drag container's contents

@@ -69,7 +69,7 @@ namespace PT
 
         char uniquename[1024];
         counter += 1;
-        sprintf(uniquename, "%d_%d_icon", itemtype, counter);
+        snprintf(uniquename, 1024, "%d_%d_icon", itemtype, counter);
 
         // create a drag/drop item
         CEGUI::DragContainer* item = static_cast<CEGUI::DragContainer*>
@@ -81,7 +81,7 @@ namespace PT
         item->setTooltipText(itemname);
         // Set the itemID.
         char itemtypestr[1024];
-        sprintf(itemtypestr, "%d", itemtype);
+        snprintf(itemtypestr, 1024, "%d", itemtype);
         item->setUserString("itemtype" , itemtypestr);
         // Set wether or not the item is stackable
         if (stackable)
@@ -97,7 +97,7 @@ namespace PT
           cegui_reldim(1)));
         //itemIcon->setProperty("Image", "set:Peragro image:CloseButtonNormal");
         char inventoryimage[1024];
-        sprintf(inventoryimage, "set:Inventory image:%d", itemtype);
+        snprintf(inventoryimage, 1024, "set:Inventory image:%d", itemtype);
         itemIcon->setProperty("Image", inventoryimage);
         // disable to allow inputs to pass through.
         itemIcon->disable();
@@ -109,7 +109,7 @@ namespace PT
       {
         btn = winMgr->getWindow("Status/SkillTab");
         char charskillvalue[10];
-        sprintf(charskillvalue, "%d", skillvalue);
+        snprintf(charskillvalue, 10, "%d", skillvalue);
         CEGUI::ListboxItem* skillvalueItem =
           new CEGUI::ListboxTextItem(charskillvalue);
         CEGUI::ListboxItem* skillnameItem =

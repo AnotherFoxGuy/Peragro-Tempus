@@ -130,12 +130,12 @@ namespace PT
         else if (action = dialognode->GetNode("teleport"))
         {
           npcdialog->action = ptString("teleport", 8);
-          char buf[128];
-          sprintf(buf, "2<%f,%f,%f>",
-          action->GetAttributeValueAsFloat("x"),
-          action->GetAttributeValueAsFloat("y"),
-          action->GetAttributeValueAsFloat("z"));
-          npcdialog->value = buf;
+          char buffer[128];
+          snprintf(buffer, 128, "2<%f,%f,%f>",
+            action->GetAttributeValueAsFloat("x"),
+            action->GetAttributeValueAsFloat("y"),
+            action->GetAttributeValueAsFloat("z"));
+          npcdialog->value = buffer;
         }
         else if (action = dialognode->GetNode("buy"))
         {
