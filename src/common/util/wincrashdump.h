@@ -22,6 +22,8 @@
 #include "windows.h"
 #include "time.h"
 
+#define snprintf _snprintf
+
 #include "dbghelp.h"
 
 const char* prefix;
