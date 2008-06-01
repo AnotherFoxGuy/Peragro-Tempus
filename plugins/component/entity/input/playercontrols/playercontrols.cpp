@@ -58,7 +58,7 @@ CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (PlayerControls, "peragro.entity.input.playercontrols")
 
 ComponentPlayerControls::ComponentPlayerControls(iObjectRegistry* object_reg) :
-	scfImplementationType (this, object_reg)
+  scfImplementationType (this, object_reg)
 {
   walk = 0;
   turn = 0;

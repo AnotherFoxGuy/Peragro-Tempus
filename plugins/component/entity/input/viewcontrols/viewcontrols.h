@@ -71,14 +71,14 @@ private:
   csWeakRef<iPcDefaultCamera> camera;
   /// Whether to invert the look up and down controls, like an aeroplane.
   bool invertYAxis;
-  /// Minimum view distance for the adaptive distance clipping.
-  float minDistance;
   /// Distance between camera and player entity, aka zoom.
   float cameraDistance;
   /// Minimum FPS for the adaptive distance clipping.
   float minFPS;
   /// Maximum FPS for the adaptive distance clipping.
   float maxFPS;
+  /// Minimum view distance for the adaptive distance clipping.
+  float minDistance;
 
   /// Handler for the pan left event.
   bool ActionPanLeft(iEvent& ev);

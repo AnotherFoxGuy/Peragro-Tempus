@@ -38,7 +38,7 @@ CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (Stats, "peragro.entity.stats")
 
 ComponentStats::ComponentStats(iObjectRegistry* object_reg) :
-	scfImplementationType (this, object_reg)
+  scfImplementationType (this, object_reg)
 {
 }
 

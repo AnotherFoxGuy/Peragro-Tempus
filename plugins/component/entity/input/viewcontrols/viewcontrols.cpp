@@ -40,11 +40,15 @@
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
+#define YAW_SPEED 2.0f
+#define PITCH_SPEED 1.0f
+#define ZOOM_SPEED 0.5f
+
 CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (ViewControls, "peragro.entity.input.viewcontrols")
 
 ComponentViewControls::ComponentViewControls(iObjectRegistry* object_reg) :
-	scfImplementationType (this, object_reg)
+  scfImplementationType (this, object_reg)
 {
   cameraDistance = 3.0f;
   invertYAxis = false;
@@ -103,11 +107,11 @@ bool ComponentViewControls::ActionPanLeft(iEvent& ev)
 {
   using namespace PT::Events;
 
-  if (!entity->GetCelEntity()) return false;
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
 
   if (InputHelper::GetButtonDown(&ev))
   {
-    camera->SetYawVelocity(-1.0f);
+    camera->SetYawVelocity(-YAW_SPEED);
   }
   else
   {
@@ -122,11 +126,11 @@ bool ComponentViewControls::ActionPanRight(iEvent& ev)
 {
   using namespace PT::Events;
 
-  if (!entity->GetCelEntity()) return false;
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
 
   if (InputHelper::GetButtonDown(&ev))
   {
-    camera->SetYawVelocity(1.0f);
+    camera->SetYawVelocity(YAW_SPEED);
   }
   else
   {
@@ -141,12 +145,12 @@ bool ComponentViewControls::ActionPanUp(iEvent& ev)
 {
   using namespace PT::Events;
 
-  if (!entity->GetCelEntity()) return false;
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
 
   if (InputHelper::GetButtonDown(&ev))
   {
-    if (invertYAxis) camera->SetPitchVelocity(-1.0f);
-    else camera->SetPitchVelocity(1.0f);
+    if (invertYAxis) camera->SetPitchVelocity(-PITCH_SPEED);
+    else camera->SetPitchVelocity(PITCH_SPEED);
   }
   else
   {
@@ -162,12 +166,12 @@ bool ComponentViewControls::ActionPanDown(iEvent& ev)
 {
   using namespace PT::Events;
 
-  if (!entity->GetCelEntity()) return false;
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
 
   if (InputHelper::GetButtonDown(&ev))
   {
-    if (invertYAxis) camera->SetPitchVelocity(1.0f);
-    else camera->SetPitchVelocity(-1.0f);
+    if (invertYAxis) camera->SetPitchVelocity(PITCH_SPEED);
+    else camera->SetPitchVelocity(-PITCH_SPEED);
   }
   else
   {
@@ -183,12 +187,16 @@ bool ComponentViewControls::ActionZoomIn(iEvent& ev)
 {
   using namespace PT::Events;
 
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
+
   if (InputHelper::GetButtonDown(&ev))
   {
-    if (!entity->GetCelEntity()) return false;
-    cameraDistance -= 0.5;
-    if (camera.IsValid()) camera->SetDistance(cameraDistance);
+    // TODO figure out some way of changing the mouse wheel events, so this can
+    // be changed to use camera->SetDistanceVelocity(), and work with keys.
+    cameraDistance -= ZOOM_SPEED;
+    camera->SetDistance(cameraDistance);
   }
+
   return true;
 } // end ActionZoomIn()
 
@@ -196,18 +204,24 @@ bool ComponentViewControls::ActionZoomOut(iEvent& ev)
 {
   using namespace PT::Events;
 
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
+
   if (InputHelper::GetButtonDown(&ev))
   {
-    if (!entity->GetCelEntity()) return false;
-    cameraDistance += 0.5;
-    if (camera.IsValid()) camera->SetDistance(cameraDistance);
+    // TODO figure out some way of changing the mouse wheel events, so this can
+    // be changed to use camera->SetDistanceVelocity(), and work with keys.
+    cameraDistance += ZOOM_SPEED;
+    camera->SetDistance(cameraDistance);
   }
+
   return true;
 } // end ActionZoomOut()
 
 bool ComponentViewControls::ActionToggleCamera(iEvent& ev)
 {
   using namespace PT::Events;
+
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
 
   if (InputHelper::GetButtonDown(&ev))
   {
@@ -224,10 +238,10 @@ bool ComponentViewControls::ActionToggleDistClipping(iEvent& ev)
 {
   using namespace PT::Events;
 
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
+
   if (InputHelper::GetButtonDown(&ev))
   {
-    if (!entity->GetCelEntity()) return false;
-
     ///@TODO
     //pointerlib->getGUIManager()->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
 

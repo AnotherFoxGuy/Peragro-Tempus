@@ -25,7 +25,6 @@
 #include <physicallayer/pl.h>
 #include <physicallayer/propfact.h>
 #include <physicallayer/propclas.h>
-//#include <propclass/actormove.h>
 #include <propclass/linmove.h>
 
 #include <propclass/defcam.h>
@@ -34,18 +33,11 @@
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
 
-//#include "client/entity/entitymanager.h"
 #include "client/entity/entity.h"
 #include "client/entity/player/playerentity.h"
 
-#include "client/data/sectordatamanager.h"
-#include "client/data/sector.h"
-
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
-
-CS_IMPLEMENT_PLUGIN
-IMPLEMENT_COMPONENTFACTORY (ViewBob, "peragro.entity.move.viewbob")
 
 // These defines should probably go to configuration file.
 // PERIOD defines were calculated from the player character animations.
@@ -56,8 +48,11 @@ IMPLEMENT_COMPONENTFACTORY (ViewBob, "peragro.entity.move.viewbob")
 #define RUN_OFFSET_RANGE 0.08f
 #define HEAD_HEIGHT 1.55f
 
+CS_IMPLEMENT_PLUGIN
+IMPLEMENT_COMPONENTFACTORY (ViewBob, "peragro.entity.move.viewbob")
+
 ComponentViewBob::ComponentViewBob(iObjectRegistry* object_reg) :
-	scfImplementationType (this, object_reg)
+  scfImplementationType (this, object_reg)
 {
   baseHeight = HEAD_HEIGHT;
   currentOffset = 0.0f;
