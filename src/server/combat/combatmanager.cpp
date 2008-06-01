@@ -473,5 +473,75 @@ float CombatManager::GetStatValue(Character* lockedCharacter,
     printf("BUG: Unable to find stat: %s\n", statName);
     return 0.0f;
   }
-  return lockedCharacter->getStats()->getAmount(stat);
+  return (float)lockedCharacter->getStats()->getAmount(stat);
+}
+
+/**
+ * Deducts the players stamina after an attack
+ * @param lockedCharacter The character to deduct stamina for.
+ */
+void CombatManager::DeductStamina(Character* lockedCharacter)
+{
+  float staminaDeduction = 0;
+  Stat* stamina = 0;
+  CharacterStats* stats = 0;
+
+  staminaDeduction = (int)GetWeaponHeft(lockedCharacter) /
+                     GetStrength(lockedCharacter);
+
+  stamina = Server::getServer()->getStatManager()->
+                                 findByName(ptString("Stamina",
+                                            strlen("Stamina")));
+  stats = lockedCharacter->getStats();
+  printf("CombatManager: Stamina before deduction: %d\n",
+         stats->getAmount(stamina));
+  stats->takeStat(stamina, (int)staminaDeduction); 
+
+  SendStatUpdate(stamina, stats, lockedCharacter,
+                 "Stamina", CombatManagerSendTo::CHARACTER);
+}
+
+/**
+ * Wrapper function to send stat update.
+ * @param stat The type of stat to update.
+ * @param stats The characters stat container.
+ * @param name The name of the stat.
+ * @param target Whom to send to.
+ */
+void CombatManager::SendStatUpdate(Stat* stat, 
+                                   CharacterStats* stats,
+                                   Character* lockedCharacter,
+                                   const char* name,
+                                   int target)
+{
+  StatsChangeMessage msg;
+  ByteStream statsbs;
+  msg.setStatId(stat->getId());
+  msg.setEntityId(lockedCharacter->getEntity()->getId());
+  msg.setName(ptString(name, strlen(name)));
+  msg.setLevel(stats->getAmount(stat));
+  msg.serialise(&statsbs);
+  if (target == CombatManagerSendTo::BROADCAST) 
+  {
+    NetworkHelper::broadcast(statsbs);
+  } 
+  else if (target == CombatManagerSendTo::LOCALCAST)
+  {
+    NetworkHelper::localcast(statsbs, lockedCharacter->getEntity());
+  }
+  else if (target == CombatManagerSendTo::CHARACTER)
+  {
+    NetworkHelper::sendMessage(lockedCharacter, statsbs);
+  }
+}
+
+/**
+ * Function to get the weapon(s) heft value.
+ * @param lockedCharacter The owner of the weapon
+ * @return The weapon(s) heft value.
+ * @todo Implement...
+ */
+float CombatManager::GetWeaponHeft(Character* lockedCharacter)
+{
+  return 10.0f;
 }

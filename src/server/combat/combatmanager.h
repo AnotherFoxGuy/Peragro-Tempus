@@ -50,10 +50,21 @@ class CombatManager {
     float GetParry(Character* lockedCharacter);
     float GetStrength(Character* lockedCharacter);
     float GetWeaponDamage(Character* lockedCharacter);
-    float GetStatValue(Character* lockedCharacter,
-                       const char* statName);
+    float GetStatValue(Character* lockedCharacter, const char* statName);
+    void DeductStamina(Character*);
+    void SendStatUpdate(Stat*, CharacterStats*, Character*, const char*, int);
+    float GetWeaponHeft(Character*);
     int RollDice();
 
+ };
 
-};
+namespace CombatManagerSendTo
+{
+  enum SendTo
+  {
+    CHARACTER,
+    LOCALCAST,
+    BROADCAST,
+  };
+}
 #endif //SERVER_COMBAT_MGR

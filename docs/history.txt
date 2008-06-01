@@ -4,6 +4,10 @@ Dates are written as GMT + 0, in descending chronological order for the
 overall history, but ascending chronological order for the details listed
 under each day.
 
+01-June-2008
+ - swedishcoder implemented stamina deduction as specified on the wikipage.
+   (Except for the weapon heft thing which is still just static number).
+
 31-May-2008
  - vornne changed some sprintf() functions to snprintf(). There were only a
    couple that possibly could overflow, but I changed all anyway, in case
