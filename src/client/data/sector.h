@@ -31,7 +31,6 @@ namespace PT
      * created directly, but accessed via SectorDataManager instance. Use the
      * Set/Get methods to access the sector properties.
      * @see SectorDataManager
-     * @author Branko Majic <branko.majic@gmail.com>
      */
     class Sector
     {

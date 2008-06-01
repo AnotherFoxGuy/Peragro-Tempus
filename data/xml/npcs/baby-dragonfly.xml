@@ -1,26 +1,24 @@
-<npcs>
-	<npc>
-		<name>baby-dragonfly</name>
-		<mesh>test1</mesh>
-		<position sector="World" x="41" y="2" z="172"/>
-		<race>test</race> <!-- used for stats -->
-		<hair><color r="255" g="255" b="255" /></hair>
-		<skin><color r="255" g="255" b="255" /></skin>
-		<decal><color r="255" g="255" b="255" /></decal>
-		<ai>stray</ai>
-		<aisetting>
-			<value name="base_x">41</value>
-			<value name="base_y">4</value>
-			<value name="base_z">172</value>
-			<value name="radius_x">10.0</value>
-			<value name="radius_y">0.0</value>
-			<value name="radius_z">10.0</value>
-			<value name="interval_base">100</value>
- 			<value name="interval_rand">50</value>
-		</aisetting>
-		<inventory />
-		<dialog id="0">
-			<text>....</text>
-		</dialog>
-	</npc>
-</npcs>
+<npc>
+	<name>baby-dragonfly</name>
+	<mesh>test1</mesh>
+	<position sector="World" x="41" y="2" z="172"/>
+	<race>test</race> <!-- used for stats -->
+	<hair><color r="255" g="255" b="255" /></hair>
+	<skin><color r="255" g="255" b="255" /></skin>
+	<decal><color r="255" g="255" b="255" /></decal>
+	<ai>stray</ai>
+	<aisetting>
+		<value name="base_x">41</value>
+		<value name="base_y">4</value>
+		<value name="base_z">172</value>
+		<value name="radius_x">10.0</value>
+		<value name="radius_y">0.0</value>
+		<value name="radius_z">10.0</value>
+		<value name="interval_base">100</value>
+		<value name="interval_rand">50</value>
+	</aisetting>
+	<inventory />
+	<dialog id="0">
+		<text>....</text>
+	</dialog>
+</npc>

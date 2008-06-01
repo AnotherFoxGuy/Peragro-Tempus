@@ -32,7 +32,6 @@ namespace PT
      * created directly, but accessed via DoorDataManager instance. Use the
      * Set/Get methods to access the door properties.
      * @see DoorDataManager
-     * @author Branko Majic <branko.majic@gmail.com>
      */
     class Door
     {

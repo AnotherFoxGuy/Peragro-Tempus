@@ -32,7 +32,6 @@ namespace PT
      * created directly, but accessed via TeleportDataManager instance. Use the
      * Set/Get methods to access the teleport properties.
      * @see TeleportDataManager
-     * @author Branko Majic <branko.majic@gmail.com>
     */
     class Teleport
     {

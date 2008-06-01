@@ -32,7 +32,6 @@ namespace PT
      * created directly, but accessed via ItemDataManager instance. Use the
      * Set/Get methods to access the item properties.
      * @see ItemDataManager
-     * @author Branko Majic <branko.majic@gmail.com>
      */
     class Item
     {

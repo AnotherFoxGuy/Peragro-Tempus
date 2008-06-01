@@ -32,7 +32,6 @@ namespace PT
      * created directly, but accessed via SkillDataManager instance. Use the
      * Set/Get methods to access the skill properties.
      * @see SkillDataManager
-     * @author Jelle Hellemans
      */
     class Skill
     {

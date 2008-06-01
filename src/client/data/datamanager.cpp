@@ -57,7 +57,11 @@ namespace PT
         return false;
       }
 
-      csRef<iDocumentNode> xml = doc->GetRoot ()->GetNode (getRootName());
+      csRef<iDocumentNode> xml = doc->GetRoot ();
+      if (getRootName() != 0)
+      {
+        xml = xml->GetNode (getRootName());
+      }
 
       if (!xml.IsValid())
         return false;

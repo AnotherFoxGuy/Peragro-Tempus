@@ -67,7 +67,7 @@ namespace PT
       bool parseNPCs();
 
       /// Root Node of the xml: &lt;npcs&gt;
-      const char* getRootName() { return "npcs"; }
+      const char* getRootName() { return 0; }
 
       /// Element Node of the xml: &lt;npc&gt;
       const char* getElementName() { return "npc"; }
