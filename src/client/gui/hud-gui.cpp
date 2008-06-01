@@ -25,8 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-#include "client/data/skill.h"
-#include "client/data/skilldatamanager.h"
+#include "client/data/skill/skill.h"
+#include "client/data/skill/skilldatamanager.h"
 
 #include "client/pointer/pointer.h"
 #include "client/reporter/reporter.h"

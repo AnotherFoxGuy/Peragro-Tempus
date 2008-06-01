@@ -26,23 +26,23 @@
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
-#include "client/data/sector.h"
-#include "client/data/sectordatamanager.h"
+#include "client/data/sector/sector.h"
+#include "client/data/sector/sectordatamanager.h"
 
-#include "client/data/door.h"
-#include "client/data/doordatamanager.h"
+#include "client/data/door/door.h"
+#include "client/data/door/doordatamanager.h"
 
-#include "client/data/item.h"
-#include "client/data/itemdatamanager.h"
+#include "client/data/item/item.h"
+#include "client/data/item/itemdatamanager.h"
 
-#include "client/data/npc.h"
-#include "client/data/npcdatamanager.h"
+#include "client/data/npc/npc.h"
+#include "client/data/npc/npcdatamanager.h"
 
-#include "client/data/spawnpoint.h"
-#include "client/data/spawnpointdatamanager.h"
+#include "client/data/spawn/spawnpoint.h"
+#include "client/data/spawn/spawnpointdatamanager.h"
 
-#include "client/data/zone.h"
-#include "client/data/zonedatamanager.h"
+#include "client/data/zone/zone.h"
+#include "client/data/zone/zonedatamanager.h"
 
 #include "client/pointer/pointer.h"
 

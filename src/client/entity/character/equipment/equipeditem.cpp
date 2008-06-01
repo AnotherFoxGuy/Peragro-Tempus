@@ -33,8 +33,8 @@
 
 #include "client/serversetup/serversetupmanager.h" //remove
 
-#include "client/data/itemdatamanager.h"
-#include "client/data/item.h"
+#include "client/data/item/itemdatamanager.h"
+#include "client/data/item/item.h"
 
 #include "client/pointer/pointer.h"
 #include "client/reporter/reporter.h"

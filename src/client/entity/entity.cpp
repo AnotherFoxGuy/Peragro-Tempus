@@ -38,8 +38,8 @@
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
 #include "client/event/regionevent.h"
-#include "client/data/sectordatamanager.h"
-#include "client/data/sector.h"
+#include "client/data/sector/sectordatamanager.h"
+#include "client/data/sector/sector.h"
 
 #include "client/component/componentmanager.h"
 #include "include/client/component/entity/stat/stats.h"

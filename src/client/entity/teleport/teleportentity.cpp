@@ -26,8 +26,8 @@
 #include <physicallayer/propclas.h>
 #include <propclass/mesh.h>
 
-#include "client/data/teleportdatamanager.h"
-#include "client/data/teleport.h"
+#include "client/data/teleport/teleportdatamanager.h"
+#include "client/data/teleport/teleport.h"
 
 #include "client/reporter/reporter.h"
 #include "client/pointer/pointer.h"

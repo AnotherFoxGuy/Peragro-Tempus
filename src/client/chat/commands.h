@@ -49,8 +49,8 @@
 
 #include "client/entity/entitymanager.h"
 
-#include "client/data/sector.h"
-#include "client/data/sectordatamanager.h"
+#include "client/data/sector/sector.h"
+#include "client/data/sector/sectordatamanager.h"
 
 namespace PT
 {
