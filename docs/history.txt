@@ -5,6 +5,10 @@ overall history, but ascending chronological order for the details listed
 under each day.
 
 31-May-2008
+ - vornne changed some sprintf() functions to snprintf(). There were only a
+   couple that possibly could overflow, but I changed all anyway, in case
+   they are ever modified. Hopefully there won't be any problems of it being
+   unsupported, though it was in use in one place already.
  - swedishcoder fixed compilation errors in msvc.
 
 26-May-2008
