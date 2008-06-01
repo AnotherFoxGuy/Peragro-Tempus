@@ -1,9 +1,27 @@
 SubDir TOP src client data ;
 
+SubInclude TOP src client data connection ;
+SubInclude TOP src client data door ;
+SubInclude TOP src client data effect ;
+SubInclude TOP src client data item ;
+SubInclude TOP src client data npc ;
+SubInclude TOP src client data sector ;
+SubInclude TOP src client data skill ;
+SubInclude TOP src client data spawn ;
+SubInclude TOP src client data teleport ;
+SubInclude TOP src client data zone ;
+
 Description client-data : "client data" ;
 Library client-data :
   [ Wildcard *.h *.cpp ]
-  [ Wildcard [ ConcatDirs effect ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs connection ] : *.h *.cpp ]
-  [ Wildcard [ ConcatDirs serversetup ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs door ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs effect ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs item ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs sector ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs skill ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs spawn ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs teleport ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs zone ] : *.h *.cpp ] ;
 ExternalLibs client-data : CRYSTAL CEL BOOST ;
