@@ -85,7 +85,7 @@ namespace PT
         // Initialize CEGUI wrapper
         cegui->Initialize ();
 
-		// Set the logging level
+        // Set the logging level
         cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
         // Initialize the skin manager.

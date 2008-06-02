@@ -183,7 +183,7 @@ void nwWriter::writeParamSerialisation(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::BOOL)
   {
-	out <<  "  serial.setInt8(" << toVariable(param->name).c_str() << "?1:0);\n";
+    out <<  "  serial.setInt8(" << toVariable(param->name).c_str() << "?1:0);\n";
   }
   else if (param->type == nwParamType::UINT8)
   {

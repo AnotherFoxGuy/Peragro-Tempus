@@ -42,7 +42,7 @@
 		<uint8>NewSlot</uint8>
 		<uint32>NewInventoryId</uint32>
 	</message>
-	
+
 	<message type="Player" name="InventoryMoveItem">
 		<uint8>OldSlot</uint8>
 		<uint32>OldInventoryId</uint32>
@@ -51,12 +51,12 @@
 		<string>Error</string> <!-- null if successful -->
 	</message>
 
-  <message type="Player" name="MasteriesList">
+	<message type="Player" name="MasteriesList">
 		<list name="Masteries">
 			<int16>Level</int16>
 			<uint16>ID</uint16>
 			<uint16>Type</uint16>
 		</list>
 	</message>
-	
+
 </message-implementation>

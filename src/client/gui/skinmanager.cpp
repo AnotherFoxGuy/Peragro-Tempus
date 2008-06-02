@@ -151,7 +151,7 @@ namespace PT
       font->setProperty("PointSize", "10");
       font->load();
 
-	  CEGUI::Font* font2 = cegui->GetFontManagerPtr ()->
+      CEGUI::Font* font2 = cegui->GetFontManagerPtr ()->
         createFont("FreeType", "Commonwealth-8", "/peragro/art/skins/default/font/commonv2c.ttf");
       font2->setProperty("PointSize", "8");
       font2->load();
