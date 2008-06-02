@@ -125,6 +125,8 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
   float attackChance = 0.0;
   CharacterStats* stats;
   int attackResult;
+  int itemsToDrop = 0;
+  int itemsDropped = 0;
   
   if (!CheckIfReadyToAttack(lockedAttackerCharacter)) {
     // The player needs to wait a bit before attacking again
@@ -199,6 +201,15 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
     for (unsigned char slot = 0; slot < inventory->NoSlot; slot++) 
     {
       const InventoryEntry* entry = inventory->getItem(slot);
+      if (entry && entry->id != 0)
+      {
+        itemsToDrop++;
+      }
+    }
+    
+    for (unsigned char slot = 0; slot < inventory->NoSlot; slot++) 
+    {
+      const InventoryEntry* entry = inventory->getItem(slot);
       if (!entry || entry->id == 0) 
       {
         continue;
@@ -233,10 +244,17 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
         e->createFromItem(itemId, variation);
 
         Entity* ent = e->getEntity()->getLock();
-        // TODO make it being released in a circle pattern
-        ent->setPos(lockedTargetCharacter->getEntity()->getPos());
+        // Release items in a circlular pattern
+        float radians = (2.0f*3.14 / itemsToDrop) * itemsDropped;
+        float radius = 0.8f;
+        float deltaX = cos(radians) * radius;
+        float deltaY = sin(radians) * radius;
+        float deltaZ = 0.0f;
+        const float *tmp = lockedTargetCharacter->getEntity()->getPos();
+        ent->setPos(tmp[0] + deltaX, tmp[1] + deltaY, tmp[2] + deltaZ);
         ent->setSector(lockedTargetCharacter->getEntity()->getSector());
 
+        itemsDropped++;
         Server::getServer()->addEntity(ent, true);
         ent->freeLock();
       } // end if
