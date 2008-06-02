@@ -104,6 +104,8 @@
                                 </xs:complexType>
                             </xs:element>
                             <xs:element minOccurs="0" maxOccurs="1" name="function" type="xs:string" />
+                            <xs:element minOccurs="0" maxOccurs="1" name="buy" type="xs:string" />
+                            <xs:element minOccurs="0" maxOccurs="1" name="sell" type="xs:string" />
                         </xs:sequence>
                         <xs:attribute name="id" type="xs:unsignedInt" use="required" />
                     </xs:complexType>
