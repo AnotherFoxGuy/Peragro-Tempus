@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+	<id>2</id>
+	<name>Tiny Ballpot</name>
+	<icon>set:Inventory image:tinyballpot</icon>
+	<description>A Tiny Ballpot.</description>
+	<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
+	<mesh>Stuff001_tinyballpot_84_pot</mesh>
+	<weight>0</weight>
+</item>

@@ -70,8 +70,8 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
   for (int i=0; i<stat_msg.getStatsCount(); i++)
   {
     StatusWindow* statusWindow = guimanager->GetWindow<StatusWindow>(STATUSWINDOW);
-    statusWindow->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
-    //guimanager->GetStatusWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
+    statusWindow->AddSkill(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
+    //guimanager->GetStatusWindow()->AddSkill(*stat_msg.getName(i), stat_msg.getLevel(i)); // TODO: Do this in the status window instead, using the event
     Report(PT::Debug, "Stat %s (%d): \t %d", *stat_msg.getName(i), stat_msg.getStatId(i), stat_msg.getLevel(i));
 
     csRef<iEvent> playerEvent = evmgr->CreateEvent("entity.stat.add.player", true);
@@ -111,7 +111,7 @@ void PlayerHandler::handleSkillsList(GenericMessage* msg)
   Report(PT::Debug, "EntityHandler: Got %d skill(s) for the Character:", skill_msg.getSkillsCount());
   for (int i=0; i<skill_msg.getSkillsCount(); i++)
   {
-    //guimanager->GetInventoryWindow()->AddSkil(*stat_msg.getName(i), stat_msg.getStatLevel(i));
+    //guimanager->GetInventoryWindow()->AddSkill(*stat_msg.getName(i), stat_msg.getStatLevel(i));
     Report(PT::Debug, "Skill %s (%d)", *skill_msg.getName(i), skill_msg.getSkillId(i));
   }
   Report(PT::Debug, "---------------------------\n");

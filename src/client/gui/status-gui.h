@@ -45,7 +45,7 @@ namespace PT
         bool Create();
         bool ReloadWindow();
         bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
-        void AddSkil(const char* skillname, unsigned int skillvalue);
+        void AddSkill(const char* skillname, unsigned int skillvalue);
       };
 
     } // Windows namespace

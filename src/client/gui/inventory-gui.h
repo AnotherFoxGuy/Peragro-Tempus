@@ -38,7 +38,6 @@ namespace PT
       private:
         bool handleCloseButton(const CEGUI::EventArgs& args);
         PT::GUI::Windows::DragDrop* dragdrop;
-        PT::Data::ItemDataManager* itemDataManager;
         unsigned int numberOfSlots;
         Inventory* inventory;
 

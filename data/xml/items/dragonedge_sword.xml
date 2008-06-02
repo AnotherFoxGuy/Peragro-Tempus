@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+	<id>8</id>
+	<name>Flaming Dragon Edge Sword</name>
+	<reach>10</reach>
+	<damage>11</damage>
+	<quality>12</quality>
+	<heft>14</heft>
+	<durability>15</durability>
+	<itemtype>weapon</itemtype> <--! weapon, rangedweapon, armor, ammunition -->
+	<pull>16</pull>
+	<--! Only for ranged weapon -->
+	<range>-1</range> 
+	<--! Only for ammunition -->
+	<amount>-1</amount> 
+	<--! Only for armor -->
+	<mobility>-1</mobility> 
+	<hardness>-1</hardness>
+	<bulk>-1</bulk>
+	<toughness>-1</toughness>
+	<icon>set:Inventory image:DragonEdgeSword</icon>
+	<description>
+		Passed on from generation to generation of Tibet Monks
+		who mastered the movement of the Mighty Dragon
+		and could swing this sword soo fast it would
+		actually caught fire, inflicting extra damage on the foo.
+	</description>
+	<file>/peragro/art/3d_art/props/weapons/swords/sword/sword.lib</file>
+	<mesh>swordfact</mesh>
+	<weight>30</weight>
+	<equiptype>weapon2h</equiptype>
+</item>

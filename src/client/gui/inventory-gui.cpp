@@ -25,8 +25,6 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-#include "client/serversetup/serversetupmanager.h"//remove
-
 #include "client/reporter/reporter.h"
 
 namespace PT
@@ -181,10 +179,6 @@ namespace PT
         winMgr = cegui->GetWindowManagerPtr ();
 
         dragdrop = guimanager->GetDragDrop();
-
-        //TODO remove
-        itemDataManager = PointerLibrary::getInstance()->
-          getServerSetupManager()->GetItemDataManager();
 
         // Get the frame window
         CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>

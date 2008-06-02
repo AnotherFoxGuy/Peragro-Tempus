@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+	<id>5</id>
+	<name>Mighty Helmet of the Sweet Mother of the Holy Monkey</name>
+	<icon>set:Helmet image:Helmet</icon>
+	<description>
+		The Sweet Mother of the Holy Monkey used this helmet
+		as a drinking bucket.
+	</description>
+	<file>/peragro/art/armor/helmets/bogus.xml</file>
+	<mesh>foobar</mesh>
+	<weight>5</weight>
+	<equiptype>helmet</equiptype>
+</item>

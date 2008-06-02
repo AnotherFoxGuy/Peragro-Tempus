@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+	<id>1</id>
+	<name>Apple</name>
+	<icon>set:Inventory image:apple</icon>
+	<description>An apple.</description>
+	<file>/peragro/meshes/apple/apple.xml</file>
+	<mesh>apple</mesh>
+	<weight>0</weight>
+</item>

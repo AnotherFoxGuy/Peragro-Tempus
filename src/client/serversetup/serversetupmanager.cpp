@@ -62,7 +62,7 @@ namespace PT
 
       // Create and Initialize the ItemDataManager.
       itemDataManager = new PT::Data::ItemDataManager (ptrlib);
-      if (!itemDataManager->parse())
+      if (!itemDataManager->parseItems())
         Report(PT::Error, "Failed to initialize ItemDataManager!");
 
       // Create and Initialize the NpcDataManager.

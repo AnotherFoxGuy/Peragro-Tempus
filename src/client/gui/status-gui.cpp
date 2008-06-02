@@ -105,7 +105,7 @@ namespace PT
         return item;
       } // end createItemIcon()
 
-      void StatusWindow::AddSkil(const char* skillname, unsigned int skillvalue)
+      void StatusWindow::AddSkill(const char* skillname, unsigned int skillvalue)
       {
         btn = winMgr->getWindow("Status/SkillTab");
         char charskillvalue[10];

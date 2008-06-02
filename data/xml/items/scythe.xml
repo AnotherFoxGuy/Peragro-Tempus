@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+	<id>4</id>
+	<name>Scythe</name>
+	<icon>set:Inventory image:Scythe</icon>
+	<description>
+		A peaceful tool for farming or a deadly weapon
+		in sociopath's hands.
+	</description>
+	<file>/peragro/art/3d_art/props/others/scythes/scythe001/library.xml</file>
+	<mesh>genscythe001</mesh>
+	<weight>10</weight>
+	<equiptype>weapon1h</equiptype>
+</item>

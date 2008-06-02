@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+	<id>6</id>
+	<name>Book</name>
+	<icon>set:Inventory image:oldbook</icon>
+	<description>A book.</description>
+	<file>/peragro/meshes/books/book.xml</file>
+	<mesh>book</mesh>
+	<weight>1</weight>
+</item>

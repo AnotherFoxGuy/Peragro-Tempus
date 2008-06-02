@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+	<id>3</id>
+	<name>Daedalian Claymore</name>
+	<icon>set:Inventory image:fancyclaymore</icon>
+	<description>
+		A masterful sword for those born out
+		of wedlock.
+	</description>
+	<file>/peragro/art/3d_art/props/weapons/swords/bastardsword01/library</file>
+	<mesh>genbastardsword01</mesh>
+	<weight>10</weight>
+	<equiptype>weapon2h</equiptype>
+</item>
