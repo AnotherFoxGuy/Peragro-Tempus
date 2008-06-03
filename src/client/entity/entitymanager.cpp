@@ -37,7 +37,7 @@
 
 #include "common/network/netmessage.h"
 
-#include "client/event/eventmanager.h"
+#include "common/event/eventmanager.h"
 
 #include "client/state/statemanager.h"
 

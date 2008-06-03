@@ -35,7 +35,6 @@
 #include "client/pointer/pointer.h"
 
 class Effect;
-class GUIManager;
 class Network;
 
 struct iObjectRegistry;
@@ -43,6 +42,11 @@ struct iLoader;
 
 namespace PT
 {
+  namespace GUI
+  {
+    class GUIManager;
+  } // GUI namespace
+
   namespace Combat
   {
     class CombatManager

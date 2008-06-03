@@ -18,9 +18,9 @@
 
 #include "clock.h"
 #include "client/pointer/pointer.h"
-#include "client/event/environmentevent.h"
+#include "common/event/environmentevent.h"
 #include "common/reporter/reporter.h"
-#include "client/event/eventmanager.h"
+#include "common/event/eventmanager.h"
 
 #include <iengine/engine.h>
 #include <iengine/mesh.h>

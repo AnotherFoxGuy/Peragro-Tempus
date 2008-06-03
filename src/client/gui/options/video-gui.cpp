@@ -26,8 +26,8 @@
 #include <ivaria/icegui.h>
 
 #include "common/reporter/reporter.h"
-#include "client/event/eventmanager.h"
-#include "client/event/interfaceevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/interfaceevent.h"
 
 namespace PT
 {

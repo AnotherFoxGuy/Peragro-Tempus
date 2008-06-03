@@ -20,7 +20,7 @@
 #define PT_ENTITYPLAYERENTITY_H
 
 #include "client/entity/pc/pcentity.h"
-#include "client/event/event.h"
+#include "common/event/event.h"
 
 #include <iutil/cfgmgr.h>
 #include <iutil/cfgfile.h>

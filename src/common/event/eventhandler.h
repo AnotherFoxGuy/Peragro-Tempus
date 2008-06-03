@@ -30,7 +30,6 @@
 #include "eventmanager.h"
 
 #include "common/reporter/reporter.h"
-#include "client/pointer/pointer.h"
 
 struct iEvent;
 

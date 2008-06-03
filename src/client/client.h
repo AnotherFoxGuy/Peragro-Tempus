@@ -49,9 +49,9 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/regionevent.h"
-#include "client/event/inputevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/regionevent.h"
+#include "common/event/inputevent.h"
 
 #include "client/pointer/pointer.h"
 

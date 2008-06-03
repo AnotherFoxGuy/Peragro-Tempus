@@ -18,7 +18,7 @@
 
 #include "client/network/network.h"
 
-#include "client/event/eventmanager.h"
+#include "common/event/eventmanager.h"
 
 void BookHandler::handleBookReadResponse(GenericMessage* msg)
 {

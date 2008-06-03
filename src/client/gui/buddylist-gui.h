@@ -21,8 +21,8 @@
 
 #include "base-gui.h"
 
-#include "client/event/entityevent.h"
-#include "client/event/inputevent.h"
+#include "common/event/entityevent.h"
+#include "common/event/inputevent.h"
 
 #define BUDDYLISTWINDOW "BuddyList/Frame"
 

@@ -24,8 +24,8 @@
 
 #include "client/entity/entitymanager.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/entityevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/entityevent.h"
 
 #include "common/reporter/reporter.h"
 

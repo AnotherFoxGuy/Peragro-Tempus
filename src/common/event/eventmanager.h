@@ -96,8 +96,8 @@ namespace PT
       };
       friend struct Listener;
 
-      /// The pointer library.
-      PointerLibrary* pointerlib;
+      /// The object registry.
+      csRef<iObjectRegistry> object_reg;
 
       /// A mutex used while accessing the event queue.
       Mutex mutex;
@@ -126,7 +126,7 @@ namespace PT
        * Initialize the event manager.
        * @param The pointer library.
        */
-      bool Initialize(PointerLibrary* pl);
+      bool Initialize(iObjectRegistry* object_reg);
 
       /**
        * Create a new event from an event ID.

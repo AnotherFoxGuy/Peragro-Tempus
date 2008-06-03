@@ -29,7 +29,7 @@
 #include <csutil/array.h>
 #include <csutil/parray.h>
 
-#include "client/event/event.h"
+#include "event.h"
 
 #include <vector>
 #include <string>

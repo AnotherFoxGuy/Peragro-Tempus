@@ -23,7 +23,7 @@
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
-#include "client/event/eventmanager.h"
+#include "common/event/eventmanager.h"
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
 
@@ -31,7 +31,7 @@
 #include "client/gui/chat-gui.h"
 #include "client/gui/whisper-gui.h"
 
-#include "client/event/chatevent.h"
+#include "common/event/chatevent.h"
 
 #include "commands.h"
 

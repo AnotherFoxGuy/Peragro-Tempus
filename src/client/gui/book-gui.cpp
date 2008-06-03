@@ -29,8 +29,8 @@
 
 #include "common/reporter/reporter.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/bookevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/bookevent.h"
 
 namespace PT
 {

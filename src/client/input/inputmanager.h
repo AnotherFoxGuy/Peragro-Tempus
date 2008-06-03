@@ -30,7 +30,7 @@
 #include <map>
 #include "shortcutcombo.h"
 
-#include "client/event/event.h"
+#include "common/event/event.h"
 
 struct iClipboard;
 

@@ -28,8 +28,8 @@
 
 #include <string>
 
-#include "client/event/event.h"
-#include "client/event/eventmanager.h"
+#include "common/event/event.h"
+#include "common/event/eventmanager.h"
 
 #include "include/client/component/component.h"
 

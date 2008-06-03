@@ -16,17 +16,17 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file interfaceevent.h
+ * @file bookevent.h
  *
- * @brief Helper classes for interface events.
+ * @brief Helper classes for book events.
  */
 
-#ifndef PT_INTERFACE_EVENT_H
-#define PT_INTERFACE_EVENT_H
+#ifndef PT_BOOK_EVENT_H
+#define PT_BOOK_EVENT_H
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
+#include "event.h"
 
 namespace PT
 {
@@ -34,29 +34,42 @@ namespace PT
   {
     /**
      * @ingroup events
-     * Provides helper functions for interface events.
+     * Provides helper functions for books events.
      */
-    struct InterfaceHelper
+    struct BookHelper
     {
       /**
-       * Get whether an event contains the action.
+       * Gets the title of a book.
        * @param event The event.
-       * @param action The action name.
-       * @return True if the action is contained in the event.
+       * @return The book title.
        */
-      static bool ContainsAction(const iEvent* event, const char* action)
+      static std::string GetTitle(const iEvent* event)
       {
-        const char* actionsstr = "";
-        if (event->Retrieve("actions", actionsstr) != csEventErrNone)
-          return Report(PT::Error, "InterfaceHelper::ContainsAction failed!");
+        const char* titlestr = "";
+        if (event->Retrieve("title", titlestr) != csEventErrNone)
+          Report(PT::Error, "BookHelper::GetTitle failed!");
 
-        std::string actions = actionsstr;
-        return (actions.find(action) != std::string::npos);
+        std::string title = titlestr;
+        return title;
+      }
+
+      /**
+       * Gets the text of a book.
+       * @param event The event.
+       * @return The book text.
+       */
+      static std::string GetText(const iEvent* event)
+      {
+        const char* textstr = "";
+        if (event->Retrieve("text", textstr) != csEventErrNone)
+          Report(PT::Error, "BookHelper::GetMessage failed!");
+
+        std::string text = textstr;
+        return text;
       }
 
     };
-
   } // Events namespace
 } // PT namespace
 
-#endif // PT_INTERFACE_EVENT_H
+#endif // PT_BOOK_EVENT_H

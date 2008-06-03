@@ -26,17 +26,17 @@
 #include "modelmanager.h"
 #include "interiormanager.h"
 
-#include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
-#include "client/event/eventmanager.h"
-#include "client/event/regionevent.h"
+#include "common/pointer/pointerlib.h"
+#include "common/event/eventmanager.h"
+#include "common/event/regionevent.h"
 
 namespace PT
 {
   namespace World
   {
-    World::World(const char* name, iObjectRegistry* object_reg)
-      : basename(name)
+    World::World(const char* name, PointerLib* pl)
+      : pointerLibrary(pl), basename(name)
     {
       loading = false;
       camera.Set(0.0f);
@@ -50,6 +50,9 @@ namespace PT
 
       Report(PT::Notify, "Loading world %s", basename.c_str());
 
+      object_reg = pointerLibrary->getObjectRegistry();
+      if (!object_reg) Report(PT::Error, "Failed to locate Object Registry!");
+
       csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
       if (!loader) Report(PT::Error, "Failed to locate Loader!");
       csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
@@ -58,7 +61,6 @@ namespace PT
       vfs->ChDir("/peragro/art/world/");
       loader->LoadMapFile("world", false);
 
-      this->object_reg = object_reg;
       modelManager = new ModelManager(object_reg);
       interiorManager = new InteriorManager(this);
 
@@ -318,10 +320,7 @@ namespace PT
         if (!interiorManager->IsReady())
           allLoaded = false;
 
-        //printf("I: World loading progress %.2f!\n",
-        //  (tilesLoaded/(float)(GetGridSize()*GetGridSize())));
-        PT::Events::EventManager* evmgr =
-          PointerLibrary::getInstance()->getEventManager();
+        PT::Events::EventManager* evmgr = pointerLibrary->getEventManager();
         csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
         worldEvent->Add("progress",
           tilesLoaded/static_cast<float>(GetGridSize()*GetGridSize()));
@@ -406,8 +405,7 @@ namespace PT
       {
         Report(PT::Notify, "World loading...");
 
-        PT::Events::EventManager* evmgr =
-          PointerLibrary::getInstance()->getEventManager();
+        PT::Events::EventManager* evmgr = pointerLibrary->getEventManager();
         csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
         worldEvent->Add("progress", 0.0f);
         evmgr->AddEvent(worldEvent);

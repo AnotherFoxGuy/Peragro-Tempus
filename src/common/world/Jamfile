@@ -1,7 +1,7 @@
-SubDir TOP src client world ;
+SubDir TOP src common world ;
 
-SubInclude TOP src client world levelloader ;
-SubInclude TOP src client world factoryloader ;
+SubInclude TOP src common world levelloader ;
+SubInclude TOP src common world factoryloader ;
 
 Description worldloader : "World loader" ;
 Library worldloader :

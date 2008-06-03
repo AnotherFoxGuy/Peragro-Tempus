@@ -28,8 +28,8 @@
 
 #include "common/reporter/reporter.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/interfaceevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/interfaceevent.h"
 
 #include "client/combat/combatmanager.h"
 

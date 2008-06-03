@@ -16,17 +16,19 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file bookevent.h
+ * @file inputevent.h
  *
- * @brief Helper classes for book events.
+ * @brief Helper classes for input events.
  */
 
-#ifndef PT_BOOK_EVENT_H
-#define PT_BOOK_EVENT_H
+#ifndef PT_INPUT_EVENT_H
+#define PT_INPUT_EVENT_H
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
+#include "event.h"
+
+#include "common/reporter/reporter.h"
 
 namespace PT
 {
@@ -34,42 +36,38 @@ namespace PT
   {
     /**
      * @ingroup events
-     * Provides helper functions for books events.
+     * Provides helper functions for input events.
      */
-    struct BookHelper
+    struct InputHelper
     {
       /**
-       * Gets the title of a book.
+       * Get the action from an event.
        * @param event The event.
-       * @return The book title.
+       * @return The action string.
        */
-      static std::string GetTitle(const iEvent* event)
+      static const char* GetAction(const iEvent* event)
       {
-        const char* titlestr = "";
-        if (event->Retrieve("title", titlestr) != csEventErrNone)
-          Report(PT::Error, "BookHelper::GetTitle failed!");
-
-        std::string title = titlestr;
-        return title;
+        const char* action = "";
+        if (event->Retrieve("action", action) != csEventErrNone)
+          Report(PT::Error, "InputHelper::GetButtonState failed!");
+        return action;
       }
 
       /**
-       * Gets the text of a book.
+       * Get the button state from an event.
        * @param event The event.
-       * @return The book text.
+       * @return True if the button is down, false if up.
        */
-      static std::string GetText(const iEvent* event)
+      static bool GetButtonDown(const iEvent* event)
       {
-        const char* textstr = "";
-        if (event->Retrieve("text", textstr) != csEventErrNone)
-          Report(PT::Error, "BookHelper::GetMessage failed!");
-
-        std::string text = textstr;
-        return text;
+        bool state = false;
+        if (event->Retrieve("buttonState", state) != csEventErrNone)
+          Report(PT::Error, "InputHelper::GetButtonState failed!");
+        return state;
       }
 
     };
   } // Events namespace
 } // PT namespace
 
-#endif // PT_BOOK_EVENT_H
+#endif // PT_INPUT_EVENT_H

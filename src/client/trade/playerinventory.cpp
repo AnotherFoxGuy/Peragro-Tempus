@@ -18,8 +18,8 @@
 
 #include "playerinventory.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/tradeevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/tradeevent.h"
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"

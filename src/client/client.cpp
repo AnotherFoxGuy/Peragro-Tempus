@@ -86,7 +86,7 @@
 //#include "common/util/wincrashdump.h"
 #include "common/version.h"
 
-#include "client/world/world.h"
+#include "common/world/world.h"
 
 #include "imystarbox.h"
 
@@ -305,7 +305,7 @@ namespace PT
 
     // Create and Initialize the EventManager.
     eventManager = new PT::Events::EventManager();
-    if (!eventManager->Initialize(&pointerlib))
+    if (!eventManager->Initialize(GetObjectRegistry()))
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventManager);
 
@@ -505,7 +505,7 @@ namespace PT
     engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
 
     // Create the world.
-    world = new PT::World::World("MyWorld", GetObjectRegistry());
+    world = new PT::World::World("MyWorld", &pointerlib);
     pointerlib.setWorld(world);
 
     // Let the engine prepare all lightmaps for use and also free all images

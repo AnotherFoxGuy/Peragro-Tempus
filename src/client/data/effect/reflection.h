@@ -36,7 +36,7 @@
 
 #include <csutil/weakrefarr.h>
 
-#include "client/event/event.h"
+#include "common/event/event.h"
 
 namespace PT
 {

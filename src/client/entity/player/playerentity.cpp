@@ -31,11 +31,11 @@
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/interfaceevent.h"
-#include "client/event/entityevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/interfaceevent.h"
+#include "common/event/entityevent.h"
 
-#include "client/world/world.h"
+#include "common/world/world.h"
 
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"

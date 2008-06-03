@@ -16,25 +16,47 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file tradeevent.h
+ * @file interfaceevent.h
  *
- * @brief Helper classes for trade events.
+ * @brief Helper classes for interface events.
  */
 
-#ifndef PT_TRADE_EVENT_H
-#define PT_TRADE_EVENT_H
+#ifndef PT_INTERFACE_EVENT_H
+#define PT_INTERFACE_EVENT_H
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
+#include "event.h"
 
 namespace PT
 {
   namespace Events
   {
+    /**
+     * @ingroup events
+     * Provides helper functions for interface events.
+     */
+    struct InterfaceHelper
+    {
+      /**
+       * Get whether an event contains the action.
+       * @param event The event.
+       * @param action The action name.
+       * @return True if the action is contained in the event.
+       */
+      static bool ContainsAction(const iEvent* event, const char* action)
+      {
+        const char* actionsstr = "";
+        if (event->Retrieve("actions", actionsstr) != csEventErrNone)
+          return Report(PT::Error, "InterfaceHelper::ContainsAction failed!");
 
+        std::string actions = actionsstr;
+        return (actions.find(action) != std::string::npos);
+      }
+
+    };
 
   } // Events namespace
 } // PT namespace
 
-#endif // PT_TRADE_EVENT_H
+#endif // PT_INTERFACE_EVENT_H

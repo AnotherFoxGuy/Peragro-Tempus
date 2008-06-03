@@ -29,7 +29,7 @@
 #include <imap/loader.h>
 #include <iengine/engine.h>
 
-#include "client/event/event.h"
+#include "common/event/event.h"
 
 #include "client/environment/clock.h"
 

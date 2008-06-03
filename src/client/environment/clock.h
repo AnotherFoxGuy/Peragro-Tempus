@@ -28,7 +28,7 @@
 #include <csutil/ref.h>
 #include <iengine/engine.h>
 
-#include "client/event/eventmanager.h"
+#include "common/event/eventmanager.h"
 #include "common/util/pttime.h"
 
 struct iEngine;

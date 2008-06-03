@@ -30,8 +30,8 @@
 #include <cstool/proctex.h>
 #include <igeom/clip2d.h>
 
-#include "client/event/eventmanager.h"
-#include "client/event/regionevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/regionevent.h"
 
 #include "client/pointer/pointer.h"
 

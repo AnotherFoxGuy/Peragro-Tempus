@@ -31,7 +31,7 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/gui.h"
 
-#include "client/event/interfaceevent.h"
+#include "common/event/interfaceevent.h"
 
 #include "common/reporter/reporter.h"
 

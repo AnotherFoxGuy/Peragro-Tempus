@@ -26,7 +26,7 @@
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
+#include "event.h"
 
 #include "common/reporter/reporter.h"
 

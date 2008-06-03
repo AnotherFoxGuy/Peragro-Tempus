@@ -22,7 +22,7 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 
-#include "client/event/eventmanager.h"
+#include "common/event/eventmanager.h"
 
 #include "command.h"
 
@@ -32,10 +32,14 @@
 struct iObjectRegistry;
 
 class Network;
-class GUIManager;
 
 namespace PT
 {
+  namespace GUI
+  {
+    class GUIManager;
+  } // GUI namespace
+
   namespace Chat
   {
     class ChatManager

@@ -27,7 +27,7 @@ namespace GenMesh
 {
 
   csStringHash xmltokens;
-#define CS_TOKEN_ITEM_FILE "src/client/world/factoryloader/gmeshldr.tok"
+#define CS_TOKEN_ITEM_FILE "src/common/world/factoryloader/gmeshldr.tok"
 #include <cstool/tokenlist.h>
 #undef CS_TOKEN_ITEM_FILE
 

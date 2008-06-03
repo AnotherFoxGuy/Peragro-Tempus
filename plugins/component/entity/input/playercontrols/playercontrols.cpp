@@ -36,9 +36,9 @@
 #include "client/cursor/cursor.h"
 #include "client/effect/effectsmanager.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/entityevent.h"
-#include "client/event/inputevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/entityevent.h"
+#include "common/event/inputevent.h"
 
 #include "client/entity/entity.h"
 #include "client/entity/character/characterentity.h"

@@ -19,6 +19,8 @@
 #ifndef POINTERLIBRARY_H_
 #define POINTERLIBRARY_H_
 
+#include "common/pointer/pointerlib.h"
+
 class Cursor;
 struct iObjectRegistry;
 class Network;
@@ -86,7 +88,7 @@ namespace PT
 
 } // PT namespace
 
-class PointerLibrary
+class PointerLibrary : public PointerLib
 {
 private:
   static PointerLibrary* pointerlib;

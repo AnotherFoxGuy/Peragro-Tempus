@@ -32,7 +32,7 @@
 
 #include "client/entity/entitymanager.h"
 
-#include "client/event/entityevent.h"
+#include "common/event/entityevent.h"
 
 #include "common/reporter/reporter.h"
 

@@ -21,9 +21,9 @@
 #include "client/gui/guimanager.h"
 #include "client/entity/entitymanager.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/stateevent.h"
-#include "client/event/regionevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/stateevent.h"
+#include "common/event/regionevent.h"
 
 #include "common/reporter/reporter.h"
 

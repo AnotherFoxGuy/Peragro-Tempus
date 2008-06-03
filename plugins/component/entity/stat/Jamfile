@@ -3,5 +3,5 @@ SubDir TOP plugins component entity stat ;
 Description componentstats : "stats component" ;
 Plugin componentstats : [ Wildcard *.cpp *.h ] ;
 ExternalLibs componentstats : CRYSTAL CEL BOOST CEGUI ;
-LinkWith componentstats : reporter client-eventmanager client-component ;
+LinkWith componentstats : reporter eventmanager-cs client-component ;
 

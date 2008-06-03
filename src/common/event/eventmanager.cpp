@@ -21,7 +21,6 @@
 #include <csutil/csevent.h>
 
 #include "common/reporter/reporter.h"
-#include "client/pointer/pointer.h"
 
 namespace PT
 {
@@ -40,7 +39,7 @@ namespace PT
 
     EventManager::Listener::~Listener()
     {
-      evmgr->pointerlib->getReporter()->Report(PT::Debug, "Listener: ~Listener()");
+      Report(PT::Debug, "Listener: ~Listener()");
     }
 
     bool EventManager::Listener::HandleEvent(iEvent& ev)
@@ -49,7 +48,8 @@ namespace PT
         return handler->HandleEvent(ev);
       else
       {
-        evmgr->pointerlib->getReporter()->Report(PT::Error, "Listener: handler invalid! (%s)", evmgr->Retrieve(eventId));
+        Report(PT::Error, "Listener: handler invalid! (%s)",
+          evmgr->Retrieve(eventId));
         evmgr->RemoveListener(this);
         return false;
       }
@@ -67,17 +67,15 @@ namespace PT
         eventQueue->RemoveListener(this);
     }
 
-    bool EventManager::Initialize(PointerLibrary* pl)
+    bool EventManager::Initialize(iObjectRegistry* object_reg)
     {
-      pointerlib = pl;
+      this->object_reg = object_reg;
+      if (!object_reg) return false;
 
-      iObjectRegistry* obj_reg = pointerlib->getObjectRegistry();
-      if (!obj_reg) return false;
-
-      eventQueue = csQueryRegistry<iEventQueue> (obj_reg);
+      eventQueue = csQueryRegistry<iEventQueue> (object_reg);
       if (!eventQueue) return false;
 
-      nameRegistry = csEventNameRegistry::GetRegistry(obj_reg);
+      nameRegistry = csEventNameRegistry::GetRegistry(object_reg);
       if (!nameRegistry) return false;
 
       eventQueue->RegisterListener(this);
@@ -109,7 +107,7 @@ namespace PT
 
     void EventManager::AddListener(csEventID eventId, EventHandlerCallback* handler)
     {
-      pointerlib->getReporter()->Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
+      Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
       csRef<Listener> listen; listen.AttachNew(new Listener(this, eventId, handler));
       listeners.Push(listen);
     } // end AddListener()

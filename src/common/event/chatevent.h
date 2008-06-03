@@ -16,19 +16,17 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file inputevent.h
+ * @file chatevent.h
  *
- * @brief Helper classes for input events.
+ * @brief Helper classes for chat events.
  */
 
-#ifndef PT_INPUT_EVENT_H
-#define PT_INPUT_EVENT_H
+#ifndef PT_CHAT_EVENT_H
+#define PT_CHAT_EVENT_H
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
-
-#include "common/reporter/reporter.h"
+#include "event.h"
 
 namespace PT
 {
@@ -36,38 +34,42 @@ namespace PT
   {
     /**
      * @ingroup events
-     * Provides helper functions for input events.
+     * Provides helper funtions for chat events.
      */
-    struct InputHelper
+    struct ChatHelper
     {
       /**
-       * Get the action from an event.
+       * Gets the nickname from a chat event.
        * @param event The event.
-       * @return The action string.
+       * @return The nickname.
        */
-      static const char* GetAction(const iEvent* event)
+      static std::string GetNickName(const iEvent* event)
       {
-        const char* action = "";
-        if (event->Retrieve("action", action) != csEventErrNone)
-          Report(PT::Error, "InputHelper::GetButtonState failed!");
-        return action;
+        const char* nickstr = "";
+        if (event->Retrieve("nickName", nickstr) != csEventErrNone)
+          Report(PT::Error, "ChatHelper::GetNickName failed!");
+
+        std::string nick = nickstr;
+        return nick;
       }
 
       /**
-       * Get the button state from an event.
+       * Gets the message content of a chat event.
        * @param event The event.
-       * @return True if the button is down, false if up.
+       * @return The message.
        */
-      static bool GetButtonDown(const iEvent* event)
+      static std::string GetMessage(const iEvent* event)
       {
-        bool state = false;
-        if (event->Retrieve("buttonState", state) != csEventErrNone)
-          Report(PT::Error, "InputHelper::GetButtonState failed!");
-        return state;
+        const char* messagestr = "";
+        if (event->Retrieve("message", messagestr) != csEventErrNone)
+          Report(PT::Error, "ChatHelper::GetMessage failed!");
+
+        std::string message = messagestr;
+        return message;
       }
 
     };
   } // Events namespace
 } // PT namespace
 
-#endif // PT_INPUT_EVENT_H
+#endif // PT_CHAT_EVENT_H

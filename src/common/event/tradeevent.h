@@ -16,46 +16,25 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file regionevent.h
+ * @file tradeevent.h
  *
- * @brief Helper classes for region events.
+ * @brief Helper classes for trade events.
  */
 
-#ifndef PT_REGION_EVENT_H
-#define PT_REGION_EVENT_H
+#ifndef PT_TRADE_EVENT_H
+#define PT_TRADE_EVENT_H
 
 #include <cssysdef.h>
 
-#include "client/event/event.h"
-
-#include "common/reporter/reporter.h"
+#include "event.h"
 
 namespace PT
 {
   namespace Events
   {
-    /**
-     * @ingroup events
-     * Provides helper functions for region events.
-     */
-    struct WorldHelper
-    {
-      /**
-       * Get the current progress in loading the world.
-       * @param event The event.
-       * @return A decimal number from 0 to 1 representing the current progress.
-       */
-      static float GetProgress(const iEvent* event)
-      {
-        float progress = 0.0f;
-        if (event->Retrieve("progress", progress) != csEventErrNone)
-          Report(PT::Error, "WorldHelper::GetProgress failed!");
 
-        return progress;
-      }
 
-    };
   } // Events namespace
 } // PT namespace
 
-#endif // PT_REGION_EVENT_H
+#endif // PT_TRADE_EVENT_H

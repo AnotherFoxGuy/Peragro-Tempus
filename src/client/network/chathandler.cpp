@@ -18,8 +18,8 @@
 
 #include "client/network/network.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/chatevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/chatevent.h"
 
 void ChatHandler::handleChat(GenericMessage* msg)
 {

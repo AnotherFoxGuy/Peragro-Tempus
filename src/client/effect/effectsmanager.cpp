@@ -36,8 +36,8 @@
 
 #include <iengine/engine.h>
 
-#include "client/event/eventmanager.h"
-#include "client/event/entityevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/entityevent.h"
 
 #include "client/data/effect/effectdatamanager.h"
 #include "client/data/effect/dataeffect.h"

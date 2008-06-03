@@ -1,4 +1,4 @@
-SubDir TOP src client world factoryloader ;
+SubDir TOP src common world factoryloader ;
 
 Description threadedfactoryloader : "Threaded factory loader" ;
 Library threadedfactoryloader :

@@ -21,7 +21,7 @@
 
 #include <cssysdef.h>
 
-#include "client/event/tradeevent.h"
+#include "common/event/tradeevent.h"
 
 struct iEvent;
 

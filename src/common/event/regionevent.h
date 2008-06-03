@@ -15,33 +15,47 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file regionevent.h
+ *
+ * @brief Helper classes for region events.
+ */
 
-#ifndef PT_PLAYERINVENTORY_H
-#define PT_PLAYERINVENTORY_H
+#ifndef PT_REGION_EVENT_H
+#define PT_REGION_EVENT_H
 
 #include <cssysdef.h>
 
-#include "common/event/tradeevent.h"
+#include "event.h"
 
-struct iEvent;
+#include "common/reporter/reporter.h"
 
 namespace PT
 {
-  namespace Trade
+  namespace Events
   {
-    class PlayerInventory
+    /**
+     * @ingroup events
+     * Provides helper functions for region events.
+     */
+    struct WorldHelper
     {
-    public:
-      bool Add(iEvent& ev);
+      /**
+       * Get the current progress in loading the world.
+       * @param event The event.
+       * @return A decimal number from 0 to 1 representing the current progress.
+       */
+      static float GetProgress(const iEvent* event)
+      {
+        float progress = 0.0f;
+        if (event->Retrieve("progress", progress) != csEventErrNone)
+          Report(PT::Error, "WorldHelper::GetProgress failed!");
 
-    public:
-      PlayerInventory ();
-      ~PlayerInventory ();
+        return progress;
+      }
 
-      bool Initialize ();
     };
-
-  } // Trade namespace
+  } // Events namespace
 } // PT namespace
 
-#endif // PT_PLAYERINVENTORY_H
+#endif // PT_REGION_EVENT_H

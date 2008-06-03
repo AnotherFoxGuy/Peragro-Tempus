@@ -18,8 +18,8 @@
 
 #include "client/network/network.h"
 
-#include "client/event/eventmanager.h"
-#include "client/event/environmentevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/environmentevent.h"
 
 #include "common/reporter/reporter.h"
 

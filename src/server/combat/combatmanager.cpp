@@ -563,3 +563,4 @@ float CombatManager::GetWeaponHeft(Character* lockedCharacter)
 {
   return 10.0f;
 }
+

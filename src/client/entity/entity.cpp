@@ -35,9 +35,9 @@
 #include "common/reporter/reporter.h"
 
 #include "client/pointer/pointer.h"
-#include "client/event/eventmanager.h"
-#include "client/event/entityevent.h"
-#include "client/event/regionevent.h"
+#include "common/event/eventmanager.h"
+#include "common/event/entityevent.h"
+#include "common/event/regionevent.h"
 #include "client/data/sector/sectordatamanager.h"
 #include "client/data/sector/sector.h"
 

@@ -25,7 +25,7 @@
 
 #include <CEGUI.h>
 
-#include "client/event/event.h"
+#include "common/event/event.h"
 
 struct iObjectRegistry;
 struct iVFS;

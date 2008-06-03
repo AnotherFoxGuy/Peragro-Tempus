@@ -1,4 +1,4 @@
-SubDir TOP src client world levelloader ;
+SubDir TOP src common world levelloader ;
 
 Description threadedlevelloader : "Threaded level loader" ;
 Library threadedlevelloader :
