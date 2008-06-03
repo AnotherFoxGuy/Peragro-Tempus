@@ -34,7 +34,7 @@
 
 #include "client/event/entityevent.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"

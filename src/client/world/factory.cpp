@@ -25,7 +25,7 @@
 #include "factory.h"
 #include "factoryloader/fileloader.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 namespace PT
 {

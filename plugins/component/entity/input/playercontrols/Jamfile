@@ -3,5 +3,5 @@ SubDir TOP plugins component entity input playercontrols ;
 Description component_playercontrols : "playercontrols" ;
 Plugin component_playercontrols : [ Wildcard *.cpp *.h ] ;
 ExternalLibs component_playercontrols : CRYSTAL CEL BOOST CEGUI ;
-LinkWith component_playercontrols : client-reporter client-eventmanager client-component client-data network client-cursor util tcp-network ;
+LinkWith component_playercontrols : reporter client-eventmanager client-component client-data network client-cursor util tcp-network ;
 

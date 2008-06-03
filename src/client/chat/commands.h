@@ -38,7 +38,7 @@
 #include "command.h"
 
 #include "client/pointer/pointer.h"
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 #include "client/network/network.h"
 #include "common/network/netmessage.h"

@@ -21,7 +21,7 @@
 #include "client/event/eventmanager.h"
 #include "client/event/entityevent.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
 {

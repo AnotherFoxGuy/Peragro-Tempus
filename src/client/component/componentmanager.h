@@ -32,7 +32,7 @@
 #include "include/client/component/component.h"
 #include "include/client/component/componenttmpl.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 //--------------------------------------------------------------------------------
 #define ADD_COMPONENT(componentManager, Interface, ID)                           \

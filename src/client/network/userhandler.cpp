@@ -25,7 +25,7 @@
 #include "client/event/stateevent.h"
 #include "client/event/regionevent.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 void UserHandler::handleLoginResponse(GenericMessage* msg)
 {

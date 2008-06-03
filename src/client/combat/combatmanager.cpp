@@ -33,7 +33,7 @@
 #include <propclass/mesh.h>
 #include <propclass/prop.h>
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"

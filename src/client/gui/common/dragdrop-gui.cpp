@@ -33,7 +33,7 @@
 
 #include "client/event/interfaceevent.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 using namespace PT;
 

@@ -21,7 +21,7 @@
 #include "client/event/eventmanager.h"
 #include "client/event/stateevent.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 #include <iutil/eventq.h>
 #include "client/client.h"

@@ -30,7 +30,7 @@
 
 #include "client/entity/player/playerentity.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/event/entityevent.h"
 #include "client/network/network.h"
 #include "common/network/entitymessages.h"

@@ -21,7 +21,7 @@
 #include "client/event/eventmanager.h"
 #include "client/event/environmentevent.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 void EnvironmentHandler::handleInitTime(GenericMessage* msg)
 {

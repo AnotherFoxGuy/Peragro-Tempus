@@ -27,7 +27,7 @@
 #include "interiormanager.h"
 
 #include "client/pointer/pointer.h"
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/event/eventmanager.h"
 #include "client/event/regionevent.h"
 

@@ -27,7 +27,7 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 namespace PT
 {

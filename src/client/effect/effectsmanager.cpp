@@ -45,7 +45,7 @@
 #include "client/entity/player/playerentity.h"
 
 #include "client/pointer/pointer.h"
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 namespace PT
 {

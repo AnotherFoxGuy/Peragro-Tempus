@@ -24,7 +24,7 @@
 
 #include "client/entity/entitymanager.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 void TradeHandler::handleTradeRequest(GenericMessage* msg)
 {

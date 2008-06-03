@@ -1,0 +1,7 @@
+SubDir TOP src common reporter ;
+
+Description reporter : "reporter" ;
+Library reporter :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs reporter : CRYSTAL ;
+

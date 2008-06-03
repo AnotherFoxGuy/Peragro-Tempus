@@ -37,7 +37,7 @@
 
 #include "client/entity/entity.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 #define YAW_SPEED 2.0f

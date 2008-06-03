@@ -20,7 +20,7 @@
 #include "gui.h"
 #include "guimanager.h"
 #include "client/event/eventmanager.h"
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 #include <iutil/vfs.h>
 #include <iutil/objreg.h>

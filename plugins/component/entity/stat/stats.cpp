@@ -31,7 +31,7 @@
 //#include "client/entity/player/playerentity.h"
 //#include "client/entity/pc/pcentity.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 CS_IMPLEMENT_PLUGIN

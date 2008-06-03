@@ -20,7 +20,7 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 void QuestHandler::handleNpcDialog(GenericMessage* msg)
 {

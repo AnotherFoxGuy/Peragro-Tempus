@@ -44,7 +44,7 @@
 #include "client/data/sector/sectordatamanager.h"
 #include "client/data/sector/sector.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 CS_IMPLEMENT_PLUGIN

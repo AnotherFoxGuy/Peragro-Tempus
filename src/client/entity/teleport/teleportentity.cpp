@@ -29,7 +29,7 @@
 #include "client/data/teleport/teleportdatamanager.h"
 #include "client/data/teleport/teleport.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 #include "client/event/eventmanager.h"

@@ -29,7 +29,7 @@
 #include "client/state/statemanager.h"
 #include "common/version.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 namespace PT
 {

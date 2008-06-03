@@ -18,7 +18,7 @@
 
 #include "client/gui/common/inventory.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 Inventory::Inventory(PT::GUI::GUIManager* guimanager)
 {

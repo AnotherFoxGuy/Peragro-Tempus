@@ -2,4 +2,5 @@ SubDir TOP src common ;
 
 SubInclude TOP src common events ;
 SubInclude TOP src common network ;
+SubInclude TOP src common reporter ;
 SubInclude TOP src common util ;

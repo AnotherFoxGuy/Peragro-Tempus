@@ -62,7 +62,7 @@
 #include <propclass/prop.h>
 #include <propclass/mesh.h>
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 #include "cursor/cursor.h"
 #include "client/network/network.h"

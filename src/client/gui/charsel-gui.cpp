@@ -26,7 +26,7 @@
 #include "client/gui/guimanager.h"
 #include "client/entity/entitymanager.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 namespace PT
 {

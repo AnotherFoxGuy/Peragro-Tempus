@@ -28,7 +28,7 @@
 
 #include <iutil/event.h>
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 namespace PT
 {

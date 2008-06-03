@@ -41,7 +41,7 @@
 
 #include "client/state/statemanager.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 #include "client/cursor/cursor.h"
 

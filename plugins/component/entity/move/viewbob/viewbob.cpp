@@ -36,7 +36,7 @@
 #include "client/entity/entity.h"
 #include "client/entity/player/playerentity.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 // These defines should probably go to configuration file.

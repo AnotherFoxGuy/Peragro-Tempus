@@ -20,7 +20,7 @@
 
 #include <csutil/csevent.h>
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 namespace PT

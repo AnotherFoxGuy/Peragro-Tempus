@@ -23,7 +23,7 @@
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
 #include "client/data/sector/sector.h"

@@ -20,7 +20,7 @@
 #include "client/client.h"
 #include "client/combat/combatmanager.h"
 
-#include "client/reporter/reporter.h"
+#include "common/reporter/reporter.h"
 
 void SkillHandler::handleSkillUsageStartResponse(GenericMessage* msg)
 {
