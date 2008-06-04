@@ -35,7 +35,7 @@ struct iObjectRegistry;
 struct iEngineFrameCallback;
 class csVector3;
 
-class PointerLib;
+class iPointerLibrary;
 
 namespace PT
 {
@@ -96,7 +96,7 @@ namespace PT
       /// The object registry.
       iObjectRegistry* object_reg;
       /// The pointer library.
-      PointerLib* pointerLibrary;
+      iPointerLibrary* pointerLibrary;
       /// The model manager.
       ModelManager* modelManager;
       /// The interior manager.
@@ -124,7 +124,7 @@ namespace PT
        * @param name The world name.
        * @param pl The pointer library.
        */
-      World(const char* name, PointerLib* pl);
+      World(const char* name, iPointerLibrary* pl);
       /// Destructor.
       ~World();
 

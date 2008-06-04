@@ -27,7 +27,7 @@
 #include "interiormanager.h"
 
 #include "common/reporter/reporter.h"
-#include "common/pointer/pointerlib.h"
+#include "common/pointer/ipointer.h"
 #include "common/event/eventmanager.h"
 #include "common/event/regionevent.h"
 
@@ -35,7 +35,7 @@ namespace PT
 {
   namespace World
   {
-    World::World(const char* name, PointerLib* pl)
+    World::World(const char* name, iPointerLibrary* pl)
       : pointerLibrary(pl), basename(name)
     {
       loading = false;

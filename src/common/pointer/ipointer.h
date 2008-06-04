@@ -36,17 +36,17 @@ namespace PT
 
 } // PT namespace
 
-class PointerLib
+class iPointerLibrary
 {
 public:
   /**
    * Constructor.
    */
-  PointerLib() {}
+  iPointerLibrary() {}
   /**
    * Virtual destructor.
    */
-  virtual ~PointerLib() {}
+  virtual ~iPointerLibrary() {}
 
   /// Set the object registry.
   virtual void setObjectRegistry(iObjectRegistry* objreg) = 0;
