@@ -44,6 +44,7 @@ void ZoneManager::loadFromDB(ZonesTable* zonestable, ZonenodesTable* zonenodesta
     {
       zone.coords.push_back(PtVector2(nodes[i2]->x,nodes[i2]->z));
     }
+    nodes.delAll();
     zones.push_back(zone);
   }
 }
