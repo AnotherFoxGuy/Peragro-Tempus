@@ -27,6 +27,8 @@ echo "--> Configuring source tree."
 ./configure --without-cs --without-cel --without-CEGUI --without-pthread --without-boost > /dev/null
 echo "--> Generating project files."
 jam msvcgen > /dev/null
+echo "--> Deleting old files."
+rm msvc/*/*
 echo "--> Copying generated files to source tree."
 cp -rf out/msvc/* msvc/
 cd msvc
@@ -43,6 +45,9 @@ cd ../common
 svn add *
 cd ../..
 echo "--> Committing to SVN Repository if changes were found."
-svn ci . -m "Automated MSVC project file regeneration."
+svn status
+svn status | grep "\!" | awk ' { print $2 } ' | xargs svn del
+svn status
+#svn ci . -m "Automated MSVC project file regeneration."
 cd ../..
 echo "--> Done."
