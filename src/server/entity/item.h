@@ -21,6 +21,7 @@
 
 #include "common/util/monitorable.h"
 #include "common/util/ptstring.h"
+#include "server/entity/itemstats.h"
 
 class Item : public ptMonitorable<Item>
 {
@@ -41,6 +42,8 @@ private:
   float weight;
 
   ptString equiptype;
+
+  ItemStats stats;
 
 public:
   enum ItemType
@@ -86,6 +89,10 @@ public:
   void setEquiptype(ptString x) { equiptype = x; }
 
   bool isEquipable() const { return false; }
+
+  ItemStats* getStats() { return &stats; }
+
+
 };
 
 #endif // ITEM_H_
