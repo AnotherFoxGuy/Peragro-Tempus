@@ -307,7 +307,7 @@
 				RelativePath="..\..\src\client\data\datamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\doordatamanager.cpp">
+				RelativePath="..\..\src\client\data\door\doordatamanager.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\effectdatamanager.cpp">
@@ -316,25 +316,25 @@
 				RelativePath="..\..\src\client\data\effect\reflection.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\itemdatamanager.cpp">
+				RelativePath="..\..\src\client\data\item\itemdatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\npcdatamanager.cpp">
+				RelativePath="..\..\src\client\data\npc\npcdatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\sectordatamanager.cpp">
+				RelativePath="..\..\src\client\data\sector\sectordatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\skilldatamanager.cpp">
+				RelativePath="..\..\src\client\data\skill\skilldatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\spawnpointdatamanager.cpp">
+				RelativePath="..\..\src\client\data\spawn\spawnpointdatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\teleportdatamanager.cpp">
+				RelativePath="..\..\src\client\data\teleport\teleportdatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\zonedatamanager.cpp">
+				RelativePath="..\..\src\client\data\zone\zonedatamanager.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -350,10 +350,10 @@
 				RelativePath="..\..\src\client\data\datamanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\door.h">
+				RelativePath="..\..\src\client\data\door\door.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\doordatamanager.h">
+				RelativePath="..\..\src\client\data\door\doordatamanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\effect\dataeffect.h">
@@ -365,46 +365,46 @@
 				RelativePath="..\..\src\client\data\effect\reflection.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\item.h">
+				RelativePath="..\..\src\client\data\item\item.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\itemdatamanager.h">
+				RelativePath="..\..\src\client\data\item\itemdatamanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\npc.h">
+				RelativePath="..\..\src\client\data\npc\npc.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\npcdatamanager.h">
+				RelativePath="..\..\src\client\data\npc\npcdatamanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\sector.h">
+				RelativePath="..\..\src\client\data\sector\sector.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\sectordatamanager.h">
+				RelativePath="..\..\src\client\data\sector\sectordatamanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\skill.h">
+				RelativePath="..\..\src\client\data\skill\skill.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\skilldatamanager.h">
+				RelativePath="..\..\src\client\data\skill\skilldatamanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\spawnpoint.h">
+				RelativePath="..\..\src\client\data\spawn\spawnpoint.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\spawnpointdatamanager.h">
+				RelativePath="..\..\src\client\data\spawn\spawnpointdatamanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\teleport.h">
+				RelativePath="..\..\src\client\data\teleport\teleport.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\teleportdatamanager.h">
+				RelativePath="..\..\src\client\data\teleport\teleportdatamanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\zone.h">
+				RelativePath="..\..\src\client\data\zone\zone.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\zonedatamanager.h">
+				RelativePath="..\..\src\client\data\zone\zonedatamanager.h">
 			</File>
 		</Filter>
 	</Files>

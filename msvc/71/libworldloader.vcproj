@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\client\world;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\src\common\world;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\client\world;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\src\common\world;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\client\world;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\src\common\world;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\client\world;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\src\common\world;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -301,50 +301,50 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\world\factory.cpp">
+				RelativePath="..\..\src\common\world\factory.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\interior.cpp">
+				RelativePath="..\..\src\common\world\interior.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\interiormanager.cpp">
+				RelativePath="..\..\src\common\world\interiormanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\level.cpp">
+				RelativePath="..\..\src\common\world\level.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\maptile.cpp">
+				RelativePath="..\..\src\common\world\maptile.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\modelmanager.cpp">
+				RelativePath="..\..\src\common\world\modelmanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\world.cpp">
+				RelativePath="..\..\src\common\world\world.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\world\factory.h">
+				RelativePath="..\..\src\common\world\factory.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\interior.h">
+				RelativePath="..\..\src\common\world\interior.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\interiormanager.h">
+				RelativePath="..\..\src\common\world\interiormanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\level.h">
+				RelativePath="..\..\src\common\world\level.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\maptile.h">
+				RelativePath="..\..\src\common\world\maptile.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\modelmanager.h">
+				RelativePath="..\..\src\common\world\modelmanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\world\world.h">
+				RelativePath="..\..\src\common\world\world.h">
 			</File>
 		</Filter>
 	</Files>
