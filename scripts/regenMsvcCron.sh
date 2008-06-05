@@ -45,9 +45,7 @@ cd ../common
 svn add *
 cd ../..
 echo "--> Committing to SVN Repository if changes were found."
-svn status
 svn status | grep "\!" | awk ' { print $2 } ' | xargs svn del
-svn status
-#svn ci . -m "Automated MSVC project file regeneration."
+svn ci . -m "Automated MSVC project file regeneration."
 cd ../..
 echo "--> Done."
