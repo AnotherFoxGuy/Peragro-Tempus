@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2007 Development Team of Peragro Tempus
+    Copyright (C) 2007-2008 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,214 +18,207 @@
 
 #include "shortcutcombo.h"
 
-//We use '-' for our own perverted purposes of separating the keys
+// We use '-' for our own perverted purposes of separating the keys.
 #define CSKEY_DASH '-'
-
-//Number of special keys in our local Keys variable
-//Keep this up-to-date or gnomes will come and eat you!
-#define SPECIAL_KEY_COUNT 41
-#define NOT_SPECIAL_KEY SPECIAL_KEY_COUNT+1
-
-struct Key
-{
-  uint32 code;
-  std::string name;
-};
-
-struct Key Keys[SPECIAL_KEY_COUNT] =
-{
-  { CSKEY_ALT_LEFT    , "AltL"      },
-  { CSKEY_ALT_RIGHT   , "AltR"      },
-  { CSKEY_CTRL_LEFT   , "CtrlL"     },
-  { CSKEY_CTRL_RIGHT  , "CtrlR"     },
-  { CSKEY_SHIFT_LEFT  , "ShiftL"    },
-  { CSKEY_SHIFT_RIGHT , "ShiftR"    },
-  { CSKEY_TAB         , "Tab"       },
-  { CSKEY_SPACE       , "Space"     },
-  { CSKEY_ESC         , "Esc"       },
-  { CSKEY_ENTER       , "Enter"     },
-  { CSKEY_BACKSPACE   , "Bs"        },
-  { CSKEY_UP          , "Up"        },
-  { CSKEY_DOWN        , "Down"      },
-  { CSKEY_RIGHT       , "Right"     },
-  { CSKEY_LEFT        , "Left"      },
-  { CSKEY_PGUP        , "PageUp"    },
-  { CSKEY_PGDN        , "PageDown"  },
-  { CSKEY_HOME        , "Home"      },
-  { CSKEY_END         , "End"       },
-  { CSKEY_INS         , "Ins"       },
-  { CSKEY_DEL         , "Del"       },
-  { CSKEY_F1          , "F1"        },
-  { CSKEY_F2          , "F2"        },
-  { CSKEY_F3          , "F3"        },
-  { CSKEY_F4          , "F4"        },
-  { CSKEY_F5          , "F5"        },
-  { CSKEY_F6          , "F6"        },
-  { CSKEY_F7          , "F7"        },
-  { CSKEY_F8          , "F8"        },
-  { CSKEY_F9          , "F9"        },
-  { CSKEY_F10         , "F10"       },
-  { CSKEY_F11         , "F11"       },
-  { CSKEY_F12         , "F12"       },
-  { CSKEY_DASH        , "Dash"      },
-  { csmbLeft          , "LMB"       },
-  { csmbRight         , "RMB"       },
-  { csmbMiddle        , "MMB"       },
-  { csmbWheelUp       , "WLUP"      },
-  { csmbWheelDown     , "WLDOWN"    },
-  { csmbExtra1        , "MBX1"      },
-  { csmbExtra2        , "MBX2"      }
-};
-
-/**
- * Does a lookup of key code based on key name.
- * @param name Name of the key (CtrlL, F1, letter, or printable sign).
- * @return Index of the found code-name pair in Keys array, or NOT_SPECIAL_KEY.
- */
-int Lookup(const std::string& name)
-{
-  int i;
-  for (i=0; i<SPECIAL_KEY_COUNT; i++)
-    if (Keys[i].name == name) return i;
-  return NOT_SPECIAL_KEY;
-}
-
-/**
- * Does a lookup of key name based on key code.
- * @param code Code of the key.
- * @return Index of the found name-code in Keys array, or NOT_SPECIAL_KEY.
- */
-int Lookup(const uint32& code)
-{
-  int i;
-  for (i=0; i<SPECIAL_KEY_COUNT; i++)
-    if (Keys[i].code == code) return i;
-  return NOT_SPECIAL_KEY;
-}
 
 namespace PT
 {
-  ShortcutCombo::ShortcutCombo()
+  namespace Input
   {
-  keyCode = 0;
-  shift   = false;
-  alt     = false;
-  ctrl    = false;
-  }
+    ShortcutCombo::Key ShortcutCombo::SpecialKeys[] =
+    {
+      { CSKEY_ALT_LEFT    , "AltL"      },
+      { CSKEY_ALT_RIGHT   , "AltR"      },
+      { CSKEY_CTRL_LEFT   , "CtrlL"     },
+      { CSKEY_CTRL_RIGHT  , "CtrlR"     },
+      { CSKEY_SHIFT_LEFT  , "ShiftL"    },
+      { CSKEY_SHIFT_RIGHT , "ShiftR"    },
+      { CSKEY_TAB         , "Tab"       },
+      { CSKEY_SPACE       , "Space"     },
+      { CSKEY_ESC         , "Esc"       },
+      { CSKEY_ENTER       , "Enter"     },
+      { CSKEY_BACKSPACE   , "Bs"        },
+      { CSKEY_UP          , "Up"        },
+      { CSKEY_DOWN        , "Down"      },
+      { CSKEY_RIGHT       , "Right"     },
+      { CSKEY_LEFT        , "Left"      },
+      { CSKEY_PGUP        , "PageUp"    },
+      { CSKEY_PGDN        , "PageDown"  },
+      { CSKEY_HOME        , "Home"      },
+      { CSKEY_END         , "End"       },
+      { CSKEY_INS         , "Ins"       },
+      { CSKEY_DEL         , "Del"       },
+      { CSKEY_F1          , "F1"        },
+      { CSKEY_F2          , "F2"        },
+      { CSKEY_F3          , "F3"        },
+      { CSKEY_F4          , "F4"        },
+      { CSKEY_F5          , "F5"        },
+      { CSKEY_F6          , "F6"        },
+      { CSKEY_F7          , "F7"        },
+      { CSKEY_F8          , "F8"        },
+      { CSKEY_F9          , "F9"        },
+      { CSKEY_F10         , "F10"       },
+      { CSKEY_F11         , "F11"       },
+      { CSKEY_F12         , "F12"       },
+      { CSKEY_DASH        , "Dash"      },
+      { csmbLeft          , "LMB"       },
+      { csmbRight         , "RMB"       },
+      { csmbMiddle        , "MMB"       },
+      { csmbWheelUp       , "WLUP"      },
+      { csmbWheelDown     , "WLDOWN"    },
+      { csmbExtra1        , "MBX1"      },
+      { csmbExtra2        , "MBX2"      }
+    };
 
-  ShortcutCombo::ShortcutCombo(const iEvent& ev, bool keyboard)
-  {
-    if (keyboard) SetFromKeyEvent(ev);
-    else SetFromMouseEvent(ev);
-  }
+    const size_t ShortcutCombo::SPECIAL_KEY_COUNT =
+      (sizeof(SpecialKeys)/sizeof(Key));
+    const size_t ShortcutCombo::NOT_SPECIAL_KEY = SPECIAL_KEY_COUNT + 1;
 
-  ShortcutCombo::ShortcutCombo(const std::string& keyStr)
-  {
-    SetFromConfigString(keyStr);
-  }
+    ShortcutCombo::ShortcutCombo()
+    {
+      keyCode = 0;
+      shift = false;
+      alt = false;
+      ctrl = false;
+    } // end ShortcutCombo()
 
-  ShortcutCombo::~ShortcutCombo()
-  {
-  }
+    ShortcutCombo::ShortcutCombo(const iEvent& ev, bool keyboard)
+    {
+      if (keyboard) SetFromKeyEvent(ev);
+      else SetFromMouseEvent(ev);
+    } // end ShortcutCombo()
 
-  std::string ShortcutCombo::GetConfigKey() const
-  {
-    std::string shortcut;
-    int i;
+    ShortcutCombo::ShortcutCombo(const std::string& keyStr)
+    {
+      SetFromConfigString(keyStr);
+    } // end ShortcutCombo()
 
-    //First write the modifiers
-    if (shift) shortcut += ("shift-");
-    if (alt)   shortcut += ("alt-");
-    if (ctrl)  shortcut += ("ctrl-");
+    ShortcutCombo::~ShortcutCombo()
+    {
+    } // end ~ShortcutCombo()
 
-    //Lookup the index of keyCode in special characters
-    i = Lookup(keyCode);
+    std::string ShortcutCombo::GetConfigKey() const
+    {
+      std::string shortcut;
+      size_t i;
 
-    if (i == NOT_SPECIAL_KEY)
-      shortcut += keyCode;
-    else
-      shortcut += Keys[i].name;
+      // First write the modifiers.
+      if (shift) shortcut += ("shift-");
+      if (alt) shortcut += ("alt-");
+      if (ctrl) shortcut += ("ctrl-");
 
-    return shortcut;
-  }
+      // Lookup the index of keyCode in special characters.
+      i = Lookup(keyCode);
 
-  bool ShortcutCombo::SetFromConfigString(const std::string& keyStr)
-  {
-    size_t i;
-    std::string key;
+      if (i == NOT_SPECIAL_KEY)
+        shortcut += keyCode;
+      else
+        shortcut += SpecialKeys[i].name;
 
-    //First check for existance of modifiers
-    if (keyStr.find("shift-") == std::string::npos) shift=false;
-    else shift = true;
-    if (keyStr.find("alt-") == std::string::npos) alt = false;
-    else alt = true;
-    if (keyStr.find("ctrl-") == std::string::npos) ctrl = false;
-    else ctrl = true;
+      return shortcut;
+    } // end GetConfigKey()
 
-    //Our actual keyCode resides after the last dash, if any
-    i=keyStr.find_last_of('-');
-    if (i == std::string::npos) key = keyStr;
-    else key = keyStr.substr(i+1);
+    bool ShortcutCombo::SetFromConfigString(const std::string& keyStr)
+    {
+      size_t i;
+      std::string key;
 
-    //Is it a printable key?
-    if (key.length() == 1)
+      // First check for existance of modifiers.
+      if (keyStr.find("shift-") == std::string::npos) shift = false;
+      else shift = true;
+      if (keyStr.find("alt-") == std::string::npos) alt = false;
+      else alt = true;
+      if (keyStr.find("ctrl-") == std::string::npos) ctrl = false;
+      else ctrl = true;
+
+      // Our actual keyCode resides after the last dash, if any.
+      i = keyStr.find_last_of('-');
+      if (i == std::string::npos) key = keyStr;
+      else key = keyStr.substr(i + 1);
+
+      // Is it a printable key?
+      if (key.length() == 1)
       {
-      keyCode = key[0];
-      //We will treat letters only in lower-case, if user was an idiot, repair it
-      //TODO: Do the same with !@# etc characters?
-      if (keyCode>='A' && keyCode) keyCode+='a'-'A';
+        // We will treat letters only in lower-case, if not, repair it.
+        // TODO: Do the same with !@# etc characters?
+        keyCode = tolower(key[0]);
       }
-    else if ((i = Lookup(key)) != NOT_SPECIAL_KEY) keyCode = Keys[i].code; //Was our key a special key?
-    else return false; //Failed to recognize the key
+      else if ((i = Lookup(key)) != NOT_SPECIAL_KEY) // Was our key a special key?
+      {
+        keyCode = SpecialKeys[i].code;
+      }
+      else // Failed to recognize the key.
+        return false;
 
-    return true; //The key was properly recognized
-  }
+      return true; // The key was properly recognized.
+    } // end SetFromConfigString()
 
-  void ShortcutCombo::SetFromKeyEvent(const iEvent &ev)
-  {
-    csKeyModifiers m;
+    void ShortcutCombo::SetFromKeyEvent(const iEvent &ev)
+    {
+      csKeyModifiers m;
 
-    //Get raw code
-    keyCode = csKeyEventHelper::GetRawCode(&ev);
-    csKeyEventHelper::GetModifiers(&ev,m);
+      // Get raw code.
+      keyCode = csKeyEventHelper::GetRawCode(&ev);
+      csKeyEventHelper::GetModifiers(&ev,m);
 
-    //Setup shift/alt/ctrl modifiers
-    shift = m.modifiers[csKeyModifierTypeShift] != 0;
-    alt   = m.modifiers[csKeyModifierTypeAlt] != 0;
-    ctrl  = m.modifiers[csKeyModifierTypeCtrl] != 0;
-  }
+      // Setup shift/alt/ctrl modifiers.
+      shift = m.modifiers[csKeyModifierTypeShift] != 0;
+      alt = m.modifiers[csKeyModifierTypeAlt] != 0;
+      ctrl = m.modifiers[csKeyModifierTypeCtrl] != 0;
+    } // end SetFromKeyEvent()
 
-  void ShortcutCombo::SetFromMouseEvent(const iEvent &ev)
-  {
-    csKeyModifiers m;
+    void ShortcutCombo::SetFromMouseEvent(const iEvent &ev)
+    {
+      csKeyModifiers m;
 
-    //Get raw code
-    keyCode=csMouseEventHelper::GetButton(&ev);
-    csKeyEventHelper::GetModifiers(&ev,m);
+      // Get raw code.
+      keyCode = csMouseEventHelper::GetButton(&ev);
+      csKeyEventHelper::GetModifiers(&ev,m);
 
-    //Setup shift/alt/ctrl modifiers
-    shift=m.modifiers[csKeyModifierTypeShift];
-    alt=m.modifiers[csKeyModifierTypeAlt];
-    ctrl=m.modifiers[csKeyModifierTypeCtrl];
-  }
+      // Setup shift/alt/ctrl modifiers.
+      shift = m.modifiers[csKeyModifierTypeShift];
+      alt = m.modifiers[csKeyModifierTypeAlt];
+      ctrl = m.modifiers[csKeyModifierTypeCtrl];
+    } // end SetFromMouseEvent()
 
-//
-//Operators needed for the std::map
-//
-  bool operator==(const ShortcutCombo& c1, const ShortcutCombo& c2)
-  {
-    return (c1.keyCode == c2.keyCode && c1.shift == c2.shift
-            && c1.ctrl == c2.ctrl && c1.alt == c2.alt);
-  }
+    size_t ShortcutCombo::Lookup(const std::string& name)
+    {
+      for (size_t i = 0; i < SPECIAL_KEY_COUNT; ++i)
+      {
+        if (SpecialKeys[i].name == name)
+          return i;
+      }
+      return NOT_SPECIAL_KEY;
+    } // end Lookup()
 
-  bool operator<(const ShortcutCombo& c1, const ShortcutCombo& c2)
-  {
-    if (c1.keyCode<c2.keyCode) return true;
+    size_t ShortcutCombo::Lookup(const uint32& code)
+    {
+      for (size_t i = 0; i < SPECIAL_KEY_COUNT; ++i)
+      {
+        if (SpecialKeys[i].code == code)
+          return i;
+      }
+      return NOT_SPECIAL_KEY;
+    } // end Lookup()
 
-    else if (c1.keyCode > c2.keyCode) return false;
-    else if (c1.shift < c2.shift) return true;
-    else if (c1.alt < c2.alt) return true;
-    else if (c1.ctrl < c2.ctrl) return true;
-    return false;
-  }
-}
+    // Operators needed for the std::map.
+
+    bool ShortcutCombo::operator==(const ShortcutCombo& c2) const
+    {
+      return (keyCode == c2.keyCode && shift == c2.shift
+              && ctrl == c2.ctrl && alt == c2.alt);
+    }
+
+    bool ShortcutCombo::operator<(const ShortcutCombo& c2) const
+    {
+      if (keyCode<c2.keyCode) return true;
+
+      else if (keyCode > c2.keyCode) return false;
+      else if (shift < c2.shift) return true;
+      else if (alt < c2.alt) return true;
+      else if (ctrl < c2.ctrl) return true;
+      return false;
+    }
+
+  } // Input namespace
+} // PT namespace

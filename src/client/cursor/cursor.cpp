@@ -21,6 +21,7 @@
 #include <cstool/collider.h>
 #include <iengine/camera.h>
 #include <iengine/sector.h>
+#include <csutil/event.h>
 
 #include <physicallayer/pl.h>
 #include <physicallayer/propfact.h>

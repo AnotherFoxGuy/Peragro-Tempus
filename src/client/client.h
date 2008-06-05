@@ -49,14 +49,7 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/regionevent.h"
-#include "common/event/inputevent.h"
-
 #include "client/pointer/pointer.h"
-
-#include "client/input/inputmanager.h"
-#include "client/state/statemanager.h"
 
 struct iPcDefaultCamera;
 struct iSector;
@@ -78,6 +71,7 @@ namespace CEGUI
 namespace PT
 {
   class Reporter;
+  class StateManager;
 
   namespace Events
   {
@@ -101,6 +95,11 @@ namespace PT
       class HUDWindow;
     }
   } // GUI namespace
+
+  namespace Input
+  {
+    class InputManager;
+  } // Input namespace
 
   namespace Misc
   {
@@ -238,7 +237,7 @@ namespace PT
     PT::Data::ConnectionDataManager* connectionDataManager;
     PT::Misc::ServerSetupManager* serverSetupManager;
     PT::GUI::GUIManager* guiManager;
-    PT::InputManager* inputManager;
+    PT::Input::InputManager* inputManager;
     PT::StateManager* stateManager;
     PT::Environment::EnvironmentManager* environmentManager;
     PT::Reflection::ReflectionRenderer* reflectionRenderer;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2007 Development Team of Peragro Tempus
+    Copyright (C) 2007-2008 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file inputmanager.h
+ *
+ * @basic Handles keyboard and mouse input.
+ */
 
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
@@ -38,56 +43,72 @@ namespace PT
 {
   class Client;
 
-  class InputManager : public csBaseEventHandler
+  namespace Input
   {
-  private:
-    /// Clipboard access provider
-    csRef<iClipboard> csTheClipboard;
-    bool ClipboardCopy(iEvent& ev);
-    bool ClipboardCut(iEvent& ev);
-    bool ClipboardPaste(iEvent& ev);
-    bool DoCopy(bool cuttext);
-
-    std::map<ShortcutCombo,std::string> functions;
-
     /**
-     * Invoked by the InputManager when a mouse event is received.
-     * @param ev Description of a mouse event.
-     * @return True if a new action was triggered, false otherwise.
+     * Handles keyboard and mouse input.
      */
-    bool OnMouse(iEvent& ev);
+    class InputManager : public csBaseEventHandler
+    {
+    private:
+      /// Clipboard access provider.
+      csRef<iClipboard> csTheClipboard;
+      /// Map of shortcutcombos to commands.
+      std::map<ShortcutCombo,std::string> functions;
 
-  public:
-    InputManager();
+      /// Handler for the clipboard copy event. Calls DoCopy(false).
+      bool ClipboardCopy(iEvent& ev);
+      /// Handler for the clipboard cut event. Calls DoCopy(true).
+      bool ClipboardCut(iEvent& ev);
+      /// Handler for the clipboard paste event.
+      bool ClipboardPaste(iEvent& ev);
+      /**
+       * Handler for cut and paste events.
+       * @param cuttext Whether this is a cut or paste event.
+       * @return True.
+       */
+      bool DoCopy(bool cuttext);
 
-    /**
-     * Initializes the InputManager. Amongst other things, configuration file is read.
-     * @return True if operation succeeded, false otherwise.
-     */
-    bool Initialize();
+      /**
+       * Invoked by the InputManager when a mouse event is received.
+       * @param ev Description of a mouse event.
+       * @return True if a new action was triggered, false otherwise.
+       */
+      bool OnMouse(iEvent& ev);
 
-    /**
-     * Invoked by the InputManager when a keyboard event is received.
-     * @param ev Description of a keyboard event.
-     * @return True if a new action was triggered, false otherwise.
-     */
-    bool OnKeyboard(iEvent& ev);
-    /**
-     * Invoked by the InputManager when a mouse down event is received.
-     * This method actually just wraps around the private OnMouse() member.
-     * @param ev Description of a mouse event.
-     * @return True if a new action was triggered, false otherwise.
-     */
-    bool OnMouseDown(iEvent& ev);
-    /**
-     * Invoked by the InputManager when a mouse up event is received.
-     * This method actually just wraps around the private OnMouse() member.
-     * @param ev Description of a mouse event.
-     * @return True if a new action was triggered, false otherwise.
-     */
-    bool OnMouseUp(iEvent& ev);
-  };
+    public:
+      /// Constructor.
+      InputManager();
 
-}// PT namespace
+      /**
+       * Initializes the InputManager. Amongst other things, configuration file is read.
+       * @return True if operation succeeded, false otherwise.
+       */
+      bool Initialize();
+
+      /**
+       * Invoked by the InputManager when a keyboard event is received.
+       * @param ev Description of a keyboard event.
+       * @return True if a new action was triggered, false otherwise.
+       */
+      bool OnKeyboard(iEvent& ev);
+      /**
+       * Invoked by the InputManager when a mouse down event is received.
+       * This method actually just wraps around the private OnMouse() member.
+       * @param ev Description of a mouse event.
+       * @return True if a new action was triggered, false otherwise.
+       */
+      bool OnMouseDown(iEvent& ev);
+      /**
+       * Invoked by the InputManager when a mouse up event is received.
+       * This method actually just wraps around the private OnMouse() member.
+       * @param ev Description of a mouse event.
+       * @return True if a new action was triggered, false otherwise.
+       */
+      bool OnMouseUp(iEvent& ev);
+    };
+
+  } // Input namespace
+} // PT namespace
 
 #endif // INPUTMANAGER_H

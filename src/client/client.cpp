@@ -68,6 +68,7 @@
 #include "client/network/network.h"
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
+#include "client/input/inputmanager.h"
 #include "client/effect/effectsmanager.h"
 #include "client/data/effect/effectdatamanager.h"
 #include "client/data/connection/connectiondatamanager.h"
@@ -82,6 +83,11 @@
 #include "client/environment/environmentmanager.h"
 #include "client/component/componentmanager.h"
 #include "client/trade/trademanager.h"
+#include "client/state/statemanager.h"
+
+#include "common/event/eventmanager.h"
+#include "common/event/regionevent.h"
+#include "common/event/inputevent.h"
 
 //#include "common/util/wincrashdump.h"
 #include "common/version.h"
@@ -344,12 +350,12 @@ namespace PT
     pointerlib.setGUIManager(guiManager);
 
     // Create and Initialize the InputManager.
-    inputManager = new InputManager();
+    inputManager = new PT::Input::InputManager();
     if (!inputManager->Initialize())
       return Report(PT::Error, "Failed to create InputManager object!");
 
     // Create and Initialize the StateManager.
-    stateManager = new StateManager();
+    stateManager = new PT::StateManager();
     if (!stateManager->Initialize())
       return Report(PT::Error, "Failed to create StateManager object!");
     pointerlib.setStateManager(stateManager);
