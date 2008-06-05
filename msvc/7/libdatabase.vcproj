@@ -337,6 +337,9 @@
 				RelativePath="..\..\src\server\database\table-items.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-itemstats.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-meshes.cpp">
 			</File>
 			<File
@@ -435,6 +438,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-items.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-itemstats.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-meshes.h">

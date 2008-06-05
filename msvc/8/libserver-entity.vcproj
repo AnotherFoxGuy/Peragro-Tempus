@@ -331,6 +331,9 @@
 				RelativePath="..\..\src\server\entity\itementity.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\itemstats.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\mountentity.cpp">
 			</File>
 			<File
@@ -420,6 +423,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\itemmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\itemstats.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\mastery.h">
