@@ -164,9 +164,9 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
 
   ItemManager* items = server->getItemManager();
   ItemTable* it = server->getDatabase()->getItemTable();
-  it->insert(itemmsg.getName(), itemmsg.getIcon(), itemmsg.getDescription(),
-             itemmsg.getFile(), itemmsg.getMesh(), itemmsg.getWeight(),
-             itemmsg.getEquipType());
+  it->insert(itemmsg.getItemId(), itemmsg.getName(), itemmsg.getIcon(),
+             itemmsg.getDescription(), itemmsg.getFile(), itemmsg.getMesh(),
+             itemmsg.getWeight(), itemmsg.getEquipType());
 
   Item* item = it->getItem(itemmsg.getName());
 

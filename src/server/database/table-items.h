@@ -30,7 +30,7 @@ class ItemTable : public Table
 public:
   ItemTable(Database* db);
   void createTable();
-  void insert(ptString name, ptString icon, ptString description, ptString file, ptString mesh, float weight, ptString equiptype);
+  void insert(int id, ptString name, ptString icon, ptString description, ptString file, ptString mesh, float weight, ptString equiptype);
   void remove(int id);
   void dropTable();
   bool existsItem(ptString name);

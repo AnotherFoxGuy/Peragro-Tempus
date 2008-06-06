@@ -51,9 +51,9 @@ void ItemTable::createTable()
     "PRIMARY KEY (id) );");
 }
 
-void ItemTable::insert(ptString name, ptString icon, ptString description, ptString file, ptString mesh, float weight, ptString equiptype)
+void ItemTable::insert(int id, ptString name, ptString icon, ptString description, ptString file, ptString mesh, float weight, ptString equiptype)
 {
-  db->update("insert into items (name, icon, description, file, mesh, weight, equiptype) values ('%q','%q','%q','%q','%q',%.2f,'%q');", *name, *icon, *description, *file, *mesh, weight, *equiptype);
+  db->update("insert into items (id, name, icon, description, file, mesh, weight, equiptype) values (%d, '%q','%q','%q','%q','%q',%.2f,'%q');", id, *name, *icon, *description, *file, *mesh, weight, *equiptype);
 }
 
 void ItemTable::remove(int id)
