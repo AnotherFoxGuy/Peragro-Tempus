@@ -147,7 +147,7 @@ namespace PT
 
       // Load the default font.
       CEGUI::Font* font = cegui->GetFontManagerPtr()->
-        createFont("FreeType", "Vera", "/fonts/ttf/Vera.ttf");
+        createFont("FreeType", "Vera", "/peragro/art/skins/default/font/vera.ttf");
       font->setProperty("PointSize", "10");
       font->load();
 
