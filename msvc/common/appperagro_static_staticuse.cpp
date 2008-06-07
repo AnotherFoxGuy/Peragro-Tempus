@@ -15,4 +15,11 @@
 struct _static_use { _static_use (); };
 _static_use::_static_use () {}
 SCF_USE_STATIC_PLUGIN(csclipboard)
+SCF_USE_STATIC_PLUGIN(loader_starbox)
+SCF_USE_STATIC_PLUGIN(mystarbox)
+SCF_USE_STATIC_PLUGIN(component_playercontrols)
+SCF_USE_STATIC_PLUGIN(component_viewcontrols)
+SCF_USE_STATIC_PLUGIN(component_networkmove)
+SCF_USE_STATIC_PLUGIN(component_viewbob)
+SCF_USE_STATIC_PLUGIN(componentstats)
 
