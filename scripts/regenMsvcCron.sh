@@ -44,8 +44,9 @@ svn add *
 cd ../common
 svn add *
 cd ../..
+echo "--> Deleting files no longer part of build system."
+svn status | grep "\!" | grep -v "appperagro.rc" | grep -v "appperagro_static.rc" | awk ' { print $2 } ' | xargs svn del
 echo "--> Committing to SVN Repository if changes were found."
-svn status | grep "\!" | awk ' { print $2 } ' | xargs svn del
 svn ci . -m "Automated MSVC project file regeneration."
 cd ../..
 echo "--> Done."
