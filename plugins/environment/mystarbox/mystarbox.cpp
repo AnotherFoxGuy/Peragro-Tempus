@@ -48,10 +48,8 @@ MyStarbox::~MyStarbox()
     delete(*itr);
   } // end for iterate systems
 
-  for ( int x=0 ; x<=7 ; x++ )
-  {
-    delete star_tex[x] ; 
-  }
+  // Release the star textures.
+  star_tex.DeleteAll();
 }
 
 
@@ -99,7 +97,7 @@ void MyStarbox::SetupPlugin ()
   default_star_size_tex_px = 16 ;
   for (int x = 0 ; x<=7 ; x++ )
   {
-    star_tex[x] = Create2dHaloTexture ( x ) ;
+    star_tex.Insert(x, Create2dHaloTexture ( x ));
   }
 
   //SaveImage ( "testhalo.png" );

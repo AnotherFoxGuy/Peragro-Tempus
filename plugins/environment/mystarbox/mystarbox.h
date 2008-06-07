@@ -74,8 +74,7 @@ private:
   /// the halo image to use as a star , one for each type of star 
 
  
-
-  iTextureWrapper* star_tex[7];
+  csRefArray<iTextureWrapper> star_tex;
   //iImage* star_img[7];
   csRef<iImage>  star_img;
   csRefArray<iImage> star_img_ar;
