@@ -1687,8 +1687,13 @@ actions together MergeResources
 
 actions GenerateIconRc
 {
-  sedexpr=`echo 's^$(MSVCGEN_STRIP_ROOT)^^;' | $(MSVCGEN_SED_PROTECT)`
-  icon=`echo "$(>)" | sed "$sedexpr"`
+
+  # our icon path contain ../../ this makes those regexp incorrectly
+  # convert it to .../ This change probably makes this less generic,
+  # but it works fine for our usage.
+
+  #sedexpr=`echo 's^$(MSVCGEN_STRIP_ROOT)^^;' | $(MSVCGEN_SED_PROTECT)`
+  icon=`echo "$(>)" #| sed "$sedexpr"`
   echo "1 ICON \"$(RELPATH)$icon\"" > $(<)
 }
 
