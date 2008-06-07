@@ -311,7 +311,7 @@ namespace PT
 
     // Create and Initialize the EventManager.
     eventManager = new PT::Events::EventManager();
-    if (!eventManager->Initialize(GetObjectRegistry()))
+    if (!eventManager->Initialize(&pointerlib))
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventManager);
 

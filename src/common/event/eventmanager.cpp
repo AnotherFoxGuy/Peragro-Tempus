@@ -20,6 +20,8 @@
 
 #include <csutil/csevent.h>
 
+#include "common/pointer/ipointer.h"
+
 #include "common/reporter/reporter.h"
 
 namespace PT
@@ -39,7 +41,7 @@ namespace PT
 
     EventManager::Listener::~Listener()
     {
-      Report(PT::Debug, "Listener: ~Listener()");
+      evmgr->pointerlib->getReporter()->Report(PT::Debug, "Listener: ~Listener()");
     }
 
     bool EventManager::Listener::HandleEvent(iEvent& ev)
@@ -48,7 +50,7 @@ namespace PT
         return handler->HandleEvent(ev);
       else
       {
-        Report(PT::Error, "Listener: handler invalid! (%s)",
+        evmgr->pointerlib->getReporter()->Report(PT::Error, "Listener: handler invalid! (%s)",
           evmgr->Retrieve(eventId));
         evmgr->RemoveListener(this);
         return false;
@@ -67,9 +69,11 @@ namespace PT
         eventQueue->RemoveListener(this);
     }
 
-    bool EventManager::Initialize(iObjectRegistry* object_reg)
+    bool EventManager::Initialize(iPointerLibrary* pl)
     {
-      this->object_reg = object_reg;
+      pointerlib = pl;
+
+      iObjectRegistry* object_reg = pointerlib->getObjectRegistry();
       if (!object_reg) return false;
 
       eventQueue = csQueryRegistry<iEventQueue> (object_reg);
@@ -107,7 +111,7 @@ namespace PT
 
     void EventManager::AddListener(csEventID eventId, EventHandlerCallback* handler)
     {
-      Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
+      pointerlib->getReporter()->Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
       csRef<Listener> listen; listen.AttachNew(new Listener(this, eventId, handler));
       listeners.Push(listen);
     } // end AddListener()

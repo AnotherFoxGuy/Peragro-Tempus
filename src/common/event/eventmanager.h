@@ -48,6 +48,8 @@
 #undef _WINBASE_
 #endif
 
+class iPointerLibrary;
+
 namespace PT
 {
   namespace Events
@@ -96,8 +98,8 @@ namespace PT
       };
       friend struct Listener;
 
-      /// The object registry.
-      csRef<iObjectRegistry> object_reg;
+      /// The pointer library.
+      iPointerLibrary* pointerlib;
 
       /// A mutex used while accessing the event queue.
       Mutex mutex;
@@ -126,7 +128,7 @@ namespace PT
        * Initialize the event manager.
        * @param The pointer library.
        */
-      bool Initialize(iObjectRegistry* object_reg);
+      bool Initialize(iPointerLibrary* pl);
 
       /**
        * Create a new event from an event ID.
