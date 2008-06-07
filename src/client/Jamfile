@@ -43,6 +43,13 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager client-environmentmanager client-effect client-cursor client-component ;
   LinkStaticPlugins peragro_static :
    csclipboard
+   loader_starbox
+   mystarbox
+   component_playercontrols
+   component_viewcontrols
+   component_networkmove
+   component_viewbob
+   componentstats
   ;
 
   LinkStaticPlugins peragro_static :
