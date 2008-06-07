@@ -272,9 +272,9 @@ namespace PT
       return ReportError("Error opening system!");
 
     // Create and Initialize the Reporter.
-    reporter = new Reporter ();
+    reporter = new Reporter();
     if (!reporter) return ReportError("Error loading Reporter!");
-    reporter->Initialize();
+    reporter->Initialize("peragro.log");
     pointerlib.setReporter(reporter);
 
 #ifdef CS_STATIC_LINKED

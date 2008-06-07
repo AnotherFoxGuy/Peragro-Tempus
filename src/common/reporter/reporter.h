@@ -57,7 +57,7 @@ namespace PT
     std::ofstream logFile;
 
   private:
-    void GetFile (std::string fileName);
+    void GetFile(std::string fileName);
 
   public:
     Reporter();
@@ -65,7 +65,7 @@ namespace PT
 
     static Reporter* GetInstance() { return reporter; }
 
-    bool Initialize ();
+    bool Initialize(std::string fileName = "");
 
     void SetLoggingLevel(LoggingLevel level) { Reporter::loggingLevel = level; }
 

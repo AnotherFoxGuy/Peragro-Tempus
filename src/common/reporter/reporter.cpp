@@ -37,16 +37,17 @@ namespace PT
     logFile.close();
   }
 
-  bool Reporter::Initialize ()
+  bool Reporter::Initialize(std::string fileName)
   {
-    GetFile ("peragro.log");
+    if (!fileName.empty())
+      GetFile(fileName);
 
     return true;
   }
 
-  void Reporter::GetFile (std::string fileName)
+  void Reporter::GetFile(std::string fileName)
   {
-    printf("Creating log file '%s'!\n", fileName.c_str());
+    printf("Creating log file '%s'.\n", fileName.c_str());
 
     logFile.open(fileName.c_str());
 
@@ -58,9 +59,10 @@ namespace PT
       logFile.flush();
     }
     else
+    {
       csPrintf ("%s", CS_ANSI_FR CS_ANSI_TEXT_BOLD_ON
         "Creation log file failed!\n" CS_ANSI_RST);
-
+    }
   }
 
   void Reporter::Report(SeverityLevel severity, const char* msg, va_list arg)
