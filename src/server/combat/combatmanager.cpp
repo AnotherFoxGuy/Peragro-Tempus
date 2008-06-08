@@ -543,7 +543,7 @@ Item* CombatManager::GetItem(Character* lockedCharacter,
   }
 
   const InventoryEntry* entry = inventory->getItem(slot);
-  if (entry && entry->id != 0)
+  if (!entry || entry->id == 0)
   {
     return NULL;
   }
