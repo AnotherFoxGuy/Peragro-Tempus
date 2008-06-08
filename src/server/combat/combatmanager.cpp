@@ -387,13 +387,14 @@ float CombatManager::GetAttackChance(Character* lockedAttacker,
  
 /**
  * Returns the combined agility for a character (incl, bonuses).
- * @todo Currently only returns the character agility without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters agility.
  */
 float CombatManager::GetAgility(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "Agility");
+  return GetStatValue(lockedCharacter, "Agility") +
+         GetStatValueForAllEquipedItems(lockedCharacter,
+                                        "Agility");
 }
 
 /**
@@ -408,66 +409,71 @@ float CombatManager::GetSkillBonus(Character* lockedCharacter)
 }
 /**
  * Returns the combined sapience for a character (incl, bonuses).
- * @todo Currently only returns the character sapience without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters sapience.
  */
 float CombatManager::GetSapience(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "Sapience");
+  return GetStatValue(lockedCharacter, "Sapience") +
+         GetStatValueForAllEquipedItems(lockedCharacter,
+                                        "Sapience");;
 }
 /**
  * Returns the combined block for a character (incl, bonuses).
- * @todo Currently only returns the character block without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters block.
  */
 float CombatManager::GetBlock(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "Block");
+  return GetStatValue(lockedCharacter, "Block") +
+         GetStatValueForAllEquipedItems(lockedCharacter,
+                                        "Block");;
 }
 /**
  * Returns the combined dodge for a character (incl, bonuses).
- * @todo Currently only returns the character dodge without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters dodge.
  */
 float CombatManager::GetDodge(Character* lockedCharacter) 
 {
-   return GetStatValue(lockedCharacter, "Dodge");
+   return GetStatValue(lockedCharacter, "Dodge") +
+          GetStatValueForAllEquipedItems(lockedCharacter,
+                                        "Dodge");
 }
 
 /**
  * Returns the combined parry for a character (incl, bonuses).
- * @todo Currently only returns the character parry without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters parry.
  */
 float CombatManager::GetParry(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "Parry");
+  return GetStatValue(lockedCharacter, "Parry") +
+         GetStatValueForAllEquipedItems(lockedCharacter,
+                                        "Parry");
 }
 
 /**
  * Returns the combined strength for a character (incl, bonuses).
- * @todo Currently only returns the character strength without bonuses.
  * @param lockedCharacter The locked version of the character.
  * @return The characters strength.
  */
 float CombatManager::GetStrength(Character* lockedCharacter) 
 {
-  return GetStatValue(lockedCharacter, "Strength");
+  return GetStatValue(lockedCharacter, "Strength") +
+         GetStatValueForAllEquipedItems(lockedCharacter,
+                                        "Strength");
 }
 
 /**
  * Calculates the damage given by the character's weapon(s).
- * @todo
  * @param lockedCharacter The locked version of the character.
  * @return The weapon damage.
  */
 float CombatManager::GetWeaponDamage(Character* lockedCharacter) 
 {
-  return 10.0f;
+  return GetStatValueForEquipedWeapons(lockedCharacter,
+                                       "Damage");
 }
 
 /**
@@ -672,7 +678,6 @@ void CombatManager::SendStatUpdate(Stat* stat,
  * Function to get the weapon(s) heft value.
  * @param lockedCharacter The owner of the weapon
  * @return The weapon(s) heft value.
- * @todo Implement...
  */
 float CombatManager::GetWeaponHeft(Character* lockedCharacter)
 {
