@@ -55,6 +55,10 @@ class CombatManager {
     void SendStatUpdate(Stat*, CharacterStats*, Character*, const char*, int);
     float GetWeaponHeft(Character*);
     int RollDice();
+    float GetStatValueForItem(Item*, const char*);
+    float GetStatValueForAllEquipedItems(Character*, const char*);
+    float GetStatValueForEquipedWeapons(Character*, const char*);
+    Item* GetItem(Character*, unsigned char);
 
  };
 

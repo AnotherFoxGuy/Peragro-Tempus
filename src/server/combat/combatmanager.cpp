@@ -245,7 +245,7 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
 
         Entity* ent = e->getEntity()->getLock();
         // Release items in a circlular pattern
-        float radians = (2.0f*3.14 / itemsToDrop) * itemsDropped;
+        float radians = (2.0f*3.14f / itemsToDrop) * itemsDropped;
         float radius = 0.8f;
         float deltaX = cos(radians) * radius;
         float deltaY = sin(radians) * radius;
@@ -495,6 +495,121 @@ float CombatManager::GetStatValue(Character* lockedCharacter,
 }
 
 /**
+ * Queries the stat value from an item based on stat name.
+ * @param item The item to return the stat value for.
+ * @param statName The stat's name.
+ * @return The items stat based on the statName.
+ */
+float CombatManager::GetStatValueForItem(Item* item,
+                                         const char* statName)
+{
+  Server *server = Server::getServer();
+  Stat* stat = server->getStatManager()->findByName(ptString(statName, 
+                                                    strlen(statName)));
+  if (!stat) { 
+    server->getStatManager()->dumpAllStatNames();
+    printf("BUG: Unable to find stat: %s\n", statName);
+    return 0.0f;
+  }
+  return (float)item->getStats()->getAmount(stat);
+}
+
+/**
+ * Used to get an equiped item based on the slot number.
+ * @param lockedCharacter The locked version of the character.
+ * @param slot Which item, is decided by the slot its equiped on.
+ * @return The item in that slot, or NULL if none found.
+ */
+Item* CombatManager::GetItem(Character* lockedCharacter, 
+                             unsigned char slot)
+{
+  Server *server = Server::getServer();
+  Inventory* inventory = lockedCharacter->getInventory();
+    
+  if (!inventory) 
+  {
+    return NULL;
+  }
+
+  if ( slot >= inventory->NoSlot) 
+  {
+    return NULL;
+  }
+
+  const InventoryEntry* entry = inventory->getItem(slot);
+  if (entry && entry->id != 0)
+  {
+    return NULL;
+  }
+  Item* item = server->getItemManager()->findById(entry->id);
+  return item;
+}
+
+/**
+ * Combines the character's items stat values, based on statName
+ * @param lockedCharacter The locked version of the character.
+ * @param statName The stat's name.
+ * @return The items bonuses given a special stat.
+ */
+float CombatManager::GetStatValueForAllEquipedItems(Character* lockedCharacter,
+                                                    const char* statName)
+{
+  float value = 0.0f;
+  Inventory* inventory = lockedCharacter->getInventory();
+  Item* item;
+
+  if (!inventory) 
+  {
+    return 0.0f;
+  }
+
+  for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
+  {
+    item = GetItem(lockedCharacter, slot);
+    if (!item) 
+    {
+      continue;
+    }
+    value += GetStatValueForItem(item, statName);
+  }
+  
+  return value;
+}
+
+/**
+ * Combines the characters weapon stat values, based on statName
+ * @param lockedCharacter The locked version of the character.
+ * @param statName The stat's name.
+ * @return The weapons bonuses given a special stat.
+ */
+float CombatManager::GetStatValueForEquipedWeapons(Character* lockedCharacter,
+                                                   const char* statName)
+{
+  float value = 0.0f;
+  Item* item;
+  Inventory* inventory = lockedCharacter->getInventory();
+
+  if (!inventory) 
+  {
+    return 0.0f;
+  }
+
+  for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
+  {
+    item = GetItem(lockedCharacter, slot);
+    if (!item) 
+    {
+      continue;
+    }
+    if (item->getType() == ptString("Weapon", strlen("Weapon"))) {
+      value += GetStatValueForItem(item, statName);
+    }
+  }
+  
+  return value;
+}
+
+/**
  * Deducts the players stamina after an attack
  * @param lockedCharacter The character to deduct stamina for.
  */
@@ -561,6 +676,6 @@ void CombatManager::SendStatUpdate(Stat* stat,
  */
 float CombatManager::GetWeaponHeft(Character* lockedCharacter)
 {
-  return 10.0f;
+  return GetStatValueForEquipedWeapons(lockedCharacter, "Heft");
 }
 

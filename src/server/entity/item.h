@@ -45,17 +45,8 @@ private:
 
   ItemStats stats;
 
-public:
-  enum ItemType
-  {
-    DefaultType=0,
-    WeaponType=1,
-    KeyType=2,
-    BookType=3
-  };
-
 private:
-  ItemType type;
+  ptString type;
 
 public:
   Item() : id(0), weight(0) {}
@@ -78,6 +69,9 @@ public:
 
   ptString getMesh() const { return mesh; }
   void setMesh(ptString id) { mesh = id; }
+
+  ptString getType() const { return type; }
+  void setType(ptString x) { type = x; }
 
   //void setStackMax(unsigned int stackmax) { this->stackmax = stackmax; }
   //unsigned int getStackMax() const { return stackmax; }
