@@ -21,23 +21,24 @@
     
 #include "mystarbox.h"
 #include "halogen.h"
+#include "const.h"
 
-#define SOL_DATA_DIR ""
+
 
 SCF_IMPLEMENT_FACTORY(MyStarboxFactory);
- 
+
+
 MyStarbox::MyStarbox (iObjectRegistry* r)
   : scfImplementationType (this)
 
 {
   object_reg = r ;
   galaxy_name = "";
+  flg_useTexStars = true;
+  flg_useNebula = false ;
   initialized = false;
   catcher.AttachNew (new csCameraCatcher (this));
   Initialize ( object_reg );
-
-  flg_useTexStars = true;
-
 }
  
 MyStarbox::~MyStarbox() 
@@ -93,8 +94,7 @@ void MyStarbox::SetupPlugin ()
     return;
   }
 
-  // create textures for stars   
-  default_star_size_tex_px = 16 ;
+
   for (int x = 0 ; x<=7 ; x++ )
   {
     star_tex.Insert(x, Create2dHaloTexture ( x ));
@@ -108,6 +108,75 @@ void MyStarbox::SetupPlugin ()
 
 }
 
+bool MyStarbox::LoadNebulaCatalogue(const std::string& file_name )
+{
+  // Data Format
+  // ID  texture_name width(light years) height(light years)    
+  // 1  txt_name 15 15
+
+  std::ifstream inFile;  
+  std::string data;
+  std::vector<System*>::iterator itr ;  // star system iterator for adding nebula to star systems 
+  // Temp var for nubula data
+  int id;
+  std::string tex_name;
+  float width; 
+  float height;
+  std::ostringstream myStream;
+
+  
+  printf("Loading Nebula Calalogue:%s\n", file_name.c_str() );
+
+  try { 
+    inFile.open(  (file_name).c_str() );
+
+    if (!inFile) {
+      throw ( "Unable to open file ");
+    }
+
+    while ( inFile >> data) {
+
+      // Get data 
+      id = std::atoi(data.c_str()); 
+
+      inFile >> data ; // materal 
+      tex_name = data.c_str() ;
+
+      inFile >> data; // width light years
+      width  = std::atof (data.c_str() );
+
+      inFile >> data; // height light years
+      height = std::atof (data.c_str() );
+      
+      itr = systems.begin();
+      do 
+      {
+        itr++ ;
+      } while ( (itr != systems.end()) && ( (*itr)->Get_Id() != id ) ) ;
+
+      if (itr != systems.end())
+      {
+        if ( (*itr)->Get_Id() == id ) 
+        {
+          if (!(*itr)->Add_Nebula ( tex_name , width , height, engine ))
+          {
+            printf("mystarbox:Faild to find Nebula Texture %s\n",tex_name.c_str());
+          };
+        }
+      };
+    } // end while data 
+
+  inFile.close();
+  flg_useNebula = true ;
+  return true;
+
+  }
+  catch( const char * str ) {
+    printf ("Exception raised:MyStarbox::LoadNebulaCatalogue: %s \n" , str );
+    return false;
+  } // end catch
+} 
+
 
 bool MyStarbox::LoadStarCatalogue(const std::string& file_name )
 {
@@ -116,8 +185,6 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name )
   // 1  0.00091185 1.0890133 921.37572 9.09766 F5
 
   std::ifstream inFile;  
-//  std::ofstream outFile;  
-  std::string outLine;  
   int x=1;
 
   std::string data;
@@ -141,7 +208,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name )
   printf("Loading Star Calalogue:%s\n", file_name.c_str() );
 
   try { 
-    inFile.open(  (SOL_DATA_DIR + file_name).c_str() );
+    inFile.open(  (file_name).c_str() );
 
     if (!inFile) {
       throw ( "Unable to open file ");
@@ -156,29 +223,26 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name )
       name = "sys:" ;
       name += data.c_str() ;
       inFile >> data ; // RA
-      outLine += data + " " ;
-
       ra  = std::atof (data.c_str() );
+
       inFile >> data; // DEC
-      outLine += data + " " ;
       dec = std::atof (data.c_str() );
 
       inFile >> data; // Distance
-      outLine += data + " " ;
-      distance = std::atol (data.c_str() );
+      distance = std::atof (data.c_str() );
 
       inFile >> data;   // AbsMag // Think it's actual the apparent mag 
-      outLine += data + " " ;
       AbsMag = std::atof (data.c_str());
 
       inFile >> data; // StarType
-      outLine += data + " " ;
       star_classification = data;
+
       // No System name yet, will do later 
-      system = new System;
-      system->Init ( id , name , ra , dec , distance );
-      
-      if (id==0) {  current_sys = system; } // Keep a pointer to the start system
+      system = new System( id , name , ra , dec , distance );
+//      system->Init ( id , name , ra , dec , distance );
+
+      system->Calculate_Position();
+      if (id==0) { current_sys = system; } // Keep a pointer to the start system
 
       // Loop through the systems Stars and create the star's
       // Note, only adding one star per system to start
@@ -192,17 +256,16 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name )
         tempName,
         star_classification,
         AbsMag,
-        StarColor(star_classification, distance ),
+        StarColor((SpectralType)StarType(star_classification), distance ),
         star_tex[StarType( star_classification )] 
       );
 
       systems.push_back(system); 
-      //  printf ("Loading System ID:%i\n" , id );
+      // printf ("Loading System ID:%i\n" , id );
       // Set up the ra_system array 
       if ( current_ra < (int)ra ) {
         ra_systems[(int)ra] =  syscount; 
         current_ra = (int)ra;
-    //    printf ( "ra-%i\n" , (int)ra );
       } // end if
 
       x++;
@@ -218,7 +281,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name )
   } // end catch
 } 
 
-int MyStarbox::StarColor ( std::string type, float dist ) {
+int MyStarbox::StarColor ( SpectralType type, float dist ) {
   int starcolor;
   int colorpart;
 
@@ -226,28 +289,28 @@ int MyStarbox::StarColor ( std::string type, float dist ) {
 
   colorpart = (int) (255 / ( dist/150));
 
-  std::string tmp_str = type.substr(0,1);
+  //std::string tmp_str = type.substr(0,1);
 
-  switch ( tmp_str[0] ) {
-    case 'O':
+  switch ( type ) {
+    case 0:
       starcolor = g2d->FindRGB( colorpart,colorpart,colorpart ) ;
       break; 
-    case 'B':
+    case 1:
       starcolor = g2d->FindRGB( colorpart,colorpart,colorpart ) ;
       break; 
-    case 'A':
+    case 2:
       starcolor = g2d->FindRGB( colorpart,colorpart,colorpart ) ;
       break; 
-    case 'F':
+    case 3:
       starcolor = g2d->FindRGB( colorpart,colorpart,colorpart ) ;
       break; 
-    case 'G':
+    case 4: 
       starcolor = g2d->FindRGB( colorpart,colorpart,colorpart ) ;
       break; 
-    case 'K':
+    case 5:
       starcolor =  g2d->FindRGB( colorpart,colorpart,colorpart - (255 - 221) ) ;
       break; 
-    case 'M':
+    case 6:
       starcolor =  g2d->FindRGB( colorpart,colorpart,colorpart - (255 -170) ) ;
       break; 
     default: 
@@ -341,8 +404,7 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
   if ( viewangle < 0 ) viewangle = 360 + viewangle ;
   viewangle = 360 - viewangle ;
 
-  int w = g2d->GetWidth();
-  int h = g2d->GetHeight();
+
 
   // Iterate STARS 
   int startview = (int)(viewangle-(fov/2));
@@ -353,87 +415,92 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
 
 
 //  printf( "fov(%f) ViewAngle(%f) view(%i,%i)\n ", fov , viewangle , ra_systems[startview] , ra_systems[endview]);
-
 //  std::cout << "DEBUG: " << startview << "-" << endview << ":" << viewangle << std::endl;  
+
+
+
+  
+
 
   for (std::vector<System*>::iterator itr = systems.begin();
     itr != systems.end();
-      ++itr) {
-      DrawStar2D ( g2d, w , h, fov , c, (*itr) );
+      ++itr) 
+  {
+
+    if ( flg_useTexStars == false )
+    {
+      (*itr)->DrawStar2D ( g2d, c );
+    } else 
+    {
+      (*itr)->DrawStar2D ( g2d, c );
+      (*itr)->DrawStar3D ( g3d , c );
+    }
   } // end for iterate systems  
+  
+
 
   return true ;
 }
 
-void MyStarbox::DrawStar2D ( iGraphics2D* g2d,
-        int w,
-        int h,
-        float fov,
-         const iCamera* c,
-         System* itr  ) {
+bool MyStarbox::BackgroundImageNebula(const iCamera* c)
+{ 
+  float fov;
 
-  csVector3 starpos;
-  csVector3 cp1;
-
-  if ( itr->GetDistance() < 1000  && itr->GetDistance() > 100)
+//  printf("MyStarbox::BackgroundImage:START\n");
+  if (!g2d) 
+  { 
+    printf (" MyStarbox::BackgroundImage: No G2d\n");
+    return false;
+  }
+  if (!c)
   {
+    printf (" MyStarbox::BackgroundImage: No camera\n");
+    return false;
+  }
+//  printf("MyStarbox::BackgroundImage:test begindraw\n");
 
-    Cords starcords = itr->Get_Pos ();
-
-    starpos.x = starcords.x * 100000;
-    starpos.y = starcords.y * 100000;
-    starpos.z = starcords.z * 100000;
-    // convert point to camera space 
-
-    csVector3 cp1 = c->GetTransform ().Other2This (starpos);
-    csVector2 screen_spot = c->Perspective (cp1);
-
-    if ( ( screen_spot.x < w &&  screen_spot.y < h && 
-       screen_spot.x > 0  && screen_spot.y > 0 &&  cp1.z > 0 ) ) 
-    {
-
-      if ( flg_useTexStars ) {
-        DrawStar3D
-        (
-          (int)screen_spot.x ,
-          (int)(h - screen_spot.y),
-          35/itr->GetDistance(),
-          itr->Get_StarType()
-        );
-      } else {
+//  g3d->BeginDraw( CSDRAW_CLEARSCREEN );
+  fov = c->GetFOVAngle () + 30 ; // added the 10 to stop nebula getting clipped as edge of screen
   
 
-          // draw point on screen using 2d cords 
-           g2d->DrawPixel (  (int)screen_spot.x ,
-              (int) (h - screen_spot.y) ,
-              (int) itr->Get_Star()->Get_Color () );
-      } // end if flg_useTexStars 
-    } // end if star on screen 
-  }; // end < 1000 LY 
+  float viewangle = getM3xAngle( c->GetTransform ().GetO2T ()) * (180/ PI ) ;
+  if ( viewangle < 0 ) viewangle = 360 + viewangle ;
+  viewangle = 360 - viewangle ;
+
+
+
+  // Iterate STARS 
+  int startview = (int)(viewangle-(fov/2));
+  int endview = (int)(viewangle+(fov/2));
+
+  if ( startview < 0 ) startview = startview + 359 ;
+  if ( endview > 359 ) endview = endview - 359 ;
+
+
+//  printf( "fov(%f) ViewAngle(%f) view(%i,%i)\n ", fov , viewangle , ra_systems[startview] , ra_systems[endview]);
+//  std::cout << "DEBUG: " << startview << "-" << endview << ":" << viewangle << std::endl;  
+
+  for (std::vector<System*>::iterator itr = systems.begin();
+    itr != systems.end();
+      ++itr) 
+  {
+
+    if ( flg_useNebula && (*itr)->Has_Nebula() )
+    {
+      (*itr)->DrawNebulaTexture(  c,  g3d ) ;  
+    }
+  } // end for iterate systems  
+  
+
+
+  return true ;
 }
 
-void MyStarbox::DrawStar3D ( int x , int y, float scale,int startype )
-{
-  int scale_size = int(default_star_size_tex_px * scale) ;
-  int offset = int(scale_size/2);
-  if ( scale_size == 0 ) return ;
-  // virtual void iGraphics3D::DrawPixmap ( iTextureHandle *  hTex,sx,sy,sw,sh,tx,ty,tw,th,Alpha ) 
-  g3d->DrawPixmap 
-  (
-    star_tex[startype]->GetTextureHandle (),
-    x-offset,y-offset,
-    scale_size ,scale_size ,
-    0,0,
-    default_star_size_tex_px ,default_star_size_tex_px,
-    0 
-  );
-
-}
 
 iTextureWrapper* MyStarbox::Create2dHaloTexture (int startype)
 {
 
-
+// really nead the stars to do this , not sure how to keep resource usage low though 
   csImageMemory* csImgMem;
   iTextureWrapper* my_tex;
   std::string tex_name ;
@@ -445,30 +512,36 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture (int startype)
 
   switch ( startype ) {
     case 0:
-      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 157,162,255 ) );
+      //csImgMem = NovaImageRGB ( 10 , SB_STAR_TEX_SIZE , 10 , .9 , csRGBcolor ( 157,162,255 ) );
+      color = csRGBcolor ( 157,162,255 );
       break; 
     case 1:
-      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 233,242,255 ) );
+      color = csRGBcolor ( 233,242,255 );
       break; 
     case 2:
-      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 255,255,255 ) );
+      color = csRGBcolor ( 255,255,255 );
       break; 
     case 3:
-      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 238,238,201  ) );
+      color = csRGBcolor ( 238,238,201  );
       break; 
     case 4:
-      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 243 ,243,147 )  );
+      color = csRGBcolor ( 243 ,243,147 );
       break; 
     case 5:
-      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 255,203,131 ) );
+      color = csRGBcolor ( 255,203,131 );
       break; 
     case 6:
-      csImgMem = NovaImageRGB ( 10 , default_star_size_tex_px , 10 , .9 , csRGBcolor ( 231,0,0 ) );
+      color = csRGBcolor ( 231,0,0 );
       break; 
     default: 
-      csImgMem = NovaImageRGB ( 23410 , default_star_size_tex_px , 10 , .9 ,csRGBcolor ( 255,255,255 ) );
+      color = csRGBcolor ( 255,255,255);
 
   }
+
+  //csImgMem = NovaImageRGB ( 10 ,SB_STAR_TEX_SIZE , 10 , .9 , color );
+  csImgMem = HaloImageRGB (  SB_STAR_TEX_SIZE * 4 , 0.8 , 0.7 , color );
+
+
   star_img_ar.Push(star_img);
 
   printf("Create2dHaloTexture1\n");
@@ -663,7 +736,7 @@ return csImgMem;
 
 
 
-bool MyStarbox::SaveImage(char const* filename) 
+bool MyStarbox::SaveImage(std::string filename) 
 {
   csRef<iVFS> vfs;
   vfs = csQueryRegistry<iVFS> (object_reg);
@@ -674,7 +747,7 @@ bool MyStarbox::SaveImage(char const* filename)
   csString fn;
 
   // Create2dHaloTexture (1);
-  fn.Format ("/this/TestHalo.png");
+  fn.Format ( filename.c_str() );
   // shot = csImageManipulate::Crop (shot, 0, g2dh - dim, dim, dim);
   csRef<iDataBuffer> data = iio->Save ( star_img, "image/png");
   if (!vfs->WriteFile (fn, data->GetData(), data->GetSize())) {
@@ -685,8 +758,28 @@ bool MyStarbox::SaveImage(char const* filename)
 
 return true;
 }
+bool MyStarbox::SaveImage(std::string filename, csImageMemory* csImgMem) 
+{
+  csRef<iVFS> vfs;
+  vfs = csQueryRegistry<iVFS> (object_reg);
+  if (!vfs) 
+    return false;
 
+  csRef<iImageIO> iio = csQueryRegistry<iImageIO> (object_reg);
+  csString fn;
 
+  // Create2dHaloTexture (1);
+  fn.Format ( filename.c_str() );
+  // shot = csImageManipulate::Crop (shot, 0, g2dh - dim, dim, dim);
+  csRef<iDataBuffer> data = iio->Save ( csImgMem, "image/png");
+  if (!vfs->WriteFile (fn, data->GetData(), data->GetSize())) {
+    printf ("Error Saving Screenshot \n");
+  } else {
+    printf ("Screenshot Saved \n");
+  }  
+
+return true;
+}
 
 //---------- Factory Implementation ---------
 
@@ -704,11 +797,6 @@ bool MyStarboxFactory::Initialize (iObjectRegistry* r)
   object_reg = r;
   return true;
 }
-
-
-
-
-
 
 
 
