@@ -544,17 +544,14 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture (int startype)
 
   star_img_ar.Push(star_img);
 
-  printf("Create2dHaloTexture1\n");
-
   csRef<iTextureManager>   tex_mng = g3d->GetTextureManager();
   if (!tex_mng ) printf("myHalo2::Create2dHaloTexture: Failed to load Texture Manager!\n");
-  printf("Create2dHaloTexture4\n");
+
 
   csRef<iTextureList> tex_list = engine->GetTextureList();
   my_tex = tex_list->FindByName( tex_name.c_str() );
 
   if (!my_tex) {
-    printf("Create2dHaloTexture:create Tex\n");
     csRef<iTextureHandle> tex_hand = tex_mng->RegisterTexture(
                    star_img, //iImage *image,
                    CS_TEXTURE_2D );  // int flags,
