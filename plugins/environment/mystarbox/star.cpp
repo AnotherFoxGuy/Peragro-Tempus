@@ -114,8 +114,8 @@ void Star::DrawStar3D ( iGraphics3D* g3d, const iCamera* c  )
   float scale = 0;
   if ( apr_lum <= 6.5 ) 
   {
-    scale = pow ( SB_APR_MAG_EXP , abs(apr_lum ) );
-  } 
+    scale = pow ( SB_APR_MAG_EXP , apr_lum>0.0f?apr_lum:-1*apr_lum );
+  }
   int offset = int(scale/2);
   int img_size ;
   if ( Get_Type()<8 )
@@ -145,13 +145,14 @@ void Star::DrawStar3D ( iGraphics3D* g3d, const iCamera* c  )
     g3d->DrawPixmap 
     (
       star_tex->GetTextureHandle (),
-      screen_spot.x - offset , h - screen_spot.y - offset,
-      scale ,scale ,
-      0,0,
-      img_size , img_size,
-      0 
+      static_cast<int>(screen_spot.x) - offset,
+      h - static_cast<int>(screen_spot.y) - offset,
+      static_cast<int>(scale), static_cast<int>(scale),
+      0, 0,
+      img_size, img_size,
+      0
     );
-  }; // end cliping 
+  }; // end clipping 
 }
 
 
