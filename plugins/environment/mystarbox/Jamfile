@@ -4,4 +4,4 @@ Description mystarbox : " Plugin for making starbox" ;
 
 Plugin mystarbox : [ Wildcard *.cpp *.h ] ;
 
-ExternalLibs mystarbox : CRYSTAL ;     
+ExternalLibs mystarbox : CRYSTAL ;

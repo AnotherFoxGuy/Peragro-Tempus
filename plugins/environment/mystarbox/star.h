@@ -17,12 +17,10 @@
     along with mystarbox; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
-/*
- * star.h
+/**
+ * @file star.h
  *
- * A this class holds the stars information
- *
+ * @basic This class holds the information of the stars.
  */
 
 #ifndef _H_STARBOX_SYSTEM_STAR_
@@ -37,54 +35,46 @@
 class System;
 
 // --------------------------------------------------------------------------------//
-// Star, stores all the information about a star
+// Star, stores all the information about a star.
 // --------------------------------------------------------------------------------//
-class Star {
+class Star
+{
+private:
+  std::string name;
+  std::string classification;
+  float luminosity;
+  System* system;
 
-  private:
-    std::string name;
-    std::string classification;
-    float luminosity ;
-    System* system;
+  float mass;
+  int starcolor;
 
-    float mass ;
-    int starcolor;
+  iTextureWrapper* star_tex;
+  int star_tex_size_px; // ^2 image.
 
-    iTextureWrapper* star_tex;
-    int star_tex_size_px;     // ^2 image
+public:
+  Star(std::string star_name,
+    std::string new_classification,
+    float new_luminosity,
+    int color,
+    iTextureWrapper* tex,
+    System* parent_system
+    );
 
-  public:  
+  ~Star();
 
-    //Functions 
-    Star (
-      std::string star_name, 
-      std::string new_classification,
-      float new_luminosity,
-      int color,
-      iTextureWrapper* tex,
-      System* parent_system
-    ) ;
+  std::string Get_Name() { return name; }
 
+  float Get_Luminosity() { return luminosity; }
+  float Get_Mass() { return mass; }
+  float Get_Color() { return starcolor; }
 
-    ~Star();
+  iTextureWrapper* Get_Texture() { return star_tex; }
+  void Set_Texture(iTextureWrapper* tex) { star_tex = tex; }
 
-    std::string Get_Name () { return ( name ); } ;
+  int Get_Type();
 
-    float Get_Luminosity () { return (luminosity ); } ;
-    float Get_Mass () { return ( mass ); };
-    float Get_Color () { return ( starcolor ); };
-
-    iTextureWrapper* Get_Texture () { return star_tex; };
-    void Set_Texture ( iTextureWrapper* tex ) { star_tex = tex; };
-
-    int Get_Type ();
-
-
-    void DrawStar3D (iGraphics3D* g3d, const iCamera* c );  
-    void DrawStar2D (iGraphics2D* g2d, const iCamera* c );
-
-
-
+  void DrawStar3D(iGraphics3D* g3d, const iCamera* c);
+  void DrawStar2D(iGraphics2D* g2d, const iCamera* c);
 };
 
-#endif
+#endif // _H_STARBOX_SYSTEM_STAR_

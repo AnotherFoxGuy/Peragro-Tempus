@@ -16,12 +16,12 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+/**
+ * @file halogen.h
+ */
 
 #ifndef __CS_HALOGEN_H__
 #define __CS_HALOGEN_H__
-
-/**\file
- */
 
 /**
  * Generate an halo image given halo iSize (iSize x iSize) and
@@ -29,7 +29,7 @@
  * The iCross argument is an 0..1 float that defines how much the
  * hallo ressembles a cross (0) or a circle (1).
  */
-extern uint8 *csGenerateHalo (int iSize, float iFactor, float iCross);
+extern uint8 *csGenerateHalo(int iSize, float iFactor, float iCross);
 
 /**
  * Generate an halo alpha map given halo iSize (iSize x iSize) and
@@ -37,14 +37,14 @@ extern uint8 *csGenerateHalo (int iSize, float iFactor, float iCross);
  * The iCross argument is an 0..1 float that defines how much the
  * hallo ressembles a cross (0) or a circle (1).
  */
-extern uint8 *csGenerateHaloAlpha (int iSize, float iFactor, float iCross);
+extern uint8 *csGenerateHaloAlpha(int iSize, float iFactor, float iCross);
 
 /**
  * Generate an "super-nova" kind of halo alphamap given halo size,
  * initial random seed, number of spokes and a "roundness" coefficient
  * 0..1, with iRoundness == 1 you will get just a circle.
  */
-extern uint8 *csGenerateNova (int iSize, int iSeed, int iNumSpokes,
+extern uint8 *csGenerateNova(int iSize, int iSeed, int iNumSpokes,
   float iRoundness);
 
 /**
@@ -52,10 +52,7 @@ extern uint8 *csGenerateNova (int iSize, int iSeed, int iNumSpokes,
  * initial random seed, number of spokes and a "roundness" coefficient
  * 0..1, with iRoundness == 1 you will get just a circle.
  */
-extern uint8 *csGenerateNovaRGB (int iSize, int iSeed, int iNumSpokes,
+extern uint8 *csGenerateNovaRGB(int iSize, int iSeed, int iNumSpokes,
   float iRoundness, csRGBcolor color);
-
-
-
 
 #endif // __CS_HALOGEN_H__
