@@ -24,12 +24,7 @@
 #ifndef PT_TIME_H
 #define PT_TIME_H
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <time.h>
-#else // not WIN32
-#include <sys/time.h>
-#endif // WIN32
+#include "boost/date_time/posix_time/posix_time_types.hpp"
 
 /**
  * Wrapper class around operating system specific time functions.
@@ -45,58 +40,27 @@ public:
   /// Stores the current time, with a millisecond offset.
   void Initialize(time_t offset = 0)
   {
-#ifdef WIN32
-    time_init = clock();
-    time_init += (offset * CLOCKS_PER_SEC) / 1000;
-
-#else // not WIN32
-    gettimeofday(&time_init, 0);
-    // The quotient of the conversion is the seconds value.
-    time_init.tv_sec += offset / 1000;
-    // Convert the remainder to microseconds.
-    time_init.tv_usec += (offset % 1000) * 1000;
-
-#endif // WIN32
+    time_init = boost::posix_time::microsec_clock::local_time();
+    if (offset) time_init += boost::posix_time::milliseconds(offset);
   }
 
   /// Returns the milliseconds elapsed since the clock was initialized.
-  time_t GetElapsedMS()
+  time_t GetElapsedMS() const
   {
-#ifdef WIN32
-    return (clock() - time_init) * 1000 / CLOCKS_PER_SEC;
-
-#else // not WIN32
-    timeval time_now;
-    gettimeofday(&time_now, 0);
-    // Truncate to milliseconds.
-    return (((time_now.tv_sec - time_init.tv_sec) * 1000) +
-      ((time_now.tv_usec - time_init.tv_usec) / 1000));
-
-#endif // WIN32
+    return (boost::posix_time::microsec_clock::local_time() - time_init)
+      .total_milliseconds();
   }
 
   /// Returns the seconds elapsed since the clock was initialized.
-  time_t GetElapsedS()
+  time_t GetElapsedS() const
   {
-#ifdef WIN32
-    return (clock() - time_init) / CLOCKS_PER_SEC;
-
-#else // not WIN32
-    timeval time_now;
-    gettimeofday(&time_now, 0);
-    return (time_now.tv_sec - time_init.tv_sec);
-
-#endif // WIN32
+    return (boost::posix_time::microsec_clock::local_time() - time_init)
+      .total_seconds();
   }
 
 private:
-#ifdef WIN32
-  time_t time_init;
+  boost::posix_time::ptime time_init;
 
-#else // not WIN32
-  timeval time_init;
-
-#endif // WIN32
 };
 
 #endif // PT_TIME_H
