@@ -74,7 +74,7 @@ namespace PT
       world->GetLights()->Add(sun);
 
       shaderMgr = csQueryRegistry<iShaderManager> (object_reg);
-      strings = csQueryRegistryTagInterface<iStringSet> (object_reg, "crystalspace.shared.stringset");
+      strings = csQueryRegistryTagInterface<iShaderVarStringSet> (object_reg, "crystalspace.shared.stringset");
       string_sunDirection = strings->Request ("sun direction");
 
       // Update our manager each frame.
@@ -146,7 +146,7 @@ namespace PT
       //<shadervar type="vector3" name="cloudcol">0.98,0.59,0.46</shadervar>
       //float brightnessc = pow(sin(step * PI), 3);
       float brightnessc = (amb * 0.6f) + 0.4f;
-      csStringID time = strings->Request("timeOfDay");
+      CS::ShaderVarStringID time = strings->Request("timeOfDay");
       csRef<csShaderVariable> sv = shaderMgr->GetVariableAdd(time);
       sv->SetValue(brightnessc);
 

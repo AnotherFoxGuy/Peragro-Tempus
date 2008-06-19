@@ -158,9 +158,9 @@ namespace PT
       iTextureHandle* texture,
       bool mirror);
 
-      static csStringID reflection_resolution_str, reflection_enable_str;
-      static csStringID reflection_sides_str, reflection_texture0_str;
-      static csStringID refraction_enable_str, refraction_texture_str;
+      static CS::ShaderVarStringID reflection_resolution_str, reflection_enable_str;
+      static CS::ShaderVarStringID reflection_sides_str, reflection_texture0_str;
+      static CS::ShaderVarStringID refraction_enable_str, refraction_texture_str;
     };
 
   } // Reflection namespace

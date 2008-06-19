@@ -41,12 +41,12 @@ namespace PT
 {
   namespace Reflection
   {
-    csStringID ReflectionUtils::reflection_resolution_str = 0;
-    csStringID ReflectionUtils::reflection_enable_str = 0;
-    csStringID ReflectionUtils::reflection_sides_str = 0;
-    csStringID ReflectionUtils::reflection_texture0_str = 0;
-    csStringID ReflectionUtils::refraction_texture_str = 0;
-    csStringID ReflectionUtils::refraction_enable_str = 0;
+    CS::ShaderVarStringID ReflectionUtils::reflection_resolution_str = 0;
+    CS::ShaderVarStringID ReflectionUtils::reflection_enable_str = 0;
+    CS::ShaderVarStringID ReflectionUtils::reflection_sides_str = 0;
+    CS::ShaderVarStringID ReflectionUtils::reflection_texture0_str = 0;
+    CS::ShaderVarStringID ReflectionUtils::refraction_texture_str = 0;
+    CS::ShaderVarStringID ReflectionUtils::refraction_enable_str = 0;
 
     ReflectionRenderer::ReflectionRenderer()
     {
@@ -71,7 +71,7 @@ namespace PT
       if (!texm) return false;
 
        /// Initialize strings.
-      csRef<iStringSet> stringset = csQueryRegistryTagInterface<iStringSet> (
+      csRef<iShaderVarStringSet> stringset = csQueryRegistryTagInterface<iShaderVarStringSet> (
         obj_reg, "crystalspace.shared.stringset");
 
       ReflectionUtils::reflection_enable_str = stringset->Request("reflection_enable");

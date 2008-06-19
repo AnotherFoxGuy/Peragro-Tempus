@@ -28,6 +28,7 @@
 #include <csutil/ref.h>
 #include <imap/loader.h>
 #include <iengine/engine.h>
+#include <csgfx/shadervar.h>
 
 #include "common/event/event.h"
 
@@ -54,7 +55,7 @@ namespace PT
       /// The shader manager.
       csRef<iShaderManager> shaderMgr;
       /// The string set.
-      csRef<iStringSet> strings;
+      csRef<iShaderVarStringSet> strings;
 
       /// The light for the sun.
       csRef<iLight> sun;
@@ -68,7 +69,7 @@ namespace PT
       /// The vertical angle of the sun.
       float sun_theta;
       /// The sun direction string.
-      csStringID string_sunDirection;
+      CS::ShaderVarStringID string_sunDirection;
       /// Elapsed ticks counter to limit the calculations done.
       csTicks elapsedTicks;
 

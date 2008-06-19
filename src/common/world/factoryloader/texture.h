@@ -27,7 +27,6 @@
 #include "csutil/scanstr.h"
 #include "iengine/engine.h"
 #include "iengine/material.h"
-#include "iengine/region.h"
 #include "iengine/texture.h"
 #include "igraphic/animimg.h"
 #include "imap/ldrctxt.h"

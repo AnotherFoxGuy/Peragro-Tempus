@@ -30,7 +30,6 @@
 #include "imap/reader.h"
 
 #include <iengine/engine.h>
-#include <iengine/region.h>
 #include <imap/services.h>
 
 #include "imystarbox.h"
