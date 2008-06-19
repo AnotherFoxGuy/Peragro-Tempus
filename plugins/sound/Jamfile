@@ -1,0 +1,6 @@
+SubDir TOP plugins sound ;
+
+Description soundmanager : "Soundmanager plugin" ;
+Plugin soundmanager : [ Wildcard *.cpp *.h ] ;
+ExternalLibs soundmanager : CRYSTAL ;
+

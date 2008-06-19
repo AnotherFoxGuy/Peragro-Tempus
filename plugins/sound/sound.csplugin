@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- csclipboard.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.sound</name>
+        <implementation>SoundManager</implementation>
+        <description>SoundManager</description>
+      </class>
+      <class>
+        <name>peragro.sound</name>
+        <implementation>SoundManager</implementation>
+        <description>SoundManager</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
