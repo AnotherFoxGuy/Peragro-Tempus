@@ -72,7 +72,7 @@ namespace PT
 
        /// Initialize strings.
       csRef<iShaderVarStringSet> stringset = csQueryRegistryTagInterface<iShaderVarStringSet> (
-        obj_reg, "crystalspace.shared.stringset");
+        obj_reg, "crystalspace.shader.variablenameset");
 
       ReflectionUtils::reflection_enable_str = stringset->Request("reflection_enable");
       ReflectionUtils::refraction_enable_str = stringset->Request("refraction_enable");

@@ -74,7 +74,7 @@ namespace PT
       world->GetLights()->Add(sun);
 
       shaderMgr = csQueryRegistry<iShaderManager> (object_reg);
-      strings = csQueryRegistryTagInterface<iShaderVarStringSet> (object_reg, "crystalspace.shared.stringset");
+      strings = csQueryRegistryTagInterface<iShaderVarStringSet> (object_reg, "crystalspace.shader.variablenameset");
       string_sunDirection = strings->Request ("sun direction");
 
       // Update our manager each frame.
