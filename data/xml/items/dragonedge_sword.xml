@@ -7,13 +7,13 @@
 	<quality>12</quality>
 	<heft>14</heft>
 	<durability>15</durability>
-	<itemtype>weapon</itemtype> <--! weapon, rangedweapon, armor, ammunition -->
+	<itemtype>weapon</itemtype> <!-- weapon, rangedweapon, armor, ammunition -->
 	<pull>16</pull>
-	<--! Only for ranged weapon -->
+	<!-- Only for ranged weapon -->
 	<range>-1</range> 
-	<--! Only for ammunition -->
+	<!-- Only for ammunition -->
 	<amount>-1</amount> 
-	<--! Only for armor -->
+	<!-- Only for armor -->
 	<mobility>-1</mobility> 
 	<hardness>-1</hardness>
 	<bulk>-1</bulk>
