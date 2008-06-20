@@ -129,13 +129,13 @@ namespace PT
       // approximate twilight.
       float brightness = cos((step - 0.5f) * PI * 1.9f);
       csColor sunlight(brightness * 1.5f);
-      // The ambient color is adjusted to give a more yellow colour at midday,
-      // graduating to a purplish blue at midnight. Adjust "darkness" to stop the
-      // players complaining it's too dark.
-      const float darkness = 0.3f;
+      // The ambient color is adjusted to give a slightly more yellow colour at
+      // midday, graduating to a purplish blue at midnight. Adjust "min_light"
+      // to make it playable at night.
+      const float min_light = 0.3f;
       float amb = cos((step - 0.5f) * PI * 2.2f);
-      csColor ambient((amb*0.125f)+0.075f+darkness, (amb*0.15f)+0.05f+darkness,
-        (amb*0.075f)+0.075f+darkness);
+      csColor ambient((amb*0.125f)+0.075f+min_light, (amb*0.15f)+0.05f+min_light,
+        (amb*0.1f)+0.08f+min_light);
 
       // Update the values.
       iSector* world = engine->FindSector("World");

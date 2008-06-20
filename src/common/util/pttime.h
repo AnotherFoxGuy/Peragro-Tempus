@@ -28,6 +28,9 @@
 
 /**
  * Wrapper class around operating system specific time functions.
+ * This uses boost::posix_time, which in turn uses gettimeofday on unix and
+ * ftime on win32; to measure time at millisecond resolutions without drifting
+ * from the local system clock, useful for measuring game time.
  */
 class PTTime
 {
