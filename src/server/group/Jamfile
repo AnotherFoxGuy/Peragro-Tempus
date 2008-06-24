@@ -1,0 +1,6 @@
+SubDir TOP src server group ;
+
+Description server-group : "group" ;
+Library server-group :
+  [ Wildcard *.h *.cpp ] ;
+#LinkWith server-group :  ;
