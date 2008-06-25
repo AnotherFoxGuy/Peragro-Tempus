@@ -64,8 +64,6 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
                                  unsigned int targetID) 
 {
   const Entity* targetEntity;
-  Character* lockedAttacker;
-  Character* lockedTarget;
   const Character* c_char;
   int status = 0;
 
@@ -77,36 +75,43 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
     return 0;
   }
 
-  if (!(lockedAttacker = attackerEntity->getCharacter()->getLock())) {
+  ptScopedMonitorable<Character> lockedAttacker (attackerEntity->getCharacter());
+  if (!lockedAttacker) 
+  {
     printf("CombatManager: Unable to lock attacker\n");
     return 0;
   }
 
   // Find the targets character
   targetEntity = Server::getServer()->getEntityManager()->findById(targetID);
-  if (!targetEntity) {
+  if (!targetEntity) 
+  {
     // Invalid target.
-    lockedAttacker->freeLock();
     printf("CombatManager: Invalid target %d\n", targetID);
     return 0;
   }
-  if (targetEntity->getType() == Entity::PlayerEntityType) {
+
+  if (targetEntity->getType() == Entity::PlayerEntityType) 
+  {
     c_char = targetEntity->getPlayerEntity()->getCharacter();
-    lockedTarget = c_char->getLock();
-  } else if (targetEntity->getType() == Entity::NPCEntityType) {
+  } 
+  else if (targetEntity->getType() == Entity::NPCEntityType) 
+  {
     c_char = targetEntity->getNpcEntity()->getCharacter();
-    lockedTarget = c_char->getLock();
-  } else {
+  } 
+  else 
+  {
     // Should not happen, but do not crash on release build, since fake message
     // could bring down the server then
-    lockedAttacker->freeLock();
     printf("CombatManager: Target neither player nor npc\n");
     return 0;
   }
+  ptScopedMonitorable<Character> lockedTarget (c_char);
 
   status = AttackRequest(lockedAttacker, lockedTarget);
-  lockedAttacker->freeLock();
-  lockedTarget->freeLock();
+
+  printf("B: AttackRequest()\n");
+
   return status;
 }
   

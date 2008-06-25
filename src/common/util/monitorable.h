@@ -50,4 +50,42 @@ public:
   }
 };
 
+template<class T>
+class ptScopedMonitorable
+{
+private: 
+  T* lockObj;
+  T& operator=(const T &c);
+
+public:
+  ptScopedMonitorable(const T* c) 
+  { 
+    printf("I: Getting lock\n");
+    lockObj = c->getLock(); 
+  }
+
+  ~ptScopedMonitorable() 
+  { 
+    printf("I: Releasing lock\n");
+    lockObj->freeLock(); 
+    lockObj = 0;
+  }
+
+  T* operator->()
+  {
+    return lockObj;
+  }
+
+  bool operator!()
+  {
+    return lockObj == 0;
+  }
+
+  operator T*() 
+  {
+    return lockObj; 
+  }
+
+};
+
 #endif // MONITORABLE_H
