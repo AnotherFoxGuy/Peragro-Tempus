@@ -19,6 +19,8 @@
 #ifndef MONITORABLE_H
 #define MONITORABLE_H
 
+#include <stdio.h>
+
 #include "monitor.h"
 #include "mutex.h"
 
