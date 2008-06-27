@@ -27,7 +27,7 @@ XXX Fill in some text
 
 You can build the project on Unix, Msys/Mingw, and Cygwin using the Jam build
 tool. Microsoft Visual-C++ users can build the project using the project files
-in the peragro/msvc directory.
+in the peragro/trunk/msvc directory.
 
 2.1 Jam
 
