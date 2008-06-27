@@ -19,6 +19,8 @@
 #ifndef ENTITYMANAGER_H
 #define ENTITYMANAGER_H
 
+#include <vector>
+
 #include "common/util/array.h"
 #include "entity.h"
 #include "pcentity.h"
@@ -28,11 +30,19 @@
 #include "mountentity.h"
 #include "entitylist.h"
 
+struct EntityCallback
+{
+  virtual void OnEntityAdd(const Entity* entity) = 0;
+  virtual void OnEntityRemove(const Entity* entity) = 0;
+};
+
 class EntityManager
 {
 private:
   EntityList entity_list;
   unsigned int ent_id;
+
+  std::vector<EntityCallback*> callback_list;
 
   Mutex mutex;
 
@@ -67,10 +77,20 @@ public:
 
     entity_list.addEntity(entity);
     mutex.unlock();
+
+    for (unsigned int i = 0; i < callback_list.size(); i++)
+    {
+      callback_list[i]->OnEntityAdd(entity);
+    }
   }
 
   void removeEntity(const Entity* entity)
   {
+    for (unsigned int i = 0; i < callback_list.size(); i++)
+    {
+      callback_list[i]->OnEntityRemove(entity);
+    }
+
     mutex.lock();
     entity_list.removeEntity(entity);
     mutex.unlock();
@@ -95,6 +115,24 @@ public:
   void unlock() { mutex.unlock(); }
 
   void loadFromDB(EntityTable* et);
+
+  void AddEntityCallback(EntityCallback* cb)
+  {
+    callback_list.push_back(cb);
+  }
+
+  void RemoveEntityCallback(EntityCallback* cb)
+  {
+    std::vector<EntityCallback*>::iterator it;
+    for (it = callback_list.begin(); it != callback_list.end(); it++)
+    {
+      if (*it == cb)
+      {
+        callback_list.erase(it);
+        return;
+      }
+    }
+  }
 };
 
 #endif // ENTITYMANAGER_H
