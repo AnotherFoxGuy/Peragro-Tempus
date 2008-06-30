@@ -28,15 +28,39 @@
 class CharChats
 {
 public:
-  typedef std::pair< std::string, ChatGroups::UserList* > Channel;
+  typedef std::pair< std::string, const ChatGroups::UserList* > Channel;
 
+  CharChats() {}
+  virtual ~CharChats() {}
+ 
+  virtual size_t GetChannelCount() const = 0;
+  virtual const char* GetChannelName (size_t idx) const = 0;
+
+  // names of default channels to join apon creation
+  virtual size_t GetDefChannelCount() const = 0;
+  virtual const char* GetDefChannelName (size_t idx) const = 0;
+
+  virtual void JoinChannel(ChatGroups* groups, const char* channel) = 0;
+
+}; // class CharChats
+
+class CharChatsDef : public CharChats
+{
 protected:
   Array< Channel > channels;
 
 public: 
-  CharChats() : channels() {}
-  ~CharChats() {}
+  CharChatsDef() : CharChats(), channels() {}
+  virtual ~CharChatsDef() {}
+ 
+  virtual size_t GetChannelCount() const { return channels.getCount(); };
+  virtual const char* GetChannelName (size_t idx) const 
+  { return channels.get(idx).first.c_str(); }
 
-}; // class CharChats
+  virtual size_t GetDefChannelCount() const;
+  virtual const char* GetDefChannelName (size_t idx) const; 
+
+  virtual void JoinChannel(ChatGroups* groups, const char* channel);
+}; // class CharChatsDef
 
 #endif // CHARCHATS_H

@@ -30,10 +30,11 @@ bool ChatGroups::channelExists (const char* channel) const
   return channels.find(channel) != channels.end();
 }
 
-ChatGroups::UserList ChatGroups::getUserList (const char* channel) const
+const ChatGroups::UserList& ChatGroups::getUserList (const char* channel) const
 {
+  static UserList emptylist = UserList();
   ChatGroups::ChannelSet::const_iterator iter = channels.find(channel);
-  if (iter == channels.end()) return UserList();
+  if (iter == channels.end()) return emptylist;
   return iter->second;
 }
 
@@ -50,10 +51,11 @@ void ChatGroups::addUser (const PcEntity* user, const char* channel)
   if (list.find(user) == list.getCount()) list.add(user);
 }
 
-void ChatGroups::delUser (const PcEntity* user, const char* channel)
+void ChatGroups::delUser (const PcEntity* user, const char* channel, bool prune)
 {
   ChatGroups::ChannelSet::iterator iter = channels.find(channel);
   if (iter == channels.end()) return;
   size_t idx = iter->second.find(user);
   if (idx != iter->second.getCount()) iter->second.remove(idx); 
+  if (prune && !iter->second.getCount()) delChannel(channel);  
 }

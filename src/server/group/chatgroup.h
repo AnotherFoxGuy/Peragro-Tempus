@@ -41,12 +41,14 @@ public:
   bool isUserIn (const PcEntity* user, const char* channel) const;
   bool channelExists (const char* channel) const;
 
-  UserList getUserList (const char* channel) const;
+  const UserList& getUserList (const char* channel) const;
   size_t getChannelCount() const { return channels.size(); }
   size_t getUserCount (const char* channel) const;
 
+  /* the 'prune' option determines whether a channel should be pruned
+     from the list if deleting the user leaves the channel empty of users. */
+  void delUser (const PcEntity* user, const char* channel, bool prune=true);
   void addUser (const PcEntity* user, const char* channel);
-  void delUser (const PcEntity* user, const char* channel);
 
   void addChannel (const char* channel) { channels[channel]; }
   void delChannel (const char* channel) { channels.erase(channel); }

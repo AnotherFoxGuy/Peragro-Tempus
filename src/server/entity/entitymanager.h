@@ -29,12 +29,7 @@
 #include "doorentity.h"
 #include "mountentity.h"
 #include "entitylist.h"
-
-struct EntityCallback
-{
-  virtual void OnEntityAdd(const Entity* entity) = 0;
-  virtual void OnEntityRemove(const Entity* entity) = 0;
-};
+#include "entitycallback.h"
 
 class EntityManager
 {
