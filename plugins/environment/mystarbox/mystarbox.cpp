@@ -532,7 +532,7 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture(int startype)
 
    if (startype > 1 ) 
    {
-     csImgMem = NovaImageRGB(10, SB_STAR_TEX_SIZE * NOVA_SCALE_FACTOR, 10, 0.9, color);     
+     csImgMem = NovaImageRGB(10, static_cast<int>(SB_STAR_TEX_SIZE * NOVA_SCALE_FACTOR), 10, 0.9, color);
    } else {
      csImgMem = HaloImageRGB(SB_STAR_TEX_SIZE * HALO_SCALE_FACTOR, 0.8, 0.7, color);
    }

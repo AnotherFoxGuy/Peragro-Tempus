@@ -62,7 +62,7 @@ void Star::DrawStar2D( iGraphics2D* g2d, const iCamera* c)
     // convert point to camera space 
     csVector3 cp1 = c->GetTransform().Other2This(starpos);
     csVector2 screen_spot = c->Perspective(cp1);
-    screen_spot.y = Adjust_Perspective_Height(screen_spot.y, g2d);
+    screen_spot.y = Adjust_Perspective_Height(static_cast<int>(screen_spot.y), g2d);
 
     if (
       screen_spot.x < w && screen_spot.y < h && 
@@ -122,8 +122,8 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
   int img_size;
   if (Get_Type() > 1)
   {
-    img_size = SB_STAR_TEX_SIZE * NOVA_SCALE_FACTOR ;
-    offset = offset * NOVA_SCALE_FACTOR ;
+    img_size = static_cast<int>(SB_STAR_TEX_SIZE * NOVA_SCALE_FACTOR);
+    offset = static_cast<int>(offset * NOVA_SCALE_FACTOR);
     scale = scale * NOVA_SCALE_FACTOR ;
   } else 
   {
@@ -138,7 +138,7 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
   // convert point to camera space 
   csVector3 cp1 = c->GetTransform().Other2This(starpos);
   csVector2 screen_spot = c->Perspective(cp1);
-  screen_spot.y = Adjust_Perspective_Height(screen_spot.y, g2d);
+  screen_spot.y = Adjust_Perspective_Height(static_cast<int>(screen_spot.y), g2d);
 
   if (
     screen_spot.x < w && screen_spot.y < h && 
@@ -150,8 +150,8 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
     g3d->DrawPixmap 
     (
       star_tex->GetTextureHandle(),
-      screen_spot.x - offset, h - screen_spot.y - offset,
-      scale, scale,
+      static_cast<int>(screen_spot.x) - offset, h - static_cast<int>(screen_spot.y) - offset,
+      static_cast<int>(scale), static_cast<int>(scale),
       0, 0,
       img_size, img_size,
       0 
@@ -199,7 +199,7 @@ int Star::Adjust_Perspective_Height(int y, iGraphics2D* g2d)
 {
   float w = static_cast<float>(g2d->GetWidth());
   float h = static_cast<float>(g2d->GetHeight());
-  int c = h/2;
+  int c = static_cast<int>(h/2.0f);
   float adj;
   adj = (w/h);
 

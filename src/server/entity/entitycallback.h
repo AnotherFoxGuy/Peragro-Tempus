@@ -23,6 +23,7 @@ class Entity;
 
 struct EntityCallback
 {
+  virtual ~EntityCallback() {}
   virtual void OnEntityAdd(const Entity* entity) = 0;
   virtual void OnEntityRemove(const Entity* entity) = 0;
 };

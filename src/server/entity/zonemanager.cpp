@@ -34,15 +34,15 @@ void ZoneManager::delAll()
 
 void ZoneManager::loadFromDB(ZonesTable* zonestable, ZonenodesTable* zonenodestable)
 {
-  Array<ZonesTableVO*>rows=zonestable->getAll();
-  for(size_t i=0; i<rows.getCount(); i++)
+  Array<ZonesTableVO*> rows = zonestable->getAll();
+  for(size_t i = 0; i < rows.getCount(); ++i)
   {
     Zone zone;
-    zone.type=ptString::create(rows[i]->type);
-    Array<ZonenodesTableVO*> nodes=zonenodestable->getById(rows[i]->id);
-    for(size_t i2=0; i2<nodes.getCount(); i2++)
+    zone.type = ptString::create(rows[i]->type);
+    Array<ZonenodesTableVO*> nodes = zonenodestable->getById(rows[i]->id);
+    for(size_t j = 0; j < nodes.getCount(); ++j)
     {
-      zone.coords.push_back(PtVector2(nodes[i2]->x,nodes[i2]->z));
+      zone.coords.push_back(PtVector2(nodes[j]->x, nodes[j]->z));
     }
     nodes.delAll();
     zones.push_back(zone);
@@ -51,22 +51,22 @@ void ZoneManager::loadFromDB(ZonesTable* zonestable, ZonenodesTable* zonenodesta
 
 ptString ZoneManager::GetZone(float x, float z)
 {
-  PtVector2 position(x,z);
-  for(size_t i=0; i<zones.size(); i++)
+  PtVector2 position(x, z);
+  for(size_t i = 0; i < zones.size(); ++i)
   {
     if (Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(), position))
     {
       return zones[i].type;
     }
   }
-  return ptString("",0);
+  return ptString("", 0);
 }
 
 std::vector<ptString> ZoneManager::GetZones(float x, float z)
 {
   std::vector<ptString> inzones;
-  PtVector2 position(x,z);
-  for(size_t i=0; i<zones.size(); i++)
+  PtVector2 position(x, z);
+  for(size_t i = 0; i < zones.size(); ++i)
   {
     if (Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(), position))
     {

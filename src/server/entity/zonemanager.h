@@ -36,7 +36,8 @@ class ZonenodesTable;
 class ZoneManager
 {
 public:
-  struct Zone{
+  struct Zone
+  {
     ptString type;
     std::vector<PtVector2> coords;
   };

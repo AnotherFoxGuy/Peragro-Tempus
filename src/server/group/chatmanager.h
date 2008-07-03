@@ -28,7 +28,7 @@ class ChatManager : protected ChatGroups, public EntityCallback
 {
 public: 
   ChatManager();
-  ~ChatManager() {}
+  virtual ~ChatManager() {}
 
   static CharChats* GetChatObj(const Entity* entity);
 
