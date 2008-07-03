@@ -5,32 +5,29 @@
  *                     Spencer Kimball, Federico Mena Quintero
  */
 
-#include "cssysdef.h"
-#include "csqint.h"
-#include "csutil/randomgen.h"
+#include <cssysdef.h>
+#include <csqint.h>
+#include <csutil/randomgen.h>
 
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
 #include <csgfx/rgbpixel.h>
 
-unsigned char* csGenerateNova(int iSize, int iSeed, int iNumSpokes,
-                              float iRoundness)
+unsigned char*
+csGenerateNova(int iSize, int iSeed, int iNumSpokes, float iRoundness)
 {
-  csRandomGen rnd(iSeed);
-  unsigned char *image = new unsigned char[iSize * iSize];
+  csRandomGen rnd (iSeed);
+  unsigned char *image = new unsigned char [iSize * iSize];
 
   const int radius = iSize / 2;
   const int center = radius;
 
   CS_ALLOC_STACK_ARRAY (float, spoke, iNumSpokes + 2);
   int i;
-  for (i = 0; i < iNumSpokes; i++)
-  {
-    spoke [i] = rnd.Get ();//iRoundness + rnd.Get () * (1 - iRoundness);
-  }
-  spoke[iNumSpokes] = spoke[0];
-  spoke[iNumSpokes + 1] = spoke[1];
+  for (i = 0; i < iNumSpokes; i++)  spoke [i] = rnd.Get ();//iRoundness + rnd.Get () * (1 - iRoundness);
+  spoke [iNumSpokes] = spoke [0];
+  spoke [iNumSpokes + 1] = spoke [1];
 
   int y;
   for (y = 0; y < iSize; y++)
@@ -58,6 +55,7 @@ unsigned char* csGenerateNova(int iSize, int iSeed, int iNumSpokes,
       if (w < 0.0f) w = 0.0f;
       if (w > 1.0f) w = 1.0f;
       image[x + y * iSize] = csQint(w * (w + (1.0f - w) * w1) * 255.9f);
+
     }
   }
 
@@ -76,11 +74,9 @@ unsigned char* csGenerateNovaRGB(int iSize, int iSeed, int iNumSpokes,
   CS_ALLOC_STACK_ARRAY (float, spoke, iNumSpokes + 2);
   int i;
   for (i = 0; i < iNumSpokes; i++)
-  {
-    spoke [i] = rnd.Get();//iRoundness + rnd.Get() * (1 - iRoundness);
-  }
-  spoke[iNumSpokes] = spoke[0];
-  spoke[iNumSpokes + 1] = spoke[1];
+  spoke [i] = rnd.Get ();//iRoundness + rnd.Get () * (1 - iRoundness);
+  spoke [iNumSpokes] = spoke [0];
+  spoke [iNumSpokes + 1] = spoke [1];
 
   int y;
   for (y = 0; y < iSize; y++)
@@ -89,9 +85,9 @@ unsigned char* csGenerateNovaRGB(int iSize, int iSeed, int iNumSpokes,
     for (x = 0; x < iSize; x++)
     {
       // u is in -1..1 interval
-      float u = static_cast<float>(x - center) / radius;
+      float u = static_cast<float> (x - center) / radius;
       // v is in -1..1 interval
-      float v = static_cast<float>(y - center) / radius;
+      float v = static_cast<float> (y - center) / radius;
       // l will never exceed sqrt(2) e.g. 1.4142...
       float l = u * u + v * v;
 
@@ -103,14 +99,14 @@ unsigned char* csGenerateNovaRGB(int iSize, int iSeed, int iNumSpokes,
       c -= i;
 
       // w1 is the pixel intensity depending on spokes, 0..1
-      float w1 = spoke[i] * (1 - c) + spoke[i + 1] * c;
-      float w = 1.1f - pow(l, iRoundness);
+      float w1 = spoke[i] * (1 - c) + spoke [i + 1] * c;
+      float w = 1.1f - pow (l, iRoundness);
       if (w < 0.0f) w = 0.0f;
       if (w > 1.0f) w = 1.0f;
-      int pixel = csQint(w * (w + (1.0f - w) * w1) * 255.9f);
+      int pixel = csQint (w * (w + (1.0f - w) * w1) * 255.9f);
 
       // Add color
-      float color_adjust = (w - 0.5);
+      float color_adjust =  (w - 0.5);
       int r = static_cast<int>(color.red + (color.red * color_adjust));
       int g = static_cast<int>(color.green + (color.green * color_adjust));
       int b = static_cast<int>(color.blue + (color.blue * color_adjust));
@@ -121,10 +117,11 @@ unsigned char* csGenerateNovaRGB(int iSize, int iSeed, int iNumSpokes,
       if (g > 255 ) g = 255;
       if (b > 255 ) b = 255;
 
-      image[((x + y * iSize)*4)] = r;
-      image[((x + y * iSize)*4)+1] = g;
-      image[((x + y * iSize)*4)+2] = b;
-      image[((x + y * iSize)*4)+3] = pixel;
+      image [((x + y * iSize)*4)] = r ;
+      image [((x + y * iSize)*4)+1] = g ;
+      image [((x + y * iSize)*4)+2] = b ;
+      image [((x + y * iSize)*4)+3] = pixel ;
+
     }
   }
 
@@ -146,10 +143,10 @@ unsigned char *csGenerateHalo(int iSize, float iFactor, float iCross)
   unsigned char *image = new unsigned char[iSize * iSize];
   memset(image, 0, iSize * iSize);
 
-  const int s1 = iSize - 1;    // size - 1
-  const int s2 = iSize / 2;    // halo diameter
+  const int s1 = iSize - 1;  // size - 1
+  const int s2 = iSize / 2;  // halo diameter
 #ifdef HALO_HAS_OUTER_RIM
-  int s3 = (s2 / 2);        // outer rim diameter squared
+  int s3 = (s2 / 2);    // outer rim diameter squared
   s3 *= s3;
 #endif
 
@@ -162,7 +159,7 @@ unsigned char *csGenerateHalo(int iSize, float iFactor, float iCross)
       int dx = (s2 - x);
       int dy = (s2 - y);
       float a = pow((pow (float (dx) / float (s2), iCross) +
-                     pow (float (dy) / float (s2), iCross)), iFactor);
+                      pow (float (dy) / float (s2), iCross)), iFactor);
 
 #ifdef HALO_HAS_OUTER_RIM
       float rim = ABS(s3 - (dx * dx + dy * dy)) / 64.0;
@@ -200,10 +197,10 @@ unsigned char *csGenerateHaloAlpha(int iSize, float iFactor, float iCross)
   unsigned char *image = new unsigned char[iSize * iSize];
   memset(image, 0, iSize * iSize);
 
-  const int s1 = iSize - 1;    // size - 1
-  const int s2 = iSize / 2;    // halo diameter
+  const int s1 = iSize - 1;  // size - 1
+  const int s2 = iSize / 2;  // halo diameter
 #ifdef HALO_HAS_OUTER_RIM
-  int s3 = (s2 / 2);        // outer rim diameter squared
+  int s3 = (s2 / 2);    // outer rim diameter squared
   s3 *= s3;
 #endif
 
@@ -216,10 +213,10 @@ unsigned char *csGenerateHaloAlpha(int iSize, float iFactor, float iCross)
       int dx = (s2 - x);
       int dy = (s2 - y);
       float a = pow((pow (float (dx) / float (s2), iCross) +
-                     pow (float (dy) / float (s2), iCross)), iFactor);
+                      pow (float (dy) / float (s2), iCross)), iFactor);
 
 #ifdef HALO_HAS_OUTER_RIM
-      float rim = ABS(s3 - (dx * dx + dy * dy)) / 64.0;
+      float rim = ABS (s3 - (dx * dx + dy * dy)) / 64.0;
       if (rim < 1)
         a = a * 0.7 + rim * 0.3;
 #endif

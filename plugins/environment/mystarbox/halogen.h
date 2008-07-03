@@ -16,12 +16,12 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/**
- * @file halogen.h
- */
 
 #ifndef __CS_HALOGEN_H__
 #define __CS_HALOGEN_H__
+
+/**\file
+ */
 
 /**
  * Generate an halo image given halo iSize (iSize x iSize) and
@@ -54,5 +54,7 @@ extern uint8 *csGenerateNova(int iSize, int iSeed, int iNumSpokes,
  */
 extern uint8 *csGenerateNovaRGB(int iSize, int iSeed, int iNumSpokes,
   float iRoundness, csRGBcolor color);
+
+
 
 #endif // __CS_HALOGEN_H__
