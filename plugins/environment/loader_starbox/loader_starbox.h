@@ -15,13 +15,11 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/**
- * @file loader_starbox.h
- */
+// file : myLoaderStarbox.h
 
-#ifndef __MY_LOADER_STARBOX_H__
-#define __MY_LOADER_STARBOX_H__
-
+#ifndef _H_MY_LOADER_STARBOX___
+#define _H_MY_LOADER_STARBOX___
+ 
 #include "csutil/scf_implementation.h"
 #include "csutil/strhash.h"
 #include "csutil/csstring.h"
@@ -29,10 +27,11 @@
 #include "iutil/plugin.h"
 #include "imap/reader.h"
 
+
 #include <iengine/engine.h>
 #include <imap/services.h>
 
-#include "imystarbox.h"
+#include "imystarbox.h" 
 
 class myLoaderStarbox :
   public scfImplementation2<myLoaderStarbox, iComponent, iLoaderPlugin>
@@ -40,7 +39,6 @@ class myLoaderStarbox :
 
 protected:
   iObjectRegistry* object_reg;
-  csRef<iMyStarbox> starbox;
   csRef<iSyntaxService> synldr;
 
   csStringHash xmltokens;
@@ -54,8 +52,9 @@ public:
 
   virtual bool Initialize(iObjectRegistry *object_reg);
 
-  virtual csPtr<iBase> Parse(iDocumentNode* node,
+  virtual csPtr<iBase> Parse(iDocumentNode* node, 
     iStreamSource*, iLoaderContext* ldr_context, iBase* context);
-};
+};  
 
-#endif // __MY_LOADER_STARBOX_H__
+
+#endif   //  _H_MY_LOADER_STARBOX___
