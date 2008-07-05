@@ -31,12 +31,9 @@ const char* CharChatsDef::GetDefChannelName(size_t idx) const
   return PTCharDefaultChatsTable[idx];
 }
 
-void CharChatsDef::JoinChannel(ChatGroups* groups, const char* channel)
+void CharChatsDef::JoinChannel(const char* channel, const ChatGroups::UserList* ulist)
 {
-  if (!groups || !channel) return;
-  const PcEntity* user;
-  //TODO extract user;
-  groups->addUser(user, channel);
-  Channel newchannel(channel, &groups->getUserList(channel));
+  if (!channel || !ulist) return;
+  Channel newchannel(channel, ulist);
   channels.add(newchannel);
 }

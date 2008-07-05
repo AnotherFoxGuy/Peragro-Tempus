@@ -23,9 +23,11 @@
 #include <string>
 
 #include "common/util/array.h"
+#include "common/util/monitorable.h"
+
 #include "chatgroup.h"
 
-class CharChats
+class CharChats : public ptMonitorable<CharChats>
 {
 public:
   typedef std::pair< std::string, const ChatGroups::UserList* > Channel;
@@ -40,7 +42,7 @@ public:
   virtual size_t GetDefChannelCount() const = 0;
   virtual const char* GetDefChannelName (size_t idx) const = 0;
 
-  virtual void JoinChannel(ChatGroups* groups, const char* channel) = 0;
+  virtual void JoinChannel(const char* channel, const ChatGroups::UserList* ulist) = 0;
 
 }; // class CharChats
 
@@ -48,9 +50,10 @@ class CharChatsDef : public CharChats
 {
 protected:
   Array< Channel > channels;
+  const PcEntity* parent;
 
 public: 
-  CharChatsDef() : CharChats(), channels() {}
+  CharChatsDef(const PcEntity* p) : CharChats(), channels(), parent(p) {}
   virtual ~CharChatsDef() {}
  
   virtual size_t GetChannelCount() const { return channels.getCount(); };
@@ -60,7 +63,9 @@ public:
   virtual size_t GetDefChannelCount() const;
   virtual const char* GetDefChannelName (size_t idx) const; 
 
-  virtual void JoinChannel(ChatGroups* groups, const char* channel);
+  virtual void JoinChannel(const char* channel, const ChatGroups::UserList* ulist);
+
+  const PcEntity* GetParent() const { return parent; }
 }; // class CharChatsDef
 
 #endif // CHARCHATS_H

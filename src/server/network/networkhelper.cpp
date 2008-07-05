@@ -5,6 +5,7 @@
 #include "server/entity/pcentity.h"
 #include "server/entity/sectormanager.h"
 #include "server/entity/usermanager.h"
+#include "server/group/chatmanager.h"
 #include "server/server.h"
 
 const User* NetworkHelper::getUser(GenericMessage* msg)
@@ -174,10 +175,15 @@ void NetworkHelper::broadcast(const ByteStream& bs)
 
 Array<const PcEntity*> NetworkHelper::getUserList(const PcEntity* ent, const char* channel)
 {
+  const ChatGroups* groups = ChatManager::getChatManager();
+  Array<const PcEntity*> emptychannel;
+
+  if (!groups || !groups->isUserIn(ent, channel)) return emptychannel;
+  return groups->getUserList(channel);
+
+/*
   Array<const PcEntity*> channelusers;
-
-  // TODO : selecting members of a guild, party, help-group, etc, goes here.
   channelusers.add(ent);
-
   return channelusers;
+*/
 }

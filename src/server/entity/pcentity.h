@@ -29,6 +29,7 @@ class User;
 class Entity;
 class Character;
 class MountEntity;
+class CharChats;
 
 class PcEntity : public ptMonitorable<PcEntity>
 {
@@ -37,6 +38,7 @@ private:
   ptMonitor<Entity> entity;
   ptMonitor<Character> character;
   ptMonitor<MountEntity> mount;
+  ptMonitor<CharChats> charchats;
 
   TradePeer tradepeer;
 
@@ -85,6 +87,9 @@ public:
 
   void setMount(const MountEntity* mount);
   const MountEntity* getMount() const { return mount.get(); }
+
+  void setCharChats(const CharChats* cchats);
+  const CharChats* getCharChats() const { return charchats.get(); }
 
   TradePeer* getTradePeer() { return &tradepeer; }
 

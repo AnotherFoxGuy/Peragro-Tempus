@@ -19,14 +19,27 @@
 #include "chatmanager.h"
 
 #include "server/entity/entity.h"
+#include "server/entity/pcentity.h"
+#include "server/entity/entitymanager.h"
+#include "server/server.h"
 
 ChatManager::ChatManager() : ChatGroups()
 {
 }
 
-CharChats* ChatManager::GetChatObj(const Entity* entity)
+ChatManager* ChatManager::getChatManager()
 {
-  return NULL; //TODO
+  static ChatManager* chatmanager = new ChatManager();
+  static bool initialized = false; 
+
+  // register a callback with the EntityManager for entity add/remove
+  if (!initialized && Server::getServer() && Server::getServer()->getEntityManager())
+  {
+    Server::getServer()->getEntityManager()->AddEntityCallback(chatmanager);
+    initialized = true;
+  }
+
+  return chatmanager;
 }
 
 void ChatManager::OnEntityAdd(const Entity* entity)
@@ -34,16 +47,24 @@ void ChatManager::OnEntityAdd(const Entity* entity)
   if (!entity) return;
   const PcEntity* user;
   if ( !(user = entity->getPlayerEntity()) ) return;
-  CharChats* cchats = GetChatObj(entity);
-  if (!cchats)
+  const CharChats* c_cchats = user->getCharChats();
+  if (!c_cchats)
   {
-    cchats = new CharChatsDef();
-    //TODO insert cchats object
+    PcEntity* u = user->getLock();
+    u->setCharChats(new CharChatsDef(user));
+    c_cchats = u->getCharChats();
+    u->freeLock();
   }
+  if (!c_cchats) return;
 
+  CharChats* cchats = c_cchats->getLock();
   for (size_t i=0;  i< cchats->GetDefChannelCount();  i++)
-    cchats->JoinChannel(this, cchats->GetDefChannelName(i));
-  
+  {
+    const char* channel = cchats->GetDefChannelName(i);
+    addUser(user, channel);
+    cchats->JoinChannel(channel, &getUserList(channel));
+  }
+  cchats->freeLock(); 
 }
 
 void ChatManager::OnEntityRemove(const Entity* entity)
@@ -51,9 +72,12 @@ void ChatManager::OnEntityRemove(const Entity* entity)
   if (!entity) return; 
   const PcEntity* user;
   if ( !(user = entity->getPlayerEntity()) ) return;
-  const CharChats* cchats = GetChatObj(entity);
-  if (!cchats) return;
+  const CharChats* c_cchats = user->getCharChats();
+  if (!c_cchats) return;
 
+  
+  CharChats* cchats = c_cchats->getLock(); 
   for (size_t i=0;  i < cchats->GetChannelCount();  i++)
     delUser(user, cchats->GetChannelName(i));
+  cchats->freeLock();
 }

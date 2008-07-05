@@ -19,6 +19,7 @@
 #include "server/entity/user.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/mountentity.h"
+#include "server/group/charchats.h"
 
 #include <time.h>
 
@@ -108,4 +109,12 @@ void PcEntity::setMount(const MountEntity* mount)
     this->mount.clear();
   else
     this->mount = mount->getRef();
+}
+
+void PcEntity::setCharChats(const CharChats* charchats)
+{
+  if (!charchats)
+    this->charchats.clear();
+  else
+    this->charchats = charchats->getRef();
 }

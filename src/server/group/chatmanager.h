@@ -24,13 +24,13 @@
 
 #include "server/entity/entitycallback.h"
 
-class ChatManager : protected ChatGroups, public EntityCallback
+class ChatManager : public ChatGroups, public EntityCallback
 {
 public: 
   ChatManager();
   virtual ~ChatManager() {}
 
-  static CharChats* GetChatObj(const Entity* entity);
+  static ChatManager* getChatManager();
 
   virtual void OnEntityAdd(const Entity* entity);
   virtual void OnEntityRemove(const Entity* entity);
