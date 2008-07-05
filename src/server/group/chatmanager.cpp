@@ -27,6 +27,12 @@ ChatManager::ChatManager() : ChatGroups()
 {
 }
 
+ChatManager::~ChatManager()
+{
+  if (Server::getServer() && Server::getServer()->getEntityManager()) 
+    Server::getServer()->getEntityManager()->RemoveEntityCallback(this);
+}
+
 ChatManager* ChatManager::getChatManager()
 {
   static ChatManager* chatmanager = new ChatManager();
