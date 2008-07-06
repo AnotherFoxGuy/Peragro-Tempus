@@ -101,6 +101,8 @@ AS_IF([test $cel_version_desired_is_unstable -eq 1],
   cel_version_sequence="$cel_version_sequence $cel_version_major.$y"
   y=`expr $cel_version_minor + 3`
   cel_version_sequence="$cel_version_sequence $cel_version_major.$y"
+  y=`expr $cel_version_minor + 6`
+  cel_version_sequence="$cel_version_sequence $cel_version_major.$y"
   y=`expr $cel_version_minor + 2`
   cel_version_sequence="$cel_version_sequence $cel_version_major.$y"],
   [# Stable version search sequence
