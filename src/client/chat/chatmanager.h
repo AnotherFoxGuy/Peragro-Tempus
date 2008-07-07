@@ -24,10 +24,12 @@
 
 #include "common/event/eventmanager.h"
 
-#include "command.h"
+#include "commandiface.h"
 
 #include <CEGUI.h>
 #include <ivaria/icegui.h>
+
+#include <boost/shared_ptr.hpp>
 
 struct iObjectRegistry;
 
@@ -42,6 +44,8 @@ namespace PT
 
   namespace Chat
   {
+    typedef boost::shared_ptr<CommandInterface> Commandp;
+
     class ChatManager
     {
     private:
@@ -86,7 +90,7 @@ namespace PT
       ~ChatManager ();
 
       bool Initialize ();
-      void RegisterCommand (Command* cmd);
+      void RegisterCommand (CommandInterface* cmd);
 
       const std::vector<Commandp>& GetAllCommands() { return commands; }
     };

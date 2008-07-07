@@ -33,7 +33,13 @@
 
 #include "common/event/chatevent.h"
 
-#include "commands.h"
+#include "cmdhelp.h"
+#include "cmddbg.h"
+#include "cmdsay.h"
+#include "cmdwhisper.h"
+#include "cmdgroup.h"
+#include "cmdrelocate.h"
+#include "cmdemotes.h"
 
 namespace PT
 {
@@ -83,15 +89,16 @@ namespace PT
       PointerLibrary::getInstance()->getEventManager()->AddListener("entity.remove", cb);
 
       // Register commands.
-      Command* cmd = new cmdHelp(); RegisterCommand(cmd);
+      CommandInterface* cmd = new cmdHelp(); RegisterCommand(cmd);
       cmd = new cmdSay(); RegisterCommand(cmd);
       cmd = new cmdShout();  RegisterCommand(cmd);
       cmd = new cmdSayMe(); RegisterCommand(cmd);
       cmd = new cmdWhisper(); RegisterCommand(cmd);
       cmd = new cmdGroup(); RegisterCommand(cmd);
       cmd = new cmdRelocate(); RegisterCommand(cmd);
-      cmd = new cmdGreet(); RegisterCommand(cmd);
-      cmd = new cmdSit(); RegisterCommand(cmd);
+      cmd = new cmdEmote(); RegisterCommand(cmd);
+//      cmd = new cmdGreet(); RegisterCommand(cmd);
+//      cmd = new cmdSit(); RegisterCommand(cmd);
       cmd = new cmdDbg(); RegisterCommand(cmd);
 
       historypointer=0;
@@ -299,9 +306,19 @@ namespace PT
       std::vector<Commandp>::iterator it;
       for (it = commands.begin(); it != commands.end(); ++it)
       {
-        if (strcmp (it->get()->GetCommand(), cmd) == 0)
+        if (it->get()->CommandHandled(cmd))
         {
-          it->get()->Execute(args);
+          try{ it->get()->Execute(args); }
+          catch (BadUsage& err)
+          {
+            using namespace PT::GUI;
+            using namespace PT::GUI::Windows;
+
+            std::string usage = "Usage: ";
+            usage += it->get()->Help(cmd, CMD_HELP_USAGE);
+            ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+            chatWindow->AddMessage(usage.c_str());
+          }
           return;
         } // end if
       } // end for
@@ -310,7 +327,7 @@ namespace PT
 
     } // end Execute ()
 
-    void ChatManager::RegisterCommand (Command* cmd)
+    void ChatManager::RegisterCommand (CommandInterface* cmd)
     {
       Commandp cmdp(cmd);
       commands.push_back(cmdp);
