@@ -50,16 +50,16 @@ namespace PT
         */
       virtual StringArray GetAllCommands() const = 0;
 
-      virtual const char* HelpUsage(const char* cmd) const = 0;
-      virtual const char* HelpSynopsis(const char* cmd) const = 0;
-      virtual const char* HelpFull(const char* cmd) const = 0;
+      virtual std::string HelpUsage(const char* cmd) const = 0;
+      virtual std::string HelpSynopsis(const char* cmd) const = 0;
+      virtual std::string HelpFull(const char* cmd) const = 0;
 
       /** Returns a help message.
         * cmd is the name of the command to return help for, and detail is
         * one of CMD_HELP_USAGE, CMD_HELP_SYNOPSIS, and CMD_HELP_FULL, 
         * depending on how detailed a help message is expected.
         */
-      const char* Help (const char* cmd, int detail) const
+      std::string Help (const char* cmd, int detail) const
       {  
          return  (detail==CMD_HELP_USAGE)    ? HelpUsage(cmd) :
                  (detail==CMD_HELP_SYNOPSIS) ? HelpSynopsis(cmd) :

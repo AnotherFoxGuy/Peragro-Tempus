@@ -314,8 +314,7 @@ namespace PT
             using namespace PT::GUI;
             using namespace PT::GUI::Windows;
 
-            std::string usage = "Usage: ";
-            usage += it->get()->Help(cmd, CMD_HELP_USAGE);
+            std::string usage = "Usage: "+it->get()->Help(cmd, CMD_HELP_USAGE);
             ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
             chatWindow->AddMessage(usage.c_str());
           }

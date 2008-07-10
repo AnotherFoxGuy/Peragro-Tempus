@@ -39,9 +39,9 @@ namespace PT
       cmdRelocate () : CommandDefault("relocate") { }
       virtual ~cmdRelocate () { }
 
-      virtual const char* HelpSynopsis (const char*) const
+      virtual std::string HelpSynopsis (const char*) const
       { return "Teleport yourself to the start location."; }
-      virtual const char* HelpUsage (const char*) const 
+      virtual std::string HelpUsage (const char*) const 
       { return "Usage: '/relocate'"; }
 
       virtual void Execute (const StringArray& args)

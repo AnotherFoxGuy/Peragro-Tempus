@@ -16,36 +16,39 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef CMDEMOTES_H
-#define CMDEMOTES_H
-
-#include "commandiface.h"
+#include "commanddefault.h"
 
 namespace PT
 {
   namespace Chat
   {
-    //--------------------------------------------------------------------------
-    class cmdEmote : public CommandInterface
-    {
-    protected:
-      StringArray emotes;
 
-    public:
-      cmdEmote ();
-      virtual ~cmdEmote ();
+    CommandDefault::CommandDefault(const char* cmd) 
+     : CommandInterface(), cmdname(cmd) 
+    { }
 
-      virtual bool CommandHandled (const char* cmd) const;
-      virtual StringArray GetAllCommands () const;
+    CommandDefault::~CommandDefault() { }
 
-      virtual std::string HelpUsage (const char* cmd) const;
-      virtual std::string HelpSynopsis (const char* cmd) const;
-      virtual std::string HelpFull (const char* cmd) const;
+    bool CommandDefault::CommandHandled (const char* cmd) const 
+    { return cmdname == cmd; }
 
-      virtual void Execute (const StringArray& args);
-    };
-    //--------------------------------------------------------------------------
+    StringArray CommandDefault::GetAllCommands() const
+    { 
+      StringArray s;  
+      s.push_back(cmdname);  
+      return s; 
+    }
+
+    std::string CommandDefault::HelpUsage(const char* cmd) const 
+    { return "'/" + cmdname + "'";  }
+
+    std::string CommandDefault::HelpSynopsis(const char* cmd) const 
+    { return ""; }
+
+    std::string CommandDefault::HelpFull(const char* cmd) const 
+    { return HelpSynopsis(cmd); }
+
+    void CommandDefault::Execute (const StringArray& args) {}
+
   } // Chat namespace
 } // PT namespace
-
-#endif // CMDEMOTES_H

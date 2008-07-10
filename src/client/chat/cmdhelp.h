@@ -21,11 +21,6 @@
 
 #include "commanddefault.h"
 
-#include "client/pointer/pointer.h"
-
-#include "client/gui/guimanager.h"
-#include "client/gui/chat-gui.h"
-
 namespace PT
 {
   namespace Chat
@@ -34,49 +29,14 @@ namespace PT
     class cmdHelp : public CommandDefault
     {
     public:
-      cmdHelp () : CommandDefault("help") { }
-      virtual ~cmdHelp () { }
+      cmdHelp ();
+      virtual ~cmdHelp ();
 
-      virtual const char* HelpSynopsis (const char*) const
-      { return "Prints this help."; }
-      virtual const char* HelpFull (const char*) const
-      { return "Prints a helpful command overview."; }
+      virtual std::string HelpSynopsis (const char*) const;
+      virtual std::string HelpFull (const char*) const;
+      virtual std::string HelpUsage (const char*) const;
 
-      virtual void Execute (const StringArray& args)
-      {
-        using namespace PT::GUI;
-        using namespace PT::GUI::Windows;
-
-        // Element 0 is '/', 1 is 'help'
-        if (args.size() < 2 || args.size() > 2) throw BadUsage();
-        else
-        {
-          GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-          if(!guimanager) return;
-          ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
-
-          PT::Chat::ChatManager* chatmgr = PointerLibrary::getInstance()->getChatManager();
-          if(!chatmgr) return;
-          std::vector<Commandp> commands = chatmgr->GetAllCommands();
-
-          std::vector<Commandp>::const_iterator it;
-          for(it = commands.begin(); it != commands.end(); ++it)
-          {
-            StringArray cmd_sub = it->get()->GetAllCommands(); 
-            StringArray::const_iterator it_sub;
-            for (it_sub = cmd_sub.begin(); it_sub != cmd_sub.end(); it_sub++)
-            {
-              const char* cmd = it_sub->c_str();
-              std::string text = *it_sub;
-              text += ": ";
-              text += it->get()->Help(cmd, CMD_HELP_SYNOPSIS);
-              chatWindow->AddMessage (text.c_str());
-            } // for
-          } // for
-
-          return;
-        }
-      }
+      virtual void Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
   } // Chat namespace

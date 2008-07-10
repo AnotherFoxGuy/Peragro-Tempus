@@ -31,24 +31,18 @@ namespace PT
       std::string cmdname;
 
     public:
-      CommandDefault(const char* cmd) : CommandInterface(), cmdname(cmd) {}
-      virtual ~CommandDefault() { };
+      CommandDefault(const char* cmd);
+      virtual ~CommandDefault();
 
-      virtual bool CommandHandled (const char* cmd) const 
-      { return cmdname == cmd; }
+      virtual bool CommandHandled (const char* cmd) const;
 
-      virtual StringArray GetAllCommands() const
-      { StringArray s;  s.push_back(cmdname);  return s; }
+      virtual StringArray GetAllCommands() const;
 
-      virtual const char* HelpUsage(const char* cmd) const 
-      { std::string s = "'/" + cmdname + "'";  return s.c_str(); }
+      virtual std::string HelpUsage(const char* cmd) const; 
+      virtual std::string HelpSynopsis(const char* cmd) const;
+      virtual std::string HelpFull(const char* cmd) const;
 
-      virtual const char* HelpSynopsis(const char* cmd) const { return ""; }
-
-      virtual const char* HelpFull(const char* cmd) const 
-      { return HelpSynopsis(cmd); }
-
-      virtual void Execute (const StringArray& args) {}
+      virtual void Execute (const StringArray& args);
     };
 
   } // Chat namespace

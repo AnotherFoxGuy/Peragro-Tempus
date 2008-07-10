@@ -70,7 +70,7 @@ namespace PT
     StringArray cmdEmote::GetAllCommands () const
     { return emotes; }
 
-    const char* cmdEmote::HelpSynopsis (const char* cmd) const
+    std::string cmdEmote::HelpSynopsis (const char* cmd) const
     {
       std::string scmd = cmd;
       for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
@@ -79,15 +79,15 @@ namespace PT
       return "";
     }
 
-    const char* cmdEmote::HelpUsage (const char* cmd) const
+    std::string cmdEmote::HelpUsage (const char* cmd) const
     {
       std::string s = "'/";
       s += cmd;
       s += " [<target>]'";
-      return s.c_str();
+      return s;
     }
 
-    const char* cmdEmote::HelpFull (const char* cmd) const
+    std::string cmdEmote::HelpFull (const char* cmd) const
     {  
       return  "Lets your character emote.  You may specify a target, which"
         " would direct the emote at a target, or leave out the target, which"

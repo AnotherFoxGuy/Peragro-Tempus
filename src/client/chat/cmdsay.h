@@ -38,13 +38,13 @@ namespace PT
       cmdSay (const char* cmd="say") : CommandDefault(cmd) { }
       virtual ~cmdSay () { }
 
-      virtual const char* HelpUsage(const char*) const 
+      virtual std::string HelpUsage(const char*) const 
       { return "'/say <message>'"; }
 
-      virtual const char* HelpSynopsis (const char*) const
+      virtual std::string HelpSynopsis (const char*) const
       { return "Say something to the world."; }
 
-      virtual const char* HelpFull (const char*) const
+      virtual std::string HelpFull (const char*) const
       { return "Use this command to enter a full message to say to others around you."; }
 
       virtual void Execute (const StringArray& args) { Say(2, args); }
@@ -85,9 +85,9 @@ namespace PT
       cmdShout () : cmdSay("shout") { }
       virtual ~cmdShout () { }
 
-      virtual const char* HelpSynopsis (const char*) const
+      virtual std::string HelpSynopsis (const char*) const
       { return "Shout something to the world."; }
-      virtual const char* HelpUsage (const char*) const
+      virtual std::string HelpUsage (const char*) const
       { return "Usage: '/shout <message>'"; }
 
       virtual void Execute (const StringArray& args) { Say(20, args); }
@@ -99,11 +99,11 @@ namespace PT
       cmdSayMe () : cmdSay("me") { }
       virtual ~cmdSayMe () { }
 
-      virtual const char* HelpSynopsis (const char*) const 
+      virtual std::string HelpSynopsis (const char*) const 
       { return "Say something in third person to the world."; }
-      virtual const char* HelpUsage (const char*) const 
+      virtual std::string HelpUsage (const char*) const 
       { return "Usage: '/me <message>'"; }
-      virtual const char* HelpFull (const char*) const
+      virtual std::string HelpFull (const char*) const
       { 
         return "Use this command to enter a full message to say to those"
           " around you.  The /me at the beginning will be replaced by the"
