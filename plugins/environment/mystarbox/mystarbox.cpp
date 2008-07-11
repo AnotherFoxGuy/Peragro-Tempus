@@ -792,7 +792,7 @@ bool MyStarbox::SaveVisableStarCatalog(std::string filename)
   // check all systems for abs_mag < 6.5 
   for(std::vector<System*>::iterator itr = systems.begin(); itr != systems.end();++itr) 
   {
-	char szTempString[256];
+    char szTempString[256];
     if ( (*itr)->Get_Apr_Magnitude()<=6.5 ) 
     {
       // output line in catalog

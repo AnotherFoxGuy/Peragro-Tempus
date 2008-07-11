@@ -24,8 +24,8 @@ CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY (SoundManager)
 
 SoundManager::SoundManager(iBase* parent) :
-	scfImplementationType (this, parent),
-	object_reg(0)
+  scfImplementationType (this, parent),
+  object_reg(0)
 {
 }
 
