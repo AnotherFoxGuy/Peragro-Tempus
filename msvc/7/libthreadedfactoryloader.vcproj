@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\common\world\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\plugins\world\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\common\world\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\plugins\world\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\common\world\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\plugins\world\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\common\world\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\plugins\world\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -301,29 +301,29 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\world\factoryloader\fileloader.cpp">
+				RelativePath="..\..\plugins\world\factoryloader\fileloader.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\world\factoryloader\fileloader.h">
+				RelativePath="..\..\plugins\world\factoryloader\fileloader.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\world\factoryloader\genmeshloader.h">
+				RelativePath="..\..\plugins\world\factoryloader\genmeshloader.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\world\factoryloader\material.h">
+				RelativePath="..\..\plugins\world\factoryloader\material.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\world\factoryloader\meshobjectfactory.h">
+				RelativePath="..\..\plugins\world\factoryloader\meshobjectfactory.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\world\factoryloader\properties.h">
+				RelativePath="..\..\plugins\world\factoryloader\properties.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\world\factoryloader\texture.h">
+				RelativePath="..\..\plugins\world\factoryloader\texture.h">
 			</File>
 		</Filter>
 	</Files>

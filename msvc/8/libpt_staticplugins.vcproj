@@ -501,6 +501,56 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libsoundmanager_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\libworldloader_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\component\entity\input\playercontrols\playercontrols.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -775,6 +825,206 @@
 							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
 					</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\..\plugins\sound\soundmanager.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\factory.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_factory.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_factory.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_factory.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_factory.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\interior.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_interior.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_interior.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_interior.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_interior.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\interiormanager.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_interiormanager.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_interiormanager.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_interiormanager.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_interiormanager.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\level.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_level.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_level.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_level.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_level.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\maptile.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_maptile.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_maptile.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_maptile.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_maptile.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\modelmanager.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_modelmanager.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_modelmanager.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_modelmanager.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_modelmanager.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\world.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
+					</FileConfiguration>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -817,6 +1067,30 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\gui\clipboard\win32\clipboard.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\sound\soundmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\factory.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\interior.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\interiormanager.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\level.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\maptile.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\modelmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\world\world.h">
 			</File>
 		</Filter>
 	</Files>
