@@ -324,7 +324,28 @@ namespace PT
           //  static_cast<ClientItem*>(icon->getUserData());
           //printf("================%s\n", clientitem2->GetName().GetData() );
 
-          iconImage->setProperty("Image", clientitem->GetIconName());
+          std::string setAndIcon;
+          // An image file is specified.
+          if (clientitem->GetIconName().find("set:") == std::string::npos)
+          {
+            CEGUI::ImagesetManager* imgmgr = guimanager->GetCEGUI()->GetImagesetManagerPtr();
+            if (!imgmgr->isImagesetPresent(clientitem->GetIconName().c_str()))
+            {
+              ///TODO: This imageset should be released when the item is destroyed.
+              imgmgr->createImagesetFromImageFile(clientitem->GetIconName().c_str(), 
+                clientitem->GetIconName().c_str());
+            }
+            setAndIcon = "set:"+ clientitem->GetIconName();
+            setAndIcon += " image:" + clientitem->GetIconName();
+          }
+          // A CEGUI imageset is specified.
+          else
+          {
+            setAndIcon = clientitem->GetIconName();
+          }
+
+          iconImage->setProperty("Image", setAndIcon.c_str());
+
         }
         else if (icontype == DragDrop::Skill)
         {
