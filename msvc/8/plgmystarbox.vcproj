@@ -335,6 +335,9 @@
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\plugins\environment\mystarbox\const.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\environment\mystarbox\halogen.h">
 			</File>
 			<File

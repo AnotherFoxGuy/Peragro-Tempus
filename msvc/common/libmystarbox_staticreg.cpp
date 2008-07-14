@@ -23,7 +23,7 @@ static char const metainfo_mystarbox[] =
 "      <class>"
 "        <name>peragro.environment.starboxfactory</name>"
 "        <implementation>MyStarboxFactory</implementation>"
-"        <description>Recon69s Starbox factory, displays a starscape by drawing 2d points on the 2d canvas before 3d objects draw. It clears the screen before drawing stars.</description>"
+"        <description>Recon69s Starbox factory, displays a starscape by drawing 2d points on the 2d canvas before 3d objects drawn. It clears the screen before drawing stars.</description>"
 "      </class>     "
 "    </classes>"
 "  </scf>"

@@ -798,6 +798,9 @@
 				RelativePath="..\..\plugins\environment\loader_starbox\loader_starbox.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\environment\mystarbox\const.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\environment\mystarbox\halogen.h">
 			</File>
 			<File
