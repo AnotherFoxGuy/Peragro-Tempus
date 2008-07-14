@@ -35,6 +35,7 @@
 #include <iutil/event.h>
 #include <iutil/eventh.h>
 #include <iutil/eventq.h>
+#include <csutil/eventnames.h>
 
 #include <string>
 
