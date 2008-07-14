@@ -35,8 +35,7 @@
 CS_IMPLEMENT_PLUGIN
 //SCF_IMPLEMENT_FACTORY (WorldManager)
 
-WorldManager::WorldManager(const char* name, iPointerLibrary* pl)
-: pointerLibrary(pl), basename(name), scfImplementationType (this)
+WorldManager::WorldManager() : scfImplementationType (this)
 {
   loading = false;
   camera.Set(0.0f);
@@ -47,11 +46,20 @@ WorldManager::WorldManager(const char* name, iPointerLibrary* pl)
   // Set to a very big number, so if they are changed to "0,0"
   // it can be detected.
   cx = cz = INT_MAX;
+} // end World() :P
 
+bool WorldManager::Initialize(iObjectRegistry* obj_reg)
+{
+  return true;
+}
+
+bool WorldManager::Initialize(const std::string& name, iPointerLibrary* pl)
+{
   Report(PT::Notify, "Loading world %s", basename.c_str());
 
-  object_reg = pointerLibrary->getObjectRegistry();
-  if (!object_reg) Report(PT::Error, "Failed to locate Object Registry!");
+  basename = name;
+  pointerLibrary = pl;
+  object_reg = pl->getObjectRegistry();
 
   csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
   if (!loader) Report(PT::Error, "Failed to locate Loader!");
@@ -69,11 +77,10 @@ WorldManager::WorldManager(const char* name, iPointerLibrary* pl)
 
   // Init current.
   SetGridSize(3); // default 3x3
-} // end World() :P
 
-bool WorldManager::Initialize(iObjectRegistry*)
-{
-}
+  return true;
+
+} // end Initialize
 
 WorldManager::~WorldManager()
 {

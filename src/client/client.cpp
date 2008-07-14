@@ -92,7 +92,7 @@
 //#include "common/util/wincrashdump.h"
 #include "common/version.h"
 
-#include "common/world/world.h"
+#include "include/world.h"
 
 #include "imystarbox.h"
 
@@ -511,8 +511,14 @@ namespace PT
     engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
 
     // Create the world.
-    world = new PT::World::World("MyWorld", &pointerlib);
-    pointerlib.setWorld(world);
+    csRef<iWorld> world = csLoadPlugin<iWorld> (plugin_mgr, "peragro.world");
+    if (world.IsValid())
+    {
+      world->Initialize("MyWorld", &pointerlib);
+      object_reg->Register (world, "iWorld");
+    }
+    else
+      Report(PT::Error, "Failed to load the iWorld!");
 
     // Let the engine prepare all lightmaps for use and also free all images
     // that were loaded for the texture manager.

@@ -81,11 +81,6 @@ namespace PT
     class ComponentManager;
   } // Component namespace
 
-  namespace World
-  {
-    class World;
-  } // World namespace
-
 } // PT namespace
 
 class PointerLibrary : public iPointerLibrary
@@ -113,7 +108,6 @@ private:
   PT::Chat::ChatManager* chatManager;
   PT::Component::ComponentManager* componentManager;
 
-  PT::World::World* world;
   PT::Reporter* reporter;
 
   PT::Entity::PlayerEntity* playerEntity;
@@ -141,7 +135,6 @@ public:
     chatManager = 0;
     componentManager = 0;
 
-    world = 0;
     reporter = 0;
 
     playerEntity = 0;
@@ -196,9 +189,6 @@ public:
 
   void setChatManager(PT::Chat::ChatManager* chatManager) { this->chatManager = chatManager; }
   PT::Chat::ChatManager* getChatManager() { return this->chatManager; }
-
-  void setWorld(PT::World::World* world) { this->world = world; }
-  PT::World::World* getWorld() { return this->world; }
 
   void setStateManager(PT::StateManager* stateManager) { this->stateManager = stateManager; }
   PT::StateManager* getStateManager() { return this->stateManager; }

@@ -25,7 +25,7 @@
 namespace MeshObjectFactory
 {
   csStringHash xmltokens;
-#define CS_TOKEN_ITEM_FILE "src/common/world/factoryloader/csloader.tok"
+#define CS_TOKEN_ITEM_FILE "plugins/world/factoryloader/csloader.tok"
 #include "cstool/tokenlist.h"
 #undef CS_TOKEN_ITEM_FILE
 

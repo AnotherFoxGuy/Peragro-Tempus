@@ -29,10 +29,6 @@ namespace PT
   {
     class EventManager;
   } // Events namespace
-  namespace World
-  {
-    class World;
-  } // World namespace
 
 } // PT namespace
 
@@ -57,11 +53,6 @@ public:
   virtual void setEventManager(PT::Events::EventManager* eventManager) = 0;
   /// Get the event manager.
   virtual PT::Events::EventManager* getEventManager() = 0;
-
-  /// Set the game world.
-  virtual void setWorld(PT::World::World* world) = 0;
-  /// Get the game world.
-  virtual PT::World::World* getWorld() = 0;
 
   /// Set the reporter.
   virtual void setReporter(PT::Reporter* reporter) = 0;

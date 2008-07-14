@@ -18,6 +18,7 @@
 
 #include "playerentity.h"
 
+#include <iengine/engine.h>
 #include <iengine/sector.h>
 #include <iengine/camera.h>
 #include <iutil/plugin.h>
@@ -35,7 +36,7 @@
 #include "common/event/interfaceevent.h"
 #include "common/event/entityevent.h"
 
-#include "common/world/world.h"
+#include "include/world.h"
 
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"
@@ -143,7 +144,10 @@ namespace PT
       pos = PT::Events::EntityHelper::GetPosition(&ev);
       ev.Retrieve("rotation", rot);
 
-      PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
+
+      world->EnterWorld(pos.x, pos.z);
       SetFullPosition(pos, rot, sectorName);
     }
 
@@ -171,7 +175,9 @@ namespace PT
       else
         Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
 
-      PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
+      csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
+
+      world->EnterWorld(pos.x, pos.z);
       SetFullPosition(pos, rot, sectorName.c_str());
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
@@ -229,7 +235,10 @@ namespace PT
     {
       if (!celEntity.IsValid()) return;
 
-      PointerLibrary::getInstance()->getWorld()->EnterWorld(pos.x, pos.z);
+      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
+
+      world->EnterWorld(pos.x, pos.z);
       this->SetFullPosition(pos, rotation, sector.c_str());
     }
 

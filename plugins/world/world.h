@@ -131,12 +131,14 @@ public:
   * @param name The world name.
   * @param pl The pointer library.
   */
-  WorldManager(const char* name, iPointerLibrary* pl);
+  WorldManager();
   /// Destructor.
   ~WorldManager();
 
   // From iComponent.
   virtual bool Initialize (iObjectRegistry*);
+
+  virtual bool Initialize(const std::string& name, iPointerLibrary* pl);
 
   /// Returns the object registry.
   iObjectRegistry* GetObjectRegistry() { return object_reg; }
