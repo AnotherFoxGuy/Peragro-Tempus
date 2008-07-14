@@ -1,0 +1,6 @@
+SubDir TOP plugins world levelloader ;
+
+Description threadedlevelloader : "Threaded level loader" ;
+Library threadedlevelloader :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs threadedlevelloader : CRYSTAL CEL ;

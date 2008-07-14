@@ -33,7 +33,7 @@ struct iMyStarbox : public virtual iBase
   SCF_INTERFACE(iMyStarbox,1,0,2);
  
   virtual void SetName(char const* name) = 0;  
-  virtual void SetAutoDraw(bool val ) = 0;  //api change 1.0.2
+  virtual void SetAutoDraw(const bool val ) = 0;  //api change 1.0.2
   virtual void SetUseTextures (bool val ) = 0;  //api change 1.0.2
   virtual void SetUseNebula (bool val ) = 0;  //api change 1.0.2
 

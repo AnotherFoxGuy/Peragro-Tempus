@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- world.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.world</name>
+        <implementation>World</implementation>
+        <description>World</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

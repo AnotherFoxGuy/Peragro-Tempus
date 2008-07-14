@@ -1,6 +1,0 @@
-SubDir TOP src common world levelloader ;
-
-Description threadedlevelloader : "Threaded level loader" ;
-Library threadedlevelloader :
-  [ Wildcard *.h *.cpp ] ;
-ExternalLibs threadedlevelloader : CRYSTAL CEL ;

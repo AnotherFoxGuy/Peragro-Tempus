@@ -1,0 +1,6 @@
+SubDir TOP plugins world factoryloader ;
+
+Description threadedfactoryloader : "Threaded factory loader" ;
+Library threadedfactoryloader :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs threadedfactoryloader : CRYSTAL CEL ;
