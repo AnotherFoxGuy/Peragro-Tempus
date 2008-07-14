@@ -28,7 +28,6 @@
 
 #include "common/reporter/reporter.h"
 #include "common/pointer/ipointer.h"
-#include "common/event/eventmanager.h"
 #include "common/event/regionevent.h"
 
 
@@ -77,6 +76,15 @@ bool WorldManager::Initialize(const std::string& name, iPointerLibrary* pl)
 
   // Init current.
   SetGridSize(3); // default 3x3
+
+  eventQueue = csQueryRegistry<iEventQueue> (object_reg);
+  if (!eventQueue) return false;
+
+  nameRegistry = csEventNameRegistry::GetRegistry(object_reg);
+  if (!nameRegistry) return false;
+
+  loadingId = nameRegistry->GetID("world.loading");
+  loadedId = nameRegistry->GetID("world.loaded");
 
   return true;
 
@@ -331,17 +339,17 @@ void WorldManager::Tick(float dt)
     if (!interiorManager->IsReady())
       allLoaded = false;
 
-    PT::Events::EventManager* evmgr = pointerLibrary->getEventManager();
-    csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
+    
+    csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadingId);
     worldEvent->Add("progress",
       tilesLoaded/static_cast<float>(GetGridSize()*GetGridSize()));
-    evmgr->AddEvent(worldEvent);
+    eventQueue->Post(worldEvent);
 
     if (allLoaded)
     {
       Report(PT::Notify, "World loaded!");
-      csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loaded");
-      evmgr->AddEvent(worldEvent);
+      csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadedId);
+      eventQueue->Post(worldEvent);
       loading = false;
     }
 
@@ -416,10 +424,9 @@ void WorldManager::EnterWorld(float x, float z)
   {
     Report(PT::Notify, "World loading...");
 
-    PT::Events::EventManager* evmgr = pointerLibrary->getEventManager();
-    csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
+    csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadingId);
     worldEvent->Add("progress", 0.0f);
-    evmgr->AddEvent(worldEvent);
+    eventQueue->Post(worldEvent);
 
     loading = true;
   }

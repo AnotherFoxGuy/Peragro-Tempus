@@ -44,5 +44,21 @@ namespace PT
       return true;
     }
 
+    bool SoundManager::LoadSoundEvents(const char* fileName)
+    {
+    }
+
+    bool SoundManager::LoadSoundEvents(iDocumentNode* node, const char* prefix)
+    {
+    }
+
+    bool SoundManager::RemoveSound(csEventID eventId)
+    {
+    }
+
+    bool SoundManager::RemoveSound(const char* fileName)
+    {
+    }
+
   } // Sound namespace
 } // PT namespace

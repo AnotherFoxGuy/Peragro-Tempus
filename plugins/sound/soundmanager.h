@@ -51,10 +51,10 @@ namespace PT
       std::string eventId;
 
     public:
-      SoundEvent ();
-      virtual ~SoundEvent ();
+      SoundEvent () {}
+      virtual ~SoundEvent () {}
 
-      virtual bool Play (iEvent& ev);
+      virtual bool Play (iEvent& ev) {}
     };
 
     class SoundEventMaterial : public SoundEvent
@@ -64,10 +64,10 @@ namespace PT
       std::string destinationMaterial;
 
     public:
-      SoundEventMaterial ();
-      virtual ~SoundEventMaterial ();
+      SoundEventMaterial () {}
+      virtual ~SoundEventMaterial () {}
 
-      virtual bool Play (iEvent& ev);
+      virtual bool Play (iEvent& ev) {}
     };
 
     class SoundEventAction : public SoundEvent
@@ -76,10 +76,10 @@ namespace PT
       std::string actionName;
 
     public:
-      SoundEventAction ();
-      virtual ~SoundEventAction ();
+      SoundEventAction () {}
+      virtual ~SoundEventAction () {}
 
-      virtual bool Play (iEvent& ev);
+      virtual bool Play (iEvent& ev) {}
     };
 
     class SoundManager : public scfImplementation2<SoundManager,iSoundManager,iComponent>

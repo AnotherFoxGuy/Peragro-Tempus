@@ -32,6 +32,10 @@
 #include <iengine/engine.h>
 #include <imap/loader.h>
 
+#include <iutil/event.h>
+#include <iutil/eventh.h>
+#include <iutil/eventq.h>
+
 #include <string>
 
 struct iObjectRegistry;
@@ -58,6 +62,12 @@ using namespace PT::World;
 */
 class WorldManager : public scfImplementation2<WorldManager,iWorld,iComponent>
 {
+private:
+  csRef<iEventQueue> eventQueue;
+  csRef<iEventNameRegistry> nameRegistry;
+  csEventID loadingId;
+  csEventID loadedId;
+
 private:
   /// Whether more tiles need to be loaded.
   bool loading;
