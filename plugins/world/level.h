@@ -35,12 +35,12 @@ struct iObjectRegistry;
 struct iEngineFrameCallback;
 
 class LevelLoader;
+class WorldManager;
 
 namespace PT
 {
   namespace World
   {
-    class World;
     class ModelManager;
     struct Factory;
     class InteriorManager;
@@ -161,7 +161,7 @@ namespace PT
        * Constructor.
        * @param world The world this level is part of.
        */
-      Level(World* world);
+      Level(WorldManager* world);
 
       /// Destructor.
       virtual ~Level();

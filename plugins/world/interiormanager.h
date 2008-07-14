@@ -33,13 +33,14 @@
 struct iObjectRegistry;
 struct iDocumentNode;
 
+class WorldManager;
+
 namespace PT
 {
   namespace World
   {
     struct Interior;
     struct InteriorFactory;
-    class World;
 
     /**
      * Manages interior spaces.
@@ -58,7 +59,7 @@ namespace PT
 
     private:
       /// The game world.
-      World* world;
+      WorldManager* world;
       /// The object registry.
       iObjectRegistry* object_reg;
 
@@ -85,7 +86,7 @@ namespace PT
        * Constructor.
        * @param world The game world.
        */
-      InteriorManager(World* world);
+      InteriorManager(WorldManager* world);
 
       /// Destructor.
       ~InteriorManager();

@@ -31,7 +31,7 @@ namespace PT
 {
   namespace World
   {
-    InteriorManager::InteriorManager(World* world)
+    InteriorManager::InteriorManager(WorldManager* world)
     {
       this->world = world;
       this->object_reg = world->GetObjectRegistry();

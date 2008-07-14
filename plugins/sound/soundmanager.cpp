@@ -20,21 +20,29 @@
 #include <iutil/objreg.h>
 #include "soundmanager.h"
 
-CS_IMPLEMENT_PLUGIN
-SCF_IMPLEMENT_FACTORY (SoundManager)
-
-SoundManager::SoundManager(iBase* parent) :
-  scfImplementationType (this, parent),
-  object_reg(0)
+namespace PT
 {
-}
+  namespace Sound
+  {
 
-SoundManager::~SoundManager()
-{
-}
+    CS_IMPLEMENT_PLUGIN
+    SCF_IMPLEMENT_FACTORY (SoundManager)
 
-bool SoundManager::Initialize (iObjectRegistry* r)
-{
-  object_reg = r;
-  return true;
-}
+      SoundManager::SoundManager(iBase* parent) :
+    scfImplementationType (this, parent),
+      object_reg(0)
+    {
+    }
+
+    SoundManager::~SoundManager()
+    {
+    }
+
+    bool SoundManager::Initialize (iObjectRegistry* r)
+    {
+      object_reg = r;
+      return true;
+    }
+
+  } // Sound namespace
+} // PT namespace

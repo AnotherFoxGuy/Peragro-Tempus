@@ -24,10 +24,11 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "include/world"
+#include "include/world.h"
 
 #include <cssysdef.h>
 #include <csutil/scf_implementation.h>
+#include <iutil/comp.h>
 #include <iengine/engine.h>
 #include <imap/loader.h>
 
@@ -46,116 +47,121 @@ namespace PT
     class MapTile;
     class ModelManager;
     class InteriorManager;
-
-    /**
-     * Manages the tile grid array around the camera, by loading and deleting
-     * tiles as the camera moves.
-     */
-    class World : public scfImplementation1<World, iWorld>
-    {
-    private:
-      /// Whether more tiles need to be loaded.
-      bool loading;
-
-      /// Number of tiles in the cache.
-      int maptilecachesize;
-      /// Tile cache.
-      MapTile** maptilecache;
-
-      /// The current grid size.
-      int current_size;
-      /// Loaded subset of the world.
-      MapTile*** current;
-
-      /// Current x coordinate in tile space.
-      int cx;
-      /// Current z coordinate in tile space.
-      int cz;
-
-      /**
-       * Load a tile with the given coordinates or return
-       * it from the cache if it was already loaded.
-       * @param x Tile index in the x dimension.
-       * @param z Tile index in the z dimension.
-       * @return The tile at the coordinates.
-       */
-      MapTile* LoadTile(int x, int z);
-
-      /**
-       * Enter a tile and load all surrounding tiles.
-       * @param x Tile index in the x dimension.
-       * @param z Tile index in the z dimension.
-       */
-      void EnterTile(int x, int z);
-
-      /**
-       * Check if player position is within tile boundaries.
-       * @param dt Time delta. (currently unused)
-       */
-      void Tick(float dt);
-
-    private:
-      /// The object registry.
-      iObjectRegistry* object_reg;
-      /// The pointer library.
-      iPointerLibrary* pointerLibrary;
-      /// The model manager.
-      ModelManager* modelManager;
-      /// The interior manager.
-      InteriorManager* interiorManager;
-
-      struct FrameCallBack
-        : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
-      {
-        World* world;
-        FrameCallBack (World* w) : scfImplementationType (this) { world = w;}
-        virtual void StartFrame (iEngine* engine, iRenderView* rview);
-      };
-      friend struct FrameCallBack;
-      /// Callback to update the camera coordinates.
-      csRef<FrameCallBack> cb;
-      /// The current coordinates of the camera.
-      csVector3 camera;
-
-    public:
-      /// The name of the world.
-      std::string basename;
-
-      /**
-       * Constructor.
-       * @param name The world name.
-       * @param pl The pointer library.
-       */
-      World(const char* name, iPointerLibrary* pl);
-      /// Destructor.
-      ~World();
-
-      /// Returns the object registry.
-      iObjectRegistry* GetObjectRegistry() { return object_reg; }
-      /// Returns the model manager.
-      ModelManager* GetModelManager() { return modelManager; }
-      /// Returns the interior manager.
-      InteriorManager* GetInteriorManager() { return interiorManager; }
-
-      /**
-       * Enter the world at a horizontal (x, z) coordinate in world space.
-       * @param x X coordinate.
-       * @param z Z coordinate.
-       */
-      void EnterWorld(float x, float z);
-
-      /// Set the loaded tile grid size.
-      void SetGridSize(int size);
-      /// Get the loaded tile grid size.
-      int GetGridSize() const;
-
-      /// Set the cached tile grid size.
-      void SetCacheSize(int size);
-      /// Get the cached tile grid size.
-      int GetCacheSize() const;
-    };
-
   } // World namespace
 } // PT namespace
+
+using namespace PT::World;
+
+/**
+* Manages the tile grid array around the camera, by loading and deleting
+* tiles as the camera moves.
+*/
+class WorldManager : public scfImplementation2<WorldManager,iWorld,iComponent>
+{
+private:
+  /// Whether more tiles need to be loaded.
+  bool loading;
+
+  /// Number of tiles in the cache.
+  int maptilecachesize;
+  /// Tile cache.
+  MapTile** maptilecache;
+
+  /// The current grid size.
+  int current_size;
+  /// Loaded subset of the world.
+  MapTile*** current;
+
+  /// Current x coordinate in tile space.
+  int cx;
+  /// Current z coordinate in tile space.
+  int cz;
+
+  /**
+  * Load a tile with the given coordinates or return
+  * it from the cache if it was already loaded.
+  * @param x Tile index in the x dimension.
+  * @param z Tile index in the z dimension.
+  * @return The tile at the coordinates.
+  */
+  MapTile* LoadTile(int x, int z);
+
+  /**
+  * Enter a tile and load all surrounding tiles.
+  * @param x Tile index in the x dimension.
+  * @param z Tile index in the z dimension.
+  */
+  void EnterTile(int x, int z);
+
+  /**
+  * Check if player position is within tile boundaries.
+  * @param dt Time delta. (currently unused)
+  */
+  void Tick(float dt);
+
+private:
+  /// The object registry.
+  iObjectRegistry* object_reg;
+  /// The pointer library.
+  iPointerLibrary* pointerLibrary;
+  /// The model manager.
+  ModelManager* modelManager;
+  /// The interior manager.
+  InteriorManager* interiorManager;
+
+  struct FrameCallBack
+    : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+  {
+    WorldManager* world;
+    FrameCallBack (WorldManager* w) : scfImplementationType (this) { world = w;}
+    virtual void StartFrame (iEngine* engine, iRenderView* rview);
+  };
+  friend struct FrameCallBack;
+  /// Callback to update the camera coordinates.
+  csRef<FrameCallBack> cb;
+  /// The current coordinates of the camera.
+  csVector3 camera;
+
+public:
+  /// The name of the world.
+  std::string basename;
+
+  /**
+  * Constructor.
+  * @param name The world name.
+  * @param pl The pointer library.
+  */
+  WorldManager(const char* name, iPointerLibrary* pl);
+  /// Destructor.
+  ~WorldManager();
+
+  // From iComponent.
+  virtual bool Initialize (iObjectRegistry*);
+
+  /// Returns the object registry.
+  iObjectRegistry* GetObjectRegistry() { return object_reg; }
+  /// Returns the model manager.
+  ModelManager* GetModelManager() { return modelManager; }
+  /// Returns the interior manager.
+  InteriorManager* GetInteriorManager() { return interiorManager; }
+
+  /**
+  * Enter the world at a horizontal (x, z) coordinate in world space.
+  * @param x X coordinate.
+  * @param z Z coordinate.
+  */
+  void EnterWorld(float x, float z);
+
+  /// Set the loaded tile grid size.
+  void SetGridSize(int size);
+  /// Get the loaded tile grid size.
+  int GetGridSize() const;
+
+  /// Set the cached tile grid size.
+  void SetCacheSize(int size);
+  /// Get the cached tile grid size.
+  int GetCacheSize() const;
+};
+
 
 #endif

@@ -22,76 +22,91 @@
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>
 #include <csutil/csstring.h>
+#include <iutil/eventnames.h>
+
+#include <csutil/refcount.h>
+
+#include <map>
 
 #include "include/soundmanager.h"
 
 struct iObjectRegistry;
 struct iSoundManager;
 
-class SoundEvent : public virtual iBase
+struct iEvent;
+
+namespace PT
 {
-protected:
-  /// low, norm, high, or always.
-  int priority;
-  /// Filename of the sound to play.
-  std::string fileName;
-  /// Eventname.
-  std::string eventId;
+  namespace Sound
+  {
 
-public:
-  SoundEvent ();
-  virtual ~SoundEvent ();
+    class SoundEvent : public csRefCount
+    {
+    protected:
+      /// low, norm, high, or always.
+      int priority;
+      /// Filename of the sound to play.
+      std::string fileName;
+      /// Eventname.
+      std::string eventId;
 
-  virtual bool Play (iEvent& ev);
-};
+    public:
+      SoundEvent ();
+      virtual ~SoundEvent ();
 
-class SoundEventMaterial : public SoundEvent
-{
-private:
-  std::string sourceMaterial;
-  std::string destinationMaterial;
+      virtual bool Play (iEvent& ev);
+    };
 
-public:
-  SoundEventMaterial ();
-  virtual ~SoundEventMaterial ();
+    class SoundEventMaterial : public SoundEvent
+    {
+    private:
+      std::string sourceMaterial;
+      std::string destinationMaterial;
 
-  virtual bool Play (iEvent& ev);
-};
+    public:
+      SoundEventMaterial ();
+      virtual ~SoundEventMaterial ();
 
-class SoundEventAction : public SoundEvent
-{
-private:
-  std::string actionName;
+      virtual bool Play (iEvent& ev);
+    };
 
-public:
-  SoundEventAction ();
-  virtual ~SoundEventAction ();
+    class SoundEventAction : public SoundEvent
+    {
+    private:
+      std::string actionName;
 
-  virtual bool Play (iEvent& ev);
-};
+    public:
+      SoundEventAction ();
+      virtual ~SoundEventAction ();
 
-class SoundManager : public scfImplementation2<SoundManager,iSoundManager,iComponent>
-{
-private:
-  iObjectRegistry* object_reg;
+      virtual bool Play (iEvent& ev);
+    };
 
-  std::hashmap<std::string, iSoundEvent> sounds;
+    class SoundManager : public scfImplementation2<SoundManager,iSoundManager,iComponent>
+    {
+    private:
+      iObjectRegistry* object_reg;
 
-  virtual bool HandleEvent(iEvent& ev);
+      std::map<std::string, SoundEvent> sounds;
 
-public:
-    SoundManager (iBase* parent);
-    virtual ~SoundManager();
+      virtual bool HandleEvent(iEvent& ev);
 
-    // From iComponent.
-    virtual bool Initialize (iObjectRegistry*);
+    public:
+      SoundManager (iBase* parent);
+      virtual ~SoundManager();
 
-    virtual bool LoadSoundEvents(const char* fileName);
-    virtual bool LoadSoundEvents(iDocumentNode* node, const char* prefix = 0);
+      // From iComponent.
+      virtual bool Initialize (iObjectRegistry*);
 
-    virtual bool RemoveSound(const char* eventId);
-    virtual bool RemoveSound(const char* fileName);
-};
+      virtual bool LoadSoundEvents(const char* fileName);
+      virtual bool LoadSoundEvents(iDocumentNode* node, const char* prefix = 0);
+
+      virtual bool RemoveSound(csEventID eventId);
+      virtual bool RemoveSound(const char* fileName);
+    };
+
+  } // Sound namespace
+} // PT namespace
 
 #endif // SOUNDMANAGER_H_
 

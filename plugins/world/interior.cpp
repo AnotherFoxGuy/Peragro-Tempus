@@ -45,7 +45,7 @@ namespace PT
 {
   namespace World
   {
-    InteriorFactory::InteriorFactory(const std::string& fileName, World* world)
+    InteriorFactory::InteriorFactory(const std::string& fileName, WorldManager* world)
       : scfImplementationType (this), Level(world)
     {
       this->fileName = fileName;

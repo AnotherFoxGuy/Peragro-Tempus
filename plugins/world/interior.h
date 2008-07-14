@@ -64,7 +64,7 @@ namespace PT
        * @param fileName The mesh file path.
        * @param world The world the interior is part of.
        */
-      InteriorFactory(const std::string& fileName, World* world);
+      InteriorFactory(const std::string& fileName, WorldManager* world);
 
       /// Destructor.
       ~InteriorFactory();

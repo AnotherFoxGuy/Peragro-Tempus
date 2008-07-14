@@ -31,403 +31,401 @@
 #include "common/event/eventmanager.h"
 #include "common/event/regionevent.h"
 
-namespace PT
+
+CS_IMPLEMENT_PLUGIN
+//SCF_IMPLEMENT_FACTORY (WorldManager)
+
+WorldManager::WorldManager(const char* name, iPointerLibrary* pl)
+: pointerLibrary(pl), basename(name), scfImplementationType (this)
 {
-  namespace World
+  loading = false;
+  camera.Set(0.0f);
+  maptilecachesize = 0;
+  maptilecache = 0;
+  current_size = 0;
+  current = 0;
+  // Set to a very big number, so if they are changed to "0,0"
+  // it can be detected.
+  cx = cz = INT_MAX;
+
+  Report(PT::Notify, "Loading world %s", basename.c_str());
+
+  object_reg = pointerLibrary->getObjectRegistry();
+  if (!object_reg) Report(PT::Error, "Failed to locate Object Registry!");
+
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+  if (!loader) Report(PT::Error, "Failed to locate Loader!");
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  if (!vfs) Report(PT::Error, "Failed to locate VFS!");
+
+  vfs->ChDir("/peragro/art/world/");
+  loader->LoadMapFile("world", false);
+
+  modelManager = new ModelManager(object_reg);
+  interiorManager = new InteriorManager(this);
+
+  // Init map tilechache.
+  SetCacheSize(16); // default 16
+
+  // Init current.
+  SetGridSize(3); // default 3x3
+} // end World() :P
+
+bool WorldManager::Initialize(iObjectRegistry*)
+{
+}
+
+WorldManager::~WorldManager()
+{
+  Report(PT::Notify, "Unloading world %s", basename.c_str());
+
+  // Remove callback.
+  if (cb.IsValid())
   {
-    CS_IMPLEMENT_PLUGIN
-    SCF_IMPLEMENT_FACTORY (World)
+    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+    engine->RemoveEngineFrameCallback(cb);
+  }
 
-    World::World(const char* name, iPointerLibrary* pl)
-      : pointerLibrary(pl), basename(name), scfImplementationType (this)
+  // Delete the cache array AND it's elements.
+  if (maptilecache != 0)
+  {
+    for (int i=0; i< GetCacheSize(); i++)
     {
-      loading = false;
-      camera.Set(0.0f);
-      maptilecachesize = 0;
-      maptilecache = 0;
-      current_size = 0;
-      current = 0;
-      // Set to a very big number, so if they are changed to "0,0"
-      // it can be detected.
-      cx = cz = INT_MAX;
+      if (maptilecache[i] != 0) delete maptilecache[i];
+    }
+    delete [] maptilecache;
+  }
 
-      Report(PT::Notify, "Loading world %s", basename.c_str());
-
-      object_reg = pointerLibrary->getObjectRegistry();
-      if (!object_reg) Report(PT::Error, "Failed to locate Object Registry!");
-
-      csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
-      if (!loader) Report(PT::Error, "Failed to locate Loader!");
-      csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-      if (!vfs) Report(PT::Error, "Failed to locate VFS!");
-
-      vfs->ChDir("/peragro/art/world/");
-      loader->LoadMapFile("world", false);
-
-      modelManager = new ModelManager(object_reg);
-      interiorManager = new InteriorManager(this);
-
-      // Init map tilechache.
-      SetCacheSize(16); // default 16
-
-      // Init current.
-      SetGridSize(3); // default 3x3
-    } // end World() :P
-
-    World::~World()
+  // Delete the grid array.
+  if (current != 0)
+  {
+    for (int i = 0; i < GetGridSize(); i++)
     {
-      Report(PT::Notify, "Unloading world %s", basename.c_str());
+      delete [] current[i];
+    }
+    delete [] current;
+  }
 
-      // Remove callback.
-      if (cb.IsValid())
-      {
-        csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-        engine->RemoveEngineFrameCallback(cb);
-      }
+  // Delete the model manager.
+  delete modelManager;
 
-      // Delete the cache array AND it's elements.
-      if (maptilecache != 0)
-      {
-        for (int i=0; i< GetCacheSize(); i++)
-        {
-          if (maptilecache[i] != 0) delete maptilecache[i];
-        }
-        delete [] maptilecache;
-      }
+  // Delete the interior manager.
+  delete interiorManager;
+} // end ~World()
 
-      // Delete the grid array.
-      if (current != 0)
-      {
-        for (int i = 0; i < GetGridSize(); i++)
-        {
-          delete [] current[i];
-        }
-        delete [] current;
-      }
+void WorldManager::SetGridSize(int size)
+{
+  // Sanity check.
+  // We don't support smaller than 3!
+  if (size < 3) size = 3;
 
-      // Delete the model manager.
-      delete modelManager;
+  // Sanity check.
+  // The cache should always be bigger then size^2
+  int gridSizeSqr = size * size;
+  if (GetCacheSize() < gridSizeSqr) SetCacheSize(gridSizeSqr + size);
 
-      // Delete the interior manager.
-      delete interiorManager;
-    } // end ~World()
-
-    void World::SetGridSize(int size)
+  // Init a new grid array.
+  MapTile*** newGrid = new MapTile**[size];
+  for (int j = 0; j < size; j++)
+  {
+    newGrid[j] = new MapTile*[size];
+    for (int i = 0; i < size; i++)
     {
-      // Sanity check.
-      // We don't support smaller than 3!
-      if (size < 3) size = 3;
+      newGrid[j][i] = 0;
+    }
+  }
 
-      // Sanity check.
-      // The cache should always be bigger then size^2
-      int gridSizeSqr = size * size;
-      if (GetCacheSize() < gridSizeSqr) SetCacheSize(gridSizeSqr + size);
-
-      // Init a new grid array.
-      MapTile*** newGrid = new MapTile**[size];
-      for (int j = 0; j < size; j++)
-      {
-        newGrid[j] = new MapTile*[size];
-        for (int i = 0; i < size; i++)
-        {
-          newGrid[j][i] = 0;
-        }
-      }
-
-      if (current != 0)
-      {
-        // Copy.
-        int min = std::min(size, GetGridSize());
-        int oldCenter = (GetGridSize() - 1) / 2;
-        int newCenter = (size - 1) / 2;
-        int offset = (min - 1) / 2;
-        int oldIdx = oldCenter-offset;
-        int newIdx = newCenter-offset;
-        for (int j = 0; j < min; j++)
-        {
-          for (int i = 0; i < min; i++)
-          {
-            newGrid[newIdx+i][newIdx+j] = current[oldIdx+i][oldIdx+j];
-          }
-        }
-
-        // Remains are taken care of by the cache.
-
-        // Delete the old array.
-        for (int i = 0; i < GetGridSize(); i++)
-        {
-          delete [] current[i];
-        }
-        delete [] current;
-      }
-
-      bool load = (current != 0); // If it's an init, don't load any tiles.
-      current_size = size;
-      current = newGrid;
-      if (load) EnterTile(cx, cz); // Load new surrounding tiles.
-    } // end SetGridSize()
-
-    int World::GetGridSize() const
+  if (current != 0)
+  {
+    // Copy.
+    int min = std::min(size, GetGridSize());
+    int oldCenter = (GetGridSize() - 1) / 2;
+    int newCenter = (size - 1) / 2;
+    int offset = (min - 1) / 2;
+    int oldIdx = oldCenter-offset;
+    int newIdx = newCenter-offset;
+    for (int j = 0; j < min; j++)
     {
-      return current_size;
-    } // end GetGridSize()
-
-    void World::SetCacheSize(int size)
-    {
-      // Sanity check.
-      int gridSizeSqr = GetGridSize() * GetGridSize();
-      if (size < gridSizeSqr) size = gridSizeSqr + GetGridSize();
-
-      // Init a new cache array.
-      MapTile** newCache = new MapTile*[size];
-      for (int i = 0; i < size; i++){ newCache[i] = 0;}
-
-      if (maptilecache != 0)
+      for (int i = 0; i < min; i++)
       {
-        // Sort from closest to furthest.
-        MapTile* temp;
-        for(int j = 0; j < GetCacheSize()-1; j++)
-        {
-          for(int i = 1; i < GetCacheSize()-j; i++)
-          {
-            unsigned int score_i_1 = ~0; // Very big number.
-            unsigned int score_i = ~0;
-            if (maptilecache[i-1] != 0)
-            {
-              score_i_1 = abs(maptilecache[i-1]->x - cx) +
-                abs(maptilecache[i-1]->z - cz);
-            }
-            if (maptilecache[i] != 0)
-            {
-              score_i = abs(maptilecache[i]->x - cx) +
-                abs(maptilecache[i]->z - cz);
-            }
-            // If score is bigger: swap.
-            if (score_i_1 > score_i)
-            {
-              temp = maptilecache[i];
-              maptilecache[i]   = maptilecache[i-1];
-              maptilecache[i-1] = temp;
-            }
-          }
-        }
-
-        // Copy.
-        for (int i = 0; i < std::min(size, GetCacheSize()); i++)
-        {
-          newCache[i] = maptilecache[i];
-        }
-
-        // Delete any remains: the ones that are the furthest.
-        for (int i = size; i < GetCacheSize(); i++)
-        {
-          if (maptilecache[i] != 0) delete maptilecache[i];
-        }
-
-        // Delete the old array.
-        delete [] maptilecache;
+        newGrid[newIdx+i][newIdx+j] = current[oldIdx+i][oldIdx+j];
       }
+    }
 
-      maptilecachesize = size;
-      maptilecache = newCache;
-    } // end SetCacheSize()
+    // Remains are taken care of by the cache.
 
-    int World::GetCacheSize() const
+    // Delete the old array.
+    for (int i = 0; i < GetGridSize(); i++)
     {
-      return maptilecachesize;
-    } // end GetCacheSize()
+      delete [] current[i];
+    }
+    delete [] current;
+  }
 
-    void World::EnterTile(int x, int z)
+  bool load = (current != 0); // If it's an init, don't load any tiles.
+  current_size = size;
+  current = newGrid;
+  if (load) EnterTile(cx, cz); // Load new surrounding tiles.
+} // end SetGridSize()
+
+int WorldManager::GetGridSize() const
+{
+  return current_size;
+} // end GetGridSize()
+
+void WorldManager::SetCacheSize(int size)
+{
+  // Sanity check.
+  int gridSizeSqr = GetGridSize() * GetGridSize();
+  if (size < gridSizeSqr) size = gridSizeSqr + GetGridSize();
+
+  // Init a new cache array.
+  MapTile** newCache = new MapTile*[size];
+  for (int i = 0; i < size; i++){ newCache[i] = 0;}
+
+  if (maptilecache != 0)
+  {
+    // Sort from closest to furthest.
+    MapTile* temp;
+    for(int j = 0; j < GetCacheSize()-1; j++)
     {
-      // Hide everything.
-      if (maptilecache != 0)
+      for(int i = 1; i < GetCacheSize()-j; i++)
       {
-        for (int i = 0 ; i < maptilecachesize; i++)
+        unsigned int score_i_1 = ~0; // Very big number.
+        unsigned int score_i = ~0;
+        if (maptilecache[i-1] != 0)
         {
-          if (maptilecache[i] != 0) maptilecache[i]->SetVisible(false);
+          score_i_1 = abs(maptilecache[i-1]->x - cx) +
+            abs(maptilecache[i-1]->z - cz);
+        }
+        if (maptilecache[i] != 0)
+        {
+          score_i = abs(maptilecache[i]->x - cx) +
+            abs(maptilecache[i]->z - cz);
+        }
+        // If score is bigger: swap.
+        if (score_i_1 > score_i)
+        {
+          temp = maptilecache[i];
+          maptilecache[i]   = maptilecache[i-1];
+          maptilecache[i-1] = temp;
         }
       }
+    }
 
-      // Update our position.
-      cx = x;
-      cz = z;
-
-      // Load the surrounding tiles.
-      int offset = (GetGridSize() - 1) / 2;
-      for (int j = 0; j < GetGridSize(); j++)
-      {
-        for (int i = 0; i < GetGridSize(); i++)
-        {
-          current[j][i] = LoadTile(x-offset+i, z-offset+j);
-          current[j][i]->SetVisible(true);
-        }
-      }
-    } // end EnterTile()
-
-    MapTile* World::LoadTile(int x, int z)
+    // Copy.
+    for (int i = 0; i < std::min(size, GetCacheSize()); i++)
     {
-      int firstnull = maptilecachesize;
-      for (int i = 0; i < maptilecachesize; i++)
-      {
-        if ((maptilecache[i] != 0) && (maptilecache[i]->x == x) &&
-          (maptilecache[i]->z == z))
-        {
-          return maptilecache[i];
-        }
-        if (maptilecache[i] == 0 && i < firstnull) firstnull = i;
-      }
+      newCache[i] = maptilecache[i];
+    }
 
-      // We need to find a place in the cache.
-      if (firstnull == maptilecachesize)
-      {
-        int score, maxscore = 0, maxidx = 0;
-        // Oh shit! we need to throw away a tile!
-        for (int i = 0; i < maptilecachesize; i++)
-        {
-          score = abs(maptilecache[i]->x - cx) + abs(maptilecache[i]->z - cz);
-          if (score > maxscore)
-          {
-            maxscore = score;
-            maxidx = i;
-          }
-        }
-
-        // maxidx is the winner. (loser)
-        delete maptilecache[maxidx];
-        firstnull = maxidx;
-      }
-
-      char name[256];
-      snprintf(name, 256, "tile-%d-%d", x, z);
-
-      maptilecache[firstnull] = new MapTile(x,z,name, this);
-      return maptilecache[firstnull];
-    } // end LoadTile()
-
-    void World::Tick(float dt)
+    // Delete any remains: the ones that are the furthest.
+    for (int i = size; i < GetCacheSize(); i++)
     {
-      if (loading)
+      if (maptilecache[i] != 0) delete maptilecache[i];
+    }
+
+    // Delete the old array.
+    delete [] maptilecache;
+  }
+
+  maptilecachesize = size;
+  maptilecache = newCache;
+} // end SetCacheSize()
+
+int WorldManager::GetCacheSize() const
+{
+  return maptilecachesize;
+} // end GetCacheSize()
+
+void WorldManager::EnterTile(int x, int z)
+{
+  // Hide everything.
+  if (maptilecache != 0)
+  {
+    for (int i = 0 ; i < maptilecachesize; i++)
+    {
+      if (maptilecache[i] != 0) maptilecache[i]->SetVisible(false);
+    }
+  }
+
+  // Update our position.
+  cx = x;
+  cz = z;
+
+  // Load the surrounding tiles.
+  int offset = (GetGridSize() - 1) / 2;
+  for (int j = 0; j < GetGridSize(); j++)
+  {
+    for (int i = 0; i < GetGridSize(); i++)
+    {
+      current[j][i] = LoadTile(x-offset+i, z-offset+j);
+      current[j][i]->SetVisible(true);
+    }
+  }
+} // end EnterTile()
+
+MapTile* WorldManager::LoadTile(int x, int z)
+{
+  int firstnull = maptilecachesize;
+  for (int i = 0; i < maptilecachesize; i++)
+  {
+    if ((maptilecache[i] != 0) && (maptilecache[i]->x == x) &&
+      (maptilecache[i]->z == z))
+    {
+      return maptilecache[i];
+    }
+    if (maptilecache[i] == 0 && i < firstnull) firstnull = i;
+  }
+
+  // We need to find a place in the cache.
+  if (firstnull == maptilecachesize)
+  {
+    int score, maxscore = 0, maxidx = 0;
+    // Oh shit! we need to throw away a tile!
+    for (int i = 0; i < maptilecachesize; i++)
+    {
+      score = abs(maptilecache[i]->x - cx) + abs(maptilecache[i]->z - cz);
+      if (score > maxscore)
       {
-        bool allLoaded = true;
-        float tilesLoaded = 0.0f;
-        for (int j = 0; j < GetGridSize(); j++)
-        {
-          for (int i = 0; i < GetGridSize(); i++)
-          {
-            if ( (current[j][i] == 0) || !current[j][i]->IsReady() )
-              allLoaded = false;
-            else
-              tilesLoaded += 1;
-          }
-        }
-        if (!interiorManager->IsReady())
+        maxscore = score;
+        maxidx = i;
+      }
+    }
+
+    // maxidx is the winner. (loser)
+    delete maptilecache[maxidx];
+    firstnull = maxidx;
+  }
+
+  char name[256];
+  snprintf(name, 256, "tile-%d-%d", x, z);
+
+  maptilecache[firstnull] = new MapTile(x,z,name, this);
+  return maptilecache[firstnull];
+} // end LoadTile()
+
+void WorldManager::Tick(float dt)
+{
+  if (loading)
+  {
+    bool allLoaded = true;
+    float tilesLoaded = 0.0f;
+    for (int j = 0; j < GetGridSize(); j++)
+    {
+      for (int i = 0; i < GetGridSize(); i++)
+      {
+        if ( (current[j][i] == 0) || !current[j][i]->IsReady() )
           allLoaded = false;
-
-        PT::Events::EventManager* evmgr = pointerLibrary->getEventManager();
-        csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
-        worldEvent->Add("progress",
-          tilesLoaded/static_cast<float>(GetGridSize()*GetGridSize()));
-        evmgr->AddEvent(worldEvent);
-
-        if (allLoaded)
-        {
-          Report(PT::Notify, "World loaded!");
-          csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loaded");
-          evmgr->AddEvent(worldEvent);
-          loading = false;
-        }
-
-        return;
+        else
+          tilesLoaded += 1;
       }
+    }
+    if (!interiorManager->IsReady())
+      allLoaded = false;
 
-      int p = (GetGridSize() - 1) / 2;
-      if (current[p][p] != 0)
-      {
-        // If we're out of bounds of our center tile, we're entering a new tile.
-        if ((camera.x < current[p][p]->xbase) ||
-            (camera.x > (current[p][p]->xbase+TILESIZE)) ||
-            (camera.z < current[p][p]->zbase) ||
-            (camera.z > (current[p][p]->zbase+TILESIZE)))
-        {
-          if (camera.x < 0)
-          {
-            camera.x -= TILESIZE;
-          }
-          if (camera.z < 0)
-          {
-            camera.z -= TILESIZE;
-          }
+    PT::Events::EventManager* evmgr = pointerLibrary->getEventManager();
+    csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
+    worldEvent->Add("progress",
+      tilesLoaded/static_cast<float>(GetGridSize()*GetGridSize()));
+    evmgr->AddEvent(worldEvent);
 
-          int ex,ez;
-          ex = (int)(camera.x / TILESIZE);
-          ez = (int)(camera.z / TILESIZE);
-
-          EnterTile(ex,ez);
-          Report(PT::Debug, "EnterTile (%d,%d) (%f, %f)",
-            ex, ez, camera.x, camera.z);
-        }
-      }
-    } // end Tick()
-
-    void World::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
+    if (allLoaded)
     {
-      if (!world)
-      {
-        engine->RemoveEngineFrameCallback(this);
-        return;
-      }
+      Report(PT::Notify, "World loaded!");
+      csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loaded");
+      evmgr->AddEvent(worldEvent);
+      loading = false;
+    }
 
-      iCamera* cam = rview->GetCamera();
-      if (cam)
-        world->camera = cam->GetTransform().GetOrigin();
+    return;
+  }
 
-      world->Tick(0);
-
-    } // end StartFrame()
-
-    void World::EnterWorld(float x, float z)
+  int p = (GetGridSize() - 1) / 2;
+  if (current[p][p] != 0)
+  {
+    // If we're out of bounds of our center tile, we're entering a new tile.
+    if ((camera.x < current[p][p]->xbase) ||
+      (camera.x > (current[p][p]->xbase+TILESIZE)) ||
+      (camera.z < current[p][p]->zbase) ||
+      (camera.z > (current[p][p]->zbase+TILESIZE)))
     {
-      camera.x = x;
-      camera.z = z;
-
-      // This is so the int cast below rounds to the correct value.
-      if (x < 0)
+      if (camera.x < 0)
       {
-        x -= TILESIZE;
+        camera.x -= TILESIZE;
       }
-      if (z < 0)
+      if (camera.z < 0)
       {
-        z -= TILESIZE;
+        camera.z -= TILESIZE;
       }
 
-      int ex, ez;
-      ex = static_cast<int>(x / TILESIZE);
-      ez = static_cast<int>(z / TILESIZE);
+      int ex,ez;
+      ex = (int)(camera.x / TILESIZE);
+      ez = (int)(camera.z / TILESIZE);
 
-      if (ex != cx || ez != cz)
-      {
-        Report(PT::Notify, "World loading...");
+      EnterTile(ex,ez);
+      Report(PT::Debug, "EnterTile (%d,%d) (%f, %f)",
+        ex, ez, camera.x, camera.z);
+    }
+  }
+} // end Tick()
 
-        PT::Events::EventManager* evmgr = pointerLibrary->getEventManager();
-        csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
-        worldEvent->Add("progress", 0.0f);
-        evmgr->AddEvent(worldEvent);
+void WorldManager::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
+{
+  if (!world)
+  {
+    engine->RemoveEngineFrameCallback(this);
+    return;
+  }
 
-        loading = true;
-      }
+  iCamera* cam = rview->GetCamera();
+  if (cam)
+    world->camera = cam->GetTransform().GetOrigin();
 
-      EnterTile(ex, ez);
+  world->Tick(0);
 
-      // Register a callback for the camera coordinates.
-      csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-      if (!cb.IsValid())
-      {
-        cb.AttachNew(new FrameCallBack(this));
-        engine->AddEngineFrameCallback(cb);
-      }
+} // end StartFrame()
 
-    } // end StartFrame()
+void WorldManager::EnterWorld(float x, float z)
+{
+  camera.x = x;
+  camera.z = z;
 
-  } // World namespace
-} // PT namespace
+  // This is so the int cast below rounds to the correct value.
+  if (x < 0)
+  {
+    x -= TILESIZE;
+  }
+  if (z < 0)
+  {
+    z -= TILESIZE;
+  }
+
+  int ex, ez;
+  ex = static_cast<int>(x / TILESIZE);
+  ez = static_cast<int>(z / TILESIZE);
+
+  if (ex != cx || ez != cz)
+  {
+    Report(PT::Notify, "World loading...");
+
+    PT::Events::EventManager* evmgr = pointerLibrary->getEventManager();
+    csRef<iEvent> worldEvent = evmgr->CreateEvent("world.loading");
+    worldEvent->Add("progress", 0.0f);
+    evmgr->AddEvent(worldEvent);
+
+    loading = true;
+  }
+
+  EnterTile(ex, ez);
+
+  // Register a callback for the camera coordinates.
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+  if (!cb.IsValid())
+  {
+    cb.AttachNew(new FrameCallBack(this));
+    engine->AddEngineFrameCallback(cb);
+  }
+
+} // end StartFrame()
 

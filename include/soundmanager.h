@@ -14,15 +14,10 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    */
-/**
-* @file world.h
-*
-* @basic Manages the game world.
 */
 
-#ifndef IWORLD_H
-#define IWORLD_H
+#ifndef ISOUNDMANAGER_H
+#define ISOUNDMANAGER_H
 
 #include <cssysdef.h>
 #include <csutil/scf.h>
@@ -30,32 +25,24 @@
 
 #include <string>
 
+class iDocumentNode;
 
-struct iWorld : public virtual iBase
+namespace PT
 {
-  SCF_INTERFACE(iWorld, 1,0,0);
+  namespace Sound
+  {
+    struct iSoundManager : public virtual iBase
+    {
+      SCF_INTERFACE(iSoundManager, 1,0,0);
 
-  /**
-  * Enter the world at a horizontal (x, z) coordinate in world space.
-  * @param x X coordinate.
-  * @param z Z coordinate.
-  */
-  virtual void EnterWorld(float x, float z) = 0;
+      virtual bool LoadSoundEvents(const char* fileName) = 0;
+      virtual bool LoadSoundEvents(iDocumentNode* node, const char* prefix = 0) = 0;
 
-  /// Set the loaded tile grid size.
-  virtual void SetGridSize(int size) = 0;
-  /// Get the loaded tile grid size.
-  virtual int GetGridSize() const = 0;
+      virtual bool RemoveSound(csEventID eventId) = 0;
+      virtual bool RemoveSound(const char* fileName) = 0;
+    };
 
-  /// Set the cached tile grid size.
-  virtual void SetCacheSize(int size) = 0;
-  /// Get the cached tile grid size.
-  virtual int GetCacheSize() const = 0;
-
-  /// Set the resource path.
-  //virtual void SetResourcePath(const std::string& path) = 0;
-};
-
-
+  } // World namespace
+} // PT namespace
 
 #endif

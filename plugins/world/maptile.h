@@ -74,7 +74,7 @@ namespace PT
        * @param fileName The data file for this tile.
        * @param world The world to add this tile to.
        */
-      MapTile(int x0, int z0, const std::string& fileName, World* world);
+      MapTile(int x0, int z0, const std::string& fileName, WorldManager* world);
 
       /// Destructor.
       ~MapTile();

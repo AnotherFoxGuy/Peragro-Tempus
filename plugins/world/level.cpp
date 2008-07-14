@@ -28,7 +28,7 @@ namespace PT
 {
   namespace World
   {
-    Level::Level(World* world)
+    Level::Level(WorldManager* world)
     {
       this->object_reg = world->GetObjectRegistry();
       modelManager =  world->GetModelManager();
