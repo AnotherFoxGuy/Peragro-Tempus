@@ -1,118 +1,149 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual C++ Express 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appcolldettest", "appcolldettest.vcproj", "{94546E23-6D3A-A231-26D7-FE6AAEE9A15C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponentstats", "plgcomponentstats.vcproj", "{011AF637-7035-F4D4-000C-4DEB1831ECEA}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{B993A6F5-E010-8165-6D43-292D91AE7634} = {B993A6F5-E010-8165-6D43-292D91AE7634}
+		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12} = {CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}
+		{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6} = {F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appcompilertest", "appcompilertest.vcproj", "{E668641D-96D9-68C3-6E07-1E4AABFC0393}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-effect", "libclient-effect.vcproj", "{F8CE98FC-8177-92C4-86AB-A6F9C2125347}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appeventstest", "appeventstest.vcproj", "{F3623D1D-468A-EED0-7396-EA1496E16408}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-trademanager", "libclient-trademanager.vcproj", "{E46CB2FE-C7FC-8900-683B-79547F8D5A46}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appgenerator", "appgenerator.vcproj", "{1431F632-071C-7C7D-F957-F6D72E248874}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-group", "libserver-group.vcproj", "{AEDAD5C0-7C09-0F6E-14C6-1BBFE409B40C}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appperagro", "appperagro.vcproj", "{42D63AEE-4B54-F61B-5283-435CBF0E9EF6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgsoundmanager", "plgsoundmanager.vcproj", "{8BD40C65-1796-41A9-83A5-287282F573EC}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appperagro-server", "appperagro-server.vcproj", "{BC9D3361-624B-2F01-9990-4053C27672BE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-gui", "libclient-gui.vcproj", "{3003F7D0-0F84-42C5-FE8A-2B5943062A66}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbulletcollision", "libbulletcollision.vcproj", "{6ADA430D-009C-2ED4-A787-2AC2D6FEB8CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_playercontrols", "plgcomponent_playercontrols.vcproj", "{8D28EC73-8944-DA48-A1C0-6244BC8EFDA9}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{B993A6F5-E010-8165-6D43-292D91AE7634} = {B993A6F5-E010-8165-6D43-292D91AE7634}
+		{C55114B0-7DC2-1B0C-3F7D-16B25F0EDC00} = {C55114B0-7DC2-1B0C-3F7D-16B25F0EDC00}
+		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12} = {CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}
+		{01585500-2818-9845-E99D-46451C8684B3} = {01585500-2818-9845-E99D-46451C8684B3}
+		{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6} = {F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}
+		{F5342C71-4E6F-72A9-E16A-9669A5A62054} = {F5342C71-4E6F-72A9-E16A-9669A5A62054}
+		{3E5FACE3-1C88-7313-562B-59D6DCCC5E71} = {3E5FACE3-1C88-7313-562B-59D6DCCC5E71}
+		{1020E648-2350-8556-4CD6-29FFD41D5DD6} = {1020E648-2350-8556-4CD6-29FFD41D5DD6}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbulletdynamics", "libbulletdynamics.vcproj", "{61BD1097-CF2E-B296-DAA9-73A6FE135319}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbulletmath", "libbulletmath.vcproj", "{7D6E339F-9C2C-31DA-FDB0-5EE50973CF2A}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbulletmath", "libbulletmath.vcproj", "{7D6E339F-9C2C-31DA-FDB0-5EE50973CF2A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbulletcollision", "libbulletcollision.vcproj", "{6ADA430D-009C-2ED4-A787-2AC2D6FEB8CE}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-chatmanager", "libclient-chatmanager.vcproj", "{C007A05D-5A86-5DDF-1151-4D6C236BBF8F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-entitymanager", "libclient-entitymanager.vcproj", "{BF4129D2-DB7C-DED2-8AC2-D31815CC0CA7}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-combatmanager", "libclient-combatmanager.vcproj", "{A083C033-9407-7708-ADAE-B98A9FF52564}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdatabase", "libdatabase.vcproj", "{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-component", "libclient-component.vcproj", "{B993A6F5-E010-8165-6D43-292D91AE7634}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-serversetup", "libclient-serversetup.vcproj", "{201A43AC-5DD4-7943-5969-7379D030EA98}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-cursor", "libclient-cursor.vcproj", "{C55114B0-7DC2-1B0C-3F7D-16B25F0EDC00}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewbob", "plgcomponent_viewbob.vcproj", "{1EED6EED-AFE2-424B-386C-37378CECF6BF}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{B993A6F5-E010-8165-6D43-292D91AE7634} = {B993A6F5-E010-8165-6D43-292D91AE7634}
+		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12} = {CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}
+		{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6} = {F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-data", "libclient-data.vcproj", "{5E112DF4-61D2-AA58-33BB-E2792810B156}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libudp-network", "libudp-network.vcproj", "{01373DD0-AA91-AD26-E258-03C3692713F9}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-effect", "libclient-effect.vcproj", "{F8CE98FC-8177-92C4-86AB-A6F9C2125347}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgworldloader", "plgworldloader.vcproj", "{FCCA1931-31F6-221E-477D-DB4F82598B8E}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-entitymanager", "libclient-entitymanager.vcproj", "{BF4129D2-DB7C-DED2-8AC2-D31815CC0CA7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-chatmanager", "libclient-chatmanager.vcproj", "{C007A05D-5A86-5DDF-1151-4D6C236BBF8F}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-environmentmanager", "libclient-environmentmanager.vcproj", "{589EADEF-AC27-72E3-0138-C9012FCA9F0B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-network", "libclient-network.vcproj", "{01585500-2818-9845-E99D-46451C8684B3}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-gui", "libclient-gui.vcproj", "{3003F7D0-0F84-42C5-FE8A-2B5943062A66}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-combatmanager", "libclient-combatmanager.vcproj", "{A083C033-9407-7708-ADAE-B98A9FF52564}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-inputmanager", "libclient-inputmanager.vcproj", "{80D23D44-557C-C763-AC7A-6984F6D91243}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevents", "libevents.vcproj", "{E221859C-9445-1AA6-3E95-E33E77A8B396}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-network", "libclient-network.vcproj", "{01585500-2818-9845-E99D-46451C8684B3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libeventmanager-cs", "libeventmanager-cs.vcproj", "{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-serversetup", "libclient-serversetup.vcproj", "{201A43AC-5DD4-7943-5969-7379D030EA98}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-entity", "libserver-entity.vcproj", "{5EF78382-21B8-FD27-6937-84B16B0544B7}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-statemanager", "libclient-statemanager.vcproj", "{461015F5-EAE8-E6F0-C08F-6A74BA95F6C6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libthreadedfactoryloader", "libthreadedfactoryloader.vcproj", "{AC9316D6-5785-368F-3337-B6031603A76E}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-tcp-network", "libclient-tcp-network.vcproj", "{3E5FACE3-1C88-7313-562B-59D6DCCC5E71}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-udp-network", "libserver-udp-network.vcproj", "{2C7D703A-96CF-7586-13F6-4E082DA679DC}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-trademanager", "libclient-trademanager.vcproj", "{E46CB2FE-C7FC-8900-683B-79547F8D5A46}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-colldet", "libserver-colldet.vcproj", "{3F6DC71E-36C0-2635-F617-1461C3BE70BB}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdatabase", "libdatabase.vcproj", "{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_networkmove", "plgcomponent_networkmove.vcproj", "{EFD36734-E317-6B7A-2C01-7BC4FF878B70}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{B993A6F5-E010-8165-6D43-292D91AE7634} = {B993A6F5-E010-8165-6D43-292D91AE7634}
+		{5E112DF4-61D2-AA58-33BB-E2792810B156} = {5E112DF4-61D2-AA58-33BB-E2792810B156}
+		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12} = {CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}
+		{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6} = {F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libeventmanager-cs", "libeventmanager-cs.vcproj", "{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-environment", "libserver-environment.vcproj", "{927E45C5-0798-777C-6F11-2955C283F16E}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevents", "libevents.vcproj", "{E221859C-9445-1AA6-3E95-E33E77A8B396}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-statemanager", "libclient-statemanager.vcproj", "{461015F5-EAE8-E6F0-C08F-6A74BA95F6C6}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnetwork", "libnetwork.vcproj", "{F5342C71-4E6F-72A9-E16A-9669A5A62054}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appcompilertest", "appcompilertest.vcproj", "{E668641D-96D9-68C3-6E07-1E4AABFC0393}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libquest", "libquest.vcproj", "{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libutil", "libutil.vcproj", "{1020E648-2350-8556-4CD6-29FFD41D5DD6}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libreporter", "libreporter.vcproj", "{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appeventstest", "appeventstest.vcproj", "{F3623D1D-468A-EED0-7396-EA1496E16408}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-ai", "libserver-ai.vcproj", "{A9CB02EA-EB26-F4CC-C9D2-C0A729B49A93}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewcontrols", "plgcomponent_viewcontrols.vcproj", "{F017066D-1A68-2A29-CC7A-7942AB7CED64}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{B993A6F5-E010-8165-6D43-292D91AE7634} = {B993A6F5-E010-8165-6D43-292D91AE7634}
+		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12} = {CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}
+		{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6} = {F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-colldet", "libserver-colldet.vcproj", "{3F6DC71E-36C0-2635-F617-1461C3BE70BB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appcolldettest", "appcolldettest.vcproj", "{94546E23-6D3A-A231-26D7-FE6AAEE9A15C}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-combat", "libserver-combat.vcproj", "{44A00952-D3B8-FC27-D991-E0FC769A952D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libthreadedlevelloader", "libthreadedlevelloader.vcproj", "{0F74695C-6C54-5C9B-EEA9-D592215FA071}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-entity", "libserver-entity.vcproj", "{5EF78382-21B8-FD27-6937-84B16B0544B7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbulletdynamics", "libbulletdynamics.vcproj", "{61BD1097-CF2E-B296-DAA9-73A6FE135319}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-environment", "libserver-environment.vcproj", "{927E45C5-0798-777C-6F11-2955C283F16E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgloader_starbox", "plgloader_starbox.vcproj", "{E4639D84-9AE0-ED24-D475-6F56C2A01855}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-group", "libserver-group.vcproj", "{AEDAD5C0-7C09-0F6E-14C6-1BBFE409B40C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsqlite_adp", "libsqlite_adp.vcproj", "{7A6598FD-8A88-8FD6-CBEA-3E31FFF93E13}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-network", "libserver-network.vcproj", "{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-ai", "libserver-ai.vcproj", "{A9CB02EA-EB26-F4CC-C9D2-C0A729B49A93}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-tcp-network", "libserver-tcp-network.vcproj", "{46CC2367-8F8A-A82E-4B3A-99D5824D3CC5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libquest", "libquest.vcproj", "{A41DE1FF-BA11-703D-D9E2-B06FF60813B1}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-udp-network", "libserver-udp-network.vcproj", "{2C7D703A-96CF-7586-13F6-4E082DA679DC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libreporter", "libreporter.vcproj", "{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsqlite_adp", "libsqlite_adp.vcproj", "{7A6598FD-8A88-8FD6-CBEA-3E31FFF93E13}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgmystarbox", "plgmystarbox.vcproj", "{79E56CF8-49D5-EBAE-770F-7B707BD067CD}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsqlite_lib", "libsqlite_lib.vcproj", "{CB1805CB-8E89-B83B-0F29-D8569E098351}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtcp-network", "libtcp-network.vcproj", "{5D81170B-D994-4363-9EE9-459ABA845686}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtcp-network", "libtcp-network.vcproj", "{5D81170B-D994-4363-9EE9-459ABA845686}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-tcp-network", "libclient-tcp-network.vcproj", "{3E5FACE3-1C88-7313-562B-59D6DCCC5E71}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libthreadedfactoryloader", "libthreadedfactoryloader.vcproj", "{AC9316D6-5785-368F-3337-B6031603A76E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcsclipboard", "plgcsclipboard.vcproj", "{9C172335-623B-ADD5-E9C6-A8D78257C581}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libthreadedlevelloader", "libthreadedlevelloader.vcproj", "{0F74695C-6C54-5C9B-EEA9-D592215FA071}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsqlite_lib", "libsqlite_lib.vcproj", "{CB1805CB-8E89-B83B-0F29-D8569E098351}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtinyxml", "libtinyxml.vcproj", "{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-component", "libclient-component.vcproj", "{B993A6F5-E010-8165-6D43-292D91AE7634}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libudp-network", "libudp-network.vcproj", "{01373DD0-AA91-AD26-E258-03C3692713F9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-cursor", "libclient-cursor.vcproj", "{C55114B0-7DC2-1B0C-3F7D-16B25F0EDC00}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libutil", "libutil.vcproj", "{1020E648-2350-8556-4CD6-29FFD41D5DD6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appperagro-server", "appperagro-server.vcproj", "{BC9D3361-624B-2F01-9990-4053C27672BE}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_networkmove", "plgcomponent_networkmove.vcproj", "{EFD36734-E317-6B7A-2C01-7BC4FF878B70}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-environmentmanager", "libclient-environmentmanager.vcproj", "{589EADEF-AC27-72E3-0138-C9012FCA9F0B}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_playercontrols", "plgcomponent_playercontrols.vcproj", "{8D28EC73-8944-DA48-A1C0-6244BC8EFDA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-combat", "libserver-combat.vcproj", "{44A00952-D3B8-FC27-D991-E0FC769A952D}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewbob", "plgcomponent_viewbob.vcproj", "{1EED6EED-AFE2-424B-386C-37378CECF6BF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-network", "libserver-network.vcproj", "{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewcontrols", "plgcomponent_viewcontrols.vcproj", "{F017066D-1A68-2A29-CC7A-7942AB7CED64}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-inputmanager", "libclient-inputmanager.vcproj", "{80D23D44-557C-C763-AC7A-6984F6D91243}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponentstats", "plgcomponentstats.vcproj", "{011AF637-7035-F4D4-000C-4DEB1831ECEA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtinyxml", "libtinyxml.vcproj", "{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcsclipboard", "plgcsclipboard.vcproj", "{9C172335-623B-ADD5-E9C6-A8D78257C581}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appperagro", "appperagro.vcproj", "{42D63AEE-4B54-F61B-5283-435CBF0E9EF6}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgloader_starbox", "plgloader_starbox.vcproj", "{E4639D84-9AE0-ED24-D475-6F56C2A01855}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-tcp-network", "libserver-tcp-network.vcproj", "{46CC2367-8F8A-A82E-4B3A-99D5824D3CC5}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgmystarbox", "plgmystarbox.vcproj", "{79E56CF8-49D5-EBAE-770F-7B707BD067CD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnetwork", "libnetwork.vcproj", "{F5342C71-4E6F-72A9-E16A-9669A5A62054}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgsoundmanager", "plgsoundmanager.vcproj", "{8BD40C65-1796-41A9-83A5-287282F573EC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-data", "libclient-data.vcproj", "{5E112DF4-61D2-AA58-33BB-E2792810B156}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgworldloader", "plgworldloader.vcproj", "{FCCA1931-31F6-221E-477D-DB4F82598B8E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appgenerator", "appgenerator.vcproj", "{1431F632-071C-7C7D-F957-F6D72E248874}" 
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
