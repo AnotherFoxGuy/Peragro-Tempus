@@ -23,24 +23,24 @@ static char const metainfo_worldloader[] =
 "    <classes>"
 "      <class>"
 "        <name>peragro.world</name>"
-"        <implementation>World</implementation>"
+"        <implementation>WorldManager</implementation>"
 "        <description>World</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef World_FACTORY_REGISTER_DEFINED 
-  #define World_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(World) 
+  #ifndef WorldManager_FACTORY_REGISTER_DEFINED 
+  #define WorldManager_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(WorldManager) 
   #endif
 
 class worldloader
 {
 SCF_REGISTER_STATIC_LIBRARY(worldloader,metainfo_worldloader)
-  #ifndef World_FACTORY_REGISTERED 
-  #define World_FACTORY_REGISTERED 
-    World_StaticInit World_static_init__; 
+  #ifndef WorldManager_FACTORY_REGISTERED 
+  #define WorldManager_FACTORY_REGISTERED 
+    WorldManager_StaticInit WorldManager_static_init__; 
   #endif
 public:
  worldloader();
