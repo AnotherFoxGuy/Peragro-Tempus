@@ -31,8 +31,12 @@ echo "--> Deleting old files."
 rm msvc/*/*
 echo "--> Copying generated files to source tree."
 cp -rf out/msvc/* msvc/
-cd msvc
+echo "Fixing deps."
+cd scripts
+python fixmsvc.py
+cd ..
 echo "Adding all files."
+cd msvc
 cd 7
 svn add *
 cd ../71
