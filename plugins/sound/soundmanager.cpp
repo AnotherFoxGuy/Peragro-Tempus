@@ -46,18 +46,22 @@ namespace PT
 
     bool SoundManager::LoadSoundEvents(const char* fileName)
     {
+      return true;
     }
 
     bool SoundManager::LoadSoundEvents(iDocumentNode* node, const char* prefix)
     {
+      return true;
     }
 
     bool SoundManager::RemoveSound(csEventID eventId)
     {
+      return true;
     }
 
     bool SoundManager::RemoveSound(const char* fileName)
     {
+      return true;
     }
 
   } // Sound namespace

@@ -54,7 +54,7 @@ namespace PT
       SoundEvent () {}
       virtual ~SoundEvent () {}
 
-      virtual bool Play (iEvent& ev) {}
+      virtual bool Play (iEvent& ev) { return false; }
     };
 
     class SoundEventMaterial : public SoundEvent
@@ -67,7 +67,7 @@ namespace PT
       SoundEventMaterial () {}
       virtual ~SoundEventMaterial () {}
 
-      virtual bool Play (iEvent& ev) {}
+      virtual bool Play (iEvent& ev) { return false; }
     };
 
     class SoundEventAction : public SoundEvent
@@ -79,7 +79,7 @@ namespace PT
       SoundEventAction () {}
       virtual ~SoundEventAction () {}
 
-      virtual bool Play (iEvent& ev) {}
+      virtual bool Play (iEvent& ev) { return false; }
     };
 
     class SoundManager : public scfImplementation2<SoundManager,iSoundManager,iComponent>
@@ -150,3 +150,4 @@ the warrior's destination material is "wood" (the material specification of the 
 However, if that same warrior then dropped the shield, 
 the destination material becomes "steel" (the material specification of the plate armor).
 */
+
