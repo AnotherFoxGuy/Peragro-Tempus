@@ -32,8 +32,6 @@
 #include "interiormanager.h"
 #include "interior.h"
 
-#include "common/reporter/reporter.h"
-
 namespace PT
 {
   namespace World
@@ -44,7 +42,7 @@ namespace PT
       xbase = x * TILESIZE;
       zbase = z * TILESIZE;
 
-      Report(PT::Debug, "Loading tile %d,%d (%.2f, %.2f)",x0,z0,xbase,zbase);
+      printf("I: Loading tile %d,%d (%.2f, %.2f)",x0,z0,xbase,zbase);
 
       char buffer[256];
       snprintf(buffer, 256, "instances-%d-%d",x,z);
@@ -58,7 +56,7 @@ namespace PT
 
     MapTile::~MapTile()
     {
-      Report(PT::Debug, "Unloading tile %d,%d", x, z);
+      printf("I: Unloading tile %d,%d", x, z);
     } // end ~MapTile()
 
     void MapTile::LoadInstance(iDocumentNode* meshNode)

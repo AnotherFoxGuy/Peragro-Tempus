@@ -514,7 +514,7 @@ namespace PT
     csRef<iWorld> world = csLoadPlugin<iWorld> (plugin_mgr, "peragro.world");
     if (world.IsValid())
     {
-      world->Initialize("MyWorld", &pointerlib);
+      world->Initialize("MyWorld");
       object_reg->Register (world, "iWorld");
     }
     else

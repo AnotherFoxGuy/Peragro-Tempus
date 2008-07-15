@@ -113,8 +113,6 @@ private:
 private:
   /// The object registry.
   iObjectRegistry* object_reg;
-  /// The pointer library.
-  iPointerLibrary* pointerLibrary;
   /// The model manager.
   ModelManager* modelManager;
   /// The interior manager.
@@ -151,7 +149,7 @@ public:
   * @param pl The pointer library.
   * @return true if successful.
   */
-  virtual bool Initialize(const std::string& name, iPointerLibrary* pl);
+  virtual bool Initialize(const std::string& name);
 
   /// Returns the object registry.
   iObjectRegistry* GetObjectRegistry() { return object_reg; }
@@ -176,6 +174,9 @@ public:
   void SetCacheSize(int size);
   /// Get the cached tile grid size.
   int GetCacheSize() const;
+
+
+  void Report(int severity, const char* msg, ...);
 };
 
 

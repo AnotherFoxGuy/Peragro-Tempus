@@ -36,7 +36,7 @@ struct iWorld : public virtual iBase
 {
   SCF_INTERFACE(iWorld, 1,0,0);
 
-  virtual bool Initialize(const std::string& name, iPointerLibrary* pl) = 0;
+  virtual bool Initialize(const std::string& name) = 0;
 
   /**
   * Enter the world at a horizontal (x, z) coordinate in world space.

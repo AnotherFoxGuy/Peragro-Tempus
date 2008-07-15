@@ -21,18 +21,24 @@
 #include <iengine/rview.h>
 #include <iengine/camera.h>
 #include <csgeom/transfrm.h>
+#include <ivaria/reporter.h>
+#include <iutil/vfs.h>
 
 #include "maptile.h"
 #include "modelmanager.h"
 #include "interiormanager.h"
 
-#include "common/reporter/reporter.h"
-#include "common/pointer/ipointer.h"
-#include "common/event/regionevent.h"
-
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (WorldManager)
+
+void WorldManager::Report(int severity, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+  csReportV(object_reg, severity, "peragro.world", msg, arg);
+  va_end (arg);
+}
 
 WorldManager::WorldManager(iBase* iParent) : scfImplementationType (this, iParent)
 {
@@ -49,21 +55,21 @@ WorldManager::WorldManager(iBase* iParent) : scfImplementationType (this, iParen
 
 bool WorldManager::Initialize(iObjectRegistry* obj_reg)
 {
+  object_reg = obj_reg;
+
   return true;
 }
 
-bool WorldManager::Initialize(const std::string& name, iPointerLibrary* pl)
+bool WorldManager::Initialize(const std::string& name)
 {
-  Report(PT::Notify, "Loading world %s", basename.c_str());
+  Report(CS_REPORTER_SEVERITY_NOTIFY, "Loading world %s", basename.c_str());
 
   basename = name;
-  pointerLibrary = pl;
-  object_reg = pl->getObjectRegistry();
 
   csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
-  if (!loader) Report(PT::Error, "Failed to locate Loader!");
+  if (!loader) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate Loader!");
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  if (!vfs) Report(PT::Error, "Failed to locate VFS!");
+  if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
 
   vfs->ChDir("/peragro/art/world/");
   loader->LoadMapFile("world", false);
@@ -92,7 +98,7 @@ bool WorldManager::Initialize(const std::string& name, iPointerLibrary* pl)
 
 WorldManager::~WorldManager()
 {
-  Report(PT::Notify, "Unloading world %s", basename.c_str());
+  Report(CS_REPORTER_SEVERITY_NOTIFY, "Unloading world %s", basename.c_str());
 
   // Remove callback.
   if (cb.IsValid())
@@ -347,7 +353,7 @@ void WorldManager::Tick(float dt)
 
     if (allLoaded)
     {
-      Report(PT::Notify, "World loaded!");
+      Report(CS_REPORTER_SEVERITY_NOTIFY, "World loaded!");
       csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadedId);
       eventQueue->Post(worldEvent);
       loading = false;
@@ -379,8 +385,8 @@ void WorldManager::Tick(float dt)
       ez = (int)(camera.z / TILESIZE);
 
       EnterTile(ex,ez);
-      Report(PT::Debug, "EnterTile (%d,%d) (%f, %f)",
-        ex, ez, camera.x, camera.z);
+      //Report(CS_REPORTER_SEVERITY_NOTIFY, "EnterTile (%d,%d) (%f, %f)",
+        //ex, ez, camera.x, camera.z);
     }
   }
 } // end Tick()
@@ -422,7 +428,7 @@ void WorldManager::EnterWorld(float x, float z)
 
   if (ex != cx || ez != cz)
   {
-    Report(PT::Notify, "World loading...");
+    Report(CS_REPORTER_SEVERITY_NOTIFY, "World loading...");
 
     csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadingId);
     worldEvent->Add("progress", 0.0f);

@@ -25,8 +25,6 @@
 #include "factory.h"
 #include "factoryloader/fileloader.h"
 
-#include "common/reporter/reporter.h"
-
 namespace PT
 {
   namespace World
@@ -110,7 +108,7 @@ namespace PT
             else
             {
               csth->GetTextureHandle()->Precache();
-              Report(PT::Debug, "Precached texture '%s'",
+              printf("I: Precached texture '%s'",
                 csth->QueryObject()->GetName());
               return;
             }

@@ -39,8 +39,6 @@
 
 #include "interior.h"
 
-#include "common/reporter/reporter.h"
-
 namespace PT
 {
   namespace World
@@ -55,7 +53,7 @@ namespace PT
 
     InteriorFactory::~InteriorFactory()
     {
-      Report(PT::Debug, "Unloading InteriorFactory %s", fileName.c_str());
+      printf("I: Unloading InteriorFactory %s", fileName.c_str());
     } // end ~InteriorFactory()
 
     void InteriorFactory::LoadInstance(iDocumentNode* meshNode)
@@ -77,7 +75,7 @@ namespace PT
 
     Interior::~Interior()
     {
-      Report(PT::Debug, "Unloading Interior %s", interiorName.c_str());
+      printf("I: Unloading Interior %s", interiorName.c_str());
 
       // Remove callback.
       if (cb.IsValid())
@@ -91,7 +89,7 @@ namespace PT
     {
       if (loading) return;
 
-      Report(PT::Debug, "Loading Interior %s", interiorName.c_str());
+      printf("I: Loading Interior %s", interiorName.c_str());
       loading = true;
 
       csRef<iEngine> engine = csQueryRegistry<iEngine> (factory->object_reg);
@@ -137,7 +135,7 @@ namespace PT
       }
       if (!portalMesh.IsValid())
       {
-        Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
+        printf("E: Failed to load instance for %s", interiorName.c_str());
         return;
       }
 
@@ -157,14 +155,14 @@ namespace PT
 
       if (!rc.success)
       {
-        Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
+        printf("E: Failed to load instance for %s", interiorName.c_str());
         return;
       }
 
       csRef<iSceneNode> node = scfQueryInterface<iSceneNode>(rc.result);
       if (!node)
       {
-        Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
+        printf("E: Failed to load instance for %s", interiorName.c_str());
         return;
       }
 
@@ -211,7 +209,7 @@ namespace PT
       }
       else
       {
-        Report(PT::Error, "Failed to load instance for %s", interiorName.c_str());
+        printf("E: Failed to load instance for %s", interiorName.c_str());
         return;
       }
 
@@ -285,7 +283,7 @@ namespace PT
         //  inst->GetAttributeValue("name"));
       }
 
-      Report(PT::Debug, "Finished loading Interior %s", interiorName.c_str());
+      printf("I: Finished loading Interior %s", interiorName.c_str());
 
       finished = true;
 
