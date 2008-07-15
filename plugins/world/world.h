@@ -137,18 +137,20 @@ public:
   /// The name of the world.
   std::string basename;
 
-  /**
-  * Constructor.
-  * @param name The world name.
-  * @param pl The pointer library.
-  */
-  WorldManager();
+  /// Constructor.
+  WorldManager(iBase* iParent);
   /// Destructor.
   ~WorldManager();
 
   // From iComponent.
-  virtual bool Initialize (iObjectRegistry*);
+  virtual bool Initialize(iObjectRegistry*);
 
+  /**
+  * Initialize the world.
+  * @param name The world name.
+  * @param pl The pointer library.
+  * @return true if successful.
+  */
   virtual bool Initialize(const std::string& name, iPointerLibrary* pl);
 
   /// Returns the object registry.

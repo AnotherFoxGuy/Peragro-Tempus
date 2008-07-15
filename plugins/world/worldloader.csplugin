@@ -5,7 +5,7 @@
     <classes>
       <class>
         <name>peragro.world</name>
-        <implementation>World</implementation>
+        <implementation>WorldManager</implementation>
         <description>World</description>
       </class>
     </classes>

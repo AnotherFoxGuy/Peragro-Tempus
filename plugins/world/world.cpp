@@ -30,11 +30,11 @@
 #include "common/pointer/ipointer.h"
 #include "common/event/regionevent.h"
 
-
 CS_IMPLEMENT_PLUGIN
-//SCF_IMPLEMENT_FACTORY (WorldManager)
 
-WorldManager::WorldManager() : scfImplementationType (this)
+SCF_IMPLEMENT_FACTORY (WorldManager)
+
+WorldManager::WorldManager(iBase* iParent) : scfImplementationType (this, iParent)
 {
   loading = false;
   camera.Set(0.0f);
