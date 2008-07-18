@@ -29,7 +29,7 @@ System::System(int Id, std::string Name , float Ra, float Dec, float Distance)
   tmp_rot_value = 0;
 
   id = 0;
-  id = Id;
+  id = Id; 
   right_ascension = Ra;
   declination = Dec;
   distance = Distance;

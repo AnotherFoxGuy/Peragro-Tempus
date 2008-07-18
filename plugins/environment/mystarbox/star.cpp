@@ -38,10 +38,18 @@ Star::Star(std::string star_name,
   starcolor = color;
   system = parent_system;
   star_tex = tex ;
+  last_tex = rand()% STAR_ANAM_FRAMES;
 }
 
 Star::~Star()
 {
+  star_textures.DeleteAll();
+}
+
+void Star::Set_Texture(iTextureWrapper* tex)
+{
+  star_textures.Push(tex);
+  star_tex = tex;
 }
 
 
@@ -118,21 +126,15 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
   {
     scale = powf(SB_APR_MAG_EXP, (apr_lum>0.0f?apr_lum:-1*apr_lum));
   } 
+
   int offset = int(scale/2);
   int img_size;
-  if (Get_Type() > 1)
-  {
-    img_size = static_cast<int>(SB_STAR_TEX_SIZE * NOVA_SCALE_FACTOR);
-    offset = static_cast<int>(offset * NOVA_SCALE_FACTOR);
-    scale = scale * NOVA_SCALE_FACTOR ;
-  } else 
-  {
-    img_size = SB_STAR_TEX_SIZE * HALO_SCALE_FACTOR ; 
-    offset = offset * HALO_SCALE_FACTOR ;
-    scale = scale * HALO_SCALE_FACTOR ;
-  }
-    
 
+  img_size = static_cast<int>(SB_STAR_TEX_SIZE * NOVA_SCALE_FACTOR);
+  offset = static_cast<int>(offset * NOVA_SCALE_FACTOR);
+  scale = scale * NOVA_SCALE_FACTOR ;
+
+ 
   // get system position in world space 
   csVector3 starpos = system->Get_Pos() * SB_LY_CSUNIT;
   // convert point to camera space 
@@ -156,6 +158,18 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
       img_size, img_size,
       0 
     );
+
+    last_tex += 0.1;
+    int cur_tex = static_cast<int>(last_tex); 
+
+    if (cur_tex > static_cast<int>(star_textures.GetSize()-1) ) 
+    {
+      cur_tex=0;
+      last_tex=0;
+     }
+
+    star_tex = star_textures.Get(cur_tex);
+
   }; // end cliping 
 }
 

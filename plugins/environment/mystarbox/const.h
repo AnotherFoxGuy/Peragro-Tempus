@@ -21,7 +21,9 @@
 #define SB_STAR_TEX_SIZE 32
 
 #define HALO_SCALE_FACTOR 2
-#define NOVA_SCALE_FACTOR 0.5
+#define NOVA_SCALE_FACTOR .5
+
+#define STAR_ANAM_FRAMES 9
 
 #endif
 

@@ -51,6 +51,9 @@ class Star{
     int starcolor;
 
     iTextureWrapper* star_tex;
+    csRefArray<iTextureWrapper> star_textures;
+    float last_tex; 
+
     int star_tex_size_px;     // ^2 image
 
   public:  
@@ -75,7 +78,7 @@ class Star{
     float Get_Color() { return starcolor; };
 
     iTextureWrapper* Get_Texture() { return star_tex; };
-    void Set_Texture(iTextureWrapper* tex) { star_tex = tex; };
+    void Set_Texture(iTextureWrapper* tex);
 
     int Get_Type();
 

@@ -30,17 +30,21 @@
 // Interface header
 struct iMyStarbox : public virtual iBase
 {
-  SCF_INTERFACE(iMyStarbox,1,0,2);
+  SCF_INTERFACE(iMyStarbox,1,0,3);
  
   virtual void SetName(char const* name) = 0;  
+  virtual void SetSector(char const* name) = 0;  //api change 1.0.3
   virtual void SetAutoDraw(const bool val ) = 0;  //api change 1.0.2
   virtual void SetUseTextures (bool val ) = 0;  //api change 1.0.2
   virtual void SetUseNebula (bool val ) = 0;  //api change 1.0.2
+  virtual void SetBaseStarSize (float val ) = 0;  //api change 1.0.3
 
   virtual char const* GetName() const = 0;
+  virtual iSector const* GetSector() const = 0; //api change 1.0.3
   virtual bool GetAutoDraw() = 0;  //api change 1.0.2
 
   virtual bool LoadStarCatalogue(const std::string& file_name ) = 0;
+  virtual bool LoadYaleStarCatalogue(const std::string& file_name ) = 0;  //api change 1.0.3
   virtual bool LoadNebulaCatalogue(const std::string& file_name ) = 0;
   virtual bool SetCurrentSystem(const int& new_id ) = 0;
   virtual bool Background(const iCamera* c) = 0;

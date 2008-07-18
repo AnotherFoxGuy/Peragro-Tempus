@@ -24,10 +24,12 @@
 #define _H_MYSTARBOX_
 
 #include <crystalspace.h>
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <csgfx/rgbpixel.h>
 
 #include "imystarbox.h"
@@ -54,6 +56,7 @@ class MyStarbox : public scfImplementation1<MyStarbox, iMyStarbox>
     csRef<iEngine> engine;
     csRef<iGraphics3D> g3d;
     csRef<iGraphics2D> g2d;
+    csRef<iSector> sector;
     bool initialized ;
     csStringHash xmltokens;
     csRef<iStandardReporterListener> stdrep;
@@ -68,8 +71,11 @@ class MyStarbox : public scfImplementation1<MyStarbox, iMyStarbox>
     bool flg_autodraw; 
     bool flg_useTexStars;
     bool flg_useNebula;
-    /// the halo image to use as a star , one for each type of star 
+
+    float base_star_roundness;
+    /// the halo image to use as a star , 6 for each type of star 
     csRefArray<iTextureWrapper> star_tex;
+
     //iImage* star_img[7];
     csRef<iImage>  star_img;
     csRefArray<iImage> star_img_ar;
@@ -83,18 +89,22 @@ class MyStarbox : public scfImplementation1<MyStarbox, iMyStarbox>
   
     // From iStarbox.
     virtual void SetName(char const* name) { galaxy_name = name ; };  
-    virtual void SetAutoDraw(const bool val) { flg_autodraw = val; }; //api change 1.0.2
-    virtual void SetUseTextures (bool val) { flg_useTexStars = val; };   //api change 1.0.2
-    virtual void SetUseNebula (bool val) { flg_useNebula = val; };     //api change 1.0.2
+    virtual void SetSector(char const* name);
+    virtual void SetAutoDraw(const bool val) { flg_autodraw = val; }; 
+    virtual void SetUseTextures (bool val) { flg_useTexStars = val; }; 
+    virtual void SetUseNebula (bool val) { flg_useNebula = val; }; 
+    virtual void SetBaseStarSize (float val );    
 
     virtual char const* GetName() const { return galaxy_name.c_str(); };
-    virtual bool GetAutoDraw() { return flg_autodraw; };  //api change 1.0.2
+    virtual iSector const* GetSector() const { return sector; };
+    virtual bool GetAutoDraw() { return flg_autodraw; };  
   
     virtual bool LoadStarCatalogue(const std::string& file_name);
+    virtual bool LoadYaleStarCatalogue(const std::string& file_name);  
     virtual bool LoadNebulaCatalogue(const std::string& file_name);
     virtual bool SetCurrentSystem(const int& new_id );
     virtual bool Background(const iCamera* c);
-    virtual bool BackgroundImageNebula(const iCamera* c);  //api change 
+    virtual bool BackgroundImageNebula(const iCamera* c);  
     void DrawStarTexture(iCamera* c);
   
     bool Initialize(iObjectRegistry*);
@@ -150,6 +160,8 @@ class MyStarbox : public scfImplementation1<MyStarbox, iMyStarbox>
     bool SaveImage(std::string filename); //, csImageMemory* img);
     bool SaveImage(std::string filename, csImageMemory* csImgMem);
     iTextureWrapper* Create2dHaloTexture(int startype);
+    float Estmate_Distance_Sequence_Fitting(const std::string& star_clissification ,float apr_mag);
+    float Estmate_Abs_Magnitude (const std::string&  star_classification);
   
 };
   
@@ -194,7 +206,7 @@ class csCameraCatcher : public scfImplementation1<csCameraCatcher, iEngineFrameC
       if (rview) 
       {
         camera = rview->GetCamera();
-        starbox->Background(camera);
+	if (camera->GetSector() == starbox->GetSector())  starbox->Background(camera);
         //starbox->BackgroundImageNebula(camera);
 
       } else { 

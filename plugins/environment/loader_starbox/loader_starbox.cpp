@@ -41,7 +41,9 @@ enum
   XMLTOKEN_NEBULA_FILE,
   XMLTOKEN_AUTO, 
   XMLTOKEN_USE_TEXTURES,
-  XMLTOKEN_USE_NEBULA 
+  XMLTOKEN_USE_NEBULA,
+  XMLTOKEN_YALE_CATALOG_FILE,
+  XMLTOKEN_BASE_STAR_SIZE
 };
 
 SCF_IMPLEMENT_FACTORY(myLoaderStarbox)
@@ -72,6 +74,9 @@ bool myLoaderStarbox::Initialize(iObjectRegistry *object_reg)
   xmltokens.Register("autodraw", XMLTOKEN_AUTO);
   xmltokens.Register("usetextures", XMLTOKEN_USE_TEXTURES);
   xmltokens.Register("usenebula", XMLTOKEN_USE_NEBULA);
+  xmltokens.Register("yale_catalogue", XMLTOKEN_YALE_CATALOG_FILE);
+  xmltokens.Register("star_size",  XMLTOKEN_BASE_STAR_SIZE);
+
 
   return true;
 }
@@ -82,7 +87,7 @@ bool myLoaderStarbox::ParseXML(iDocumentNode* node)
 }
 
 csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
-  iStreamSource*, iLoaderContext* ldr_context, iBase* /*context*/)
+  iStreamSource*, iLoaderContext* ldr_context, iBase* context)
 {
   csRef<iEngine> engine = csQueryRegistry<iEngine>(object_reg);
   csRef<iMyStarboxFactory> obj_fact;
@@ -122,6 +127,25 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
   }// end if (!obj_fact)
 
 
+  // set the bodys sector 
+  if(!ldr_context)
+  {
+    synldr->ReportError (
+      "recon69.loader.starbox",
+      node, "Can't find context!");
+    return 0;
+  } else {
+    csRef<iSector> sector = scfQueryInterface<iSector>(context);
+    if (!sector) 
+    {
+    synldr->ReportError (
+      "recon69.loader.starbox",
+      node, "Can't find sector!");
+    return 0;
+    }
+
+    obj->SetSector(sector->QueryObject()->GetName() );
+  }// end if context
 
   if (node)
   {
@@ -142,11 +166,16 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
         }
         break;  
 
+        case XMLTOKEN_YALE_CATALOG_FILE:
+        {
+          obj->LoadYaleStarCatalogue(csStrNew(child->GetContentsValue()));
+        }
+        break;
+
         case XMLTOKEN_CATALOGUE_FILE:
         {
           obj->LoadStarCatalogue(csStrNew(child->GetContentsValue()));
         }
-        break;
 
         case XMLTOKEN_CURRENT_SYSTEM_ID:
         {
@@ -177,6 +206,13 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
           obj->SetUseNebula((bool)child->GetContentsValueAsInt());
         }   
         break;
+
+        case XMLTOKEN_BASE_STAR_SIZE:
+        {
+          obj->SetBaseStarSize( child->GetContentsValueAsFloat());
+        }   
+        break;
+
 
 
     default:
