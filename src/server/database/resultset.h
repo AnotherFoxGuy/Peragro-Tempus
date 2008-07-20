@@ -23,40 +23,13 @@
 /// contains the return value of a sql query
 class ResultSet
 {
-private:
-  ///array of rows where as each row is an array of strings.
-  std::vector<std::vector<std::string> > data;
 public:
-  ResultSet() {}
-  ResultSet(const ResultSet& o)
-  { 
-    //colname = o.colname;
-    data = o.data;
-  }
-
-  ~ResultSet()
+  virtual ~ResultSet()
   {
   }
 
-  size_t GetRowCount() { return data.size(); }
-  size_t GetColCount() { return data[0].size(); }
+  virtual size_t GetRowCount() = 0;
+  virtual size_t GetColCount() = 0;
 
-  void AddData(size_t row, size_t col, const char* string)
-  {
-    if (data.size() <= row)
-    {
-      data.resize(data.size() + 1);
-    }
-
-    if (data[row].size() <= col)
-    {
-      data[row].resize(data[row].size() + 1);
-    }
-    data[row][col] = string?string:"";
-  }
-
-  std::string GetData(size_t row, size_t col)
-  {
-    return data[row][col];
-  }
+  virtual std::string GetData(size_t row, size_t col) = 0;
 };

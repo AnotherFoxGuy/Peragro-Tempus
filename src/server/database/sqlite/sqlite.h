@@ -25,6 +25,7 @@
 #include "common/util/thread.h"
 
 #include <queue>
+#include <map>
 
 class ResultSet;
 struct sqlite3;
@@ -34,6 +35,8 @@ class dbSQLite : public Database, Thread
   Mutex mutex;
 
   std::queue<char*> updates;
+
+  std::map<char*, int> querymap;
 
   sqlite3 *db;
 

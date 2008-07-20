@@ -20,6 +20,7 @@
 #include <stdarg.h>
 
 #include "sqlite.h"
+#include "resultset.h"
 
 #include "ext/sqlite/sqlite3.h"
 
@@ -57,13 +58,12 @@ ResultSet* dbSQLite::query(const char* query, ...)
     pt_sleep(10);
 
   char *zErrMsg = 0;
-  ResultSet* result = new ResultSet();
+  SQLITEResultSet* result = new SQLITEResultSet();
 
   mutex.lock();
 
   int rc = sqlite3_exec(db, escaped_query, callback, result, &zErrMsg);
   sqlite3_free(escaped_query);
-
   mutex.unlock();
 
   if ( rc!=SQLITE_OK )
@@ -127,7 +127,7 @@ int dbSQLite::callback(void *rs, int cols, char **colArg, char ** /*colName*/)
 {
   if (!rs) return 0;
 
-  ResultSet* result = (ResultSet*) rs;
+  SQLITEResultSet* result = (SQLITEResultSet*) rs;
 
   size_t row = result->GetRowCount();
 
