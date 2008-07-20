@@ -51,7 +51,7 @@ private:
     long tv_usec;
   };
 
-  inline int gettimeofday(struct timeval *tp, void *tzp)
+  inline int gettimeofday(struct timeval *tv, void *tzp)
   {
     union 
     {
