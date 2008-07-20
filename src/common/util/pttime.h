@@ -24,13 +24,15 @@
 #ifndef PT_TIME_H
 #define PT_TIME_H
 
-#include "boost/date_time/posix_time/posix_time_types.hpp"
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <time.h>
+#else // not WIN32
+#include <sys/time.h>
+#endif // WIN32
 
 /**
  * Wrapper class around operating system specific time functions.
- * This uses boost::posix_time, which in turn uses gettimeofday on unix and
- * ftime on win32; to measure time at millisecond resolutions without drifting
- * from the local system clock, useful for measuring game time.
  */
 class PTTime
 {
@@ -40,30 +42,61 @@ public:
   /// Destructor.
   ~PTTime() {}
 
+#ifdef WIN32
+
+private:
+  struct timeval 
+  {
+    long tv_sec;
+    long tv_usec;
+  };
+
+  inline int gettimeofday(struct timeval *tp, void *tzp)
+  {
+    union 
+    {
+      long long ns100;
+      FILETIME ft;
+    } _now;
+
+    GetSystemTimeAsFileTime(&_now.ft);
+    tv->tv_usec = (long)(_now.ns100 % 1000000UL);
+    tv->tv_sec = (long)(_now.ns100 / 1000000UL);
+    return 0;
+  }
+
+#endif
+
+  timeval time_init;
+
+public:
   /// Stores the current time, with a millisecond offset.
   void Initialize(time_t offset = 0)
   {
-    time_init = boost::posix_time::microsec_clock::local_time();
-    if (offset) time_init += boost::posix_time::milliseconds(offset);
+    gettimeofday(&time_init, 0);
+    // The quotient of the conversion is the seconds value.
+    time_init.tv_sec += (long) offset / 1000;
+    // Convert the remainder to microseconds.
+    time_init.tv_usec += (long) (offset % 1000) * 1000;
   }
 
   /// Returns the milliseconds elapsed since the clock was initialized.
-  time_t GetElapsedMS() const
+  time_t GetElapsedMS()
   {
-    return (boost::posix_time::microsec_clock::local_time() - time_init)
-      .total_milliseconds();
+    timeval time_now;
+    gettimeofday(&time_now, 0);
+    // Truncate to milliseconds.
+    return (((time_now.tv_sec - time_init.tv_sec) * 1000) +
+      ((time_now.tv_usec - time_init.tv_usec) / 1000));
   }
 
   /// Returns the seconds elapsed since the clock was initialized.
-  time_t GetElapsedS() const
+  time_t GetElapsedS()
   {
-    return (boost::posix_time::microsec_clock::local_time() - time_init)
-      .total_seconds();
+    timeval time_now;
+    gettimeofday(&time_now, 0);
+    return (time_now.tv_sec - time_init.tv_sec);
   }
-
-private:
-  boost::posix_time::ptime time_init;
-
 };
 
 #endif // PT_TIME_H
