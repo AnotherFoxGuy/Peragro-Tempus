@@ -79,7 +79,7 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   user->setConnection(conn);
 
   Array<CharactersTableVO*> characters
-    = server->getDatabase()->getCharacterTable()->getAllCharacters(user);
+    = server->getTables()->getCharacterTable()->getAllCharacters(user);
   CharListMessage char_msg;
   char_msg.setCharacterCount((char)characters.getCount());
   for (unsigned int i=0; i<characters.getCount(); i++)
@@ -128,7 +128,7 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   Server* server = Server::getServer();
 
   const User* user = NetworkHelper::getUser(msg);
-  //CharacterTable* ct = server->getDatabase()->getCharacterTable();
+  //CharacterTable* ct = server->getTables()->getCharacterTable();
 
   ptString char_name = char_msg.getName();
 
@@ -214,10 +214,10 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     ent->setPos(character->getPos());
     ent->freeLock();
 
-    newchar->getInventory()->loadFromDatabase(server->getDatabase()->getInventoryTable(), character->getId());
-    newchar->getStats()->loadFromDatabase(server->getDatabase()->getCharacterStatTable(), character->getId());
-    newchar->getSkills()->loadFromDatabase(server->getDatabase()->getCharacterSkillsTable(), character->getId());
-    newchar->getReputation()->loadFromDatabase(server->getDatabase()->getCharacterReputationsTable(), character->getId());
+    newchar->getInventory()->loadFromDatabase(server->getTables()->getInventoryTable(), character->getId());
+    newchar->getStats()->loadFromDatabase(server->getTables()->getCharacterStatTable(), character->getId());
+    newchar->getSkills()->loadFromDatabase(server->getTables()->getCharacterSkillsTable(), character->getId());
+    newchar->getReputation()->loadFromDatabase(server->getTables()->getCharacterReputationsTable(), character->getId());
 
     server->addEntity(ent, false);
   }

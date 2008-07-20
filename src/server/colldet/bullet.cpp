@@ -48,7 +48,7 @@ BulletCD::~BulletCD()
 
 void BulletCD::setup()
 {
-  Database* db = Server::getServer()->getDatabase();
+  Tables* db = Server::getServer()->getTables();
 
   Array<VerticesTableVO*> vertices = 
     db->getVerticesTable()->getAll();

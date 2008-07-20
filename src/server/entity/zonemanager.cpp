@@ -27,8 +27,8 @@
 
 void ZoneManager::delAll()
 {
-  Server::getServer()->getDatabase()->getZonesTable()->removeAll();
-  Server::getServer()->getDatabase()->getZonenodesTable()->removeAll();
+  Server::getServer()->getTables()->getZonesTable()->removeAll();
+  Server::getServer()->getTables()->getZonenodesTable()->removeAll();
   zones.clear();
 }
 

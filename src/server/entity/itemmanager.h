@@ -51,7 +51,7 @@ public:
 
   void delItem(size_t index)
   {
-    ItemTable* it = Server::getServer()->getDatabase()->getItemTable();
+    ItemTable* it = Server::getServer()->getTables()->getItemTable();
     Item* item = getItem(index);
     items.remove(index);
     it->remove(item->getId());
@@ -69,7 +69,7 @@ public:
         return;
       }
     }
-    ItemTable* it = Server::getServer()->getDatabase()->getItemTable();
+    ItemTable* it = Server::getServer()->getTables()->getItemTable();
     it->remove(item->getId());
   }
 

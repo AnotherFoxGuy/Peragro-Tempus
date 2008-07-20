@@ -140,7 +140,7 @@ void EntityTable::insert(int id, ptString name, int type, int item, unsigned int
 int EntityTable::getMaxId()
 {
   ResultSet* rs = db->query("select max(id) from entities");
-  if (rs->GetRowCount() == 0) 
+  if (rs == 0 || rs->GetRowCount() == 0) 
     return 0;
 
   int id = atoi(rs->GetData(0,0).c_str());

@@ -59,8 +59,8 @@ void RaceTable::createTable()
 
 void RaceTable::insert(int id, ptString name, ptString mesh, float pos[3], ptString sector)
 {
-  db->update("insert into races (id, name, mesh, pos_x, pos_y, pos_z, sector) values "
-    "('%d','%q','%q',%.2f,%.2f,%.2f,'%q');", id, *name, *mesh, pos[0], pos[1], pos[2], *sector);
+  const char* query = "insert into races (id, name, mesh, pos_x, pos_y, pos_z, sector) values ('%d','%q','%q',%.2f,%.2f,%.2f,'%q');";
+  db->update(query, id, *name, *mesh, pos[0], pos[1], pos[2], *sector);
 }
 
 int RaceTable::getMaxId()
@@ -132,8 +132,8 @@ void RaceTable::getAllRaces(Array<Race*>& races)
     race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
     races.add(race);
 
-    race->getStats()->loadFromDatabase(db->getRaceStatsTable(), race->getId());
-    race->getSkills()->loadFromDatabase(db->getRaceSkillsTable(), race->getId());
+    race->getStats()->loadFromDatabase(db->getTables()->getRaceStatsTable(), race->getId());
+    race->getSkills()->loadFromDatabase(db->getTables()->getRaceSkillsTable(), race->getId());
   }
   delete rs;
 }  

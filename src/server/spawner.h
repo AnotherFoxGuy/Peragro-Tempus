@@ -135,7 +135,7 @@ public:
 
   void createSpawnPoint(float x, float y, float z, ptString sector, unsigned int item_id, unsigned int spawnInterval)
   {
-    SpawnPointsTable* table = Server::getServer()->getDatabase()->getSpawnPointsTable();
+    SpawnPointsTable* table = Server::getServer()->getTables()->getSpawnPointsTable();
     SpawnPointsTableVO p;
     p.pos_x = x;
     p.pos_y = y;
@@ -150,7 +150,7 @@ public:
 
   void removeAllSpawnPoints()
   {
-    SpawnPointsTable* table = Server::getServer()->getDatabase()->getSpawnPointsTable();
+    SpawnPointsTable* table = Server::getServer()->getTables()->getSpawnPointsTable();
     table->truncate();
 
     mutex.lock();

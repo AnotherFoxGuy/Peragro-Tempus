@@ -37,7 +37,7 @@ void BookHandler::handleBookReadRequest(GenericMessage* msg)
   int itemId = in_msg.getItemId();
   int bookId = in_msg.getBookId();
 
-  BooksTable* table = server->getDatabase()->getBooksTable();
+  BooksTable* table = server->getTables()->getBooksTable();
   BooksTableVO* book = table->getById(bookId);
 
   if (!book)
@@ -78,7 +78,7 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
   int itemId = in_msg.getItemId();
   int bookId = in_msg.getBookId();
 
-  BooksTable* table = server->getDatabase()->getBooksTable();
+  BooksTable* table = server->getTables()->getBooksTable();
   BooksTableVO* book = table->getById(bookId);
 
   if (!book)

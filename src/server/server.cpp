@@ -50,7 +50,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
     const DoorEntity* de = entity->getDoorEntity();
     if (ie)
     { 
-      db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
+      tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
     }
     else if (de)
     {
@@ -66,11 +66,11 @@ void Server::addEntity(const Entity* entity, bool persistent)
       vo.x = entity->getPos()[0];
       vo.y = entity->getPos()[1];
       vo.z = entity->getPos()[2];
-      db->getDoorsTable()->insert(&vo);
+      tables->getDoorsTable()->insert(&vo);
     }
     else
     {
-      db->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
+      tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
     }
   }
 
@@ -93,11 +93,11 @@ void Server::delEntity(const Entity* entity)
 
   if (entity->getType() == Entity::ItemEntityType)
   {
-    db->getEntityTable()->remove(entity->getId());
+    tables->getEntityTable()->remove(entity->getId());
   }
   if (entity->getType() == Entity::NPCEntityType)
   {
-    db->getEntityTable()->remove(entity->getId());
+    tables->getEntityTable()->remove(entity->getId());
   }
   if (entity->getType() == Entity::MountEntityType)
   {
@@ -115,13 +115,13 @@ void Server::delEntity(const Entity* entity)
       e->freeLock();
       mount->freeLock();
     }
-    db->getEntityTable()->remove(entity->getId());
+    tables->getEntityTable()->remove(entity->getId());
   }
   if (entity->getType() == Entity::PlayerEntityType)
   {
     const PcEntity* pc_ent = entity->getPlayerEntity();
     int id = pc_ent->getCharacter()->getId();
-    db->getCharacterTable()->update(entity->getPos(), entity->getRotation(), entity->getSectorName(), id);
+    tables->getCharacterTable()->update(entity->getPos(), entity->getRotation(), entity->getSectorName(), id);
 
     // check if player was on mount
     const MountEntity* c_mount = pc_ent->getMount();

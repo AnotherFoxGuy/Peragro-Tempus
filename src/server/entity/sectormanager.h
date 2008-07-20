@@ -84,7 +84,7 @@ public:
   {
     if (sectors.getCount()+1 == id)
     {
-      SectorsTable* dt = Server::getServer()->getDatabase()->getSectorsTable();
+      SectorsTable* dt = Server::getServer()->getTables()->getSectorsTable();
       SectorsTableVO vo;
       vo.id = id;
       vo.name = name;
@@ -99,7 +99,7 @@ public:
 
   void delAll()
   {
-    SectorsTable* dt = Server::getServer()->getDatabase()->getSectorsTable();
+    SectorsTable* dt = Server::getServer()->getTables()->getSectorsTable();
     Array<SectorsTableVO*> loadedSectors=dt->getAll();
     for (size_t i = 0; i<loadedSectors.getCount(); i++)
     {

@@ -51,7 +51,7 @@ public:
 
   Reputation* addReputation(ptString name)
   {
-    ReputationsTable* table = Server::getServer()->getDatabase()->getReputationsTable();
+    ReputationsTable* table = Server::getServer()->getTables()->getReputationsTable();
     Reputation* reputation = new Reputation();
     reputation->setName(name);
     reputation->setId(table->insert(name));

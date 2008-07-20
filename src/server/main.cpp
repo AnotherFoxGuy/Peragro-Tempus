@@ -104,13 +104,17 @@ int main(int argc, char ** argv)
 
   Server server;
 
-  dbSQLite db;
+  Tables tables;
+  dbSQLite db(&tables);
+  tables.init(&db);
+
   server.setDatabase(&db);
+  server.setTables(&tables);
 
   unsigned int port = 12345;
-  if (db.getConfigTable()->GetConfigValue(ptString("port",4)) != ptString())
+  if (tables.getConfigTable()->GetConfigValue(ptString("port",4)) != ptString())
   {
-    port = atoi(*db.getConfigTable()->GetConfigValue(ptString("port",4)));
+    port = atoi(*tables.getConfigTable()->GetConfigValue(ptString("port",4)));
   }
 
   for(int i = 1; i < argc; i++)
@@ -124,7 +128,7 @@ int main(int argc, char ** argv)
         ConfigTableVO* config = new ConfigTableVO();
         config->name = ptString("port", 4);
         config->value = ptString(argv[i], strlen(argv[i]));
-        db.getConfigTable()->Insert(config);
+        tables.getConfigTable()->Insert(config);
       }
     }
     else
@@ -183,18 +187,18 @@ int main(int argc, char ** argv)
   server.setEnvironmentManager(&environment_mgr);
   environment_mgr.Initialize();
 
-  sector_mgr.loadFromDB(db.getSectorsTable());
+  sector_mgr.loadFromDB(tables.getSectorsTable());
 
-  item_mgr.loadFromDB(db.getItemTable());
+  item_mgr.loadFromDB(tables.getItemTable());
 
-  ent_mgr->loadFromDB(db.getEntityTable());
+  ent_mgr->loadFromDB(tables.getEntityTable());
 
-  door_mgr.loadFromDB(db.getDoorsTable());
-  stat_mgr.loadFromDB(db.getStatTable());
-  skill_mgr.loadFromDB(db.getSkillTable());
-  race_mgr.loadFromDB(db.getRaceTable());
-  zone_mgr.loadFromDB(db.getZonesTable(), db.getZonenodesTable());
-  reputation_mgr.loadFromDB(db.getReputationsTable());
+  door_mgr.loadFromDB(tables.getDoorsTable());
+  stat_mgr.loadFromDB(tables.getStatTable());
+  skill_mgr.loadFromDB(tables.getSkillTable());
+  race_mgr.loadFromDB(tables.getRaceTable());
+  zone_mgr.loadFromDB(tables.getZonesTable(), tables.getZonenodesTable());
+  reputation_mgr.loadFromDB(tables.getReputationsTable());
 
   printf("Initialising collision detection... ");
   BulletCD cd;
@@ -205,7 +209,7 @@ int main(int argc, char ** argv)
 
   Spawner spawner;
   server.setSpawner(&spawner);
-  spawner.loadFromDB(db.getSpawnPointsTable());
+  spawner.loadFromDB(tables.getSpawnPointsTable());
   spawner.start();
 
   NPCDialogManager dialog_mgr;

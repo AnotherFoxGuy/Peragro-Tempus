@@ -26,12 +26,12 @@
 CharacterManager::CharacterManager(Server* server)
 : server(server)
 {
-  charId = server->getDatabase()->getCharacterTable()->getMaxId();
+  charId = server->getTables()->getCharacterTable()->getMaxId();
 }
 
 ptString CharacterManager::createCharacter(ptString name, int user_id, int& char_id, unsigned char* haircolour, unsigned char* skincolour, unsigned char* decalcolour)
 {
-  CharacterTable* ct = server->getDatabase()->getCharacterTable();
+  CharacterTable* ct = server->getTables()->getCharacterTable();
 
   std::string username_str = *name;
   bool nonspace=false;
@@ -62,7 +62,7 @@ ptString CharacterManager::createCharacter(ptString name, int user_id, int& char
 
 Character* CharacterManager::getCharacter(int id, User* user)
 {
-  CharacterTable* ct = server->getDatabase()->getCharacterTable();
+  CharacterTable* ct = server->getTables()->getCharacterTable();
 
   unsigned int userid = (user ? user->getId() : 0 );
 
@@ -97,13 +97,13 @@ void CharacterManager::checkForSave(const PcEntity* e)
     Entity* l_ent = ent->getLock();
     l_ent->resetSavePos();
     printf("Save entity %s (%d / %d) at <%.2f,%.2f,%.2f> %f\n", *ent->getName(), e->getCharacter()->getId(),ent->getId(), ent->getPos()[0], ent->getPos()[1], ent->getPos()[2], ent->getRotation());
-    server->getDatabase()->getCharacterTable()->update(ent->getPos(), ent->getRotation(), ent->getSectorName(), e->getCharacter()->getId());
+    server->getTables()->getCharacterTable()->update(ent->getPos(), ent->getRotation(), ent->getSectorName(), e->getCharacter()->getId());
     l_ent->freeLock();
   }
 }
 
 void CharacterManager::delCharacter(const Character* character)
 {
-  CharacterTable* ct = server->getDatabase()->getCharacterTable();
+  CharacterTable* ct = server->getTables()->getCharacterTable();
   ct->remove(character->getId());
 }

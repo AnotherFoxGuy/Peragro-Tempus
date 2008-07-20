@@ -5,6 +5,7 @@
 #include <crystalspace.h>
 
 class Database;
+class Tables;
 class btDiscreteDynamicsWorld;
 class btRigidBody;
 
@@ -35,8 +36,8 @@ class CollisionDetectionTest : public csApplicationFramework, public csBaseEvent
 
   void Frame ();
   
-  void LoadWorld (Database* db);
-  void SetupPhysics (Database* db);
+  void LoadWorld (Tables* db);
+  void SetupPhysics (Tables* db);
   void AddCharacter ();
     
   CollisionDetectionTest ();

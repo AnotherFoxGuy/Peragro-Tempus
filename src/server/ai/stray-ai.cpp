@@ -34,7 +34,7 @@ void StrayAI::setNPC(NpcEntity* npc)
   // load settings
   int id = npc->getCharacter()->getId();
   NpcAiSettingTable* table =
-    Server::getServer()->getDatabase()->getNpcAiSettingTable();
+    Server::getServer()->getTables()->getNpcAiSettingTable();
 
   base[0] = (float) atof(*table->getValue(id, ptString("base_x",6)));
   base[1] = (float) atof(*table->getValue(id, ptString("base_y",6)));

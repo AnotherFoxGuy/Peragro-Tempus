@@ -211,11 +211,12 @@ bool CollisionDetectionTest::SetupModules ()
 
   engine->SetLightingCacheMode (0);
 
-  dbSQLite db;
-  db.init();
+  Tables tables;
+  dbSQLite db(&tables);
+  tables.init(&db);
 
-  LoadWorld(&db);
-  SetupPhysics(&db);
+  LoadWorld(&tables);
+  SetupPhysics(&tables);
   AddCharacter();
 
   engine->Prepare ();
@@ -232,7 +233,7 @@ bool CollisionDetectionTest::SetupModules ()
   return true;
 }
 
-void CollisionDetectionTest::LoadWorld(Database* db)
+void CollisionDetectionTest::LoadWorld(Tables* db)
 {
   //Load all Sectors from Database
   Array<SectorsTableVO*> loadedSectors = db->getSectorsTable()->getAll();
@@ -293,7 +294,7 @@ void CollisionDetectionTest::LoadWorld(Database* db)
   }
 }
 
-void CollisionDetectionTest::SetupPhysics(Database* db)
+void CollisionDetectionTest::SetupPhysics(Tables* db)
 {
   Array<VerticesTableVO*> vertices =
     db->getVerticesTable()->getAll();

@@ -37,7 +37,7 @@ const ptString UserAccountManager::login(ptString username, const char* password
   // Fetch user from DB
   if (!user)
   {
-    UsersTableVO* vo = server->getDatabase()->getUsersTable()->getUser(username);
+    UsersTableVO* vo = server->getTables()->getUsersTable()->getUser(username);
     if (vo)
     {
       user = new User(vo->id);
@@ -76,7 +76,7 @@ const ptString UserAccountManager::signup(ptString username, const char* passwor
     return ptString("Password may not be shorter than 6 characters", 45);
   }
 
-  Database* db = server->getDatabase();
+  Tables* db = server->getTables();
   UsersTable* ut = db->getUsersTable();
 
   if (ut->existsUser(username))

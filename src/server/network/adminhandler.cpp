@@ -65,10 +65,10 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
       const Character* c = npcs.get(i)->getNpcEntity()->getCharacter();
       server->getCharacterManager()->delCharacter(c);
 
-      NpcEntitiesTable* net = server->getDatabase()->getNpcEntitiesTable();
+      NpcEntitiesTable* net = server->getTables()->getNpcEntitiesTable();
       net->remove(npcs.get(i)->getId());
 
-      NpcAiSettingTable* nast = server->getDatabase()->getNpcAiSettingTable();
+      NpcAiSettingTable* nast = server->getTables()->getNpcAiSettingTable();
       nast->removeAll(npcs.get(i)->getId());
 
       server->delEntity(npcs.get(i));
@@ -115,7 +115,7 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
     {
       DoorEntity* entity = doors->getDoor(0);
       doors->delDoor(entity);
-      server->getDatabase()->getDoorsTable()->remove(entity->getDoorId());
+      server->getTables()->getDoorsTable()->remove(entity->getDoorId());
       server->delEntity(entity->getEntity());
     }
   }
@@ -163,7 +163,7 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
   Server* server = Server::getServer();
 
   ItemManager* items = server->getItemManager();
-  ItemTable* it = server->getDatabase()->getItemTable();
+  ItemTable* it = server->getTables()->getItemTable();
   it->insert(itemmsg.getItemId(), itemmsg.getName(), itemmsg.getIcon(),
              itemmsg.getDescription(), itemmsg.getFile(), itemmsg.getMesh(),
              itemmsg.getWeight(), itemmsg.getEquipType());
@@ -192,7 +192,7 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
     return;
   }
 
-  Database* db = Server::getServer()->getDatabase();
+  Tables* db = Server::getServer()->getTables();
 
   Character* character = charmgr->getCharacter(charid, 0);
   character->getInventory()->loadFromDatabase(db->getInventoryTable(), charid);
@@ -369,7 +369,7 @@ void AdminHandler::handleCreateZone(GenericMessage* msg)
   zonemsg.deserialise(msg->getByteStream());
 
   ZoneManager* zonemgr = Server::getServer()->getZoneManager();
-  Database* db = Server::getServer()->getDatabase();
+  Tables* db = Server::getServer()->getTables();
 
   ZoneManager::Zone zone;
   zone.type = zonemsg.getZoneType();

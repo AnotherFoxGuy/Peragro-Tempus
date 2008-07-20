@@ -43,7 +43,7 @@ void PathAI::setNPC(NpcEntity* npc)
   // load settings
   int id = npc->getCharacter()->getId();
   NpcAiSettingTable* table =
-    Server::getServer()->getDatabase()->getNpcAiSettingTable();
+    Server::getServer()->getTables()->getNpcAiSettingTable();
 
   pointCount = atoi(*table->getValue(id, ptString("waypoints",9)));
   points = new PtVector3[pointCount];

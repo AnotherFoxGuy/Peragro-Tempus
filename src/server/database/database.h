@@ -19,113 +19,25 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-class UsersTable;
-class CharacterTable;
-class EntityTable;
-class ItemTable;
-class InventoryTable;
-class StatTable;
-class CharacterStatsTable;
-class RaceTable;
-class RaceStatsTable;
-class RaceSkillsTable;
-class SkillTable;
-class CharacterSkillsTable;
-class NpcAiSettingTable;
-class NpcDialogsTable;
-class NpcDialogAnswersTable;
-class NpcEntitiesTable;
-class SpawnPointsTable;
-class BooksTable;
-class DoorsTable;
-class SectorsTable;
-class PermissionsTable;
-class MeshesTable;
-class VerticesTable;
-class TrianglesTable;
-class ConfigTable;
-class ZonesTable;
-class ZonenodesTable;
-class ReputationsTable;
-class CharacterReputationsTable;
-
 #include "resultset.h"
+#include "tables.h"
 
 class Database
 {
 private:
-  UsersTable* userstable;
-  CharacterTable* charactertable;
-  EntityTable* entitytable;
-  ItemTable* itemtable;
-  InventoryTable* inventorytable;
-  StatTable* stattable;
-  CharacterStatsTable* characterstattable;
-  RaceTable* racetable;
-  RaceStatsTable* racestattable;
-  RaceSkillsTable* raceskilltable;
-  SkillTable* skilltable;
-  CharacterSkillsTable* characterskillstable;
-  NpcAiSettingTable* npcaisettingtable;
-  NpcDialogsTable* npcdialogstable;
-  NpcDialogAnswersTable* npcdialoganswerstable;
-  NpcEntitiesTable* npcentitiestable;
-  SpawnPointsTable* spawnpointstable;
-  BooksTable* bookstable;
-  DoorsTable* doorstable;
-  SectorsTable* sectorstable;
-  PermissionsTable* permissionstable;
-  MeshesTable* meshestable;
-  VerticesTable* verticestable;
-  TrianglesTable* trianglestable;
-  ConfigTable* configtable;
-  ZonesTable* zonestable;
-  ZonenodesTable* zonenodestable;
-  ReputationsTable* reputationstable;
-  CharacterReputationsTable* characterreputationstable;
+  Tables* tables;
 
 public:
   virtual ResultSet* query(const char*, ...) = 0;
   virtual void update(const char*, ...) = 0;
   //virtual int getLastInsertedId() = 0;
 
-  Database();
-  virtual ~Database();
-
-  void init();
+  Database(Tables* tables) : tables(tables) {}
+  virtual ~Database() {}
 
   virtual void shutdown() = 0;
 
-  UsersTable* getUsersTable() { return userstable; }
-  CharacterTable* getCharacterTable() { return charactertable; }
-  EntityTable* getEntityTable() { return entitytable; }
-  ItemTable* getItemTable() { return itemtable; }
-  InventoryTable* getInventoryTable() { return inventorytable; }
-  StatTable* getStatTable() { return stattable; }
-  CharacterStatsTable* getCharacterStatTable() { return characterstattable; }
-  RaceTable* getRaceTable() { return racetable; }
-  RaceStatsTable* getRaceStatsTable() { return racestattable; }
-  RaceSkillsTable* getRaceSkillsTable() { return raceskilltable; }
-  SkillTable* getSkillTable() { return skilltable; }
-  CharacterSkillsTable* getCharacterSkillsTable() { return characterskillstable; }
-  NpcAiSettingTable* getNpcAiSettingTable() { return npcaisettingtable; }
-  NpcDialogsTable* getNpcDialogsTable() { return npcdialogstable; }
-  NpcDialogAnswersTable* getNpcDialogAnswersTable() { return npcdialoganswerstable; }
-  NpcEntitiesTable* getNpcEntitiesTable() { return npcentitiestable; }
-  SpawnPointsTable* getSpawnPointsTable() { return spawnpointstable; }
-  BooksTable* getBooksTable() { return bookstable; }
-  DoorsTable* getDoorsTable() { return doorstable; }
-  SectorsTable* getSectorsTable() { return sectorstable; }
-  PermissionsTable* getPermissionsTable() { return permissionstable; }
-  MeshesTable* getMeshesTable() { return meshestable; }
-  VerticesTable* getVerticesTable() { return verticestable; }
-  TrianglesTable* getTrianglesTable() { return trianglestable; }
-  ConfigTable* getConfigTable() { return configtable; }
-  ZonesTable* getZonesTable() { return zonestable; }
-  ZonenodesTable* getZonenodesTable() { return zonenodestable; }
-  ReputationsTable* getReputationsTable() { return reputationstable; }
-  CharacterReputationsTable* getCharacterReputationsTable() { return characterreputationstable; }
-
+  inline Tables* getTables() { return tables; }
 };
 
 #endif // DATABASE_H

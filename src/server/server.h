@@ -20,6 +20,7 @@
 #define SERVER_H
 
 class CharacterManager;
+class Tables;
 class Database;
 class EntityManager;
 class RaceManager;
@@ -52,6 +53,7 @@ private:
   static Server* server;
 
   CharacterManager* char_mgr;
+  Tables* tables;
   Database* db;
   Network* network;
   EntityManager* ent_mgr;
@@ -84,6 +86,9 @@ public:
 
   void setDatabase(Database* db) { this->db = db; }
   Database* getDatabase() { return this->db; }
+
+  void setTables(Tables* tables) { this->tables = tables; }
+  Tables* getTables() { return this->tables; }
 
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }

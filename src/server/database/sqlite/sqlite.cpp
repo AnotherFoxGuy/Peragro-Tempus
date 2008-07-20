@@ -26,7 +26,7 @@
 
 #include "common/util/sleep.h"
 
-dbSQLite::dbSQLite()
+dbSQLite::dbSQLite(Tables* tables) : Database(tables)
 {
   const char* database = "test_db.sqlite";
 
@@ -37,8 +37,6 @@ dbSQLite::dbSQLite()
   }
 
   begin();
-
-  init();
 }
 
 dbSQLite::~dbSQLite()

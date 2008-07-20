@@ -63,7 +63,7 @@ void EntityManager::loadFromDB(EntityTable* et)
       }
       case Entity::NPCEntityType:
       {
-        Database* db = Server::getServer()->getDatabase();
+        Tables* db = Server::getServer()->getTables();
         NpcEntitiesTableVO* npc_vo = 
           db->getNpcEntitiesTable()->getById(vo->id);
 

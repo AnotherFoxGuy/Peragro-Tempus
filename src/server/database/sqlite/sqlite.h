@@ -29,14 +29,13 @@
 
 class ResultSet;
 struct sqlite3;
+struct sqlite3_stmt;
 
 class dbSQLite : public Database, Thread
 {
   Mutex mutex;
 
   std::queue<char*> updates;
-
-  std::map<char*, int> querymap;
 
   sqlite3 *db;
 
@@ -56,7 +55,7 @@ class dbSQLite : public Database, Thread
   void Run();
 
 public:
-  dbSQLite();
+  dbSQLite(Tables* tables);
   ~dbSQLite();
 
   //---[Implementing Database interface]-------------------------------------

@@ -67,7 +67,7 @@ public:
 
   void copyToCharacter(int char_id)
   {
-    CharacterStatsTable* cst = Server::getServer()->getDatabase()->getCharacterStatTable();
+    CharacterStatsTable* cst = Server::getServer()->getTables()->getCharacterStatTable();
     for (size_t i=0; i<entries.getCount(); i++)
     {
       RaceStat* stat = entries.get(i);

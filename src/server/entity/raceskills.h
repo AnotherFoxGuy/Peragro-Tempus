@@ -60,7 +60,7 @@ public:
 
   void copyToCharacter(int char_id)
   {
-    CharacterSkillsTable* cst = Server::getServer()->getDatabase()->getCharacterSkillsTable();
+    CharacterSkillsTable* cst = Server::getServer()->getTables()->getCharacterSkillsTable();
     for (size_t i=0; i<entries.getCount(); i++)
     {
       RaceSkill* skill = entries.get(i);
