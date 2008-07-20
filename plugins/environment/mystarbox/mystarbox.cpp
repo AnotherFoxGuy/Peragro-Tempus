@@ -93,7 +93,11 @@ bool MyStarbox::SetupPlugin()
     return false;
   }
 
+  // Default star setting 
   base_star_roundness = 0.2;
+  base_star_size = 0.5;
+  star_apr_mag_exp = 1.412;
+
   for (int x = 0; x<=7; x++)
   {
     Create2dHaloTexture(x);
@@ -106,8 +110,13 @@ bool MyStarbox::SetupPlugin()
 
 void MyStarbox::SetBaseStarSize (float val)
 {
+  base_star_size = val;
+}
+
+void MyStarbox::SetBaseStarRoundness (float val)
+{
+
   base_star_roundness = val;
-  printf("Set star base %2.4f\n",val);
   // remove default textures and create new ones 
   star_tex.DeleteAll();
   for (int x = 0; x<=7; x++)
@@ -116,7 +125,10 @@ void MyStarbox::SetBaseStarSize (float val)
   }
 
 }
-
+void MyStarbox::SetBaseStarExp (float val )
+{
+  star_apr_mag_exp = val;
+}
 void MyStarbox::SetSector (char const* name)
 {
 	sector = engine->GetSectors()->FindByName(name);
@@ -191,7 +203,7 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
     } else 
     {
  //     (*itr)->DrawStar2D(g2d, c);
-      (*itr)->DrawStar3D(g3d, c);
+      (*itr)->DrawStar3D(g3d, c, base_star_size, star_apr_mag_exp );
     }
   } // end for iterate systems  
   
@@ -310,7 +322,7 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture(int startype)
     roundness = base_star_roundness + (sin((n/10.0)*PI)/10.0);
 //    printf (" seed:%i spokes:%i roundness:%2.2f modifer:%3.4f\n ", seed, spokes,roundness, (sin((n/10.0)*PI)/10.0) );
 
-    csImgMem = NovaImageRGB(seed, static_cast<int>(SB_STAR_TEX_SIZE * NOVA_SCALE_FACTOR), spokes, roundness , color);
+    csImgMem = NovaImageRGB(seed, SB_STAR_TEX_SIZE , spokes, roundness , color);
 
 //    std::string filename = "starimages/";
 //    filename+= tex_name + ".png";
@@ -696,7 +708,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
   // Temp var for Star data
   std::string star_classification;
 
-  float AbsMag=0;
+  float AbsMag;
 
   printf("Loading Star Calalogue:%s\n", file_name.c_str());
 
@@ -877,11 +889,11 @@ newline	54	1	c1	newline (max final loc)
           star_classification,
           AbsMag,
           StarColor(static_cast<SpectralType>(StarType(star_classification)), distance),
-          star_tex[StarType(star_classification)*STAR_ANAM_FRAMES] 
+          star_tex[StarType(star_classification)*6] 
         );
 
         // Add star images to anaminate star
-	for (int n=0; n< STAR_ANAM_FRAMES ; n++)
+	for (int n=1; n< STAR_ANAM_FRAMES ; n++)
 	{
 	  system->Get_Star()->Set_Texture( star_tex.Get( (StarType(star_classification) * STAR_ANAM_FRAMES ) +n));
 	}

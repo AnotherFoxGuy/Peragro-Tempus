@@ -19,7 +19,7 @@
 */
 #include "star.h"
 #include "const.h"
-#include "system.h"
+#include "system.h" 
 // --------------------------------------------------------------------------------//
 // Star member functions ----------------------------------------------------------//
 // --------------------------------------------------------------------------------//
@@ -91,7 +91,7 @@ void Star::DrawStar2D( iGraphics2D* g2d, const iCamera* c)
 }
 
 
-void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
+void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c,const float& base_star_size,const float& apr_mag_exp )
 {
 
   float dist = system->Get_Distance(c); // Light_LY
@@ -121,19 +121,25 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
               system->Get_Classification().c_str() );
 */
 
- 
-  if (apr_lum <= 6.5) 
+  
+  if (apr_lum <= 6.5)  
   {
-    scale = powf(SB_APR_MAG_EXP, (apr_lum>0.0f?apr_lum:-1*apr_lum));
+    scale = powf(apr_mag_exp, (apr_lum>0.0f?apr_lum:-1*apr_lum));
   } 
 
   int offset = int(scale/2);
-  int img_size;
 
-  img_size = static_cast<int>(SB_STAR_TEX_SIZE * NOVA_SCALE_FACTOR);
-  offset = static_cast<int>(offset * NOVA_SCALE_FACTOR);
-  scale = scale * NOVA_SCALE_FACTOR ;
-
+//  if (Get_Type() > 1)
+//  {
+    offset = static_cast<int>(offset * base_star_size);
+    scale = scale * base_star_size;
+//  } else 
+//  {
+//    img_size = SB_STAR_TEX_SIZE * HALO_SCALE_FACTOR ; 
+//    offset = offset * HALO_SCALE_FACTOR ;
+//    scale = scale * HALO_SCALE_FACTOR ;
+//  } 
+    
  
   // get system position in world space 
   csVector3 starpos = system->Get_Pos() * SB_LY_CSUNIT;
@@ -155,14 +161,13 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
       static_cast<int>(screen_spot.x) - offset, h - static_cast<int>(screen_spot.y) - offset,
       static_cast<int>(scale), static_cast<int>(scale),
       0, 0,
-      img_size, img_size,
+      SB_STAR_TEX_SIZE, SB_STAR_TEX_SIZE,
       0 
     );
 
     last_tex += 0.1;
     int cur_tex = static_cast<int>(last_tex); 
-
-    if (cur_tex > static_cast<int>(star_textures.GetSize()-1) ) 
+    if (cur_tex>star_textures.GetSize()-1) 
     {
       cur_tex=0;
       last_tex=0;

@@ -94,7 +94,7 @@ class System
     void Set_Position(csVector3 new_pos);
     Star* Get_Star() { return system_star; }
 
-    void DrawStar3D(iGraphics3D* g3d, const iCamera* c);
+    void DrawStar3D(iGraphics3D* g3d, const iCamera* c, const float& base_star_size,const float& apr_mag_exp);
     void DrawStar2D(iGraphics2D* g2d, const iCamera* c);
 
     bool Add_Star

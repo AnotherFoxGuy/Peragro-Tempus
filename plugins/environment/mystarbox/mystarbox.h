@@ -72,6 +72,9 @@ class MyStarbox : public scfImplementation1<MyStarbox, iMyStarbox>
     bool flg_useTexStars;
     bool flg_useNebula;
 
+    // Used to adjust star size and size of sparkle 
+    float star_apr_mag_exp;
+    float base_star_size;
     float base_star_roundness;
     /// the halo image to use as a star , 6 for each type of star 
     csRefArray<iTextureWrapper> star_tex;
@@ -94,6 +97,8 @@ class MyStarbox : public scfImplementation1<MyStarbox, iMyStarbox>
     virtual void SetUseTextures (bool val) { flg_useTexStars = val; }; 
     virtual void SetUseNebula (bool val) { flg_useNebula = val; }; 
     virtual void SetBaseStarSize (float val );    
+    virtual void SetBaseStarRoundness (float val );
+    virtual void SetBaseStarExp (float val );
 
     virtual char const* GetName() const { return galaxy_name.c_str(); };
     virtual iSector const* GetSector() const { return sector; };
@@ -206,7 +211,7 @@ class csCameraCatcher : public scfImplementation1<csCameraCatcher, iEngineFrameC
       if (rview) 
       {
         camera = rview->GetCamera();
-	if (camera->GetSector() == starbox->GetSector())  starbox->Background(camera);
+	//if (camera->GetSector() == starbox->GetSector())  starbox->Background(camera);
         //starbox->BackgroundImageNebula(camera);
 
       } else { 

@@ -76,9 +76,9 @@ bool System::Add_Nebula(std::string tex_nebula_name, float w, float h, iEngine* 
   return true;
 }
 
-void System::DrawStar3D(iGraphics3D* g3d, const iCamera* c)
+void System::DrawStar3D(iGraphics3D* g3d, const iCamera* c, const float& base_star_size, const float& apr_mag_exp)
 {
-  system_star->DrawStar3D(g3d, c);
+  system_star->DrawStar3D(g3d, c, base_star_size, apr_mag_exp);
 }
 
 void System::DrawStar2D(iGraphics2D* g2d, const iCamera* c)

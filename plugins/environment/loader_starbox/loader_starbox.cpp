@@ -43,7 +43,9 @@ enum
   XMLTOKEN_USE_TEXTURES,
   XMLTOKEN_USE_NEBULA,
   XMLTOKEN_YALE_CATALOG_FILE,
-  XMLTOKEN_BASE_STAR_SIZE
+  XMLTOKEN_BASE_STAR_SIZE,
+  XMLTOKEN_BASE_STAR_ROUNDNESS,
+  XMLTOKEN_APR_MAG_EXP
 };
 
 SCF_IMPLEMENT_FACTORY(myLoaderStarbox)
@@ -75,8 +77,10 @@ bool myLoaderStarbox::Initialize(iObjectRegistry *object_reg)
   xmltokens.Register("usetextures", XMLTOKEN_USE_TEXTURES);
   xmltokens.Register("usenebula", XMLTOKEN_USE_NEBULA);
   xmltokens.Register("yale_catalogue", XMLTOKEN_YALE_CATALOG_FILE);
-  xmltokens.Register("star_size",  XMLTOKEN_BASE_STAR_SIZE);
-
+  xmltokens.Register("star_size", XMLTOKEN_BASE_STAR_SIZE);
+  xmltokens.Register("star_roundness", XMLTOKEN_BASE_STAR_ROUNDNESS);
+  xmltokens.Register("star_apr_mag_exp", XMLTOKEN_APR_MAG_EXP);
+  
 
   return true;
 }
@@ -213,7 +217,17 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
         }   
         break;
 
+        case XMLTOKEN_BASE_STAR_ROUNDNESS:
+        {
+          obj->SetBaseStarRoundness( child->GetContentsValueAsFloat());
+        }   
+        break;
 
+        case XMLTOKEN_APR_MAG_EXP:
+        {
+          obj->SetBaseStarExp( child->GetContentsValueAsFloat());
+        }   
+        break;
 
     default:
     {
