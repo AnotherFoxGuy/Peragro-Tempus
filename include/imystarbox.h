@@ -30,7 +30,7 @@
 // Interface header
 struct iMyStarbox : public virtual iBase
 {
-  SCF_INTERFACE(iMyStarbox,1,0,3);
+  SCF_INTERFACE(iMyStarbox,1,0,4);
  
   virtual void SetName(char const* name) = 0;  
   virtual void SetSector(char const* name) = 0;  //api change 1.0.3
@@ -38,6 +38,8 @@ struct iMyStarbox : public virtual iBase
   virtual void SetUseTextures (bool val ) = 0;  //api change 1.0.2
   virtual void SetUseNebula (bool val ) = 0;  //api change 1.0.2
   virtual void SetBaseStarSize (float val ) = 0;  //api change 1.0.3
+  virtual void SetBaseStarRoundness (float val ) = 0;  //api change 1.0.4
+  virtual void SetBaseStarExp (float val ) = 0;  //api change 1.0.4
 
   virtual char const* GetName() const = 0;
   virtual iSector const* GetSector() const = 0; //api change 1.0.3
