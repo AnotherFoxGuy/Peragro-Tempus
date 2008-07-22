@@ -301,9 +301,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\database\database.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\database\table-books.cpp">
 			</File>
 			<File
@@ -395,6 +392,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-zones.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\tables.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -501,6 +501,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\tables.h">
 			</File>
 		</Filter>
 	</Files>

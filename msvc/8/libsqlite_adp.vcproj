@@ -308,6 +308,9 @@
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\server\database\sqlite\resultset.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\sqlite\sqlite.h">
 			</File>
 		</Filter>
