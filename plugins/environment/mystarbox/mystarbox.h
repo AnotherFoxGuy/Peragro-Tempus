@@ -211,7 +211,7 @@ class csCameraCatcher : public scfImplementation1<csCameraCatcher, iEngineFrameC
       if (rview) 
       {
         camera = rview->GetCamera();
-	//if (camera->GetSector() == starbox->GetSector())  starbox->Background(camera);
+	if (camera->GetSector() == starbox->GetSector())  starbox->Background(camera);
         //starbox->BackgroundImageNebula(camera);
 
       } else { 
