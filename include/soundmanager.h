@@ -27,22 +27,15 @@
 
 class iDocumentNode;
 
-namespace PT
+struct iSoundManager : public virtual iBase
 {
-  namespace Sound
-  {
-    struct iSoundManager : public virtual iBase
-    {
-      SCF_INTERFACE(iSoundManager, 1,0,0);
+  SCF_INTERFACE(iSoundManager, 1,0,0);
 
-      virtual bool LoadSoundEvents(const char* fileName) = 0;
-      virtual bool LoadSoundEvents(iDocumentNode* node, const char* prefix = 0) = 0;
+  virtual bool LoadSoundEvents(const char* fileName) = 0;
+  virtual bool LoadSoundEvents(iDocumentNode* node, const char* prefix = 0) = 0;
 
-      virtual bool RemoveSound(csEventID eventId) = 0;
-      virtual bool RemoveSound(const char* fileName) = 0;
-    };
+  virtual bool RemoveSound(csEventID eventId) = 0;
+  virtual bool RemoveSound(const char* fileName) = 0;
+};
 
-  } // World namespace
-} // PT namespace
-
-#endif
+#endif // ISOUNDMANAGER_H

@@ -20,49 +20,45 @@
 #include <iutil/objreg.h>
 #include "soundmanager.h"
 
-namespace PT
+CS_IMPLEMENT_PLUGIN
+SCF_IMPLEMENT_FACTORY (SoundManager)
+
+SoundManager::SoundManager(iBase* parent) :
+scfImplementationType (this, parent), object_reg(0)
 {
-  namespace Sound
-  {
+}
 
-    CS_IMPLEMENT_PLUGIN
-    SCF_IMPLEMENT_FACTORY (SoundManager)
+SoundManager::~SoundManager()
+{
+}
 
-      SoundManager::SoundManager(iBase* parent) :
-    scfImplementationType (this, parent),
-      object_reg(0)
-    {
-    }
+bool SoundManager::HandleEvent (iEvent& ev)
+{
+  return true;
+}
 
-    SoundManager::~SoundManager()
-    {
-    }
+bool SoundManager::Initialize (iObjectRegistry* r)
+{
+  object_reg = r;
+  return true;
+}
 
-    bool SoundManager::Initialize (iObjectRegistry* r)
-    {
-      object_reg = r;
-      return true;
-    }
+bool SoundManager::LoadSoundEvents(const char* fileName)
+{
+  return true;
+}
 
-    bool SoundManager::LoadSoundEvents(const char* fileName)
-    {
-      return true;
-    }
+bool SoundManager::LoadSoundEvents(iDocumentNode* node, const char* prefix)
+{
+  return true;
+}
 
-    bool SoundManager::LoadSoundEvents(iDocumentNode* node, const char* prefix)
-    {
-      return true;
-    }
+bool SoundManager::RemoveSound(csEventID eventId)
+{
+  return true;
+}
 
-    bool SoundManager::RemoveSound(csEventID eventId)
-    {
-      return true;
-    }
-
-    bool SoundManager::RemoveSound(const char* fileName)
-    {
-      return true;
-    }
-
-  } // Sound namespace
-} // PT namespace
+bool SoundManager::RemoveSound(const char* fileName)
+{
+  return true;
+}
