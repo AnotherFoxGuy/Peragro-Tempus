@@ -535,32 +535,16 @@ namespace PT
     {
     case STATE_INITIAL: // Initial state. Load intro sector and go to STATE_INTRO.
       {
+        using namespace PT::GUI::Windows;
+
         // Load introduction sector, draw it once for this frame, and switch to STATE_INTRO
         const char* path = cmdline->GetOption("intro");
 
         if (!path)
         {
           path = 0;
-          iCEGUI* cegui = guiManager->GetCEGUI();
-
-          //TODO
-          // load the background
-          vfs->ChDir ("/peragro/art/skins/default/images/");
-          cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("Background", "background1600.jpg");
-
-          // Get root window.
-          CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
-          CEGUI::Window* image = cegui->GetWindowManagerPtr ()->createWindow("Peragro/StaticImage", "Background");
-          root->addChildWindow(image);
-          image->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0), CEGUI::UDim(0,0)));
-          image->setSize(CEGUI::UVector2(CEGUI::UDim(1,0), CEGUI::UDim(1,0)));
-
-          // set the background image
-          image->setProperty("Image", "set:Background image:full_image");
-          image->setProperty("BackgroundEnabled", "True");
-          image->setProperty("FrameEnabled", "False");
-          image->setProperty("Disabled", "True");
-          image->moveToBack();
+          BackgroundWindow* bg = guiManager->GetWindow<BackgroundWindow>(BACKGROUNDWINDOW);
+          bg->ShowWindow();
         }
         else if (!strncmp(path,"/intro", 5))
         {
@@ -603,7 +587,6 @@ namespace PT
         }
 
         // Show the connect window.
-        using namespace PT::GUI::Windows;
         LoginWindow* loginWindow = guiManager->GetWindow<LoginWindow>(LOGINWINDOW);
         loginWindow->ShowWindow();
         ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);
@@ -944,18 +927,7 @@ namespace PT
 
     LoadScreenWindow* loadScreenWindow = guiManager->GetWindow<LoadScreenWindow>(LOADSCREENWINDOW);
     if (!loadScreenWindow->IsVisible())
-    {
       loadScreenWindow->ShowWindow();
-      iCEGUI* cegui = guiManager->GetCEGUI();
-      if (!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen")){ // TODO: Different loading screens for different tiles(?)
-        //TODO
-        vfs->ChDir ("/peragro/art/skins/default/images/");
-        cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("LoadScreen", "loadscreen.jpg");
-        CEGUI::Window* image = cegui->GetWindowManagerPtr()->getWindow("LoadScreen");
-        image->setProperty("Image", "set:LoadScreen image:full_image");
-        image->setProperty("BackgroundEnabled", "True");
-      }
-    }
     loadScreenWindow->SetProgress(WorldHelper::GetProgress(&ev));
     return true;
   }
@@ -989,16 +961,9 @@ namespace PT
       HUDWindow* hudWindow = guiManager->GetWindow<HUDWindow>(HUDWINDOW);
       hudWindow->ShowWindow();
 
-
       // Hide the background.
-      iCEGUI* cegui = guiManager->GetCEGUI();
-      if (cegui->GetWindowManagerPtr ()->isWindowPresent("Root")
-        && cegui->GetWindowManagerPtr ()->isWindowPresent("Background") )
-      {
-        CEGUI::Window* image = cegui->GetWindowManagerPtr ()->getWindow("Background");
-        CEGUI::Window* root = cegui->GetWindowManagerPtr ()->getWindow("Root");
-        if (image && root) root->removeChildWindow(image);
-      }
+      BackgroundWindow* bg = guiManager->GetWindow<BackgroundWindow>(BACKGROUNDWINDOW);
+      bg->HideWindow();
 
       // Little hack to restore focus.
       guiManager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();

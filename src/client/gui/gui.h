@@ -38,6 +38,7 @@
 #include "interactdialog-gui.h"
 #include "book-gui.h"
 #include "loadscreen-gui.h"
+#include "background-gui.h"
 #include "menu-gui.h"
 
 #include "options/skin-gui.h"

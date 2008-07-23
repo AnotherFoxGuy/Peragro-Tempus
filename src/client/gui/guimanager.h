@@ -59,6 +59,7 @@ namespace PT
       class InteractDialogWindow;
       class BookWindow;
       class LoadScreenWindow;
+	  class BackgroundWindow;
       class SkinWindow;
       class MenuWindow;
       class DragDrop;
