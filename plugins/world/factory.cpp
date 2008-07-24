@@ -108,7 +108,7 @@ namespace PT
             else
             {
               csth->GetTextureHandle()->Precache();
-              printf("I: Precached texture '%s'",
+              printf("I: Precached texture '%s'\n",
                 csth->QueryObject()->GetName());
               return;
             }

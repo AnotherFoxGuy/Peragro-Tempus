@@ -53,7 +53,7 @@ namespace PT
 
     InteriorFactory::~InteriorFactory()
     {
-      printf("I: Unloading InteriorFactory %s", fileName.c_str());
+      printf("I: Unloading InteriorFactory %s\n", fileName.c_str());
     } // end ~InteriorFactory()
 
     void InteriorFactory::LoadInstance(iDocumentNode* meshNode)
@@ -75,7 +75,7 @@ namespace PT
 
     Interior::~Interior()
     {
-      printf("I: Unloading Interior %s", interiorName.c_str());
+      printf("I: Unloading Interior %s\n", interiorName.c_str());
 
       // Remove callback.
       if (cb.IsValid())
@@ -89,7 +89,7 @@ namespace PT
     {
       if (loading) return;
 
-      printf("I: Loading Interior %s", interiorName.c_str());
+      printf("I: Loading Interior %s\n", interiorName.c_str());
       loading = true;
 
       csRef<iEngine> engine = csQueryRegistry<iEngine> (factory->object_reg);
@@ -135,7 +135,7 @@ namespace PT
       }
       if (!portalMesh.IsValid())
       {
-        printf("E: Failed to load instance for %s", interiorName.c_str());
+        printf("E: Failed to load instance for %s\n", interiorName.c_str());
         return;
       }
 
@@ -155,14 +155,14 @@ namespace PT
 
       if (!rc.success)
       {
-        printf("E: Failed to load instance for %s", interiorName.c_str());
+        printf("E: Failed to load instance for %s\n", interiorName.c_str());
         return;
       }
 
       csRef<iSceneNode> node = scfQueryInterface<iSceneNode>(rc.result);
       if (!node)
       {
-        printf("E: Failed to load instance for %s", interiorName.c_str());
+        printf("E: Failed to load instance for %s\n", interiorName.c_str());
         return;
       }
 
@@ -209,7 +209,7 @@ namespace PT
       }
       else
       {
-        printf("E: Failed to load instance for %s", interiorName.c_str());
+        printf("E: Failed to load instance for %s\n", interiorName.c_str());
         return;
       }
 
@@ -283,7 +283,7 @@ namespace PT
         //  inst->GetAttributeValue("name"));
       }
 
-      printf("I: Finished loading Interior %s", interiorName.c_str());
+      printf("I: Finished loading Interior %s\n", interiorName.c_str());
 
       finished = true;
 

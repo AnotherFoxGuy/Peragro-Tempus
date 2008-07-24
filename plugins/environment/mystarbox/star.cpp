@@ -166,12 +166,12 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c,const float& base_star_
     );
 
     last_tex += 0.1;
-    int cur_tex = static_cast<int>(last_tex); 
-    if (cur_tex>star_textures.GetSize()-1) 
+    size_t cur_tex = static_cast<size_t>(last_tex);
+    if (cur_tex > star_textures.GetSize()-1ul)
     {
-      cur_tex=0;
-      last_tex=0;
-     }
+      cur_tex = 0ul;
+      last_tex = 0.0f;
+    }
 
     star_tex = star_textures.Get(cur_tex);
 

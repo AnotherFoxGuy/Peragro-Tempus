@@ -64,9 +64,13 @@ using namespace PT::World;
 class WorldManager : public scfImplementation2<WorldManager,iWorld,iComponent>
 {
 private:
+  /// The event queue.
   csRef<iEventQueue> eventQueue;
+  /// The name registry.
   csRef<iEventNameRegistry> nameRegistry;
+  /// Event ID for "world loading".
   csEventID loadingId;
+  /// Event ID for "world loaded".
   csEventID loadedId;
 
 private:
@@ -140,15 +144,15 @@ public:
   /// Destructor.
   ~WorldManager();
 
-  // From iComponent.
+  /// From iComponent.
   virtual bool Initialize(iObjectRegistry*);
 
   /**
-  * Initialize the world.
-  * @param name The world name.
-  * @param pl The pointer library.
-  * @return true if successful.
-  */
+   * Initialize the world.
+   * @param name The world name.
+   * @param pl The pointer library.
+   * @return true if successful.
+   */
   virtual bool Initialize(const std::string& name);
 
   /// Returns the object registry.
@@ -159,10 +163,10 @@ public:
   InteriorManager* GetInteriorManager() { return interiorManager; }
 
   /**
-  * Enter the world at a horizontal (x, z) coordinate in world space.
-  * @param x X coordinate.
-  * @param z Z coordinate.
-  */
+   * Enter the world at a horizontal (x, z) coordinate in world space.
+   * @param x X coordinate.
+   * @param z Z coordinate.
+   */
   void EnterWorld(float x, float z);
 
   /// Set the loaded tile grid size.
@@ -175,7 +179,7 @@ public:
   /// Get the cached tile grid size.
   int GetCacheSize() const;
 
-
+  /// Handles reporting warnings and errors.
   void Report(int severity, const char* msg, ...);
 };
 

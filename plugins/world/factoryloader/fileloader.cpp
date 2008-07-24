@@ -473,7 +473,7 @@ csRef<iShader> FileLoader::LoadShader (const char* filename)
   csRef<iFile> shaderFile = vfs->Open (filename, VFS_FILE_READ);
   if (!shaderFile)
   {
-    printf ("Unable to open shader file '%s'!", filename);
+    printf ("Unable to open shader file '%s'!\n", filename);
     return 0;
   }
 
@@ -485,13 +485,13 @@ csRef<iShader> FileLoader::LoadShader (const char* filename)
   const char* err = shaderDoc->Parse (shaderFile, false);
   if (err != 0)
   {
-    printf ("Could not parse shader file '%s': %s", filename, err);
+    printf ("Could not parse shader file '%s': %s\n", filename, err);
     return 0;
   }
   csRef<iDocumentNode> shaderNode = shaderDoc->GetRoot ()->GetNode ("shader");
   if (!shaderNode)
   {
-    printf ("Shader file '%s' is not a valid shader XML file!", filename);
+    printf ("Shader file '%s' is not a valid shader XML file!\n", filename);
     return 0;
   }
 
@@ -530,7 +530,7 @@ bool FileLoader::AddToEngine()
 {
   if (!IsReady())
   {
-    printf("W: Requested file didn't complete yet, running loadjob immediatly!\n");
+    printf("W: Requested file didn't complete yet, running loadjob immediately!\n");
     WaitForJob();
   }
 

@@ -42,7 +42,7 @@ namespace PT
       xbase = x * TILESIZE;
       zbase = z * TILESIZE;
 
-      printf("I: Loading tile %d,%d (%.2f, %.2f)",x0,z0,xbase,zbase);
+      printf("I: Loading tile %d,%d (%.2f, %.2f)\n",x0,z0,xbase,zbase);
 
       char buffer[256];
       snprintf(buffer, 256, "instances-%d-%d",x,z);
@@ -56,7 +56,7 @@ namespace PT
 
     MapTile::~MapTile()
     {
-      printf("I: Unloading tile %d,%d", x, z);
+      printf("I: Unloading tile %d,%d\n", x, z);
     } // end ~MapTile()
 
     void MapTile::LoadInstance(iDocumentNode* meshNode)

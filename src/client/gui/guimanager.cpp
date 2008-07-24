@@ -222,7 +222,7 @@ namespace PT
         loadScreenWindow->Create();
         windows.Push(loadScreenWindow);
 
-		PT::GUI::Windows::BackgroundWindow* backgroundWindow =
+        PT::GUI::Windows::BackgroundWindow* backgroundWindow =
           new PT::GUI::Windows::BackgroundWindow(this);
         backgroundWindow->Create();
         windows.Push(backgroundWindow);
