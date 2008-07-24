@@ -73,6 +73,8 @@ private:
   bool invertYAxis;
   /// Distance between camera and player entity, aka zoom.
   float cameraDistance;
+  /// Whether to do adaptive distance clipping or not.
+  bool distClip;
   /// Minimum FPS for the adaptive distance clipping.
   float minFPS;
   /// Maximum FPS for the adaptive distance clipping.
@@ -101,7 +103,8 @@ private:
   bool UpdateOptions(iEvent& ev);
   /// Reloads values from the configuration manager.
   bool UpdateOptions();
-
+  /// Update the distance clipping.
+  bool UpdateDistanceClipping();
 
 public:
     /// Constructor.

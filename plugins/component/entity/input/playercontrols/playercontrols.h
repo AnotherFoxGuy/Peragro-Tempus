@@ -85,7 +85,7 @@ private:
   /// Whether to reverse turning when walking backwards.
   bool backwardReverse;
   /// Whether to send local movement events instead of waiting for the server.
-  bool local_movement;
+  bool localMovement;
 
 
   /// Helper method for sending new movement information.

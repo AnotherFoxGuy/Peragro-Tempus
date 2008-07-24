@@ -81,7 +81,7 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
 
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
     (pointerlib->getObjectRegistry());
-  local_movement = app_cfg->GetBool("Client.local_movement", false);
+  localMovement = app_cfg->GetBool("Client.Movement.Local", false);
 
   return true;
 } // end Initialize()
@@ -90,7 +90,7 @@ bool ComponentNetworkMove::UpdateOptions(iEvent& ev)
 {
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
     (pointerlib->getObjectRegistry());
-  local_movement = app_cfg->GetBool("Client.local_movement", false);
+  localMovement = app_cfg->GetBool("Client.Movement.Local", false);
   return true;
 } // end UpdateOptions()
 
@@ -122,7 +122,7 @@ bool ComponentNetworkMove::Move(iEvent& ev)
   }
 
   // If it's the player and local movement, do nothing.
-  if (!local && local_movement &&
+  if (!local && localMovement &&
     entity->GetType() == PT::Entity::PlayerEntityType) return false;
 
   csRef<iCelEntity> celEntity = entity->GetCelEntity();
@@ -185,7 +185,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
   // server controlled movement other clients will see your char jerk about.
   // @TODO I'm not sure this is a good idea,  along with
   // EntityManager::DrUpdateOwnEntity(), it puts the client totally in charge.
-  if (local_movement &&
+  if (localMovement &&
     entity->GetType() == PT::Entity::PlayerEntityType) return false;
 
 //unsigned int entityId = EntityHelper::GetEntityID(&ev);

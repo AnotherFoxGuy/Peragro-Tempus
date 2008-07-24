@@ -345,7 +345,6 @@ void WorldManager::Tick(float dt)
     if (!interiorManager->IsReady())
       allLoaded = false;
 
-    
     csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadingId);
     worldEvent->Add("progress",
       tilesLoaded/static_cast<float>(GetGridSize()*GetGridSize()));

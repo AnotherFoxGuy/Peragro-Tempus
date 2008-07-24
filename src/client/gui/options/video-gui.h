@@ -38,6 +38,9 @@ namespace PT
 
         void SaveConfig();
 
+        void SendUpdateEvent();
+        bool ToggleDistClip(iEvent& e);
+
       private:
         bool OnDropListReflections(const CEGUI::EventArgs& e);
         void CreateDropListReflections();
@@ -47,6 +50,9 @@ namespace PT
 
         void CreateFullScreenCheckBox();
         bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
+
+        void CreateAdaptiveClippingCheckBox();
+        bool OnAdaptiveClippingCheckBox(const CEGUI::EventArgs& e);
 
         void CreateAdaptiveSpinners();
         bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);

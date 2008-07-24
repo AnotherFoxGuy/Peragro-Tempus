@@ -90,7 +90,7 @@ private:
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
   /// Whether to use local movement events or wait for the server.
-  bool local_movement;
+  bool localMovement;
   /// Read the movement options from the configuration.
   bool UpdateOptions(iEvent& ev);
 

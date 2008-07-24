@@ -88,7 +88,11 @@ namespace PT
         btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
           CEGUI::Event::Subscriber(&VideoWindow::OnFullScreenCheckBox, this));
 
-        // Set up the Adaptive distance clipping spinners.
+        // Set up the Adaptive distance clipping checkbox and spinners.
+        CreateAdaptiveClippingCheckBox();
+        btn = winMgr->getWindow("Video/Adaptive_Distance_Clipping");
+        btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
+          CEGUI::Event::Subscriber(&VideoWindow::OnAdaptiveClippingCheckBox, this));
         CreateAdaptiveSpinners();
         btn = winMgr->getWindow("Video/Minimum_FPS/Spinner");
         btn->subscribeEvent(CEGUI::Spinner::EventValueChanged,
@@ -100,8 +104,29 @@ namespace PT
         btn->subscribeEvent(CEGUI::Spinner::EventValueChanged,
           CEGUI::Event::Subscriber(&VideoWindow::OnMinDistanceSpinnerChanged, this));
 
+        // Register listener for distance clipping shortcut.
+        using namespace PT::Events;
+        EventHandler<VideoWindow>* cbDistClip =
+          new EventHandler<VideoWindow>
+          (&VideoWindow::ToggleDistClip, this);
+        PointerLibrary::getInstance()->getEventManager()->
+          AddListener("input.ACTION_TOGGLEDISTCLIP", cbDistClip);
+
         return true;
       } // end ReloadWindow()
+
+      void VideoWindow::SendUpdateEvent()
+      {
+        PT::Events::EventManager* evmgr =
+          PointerLibrary::getInstance()->getEventManager();
+        evmgr->AddEvent(evmgr->CreateEvent("options.update.video"));
+      } // end SendUpdateEvent()
+
+      bool VideoWindow::ToggleDistClip(iEvent& e)
+      {
+        CreateAdaptiveClippingCheckBox();
+        return false;
+      } // end ToggleDistClip()
 
       bool VideoWindow::OnDropListReflections(const CEGUI::EventArgs& e)
       {
@@ -122,7 +147,7 @@ namespace PT
         default: Report(PT::Error, "OnDropListReflections: failed %d", id);
         }
 
-        app_cfg->SetBool("Client.waterreflections", ref);
+        app_cfg->SetBool("Client.Video.WaterReflections", ref);
         SaveConfig();
         return true;
       } // end OnDropListReflections()
@@ -132,7 +157,7 @@ namespace PT
 
         btn = winMgr->getWindow("Video/Reflections/DropList");
 
-        bool ref = app_cfg->GetBool("Client.waterreflections");
+        bool ref = app_cfg->GetBool("Client.Video.WaterReflections", true);
 
         if (ref)
           ((CEGUI::Combobox*)btn)->setText("On");
@@ -187,7 +212,7 @@ namespace PT
 
         btn = winMgr->getWindow("Video/TextureQuality/DropList");
 
-        int quality = app_cfg->GetInt("Video.OpenGL.TextureDownsample");
+        int quality = app_cfg->GetInt("Video.OpenGL.TextureDownsample", 0);
 
         switch(quality)
         {
@@ -238,17 +263,38 @@ namespace PT
       {
         btn = winMgr->getWindow("Video/Fullscreen");
 
-        bool fs = app_cfg->GetBool("Video.FullScreen");
+        bool fs = app_cfg->GetBool("Video.FullScreen", false);
 
         ((CEGUI::Checkbox*)btn)->setSelected(fs);
       } // end CreateFullScreenCheckBox()
+
+      bool VideoWindow::OnAdaptiveClippingCheckBox(const CEGUI::EventArgs& e)
+      {
+        btn = winMgr->getWindow("Video/Adaptive_Distance_Clipping");
+        bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
+
+        app_cfg->SetBool("Client.Video.AdaptiveDistanceClipping", fs);
+        SendUpdateEvent();
+        SaveConfig();
+        return true;
+      } // end OnAdaptiveClippingCheckBox()
+
+      void VideoWindow::CreateAdaptiveClippingCheckBox()
+      {
+        btn = winMgr->getWindow("Video/Adaptive_Distance_Clipping");
+
+        bool fs = app_cfg->GetBool("Client.Video.AdaptiveDistanceClipping", false);
+
+        ((CEGUI::Checkbox*)btn)->setSelected(fs);
+      } // end CreateAdaptiveClippingCheckBox()
 
       bool VideoWindow::OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e)
       {
         btn = winMgr->getWindow("Video/Minimum_FPS/Spinner");
         float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
 
-        app_cfg->SetFloat("Client.minFPS", value);
+        app_cfg->SetFloat("Client.Video.MinFPS", value);
+        SendUpdateEvent();
         SaveConfig();
         return true;
       } // end OnMinFPSSpinnerChanged()
@@ -258,7 +304,8 @@ namespace PT
         btn = winMgr->getWindow("Video/Maximum_FPS/Spinner");
         float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
 
-        app_cfg->SetFloat("Client.maxFPS", value);
+        app_cfg->SetFloat("Client.Video.MaxFPS", value);
+        SendUpdateEvent();
         SaveConfig();
         return true;
       } // end OnMaxFPSSpinnerChanged()
@@ -268,7 +315,8 @@ namespace PT
         btn = winMgr->getWindow("Video/Minimum_Distance/Spinner");
         float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
 
-        app_cfg->SetFloat("Client.minDistance", value);
+        app_cfg->SetFloat("Client.Video.MinDistance", value);
+        SendUpdateEvent();
         SaveConfig();
         return true;
       } // end OnMinDistanceSpinnerChanged()
@@ -277,15 +325,15 @@ namespace PT
       {
         btn = winMgr->getWindow("Video/Minimum_FPS/Spinner");
         ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Client.minFPS"));
+          setCurrentValue(app_cfg->GetFloat("Client.Video.MinFPS", 20.0f));
 
         btn = winMgr->getWindow("Video/Maximum_FPS/Spinner");
         ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Client.maxFPS"));
+          setCurrentValue(app_cfg->GetFloat("Client.Video.MaxFPS", 60.0f));
 
         btn = winMgr->getWindow("Video/Minimum_Distance/Spinner");
         ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Client.minDistance"));
+          setCurrentValue(app_cfg->GetFloat("Client.Video.MinDistance", 100.0f));
       } // end CreateAdaptiveSpinners()
 
     } // Windows namespace

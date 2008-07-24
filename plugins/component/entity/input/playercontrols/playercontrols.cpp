@@ -65,7 +65,7 @@ ComponentPlayerControls::ComponentPlayerControls(iObjectRegistry* object_reg) :
   run = false;
   jump = false;
   backwardReverse = false;
-  local_movement = false;
+  localMovement = false;
 }
 
 ComponentPlayerControls::~ComponentPlayerControls()
@@ -120,8 +120,8 @@ bool ComponentPlayerControls::UpdateOptions()
   csRef<iConfigManager> app_cfg =
     csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
-  backwardReverse = app_cfg->GetBool("Client.backwardreverse", backwardReverse);
-  local_movement = app_cfg->GetBool("Client.local_movement", local_movement);
+  backwardReverse = app_cfg->GetBool("Client.Movement.BackwardReverse", backwardReverse);
+  localMovement = app_cfg->GetBool("Client.Movement.Local", localMovement);
 
   return true;
 } // end UpdateOptions()
@@ -132,7 +132,7 @@ bool ComponentPlayerControls::PerformMovementAction()
   using namespace PT::Entity;
 
   // Local movement option.
-  if (local_movement && (entity->GetType() == PT::Entity::PlayerEntityType &&
+  if (localMovement && (entity->GetType() == PT::Entity::PlayerEntityType &&
     !static_cast<CharacterEntity*>(entity)->GetHasMount()))
   {
     PT::Events::EventManager* evmgr = pointerlib->getEventManager();

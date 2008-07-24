@@ -384,18 +384,18 @@ namespace PT
     if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
 
     // Enable reflection.
-    bool enable_reflections = app_cfg->GetBool("Client.waterreflections");
-    if (enable_reflections)
+    bool enableReflections = app_cfg->GetBool("Client.Video.WaterReflections");
+    if (enableReflections)
     {
       reflectionRenderer = new PT::Reflection::ReflectionRenderer();
       if (!reflectionRenderer->Initialize())
         return Report(PT::Error, "Failed to initialize reflection!");
 
-      reflectionRenderer->SetFrameSkip(app_cfg->GetInt("Client.reflectionskip"));
+      reflectionRenderer->SetFrameSkip(app_cfg->GetInt("Client.Video.ReflectionSkip"));
       Report(PT::Notify, "Enabled reflections!");
     }
 
-    limitFPS = app_cfg->GetInt("Client.maxFPS", limitFPS);
+    limitFPS = app_cfg->GetInt("Client.Video.MaxFPS", limitFPS);
 
     InitializeCEL();
 

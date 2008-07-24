@@ -47,14 +47,11 @@
 CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (ViewControls, "peragro.entity.input.viewcontrols")
 
-ComponentViewControls::ComponentViewControls(iObjectRegistry* object_reg) :
-  scfImplementationType (this, object_reg)
+ComponentViewControls::ComponentViewControls(iObjectRegistry* object_reg)
+  : scfImplementationType (this, object_reg), invertYAxis(false),
+    cameraDistance(3.0f), distClip(false), minFPS(20.0f), maxFPS(60.0f),
+    minDistance(50.0f)
 {
-  cameraDistance = 3.0f;
-  invertYAxis = false;
-  minDistance = 50.0f;
-  minFPS = 20.0f;
-  maxFPS = 60.0f;
 }
 
 ComponentViewControls::~ComponentViewControls()
@@ -79,6 +76,7 @@ bool ComponentViewControls::Initialize (PointerLibrary* pl, PT::Entity::Entity* 
   REGISTER_LISTENER(ComponentViewControls, ActionZoomOut, "input.ACTION_ZOOMOUT", false)
   REGISTER_LISTENER(ComponentViewControls, ActionToggleCamera, "input.ACTION_TOGGLECAMERA", false)
   REGISTER_LISTENER(ComponentViewControls, ActionToggleDistClipping, "input.ACTION_TOGGLEDISTCLIP", false)
+  REGISTER_LISTENER(ComponentViewControls, UpdateOptions, "options.update.video", false)
 
   UpdateOptions();
 
@@ -95,10 +93,13 @@ bool ComponentViewControls::UpdateOptions()
 {
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
-  invertYAxis = app_cfg->GetBool("Client.invertYAxis", invertYAxis);
-  minFPS = app_cfg->GetFloat("Client.minFPS", minFPS);
-  maxFPS = app_cfg->GetFloat("Client.maxFPS", maxFPS);
-  minDistance = app_cfg->GetFloat("Client.minDistance", minDistance);
+  invertYAxis = app_cfg->GetBool("Client.Movement.InvertYAxis", invertYAxis);
+  distClip = app_cfg->GetBool("Client.Video.AdaptiveDistanceClipping", distClip);
+  minFPS = app_cfg->GetFloat("Client.Video.MinFPS", minFPS);
+  maxFPS = app_cfg->GetFloat("Client.Video.MaxFPS", maxFPS);
+  minDistance = app_cfg->GetFloat("Client.Video.MinDistance", minDistance);
+
+  UpdateDistanceClipping();
 
   return true;
 } // end UpdateOptions()
@@ -238,17 +239,32 @@ bool ComponentViewControls::ActionToggleDistClipping(iEvent& ev)
 {
   using namespace PT::Events;
 
-  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
-
   if (InputHelper::GetButtonDown(&ev))
   {
     ///@TODO
     //pointerlib->getGUIManager()->GetChatWindow()->AddMessage("Toggled Distance Clipping.");
 
-    if (camera->UseDistanceClipping()) camera->DisableDistanceClipping();
-    else camera->EnableAdaptiveDistanceClipping(minFPS, maxFPS, minDistance);
+    csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
+
+    distClip = !distClip;
+    app_cfg->SetBool("Client.Video.AdaptiveDistanceClipping", distClip);
+
+    return UpdateDistanceClipping();
   }
 
   return true;
 } // end ActionToggleDistClipping()
+
+bool ComponentViewControls::UpdateDistanceClipping()
+{
+  if (!entity->GetCelEntity() || !camera.IsValid()) return false;
+
+  if (distClip)
+    camera->EnableAdaptiveDistanceClipping(minFPS, maxFPS, minDistance);
+  else camera->DisableDistanceClipping();
+
+  Report(PT::Debug, "Toggled distance clipping %s.", distClip?"on":"off");
+
+  return true;
+} // end UpdateDistanceClipping()
 
