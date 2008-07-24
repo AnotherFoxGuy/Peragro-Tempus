@@ -23,10 +23,20 @@
 #include <iutil/comp.h>
 #include <csutil/csstring.h>
 #include <iutil/eventnames.h>
+#include <iutil/event.h>
+#include <iutil/eventh.h>
+#include <iutil/eventq.h>
+
+#include <csutil/hash.h>
 
 #include <csutil/refcount.h>
 
-#include <map>
+#include <isndsys/ss_renderer.h>
+#include <isndsys/ss_loader.h>
+#include <isndsys/ss_source.h>
+#include <isndsys/ss_stream.h>
+#include <isndsys/ss_data.h>
+#include <isndsys/ss_listener.h>
 
 #include "include/soundmanager.h"
 
@@ -35,22 +45,39 @@ struct iSoundManager;
 
 struct iEvent;
 
+class SoundManager;
 
 class SoundEvent : public csRefCount
 {
+protected:
+  SoundManager* soundManager;
+
 protected:
   /// low, norm, high, or always.
   int priority;
   /// Filename of the sound to play.
   std::string fileName;
   /// Eventname.
-  std::string eventId;
+  std::string eventName;
+  /// Event ID.
+  csEventID eventId;
 
 public:
-  SoundEvent () {}
+  SoundEvent (SoundManager* sndmgr) : soundManager(sndmgr) {}
   virtual ~SoundEvent () {}
 
-  virtual bool Play (iEvent& ev) { return false; }
+  void SetPriority(unsigned int value) { priority = value; }
+  unsigned int GetPriority() const { return priority; }
+
+  void SetFileName(const std::string& value) { fileName = value; }
+  const std::string& GetFileName() const { return fileName; }
+
+  void SetEventName(const std::string& value) { eventName = value; }
+  const std::string& GetEventName() const { return eventName; }
+
+  virtual csEventID GetEventId() const;
+
+  virtual bool Play (iEvent& ev);
 };
 
 class SoundEventMaterial : public SoundEvent
@@ -60,10 +87,18 @@ private:
   std::string destinationMaterial;
 
 public:
-  SoundEventMaterial () {}
+  SoundEventMaterial (SoundManager* sndmgr) : SoundEvent(sndmgr) {}
   virtual ~SoundEventMaterial () {}
 
-  virtual bool Play (iEvent& ev) { return false; }
+  void SetSourceMaterial(const std::string& value) { sourceMaterial = value; }
+  const std::string& GetSourceMaterial() const { return sourceMaterial; }
+
+  void SetDestinationMaterial(const std::string& value) { destinationMaterial = value; }
+  const std::string& GetDestinationMaterial() const { return destinationMaterial; }
+
+  virtual csEventID GetEventId() const;
+
+  //virtual bool Play (iEvent& ev) { return false; }
 };
 
 class SoundEventAction : public SoundEvent
@@ -72,33 +107,54 @@ private:
   std::string actionName;
 
 public:
-  SoundEventAction () {}
+  SoundEventAction (SoundManager* sndmgr) : SoundEvent(sndmgr) {}
   virtual ~SoundEventAction () {}
 
-  virtual bool Play (iEvent& ev) { return false; }
+  void SetActionName(const std::string& value) { actionName = value; }
+  const std::string& GetActionName() const { return actionName; }
+
+  //virtual bool Play (iEvent& ev) { return false; }
 };
 
-class SoundManager : public scfImplementation2<SoundManager,iSoundManager,iComponent>
+class SoundManager : public scfImplementation3<SoundManager, iSoundManager, iEventHandler, iComponent>
 {
 private:
+  friend class SoundEvent;
+  friend class SoundEventMaterial;
+  friend class SoundEventAction;
+
   iObjectRegistry* object_reg;
+  csHash<csRef<SoundEvent>, csEventID> sounds;
 
-  std::map<std::string, SoundEvent> sounds;
+  bool disableSound;
 
+  ///The sound renderer.
+  csRef<iSndSysRenderer> sndrenderer;
+
+  ///The sound loader.
+  csRef<iSndSysLoader> sndloader;
+
+private:
   virtual bool HandleEvent(iEvent& ev);
 
 public:
   SoundManager (iBase* parent);
   virtual ~SoundManager();
 
-  // From iComponent.
   virtual bool Initialize (iObjectRegistry*);
 
-  virtual bool LoadSoundEvents(const char* fileName);
+  virtual bool LoadSoundEvents(const std::string& fileName);
   virtual bool LoadSoundEvents(iDocumentNode* node, const char* prefix = 0);
+  virtual bool LoadSoundEvent(iDocumentNode* node, const char* prefix);
 
   virtual bool RemoveSound(csEventID eventId);
-  virtual bool RemoveSound(const char* fileName);
+  virtual bool RemoveSound(const std::string& fileName);
+
+  virtual float GetVolume();
+  virtual void SetVolume(float vol);
+
+  CS_EVENTHANDLER_NAMES ("peragro.soundmanager")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
 #endif // SOUNDMANAGER_H_

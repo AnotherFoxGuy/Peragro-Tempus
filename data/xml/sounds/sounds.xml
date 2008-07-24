@@ -1,0 +1,9 @@
+<sounds>
+  
+  <sound>
+    <event value="world.loaded" />
+    <file value="/peragro/art/audio/music/intro/peragrotempus.ogg"/>
+    <priority value='Normal'/>
+  </sound>
+  
+</sounds>

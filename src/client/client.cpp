@@ -93,6 +93,7 @@
 #include "common/version.h"
 
 #include "include/world.h"
+#include "include/soundmanager.h"
 
 #include "imystarbox.h"
 
@@ -374,12 +375,6 @@ namespace PT
     vc = csQueryRegistry<iVirtualClock> (GetObjectRegistry());
     if (!vc) return Report(PT::Error, "Failed to locate Virtual Clock!");
 
-    sndrenderer = csQueryRegistry<iSndSysRenderer> (GetObjectRegistry());
-    if (!sndrenderer) return Report(PT::Error, "Failed to locate sound renderer!");
-
-    sndloader = csQueryRegistry<iSndSysLoader> (GetObjectRegistry());
-    if (!sndloader) return Report(PT::Error, "Failed to locate sound loader!");
-
     app_cfg = csQueryRegistry<iConfigManager> (GetObjectRegistry());
     if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
 
@@ -442,34 +437,16 @@ namespace PT
 
     view.AttachNew(new csView(engine, g3d));
 
-    // intro sound
-    const char* fname = "/peragro/art/audio/music/intro/peragrotempus.ogg";
+    csRef<iSoundManager> soundMananger = csLoadPlugin<iSoundManager> (plugin_mgr, "peragro.sound");
+    if (soundMananger.IsValid())
+    {
+      object_reg->Register (soundMananger, "iSoundManager");
+      soundMananger->LoadSoundEvents("/peragro/xml/sounds/sounds.xml");
+    }
+    else
+        Report(PT::Error, "Failed to load the iSoundManager!");
 
-    csRef<iDataBuffer> soundbuf = vfs->ReadFile (fname);
-    if (!soundbuf)
-      return Report(PT::Error, "Can't load file '%s'!", fname);
 
-    csRef<iSndSysData> snddata = sndloader->LoadSound (soundbuf);
-    if (!snddata)
-      return Report(PT::Error,"Can't load sound '%s'!", fname);
-
-    sndstream = sndrenderer->CreateStream (snddata,
-      CS_SND3D_ABSOLUTE);
-    if (!sndstream)
-      return Report(PT::Error,"Can't create stream for '%s'!", fname);
-
-    sndsource = sndrenderer->CreateSource (sndstream);
-    if (!sndsource)
-      return Report(PT::Error,"Can't create source for '%s'!", fname);
-    sndsource3d = scfQueryInterface<iSndSysSource3D> (sndsource);
-
-    sndsource3d->SetPosition (csVector3(0,0,0));
-    sndsource->SetVolume (1.0f);
-
-    sndstream->SetLoopState (CS_SNDSYS_STREAM_LOOP);
-    sndstream->Unpause ();
-
-    // end intro sound
     csRef<iLoader >loader = csQueryRegistry<iLoader> (GetObjectRegistry());
     if (!loader) return Report(PT::Error, "Failed to locate Loader!");
     loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
@@ -967,9 +944,10 @@ namespace PT
 
       // Little hack to restore focus.
       guiManager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
-
+/* TODO
       // Stop the intro music.
       sndstream->Pause ();
+      */
     }
 
     LoadScreenWindow* loadScreenWindow = guiManager->GetWindow<LoadScreenWindow>(LOADSCREENWINDOW);

@@ -31,13 +31,6 @@
 #include <iutil/virtclk.h>
 #include <ivideo/graph3d.h>
 
-#include <isndsys/ss_renderer.h>
-#include <isndsys/ss_loader.h>
-#include <isndsys/ss_source.h>
-#include <isndsys/ss_stream.h>
-#include <isndsys/ss_data.h>
-#include <isndsys/ss_listener.h>
-
 #include <behaviourlayer/bl.h>
 #include <physicallayer/pl.h>
 #include <physicallayer/entity.h>
@@ -209,19 +202,6 @@ namespace PT
     csRef<iView> view;
     csRef<iCelPlLayer> pl;
     csRef<iCelBlLayer> bl;
-
-    ///The sound renderer.
-    csRef<iSndSysRenderer> sndrenderer;
-
-    ///The sound loader.
-    csRef<iSndSysLoader> sndloader;
-
-    ///The sound stream.
-    csRef<iSndSysStream> sndstream;
-
-    ///The sound source.
-    csRef<iSndSysSource> sndsource;
-    csRef<iSndSysSource3D> sndsource3d;
 
     ///The config manager.
     csRef<iConfigManager> app_cfg;

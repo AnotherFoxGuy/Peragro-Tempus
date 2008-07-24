@@ -25,17 +25,21 @@
 
 #include <string>
 
-class iDocumentNode;
+struct iDocumentNode;
 
 struct iSoundManager : public virtual iBase
 {
   SCF_INTERFACE(iSoundManager, 1,0,0);
 
-  virtual bool LoadSoundEvents(const char* fileName) = 0;
+  virtual bool LoadSoundEvents(const std::string& fileName) = 0;
   virtual bool LoadSoundEvents(iDocumentNode* node, const char* prefix = 0) = 0;
+  virtual bool LoadSoundEvent(iDocumentNode* node, const char* prefix) = 0;
 
   virtual bool RemoveSound(csEventID eventId) = 0;
-  virtual bool RemoveSound(const char* fileName) = 0;
+  virtual bool RemoveSound(const std::string& fileName) = 0;
+
+  virtual float GetVolume() = 0;
+  virtual void SetVolume(float vol) = 0;
 };
 
 #endif // ISOUNDMANAGER_H

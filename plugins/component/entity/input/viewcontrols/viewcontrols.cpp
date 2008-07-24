@@ -263,7 +263,7 @@ bool ComponentViewControls::UpdateDistanceClipping()
     camera->EnableAdaptiveDistanceClipping(minFPS, maxFPS, minDistance);
   else camera->DisableDistanceClipping();
 
-  Report(PT::Debug, "Toggled distance clipping %s.", distClip?"on":"off");
+  pointerlib->getReporter()->Report(PT::Debug, "Toggled distance clipping %s.", distClip?"on":"off");
 
   return true;
 } // end UpdateDistanceClipping()
