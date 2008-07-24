@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 - 2007 Development Team of Peragro Tempus
+  Copyright (C) 2005 - 2008 Development Team of Peragro Tempus
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General public License as published by
@@ -16,14 +16,14 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_GUI_VIDEOWINDOW_H
-#define PT_GUI_VIDEOWINDOW_H
+#ifndef PT_GUI_MOVEMENTWINDOW_H
+#define PT_GUI_MOVEMENTWINDOW_H
 
 #include "client/gui/base-gui.h"
 
 #include <csutil/array.h>
 
-#define VIDEOOPTIONSWINDOW "VideoOptionsWindow"
+#define MOVEMENTOPTIONSWINDOW "MovementOptionsWindow"
 
 namespace PT
 {
@@ -31,7 +31,7 @@ namespace PT
   {
     namespace Windows
     {
-      class VideoOptionsWindow : public GUIWindow
+      class MovementOptionsWindow : public GUIWindow
       {
       private:
         csRef<iConfigManager> app_cfg;
@@ -39,31 +39,22 @@ namespace PT
         void SaveConfig();
 
         void SendUpdateEvent();
-        bool ToggleDistClip(iEvent& e);
 
       private:
-        bool OnDropListReflections(const CEGUI::EventArgs& e);
-        void CreateDropListReflections();
+        bool OnDropListMovement(const CEGUI::EventArgs& e);
+        void CreateDropListMovement();
 
-        bool OnDropListTexture(const CEGUI::EventArgs& e);
-        void CreateDropListTexture();
+        void CreateReverseCheckBox();
+        bool OnReverseCheckBox(const CEGUI::EventArgs& e);
 
-        void CreateFullScreenCheckBox();
-        bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
-
-        void CreateAdaptiveClippingCheckBox();
-        bool OnAdaptiveClippingCheckBox(const CEGUI::EventArgs& e);
-
-        void CreateAdaptiveSpinners();
-        bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);
-        bool OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e);
-        bool OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e);
+        void CreateYAxisCheckBox();
+        bool OnYAxisCheckBox(const CEGUI::EventArgs& e);
 
       public:
-        VideoOptionsWindow (GUIManager* guiManager);
-        virtual ~VideoOptionsWindow ();
-        bool Create ();
-        bool ReloadWindow ();
+        MovementOptionsWindow(GUIManager* guiManager);
+        virtual ~MovementOptionsWindow();
+        bool Create();
+        bool ReloadWindow();
 
       };
 

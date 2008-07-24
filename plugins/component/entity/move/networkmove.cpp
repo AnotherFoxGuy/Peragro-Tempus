@@ -75,7 +75,7 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
   REGISTER_LISTENER(ComponentNetworkMove, Teleport, "entity.teleport", true);
   REGISTER_LISTENER(ComponentNetworkMove, DrUpdate, "entity.drupdate", true);
   REGISTER_LISTENER(ComponentNetworkMove, MoveTo, "entity.moveto", true);
-  REGISTER_LISTENER(ComponentNetworkMove, UpdateOptions, "interface.options", false);
+  REGISTER_LISTENER(ComponentNetworkMove, UpdateOptions, "options.update.movement", false);
   REGISTER_LISTENER(ComponentNetworkMove, DisableGravity, "world.loading", false);
   REGISTER_LISTENER(ComponentNetworkMove, ResetGravity, "world.loaded", false);
 

@@ -128,18 +128,25 @@ namespace PT
         options->Create();
         windows.Push(options);
 
-        PT::GUI::Windows::SkinWindow* skins =
-          new PT::GUI::Windows::SkinWindow(this);
+        PT::GUI::Windows::SkinOptionsWindow* skins =
+          new PT::GUI::Windows::SkinOptionsWindow(this);
         skins->Create();
         windows.Push(skins);
 
-        PT::GUI::Windows::VideoWindow* video = new PT::GUI::Windows::VideoWindow(this);
+        PT::GUI::Windows::VideoOptionsWindow* video =
+          new PT::GUI::Windows::VideoOptionsWindow(this);
         video->Create();
         windows.Push(video);
+
+        PT::GUI::Windows::MovementOptionsWindow* movement =
+          new PT::GUI::Windows::MovementOptionsWindow(this);
+        movement->Create();
+        windows.Push(movement);
 
         options->AddOption("Skins", skins->GetName());
         skinMgr->Populate();
         options->AddOption("Video", video->GetName());
+        options->AddOption("Movement", movement->GetName());
 
         // Create the windows to be registered and used later.
         PT::GUI::Windows::ServerWindow* server =

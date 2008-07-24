@@ -43,5 +43,6 @@
 
 #include "options/skin-gui.h"
 #include "options/video-gui.h"
+#include "options/movement-gui.h"
 
 #endif // GUI_H

@@ -94,7 +94,7 @@ bool ComponentViewControls::UpdateOptions()
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
   invertYAxis = app_cfg->GetBool("Client.Movement.InvertYAxis", invertYAxis);
-  distClip = app_cfg->GetBool("Client.Video.AdaptiveDistanceClipping", distClip);
+  distClip = app_cfg->GetBool("Client.Video.DistanceClipping", distClip);
   minFPS = app_cfg->GetFloat("Client.Video.MinFPS", minFPS);
   maxFPS = app_cfg->GetFloat("Client.Video.MaxFPS", maxFPS);
   minDistance = app_cfg->GetFloat("Client.Video.MinDistance", minDistance);
@@ -247,7 +247,7 @@ bool ComponentViewControls::ActionToggleDistClipping(iEvent& ev)
     csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
     distClip = !distClip;
-    app_cfg->SetBool("Client.Video.AdaptiveDistanceClipping", distClip);
+    app_cfg->SetBool("Client.Video.DistanceClipping", distClip);
 
     return UpdateDistanceClipping();
   }

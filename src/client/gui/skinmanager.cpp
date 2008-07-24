@@ -62,8 +62,8 @@ namespace PT
     {
       using namespace CEGUI;
 
-      Windows::SkinWindow* skinWindow =
-        guiManager->GetWindow<Windows::SkinWindow>("SkinWindow");
+      Windows::SkinOptionsWindow* skinWindow =
+        guiManager->GetWindow<Windows::SkinOptionsWindow>("SkinOptionsWindow");
       if (!skinWindow) return false;
 
       Skin* skin = skinWindow->GetSelectedSkin();
@@ -326,8 +326,8 @@ namespace PT
 
     bool SkinManager::Populate()
     {
-      Windows::SkinWindow* skinWindow =
-        guiManager->GetWindow<Windows::SkinWindow>("SkinWindow");
+      Windows::SkinOptionsWindow* skinWindow =
+        guiManager->GetWindow<Windows::SkinOptionsWindow>("SkinOptionsWindow");
       if (!skinWindow) return false;
 
       // Add the skins to the GUI.

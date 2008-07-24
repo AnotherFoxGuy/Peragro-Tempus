@@ -23,7 +23,7 @@
 
 #include <csutil/array.h>
 
-#define SKINWINDOW "SkinWindow"
+#define SKINOPTIONSWINDOW "SkinOptionsWindow"
 
 namespace PT
 {
@@ -33,7 +33,7 @@ namespace PT
 
     namespace Windows
     {
-      class SkinWindow : public GUIWindow
+      class SkinOptionsWindow : public GUIWindow
       {
       private:
         csArray<Skin> skinList;
@@ -43,8 +43,8 @@ namespace PT
         bool LoadPressed (const CEGUI::EventArgs& e);
 
       public:
-        SkinWindow (GUIManager* guiManager);
-        virtual ~SkinWindow ();
+        SkinOptionsWindow (GUIManager* guiManager);
+        virtual ~SkinOptionsWindow ();
         bool Create ();
         bool ReloadWindow ();
 

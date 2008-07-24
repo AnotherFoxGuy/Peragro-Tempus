@@ -57,15 +57,10 @@
 CS_IMPLEMENT_PLUGIN
 IMPLEMENT_COMPONENTFACTORY (PlayerControls, "peragro.entity.input.playercontrols")
 
-ComponentPlayerControls::ComponentPlayerControls(iObjectRegistry* object_reg) :
-  scfImplementationType (this, object_reg)
+ComponentPlayerControls::ComponentPlayerControls(iObjectRegistry* object_reg)
+  : scfImplementationType (this, object_reg), walk(0), turn(0), run(false),
+    jump(false), backwardReverse(false), localMovement(false)
 {
-  walk = 0;
-  turn = 0;
-  run = false;
-  jump = false;
-  backwardReverse = false;
-  localMovement = false;
 }
 
 ComponentPlayerControls::~ComponentPlayerControls()
@@ -102,7 +97,7 @@ bool ComponentPlayerControls::Initialize (PointerLibrary* pl,
   REGISTER_LISTENER(ComponentPlayerControls, ActionActivateWeapon,
     "input.ACTION_ACTIVATEWEAPON", false)
   REGISTER_LISTENER(ComponentPlayerControls, UpdateOptions,
-    "interface.options", false)
+    "options.update.movement", false)
 
   UpdateOptions();
 

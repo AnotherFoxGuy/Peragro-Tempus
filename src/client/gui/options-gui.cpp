@@ -143,7 +143,7 @@ namespace PT
         // Show the Options button.
         btn = winMgr->getWindow("Options/Options_Button");
         btn->setVisible(true);
-        
+
         // Hide the Option menu.
         btn = winMgr->getWindow("Options/Frame");
         btn->setVisible(false);
@@ -182,14 +182,14 @@ namespace PT
         return true;
       } // end ReloadWindow()
 
-      bool OptionsWindow::CreateOptionItem(const char* optionname)
+      bool OptionsWindow::CreateOptionItem(const char* optionName)
       {
         // Get the window.
         CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/List");
         if (!btn) return false;
 
         // Create and add the item to the list window. CEGUI deletes this.
-        CEGUI::ListboxItem* optionItem = new CEGUI::ListboxTextItem(optionname);
+        CEGUI::ListboxItem* optionItem = new CEGUI::ListboxTextItem(optionName);
         optionItem->setSelectionBrushImage("Peragro", "TextSelectionBrush");
         ((CEGUI::Listbox*)btn)->addItem(optionItem);
 

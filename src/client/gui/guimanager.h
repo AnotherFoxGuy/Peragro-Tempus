@@ -60,7 +60,9 @@ namespace PT
       class BookWindow;
       class LoadScreenWindow;
       class BackgroundWindow;
-      class SkinWindow;
+      class SkinOptionsWindow;
+      class VideoOptionsWindow;
+      class MovementOptionsWindow;
       class MenuWindow;
       class DragDrop;
     }
