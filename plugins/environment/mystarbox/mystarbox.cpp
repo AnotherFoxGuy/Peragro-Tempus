@@ -153,6 +153,7 @@ bool MyStarbox::SetCurrentSystem(const int& new_id)
 
 bool MyStarbox::Background(const iCamera* c)
 {
+  engine->SetClearScreen(false);
   if (!BackgroundImage(c)) return false;
   return true;
 }; 
