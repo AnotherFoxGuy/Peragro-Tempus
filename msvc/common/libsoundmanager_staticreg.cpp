@@ -26,11 +26,6 @@ static char const metainfo_soundmanager[] =
 "        <implementation>SoundManager</implementation>"
 "        <description>SoundManager</description>"
 "      </class>"
-"      <class>"
-"        <name>peragro.sound</name>"
-"        <implementation>SoundManager</implementation>"
-"        <description>SoundManager</description>"
-"      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
@@ -39,18 +34,10 @@ static char const metainfo_soundmanager[] =
   #define SoundManager_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(SoundManager) 
   #endif
-  #ifndef SoundManager_FACTORY_REGISTER_DEFINED 
-  #define SoundManager_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(SoundManager) 
-  #endif
 
 class soundmanager
 {
 SCF_REGISTER_STATIC_LIBRARY(soundmanager,metainfo_soundmanager)
-  #ifndef SoundManager_FACTORY_REGISTERED 
-  #define SoundManager_FACTORY_REGISTERED 
-    SoundManager_StaticInit SoundManager_static_init__; 
-  #endif
   #ifndef SoundManager_FACTORY_REGISTERED 
   #define SoundManager_FACTORY_REGISTERED 
     SoundManager_StaticInit SoundManager_static_init__; 

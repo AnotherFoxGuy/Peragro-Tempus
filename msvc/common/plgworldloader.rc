@@ -38,18 +38,18 @@ FILEFLAGS 0x0
 
 17485 RCDATA 
 {
-  "<?xml version=""1.0""?>",
-  "<!-- world.csplugin -->",
-  "<plugin>",
-  "  <scf>",
-  "    <classes>",
-  "      <class>",
-  "        <name>peragro.world</name>",
-  "        <implementation>WorldManager</implementation>",
-  "        <description>World</description>",
-  "      </class>",
-  "    </classes>",
-  "  </scf>",
-  "</plugin>",
+  "<?xml version=""1.0""?>",
+  "<!-- world.csplugin -->",
+  "<plugin>",
+  "  <scf>",
+  "    <classes>",
+  "      <class>",
+  "        <name>peragro.world</name>",
+  "        <implementation>WorldManager</implementation>",
+  "        <description>World</description>",
+  "      </class>",
+  "    </classes>",
+  "  </scf>",
+  "</plugin>",
   "\0"
 }

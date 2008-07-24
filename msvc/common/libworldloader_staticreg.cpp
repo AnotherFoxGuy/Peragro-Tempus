@@ -16,19 +16,19 @@
 namespace csStaticPluginInit
 {
 static char const metainfo_worldloader[] =
-"<?xml version=\"1.0\"?>"
-"<!-- world.csplugin -->"
-"<plugin>"
-"  <scf>"
-"    <classes>"
-"      <class>"
-"        <name>peragro.world</name>"
-"        <implementation>WorldManager</implementation>"
-"        <description>World</description>"
-"      </class>"
-"    </classes>"
-"  </scf>"
-"</plugin>"
+"<?xml version=\"1.0\"?>"
+"<!-- world.csplugin -->"
+"<plugin>"
+"  <scf>"
+"    <classes>"
+"      <class>"
+"        <name>peragro.world</name>"
+"        <implementation>WorldManager</implementation>"
+"        <description>World</description>"
+"      </class>"
+"    </classes>"
+"  </scf>"
+"</plugin>"
 ;
   #ifndef WorldManager_FACTORY_REGISTER_DEFINED 
   #define WorldManager_FACTORY_REGISTER_DEFINED 
