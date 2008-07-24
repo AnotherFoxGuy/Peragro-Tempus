@@ -104,7 +104,7 @@ SCF_IMPLEMENT_FACTORY (SoundManager)
 SoundManager::SoundManager(iBase* parent) :
 scfImplementationType (this, parent), object_reg(0)
 {
-  disableSound = false;
+  soundDisabled = false;
 }
 
 SoundManager::~SoundManager()
@@ -113,7 +113,7 @@ SoundManager::~SoundManager()
 
 bool SoundManager::HandleEvent (iEvent& ev)
 {
-  if (disableSound) return true;
+  if (soundDisabled) return true;
 
   csArray<csRef<SoundEvent> > events = sounds.GetAll(ev.GetName());
   for (size_t i = 0; i < events.GetSize(); i++)
@@ -132,14 +132,14 @@ bool SoundManager::Initialize (iObjectRegistry* r)
   sndrenderer = csQueryRegistry<iSndSysRenderer> (object_reg);
   if (!sndrenderer)
   {
-    disableSound = true;
+    soundDisabled = true;
     printf("W: Failed to locate sound renderer!\n");
   }
 
   sndloader = csQueryRegistry<iSndSysLoader> (object_reg);
   if (!sndloader)
   {
-    disableSound = true;
+    soundDisabled = true;
     printf("W: Failed to locate sound loader!\n");
   }
 
@@ -148,7 +148,7 @@ bool SoundManager::Initialize (iObjectRegistry* r)
 
 bool SoundManager::LoadSoundEvents(const std::string& fileName)
 {
-  if (disableSound) return true;
+  if (soundDisabled) return true;
 
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs) printf("E: Failed to locate VFS!\n");
@@ -181,7 +181,7 @@ bool SoundManager::LoadSoundEvents(const std::string& fileName)
 
 bool SoundManager::LoadSoundEvents(iDocumentNode* node, const char* prefix)
 {
-  if (disableSound) return true;
+  if (soundDisabled) return true;
 
   csRef<iDocumentNodeIterator> it (node->GetNodes ("sound"));
 
@@ -214,7 +214,7 @@ bool SoundManager::LoadSoundEvents(iDocumentNode* node, const char* prefix)
 
 bool SoundManager::LoadSoundEvent(iDocumentNode* node, const char* prefix)
 {
-  if (disableSound) return true;
+  if (soundDisabled) return true;
 
   csRef<SoundEvent> soundEvent;
   if (node->GetNode("material"))
@@ -246,6 +246,67 @@ bool SoundManager::LoadSoundEvent(iDocumentNode* node, const char* prefix)
 
   return true;
 } // end LoadSoundEvent()
+
+bool SoundManager::PlayAmbient(const std::string& fileName)
+{
+  ///The sound source.
+  csRef<iSndSysSource> sndsource;
+  csRef<iSndSysSource3D> sndsource3d;
+
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+
+  csRef<iDataBuffer> soundbuf = vfs->ReadFile (fileName.c_str());
+  if (!soundbuf)
+  {
+    printf("E: Can't load file '%s'!\n", fileName.c_str());
+    return false;
+  }
+
+  csRef<iSndSysData> snddata = sndloader->LoadSound (soundbuf);
+  if (!snddata)
+  {
+    printf("E: Can't load sound '%s'!\n", fileName.c_str());
+    return false;
+  }
+
+  ambientSndStream = sndrenderer->CreateStream (snddata, CS_SND3D_ABSOLUTE);
+  if (!ambientSndStream)
+  {
+    printf("E: Can't create stream for '%s'!\n", fileName.c_str());
+    return false;
+  }
+
+  sndsource = sndrenderer->CreateSource (ambientSndStream);
+  if (!sndsource)
+  {
+    printf("E: Can't create source for '%s'!\n", fileName.c_str());
+    return false;
+  }
+
+  sndsource3d = scfQueryInterface<iSndSysSource3D> (sndsource);
+
+  sndsource3d->SetPosition (csVector3(0,0,0));
+  sndsource->SetVolume (1.0f);
+
+  ambientSndStream->SetLoopState (CS_SNDSYS_STREAM_DONTLOOP);
+  ambientSndStream->Unpause ();
+
+  return true;
+} // end PlayAmbient()
+
+bool SoundManager::PlayAmbient()
+{
+  if (ambientSndStream) ambientSndStream->Unpause ();
+
+  return true;
+}// end PlayAmbient()
+
+bool SoundManager::StopAmbient()
+{
+  if (ambientSndStream) ambientSndStream->Pause();
+
+  return true;
+} // end StopAmbient()
 
 bool SoundManager::RemoveSound(csEventID eventId)
 {

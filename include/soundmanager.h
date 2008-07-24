@@ -38,6 +38,10 @@ struct iSoundManager : public virtual iBase
   virtual bool RemoveSound(csEventID eventId) = 0;
   virtual bool RemoveSound(const std::string& fileName) = 0;
 
+  virtual bool PlayAmbient(const std::string& fileName) = 0;
+  virtual bool PlayAmbient() = 0;
+  virtual bool StopAmbient() = 0;
+
   virtual float GetVolume() = 0;
   virtual void SetVolume(float vol) = 0;
 };

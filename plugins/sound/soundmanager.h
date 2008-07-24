@@ -126,13 +126,17 @@ private:
   iObjectRegistry* object_reg;
   csHash<csRef<SoundEvent>, csEventID> sounds;
 
-  bool disableSound;
+  bool soundDisabled;
 
   ///The sound renderer.
   csRef<iSndSysRenderer> sndrenderer;
 
   ///The sound loader.
   csRef<iSndSysLoader> sndloader;
+
+private:
+  ///The ambient sound stream.
+  csRef<iSndSysStream> ambientSndStream;
 
 private:
   virtual bool HandleEvent(iEvent& ev);
@@ -149,6 +153,10 @@ public:
 
   virtual bool RemoveSound(csEventID eventId);
   virtual bool RemoveSound(const std::string& fileName);
+
+  virtual bool PlayAmbient(const std::string& fileName);
+  virtual bool PlayAmbient();
+  virtual bool StopAmbient();
 
   virtual float GetVolume();
   virtual void SetVolume(float vol);

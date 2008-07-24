@@ -442,6 +442,7 @@ namespace PT
     {
       object_reg->Register (soundMananger, "iSoundManager");
       soundMananger->LoadSoundEvents("/peragro/xml/sounds/sounds.xml");
+      soundMananger->PlayAmbient("/peragro/art/audio/music/intro/peragrotempus.ogg");
     }
     else
         Report(PT::Error, "Failed to load the iSoundManager!");
@@ -944,10 +945,11 @@ namespace PT
 
       // Little hack to restore focus.
       guiManager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
-/* TODO
+
       // Stop the intro music.
-      sndstream->Pause ();
-      */
+      csRef<iSoundManager> soundMananger = scfQueryInterface<iSoundManager> (object_reg);
+      if (soundMananger.IsValid())
+        soundMananger->StopAmbient();
     }
 
     LoadScreenWindow* loadScreenWindow = guiManager->GetWindow<LoadScreenWindow>(LOADSCREENWINDOW);
