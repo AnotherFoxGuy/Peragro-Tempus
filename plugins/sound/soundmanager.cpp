@@ -269,7 +269,7 @@ bool SoundManager::PlayAmbient(const std::string& fileName)
     return false;
   }
 
-  ambientSndStream = sndrenderer->CreateStream (snddata, CS_SND3D_ABSOLUTE);
+  ambientSndStream = sndrenderer->CreateStream (snddata, CS_SND3D_DISABLE);
   if (!ambientSndStream)
   {
     printf("E: Can't create stream for '%s'!\n", fileName.c_str());
@@ -283,12 +283,9 @@ bool SoundManager::PlayAmbient(const std::string& fileName)
     return false;
   }
 
-  sndsource3d = scfQueryInterface<iSndSysSource3D> (sndsource);
-
-  sndsource3d->SetPosition (csVector3(0,0,0));
   sndsource->SetVolume (1.0f);
 
-  ambientSndStream->SetLoopState (CS_SNDSYS_STREAM_DONTLOOP);
+  ambientSndStream->SetLoopState (CS_SNDSYS_STREAM_LOOP);
   ambientSndStream->Unpause ();
 
   return true;
