@@ -70,7 +70,7 @@ namespace PT
       if (!npcDataManager->parseNPCs())
         Report(PT::Error, "Failed to initialize NpcDataManager!");
 
-      // Create and Initialize the NpcDataManager.
+      // Create and Initialize the SpawnpointDataManager.
       spawnpointDataManager = new PT::Data::SpawnPointDataManager (ptrlib);
       if (!spawnpointDataManager->parse())
         Report(PT::Error, "Failed to initialize SpawnPointDataManager!");

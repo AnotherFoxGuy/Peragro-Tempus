@@ -40,6 +40,8 @@ namespace PT
         {
           unsigned int itemid;
           unsigned int variationid;
+          const char* name;
+          const char* iconname;
           unsigned int price;
         };
 
@@ -68,7 +70,7 @@ namespace PT
         bool ReloadWindow();
 
       public:
-        bool AddItem(unsigned int itemid, unsigned int price);
+        bool AddItem(unsigned int itemid, unsigned int variationid, const char* name, const char* iconname, unsigned int price);
         void CancelTrade();
         void AcceptTrade();
 

@@ -133,4 +133,3 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     }
   }
 }
-

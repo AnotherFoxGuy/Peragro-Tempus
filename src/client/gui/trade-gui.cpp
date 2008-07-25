@@ -108,7 +108,7 @@ namespace PT
       } // end ClearItems()
 
       bool TradeWindow::AddItem(unsigned int player, unsigned int itemid,
-                                unsigned int slotid)
+                   unsigned int slotid, const char* name, const char* iconname)
       {
         if (!(player == 2)) return false;
         if (slotid > numberOfSlots) return false;
@@ -123,7 +123,7 @@ namespace PT
         }
 
         // Create a new non-interactable item.
-        slot->SetObject(dragdrop->CreateItem(itemid, 0, false));
+        slot->SetObject(dragdrop->CreateItem(itemid, 0, name, iconname, false));
 
         Report(PT::Debug, "TradeWindow: Creating item %d!", itemid);
 
@@ -187,7 +187,7 @@ namespace PT
           object->GetWindow()->disable();
           // Create a new item in the trade inventory.
           newslot->SetObject(dragdrop->CreateItem(object->GetId(),
-            object->GetVariationId()));
+           object->GetVariationId(), object->GetName(), object->GetIconName()));
         }
 
         // Send an updated state of the trade inventory.
@@ -285,7 +285,7 @@ namespace PT
           {
             Object* object = slot->GetObject();
             while (!inventoryWindow->
-              AddItem(object->GetId(), object->GetVariationId(), counter)
+              AddItem(object->GetId(), object->GetVariationId(), object->GetName(), object->GetIconName(), counter)
               && counter < nrInventorySlots)
             {
               counter += 1;

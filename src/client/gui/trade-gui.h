@@ -66,7 +66,7 @@ namespace PT
       public:
         void SetName(unsigned int player, csString name);
         bool AddItem(unsigned int player, unsigned int itemid,
-                     unsigned int slotid);
+                  unsigned int slotid, const char* name, const char* iconname);
         bool AddItem(Slot* oldslot, Slot* newslot);
         void SetMoney(unsigned int player, unsigned int amount);
         void SetAccept(unsigned int player, bool value);

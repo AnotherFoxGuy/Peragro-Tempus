@@ -68,6 +68,8 @@ void TradeOffersListNpcMessage::serialise(ByteStream* bs)
     serial.setInt32(offers[i].itemid);
     serial.setInt32(offers[i].variation);
     serial.setInt32(offers[i].price);
+    serial.setString(offers[i].name);
+    serial.setString(offers[i].iconname);
   };
 
 }
@@ -85,6 +87,8 @@ void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
     offers[i].itemid = (unsigned int) serial.getInt32();
     offers[i].variation = (unsigned int) serial.getInt32();
     offers[i].price = (unsigned int) serial.getInt32();
+    offers[i].name = serial.getString();
+    offers[i].iconname = serial.getString();
   };
 
 }
@@ -100,6 +104,8 @@ void TradeOffersListPvpMessage::serialise(ByteStream* bs)
     serial.setInt32(offers[i].itemid);
     serial.setInt32(offers[i].variation);
     serial.setInt32(offers[i].amount);
+    serial.setString(offers[i].name);
+    serial.setString(offers[i].iconname);
     serial.setInt8(offers[i].slotid);
   };
 
@@ -117,6 +123,8 @@ void TradeOffersListPvpMessage::deserialise(ByteStream* bs)
     offers[i].itemid = (unsigned int) serial.getInt32();
     offers[i].variation = (unsigned int) serial.getInt32();
     offers[i].amount = (unsigned int) serial.getInt32();
+    offers[i].name = serial.getString();
+    offers[i].iconname = serial.getString();
     offers[i].slotid = (unsigned char) serial.getInt8();
   };
 

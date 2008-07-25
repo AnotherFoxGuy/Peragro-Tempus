@@ -265,7 +265,7 @@ namespace PT
       } // end handleRightClickedIcon()
 
       CEGUI::Window* DragDrop::createIcon(int icontype, int objectid,
-                                          bool interactable)
+                     const char* name, const char* iconname, bool interactable)
       {
         char uniquename[1024];
         counter += 1;
@@ -312,36 +312,28 @@ namespace PT
         // Lets decide what to make of the icon: Item or Skill.
         if (icontype == DragDrop::Item)
         {
-          PT::Data::Item* clientitem = itemDataManager->GetItemById(objectid);
-
           // Set some variables.
           icon->setUserString("itemid" , IntToStr(objectid));
           icon->setUserString("icontype" , IntToStr(icontype));
-          icon->setTooltipText(clientitem->GetName());
-
-          icon->setUserData(clientitem);
-          //ClientItem* clientitem2 =
-          //  static_cast<ClientItem*>(icon->getUserData());
-          //printf("================%s\n", clientitem2->GetName().GetData() );
+          icon->setTooltipText(name);
 
           std::string setAndIcon;
           // An image file is specified.
-          if (clientitem->GetIconName().find("set:") == std::string::npos)
+          if (!strstr(iconname, "set:"))
           {
             CEGUI::ImagesetManager* imgmgr = guimanager->GetCEGUI()->GetImagesetManagerPtr();
-            if (!imgmgr->isImagesetPresent(clientitem->GetIconName().c_str()))
+            if (!imgmgr->isImagesetPresent(iconname))
             {
               ///TODO: This imageset should be released when the item is destroyed.
-              imgmgr->createImagesetFromImageFile(clientitem->GetIconName().c_str(), 
-                clientitem->GetIconName().c_str());
+              imgmgr->createImagesetFromImageFile(iconname, iconname);
             }
-            setAndIcon = "set:"+ clientitem->GetIconName();
-            setAndIcon += " image:" + clientitem->GetIconName();
+            setAndIcon = std::string("set:") + iconname;
+            setAndIcon += std::string(" image:") + iconname;
           }
           // A CEGUI imageset is specified.
           else
           {
-            setAndIcon = clientitem->GetIconName();
+            setAndIcon = iconname;
           }
 
           iconImage->setProperty("Image", setAndIcon.c_str());
@@ -365,20 +357,14 @@ namespace PT
       } // end IntToStr()
 
       Object* DragDrop::CreateItem(uint itemid, unsigned int variationid,
-                                   bool interactable)
+                   const char* name, const char* iconname, bool interactable)
       {
-        PT::Data::Item* clientitem = itemDataManager->GetItemById(itemid);
-
-        if (!clientitem)
-        {
-          Report(PT::Error, "DragDrop: Failed to create item %d!", itemid);
-          return 0;
-        }
-
         Object* object = new Object();
         object->SetId(itemid);
         object->SetVariationId(variationid);
-        object->SetWindow(createIcon(DragDrop::Item, itemid, interactable));
+        object->SetName(name);
+        object->SetIconName(iconname);
+        object->SetWindow(createIcon(DragDrop::Item, itemid, name, iconname, interactable));
 
         return object;
       } // end CreateItem()
@@ -403,4 +389,3 @@ namespace PT
     } // Windows namespace
   } // GUI namespace
 } // PT namespace
-

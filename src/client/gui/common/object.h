@@ -39,6 +39,8 @@ private:
   bool stackable;
   CEGUI::Window* objectwindow;
   unsigned int price;
+  const char* name;
+  const char* iconname;
 
 public:
   Object();
@@ -49,6 +51,8 @@ public:
   bool IsStackable() { return stackable; }
   CEGUI::Window* GetWindow() { return objectwindow; }
   unsigned int GetPrice() { return price; }
+  const char* GetName() { return name; }
+  const char* GetIconName() { return iconname; }
 
   void SetId(unsigned int value) { this->objectid = value; }
   void SetVariationId(unsigned int value) { this->variationid = value; }
@@ -56,6 +60,8 @@ public:
   void SetStackable(bool value) { this->stackable = value; }
   void SetWindow(CEGUI::Window* value) { this->objectwindow = value; }
   void SetPrice(unsigned int value) { this->price = value; }
+  void SetName(const char* value) { this->name = value; }
+  void SetIconName(const char* value) { this->iconname = value; }
 };
 
 #endif // OBJECT_H

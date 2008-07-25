@@ -92,6 +92,8 @@ class TradeOffersListNpcMessage : public NetMessage
     unsigned int itemid;
     unsigned int variation;
     unsigned int price;
+    ptString name;
+    ptString iconname;
   };
 
   unsigned char offerscount;
@@ -134,6 +136,12 @@ public:
   unsigned int getPrice(size_t i) { return offers[i].price; }
   void setPrice(size_t i, unsigned int x) { offers[i].price = x; }
 
+  ptString getName(size_t i) { return offers[i].name; }
+  void setName(size_t i, ptString x) { offers[i].name = x; }
+
+  ptString getIconName(size_t i) { return offers[i].iconname; }
+  void setIconName(size_t i, ptString x) { offers[i].iconname = x; }
+
   // --- end ListOffers Getter and Setter ---
 
 };
@@ -146,6 +154,8 @@ class TradeOffersListPvpMessage : public NetMessage
     unsigned int itemid;
     unsigned int variation;
     unsigned int amount;
+    ptString name;
+    ptString iconname;
     unsigned char slotid;
   };
 
@@ -185,6 +195,12 @@ public:
 
   unsigned int getAmount(size_t i) { return offers[i].amount; }
   void setAmount(size_t i, unsigned int x) { offers[i].amount = x; }
+
+  ptString getName(size_t i) { return offers[i].name; }
+  void setName(size_t i, ptString x) { offers[i].name = x; }
+
+  ptString getIconName(size_t i) { return offers[i].iconname; }
+  void setIconName(size_t i, ptString x) { offers[i].iconname = x; }
 
   unsigned char getSlotId(size_t i) { return offers[i].slotid; }
   void setSlotId(size_t i, unsigned char x) { offers[i].slotid = x; }

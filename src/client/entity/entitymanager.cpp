@@ -307,7 +307,13 @@ namespace PT
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);
 
-      Report(PT::Debug, "Equip for '%d': item %d in slot %d", id, itemId, slotId);
+      const char* mesh = "(Null)";
+      ev.Retrieve("mesh", mesh);
+
+      const char* file = "(Null)";
+      ev.Retrieve("file", file);
+
+      Report(PT::Debug, "Equip for '%d': item %d in slot %d with mesh %s from file %s", id, itemId, slotId, mesh, file);
 
       Entity* entity = findPtEntById(id);
       if (entity)
@@ -318,7 +324,7 @@ namespace PT
         {
           if (!itemId == 0)
           {
-            ((PcEntity*) entity)->GetEquipment().Equip(slotId, itemId);
+            ((PcEntity*) entity)->GetEquipment().Equip(slotId, itemId, mesh, file);
           }
           else
           {

@@ -73,13 +73,19 @@ namespace PT
       unsigned int variationId = -1;
       ev.Retrieve("variationId", variationId);
 
+      const char* name = "";
+      ev.Retrieve("name", name);
+
+      const char* icon = "";
+      ev.Retrieve("icon", icon);
+
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       if (!guimanager) return true;
       InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-      inventoryWindow->AddItem(itemId, variationId, slotId);
+      inventoryWindow->AddItem(itemId, variationId, name, icon, slotId);
 
       return true;
     }

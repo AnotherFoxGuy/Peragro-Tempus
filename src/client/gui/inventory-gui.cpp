@@ -63,6 +63,8 @@ namespace PT
 
       bool InventoryWindow::AddItem(unsigned int itemid,
                                     unsigned int variationid,
+                                    const char* name,
+                                    const char* iconname,
                                     unsigned int slotid)
       {
         if (slotid > numberOfSlots) return false;
@@ -85,7 +87,7 @@ namespace PT
 
         // Create a new item.
         if (slot->IsEmpty())
-          slot->SetObject(dragdrop->CreateItem(itemid, variationid));
+          slot->SetObject(dragdrop->CreateItem(itemid, variationid, name, iconname));
 
         return true;
       } // end AddItem()
@@ -204,4 +206,3 @@ namespace PT
     } // Windows namespace
   } // GUI namespace
 } // PT namespace
-

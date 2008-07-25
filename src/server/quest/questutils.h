@@ -434,13 +434,29 @@ namespace QuestUtils
           TradeOffersListNpcMessage trade_msg;
           trade_msg.setIsBuy(1);
           trade_msg.setOffersCount(4);
+
           trade_msg.setItemId(0, 4);
+          trade_msg.setVariation(0, 0);
+          trade_msg.setName(0, ptString("Pot", 3));
+          trade_msg.setIconName(0, ptString("set:Inventory image:tinyballpot", 31));
           trade_msg.setPrice(0, 200);
+
           trade_msg.setItemId(1, 3);
+          trade_msg.setVariation(1, 0);
+          trade_msg.setName(1, ptString("Scythe", 6));
+          trade_msg.setIconName(1, ptString("set:Inventory image:Scythe", 26));
           trade_msg.setPrice(1, 100);
+
           trade_msg.setItemId(2, 6); //empty book
+          trade_msg.setVariation(2, 0);
+          trade_msg.setName(2, ptString("Empty book", 10));
+          trade_msg.setIconName(2, ptString("set:Inventory image:oldbook", 27));
           trade_msg.setPrice(2, 10);
+
           trade_msg.setItemId(3, 7); //gate key
+          trade_msg.setVariation(3, 0);
+          trade_msg.setName(3, ptString("Gate key", 8));
+          trade_msg.setIconName(3, ptString("set:Inventory image:key01", 25));
           trade_msg.setPrice(3, 300);
 
           ByteStream bs;
@@ -465,9 +481,17 @@ namespace QuestUtils
           TradeOffersListNpcMessage trade_msg;
           trade_msg.setIsBuy(0);
           trade_msg.setOffersCount(2);
+
           trade_msg.setItemId(0, 4);
+          trade_msg.setVariation(0, 0);
+          trade_msg.setName(0, ptString("Pot", 3));
+          trade_msg.setIconName(0, ptString("set:Inventory image:tinyballpot", 31));
           trade_msg.setPrice(0, 175);
+
           trade_msg.setItemId(1, 3);
+          trade_msg.setVariation(1, 0);
+          trade_msg.setName(1, ptString("Scythe", 6));
+          trade_msg.setIconName(1, ptString("set:Inventory image:Scythe", 26));
           trade_msg.setPrice(1,  75);
 
           ByteStream bs;

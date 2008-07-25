@@ -76,9 +76,9 @@ namespace PT
         virtual ~DragDrop();
 
         CEGUI::Window* createIcon(int icontype, int objectid,
-          bool interactable = true);
+          const char* name, const char* iconname, bool interactable = true);
         Object* CreateItem(uint itemid, unsigned int variationid,
-          bool interactable = true);
+          const char* name, const char* iconname, bool interactable = true);
         void MoveObject(Slot* oldslot, Slot* newslot);
 
         CEGUI::String IntToStr(int number);

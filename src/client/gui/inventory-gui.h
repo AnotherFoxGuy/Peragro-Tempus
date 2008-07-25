@@ -50,7 +50,7 @@ namespace PT
         bool Create();
         bool ReloadWindow();
         bool AddItem(unsigned int itemid, unsigned int variationid,
-                     unsigned int slotid);
+                  const char* name, const char* iconname, unsigned int slotid);
         bool MoveItem(unsigned int oldslotid, unsigned int newslotid);
         bool MoveItem(Slot* oldslot, Slot* newslot);
         bool RemoveItem(unsigned int slotid);

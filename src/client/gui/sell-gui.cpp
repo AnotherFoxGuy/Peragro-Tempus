@@ -53,7 +53,7 @@ namespace PT
         return true;
       } // end OnAccept()
 
-      bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid)
+      bool SellWindow::AddItem(unsigned int itemid, unsigned int slotid, const char* name, const char* iconname)
       {
         if (slotid > 12) return false;
 
@@ -66,7 +66,7 @@ namespace PT
           return false;
         }
 
-        slot->SetObject(dragdrop->CreateItem(itemid, 0));
+        slot->SetObject(dragdrop->CreateItem(itemid, 0, name, iconname));
 
         return true;
       } // end AddItem()
@@ -90,7 +90,7 @@ namespace PT
             Object* object = slot->GetObject();
 
             while (!inventoryWindow->
-              AddItem(object->GetId(), object->GetVariationId(), counter)
+              AddItem(object->GetId(), object->GetVariationId(), object->GetName(), object->GetIconName(), counter)
               && counter < nrInventorySlots)
             {
               counter += 1;

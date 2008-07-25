@@ -132,6 +132,8 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
     entityEvent->Add("itemId", response_msg.getItemId());
     entityEvent->Add("variationId", response_msg.getVariation());
     entityEvent->Add("slotId", response_msg.getSlotId());
+    entityEvent->Add("name", *response_msg.getName());
+    entityEvent->Add("icon", *response_msg.getIcon());
 
     evmgr->AddEvent(entityEvent);
   }
@@ -210,6 +212,8 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   entityEvent->Add("entityId", equip_msg.getEntityId());
   entityEvent->Add("slotId", equip_msg.getSlotId());
   entityEvent->Add("itemId", equip_msg.getItemId());
+  entityEvent->Add("mesh", *equip_msg.getMesh()?*equip_msg.getMesh():"NULL");
+  entityEvent->Add("file", *equip_msg.getFile()?*equip_msg.getFile():"NULL");
 
   evmgr->AddEvent(entityEvent);
 }

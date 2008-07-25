@@ -44,7 +44,7 @@ namespace PT
     public:
       Equipment(Entity* entity);
       ~Equipment() {}
-      void Equip(unsigned int slotId, unsigned int itemId);
+      void Equip(unsigned int slotId, unsigned int itemId, const char* meshname, const char* meshfile);
       void UnEquip(unsigned int slotId);
 
       Entity* GetEntity() { return entity; }

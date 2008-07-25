@@ -51,7 +51,7 @@ namespace PT
         bool ReloadWindow();
 
       public:
-        bool AddItem(unsigned int itemid, unsigned int slotid);
+        bool AddItem(unsigned int itemid, unsigned int slotid, const char* name, const char* iconname);
         void CancelTrade();
         void AcceptTrade();
 

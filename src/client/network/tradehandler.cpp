@@ -154,7 +154,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   for (int i=0; i<trade_msg.getOffersCount(); i++)
   {
     Report(PT::Debug, "Item %d in slot %d", trade_msg.getItemId(i), trade_msg.getSlotId(i));
-    tradeWindow->AddItem(2, trade_msg.getItemId(i), trade_msg.getSlotId(i));
+    tradeWindow->AddItem(2, trade_msg.getItemId(i), trade_msg.getSlotId(i), *trade_msg.getName(i), *trade_msg.getIconName(i));
   }
 }
 
@@ -174,7 +174,7 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
     {
       Report(PT::Debug, " %d) Item %d \t %d money", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
       BuyWindow* buyWindow = guimanager->GetWindow<BuyWindow>(BUYWINDOW);
-      buyWindow->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
+      buyWindow->AddItem(trade_msg.getItemId(i), trade_msg.getVariation(i), *trade_msg.getName(i), *trade_msg.getIconName(i), trade_msg.getPrice(i));
     }
   }
   else
@@ -184,7 +184,7 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
     {
       Report(PT::Debug, " %d) Item %d \t %d money", i, trade_msg.getItemId(i), trade_msg.getPrice(i));
       SellWindow* sellWindow = guimanager->GetWindow<SellWindow>(SELLWINDOW);
-      sellWindow->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i));
+      sellWindow->AddItem(trade_msg.getItemId(i), trade_msg.getPrice(i), *trade_msg.getName(i), *trade_msg.getIconName(i));
     }
   }
 }

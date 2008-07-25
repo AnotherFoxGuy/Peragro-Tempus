@@ -52,10 +52,10 @@ namespace PT
         Report(PT::Error, "Equipment: Couldn't remove equiped item for slot %d!", slotid);
     }
 
-    void Equipment::Equip(unsigned int slotId, unsigned int itemId)
+    void Equipment::Equip(unsigned int slotId, unsigned int itemId, const char* meshname, const char* meshfile)
     {
       // Create an EquipedItem with the slotname and item information.
-      EquipedItem* equipeditem = new EquipedItem(entity, slotId, itemId);
+      EquipedItem* equipeditem = new EquipedItem(entity, slotId, itemId, meshname, meshfile);
 
       // Add it to the equipment.
       AddItem(equipeditem);

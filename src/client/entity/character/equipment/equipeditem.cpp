@@ -44,12 +44,14 @@ namespace PT
   namespace Entity
   {
 
-    EquipedItem::EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId)
+    EquipedItem::EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId, const char* meshname, const char* meshfile)
     {
       this->id         = itemId;
       this->slotId     = slotId;
       this->entity     = entity;
       this->itementity = 0;
+      this->meshname   = meshname;
+      this->meshfile   = meshfile;
     }
 
     void EquipedItem::ConstructMesh()
@@ -61,33 +63,25 @@ namespace PT
       if (!obj_reg) return;
       csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
       if (!pl.IsValid()) return;
-      PT::Data::ItemDataManager* itemDataMgr =  PointerLibrary::getInstance()->getServerSetupManager()->GetItemDataManager();
-      if (!itemDataMgr) return;
 
-      // Find the item by  ID.
-      PT::Data::Item* item = itemDataMgr->GetItemById(id);
-      if (item)
+      csRef<iCelEntity> itement = pl->CreateEntity();
+      this->itementity = itement;
+      pl->CreatePropertyClass(itementity, "pcobject.mesh");
+      csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
+      itempcmesh->SetMesh(meshname, meshfile);
+
+      // Get the player's mesh.
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
+
+      iMeshWrapper* mesh = itempcmesh->GetMesh();
+      iMeshWrapper* parent = pcmesh->GetMesh();
+      if (parent && mesh)
       {
-        // Create the item.
-        csRef<iCelEntity> itement = pl->CreateEntity();
-        this->itementity = itement;
-        pl->CreatePropertyClass(itementity, "pcobject.mesh");
-        csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
-        itempcmesh->SetMesh(item->GetMeshName().c_str(), item->GetMeshFile().c_str());
-
-        // Get the player's mesh.
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
-
-        iMeshWrapper* mesh = itempcmesh->GetMesh();
-        iMeshWrapper* parent = pcmesh->GetMesh();
-        if (parent && mesh)
+        // Attach the item.
+        if (pcmesh->AttachSocketMesh(GetSocketName(slotId).c_str(), mesh))
         {
-          // Attach the item.
-          if (pcmesh->AttachSocketMesh(GetSocketName(slotId).c_str(), mesh))
-          {
-            Report(PT::Debug, "Equipment attached!");
-            return;
-          }
+          Report(PT::Debug, "Equipment attached!");
+          return;
         }
       }
 
