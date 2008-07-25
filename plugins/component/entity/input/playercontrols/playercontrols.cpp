@@ -97,7 +97,7 @@ bool ComponentPlayerControls::Initialize (PointerLibrary* pl,
   REGISTER_LISTENER(ComponentPlayerControls, ActionActivateWeapon,
     "input.ACTION_ACTIVATEWEAPON", false)
   REGISTER_LISTENER(ComponentPlayerControls, UpdateOptions,
-    "options.update.movement", false)
+    "interface.options.movement", false)
 
   UpdateOptions();
 

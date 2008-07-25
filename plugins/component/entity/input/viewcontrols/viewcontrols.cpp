@@ -76,7 +76,7 @@ bool ComponentViewControls::Initialize (PointerLibrary* pl, PT::Entity::Entity* 
   REGISTER_LISTENER(ComponentViewControls, ActionZoomOut, "input.ACTION_ZOOMOUT", false)
   REGISTER_LISTENER(ComponentViewControls, ActionToggleCamera, "input.ACTION_TOGGLECAMERA", false)
   REGISTER_LISTENER(ComponentViewControls, ActionToggleDistClipping, "input.ACTION_TOGGLEDISTCLIP", false)
-  REGISTER_LISTENER(ComponentViewControls, UpdateOptions, "options.update.video", false)
+  REGISTER_LISTENER(ComponentViewControls, UpdateOptions, "interface.options.view", false)
 
   UpdateOptions();
 

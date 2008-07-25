@@ -119,7 +119,7 @@ namespace PT
       {
         PT::Events::EventManager* evmgr =
           PointerLibrary::getInstance()->getEventManager();
-        evmgr->AddEvent(evmgr->CreateEvent("options.update.video"));
+        evmgr->AddEvent(evmgr->CreateEvent("interface.options.view"));
       } // end SendUpdateEvent()
 
       bool VideoOptionsWindow::ToggleDistClip(iEvent& e)

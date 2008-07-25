@@ -94,7 +94,7 @@ namespace PT
       {
         PT::Events::EventManager* evmgr =
           PointerLibrary::getInstance()->getEventManager();
-        evmgr->AddEvent(evmgr->CreateEvent("options.update.movement"));
+        evmgr->AddEvent(evmgr->CreateEvent("interface.options.movement"));
       } // end SendUpdateEvent()
 
       bool MovementOptionsWindow::OnDropListMovement(const CEGUI::EventArgs& e)
@@ -172,7 +172,7 @@ namespace PT
         // Goes to a different plugin, using the other event name.
         PT::Events::EventManager* evmgr =
           PointerLibrary::getInstance()->getEventManager();
-        evmgr->AddEvent(evmgr->CreateEvent("options.update.video"));
+        evmgr->AddEvent(evmgr->CreateEvent("interface.options.view"));
         SaveConfig();
         return true;
       }

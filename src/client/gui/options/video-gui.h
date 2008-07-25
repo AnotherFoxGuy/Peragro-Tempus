@@ -16,12 +16,10 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_GUI_VIDEOWINDOW_H
-#define PT_GUI_VIDEOWINDOW_H
+#ifndef PT_GUI_VIDEOOPTIONSWINDOW_H
+#define PT_GUI_VIDEOOPTIONSWINDOW_H
 
 #include "client/gui/base-gui.h"
-
-#include <csutil/array.h>
 
 #define VIDEOOPTIONSWINDOW "VideoOptionsWindow"
 
@@ -60,10 +58,10 @@ namespace PT
         bool OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e);
 
       public:
-        VideoOptionsWindow (GUIManager* guiManager);
-        virtual ~VideoOptionsWindow ();
-        bool Create ();
-        bool ReloadWindow ();
+        VideoOptionsWindow(GUIManager* guiManager);
+        virtual ~VideoOptionsWindow();
+        bool Create();
+        bool ReloadWindow();
 
       };
 
@@ -71,4 +69,4 @@ namespace PT
   } // GUI namespace
 } // PT namespace
 
-#endif // PT_GUI_VIDEOWINDOW_H
+#endif // PT_GUI_VIDEOOPTIONSWINDOW_H

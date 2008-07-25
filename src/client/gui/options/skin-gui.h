@@ -16,8 +16,8 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_GUI_SKINWINDOW_H
-#define PT_GUI_SKINWINDOW_H
+#ifndef PT_GUI_SKINOPTIONSWINDOW_H
+#define PT_GUI_SKINOPTIONSWINDOW_H
 
 #include "client/gui/base-gui.h"
 
@@ -40,13 +40,13 @@ namespace PT
         bool CreateSkinItem (Skin& skin);
 
       private:
-        bool LoadPressed (const CEGUI::EventArgs& e);
+        bool LoadPressed(const CEGUI::EventArgs& e);
 
       public:
-        SkinOptionsWindow (GUIManager* guiManager);
-        virtual ~SkinOptionsWindow ();
-        bool Create ();
-        bool ReloadWindow ();
+        SkinOptionsWindow(GUIManager* guiManager);
+        virtual ~SkinOptionsWindow();
+        bool Create();
+        bool ReloadWindow();
 
         /// Add a skin item.
         bool AddSkin(Skin skin);
@@ -58,4 +58,4 @@ namespace PT
   } // GUI namespace
 } // PT namespace
 
-#endif // PT_GUI_SKINWINDOW_H
+#endif // PT_GUI_SKINOPTIONSWINDOW_H

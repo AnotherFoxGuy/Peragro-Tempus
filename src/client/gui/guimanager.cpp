@@ -74,8 +74,8 @@ namespace PT
 
     bool GUIManager::Initialize()
     {
-      iObjectRegistry* obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
+      obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      if (!obj_reg) return Report(PT::Error, "Failed to locate ObjectRegistry!");
 
       cegui =  csQueryRegistry<iCEGUI> (obj_reg);
       if (!cegui) return Report(PT::Error, "Failed to locate CEGUI plugin!");
@@ -137,16 +137,16 @@ namespace PT
           new PT::GUI::Windows::VideoOptionsWindow(this);
         video->Create();
         windows.Push(video);
-/*
+
         PT::GUI::Windows::MovementOptionsWindow* movement =
           new PT::GUI::Windows::MovementOptionsWindow(this);
         movement->Create();
         windows.Push(movement);
-*/
+
         options->AddOption("Skins", skins->GetName());
         skinMgr->Populate();
         options->AddOption("Video", video->GetName());
-        //options->AddOption("Movement", movement->GetName());
+        options->AddOption("Movement", movement->GetName());
 
         // Create the windows to be registered and used later.
         PT::GUI::Windows::ServerWindow* server =

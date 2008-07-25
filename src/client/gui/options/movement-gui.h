@@ -16,12 +16,10 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_GUI_MOVEMENTWINDOW_H
-#define PT_GUI_MOVEMENTWINDOW_H
+#ifndef PT_GUI_MOVEMENTOPTIONSWINDOW_H
+#define PT_GUI_MOVEMENTOPTIONSWINDOW_H
 
 #include "client/gui/base-gui.h"
-
-#include <csutil/array.h>
 
 #define MOVEMENTOPTIONSWINDOW "MovementOptionsWindow"
 
@@ -55,11 +53,10 @@ namespace PT
         virtual ~MovementOptionsWindow();
         bool Create();
         bool ReloadWindow();
-
       };
 
     } // Windows namespace
   } // GUI namespace
 } // PT namespace
 
-#endif // PT_GUI_VIDEOWINDOW_H
+#endif // PT_GUI_MOVEMENTOPTIONSWINDOW_H

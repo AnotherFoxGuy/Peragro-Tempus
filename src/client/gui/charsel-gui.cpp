@@ -77,25 +77,9 @@ namespace PT
          ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
 
         if (!item->isSelected()) return true;
-      /*
-        int own_char_id = atoi(item->getText().c_str());
 
-        PtEntity* entity = 0;
-        entity = new PtPcEntity();
+        // Do something, if needed.
 
-        Report(PT::Notify, "SelectCharWindow: Creating entity.");
-
-        entity->SetName("sue");
-        entity->SetMeshName("test");
-        entity->SetPosition(csVector3(-2,2,-90));
-        entity->SetSectorName("room");
-        entity->SetId(own_char_id);
-
-        PointerLibrary::getInstance()->getEntityManager()->
-          createCelEntity(entity);
-
-        delete entity;
-      */
         return true;
       } // end OnSelection()
 
