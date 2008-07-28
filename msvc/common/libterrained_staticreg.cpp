@@ -25,6 +25,9 @@ static char const metainfo_terrained[] =
 "        <name>peragro.terrained</name>"
 "        <implementation>TerrainEd</implementation>"
 "        <description>TerrainEd</description>"
+"        <requires>"
+"          <class>crystalspace.cegui.wrapper</class>"
+"        </requires>"
 "      </class>"
 "    </classes>"
 "  </scf>"
