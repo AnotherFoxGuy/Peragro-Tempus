@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- terrained.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.terrained</name>
+        <implementation>TerrainEd</implementation>
+        <description>TerrainEd</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
