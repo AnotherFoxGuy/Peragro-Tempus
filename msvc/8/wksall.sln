@@ -62,6 +62,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libeventmanager-cs", "libev
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-entity", "libserver-entity.vcproj", "{5EF78382-21B8-FD27-6937-84B16B0544B7}" 
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgterrained", "plgterrained.vcproj", "{6BE33C78-BE04-A94A-8F64-53B3F70C133C}" 
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libthreadedfactoryloader", "libthreadedfactoryloader.vcproj", "{AC9316D6-5785-368F-3337-B6031603A76E}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-udp-network", "libserver-udp-network.vcproj", "{2C7D703A-96CF-7586-13F6-4E082DA679DC}" 
@@ -666,6 +668,14 @@ Global
 		{8BD40C65-1796-41A9-83A5-287282F573EC}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{8BD40C65-1796-41A9-83A5-287282F573EC}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{8BD40C65-1796-41A9-83A5-287282F573EC}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{6BE33C78-BE04-A94A-8F64-53B3F70C133C}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{6BE33C78-BE04-A94A-8F64-53B3F70C133C}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{6BE33C78-BE04-A94A-8F64-53B3F70C133C}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{6BE33C78-BE04-A94A-8F64-53B3F70C133C}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{6BE33C78-BE04-A94A-8F64-53B3F70C133C}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{6BE33C78-BE04-A94A-8F64-53B3F70C133C}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{6BE33C78-BE04-A94A-8F64-53B3F70C133C}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{6BE33C78-BE04-A94A-8F64-53B3F70C133C}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{FCCA1931-31F6-221E-477D-DB4F82598B8E}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{FCCA1931-31F6-221E-477D-DB4F82598B8E}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{FCCA1931-31F6-221E-477D-DB4F82598B8E}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32

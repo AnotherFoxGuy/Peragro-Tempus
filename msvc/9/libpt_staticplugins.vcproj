@@ -526,6 +526,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libterrained_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libworldloader_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -851,6 +876,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\terrained\terrained.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\world\factory.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -1070,6 +1120,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\sound\soundmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\terrained\terrained.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\world\factory.h">
