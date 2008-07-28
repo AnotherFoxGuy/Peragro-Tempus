@@ -17,7 +17,7 @@ namespace csStaticPluginInit
 {
 static char const metainfo_soundmanager[] =
 "<?xml version=\"1.0\"?>"
-"<!-- csclipboard.csplugin -->"
+"<!-- soundmanager.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"
