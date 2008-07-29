@@ -27,24 +27,51 @@
 #include <iutil/eventh.h>
 #include <iutil/eventq.h>
 
-#include <csutil/hash.h>
+#include <csutil/csbaseeventh.h>
 
-#include <csutil/refcount.h>
+#include "csutil/custom_new_disable.h"
+#include <CEGUI.h>
+#include "csutil/custom_new_enable.h"
+
+#include "ivaria/icegui.h"
 
 #include "include/terrained.h"
 
 struct iObjectRegistry;
 
-class TerrainEd : public scfImplementation2<TerrainEd, iTerrainEd, iComponent>
+class TerrainEd : public scfImplementation2<TerrainEd, iTerrainEd, iComponent>, public csBaseEventHandler
 {
 private:
-  iObjectRegistry* object_reg;
+  csRef<iObjectRegistry> object_reg;
+  csRef<iCEGUI> cegui;
+
+  size_t numberOfTex;
+
+  void Frame();
+
+  void AddMaterials();
+  void AddMaterial(uint i, iMaterialWrapper* mat);
+  void ClearMaterials();
+
+  bool AddShaderVar(uint i,  csShaderVariable* var);
+  void ClearShaderVars();
+
+  CEGUI::Window* CreateShaderSpinner(uint i, const char* name, csArray<float>& vals, bool flt);
+  csArray<float> GetValues(CEGUI::Window* win);
+
+private:
+  bool OnDropList(const CEGUI::EventArgs& e);
+  bool OnShaderSpinner(const CEGUI::EventArgs& e);
 
 public:
   TerrainEd (iBase* parent);
   virtual ~TerrainEd();
 
   virtual bool Initialize (iObjectRegistry*);
+
+  
+
+  CS_EVENTHANDLER_PHASE_FRAME("peragro.terrained.frame")
 };
 
 #endif // TERRAINED_H_
