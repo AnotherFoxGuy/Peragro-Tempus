@@ -26,7 +26,9 @@ static char const metainfo_terrained[] =
 "        <implementation>TerrainEd</implementation>"
 "        <description>TerrainEd</description>"
 "        <requires>"
-"          <class>crystalspace.cegui.wrapper</class>"
+"          <class>crystalspace.engine.3d</class>"
+"          <class>crystalspace.cegui.</class>"
+"          <class>crystalspace.level.loader</class>"
 "        </requires>"
 "      </class>"
 "    </classes>"
