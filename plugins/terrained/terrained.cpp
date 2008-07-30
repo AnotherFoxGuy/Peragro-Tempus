@@ -103,7 +103,7 @@ bool TerrainEd::Initialize (iObjectRegistry* r)
   font->setProperty("PointSize", "10");
   font->load();
 
-  CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  //CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
 
   // Create the Root window and set it as the GUI sheet.
   CEGUI::Window* root = createWindow("DefaultWindow", "Root");
@@ -408,7 +408,7 @@ void TerrainEd::ClearShaderVars()
   for (size_t i = 0; i < list->getChildCount(); i++)
   {
     CEGUI::Window* w = list->getChildAtIdx(i);
-    printf("I: Destroying window %s\n", w->getName());
+    printf("I: Destroying window %s\n", w->getName().c_str());
     winMgr->destroyWindow(w);
   }
 } // end ClearShaderVars()
