@@ -58,10 +58,10 @@ void TradeSession::cancel()
 
 void TradeSession::exchange()
 {
-  Character* char1 = peer1->getEntity()->getCharacter()->getLock();
+  ptScopedMonitorable<Character> char1 (peer1->getEntity()->getCharacter());
   Inventory* inv1 = char1->getInventory();
 
-  Character* char2 = peer2->getEntity()->getCharacter()->getLock();
+  ptScopedMonitorable<Character> char2 (peer2->getEntity()->getCharacter());
   Inventory* inv2 = char2->getInventory();
 
   for (size_t i=0; i<offer1.getCount(); i++)
@@ -77,7 +77,4 @@ void TradeSession::exchange()
     bool success = inv2->takeItem(inv2->getSlot(offer.id, offer.variation));
     if (success) inv1->addItem(offer);
   }
-
-  char1->freeLock();
-  char2->freeLock();
 }

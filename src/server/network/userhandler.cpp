@@ -63,9 +63,8 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
 
   if (old_conn) //User was already logged in
   {
-    Connection* c = old_conn->getLock();
+    ptScopedMonitorable<Connection> c (old_conn);
     c->setUser(0);
-    c->freeLock();
   }
   else //new session
   {
@@ -202,7 +201,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 
     newEntity->setCharacter(character);
 
-    Entity* ent = entity->getEntity()->getLock();
+    ptScopedMonitorable<Entity> ent (entity->getEntity());
     ent->setName(character->getName());
     ent->setMesh(character->getMesh());
 
@@ -212,7 +211,6 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     ent->setRotation(character->getRotation());
     ent->setSector(character->getSector());
     ent->setPos(character->getPos());
-    ent->freeLock();
 
     newchar->getInventory()->loadFromDatabase(server->getTables()->getInventoryTable(), character->getId());
     newchar->getStats()->loadFromDatabase(server->getTables()->getCharacterStatTable(), character->getId());
@@ -229,11 +227,10 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
 
-  Character* lockedChar = character->getLock();
+  ptScopedMonitorable<Character> lockedChar (character);
   lockedChar->getInventory()->sendAllItems(msg->getConnection());
   lockedChar->getStats()->sendAllStats(msg->getConnection());
   lockedChar->getSkills()->sendAllSkills(msg->getConnection());
-  lockedChar->freeLock();
 
   server->getEnvironmentManager()->GetClock()->InitTime(entity->getEntity());
 }

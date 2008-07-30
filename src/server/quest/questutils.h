@@ -132,12 +132,12 @@ namespace QuestUtils
     dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
 
     // The npc has nothing more to say, let him walk away.
-    if (!dialog->getAnswerCount()) {
-      NpcEntity* npc_entity = dia_state->getNpc()->getLock();
+    if (!dialog->getAnswerCount()) 
+    {
+      ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
       if (npc_entity) 
       {
         npc_entity->pause(false);
-        npc_entity->freeLock();
 
         NpcEndDialogMessage endmsg;
         endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
@@ -514,10 +514,9 @@ namespace QuestUtils
         float x = 0, y = 0, z = 0;
         sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
-        Entity* ent = character->getEntity()->getLock();
+        ptScopedMonitorable<Entity> ent (character->getEntity());
         ent->setSector(sector);
         ent->setPos(x, y, z);
-        ent->freeLock();
 
         Server::getServer()->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 

@@ -56,9 +56,8 @@ public:
   {
     entity = (new Entity(Entity::MountEntityType))->getRef();
 
-    Entity* e = entity.get()->getLock();
+    ptScopedMonitorable<Entity> e (entity.get());
     e->setMountEntity(this);
-    e->freeLock();
 
     speed = 7;
     max_passengers = 1;

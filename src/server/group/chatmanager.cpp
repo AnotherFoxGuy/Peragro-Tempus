@@ -56,21 +56,19 @@ void ChatManager::OnEntityAdd(const Entity* entity)
   const CharChats* c_cchats = user->getCharChats();
   if (!c_cchats)
   {
-    PcEntity* u = user->getLock();
+    ptScopedMonitorable<PcEntity> u (user);
     u->setCharChats(new CharChatsDef(user));
     c_cchats = u->getCharChats();
-    u->freeLock();
   }
   if (!c_cchats) return;
 
-  CharChats* cchats = c_cchats->getLock();
+  ptScopedMonitorable<CharChats> cchats (c_cchats);
   for (size_t i=0;  i< cchats->GetDefChannelCount();  i++)
   {
     const char* channel = cchats->GetDefChannelName(i);
     addUser(user, channel);
     cchats->JoinChannel(channel, &getUserList(channel));
-  }
-  cchats->freeLock(); 
+  } 
 }
 
 void ChatManager::OnEntityRemove(const Entity* entity)
@@ -82,8 +80,7 @@ void ChatManager::OnEntityRemove(const Entity* entity)
   if (!c_cchats) return;
 
   
-  CharChats* cchats = c_cchats->getLock(); 
+  ptScopedMonitorable<CharChats> cchats (c_cchats); 
   for (size_t i=0;  i < cchats->GetChannelCount();  i++)
     delUser(user, cchats->GetChannelName(i));
-  cchats->freeLock();
 }

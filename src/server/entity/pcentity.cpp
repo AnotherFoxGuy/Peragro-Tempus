@@ -37,11 +37,9 @@ void PcEntity::setUser(const User* user)
 void PcEntity::setCharacter(const Character* character)
 {
   this->character = character->getRef();
-  Entity* e = entity.get()->getLock();
-  Character* c = character->getLock();
+  ptScopedMonitorable<Entity> e (entity.get());
+  ptScopedMonitorable<Character> c (character);
   c->setEntity(e);
-  c->freeLock();
-  e->freeLock();
 }
 
 void PcEntity::walkTo(float* dst_pos, float speed)
@@ -69,9 +67,8 @@ const float* PcEntity::getPos()
 {
   if (mount.get()) 
   {
-    MountEntity* e = mount.get()->getLock();
+    ptScopedMonitorable<MountEntity> e (mount.get());
     const float* p = e->getPos();
-    e->freeLock();
     return p;
   }
 
@@ -83,9 +80,8 @@ const float* PcEntity::getPos()
   {
     if ((size_t)time(0) >= t_stop)
     {
-      Entity* ent = entity.get()->getLock();
+      ptScopedMonitorable<Entity> ent (entity.get());
       ent->setPos(final_dst);
-      ent->freeLock();
 
       isWalking = false;
       return final_dst;

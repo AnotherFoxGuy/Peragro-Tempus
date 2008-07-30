@@ -54,9 +54,8 @@ void MountEntity::walkTo(float* dst_pos, float speed)
   // far we have come...
   if (isWalking) {
     const float *pos = getPos();
-    Entity* ent = entity.get()->getLock();
+    ptScopedMonitorable<Entity> ent (entity.get());
     ent->setPos(pos);
-    ent->freeLock();
     isWalking = false;
   }
 
@@ -87,9 +86,8 @@ const float* MountEntity::getPos()
 
   if ((size_t)time(0) >= t_stop)
   {
-    Entity* ent = entity.get()->getLock();
-    ent->setPos(final_dst);
-    ent->freeLock();
+    ptScopedMonitorable<Entity> e (entity.get());
+    e->setPos(final_dst);
 
     isWalking = false;
     return final_dst;

@@ -59,9 +59,8 @@ public:
   {
     entity = (new Entity(Entity::PlayerEntityType))->getRef();
 
-    Entity* e = entity.get()->getLock();
+    ptScopedMonitorable<Entity> e (entity.get());
     e->setPlayerEntity(this);
-    e->freeLock();
 
     tradepeer.setEntity(this);
 

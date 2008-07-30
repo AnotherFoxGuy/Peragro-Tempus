@@ -35,9 +35,8 @@ public:
   {
     entity = (new Entity(Entity::ItemEntityType))->getRef();
 
-    Entity* e = entity.get()->getLock();
+    ptScopedMonitorable<Entity> e (entity.get());
     e->setItemEntity(this);
-    e->freeLock();
   }
 
   ~ItemEntity() {}

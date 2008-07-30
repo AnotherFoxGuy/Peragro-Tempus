@@ -94,11 +94,10 @@ void CharacterManager::checkForSave(const PcEntity* e)
   const float dist_square = ent->getDistanceTo2(ent->getLastSaved());
   if (dist_square > 100)
   {
-    Entity* l_ent = ent->getLock();
+    ptScopedMonitorable<Entity> l_ent (ent);
     l_ent->resetSavePos();
     printf("Save entity %s (%d / %d) at <%.2f,%.2f,%.2f> %f\n", *ent->getName(), e->getCharacter()->getId(),ent->getId(), ent->getPos()[0], ent->getPos()[1], ent->getPos()[2], ent->getRotation());
     server->getTables()->getCharacterTable()->update(ent->getPos(), ent->getRotation(), ent->getSectorName(), e->getCharacter()->getId());
-    l_ent->freeLock();
   }
 }
 

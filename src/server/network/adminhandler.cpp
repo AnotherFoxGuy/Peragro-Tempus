@@ -206,13 +206,12 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
   NpcEntity* npcentity = new NpcEntity();
   npcentity->setCharacter(character);
 
-  Entity* entity = npcentity->getEntity()->getLock();
+  ptScopedMonitorable<Entity> entity (npcentity->getEntity());
   entity->setSector(npcmsg.getSectorId());
   entity->setPos(npcmsg.getPos());
   entity->setRotation(npcmsg.getRotation());
   entity->setMesh(npcmsg.getMesh());
   entity->setName(npcmsg.getName());
-  entity->freeLock();
 
   server->addEntity(npcentity->getEntity(), true);
 
@@ -263,11 +262,10 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   ItemEntity* item_ent = new ItemEntity();
   item_ent->createFromItem(itemmsg.getItemId(), itemmsg.getVariation());
 
-  Entity* e = item_ent->getEntity()->getLock();
+  ptScopedMonitorable<Entity> e (item_ent->getEntity());
   e->setPos(itemmsg.getPos());
   e->setSector(itemmsg.getSectorId());
   e->setRotation(0);
-  e->freeLock();
 
   Server::getServer()->addEntity(item_ent->getEntity(), true);
 }
@@ -285,13 +283,12 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
 
   MountEntity* mount_ent = new MountEntity();
 
-  Entity* e = mount_ent->getEntity()->getLock();
+  ptScopedMonitorable<Entity> e (mount_ent->getEntity());
   e->setName(mountmsg.getName());
   e->setMesh(mountmsg.getMesh());
   e->setPos(mountmsg.getPos());
   e->setRotation(mountmsg.getRotation());
   e->setSector(mountmsg.getSectorId());
-  e->freeLock();
 
   Server::getServer()->addEntity(mount_ent->getEntity(), true);
 }
@@ -313,13 +310,12 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
   door_ent->setOpen(doormsg.getIsOpen());
   door_ent->setAnimation(doormsg.getAnimation());
 
-  Entity* e = door_ent->getEntity()->getLock();
+  ptScopedMonitorable<Entity> e (door_ent->getEntity());
   e->setName(doormsg.getName());
   e->setMesh(doormsg.getMesh());
   e->setPos(doormsg.getPos());
   e->setRotation(0.0f);
   e->setSector(doormsg.getSectorId());
-  e->freeLock();
 
   Server::getServer()->addEntity(door_ent->getEntity(), true);
 }
@@ -358,9 +354,8 @@ void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
   const PcEntity* c_pcent = NetworkHelper::getPcEntity(msg);
   if (!user) return;
 
-  PcEntity* pcent = c_pcent->getLock();
+  ptScopedMonitorable<PcEntity> pcent (c_pcent);
   pcent->toggleFlashStep();
-  pcent->freeLock();
 }
 
 void AdminHandler::handleCreateZone(GenericMessage* msg)

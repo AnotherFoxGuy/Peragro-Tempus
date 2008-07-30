@@ -31,7 +31,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
-  PcEntity* pc = c_pc->getLock();
+  ptScopedMonitorable<PcEntity> pc (c_pc);
 
   TradePeer* this_peer = pc->getTradePeer();
 
@@ -55,7 +55,6 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
     ByteStream bs;
     resp.serialise(&bs);
     NetworkHelper::sendMessage(pc, bs);
-    pc->freeLock();
     return;
   }
 
@@ -75,7 +74,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
 
   if (peer_ent && peer_ent->getType() == Entity::PlayerEntityType)
   {
-    PcEntity* peer_pc = peer_ent->getPlayerEntity()->getLock();
+    ptScopedMonitorable<PcEntity> peer_pc (peer_ent->getPlayerEntity());
     TradePeer* other_peer = peer_pc->getTradePeer();
 
 #ifdef DEBUG_TRADE
@@ -110,9 +109,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
     message.serialise(&bs);
 
     NetworkHelper::sendMessage(peer_ent, bs);
-    peer_pc->freeLock();
   }
-  pc->freeLock();
 }
 
 void TradeHandler::handleTradeResponse(GenericMessage* msg)
@@ -120,7 +117,7 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
-  PcEntity* pc = c_pc->getLock();
+  ptScopedMonitorable<PcEntity> pc (c_pc);
 
   TradePeer* this_peer = pc->getTradePeer();
   TradePeer* other_peer = this_peer->getOtherPeer();
@@ -140,7 +137,6 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
     other_peer->getSession()->sendResponse(error);
     NetworkHelper::sendMessage(other_peer->getEntity(), *msg->getByteStream());
   }
-  pc->freeLock();
 }
 
 void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
@@ -149,7 +145,7 @@ void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<Character> character (c_char);
 
   TradeOrderListNpcMessage order_msg;
   order_msg.deserialise(msg->getByteStream());
@@ -180,7 +176,6 @@ void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
   accept_msg.serialise(&bs);
 
   NetworkHelper::sendMessage(character, bs);
-  character->freeLock();
 }
 
 void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
@@ -188,7 +183,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
-  PcEntity* pc = c_pc->getLock();
+  ptScopedMonitorable<PcEntity> pc (c_pc);
 
   TradePeer* peer = pc->getTradePeer();
 
@@ -198,7 +193,6 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
 
   if (peer->getSession() == 0)
   {
-    pc->freeLock();
     return;
   }
 
@@ -236,8 +230,6 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   offer.serialise(&bs);
 
   NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
-
-  pc->freeLock();
 }
 
 void TradeHandler::handleTradeCancel(GenericMessage* msg)
@@ -245,13 +237,12 @@ void TradeHandler::handleTradeCancel(GenericMessage* msg)
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
-  PcEntity* pc = c_pc->getLock();
+  ptScopedMonitorable<PcEntity> pc (c_pc);
 
   TradePeer* peer = pc->getTradePeer();
 
   if (peer->getSession() == 0)
   {
-    pc->freeLock();
     return;
   }
 
@@ -268,8 +259,6 @@ void TradeHandler::handleTradeCancel(GenericMessage* msg)
   NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
 
   peer->getSession()->cancel();
-
-  pc->freeLock();
 }
 
 void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
@@ -277,13 +266,12 @@ void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
-  PcEntity* pc = c_pc->getLock();
+  ptScopedMonitorable<PcEntity> pc (c_pc);
 
   TradePeer* peer = pc->getTradePeer();
 
   if (peer->getSession() == 0)
   {
-    pc->freeLock();
     return;
   }
 
@@ -293,8 +281,6 @@ void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
   ByteStream bs;
   accept_msg.serialise(&bs);
   NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
-
-  pc->freeLock();
 }
 
 void TradeHandler::handleTradeConfirmRequest(GenericMessage* msg)
@@ -302,13 +288,12 @@ void TradeHandler::handleTradeConfirmRequest(GenericMessage* msg)
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
-  PcEntity* pc = c_pc->getLock();
+  ptScopedMonitorable<PcEntity> pc (c_pc);
 
   TradePeer* peer = pc->getTradePeer();
 
   if (peer->getSession() == 0)
   {
-    pc->freeLock();
     return;
   }
 
@@ -328,6 +313,4 @@ void TradeHandler::handleTradeConfirmRequest(GenericMessage* msg)
     // terminate trading session.
     peer->getSession()->cancel();
   }
-
-  pc->freeLock();
 }

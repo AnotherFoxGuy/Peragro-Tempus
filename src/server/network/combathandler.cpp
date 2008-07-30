@@ -34,12 +34,10 @@ void CombatHandler::handleAttackRequest(GenericMessage* msg)
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
-  PcEntity* ent1 = ent->getLock();
+  ptScopedMonitorable<PcEntity> ent1 (ent);
 
   AttackRequestMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
   combatManager->AttackRequest(ent1, in_msg.getTargetID());
-
-  ent1->freeLock();
 }

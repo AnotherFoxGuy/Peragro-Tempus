@@ -104,13 +104,12 @@ public:
 
       EntityManager* ent_mgr = Server::getServer()->getEntityManager();
       DoorEntity* door_ent = new DoorEntity();
-      Entity* ent = door_ent->getEntity()->getLock();
+      ptScopedMonitorable<Entity> ent (door_ent->getEntity());
 
       ent->setName(loadedDoors[i]->name);
       ent->setSector(ptString(*loadedDoors[i]->sector,strlen(*loadedDoors[i]->sector)));
       ent->setMesh(loadedDoors[i]->mesh);
       ent->setPos(loadedDoors[i]->x,loadedDoors[i]->y,loadedDoors[i]->z);
-      ent->freeLock();
 
       door_ent->setDoorId(loadedDoors[i]->id);
       door_ent->setLocked(loadedDoors[i]->islocked > 0);

@@ -25,9 +25,9 @@
 void NpcEntity::setCharacter(Character* character)
 {
   this->character = character->getRef();
-  Entity* e = entity.get()->getLock();
+  ptScopedMonitorable<Entity> e (entity.get());
+  ptScopedMonitorable<Character> c (character);
   character->setEntity(e);
-  e->freeLock();
 }
 
 void NpcEntity::walkTo(float* dst_pos, float speed)
@@ -59,9 +59,8 @@ const float* NpcEntity::getPos()
   {
     if ((size_t)time(0) >= t_stop)
     {
-      Entity* ent = entity.get()->getLock();
+      ptScopedMonitorable<Entity> ent (entity.get());
       ent->setPos(final_dst);
-      ent->freeLock();
 
       isWalking = false;
       return final_dst;

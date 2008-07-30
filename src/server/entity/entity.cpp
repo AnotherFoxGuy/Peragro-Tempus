@@ -83,14 +83,12 @@ void Entity::setPos(float x, float y, float z)
 
   if (getMountEntity())
   {
-    MountEntity* me = getMountEntity()->getLock();
+    ptScopedMonitorable<MountEntity> me (getMountEntity());
     for (size_t i = 0; i < me->getPassengerCount(); i++)
     {
-      Entity* entity = me->getPassenger(i)->getEntity()->getLock();
+      ptScopedMonitorable<Entity> entity (me->getPassenger(i)->getEntity());
       entity->setPos(x, y, z);
-      entity->freeLock();
     }
-    me->freeLock();
   }
 
   const float dist_square = this->getDistanceTo2(this->getLastSaved());
@@ -121,30 +119,26 @@ void Entity::setPos(float x, float y, float z)
       {
         if (this_user)
         {
-          User* user = this_user->getLock();
+          ptScopedMonitorable<User> user (this_user);
           user->sendAddEntity(other_ent);
-          user->freeLock();
         }
         if (other_user)
         {
-          User* user = other_user->getLock();
+          ptScopedMonitorable<User> user (other_user);
           user->sendAddEntity(this);
-          user->freeLock();
         }
       }
       else
       {
         if (this_user)
         {
-          User* user = this_user->getLock();
+          ptScopedMonitorable<User> user (this_user);
           user->sendRemoveEntity(other_ent);
-          user->freeLock();
         }
         if (other_user)
         {
-          User* user = other_user->getLock();
+          ptScopedMonitorable<User> user (other_user);
           user->sendRemoveEntity(this);
-          user->freeLock();
         }
       }
     }

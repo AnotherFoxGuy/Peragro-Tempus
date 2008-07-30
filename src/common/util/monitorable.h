@@ -24,6 +24,7 @@
 #include "monitor.h"
 #include "mutex.h"
 
+
 template<class T>
 class ptMonitorable
 {
@@ -34,9 +35,6 @@ private:
 protected:
   ptMonitorable() { ref.set((T*)this); }
   virtual ~ptMonitorable() {};
-
-public:
-  const ptMonitor<T>& getRef() const { return ref; }
 
   T* getLock() const
   {
@@ -50,6 +48,11 @@ public:
     T* const me = (T*) this;
     me->mutex.unlock();
   }
+
+  template<class U> friend class ptScopedMonitorable;
+
+public:
+  const ptMonitor<T>& getRef() const { return ref; }
 };
 
 template<class T>

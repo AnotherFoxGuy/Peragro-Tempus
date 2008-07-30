@@ -82,10 +82,9 @@ private:
         ItemEntity* item_ent = new ItemEntity();
         item_ent->createFromItem(sp->item->getId(), sp->variation);
 
-        Entity* e = item_ent->getEntity()->getLock();
+        ptScopedMonitorable<Entity> e (item_ent->getEntity());
         e->setPos(sp->x, sp->y, sp->z);
         e->setSector(sp->sector_id);
-        e->freeLock();
 
         Server::getServer()->addEntity(e, false);
         sp->entity_id = e->getId();

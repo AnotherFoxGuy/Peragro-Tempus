@@ -38,7 +38,7 @@ bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, Inv
   const Character* c_char = pc->getCharacter();
   if (!c_char) return false;
 
-  Character* c = c_char->getLock();
+  ptScopedMonitorable<Character> c (c_char);
 
   unsigned int item_count = 0;
 
@@ -56,11 +56,9 @@ bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, Inv
     offer.item = item;
     offer.amount = 1;
     offers.add(offer);
-    c->freeLock();
     return true;
   }
 
-  c->freeLock();
   return false;
 }
 

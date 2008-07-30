@@ -59,9 +59,8 @@ void DoorHandler::handleOpenDoorRequest(GenericMessage* msg)
       conn->send(bs);
     else
     {
-      DoorEntity* d = door->getLock();
+      ptScopedMonitorable<DoorEntity> d (door);
       d->setOpen(true);
-      d->freeLock();
       Server::getServer()->broadCast(bs);
     }
   }
@@ -107,9 +106,8 @@ void DoorHandler::handleCloseDoorRequest(GenericMessage* msg)
       conn->send(bs);
     else
     {
-      DoorEntity* d = door->getLock();
+      ptScopedMonitorable<DoorEntity> d (door);
       d->setOpen(false);
-      d->freeLock();
       Server::getServer()->broadCast(bs);
     }
   }
@@ -161,9 +159,8 @@ void DoorHandler::handleLockDoorRequest(GenericMessage* msg)
       conn->send(bs);
     else
     {
-      DoorEntity* d = door->getLock();
+      ptScopedMonitorable<DoorEntity> d (door);
       d->setLocked(true);
-      d->freeLock();
       Server::getServer()->broadCast(bs);
     }
   }
@@ -215,9 +212,8 @@ void DoorHandler::handleUnlockDoorRequest(GenericMessage* msg)
       conn->send(bs);
     else
     {
-      DoorEntity* d = door->getLock();
+      ptScopedMonitorable<DoorEntity> d (door);
       d->setLocked(false);
-      d->freeLock();
       Server::getServer()->broadCast(bs);
     }
   }

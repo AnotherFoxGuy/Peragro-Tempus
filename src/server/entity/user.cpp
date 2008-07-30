@@ -102,7 +102,9 @@ void User::sendAddEntity(const Entity* entity)
     msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
     msg.setPoseId(entity->getPlayerEntity()->getPose());
-    Character* character = entity->getPlayerEntity()->getCharacter()->getLock();
+
+    ptScopedMonitorable<Character> character (entity->getPlayerEntity()->getCharacter());
+
     msg.setDecalColour(character->getDecalColour());
     msg.setHairColour(character->getHairColour());
     msg.setSkinColour(character->getSkinColour());
@@ -124,7 +126,6 @@ void User::sendAddEntity(const Entity* entity)
       }
     }
     msg.serialise(&bs);
-    character->freeLock();
   }
   else if (entity->getType() == Entity::NPCEntityType)
   {
@@ -136,7 +137,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
-    Character* character = entity->getNpcEntity()->getCharacter()->getLock();
+    ptScopedMonitorable<Character> character (entity->getNpcEntity()->getCharacter());
     Inventory* inv = character->getInventory();
     msg.setEquipmentCount(10);
     for(unsigned char i=0; i<10; i++)
@@ -155,7 +156,6 @@ void User::sendAddEntity(const Entity* entity)
       }
     }
     msg.serialise(&bs);
-    character->freeLock();
   }
   else if (entity->getType() == Entity::MountEntityType)
   {

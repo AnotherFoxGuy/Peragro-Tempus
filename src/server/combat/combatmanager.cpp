@@ -248,7 +248,7 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
         ItemEntity* e = new ItemEntity();
         e->createFromItem(itemId, variation);
 
-        Entity* ent = e->getEntity()->getLock();
+        ptScopedMonitorable<Entity> ent (e->getEntity());
         // Release items in a circlular pattern
         float radians = (2.0f*3.14f / itemsToDrop) * itemsDropped;
         float radius = 0.8f;
@@ -261,7 +261,6 @@ CombatManager::AttackRequest(Character* lockedAttackerCharacter,
 
         itemsDropped++;
         Server::getServer()->addEntity(ent, true);
-        ent->freeLock();
       } // end if
     } // end for
 

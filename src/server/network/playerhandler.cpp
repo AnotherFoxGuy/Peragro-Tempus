@@ -58,7 +58,7 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     error = "Invalid slot";
   }
 
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<Character> character (c_char);
   Inventory* inventory = character->getInventory();
 
   const InventoryEntry new_item = *inventory->getItem(invent_slot);
@@ -85,8 +85,6 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     // ... (if we have) the old item to the inventory.
     if (old) inventory->addItem(old_item, invent_slot);
   }
-
-  character->freeLock();
 
   InventoryMoveItemMessage response_msg;
 

@@ -190,10 +190,9 @@ void BulletCD::savePosition(const Entity* entity)
   btVector3 p = t.getOrigin();
   float rot = 0; // TODO: t.getRotation().getYaw();
 
-  Entity* e = entity->getLock();
+  ptScopedMonitorable<Entity> e (entity);
   e->setPos(p.getX(), p.getY(), p.getZ());
   e->setRotation(rot);
-  e->freeLock();
 }
 
 void BulletCD::moveEntity(const Entity* entity, float* pos, float speed)

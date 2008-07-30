@@ -28,10 +28,9 @@ void ItemEntity::createFromItem(unsigned int item_id, unsigned int variation)
   this->variation = variation;
 
   Item* item = Server::getServer()->getItemManager()->findById(item_id);
-  Entity* ent = entity.get()->getLock();
-  ent->setName(item->getName());
-  ent->setMesh(item->getMesh());
-  ent->freeLock();
+  ptScopedMonitorable<Entity> e (entity.get());
+  e->setName(item->getName());
+  e->setMesh(item->getMesh());
 
   this->item = item->getRef();
 }

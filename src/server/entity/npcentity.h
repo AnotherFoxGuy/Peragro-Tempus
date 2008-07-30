@@ -49,9 +49,8 @@ public:
   {
     entity = (new Entity(Entity::NPCEntityType))->getRef();
 
-    Entity* e = entity.get()->getLock();
+    ptScopedMonitorable<Entity> e (entity.get());
     e->setNpcEntity(this);
-    e->freeLock();
 
     isWalking = false;
 

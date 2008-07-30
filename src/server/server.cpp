@@ -106,14 +106,11 @@ void Server::delEntity(const Entity* entity)
     while (c_mount->getPassengerCount() > 0)
     {
       const PcEntity* pc_ent = c_mount->getPassenger(0);
-      PcEntity* e = pc_ent->getLock();
-      MountEntity* mount = c_mount->getLock();
+      ptScopedMonitorable<PcEntity> e (pc_ent);
+      ptScopedMonitorable<MountEntity> mount (c_mount);
 
       e->setMount(0);
       mount->delPassenger(e);
-
-      e->freeLock();
-      mount->freeLock();
     }
     tables->getEntityTable()->remove(entity->getId());
   }
@@ -127,14 +124,11 @@ void Server::delEntity(const Entity* entity)
     const MountEntity* c_mount = pc_ent->getMount();
     if (c_mount)
     {
-      PcEntity* e = pc_ent->getLock();
-      MountEntity* mount = c_mount->getLock();
+      ptScopedMonitorable<PcEntity> e (pc_ent);
+      ptScopedMonitorable<MountEntity> mount (c_mount);
 
       e->setMount(0);
       mount->delPassenger(e);
-
-      e->freeLock();
-      mount->freeLock();
     }
   }
 
@@ -151,8 +145,9 @@ void Server::delEntity(const Entity* entity)
   // Not really nice but hopefully effective
   pt_sleep(100);
 
-  // Unlocks on destruction (I hope)
-  entity->getLock();
+  // Unlocks on destruction (I hope) 
+  /// TODO: has been converted to ptScopedMonitorable, check for correctness!
+  ptScopedMonitorable<Entity> ent (entity);
   delete entity;
 }
 
@@ -205,9 +200,8 @@ void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool r
   response_msg.setTurn(0); // No continuous rotation
   response_msg.setJump(false);
 
-  NpcEntity* npc = entity->getLock();
+  ptScopedMonitorable<NpcEntity> npc (entity);
   npc->walkTo(pos, speed);
-  npc->freeLock();
 
   ByteStream bs;
   response_msg.serialise(&bs);

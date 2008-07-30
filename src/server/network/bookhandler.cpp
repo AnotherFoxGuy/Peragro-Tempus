@@ -112,13 +112,12 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
 
   InventoryEntry item = *playerchar->getInventory()->getItem(slot);
 
-  Character* pchar = playerchar->getLock();
+  ptScopedMonitorable<Character> pchar (playerchar);
   pchar->getInventory()->takeItem(slot);
 
   item.variation = book->id;
 
   pchar->getInventory()->addItem(item, slot);
-  pchar->freeLock();
 
   BookWriteResponseMessage out_msg;
   out_msg.setBookId(book->id);

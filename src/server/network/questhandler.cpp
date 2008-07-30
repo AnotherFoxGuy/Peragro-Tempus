@@ -41,7 +41,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<Character> character (c_char);
 
   NPCDialogState* dia_state = character->getNPCDialogState();
 
@@ -54,11 +54,10 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
   if (dialog == 0)
   {
-    NpcEntity* npc_entity = dia_state->getNpc()->getLock();
+    ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
     if (npc_entity) 
     {
       npc_entity->pause(false);
-      npc_entity->freeLock();
 
       NpcEndDialogMessage endmsg;
       endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
@@ -66,7 +65,6 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       endmsg.serialise(&bs);
       server->broadCast(bs);
     }
-    character->freeLock();
     return;
   }
 
@@ -164,10 +162,9 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     float x = 0, y = 0, z = 0;
     sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
-    Entity* ent = character->getEntity()->getLock();
+    ptScopedMonitorable<Entity> ent (character->getEntity());
     ent->setSector(sector);
     ent->setPos(x, y, z);
-    ent->freeLock();
 
     server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
@@ -191,8 +188,6 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   {
     QuestUtils::Parse(character, dialog->getText());
   } // end ABILITYCHECK
-
-  character->freeLock();
 }
 
 void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
@@ -200,7 +195,7 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<Character> character (c_char);
 
   NPCDialogState* dia_state = character->getNPCDialogState();
 
@@ -225,15 +220,16 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   // Or is it impossible for someone else to start a chat with the NPC
   // before we press the "X" this could be really bad too since then a player
   // could hold up an NPC forever - need a time out for that then.
-  NpcEntity* npc_entity = npc_ent->getNpcEntity()->getLock();
+  ptScopedMonitorable<NpcEntity> npc_entity (npc_ent->getNpcEntity());
   npc_entity->pause(true);
 
   dia_state->setNpc(npc_entity);
   const NPCDialog* dialog = dia_state->startDialog(npc_id);
 
-  npc_entity->freeLock();
-
-  if (!dialog){character->freeLock();return;}
+  if (!dialog)
+  {
+    return;
+  }
 
   if (dialog->getAction() == NPCDialog::SHOW_TEXT)
   {
@@ -329,10 +325,9 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
     float x = 0, y = 0, z = 0;
     sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
-    Entity* ent = character->getEntity()->getLock();
+    ptScopedMonitorable<Entity> ent (character->getEntity());
     ent->setSector(sector);
     ent->setPos(x, y, z);
-    ent->freeLock();
 
     server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
@@ -356,8 +351,6 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   {
     QuestUtils::Parse(character, dialog->getText());
   }
-
-  character->freeLock();
 }
 
 void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
@@ -365,7 +358,7 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<Character> character (c_char);
 
   NPCDialogState* dia_state = character->getNPCDialogState();
 
@@ -373,21 +366,18 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
   message.deserialise(msg->getByteStream());
 
   dia_state->endDialog(message.getNpcId(),0);
-  NpcEntity* npc_entity = dia_state->getNpc()->getLock();
+  ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
   if (npc_entity) 
   {
     printf("Unpausing npc\n");
     npc_entity->pause(false);
-    npc_entity->freeLock();
   }
-  character->freeLock();
 }
 
 void QuestHandler::handleSetupDialogs(GenericMessage* msg)
 {
-  User* user = NetworkHelper::getUser(msg)->getLock();
+  ptScopedMonitorable<User> user (NetworkHelper::getUser(msg));
   size_t level = user->getPermissionList().getLevel(Permission::Admin);
-  user->freeLock();
 
   // TODO: send "not authorized message"
   if (level == 0) return;

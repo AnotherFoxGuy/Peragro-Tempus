@@ -147,7 +147,7 @@ void Skill::castExecute(CharSkill* skilldata)
   if (player == 0) return;
 
   const Character* c_char = player->getCharacter();
-  Character* l_char = c_char->getLock();
+  ptScopedMonitorable<Character> l_char (c_char);
   CharacterStats* stats = l_char->getStats();
   Stat* hp = Server::getServer()->getStatManager()->findByName(ptString("Health", strlen("Health")));
   if (type == TYPE_HURT)
@@ -172,7 +172,6 @@ void Skill::castExecute(CharSkill* skilldata)
     printf("Healing %s with %d Health => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
     //no upper stats limit for now...
   }
-  l_char->freeLock();
 
   ByteStream bs;
   response_msg.serialise(&bs);

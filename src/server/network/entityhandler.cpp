@@ -57,11 +57,10 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   }
   else
   {
-    Character* character = c_char->getLock();
+    ptScopedMonitorable<Character> character (c_char);
     Stat* speed_stat = server->getStatManager()->findByName(ptString("Speed", 5));
     speed = (float)character->getStats()->getAmount(speed_stat);
     name_id = c_entity->getEntity()->getId();
-    character->freeLock();
   }
 
   MoveMessage response_msg;
@@ -113,11 +112,10 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
     //if (pos[1]<mountpos[1]+0.5f){ return; }
 
     pos[1] -= 1.0f; // Adjust the offset from the rider
-    Entity* user_ent = ent->getPlayerEntity()->getMount()->getEntity()->getLock();
+    ptScopedMonitorable<Entity> user_ent (ent->getPlayerEntity()->getMount()->getEntity());
     user_ent->setPos(pos);
     user_ent->setRotation(request_msg.getRotation());
     user_ent->setSector(request_msg.getSectorId());
-    user_ent->freeLock();
 
     name_id = ent->getPlayerEntity()->getMount()->getEntity()->getId();
   }
@@ -126,11 +124,10 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
     name_id = ent->getId();
   }
 
-  Entity* user_ent = ent->getLock();
+  ptScopedMonitorable<Entity> user_ent (ent);
   user_ent->setPos(request_msg.getPos());
   user_ent->setRotation(request_msg.getRotation());
   user_ent->setSector(request_msg.getSectorId());
-  user_ent->freeLock();
 
   DrUpdateMessage response_msg;
   response_msg.setRotation(request_msg.getRotation());
@@ -195,9 +192,8 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
     {
       const InventoryEntry entry(item->getId(), item_entity->variation);
 
-      Character* character = c_char->getLock();
+      ptScopedMonitorable<Character> character (c_char);
       bool retval = character->getInventory()->addItem(entry, slot);
-      character->freeLock();
 
       if (retval)
       {
@@ -257,7 +253,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<Character> character (c_char);
 
   const InventoryEntry item = *character->getInventory()->getItem(slot_id);
   if (item.id == Item::NoItem)
@@ -271,8 +267,6 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 
   // Check if in Inventory
   bool couldTake = character->getInventory()->takeItem(slot_id);
-
-  character->freeLock();
 
   if (!couldTake)
   {
@@ -308,11 +302,10 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   ItemEntity* e = new ItemEntity();
   e->createFromItem(item.id, item.variation);
 
-  Entity* ent = e->getEntity()->getLock();
+  ptScopedMonitorable<Entity> ent (e->getEntity());
   ent->setPos(user_ent->getPos());
   ent->setRotation(user_ent->getRotation());
   ent->setSector(user_ent->getSector());
-  ent->freeLock();
 
   Server::getServer()->addEntity(ent, true);
 }
@@ -325,8 +318,8 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
-  PcEntity* entity = c_entity->getLock();
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<PcEntity> entity (c_entity);
+  ptScopedMonitorable<Character> character (c_char);
 
   MoveToRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -337,18 +330,17 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
 
   if (entity->getMount())
   {
-    MountEntity* mount = entity->getMount()->getLock();
+    ptScopedMonitorable<MountEntity> mount (entity->getMount());
     float speed = mount->getSpeed();
     // TODO
     // moveEntity must be called without holding the lock.
     // This is ugly since 'speed' could potentinally be
     // changed since there is no lock.
-    mount->freeLock();
     server->moveEntity(mount, request_msg.getTo(), speed, request_msg.getRun());
   }
   else if (entity->usesFlashStep())
   {
-    Entity* ent = entity->getEntity()->getLock();
+    ptScopedMonitorable<Entity> ent (entity->getEntity());
     ent->setPos(request_msg.getTo());
 
     TeleportResponseMessage telemsg;
@@ -356,8 +348,6 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
     telemsg.setSectorId(ent->getSector());
     telemsg.setPos(ent->getPos());
     telemsg.setRotation(ent->getRotation());
-
-    ent->freeLock();
 
     ByteStream bs;
     telemsg.serialise(&bs);
@@ -370,8 +360,6 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   }
 
   server->getCharacterManager()->checkForSave(entity);
-  entity->freeLock();
-  character->freeLock();
 }
 
 void EntityHandler::handleRelocate(GenericMessage* msg)
@@ -391,19 +379,19 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
   if (!race) return;
 
-  Entity* ent = 0;
+  const Entity* c_ent = 0;
   if (user_ent->getPlayerEntity()->getMount())
   {
-    ent = user_ent->getPlayerEntity()->getMount()->getEntity()->getLock();
+    c_ent = user_ent->getPlayerEntity()->getMount()->getEntity();
   }
   else
   {
-    ent = user_ent->getLock();
+    c_ent = user_ent;
   }
+  ptScopedMonitorable<Entity> ent (c_ent);
   int ent_id = ent->getId();
   ent->setSector(race->getSector());
   ent->setPos(race->getPos());
-  ent->freeLock();
 
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
@@ -434,20 +422,19 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
   const Entity* target_ent = server->getEntityManager()->findById(request_msg.getEntityId());
   if (!target_ent) return;
 
-  Entity* ent = 0;
+  const Entity* c_ent = 0;
   if (target_ent->getPlayerEntity()->getMount())
   {
-    ent = target_ent->getPlayerEntity()->getMount()->getEntity()->getLock();
+    c_ent = target_ent->getPlayerEntity()->getMount()->getEntity();
   }
   else
   {
-    ent = target_ent->getLock();
+    c_ent = target_ent;
   }
-
+  ptScopedMonitorable<Entity> ent (c_ent);
   ent->setSector(request_msg.getSectorId()); 
   ent->setPos(request_msg.getPos());
   ent->setRotation(request_msg.getRotation());
-  ent->freeLock();
 
   server->getCharacterManager()->checkForSave(target_ent->getPlayerEntity());
 
@@ -489,14 +476,11 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   if (c_mount->getPassengerCount() >= c_mount->getMaxPassengers())
     return;
 
-  PcEntity* e = pc_ent->getLock();
-  MountEntity* mount = c_mount->getLock();
+  ptScopedMonitorable<PcEntity> e (pc_ent);
+  ptScopedMonitorable<MountEntity> mount (c_mount);
 
   e->setMount(mount);
   mount->addPassenger(e);
-
-  e->freeLock();
-  mount->freeLock();
 
   // Don't run into the horse!
   MoveMessage mmsg;
@@ -546,14 +530,12 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   if (mount_ent->getId() != mount_id) return;
 
   printf("Remove player from mount!\n");
-  MountEntity* mount = c_mount->getLock();
+  ptScopedMonitorable<MountEntity> mount (c_mount);
   mount->delPassenger(pc_ent);
-  mount->freeLock();
 
   printf("Reset the player's mount status!\n");
-  PcEntity* e = pc_ent->getLock();
+  ptScopedMonitorable<PcEntity> e (pc_ent);
   e->setMount(0);
-  e->freeLock();
 
   printf("Unmount finished\n");
 
@@ -580,9 +562,8 @@ void EntityHandler::handlePoseRequest(GenericMessage* msg)
 
   unsigned char pose_id = request_msg.getPoseId();
 
-  PcEntity* e = pc_ent->getLock();
+  ptScopedMonitorable<PcEntity> e (pc_ent);
   e->setPose(pose_id);
-  e->freeLock();
 
   PoseMessage pose_msg;
   pose_msg.setEntityId(user_ent->getId());

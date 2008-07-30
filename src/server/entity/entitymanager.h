@@ -66,9 +66,8 @@ public:
     mutex.lock();
     ent_id++;
     
-    Entity* e = entity->getLock();
+    ptScopedMonitorable<Entity> e (entity);
     e->setId(ent_id);
-    e->freeLock();
 
     entity_list.addEntity(entity);
     mutex.unlock();

@@ -106,14 +106,13 @@ void EntityManager::loadFromDB(EntityTable* et)
       }
     };
 
-    Entity* l_ent = entity->getLock();
+    ptScopedMonitorable<Entity> l_ent (entity);
     l_ent->setId(vo->id);
     l_ent->setName(vo->name);
     l_ent->setMesh(vo->mesh);
     l_ent->setPos(vo->pos_x, vo->pos_y, vo->pos_z);
     l_ent->setRotation(vo->rotation);
     l_ent->setSector(vo->sector);
-    l_ent->freeLock();
 
     entity_list.addEntity(entity);
   }

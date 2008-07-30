@@ -27,7 +27,7 @@ void SkillHandler::handleSkillUsageStartRequest(GenericMessage* msg)
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<Character> character (c_char);
 
   ptString name = character->getName();
 
@@ -41,7 +41,6 @@ void SkillHandler::handleSkillUsageStartRequest(GenericMessage* msg)
   {
     skill->castPrepare(character, request_msg.getTarget());
   }
-  character->freeLock();
 }
 
 void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
@@ -49,7 +48,7 @@ void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
-  Character* character = c_char->getLock();
+  ptScopedMonitorable<Character> character (c_char);
 
   ptString name = character->getName();
 
@@ -60,6 +59,4 @@ void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
   skill->castInterrupt(character->getSkills()->findSkill(skill->getId()));
-
-  character->freeLock();
 }
