@@ -370,8 +370,8 @@ CEGUI::Window* TerrainEd::CreateShaderSpinner(uint i, const char* name, csArray<
 
   for (int t = 0; t < (int)vals.GetSize(); t++)
   {
-    char buffer[2];
-    snprintf(buffer, 2, "/%d", t);
+    char buffer[8];
+    snprintf(buffer, 8, "/%d", t);
     csString rname = sname + buffer;
 
     CEGUI::Window* spinner = createWindow("ice/Spinner", rname.GetData());
