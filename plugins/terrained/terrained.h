@@ -63,6 +63,8 @@ private:
   bool OnDropList(const CEGUI::EventArgs& e);
   bool OnShaderSpinner(const CEGUI::EventArgs& e);
 
+  CEGUI::Window* createWindow(const char* type, const char* name);
+
 public:
   TerrainEd (iBase* parent);
   virtual ~TerrainEd();
