@@ -2,5 +2,5 @@ SubDir TOP plugins terrained ;
 
 Description terrained : "TerrainEd plugin" ;
 Plugin terrained : [ Wildcard *.cpp *.h ] ;
-ExternalLibs terrained : CRYSTAL ;
+ExternalLibs terrained : CRYSTAL CEGUI ;
 
