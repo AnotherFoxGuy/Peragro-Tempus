@@ -61,21 +61,27 @@ public:
     return entity_list.getEntity(index);
   }
 
-  void addEntity(const Entity* entity)
+  void addEntity(Entity* locked_entity)
   {
     mutex.lock();
     ent_id++;
     
-    ptScopedMonitorable<Entity> e (entity);
-    e->setId(ent_id);
+    locked_entity->setId(ent_id);
 
-    entity_list.addEntity(entity);
+    entity_list.addEntity(locked_entity);
     mutex.unlock();
 
     for (unsigned int i = 0; i < callback_list.size(); i++)
     {
-      callback_list[i]->OnEntityAdd(entity);
+      callback_list[i]->OnEntityAdd(locked_entity);
     }
+  }
+
+  void addEntity(const Entity* entity)
+  {    
+    ptScopedMonitorable<Entity> e (entity);
+
+    addEntity(e);
   }
 
   void removeEntity(const Entity* entity)
