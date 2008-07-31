@@ -96,12 +96,6 @@ public:
     Array<DoorsTableVO*> loadedDoors=dt->getAll();
     for (size_t i = 0; i<loadedDoors.getCount(); i++)
     {
-      DoorEntity* door=new DoorEntity();
-      door->setDoorId(loadedDoors[i]->id);
-      door->setLocked(loadedDoors[i]->islocked > 0);
-      door->setOpen(loadedDoors[i]->isopen > 0);
-      door->setAnimation(loadedDoors[i]->animation);
-
       EntityManager* ent_mgr = Server::getServer()->getEntityManager();
       DoorEntity* door_ent = new DoorEntity();
       ptScopedMonitorable<Entity> ent (door_ent->getEntity());
@@ -117,7 +111,7 @@ public:
       door_ent->setAnimation(loadedDoors[i]->animation);
       ent_mgr->addEntity(ent);
 
-      doors.add(door);
+      doors.add(door_ent);
     }
     loadedDoors.delAll();
   }
