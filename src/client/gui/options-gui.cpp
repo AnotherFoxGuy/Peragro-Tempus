@@ -53,8 +53,6 @@ namespace PT
           Option option = optionList.Get(i);
           if (strcmp(option.GetName(), name) == 0)
           {
-            Report(PT::Debug, "TT: '%s' %s", option.GetName(),
-              option.GetWindow());
             return option;
           }
         }// for

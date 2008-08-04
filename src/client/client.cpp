@@ -379,18 +379,18 @@ namespace PT
     if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
 
     // Enable reflection.
-    bool enableReflections = app_cfg->GetBool("Client.Video.WaterReflections");
+    bool enableReflections = app_cfg->GetBool("Peragro.Video.WaterReflections");
     if (enableReflections)
     {
       reflectionRenderer = new PT::Reflection::ReflectionRenderer();
       if (!reflectionRenderer->Initialize())
         return Report(PT::Error, "Failed to initialize reflection!");
 
-      reflectionRenderer->SetFrameSkip(app_cfg->GetInt("Client.Video.ReflectionSkip"));
+      reflectionRenderer->SetFrameSkip(app_cfg->GetInt("Peragro.Video.ReflectionSkip"));
       Report(PT::Notify, "Enabled reflections!");
     }
 
-    limitFPS = app_cfg->GetInt("Client.Video.MaxFPS", limitFPS);
+    limitFPS = app_cfg->GetInt("Peragro.Video.MaxFPS", limitFPS);
 
     InitializeCEL();
 
@@ -479,11 +479,11 @@ namespace PT
 
     // Register listener for ActionActivateSkill.
     EventHandler<Client>* cbActionActivateSkill = new EventHandler<Client>(&Client::ActionActivateSkill, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_ACTIVATESKILL", cbActionActivateSkill);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ActivateSkill", cbActionActivateSkill);
 
     // Register listener for ActionQuit.
     EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_QUIT", cbActionQuit);
+    PointerLibrary::getInstance()->getEventManager()->AddListener("input.Quit", cbActionQuit);
 
     // Disable the lighting cache.
     engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);

@@ -68,10 +68,10 @@ namespace PT
           if (server->GetHost()=="#CUSTOM#")
           {
             btn->setVisible(true);
-            btn->setText(app_cfg->GetStr("Client.Server.Custom"));
+            btn->setText(app_cfg->GetStr("Peragro.Server.Custom"));
             btn = winMgr->getWindow("ServerList/Port");
             btn->setVisible(true);
-            btn->setText(app_cfg->GetStr("Client.Server.Customport"));
+            btn->setText(app_cfg->GetStr("Peragro.Server.CustomPort"));
           }else{
             btn->setVisible(false);
             btn->setText(CEGUI::String(server->GetHost()));
@@ -152,7 +152,7 @@ namespace PT
         ((CEGUI::MultiColumnList*)btn)->setItem(serverItem, 1, row);
         ((CEGUI::MultiColumnList*)btn)->
           setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-        if (!strcmp(app_cfg->GetStr("Client.Server.LastUsed"), name))
+        if (!strcmp(app_cfg->GetStr("Peragro.Server.LastUsed"), name))
         {
           ((CEGUI::MultiColumnList*)btn)->setItemSelectState(serverItem, true);
         }

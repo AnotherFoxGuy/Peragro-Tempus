@@ -99,9 +99,9 @@ private:
   bool ActionLeft(iEvent& ev);
   /// Handler for the turn right event.
   bool ActionRight(iEvent& ev);
-  /// Handler for the toggle walk event. Called when player presses the "keep
-  /// walking" key.
-  bool ActionToggleWalk(iEvent& ev);
+  /// Handler for the auto move event. Called when player presses the "keep
+  /// moving" key.
+  bool ActionAutoMove(iEvent& ev);
   /// Handler for the toggle run event. Called when switching from walking to
   /// running and back.
   bool ActionToggleRun(iEvent& ev);

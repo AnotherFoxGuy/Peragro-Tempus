@@ -96,13 +96,13 @@ namespace PT
       // Register listener for ActionHit.
       csRef<EventHandlerCallback> cbActionHit;
       cbActionHit.AttachNew(new EventHandler<CombatManager>(&CombatManager::ActionHit, this));                                                                             \
-      evmgr->AddListener("input.ACTION_HIT", cbActionHit);
+      evmgr->AddListener("input.Hit", cbActionHit);
       eventHandlers.Push(cbActionHit);
 
       // Register listener for AttackTarget.
       csRef<EventHandlerCallback> cbAttackTarget;
       cbAttackTarget.AttachNew(new EventHandler<CombatManager>(&CombatManager::ActionAttackTarget, this));                                                                             \
-      evmgr->AddListener("input.ACTION_ATTACK", cbAttackTarget);
+      evmgr->AddListener("input.Attack", cbAttackTarget);
       eventHandlers.Push(cbAttackTarget);
 
       // Register listener for AddStat.

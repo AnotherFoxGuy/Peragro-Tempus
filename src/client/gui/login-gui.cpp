@@ -192,18 +192,18 @@ namespace PT
         ServerWindow* serverWindow =
           guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
         app_cfg->
-          SetStr("Client.Server["+serverWindow->GetServerName()+"].Login",
+          SetStr("Peragro.Server["+serverWindow->GetServerName()+"].Login",
             string);
 
         if (serverWindow->IsCustom())
         {
           string=serverWindow->GetServerHost().GetData();
-          app_cfg->SetStr("Client.Server.Custom", string);
+          app_cfg->SetStr("Peragro.Server.Custom", string);
           integer=serverWindow->GetServerPort();
-          app_cfg->SetInt("Client.Server.Customport", integer);
+          app_cfg->SetInt("Peragro.Server.Customport", integer);
         }
         app_cfg->
-          SetStr("Client.Server.LastUsed", serverWindow->GetServerName());
+          SetStr("Peragro.Server.LastUsed", serverWindow->GetServerName());
         app_cfg->Save();
       } // end SaveConfig()
 
@@ -249,7 +249,7 @@ namespace PT
         ServerWindow* serverWindow =
           guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
         const char* login = app_cfg->
-          GetStr("Client.Server["+serverWindow->GetServerName()+"].Login");
+          GetStr("Peragro.Server["+serverWindow->GetServerName()+"].Login");
         btn = winMgr->getWindow("LoginUI/LoginEditBox");
         btn->setText(login);
 

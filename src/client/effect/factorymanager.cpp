@@ -34,7 +34,7 @@ namespace PT
       this->object_reg = object_reg;
 
       csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>(object_reg);
-      cachesize = app_cfg->GetInt("Client.effectmanager.cachesize", 10);
+      cachesize = app_cfg->GetInt("Peragro.effectmanager.cachesize", 10);
     }
 
     FactoryManager::~FactoryManager()

@@ -79,23 +79,23 @@ bool ComponentPlayerControls::Initialize (PointerLibrary* pl,
   EventManager* evmgr = pointerlib->getEventManager();
 
   REGISTER_LISTENER(ComponentPlayerControls, ActionForward,
-    "input.ACTION_FORWARD", false)
+    "input.Forward", false)
   REGISTER_LISTENER(ComponentPlayerControls, ActionBackward,
-    "input.ACTION_BACKWARD", false)
+    "input.Backward", false)
   REGISTER_LISTENER(ComponentPlayerControls, ActionLeft,
-    "input.ACTION_LEFT", false)
+    "input.Left", false)
   REGISTER_LISTENER(ComponentPlayerControls, ActionRight,
-    "input.ACTION_RIGHT", false)
+    "input.Right", false)
   REGISTER_LISTENER(ComponentPlayerControls, ActionJump,
-    "input.ACTION_JUMP", false)
+    "input.Jump", false)
   REGISTER_LISTENER(ComponentPlayerControls, ActionMoveTo,
-    "input.ACTION_MOVETO", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionToggleWalk,
-    "input.ACTION_TOGGLEWALK", false)
+    "input.MoveTo", false)
+  REGISTER_LISTENER(ComponentPlayerControls, ActionAutoMove,
+    "input.AutoMove", false)
   REGISTER_LISTENER(ComponentPlayerControls, ActionToggleRun,
-    "input.ACTION_TOGGLERUN", false)
+    "input.ToggleRun", false)
   REGISTER_LISTENER(ComponentPlayerControls, ActionActivateWeapon,
-    "input.ACTION_ACTIVATEWEAPON", false)
+    "input.ActivateWeapon", false)
   REGISTER_LISTENER(ComponentPlayerControls, UpdateOptions,
     "interface.options.movement", false)
 
@@ -115,8 +115,8 @@ bool ComponentPlayerControls::UpdateOptions()
   csRef<iConfigManager> app_cfg =
     csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
-  backwardReverse = app_cfg->GetBool("Client.Movement.BackwardReverse", backwardReverse);
-  localMovement = app_cfg->GetBool("Client.Movement.Local", localMovement);
+  backwardReverse = app_cfg->GetBool("Peragro.Movement.BackwardReverse", backwardReverse);
+  localMovement = app_cfg->GetBool("Peragro.Movement.Local", localMovement);
 
   return true;
 } // end UpdateOptions()
@@ -246,7 +246,7 @@ bool ComponentPlayerControls::ActionRight(iEvent& ev)
   return true;
 } // end ActionRight()
 
-bool ComponentPlayerControls::ActionToggleWalk(iEvent& ev)
+bool ComponentPlayerControls::ActionAutoMove(iEvent& ev)
 {
   using namespace PT::Events;
 
@@ -255,7 +255,7 @@ bool ComponentPlayerControls::ActionToggleWalk(iEvent& ev)
   PerformMovementAction();
 
   return true;
-} // end ActionToggleWalk()
+} // end ActionAutoMove()
 
 bool ComponentPlayerControls::ActionToggleRun(iEvent& ev)
 {

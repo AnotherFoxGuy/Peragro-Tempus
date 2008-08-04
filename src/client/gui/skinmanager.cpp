@@ -47,7 +47,7 @@ namespace PT
       cegui = guiManager->GetCEGUI ();
       app_cfg = csQueryRegistry<iConfigManager>(obj_reg);
       std::string skinpath = "/peragro/art/skins/";
-      skinpath += app_cfg->GetStr("Client.Skin");
+      skinpath += app_cfg->GetStr("Peragro.Skin");
       skinpath += "/";
 
       defaultSkin.name = "Peragro";

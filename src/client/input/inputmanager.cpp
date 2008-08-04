@@ -52,7 +52,7 @@ namespace PT
       // Open configuration file, and prepare iterator for easy access.
       csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (obj_reg);
       if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
-      csRef<iConfigIterator> it = app_cfg->Enumerate("Key");
+      csRef<iConfigIterator> it = app_cfg->Enumerate("Peragro.Control");
 
       Report(PT::Debug, "");
       Report(PT::Debug, "==Loading keybindings==========================");
@@ -88,17 +88,17 @@ namespace PT
         EventHandler<InputManager>* cbClipboardCopy =
           new EventHandler<InputManager>(&InputManager::ClipboardCopy, this);
         PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.ACTION_COPYTEXT", cbClipboardCopy);
+          AddListener("input.CopyText", cbClipboardCopy);
 
         EventHandler<InputManager>* cbClipboardPaste =
           new EventHandler<InputManager>(&InputManager::ClipboardPaste, this);
         PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.ACTION_PASTETEXT", cbClipboardPaste);
+          AddListener("input.PasteText", cbClipboardPaste);
 
         EventHandler<InputManager>* cbClipboardCut =
           new EventHandler<InputManager>(&InputManager::ClipboardCut, this);
         PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.ACTION_CUTTEXT", cbClipboardCut);
+          AddListener("input.CutText", cbClipboardCut);
 
         csString ostype = "";
         csTheClipboard->GetOS(ostype);

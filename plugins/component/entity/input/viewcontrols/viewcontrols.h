@@ -82,23 +82,23 @@ private:
   /// Minimum view distance for the adaptive distance clipping.
   float minDistance;
 
-  /// Handler for the pan left event.
-  bool ActionPanLeft(iEvent& ev);
-  /// Handler for the pan right event.
-  bool ActionPanRight(iEvent& ev);
-  /// Handler for the pan up event.
-  bool ActionPanUp(iEvent& ev);
-  /// Handler for the pan down event.
-  bool ActionPanDown(iEvent& ev);
-  /// Handler for the zoom-in event.
+  /// Handler for the look left event.
+  bool ActionLookLeft(iEvent& ev);
+  /// Handler for the look right event.
+  bool ActionLookRight(iEvent& ev);
+  /// Handler for the look up event.
+  bool ActionLookUp(iEvent& ev);
+  /// Handler for the look down event.
+  bool ActionLookDown(iEvent& ev);
+  /// Handler for the zoom in event.
   bool ActionZoomIn(iEvent& ev);
-  /// Handler for the zoom-out event.
+  /// Handler for the zoom out event.
   bool ActionZoomOut(iEvent& ev);
-  /// Handler for the camera toggle event. Called when changing camera type.
-  bool ActionToggleCamera(iEvent& ev);
-  /// Handler for the distance clipping event, to removing entities beyond
-  /// some distance.
-  bool ActionToggleDistClipping(iEvent& ev);
+  /// Handler for the camera mode change event.
+  bool ActionCameraMode(iEvent& ev);
+  /// Handler for the distance clipping toggle event, this removes entities
+  /// beyond the set distance.
+  bool ActionDistanceClipping(iEvent& ev);
   /// Handler for the configuration update event.
   bool UpdateOptions(iEvent& ev);
   /// Reloads values from the configuration manager.

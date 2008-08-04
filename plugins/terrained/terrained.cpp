@@ -450,12 +450,12 @@ bool TerrainEd::OnShaderSpinner(const CEGUI::EventArgs& e)
   csArray<float> vals = GetValues(win);
 
   csShaderVariable::VariableType type = var->GetType();
-  printf("I: Setting var of type %d  len %d!\n", type, vals.GetSize());
+  printf("I: Setting var of type %d  len %lu!\n", type, vals.GetSize());
   switch (type)
   {
   case csShaderVariable::INT : 
     {
-      int val = vals[0];
+      int val = static_cast<int>(vals[0]);
       var->SetValue(val);
     }
     break;

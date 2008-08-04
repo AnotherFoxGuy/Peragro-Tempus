@@ -68,14 +68,14 @@ bool ComponentViewControls::Initialize (PointerLibrary* pl, PT::Entity::Entity* 
   using namespace PT::Events;
   EventManager* evmgr = pointerlib->getEventManager();
 
-  REGISTER_LISTENER(ComponentViewControls, ActionPanLeft, "input.ACTION_PANLEFT", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionPanRight, "input.ACTION_PANRIGHT", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionPanUp, "input.ACTION_PANUP", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionPanDown, "input.ACTION_PANDOWN", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionZoomIn, "input.ACTION_ZOOMIN", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionZoomOut, "input.ACTION_ZOOMOUT", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionToggleCamera, "input.ACTION_TOGGLECAMERA", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionToggleDistClipping, "input.ACTION_TOGGLEDISTCLIP", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionLookLeft, "input.LookLeft", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionLookRight, "input.LookRight", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionLookUp, "input.LookUp", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionLookDown, "input.LookDown", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionZoomIn, "input.ZoomIn", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionZoomOut, "input.ZoomOut", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionCameraMode, "input.CameraMode", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionDistanceClipping, "input.DistanceClipping", false)
   REGISTER_LISTENER(ComponentViewControls, UpdateOptions, "interface.options.view", false)
 
   UpdateOptions();
@@ -93,18 +93,18 @@ bool ComponentViewControls::UpdateOptions()
 {
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
-  invertYAxis = app_cfg->GetBool("Client.Movement.InvertYAxis", invertYAxis);
-  distClip = app_cfg->GetBool("Client.Video.DistanceClipping", distClip);
-  minFPS = app_cfg->GetFloat("Client.Video.MinFPS", minFPS);
-  maxFPS = app_cfg->GetFloat("Client.Video.MaxFPS", maxFPS);
-  minDistance = app_cfg->GetFloat("Client.Video.MinDistance", minDistance);
+  invertYAxis = app_cfg->GetBool("Peragro.Movement.InvertYAxis", invertYAxis);
+  distClip = app_cfg->GetBool("Peragro.Video.DistanceClipping", distClip);
+  minFPS = app_cfg->GetFloat("Peragro.Video.MinFPS", minFPS);
+  maxFPS = app_cfg->GetFloat("Peragro.Video.MaxFPS", maxFPS);
+  minDistance = app_cfg->GetFloat("Peragro.Video.MinDistance", minDistance);
 
   UpdateDistanceClipping();
 
   return true;
 } // end UpdateOptions()
 
-bool ComponentViewControls::ActionPanLeft(iEvent& ev)
+bool ComponentViewControls::ActionLookLeft(iEvent& ev)
 {
   using namespace PT::Events;
 
@@ -121,9 +121,9 @@ bool ComponentViewControls::ActionPanLeft(iEvent& ev)
   }
 
   return true;
-} // end ActionLeft()
+} // end ActionLookLeft()
 
-bool ComponentViewControls::ActionPanRight(iEvent& ev)
+bool ComponentViewControls::ActionLookRight(iEvent& ev)
 {
   using namespace PT::Events;
 
@@ -140,9 +140,9 @@ bool ComponentViewControls::ActionPanRight(iEvent& ev)
   }
 
   return true;
-} // end ActionRight()
+} // end ActionLookRight()
 
-bool ComponentViewControls::ActionPanUp(iEvent& ev)
+bool ComponentViewControls::ActionLookUp(iEvent& ev)
 {
   using namespace PT::Events;
 
@@ -161,9 +161,9 @@ bool ComponentViewControls::ActionPanUp(iEvent& ev)
   }
 
   return true;
-} // end ActionPanUp()
+} // end ActionLookUp()
 
-bool ComponentViewControls::ActionPanDown(iEvent& ev)
+bool ComponentViewControls::ActionLookDown(iEvent& ev)
 {
   using namespace PT::Events;
 
@@ -182,7 +182,7 @@ bool ComponentViewControls::ActionPanDown(iEvent& ev)
   }
 
   return true;
-} // end ActionPanDown()
+} // end ActionLookDown()
 
 bool ComponentViewControls::ActionZoomIn(iEvent& ev)
 {
@@ -218,7 +218,7 @@ bool ComponentViewControls::ActionZoomOut(iEvent& ev)
   return true;
 } // end ActionZoomOut()
 
-bool ComponentViewControls::ActionToggleCamera(iEvent& ev)
+bool ComponentViewControls::ActionCameraMode(iEvent& ev)
 {
   using namespace PT::Events;
 
@@ -233,9 +233,9 @@ bool ComponentViewControls::ActionToggleCamera(iEvent& ev)
   }
 
   return true;
-} // end ActionToggleCamera()
+} // end ActionCameraMode()
 
-bool ComponentViewControls::ActionToggleDistClipping(iEvent& ev)
+bool ComponentViewControls::ActionDistanceClipping(iEvent& ev)
 {
   using namespace PT::Events;
 
@@ -247,13 +247,13 @@ bool ComponentViewControls::ActionToggleDistClipping(iEvent& ev)
     csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
     distClip = !distClip;
-    app_cfg->SetBool("Client.Video.DistanceClipping", distClip);
+    app_cfg->SetBool("Peragro.Video.DistanceClipping", distClip);
 
     return UpdateDistanceClipping();
   }
 
   return true;
-} // end ActionToggleDistClipping()
+} // end ActionDistanceClipping()
 
 bool ComponentViewControls::UpdateDistanceClipping()
 {

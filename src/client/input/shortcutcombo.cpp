@@ -103,9 +103,9 @@ namespace PT
       size_t i;
 
       // First write the modifiers.
-      if (shift) shortcut += ("shift-");
-      if (alt) shortcut += ("alt-");
-      if (ctrl) shortcut += ("ctrl-");
+      if (shift) shortcut += ("Shift-");
+      if (alt) shortcut += ("Alt-");
+      if (ctrl) shortcut += ("Ctrl-");
 
       // Lookup the index of keyCode in special characters.
       i = Lookup(keyCode);
@@ -124,11 +124,11 @@ namespace PT
       std::string key;
 
       // First check for existance of modifiers.
-      if (keyStr.find("shift-") == std::string::npos) shift = false;
+      if (keyStr.find("Shift-") == std::string::npos) shift = false;
       else shift = true;
-      if (keyStr.find("alt-") == std::string::npos) alt = false;
+      if (keyStr.find("Alt-") == std::string::npos) alt = false;
       else alt = true;
-      if (keyStr.find("ctrl-") == std::string::npos) ctrl = false;
+      if (keyStr.find("Ctrl-") == std::string::npos) ctrl = false;
       else ctrl = true;
 
       // Our actual keyCode resides after the last dash, if any.

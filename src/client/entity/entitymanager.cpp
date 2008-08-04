@@ -101,7 +101,7 @@ namespace PT
 
       // Register listener for ActionInteract.
       EventHandler<EntityManager>* cbInteract = new EventHandler<EntityManager>(&EntityManager::OnInteract, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("input.ACTION_INTERACT", cbInteract);
+      PointerLibrary::getInstance()->getEventManager()->AddListener("input.Interact", cbInteract);
 
       // Register listener for WorldLoaded.
       EventHandler<EntityManager>* cbWorldLoaded = new PT::Events::EventHandler<EntityManager>(&EntityManager::WorldLoaded, this);

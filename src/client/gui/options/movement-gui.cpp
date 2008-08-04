@@ -115,7 +115,7 @@ namespace PT
         default: Report(PT::Error, "OnDropListMovement: failed %d", id);
         }
 
-        app_cfg->SetBool("Client.Movement.Local", local);
+        app_cfg->SetBool("Peragro.Movement.Local", local);
         SendUpdateEvent();
         SaveConfig();
         return true;
@@ -126,7 +126,7 @@ namespace PT
 
         btn = winMgr->getWindow("Options/Movement/Mode/DropList");
 
-        bool local = app_cfg->GetBool("Client.Movement.Local");
+        bool local = app_cfg->GetBool("Peragro.Movement.Local");
 
         if (local)
           ((CEGUI::Combobox*)btn)->setText("Client");
@@ -148,7 +148,7 @@ namespace PT
         btn = winMgr->getWindow("Options/Movement/Reverse");
         bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
 
-        app_cfg->SetBool("Client.Movement.BackwardReverse", fs);
+        app_cfg->SetBool("Peragro.Movement.BackwardReverse", fs);
         SendUpdateEvent();
         SaveConfig();
         return true;
@@ -158,7 +158,7 @@ namespace PT
       {
         btn = winMgr->getWindow("Options/Movement/Reverse");
 
-        bool fs = app_cfg->GetBool("Client.Movement.BackwardReverse");
+        bool fs = app_cfg->GetBool("Peragro.Movement.BackwardReverse");
 
         ((CEGUI::Checkbox*)btn)->setSelected(fs);
       }
@@ -168,7 +168,7 @@ namespace PT
         btn = winMgr->getWindow("Options/Movement/Invert_Y_Axis");
         bool ya = ((CEGUI::Checkbox*)btn)->isSelected();
 
-        app_cfg->SetBool("Client.Movement.InvertYAxis", ya);
+        app_cfg->SetBool("Peragro.Movement.InvertYAxis", ya);
         // Goes to a different plugin, using the other event name.
         PT::Events::EventManager* evmgr =
           PointerLibrary::getInstance()->getEventManager();
@@ -181,7 +181,7 @@ namespace PT
       {
         btn = winMgr->getWindow("Options/Movement/Invert_Y_Axis");
 
-        bool ya = app_cfg->GetBool("Client.Movement.InvertYAxis");
+        bool ya = app_cfg->GetBool("Peragro.Movement.InvertYAxis");
 
         ((CEGUI::Checkbox*)btn)->setSelected(ya);
       }

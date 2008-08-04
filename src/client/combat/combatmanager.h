@@ -69,14 +69,14 @@ namespace PT
       iMeshWrapper* GetMesh(PT::Entity::Entity* entity);
 
       /**
-       * Handler for ACTION_HIT event.
+       * Handler for the Hit event.
        * @param ev Event describing the hit.
        * @return False if an error occured, true otherwise.
        */
       bool ActionHit(iEvent& ev);
 
       /**
-       * Handler for ACTION_ATTACK event.
+       * Handler for the Attack event.
        * @param ev Event describing the attack.
        * @return False if an error occured, true otherwise.
        */

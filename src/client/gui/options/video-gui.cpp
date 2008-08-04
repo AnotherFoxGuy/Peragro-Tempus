@@ -110,7 +110,7 @@ namespace PT
           new EventHandler<VideoOptionsWindow>
           (&VideoOptionsWindow::ToggleDistClip, this);
         PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.ACTION_TOGGLEDISTCLIP", cbDistClip);
+          AddListener("input.DistanceClipping", cbDistClip);
 
         return true;
       } // end ReloadWindow()
@@ -147,7 +147,7 @@ namespace PT
         default: Report(PT::Error, "OnDropListReflections: failed %d", id);
         }
 
-        app_cfg->SetBool("Client.Video.WaterReflections", ref);
+        app_cfg->SetBool("Peragro.Video.WaterReflections", ref);
         SaveConfig();
         return true;
       } // end OnDropListReflections()
@@ -157,7 +157,7 @@ namespace PT
 
         btn = winMgr->getWindow("Options/Video/Reflections/DropList");
 
-        bool ref = app_cfg->GetBool("Client.Video.WaterReflections", true);
+        bool ref = app_cfg->GetBool("Peragro.Video.WaterReflections", true);
 
         if (ref)
           ((CEGUI::Combobox*)btn)->setText("On");
@@ -273,7 +273,7 @@ namespace PT
         btn = winMgr->getWindow("Options/Video/Distance_Clipping");
         bool dc = ((CEGUI::Checkbox*)btn)->isSelected();
 
-        app_cfg->SetBool("Client.Video.DistanceClipping", dc);
+        app_cfg->SetBool("Peragro.Video.DistanceClipping", dc);
         SendUpdateEvent();
         SaveConfig();
         return true;
@@ -283,7 +283,7 @@ namespace PT
       {
         btn = winMgr->getWindow("Options/Video/Distance_Clipping");
 
-        bool dc = app_cfg->GetBool("Client.Video.DistanceClipping", false);
+        bool dc = app_cfg->GetBool("Peragro.Video.DistanceClipping", false);
 
         ((CEGUI::Checkbox*)btn)->setSelected(dc);
       } // end CreateAdaptiveClippingCheckBox()
@@ -293,7 +293,7 @@ namespace PT
         btn = winMgr->getWindow("Options/Video/Minimum_FPS/Spinner");
         float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
 
-        app_cfg->SetFloat("Client.Video.MinFPS", value);
+        app_cfg->SetFloat("Peragro.Video.MinFPS", value);
         SendUpdateEvent();
         SaveConfig();
         return true;
@@ -304,7 +304,7 @@ namespace PT
         btn = winMgr->getWindow("Options/Video/Maximum_FPS/Spinner");
         float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
 
-        app_cfg->SetFloat("Client.Video.MaxFPS", value);
+        app_cfg->SetFloat("Peragro.Video.MaxFPS", value);
         SendUpdateEvent();
         SaveConfig();
         return true;
@@ -315,7 +315,7 @@ namespace PT
         btn = winMgr->getWindow("Options/Video/Minimum_Distance/Spinner");
         float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
 
-        app_cfg->SetFloat("Client.Video.MinDistance", value);
+        app_cfg->SetFloat("Peragro.Video.MinDistance", value);
         SendUpdateEvent();
         SaveConfig();
         return true;
@@ -325,15 +325,15 @@ namespace PT
       {
         btn = winMgr->getWindow("Options/Video/Minimum_FPS/Spinner");
         ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Client.Video.MinFPS", 20.0f));
+          setCurrentValue(app_cfg->GetFloat("Peragro.Video.MinFPS", 20.0f));
 
         btn = winMgr->getWindow("Options/Video/Maximum_FPS/Spinner");
         ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Client.Video.MaxFPS", 60.0f));
+          setCurrentValue(app_cfg->GetFloat("Peragro.Video.MaxFPS", 60.0f));
 
         btn = winMgr->getWindow("Options/Video/Minimum_Distance/Spinner");
         ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Client.Video.MinDistance", 100.0f));
+          setCurrentValue(app_cfg->GetFloat("Peragro.Video.MinDistance", 100.0f));
       } // end CreateAdaptiveSpinners()
 
     } // Windows namespace

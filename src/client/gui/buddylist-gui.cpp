@@ -175,7 +175,7 @@ namespace PT
         EventHandler<BuddyWindow>* cbtoggle =
           new EventHandler<BuddyWindow>(&BuddyWindow::ToggleWindow, this);
         PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.ACTION_TOGGLEBUDDYWINDOW", cbtoggle);
+          AddListener("input.ToggleBuddyWindow", cbtoggle);
         return true;
       } // end ReloadWindow()
 

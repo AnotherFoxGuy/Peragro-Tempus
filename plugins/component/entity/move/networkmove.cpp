@@ -81,7 +81,7 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
 
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
     (pointerlib->getObjectRegistry());
-  localMovement = app_cfg->GetBool("Client.Movement.Local", false);
+  localMovement = app_cfg->GetBool("Peragro.Movement.Local", false);
 
   return true;
 } // end Initialize()
@@ -90,7 +90,7 @@ bool ComponentNetworkMove::UpdateOptions(iEvent& ev)
 {
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
     (pointerlib->getObjectRegistry());
-  localMovement = app_cfg->GetBool("Client.Movement.Local", false);
+  localMovement = app_cfg->GetBool("Peragro.Movement.Local", false);
   return true;
 } // end UpdateOptions()
 
