@@ -52,7 +52,7 @@ namespace PT
       // Open configuration file, and prepare iterator for easy access.
       csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (obj_reg);
       if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
-      csRef<iConfigIterator> it = app_cfg->Enumerate("Peragro.Control");
+      csRef<iConfigIterator> it = app_cfg->Enumerate("Peragro.Control.");
 
       Report(PT::Debug, "");
       Report(PT::Debug, "==Loading keybindings==========================");
@@ -63,17 +63,16 @@ namespace PT
       {
         ShortcutCombo combo;
 
-        // + 1 to skip the '.' character.
-        if (!combo.SetFromConfigString(it->GetKey(true) + 1))
+        if (!combo.SetFromConfigString(it->GetKey(true)))
         {
           Report(PT::Error, "Unknown key combo '%s' for action '%s'.",
-            it->GetKey(true) + 1, it->GetStr());
+            it->GetKey(true), it->GetStr());
           continue;
         }
 
         // Assign a function to combo.
         functions[combo] = it->GetStr();
-        Report(PT::Debug, "%-10s %s", it->GetKey(true) + 1, it->GetStr());
+        Report(PT::Debug, "%-10s %s", it->GetKey(true), it->GetStr());
         numberOfKeys++;
       } // end while
       Report(PT::Debug, "================================ %d keybinding(s)\n",

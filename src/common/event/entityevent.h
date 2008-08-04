@@ -165,7 +165,7 @@ namespace PT
        * @param name The name of the event parameter to add the coordinates to.
        * @param pos The coordinates.
        */
-      static void SetVector3(iEvent* ev, const char* name, float* pos)
+      static void SetVector3(iEvent* ev, const char* name, const float* pos)
       {
         std::string nm = name;
         std::string nmX = nm + "_x";
@@ -214,7 +214,7 @@ namespace PT
        * @param ev An entity event.
        * @param pos The coordinates.
        */
-      static void SetPosition(iEvent* ev, float* pos)
+      static void SetPosition(iEvent* ev, const float* pos)
       {
         SetVector3(ev, "position", pos);
       }

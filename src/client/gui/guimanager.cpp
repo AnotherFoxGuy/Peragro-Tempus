@@ -143,10 +143,16 @@ namespace PT
         movement->Create();
         windows.Push(movement);
 
+        PT::GUI::Windows::ControlOptionsWindow* controls =
+          new PT::GUI::Windows::ControlOptionsWindow(this);
+        controls->Create();
+        windows.Push(controls);
+
         options->AddOption("Skins", skins->GetName());
         skinMgr->Populate();
         options->AddOption("Video", video->GetName());
         options->AddOption("Movement", movement->GetName());
+        options->AddOption("Controls", controls->GetName());
 
         // Create the windows to be registered and used later.
         PT::GUI::Windows::ServerWindow* server =
