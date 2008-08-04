@@ -39,14 +39,14 @@ namespace PT
   {
     /**
      * @ingroup events
-     * The callback to an event handler.
+     * The interface to a to an event handler callback class.
      */
     struct EventHandlerCallback : public virtual iBase
     {
       SCF_INTERFACE(EventHandlerCallback, 1,0,0);
 
       /**
-       * Handle an event.
+       * Handle an event, by calling the stored function pointer.
        * @param ev The event.
        * @return Whether the event was handled.
        */
@@ -55,19 +55,18 @@ namespace PT
 
     /**
      * @ingroup events
-     * The event handler template.
+     * The event handler callback template.
      */
     template <class Class>
     class EventHandler : public scfImplementation1<EventHandler<Class>, EventHandlerCallback>
     {
     public:
-      /// @todo: is this correct?
+      /// Function pointer typedef, of class "Class" named "Func".
       typedef bool (Class::*Func)(iEvent&);
 
       /**
-       * @todo: is this correct?
        * Constructor. Creates a handler of the class for the function.
-       * @param function The function.
+       * @param function A function pointer of the class.
        * @param classy The class.
        */
       EventHandler(Func function, Class *classy) :
@@ -79,7 +78,7 @@ namespace PT
       }
 
       /**
-       * Handle an event.
+       * Handle an event, by calling the stored function pointer.
        * @param ev The event.
        * @return Whether the event was handled.
        */
@@ -88,10 +87,9 @@ namespace PT
         return (theclass->*thefunc)(ev);
       }
 
-      /// @todo: are these correct?
-      /// A pointer to the templated class.
+      /// A pointer to the class to handle events for.
       Class *theclass;
-      /// The function.
+      /// The function pointer.
       Func thefunc;
     };
   } // Events namespace

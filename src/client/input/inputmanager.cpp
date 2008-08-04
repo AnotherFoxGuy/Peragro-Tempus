@@ -36,47 +36,26 @@ namespace PT
   namespace Input
   {
     InputManager::InputManager()
+      : csBaseEventHandler(), changingControl(false)
     {
     } // end InputManager()
 
     bool InputManager::Initialize()
     {
-      iObjectRegistry* obj_reg =
+      csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
       if (!obj_reg) return false;
 
       // Register for input events.
-      csBaseEventHandler::Initialize (obj_reg);
-      RegisterQueue (obj_reg, csevInput(obj_reg));
+      csBaseEventHandler::Initialize(obj_reg);
+      RegisterQueue(obj_reg, csevInput(obj_reg));
 
-      // Open configuration file, and prepare iterator for easy access.
-      csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (obj_reg);
-      if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
-      csRef<iConfigIterator> it = app_cfg->Enumerate("Peragro.Control.");
+      using namespace PT::Events;
+      EventManager* evtMgr = PointerLibrary::getInstance()->getEventManager();
 
-      Report(PT::Debug, "");
-      Report(PT::Debug, "==Loading keybindings==========================");
-      uint numberOfKeys = 0; // Number of keys we've read.
-
-      // Load the shortcuts.
-      while (it.IsValid() && it->Next())
-      {
-        ShortcutCombo combo;
-
-        if (!combo.SetFromConfigString(it->GetKey(true)))
-        {
-          Report(PT::Error, "Unknown key combo '%s' for action '%s'.",
-            it->GetKey(true), it->GetStr());
-          continue;
-        }
-
-        // Assign a function to combo.
-        functions[combo] = it->GetStr();
-        Report(PT::Debug, "%-10s %s", it->GetKey(true), it->GetStr());
-        numberOfKeys++;
-      } // end while
-      Report(PT::Debug, "================================ %d keybinding(s)\n",
-        numberOfKeys);
+      EventHandler<InputManager>* cbChangeControl =
+        new EventHandler<InputManager>(&InputManager::ChangeControl, this);
+      evtMgr->AddListener("input.options.changecontrol", cbChangeControl);
 
       // Register listeners for Clipboard Events.
       csTheClipboard = csQueryRegistry<iClipboard> (obj_reg);
@@ -86,20 +65,17 @@ namespace PT
 
         EventHandler<InputManager>* cbClipboardCopy =
           new EventHandler<InputManager>(&InputManager::ClipboardCopy, this);
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.CopyText", cbClipboardCopy);
+        evtMgr->AddListener("input.CopyText", cbClipboardCopy);
 
         EventHandler<InputManager>* cbClipboardPaste =
           new EventHandler<InputManager>(&InputManager::ClipboardPaste, this);
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.PasteText", cbClipboardPaste);
+        evtMgr->AddListener("input.PasteText", cbClipboardPaste);
 
         EventHandler<InputManager>* cbClipboardCut =
           new EventHandler<InputManager>(&InputManager::ClipboardCut, this);
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.CutText", cbClipboardCut);
+        evtMgr->AddListener("input.CutText", cbClipboardCut);
 
-        csString ostype = "";
+        csString ostype("");
         csTheClipboard->GetOS(ostype);
         Report(PT::Debug, "Clipboard plugin is using the '%s' implementation.",
           ostype.GetData());
@@ -109,87 +85,191 @@ namespace PT
         Report(PT::Warning, "Clipboard object unavailable. Disabling clipboard.");
       }
 
+      if (!LoadControls()) return false;
+
       return true;
     } // end Initialize()
+
+    bool InputManager::LoadControls()
+    {
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+      if (!obj_reg) return false;
+      // Open configuration file.
+      csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>(obj_reg);
+      if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
+
+      csRef<iConfigIterator> cfgItr = app_cfg->Enumerate("Peragro.Control.");
+
+      // Load the controls.
+      while (cfgItr.IsValid() && cfgItr->Next())
+      {
+        ControlCombo combo;
+
+        if (!combo.SetFromConfigString(cfgItr->GetKey(true)))
+        {
+          Report(PT::Error, "Invalid key combo '%s' with action '%s'.",
+            cfgItr->GetKey(true), cfgItr->GetStr());
+          continue;
+        }
+
+        // Assign a function to control.
+        if (controls.insert(std::make_pair(combo, cfgItr->GetStr()))
+          .second == false)
+        {
+          Report(PT::Error, "Duplicate key combo '%s' ignored (action '%s').",
+            cfgItr->GetKey(true), cfgItr->GetStr());
+        }
+      } // end while
+
+      return true;
+    } // end LoadControls()
+
+    bool InputManager::HandleControlEvents(const iEvent &ev, const bool keyboard)
+    {
+      // Create a control combo from the event for lookup.
+      const ControlCombo eventCombo(ev, keyboard);
+
+      // Check if the key is down or up.
+      bool down = false;
+      if (keyboard)
+        down = (csKeyEventHelper::GetEventType(&ev) == csKeyEventTypeDown);
+      else
+        down = (csMouseEventHelper::GetEventType(&ev) == csMouseEventTypeDown);
+
+      if (!changingControl)
+      {
+        // Search the control map.
+        ControlMap::const_iterator itr = controls.find(eventCombo);
+        if (itr == controls.end())
+        {
+          return Report(PT::Debug, "No action for key '%s' (%s).",
+            eventCombo.GetAsConfigString().c_str(), down?"down":"up");
+        }
+
+        Report(PT::Debug, "Sending event '%s' combo '%s'.",
+          itr->second.c_str(), eventCombo.GetAsConfigString().c_str()); // TODO remove
+
+        // Setup the event, and fire it.
+        PT::Events::EventManager* evmgr =
+          PointerLibrary::getInstance()->getEventManager();
+        std::string eventName = "input."; eventName += itr->second;
+        csRef<iEvent> inputEvent = evmgr->CreateEvent(eventName);
+        inputEvent->Add("action", itr->second.c_str());
+        inputEvent->Add("buttonState", down);
+        evmgr->AddEvent(inputEvent);
+      }
+      else
+      {
+        using namespace PT::Events;
+        EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
+        if (down)
+        {
+          csRef<iEvent> updateEvent =
+            evmgr->CreateEvent("input.options.controlupdate");
+          updateEvent->Add("action", changeControl->second.c_str());
+          updateEvent->Add("control", eventCombo.GetAsConfigString().c_str());
+          evmgr->AddEvent(updateEvent);
+        }
+        else
+        {
+          csRef<iEvent> setEvent =
+            evmgr->CreateEvent("input.options.controlset");
+
+          if (eventCombo != changeControl->first)
+          {
+            // Try insert pressed control and action being set.
+            std::pair<ControlMap::iterator, bool> boundControl(
+              controls.insert(std::make_pair(eventCombo, changeControl->second)));
+
+            if (boundControl.second == true)
+            {
+              // Successful, remove the previous binding.
+              controls.erase(changeControl);
+              Report(PT::Debug, "Control combo %s bound to %s.",
+                boundControl.first->first.GetAsConfigString().c_str(),
+                boundControl.first->second.c_str());
+
+              setEvent->Add("action", boundControl.first->second.c_str());
+              setEvent->Add("control",
+                boundControl.first->first.GetAsConfigString().c_str());
+            }
+            else
+            {
+              // Unsuccessful, set to previous binding.
+              Report(PT::Error, "Control combo %s is already bound to %s.",
+                boundControl.first->first.GetAsConfigString().c_str(),
+                boundControl.first->second.c_str());
+
+              setEvent->Add("action", changeControl->second.c_str());
+              setEvent->Add("control", changeControl->first.GetAsConfigString().c_str());
+            }
+          }
+          else
+          {
+            // Setting to the same control combo, don't do anything.
+            setEvent->Add("action", changeControl->second.c_str());
+            setEvent->Add("control", changeControl->first.GetAsConfigString().c_str());
+          }
+
+          evmgr->AddEvent(setEvent);
+          changingControl = false;
+        }
+      }
+
+      return true;
+    } // end HandleControlEvents()
 
     bool InputManager::OnKeyboard(iEvent &ev)
     {
       // If the key is being held, we don't send any new actions.
       if (csKeyEventHelper::GetAutoRepeat(&ev)) return false;
 
-      // Check if the key was pressed or not.
-      bool down = (csKeyEventHelper::GetEventType(&ev) == csKeyEventTypeDown);
-
-      // Create an event shortcut for lookup.
-      ShortcutCombo eventShortcut;
-      eventShortcut.SetFromKeyEvent(ev);
-
-      std::map<ShortcutCombo,std::string>::const_iterator it =
-        functions.find(eventShortcut);
-
-      // Did we find an action for key binding?
-      if (it == functions.end())
-      {
-        Report(PT::Debug, "No action for key '%s'(%s).",
-          eventShortcut.GetConfigKey().c_str(), down?"down":"up");
-        return false;
-      }
-
-      //Report(PT::Debug, "Pressed key combo '(%s)', firing action '%s'",
-      //  it->first.GetConfigKey().c_str(), it->second.c_str());
-
-      // Setup the event, and fire it.
-      PT::Events::EventManager* evmgr =
-        PointerLibrary::getInstance()->getEventManager();
-      std::string eventName = "input."; eventName += it->second;
-      csRef<iEvent> inputEvent = evmgr->CreateEvent(eventName);
-      inputEvent->Add("action", it->second.c_str());
-      inputEvent->Add("buttonState", down);
-      evmgr->AddEvent(inputEvent);
-
-      return true;
+      return HandleControlEvents(ev, true);
     } // end OnKeyboard()
-
-    bool InputManager::OnMouse(iEvent& ev)
-    {
-      bool down = (csMouseEventHelper::GetEventType(&ev) == csMouseEventTypeDown);
-
-      ShortcutCombo eventShortcut;
-      eventShortcut.SetFromMouseEvent(ev);
-
-      std::map<ShortcutCombo,std::string>::const_iterator it =
-        functions.find(eventShortcut);
-
-      if (it == functions.end())
-      {
-        Report(PT::Debug, "No action for button '%s'(%s).",
-          eventShortcut.GetConfigKey().c_str(), down?"down":"up");
-        return false;
-      }
-
-      //Report(PT::Debug, "%s button '(%s)', firing action '%s'.",
-      //  down ? "Pressed":"Released", it->first.GetConfigKey().c_str(), it->second.c_str());
-
-      PT::Events::EventManager* evmgr =
-        PointerLibrary::getInstance()->getEventManager();
-      std::string eventName = "input."; eventName += it->second;
-      csRef<iEvent> inputEvent = evmgr->CreateEvent(eventName);
-      inputEvent->Add("action", it->second.c_str());
-      inputEvent->Add("buttonState", down);
-      evmgr->AddEvent(inputEvent);
-
-      return true;
-    } // end OnMouse()
 
     bool InputManager::OnMouseDown(iEvent& ev)
     {
-      return OnMouse(ev);
+      return HandleControlEvents(ev, false);
     } // end OnMouseDown()
 
     bool InputManager::OnMouseUp(iEvent& ev)
     {
-      return OnMouse(ev);
+      return HandleControlEvents(ev, false);
     } // end OnMouseUp()
+
+    bool InputManager::ChangeControl(iEvent& ev)
+    {
+      using namespace PT::Events;
+      const char* control = InputHelper::GetControl(&ev);
+      const char* action = InputHelper::GetAction(&ev);
+      if (action == 0 || control == 0)
+      {
+        return Report(PT::Debug, "Got invalid control change request.");
+      }
+
+      const ControlCombo controlCombo(control);
+
+      changeControl = controls.find(controlCombo);
+      if (changeControl == controls.end())
+      {
+        Report(PT::Debug, "Can't find control to change. '%s, %s'",
+          action, control);
+      }
+      else if (changeControl->second == action)
+      {
+        changingControl = true;
+        Report(PT::Debug, "Listening for control change. '%s, %s'",
+          action, control);
+      }
+      else
+      {
+        Report(PT::Debug, "Invalid control change request. '%s, %s' (%s)",
+          action, control, changeControl->second.c_str());
+      }
+      return true;
+    }
 
     bool InputManager::ClipboardCut(iEvent& ev)
     {
@@ -211,8 +291,9 @@ namespace PT
       return true;
     } // end ClipboardCopy()
 
-    bool InputManager::DoCopy(bool cuttext)
+    bool InputManager::DoCopy(bool cutText)
     {
+      Report(PT::Debug, "copy");
       iCEGUI* cegui = PointerLibrary::getInstance()->getGUIManager()->GetCEGUI();
       CEGUI::Window* activeChildWindow =
         cegui->GetWindowManagerPtr()->getWindow("Root")->getActiveChild();
@@ -230,15 +311,15 @@ namespace PT
             ceguiEditBox->getText().substr(index, length).c_str();
 
           // Cut text support.
-          if (cuttext && !ceguiEditBox->isReadOnly())
+          if (cutText && !ceguiEditBox->isReadOnly())
           {
             CEGUI::String text = ceguiEditBox->getText();
-            ceguiEditBox->setText( text.erase( index, length ) );
+            ceguiEditBox->setText(text.erase(index, length));
             ceguiEditBox->setCaratIndex(index);
           }
 
           // Copy text to clipboard.
-          csTheClipboard->SetData(selectedText,0);
+          csTheClipboard->SetData(selectedText, 0);
 
         }
         else
@@ -256,6 +337,7 @@ namespace PT
 
       if (!InputHelper::GetButtonDown(&ev)) return false;
 
+      Report(PT::Debug, "paste");
       csString text;
       csTheClipboard->GetData(text, 0);
       if (text.Length() > 0)

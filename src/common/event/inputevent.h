@@ -41,15 +41,15 @@ namespace PT
     struct InputHelper
     {
       /**
-       * Get the action from an event.
+       * Get the action name from an event.
        * @param event The event.
-       * @return The action string.
+       * @return The action name.
        */
       static const char* GetAction(const iEvent* event)
       {
         const char* action = "";
         if (event->Retrieve("action", action) != csEventErrNone)
-          Report(PT::Error, "InputHelper::GetButtonState failed!");
+          Report(PT::Error, "InputHelper::GetAction failed!");
         return action;
       }
 
@@ -64,6 +64,19 @@ namespace PT
         if (event->Retrieve("buttonState", state) != csEventErrNone)
           Report(PT::Error, "InputHelper::GetButtonState failed!");
         return state;
+      }
+
+      /**
+       * Get the name of the control from an event.
+       * @param event The event.
+       * @return The control name.
+       */
+      static const char* GetControl(const iEvent* event)
+      {
+        const char* control = "";
+        if (event->Retrieve("control", control) != csEventErrNone)
+          Report(PT::Error, "InputHelper::GetControl failed!");
+        return control;
       }
 
     };

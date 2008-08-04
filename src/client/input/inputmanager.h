@@ -33,7 +33,8 @@
 
 #include <string>
 #include <map>
-#include "shortcutcombo.h"
+
+#include "controlcombo.h"
 
 #include "common/event/event.h"
 
@@ -53,8 +54,14 @@ namespace PT
     private:
       /// Clipboard access provider.
       csRef<iClipboard> csTheClipboard;
-      /// Map of shortcutcombos to commands.
-      std::map<ShortcutCombo,std::string> functions;
+      typedef std::map<const ControlCombo, std::string> ControlMap;
+      /// Map of controls to actions.
+      ControlMap controls;
+
+      /// Whether a control is being changed, overriding normal input.
+      bool changingControl;
+      /// Iterator pointing to the control to be changed.
+      ControlMap::iterator changeControl;
 
       /// Handler for the clipboard copy event. Calls DoCopy(false).
       bool ClipboardCopy(iEvent& ev);
@@ -69,43 +76,57 @@ namespace PT
        */
       bool DoCopy(bool cuttext);
 
+      /// Handler for the control change request event.
+      bool ChangeControl(iEvent& ev);
+
       /**
-       * Invoked by the InputManager when a mouse event is received.
-       * @param ev Description of a mouse event.
-       * @return True if a new action was triggered, false otherwise.
+       * Parse the configuration file for shortcuts.
+       * @return True for success.
        */
-      bool OnMouse(iEvent& ev);
+      bool LoadControls();
+
+      /**
+       * PT handler for all input events.
+       * @param ev The event.
+       * @param keyboard Whether it was a keyboard or mouse event.
+       * @return True if the event was handled.
+       */
+      bool HandleControlEvents(const iEvent &ev, const bool keyboard);
 
     public:
       /// Constructor.
       InputManager();
 
       /**
-       * Initializes the InputManager. Amongst other things, configuration file is read.
-       * @return True if operation succeeded, false otherwise.
+       * Initializes the InputManager. Amongst other things, configuration file
+       * is read.
+       * @return True if initialization succeeded.
        */
       bool Initialize();
 
       /**
        * Invoked by the InputManager when a keyboard event is received.
-       * @param ev Description of a keyboard event.
-       * @return True if a new action was triggered, false otherwise.
+       * This method calls the private HandleControlEvents() member.
+       * @return True if the event was handled.
+       * @return true if a new action was triggered, false otherwise.
        */
       bool OnKeyboard(iEvent& ev);
+
       /**
        * Invoked by the InputManager when a mouse down event is received.
-       * This method actually just wraps around the private OnMouse() member.
-       * @param ev Description of a mouse event.
-       * @return True if a new action was triggered, false otherwise.
+       * This method calls the private HandleControlEvents() member.
+       * @return True if the event was handled.
+       * @return true if a new action was triggered, false otherwise.
        */
       bool OnMouseDown(iEvent& ev);
+
       /**
        * Invoked by the InputManager when a mouse up event is received.
-       * This method actually just wraps around the private OnMouse() member.
-       * @param ev Description of a mouse event.
-       * @return True if a new action was triggered, false otherwise.
+       * This method calls the private HandleControlEvents() member.
+       * @return True if the event was handled.
        */
       bool OnMouseUp(iEvent& ev);
+
     };
 
   } // Input namespace

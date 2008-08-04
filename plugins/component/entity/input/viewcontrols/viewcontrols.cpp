@@ -93,13 +93,15 @@ bool ComponentViewControls::UpdateOptions()
 {
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (pointerlib->getObjectRegistry());
 
+  bool distClipTemp = distClip;
+
   invertYAxis = app_cfg->GetBool("Peragro.Movement.InvertYAxis", invertYAxis);
   distClip = app_cfg->GetBool("Peragro.Video.DistanceClipping", distClip);
   minFPS = app_cfg->GetFloat("Peragro.Video.MinFPS", minFPS);
   maxFPS = app_cfg->GetFloat("Peragro.Video.MaxFPS", maxFPS);
   minDistance = app_cfg->GetFloat("Peragro.Video.MinDistance", minDistance);
 
-  UpdateDistanceClipping();
+  if (distClipTemp != distClip) UpdateDistanceClipping();
 
   return true;
 } // end UpdateOptions()

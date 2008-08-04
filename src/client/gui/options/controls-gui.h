@@ -34,19 +34,34 @@ namespace PT
       private:
         csRef<iConfigManager> app_cfg;
 
+        enum COLUMN_INDEX
+        {
+          ACTION_INDEX = 0,
+          CONTROL1_INDEX = 1,
+          CONTROL2_INDEX = 2
+        };
+        enum CONTROL_INDEX
+        {
+          CONTROL_NONE = -1,
+          CONTROL1 = CONTROL1_INDEX,
+          CONTROL2 = CONTROL2_INDEX
+        };
+
         CEGUI::MultiColumnList* controlList;
-        const unsigned ACTION_INDEX;
-        const unsigned CONTROL1_INDEX;
-        const unsigned CONTROL2_INDEX;
+        CONTROL_INDEX changeColumn;
 
       private:
-        bool ControlSet(iEvent& e);
-
         bool OnControlsListSelection(const CEGUI::EventArgs& e);
         void CreateControlsList();
-        void LoadControlsList();
-        void AddListItem(const CEGUI::String& actionStr,
+        void ReloadControlsList();
+        bool SetControlAtRef(CEGUI::MCLGridRef& ref,
+          const CEGUI::String& controlStr, bool overwrite);
+        void AddControl(const CEGUI::String& actionStr,
           const CEGUI::String& controlStr);
+        CEGUI::MCLGridRef GetOrAddAction(const CEGUI::String& actionStr);
+
+        bool ControlUpdate(iEvent& e);
+        bool ControlSet(iEvent& e);
 
       public:
         ControlOptionsWindow(GUIManager* guiManager);

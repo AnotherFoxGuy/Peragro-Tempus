@@ -16,13 +16,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file shortcutcombo.h
+ * @file controlcombo.h
  *
- * @brief Provides handling of shortcut key combos.
+ * @brief Provides handling of control combinations.
  */
 
-#ifndef PTSHORTCUTCOMBO_H
-#define PTSHORTCUTCOMBO_H
+#ifndef PT_CONTROLCOMBO_H
+#define PT_CONTROLCOMBO_H
 
 #include <string>
 #include <csutil/event.h>
@@ -32,27 +32,26 @@ namespace PT
   namespace Input
   {
     /**
+     * A control combination, of keys and mouse buttons.
      * It can extract combos from a CS configuration files, using
-     * SetFromConfigString() method, or from a keyboard/mouse iEvent using
+     * SetFromConfigString() method, or from a keyboard / mouse event using
      * SetFromKeyEvent() and SetFromMouseEvent() methods.<br>
-     * It can also generate a suitable string for writing it into configuration
-     * file by using GetConfigKey().<br>
+     * It can also generate a suitable string for writing into a configuration
+     * file by using GetAsConfigString().<br>
      * Base comparision operators are provided, mostly for providing interface
      * to std::map.
-     * @brief Provides handling of shortcut key combos.
-     * @author Branko Majic <branko.majic NO SPAM AT gmail.com>
      */
-    class ShortcutCombo
+    class ControlCombo
     {
     private:
       /// Unique key code used to identify the keyboard/mouse key press.
       uint32 keyCode;
 
-      /// Specifies if the SHIFT key is held down.
+      /// Specifies if the Shift key is held down.
       bool shift;
-      /// Specifies if the ALT key is held down.
+      /// Specifies if the Alt key is held down.
       bool alt;
-      /// Specifies if the CTRL key is held down.
+      /// Specifies if the Ctrl key is held down.
       bool ctrl;
 
       /// A key.
@@ -68,50 +67,45 @@ namespace PT
       /// Number of special keys in our local Keys variable.
       static const size_t SPECIAL_KEY_COUNT;
       static const size_t NOT_SPECIAL_KEY;
+
     public:
-      /// Initialize a ShortcutCombo to 0.
-      ShortcutCombo();
+      /// Initialize a ControlCombo to 0.
+      ControlCombo();
 
       /**
-       * Initialize a ShortcutCombo by extracting combo from an event.
+       * Initialize a ControlCombo by extracting from an event.
        * @param ev Event used for extracting combo information.
        * @param keyboard Whether event is coming from keyboard or mouse.
        */
-      ShortcutCombo(const iEvent& ev, bool keyboard=true);
+      ControlCombo(const iEvent& ev, const bool keyboard = true);
 
       /**
-       * Initialize a ShortcutCombo by extracting combo from a string provided by configuration.
-       * @param keyStr Configuration string to be parsed for shortcut combo.
+       * Initialize a ControlCombo by extracting from a string provided by configuration.
+       * @param cfgStr Configuration string to be parsed for control combo.
        */
-      ShortcutCombo(const std::string& keyStr);
+      ControlCombo(const std::string& cfgStr);
 
       /// Destructor.
-      ~ShortcutCombo();
+      ~ControlCombo();
 
       /**
-       * Generates a key for configuration file.
-       * @return CS config-ready key.
+       * Generates a string for the configuration file.
+       * @return A control combo string.
        */
-      std::string GetConfigKey() const;
+      std::string GetAsConfigString() const;
 
       /**
-       * Extracts a shortcut combo from a key string.
-       * @param keyStr Configuration string to be parsed for shortcut combo.
-       * @return True if all went well, false if an error occured.
+       * Extracts a control combo from a configuration string.
+       * @param cfgStr Configuration string to be parsed for control combo.
+       * @return True for success.
        */
-      bool SetFromConfigString(const std::string& keyStr);
+      bool SetFromConfigString(const std::string& cfgStr);
 
       /**
-       * Setup the shortcuts using mouse event.
-       * @param ev Mouse event.
+       * Setup the control using an event.
+       * @param ev The event.
        */
-      void SetFromMouseEvent(const iEvent &ev);
-
-      /**
-       * Setup the shortcuts using keyboard event.
-       * @param ev Keyboard event.
-       */
-      void SetFromKeyEvent(const iEvent &ev);
+      void SetFromEvent(const iEvent &ev, const bool keyboard);
 
       /**
        * Does a lookup of key code based on key name.
@@ -128,9 +122,12 @@ namespace PT
       static size_t Lookup(const uint32& code);
 
       /// Equality operator.
-      bool operator==(const ShortcutCombo& c2) const;
+      bool operator==(const ControlCombo& c2) const;
+      /// Inequality operator.
+      inline bool operator!=(const ControlCombo& c2) const
+      { return !(*this==c2); }
       /// Compares in following order: keyCode, shift, alt, ctrl.
-      bool operator<(const ShortcutCombo& c2) const;
+      bool operator<(const ControlCombo& c2) const;
     };
 
   } // Input namespace
