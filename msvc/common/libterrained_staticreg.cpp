@@ -16,24 +16,24 @@
 namespace csStaticPluginInit
 {
 static char const metainfo_terrained[] =
-"<?xml version=\"1.0\"?>"
-"<!-- terrained.csplugin -->"
-"<plugin>"
-"  <scf>"
-"    <classes>"
-"      <class>"
-"        <name>peragro.terrained</name>"
-"        <implementation>TerrainEd</implementation>"
-"        <description>TerrainEd</description>"
-"        <requires>"
-"          <class>crystalspace.engine.3d</class>"
-"          <class>crystalspace.cegui.</class>"
-"          <class>crystalspace.level.loader</class>"
-"        </requires>"
-"      </class>"
-"    </classes>"
-"  </scf>"
-"</plugin>"
+"<?xml version=\"1.0\"?>"
+"<!-- terrained.csplugin -->"
+"<plugin>"
+"  <scf>"
+"    <classes>"
+"      <class>"
+"        <name>peragro.terrained</name>"
+"        <implementation>TerrainEd</implementation>"
+"        <description>TerrainEd</description>"
+"        <requires>"
+"          <class>crystalspace.engine.3d</class>"
+"          <class>crystalspace.cegui.</class>"
+"          <class>crystalspace.level.loader</class>"
+"        </requires>"
+"      </class>"
+"    </classes>"
+"  </scf>"
+"</plugin>"
 ;
   #ifndef TerrainEd_FACTORY_REGISTER_DEFINED 
   #define TerrainEd_FACTORY_REGISTER_DEFINED 

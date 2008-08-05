@@ -373,6 +373,9 @@
 				RelativePath="..\..\src\client\gui\options-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\options\controls-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\options\movement-gui.cpp">
 			</File>
 			<File
@@ -483,6 +486,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\options-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\options\controls-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\options\movement-gui.h">

@@ -301,20 +301,20 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\input\inputmanager.cpp">
+				RelativePath="..\..\src\client\input\controlcombo.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\input\shortcutcombo.cpp">
+				RelativePath="..\..\src\client\input\inputmanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\input\inputmanager.h">
+				RelativePath="..\..\src\client\input\controlcombo.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\input\shortcutcombo.h">
+				RelativePath="..\..\src\client\input\inputmanager.h">
 			</File>
 		</Filter>
 	</Files>
