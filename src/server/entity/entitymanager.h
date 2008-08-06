@@ -61,7 +61,7 @@ public:
     return entity_list.getEntity(index);
   }
 
-  void addEntity(Entity* locked_entity)
+  void addLockedEntity(Entity* locked_entity)
   {
     mutex.lock();
     ent_id++;
@@ -78,10 +78,10 @@ public:
   }
 
   void addEntity(const Entity* entity)
-  {    
+  {
     ptScopedMonitorable<Entity> e (entity);
 
-    addEntity(e);
+    addLockedEntity(e);
   }
 
   void removeEntity(const Entity* entity)

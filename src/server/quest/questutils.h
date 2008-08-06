@@ -135,16 +135,13 @@ namespace QuestUtils
     if (!dialog->getAnswerCount()) 
     {
       ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
-      if (npc_entity) 
-      {
-        npc_entity->pause(false);
+      npc_entity->pause(false);
 
-        NpcEndDialogMessage endmsg;
-        endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
-        ByteStream bs;
-        endmsg.serialise(&bs);
-        server->broadCast(bs);
-      }
+      NpcEndDialogMessage endmsg;
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      ByteStream bs;
+      endmsg.serialise(&bs);
+      server->broadCast(bs);
     }
 
     for (size_t i = 0; i < dialog->getAnswerCount(); i++)

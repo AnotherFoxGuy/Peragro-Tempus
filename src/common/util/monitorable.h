@@ -20,6 +20,7 @@
 #define MONITORABLE_H
 
 #include <stdio.h>
+#include <assert.h>
 
 #include "monitor.h"
 #include "mutex.h"
@@ -32,19 +33,26 @@ private:
   Mutex mutex;
   ptMonitor<T> ref;
 
+  bool isLocked;
+  PT::Thread::ThreadID threadID;
+
 protected:
-  ptMonitorable() { ref.set((T*)this); }
+  ptMonitorable() { ref.set((T*)this); isLocked = false; threadID = -1; }
   virtual ~ptMonitorable() {};
 
   T* getLock() const
   {
     T* const me = (T*) this;
     me->mutex.lock();
+    me->isLocked = true;
+    me->threadID = PT::Thread::CurrentThreadID();
     return me;
   }
 
   void freeLock()
   {
+    threadID = -1;
+    isLocked = false;
     T* const me = (T*) this;
     me->mutex.unlock();
   }
@@ -53,6 +61,9 @@ protected:
 
 public:
   const ptMonitor<T>& getRef() const { return ref; }
+
+  bool IsLocked() const { return isLocked; }
+  PT::Thread::ThreadID GetThreadID() const { return threadID; }
 };
 
 template<class T>
@@ -63,34 +74,42 @@ private:
   T& operator=(const T &c);
 
 public:
-  ptScopedMonitorable(const T* c) 
+  explicit ptScopedMonitorable(const T* c) 
   { 
-    printf("I: Getting lock\n");
+    //printf("I: Getting lock (Currently %s., %d/%d)\n", c->IsLocked()?"locked":"unlocked", PT::Thread::CurrentThreadID(), c->GetThreadID());
+    //assert( !(c->IsLocked() && c->GetThreadID() != PT::Thread::CurrentThreadID()) );
+    //if ( c->IsLocked() && (c->GetThreadID() != PT::Thread::CurrentThreadID()) ) 
+      //printf("E: Already locked!!!\n");
+    //printf("I: Getting lock (%s)\n", c->IsLocked()?"Locked":"Unlocked");
     lockObj = c->getLock(); 
   }
 
   ~ptScopedMonitorable() 
   { 
-    printf("I: Releasing lock\n");
+    //printf("I: Releasing lock\n");
     lockObj->freeLock(); 
     lockObj = 0;
   }
 
-  T* operator->()
+  inline T* operator->() const
   {
     return lockObj;
   }
 
-  bool operator!()
+  inline bool operator!() const
   {
     return lockObj == 0;
   }
 
-  operator T*() 
+  inline operator T*() const
   {
     return lockObj; 
   }
 
+  inline operator const T*() const
+  {
+    return lockObj; 
+  }
 };
 
 #endif // MONITORABLE_H

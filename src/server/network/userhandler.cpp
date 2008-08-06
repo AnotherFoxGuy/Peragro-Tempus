@@ -201,23 +201,25 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 
     newEntity->setCharacter(character);
 
-    ptScopedMonitorable<Entity> ent (entity->getEntity());
-    ent->setName(character->getName());
-    ent->setMesh(character->getMesh());
+    {
+      ptScopedMonitorable<Entity> ent (entity->getEntity());
+      ent->setName(character->getName());
+      ent->setMesh(character->getMesh());
 
-    printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getEntity()->getName());
-    user->setEntity(newEntity);
+      printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getEntity()->getName());
+      user->setEntity(newEntity);
 
-    ent->setRotation(character->getRotation());
-    ent->setSector(character->getSector());
-    ent->setPos(character->getPos());
+      ent->setRotation(character->getRotation());
+      ent->setSector(character->getSector());
+      ent->setPos(character->getPos());
 
-    newchar->getInventory()->loadFromDatabase(server->getTables()->getInventoryTable(), character->getId());
-    newchar->getStats()->loadFromDatabase(server->getTables()->getCharacterStatTable(), character->getId());
-    newchar->getSkills()->loadFromDatabase(server->getTables()->getCharacterSkillsTable(), character->getId());
-    newchar->getReputation()->loadFromDatabase(server->getTables()->getCharacterReputationsTable(), character->getId());
+      newchar->getInventory()->loadFromDatabase(server->getTables()->getInventoryTable(), character->getId());
+      newchar->getStats()->loadFromDatabase(server->getTables()->getCharacterStatTable(), character->getId());
+      newchar->getSkills()->loadFromDatabase(server->getTables()->getCharacterSkillsTable(), character->getId());
+      newchar->getReputation()->loadFromDatabase(server->getTables()->getCharacterReputationsTable(), character->getId());
+    } // Release lock on ent.
 
-    server->addEntity(ent, false);
+    server->addEntity(entity->getEntity(), false);
   }
 
   CharSelectResponseMessage response_msg;

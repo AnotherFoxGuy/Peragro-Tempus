@@ -55,16 +55,14 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   if (dialog == 0)
   {
     ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
-    if (npc_entity) 
-    {
-      npc_entity->pause(false);
+    npc_entity->pause(false);
 
-      NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
-      ByteStream bs;
-      endmsg.serialise(&bs);
-      server->broadCast(bs);
-    }
+    NpcEndDialogMessage endmsg;
+    endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+    ByteStream bs;
+    endmsg.serialise(&bs);
+    server->broadCast(bs);
+
     return;
   }
 
@@ -367,11 +365,8 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
 
   dia_state->endDialog(message.getNpcId(),0);
   ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
-  if (npc_entity) 
-  {
-    printf("Unpausing npc\n");
-    npc_entity->pause(false);
-  }
+  printf("Unpausing npc\n");
+  npc_entity->pause(false);
 }
 
 void QuestHandler::handleSetupDialogs(GenericMessage* msg)

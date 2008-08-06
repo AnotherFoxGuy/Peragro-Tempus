@@ -26,6 +26,22 @@
 #  include <pthread.h>
 #endif
 
+//============================================================================
+namespace PT
+{
+  struct Thread
+  {
+#ifdef WIN32
+    typedef DWORD ThreadID;
+    static ThreadID CurrentThreadID() { return GetCurrentThreadId(); }
+#else
+    typedef pthread_t ThreadID;
+    static ThreadID CurrentThreadID() { return pthread_self(); }
+#endif
+  };
+}
+//============================================================================
+
 class Mutex
 {
 private:
@@ -45,7 +61,7 @@ public:
 #else
     pthread_mutexattr_init(&attr);
     pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&mutex, 0);
+    pthread_mutex_init(&mutex, &attr);
 #endif
   }
 
