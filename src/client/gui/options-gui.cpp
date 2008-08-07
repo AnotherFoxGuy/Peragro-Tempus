@@ -119,7 +119,7 @@ namespace PT
       bool OptionsWindow::Create()
       {
         ReloadWindow();
-
+        SetupToggleListener("Options");
         return true;
       } // end Create()
 

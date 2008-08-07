@@ -73,6 +73,31 @@ namespace PT
       }
     } // end AddToRoot()
 
+    void GUIWindow::SetupToggleListener(const std::string& name)
+    {
+      if (name.empty()) return;
+
+      std::string eventName("input.Toggle");
+      eventName += name;
+
+      using namespace PT::Events;
+      EventHandler<GUIWindow>* cbtoggle =
+        new EventHandler<GUIWindow>(&GUIWindow::ToggleWindow, this);
+      PointerLibrary::getInstance()->getEventManager()->
+        AddListener(eventName.c_str(), cbtoggle);
+    } // end SetupToggleListener()
+
+    bool GUIWindow::ToggleWindow(iEvent& ev)
+    {
+      using namespace PT::Events;
+      if (InputHelper::GetButtonDown(&ev))
+      {
+        ToggleWindow();
+      }
+
+      return true;
+    } // end ToggleWindow()
+
     void GUIWindow::HideWindow()
     {
       if (window) window->setVisible(false);
@@ -82,6 +107,22 @@ namespace PT
     {
       if (window) window->setVisible(true);
     } // end ShowWindow()
+
+    void GUIWindow::ToggleWindow()
+    {
+      if (window)
+      {
+        if (window->isVisible())
+        {
+          window->setVisible(false);
+        }
+        else
+        {
+          window->setVisible(true);
+          window->activate();
+        }
+      }
+    } // end ToggleWindow()
 
     bool GUIWindow::IsVisible()
     {

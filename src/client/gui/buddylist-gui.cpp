@@ -76,21 +76,6 @@ namespace PT
         ((CEGUI::MultiColumnList*)btn)->removeRow(row);
       } // end RemovePlayer()
 
-      bool BuddyWindow::ToggleWindow(iEvent& ev)
-      {
-        using namespace PT::Events;
-
-        if (InputHelper::GetButtonDown(&ev))
-        {
-          CEGUI::Window* buddylist = winMgr->getWindow("BuddyList/Frame");
-          if (!buddylist) return false;
-          buddylist->isVisible() ?
-            buddylist->setVisible(false) : buddylist->setVisible(true);
-        }
-
-        return true;
-      } // end ToggleWindow()
-
       bool BuddyWindow::ProcessEvents(iEvent& ev)
       {
         using namespace PT::Events;
@@ -127,6 +112,7 @@ namespace PT
       bool BuddyWindow::Create()
       {
         ReloadWindow();
+        SetupToggleListener("BuddyList");
         return true;
       }  // end Create()
 
@@ -171,11 +157,6 @@ namespace PT
         // Register listener for EntityRemoveEvent.
         PointerLibrary::getInstance()->getEventManager()->
           AddListener("entity.remove", cb);
-        // Key for buddylist toggle.
-        EventHandler<BuddyWindow>* cbtoggle =
-          new EventHandler<BuddyWindow>(&BuddyWindow::ToggleWindow, this);
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.ToggleBuddyWindow", cbtoggle);
         return true;
       } // end ReloadWindow()
 

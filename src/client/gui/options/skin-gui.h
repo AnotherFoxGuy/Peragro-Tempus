@@ -23,7 +23,7 @@
 
 #include <csutil/array.h>
 
-#define SKINOPTIONSWINDOW "SkinOptionsWindow"
+#define SKINOPTIONSWINDOW "Options/Skins"
 
 namespace PT
 {

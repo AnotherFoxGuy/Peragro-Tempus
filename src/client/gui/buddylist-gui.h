@@ -22,7 +22,6 @@
 #include "base-gui.h"
 
 #include "common/event/entityevent.h"
-#include "common/event/inputevent.h"
 
 #define BUDDYLISTWINDOW "BuddyList/Frame"
 
@@ -39,12 +38,11 @@ namespace PT
 
       public:
         bool ProcessEvents(iEvent& ev);
-        bool ToggleWindow(iEvent& ev);
 
       public:
         BuddyWindow(GUIManager* guimanager);
         virtual ~BuddyWindow();
-          bool Create();
+        bool Create();
         bool ReloadWindow();
         void AddPlayer(const char* name);
         void RemovePlayer(const char* name);

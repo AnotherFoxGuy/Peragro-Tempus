@@ -27,6 +27,7 @@
 #include <CEGUI.h>
 #include <ivaria/icegui.h>
 
+#include "common/event/inputevent.h"
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
@@ -56,7 +57,10 @@ namespace PT
       GUIManager* guimanager;
 
       CEGUI::Window* LoadLayout(const char* layoutFile);
-      bool AddToRoot (CEGUI::Window* window);
+      bool AddToRoot(CEGUI::Window* window);
+      void SetupToggleListener(const std::string& name);
+
+      bool ToggleWindow(iEvent& ev);
 
     public:
       GUIWindow(GUIManager* guimanager);
@@ -65,14 +69,15 @@ namespace PT
       const char* GetName() { return windowName.c_str(); }
       /// Set the window name.
       void SetName(const char* name) { windowName = name; }
-      virtual bool Create () = 0;
+      virtual bool Create() = 0;
       /// Loads the layout and subscribes to events.
-      virtual bool ReloadWindow () = 0;
+      virtual bool ReloadWindow() = 0;
 
       CEGUI::Window* GetCeguiWindow() { return window; }
 
       void HideWindow();
       void ShowWindow();
+      void ToggleWindow();
       bool IsVisible();
       void EnableWindow();
       void DisableWindow();

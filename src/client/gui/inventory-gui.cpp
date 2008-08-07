@@ -160,6 +160,7 @@ namespace PT
       bool InventoryWindow::Create()
       {
         ReloadWindow();
+        SetupToggleListener("Inventory");
         return true;
       } // end Create()
 

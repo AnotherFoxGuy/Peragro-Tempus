@@ -21,7 +21,7 @@
 
 #include "client/gui/base-gui.h"
 
-#define MOVEMENTOPTIONSWINDOW "MovementOptionsWindow"
+#define MOVEMENTOPTIONSWINDOW "Options/Movement"
 
 namespace PT
 {

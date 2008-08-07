@@ -21,7 +21,7 @@
 
 #include "client/gui/base-gui.h"
 
-#define CONTROLOPTIONSWINDOW "ControlOptionsWindow"
+#define CONTROLOPTIONSWINDOW "Options/Controls"
 
 namespace PT
 {
