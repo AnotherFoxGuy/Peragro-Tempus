@@ -50,7 +50,7 @@ void RaceTable::createTable()
     "sector TEXT, "
     "PRIMARY KEY (id) );");
 
-  float pos[3] = { 86.8f, 2.0f, 11.2f };
+  float pos[3] = { 642.9f, 14.7f, 371.2f };
   ptString test("test", 4);
   ptString room("World", 5);
 
