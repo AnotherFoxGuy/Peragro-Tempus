@@ -55,7 +55,7 @@ public:
     bs->data[bs->size]   = (unsigned char)( value & 0x0000FF);
     bs->data[bs->size+1] = (unsigned char)((value & 0x00FF00) /   0x100);
     bs->data[bs->size+2] = (unsigned char)((value & 0xFF0000) / 0x10000);
-    bs->size += 4;
+    bs->size += 3;
   }
   void setInt32(int value)
   {
