@@ -24,7 +24,7 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void ChatMessage::serialise(ByteStream* bs)
+bool ChatMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -32,6 +32,7 @@ void ChatMessage::serialise(ByteStream* bs)
   serial.setString(speakername);
   serial.setInt8(volume);
   serial.setString(message);
+  return serial.isValid();
 }
 
 void ChatMessage::deserialise(ByteStream* bs)
@@ -44,13 +45,14 @@ void ChatMessage::deserialise(ByteStream* bs)
   serial.getString(message);
 }
 
-void WhisperToMessage::serialise(ByteStream* bs)
+bool WhisperToMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(listenername);
   serial.setString(message);
+  return serial.isValid();
 }
 
 void WhisperToMessage::deserialise(ByteStream* bs)
@@ -62,7 +64,7 @@ void WhisperToMessage::deserialise(ByteStream* bs)
   serial.getString(message);
 }
 
-void GroupMessage::serialise(ByteStream* bs)
+bool GroupMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -70,6 +72,7 @@ void GroupMessage::serialise(ByteStream* bs)
   serial.setString(speakername);
   serial.setString(channel);
   serial.setString(message);
+  return serial.isValid();
 }
 
 void GroupMessage::deserialise(ByteStream* bs)

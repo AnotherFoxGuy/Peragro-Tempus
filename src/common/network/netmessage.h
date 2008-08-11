@@ -43,7 +43,7 @@ public:
   NetMessage(char type, char id) : type(type), id(id) {};
   virtual ~NetMessage() {}
 
-  virtual void serialise(ByteStream* bs) = 0;
+  virtual bool serialise(ByteStream* bs) = 0;
 
   unsigned char getMsgType()
   {
@@ -83,11 +83,12 @@ public:
 
   ~GenericMessage() {}
 
-  void serialise(ByteStream* bs)
+  bool serialise(ByteStream* bs)
   {
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
+    return serial.isValid();
   }
 
   void deserialise(ByteStream* bs)

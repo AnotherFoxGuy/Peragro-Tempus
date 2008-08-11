@@ -24,13 +24,14 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void BookReadRequestMessage::serialise(ByteStream* bs)
+bool BookReadRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(itemid);
   serial.setInt32(bookid);
+  return serial.isValid();
 }
 
 void BookReadRequestMessage::deserialise(ByteStream* bs)
@@ -42,13 +43,14 @@ void BookReadRequestMessage::deserialise(ByteStream* bs)
   bookid = (unsigned int) serial.getInt32();
 }
 
-void BookReadResponseMessage::serialise(ByteStream* bs)
+bool BookReadResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(bookname);
   serial.setString(text);
+  return serial.isValid();
 }
 
 void BookReadResponseMessage::deserialise(ByteStream* bs)
@@ -60,7 +62,7 @@ void BookReadResponseMessage::deserialise(ByteStream* bs)
   serial.getString(text);
 }
 
-void BookWriteRequestMessage::serialise(ByteStream* bs)
+bool BookWriteRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -69,6 +71,7 @@ void BookWriteRequestMessage::serialise(ByteStream* bs)
   serial.setInt32(bookid);
   serial.setString(bookname);
   serial.setString(text);
+  return serial.isValid();
 }
 
 void BookWriteRequestMessage::deserialise(ByteStream* bs)
@@ -82,13 +85,14 @@ void BookWriteRequestMessage::deserialise(ByteStream* bs)
   serial.getString(text);
 }
 
-void BookWriteResponseMessage::serialise(ByteStream* bs)
+bool BookWriteResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(bookid);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void BookWriteResponseMessage::deserialise(ByteStream* bs)

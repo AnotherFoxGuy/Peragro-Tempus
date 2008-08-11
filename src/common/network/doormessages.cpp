@@ -24,12 +24,13 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void OpenDoorRequestMessage::serialise(ByteStream* bs)
+bool OpenDoorRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(doorid);
+  return serial.isValid();
 }
 
 void OpenDoorRequestMessage::deserialise(ByteStream* bs)
@@ -40,13 +41,14 @@ void OpenDoorRequestMessage::deserialise(ByteStream* bs)
   doorid = (unsigned int) serial.getInt32();
 }
 
-void OpenDoorResponseMessage::serialise(ByteStream* bs)
+bool OpenDoorResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(doorid);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void OpenDoorResponseMessage::deserialise(ByteStream* bs)
@@ -58,12 +60,13 @@ void OpenDoorResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void CloseDoorRequestMessage::serialise(ByteStream* bs)
+bool CloseDoorRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(doorid);
+  return serial.isValid();
 }
 
 void CloseDoorRequestMessage::deserialise(ByteStream* bs)
@@ -74,13 +77,14 @@ void CloseDoorRequestMessage::deserialise(ByteStream* bs)
   doorid = (unsigned int) serial.getInt32();
 }
 
-void CloseDoorResponseMessage::serialise(ByteStream* bs)
+bool CloseDoorResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(doorid);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void CloseDoorResponseMessage::deserialise(ByteStream* bs)
@@ -92,12 +96,13 @@ void CloseDoorResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void LockDoorRequestMessage::serialise(ByteStream* bs)
+bool LockDoorRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(doorid);
+  return serial.isValid();
 }
 
 void LockDoorRequestMessage::deserialise(ByteStream* bs)
@@ -108,13 +113,14 @@ void LockDoorRequestMessage::deserialise(ByteStream* bs)
   doorid = (unsigned int) serial.getInt32();
 }
 
-void LockDoorResponseMessage::serialise(ByteStream* bs)
+bool LockDoorResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(doorid);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void LockDoorResponseMessage::deserialise(ByteStream* bs)
@@ -126,12 +132,13 @@ void LockDoorResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void UnlockDoorRequestMessage::serialise(ByteStream* bs)
+bool UnlockDoorRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(doorid);
+  return serial.isValid();
 }
 
 void UnlockDoorRequestMessage::deserialise(ByteStream* bs)
@@ -142,13 +149,14 @@ void UnlockDoorRequestMessage::deserialise(ByteStream* bs)
   doorid = (unsigned int) serial.getInt32();
 }
 
-void UnlockDoorResponseMessage::serialise(ByteStream* bs)
+bool UnlockDoorResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(doorid);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void UnlockDoorResponseMessage::deserialise(ByteStream* bs)

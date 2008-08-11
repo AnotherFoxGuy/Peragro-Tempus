@@ -24,7 +24,7 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void AddNpcEntityMessage::serialise(ByteStream* bs)
+bool AddNpcEntityMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -48,6 +48,7 @@ void AddNpcEntityMessage::serialise(ByteStream* bs)
     serial.setString(equipment[i].mesh);
   };
 
+  return serial.isValid();
 }
 
 void AddNpcEntityMessage::deserialise(ByteStream* bs)
@@ -77,7 +78,7 @@ void AddNpcEntityMessage::deserialise(ByteStream* bs)
 
 }
 
-void AddItemEntityMessage::serialise(ByteStream* bs)
+bool AddItemEntityMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -93,6 +94,7 @@ void AddItemEntityMessage::serialise(ByteStream* bs)
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
+  return serial.isValid();
 }
 
 void AddItemEntityMessage::deserialise(ByteStream* bs)
@@ -113,7 +115,7 @@ void AddItemEntityMessage::deserialise(ByteStream* bs)
   entityid = (unsigned int) serial.getInt32();
 }
 
-void AddDoorEntityMessage::serialise(ByteStream* bs)
+bool AddDoorEntityMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -126,6 +128,7 @@ void AddDoorEntityMessage::serialise(ByteStream* bs)
   serial.setString(mesh);
   serial.setInt16(sectorid);
   serial.setString(animation);
+  return serial.isValid();
 }
 
 void AddDoorEntityMessage::deserialise(ByteStream* bs)
@@ -143,7 +146,7 @@ void AddDoorEntityMessage::deserialise(ByteStream* bs)
   animation = serial.getString();
 }
 
-void AddPlayerEntityMessage::serialise(ByteStream* bs)
+bool AddPlayerEntityMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -176,6 +179,7 @@ void AddPlayerEntityMessage::serialise(ByteStream* bs)
     serial.setString(equipment[i].mesh);
   };
 
+  return serial.isValid();
 }
 
 void AddPlayerEntityMessage::deserialise(ByteStream* bs)
@@ -214,7 +218,7 @@ void AddPlayerEntityMessage::deserialise(ByteStream* bs)
 
 }
 
-void AddMountEntityMessage::serialise(ByteStream* bs)
+bool AddMountEntityMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -229,6 +233,7 @@ void AddMountEntityMessage::serialise(ByteStream* bs)
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
   serial.setInt32(inventoryid);
+  return serial.isValid();
 }
 
 void AddMountEntityMessage::deserialise(ByteStream* bs)
@@ -248,12 +253,13 @@ void AddMountEntityMessage::deserialise(ByteStream* bs)
   inventoryid = (unsigned int) serial.getInt32();
 }
 
-void RemoveEntityMessage::serialise(ByteStream* bs)
+bool RemoveEntityMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
+  return serial.isValid();
 }
 
 void RemoveEntityMessage::deserialise(ByteStream* bs)
@@ -264,7 +270,7 @@ void RemoveEntityMessage::deserialise(ByteStream* bs)
   entityid = (unsigned int) serial.getInt32();
 }
 
-void MoveMessage::serialise(ByteStream* bs)
+bool MoveMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -274,6 +280,7 @@ void MoveMessage::serialise(ByteStream* bs)
   serial.setInt32(entityid);
   serial.setInt8(run?1:0);
   serial.setInt8(jump?1:0);
+  return serial.isValid();
 }
 
 void MoveMessage::deserialise(ByteStream* bs)
@@ -288,7 +295,7 @@ void MoveMessage::deserialise(ByteStream* bs)
   jump = serial.getInt8() != 0;
 }
 
-void MoveRequestMessage::serialise(ByteStream* bs)
+bool MoveRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -297,6 +304,7 @@ void MoveRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(walk);
   serial.setInt8(run?1:0);
   serial.setInt8(jump?1:0);
+  return serial.isValid();
 }
 
 void MoveRequestMessage::deserialise(ByteStream* bs)
@@ -310,7 +318,7 @@ void MoveRequestMessage::deserialise(ByteStream* bs)
   jump = serial.getInt8() != 0;
 }
 
-void MoveToMessage::serialise(ByteStream* bs)
+bool MoveToMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -326,6 +334,7 @@ void MoveToMessage::serialise(ByteStream* bs)
   serial.setInt8(run?1:0);
   serial.setInt8(turn);
   serial.setInt8(jump?1:0);
+  return serial.isValid();
 }
 
 void MoveToMessage::deserialise(ByteStream* bs)
@@ -346,7 +355,7 @@ void MoveToMessage::deserialise(ByteStream* bs)
   jump = serial.getInt8() != 0;
 }
 
-void MoveToRequestMessage::serialise(ByteStream* bs)
+bool MoveToRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -358,6 +367,7 @@ void MoveToRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(backwards?1:0);
   serial.setInt8(turn);
   serial.setInt8(jump?1:0);
+  return serial.isValid();
 }
 
 void MoveToRequestMessage::deserialise(ByteStream* bs)
@@ -374,13 +384,14 @@ void MoveToRequestMessage::deserialise(ByteStream* bs)
   jump = serial.getInt8() != 0;
 }
 
-void PickRequestMessage::serialise(ByteStream* bs)
+bool PickRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(itementityid);
   serial.setInt8(slot);
+  return serial.isValid();
 }
 
 void PickRequestMessage::deserialise(ByteStream* bs)
@@ -392,7 +403,7 @@ void PickRequestMessage::deserialise(ByteStream* bs)
   slot = (unsigned char) serial.getInt8();
 }
 
-void PickResponseMessage::serialise(ByteStream* bs)
+bool PickResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -406,6 +417,7 @@ void PickResponseMessage::serialise(ByteStream* bs)
   serial.setFloat(weight);
   serial.setString(equiptype);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void PickResponseMessage::deserialise(ByteStream* bs)
@@ -424,13 +436,14 @@ void PickResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void DropRequestMessage::serialise(ByteStream* bs)
+bool DropRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt8(slot);
   serial.setInt32(inventoryid);
+  return serial.isValid();
 }
 
 void DropRequestMessage::deserialise(ByteStream* bs)
@@ -442,13 +455,14 @@ void DropRequestMessage::deserialise(ByteStream* bs)
   inventoryid = (unsigned int) serial.getInt32();
 }
 
-void DropResponseMessage::serialise(ByteStream* bs)
+bool DropResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt8(slotid);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void DropResponseMessage::deserialise(ByteStream* bs)
@@ -460,7 +474,7 @@ void DropResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void EquipMessage::serialise(ByteStream* bs)
+bool EquipMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -471,6 +485,7 @@ void EquipMessage::serialise(ByteStream* bs)
   serial.setInt8(slotid);
   serial.setString(file);
   serial.setString(mesh);
+  return serial.isValid();
 }
 
 void EquipMessage::deserialise(ByteStream* bs)
@@ -486,11 +501,12 @@ void EquipMessage::deserialise(ByteStream* bs)
   mesh = serial.getString();
 }
 
-void RelocateMessage::serialise(ByteStream* bs)
+bool RelocateMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  return serial.isValid();
 }
 
 void RelocateMessage::deserialise(ByteStream* bs)
@@ -500,7 +516,7 @@ void RelocateMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
-void TeleportRequestMessage::serialise(ByteStream* bs)
+bool TeleportRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -511,6 +527,7 @@ void TeleportRequestMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[2]);
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
+  return serial.isValid();
 }
 
 void TeleportRequestMessage::deserialise(ByteStream* bs)
@@ -526,7 +543,7 @@ void TeleportRequestMessage::deserialise(ByteStream* bs)
   sectorid = (unsigned short) serial.getInt16();
 }
 
-void TeleportResponseMessage::serialise(ByteStream* bs)
+bool TeleportResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -537,6 +554,7 @@ void TeleportResponseMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[2]);
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
+  return serial.isValid();
 }
 
 void TeleportResponseMessage::deserialise(ByteStream* bs)
@@ -552,7 +570,7 @@ void TeleportResponseMessage::deserialise(ByteStream* bs)
   sectorid = (unsigned short) serial.getInt16();
 }
 
-void DrUpdateRequestMessage::serialise(ByteStream* bs)
+bool DrUpdateRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -562,6 +580,7 @@ void DrUpdateRequestMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[2]);
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
+  return serial.isValid();
 }
 
 void DrUpdateRequestMessage::deserialise(ByteStream* bs)
@@ -576,7 +595,7 @@ void DrUpdateRequestMessage::deserialise(ByteStream* bs)
   sectorid = (unsigned short) serial.getInt16();
 }
 
-void DrUpdateMessage::serialise(ByteStream* bs)
+bool DrUpdateMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -587,6 +606,7 @@ void DrUpdateMessage::serialise(ByteStream* bs)
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
+  return serial.isValid();
 }
 
 void DrUpdateMessage::deserialise(ByteStream* bs)
@@ -602,12 +622,13 @@ void DrUpdateMessage::deserialise(ByteStream* bs)
   entityid = (unsigned int) serial.getInt32();
 }
 
-void MountRequestMessage::serialise(ByteStream* bs)
+bool MountRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(mountentityid);
+  return serial.isValid();
 }
 
 void MountRequestMessage::deserialise(ByteStream* bs)
@@ -618,7 +639,7 @@ void MountRequestMessage::deserialise(ByteStream* bs)
   mountentityid = (unsigned int) serial.getInt32();
 }
 
-void MountMessage::serialise(ByteStream* bs)
+bool MountMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -626,6 +647,7 @@ void MountMessage::serialise(ByteStream* bs)
   serial.setInt32(playerentityid);
   serial.setInt32(mountentityid);
   serial.setInt8(cancontrol?1:0);
+  return serial.isValid();
 }
 
 void MountMessage::deserialise(ByteStream* bs)
@@ -638,12 +660,13 @@ void MountMessage::deserialise(ByteStream* bs)
   cancontrol = serial.getInt8() != 0;
 }
 
-void UnmountRequestMessage::serialise(ByteStream* bs)
+bool UnmountRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(mountentityid);
+  return serial.isValid();
 }
 
 void UnmountRequestMessage::deserialise(ByteStream* bs)
@@ -654,13 +677,14 @@ void UnmountRequestMessage::deserialise(ByteStream* bs)
   mountentityid = (unsigned int) serial.getInt32();
 }
 
-void UnmountMessage::serialise(ByteStream* bs)
+bool UnmountMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(playerentityid);
   serial.setInt32(mountentityid);
+  return serial.isValid();
 }
 
 void UnmountMessage::deserialise(ByteStream* bs)
@@ -672,12 +696,13 @@ void UnmountMessage::deserialise(ByteStream* bs)
   mountentityid = (unsigned int) serial.getInt32();
 }
 
-void PoseRequestMessage::serialise(ByteStream* bs)
+bool PoseRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt8(poseid);
+  return serial.isValid();
 }
 
 void PoseRequestMessage::deserialise(ByteStream* bs)
@@ -688,13 +713,14 @@ void PoseRequestMessage::deserialise(ByteStream* bs)
   poseid = (unsigned char) serial.getInt8();
 }
 
-void PoseMessage::serialise(ByteStream* bs)
+bool PoseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
   serial.setInt8(poseid);
+  return serial.isValid();
 }
 
 void PoseMessage::deserialise(ByteStream* bs)

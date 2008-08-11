@@ -53,7 +53,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDoorId() const { return doorid; }
@@ -75,7 +75,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDoorId() const { return doorid; }
@@ -99,7 +99,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDoorId() const { return doorid; }
@@ -121,7 +121,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDoorId() const { return doorid; }
@@ -145,7 +145,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDoorId() const { return doorid; }
@@ -167,7 +167,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDoorId() const { return doorid; }
@@ -191,7 +191,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDoorId() const { return doorid; }
@@ -213,7 +213,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDoorId() const { return doorid; }

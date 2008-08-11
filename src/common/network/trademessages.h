@@ -54,7 +54,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getEntityId() const { return entityid; }
@@ -75,7 +75,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   ptString getError() const { return error; }
@@ -111,7 +111,7 @@ public:
     delete [] offers;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned char getIsBuy() const { return isbuy; }
@@ -174,7 +174,7 @@ public:
     delete [] offers;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned char getOffersCount() const { return offerscount; }
@@ -234,7 +234,7 @@ public:
     delete [] orders;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned char getIsBuy() const { return isbuy; }
@@ -272,7 +272,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
 };
@@ -289,7 +289,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
 };
@@ -306,7 +306,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
 };
@@ -324,7 +324,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   ptString getError() const { return error; }

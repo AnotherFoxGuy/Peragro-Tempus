@@ -50,7 +50,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   ptString getSpeakerName() const { return speakername; }
@@ -78,7 +78,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   ptString getListenerName() const { return listenername; }
@@ -104,7 +104,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   ptString getSpeakerName() const { return speakername; }

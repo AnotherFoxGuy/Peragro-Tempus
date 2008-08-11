@@ -24,13 +24,14 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void LoginRequestMessage::serialise(ByteStream* bs)
+bool LoginRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(username);
   serial.setString(password);
+  return serial.isValid();
 }
 
 void LoginRequestMessage::deserialise(ByteStream* bs)
@@ -42,13 +43,14 @@ void LoginRequestMessage::deserialise(ByteStream* bs)
   serial.getString(password);
 }
 
-void LoginResponseMessage::serialise(ByteStream* bs)
+bool LoginResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(error);
   serial.setInt8(isadmin?1:0);
+  return serial.isValid();
 }
 
 void LoginResponseMessage::deserialise(ByteStream* bs)
@@ -60,13 +62,14 @@ void LoginResponseMessage::deserialise(ByteStream* bs)
   isadmin = serial.getInt8() != 0;
 }
 
-void RegisterRequestMessage::serialise(ByteStream* bs)
+bool RegisterRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(username);
   serial.setString(password);
+  return serial.isValid();
 }
 
 void RegisterRequestMessage::deserialise(ByteStream* bs)
@@ -78,12 +81,13 @@ void RegisterRequestMessage::deserialise(ByteStream* bs)
   serial.getString(password);
 }
 
-void RegisterResponseMessage::serialise(ByteStream* bs)
+bool RegisterResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void RegisterResponseMessage::deserialise(ByteStream* bs)
@@ -94,7 +98,7 @@ void RegisterResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void CharListMessage::serialise(ByteStream* bs)
+bool CharListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -115,6 +119,7 @@ void CharListMessage::serialise(ByteStream* bs)
     serial.setInt8(character[i].decalcolour[2]);
   };
 
+  return serial.isValid();
 }
 
 void CharListMessage::deserialise(ByteStream* bs)
@@ -141,7 +146,7 @@ void CharListMessage::deserialise(ByteStream* bs)
 
 }
 
-void CharCreateRequestMessage::serialise(ByteStream* bs)
+bool CharCreateRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -156,6 +161,7 @@ void CharCreateRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(decalcolour[0]);
   serial.setInt8(decalcolour[1]);
   serial.setInt8(decalcolour[2]);
+  return serial.isValid();
 }
 
 void CharCreateRequestMessage::deserialise(ByteStream* bs)
@@ -175,7 +181,7 @@ void CharCreateRequestMessage::deserialise(ByteStream* bs)
   decalcolour[2] = (unsigned char) serial.getInt8();
 }
 
-void CharCreateResponseMessage::serialise(ByteStream* bs)
+bool CharCreateResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -192,6 +198,7 @@ void CharCreateResponseMessage::serialise(ByteStream* bs)
   serial.setInt8(decalcolour[1]);
   serial.setInt8(decalcolour[2]);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void CharCreateResponseMessage::deserialise(ByteStream* bs)
@@ -213,12 +220,13 @@ void CharCreateResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void CharSelectRequestMessage::serialise(ByteStream* bs)
+bool CharSelectRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(charid);
+  return serial.isValid();
 }
 
 void CharSelectRequestMessage::deserialise(ByteStream* bs)
@@ -229,13 +237,14 @@ void CharSelectRequestMessage::deserialise(ByteStream* bs)
   charid = (unsigned int) serial.getInt32();
 }
 
-void CharSelectResponseMessage::serialise(ByteStream* bs)
+bool CharSelectResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void CharSelectResponseMessage::deserialise(ByteStream* bs)

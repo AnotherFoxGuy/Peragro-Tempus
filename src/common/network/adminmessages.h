@@ -56,7 +56,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   ptString getDataType() const { return datatype; }
@@ -79,7 +79,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned short getSectorId() const { return sectorid; }
@@ -113,7 +113,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getItemId() const { return itemid; }
@@ -189,7 +189,7 @@ public:
     delete [] inventory;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   ptString getName() const { return name; }
@@ -316,7 +316,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getItemId() const { return itemid; }
@@ -361,7 +361,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getItemId() const { return itemid; }
@@ -404,7 +404,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   ptString getName() const { return name; }
@@ -453,7 +453,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned short getDoorId() const { return doorid; }
@@ -504,7 +504,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getEntityId() const { return entityid; }
@@ -524,7 +524,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
 };
@@ -555,7 +555,7 @@ public:
     delete [] nodes;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned short getZoneId() const { return zoneid; }

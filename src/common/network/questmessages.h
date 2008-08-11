@@ -63,7 +63,7 @@ public:
     delete [] answers;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDialogId() const { return dialogid; }
@@ -106,7 +106,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getDialogId() const { return dialogid; }
@@ -130,7 +130,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getNpcId() const { return npcid; }
@@ -151,7 +151,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getNpcId() const { return npcid; }
@@ -202,7 +202,7 @@ public:
     delete [] answers;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   bool getDeleteExisting() const { return deleteexisting; }

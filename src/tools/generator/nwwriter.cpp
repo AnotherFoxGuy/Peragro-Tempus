@@ -722,7 +722,7 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
     }
 
     out << "  }\n\n"
-           "  void serialise(ByteStream* bs);\n"
+           "  bool serialise(ByteStream* bs);\n"
            "  void deserialise(ByteStream* bs);\n\n";
 
     for (size_t j = 0; j < msg->params.size(); j++)
@@ -753,7 +753,7 @@ void nwWriter::writeTypeImpl(std::ofstream& out, nwType* type)
   {
     nwMessage* msg = type->msgs[i];
 
-    out << "void " << msg->name.c_str ()<< "Message::serialise(ByteStream* bs)\n"
+    out << "bool " << msg->name.c_str ()<< "Message::serialise(ByteStream* bs)\n"
            "{\n"
            "  Serialiser serial(bs);\n"
            "  serial.setInt8(type);\n"
@@ -764,8 +764,9 @@ void nwWriter::writeTypeImpl(std::ofstream& out, nwType* type)
       nwParams* param = msg->params[j];
       writeParamSerialisation(out, param);
     }
-
-    out << "}\n\n"
+    out << "  return serial.isValid();\n"
+           "}\n"
+           "\n"
            "void " << msg->name.c_str ()<< "Message::deserialise(ByteStream* bs)\n"
            "{\n"
            "  Deserialiser serial(bs);\n"

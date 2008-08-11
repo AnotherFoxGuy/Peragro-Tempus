@@ -24,7 +24,7 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void InventoryListMessage::serialise(ByteStream* bs)
+bool InventoryListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -43,6 +43,7 @@ void InventoryListMessage::serialise(ByteStream* bs)
     serial.setString(inventory[i].equiptype);
   };
 
+  return serial.isValid();
 }
 
 void InventoryListMessage::deserialise(ByteStream* bs)
@@ -67,7 +68,7 @@ void InventoryListMessage::deserialise(ByteStream* bs)
 
 }
 
-void InventoryMoveItemRequestMessage::serialise(ByteStream* bs)
+bool InventoryMoveItemRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -76,6 +77,7 @@ void InventoryMoveItemRequestMessage::serialise(ByteStream* bs)
   serial.setInt32(oldinventoryid);
   serial.setInt8(newslot);
   serial.setInt32(newinventoryid);
+  return serial.isValid();
 }
 
 void InventoryMoveItemRequestMessage::deserialise(ByteStream* bs)
@@ -89,7 +91,7 @@ void InventoryMoveItemRequestMessage::deserialise(ByteStream* bs)
   newinventoryid = (unsigned int) serial.getInt32();
 }
 
-void InventoryMoveItemMessage::serialise(ByteStream* bs)
+bool InventoryMoveItemMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -99,6 +101,7 @@ void InventoryMoveItemMessage::serialise(ByteStream* bs)
   serial.setInt8(newslot);
   serial.setInt32(newinventoryid);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void InventoryMoveItemMessage::deserialise(ByteStream* bs)
@@ -113,7 +116,7 @@ void InventoryMoveItemMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void StatsListMessage::serialise(ByteStream* bs)
+bool StatsListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -126,6 +129,7 @@ void StatsListMessage::serialise(ByteStream* bs)
     serial.setInt16(stats[i].level);
   };
 
+  return serial.isValid();
 }
 
 void StatsListMessage::deserialise(ByteStream* bs)
@@ -144,7 +148,7 @@ void StatsListMessage::deserialise(ByteStream* bs)
 
 }
 
-void StatsChangeMessage::serialise(ByteStream* bs)
+bool StatsChangeMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -153,6 +157,7 @@ void StatsChangeMessage::serialise(ByteStream* bs)
   serial.setInt16(entityid);
   serial.setString(name);
   serial.setInt16(level);
+  return serial.isValid();
 }
 
 void StatsChangeMessage::deserialise(ByteStream* bs)
@@ -166,7 +171,7 @@ void StatsChangeMessage::deserialise(ByteStream* bs)
   level = (unsigned short) serial.getInt16();
 }
 
-void SkillsListMessage::serialise(ByteStream* bs)
+bool SkillsListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -178,6 +183,7 @@ void SkillsListMessage::serialise(ByteStream* bs)
     serial.setString(skills[i].name);
   };
 
+  return serial.isValid();
 }
 
 void SkillsListMessage::deserialise(ByteStream* bs)
@@ -195,7 +201,7 @@ void SkillsListMessage::deserialise(ByteStream* bs)
 
 }
 
-void MasteriesListMessage::serialise(ByteStream* bs)
+bool MasteriesListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -208,6 +214,7 @@ void MasteriesListMessage::serialise(ByteStream* bs)
     serial.setInt16(masteries[i].type);
   };
 
+  return serial.isValid();
 }
 
 void MasteriesListMessage::deserialise(ByteStream* bs)

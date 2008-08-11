@@ -24,7 +24,7 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void SkillUsageStartRequestMessage::serialise(ByteStream* bs)
+bool SkillUsageStartRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -32,6 +32,7 @@ void SkillUsageStartRequestMessage::serialise(ByteStream* bs)
   serial.setInt32(caster);
   serial.setInt32(target);
   serial.setInt16(skill);
+  return serial.isValid();
 }
 
 void SkillUsageStartRequestMessage::deserialise(ByteStream* bs)
@@ -44,7 +45,7 @@ void SkillUsageStartRequestMessage::deserialise(ByteStream* bs)
   skill = (unsigned short) serial.getInt16();
 }
 
-void SkillUsageStartResponseMessage::serialise(ByteStream* bs)
+bool SkillUsageStartResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -54,6 +55,7 @@ void SkillUsageStartResponseMessage::serialise(ByteStream* bs)
   serial.setInt16(skill);
   serial.setInt16(mpcost);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void SkillUsageStartResponseMessage::deserialise(ByteStream* bs)
@@ -68,12 +70,13 @@ void SkillUsageStartResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void SkillUsageStopRequestMessage::serialise(ByteStream* bs)
+bool SkillUsageStopRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt16(skill);
+  return serial.isValid();
 }
 
 void SkillUsageStopRequestMessage::deserialise(ByteStream* bs)
@@ -84,7 +87,7 @@ void SkillUsageStopRequestMessage::deserialise(ByteStream* bs)
   skill = (unsigned short) serial.getInt16();
 }
 
-void SkillUsageCompletionMessage::serialise(ByteStream* bs)
+bool SkillUsageCompletionMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -92,6 +95,7 @@ void SkillUsageCompletionMessage::serialise(ByteStream* bs)
   serial.setInt32(caster);
   serial.setInt32(target);
   serial.setInt16(skill);
+  return serial.isValid();
 }
 
 void SkillUsageCompletionMessage::deserialise(ByteStream* bs)
@@ -104,7 +108,7 @@ void SkillUsageCompletionMessage::deserialise(ByteStream* bs)
   skill = (unsigned short) serial.getInt16();
 }
 
-void SkillUsageInterruptMessage::serialise(ByteStream* bs)
+bool SkillUsageInterruptMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -112,6 +116,7 @@ void SkillUsageInterruptMessage::serialise(ByteStream* bs)
   serial.setInt32(caster);
   serial.setInt32(target);
   serial.setInt16(skill);
+  return serial.isValid();
 }
 
 void SkillUsageInterruptMessage::deserialise(ByteStream* bs)

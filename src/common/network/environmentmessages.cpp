@@ -24,7 +24,7 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void InitTimeMessage::serialise(ByteStream* bs)
+bool InitTimeMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -34,6 +34,7 @@ void InitTimeMessage::serialise(ByteStream* bs)
   serial.setInt8(minutesperhour);
   serial.setInt8(hoursperday);
   serial.setInt32(realpergame);
+  return serial.isValid();
 }
 
 void InitTimeMessage::deserialise(ByteStream* bs)
@@ -48,13 +49,14 @@ void InitTimeMessage::deserialise(ByteStream* bs)
   realpergame = (unsigned int) serial.getInt32();
 }
 
-void UpdateTimeMessage::serialise(ByteStream* bs)
+bool UpdateTimeMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt8(minute);
   serial.setInt8(hour);
+  return serial.isValid();
 }
 
 void UpdateTimeMessage::deserialise(ByteStream* bs)
@@ -66,12 +68,13 @@ void UpdateTimeMessage::deserialise(ByteStream* bs)
   hour = (unsigned char) serial.getInt8();
 }
 
-void WeatherMessage::serialise(ByteStream* bs)
+bool WeatherMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt8(weatherid);
+  return serial.isValid();
 }
 
 void WeatherMessage::deserialise(ByteStream* bs)

@@ -53,7 +53,7 @@
 
 	<message type="Player" name="MasteriesList">
 		<list name="Masteries">
-			<int16>Level</int16>
+			<uint8>Level</uint8>
 			<uint16>ID</uint16>
 			<uint16>Type</uint16>
 		</list>

@@ -27,8 +27,10 @@ class Serialiser
 private:
   ByteStream* bs;
 
+  bool valid;
+
 public:
-  Serialiser(ByteStream* bs) : bs(bs)
+  Serialiser(ByteStream* bs) : bs(bs), valid(true)
   {
     bs->size = 2;
   }
@@ -39,19 +41,39 @@ public:
     bs->data[1] = (unsigned char)((bs->size & 0xFF00) / 0x100);
   }
 
+  bool isValid()
+  {
+    return valid;
+  }
+
   void setInt8(char value)
   {
+    if (bs->size + 1 >= MAX_STREAM_SIZE || valid == false)
+    {
+      valid = false;
+      return;
+    }
     bs->data[bs->size] = value;
     bs->size++;
   }
   void setInt16(short value)
   {
+    if (bs->size + 2 >= MAX_STREAM_SIZE || valid == false)
+    {
+      valid = false;
+      return;
+    }
     bs->data[bs->size]   = (unsigned char)(value & 0x00FF);
     bs->data[bs->size+1] = (unsigned char)((value & 0xFF00) / 0x100);
     bs->size += 2;
   }
   void setInt24(int value)
   {
+    if (bs->size + 3 >= MAX_STREAM_SIZE || valid == false)
+    {
+      valid = false;
+      return;
+    }
     bs->data[bs->size]   = (unsigned char)( value & 0x0000FF);
     bs->data[bs->size+1] = (unsigned char)((value & 0x00FF00) /   0x100);
     bs->data[bs->size+2] = (unsigned char)((value & 0xFF0000) / 0x10000);
@@ -59,6 +81,11 @@ public:
   }
   void setInt32(int value)
   {
+    if (bs->size + 4 >= MAX_STREAM_SIZE || valid == false)
+    {
+      valid = false;
+      return;
+    }
     bs->data[bs->size]   = (unsigned char)( value & 0x000000FF);
     bs->data[bs->size+1] = (unsigned char)((value & 0x0000FF00) /     0x100);
     bs->data[bs->size+2] = (unsigned char)((value & 0x00FF0000) /   0x10000);
@@ -67,6 +94,11 @@ public:
   }
   void setFloat(float value)
   {
+    if (bs->size + 4 >= MAX_STREAM_SIZE || valid == false)
+    {
+      valid = false;
+      return;
+    }
     int temp = 0;
     memcpy(&temp, &value, sizeof(int));
     setInt32(temp);
@@ -76,34 +108,54 @@ public:
     const char* str = *value;
     if (str == 0)
     {
+      if (bs->size + 1 >= MAX_STREAM_SIZE || valid == false)
+      {
+        valid = false;
+        return;
+      }
       bs->data[bs->size] = 0;
       bs->size++;
     }
     else
     {
       size_t len = strlen(str);
-      assert(len <= 255);
+
+      if (bs->size + len >= MAX_STREAM_SIZE || len > 255 || valid == false)
+      {
+        valid = false;
+        return;
+      }
       bs->data[bs->size] = (unsigned char) len;
-      strncpy((char*)bs->data+bs->size+1, str, strlen(str));
-      *(bs->data+bs->size+strlen(str)+1) = 0;
-      bs->size += strlen(str)+2;
+      strncpy((char*)bs->data + bs->size + 1, str, len);
+      bs->data[bs->size + len + 1] = 0;
+      bs->size += len + 2;
     }
   }
   void setString(const char* str)
   {
     if (str == 0 || strlen(str) == 0)
     {
+      if (bs->size + 1 >= MAX_STREAM_SIZE || valid == false)
+      {
+        valid = false;
+        return;
+      }
       bs->data[bs->size] = 0;
       bs->size++;
     }
     else
     {
       size_t len = strlen(str);
-      assert(len <= 255);
+
+      if (bs->size + len >= MAX_STREAM_SIZE || len > 255 || valid == false)
+      {
+        valid = false;
+        return;
+      }
       bs->data[bs->size] = (unsigned char) len;
-      strncpy((char*)bs->data+bs->size+1, str, strlen(str));
-      *(bs->data+bs->size+strlen(str)+1) = 0;
-      bs->size += strlen(str)+2;
+      strncpy((char*)bs->data + bs->size + 1, str, len);
+      bs->data[bs->size + len + 1] = 0;
+      bs->size += len + 2;
     }
   }
 };

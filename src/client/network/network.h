@@ -20,6 +20,7 @@
 #define NETWORK_H
 
 #include "common/network/tcp/tcpsocket.h"
+//#include "common/reporter/reporter.h"
 #include "client/network/connectionhandler.h"
 #include "client/network/tcp/tcpreceiver.h"
 
@@ -75,8 +76,14 @@ public:
   {
     if (!receiver.isRunning()){return;}
     ByteStream bs;
-    msg->serialise(&bs);
-    TcpSocket::publish(socket.getSocket(), (const char*)bs.getData(), bs.getSize());
+    if (msg->serialise(&bs) == true)
+    {
+      TcpSocket::publish(socket.getSocket(), (const char*)bs.getData(), bs.getSize());
+    }
+    else
+    {
+      //PointerLibrary::getInstance()->getReporter()->Report(PT::Error, "Invalid message, won't send!");
+    }
   }
 };
 

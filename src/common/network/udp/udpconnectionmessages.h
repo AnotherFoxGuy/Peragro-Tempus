@@ -41,12 +41,13 @@ public:
   ConnectRequestMessage(unsigned int v) : 
     NetMessage(MESSAGES::CONNECTION,CONNECTION::REQUEST) { version = v; }
 
-  void serialise(ByteStream* bs)
+  bool serialise(ByteStream* bs)
   {
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setInt32(version);
+    return serial.isValid();
   }
 
   void deserialise(ByteStream* bs)
@@ -85,13 +86,14 @@ public:
     succeeded = c;
   }
 
-  void serialise(ByteStream* bs)
+  bool serialise(ByteStream* bs)
   {
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
     serial.setInt8(sessionId);
     serial.setInt8(succeeded?1:0);
+    return serial.isValid();
   }
 
   void deserialise(ByteStream* bs)
@@ -128,11 +130,12 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs)
+  bool serialise(ByteStream* bs)
   {
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
+    return serial.isValid();
   }
 
   void deserialise(ByteStream* bs)
@@ -151,11 +154,12 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs)
+  bool serialise(ByteStream* bs)
   {
     Serialiser serial(bs);
     serial.setInt8(type);
     serial.setInt8(id);
+    return serial.isValid();
   }
 
   void deserialise(ByteStream* bs)

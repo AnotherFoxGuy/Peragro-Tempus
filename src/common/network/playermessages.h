@@ -70,7 +70,7 @@ public:
     delete [] inventory;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned int getInventoryId() const { return inventoryid; }
@@ -130,7 +130,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned char getOldSlot() const { return oldslot; }
@@ -164,7 +164,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned char getOldSlot() const { return oldslot; }
@@ -209,7 +209,7 @@ public:
     delete [] stats;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned char getStatsCount() const { return statscount; }
@@ -251,7 +251,7 @@ public:
   {
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned short getStatId() const { return statid; }
@@ -292,7 +292,7 @@ public:
     delete [] skills;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned char getSkillsCount() const { return skillscount; }
@@ -340,7 +340,7 @@ public:
     delete [] masteries;
   }
 
-  void serialise(ByteStream* bs);
+  bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
   unsigned char getMasteriesCount() const { return masteriescount; }

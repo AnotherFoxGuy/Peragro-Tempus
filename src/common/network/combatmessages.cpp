@@ -24,13 +24,14 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void AttackRequestMessage::serialise(ByteStream* bs)
+bool AttackRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(targetid);
   serial.setInt32(attacktype);
+  return serial.isValid();
 }
 
 void AttackRequestMessage::deserialise(ByteStream* bs)
@@ -42,13 +43,14 @@ void AttackRequestMessage::deserialise(ByteStream* bs)
   attacktype = (unsigned int) serial.getInt32();
 }
 
-void AttackNotificationMessage::serialise(ByteStream* bs)
+bool AttackNotificationMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(playerid);
   serial.setInt32(health);
+  return serial.isValid();
 }
 
 void AttackNotificationMessage::deserialise(ByteStream* bs)
@@ -60,11 +62,12 @@ void AttackNotificationMessage::deserialise(ByteStream* bs)
   health = (unsigned int) serial.getInt32();
 }
 
-void UpdateArmorMessage::serialise(ByteStream* bs)
+bool UpdateArmorMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  return serial.isValid();
 }
 
 void UpdateArmorMessage::deserialise(ByteStream* bs)
@@ -74,11 +77,12 @@ void UpdateArmorMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
-void UpdateWeaponMessage::serialise(ByteStream* bs)
+bool UpdateWeaponMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  return serial.isValid();
 }
 
 void UpdateWeaponMessage::deserialise(ByteStream* bs)
@@ -88,13 +92,14 @@ void UpdateWeaponMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
-void AttackResultMessage::serialise(ByteStream* bs)
+bool AttackResultMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(playerid);
   serial.setInt32(health);
+  return serial.isValid();
 }
 
 void AttackResultMessage::deserialise(ByteStream* bs)

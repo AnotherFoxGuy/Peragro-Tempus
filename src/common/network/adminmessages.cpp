@@ -24,12 +24,13 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void RemoveAllMessage::serialise(ByteStream* bs)
+bool RemoveAllMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(datatype);
+  return serial.isValid();
 }
 
 void RemoveAllMessage::deserialise(ByteStream* bs)
@@ -40,7 +41,7 @@ void RemoveAllMessage::deserialise(ByteStream* bs)
   datatype = serial.getString();
 }
 
-void CreateSectorMessage::serialise(ByteStream* bs)
+bool CreateSectorMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -48,6 +49,7 @@ void CreateSectorMessage::serialise(ByteStream* bs)
   serial.setInt16(sectorid);
   serial.setString(name);
   serial.setString(region);
+  return serial.isValid();
 }
 
 void CreateSectorMessage::deserialise(ByteStream* bs)
@@ -60,7 +62,7 @@ void CreateSectorMessage::deserialise(ByteStream* bs)
   region = serial.getString();
 }
 
-void CreateItemMessage::serialise(ByteStream* bs)
+bool CreateItemMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -73,6 +75,7 @@ void CreateItemMessage::serialise(ByteStream* bs)
   serial.setString(mesh);
   serial.setFloat(weight);
   serial.setString(equiptype);
+  return serial.isValid();
 }
 
 void CreateItemMessage::deserialise(ByteStream* bs)
@@ -90,7 +93,7 @@ void CreateItemMessage::deserialise(ByteStream* bs)
   equiptype = serial.getString();
 }
 
-void CreateNpcMessage::serialise(ByteStream* bs)
+bool CreateNpcMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -128,6 +131,7 @@ void CreateNpcMessage::serialise(ByteStream* bs)
     serial.setInt32(inventory[i].variation);
   };
 
+  return serial.isValid();
 }
 
 void CreateNpcMessage::deserialise(ByteStream* bs)
@@ -172,7 +176,7 @@ void CreateNpcMessage::deserialise(ByteStream* bs)
 
 }
 
-void CreateSpawnPointMessage::serialise(ByteStream* bs)
+bool CreateSpawnPointMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -184,6 +188,7 @@ void CreateSpawnPointMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[2]);
   serial.setInt16(sectorid);
   serial.setInt32(interval);
+  return serial.isValid();
 }
 
 void CreateSpawnPointMessage::deserialise(ByteStream* bs)
@@ -200,7 +205,7 @@ void CreateSpawnPointMessage::deserialise(ByteStream* bs)
   interval = (unsigned int) serial.getInt32();
 }
 
-void SpawnItemMessage::serialise(ByteStream* bs)
+bool SpawnItemMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -211,6 +216,7 @@ void SpawnItemMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[1]);
   serial.setFloat(pos[2]);
   serial.setInt16(sectorid);
+  return serial.isValid();
 }
 
 void SpawnItemMessage::deserialise(ByteStream* bs)
@@ -226,7 +232,7 @@ void SpawnItemMessage::deserialise(ByteStream* bs)
   sectorid = (unsigned short) serial.getInt16();
 }
 
-void SpawnMountMessage::serialise(ByteStream* bs)
+bool SpawnMountMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -238,6 +244,7 @@ void SpawnMountMessage::serialise(ByteStream* bs)
   serial.setFloat(pos[2]);
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
+  return serial.isValid();
 }
 
 void SpawnMountMessage::deserialise(ByteStream* bs)
@@ -254,7 +261,7 @@ void SpawnMountMessage::deserialise(ByteStream* bs)
   sectorid = (unsigned short) serial.getInt16();
 }
 
-void SpawnDoorMessage::serialise(ByteStream* bs)
+bool SpawnDoorMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -269,6 +276,7 @@ void SpawnDoorMessage::serialise(ByteStream* bs)
   serial.setInt8(isopen?1:0);
   serial.setInt8(islocked?1:0);
   serial.setString(animation);
+  return serial.isValid();
 }
 
 void SpawnDoorMessage::deserialise(ByteStream* bs)
@@ -288,12 +296,13 @@ void SpawnDoorMessage::deserialise(ByteStream* bs)
   animation = serial.getString();
 }
 
-void RemoveSpawnedEntityMessage::serialise(ByteStream* bs)
+bool RemoveSpawnedEntityMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
+  return serial.isValid();
 }
 
 void RemoveSpawnedEntityMessage::deserialise(ByteStream* bs)
@@ -304,11 +313,12 @@ void RemoveSpawnedEntityMessage::deserialise(ByteStream* bs)
   entityid = (unsigned int) serial.getInt32();
 }
 
-void ToggleFlashStepMessage::serialise(ByteStream* bs)
+bool ToggleFlashStepMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  return serial.isValid();
 }
 
 void ToggleFlashStepMessage::deserialise(ByteStream* bs)
@@ -318,7 +328,7 @@ void ToggleFlashStepMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
-void CreateZoneMessage::serialise(ByteStream* bs)
+bool CreateZoneMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -332,6 +342,7 @@ void CreateZoneMessage::serialise(ByteStream* bs)
     serial.setFloat(nodes[i].z);
   };
 
+  return serial.isValid();
 }
 
 void CreateZoneMessage::deserialise(ByteStream* bs)

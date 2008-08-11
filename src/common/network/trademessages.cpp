@@ -24,12 +24,13 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void TradeRequestMessage::serialise(ByteStream* bs)
+bool TradeRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
+  return serial.isValid();
 }
 
 void TradeRequestMessage::deserialise(ByteStream* bs)
@@ -40,12 +41,13 @@ void TradeRequestMessage::deserialise(ByteStream* bs)
   entityid = (unsigned int) serial.getInt32();
 }
 
-void TradeResponseMessage::serialise(ByteStream* bs)
+bool TradeResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void TradeResponseMessage::deserialise(ByteStream* bs)
@@ -56,7 +58,7 @@ void TradeResponseMessage::deserialise(ByteStream* bs)
   error = serial.getString();
 }
 
-void TradeOffersListNpcMessage::serialise(ByteStream* bs)
+bool TradeOffersListNpcMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -72,6 +74,7 @@ void TradeOffersListNpcMessage::serialise(ByteStream* bs)
     serial.setString(offers[i].iconname);
   };
 
+  return serial.isValid();
 }
 
 void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
@@ -93,7 +96,7 @@ void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
 
 }
 
-void TradeOffersListPvpMessage::serialise(ByteStream* bs)
+bool TradeOffersListPvpMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -109,6 +112,7 @@ void TradeOffersListPvpMessage::serialise(ByteStream* bs)
     serial.setInt8(offers[i].slotid);
   };
 
+  return serial.isValid();
 }
 
 void TradeOffersListPvpMessage::deserialise(ByteStream* bs)
@@ -130,7 +134,7 @@ void TradeOffersListPvpMessage::deserialise(ByteStream* bs)
 
 }
 
-void TradeOrderListNpcMessage::serialise(ByteStream* bs)
+bool TradeOrderListNpcMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -143,6 +147,7 @@ void TradeOrderListNpcMessage::serialise(ByteStream* bs)
     serial.setInt32(orders[i].variation);
   };
 
+  return serial.isValid();
 }
 
 void TradeOrderListNpcMessage::deserialise(ByteStream* bs)
@@ -161,11 +166,12 @@ void TradeOrderListNpcMessage::deserialise(ByteStream* bs)
 
 }
 
-void TradeCancelMessage::serialise(ByteStream* bs)
+bool TradeCancelMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  return serial.isValid();
 }
 
 void TradeCancelMessage::deserialise(ByteStream* bs)
@@ -175,11 +181,12 @@ void TradeCancelMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
-void TradeOfferAcceptMessage::serialise(ByteStream* bs)
+bool TradeOfferAcceptMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  return serial.isValid();
 }
 
 void TradeOfferAcceptMessage::deserialise(ByteStream* bs)
@@ -189,11 +196,12 @@ void TradeOfferAcceptMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
-void TradeConfirmRequestMessage::serialise(ByteStream* bs)
+bool TradeConfirmRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
+  return serial.isValid();
 }
 
 void TradeConfirmRequestMessage::deserialise(ByteStream* bs)
@@ -203,12 +211,13 @@ void TradeConfirmRequestMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
 }
 
-void TradeConfirmResponseMessage::serialise(ByteStream* bs)
+bool TradeConfirmResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(error);
+  return serial.isValid();
 }
 
 void TradeConfirmResponseMessage::deserialise(ByteStream* bs)

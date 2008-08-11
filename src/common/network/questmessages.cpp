@@ -24,7 +24,7 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-void NpcDialogMessage::serialise(ByteStream* bs)
+bool NpcDialogMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -38,6 +38,7 @@ void NpcDialogMessage::serialise(ByteStream* bs)
     serial.setString(answers[i].answertext);
   };
 
+  return serial.isValid();
 }
 
 void NpcDialogMessage::deserialise(ByteStream* bs)
@@ -57,13 +58,14 @@ void NpcDialogMessage::deserialise(ByteStream* bs)
 
 }
 
-void NpcDialogAnswerMessage::serialise(ByteStream* bs)
+bool NpcDialogAnswerMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(dialogid);
   serial.setInt32(answerid);
+  return serial.isValid();
 }
 
 void NpcDialogAnswerMessage::deserialise(ByteStream* bs)
@@ -75,12 +77,13 @@ void NpcDialogAnswerMessage::deserialise(ByteStream* bs)
   answerid = (unsigned int) serial.getInt32();
 }
 
-void NpcStartDialogMessage::serialise(ByteStream* bs)
+bool NpcStartDialogMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(npcid);
+  return serial.isValid();
 }
 
 void NpcStartDialogMessage::deserialise(ByteStream* bs)
@@ -91,12 +94,13 @@ void NpcStartDialogMessage::deserialise(ByteStream* bs)
   npcid = (unsigned int) serial.getInt32();
 }
 
-void NpcEndDialogMessage::serialise(ByteStream* bs)
+bool NpcEndDialogMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(npcid);
+  return serial.isValid();
 }
 
 void NpcEndDialogMessage::deserialise(ByteStream* bs)
@@ -107,7 +111,7 @@ void NpcEndDialogMessage::deserialise(ByteStream* bs)
   npcid = (unsigned int) serial.getInt32();
 }
 
-void SetupDialogsMessage::serialise(ByteStream* bs)
+bool SetupDialogsMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -133,6 +137,7 @@ void SetupDialogsMessage::serialise(ByteStream* bs)
     serial.setInt8(answers[i].isendanswer?1:0);
   };
 
+  return serial.isValid();
 }
 
 void SetupDialogsMessage::deserialise(ByteStream* bs)
