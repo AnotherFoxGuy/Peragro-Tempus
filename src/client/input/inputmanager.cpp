@@ -36,7 +36,7 @@ namespace PT
   namespace Input
   {
     InputManager::InputManager()
-      : csBaseEventHandler(), changingControl(false)
+      : csBaseEventHandler()
     {
     } // end InputManager()
 
@@ -108,7 +108,7 @@ namespace PT
 
         if (!combo.SetFromConfigString(cfgItr->GetKey(true)))
         {
-          Report(PT::Error, "Invalid key combo '%s' with action '%s'.",
+          Report(PT::Error, "Invalid control combo '%s' with action '%s'.",
             cfgItr->GetKey(true), cfgItr->GetStr());
           continue;
         }
@@ -117,7 +117,7 @@ namespace PT
         if (controls.insert(std::make_pair(combo, cfgItr->GetStr()))
           .second == false)
         {
-          Report(PT::Error, "Duplicate key combo '%s' ignored (action '%s').",
+          Report(PT::Error, "Duplicate control combo '%s' ignored (action '%s').",
             cfgItr->GetKey(true), cfgItr->GetStr());
         }
       } // end while
@@ -137,7 +137,7 @@ namespace PT
       else
         down = (csMouseEventHelper::GetEventType(&ev) == csMouseEventTypeDown);
 
-      if (!changingControl)
+      if (!changeControl.get())
       {
         // Search the control map.
         ControlMap::const_iterator itr = controls.find(eventCombo);
@@ -161,60 +161,66 @@ namespace PT
       }
       else
       {
+        // Change the control mapping.
         using namespace PT::Events;
         EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
         if (down)
         {
+          // Control press, update.
           csRef<iEvent> updateEvent =
             evmgr->CreateEvent("input.options.controlupdate");
-          updateEvent->Add("action", changeControl->second.c_str());
+          updateEvent->Add("action", changeControl->action.c_str());
           updateEvent->Add("control", eventCombo.GetAsConfigString().c_str());
           evmgr->AddEvent(updateEvent);
         }
         else
         {
+          // Control release, set.
           csRef<iEvent> setEvent =
             evmgr->CreateEvent("input.options.controlset");
 
-          if (eventCombo != changeControl->first)
+          // Try insert pressed control and action being set.
+          std::pair<ControlMap::iterator, bool> boundControl(
+            controls.insert(std::make_pair(eventCombo, changeControl->action)));
+
+          // True if the control was not already in the map.
+          if (boundControl.second == true)
           {
-            // Try insert pressed control and action being set.
-            std::pair<ControlMap::iterator, bool> boundControl(
-              controls.insert(std::make_pair(eventCombo, changeControl->second)));
-
-            if (boundControl.second == true)
+            // Successful, remove any previous binding.
+            if (changeControl->itr != controls.end())
             {
-              // Successful, remove the previous binding.
-              controls.erase(changeControl);
-              Report(PT::Debug, "Control combo %s bound to %s.",
-                boundControl.first->first.GetAsConfigString().c_str(),
-                boundControl.first->second.c_str());
-
-              setEvent->Add("action", boundControl.first->second.c_str());
-              setEvent->Add("control",
-                boundControl.first->first.GetAsConfigString().c_str());
+              controls.erase(changeControl->itr);
+              Report(PT::Debug, "Removing %s %s.", changeControl->action.c_str(), changeControl->itr->first.GetAsConfigString().c_str());
             }
-            else
-            {
-              // Unsuccessful, set to previous binding.
-              Report(PT::Error, "Control combo %s is already bound to %s.",
-                boundControl.first->first.GetAsConfigString().c_str(),
-                boundControl.first->second.c_str());
 
-              setEvent->Add("action", changeControl->second.c_str());
-              setEvent->Add("control", changeControl->first.GetAsConfigString().c_str());
-            }
+            Report(PT::Debug, "Control combo %s bound to %s.",
+              boundControl.first->first.GetAsConfigString().c_str(),
+              boundControl.first->second.c_str());
+
+            setEvent->Add("action", boundControl.first->second.c_str());
+            setEvent->Add("control",
+              boundControl.first->first.GetAsConfigString().c_str());
           }
           else
           {
-            // Setting to the same control combo, don't do anything.
-            setEvent->Add("action", changeControl->second.c_str());
-            setEvent->Add("control", changeControl->first.GetAsConfigString().c_str());
+            // Unsuccessful, set to previous binding, report error only if it's
+            // different.
+            if (eventCombo != changeControl->itr->first)
+            {
+              Report(PT::Error, "Control combo %s is already bound to %s.",
+                boundControl.first->first.GetAsConfigString().c_str(),
+                boundControl.first->second.c_str());
+            }
+
+            setEvent->Add("action", changeControl->action.c_str());
+            setEvent->Add("control", changeControl->itr->first.
+              GetAsConfigString().c_str());
           }
 
           evmgr->AddEvent(setEvent);
-          changingControl = false;
+          // Reset the control change data.
+          changeControl.reset();
         }
       }
 
@@ -244,30 +250,41 @@ namespace PT
       using namespace PT::Events;
       const char* control = InputHelper::GetControl(&ev);
       const char* action = InputHelper::GetAction(&ev);
-      if (action == 0 || control == 0)
+      if (action == 0 || control == 0 || action == "")
       {
         return Report(PT::Debug, "Got invalid control change request.");
       }
 
-      const ControlCombo controlCombo(control);
+      Report(PT::Debug, "Control is %s", control);
 
-      changeControl = controls.find(controlCombo);
-      if (changeControl == controls.end())
+      if (control == "")
       {
-        Report(PT::Debug, "Can't find control to change. '%s, %s'",
-          action, control);
-      }
-      else if (changeControl->second == action)
-      {
-        changingControl = true;
-        Report(PT::Debug, "Listening for control change. '%s, %s'",
+        // Setup new control for this action.
+        changeControl.reset(new ControlChangeData(controls.end(), action));
+        Report(PT::Debug, "Listening for control setup. '%s, %s'",
           action, control);
       }
       else
       {
-        Report(PT::Debug, "Invalid control change request. '%s, %s' (%s)",
-          action, control, changeControl->second.c_str());
+        // Change existing control.
+        ControlMap::iterator itr(controls.find(ControlCombo(control)));
+        if (itr == controls.end())
+        {
+          Report(PT::Debug, "Error! %s %s", action, control);
+        }
+        else if (itr->second == action)
+        {
+          changeControl.reset(new ControlChangeData(itr, action));
+          Report(PT::Debug, "Listening for control change. '%s, %s'",
+            action, control);
+        }
+        else
+        {
+          Report(PT::Debug, "Invalid control change request. '%s, %s' (%s)",
+            action, control, itr->second.c_str());
+        }
       }
+
       return true;
     }
 

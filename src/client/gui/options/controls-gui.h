@@ -54,6 +54,8 @@ namespace PT
         bool OnControlsListSelection(const CEGUI::EventArgs& e);
         void CreateControlsList();
         void ReloadControlsList();
+
+        CEGUI::ListboxItem* CreateControlItem(const CEGUI::String& controlStr);
         bool SetControlAtRef(CEGUI::MCLGridRef& ref,
           const CEGUI::String& controlStr, bool overwrite);
         void AddControl(const CEGUI::String& actionStr,

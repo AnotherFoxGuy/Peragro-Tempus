@@ -59,7 +59,7 @@ namespace PT
           return true;
 
         CEGUI::ListboxItem* item = controlList->getFirstSelectedItem();
-        if (!item->isSelected()) return true;
+        if (!item || !item->isSelected()) return true;
 
         CEGUI::MCLGridRef ref(controlList->getItemGridReference(item));
         if (ref.column == ACTION_INDEX) return true;
@@ -122,6 +122,21 @@ namespace PT
         }
       } // end LoadControlsList()
 
+      CEGUI::ListboxItem* ControlOptionsWindow::CreateControlItem(
+        const CEGUI::String& controlStr)
+      {
+        CEGUI::ListboxItem* newItem = new CEGUI::ListboxTextItem(controlStr);
+        // This would be nice to setup in the xmls, but I don't know if it's
+        // possible.
+        newItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro",
+          (CEGUI::utf8*)"TextSelectionBrush");
+        CEGUI::colour left(1.0, 0.0, 0.0, 0.3);
+        CEGUI::colour right(0.7, 0.1, 0.1, 0.7);
+        newItem->setSelectionColours(left, right, left, right);
+
+        return newItem;
+      } // end CreateControlItem()
+
       bool ControlOptionsWindow::SetControlAtRef(CEGUI::MCLGridRef& ref,
         const CEGUI::String& controlStr, bool overwrite)
       {
@@ -132,7 +147,7 @@ namespace PT
         CEGUI::ListboxItem* control = controlList->getItemAtGridReference(ref);
         if (!control)
         {
-          controlList->setItem(new CEGUI::ListboxTextItem(controlStr), ref);
+          controlList->setItem(CreateControlItem(controlStr), ref);
           return true;
         }
         else if (overwrite || control->getText().empty())
@@ -172,10 +187,8 @@ namespace PT
           unsigned row = controlList->addRow();
           controlList->setItem(new CEGUI::ListboxTextItem(actionStr),
             ACTION_INDEX, row);
-          controlList->setItem(new CEGUI::ListboxTextItem(""),
-            CONTROL1_INDEX, row);
-          controlList->setItem(new CEGUI::ListboxTextItem(""),
-            CONTROL2_INDEX, row);
+          controlList->setItem(CreateControlItem(""), CONTROL1_INDEX, row);
+          controlList->setItem(CreateControlItem(""), CONTROL2_INDEX, row);
 
           return CEGUI::MCLGridRef(row, ACTION_INDEX);
         }
@@ -193,7 +206,7 @@ namespace PT
         {
           // Got an invalid event, reload the list just in case.
           ReloadControlsList();
-          Report(PT::Debug, "CO Invalid %d", changeColumn); // TODO remove
+          Report(PT::Debug, "Control update: invalid column: %d", changeColumn); // TODO remove
           return true;
         }
 
@@ -235,7 +248,7 @@ namespace PT
         if (!controlList) return false;
 
         CreateControlsList();
-        controlList->subscribeEvent(CEGUI::MultiColumnList::EventSelectionChanged,
+        controlList->subscribeEvent(CEGUI::Window::EventMouseButtonUp,
           CEGUI::Event::Subscriber(&ControlOptionsWindow::OnControlsListSelection, this));
 
 

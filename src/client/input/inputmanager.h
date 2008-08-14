@@ -33,6 +33,7 @@
 
 #include <string>
 #include <map>
+#include <boost/scoped_ptr.hpp>
 
 #include "controlcombo.h"
 
@@ -58,11 +59,24 @@ namespace PT
       /// Map of controls to actions.
       ControlMap controls;
 
+      struct ControlChangeData
+      {
+        ControlChangeData(const ControlMap::iterator& itr,
+          const std::string& action)
+          : itr(itr), action(action) {}
+
+        const ControlMap::iterator itr;
+        const std::string action;
+      };
+      boost::scoped_ptr<ControlChangeData> changeControl;
+        /*
       /// Whether a control is being changed, overriding normal input.
       bool changingControl;
       /// Iterator pointing to the control to be changed.
       ControlMap::iterator changeControl;
-
+      /// Action to be mapped, needed when binding a new control.
+      std::string changeAction;
+*/
       /// Handler for the clipboard copy event. Calls DoCopy(false).
       bool ClipboardCopy(iEvent& ev);
       /// Handler for the clipboard cut event. Calls DoCopy(true).
