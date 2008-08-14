@@ -25,60 +25,57 @@
 
 #include <csutil/eventnames.h>
 
-
 //=======================================================
 
 csEventID SoundEvent::GetEventId() const
 {
-  csRef<iEventNameRegistry> nameRegistry = csEventNameRegistry::GetRegistry(soundManager->object_reg);
+  csRef<iEventNameRegistry> nameRegistry =
+    csEventNameRegistry::GetRegistry(soundManager->object_reg);
   return nameRegistry->GetID(eventName.c_str());
 } // end GetEventId()
 
 bool SoundEvent::Play(iEvent& ev)
 {
-  ///The sound stream.
-  csRef<iSndSysStream> sndstream;
-  ///The sound source.
-  csRef<iSndSysSource> sndsource;
-  csRef<iSndSysSource3D> sndsource3d;
+  csRef<iVFS> vfs = csQueryRegistry<iVFS>(soundManager->object_reg);
 
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (soundManager->object_reg);
-
-  csRef<iDataBuffer> soundbuf = vfs->ReadFile (fileName.c_str());
-  if (!soundbuf)
+  csRef<iDataBuffer> soundbuf = vfs->ReadFile(fileName.c_str());
+  if (!soundbuf.IsValid())
   {
     printf("E: Can't load file '%s'!\n", fileName.c_str());
     return false;
   }
 
-  csRef<iSndSysData> snddata = soundManager->sndloader->LoadSound (soundbuf);
-  if (!snddata)
+  csRef<iSndSysData> snddata = soundManager->sndloader->LoadSound(soundbuf);
+  if (!snddata.IsValid())
   {
     printf("E: Can't load sound '%s'!\n", fileName.c_str());
     return false;
   }
 
-  sndstream = soundManager->sndrenderer->CreateStream (snddata, CS_SND3D_ABSOLUTE);
-  if (!sndstream)
+  csRef<iSndSysStream> sndstream =
+    soundManager->sndrenderer->CreateStream(snddata, CS_SND3D_ABSOLUTE);
+  if (!sndstream.IsValid())
   {
     printf("E: Can't create stream for '%s'!\n", fileName.c_str());
     return false;
   }
 
-  sndsource = soundManager->sndrenderer->CreateSource (sndstream);
-  if (!sndsource)
+  csRef<iSndSysSource> sndsource =
+    soundManager->sndrenderer->CreateSource(sndstream);
+  if (!sndsource.IsValid())
   {
     printf("E: Can't create source for '%s'!\n", fileName.c_str());
     return false;
   }
 
-  sndsource3d = scfQueryInterface<iSndSysSource3D> (sndsource);
+  csRef<iSndSysSource3D> sndsource3d =
+    scfQueryInterface<iSndSysSource3D>(sndsource);
 
-  sndsource3d->SetPosition (csVector3(0,0,0));
-  sndsource->SetVolume (1.0f);
+  sndsource3d->SetPosition(csVector3(0,0,0));
+  sndsource->SetVolume(1.0f);
 
-  sndstream->SetLoopState (CS_SNDSYS_STREAM_DONTLOOP);
-  sndstream->Unpause ();
+  sndstream->SetLoopState(CS_SNDSYS_STREAM_DONTLOOP);
+  sndstream->Unpause();
 
   sndstream->SetAutoUnregister(true);
 
@@ -89,7 +86,8 @@ bool SoundEvent::Play(iEvent& ev)
 
 csEventID SoundEventMaterial::GetEventId() const
 {
-  csRef<iEventNameRegistry> nameRegistry = csEventNameRegistry::GetRegistry(soundManager->object_reg);
+  csRef<iEventNameRegistry> nameRegistry =
+    csEventNameRegistry::GetRegistry(soundManager->object_reg);
   std::string name = eventName + ".";
   name += GetSourceMaterial() + ".";
   name += GetDestinationMaterial();
@@ -99,10 +97,10 @@ csEventID SoundEventMaterial::GetEventId() const
 //=======================================================
 
 CS_IMPLEMENT_PLUGIN
-SCF_IMPLEMENT_FACTORY (SoundManager)
+SCF_IMPLEMENT_FACTORY(SoundManager)
 
-SoundManager::SoundManager(iBase* parent) :
-scfImplementationType (this, parent), object_reg(0)
+SoundManager::SoundManager(iBase* parent)
+  : scfImplementationType(this, parent), object_reg(0)
 {
   soundDisabled = false;
 }
@@ -111,7 +109,7 @@ SoundManager::~SoundManager()
 {
 }
 
-bool SoundManager::HandleEvent (iEvent& ev)
+bool SoundManager::HandleEvent(iEvent& ev)
 {
   if (soundDisabled) return true;
 
@@ -125,19 +123,19 @@ bool SoundManager::HandleEvent (iEvent& ev)
   return true;
 } // end HandleEvent()
 
-bool SoundManager::Initialize (iObjectRegistry* r)
+bool SoundManager::Initialize(iObjectRegistry* r)
 {
   object_reg = r;
 
-  sndrenderer = csQueryRegistry<iSndSysRenderer> (object_reg);
-  if (!sndrenderer)
+  sndrenderer = csQueryRegistry<iSndSysRenderer>(object_reg);
+  if (!sndrenderer.IsValid())
   {
     soundDisabled = true;
     printf("W: Failed to locate sound renderer!\n");
   }
 
-  sndloader = csQueryRegistry<iSndSysLoader> (object_reg);
-  if (!sndloader)
+  sndloader = csQueryRegistry<iSndSysLoader>(object_reg);
+  if (!sndloader.IsValid())
   {
     soundDisabled = true;
     printf("W: Failed to locate sound loader!\n");
@@ -150,28 +148,28 @@ bool SoundManager::LoadSoundEvents(const std::string& fileName)
 {
   if (soundDisabled) return true;
 
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  if (!vfs) printf("E: Failed to locate VFS!\n");
+  csRef<iVFS> vfs = csQueryRegistry<iVFS>(object_reg);
+  if (!vfs.IsValid()) printf("E: Failed to locate VFS!\n");
 
-  csRef<iDataBuffer> xmlfile = vfs->ReadFile (fileName.c_str());
-  if (!xmlfile)
+  csRef<iDataBuffer> xmlfile = vfs->ReadFile(fileName.c_str());
+  if (!xmlfile.IsValid())
   {
     printf("E: Can't load file '%s'!\n", fileName.c_str());
     return false;
   }
 
-  csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (object_reg));
+  csRef<iDocumentSystem> docsys(csQueryRegistry<iDocumentSystem>(object_reg));
 
-  csRef<iDocument> doc (docsys->CreateDocument());
+  csRef<iDocument> doc(docsys->CreateDocument());
 
-  const char* error = doc->Parse (xmlfile, true);
+  const char* error = doc->Parse(xmlfile, true);
   if (error)
   {
     printf("E: '%s'!\n", error);
     return false;
   }
 
-  csRef<iDocumentNode> xml = doc->GetRoot ();
+  csRef<iDocumentNode> xml = doc->GetRoot();
   xml = xml->GetNode("sounds");
 
   if (!xml.IsValid()) return false;
@@ -183,21 +181,22 @@ bool SoundManager::LoadSoundEvents(iDocumentNode* node, const char* prefix)
 {
   if (soundDisabled) return true;
 
-  csRef<iDocumentNodeIterator> it (node->GetNodes ("sound"));
+  csRef<iDocumentNodeIterator> it(node->GetNodes("sound"));
 
   while (it->HasNext())
   {
-    csRef<iDocumentNode> node (it->Next());
+    csRef<iDocumentNode> node(it->Next());
     if (!LoadSoundEvent(node, prefix)) return false;
   }
 
   //Register events.
-  csRef<iEventQueue> eventQueue = csQueryRegistry<iEventQueue> (object_reg);
-  if (!eventQueue) return false;
+  csRef<iEventQueue> eventQueue = csQueryRegistry<iEventQueue>(object_reg);
+  if (!eventQueue.IsValid()) return false;
   eventQueue->RegisterListener(this);
   // Not be able to do "csEventID events[sounds.GetSize()+1];" sucks.
   csEventID* events = new csEventID[sounds.GetSize()+1];
-  csHash<csRef<SoundEvent>, csEventID>::GlobalIterator iter = sounds.GetIterator();
+  csHash<csRef<SoundEvent>, csEventID>::GlobalIterator iter =
+    sounds.GetIterator();
   size_t i = 0;
   while (iter.HasNext())
   {
@@ -205,7 +204,7 @@ bool SoundManager::LoadSoundEvents(iDocumentNode* node, const char* prefix)
     i++;
   }
   events[i] = CS_EVENTLIST_END;
-  eventQueue->RegisterListener (this, events);
+  eventQueue->RegisterListener(this, events);
 
   delete [] events;
 
@@ -222,7 +221,7 @@ bool SoundManager::LoadSoundEvent(iDocumentNode* node, const char* prefix)
     std::string src = node->GetNode("material")->GetAttributeValue("source");
     std::string dst = node->GetNode("material")->GetAttributeValue("destination");
     soundEvent.AttachNew(new SoundEventMaterial(this));
-    SoundEventMaterial* ev = static_cast<SoundEventMaterial*> (&*soundEvent);
+    SoundEventMaterial* ev = static_cast<SoundEventMaterial*>(&*soundEvent);
     ev->SetSourceMaterial(src);
     ev->SetDestinationMaterial(dst);
   }
@@ -230,7 +229,7 @@ bool SoundManager::LoadSoundEvent(iDocumentNode* node, const char* prefix)
   {
     std::string act = node->GetNode("action")->GetAttributeValue("value");
     soundEvent.AttachNew(new SoundEventAction(this));
-    SoundEventAction* ev = static_cast<SoundEventAction*> (&*soundEvent);
+    SoundEventAction* ev = static_cast<SoundEventAction*>(&*soundEvent);
     ev->SetActionName(act);
   }
   else
@@ -249,58 +248,57 @@ bool SoundManager::LoadSoundEvent(iDocumentNode* node, const char* prefix)
 
 bool SoundManager::PlayAmbient(const std::string& fileName)
 {
-  ///The sound source.
-  csRef<iSndSysSource> sndsource;
-  csRef<iSndSysSource3D> sndsource3d;
+  if (soundDisabled || !sndloader.IsValid() || !sndrenderer.IsValid())
+    return true;
 
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS>(object_reg);
 
-  csRef<iDataBuffer> soundbuf = vfs->ReadFile (fileName.c_str());
-  if (!soundbuf)
+  csRef<iDataBuffer> soundbuf = vfs->ReadFile(fileName.c_str());
+  if (!soundbuf.IsValid())
   {
     printf("E: Can't load file '%s'!\n", fileName.c_str());
     return false;
   }
 
-  csRef<iSndSysData> snddata = sndloader->LoadSound (soundbuf);
-  if (!snddata)
+  csRef<iSndSysData> snddata = sndloader->LoadSound(soundbuf);
+  if (!snddata.IsValid())
   {
     printf("E: Can't load sound '%s'!\n", fileName.c_str());
     return false;
   }
 
-  ambientSndStream = sndrenderer->CreateStream (snddata, CS_SND3D_DISABLE);
-  if (!ambientSndStream)
+  ambientSndStream = sndrenderer->CreateStream(snddata, CS_SND3D_DISABLE);
+  if (!ambientSndStream.IsValid())
   {
     printf("E: Can't create stream for '%s'!\n", fileName.c_str());
     return false;
   }
 
-  sndsource = sndrenderer->CreateSource (ambientSndStream);
-  if (!sndsource)
+  csRef<iSndSysSource> sndsource = sndrenderer->CreateSource(ambientSndStream);
+  if (!sndsource.IsValid())
   {
     printf("E: Can't create source for '%s'!\n", fileName.c_str());
     return false;
   }
 
-  sndsource->SetVolume (1.0f);
+  sndsource->SetVolume(1.0f);
 
-  ambientSndStream->SetLoopState (CS_SNDSYS_STREAM_LOOP);
-  ambientSndStream->Unpause ();
+  ambientSndStream->SetLoopState(CS_SNDSYS_STREAM_LOOP);
+  ambientSndStream->Unpause();
 
   return true;
 } // end PlayAmbient()
 
 bool SoundManager::PlayAmbient()
 {
-  if (ambientSndStream) ambientSndStream->Unpause ();
+  if (ambientSndStream.IsValid()) ambientSndStream->Unpause();
 
   return true;
 }// end PlayAmbient()
 
 bool SoundManager::StopAmbient()
 {
-  if (ambientSndStream) ambientSndStream->Pause();
+  if (ambientSndStream.IsValid()) ambientSndStream->Pause();
 
   return true;
 } // end StopAmbient()
@@ -317,7 +315,7 @@ bool SoundManager::RemoveSound(const std::string& fileName)
 
 float SoundManager::GetVolume()
 {
-  if (sndrenderer) 
+  if (sndrenderer.IsValid())
     return sndrenderer->GetVolume();
   else
     return 0.0f;
@@ -325,5 +323,5 @@ float SoundManager::GetVolume()
 
 void SoundManager::SetVolume(float vol)
 {
-  if (sndrenderer) sndrenderer->SetVolume(vol);
+  if (sndrenderer.IsValid()) sndrenderer->SetVolume(vol);
 } // end SetVolume()
