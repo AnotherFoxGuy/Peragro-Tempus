@@ -206,7 +206,6 @@ namespace PT
         {
           // Got an invalid event, reload the list just in case.
           ReloadControlsList();
-          Report(PT::Debug, "Control update: invalid column: %d", changeColumn); // TODO remove
           return true;
         }
 

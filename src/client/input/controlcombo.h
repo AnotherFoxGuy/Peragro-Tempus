@@ -37,7 +37,7 @@ namespace PT
      * SetFromConfigString() method, or from a keyboard / mouse event using
      * SetFromKeyEvent() and SetFromMouseEvent() methods.<br>
      * It can also generate a suitable string for writing into a configuration
-     * file by using GetAsConfigString().<br>
+     * file by using ConfigString().<br>
      * Base comparision operators are provided, mostly for providing interface
      * to std::map.
      */
@@ -97,7 +97,7 @@ namespace PT
        * Generates a string for the configuration file.
        * @return A control combo string.
        */
-      std::string GetAsConfigString() const;
+      std::string ConfigString() const;
 
       /**
        * Extracts a control combo from a configuration string.

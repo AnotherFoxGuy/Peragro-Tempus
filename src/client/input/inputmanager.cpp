@@ -144,11 +144,11 @@ namespace PT
         if (itr == controls.end())
         {
           return Report(PT::Debug, "No action for key '%s' (%s).",
-            eventCombo.GetAsConfigString().c_str(), down?"down":"up");
+            eventCombo.ConfigString().c_str(), down?"down":"up");
         }
 
         Report(PT::Debug, "Sending event '%s' combo '%s'.",
-          itr->second.c_str(), eventCombo.GetAsConfigString().c_str()); // TODO remove
+          itr->second.c_str(), eventCombo.ConfigString().c_str()); // TODO remove
 
         // Setup the event, and fire it.
         PT::Events::EventManager* evmgr =
@@ -171,7 +171,7 @@ namespace PT
           csRef<iEvent> updateEvent =
             evmgr->CreateEvent("input.options.controlupdate");
           updateEvent->Add("action", changeControl->action.c_str());
-          updateEvent->Add("control", eventCombo.GetAsConfigString().c_str());
+          updateEvent->Add("control", eventCombo.ConfigString().c_str());
           evmgr->AddEvent(updateEvent);
         }
         else
@@ -191,16 +191,18 @@ namespace PT
             if (changeControl->itr != controls.end())
             {
               controls.erase(changeControl->itr);
-              Report(PT::Debug, "Removing %s %s.", changeControl->action.c_str(), changeControl->itr->first.GetAsConfigString().c_str());
+              Report(PT::Debug, "Removing control combo '%s %s'.",
+                changeControl->action.c_str(),
+                changeControl->itr->first.ConfigString().c_str());
             }
 
             Report(PT::Debug, "Control combo %s bound to %s.",
-              boundControl.first->first.GetAsConfigString().c_str(),
+              boundControl.first->first.ConfigString().c_str(),
               boundControl.first->second.c_str());
 
             setEvent->Add("action", boundControl.first->second.c_str());
             setEvent->Add("control",
-              boundControl.first->first.GetAsConfigString().c_str());
+              boundControl.first->first.ConfigString().c_str());
           }
           else
           {
@@ -209,13 +211,13 @@ namespace PT
             if (eventCombo != changeControl->itr->first)
             {
               Report(PT::Error, "Control combo %s is already bound to %s.",
-                boundControl.first->first.GetAsConfigString().c_str(),
+                boundControl.first->first.ConfigString().c_str(),
                 boundControl.first->second.c_str());
             }
 
             setEvent->Add("action", changeControl->action.c_str());
             setEvent->Add("control", changeControl->itr->first.
-              GetAsConfigString().c_str());
+              ConfigString().c_str());
           }
 
           evmgr->AddEvent(setEvent);
