@@ -75,18 +75,18 @@ namespace PT
     const size_t ControlCombo::NOT_SPECIAL_KEY = SPECIAL_KEY_COUNT + 1;
 
     ControlCombo::ControlCombo()
-      : keyCode(0), shift(false), alt(false), ctrl(false)
+      : keyCode(~0u), shift(false), alt(false), ctrl(false)
     {
     } // end ControlCombo()
 
     ControlCombo::ControlCombo(const iEvent& ev, const bool keyboard)
-      : keyCode(0), shift(false), alt(false), ctrl(false)
+      : keyCode(~0u), shift(false), alt(false), ctrl(false)
     {
       SetFromEvent(ev, keyboard);
     } // end ControlCombo()
 
     ControlCombo::ControlCombo(const std::string& cfgStr)
-      : keyCode(0), shift(false), alt(false), ctrl(false)
+      : keyCode(~0u), shift(false), alt(false), ctrl(false)
     {
       SetFromConfigString(cfgStr);
     } // end ControlCombo()
@@ -97,6 +97,8 @@ namespace PT
 
     std::string ControlCombo::GetAsConfigString() const
     {
+      if (keyCode == ~0u) return "";
+
       std::string combo;
       // First write the modifiers.
       if (shift) combo += "Shift-";

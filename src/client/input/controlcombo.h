@@ -89,6 +89,11 @@ namespace PT
       ~ControlCombo();
 
       /**
+       * Check if this is a valid control combo.
+       */
+      bool IsValid() const { return keyCode != ~0u; }
+
+      /**
        * Generates a string for the configuration file.
        * @return A control combo string.
        */

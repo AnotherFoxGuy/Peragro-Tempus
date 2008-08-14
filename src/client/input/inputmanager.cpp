@@ -255,9 +255,9 @@ namespace PT
         return Report(PT::Debug, "Got invalid control change request.");
       }
 
-      Report(PT::Debug, "Control is %s", control);
+      const ControlCombo controlCombo(control);
 
-      if (control == "")
+      if (!controlCombo.IsValid())
       {
         // Setup new control for this action.
         changeControl.reset(new ControlChangeData(controls.end(), action));
@@ -267,21 +267,23 @@ namespace PT
       else
       {
         // Change existing control.
-        ControlMap::iterator itr(controls.find(ControlCombo(control)));
+        ControlMap::iterator itr(controls.find(controlCombo));
         if (itr == controls.end())
         {
-          Report(PT::Debug, "Error! %s %s", action, control);
+          Report(PT::Debug, "Control in request not found '%s:%s' "
+            "(request converts to %s)", action, control,
+            controlCombo.ConfigString().c_str());
         }
         else if (itr->second == action)
         {
           changeControl.reset(new ControlChangeData(itr, action));
-          Report(PT::Debug, "Listening for control change. '%s, %s'",
+          Report(PT::Debug, "Listening for control change. '%s:%s'",
             action, control);
         }
         else
         {
-          Report(PT::Debug, "Invalid control change request. '%s, %s' (%s)",
-            action, control, itr->second.c_str());
+          Report(PT::Debug, "Incorrect action for control change '%s:%s' "
+            "(action found: %s)", action, control, itr->second.c_str());
         }
       }
 
