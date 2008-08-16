@@ -41,7 +41,7 @@ namespace PT
       { CSKEY_BACKSPACE   , "Backspace"  },
       { CSKEY_UP          , "Up"         },
       { CSKEY_DOWN        , "Down"       },
-      { CSKEY_RIGHT       , "Right "     },
+      { CSKEY_RIGHT       , "Right"      },
       { CSKEY_LEFT        , "Left"       },
       { CSKEY_PGUP        , "PageUp"     },
       { CSKEY_PGDN        , "PageDown"   },
