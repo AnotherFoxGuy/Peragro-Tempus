@@ -138,6 +138,11 @@ namespace PT
         video->Create();
         windows.Push(video);
 
+        PT::GUI::Windows::CameraOptionsWindow* camera =
+          new PT::GUI::Windows::CameraOptionsWindow(this);
+        camera->Create();
+        windows.Push(camera);
+
         PT::GUI::Windows::MovementOptionsWindow* movement =
           new PT::GUI::Windows::MovementOptionsWindow(this);
         movement->Create();
@@ -151,6 +156,7 @@ namespace PT
         options->AddOption("Skins", skins->GetName());
         skinMgr->Populate();
         options->AddOption("Video", video->GetName());
+        options->AddOption("Camera", camera->GetName());
         options->AddOption("Movement", movement->GetName());
         options->AddOption("Controls", controls->GetName());
 

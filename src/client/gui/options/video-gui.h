@@ -21,7 +21,7 @@
 
 #include "client/gui/base-gui.h"
 
-#define VIDEOOPTIONSWINDOW "VideoOptionsWindow"
+#define VIDEOOPTIONSWINDOW "Options/Video"
 
 namespace PT
 {
@@ -36,26 +36,30 @@ namespace PT
 
         void SaveConfig();
 
-        void SendUpdateEvent();
-        bool ToggleDistClip(iEvent& e);
-
       private:
-        bool OnDropListReflections(const CEGUI::EventArgs& e);
-        void CreateDropListReflections();
-
-        bool OnDropListTexture(const CEGUI::EventArgs& e);
-        void CreateDropListTexture();
+        bool OnDropListResolution(const CEGUI::EventArgs& e);
+        void CreateDropListResolution();
 
         void CreateFullScreenCheckBox();
         bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
 
-        void CreateAdaptiveClippingCheckBox();
-        bool OnAdaptiveClippingCheckBox(const CEGUI::EventArgs& e);
+        bool OnDropListTextureQuality(const CEGUI::EventArgs& e);
+        void CreateDropListTextureQuality();
 
-        void CreateAdaptiveSpinners();
-        bool OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e);
-        bool OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e);
-        bool OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e);
+        bool OnDropListTextureFiltering(const CEGUI::EventArgs& e);
+        void CreateDropListTextureFiltering();
+
+        bool OnMultisampleSliderChanged(const CEGUI::EventArgs &e);
+        void CreateMultisampleSlider();
+
+        bool OnAnisotropySliderChanged(const CEGUI::EventArgs &e);
+        void CreateAnisotropySlider();
+
+        bool OnDropListReflections(const CEGUI::EventArgs& e);
+        void CreateDropListReflections();
+
+        bool OnReflectionSkipSliderChanged(const CEGUI::EventArgs &e);
+        void CreateReflectionSkipSlider();
 
       public:
         VideoOptionsWindow(GUIManager* guiManager);

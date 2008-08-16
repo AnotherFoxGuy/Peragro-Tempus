@@ -43,6 +43,7 @@
 
 #include "options/skin-gui.h"
 #include "options/video-gui.h"
+#include "options/camera-gui.h"
 #include "options/movement-gui.h"
 #include "options/controls-gui.h"
 

@@ -70,119 +70,140 @@ namespace PT
           return false;
         }
 
-        // Set up the button behaviour for Reflections.
-        CreateDropListReflections();
-        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
+        // Set up the resolution drop list.
+        CreateDropListResolution();
+        btn = winMgr->getWindow("Options/Video/Resolution/DropList");
         btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListReflections, this));
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListResolution, this));
 
-        // Set up the button behaviour for Texture quality.
-        CreateDropListTexture();
-        btn = winMgr->getWindow("Options/Video/TextureQuality/DropList");
-        btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListTexture, this));
-
-        // Set up the Fullscreen checkbox.
+        // Set up the full screen checkbox.
         CreateFullScreenCheckBox();
         btn = winMgr->getWindow("Options/Video/Fullscreen");
         btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
           CEGUI::Event::Subscriber(&VideoOptionsWindow::OnFullScreenCheckBox, this));
 
-        // Set up the Adaptive distance clipping checkbox and spinners.
-        CreateAdaptiveClippingCheckBox();
-        btn = winMgr->getWindow("Options/Video/Distance_Clipping");
-        btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnAdaptiveClippingCheckBox, this));
-        CreateAdaptiveSpinners();
-        btn = winMgr->getWindow("Options/Video/Minimum_FPS/Spinner");
-        btn->subscribeEvent(CEGUI::Spinner::EventValueChanged,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnMinFPSSpinnerChanged, this));
-        btn = winMgr->getWindow("Options/Video/Maximum_FPS/Spinner");
-        btn->subscribeEvent(CEGUI::Spinner::EventValueChanged,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnMaxFPSSpinnerChanged, this));
-        btn = winMgr->getWindow("Options/Video/Minimum_Distance/Spinner");
-        btn->subscribeEvent(CEGUI::Spinner::EventValueChanged,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnMinDistanceSpinnerChanged, this));
+        // Set up the texture quality drop list.
+        CreateDropListTextureQuality();
+        btn = winMgr->getWindow("Options/Video/TextureQuality/DropList");
+        btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListTextureQuality, this));
 
-        // Register listener for distance clipping shortcut.
-        using namespace PT::Events;
-        EventHandler<VideoOptionsWindow>* cbDistClip =
-          new EventHandler<VideoOptionsWindow>
-          (&VideoOptionsWindow::ToggleDistClip, this);
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("input.DistanceClipping", cbDistClip);
+        // Set up the texture filtering drop list.
+        CreateDropListTextureFiltering();
+        btn = winMgr->getWindow("Options/Video/TextureFilter/DropList");
+        btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListTextureFiltering, this));
+
+        // Set up the multisampling slider.
+        CreateMultisampleSlider();
+        btn = winMgr->getWindow("Options/Video/Multisample/Slider");
+        btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnMultisampleSliderChanged, this));
+
+        // Set up the anisotrophic filtering slider.
+        CreateAnisotropySlider();
+        btn = winMgr->getWindow("Options/Video/Anisotropy/Slider");
+        btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnAnisotropySliderChanged, this));
+
+        // Set up the reflection toggle drop list.
+        CreateDropListReflections();
+        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
+        btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListReflections, this));
+
+        // Set up the reflection frame skip slider.
+        CreateReflectionSkipSlider();
+        btn = winMgr->getWindow("Options/Video/ReflectionSkip/Slider");
+        btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnReflectionSkipSliderChanged, this));
 
         return true;
       } // end ReloadWindow()
 
-      void VideoOptionsWindow::SendUpdateEvent()
+      bool VideoOptionsWindow::OnDropListResolution(const CEGUI::EventArgs& e)
       {
-        PT::Events::EventManager* evmgr =
-          PointerLibrary::getInstance()->getEventManager();
-        evmgr->AddEvent(evmgr->CreateEvent("interface.options.view"));
-      } // end SendUpdateEvent()
+        using CEGUI::String;
+        btn = winMgr->getWindow("Options/Video/Resolution/DropList");
+        String resStr(((CEGUI::Combobox*)btn)->getSelectedItem()->getText());
 
-      bool VideoOptionsWindow::ToggleDistClip(iEvent& e)
-      {
-        CreateAdaptiveClippingCheckBox();
-        return false;
-      } // end ToggleDistClip()
+        int width = 0;
+        int height = 0;
+        std::stringstream ss(resStr.c_str());
+        ss >> width;
+        ss.ignore(512, 'x');
+        ss >> height;
 
-      bool VideoOptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e)
-      {
-        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
-        uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
-
-        bool ref = false;
-
-        switch(id)
+        if (width <= 0 || height <= 0)
         {
-        case 0: // Off
-          ref = false;
-          break;
-        case 1: // On
-          ref = true;
-          break;
-
-        default: Report(PT::Error, "OnDropListReflections: failed %d", id);
+          Report(PT::Error, "OnDropListResolution: failed '%dx%d'", width,
+            height);
+          return true;
         }
 
-        app_cfg->SetBool("Peragro.Video.WaterReflections", ref);
+        app_cfg->SetInt("Video.ScreenWidth", width);
+        app_cfg->SetInt("Video.ScreenHeight", height);
+
         SaveConfig();
         return true;
-      } // end OnDropListReflections()
+      } // end OnDropListResolution()
 
-      void VideoOptionsWindow::CreateDropListReflections()
+      void VideoOptionsWindow::CreateDropListResolution()
       {
+        using CEGUI::String;
+        btn = winMgr->getWindow("Options/Video/Resolution/DropList");
 
-        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
+        int width = app_cfg->GetInt("Video.ScreenWidth", 1024);
+        int height = app_cfg->GetInt("Video.ScreenHeight", 768);
 
-        bool ref = app_cfg->GetBool("Peragro.Video.WaterReflections", true);
+        std::stringstream ss;
+        ss << width;
+        ss << "x";
+        ss << height;
 
-        if (ref)
-          ((CEGUI::Combobox*)btn)->setText("On");
-        else
-          ((CEGUI::Combobox*)btn)->setText("Off");
+        ((CEGUI::Combobox*)btn)->setText(ss.str());
 
-
-        CEGUI::ListboxItem* charIdItem =
-          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Off", 0);
-        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
-
-        charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"On", 1);
-        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"800x600"));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"1024x768"));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"1152x864"));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"1440x960"));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"1280x1024"));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"1600x1200"));
 
         ((CEGUI::Combobox*)btn)->setReadOnly(true);
+      } // end CreateDropListResolution()
 
-      } // end CreateDropListReflections()
+      bool VideoOptionsWindow::OnFullScreenCheckBox(const CEGUI::EventArgs& e)
+      {
+        btn = winMgr->getWindow("Options/Video/Fullscreen");
+        bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
 
-      bool VideoOptionsWindow::OnDropListTexture(const CEGUI::EventArgs& e)
+        app_cfg->SetBool("Video.FullScreen", fs);
+        SaveConfig();
+        return true;
+      } // end OnFullScreenCheckBox()
+
+      void VideoOptionsWindow::CreateFullScreenCheckBox()
+      {
+        btn = winMgr->getWindow("Options/Video/Fullscreen");
+
+        bool fs = app_cfg->GetBool("Video.FullScreen", false);
+
+        ((CEGUI::Checkbox*)btn)->setSelected(fs);
+      } // end CreateFullScreenCheckBox()
+
+      bool VideoOptionsWindow::OnDropListTextureQuality(const CEGUI::EventArgs& e)
       {
         btn = winMgr->getWindow("Options/Video/TextureQuality/DropList");
         uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
 
         int quality = 0;
-
         switch(id)
         {
         case 0: // Normal
@@ -205,9 +226,9 @@ namespace PT
         app_cfg->SetInt("Video.OpenGL.TextureDownsample", quality);
         SaveConfig();
         return true;
-      } // end OnDropListTexture()
+      } // end OnDropListTextureQuality()
 
-      void VideoOptionsWindow::CreateDropListTexture()
+      void VideoOptionsWindow::CreateDropListTextureQuality()
       {
 
         btn = winMgr->getWindow("Options/Video/TextureQuality/DropList");
@@ -232,109 +253,174 @@ namespace PT
           ((CEGUI::Combobox*)btn)->setText("Custom");
         }
 
-        CEGUI::ListboxItem* charIdItem =
-          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Normal", 0);
-        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
-
-        charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Low", 1);
-        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
-
-        charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Very Low", 2);
-        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
-
-        charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Lowest", 3);
-        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Normal", 0));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Low", 1));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Very Low", 2));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Lowest", 3));
 
         ((CEGUI::Combobox*)btn)->setReadOnly(true);
 
-      } // end CreateDropListTexture()
+      } // end CreateDropListTextureQuality()
 
-      bool VideoOptionsWindow::OnFullScreenCheckBox(const CEGUI::EventArgs& e)
+      bool VideoOptionsWindow::OnDropListTextureFiltering(const CEGUI::EventArgs& e)
       {
-        btn = winMgr->getWindow("Options/Video/Fullscreen");
-        bool fs = ((CEGUI::Checkbox*)btn)->isSelected();
+        using CEGUI::String;
+        btn = winMgr->getWindow("Options/Video/TextureFilter/DropList");
 
-        app_cfg->SetBool("Video.FullScreen", fs);
+        String filter(((CEGUI::Combobox*)btn)->getSelectedItem()->getText());
+        if (filter.empty()) return true;
+
+        app_cfg->SetStr("Video.OpenGL.TextureFilter", filter.c_str());
         SaveConfig();
         return true;
-      } // end OnFullScreenCheckBox()
+      } // end OnDropListTextureFilter()
 
-      void VideoOptionsWindow::CreateFullScreenCheckBox()
+      void VideoOptionsWindow::CreateDropListTextureFiltering()
       {
-        btn = winMgr->getWindow("Options/Video/Fullscreen");
+        using CEGUI::String;
+        btn = winMgr->getWindow("Options/Video/TextureFilter/DropList");
 
-        bool fs = app_cfg->GetBool("Video.FullScreen", false);
+        const char* filter = app_cfg->GetStr("Video.OpenGL.TextureFilter", "trilinear");
+        ((CEGUI::Combobox*)btn)->setText(filter);
 
-        ((CEGUI::Checkbox*)btn)->setSelected(fs);
-      } // end CreateFullScreenCheckBox()
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"none"));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"nearest"));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"bilinear"));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"trilinear"));
 
-      bool VideoOptionsWindow::OnAdaptiveClippingCheckBox(const CEGUI::EventArgs& e)
+        ((CEGUI::Combobox*)btn)->setReadOnly(true);
+
+      } // end CreateDropListTextureFilter()
+
+      bool VideoOptionsWindow::OnMultisampleSliderChanged(const CEGUI::EventArgs &e)
       {
-        btn = winMgr->getWindow("Options/Video/Distance_Clipping");
-        bool dc = ((CEGUI::Checkbox*)btn)->isSelected();
+        btn = winMgr->getWindow("Options/Video/Multisample/Slider");
+        float AA = pow(2.0f, ceil(((CEGUI::Slider*)btn)->getCurrentValue()));
 
-        app_cfg->SetBool("Peragro.Video.DistanceClipping", dc);
-        SendUpdateEvent();
+        std::stringstream ss;
+        ss << AA;
+        ss << "x";
+
+        btn = winMgr->getWindow("Options/Video/Multisample/Value");
+        btn->setText(ss.str());
+
+        app_cfg->SetFloat("Video.OpenGL.MultiSamples", AA);
         SaveConfig();
         return true;
-      } // end OnAdaptiveClippingCheckBox()
+      } // end OnMultisampleSliderChanged()
 
-      void VideoOptionsWindow::CreateAdaptiveClippingCheckBox()
+      void VideoOptionsWindow::CreateMultisampleSlider()
       {
-        btn = winMgr->getWindow("Options/Video/Distance_Clipping");
+        btn = winMgr->getWindow("Options/Video/Multisample/Slider");
+        float AA = log2(app_cfg->GetFloat("Video.OpenGL.MultiSamples", 0.0f));
 
-        bool dc = app_cfg->GetBool("Peragro.Video.DistanceClipping", false);
+        ((CEGUI::Slider*)btn)->setCurrentValue(AA);
+        CEGUI::EventArgs e;
+        OnMultisampleSliderChanged(e);
+      } // end CreateMultisampleSlider()
 
-        ((CEGUI::Checkbox*)btn)->setSelected(dc);
-      } // end CreateAdaptiveClippingCheckBox()
-
-      bool VideoOptionsWindow::OnMinFPSSpinnerChanged(const CEGUI::EventArgs &e)
+      bool VideoOptionsWindow::OnAnisotropySliderChanged(const CEGUI::EventArgs &e)
       {
-        btn = winMgr->getWindow("Options/Video/Minimum_FPS/Spinner");
-        float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
+        btn = winMgr->getWindow("Options/Video/Anisotropy/Slider");
+        float AF = pow(2.0f, ceil(((CEGUI::Slider*)btn)->getCurrentValue()));
 
-        app_cfg->SetFloat("Peragro.Video.MinFPS", value);
-        SendUpdateEvent();
+        std::stringstream ss;
+        ss << AF;
+        ss << "x";
+
+        btn = winMgr->getWindow("Options/Video/Anisotropy/Value");
+        btn->setText(ss.str());
+
+        app_cfg->SetFloat("Video.OpenGL.TextureFilterAnisotropy", AF);
         SaveConfig();
         return true;
-      } // end OnMinFPSSpinnerChanged()
+      } // end OnAnisotropySliderChanged()
 
-      bool VideoOptionsWindow::OnMaxFPSSpinnerChanged(const CEGUI::EventArgs &e)
+      void VideoOptionsWindow::CreateAnisotropySlider()
       {
-        btn = winMgr->getWindow("Options/Video/Maximum_FPS/Spinner");
-        float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
+        btn = winMgr->getWindow("Options/Video/Anisotropy/Slider");
+        float AA = log2(app_cfg->GetFloat("Video.OpenGL.TextureFilterAnisotropy", 1.0f));
 
-        app_cfg->SetFloat("Peragro.Video.MaxFPS", value);
-        SendUpdateEvent();
+        ((CEGUI::Slider*)btn)->setCurrentValue(AA);
+        CEGUI::EventArgs e;
+        OnAnisotropySliderChanged(e);
+      } // end CreateAnisotropySlider()
+
+      bool VideoOptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e)
+      {
+        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
+        uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
+
+        bool ref = false;
+        switch(id)
+        {
+        case 0: // Off
+          ref = false;
+          break;
+        case 1: // On
+          ref = true;
+          break;
+
+        default: Report(PT::Error, "OnDropListReflections: failed %d", id);
+        }
+
+        app_cfg->SetBool("Peragro.Video.WaterReflections", ref);
         SaveConfig();
         return true;
-      } // end OnMaxFPSSpinnerChanged()
+      } // end OnDropListReflections()
 
-      bool VideoOptionsWindow::OnMinDistanceSpinnerChanged(const CEGUI::EventArgs &e)
+      void VideoOptionsWindow::CreateDropListReflections()
       {
-        btn = winMgr->getWindow("Options/Video/Minimum_Distance/Spinner");
-        float value = ((CEGUI::Spinner*)btn)->getCurrentValue();
+        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
 
-        app_cfg->SetFloat("Peragro.Video.MinDistance", value);
-        SendUpdateEvent();
+        bool ref = app_cfg->GetBool("Peragro.Video.WaterReflections", true);
+        if (ref)
+          ((CEGUI::Combobox*)btn)->setText("On");
+        else
+          ((CEGUI::Combobox*)btn)->setText("Off");
+
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Off", 0));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"On", 1));
+
+        ((CEGUI::Combobox*)btn)->setReadOnly(true);
+
+      } // end CreateDropListReflections()
+
+      bool VideoOptionsWindow::OnReflectionSkipSliderChanged(const CEGUI::EventArgs &e)
+      {
+        btn = winMgr->getWindow("Options/Video/ReflectionSkip/Slider");
+        int skip = static_cast<int>(((CEGUI::Slider*)btn)->getCurrentValue());
+
+        std::stringstream ss;
+        ss << skip;
+
+        btn = winMgr->getWindow("Options/Video/ReflectionSkip/Value");
+        btn->setText(ss.str());
+
+        app_cfg->SetInt("Peragro.Video.ReflectionSkip", skip);
         SaveConfig();
         return true;
-      } // end OnMinDistanceSpinnerChanged()
+      } // end OnReflectionSkipSliderChanged()
 
-      void VideoOptionsWindow::CreateAdaptiveSpinners()
+      void VideoOptionsWindow::CreateReflectionSkipSlider()
       {
-        btn = winMgr->getWindow("Options/Video/Minimum_FPS/Spinner");
-        ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Peragro.Video.MinFPS", 20.0f));
+        btn = winMgr->getWindow("Options/Video/ReflectionSkip/Slider");
+        int skip = app_cfg->GetInt("Peragro.Video.ReflectionSkip", 0);
 
-        btn = winMgr->getWindow("Options/Video/Maximum_FPS/Spinner");
-        ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Peragro.Video.MaxFPS", 60.0f));
-
-        btn = winMgr->getWindow("Options/Video/Minimum_Distance/Spinner");
-        ((CEGUI::Spinner*)btn)->
-          setCurrentValue(app_cfg->GetFloat("Peragro.Video.MinDistance", 100.0f));
-      } // end CreateAdaptiveSpinners()
+        ((CEGUI::Slider*)btn)->setCurrentValue(static_cast<float>(skip));
+        CEGUI::EventArgs e;
+        OnReflectionSkipSliderChanged(e);
+      } // end CreateReflectionSkipSlider()
 
     } // Windows namespace
   } // GUI namespace
