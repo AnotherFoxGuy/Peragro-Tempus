@@ -227,7 +227,7 @@ namespace PT
     }
 
     // Paint the interface over the engine
-    if (guiManager) guiManager->Render ();
+    if (guiManager) guiManager->Render();
   }
 
   void Client::FinishFrame()
