@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2005-2008 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -64,11 +64,11 @@ namespace PT
 
     CombatManager::CombatManager()
     {
-    }
+    } // end CombatManager()
 
     CombatManager::~CombatManager()
     {
-    }
+    } // end ~CombatManager()
 
     iMeshWrapper* CombatManager::GetMesh(PT::Entity::Entity* entity)
     {
@@ -80,60 +80,60 @@ namespace PT
       if (!parent) return 0;
 
       return parent;
-    }
+    } // end GetMesh()
 
     bool CombatManager::Initialize()
     {
-      entityManager    = PointerLibrary::getInstance()->getEntityManager();
-      effectsManager   = PointerLibrary::getInstance()->getEffectsManager();
-      guiManager   = PointerLibrary::getInstance()->getGUIManager();
+      entityManager = PointerLibrary::getInstance()->getEntityManager();
+      effectsManager = PointerLibrary::getInstance()->getEffectsManager();
+      guiManager = PointerLibrary::getInstance()->getGUIManager();
       skillManager = PointerLibrary::getInstance()->getSkillDataManager();
-      network      = PointerLibrary::getInstance()->getNetwork();
+      network = PointerLibrary::getInstance()->getNetwork();
 
       using namespace PT::Events;
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
       // Register listener for ActionHit.
-      csRef<EventHandlerCallback> cbActionHit;
-      cbActionHit.AttachNew(new EventHandler<CombatManager>(&CombatManager::ActionHit, this));                                                                             \
+      csRef<EventHandlerCallback> cbActionHit(new EventHandler<CombatManager>
+        (&CombatManager::ActionHit, this));
       evmgr->AddListener("input.Hit", cbActionHit);
       eventHandlers.Push(cbActionHit);
 
       // Register listener for AttackTarget.
-      csRef<EventHandlerCallback> cbAttackTarget;
-      cbAttackTarget.AttachNew(new EventHandler<CombatManager>(&CombatManager::ActionAttackTarget, this));                                                                             \
+      csRef<EventHandlerCallback> cbAttackTarget(new EventHandler<CombatManager>
+        (&CombatManager::ActionAttackTarget, this));
       evmgr->AddListener("input.Attack", cbAttackTarget);
       eventHandlers.Push(cbAttackTarget);
 
       // Register listener for AddStat.
-      csRef<EventHandlerCallback> cbAddStat;
-      cbAddStat.AttachNew(new EventHandler<CombatManager>(&CombatManager::AddStatPlayer, this));                                                                             \
+      csRef<EventHandlerCallback> cbAddStat(new EventHandler<CombatManager>
+        (&CombatManager::AddStatPlayer, this));
       evmgr->AddListener("entity.stat.add.player", cbAddStat);
       eventHandlers.Push(cbAddStat);
 
       // Register listener for UpdateStat.
-      csRef<EventHandlerCallback> cbUpdateStat;
-      cbUpdateStat.AttachNew(new EventHandler<CombatManager>(&CombatManager::UpdateStat, this));                                                                             \
+      csRef<EventHandlerCallback> cbUpdateStat(new EventHandler<CombatManager>
+        (&CombatManager::UpdateStat, this));
       evmgr->AddListener("entity.stat.change", cbUpdateStat);
       eventHandlers.Push(cbUpdateStat);
 
-      if (!entityManager)
-        return Report(PT::Bug, "CombatManager: Failed to locate ptEntityManager plugin");
+      if (!entityManager) return Report(PT::Bug,
+        "CombatManager: Failed to locate ptEntityManager plugin");
 
-      if (!effectsManager)
-        return Report(PT::Bug, "CombatManager: Failed to locate EffectsManager plugin");
+      if (!effectsManager) return Report(PT::Bug,
+        "CombatManager: Failed to locate EffectsManager plugin");
 
-      if (!guiManager)
-        return Report(PT::Bug, "CombatManager: Failed to locate GUIManager plugin");
+      if (!guiManager) return Report(PT::Bug,
+        "CombatManager: Failed to locate GUIManager plugin");
 
-      if (!skillManager)
-        return Report(PT::Bug, "CombatManager: Failed to locate SkillDataManager plugin");
+      if (!skillManager) return Report(PT::Bug,
+        "CombatManager: Failed to locate SkillDataManager plugin");
 
-      if (!network)
-        return Report(PT::Bug, "CombatManager: Failed to locate Network plugin");
+      if (!network) return Report(PT::Bug,
+        "CombatManager: Failed to locate Network plugin");
 
       return true;
-    }
+    } // end Initialize()
 
     bool CombatManager::AddStatPlayer(iEvent& ev)
     {
@@ -141,10 +141,11 @@ namespace PT
       static int maxhp = 0;
 
       //TODO: This can be removed when stats component is fixed. (line 59)
-      if (ev.GetName() != PointerLibrary::getInstance()->getEventManager()->Retrieve("entity.stat.add.player"))
+      if (ev.GetName() != PointerLibrary::getInstance()->getEventManager()->
+        Retrieve("entity.stat.add.player"))
+      {
         return true;
-
-      //Report(PT::Notify, "AddStatPlayer !");
+      }
 
       const char* name;
       unsigned int level = -1;
@@ -184,14 +185,18 @@ namespace PT
       PT::Entity::Entity* target = entityManager->findPtEntById(entityid);
       if (!target)
       {
-        Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !", entityid);
+        Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !",
+          entityid);
         return true;
       }
 
-      csRef<iStats> stats = target->GetComponent<iStats>("peragro.entity.stats");
+      csRef<iStats> stats =
+        target->GetComponent<iStats>("peragro.entity.stats");
       if (!stats)
       {
-        Report(PT::Error, "CombatManager: Couldn't find stats for entity with ID %d !", entityid);
+        Report(PT::Error,
+          "CombatManager: Couldn't find stats for entity with ID %d !",
+          entityid);
         return true;
       }
 
@@ -202,7 +207,9 @@ namespace PT
       Stat* stat = stats->GetStat(statId);
       if (!stat)
       {
-        Report(PT::Error, "CombatManager: Couldn't find stats for entity with ID %d !", entityid);
+        Report(PT::Error,
+          "CombatManager: Couldn't find stats for entity with ID %d !",
+          entityid);
         return true;
       }
 
@@ -217,7 +224,8 @@ namespace PT
           // Life = 1 * endurance
           int maxLife = stats->GetStatLevel("Endurance");
 
-          GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+          GUIManager* guimanager =
+            PointerLibrary::getInstance()->getGUIManager();
           HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
           hudWindow->SetHP(stat->level, maxLife);
         }
@@ -265,7 +273,8 @@ namespace PT
         //target->SetAction("deflect");
       }
 
-      Report(PT::Debug, "You %s %d points!", damage < 0 ? "healed" : "got hit for", damage);
+      Report(PT::Debug, "You %s %d points!",
+        damage < 0 ? "healed" : "got hit for", damage);
 
     } // end Hit()
 
@@ -274,14 +283,14 @@ namespace PT
       using namespace Entity;
       CharacterEntity *character;
       effectsManager->CreateEffect("Die", GetMesh(target));
-      if (target->GetType() == PCEntityType || 
-          target->GetType() == NPCEntityType || 
-          target->GetType() == PlayerEntityType) 
+      if (target->GetType() == PCEntityType ||
+          target->GetType() == NPCEntityType ||
+          target->GetType() == PlayerEntityType)
       {
         character = static_cast<CharacterEntity*>(target);
         character->PlayAnimation("die", 0.1f, false, false);
       }
-    }
+    } // end Die()
 
     void CombatManager::LevelUp(int targetId)
     {
@@ -290,15 +299,17 @@ namespace PT
 
       if (!target)
       {
-        Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !", targetId);
+        Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !",
+          targetId);
         return;
       }
 
       effectsManager->CreateEffect("Levelup", GetMesh(target));
-      //guiManager->GetCombatLog()->AddMessage("%s has gained a level.", target->GetName());
+      //guiManager->GetCombatLog()->AddMessage("%s has gained a level.",
+      //  target->GetName());
 
-      Report(PT::Debug, "%s has gained a level.", target->GetName().c_str() );
-    }
+      Report(PT::Debug, "%s has gained a level.", target->GetName().c_str());
+    } // end LevelUp()
 
     void CombatManager::Experience(int exp)
     {
@@ -316,28 +327,34 @@ namespace PT
       //entity->SetExp(exp);
       //guiManager->GetStatsWindow()->Setexp(exp);
 
-      // We gaind experience.
+      // We gained experience.
       if (exp >= 0)
-        //guiManager->GetCombatLog()->AddMessage("You gained %d experience points", exp);
+      {
+        //guiManager->GetCombatLog()->
+        //  AddMessage("You gained %d experience points", exp);
         Report(PT::Debug, "You gained %d experience points!", exp);
+      }
       // We lost experience.
       else if (exp < 0)
-        //guiManager->GetCombatLog()->AddMessage("You lost %d experience points", exp);
+      {
+        //guiManager->GetCombatLog()->
+        //  AddMessage("You lost %d experience points", exp);
         Report(PT::Debug, "You lost %d experience points!", exp);
+      }
+    } // end Experience()
 
-    }
-
-    void CombatManager::SkillUsageStart(unsigned int casterId, unsigned int targetId, int skillId, ptString error)
+    void CombatManager::SkillUsageStart(unsigned int casterId,
+                                        unsigned int targetId,
+                                        int skillId, ptString error)
     {
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
-     /*
-      *  Here the we start using skill, so we create the effect on the caster.
-      */
-
       if (ptString(0,0) == error)
-        Report(PT::Debug, "CombatManager: %d cast %d on %d, error %s\n",casterId,targetId,skillId, *error);
+      {
+        Report(PT::Debug, "CombatManager: %d cast %d on %d, error: %s\n",
+          casterId, targetId, skillId, *error);
+      }
       else
       {
         Report(PT::Notify, "CombatManager: %s \n", *error);
@@ -387,15 +404,12 @@ namespace PT
       ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->AddMessage(msg);
 
-    }
+    } // end SkillUsageStart()
 
     void CombatManager::SkillUsageComplete(unsigned int casterId, unsigned int targetId, int skillId)
     {
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
-      /*
-      *  Here the used skill completed succesfully, so we create the effect on the target.
-      */
 
       // Lookup the IDs to get the actual entities.
       PT::Entity::Entity* caster = entityManager->findPtEntById(casterId);
@@ -435,8 +449,7 @@ namespace PT
       ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->AddMessage(msg);
 
-
-    }
+    } // end SkillUsageComplete()
 
     void CombatManager::RequestSkillUsageStart(iCelEntity* target, unsigned int skillId)
     {
@@ -448,10 +461,10 @@ namespace PT
         return;
       }
 
-      unsigned int targetId   = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
+      unsigned int targetId = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
 
-      RequestSkillUsageStart (targetId, skillId);
-    }
+      RequestSkillUsageStart(targetId, skillId);
+    } // end RequestSkillUsageStart()
 
     void CombatManager::RequestSkillUsageStart(unsigned int targetId, unsigned int skillId)
     {
@@ -466,7 +479,6 @@ namespace PT
       // Get your own entity.
       PT::Entity::Entity* attacker = PT::Entity::PlayerEntity::Instance();
 
-
       if (!targetId)
       {
         Report(PT::Error, "CombatManager: Couldn't find ID for target!");
@@ -479,10 +491,10 @@ namespace PT
       }
 
       /* Next are a couple of checks to not stress the server/network
-      *  with attacks it will reject anyways.
-      *  Ofcourse it still needs to be implemented on the server
-      *  to avoid cheating.
-      */
+       * with attacks it will reject anyway.
+       * Of course it still needs to be implemented on the server
+       * to avoid cheating.
+       */
 
       /*
       // Calculate the distance between both enemies.
@@ -491,13 +503,13 @@ namespace PT
       bool lookat = lookat(attacker, target);
       if (distance > 10.0f)
       {
-      guiManager->GetCombatLog()->AddMessage("Target is out of range!");
-      return;
+        guiManager->GetCombatLog()->AddMessage("Target is out of range!");
+        return;
       }
       if (!lookat)
       {
-      guiManager->GetCombatLog()->AddMessage("You should face your target!");
-      return;
+        guiManager->GetCombatLog()->AddMessage("You should face your target!");
+        return;
       }
       */
 
@@ -508,8 +520,7 @@ namespace PT
       network->send(&msg);
 
       Report(PT::Debug, "CombatManager: Sent SkillUsageStartRequestMessage target: %d skillid: %.", targetId, skillId);
-
-    }
+    } // end RequestSkillUsageStart()
 
     bool CombatManager::ActionHit(iEvent& ev)
     {
@@ -523,13 +534,8 @@ namespace PT
         }
       }
       return true;
-    }
+    } // end ActionHit()
 
-    /**
-     * Will send attack request to the server.
-     * @param iEvent The event.
-     * @return true if action taken, false otherwise.
-     */
     bool CombatManager::ActionAttackTarget(iEvent& ev)
     {
       using namespace PT::Events;
@@ -559,6 +565,7 @@ namespace PT
         return true;
       }
       return false;
-    }
+    } // end ActionAttackTarget()
+
   } // Combat namespace
 } // PT namespace

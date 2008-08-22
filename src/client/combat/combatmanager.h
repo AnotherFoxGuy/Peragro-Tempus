@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2005-2008 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,6 +15,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/**
+ * @file combatmanager.h
+ *
+ * @basic Client combat manager.
+ */
 
 #ifndef COMBATMANAGER_H
 #define COMBATMANAGER_H
@@ -49,56 +54,125 @@ namespace PT
 
   namespace Combat
   {
+    /**
+     * Client combat manager.
+     */
     class CombatManager
     {
     private:
 
+      /// The CS engine.
       csRef<iEngine> engine;
+      /// The CS virtual files system.
       csRef<iVFS> vfs;
+      /// The CS loader.
       csRef<iLoader> loader;
+      /// The CEL physical layer.
       csRef<iCelPlLayer> pl;
 
+      /// Pointer array of event handling callbacks.
       csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
+      /// The effects manager.
       PT::Effect::EffectsManager* effectsManager;
+      /// The entity manager.
       PT::Entity::EntityManager* entityManager;
+      /// The gui manager.
       PT::GUI::GUIManager* guiManager;
+      /// The skill manager.
       PT::Data::SkillDataManager* skillManager;
+      /// The network.
       Network* network;
 
+      /**
+       * Get a CS mesh wrapper from a PT entity.
+       * @param entity The PT entity.
+       * @return The mesh wrapper.
+       */
       iMeshWrapper* GetMesh(PT::Entity::Entity* entity);
 
-      /**
-       * Handler for the Hit event.
-       * @param ev Event describing the hit.
-       * @return False if an error occured, true otherwise.
-       */
+      /// Handler for the Hit event.
       bool ActionHit(iEvent& ev);
-
-      /**
-       * Handler for the Attack event.
-       * @param ev Event describing the attack.
-       * @return False if an error occured, true otherwise.
-       */
+      /// Will send attack request to the server.
       bool ActionAttackTarget(iEvent& ev);
-
+      /// Adds a stat for the player.
       bool AddStatPlayer(iEvent& ev);
+      /// Updates a character stat.
       bool UpdateStat(iEvent& ev);
 
     public:
+      /**
+       * Constructor.
+       */
       CombatManager();
+      /**
+       * Destructor.
+       */
       ~CombatManager();
 
+      /**
+       * Initialize the pointers, register for events.
+       * @return True for success.
+       */
       bool Initialize();
 
-      void Hit(PT::Entity::Entity*, int damage);
-      void Die(PT::Entity::Entity*);
+      /**
+       * Do damage to a target.
+       * @param target The target entity.
+       * @param damage The amount of damage to deal.
+       */
+      void Hit(PT::Entity::Entity* target, int damage);
+
+      /**
+       * Make an entity die.
+       * @param target The entity to kill.
+       */
+      void Die(PT::Entity::Entity* target);
+
+      /**
+       * Show the level up effect.
+       * @param targetId The ID of the entity.
+       */
       void LevelUp(int targetId);
+
+      /**
+       * Add experience to the player character.
+       * @param exp The amount of experience to add.
+       */
       void Experience(int exp);
+
+     /**
+      * Start using a skill, so we create an effect on the caster.
+      * @param casterId The entity ID of the skill user.
+      * @param targetId The entity ID of the skill target.
+      * @param skillId The skill ID.
+      * @param error If an error happened, the message.
+      */
       void SkillUsageStart(unsigned int casterId, unsigned int targetId,
                            int skillId, ptString error);
-      void SkillUsageComplete(unsigned int casterId, unsigned int targetId, int skillId);
+
+      /**
+       * Skill completed succesfully, so we create the effect on the target.
+       * @param casterId The entity ID of the skill user.
+       * @param targetId The entity ID of the skill target.
+       * @param skillId The skill ID.
+       */
+      void SkillUsageComplete(unsigned int casterId, unsigned int targetId,
+                              int skillId);
+
+      /**
+       * Lookup the PT entity ID from a CEL entity and call
+       * RequestSkillUsageStart(targetId, skillId).
+       * @param target The target CEL entity.
+       * @param skillId The skill ID.
+       */
       void RequestSkillUsageStart(iCelEntity* target, unsigned int skillId);
+
+      /**
+       * Request the server to start the using a skill on the supplied target.
+       * @param targetId The entity ID of the skill target.
+       * @param skillId The skill ID.
+       */
       void RequestSkillUsageStart(unsigned int targetId, unsigned int skillId);
     };
   } // Combat namespace
