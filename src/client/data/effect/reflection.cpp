@@ -83,7 +83,7 @@ namespace PT
 
       // Register for PreProcess events.
       csBaseEventHandler::Initialize (obj_reg);
-      RegisterQueue (obj_reg, csevPreProcess (obj_reg));
+      RegisterQueue (obj_reg, csevFrame (obj_reg));
 
       using namespace PT::Events;
       // Register listener for RegionLoadedEvent.
@@ -101,9 +101,7 @@ namespace PT
 
     bool ReflectionRenderer::HandleEvent(iEvent &ev)
     {
-      if (ev.Name == PreProcess)
-        Render();
-
+      Render();
       return true;
     }
 

@@ -163,13 +163,6 @@ namespace PT
     void sawServer();
 
     csTicks GetTicks() { return csGetTicks(); }
-    void DrawFrame ()
-    {
-      PreProcessFrame();
-      ProcessFrame();
-      PostProcessFrame();
-      FinishFrame();
-    }
 
     bool loggedIn(iEvent& ev);
     bool PlayingEvent(iEvent& ev);

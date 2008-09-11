@@ -73,8 +73,7 @@ namespace PT
       bool TileLoaded (iEvent& ev);
       bool HandleEvent(iEvent &ev);
 
-      CS_EVENTHANDLER_NAMES("pt.reflection")
-      CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS
+      CS_EVENTHANDLER_PHASE_FRAME("pt.reflection.frame")
     };
 
     class ReflectionUtils
