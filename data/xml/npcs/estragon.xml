@@ -9,7 +9,7 @@
 	<ai>stray</ai>
 	<aisetting>
 		<value name="base_x">35.0</value>
-		<value name="base_y">0.</value>
+		<value name="base_y">0.0</value>
 		<value name="base_z">106.2</value>
 		<value name="radius_x">10.0</value>
 		<value name="radius_y">10.0</value>

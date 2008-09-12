@@ -8,9 +8,9 @@
 	<decal><color r="255" g="255" b="255" /></decal>
 	<ai>stray</ai>
 	<aisetting>
-		<value name="base_x">41</value>
-		<value name="base_y">4</value>
-		<value name="base_z">172</value>
+		<value name="base_x">41.0</value>
+		<value name="base_y">4.0</value>
+		<value name="base_z">172.0</value>
 		<value name="radius_x">10.0</value>
 		<value name="radius_y">0.0</value>
 		<value name="radius_z">10.0</value>
