@@ -24,6 +24,7 @@
 #include <csutil/refarr.h>
 #include <csutil/parray.h>
 #include <csutil/csbaseeventh.h>
+#include <csutil/common_handlers.h>
 #include <cstool/csapplicationframework.h>
 #include <iengine/engine.h>
 #include <iutil/vfs.h>
@@ -171,9 +172,11 @@ namespace PT
     bool Connected(iEvent& ev);
 
   private:
-    void PreProcessFrame();
-    void ProcessFrame();
-    void FinishFrame();
+    void Frame();
+
+    /// Event handlers to draw and print the 3D canvas on each frame
+    //csRef<FrameBegin3DDraw> drawer;
+    csRef<FramePrinter> printer;
 
     bool InitializeCEL();
     void checkConnection();
@@ -236,6 +239,8 @@ namespace PT
     std::string user;
     std::string pass;
     unsigned int char_id;
+
+    CS_EVENTHANDLER_PHASE_LOGIC("application.peragro")
   };
 
 } // PT namespace

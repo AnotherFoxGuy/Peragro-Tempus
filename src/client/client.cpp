@@ -142,6 +142,9 @@ namespace PT
 
   Client::~Client()
   {
+    // Shut down the event handlers we spawned earlier.
+    printer.Invalidate();
+
     delete reporter;
     delete network;
     delete cursor;
@@ -169,7 +172,7 @@ namespace PT
     // Don't delete world;
   }
 
-  void Client::PreProcessFrame()
+  void Client::Frame()
   {
     csTicks ticks = vc->GetElapsedTicks();
     timer += ticks;
@@ -190,10 +193,7 @@ namespace PT
         entityManager->DrUpdateOwnEntity();
       }
     }
-  }
 
-  void Client::ProcessFrame()
-  {
     g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS);
 
     handleStates();
@@ -219,7 +219,7 @@ namespace PT
             hudWindow->SetSP(ratio);
             char buffer[40];
             snprintf(buffer, 40, "            %d/%d", (int)currentStamina,
-                                                 (int)maxStamina);
+              (int)maxStamina);
             hudWindow->SetText("PlayerHUD/SPValue", buffer);
           }
         }
@@ -228,12 +228,6 @@ namespace PT
 
     // Paint the interface over the engine
     if (guiManager) guiManager->Render();
-  }
-
-  void Client::FinishFrame()
-  {
-    g3d->FinishDraw();
-    g3d->Print(0);
   }
 
   bool Client::OnInitialize(int argc, char* argv[])
@@ -436,6 +430,12 @@ namespace PT
     pointerlib.setComponentManager(componentManager);
 
     view.AttachNew(new csView(engine, g3d));
+
+    // We use some other "helper" event handlers to handle 
+    // pushing our work into the 3D engine and rendering it
+    // to the screen.
+    //drawer.AttachNew(new FrameBegin3DDraw (GetObjectRegistry (), view));
+    printer.AttachNew(new FramePrinter (GetObjectRegistry ()));
 
     csRef<iSoundManager> soundMananger = csLoadPlugin<iSoundManager> (plugin_mgr, "peragro.sound");
     if (soundMananger.IsValid())
