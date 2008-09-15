@@ -114,16 +114,16 @@ namespace PT
           CEGUI::Event::Subscriber(&VideoOptionsWindow::OnAnisotropySliderChanged, this));
 
         // Set up the reflection toggle drop list.
-        CreateDropListReflections();
-        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
+        CreateDropListReflectionsQuality();
+        btn = winMgr->getWindow("Options/Video/ReflectionsQuality/DropList");
         btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListReflections, this));
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListReflectionsQuality, this));
 
         // Set up the reflection frame skip slider.
-        CreateReflectionSkipSlider();
-        btn = winMgr->getWindow("Options/Video/ReflectionSkip/Slider");
+        CreateReflectionUpdateIntervalSlider();
+        btn = winMgr->getWindow("Options/Video/ReflectionUpdateInterval/Slider");
         btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnReflectionSkipSliderChanged, this));
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnReflectionUpdateIntervalSliderChanged, this));
 
         return true;
       } // end ReloadWindow()
@@ -361,72 +361,98 @@ namespace PT
         OnAnisotropySliderChanged(e);
       } // end CreateAnisotropySlider()
 
-      bool VideoOptionsWindow::OnDropListReflections(const CEGUI::EventArgs& e)
+      bool VideoOptionsWindow::OnDropListReflectionsQuality(const CEGUI::EventArgs& e)
       {
-        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
+        btn = winMgr->getWindow("Options/Video/ReflectionsQuality/DropList");
         uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
 
-        bool ref = false;
+        int quality = 0;
         switch(id)
         {
-        case 0: // Off
-          ref = false;
+        case 0: // Normal
+          quality = 0;
           break;
-        case 1: // On
-          ref = true;
+        case 1: // Low
+          quality = 1;
+          break;
+        case 2: // Very Low
+          quality = 2;
+          break;
+        case 3: // Lowest
+          quality = 3;
           break;
 
-        default: Report(PT::Error, "OnDropListReflections: failed %d", id);
+        default:
+          Report(PT::Error, "OnDropListReflectionsQuality: failed %d", id);
         }
 
-        app_cfg->SetBool("Peragro.Video.WaterReflections", ref);
+        app_cfg->SetInt("RenderManager.Reflections.Downsample", quality);
+        app_cfg->SetInt("RenderManager.Refractions.Downsample", quality);
         SaveConfig();
         return true;
       } // end OnDropListReflections()
 
-      void VideoOptionsWindow::CreateDropListReflections()
+      void VideoOptionsWindow::CreateDropListReflectionsQuality()
       {
-        btn = winMgr->getWindow("Options/Video/Reflections/DropList");
+        btn = winMgr->getWindow("Options/Video/ReflectionsQuality/DropList");
 
-        bool ref = app_cfg->GetBool("Peragro.Video.WaterReflections", true);
-        if (ref)
-          ((CEGUI::Combobox*)btn)->setText("On");
-        else
-          ((CEGUI::Combobox*)btn)->setText("Off");
+        int quality = app_cfg->GetInt("RenderManager.Reflections.Downsample", 0);
+
+        switch(quality)
+        {
+        case 0:
+          ((CEGUI::Combobox*)btn)->setText("Normal");
+          break;
+        case 1:
+          ((CEGUI::Combobox*)btn)->setText("Low");
+          break;
+        case 2:
+          ((CEGUI::Combobox*)btn)->setText("Very Low");
+          break;
+        case 3:
+          ((CEGUI::Combobox*)btn)->setText("Lowest");
+          break;
+        default:
+          ((CEGUI::Combobox*)btn)->setText("Custom");
+        }
 
         ((CEGUI::Combobox*)btn)->addItem(
-          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Off", 0));
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Normal", 0));
         ((CEGUI::Combobox*)btn)->addItem(
-          new CEGUI::ListboxTextItem((CEGUI::utf8*)"On", 1));
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Low", 1));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Very Low", 2));
+        ((CEGUI::Combobox*)btn)->addItem(
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Lowest", 3));
 
         ((CEGUI::Combobox*)btn)->setReadOnly(true);
 
       } // end CreateDropListReflections()
 
-      bool VideoOptionsWindow::OnReflectionSkipSliderChanged(const CEGUI::EventArgs &e)
+      bool VideoOptionsWindow::OnReflectionUpdateIntervalSliderChanged(const CEGUI::EventArgs &e)
       {
-        btn = winMgr->getWindow("Options/Video/ReflectionSkip/Slider");
-        int skip = static_cast<int>(((CEGUI::Slider*)btn)->getCurrentValue());
+        btn = winMgr->getWindow("Options/Video/ReflectionUpdateInterval/Slider");
+        int interval = static_cast<int>(((CEGUI::Slider*)btn)->getCurrentValue());
 
         std::stringstream ss;
-        ss << skip;
+        ss << interval;
 
-        btn = winMgr->getWindow("Options/Video/ReflectionSkip/Value");
+        btn = winMgr->getWindow("Options/Video/ReflectionUpdateInterval/Value");
         btn->setText(ss.str());
 
-        app_cfg->SetInt("Peragro.Video.ReflectionSkip", skip);
+        app_cfg->SetInt("RenderManager.Reflections.UpdateInterval", interval);
         SaveConfig();
         return true;
       } // end OnReflectionSkipSliderChanged()
 
-      void VideoOptionsWindow::CreateReflectionSkipSlider()
+      void VideoOptionsWindow::CreateReflectionUpdateIntervalSlider()
       {
-        btn = winMgr->getWindow("Options/Video/ReflectionSkip/Slider");
-        int skip = app_cfg->GetInt("Peragro.Video.ReflectionSkip", 0);
+        btn = winMgr->getWindow("Options/Video/ReflectionUpdateInterval/Slider");
+        int interval = app_cfg->GetInt("RenderManager.Reflections.UpdateInterval", 30);
 
-        ((CEGUI::Slider*)btn)->setCurrentValue(static_cast<float>(skip));
+        ((CEGUI::Slider*)btn)->setCurrentValue(static_cast<float>(interval));
         CEGUI::EventArgs e;
-        OnReflectionSkipSliderChanged(e);
+        OnReflectionUpdateIntervalSliderChanged(e);
       } // end CreateReflectionSkipSlider()
 
     } // Windows namespace

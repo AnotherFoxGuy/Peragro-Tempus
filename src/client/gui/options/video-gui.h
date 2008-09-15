@@ -55,11 +55,11 @@ namespace PT
         bool OnAnisotropySliderChanged(const CEGUI::EventArgs &e);
         void CreateAnisotropySlider();
 
-        bool OnDropListReflections(const CEGUI::EventArgs& e);
-        void CreateDropListReflections();
+        bool OnDropListReflectionsQuality(const CEGUI::EventArgs& e);
+        void CreateDropListReflectionsQuality();
 
-        bool OnReflectionSkipSliderChanged(const CEGUI::EventArgs &e);
-        void CreateReflectionSkipSlider();
+        bool OnReflectionUpdateIntervalSliderChanged(const CEGUI::EventArgs &e);
+        void CreateReflectionUpdateIntervalSlider();
 
       public:
         VideoOptionsWindow(GUIManager* guiManager);

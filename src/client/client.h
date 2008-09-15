@@ -105,11 +105,6 @@ namespace PT
     class EnvironmentManager;
   } // Environment namespace
 
-  namespace Reflection
-  {
-    class ReflectionRenderer;
-  } // Reflection namespace
-
   namespace Entity
   {
     class EntityManager;
@@ -216,7 +211,6 @@ namespace PT
     PT::Input::InputManager* inputManager;
     PT::StateManager* stateManager;
     PT::Environment::EnvironmentManager* environmentManager;
-    PT::Reflection::ReflectionRenderer* reflectionRenderer;
 
     PT::Entity::EntityManager* entityManager;
     PT::Effect::EffectsManager* effectsManager;

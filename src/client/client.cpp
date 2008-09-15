@@ -79,7 +79,6 @@
 #include "client/data/sector/sectordatamanager.h"
 #include "client/entity/entitymanager.h"
 #include "client/chat/chatmanager.h"
-#include "client/data/effect/reflection.h"
 #include "client/environment/environmentmanager.h"
 #include "client/component/componentmanager.h"
 #include "client/trade/trademanager.h"
@@ -128,7 +127,6 @@ namespace PT
     inputManager = 0;
     stateManager = 0;
     // Don't set environmentManager = 0;
-    reflectionRenderer = 0;
 
     entityManager = 0;
     effectsManager = 0;
@@ -160,7 +158,6 @@ namespace PT
     delete inputManager;
     delete stateManager;
     // Don't delete environmentManager;
-    delete reflectionRenderer;
 
     delete entityManager;
     delete effectsManager;
@@ -371,18 +368,6 @@ namespace PT
 
     app_cfg = csQueryRegistry<iConfigManager> (GetObjectRegistry());
     if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
-
-    // Enable reflection.
-    bool enableReflections = app_cfg->GetBool("Peragro.Video.WaterReflections");
-    if (enableReflections)
-    {
-      reflectionRenderer = new PT::Reflection::ReflectionRenderer();
-      if (!reflectionRenderer->Initialize())
-        return Report(PT::Error, "Failed to initialize reflection!");
-
-      reflectionRenderer->SetFrameSkip(app_cfg->GetInt("Peragro.Video.ReflectionSkip"));
-      Report(PT::Notify, "Enabled reflections!");
-    }
 
     limitFPS = app_cfg->GetInt("Peragro.Video.MaxFPS", limitFPS);
 
