@@ -72,13 +72,8 @@ namespace PT
         return Report(PT::Bug, "EffectsManager: Failed to locate 3D engine!");
 
       // Register listener for atposition.
-      using namespace PT::Events;
-      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      csRef<EventHandlerCallback> cbEffect;
-      cbEffect.AttachNew(new EventHandler<EffectsManager>(&EffectsManager::CreateEffect, this));
-      evmgr->AddListener("effect.atposition", cbEffect);
-      eventHandlers.Push(cbEffect);
-
+      SETUP_HANDLER
+      REGISTER_LISTENER(EffectsManager, CreateEffect, "effect.atposition")
 
       return true;
     }

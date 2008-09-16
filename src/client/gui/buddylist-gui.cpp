@@ -147,16 +147,10 @@ namespace PT
         frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
           CEGUI::Event::Subscriber(&BuddyWindow::handleCloseButton, this));
 
-        using namespace PT::Events;
+        SETUP_HANDLER
+        REGISTER_LISTENER(BuddyWindow, ProcessEvents, "entity.add")
+        REGISTER_LISTENER(BuddyWindow, ProcessEvents, "entity.remove")
 
-        EventHandler<BuddyWindow>* cb =
-          new EventHandler<BuddyWindow>(&BuddyWindow::ProcessEvents, this);
-        // Register listener for EntityAddEvent.
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("entity.add", cb);
-        // Register listener for EntityRemoveEvent.
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("entity.remove", cb);
         return true;
       } // end ReloadWindow()
 

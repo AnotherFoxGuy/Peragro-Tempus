@@ -70,6 +70,7 @@ namespace PT
   namespace Events
   {
     class EventManager;
+    struct EventHandlerCallback;
   } // Events namespace
 
   namespace Data
@@ -176,6 +177,9 @@ namespace PT
     bool InitializeCEL();
     void checkConnection();
     void handleStates();
+
+    /// List of listeners this class has.
+    csRefArray<Events::EventHandlerCallback> eventHandlers;
 
     bool ActionActivateSkill(iEvent& ev);
     bool ActionQuit(iEvent& ev);

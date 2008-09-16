@@ -31,6 +31,8 @@
 #include "common/network/netmessage.h"
 #include "common/util/mutex.h"
 
+#include "common/event/eventmanager.h"
+
 #define ROOTWINDOW "Root"
 
 class Network;
@@ -59,6 +61,8 @@ namespace PT
       CEGUI::Window* LoadLayout(const char* layoutFile);
       bool AddToRoot(CEGUI::Window* window);
       void SetupToggleListener(const std::string& name);
+
+      CALLBACK_HANDLER_LISTENERS
 
       bool ToggleWindow(iEvent& ev);
 

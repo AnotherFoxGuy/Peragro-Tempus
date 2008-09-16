@@ -130,8 +130,8 @@ namespace PT
         // possible.
         newItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro",
           (CEGUI::utf8*)"TextSelectionBrush");
-        CEGUI::colour left(1.0, 0.0, 0.0, 0.3);
-        CEGUI::colour right(0.7, 0.1, 0.1, 0.7);
+        CEGUI::colour left(1.0f, 0.0f, 0.0f, 0.3f);
+        CEGUI::colour right(0.7f, 0.1f, 0.1f, 0.7f);
         newItem->setSelectionColours(left, right, left, right);
 
         return newItem;
@@ -255,15 +255,8 @@ namespace PT
         using namespace PT::Events;
         EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
-        EventHandler<ControlOptionsWindow>* cbControlUpdate =
-          new EventHandler<ControlOptionsWindow>
-          (&ControlOptionsWindow::ControlUpdate, this);
-        evmgr->AddListener("input.options.controlupdate", cbControlUpdate);
-
-        EventHandler<ControlOptionsWindow>* cbControlSet =
-          new EventHandler<ControlOptionsWindow>
-          (&ControlOptionsWindow::ControlSet, this);
-        evmgr->AddListener("input.options.controlset", cbControlSet);
+        REGISTER_LISTENER(ControlOptionsWindow, ControlUpdate, "input.options.controlupdate");
+        REGISTER_LISTENER(ControlOptionsWindow, ControlSet, "input.options.controlset");
 
         return true;
       } // end ReloadWindow()

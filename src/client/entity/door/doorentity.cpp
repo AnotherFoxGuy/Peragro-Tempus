@@ -51,13 +51,8 @@ namespace PT
       Create();
 
       ///@TODO: Move this to a component?
-      using namespace PT::Events;
-      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-      // Register listener for InterfaceOptionsEvent.
-      csRef<EventHandlerCallback> cb;
-      cb.AttachNew(new EventHandler<DoorEntity>(&DoorEntity::UpdatePcProp, this));
-      evmgr->AddListener(EntityHelper::MakeEntitySpecific("entity.pcpropupdate", GetId()), cb);
-      eventHandlers.Push(cb);
+      SETUP_HANDLER
+      REGISTER_LISTENER(DoorEntity, UpdatePcProp, "entity.pcpropupdate")
     }
 
     DoorEntity::~DoorEntity()
@@ -88,11 +83,8 @@ namespace PT
         Report(PT::Warning, "DoorEntity: Couldn't find mesh '%s' for door %s!", meshName.c_str(), name.c_str());
         pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
         // Register listener for WorldLoaded.
-        using namespace PT::Events;
-        csRef<EventHandlerCallback> cbWorldLoaded;
-        cbWorldLoaded.AttachNew(new EventHandler<DoorEntity>(&DoorEntity::TileLoaded, this));
-        PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbWorldLoaded);
-        eventHandlers.Push(cbWorldLoaded);
+        SETUP_HANDLER
+        REGISTER_LISTENER(DoorEntity, TileLoaded, "world.loaded")
       }
 
       csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,

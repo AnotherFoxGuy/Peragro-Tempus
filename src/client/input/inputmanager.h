@@ -38,6 +38,7 @@
 #include "controlcombo.h"
 
 #include "common/event/event.h"
+#include "common/event/eventmanager.h"
 
 struct iClipboard;
 
@@ -77,6 +78,8 @@ namespace PT
       /// Action to be mapped, needed when binding a new control.
       std::string changeAction;
 */
+
+      CALLBACK_HANDLER_LISTENERS
       /// Handler for the clipboard copy event. Calls DoCopy(false).
       bool ClipboardCopy(iEvent& ev);
       /// Handler for the clipboard cut event. Calls DoCopy(true).

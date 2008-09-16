@@ -391,12 +391,8 @@ namespace PT
         window->setProperty("BackgroundEnabled", "False");
 
         // Register listener for interact.
-        using namespace PT::Events;
-        EventHandler<InteractDialogWindow>* cbInteract =
-          new EventHandler<InteractDialogWindow>
-          (&InteractDialogWindow::OnInteract, this);
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("interface.interact", cbInteract);
+        SETUP_HANDLER
+        REGISTER_LISTENER(InteractDialogWindow, OnInteract, "interface.interact")
 
         // Cancel Button
         CEGUI::Window* button = winMgr->createWindow("Peragro/ImageButton",

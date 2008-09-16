@@ -83,7 +83,7 @@ bool ComponentViewBob::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
 
   EventManager* evmgr = pointerlib->getEventManager();
 
-  REGISTER_LISTENER(ComponentViewBob, Frame, "crystalspace.frame", false)
+  REGISTER_LISTENER(ComponentViewBob, Frame, "crystalspace.frame")
 
   return true;
 } // end Initialize()

@@ -42,11 +42,9 @@ namespace PT
 
     bool PlayerInventory::Initialize ()
     {
-      using namespace PT::Events;
-
       // Register listener for InventoryAddEvent.
-      EventHandler<PlayerInventory>* cbAdd = new EventHandler<PlayerInventory>(&PlayerInventory::Add, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("trade.inventory.add", cbAdd);
+      SETUP_HANDLER
+      REGISTER_LISTENER(PlayerInventory, Add, "trade.inventory.add")
 
       return true;
     }

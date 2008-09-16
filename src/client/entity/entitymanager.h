@@ -87,12 +87,8 @@ namespace PT
     private:
       bool world_loaded;
 
-    public:
-      EntityManager ();
-      ~EntityManager ();
-
-      bool Initialize ();
-      void Handle();
+    private:
+      CALLBACK_HANDLER_LISTENERS
 
       bool GetEntityEvents(iEvent& ev);
 
@@ -114,14 +110,22 @@ namespace PT
        */
       bool WorldLoaded(iEvent& ev);
 
-      void DrUpdateOwnEntity();
-
       bool OnInteract(iEvent& ev);
 
-      iCelEntity* findCelEntById(unsigned int id);
-      Entity* findPtEntById(unsigned int id);
-
       bool SetOwnId(iEvent& ev);
+
+    public:
+      EntityManager ();
+      ~EntityManager ();
+
+      bool Initialize ();
+      void Handle();
+
+      void DrUpdateOwnEntity();
+
+      iCelEntity* findCelEntById(unsigned int id);
+
+      Entity* findPtEntById(unsigned int id);
 
       unsigned int GetPlayerId() { return playerId; }
 

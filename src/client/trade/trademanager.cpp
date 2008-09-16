@@ -44,15 +44,9 @@ namespace PT
 
     bool TradeManager::Initialize ()
     {
-      using namespace PT::Events;
-
-      // Register listener for TradePickEvent.
-      EventHandler<TradeManager>* cbPickUp = new EventHandler<TradeManager>(&TradeManager::PickUp, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("trade.pickup", cbPickUp);
-
-      // Register listener for TradePickEvent.
-      EventHandler<TradeManager>* cbDrop = new EventHandler<TradeManager>(&TradeManager::Drop, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("trade.drop", cbDrop);
+      SETUP_HANDLER
+      REGISTER_LISTENER(TradeManager, PickUp, "trade.pickup")
+      REGISTER_LISTENER(TradeManager, Drop, "trade.drop")
 
       // Create and Initialize the PlayerInventory.
       playerinventory = new PT::Trade::PlayerInventory ();

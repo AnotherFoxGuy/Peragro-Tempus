@@ -71,13 +71,13 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
 
   EventManager* evmgr = pointerlib->getEventManager();
 
-  REGISTER_LISTENER(ComponentNetworkMove, Move, "entity.move", true);
-  REGISTER_LISTENER(ComponentNetworkMove, Teleport, "entity.teleport", true);
-  REGISTER_LISTENER(ComponentNetworkMove, DrUpdate, "entity.drupdate", true);
-  REGISTER_LISTENER(ComponentNetworkMove, MoveTo, "entity.moveto", true);
-  REGISTER_LISTENER(ComponentNetworkMove, UpdateOptions, "interface.options.movement", false);
-  REGISTER_LISTENER(ComponentNetworkMove, DisableGravity, "world.loading", false);
-  REGISTER_LISTENER(ComponentNetworkMove, ResetGravity, "world.loaded", false);
+  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, Move, "entity.move", true);
+  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, Teleport, "entity.teleport", true);
+  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, DrUpdate, "entity.drupdate", true);
+  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, MoveTo, "entity.moveto", true);
+  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, UpdateOptions, "interface.options.movement", false);
+  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, DisableGravity, "world.loading", false);
+  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, ResetGravity, "world.loaded", false);
 
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
     (pointerlib->getObjectRegistry());

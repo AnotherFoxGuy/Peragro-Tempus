@@ -79,33 +79,17 @@ namespace PT
       defaultSector = engine->CreateSector("Default_Sector");
       if (!defaultSector.IsValid()) printf("AAAARRRRR\n");
 
-      using namespace PT::Events;
+      SETUP_HANDLER
+      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.add")
+      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.remove")
+      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.equip")
+      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.mount")
+      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.pose")
+      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.stat.add.player")
 
-      EventHandler<EntityManager>* cb = new EventHandler<EntityManager>(&EntityManager::GetEntityEvents, this);
-      // Register listener for EntityAddEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.add", cb);
-      // Register listener for EntityRemoveEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.remove", cb);
-      // Register listener for EntityEquipEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.equip", cb);
-      // Register listener for EntityMountEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.mount", cb);
-      // Register listener for EntityPoseEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.pose", cb);
-      // Register listener for entity.stat.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.stat.add.player", cb);
-
-      // Register listener for state.play.
-      EventHandler<EntityManager>* cbPlay = new EventHandler<EntityManager>(&EntityManager::SetOwnId, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("state.play", cbPlay);
-
-      // Register listener for ActionInteract.
-      EventHandler<EntityManager>* cbInteract = new EventHandler<EntityManager>(&EntityManager::OnInteract, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("input.Interact", cbInteract);
-
-      // Register listener for WorldLoaded.
-      EventHandler<EntityManager>* cbWorldLoaded = new PT::Events::EventHandler<EntityManager>(&EntityManager::WorldLoaded, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbWorldLoaded);
+      REGISTER_LISTENER(EntityManager, SetOwnId, "state.play")
+      REGISTER_LISTENER(EntityManager, OnInteract, "input.Interact")
+      REGISTER_LISTENER(EntityManager, WorldLoaded, "world.loaded")
 
       return true;
     }

@@ -22,6 +22,7 @@
 #include <cssysdef.h>
 
 #include "common/event/tradeevent.h"
+#include "common/event/eventmanager.h"
 
 struct iEvent;
 
@@ -31,7 +32,8 @@ namespace PT
   {
     class PlayerInventory
     {
-    public:
+    private:
+      CALLBACK_HANDLER_LISTENERS
       bool Add(iEvent& ev);
 
     public:

@@ -90,32 +90,11 @@ namespace PT
       skillManager = PointerLibrary::getInstance()->getSkillDataManager();
       network = PointerLibrary::getInstance()->getNetwork();
 
-      using namespace PT::Events;
-      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-      // Register listener for ActionHit.
-      csRef<EventHandlerCallback> cbActionHit(new EventHandler<CombatManager>
-        (&CombatManager::ActionHit, this));
-      evmgr->AddListener("input.Hit", cbActionHit);
-      eventHandlers.Push(cbActionHit);
-
-      // Register listener for AttackTarget.
-      csRef<EventHandlerCallback> cbAttackTarget(new EventHandler<CombatManager>
-        (&CombatManager::ActionAttackTarget, this));
-      evmgr->AddListener("input.Attack", cbAttackTarget);
-      eventHandlers.Push(cbAttackTarget);
-
-      // Register listener for AddStat.
-      csRef<EventHandlerCallback> cbAddStat(new EventHandler<CombatManager>
-        (&CombatManager::AddStatPlayer, this));
-      evmgr->AddListener("entity.stat.add.player", cbAddStat);
-      eventHandlers.Push(cbAddStat);
-
-      // Register listener for UpdateStat.
-      csRef<EventHandlerCallback> cbUpdateStat(new EventHandler<CombatManager>
-        (&CombatManager::UpdateStat, this));
-      evmgr->AddListener("entity.stat.change", cbUpdateStat);
-      eventHandlers.Push(cbUpdateStat);
+      SETUP_HANDLER
+      REGISTER_LISTENER(CombatManager, ActionHit, "input.Hit")
+      REGISTER_LISTENER(CombatManager, ActionAttackTarget, "input.Attack")
+      REGISTER_LISTENER(CombatManager, AddStatPlayer, "entity.stat.add.player")
+      REGISTER_LISTENER(CombatManager, UpdateStat, "entity.stat.change")
 
       if (!entityManager) return Report(PT::Bug,
         "CombatManager: Failed to locate ptEntityManager plugin");

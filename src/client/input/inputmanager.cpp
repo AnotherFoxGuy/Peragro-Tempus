@@ -50,30 +50,16 @@ namespace PT
       csBaseEventHandler::Initialize(obj_reg);
       RegisterQueue(obj_reg, csevInput(obj_reg));
 
-      using namespace PT::Events;
-      EventManager* evtMgr = PointerLibrary::getInstance()->getEventManager();
-
-      EventHandler<InputManager>* cbChangeControl =
-        new EventHandler<InputManager>(&InputManager::ChangeControl, this);
-      evtMgr->AddListener("input.options.changecontrol", cbChangeControl);
+      SETUP_HANDLER
+      REGISTER_LISTENER(InputManager, ChangeControl, "input.options.changecontrol")
 
       // Register listeners for Clipboard Events.
       csTheClipboard = csQueryRegistry<iClipboard> (obj_reg);
       if (csTheClipboard)
       {
-        using namespace PT::Events;
-
-        EventHandler<InputManager>* cbClipboardCopy =
-          new EventHandler<InputManager>(&InputManager::ClipboardCopy, this);
-        evtMgr->AddListener("input.CopyText", cbClipboardCopy);
-
-        EventHandler<InputManager>* cbClipboardPaste =
-          new EventHandler<InputManager>(&InputManager::ClipboardPaste, this);
-        evtMgr->AddListener("input.PasteText", cbClipboardPaste);
-
-        EventHandler<InputManager>* cbClipboardCut =
-          new EventHandler<InputManager>(&InputManager::ClipboardCut, this);
-        evtMgr->AddListener("input.CutText", cbClipboardCut);
+        REGISTER_LISTENER(InputManager, ClipboardCopy, "input.CopyText")
+        REGISTER_LISTENER(InputManager, ClipboardPaste, "input.PasteText")
+        REGISTER_LISTENER(InputManager, ClipboardCut, "input.CutText")
 
         csString ostype("");
         csTheClipboard->GetOS(ostype);

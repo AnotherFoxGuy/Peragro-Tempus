@@ -58,10 +58,10 @@ bool ComponentStats::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
 
   // TODO: Listen to one of the two, not both.
   // But entityType isn't known at this point.
-  REGISTER_LISTENER(ComponentStats, AddStat, "entity.stat.add", true)
-  REGISTER_LISTENER(ComponentStats, AddStat, "entity.stat.add.player", false)
+  REGISTER_LISTENER_ENTITY(ComponentStats, AddStat, "entity.stat.add", true)
+  REGISTER_LISTENER_ENTITY(ComponentStats, AddStat, "entity.stat.add.player", false)
 
-  REGISTER_LISTENER(ComponentStats, UpdateStat, "entity.stat.change", true)
+  REGISTER_LISTENER_ENTITY(ComponentStats, UpdateStat, "entity.stat.change", true)
 
   return true;
 } // end Initialize()

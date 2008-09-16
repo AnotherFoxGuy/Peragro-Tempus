@@ -75,29 +75,20 @@ bool ComponentPlayerControls::Initialize (PointerLibrary* pl,
 
   camera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
 
-  using namespace PT::Events;
-  EventManager* evmgr = pointerlib->getEventManager();
+  SETUP_HANDLER_PLUGIN(pointerlib)
 
-  REGISTER_LISTENER(ComponentPlayerControls, ActionForward,
-    "input.Forward", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionBackward,
-    "input.Backward", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionLeft,
-    "input.Left", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionRight,
-    "input.Right", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionJump,
-    "input.Jump", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionMoveTo,
-    "input.MoveTo", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionAutoMove,
-    "input.AutoMove", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionToggleRun,
-    "input.ToggleRun", false)
-  REGISTER_LISTENER(ComponentPlayerControls, ActionActivateWeapon,
-    "input.ActivateWeapon", false)
-  REGISTER_LISTENER(ComponentPlayerControls, UpdateOptions,
-    "interface.options.movement", false)
+#define CPC ComponentPlayerControls
+
+  REGISTER_LISTENER(CPC, ActionForward, "input.Forward")
+  REGISTER_LISTENER(CPC, ActionBackward, "input.Backward")
+  REGISTER_LISTENER(CPC, ActionLeft, "input.Left")
+  REGISTER_LISTENER(CPC, ActionRight, "input.Right")
+  REGISTER_LISTENER(CPC, ActionJump, "input.Jump")
+  REGISTER_LISTENER(CPC, ActionMoveTo, "input.MoveTo")
+  REGISTER_LISTENER(CPC, ActionAutoMove, "input.AutoMove")
+  REGISTER_LISTENER(CPC, ActionToggleRun, "input.ToggleRun")
+  REGISTER_LISTENER(CPC, ActionActivateWeapon, "input.ActivateWeapon")
+  REGISTER_LISTENER(CPC, UpdateOptions, "interface.options.movement")
 
   UpdateOptions();
 

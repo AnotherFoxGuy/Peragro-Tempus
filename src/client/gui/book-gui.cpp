@@ -141,18 +141,9 @@ namespace PT
         //  CEGUI::Event::Subscriber(&ConnectWindow::ConnectButtonPressed, this));
 
         // TODO: this souldn't be here, move to a manager.
-        using namespace PT::Events;
-        EventHandler<BookWindow>* cbRead =
-            new EventHandler<PT::GUI::Windows::BookWindow>(
-              &PT::GUI::Windows::BookWindow::HandleRead, this);
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("book.read", cbRead);
-
-        EventHandler<BookWindow>* cbWrite =
-          new EventHandler<PT::GUI::Windows::BookWindow>(
-            &PT::GUI::Windows::BookWindow::HandleWrite, this);
-        PointerLibrary::getInstance()->getEventManager()->
-          AddListener("book.write", cbWrite);
+        SETUP_HANDLER
+        REGISTER_LISTENER(BookWindow, HandleRead, "book.read")
+        REGISTER_LISTENER(BookWindow, HandleWrite, "book.write")
 
         return true;
       } // end ReloadWindow()

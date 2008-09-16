@@ -65,18 +65,17 @@ bool ComponentViewControls::Initialize (PointerLibrary* pl, PT::Entity::Entity* 
 
   camera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
 
-  using namespace PT::Events;
-  EventManager* evmgr = pointerlib->getEventManager();
+  SETUP_HANDLER_PLUGIN(pointerlib)
 
-  REGISTER_LISTENER(ComponentViewControls, ActionLookLeft, "input.LookLeft", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionLookRight, "input.LookRight", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionLookUp, "input.LookUp", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionLookDown, "input.LookDown", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionZoomIn, "input.ZoomIn", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionZoomOut, "input.ZoomOut", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionCameraMode, "input.CameraMode", false)
-  REGISTER_LISTENER(ComponentViewControls, ActionDistanceClipping, "input.DistanceClipping", false)
-  REGISTER_LISTENER(ComponentViewControls, UpdateOptions, "interface.options.view", false)
+  REGISTER_LISTENER(ComponentViewControls, ActionLookLeft, "input.LookLeft")
+  REGISTER_LISTENER(ComponentViewControls, ActionLookRight, "input.LookRight")
+  REGISTER_LISTENER(ComponentViewControls, ActionLookUp, "input.LookUp")
+  REGISTER_LISTENER(ComponentViewControls, ActionLookDown, "input.LookDown")
+  REGISTER_LISTENER(ComponentViewControls, ActionZoomIn, "input.ZoomIn")
+  REGISTER_LISTENER(ComponentViewControls, ActionZoomOut, "input.ZoomOut")
+  REGISTER_LISTENER(ComponentViewControls, ActionCameraMode, "input.CameraMode")
+  REGISTER_LISTENER(ComponentViewControls, ActionDistanceClipping, "input.DistanceClipping")
+  REGISTER_LISTENER(ComponentViewControls, UpdateOptions, "interface.options.view")
 
   UpdateOptions();
 

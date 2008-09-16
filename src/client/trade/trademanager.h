@@ -22,6 +22,7 @@
 #include <cssysdef.h>
 
 #include "common/event/tradeevent.h"
+#include "common/event/eventmanager.h"
 
 struct iEvent;
 
@@ -34,6 +35,7 @@ namespace PT
     class TradeManager
     {
     private:
+      CALLBACK_HANDLER_LISTENERS
       bool PickUp(iEvent& ev);
       bool Drop(iEvent& ev);
 

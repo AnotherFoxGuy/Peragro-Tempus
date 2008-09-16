@@ -211,11 +211,8 @@ namespace PT
       using namespace PT::Events;
 
       // Register listener for interface.
-      EventHandler<SkinManager>* cb =
-        new EventHandler<SkinManager>(&SkinManager::LoadPressed, this);
-      PT::Events::EventManager* eventManager =
-        PointerLibrary::getInstance()->getEventManager();
-      eventManager->AddListener("interface.skinwindow.buttons.load", cb);
+      SETUP_HANDLER
+      REGISTER_LISTENER(SkinManager, LoadPressed, "interface.skinwindow.buttons.load")
 
       return true;
     } // end Initialize()

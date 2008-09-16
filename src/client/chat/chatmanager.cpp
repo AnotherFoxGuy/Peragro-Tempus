@@ -60,33 +60,22 @@ namespace PT
 
     bool ChatManager::Initialize ()
     {
-      using namespace PT::Events;
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
-      // Register listener for ChatSayEvent.
-      EventHandler<ChatManager>* cbSay = new EventHandler<ChatManager>(&ChatManager::HandleSay, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("chat.say", cbSay);
+      SETUP_HANDLER
+      REGISTER_LISTENER(ChatManager, HandleSay, "chat.say")
+      REGISTER_LISTENER(ChatManager, HandleWhisper, "chat.whisper")
+      REGISTER_LISTENER(ChatManager, HandleGroup, "chat.group")
 
-      // Register listener for ChatWhisperEvent.
-      EventHandler<ChatManager>* cbWhisper = new EventHandler<ChatManager>(&ChatManager::HandleWhisper, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("chat.whisper", cbWhisper);
-
-      // Register listener for ChatGroupEvent.
-      EventHandler<ChatManager>* cbGroup = new EventHandler<ChatManager>(&ChatManager::HandleGroup, this);
-      PointerLibrary::getInstance()->getEventManager()->AddListener("chat.group", cbGroup);
+      REGISTER_LISTENER(ChatManager, ProcessEvents, "entity.add")
+      REGISTER_LISTENER(ChatManager, ProcessEvents, "entity.remove")
 
       // Handle submit.
       CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->SetSubmitEvent(function);
-
-      EventHandler<ChatManager>* cb = new EventHandler<ChatManager>(&ChatManager::ProcessEvents, this);
-      // Register listener for EntityAddEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.add", cb);
-      // Register listener for EntityRemoveEvent.
-      PointerLibrary::getInstance()->getEventManager()->AddListener("entity.remove", cb);
 
       // Register commands.
       CommandInterface* cmd = new cmdHelp(); RegisterCommand(cmd);

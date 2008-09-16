@@ -438,37 +438,30 @@ namespace PT
     loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
 
     //Listen for events.
-    using namespace PT::Events;
+    SETUP_HANDLER
 
     // Register listener for StateConnectedEvent.
-    EventHandler<Client>* cbConnected = new EventHandler<Client>(&Client::Connected, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("state.connected", cbConnected);
+    REGISTER_LISTENER(Client, Connected, "state.connected")
 
     // Register listener for StateLoggedInEvent.
-    EventHandler<Client>* cbLoggedIn = new EventHandler<Client>(&Client::loggedIn, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("state.loggedin", cbLoggedIn);
+    REGISTER_LISTENER(Client, loggedIn, "state.loggedin")
 
     // Register listener for state.play.
-    EventHandler<Client>* cbPlay = new EventHandler<Client>(&Client::PlayingEvent, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("state.play", cbPlay);
+    REGISTER_LISTENER(Client, PlayingEvent, "state.play")
 
-    // Register listener for RegionLoadingEvent.
-    EventHandler<Client>* cbLoading = new EventHandler<Client>(&Client::LoadingRegion, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("world.loading", cbLoading);
+    // Register listener for WorldLoadingEvent.
+    REGISTER_LISTENER(Client, LoadingRegion, "world.loading")
 
-    // Register listener for RegionLoadedEvent.
-    EventHandler<Client>* cbLoaded = new EventHandler<Client>(&Client::LoadRegion, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("world.loaded", cbLoaded);
+    // Register listener for WorldLoadedEvent.
+    REGISTER_LISTENER(Client, LoadRegion, "world.loaded")
 
     //Actions
 
     // Register listener for ActionActivateSkill.
-    EventHandler<Client>* cbActionActivateSkill = new EventHandler<Client>(&Client::ActionActivateSkill, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("input.ActivateSkill", cbActionActivateSkill);
+    REGISTER_LISTENER(Client, ActionActivateSkill, "input.ActivateSkill")
 
     // Register listener for ActionQuit.
-    EventHandler<Client>* cbActionQuit = new EventHandler<Client>(&Client::ActionQuit, this);
-    PointerLibrary::getInstance()->getEventManager()->AddListener("input.Quit", cbActionQuit);
+    REGISTER_LISTENER(Client, ActionQuit, "input.Quit\n")
 
     // Disable the lighting cache.
     engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);

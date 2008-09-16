@@ -26,6 +26,7 @@
 #include <CEGUI.h>
 
 #include "common/event/event.h"
+#include "common/event/eventmanager.h"
 
 struct iObjectRegistry;
 struct iVFS;
@@ -85,6 +86,7 @@ namespace PT
       bool ReloadWindows ();
 
     private:
+      CALLBACK_HANDLER_LISTENERS
       bool LoadPressed (iEvent &ev);
 
     public:

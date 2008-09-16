@@ -80,11 +80,8 @@ namespace PT
       std::string eventName("input.Toggle");
       eventName += name;
 
-      using namespace PT::Events;
-      EventHandler<GUIWindow>* cbtoggle =
-        new EventHandler<GUIWindow>(&GUIWindow::ToggleWindow, this);
-      PointerLibrary::getInstance()->getEventManager()->
-        AddListener(eventName.c_str(), cbtoggle);
+      SETUP_HANDLER
+      REGISTER_LISTENER(GUIWindow, ToggleWindow, eventName)
     } // end SetupToggleListener()
 
     bool GUIWindow::ToggleWindow(iEvent& ev)
