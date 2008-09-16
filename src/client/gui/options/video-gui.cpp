@@ -31,7 +31,7 @@
 
 // MSVC doesn't define log2 :/
 #include <cmath>
-static double log2( double n )
+double log2( double n )
 {
   return log( n ) / log( 2.0f );
 }
