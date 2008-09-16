@@ -126,6 +126,26 @@ namespace PT
         return true;
       } // end DelChar()
 
+      bool SelectCharWindow::SelectionAccepted(const CEGUI::EventArgs &e)
+      {
+        using namespace CEGUI;
+
+        const KeyEventArgs& keyArgs =
+          static_cast<const KeyEventArgs&>(e);
+
+        // If input is different from RightButton,
+        // swallow the event and don't do anything.
+        if (   (keyArgs.scancode != Key::Tab)
+            && (keyArgs.scancode != Key::Return)
+            && (keyArgs.scancode != Key::NumpadEnter))
+        {
+          return true;
+        }
+
+        SelectChar(e);
+        return true;
+      } // end SelectionAccepted()
+
       CEGUI::String SelectCharWindow::GetNewCharName()
       {
         return winMgr->getWindow("CharSelectNew/NickNameEditBox")->getText();
@@ -173,7 +193,20 @@ namespace PT
         ((CEGUI::MultiColumnList*)btn)->setItem(charNameItem, 1, row);
         ((CEGUI::MultiColumnList*)btn)->
           setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+
+        SelectFirstChar();
+        ShowWindow();
+
       } // end AddCharacter()
+
+      void SelectCharWindow::SelectFirstChar()
+      {
+        btn = winMgr->getWindow("CharSelect/Characters");
+
+        CEGUI::MCLGridRef ref(0,0);
+
+        ((CEGUI::MultiColumnList*)btn)->setItemSelectState(ref ,true);
+      } // end SelectFirstChar()
 
       void SelectCharWindow::EmptyCharList()
       {
@@ -203,6 +236,10 @@ namespace PT
         btn = winMgr->getWindow("CharSelect/Ok");
         btn->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&SelectCharWindow::SelectChar, this));
+
+        btn = winMgr->getWindow("CharSelect/Frame");
+        btn->subscribeEvent(CEGUI::Window::EventKeyDown,
+          CEGUI::Event::Subscriber(&SelectCharWindow::SelectionAccepted, this));
 
         btn = winMgr->getWindow("CharSelect/Create");
         btn->subscribeEvent(CEGUI::PushButton::EventClicked,
@@ -238,6 +275,7 @@ namespace PT
       {
         btn = winMgr->getWindow("CharSelect/Frame");
         btn->setVisible(true);
+        btn->activate();
       }
     } // Windows namespace
   } // GUI namespace

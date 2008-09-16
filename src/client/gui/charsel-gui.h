@@ -49,6 +49,9 @@ namespace PT
         /// Scroll right throught the characterlist.
         void ScrollRight();
 
+        /// Executed when the current character has been accepted.
+        bool SelectionAccepted(const CEGUI::EventArgs &e);
+
         /// Opens the Create character menu.
         bool CreateButton(const CEGUI::EventArgs& e);
         /// Returns to the character menu.
@@ -56,6 +59,8 @@ namespace PT
         /// Opens the server setup window.
         bool AdminButton(const CEGUI::EventArgs& e);
         void ToggleNewWindow(bool visible);
+
+        void SelectFirstChar();
 
       public:
         void ShowAdminButton();

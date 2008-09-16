@@ -238,7 +238,7 @@ namespace PT
     std::string pass;
     unsigned int char_id;
 
-    CS_EVENTHANDLER_PHASE_LOGIC("application.peragro")
+    CS_EVENTHANDLER_PHASE_3D("application.peragro")
   };
 
 } // PT namespace
