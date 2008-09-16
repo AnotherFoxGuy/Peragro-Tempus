@@ -1,6 +1,6 @@
-SubDir TOP plugins component entity move ;
+SubDir TOP components entity move ;
 
-SubInclude TOP plugins component entity move viewbob ;
+SubInclude TOP components entity move viewbob ;
 
 Description component_networkmove : "networkmove" ;
 Plugin component_networkmove : [ Wildcard *.cpp *.h ] ;

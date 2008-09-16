@@ -1,4 +1,4 @@
-SubDir TOP plugins component entity input viewcontrols ;
+SubDir TOP components entity input viewcontrols ;
 
 Description component_viewcontrols : "viewcontrols" ;
 Plugin component_viewcontrols : [ Wildcard *.cpp *.h ] ;

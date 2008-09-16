@@ -1,0 +1,4 @@
+SubDir TOP components entity input ;
+
+SubInclude TOP components entity input playercontrols ;
+SubInclude TOP components entity input viewcontrols ;

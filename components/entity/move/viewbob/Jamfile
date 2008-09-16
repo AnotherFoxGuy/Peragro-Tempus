@@ -1,4 +1,4 @@
-SubDir TOP plugins component entity move viewbob ;
+SubDir TOP components entity move viewbob ;
 
 Description component_viewbob : "viewbob" ;
 Plugin component_viewbob : [ Wildcard *.cpp *.h ] ;

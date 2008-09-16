@@ -1,4 +1,0 @@
-SubDir TOP plugins component entity input ;
-
-SubInclude TOP plugins component entity input playercontrols ;
-SubInclude TOP plugins component entity input viewcontrols ;

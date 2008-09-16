@@ -1,5 +1,0 @@
-SubDir TOP plugins component entity ;
-
-SubInclude TOP plugins component entity move ;
-SubInclude TOP plugins component entity input ;
-SubInclude TOP plugins component entity stat ;
