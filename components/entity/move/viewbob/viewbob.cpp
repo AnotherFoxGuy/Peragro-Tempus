@@ -17,7 +17,7 @@
 */
 
 #include <cssysdef.h>
-#include "plugins/component/entity/move/viewbob/viewbob.h"
+#include "components/entity/move/viewbob/viewbob.h"
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>

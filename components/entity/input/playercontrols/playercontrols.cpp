@@ -17,7 +17,7 @@
 */
 
 #include <cssysdef.h>
-#include "plugins/component/entity/input/playercontrols/playercontrols.h"
+#include "components/entity/input/playercontrols/playercontrols.h"
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>

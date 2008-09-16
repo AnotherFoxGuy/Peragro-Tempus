@@ -17,7 +17,7 @@
 */
 
 #include <cssysdef.h>
-#include "plugins/component/entity/input/viewcontrols/viewcontrols.h"
+#include "components/entity/input/viewcontrols/viewcontrols.h"
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>

@@ -17,7 +17,7 @@
 */
 
 #include <cssysdef.h>
-#include "plugins/component/entity/stat/stats.h"
+#include "components/entity/stat/stats.h"
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>

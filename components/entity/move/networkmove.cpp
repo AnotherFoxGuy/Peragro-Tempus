@@ -17,7 +17,7 @@
 */
 
 #include <cssysdef.h>
-#include "plugins/component/entity/move/networkmove.h"
+#include "components/entity/move/networkmove.h"
 
 #include <iengine/engine.h>
 #include <iengine/sector.h>
