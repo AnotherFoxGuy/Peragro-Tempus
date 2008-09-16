@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\plugins\component\entity\move;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\components\entity\move;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -158,7 +158,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\plugins\component\entity\move;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\components\entity\move;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -232,7 +232,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\plugins\component\entity\move;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\components\entity\move;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -306,7 +306,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\plugins\component\entity\move;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				AdditionalIncludeDirectories=".;..\..\components\entity\move;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -319,24 +319,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\component\entity\move\networkmove.cpp">
+				RelativePath="..\..\components\entity\move\networkmove.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\component\entity\move\networkmove.h">
+				RelativePath="..\..\components\entity\move\networkmove.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\common\plgcomponent_networkmove.rc">
+				RelativePath="..\..\components\entity\move\component_networkmove.csplugin">
 			</File>
 			<File
-				RelativePath="..\..\plugins\component\entity\move\component_networkmove.csplugin">
+				RelativePath="..\..\msvc\common\plgcomponent_networkmove.rc">
 			</File>
 		</Filter>
 	</Files>

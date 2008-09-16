@@ -3,11 +3,6 @@
 # HAVE_STATICDEPS.<package> and <package>.STATICDEPS via MsvcGenConfig.
 # Furthermore, this file might require manual updates from the master copy 
 # (usually found in the package's source repository) every now and then.
-STATICPLUGINS.AVAILABLE += csclipboard ;
-STATICPLUGIN.csclipboard.CFLAGS.debug.71 =  ;
-STATICPLUGIN.csclipboard.CFLAGS.release.71 =  ;
-STATICPLUGIN.csclipboard.LFLAGS.debug.71 = libpt_staticplugins_d.lib libcrystalspace_d.lib ;
-STATICPLUGIN.csclipboard.LFLAGS.release.71 = libpt_staticplugins.lib libcrystalspace.lib ;
 STATICPLUGINS.AVAILABLE += component_viewbob ;
 STATICPLUGIN.component_viewbob.CFLAGS.debug.71 = "/D USE_CEL" ;
 STATICPLUGIN.component_viewbob.CFLAGS.release.71 = "/D USE_CEL" ;
@@ -33,6 +28,11 @@ STATICPLUGIN.componentstats.CFLAGS.debug.71 = "/D USE_CEL" ;
 STATICPLUGIN.componentstats.CFLAGS.release.71 = "/D USE_CEL" ;
 STATICPLUGIN.componentstats.LFLAGS.debug.71 = libpt_staticplugins_d.lib libreporter_d.lib libeventmanager-cs_d.lib libclient-component_d.lib  libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib ;
 STATICPLUGIN.componentstats.LFLAGS.release.71 = libpt_staticplugins.lib libreporter.lib libeventmanager-cs.lib libclient-component.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib ;
+STATICPLUGINS.AVAILABLE += csclipboard ;
+STATICPLUGIN.csclipboard.CFLAGS.debug.71 =  ;
+STATICPLUGIN.csclipboard.CFLAGS.release.71 =  ;
+STATICPLUGIN.csclipboard.LFLAGS.debug.71 = libpt_staticplugins_d.lib libcrystalspace_d.lib ;
+STATICPLUGIN.csclipboard.LFLAGS.release.71 = libpt_staticplugins.lib libcrystalspace.lib ;
 STATICPLUGINS.AVAILABLE += mystarbox ;
 STATICPLUGIN.mystarbox.CFLAGS.debug.71 =  ;
 STATICPLUGIN.mystarbox.CFLAGS.release.71 =  ;

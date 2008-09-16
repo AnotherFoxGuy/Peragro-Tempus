@@ -301,6 +301,131 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\components\entity\input\playercontrols\playercontrols.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\components\entity\input\viewcontrols\viewcontrols.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\components\entity\move\networkmove.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\components\entity\move\viewbob\viewbob.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\components\entity\stat\stats.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libcomponent_networkmove_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -573,131 +698,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\component\entity\input\playercontrols\playercontrols.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols_playercontrols.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols_playercontrols.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols_playercontrols.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_playercontrols_playercontrols.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\component\entity\input\viewcontrols\viewcontrols.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\component\entity\move\networkmove.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_move_networkmove.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_move_networkmove.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_move_networkmove.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_move_networkmove.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\component\entity\move\viewbob\viewbob.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_move_viewbob_viewbob.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_move_viewbob_viewbob.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_move_viewbob_viewbob.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_move_viewbob_viewbob.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\component\entity\stat\stats.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_stat_stats.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_component_entity_stat_stats.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_stat_stats.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_component_entity_stat_stats.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1080,19 +1080,19 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\component\entity\input\playercontrols\playercontrols.h">
+				RelativePath="..\..\components\entity\input\playercontrols\playercontrols.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\component\entity\input\viewcontrols\viewcontrols.h">
+				RelativePath="..\..\components\entity\input\viewcontrols\viewcontrols.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\component\entity\move\networkmove.h">
+				RelativePath="..\..\components\entity\move\networkmove.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\component\entity\move\viewbob\viewbob.h">
+				RelativePath="..\..\components\entity\move\viewbob\viewbob.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\component\entity\stat\stats.h">
+				RelativePath="..\..\components\entity\stat\stats.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\loader_starbox\loader_starbox.h">
