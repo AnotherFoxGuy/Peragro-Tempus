@@ -110,9 +110,9 @@ namespace PT
       csRef<iStringArray> files = vfs->FindFiles(path);
       for (size_t i = 0; i < files->GetSize();i++)
       {
-        std::string file = files->Get(i);
-        std::string spath = path;
-        std::string name = file.substr(spath.length(), file.length());
+        std::string file(files->Get(i));
+        std::string spath(path);
+        std::string name(file.substr(spath.length(), file.length()));
         name = name.substr(0, name.length()-1);
         // Check if the name doesn't start with '.', a hidden file.
         if (name.substr(0,1).compare(".") == 0) continue;

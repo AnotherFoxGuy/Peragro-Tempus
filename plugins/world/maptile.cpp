@@ -37,7 +37,7 @@ namespace PT
   namespace World
   {
     MapTile::MapTile(int x0, int z0, const std::string& fileName, WorldManager* world)
-      : Level(world), x(x0), z(z0)
+      : Level(world), visible(false), x(x0), z(z0)
     {
       xbase = x * TILESIZE;
       zbase = z * TILESIZE;

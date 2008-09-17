@@ -23,17 +23,11 @@
 // --------------------------------------------------------------------------------//
 // System member functions --------------------------------------------------------//
 // --------------------------------------------------------------------------------//
-System::System(int Id, std::string Name , float Ra, float Dec, float Distance)
+System::System(int id, std::string name, float ra, float dec, float distance)
+  : id(id), name(name), right_ascension(ra), declination(dec),
+  distance(distance), system_pos(0), system_star(0), flg_useTexStars(false),
+  nebula_w(0.0f), nebula_h(0.0f), tmp_rot_value(0.0f)
 {
-
-  tmp_rot_value = 0;
-
-  id = 0;
-  id = Id; 
-  right_ascension = Ra;
-  declination = Dec;
-  distance = Distance;
-  name = Name;
   Calculate_Position();
 }
 
@@ -47,7 +41,7 @@ System::~System()
     delete(*itr);
   } // end for iterate systems
 */
-  delete system_star ;
+  if (system_star != 0) delete system_star;
 }
 
 // --------------------------------------------------------------------------------//
@@ -61,7 +55,7 @@ bool System::Init(int Id, std::string Name , float Ra, float Dec, float Distance
   name = Name;
   // Calculate a coordinate position for this system
   Calculate_Position();
-  
+
   return true;
 }
 
@@ -163,6 +157,7 @@ bool System::Add_Star(std::string name, std::string classification,
 
 */
 
+  if (system_star != 0) delete system_star;
   system_star = new Star(name, classification, luminosity, color, txt, this);
   
   return true;

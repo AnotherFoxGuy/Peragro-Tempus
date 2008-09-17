@@ -78,17 +78,17 @@ namespace PT
       chatWindow->SetSubmitEvent(function);
 
       // Register commands.
-      CommandInterface* cmd = new cmdHelp(); RegisterCommand(cmd);
-      cmd = new cmdSay(); RegisterCommand(cmd);
-      cmd = new cmdShout();  RegisterCommand(cmd);
-      cmd = new cmdSayMe(); RegisterCommand(cmd);
-      cmd = new cmdWhisper(); RegisterCommand(cmd);
-      cmd = new cmdGroup(); RegisterCommand(cmd);
-      cmd = new cmdRelocate(); RegisterCommand(cmd);
-      cmd = new cmdEmote(); RegisterCommand(cmd);
-//      cmd = new cmdGreet(); RegisterCommand(cmd);
-//      cmd = new cmdSit(); RegisterCommand(cmd);
-      cmd = new cmdDbg(); RegisterCommand(cmd);
+      RegisterCommand(new cmdHelp());
+      RegisterCommand(new cmdSay());
+      RegisterCommand(new cmdShout());
+      RegisterCommand(new cmdSayMe());
+      RegisterCommand(new cmdWhisper());
+      RegisterCommand(new cmdGroup());
+      RegisterCommand(new cmdRelocate());
+      RegisterCommand(new cmdEmote());
+      //RegisterCommand(new cmdGreet());
+      //RegisterCommand(new cmdSit());
+      RegisterCommand(new cmdDbg());
 
       historypointer=0;
 

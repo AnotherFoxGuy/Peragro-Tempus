@@ -39,13 +39,17 @@ namespace PT
   namespace GUI
   {
     GUIManager::GUIManager()
+      : skinMgr(0), dlgConfig(0), menuMgr(0), dragdrop(0), schMgr(0),
+      winMgr(0), system(0)
     {
-      dragdrop = 0;
     } // end GUIManager()
 
     GUIManager::~GUIManager ()
     {
-      delete dragdrop;
+      if (skinMgr) delete skinMgr;
+      if (dlgConfig) delete dlgConfig;
+      if (menuMgr) delete menuMgr;
+      if (dragdrop) delete dragdrop;
     } // end ~GUIManager()
 
     CEGUI::Window* GUIManager::GetCeguiWindow(const char* name)

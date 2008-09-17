@@ -35,7 +35,7 @@ public:
   /// The id of the zone.
   int id;
   /// Which type of zone it is.
-  const char* type;
+  std::string type;
 
   /**
    * Simple empty contstructor.
@@ -46,7 +46,7 @@ public:
    * @param id The id of the zone.
    * @param type Which type of zone it is.
    */
-  ZonesTableVO(int id, const char* type)
+  ZonesTableVO(int id, std::string type)
   : id(id), type(type)
   {
   }

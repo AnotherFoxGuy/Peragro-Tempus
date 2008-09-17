@@ -32,23 +32,24 @@ namespace PT
 {
   namespace Trade
   {
-    TradeManager::TradeManager ()
+    TradeManager::TradeManager()
+      : playerinventory(0)
     {
-      playerinventory = 0;
     }
 
-    TradeManager::~TradeManager ()
+    TradeManager::~TradeManager()
     {
       delete playerinventory;
     }
 
-    bool TradeManager::Initialize ()
+    bool TradeManager::Initialize()
     {
       SETUP_HANDLER
       REGISTER_LISTENER(TradeManager, PickUp, "trade.pickup")
       REGISTER_LISTENER(TradeManager, Drop, "trade.drop")
 
       // Create and Initialize the PlayerInventory.
+      if (playerinventory != 0) delete playerinventory;
       playerinventory = new PT::Trade::PlayerInventory ();
       if (!playerinventory->Initialize())
         return Report(PT::Error, "Failed to initialize PlayerInventory!");

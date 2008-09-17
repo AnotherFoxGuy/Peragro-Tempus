@@ -40,7 +40,9 @@ void WorldManager::Report(int severity, const char* msg, ...)
   va_end (arg);
 }
 
-WorldManager::WorldManager(iBase* iParent) : scfImplementationType (this, iParent)
+WorldManager::WorldManager(iBase* iParent)
+  : scfImplementationType(this, iParent), object_reg(0), modelManager(0),
+  interiorManager(0)
 {
   loading = false;
   camera.Set(0.0f);
@@ -128,10 +130,10 @@ WorldManager::~WorldManager()
   }
 
   // Delete the model manager.
-  delete modelManager;
+  if (modelManager) delete modelManager;
 
   // Delete the interior manager.
-  delete interiorManager;
+  if (modelManager) delete interiorManager;
 } // end ~World()
 
 void WorldManager::SetGridSize(int size)

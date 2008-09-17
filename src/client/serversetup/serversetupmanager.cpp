@@ -83,6 +83,11 @@ namespace PT
 
     ServerSetupManager::~ServerSetupManager()
     {
+      delete doorDataManager;
+      delete itemDataManager;
+      delete npcDataManager;
+      delete spawnpointDataManager;
+      delete zoneDataManager;
     }
 
     bool ServerSetupManager::UploadServerData()

@@ -22,17 +22,9 @@
 #include "server/entity/entity.h"
 
 Clock::Clock()
+  : minute(0), hour(10), minutesPerHour(60), hoursPerDay(24), realPerGame(1),
+  broadcastInterval(60), counter(0)
 {
-  hour = 10;
-  minute = 0;
-  minutesPerHour = 60;
-  hoursPerDay = 24;
-
-  // Real time in tenths of seconds per game minute.
-  realPerGame = 1;
-  // Broadcast updates once a game hour.
-  broadcastInterval = 60;
-
   this->setInterval(realPerGame);
   this->start();
 }

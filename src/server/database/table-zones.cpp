@@ -36,8 +36,8 @@ ZonesTableVO* ZonesTable::parseSingleResultSet(ResultSet* rs, size_t row)
   if (!rs || rs->GetRowCount() <= row) return 0;
 
   ZonesTableVO* vo = new ZonesTableVO();
-  vo->id = atoi(rs->GetData(row,0).c_str());
-  vo->type = rs->GetData(row,1).c_str();
+  vo->id = atoi(rs->GetData(row, 0).c_str());
+  vo->type = rs->GetData(row, 1);
   return vo;
 }
 
@@ -81,7 +81,7 @@ void ZonesTable::insert(ZonesTableVO* vo)
   {
     return;
   }
-  db->update(query, vo->id, vo->type);
+  db->update(query, vo->id, vo->type.c_str());
 }
 
 void ZonesTable::remove(unsigned int id)

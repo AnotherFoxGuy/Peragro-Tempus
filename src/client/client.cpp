@@ -461,7 +461,7 @@ namespace PT
     REGISTER_LISTENER(Client, ActionActivateSkill, "input.ActivateSkill")
 
     // Register listener for ActionQuit.
-    REGISTER_LISTENER(Client, ActionQuit, "input.Quit\n")
+    REGISTER_LISTENER(Client, ActionQuit, "input.Quit")
 
     // Disable the lighting cache.
     engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
