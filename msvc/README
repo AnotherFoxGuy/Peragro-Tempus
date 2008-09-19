@@ -1,11 +1,9 @@
-This directory contains MSVC version 6 and 7 project files for
+This directory contains MSVC version 7, 8 and 9 project files for
 Peragro Tempus - Beyond Time.
 
 If the project files become outdated, you can re-generate them by invoking
 "jam msvcgen". Copy the generated files from the build subdirectory `out/msvc'
 to `peragro/msvc'.
 
-MSVC6 project and workspace files (.dsp and .dsw) must be committed to a CVS
-repository as "binary" files.  For example: `cvs add -kb *.dsp *.dsw'.
-Generated .rc files and all MSVC7 project and solution files can be committed
-as plain text.  For example: `cvs add *.rc *.vcproj *.sln'.
+Generated .rc files and all MSVC project and solution files can be committed
+as plain text.
