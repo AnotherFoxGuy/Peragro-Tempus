@@ -194,6 +194,8 @@ private:
     virtual iCollection* GetCollection () const  { return 0; }
     virtual bool CurrentCollectionOnly () const { return true; }
     virtual uint GetKeepFlags() const { return 0; }
+    virtual void AddToCollection(iObject* obj) { }
+    virtual bool GetVerbose() { return false; }
   };
   csRef<LoaderContext> loaderContext;
 
