@@ -40,14 +40,15 @@ namespace PT
       const char* emote;
       const char* synopsis;
       int pose;
+      bool echoOnChat;
     };
 
     // TODO put this in an XML file
     struct Emotes emotelist[] =
     { 
-      {"greet", "Wave at someone.", 1},
-      {"sit", "Sit down.", 2},
-      {"tentacle", "Flex a tentacle.", 3}
+      {"greet", "Wave at someone.", 1, true},
+      {"sit", "Sit down.", 2, false},
+      {"tentacle", "Flex a tentacle.", 3, true}
     };
  
     #define EMOTELISTSIZE ( sizeof(emotelist) / sizeof (struct Emotes) )
@@ -64,7 +65,12 @@ namespace PT
 
     bool cmdEmote::CommandHandled (const char* cmd) const
     {
-      return find(emotes.begin(), emotes.end(), cmd) != emotes.end();
+      for (unsigned i = 0;  i < emotes.size();  i++)
+      {
+        if (emotes[i].compare(cmd) == 0)
+          return true;
+      }
+      return false;
     }
 
     StringArray cmdEmote::GetAllCommands () const
@@ -116,9 +122,14 @@ namespace PT
 
       //Magic number - bad developer!
       int poseid = 0;
+      bool echoOnChat = false;
       for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
         if ( emotelist[i].emote == emote )
+        {
           poseid = emotelist[i].pose;
+          echoOnChat = emotelist[i].echoOnChat;
+          break;
+        }
 
       // TODO: Turn and wave to target.
       /*
@@ -129,10 +140,14 @@ namespace PT
       */
 
       Report(PT::Debug, "emoting at %s", target.c_str());
-      ChatMessage msg;
-      msg.setVolume(2);
-      msg.setMessage(text.c_str());
-      network->send(&msg);
+
+      if (echoOnChat)
+      {
+        ChatMessage msg;
+        msg.setVolume(2);
+        msg.setMessage(text.c_str());
+        network->send(&msg);
+      }
 
       //We want to send a pose request to server as well.
       //TODO: If we decide to introduce more poses, replacing this by some
