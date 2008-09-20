@@ -129,6 +129,7 @@ namespace PT
       // approximate twilight.
       float brightness = cos((step - 0.5f) * PI * 1.9f);
       csColor sunlight(brightness * 1.5f);
+      sunlight.ClampDown();
       // The ambient color is adjusted to give a slightly more yellow colour at
       // midday, graduating to a purplish blue at midnight. Adjust "min_light"
       // to make it playable at night.
@@ -136,6 +137,7 @@ namespace PT
       float amb = cos((step - 0.5f) * PI * 2.2f);
       csColor ambient((amb*0.125f)+0.075f+min_light, (amb*0.15f)+0.05f+min_light,
         (amb*0.1f)+0.08f+min_light);
+      ambient.ClampDown();
 
       // Update the values.
       iSector* world = engine->FindSector("World");
