@@ -59,8 +59,14 @@ namespace PT
 
       /// The light for the sun.
       csRef<iLight> sun;
+
+      ///TODO: <camera /> is broken in CS atm, work around.
       /// The sky mesh.
       csRef<iMeshWrapper> sky;
+      /// The cloud mesh.
+      csRef<iMeshWrapper> clouds;
+      void UpdateCameraMesh(iMeshWrapper* m, iRenderView* rview);
+      //end TODO
 
       /// The game clock.
       Clock* clock;
