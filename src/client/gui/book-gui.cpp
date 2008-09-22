@@ -119,12 +119,6 @@ namespace PT
 
       bool BookWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool BookWindow::ReloadWindow()
-      {
         using namespace PT::Events;
 
         // Load the layout and parent it to the root window.
@@ -132,13 +126,8 @@ namespace PT
         GUIWindow::AddToRoot(window);
 
         //Register the close event.
-        //rootwindow->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
-        //  CEGUI::Event::Subscriber(&BookWindow::OnCloseButton, this));
-
-        // Register the button events.
-        //btn = winMgr->getWindow("Connect_Button");
-        //btn->subscribeEvent(CEGUI::PushButton::EventClicked,
-        //  CEGUI::Event::Subscriber(&ConnectWindow::ConnectButtonPressed, this));
+        window->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
+          CEGUI::Event::Subscriber(&BookWindow::OnCloseButton, this));
 
         // TODO: this souldn't be here, move to a manager.
         SETUP_HANDLER
@@ -146,7 +135,7 @@ namespace PT
         REGISTER_LISTENER(BookWindow, HandleWrite, "book.write")
 
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
     } // Windows namespace
   } // GUI namespace

@@ -43,7 +43,6 @@ namespace PT
         ServerSetupWindow(GUIManager* guimanager);
         virtual ~ServerSetupWindow();
         bool Create();
-        bool ReloadWindow();
       };
 
     } // Windows namespace

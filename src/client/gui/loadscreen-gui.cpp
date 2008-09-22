@@ -51,12 +51,6 @@ namespace PT
 
       bool LoadScreenWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool LoadScreenWindow::ReloadWindow()
-      {
         window = GUIWindow::LoadLayout ("client/loadscreen.xml");
         GUIWindow::AddToRoot(window);
 
@@ -69,7 +63,7 @@ namespace PT
         }
 
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
       void LoadScreenWindow::ShowWindow()
       {

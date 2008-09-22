@@ -48,7 +48,32 @@ namespace PT
 
       bool ControlOptionsWindow::Create()
       {
-        ReloadWindow();
+        // Load the layout.
+        window = GUIWindow::LoadLayout("client/options/controls.xml");
+
+        app_cfg = csQueryRegistry<iConfigManager>
+          (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+        if (!app_cfg)
+        {
+          Report(PT::Error, "Can't find the config manager!");
+          return false;
+        }
+
+        // Set up the controls list.
+        btn = winMgr->getWindow("Options/Controls/List");
+        controlList = static_cast<CEGUI::MultiColumnList*>(btn);
+        if (!controlList) return false;
+
+        CreateControlsList();
+        controlList->subscribeEvent(CEGUI::Window::EventMouseButtonUp,
+          CEGUI::Event::Subscriber(&ControlOptionsWindow::OnControlsListSelection, this));
+
+        // Register listener for controls set.
+        using namespace PT::Events;
+        EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
+        REGISTER_LISTENER(ControlOptionsWindow, ControlUpdate, "input.options.controlupdate");
+        REGISTER_LISTENER(ControlOptionsWindow, ControlSet, "input.options.controlset");
 
         return true;
       } // end Create()
@@ -227,39 +252,6 @@ namespace PT
 
         return true;
       } // end ControlSet()
-
-      bool ControlOptionsWindow::ReloadWindow()
-      {
-        // Load the layout.
-        window = GUIWindow::LoadLayout("client/options/controls.xml");
-
-        app_cfg = csQueryRegistry<iConfigManager>
-          (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
-        if (!app_cfg)
-        {
-          Report(PT::Error, "Can't find the config manager!");
-          return false;
-        }
-
-        // Set up the controls list.
-        btn = winMgr->getWindow("Options/Controls/List");
-        controlList = static_cast<CEGUI::MultiColumnList*>(btn);
-        if (!controlList) return false;
-
-        CreateControlsList();
-        controlList->subscribeEvent(CEGUI::Window::EventMouseButtonUp,
-          CEGUI::Event::Subscriber(&ControlOptionsWindow::OnControlsListSelection, this));
-
-
-        // Register listener for controls set.
-        using namespace PT::Events;
-        EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-        REGISTER_LISTENER(ControlOptionsWindow, ControlUpdate, "input.options.controlupdate");
-        REGISTER_LISTENER(ControlOptionsWindow, ControlSet, "input.options.controlset");
-
-        return true;
-      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

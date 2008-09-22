@@ -48,7 +48,13 @@ namespace PT
 
       bool SkinOptionsWindow::Create()
       {
-        ReloadWindow();
+        // Load the layout.
+        window = GUIWindow::LoadLayout ("client/options/skin.xml");
+
+        // The Load button event.
+        CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/Skins/LoadButton");
+        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::SubscriberSlot(&SkinOptionsWindow::LoadPressed, this));
 
         return true;
       } // end Create()
@@ -66,25 +72,6 @@ namespace PT
 
         return true;
       } // end LoadPressed()
-
-      bool SkinOptionsWindow::ReloadWindow()
-      {
-        // Load the layout.
-        window = GUIWindow::LoadLayout ("client/options/skin.xml");
-
-        // Readd the skins.
-        for (size_t i = 0; i < skinList.GetSize();i++)
-        {
-          CreateSkinItem(skinList.Get(i));
-        }// for
-
-        // Readd the Load button event.
-        CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/Skins/LoadButton");
-        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
-          CEGUI::SubscriberSlot(&SkinOptionsWindow::LoadPressed, this));
-
-        return true;
-      } // end ReloadWindow()
 
       bool SkinOptionsWindow::CreateSkinItem(Skin& skin)
       {

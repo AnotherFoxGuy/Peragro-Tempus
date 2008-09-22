@@ -46,7 +46,6 @@ namespace PT
         SkinOptionsWindow(GUIManager* guiManager);
         virtual ~SkinOptionsWindow();
         bool Create();
-        bool ReloadWindow();
 
         /// Add a skin item.
         bool AddSkin(Skin skin);

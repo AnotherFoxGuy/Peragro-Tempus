@@ -68,12 +68,6 @@ namespace PT
 
       bool OkDialogWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool OkDialogWindow::ReloadWindow()
-      {
         winMgr = cegui->GetWindowManagerPtr ();
 
         window = GUIWindow::LoadLayout ("client/okdialog.xml");
@@ -83,8 +77,9 @@ namespace PT
         btn = winMgr->getWindow("OkDialog/OkButton");
         btn->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&OkDialogWindow::OnOkButton, this));
+
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
       ConfirmDialogWindow::ConfirmDialogWindow(GUIManager* guimanager)
         : GUIWindow (guimanager)
@@ -142,12 +137,6 @@ namespace PT
 
       bool ConfirmDialogWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool ConfirmDialogWindow::ReloadWindow()
-      {
         if (!winMgr->isWindowPresent("ConfirmDialog/Frame"))
         {
           window = GUIWindow::LoadLayout ("client/confirmdialog.xml");
@@ -163,8 +152,9 @@ namespace PT
         btn = winMgr->getWindow("ConfirmDialog/NoButton");
         btn->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&ConfirmDialogWindow::OnNoButton, this));
+
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
     } // Windows namespace
   } // GUI namespace

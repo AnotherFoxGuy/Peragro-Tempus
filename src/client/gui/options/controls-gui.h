@@ -69,7 +69,6 @@ namespace PT
         ControlOptionsWindow(GUIManager* guiManager);
         virtual ~ControlOptionsWindow();
         bool Create();
-        bool ReloadWindow ();
 
       };
 

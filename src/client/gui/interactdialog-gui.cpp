@@ -372,12 +372,6 @@ namespace PT
 
       bool InteractDialogWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool InteractDialogWindow::ReloadWindow()
-      {
         winMgr = cegui->GetWindowManagerPtr ();
 
         window = winMgr->createWindow("StaticImage", "InteractDialog/Frame");
@@ -472,8 +466,9 @@ namespace PT
         button->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&InteractDialogWindow::OnAction, this));
         */
+
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
     } // Windows namespace
   } // GUI namespace

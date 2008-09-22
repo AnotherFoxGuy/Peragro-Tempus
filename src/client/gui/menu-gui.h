@@ -40,7 +40,6 @@ namespace PT
         MenuWindow (GUIManager* guiManager);
         virtual ~MenuWindow ();
         bool Create ();
-        bool ReloadWindow ();
       };
 
     } // Windows namespace

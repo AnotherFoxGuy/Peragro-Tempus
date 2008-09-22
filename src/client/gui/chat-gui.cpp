@@ -169,12 +169,6 @@ namespace PT
 
       bool ChatWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool ChatWindow::ReloadWindow()
-      {
         window = GUIWindow::LoadLayout ("client/chat.xml");
         GUIWindow::AddToRoot(window);
         window = GUIWindow::LoadLayout ("client/chatlog.xml");
@@ -203,8 +197,9 @@ namespace PT
           CEGUI::Event::Subscriber(&ChatWindow::OnDropList, this));
 
         HideWindow();
+
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
     } // Windows namespace
   } // GUI namespace

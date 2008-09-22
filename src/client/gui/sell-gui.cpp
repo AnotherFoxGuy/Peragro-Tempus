@@ -101,12 +101,6 @@ namespace PT
 
       bool SellWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool SellWindow::ReloadWindow()
-      {
         window = GUIWindow::LoadLayout ("client/sell.xml");
         GUIWindow::AddToRoot(window);
         winMgr = cegui->GetWindowManagerPtr ();
@@ -138,7 +132,7 @@ namespace PT
         //  Inventory::SellLower, DragDrop::Item, 2, 4);
 
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
     } // Windows namespace
   } // GUI namespace

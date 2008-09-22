@@ -52,7 +52,6 @@ namespace PT
         CameraOptionsWindow(GUIManager* guiManager);
         virtual ~CameraOptionsWindow();
         bool Create();
-        bool ReloadWindow();
 
       };
 

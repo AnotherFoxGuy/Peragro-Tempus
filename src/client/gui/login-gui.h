@@ -62,7 +62,6 @@ namespace PT
         LoginWindow(GUIManager* guimanager);
         virtual ~LoginWindow();
         bool Create();
-        bool ReloadWindow();
 
         void ShowWindow();
       };

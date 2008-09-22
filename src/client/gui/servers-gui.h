@@ -47,7 +47,6 @@ namespace PT
         ServerWindow(GUIManager* guimanager);
         virtual ~ServerWindow();
         bool Create();
-        bool ReloadWindow();
 
         void ShowWindow();
       };

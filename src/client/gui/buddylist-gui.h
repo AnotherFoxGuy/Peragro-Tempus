@@ -43,7 +43,6 @@ namespace PT
         BuddyWindow(GUIManager* guimanager);
         virtual ~BuddyWindow();
         bool Create();
-        bool ReloadWindow();
         void AddPlayer(const char* name);
         void RemovePlayer(const char* name);
       };

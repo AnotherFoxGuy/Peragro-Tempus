@@ -53,7 +53,6 @@ namespace PT
         TradeWindow(GUIManager* guimanager);
         virtual ~TradeWindow();
         bool Create();
-        bool ReloadWindow();
         Slot* GetOldSlot(Slot* slot);
         void UpdateOffer();
 

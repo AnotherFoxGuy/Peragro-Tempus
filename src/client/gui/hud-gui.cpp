@@ -42,26 +42,26 @@ namespace PT
       {
         windowName = HUDWINDOW;
         selectedskill = 0;
-      }
+      } // end HUDWindow()
 
       HUDWindow::~HUDWindow ()
       {
         delete selectedskill;
-      }
+      } // end ~HUDWindow()
 
       void HUDWindow::HideWindow()
       {
         winMgr->getWindow("PlayerHUD/Frame")->setVisible(false);
         //winMgr->getWindow("EntityHUD/Frame")->setVisible(false);
         winMgr->getWindow("SkillHUD/Frame")->setVisible(false);
-      }
+      } // end HideWindow()
 
       void HUDWindow::ShowWindow()
       {
         winMgr->getWindow("PlayerHUD/Frame")->setVisible(true);
         //winMgr->getWindow("EntityHUD/Frame")->setVisible(true);
         winMgr->getWindow("SkillHUD/Frame")->setVisible(true);
-      }
+      } // end ShowWindow()
 
       /**
        *
@@ -85,22 +85,22 @@ namespace PT
         buf[29] = '\0';
 
         SetText("PlayerHUD/HPValue", buf);
-      }
+      } // end SetHP()
 
       void HUDWindow::SetMP (float mp)
       {
         mpbar->setProgress(mp);
-      }
+      } // end SetMP()
 
       void HUDWindow::SetXP (float xp)
       {
         xpbar->setProgress(xp);
-      }
+      } // end SetXP()
 
       void HUDWindow::SetSP (float sp)
       {
         spbar->setProgress(sp);
-      }
+      } // end SetSP()
 
       void HUDWindow::SetName (const char* name)
       {
@@ -109,7 +109,7 @@ namespace PT
           namewin->setText((CEGUI::String)name);
         } catch(CEGUI::Exception &e) {
         }
-      }
+      } // end SetName()
 
       void HUDWindow::SetText (const char* name, const char* text)
       {
@@ -120,7 +120,7 @@ namespace PT
           namewin->setText(ctext);
         } catch(CEGUI::Exception &e) {
         }
-      }
+      } // end SetText()
 
       CEGUI::Window* HUDWindow::CreateSkillSlot(CEGUI::Window* parent, const CEGUI::UVector2& position, int id)
       {
@@ -135,7 +135,7 @@ namespace PT
         slot->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&HUDWindow::HandleDragDropped, this));
 
         return slot;
-      }
+      } // end CreateSkillSlot()
 
       CEGUI::Window* HUDWindow::CreateSkillIcon(int skillid)
       {
@@ -184,7 +184,7 @@ namespace PT
 
 
         return skill;
-      }
+      } // end CreateSkillIcon()
 
       bool HUDWindow::HandleSkillSelected(const CEGUI::EventArgs& args)
       {
@@ -195,7 +195,7 @@ namespace PT
         SetActiveSkill(ddea.window);
 
         return true;
-      }
+      } // end HandleSkillSelected()
 
       bool HUDWindow::HandleDragDropped(const CEGUI::EventArgs& args)
       {
@@ -206,7 +206,7 @@ namespace PT
         ddea.window->setProperty("FrameColours", "tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF");
         ddea.window->addChildWindow(ddea.dragDropItem);
         return true;
-      }
+      } // end HandleDragDropped()
 
       bool HUDWindow::HandleDragDroppedOnSkill(const CEGUI::EventArgs& args)
       {
@@ -219,12 +219,12 @@ namespace PT
         // Remove the previos skill.
         winMgr->destroyWindow(ddea.window);
         return true;
-      }
+      } // end HandleDragDroppedOnSkill()
 
       int HUDWindow::GetActiveSkillId()
       {
         return selectedskill->SkillId;
-      }
+      } // end GetActiveSkillId()
 
       void HUDWindow::SetActiveSkill(CEGUI::Window* window)
       {
@@ -241,7 +241,7 @@ namespace PT
           // Set the new window as the selected one
           selectedskill->SkillId     =  atoi( (window->getUserString("skillid")).c_str() );
         }
-      }
+      } // end SetActiveSkill()
 
       bool HUDWindow::AddSkill(int skillid)
       {
@@ -272,7 +272,7 @@ namespace PT
         Report(PT::Error, "AddSkill: quickbar is full!");
 
         return false;
-      }
+      } // end AddSkill()
 
       bool HUDWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
       {
@@ -359,15 +359,9 @@ namespace PT
         }
 
         return false;
-      }
+      } // end OnRootKeyDown()
 
       bool HUDWindow::Create()
-      {
-        ReloadWindow();
-        return true;
-      }
-
-      bool HUDWindow::ReloadWindow()
       {
         window = GUIWindow::LoadLayout ("client/playerhud.xml");
         GUIWindow::AddToRoot(window);
@@ -415,8 +409,10 @@ namespace PT
         // test.
         AddSkill(1);
         AddSkill(2);
+
         return true;
-      }
-    }
-  }
-}
+      } // end Create()
+
+    } // Windows namespace
+  } // GUI namespace
+} // PT namespace

@@ -51,7 +51,6 @@ namespace PT
         InteractDialogWindow(GUIManager* guimanager);
         virtual ~InteractDialogWindow();
         bool Create();
-        bool ReloadWindow();
 
         bool OnInteract (iEvent& ev);
       };

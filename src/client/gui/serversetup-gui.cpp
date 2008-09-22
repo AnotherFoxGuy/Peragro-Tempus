@@ -70,12 +70,6 @@ namespace PT
 
       bool ServerSetupWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool ServerSetupWindow::ReloadWindow()
-      {
         window = GUIWindow::LoadLayout ("client/serversetup.xml");
         GUIWindow::AddToRoot(window);
 
@@ -97,7 +91,7 @@ namespace PT
           CEGUI::Event::Subscriber(&ServerSetupWindow::DoneButton, this));
 
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
     } // Windows namespace
   } // GUI namespace

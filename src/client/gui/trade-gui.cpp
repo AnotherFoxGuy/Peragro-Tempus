@@ -313,12 +313,6 @@ namespace PT
 
       bool TradeWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool TradeWindow::ReloadWindow()
-      {
         numberOfSlots = 16;
 
         window = GUIWindow::LoadLayout ("client/trade-pc.xml");
@@ -355,7 +349,7 @@ namespace PT
         trade2->Create(bag2, Inventory::TradeRight, DragDrop::Item, 4, 4);
 
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
     } // Windows namespace
   } // GUI namespace

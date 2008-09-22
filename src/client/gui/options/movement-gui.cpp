@@ -51,13 +51,6 @@ namespace PT
 
       bool MovementOptionsWindow::Create()
       {
-        ReloadWindow();
-
-        return true;
-      } // end Create()
-
-      bool MovementOptionsWindow::ReloadWindow()
-      {
         // Load the layout.
         window = GUIWindow::LoadLayout ("client/options/movement.xml");
 
@@ -88,7 +81,7 @@ namespace PT
           CEGUI::Event::Subscriber(&MovementOptionsWindow::OnYAxisCheckBox, this));
 
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
       void MovementOptionsWindow::SendUpdateEvent()
       {

@@ -118,38 +118,6 @@ namespace PT
 
       bool OptionsWindow::Create()
       {
-        ReloadWindow();
-        SetupToggleListener("Options");
-        return true;
-      } // end Create()
-
-      bool OptionsWindow::OptionButtonPressed(const CEGUI::EventArgs& e)
-      {
-        // Hide the Options button.
-        btn = winMgr->getWindow("Options/Options_Button");
-        btn->setVisible(false);
-
-        // Show the Option menu.
-        btn = winMgr->getWindow("Options/Frame");
-        btn->setVisible(true);
-        btn->activate();
-        return true;
-      } // end OptionButtonPressed()
-
-      bool OptionsWindow::OnCloseButton(const CEGUI::EventArgs& e)
-      {
-        // Show the Options button.
-        btn = winMgr->getWindow("Options/Options_Button");
-        btn->setVisible(true);
-
-        // Hide the Option menu.
-        btn = winMgr->getWindow("Options/Frame");
-        btn->setVisible(false);
-        return true;
-      } // end OnCloseButton()
-
-      bool OptionsWindow::ReloadWindow()
-      {
         window = GUIWindow::LoadLayout ("client/options.xml");
         GUIWindow::AddToRoot(window);
 
@@ -177,8 +145,35 @@ namespace PT
         btn->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&OptionsWindow::OptionButtonPressed, this));
 
+        SetupToggleListener("Options");
+
         return true;
-      } // end ReloadWindow()
+      } // end Create()
+
+      bool OptionsWindow::OptionButtonPressed(const CEGUI::EventArgs& e)
+      {
+        // Hide the Options button.
+        btn = winMgr->getWindow("Options/Options_Button");
+        btn->setVisible(false);
+
+        // Show the Option menu.
+        btn = winMgr->getWindow("Options/Frame");
+        btn->setVisible(true);
+        btn->activate();
+        return true;
+      } // end OptionButtonPressed()
+
+      bool OptionsWindow::OnCloseButton(const CEGUI::EventArgs& e)
+      {
+        // Show the Options button.
+        btn = winMgr->getWindow("Options/Options_Button");
+        btn->setVisible(true);
+
+        // Hide the Option menu.
+        btn = winMgr->getWindow("Options/Frame");
+        btn->setVisible(false);
+        return true;
+      } // end OnCloseButton()
 
       bool OptionsWindow::CreateOptionItem(const char* optionName)
       {

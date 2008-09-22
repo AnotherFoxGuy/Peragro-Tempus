@@ -45,7 +45,6 @@ namespace PT
         ChatWindow(GUIManager* guimanager);
         virtual ~ChatWindow();
         bool Create();
-        bool ReloadWindow();
 
         void AddChatMessage (const char* nick, const char* msg);
         void AddMessage (const char* msg);

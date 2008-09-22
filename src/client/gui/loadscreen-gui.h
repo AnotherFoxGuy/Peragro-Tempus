@@ -35,7 +35,6 @@ namespace PT
         LoadScreenWindow(GUIManager* guimanager);
         virtual ~LoadScreenWindow();
         bool Create();
-        bool ReloadWindow();
         void ShowWindow();
         void HideWindow();
         void SetProgress(float progress);

@@ -59,13 +59,6 @@ namespace PT
 
       bool VideoOptionsWindow::Create()
       {
-        ReloadWindow();
-
-        return true;
-      } // end Create()
-
-      bool VideoOptionsWindow::ReloadWindow()
-      {
         // Load the layout.
         window = GUIWindow::LoadLayout("client/options/video.xml");
 
@@ -126,7 +119,7 @@ namespace PT
           CEGUI::Event::Subscriber(&VideoOptionsWindow::OnReflectionUpdateIntervalSliderChanged, this));
 
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
       bool VideoOptionsWindow::OnDropListResolution(const CEGUI::EventArgs& e)
       {

@@ -111,13 +111,6 @@ namespace PT
 
       bool BuddyWindow::Create()
       {
-        ReloadWindow();
-        SetupToggleListener("BuddyList");
-        return true;
-      }  // end Create()
-
-      bool BuddyWindow::ReloadWindow()
-      {
         window = GUIWindow::LoadLayout ("client/buddylist.xml");
         GUIWindow::AddToRoot(window);
 
@@ -139,7 +132,6 @@ namespace PT
           (winMgr->getWindow("BuddyList/TabControl"));
         tabcontrol->setTabHeight(CEGUI::UDim(0.10f,0));
         tabcontrol->addTab(usertab);
-        //EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
         // Get the frame window
         CEGUI::FrameWindow* frame = static_cast<CEGUI::FrameWindow*>
@@ -151,8 +143,10 @@ namespace PT
         REGISTER_LISTENER(BuddyWindow, ProcessEvents, "entity.add")
         REGISTER_LISTENER(BuddyWindow, ProcessEvents, "entity.remove")
 
+        SetupToggleListener("BuddyList");
+
         return true;
-      } // end ReloadWindow()
+      }  // end Create()
 
     } // Windows namespace
   } // GUI namespace

@@ -43,7 +43,6 @@ namespace PT
         NpcDialogWindow(GUIManager* guimanager);
         virtual ~NpcDialogWindow();
         bool Create();
-        bool ReloadWindow();
 
         void SetName(csString name);
         void AddDialog(uint dialogueId, csString dialog);

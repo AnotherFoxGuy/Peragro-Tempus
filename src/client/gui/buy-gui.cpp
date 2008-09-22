@@ -231,12 +231,6 @@ namespace PT
 
       bool BuyWindow::Create()
       {
-        ReloadWindow();
-        return true;
-      } // end Create()
-
-      bool BuyWindow::ReloadWindow()
-      {
         window = GUIWindow::LoadLayout ("client/buy.xml");
         GUIWindow::AddToRoot(window);
 
@@ -274,8 +268,9 @@ namespace PT
         lowerslots->Create(bag2, Inventory::BuyLower, DragDrop::Item, 2, 4);
 
         Update(0);
+
         return true;
-      } // end ReloadWindow()
+      } // end Create()
 
     } // Windows namespace
   } // GUI namespace
