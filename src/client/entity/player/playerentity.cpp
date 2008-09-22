@@ -127,7 +127,7 @@ namespace PT
       if (evequipment)
       {
         for(size_t i = 0; i < evequipment->GetSize(); i++)
-          equipment.Equip(evequipment->Get(i).slotId, evequipment->Get(i).itemId, evequipment->Get(i).mesh.c_str(), evequipment->Get(i).file.c_str());
+          equipment.Equip(evequipment->Get(i).slotId, evequipment->Get(i).itemId, evequipment->Get(i).mesh, evequipment->Get(i).file);
       }
       else
         Report(PT::Error, "PlayerEntity: failed to get equipment!");
