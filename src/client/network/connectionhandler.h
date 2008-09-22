@@ -24,8 +24,6 @@
 #include "common/network/tcp/tcpmessagehandler.h"
 #include "common/network/netmessage.h"
 
-#include "client/client.h"
-
 #include "common/network/udp/udpconnectionmessages.h"
 
 #include "client/network/userhandler.h"
@@ -40,11 +38,12 @@
 #include "client/network/adminhandler.h"
 #include "client/network/playerhandler.h"
 
+class Network;
+
 class ConnectionHandler : public TcpMessageHandler
 {
 private:
   Network* network;
-  PT::Client* client;
 
   UserHandler user_handler;
   EntityHandler entity_handler;
@@ -59,21 +58,21 @@ private:
   PlayerHandler player_handler;
 
 public:
-  ConnectionHandler(Network* network, PT::Client* client)
-    : network(network), client(client)
+  ConnectionHandler(Network* network)
+    : network(network)
   {
   }
 
   void handle(GenericMessage* msg, int socket)
   {
-    client->sawServer();
+    sawServer();
 
     char type = msg->getMsgType();
     if (type == MESSAGES::CONNECTION)
     {
       char id = msg->getMsgId();
 
-      if (id == CONNECTION::RESPONSE) handleConnectionResponse(client, msg);
+      if (id == CONNECTION::RESPONSE) handleConnectionResponse(msg);
       else if (id == CONNECTION::PING) handlePing(msg);
     }
     else if (type == MESSAGES::USER) user_handler.handle(msg);
@@ -89,12 +88,14 @@ public:
     else if (type == MESSAGES::PLAYER) player_handler.handle(msg);
   }
 
+  void sawServer();
+
   char getType()
   {
     return MESSAGES::CONNECTION;
   }
 
-  void handleConnectionResponse(PT::Client *client, GenericMessage* msg);
+  void handleConnectionResponse(GenericMessage* msg);
   void handlePing(GenericMessage* ping_msg);
 };
 

@@ -295,7 +295,7 @@ namespace PT
     pointerlib.setClient(this);
 
     // Create and Initialize the Network.
-    network = new Network (this);
+    network = new Network ();
     if (!network)
       return Report(PT::Error, "Failed to create Network object!");
     //network->init();
@@ -439,6 +439,9 @@ namespace PT
 
     //Listen for events.
     SETUP_HANDLER
+
+    // Register listener for connection.
+    REGISTER_LISTENER(Client, SawServer, "connection.sawServer")
 
     // Register listener for StateConnectedEvent.
     REGISTER_LISTENER(Client, Connected, "state.connected")
@@ -903,7 +906,7 @@ namespace PT
 
     stateManager->SetState(STATE_PLAY);
 
-    sawServer();
+    SawServer(ev);
 
     if (!world_loaded)
     {
@@ -939,9 +942,10 @@ namespace PT
     return true;
   }
 
-  void Client::sawServer()
+  bool Client::SawServer(iEvent& ev)
   {
     last_seen = csGetTicks();
+    return true;
   }
 
 } // PT namespace

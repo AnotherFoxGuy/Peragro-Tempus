@@ -19,6 +19,7 @@
 #include "mountentity.h"
 
 #include <imesh/object.h>
+#include <iengine/engine.h>
 #include <iengine/mesh.h>
 #include <imesh/spritecal3d.h>
 

@@ -22,11 +22,16 @@
 #include "common/event/stateevent.h"
 
 #include "common/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
-#include <iutil/eventq.h>
-#include "client/client.h"
+void ConnectionHandler::sawServer()
+{
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> stateEvent = evmgr->CreateEvent("connection.sawServer", true);
+  evmgr->AddEvent(stateEvent);
+}
 
-void ConnectionHandler::handleConnectionResponse(PT::Client *client, GenericMessage* msg)
+void ConnectionHandler::handleConnectionResponse(GenericMessage* msg)
 {
   Report(PT::Notify, "Received ConnectionResponse.");
   ConnectResponseMessage connect_msg(0);
@@ -39,10 +44,11 @@ void ConnectionHandler::handleConnectionResponse(PT::Client *client, GenericMess
   }
   else
   {
-    printf("Client is too old\n");
+    Report(PT::Error, "Client is too old!");
     //@TODO: Don't quit like this!
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (client->GetObjectRegistry());
-    if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(client->GetObjectRegistry()));
+    PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+    csRef<iEvent> stateEvent = evmgr->CreateEvent("input.Quit", true);
+    evmgr->AddEvent(stateEvent);
   }
 }
 

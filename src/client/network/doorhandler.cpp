@@ -22,6 +22,7 @@
 #include "common/event/entityevent.h"
 
 #include "common/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
 void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
 {

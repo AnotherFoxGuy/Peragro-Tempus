@@ -22,6 +22,7 @@
 #include "common/event/environmentevent.h"
 
 #include "common/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
 void EnvironmentHandler::handleInitTime(GenericMessage* msg)
 {

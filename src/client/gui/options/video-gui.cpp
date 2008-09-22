@@ -63,7 +63,7 @@ namespace PT
         window = GUIWindow::LoadLayout("client/options/video.xml");
 
         app_cfg = csQueryRegistry<iConfigManager>
-          (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+          (PointerLibrary::getInstance()->getObjectRegistry());
         if (!app_cfg)
         {
           Report(PT::Error, "Can't find the config manager!");

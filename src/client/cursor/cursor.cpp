@@ -22,6 +22,7 @@
 #include <iengine/camera.h>
 #include <iengine/sector.h>
 #include <csutil/event.h>
+#include <csutil/eventnames.h>
 
 #include <physicallayer/pl.h>
 #include <physicallayer/propfact.h>

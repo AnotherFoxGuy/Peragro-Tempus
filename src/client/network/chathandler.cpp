@@ -21,6 +21,8 @@
 #include "common/event/eventmanager.h"
 #include "common/event/chatevent.h"
 
+#include "client/pointer/pointer.h"
+
 void ChatHandler::handleChat(GenericMessage* msg)
 {
   ChatMessage chatmsg;

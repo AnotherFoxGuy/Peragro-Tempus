@@ -20,6 +20,8 @@
 
 #include "common/event/eventmanager.h"
 
+#include "client/pointer/pointer.h"
+
 void BookHandler::handleBookReadResponse(GenericMessage* msg)
 {
   BookReadResponseMessage bookmsg;

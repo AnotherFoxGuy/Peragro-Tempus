@@ -26,6 +26,7 @@
 #include <csutil/csbaseeventh.h>
 #include <csutil/common_handlers.h>
 #include <cstool/csapplicationframework.h>
+
 #include <iengine/engine.h>
 #include <iutil/vfs.h>
 #include <iutil/pluginconfig.h>
@@ -157,10 +158,9 @@ namespace PT
 
     void selectCharacter(unsigned int char_id);
 
-    void sawServer();
-
     csTicks GetTicks() { return csGetTicks(); }
 
+    bool SawServer(iEvent& ev);
     bool loggedIn(iEvent& ev);
     bool PlayingEvent(iEvent& ev);
     bool LoadingRegion(iEvent& ev);

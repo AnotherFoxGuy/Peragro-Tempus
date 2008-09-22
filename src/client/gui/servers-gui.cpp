@@ -18,6 +18,8 @@
 
 #include "client/gui/gui.h"
 
+#include "client/client.h"
+
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"

@@ -34,8 +34,8 @@ private:
   SocketAddress serveraddress;
 
 public:
-  Network(PT::Client* client)
-    : conn_handler(this, client), receiver(&socket)
+  Network()
+    : conn_handler(this), receiver(&socket)
   {
   }
 
