@@ -30,18 +30,13 @@ void NpcEntity::setCharacter(Character* character)
   character->setEntity(e);
 }
 
-void NpcEntity::walkTo(float* dst_pos, float speed)
+void NpcEntity::walkTo(const PtVector3& dst_pos, float speed)
 {
-  final_dst[0] = dst_pos[0];
-  final_dst[1] = dst_pos[1];
-  final_dst[2] = dst_pos[2];
+  final_dst = dst_pos;
 
-  const float* pos = entity.get()->getPos();
+  PtVector3 pos = entity.get()->getPos();
 
-  float dist_x = fabsf(final_dst[0] - pos[0]);
-  float dist_y = fabsf(final_dst[1] - pos[1]);
-  float dist_z = fabsf(final_dst[2] - pos[2]);
-  float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
+  const float dist = Distance(final_dst, pos);
 
   //v = s / t => t = s / v
   t_stop = (size_t) (dist / speed + time(0));
@@ -49,7 +44,7 @@ void NpcEntity::walkTo(float* dst_pos, float speed)
   isWalking = true;
 }
 
-const float* NpcEntity::getPos()
+PtVector3 NpcEntity::getPos()
 {
   if (!isWalking)
   {
@@ -67,12 +62,10 @@ const float* NpcEntity::getPos()
     }
     else
     {
-      const float* pos = entity.get()->getPos();
+      const PtVector3 pos = entity.get()->getPos();
       //Not sure that's correct...
       size_t delta = t_stop - (size_t) time(0);
-      tmp_pos[0] = (final_dst[0] - pos[0]) * delta;
-      tmp_pos[1] = (final_dst[1] - pos[1]) * delta;
-      tmp_pos[2] = (final_dst[2] - pos[2]) * delta;
+      tmp_pos = (final_dst - pos) * (float)delta;
       return tmp_pos;
     }
   }

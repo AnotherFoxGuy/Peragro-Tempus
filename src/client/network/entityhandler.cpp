@@ -72,8 +72,8 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   entityEvent->Add("entityName", *entmsg.getName());
   entityEvent->Add("meshName", *entmsg.getMesh());
   entityEvent->Add("fileName", "none");
-  float pos[3]; // Door has no position.
-  PT::Events::EntityHelper::SetPosition(entityEvent, pos);
+  // Door has no position.
+  PT::Events::EntityHelper::SetPosition(entityEvent, PtVector3(0.0f));
   entityEvent->Add("sectorId", entmsg.getSectorId());
   entityEvent->Add("entityId", entmsg.getEntityId());
   entityEvent->Add("entityType", PT::Entity::DoorEntityType);
@@ -185,8 +185,8 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
 
   using namespace PT::Events;
 
-  float* fv1 = move_msg.getFrom();
-  float* fv2 = move_msg.getTo();
+  PtVector3 fv1 = move_msg.getFrom();
+  PtVector3 fv2 = move_msg.getTo();
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.moveto", move_msg.getEntityId()), true);

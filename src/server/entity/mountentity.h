@@ -41,10 +41,8 @@ private:
 
   bool isWalking;
 
-  float final_dst[3];
-  // TODO this is not the best way. Instead create a struct holding
-  // three floats. 
-  float tmp_pos[3]; 
+  PtVector3 final_dst;
+  PtVector3 tmp_pos;
   size_t t_stop;
   size_t t_org;
 
@@ -85,8 +83,8 @@ public:
   size_t getMaxPassengers() const { return max_passengers; }
   const PcEntity* getPassenger(size_t i) const;
 
-  void walkTo(float* dst_pos, float speed);
-  const float* getPos();
+  void walkTo(const PtVector3& dst_pos, float speed);
+  PtVector3 getPos();
 
   float getSpeed() const { return speed; }
 };

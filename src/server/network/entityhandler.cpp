@@ -104,14 +104,14 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   int name_id;
   if (ent->getPlayerEntity()->getMount())
   {
-    float* pos = request_msg.getPos();
+    PtVector3 pos = request_msg.getPos();
 
     // Make sure the character is up in the saddle
     // TODO: Maybe use a confirmation message from the client instead
-    //const float* mountpos = ent->getPlayerEntity()->getMount()->getEntity()->getPos();
-    //if (pos[1]<mountpos[1]+0.5f){ return; }
+    //PtVector3 mountpos = ent->getPlayerEntity()->getMount()->getEntity()->getPos();
+    //if (pos.y < mountpos.y + 0.5f){ return; }
 
-    pos[1] -= 1.0f; // Adjust the offset from the rider
+    pos.y -= 1.0f; // Adjust the offset from the rider
     ptScopedMonitorable<Entity> user_ent (ent->getPlayerEntity()->getMount()->getEntity());
     user_ent->setPos(pos);
     user_ent->setRotation(request_msg.getRotation());

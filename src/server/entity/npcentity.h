@@ -35,10 +35,10 @@ private:
 
   bool isWalking;
 
-  float final_dst[3];
+  PtVector3 final_dst;
   size_t t_stop;
 
-  float tmp_pos[3]; //used only for temporary calculations!
+  PtVector3 tmp_pos; //used only for temporary calculations!
 
   AI* ai;
 
@@ -72,8 +72,8 @@ public:
   void setCharacter(Character* character);
   const Character* getCharacter() const { return this->character.get(); }
 
-  void walkTo(float* dst_pos, float speed);
-  const float* getPos();
+  void walkTo(const PtVector3& dst_pos, float speed);
+  PtVector3 getPos();
 
   void pause(bool pause) { if (ai) ai->pause(pause); }
 };

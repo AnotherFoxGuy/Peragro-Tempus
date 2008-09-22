@@ -429,7 +429,7 @@ namespace PT
           if (rotv.x < 0.0f) rot = 2.0f * PI - rot;
 
           drmsg.setRotation(rot);
-          drmsg.setPos(pos.x,pos.y,pos.z);
+          drmsg.setPos(pos.x, pos.y, pos.z);
           if (sector && sector->QueryObject()->GetName())
           {
             PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();

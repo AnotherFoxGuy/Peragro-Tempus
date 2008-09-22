@@ -35,6 +35,8 @@
 #include <string>
 #include <sstream>
 
+#include "common/util/ptvector3.h"
+
 #include "common/reporter/reporter.h"
 
 namespace PT
@@ -150,36 +152,27 @@ namespace PT
        * @param name The name of the event parameter to add the coordinates to.
        * @param pos The coordinates.
        */
-      static void SetVector3(iEvent* ev, const char* name, csVector3 pos)
+      static void SetVector3(iEvent* ev, const char* name, const csVector3& pos)
       {
-        float tmp[3];
-        tmp[0] = pos.x;
-        tmp[1] = pos.y;
-        tmp[2] = pos.z;
-        SetVector3(ev, name, tmp);
+        SetVector3(ev, name, PtVector3(pos.x, pos.y, pos.z));
       }
 
       /**
-       * Add coordinates to an event parameter, as a float pointer.
+       * Add coordinates to an event parameter, as a PtVector3.
        * @param ev An entity event.
        * @param name The name of the event parameter to add the coordinates to.
        * @param pos The coordinates.
        */
-      static void SetVector3(iEvent* ev, const char* name, const float* pos)
+      static void SetVector3(iEvent* ev, const char* name, const PtVector3& pos)
       {
         std::string nm = name;
         std::string nmX = nm + "_x";
         std::string nmY = nm + "_y";
         std::string nmZ = nm + "_z";
 
-        float x, y, z;
-        x = pos[0];
-        y = pos[1];
-        z = pos[2];
-
-        ev->Add(nmX.c_str(), x);
-        ev->Add(nmY.c_str(), y);
-        ev->Add(nmZ.c_str(), z);
+        ev->Add(nmX.c_str(), pos.x);
+        ev->Add(nmY.c_str(), pos.y);
+        ev->Add(nmZ.c_str(), pos.z);
       }
 
       /**
@@ -196,7 +189,7 @@ namespace PT
         std::string nmZ = nm + "_z";
 
         float x, y, z;
-        x = y = z =0;
+        x = y = z = 0.0f;
 
         if (ev->Retrieve(nmX.c_str(), x) != csEventErrNone)
           Report(PT::Error, "EntityHelper::GetVector3 failed! X attribute not present!");
@@ -214,7 +207,7 @@ namespace PT
        * @param ev An entity event.
        * @param pos The coordinates.
        */
-      static void SetPosition(iEvent* ev, const float* pos)
+      static void SetPosition(iEvent* ev, const PtVector3& pos)
       {
         SetVector3(ev, "position", pos);
       }

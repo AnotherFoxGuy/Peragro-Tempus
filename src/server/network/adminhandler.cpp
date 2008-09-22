@@ -231,9 +231,9 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  float x = spawnmsg.getPos()[0];
-  float y = spawnmsg.getPos()[1];
-  float z = spawnmsg.getPos()[2];
+  const float x = spawnmsg.getPos().x;
+  const float y = spawnmsg.getPos().y;
+  const float z = spawnmsg.getPos().z;
 
   SectorManager* sectormgr = server->getSectorManager();
 

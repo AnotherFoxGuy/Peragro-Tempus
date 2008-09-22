@@ -25,6 +25,7 @@ class Database;
 class ResultSet;
 
 #include "common/util/ptstring.h"
+#include "common/util/ptvector3.h"
 
 class EntitiesTableVO
 {
@@ -51,13 +52,15 @@ private:
 public:
   EntityTable(Database* db);
   void createTable();
-  void insert(int id, ptString name, int type, int item, unsigned int variation, ptString mesh, const float pos[3], float rot, ptString sector);
+  void insert(int id, const ptString& name, int type, int item,
+              unsigned int variation, const ptString& mesh,
+              const PtVector3& pos, float rot, const ptString& sector);
   int getMaxId();
   void dropTable();
   void remove(int id);
   void update(EntitiesTableVO* entity);
-  bool existsEntity(ptString name);
-  EntitiesTableVO* getEntity(ptString name);
+  bool existsEntity(const ptString& name);
+  EntitiesTableVO* getEntity(const ptString& name);
   Array<EntitiesTableVO*> getAllEntities();
 };
 

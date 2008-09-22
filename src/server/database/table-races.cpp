@@ -50,17 +50,19 @@ void RaceTable::createTable()
     "sector TEXT, "
     "PRIMARY KEY (id) );");
 
-  float pos[3] = { 642.9f, 14.7f, 371.2f };
+  PtVector3 pos(642.9f, 14.7f, 371.2f);
   ptString test("test", 4);
   ptString room("World", 5);
 
   insert(1, test, test, pos, room);
 }
 
-void RaceTable::insert(int id, ptString name, ptString mesh, float pos[3], ptString sector)
+void RaceTable::insert(int id, const ptString& name, const ptString& mesh,
+                       const PtVector3& pos, const ptString& sector)
 {
-  const char* query = "insert into races (id, name, mesh, pos_x, pos_y, pos_z, sector) values ('%d','%q','%q',%.2f,%.2f,%.2f,'%q');";
-  db->update(query, id, *name, *mesh, pos[0], pos[1], pos[2], *sector);
+  const char* query = "insert into races (id, name, mesh, pos_x, pos_y, pos_z, "
+    "sector) values ('%d','%q','%q',%.2f,%.2f,%.2f,'%q');";
+  db->update(query, id, *name, *mesh, pos.x, pos.y, pos.z, *sector);
 }
 
 int RaceTable::getMaxId()
@@ -89,7 +91,7 @@ void RaceTable::remove(int id)
   db->update("delete from races where id = %d;", id);
 }
 
-bool RaceTable::existsRace(ptString name)
+bool RaceTable::existsRace(const ptString& name)
 {
   ResultSet* rs = db->query("select id from races where name = '%q';", *name);
   if (!rs)
@@ -111,7 +113,9 @@ Race* RaceTable::findRaceById(int id)
   race->setId(atoi(rs->GetData(0,0).c_str()));
   race->setName(ptString(rs->GetData(0,1).c_str(),rs->GetData(0,1).length()));
   race->setMesh(ptString(rs->GetData(0,2).c_str(),rs->GetData(0,2).length()));
-  race->setPos((float)atof(rs->GetData(0,3).c_str()), (float)atof(rs->GetData(0,4).c_str()), (float)atof(rs->GetData(0,5).c_str()));
+  race->setPos(PtVector3(atof(rs->GetData(0,3).c_str()),
+    atof(rs->GetData(0,4).c_str()),
+    atof(rs->GetData(0,5).c_str())));
   race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
   delete rs;
 
@@ -128,12 +132,16 @@ void RaceTable::getAllRaces(Array<Race*>& races)
     race->setId(atoi(rs->GetData(i,0).c_str()));
     race->setName(ptString(rs->GetData(i,1).c_str(),rs->GetData(0,1).length()));
     race->setMesh(ptString(rs->GetData(0,2).c_str(),rs->GetData(0,2).length()));
-    race->setPos((float)atof(rs->GetData(0,3).c_str()), (float)atof(rs->GetData(0,4).c_str()), (float)atof(rs->GetData(0,5).c_str()));
+    race->setPos(PtVector3(atof(rs->GetData(0,3).c_str()),
+      atof(rs->GetData(0,4).c_str()),
+      atof(rs->GetData(0,5).c_str())));
     race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
     races.add(race);
 
-    race->getStats()->loadFromDatabase(db->getTables()->getRaceStatsTable(), race->getId());
-    race->getSkills()->loadFromDatabase(db->getTables()->getRaceSkillsTable(), race->getId());
+    race->getStats()->loadFromDatabase(db->getTables()->getRaceStatsTable(),
+      race->getId());
+    race->getSkills()->loadFromDatabase(db->getTables()->getRaceSkillsTable(),
+      race->getId());
   }
   delete rs;
-}  
+}

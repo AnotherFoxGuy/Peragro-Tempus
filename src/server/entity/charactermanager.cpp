@@ -78,7 +78,7 @@ Character* CharacterManager::getCharacter(int id, User* user)
     character->setHairColour(vo->hair_r, vo->hair_g, vo->hair_b);
     character->setSkinColour(vo->skin_r, vo->skin_g, vo->skin_b);
     character->setDecalColour(vo->decal_r, vo->decal_g, vo->decal_b);
-    character->setPos(vo->pos_x, vo->pos_y, vo->pos_z);
+    character->setPos(PtVector3(vo->pos_x, vo->pos_y, vo->pos_z));
     character->setRotation(vo->rotation);
     character->setSector(vo->sector);
     delete vo;
@@ -96,7 +96,7 @@ void CharacterManager::checkForSave(const PcEntity* e)
   {
     ptScopedMonitorable<Entity> l_ent (ent);
     l_ent->resetSavePos();
-    printf("Save entity %s (%d / %d) at <%.2f,%.2f,%.2f> %f\n", *ent->getName(), e->getCharacter()->getId(),ent->getId(), ent->getPos()[0], ent->getPos()[1], ent->getPos()[2], ent->getRotation());
+    printf("Save entity %s (%d / %d) at <%.2f,%.2f,%.2f> %f\n", *ent->getName(), e->getCharacter()->getId(),ent->getId(), ent->getPos().x, ent->getPos().y, ent->getPos().z, ent->getRotation());
     server->getTables()->getCharacterTable()->update(ent->getPos(), ent->getRotation(), ent->getSectorName(), e->getCharacter()->getId());
   }
 }

@@ -63,9 +63,9 @@ void Server::addEntity(const Entity* entity, bool persistent)
       vo.animation = de->getAnimation();
       vo.name = entity->getName();
       vo.sector = entity->getSectorName();
-      vo.x = entity->getPos()[0];
-      vo.y = entity->getPos()[1];
-      vo.z = entity->getPos()[2];
+      vo.x = entity->getPos().x;
+      vo.y = entity->getPos().y;
+      vo.z = entity->getPos().z;
       tables->getDoorsTable()->insert(&vo);
     }
     else
@@ -151,7 +151,7 @@ void Server::delEntity(const Entity* entity)
   delete entity;
 }
 
-void Server::moveEntity(PcEntity* entity, float* pos, float speed, bool run)
+void Server::moveEntity(PcEntity* entity, const PtVector3& pos, float speed, bool run)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
@@ -169,7 +169,7 @@ void Server::moveEntity(PcEntity* entity, float* pos, float speed, bool run)
   NetworkHelper::localcast(bs, entity->getEntity());
 }
 
-void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run)
+void Server::moveEntity(MountEntity* entity, const PtVector3& pos, float speed, bool run)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
@@ -187,7 +187,7 @@ void Server::moveEntity(MountEntity* entity, float* pos, float speed, bool run)
   NetworkHelper::localcast(bs, entity->getEntity());
 }
 
-void Server::moveEntity(const NpcEntity* entity, float* pos, float speed, bool run)
+void Server::moveEntity(const NpcEntity* entity, const PtVector3& pos, float speed, bool run)
 {
   if (!entity) return;
 

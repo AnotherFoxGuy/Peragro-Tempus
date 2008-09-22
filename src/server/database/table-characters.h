@@ -27,6 +27,7 @@ class ResultSet;
 class User;
 
 #include "common/util/ptstring.h"
+#include "common/util/ptvector3.h"
 
 class CharactersTableVO
 {
@@ -86,9 +87,10 @@ public:
    * @param pos The location for this character.
    * @param sector The sector in which the character is lcoated.
    */
-  void insert(int id, ptString name, int user_id, ptString mesh, int race_id,
-              unsigned char haircolour[3], unsigned char skincolour[3],
-              unsigned char decalcolour[3], float pos[3], ptString sector);
+  void insert(int id, const ptString& name, int user_id, const ptString& mesh,
+              int race_id, unsigned char haircolour[3],
+              unsigned char skincolour[3], unsigned char decalcolour[3],
+              const PtVector3& pos, const ptString& sector);
   /**
    * Returns the highest ID any character has.
    * @return The maximum ID any character has, or zero if no character avaialbe.
@@ -110,13 +112,14 @@ public:
    * @param sector The new sector location.
    * @param char_id The id of the character for which to update the location.
    */
-  void update(const float* pos, float rot, ptString sector, int char_id);
+  void update(const PtVector3& pos, float rot, const ptString& sector,
+              int char_id);
   /**
    * Checks if a character exists in the database based on its name.
    * @param name The name of the character.
    * @return True if the character was found, otherwise false.
    */
-  bool existsCharacter(ptString name);
+  bool existsCharacter(const ptString& name);
   /**
    * Find a character based on user id and character id.
    * The caller is responsible for freeing the returned

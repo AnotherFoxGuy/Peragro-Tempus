@@ -19,6 +19,8 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include "common/util/ptvector3.h"
+
 class CharacterManager;
 class Tables;
 class Database;
@@ -143,9 +145,9 @@ public:
 
   void addEntity(const Entity* entity, bool presistent);
   void delEntity(const Entity* entity);
-  void moveEntity(PcEntity* entity, float* pos, float speed, bool run);
-  void moveEntity(MountEntity* entity, float* pos, float speed, bool run);
-  void moveEntity(const NpcEntity* entity, float* pos, float speed, bool run);
+  void moveEntity(PcEntity* entity, const PtVector3& pos, float speed, bool run);
+  void moveEntity(MountEntity* entity, const PtVector3& pos, float speed, bool run);
+  void moveEntity(const NpcEntity* entity, const PtVector3& pos, float speed, bool run);
   void broadCast(const ByteStream& bs);
 };
 

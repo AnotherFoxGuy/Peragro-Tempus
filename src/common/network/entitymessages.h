@@ -63,7 +63,7 @@ class AddNpcEntityMessage : public NetMessage
   ptString name;
   ptString mesh;
   unsigned short meshid;
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
   unsigned int entityid;
@@ -104,16 +104,16 @@ public:
   unsigned short getMeshId() const { return meshid; }
   void setMeshId(unsigned short x) { meshid = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -161,7 +161,7 @@ class AddItemEntityMessage : public NetMessage
   ptString name;
   ptString file;
   ptString mesh;
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
   unsigned int entityid;
@@ -193,16 +193,16 @@ public:
   ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -270,7 +270,7 @@ class AddPlayerEntityMessage : public NetMessage
   ptString name;
   ptString mesh;
   unsigned short meshid;
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned char haircolour[3];
   unsigned char skincolour[3];
@@ -314,16 +314,16 @@ public:
   unsigned short getMeshId() const { return meshid; }
   void setMeshId(unsigned short x) { meshid = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -405,7 +405,7 @@ class AddMountEntityMessage : public NetMessage
   ptString name;
   ptString mesh;
   unsigned short meshid;
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
   unsigned int entityid;
@@ -432,16 +432,16 @@ public:
   unsigned short getMeshId() const { return meshid; }
   void setMeshId(unsigned short x) { meshid = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -551,8 +551,8 @@ public:
 
 class MoveToMessage : public NetMessage
 {
-  float from[3];
-  float to[3];
+  PtVector3 from;
+  PtVector3 to;
   float speed;
   unsigned int entityid;
   bool run;
@@ -571,28 +571,28 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  float* getFrom() { return from; }
+  PtVector3 getFrom() { return from; }
+  void setFrom(const PtVector3& x)
+  {
+    from = x;
+  }
   void setFrom(float x, float y, float z)
   {
-    from[0] = x;
-    from[1] = y;
-    from[2] = z;
-  }
-  void setFrom(const float* x)
-  {
-    setFrom(x[0], x[1], x[2]);
+    from.x = x;
+    from.y = y;
+    from.z = z;
   }
 
-  float* getTo() { return to; }
+  PtVector3 getTo() { return to; }
+  void setTo(const PtVector3& x)
+  {
+    to = x;
+  }
   void setTo(float x, float y, float z)
   {
-    to[0] = x;
-    to[1] = y;
-    to[2] = z;
-  }
-  void setTo(const float* x)
-  {
-    setTo(x[0], x[1], x[2]);
+    to.x = x;
+    to.y = y;
+    to.z = z;
   }
 
   float getSpeed() const { return speed; }
@@ -614,7 +614,7 @@ public:
 
 class MoveToRequestMessage : public NetMessage
 {
-  float to[3];
+  PtVector3 to;
   bool run;
   bool backwards;
   unsigned char turn;
@@ -632,16 +632,16 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  float* getTo() { return to; }
+  PtVector3 getTo() { return to; }
+  void setTo(const PtVector3& x)
+  {
+    to = x;
+  }
   void setTo(float x, float y, float z)
   {
-    to[0] = x;
-    to[1] = y;
-    to[2] = z;
-  }
-  void setTo(const float* x)
-  {
-    setTo(x[0], x[1], x[2]);
+    to.x = x;
+    to.y = y;
+    to.z = z;
   }
 
   bool getRun() const { return run; }
@@ -847,7 +847,7 @@ public:
 class TeleportRequestMessage : public NetMessage
 {
   unsigned int entityid;
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
 
@@ -866,16 +866,16 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -889,7 +889,7 @@ public:
 class TeleportResponseMessage : public NetMessage
 {
   unsigned int entityid;
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
 
@@ -908,16 +908,16 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -930,7 +930,7 @@ public:
 
 class DrUpdateRequestMessage : public NetMessage
 {
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
 
@@ -946,16 +946,16 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -968,7 +968,7 @@ public:
 
 class DrUpdateMessage : public NetMessage
 {
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
   unsigned int entityid;
@@ -985,16 +985,16 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }

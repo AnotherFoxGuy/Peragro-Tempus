@@ -20,6 +20,7 @@
 #define CHARACTER_H
 
 #include "common/util/ptstring.h"
+#include "common/util/ptvector3.h"
 #include "common/util/monitorable.h"
 
 #include "inventory.h"
@@ -47,7 +48,7 @@ private:
 
   ptMonitor<Entity> entity;
 
-  float pos[3];
+  PtVector3 pos;
   float rotation;
 
   unsigned char haircolour[3]; //24bit color
@@ -64,10 +65,6 @@ private:
 public:
   Character() : id(-1), inventory(30) // slot count
   {
-    pos[0] = 0.0f;
-    pos[1] = 0.0f;
-    pos[2] = 0.0f;
-
     dialog_state.setCharacter(this);
   }
 
@@ -78,22 +75,8 @@ public:
   void setId(unsigned int id) { this->id = id; }
   unsigned int getId() const { return id; }
 
-  void setPos(float x, float y, float z)
-  {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(float p[3])
-  {
-    pos[0] = p[0];
-    pos[1] = p[1];
-    pos[2] = p[2];
-  }
-  const float* getPos() const
-  {
-    return pos;
-  }
+  void setPos(const PtVector3& newPos) { pos = newPos; }
+  PtVector3 getPos() const { return pos; }
 
   void setRotation(float rot) { rotation = rot; }
   float getRotation() const { return rotation; }
@@ -115,23 +98,23 @@ public:
 
   const unsigned char* getSkinColour() const { return skincolour; }
   void setSkinColour(unsigned char* colour) { setSkinColour(colour[0],colour[1],colour[2]); }
-  void setSkinColour(unsigned char r, unsigned char g, unsigned char b) 
-  { 
-    skincolour[0] = r; skincolour[1] = g; skincolour[2] = b; 
+  void setSkinColour(unsigned char r, unsigned char g, unsigned char b)
+  {
+    skincolour[0] = r; skincolour[1] = g; skincolour[2] = b;
   }
 
   const unsigned char* getHairColour() const { return haircolour; }
   void setHairColour(unsigned char* colour) { setHairColour(colour[0],colour[1],colour[2]); }
-  void setHairColour(unsigned char r, unsigned char g, unsigned char b) 
-  { 
-    haircolour[0] = r; haircolour[1] = g; haircolour[2] = b; 
+  void setHairColour(unsigned char r, unsigned char g, unsigned char b)
+  {
+    haircolour[0] = r; haircolour[1] = g; haircolour[2] = b;
   }
 
   const unsigned char* getDecalColour() const { return decalcolour; }
   void setDecalColour(unsigned char* colour) { setDecalColour(colour[0],colour[1],colour[2]); }
-  void setDecalColour(unsigned char r, unsigned char g, unsigned char b) 
-  { 
-    decalcolour[0] = r; decalcolour[1] = g; decalcolour[2] = b; 
+  void setDecalColour(unsigned char r, unsigned char g, unsigned char b)
+  {
+    decalcolour[0] = r; decalcolour[1] = g; decalcolour[2] = b;
   }
 
   NPCDialogState* getNPCDialogState() { return &dialog_state; }

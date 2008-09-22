@@ -44,10 +44,10 @@ private:
 
   bool isWalking;
 
-  float final_dst[3];
+  PtVector3 final_dst;
   size_t t_stop;
 
-  float tmp_pos[3]; //used only for temporary calculations!
+  PtVector3 tmp_pos; //used only for temporary calculations!
 
   unsigned char pose_id;
 
@@ -95,8 +95,8 @@ public:
   void setPose(unsigned char pose_id) { this->pose_id = pose_id; }
   const unsigned char getPose() const { return pose_id; }
 
-  void walkTo(float* dst_pos, float speed);
-  const float* getPos();
+  void walkTo(const PtVector3& dst_pos, float speed);
+  PtVector3 getPos();
 
   void toggleFlashStep() { flashStep = !flashStep; }
   bool usesFlashStep() const { return flashStep; }

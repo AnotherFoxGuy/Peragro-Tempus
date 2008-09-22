@@ -146,7 +146,7 @@ class CreateNpcMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
   ptString race;
@@ -198,16 +198,16 @@ public:
   ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -303,7 +303,7 @@ class CreateSpawnPointMessage : public NetMessage
 {
   unsigned int itemid;
   unsigned int variation;
-  float pos[3];
+  PtVector3 pos;
   unsigned short sectorid;
   unsigned int interval;
 
@@ -325,16 +325,16 @@ public:
   unsigned int getVariation() const { return variation; }
   void setVariation(unsigned int x) { variation = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   unsigned short getSectorId() const { return sectorid; }
@@ -349,7 +349,7 @@ class SpawnItemMessage : public NetMessage
 {
   unsigned int itemid;
   unsigned int variation;
-  float pos[3];
+  PtVector3 pos;
   unsigned short sectorid;
 
 public:
@@ -370,16 +370,16 @@ public:
   unsigned int getVariation() const { return variation; }
   void setVariation(unsigned int x) { variation = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   unsigned short getSectorId() const { return sectorid; }
@@ -391,7 +391,7 @@ class SpawnMountMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
-  float pos[3];
+  PtVector3 pos;
   float rotation;
   unsigned short sectorid;
 
@@ -413,16 +413,16 @@ public:
   ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   float getRotation() const { return rotation; }
@@ -439,7 +439,7 @@ class SpawnDoorMessage : public NetMessage
   ptString name;
   ptString mesh;
   unsigned short sectorid;
-  float pos[3];
+  PtVector3 pos;
   bool isopen;
   bool islocked;
   ptString animation;
@@ -468,16 +468,16 @@ public:
   unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
 
-  float* getPos() { return pos; }
+  PtVector3 getPos() { return pos; }
+  void setPos(const PtVector3& x)
+  {
+    pos = x;
+  }
   void setPos(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(const float* x)
-  {
-    setPos(x[0], x[1], x[2]);
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
   }
 
   bool getIsOpen() const { return isopen; }

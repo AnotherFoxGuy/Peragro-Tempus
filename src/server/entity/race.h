@@ -40,7 +40,7 @@ private:
   //start sector
   ptString sector_id;
   //start pos
-  float pos[3];
+  PtVector3 pos;
 
   RaceStats stats;
   RaceSkills skills;
@@ -48,9 +48,6 @@ private:
 public:
   Race() : id(-1)
   {
-    pos[0] = 0.0f;
-    pos[1] = 0.0f;
-    pos[2] = 0.0f;
   }
 
   ~Race()
@@ -74,22 +71,8 @@ public:
     return id;
   }
 
-  void setPos(float x, float y, float z)
-  {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-  }
-  void setPos(float p[3])
-  {
-    pos[0] = p[0];
-    pos[1] = p[1];
-    pos[2] = p[2];
-  }
-  float* getPos()
-  {
-    return pos;
-  }
+  void setPos(const PtVector3& p) { pos = p; }
+  PtVector3 getPos() { return pos; }
 
   ptString& getName() { return name_id; }
   void setName(ptString name) { name_id = name; }

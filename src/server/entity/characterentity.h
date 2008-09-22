@@ -41,10 +41,10 @@ private:
 
   size_t charId;
 
-  float final_dst[3];
+  //PtVector3 final_dst;
   size_t t_stop;
 
-  float tmp_pos[3]; //used only for temporary calculations!
+  //PtVector3 tmp_pos; //used only for temporary calculations!
 
 public:
 
@@ -86,9 +86,6 @@ protected:
 
   CharacterEntity(EntityType type) : Entity(type) 
   {
-    final_dst[0] = 0;
-    final_dst[1] = 0;
-    final_dst[2] = 0;
     t_stop = 0;
     state = stIdle;
     character = 0;
@@ -145,16 +142,11 @@ public:
     return character;
   }
 
-  void walkTo(float* dst_pos, float speed)
+  void walkTo(const PtVector3& dst_pos, float speed)
   {
-    final_dst[0] = dst_pos[0];
-    final_dst[1] = dst_pos[1];
-    final_dst[2] = dst_pos[2];
+    final_dst = dst_pos;
 
-    float dist_x = fabsf(final_dst[0] - pos[0]);
-    float dist_y = fabsf(final_dst[1] - pos[1]);
-    float dist_z = fabsf(final_dst[2] - pos[2]);
-    float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
+    float dist = Distance(final_dst, pos);
 
     //v = s / t => t = s / v
     t_stop = (size_t) (dist / speed + time(0));
@@ -162,7 +154,7 @@ public:
     state = stMoving;
   }
 
-  float* getPos()
+  PtVector3 getPos()
   {
     if (state != stMoving)
     {
@@ -180,9 +172,7 @@ public:
       {
         //Not sure that's correct...
         size_t delta = t_stop - (size_t) time(0);
-        tmp_pos[0] = (final_dst[0] - pos[0]) * delta;
-        tmp_pos[1] = (final_dst[1] - pos[1]) * delta;
-        tmp_pos[2] = (final_dst[2] - pos[2]) * delta;
+        tmp_pos = (final_dst - pos) * delta;
         return tmp_pos;
       }
     }

@@ -20,14 +20,15 @@
 #define STRAY_AI_H
 
 #include "ai.h"
+#include "common/util/ptvector3.h"
 
 class StrayAI : public AI
 {
 private:
   NpcEntity* npc;
 
-  float base[3];
-  float radius[3];
+  PtVector3 base;
+  PtVector3 radius;
 
   unsigned int interval_base;
   unsigned int interval_rand;

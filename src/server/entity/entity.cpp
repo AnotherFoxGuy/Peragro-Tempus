@@ -75,11 +75,9 @@ void Entity::setSector(unsigned short id)
   sector_id = id;
 }
 
-void Entity::setPos(float x, float y, float z)
+void Entity::setPos(const PtVector3& p)
 {
-  pos[0] = x;
-  pos[1] = y;
-  pos[2] = z;
+  pos = p;
 
   if (getMountEntity())
   {
@@ -87,12 +85,12 @@ void Entity::setPos(float x, float y, float z)
     for (size_t i = 0; i < me->getPassengerCount(); i++)
     {
       ptScopedMonitorable<Entity> entity (me->getPassenger(i)->getEntity());
-      entity->setPos(x, y, z);
+      entity->setPos(pos);
     }
   }
 
-  const float dist_square = this->getDistanceTo2(this->getLastSaved());
-  if (dist_square > 100)
+  const float dist_square = Distance2(pos, this->getLastSaved());
+  if (dist_square > 100.0f)
   {
     const User* this_user = 0;
     if (this->getPlayerEntity() != 0)
@@ -115,7 +113,7 @@ void Entity::setPos(float x, float y, float z)
         continue;
 
       if (this->getSector() == other_ent->getSector() &&
-         (this->getDistanceTo2(other_ent) < 10000))
+         (this->getDistanceTo2(other_ent) < 10000.0f))
       {
         if (this_user)
         {

@@ -50,7 +50,7 @@ std::string nwWriter::toFunction(std::string str)
 
 void nwWriter::writeLicenceHeader(std::ofstream& out)
 {
-  out << 
+  out <<
     "/*\n"
     "    Copyright (C) 2005 Development Team of Peragro Tempus\n\n"
 
@@ -85,11 +85,11 @@ void nwWriter::writeNetwork(std::ofstream& out)
   out << "\n"
          "#define MSG_NET_VERSION " << nw->netId << "\n"
          "\n";
-  
+
   size_t i = 0;
   for (i = 0; i < nw->peers.size(); i++)
   {
-    out << "#define MSG_" << toConst(nw->peers[i]->name).c_str() 
+    out << "#define MSG_" << toConst(nw->peers[i]->name).c_str()
         << "_PEER_VERSION " << nw->peers[i]->netId << "\n";
   }
 
@@ -103,10 +103,10 @@ void nwWriter::writeNetwork(std::ofstream& out)
 
   for (i = 0; i < nw->types.size()-1; i++)
   {
-    out <<  "    " << toConst(nw->types[i]->name).c_str() << 
+    out <<  "    " << toConst(nw->types[i]->name).c_str() <<
             "=" << nw->types[i]->id << ",\n";
   }
-  out << "    " << toConst(nw->types[i]->name).c_str() << 
+  out << "    " << toConst(nw->types[i]->name).c_str() <<
          "=" << nw->types[i]->id << "\n";
 
   out << "  };\n"
@@ -152,7 +152,7 @@ void nwWriter::writeParamDefinition(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  float " << toVariable(param->name).c_str() << "[3];\n";
+    out <<  "  PtVector3 " << toVariable(param->name).c_str() << ";\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -209,9 +209,9 @@ void nwWriter::writeParamSerialisation(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << "[0]);\n";
-    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << "[1]);\n";
-    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << "[2]);\n";
+    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << ".x);\n";
+    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << ".y);\n";
+    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << ".z);\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -266,9 +266,9 @@ void nwWriter::writeParamDeserialisation(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  " << toVariable(param->name).c_str() << "[0] = serial.getFloat();\n";
-    out <<  "  " << toVariable(param->name).c_str() << "[1] = serial.getFloat();\n";
-    out <<  "  " << toVariable(param->name).c_str() << "[2] = serial.getFloat();\n";
+    out <<  "  " << toVariable(param->name).c_str() << ".x = serial.getFloat();\n";
+    out <<  "  " << toVariable(param->name).c_str() << ".y = serial.getFloat();\n";
+    out <<  "  " << toVariable(param->name).c_str() << ".z = serial.getFloat();\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -290,95 +290,95 @@ void nwWriter::writeParamGetterSetter(std::ofstream& out, nwParams* param)
 {
   if (param->type == nwParamType::STRING)
   {
-    out <<  "  ptString get" << param->name.c_str() << "() const { return " 
+    out <<  "  ptString get" << param->name.c_str() << "() const { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(ptString x) { " 
+        <<  "  void set" << param->name.c_str() << "(ptString x) { "
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::TEXT)
   {
-    out <<  "  const char* get" << param->name.c_str() << "() const { return " 
+    out <<  "  const char* get" << param->name.c_str() << "() const { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(const char* x) { " 
+        <<  "  void set" << param->name.c_str() << "(const char* x) { "
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::BOOL)
   {
-    out <<  "  bool get" << param->name.c_str() << "() const { return " 
+    out <<  "  bool get" << param->name.c_str() << "() const { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(bool x) { " 
+        <<  "  void set" << param->name.c_str() << "(bool x) { "
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT8)
   {
-    out <<  "  unsigned char get" << param->name.c_str() << "() const { return " 
+    out <<  "  unsigned char get" << param->name.c_str() << "() const { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(unsigned char x) { " 
+        <<  "  void set" << param->name.c_str() << "(unsigned char x) { "
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT16)
   {
-    out <<  "  unsigned short get" << param->name.c_str() << "() const { return " 
+    out <<  "  unsigned short get" << param->name.c_str() << "() const { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(unsigned short x) { " 
+        <<  "  void set" << param->name.c_str() << "(unsigned short x) { "
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT32)
   {
-    out <<  "  unsigned int get" << param->name.c_str() << "() const { return " 
+    out <<  "  unsigned int get" << param->name.c_str() << "() const { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(unsigned int x) { " 
+        <<  "  void set" << param->name.c_str() << "(unsigned int x) { "
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::FLOAT)
   {
-    out <<  "  float get" << param->name.c_str() << "() const { return " 
+    out <<  "  float get" << param->name.c_str() << "() const { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(float x) { " 
+        <<  "  void set" << param->name.c_str() << "(float x) { "
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::COLOUR24)
   {
-    out <<  "  unsigned char* get" << param->name.c_str() << "() { return " 
+    out <<  "  unsigned char* get" << param->name.c_str() << "() { return "
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(unsigned char r, unsigned char g, unsigned char b)\n"
-        <<  "  {\n" 
+        <<  "  {\n"
         <<  "    " << toVariable(param->name).c_str() << "[0] = r;\n"
         <<  "    " << toVariable(param->name).c_str() << "[1] = g;\n"
         <<  "    " << toVariable(param->name).c_str() << "[2] = b;\n"
         <<  "  }\n"
         <<  "  void set" << param->name.c_str() << "(const unsigned char* x)\n"
-        <<  "  {\n" 
+        <<  "  {\n"
         <<  "    set" << param->name.c_str() << "(x[0], x[1], x[2]);\n"
         <<  "  }\n\n";
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  float* get" << param->name.c_str() << "() { return " 
+    out <<  "  PtVector3 get" << param->name.c_str() << "() { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(float x, float y, float z)\n"
-        <<  "  {\n" 
-        <<  "    " << toVariable(param->name).c_str() << "[0] = x;\n"
-        <<  "    " << toVariable(param->name).c_str() << "[1] = y;\n"
-        <<  "    " << toVariable(param->name).c_str() << "[2] = z;\n"
+        <<  "  void set" << param->name.c_str() << "(const PtVector3& x)\n"
+        <<  "  {\n"
+        <<  "    " << toVariable(param->name).c_str() << " = x;\n"
         <<  "  }\n"
-        <<  "  void set" << param->name.c_str() << "(const float* x)\n"
-        <<  "  {\n" 
-        <<  "    set" << param->name.c_str() << "(x[0], x[1], x[2]);\n"
+        <<  "  void set" << param->name.c_str() << "(float x, float y, float z)\n"
+        <<  "  {\n"
+        <<  "    " << toVariable(param->name).c_str() << ".x = x;\n"
+        <<  "    " << toVariable(param->name).c_str() << ".y = y;\n"
+        <<  "    " << toVariable(param->name).c_str() << ".z = z;\n"
         <<  "  }\n\n";
   }
   else if (param->type == nwParamType::LIST)
   {
-    out <<  "  unsigned char get" << param->name.c_str() << "Count() const { return " 
+    out <<  "  unsigned char get" << param->name.c_str() << "Count() const { return "
         <<  toVariable(param->name).c_str() << "count; }\n"
         <<  "  void set" << param->name.c_str() << "Count(unsigned char ic)\n"
         <<  "  {\n"
         <<  "    " << toVariable(param->name).c_str() << "count = ic;\n"
         <<  "    delete [] " << toVariable(param->name).c_str() << ";\n"
-        <<  "    " << toVariable(param->name).c_str() << " = new List" << param->name.c_str() 
+        <<  "    " << toVariable(param->name).c_str() << " = new List" << param->name.c_str()
         <<  "[ic];\n"
         <<  "  }\n\n";
-      
+
     out <<  "  // --- begin List" << param->name.c_str() << " Getter and Setter ---\n\n";
 
     for ( size_t i=0; i < param->params.size(); i++ )
@@ -425,7 +425,7 @@ void nwWriter::writeParamListDefinition(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "    float " << toVariable(param->name).c_str() << "[3];\n";
+    out <<  "    PtVector3 " << toVariable(param->name).c_str() << ";\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -471,9 +471,9 @@ void nwWriter::writeParamListSerialisation(std::ofstream& out, std::string listn
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[0]);\n";
-    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[1]);\n";
-    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[2]);\n";
+    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".x);\n";
+    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".y);\n";
+    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".z);\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -519,9 +519,9 @@ void nwWriter::writeParamListDeserialisation(std::ofstream& out, std::string lis
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[0] = serial.getFloat();\n";
-    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[1] = serial.getFloat();\n";
-    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[2] = serial.getFloat();\n";
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".x = serial.getFloat();\n";
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".y = serial.getFloat();\n";
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".z = serial.getFloat();\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -533,81 +533,81 @@ void nwWriter::writeParamListGetterSetter(std::ofstream& out, std::string listna
 {
   if (param->type == nwParamType::STRING)
   {
-    out <<  "  ptString get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  ptString get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, ptString x) { " 
+        <<  "  void set" << param->name.c_str() << "(size_t i, ptString x) { "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::TEXT)
   {
-    out <<  "  const char* get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  const char* get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]."<< toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, const char* x) { " 
+        <<  "  void set" << param->name.c_str() << "(size_t i, const char* x) { "
         << toVariable(listname).c_str() << "[i]."<< toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::BOOL)
   {
-    out <<  "  bool get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  bool get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, bool x) { " 
+        <<  "  void set" << param->name.c_str() << "(size_t i, bool x) { "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT8)
   {
-    out <<  "  unsigned char get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  unsigned char get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, unsigned char x) { " 
+        <<  "  void set" << param->name.c_str() << "(size_t i, unsigned char x) { "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT16)
   {
-    out <<  "  unsigned short get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  unsigned short get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, unsigned short x) { " 
+        <<  "  void set" << param->name.c_str() << "(size_t i, unsigned short x) { "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::UINT32)
   {
-    out <<  "  unsigned int get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  unsigned int get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, unsigned int x) { " 
+        <<  "  void set" << param->name.c_str() << "(size_t i, unsigned int x) { "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::FLOAT)
   {
-    out <<  "  float get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  float get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, float x) { " 
+        <<  "  void set" << param->name.c_str() << "(size_t i, float x) { "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::COLOUR24)
   {
-    out <<  "  unsigned char* get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  unsigned char* get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(size_t i, unsigned char r, unsigned char g, unsigned char b)\n"
-        <<  "  {\n" 
+        <<  "  {\n"
         <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[0] = r;\n"
         <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[1] = g;\n"
         <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[2] = b;\n"
         <<  "  }\n"
         <<  "  void set" << param->name.c_str() << "(size_t i, const unsigned char* x)\n"
-        <<  "  {\n" 
+        <<  "  {\n"
         <<  "    set" << param->name.c_str() << "(i, x[0], x[1], x[2]);\n"
         <<  "  }\n\n";
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  float* get" << param->name.c_str() << "(size_t i) { return " 
+    out <<  "  PtVector3 get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, float x, float y, float z)\n"
-        <<  "  {\n" 
-        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[0] = x;\n"
-        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[1] = y;\n"
-        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[2] = z;\n"
+        <<  "  void set" << param->name.c_str() << "(size_t i, const PtVector3& x)\n"
+        <<  "  {\n"
+        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x;\n"
         <<  "  }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, float* x)\n"
-        <<  "  {\n" 
-        <<  "    set" << param->name.c_str() << "(i, x[0], x[1], x[2]);\n"
+        <<  "  void set" << param->name.c_str() << "(size_t i, float x, float y, float z)\n"
+        <<  "  {\n"
+        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".x = x;\n"
+        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".y = y;\n"
+        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".z = z;\n"
         <<  "  }\n\n";
   }
   else if (param->type == nwParamType::LIST)
@@ -633,10 +633,10 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
   size_t i = 0;
   for (i = 0; i < type->msgs.size()-1; i++)
   {
-    out <<  "    " << toConst(type->msgs[i]->name).c_str() << 
+    out <<  "    " << toConst(type->msgs[i]->name).c_str() <<
             "=" << type->msgs[i]->id << ",\n";
   }
-  out << "    " << toConst(type->msgs[i]->name).c_str() << 
+  out << "    " << toConst(type->msgs[i]->name).c_str() <<
          "=" << type->msgs[i]->id << "\n";
 
   out << "  };\n"
@@ -658,7 +658,7 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
     out << "\n"
            "public:\n"
            "  " << msg->name.c_str ()<< "Message() : NetMessage(MESSAGES::" <<
-           toConst(type->name).c_str() << "," << toConst(type->name).c_str() << 
+           toConst(type->name).c_str() << "," << toConst(type->name).c_str() <<
            "::" << toConst(msg->name).c_str() << ")\n"
            "  {\n";
     for (size_t j = 0; j < msg->params.size(); j++)
@@ -667,27 +667,27 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
       if (param->type == nwParamType::LIST)
       {
         out << "    " << toVariable(param->name).c_str() << " = 0;\n";
-      } 
+      }
 /*
-      else if (param->type == nwParamType::BOOL) 
+      else if (param->type == nwParamType::BOOL)
       {
         out << "    " << toVariable(param->name).c_str() << " = false;\n";
-      } 
+      }
       else if (param->type == nwParamType::UINT8 ||
                  param->type == nwParamType::UINT16 ||
-                 param->type == nwParamType::UINT32) 
+                 param->type == nwParamType::UINT32)
       {
         out << "    " << toVariable(param->name).c_str() << " = 0;\n";
-      } 
+      }
       else if (param->type == nwParamType::FLOAT)
       {
         out << "    " << toVariable(param->name).c_str() << " = 0.0;\n";
       }
       else if (param->type == nwParamType::VECTOR3F)
       {
-        out << "    " << toVariable(param->name).c_str() << "[0] = 0.0;\n";
-        out << "    " << toVariable(param->name).c_str() << "[1] = 0.0;\n";
-        out << "    " << toVariable(param->name).c_str() << "[2] = 0.0;\n";
+        out << "    " << toVariable(param->name).c_str() << ".x = 0.0;\n";
+        out << "    " << toVariable(param->name).c_str() << ".y = 0.0;\n";
+        out << "    " << toVariable(param->name).c_str() << ".z = 0.0;\n";
       }
       else if (param->type == nwParamType::COLOUR24)
       {
@@ -729,9 +729,9 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
     {
       nwParams* param = msg->params[j];
       writeParamGetterSetter(out, param);
-//      out << "  unsigned " << param->type.c_str() << " get" << param->name.c_str() 
+//      out << "  unsigned " << param->type.c_str() << " get" << param->name.c_str()
 //          << "() { return " << param->name.c_str() << "; }\n"
-//          << "  void set" << param->name.c_str() << "(" << param->type.c_str() 
+//          << "  void set" << param->name.c_str() << "(" << param->type.c_str()
 //          << " x) { " << param->name.c_str() << " = x; }\n\n";
     }
 
@@ -801,7 +801,7 @@ void nwWriter::writeHandler(std::ofstream& out, nwPeer* peer, nwType* type)
       //<< "  " << peer->name.c_str() << "* " << toVariable(peer->name).c_str() << ";\n\n"
 
       << "public:\n"
-      << "  " << type->name.c_str() << "Handler(" /* << peer->name.c_str() << "* " 
+      << "  " << type->name.c_str() << "Handler(" /* << peer->name.c_str() << "* "
       << toVariable(peer->name).c_str() */ << ")\n"
       //<< "  : " << toVariable(peer->name).c_str() << "(" << toVariable(peer->name).c_str() << ")\n"
       << "  {\n"
@@ -825,14 +825,14 @@ void nwWriter::writeHandler(std::ofstream& out, nwPeer* peer, nwType* type)
     {
       out << "    char id = msg->getMsgId();\n\n";
 
-      out << "    if (id == " << toConst(type->name).c_str() 
-          << "::" << toConst(msg->name).c_str() << ") handle" 
+      out << "    if (id == " << toConst(type->name).c_str()
+          << "::" << toConst(msg->name).c_str() << ") handle"
           << msg->name.c_str() << "(msg);\n";
     }
     else
     {
       out << "    else if (id == " << toConst(type->name).c_str()
-          << "::" << toConst(msg->name).c_str() << ") handle" 
+          << "::" << toConst(msg->name).c_str() << ") handle"
           << msg->name.c_str() << "(msg);\n";
     }
 

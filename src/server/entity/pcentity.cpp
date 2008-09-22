@@ -42,20 +42,15 @@ void PcEntity::setCharacter(const Character* character)
   c->setEntity(e);
 }
 
-void PcEntity::walkTo(float* dst_pos, float speed)
+void PcEntity::walkTo(const PtVector3& dst_pos, float speed)
 {
   if (mount.get()) return;
 
-  final_dst[0] = dst_pos[0];
-  final_dst[1] = dst_pos[1];
-  final_dst[2] = dst_pos[2];
+  final_dst = dst_pos;
 
-  const float* pos = entity.get()->getPos();
+  const PtVector3& pos = entity.get()->getPos();
 
-  float dist_x = fabsf(final_dst[0] - pos[0]);
-  float dist_y = fabsf(final_dst[1] - pos[1]);
-  float dist_z = fabsf(final_dst[2] - pos[2]);
-  float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
+  const float dist = Distance(final_dst, pos);
 
   //v = s / t => t = s / v
   t_stop = (size_t) (dist / speed + time(0));
@@ -63,13 +58,12 @@ void PcEntity::walkTo(float* dst_pos, float speed)
   isWalking = true;
 }
 
-const float* PcEntity::getPos()
+PtVector3 PcEntity::getPos()
 {
-  if (mount.get()) 
+  if (mount.get())
   {
     ptScopedMonitorable<MountEntity> e (mount.get());
-    const float* p = e->getPos();
-    return p;
+    return e->getPos();
   }
 
   if (!isWalking)
@@ -88,12 +82,10 @@ const float* PcEntity::getPos()
     }
     else
     {
-      const float* pos = entity.get()->getPos();
+      const PtVector3 pos = entity.get()->getPos();
       //Not sure that's correct...
       size_t delta = t_stop - (size_t) time(0);
-      tmp_pos[0] = (final_dst[0] - pos[0]) * delta;
-      tmp_pos[1] = (final_dst[1] - pos[1]) * delta;
-      tmp_pos[2] = (final_dst[2] - pos[2]) * delta;
+      tmp_pos = (final_dst - pos) * (float)delta;
       return tmp_pos;
     }
   }
@@ -101,7 +93,7 @@ const float* PcEntity::getPos()
 
 void PcEntity::setMount(const MountEntity* mount)
 {
-  if (!mount) 
+  if (!mount)
     this->mount.clear();
   else
     this->mount = mount->getRef();

@@ -20,6 +20,7 @@
 #define PT_COLLDET_H
 
 #include "common/util/thread.h"
+#include "common/util/ptvector3.h"
 
 class Entity;
 
@@ -45,7 +46,8 @@ public:
   virtual void savePosition(const Entity* entity) = 0;
 
   /// Simulates walking of an entity to the specified destination
-  virtual void moveEntity(const Entity* entity, float* pos, float speed) = 0;
+  virtual void moveEntity(const Entity* entity, const PtVector3& pos,
+                          float speed) = 0;
 
   /// Simulates continuous walking of an entity without destination
   virtual void moveEntity(const Entity* entity, float speed, float rot) = 0;

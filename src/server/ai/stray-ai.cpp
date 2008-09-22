@@ -36,13 +36,13 @@ void StrayAI::setNPC(NpcEntity* npc)
   NpcAiSettingTable* table =
     Server::getServer()->getTables()->getNpcAiSettingTable();
 
-  base[0] = (float) atof(*table->getValue(id, ptString("base_x",6)));
-  base[1] = (float) atof(*table->getValue(id, ptString("base_y",6)));
-  base[2] = (float) atof(*table->getValue(id, ptString("base_z",6)));
+  base.x = (float) atof(*table->getValue(id, ptString("base_x",6)));
+  base.y = (float) atof(*table->getValue(id, ptString("base_y",6)));
+  base.z = (float) atof(*table->getValue(id, ptString("base_z",6)));
 
-  radius[0] = (float) atof(*table->getValue(id, ptString("radius_x",8)));
-  radius[1] = (float) atof(*table->getValue(id, ptString("radius_y",8)));
-  radius[2] = (float) atof(*table->getValue(id, ptString("radius_z",8)));
+  radius.x = (float) atof(*table->getValue(id, ptString("radius_x",8)));
+  radius.y = (float) atof(*table->getValue(id, ptString("radius_y",8)));
+  radius.z = (float) atof(*table->getValue(id, ptString("radius_z",8)));
 
   interval_base = atoi(*table->getValue(id, ptString("interval_base", 13)));
   interval_rand = atoi(*table->getValue(id, ptString("interval_rand", 13)));
@@ -68,14 +68,12 @@ void StrayAI::think()
   float random = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
   setInterval((int) (interval_base + random * interval_rand));
 
-  float pos[3];
-  pos [0] = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
-  pos [1] = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
-  pos [2] = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
+  PtVector3 pos;
+  pos.x = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
+  pos.y = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
+  pos.z = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
 
-  pos [0] = base[0] + pos[0] * radius[0];
-  pos [1] = base[1] + pos[1] * radius[1];
-  pos [2] = base[2] + pos[2] * radius[2];
+  pos = base + pos * radius;
 
   Server::getServer()->moveEntity(npc, pos, 3.0f, false);
 }

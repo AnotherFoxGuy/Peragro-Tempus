@@ -22,6 +22,7 @@
 #include <math.h>
 
 #include "common/util/monitorable.h"
+#include "common/util/ptvector3.h"
 #include "common/util/ptstring.h"
 
 class PcEntity;
@@ -61,8 +62,8 @@ public:
 protected:
   EntityType type;
 
-  float pos_last_saved[3];
-  float pos[3];
+  PtVector3 pos_last_saved;
+  PtVector3 pos;
 
   float rot_last_saved;
   float rotation;
@@ -70,15 +71,8 @@ protected:
 public:
   Entity(EntityType type)
     : id(0), name_id(0, 0), mesh_id(0, 0), sector_id(0), type(type),
-    rot_last_saved(0.0f), rotation(0.0f)
+    pos_last_saved(0.0f), pos(0.0f), rot_last_saved(0.0f), rotation(0.0f)
   {
-    pos[0] = 0.0f;
-    pos[1] = 0.0f;
-    pos[2] = 0.0f;
-
-    pos_last_saved[0] = 0.0f;
-    pos_last_saved[1] = 0.0f;
-    pos_last_saved[2] = 0.0f;
   }
 
   virtual ~Entity();
@@ -108,15 +102,13 @@ public:
 
   void resetSavePos()
   {
-    pos_last_saved[0] = pos[0];
-    pos_last_saved[1] = pos[1];
-    pos_last_saved[2] = pos[2];
+    pos_last_saved = pos;
   }
-  const float* getLastSaved() const { return pos_last_saved; }
+  PtVector3 getLastSaved() const { return pos_last_saved; }
 
-  void setPos(const float p[3]) { setPos(p[0],p[1],p[2]); }
-  void setPos(float x, float y, float z);
-  const float* getPos() const { return pos; }
+  void setPos(float x, float y, float z) { setPos(PtVector3(x, y, z)); }
+  void setPos(const PtVector3& p);
+  PtVector3 getPos() const { return pos; }
 
   void setRotation(float rot) { rotation = rot; }
   float getRotation() const { return rotation; }
@@ -134,22 +126,14 @@ public:
 
   EntityType getType() const { return type; }
 
-  float getDistanceTo2(const float* target) const
-  {
-    return (target[0] - pos[0])*(target[0] - pos[0])
-         + (target[1] - pos[1])*(target[1] - pos[1])
-         + (target[2] - pos[2])*(target[2] - pos[2]);
-  }
-
-  float getDistanceTo2(const Entity* target) const
-  {
-    return getDistanceTo2(target->getPos());
-  }
-
+  float getDistanceTo(const PtVector3& target) const
+  { return Distance(pos, target); }
   float getDistanceTo(const Entity* target) const
-  {
-    return sqrtf(getDistanceTo2(target));
-  }
+  { return Distance(pos, target->getPos()); }
+  float getDistanceTo2(const PtVector3& target) const
+  { return Distance2(pos, target); }
+  float getDistanceTo2(const Entity* target) const
+  { return Distance2(pos, target->getPos()); }
 
   const PcEntity* getPlayerEntity() const { return pc_entity.get(); }
   const NpcEntity* getNpcEntity() const { return npc_entity.get(); }

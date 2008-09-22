@@ -21,6 +21,8 @@
 
 #include "table.h"
 
+#include "common/util/ptvector3.h"
+
 class Database;
 class Race;
 class ptString;
@@ -50,7 +52,8 @@ public:
    * @param pos An array containing the position.
    * @param sector The sector in which the race is located.
    */
-  void insert(int id, ptString name, ptString mesh, float pos[3], ptString sector);
+  void insert(int id, const ptString& name, const ptString& mesh,
+              const PtVector3& pos, const ptString& sector);
   /**
    * Returns the highest id any race have.
    * @return The highest race id.
@@ -70,7 +73,7 @@ public:
    * @param name The name of the race to search for in the database.
    * @return True if found, false otherwise.
    */
-  bool existsRace(ptString name);
+  bool existsRace(const ptString& name);
   /**
    * Searches the database for a race based on it's id.
    * The caller is responsible for freeing the returned race.

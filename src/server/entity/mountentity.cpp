@@ -26,7 +26,7 @@
 
 void MountEntity::addPassenger(const PcEntity* e)
 {
-  passengers[num_passengers] = e->getRef(); 
+  passengers[num_passengers] = e->getRef();
   num_passengers++;
 }
 
@@ -34,7 +34,7 @@ void MountEntity::delPassenger(const PcEntity* e)
 {
   for (size_t i = 0; i < num_passengers; i++)
   {
-    if (passengers[i].get() == e) 
+    if (passengers[i].get() == e)
     {
       passengers[i].clear();
       num_passengers--;
@@ -43,33 +43,26 @@ void MountEntity::delPassenger(const PcEntity* e)
 }
 
 const PcEntity* MountEntity::getPassenger(size_t i) const
-{ 
+{
   if (i > num_passengers) return 0;
-  return passengers[i].get(); 
+  return passengers[i].get();
 }
 
-void MountEntity::walkTo(float* dst_pos, float speed)
+void MountEntity::walkTo(const PtVector3& dst_pos, float speed)
 {
   // If we are already walking, lets store how
   // far we have come...
   if (isWalking) {
-    const float *pos = getPos();
     ptScopedMonitorable<Entity> ent (entity.get());
-    ent->setPos(pos);
+    ent->setPos(this->getPos());
     isWalking = false;
   }
 
-  final_dst[0] = dst_pos[0];
-  final_dst[1] = dst_pos[1];
-  final_dst[2] = dst_pos[2];
+  final_dst = dst_pos;
 
-  const float* pos = entity.get()->getPos();
+  const PtVector3 pos = entity.get()->getPos();
+  const float dist = Distance(final_dst, pos);
 
-  float dist_x = fabsf(final_dst[0] - pos[0]);
-  float dist_y = fabsf(final_dst[1] - pos[1]);
-  float dist_z = fabsf(final_dst[2] - pos[2]);
-  float dist = sqrtf(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
-  
   t_org = (size_t) time(0);
   //v = s / t => t = s / v
   t_stop = (size_t) (dist / speed + time(0));
@@ -77,7 +70,7 @@ void MountEntity::walkTo(float* dst_pos, float speed)
   isWalking = true;
 }
 
-const float* MountEntity::getPos()
+PtVector3 MountEntity::getPos()
 {
   if (!isWalking)
   {
@@ -94,12 +87,10 @@ const float* MountEntity::getPos()
   }
 
   // pos will be org_pos until target is reached.
-  const float* pos = entity.get()->getPos();
+  PtVector3 pos = entity.get()->getPos();
 
-  // TODO: Probably fixed now, need to verify though... 
+  // TODO: Probably fixed now, need to verify though...
   size_t delta = ((size_t)time(0) - t_org) / (t_stop - t_org);
-  tmp_pos[0] = (final_dst[0] - pos[0]) * delta + pos[0];
-  tmp_pos[1] = (final_dst[1] - pos[1]) * delta + pos[1];
-  tmp_pos[2] = (final_dst[2] - pos[2]) * delta + pos[2];
-  return tmp_pos; 
+  tmp_pos = (final_dst - pos) * (float)delta + pos;
+  return tmp_pos;
 }

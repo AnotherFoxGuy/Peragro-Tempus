@@ -54,7 +54,8 @@ public:
   virtual void loadPosition(const Entity* entity);
   virtual void savePosition(const Entity* entity);
 
-  virtual void moveEntity(const Entity* entity, float* pos, float speed);
+  virtual void moveEntity(const Entity* entity, const PtVector3& pos,
+                          float speed);
   virtual void moveEntity(const Entity* entity, float speed, float rot);
 };
 
