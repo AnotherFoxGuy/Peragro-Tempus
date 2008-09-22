@@ -29,14 +29,14 @@ ChatManager::ChatManager() : ChatGroups()
 
 ChatManager::~ChatManager()
 {
-  if (Server::getServer() && Server::getServer()->getEntityManager()) 
+  if (Server::getServer() && Server::getServer()->getEntityManager())
     Server::getServer()->getEntityManager()->RemoveEntityCallback(this);
 }
 
 ChatManager* ChatManager::getChatManager()
 {
   static ChatManager* chatmanager = new ChatManager();
-  static bool initialized = false; 
+  static bool initialized = false;
 
   // register a callback with the EntityManager for entity add/remove
   if (!initialized && Server::getServer() && Server::getServer()->getEntityManager())
@@ -68,19 +68,19 @@ void ChatManager::OnEntityAdd(const Entity* entity)
     const char* channel = cchats->GetDefChannelName(i);
     addUser(user, channel);
     cchats->JoinChannel(channel, &getUserList(channel));
-  } 
+  }
 }
 
 void ChatManager::OnEntityRemove(const Entity* entity)
 {
-  if (!entity) return; 
+  if (!entity) return;
   const PcEntity* user;
   if ( !(user = entity->getPlayerEntity()) ) return;
   const CharChats* c_cchats = user->getCharChats();
   if (!c_cchats) return;
 
-  
-  ptScopedMonitorable<CharChats> cchats (c_cchats); 
+
+  ptScopedMonitorable<CharChats> cchats (c_cchats);
   for (size_t i=0;  i < cchats->GetChannelCount();  i++)
     delUser(user, cchats->GetChannelName(i));
 }

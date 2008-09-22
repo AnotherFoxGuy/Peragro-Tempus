@@ -158,7 +158,7 @@ Array<CharacterMasteryTableVO*> CharacterMasteriesTable::getAllMasteries(
   Array<CharacterMasteryTableVO*> masteries = parseMultiResultSet(rs);
   delete rs;
   return masteries;
-}  
+}
 
 /**
  *

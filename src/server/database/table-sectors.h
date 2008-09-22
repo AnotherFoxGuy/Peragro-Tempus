@@ -52,9 +52,9 @@ private:
    * @param rs The database result set.
    * @param row The row in the result table to use, default row is 0.
    * @return Pointer to SectorsTableVO which holds all data associated with sector.
-   */ 
+   */
   SectorsTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
- 
+
   /**
    * Will parse all data return from the database query and insert it into
    * an array.
@@ -120,7 +120,7 @@ public:
    */
   SectorsTableVO* getById(int id);
   /**
-   * This function will load all sector rows from the database 
+   * This function will load all sector rows from the database
    * and return an array containing them.
    * The caller is responsible for freeing all sector rows in the array.
    * @return An array containing all available sector row VO's.

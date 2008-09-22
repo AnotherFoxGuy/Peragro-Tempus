@@ -84,7 +84,7 @@ void CharacterTable::createTable()
 
 void CharacterTable::insert(int id, const ptString& name, int user_id,
                             const ptString& mesh, int race_id,
-                            unsigned char haircolour[3], 
+                            unsigned char haircolour[3],
                             unsigned char skincolour[3],
                             unsigned char decalcolour[3],
                             const PtVector3& pos, const ptString& sector)
@@ -106,7 +106,7 @@ void CharacterTable::insert(int id, const ptString& name, int user_id,
 int CharacterTable::getMaxId()
 {
   ResultSet* rs = db->query("select max(id) from characters");
-  if (!rs || rs->GetRowCount() == 0) 
+  if (!rs || rs->GetRowCount() == 0)
     return 0;
 
   int id = atoi(rs->GetData(0,0).c_str());
@@ -183,7 +183,7 @@ bool CharacterTable::existsCharacter(const ptString& name)
 CharactersTableVO* CharacterTable::findCharacterById(int id, size_t user_id)
 {
   ResultSet* rs = db->query("select * from characters where id = '%d' and user = '%d';", id, user_id);
-  if (!rs || rs->GetRowCount() == 0) 
+  if (!rs || rs->GetRowCount() == 0)
   {
     delete rs;
     return 0;
@@ -198,7 +198,7 @@ CharactersTableVO* CharacterTable::findCharacterById(int id, size_t user_id)
 CharactersTableVO* CharacterTable::FindCharacterByName(const char* name)
 {
   ResultSet* rs = db->query("select * from characters where name = '%q';", name);
-  if (!rs || rs->GetRowCount() == 0) 
+  if (!rs || rs->GetRowCount() == 0)
   {
     delete rs;
     return 0;

@@ -157,7 +157,7 @@ namespace PT
       float GetBulk() const { return bulk; }
 
       void SetToughness(float value) { toughness = value; }
-      float GetToughness() const { return toughness; } 
+      float GetToughness() const { return toughness; }
     };
 
   } // Data namespace

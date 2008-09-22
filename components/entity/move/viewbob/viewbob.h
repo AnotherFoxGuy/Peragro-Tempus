@@ -124,7 +124,7 @@ public:
    * @param ent The entity to apply the effect to.
    */
   virtual bool Initialize (PointerLibrary* pl, PT::Entity::Entity* ent);
-  
+
   // TODO: add functions or events to change the range and time period,
   // currently the effect is not changed when you run. Might be a good idea
   // to tie it in with the pose manager somehow, and have the values stored in

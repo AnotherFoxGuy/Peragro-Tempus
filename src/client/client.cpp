@@ -416,7 +416,7 @@ namespace PT
 
     view.AttachNew(new csView(engine, g3d));
 
-    // We use some other "helper" event handlers to handle 
+    // We use some other "helper" event handlers to handle
     // pushing our work into the 3D engine and rendering it
     // to the screen.
     //drawer.AttachNew(new FrameBegin3DDraw (GetObjectRegistry (), view));

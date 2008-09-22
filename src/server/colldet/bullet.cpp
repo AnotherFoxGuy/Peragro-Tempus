@@ -29,7 +29,7 @@
 
 #include "common/util/sleep.h"
 
-BulletCD::BulletCD() 
+BulletCD::BulletCD()
 {
   collisionConfiguration = NULL;
   dispatcher = NULL;
@@ -37,7 +37,7 @@ BulletCD::BulletCD()
   constraintSolver = NULL;
 }
 
-BulletCD::~BulletCD() 
+BulletCD::~BulletCD()
 {
   delete world;
   delete constraintSolver;
@@ -50,14 +50,14 @@ void BulletCD::setup()
 {
   Tables* db = Server::getServer()->getTables();
 
-  Array<VerticesTableVO*> vertices = 
+  Array<VerticesTableVO*> vertices =
     db->getVerticesTable()->getAll();
 
   btVector3 worldMin, worldMax;
   for (size_t i = 0; i < vertices.getCount(); i++)
   {
     VerticesTableVO* vertex = vertices.get(i);
-    
+
     if ( i == 0 || worldMin.getX() < vertex->x ) worldMin.setX(vertex->x);
     if ( i == 0 || worldMin.getY() < vertex->y ) worldMin.setY(vertex->y);
     if ( i == 0 || worldMin.getZ() < vertex->z ) worldMin.setZ(vertex->z);
@@ -86,12 +86,12 @@ void BulletCD::setup()
     collObj->getWorldTransform().setBasis(basis);
 
     //TODO: reduce amount of queries!
-    Array<TrianglesTableVO*> triangles = 
+    Array<TrianglesTableVO*> triangles =
       db->getTrianglesTable()->getAllByMesh(meshes.get(i)->id);
 
     if (triangles.getCount() == 0) continue;
 
-    Array<VerticesTableVO*> vertices = 
+    Array<VerticesTableVO*> vertices =
       db->getVerticesTable()->getAllByMesh(meshes.get(i)->id);
 
     //TODO: Use indexed triangle mesh!
@@ -131,7 +131,7 @@ void BulletCD::Run()
   if (world)
   {
     static btClock clock;
-    
+
     float dt = clock.getTimeMicroseconds() * 0.000001f;
     world->stepSimulation(dt);
 

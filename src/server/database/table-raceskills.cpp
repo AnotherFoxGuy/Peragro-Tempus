@@ -107,4 +107,4 @@ void RaceSkillsTable::getAllEntries(Array<RaceSkill*>& entries, int id)
     entries.add(entry);
   }
   delete rs;
-}  
+}

@@ -18,21 +18,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // File: `istarbox.h'
-  
-  
+
+
 #ifndef _H_IMYSTARBOX_
 #define _H_IMYSTARBOX_
 
 #include "csutil/scf.h"
 
 #include <string>
- 
+
 // Interface header
 struct iMyStarbox : public virtual iBase
 {
   SCF_INTERFACE(iMyStarbox,1,0,4);
- 
-  virtual void SetName(char const* name) = 0;  
+
+  virtual void SetName(char const* name) = 0;
   virtual void SetSector(char const* name) = 0;  //api change 1.0.3
   virtual void SetAutoDraw(const bool val ) = 0;  //api change 1.0.2
   virtual void SetUseTextures (bool val ) = 0;  //api change 1.0.2
@@ -51,7 +51,7 @@ struct iMyStarbox : public virtual iBase
   virtual bool SetCurrentSystem(const int& new_id ) = 0;
   virtual bool Background(const iCamera* c) = 0;
   virtual bool BackgroundImageNebula(const iCamera* c) =0;  //api change 1.0.1
- 
+
 
 };
 
@@ -60,7 +60,7 @@ struct iMyStarbox : public virtual iBase
 struct iMyStarboxFactory : public virtual iBase
 {
   SCF_INTERFACE(iMyStarboxFactory,1,0,0);
- 
+
   virtual csPtr<iMyStarbox> CreateObject () = 0;
 };
 

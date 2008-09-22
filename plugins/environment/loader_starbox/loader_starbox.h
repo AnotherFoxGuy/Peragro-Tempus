@@ -19,7 +19,7 @@
 
 #ifndef _H_MY_LOADER_STARBOX___
 #define _H_MY_LOADER_STARBOX___
- 
+
 #include <csutil/scf_implementation.h>
 #include <csutil/strhash.h>
 #include <csutil/csstring.h>
@@ -32,7 +32,7 @@
 #include <iengine/engine.h>
 #include <imap/services.h>
 
-#include "imystarbox.h" 
+#include "imystarbox.h"
 
 class myLoaderStarbox :
   public scfImplementation2<myLoaderStarbox, iComponent, iLoaderPlugin>
@@ -53,11 +53,11 @@ public:
 
   virtual bool Initialize(iObjectRegistry *object_reg);
 
-  virtual csPtr<iBase> Parse(iDocumentNode* node, 
+  virtual csPtr<iBase> Parse(iDocumentNode* node,
     iStreamSource*, iLoaderContext* ldr_context, iBase* context, iStringArray* failed = 0);
 
   virtual bool IsThreadSafe() { return false; }
-};  
+};
 
 
 #endif   //  _H_MY_LOADER_STARBOX___

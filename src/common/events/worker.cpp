@@ -46,7 +46,7 @@ void EventWorker::Run()
     // handle event
     for (size_t i=0; i<handlers.getHandlerCount(ev->type); i++)
     {
-      printf("Worker %" SIZET " handled event %" SIZET " (%" SIZET 
+      printf("Worker %" SIZET " handled event %" SIZET " (%" SIZET
              " events total)\n", id, ev->num1, count);
       handlers.getHandler(ev->type, i)->handle(ev);
     }

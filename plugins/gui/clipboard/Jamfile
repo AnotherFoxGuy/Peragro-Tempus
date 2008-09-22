@@ -1,6 +1,6 @@
 SubDir TOP plugins gui clipboard ;
 
-if $(TARGET.OS) = "WIN32"                              # Windows 
+if $(TARGET.OS) = "WIN32"                              # Windows
 {
     SubInclude TOP plugins gui clipboard win32 ;
 }

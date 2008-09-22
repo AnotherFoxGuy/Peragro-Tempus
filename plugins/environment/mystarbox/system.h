@@ -41,7 +41,7 @@
 // --------------------------------------------------------------------------------//
 // System, Class that give the position of a star system from earth
 // --------------------------------------------------------------------------------//
-class System 
+class System
 {
   private:
 
@@ -61,32 +61,32 @@ class System
     float nebula_w;
     float nebula_h;
 
-    
+
     float tmp_rot_value;  // temp debug var
-    
+
   public:
 
-    // Member Functions 
+    // Member Functions
     System( int Id, std::string Name , float Ra, float Dec, float Distance );
     ~System();
 
-    bool Init (int Id, std::string Name, float Ra, float Dec, float Distance);  
+    bool Init (int Id, std::string Name, float Ra, float Dec, float Distance);
 
     int Get_Id() { return id; }
-    std::string Get_Name() { return (name); } 
+    std::string Get_Name() { return (name); }
 
     csVector3 Get_Pos() { return system_pos; }
     csVector2 Get_Sc_Pt(const iCamera* c);
     csVector3 Get_SC_Point(const iCamera* c, iGraphics3D* g3d, csVector3 pt);
 
-    float Get_Ra() { return right_ascension; } 
+    float Get_Ra() { return right_ascension; }
     float Get_Dec() { return declination; }
-    float Get_Distance() { return distance; }  // distance from origin in light years  
+    float Get_Distance() { return distance; }  // distance from origin in light years
     float Get_Distance(const iCamera* c);  // distance from camera in light years
     float Get_Luminosity();
     std::string Get_Classification() { return system_star->Get_Classification(); };
     float Get_Apr_Magnitude();
-    int Get_StarType();  // only do first star 
+    int Get_StarType();  // only do first star
     int Get_SC_Height();
     int Get_SC_Width();
     bool Has_Nebula() { if (tex_nebula) return true; return false; };
@@ -111,18 +111,18 @@ class System
       std::string tex_nebula_name,
       float w,
       float h,
-      iEngine* eng 
+      iEngine* eng
     );
 
 
 
-    void Calculate_Position(); 
-    
+    void Calculate_Position();
+
     csPixelCoord* Get_Pixel();
 
     void DrawNebulaTexture(const iCamera* c, iGraphics3D* g3d);
 
-    
+
     int GetPixelX(const int size) { return int((right_ascension/360)*size); };
     int GetPixelY(const int size)
     {

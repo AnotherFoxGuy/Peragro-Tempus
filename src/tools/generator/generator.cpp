@@ -31,7 +31,7 @@ bool Generator::generateNetwork()
 {
   nwFactory factory;
   nwXmlParser parser(&factory);
-  
+
   if (!parser.parse("data/generate/network/netmessage.xml"))
     return false;
 

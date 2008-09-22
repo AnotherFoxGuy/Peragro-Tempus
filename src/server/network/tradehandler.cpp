@@ -196,7 +196,7 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
     return;
   }
 
-  if (peer->getSession()->bothAccepted()) 
+  if (peer->getSession()->bothAccepted())
     return; // Too late for changes now!
 
   TradeOffersListPvpMessage offer_req;

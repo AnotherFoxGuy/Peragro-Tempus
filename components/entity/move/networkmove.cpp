@@ -106,7 +106,7 @@ bool ComponentNetworkMove::Move(iEvent& ev)
   bool jump = false;
   bool local = false;
   csEventError error = csEventErrNone;
-  
+
 
   error = ev.Retrieve("walkDirection", walk);
   error = ev.Retrieve("turnDirection", turn);
@@ -202,7 +202,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
   csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
   csRef<iCelEntity> celEntity = entity->GetCelEntity();
-  if (!celEntity.IsValid()) return false; 
+  if (!celEntity.IsValid()) return false;
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
   if (pclinmove.IsValid())
@@ -236,7 +236,7 @@ bool ComponentNetworkMove::MoveTo(iEvent& ev)
   using namespace PT::Events;
 
   csRef<iCelEntity> celEntity = entity->GetCelEntity();
-  if (!celEntity.IsValid()) return false; 
+  if (!celEntity.IsValid()) return false;
 
   if (moveTo) delete moveTo;
   moveTo = new MoveToData();
@@ -284,9 +284,9 @@ bool ComponentNetworkMove::MoveTo(iEvent& ev)
 bool ComponentNetworkMove::MoveToUpdate(iEvent& ev)
 {
   csRef<iCelEntity> celEntity = entity->GetCelEntity();
-  if (!celEntity.IsValid()) 
-  { 
-    RemoveMoveToUpdate(); 
+  if (!celEntity.IsValid())
+  {
+    RemoveMoveToUpdate();
     return false;
   }
 
@@ -296,8 +296,8 @@ bool ComponentNetworkMove::MoveToUpdate(iEvent& ev)
   csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (obj_reg);
   csTicks ticks = vc->GetElapsedTicks ();
 
-  if (!ticks) 
-  { 
+  if (!ticks)
+  {
     RemoveMoveToUpdate();
     return false;
   }
@@ -372,7 +372,7 @@ bool ComponentNetworkMove::MoveToUpdate(iEvent& ev)
   RemoveMoveToUpdate();
 
   return false;
-  
+
 } // end MoveToUpdate()
 
 bool ComponentNetworkMove::RemoveMoveToUpdate()

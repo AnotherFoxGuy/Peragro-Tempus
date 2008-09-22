@@ -114,7 +114,7 @@ void RaceStatsTable::insert(int race, int stat, int level)
 
 void RaceStatsTable::set(int race, Stat* stat, int level)
 {
-  if (!stat) 
+  if (!stat)
   {
     return;
   }
@@ -124,7 +124,7 @@ void RaceStatsTable::set(int race, Stat* stat, int level)
 int RaceStatsTable::get(int race, Stat* stat)
 {
   if (!stat)
-  { 
+  {
     return 0;
   }
   ResultSet* rs = db->query("select * from racestat where id = '%d' and stat = '%d';",
@@ -168,4 +168,4 @@ void RaceStatsTable::getAllEntries(Array<RaceStat*>& entries, int id)
     entries.add(entry);
   }
   delete rs;
-}  
+}

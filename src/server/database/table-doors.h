@@ -66,9 +66,9 @@ private:
    * @param rs The database result set.
    * @param row The row in the result table to use, default row is 0.
    * @return Pointer to DoorsTableVO which holds all data associated with door.
-   */ 
+   */
   DoorsTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
- 
+
   /**
    * Will parse all data return from the database query and insert it into
    * an array.
@@ -134,7 +134,7 @@ public:
    */
   DoorsTableVO* getById(int id);
   /**
-   * This function will load all door tables from the database 
+   * This function will load all door tables from the database
    * and return an array containing them.
    * The caller is responsible for freeing all door tables in the array.
    * @return An array containing all available door table VO's.

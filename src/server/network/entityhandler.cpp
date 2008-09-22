@@ -410,7 +410,7 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 {
   const User* user = NetworkHelper::getUser(msg);
   if (!user) return;
-  
+
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin == 0) return;
 
@@ -432,7 +432,7 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
     c_ent = target_ent;
   }
   ptScopedMonitorable<Entity> ent (c_ent);
-  ent->setSector(request_msg.getSectorId()); 
+  ent->setSector(request_msg.getSectorId());
   ent->setPos(request_msg.getPos());
   ent->setRotation(request_msg.getRotation());
 

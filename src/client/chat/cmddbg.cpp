@@ -61,7 +61,7 @@ namespace PT
     { return "Command used for developers to debug stuff. Read the code!"; }
 
     std::string cmdDbg::HelpUsage (const char*) const
-    { 
+    {
       return "'/dbg [command] [args]'\n"
           "  - Write book: '/dbg write #itemid #bookid #name #text'\n"
           "  - Player Pos: '/dbg pos'\n"

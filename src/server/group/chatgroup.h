@@ -34,7 +34,7 @@ public:
 protected:
   ChannelSet channels;
 
-public: 
+public:
   ChatGroups() : channels() {}
   ~ChatGroups() {}
 

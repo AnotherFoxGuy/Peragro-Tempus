@@ -60,26 +60,26 @@ bool TerrainEd::Initialize (iObjectRegistry* r)
   csRef<iPluginManager> plugin_mgr (csQueryRegistry<iPluginManager> (object_reg));
 
   cegui =  csQueryRegistry<iCEGUI> (object_reg);
-  if (!cegui.IsValid()) 
+  if (!cegui.IsValid())
   {
     printf("I: Loading CEGUI plugin!\n");
-    cegui = csLoadPlugin<iCEGUI> (plugin_mgr, "crystalspace.cegui.wrapper");  
+    cegui = csLoadPlugin<iCEGUI> (plugin_mgr, "crystalspace.cegui.wrapper");
   }
 
-  if (!cegui.IsValid()) 
+  if (!cegui.IsValid())
   {
     printf("E: Failed to locate CEGUI plugin!\n");
     return false;
   }
 
   csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  if (!g3d) 
+  if (!g3d)
   {
     printf("E: Failed to locate iGraphics3D plugin!\n");
     return false;
   }
 
-  if (!g3d->Open()) 
+  if (!g3d->Open())
   {
     printf("E: Failed to open iGraphics3D plugin!\n");
     return false;
@@ -116,7 +116,7 @@ bool TerrainEd::Initialize (iObjectRegistry* r)
   root->addChildWindow(win);
   win->setArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
     CEGUI::UVector2(CEGUI::UDim(0.45f,0), CEGUI::UDim(0.35f,0)));
-  
+
 
   CEGUI::Window* box = createWindow("ice/Combobox", "Frame/Combobox");
   win->addChildWindow(box);
@@ -125,7 +125,7 @@ bool TerrainEd::Initialize (iObjectRegistry* r)
   ((CEGUI::Combobox*)box)->setReadOnly(true);
   box->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
           CEGUI::Event::Subscriber(&TerrainEd::OnDropList, this));
-  
+
 
   CEGUI::Window* list = createWindow("ice/StaticImage", "Frame/Listbox");
   win->addChildWindow(list);
@@ -150,7 +150,7 @@ CEGUI::Window* TerrainEd::createWindow(const char* type, const char* name)
 
   if (winMgr->isWindowPresent(name))
     win = winMgr->getWindow(name);
-  else 
+  else
     win = winMgr->createWindow(type, name);
 
   return win;
@@ -258,7 +258,7 @@ bool TerrainEd::AddShaderVar(uint i, csShaderVariable* var)
 
   switch (type)
   {
-  case csShaderVariable::INT : 
+  case csShaderVariable::INT :
     {
       int ival;
       if (var->GetValue(ival))
@@ -271,7 +271,7 @@ bool TerrainEd::AddShaderVar(uint i, csShaderVariable* var)
     }
     break;
 
-  case csShaderVariable::FLOAT : 
+  case csShaderVariable::FLOAT :
     {
       float fval;
       if (var->GetValue(fval))
@@ -284,7 +284,7 @@ bool TerrainEd::AddShaderVar(uint i, csShaderVariable* var)
     }
     break;
 
-  case csShaderVariable::VECTOR2 : 
+  case csShaderVariable::VECTOR2 :
     {
       csVector2 v2val;
       if (var->GetValue(v2val))
@@ -298,7 +298,7 @@ bool TerrainEd::AddShaderVar(uint i, csShaderVariable* var)
     }
     break;
 
-  case csShaderVariable::VECTOR3 : 
+  case csShaderVariable::VECTOR3 :
     {
       csVector3 v3val;
       if (var->GetValue(v3val))
@@ -313,7 +313,7 @@ bool TerrainEd::AddShaderVar(uint i, csShaderVariable* var)
     }
     break;
 
-  case csShaderVariable::VECTOR4 : 
+  case csShaderVariable::VECTOR4 :
     {
       csVector4 v4val;
       if (var->GetValue(v4val))
@@ -329,7 +329,7 @@ bool TerrainEd::AddShaderVar(uint i, csShaderVariable* var)
     }
     break;
 
-  default : 
+  default :
     {
       printf("E: Type not supported!\n");
       return false;
@@ -453,42 +453,42 @@ bool TerrainEd::OnShaderSpinner(const CEGUI::EventArgs& e)
   printf("I: Setting var of type %d  len %lu!\n", type, vals.GetSize());
   switch (type)
   {
-  case csShaderVariable::INT : 
+  case csShaderVariable::INT :
     {
       int val = static_cast<int>(vals[0]);
       var->SetValue(val);
     }
     break;
 
-  case csShaderVariable::FLOAT : 
+  case csShaderVariable::FLOAT :
     {
       float val = vals[0];
       var->SetValue(val);
     }
     break;
 
-  case csShaderVariable::VECTOR2 : 
+  case csShaderVariable::VECTOR2 :
     {
       csVector2 val(vals[0], vals[1]);
       var->SetValue(val);
     }
     break;
 
-  case csShaderVariable::VECTOR3 : 
+  case csShaderVariable::VECTOR3 :
     {
       csVector3 val(vals[0], vals[1], vals[2]);
       var->SetValue(val);
     }
     break;
 
-  case csShaderVariable::VECTOR4 : 
+  case csShaderVariable::VECTOR4 :
     {
       csVector4 val(vals[0], vals[1], vals[2], vals[3]);
       var->SetValue(val);
     }
     break;
 
-  default : 
+  default :
     {
       printf("E: Type not supported!\n");
       return false;

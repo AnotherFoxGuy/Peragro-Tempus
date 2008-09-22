@@ -39,7 +39,7 @@
 
 Socket::Socket()
 {
-#ifdef WIN32    
+#ifdef WIN32
   WSADATA info;
   WSAStartup(MAKEWORD(1,1), &info);
 #endif

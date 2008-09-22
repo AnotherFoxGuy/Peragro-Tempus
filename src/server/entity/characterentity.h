@@ -84,7 +84,7 @@ public:
 protected:
   State state;
 
-  CharacterEntity(EntityType type) : Entity(type) 
+  CharacterEntity(EntityType type) : Entity(type)
   {
     t_stop = 0;
     state = stIdle;

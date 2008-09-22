@@ -188,7 +188,7 @@ public:
 <!-- Meant to be loaded with a prefix full event becomes: "prefix.action"
       ex. npc.Bob.Die or item.SteelSword.Drop -->
 <sound>
-  <action value="Die" /> 
+  <action value="Die" />
   <file value="/foob/bar.wav"/>
   <priority value='Normal'/>
 </sound>

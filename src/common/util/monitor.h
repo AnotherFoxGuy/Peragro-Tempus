@@ -19,7 +19,7 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
-template<class T> 
+template<class T>
 class ptMonitor
 {
 private:
@@ -28,7 +28,7 @@ private:
   bool original;
 
 public:
-  ptMonitor() : monitor(0) 
+  ptMonitor() : monitor(0)
   {
     original = false;
     monitor = 0;

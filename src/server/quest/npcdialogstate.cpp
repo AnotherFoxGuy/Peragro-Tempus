@@ -26,7 +26,7 @@
 
 void NPCDialogState::setCharacter(Character* character)
 {
-  this->character = character->getRef(); 
+  this->character = character->getRef();
 }
 
 const NPCDialog* NPCDialogState::startDialog(unsigned int npc_id, unsigned int dialog_id)
@@ -65,5 +65,5 @@ const NPCDialog* NPCDialogState::giveAnswer(unsigned int dialog_id, unsigned int
 
 void NPCDialogState::setNpc(const NpcEntity* npc)
 {
-  this->npc = npc->getRef(); 
+  this->npc = npc->getRef();
 }

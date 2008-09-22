@@ -36,7 +36,7 @@ PermissionList::PermissionList(unsigned int user_id) : user_id(user_id)
 }
 
 void PermissionList::setLevel(Permission::Type type, unsigned char level)
-{ 
+{
   levels[type] = level;
   Tables* db = Server::getServer()->getTables();
   db->getPermissionsTable()->insert(user_id, type, level);

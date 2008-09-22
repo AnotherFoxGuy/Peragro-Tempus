@@ -118,7 +118,7 @@ public:
   /**
    * Simple debug function to list the all stats.
    */
-  void dumpAllStatNames() 
+  void dumpAllStatNames()
   {
     for (size_t i = 0; i<stats.getCount(); i++)
     {

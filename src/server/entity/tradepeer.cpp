@@ -76,7 +76,7 @@ bool TradePeer::addToOffer(PcEntity* pc, InventoryEntry* item)
     if ( checkOffer(pc, session->offer2, item) )
       return true;
   }
-  
+
   return false;
 }
 
@@ -84,10 +84,10 @@ const Array<TradeSession::Offer>* TradePeer::getOffer()
 {
   if (!session) return 0;
 
-  if (session->peer1 == this) 
+  if (session->peer1 == this)
     return &session->offer1;
 
-  if (session->peer2 == this) 
+  if (session->peer2 == this)
     return &session->offer2;
 
   return 0;

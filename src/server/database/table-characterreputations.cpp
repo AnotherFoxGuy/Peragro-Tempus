@@ -101,4 +101,4 @@ void CharacterReputationsTable::getAllEntries(Array<CharReputation*>& entries, i
     entries.add(entry);
   }
   delete rs;
-}  
+}

@@ -38,7 +38,7 @@ namespace PT
 
       virtual StringArray GetAllCommands() const;
 
-      virtual std::string HelpUsage(const char* cmd) const; 
+      virtual std::string HelpUsage(const char* cmd) const;
       virtual std::string HelpSynopsis(const char* cmd) const;
       virtual std::string HelpFull(const char* cmd) const;
 

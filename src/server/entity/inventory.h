@@ -147,7 +147,7 @@ public:
     unsigned int amount = 0;
     for(unsigned int i=0; i<entries.getCount(); i++)
     {
-      if (entries.get(i).id == item_id && 
+      if (entries.get(i).id == item_id &&
           entries.get(i).variation == variation)
       {
         amount++;

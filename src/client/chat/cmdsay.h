@@ -38,7 +38,7 @@ namespace PT
       cmdSay (const char* cmd="say") : CommandDefault(cmd) { }
       virtual ~cmdSay () { }
 
-      virtual std::string HelpUsage(const char*) const 
+      virtual std::string HelpUsage(const char*) const
       { return "'/say <message>'"; }
 
       virtual std::string HelpSynopsis (const char*) const
@@ -50,7 +50,7 @@ namespace PT
       virtual void Execute (const StringArray& args) { Say(2, args); }
 
     protected:
-      void Say(unsigned char volume, const StringArray& args, const char* pre="")  
+      void Say(unsigned char volume, const StringArray& args, const char* pre="")
       {
         Network* network = PointerLibrary::getInstance()->getNetwork();
         if(!network) return;
@@ -99,12 +99,12 @@ namespace PT
       cmdSayMe () : cmdSay("me") { }
       virtual ~cmdSayMe () { }
 
-      virtual std::string HelpSynopsis (const char*) const 
+      virtual std::string HelpSynopsis (const char*) const
       { return "Say something in third person to the world."; }
-      virtual std::string HelpUsage (const char*) const 
+      virtual std::string HelpUsage (const char*) const
       { return "Usage: '/me <message>'"; }
       virtual std::string HelpFull (const char*) const
-      { 
+      {
         return "Use this command to enter a full message to say to those"
           " around you.  The /me at the beginning will be replaced by the"
           " name of the speaker.";

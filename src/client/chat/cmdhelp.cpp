@@ -49,7 +49,7 @@ namespace PT
 
       // Element 0 is '/', 1 is 'help'
       if (args.size() < 2 || args.size() > 3) throw BadUsage();
- 
+
       const char* cmd = NULL;
       if (args.size() == 3) cmd = args[2].c_str();   // '/help cmd'
 
@@ -75,7 +75,7 @@ namespace PT
         }
         else
         {
-          StringArray cmd_sub = it->get()->GetAllCommands(); 
+          StringArray cmd_sub = it->get()->GetAllCommands();
           StringArray::const_iterator it_sub;
           for (it_sub = cmd_sub.begin(); it_sub != cmd_sub.end(); it_sub++)
           {

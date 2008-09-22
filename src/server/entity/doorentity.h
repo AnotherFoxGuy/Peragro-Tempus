@@ -68,7 +68,7 @@ public:
 
   const ptString& getAnimation() const { return animation; }
   void setAnimation(ptString id) { animation = id; }
-  
+
 };
 
 #endif // DOORENTITY_H

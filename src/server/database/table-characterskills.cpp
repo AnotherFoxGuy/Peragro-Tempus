@@ -35,11 +35,11 @@
  */
 CharacterSkillsTable::CharacterSkillsTable(Database* db) : Table(db) {
   ResultSet* rs = db->query("select count(*) from characterskill;");
-  if (rs == 0) 
-  { 
-    createTable(); 
-  } 
-  delete rs; 
+  if (rs == 0)
+  {
+    createTable();
+  }
+  delete rs;
 }
 
 /**
@@ -144,4 +144,4 @@ Array<CharSkillVO*> CharacterSkillsTable::getAllEntries(int characterID)
   }
   delete rs;
   return entries;
-}  
+}

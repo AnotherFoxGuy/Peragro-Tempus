@@ -32,7 +32,7 @@ size_t TcpSocket::last_checked;
 
 TcpSocket::TcpSocket()
 {
-#ifdef WIN32    
+#ifdef WIN32
   WSADATA info;
   WSAStartup(MAKEWORD(1,1), &info);
   printf("Max number of sockets: %d\n", info.iMaxSockets);

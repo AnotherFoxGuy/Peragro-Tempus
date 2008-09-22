@@ -49,9 +49,9 @@ void User::sendAddEntity(const Entity* entity)
     return;
 
   SectorManager* sectormanager = Server::getServer()->getSectorManager();
-  const ptString& entity_region = 
+  const ptString& entity_region =
     sectormanager->getRegionName( entity->getSector() );
-  const ptString& player_region = 
+  const ptString& player_region =
     sectormanager->getRegionName(getEntity()->getEntity()->getSector());
 
   if (!(player_region == entity_region)) return;

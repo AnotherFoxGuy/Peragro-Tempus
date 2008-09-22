@@ -30,7 +30,7 @@ private:
 
 public:
   UdpConnectionManager() {}
-  ~UdpConnectionManager() 
+  ~UdpConnectionManager()
   {
     connections.delAll();
   }

@@ -43,8 +43,8 @@ void ChatHandler::handleChat(GenericMessage* msg)
   if (in_msg.getVolume() == 0xFF) NetworkHelper::broadcast(bs);
   else
     NetworkHelper::distancecast(bs, ent->getEntity(), in_msg.getVolume());
-  /* TODO: client decides how loud a message is.  If there is to be a 
-     policy to limit how far one can shout, here's the place to implement 
+  /* TODO: client decides how loud a message is.  If there is to be a
+     policy to limit how far one can shout, here's the place to implement
      it. */
 }
 
@@ -86,7 +86,7 @@ void ChatHandler::handleGroup(GenericMessage* msg)
 
   GroupMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
-  out_msg.setChannel(in_msg.getChannel()); 
+  out_msg.setChannel(in_msg.getChannel());
   out_msg.setSpeakerName(name);
 
   ByteStream bs;

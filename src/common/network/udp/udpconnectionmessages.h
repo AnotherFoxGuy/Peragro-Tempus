@@ -38,7 +38,7 @@ private:
   unsigned int version;
 public:
 
-  ConnectRequestMessage(unsigned int v) : 
+  ConnectRequestMessage(unsigned int v) :
     NetMessage(MESSAGES::CONNECTION,CONNECTION::REQUEST) { version = v; }
 
   bool serialise(ByteStream* bs)
@@ -67,7 +67,7 @@ public:
   {
     return id;
   }
-  
+
   unsigned int getVersion()
   {
     return version;
@@ -76,7 +76,7 @@ public:
 
 class ConnectResponseMessage : public NetMessage
 {
-private: 
+private:
   unsigned char sessionId;
   bool succeeded;
 
@@ -126,7 +126,7 @@ class PingMessage : public NetMessage
 {
 
 public:
-  PingMessage() : NetMessage(MESSAGES::CONNECTION,CONNECTION::PING) 
+  PingMessage() : NetMessage(MESSAGES::CONNECTION,CONNECTION::PING)
   {
   }
 
@@ -150,7 +150,7 @@ class PongMessage : public NetMessage
 {
 
 public:
-  PongMessage() : NetMessage(MESSAGES::CONNECTION,CONNECTION::PONG) 
+  PongMessage() : NetMessage(MESSAGES::CONNECTION,CONNECTION::PONG)
   {
   }
 

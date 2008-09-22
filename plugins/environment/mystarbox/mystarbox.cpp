@@ -36,17 +36,17 @@ MyStarbox::MyStarbox(iObjectRegistry* r)
   flg_useTexStars = true;
   flg_useNebula = false;
   initialized = false;
-  flg_autodraw = true; 
+  flg_autodraw = true;
   flg_useTexStars = false;
   flg_useNebula = false;
   catcher.AttachNew(new csCameraCatcher(this));
   Initialize(object_reg);
 }
- 
+
 MyStarbox::~MyStarbox()
 {
    // Delete all systems from this galaxy first
-  for(std::vector<System*>::iterator itr = systems.begin(); itr != systems.end();++itr) 
+  for(std::vector<System*>::iterator itr = systems.begin(); itr != systems.end();++itr)
   {
     delete(*itr);
   } // end for iterate systems
@@ -93,7 +93,7 @@ bool MyStarbox::SetupPlugin()
     return false;
   }
 
-  // Default star setting 
+  // Default star setting
   base_star_roundness = 0.2;
   base_star_size = 0.5;
   star_apr_mag_exp = 1.412;
@@ -117,7 +117,7 @@ void MyStarbox::SetBaseStarRoundness (float val)
 {
 
   base_star_roundness = val;
-  // remove default textures and create new ones 
+  // remove default textures and create new ones
   star_tex.DeleteAll();
   for (int x = 0; x<=7; x++)
   {
@@ -138,9 +138,9 @@ void MyStarbox::SetSector (char const* name)
 bool MyStarbox::SetCurrentSystem(const int& new_id)
 {
    // Select a new current_sys using ID
-  for (std::vector<System*>::iterator itr = systems.begin(); itr != systems.end(); ++itr) 
+  for (std::vector<System*>::iterator itr = systems.begin(); itr != systems.end(); ++itr)
   {
-    if ((*itr)->Get_Id() == new_id) 
+    if ((*itr)->Get_Id() == new_id)
     {
       current_sys = *itr;
       return true;
@@ -156,14 +156,14 @@ bool MyStarbox::Background(const iCamera* c)
   engine->SetClearScreen(false);
   if (!BackgroundImage(c)) return false;
   return true;
-}; 
+};
 
 bool MyStarbox::BackgroundImage(const iCamera* c)
-{ 
+{
   float fov;
 
   if (!g2d)
-  { 
+  {
     printf ("MyStarbox::BackgroundImage: No G2d!\n");
     return false;
   }
@@ -176,7 +176,7 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
 
   g3d->BeginDraw(CSDRAW_CLEARSCREEN);
   fov = c->GetFOVAngle();
-  
+
 
   float viewangle = getM3xAngle(c->GetTransform().GetO2T()) * (180/ PI) ;
   if (viewangle < 0) viewangle = 360 + viewangle;
@@ -184,7 +184,7 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
 
 
 
-  // Iterate STARS 
+  // Iterate STARS
   int startview = static_cast<int>(viewangle - (fov/2));
   int endview = static_cast<int>(viewangle + (fov/2));
 
@@ -192,32 +192,32 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
   if (endview > 359) endview = endview - 359;
 
 //  printf("fov(%f) ViewAngle(%f) view(%i,%i)\n ", fov , viewangle , ra_systems[startview] , ra_systems[endview]);
-//  std::cout << "DEBUG: " << startview << "-" << endview << ":" << viewangle << std::endl;  
+//  std::cout << "DEBUG: " << startview << "-" << endview << ":" << viewangle << std::endl;
 
   for (std::vector<System*>::iterator itr = systems.begin();
     itr != systems.end();
-      ++itr) 
+      ++itr)
   {
     if (flg_useTexStars == false)
     {
       (*itr)->DrawStar2D(g2d, c);
-    } else 
+    } else
     {
  //     (*itr)->DrawStar2D(g2d, c);
       (*itr)->DrawStar3D(g3d, c, base_star_size, star_apr_mag_exp );
     }
-  } // end for iterate systems  
-  
+  } // end for iterate systems
+
   return true ;
 }
 
 bool MyStarbox::BackgroundImageNebula(const iCamera* c)
-{ 
+{
   float fov;
 
 //  printf("MyStarbox::BackgroundImage:START\n");
-  if (!g2d) 
-  { 
+  if (!g2d)
+  {
     printf ("MyStarbox::BackgroundImage: No G2d\n");
     return false;
   }
@@ -228,7 +228,7 @@ bool MyStarbox::BackgroundImageNebula(const iCamera* c)
   }
 
   fov = c->GetFOVAngle () ;
-  
+
 
   float viewangle = getM3xAngle(c->GetTransform().GetO2T()) * (180/ PI);
   if (viewangle < 0) viewangle = 360 + viewangle;
@@ -236,7 +236,7 @@ bool MyStarbox::BackgroundImageNebula(const iCamera* c)
 
 
 
-  // Iterate STARS 
+  // Iterate STARS
   int startview = static_cast<int>(viewangle-(fov/2));
   int endview = static_cast<int>(viewangle+(fov/2));
 
@@ -245,15 +245,15 @@ bool MyStarbox::BackgroundImageNebula(const iCamera* c)
 
 
   //printf("fov(%f) ViewAngle(%f) view(%i,%i)\n ", fov , viewangle , ra_systems[startview] , ra_systems[endview]);
-  //std::cout << "DEBUG: " << startview << "-" << endview << ":" << viewangle << std::endl;  
+  //std::cout << "DEBUG: " << startview << "-" << endview << ":" << viewangle << std::endl;
 
   for (std::vector<System*>::iterator itr = systems.begin();
-    itr != systems.end(); ++itr) 
+    itr != systems.end(); ++itr)
   {
     if (flg_useNebula && (*itr)->Has_Nebula())
     {
       (*itr)->DrawNebulaTexture(c, g3d);
-    } // end if draw nebula 
+    } // end if draw nebula
   } // end for iterate systems
 
 
@@ -265,7 +265,7 @@ bool MyStarbox::BackgroundImageNebula(const iCamera* c)
 iTextureWrapper* MyStarbox::Create2dHaloTexture(int startype)
 {
 
-// really nead the stars to do this , not sure how to keep resource usage low though 
+// really nead the stars to do this , not sure how to keep resource usage low though
   csImageMemory* csImgMem;
   iTextureWrapper* my_tex;
   std::string tex_name;
@@ -284,20 +284,20 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture(int startype)
       break;
     case 3:
       color = csRGBcolor(238, 238, 201);
-      break; 
+      break;
     case 4:
       color = csRGBcolor(243, 243, 147);
-      break; 
+      break;
     case 5:
       color = csRGBcolor(255, 203, 131);
-      break; 
+      break;
     case 6:
       color = csRGBcolor(231, 0, 0);
-      break; 
-    default: 
+      break;
+    default:
       color = csRGBcolor(255, 255, 255);
   }
-  
+
   csRef<iTextureManager> tex_mng = g3d->GetTextureManager();
   if (!tex_mng) printf("myHalo2::Create2dHaloTexture: Failed to load Texture Manager!\n");
   csRef<iTextureList> tex_list = engine->GetTextureList();
@@ -312,7 +312,7 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture(int startype)
 //  printf("base_star_roundness %2.2f\n",roundness );
   int num_frames = 9;
   for (int n=0; n< STAR_ANAM_FRAMES ; n++)
-  { 
+  {
     ss.str("");
     ss << "starboxhalo" << startype << n;
     tex_name = ss.str();
@@ -336,9 +336,9 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture(int startype)
 
     if (!my_tex) {
       csRef<iTextureHandle> tex_hand = tex_mng->RegisterTexture(star_img, CS_TEXTURE_2D);
-      my_tex = tex_list->NewTexture(star_img); 
+      my_tex = tex_list->NewTexture(star_img);
       my_tex->QueryObject()->SetName(tex_name.c_str());
-    } else 
+    } else
     {
       my_tex->SetImageFile(star_img);
       my_tex->Register(tex_mng);
@@ -359,7 +359,7 @@ float MyStarbox::getM3xAngle(csMatrix3 m3)
   q.SetMatrix(m3);
   csVector3 euler_angles = q.GetEulerAngles();
 
-  return euler_angles.x;    
+  return euler_angles.x;
 }
 
 
@@ -369,7 +369,7 @@ float MyStarbox::getM3yAngle(csMatrix3 m3)
   q.SetMatrix (m3);
   csVector3 euler_angles = q.GetEulerAngles();
 
-  return euler_angles.y;    
+  return euler_angles.y;
 }
 
 float MyStarbox::getM3zAngle(csMatrix3 m3)
@@ -378,7 +378,7 @@ float MyStarbox::getM3zAngle(csMatrix3 m3)
   q.SetMatrix (m3);
   csVector3 euler_angles = q.GetEulerAngles();
 
-  return euler_angles.z;    
+  return euler_angles.z;
 }
 
 void MyStarbox::Report(int severity, const char* msg, ...)
@@ -412,7 +412,7 @@ csImageMemory* MyStarbox::NovaImage
     int star_size,    /// The size of the halo image in pixels
     int num_spokes,    /// Number of halo spokes
     float roundness,   /// The "roundness" factor
-    csRGBcolor color  /// The color of the halo 
+    csRGBcolor color  /// The color of the halo
   )
 {
 //  iImage* img_star;
@@ -423,7 +423,7 @@ csImageMemory* MyStarbox::NovaImage
   void * imgdata = csGenerateNova(star_size , seed ,  num_spokes , roundness);
   int r,g,b;
 
-  for (int i = 0; i<256; i++) 
+  for (int i = 0; i<256; i++)
   {
     r = color.red - i;
     g = color.green - i;
@@ -435,7 +435,7 @@ csImageMemory* MyStarbox::NovaImage
 
   }
 
-  csImgMem = new csImageMemory 
+  csImgMem = new csImageMemory
   (
     star_size,    // w
     star_size,    // h
@@ -458,8 +458,8 @@ csImageMemory* MyStarbox::NovaImageRGB
     int star_size,    /// The size of the halo image in pixels
     int num_spokes,    /// Number of halo spokes
     float roundness,   /// The "roundness" factor
-    csRGBcolor color  /// The color of the halo 
-  )  
+    csRGBcolor color  /// The color of the halo
+  )
 {
 
   void * imgdata = csGenerateNovaRGB(star_size, seed,  num_spokes, roundness, color);
@@ -467,7 +467,7 @@ csImageMemory* MyStarbox::NovaImageRGB
   csImageMemory*  csImgMem = new csImageMemory (
               star_size,     //w
               star_size,    //h
-              imgdata ,//buffer 
+              imgdata ,//buffer
               true,    // destroy
               CS_IMGFMT_TRUECOLOR | CS_IMGFMT_ALPHA // format
               );
@@ -486,15 +486,15 @@ csImageMemory* MyStarbox::HaloImageRGB
     int star_size,    /// The size of the halo image in pixels
     float intensity,  /// The "intensity" factor 0-1
     float cross ,    /// The "cross" factor 0-1
-    csRGBcolor color  /// The color of the halo 
-  )   
+    csRGBcolor color  /// The color of the halo
+  )
 {
   csImageMemory* csImgMem;
   csRGBpixel* apal = new csRGBpixel[256];
   //csRef<iImage> img_star_alpha;
   int r,g,b;
 
-  for (int i = 0; i<256 ; i++) 
+  for (int i = 0; i<256 ; i++)
   {
     r = color.red - i;
     g = color.green - i;
@@ -521,7 +521,7 @@ return csImgMem;
 
 
 
-bool MyStarbox::SaveImage(std::string filename) 
+bool MyStarbox::SaveImage(std::string filename)
 {
   csRef<iVFS> vfs;
   vfs = csQueryRegistry<iVFS>(object_reg);
@@ -537,7 +537,7 @@ bool MyStarbox::SaveImage(std::string filename)
     printf ("Error Saving Image:%s \n",filename.c_str());
   } else {
     printf ("Image Saved:%s \n",filename.c_str());
-  }  
+  }
 
 return true;
 }
@@ -559,7 +559,7 @@ bool MyStarbox::SaveImage(std::string filename, csImageMemory* csImgMem)
     printf ("Error Saving Image:%s \n",filename.c_str());
   } else {
     printf ("Image Saved:%s \n",filename.c_str());
-  }  
+  }
 
 return true;
 }
@@ -586,17 +586,17 @@ bool MyStarbox::SaveVisableStarCatalog(std::string filename)
     return false;
   }
 
-  // check all systems for abs_mag < 6.5 
-  for(std::vector<System*>::iterator itr = systems.begin(); itr != systems.end();++itr) 
+  // check all systems for abs_mag < 6.5
+  for(std::vector<System*>::iterator itr = systems.begin(); itr != systems.end();++itr)
   {
     char szTempString[256];
-    if ( (*itr)->Get_Apr_Magnitude()<=6.5 ) 
+    if ( (*itr)->Get_Apr_Magnitude()<=6.5 )
     {
       // output line in catalog
 //      ss << (*itr)->Get_Catalogue_Line();
       sprintf(szTempString , "%i  %3.8f %3.8f %4.8f %3.8f %s \n",
               id,
-              (*itr)->Get_Ra(), 
+              (*itr)->Get_Ra(),
               (*itr)->Get_Dec(),
               (*itr)->Get_Distance(),
               (*itr)->Get_Luminosity(),
@@ -616,7 +616,7 @@ bool MyStarbox::SaveVisableStarCatalog(std::string filename)
 bool MyStarbox::LoadNebulaCatalogue(const std::string& file_name )
 {
   // Data Format
-  // ID  texture_name width(light years) height(light years)    
+  // ID  texture_name width(light years) height(light years)
   // 1  txt_name 15 15
 
   std::ifstream inFile;
@@ -628,24 +628,24 @@ bool MyStarbox::LoadNebulaCatalogue(const std::string& file_name )
   float width;
   float height;
 
-  
+
   printf("Loading Nebula Calalogue:%s\n", file_name.c_str() );
 
   try
-  { 
+  {
     inFile.open((file_name).c_str());
 
-    if (!inFile) 
+    if (!inFile)
     {
       throw("Unable to open file ");
     }
 
-    while (inFile >> data) 
+    while (inFile >> data)
     {
-      // Get data 
+      // Get data
       id = std::atoi(data.c_str());
 
-      inFile >> data ; // materal 
+      inFile >> data ; // materal
       tex_name = data.c_str();
 
       inFile >> data; // width light years
@@ -653,7 +653,7 @@ bool MyStarbox::LoadNebulaCatalogue(const std::string& file_name )
 
       inFile >> data; // height light years
       height = std::atof (data.c_str());
-      
+
       itr = systems.begin();
       do
       {
@@ -662,7 +662,7 @@ bool MyStarbox::LoadNebulaCatalogue(const std::string& file_name )
 
       if (itr != systems.end())
       {
-        if ((*itr)->Get_Id() == id) 
+        if ((*itr)->Get_Id() == id)
         {
           if (!(*itr)->Add_Nebula(tex_name, width, height, engine))
           {
@@ -670,7 +670,7 @@ bool MyStarbox::LoadNebulaCatalogue(const std::string& file_name )
           }
         }
       }
-    } // end while data 
+    } // end while data
 
   inFile.close();
   flg_useNebula = true ;
@@ -681,7 +681,7 @@ bool MyStarbox::LoadNebulaCatalogue(const std::string& file_name )
     printf ("Exception raised:MyStarbox::LoadNebulaCatalogue: %s.\n" , str );
     return false;
   } // end catch
-} 
+}
 
 
 bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
@@ -694,7 +694,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
   int x = 1;
 
   std::string data;
-  System* system; 
+  System* system;
 
   // Temp var for System data.
   int id;
@@ -722,11 +722,11 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
     }
 
     inFile >> data;  // Skip first entry, Total # stars
-  
+
     while (inFile >> data)
     {
-      // Get data 
-      id = std::atoi(data.c_str()); 
+      // Get data
+      id = std::atoi(data.c_str());
       name = "sys:";
       name += data.c_str();
       inFile >> data; // RA.
@@ -738,7 +738,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
       inFile >> data; // Distance.
       distance = std::atof(data.c_str());
 
-      inFile >> data;   // AbsMag // magnatude of star as viewed from 32ly 
+      inFile >> data;   // AbsMag // magnatude of star as viewed from 32ly
       AbsMag = std::atof(data.c_str());
 
       inFile >> data; // StarType.
@@ -767,7 +767,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
         star_classification,
         AbsMag,
         StarColor(static_cast<SpectralType>(StarType(star_classification)), distance),
-        star_tex[StarType(star_classification)] 
+        star_tex[StarType(star_classification)]
       );
 
       systems.push_back(system);
@@ -791,7 +791,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
     printf("Exception raised:MyStarbox::LoadStarCatalogue: %s.\n", str);
     return false;
   } // end catch
-} 
+}
 bool MyStarbox::LoadYaleStarCatalogue(const std::string& file_name)
 {
 /*
@@ -813,9 +813,9 @@ newline	54	1	c1	newline (max final loc)
 
 
   std::ifstream inFile;
- 
+
   std::string line;
-  System* system; 
+  System* system;
 
   // Temp var for System data.
   int id=1;
@@ -834,7 +834,7 @@ newline	54	1	c1	newline (max final loc)
 
   printf("Loading Yale Star Calalogue:%s\n", file_name.c_str());
 
-  try 
+  try
   {
     inFile.open((file_name).c_str());
 
@@ -854,10 +854,10 @@ newline	54	1	c1	newline (max final loc)
     do
     {
       getline (inFile,line);
-      
+
       if ( line.length() > 14 )
       {
-        rahh = atoi(line.substr(0,2).c_str()); 
+        rahh = atoi(line.substr(0,2).c_str());
         ramm = atoi(line.substr(2,2).c_str());
         rass = atoi(line.substr(4,2).c_str());
 
@@ -867,7 +867,7 @@ newline	54	1	c1	newline (max final loc)
 
 
 	ra = static_cast<float>((rahh+((ramm+(rass/60.0f))/60.0f))*15);
-        dec =static_cast<float>(decmm + (decss/60.0f));  // really not sure about this conversion 
+        dec =static_cast<float>(decmm + (decss/60.0f));  // really not sure about this conversion
 
         apr_mag = (atof(line.substr(11,3).c_str()))/100;
 
@@ -875,8 +875,8 @@ newline	54	1	c1	newline (max final loc)
 //        printf ("RA:%3.4f Dec:%2.2f mag:%2.3f\n", ra, dec, apr_mag );
 
 	// distance = std::atof(data.c_str()); need to work this out from classification and apr_mag
-	 
-        star_classification = line.substr(16,2).c_str(); 
+	
+        star_classification = line.substr(16,2).c_str();
         distance = Estmate_Distance_Sequence_Fitting( star_classification, apr_mag );
         abs_mag = Estmate_Abs_Magnitude(star_classification);
         name = line.substr(23,29);
@@ -890,7 +890,7 @@ newline	54	1	c1	newline (max final loc)
           star_classification,
           AbsMag,
           StarColor(static_cast<SpectralType>(StarType(star_classification)), distance),
-          star_tex[StarType(star_classification)*6] 
+          star_tex[StarType(star_classification)*6]
         );
 
         // Add star images to anaminate star
@@ -904,15 +904,15 @@ newline	54	1	c1	newline (max final loc)
       // printf ("Loading System ID:%i.\n" , id );
       // Set up the ra_system array.
       syscount++;
-      if (current_ra < static_cast<int>(ra)) 
+      if (current_ra < static_cast<int>(ra))
       {
         ra_systems[static_cast<int>(ra)] = syscount;
         current_ra = static_cast<int>(ra);
-      } // end if  
+      } // end if
         id++;
-      } // end if length check 
+      } // end if length check
     } while (! inFile.eof() );
-   
+
     inFile.close();
 
     return true;
@@ -921,7 +921,7 @@ newline	54	1	c1	newline (max final loc)
     printf("Exception raised:MyStarbox::LoadStarCatalogue: %s.\n", str);
     return false;
   } // end catch
-} 
+}
 
 float MyStarbox::Estmate_Distance_Sequence_Fitting(const std::string&  star_classification,float apr_mag )
 {
@@ -931,14 +931,14 @@ float MyStarbox::Estmate_Distance_Sequence_Fitting(const std::string&  star_clas
 //  printf("Star Class %s est :%1.1f(0-7) M=%4.6f d=%4.4fly\n", star_classification.c_str(), star_type, M, d*3.26);
 //   printf("Object       mV     MV     mV-MV     d(pc)   d(ly)\n");
 //   printf("%s      %3.4f    %3.4f    %3.4f     %3.4f   %3.4f\n", star_classification.c_str(), apr_mag, M, (apr_mag-M), d, (d*3.26) );
-// m-M = 5 log(d) - 5 -> m - M + 5 = 5 log(d) -> log(d) = (m - M + 5)/5 -> d = 10^[(m - M + 5)/5]. 
+// m-M = 5 log(d) - 5 -> m - M + 5 = 5 log(d) -> log(d) = (m - M + 5)/5 -> d = 10^[(m - M + 5)/5].
 
   return (d*3.26);
 }
 
 float MyStarbox::Estmate_Abs_Magnitude (const std::string&  star_classification)
 {
-   // guess a abs_mag using the star_clissification // high margin of error 
+   // guess a abs_mag using the star_clissification // high margin of error
   float star_type = StarType(star_classification);
   star_type += (atof(star_classification.substr(1,1).c_str())/10.0f) ;
   float M = (star_type*2.5)-5;
@@ -970,7 +970,7 @@ int MyStarbox::StarColor(SpectralType type, float dist)
     case 3:
       starcolor = g2d->FindRGB(colorpart, colorpart, colorpart);
       break;
-    case 4: 
+    case 4:
       starcolor = g2d->FindRGB(colorpart, colorpart, colorpart);
       break;
     case 5:
@@ -979,7 +979,7 @@ int MyStarbox::StarColor(SpectralType type, float dist)
     case 6:
       starcolor = g2d->FindRGB(colorpart, colorpart, colorpart - (255 -170));
       break;
-    default: 
+    default:
       starcolor = g2d->FindRGB(colorpart, colorpart - (255 - 200), colorpart - (255-135));
 
   }
@@ -1027,12 +1027,12 @@ int MyStarbox::StarType(std::string type )
 MyStarboxFactory::MyStarboxFactory(iBase* parent)
   : scfImplementationType (this, parent)
 {}
- 
+
 csPtr<iMyStarbox> MyStarboxFactory::CreateObject ()
 {
   return new MyStarbox(object_reg );
 }
- 
+
 bool MyStarboxFactory::Initialize(iObjectRegistry* r)
 {
   object_reg = r;

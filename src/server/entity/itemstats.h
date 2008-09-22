@@ -88,7 +88,7 @@ public:
   bool takeStat(Stat* stat, int level)
   {
     ItemStat* entry = findEntry(stat->getId());
-    if (!entry) 
+    if (!entry)
       return false;
     if (entry->level < level)
     {

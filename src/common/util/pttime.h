@@ -45,7 +45,7 @@ public:
 #ifdef WIN32
 
 private:
-  struct timeval 
+  struct timeval
   {
     long tv_sec;
     long tv_usec;
@@ -53,7 +53,7 @@ private:
 
   inline int gettimeofday(struct timeval *tv, void *tzp)
   {
-    union 
+    union
     {
       long long ns100;
       FILETIME ft;

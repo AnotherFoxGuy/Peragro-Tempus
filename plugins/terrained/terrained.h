@@ -71,7 +71,7 @@ public:
 
   virtual bool Initialize (iObjectRegistry*);
 
-  
+
 
   CS_EVENTHANDLER_PHASE_FRAME("peragro.terrained.frame")
 };

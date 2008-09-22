@@ -34,7 +34,7 @@ public:
 
   CharChats() {}
   virtual ~CharChats() {}
- 
+
   virtual size_t GetChannelCount() const = 0;
   virtual const char* GetChannelName (size_t idx) const = 0;
 
@@ -52,16 +52,16 @@ protected:
   Array< Channel > channels;
   const PcEntity* parent;
 
-public: 
+public:
   CharChatsDef(const PcEntity* p) : CharChats(), channels(), parent(p) {}
   virtual ~CharChatsDef() {}
- 
+
   virtual size_t GetChannelCount() const { return channels.getCount(); };
-  virtual const char* GetChannelName (size_t idx) const 
+  virtual const char* GetChannelName (size_t idx) const
   { return channels.get(idx).first.c_str(); }
 
   virtual size_t GetDefChannelCount() const;
-  virtual const char* GetDefChannelName (size_t idx) const; 
+  virtual const char* GetDefChannelName (size_t idx) const;
 
   virtual void JoinChannel(const char* channel, const ChatGroups::UserList* ulist);
 

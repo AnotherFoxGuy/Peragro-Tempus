@@ -46,7 +46,7 @@ private:
       regions.add(region);
     }
     else
-      printf("Sectors out of order! Expected sector id %" SIZET 
+      printf("Sectors out of order! Expected sector id %" SIZET
              " but got %d!\n", sectors.getCount(), id);
   }
 
@@ -93,7 +93,7 @@ public:
       loadSector(id, name, region);
     }
     else
-      printf("Sectors out of order! Expected sector id %" SIZET 
+      printf("Sectors out of order! Expected sector id %" SIZET
              " but got %d!\n", sectors.getCount(), id);
   }
 

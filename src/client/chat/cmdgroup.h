@@ -40,7 +40,7 @@ namespace PT
       cmdGroup () : CommandDefault("group") { }
       virtual ~cmdGroup () { }
 
-      virtual std::string HelpSynopsis (const char*) const 
+      virtual std::string HelpSynopsis (const char*) const
       { return "Send a message to all group members."; }
       virtual std::string HelpUsage (const char*) const
       { return "Usage: '/group <message>'"; }

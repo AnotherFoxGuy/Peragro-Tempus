@@ -101,4 +101,4 @@ void ItemStatsTable::getAllEntries(Array<ItemStat*>& entries, int id)
     entries.add(entry);
   }
   delete rs;
-}  
+}

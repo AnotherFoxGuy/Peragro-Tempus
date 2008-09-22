@@ -80,7 +80,7 @@ Item* ItemTable::getItem(ptString name)
 
   Item* item = 0;
 
-  if (rs && rs->GetRowCount() == 1) 
+  if (rs && rs->GetRowCount() == 1)
   {
     item = new Item();
     item->setId(atoi(rs->GetData(0,0).c_str()));
@@ -102,7 +102,7 @@ Item* ItemTable::getItem(int id)
 
   Item* item = 0;
 
-  if (rs && rs->GetRowCount() == 1) 
+  if (rs && rs->GetRowCount() == 1)
   {
     item = new Item();
     item->setId(atoi(rs->GetData(0,0).c_str()));

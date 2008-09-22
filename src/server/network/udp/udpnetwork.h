@@ -35,7 +35,7 @@ private:
   UdpConnectionHandler conn_handler;
 
 public:
-  UdpNetwork() 
+  UdpNetwork()
   : receiver(&socket), conn_pinger(&conn_mgr), conn_handler(&conn_mgr, &socket)
   {
   }

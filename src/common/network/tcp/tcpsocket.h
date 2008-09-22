@@ -30,7 +30,7 @@ public:
   SocketAddress() {}
   virtual ~SocketAddress() {}
 
-  bool operator== (const SocketAddress& o) const 
+  bool operator== (const SocketAddress& o) const
   {
     return (ip == o.ip && port == o.port);
   }

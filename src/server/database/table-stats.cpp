@@ -89,7 +89,7 @@ Stat* StatTable::getStat(ptString name)
 
   Stat* stat = 0;
 
-  if (rs && rs->GetRowCount() == 1) 
+  if (rs && rs->GetRowCount() == 1)
   {
     stat = new Stat();
     stat->setId(atoi(rs->GetData(0,0).c_str()));
@@ -111,4 +111,4 @@ void StatTable::getAllStats(Array<Stat*>& stats)
     stats.add(stat);
   }
   delete rs;
-}  
+}

@@ -52,14 +52,14 @@ class Star{
 
     iTextureWrapper* star_tex;
     csRefArray<iTextureWrapper> star_textures;
-    float last_tex; 
+    float last_tex;
 
     int star_tex_size_px;     // ^2 image
 
-  public:  
+  public:
 
     Star (
-      std::string star_name, 
+      std::string star_name,
       std::string new_classification,
       float new_luminosity,
       int color,
@@ -82,7 +82,7 @@ class Star{
 
     int Get_Type();
 
-//    void DrawStar3D(iGraphics3D* g3d, const iCamera* c);  
+//    void DrawStar3D(iGraphics3D* g3d, const iCamera* c);
     void DrawStar3D(iGraphics3D* g3d, const iCamera* c,const float& base_star_size, const float& apr_mag_exp);
     void DrawStar2D(iGraphics2D* g2d, const iCamera* c);
 

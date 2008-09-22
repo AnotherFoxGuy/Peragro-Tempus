@@ -89,7 +89,7 @@ Skill* SkillTable::getSkill(ptString name)
 
   Skill* skill = 0;
 
-  if (rs && rs->GetRowCount() == 1) 
+  if (rs && rs->GetRowCount() == 1)
   {
     skill = new Skill();
     skill->setId((unsigned short)atoi(rs->GetData(0,0).c_str()));
@@ -124,4 +124,4 @@ void SkillTable::getAllSkills(Array<Skill*>& skills)
     skills.add(skill);
   }
   delete rs;
-}  
+}

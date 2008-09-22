@@ -26,7 +26,7 @@
 
 class ChatManager : public ChatGroups, public EntityCallback
 {
-public: 
+public:
   ChatManager();
   virtual ~ChatManager();
 

@@ -35,7 +35,7 @@ private:
   size_t last_seen;
 
 public:
-  UdpConnection(Socket* socket, SocketAddress* address, int ssid) 
+  UdpConnection(Socket* socket, SocketAddress* address, int ssid)
     : Connection(CONNECTION::UDP), socket(socket), address(*address), ssid(ssid)
   {
     user = 0;

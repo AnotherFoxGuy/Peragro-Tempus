@@ -78,7 +78,7 @@ Reputation* ReputationsTable::getReputation(ptString name)
 
   Reputation* reputation = 0;
 
-  if (rs && rs->GetRowCount() == 1) 
+  if (rs && rs->GetRowCount() == 1)
   {
     reputation = new Reputation();
     reputation->setId(atoi(rs->GetData(0,0).c_str()));
@@ -100,4 +100,4 @@ void ReputationsTable::getAllReputations(Array<Reputation*>& reputations)
     reputations.add(reputation);
   }
   delete rs;
-}  
+}

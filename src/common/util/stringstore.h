@@ -37,9 +37,9 @@ private:
     char* string;
 
     StoreString() : len(0), string(0) {}
-    ~StoreString() 
-    { 
-      delete [] string; 
+    ~StoreString()
+    {
+      delete [] string;
     }
   };
   Array<StoreString*> strings;
@@ -49,7 +49,7 @@ private:
   StringStore()
   {
     StoreString* null_str = new StoreString();
-    strings.add(null_str); 
+    strings.add(null_str);
   }
 
   ~StringStore()
@@ -99,7 +99,7 @@ private:
   {
     mutex.lock();
 
-    if (id >= strings.getCount()) 
+    if (id >= strings.getCount())
     {
       mutex.unlock();
       return 0;

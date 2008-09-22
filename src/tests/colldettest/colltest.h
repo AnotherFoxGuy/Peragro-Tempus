@@ -35,11 +35,11 @@ class CollisionDetectionTest : public csApplicationFramework, public csBaseEvent
   bool OnKeyboard (iEvent&);
 
   void Frame ();
-  
+
   void LoadWorld (Tables* db);
   void SetupPhysics (Tables* db);
   void AddCharacter ();
-    
+
   CollisionDetectionTest ();
   ~CollisionDetectionTest ();
 

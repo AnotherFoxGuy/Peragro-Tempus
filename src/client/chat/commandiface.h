@@ -37,7 +37,7 @@ namespace PT
 
     /* exception thrown by CommandInterface::Execute when bad command
        syntax is used */
-    struct BadUsage {}; 
+    struct BadUsage {};
 
     class CommandInterface
     {
@@ -56,17 +56,17 @@ namespace PT
 
       /** Returns a help message.
         * cmd is the name of the command to return help for, and detail is
-        * one of CMD_HELP_USAGE, CMD_HELP_SYNOPSIS, and CMD_HELP_FULL, 
+        * one of CMD_HELP_USAGE, CMD_HELP_SYNOPSIS, and CMD_HELP_FULL,
         * depending on how detailed a help message is expected.
         */
       std::string Help (const char* cmd, int detail) const
-      {  
+      {
          return  (detail==CMD_HELP_USAGE)    ? HelpUsage(cmd) :
                  (detail==CMD_HELP_SYNOPSIS) ? HelpSynopsis(cmd) :
                /*(detail==CMD_HELP_FULL)*/     HelpFull(cmd);
       }
 
-      /** Execute the command. 
+      /** Execute the command.
         * args[0] is '/', args[1] is the command name, for normal commands.
         */
       virtual void Execute (const StringArray& args) = 0;

@@ -29,7 +29,7 @@
 template<class T>
 class ptMonitorable
 {
-private: 
+private:
   Mutex mutex;
   ptMonitor<T> ref;
 
@@ -69,25 +69,25 @@ public:
 template<class T>
 class ptScopedMonitorable
 {
-private: 
+private:
   T* lockObj;
   T& operator=(const T &c);
 
 public:
-  explicit ptScopedMonitorable(const T* c) 
-  { 
+  explicit ptScopedMonitorable(const T* c)
+  {
     //printf("I: Getting lock (Currently %s., %d/%d)\n", c->IsLocked()?"locked":"unlocked", PT::Thread::CurrentThreadID(), c->GetThreadID());
     //assert( !(c->IsLocked() && c->GetThreadID() != PT::Thread::CurrentThreadID()) );
-    //if ( c->IsLocked() && (c->GetThreadID() != PT::Thread::CurrentThreadID()) ) 
+    //if ( c->IsLocked() && (c->GetThreadID() != PT::Thread::CurrentThreadID()) )
       //printf("E: Already locked!!!\n");
     //printf("I: Getting lock (%s)\n", c->IsLocked()?"Locked":"Unlocked");
-    lockObj = c->getLock(); 
+    lockObj = c->getLock();
   }
 
-  ~ptScopedMonitorable() 
-  { 
+  ~ptScopedMonitorable()
+  {
     //printf("I: Releasing lock\n");
-    lockObj->freeLock(); 
+    lockObj->freeLock();
     lockObj = 0;
   }
 
@@ -103,12 +103,12 @@ public:
 
   inline operator T*() const
   {
-    return lockObj; 
+    return lockObj;
   }
 
   inline operator const T*() const
   {
-    return lockObj; 
+    return lockObj;
   }
 };
 

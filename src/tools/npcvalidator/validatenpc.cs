@@ -179,17 +179,17 @@ class NpcValidator
 	public static void CheckLength(string xmlfilename)
 	{
 
-	// Retrieve XML document  
+	// Retrieve XML document
 	XmlTextReader reader = new XmlTextReader(xmlfilename);
 
-	// Skip non-significant whitespace  
-	reader.WhitespaceHandling = WhitespaceHandling.Significant;  
-  
-	// Read nodes one at a time  
-	while (reader.Read())  
-	{  
+	// Skip non-significant whitespace
+	reader.WhitespaceHandling = WhitespaceHandling.Significant;
 
-		switch (reader.NodeType) 
+	// Read nodes one at a time
+	while (reader.Read())
+	{
+
+		switch (reader.NodeType)
 		{
 
 		case XmlNodeType.Element:

@@ -33,7 +33,7 @@ private:
   TcpConnectionHandler conn_handler;
 
 public:
-  TcpNetwork() 
+  TcpNetwork()
   : receiver(&socket, &conn_mgr), conn_handler(&conn_mgr, &socket)
   {
   }

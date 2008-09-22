@@ -56,7 +56,7 @@ public:
   {
     printf("delUser: %s!\n", *user->getName());
 
-    if (!user) 
+    if (!user)
     {
       printf("Removing user: Not a user!\n");
       return;

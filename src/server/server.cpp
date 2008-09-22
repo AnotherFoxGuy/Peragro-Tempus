@@ -49,7 +49,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
     const ItemEntity* ie = entity->getItemEntity();
     const DoorEntity* de = entity->getDoorEntity();
     if (ie)
-    { 
+    {
       tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
     }
     else if (de)
@@ -145,7 +145,7 @@ void Server::delEntity(const Entity* entity)
   // Not really nice but hopefully effective
   pt_sleep(100);
 
-  // Unlocks on destruction (I hope) 
+  // Unlocks on destruction (I hope)
   /// TODO: has been converted to ptScopedMonitorable, check for correctness!
   ptScopedMonitorable<Entity> ent (entity);
   delete entity;

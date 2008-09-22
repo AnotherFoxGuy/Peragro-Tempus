@@ -27,7 +27,7 @@ class TcpConnection : public Connection
   ByteStream buffer;
 
 public:
-  TcpConnection(int socket) 
+  TcpConnection(int socket)
     : Connection(CONNECTION::TCP), socket(socket)
   {
   }

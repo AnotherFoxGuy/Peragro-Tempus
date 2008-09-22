@@ -56,6 +56,6 @@ void ChatGroups::delUser (const PcEntity* user, const char* channel, bool prune)
   ChatGroups::ChannelSet::iterator iter = channels.find(channel);
   if (iter == channels.end()) return;
   size_t idx = iter->second.find(user);
-  if (idx != iter->second.getCount()) iter->second.remove(idx); 
-  if (prune && !iter->second.getCount()) delChannel(channel);  
+  if (idx != iter->second.getCount()) iter->second.remove(idx);
+  if (prune && !iter->second.getCount()) delChannel(channel);
 }

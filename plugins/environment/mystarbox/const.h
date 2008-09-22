@@ -1,12 +1,12 @@
 // file const.h
 
-#ifndef _H_CONST_ 
+#ifndef _H_CONST_
 #define _H_CONST_
 
 // 1ly = 9,460,730,472,580.8 km
 // parsecs ≈ 3.2616 light-years
-//  = 
-#define SB_SCALE_LY_UNIT (59839.14800)    // number of CS world units per light year 
+//  =
+#define SB_SCALE_LY_UNIT (59839.14800)    // number of CS world units per light year
 
 
 #define SB_CSUNIT_KM (59839.14800)

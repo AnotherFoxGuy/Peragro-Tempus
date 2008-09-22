@@ -64,7 +64,7 @@ void EntityManager::loadFromDB(EntityTable* et)
       case Entity::NPCEntityType:
       {
         Tables* db = Server::getServer()->getTables();
-        NpcEntitiesTableVO* npc_vo = 
+        NpcEntitiesTableVO* npc_vo =
           db->getNpcEntitiesTable()->getById(vo->id);
 
         if (!npc_vo)
@@ -100,7 +100,7 @@ void EntityManager::loadFromDB(EntityTable* et)
         break;
       }
       default:
-      { 
+      {
         // Unknown Entity!
         continue;
       }

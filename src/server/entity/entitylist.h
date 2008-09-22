@@ -68,7 +68,7 @@ public:
     for (size_t i = 0; i<entities.getCount(); i++)
     {
       const Entity* _entity = entities.get(i);
-      if (!_entity) 
+      if (!_entity)
       {
         entities.remove(i);
         removeEntity(entity);

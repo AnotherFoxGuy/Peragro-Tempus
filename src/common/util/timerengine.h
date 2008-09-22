@@ -67,24 +67,24 @@ public:
    * Register a timer to this engine.
    * @param timer The timer.
    */
-  void registerTimer(Timer* timer) 
-  { 
-    mutex.lock(); 
-    timers.add(timer); 
-    mutex.unlock(); 
+  void registerTimer(Timer* timer)
+  {
+    mutex.lock();
+    timers.add(timer);
+    mutex.unlock();
   }
 
  /**
    * Unregister a timer from this engine.
    * @param timer The timer.
    */
-  void unregisterTimer(Timer* timer) 
-  { 
-    mutex.lock(); 
+  void unregisterTimer(Timer* timer)
+  {
+    mutex.lock();
     size_t pos = timers.find(timer);
     if (pos < timers.getCount())
       timers.remove(pos);
-    mutex.unlock(); 
+    mutex.unlock();
   }
 
   /// Get self.

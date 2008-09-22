@@ -76,4 +76,4 @@ void InventoryTable::getAllEntries(Array<InventoryEntry>& entries, int id)
     entries.get(atoi(rs->GetData(i,1).c_str())).variation = atoi(rs->GetData(i,2).c_str());
   }
   delete rs;
-}  
+}

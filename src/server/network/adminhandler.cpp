@@ -183,7 +183,7 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
   CharacterManager* charmgr = server->getCharacterManager();
 
   int charid = -1;
-  ptString error = charmgr->createCharacter(npcmsg.getName(), 0, charid, 
+  ptString error = charmgr->createCharacter(npcmsg.getName(), 0, charid,
     npcmsg.getHairColour(), npcmsg.getSkinColour(), npcmsg.getDecalColour());
 
   if (! error.isNull())
@@ -336,7 +336,7 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
   unsigned int entid = rmmsg.getEntityId();
   const Entity* e = server->getEntityManager()->findById(entid);
   if (e == 0) return;
-  if (e->getType() == Entity::ItemEntityType || 
+  if (e->getType() == Entity::ItemEntityType ||
       e->getType() == Entity::MountEntityType)
   {
     server->delEntity(e);

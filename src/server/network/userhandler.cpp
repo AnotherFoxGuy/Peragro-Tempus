@@ -174,7 +174,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     // User has already an entity loaded
     entity = user->getEntity();
     character = entity->getCharacter();
-    
+
     if (character->getId() != request_msg.getCharId())
     {
       // User tries to login with a new character, remove the old.

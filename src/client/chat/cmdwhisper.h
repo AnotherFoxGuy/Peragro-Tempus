@@ -42,7 +42,7 @@ namespace PT
       cmdWhisper () : CommandDefault("whisper") { }
       virtual ~cmdWhisper () { }
 
-      virtual std::string HelpSynopsis (const char*) const 
+      virtual std::string HelpSynopsis (const char*) const
       { return "Start a private conversation with the target."; }
 
       virtual std::string HelpUsage (const char*) const

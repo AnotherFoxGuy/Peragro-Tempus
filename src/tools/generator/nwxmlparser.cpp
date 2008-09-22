@@ -222,7 +222,7 @@ bool nwXmlParser::parse(const char* filename)
   TiXmlDocument doc(filename);
   if (!doc.LoadFile())
     return false;
-    
+
   TiXmlHandle docHandle(&doc);
   TiXmlNode* root = docHandle.FirstChild("pt-gen").Node();
 

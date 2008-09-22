@@ -24,7 +24,7 @@ void UdpConnectionHandler::handleConnectionRequest(SocketAddress* sock_addr, boo
   int ssid = rand();
   UdpConnection* conn = new UdpConnection(socket, sock_addr, ssid);
   // Client version is ok
-  if (succeeded) 
+  if (succeeded)
   {
     updConnMgr->addConnection(conn);
   }

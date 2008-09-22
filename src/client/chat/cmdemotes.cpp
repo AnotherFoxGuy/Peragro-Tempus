@@ -35,7 +35,7 @@ namespace PT
   namespace Chat
   {
 
-    struct Emotes 
+    struct Emotes
     {
       const char* emote;
       const char* synopsis;
@@ -45,18 +45,18 @@ namespace PT
 
     // TODO put this in an XML file
     struct Emotes emotelist[] =
-    { 
+    {
       {"greet", "Wave at someone.", 1, true},
       {"sit", "Sit down.", 2, false},
       {"tentacle", "Flex a tentacle.", 3, true}
     };
- 
+
     #define EMOTELISTSIZE ( sizeof(emotelist) / sizeof (struct Emotes) )
-    
+
     cmdEmote::cmdEmote () : emotes()
     {
       for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
-        emotes.push_back(emotelist[i].emote); 
+        emotes.push_back(emotelist[i].emote);
     }
 
     cmdEmote::~cmdEmote ()
@@ -94,7 +94,7 @@ namespace PT
     }
 
     std::string cmdEmote::HelpFull (const char* cmd) const
-    {  
+    {
       return  "Lets your character emote.  You may specify a target, which"
         " would direct the emote at a target, or leave out the target, which"
         " would allow you to emote at the world at large.";
@@ -110,14 +110,14 @@ namespace PT
 
       // Element 0 is '/', 1 is emote
       if (args.size() < 2 || args.size() > 3) throw BadUsage();
-      
+
       std::string emote = args[1];
       std::string target = "";
       std::string text = "/" + emote;
       if (args.size() == 3)
       {
         target = args[2];
-        text += " " + target; 
+        text += " " + target;
       }
 
       //Magic number - bad developer!
@@ -154,7 +154,7 @@ namespace PT
       //"PoseManager" might be nice (ie we wouldn't need to hard-code those
       //commands like now).
       PoseRequestMessage poseMsg;
-      poseMsg.setPoseId(poseid); 
+      poseMsg.setPoseId(poseid);
       network->send(&poseMsg);
     }
 

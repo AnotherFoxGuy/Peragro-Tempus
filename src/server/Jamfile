@@ -24,7 +24,7 @@ if $(WSOCK32.LFLAGS) {
 if [ Property build : projgen_version ] != 6
 {
   SubVariant static ;
-  
+
   Application peragro-server_static : [ Wildcard *.cpp *.h ] : independent noinstall console ;
   LinkWith peragro-server_static : server-network server-entity server-environment server-ai server-colldet sqlite_adp database quest server-group tinyxml util server-combat ;
   MsvcExternalLibrary peragro-server_static : "wsock32.lib" ;

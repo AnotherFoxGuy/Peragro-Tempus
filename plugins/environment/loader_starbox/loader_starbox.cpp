@@ -18,10 +18,10 @@
 // File: loader_template.cpp
 
 #include <cssysdef.h>
- 
+
 #include <csutil/util.h>
 #include <iutil/document.h>
-#include <iutil/objreg.h> 
+#include <iutil/objreg.h>
 #include <iutil/object.h>
 #include <imap/services.h>
 #include <imap/ldrctxt.h>
@@ -39,7 +39,7 @@ enum
   XMLTOKEN_CATALOGUE_FILE,
   XMLTOKEN_CURRENT_SYSTEM_ID,
   XMLTOKEN_NEBULA_FILE,
-  XMLTOKEN_AUTO, 
+  XMLTOKEN_AUTO,
   XMLTOKEN_USE_TEXTURES,
   XMLTOKEN_USE_NEBULA,
   XMLTOKEN_YALE_CATALOG_FILE,
@@ -80,7 +80,7 @@ bool myLoaderStarbox::Initialize(iObjectRegistry *object_reg)
   xmltokens.Register("star_size", XMLTOKEN_BASE_STAR_SIZE);
   xmltokens.Register("star_roundness", XMLTOKEN_BASE_STAR_ROUNDNESS);
   xmltokens.Register("star_apr_mag_exp", XMLTOKEN_APR_MAG_EXP);
-  
+
 
   return true;
 }
@@ -131,7 +131,7 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
   }// end if (!obj_fact)
 
 
-  // set the bodys sector 
+  // set the bodys sector
   if(!ldr_context)
   {
     synldr->ReportError (
@@ -140,7 +140,7 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
     return 0;
   } else {
     csRef<iSector> sector = scfQueryInterface<iSector>(context);
-    if (!sector) 
+    if (!sector)
     {
     synldr->ReportError (
       "recon69.loader.starbox",
@@ -168,7 +168,7 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
         {
           obj->SetName(csStrNew(child->GetContentsValue()));
         }
-        break;  
+        break;
 
         case XMLTOKEN_YALE_CATALOG_FILE:
         {
@@ -202,31 +202,31 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
         case XMLTOKEN_USE_TEXTURES:
         {
           obj->SetUseTextures((bool)child->GetContentsValueAsInt());
-        }   
+        }
         break;
 
         case XMLTOKEN_USE_NEBULA:
         {
           obj->SetUseNebula((bool)child->GetContentsValueAsInt());
-        }   
+        }
         break;
 
         case XMLTOKEN_BASE_STAR_SIZE:
         {
           obj->SetBaseStarSize( child->GetContentsValueAsFloat());
-        }   
+        }
         break;
 
         case XMLTOKEN_BASE_STAR_ROUNDNESS:
         {
           obj->SetBaseStarRoundness( child->GetContentsValueAsFloat());
-        }   
+        }
         break;
 
         case XMLTOKEN_APR_MAG_EXP:
         {
           obj->SetBaseStarExp( child->GetContentsValueAsFloat());
-        }   
+        }
         break;
 
     default:
@@ -240,7 +240,7 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
   } // end if (node)
 
   // add the object to the object registory
-  // so a pointer can be retrived from the main app 
+  // so a pointer can be retrived from the main app
   if (!object_reg->Register(obj, obj->GetName()))
   {
     printf ("myLoaderStarbox::Parse: failed to register plugin\n");

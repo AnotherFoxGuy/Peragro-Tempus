@@ -65,7 +65,7 @@ public:
     for (size_t i = 0; i<races.getCount(); i++)
     {
       Race* _race = races.get(i);
-      if (!_race) 
+      if (!_race)
       {
         races.remove(i);
         delRace(race);

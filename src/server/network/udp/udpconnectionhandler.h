@@ -46,7 +46,7 @@ public:
     char type = msg->getMsgType();
     char id = msg->getMsgId();
 
-    if (type == 0 && id == CONNECTION::REQUEST) 
+    if (type == 0 && id == CONNECTION::REQUEST)
     {
       ConnectRequestMessage request_msg(0);
       request_msg.deserialise(msg->getByteStream());
@@ -55,7 +55,7 @@ public:
       if (request_msg.getVersion() < CLIENTMINVERSION)
       {
         printf("Client is not good enough, its to old\n");
-        printf("Client version %d, min version %d\n", 
+        printf("Client version %d, min version %d\n",
           request_msg.getVersion(), CLIENTMINVERSION);
         // Do not let this client connect its outdated
         handleConnectionRequest(&sock_addr, false);
@@ -77,11 +77,11 @@ public:
 
       if (type == 0)
       {
-        if (id == CONNECTION::PONG) 
+        if (id == CONNECTION::PONG)
         {
           handlePong(msg);
         }
-        else if (id == CONNECTION::PING) 
+        else if (id == CONNECTION::PING)
         {
           handlePing(msg);
         }

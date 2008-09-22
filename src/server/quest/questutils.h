@@ -132,7 +132,7 @@ namespace QuestUtils
     dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
 
     // The npc has nothing more to say, let him walk away.
-    if (!dialog->getAnswerCount()) 
+    if (!dialog->getAnswerCount())
     {
       ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
       npc_entity->pause(false);
@@ -179,7 +179,7 @@ namespace QuestUtils
 
   bool static IsPrimitive(const std::string& op)
   {
-    std::string operands[7] = {"not", "and", "or", ">", "<", "!=", "="}; 
+    std::string operands[7] = {"not", "and", "or", ">", "<", "!=", "="};
     for (size_t i = 0; i < 7; i++)
     {
       if (op.compare(operands[i]) == 0)
@@ -194,20 +194,20 @@ namespace QuestUtils
     bool result = false;
     if (op.compare("not") == 0)
     {
-      if (args.size() < 1) 
+      if (args.size() < 1)
       {
-        printf("ERROR: Not enough params for operation '%s'\n", op.c_str()); 
+        printf("ERROR: Not enough params for operation '%s'\n", op.c_str());
         return 0;
       }
       result = (Parse(character, args[0])) == 0;
     }
 
-    if (args.size() < 2) 
+    if (args.size() < 2)
     {
-      printf("ERROR: Not enough params for operation '%s'\n", op.c_str()); 
+      printf("ERROR: Not enough params for operation '%s'\n", op.c_str());
       return 0;
     }
-    
+
     if (op.compare("and") == 0)
     {
       result = (Parse(character, args[0]) && Parse(character, args[1]));

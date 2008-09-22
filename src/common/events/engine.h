@@ -36,7 +36,7 @@ private:
   EventWorkerHome workers;
   EventHandlerHome handlers;
 
-  
+
 
 public:
   EventEngine() : workers(this) {}

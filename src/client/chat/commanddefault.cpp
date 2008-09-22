@@ -23,29 +23,29 @@ namespace PT
   namespace Chat
   {
 
-    CommandDefault::CommandDefault(const char* cmd) 
-     : CommandInterface(), cmdname(cmd) 
+    CommandDefault::CommandDefault(const char* cmd)
+     : CommandInterface(), cmdname(cmd)
     { }
 
     CommandDefault::~CommandDefault() { }
 
-    bool CommandDefault::CommandHandled (const char* cmd) const 
+    bool CommandDefault::CommandHandled (const char* cmd) const
     { return cmdname == cmd; }
 
     StringArray CommandDefault::GetAllCommands() const
-    { 
-      StringArray s;  
-      s.push_back(cmdname);  
-      return s; 
+    {
+      StringArray s;
+      s.push_back(cmdname);
+      return s;
     }
 
-    std::string CommandDefault::HelpUsage(const char* cmd) const 
+    std::string CommandDefault::HelpUsage(const char* cmd) const
     { return "'/" + cmdname + "'";  }
 
-    std::string CommandDefault::HelpSynopsis(const char* cmd) const 
+    std::string CommandDefault::HelpSynopsis(const char* cmd) const
     { return ""; }
 
-    std::string CommandDefault::HelpFull(const char* cmd) const 
+    std::string CommandDefault::HelpFull(const char* cmd) const
     { return HelpSynopsis(cmd); }
 
     void CommandDefault::Execute (const StringArray& args) {}

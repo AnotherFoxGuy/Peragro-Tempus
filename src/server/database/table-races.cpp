@@ -72,7 +72,7 @@ int RaceTable::getMaxId()
   {
     return 0;
   }
-  if (rs->GetRowCount() == 0) 
+  if (rs->GetRowCount() == 0)
     return 0;
 
   int id = atoi(rs->GetData(0,0).c_str());
@@ -106,7 +106,7 @@ bool RaceTable::existsRace(const ptString& name)
 Race* RaceTable::findRaceById(int id)
 {
   ResultSet* rs = db->query("select * from races where id = '%d';", id);
-  if (!rs || rs->GetRowCount() == 0) 
+  if (!rs || rs->GetRowCount() == 0)
     return 0;
 
   Race* race = new Race();

@@ -30,7 +30,7 @@
 
 #include "server/network/networkhelper.h"
 
-//Skill::Skill() : id(-1), range(0) 
+//Skill::Skill() : id(-1), range(0)
 //{
 //  mp = Server::getServer()->getStatManager()->findByName(ptString("Mana", strlen("Mana")));
 //  hp = Server::getServer()->getStatManager()->findByName(ptString("Health", strlen("Health")));
@@ -143,7 +143,7 @@ void Skill::castExecute(CharSkill* skilldata)
 
   const Entity* target = Server::getServer()->getEntityManager()->findById(skilldata->target_id);
   const PcEntity* player = target->getPlayerEntity();
-  
+
   if (player == 0) return;
 
   const Character* c_char = player->getCharacter();

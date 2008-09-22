@@ -46,7 +46,7 @@ public:
     sockets.add(socket);
   }
 
-  void removeConnection(TcpConnection* conn) 
+  void removeConnection(TcpConnection* conn)
   {
     connections.remove(connections.find(conn));
     sockets.remove(sockets.find(conn->getSocket()));

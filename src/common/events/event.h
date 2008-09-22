@@ -25,7 +25,7 @@
 /**
  * This class represents one event... rather obvious, huh? :)
  * It's not meant to be an interface but all events shall be the same.
- * So we can block allocate them and reuse. Since we will use events 
+ * So we can block allocate them and reuse. Since we will use events
  * heavily, this is essential for the performance. I expect there to be
  * like hundreds or thousand of events each second.
  */

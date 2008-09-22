@@ -54,7 +54,7 @@ private:
   TcpNetwork tcp_nw;
 
 public:
-  Network(Server* server) 
+  Network(Server* server)
   : tcp_nw()
   {
     server->setNetwork(this);
