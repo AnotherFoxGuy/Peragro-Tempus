@@ -87,7 +87,7 @@ namespace PT
       Array<NpcAnswer*> answers;
 
     public:
-      Npc() {}
+      Npc() : position(0.0f) {}
 
       void SetName(const std::string& value) { name = value; }
       const std::string& GetName() const { return name; }
@@ -95,7 +95,7 @@ namespace PT
       void SetMeshName(const std::string& value) { meshName = value; }
       const std::string& GetMeshName() const { return meshName; }
 
-      void SetPosition(double x,double y,double z)
+      void SetPosition(float x, float y, float z)
       { position = PtVector3(x,y,z); }
       void SetPosition(const PtVector3& value) { position = value;}
       const PtVector3& GetPosition() const { return position; }

@@ -62,6 +62,7 @@ namespace PT
     //--------------------------------------------------------------
 
     Effect::Effect (Factory* factory, Data::Effect* eff)
+      : offset(0.0f)
     {
       Effect::factory = factory;
       Effect::timeleft = eff->GetDuration();

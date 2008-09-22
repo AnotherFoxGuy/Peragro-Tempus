@@ -54,7 +54,7 @@ namespace PT
       PtVector3 offset;
 
     public:
-      Effect() : id(0), duration(0) {}
+      Effect() : id(0), duration(0), offset(0.0f) {}
 
       void SetId(unsigned int value) { id = value; }
       unsigned int GetId() const { return id; }
@@ -71,7 +71,7 @@ namespace PT
       void SetDuration(int value) { duration = value; }
       int GetDuration() const { return duration; }
 
-      void SetOffset(double x,double y,double z)
+      void SetOffset(float x, float y, float z)
         { offset = PtVector3(x,y,z); }
       void SetOffset(const PtVector3& value) { offset = value;}
       const PtVector3& GetOffset() const { return offset; }

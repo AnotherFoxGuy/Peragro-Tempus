@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2007 Development Team of Peragro Tempus
+    Copyright (C) 2007-2008 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,9 +18,36 @@
 
 #include "ptvector3.h"
 
-bool PtVector3::operator==(const PtVector3 v)
-{
-  if ( x==v.x && y==v.y && z==v.z ) return true;
+#include <sstream>
 
-  return false;
+std::istream& operator>>(std::istream& is, PtVector3& v)
+{
+  is.setf(std::ios_base::skipws);
+  is >> v.x;
+  is.ignore(256, ',');
+  is >> v.y;
+  is.ignore(256, ',');
+  is >> v.z;
+  return is;
 }
+
+std::ostream& operator<<(std::ostream& os, const PtVector3& v)
+{
+  os.unsetf(std::ios_base::showpoint);
+  os.unsetf(std::ios_base::floatfield);
+  os.precision(6);
+  os << v.x;
+  os << ",";
+  os << v.y;
+  os << ",";
+  os << v.z;
+  return os;
+}
+
+std::string PtVector3::ToString() const
+{
+  std::stringstream ss;
+  ss << (*this);
+  return ss.str();
+} // end ToString()
+

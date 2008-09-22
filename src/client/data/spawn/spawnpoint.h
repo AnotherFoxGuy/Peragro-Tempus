@@ -50,7 +50,7 @@ namespace PT
       unsigned int interval;
 
     public:
-      SpawnPoint() {}
+      SpawnPoint() : position(0.0f) {}
 
       void SetItem(unsigned int value) { item = value; }
       unsigned int GetItem() const { return item; }
@@ -58,8 +58,8 @@ namespace PT
       void SetVariation(unsigned int value) { variation = value; }
       unsigned int GetVariation() const { return variation; }
 
-      void SetPosition(double x,double y,double z)
-        { position = PtVector3(x,y,z); }
+      void SetPosition(float x, float y, float z)
+      { position = PtVector3(x,y,z); }
       void SetPosition(const PtVector3& value) { position = value;}
       const PtVector3& GetPosition() const { return position; }
 

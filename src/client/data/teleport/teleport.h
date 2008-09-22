@@ -54,7 +54,7 @@ namespace PT
       std::string destinationSector;
 
     public:
-      Teleport() : id(0) {}
+      Teleport() : id(0), position(0.0f), destinationPosition(0.0f) {}
 
       void SetId(unsigned int value) { id = value; }
       unsigned int GetId() const { return id; }
