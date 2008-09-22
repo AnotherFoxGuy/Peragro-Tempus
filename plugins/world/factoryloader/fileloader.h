@@ -182,14 +182,21 @@ private:
     LoaderContext (FileLoader* loader) : scfImplementationType (this) { fileLoader = loader; }
 
     virtual iSector* FindSector (const char* name) { return 0; }
-    virtual iMaterialWrapper* FindMaterial (const char* name)  { return fileLoader->GetMaterial(name); }
-    virtual iMaterialWrapper* FindNamedMaterial (const char* name, const char *filename)  { return 0; }
-    virtual iMeshFactoryWrapper* FindMeshFactory (const char* name)  { return 0; }
-    virtual iMeshWrapper* FindMeshObject (const char* name)  { return 0; }
-    virtual iTextureWrapper* FindTexture (const char* name)  { return fileLoader->GetTexture(name); }
-    virtual iTextureWrapper* FindNamedTexture (const char* name, const char* filename)  { return 0; }
+    virtual iMaterialWrapper* FindMaterial (const char* name,
+      bool dontWaitForLoad = false) { return fileLoader->GetMaterial(name); }
+    virtual iMaterialWrapper* FindNamedMaterial (const char* name,
+      const char *filename, bool dontWaitForLoad = false)  { return 0; }
+    virtual iMeshFactoryWrapper* FindMeshFactory (const char* name,
+      bool dontWaitForLoad = false)  { return 0; }
+    virtual iMeshWrapper* FindMeshObject (const char* name) { return 0; }
+    virtual iTextureWrapper* FindTexture (const char* name,
+      bool dontWaitForLoad = false) { return fileLoader->GetTexture(name); }
+    virtual iTextureWrapper* FindNamedTexture (const char* name,
+      const char* filename, bool dontWaitForLoad = false)  { return 0; }
     virtual iLight* FindLight (const char* name) { return 0; }
     virtual iShader* FindShader (const char* name) { return 0; }
+    virtual iGeneralMeshSubMesh* FindSubmesh(iGeneralMeshState* state,
+      const char* name) { return 0; }
     virtual bool CheckDupes () const  { return true; }
     virtual iCollection* GetCollection () const  { return 0; }
     virtual bool CurrentCollectionOnly () const { return true; }
