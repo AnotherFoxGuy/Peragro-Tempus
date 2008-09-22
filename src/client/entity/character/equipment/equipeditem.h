@@ -34,14 +34,14 @@ namespace PT
     private:
       unsigned int id;
       unsigned int slotId;
-      const char* meshname;
-      const char* meshfile;
+      std::string meshname;
+      std::string meshfile;
       iCelEntity* itementity;
       Entity* entity;
       std::string GetSocketName(unsigned int slotid);
 
     public:
-      EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId, const char* meshname, const char* meshfile);
+      EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId, const std::string& meshname, const std::string& meshfile);
       ~EquipedItem(){}
       unsigned int GetId(){ return id; }
       unsigned int GetSlotId() { return slotId; }

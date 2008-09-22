@@ -44,7 +44,7 @@ namespace PT
   namespace Entity
   {
 
-    EquipedItem::EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId, const char* meshname, const char* meshfile)
+    EquipedItem::EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId, const std::string& meshname, const std::string& meshfile)
     {
       this->id         = itemId;
       this->slotId     = slotId;
@@ -68,7 +68,7 @@ namespace PT
       this->itementity = itement;
       pl->CreatePropertyClass(itementity, "pcobject.mesh");
       csRef<iPcMesh> itempcmesh = CEL_QUERY_PROPCLASS_ENT(itementity, iPcMesh);
-      itempcmesh->SetMesh(meshname, meshfile);
+      itempcmesh->SetMesh(meshname.c_str(), meshfile.c_str());
 
       // Get the player's mesh.
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcMesh);
