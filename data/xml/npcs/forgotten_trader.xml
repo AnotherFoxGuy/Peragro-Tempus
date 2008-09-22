@@ -1,7 +1,7 @@
 <npc>
 	<name>skeleton</name>
 	<mesh>skeleton</mesh>
-	<position sector="World" x="51.75" y="2.03" z="90.95"/>
+	<position sector="World" x="635" y="14.7" z="370"/>
 	<race>test</race> <!-- used for stats -->
 	<hair><color r="255" g="255" b="255" /></hair>
 	<skin><color r="255" g="255" b="255" /></skin>

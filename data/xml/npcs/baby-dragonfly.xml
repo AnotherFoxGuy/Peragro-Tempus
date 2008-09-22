@@ -1,7 +1,7 @@
 <npc>
 	<name>baby-dragonfly</name>
 	<mesh>test1</mesh>
-	<position sector="World" x="41" y="2" z="172"/>
+	<position sector="World" x="552" y="6" z="380"/>
 	<race>test</race> <!-- used for stats -->
 	<hair><color r="255" g="255" b="255" /></hair>
 	<skin><color r="255" g="255" b="255" /></skin>

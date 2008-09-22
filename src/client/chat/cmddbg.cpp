@@ -122,7 +122,7 @@ namespace PT
 
             char buffer[1024];
 
-            snprintf(buffer, 1024, "Position: %s <%f.2, %f.2, %f.2>",
+            snprintf(buffer, 1024, "Position: %s %.2f, %.2f, %.2f",
               sector->QueryObject()->GetName(), pos.x, pos.y, pos.z);
 
             chatWindow->AddMessage (buffer);

@@ -1,7 +1,7 @@
 <npc>
 	<name>Estragon</name>
 	<mesh>test</mesh>
-	<position sector="World" x="35" y="5" z="106"/>
+	<position sector="World" x="602" y="12.7" z="360"/>
 	<race>test</race> <!-- used for stats -->
 	<hair><color r="255" g="255" b="255" /></hair>
 	<skin><color r="255" g="255" b="255" /></skin>

@@ -1,7 +1,7 @@
 <npc>
 	<name>Vladimir</name>
 	<mesh>test</mesh>
-	<position sector="World" x="29" y="2" z="106"/>
+	<position sector="World" x="635" y="19.7" z="322"/>
 	<race>test</race> <!-- used for stats -->
 	<hair><color r="255" g="255" b="255" /></hair>
 	<skin><color r="255" g="255" b="255" /></skin>
