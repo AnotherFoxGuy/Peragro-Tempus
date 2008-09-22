@@ -16,27 +16,12 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_MATH_H
-#define PT_MATH_H
+#ifndef PT_CONSTANTS_H
+#define PT_CONSTANTS_H
 
-/**
- * Used to get the largest value.
- * @param f1 The first value.
- * @param f2 The second value.
- * @return The largest of the two values.
- */
-float ptmaxf(float f1, float f2) {
-  return f1 > f2 ? f1 : f2;
-}
+const float PT_EPSILON = 0.00001f;
+const float PT_PI = 3.1415926535897932385f;
+const float PT_2PI = 6.2831853071795864769f;
+const float PT_PI2 = 1.5707963267948966192f;
 
-/**
- * Used to get the smallest value.
- * @param f1 The first value.
- * @param f2 The second value.
- * @return The smallest of the two values.
- */
-float ptminf(float f1, float f2) {
-  return f1 < f2 ? f1 : f2;
-}
-
-#endif  // PT_MATH_H
+#endif  // PT_CONSTANTS_H

@@ -15,40 +15,102 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-// Note: most of these functions (all at the time of writing) are borrowed from Crystal Space
 
-#ifndef PTMATH_H
-#define PTMATH_H
+#ifndef PT_MATH_H
+#define PT_MATH_H
 
-#include <sys/types.h>
-#include "ptvector2.h"
+#include <cstddef>
+#include "common/constants.h"
+#include "common/util/ptvector2.h"
 
-namespace Math
+namespace PT
 {
-  static int WhichSide2D (const PtVector2& v,
-                          const PtVector2& s1, const PtVector2& s2)
+  /**
+   * Container class for math helper functions.
+   */
+  struct Math
   {
-    float k  = (s1.y - v.y)*(s2.x - s1.x);
-    float k1 = (s1.x - v.x)*(s2.y - s1.y);
-    if (k < k1) return -1;
-    else if (k > k1) return 1;
-    else return 0;
-  }
-
-  bool IsInArea (PtVector2 *poly, size_t num_poly, const PtVector2 &v)
-  {
-    if (num_poly > 0)
+    /**
+     * Used to get the largest value.
+     * @param f1 The first value.
+     * @param f2 The second value.
+     * @return The largest of the two values.
+     */
+    inline static float MaxF(float f1, float f2)
     {
-      size_t i1 = num_poly - 1;
-      for (size_t i = 0; i < num_poly; i++)
-      {
-        if (WhichSide2D (v, poly[i1], poly[i]) < 0)
-          return false;
-        i1 = i;
-      }
+      return f1 > f2 ? f1 : f2;
     }
-    return true;
-  }
-}
 
-#endif // PTMATH_H
+    /**
+     * Used to get the smallest value.
+     * @param f1 The first value.
+     * @param f2 The second value.
+     * @return The smallest of the two values.
+     */
+    inline static float MinF(float f1, float f2)
+    {
+      return f1 < f2 ? f1 : f2;
+    }
+
+    /**
+     * Normalizes the angle to -Pi, +Pi.
+     * @param angle The angle in radians.
+     * @return The angle normalized to -Pi, +Pi.
+     */
+    static float NormalizeAngle(float angle)
+    {
+      while (angle > PT_PI)
+      {
+        angle = angle - PT_2PI;
+      }
+      while (angle < -PT_PI)
+      {
+        angle = angle + PT_2PI;
+      }
+      return angle;
+    }
+
+    /**
+     * Calculates which side of a line a point is on
+     * @param v The point.
+     * @param s1 The first end of the line.
+     * @param s2 The second end of the line.
+     * @return -1 if the point is left of the line, 1 if the point is right of
+     *   the line, and 0 if the point is on the line.
+     */
+    static int WhichSide2D (const PtVector2& v,
+                            const PtVector2& s1, const PtVector2& s2)
+    {
+      float k  = (s1.y - v.y)*(s2.x - s1.x);
+      float k1 = (s1.x - v.x)*(s2.y - s1.y);
+      if (k < k1) return -1;
+      else if (k > k1) return 1;
+      else return 0;
+    }
+
+    /**
+     * Calculates whether a point is inside a polygon.
+     * @param poly An array of points defining a polygon.
+     * @param num_poly The number of points in the array.
+     * @param v The point.
+     * @return True if the point is inside.
+     */
+    static bool IsInArea (PtVector2 *poly, size_t num_poly, const PtVector2 &v)
+    {
+      if (num_poly > 0)
+      {
+        size_t i1 = num_poly - 1;
+        for (size_t i = 0; i < num_poly; i++)
+        {
+          if (WhichSide2D (v, poly[i1], poly[i]) < 0)
+            return false;
+          i1 = i;
+        }
+      }
+      return true;
+    }
+  };
+
+} // PT namespace
+
+#endif // PT_MATH_H
