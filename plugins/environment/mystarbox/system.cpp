@@ -157,7 +157,7 @@ bool System::Add_Star(std::string name, std::string classification,
 
 */
 
-  if (system_star != 0) delete system_star;
+  delete system_star;
   system_star = new Star(name, classification, luminosity, color, txt, this);
   
   return true;

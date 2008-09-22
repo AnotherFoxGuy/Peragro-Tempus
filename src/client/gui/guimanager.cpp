@@ -46,10 +46,10 @@ namespace PT
 
     GUIManager::~GUIManager ()
     {
-      if (skinMgr) delete skinMgr;
-      if (dlgConfig) delete dlgConfig;
-      if (menuMgr) delete menuMgr;
-      if (dragdrop) delete dragdrop;
+      delete skinMgr;
+      delete dlgConfig;
+      delete menuMgr;
+      delete dragdrop;
     } // end ~GUIManager()
 
     CEGUI::Window* GUIManager::GetCeguiWindow(const char* name)

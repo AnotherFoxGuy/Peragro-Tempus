@@ -49,7 +49,7 @@ namespace PT
       REGISTER_LISTENER(TradeManager, Drop, "trade.drop")
 
       // Create and Initialize the PlayerInventory.
-      if (playerinventory != 0) delete playerinventory;
+      delete playerinventory;
       playerinventory = new PT::Trade::PlayerInventory ();
       if (!playerinventory->Initialize())
         return Report(PT::Error, "Failed to initialize PlayerInventory!");

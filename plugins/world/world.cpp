@@ -130,10 +130,10 @@ WorldManager::~WorldManager()
   }
 
   // Delete the model manager.
-  if (modelManager) delete modelManager;
+  delete modelManager;
 
   // Delete the interior manager.
-  if (modelManager) delete interiorManager;
+  delete interiorManager;
 } // end ~World()
 
 void WorldManager::SetGridSize(int size)

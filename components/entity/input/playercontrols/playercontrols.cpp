@@ -327,6 +327,10 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
       MoveToRequestMessage msg;
       msg.setTo(isect.x, isect.y, isect.z);
       msg.setRun(run);
+      // TODO Maybe these should be removed from the message?
+      msg.setJump(false);
+      msg.setBackwards(false);
+      msg.setTurn(0);
       pointerlib->getNetwork()->send(&msg);
 
       pointerlib->getReporter()->Report(
