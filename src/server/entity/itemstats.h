@@ -38,7 +38,19 @@ private:
 
   ItemStat* findEntry(int stat_id)
   {
-    for(unsigned int i=0; i<entries.getCount(); i++)
+    for(unsigned int i = 0; i < entries.getCount(); ++i)
+    {
+      if (entries.get(i)->stat_id == stat_id)
+      {
+        return entries.get(i);
+      }
+    }
+    return 0;
+  }
+
+  const ItemStat* findEntry(int stat_id) const
+  {
+    for(unsigned int i = 0; i < entries.getCount(); ++i)
     {
       if (entries.get(i)->stat_id == stat_id)
       {
@@ -108,9 +120,9 @@ public:
     if (cstab) cstab->set(cs_id, stat, entry->level);
   }
 
-  unsigned int getAmount(Stat* stat)
+  unsigned int getAmount(const Stat* stat) const
   {
-    ItemStat* entry = findEntry(stat->getId());
+    const ItemStat* entry = findEntry(stat->getId());
     return (entry?entry->level:0);
   }
 
@@ -123,7 +135,7 @@ public:
     cst->getAllEntries(entries, id);
   }
 
-  void sendAllStats(Connection* conn);
+  void sendAllStats(Connection* conn) const;
 };
 
 #endif // ITEMSTATS_H_

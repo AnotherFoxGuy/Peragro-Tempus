@@ -86,6 +86,7 @@ public:
 
   ItemStats* getStats() { return &stats; }
 
+  const ItemStats* getStats() const { return &stats; }
 
 };
 

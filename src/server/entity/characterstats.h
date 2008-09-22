@@ -38,7 +38,19 @@ private:
 
   CharStat* findEntry(int stat_id)
   {
-    for(unsigned int i=0; i<entries.getCount(); i++)
+    for (unsigned int i = 0; i < entries.getCount(); ++i)
+    {
+      if (entries.get(i)->stat_id == stat_id)
+      {
+        return entries.get(i);
+      }
+    }
+    return 0;
+  }
+
+  const CharStat* findEntry(int stat_id) const
+  {
+    for (unsigned int i = 0; i < entries.getCount(); ++i)
     {
       if (entries.get(i)->stat_id == stat_id)
       {
@@ -56,7 +68,7 @@ public:
   CharacterStats() : cstab(0) {}
   ~CharacterStats() { entries.delAll(); }
 
-  void addStat(Stat* stat, int level)
+  void addStat(const Stat* stat, int level)
   {
     CharStat* entry = findEntry(stat->getId());
     if (!entry)
@@ -73,10 +85,10 @@ public:
     if (cstab) cstab->set(cs_id, stat, entry->level);
   }
 
-  bool takeStat(Stat* stat, int level)
+  bool takeStat(const Stat* stat, int level)
   {
     CharStat* entry = findEntry(stat->getId());
-    if (!entry) 
+    if (!entry)
       return false;
     if (entry->level < level)
     {
@@ -91,7 +103,7 @@ public:
     return true;
   }
 
-  void setStat(Stat* stat, int level)
+  void setStat(const Stat* stat, int level)
   {
     CharStat* entry = findEntry(stat->getId());
     if (!entry)
@@ -108,9 +120,9 @@ public:
     if (cstab) cstab->set(cs_id, stat, entry->level);
   }
 
-  unsigned int getAmount(Stat* stat)
+  unsigned int getAmount(const Stat* stat) const
   {
-    CharStat* entry = findEntry(stat->getId());
+    const CharStat* entry = findEntry(stat->getId());
     return (entry?entry->level:0);
   }
 
@@ -123,7 +135,7 @@ public:
     cst->getAllEntries(entries, id);
   }
 
-  void sendAllStats(Connection* conn);
+  void sendAllStats(const Connection* conn) const;
 };
 
 #endif // CHARACTERSTATS_H_

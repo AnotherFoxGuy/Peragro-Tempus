@@ -3,3 +3,4 @@ SubDir TOP src server combat ;
 Description server-combat : "combat" ;
 Library server-combat :
   [ Wildcard *.h *.cpp ] ;
+LinkWith server-combat : util ;

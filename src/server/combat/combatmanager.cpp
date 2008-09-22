@@ -16,27 +16,23 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//#include "cssysdef.h"
+#include "server/combat/combatmanager.h"
 
-//#include "iutil/string.h"
-//#include "iutil/vfs.h"
-//#include "csutil/ref.h"
-//#include "csutil/csstring.h"
-#include "src/common/ptmath.h"
-#include <stdlib.h> // random
+#include <stdlib.h>
 
-#include "src/server/entity/entity.h"
+#include "common/util/math.h"
+#include "common/util/ptvector3.h"
+#include "common/network/playermessages.h"
+#include "common/network/entitymessages.h"
 
 #include "server/server.h"
-#include "src/server/entity/statmanager.h"
-#include "src/common/network/playermessages.h"
-#include "src/server/network/networkhelper.h"
-#include "src/server/combat/combatmanager.h"
-#include "src/server/entity/itemmanager.h"
-#include "src/server/database/table-inventory.h"
-#include "src/common/network/entitymessages.h"
-#include "src/server/entity/itementity.h"
-#include "src/server/entity/entitymanager.h"
+#include "server/entity/entity.h"
+#include "server/entity/statmanager.h"
+#include "server/entity/itemmanager.h"
+#include "server/entity/itementity.h"
+#include "server/entity/entitymanager.h"
+#include "server/network/networkhelper.h"
+#include "server/database/table-inventory.h"
 
 CombatManager::CombatManager()
 {
@@ -54,20 +50,16 @@ unsigned int CombatManager::GetMaxLife(CharacterStats* lockedStats)
   return lockedStats->getAmount(endurance);
 } // end GetMaxLife()
 
-int CombatManager::AttackRequest(const PcEntity *attackerEntity,
+bool CombatManager::AttackRequest(const PcEntity *attackerEntity,
                                  unsigned int targetID)
 {
-  const Entity* targetEntity;
-  const Character* c_char;
-  int status = 0;
-
   printf("CombatManager: Got attack request, target: %d\n", targetID);
 
   if (!attackerEntity || !attackerEntity->getCharacter())
   {
     // Invalid attacker.
     printf("CombatManager: Invalid attacker\n");
-    return 0;
+    return false;
   }
 
   ptScopedMonitorable<Character>
@@ -75,18 +67,20 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
   if (!lockedAttacker)
   {
     printf("CombatManager: Unable to lock attacker\n");
-    return 0;
+    return false;
   }
 
   // Find the targets character
-  targetEntity = Server::getServer()->getEntityManager()->findById(targetID);
+  const Entity* targetEntity =
+    Server::getServer()->getEntityManager()->findById(targetID);
   if (!targetEntity)
   {
     // Invalid target.
     printf("CombatManager: Invalid target %d\n", targetID);
-    return 0;
+    return false;
   }
 
+  const Character* c_char;
   if (targetEntity->getType() == Entity::PlayerEntityType)
   {
     c_char = targetEntity->getPlayerEntity()->getCharacter();
@@ -100,32 +94,25 @@ int CombatManager::AttackRequest(const PcEntity *attackerEntity,
     // Should not happen, but do not crash on release build, since fake message
     // could bring down the server then.
     printf("CombatManager: Target neither player nor npc\n");
-    return 0;
+    return false;
   }
   ptScopedMonitorable<Character> lockedTarget(c_char);
 
-  status = AttackRequest(lockedAttacker, lockedTarget);
+  const bool status = AttackRequest(lockedAttacker, lockedTarget);
 
   printf("B: AttackRequest()\n");
 
   return status;
 } // end AttackRequest()
 
-int CombatManager::AttackRequest(Character* lockedAttackerCharacter,
+bool CombatManager::AttackRequest(Character* lockedAttackerCharacter,
                                  Character* lockedTargetCharacter)
 {
-  float damage = 0;
-  float attackChance = 0.0;
-  CharacterStats* stats;
-  int attackResult;
-  int itemsToDrop = 0;
-  int itemsDropped = 0;
-
   if (!CheckIfReadyToAttack(lockedAttackerCharacter))
   {
     // The player needs to wait a bit before attacking again.
     printf("CombatManager: Attacker not ready to attack\n");
-    return 0;
+    return false;
   }
 
   if (!CheckIfTargetIsAttackable(lockedAttackerCharacter,
@@ -133,27 +120,29 @@ int CombatManager::AttackRequest(Character* lockedAttackerCharacter,
   {
     // Target is not within range or something like that.
     printf("CombatManager: Target not attackable\n");
-    return 0;
+    return false;
   }
 
-  attackChance = GetAttackChance(lockedAttackerCharacter,
+  DeductStamina(lockedAttackerCharacter);
+
+  const float attackChance = GetAttackChance(lockedAttackerCharacter,
     lockedTargetCharacter);
-
-  attackResult = RollDice();
-  // TODO
-  //DeductStamina(lockedAttackerCharacter);
-
-  if (attackResult > attackChance)
+  const int attackResult = RollDice();
+  float damage = 0.0f;
+  if (attackResult <= attackChance)
   {
-    // Miss.
-    damage = 0;
-  }
-  else
-  {
-    // TODO
+    // It was a hit. TODO
     damage = (attackChance - attackResult) *
       GetWeaponDamage(lockedAttackerCharacter) +
       GetStrength(lockedAttackerCharacter);
+  }
+
+  // If attackResult was 10% or less of attacChance, critcal hit.
+  if (attackResult <= (attackChance * 0.1))
+  {
+    // Double the damage.
+    printf("Critical hit!\n");
+    damage = 2 * damage;
   }
 
   printf("Damage:%f\n", damage);
@@ -162,22 +151,15 @@ int CombatManager::AttackRequest(Character* lockedAttackerCharacter,
   printf("weapondamage is set to:%f\n", GetWeaponDamage(lockedAttackerCharacter));
   printf("strength is set to:%f\n", GetStrength(lockedAttackerCharacter));
 
-  // If attackResult was 10% or less of attacChance, critcal hit.
-  if (attackResult <= (attackChance * 0.1))
-  {
-    // Double the damage.
-    damage = 2 * damage;
-  }
-
   // TODO
   //SetCharacterWaitTime(lockedAttackerCharacter);
 
   Stat* hp = Server::getServer()->getStatManager()->
     findByName(ptString("Health", strlen("Health")));
 
-  stats = lockedAttackerCharacter->getStats();
+  CharacterStats* stats = lockedAttackerCharacter->getStats();
   printf("CombatManager: HP before deduction: %d\n", stats->getAmount(hp));
-  stats->takeStat(hp, (int)damage);
+  stats->takeStat(hp, static_cast<int>(damage));
   printf("CombatManager: HP after deduction: %d\n", stats->getAmount(hp));
 
   StatsChangeMessage msg;
@@ -188,7 +170,8 @@ int CombatManager::AttackRequest(Character* lockedAttackerCharacter,
   msg.setLevel(stats->getAmount(hp));
   msg.serialise(&statsbs);
 
-  //Server* server = Server::getServer();
+  int itemsToDrop = 0;
+  int itemsDropped = 0;
 
   if (stats->getAmount(hp) < damage)
   {
@@ -241,13 +224,11 @@ int CombatManager::AttackRequest(Character* lockedAttackerCharacter,
 
         ptScopedMonitorable<Entity> ent(e->getEntity());
         // Release items in a circlular pattern
-        float radians = (2.0f*3.14f / itemsToDrop) * itemsDropped;
-        float radius = 0.8f;
-        float deltaX = cos(radians) * radius;
-        float deltaY = sin(radians) * radius;
-        float deltaZ = 0.0f;
-        const float *tmp = lockedTargetCharacter->getEntity()->getPos();
-        ent->setPos(tmp[0] + deltaX, tmp[1] + deltaY, tmp[2] + deltaZ);
+        const float radians = (2.0f*3.14f / itemsToDrop) * itemsDropped;
+        const float radius = 0.8f;
+        const PtVector3 delta(cos(radians) * radius, sin(radians) * radius,
+          0.0f);
+        ent->setPos(lockedTargetCharacter->getEntity()->getPos() + delta);
         ent->setSector(lockedTargetCharacter->getEntity()->getSector());
 
         itemsDropped++;
@@ -275,7 +256,7 @@ int CombatManager::AttackRequest(Character* lockedAttackerCharacter,
 
   //PrepareAttack();
   //CalculateAttack();
-  return 1;
+  return true;
 } // end AttackRequest()
 
 int CombatManager::RollDice()
@@ -304,42 +285,52 @@ int CombatManager::CalculateAttack()
 bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
                                               Character* target)
 {
-  const float* attackerPos;
-  const float* targetPos;
-  float attackerRotation;
-  float distance = 0;
+  const PtVector3 attackerPos(attacker->getEntity()->getPos());
+  const PtVector3 targetPos(target->getEntity()->getPos());
+
   // TODO should not be 200, but calculated by GetReach(attacker);
-  float maxAttackDistance = 200;
+  const float maxAttackDistance = 2.0f;
+  //const float maxAttackDistance = GetReach(attacker);
 
-  attackerPos = attacker->getPos();
-  targetPos = target->getPos();
+  const float distance = Distance(attackerPos, targetPos);
 
-  attackerRotation = attacker->getRotation();
+  printf("CombatManager: attackerPos: %s, targetPos: %s, distance %f, "
+    "maxAttackDistance: %f\n", attackerPos.ToString().c_str(),
+    targetPos.ToString().c_str(), distance, maxAttackDistance);
 
-  // TODO
-  //maxAttackDistance = GetReach(attacker);
-
-  for (int i = 0; i < 3; i++)
-  {
-    distance += (attackerPos[i] - targetPos[i]) * (attackerPos[i] - targetPos[i]);
-  } // end for
-
-  // Should have used sqrt(distance) but faster to multiply the
-  // maxAttackDistance
-  if (distance > maxAttackDistance * maxAttackDistance)
+  if (distance > maxAttackDistance)
   {
     // Target out of reach
-    printf("CombatManager: Target not attackable, distance %f, "
-      "maxAttackDistance: %f\n", distance, maxAttackDistance);
+    printf("CombatManager: Target out of range\n");
     return false;
   }
 
+  PtVector3 difference = attackerPos - targetPos;
   // TODO this should be made better, basically check
   // so the attacker and target is not differing too much
   // in height level.
-  if (abs(static_cast<int>(attackerPos[2] - targetPos[2])) > 200)
+  if (fabs(difference.y) > 2.0f)
   {
-    printf("CombatManager: To big hight difference\n");
+    printf("CombatManager: To much height difference\n");
+    return false;
+  }
+
+  const float attackerRotation =
+    PT::Math::NormalizeAngle(attacker->getEntity()->getRotation());
+
+  if (difference.x == 0.0f) difference.x = PT_EPSILON;
+  const float attackAngle =
+    PT::Math::NormalizeAngle(atan2(difference.x, difference.z));
+
+  const float angleDiff = attackAngle - attackerRotation;
+  static const float allowedAngle = PT_PI * 0.3f;
+
+  printf("attackerRotation: %f, attackAngle: %f angleDiff: %f allowedAngle: %f\n",
+    attackerRotation, attackAngle, angleDiff, allowedAngle);
+
+  if (fabs(angleDiff) > allowedAngle)
+  {
+    printf("CombatManager: Not facing the target\n");
     return false;
   }
 
@@ -350,9 +341,9 @@ float CombatManager::GetAttackChance(Character* lockedAttacker,
                                      Character* lockedTarget)
 {
   return GetAgility(lockedAttacker) * GetSkillBonus(lockedAttacker) -
-    ptminf(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
-    ptmaxf(ptmaxf(GetBlock(lockedTarget), GetDodge(lockedTarget)),
-    GetParry(lockedTarget));
+    PT::Math::MinF(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
+    PT::Math::MaxF(PT::Math::MaxF(GetBlock(lockedTarget),
+      GetDodge(lockedTarget)), GetParry(lockedTarget));
 } // end GetAttackChance()
 
 float CombatManager::GetAgility(Character* lockedCharacter)
@@ -404,9 +395,9 @@ float CombatManager::GetWeaponDamage(Character* lockedCharacter)
 float CombatManager::GetStatValue(Character* lockedCharacter,
                                   const char* statName)
 {
-  Server *server = Server::getServer();
+  Server* server = Server::getServer();
 
-  Stat* stat = server->getStatManager()->findByName(ptString(statName,
+  const Stat* stat = server->getStatManager()->findByName(ptString(statName,
     strlen(statName)));
   if (!stat)
   {
@@ -417,11 +408,11 @@ float CombatManager::GetStatValue(Character* lockedCharacter,
   return static_cast<float>(lockedCharacter->getStats()->getAmount(stat));
 } // end GetStatValue()
 
-float CombatManager::GetStatValueForItem(Item* item,
+float CombatManager::GetStatValueForItem(const Item* item,
                                          const char* statName)
 {
   Server *server = Server::getServer();
-  Stat* stat = server->getStatManager()->
+  const Stat* stat = server->getStatManager()->
     findByName(ptString(statName, strlen(statName)));
   if (!stat)
   {
@@ -443,7 +434,7 @@ Item* CombatManager::GetItem(Character* lockedCharacter,
     return NULL;
   }
 
-  if ( slot >= inventory->NoSlot)
+  if (slot >= inventory->NoSlot)
   {
     return NULL;
   }
@@ -485,18 +476,16 @@ float CombatManager::GetStatValueForAllEquipedItems(Character* lockedCharacter,
 float CombatManager::GetStatValueForEquipedWeapons(Character* lockedCharacter,
                                                    const char* statName)
 {
-  float value = 0.0f;
-  Item* item;
   Inventory* inventory = lockedCharacter->getInventory();
-
   if (!inventory)
   {
     return 0.0f;
   }
 
+  float value = 0.0f;
   for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
   {
-    item = GetItem(lockedCharacter, slot);
+    Item* item = GetItem(lockedCharacter, slot);
     if (!item)
     {
       continue;
@@ -512,16 +501,17 @@ float CombatManager::GetStatValueForEquipedWeapons(Character* lockedCharacter,
 
 void CombatManager::DeductStamina(Character* lockedCharacter)
 {
-  float staminaDeduction = 0;
-  Stat* stamina = 0;
-  CharacterStats* stats = 0;
-
-  staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
+  float staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
     GetStrength(lockedCharacter));
 
-  stamina = Server::getServer()->getStatManager()->
+  Stat* stamina = Server::getServer()->getStatManager()->
     findByName(ptString("Stamina", strlen("Stamina")));
-  stats = lockedCharacter->getStats();
+  CharacterStats* stats = lockedCharacter->getStats();
+  if (!stamina || !stats)
+  {
+    printf("CombatManager: Can't get stamina stat\n");
+    return;
+  }
   printf("CombatManager: Stamina before deduction: %d\n",
     stats->getAmount(stamina));
   stats->takeStat(stamina, static_cast<int>(staminaDeduction));
@@ -530,7 +520,7 @@ void CombatManager::DeductStamina(Character* lockedCharacter)
     CombatManagerSendTo::CHARACTER);
 } // end DeductStamina()
 
-void CombatManager::SendStatUpdate(Stat* stat, CharacterStats* stats,
+void CombatManager::SendStatUpdate(const Stat* stat, const CharacterStats* stats,
                                    Character* lockedCharacter, const char* name,
                                    int target)
 {

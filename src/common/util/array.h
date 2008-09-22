@@ -62,15 +62,15 @@ private:
     */
   void increase(size_t grow)
   {
-    typ* newtyparray = new (std::nothrow) typ[capacity+grow]; 
+    typ* newtyparray = new (std::nothrow) typ[capacity+grow];
     if (!typarray)
     {
       typarray = newtyparray;
       capacity += grow;
     }
-    else if(newtyparray)
+    else if (newtyparray)
     {
-      for(size_t i=0; i != capacity; i++)
+      for (size_t i = 0; i != capacity; i++)
       {
         newtyparray[i] = typarray[i];
       }
@@ -80,7 +80,7 @@ private:
     }
     else
     {
-      std::cerr << "Array expansion from: " << (unsigned int)capacity << " to " 
+      std::cerr << "Array expansion from: " << (unsigned int)capacity << " to "
         << (unsigned int)capacity+grow << "failed\n";
     }
   }
@@ -102,7 +102,7 @@ public:
   }
 
   Array(const Array& other)
-  : typarray(other.typarray), refcount(other.refcount), capacity(other.capacity), 
+  : typarray(other.typarray), refcount(other.refcount), capacity(other.capacity),
     count(other.count), growrate(other.growrate)
   {
     (*refcount)++;
@@ -145,21 +145,21 @@ public:
 
   ///Same as #get.
   typ operator[](size_t index) const
-  { 
+  {
     if (index < count)
-      return get(index); 
+      return get(index);
 
     if (index == count && index < capacity)
     {
       return typarray[index];
     }
     return typarray[count];
-  } 
+  }
 
   ///Returns the number of objects inside the array.
   size_t getCount() const
   {
-      return count;
+    return count;
   }
 
   /** Adds a new item to the end of the array
@@ -270,7 +270,7 @@ public:
     */
   void del(size_t i, bool isArray = false)
   {
-    if (i >= count) assert("Array::get : out of bound access");
+    if (i >= count) assert("Array::del : out of bound access");
     count--;
     if (isArray) delete [] typarray[i];
     else delete typarray[i];

@@ -32,8 +32,8 @@ public:
   CharacterStatsTable(Database* db);
   void createTable();
   void insert(int characterstat, int stat, int level);
-  void set(int characterstat, Stat* stat, int level);
-  int get(int characterstat, Stat* stat);
+  void set(int characterstat, const Stat* stat, int level);
+  int get(int characterstat, const Stat* stat);
   void dropTable();
   void getAllEntries(Array<CharStat*>& entries, int id);
 };

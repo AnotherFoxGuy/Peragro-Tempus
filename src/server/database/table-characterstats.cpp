@@ -53,12 +53,12 @@ void CharacterStatsTable::insert(int characterstat, int stat, int level)
     characterstat, stat, level);
 }
 
-void CharacterStatsTable::set(int characterstat, Stat* stat, int level)
+void CharacterStatsTable::set(int characterstat, const Stat* stat, int level)
 {
   insert(characterstat, stat->getId(), level);
 }
 
-int CharacterStatsTable::get(int characterstat, Stat* stat)
+int CharacterStatsTable::get(int characterstat, const Stat* stat)
 {
   ResultSet* rs = db->query("select * from characterstat where id = '%d' and stat = '%d';",
     characterstat, stat->getId());
@@ -101,4 +101,4 @@ void CharacterStatsTable::getAllEntries(Array<CharStat*>& entries, int id)
     entries.add(entry);
   }
   delete rs;
-}  
+}

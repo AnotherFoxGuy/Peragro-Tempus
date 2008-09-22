@@ -23,7 +23,7 @@
 #include "server/network/connection.h"
 #include "server/server.h"
 
-void ItemStats::sendAllStats(Connection* conn)
+void ItemStats::sendAllStats(Connection* conn) const
 {
   StatsListMessage statlist_msg;
   statlist_msg.setStatsCount((char)entries.getCount());

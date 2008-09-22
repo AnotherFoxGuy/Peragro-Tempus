@@ -44,18 +44,18 @@ public:
    * Handles a request from a player to attack a target.
    * @param attackerEntity The PcEntity for the attacking player.
    * @param targetID the Entity ID of the target.
-   * @return 0 upon failure.
+   * @return False upon failure.
    */
-  int AttackRequest(const PcEntity* attackerEntity, unsigned int targetID);
+  bool AttackRequest(const PcEntity* attackerEntity, unsigned int targetID);
 
   /**
    * Handles a request from a player to attack a target
    * @todo This function is just way to big, divide it.
    * @param lockedAttackerCharacter The attacking character.
    * @param lockedTargetCharacter The attacked character.
-   * @return 0 upon failure
+   * @return False upon failure
    */
-  int AttackRequest(Character* lockedAttackerCharacter,
+  bool AttackRequest(Character* lockedAttackerCharacter,
                     Character* lockedTargetCharacter);
 
   /**
@@ -203,7 +203,7 @@ public:
    * @param name The name of the stat.
    * @param target Whom to send to.
    */
-  void SendStatUpdate(Stat* stat, CharacterStats* stats,
+  void SendStatUpdate(const Stat* stat, const CharacterStats* stats,
                       Character* lockedCharacter, const char* name, int target);
 
   /**
@@ -224,7 +224,7 @@ public:
    * @param statName The stat's name.
    * @return The items stat based on the statName.
    */
-  float GetStatValueForItem(Item* item, const char* statName);
+  float GetStatValueForItem(const Item* item, const char* statName);
 
   /**
    * Combines the character's items stat values, based on stat name
