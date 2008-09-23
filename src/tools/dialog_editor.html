@@ -129,7 +129,7 @@ function change_dialogtext(array_pos){
   dialogs[array_pos].dialogtext=prompt("Enter new value:",dialogs[array_pos].dialogtext);
   var elements=getAll('dialogtext_'+dialogs[array_pos].id);
   for(var i=0;i<elements.length;i++){
-    elements[i].innerHTML="<b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button>";
+    elements[i].innerHTML="("+dialogs[array_pos].id+")<b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button><button onclick=\"add_answer("+array_pos+");\">Add answer</button>";
   }
   regencode();
 }
@@ -166,9 +166,42 @@ function make_unique(array_pos,parents){
 }
 
 function rm_answer(dialog,answer){
-  dialogs[dialog].answers[answer]=null;
-  document.getElementById("dialog"+dialogs[dialog].id+"_answer"+answer).innerHTML="";
-  document.getElementById("dialog"+dialogs[dialog].id+"_answer"+answer).outerHTML="";
+  dialogs[dialog].answers.splice(answer, 1);
+  document.getElementById("dialogbox_"+dialog).innerHTML=drawdialog(dialog, "");
+  regencode();
+}
+
+function add_answer(dialog)
+{
+  dialogs[dialog].answers[dialogs[dialog].answers.length]=new Answer("text","New answer",-1);
+  document.getElementById("dialogbox_"+dialog).innerHTML=drawdialog(dialog, "");
+  regencode();
+}
+
+function get_unique_id()
+{
+  var i=0;
+  var id=1;
+  var done=false;
+  while(i<dialogs.length)
+  {
+    if(dialogs[i].id>=id){id=dialogs[i].id+1;}
+    i++;
+  }
+  return id;
+}
+
+function set_answer_href(dialog,answer)
+{
+  var newhref=prompt("ID of dialog to link to? (leave as \"new\" to create a new dialog, or -1 to end the conversation)", "new");
+  if(newhref=="new")
+  {
+    newhref=dialogs.length;
+    dialogs[newhref]=new EmptyDialog();
+    dialogs[newhref].id=get_unique_id();
+  }
+  dialogs[dialog].answers[answer].href=parseFloat(newhref);
+  document.getElementById("dialogbox_"+dialog).innerHTML=drawdialog(dialog, "");
   regencode();
 }
 
@@ -208,16 +241,16 @@ function drawdialog(id, parents)
   }
 
   if(document.getElementById("orientation").selectedIndex==1){
-    var dialog="<table border=\"2\" bgcolor=\""+color+"\"><tr><td colspan=\""+span+"\" id=\"dialogtext_"+id+"\" onmouseover=\"self.status='ID: "+id+"';\"><b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button><button onclick=\"make_unique("+array_pos+",'"+parents+"');\">Make unique<!-- TODO: Consider making all dialogs unique at edit-time and optimize later --></button></td></tr><tr>";
+    var dialog="<table border=\"2\" bgcolor=\""+color+"\"><tr><td colspan=\""+span+"\" id=\"dialogtext_"+id+"\" onmouseover=\"self.status='ID: "+id+"';\">("+id+")<b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button><button onclick=\"add_answer("+array_pos+");\">Add answer</button><button onclick=\"make_unique("+array_pos+",'"+parents+"');\">Make unique<!-- TODO: Consider making all dialogs unique at edit-time and optimize later --></button></td></tr><tr>";
     for(var i=0;i<dialogs[array_pos].answers.length;i++){
-      dialog+="<td id=\"dialog"+dialogs[array_pos].id+"_answer"+i+"\" valign=\"top\"><b><nobr>Answer: "+dialogs[array_pos].answers[i].label+(dialogs[array_pos].dialogtype=="text"?"<button onclick=\"rm_answer("+array_pos+","+i+");\">Remove</button>":"")+"</nobr></b><br>"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</td>";
+      dialog+="<td id=\"dialog"+dialogs[array_pos].id+"_answer"+i+"\" valign=\"top\"><b><nobr>Answer: "+dialogs[array_pos].answers[i].label+(dialogs[array_pos].dialogtype=="text"?"<button onclick=\"rm_answer("+array_pos+","+i+");\">Remove</button><button onclick=\"set_answer_href("+array_pos+","+i+");\">Link to dialog</button>":"")+"</nobr></b><br><div id=\"dialogbox_"+dialogs[array_pos].answers[i].href+"\">"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</div></td>";
     }
   }else{
-    var dialog="<table border=\"2\" bgcolor=\""+color+"\"><tr><td rowspan=\""+span+"\" id=\"dialogtext_"+id+"\" onmouseover=\"self.status='ID: "+id+"';\"><b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button><button onclick=\"make_unique("+array_pos+",'"+parents+"');\">Make unique<!-- TODO: Consider making all dialogs unique at edit-time and optimize later --></button></td>";
+    var dialog="<table border=\"2\" bgcolor=\""+color+"\"><tr><td rowspan=\""+span+"\" id=\"dialogtext_"+id+"\" onmouseover=\"self.status='ID: "+id+"';\">("+id+")<b>"+dialogs[array_pos].dialogtype+":</b> "+Replace("<","&lt;",Replace(">","&gt;",dialogs[array_pos].dialogtext))+"<button onclick=\"change_dialogtext("+array_pos+");\">Change</button><button onclick=\"add_answer("+array_pos+");\">Add answer</button><button onclick=\"make_unique("+array_pos+",'"+parents+"');\">Make unique<!-- TODO: Consider making all dialogs unique at edit-time and optimize later --></button></td>";
     for(var i=0;i<dialogs[array_pos].answers.length;i++)
     {
       if(i>0){dialog+="</tr><tr>";}
-      dialog+="<td id=\"dialog"+dialogs[array_pos].id+"_answer"+i+"\"><b>Answer:</b> "+dialogs[array_pos].answers[i].label+(dialogs[array_pos].dialogtype=="text"?"<button onclick=\"rm_answer("+array_pos+","+i+");\">Remove</button>":"")+"</td><td>"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</td>";
+      dialog+="<td id=\"dialog"+dialogs[array_pos].id+"_answer"+i+"\"><b>Answer:</b> "+dialogs[array_pos].answers[i].label+(dialogs[array_pos].dialogtype=="text"?"<button onclick=\"rm_answer("+array_pos+","+i+");\">Remove</button><button onclick=\"set_answer_href("+array_pos+","+i+");\">Link to dialog</button>":"")+"</td><td><div id=\"dialogbox_"+dialogs[array_pos].answers[i].href+"\">"+drawdialog(dialogs[array_pos].answers[i].href,parents+id+"|")+"</div></td>";
     }
   }
   return dialog+"</tr></table>";
