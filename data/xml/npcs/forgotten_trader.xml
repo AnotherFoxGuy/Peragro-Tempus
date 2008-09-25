@@ -29,6 +29,22 @@
 		<value name="interval_3">110</value>
 	</aisetting>
 	<inventory />
+
+        <reputations>
+          <reputation name="bravery">5</value>
+        </reputations>
+
+        <shop>
+          <buy>
+            <item id="14" quantity="3" rate="70" />
+            <item id="31" quantity="5" rate="20"/>
+          </buy>
+          <sell>
+            <item id="5" quantity="3" rate="110"/>
+            <item id="1" quantity="5" rate="100"/>
+          </sell>
+        </shop>
+  
 	<dialog id="0">
 		<text>You there! What are you looking at?</text>
 		<answer href="1">I heard you sell items.</answer>

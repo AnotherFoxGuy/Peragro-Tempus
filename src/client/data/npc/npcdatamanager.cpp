@@ -113,14 +113,17 @@ namespace PT
         npc->SetInventory(slot, itemid, variation);
       }
 
-      csRef<iDocumentNodeIterator> reputations (
-        node->GetNode("reputations")->GetNodes("reputation"));
-      while (reputations->HasNext())
+      csRef<iDocumentNode> reputationsNode = node->GetNode("reputations");
+      if (reputationsNode)
       {
-        csRef<iDocumentNode> reputation = reputations->Next();
-        std::string name = reputation->GetAttributeValue("name");
-        int value = reputation->GetContentsValueAsInt();
-        npc->SetReputation(name, value);
+        csRef<iDocumentNodeIterator> reputations (reputationsNode->GetNodes("reputation"));
+        while (reputations->HasNext())
+        {
+          csRef<iDocumentNode> reputation = reputations->Next();
+          std::string name = reputation->GetAttributeValue("name");
+          int value = reputation->GetContentsValueAsInt();
+          npc->SetReputation(name, value);
+        }
       }
 
       csRef<iDocumentNode> shopNode = node->GetNode("shop");
