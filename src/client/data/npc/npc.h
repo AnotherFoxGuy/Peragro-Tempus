@@ -55,6 +55,17 @@ namespace PT
     };
 
     /**
+     * Class for storing data about NPC shops.
+     */
+    class ShopItem
+    {
+    public:
+      unsigned int id;
+      unsigned int quantity;
+      unsigned int rate;
+    };
+
+    /**
      * @ingroup data_handlers
      * Helper class that contains basic information about npc. Usually not
      * created directly, but accessed via NpcDataManager instance. Use the
@@ -79,8 +90,22 @@ namespace PT
       Array<NpcDialog*> dialogs;
       Array<NpcAnswer*> answers;
 
+      Array<ShopItem*> shopBuy;
+      Array<ShopItem*> shopSell;
+
+      std::map<std::string, int > reputations;
+
     public:
       Npc() {}
+
+      ~Npc()
+      {
+        dialogs.delAll();
+        answers.delAll();
+
+        shopBuy.delAll();
+        shopSell.delAll();
+      }
 
       void SetRace(const std::string& value) { race = value; }
       const std::string& GetRace() const { return race; }
@@ -123,6 +148,22 @@ namespace PT
       { answers.add(answer); }
       Array<NpcAnswer*> GetDialogAnswers()
       { return answers; }
+
+      void AddBuyShopItem(ShopItem* item)
+      { shopBuy.add(item); }
+      Array<ShopItem*> GetBuyShopItems()
+      { return shopBuy; }
+
+      void AddSellShopItem(ShopItem* item)
+      { shopSell.add(item); }
+      Array<ShopItem*> GetSellShopItems()
+      { return shopSell; }
+
+      void SetReputation(const std::string& repname, const int& value)
+      { reputations[repname] = value; }
+
+      const std::map<std::string, int > & GetReputations()
+      { return reputations; }
 
     };
   } // Data namespace

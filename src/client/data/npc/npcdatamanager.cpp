@@ -103,9 +103,7 @@ namespace PT
       }
 
       csRef<iDocumentNodeIterator> inventory (
-        node->GetNode("inventory")->GetNodes("item")
-      );
-
+        node->GetNode("inventory")->GetNodes("item"));
       while (inventory->HasNext())
       {
         csRef<iDocumentNode> item = inventory->Next();
@@ -113,6 +111,44 @@ namespace PT
         int itemid = item->GetAttributeValueAsInt("item");
         int variation = item->GetAttributeValueAsInt("variation");
         npc->SetInventory(slot, itemid, variation);
+      }
+
+      csRef<iDocumentNodeIterator> reputations (
+        node->GetNode("reputations")->GetNodes("reputation"));
+      while (reputations->HasNext())
+      {
+        csRef<iDocumentNode> reputation = reputations->Next();
+        std::string name = reputation->GetAttributeValue("name");
+        int value = reputation->GetContentsValueAsInt();
+        npc->SetReputation(name, value);
+      }
+
+      csRef<iDocumentNode> shopNode = node->GetNode("shop");
+      if (shopNode)
+      {
+        csRef<iDocumentNode> buyNode = node->GetNode("buy");
+        csRef<iDocumentNodeIterator> buyItems(buyNode->GetNodes("item"));
+        while (buyItems->HasNext())
+        {
+          csRef<iDocumentNode> item = buyItems->Next();
+          ShopItem* shopItem = new ShopItem();
+          shopItem->id = item->GetAttributeValueAsInt("id");
+          shopItem->quantity = item->GetAttributeValueAsInt("quantity");
+          shopItem->rate = item->GetAttributeValueAsInt("rate");
+          npc->AddBuyShopItem(shopItem);
+        }
+
+        csRef<iDocumentNode> sellNode = node->GetNode("sell");
+        csRef<iDocumentNodeIterator> sellItems(sellNode->GetNodes("item"));
+        while (sellItems->HasNext())
+        {
+          csRef<iDocumentNode> item = sellItems->Next();
+          ShopItem* shopItem = new ShopItem();
+          shopItem->id = item->GetAttributeValueAsInt("id");
+          shopItem->quantity = item->GetAttributeValueAsInt("quantity");
+          shopItem->rate = item->GetAttributeValueAsInt("rate");
+          npc->AddSellShopItem(shopItem);
+        }
       }
 
       csRef<iDocumentNodeIterator> dialogs (node->GetNodes("dialog"));

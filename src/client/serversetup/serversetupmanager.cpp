@@ -293,6 +293,26 @@ namespace PT
         }
         PointerLibrary::getInstance()->getNetwork()->send(&npcmsg);
 
+
+        // TODO : reputations
+        const std::map<std::string, int >& reputations = npcs[i]->GetReputations();
+        std::map<std::string, int >::const_iterator it;
+        for (it = reputations.begin(); it != reputations.end(); ++it)
+        {
+        }
+
+
+        // TODO : shop
+        Array<PT::Data::ShopItem*> buyItems = npcs[i]->GetBuyShopItems();
+        Array<PT::Data::ShopItem*> sellItems = npcs[i]->GetSellShopItems();
+        for (size_t d_i=0; d_i<buyItems.getCount(); d_i++)
+        {
+        }
+        for (size_t d_i=0; d_i<sellItems.getCount(); d_i++)
+        {
+        }
+
+
         SetupDialogsMessage dialogsmsg;
         dialogsmsg.setDeleteExisting(i==0);
         Array<PT::Data::NpcDialog*> dialogs = npcs[i]->GetDialogs();
