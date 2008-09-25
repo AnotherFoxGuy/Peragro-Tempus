@@ -85,7 +85,7 @@ namespace PT
 
         if (evmgr->IsKindOf(id, "entity.add"))
         {
-          if (EntityHelper::GetEntityType(&ev) == PT::Entity::PCEntityType)
+          if (EntityHelper::GetEntityType(&ev) == PT::Common::Entity::PCEntityType)
           {
             const char * nick = 0;
             ev.Retrieve("entityName", nick);
@@ -100,7 +100,7 @@ namespace PT
             getEntityManager()->findPtEntById(entid);
           if (!ent) return false;
 
-          if (ent->GetType() == PT::Entity::PCEntityType)
+          if (ent->GetType() == PT::Common::Entity::PCEntityType)
           {
             RemovePlayer(ent->GetName().c_str());
           }

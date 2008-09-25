@@ -74,7 +74,7 @@ namespace PT
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
-      SetFullPosition(pos, rot, sectorName.c_str());
+      SetFullPosition(position, rot, sectorName.c_str());
     }
 
     void ItemEntity::Interact()

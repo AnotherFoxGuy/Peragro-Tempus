@@ -33,53 +33,21 @@
 
 #include "include/client/component/component.h"
 
+#include "common/entity/entity.h"
+
 namespace PT
 {
-
   namespace Entity
   {
-    /**
-     * @ingroup entities
-     * Enum representing the possible entity types that are handled by the game
-     * engine.
-     */
-    enum EntityType
-    {
-      PCEntityType      =0,
-      NPCEntityType     =1,
-      DoorEntityType    =2,
-      ItemEntityType    =3,
-      MountEntityType   =4,
-      TeleportEntityType=5,
-      PlayerEntityType  =6
-    };
-
     /**
      * @ingroup entities
      * Provides abstract mechanism and basic functionality for the entity
      * manipulation. If you want to add a new entity type, inherit this class,
      * or one of its children. Overload the appropriate methods when doing so.
      */
-    class Entity
+    class Entity : public PT::Common::Entity::Entity
     {
     protected:
-      ///Unique ID of the entity.
-      unsigned int id;
-      ///Type of the entity.
-      EntityType type;
-      ///Name of the entity. Shown on mouse-over (for example).
-      std::string name;
-      ///Name of the mesh used for this entity.
-      std::string meshName;
-      /// The file in which this entity's mesh resides.
-      std::string fileName;
-      ///Name of the sector where the entity resides.
-      std::string sectorName;
-      ///Position of the entity within a sector.
-      csVector3 pos;
-      ///Rotation of the entity.
-      float rot;
-
       /// List of components this entity has.
       csRefArray<ComponentInterface> components;
 
@@ -90,7 +58,7 @@ namespace PT
        * This is a convenience constructor possibly needed for children classes.
        * @todo Recheck if this is actually needed.
        */
-      Entity() : id(-1), celEntity(0) {}
+      Entity() : celEntity(0) {}
 
       ///CEL entity of the entity. See the CEL documentation for more info.
       csWeakRef<iCelEntity> celEntity;
@@ -124,43 +92,6 @@ namespace PT
        * Virtual destructor.
        */
       virtual ~Entity() {}
-
-      ///@return Entity's unique ID.
-      unsigned int GetId () const { return id; }
-      ///Set the entity's unique ID to a given value.
-      ///@todo Should we really be allowed to do this?
-      void SetId (unsigned int value) { id = value; }
-
-      ///@return Entity's type.
-      int GetType () const { return type; }
-      ///Set the entity's type to a given value.
-      ///@todo Should we really be allowed to do this?
-      void SetType (EntityType value)  { type = value; }
-
-      ///@return Entity's name.
-      const std::string& GetName () const { return name; }
-      ///Set the entity's name to a given value.
-      void SetName (const std::string& value) { name = value; }
-
-      ///@return Entity's mesh name.
-      const std::string& GetMeshName () const { return meshName; }
-      ///Set the entity's mesh name to a given value.
-      void SetMeshName (const std::string& value) { meshName = value; }
-
-      ///@return Name of the sector where entity resides.
-      const std::string& GetSectorName() const { return sectorName; }
-      ///Set the name of sector where the entity resides.
-      void SetSectorName (std::string value) { sectorName = value; }
-
-      ///@return Position of entity within a sector.
-      const csVector3& GetPosition() const { return pos; }
-      ///Set the position of entity within a sector to a given value.
-      void SetPosition (csVector3 value) { pos = value; }
-
-      ///@return Rotation of entity.
-      const float GetRotation() const { return rot; }
-      ///Set the rotation of entity to a given value.
-      void SetRotation (float value) { rot = value; }
 
       ///@return Entity's CEL entity.
       iCelEntity* GetCelEntity () const { return celEntity; }
@@ -208,7 +139,7 @@ namespace PT
        * Changes the entity position and sector immediatelly
        * to the stored values.
        */
-      virtual void SetFullPosition() { SetFullPosition(pos, rot, sectorName); }
+      virtual void SetFullPosition() { SetFullPosition(position, rot, sectorName); }
 
       /**
        * Changes the entity position and sector immediatelly.

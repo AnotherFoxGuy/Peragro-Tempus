@@ -118,7 +118,7 @@ bool ComponentPlayerControls::PerformMovementAction()
   using namespace PT::Entity;
 
   // Local movement option.
-  if (localMovement && (entity->GetType() == PT::Entity::PlayerEntityType &&
+  if (localMovement && (entity->GetType() == PT::Common::Entity::PlayerEntityType &&
     !static_cast<CharacterEntity*>(entity)->GetHasMount()))
   {
     PT::Events::EventManager* evmgr = pointerlib->getEventManager();

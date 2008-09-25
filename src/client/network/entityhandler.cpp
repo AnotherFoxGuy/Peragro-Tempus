@@ -44,7 +44,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
   entityEvent->Add("entityId", entmsg.getEntityId());
-  entityEvent->Add("entityType", PT::Entity::NPCEntityType);
+  entityEvent->Add("entityType", PT::Common::Entity::NPCEntityType);
 
   // Gets deleted by the event.
   PT::Events::EntityHelper::EquipmentData* eqData = new PT::Events::EntityHelper::EquipmentData();
@@ -76,7 +76,7 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   PT::Events::EntityHelper::SetPosition(entityEvent, PtVector3(0.0f));
   entityEvent->Add("sectorId", entmsg.getSectorId());
   entityEvent->Add("entityId", entmsg.getEntityId());
-  entityEvent->Add("entityType", PT::Entity::DoorEntityType);
+  entityEvent->Add("entityType", PT::Common::Entity::DoorEntityType);
 
   entityEvent->Add("typeId", entmsg.getDoorId());
   entityEvent->Add("locked", entmsg.getIsLocked());
@@ -251,7 +251,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
   entityEvent->Add("entityId", entmsg.getEntityId());
-  entityEvent->Add("entityType", PT::Entity::PCEntityType);
+  entityEvent->Add("entityType", PT::Common::Entity::PCEntityType);
 
   // Gets deleted by the event.
   PT::Events::EntityHelper::EquipmentData* eqData = new PT::Events::EntityHelper::EquipmentData();
@@ -292,7 +292,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
   entityEvent->Add("entityId", entmsg.getEntityId());
-  entityEvent->Add("entityType", PT::Entity::ItemEntityType);
+  entityEvent->Add("entityType", PT::Common::Entity::ItemEntityType);
 
   evmgr->AddEvent(entityEvent);
 }
@@ -312,7 +312,7 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
   entityEvent->Add("entityId", entmsg.getEntityId());
-  entityEvent->Add("entityType", PT::Entity::MountEntityType);
+  entityEvent->Add("entityType", PT::Common::Entity::MountEntityType);
 
   evmgr->AddEvent(entityEvent);
 }

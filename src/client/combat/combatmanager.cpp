@@ -198,7 +198,7 @@ namespace PT
       if (strncmp("Health", stat->name.c_str(), strlen("Health")) == 0)
       {
         // If the health update belong to the player, update the gui.
-        if (target->GetType() == PlayerEntityType)
+        if (target->GetType() == Common::Entity::PlayerEntityType)
         {
           // Life = 1 * endurance
           int maxLife = stats->GetStatLevel("Endurance");
@@ -235,7 +235,7 @@ namespace PT
       if (damage > 0)
       {
         effectsManager->CreateEffect("Blood", GetMesh(target));
-        if (target->GetType() == PT::Entity::PCEntityType)
+        if (target->GetType() == PT::Common::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*) target)->PlayAnimation("hit", 0.1f);
         }
@@ -262,9 +262,9 @@ namespace PT
       using namespace Entity;
       CharacterEntity *character;
       effectsManager->CreateEffect("Die", GetMesh(target));
-      if (target->GetType() == PCEntityType ||
-          target->GetType() == NPCEntityType ||
-          target->GetType() == PlayerEntityType)
+      if (target->GetType() == Common::Entity::PCEntityType ||
+          target->GetType() == Common::Entity::NPCEntityType ||
+          target->GetType() == Common::Entity::PlayerEntityType)
       {
         character = static_cast<CharacterEntity*>(target);
         character->PlayAnimation("die", 0.1f, false, false);
@@ -367,8 +367,8 @@ namespace PT
       {
         effectsManager->CreateEffect(skill->GetEffects().caster.c_str(), GetMesh(caster));
         caststring = skill->GetStartString();
-        if (caster->GetType() == PT::Entity::PlayerEntityType ||
-            caster->GetType() == PT::Entity::PCEntityType)
+        if (caster->GetType() == PT::Common::Entity::PlayerEntityType ||
+            caster->GetType() == PT::Common::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*)caster)->PlayAnimation(skill->GetEffects().castanim.c_str());
         }
@@ -413,8 +413,8 @@ namespace PT
       {
         effectsManager->CreateEffect(skill->GetEffects().target.c_str(), GetMesh(target));
         caststring = skill->GetCompleteString();
-        if (target->GetType() == PT::Entity::PlayerEntityType ||
-            target->GetType() == PT::Entity::PCEntityType)
+        if (target->GetType() == PT::Common::Entity::PlayerEntityType ||
+            target->GetType() == PT::Common::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*)target)->PlayAnimation(skill->GetEffects().targetanim.c_str());
         }

@@ -123,7 +123,7 @@ bool ComponentNetworkMove::Move(iEvent& ev)
 
   // If it's the player and local movement, do nothing.
   if (!local && localMovement &&
-    entity->GetType() == PT::Entity::PlayerEntityType) return false;
+    entity->GetType() == PT::Common::Entity::PlayerEntityType) return false;
 
   csRef<iCelEntity> celEntity = entity->GetCelEntity();
   if (!celEntity.IsValid()) return false;
@@ -186,7 +186,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
   // @TODO I'm not sure this is a good idea,  along with
   // EntityManager::DrUpdateOwnEntity(), it puts the client totally in charge.
   if (localMovement &&
-    entity->GetType() == PT::Entity::PlayerEntityType) return false;
+    entity->GetType() == PT::Common::Entity::PlayerEntityType) return false;
 
 //unsigned int entityId = EntityHelper::GetEntityID(&ev);
   unsigned int sectorId = EntityHelper::GetSectorId(&ev);

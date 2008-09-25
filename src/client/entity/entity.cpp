@@ -51,11 +51,11 @@ namespace PT
     Entity::Entity(const iEvent& ev)
     {
       id = PT::Events::EntityHelper::GetEntityID(&ev);
-      type = (EntityType)PT::Events::EntityHelper::GetEntityType(&ev);
+      type = (Common::Entity::EntityType)PT::Events::EntityHelper::GetEntityType(&ev);
       name = PT::Events::EntityHelper::GetString(&ev, "entityName");
       meshName = PT::Events::EntityHelper::GetString(&ev, "meshName");
       fileName = PT::Events::EntityHelper::GetString(&ev, "fileName");
-      pos = PT::Events::EntityHelper::GetPosition(&ev);
+      position = PT::Events::EntityHelper::GetPosition(&ev);
       ev.Retrieve("rotation", rot);
 
       unsigned int sectorId = PT::Events::EntityHelper::GetSectorId(&ev);
@@ -108,7 +108,7 @@ namespace PT
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
       if (sector != "Default_Sector") Entity::sectorName = sector;
-      Entity::pos = pos;
+      Entity::position = pos;
       Entity::rot = rotation;
 
       if (celEntity.IsValid())

@@ -24,6 +24,8 @@
 #include "common/util/ptvector3.h"
 #include "common/util/ptstring.h"
 
+#include "common/entity/entity.h"
+
 namespace PT
 {
   namespace Data
@@ -59,18 +61,9 @@ namespace PT
      * Set/Get methods to access the npc properties.
      * @see NpcDataManager
      */
-    class Npc
+    class Npc : public PT::Common::Entity::Entity
     {
     private:
-      ///Name of the npc.
-      std::string name;
-      ///meshName - name of the mesh in the mesh file used for this npc.
-      std::string meshName;
-      ///Position of the npc in a sector (e.g. x='20', y='30', z='40').
-      PtVector3 position;
-      ///Name of the sector where the npc resides (e.g. 'room').
-      std::string sectorName;
-
       std::string race;
 
       unsigned char hair[3];
@@ -87,21 +80,7 @@ namespace PT
       Array<NpcAnswer*> answers;
 
     public:
-      Npc() : position(0.0f) {}
-
-      void SetName(const std::string& value) { name = value; }
-      const std::string& GetName() const { return name; }
-
-      void SetMeshName(const std::string& value) { meshName = value; }
-      const std::string& GetMeshName() const { return meshName; }
-
-      void SetPosition(float x, float y, float z)
-      { position = PtVector3(x,y,z); }
-      void SetPosition(const PtVector3& value) { position = value;}
-      const PtVector3& GetPosition() const { return position; }
-
-      void SetSectorName(const std::string& value) { sectorName = value; }
-      const std::string& GetSectorName() const { return sectorName; }
+      Npc() {}
 
       void SetRace(const std::string& value) { race = value; }
       const std::string& GetRace() const { return race; }

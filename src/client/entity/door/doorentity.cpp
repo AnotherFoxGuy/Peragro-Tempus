@@ -76,7 +76,7 @@ namespace PT
       {
         pcmesh->SetMesh(doormesh);
         trans = doormesh->GetMovable()->GetTransform();
-        Entity::pos = doormesh->GetMovable()->GetFullPosition();
+        Entity::position = doormesh->GetMovable()->GetFullPosition();
       }
       else
       {

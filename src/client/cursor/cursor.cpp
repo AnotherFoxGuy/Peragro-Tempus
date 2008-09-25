@@ -133,19 +133,19 @@ void Cursor::Draw()
     int type = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type"));
     switch(type)
     {
-    case PT::Entity::PCEntityType:
+    case PT::Common::Entity::PCEntityType:
       nameTag->setProperty("NormalTextColour", "FF05AA05");
       break;
-    case PT::Entity::NPCEntityType:
+    case PT::Common::Entity::NPCEntityType:
       nameTag->setProperty("NormalTextColour", "FFFF00FF");
       break;
-    case PT::Entity::DoorEntityType:
+    case PT::Common::Entity::DoorEntityType:
       nameTag->setProperty("NormalTextColour", "FF550505");
       break;
-    case PT::Entity::ItemEntityType:
+    case PT::Common::Entity::ItemEntityType:
       nameTag->setProperty("NormalTextColour", "FF0505AA");
       break;
-    case PT::Entity::PlayerEntityType:
+    case PT::Common::Entity::PlayerEntityType:
       nameTag->setProperty("NormalTextColour", "FF05AA05");
       break;
     default:

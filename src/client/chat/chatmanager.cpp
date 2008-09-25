@@ -385,7 +385,7 @@ namespace PT
 
       if (id.compare("entity.add") == 0)
       {
-        if (EntityHelper::GetEntityType(&ev) == PT::Entity::PCEntityType)
+        if (EntityHelper::GetEntityType(&ev) == PT::Common::Entity::PCEntityType)
         {
           const char * nick = 0;
           ev.Retrieve("entityName", nick);

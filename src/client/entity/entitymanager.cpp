@@ -239,19 +239,19 @@ namespace PT
 
       Entity* entity;
 
-      if (type == DoorEntityType) entity = new DoorEntity(ev);
-      else if (type == ItemEntityType) entity = new ItemEntity(ev);
-      else if (type == MountEntityType) entity = new MountEntity(ev);
-      else if (type == NPCEntityType) entity = new NpcEntity(ev);
-      else if (type == PCEntityType && playerId == id) entity = PlayerEntity::Instance(&ev);
-      else if (type == PCEntityType) entity = new PcEntity(ev);
+      if (type == Common::Entity::DoorEntityType) entity = new DoorEntity(ev);
+      else if (type == Common::Entity::ItemEntityType) entity = new ItemEntity(ev);
+      else if (type == Common::Entity::MountEntityType) entity = new MountEntity(ev);
+      else if (type == Common::Entity::NPCEntityType) entity = new NpcEntity(ev);
+      else if (type == Common::Entity::PCEntityType && playerId == id) entity = PlayerEntity::Instance(&ev);
+      else if (type == Common::Entity::PCEntityType) entity = new PcEntity(ev);
       else
       {
         Report(PT::Error, "Invalid entity type: %d !", type);
         return true;
       }
 
-      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPosition().Description().GetData(), (playerId == id) ? " as me":"");
+      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPosition().ToString().c_str(), (playerId == id) ? " as me":"");
       // Add our entity to the list.
       entities.Push(entity);
 
@@ -302,9 +302,9 @@ namespace PT
       Entity* entity = findPtEntById(id);
       if (entity)
       {
-        if (entity->GetType() == PlayerEntityType ||
-            entity->GetType() == PCEntityType ||
-            entity->GetType() == NPCEntityType)
+        if (entity->GetType() == Common::Entity::PlayerEntityType ||
+            entity->GetType() == Common::Entity::PCEntityType ||
+            entity->GetType() == Common::Entity::NPCEntityType)
         {
           if (!itemId == 0)
           {
@@ -336,9 +336,9 @@ namespace PT
       Entity* mount = findPtEntById(mountId);
       if (entity && mount)
       {
-        if ((entity->GetType() == PlayerEntityType ||
-            entity->GetType() == PCEntityType) &&
-            mount->GetType() == MountEntityType)
+        if ((entity->GetType() == Common::Entity::PlayerEntityType ||
+            entity->GetType() == Common::Entity::PCEntityType) &&
+            mount->GetType() == Common::Entity::MountEntityType)
         {
           MountEntity* m = static_cast<MountEntity*>(mount);
           if (mounting)

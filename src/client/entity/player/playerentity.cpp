@@ -59,7 +59,7 @@ namespace PT
 
     PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
     {
-      type = PlayerEntityType;
+      type = Common::Entity::PlayerEntityType;
 
       Create();
 
@@ -141,14 +141,14 @@ namespace PT
       if (sector) sectorName = sector->GetName();
       //End of ugly hack
 
-      pos = PT::Events::EntityHelper::GetPosition(&ev);
+      position = PT::Events::EntityHelper::GetPosition(&ev);
       ev.Retrieve("rotation", rot);
 
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
-      world->EnterWorld(pos.x, pos.z);
-      SetFullPosition(pos, rot, sectorName);
+      world->EnterWorld(position.x, position.z);
+      SetFullPosition(position, rot, sectorName);
     }
 
     void PlayerEntity::Create()
@@ -177,8 +177,8 @@ namespace PT
 
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
-      world->EnterWorld(pos.x, pos.z);
-      SetFullPosition(pos, rot, sectorName.c_str());
+      world->EnterWorld(position.x, position.z);
+      SetFullPosition(position, rot, sectorName.c_str());
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
       other_self = pl->CreateEntity();
@@ -263,7 +263,7 @@ namespace PT
 
         if (camera.IsValid() && camera->GetCamera() && sec.IsValid())
         {
-          csVector3 offset = pos - this->pos;
+          csVector3 offset = pos - (csVector3)this->position;
           camera->GetCamera()->SetSector(sec);
           camera->GetCamera()->Move(offset, false);
           camera->UpdateCamera();
