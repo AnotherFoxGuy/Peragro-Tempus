@@ -1,0 +1,6 @@
+SubDir TOP src server zone ;
+
+Description server-zonemanager : "zonemanager" ;
+Library server-zonemanager :
+  [ Wildcard *.h *.cpp ] ;
+LinkWith server-zonemanager : util ;
