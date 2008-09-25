@@ -31,7 +31,7 @@
 	<inventory />
 
         <reputations>
-          <reputation name="bravery">5</value>
+          <reputation name="bravery">5</reputation>
         </reputations>
 
         <shop>
