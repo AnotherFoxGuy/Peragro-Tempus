@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="libserver-entity"
-	ProjectGUID="{5EF78382-21B8-FD27-6937-84B16B0544B7}"
+	Name="libserver-zonemanager"
+	ProjectGUID="{C4C34842-F7D7-F14F-130D-27865148B777}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release7\build\libserver-entity\"
-			IntermediateDirectory="..\..\out\release7\build\libserver-entity\"
+			OutputDirectory="..\..\out\release7\build\libserver-zonemanager\"
+			IntermediateDirectory="..\..\out\release7\build\libserver-zonemanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -26,14 +26,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\libserver-entity\server-entity.pdb"
+				ProgramDataBaseFileName="..\..\out\release7\build\libserver-zonemanager\server-zonemanager.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release7\build\libserver-entity\libserver-entity.pch"
-				AssemblerListingLocation="..\..\out\release7\build\libserver-entity\"
-				ObjectFile="..\..\out\release7\build\libserver-entity\"
+				PrecompiledHeaderFile="..\..\out\release7\build\libserver-zonemanager\libserver-zonemanager.pch"
+				AssemblerListingLocation="..\..\out\release7\build\libserver-zonemanager\"
+				ObjectFile="..\..\out\release7\build\libserver-zonemanager\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -56,7 +56,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release7\libs\libserver-entity.lib"
+				OutputFile="..\..\out\release7\libs\libserver-zonemanager.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -64,7 +64,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release7\build\libserver-entity\libserver-entity.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\libserver-zonemanager\libserver-zonemanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\server\entity;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\zone;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,8 +85,8 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release7\build\libserver-entity\"
-			IntermediateDirectory="..\..\out\release7\build\libserver-entity\"
+			OutputDirectory="..\..\out\release7\build\libserver-zonemanager\"
+			IntermediateDirectory="..\..\out\release7\build\libserver-zonemanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -98,14 +98,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\libserver-entity\server-entity.pdb"
+				ProgramDataBaseFileName="..\..\out\release7\build\libserver-zonemanager\server-zonemanager.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release7\build\libserver-entity\libserver-entity.pch"
-				AssemblerListingLocation="..\..\out\release7\build\libserver-entity\"
-				ObjectFile="..\..\out\release7\build\libserver-entity\"
+				PrecompiledHeaderFile="..\..\out\release7\build\libserver-zonemanager\libserver-zonemanager.pch"
+				AssemblerListingLocation="..\..\out\release7\build\libserver-zonemanager\"
+				ObjectFile="..\..\out\release7\build\libserver-zonemanager\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -128,7 +128,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release7\libs\libserver-entity.lib"
+				OutputFile="..\..\out\release7\libs\libserver-zonemanager.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -136,7 +136,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release7\build\libserver-entity\libserver-entity.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\libserver-zonemanager\libserver-zonemanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\server\entity;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\zone;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,8 +157,8 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug7\build\libserver-entity\"
-			IntermediateDirectory="..\..\out\debug7\build\libserver-entity\"
+			OutputDirectory="..\..\out\debug7\build\libserver-zonemanager\"
+			IntermediateDirectory="..\..\out\debug7\build\libserver-zonemanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -170,14 +170,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\libserver-entity\server-entity.pdb"
+				ProgramDataBaseFileName="..\..\out\debug7\build\libserver-zonemanager\server-zonemanager.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug7\build\libserver-entity\libserver-entity.pch"
-				AssemblerListingLocation="..\..\out\debug7\build\libserver-entity\"
-				ObjectFile="..\..\out\debug7\build\libserver-entity\"
+				PrecompiledHeaderFile="..\..\out\debug7\build\libserver-zonemanager\libserver-zonemanager.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\libserver-zonemanager\"
+				ObjectFile="..\..\out\debug7\build\libserver-zonemanager\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -198,7 +198,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug7\libs\libserver-entity_d.lib"
+				OutputFile="..\..\out\debug7\libs\libserver-zonemanager_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -206,7 +206,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug7\build\libserver-entity\libserver-entity.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\libserver-zonemanager\libserver-zonemanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\server\entity;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\zone;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,8 +227,8 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug7\build\libserver-entity\"
-			IntermediateDirectory="..\..\out\debug7\build\libserver-entity\"
+			OutputDirectory="..\..\out\debug7\build\libserver-zonemanager\"
+			IntermediateDirectory="..\..\out\debug7\build\libserver-zonemanager\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -240,14 +240,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\libserver-entity\server-entity.pdb"
+				ProgramDataBaseFileName="..\..\out\debug7\build\libserver-zonemanager\server-zonemanager.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug7\build\libserver-entity\libserver-entity.pch"
-				AssemblerListingLocation="..\..\out\debug7\build\libserver-entity\"
-				ObjectFile="..\..\out\debug7\build\libserver-entity\"
+				PrecompiledHeaderFile="..\..\out\debug7\build\libserver-zonemanager\libserver-zonemanager.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\libserver-zonemanager\"
+				ObjectFile="..\..\out\debug7\build\libserver-zonemanager\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -268,7 +268,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug7\libs\libserver-entity_d.lib"
+				OutputFile="..\..\out\debug7\libs\libserver-zonemanager_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -276,7 +276,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug7\build\libserver-entity\libserver-entity.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\libserver-zonemanager\libserver-zonemanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\src\server\entity;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\zone;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -301,188 +301,14 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\entity\character.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\charactermanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\charactermasteries.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\characterskills.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\characterstats.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\doorentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\entity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\entitymanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\inventory.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\itementity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\itemstats.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\mountentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\npcentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\pcentity.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\permission.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\raceskills.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\racestats.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\skill.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\tradepeer.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\tradesession.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\user.cpp">
+				RelativePath="..\..\src\server\zone\zonemanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\entity\character.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\characterentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\charactermanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\charactermasteries.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\charactermastery.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\characterreputations.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\characterskill.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\characterskills.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\characterstats.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\doorentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\doormanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\entity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\entitycallback.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\entitylist.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\entitymanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\inventory.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\item.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\itementity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\itemmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\itemstats.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\mastery.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\mountentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\npcentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\pcentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\permission.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\race.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\racelist.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\racemanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\raceskills.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\racestats.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\sectormanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\skill.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\skillmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\stat.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\statmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\tradepeer.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\tradesession.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\user.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\usermanager.h">
+				RelativePath="..\..\src\server\zone\zonemanager.h">
 			</File>
 		</Filter>
 	</Files>
