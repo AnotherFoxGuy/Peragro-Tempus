@@ -20,9 +20,10 @@
 #define REPUTATIONMANAGER_H
 
 #include "common/util/array.h"
-#include "reputation.h"
-#include "server/server.h"
-#include "server/database/table-reputations.h"
+
+class Reputation;
+class ptString;
+class ReputationsTable;
 
 class ReputationManager
 {
@@ -34,95 +35,26 @@ public:
 
   ~ReputationManager() { reputations.delAll(); }
 
-  size_t getReputationCount()
-  {
-    return reputations.getCount();
-  }
+  size_t getReputationCount();
 
-  Reputation* getReputation(size_t index)
-  {
-    return reputations.get(index);
-  }
+  Reputation* getReputation(size_t index);
 
-  void addReputation(Reputation* reputation)
-  {
-    reputations.add(reputation);
-  }
+  void addReputation(Reputation* reputation);
 
-  Reputation* addReputation(ptString name)
-  {
-    ReputationsTable* table = Server::getServer()->getTables()->getReputationsTable();
-    Reputation* reputation = new Reputation();
-    reputation->setName(name);
-    reputation->setId(table->insert(name));
-    reputations.add(reputation);
-    return reputation;
-  }
+  Reputation* addReputation(ptString name);
 
-  void delReputation(Reputation* reputation)
-  {
-    if (!reputation) return;
-    for (size_t i = 0; i<reputations.getCount(); i++)
-    {
-      Reputation* _reputation = reputations.get(i);
-      if (_reputation->getId() == reputation->getId())
-      {
-        reputations.remove(i);
-        return;
-      }
-    }
-  }
+  void delReputation(Reputation* reputation);
 
-  bool exists(Reputation* reputation)
-  {
-    if (!reputation) return false;
-    for (size_t i = 0; i<reputations.getCount(); i++)
-    {
-      Reputation* _reputation = reputations.get(i);
+  bool exists(Reputation* reputation);
 
-      if (_reputation->getId() == reputation->getId())
-        return true;
-    }
-    return false;
-  }
+  Reputation* findByName(ptString name);
 
-  Reputation* findByName(ptString name)
-  {
-    if (name == ptString::Null) return 0;
-    for (size_t i = 0; i<reputations.getCount(); i++)
-    {
-      Reputation* reputation = reputations.get(i);
-      if (reputation->getName() == name)
-      {
-        return reputation;
-      }
-    }
-    return 0;
-  }
+  Reputation* findById(int id);
 
-  Reputation* findById(int id)
-  {
-    for (size_t i = 0; i<reputations.getCount(); i++)
-    {
-      Reputation* reputation = reputations.get(i);
-      if (reputation->getId() == id)
-      {
-        return reputation;
-      }
-    }
-    return 0;
-  }
+  void loadFromDB(ReputationsTable* rt);
 
-  void loadFromDB(ReputationsTable* rt)
-  {
-    //Load all Reputations from Database
-    rt->getAllReputations(reputations);
-  }
+  void clear();
 
-  void clear()
-  {
-    reputations.removeAll();
-  }
 };
 
 #endif // REPUTATIONMANAGER_H
