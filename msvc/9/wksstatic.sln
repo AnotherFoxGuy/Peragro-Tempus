@@ -48,6 +48,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libeventmanager-cs", "libev
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevents", "libevents.vcproj", "{E221859C-9445-1AA6-3E95-E33E77A8B396}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libinventory", "libinventory.vcproj", "{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnetwork", "libnetwork.vcproj", "{F5342C71-4E6F-72A9-E16A-9669A5A62054}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libperagro_static_plugins", "libperagro_static_plugins.vcproj", "{64316035-1673-9B7E-8232-0FA26CCE3917}"
@@ -373,6 +375,14 @@ Global
 		{E221859C-9445-1AA6-3E95-E33E77A8B396}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{E221859C-9445-1AA6-3E95-E33E77A8B396}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{E221859C-9445-1AA6-3E95-E33E77A8B396}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{C13F53C2-12AC-50C0-BC42-8BEAAF8DA7F7}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{F5342C71-4E6F-72A9-E16A-9669A5A62054}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{F5342C71-4E6F-72A9-E16A-9669A5A62054}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{F5342C71-4E6F-72A9-E16A-9669A5A62054}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
