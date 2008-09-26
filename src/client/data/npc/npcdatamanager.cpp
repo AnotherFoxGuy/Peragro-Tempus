@@ -129,28 +129,34 @@ namespace PT
       csRef<iDocumentNode> shopNode = node->GetNode("shop");
       if (shopNode)
       {
-        csRef<iDocumentNode> buyNode = node->GetNode("buy");
-        csRef<iDocumentNodeIterator> buyItems(buyNode->GetNodes("item"));
-        while (buyItems->HasNext())
+        csRef<iDocumentNode> buyNode = shopNode->GetNode("buy");
+        if (buyNode)
         {
-          csRef<iDocumentNode> item = buyItems->Next();
-          ShopItem* shopItem = new ShopItem();
-          shopItem->id = item->GetAttributeValueAsInt("id");
-          shopItem->quantity = item->GetAttributeValueAsInt("quantity");
-          shopItem->rate = item->GetAttributeValueAsInt("rate");
-          npc->AddBuyShopItem(shopItem);
+          csRef<iDocumentNodeIterator> buyItems(buyNode->GetNodes("item"));
+          while (buyItems->HasNext())
+          {
+            csRef<iDocumentNode> item = buyItems->Next();
+            ShopItem* shopItem = new ShopItem();
+            shopItem->id = item->GetAttributeValueAsInt("id");
+            shopItem->quantity = item->GetAttributeValueAsInt("quantity");
+            shopItem->rate = item->GetAttributeValueAsInt("rate");
+            npc->AddBuyShopItem(shopItem);
+          }
         }
 
-        csRef<iDocumentNode> sellNode = node->GetNode("sell");
-        csRef<iDocumentNodeIterator> sellItems(sellNode->GetNodes("item"));
-        while (sellItems->HasNext())
+        csRef<iDocumentNode> sellNode = shopNode->GetNode("sell");
+        if (sellNode)
         {
-          csRef<iDocumentNode> item = sellItems->Next();
-          ShopItem* shopItem = new ShopItem();
-          shopItem->id = item->GetAttributeValueAsInt("id");
-          shopItem->quantity = item->GetAttributeValueAsInt("quantity");
-          shopItem->rate = item->GetAttributeValueAsInt("rate");
-          npc->AddSellShopItem(shopItem);
+          csRef<iDocumentNodeIterator> sellItems(sellNode->GetNodes("item"));
+          while (sellItems->HasNext())
+          {
+            csRef<iDocumentNode> item = sellItems->Next();
+            ShopItem* shopItem = new ShopItem();
+            shopItem->id = item->GetAttributeValueAsInt("id");
+            shopItem->quantity = item->GetAttributeValueAsInt("quantity");
+            shopItem->rate = item->GetAttributeValueAsInt("rate");
+            npc->AddSellShopItem(shopItem);
+          }
         }
       }
 

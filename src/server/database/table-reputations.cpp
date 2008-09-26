@@ -24,7 +24,7 @@
 #include "database.h"
 
 #include "table-reputations.h"
-#include "server/entity/reputation.h"
+#include "server/reputation/reputation.h"
 
 ReputationsTable::ReputationsTable(Database* db) : Table(db)
 {
