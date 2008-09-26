@@ -323,6 +323,9 @@
 				RelativePath="..\..\src\common\util\array.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\flags.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\math.h">
 			</File>
 			<File
