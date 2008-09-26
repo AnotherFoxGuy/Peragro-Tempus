@@ -20,10 +20,13 @@
  * @file slotinventory.h
  */
 
-#ifndef PT_COMMON_INVENTORY_H
-#define PT_COMMON_INVENTORY_H
+#ifndef PT_COMMON_SLOTINVENTORY_H
+#define PT_COMMON_SLOTINVENTORY_H
+
+#include <vector>
 
 #include "src/common/inventory/inventory.h"
+#include "src/common/inventory/slot.h"
 
 namespace PT
 {
@@ -37,6 +40,12 @@ namespace PT
        */
       class SlotInventory : public Inventory
       {
+      private:
+        unsigned int visibleRows;
+        unsigned int visibleColumns;
+
+        std::vector<Slot*> slots;
+
         public:
         /**
          * Base constructor
@@ -48,6 +57,12 @@ namespace PT
           unsigned int visibleRows, unsigned int visibleColumns);
 
         virtual ~SlotInventory();
+
+        /*
+        virtual Object* GetObjectAt(unsigned int slotId);
+        virtual bool HasObjectAt(unsigned int slotId);
+        virtual bool RemoveObjectAt(unsigned int slotId);
+        */
       };
       
 
@@ -55,5 +70,5 @@ namespace PT
   } // Common namespace
 } // PT namespace
 
-#endif // PT_COMMON_INVENTORY_H
+#endif // PT_COMMON_SLOTINVENTORY_H
 

@@ -17,13 +17,10 @@
 */
 
 /**
- * @file gridinventory.h
+ * @file slotinventory.cpp
  */
 
-#ifndef PT_COMMON_GRIDINVENTORY_H
-#define PT_COMMON_GRIDINVENTORY_H
-
-#include "src/common/inventory/inventory.h"
+#include "slotinventory.h"
 
 namespace PT
 {
@@ -31,24 +28,28 @@ namespace PT
   {
     namespace Inventory
     {
-      /**
-       * @ingroup Inventory
-       * A Diablo style grid based inventory.
-       */
-      class GridInventory : public Inventory
+      Inventory::Inventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
       {
-        public:
-        /**
-         * Base constructor
-         */
-        GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
-        virtual ~GridInventory();
-      };
-      
+        inventoryName = name;
+        inventoryType = type;
+        inventoryRows = rows;
+        inventoryColumns = columns;
+      }
+
+
+      Inventory::~Inventory()
+      {
+      }
+
+      void Inventory::SetName(const std::string& name){ inventoryName = name; }
+
+      const std::string& Inventory::GetName() const { return inventoryName; }
+
+      unsigned int Inventory::GetRowCount() const { return inventoryRows; }
+
+      unsigned int Inventory::GetColumnCount() const { return inventoryColumns; }
+
 
     } // Inventory namespace
   } // Common namespace
 } // PT namespace
-
-#endif // PT_COMMON_GRIDINVENTORY_H
-

@@ -29,32 +29,56 @@ namespace PT
     namespace Inventory
     {
       SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
+        :Inventory(name, type, rows, columns)
       {
-        inventoryName = name;
-        inventoryType = type;
-        inventoryRows = rows;
-        inventoryColumns = columns;
       }
 
       SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns, 
           unsigned int visibleRows, unsigned int visibleColumns)
+          :Inventory(name, type, rows, columns)
       {
-        inventoryName = name;
-        inventoryType = type;
-        inventoryRows = rows;
-        inventoryColumns = columns;
-        // What about visibles?
+        SlotInventory::visibleRows = visibleRows;
+        SlotInventory::visibleColumns = visibleColumns;
       }
 
-      SlotInventory::~SlotInventory(){}
+      SlotInventory::~SlotInventory()
+      {
+      }
 
-      void SetName(const std::string& name){ inventoryName = name; }
+      /*
+      Slot* SlotInventory::GetSlot(int id) const
+      {
+        // Determine row
+        int slotRow = 0;
+        int slotColumn = 0;
+        if (id > inventoryRows)
+        {
+          slotRow = id - inventoryRows;
+        }
+        else
+        {
+          slotRow = inventoryRows - id;
+        }
+        id -= slotRow;
 
-      const std::string& GetName(){ return inventoryName; }
+        // Determine column
+        if (id > inventoryColumns)
+        {
+          slotColumn = id - inventoryColumns;
+        }
+        else
+        {
+          slotColumn = inventoryColumns - id;
+        }
+        id -= slotColumn;
 
-      unsigned int getRowCount(){ return inventoryRows(); }
-
-      unsigned int getColumnCount(){ return inventoryColumns(); }
+        if (id != 0)
+        {
+          return 0;
+        }
+        return GetSlot(PositionRef(slotRow, slotColumn));
+      }
+      */
 
     } // Inventory namespace
   } // Common namespace
