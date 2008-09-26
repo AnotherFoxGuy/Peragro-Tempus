@@ -34,6 +34,8 @@ namespace PT
       */
       class Flags
       {
+      typedef unsigned int uint32;
+
       private:
         /// Set of flags
         uint32 flags;

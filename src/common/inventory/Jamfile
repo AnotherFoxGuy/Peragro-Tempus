@@ -1,0 +1,6 @@
+SubDir TOP src common inventory ;
+
+Description inventory : "inventory" ;
+Library inventory :
+  [ Wildcard *.h *.cpp ] ;
+# ExternalLibs inventory : ;
