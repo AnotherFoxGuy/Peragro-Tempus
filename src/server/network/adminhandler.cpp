@@ -24,7 +24,7 @@
 #include "server/entity/entitymanager.h"
 #include "server/entity/itemmanager.h"
 #include "server/entity/sectormanager.h"
-#include "server/entity/zonemanager.h"
+#include "server/zone/zonemanager.h"
 #include "server/entity/user.h"
 
 #include "server/quest/npcdialogmanager.h"

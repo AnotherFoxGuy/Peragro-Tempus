@@ -18,7 +18,7 @@
 
 #include "server/entity/statmanager.h"
 #include "server/entity/itemmanager.h"
-#include "server/entity/reputationmanager.h"
+#include "server/reputation/reputationmanager.h"
 #include "server/entity/entitymanager.h"
 
 namespace QuestUtils

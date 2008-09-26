@@ -19,7 +19,7 @@
 #ifndef CHARACTERREPUTATIONS_H_
 #define CHARACTERREPUTATIONS_H_
 
-#include "reputation.h"
+#include "server/reputation/reputation.h"
 #include "server/database/table-characterreputations.h"
 
 class CharReputation
