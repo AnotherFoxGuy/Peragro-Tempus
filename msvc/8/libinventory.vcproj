@@ -304,6 +304,9 @@
 				RelativePath="..\..\src\common\inventory\inventory.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\inventory\slot.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\inventory\slotinventory.cpp">
 			</File>
 		</Filter>
