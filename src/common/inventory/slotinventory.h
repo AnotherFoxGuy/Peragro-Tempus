@@ -46,7 +46,7 @@ namespace PT
         unsigned int visibleRows;
         unsigned int visibleColumns;
 
-        std::vector<boost::shared_ptr<Slot>> slots;
+        std::vector<boost::shared_ptr<Slot> > slots;
 
         PositionRef IdToPos(unsigned int id) const;
         Slot* GetSlot(PositionRef position) const;
