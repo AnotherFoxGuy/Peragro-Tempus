@@ -466,9 +466,6 @@ namespace PT
     // Register listener for ActionQuit.
     REGISTER_LISTENER(Client, ActionQuit, "input.Quit")
 
-    // Disable the lighting cache.
-    engine->SetLightingCacheMode (CS_ENGINE_CACHE_NOUPDATE);
-
     // Create the world.
     csRef<iWorld> world = csLoadPlugin<iWorld> (plugin_mgr, "peragro.world");
     if (world.IsValid())
