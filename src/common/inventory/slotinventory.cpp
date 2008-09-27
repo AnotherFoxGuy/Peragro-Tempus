@@ -45,16 +45,7 @@ namespace PT
       {
       }
 
-      Slot* SlotInventory::GetSlot(PositionRef position) const
-      {
-        for(unsigned int i=0; i<slots.size(); i++)
-        {
-          if(slots[i]->GetPosition() == position){ return slots[i]; }
-        }
-        return 0;
-      }
-
-      Slot* SlotInventory::GetSlot(unsigned int id) const
+      PositionRef SlotInventory::IdToPos(unsigned int id) const
       {
         // Determine row
         int slotRow = 0;
@@ -82,9 +73,82 @@ namespace PT
 
         if (id != 0)
         {
-          return 0;
+          return PositionRef(0, 0);
         }
-        return GetSlot(PositionRef(slotRow, slotColumn));
+        return PositionRef(slotRow, slotColumn);
+      }
+
+      Slot* SlotInventory::GetSlot(PositionRef position) const
+      {
+        for(unsigned int i=0; i<slots.size(); i++)
+        {
+          if(slots[i]->GetPosition() == position){ return slots[i]; }
+        }
+        return 0;
+      }
+
+      Slot* SlotInventory::GetSlot(unsigned int id) const
+      {
+        return GetSlot(IdToPos(id));
+      }
+
+      Object* SlotInventory::GetObjectAt(PositionRef position) const
+      {
+        Slot* slot = GetSlot(position);
+        if(!slot){ return 0; }
+        return slot->GetContents();
+      }
+
+      Object* SlotInventory::GetObjectAt(unsigned int id) const
+      {
+        Slot* slot = GetSlot(id);
+        if(!slot){ return 0; }
+        return slot->GetContents();
+      }
+
+      bool SlotInventory::AddObjectAt(PositionRef position, Object* object)
+      {
+        Slot* slot = GetSlot(position);
+        if(!slot)
+        {
+          slot = new Slot(this, position);
+          slots.push_back(slot);
+        }else{
+          ///@todo Check for equal type for stacking?
+          if(slot->HasContents()){return false;} // Slot already taken
+        }
+        slot->SetContents(object);
+        return true;
+      }
+
+      bool SlotInventory::AddObjectAt(unsigned int id, Object* object)
+      {
+        return AddObjectAt(IdToPos(id), object);
+      }
+
+      void SlotInventory::RemoveObjectAt(PositionRef position)
+      {
+        for(unsigned int i=0; i<slots.size(); i++)
+        {
+          if(slots[i]->GetPosition() == position){ delete slots[i]; slots.erase(slots.begin()+i); return; }
+        }
+      }
+
+      void SlotInventory::RemoveObjectAt(unsigned int id)
+      {
+        RemoveObjectAt(IdToPos(id));
+      }
+
+      bool SlotInventory::HasObjectAt(PositionRef position) const
+      {
+        Slot* slot = GetSlot(position);
+        if(!slot){return false;}
+        return slot->HasContents();
+      }
+
+      bool SlotInventory::HasObjectAt(unsigned int id) const
+      {
+        return HasObjectAt(IdToPos(id));
       }
 
     } // Inventory namespace

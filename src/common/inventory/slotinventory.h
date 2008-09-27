@@ -46,6 +46,8 @@ namespace PT
 
         std::vector<Slot*> slots;
 
+        PositionRef IdToPos(unsigned int id) const;
+
         public:
         /**
          * Base constructor
@@ -60,6 +62,18 @@ namespace PT
 
         virtual Slot* GetSlot(PositionRef position) const;
         virtual Slot* GetSlot(unsigned int id) const;
+
+        virtual Object* GetObjectAt(PositionRef position) const;
+        virtual Object* GetObjectAt(unsigned int id) const;
+
+        virtual bool AddObjectAt(PositionRef position, Object* object);
+        virtual bool AddObjectAt(unsigned int id, Object* object);
+
+        virtual void RemoveObjectAt(PositionRef position);
+        virtual void RemoveObjectAt(unsigned int id);
+
+        virtual bool HasObjectAt(PositionRef position) const;
+        virtual bool HasObjectAt(unsigned int id) const;
       };
       
 
