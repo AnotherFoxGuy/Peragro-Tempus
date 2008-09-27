@@ -210,6 +210,7 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
   entity->setSector(npcmsg.getSectorId());
   entity->setPos(npcmsg.getPos());
   entity->setRotation(npcmsg.getRotation());
+  entity->setFileName(npcmsg.getFileName());
   entity->setMesh(npcmsg.getMesh());
   entity->setName(npcmsg.getName());
 

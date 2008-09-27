@@ -99,6 +99,7 @@ bool CreateNpcMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(name);
+  serial.setString(filename);
   serial.setString(mesh);
   serial.setFloat(pos.x);
   serial.setFloat(pos.y);
@@ -140,6 +141,7 @@ void CreateNpcMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   name = serial.getString();
+  filename = serial.getString();
   mesh = serial.getString();
   pos.x = serial.getFloat();
   pos.y = serial.getFloat();

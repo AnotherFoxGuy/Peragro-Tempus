@@ -233,6 +233,7 @@ namespace PT
       for (size_t i = 0; i < npcs.size(); i++ )
       {
         ptString name = ptString::create(npcs[i]->GetName());
+        ptString file = ptString::create(npcs[i]->GetFileName());
         ptString mesh = ptString::create(npcs[i]->GetMeshName());
         PtVector3 position = npcs[i]->GetPosition();
         const char* sector = npcs[i]->GetSectorName().c_str();
@@ -259,6 +260,7 @@ namespace PT
         CreateNpcMessage npcmsg;
 
         npcmsg.setName(name);
+        npcmsg.setFileName(file);
         npcmsg.setMesh(mesh);
         npcmsg.setPos(position.x, position.y, position.z);
         npcmsg.setSectorId(sector_id);

@@ -40,6 +40,7 @@ private:
   unsigned int id;
 
   ptString name_id;
+  ptString file_id;
   ptString mesh_id;
   unsigned short sector_id;
 
@@ -115,6 +116,9 @@ public:
 
   const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }
+
+  const ptString& getFileName() const { return file_id; }
+  void setFileName(ptString id) { file_id = id; }
 
   const ptString& getMesh() const { return mesh_id; }
   void setMesh(ptString id) { mesh_id = id; }

@@ -145,6 +145,7 @@ public:
 class CreateNpcMessage : public NetMessage
 {
   ptString name;
+  ptString filename;
   ptString mesh;
   PtVector3 pos;
   float rotation;
@@ -194,6 +195,9 @@ public:
 
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
+
+  ptString getFileName() const { return filename; }
+  void setFileName(ptString x) { filename = x; }
 
   ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
