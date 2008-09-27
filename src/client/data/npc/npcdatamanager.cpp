@@ -63,6 +63,9 @@ namespace PT
 
       npc->SetName(node->GetNode("name")->GetContentsValue());
 
+      IFNODE(node, file)
+        npc->SetFileName(file->GetContentsValue());
+
       npc->SetMeshName(node->GetNode("mesh")->GetContentsValue());
 
       PtVector3 pos;
@@ -90,52 +93,47 @@ namespace PT
                          decal->GetAttributeValueAsInt("g"),
                          decal->GetAttributeValueAsInt("b"));
 
-      npc->SetAi(node->GetNode("ai")->GetContentsValue());
 
-      csRef<iDocumentNodeIterator> setting (
-        node->GetNode("aisetting")->GetNodes("value")
-      );
-
-      while (setting->HasNext())
+      csRef<iDocumentNode> aisettings = node->GetNode("aisetting");
+      if (aisettings)
       {
-        csRef<iDocumentNode> value = setting->Next();
-        npc->SetSetting(value->GetAttributeValue("name"), value->GetContentsValue());
+        npc->SetAi(aisettings->GetAttributeValue("type"));
+
+        csRef<iDocumentNodeIterator> setting (aisettings->GetNodes("value"));
+        while (setting->HasNext())
+        {
+          csRef<iDocumentNode> value = setting->Next();
+          npc->SetSetting(value->GetAttributeValue("name"), value->GetContentsValue());
+        }
       }
 
-      csRef<iDocumentNodeIterator> inventory (
-        node->GetNode("inventory")->GetNodes("item"));
-      while (inventory->HasNext())
+      FOREACHNODE(node, item, inventory)
       {
-        csRef<iDocumentNode> item = inventory->Next();
         int slot = item->GetAttributeValueAsInt("slot");
         int itemid = item->GetAttributeValueAsInt("item");
         int variation = item->GetAttributeValueAsInt("variation");
         npc->SetInventory(slot, itemid, variation);
       }
 
-      csRef<iDocumentNode> reputationsNode = node->GetNode("reputations");
-      if (reputationsNode)
+      FOREACHNODE(node, reputation, reputations)
       {
-        csRef<iDocumentNodeIterator> reputations (reputationsNode->GetNodes("reputation"));
-        while (reputations->HasNext())
-        {
-          csRef<iDocumentNode> reputation = reputations->Next();
-          std::string name = reputation->GetAttributeValue("name");
-          int value = reputation->GetContentsValueAsInt();
-          npc->SetReputation(name, value);
-        }
+        std::string name = reputation->GetAttributeValue("name");
+        int value = reputation->GetContentsValueAsInt();
+        npc->SetReputation(name, value);
       }
 
-      csRef<iDocumentNode> shopNode = node->GetNode("shop");
-      if (shopNode)
+      FOREACHNODE(node, trait, traits)
       {
-        csRef<iDocumentNode> buyNode = shopNode->GetNode("buy");
-        if (buyNode)
+        std::string name = trait->GetAttributeValue("name");
+        int value = trait->GetContentsValueAsInt();
+        npc->SetReputation(name, value);
+      }
+
+      IFNODE(node, shop)
+      {
         {
-          csRef<iDocumentNodeIterator> buyItems(buyNode->GetNodes("item"));
-          while (buyItems->HasNext())
+          FOREACHNODE(shop, item, buy)
           {
-            csRef<iDocumentNode> item = buyItems->Next();
             ShopItem* shopItem = new ShopItem();
             shopItem->id = item->GetAttributeValueAsInt("id");
             shopItem->quantity = item->GetAttributeValueAsInt("quantity");
@@ -144,13 +142,9 @@ namespace PT
           }
         }
 
-        csRef<iDocumentNode> sellNode = shopNode->GetNode("sell");
-        if (sellNode)
         {
-          csRef<iDocumentNodeIterator> sellItems(sellNode->GetNodes("item"));
-          while (sellItems->HasNext())
+          FOREACHNODE(shop, item, sell)
           {
-            csRef<iDocumentNode> item = sellItems->Next();
             ShopItem* shopItem = new ShopItem();
             shopItem->id = item->GetAttributeValueAsInt("id");
             shopItem->quantity = item->GetAttributeValueAsInt("quantity");
@@ -160,39 +154,56 @@ namespace PT
         }
       }
 
-      csRef<iDocumentNodeIterator> dialogs (node->GetNodes("dialog"));
-      while (dialogs->HasNext())
+      FOREACHNODE(node, occupation, occupations)
+      {
+        csRef<iDocumentNode> positionNode = occupation->GetNode("position");
+        PtVector3 pos;
+        pos.x = positionNode->GetAttributeValueAsFloat("x");
+        pos.y = positionNode->GetAttributeValueAsFloat("y");
+        pos.z = positionNode->GetAttributeValueAsFloat("z");
+        std::string sector = positionNode->GetAttributeValue("sector");
+      }
+
+      FOREACHNODE(node, hobby, hobbies)
+      {
+        hobby->GetAttributeValue("sector");
+      }
+
+      FOREACHNODE(node, skill, skills)
+      {
+      }
+
+      FOREACHNODE(node, dialog, dialogs)
       {
         NpcDialog* npcdialog = new NpcDialog();
-        csRef<iDocumentNode> dialognode = dialogs->Next();
-        npcdialog->id = dialognode->GetAttributeValueAsInt("id");
+        npcdialog->id = dialog->GetAttributeValueAsInt("id");
         csRef<iDocumentNode> action;
-        if(action = dialognode->GetNode("text"))
+        if(action = dialog->GetNode("text"))
         {
           npcdialog->action = ptString("text", 4);
           npcdialog->value = action->GetContentsValue();
         }
-        else if(action = dialognode->GetNode("teleport"))
+        else if(action = dialog->GetNode("teleport"))
         {
           npcdialog->action = ptString("teleport", 8);
           char buf[128];
           sprintf(buf, "2<%f,%f,%f>",
-          action->GetAttributeValueAsFloat("x"),
-          action->GetAttributeValueAsFloat("y"),
-          action->GetAttributeValueAsFloat("z"));
+            action->GetAttributeValueAsFloat("x"),
+            action->GetAttributeValueAsFloat("y"),
+            action->GetAttributeValueAsFloat("z"));
           npcdialog->value = buf;
         }
-        else if(action = dialognode->GetNode("buy"))
+        else if(action = dialog->GetNode("buy"))
         {
           npcdialog->action = ptString("buy", 3);
           npcdialog->value = "";
         }
-        else if(action = dialognode->GetNode("sell"))
+        else if(action = dialog->GetNode("sell"))
         {
           npcdialog->action = ptString("sell", 4);
           npcdialog->value = "";
         }
-        else if(action = dialognode->GetNode("function"))
+        else if(action = dialog->GetNode("function"))
         {
           npcdialog->action = ptString("function", strlen("function"));
           npcdialog->value = action->GetContentsValue();
@@ -204,7 +215,7 @@ namespace PT
           npcdialog->value = "unknown";
         }
 
-        csRef<iDocumentNodeIterator> answers (dialognode->GetNodes("answer"));
+        csRef<iDocumentNodeIterator> answers (dialog->GetNodes("answer"));
         unsigned int answerId = 0;
         while (answers->HasNext())
         {
@@ -226,10 +237,10 @@ namespace PT
           }
           npc->AddDialogAnswer(npcanswer);
           answerId++;
-        }
+        } //end while
 
         npc->AddDialog(npcdialog);
-      }
+      } //end foreach
 
       npcs.push_back(npc);
 

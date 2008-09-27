@@ -28,6 +28,21 @@
 
 class PointerLibrary;
 
+#define JOIN2(a,b) a##b
+#define JOIN(a,b) JOIN2(a,b)
+
+#define IFNODE(parentNode, node)                          \
+  csRef<iDocumentNode> node = parentNode->GetNode(#node); \
+  if (node)                                               \
+
+#define FOREACHNODE(parentNode, node, nodes)                                               \
+  csRef<iDocumentNode> JOIN(nodes,__LINE__) = parentNode->GetNode(#nodes);                 \
+  csRef<iDocumentNodeIterator> JOIN(iter,__LINE__);                                        \
+  if (JOIN(nodes,__LINE__))                                                                \
+    JOIN(iter,__LINE__) = (JOIN(nodes,__LINE__)->GetNodes(#node));                         \
+  csRef<iDocumentNode> node;                                                               \
+  while (JOIN(iter,__LINE__) && JOIN(iter,__LINE__)->HasNext() && (node = JOIN(iter,__LINE__)->Next()) )          \
+
 namespace PT
 {
   namespace Data

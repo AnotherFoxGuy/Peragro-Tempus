@@ -1,13 +1,14 @@
 <npc>
 	<name>skeleton</name>
+        <file>/peragro/art/3d_art/characters/skeleton/skeleton.cal3d</file>
 	<mesh>skeleton</mesh>
 	<position sector="World" x="635" y="14.7" z="370"/>
 	<race>test</race> <!-- used for stats -->
 	<hair><color r="255" g="255" b="255" /></hair>
 	<skin><color r="255" g="255" b="255" /></skin>
 	<decal><color r="255" g="255" b="255" /></decal>
-	<ai>path</ai>
-	<aisetting>
+
+	<aisetting type="path">
 		<value name="start_delay">10</value>
 		<value name="speed">3</value>
 		<value name="waypoints">4</value>
@@ -28,11 +29,16 @@
 		<value name="point_3_z">100.67</value>
 		<value name="interval_3">110</value>
 	</aisetting>
+  
 	<inventory />
 
         <reputations>
-          <reputation name="bravery">5</reputation>
+          <reputation name="Far'maen">2</reputation>
         </reputations>
+
+        <traits>
+          <trait name="bravery">5</trait>
+        </traits>
 
         <shop>
           <buy>
@@ -44,17 +50,40 @@
             <item id="1" quantity="5" rate="100"/>
           </sell>
         </shop>
-  
-	<dialog id="0">
+
+        <occupation>
+          <occupation name="Merchant" when="9-13">
+            <position sector="World" x="635" y="14.7" z="370"/>
+          </occupation>
+          <occupation name="Guard" when="13-17">
+            <position sector="World" x="635" y="14.7" z="370"/>
+          </occupation>
+          <occupation name="Sleep" when="17-9">
+            <position sector="World" x="635" y="14.7" z="370"/>
+          </occupation>
+        </occupation>
+
+        <hobbies>
+          <hobby name="Fishing">5</hobby>
+        </hobbies>
+
+        <skills>
+          <skill name="1H Sword" value="5"/>
+          <skill name="Fisher" value="3"/>
+        </skills>
+
+        <dialogs>
+	  <dialog id="0">
 		<text>You there! What are you looking at?</text>
 		<answer href="1">I heard you sell items.</answer>
 		<answer href="2">I want to sell my goods!</answer>
 		<answer>N..nothing...</answer>
-	</dialog>
-	<dialog id="1">
+	  </dialog>
+	  <dialog id="1">
 		<buy />
-	</dialog>
-	<dialog id="2">
+	  </dialog>
+	  <dialog id="2">
 		<sell />
-	</dialog>
+	  </dialog>
+      </dialogs>
 </npc>

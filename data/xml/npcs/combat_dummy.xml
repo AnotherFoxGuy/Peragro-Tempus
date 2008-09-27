@@ -1,13 +1,14 @@
 <npc>
 	<name>Combat Dummy</name>
+        <file>/peragro/art/3d_art/characters/male01/male01</file>
 	<mesh>test</mesh>
 	<position sector="World" x="480.0" y="8.2" z="360.2"/>
 	<race>test</race> <!-- used for stats -->
 	<hair><color r="255" g="255" b="255" /></hair>
 	<skin><color r="255" g="255" b="255" /></skin>
 	<decal><color r="255" g="255" b="255" /></decal>
-	<ai>stray</ai>
-	<aisetting>
+
+        <aisetting type="stray">
 		<value name="base_x">33.0</value>
 		<value name="base_y">0.15</value>
 		<value name="base_z">106.2</value>
