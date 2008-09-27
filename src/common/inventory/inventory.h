@@ -114,7 +114,7 @@ namespace PT
          * Remove the object at the given position.
          * @return True if successful, false if an error occured.
          */
-        virtual bool RemoveObjectAt(const PositionRef& position);
+        virtual bool RemoveObjectAt(const PositionRef& position) = 0;
       };
       
 

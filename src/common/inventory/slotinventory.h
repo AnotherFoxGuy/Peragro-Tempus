@@ -25,6 +25,8 @@
 
 #include <vector>
 
+#include <boost/smart_ptr.hpp>
+
 #include "src/common/inventory/inventory.h"
 #include "src/common/inventory/slot.h"
 
@@ -44,14 +46,16 @@ namespace PT
         unsigned int visibleRows;
         unsigned int visibleColumns;
 
-        std::vector<Slot*> slots;
+        std::vector<boost::shared_ptr<Slot>> slots;
 
         PositionRef IdToPos(unsigned int id) const;
+        Slot* GetSlot(PositionRef position) const;
+        Slot* GetSlot(unsigned int id) const;
 
-        public:
+      public:
         /**
-         * Base constructor
-         */
+        * Base constructor
+        */
         SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
 
         ///Create scrollable inventory. 
@@ -60,19 +64,19 @@ namespace PT
 
         virtual ~SlotInventory();
 
-        virtual Slot* GetSlot(PositionRef position) const;
-        virtual Slot* GetSlot(unsigned int id) const;
-
-        virtual Object* GetObjectAt(PositionRef position) const;
+        ///@todo Make these functions throw an exception instead of returning 0.
+        virtual Object* GetObjectAt(const PositionRef& position) const;
         virtual Object* GetObjectAt(unsigned int id) const;
 
-        virtual bool AddObjectAt(PositionRef position, Object* object);
+        ///@todo Make these functions throw an exception instead of returning bool.
+        virtual bool AddObjectAt(const PositionRef& position, Object* object);
         virtual bool AddObjectAt(unsigned int id, Object* object);
 
-        virtual void RemoveObjectAt(PositionRef position);
-        virtual void RemoveObjectAt(unsigned int id);
+        ///@todo Make these functions throw an exception instead of returning bool.
+        virtual bool RemoveObjectAt(const PositionRef& position);
+        virtual bool RemoveObjectAt(unsigned int id);
 
-        virtual bool HasObjectAt(PositionRef position) const;
+        virtual bool HasObjectAt(const PositionRef& position) const;
         virtual bool HasObjectAt(unsigned int id) const;
       };
       
