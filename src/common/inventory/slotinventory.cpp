@@ -45,8 +45,16 @@ namespace PT
       {
       }
 
-      /*
-      Slot* SlotInventory::GetSlot(int id) const
+      Slot* SlotInventory::GetSlot(PositionRef position) const
+      {
+        for(unsigned int i=0; i<slots.size(); i++)
+        {
+          if(slots[i]->GetPosition() == position){ return slots[i]; }
+        }
+        return 0;
+      }
+
+      Slot* SlotInventory::GetSlot(unsigned int id) const
       {
         // Determine row
         int slotRow = 0;
@@ -78,7 +86,6 @@ namespace PT
         }
         return GetSlot(PositionRef(slotRow, slotColumn));
       }
-      */
 
     } // Inventory namespace
   } // Common namespace

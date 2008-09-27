@@ -209,8 +209,6 @@ bool CollisionDetectionTest::SetupModules ()
   iGraphics2D* g2d = g3d->GetDriver2D ();
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
 
-  engine->SetLightingCacheMode (0);
-
   Tables tables;
   dbSQLite db(&tables);
   tables.init(&db);

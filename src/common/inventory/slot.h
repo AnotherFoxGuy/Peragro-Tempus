@@ -19,6 +19,7 @@
 #ifndef PT_COMMON_SLOT_H
 #define PT_COMMON_SLOT_H
 
+#include "positionref.h"
 
 namespace PT
 {

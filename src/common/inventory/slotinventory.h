@@ -58,11 +58,8 @@ namespace PT
 
         virtual ~SlotInventory();
 
-        /*
-        virtual Object* GetObjectAt(unsigned int slotId);
-        virtual bool HasObjectAt(unsigned int slotId);
-        virtual bool RemoveObjectAt(unsigned int slotId);
-        */
+        virtual Slot* GetSlot(PositionRef position) const;
+        virtual Slot* GetSlot(unsigned int id) const;
       };
       
 
