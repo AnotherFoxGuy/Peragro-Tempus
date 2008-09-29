@@ -2,7 +2,7 @@
   
   <sound>
     <event value="world.loaded" />
-    <file value="/peragro/art/audio/music/intro/peragrotempus.ogg"/>
+    <file value="/peragro/art/audio/others/tada.wav"/>
     <priority value='Normal'/>
   </sound>
   

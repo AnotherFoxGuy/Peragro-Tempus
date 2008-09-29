@@ -925,7 +925,7 @@ namespace PT
       guiManager->GetCEGUI()->GetWindowManagerPtr ()->getWindow("Chatlog/Frame")->activate();
 
       // Stop the intro music.
-      csRef<iSoundManager> soundMananger = scfQueryInterface<iSoundManager> (object_reg);
+      csRef<iSoundManager> soundMananger = csQueryRegistry<iSoundManager> (object_reg);
       if (soundMananger.IsValid())
         soundMananger->StopAmbient();
     }
