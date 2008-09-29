@@ -34,6 +34,7 @@ namespace PT
       private:
         csRef<iConfigManager> app_cfg;
 
+        void SendUpdateEvent();
         void SaveConfig();
 
       private:
@@ -60,6 +61,9 @@ namespace PT
 
         bool OnReflectionUpdateIntervalSliderChanged(const CEGUI::EventArgs &e);
         void CreateReflectionUpdateIntervalSlider();
+
+        bool OnDropListTerrainViewDistance(const CEGUI::EventArgs& e);
+        void CreateDropListTerrainViewDistance();
 
       public:
         VideoOptionsWindow(GUIManager* guiManager);

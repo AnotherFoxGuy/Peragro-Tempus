@@ -64,6 +64,27 @@ using namespace PT::World;
 class WorldManager : public scfImplementation2<WorldManager,iWorld,iComponent>
 {
 private:
+  bool UpdateOptions();
+
+  struct WorldEventHandler : public scfImplementation1<WorldEventHandler, iEventHandler>
+  {
+    /// The world manager.
+    WorldManager* mgr;
+
+    /// Constructor.
+    WorldEventHandler(WorldManager* mgr) : scfImplementationType (this) { this->mgr = mgr; }
+    /// Destructor.
+    ~WorldEventHandler() {}
+
+    bool HandleEvent(iEvent& ev){ return mgr->UpdateOptions(); }
+
+    CS_EVENTHANDLER_NAMES ("peragro.world.listener")
+    CS_EVENTHANDLER_NIL_CONSTRAINTS
+  };
+  friend struct WorldEventHandler;
+  csRef<WorldEventHandler> listener;
+
+private:
   /// The event queue.
   csRef<iEventQueue> eventQueue;
   /// The name registry.

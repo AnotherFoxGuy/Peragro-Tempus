@@ -23,6 +23,7 @@
 #include <csgeom/transfrm.h>
 #include <ivaria/reporter.h>
 #include <iutil/vfs.h>
+#include <iutil/cfgmgr.h>
 
 #include "maptile.h"
 #include "modelmanager.h"
@@ -46,9 +47,9 @@ WorldManager::WorldManager(iBase* iParent)
 {
   loading = false;
   camera.Set(0.0f);
-  maptilecachesize = 0;
+  maptilecachesize = 16;
   maptilecache = 0;
-  current_size = 0;
+  current_size = 3;
   current = 0;
   // Set to a very big number, so if they are changed to "0,0"
   // it can be detected.
@@ -82,8 +83,7 @@ bool WorldManager::Initialize(const std::string& name)
   // Init map tilechache.
   SetCacheSize(16); // default 16
 
-  // Init current.
-  SetGridSize(3); // default 3x3
+  UpdateOptions();
 
   eventQueue = csQueryRegistry<iEventQueue> (object_reg);
   if (!eventQueue) return false;
@@ -93,6 +93,10 @@ bool WorldManager::Initialize(const std::string& name)
 
   loadingId = nameRegistry->GetID("world.loading");
   loadedId = nameRegistry->GetID("world.loaded");
+
+  // Register a event listener for UpdateOptions.
+  listener.AttachNew(new WorldEventHandler(this));
+  eventQueue->RegisterListener (listener, nameRegistry->GetID("interface.options.video"));
 
   return true;
 
@@ -135,6 +139,19 @@ WorldManager::~WorldManager()
   // Delete the interior manager.
   delete interiorManager;
 } // end ~World()
+
+bool WorldManager::UpdateOptions()
+{
+  csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (object_reg);
+
+  int size = 3;
+  if (app_cfg)
+    size = app_cfg->GetInt("Peragro.Terrain.GridSize", current_size);
+
+  SetGridSize(size);
+
+  return true;
+} // end UpdateOptions()
 
 void WorldManager::SetGridSize(int size)
 {
