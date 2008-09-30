@@ -39,6 +39,13 @@ void LevelLoader::LoaderJob::Run()
 {
   std::string pathFile = path + fileName;
 
+  if (!vfs->Exists(pathFile.c_str()))
+  {
+    printf("E: No such file '%s'!\n", pathFile.c_str());
+    finished = true;
+    return;
+  }
+
   csRef<iDataBuffer> buf = vfs->ReadFile(pathFile.c_str());
   if (!buf.IsValid())
   {

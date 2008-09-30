@@ -202,10 +202,10 @@ void WorldManager::SetGridSize(int size)
     delete [] current;
   }
 
-  bool load = (current != 0); // If it's an init, don't load any tiles.
+  bool init = (current == 0) || (cx == INT_MAX) || (cz == INT_MAX); // If it's an init, don't load any tiles.
   current_size = size;
   current = newGrid;
-  if (load) EnterTile(cx, cz); // Load new surrounding tiles.
+  if (!init) EnterTile(cx, cz); // Load new surrounding tiles.
 } // end SetGridSize()
 
 int WorldManager::GetGridSize() const
