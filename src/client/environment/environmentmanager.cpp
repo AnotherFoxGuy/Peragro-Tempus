@@ -164,17 +164,14 @@ namespace PT
       {
         ///TODO: <camera /> is broken in CS atm, work around.
         if (!envmgr->sky.IsValid())
-        {
           envmgr->sky = engine->FindMeshObject("sky");
-        }
+        else
+          envmgr->UpdateCameraMesh(envmgr->sky, rview);
 
         if (!envmgr->clouds.IsValid())
-        {
           envmgr->clouds = engine->FindMeshObject("clouds");
-        }
-
-        envmgr->UpdateCameraMesh(envmgr->sky, rview);
-        envmgr->UpdateCameraMesh(envmgr->clouds, rview);
+        else
+          envmgr->UpdateCameraMesh(envmgr->clouds, rview);
         //end TODO
 
         envmgr->Update(rview->GetCamera());
