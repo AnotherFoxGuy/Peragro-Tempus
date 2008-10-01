@@ -128,8 +128,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     glshader_fixed
     glshader_arb
     glshader_cg
-    thing
-    thingldr
     nullmesh
     gmeshanimpdl
   :
