@@ -238,7 +238,7 @@ namespace PT
       using namespace PT::Events;
       const char* control = InputHelper::GetControl(&ev);
       const char* action = InputHelper::GetAction(&ev);
-      if (action == 0 || control == 0 || action == "")
+      if (action == 0 || control == 0 || action[0] == 0)
       {
         return Report(PT::Debug, "Got invalid control change request.");
       }

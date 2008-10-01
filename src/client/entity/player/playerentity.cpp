@@ -263,7 +263,7 @@ namespace PT
 
         if (camera.IsValid() && camera->GetCamera() && sec.IsValid())
         {
-          csVector3 offset = pos - (csVector3&)this->position;
+          csVector3 offset = pos - static_cast<const csVector3&>(this->position);
           camera->GetCamera()->SetSector(sec);
           camera->GetCamera()->Move(offset, false);
           camera->UpdateCamera();

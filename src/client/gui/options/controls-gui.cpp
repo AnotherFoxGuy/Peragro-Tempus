@@ -226,7 +226,7 @@ namespace PT
         const char* action = InputHelper::GetAction(&ev);
         const char* newControl = InputHelper::GetControl(&ev);
 
-        if (action == 0 || action == "" || newControl == 0 ||
+        if (action == 0 || action[0] == 0 || newControl == 0 ||
           changeColumn == CONTROL_NONE)
         {
           // Got an invalid event, reload the list just in case.

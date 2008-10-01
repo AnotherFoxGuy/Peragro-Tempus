@@ -38,6 +38,11 @@
 
 #include "terrained.h"
 
+#if defined(__GNUC__)
+#define SIZE_T_FORMAT_SPECIFIER "z"
+#else
+#define SIZE_T_FORMAT_SPECIFIER "l"
+#endif
 
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY (TerrainEd)
@@ -450,7 +455,7 @@ bool TerrainEd::OnShaderSpinner(const CEGUI::EventArgs& e)
   csArray<float> vals = GetValues(win);
 
   csShaderVariable::VariableType type = var->GetType();
-  printf("I: Setting var of type %d  len %lu!\n", type, vals.GetSize());
+  printf("I: Setting var of type %d  len %" SIZE_T_FORMAT_SPECIFIER "u!\n", type, vals.GetSize());
   switch (type)
   {
   case csShaderVariable::INT :
