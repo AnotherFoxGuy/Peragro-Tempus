@@ -49,12 +49,11 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   csRef<iEvent> list = evmgr->CreateEvent("equipmentList", true);
   for (unsigned char i = 0; i < entmsg.getEquipmentCount(); i++)
   {
-    if (entmsg.getItemId(i) == 0)  continue;
     std::stringstream itemName;
     itemName << "equipment" << "_" << i;
     csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
     item->Add("itemId", entmsg.getItemId(i));
-    item->Add("slotId", i);
+    item->Add("slotId", entmsg.getSlotId(i));
     item->Add("variation", entmsg.getVariation(i));
     item->Add("fileName", *entmsg.getFile(i));
     item->Add("meshName", *entmsg.getMesh(i));
@@ -263,12 +262,11 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   csRef<iEvent> list = evmgr->CreateEvent("equipmentList", true);
   for (unsigned char i = 0; i < entmsg.getEquipmentCount(); i++)
   {
-    if (entmsg.getItemId(i) == 0)  continue;
     std::stringstream itemName;
     itemName << "equipment" << "_" << i;
     csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
     item->Add("itemId", entmsg.getItemId(i));
-    item->Add("slotId", i);
+    item->Add("slotId", entmsg.getSlotId(i));
     item->Add("variation", entmsg.getVariation(i));
     item->Add("fileName", *entmsg.getFile(i));
     item->Add("meshName", *entmsg.getMesh(i));

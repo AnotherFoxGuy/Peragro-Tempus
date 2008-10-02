@@ -109,22 +109,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setHairColour(character->getHairColour());
     msg.setSkinColour(character->getSkinColour());
     Inventory* inv = character->getInventory();
-    msg.setEquipmentCount(10);
-    for(unsigned char i=0; i<10; i++)
-    {
-      msg.setItemId(i, inv->getItem(i)->id);
-      msg.setVariation(i, inv->getItem(i)->variation);
-
-      if (inv->getItem(i)->id > 0)
-      {
-        Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
-        if (item)
-        {
-          msg.setFile(i, item->getFile());
-          msg.setMesh(i, item->getMesh());
-        }
-      }
-    }
+    inv->addEquipment<AddPlayerEntityMessage>(msg);
     msg.serialise(&bs);
   }
   else if (entity->getType() == Entity::NPCEntityType)
@@ -139,22 +124,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setSectorId(entity->getSector());
     ptScopedMonitorable<Character> character (entity->getNpcEntity()->getCharacter());
     Inventory* inv = character->getInventory();
-    msg.setEquipmentCount(10);
-    for(unsigned char i=0; i<10; i++)
-    {
-      msg.setItemId(i, inv->getItem(i)->id);
-      msg.setVariation(i, inv->getItem(i)->variation);
-
-      if (inv->getItem(i)->id > 0)
-      {
-        Item* item = Server::getServer()->getItemManager()->findById(inv->getItem(i)->id);
-        if (item)
-        {
-          msg.setFile(i, item->getFile());
-          msg.setMesh(i, item->getMesh());
-        }
-      }
-    }
+    inv->addEquipment(msg);
     msg.serialise(&bs);
   }
   else if (entity->getType() == Entity::MountEntityType)

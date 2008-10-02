@@ -71,6 +71,7 @@ class AddNpcEntityMessage : public NetMessage
   class ListEquipment
   {
   public:
+    unsigned int slotid;
     unsigned int itemid;
     unsigned int variation;
     ptString file;
@@ -137,6 +138,9 @@ public:
   }
 
   // --- begin ListEquipment Getter and Setter ---
+
+  unsigned int getSlotId(size_t i) { return equipment[i].slotid; }
+  void setSlotId(size_t i, unsigned int x) { equipment[i].slotid = x; }
 
   unsigned int getItemId(size_t i) { return equipment[i].itemid; }
   void setItemId(size_t i, unsigned int x) { equipment[i].itemid = x; }
@@ -281,6 +285,7 @@ class AddPlayerEntityMessage : public NetMessage
   class ListEquipment
   {
   public:
+    unsigned int slotid;
     unsigned int itemid;
     unsigned int variation;
     ptString file;
@@ -383,6 +388,9 @@ public:
   }
 
   // --- begin ListEquipment Getter and Setter ---
+
+  unsigned int getSlotId(size_t i) { return equipment[i].slotid; }
+  void setSlotId(size_t i, unsigned int x) { equipment[i].slotid = x; }
 
   unsigned int getItemId(size_t i) { return equipment[i].itemid; }
   void setItemId(size_t i, unsigned int x) { equipment[i].itemid = x; }

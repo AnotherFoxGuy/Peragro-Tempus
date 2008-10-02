@@ -42,6 +42,7 @@ bool AddNpcEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {
+    serial.setInt32(equipment[i].slotid);
     serial.setInt32(equipment[i].itemid);
     serial.setInt32(equipment[i].variation);
     serial.setString(equipment[i].file);
@@ -70,6 +71,7 @@ void AddNpcEntityMessage::deserialise(ByteStream* bs)
   setEquipmentCount(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {
+    equipment[i].slotid = (unsigned int) serial.getInt32();
     equipment[i].itemid = (unsigned int) serial.getInt32();
     equipment[i].variation = (unsigned int) serial.getInt32();
     equipment[i].file = serial.getString();
@@ -173,6 +175,7 @@ bool AddPlayerEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {
+    serial.setInt32(equipment[i].slotid);
     serial.setInt32(equipment[i].itemid);
     serial.setInt32(equipment[i].variation);
     serial.setString(equipment[i].file);
@@ -210,6 +213,7 @@ void AddPlayerEntityMessage::deserialise(ByteStream* bs)
   setEquipmentCount(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {
+    equipment[i].slotid = (unsigned int) serial.getInt32();
     equipment[i].itemid = (unsigned int) serial.getInt32();
     equipment[i].variation = (unsigned int) serial.getInt32();
     equipment[i].file = serial.getString();

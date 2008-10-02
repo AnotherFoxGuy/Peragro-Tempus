@@ -172,6 +172,39 @@ public:
   }
 
   void sendAllItems(Connection* conn);
+
+  template<class T>
+  void addEquipment(T& msg)
+  {
+    unsigned char nrOfItems = 0;
+    for(unsigned char i(0); i<10; i++)
+    {
+      const InventoryEntry& invitem = entries.get(i);
+      if (invitem.id == Item::NoItem)
+        continue;
+      nrOfItems++;
+    }
+
+    msg.setEquipmentCount(nrOfItems);
+    for(unsigned char i(0), n(0); i<10; i++)
+    {
+      const InventoryEntry& invitem = entries.get(i);
+      if (invitem.id == Item::NoItem)
+        continue;
+
+      Item* item = Server::getServer()->getItemManager()->findById(invitem.id);
+      if (item)
+      {
+        msg.setSlotId(n, i);
+        msg.setItemId(n, invitem.id);
+        msg.setVariation(n, invitem.variation);
+        msg.setFile(n, item->getFile());
+        msg.setMesh(n, item->getMesh());
+        n++;
+      }
+    }
+  }
+
 };
 
 #endif // INVENTORY_H_
