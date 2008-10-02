@@ -46,16 +46,21 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   entityEvent->Add("entityId", entmsg.getEntityId());
   entityEvent->Add("entityType", PT::Common::Entity::NPCEntityType);
 
-  // Gets deleted by the event.
-  PT::Events::EntityHelper::EquipmentData* eqData = new PT::Events::EntityHelper::EquipmentData();
-  unsigned char itemCount = entmsg.getEquipmentCount();
-  for (unsigned char i = 0; i < itemCount; i++)
+  csRef<iEvent> list = evmgr->CreateEvent("equipmentList", true);
+  for (unsigned char i = 0; i < entmsg.getEquipmentCount(); i++)
   {
     if (entmsg.getItemId(i) == 0)  continue;
-    eqData->Add(i, entmsg.getItemId(i), entmsg.getVariation(i), *entmsg.getFile(i), *entmsg.getMesh(i));
+    std::stringstream itemName;
+    itemName << "equipment" << "_" << i;
+    csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
+    item->Add("itemId", entmsg.getItemId(i));
+    item->Add("slotId", i);
+    item->Add("variation", entmsg.getVariation(i));
+    item->Add("fileName", *entmsg.getFile(i));
+    item->Add("meshName", *entmsg.getMesh(i));
+    list->Add(itemName.str().c_str(), item);
   }
-
-  entityEvent->Add("equipment", eqData, sizeof(PT::Events::EntityHelper::EquipmentData));
+  entityEvent->Add("equipmentList", list);
 
   evmgr->AddEvent(entityEvent);
 }
@@ -253,16 +258,24 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   entityEvent->Add("entityId", entmsg.getEntityId());
   entityEvent->Add("entityType", PT::Common::Entity::PCEntityType);
 
-  // Gets deleted by the event.
-  PT::Events::EntityHelper::EquipmentData* eqData = new PT::Events::EntityHelper::EquipmentData();
-  unsigned char itemCount = entmsg.getEquipmentCount();
-  for (unsigned char i = 0; i < itemCount; i++)
+  
+
+  csRef<iEvent> list = evmgr->CreateEvent("equipmentList", true);
+  for (unsigned char i = 0; i < entmsg.getEquipmentCount(); i++)
   {
     if (entmsg.getItemId(i) == 0)  continue;
-    eqData->Add(i, entmsg.getItemId(i), entmsg.getVariation(i), *entmsg.getFile(i), *entmsg.getMesh(i));
+    std::stringstream itemName;
+    itemName << "equipment" << "_" << i;
+    csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
+    item->Add("itemId", entmsg.getItemId(i));
+    item->Add("slotId", i);
+    item->Add("variation", entmsg.getVariation(i));
+    item->Add("fileName", *entmsg.getFile(i));
+    item->Add("meshName", *entmsg.getMesh(i));
+    list->Add(itemName.str().c_str(), item);
   }
+  entityEvent->Add("equipmentList", list);
 
-  entityEvent->Add("equipment", eqData, sizeof(PT::Events::EntityHelper::EquipmentData));
   evmgr->AddEvent(entityEvent);
 
   // Pose event.

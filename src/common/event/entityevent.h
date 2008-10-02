@@ -50,61 +50,6 @@ namespace PT
     struct EntityHelper
     {
       /**
-       * Provides helper functions for equipment data.
-       */
-      struct EquipmentData
-      {
-        /**
-         * Structure to store equipment data passed with an entity event.
-         */
-        struct Equipment
-        {
-          /// The slot ID.
-          unsigned int slotId;
-          /// The item ID.
-          unsigned int itemId;
-          /// The variation ID.
-          unsigned int variation;
-          /// The file name.
-          std::string file;
-          /// The mesh name.
-          std::string mesh;
-        };
-        /// The array of equipment.
-        csArray<Equipment> equipment;
-
-        /// Destructor.
-        ~EquipmentData()
-        {
-          equipment.DeleteAll();
-        }
-
-        /**
-         * Add an item of equipment to the array.
-         * @param slotId The slot ID.
-         * @param itemId The item ID.
-         * @param variation The variation ID.
-         * @param file The file name.
-         * @param mesh The mesh name.
-         */
-        void Add(unsigned int slotId, unsigned int itemId, unsigned int variation, const char* file, const char* mesh)
-        {
-          Equipment eq;
-          eq.slotId = slotId;
-          eq.itemId = itemId;
-          eq.variation = variation;
-          eq.file = file;
-          eq.mesh = mesh;
-          equipment.Push(eq);
-        }
-
-        /// Returns the size of the equipment array.
-        size_t GetSize() { return equipment.GetSize(); }
-        /// Returns the equipment item at the index from the array.
-        Equipment Get(size_t idx) { return equipment.Get(idx); }
-      };
-
-      /**
        * Returns a string with the event name and an ID appended.
        * @param eventname The event name.
        * @param id The event ID.
@@ -124,25 +69,14 @@ namespace PT
        * @param ev An entity event.
        * @return The equipment data.
        */
-      static EquipmentData* GetEquipment(const iEvent* ev)
+      static iEvent* GetEquipment(const iEvent* ev)
       {
-        const void* constEquipment = 0;
-        size_t size = sizeof(EquipmentData);
-        if (ev->Retrieve("equipment", constEquipment, size) != csEventErrNone)
+        csRef<iEvent> equipment;
+        if (ev->Retrieve("equipmentList", equipment) != csEventErrNone)
         {
           Report(PT::Error, "EntityHelper::GetEquipment failed!");
           return 0;
         }
-
-        EquipmentData* equipment = 0;
-        void* temp = const_cast<void*>(constEquipment);
-        equipment = static_cast<EquipmentData*>(temp);
-        if (!equipment)
-        {
-          Report(PT::Error, "EntityHelper::GetEquipment failed!");
-          return 0;
-        }
-
         return equipment;
       }
 

@@ -123,11 +123,21 @@ namespace PT
 
       //Add the equipment
       using namespace Events;
-      EntityHelper::EquipmentData* evequipment = EntityHelper::GetEquipment(&ev);
+      csRef<iEvent> evequipment = EntityHelper::GetEquipment(&ev);
       if (evequipment)
       {
-        for(size_t i = 0; i < evequipment->GetSize(); i++)
-          equipment.Equip(evequipment->Get(i).slotId, evequipment->Get(i).itemId, evequipment->Get(i).mesh, evequipment->Get(i).file);
+        csRef<iEventAttributeIterator> items = evequipment->GetAttributeIterator();
+        while (items->HasNext())
+        {
+          csRef<iEvent> item; evequipment->Retrieve(items->Next(), item);
+          unsigned int slotId, itemId;
+          std::string mesh, file;
+          item->Retrieve("slotId", slotId);
+          item->Retrieve("itemId", itemId);
+          mesh = PT::Events::EntityHelper::GetString(item, "meshName");
+          file = PT::Events::EntityHelper::GetString(item, "fileName");
+          equipment.Equip(slotId, itemId, mesh, file);
+        } 
       }
       else
         Report(PT::Error, "PlayerEntity: failed to get equipment!");
