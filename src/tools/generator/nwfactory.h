@@ -44,6 +44,7 @@ public:
   void createPeer(const char* name);
   void createPeerSendMsg(const char* peerName, const char* msgName);
   void createPeerReceiveMsg(const char* peerName, const char* msgName);
+  void createMessageEvent(const char* msgName, const char* eventName);
   void createMessageParameter(const char* msgName, const char* paramName, const char* type);
   void createListParameter(const char* msgName, const char* listName, const char* paramName, const char* type);
 

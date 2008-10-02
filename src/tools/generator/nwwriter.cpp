@@ -116,7 +116,7 @@ void nwWriter::writeNetwork(std::ofstream& out)
   out << "#endif // NWTYPES_H\n";
 }
 
-void nwWriter::writeParamDefinition(std::ofstream& out, nwParams* param)
+void nwWriter::writeParamDeclaration(std::ofstream& out, nwParams* param)
 {
   if (param->type == nwParamType::STRING)
   {
@@ -652,7 +652,7 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
     for (size_t j = 0; j < msg->params.size(); j++)
     {
       nwParams* param = msg->params[j];
-      writeParamDefinition(out, param);
+      writeParamDeclaration(out, param);
     }
 
     out << "\n"
@@ -853,4 +853,103 @@ void nwWriter::writeHandler(std::ofstream& out, nwPeer* peer, nwType* type)
   out << "};\n\n";
 
   out << "#endif // " << toConst(type->name).c_str() << "HANDLER_H\n";
+}
+
+
+void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwType* type)
+{
+  writeLicenceHeader(out);
+
+  out << "#include \"client/network/network.h\"\n\n";
+
+  out << "#include \"common/event/eventmanager.h\"\n";
+  out << "#include \"common/event/entityevent.h\"\n\n";
+  out << "#include \"client/pointer/pointer.h\"\n\n";
+
+
+  for (size_t i = 0; i < peer->recvMsg.size(); i++)
+  {
+    nwMessage* msg = peer->recvMsg[i];
+    if (!msg || msg->type != type)
+      continue;
+
+    out << "void " << type->name << "Handler::" << "handle" << msg->name << "(GenericMessage* msg)\n"
+    << "{\n"
+
+    << "  " << msg->name.c_str() << "Message" << " pmsg;\n"
+    << "  pmsg.deserialise(msg->getByteStream());\n\n"
+
+    << "  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();\n"
+    << "  csRef<iEvent> pEvent = evmgr->CreateEvent(\"" << msg->eventName << "\", true);\n";
+
+    for (size_t i = 0; i < msg->params.size(); i++)
+    {
+      nwParams* param = msg->params[i];
+      writeParam(out, param, "pEvent", "", 0);
+    }
+
+    out << "\n";
+    out << "  evmgr->AddEvent(pEvent);\n";
+
+    out << "}; // end " << "handle" << msg->name.c_str() << "\n\n";
+  }
+}
+
+std::string nwWriter::toGetFunction(std::string str, std::string arg)
+{
+  std::string funct = "get";
+  funct += str + "(";
+  funct += arg + ")";
+  return funct;
+}
+
+void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string& eventname, const std::string& arg, size_t indent)
+{
+  std::string indt = "  ";
+  for (size_t j = 0; j < indent; j++)
+  {
+    indt += "  ";
+  }
+
+  // results in "paramName".
+  std::string paramNameStr = "\"" + toFunction(param->name) + "\"";
+
+  if (param->type == nwParamType::STRING || param->type == nwParamType::COLOUR24) 
+  {
+    // if its a ptString or uchar*, derefrence it.
+    std::string value = "*pmsg.";
+    value += toGetFunction(param->name, arg);
+    out << indt << eventname << "->Add(" << paramNameStr << ", " << value << ");\n";
+  }
+  else if (param->type == nwParamType::VECTOR3F)
+  {
+    std::string value = "pmsg.";
+    value += toGetFunction(param->name, arg);
+    out << indt << "PT::Events::EntityHelper::SetPosition(" << eventname << ", " << value << ");\n";
+  }
+  else if (param->type == nwParamType::LIST)
+  {
+    std::string listName = "\"" + toFunction(param->name) + "List\"";
+    out << indt << "csRef<iEvent> list = evmgr->CreateEvent(" << listName  << ", true);\n"
+        << indt << "for (unsigned char i = 0; i < pmsg.get" << param->name << "Count(); i++)\n"
+        << indt << "{\n"
+        << indt << "  std::stringstream itemName;\n" 
+        << indt << "  itemName << " << paramNameStr << " << \"_\" << i;\n"
+        << indt << "  csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);\n";
+    for (size_t j = 0; j < param->params.size(); j++)
+    {
+      nwParams* listParam = param->params[j];   
+      writeParam(out, listParam, "item", "i", indent + 1);
+    }
+    out << indt <<  "  list" << "->Add(itemName.str().c_str(), item);\n";
+    out << indt << "}\n";
+    out << indt <<  eventname << "->Add(" << listName << ", list);\n";
+    
+  }
+  else
+  {
+    std::string value = "pmsg.";
+    value += toGetFunction(param->name, arg);
+    out << indt << eventname << "->Add(" << paramNameStr << ", " << value << ");\n";
+  }
 }

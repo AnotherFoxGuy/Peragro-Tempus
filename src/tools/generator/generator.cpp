@@ -86,5 +86,24 @@ bool Generator::generateNetwork()
     }
   }
 
+  /* EXPERIMENTAL
+  nwPeer* client = network->getPeer("Client");
+  for ( size_t j=1; j<network->types.size(); j++)
+  {
+    std::string file("src/");
+    std::string pathname = client->name;
+    std::transform(pathname.begin(), pathname.end(), pathname.begin(), tolower);
+    file.append(pathname.c_str());
+    file.append("/network/");
+    std::string filename = network->types[j]->name;
+    std::transform(filename.begin(), filename.end(), filename.begin(), tolower);
+    file.append(filename.c_str());
+    file.append("handler.cpp");
+    std::ofstream type_file(file.c_str());
+    std::cout << "- writing " << file.c_str() <<"\n";
+    writer.writeHandlerImplementation(type_file, client, network->types[j]);
+  }
+  */
+
   return true;
 }

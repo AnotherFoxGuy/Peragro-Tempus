@@ -162,9 +162,14 @@ void nwXmlParser::parseParams(TiXmlElement* parentNode)
     if (text)
     {
       const char* paramName = text->Value();
-      factory->createMessageParameter(msgName, paramName, node->Value());
-      if (!strncmp(node->Value(), "list", 4))
-        parseParamsList(node);
+      if (!strncmp(node->Value(), "event", 4))
+        factory->createMessageEvent(msgName, paramName);
+      else
+      {
+        factory->createMessageParameter(msgName, paramName, node->Value());
+        if (!strncmp(node->Value(), "list", 4))
+          parseParamsList(node);
+      }
     }
     else
     {

@@ -31,7 +31,7 @@ class nwWriter
   std::string toFunction(std::string str);
   std::string toVariable(std::string str);
   void writeLicenceHeader(std::ofstream& out);
-  void writeParamDefinition(std::ofstream& out, nwParams* param);
+  void writeParamDeclaration(std::ofstream& out, nwParams* param);
   void writeParamSerialisation(std::ofstream& out, nwParams* param);
   void writeParamDeserialisation(std::ofstream& out, nwParams* param);
   void writeParamGetterSetter(std::ofstream& out, nwParams* param);
@@ -40,6 +40,9 @@ class nwWriter
   void writeParamListDeserialisation(std::ofstream& out, std::string listname, nwParams* param);
   void writeParamListGetterSetter(std::ofstream& out, std::string listname, nwParams* param);
 
+  void writeParam(std::ofstream& out, nwParams* param, const std::string& eventname, const std::string& arg, size_t indent);
+  std::string toGetFunction(std::string str, std::string arg ="");
+
 public:
   nwWriter(nwNetwork* nw);
 
@@ -47,4 +50,5 @@ public:
   void writeTypeHead(std::ofstream& out, nwType* type);
   void writeTypeImpl(std::ofstream& out, nwType* type);
   void writeHandler(std::ofstream& out, nwPeer* peer, nwType* type);
+  void writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwType* type);
 };
