@@ -9,6 +9,7 @@
 		<uint32>EntityId</uint32>
 		<uint8>PoseId</uint8>
 		<list name="Equipment">
+			<uint32>SlotId</uint32>
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>
 			<string>File</string>
@@ -52,6 +53,7 @@
 		<uint32>EntityId</uint32>
 		<uint8>PoseId</uint8>
 		<list name="Equipment">
+			<uint32>SlotId</uint32>
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>
 			<string>File</string>
