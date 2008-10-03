@@ -85,7 +85,7 @@ namespace PT
 
         if (evmgr->IsKindOf(id, "entity.add"))
         {
-          if (EntityHelper::GetEntityType(&ev) == PT::Common::Entity::PCEntityType)
+          if (EntityHelper::GetEntityType(&ev, evmgr) == PT::Common::Entity::PCEntityType)
           {
             const char * nick = 0;
             ev.Retrieve("entityName", nick);

@@ -50,8 +50,11 @@ namespace PT
   {
     Entity::Entity(const iEvent& ev)
     {
+      using namespace PT::Events;
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
       id = PT::Events::EntityHelper::GetEntityID(&ev);
-      type = (Common::Entity::EntityType)PT::Events::EntityHelper::GetEntityType(&ev);
+      type = (Common::Entity::EntityType)PT::Events::EntityHelper::GetEntityType(&ev, evmgr);
       name = PT::Events::EntityHelper::GetString(&ev, "entityName");
       meshName = PT::Events::EntityHelper::GetString(&ev, "meshName");
       fileName = PT::Events::EntityHelper::GetString(&ev, "fileName");

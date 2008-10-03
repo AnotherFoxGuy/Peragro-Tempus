@@ -175,13 +175,25 @@ namespace PT
        * @param ev An entity event.
        * @return The entity's type.
        */
-      static unsigned int GetEntityType(const iEvent* event)
+      static unsigned int GetEntityType(const iEvent* event, EventManager* evmgr)
       {
-        unsigned int type = -1;
-        if (event->Retrieve("entityType", type) != csEventErrNone)
-          Report(PT::Error, "EntityHelper::GetEntityType failed!");
-
-        return type;
+        const csStringID id = event->Name;
+        if (evmgr->IsKindOf(id, "entity.add.pc"))
+            return 0;
+        else if (evmgr->IsKindOf(id, "entity.add.npc"))
+          return 1;
+        else if (evmgr->IsKindOf(id, "entity.add.door"))
+          return 2;
+        else if (evmgr->IsKindOf(id, "entity.add.item"))
+          return 3;
+        else if (evmgr->IsKindOf(id, "entity.add.mount"))
+          return 4;
+        else if (evmgr->IsKindOf(id, "entity.add.teleport"))
+          return 5;
+        else if (evmgr->IsKindOf(id, "entity.add.player"))
+          return 0;
+        else
+          return -1;
       }
 
       /**

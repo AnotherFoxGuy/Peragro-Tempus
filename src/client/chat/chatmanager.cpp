@@ -381,11 +381,13 @@ namespace PT
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
-      std::string id = PointerLibrary::getInstance()->getEventManager()->Retrieve(ev.GetName());
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
+      std::string id = evmgr->Retrieve(ev.GetName());
 
       if (id.compare("entity.add") == 0)
       {
-        if (EntityHelper::GetEntityType(&ev) == PT::Common::Entity::PCEntityType)
+        if (EntityHelper::GetEntityType(&ev, evmgr) == PT::Common::Entity::PCEntityType)
         {
           const char * nick = 0;
           ev.Retrieve("entityName", nick);

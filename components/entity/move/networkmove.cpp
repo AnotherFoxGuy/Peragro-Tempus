@@ -112,7 +112,8 @@ bool ComponentNetworkMove::Move(iEvent& ev)
   error = ev.Retrieve("turnDirection", turn);
   error = ev.Retrieve("run", run);
   error = ev.Retrieve("jump", jump);
-  error = ev.Retrieve("local", local);
+  if (ev.AttributeExists("local"))
+    error = ev.Retrieve("local", local);
 
   if (error != csEventErrNone)
   {
