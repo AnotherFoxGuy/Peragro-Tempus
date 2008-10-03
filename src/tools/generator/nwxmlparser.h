@@ -35,8 +35,9 @@ private:
   void parseMsgDefType(TiXmlElement* parentNode);
   void parseMessageImplementations(TiXmlElement* parentNode);
   void parseMessageImplementation(TiXmlElement* parentNode);
-  void parseParams(TiXmlElement* node);
-  void parseParamsList(TiXmlElement* parentNode);
+  void parseEvent(TiXmlElement* parentNode);
+  void parseParams(TiXmlElement* parentNode, const char* msgName, const char* eventName, const char* entitySpecific);
+  void parseParamsList(TiXmlElement* parentNode, const char* msgName, const char* listName);
 
   // for temporary storage between the functions
   std::string fileroot;

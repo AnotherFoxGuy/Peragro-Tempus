@@ -19,6 +19,8 @@
 #include "nwxmlparser.h"
 #include "nwfactory.h"
 
+#include "network.h"
+
 #include "ext/tinyxml/tinyxml.h"
 
 #include <iostream>
@@ -143,17 +145,29 @@ void nwXmlParser::parseMessageImplementation(TiXmlElement* parentNode)
   TiXmlElement* node = parentNode->FirstChildElement("message");
   while ( node )
   {
-    parseParams(node);
+    parseEvent(node);
     node = node->NextSiblingElement("message");
   }
 }
 
-void nwXmlParser::parseParams(TiXmlElement* parentNode)
+void nwXmlParser::parseEvent(TiXmlElement* parentNode)
 {
-  TiXmlElement* msgNode = parentNode;
+  const char* msgName = parentNode->Attribute("name");
 
-  const char* msgName = msgNode->Attribute("name");
+  TiXmlElement* node = parentNode->FirstChildElement("event");
+  if (!node)
+    parseParams(parentNode, msgName, "", "");
+  while ( node )
+  {
+    const char* eventName = node->Attribute("name");
+    const char* entitySpecific = node->Attribute("specific");
+    parseParams(node, msgName, eventName, entitySpecific);
+    node = node->NextSiblingElement("event");
+  }
+}
 
+void nwXmlParser::parseParams(TiXmlElement* parentNode, const char* msgName, const char* eventName, const char* entitySpecific)
+{
   TiXmlElement* node = parentNode->FirstChildElement();
   while ( node )
   {
@@ -162,13 +176,17 @@ void nwXmlParser::parseParams(TiXmlElement* parentNode)
     if (text)
     {
       const char* paramName = text->Value();
-      if (!strncmp(node->Value(), "event", 4))
-        factory->createMessageEvent(msgName, paramName);
+      nwParams* param = factory->getNetwork()->getMessage(msgName)->getParam(paramName);
+      bool spec = (strcmp(paramName, entitySpecific) == 0);
+      if (param)
+      {
+        param->eventNames[eventName]= spec;
+      }
       else
       {
-        factory->createMessageParameter(msgName, paramName, node->Value());
-        if (!strncmp(node->Value(), "list", 4))
-          parseParamsList(node);
+      factory->createMessageParameter(msgName, paramName, node->Value(), eventName, spec);
+      if (!strncmp(node->Value(), "list", 4))
+        parseParamsList(node, msgName, paramName);
       }
     }
     else
@@ -181,26 +199,18 @@ void nwXmlParser::parseParams(TiXmlElement* parentNode)
         name << "unnamed" << nameless;
         node->SetAttribute("name", name.str().c_str());
       }
-      factory->createMessageParameter(msgName, node->Attribute("name"), node->Value());
+      bool spec = (strcmp(node->Attribute("name"), entitySpecific) == 0);
+      factory->createMessageParameter(msgName, node->Attribute("name"), node->Value(), eventName, spec);
       if (!strncmp(node->Value(), "list", 4))
-        parseParamsList(node);
+        parseParamsList(node, msgName, node->Attribute("name"));
     }
 
     node = node->NextSiblingElement();
   }
 }
 
-void nwXmlParser::parseParamsList(TiXmlElement* parentNode)
+void nwXmlParser::parseParamsList(TiXmlElement* parentNode, const char* msgName, const char* listName)
 {
-  TiXmlElement* msgNode = parentNode;
-
-  while (!strncmp(msgNode->Value(), "list", 4))
-    msgNode = parentNode->Parent()->ToElement();
-
-  const char* msgName = msgNode->Attribute("name");
-
-  const char* listName = parentNode->Attribute("name");
-
   TiXmlElement* node = parentNode->FirstChildElement();
   while ( node )
   {
@@ -211,7 +221,7 @@ void nwXmlParser::parseParamsList(TiXmlElement* parentNode)
       const char* paramName = text->Value();
       factory->createListParameter(msgName, listName, paramName, node->Value());
       if (!strncmp(node->Value(), "list", 4))
-        parseParamsList(node);
+        parseParamsList(node, msgName, paramName);
     }
 
     node = node->NextSiblingElement();

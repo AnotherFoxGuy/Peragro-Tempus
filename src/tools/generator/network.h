@@ -18,6 +18,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 class nwNetwork;
 class nwPeer;
@@ -65,8 +66,6 @@ public:
   std::string name;
   nwType* type;
 
-  std::string eventName;
-
   std::vector<nwParams*> params;
 
   nwParams* getParam(const char*);
@@ -94,6 +93,8 @@ class nwParams
 public:
   std::string name;
   nwParamType::Type type;
+
+  std::map<std::string, bool> eventNames;
 
   // only used for lists
   std::vector<nwParams*> params;

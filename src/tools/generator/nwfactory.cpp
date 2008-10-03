@@ -90,17 +90,12 @@ void nwFactory::createPeerReceiveMsg(const char* peerName, const char* msgName)
   hasher.process_bytes(msgName, strlen(msgName));
 }
 
-void nwFactory::createMessageEvent(const char* msgName, const char* eventName)
-{
-  nwMessage* msg = nw->getMessage(msgName);
-  msg->eventName = eventName;
-}
-
-void nwFactory::createMessageParameter(const char* msgName, const char* paramName, const char* type)
+void nwFactory::createMessageParameter(const char* msgName, const char* paramName, const char* type, const char* eventName, bool entitySpecific)
 {
   nwMessage* msg = nw->getMessage(msgName);
   nwParams* param = new nwParams();
   param->name = paramName;
+  param->eventNames[eventName] = entitySpecific;
   msg->params.push_back(param);
 
   if (!strncmp(type, "string", 6))

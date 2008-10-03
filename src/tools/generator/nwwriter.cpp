@@ -52,7 +52,7 @@ void nwWriter::writeLicenceHeader(std::ofstream& out)
 {
   out <<
     "/*\n"
-    "    Copyright (C) 2005 Development Team of Peragro Tempus\n\n"
+    "    Copyright (C) 2008 Development Team of Peragro Tempus\n\n"
 
     "    This program is free software; you can redistribute it and/or modify\n"
     "    it under the terms of the GNU General Public License as published by\n"
@@ -866,7 +866,6 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
   out << "#include \"common/event/entityevent.h\"\n\n";
   out << "#include \"client/pointer/pointer.h\"\n\n";
 
-
   for (size_t i = 0; i < peer->recvMsg.size(); i++)
   {
     nwMessage* msg = peer->recvMsg[i];
@@ -875,21 +874,69 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
 
     out << "void " << type->name << "Handler::" << "handle" << msg->name << "(GenericMessage* msg)\n"
     << "{\n"
-
     << "  " << msg->name.c_str() << "Message" << " pmsg;\n"
-    << "  pmsg.deserialise(msg->getByteStream());\n\n"
+    << "  pmsg.deserialise(msg->getByteStream());\n\n";
+    out << "  using namespace PT::Events;\n";
+    out << "  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();\n";
 
-    << "  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();\n"
-    << "  csRef<iEvent> pEvent = evmgr->CreateEvent(\"" << msg->eventName << "\", true);\n";
-
+    typedef std::map<std::string, std::vector<nwParams*> > EventAndParams;
+    EventAndParams eventAndParams;
     for (size_t i = 0; i < msg->params.size(); i++)
     {
       nwParams* param = msg->params[i];
-      writeParam(out, param, "pEvent", "", 0);
+      std::map<std::string, bool>::iterator it;
+      for(it = param->eventNames.begin(); it!=param->eventNames.end(); ++it)
+      {
+        eventAndParams[it->first].push_back(param);
+      }
     }
 
-    out << "\n";
-    out << "  evmgr->AddEvent(pEvent);\n";
+    EventAndParams::iterator it;
+    for(it = eventAndParams.begin(); it!=eventAndParams.end(); ++it)
+    {
+      std::string eventName = it->first;
+
+      if(eventName.empty())
+      {
+        out << "\n  // @todo Implement me!\n\n";
+        continue;
+      }
+
+      nwParams* entSpecPar = 0;
+      for (size_t i = 0; i < it->second.size(); i++)
+      {
+        if(it->second[i]->eventNames[eventName])
+        {
+          entSpecPar = it->second[i];
+          break;
+        }
+      }
+      
+      std::string indt = "  ";
+      out << indt << "{\n";
+      indt = "    ";
+      out << indt << "csRef<iEvent> pEvent = evmgr->CreateEvent("; 
+      if(entSpecPar)
+      {
+        out << "EntityHelper::MakeEntitySpecific(";
+        out << "\"" << eventName << "\"";
+        out << ", pmsg." << toGetFunction(entSpecPar->name)<< ")";
+      }
+      else
+        out << "\"" << eventName << "\"";
+      out << ", true);\n";
+
+      for (size_t i = 0; i < it->second.size(); i++)
+      {
+        nwParams* param = it->second[i];
+        writeParam(out, param, "pEvent", "", 1);
+      }
+
+      out << indt << "\n";
+      out << indt << "evmgr->AddEvent(pEvent);\n";
+      indt = "  ";
+      out << indt << "}\n\n";
+    }
 
     out << "}; // end " << "handle" << msg->name.c_str() << "\n\n";
   }
@@ -919,13 +966,18 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
     // if its a ptString or uchar*, derefrence it.
     std::string value = "*pmsg.";
     value += toGetFunction(param->name, arg);
+    if (param->type == nwParamType::STRING)
+      value = value + "?" + value + ":\"\""; // Don't add 0 values!
     out << indt << eventname << "->Add(" << paramNameStr << ", " << value << ");\n";
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
     std::string value = "pmsg.";
     value += toGetFunction(param->name, arg);
-    out << indt << "PT::Events::EntityHelper::SetPosition(" << eventname << ", " << value << ");\n";
+    if (param->name == "Pos")
+      out << indt << "PT::Events::EntityHelper::SetPosition(" << eventname << ", " << value << ");\n";
+    else
+      out << indt << "PT::Events::EntityHelper::SetVector3(" << eventname << ", " << paramNameStr << ", "<< value << ");\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -943,8 +995,7 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
     }
     out << indt <<  "  list" << "->Add(itemName.str().c_str(), item);\n";
     out << indt << "}\n";
-    out << indt <<  eventname << "->Add(" << listName << ", list);\n";
-    
+    out << indt <<  eventname << "->Add(" << listName << ", list);\n"; 
   }
   else
   {
