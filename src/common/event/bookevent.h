@@ -46,7 +46,7 @@ namespace PT
       static std::string GetTitle(const iEvent* event)
       {
         const char* titlestr = "";
-        if (event->Retrieve("title", titlestr) != csEventErrNone)
+        if (event->Retrieve("bookName", titlestr) != csEventErrNone)
           Report(PT::Error, "BookHelper::GetTitle failed!");
 
         std::string title = titlestr;
