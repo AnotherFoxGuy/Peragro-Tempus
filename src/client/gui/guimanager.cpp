@@ -262,7 +262,7 @@ namespace PT
 
         isInitialized = true;
       }
-      catch ( CEGUI::Exception& e )
+      catch ( CEGUI::Exception& e)
       {
         Report(PT::Error, "Failed Initializing GUIManager! %s",
           e.getMessage().c_str());

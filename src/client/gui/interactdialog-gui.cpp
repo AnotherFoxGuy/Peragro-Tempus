@@ -282,7 +282,7 @@ namespace PT
         name += action;
 
         normal = "set:InteractionIcons image:";
-        int x = normal.length();
+        size_t x = normal.length();
         normal += action;
         normal[x] += 'a' - 'A';
         hover = normal;

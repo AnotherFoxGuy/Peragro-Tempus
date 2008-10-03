@@ -1,8 +1,10 @@
 <message-implementation>
 	<message type="Chat" name="Chat">
+          <event name="chat.say" specific="None">
 		<string>SpeakerName</string> <!-- null if client sends -->
 		<uint8>Volume</uint8> <!-- 0xFF = broadcast, 0 = whisper -->
 		<text>Message</text>
+          </event>
 	</message>
 
 	<message type="Chat" name="WhisperTo">
@@ -11,8 +13,10 @@
 	</message>
 	
 	<message type="Chat" name="Group">
+          <event name="chat.group" specific="None">
 		<string>SpeakerName</string> <!-- null if client sends -->
 		<string>Channel</string>
 		<text>Message</text>
+          </event>
 	</message>
 </message-implementation>

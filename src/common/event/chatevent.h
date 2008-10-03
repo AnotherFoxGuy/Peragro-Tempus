@@ -46,7 +46,7 @@ namespace PT
       static std::string GetNickName(const iEvent* event)
       {
         const char* nickstr = "";
-        if (event->Retrieve("nickName", nickstr) != csEventErrNone)
+        if (event->Retrieve("speakerName", nickstr) != csEventErrNone)
           Report(PT::Error, "ChatHelper::GetNickName failed!");
 
         std::string nick = nickstr;
@@ -66,6 +66,19 @@ namespace PT
 
         std::string message = messagestr;
         return message;
+      }
+
+      /**
+       * Gets the volume a message is send with.
+       * @param event The event.
+       * @return The volume.
+       */
+      static unsigned int GetVolume(const iEvent* event)
+      {
+        unsigned int volume = 0;
+        if (event->Retrieve("volume", volume) != csEventErrNone)
+          Report(PT::Error, "ChatHelper::GetVolume failed!");
+        return volume;
       }
 
     };

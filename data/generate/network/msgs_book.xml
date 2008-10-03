@@ -5,8 +5,10 @@
 	</message>
 
 	<message type="Book" name="BookReadResponse">
+          <event name="book.read" specific="None">
 		<string>BookName</string>
 		<text>Text</text> <!-- Limited to 400 byte, compressed! -->
+          </event>
 	</message>
 
 	<message type="Book" name="BookWriteRequest">
@@ -17,8 +19,10 @@
 	</message>
 
 	<message type="Book" name="BookWriteResponse">
+          <event name="book.write" specific="None">
 		<uint32>BookId</uint32>
 		<string>Error</string> <!-- null is successful -->
+          </event>
 	</message>
 </message-implementation>
 

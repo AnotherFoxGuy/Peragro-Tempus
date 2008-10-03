@@ -101,6 +101,10 @@ namespace PT
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
+      // It's a whisper.
+      if (ChatHelper::GetVolume(&ev) == 0) 
+        return HandleWhisper(ev);
+
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
 
@@ -298,7 +302,7 @@ namespace PT
         if (it->get()->CommandHandled(cmd))
         {
           try{ it->get()->Execute(args); }
-          catch (BadUsage& err)
+          catch (BadUsage& /*err*/)
           {
             using namespace PT::GUI;
             using namespace PT::GUI::Windows;

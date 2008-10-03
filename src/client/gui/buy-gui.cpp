@@ -180,7 +180,7 @@ namespace PT
         msg.setIsBuy(1);
 
         // Make the offer list.
-        msg.setOrdersCount(objandslot.GetSize());
+        msg.setOrdersCount((unsigned char)objandslot.GetSize());
         Report(PT::Debug, "------------------------------------------");
         Report(PT::Debug, "BuyWindow: Creating Trade Offer List Pvp");
         for (size_t i=0; i<objandslot.GetSize(); i++)

@@ -204,7 +204,7 @@ namespace PT
         csArray<Inventory::ObjectAndSlot> objandslot = trade1->GetAllObjects();
 
         // Make the offer list.
-        msg.setOffersCount(objandslot.GetSize());
+        msg.setOffersCount((unsigned char)objandslot.GetSize());
         Report(PT::Debug, "------------------------------------------");
         Report(PT::Debug, "TradeWindow: Creating Offer List Pvp for %d items",
           objandslot.GetSize());
