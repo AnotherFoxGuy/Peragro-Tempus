@@ -38,8 +38,8 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.add", true);
 
-  entityEvent->Add("entityName", *entmsg.getName());
-  entityEvent->Add("meshName", *entmsg.getMesh());
+  entityEvent->Add("entityName", *entmsg.getEntityName());
+  entityEvent->Add("meshName", *entmsg.getMeshName());
   PT::Events::EntityHelper::SetPosition(entityEvent, entmsg.getPos());
   entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
@@ -55,8 +55,8 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
     item->Add("itemId", entmsg.getItemId(i));
     item->Add("slotId", entmsg.getSlotId(i));
     item->Add("variation", entmsg.getVariation(i));
-    item->Add("fileName", *entmsg.getFile(i));
-    item->Add("meshName", *entmsg.getMesh(i));
+    item->Add("fileName", *entmsg.getFileName(i));
+    item->Add("meshName", *entmsg.getMeshName(i));
     list->Add(itemName.str().c_str(), item);
   }
   entityEvent->Add("equipmentList", list);
@@ -73,8 +73,8 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.add", true);
 
-  entityEvent->Add("entityName", *entmsg.getName());
-  entityEvent->Add("meshName", *entmsg.getMesh());
+  entityEvent->Add("entityName", *entmsg.getEntityName());
+  entityEvent->Add("meshName", *entmsg.getMeshName());
   entityEvent->Add("fileName", "none");
   // Door has no position.
   PT::Events::EntityHelper::SetPosition(entityEvent, PtVector3(0.0f));
@@ -85,7 +85,7 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
   entityEvent->Add("typeId", entmsg.getDoorId());
   entityEvent->Add("locked", entmsg.getIsLocked());
   entityEvent->Add("open", entmsg.getIsOpen());
-  entityEvent->Add("animationName", *entmsg.getAnimation());
+  entityEvent->Add("animationName", *entmsg.getAnimationName());
 
   evmgr->AddEvent(entityEvent);
 }
@@ -114,8 +114,8 @@ void EntityHandler::handleMove(GenericMessage* msg)
   csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.move", entmsg.getEntityId()), true);
 
   entityEvent->Add("entityId", entmsg.getEntityId());
-  entityEvent->Add("walkDirection", entmsg.getWalk());
-  entityEvent->Add("turnDirection", entmsg.getTurn());
+  entityEvent->Add("walkDirection", entmsg.getWalkDirection());
+  entityEvent->Add("turnDirection", entmsg.getTurnDirection());
   entityEvent->Add("run", entmsg.getRun());
   entityEvent->Add("jump", entmsg.getJump());
   entityEvent->Add("local", false);
@@ -128,21 +128,17 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
   PickResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
 
-  if (response_msg.getError().isNull())
-  {
-    PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-    csRef<iEvent> entityEvent = evmgr->CreateEvent("trade.pickup", true);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> entityEvent = evmgr->CreateEvent("trade.pickup", true);
 
-    entityEvent->Add("itemId", response_msg.getItemId());
-    entityEvent->Add("variationId", response_msg.getVariation());
-    entityEvent->Add("slotId", response_msg.getSlotId());
-    entityEvent->Add("name", *response_msg.getName());
-    entityEvent->Add("icon", *response_msg.getIcon());
+  entityEvent->Add("itemId", response_msg.getItemId());
+  entityEvent->Add("variationId", response_msg.getVariation());
+  entityEvent->Add("slotId", response_msg.getSlotId());
+  entityEvent->Add("name", *response_msg.getName());
+  entityEvent->Add("icon", *response_msg.getIcon());
+  entityEvent->Add("error", *response_msg.getError()?*response_msg.getError():"");
 
-    evmgr->AddEvent(entityEvent);
-  }
-  else
-    Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", response_msg.getItemId(), *response_msg.getError());
+  evmgr->AddEvent(entityEvent);
 }
 
 void EntityHandler::handleDropResponse(GenericMessage* msg)
@@ -150,17 +146,13 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
   DropResponseMessage response_msg;
   response_msg.deserialise(msg->getByteStream());
 
-  if (response_msg.getError().isNull())
-  {
-    PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-    csRef<iEvent> entityEvent = evmgr->CreateEvent("trade.drop", true);
+  PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  csRef<iEvent> entityEvent = evmgr->CreateEvent("trade.drop", true);
 
-    entityEvent->Add("slotId", response_msg.getSlotId());
+  entityEvent->Add("slotId", response_msg.getSlotId());
+  entityEvent->Add("error", *response_msg.getError()?*response_msg.getError():"");
 
-    evmgr->AddEvent(entityEvent);
-  }
-  else
-    Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", response_msg.getSlotId(), *response_msg.getError());
+  evmgr->AddEvent(entityEvent);
 }
 
 void EntityHandler::handleDrUpdate(GenericMessage* msg)
@@ -196,8 +188,8 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
   csRef<iEvent> entityEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.moveto", move_msg.getEntityId()), true);
 
   entityEvent->Add("entityId", move_msg.getEntityId());
-  PT::Events::EntityHelper::SetVector3(entityEvent, "origin", fv1);
-  PT::Events::EntityHelper::SetVector3(entityEvent, "destination", fv2);
+  PT::Events::EntityHelper::SetVector3(entityEvent, "from", fv1);
+  PT::Events::EntityHelper::SetVector3(entityEvent, "to", fv2);
   entityEvent->Add("speed", move_msg.getSpeed());
 
   evmgr->AddEvent(entityEvent);
@@ -216,8 +208,8 @@ void EntityHandler::handleEquip(GenericMessage* msg)
   entityEvent->Add("entityId", equip_msg.getEntityId());
   entityEvent->Add("slotId", equip_msg.getSlotId());
   entityEvent->Add("itemId", equip_msg.getItemId());
-  entityEvent->Add("mesh", *equip_msg.getMesh()?*equip_msg.getMesh():"NULL");
-  entityEvent->Add("file", *equip_msg.getFile()?*equip_msg.getFile():"NULL");
+  entityEvent->Add("meshName", *equip_msg.getMeshName()?*equip_msg.getMeshName():"NULL");
+  entityEvent->Add("fileName", *equip_msg.getFileName()?*equip_msg.getFileName():"NULL");
 
   evmgr->AddEvent(entityEvent);
 }
@@ -249,8 +241,8 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.add", true);
 
-  entityEvent->Add("entityName", *entmsg.getName());
-  entityEvent->Add("meshName", *entmsg.getMesh());
+  entityEvent->Add("entityName", *entmsg.getEntityName());
+  entityEvent->Add("meshName", *entmsg.getMeshName());
   PT::Events::EntityHelper::SetPosition(entityEvent, entmsg.getPos());
   entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
@@ -268,8 +260,8 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
     item->Add("itemId", entmsg.getItemId(i));
     item->Add("slotId", entmsg.getSlotId(i));
     item->Add("variation", entmsg.getVariation(i));
-    item->Add("fileName", *entmsg.getFile(i));
-    item->Add("meshName", *entmsg.getMesh(i));
+    item->Add("fileName", *entmsg.getFileName(i));
+    item->Add("meshName", *entmsg.getMeshName(i));
     list->Add(itemName.str().c_str(), item);
   }
   entityEvent->Add("equipmentList", list);
@@ -296,9 +288,9 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
   csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.add", true);
 
   entityEvent->Add("typeId", entmsg.getItemId());
-  entityEvent->Add("entityName", *entmsg.getName());
-  entityEvent->Add("meshName", *entmsg.getMesh());
-  entityEvent->Add("fileName", *entmsg.getFile());
+  entityEvent->Add("entityName", *entmsg.getEntityName());
+  entityEvent->Add("meshName", *entmsg.getMeshName());
+  entityEvent->Add("fileName", *entmsg.getFileName());
   PT::Events::EntityHelper::SetPosition(entityEvent, entmsg.getPos());
   entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
@@ -317,8 +309,8 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.add", true);
 
-  entityEvent->Add("entityName", *entmsg.getName());
-  entityEvent->Add("meshName", *entmsg.getMesh());
+  entityEvent->Add("entityName", *entmsg.getEntityName());
+  entityEvent->Add("meshName", *entmsg.getMeshName());
   PT::Events::EntityHelper::SetPosition(entityEvent, entmsg.getPos());
   entityEvent->Add("rotation", entmsg.getRotation());
   entityEvent->Add("sectorId", entmsg.getSectorId());
@@ -338,8 +330,7 @@ void EntityHandler::handleMount(GenericMessage* msg)
 
   entityEvent->Add("entityId", mount_msg.getPlayerEntityId());
   entityEvent->Add("mountId", mount_msg.getMountEntityId());
-  entityEvent->Add("control", mount_msg.getCanControl());
-  entityEvent->Add("mount", true);
+  entityEvent->Add("canControl", mount_msg.getCanControl());
 
   evmgr->AddEvent(entityEvent);
 }
@@ -350,12 +341,10 @@ void EntityHandler::handleUnmount(GenericMessage* msg)
   mount_msg.deserialise(msg->getByteStream());
 
   PT::Events::EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.mount", true);
+  csRef<iEvent> entityEvent = evmgr->CreateEvent("entity.unmount", true);
 
   entityEvent->Add("entityId", mount_msg.getPlayerEntityId());
   entityEvent->Add("mountId", mount_msg.getMountEntityId());
-  entityEvent->Add("control", false);
-  entityEvent->Add("mount", false);
 
   evmgr->AddEvent(entityEvent);
 }

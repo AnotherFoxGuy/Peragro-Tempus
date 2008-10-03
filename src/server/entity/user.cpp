@@ -67,10 +67,10 @@ void User::sendAddEntity(const Entity* entity)
     msg.setEntityId(entity->getId());
     msg.setIsOpen(entity->getDoorEntity()->getOpen());
     msg.setIsLocked(entity->getDoorEntity()->getLocked());
-    msg.setAnimation(entity->getDoorEntity()->getAnimation());
-    msg.setMesh(entity->getMesh());
+    msg.setAnimationName(entity->getDoorEntity()->getAnimation());
+    msg.setMeshName(entity->getMesh());
     msg.setSectorId(entity->getSector());
-    msg.setName(entity->getName());
+    msg.setEntityName(entity->getName());
     msg.serialise(&bs);
   }
   else if (entity->getType() == Entity::ItemEntityType)
@@ -84,18 +84,18 @@ void User::sendAddEntity(const Entity* entity)
     msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
 
-    msg.setName(item->getName());
-    msg.setFile(item->getFile());
-    msg.setMesh(item->getMesh());
+    msg.setEntityName(item->getName());
+    msg.setFileName(item->getFile());
+    msg.setMeshName(item->getMesh());
 
     msg.serialise(&bs);
   }
   else if (entity->getType() == Entity::PlayerEntityType)
   {
     AddPlayerEntityMessage msg;
-    msg.setName(entity->getName());
+    msg.setEntityName(entity->getName());
     msg.setEntityId(entity->getId());
-    msg.setMesh(entity->getMesh());
+    msg.setMeshName(entity->getMesh());
     msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setPos(entity->getPos());
@@ -115,9 +115,9 @@ void User::sendAddEntity(const Entity* entity)
   else if (entity->getType() == Entity::NPCEntityType)
   {
     AddNpcEntityMessage msg;
-    msg.setName(entity->getName());
+    msg.setEntityName(entity->getName());
     msg.setEntityId(entity->getId());
-    msg.setMesh(entity->getMesh());
+    msg.setMeshName(entity->getMesh());
     msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());
@@ -130,9 +130,9 @@ void User::sendAddEntity(const Entity* entity)
   else if (entity->getType() == Entity::MountEntityType)
   {
     AddMountEntityMessage msg;
-    msg.setName(entity->getName());
+    msg.setEntityName(entity->getName());
     msg.setEntityId(entity->getId());
-    msg.setMesh(entity->getMesh());
+    msg.setMeshName(entity->getMesh());
     msg.setMeshId(0); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setPos(entity->getPos());

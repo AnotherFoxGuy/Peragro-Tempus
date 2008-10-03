@@ -241,8 +241,8 @@ bool ComponentNetworkMove::MoveTo(iEvent& ev)
   if (moveTo) delete moveTo;
   moveTo = new MoveToData();
 
-  csVector3 pos_ori = EntityHelper::GetVector3(&ev, "origin");
-  csVector3 pos_dst = EntityHelper::GetVector3(&ev, "destination");
+  csVector3 pos_ori = EntityHelper::GetVector3(&ev, "from");
+  csVector3 pos_dst = EntityHelper::GetVector3(&ev, "to");
 
   float speed = 0.0f;
   ev.Retrieve("speed", speed);

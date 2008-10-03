@@ -84,6 +84,7 @@ namespace PT
       REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.remove")
       REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.equip")
       REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.mount")
+      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.unmount")
       REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.pose")
       REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.stat.add.player")
 
@@ -119,6 +120,8 @@ namespace PT
             Equip(*ev);
           else if (evmgr->IsKindOf(id, "entity.mount"))
             Mount(*ev);
+          else if (evmgr->IsKindOf(id, "entity.umount"))
+            UnMount(*ev);
           else if (evmgr->IsKindOf(id, "entity.pose"))
             EntityPose(*ev);
           else if (PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.stat.add.player"))
@@ -292,10 +295,10 @@ namespace PT
       ev.Retrieve("slotId", slotId);
 
       const char* mesh = "(Null)";
-      ev.Retrieve("mesh", mesh);
+      ev.Retrieve("meshName", mesh);
 
       const char* file = "(Null)";
-      ev.Retrieve("file", file);
+      ev.Retrieve("fileName", file);
 
       Report(PT::Debug, "Equip for '%d': item %d in slot %d with mesh %s from file %s", id, itemId, slotId, mesh, file);
 
@@ -329,31 +332,49 @@ namespace PT
       unsigned int mountId = -1;
       ev.Retrieve("mountId", mountId);
 
-      bool mounting = false;
-      ev.Retrieve("mount", mounting);
+      bool canControl = false;
+      ev.Retrieve("canControl", canControl);
 
       Entity* entity = findPtEntById(entityId);
       Entity* mount = findPtEntById(mountId);
       if (entity && mount)
       {
         if ((entity->GetType() == Common::Entity::PlayerEntityType ||
-            entity->GetType() == Common::Entity::PCEntityType) &&
-            mount->GetType() == Common::Entity::MountEntityType)
+          entity->GetType() == Common::Entity::PCEntityType) &&
+          mount->GetType() == Common::Entity::MountEntityType)
         {
           MountEntity* m = static_cast<MountEntity*>(mount);
-          if (mounting)
-          {
-            m->Mount(entity);
-            //Set camera to follow the mount after mounting. Only done for player's mount.
-            //TODO: This is just a temporary solution. It will not work nicely with boats etc.
-            if (playerId == entity->GetId()) PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
-          }
-          else
-          {
-            m->UnMount(entity);
-            //Set camera to follow the player. See the TODO comment above.
-            if (playerId == entity->GetId()) PlayerEntity::Instance()->GetCamera()->SetFollowEntity(PlayerEntity::Instance()->GetCelEntity());
-          }
+          m->Mount(entity);
+          //Set camera to follow the mount after mounting. Only done for player's mount.
+          //TODO: This is just a temporary solution. It will not work nicely with boats etc.
+          if (playerId == entity->GetId()) PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
+        }
+      }
+
+      return true;
+    }
+
+    bool EntityManager::UnMount(iEvent& ev)
+    {
+      using namespace PT::Events;
+
+      unsigned int entityId = EntityHelper::GetEntityID(&ev);
+
+      unsigned int mountId = -1;
+      ev.Retrieve("mountId", mountId);
+
+      Entity* entity = findPtEntById(entityId);
+      Entity* mount = findPtEntById(mountId);
+      if (entity && mount)
+      {
+        if ((entity->GetType() == Common::Entity::PlayerEntityType ||
+          entity->GetType() == Common::Entity::PCEntityType) &&
+          mount->GetType() == Common::Entity::MountEntityType)
+        {
+          MountEntity* m = static_cast<MountEntity*>(mount);
+          m->UnMount(entity);
+          //Set camera to follow the player. See the TODO comment above.
+          if (playerId == entity->GetId()) PlayerEntity::Instance()->GetCamera()->SetFollowEntity(PlayerEntity::Instance()->GetCelEntity());
         }
       }
 

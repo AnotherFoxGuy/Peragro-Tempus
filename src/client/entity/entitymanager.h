@@ -96,6 +96,7 @@ namespace PT
       bool RemoveEntity(iEvent& ev);
       bool Equip(iEvent& ev);
       bool Mount(iEvent& ev);
+      bool UnMount(iEvent& ev);
       /**
        * Handler for received EntityPose events.
        * @param ev Entity pose event to be processed.

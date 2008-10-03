@@ -212,8 +212,8 @@ bool CombatManager::AttackRequest(Character* lockedAttackerCharacter,
         unequip_msg.setEntityId(lockedTargetCharacter->getEntity()->getId());
         unequip_msg.setSlotId(slot);
         unequip_msg.setItemId(Item::NoItem); // No Item!
-        unequip_msg.setFile(ptString::Null);
-        unequip_msg.setMesh(ptString::Null);
+        unequip_msg.setFileName(ptString::Null);
+        unequip_msg.setMeshName(ptString::Null);
         ByteStream bs;
         unequip_msg.serialise(&bs);
         NetworkHelper::localcast(bs, lockedTargetCharacter->getEntity());

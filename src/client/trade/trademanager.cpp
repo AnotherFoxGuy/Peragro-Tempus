@@ -62,25 +62,33 @@ namespace PT
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
+      const char* error = "";
+      ev.Retrieve("error", error);
+
       unsigned int itemId = -1;
       ev.Retrieve("itemId", itemId);
 
-      unsigned int variationId = -1;
-      ev.Retrieve("variationId", variationId);
+      if (error[0] == 0)
+      {
+        unsigned int variationId = -1;
+        ev.Retrieve("variationId", variationId);
 
-      const char* name = "";
-      ev.Retrieve("name", name);
+        const char* name = "";
+        ev.Retrieve("name", name);
 
-      const char* icon = "";
-      ev.Retrieve("icon", icon);
+        const char* icon = "";
+        ev.Retrieve("icon", icon);
 
-      unsigned int slotId = -1;
-      ev.Retrieve("slotId", slotId);
+        unsigned int slotId = -1;
+        ev.Retrieve("slotId", slotId);
 
-      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      if (!guimanager) return true;
-      InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-      inventoryWindow->AddItem(itemId, variationId, name, icon, slotId);
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        if (!guimanager) return true;
+        InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
+        inventoryWindow->AddItem(itemId, variationId, name, icon, slotId);
+      }
+      else
+        Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", itemId, error);
 
       return true;
     }
@@ -90,13 +98,21 @@ namespace PT
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
+      const char* error = "";
+      ev.Retrieve("error", error);
+
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);
 
-      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      if (!guimanager) return true;
-      InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-      inventoryWindow->RemoveItem(slotId);
+      if (error[0] == 0)
+      {
+        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+        if (!guimanager) return true;
+        InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
+        inventoryWindow->RemoveItem(slotId);
+      }
+      else
+        Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", slotId, error);
 
       return true;
     }

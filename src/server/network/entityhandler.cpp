@@ -75,8 +75,8 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
     response_msg.setRun(false);
   }
 
-  response_msg.setWalk((float)(request_msg.getWalk()-1)*speed*acc);
-  response_msg.setTurn((float)(request_msg.getTurn()-1));
+  response_msg.setWalkDirection((float)(request_msg.getWalkDirection()-1)*speed*acc);
+  response_msg.setTurnDirection((float)(request_msg.getTurnDirection()-1));
   response_msg.setJump(request_msg.getJump());
   response_msg.setEntityId(name_id);
   ByteStream bs;
@@ -204,8 +204,8 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
           equip_msg.setEntityId(user_ent->getId());
           if (item) equip_msg.setItemId(item->getId());
           equip_msg.setSlotId(slot);
-          equip_msg.setFile(item->getFile());
-          equip_msg.setMesh(item->getMesh());
+          equip_msg.setFileName(item->getFile());
+          equip_msg.setMeshName(item->getMesh());
 
           ByteStream bs;
           equip_msg.serialise(&bs);
@@ -291,8 +291,8 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     unequip_msg.setEntityId(user_ent->getId());
     unequip_msg.setSlotId(slot_id);
     unequip_msg.setItemId(Item::NoItem); // No Item!
-    unequip_msg.setFile(ptString::Null);
-    unequip_msg.setMesh(ptString::Null);
+    unequip_msg.setFileName(ptString::Null);
+    unequip_msg.setMeshName(ptString::Null);
     ByteStream bs;
     unequip_msg.serialise(&bs);
     NetworkHelper::localcast(bs, user_ent);
@@ -485,8 +485,8 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   // Don't run into the horse!
   MoveMessage mmsg;
   mmsg.setEntityId(user_ent->getId());
-  mmsg.setWalk(0);
-  mmsg.setTurn(0);
+  mmsg.setWalkDirection(0);
+  mmsg.setTurnDirection(0);
   mmsg.setJump(false);
   mmsg.setRun(false);
 

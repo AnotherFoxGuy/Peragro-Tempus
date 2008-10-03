@@ -198,8 +198,8 @@ public:
         msg.setSlotId(n, i);
         msg.setItemId(n, invitem.id);
         msg.setVariation(n, invitem.variation);
-        msg.setFile(n, item->getFile());
-        msg.setMesh(n, item->getMesh());
+        msg.setFileName(n, item->getFile());
+        msg.setMeshName(n, item->getMesh());
         n++;
       }
     }
