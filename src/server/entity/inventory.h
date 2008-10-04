@@ -21,6 +21,7 @@
 
 #include "item.h"
 #include "server/database/table-inventory.h"
+#include "itemmanager.h"
 
 class Connection;
 
