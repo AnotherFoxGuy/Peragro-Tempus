@@ -76,7 +76,7 @@ namespace PT
       static size_t GetMinutesPerHour(const iEvent* event)
       {
         size_t minutesPerHour = 0;
-        if (event->Retrieve("minutesperhour", minutesPerHour) != csEventErrNone)
+        if (event->Retrieve("minutesPerHour", minutesPerHour) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetMinutesPerHour failed!");
 
         return minutesPerHour;
@@ -90,7 +90,7 @@ namespace PT
       static size_t GetHoursPerDay(const iEvent* event)
       {
         size_t hoursPerDay = 0;
-        if (event->Retrieve("hoursperday", hoursPerDay) != csEventErrNone)
+        if (event->Retrieve("hoursPerDay", hoursPerDay) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetHoursPerDay failed!");
 
         return hoursPerDay;
@@ -104,7 +104,7 @@ namespace PT
       static size_t GetRealPerGame(const iEvent* event)
       {
         size_t realPerGame = 0;
-        if (event->Retrieve("realpergame", realPerGame) != csEventErrNone)
+        if (event->Retrieve("realPerGame", realPerGame) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetRealPerGame failed!");
 
         return realPerGame;
