@@ -42,7 +42,7 @@ void BookHandler::handleBookReadResponse(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleBookReadResponse
+} // end handleBookReadResponse
 
 void BookHandler::handleBookWriteResponse(GenericMessage* msg)
 {
@@ -59,5 +59,5 @@ void BookHandler::handleBookWriteResponse(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleBookWriteResponse
+} // end handleBookWriteResponse
 

@@ -59,16 +59,14 @@ namespace PT
 
     bool TradeManager::PickUp(iEvent& ev)
     {
+      using namespace PT::Events;
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
-
-      const char* error = "";
-      ev.Retrieve("error", error);
 
       unsigned int itemId = -1;
       ev.Retrieve("itemId", itemId);
 
-      if (error[0] == 0)
+      if (Helper::HasError(&ev))
       {
         unsigned int variationId = -1;
         ev.Retrieve("variationId", variationId);
@@ -88,23 +86,21 @@ namespace PT
         inventoryWindow->AddItem(itemId, variationId, name, icon, slotId);
       }
       else
-        Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", itemId, error);
+        Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", itemId, Helper::GetError(&ev).c_str());
 
       return true;
     }
 
     bool TradeManager::Drop(iEvent& ev)
     {
+      using namespace PT::Events;
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
-
-      const char* error = "";
-      ev.Retrieve("error", error);
 
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);
 
-      if (error[0] == 0)
+      if (Helper::HasError(&ev))
       {
         GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
         if (!guimanager) return true;
@@ -112,7 +108,7 @@ namespace PT
         inventoryWindow->RemoveItem(slotId);
       }
       else
-        Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", slotId, error);
+        Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", slotId, Helper::GetError(&ev).c_str());
 
       return true;
     }

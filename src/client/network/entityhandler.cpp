@@ -69,7 +69,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleAddNpcEntity
+} // end handleAddNpcEntity
 
 void EntityHandler::handleAddItemEntity(GenericMessage* msg)
 {
@@ -93,7 +93,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleAddItemEntity
+} // end handleAddItemEntity
 
 void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
 {
@@ -116,7 +116,7 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleAddDoorEntity
+} // end handleAddDoorEntity
 
 void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
 {
@@ -163,7 +163,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleAddPlayerEntity
+} // end handleAddPlayerEntity
 
 void EntityHandler::handleRemoveEntity(GenericMessage* msg)
 {
@@ -179,7 +179,7 @@ void EntityHandler::handleRemoveEntity(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleRemoveEntity
+} // end handleRemoveEntity
 
 void EntityHandler::handleMove(GenericMessage* msg)
 {
@@ -199,7 +199,7 @@ void EntityHandler::handleMove(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleMove
+} // end handleMove
 
 void EntityHandler::handlePickResponse(GenericMessage* msg)
 {
@@ -223,7 +223,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handlePickResponse
+} // end handlePickResponse
 
 void EntityHandler::handleDropResponse(GenericMessage* msg)
 {
@@ -240,7 +240,7 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleDropResponse
+} // end handleDropResponse
 
 void EntityHandler::handleEquip(GenericMessage* msg)
 {
@@ -261,7 +261,7 @@ void EntityHandler::handleEquip(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleEquip
+} // end handleEquip
 
 void EntityHandler::handleMoveTo(GenericMessage* msg)
 {
@@ -283,7 +283,7 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleMoveTo
+} // end handleMoveTo
 
 void EntityHandler::handleTeleportResponse(GenericMessage* msg)
 {
@@ -302,7 +302,7 @@ void EntityHandler::handleTeleportResponse(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleTeleportResponse
+} // end handleTeleportResponse
 
 void EntityHandler::handleDrUpdate(GenericMessage* msg)
 {
@@ -321,7 +321,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleDrUpdate
+} // end handleDrUpdate
 
 void EntityHandler::handleAddMountEntity(GenericMessage* msg)
 {
@@ -344,7 +344,7 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleAddMountEntity
+} // end handleAddMountEntity
 
 void EntityHandler::handleMount(GenericMessage* msg)
 {
@@ -362,7 +362,7 @@ void EntityHandler::handleMount(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleMount
+} // end handleMount
 
 void EntityHandler::handleUnmount(GenericMessage* msg)
 {
@@ -379,7 +379,7 @@ void EntityHandler::handleUnmount(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleUnmount
+} // end handleUnmount
 
 void EntityHandler::handlePose(GenericMessage* msg)
 {
@@ -396,5 +396,5 @@ void EntityHandler::handlePose(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handlePose
+} // end handlePose
 

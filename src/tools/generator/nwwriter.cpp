@@ -938,7 +938,7 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
       out << indt << "}\n\n";
     }
 
-    out << "}; // end " << "handle" << msg->name.c_str() << "\n\n";
+    out << "} // end " << "handle" << msg->name.c_str() << "\n\n";
   }
 }
 

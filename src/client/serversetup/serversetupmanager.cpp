@@ -272,7 +272,7 @@ namespace PT
 
         size_t j = 0;
 
-        npcmsg.setAiSettingCount(settings.size());
+        npcmsg.setAiSettingCount((unsigned char)settings.size());
         std::map<std::string, std::string>::const_iterator it_s;
         for (it_s = settings.begin(); it_s != settings.end(); ++it_s)
         {
@@ -284,7 +284,7 @@ namespace PT
         j = 0;
 
         // TODO: Inventory
-        npcmsg.setInventoryCount(inventory.size());
+        npcmsg.setInventoryCount((unsigned char)inventory.size());
         std::map<int, std::pair<int, int> >::const_iterator it_i;
         for (it_i = inventory.begin(); it_i != inventory.end(); ++it_i)
         {
@@ -318,7 +318,7 @@ namespace PT
         SetupDialogsMessage dialogsmsg;
         dialogsmsg.setDeleteExisting(i==0);
         Array<PT::Data::NpcDialog*> dialogs = npcs[i]->GetDialogs();
-        dialogsmsg.setDialogsCount(dialogs.getCount());
+        dialogsmsg.setDialogsCount((unsigned char)dialogs.getCount());
         for (size_t d_i=0; d_i<dialogs.getCount(); d_i++)
         {
           dialogsmsg.setNpcName(d_i, name);
@@ -327,7 +327,7 @@ namespace PT
           dialogsmsg.setValue(d_i, dialogs[d_i]->value.c_str());
         }
         Array<PT::Data::NpcAnswer*> answers = npcs[i]->GetDialogAnswers();
-        dialogsmsg.setAnswersCount(answers.getCount());
+        dialogsmsg.setAnswersCount((unsigned char)answers.getCount());
         for (size_t a_i=0; a_i<answers.getCount(); a_i++)
         {
           dialogsmsg.setAnswerNpcName(a_i, name);
@@ -391,7 +391,7 @@ namespace PT
         CreateZoneMessage zonemsg;
         zonemsg.setZoneId(zoneid);
         zonemsg.setZoneType(zonetype);
-        zonemsg.setNodesCount(zones[i]->GetSize());
+        zonemsg.setNodesCount((unsigned char)zones[i]->GetSize());
         for(size_t a_i=0; a_i<zones[i]->GetSize(); a_i++)
         {
           zonemsg.setX(a_i, zones[i]->GetNode(a_i).x);

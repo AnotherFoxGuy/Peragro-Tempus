@@ -74,18 +74,18 @@ namespace PT
       ///@return State of door - open (true) or closed (false).
       bool GetOpen() const { return open; }
       ///Set the door's state to a given. True for open, false for closed.
-      void SetOpen(bool value) { open = value; }
+      void SetOpen(bool value);
 
       ///@return Door's lock state - locked (true) or unlocked (false).
       bool GetLocked() const { return locked; }
       ///Set the door's lock status to given value.
-      void SetLocked(bool value) { locked = value; }
+      void SetLocked(bool value);
 
-      /**
-       * Updates iPcProperties of a CEL entity. See CEL documentation for more
-       * details.
-       */
-      bool UpdatePcProp(iEvent& ev);
+      bool Open(iEvent& ev);
+      bool Close(iEvent& ev);
+
+      bool Lock(iEvent& ev);
+      bool Unlock(iEvent& ev);
 
       void Interact();
 

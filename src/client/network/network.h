@@ -24,6 +24,8 @@
 #include "client/network/connectionhandler.h"
 #include "client/network/tcp/tcpreceiver.h"
 
+#pragma warning(disable:4355)
+
 class Network
 {
 private:

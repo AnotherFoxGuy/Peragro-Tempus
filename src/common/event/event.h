@@ -44,7 +44,7 @@ namespace PT
        * Print all the event's attributes to the console.
        * @param event The event.
        */
-      void DisplayEvent(iEvent* event)
+      static void DisplayEvent(iEvent* event)
       {
         csRef<iEventAttributeIterator> it = event->GetAttributeIterator();
         Report(PT::Debug, "------------------");
@@ -56,6 +56,28 @@ namespace PT
         }
         Report(PT::Debug, "------------------");
       }
+
+       static bool HasError(iEvent* event)
+       {
+         bool error = event->AttributeExists("error");
+         if (error)
+         {
+           const char* errorStr = "";
+           event->Retrieve("error", errorStr);
+           error = errorStr[0] == 0;
+         }
+         return error;
+       }
+
+       static std::string GetError(iEvent* event)
+       {
+         const char* str = "";
+         if (event->Retrieve("error", str) != csEventErrNone)
+           Report(PT::Error, "Helper::HasError failed!");
+
+         std::string text = str;
+         return text;
+       }
     };
 
   } // Events namespace

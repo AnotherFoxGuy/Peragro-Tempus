@@ -52,7 +52,10 @@ namespace PT
 
       ///@TODO: Move this to a component?
       SETUP_HANDLER
-      REGISTER_LISTENER(DoorEntity, UpdatePcProp, "entity.pcpropupdate")
+      REGISTER_LISTENER_ENTITY_ID(DoorEntity, Open, "entity.door.open", doorId)
+      REGISTER_LISTENER_ENTITY_ID(DoorEntity, Close, "entity.door.close", doorId)
+      REGISTER_LISTENER_ENTITY_ID(DoorEntity, Lock, "entity.door.lock", doorId)
+      REGISTER_LISTENER_ENTITY_ID(DoorEntity, Unlock, "entity.door.unlock", doorId)
     }
 
     DoorEntity::~DoorEntity()
@@ -100,48 +103,79 @@ namespace PT
       pcquest->GetQuest()->SwitchState("closed");
     }
 
-    bool DoorEntity::UpdatePcProp(iEvent& ev)
+    void DoorEntity::SetOpen(bool value)
+    {
+      csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcProperties);
+      pcprop->SetProperty("Door Open", value);
+      this->open = value;
+    } //end SetOpen()
+
+    void DoorEntity::SetLocked(bool value)
+    {
+      csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcProperties);
+      pcprop->SetProperty("Door Locked", value);
+      this->locked = value;
+    } //end SetLocked()
+
+    bool DoorEntity::Open(iEvent& ev)
     {
       using namespace PT::Events;
-
-      const char* prop = 0;
-      ev.Retrieve("pcprop", prop);
-
-      bool data = false;
-      ev.Retrieve("celdata", data);
-      celData celdata;
-      celdata.Set(data);
-
-      csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,
-        iPcProperties);
-
-      switch(celdata.type)
+      Report(PT::Debug, "DoorEntity: Got open door %d.", doorId);
+      if (Helper::HasError(&ev))
       {
-      case CEL_DATA_BOOL:
-        pcprop->SetProperty(prop, celdata.value.bo);
-        break;
-      case CEL_DATA_LONG:
-        pcprop->SetProperty(prop, (long) celdata.value.l);
-        break;
-      case CEL_DATA_STRING:
-        pcprop->SetProperty(prop, celdata.value.s);
-        break;
-      default:
-        Report(PT::Error, "celData type not supported by updatePcProp!");
+        ///@TODO: Open a gui dialog here.
+        Report(PT::Error, "Can't open %d! Reason: '%s'.", doorId, Helper::GetError(&ev).c_str());
       }
-
-      if (celdata.type == CEL_DATA_BOOL)
-      {
-        csString state = prop;
-        if (state.CompareNoCase("Door Open"))
-          this->SetOpen(celdata.value.bo);
-
-        if (state.CompareNoCase("Door Locked"))
-          this->SetLocked(celdata.value.bo);
-      }
+      else
+        this->SetOpen(true);
 
       return false;
-    } //end UpdatePcProp()
+    } //end Open()
+
+    bool DoorEntity::Close(iEvent& ev)
+    {
+      using namespace PT::Events;
+      Report(PT::Debug, "DoorEntity: Got close door %d.", doorId);
+      if (Helper::HasError(&ev))
+      {
+        ///@TODO: Open a gui dialog here.
+        Report(PT::Error, "Can't close %d! Reason: '%s'.", doorId, Helper::GetError(&ev).c_str());
+      }
+      else
+        this->SetOpen(false);
+
+      return false;
+    } //end Close()
+
+    bool DoorEntity::Lock(iEvent& ev)
+    {
+      using namespace PT::Events;
+      Report(PT::Debug, "DoorEntity: Got lock door %d.", doorId);
+      if (Helper::HasError(&ev))
+      {
+        ///@TODO: Open a gui dialog here.
+        Report(PT::Error, "Can't lock %d! Reason: '%s'.", doorId, Helper::GetError(&ev).c_str());
+      }
+      else
+        this->SetLocked(true);
+
+      return false;
+    } //end Lock()
+
+    bool DoorEntity::Unlock(iEvent& ev)
+    {
+      using namespace PT::Events;
+      Report(PT::Debug, "DoorEntity: Got unlock door %d.", doorId);
+      if (Helper::HasError(&ev))
+      {
+        ///@TODO: Open a gui dialog here.
+        Report(PT::Error, "Can't unlock %d! Reason: '%s'.", doorId, Helper::GetError(&ev).c_str());
+      }
+      else
+        this->SetLocked(false);
+
+      return false;
+    } //end Unlock()
 
     void DoorEntity::Interact()
     {

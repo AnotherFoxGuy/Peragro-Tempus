@@ -43,7 +43,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleChat
+} // end handleChat
 
 void ChatHandler::handleGroup(GenericMessage* msg)
 {
@@ -61,5 +61,5 @@ void ChatHandler::handleGroup(GenericMessage* msg)
     evmgr->AddEvent(pEvent);
   }
 
-}; // end handleGroup
+} // end handleGroup
 

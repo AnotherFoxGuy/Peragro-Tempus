@@ -60,6 +60,17 @@ REGISTER_LISTENER2(Class, funct, ev, FUNC(funct))     \
 #define REGISTER_LISTENER_ENTITY(Class, funct, ev, specific)  \
 REGISTER_LISTENER_E2(Class, funct, ev, specific, FUNC(funct)) \
 
+/**
+ * A macro to help register an entity eventhandler.
+ * @param Class The class which is registering the eventhandler.
+ * @param funct The function which will handle the event.
+ * @param ev The event which to subscribe to.
+ * @param id The id of the entity.
+ */
+#undef REGISTER_LISTENER_ENTITY_ID
+#define REGISTER_LISTENER_ENTITY_ID(Class, funct, ev, id)  \
+REGISTER_LISTENER_ID2(Class, funct, ev, id, FUNC(funct)) \
+
 // Some macro magic to generate unique variable names.
 #define FUNC2(x,y) cb##x##y
 #define FUNC1(x,y) FUNC2(x,y)
@@ -85,6 +96,13 @@ if (specific)                                                                   
  evmgr->AddListener(EntityHelper::MakeEntitySpecific(ev, entity->GetId()), var);      \
 else                                                                                  \
  evmgr->AddListener(ev, var);                                                         \
+eventHandlers.Push(var);                                                              \
+//-------------------------------------------------------------------------------------
+#define REGISTER_LISTENER_ID2(Class, funct, ev, id, var)                              \
+using namespace PT::Events;                                                           \
+csRef<EventHandlerCallback> var;                                                      \
+var.AttachNew(new EventHandler</**/Class>(&/**/Class::/**/funct, this));              \
+evmgr->AddListener(EntityHelper::MakeEntitySpecific(ev, id), var);                    \
 eventHandlers.Push(var);                                                              \
 //-------------------------------------------------------------------------------------
 

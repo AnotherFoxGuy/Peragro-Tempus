@@ -237,7 +237,7 @@ namespace PT
             char direction;
             float distance;
             // Loop over the arguments starting with the first direction
-            int commandIndex = 3, commands = args.size();
+            size_t commandIndex = 3, commands = args.size();
             while (commandIndex < commands)
             {
               if (!args[commandIndex].empty())
