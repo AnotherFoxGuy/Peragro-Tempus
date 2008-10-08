@@ -64,7 +64,7 @@ namespace PT
          {
            const char* errorStr = "";
            event->Retrieve("error", errorStr);
-           error = errorStr[0] == 0;
+           error = errorStr[0] != 0;
          }
          return error;
        }

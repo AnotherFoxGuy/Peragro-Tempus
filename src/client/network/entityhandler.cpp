@@ -209,7 +209,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
-    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.pickup", true);
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.inventory.pickup", true);
     pEvent->Add("itemId", pmsg.getItemId());
     pEvent->Add("variation", pmsg.getVariation());
     pEvent->Add("slotId", pmsg.getSlotId());
@@ -233,7 +233,7 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
-    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.drop", true);
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.inventory.drop", true);
     pEvent->Add("slotId", pmsg.getSlotId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
     

@@ -124,7 +124,7 @@ namespace PT
             UnMount(*ev);
           else if (evmgr->IsKindOf(id, "entity.pose"))
             EntityPose(*ev);
-          else if (PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.stat.add.player"))
+          else if (PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.stat.list.player"))
             evmgr->AddEvent(ev);
         }
         if (world_loaded && statePlay && !PlayerEntity::Instance())

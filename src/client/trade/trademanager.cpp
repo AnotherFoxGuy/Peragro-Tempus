@@ -45,70 +45,12 @@ namespace PT
     bool TradeManager::Initialize()
     {
       SETUP_HANDLER
-      REGISTER_LISTENER(TradeManager, PickUp, "trade.pickup")
-      REGISTER_LISTENER(TradeManager, Drop, "trade.drop")
 
       // Create and Initialize the PlayerInventory.
       delete playerinventory;
       playerinventory = new PT::Trade::PlayerInventory ();
       if (!playerinventory->Initialize())
         return Report(PT::Error, "Failed to initialize PlayerInventory!");
-
-      return true;
-    }
-
-    bool TradeManager::PickUp(iEvent& ev)
-    {
-      using namespace PT::Events;
-      using namespace PT::GUI;
-      using namespace PT::GUI::Windows;
-
-      unsigned int itemId = -1;
-      ev.Retrieve("itemId", itemId);
-
-      if (Helper::HasError(&ev))
-      {
-        unsigned int variationId = -1;
-        ev.Retrieve("variationId", variationId);
-
-        const char* name = "";
-        ev.Retrieve("name", name);
-
-        const char* icon = "";
-        ev.Retrieve("icon", icon);
-
-        unsigned int slotId = -1;
-        ev.Retrieve("slotId", slotId);
-
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if (!guimanager) return true;
-        InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-        inventoryWindow->AddItem(itemId, variationId, name, icon, slotId);
-      }
-      else
-        Report(PT::Notify, "You can't pick Item %d! Reason: '%s'.", itemId, Helper::GetError(&ev).c_str());
-
-      return true;
-    }
-
-    bool TradeManager::Drop(iEvent& ev)
-    {
-      using namespace PT::Events;
-      using namespace PT::GUI;
-      using namespace PT::GUI::Windows;
-
-      unsigned int slotId = -1;
-      ev.Retrieve("slotId", slotId);
-
-      if (Helper::HasError(&ev))
-      {
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if (!guimanager) return true;
-        InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-        inventoryWindow->RemoveItem(slotId);
-      }
-      else
-        Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", slotId, Helper::GetError(&ev).c_str());
 
       return true;
     }

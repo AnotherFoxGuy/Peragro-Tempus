@@ -31,6 +31,11 @@
 //#include "client/entity/player/playerentity.h"
 //#include "client/entity/pc/pcentity.h"
 
+/*
+#include "client/gui/gui.h"
+#include "client/gui/guimanager.h"
+*/
+
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
@@ -59,7 +64,7 @@ bool ComponentStats::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
   // TODO: Listen to one of the two, not both.
   // But entityType isn't known at this point.
   REGISTER_LISTENER_ENTITY(ComponentStats, AddStat, "entity.stat.add", true)
-  REGISTER_LISTENER_ENTITY(ComponentStats, AddStat, "entity.stat.add.player", false)
+  REGISTER_LISTENER_ENTITY(ComponentStats, List, "entity.stat.list.player", false)
 
   REGISTER_LISTENER_ENTITY(ComponentStats, UpdateStat, "entity.stat.change", true)
 
@@ -90,6 +95,26 @@ bool ComponentStats::UpdateStat(iEvent& ev)
   return true;
 } // end UpdateStat()
 
+bool ComponentStats::List(iEvent& ev)
+{
+  using namespace PT::Events;
+
+  csRef<iEvent> list;
+  if (ev.Retrieve("statsList", list) == csEventErrNone)
+  {
+    csRef<iEventAttributeIterator> stats = list->GetAttributeIterator();
+    while (stats->HasNext())
+    {
+      csRef<iEvent> stat; list->Retrieve(stats->Next(), stat);
+      AddStat(*stat);
+    } // end while
+  }
+  else
+    pointerlib->getReporter()->Report(PT::Error, "ComponentStats failed to get statsList!");
+
+  return true;
+} // end List()
+
 bool ComponentStats::AddStat(iEvent& ev)
 {
   using namespace PT::Events;
@@ -103,6 +128,22 @@ bool ComponentStats::AddStat(iEvent& ev)
   ev.Retrieve("id", stat.id);
 
   stats.push_back(stat);
+
+  /*@TODO: Should this really be here?
+  I mean you'd have to link against client-gui etc...
+  Do find another place!
+  if (entity->GetType() == PT::Common::Entity::PlayerEntityType)
+  {
+    using namespace PT::GUI;
+    using namespace PT::GUI::Windows;
+    GUIManager* guimanager = pointerlib->getGUIManager();
+    if (!guimanager) return true;
+    StatusWindow* statusWindow = guimanager->GetWindow<StatusWindow>(STATUSWINDOW);
+    if (!statusWindow) return true;
+    statusWindow->AddSkill(stat.name.c_str(), stat.level);
+  }
+  */
+
   return true;
 } // end AddStat()
 

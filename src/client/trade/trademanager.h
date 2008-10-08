@@ -36,8 +36,6 @@ namespace PT
     {
     private:
       CALLBACK_HANDLER_LISTENERS
-      bool PickUp(iEvent& ev);
-      bool Drop(iEvent& ev);
 
       PT::Trade::PlayerInventory* playerinventory;
 

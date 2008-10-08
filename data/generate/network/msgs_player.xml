@@ -1,6 +1,7 @@
 <message-implementation>
 
 	<message type="Player" name="InventoryList">
+          <event name="trade.inventory.list" specific="None">
 		<uint32>InventoryId</uint32>
 		<list name="Inventory">
 			<uint32>ItemId</uint32>
@@ -12,21 +13,26 @@
 			<float>Weight</float>
 			<string>EquipType</string>
 		</list>
-	</message>
+          </event>
+        </message>
 
 	<message type="Player" name="StatsList">
+          <event name="entity.stat.list.player" specific="None">
 		<list name="Stats">
 			<uint16>StatId</uint16>
 			<string>Name</string>
 			<uint16>Level</uint16>
 		</list>
+          </event>
 	</message>
 
 	<message type="Player" name="StatsChange">
+          <event name="entity.stat.change" specific="EntityId">
 		<uint16>StatId</uint16>
 		<uint16>EntityId</uint16>
 		<string>Name</string>
 		<uint16>Level</uint16>
+          </event>
 	</message>
 
 	<message type="Player" name="SkillsList">
@@ -44,11 +50,13 @@
 	</message>
 
 	<message type="Player" name="InventoryMoveItem">
+          <event name="trade.inventory.move" specific="None">
 		<uint8>OldSlot</uint8>
 		<uint32>OldInventoryId</uint32>
 		<uint8>NewSlot</uint8>
 		<uint32>NewInventoryId</uint32>
 		<string>Error</string> <!-- null if successful -->
+          </event>
 	</message>
 
 	<message type="Player" name="MasteriesList">

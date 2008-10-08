@@ -34,7 +34,11 @@ namespace PT
     {
     private:
       CALLBACK_HANDLER_LISTENERS
+      bool PickUp(iEvent& ev);
+      bool Drop(iEvent& ev);
+      bool List(iEvent& ev);
       bool Add(iEvent& ev);
+      bool Move(iEvent& ev);
 
     public:
       PlayerInventory ();

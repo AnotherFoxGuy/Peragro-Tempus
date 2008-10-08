@@ -137,7 +137,7 @@
 	</message>
 
 	<message type="Entity" name="PickResponse">
-          <event name="trade.pickup" specific="None">
+          <event name="trade.inventory.pickup" specific="None">
 		<uint32>ItemId</uint32>
 		<uint32>Variation</uint32>
 		<uint8>SlotId</uint8>
@@ -156,7 +156,7 @@
 	</message>
 
 	<message type="Entity" name="DropResponse">
-          <event name="trade.drop" specific="None">
+          <event name="trade.inventory.drop" specific="None">
 		<uint8>SlotId</uint8>
 		<string>Error</string> <!-- null if successful -->
           </event>
