@@ -55,12 +55,12 @@ namespace PT
       using namespace Events;
 
       PT::GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      if (!guimananger) return false;
+      if (!guimanager) return false;
       NpcDialogWindow* npcWindow = guimanager->GetWindow<NpcDialogWindow>(NPCDIALOGWINDOW);
       if (!npcWindow) return false;
 
-      unsigned int dialogId = Helper::GetUInt(ev, "dialogId");
-      std::string dialogText = Helper::GetString(ev, "dialogText");
+      unsigned int dialogId = Helper::GetUInt(&ev, "dialogId");
+      std::string dialogText = Helper::GetString(&ev, "dialogText");
 
       npcWindow->AddDialog(dialogId, dialogText);
 
@@ -88,7 +88,7 @@ namespace PT
       using namespace PT::GUI::Windows;
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      if (!guimananger) return false;
+      if (!guimanager) return false;
       NpcDialogWindow* npcWindow = guimanager->GetWindow<NpcDialogWindow>(NPCDIALOGWINDOW);
       if (!npcWindow) return false;
       npcWindow->HideWindow();
