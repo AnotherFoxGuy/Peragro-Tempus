@@ -210,23 +210,6 @@ namespace PT
         return sector;
       }
 
-      /**
-       * Get an entity event parameter's value.
-       * @param ev An entity event.
-       * @param name The name of the parameter.
-       * @return The parameter's value.
-       */
-      static std::string GetString(const iEvent* event, const char* name)
-      {
-        const char* str = "";
-        if (event->Retrieve(name, str) != csEventErrNone)
-          Report(PT::Error, "EntityHelper::GetString '%s' failed!", name);
-
-        std::string text = str;
-        return text;
-      }
-
-
     };
   } // Events namespace
 } // PT namespace

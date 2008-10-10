@@ -72,8 +72,8 @@ namespace PT
           std::string mesh, file;
           item->Retrieve("slotId", slotId);
           item->Retrieve("itemId", itemId);
-          mesh = PT::Events::EntityHelper::GetString(item, "meshName");
-          file = PT::Events::EntityHelper::GetString(item, "fileName");
+          mesh = Helper::GetString(item, "meshName");
+          file = Helper::GetString(item, "fileName");
           equipment.Equip(slotId, itemId, mesh, file);
         } 
       }

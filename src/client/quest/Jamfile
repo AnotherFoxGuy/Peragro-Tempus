@@ -1,0 +1,6 @@
+SubDir TOP src client quest ;
+
+Description client-questmanager : "client questmanager" ;
+Library client-questmanager :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-questmanager : CRYSTAL CEL BOOST ;

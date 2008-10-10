@@ -35,7 +35,7 @@ namespace PT
         bool newDialog;
         void ClearAnswers();
 
-        uint dialogId;
+        unsigned int dialogId;
         bool OnCloseButton(const CEGUI::EventArgs& args);
         bool OnAnswer(const CEGUI::EventArgs& args);
 
@@ -44,9 +44,9 @@ namespace PT
         virtual ~NpcDialogWindow();
         bool Create();
 
-        void SetName(csString name);
-        void AddDialog(uint dialogueId, csString dialog);
-        void AddAnswer(uint number, csString answer);
+        void SetName(const std::string& name);
+        void AddDialog(unsigned int dialogueId, const std::string& dialog);
+        void AddAnswer(unsigned int number, const std::string& answer);
       };
 
     } // Windows namespace

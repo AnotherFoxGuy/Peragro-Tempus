@@ -78,6 +78,36 @@ namespace PT
          std::string text = str;
          return text;
        }
+
+             /**
+       * Get an event parameter's value.
+       * @param ev An event.
+       * @param name The name of the parameter.
+       * @return The parameter's value.
+       */
+      static unsigned int GetUInt(const iEvent* event, const char* name)
+      {
+        unsigned int i = 0;
+        if (event->Retrieve(name, i) != csEventErrNone)
+          Report(PT::Error, "Helper::GetUInt '%s' failed!", name);
+        return i;
+      }
+
+      /**
+       * Get an event parameter's value.
+       * @param ev An event.
+       * @param name The name of the parameter.
+       * @return The parameter's value.
+       */
+      static std::string GetString(const iEvent* event, const char* name)
+      {
+        const char* str = "";
+        if (event->Retrieve(name, str) != csEventErrNone)
+          Report(PT::Error, "Helper::GetString '%s' failed!", name);
+
+        std::string text = str;
+        return text;
+      }
     };
 
   } // Events namespace

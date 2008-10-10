@@ -47,7 +47,7 @@ namespace PT
       ev.Retrieve("open", open);
       ev.Retrieve("locked", locked);
       ev.Retrieve("typeId", doorId);
-      animationName = PT::Events::EntityHelper::GetString(&ev, "animationName");
+      animationName = PT::Events::Helper::GetString(&ev, "animationName");
       Create();
 
       ///@TODO: Move this to a component?

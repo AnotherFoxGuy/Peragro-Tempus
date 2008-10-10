@@ -82,9 +82,9 @@ namespace PT
     {
       using namespace PT::Events;
 
-      std::string effectName = EntityHelper::GetString(&ev, "effect");
+      std::string effectName = Helper::GetString(&ev, "effect");
       csVector3 pos = EntityHelper::GetPosition(&ev);
-      std::string sectorName = EntityHelper::GetString(&ev, "sector");
+      std::string sectorName = Helper::GetString(&ev, "sector");
 
       iSector* sector = engine->FindSector(sectorName.c_str());
 

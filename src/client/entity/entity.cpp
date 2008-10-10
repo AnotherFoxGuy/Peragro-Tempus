@@ -53,11 +53,11 @@ namespace PT
       using namespace PT::Events;
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
-      id = PT::Events::EntityHelper::GetEntityID(&ev);
+      id = EntityHelper::GetEntityID(&ev);
       type = (Common::Entity::EntityType)PT::Events::EntityHelper::GetEntityType(&ev, evmgr);
-      name = PT::Events::EntityHelper::GetString(&ev, "entityName");
-      meshName = PT::Events::EntityHelper::GetString(&ev, "meshName");
-      fileName = PT::Events::EntityHelper::GetString(&ev, "fileName");
+      name = Helper::GetString(&ev, "entityName");
+      meshName = Helper::GetString(&ev, "meshName");
+      fileName = Helper::GetString(&ev, "fileName");
       position = PT::Events::EntityHelper::GetPosition(&ev);
       ev.Retrieve("rotation", rot);
 

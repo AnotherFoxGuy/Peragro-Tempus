@@ -94,23 +94,23 @@ namespace PT
         ((CEGUI::Listbox*)btn)->resetList();
       } // end ClearAnswers()
 
-      void NpcDialogWindow::SetName(csString name)
+      void NpcDialogWindow::SetName(const std::string& name)
       {
         // Set the dialog text.
         btn = winMgr->getWindow("NpcDialog/Frame");
-        btn->setText(name.GetData());
+        btn->setText(name.c_str());
       } // end SetName()
 
-      void NpcDialogWindow::AddDialog(uint dialogId, csString dialog)
+      void NpcDialogWindow::AddDialog(unsigned int dialogueId, const std::string& dialog)
       {
         // Set the dialog text.
         btn = winMgr->getWindow("NpcDialog/Dialog");
-        btn->setText(dialog.GetData());
+        btn->setText(dialog.c_str());
         this->dialogId = dialogId;
 
         ClearAnswers();
 
-        AddAnswer(0xff, (csString)"Goodbye.");
+        AddAnswer(0xff, "Goodbye.");
 
         GUIWindow::ShowWindow();
         GUIWindow::EnableWindow();
@@ -118,7 +118,7 @@ namespace PT
         newDialog = true;
       } // end AddDialog()
 
-      void NpcDialogWindow::AddAnswer(uint number, csString answer)
+      void NpcDialogWindow::AddAnswer(unsigned int number, const std::string& answer)
       {
         if (newDialog)
         {
@@ -128,7 +128,7 @@ namespace PT
 
         btn = winMgr->getWindow("NpcDialog/Answers");
         CEGUI::ListboxItem* answerItem =
-          new CEGUI::ListboxTextItem(answer.GetData(), number);
+          new CEGUI::ListboxTextItem(answer.c_str(), number);
 
         ((CEGUI::Listbox*)btn)->addItem(answerItem);
       } // end AddAnswer()

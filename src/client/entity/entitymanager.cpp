@@ -233,7 +233,7 @@ namespace PT
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
       unsigned int id = EntityHelper::GetEntityID(&ev);
-      std::string name = PT::Events::EntityHelper::GetString(&ev, "entityName");
+      std::string name = Helper::GetString(&ev, "entityName");
       unsigned int type = EntityHelper::GetEntityType(&ev, evmgr);
 
       if ( findPtEntById(id) )
