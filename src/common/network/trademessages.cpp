@@ -24,7 +24,7 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-bool TradeRequestMessage::serialise(ByteStream* bs)
+bool ExchangeRequestMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -33,7 +33,7 @@ bool TradeRequestMessage::serialise(ByteStream* bs)
   return serial.isValid();
 }
 
-void TradeRequestMessage::deserialise(ByteStream* bs)
+void ExchangeRequestMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
@@ -41,7 +41,7 @@ void TradeRequestMessage::deserialise(ByteStream* bs)
   entityid = (unsigned int) serial.getInt32();
 }
 
-bool TradeResponseMessage::serialise(ByteStream* bs)
+bool ExchangeResponseMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -50,7 +50,7 @@ bool TradeResponseMessage::serialise(ByteStream* bs)
   return serial.isValid();
 }
 
-void TradeResponseMessage::deserialise(ByteStream* bs)
+void ExchangeResponseMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
@@ -96,7 +96,7 @@ void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
 
 }
 
-bool TradeOffersListPvpMessage::serialise(ByteStream* bs)
+bool ExchangeOffersListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
@@ -115,7 +115,7 @@ bool TradeOffersListPvpMessage::serialise(ByteStream* bs)
   return serial.isValid();
 }
 
-void TradeOffersListPvpMessage::deserialise(ByteStream* bs)
+void ExchangeOffersListMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();

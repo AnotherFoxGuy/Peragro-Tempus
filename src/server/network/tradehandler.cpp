@@ -26,7 +26,7 @@
 
 //#define DEBUG_TRADE
 
-void TradeHandler::handleTradeRequest(GenericMessage* msg)
+void TradeHandler::handleExchangeRequest(GenericMessage* msg)
 {
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
@@ -35,7 +35,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
 
   TradePeer* this_peer = pc->getTradePeer();
 
-  TradeRequestMessage message;
+  ExchangeRequestMessage message;
   message.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
@@ -49,7 +49,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
 
   if (pc->getEntity()->getId() == ent_id)
   {
-    TradeResponseMessage resp;
+    ExchangeResponseMessage resp;
     ptString error("You can't trade with yourself.", strlen("You can't trade with yourself."));
     resp.setError(error);
     ByteStream bs;
@@ -60,7 +60,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
 
   if (this_peer->getSession() != 0)
   {
-    TradeResponseMessage resp;
+    ExchangeResponseMessage resp;
     ptString error("You are already trading with someone.", strlen("You are already trading with someone."));
     resp.setError(error);
     ByteStream bs;
@@ -85,7 +85,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
     TradeSession* session = other_peer->getSession();
     if (session != 0)
     {
-      TradeResponseMessage resp;
+      ExchangeResponseMessage resp;
       ptString error("The other player is already trading with someone.", strlen("The other player is already trading with someone."));
       resp.setError(error);
       ByteStream bs;
@@ -112,7 +112,7 @@ void TradeHandler::handleTradeRequest(GenericMessage* msg)
   }
 }
 
-void TradeHandler::handleTradeResponse(GenericMessage* msg)
+void TradeHandler::handleExchangeResponse(GenericMessage* msg)
 {
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
@@ -129,7 +129,7 @@ void TradeHandler::handleTradeResponse(GenericMessage* msg)
 
   if (other_peer)
   {
-    TradeResponseMessage message;
+    ExchangeResponseMessage message;
     message.deserialise(msg->getByteStream());
 
     ptString error = message.getError();
@@ -178,7 +178,7 @@ void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
   NetworkHelper::sendMessage(character, bs);
 }
 
-void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
+void TradeHandler::handleExchangeOffersList(GenericMessage* msg)
 {
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
@@ -199,10 +199,10 @@ void TradeHandler::handleTradeOffersListPvp(GenericMessage* msg)
   if (peer->getSession()->bothAccepted())
     return; // Too late for changes now!
 
-  TradeOffersListPvpMessage offer_req;
+  ExchangeOffersListMessage offer_req;
   offer_req.deserialise(msg->getByteStream());
 
-  TradeOffersListPvpMessage offer;
+  ExchangeOffersListMessage offer;
   offer.deserialise(msg->getByteStream());
 
   peer->clearOffer();

@@ -18,9 +18,9 @@
 
 #include "client/gui/gui.h"
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
@@ -48,25 +48,7 @@ namespace PT
         inventory.DeleteAll();
       } // end ~TradeWindow()
 
-      bool TradeWindow::OnYesRequest(const CEGUI::EventArgs& args)
-      {
-        winMgr->getWindow("TradeWindow/Frame")->setVisible(true);
 
-        TradeResponseMessage msg;
-        network->send(&msg);
-
-        return true;
-      } // end OnYesRequest()
-
-      bool TradeWindow::OnNoRequest(const CEGUI::EventArgs& args)
-      {
-        TradeResponseMessage msg;
-        msg.setError(ptString("The other player declined the trade.",
-          strlen("The other player declined the trade.")));
-        network->send(&msg);
-
-        return true;
-      } // end OnNoRequest()
 
       bool TradeWindow::OnYesConfirm(const CEGUI::EventArgs& args)
       {
@@ -200,7 +182,7 @@ namespace PT
       {
         // Make a list of items and send it to the network.
         // Get actual items.
-        TradeOffersListPvpMessage msg;
+        ExchangeOffersListMessage msg;
         csArray<Inventory::ObjectAndSlot> objandslot = trade1->GetAllObjects();
 
         // Make the offer list.

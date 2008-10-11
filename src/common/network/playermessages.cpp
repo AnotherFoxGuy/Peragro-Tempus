@@ -37,7 +37,7 @@ bool InventoryListMessage::serialise(ByteStream* bs)
     serial.setInt32(inventory[i].variation);
     serial.setInt8(inventory[i].slotid);
     serial.setString(inventory[i].name);
-    serial.setString(inventory[i].icon);
+    serial.setString(inventory[i].iconname);
     serial.setString(inventory[i].description);
     serial.setFloat(inventory[i].weight);
     serial.setString(inventory[i].equiptype);
@@ -60,7 +60,7 @@ void InventoryListMessage::deserialise(ByteStream* bs)
     inventory[i].variation = (unsigned int) serial.getInt32();
     inventory[i].slotid = (unsigned char) serial.getInt8();
     inventory[i].name = serial.getString();
-    inventory[i].icon = serial.getString();
+    inventory[i].iconname = serial.getString();
     inventory[i].description = serial.getString();
     inventory[i].weight = serial.getFloat();
     inventory[i].equiptype = serial.getString();

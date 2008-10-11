@@ -57,8 +57,6 @@ namespace PT
         void UpdateOffer();
 
       public:
-        bool OnYesRequest(const CEGUI::EventArgs& args);
-        bool OnNoRequest(const CEGUI::EventArgs& args);
         bool OnYesConfirm(const CEGUI::EventArgs& args);
         bool OnNoConfirm(const CEGUI::EventArgs& args);
 

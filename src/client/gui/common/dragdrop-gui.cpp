@@ -238,7 +238,7 @@ namespace PT
           evmgr->CreateEvent("interface.interact");
         interfaceEvent->Add("entityId", slot->GetId());
         interfaceEvent->Add("objectId", object->GetId());
-        interfaceEvent->Add("variationId", object->GetVariationId());
+        interfaceEvent->Add("variation", object->GetVariationId());
 
         // @TODO: Use equiptype in items.xml and add itemtype instead of
         // hardcoding here.

@@ -29,10 +29,10 @@ namespace TRADE
 {
   enum MESSAGES
   {
-    TRADEREQUEST=0,
-    TRADERESPONSE=1,
+    EXCHANGEREQUEST=0,
+    EXCHANGERESPONSE=1,
     TRADEOFFERSLISTNPC=2,
-    TRADEOFFERSLISTPVP=3,
+    EXCHANGEOFFERSLIST=3,
     TRADEORDERLISTNPC=4,
     TRADECANCEL=5,
     TRADEOFFERACCEPT=6,
@@ -41,16 +41,16 @@ namespace TRADE
   };
 }
 
-class TradeRequestMessage : public NetMessage
+class ExchangeRequestMessage : public NetMessage
 {
   unsigned int entityid;
 
 public:
-  TradeRequestMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEREQUEST)
+  ExchangeRequestMessage() : NetMessage(MESSAGES::TRADE,TRADE::EXCHANGEREQUEST)
   {
   }
 
-  ~TradeRequestMessage()
+  ~ExchangeRequestMessage()
   {
   }
 
@@ -62,16 +62,16 @@ public:
 
 };
 
-class TradeResponseMessage : public NetMessage
+class ExchangeResponseMessage : public NetMessage
 {
   ptString error;
 
 public:
-  TradeResponseMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADERESPONSE)
+  ExchangeResponseMessage() : NetMessage(MESSAGES::TRADE,TRADE::EXCHANGERESPONSE)
   {
   }
 
-  ~TradeResponseMessage()
+  ~ExchangeResponseMessage()
   {
   }
 
@@ -146,7 +146,7 @@ public:
 
 };
 
-class TradeOffersListPvpMessage : public NetMessage
+class ExchangeOffersListMessage : public NetMessage
 {
   class ListOffers
   {
@@ -164,12 +164,12 @@ class TradeOffersListPvpMessage : public NetMessage
 
 
 public:
-  TradeOffersListPvpMessage() : NetMessage(MESSAGES::TRADE,TRADE::TRADEOFFERSLISTPVP)
+  ExchangeOffersListMessage() : NetMessage(MESSAGES::TRADE,TRADE::EXCHANGEOFFERSLIST)
   {
     offers = 0;
   }
 
-  ~TradeOffersListPvpMessage()
+  ~ExchangeOffersListMessage()
   {
     delete [] offers;
   }

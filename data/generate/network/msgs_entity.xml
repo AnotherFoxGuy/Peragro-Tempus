@@ -142,7 +142,7 @@
 		<uint32>Variation</uint32>
 		<uint8>SlotId</uint8>
 		<string>Name</string>
-		<string>Icon</string>
+		<string>iconName</string>
 		<string>Description</string>
 		<float>Weight</float>
 		<string>EquipType</string>

@@ -122,14 +122,14 @@ namespace PT
       unsigned int itemId = -1;
       ev.Retrieve("itemId", itemId);
 
-      unsigned int variationId = -1;
-      ev.Retrieve("variationId", variationId);
+      unsigned int variation = -1;
+      ev.Retrieve("variation", variation);
 
       const char* name = "";
       ev.Retrieve("name", name);
 
-      const char* icon = "";
-      ev.Retrieve("icon", icon);
+      const char* iconName = "";
+      ev.Retrieve("iconName", iconName);
 
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);
@@ -138,7 +138,7 @@ namespace PT
       if (!guimanager) return true;
       InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
       if (!inventoryWindow) return true;
-      inventoryWindow->AddItem(itemId, variationId, name, icon, slotId);
+      inventoryWindow->AddItem(itemId, variation, name, iconName, slotId);
 
       return true;
     } // end Add()

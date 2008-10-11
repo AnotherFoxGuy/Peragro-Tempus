@@ -406,7 +406,7 @@ namespace PT
     tradeManager = new PT::Trade::TradeManager ();
     if (!tradeManager->Initialize())
       return Report(PT::Error, "Failed to initialize TradeManager!");
-    //pointerlib.setTradeManager(tradeManager);
+    pointerlib.setTradeManager(tradeManager);
 
     // Create and Initialize the ComponentManager.
     componentManager = new PT::Component::ComponentManager (&pointerlib);

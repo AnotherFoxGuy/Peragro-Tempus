@@ -74,10 +74,10 @@
 		<message type="Quest" name="NpcEndDialog" />
 		<!--message type="Quest" name="SetupDialogs" /-->		
 
-		<message type="Trade" name="TradeRequest" />
-		<message type="Trade" name="TradeResponse" />
+		<message type="Trade" name="ExchangeRequest" />
+		<message type="Trade" name="ExchangeResponse" />
 		<message type="Trade" name="TradeOffersListNpc" />
-		<message type="Trade" name="TradeOffersListPvp" />
+		<message type="Trade" name="ExchangeOffersList" />
 		<!--message type="Trade" name="TradeOrderListNpc" /-->
 		<message type="Trade" name="TradeCancel" />
 		<message type="Trade" name="TradeOfferAccept" />
@@ -185,10 +185,10 @@
 		<message type="Quest" name="NpcEndDialog" />
 		<message type="Quest" name="SetupDialogs" />
 
-		<message type="Trade" name="TradeRequest" />
-		<message type="Trade" name="TradeResponse" />
+		<message type="Trade" name="ExchangeRequest" />
+		<message type="Trade" name="ExchangeResponse" />
 		<!--message type="Trade" name="TradeOffersListNpc" /-->
-		<message type="Trade" name="TradeOffersListPvp" />
+		<message type="Trade" name="ExchangeOffersList" />
 		<message type="Trade" name="TradeOrderListNpc" />
 		<message type="Trade" name="TradeCancel" />
 		<message type="Trade" name="TradeOfferAccept" />

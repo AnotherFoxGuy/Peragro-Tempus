@@ -33,6 +33,9 @@
 
 #include "client/combat/combatmanager.h"
 
+#include "client/trade/trademanager.h"
+#include "client/trade/exchange.h"
+
 #define CANCEL_BUTTON "InteractDialog/Cancel"
 
 #define TRADE_BUTTON     "InteractDialog/Trade"
@@ -100,9 +103,13 @@ namespace PT
         {
           Report(PT::Notify, "OnAction: Requesting trade with: %d.",
             interactId);
-          TradeRequestMessage msg;
-          msg.setEntityId(interactId);
-          network->send(&msg);
+          using namespace PT::Trade;
+          TradeManager * tradeMgr = PointerLibrary::getInstance()->getTradeManager();
+          if (tradeMgr)
+          {
+            Exchange* exchange = tradeMgr->GetExchange ();
+            exchange->Request(interactId);
+          }
         }
         else if (ddea.window->getName().compare(PICKUP_BUTTON) == 0)
         {
@@ -319,7 +326,7 @@ namespace PT
           return Report(PT::Error, "InteractDialogWindow::OnInteract failed!");
 
         ev.Retrieve("objectId", itemId);
-        ev.Retrieve("variationId", variationId);
+        ev.Retrieve("variation", variationId);
 
         newDialog = true;
         ClearActions();

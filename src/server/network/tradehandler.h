@@ -42,18 +42,18 @@ public:
     if (type != MESSAGES::TRADE) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == TRADE::TRADEREQUEST) handleTradeRequest(msg);
-    else if (id == TRADE::TRADERESPONSE) handleTradeResponse(msg);
-    else if (id == TRADE::TRADEOFFERSLISTPVP) handleTradeOffersListPvp(msg);
+    if (id == TRADE::EXCHANGEREQUEST) handleExchangeRequest(msg);
+    else if (id == TRADE::EXCHANGERESPONSE) handleExchangeResponse(msg);
+    else if (id == TRADE::EXCHANGEOFFERSLIST) handleExchangeOffersList(msg);
     else if (id == TRADE::TRADEORDERLISTNPC) handleTradeOrderListNpc(msg);
     else if (id == TRADE::TRADECANCEL) handleTradeCancel(msg);
     else if (id == TRADE::TRADEOFFERACCEPT) handleTradeOfferAccept(msg);
     else if (id == TRADE::TRADECONFIRMREQUEST) handleTradeConfirmRequest(msg);
   }
 
-  void handleTradeRequest(GenericMessage* msg);
-  void handleTradeResponse(GenericMessage* msg);
-  void handleTradeOffersListPvp(GenericMessage* msg);
+  void handleExchangeRequest(GenericMessage* msg);
+  void handleExchangeResponse(GenericMessage* msg);
+  void handleExchangeOffersList(GenericMessage* msg);
   void handleTradeOrderListNpc(GenericMessage* msg);
   void handleTradeCancel(GenericMessage* msg);
   void handleTradeOfferAccept(GenericMessage* msg);

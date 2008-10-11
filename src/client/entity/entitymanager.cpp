@@ -290,8 +290,8 @@ namespace PT
       unsigned int itemId = -1;
       ev.Retrieve("itemId", itemId);
 
-      //unsigned int variationId = -1;
-      //ev.Retrieve("variationId", variationId);
+      //unsigned int variation = -1;
+      //ev.Retrieve("variation", variation);
 
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);

@@ -1,49 +1,45 @@
 <message-implementation>
 	<!--
-	NPC Trade
-	- C -> S: TradeRequest
-	- S -> C: OffersListNpc
-	- C -> S: BuyItemRequestNpc
-	- S -> C: BuyItemResponseNpc
+	Buy/Sell
+	- C -> S: In dialog
+	- S -> C: TradeOffersListNpc
+	- C -> S: TradeOrderListNpc
+	- S -> C: TradeConfirmResponse
 	-->
 
 	<!--
-	PVP Trade (Msg via Server)
-	- C1 -> C1: TradeRequest
-	- C2 -> C1: TradeResponse
-
-	- Cx -> Cy: OffersListPvp // both send offers 
-
-	- Cx -> Cy: OfferAccept // both send accept.
-
+	Exchange (PVP Trade) (Msg via Server)
+	- C1 -> C1: ExchangeRequest
+	- C2 -> C1: ExchangeResponse
+	- Cx -> Cy: ExchangeOffersList // both send offers. 
+	- Cx -> Cy: TradeOfferAccept   // both send accept.
 	// if another offer is sent, all accepts are reset.
-
 	// if both accepted
-	- Cn -> S: ConfirmRequest
-
+	- Cn -> S: TradeConfirmRequest
 	// if both confirmed
-	- S -> Cn: ConfirmResponse
+	- S -> Cn: TradeConfirmResponse
 	-->
-	<message type="Trade" name="TradeRequest">
-		<uint32>EntityId</uint32>
-	</message>
+        <message type="Trade" name="ExchangeRequest">
+          <uint32>EntityId</uint32>
+        </message>
 
-	<message type="Trade" name="TradeResponse">
-		<string>Error</string> <!-- Null if success, else contains reason -->
-	</message>
+        <message type="Trade" name="ExchangeResponse">
+          <string>Error</string>
+          <!-- Null if success, else contains reason -->
+        </message>
 
-	<message type="Trade" name="TradeOffersListNpc">
-		<uint8>IsBuy</uint8>
-		<list name="Offers">
-			<uint32>ItemId</uint32>
-			<uint32>Variation</uint32>
-			<uint32>Price</uint32>
-			<string>Name</string>
-			<string>IconName</string>
-		</list>
-	</message>
+        <message type="Trade" name="TradeOffersListNpc">
+          <uint8>IsBuy</uint8>
+          <list name="Offers">
+            <uint32>ItemId</uint32>
+            <uint32>Variation</uint32>
+            <uint32>Price</uint32>
+            <string>Name</string>
+            <string>IconName</string>
+          </list>
+        </message>
 
-	<message type="Trade" name="TradeOffersListPvp">
+        <message type="Trade" name="ExchangeOffersList">
 		<list name="Offers">
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>

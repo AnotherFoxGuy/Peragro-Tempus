@@ -49,7 +49,7 @@ class InventoryListMessage : public NetMessage
     unsigned int variation;
     unsigned char slotid;
     ptString name;
-    ptString icon;
+    ptString iconname;
     ptString description;
     float weight;
     ptString equiptype;
@@ -98,8 +98,8 @@ public:
   ptString getName(size_t i) { return inventory[i].name; }
   void setName(size_t i, ptString x) { inventory[i].name = x; }
 
-  ptString getIcon(size_t i) { return inventory[i].icon; }
-  void setIcon(size_t i, ptString x) { inventory[i].icon = x; }
+  ptString getIconName(size_t i) { return inventory[i].iconname; }
+  void setIconName(size_t i, ptString x) { inventory[i].iconname = x; }
 
   ptString getDescription(size_t i) { return inventory[i].description; }
   void setDescription(size_t i, ptString x) { inventory[i].description = x; }

@@ -44,7 +44,7 @@ void Inventory::sendAllItems(Connection* conn)
     Item* item = Server::getServer()->getItemManager()->findById(invitem.id);
 
     itemlist_msg.setName(n, item->getName());
-    itemlist_msg.setIcon(n, item->getIcon());
+    itemlist_msg.setIconName(n, item->getIcon());
     itemlist_msg.setDescription(n, item->getDescription());
     itemlist_msg.setWeight(n, item->getWeight());
     itemlist_msg.setEquipType(n, item->getEquiptype());

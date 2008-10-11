@@ -88,10 +88,10 @@
 			<message id="4" name="SetupDialogs" />
 		</type>
 		<type id="7" name="Trade">
-			<message id="0" name="TradeRequest" />
-			<message id="1" name="TradeResponse" />
+			<message id="0" name="ExchangeRequest" />
+			<message id="1" name="ExchangeResponse" />
 			<message id="2" name="TradeOffersListNpc" />
-			<message id="3" name="TradeOffersListPvp" />
+			<message id="3" name="ExchangeOffersList" />
 			<message id="4" name="TradeOrderListNpc" />
 			<message id="5" name="TradeCancel" />
 			<message id="6" name="TradeOfferAccept" />
