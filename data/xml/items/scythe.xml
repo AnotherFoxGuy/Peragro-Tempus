@@ -2,7 +2,7 @@
 <item>
 	<id>4</id>
 	<name>Scythe</name>
-	<icon>set:Inventory image:Scythe</icon>
+	<icon>/peragro/art/3d_art/props/others/scythes/scythe001/icon_scythe001.png</icon>
 	<description>
 		A peaceful tool for farming or a deadly weapon
 		in sociopath's hands.

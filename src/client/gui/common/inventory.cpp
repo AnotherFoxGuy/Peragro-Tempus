@@ -40,7 +40,7 @@ CEGUI::Window* Inventory::createDragDropSlot(CEGUI::Window* parent,
   CEGUI::Window* slot = winMgr->createWindow("Peragro/StaticImage");
   parent->addChildWindow(slot);
   slot->setPosition(position);
-  slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,24.0f), CEGUI::UDim(0,24.0f)));
+  slot->setSize(CEGUI::UVector2(CEGUI::UDim(0,48.0f), CEGUI::UDim(0,48.0f)));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemEnters,
     CEGUI::Event::Subscriber(&PT::GUI::Windows::DragDrop::handleDragEnter, dragdrop));
   slot->subscribeEvent(CEGUI::Window::EventDragDropItemLeaves,
@@ -149,7 +149,7 @@ void Inventory::Create(CEGUI::Window* bag, Inventory::ParentType parent,
       slot->SetType(type);
       slot->SetParent(parent);
       slot->SetWindow(createDragDropSlot(bag,
-        CEGUI::UVector2(CEGUI::UDim(0,4.0f+(28*i)), CEGUI::UDim(0,4.0f+(28*j)))));
+        CEGUI::UVector2(CEGUI::UDim(0,4.0f+(54*i)), CEGUI::UDim(0,4.0f+(54*j)))));
       slot->GetWindow()->setUserData(slot);
 
       switch(parent)

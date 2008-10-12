@@ -283,8 +283,8 @@ namespace PT
 
         icon->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f),
           CEGUI::UDim(0.0f,0.0f)));
-        icon->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,21.6f),
-          CEGUI::UDim(0.0f,21.6f)));
+        icon->setSize(CEGUI::UVector2(CEGUI::UDim(0.0f,43.2f),
+          CEGUI::UDim(0.0f,43.2f)));
         icon->setHorizontalAlignment(CEGUI::HA_CENTRE);
         icon->setVerticalAlignment(CEGUI::VA_CENTRE);
 
@@ -326,9 +326,11 @@ namespace PT
             {
               ///TODO: This imageset should be released when the item is destroyed.
               imgmgr->createImagesetFromImageFile(iconname, iconname);
+              Report(PT::Error, "BLAH1 %s (%s)", setAndIcon.c_str(), iconname);
             }
             setAndIcon = std::string("set:") + iconname;
-            setAndIcon += std::string(" image:") + iconname;
+            setAndIcon += std::string(" image:") + "full_image";
+            Report(PT::Error, "BLAH %s (%s)", setAndIcon.c_str(), iconname);
           }
           // A CEGUI imageset is specified.
           else
