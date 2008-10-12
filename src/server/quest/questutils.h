@@ -375,7 +375,7 @@ namespace QuestUtils
           response_msg.setSlotId(slot);
 
           response_msg.setName(item->getName());
-          response_msg.setIcon(item->getIcon());
+          response_msg.setIconName(item->getIcon());
           response_msg.setDescription(item->getDescription());
           response_msg.setWeight(item->getWeight());
           response_msg.setEquipType(item->getEquiptype());

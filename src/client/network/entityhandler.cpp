@@ -214,7 +214,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
     pEvent->Add("variation", pmsg.getVariation());
     pEvent->Add("slotId", pmsg.getSlotId());
     pEvent->Add("name", *pmsg.getName()?*pmsg.getName():"");
-    pEvent->Add("iconName", *pmsg.getIcon()?*pmsg.getIcon():"");
+    pEvent->Add("iconName", *pmsg.getIcon()?*pmsg.getIconName():"");
     pEvent->Add("description", *pmsg.getDescription()?*pmsg.getDescription():"");
     pEvent->Add("weight", pmsg.getWeight());
     pEvent->Add("equipType", *pmsg.getEquipType()?*pmsg.getEquipType():"");
