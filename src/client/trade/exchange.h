@@ -47,11 +47,13 @@ namespace PT
     class Exchange
     {
     private:
-      bool trading;
       GUI::GUIManager* guimanager;
       GUI::Windows::TradeWindow* tradeWindow;
+      void SetTrading(bool value);
 
     private:
+      csRef<Events::EventHandlerCallback> tradeConfirm;
+      csRef<Events::EventHandlerCallback> tradeCancel;
       CALLBACK_HANDLER_LISTENERS
       bool ExchangeRequest(iEvent& ev);
       bool ExchangeResponse(iEvent& ev);

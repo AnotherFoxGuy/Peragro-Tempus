@@ -20,26 +20,32 @@
 	- S -> Cn: TradeConfirmResponse
 	-->
         <message type="Trade" name="ExchangeRequest">
-          <uint32>EntityId</uint32>
+          <event name="trade.exchange.request" specific="None">
+            <uint32>EntityId</uint32>
+          </event>
         </message>
 
         <message type="Trade" name="ExchangeResponse">
-          <string>Error</string>
-          <!-- Null if success, else contains reason -->
+          <event name="trade.exchange.response" specific="None">
+              <string>Error</string> <!-- Null if success, else contains reason -->
+          </event>
         </message>
 
         <message type="Trade" name="TradeOffersListNpc">
-          <uint8>IsBuy</uint8>
-          <list name="Offers">
-            <uint32>ItemId</uint32>
-            <uint32>Variation</uint32>
-            <uint32>Price</uint32>
-            <string>Name</string>
-            <string>IconName</string>
-          </list>
+          <event name="trade.general.offer.list" specific="None">
+            <uint8>IsBuy</uint8>
+            <list name="Offers">
+              <uint32>ItemId</uint32>
+              <uint32>Variation</uint32>
+              <uint32>Price</uint32>
+              <string>Name</string>
+              <string>IconName</string>
+            </list>
+          </event>
         </message>
 
         <message type="Trade" name="ExchangeOffersList">
+          <event name="trade.exchange.offer.list" specific="None">
 		<list name="Offers">
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>
@@ -48,6 +54,7 @@
 			<string>IconName</string>
 			<uint8>SlotId</uint8>
 		</list>
+          </event>
 	</message>
 
 	<message type="Trade" name="TradeOrderListNpc">
@@ -59,15 +66,21 @@
 	</message>
 
 	<message type="Trade" name="TradeCancel">
+          <event name="trade.general.cancel" specific="None">
+          </event>
 	</message>
 
 	<message type="Trade" name="TradeOfferAccept">
+          <event name="trade.exchange.offer.accept" specific="None">
+          </event>
 	</message>
 
 	<message type="Trade" name="TradeConfirmRequest">
 	</message>
 
 	<message type="Trade" name="TradeConfirmResponse">
+          <event name="trade.general.confirm" specific="None">
 		<string>Error</string> <!-- Null if success, else contains reason -->
+          </event>
 	</message>
 </message-implementation>

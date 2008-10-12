@@ -416,7 +416,7 @@ bool PickResponseMessage::serialise(ByteStream* bs)
   serial.setInt32(variation);
   serial.setInt8(slotid);
   serial.setString(name);
-  serial.setString(icon);
+  serial.setString(iconname);
   serial.setString(description);
   serial.setFloat(weight);
   serial.setString(equiptype);
@@ -433,7 +433,7 @@ void PickResponseMessage::deserialise(ByteStream* bs)
   variation = (unsigned int) serial.getInt32();
   slotid = (unsigned char) serial.getInt8();
   name = serial.getString();
-  icon = serial.getString();
+  iconname = serial.getString();
   description = serial.getString();
   weight = serial.getFloat();
   equiptype = serial.getString();

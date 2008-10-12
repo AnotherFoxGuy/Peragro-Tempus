@@ -66,6 +66,8 @@ public:
   std::string name;
   nwType* type;
 
+  std::map<std::string, bool> eventNames;
+
   std::vector<nwParams*> params;
 
   nwParams* getParam(const char*);

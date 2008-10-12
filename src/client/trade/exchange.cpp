@@ -34,7 +34,7 @@ namespace PT
 {
   namespace Trade
   {
-    Exchange::Exchange () : trading(false), guimanager(0)
+    Exchange::Exchange () : guimanager(0)
     {
     }
 
@@ -55,9 +55,35 @@ namespace PT
       SETUP_HANDLER
       REGISTER_LISTENER(Exchange, ExchangeRequest, "trade.exchange.request")
       REGISTER_LISTENER(Exchange, ExchangeResponse, "trade.exchange.response")
+      REGISTER_LISTENER(Exchange, ExchangeOfferAccept, "trade.exchange.offer.accept")
+      REGISTER_LISTENER(Exchange, ExchangeOffersList, "trade.exchange.offer.list")
 
         return true;
     } // end Initialize()
+
+    void Exchange::SetTrading(bool value)
+    {
+      using namespace PT::Events; 
+
+      //trade.general.confirm/cancel is used for buy/sell aswell, so only listen to it when neccessary!
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+      if (value)
+      {
+        tradeConfirm.AttachNew(new EventHandler<Exchange>(&Exchange::ExchangeConfirmResponse, this));
+        evmgr->AddListener("trade.general.confirm", tradeConfirm);
+
+        tradeCancel.AttachNew(new EventHandler<Exchange>(&Exchange::ExchangeCancel, this));
+        evmgr->AddListener("trade.general.cancel", tradeCancel);
+      }
+      else
+      {
+        evmgr->RemoveListener(tradeConfirm);
+        tradeConfirm.Invalidate();
+
+        evmgr->RemoveListener(tradeCancel);
+        tradeCancel.Invalidate();
+      }
+    } // end SetTrading()
 
     void Exchange::Request(unsigned int entityId)
     {
@@ -69,6 +95,7 @@ namespace PT
     bool Exchange::OnYesRequest(const CEGUI::EventArgs& args)
     {
       tradeWindow->ShowWindow();
+      SetTrading(true);
 
       ExchangeResponseMessage msg;
       PointerLibrary::getInstance()->getNetwork()->send(&msg);
@@ -119,7 +146,7 @@ namespace PT
       if (!Helper::HasError(&ev))
       {
         tradeWindow->ShowWindow();
-        trading = true;
+        SetTrading(true);
       }
       else
       {
@@ -135,12 +162,9 @@ namespace PT
       using namespace PT::GUI::Windows;
       using namespace PT::Events;
 
-      // Used for buy/sell aswell, so return when not exchanging.
-      if (trading) return false;  
-
       if (!Helper::HasError(&ev))
       {
-        trading = false; // No errors, exchange has finished.
+        SetTrading(false); // No errors, exchange has finished.
         
         if (tradeWindow->IsVisible())
         {
@@ -171,7 +195,7 @@ namespace PT
 
       tradeWindow->CancelTrade();
 
-      trading = false;
+      SetTrading(false);
 
       return true;
     } // end ExchangeCancel()

@@ -169,6 +169,9 @@ void nwXmlParser::parseEvent(TiXmlElement* parentNode)
 void nwXmlParser::parseParams(TiXmlElement* parentNode, const char* msgName, const char* eventName, const char* entitySpecific)
 {
   TiXmlElement* node = parentNode->FirstChildElement();
+
+  factory->getNetwork()->getMessage(msgName)->eventNames[eventName]= false;
+
   while ( node )
   {
     TiXmlText* text = node->FirstChild()->ToText();

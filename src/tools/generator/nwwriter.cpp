@@ -881,6 +881,15 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
 
     typedef std::map<std::string, std::vector<nwParams*> > EventAndParams;
     EventAndParams eventAndParams;
+
+    // Add all the events from the message.
+    std::map<std::string, bool>::iterator msgIt;
+    for(msgIt = msg->eventNames.begin(); msgIt!=msg->eventNames.end(); ++msgIt)
+    {
+      eventAndParams[msgIt->first];
+    }
+
+    // Add the params to the events.
     for (size_t i = 0; i < msg->params.size(); i++)
     {
       nwParams* param = msg->params[i];

@@ -34,8 +34,12 @@ void TradeHandler::handleExchangeRequest(GenericMessage* msg)
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-  // @todo Implement me!
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.exchange.request", true);
+    pEvent->Add("entityId", pmsg.getEntityId());
+    
+    evmgr->AddEvent(pEvent);
+  }
 
 } // end handleExchangeRequest
 
@@ -46,8 +50,12 @@ void TradeHandler::handleExchangeResponse(GenericMessage* msg)
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-  // @todo Implement me!
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.exchange.response", true);
+    pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
+    
+    evmgr->AddEvent(pEvent);
+  }
 
 } // end handleExchangeResponse
 
@@ -58,8 +66,26 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-  // @todo Implement me!
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.general.offer.list", true);
+    pEvent->Add("isBuy", pmsg.getIsBuy());
+    csRef<iEvent> list = evmgr->CreateEvent("offersList", true);
+    for (unsigned char i = 0; i < pmsg.getOffersCount(); i++)
+    {
+      std::stringstream itemName;
+      itemName << "offers" << "_" << i;
+      csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
+      item->Add("itemId", pmsg.getItemId(i));
+      item->Add("variation", pmsg.getVariation(i));
+      item->Add("price", pmsg.getPrice(i));
+      item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
+      item->Add("iconName", *pmsg.getIconName(i)?*pmsg.getIconName(i):"");
+      list->Add(itemName.str().c_str(), item);
+    }
+    pEvent->Add("offersList", list);
+    
+    evmgr->AddEvent(pEvent);
+  }
 
 } // end handleTradeOffersListNpc
 
@@ -70,8 +96,26 @@ void TradeHandler::handleExchangeOffersList(GenericMessage* msg)
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-  // @todo Implement me!
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.exchange.offer.list", true);
+    csRef<iEvent> list = evmgr->CreateEvent("offersList", true);
+    for (unsigned char i = 0; i < pmsg.getOffersCount(); i++)
+    {
+      std::stringstream itemName;
+      itemName << "offers" << "_" << i;
+      csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
+      item->Add("itemId", pmsg.getItemId(i));
+      item->Add("variation", pmsg.getVariation(i));
+      item->Add("amount", pmsg.getAmount(i));
+      item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
+      item->Add("iconName", *pmsg.getIconName(i)?*pmsg.getIconName(i):"");
+      item->Add("slotId", pmsg.getSlotId(i));
+      list->Add(itemName.str().c_str(), item);
+    }
+    pEvent->Add("offersList", list);
+    
+    evmgr->AddEvent(pEvent);
+  }
 
 } // end handleExchangeOffersList
 
@@ -82,6 +126,12 @@ void TradeHandler::handleTradeCancel(GenericMessage* msg)
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.general.cancel", true);
+    
+    evmgr->AddEvent(pEvent);
+  }
+
 } // end handleTradeCancel
 
 void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
@@ -91,6 +141,12 @@ void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.exchange.offer.accept", true);
+    
+    evmgr->AddEvent(pEvent);
+  }
+
 } // end handleTradeOfferAccept
 
 void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
@@ -100,8 +156,12 @@ void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-  // @todo Implement me!
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.general.confirm", true);
+    pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
+    
+    evmgr->AddEvent(pEvent);
+  }
 
 } // end handleTradeConfirmResponse
 

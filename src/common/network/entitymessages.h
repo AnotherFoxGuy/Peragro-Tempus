@@ -697,7 +697,7 @@ class PickResponseMessage : public NetMessage
   unsigned int variation;
   unsigned char slotid;
   ptString name;
-  ptString icon;
+  ptString iconname;
   ptString description;
   float weight;
   ptString equiptype;
@@ -727,8 +727,8 @@ public:
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getIcon() const { return icon; }
-  void setIcon(ptString x) { icon = x; }
+  ptString geticonName() const { return iconname; }
+  void seticonName(ptString x) { iconname = x; }
 
   ptString getDescription() const { return description; }
   void setDescription(ptString x) { description = x; }
