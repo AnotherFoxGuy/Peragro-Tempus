@@ -22,7 +22,7 @@
 #include "server/entity/entity.h"
 
 Clock::Clock()
-  : minute(0), hour(10), minutesPerHour(60), hoursPerDay(24), realPerGame(1),
+  : minute(0), hour(10), minutesPerHour(60), hoursPerDay(24), realPerGame(150),
   broadcastInterval(60), counter(0)
 {
   this->setInterval(realPerGame);
