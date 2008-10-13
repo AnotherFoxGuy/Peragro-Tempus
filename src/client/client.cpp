@@ -84,6 +84,9 @@
 #include "client/trade/trademanager.h"
 #include "client/state/statemanager.h"
 
+#include "client/user/usermanager.h"
+#include "client/quest/questmanager.h"
+
 #include "common/event/eventmanager.h"
 #include "common/event/regionevent.h"
 #include "common/event/inputevent.h"
@@ -132,6 +135,9 @@ namespace PT
     tradeManager = 0;
     componentManager = 0;
 
+    userManager = 0;
+    questManager = 0;
+
     // Don't set world = 0;
   }
 
@@ -162,6 +168,9 @@ namespace PT
     delete chatManager;
     delete tradeManager;
     delete componentManager;
+
+    delete userManager;
+    delete questManager;
 
     // Don't delete world;
   }
@@ -304,6 +313,12 @@ namespace PT
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventManager);
 
+    // Create and Initialize the UserManager.
+    userManager = new PT::User::UserManager ();
+    if (!userManager->Initialize())
+      return Report(PT::Error, "Failed to initialize UserManager!");
+    pointerlib.setUserManager(userManager);
+
     // Create and Initialize the EffectDataManager.
     effectDataManager = new PT::Data::EffectDataManager (&pointerlib);
     if (!effectDataManager->parse())
@@ -404,6 +419,12 @@ namespace PT
     if (!tradeManager->Initialize())
       return Report(PT::Error, "Failed to initialize TradeManager!");
     pointerlib.setTradeManager(tradeManager);
+
+    // Create and Initialize the QuestManager.
+    questManager = new PT::Quest::QuestManager ();
+    if (!questManager->Initialize())
+      return Report(PT::Error, "Failed to initialize QuestManager!");
+    //pointerlib.setQuestManager(questManager);
 
     // Create and Initialize the ComponentManager.
     componentManager = new PT::Component::ComponentManager (&pointerlib);

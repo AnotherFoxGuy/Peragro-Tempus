@@ -31,7 +31,7 @@
 
 #define NO_CHARACTER_SELECTED_0 0
 
-class iCommandLineParser;
+struct iCommandLineParser;
 
 namespace PT
 {

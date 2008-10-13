@@ -18,6 +18,8 @@
 
 #include "usermanager.h"
 
+#include <csutil/cmdline.h>
+
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
@@ -25,6 +27,9 @@
 #include "client/gui/guimanager.h"
 
 #include "common/event/eventmanager.h"
+#include "common/event/event.h"
+
+#include "client/state/statemanager.h"
 
 
 namespace PT
@@ -63,7 +68,7 @@ namespace PT
       PointerLibrary::getInstance()->getNetwork()->send(&answer_msg);
     } // end SelectCharacter()
 
-    void UserManager::login(const std::string& user, const std::string& pass)
+    void UserManager::Login(const std::string& user, const std::string& pass)
     {
       this->user = user;
       this->pass = pass;
@@ -74,7 +79,7 @@ namespace PT
       PointerLibrary::getInstance()->getNetwork()->send(&answer_msg);
     } // end login()
 
-    bool Client::Connected (iEvent& ev)
+    bool UserManager::Connected (iEvent& ev)
     {
       using namespace PT::Events;
 
@@ -83,7 +88,7 @@ namespace PT
 
       if (stateManager->GetState() == STATE_RECONNECTED)
       {
-        login(user, pass);
+        Login(user, pass);
       }
       else
       {
@@ -97,11 +102,11 @@ namespace PT
             if (cmdline->GetBoolOption("register", false))
             {
               RegisterRequestMessage reg_msg;
-              reg_msg.setUsername(ptString::create(user));
-              reg_msg.setPassword(pass.c_str());
+              reg_msg.setUsername(ptString(user, strlen(user)));
+              reg_msg.setPassword(pass);
               PointerLibrary::getInstance()->getNetwork()->send(&reg_msg);
             }
-            login(user, pass);
+            Login(user, pass);
           }
         }
 
@@ -114,6 +119,7 @@ namespace PT
 
     bool UserManager::LoginResponse(iEvent& ev)
     {
+      using namespace Events;
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
@@ -135,7 +141,7 @@ namespace PT
         serverWindow->EnableWindow();
         //network->stop();
         //stateManager->SetState(STATE_INTRO);
-        OkDialogWindow* dialog = new OkDialogWindow(guiManager);
+        OkDialogWindow* dialog = new OkDialogWindow(guimanager);
         dialog->SetText(Helper::GetError(&ev).c_str());
         return true;
       }
@@ -174,6 +180,7 @@ namespace PT
 
     bool UserManager::RegisterResponse(iEvent& ev)
     {
+      using namespace Events;
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
@@ -186,11 +193,12 @@ namespace PT
       {
         Report(PT::Warning, "Registration Failed due to: %s", Helper::GetError(&ev).c_str());
         dialog->SetText(Helper::GetError(&ev).c_str());
-        return;
       }
-
-      dialog->SetText("Registration succeeded");
-      Report(PT::Notify, "Registration succeeded!");
+      else
+      {
+        dialog->SetText("Registration succeeded");
+        Report(PT::Notify, "Registration succeeded!");
+      }
 
       return true;
     } // end RegisterResponse()
@@ -232,6 +240,7 @@ namespace PT
 
     bool UserManager::CharacterCreateResponse(iEvent& ev)
     {
+      using namespace Events;
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
@@ -241,17 +250,17 @@ namespace PT
       if (!Helper::HasError(&ev))
       {
         SelectCharWindow* selectCharWindow = guimanager->GetWindow<SelectCharWindow>(SELECTCHARWINDOW);
-        unsigned int charId = Helper::GetUInt(item, "charId");
-        std::string name = Helper::GetString(item, "name");
-        unsigned char skinColour = Helper::GetUChar(ev, "skinColour");
-        unsigned char hairColour = Helper::GetUChar(ev, "hairColour");
-        unsigned char decalColour = Helper::GetUChar(ev, "decalColour");
+        unsigned int charId = Helper::GetUInt(&ev, "charId");
+        std::string name = Helper::GetString(&ev, "name");
+        unsigned char skinColour = Helper::GetUChar(&ev, "skinColour");
+        unsigned char hairColour = Helper::GetUChar(&ev, "hairColour");
+        unsigned char decalColour = Helper::GetUChar(&ev, "decalColour");
 
         selectCharWindow->AddCharacter(charId, name.c_str(), skinColour, hairColour, decalColour);
       }
       else
       {
-        Report(PT::Warning, "Character creation failed due to: %s", *answer_msg.getError());
+        Report(PT::Warning, "Character creation failed due to: %s", Helper::GetError(&ev).c_str());
         OkDialogWindow* dialog = new OkDialogWindow(guimanager);
         dialog->SetText(Helper::GetError(&ev).c_str());
       }

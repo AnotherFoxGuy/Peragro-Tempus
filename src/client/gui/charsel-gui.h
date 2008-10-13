@@ -68,8 +68,8 @@ namespace PT
         virtual ~SelectCharWindow();
         bool Create();
         void AddCharacter(unsigned int charId, const char* name,
-                          unsigned char* skincolour, unsigned char* hairncolour,
-                          unsigned char* decalcolour);
+                          unsigned char skincolour, unsigned char hairncolour,
+                          unsigned char decalcolour);
         void EmptyCharList();
         void ShowWindow();
       };

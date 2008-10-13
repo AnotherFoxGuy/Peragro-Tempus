@@ -142,6 +142,16 @@ namespace PT
     class World;
   } // World namespace
 
+  namespace Quest
+  {
+    class QuestManager;
+  } // Quest namespace
+
+  namespace User
+  {
+    class UserManager;
+  } // User namespace
+
   class Client : public csApplicationFramework, public csBaseEventHandler
   {
   public:
@@ -219,6 +229,9 @@ namespace PT
     PT::Component::ComponentManager* componentManager;
 
     PT::World::World* world;
+
+    PT::User::UserManager* userManager;
+    PT::Quest::QuestManager* questManager;
 
     Mutex mutex;
     csTicks timer;

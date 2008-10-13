@@ -27,6 +27,7 @@
 #include "client/gui/gui.h"
 
 #include "client/trade/playerinventory.h"
+#include "client/trade/exchange.h"
 
 namespace PT
 {
@@ -40,6 +41,7 @@ namespace PT
     TradeManager::~TradeManager()
     {
       delete playerInventory;
+      delete exchange;
     }
 
     bool TradeManager::Initialize()
@@ -50,6 +52,12 @@ namespace PT
       delete playerInventory;
       playerInventory = new PT::Trade::PlayerInventory ();
       if (!playerInventory->Initialize())
+        return Report(PT::Error, "Failed to initialize PlayerInventory!");
+
+      // Create and Initialize the PlayerInventory.
+      delete exchange;
+      exchange = new PT::Trade::Exchange ();
+      if (!exchange->Initialize())
         return Report(PT::Error, "Failed to initialize PlayerInventory!");
 
       return true;

@@ -176,9 +176,9 @@ namespace PT
       } // end ShowAdminButton()
 
       void SelectCharWindow::AddCharacter(unsigned int charId, const char* name,
-                                          unsigned char* skincolour,
-                                          unsigned char* hairncolour,
-                                          unsigned char* decalcolour)
+                                          unsigned char skincolour,
+                                          unsigned char hairncolour,
+                                          unsigned char decalcolour)
       {
         btn = winMgr->getWindow("CharSelect/Characters");
         char charIdstr[10];
