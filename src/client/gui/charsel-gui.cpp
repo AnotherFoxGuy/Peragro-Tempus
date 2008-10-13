@@ -16,9 +16,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/client.h"
-
 #include "client/gui/gui.h"
+
+#include "client/user/usermanager.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
@@ -29,6 +29,7 @@
 #include "client/entity/entitymanager.h"
 
 #include "common/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
 namespace PT
 {
@@ -59,8 +60,8 @@ namespace PT
 
         int own_char_id = atoi(item->getText().c_str());
 
-        PointerLibrary::getInstance()->getClient()->
-          selectCharacter(own_char_id);
+        PointerLibrary::getInstance()->getUserManager()->
+          SelectCharacter(own_char_id);
 
         // Remove the window from view.
         btn = winMgr->getWindow(SELECTCHARWINDOW);

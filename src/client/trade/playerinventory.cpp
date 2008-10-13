@@ -119,26 +119,17 @@ namespace PT
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
-      unsigned int itemId = -1;
-      ev.Retrieve("itemId", itemId);
-
-      unsigned int variation = -1;
-      ev.Retrieve("variation", variation);
-
-      const char* name = "";
-      ev.Retrieve("name", name);
-
-      const char* iconName = "";
-      ev.Retrieve("iconName", iconName);
-
-      unsigned int slotId = -1;
-      ev.Retrieve("slotId", slotId);
+      unsigned int itemId = Helper::GetUInt(&ev, "itemId");
+      unsigned int variation = Helper::GetUInt(&ev, "variation");
+      std::string name = Helper::GetString(&ev, "name");
+      std::string iconName = Helper::GetString(&ev, "iconName");
+      unsigned int slotId = Helper::GetUInt(&ev, "slotId");
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       if (!guimanager) return true;
       InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
       if (!inventoryWindow) return true;
-      inventoryWindow->AddItem(itemId, variation, name, iconName, slotId);
+      inventoryWindow->AddItem(itemId, variation, name.c_str(), iconName.c_str(), slotId);
 
       return true;
     } // end Add()
@@ -149,11 +140,8 @@ namespace PT
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
-      unsigned int oldSlotId = -1;
-      ev.Retrieve("oldSlot", oldSlotId);
-
-      unsigned int NewSlotId = -1;
-      ev.Retrieve("newSlot", NewSlotId);
+      unsigned int oldSlotId = Helper::GetUInt(&ev, "oldSlot");
+      unsigned int newSlotId = Helper::GetUInt(&ev, "newSlot");
 
       if (!Helper::HasError(&ev))
       {
@@ -161,11 +149,11 @@ namespace PT
         if (!guimanager) return true;
         InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
         if (!inventoryWindow) return true;
-        inventoryWindow->MoveItem(oldSlotId, NewSlotId);
+        inventoryWindow->MoveItem(oldSlotId, newSlotId);
       }
       else
         Report(PT::Notify, "You can't move object from slot %d to slot %d! Reason: '%s'.", 
-          oldSlotId, NewSlotId, Helper::GetError(&ev).c_str());
+          oldSlotId, newSlotId, Helper::GetError(&ev).c_str());
 
       return true;
     } // end Move()

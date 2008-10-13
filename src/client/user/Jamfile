@@ -1,0 +1,6 @@
+SubDir TOP src client user ;
+
+Description client-usermanager : "client usermanager" ;
+Library client-usermanager :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-usermanager : CEGUI CRYSTAL CEL BOOST ;

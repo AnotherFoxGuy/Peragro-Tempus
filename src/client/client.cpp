@@ -96,8 +96,6 @@
 
 #include "imystarbox.h"
 
-#define NO_CHARACTER_SELECTED_0 0
-
 CS_IMPLEMENT_APPLICATION
 
 namespace PT
@@ -111,7 +109,6 @@ namespace PT
     last_sleep = 0;
     world_loaded = false;
     last_seen = 0;
-    char_id = NO_CHARACTER_SELECTED_0;
 
     reporter = 0;
     network = 0;
@@ -443,12 +440,6 @@ namespace PT
     // Register listener for connection.
     REGISTER_LISTENER(Client, SawServer, "connection.sawServer")
 
-    // Register listener for StateConnectedEvent.
-    REGISTER_LISTENER(Client, Connected, "state.connected")
-
-    // Register listener for StateLoggedInEvent.
-    REGISTER_LISTENER(Client, loggedIn, "state.loggedin")
-
     // Register listener for state.play.
     REGISTER_LISTENER(Client, PlayingEvent, "state.play")
 
@@ -622,53 +613,7 @@ namespace PT
       ConnectRequestMessage msg(CLIENTVERSION);
       network->send(&msg);
     }
-  }
-
-  bool Client::Connected (iEvent& ev)
-  {
-    using namespace PT::Events;
-
-    if (stateManager->GetState() == STATE_RECONNECTED)
-    {
-      login(user, pass);
-    }
-    else
-    {
-      if (cmdline && stateManager->GetState() == STATE_INTRO)
-      {
-        const char* user = cmdline->GetOption("user", 0);
-        const char* pass = cmdline->GetOption("pass", 0);
-
-        if (user && pass)
-        {
-          if (cmdline->GetBoolOption("register", false))
-          {
-            RegisterRequestMessage reg_msg;
-            reg_msg.setUsername(ptString(user, strlen(user)));
-            reg_msg.setPassword(pass);
-            network->send(&reg_msg);
-          }
-          login(user, pass);
-        }
-      }
-
-      stateManager->SetState(STATE_CONNECTED);
-    }
-
-    Report(PT::Notify, "Connected!");
-    return true;
-  }
-
-  void Client::login(const std::string& user, const std::string& pass)
-  {
-    this->user = user;
-    this->pass = pass;
-
-    LoginRequestMessage answer_msg;
-    answer_msg.setUsername(ptString(user.c_str(), strlen(user.c_str())));
-    answer_msg.setPassword(pass.c_str());
-    network->send(&answer_msg);
-  }
+  } 
 
   bool Client::ActionActivateSkill(iEvent& ev)
   {
@@ -748,68 +693,6 @@ namespace PT
     if (!pl) return Report(PT::Error, "Failed to load CEL Physical Layer!");
 
     return true;
-  }
-
-  bool Client::loggedIn(iEvent& ev)
-  {
-    using namespace PT::Events;
-    using namespace PT::GUI::Windows;
-
-    LoginWindow* loginWindow = guiManager->GetWindow<LoginWindow>(LOGINWINDOW);
-    ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);
-    SelectCharWindow* selectCharWindow = guiManager->GetWindow<SelectCharWindow>(SELECTCHARWINDOW);
-
-    if (StateHelper::GetError(&ev))
-    {
-      Report(PT::Error, "Login Failed due to: %s.", StateHelper::GetErrorMessage(&ev).c_str());
-
-      loginWindow->EnableWindow();
-      serverWindow->EnableWindow();
-      //network->stop();
-      //stateManager->SetState(STATE_INTRO);
-      OkDialogWindow* dialog = new OkDialogWindow(guiManager);
-      dialog->SetText(StateHelper::GetErrorMessage(&ev).c_str());
-      return true;
-    }
-    else
-      Report(PT::Notify, "Login succeeded!");
-
-
-    if (stateManager->GetState() == STATE_RECONNECTED && char_id != NO_CHARACTER_SELECTED_0)
-    {
-      selectCharacter(char_id);
-    }
-    else if (stateManager->GetState() == STATE_CONNECTED)
-    {
-      loginWindow->HideWindow();
-      serverWindow->HideWindow();
-      selectCharWindow->ShowWindow();
-
-      bool isAdmin = false;
-      ev.Retrieve("isAdmin", isAdmin);
-      if (isAdmin){selectCharWindow->ShowAdminButton();}
-
-      stateManager->SetState(STATE_LOGGED_IN);
-
-      if (cmdline)
-      {
-        const char* character = cmdline->GetOption("char");
-        if (character)
-        {
-          selectCharacter(atoi(character));
-        }
-      }
-    }
-
-    return true;
-  }
-
-  void Client::selectCharacter(unsigned int char_id)
-  {
-    this->char_id = char_id;
-    CharSelectRequestMessage answer_msg;
-    answer_msg.setCharId(char_id);
-    network->send(&answer_msg);
   }
 
   void Client::OnCommandLineHelp()

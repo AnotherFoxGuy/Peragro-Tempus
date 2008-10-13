@@ -86,6 +86,11 @@ namespace PT
     class TradeManager;
   } // Trade namespace
 
+  namespace User
+  {
+    class UserManager;
+  } // User namespace
+
 } // PT namespace
 
 class PointerLibrary : public iPointerLibrary
@@ -113,6 +118,7 @@ private:
   PT::Chat::ChatManager* chatManager;
   PT::Component::ComponentManager* componentManager;
   PT::Trade::TradeManager* tradeManager;
+  PT::User::UserManager* userManager;
 
   PT::Reporter* reporter;
 
@@ -141,6 +147,7 @@ public:
     chatManager = 0;
     componentManager = 0;
     tradeManager = 0;
+    userManager = 0;
 
     reporter = 0;
 
@@ -205,6 +212,9 @@ public:
 
   void setTradeManager(PT::Trade::TradeManager* tradeManager) { this->tradeManager = tradeManager; }
   PT::Trade::TradeManager* getTradeManager() { return this->tradeManager; }
+
+  void setUserManager(PT::User::UserManager* userManager) { this->userManager = userManager; }
+  PT::User::UserManager* getUserManager() { return this->userManager; }
 
   void setReporter(PT::Reporter* reporter) { this->reporter = reporter; }
   PT::Reporter* getReporter() { return this->reporter; }

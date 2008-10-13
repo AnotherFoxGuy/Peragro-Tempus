@@ -5,8 +5,10 @@
 	</message>
 
 	<message type="User" name="LoginResponse">
+          <event name="user.login" specific="None">
 		<string>Error</string> <!-- null is successful -->
 		<bool>IsAdmin</bool>
+          </event>
 	</message>
 
 	<message type="User" name="RegisterRequest">
@@ -15,10 +17,13 @@
 	</message>
 
 	<message type="User" name="RegisterResponse">
+          <event name="user.register" specific="None">
 		<string>Error</string> <!-- null is successful -->
+          </event>
 	</message>
 
 	<message type="User" name="CharList">
+          <event name="user.character.list" specific="None">
 		<list name="Character">
 			<uint32>CharId</uint32>
 			<string>Name</string>
@@ -26,6 +31,7 @@
 			<colour24>SkinColour</colour24>
 			<colour24>DecalColour</colour24>
 		</list>
+          </event>
 	</message>
 
 	<message type="User" name="CharCreateRequest">
@@ -36,12 +42,14 @@
 	</message>
 
 	<message type="User" name="CharCreateResponse">
+          <event name="user.character.create" specific="None">
 		<uint32>CharId</uint32>
 		<string>Name</string>
 		<colour24>HairColour</colour24>
 		<colour24>SkinColour</colour24>
 		<colour24>DecalColour</colour24>
 		<string>Error</string> <!-- null is successful -->
+          </event>
 	</message>
 
 	<message type="User" name="CharSelectRequest">
@@ -49,7 +57,9 @@
 	</message>
 
 	<message type="User" name="CharSelectResponse">
+            <event name="state.play" specific="None">
 		<uint32>EntityId</uint32>
 		<string>Error</string> <!-- null is successful -->
+            </event>
 	</message>
 </message-implementation>

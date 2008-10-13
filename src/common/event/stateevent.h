@@ -54,35 +54,6 @@ namespace PT
         return state;
       }
 
-      /**
-       * Check if a state event has an error.
-       * @param event The event.
-       * @return Whether the event error flag is true.
-       */
-      static bool GetError(const iEvent* event)
-      {
-        bool state = false;
-        if (event->Retrieve("error", state) != csEventErrNone)
-          Report(PT::Error, "StateHelper::GetError failed!");
-
-        return state;
-      }
-
-      /**
-       * Get the error message from a state event.
-       * @param event The event.
-       * @return The error message.
-       */
-      static std::string GetErrorMessage(const iEvent* event)
-      {
-        const char* textstr = "";
-        if (event->Retrieve("errorMessage", textstr) != csEventErrNone)
-          Report(PT::Error, "StateHelper::GetErrorMessage failed!");
-
-        std::string text = textstr;
-        return text;
-      }
-
     };
 
   } // Events namespace

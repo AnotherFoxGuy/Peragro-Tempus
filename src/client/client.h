@@ -154,14 +154,9 @@ namespace PT
     bool Application();
     void OnCommandLineHelp();
 
-    void login(const std::string& user, const std::string& pass);
-
-    void selectCharacter(unsigned int char_id);
-
     csTicks GetTicks() { return csGetTicks(); }
 
     bool SawServer(iEvent& ev);
-    bool loggedIn(iEvent& ev);
     bool PlayingEvent(iEvent& ev);
     bool LoadingRegion(iEvent& ev);
     bool LoadRegion(iEvent& ev);
@@ -232,11 +227,6 @@ namespace PT
     int limitFPS;
     csTicks last_sleep;
     csTicks last_seen;
-
-    // needed for relogin on disconnect
-    std::string user;
-    std::string pass;
-    unsigned int char_id;
 
     CS_EVENTHANDLER_PHASE_3D("application.peragro")
   };

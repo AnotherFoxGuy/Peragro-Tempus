@@ -79,7 +79,7 @@ namespace PT
          return text;
        }
 
-             /**
+      /**
        * Get an event parameter's value.
        * @param ev An event.
        * @param name The name of the parameter.
@@ -90,6 +90,20 @@ namespace PT
         unsigned int i = 0;
         if (event->Retrieve(name, i) != csEventErrNone)
           Report(PT::Error, "Helper::GetUInt '%s' failed!", name);
+        return i;
+      }
+
+      /**
+       * Get an event parameter's value.
+       * @param ev An event.
+       * @param name The name of the parameter.
+       * @return The parameter's value.
+       */
+      static unsigned char GetUChar(const iEvent* event, const char* name)
+      {
+        unsigned char i = 0;
+        if (event->Retrieve(name, i) != csEventErrNone)
+          Report(PT::Error, "Helper::GetUChar '%s' failed!", name);
         return i;
       }
 

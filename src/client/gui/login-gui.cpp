@@ -16,11 +16,11 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/client.h"
-
 #include "client/gui/login-gui.h"
 #include "client/gui/gui.h"
 #include "client/gui/servers-gui.h"
+
+#include "client/user/usermanager.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
@@ -32,6 +32,7 @@
 #include "common/version.h"
 
 #include "common/reporter/reporter.h"
+#include "client/pointer/pointer.h"
 
 namespace PT
 {
@@ -104,8 +105,8 @@ namespace PT
           dialog->SetText("Password is too long");
           return true;
         }
-        PointerLibrary::getInstance()->getClient()->
-          login(login.c_str(), password.c_str());
+        PointerLibrary::getInstance()->getUserManager()->
+          Login(login.c_str(), password.c_str());
 
         return true;
       } // end LoginButtonPressed()
@@ -278,7 +279,7 @@ namespace PT
         winMgr = cegui->GetWindowManagerPtr ();
 
         app_cfg =  csQueryRegistry<iConfigManager>
-          (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
+          (PointerLibrary::getInstance()->getObjectRegistry());
         if (!app_cfg)
         {
           Report(PT::Error, "Can't find the config manager!");

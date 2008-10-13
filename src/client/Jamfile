@@ -16,6 +16,7 @@ SubInclude TOP src client effect ;
 SubInclude TOP src client component ;
 SubInclude TOP src client cursor ;
 SubInclude TOP src client quest ;
+SubInclude TOP src client user ;
 
 Description peragro : "Peragro Tempus Client" ;
 ApplicationIcon win32 : peragro : ../../data/art/icons/peragro_icon.ico ;
@@ -24,7 +25,7 @@ Application peragro :
 [ Wildcard *.h *.cpp ]
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs peragro : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
-LinkWith peragro : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-effect client-cursor client-component client-questmanager ;
+LinkWith peragro : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-effect client-cursor client-component client-questmanager client-usermanager ;
 
 MsvcExternalLibrary peragro : "wsock32.lib" ;
 
@@ -41,7 +42,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   Application peragro_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags peragro_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine peragro_static : CS_STATIC_LINKED ;
-  LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager client-environmentmanager client-effect client-cursor client-component client-questmanager ;
+  LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager client-environmentmanager client-effect client-cursor client-component client-questmanager client-usermanager ;
   LinkStaticPlugins peragro_static :
    csclipboard
    loader_starbox
@@ -76,24 +77,24 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
 
   LinkStaticPlugins peragro_static :
   ; Generic stuff
-    vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep
-  ; Font
+    vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep 
+
     csfont fontplex freefnt2
-  ; Cullers
+
     dynavis frustvis
-  ; Old Renderloop stuff TODO remove.
-    rendstep_stencil stdpt rendloop_loader rendstep_std
-  ; New rendermanagers
+
+    rendstep_stencil  rendloop_loader rendstep_std
+
     rm_rlcompat rm_unshadowed rm_shadow_pssm
-  ; Shader stuff
+
     gl3d glshader_arb glshader_fixed glwin32 glshader_cg shadermgr vproc_std shaderweaver ptpdlight
-  ; CEGUI
+
     cscegui
-  ; Loaders
+
     bindoc xmlread xmlshader
-  ; Image types
+
     csddsimg csbmpimg csjpgimg cspngimg cstgaimg csgifimg imgplex
-  ; Meshes
+
     nullmesh protomesh protomeshldr
     animesh animeshldr
     decal dsplex
@@ -104,10 +105,10 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     spr2d spr2dldr
     spr3d spr3dldr
     sprcal3d sprcal3dldr
-  ; Sound
+
     sndsysloader sndsysogg sndsyswav sndmanager sndsyssoft
-  :
-    glwin32 glx2d glosx2d xwin xext86vm
+    
+  : glwin32 glx2d glosx2d xwin xext86vm
     sndmanager sndsyssoft sndsysloader sndsysnull sndsysogg sndsyswav sndsyswin
     sndsyscoreaudio sndsysoss sndsysalsa
   : CRYSTAL

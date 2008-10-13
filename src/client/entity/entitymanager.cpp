@@ -221,7 +221,7 @@ namespace PT
     {
       using namespace PT::Events;
 
-      ev.Retrieve("ownEntityId", playerId);
+      ev.Retrieve("entityId", playerId);
 
       return true;
     }
