@@ -42,7 +42,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   Application peragro_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags peragro_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine peragro_static : CS_STATIC_LINKED ;
-  LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup worldloader client-statemanager client-environmentmanager client-effect client-cursor client-component client-questmanager client-usermanager ;
+  LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-effect client-cursor client-component client-questmanager client-usermanager ;
   LinkStaticPlugins peragro_static :
    csclipboard
    loader_starbox
@@ -74,45 +74,76 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   :
   : CEL
   ;
+  
+  # Generic stuff
+  PTPLUGINLIST = vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep ;
+  
+  # Font
+  PTPLUGINLIST += csfont fontplex freefnt2 ;
+  
+  # Cullers
+  PTPLUGINLIST += dynavis frustvis ;
+  
+  # Old Renderloop stuff TODO remove.
+  PTPLUGINLIST += rendstep_stencil stdpt rendloop_loader rendstep_std ;
+  
+  # New rendermanagers
+  PTPLUGINLIST += rm_rlcompat rm_unshadowed rm_shadow_pss ;
+  
+  # Shader stuff
+  PTPLUGINLIST += gl3d glshader_arb glshader_fixed glwin32 glshader_cg shadermgr vproc_std shaderweaver ptpdlight xmlshader ;
+  
+  # CEGUI
+  PTPLUGINLIST += cscegui ;
+  
+  # Loaders
+  PTPLUGINLIST += bindoc xmlread ;
+  
+  # Image types
+  PTPLUGINLIST += csddsimg csbmpimg csjpgimg cspngimg cstgaimg csgifimg imgplex ;
+  
+  # Meshes
+  PTPLUGINLIST += nullmesh protomesh protomeshldr ;
+  PTPLUGINLIST += animesh animeshldr ;
+  PTPLUGINLIST += decal dsplex ;
+  PTPLUGINLIST += particles particlesldr emit emitldr haze hazeldr ;
+  PTPLUGINLIST += genmesh gmeshanimpdl gmeshldr gmeshskelanim2 skeleton2 skeleton2ldr ;
+  PTPLUGINLIST += gmeshanim skeleton skelldr ;
+  PTPLUGINLIST += simpleformer simpleformerldr bruteblock terrainldr terrain2 terrain2ldr ;
+  PTPLUGINLIST += spr2d spr2dldr ;
+  PTPLUGINLIST += spr3d spr3dldr ;
+  PTPLUGINLIST += sprcal3d sprcal3dldr ;
+  
+  # Sound
+  PTPLUGINLIST += sndsysloader sndsysogg sndsyswav sndmanager sndsysnull sndsyssoft ;
+  if $(OPENAL.AVAILABLE) = "yes" { PTPLUGINLIST += sndsysopenal ; }
+  if $(COREAUDIO.AVAILABLE) = "yes" { PTPLUGINLIST += sndsyscoreaudio ; }
+  if $(ALSA.AVAILABLE) = "yes" { PTPLUGINLIST += sndsysalsa ; }
+  if $(DIRECTX8.AVAILABLE) = "yes" { PTPLUGINLIST += sndsyswin ; }
+  if $(JACKASYN.AVAILABLE) = "yes" { PTPLUGINLIST += sndsysjackasyn ; }
+  if $(OSS.AVAILABLE) = "yes" { PTPLUGINLIST += sndsysoss ; }
+  
+  # Plugins needed by GL renderer
+  if $(X11.AVAILABLE) = "yes"
+  {
+    PTPLUGINLIST += xwin ;
+    if $(XFREE86VM.AVAILABLE) = "yes" { PTPLUGINLIST += xext86vm ; }
+  }
+  
+  if $(GL.AVAILABLE) = "yes"
+  {  
+    # GL canvases
+    if $(GLX.AVAILABLE) = "yes" { PTPLUGINLIST += glx2d ; }
+    if $(TARGET.OS) = "WIN32" { PTPLUGINLIST += glwin32 ; }
+    if $(TARGET.OS) = "MACOS_X" { PTPLUGINLIST += glosx2d ; }
+  }
+  
+  #Libs ;
+  #PTLIBLIST = threadedfactoryloader threadedlevelloader ;
+  
 
-  LinkStaticPlugins peragro_static :
-  ; Generic stuff
-    vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep 
+  LinkStaticPlugins peragro_static : $(PTPLUGINLIST) : CRYSTAL ;
 
-    csfont fontplex freefnt2
-
-    dynavis frustvis
-
-    rendstep_stencil  rendloop_loader rendstep_std
-
-    rm_rlcompat rm_unshadowed rm_shadow_pssm
-
-    gl3d glshader_arb glshader_fixed glwin32 glshader_cg shadermgr vproc_std shaderweaver ptpdlight
-
-    cscegui
-
-    bindoc xmlread xmlshader
-
-    csddsimg csbmpimg csjpgimg cspngimg cstgaimg csgifimg imgplex
-
-    nullmesh protomesh protomeshldr
-    animesh animeshldr
-    decal dsplex
-    particles particlesldr emit emitldr haze hazeldr
-    genmesh gmeshanimpdl gmeshldr gmeshskelanim2 skeleton2 skeleton2ldr
-    gmeshanim skeleton skelldr
-    simpleformer simpleformerldr bruteblock terrainldr terrain2 terrain2ldr
-    spr2d spr2dldr
-    spr3d spr3dldr
-    sprcal3d sprcal3dldr
-
-    sndsysloader sndsysogg sndsyswav sndmanager sndsyssoft
-    
-  : glwin32 glx2d glosx2d xwin xext86vm
-    sndmanager sndsyssoft sndsysloader sndsysnull sndsysogg sndsyswav sndsyswin
-    sndsyscoreaudio sndsysoss sndsysalsa
-  : CRYSTAL
-  ;
 
   ExternalLibs peragro_static : CRYSTAL CEL CEGUI ;
 
