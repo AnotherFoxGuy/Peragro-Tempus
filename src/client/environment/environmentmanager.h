@@ -106,6 +106,12 @@ namespace PT
        */
       bool Initialize();
 
+      /**
+       * Get a pointer to the clock object.
+       * @return Clock*
+       */
+      Clock* getClock(){return clock;}
+
     };
   } // Environment namespace
 } // PT namespace

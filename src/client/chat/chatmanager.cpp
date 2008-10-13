@@ -40,6 +40,7 @@
 #include "cmdgroup.h"
 #include "cmdrelocate.h"
 #include "cmdemotes.h"
+#include "cmddate.h"
 
 namespace PT
 {
@@ -89,6 +90,7 @@ namespace PT
       //RegisterCommand(new cmdGreet());
       //RegisterCommand(new cmdSit());
       RegisterCommand(new cmdDbg());
+      RegisterCommand(new cmdDate());
 
       historypointer=0;
 

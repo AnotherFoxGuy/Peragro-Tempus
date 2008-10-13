@@ -368,6 +368,7 @@ namespace PT
     environmentManager = new PT::Environment::EnvironmentManager();
     if (!environmentManager->Initialize())
       return Report(PT::Error, "Failed to create EnvironmentManager object!");
+    pointerlib.setEnvironmentManager(environmentManager);
 
     if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
       return Report(PT::Error, "Failed to set up event handler!");

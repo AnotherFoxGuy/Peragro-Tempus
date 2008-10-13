@@ -86,6 +86,11 @@ namespace PT
     class TradeManager;
   } // Trade namespace
 
+  namespace Environment
+  {
+    class EnvironmentManager;
+  } // Environment namespace
+
   namespace User
   {
     class UserManager;
@@ -118,6 +123,7 @@ private:
   PT::Chat::ChatManager* chatManager;
   PT::Component::ComponentManager* componentManager;
   PT::Trade::TradeManager* tradeManager;
+  PT::Environment::EnvironmentManager* environmentManager;
   PT::User::UserManager* userManager;
 
   PT::Reporter* reporter;
@@ -147,6 +153,7 @@ public:
     chatManager = 0;
     componentManager = 0;
     tradeManager = 0;
+    environmentManager = 0;
     userManager = 0;
 
     reporter = 0;
@@ -212,6 +219,9 @@ public:
 
   void setTradeManager(PT::Trade::TradeManager* tradeManager) { this->tradeManager = tradeManager; }
   PT::Trade::TradeManager* getTradeManager() { return this->tradeManager; }
+
+  void setEnvironmentManager(PT::Environment::EnvironmentManager* environmentManager) { this->environmentManager = environmentManager; }
+  PT::Environment::EnvironmentManager* getEnvironmentManager() { return this->environmentManager; }
 
   void setUserManager(PT::User::UserManager* userManager) { this->userManager = userManager; }
   PT::User::UserManager* getUserManager() { return this->userManager; }
