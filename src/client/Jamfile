@@ -142,7 +142,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   #PTLIBLIST = threadedfactoryloader threadedlevelloader ;
   
 
-  LinkStaticPlugins peragro_static : $(PTPLUGINLIST) : CRYSTAL ;
+  LinkStaticPlugins peragro_static : $(PTPLUGINLIST) : : CRYSTAL ;
 
 
   ExternalLibs peragro_static : CRYSTAL CEL CEGUI ;
