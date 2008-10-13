@@ -31,7 +31,7 @@
 				ProgramDataBaseFileName="..\..\out\release71\build\appperagro_static\peragro_static.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;CS_STATIC_LINKED;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\release71\build\appperagro_static\appperagro_static.pch"
 				AssemblerListingLocation="..\..\out\release71\build\appperagro_static\"
@@ -54,7 +54,7 @@
 				OutputFile="..\..\peragro_static.exe"
 				ProgramDatabaseFile="..\..\out\release71\build\appperagro_static\peragro_static.pdb"
 				SubSystem="2"
-				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib "
+				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib freetype2.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib cg.lib cgGL.lib CEGUIBase-vc71.lib libjpeg.lib libpng.lib cal3d-vc71.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
@@ -107,7 +107,7 @@
 				ProgramDataBaseFileName="..\..\out\release71\build\appperagro_static\peragro_static.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;CS_STATIC_LINKED;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\release71\build\appperagro_static\appperagro_static.pch"
 				AssemblerListingLocation="..\..\out\release71\build\appperagro_static\"
@@ -130,7 +130,7 @@
 				OutputFile="..\..\peragro_static.exe"
 				ProgramDatabaseFile="..\..\out\release71\build\appperagro_static\peragro_static.pdb"
 				SubSystem="2"
-				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib "
+				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib freetype2.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib cg.lib cgGL.lib CEGUIBase-vc71.lib libjpeg.lib libpng.lib cal3d-vc71.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
@@ -182,7 +182,7 @@
 				ProgramDataBaseFileName="..\..\out\debug71\build\appperagro_static\peragro_static.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;CS_STATIC_LINKED;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\debug71\build\appperagro_static\appperagro_static.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\appperagro_static\"
@@ -203,7 +203,7 @@
 				OutputFile="..\..\peragro_static.exe"
 				ProgramDatabaseFile="..\..\out\debug71\build\appperagro_static\peragro_static.pdb"
 				SubSystem="1"
-				AdditionalOptions=" libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib "
+				AdditionalOptions=" libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib freetype2.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib cg.lib cgGL.lib CEGUIBase-vc71_d.lib libjpeg.lib libpng.lib cal3d-vc71_d.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
@@ -255,7 +255,7 @@
 				ProgramDataBaseFileName="..\..\out\debug71\build\appperagro_static\peragro_static.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;CS_STATIC_LINKED;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\debug71\build\appperagro_static\appperagro_static.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\appperagro_static\"
@@ -276,7 +276,7 @@
 				OutputFile="..\..\peragro_static.exe"
 				ProgramDatabaseFile="..\..\out\debug71\build\appperagro_static\peragro_static.pdb"
 				SubSystem="1"
-				AdditionalOptions=" libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib "
+				AdditionalOptions=" libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib freetype2.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib cg.lib cgGL.lib CEGUIBase-vc71_d.lib libjpeg.lib libpng.lib cal3d-vc71_d.lib vorbisfile.lib vorbis.lib ogg.lib libcrystalspace_staticplugins_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
@@ -319,6 +319,9 @@
 			</File>
 			<File
 				RelativePath="..\..\msvc\common\appperagro_static_static_glue_app_CEL.cpp">
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\appperagro_static_static_glue_app_CRYSTAL.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\client.cpp">
