@@ -118,10 +118,10 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   PTPLUGINLIST += sndsysloader sndsysogg sndsyswav sndmanager sndsysnull sndsyssoft ;
   
   # Sound Renderers
-  PTOPTIONALPLUGINLIST = sndsysopenal sndsyscoreaudio sndsysalsa sndsyswin sndsysjackasyn sndsysoss
+  PTOPTIONALPLUGINLIST = sndsysopenal sndsyscoreaudio sndsysalsa sndsyswin sndsysjackasyn sndsysoss ;
   
   # Canvas
-  PTOPTIONALPLUGINLIST += xwin xext86vm glx2d glwin32 glosx2d
+  PTOPTIONALPLUGINLIST += xwin xext86vm glx2d glwin32 glosx2d ;
   
 
   LinkStaticPlugins peragro_static : $(PTPLUGINLIST) : $(PTOPTIONALPLUGINLIST) : CRYSTAL ;
