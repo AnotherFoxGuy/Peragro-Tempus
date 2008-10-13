@@ -88,7 +88,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   PTPLUGINLIST += rendstep_stencil stdpt rendloop_loader rendstep_std ;
   
   # New rendermanagers
-  PTPLUGINLIST += rm_rlcompat rm_unshadowed rm_shadow_pss ;
+  PTPLUGINLIST += rm_rlcompat rm_unshadowed rm_shadow_pssm ;
   
   # Shader stuff
   PTPLUGINLIST += gl3d glshader_arb glshader_fixed glwin32 glshader_cg shadermgr vproc_std shaderweaver ptpdlight xmlshader ;
@@ -116,33 +116,15 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   
   # Sound
   PTPLUGINLIST += sndsysloader sndsysogg sndsyswav sndmanager sndsysnull sndsyssoft ;
-  if $(OPENAL.AVAILABLE) = "yes" { PTPLUGINLIST += sndsysopenal ; }
-  if $(COREAUDIO.AVAILABLE) = "yes" { PTPLUGINLIST += sndsyscoreaudio ; }
-  if $(ALSA.AVAILABLE) = "yes" { PTPLUGINLIST += sndsysalsa ; }
-  if $(DIRECTX8.AVAILABLE) = "yes" { PTPLUGINLIST += sndsyswin ; }
-  if $(JACKASYN.AVAILABLE) = "yes" { PTPLUGINLIST += sndsysjackasyn ; }
-  if $(OSS.AVAILABLE) = "yes" { PTPLUGINLIST += sndsysoss ; }
   
-  # Plugins needed by GL renderer
-  if $(X11.AVAILABLE) = "yes"
-  {
-    PTPLUGINLIST += xwin ;
-    if $(XFREE86VM.AVAILABLE) = "yes" { PTPLUGINLIST += xext86vm ; }
-  }
+  # Sound Renderers
+  PTOPTIONALPLUGINLIST = sndsysopenal sndsyscoreaudio sndsysalsa sndsyswin sndsysjackasyn sndsysoss
   
-  if $(GL.AVAILABLE) = "yes"
-  {  
-    # GL canvases
-    if $(GLX.AVAILABLE) = "yes" { PTPLUGINLIST += glx2d ; }
-    if $(TARGET.OS) = "WIN32" { PTPLUGINLIST += glwin32 ; }
-    if $(TARGET.OS) = "MACOS_X" { PTPLUGINLIST += glosx2d ; }
-  }
-  
-  #Libs ;
-  #PTLIBLIST = threadedfactoryloader threadedlevelloader ;
+  # Canvas
+  PTOPTIONALPLUGINLIST += xwin xext86vm glx2d glwin32 glosx2d
   
 
-  LinkStaticPlugins peragro_static : $(PTPLUGINLIST) : : CRYSTAL ;
+  LinkStaticPlugins peragro_static : $(PTPLUGINLIST) : $(PTOPTIONALPLUGINLIST) : CRYSTAL ;
 
 
   ExternalLibs peragro_static : CRYSTAL CEL CEGUI ;
