@@ -326,11 +326,9 @@ namespace PT
             {
               ///TODO: This imageset should be released when the item is destroyed.
               imgmgr->createImagesetFromImageFile(iconname, iconname);
-              Report(PT::Error, "BLAH1 %s (%s)", setAndIcon.c_str(), iconname);
             }
             setAndIcon = std::string("set:") + iconname;
             setAndIcon += std::string(" image:") + "full_image";
-            Report(PT::Error, "BLAH %s (%s)", setAndIcon.c_str(), iconname);
           }
           // A CEGUI imageset is specified.
           else

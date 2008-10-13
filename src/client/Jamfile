@@ -51,6 +51,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
    component_networkmove
    component_viewbob
    componentstats
+   soundmanager
+   worldloader
   ;
 
   LinkStaticPlugins peragro_static :
@@ -73,64 +75,37 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   ;
 
   LinkStaticPlugins peragro_static :
-    vfs
-    bugplug
-    freefnt2
-    csfont
-    fontplex
-    gl3d
-    csconin
-    csconout
-    sndsyssoft
-    imgplex
-    xmlread
-    bindoc
-    dsplex
-    sndsysloader
-    sndsyswav
-    sndsysogg
-    engine
-    csparser
-    cssynldr
-    sndmanager
-    csopcode
+  ; Generic stuff
+    vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep
+  ; Font
+    csfont fontplex freefnt2
+  ; Cullers
+    dynavis frustvis
+  ; Old Renderloop stuff TODO remove.
+    rendstep_stencil stdpt rendloop_loader rendstep_std
+  ; New rendermanagers
+    rm_rlcompat rm_unshadowed rm_shadow_pssm
+  ; Shader stuff
+    gl3d glshader_arb glshader_fixed glwin32 glshader_cg shadermgr vproc_std shaderweaver ptpdlight
+  ; CEGUI
     cscegui
-    reporter
-    stdrep
-    shadermgr
-    xmlshader
-    rendstep_std
-    csbmpimg
-    csddsimg
-    csgifimg
-    csjpgimg
-    cspngimg
-    particlesldr
-    particles
-    cstgaimg
-    gmeshldr
-    genmesh
-    gmeshanim
-    gmeshskelanim2
-    skeleton
-    skelldr
-    vproc_std
-    rendloop_loader
-    simpleformerldr
-    simpleformer
-    terrainldr
-    bruteblock
-    frustvis
-    dynavis
-    engseq
-    sequence
-    sprcal3dldr
-    sprcal3d
-    glshader_fixed
-    glshader_arb
-    glshader_cg
-    nullmesh
-    gmeshanimpdl
+  ; Loaders
+    bindoc xmlread xmlshader
+  ; Image types
+    csddsimg csbmpimg csjpgimg cspngimg cstgaimg csgifimg imgplex
+  ; Meshes
+    nullmesh protomesh protomeshldr
+    animesh animeshldr
+    decal dsplex
+    particles particlesldr emit emitldr haze hazeldr
+    genmesh gmeshanimpdl gmeshldr gmeshskelanim2 skeleton2 skeleton2ldr
+    gmeshanim skeleton skelldr
+    simpleformer simpleformerldr bruteblock terrainldr terrain2 terrain2ldr
+    spr2d spr2dldr
+    spr3d spr3dldr
+    sprcal3d sprcal3dldr
+  ; Sound
+    sndsysloader sndsysogg sndsyswav sndmanager sndsyssoft
   :
     glwin32 glx2d glosx2d xwin xext86vm
     sndmanager sndsyssoft sndsysloader sndsysnull sndsysogg sndsyswav sndsyswin
