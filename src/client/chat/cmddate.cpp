@@ -26,6 +26,8 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/chat-gui.h"
 
+#include "common/util/printhelper.h"
+
 namespace PT
 {
   namespace Chat
@@ -62,7 +64,7 @@ namespace PT
       if(!clock) return;
 
       char s[5];
-      sprintf(s, "%zu:%02zu", clock->GetHour(), clock->GetMinute());
+      sprintf(s, "%"SIZET":%02"SIZET, clock->GetHour(), clock->GetMinute());
       chatWindow->AddMessage(s);
     } // cmdDate::Execute
 

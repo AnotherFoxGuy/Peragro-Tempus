@@ -21,11 +21,19 @@
 // Fix, in order to be able to use printf safe on win32 and linux 32/64
 
 #ifdef __x86_64__
-# define SIZET "zu"
-# define PRIxPTR "lx"
+# ifndef SIZET
+#  define SIZET "zu"
+# endif
+# ifndef PRIxPTR
+#  define PRIxPTR "lx"
+# endif
 #else
-# define SIZET "u"
-# define PRIxPTR "x"
+# ifndef SIZET
+#  define SIZET "u"
+# endif
+# ifndef PRIxPTR
+#  define PRIxPTR "x"
+# endif
 #endif
 
 #endif
