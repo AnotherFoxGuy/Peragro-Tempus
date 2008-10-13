@@ -76,7 +76,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   ;
   
   # Generic stuff
-  PTPLUGINLIST = vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep ;
+  PTPLUGINLIST = vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep cssynldr ;
   
   # Font
   PTPLUGINLIST += csfont fontplex freefnt2 ;
