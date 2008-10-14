@@ -195,7 +195,13 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
 
         case XMLTOKEN_AUTO:
         {
-          obj->SetCurrentSystem((bool)child->GetContentsValueAsInt());
+          std::string strauto = child->GetContentsValue();
+          if ( strauto == "true" || strauto == "yes" || strauto == "1" )
+          {
+            obj->SetAutoDraw(true);
+          }else{
+            obj->SetAutoDraw(false);
+          } // end if true 
         }
         break;
 

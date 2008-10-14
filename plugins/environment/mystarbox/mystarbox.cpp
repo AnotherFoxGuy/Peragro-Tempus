@@ -153,7 +153,7 @@ bool MyStarbox::SetCurrentSystem(const int& new_id)
 
 bool MyStarbox::Background(const iCamera* c)
 {
-  engine->SetClearScreen(false);
+  engine->SetClearScreen(false);  // to make sure the engine is not clearing the screen, ref peragro client.cpp , setclearscreen
   if (!BackgroundImage(c)) return false;
   return true;
 };
