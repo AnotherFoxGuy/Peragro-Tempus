@@ -63,7 +63,7 @@ namespace PT
       Environment::Clock* clock=envmanager->getClock();
       if(!clock) return;
 
-      char s[5];
+      char s[6];
       sprintf(s, "%"SIZET":%02"SIZET, clock->GetHour(), clock->GetMinute());
       chatWindow->AddMessage(s);
     } // cmdDate::Execute
