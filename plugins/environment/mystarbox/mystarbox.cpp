@@ -811,9 +811,6 @@ name	24	30	c*	name,descrip.
 newline	54	1	c1	newline (max final loc)
 */
 
-
-  std::ifstream inFile;
-
   std::string line;
   System* system;
 
@@ -834,73 +831,75 @@ newline	54	1	c1	newline (max final loc)
 
   printf("Loading Yale Star Calalogue:%s\n", file_name.c_str());
 
-  try
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iDataBuffer> buf = vfs->ReadFile (file_name.c_str());
+  if (!buf)
   {
-    inFile.open((file_name).c_str());
+    printf ("MyStarbox::LoadYaleStarCatalogue: %s failed!.\n" , file_name.c_str() );
+    return false;
+  }
 
-    if (!inFile)
-    {
-      throw ("Unable to open file ");
-    }
+  csStringReader file(buf->GetData());
+  csString data;
+  //if (file.HasMoreLines())
+    //file.GetLine(line);  // Skip first entry, Total # stars
+
+  while (file.HasMoreLines())
+  {
+    file.GetLine(data);
+    line = data.GetData();
 
     int rahh, ramm, rass;
-    int decmm, decss ;
+    int decmm, decss;
     float apr_mag;
+    float abs_mag, distance;
 
-    float abs_mag,distance;
+    //   printf("Object       mV     MV     mV-MV     d(pc)   d(ly)\n");
 
- //   printf("Object       mV     MV     mV-MV     d(pc)   d(ly)\n");
-
-    do
+    if ( line.length() > 14 )
     {
-      getline (inFile,line);
+      rahh = atoi(line.substr(0,2).c_str());
+      ramm = atoi(line.substr(2,2).c_str());
+      rass = atoi(line.substr(4,2).c_str());
 
-      if ( line.length() > 14 )
-      {
-        rahh = atoi(line.substr(0,2).c_str());
-        ramm = atoi(line.substr(2,2).c_str());
-        rass = atoi(line.substr(4,2).c_str());
+      decmm = atoi(line.substr(6,3).c_str());
+      decss = atoi(line.substr(9,2).c_str());
 
-        decmm = atoi(line.substr(6,3).c_str());
-        decss = atoi(line.substr(9,2).c_str());
+      ra = static_cast<float>((rahh+((ramm+(rass/60.0f))/60.0f))*15);
+      dec =static_cast<float>(decmm + (decss/60.0f));  // really not sure about this conversion
 
+      apr_mag = (atof(line.substr(11,3).c_str()))/100;
 
+      //       printf ("RA:%i:%i:%i Dec:%i:%i mag:%2.3f\n", rahh, ramm, rass, decmm, decss, apr_mag );
+      //        printf ("RA:%3.4f Dec:%2.2f mag:%2.3f\n", ra, dec, apr_mag );
 
-	ra = static_cast<float>((rahh+((ramm+(rass/60.0f))/60.0f))*15);
-        dec =static_cast<float>(decmm + (decss/60.0f));  // really not sure about this conversion
+      // distance = std::atof(data.c_str()); need to work this out from classification and apr_mag
 
-        apr_mag = (atof(line.substr(11,3).c_str()))/100;
+      star_classification = line.substr(16,2).c_str();
+      distance = Estmate_Distance_Sequence_Fitting( star_classification, apr_mag );
+      abs_mag = Estmate_Abs_Magnitude(star_classification);
+      name = line.substr(23,29);
+      system = new System(id, name, ra, dec, distance);
+      system->Calculate_Position();
+      tempName = star_classification + ":" + line.substr(20,3) + name;
 
- //       printf ("RA:%i:%i:%i Dec:%i:%i mag:%2.3f\n", rahh, ramm, rass, decmm, decss, apr_mag );
-//        printf ("RA:%3.4f Dec:%2.2f mag:%2.3f\n", ra, dec, apr_mag );
-
-	// distance = std::atof(data.c_str()); need to work this out from classification and apr_mag
-	
-        star_classification = line.substr(16,2).c_str();
-        distance = Estmate_Distance_Sequence_Fitting( star_classification, apr_mag );
-        abs_mag = Estmate_Abs_Magnitude(star_classification);
-        name = line.substr(23,29);
-        system = new System(id, name, ra, dec, distance);
-        system->Calculate_Position();
-        tempName = star_classification + ":" + line.substr(20,3) + name;
-
-        system->Add_Star
+      system->Add_Star
         (
-          tempName,
-          star_classification,
-          AbsMag,
-          StarColor(static_cast<SpectralType>(StarType(star_classification)), distance),
-          star_tex[StarType(star_classification)*6]
-        );
+        tempName,
+        star_classification,
+        AbsMag,
+        StarColor(static_cast<SpectralType>(StarType(star_classification)), distance),
+        star_tex[StarType(star_classification)*6]
+      );
 
-        // Add star images to anaminate star
-	for (int n=1; n< STAR_ANAM_FRAMES ; n++)
-	{
-	  system->Get_Star()->Set_Texture( star_tex.Get( (StarType(star_classification) * STAR_ANAM_FRAMES ) +n));
-	}
+      // Add star images to anaminate star
+      for (int n=1; n< STAR_ANAM_FRAMES ; n++)
+      {
+        system->Get_Star()->Set_Texture( star_tex.Get( (StarType(star_classification) * STAR_ANAM_FRAMES ) +n));
+      }
 
-	//std::cout << line << "," << ra <<std::endl;
-        systems.push_back(system);
+      //std::cout << line << "," << ra <<std::endl;
+      systems.push_back(system);
       // printf ("Loading System ID:%i.\n" , id );
       // Set up the ra_system array.
       syscount++;
@@ -909,18 +908,12 @@ newline	54	1	c1	newline (max final loc)
         ra_systems[static_cast<int>(ra)] = syscount;
         current_ra = static_cast<int>(ra);
       } // end if
-        id++;
-      } // end if length check
-    } while (! inFile.eof() );
+      id++;
+    } // end if length check
+  } // end while
 
-    inFile.close();
 
-    return true;
-  }
-  catch(const char * str ) {
-    printf("Exception raised:MyStarbox::LoadStarCatalogue: %s.\n", str);
-    return false;
-  } // end catch
+  return true;
 }
 
 float MyStarbox::Estmate_Distance_Sequence_Fitting(const std::string&  star_classification,float apr_mag )
