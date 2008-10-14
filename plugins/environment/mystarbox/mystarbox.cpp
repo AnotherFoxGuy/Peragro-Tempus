@@ -690,10 +690,9 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
   // ID RA         DEC       Distance  AbsMag  Star_Type/s
   // 1  0.00091185 1.0890133 921.37572 9.09766 F5
 
-  std::ifstream inFile;
   int x = 1;
+  std::string line;
 
-  std::string data;
   System* system;
 
   // Temp var for System data.
@@ -713,55 +712,85 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
 
   printf("Loading Star Calalogue:%s\n", file_name.c_str());
 
-  try {
-    inFile.open((file_name).c_str());
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  if (!vfs)
+  {
+    printf ("MyStarbox::LoadStarCatalogue: VFS failed!.\n");
+    return false;
+  }
 
-    if (!inFile)
-    {
-      throw ("Unable to open file ");
-    }
+  vfs->PushDir("/");
+  csRef<iDataBuffer> buf = vfs->ReadFile (file_name.c_str());
+  if (!buf)
+  {
+    printf ("MyStarbox::LoadStarCatalogue: %s failed!.\n" , file_name.c_str() );
+    vfs->PopDir();
+    return false;
+  }
 
-    inFile >> data;  // Skip first entry, Total # stars
+  csStringReader file(buf->GetData());
+  csString data;
+ 
+  // Skip first line , #stars
+  if (file.HasMoreLines())
+  {
+     file.GetLine(data);
+     line = data.GetData();
+  }
 
-    while (inFile >> data)
-    {
-      // Get data
-      id = std::atoi(data.c_str());
-      name = "sys:";
-      name += data.c_str();
-      inFile >> data; // RA.
-      ra  = std::atof(data.c_str());
+  using namespace std;
 
-      inFile >> data; // DEC.
-      dec = std::atof(data.c_str());
+  vector<std::string> vdata;
+  vector<std::string>::iterator itr;
 
-      inFile >> data; // Distance.
-      distance = std::atof(data.c_str());
+  while (file.HasMoreLines())
+  {
+    file.GetLine(data);
+    line = data.GetData();
+    // Split data into vector 
+    string dlm (" ");
+    vdata = tokenize_str( line, dlm );
+    itr = vdata.begin();
 
-      inFile >> data;   // AbsMag // magnatude of star as viewed from 32ly
-      AbsMag = std::atof(data.c_str());
+    // Get data
+    id = atoi( itr->c_str());
 
-      inFile >> data; // StarType.
-      star_classification = data;
+    name = "sys:";
+    name += itr->c_str();
 
-      system = new System(id, name, ra, dec, distance);
 
-      system->Calculate_Position();
-      if (id==0) { current_sys = system; } // Keep a pointer to the start system
+    itr++;
+    ra  = atof( itr->c_str() );// RA.
 
-      // Loop through the systems Stars and create the star's
-      // Note, only adding one star per system to start
-      // Use the sys name + star type as temp name
-      std::string tempName = name + star_classification;
+    itr++;   
+    dec = atof( itr->c_str()); // DEC.
 
-/*
-      printf ("StarName:%s\n" , tempName.c_str() );
-      printf ("Star classification:%s\n" , star_classification.c_str() );
-      printf ("Star AbsMag:%4.10f\n" , AbsMag );
-*/
+    itr++;
+    distance = atof( itr->c_str()); // Distance.
 
-      syscount ++;
-      system->Add_Star
+    itr++;
+    AbsMag = std::atof( itr->c_str()); // AbsMag // magnatude of star as viewed from 32ly
+
+    itr++;
+    star_classification = itr->c_str() ;  // StarType.
+
+    system = new System(id, name, ra, dec, distance);
+
+    system->Calculate_Position();
+    if (id==0) { current_sys = system; } // Keep a pointer to the start system
+
+    // Loop through the systems Stars and create the star's
+    // Note, only adding one star per system to start
+    // Use the sys name + star type as temp name
+    std::string tempName = name + star_classification;
+
+    printf ("StarName:%s\n" , tempName.c_str() );
+    printf ("Star classification:%s\n" , star_classification.c_str() );
+    printf ("Star AbsMag:%4.10f\n" , AbsMag );
+
+
+    syscount ++;
+    system->Add_Star
       (
         tempName,
         star_classification,
@@ -770,28 +799,28 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
         star_tex[StarType(star_classification)]
       );
 
-      systems.push_back(system);
-      // printf ("Loading System ID:%i.\n" , id );
-      // Set up the ra_system array.
-      if (current_ra < static_cast<int>(ra))
-      {
-        ra_systems[static_cast<int>(ra)] = syscount;
-        current_ra = static_cast<int>(ra);
-      } // end if
+    systems.push_back(system);
+    // printf ("Loading System ID:%i.\n" , id );
+    // Set up the ra_system array.
+    if (current_ra < static_cast<int>(ra))
+    {
+      ra_systems[static_cast<int>(ra)] = syscount;
+      current_ra = static_cast<int>(ra);
+    } // end if
 
-      x++;
+      // Add star images to anaminate star
+      for (int n=1; n< STAR_ANAM_FRAMES ; n++)
+      {
+        system->Get_Star()->Set_Texture( star_tex.Get( (StarType(star_classification) * STAR_ANAM_FRAMES ) +n));
+      }
+
+    vdata.clear();
+    x++;
     } // end while data
 
-  inFile.close();
-
   return true;
-
-  }
-  catch(const char * str ) {
-    printf("Exception raised:MyStarbox::LoadStarCatalogue: %s.\n", str);
-    return false;
-  } // end catch
 }
+
 bool MyStarbox::LoadYaleStarCatalogue(const std::string& file_name)
 {
 /*
@@ -832,17 +861,23 @@ newline	54	1	c1	newline (max final loc)
   printf("Loading Yale Star Calalogue:%s\n", file_name.c_str());
 
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  if (!vfs)
+  {
+    printf ("MyStarbox::LoadYaleStarCatalogue: VFS failed!.\n");
+    return false;
+  }
+
+  vfs->PushDir("/");
   csRef<iDataBuffer> buf = vfs->ReadFile (file_name.c_str());
   if (!buf)
   {
     printf ("MyStarbox::LoadYaleStarCatalogue: %s failed!.\n" , file_name.c_str() );
+    vfs->PopDir();
     return false;
   }
 
   csStringReader file(buf->GetData());
   csString data;
-  //if (file.HasMoreLines())
-    //file.GetLine(line);  // Skip first entry, Total # stars
 
   while (file.HasMoreLines())
   {
@@ -851,7 +886,7 @@ newline	54	1	c1	newline (max final loc)
 
     int rahh, ramm, rass;
     int decmm, decss;
-    float apr_mag;
+    float apr_mag; 
     float abs_mag, distance;
 
     //   printf("Object       mV     MV     mV-MV     d(pc)   d(ly)\n");
@@ -897,10 +932,8 @@ newline	54	1	c1	newline (max final loc)
       {
         system->Get_Star()->Set_Texture( star_tex.Get( (StarType(star_classification) * STAR_ANAM_FRAMES ) +n));
       }
-
-      //std::cout << line << "," << ra <<std::endl;
       systems.push_back(system);
-      // printf ("Loading System ID:%i.\n" , id );
+
       // Set up the ra_system array.
       syscount++;
       if (current_ra < static_cast<int>(ra))
@@ -912,7 +945,7 @@ newline	54	1	c1	newline (max final loc)
     } // end if length check
   } // end while
 
-
+  vfs->PopDir();
   return true;
 }
 
@@ -1013,6 +1046,32 @@ int MyStarbox::StarType(std::string type )
       return 7;
   }
   return false;
+}
+
+std::vector<std::string> MyStarbox::tokenize_str(const std::string & str,
+                                                 const std::string & delims )
+{
+
+  using namespace std;
+  // Skip delims at beginning, find start of first token
+  string::size_type lastPos = str.find_first_not_of(delims, 0);
+  // Find next delimiter @ end of token
+  string::size_type pos     = str.find_first_of(delims, lastPos);
+
+  // output vector
+  vector<string> tokens;
+
+  while (string::npos != pos || string::npos != lastPos)
+    {
+      // Found a token, add it to the vector.
+      tokens.push_back(str.substr(lastPos, pos - lastPos));
+      // Skip delims.  Note the "not_of". this is beginning of token
+      lastPos = str.find_first_not_of(delims, pos);
+      // Find next delimiter at end of token.
+      pos = str.find_first_of(delims, lastPos);
+    }
+
+  return tokens;
 }
 
 //---------- Factory Implementation ---------

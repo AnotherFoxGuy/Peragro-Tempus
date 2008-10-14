@@ -25,15 +25,17 @@
 
 #include <crystalspace.h>
 #include <cstdlib>
+#include <csgfx/rgbpixel.h>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <iterator>
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <csgfx/rgbpixel.h>
 
 #include "imystarbox.h"
 #include "system.h"
+
 
 enum SpectralType
 {
@@ -168,6 +170,9 @@ class MyStarbox : public scfImplementation1<MyStarbox, iMyStarbox>
     float Estmate_Distance_Sequence_Fitting(const std::string& star_clissification ,float apr_mag);
     float Estmate_Abs_Magnitude (const std::string&  star_classification);
 
+    std::vector<std::string> tokenize_str(const std::string & str,
+                                          const std::string & delims);
+
 };
 
 
@@ -211,7 +216,9 @@ class csCameraCatcher : public scfImplementation1<csCameraCatcher, iEngineFrameC
       if (rview)
       {
         camera = rview->GetCamera();
-	if (camera->GetSector() == starbox->GetSector())  starbox->Background(camera);
+	//if (camera->GetSector() == starbox->GetSector())  // removed this check as 1.9 breaks it, the sector now does not exist
+                                                            // when then loader tries to set it, needs to do this later. 
+        starbox->Background(camera);
         //starbox->BackgroundImageNebula(camera);
 
       } else {
