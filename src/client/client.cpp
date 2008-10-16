@@ -696,10 +696,14 @@ namespace PT
 
   bool Client::Quit(const CEGUI::EventArgs &args)
   {
+    Quit();
+    return true;
+  }
+
+  void Client::Quit()
+  {
     csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (GetObjectRegistry());
     if (q.IsValid()) q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry()));
-
-    return true;
   }
 
   bool Client::NoQuit(const CEGUI::EventArgs &args)

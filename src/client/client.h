@@ -172,6 +172,8 @@ namespace PT
     bool LoadRegion(iEvent& ev);
     bool Connected(iEvent& ev);
 
+    void Quit();
+
   private:
     void Frame();
 

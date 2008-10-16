@@ -41,6 +41,7 @@
 #include "cmdrelocate.h"
 #include "cmdemotes.h"
 #include "cmddate.h"
+#include "cmdquit.h"
 
 namespace PT
 {
@@ -91,6 +92,7 @@ namespace PT
       //RegisterCommand(new cmdSit());
       RegisterCommand(new cmdDbg());
       RegisterCommand(new cmdDate());
+      RegisterCommand(new cmdQuit());
 
       historypointer=0;
 
