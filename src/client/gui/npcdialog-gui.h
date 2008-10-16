@@ -45,7 +45,7 @@ namespace PT
         bool Create();
 
         void SetName(const std::string& name);
-        void AddDialog(unsigned int dialogueId, const std::string& dialog);
+        void AddDialog(unsigned int dialogId, const std::string& dialog);
         void AddAnswer(unsigned int number, const std::string& answer);
       };
 

@@ -67,7 +67,7 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
-    csRef<iEvent> pEvent = evmgr->CreateEvent("trade.general.offer.list", true);
+    csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("trade.general.offer.list", pmsg.getIsBuy()), true);
     pEvent->Add("isBuy", pmsg.getIsBuy());
     csRef<iEvent> list = evmgr->CreateEvent("offersList", true);
     for (unsigned char i = 0; i < pmsg.getOffersCount(); i++)

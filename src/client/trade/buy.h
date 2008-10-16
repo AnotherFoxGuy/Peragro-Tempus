@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2008 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_TRADEMANAGER_H
-#define PT_TRADEMANAGER_H
+#ifndef PT_BUY_H
+#define PT_BUY_H
 
 #include <cssysdef.h>
 
@@ -26,35 +26,47 @@
 
 struct iEvent;
 
+namespace CEGUI
+{
+  class EventArgs;
+}
+
 namespace PT
 {
+  namespace GUI
+  {
+    class GUIManager;
+    namespace Windows
+    {
+      class BuyWindow;
+    }
+  }
+
   namespace Trade
   {
-    class PlayerInventory;
-    class Exchange;
-    class Buy;
-
-    class TradeManager
+    class Buy
     {
     private:
-      CALLBACK_HANDLER_LISTENERS
+      GUI::GUIManager* guimanager;
+      GUI::Windows::BuyWindow* buyWindow;
+      void SetTrading(bool value);
 
-      PlayerInventory* playerInventory;
-      Exchange* exchange;
-      Buy* buy;
+    private:
+      csRef<Events::EventHandlerCallback> tradeConfirm;
+      csRef<Events::EventHandlerCallback> tradeCancel;
+      CALLBACK_HANDLER_LISTENERS
+      bool TradeConfirmResponse(iEvent& ev);
+      bool TradeCancel(iEvent& ev);
+      bool TradeOffersList(iEvent& ev);
 
     public:
-      TradeManager ();
-      ~TradeManager ();
+      Buy ();
+      ~Buy ();
 
       bool Initialize ();
-
-      PlayerInventory* GetPlayerInventory () { return playerInventory; }
-      Exchange* GetExchange () { return exchange; }
-      Buy* GetBuy () { return buy; }
     };
 
   } // Trade namespace
 } // PT namespace
 
-#endif // PT_TRADE_MANAGER_H
+#endif // PT_BUY_H

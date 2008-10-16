@@ -50,14 +50,7 @@ namespace PT
 
       bool BuyWindow::OnCloseButton(const CEGUI::EventArgs& args)
       {
-        winMgr->getWindow("BuyWindow/Frame")->setVisible(false);
-
-        upperslots->ClearSlotsDelete();
-        lowerslots->ClearSlotsDelete();
-        items.DeleteAll();
-
-        //TradeCancelMessage msg;
-        //network->send(&msg);
+        CancelTrade();
 
         return true;
       } // end OnCloseButton()
@@ -228,6 +221,16 @@ namespace PT
         lowerslots->ClearSlotsDelete();
         items.DeleteAll();
       } // end AcceptTrade()
+
+      void BuyWindow::CancelTrade()
+      {
+        winMgr->getWindow("BuyWindow/Frame")->setVisible(false);
+
+        upperslots->ClearSlotsDelete();
+        lowerslots->ClearSlotsDelete();
+        items.DeleteAll();
+
+      } // end CancelTrade()
 
       bool BuyWindow::Create()
       {

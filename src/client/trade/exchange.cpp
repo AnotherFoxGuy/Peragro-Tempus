@@ -24,8 +24,6 @@
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
-//#include <CEGUI.h>
-//#include <CEGUIWindowManager.h>
 #include "client/gui/guimanager.h"
 #include "client/gui/gui.h"
 
@@ -34,7 +32,7 @@ namespace PT
 {
   namespace Trade
   {
-    Exchange::Exchange () : guimanager(0)
+    Exchange::Exchange () : guimanager(0), tradeWindow(0)
     {
     }
 
@@ -215,22 +213,13 @@ namespace PT
         {
           csRef<iEvent> offer; list->Retrieve(offers->Next(), offer);
 
-          unsigned int itemId = -1;
-          ev.Retrieve("itemId", itemId);
+          unsigned int itemId = Helper::GetUInt(offer, "itemId");
+          unsigned int variation = Helper::GetUInt(offer, "variation");
+          std::string name = Helper::GetString(offer, "name");
+          std::string iconName = Helper::GetString(offer, "iconName");
+          unsigned int slotId = Helper::GetUInt(offer, "slotId");
 
-          unsigned int variation = -1;
-          ev.Retrieve("variation", variation);
-
-          const char* name = "";
-          ev.Retrieve("name", name);
-
-          const char* icon = "";
-          ev.Retrieve("iconName", icon);
-
-          unsigned int slotId = -1;
-          ev.Retrieve("slotId", slotId);
-
-          tradeWindow->AddItem(2, itemId, slotId, name, icon);
+          tradeWindow->AddItem(2, itemId, slotId, name.c_str(), iconName.c_str());
         } // end while
       }
       else

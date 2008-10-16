@@ -32,7 +32,7 @@
         </message>
 
         <message type="Trade" name="TradeOffersListNpc">
-          <event name="trade.general.offer.list" specific="None">
+          <event name="trade.general.offer.list" specific="IsBuy">
             <uint8>IsBuy</uint8>
             <list name="Offers">
               <uint32>ItemId</uint32>

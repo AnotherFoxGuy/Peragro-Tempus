@@ -48,8 +48,6 @@ namespace PT
         inventory.DeleteAll();
       } // end ~TradeWindow()
 
-
-
       bool TradeWindow::OnYesConfirm(const CEGUI::EventArgs& args)
       {
         TradeConfirmRequestMessage msg;

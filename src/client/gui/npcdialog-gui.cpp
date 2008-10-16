@@ -101,7 +101,7 @@ namespace PT
         btn->setText(name.c_str());
       } // end SetName()
 
-      void NpcDialogWindow::AddDialog(unsigned int dialogueId, const std::string& dialog)
+      void NpcDialogWindow::AddDialog(unsigned int dialogId, const std::string& dialog)
       {
         // Set the dialog text.
         btn = winMgr->getWindow("NpcDialog/Dialog");

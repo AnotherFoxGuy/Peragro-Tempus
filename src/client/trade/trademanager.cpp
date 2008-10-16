@@ -28,13 +28,14 @@
 
 #include "client/trade/playerinventory.h"
 #include "client/trade/exchange.h"
+#include "client/trade/buy.h"
 
 namespace PT
 {
   namespace Trade
   {
     TradeManager::TradeManager()
-      : playerInventory(0), exchange(0)
+      : playerInventory(0), exchange(0), buy(0)
     {
     }
 
@@ -42,6 +43,7 @@ namespace PT
     {
       delete playerInventory;
       delete exchange;
+      delete buy;
     }
 
     bool TradeManager::Initialize()
@@ -54,11 +56,17 @@ namespace PT
       if (!playerInventory->Initialize())
         return Report(PT::Error, "Failed to initialize PlayerInventory!");
 
-      // Create and Initialize the PlayerInventory.
+      // Create and Initialize the Exchange.
       delete exchange;
       exchange = new PT::Trade::Exchange ();
       if (!exchange->Initialize())
-        return Report(PT::Error, "Failed to initialize PlayerInventory!");
+        return Report(PT::Error, "Failed to initialize Exchange!");
+
+      // Create and Initialize the buy.
+      delete buy;
+      buy = new PT::Trade::Buy ();
+      if (!buy->Initialize())
+        return Report(PT::Error, "Failed to initialize buy!");
 
       return true;
     }
