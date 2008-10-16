@@ -316,6 +316,9 @@
 				RelativePath="..\..\src\client\chat\cmdhelp.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\chat\cmdquit.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\chat\commanddefault.cpp">
 			</File>
 		</Filter>
@@ -339,6 +342,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\chat\cmdhelp.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\chat\cmdquit.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\chat\cmdrelocate.h">
