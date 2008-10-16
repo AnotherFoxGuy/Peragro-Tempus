@@ -301,6 +301,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\trade\buy.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\trade\exchange.cpp">
 			</File>
 			<File
@@ -313,6 +316,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\client\trade\buy.h">
+			</File>
 			<File
 				RelativePath="..\..\src\client\trade\exchange.h">
 			</File>
