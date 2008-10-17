@@ -376,6 +376,9 @@
 				RelativePath="..\..\src\client\gui\options\camera-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\options\chatoptions-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\options\controls-gui.cpp">
 			</File>
 			<File
@@ -492,6 +495,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\options\camera-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\options\chatoptions-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\options\controls-gui.h">
