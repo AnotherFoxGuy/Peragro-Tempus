@@ -58,6 +58,10 @@ namespace PT
       int historypointer;
       std::map<unsigned int, std::string> playernames;
 
+      bool hideAfterSend;
+      bool UpdateOptions(iEvent& ev);
+      void UpdateOptions();
+
     private:
       void HandleOutput (const char* texti);
       StringArray ParseString (const char* texti);

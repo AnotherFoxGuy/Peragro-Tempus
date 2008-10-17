@@ -46,5 +46,6 @@
 #include "options/camera-gui.h"
 #include "options/movement-gui.h"
 #include "options/controls-gui.h"
+#include "options/chatoptions-gui.h"
 
 #endif // GUI_H

@@ -157,12 +157,18 @@ namespace PT
         controls->Create();
         windows.Push(controls);
 
+        PT::GUI::Windows::ChatOptionsWindow* chatoptions =
+          new PT::GUI::Windows::ChatOptionsWindow(this);
+        chatoptions->Create();
+        windows.Push(chatoptions);
+
         options->AddOption("Skins", skins->GetName());
         skinMgr->Populate();
         options->AddOption("Video", video->GetName());
         options->AddOption("Camera", camera->GetName());
         options->AddOption("Movement", movement->GetName());
         options->AddOption("Controls", controls->GetName());
+        options->AddOption("Chat", chatoptions->GetName());
 
         // Create the windows to be registered and used later.
         PT::GUI::Windows::ServerWindow* server =

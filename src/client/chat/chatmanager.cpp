@@ -73,6 +73,9 @@ namespace PT
       REGISTER_LISTENER(ChatManager, ProcessEvents, "entity.add")
       REGISTER_LISTENER(ChatManager, ProcessEvents, "entity.remove")
 
+      REGISTER_LISTENER(ChatManager, UpdateOptions, "interface.options.chat")
+      UpdateOptions();
+
       // Handle submit.
       CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
@@ -204,6 +207,12 @@ namespace PT
 
         // Erase the text.
         btn->setText(text.erase());
+
+        if (hideAfterSend)
+        {
+          winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+          winMgr->getWindow("Chatlog/Frame")->activate();
+        } // end if
 
         return true;
       }
@@ -424,6 +433,19 @@ namespace PT
 
       return true;
     } // end ProcessEvents ()
+
+    bool ChatManager::UpdateOptions(iEvent& ev)
+    {
+      UpdateOptions();
+      return true;
+    } // end UpdateOptions(iEvent& ev)
+
+    void ChatManager::UpdateOptions()
+    {
+      csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getObjectRegistry());
+
+      hideAfterSend = app_cfg->GetBool("Peragro.Chat.HideAfterSending", hideAfterSend);
+    } // end UpdateOptions()
 
   } // Chat namespace
 } // PT namespace
