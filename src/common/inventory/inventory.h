@@ -89,20 +89,20 @@ namespace PT
          * Check if there is an object at the given position.
          * @return True if there is an object, false if the slot is empty.
          */
-        virtual bool HasObjectAt(const PositionRef& position);
+        virtual bool HasObjectAt(const PositionRef& position) const;
 
         /**
          * Check if there is an object in the rectangle that is defined by the 
          * first(upper left corner) and the second position(bottom right corner).
          * @return True if there is an object, false if the slot is empty..
          */
-        virtual bool HasObjectBetween(const PositionRef& upperLeftCorner, const PositionRef& bottomRightCorner);
+        virtual bool HasObjectBetween(const PositionRef& upperLeftCorner, const PositionRef& bottomRightCorner) const;
 
         /**
          * Returns the object at the given position.
          * @return Object*.
          */
-        virtual Object* GetObjectAt(const PositionRef& position);
+        virtual Object* GetObjectAt(const PositionRef& position) const;
 
         /**
          * Adds an object at the given position.
@@ -115,6 +115,19 @@ namespace PT
          * @return True if successful, false if an error occured.
          */
         virtual bool RemoveObjectAt(const PositionRef& position) = 0;
+
+        /**
+         * Remove the given object from this inventory.
+         * @return True if successful, false if an error occured.
+         */
+        virtual bool RemoveObject(const Object* object) = 0;
+
+        /**
+         * This is called from the other inventory to notify this inventory
+         * that the object has moved. This inventory would then do some cleanup
+         * and remove the object from it's list.
+         */
+        virtual void ObjectMovedToOther(Inventory* other, Object* object) = 0;
       };
       
 

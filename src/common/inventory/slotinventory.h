@@ -49,7 +49,7 @@ namespace PT
         std::vector<boost::shared_ptr<Slot> > slots;
 
         PositionRef IdToPos(unsigned int id) const;
-        Slot* GetSlot(PositionRef position) const;
+        Slot* GetSlot(const PositionRef& position) const;
         Slot* GetSlot(unsigned int id) const;
 
       public:
@@ -58,8 +58,8 @@ namespace PT
         */
         SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
 
-        ///Create scrollable inventory. 
-        SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns, 
+        ///Create scrollable inventory.
+        SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns,
           unsigned int visibleRows, unsigned int visibleColumns);
 
         virtual ~SlotInventory();
@@ -79,7 +79,7 @@ namespace PT
         virtual bool HasObjectAt(const PositionRef& position) const;
         virtual bool HasObjectAt(unsigned int id) const;
       };
-      
+
 
     } // Inventory namespace
   } // Common namespace

@@ -21,12 +21,17 @@
 
 #include <string>
 
+#include "size.h"
+
 namespace PT
 {
   namespace Common
   {
     namespace Inventory
     {
+      class Inventory;
+      struct Size;
+
       class Object
       {
       public:
@@ -35,30 +40,41 @@ namespace PT
           Bag = 0,
           Item,
           Spell,
-          Action,
-          Stack
+          Action
         };
 
       protected:
+        Inventory* parent;
         unsigned int objectId;
         ObjectType objectType;
         std::string objectIcon;
         std::string objectDescription;
+        Size objectSize;
 
       public:
-        Object(ObjectType type) : objectType(type) {};
+        Object(ObjectType type) : objectType(type), parent(0), objectSize(1,1) {};
         virtual ~Object();
 
-        virtual void SetId(int type) { objectId = type; }
+        /**
+         * Get the inventory this object belongs to.
+         * @return A pointer to the Inventory instance.
+         */
+        Inventory* GetParent() const;
+        virtual void SetParent(Inventory* p) { parent = p; }
+
+        virtual void SetId(unsigned int type) { objectId = type; }
         virtual unsigned int GetId() const { return objectId; }
 
-        virtual void SetDescription(std::string description) { objectDescription = description; }
-        virtual std::string GetDescription() const { return objectDescription; }
+        virtual void SetDescription(const std::string& description) { objectDescription = description; }
+        virtual const std::string& GetDescription() const { return objectDescription; }
 
-        virtual void SetIcon(std::string icon) { objectIcon = icon; }
-        virtual std::string GetIcon() const { return objectIcon; }
+        virtual void SetIcon(const std::string& icon) { objectIcon = icon; }
+        virtual const std::string& GetIcon() const { return objectIcon; }
 
         ObjectType GetType() const { return objectType; }
+
+        virtual void SetSize(const Size& size) { objectSize = size; }
+        virtual const Size& GetSize() const { return objectSize; }
 
         virtual bool Execute() = 0;
         virtual bool Execute(const std::string& action) = 0;

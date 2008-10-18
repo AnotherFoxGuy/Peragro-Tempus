@@ -33,7 +33,7 @@ namespace PT
       {
       }
 
-      SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns, 
+      SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns,
           unsigned int visibleRows, unsigned int visibleColumns)
           :Inventory(name, type, rows, columns)
       {
@@ -78,13 +78,13 @@ namespace PT
         return PositionRef(slotRow, slotColumn);
       }
 
-      Slot* SlotInventory::GetSlot(PositionRef position) const
+      Slot* SlotInventory::GetSlot(const PositionRef& position) const
       {
         for(unsigned int i=0; i<slots.size(); i++)
         {
           if(slots[i]->GetPosition() == position)
-          { 
-            return slots[i].get(); 
+          {
+            return slots[i].get();
           }
         }
         return 0;
@@ -127,7 +127,7 @@ namespace PT
           if(slot->HasContents())
           {
             return false; // Slot already taken
-          } 
+          }
         }
         slot->SetContents(object);
         return true;
@@ -143,9 +143,9 @@ namespace PT
         for(unsigned int i=0; i<slots.size(); i++)
         {
           if(slots[i]->GetPosition() == position)
-          { 
-            slots.erase(slots.begin()+i); 
-            return true; 
+          {
+            slots.erase(slots.begin()+i);
+            return true;
           }
         }
         return false;
