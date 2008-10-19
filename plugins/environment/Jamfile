@@ -2,3 +2,4 @@ SubDir TOP plugins environment ;
 
 SubInclude TOP plugins environment mystarbox ;
 SubInclude TOP plugins environment loader_starbox ;
+SubInclude TOP plugins environment mybody ;
