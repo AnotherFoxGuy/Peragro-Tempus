@@ -99,12 +99,12 @@ private:
   bool loading;
 
   /// Number of tiles in the cache.
-  int maptilecachesize;
+  unsigned int maptilecachesize;
   /// Tile cache.
   MapTile** maptilecache;
 
   /// The current grid size.
-  int current_size;
+  unsigned int current_size;
   /// Loaded subset of the world.
   MapTile*** current;
 
@@ -191,14 +191,14 @@ public:
   void EnterWorld(float x, float z);
 
   /// Set the loaded tile grid size.
-  void SetGridSize(int size);
+  void SetGridSize(unsigned int size);
   /// Get the loaded tile grid size.
-  int GetGridSize() const;
+  unsigned int GetGridSize() const;
 
   /// Set the cached tile grid size.
-  void SetCacheSize(int size);
+  void SetCacheSize(unsigned int size);
   /// Get the cached tile grid size.
-  int GetCacheSize() const;
+  unsigned int GetCacheSize() const;
 
   /// Handles reporting warnings and errors.
   void Report(int severity, const char* msg, ...);

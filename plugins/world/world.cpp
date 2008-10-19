@@ -116,7 +116,7 @@ WorldManager::~WorldManager()
   // Delete the cache array AND it's elements.
   if (maptilecache != 0)
   {
-    for (int i=0; i< GetCacheSize(); i++)
+    for (unsigned int i=0; i< GetCacheSize(); i++)
     {
       if (maptilecache[i] != 0) delete maptilecache[i];
     }
@@ -126,7 +126,7 @@ WorldManager::~WorldManager()
   // Delete the grid array.
   if (current != 0)
   {
-    for (int i = 0; i < GetGridSize(); i++)
+    for (unsigned int i = 0; i < GetGridSize(); i++)
     {
       delete [] current[i];
     }
@@ -153,7 +153,7 @@ bool WorldManager::UpdateOptions()
   return true;
 } // end UpdateOptions()
 
-void WorldManager::SetGridSize(int size)
+void WorldManager::SetGridSize(unsigned int size)
 {
   // Sanity check.
   // We don't support smaller than 3!
@@ -161,15 +161,15 @@ void WorldManager::SetGridSize(int size)
 
   // Sanity check.
   // The cache should always be bigger then size^2
-  int gridSizeSqr = size * size;
+  unsigned int gridSizeSqr = size * size;
   if (GetCacheSize() < gridSizeSqr) SetCacheSize(gridSizeSqr + size);
 
   // Init a new grid array.
   MapTile*** newGrid = new MapTile**[size];
-  for (int j = 0; j < size; j++)
+  for (unsigned int j = 0; j < size; j++)
   {
     newGrid[j] = new MapTile*[size];
-    for (int i = 0; i < size; i++)
+    for (unsigned int i = 0; i < size; i++)
     {
       newGrid[j][i] = 0;
     }
@@ -195,7 +195,7 @@ void WorldManager::SetGridSize(int size)
     // Remains are taken care of by the cache.
 
     // Delete the old array.
-    for (int i = 0; i < GetGridSize(); i++)
+    for (unsigned int i = 0; i < GetGridSize(); i++)
     {
       delete [] current[i];
     }
@@ -208,28 +208,28 @@ void WorldManager::SetGridSize(int size)
   if (!init) EnterTile(cx, cz); // Load new surrounding tiles.
 } // end SetGridSize()
 
-int WorldManager::GetGridSize() const
+unsigned int WorldManager::GetGridSize() const
 {
   return current_size;
 } // end GetGridSize()
 
-void WorldManager::SetCacheSize(int size)
+void WorldManager::SetCacheSize(unsigned int size)
 {
   // Sanity check.
-  int gridSizeSqr = GetGridSize() * GetGridSize();
+  unsigned int gridSizeSqr = GetGridSize() * GetGridSize();
   if (size < gridSizeSqr) size = gridSizeSqr + GetGridSize();
 
   // Init a new cache array.
   MapTile** newCache = new MapTile*[size];
-  for (int i = 0; i < size; i++){ newCache[i] = 0;}
+  for (unsigned int i = 0; i < size; i++){ newCache[i] = 0;}
 
   if (maptilecache != 0)
   {
     // Sort from closest to furthest.
     MapTile* temp;
-    for(int j = 0; j < GetCacheSize()-1; j++)
+    for(unsigned int j = 0; j < GetCacheSize()-1; j++)
     {
-      for(int i = 1; i < GetCacheSize()-j; i++)
+      for(unsigned int i = 1; i < GetCacheSize()-j; i++)
       {
         unsigned int score_i_1 = ~0; // Very big number.
         unsigned int score_i = ~0;
@@ -254,13 +254,13 @@ void WorldManager::SetCacheSize(int size)
     }
 
     // Copy.
-    for (int i = 0; i < std::min(size, GetCacheSize()); i++)
+    for (unsigned int i = 0; i < std::min(size, GetCacheSize()); i++)
     {
       newCache[i] = maptilecache[i];
     }
 
     // Delete any remains: the ones that are the furthest.
-    for (int i = size; i < GetCacheSize(); i++)
+    for (unsigned int i = size; i < GetCacheSize(); i++)
     {
       if (maptilecache[i] != 0) delete maptilecache[i];
     }
@@ -273,7 +273,7 @@ void WorldManager::SetCacheSize(int size)
   maptilecache = newCache;
 } // end SetCacheSize()
 
-int WorldManager::GetCacheSize() const
+unsigned int WorldManager::GetCacheSize() const
 {
   return maptilecachesize;
 } // end GetCacheSize()
@@ -283,7 +283,7 @@ void WorldManager::EnterTile(int x, int z)
   // Hide everything.
   if (maptilecache != 0)
   {
-    for (int i = 0 ; i < maptilecachesize; i++)
+    for (unsigned int i = 0 ; i < maptilecachesize; i++)
     {
       if (maptilecache[i] != 0) maptilecache[i]->SetVisible(false);
     }
@@ -295,9 +295,9 @@ void WorldManager::EnterTile(int x, int z)
 
   // Load the surrounding tiles.
   int offset = (GetGridSize() - 1) / 2;
-  for (int j = 0; j < GetGridSize(); j++)
+  for (unsigned int j = 0; j < GetGridSize(); j++)
   {
-    for (int i = 0; i < GetGridSize(); i++)
+    for (unsigned int i = 0; i < GetGridSize(); i++)
     {
       current[j][i] = LoadTile(x-offset+i, z-offset+j);
       current[j][i]->SetVisible(true);
@@ -307,8 +307,8 @@ void WorldManager::EnterTile(int x, int z)
 
 MapTile* WorldManager::LoadTile(int x, int z)
 {
-  int firstnull = maptilecachesize;
-  for (int i = 0; i < maptilecachesize; i++)
+  unsigned int firstnull = maptilecachesize;
+  for (unsigned int i = 0; i < maptilecachesize; i++)
   {
     if ((maptilecache[i] != 0) && (maptilecache[i]->x == x) &&
       (maptilecache[i]->z == z))
@@ -323,7 +323,7 @@ MapTile* WorldManager::LoadTile(int x, int z)
   {
     int score, maxscore = 0, maxidx = 0;
     // Oh shit! we need to throw away a tile!
-    for (int i = 0; i < maptilecachesize; i++)
+    for (unsigned int i = 0; i < maptilecachesize; i++)
     {
       score = abs(maptilecache[i]->x - cx) + abs(maptilecache[i]->z - cz);
       if (score > maxscore)
@@ -351,9 +351,9 @@ void WorldManager::Tick(float dt)
   {
     bool allLoaded = true;
     float tilesLoaded = 0.0f;
-    for (int j = 0; j < GetGridSize(); j++)
+    for (unsigned int j = 0; j < GetGridSize(); j++)
     {
-      for (int i = 0; i < GetGridSize(); i++)
+      for (unsigned int i = 0; i < GetGridSize(); i++)
       {
         if ( (current[j][i] == 0) || !current[j][i]->IsReady() )
           allLoaded = false;

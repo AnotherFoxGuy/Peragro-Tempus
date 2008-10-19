@@ -46,14 +46,14 @@ struct iWorld : public virtual iBase
   virtual void EnterWorld(float x, float z) = 0;
 
   /// Set the loaded tile grid size.
-  virtual void SetGridSize(int size) = 0;
+  virtual void SetGridSize(unsigned int size) = 0;
   /// Get the loaded tile grid size.
-  virtual int GetGridSize() const = 0;
+  virtual unsigned int GetGridSize() const = 0;
 
   /// Set the cached tile grid size.
-  virtual void SetCacheSize(int size) = 0;
+  virtual void SetCacheSize(unsigned int size) = 0;
   /// Get the cached tile grid size.
-  virtual int GetCacheSize() const = 0;
+  virtual unsigned int GetCacheSize() const = 0;
 
   /// Set the resource path.
   //virtual void SetResourcePath(const std::string& path) = 0;
