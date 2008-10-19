@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>recon69.mybodyfactory</name>
+        <implementation>MyBodyFactory</implementation>
+        <description>Recon69s body factory</description>
+      </class>     
+    </classes>
+  </scf>
+</plugin>
