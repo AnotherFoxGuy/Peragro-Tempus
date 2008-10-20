@@ -1,4 +1,4 @@
-SubDir TOP plugins mybody ;
+SubDir TOP plugins environment mybody ;
 
 Description mybody : "a Plugin for loading a solar system data and displaying it in crystal space" ;
 Plugin mybody :	[ Wildcard *.cpp *.h ] ;
