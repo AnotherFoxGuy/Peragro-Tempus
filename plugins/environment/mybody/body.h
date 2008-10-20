@@ -1,9 +1,9 @@
 /*
- * body.h
- *
- * Base Class for managing bodies    
- * 
- */
+* body.h
+*
+* Base Class for managing bodies    
+* 
+*/
 
 #ifndef _H_BODY_
 #define _H_BODY_
@@ -28,114 +28,114 @@
 class Body: public Orbit
 {
 
-	private:
-		iObjectRegistry* object_reg; 
-		csRef<iEngine> engine;
-		csRef<iView> planetview;
+private:
+  iObjectRegistry* object_reg; 
+  csRef<iEngine> engine;
+  csRef<iView> planetview;
 
-		std::string name;
-		std::string sector_name;
-		std::string filename;
-		std::string mat_name;
+  std::string name;
+  std::string sector_name;
+  std::string filename;
+  std::string mat_name;
 
-		csEllipsoid ellips;
-		float body_radius;
-		int body_verts;
-		double body_day_lenght; // in hours
-		double body_inclination; // in deg
+  csEllipsoid ellips;
+  float body_radius;
+  int body_verts;
+  double body_day_lenght; // in hours
+  double body_inclination; // in deg
 
-		double body_rotation ; // in deg at last update
+  double body_rotation ; // in deg at last update
 
-		csRef<iMeshWrapper> mesh;  // A mesh for this body 
-//		csRef<iLight> light;  declaring this causes a memory fault for some reason  
-		csTransform abs_pos;  // this bodies transform with sun as origin
+  csRef<iMeshWrapper> mesh;  // A mesh for this body 
+  //		csRef<iLight> light;  declaring this causes a memory fault for some reason  
+  csTransform abs_pos;  // this bodies transform with sun as origin
 
-		double scale; 
+  double scale; 
 
-		long  last_update_seconds; //
+  long  last_update_seconds; //
 
-		csRef<iMyBody> parent;  // Parent body, Null if none
-		csRefArray<iMyBody> child_bodies;
-
-
-	public:
+  csRef<iMyBody> parent;  // Parent body, Null if none
+  csRefArray<iMyBody> child_bodies;
 
 
-		Body(iObjectRegistry* reg);
-		~Body();
-
-		void Set_Name(char const* body_name);
-		void Set_Sector(char const* sector_name);  
-		void Set_Radius(csVector3 r) { ellips.SetRadius (r); body_radius = r.x; };  
-		void Set_Day_Lenght(long double dl) { body_day_lenght = dl; };  
-		void Set_Inclination(long double i) { body_inclination = i; };  
-		void Set_Orbit (
-				long double i,
-				long double n,
-				long double w,
-				long double e,
-				long double a,
-				long double period,
-				double scale
-				);
-
-		void Create_Body_Mesh(float radius, int verts, double day, double i);
-		void Set_Mesh(char const* mesh_name);
-		void Set_Materal(char const* mat_name); 
-
-		bool Set_Parent (csRef<iMyBody> par_body);
-		bool Add_Child (csRef<iMyBody> child);
-
-		void Set_Parent_Node (iSceneNode* parent) { mesh->QuerySceneNode()->SetParent(parent); };	
-		void Set_Camera_Parent(iSceneNode* parent);			
-
-		iSceneNode* Get_SceneNode () { return mesh->QuerySceneNode (); };
-
-		char const* Get_Name() const { return name.c_str(); };
-		csVector3 const Get_Radius() const { return ellips.GetRadius(); };
-		double const Get_Day_Lenght() const { return body_day_lenght; };
-		double const Get_Inclination() const { return body_inclination; };
+public:
 
 
-		csRef<iMeshWrapper> Get_MeshWrapper() { return mesh; };
-		csRef<iCamera> Get_Surface_Camera(const iCamera* c,float lon , float lat);
+  Body(iObjectRegistry* reg);
+  ~Body();
+
+  void Set_Name(char const* body_name);
+  void Set_Sector(char const* sector_name);  
+  void Set_Radius(csVector3 r) { ellips.SetRadius (r); body_radius = r.x; };  
+  void Set_Day_Lenght(long double dl) { body_day_lenght = dl; };  
+  void Set_Inclination(long double i) { body_inclination = i; };  
+  void Set_Orbit (
+    long double i,
+    long double n,
+    long double w,
+    long double e,
+    long double a,
+    long double period,
+    double scale
+    );
+
+  void Create_Body_Mesh(float radius, int verts, double day, double i);
+  void Set_Mesh(char const* mesh_name);
+  void Set_Materal(char const* mat_name); 
+
+  bool Set_Parent (csRef<iMyBody> par_body);
+  bool Add_Child (csRef<iMyBody> child);
+
+  void Set_Parent_Node (iSceneNode* parent) { mesh->QuerySceneNode()->SetParent(parent); };	
+  void Set_Camera_Parent(iSceneNode* parent) { /*@todo implement.*/ }			
+
+  iSceneNode* Get_SceneNode () { return mesh->QuerySceneNode (); };
+
+  char const* Get_Name() const { return name.c_str(); };
+  csVector3 const Get_Radius() const { return ellips.GetRadius(); };
+  double const Get_Day_Lenght() const { return body_day_lenght; };
+  double const Get_Inclination() const { return body_inclination; };
 
 
-		bool Update_Body(timespec systime);
-		bool Update_Body(timespec systime, csVector3 orbit_origin); // used for child bodies 
-		void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
+  csRef<iMeshWrapper> Get_MeshWrapper() { return mesh; };
+  csRef<iCamera> Get_Surface_Camera(const iCamera* c,float lon , float lat);
 
-		bool Add_Light(int radius, csColor color);
-		void Update_Lights();
 
-		bool Draw_FullOrbit (iCamera* c, iGraphics3D* g3d);
-		bool Draw_FullPosition (iCamera* c, iGraphics3D* g3d, timespec systime);
+  bool Update_Body(timespec systime);
+  bool Update_Body(timespec systime, csVector3 orbit_origin); // used for child bodies 
+  void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
 
-		csOrthoTransform GetSurfaceTrans (csOrthoTransform cameratrans ,float lon ,float lat);
+  bool Add_Light(int radius, csColor color);
+  void Update_Lights();
 
-		double GetBodyRotation() {return body_rotation;}
-		csTransform Get_Surface_Pos(float lon, float lat);
-		csVector3 GetSurfaceVector(float lon, float lat);  // rename to GetSphereUpVector
-		csVector3 GetMeshUpVector(csTransform trans);
-	private:
+  bool Draw_FullOrbit (iCamera* c, iGraphics3D* g3d);
+  bool Draw_FullPosition (iCamera* c, iGraphics3D* g3d, timespec systime);
 
-		bool Rotate_Body(float angle);
-		bool Position_Body(float angle, csVector3 orbit_origin);
+  csOrthoTransform GetSurfaceTrans (csOrthoTransform cameratrans ,float lon ,float lat);
 
-		// Child body methods 
-		// bool Remove_Child (csRef<iMyBody> child);
+  double GetBodyRotation() {return body_rotation;}
+  csTransform Get_Surface_Pos(float lon, float lat);
+  csVector3 GetSurfaceVector(float lon, float lat);  // rename to GetSphereUpVector
+  csVector3 GetMeshUpVector(csTransform trans);
 
-		// General help methods
-		bool Load_Factory (std::string factory);
-		bool SetMeshsSize ();
-		bool Apply_Material(std::string mat_name);
-		bool Load_Texture(std::string filename, std::string mat_name);
+private:
+  bool Rotate_Body(float angle);
+  bool Position_Body(float angle, csVector3 orbit_origin);
 
-		csVector3  Get_Surface_Position(float lon, float lat);
-		csVector3 RotateZ (const csVector3 body_pos,const float body_rotation);
-		float Get_Body_Rotation (timespec systime );
-		void List_Light();
-		void Pos_Light(const csVector3& npos);
+  // Child body methods 
+  // bool Remove_Child (csRef<iMyBody> child);
+
+  // General help methods
+  bool Load_Factory (std::string factory);
+  bool SetMeshsSize ();
+  bool Apply_Material(std::string mat_name);
+  bool Load_Texture(std::string filename, std::string mat_name);
+
+  csVector3  Get_Surface_Position(float lon, float lat);
+  csVector3 RotateZ (const csVector3 body_pos,const float body_rotation);
+  float Get_Body_Rotation (timespec systime );
+  void List_Light();
+  void Pos_Light(const csVector3& npos);
 
 };
 
