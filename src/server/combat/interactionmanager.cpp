@@ -27,6 +27,7 @@ void Run()
   while (1)
   {
     Interaction *interaction = NULL;
+    // caller must free allocation
     interaction = interactionQueue->GetInteraction();
     if (!interaction) {
       // No character have any outstanding interactions.
@@ -34,6 +35,7 @@ void Run()
       continue;
     }
     performInteraction(interaction);
+    free(interaction);
   }
 }
 
@@ -84,6 +86,8 @@ const Character* InteractionManager::GetTargetCharacter(
 bool InteractionManager::QueueAction(const PcEntity *sourceEntity,
                                      unsigned int actionID)
 {
+  Interaction interaction = new Interaction();
+
   printf(IM "Got selection request, target: %d'n", targetID);
   
   if (!sourceEntity || !sourceEntity->getCharacter())
@@ -102,7 +106,10 @@ bool InteractionManager::QueueAction(const PcEntity *sourceEntity,
     return false;
   }
 
-  lockedSource->SetTargetID(targetID);
-  
+  interaction->actionID = actionID;
+  interaction->character = sourceEntity->getCharacter();
+
+  // Caller must alloc interaction
+  interaction = interactionQueue->SetInteraction(interaction);
 }
 

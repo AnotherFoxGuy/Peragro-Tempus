@@ -23,6 +23,7 @@ class Interaction
 {
   public:
     unsigned int actionID;
+    Character *character;
 
     Interaction();
     ~Interaction(); 
