@@ -1013,3 +1013,4 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
     out << indt << eventname << "->Add(" << paramNameStr << ", " << value << ");\n";
   }
 }
+
