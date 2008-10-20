@@ -325,6 +325,9 @@
 				RelativePath="..\..\plugins\environment\mybody\mybody.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\environment\mybody\mybodyfact.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\environment\mybody\orbit.cpp">
 			</File>
 		</Filter>
@@ -339,6 +342,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\mybody\mybody.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\mybodyfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\mybody\orbit.h">
