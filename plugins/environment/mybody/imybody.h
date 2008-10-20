@@ -1,3 +1,20 @@
+/*
+    Copyright (C) 2008 by Mogue Carpenter
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
 // File: `imybody.h'
 
 
@@ -7,7 +24,6 @@
 #include <cssysdef.h>
 #include <csutil/scf.h>
 
-struct timespec;
 
 class csVector3;
 struct iMeshWrapper;
@@ -46,12 +62,13 @@ struct iMyBody : public virtual iBase
     ) = 0 ;
 
   virtual void Set_Name(char const* name) = 0; 
-  virtual void Set_a(long double val) = 0;
+/*  virtual void Set_a(long double val) = 0;
   virtual void Set_i(long double val) = 0;
   virtual void Set_n(long double val) = 0;
   virtual void Set_w(long double val) = 0;
   virtual void Set_e(long double val) = 0;
   virtual void Set_period (long double val) = 0;
+*/
   virtual void Set_scale (long double val) = 0;
   virtual void Set_sector(char const* name) = 0;
   virtual void Set_Materal(char const* mat_name) = 0; 
@@ -71,15 +88,15 @@ struct iMyBody : public virtual iBase
 
 
   //	virtual void Update_Body() = 0;  
-  virtual void Update_Body(timespec systime) = 0;  
-  virtual void Update_Body(timespec systime, csVector3 origin) = 0;
+  virtual void Update_Body(long secondspassed ) = 0;  
+  virtual void Update_Body(long secondspassed, csVector3 origin) = 0;
   virtual void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body) = 0;
 
   virtual void Add_Light(int range, csColor color) = 0;
   virtual void Update_Lights() = 0;
 
   virtual void Draw_Orbit(iCamera* c) = 0;
-  virtual void Draw_Position(iCamera* c, timespec systime) = 0;
+  virtual void Draw_Position(iCamera* c, long secondspassed ) = 0;
   virtual void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up) = 0; 
 
   virtual double GetBodyRotation() = 0;

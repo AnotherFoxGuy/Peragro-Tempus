@@ -1,3 +1,20 @@
+/*
+    Copyright (C) 2008 by Mogue Carpenter
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
 //File: `myobject.cpp'
 
 #include "mybody.h"
@@ -16,11 +33,12 @@ bool MyBody::Initialize(iObjectRegistry *object_reg)
 {
   initialized = true;
   printf("Mybody::Initialize\n");
-  //body = new Body(object_reg);
-  //if (!body) body = new Body(object_reg); 
+
+  body = new Body(object_reg);
+
   if (!engine) engine = csQueryRegistry<iEngine> (object_reg);
   if (!g3d) g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  //if (!g3d || !engine || !body ) initialized = false; 
+  if (!g3d || !engine || !body ) initialized = false; 
 
   return initialized;
 }
@@ -75,7 +93,7 @@ void MyBody::Set_Camera_Parent(iSceneNode* parent )
 
 csRef<iMeshWrapper> MyBody::Get_MeshWrapper()
 {
-  return 	body->Get_MeshWrapper();
+  return body->Get_MeshWrapper();
 }
 
 void MyBody::Draw_Orbit(iCamera* c) 
@@ -83,19 +101,19 @@ void MyBody::Draw_Orbit(iCamera* c)
   body->Draw_FullOrbit(c, g3d );
 }
 
-void MyBody::Draw_Position(iCamera* c ,timespec systime ) 
+void MyBody::Draw_Position(iCamera* c ,long secondspassed) 
 {
-  body->Draw_FullPosition(c, g3d, systime);
+  body->Draw_FullPosition(c, g3d, secondspassed);
 }
 
-void MyBody::Update_Body(timespec systime)
+void MyBody::Update_Body(long secondspassed )
 {
-  body->Update_Body(systime);
+  body->Update_Body( secondspassed);
 }
 
-void MyBody::Update_Body(timespec systime, csVector3 origin )
+void MyBody::Update_Body(long secondspassed, csVector3 origin )
 {
-  body->Update_Body(systime, origin);
+  body->Update_Body(secondspassed, origin);
 }
 
 void MyBody::Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body)

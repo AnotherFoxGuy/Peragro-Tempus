@@ -1,3 +1,20 @@
+/*
+    Copyright (C) 2008 by Mogue Carpenter
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
 //File: `mybody.h'
 
 #ifndef _H_MYBODY
@@ -18,6 +35,7 @@ private:
   iObjectRegistry* object_reg;
   csRef<iEngine> engine;
   csRef<iGraphics3D> g3d;
+
   bool initialized ;
   //	csStringHash xmltokens;
   //	csRef<iStandardReporterListener> stdrep;
@@ -73,8 +91,8 @@ public:
   virtual bool Set_Parent(csRef<iMyBody> par_body );
   virtual bool Add_Child(csRef<iMyBody> child );
 
-  virtual void Update_Body(timespec systime );
-  virtual void Update_Body(timespec systime, csVector3 origin );
+  virtual void Update_Body(long secondspassed );
+  virtual void Update_Body(long secondspassed, csVector3 origin );
   virtual void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
 
 
@@ -82,7 +100,7 @@ public:
   virtual void Update_Lights();
 
   virtual void Draw_Orbit( iCamera* c );
-  virtual void Draw_Position( iCamera* c, timespec systime );
+  virtual void Draw_Position( iCamera* c, long secondspassed );
   virtual void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up);
 
   // extras!!!

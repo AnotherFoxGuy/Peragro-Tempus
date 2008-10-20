@@ -1,3 +1,20 @@
+/*
+    Copyright (C) 2008 by Mogue Carpenter
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
 #include "orbit.h"
 
 // --------------------------------------------------------------------------------//
@@ -29,14 +46,14 @@ Orbit::~Orbit()
 {
 }
 
-long double Orbit::Orbit_Angle( timespec systime )
+long double Orbit::Orbit_Angle( long secondspassed )
 {
 	long orbit_in_seconds;
 	long orbit_remainder;
 	long double orb_angle;
 	long double M; // is the mean anomaly, 2πt/T
 
-	long seconds = systime.tv_sec;
+	long seconds = secondspassed;
 	// Get number of seconds for one orbit, work out current angle
 	orbit_in_seconds = orb_period * 24 * 60 * 60;
 	if (orbit_in_seconds == 0) return 0; 
@@ -51,13 +68,13 @@ long double Orbit::Orbit_Angle( timespec systime )
 	return orb_angle;  // eccentric anomaly 
 }
 
-csVector3 Orbit::OrbitPoint ( timespec systime ) 
+csVector3 Orbit::OrbitPointSec ( long secondspassed ) 
 {
 	// Calculate deg into orbit based on time
-	return OrbitPoint (Orbit_Angle( systime ));
+	return OrbitPointSec (Orbit_Angle( secondspassed ));
 }
 
-csVector3 Orbit::OrbitPoint ( long double angle ) 
+csVector3 Orbit::OrbitPointDeg ( long double angle ) 
 {
 	csVector3 pos;
 	double b; // minor axis
@@ -135,7 +152,7 @@ csVector3 Orbit::EllipsePoint ( long double angle )
 	return pos;
 }
 
-void Orbit::Draw_Position ( iCamera* c , iGraphics3D* g3d , csVector3 origin, timespec systime ) 
+void Orbit::Draw_Position ( iCamera* c , iGraphics3D* g3d , csVector3 origin, long secondspassed ) 
 {
 // calculate ecc // use Time and Period
 // mean anomaly at epoch  ??
@@ -165,7 +182,7 @@ void Orbit::Draw_Position ( iCamera* c , iGraphics3D* g3d , csVector3 origin, ti
 	center_pos.y = 0;
 	center_pos.z = 0;
 
-	orbit_pos = OrbitPoint( systime );
+	orbit_pos = OrbitPointSec( secondspassed );
 
 	center_pos =  csCameraOrth * (center_pos + origin ); // convert point to camera space 
 	orbit_pos =  csCameraOrth * (orbit_pos + origin ); // convert point to camera space 
@@ -196,7 +213,7 @@ void Orbit::Draw_Orbit (iCamera* c , iGraphics3D* g3d, csVector3 origin )
 
 	// Calculate Start point 
 	orb_rad = 0 * (PI / 180.0);
-	v3start = OrbitPoint(0);
+	v3start = OrbitPointDeg(0);
 
 	csCameraOrth = c->GetTransform ();
 	v3CS =  csCameraOrth * (v3start+origin);   // convert point to camera space 
@@ -205,7 +222,7 @@ void Orbit::Draw_Orbit (iCamera* c , iGraphics3D* g3d, csVector3 origin )
 	for (int i= 0; i<361; i+=10)
 	{
 		// Calculate End point
-		v3end = OrbitPoint(i);
+		v3end = OrbitPointDeg(i);
 		// Draw part of arc
 		v3CE =  csCameraOrth * (v3end + origin); // convert point to camera space 
 		g3d->DrawLine(v3CS, v3CE, fov, color);

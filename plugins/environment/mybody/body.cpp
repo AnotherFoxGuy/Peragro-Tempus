@@ -1,3 +1,20 @@
+/*
+    Copyright (C) 2008 by Mogue Carpenter
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
 #include "body.h"
 
 // --------------------------------------------------------------------------------//
@@ -8,6 +25,8 @@ Body::Body(iObjectRegistry* reg)
   object_reg = reg;
   engine = csQueryRegistry<iEngine> (object_reg );
 
+  if (!engine) printf ("Body::Body(iObjectRegistry* reg) no engine\n");
+ 
   last_update_seconds = -1;
 
   body_verts = 100;
@@ -17,7 +36,7 @@ Body::Body(iObjectRegistry* reg)
 
   sector_name = "sector";
   name = "defaultbody";
-
+ 
   body_day_lenght =.1; // in hours
   body_inclination = 0; // in deg
 
@@ -153,15 +172,15 @@ bool Body::Draw_FullOrbit (iCamera* c, iGraphics3D* g3d)
 
   return true;
 }
-bool Body::Draw_FullPosition (iCamera* c, iGraphics3D* g3d, timespec systime)
+bool Body::Draw_FullPosition (iCamera* c, iGraphics3D* g3d,long secondspassed)
 {
   csVector3 origin(0,0,0);
   iSceneNode* par_node;
   par_node = mesh->QuerySceneNode ()->GetParent();
   if (parent) origin = parent->Get_MeshWrapper()->GetMovable()->GetPosition();
   //	printf("origin (%4.2f:%4.2f:%4.2f) \n",origin.x ,origin.y,origin.z);
-  //	Draw_Position (planetview->GetCamera () , g3d, origin , systime );
-  Draw_Position (c , g3d, origin, systime);
+  //	Draw_Position (planetview->GetCamera () , g3d, origin , secondspassed );
+  Draw_Position (c , g3d, origin, secondspassed);
 
   return true;
 }
@@ -201,22 +220,22 @@ void Body::Set_Mesh(char const* mesh_name)
 }
 
 
-bool Body::Update_Body (timespec systime )
+bool Body::Update_Body (long secondspassed )
 {
-  long  seconds = systime.tv_sec;
+  long  seconds = secondspassed;
 
   if (seconds > last_update_seconds ) 
   {
     last_update_seconds = seconds;
 
     // Position body
-    //	printf ( "body %s rot: %4.2f \n" , name.c_str(), Get_Body_Rotation(systime) );
-    Rotate_Body(Rotate_Body(Get_Body_Rotation(systime)));
-    Position_Body(Orbit_Angle(systime), csVector3(0,0,0));  
+    //	printf ( "body %s rot: %4.2f \n" , name.c_str(), Get_Body_Rotation(secondspassed) );
+    Rotate_Body(Rotate_Body(Get_Body_Rotation(secondspassed)));
+    Position_Body(Orbit_Angle(secondspassed), csVector3(0,0,0));  
 
     for (size_t i = 0; i < child_bodies.GetSize(); i++) 
     {
-      child_bodies.Get(i)->Update_Body (systime , abs_pos.GetOrigin() ); 
+      child_bodies.Get(i)->Update_Body (secondspassed , abs_pos.GetOrigin() ); 
     } // end for iterate for child bodies 
     List_Light();
   } // end if check that body has actualy moved 
@@ -226,16 +245,16 @@ bool Body::Update_Body (timespec systime )
 
 // used to position child bodies in relation to their parents position.
 // origin is the parents pos in world space
-bool Body::Update_Body(timespec systime, csVector3 orbit_origin) 
+bool Body::Update_Body(long secondspassed, csVector3 orbit_origin) 
 {
 
   //	printf ("rotation %4.6f\n", rot_angle);
-  Rotate_Body (Get_Body_Rotation(systime));
-  Position_Body (Orbit_Angle(systime ), orbit_origin);  
+  Rotate_Body (Get_Body_Rotation(secondspassed));
+  Position_Body (Orbit_Angle(secondspassed), orbit_origin);  
 
   for (size_t i = 0; i < child_bodies.GetSize(); i++) 
   {
-    child_bodies.Get(i)->Update_Body (systime ,abs_pos.GetOrigin() ); 
+    child_bodies.Get(i)->Update_Body ( secondspassed, abs_pos.GetOrigin()); 
   } // end for iterate for child bodies 
 
   return true;
@@ -331,7 +350,7 @@ bool Body::Position_Body (float angle, csVector3 orbit_origin)
   float orb_rad;
 
   orb_rad = angle * (PI / 180.0);
-  v3pos = OrbitPoint(angle);
+  v3pos = OrbitPointDeg(angle);
   abs_pos.SetO2TTranslation(v3pos + orbit_origin);
 
   return true;
@@ -406,7 +425,7 @@ void Body::Pos_Light(const csVector3& npos)
   {
     light->GetMovable()->SetPosition(npos);
     light->GetMovable()->UpdateMove();
-    light->Setup();
+ //   light->Setup();
   }
 }
 
@@ -424,7 +443,7 @@ void Body::Update_Lights()
   csVector3 pos =  mesh->GetMovable()->GetFullPosition();
 
   light = ll->FindByName(name.c_str());
-  light->Setup();
+ // light->Setup();
   /*
   for (size_t i = 0; i < child_bodies.GetSize(); i++) 
   {
@@ -553,10 +572,10 @@ void Body::List_Light() {
     light = ll->Get(i);
     csVector3 pos = light->GetMovable()->GetFullPosition();
     light->GetMovable()->MovePosition (csVector3(0,0,1));
-    light->Setup();
+ //   light->Setup();
     //		printf (" light %s: pos ( %4.2f,%4.2f,%4.2f )\n", light->QueryObject()->GetName() , pos.x, pos.y, pos.z );
   }
-  sector->ShineLights();
+//  sector->ShineLights();
 }
 
 csVector3 Body::RotateZ (const csVector3 body_pos,const float body_rotation)
@@ -567,11 +586,11 @@ csVector3 Body::RotateZ (const csVector3 body_pos,const float body_rotation)
   return rot.Rotate (body_pos);   
 }
 
-float Body::Get_Body_Rotation (timespec systime )
+float Body::Get_Body_Rotation (long secondspassed )
 {
 
   float rot_angle=0;
-  long  seconds = systime.tv_sec;	
+  long  seconds = secondspassed;	
   //	printf("seconds %lu\n" ,seconds);
   //	printf("last_update_seconds %lu\n", last_update_seconds);
   if ( last_update_seconds < seconds )

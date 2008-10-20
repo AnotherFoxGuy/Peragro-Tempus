@@ -1,4 +1,21 @@
 /*
+    Copyright (C) 2008 by Mogue Carpenter
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+/*
 * orbit.h
 *
 * Base Class for calculating orbit's and positions 
@@ -31,10 +48,6 @@
 // --------------------------------------------------------------------------------//
 // 
 // --------------------------------------------------------------------------------//
-struct timespec
-{
-  long tv_sec;
-};
 
 class Orbit
 {
@@ -76,16 +89,16 @@ public:
 
   void Draw_Orbit ( iCamera* c, iGraphics3D* g3d,  csVector3 origin );
   void Draw_Plane (const iCamera* c, iGraphics3D* g3d ) ;
-  void Draw_Position ( iCamera* c, iGraphics3D* g3d, csVector3 origin, timespec systime ) ;
+  void Draw_Position ( iCamera* c, iGraphics3D* g3d, csVector3 origin, long secondspassed) ;
   void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up);
 
   csVector3 CirclePoint ( long double angle ) ;  // point on circle at angle 
   csVector3 EllipsePoint ( long double angle ) ; // point on elipse at angle 
-  csVector3 OrbitPoint ( long double angle ) ; // point on orbit at angle
-  csVector3 OrbitPoint ( timespec systime ) ;// point on orbit at systime
+  csVector3 OrbitPointDeg ( long double angle ) ; // point on orbit at angle
+  csVector3 OrbitPointSec ( long secondspassed ) ;// point on orbit at systime
 
 
-  long double Orbit_Angle( timespec systime ); 
+  long double Orbit_Angle( long secondspassed ); 
 
   // from http://www.projectpluto.com/home.htm // GPL 
   double asinh( const double z ) ;

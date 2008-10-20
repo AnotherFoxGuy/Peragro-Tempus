@@ -1,4 +1,21 @@
 /*
+    Copyright (C) 2008 by Mogue Carpenter
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+/*
 * body.h
 *
 * Base Class for managing bodies    
@@ -69,6 +86,8 @@ public:
   void Set_Radius(csVector3 r) { ellips.SetRadius (r); body_radius = r.x; };  
   void Set_Day_Lenght(long double dl) { body_day_lenght = dl; };  
   void Set_Inclination(long double i) { body_inclination = i; };  
+
+
   void Set_Orbit (
     long double i,
     long double n,
@@ -101,15 +120,15 @@ public:
   csRef<iCamera> Get_Surface_Camera(const iCamera* c,float lon , float lat);
 
 
-  bool Update_Body(timespec systime);
-  bool Update_Body(timespec systime, csVector3 orbit_origin); // used for child bodies 
+  bool Update_Body(long secondspassed);
+  bool Update_Body(long secondspassed, csVector3 orbit_origin); // used for child bodies 
   void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
 
   bool Add_Light(int radius, csColor color);
   void Update_Lights();
 
   bool Draw_FullOrbit (iCamera* c, iGraphics3D* g3d);
-  bool Draw_FullPosition (iCamera* c, iGraphics3D* g3d, timespec systime);
+  bool Draw_FullPosition (iCamera* c, iGraphics3D* g3d, long secondspassed);
 
   csOrthoTransform GetSurfaceTrans (csOrthoTransform cameratrans ,float lon ,float lat);
 
@@ -133,7 +152,7 @@ private:
 
   csVector3  Get_Surface_Position(float lon, float lat);
   csVector3 RotateZ (const csVector3 body_pos,const float body_rotation);
-  float Get_Body_Rotation (timespec systime );
+  float Get_Body_Rotation (long secondspassed );
   void List_Light();
   void Pos_Light(const csVector3& npos);
 
