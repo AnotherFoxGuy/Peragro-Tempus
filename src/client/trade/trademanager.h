@@ -37,7 +37,7 @@ namespace PT
     class TradeManager
     {
     private:
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
 
       PlayerInventory* playerInventory;
       Exchange* exchange;

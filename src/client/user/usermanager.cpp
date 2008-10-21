@@ -46,13 +46,13 @@ namespace PT
 
     bool UserManager::Initialize()
     {
-      SETUP_HANDLER
-      REGISTER_LISTENER(UserManager, Connected, "state.connected")
-      REGISTER_LISTENER(UserManager, LoginResponse, "user.login")
-      REGISTER_LISTENER(UserManager, RegisterResponse, "user.register")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(UserManager, Connected, "state.connected")
+      PT_REGISTER_LISTENER(UserManager, LoginResponse, "user.login")
+      PT_REGISTER_LISTENER(UserManager, RegisterResponse, "user.register")
 
-      REGISTER_LISTENER(UserManager, CharacterList, "user.character.list")
-      REGISTER_LISTENER(UserManager, CharacterCreateResponse, "user.character.create")
+      PT_REGISTER_LISTENER(UserManager, CharacterList, "user.character.list")
+      PT_REGISTER_LISTENER(UserManager, CharacterCreateResponse, "user.character.create")
 
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
       cmdline = csQueryRegistry<iCommandLineParser> (object_reg);

@@ -79,7 +79,7 @@ namespace PT
       std::string changeAction;
 */
 
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
       /// Handler for the clipboard copy event. Calls DoCopy(false).
       bool ClipboardCopy(iEvent& ev);
       /// Handler for the clipboard cut event. Calls DoCopy(true).

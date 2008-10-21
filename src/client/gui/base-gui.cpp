@@ -80,8 +80,8 @@ namespace PT
       std::string eventName("input.Toggle");
       eventName += name;
 
-      SETUP_HANDLER
-      REGISTER_LISTENER(GUIWindow, ToggleWindow, eventName)
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(GUIWindow, ToggleWindow, eventName)
     } // end SetupToggleListener()
 
     bool GUIWindow::ToggleWindow(iEvent& ev)

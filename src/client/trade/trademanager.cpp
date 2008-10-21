@@ -48,8 +48,6 @@ namespace PT
 
     bool TradeManager::Initialize()
     {
-      SETUP_HANDLER
-
       // Create and Initialize the PlayerInventory.
       delete playerInventory;
       playerInventory = new PT::Trade::PlayerInventory ();

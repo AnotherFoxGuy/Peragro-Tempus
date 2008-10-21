@@ -80,8 +80,8 @@ namespace PT
           CEGUI::Event::Subscriber(&CameraOptionsWindow::OnMinDistanceSliderChanged, this));
 
         // Register listener for distance clipping shortcut.
-        SETUP_HANDLER
-        REGISTER_LISTENER(CameraOptionsWindow, ToggleDistClip, "input.DistanceClipping")
+        PT_SETUP_HANDLER
+        PT_REGISTER_LISTENER(CameraOptionsWindow, ToggleDistClip, "input.DistanceClipping")
 
         return true;
       } // end Create()

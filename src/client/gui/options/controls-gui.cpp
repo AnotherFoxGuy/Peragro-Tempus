@@ -72,8 +72,8 @@ namespace PT
         using namespace PT::Events;
         EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
-        REGISTER_LISTENER(ControlOptionsWindow, ControlUpdate, "input.options.controlupdate");
-        REGISTER_LISTENER(ControlOptionsWindow, ControlSet, "input.options.controlset");
+        PT_REGISTER_LISTENER(ControlOptionsWindow, ControlUpdate, "input.options.controlupdate");
+        PT_REGISTER_LISTENER(ControlOptionsWindow, ControlSet, "input.options.controlset");
 
         return true;
       } // end Create()

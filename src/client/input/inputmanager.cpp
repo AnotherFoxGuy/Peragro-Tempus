@@ -50,16 +50,16 @@ namespace PT
       csBaseEventHandler::Initialize(obj_reg);
       RegisterQueue(obj_reg, csevInput(obj_reg));
 
-      SETUP_HANDLER
-      REGISTER_LISTENER(InputManager, ChangeControl, "input.options.changecontrol")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(InputManager, ChangeControl, "input.options.changecontrol")
 
       // Register listeners for Clipboard Events.
       csTheClipboard = csQueryRegistry<iClipboard> (obj_reg);
       if (csTheClipboard)
       {
-        REGISTER_LISTENER(InputManager, ClipboardCopy, "input.CopyText")
-        REGISTER_LISTENER(InputManager, ClipboardPaste, "input.PasteText")
-        REGISTER_LISTENER(InputManager, ClipboardCut, "input.CutText")
+        PT_REGISTER_LISTENER(InputManager, ClipboardCopy, "input.CopyText")
+        PT_REGISTER_LISTENER(InputManager, ClipboardPaste, "input.PasteText")
+        PT_REGISTER_LISTENER(InputManager, ClipboardCut, "input.CutText")
 
         csString ostype("");
         csTheClipboard->GetOS(ostype);

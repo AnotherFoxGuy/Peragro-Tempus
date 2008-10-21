@@ -85,7 +85,7 @@ namespace PT
       bool LoadDefaultSkin ();
 
     private:
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
       bool LoadPressed (iEvent &ev);
 
     private:

@@ -33,7 +33,7 @@ namespace PT
     class PlayerInventory
     {
     private:
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
       bool PickUp(iEvent& ev);
       bool Drop(iEvent& ev);
       bool List(iEvent& ev);

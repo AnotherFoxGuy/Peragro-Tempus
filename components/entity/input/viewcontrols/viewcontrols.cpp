@@ -45,7 +45,7 @@
 #define ZOOM_SPEED 0.5f
 
 CS_IMPLEMENT_PLUGIN
-IMPLEMENT_COMPONENTFACTORY (ViewControls, "peragro.entity.input.viewcontrols")
+PT_IMPLEMENT_COMPONENTFACTORY (ViewControls, "peragro.entity.input.viewcontrols")
 
 ComponentViewControls::ComponentViewControls(iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg), invertYAxis(false),
@@ -65,17 +65,17 @@ bool ComponentViewControls::Initialize (PointerLibrary* pl, PT::Entity::Entity* 
 
   camera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
 
-  SETUP_HANDLER_PLUGIN(pointerlib)
+  PT_SETUP_HANDLER_PLUGIN(pointerlib)
 
-  REGISTER_LISTENER(ComponentViewControls, ActionLookLeft, "input.LookLeft")
-  REGISTER_LISTENER(ComponentViewControls, ActionLookRight, "input.LookRight")
-  REGISTER_LISTENER(ComponentViewControls, ActionLookUp, "input.LookUp")
-  REGISTER_LISTENER(ComponentViewControls, ActionLookDown, "input.LookDown")
-  REGISTER_LISTENER(ComponentViewControls, ActionZoomIn, "input.ZoomIn")
-  REGISTER_LISTENER(ComponentViewControls, ActionZoomOut, "input.ZoomOut")
-  REGISTER_LISTENER(ComponentViewControls, ActionCameraMode, "input.CameraMode")
-  REGISTER_LISTENER(ComponentViewControls, ActionDistanceClipping, "input.DistanceClipping")
-  REGISTER_LISTENER(ComponentViewControls, UpdateOptions, "interface.options.view")
+  PT_REGISTER_LISTENER(ComponentViewControls, ActionLookLeft, "input.LookLeft")
+  PT_REGISTER_LISTENER(ComponentViewControls, ActionLookRight, "input.LookRight")
+  PT_REGISTER_LISTENER(ComponentViewControls, ActionLookUp, "input.LookUp")
+  PT_REGISTER_LISTENER(ComponentViewControls, ActionLookDown, "input.LookDown")
+  PT_REGISTER_LISTENER(ComponentViewControls, ActionZoomIn, "input.ZoomIn")
+  PT_REGISTER_LISTENER(ComponentViewControls, ActionZoomOut, "input.ZoomOut")
+  PT_REGISTER_LISTENER(ComponentViewControls, ActionCameraMode, "input.CameraMode")
+  PT_REGISTER_LISTENER(ComponentViewControls, ActionDistanceClipping, "input.DistanceClipping")
+  PT_REGISTER_LISTENER(ComponentViewControls, UpdateOptions, "interface.options.view")
 
   UpdateOptions();
 

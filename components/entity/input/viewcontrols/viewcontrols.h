@@ -49,7 +49,7 @@ namespace PT
   }
 } //PT namespace
 
-DECLARE_COMPONENTFACTORY (ViewControls)
+PT_DECLARE_COMPONENTFACTORY (ViewControls)
 
 /**
  * Handles the player view controls.

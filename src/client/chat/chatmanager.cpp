@@ -65,15 +65,15 @@ namespace PT
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
-      SETUP_HANDLER
-      REGISTER_LISTENER(ChatManager, HandleSay, "chat.say")
-      REGISTER_LISTENER(ChatManager, HandleWhisper, "chat.whisper")
-      REGISTER_LISTENER(ChatManager, HandleGroup, "chat.group")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(ChatManager, HandleSay, "chat.say")
+      PT_REGISTER_LISTENER(ChatManager, HandleWhisper, "chat.whisper")
+      PT_REGISTER_LISTENER(ChatManager, HandleGroup, "chat.group")
 
-      REGISTER_LISTENER(ChatManager, ProcessEvents, "entity.add")
-      REGISTER_LISTENER(ChatManager, ProcessEvents, "entity.remove")
+      PT_REGISTER_LISTENER(ChatManager, ProcessEvents, "entity.add")
+      PT_REGISTER_LISTENER(ChatManager, ProcessEvents, "entity.remove")
 
-      REGISTER_LISTENER(ChatManager, UpdateOptions, "interface.options.chat")
+      PT_REGISTER_LISTENER(ChatManager, UpdateOptions, "interface.options.chat")
       UpdateOptions();
 
       // Handle submit.

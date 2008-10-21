@@ -50,8 +50,8 @@ namespace PT
       buyWindow = guimanager->GetWindow<BuyWindow>(BUYWINDOW);
       if (!buyWindow) return true;
 
-      SETUP_HANDLER
-      REGISTER_LISTENER(Buy, TradeOffersList, "trade.general.offer.list.1") // 1 == buy
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(Buy, TradeOffersList, "trade.general.offer.list.1") // 1 == buy
 
         return true;
     } // end Initialize()

@@ -55,7 +55,7 @@
 #include "client/pointer/pointer.h"
 
 CS_IMPLEMENT_PLUGIN
-IMPLEMENT_COMPONENTFACTORY (PlayerControls, "peragro.entity.input.playercontrols")
+PT_IMPLEMENT_COMPONENTFACTORY (PlayerControls, "peragro.entity.input.playercontrols")
 
 ComponentPlayerControls::ComponentPlayerControls(iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg), walk(0), turn(0), run(false),
@@ -75,20 +75,20 @@ bool ComponentPlayerControls::Initialize (PointerLibrary* pl,
 
   camera = CEL_QUERY_PROPCLASS_ENT(entity->GetCelEntity(), iPcDefaultCamera);
 
-  SETUP_HANDLER_PLUGIN(pointerlib)
+  PT_SETUP_HANDLER_PLUGIN(pointerlib)
 
 #define CPC ComponentPlayerControls
 
-  REGISTER_LISTENER(CPC, ActionForward, "input.Forward")
-  REGISTER_LISTENER(CPC, ActionBackward, "input.Backward")
-  REGISTER_LISTENER(CPC, ActionLeft, "input.Left")
-  REGISTER_LISTENER(CPC, ActionRight, "input.Right")
-  REGISTER_LISTENER(CPC, ActionJump, "input.Jump")
-  REGISTER_LISTENER(CPC, ActionMoveTo, "input.MoveTo")
-  REGISTER_LISTENER(CPC, ActionAutoMove, "input.AutoMove")
-  REGISTER_LISTENER(CPC, ActionToggleRun, "input.ToggleRun")
-  REGISTER_LISTENER(CPC, ActionActivateWeapon, "input.ActivateWeapon")
-  REGISTER_LISTENER(CPC, UpdateOptions, "interface.options.movement")
+  PT_REGISTER_LISTENER(CPC, ActionForward, "input.Forward")
+  PT_REGISTER_LISTENER(CPC, ActionBackward, "input.Backward")
+  PT_REGISTER_LISTENER(CPC, ActionLeft, "input.Left")
+  PT_REGISTER_LISTENER(CPC, ActionRight, "input.Right")
+  PT_REGISTER_LISTENER(CPC, ActionJump, "input.Jump")
+  PT_REGISTER_LISTENER(CPC, ActionMoveTo, "input.MoveTo")
+  PT_REGISTER_LISTENER(CPC, ActionAutoMove, "input.AutoMove")
+  PT_REGISTER_LISTENER(CPC, ActionToggleRun, "input.ToggleRun")
+  PT_REGISTER_LISTENER(CPC, ActionActivateWeapon, "input.ActivateWeapon")
+  PT_REGISTER_LISTENER(CPC, UpdateOptions, "interface.options.movement")
 
   UpdateOptions();
 

@@ -72,8 +72,8 @@ namespace PT
         return Report(PT::Bug, "EffectsManager: Failed to locate 3D engine!");
 
       // Register listener for atposition.
-      SETUP_HANDLER
-      REGISTER_LISTENER(EffectsManager, CreateEffect, "effect.atposition")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(EffectsManager, CreateEffect, "effect.atposition")
 
       return true;
     }

@@ -25,17 +25,17 @@
 #define EVENT_HANDLER_CALLBACK_H
 
 
-#undef CALLBACK_HANDLER_LISTENERS
-#define CALLBACK_HANDLER_LISTENERS                            \
+#undef PT_CALLBACK_HANDLER_LISTENERS
+#define PT_CALLBACK_HANDLER_LISTENERS                         \
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers; \
 
-#undef SETUP_HANDLER
-#define SETUP_HANDLER                                                   \
+#undef PT_SETUP_HANDLER
+#define PT_SETUP_HANDLER                                                \
 using namespace PT::Events;                                             \
 EventManager* evmgr = PointerLibrary::getInstance()->getEventManager(); \
 
-#undef SETUP_HANDLER_PLUGIN
-#define SETUP_HANDLER_PLUGIN(pointerlib)             \
+#undef PT_SETUP_HANDLER_PLUGIN
+#define PT_SETUP_HANDLER_PLUGIN(pointerlib)          \
 using namespace PT::Events;                          \
 EventManager* evmgr = pointerlib->getEventManager(); \
 
@@ -45,9 +45,9 @@ EventManager* evmgr = pointerlib->getEventManager(); \
  * @param funct The function which will handle the event.
  * @param ev The event which to subscribe to.
  */
-#undef REGISTER_LISTENER
-#define REGISTER_LISTENER(Class, funct, ev)           \
-REGISTER_LISTENER2(Class, funct, ev, FUNC(funct))     \
+#undef PT_REGISTER_LISTENER
+#define PT_REGISTER_LISTENER(Class, funct, ev)        \
+PT_REGISTER_LISTENER2(Class, funct, ev, PT_FUNC(funct))  \
 
 /**
  * A macro to help register an entity eventhandler.
@@ -56,9 +56,9 @@ REGISTER_LISTENER2(Class, funct, ev, FUNC(funct))     \
  * @param ev The event which to subscribe to.
  * @param specific Whether or not to make this event entity specific.
  */
-#undef REGISTER_LISTENER_ENTITY
-#define REGISTER_LISTENER_ENTITY(Class, funct, ev, specific)  \
-REGISTER_LISTENER_E2(Class, funct, ev, specific, FUNC(funct)) \
+#undef PT_REGISTER_LISTENER_ENTITY
+#define PT_REGISTER_LISTENER_ENTITY(Class, funct, ev, specific)  \
+PT_REGISTER_LISTENER_E2(Class, funct, ev, specific, PT_FUNC(funct)) \
 
 /**
  * A macro to help register an entity eventhandler.
@@ -67,28 +67,28 @@ REGISTER_LISTENER_E2(Class, funct, ev, specific, FUNC(funct)) \
  * @param ev The event which to subscribe to.
  * @param id The id of the entity.
  */
-#undef REGISTER_LISTENER_ENTITY_ID
-#define REGISTER_LISTENER_ENTITY_ID(Class, funct, ev, id)  \
-REGISTER_LISTENER_ID2(Class, funct, ev, id, FUNC(funct)) \
+#undef PT_REGISTER_LISTENER_ENTITY_ID
+#define PT_REGISTER_LISTENER_ENTITY_ID(Class, funct, ev, id)  \
+PT_REGISTER_LISTENER_ID2(Class, funct, ev, id, PT_FUNC(funct))   \
 
 // Some macro magic to generate unique variable names.
-#define FUNC2(x,y) cb##x##y
-#define FUNC1(x,y) FUNC2(x,y)
+#define PT_FUNC2(x,y) cb##x##y
+#define PT_FUNC1(x,y) PT_FUNC2(x,y)
 #ifdef __COUNTER__
-  #define FUNC(x) FUNC1(x,__COUNTER__)
+  #define PT_FUNC(x) PT_FUNC1(x,__COUNTER__)
 #else
-  #define FUNC(x) FUNC1(x,__LINE__)
+  #define PT_FUNC(x) PT_FUNC1(x,__LINE__)
 #endif
 
 //-------------------------------------------------------------------------------------
-#define REGISTER_LISTENER2(Class, funct, ev, var)                                     \
+#define PT_REGISTER_LISTENER2(Class, funct, ev, var)                                  \
 using namespace PT::Events;                                                           \
 csRef<EventHandlerCallback> var;                                                      \
 var.AttachNew(new EventHandler</**/Class>(&/**/Class::/**/funct, this));              \
 evmgr->AddListener(ev, var);                                                          \
 eventHandlers.Push(var);                                                              \
 //-------------------------------------------------------------------------------------
-#define REGISTER_LISTENER_E2(Class, funct, ev, specific, var)                         \
+#define PT_REGISTER_LISTENER_E2(Class, funct, ev, specific, var)                      \
 using namespace PT::Events;                                                           \
 csRef<EventHandlerCallback> var;                                                      \
 var.AttachNew(new EventHandler</**/Class>(&/**/Class::/**/funct, this));              \
@@ -98,7 +98,7 @@ else                                                                            
  evmgr->AddListener(ev, var);                                                         \
 eventHandlers.Push(var);                                                              \
 //-------------------------------------------------------------------------------------
-#define REGISTER_LISTENER_ID2(Class, funct, ev, id, var)                              \
+#define PT_REGISTER_LISTENER_ID2(Class, funct, ev, id, var)                           \
 using namespace PT::Events;                                                           \
 csRef<EventHandlerCallback> var;                                                      \
 var.AttachNew(new EventHandler</**/Class>(&/**/Class::/**/funct, this));              \

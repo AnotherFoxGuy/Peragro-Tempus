@@ -51,11 +51,11 @@ namespace PT
       Create();
 
       ///@TODO: Move this to a component?
-      SETUP_HANDLER
-      REGISTER_LISTENER_ENTITY_ID(DoorEntity, Open, "entity.door.open", doorId)
-      REGISTER_LISTENER_ENTITY_ID(DoorEntity, Close, "entity.door.close", doorId)
-      REGISTER_LISTENER_ENTITY_ID(DoorEntity, Lock, "entity.door.lock", doorId)
-      REGISTER_LISTENER_ENTITY_ID(DoorEntity, Unlock, "entity.door.unlock", doorId)
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Open, "entity.door.open", doorId)
+      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Close, "entity.door.close", doorId)
+      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Lock, "entity.door.lock", doorId)
+      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Unlock, "entity.door.unlock", doorId)
     }
 
     DoorEntity::~DoorEntity()
@@ -86,8 +86,8 @@ namespace PT
         Report(PT::Warning, "DoorEntity: Couldn't find mesh '%s' for door %s!", meshName.c_str(), name.c_str());
         pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
         // Register listener for WorldLoaded.
-        SETUP_HANDLER
-        REGISTER_LISTENER(DoorEntity, TileLoaded, "world.loaded")
+        PT_SETUP_HANDLER
+        PT_REGISTER_LISTENER(DoorEntity, TileLoaded, "world.loaded")
       }
 
       csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,

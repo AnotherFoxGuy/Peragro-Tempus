@@ -90,11 +90,11 @@ namespace PT
       skillManager = PointerLibrary::getInstance()->getSkillDataManager();
       network = PointerLibrary::getInstance()->getNetwork();
 
-      SETUP_HANDLER
-      REGISTER_LISTENER(CombatManager, ActionHit, "input.Hit")
-      REGISTER_LISTENER(CombatManager, ActionAttackTarget, "input.Attack")
-      REGISTER_LISTENER(CombatManager, AddStatPlayer, "entity.stat.add.player")
-      REGISTER_LISTENER(CombatManager, UpdateStat, "entity.stat.change")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(CombatManager, ActionHit, "input.Hit")
+      PT_REGISTER_LISTENER(CombatManager, ActionAttackTarget, "input.Attack")
+      PT_REGISTER_LISTENER(CombatManager, AddStatPlayer, "entity.stat.add.player")
+      PT_REGISTER_LISTENER(CombatManager, UpdateStat, "entity.stat.change")
 
       if (!entityManager) return Report(PT::Bug,
         "CombatManager: Failed to locate ptEntityManager plugin");

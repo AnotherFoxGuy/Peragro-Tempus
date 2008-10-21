@@ -43,12 +43,12 @@ namespace PT
     bool PlayerInventory::Initialize ()
     {
       // Register listener for InventoryAddEvent.
-      SETUP_HANDLER
-      REGISTER_LISTENER(PlayerInventory, PickUp, "trade.inventory.pickup")
-      REGISTER_LISTENER(PlayerInventory, Drop, "trade.inventory.drop")
-      //REGISTER_LISTENER(PlayerInventory, Add, "trade.inventory.add")
-      REGISTER_LISTENER(PlayerInventory, List, "trade.inventory.list")
-      REGISTER_LISTENER(PlayerInventory, Move, "trade.inventory.move")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(PlayerInventory, PickUp, "trade.inventory.pickup")
+      PT_REGISTER_LISTENER(PlayerInventory, Drop, "trade.inventory.drop")
+      //PT_REGISTER_LISTENER(PlayerInventory, Add, "trade.inventory.add")
+      PT_REGISTER_LISTENER(PlayerInventory, List, "trade.inventory.list")
+      PT_REGISTER_LISTENER(PlayerInventory, Move, "trade.inventory.move")
 
       return true;
     } // end Initialize()

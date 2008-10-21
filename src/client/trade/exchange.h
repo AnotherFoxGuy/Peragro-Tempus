@@ -54,7 +54,7 @@ namespace PT
     private:
       csRef<Events::EventHandlerCallback> tradeConfirm;
       csRef<Events::EventHandlerCallback> tradeCancel;
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
       bool ExchangeRequest(iEvent& ev);
       bool ExchangeResponse(iEvent& ev);
       bool ExchangeConfirmResponse(iEvent& ev);

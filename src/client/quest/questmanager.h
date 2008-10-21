@@ -39,7 +39,7 @@ namespace PT
     class QuestManager
     {
     private:
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
       /// Handler .
       bool NPCDialog(iEvent& ev);
       bool EndNPCDialog(iEvent& ev);

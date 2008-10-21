@@ -62,7 +62,7 @@ namespace PT
       bool AddToRoot(CEGUI::Window* window);
       void SetupToggleListener(const std::string& name);
 
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
 
       bool ToggleWindow(iEvent& ev);
 

@@ -40,7 +40,7 @@
 #include "client/pointer/pointer.h"
 
 CS_IMPLEMENT_PLUGIN
-IMPLEMENT_COMPONENTFACTORY (Stats, "peragro.entity.stats")
+PT_IMPLEMENT_COMPONENTFACTORY (Stats, "peragro.entity.stats")
 
 ComponentStats::ComponentStats(iObjectRegistry* object_reg) :
   scfImplementationType (this, object_reg)
@@ -63,10 +63,10 @@ bool ComponentStats::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
 
   // TODO: Listen to one of the two, not both.
   // But entityType isn't known at this point.
-  REGISTER_LISTENER_ENTITY(ComponentStats, AddStat, "entity.stat.add", true)
-  REGISTER_LISTENER_ENTITY(ComponentStats, List, "entity.stat.list.player", false)
+  PT_REGISTER_LISTENER_ENTITY(ComponentStats, AddStat, "entity.stat.add", true)
+  PT_REGISTER_LISTENER_ENTITY(ComponentStats, List, "entity.stat.list.player", false)
 
-  REGISTER_LISTENER_ENTITY(ComponentStats, UpdateStat, "entity.stat.change", true)
+  PT_REGISTER_LISTENER_ENTITY(ComponentStats, UpdateStat, "entity.stat.change", true)
 
   return true;
 } // end Initialize()

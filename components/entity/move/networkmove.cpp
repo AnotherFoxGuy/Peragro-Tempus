@@ -48,7 +48,7 @@
 #include "client/pointer/pointer.h"
 
 CS_IMPLEMENT_PLUGIN
-IMPLEMENT_COMPONENTFACTORY (NetworkMove, "peragro.entity.move.networkmove")
+PT_IMPLEMENT_COMPONENTFACTORY (NetworkMove, "peragro.entity.move.networkmove")
 
 ComponentNetworkMove::ComponentNetworkMove(iObjectRegistry* object_reg) :
   scfImplementationType (this, object_reg)
@@ -71,13 +71,13 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
 
   EventManager* evmgr = pointerlib->getEventManager();
 
-  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, Move, "entity.move", true);
-  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, Teleport, "entity.teleport", true);
-  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, DrUpdate, "entity.drupdate", true);
-  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, MoveTo, "entity.moveto", true);
-  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, UpdateOptions, "interface.options.movement", false);
-  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, DisableGravity, "world.loading", false);
-  REGISTER_LISTENER_ENTITY(ComponentNetworkMove, ResetGravity, "world.loaded", false);
+  PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, Move, "entity.move", true);
+  PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, Teleport, "entity.teleport", true);
+  PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, DrUpdate, "entity.drupdate", true);
+  PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, MoveTo, "entity.moveto", true);
+  PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, UpdateOptions, "interface.options.movement", false);
+  PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, DisableGravity, "world.loading", false);
+  PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, ResetGravity, "world.loaded", false);
 
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>
     (pointerlib->getObjectRegistry());

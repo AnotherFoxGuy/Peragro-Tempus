@@ -130,9 +130,9 @@ namespace PT
           CEGUI::Event::Subscriber(&BookWindow::OnCloseButton, this));
 
         // TODO: this souldn't be here, move to a manager.
-        SETUP_HANDLER
-        REGISTER_LISTENER(BookWindow, HandleRead, "book.read")
-        REGISTER_LISTENER(BookWindow, HandleWrite, "book.write")
+        PT_SETUP_HANDLER
+        PT_REGISTER_LISTENER(BookWindow, HandleRead, "book.read")
+        PT_REGISTER_LISTENER(BookWindow, HandleWrite, "book.write")
 
         return true;
       } // end Create()

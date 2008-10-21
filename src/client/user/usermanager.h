@@ -46,7 +46,7 @@ namespace PT
       csRef<iCommandLineParser> cmdline;
 
     private:
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
       /// Handlers.
       bool Connected(iEvent& ev);
       bool LoginResponse(iEvent& ev);

@@ -84,7 +84,7 @@ namespace PT
       const char* NextMessage();
 
     private: // PT events.
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
 
       bool HandleSay(iEvent& ev);
       bool HandleWhisper(iEvent& ev);

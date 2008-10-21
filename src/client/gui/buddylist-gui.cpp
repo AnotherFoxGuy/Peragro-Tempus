@@ -139,9 +139,9 @@ namespace PT
         frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
           CEGUI::Event::Subscriber(&BuddyWindow::handleCloseButton, this));
 
-        SETUP_HANDLER
-        REGISTER_LISTENER(BuddyWindow, ProcessEvents, "entity.add")
-        REGISTER_LISTENER(BuddyWindow, ProcessEvents, "entity.remove")
+        PT_SETUP_HANDLER
+        PT_REGISTER_LISTENER(BuddyWindow, ProcessEvents, "entity.add")
+        PT_REGISTER_LISTENER(BuddyWindow, ProcessEvents, "entity.remove")
 
         SetupToggleListener("BuddyList");
 

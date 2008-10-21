@@ -53,7 +53,7 @@ namespace PT
   }
 } //PT namespace
 
-DECLARE_COMPONENTFACTORY (ViewBob)
+PT_DECLARE_COMPONENTFACTORY (ViewBob)
 
 /**
  * The view bobbing effect applied to the view as the player character moves.

@@ -49,7 +49,7 @@ namespace PT
   }
 } //PT namespace
 
-DECLARE_COMPONENTFACTORY (NetworkMove)
+PT_DECLARE_COMPONENTFACTORY (NetworkMove)
 
 /**
  * Component to handle the movement of an entity.

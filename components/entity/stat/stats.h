@@ -46,7 +46,7 @@ namespace PT
   }
 } //PT namespace
 
-DECLARE_COMPONENTFACTORY (Stats)
+PT_DECLARE_COMPONENTFACTORY (Stats)
 
 class ComponentStats : public scfImplementationExt1<ComponentStats, ComponentCommon, iStats>
 {

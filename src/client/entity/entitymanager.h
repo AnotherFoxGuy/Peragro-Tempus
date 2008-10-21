@@ -88,7 +88,7 @@ namespace PT
       bool world_loaded;
 
     private:
-      CALLBACK_HANDLER_LISTENERS
+      PT_CALLBACK_HANDLER_LISTENERS
 
       bool GetEntityEvents(iEvent& ev);
 

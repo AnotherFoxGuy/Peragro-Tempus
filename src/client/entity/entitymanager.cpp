@@ -79,18 +79,18 @@ namespace PT
       defaultSector = engine->CreateSector("Default_Sector");
       if (!defaultSector.IsValid()) printf("AAAARRRRR\n");
 
-      SETUP_HANDLER
-      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.add")
-      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.remove")
-      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.equip")
-      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.mount")
-      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.unmount")
-      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.pose")
-      REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.stat.add.player")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.add")
+      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.remove")
+      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.equip")
+      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.mount")
+      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.unmount")
+      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.pose")
+      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.stat.add.player")
 
-      REGISTER_LISTENER(EntityManager, SetOwnId, "state.play")
-      REGISTER_LISTENER(EntityManager, OnInteract, "input.Interact")
-      REGISTER_LISTENER(EntityManager, WorldLoaded, "world.loaded")
+      PT_REGISTER_LISTENER(EntityManager, SetOwnId, "state.play")
+      PT_REGISTER_LISTENER(EntityManager, OnInteract, "input.Interact")
+      PT_REGISTER_LISTENER(EntityManager, WorldLoaded, "world.loaded")
 
       return true;
     }

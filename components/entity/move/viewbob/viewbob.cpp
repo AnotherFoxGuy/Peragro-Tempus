@@ -49,7 +49,7 @@
 #define HEAD_HEIGHT 1.55f
 
 CS_IMPLEMENT_PLUGIN
-IMPLEMENT_COMPONENTFACTORY (ViewBob, "peragro.entity.move.viewbob")
+PT_IMPLEMENT_COMPONENTFACTORY (ViewBob, "peragro.entity.move.viewbob")
 
 ComponentViewBob::ComponentViewBob(iObjectRegistry* object_reg) :
   scfImplementationType (this, object_reg)
@@ -83,7 +83,7 @@ bool ComponentViewBob::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
 
   EventManager* evmgr = pointerlib->getEventManager();
 
-  REGISTER_LISTENER(ComponentViewBob, Frame, "crystalspace.frame")
+  PT_REGISTER_LISTENER(ComponentViewBob, Frame, "crystalspace.frame")
 
   return true;
 } // end Initialize()

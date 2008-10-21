@@ -24,7 +24,7 @@
  * Component name must be of the form ComponentMyName if you've given
  * MyName as Factory Name.
  */
-#define DECLARE_COMPONENTFACTORY(name)                                        \
+#define PT_DECLARE_COMPONENTFACTORY(name)                                     \
 class ComponentF##name : public scfImplementation2<ComponentF##name,          \
   ComponentFactoryInterface, iComponent>                                      \
 {                                                                             \
@@ -47,7 +47,7 @@ public:                                                                       \
  * factories in 1 file. The name to export for the factory MyFactory is:
  *   celPfMyFactory
  */
-#define IMPLEMENT_COMPONENTFACTORY(name, strname)                             \
+#define PT_IMPLEMENT_COMPONENTFACTORY(name, strname)                          \
 SCF_IMPLEMENT_FACTORY (ComponentF##name)                                      \
 bool ComponentF##name::Initialize (iObjectRegistry* object_reg)               \
 {                                                                             \

@@ -49,7 +49,7 @@ namespace PT
   }
 } //PT namespace
 
-DECLARE_COMPONENTFACTORY (PlayerControls)
+PT_DECLARE_COMPONENTFACTORY (PlayerControls)
 
 /**
  * Handles the player character controls.

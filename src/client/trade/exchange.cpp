@@ -50,11 +50,11 @@ namespace PT
       tradeWindow = guimanager->GetWindow<TradeWindow>(TRADEWINDOW);
       if (!tradeWindow) return true;
 
-      SETUP_HANDLER
-      REGISTER_LISTENER(Exchange, ExchangeRequest, "trade.exchange.request")
-      REGISTER_LISTENER(Exchange, ExchangeResponse, "trade.exchange.response")
-      REGISTER_LISTENER(Exchange, ExchangeOfferAccept, "trade.exchange.offer.accept")
-      REGISTER_LISTENER(Exchange, ExchangeOffersList, "trade.exchange.offer.list")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(Exchange, ExchangeRequest, "trade.exchange.request")
+      PT_REGISTER_LISTENER(Exchange, ExchangeResponse, "trade.exchange.response")
+      PT_REGISTER_LISTENER(Exchange, ExchangeOfferAccept, "trade.exchange.offer.accept")
+      PT_REGISTER_LISTENER(Exchange, ExchangeOffersList, "trade.exchange.offer.list")
 
         return true;
     } // end Initialize()

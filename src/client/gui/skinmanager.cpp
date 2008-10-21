@@ -191,8 +191,8 @@ namespace PT
       SearchForSkins("/peragro/art/skins/");
 
       // Register listener for interface.
-      SETUP_HANDLER
-      REGISTER_LISTENER(SkinManager, LoadPressed, "interface.skinwindow.buttons.load")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(SkinManager, LoadPressed, "interface.skinwindow.buttons.load")
 
       return true;
     } // end Initialize()

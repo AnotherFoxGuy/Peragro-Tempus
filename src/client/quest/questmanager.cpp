@@ -41,9 +41,9 @@ namespace PT
 
     bool QuestManager::Initialize()
     {
-      SETUP_HANDLER
-      REGISTER_LISTENER(QuestManager, NPCDialog, "quest.dialog.npc.add")
-      REGISTER_LISTENER(QuestManager, EndNPCDialog, "quest.dialog.npc.end")
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(QuestManager, NPCDialog, "quest.dialog.npc.add")
+      PT_REGISTER_LISTENER(QuestManager, EndNPCDialog, "quest.dialog.npc.end")
 
       return true;
     } // end Initialize()

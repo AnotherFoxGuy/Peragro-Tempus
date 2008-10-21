@@ -457,27 +457,27 @@ namespace PT
     loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
 
     //Listen for events.
-    SETUP_HANDLER
+    PT_SETUP_HANDLER
 
     // Register listener for connection.
-    REGISTER_LISTENER(Client, SawServer, "connection.sawServer")
+    PT_REGISTER_LISTENER(Client, SawServer, "connection.sawServer")
 
     // Register listener for state.play.
-    REGISTER_LISTENER(Client, PlayingEvent, "state.play")
+    PT_REGISTER_LISTENER(Client, PlayingEvent, "state.play")
 
     // Register listener for WorldLoadingEvent.
-    REGISTER_LISTENER(Client, LoadingRegion, "world.loading")
+    PT_REGISTER_LISTENER(Client, LoadingRegion, "world.loading")
 
     // Register listener for WorldLoadedEvent.
-    REGISTER_LISTENER(Client, LoadRegion, "world.loaded")
+    PT_REGISTER_LISTENER(Client, LoadRegion, "world.loaded")
 
     //Actions
 
     // Register listener for ActionActivateSkill.
-    REGISTER_LISTENER(Client, ActionActivateSkill, "input.ActivateSkill")
+    PT_REGISTER_LISTENER(Client, ActionActivateSkill, "input.ActivateSkill")
 
     // Register listener for ActionQuit.
-    REGISTER_LISTENER(Client, ActionQuit, "input.Quit")
+    PT_REGISTER_LISTENER(Client, ActionQuit, "input.Quit")
 
     // Create the world.
     csRef<iWorld> world = csLoadPlugin<iWorld> (plugin_mgr, "peragro.world");
