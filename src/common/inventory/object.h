@@ -52,7 +52,7 @@ namespace PT
         Size objectSize;
 
       public:
-        Object(ObjectType type) : objectType(type), parent(0), objectSize(1,1) {};
+        Object(ObjectType type) : parent(0), objectType(type), objectSize(1,1) {};
         virtual ~Object();
 
         /**
