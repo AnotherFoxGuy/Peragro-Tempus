@@ -109,7 +109,7 @@ namespace PT
       using namespace PT::GUI::Windows;
 
       // It's a whisper.
-      if (ChatHelper::GetVolume(&ev) == 0) 
+      if (ChatHelper::GetVolume(&ev) == 0)
         return HandleWhisper(ev);
 
       std::string nick = ChatHelper::GetNickName(&ev);

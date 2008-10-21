@@ -75,7 +75,7 @@ namespace PT
           mesh = Helper::GetString(item, "meshName");
           file = Helper::GetString(item, "fileName");
           equipment.Equip(slotId, itemId, mesh, file);
-        } 
+        }
       }
       else
         Report(PT::Error, "CharacterEntity failed to get equipment!");

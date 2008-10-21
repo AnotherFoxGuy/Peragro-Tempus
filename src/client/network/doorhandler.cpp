@@ -38,7 +38,7 @@ void DoorHandler::handleOpenDoorResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.door.open", pmsg.getDoorId()), true);
     pEvent->Add("doorId", pmsg.getDoorId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -55,7 +55,7 @@ void DoorHandler::handleCloseDoorResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.door.close", pmsg.getDoorId()), true);
     pEvent->Add("doorId", pmsg.getDoorId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -72,7 +72,7 @@ void DoorHandler::handleLockDoorResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.door.lock", pmsg.getDoorId()), true);
     pEvent->Add("doorId", pmsg.getDoorId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -89,7 +89,7 @@ void DoorHandler::handleUnlockDoorResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.door.unlock", pmsg.getDoorId()), true);
     pEvent->Add("doorId", pmsg.getDoorId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 

@@ -74,34 +74,34 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   :
   : CEL
   ;
-  
+
   # Generic stuff
   PTPLUGINLIST = vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep cssynldr ;
-  
+
   # Font
   PTPLUGINLIST += csfont fontplex freefnt2 ;
-  
+
   # Cullers
   PTPLUGINLIST += dynavis frustvis ;
-  
+
   # Old Renderloop stuff TODO remove.
   PTPLUGINLIST += rendstep_stencil stdpt rendloop_loader rendstep_std ;
-  
+
   # New rendermanagers
   PTPLUGINLIST += rm_rlcompat rm_unshadowed rm_shadow_pssm ;
-  
+
   # Shader stuff
   PTPLUGINLIST += gl3d glshader_arb glshader_fixed glwin32 glshader_cg shadermgr vproc_std shaderweaver ptpdlight xmlshader ;
-  
+
   # CEGUI
   PTPLUGINLIST += cscegui ;
-  
+
   # Loaders
   PTPLUGINLIST += bindoc xmlread ;
-  
+
   # Image types
   PTPLUGINLIST += csddsimg csbmpimg csjpgimg cspngimg cstgaimg csgifimg imgplex ;
-  
+
   # Meshes
   PTPLUGINLIST += nullmesh protomesh protomeshldr ;
   PTPLUGINLIST += animesh animeshldr ;
@@ -113,16 +113,16 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   PTPLUGINLIST += spr2d spr2dldr ;
   PTPLUGINLIST += spr3d spr3dldr ;
   PTPLUGINLIST += sprcal3d sprcal3dldr ;
-  
+
   # Sound
   PTPLUGINLIST += sndsysloader sndsysogg sndsyswav sndmanager sndsysnull sndsyssoft ;
-  
+
   # Sound Renderers
   PTOPTIONALPLUGINLIST = sndsysopenal sndsyscoreaudio sndsysalsa sndsyswin sndsysjackasyn sndsysoss ;
-  
+
   # Canvas
   PTOPTIONALPLUGINLIST += xwin xext86vm glx2d glwin32 glosx2d ;
-  
+
 
   LinkStaticPlugins peragro_static : $(PTPLUGINLIST) : $(PTOPTIONALPLUGINLIST) : CRYSTAL ;
 

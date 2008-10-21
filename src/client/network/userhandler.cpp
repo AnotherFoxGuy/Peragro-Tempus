@@ -38,7 +38,7 @@ void UserHandler::handleLoginResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("user.login", true);
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
     pEvent->Add("isAdmin", pmsg.getIsAdmin());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -54,7 +54,7 @@ void UserHandler::handleRegisterResponse(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("user.register", true);
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -83,7 +83,7 @@ void UserHandler::handleCharList(GenericMessage* msg)
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("characterList", list);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -104,7 +104,7 @@ void UserHandler::handleCharCreateResponse(GenericMessage* msg)
     pEvent->Add("skinColour", *pmsg.getSkinColour());
     pEvent->Add("decalColour", *pmsg.getDecalColour());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -121,7 +121,7 @@ void UserHandler::handleCharSelectResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("state.play", true);
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 

@@ -41,7 +41,7 @@ void EnvironmentHandler::handleInitTime(GenericMessage* msg)
     pEvent->Add("minutesPerHour", pmsg.getMinutesPerHour());
     pEvent->Add("hoursPerDay", pmsg.getHoursPerDay());
     pEvent->Add("realPerGame", pmsg.getRealPerGame());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -58,7 +58,7 @@ void EnvironmentHandler::handleUpdateTime(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("environment.updatetime", true);
     pEvent->Add("minute", pmsg.getMinute());
     pEvent->Add("hour", pmsg.getHour());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -74,7 +74,7 @@ void EnvironmentHandler::handleWeather(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("environment.weather", true);
     pEvent->Add("weatherId", pmsg.getWeatherId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 

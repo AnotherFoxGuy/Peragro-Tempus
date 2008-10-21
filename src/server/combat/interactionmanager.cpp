@@ -55,7 +55,7 @@ bool InteractionManager::SelectTarget(const PcEntity *sourceEntity,
                                       unsigned int targetID)
 {
   printf(IM "Got selection request, target: %d'n", targetID);
-  
+
   if (!sourceEntity || !sourceEntity->getCharacter())
   {
     // Invalid source.
@@ -89,7 +89,7 @@ bool InteractionManager::QueueAction(const PcEntity *sourceEntity,
   Interaction interaction = new Interaction();
 
   printf(IM "Got selection request, target: %d'n", targetID);
-  
+
   if (!sourceEntity || !sourceEntity->getCharacter())
   {
     // Invalid source.

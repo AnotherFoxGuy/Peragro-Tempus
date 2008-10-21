@@ -152,7 +152,7 @@ namespace PT
         inventoryWindow->MoveItem(oldSlotId, newSlotId);
       }
       else
-        Report(PT::Notify, "You can't move object from slot %d to slot %d! Reason: '%s'.", 
+        Report(PT::Notify, "You can't move object from slot %d to slot %d! Reason: '%s'.",
           oldSlotId, newSlotId, Helper::GetError(&ev).c_str());
 
       return true;

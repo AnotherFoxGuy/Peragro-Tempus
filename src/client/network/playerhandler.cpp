@@ -54,7 +54,7 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("inventoryList", list);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -81,7 +81,7 @@ void PlayerHandler::handleStatsList(GenericMessage* msg)
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("statsList", list);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -100,7 +100,7 @@ void PlayerHandler::handleStatsChange(GenericMessage* msg)
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("name", *pmsg.getName()?*pmsg.getName():"");
     pEvent->Add("level", pmsg.getLevel());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -132,7 +132,7 @@ void PlayerHandler::handleInventoryMoveItem(GenericMessage* msg)
     pEvent->Add("newSlot", pmsg.getNewSlot());
     pEvent->Add("newInventoryId", pmsg.getNewInventoryId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 

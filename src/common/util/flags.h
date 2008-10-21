@@ -86,9 +86,9 @@ namespace PT
         */
         void SetBool (uint32 mask, bool value)
         {
-          if (value) 
+          if (value)
             flags |= mask;
-          else 
+          else
             flags &= ~mask;
         }
 
@@ -111,7 +111,7 @@ namespace PT
         /// Check if two sets of flags are not equal
         bool operator!= (const Flags& other) const
         { return flags != other.flags; }
-        /// AND-combine two sets of flags  
+        /// AND-combine two sets of flags
         Flags operator& (const Flags& other) const
         { return Flags (flags & other.flags); }
 

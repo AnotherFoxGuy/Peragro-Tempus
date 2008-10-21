@@ -39,7 +39,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
     pEvent->Add("speakerName", *pmsg.getSpeakerName()?*pmsg.getSpeakerName():"");
     pEvent->Add("volume", pmsg.getVolume());
     pEvent->Add("message", pmsg.getMessage());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -57,7 +57,7 @@ void ChatHandler::handleGroup(GenericMessage* msg)
     pEvent->Add("speakerName", *pmsg.getSpeakerName()?*pmsg.getSpeakerName():"");
     pEvent->Add("channel", *pmsg.getChannel()?*pmsg.getChannel():"");
     pEvent->Add("message", pmsg.getMessage());
-    
+
     evmgr->AddEvent(pEvent);
   }
 

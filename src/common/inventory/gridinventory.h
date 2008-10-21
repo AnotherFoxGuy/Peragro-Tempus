@@ -44,7 +44,7 @@ namespace PT
         GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
         virtual ~GridInventory();
       };
-      
+
 
     } // Inventory namespace
   } // Common namespace

@@ -49,7 +49,7 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("answersList", list);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -65,7 +65,7 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("quest.dialog.npc.end", true);
     pEvent->Add("npcId", pmsg.getNpcId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 

@@ -104,12 +104,12 @@ namespace PT
 
       void HUDWindow::SetName (const char* name)
       {
-        try 
+        try
         {
           CEGUI::DefaultWindow* namewin   = (CEGUI::DefaultWindow*) winMgr->getWindow("HUD/Name");
           namewin->setText((CEGUI::String)name);
-        } 
-        catch(CEGUI::Exception /*&e*/) 
+        }
+        catch(CEGUI::Exception /*&e*/)
         {
         }
       } // end SetName()
@@ -118,12 +118,12 @@ namespace PT
       {
         CEGUI::String cname(name);
         CEGUI::String ctext(text);
-        try 
+        try
         {
           CEGUI::DefaultWindow* namewin   = (CEGUI::DefaultWindow*) winMgr->getWindow(cname);
           namewin->setText(ctext);
-        } 
-        catch(CEGUI::Exception /*&e*/) 
+        }
+        catch(CEGUI::Exception /*&e*/)
         {
         }
       } // end SetText()

@@ -38,7 +38,7 @@ void BookHandler::handleBookReadResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("book.read", true);
     pEvent->Add("bookName", *pmsg.getBookName()?*pmsg.getBookName():"");
     pEvent->Add("text", pmsg.getText());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -55,7 +55,7 @@ void BookHandler::handleBookWriteResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("book.write", true);
     pEvent->Add("bookId", pmsg.getBookId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 

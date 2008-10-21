@@ -60,7 +60,7 @@ namespace PT
       std::string user;
       std::string pass;
       unsigned int char_id;
-      
+
     public:
       /// Constructor.
       UserManager();

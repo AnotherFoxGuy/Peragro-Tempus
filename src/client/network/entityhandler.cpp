@@ -57,7 +57,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("equipmentList", list);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -65,7 +65,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.pose", pmsg.getEntityId()), true);
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("poseId", pmsg.getPoseId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -89,7 +89,7 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
     pEvent->Add("rotation", pmsg.getRotation());
     pEvent->Add("sectorId", pmsg.getSectorId());
     pEvent->Add("entityId", pmsg.getEntityId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -112,7 +112,7 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
     pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
     pEvent->Add("sectorId", pmsg.getSectorId());
     pEvent->Add("animationName", *pmsg.getAnimationName()?*pmsg.getAnimationName():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -151,7 +151,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("equipmentList", list);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -159,7 +159,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.pose", pmsg.getEntityId()), true);
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("poseId", pmsg.getPoseId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -175,7 +175,7 @@ void EntityHandler::handleRemoveEntity(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("entity.remove", true);
     pEvent->Add("entityId", pmsg.getEntityId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -195,7 +195,7 @@ void EntityHandler::handleMove(GenericMessage* msg)
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("run", pmsg.getRun());
     pEvent->Add("jump", pmsg.getJump());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -219,7 +219,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
     pEvent->Add("weight", pmsg.getWeight());
     pEvent->Add("equipType", *pmsg.getEquipType()?*pmsg.getEquipType():"");
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -236,7 +236,7 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.inventory.drop", true);
     pEvent->Add("slotId", pmsg.getSlotId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -257,7 +257,7 @@ void EntityHandler::handleEquip(GenericMessage* msg)
     pEvent->Add("slotId", pmsg.getSlotId());
     pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
     pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -279,7 +279,7 @@ void EntityHandler::handleMoveTo(GenericMessage* msg)
     pEvent->Add("run", pmsg.getRun());
     pEvent->Add("turn", pmsg.getTurn());
     pEvent->Add("jump", pmsg.getJump());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -298,7 +298,7 @@ void EntityHandler::handleTeleportResponse(GenericMessage* msg)
     PT::Events::EntityHelper::SetPosition(pEvent, pmsg.getPos());
     pEvent->Add("rotation", pmsg.getRotation());
     pEvent->Add("sectorId", pmsg.getSectorId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -317,7 +317,7 @@ void EntityHandler::handleDrUpdate(GenericMessage* msg)
     pEvent->Add("rotation", pmsg.getRotation());
     pEvent->Add("sectorId", pmsg.getSectorId());
     pEvent->Add("entityId", pmsg.getEntityId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -340,7 +340,7 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
     pEvent->Add("sectorId", pmsg.getSectorId());
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("inventoryId", pmsg.getInventoryId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -358,7 +358,7 @@ void EntityHandler::handleMount(GenericMessage* msg)
     pEvent->Add("playerEntityId", pmsg.getPlayerEntityId());
     pEvent->Add("mountEntityId", pmsg.getMountEntityId());
     pEvent->Add("canControl", pmsg.getCanControl());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -375,7 +375,7 @@ void EntityHandler::handleUnmount(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("entity.unmount", true);
     pEvent->Add("playerEntityId", pmsg.getPlayerEntityId());
     pEvent->Add("mountEntityId", pmsg.getMountEntityId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -392,7 +392,7 @@ void EntityHandler::handlePose(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.pose", pmsg.getEntityId()), true);
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("poseId", pmsg.getPoseId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 

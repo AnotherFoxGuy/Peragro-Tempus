@@ -635,7 +635,7 @@ namespace PT
       ConnectRequestMessage msg(CLIENTVERSION);
       network->send(&msg);
     }
-  } 
+  }
 
   bool Client::ActionActivateSkill(iEvent& ev)
   {

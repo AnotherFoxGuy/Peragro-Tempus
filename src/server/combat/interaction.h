@@ -26,6 +26,6 @@ class Interaction
     Character *character;
 
     Interaction();
-    ~Interaction(); 
+    ~Interaction();
 }
 #endif //INTERACTION

@@ -37,7 +37,7 @@ void TradeHandler::handleExchangeRequest(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.exchange.request", true);
     pEvent->Add("entityId", pmsg.getEntityId());
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -53,7 +53,7 @@ void TradeHandler::handleExchangeResponse(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.exchange.response", true);
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -83,7 +83,7 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("offersList", list);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -113,7 +113,7 @@ void TradeHandler::handleExchangeOffersList(GenericMessage* msg)
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("offersList", list);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -128,7 +128,7 @@ void TradeHandler::handleTradeCancel(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.general.cancel", true);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -143,7 +143,7 @@ void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.exchange.offer.accept", true);
-    
+
     evmgr->AddEvent(pEvent);
   }
 
@@ -159,7 +159,7 @@ void TradeHandler::handleTradeConfirmResponse(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.general.confirm", true);
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
-    
+
     evmgr->AddEvent(pEvent);
   }
 

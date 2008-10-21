@@ -58,7 +58,7 @@ namespace PT
 
     void Buy::SetTrading(bool value)
     {
-      using namespace PT::Events; 
+      using namespace PT::Events;
 
       //trade.general.confirm/cancel is used for buy/sell aswell, so only listen to it when neccessary!
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
@@ -88,7 +88,7 @@ namespace PT
       if (!Helper::HasError(&ev))
       {
         SetTrading(false); // No errors, exchange has finished.
-        
+
         if (buyWindow->IsVisible())
         {
           buyWindow->AcceptTrade();
@@ -118,7 +118,7 @@ namespace PT
     {
       using namespace Events;
 
-      //buyWindow->ClearItems(); 
+      //buyWindow->ClearItems();
 
       csRef<iEvent> list;
       if (ev.Retrieve("offersList", list) == csEventErrNone)

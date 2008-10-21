@@ -92,7 +92,7 @@ namespace PT
         virtual bool HasObjectAt(const PositionRef& position) const;
 
         /**
-         * Check if there is an object in the rectangle that is defined by the 
+         * Check if there is an object in the rectangle that is defined by the
          * first(upper left corner) and the second position(bottom right corner).
          * @return True if there is an object, false if the slot is empty..
          */
@@ -129,7 +129,7 @@ namespace PT
          */
         virtual void ObjectMovedToOther(Inventory* other, Object* object) = 0;
       };
-      
+
 
     } // Inventory namespace
   } // Common namespace

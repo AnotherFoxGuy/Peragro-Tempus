@@ -43,7 +43,7 @@ namespace PT
       /// Handler .
       bool NPCDialog(iEvent& ev);
       bool EndNPCDialog(iEvent& ev);
-      
+
     public:
       /// Constructor.
       QuestManager();
