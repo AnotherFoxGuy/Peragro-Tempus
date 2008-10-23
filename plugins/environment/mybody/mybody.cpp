@@ -70,6 +70,7 @@ void MyBody::Create_Body_Mesh(float radius, int verts, double day, double i)
 bool MyBody::Add_Child(csRef<iMyBody> child)
 {
   body->Add_Child(child);
+
   return true;
 }
 
@@ -141,9 +142,9 @@ csVector3 MyBody::GetMeshUpVector(csTransform trans)
   return body->GetMeshUpVector(trans);
 }
 
-void MyBody::Set_Materal(char const* mat_name)
+void MyBody::Set_Material(csRef<iMaterialWrapper>& mat)
 {
-  body->Set_Materal(mat_name);
+  body->Set_Material(mat);
 }
 
 void MyBody::Update_Lights()
@@ -152,7 +153,7 @@ void MyBody::Update_Lights()
 }
 void MyBody::Set_Mesh(char const* mesh_name)
 {
-  body->Set_Materal(mesh_name);	
+  //body->Set_Material(mesh_name);	
 }
 void MyBody::Add_Light(int range,csColor color)
 {
@@ -163,3 +164,32 @@ void MyBody::Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up)
 {
   body->Draw_Up(c, g3d, up);
 }
+
+void MyBody::Update_Mesh_Pos ()
+{
+  body->Update_Mesh_Pos ();
+}
+
+void MyBody::ListChildren (char const* prefix)
+{
+  body->ListChildren (prefix);
+}
+
+
+csRef<iMyBody> MyBody::Find(const std::string& sname) 
+{
+  csRef<iMyBody> result;
+/*
+  if (sname == name) result = this;
+	
+  std::vector<Body*>::iterator itr = child_bodies.begin();
+  while (!result && itr != child_bodies.end() )
+  {
+    result = (*itr)->Find(sname);
+    ++itr;
+  } // end for iterate for child bodies 
+*/
+  return result;
+}
+
+

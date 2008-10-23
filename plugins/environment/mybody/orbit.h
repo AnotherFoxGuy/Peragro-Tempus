@@ -32,7 +32,6 @@
 #include <string>
 #include <cstdlib>
 #include <cmath>
-#include <ctime>
 #include <vector>
 
 #define SB_AU_KM (149597870.691)  
@@ -94,7 +93,7 @@ public:
 
   csVector3 CirclePoint ( long double angle ) ;  // point on circle at angle 
   csVector3 EllipsePoint ( long double angle ) ; // point on elipse at angle 
-  csVector3 OrbitPointDeg ( long double angle ) ; // point on orbit at angle
+  csVector3 OrbitPointDeg ( float angle ) ; // point on orbit at angle
   csVector3 OrbitPointSec ( long secondspassed ) ;// point on orbit at systime
 
 

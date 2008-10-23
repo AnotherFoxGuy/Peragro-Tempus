@@ -32,7 +32,6 @@
 #include <string>
 #include <cstdlib>
 #include <cmath>
-#include <ctime>
 #include <vector>
 #include <cstool/primitives.h>
 
@@ -65,7 +64,7 @@ private:
 
   csRef<iMeshWrapper> mesh;  // A mesh for this body 
   //		csRef<iLight> light;  declaring this causes a memory fault for some reason  
-  csTransform abs_pos;  // this bodies transform with sun as origin
+  csTransform abs_pos;  // this bodies transform with (0,0,0) as origin
 
   double scale; 
 
@@ -100,7 +99,7 @@ public:
 
   void Create_Body_Mesh(float radius, int verts, double day, double i);
   void Set_Mesh(char const* mesh_name);
-  void Set_Materal(char const* mat_name); 
+  void Set_Material(csRef<iMaterialWrapper>& mat); 
 
   bool Set_Parent (csRef<iMyBody> par_body);
   bool Add_Child (csRef<iMyBody> child);
@@ -123,6 +122,7 @@ public:
   bool Update_Body(long secondspassed);
   bool Update_Body(long secondspassed, csVector3 orbit_origin); // used for child bodies 
   void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
+  void Update_Mesh_Pos(); // positions meshes with (0,0,0) as origin
 
   bool Add_Light(int radius, csColor color);
   void Update_Lights();
@@ -136,6 +136,7 @@ public:
   csTransform Get_Surface_Pos(float lon, float lat);
   csVector3 GetSurfaceVector(float lon, float lat);  // rename to GetSphereUpVector
   csVector3 GetMeshUpVector(csTransform trans);
+  void ListChildren (char const* prefix);
 
 private:
   bool Rotate_Body(float angle);
@@ -147,7 +148,7 @@ private:
   // General help methods
   bool Load_Factory (std::string factory);
   bool SetMeshsSize ();
-  bool Apply_Material(std::string mat_name);
+  bool Apply_Material(csRef<iMaterialWrapper>& mat);
   bool Load_Texture(std::string filename, std::string mat_name);
 
   csVector3  Get_Surface_Position(float lon, float lat);

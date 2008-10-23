@@ -28,6 +28,7 @@
 class csVector3;
 struct iMeshWrapper;
 struct iSceneNode;
+struct iMaterialWrapper;
 class csTransform;
 class csColor;
 struct iGraphics3D;
@@ -71,7 +72,7 @@ struct iMyBody : public virtual iBase
 */
   virtual void Set_scale (long double val) = 0;
   virtual void Set_sector(char const* name) = 0;
-  virtual void Set_Materal(char const* mat_name) = 0; 
+  virtual void Set_Material(csRef<iMaterialWrapper>& mat) = 0; 
 
   virtual void Set_Mesh(char const* mesh_name) = 0;
   virtual void Create_Body_Mesh(float radius, int verts, double day, double i) = 0;
@@ -91,6 +92,7 @@ struct iMyBody : public virtual iBase
   virtual void Update_Body(long secondspassed ) = 0;  
   virtual void Update_Body(long secondspassed, csVector3 origin) = 0;
   virtual void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body) = 0;
+  virtual void Update_Mesh_Pos() = 0;
 
   virtual void Add_Light(int range, csColor color) = 0;
   virtual void Update_Lights() = 0;
@@ -103,6 +105,9 @@ struct iMyBody : public virtual iBase
   virtual csTransform Get_Surface_Pos(float lon , float lat) = 0;
   virtual csVector3 GetSurfaceVector (float lon ,float lat) = 0;
   virtual csVector3 GetMeshUpVector (csTransform trans) = 0;
+
+  virtual void ListChildren (char const* prefix) = 0;
+  virtual csRef<iMyBody> Find(const std::string& sname) = 0;
 
 };
 

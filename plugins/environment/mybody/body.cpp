@@ -75,10 +75,15 @@ void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
   mesh->SetRenderPriority (engine->GetObjectRenderPriority ()); 
 
   // give the mesh a meteral
-  filename = "/mec/data/green.bmp";
-  mat_name = "green";
+  filename = "/appdata/defaultmap/textures/yellow.jpg";
+  mat_name = "yellow";
   Load_Texture(filename, mat_name);
-  Apply_Material(mat_name);
+
+  iMaterialList* materiallist;
+  csRef<iMaterialWrapper> mat;
+  materiallist = engine->GetMaterialList();
+  mat = materiallist->FindByName(mat_name.c_str() );
+  Apply_Material (mat);
 
   printf ("created body %s\n",name.c_str());
 }
@@ -129,6 +134,7 @@ bool Body::Add_Child (csRef<iMyBody> child )
 bool Body::Set_Parent (csRef<iMyBody> par_body )
 {
   // If already has parent need to remove it from that parent's childern array
+
   parent = par_body;
   return true;
 }
@@ -164,11 +170,24 @@ csOrthoTransform Body::GetSurfaceTrans (csOrthoTransform cameratrans ,float lon 
 bool Body::Draw_FullOrbit (iCamera* c, iGraphics3D* g3d)
 {
   csVector3 origin(0,0,0);
-  if (parent) origin = parent->Get_MeshWrapper()->GetMovable()->GetPosition();
-  //	printf("origin (%4.2f:%4.2f:%4.2f) \n",origin.x ,origin.y,origin.z);
+  if (parent)
+  {
+    origin = parent->Get_MeshWrapper()->GetMovable()->GetPosition();
+   // printf("Has Parent.");
+  } else 
+  {
+   // printf ("No Parent.");
+  };
+  // printf("%s origin (%4.2f:%4.2f:%4.2f) \n", name.c_str() ,origin.x ,origin.y,origin.z);
 
   //	Draw_Orbit (planetview->GetCamera (), g3d, origin );
   Draw_Orbit (c, g3d, origin);
+
+  origin = this->Get_MeshWrapper()->GetMovable()->GetPosition();
+  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  {
+    child_bodies.Get(i)-> Draw_Orbit (c); 
+  } // end for iterate for child bodies 
 
   return true;
 }
@@ -177,10 +196,21 @@ bool Body::Draw_FullPosition (iCamera* c, iGraphics3D* g3d,long secondspassed)
   csVector3 origin(0,0,0);
   iSceneNode* par_node;
   par_node = mesh->QuerySceneNode ()->GetParent();
-  if (parent) origin = parent->Get_MeshWrapper()->GetMovable()->GetPosition();
-  //	printf("origin (%4.2f:%4.2f:%4.2f) \n",origin.x ,origin.y,origin.z);
-  //	Draw_Position (planetview->GetCamera () , g3d, origin , secondspassed );
+  if (parent) 
+  {
+     origin = parent->Get_MeshWrapper()->GetMovable()->GetPosition();
+     //printf("origin (%4.2f:%4.2f:%4.2f) \n",origin.x ,origin.y,origin.z);
+     //Draw_Position (planetview->GetCamera () , g3d, origin , secondspassed );
+     //printf("Name: %s :" , name.c_str() );
+  }
+
   Draw_Position (c , g3d, origin, secondspassed);
+
+  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  {
+    child_bodies.Get(i)->Draw_Position(c , secondspassed); 
+  } // end for iterate for child bodies 
+
 
   return true;
 }
@@ -205,11 +235,11 @@ void Body::Set_Orbit (
 
 }
 
-void Body::Set_Materal(char const* mat_name)
+void Body::Set_Material(csRef<iMaterialWrapper>& mat)
 {
-  if (!Apply_Material(mat_name)) 
+  if (!Apply_Material(mat)) 
   {
-    printf ("Body '%s' unable to apply materal '%s'\n", name.c_str(), mat_name );
+    printf ("Body '%s' unable to apply material \n", name.c_str() );
   }
 }
 
@@ -219,6 +249,21 @@ void Body::Set_Mesh(char const* mesh_name)
 
 }
 
+void Body::ListChildren (char const* prefix)
+{
+
+    std::string out;
+    out = prefix;
+    out += name;
+
+    printf ("%s\n", out.c_str());
+
+    for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+    {
+      child_bodies.Get(i)->ListChildren (out.c_str()); 
+    } // end for iterate for child bodies 
+
+}
 
 bool Body::Update_Body (long secondspassed )
 {
@@ -375,6 +420,25 @@ bool Body::Rotate_Body (float angle)
   return true;
 }
 
+void Body::Update_Mesh_Pos ()
+{
+
+  iMovable* movable;
+  movable = mesh->GetMovable();
+
+//  printf("Moving Body Mesh %s\n", name.c_str() );
+  movable->SetTransform (abs_pos);
+  movable->UpdateMove();
+
+  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  {
+ //   printf("Updateing child " );
+    child_bodies.Get(i)->Update_Mesh_Pos ();
+  } // end for iterate for child bodies 
+
+}
+
+
 
 csTransform Body::Get_Surface_Pos (float lon , float lat)
 {
@@ -504,23 +568,19 @@ bool Body::Load_Texture(std::string filename, std::string mat_name )
 
 
 // Give this body a material 
-bool Body::Apply_Material(std::string mat_name ) 
+bool Body::Apply_Material(csRef<iMaterialWrapper>& mat ) 
 { 
-  iMaterialList* materiallist;
-  iMaterialWrapper* mat;
 
-  materiallist	= engine->GetMaterialList();
-  mat = materiallist->FindByName(mat_name.c_str() );
   if (!mat ) 
   {
-    printf("Body::Apply_Material: Material %s not found!\n", mat_name.c_str());
+    printf("Body::Apply_Material: invalide material.\n");
   } else {
     // Now add the texture to the mesh
-    if (!mesh->GetMeshObject ()->SetMaterialWrapper (mat))
-      printf ("Body::Apply_Material:: Error SetMaterialWrapper failed\n");
+    mesh->GetMeshObject ()->SetMaterialWrapper (mat);
   } // end no material 
   mesh->GetMeshObject ()->InvalidateMaterialHandles ();	
 
+  printf("Body::Apply_Material: material applied to %s body.\n.", name.c_str() );
   return true;
 }  
 

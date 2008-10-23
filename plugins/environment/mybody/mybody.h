@@ -81,7 +81,7 @@ public:
 
   virtual void Create_Body_Mesh(float radius, int verts, double day, double i);
   virtual void Set_Mesh(char const* mesh_name);
-  virtual void Set_Materal(char const* mat_name);
+  virtual void Set_Material(csRef<iMaterialWrapper>& mat);
   //	virtual bool Set_mesh (iMeshWrapper* );
 
   virtual char const* Get_Name() const {return body->Get_Name(); };
@@ -94,7 +94,7 @@ public:
   virtual void Update_Body(long secondspassed );
   virtual void Update_Body(long secondspassed, csVector3 origin );
   virtual void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
-
+  virtual void Update_Mesh_Pos();
 
   virtual void Add_Light(int range,csColor color);
   virtual void Update_Lights();
@@ -112,6 +112,10 @@ public:
   virtual csTransform Get_Surface_Pos(float lon , float lat);
   virtual csVector3 GetSurfaceVector (float lon ,float lat);
   virtual csVector3 GetMeshUpVector (csTransform trans);
+
+  virtual void ListChildren (char const* prefix);
+  virtual csRef<iMyBody> Find(const std::string& sname);
+
 };
 
 #endif // _H_MYBODY__
