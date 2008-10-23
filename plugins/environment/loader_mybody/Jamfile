@@ -1,0 +1,8 @@
+SubDir TOP plugins environment loader_mybody ;
+
+Description loader_template : "loader for imybody objects" ;
+Plugin loader_mybody : [ Wildcard *.cpp *.h ] ;
+
+ExternalLibs loader_mybody : CRYSTAL ;
+
+

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- loader_template.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>recon69.loader.mybodyfactory</name>
+        <implementation>myLoaderBody</implementation>
+        <description>Loader for iMyBody objects.</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
