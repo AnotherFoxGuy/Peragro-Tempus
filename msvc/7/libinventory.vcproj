@@ -301,6 +301,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\inventory\gridinventory.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\inventory\inventory.cpp">
 			</File>
 			<File
