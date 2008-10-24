@@ -95,6 +95,13 @@ namespace PT
       return true;
     }
 
+    void EntityManager::Reset()
+    {
+      world_loaded = false;
+      playerId = 0;
+      delAllEntities();
+    }
+
     void EntityManager::ProcessEvents()
     {
       using namespace PT::Events;

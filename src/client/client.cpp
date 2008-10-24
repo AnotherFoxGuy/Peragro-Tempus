@@ -579,6 +579,10 @@ namespace PT
         break;
       }
     case STATE_INTRO: // Introduction screen already loaded. Once user connects switch to STATE_CONNECTED.
+      {
+        world_loaded = false;
+        entityManager->setWorldloaded(false);
+      }
     case STATE_CONNECTED: // Just connected. Wait asking for login and switch to STATE_LOGGED_IN
     case STATE_LOGGED_IN: // Login completed. Load items and switch to STATE_SELECTING_CHAR
     case STATE_SELECTING_CHAR: // Wait till user selects his character. Then create player mesh and switch to STATE_PLAY.

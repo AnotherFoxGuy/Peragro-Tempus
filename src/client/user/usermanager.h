@@ -77,6 +77,8 @@ namespace PT
 
       void SelectCharacter(unsigned int char_id);
 
+      void Logout();
+
     };
   } // User namespace
 } // PT namespace

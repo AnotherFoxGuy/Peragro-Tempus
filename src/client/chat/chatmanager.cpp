@@ -42,6 +42,7 @@
 #include "cmdemotes.h"
 #include "cmddate.h"
 #include "cmdquit.h"
+#include "cmdlogout.h"
 
 namespace PT
 {
@@ -96,6 +97,7 @@ namespace PT
       RegisterCommand(new cmdDbg());
       RegisterCommand(new cmdDate());
       RegisterCommand(new cmdQuit());
+      RegisterCommand(new cmdLogout());
 
       historypointer=0;
 

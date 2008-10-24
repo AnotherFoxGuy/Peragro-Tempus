@@ -30,7 +30,7 @@
 #include "common/event/event.h"
 
 #include "client/state/statemanager.h"
-
+#include "client/gui/guimanager.h"
 
 namespace PT
 {
@@ -267,6 +267,22 @@ namespace PT
 
       return true;
     } // end CharacterCreateResponse()
+
+    void UserManager::Logout()
+    {
+      PointerLibrary::getInstance()->getStateManager()->SetState(STATE_INTRO);
+      GUI::GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      guimanager->GetWindow<GUI::GUIWindow>("Background")->ShowWindow();
+      guimanager->GetWindow<GUI::GUIWindow>("Chatlog/Frame")->HideWindow();
+      guimanager->GetWindow<GUI::GUIWindow>("PlayerHUD/Frame")->HideWindow();
+      guimanager->GetWindow<GUI::GUIWindow>("LoginUI/Frame")->ShowWindow();
+      guimanager->GetWindow<GUI::GUIWindow>("LoginUI/Frame")->EnableWindow();
+      guimanager->GetWindow<GUI::GUIWindow>("ServerWindow")->ShowWindow();
+      guimanager->GetWindow<GUI::GUIWindow>("ServerWindow")->EnableWindow();
+
+      PointerLibrary::getInstance()->getNetwork()->stop();
+      PointerLibrary::getInstance()->getEntityManager()->Reset();
+    } // end Logout()
 
   } // User namespace
 } // PT namespace

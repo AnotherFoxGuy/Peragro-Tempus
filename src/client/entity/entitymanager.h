@@ -120,6 +120,7 @@ namespace PT
       ~EntityManager ();
 
       bool Initialize ();
+      void Reset();
       void Handle();
 
       void DrUpdateOwnEntity();
