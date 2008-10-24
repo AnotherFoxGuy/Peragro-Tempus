@@ -20,8 +20,7 @@
  * @file slotinventory.cpp
  */
 
-#include "slotinventory.h"
-#include "object.h"
+#include "gridinventory.h"
 
 namespace PT
 {
@@ -29,42 +28,30 @@ namespace PT
   {
     namespace Inventory
     {
-      Inventory::Inventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
+      GridInventory::GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
+        :Inventory(name, type, rows, columns)
       {
-        inventoryName = name;
-        inventoryType = type;
-        inventoryRows = rows;
-        inventoryColumns = columns;
-      }
-
-
-      Inventory::~Inventory()
-      {
-      }
-
-      void Inventory::SetName(const std::string& name){ inventoryName = name; }
-
-      const std::string& Inventory::GetName() const { return inventoryName; }
-
-      unsigned int Inventory::GetRowCount() const { return inventoryRows; }
-
-      unsigned int Inventory::GetColumnCount() const { return inventoryColumns; }
-
-      bool Inventory::AllowsType(const Object* object)
-      {
-        switch (object->GetType())
+        container = new Slot**[GetRowCount()];
+        for (unsigned int x = 0; x < GetRowCount(); x++)
         {
-        case Object::Item:
+          container[x] = new Slot*[GetColumnCount()];
+          for (unsigned int y = 0; y < GetColumnCount(); y++)
           {
-            return inventoryType.Check(ALLOW_ITEMS);
-          } break;
-        case Object::Action:
-          {
-            return inventoryType.Check(ALLOW_ACTIONS);
-          } break;
+            container[x][y] = 0;
+          }
         }
+      }
 
-        return false;
+      GridInventory::~GridInventory()
+      {
+        if (container != 0)
+        {
+          for (unsigned int x = 0; x < GetColumnCount(); x++)
+          {
+            delete [] container[x];
+          }
+          delete [] container;
+        }
       }
 
 

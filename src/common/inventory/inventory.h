@@ -39,6 +39,7 @@ namespace PT
       #define 	ALLOW_ACTIONS  0x00000100
 
       class Object;
+      class Slot;
 
       class Inventory
       {
@@ -47,6 +48,9 @@ namespace PT
         Utils::Flags inventoryType;
         unsigned int inventoryRows;
         unsigned int inventoryColumns;
+
+      protected:
+        bool AllowsType(const Object* object);
 
       public:
         /**
@@ -83,32 +87,32 @@ namespace PT
          * Clears the inventory, removing all slots their contents.
          * @return void.
          */
-        virtual void ClearInventory();
+        virtual void ClearInventory() = 0;
 
         /**
          * Check if there is an object at the given position.
          * @return True if there is an object, false if the slot is empty.
          */
-        virtual bool HasObjectAt(const PositionRef& position) const;
+        virtual bool HasObjectAt(const PositionRef& position) const = 0;
 
         /**
          * Check if there is an object in the rectangle that is defined by the
          * first(upper left corner) and the second position(bottom right corner).
          * @return True if there is an object, false if the slot is empty..
          */
-        virtual bool HasObjectBetween(const PositionRef& upperLeftCorner, const PositionRef& bottomRightCorner) const;
+        virtual bool HasObjectBetween(const PositionRef& upperLeftCorner, const PositionRef& bottomRightCorner) const = 0;
 
         /**
          * Returns the object at the given position.
          * @return Object*.
          */
-        virtual Object* GetObjectAt(const PositionRef& position) const;
+        virtual Object* GetObjectAt(const PositionRef& position) const = 0;
 
         /**
          * Adds an object at the given position.
          * @return True if successful, false if an error occured.
          */
-        virtual bool AddObjectAt(const PositionRef& position, const Object* object);
+        virtual bool AddObjectAt(const PositionRef& position, Object* object) = 0;
 
         /**
          * Remove the object at the given position.
@@ -120,7 +124,7 @@ namespace PT
          * Remove the given object from this inventory.
          * @return True if successful, false if an error occured.
          */
-        virtual bool RemoveObject(const Object* object) = 0;
+        virtual bool RemoveObject(Object* object) = 0;
 
         /**
          * This is called from the other inventory to notify this inventory

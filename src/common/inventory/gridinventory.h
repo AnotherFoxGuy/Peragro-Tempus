@@ -37,7 +37,11 @@ namespace PT
        */
       class GridInventory : public Inventory
       {
-        public:
+      private:
+        /// Thing that holds all the objects.
+        Slot*** container;
+
+      public:
         /**
          * Base constructor
          */

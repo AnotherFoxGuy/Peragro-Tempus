@@ -34,6 +34,7 @@ namespace PT
       {
       protected:
         unsigned int variationId;
+        unsigned int price;
 
       public:
         Item() : Object(ObjectType::Item), variationId(-1) {};
@@ -41,6 +42,9 @@ namespace PT
 
         virtual void SetVariationId(unsigned int variation) { variationId = variation; }
         virtual unsigned int GetVariationId() const { return variationId; }
+
+        virtual void SetPrice(unsigned int value) { price = value; }
+        virtual unsigned int GetPrice() const { return price; }
 
         virtual bool Execute() {};
         virtual bool Execute(const std::string& action) {};
