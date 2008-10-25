@@ -21,6 +21,8 @@
 #ifndef _H_IMYBODY
 #define _H_IMYBODY
 
+#include <string>
+
 #include <cssysdef.h>
 #include <csutil/scf.h>
 
