@@ -1,0 +1,6 @@
+SubDir TOP plugins environment loader_solarsys ;
+
+Description loader_solarsys : "loader for iSolarsys objects" ;
+Plugin loader_solarsys : [ Wildcard *.cpp *.h ] ;
+
+ExternalLibs loader_solarsys : CRYSTAL ;

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- loader_template.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>recon69.loader.solarsys</name>
+        <implementation>LoaderSolarsys</implementation>
+        <description>Loader for iSolarsys objects.</description>
+        <requires>recon69.solarsysfactory</requires>
+        <requires>recon69.loader.mybodyfactory</requires>
+      </class>
+    </classes>
+  </scf>
+</plugin>
