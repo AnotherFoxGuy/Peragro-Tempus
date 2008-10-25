@@ -1,0 +1,10 @@
+SubDir TOP plugins environment solarsys ;
+
+Description solarsys : " A plugin for creating a solar system backdrop " ;
+
+Plugin solarsys
+	: [ Wildcard *.cpp *.h ]
+
+;
+
+ExternalLibs solarsys : CRYSTAL ;     
