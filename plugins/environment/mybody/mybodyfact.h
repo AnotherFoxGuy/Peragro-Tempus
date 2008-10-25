@@ -7,9 +7,7 @@
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>
 
-/*#include "crystalspace.h"*/
 #include "imybody.h"
-//#include "body.h"
 
 class MyBodyFactory : public scfImplementation2<MyBodyFactory, iMyBodyFactory, iComponent>
 {
