@@ -30,7 +30,6 @@
 #include "common/event/event.h"
 
 #include "client/state/statemanager.h"
-#include "client/gui/guimanager.h"
 
 namespace PT
 {
@@ -279,6 +278,7 @@ namespace PT
       guimanager->GetWindow<GUI::GUIWindow>("LoginUI/Frame")->EnableWindow();
       guimanager->GetWindow<GUI::GUIWindow>("ServerWindow")->ShowWindow();
       guimanager->GetWindow<GUI::GUIWindow>("ServerWindow")->EnableWindow();
+      guimanager->GetWindow<GUI::Windows::SelectCharWindow>("CharSelect/Frame")->HideAdminButton();
 
       PointerLibrary::getInstance()->getNetwork()->stop();
       PointerLibrary::getInstance()->getEntityManager()->Reset();

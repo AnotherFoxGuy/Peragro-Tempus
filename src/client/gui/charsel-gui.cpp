@@ -170,10 +170,20 @@ namespace PT
       void SelectCharWindow::ShowAdminButton()
       {
         btn = winMgr->getWindow("CharSelect/Admin");
+        if(btn->isVisible()) return;
         btn->setVisible(true);
         btn = winMgr->getWindow("CharSelect/Frame");
         btn->setHeight(btn->getHeight()+CEGUI::UDim(0,28));
       } // end ShowAdminButton()
+
+      void SelectCharWindow::HideAdminButton()
+      {
+        btn = winMgr->getWindow("CharSelect/Admin");
+        if(!btn->isVisible()) return;
+        btn->setVisible(false);
+        btn = winMgr->getWindow("CharSelect/Frame");
+        btn->setHeight(btn->getHeight()-CEGUI::UDim(0,28));
+      } // end HideAdminButton()
 
       void SelectCharWindow::AddCharacter(unsigned int charId, const char* name,
                                           unsigned char skincolour,

@@ -64,6 +64,7 @@ namespace PT
 
       public:
         void ShowAdminButton();
+        void HideAdminButton();
         SelectCharWindow(GUIManager* guimanager);
         virtual ~SelectCharWindow();
         bool Create();
