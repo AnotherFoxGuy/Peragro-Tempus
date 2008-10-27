@@ -311,15 +311,6 @@
 				RelativePath="..\..\plugins\world\factoryloader\fileloader.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\world\factoryloader\genmeshloader.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\factoryloader\material.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\factoryloader\meshobjectfactory.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\world\factoryloader\properties.h">
 			</File>
 			<File

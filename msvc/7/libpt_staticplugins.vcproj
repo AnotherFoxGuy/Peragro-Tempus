@@ -1283,6 +1283,9 @@
 				RelativePath="..\..\plugins\world\modelmanager.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\world\utils.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\world\world.h">
 			</File>
 		</Filter>
