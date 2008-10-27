@@ -54,7 +54,7 @@ public:
   virtual bool Initialize(iObjectRegistry *object_reg);
 
   virtual csPtr<iBase> Parse(iDocumentNode* node,
-    iStreamSource*, iLoaderContext* ldr_context, iBase* context, iStringArray* failed = 0);
+    iStreamSource*, iLoaderContext* ldr_context, iBase* context);
 
   virtual bool IsThreadSafe() { return false; }
 };

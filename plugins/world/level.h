@@ -139,7 +139,7 @@ namespace PT
 
         /// Search for the missing materials, load them if found.
         virtual iMaterialWrapper* MissingMaterial (const char* name,
-          const char* filename) { return 0; }
+          const char* filename);
         /// Search for the missing textures, load them if found.
         virtual iTextureWrapper* MissingTexture (const char* name,
           const char* filename);

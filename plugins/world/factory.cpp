@@ -19,8 +19,12 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 #include <iengine/texture.h>
+#include <iengine/engine.h>
 #include <csutil/scf_implementation.h>
 #include <iengine/collection.h>
+#include <iutil/objreg.h>
+#include <iutil/object.h>
+#include <ivideo/texture.h>
 
 #include "factory.h"
 #include "factoryloader/fileloader.h"
@@ -36,7 +40,6 @@ namespace PT
       this->object_reg = object_reg;
       fileLoader = 0;
       isPrecached = false;
-      isAdded = false;
     } // end Factory()
 
     Factory::~Factory()
@@ -76,14 +79,17 @@ namespace PT
         return true;
     } // end IsReady()
 
-    void Factory::AddToEngine()
+    void Factory::Process()
     {
-      if (!IsReady()) return;
+      if (!fileLoader) return;
 
-      fileLoader->AddToEngine();
-      delete fileLoader;
-      fileLoader = 0;
-      isAdded = true;
+      fileLoader->Process();
+
+      if (fileLoader->IsReady())
+      {
+        delete fileLoader;
+        fileLoader = 0;
+      }
     } // end AddToEngine()
 
     void Factory::Precache()
@@ -98,7 +104,7 @@ namespace PT
       while (iter->HasNext())
       {
         csRef<iTextureWrapper> csth(
-          scfQueryInterface<iTextureWrapper> (iter->Next()) );
+          scfQueryInterfaceSafe<iTextureWrapper> (iter->Next()) );
         if (csth)
         {
           if (csth->GetTextureHandle ())

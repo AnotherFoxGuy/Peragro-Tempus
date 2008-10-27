@@ -91,7 +91,7 @@ bool myLoaderStarbox::ParseXML(iDocumentNode* node)
 }
 
 csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
-  iStreamSource*, iLoaderContext* ldr_context, iBase* context, iStringArray* failed)
+  iStreamSource*, iLoaderContext* ldr_context, iBase* context)
 {
   csRef<iEngine> engine = csQueryRegistry<iEngine>(object_reg);
   csRef<iMyStarboxFactory> obj_fact;

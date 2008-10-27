@@ -24,6 +24,8 @@
 #ifndef FACTORY_H
 #define FACTORY_H
 
+#include <cssysdef.h>
+
 #include <string>
 
 struct iObjectRegistry;
@@ -56,8 +58,6 @@ namespace PT
       iObjectRegistry* object_reg;
       /// Whether all textures have been precached.
       bool isPrecached;
-      /// Whether everything has been added to the engine.
-      bool isAdded;
 
     public:
       /**
@@ -81,14 +81,11 @@ namespace PT
       bool IsReady() const;
       /// Returns true if all textures have been precached.
       bool IsPrecached() const { return isPrecached; }
-      /// Returns true if everything has been added to the engine.
-      bool IsAdded() const { return isAdded; }
 
       /**
-       * Add the contents to the engine.
-       * Careful, this will block when it isn't ready yet!
+       * Call this each frame to process the loading of this factory.
        */
-      void AddToEngine();
+      void Process();
 
       /**
        * Precaches 'one' texture (if any) and returns.

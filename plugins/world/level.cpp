@@ -148,13 +148,11 @@ namespace PT
       for (size_t i = 0; i < factories.GetSize(); i++)
       {
         Factory* fact = factories.Get(i);
-        if (fact->IsReady() && !fact->IsAdded())
+        if (!fact->IsReady())
         {
-          fact->AddToEngine();
+          fact->Process();
           return false;
         }
-        else if (!fact->IsReady())
-          return false;
       }
 
       // Wait till everything is precached.
@@ -196,14 +194,17 @@ namespace PT
 
       for (size_t i = 0; i < level->factories.GetSize(); i++)
       {
-        Factory* fact = level->factories.Get(i);
-        if (fact->IsReady() && fact->IsAdded())
+        csRef<Factory> fact = level->factories.Get(i);
+        if (fact->IsReady())
         {
-          iCollection* coll = fact->GetCollection();
+          csRef<iCollection> coll = fact->GetCollection();
           if (coll)
           {
-            iMeshFactoryWrapper* mesh = coll->FindMeshFactory(name);
-            if (mesh) return mesh;
+            csRef<iMeshFactoryWrapper> mesh = coll->FindMeshFactory(name);
+            if (mesh)
+            {
+              return mesh;
+            }
           }
         }
       }
@@ -218,14 +219,36 @@ namespace PT
 
       for (size_t i = 0; i < level->factories.GetSize(); i++)
       {
-        Factory* fact = level->factories.Get(i);
-        if (fact->IsReady() && fact->IsAdded())
+        csRef<Factory> fact = level->factories.Get(i);
+        if (fact->IsReady())
         {
-          iCollection* coll = fact->GetCollection();
+          csRef<iCollection> coll = fact->GetCollection();
           if (coll)
           {
-            iTextureWrapper* tex = coll->FindTexture(name);
+            csRef<iTextureWrapper> tex = coll->FindTexture(name);
             if (tex) return tex;
+          }
+        }
+      }
+
+      return 0;
+    } // end MissingTexture()
+
+    iMaterialWrapper* Level::MissingData::MissingMaterial(const char* name,
+                                                        const char* filename)
+    {
+      if (!level) return 0;
+
+      for (size_t i = 0; i < level->factories.GetSize(); i++)
+      {
+        csRef<Factory> fact = level->factories.Get(i);
+        if (fact->IsReady())
+        {
+          csRef<iCollection> coll = fact->GetCollection();
+          if (coll)
+          {
+            csRef<iMaterialWrapper> mat = coll->FindMaterial(name);
+            if (mat) return mat;
           }
         }
       }

@@ -17,6 +17,7 @@
 */
 
 #include "levelloader.h"
+#include "../utils.h"
 
 //---------------------------------------------------------------------------
 
@@ -91,7 +92,7 @@ void LevelLoader::LoaderJob::Run()
   {
     csRef<iDocumentNode> current = nodes->Next();
     // A little hack, CS expects the root to be given but we only got the meshobj node.
-    csRef<iDocumentNode> newNode = WrapNode(current);
+    csRef<iDocumentNode> newNode = PT::Utils::WrapNode(current);
     instances.Push(newNode);
   }
 
@@ -100,7 +101,7 @@ void LevelLoader::LoaderJob::Run()
   while (nodes->HasNext())
   {
     csRef<iDocumentNode> current = nodes->Next();
-    csRef<iDocumentNode> newNode = WrapNode(current);
+    csRef<iDocumentNode> newNode = PT::Utils::WrapNode(current);
     instances.Push(newNode);
   }
 
@@ -109,7 +110,7 @@ void LevelLoader::LoaderJob::Run()
   while (nodes->HasNext())
   {
     csRef<iDocumentNode> current = nodes->Next();
-    csRef<iDocumentNode> newNode = WrapNode(current);
+    csRef<iDocumentNode> newNode = PT::Utils::WrapNode(current);
     instances.Push(newNode);
   }
 
@@ -118,7 +119,7 @@ void LevelLoader::LoaderJob::Run()
   while (nodes->HasNext())
   {
     csRef<iDocumentNode> current = nodes->Next();
-    csRef<iDocumentNode> newNode = WrapNode(current);
+    csRef<iDocumentNode> newNode = PT::Utils::WrapNode(current);
     instances.Push(newNode);
   }
 
@@ -127,7 +128,7 @@ void LevelLoader::LoaderJob::Run()
   while (nodes->HasNext())
   {
     csRef<iDocumentNode> current = nodes->Next();
-    csRef<iDocumentNode> newNode = WrapNode(current);
+    csRef<iDocumentNode> newNode = PT::Utils::WrapNode(current);
     interiors.Push(newNode);
   }
 
@@ -135,25 +136,13 @@ void LevelLoader::LoaderJob::Run()
 
 } // end Run()
 
-csPtr<iDocumentNode> LevelLoader::LoaderJob::WrapNode(iDocumentNode* node)
-{
-  csRef<iDocument> doc;
-  csRef<iDocumentSystem> docsys; docsys.AttachNew(new csTinyDocumentSystem ());
-  doc = docsys->CreateDocument ();
-  csRef<iDocumentNode> root = doc->CreateRoot();
-  csRef<iDocumentNode> newNode = root->CreateNodeBefore(node->GetType());
-  CS::DocSystem::CloneNode(node, newNode);
-
-  return csPtr<iDocumentNode> (root);
-} // end WrapNode()
-
 //---------------------------------------------------------------------------
 
 LevelLoader::LevelLoader (iObjectRegistry* object_reg)
 {
   LevelLoader::object_reg = object_reg;
 
-  static const char queueTag[] = "crystalspace.jobqueue.levelloader";
+  static const char queueTag[] = "peragro.jobqueue.levelparser";
   jobQueue = csQueryRegistryTagInterface<iJobQueue> (object_reg, queueTag);
   if (!jobQueue.IsValid())
   {

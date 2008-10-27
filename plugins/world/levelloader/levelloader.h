@@ -47,14 +47,6 @@ protected:
    */
   class LoaderJob : public scfImplementation1<LoaderJob, iJob>
   {
-  private:
-    /**
-     * Put a document node inside another node.
-     * @param node The node to wrap.
-     * @return A new node with the original inside.
-     */
-    csPtr<iDocumentNode> WrapNode(iDocumentNode* node);
-
   public:
     /// The virtual file system.
     csRef<iVFS> vfs;

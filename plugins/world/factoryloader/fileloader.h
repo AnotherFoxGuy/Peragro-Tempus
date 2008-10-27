@@ -19,8 +19,11 @@
 #ifndef LODTHREAD_H
 #define LODTHREAD_H
 
-#include <crystalspace.h>
+#include <cssysdef.h>
 #include <iutil/job.h>
+#include <csutil/scf_implementation.h>
+#include <csutil/ref.h>
+#include <csutil/refarr.h>
 
 #include <string>
 
@@ -29,109 +32,25 @@ struct iVFS;
 struct iObjectRegistry;
 struct iLoader;
 struct iCollection;
+struct iMeshFactoryWrapper;
+struct iDocumentNode;
+struct iTriangleMesh;
+struct iCollideSystem;
+struct iTextureWrapper;
+struct iThreadReturn;
+struct iCollider;
 
 //---------------------------------------------------------------------------
-
-struct GeneralMeshSubMeshWrapper
-{
-  csRef<iGeneralMeshSubMesh> submesh;
-  std::string materialName;
-  csRefArray<iDocumentNode> shaderVariables;
-};
-
-struct csObjectPrototype
-{
-  csObjectPrototype () : failedLoading(true), nullMesh(false), lodLevel(-1) {}
-  bool failedLoading;
-
-  bool nullMesh;
-  csBox3 boundingbox;
-
-  //LOD stuff.
-  csRef<iDocumentNode> staticLodNode;
-  int lodLevel;
-
-  //Children
-  csRefArray<iDocumentNode> childNodes;
-  csArray<csObjectPrototype> children;
-
-  // General
-  std::string name;
-  csRef<iBase> object;
-  std::string materialName;
-
-  // Transforms
-  csReversibleTransform move;
-  csReversibleTransform hardMove;
-
-  csRefArray<iDocumentNode> shaderVariables;
-  csArray<GeneralMeshSubMeshWrapper> submeshes;
-
-  // Flags
-  csFlags flags;
-  std::string priority;
-  csZBufMode zBuffMode;
-
-  csRef<iCollider> collider;
-};
-
-struct TexturePrototype
-{
-  std::string name;
-  std::string fileName;
-  std::string usedFileName;
-  csRef<iTextureWrapper> texture;
-  csRef<iDataBuffer> buf;
-
-  std::string type;
-  std::string textureClass;
-  /*csFlags*/uint32 flags;
-  bool keepImage;
-  csColor Transparency;
-  csAlphaMode::AlphaType alphaType;
-  bool alwaysAnimate;
-  csRefArray<iDocumentNode> keyValuePairs;
-};
-
-struct MaterialPrototype
-{
-  std::string name;
-  std::string textureName;
-  csRef<iMaterial> material;
-  csRef<iMaterialWrapper> materialWrapper;
-
-  csArray<csString> shadertypes;
-  csArray<csString> shaders;
-  csRefArray<iDocumentNode> shaderVariables;
-};
-
-struct ObjectPlugin
-{
-  std::string name;
-  std::string classId;
-  csRef<iMeshObjectType> plugin;
-};
-
-//---------------------------------------------------------------------------
-
 
 class FileLoader
 {
 
 protected:
-
-  class LoaderJob : public scfImplementation1<LoaderJob, iJob>
+  class ParserJob : public scfImplementation1<ParserJob, iJob>
   {
   public:
     //Plugins.
     csRef<iVFS> vfs;
-    csRef<iSyntaxService> SyntaxService;
-    csRef<iCollideSystem> collide_system;
-    csArray<ObjectPlugin> plugins;
-
-    //Misc
-    csStringID basemesh_id;
-    csStringID trianglemesh_id;
 
     //Data
     bool finished;
@@ -139,92 +58,96 @@ protected:
     std::string path;
     std::string fileName;
 
-    csArray<csString> shaders;
-    csArray<TexturePrototype> textures;
-    csArray<MaterialPrototype> materials;
-    csArray<csObjectPrototype> prototypes;
+    csArray<std::string> shaders;
+    csRefArray<iDocumentNode> textures;
+    csRefArray<iDocumentNode> materials;
+    csRefArray<iDocumentNode> factories;
 
     // Create new instance.
-    LoaderJob (const std::string& path, const std::string& fileName);
-    virtual ~LoaderJob();
+    ParserJob (const std::string& path, const std::string& fileName);
+    virtual ~ParserJob();
 
     virtual void Run();
 
-    csPtr<iMeshObjectFactory> NewFactory(const std::string& plug);
+    bool IsFinished() const { return finished; }
 
     void ParseLibrary(iDocumentNode* libraryNode);
-    void ParseTexture(iDocumentNode* node);
-    void ParseMaterial(iDocumentNode* node);
-    void ParseMeshFact(iDocumentNode* node, csObjectPrototype& proto, csObjectPrototype* parent);
+  };
+
+  class CDJob : public scfImplementation1<CDJob, iJob>
+  {
+    bool finished;
+
+    iObjectRegistry* object_reg;
+    csRef<iMeshFactoryWrapper> fact;
+
+    csRef<iCollideSystem> collide_system;
+    csRef<iTriangleMesh> obj_trimesh;
+    csRef<iCollider> collider;
+
+  public:
+    // Create new instance.
+    CDJob (iObjectRegistry* object_reg, iMeshFactoryWrapper* fact);
+    virtual ~CDJob();
+
+    virtual void Pre();
+    virtual void Run();
+    virtual void Post();
+
+    bool IsFinished() const { return finished; }
   };
 
 protected:
   /// Reference to the job for loading this file.
-  mutable csRef<LoaderJob> loadJob;
+  mutable csRef<ParserJob> parseJob;
+  /// Reference to the job for loading generating CD.
+  mutable csRefArray<CDJob> cdJobs;
   /// Reference to job queue.
   mutable csRef<iJobQueue> jobQueue;
 
   iObjectRegistry* object_reg;
-  csRef<iCollection> collection;
 
 private:
   std::string path;
   std::string fileName;
+  csRef<iCollection> collection;
+  bool finished;
 
+  void AddToCollection(iBase* base);
   std::string GetFileName(iTextureWrapper* tex);
   void SetFileName(iTextureWrapper* tex, const std::string& fileName);
-  iTextureWrapper* FindTextureInEngine(TexturePrototype& tex);
+  iTextureWrapper* FindTextureInEngine(const std::string& texName, const std::string& fileName);
 
-private:
-  struct LoaderContext : public scfImplementation1<LoaderContext, iLoaderContext>
-  {
-    FileLoader* fileLoader;
-    LoaderContext (FileLoader* loader) : scfImplementationType (this) { fileLoader = loader; }
+  void ParseShader(const std::string& fileName);
+  void ParseTexture(iDocumentNode* node);
+  void ParseMaterial(iDocumentNode* node);
+  void ParseMeshFact(iDocumentNode* node);
 
-    virtual iSector* FindSector (const char* name) { return 0; }
-    virtual iMaterialWrapper* FindMaterial (const char* name,
-      bool dontWaitForLoad = false) { return fileLoader->GetMaterial(name); }
-    virtual iMaterialWrapper* FindNamedMaterial (const char* name,
-      const char *filename, bool dontWaitForLoad = false)  { return 0; }
-    virtual iMeshFactoryWrapper* FindMeshFactory (const char* name,
-      bool dontWaitForLoad = false)  { return 0; }
-    virtual iMeshWrapper* FindMeshObject (const char* name) { return 0; }
-    virtual iTextureWrapper* FindTexture (const char* name,
-      bool dontWaitForLoad = false) { return fileLoader->GetTexture(name); }
-    virtual iTextureWrapper* FindNamedTexture (const char* name,
-      const char* filename, bool dontWaitForLoad = false)  { return 0; }
-    virtual iLight* FindLight (const char* name) { return 0; }
-    virtual iShader* FindShader (const char* name) { return 0; }
-    virtual iGeneralMeshSubMesh* FindSubmesh(iGeneralMeshState* state,
-      const char* name) { return 0; }
-    virtual bool CheckDupes () const  { return true; }
-    virtual iCollection* GetCollection () const  { return 0; }
-    virtual bool CurrentCollectionOnly () const { return true; }
-    virtual uint GetKeepFlags() const { return 0; }
-    virtual void AddToCollection(iObject* obj) { }
-    virtual bool GetVerbose() { return false; }
-  };
-  csRef<LoaderContext> loaderContext;
+  unsigned int parsedShaders;
+  unsigned int parsedTextures;
+  unsigned int parsedMaterials;
+  unsigned int parsedFactories;
+
+  void Parse(unsigned int TypeId, bool clean);
+  bool IsDoneLoading();
+
+  csRefArray<iThreadReturn> shaders;
+  csRefArray<iThreadReturn> textures; csArray<std::string> textureFileNames;
+  csRefArray<iThreadReturn> materials;
+  csRefArray<iThreadReturn> factories;
+
+  csRefArray<iThreadReturn> all;
 
 public:
   FileLoader (iObjectRegistry* object_reg);
   virtual ~FileLoader ();
 
-  virtual bool Load (const std::string& path, const std::string& fileName, iCollection* collection=0);
+  virtual bool Load (const std::string& path, const std::string& fileName, iCollection* collection);
+  bool Process();
 
-  void WaitForJob() const;
+  bool IsReady() const { return finished; }
 
-  bool IsReady() const;
-
-  bool AddToEngine();
-
-  // Not threadsafe, call when ready only!
-  iMaterialWrapper* GetMaterial(const std::string& name);
-  iTextureWrapper* GetTexture(const std::string& name);
   iObjectRegistry* GetObjectRegistry() { return object_reg; }
-  LoaderContext* GetLoaderContext() { return loaderContext; }
-
-  csRef<iShader> LoadShader (const char* filename);
 };
 
 #endif // LODTHREAD_H
