@@ -860,18 +860,19 @@ namespace PT
 
 } // PT namespace
 
+/*
 void pvFunc(void)
 {
   printf("AAARRRRRGGGG");
-  printf("AAARRRRRGGGG");
 }
+*/
 
 /*---------------*
 * Main function
 *---------------*/
 int main (int argc, char* argv[])
 {
-  _set_purecall_handler(pvFunc);
+  //_set_purecall_handler(pvFunc);
 
 #ifdef __TIMESTAMP__
   printf("Peragro Tempus - Client\n$Revision$\tBuild-Date: %s\n", __TIMESTAMP__);
