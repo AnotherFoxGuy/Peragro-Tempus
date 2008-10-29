@@ -44,6 +44,16 @@ Body::Body(iObjectRegistry* reg)
 
 }
 
+Body::~Body () 
+{
+    for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+    {
+      delete child_bodies[i];
+    } // end for iterate for child bodies 
+    delete this;
+}
+
+
 void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
 {
 
@@ -86,11 +96,6 @@ void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
   Apply_Material (mat);
 
   printf ("created body %s\n",name.c_str());
-}
-
-Body::~Body () 
-{
-  // must rember to remove body from any parent/clildern collections
 }
 
 void Body::Set_Name (char const* body_name)
@@ -480,6 +485,7 @@ void Body::Pos_Light(const csVector3& npos)
   iSector* sector;
   iLight* light;
 
+
   sector = engine->FindSector(sector_name.c_str() , 0 );
   if (!sector) printf("Body::Add_Light: Failed to locate sector !");
   // Now we need light to see something.
@@ -487,8 +493,10 @@ void Body::Pos_Light(const csVector3& npos)
   light = ll->FindByName(name.c_str());
   if (light)
   {
+    //printf("Body::pos_light:%s !\n", name.c_str());
     light->GetMovable()->SetPosition(npos);
     light->GetMovable()->UpdateMove();
+    light->SetCenter (npos);
  //   light->Setup();
   }
 }
@@ -507,13 +515,20 @@ void Body::Update_Lights()
   csVector3 pos =  mesh->GetMovable()->GetFullPosition();
 
   light = ll->FindByName(name.c_str());
- // light->Setup();
-  /*
+//light->Setup();
+  if (light)
+  {
+    //printf("Body::update_lights:%s !\n", name.c_str());
+    light->GetMovable()->SetPosition(pos);
+    light->GetMovable()->UpdateMove();
+ //   light->Setup();
+  }
+ 
   for (size_t i = 0; i < child_bodies.GetSize(); i++) 
   {
-  child_bodies.Get(i)->Update_Light();
+    child_bodies.Get(i)->Update_Lights();
   } // end for iterate for child bodies 
-  */
+ 
 }
 
 bool Body::Load_Factory (std::string factory ) 
