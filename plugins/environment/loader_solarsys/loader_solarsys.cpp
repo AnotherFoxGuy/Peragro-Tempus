@@ -86,7 +86,7 @@ bool LoaderSolarsys::ParseXML ( iDocumentNode* node)
 }
 
 csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node, 
-  iStreamSource* ss, iLoaderContext* ldr_context, iBase* context, iStringArray* failed)
+  iStreamSource* ss, iLoaderContext* ldr_context, iBase* context)
 {
 
 
