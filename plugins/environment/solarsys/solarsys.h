@@ -87,6 +87,7 @@ public:
 private:
 
   bool CreateCamera();
+  void DrawStarbox(iCamera* c);
 
 };
  
