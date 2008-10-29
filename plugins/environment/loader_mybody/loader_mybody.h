@@ -52,7 +52,7 @@ public:
   virtual bool Initialize(iObjectRegistry *object_reg);
 
   virtual csPtr<iBase> Parse (iDocumentNode* node, 
-    iStreamSource* ss, iLoaderContext* ldr_context, iBase* context, iStringArray* failed = 0);
+    iStreamSource* ss, iLoaderContext* ldr_context, iBase* context );
 
   virtual csRef<iMyBody> ParseBody (iDocumentNode* node, 
                       iStreamSource* ss,

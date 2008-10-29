@@ -120,12 +120,13 @@ bool myLoaderBody::ParseLight (iDocumentNode* node, csRef<iMyBody> obj)
         return false;
     }
   }
+  printf ("adding light to body\n");
   obj->Add_Light(r,c);
   return true;
 }
 
 csPtr<iBase> myLoaderBody::Parse (iDocumentNode* node, 
-  iStreamSource* ss, iLoaderContext* ldr_context, iBase* context, iStringArray* failed )
+  iStreamSource* ss, iLoaderContext* ldr_context, iBase* context)
 {
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
@@ -347,7 +348,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (iDocumentNode* node,
 
         case XMLTOKEN_LIGHT:
         {                 
-      //    if (!ParseLight(child,obj)) return false;
+          if (!ParseLight(child,obj)) return false;
         }
         break;
 
