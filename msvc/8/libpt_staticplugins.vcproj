@@ -601,31 +601,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\common\libmybody_staticreg.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\libmystarbox_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -748,106 +723,6 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\body.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\mybody.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\mybodyfact.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\orbit.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1221,21 +1096,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\loader_starbox\loader_starbox.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\body.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\imybody.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\mybody.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\mybodyfact.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\environment\mybody\orbit.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\mystarbox\const.h">
