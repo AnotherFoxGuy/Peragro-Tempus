@@ -582,7 +582,7 @@ bool FileLoader::IsDoneLoading()
     if (cdJobs.Top()->IsFinished())
     {
       cdJobs.Top()->Post();
-      cdJobs.Pop();
+      csRef<CDJob> (cdJobs.Pop());
     }
     else
       return false;
