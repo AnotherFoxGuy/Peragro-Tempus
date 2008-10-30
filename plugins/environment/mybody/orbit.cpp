@@ -199,10 +199,12 @@ void Orbit::Draw_Orbit (iCamera* c , iGraphics3D* g3d, csVector3 origin )
   float orb_rad;
   int color;
   float fov;
-  
+
+
   if (!g3d) printf("Orbit::draw_orbit: Failed to locate 3D renderer!\n");
   Draw_Plane ( c , g3d);
   csRef<iGraphics2D> g2d = g3d->GetDriver2D();
+
 
   int win_w = g2d->GetWidth();
   int win_h = g2d->GetHeight();
@@ -214,6 +216,7 @@ void Orbit::Draw_Orbit (iCamera* c , iGraphics3D* g3d, csVector3 origin )
   // Calculate Start point 
   orb_rad = 0 * (PI / 180.0);
   v3start = OrbitPointDeg(0);
+
 
   csCameraOrth = c->GetTransform ();
   v3CS =  csCameraOrth * (v3start+origin);   // convert point to camera space 
@@ -230,6 +233,7 @@ void Orbit::Draw_Orbit (iCamera* c , iGraphics3D* g3d, csVector3 origin )
     // Make end point start of next arc
     v3CS = v3CE;
   }
+
 }
   
 
@@ -240,7 +244,14 @@ void Orbit::Draw_Plane (const iCamera* c , iGraphics3D* g3d)
   int green, red, blue;
   int lp;  
   float fov;
+
   csOrthoTransform csCameraOrth;
+  if (!c)
+  { 
+    printf("Orbit::Draw_Plane: Invalide camera!\n");
+    return;
+  }
+
   csCameraOrth = c->GetTransform();
 
   if (!g3d) printf("Orbit::draw_orbit: Failed to locate 3D renderer!\n");
@@ -268,6 +279,7 @@ void Orbit::Draw_Plane (const iCamera* c , iGraphics3D* g3d)
     g3d->DrawLine(v3s, v3e, fov, blue);
 
   }
+
 
   v3start.x = +10000;
   v3start.y = 0;

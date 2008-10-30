@@ -161,6 +161,7 @@ csPtr<iBase> myLoaderBody::Parse (iDocumentNode* node,
 
         case XMLTOKEN_BODY:
         {
+	  printf ("%s\n\n\n",child->GetContentsValue());
           csRef<iMyBody> parent ;
           // Create body with Null as parent 
           obj = ParseBody ( child, ss, ldr_context, context , parent);
@@ -194,12 +195,14 @@ error:
 }
 
 
-csRef<iMyBody> myLoaderBody::ParseBody (iDocumentNode* node, 
-                                      iStreamSource* ss,
-                                      iLoaderContext* ldr_context,
-                                      iBase* context,
-                                      csRef<iMyBody>& parent,
-                                      iStringArray* failed )
+csRef<iMyBody> myLoaderBody::ParseBody (
+                                         iDocumentNode* node, 
+                                         iStreamSource* ss,
+                                         iLoaderContext* ldr_context,
+                                         iBase* context,
+                                         csRef<iMyBody>& parent
+                                       )
+
 {
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
@@ -218,9 +221,6 @@ csRef<iMyBody> myLoaderBody::ParseBody (iDocumentNode* node,
   }// end if(!engine)
 
 
-
-
-  printf("Creating objfact\n");
   obj_fact  = csQueryRegistry<iMyBodyFactory> (object_reg);
   if (!obj_fact)
   { 
@@ -232,7 +232,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (iDocumentNode* node,
       return 0;
     }
   }// end if(!obj_fact)
-  printf("Creating obj\n");
+
   obj = obj_fact->CreateObject ();
   if (!obj)
   { 
@@ -244,9 +244,6 @@ csRef<iMyBody> myLoaderBody::ParseBody (iDocumentNode* node,
       return 0;
     }
   }// end if(!obj)    
-  printf("Finished Creating obj\n");
-
-
 
 
   // set the bodys sector 
@@ -266,7 +263,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (iDocumentNode* node,
     return 0;
     }
 
-    obj->Set_sector(sector->QueryObject()->GetName() ); // needs to change to using the pointer not the name 
+    obj->Set_sector(sector); // needs to change to using the pointer not the name 
 
   }// end if context
 
@@ -376,6 +373,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (iDocumentNode* node,
     } // end while(it->HasNext())
   } // end if(node)
 
+  obj->Create_Body_Mesh();
   // add the object to the object registory
   // so a pointer can be retrived from the main app
   printf("Regersting Obj %s \n\n", obj->Get_Name()); 

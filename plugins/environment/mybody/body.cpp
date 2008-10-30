@@ -34,7 +34,7 @@ Body::Body(iObjectRegistry* reg)
   ellips.SetRadius(10 );
   ellips.SetCenter (csVector3 (0) );
 
-  sector_name = "sector";
+
   name = "defaultbody";
  
   body_day_lenght =.1; // in hours
@@ -53,9 +53,23 @@ Body::~Body ()
     delete this;
 }
 
-
 void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
 {
+  body_radius = radius;
+  body_verts = verts;
+  body_day_lenght = day;
+  body_inclination = i ;
+  Create_Body_Mesh();
+}
+
+
+void Body::Create_Body_Mesh()
+{
+  if (!sector) 
+  {
+    printf("Body::Create_Body_Mesh: No sector set\n");
+    return ;
+  }
 
   if (mesh) 
   {
@@ -63,10 +77,6 @@ void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
     engine->RemoveObject(mesh->GetFactory() );
     engine->RemoveObject(mesh);
   }
-  body_radius = radius;
-  body_verts = verts;
-  body_day_lenght = day;
-  body_inclination = i ;
 
   ellips.SetRadius(body_radius);
   ellips.SetCenter(csVector3(0));
@@ -74,15 +84,15 @@ void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
   // create a default sphere mesh
   CS::Geometry::Sphere* sphere = new CS::Geometry::Sphere(ellips, body_verts); 
   //	sphere->reversed = true;
-
   csRef<iMeshFactoryWrapper> fact = 
     CS::Geometry::GeneralMeshBuilder::CreateFactory (engine, name.c_str() , sphere );
-  iSector* sector = engine->GetSectors ()->FindByName (sector_name.c_str() );
-  if (!sector) sector = engine->CreateSector (sector_name.c_str() );
 
   mesh = engine->CreateMeshWrapper (fact, name.c_str() , sector, csVector3 (0));
   mesh->SetZBufMode (CS_ZBUF_USE);
   mesh->SetRenderPriority (engine->GetObjectRenderPriority ()); 
+
+  mesh->SetLightingUpdate( CS_LIGHTINGUPDATE_ALWAYSUPDATE, 8 );
+
 
   // give the mesh a meteral
   filename = "/appdata/defaultmap/textures/yellow.jpg";
@@ -100,32 +110,22 @@ void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
 
 void Body::Set_Name (char const* body_name)
 {
-  // update body light if one exists
-  iSector* sector;
-  iLight* light;
 
-  sector = engine->FindSector(sector_name.c_str() , 0 );
-  if (!sector) printf("Body::Add_Light: Failed to locate sector !");
-  //	printf ("Pos_Ligh\nSector:%s\n" , sector_name.c_str() ); 
-
-  // Now we need light to see something.
-  iLightList* ll = sector->GetLights (); 
-  light = ll->FindByName(name.c_str());
   if (light)
   {
     light->QueryObject()->SetName(body_name);
-    //		printf("updating light name\n");
+    printf("updating light name:%s\n",body_name);
   }
   // update body name
   name = body_name;
+
+  printf("updating body name:%s\n",body_name);
 }
 
-void Body::Set_Sector (char const* name)
+void Body::Set_Sector ( iSector* sect )
 {
-  sector_name = name;
+  sector=sect;
   // Move the mesh to the sector 
-  iSector* sector = engine->GetSectors ()->FindByName (sector_name.c_str() );
-  if (!sector) sector = engine->CreateSector (sector_name.c_str() );
   if (mesh) mesh->GetMovable()->SetSector(sector);
 }
 
@@ -174,21 +174,25 @@ csOrthoTransform Body::GetSurfaceTrans (csOrthoTransform cameratrans ,float lon 
 
 bool Body::Draw_FullOrbit (iCamera* c, iGraphics3D* g3d)
 {
+
   csVector3 origin(0,0,0);
   if (parent)
   {
-    origin = parent->Get_MeshWrapper()->GetMovable()->GetPosition();
-   // printf("Has Parent.");
+    //printf("Body::Draw_FullOrbit:Has Parent.\n");
+    csRef<iMeshWrapper> par_mesh = parent->Get_MeshWrapper();
+    if (par_mesh) origin = par_mesh->GetMovable()->GetPosition();
+
   } else 
   {
-   // printf ("No Parent.");
+    //printf ("Body::Draw_FullOrbit:No Parent.\n");
   };
   // printf("%s origin (%4.2f:%4.2f:%4.2f) \n", name.c_str() ,origin.x ,origin.y,origin.z);
 
   //	Draw_Orbit (planetview->GetCamera (), g3d, origin );
   Draw_Orbit (c, g3d, origin);
 
-  origin = this->Get_MeshWrapper()->GetMovable()->GetPosition();
+  if (mesh) origin = mesh->GetMovable()->GetPosition();
+
   for (size_t i = 0; i < child_bodies.GetSize(); i++) 
   {
     child_bodies.Get(i)-> Draw_Orbit (c); 
@@ -367,14 +371,14 @@ void Body::Update_Meshs( const csTransform& trans, const double& body_rot, char 
     bodytrans.SetT2O(body_rot_none);
     //bodytrans.Identity();
     bodytrans.Translate(csVector3(0,-body_radius,0));
-    Pos_Light(csVector3(0,-body_radius,0));
+ //   Pos_Light(csVector3(0,-body_radius,0));
 
   } else {
     bodytrans.SetT2O(body_matrix);
     // rotate the bodies pos by the rotation if the
     csVector3 npos = RotateZ (body_pos, body_rot);
     bodytrans.Translate(npos);
-    Pos_Light(npos);
+ //   Pos_Light(npos);
   } 
 
   movable->SetTransform (bodytrans);
@@ -427,17 +431,22 @@ bool Body::Rotate_Body (float angle)
 
 void Body::Update_Mesh_Pos ()
 {
-
-  iMovable* movable;
-  movable = mesh->GetMovable();
-
-//  printf("Moving Body Mesh %s\n", name.c_str() );
-  movable->SetTransform (abs_pos);
-  movable->UpdateMove();
+  if (!mesh)
+  {
+    printf ("Body::Update_Mesh_Pos:body '%s' has no mesh to update\n", name.c_str() );
+  } else
+  {
+    //printf("Moving Body Mesh %s\n", name.c_str() );
+    iMovable* movable;
+    movable = mesh->GetMovable();
+    //printf("Moving Body Mesh %s\n", name.c_str() );
+    movable->SetTransform (abs_pos);
+    movable->UpdateMove();
+  }
 
   for (size_t i = 0; i < child_bodies.GetSize(); i++) 
   {
- //   printf("Updateing child " );
+    //   printf("Updating child " );
     child_bodies.Get(i)->Update_Mesh_Pos ();
   } // end for iterate for child bodies 
 
@@ -482,48 +491,54 @@ csTransform Body::Get_Surface_Pos (float lon , float lat)
 
 void Body::Pos_Light(const csVector3& npos)
 {
-  iSector* sector;
-  iLight* light;
-
-
-  sector = engine->FindSector(sector_name.c_str() , 0 );
-  if (!sector) printf("Body::Add_Light: Failed to locate sector !");
-  // Now we need light to see something.
-  iLightList* ll = sector->GetLights (); 
-  light = ll->FindByName(name.c_str());
-  if (light)
+  printf("Body::Pos_Light:%s\n",name.c_str());
+  if (!sector) 
+  {
+    printf("Body::Pos_Light: No sector set\n");
+    return ;
+  }
+  if (!light) 
+  {
+    printf("Body::Pos_Light: No light set\n");
+    return ;
+  } else  // update position 
   {
     //printf("Body::pos_light:%s !\n", name.c_str());
-    light->GetMovable()->SetPosition(npos);
-    light->GetMovable()->UpdateMove();
+    //light->GetMovable()->SetPosition(npos);
+    //light->GetMovable()->UpdateMove();
     light->SetCenter (npos);
- //   light->Setup();
   }
 }
 
 void Body::Update_Lights()
 {
-  iSector* sector;
-  iLight* light;
-
-  sector = engine->FindSector(sector_name.c_str() , 0 );
-  if (!sector) printf("Body::Add_Light: Failed to locate sector !");
-  //	printf ("Sector:%s\n" , sector_name.c_str() ); 
-
-  // Now we need light to see something.
-  iLightList* ll = sector->GetLights (); 
-  csVector3 pos =  mesh->GetMovable()->GetFullPosition();
-
-  light = ll->FindByName(name.c_str());
-//light->Setup();
+//  printf("\nBody::update_lights:updating body '%s'!\n", name.c_str() );
   if (light)
   {
-    //printf("Body::update_lights:%s !\n", name.c_str());
-    light->GetMovable()->SetPosition(pos);
-    light->GetMovable()->UpdateMove();
- //   light->Setup();
+//    printf("Light Sector: %s \n", light->GetSector ()->QueryObject ()->GetName() );
+//    printf("Mesh  Sector: %s \n", mesh->GetMovable () ->QueryObject ()->GetName() );
   }
+
+  if (!sector) 
+  {
+    printf("Body::Update_Lights: No sector set\n");
+    return ;
+  }
+
+  csVector3 pos(0,0,0);
  
+  if (mesh) pos = mesh->GetMovable()->GetFullPosition();
+
+  if (light)
+  {
+//    printf("Body::update_lights:updating body '%s' position to (%3.2f , %3.2f , %3.2f) !\n", name.c_str(), pos.x , pos.y, pos.z );
+//    light->GetMovable()->SetPosition(pos);
+//    light->GetMovable()->UpdateMove();
+    pos.y = pos.y + (body_radius * 3);
+    light->SetCenter(pos);
+  }
+
+  // update child bodies  
   for (size_t i = 0; i < child_bodies.GetSize(); i++) 
   {
     child_bodies.Get(i)->Update_Lights();
@@ -585,7 +600,10 @@ bool Body::Load_Texture(std::string filename, std::string mat_name )
 // Give this body a material 
 bool Body::Apply_Material(csRef<iMaterialWrapper>& mat ) 
 { 
-
+  if (!mesh) 
+  {
+    printf("Body::Apply_Material: No '%s' body to apply material to!", name.c_str() ); 
+  }
   if (!mat ) 
   {
     printf("Body::Apply_Material: invalide material.\n");
@@ -601,19 +619,20 @@ bool Body::Apply_Material(csRef<iMaterialWrapper>& mat )
 
 bool Body::Add_Light(int radius, csColor color)
 {
-  iSector* sector;
-  csRef<iLight> light;
+  if (!sector) 
+  {
+    printf("Body::Add_Light: No sector set\n");
+    return false;
+  }
 
-  // need to add a check to remove existing light if one exists 
-
-  sector = engine->FindSector(sector_name.c_str() , 0 );
-  if (!sector) printf("Body::Add_Light: Failed to locate sector !");
-  printf ("Added light Sector:%s\n" , sector_name.c_str() ); 
+  // remove light if it already exists
+  if (light) delete light;
 
   // Now we need light to see something.
   iLightList* ll = sector->GetLights (); 
   csVector3 pos(0,0,0);
-  if (mesh) mesh->GetMovable()->GetFullPosition();
+
+  if (mesh) pos = mesh->GetMovable()->GetFullPosition();
 
   light = engine->CreateLight(name.c_str(), pos, radius , color,
     CS_LIGHT_DYNAMICTYPE_DYNAMIC);
@@ -624,20 +643,19 @@ bool Body::Add_Light(int radius, csColor color)
   //Set_Parent_Node (light->GetMovable()->GetSceneNode());
   //mesh->QuerySceneNode()->SetParent(light->GetMovable()->GetSceneNode());
 
-  printf (" sector:%s has %d lights \n" , sector_name.c_str() , ll->GetCount() );
-  printf (" pos ( %4.2f,%4.2f,%4.2f )\n" , pos.x, pos.y, pos.z );
+  printf (" add light sector has %d lights \n" ,  ll->GetCount() );
+  printf (" new light pos ( %4.2f,%4.2f,%4.2f )\n" , pos.x, pos.y, pos.z );
 
   return true;
 }
 
-void Body::List_Light() {
-
-  iSector* sector;
-  csRef<iLight> light;
-
-  sector = engine->FindSector(sector_name.c_str() , 0 );
-  if (!sector) printf("Body::Add_Light: Failed to locate sector !");
-  //	printf ("Sector:%s\n" , sector_name.c_str() ); 
+void Body::List_Light() 
+{
+  if (!sector) 
+  {
+    printf("Body::List_Light: No sector set\n");
+    return ;
+  }
 
   // Now we need light to see something.
   iLightList* ll = sector->GetLights (); 

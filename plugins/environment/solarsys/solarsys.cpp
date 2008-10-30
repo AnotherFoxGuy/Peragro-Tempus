@@ -84,6 +84,7 @@ void Solarsys::Draw( iCamera* c , long ts )
     rootbody->Update_Mesh_Pos();
     //c = view->GetCamera();
     rootbody->Draw_Orbit( c );
+    rootbody->Update_Lights();
  //   rootbody->Draw_Position( c , ts );
     ts ++;
   } // end if rootbody

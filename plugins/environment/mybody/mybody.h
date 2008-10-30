@@ -77,8 +77,9 @@ public:
   virtual void Set_e(long double val) {body->Set_e(val); };
   virtual void Set_period(long double val) {body->Set_period(val); };
   virtual void Set_scale(long double val) {body->Set_scale(val); };
-  virtual void Set_sector(char const* name) {body->Set_Sector(name); };
+  virtual void Set_sector(iSector* sect) { body->Set_Sector(sect); };
 
+  virtual void Create_Body_Mesh() { body->Create_Body_Mesh(); };
   virtual void Create_Body_Mesh(float radius, int verts, double day, double i);
   virtual void Set_Mesh(char const* mesh_name);
   virtual void Set_Material(csRef<iMaterialWrapper>& mat);
@@ -106,7 +107,7 @@ public:
   // extras!!!
   virtual void Set_Parent_Node(iSceneNode* parent );
   virtual void Set_Camera_Parent(iSceneNode* parent );
-  virtual iSceneNode* Get_SceneNode() { return body->Get_SceneNode(); };
+//  virtual iSceneNode* Get_SceneNode() { return body->Get_SceneNode(); };
 
   virtual double GetBodyRotation();
   virtual csTransform Get_Surface_Pos(float lon , float lat);

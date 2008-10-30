@@ -48,9 +48,13 @@ private:
   iObjectRegistry* object_reg; 
   csRef<iEngine> engine;
   csRef<iView> planetview;
+  csRef<iSector> sector;
+  csRef<iLight> light;
 
   std::string name;
-  std::string sector_name;
+//  std::string sector_name;
+
+
   std::string filename;
   std::string mat_name;
 
@@ -81,7 +85,7 @@ public:
   ~Body();
 
   void Set_Name(char const* body_name);
-  void Set_Sector(char const* sector_name);  
+  void Set_Sector(iSector* sect );  
   void Set_Radius(csVector3 r) { ellips.SetRadius (r); body_radius = r.x; };  
   void Set_Day_Lenght(long double dl) { body_day_lenght = dl; };  
   void Set_Inclination(long double i) { body_inclination = i; };  
@@ -97,6 +101,7 @@ public:
     double scale
     );
 
+  void Create_Body_Mesh();
   void Create_Body_Mesh(float radius, int verts, double day, double i);
   void Set_Mesh(char const* mesh_name);
   void Set_Material(csRef<iMaterialWrapper>& mat); 

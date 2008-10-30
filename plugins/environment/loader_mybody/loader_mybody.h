@@ -58,8 +58,7 @@ public:
                       iStreamSource* ss,
                       iLoaderContext* ldr_context,
                       iBase* context,
-                      csRef<iMyBody>& parent,
-                      iStringArray* failed = 0
+                      csRef<iMyBody>& parent
                       );
 
   virtual bool IsThreadSafe(void) { return true; }

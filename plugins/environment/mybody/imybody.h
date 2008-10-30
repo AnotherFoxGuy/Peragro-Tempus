@@ -25,7 +25,7 @@
 
 #include <cssysdef.h>
 #include <csutil/scf.h>
-
+#include <iengine/sector.h>
 
 class csVector3;
 struct iMeshWrapper;
@@ -73,10 +73,11 @@ struct iMyBody : public virtual iBase
   virtual void Set_period (long double val) = 0;
 */
   virtual void Set_scale (long double val) = 0;
-  virtual void Set_sector(char const* name) = 0;
+  virtual void Set_sector(iSector* sect) = 0;
   virtual void Set_Material(csRef<iMaterialWrapper>& mat) = 0; 
 
   virtual void Set_Mesh(char const* mesh_name) = 0;
+  virtual void Create_Body_Mesh() = 0;
   virtual void Create_Body_Mesh(float radius, int verts, double day, double i) = 0;
 
   virtual char const* Get_Name() const = 0;
@@ -87,7 +88,7 @@ struct iMyBody : public virtual iBase
 
   virtual void Set_Parent_Node(iSceneNode* parent) = 0;
   virtual void Set_Camera_Parent(iSceneNode* parent) = 0;
-  virtual iSceneNode* Get_SceneNode() = 0;
+//  virtual iSceneNode* Get_SceneNode() = 0;
 
 
   //	virtual void Update_Body() = 0;  
