@@ -72,9 +72,10 @@ bool MyStarbox::SetupPlugin()
   if (!engine)
   {
     engine = csQueryRegistry<iEngine>(object_reg);
-    if (engine)
-      engine->AddEngineFrameCallback(catcher);
   }
+  
+  // Set up camera catcher so starbox can autodraw on frame events
+  if (engine) engine->AddEngineFrameCallback(catcher);
 
   if (!g3d) g3d = csQueryRegistry<iGraphics3D>(object_reg);
 

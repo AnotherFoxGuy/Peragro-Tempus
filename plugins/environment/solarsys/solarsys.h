@@ -27,81 +27,112 @@
 #include "imybody.h"
 #include "imystarbox.h"
 
+class SolarSysCameraCatcher;
 
 // Implementation header
 class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
 {
-private:
-  iObjectRegistry* object_reg; 
-  csRef<iEngine> engine;
-  csRef<iGraphics3D> g3d;
-  bool initialized ;
+  private:
+    iObjectRegistry* object_reg; 
+    csRef<iEngine> engine;
+    csRef<iGraphics3D> g3d;
+    bool initialized ;
 
-  /// The render manager, cares about selecting lights+meshes to render
-  csRef<FrameBegin3DDraw> drawer;
-  csRef<FramePrinter> printer;
-  csRef<iRenderManager> rm;
+    /// The render manager, cares about selecting lights+meshes to render
+    csRef<FrameBegin3DDraw> drawer;
+    csRef<FramePrinter> printer;
+    csRef<iRenderManager> rm;
 
-  /// The objects to create the background
-  csRef<iMyBody> rootbody ;
-  csRef<iMyBody> surbody ;
-  float lat;
-  float lon; 
-  csRef<iMyStarbox> starbox;
-  csRef<iCamera> startcamera;  // a fixed direction that is used to rotate stars
-  csTransform* start_trans ;
+    /// The objects to create the background
+    csRef<iMyBody> rootbody ;
+    csRef<iMyBody> surbody ;
+    float lat;
+    float lon; 
+    csRef<iMyStarbox> starbox;
+    csRef<iCamera> startcamera;  // a fixed direction that is used to rotate stars
+    csTransform* start_trans ;
+    long  last_update_seconds; 
 
-  /// A pointer to the view which contains the camera.
-  csRef<iView> view;
-  csRef<iSector> sector;      // Sector should be different from you main game/map sector default solarsys
+    /// A pointer to the view which contains the camera.
+    csRef<iView> view;
+    csRef<iSector> sector;      // Sector should be different from you main game/map sector default solarsys
 
-//  Body* rootbody;
-  std::string solarsys_name;
+    //Body* rootbody;
+    std::string solarsys_name;
+
+    // The camera catcher.
+    csRef<SolarSysCameraCatcher> catcher;
+
+  public:
+    Solarsys(iObjectRegistry* r); 
+    virtual ~Solarsys(); 
+    virtual bool Initialize(iObjectRegistry *object_reg);
+
+    virtual void SetName(char const* name) { solarsys_name = name; };
+    virtual void SetSector(csRef<iSector>& sector);
+    virtual void SetStartCamera (csRef<iCamera>& camera) { startcamera = camera; };
+    //virtual void SetStartTrans (csTransform* trans ){ start_trans = trans; };
+    virtual void SetRootbody (csRef<iMyBody>& body) { rootbody = body; };
+    virtual void SetLongitude(long longitude ) { lon = longitude; };
+    virtual void SetLatitude(long latitude ) { lat = latitude; };
+    virtual void SetSurfaceBody (csRef<iMyBody>& body) { surbody = body; };
+    virtual void SetStarbox (csRef<iMyStarbox>& sb ) { starbox = sb; };
+
+
+
+    virtual char const* GetName() const { return solarsys_name.c_str(); };
+    virtual iSector const* GetSector() const { return sector; };
+
+    virtual void Draw( iCamera* c );
+    virtual void Draw( iCamera* c , long ts );
+    virtual void UpdateSystemTime( long ts );
+
+    //virtual void Draw( iCamera c, long ts );
+
+  private:
  
-
-public:
-  Solarsys(iObjectRegistry* r); 
-  virtual ~Solarsys(); 
-  virtual bool Initialize(iObjectRegistry *object_reg);
-
-  virtual void SetName(char const* name) { solarsys_name = name; };
-  virtual void SetSector(csRef<iSector>& sector);
-  virtual void SetStartCamera (csRef<iCamera>& camera) { startcamera = camera; };
-//  virtual void SetStartTrans (csTransform* trans ){ start_trans = trans; };
-  virtual void SetRootbody (csRef<iMyBody>& body) { rootbody = body; };
-  virtual void SetLongitude(long longitude ) { lon = longitude; };
-  virtual void SetLatitude(long latitude ) { lat = latitude; };
-  virtual void SetSurfaceBody (csRef<iMyBody>& body) { surbody = body; };
-  virtual void SetStarbox (csRef<iMyStarbox>& sb ) { starbox = sb; };
-
-
-
-  virtual char const* GetName() const { return solarsys_name.c_str(); };
-  virtual iSector const* GetSector() const { return sector; };
-
-  virtual void Draw( iCamera* c );
-  virtual void Draw( iCamera* c , long ts );
-
-//  virtual void Draw( iCamera c, long ts );
-
-private:
-
-  bool CreateCamera();
-  void DrawStarbox(iCamera* c);
-
+    bool CreateCamera();
+    void DrawStarbox(iCamera* c);
 };
  
+
 // Factory Implementation header
 class SolarsysFactory : public scfImplementation2<SolarsysFactory, iSolarsysFactory, iComponent>
 {
-private:
-  iObjectRegistry* object_reg;
-public: 
-  SolarsysFactory (iBase* p);
- 
-  virtual csPtr<iSolarsys> CreateObject ();
- 
-  bool Initialize (iObjectRegistry*);
+  private:
+    iObjectRegistry* object_reg;
+
+  public: 
+    SolarsysFactory (iBase* p);
+    virtual csPtr<iSolarsys> CreateObject ();
+    bool Initialize (iObjectRegistry*);
 };
+
+
+//--------------------------------------------------------------------------
+
+class SolarSysCameraCatcher : public scfImplementation1<SolarSysCameraCatcher, iEngineFrameCallback>
+{
+  public:
+    iCamera* camera ;
+    iSolarsys* solarsys ;
+
+  public:
+    SolarSysCameraCatcher(iSolarsys* asolarsys) : scfImplementationType(this)
+    {
+       camera = 0;
+       solarsys = asolarsys;
+    }
+
+    virtual ~SolarSysCameraCatcher(){}
+
+    virtual void StartFrame(iEngine* engine, iRenderView* rview)
+    {
+      solarsys->Draw(rview->GetCamera());
+    }
+
+}; // end class csCameraCatcher
+
+
 #endif 
 // _H_SOLARSYS

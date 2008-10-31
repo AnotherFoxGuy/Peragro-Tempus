@@ -47,6 +47,7 @@ struct iSolarsys : public virtual iBase
 //  virtual bool AddBody( std::string& parent, Body* newbody) = 0;
   virtual void Draw( iCamera* c ) = 0;
   virtual void Draw( iCamera* c , long ts ) = 0;
+  virtual void UpdateSystemTime( long ts ) = 0;
 //  virtual bool CreateBody()=0;
 };
 

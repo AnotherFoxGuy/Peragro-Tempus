@@ -106,13 +106,14 @@ bool myLoaderBody::ParseLight (iDocumentNode* node, csRef<iMyBody> obj)
     switch (id)
     {
       case XMLTOKEN_RADIUS:
-          r = child->GetContentsValueAsInt();
-	  printf("r=%i\n",r);
-        break;
+        r = (int)child->GetAttribute("r")->GetValueAsFloat();
+	printf("r=%i\n",r);
+      break;
 
       case XMLTOKEN_COLOR:
 	  synldr->ParseColor(child, c);
-	  printf("color=%2.1f,%2.4f,%2.4f \n" , c.red, c.green, c.blue);
+//          c.Set(1,1,1);
+	  printf("color=%2.4f,%2.4f,%2.4f \n" , c.red, c.green, c.blue);
         break;
 
       default:
@@ -373,7 +374,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (
     } // end while(it->HasNext())
   } // end if(node)
 
-  obj->Create_Body_Mesh();
+
   // add the object to the object registory
   // so a pointer can be retrived from the main app
   printf("Regersting Obj %s \n\n", obj->Get_Name()); 

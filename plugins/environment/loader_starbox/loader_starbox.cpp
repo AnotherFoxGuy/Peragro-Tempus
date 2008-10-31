@@ -207,8 +207,15 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
 
         case XMLTOKEN_USE_TEXTURES:
         {
-          obj->SetUseTextures((bool)child->GetContentsValueAsInt());
+          std::string strusetex = child->GetContentsValue();
+          if ( strusetex == "true" || strusetex == "yes" || strusetex == "1" )
+          {
+            obj->SetUseTextures(true);
+          }else{
+            obj->SetUseTextures(false);
+          } // end if true 
         }
+
         break;
 
         case XMLTOKEN_USE_NEBULA:

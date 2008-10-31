@@ -93,18 +93,6 @@ void Body::Create_Body_Mesh()
 
   mesh->SetLightingUpdate( CS_LIGHTINGUPDATE_ALWAYSUPDATE, 8 );
 
-
-  // give the mesh a meteral
-  filename = "/appdata/defaultmap/textures/yellow.jpg";
-  mat_name = "yellow";
-  Load_Texture(filename, mat_name);
-
-  iMaterialList* materiallist;
-  csRef<iMaterialWrapper> mat;
-  materiallist = engine->GetMaterialList();
-  mat = materiallist->FindByName(mat_name.c_str() );
-  Apply_Material (mat);
-
   printf ("created body %s\n",name.c_str());
 }
 
@@ -246,10 +234,13 @@ void Body::Set_Orbit (
 
 void Body::Set_Material(csRef<iMaterialWrapper>& mat)
 {
+  printf("Body::Set_Material: '%s' body material to %s!\n", name.c_str(), mat->QueryObject ()->GetName ()  );
+
   if (!Apply_Material(mat)) 
   {
-    printf ("Body '%s' unable to apply material \n", name.c_str() );
+    printf ("Body::Set_Material:Failed to apply material to '%s' \n", name.c_str() );
   }
+  mat_name =  mat->QueryObject ()->GetName () ;
 }
 
 void Body::Set_Mesh(char const* mesh_name)
@@ -371,14 +362,13 @@ void Body::Update_Meshs( const csTransform& trans, const double& body_rot, char 
     bodytrans.SetT2O(body_rot_none);
     //bodytrans.Identity();
     bodytrans.Translate(csVector3(0,-body_radius,0));
- //   Pos_Light(csVector3(0,-body_radius,0));
+    Pos_Light(csVector3(0,-body_radius,0));
 
   } else {
     bodytrans.SetT2O(body_matrix);
-    // rotate the bodies pos by the rotation if the
     csVector3 npos = RotateZ (body_pos, body_rot);
     bodytrans.Translate(npos);
- //   Pos_Light(npos);
+    Pos_Light(npos);
   } 
 
   movable->SetTransform (bodytrans);
@@ -491,15 +481,15 @@ csTransform Body::Get_Surface_Pos (float lon , float lat)
 
 void Body::Pos_Light(const csVector3& npos)
 {
-  printf("Body::Pos_Light:%s\n",name.c_str());
+//  printf("Body::Pos_Light:%s\n",name.c_str());
   if (!sector) 
   {
-    printf("Body::Pos_Light: No sector set\n");
+ //   printf("Body::Pos_Light: No sector set\n");
     return ;
   }
   if (!light) 
   {
-    printf("Body::Pos_Light: No light set\n");
+  //  printf("Body::Pos_Light: No light set\n");
     return ;
   } else  // update position 
   {
@@ -534,8 +524,8 @@ void Body::Update_Lights()
 //    printf("Body::update_lights:updating body '%s' position to (%3.2f , %3.2f , %3.2f) !\n", name.c_str(), pos.x , pos.y, pos.z );
 //    light->GetMovable()->SetPosition(pos);
 //    light->GetMovable()->UpdateMove();
-    pos.y = pos.y + (body_radius * 3);
-    light->SetCenter(pos);
+ //   pos.y = pos.y + (body_radius * 3);
+    Pos_Light (pos);
   }
 
   // update child bodies  
@@ -602,18 +592,19 @@ bool Body::Apply_Material(csRef<iMaterialWrapper>& mat )
 { 
   if (!mesh) 
   {
-    printf("Body::Apply_Material: No '%s' body to apply material to!", name.c_str() ); 
+    printf("Body::Apply_Material: No '%s' body to apply material to!\n", name.c_str() ); 
   }
+
   if (!mat ) 
   {
-    printf("Body::Apply_Material: invalide material.\n");
-  } else {
+    printf("Body::Apply_Material: invalid material.\n");
+  } else 
+  {
     // Now add the texture to the mesh
     mesh->GetMeshObject ()->SetMaterialWrapper (mat);
+    mesh->GetMeshObject ()->InvalidateMaterialHandles ();	
   } // end no material 
-  mesh->GetMeshObject ()->InvalidateMaterialHandles ();	
 
-  printf("Body::Apply_Material: material applied to %s body.\n.", name.c_str() );
   return true;
 }  
 
@@ -626,7 +617,11 @@ bool Body::Add_Light(int radius, csColor color)
   }
 
   // remove light if it already exists
-  if (light) delete light;
+  if (light)
+  { 
+    delete light;
+    printf("Deleting existing light\n");
+  }
 
   // Now we need light to see something.
   iLightList* ll = sector->GetLights (); 
@@ -636,15 +631,19 @@ bool Body::Add_Light(int radius, csColor color)
 
   light = engine->CreateLight(name.c_str(), pos, radius , color,
     CS_LIGHT_DYNAMICTYPE_DYNAMIC);
-
-
+//  light->SetAttenuationMode ( CS_ATTN_INVERSE  );
+  light->SetAttenuationMode ( CS_ATTN_NONE  );
   ll->Add (light);
 
-  //Set_Parent_Node (light->GetMovable()->GetSceneNode());
-  //mesh->QuerySceneNode()->SetParent(light->GetMovable()->GetSceneNode());
+ // Set_Parent_Node (light->GetMovable()->GetSceneNode());
+ // mesh->QuerySceneNode()->SetParent(light->GetMovable()->GetSceneNode());
 
   printf (" add light sector has %d lights \n" ,  ll->GetCount() );
   printf (" new light pos ( %4.2f,%4.2f,%4.2f )\n" , pos.x, pos.y, pos.z );
+  printf (" Cut Off Dist (%6.2f)\n" , light->GetCutoffDistance () );
+  csVector4 lgt_atten_cst = light->GetAttenuationConstants ();
+  printf("GetAttenuationConstants (%2.4f,%2.4f,%2.4f,%2.4f) \n", lgt_atten_cst.w , lgt_atten_cst.x , lgt_atten_cst.y , lgt_atten_cst.z ); 
+
 
   return true;
 }

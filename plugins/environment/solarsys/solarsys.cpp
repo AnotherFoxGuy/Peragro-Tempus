@@ -26,6 +26,7 @@ SCF_IMPLEMENT_FACTORY(SolarsysFactory);
 Solarsys::Solarsys (iObjectRegistry* r)
   : scfImplementationType (this)
 {
+  last_update_seconds = 0 ;
   initialized = false;
   Initialize ( r );
 }
@@ -37,77 +38,31 @@ Solarsys::~Solarsys()
   printer.Invalidate();
 }
 
-
-void Solarsys::Draw(iCamera* c) 
-{
-  printf("Solarsys::Draw()\n");
-  if (!view) CreateCamera();
-  if (!view) 
-  {
-    printf("Solarsys::Draw(): no view\n"); 
-  } else
-  {
-    // use render manager 
-    rm->RenderView (view);
-  }
-}
-
-
-
-void Solarsys::Draw( iCamera* c , long ts )
-{
-
-
-
-  if ( surbody && rootbody) 
-  { 
-    DrawStarbox(c); // draw the starbox if loaded 
-
-    rootbody->Update_Body(ts);
-    rootbody->Update_Mesh_Pos();
-    double body_rot = surbody->GetBodyRotation();
-    csTransform surbody_trans = surbody->Get_Surface_Pos( 180.0, 0.0);
-    csVector3 up = surbody->GetMeshUpVector(surbody_trans);
-    // printf("body_surface (%4.2f:%4.2f:%4.2f) \n",pos.x ,pos.y,pos.z);
-    // printf("body_up (%4.2f:%4.2f:%4.2f) \n",up.x ,up.y,up.z);
-    rootbody->Update_Meshs(surbody_trans, body_rot, surbody->Get_Name());
-    // sun->Update_Lights();
-    rootbody->Draw_Orbit(c);
-  }
-
-  if (rootbody && (!surbody) ) 
-  {
-    DrawStarbox(c); // draw the starbox if loaded 
-
-    // display orbits from body's surface POV
-    rootbody->Update_Body( ts );
-    rootbody->Update_Mesh_Pos();
-    //c = view->GetCamera();
-    rootbody->Draw_Orbit( c );
-    rootbody->Update_Lights();
- //   rootbody->Draw_Position( c , ts );
-    ts ++;
-  } // end if rootbody
-
-//  if (rootbody) rootbody->Update_Lights();
-
-}
-
 bool Solarsys::Initialize(iObjectRegistry *object_reg)
 {
  
+  if (initialized) return true;
 
   printf("Solarsys::Initialize\n");
-  // Setup a rootbody as the origin of the solar system
-//  rootbody = new Body(object_reg); 
-//  rootbody->Set_Name("rootbody");
-//  csRef<iMaterialWrapper> mat = engine->FindMaterial("IntentionallyNotFound");  // Need another way to stop mesh with no material error
-//  rootbody->Set_Material(mat);
-//  rootbody->Set_Radius(1);
+
+  engine = csQueryRegistry<iEngine> (object_reg);
+  if (!engine) 
+  {
+    printf ("Solarsys::Initialize: Error, cant find iEngine\n");
+  }
+
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  if (!g3d)
+  {
+    printf ("Solarsys::Initialize: Error, cant find iEngine\n");
+  }
+
+  // Set up camera catcher so solarsys can autodraw on frame events
+  catcher.AttachNew(new SolarSysCameraCatcher(this));
+  if (!catcher) printf("Solarbody No Camera Catcher\n");
+  if ( engine && catcher) engine->AddEngineFrameCallback(catcher);
 
 
-  if (!engine) engine = csQueryRegistry<iEngine> (object_reg);
-  if (!g3d) g3d = csQueryRegistry<iGraphics3D> (object_reg);
   if ( !engine || !g3d ) 
   {
     printf("Solarsys::Initialize:Failed to Initialize!\n");
@@ -122,8 +77,58 @@ bool Solarsys::Initialize(iObjectRegistry *object_reg)
 
   initialized = true;
   return initialized;
+
 }
  
+void Solarsys::Draw(iCamera* c) 
+{
+   Draw( c , last_update_seconds );
+}
+
+
+
+void Solarsys::Draw( iCamera* c , long ts )
+{
+  last_update_seconds = ts;
+
+  if ( surbody && rootbody) 
+  { 
+    DrawStarbox(c); // draw the starbox if loaded 
+
+    rootbody->Update_Body(ts);
+    rootbody->Update_Mesh_Pos();
+    double body_rot = surbody->GetBodyRotation();
+    csTransform surbody_trans = surbody->Get_Surface_Pos( 0.0, 0.0);
+    csVector3 up = surbody->GetMeshUpVector(surbody_trans);
+    // printf("body_surface (%4.2f:%4.2f:%4.2f) \n",pos.x ,pos.y,pos.z);
+    // printf("body_up (%4.2f:%4.2f:%4.2f) \n",up.x ,up.y,up.z);
+    rootbody->Update_Meshs(surbody_trans, body_rot, surbody->Get_Name());
+//    rootbody->Update_Lights();
+    rootbody->Draw_Orbit(c);
+  }
+
+  if (rootbody && (!surbody) ) 
+  {
+    DrawStarbox(c); // draw the starbox if loaded 
+
+    // display orbits from body's surface POV
+    rootbody->Update_Body( ts );
+    rootbody->Update_Mesh_Pos();
+    rootbody->Draw_Orbit( c );
+    rootbody->Update_Lights();
+ //   rootbody->Draw_Position( c , ts );
+
+  } // end if rootbody
+
+//  if (rootbody) rootbody->Update_Lights();
+
+}
+
+void Solarsys::UpdateSystemTime( long ts )
+{
+  last_update_seconds = ts;
+}
+
 void Solarsys::SetSector(csRef<iSector>& sect)
 {
 
