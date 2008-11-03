@@ -50,8 +50,8 @@ public:
 
   void handle(GenericMessage* msg, int socket)
   {
-    char type = msg->getMsgType();
-    char id = msg->getMsgId();
+    unsigned char type = msg->getMsgType();
+    unsigned char id = msg->getMsgId();
 
     if (type == 0 && id == CONNECTION::REQUEST)
     {
