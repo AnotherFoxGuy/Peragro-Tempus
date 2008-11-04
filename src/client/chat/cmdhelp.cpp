@@ -59,7 +59,7 @@ namespace PT
 
       PT::Chat::ChatManager* chatmgr = PointerLibrary::getInstance()->getChatManager();
       if(!chatmgr) return;
-      std::vector<Commandp> commands = chatmgr->GetAllCommands();
+      const std::vector<Commandp>& commands = chatmgr->GetAllCommands();
 
       std::vector<Commandp>::const_iterator it;
       for(it = commands.begin(); it != commands.end(); ++it)
