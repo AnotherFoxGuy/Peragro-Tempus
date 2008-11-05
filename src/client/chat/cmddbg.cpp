@@ -49,6 +49,8 @@
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"
 
+#include "include/world.h"
+
 namespace PT
 {
   namespace Chat
@@ -70,7 +72,8 @@ namespace PT
           "  - Spawn Mount: '/dbg spawn mount meshname entityname'\n"
           "  - Sector: '/dbg sector sectorname [x y z]'\n"
           "  - Move: '/dbg move f|b|l|r|u|d [distance]'\n"
-          "  - Sector: '/dbg rm entity #id'";
+          "  - Remove: '/dbg rm entity #id'\n";
+          "  - World Size: '/dbg worldsize #tilesOnEdge'";
     }
 
     void cmdDbg::Execute (const StringArray& args)
@@ -404,6 +407,17 @@ namespace PT
               file->Write(data.str().c_str(), data.str().length());
               file->Flush();
             }
+          }
+          else if (args[2].compare("worldsize") == 0)
+          {
+            if (args.size() < 4) throw BadUsage();
+
+            int worldSize = atoi(args[3].c_str());
+
+            iObjectRegistry* iObjReg = PointerLibrary::getInstance()->getObjectRegistry();
+
+            csRef<iWorld> world = csQueryRegistry<iWorld> (iObjReg);
+            world->SetGridSize(worldSize);
           }
           return;
         }
