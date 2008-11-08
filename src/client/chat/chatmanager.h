@@ -25,6 +25,7 @@
 #include "common/event/eventmanager.h"
 
 #include "commandiface.h"
+#include "chatlogger.h"
 
 #include <CEGUI.h>
 #include <ivaria/icegui.h>
@@ -52,6 +53,7 @@ namespace PT
       csRef<iObjectRegistry> obj_reg;
       Network* network;
       PT::GUI::GUIManager* guimanager;
+      ChatLogger chatLogger;
 
       std::vector<Commandp> commands;
       std::vector<CEGUI::String> history;

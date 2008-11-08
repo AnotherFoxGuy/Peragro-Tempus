@@ -123,15 +123,21 @@ namespace PT
       {
         std::string text = nick + message.substr(3, message.size());
         chatWindow->AddMessage (text.c_str());
+	chatLogger.LogMessage (CHATLOGGER_MESSAGE_EMOTE, text.c_str());
       }
       else if (strncmp (message.c_str(),"/greet",3) == 0)
       {
         std::string text = nick + " waves at" + message.substr(6, message.size());
         chatWindow->AddMessage (text.c_str());
+	chatLogger.LogMessage (CHATLOGGER_MESSAGE_EMOTE, text.c_str());
       }
       else
+      {
         chatWindow->AddChatMessage (nick.c_str(), message.c_str());
-
+	chatLogger.LogMessage (CHATLOGGER_MESSAGE_SAY,
+				nick.c_str(),
+				message.c_str());
+      }
       return true;
     } // end HandleSay ()
 
@@ -146,6 +152,9 @@ namespace PT
 
       WhisperWindow* whisperWindow = guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
       whisperWindow->AddWhisper(nick.c_str(), message.c_str());
+      chatLogger.LogMessage (CHATLOGGER_MESSAGE_WHISPER,
+			      nick.c_str(),
+			      message.c_str()); 
 
       return true;
     } // end HandleWhisper ()
@@ -164,6 +173,7 @@ namespace PT
       std::string text = "Groupmember <" + nick + "> " + message;
       ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->AddMessage (text.c_str());
+      chatLogger.LogMessage (CHATLOGGER_MESSAGE_GROUP, text.c_str());
 
       return true;
     } // end HandleGroup ()
