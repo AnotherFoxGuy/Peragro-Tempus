@@ -301,6 +301,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\client\chat\chatlogger.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\chat\chatmanager.cpp">
 			</File>
 			<File
@@ -328,6 +331,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\client\chat\chatlogger.h">
+			</File>
 			<File
 				RelativePath="..\..\src\client\chat\chatmanager.h">
 			</File>
