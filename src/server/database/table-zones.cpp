@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 
-#include "database.h"
+#include "common/database/database.h"
 #include "table-zones.h"
 
 ZonesTable::ZonesTable(Database* db) : Table(db)

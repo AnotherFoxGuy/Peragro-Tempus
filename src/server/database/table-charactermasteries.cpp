@@ -17,7 +17,7 @@
 */
 #include <stdlib.h>
 
-#include "database.h"
+#include "common/database/database.h"
 #include "table-charactermasteries.h"
 
 /**

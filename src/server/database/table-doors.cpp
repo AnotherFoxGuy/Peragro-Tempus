@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 
-#include "database.h"
+#include "common/database/database.h"
 #include "table-doors.h"
 
 DoorsTable::DoorsTable(Database* db) : Table(db)

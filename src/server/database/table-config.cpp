@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "database.h"
+#include "common/database/database.h"
 #include "table-config.h"
 
 ConfigTable::ConfigTable(Database* db) : db(db)

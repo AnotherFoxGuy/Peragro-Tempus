@@ -17,7 +17,7 @@
 */
 #include <stdlib.h>
 
-#include "database.h"
+#include "common/database/database.h"
 #include "table-npcentities.h"
 
 NpcEntitiesTable::NpcEntitiesTable(Database* db) : db(db)

@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 
-#include "database.h"
+#include "common/database/database.h"
 #include "table-vertices.h"
 
 VerticesTable::VerticesTable(Database* db) : db(db)
