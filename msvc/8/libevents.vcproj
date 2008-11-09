@@ -323,9 +323,6 @@
 				RelativePath="..\..\src\common\events\handler.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\events\handlerfactory.h">
-			</File>
-			<File
 				RelativePath="..\..\src\common\events\handlerhome.h">
 			</File>
 			<File
@@ -333,9 +330,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\events\worker.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\events\workerfactory.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\events\workerhome.h">
