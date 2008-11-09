@@ -41,7 +41,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_playercontrols
 		{1020E648-2350-8556-4CD6-29FFD41D5DD6} = {1020E648-2350-8556-4CD6-29FFD41D5DD6}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdatabase", "libdatabase.vcproj", "{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}" 
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-zonemanager", "libserver-zonemanager.vcproj", "{C4C34842-F7D7-F14F-130D-27865148B777}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-serversetup", "libclient-serversetup.vcproj", "{201A43AC-5DD4-7943-5969-7379D030EA98}" 
 EndProject
@@ -165,8 +165,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-data", "libclient
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appgenerator", "appgenerator.vcproj", "{1431F632-071C-7C7D-F957-F6D72E248874}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-zonemanager", "libserver-zonemanager.vcproj", "{C4C34842-F7D7-F14F-130D-27865148B777}" 
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
   		ConfigName.0 = Release (with static libs)
@@ -241,6 +239,7 @@ Global
 		{3F6DC71E-36C0-2635-F617-1461C3BE70BB}.2 = {7D6E339F-9C2C-31DA-FDB0-5EE50973CF2A}
 		{44A00952-D3B8-FC27-D991-E0FC769A952D}.0 = {1020E648-2350-8556-4CD6-29FFD41D5DD6}
 		{1F7CABF7-9375-8F92-7B42-144DBC405743}.0 = {A9CB02EA-EB26-F4CC-C9D2-C0A729B49A93}
+		{1F7CABF7-9375-8F92-7B42-144DBC405743}.1 = {1020E648-2350-8556-4CD6-29FFD41D5DD6}
 		{5EF78382-21B8-FD27-6937-84B16B0544B7}.0 = {1020E648-2350-8556-4CD6-29FFD41D5DD6}
 		{927E45C5-0798-777C-6F11-2955C283F16E}.0 = {F5342C71-4E6F-72A9-E16A-9669A5A62054}
 		{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}.0 = {F5342C71-4E6F-72A9-E16A-9669A5A62054}
@@ -496,14 +495,6 @@ Global
 		{DC101AB3-1CE0-CF53-FFDD-D5E79FC25006}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{DC101AB3-1CE0-CF53-FFDD-D5E79FC25006}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{DC101AB3-1CE0-CF53-FFDD-D5E79FC25006}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
-    		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
-		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Release (with static libs).Build.0 = Release (with static libs)|Win32
-  		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
-		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
-    		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
-		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
-  		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
-		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
