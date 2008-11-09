@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="libsqlite_adp"
-	ProjectGUID="{7A6598FD-8A88-8FD6-CBEA-3E31FFF93E13}"
+	Name="libserver-dbtables"
+	ProjectGUID="{1F7CABF7-9375-8F92-7B42-144DBC405743}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release71\build\libsqlite_adp\"
-			IntermediateDirectory="..\..\out\release71\build\libsqlite_adp\"
+			OutputDirectory="..\..\out\release71\build\libserver-dbtables\"
+			IntermediateDirectory="..\..\out\release71\build\libserver-dbtables\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -26,14 +26,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\libsqlite_adp\sqlite_adp.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\libserver-dbtables\server-dbtables.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release71\build\libsqlite_adp\libsqlite_adp.pch"
-				AssemblerListingLocation="..\..\out\release71\build\libsqlite_adp\"
-				ObjectFile="..\..\out\release71\build\libsqlite_adp\"
+				PrecompiledHeaderFile="..\..\out\release71\build\libserver-dbtables\libserver-dbtables.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libserver-dbtables\"
+				ObjectFile="..\..\out\release71\build\libserver-dbtables\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -56,7 +56,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\libsqlite_adp.lib"
+				OutputFile="..\..\out\release71\libs\libserver-dbtables.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -64,7 +64,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\libsqlite_adp\libsqlite_adp.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libserver-dbtables\libserver-dbtables.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\server\database\sqlite;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,8 +85,8 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release71\build\libsqlite_adp\"
-			IntermediateDirectory="..\..\out\release71\build\libsqlite_adp\"
+			OutputDirectory="..\..\out\release71\build\libserver-dbtables\"
+			IntermediateDirectory="..\..\out\release71\build\libserver-dbtables\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -98,14 +98,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\libsqlite_adp\sqlite_adp.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\libserver-dbtables\server-dbtables.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release71\build\libsqlite_adp\libsqlite_adp.pch"
-				AssemblerListingLocation="..\..\out\release71\build\libsqlite_adp\"
-				ObjectFile="..\..\out\release71\build\libsqlite_adp\"
+				PrecompiledHeaderFile="..\..\out\release71\build\libserver-dbtables\libserver-dbtables.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libserver-dbtables\"
+				ObjectFile="..\..\out\release71\build\libserver-dbtables\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -128,7 +128,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\libsqlite_adp.lib"
+				OutputFile="..\..\out\release71\libs\libserver-dbtables.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -136,7 +136,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\libsqlite_adp\libsqlite_adp.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libserver-dbtables\libserver-dbtables.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\server\database\sqlite;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,8 +157,8 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\libsqlite_adp\"
-			IntermediateDirectory="..\..\out\debug71\build\libsqlite_adp\"
+			OutputDirectory="..\..\out\debug71\build\libserver-dbtables\"
+			IntermediateDirectory="..\..\out\debug71\build\libserver-dbtables\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -170,14 +170,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\libsqlite_adp\sqlite_adp.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libserver-dbtables\server-dbtables.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug71\build\libsqlite_adp\libsqlite_adp.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\libsqlite_adp\"
-				ObjectFile="..\..\out\debug71\build\libsqlite_adp\"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libserver-dbtables\libserver-dbtables.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libserver-dbtables\"
+				ObjectFile="..\..\out\debug71\build\libserver-dbtables\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -198,7 +198,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\libsqlite_adp_d.lib"
+				OutputFile="..\..\out\debug71\libs\libserver-dbtables_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -206,7 +206,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\libsqlite_adp\libsqlite_adp.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libserver-dbtables\libserver-dbtables.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\server\database\sqlite;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,8 +227,8 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\libsqlite_adp\"
-			IntermediateDirectory="..\..\out\debug71\build\libsqlite_adp\"
+			OutputDirectory="..\..\out\debug71\build\libserver-dbtables\"
+			IntermediateDirectory="..\..\out\debug71\build\libserver-dbtables\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -240,14 +240,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\libsqlite_adp\sqlite_adp.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libserver-dbtables\server-dbtables.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug71\build\libsqlite_adp\libsqlite_adp.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\libsqlite_adp\"
-				ObjectFile="..\..\out\debug71\build\libsqlite_adp\"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libserver-dbtables\libserver-dbtables.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libserver-dbtables\"
+				ObjectFile="..\..\out\debug71\build\libserver-dbtables\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -268,7 +268,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\libsqlite_adp_d.lib"
+				OutputFile="..\..\out\debug71\libs\libserver-dbtables_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -276,7 +276,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\libsqlite_adp\libsqlite_adp.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libserver-dbtables\libserver-dbtables.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\server\database\sqlite;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -301,17 +301,206 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\database\sqlite\sqlite.cpp">
+				RelativePath="..\..\src\server\database\table-books.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-charactermasteries.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characterreputations.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characters.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characterskills.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characterstats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-config.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-doors.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-entities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-inventory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-items.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-itemstats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-meshes.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-npcaisetting.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-npcdialoganswers.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-npcdialogs.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-npcentities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-permissions.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-races.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-raceskills.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-racestats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-reputations.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-sectors.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-skills.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-spawnpoints.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-stats.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-triangles.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-users.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-vertices.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-zonenodes.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-zones.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\tables.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\database\sqlite\resultset.h">
+				RelativePath="..\..\src\server\database\database.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\sqlite\sqlite.h">
+				RelativePath="..\..\src\server\database\table-books.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-charactermasteries.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characterreputations.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characters.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characterskills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-characterstats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-config.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-doors.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-entities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-inventory.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-items.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-itemstats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-meshes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-npcaisetting.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-npcdialoganswers.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-npcdialogs.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-npcentities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-permissions.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-races.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-raceskills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-racestats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-reputations.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-sectors.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-skills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-spawnpoints.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-stats.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-triangles.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-users.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-vertices.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-zonenodes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-zones.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\tables.h">
 			</File>
 		</Filter>
 	</Files>
