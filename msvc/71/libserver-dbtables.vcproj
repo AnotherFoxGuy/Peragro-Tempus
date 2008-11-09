@@ -494,9 +494,6 @@
 				RelativePath="..\..\src\server\database\table-zones.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\database\tables.h">
 			</File>
 		</Filter>
