@@ -16,28 +16,4 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef DATABASE_H
-#define DATABASE_H
-
-#include "resultset.h"
-#include "tables.h"
-
-class Database
-{
-private:
-  Tables* tables;
-
-public:
-  virtual ResultSet* query(const char*, ...) = 0;
-  virtual void update(const char*, ...) = 0;
-  //virtual int getLastInsertedId() = 0;
-
-  Database(Tables* tables) : tables(tables) {}
-  virtual ~Database() {}
-
-  virtual void shutdown() = 0;
-
-  inline Tables* getTables() { return tables; }
-};
-
-#endif // DATABASE_H
+#include "common/database/database.h"

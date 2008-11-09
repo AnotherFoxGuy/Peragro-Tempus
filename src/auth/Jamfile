@@ -1,0 +1,16 @@
+SubDir TOP src auth ;
+
+SubInclude TOP src auth database ;
+SubInclude TOP src auth network ;
+
+Description auth-server : "Peragro Tempus Auth Server" ;
+Application auth-server : [ Wildcard *.h *.cpp ] : console ;
+
+LinkWith auth-server : auth-network sqlite_adp auth-dbtables util ;
+
+MsvcExternalLibrary auth-server : "wsock32.lib" ;
+
+if $(WSOCK32.LFLAGS) {
+    LFlags auth-server : $(WSOCK32.LFLAGS) ;
+}
+

@@ -1,0 +1,7 @@
+SubDir TOP src auth network tcp ;
+
+Description auth-tcp-network : "network auth-server tcp" ;
+Library auth-tcp-network :
+  [ Wildcard *.h *.cpp ] ;
+
+LinkWith auth-tcp-network : tcp-network ;

@@ -26,10 +26,8 @@
 
 #include "common/util/sleep.h"
 
-dbSQLite::dbSQLite(Tables* tables) : Database(tables)
+dbSQLite::dbSQLite(const char* database, Tables* tables) : Database(tables)
 {
-  const char* database = "test_db.sqlite";
-
   int rc = sqlite3_open(database, &db);
   if ( rc )
   {

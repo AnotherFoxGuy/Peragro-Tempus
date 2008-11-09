@@ -42,7 +42,7 @@
 
 #include "server/server.h"
 #include "server/entity/charactermanager.h"
-#include "server/database/sqlite/sqlite.h"
+#include "common/database/sqlite/sqlite.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-spawnpoints.h"
 #include "server/database/table-config.h"
@@ -105,7 +105,7 @@ int main(int argc, char ** argv)
   Server server;
 
   Tables tables;
-  dbSQLite db(&tables);
+  dbSQLite db("test_db.sqlite", &tables);
   tables.init(&db);
 
   server.setDatabase(&db);

@@ -2,7 +2,7 @@ SubDir TOP src server database ;
 
 SubInclude TOP src server database sqlite ;
 
-Description database : "database" ;
-Library database :
+Description server-dbtables : "database" ;
+Library server-dbtables :
   [ Wildcard *.h *.cpp ] ;
-LinkWith database : server-ai ;
+LinkWith server-dbtables : database server-ai ;
