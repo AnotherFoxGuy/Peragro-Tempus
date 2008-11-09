@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
-	Name="grpapps_all"
-	ProjectGUID="{2F4456B4-DD1A-4C88-897B-6F066F528E0B}"
+	Version="7.00"
+	Name="libsqlite_adp"
+	ProjectGUID="{7A6598FD-8A88-8FD6-CBEA-3E31FFF93E13}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release71\build\grpapps_all\"
-			IntermediateDirectory="..\..\out\release71\build\grpapps_all\"
+			OutputDirectory="..\..\out\release7\build\libsqlite_adp\"
+			IntermediateDirectory="..\..\out\release7\build\libsqlite_adp\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -26,13 +26,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
+				ProgramDataBaseFileName="..\..\out\release7\build\libsqlite_adp\sqlite_adp.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release71\build\grpapps_all\grpapps_all.pch"
-				AssemblerListingLocation="..\..\out\release71\build\grpapps_all\"
-				ObjectFile="..\..\out\release71\build\grpapps_all\"
+				PrecompiledHeaderFile="..\..\out\release7\build\libsqlite_adp\libsqlite_adp.pch"
+				AssemblerListingLocation="..\..\out\release7\build\libsqlite_adp\"
+				ObjectFile="..\..\out\release7\build\libsqlite_adp\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -55,7 +56,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\grpapps_all.lib"
+				OutputFile="..\..\out\release7\libs\libsqlite_adp.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -63,10 +64,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\grpapps_all\grpapps_all.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\libsqlite_adp\libsqlite_adp.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -74,8 +75,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\auth;..\..;..\..\include;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\src\server\database\sqlite;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -84,8 +85,8 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release71\build\grpapps_all\"
-			IntermediateDirectory="..\..\out\release71\build\grpapps_all\"
+			OutputDirectory="..\..\out\release7\build\libsqlite_adp\"
+			IntermediateDirectory="..\..\out\release7\build\libsqlite_adp\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -97,13 +98,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
+				ProgramDataBaseFileName="..\..\out\release7\build\libsqlite_adp\sqlite_adp.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release71\build\grpapps_all\grpapps_all.pch"
-				AssemblerListingLocation="..\..\out\release71\build\grpapps_all\"
-				ObjectFile="..\..\out\release71\build\grpapps_all\"
+				PrecompiledHeaderFile="..\..\out\release7\build\libsqlite_adp\libsqlite_adp.pch"
+				AssemblerListingLocation="..\..\out\release7\build\libsqlite_adp\"
+				ObjectFile="..\..\out\release7\build\libsqlite_adp\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -126,7 +128,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\grpapps_all.lib"
+				OutputFile="..\..\out\release7\libs\libsqlite_adp.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -134,10 +136,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\grpapps_all\grpapps_all.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\libsqlite_adp\libsqlite_adp.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -145,8 +147,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\auth;..\..;..\..\include;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\src\server\database\sqlite;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -155,8 +157,8 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\grpapps_all\"
-			IntermediateDirectory="..\..\out\debug71\build\grpapps_all\"
+			OutputDirectory="..\..\out\debug7\build\libsqlite_adp\"
+			IntermediateDirectory="..\..\out\debug7\build\libsqlite_adp\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -168,13 +170,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
+				ProgramDataBaseFileName="..\..\out\debug7\build\libsqlite_adp\sqlite_adp.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug71\build\grpapps_all\grpapps_all.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\grpapps_all\"
-				ObjectFile="..\..\out\debug71\build\grpapps_all\"
+				PrecompiledHeaderFile="..\..\out\debug7\build\libsqlite_adp\libsqlite_adp.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\libsqlite_adp\"
+				ObjectFile="..\..\out\debug7\build\libsqlite_adp\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -195,7 +198,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\grpapps_all.lib"
+				OutputFile="..\..\out\debug7\libs\libsqlite_adp_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -203,10 +206,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\grpapps_all\grpapps_all.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\libsqlite_adp\libsqlite_adp.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -214,8 +217,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\auth;..\..;..\..\include;..\..\src"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\src\server\database\sqlite;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -224,8 +227,8 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\grpapps_all\"
-			IntermediateDirectory="..\..\out\debug71\build\grpapps_all\"
+			OutputDirectory="..\..\out\debug7\build\libsqlite_adp\"
+			IntermediateDirectory="..\..\out\debug7\build\libsqlite_adp\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -237,13 +240,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
+				ProgramDataBaseFileName="..\..\out\debug7\build\libsqlite_adp\sqlite_adp.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug71\build\grpapps_all\grpapps_all.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\grpapps_all\"
-				ObjectFile="..\..\out\debug71\build\grpapps_all\"
+				PrecompiledHeaderFile="..\..\out\debug7\build\libsqlite_adp\libsqlite_adp.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\libsqlite_adp\"
+				ObjectFile="..\..\out\debug7\build\libsqlite_adp\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -264,7 +268,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\grpapps_all.lib"
+				OutputFile="..\..\out\debug7\libs\libsqlite_adp_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -272,10 +276,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\grpapps_all\grpapps_all.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\libsqlite_adp\libsqlite_adp.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -283,8 +287,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\auth;..\..;..\..\include;..\..\src"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\src\server\database\sqlite;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

@@ -401,9 +401,6 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\database\database.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\database\table-books.h">
 			</File>
 			<File
