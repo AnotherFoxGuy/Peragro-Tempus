@@ -1,7 +1,5 @@
 SubDir TOP src auth database ;
 
-SubInclude TOP src auth database sqlite ;
-
 Description auth-dbtables : "database" ;
 Library auth-dbtables :
   [ Wildcard *.h *.cpp ] ;
