@@ -20,7 +20,8 @@
 #define DATABASE_H
 
 #include "resultset.h"
-#include "tables.h"
+
+class Tables;
 
 class Database
 {
