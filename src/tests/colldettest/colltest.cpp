@@ -1,8 +1,9 @@
 
 #include "colltest.h"
 
-#include "server/database/database.h"
-#include "server/database/sqlite/sqlite.h"
+#include "common/database/database.h"
+#include "common/database/sqlite/sqlite.h"
+#include "server/database/tables.h"
 #include "server/database/table-sectors.h"
 #include "server/database/table-meshes.h"
 #include "server/database/table-triangles.h"
@@ -210,7 +211,7 @@ bool CollisionDetectionTest::SetupModules ()
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
 
   Tables tables;
-  dbSQLite db(&tables);
+  dbSQLite db("test_db.sqlite", &tables);
   tables.init(&db);
 
   LoadWorld(&tables);
