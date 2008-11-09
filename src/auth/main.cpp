@@ -67,7 +67,7 @@ int main(int argc, char ** argv)
   EventEngine eng;
 
   // Register Event
-  eng.registerHandler(&dh, Events::Dummy);
+  //eng.registerHandler(&dh, Events::Dummy);
 
   for (size_t i = 0; i<5; i++)
   {
