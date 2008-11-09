@@ -19,7 +19,7 @@
 #ifndef TABLE_REPUTATIONS_H
 #define TABLE_REPUTATIONS_H
 
-#include "table.h"
+#include "common/database/table.h"
 
 class Database;
 class Reputation;

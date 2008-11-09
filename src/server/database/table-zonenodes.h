@@ -22,7 +22,7 @@
 class Database;
 class ResultSet;
 
-#include "table.h"
+#include "common/database/table.h"
 
 /**
  * Class holding data associated with a zone.

@@ -19,7 +19,7 @@
 #ifndef TABLE_ENTITIES_H
 #define TABLE_ENTITIES_H
 
-#include "table.h"
+#include "common/database/table.h"
 
 class Database;
 class ResultSet;

@@ -19,7 +19,7 @@
 #ifndef TABLE_ITEMS_H
 #define TABLE_ITEMS_H
 
-#include "table.h"
+#include "common/database/table.h"
 
 class Database;
 class Item;

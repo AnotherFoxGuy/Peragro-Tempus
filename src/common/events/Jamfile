@@ -3,3 +3,4 @@ SubDir TOP src common events ;
 Description events : "events" ;
 Library events :
   [ Wildcard *.h *.cpp ] ;
+LinkWith events : util ;

@@ -19,7 +19,7 @@
 #ifndef TABLE_RACES_H
 #define TABLE_RACES_H
 
-#include "table.h"
+#include "common/database/table.h"
 
 #include "common/util/ptvector3.h"
 

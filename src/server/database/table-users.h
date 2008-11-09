@@ -19,7 +19,7 @@
 #ifndef TABLE_USERS_H
 #define TABLE_USERS_H
 
-#include "table.h"
+#include "common/database/table.h"
 
 class Database;
 

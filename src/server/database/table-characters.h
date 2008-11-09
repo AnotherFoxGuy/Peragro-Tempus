@@ -19,7 +19,7 @@
 #ifndef TABLE_CHARACTERS_H
 #define TABLE_CHARACTERS_H
 
-#include "table.h"
+#include "common/database/table.h"
 
 class Database;
 class ResultSet;

@@ -24,7 +24,7 @@ class ResultSet;
 
 #include "common/util/ptstring.h"
 #include "common/util/ptvector2.h"
-#include "table.h"
+#include "common/database/table.h"
 
 /**
  * Class holding data associated with a zone.

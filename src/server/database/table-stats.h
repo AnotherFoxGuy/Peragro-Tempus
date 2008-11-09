@@ -19,7 +19,7 @@
 #ifndef TABLE_STATS_H
 #define TABLE_STATS_H
 
-#include "table.h"
+#include "common/database/table.h"
 
 class Database;
 class Stat;

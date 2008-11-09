@@ -20,7 +20,7 @@
 #define TABLE_ITEMSTATS_H
 
 #include "common/util/array.h"
-#include "table.h"
+#include "common/database/table.h"
 
 class Database;
 class Stat;

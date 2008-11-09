@@ -19,7 +19,7 @@
 #ifndef TABLE_SKILLS_H
 #define TABLE_SKILLS_H
 
-#include "table.h"
+#include "common/database/table.h"
 
 class Database;
 class Skill;

@@ -23,7 +23,7 @@ class Database;
 class ResultSet;
 
 #include "common/util/ptstring.h"
-#include "table.h"
+#include "common/database/table.h"
 
 
 /**
