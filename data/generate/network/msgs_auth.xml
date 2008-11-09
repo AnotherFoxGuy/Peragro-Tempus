@@ -1,0 +1,108 @@
+<message-implementation>
+	
+<!-- Client login -->
+
+	<!-- Step 1: A: sends its id with the login request -->
+	<message type="Auth" name="ClientLoginRequest">
+		<uint32>ServerId</uint32>
+	</message>
+	<!-- Step 2: B sends random number as challenge	-->
+	<message type="Auth" name="ClientLoginChallenge">
+		<uint32>Challenge</uint32>
+	</message>
+	<!-- Step 3: A sends md5(LoginRequest->Challenge + md5(PW)) -->
+	<message type="Auth" name="ClientLoginResponse">
+		<text>Hash</text>
+	</message>
+
+<!-- Game Server login -->
+
+	<!-- Step 1: A: sends its id with the login request -->
+	<message type="Auth" name="ServerLoginRequest">
+		<uint32>ServerId</uint32>
+	</message>
+	<!-- Step 2: B sends random number as challenge -->
+	<message type="Auth" name="ServerLoginChallenge">
+		<uint32>Challenge</uint32>
+	</message>
+	<!-- Step 3: A sends md5(LoginRequest->Challenge + md5(PW)) -->
+	<message type="Auth" name="ServerLoginResponse">
+		<text>Hash</text>
+	</message>
+
+<!-- Joining a game -->
+
+	<!-- Client wants to join the named server -->
+	<message type="Auth" name="JoinServerRequest">
+		<uint32>ServerId</uint32>
+	</message>
+	
+	<!-- Auth Server sends session id to client and game server -->
+	<message type="Auth" name="SessionId">
+		<uint32>SessionId</uint32>
+	</message>
+	
+	<!-- Game server tells auth server which player joined -->
+	<message type="Auth" name="ClientJoined">
+		<uint32>UserId</uint32>
+	</message>
+	
+	<!-- Game server tells auth server which player left the game -->
+	<message type="Auth" name="ClientLeft">
+		<uint32>UserId</uint32>
+	</message>
+
+<!-- Registring a server -->
+
+	<!-- Client tells the auth server which game server to add -->
+	<message type="Auth" name="RegisterGameRequest">
+		<string>Name</string>
+		<uint32>IpAddress</uint32>
+	</message>
+
+	<!-- Auth server asks game server for registration -->
+	<message type="Auth" name="RegisterServerRequest">
+		<uint32>UserId</uint32>	<!-- Requesting user will be set as admin -->
+		<string>UserName</string>
+	</message>
+
+	<!-- Game server accepts or denies registration -->
+	<message type="Auth" name="RegisterServerResponse">
+		<text>PasswordHash</text> <!-- null if failed -->
+		<string>Error</string> <!-- null if successful -->
+	</message>
+
+	<!-- Auth server asks game server for registration -->
+	<message type="Auth" name="RegisterGameResponse">
+		<string>Error</string> <!-- null if successful -->
+	</message>
+
+<!-- Server list -->
+
+	<!-- Auth server sends a list of all servers to the client on connect -->
+	<message type="Auth" name="ServerList">
+		<list>
+			<uint32>ServerId</uint32>
+			<string>Name</string>
+			<uint32>IpAddress</uint32>
+			<bool>IsJoinable</bool>
+		</list>
+	</message>
+
+	<message type="Auth" name="ServerListAdd">
+		<uint32>ServerId</uint32>
+		<string>Name</string>
+		<uint32>IpAddress</uint32>
+		<bool>IsJoinable</bool>
+	</message>
+
+	<message type="Auth" name="ServerListRemove">
+		<uint32>ServerId</uint32>
+	</message>
+
+	<message type="Auth" name="ServerListUpdate">
+		<uint32>ServerId</uint32>
+		<bool>IsJoinable</bool>
+	</message>
+
+</message-implementation>

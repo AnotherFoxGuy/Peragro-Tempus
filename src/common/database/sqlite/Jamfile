@@ -1,4 +1,4 @@
-SubDir TOP src server database sqlite  ;
+SubDir TOP src common database sqlite  ;
 
 Description sqlite_adp : "sqlite adapter" ;
 Library sqlite_adp :

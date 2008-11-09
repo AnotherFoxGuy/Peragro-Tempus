@@ -2,8 +2,8 @@
 	<peers>
 		<peer name="Client" src="peer_client.xml" />
 		<peer name="Server" src="peer_server.xml" />
-		<!-- peer name="anvil" / -->
-		<!-- peer name="npcserver" / -->
+		<peer name="Auth" src="peer_auth.xml" />
+		<!-- peer name="NPCServer" src="peer_npcserver.xml" / -->
 		<!-- peer name="admin tools" / -->
 		<!-- peer name="other tools" / -->
 	</peers>
@@ -138,6 +138,26 @@
 			<message id="4" name="UpdateWeapon" />
 			<message id="5" name="AttackResult" />
 		</type>
+		<type id="13" name="Auth">
+			<message id="0" name="ClientLoginRequest" />
+			<message id="1" name="ClientLoginChallenge" />
+			<message id="2" name="ClientLoginResponse" />
+			<message id="3" name="ServerLoginRequest" />
+			<message id="4" name="ServerLoginChallenge" />
+			<message id="5" name="ServerLoginResponse" />
+			<message id="6" name="JoinServerRequest" />
+			<message id="7" name="SessionId" />
+			<message id="8" name="ClientJoined" />
+			<message id="9" name="ClientLeft" />
+			<message id="10" name="RegisterGameRequest" />
+			<message id="11" name="RegisterServerRequest" />
+			<message id="12" name="RegisterServerResponse" />
+			<message id="13" name="RegisterGameResponse" />
+			<message id="14" name="ServerList" />
+			<message id="15" name="ServerListAdd" />
+			<message id="16" name="ServerListRemove" />
+			<message id="17" name="ServerListUpdate" />
+		</type>
 	</message-definitions>
 	<message-implementations>
 		<message-implementation src="msgs_connection.xml" />
@@ -153,5 +173,6 @@
 		<message-implementation src="msgs_admin.xml" />
 		<message-implementation src="msgs_player.xml" />
 		<message-implementation src="msgs_combat.xml" />
+		<message-implementation src="msgs_auth.xml" />
 	</message-implementations>
 </pt-gen>

@@ -1,0 +1,6 @@
+<peer name="NPCServer">
+	<send>
+	</send>
+	<receive>
+	</receive>
+</peer>
