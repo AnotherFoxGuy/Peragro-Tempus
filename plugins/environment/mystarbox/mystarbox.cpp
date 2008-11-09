@@ -23,6 +23,7 @@
 #include "halogen.h"
 #include "const.h"
 
+using namespace PT;
 
 SCF_IMPLEMENT_FACTORY(MyStarboxFactory);
 

@@ -14,6 +14,9 @@
 #include <stdlib.h>
 #include <csgfx/rgbpixel.h>
 
+namespace PT /* required to avoid naming conflicts when building static */
+{
+
 unsigned char*
 csGenerateNova(int iSize, int iSeed, int iNumSpokes, float iRoundness)
 {
@@ -240,3 +243,4 @@ unsigned char *csGenerateHaloAlpha(int iSize, float iFactor, float iCross)
   return image;
 }
 
+}

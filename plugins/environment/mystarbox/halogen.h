@@ -23,6 +23,9 @@
 /**\file
  */
 
+namespace PT /* required to avoid naming conflicts when building static */
+{
+
 /**
  * Generate an halo image given halo iSize (iSize x iSize) and
  * halo intensity factor (0..1) (this is NOT the intensity itself!).
@@ -55,6 +58,6 @@ extern uint8 *csGenerateNova(int iSize, int iSeed, int iNumSpokes,
 extern uint8 *csGenerateNovaRGB(int iSize, int iSeed, int iNumSpokes,
   float iRoundness, csRGBcolor color);
 
-
+}
 
 #endif // __CS_HALOGEN_H__
