@@ -72,7 +72,7 @@ namespace PT
           "  - Spawn Mount: '/dbg spawn mount meshname entityname'\n"
           "  - Sector: '/dbg sector sectorname [x y z]'\n"
           "  - Move: '/dbg move f|b|l|r|u|d [distance]'\n"
-          "  - Remove: '/dbg rm entity #id'\n";
+          "  - Remove: '/dbg rm entity #id'\n"
           "  - World Size: '/dbg worldsize #tilesOnEdge'";
     }
 
