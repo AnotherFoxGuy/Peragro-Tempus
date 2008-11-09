@@ -30,8 +30,8 @@ class EventQueue
 {
 private:
   // array of events
-  Queue free;
-  Queue events;
+  SynchronizedQueue<Event*> free;
+  SynchronizedQueue<Event*> events;
 
 public:
   // add new event

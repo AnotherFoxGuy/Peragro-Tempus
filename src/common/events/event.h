@@ -29,7 +29,7 @@
  * heavily, this is essential for the performance. I expect there to be
  * like hundreds or thousand of events each second.
  */
-class Event : public iLinkable
+class Event
 {
 public:
   Events::Type type;

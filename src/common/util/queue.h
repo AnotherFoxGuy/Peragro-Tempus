@@ -21,48 +21,36 @@
 
 #include "mutex.h"
 
-class iLinkable
-{
-  friend class Queue;
-private:
-  iLinkable* next;
-public:
-  iLinkable() : next(0) {}
-};
+#include <queue>
 
-class Queue
+template<class T>
+class SynchronizedQueue
 {
 private:
 
-  iLinkable* first;
-  iLinkable* last;
-
-  int count;
+  std::queue<T> queue;
 
   Mutex mutex;
 
 public:
-  Queue() : first(0), last(0), count(0) {}
-  ~Queue() {}
+  SynchronizedQueue() {}
+  ~SynchronizedQueue() {}
 
-  void push(iLinkable* element)
+  void push(T element)
   {
     mutex.lock();
-    if (!count) first = element;
-    else last->next = element;
-    count++;
-    last = element;
+    queue.push(element);
     mutex.unlock();
   }
 
-  iLinkable* pop()
+  T pop()
   {
     mutex.lock();
-    iLinkable* tmp = first;
-    if (count)
+    T tmp = 0;
+    if (queue.empty() == false)
     {
-      first = first->next;
-      count--;
+      tmp = queue.front();
+      queue.pop();
     }
     mutex.unlock();
     return tmp;
@@ -70,6 +58,9 @@ public:
 
   int getCount()
   {
+    mutex.lock();
+    size_t count = queue.size();
+    mutex.unlock();
     return count;
   }
 };

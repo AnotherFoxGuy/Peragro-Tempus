@@ -28,12 +28,12 @@ int main(int argc, char ** argv)
     ev->num1 = i;
     eng.addEvent(ev);
 
-    printf("Remaining Events: %" SIZET "\n", eng.getEventCount());
+    printf("Adding new event, total events in queue: %" SIZET "\n", eng.getEventCount());
   }
 
   while (eng.getEventCount())
   {
-    printf("Remaining Events: %" SIZET "\n", eng.getEventCount());
+    printf("Remaining events in queue: %" SIZET "\n", eng.getEventCount());
     pt_sleep(1);
   }
 

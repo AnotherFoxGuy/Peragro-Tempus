@@ -19,7 +19,7 @@
 #ifndef EVENTS_HANDLERHOME
 #define EVENTS_HANDLERHOME
 
-#include "common/util/array.h"
+#include <vector>
 #include "eventtype.h"
 #include "handler.h"
 
@@ -31,23 +31,12 @@ class EventHandlerHome
 {
 private:
   // array of all EventHandler instances
-  Array<EventHandler*> eventhandlers[Events::Count];
+  std::vector<EventHandler*> eventhandlers[Events::Count];
 
 public:
-  void registerHandler(EventHandler* handler, Events::Type type) { eventhandlers[type].add(handler); }
-  size_t getHandlerCount(Events::Type type) { return eventhandlers[type].getCount(); }
-  EventHandler* getHandler(Events::Type type, size_t idx) { return eventhandlers[type].get(idx); }
-
-  void replicate(EventHandlerHome* home)
-  {
-    for (size_t i=0; i<Events::Count; i++)
-    {
-      for (size_t j=0; j<home->eventhandlers[i].getCount(); j++)
-      {
-        eventhandlers[i].add(home->eventhandlers[i].get(j));
-      }
-    }
-  }
+  void registerHandler(EventHandler* handler, Events::Type type) { eventhandlers[type].push_back(handler); }
+  size_t getHandlerCount(Events::Type type) const { return eventhandlers[type].size(); }
+  EventHandler* getHandler(Events::Type type, size_t idx) const { return eventhandlers[type][idx]; }
 };
 
 #endif // EVENTS_HANDLERHOME

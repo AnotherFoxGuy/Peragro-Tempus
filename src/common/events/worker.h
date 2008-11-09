@@ -33,9 +33,9 @@ class EventWorker : public Thread
 {
 private:
   EventEngine* engine;
-  EventHandlerHome handlers;
+  const EventHandlerHome* handlers;
 
-  size_t id, count;
+  size_t id;
 
   void Run();
 

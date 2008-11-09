@@ -25,12 +25,11 @@
 
 EventWorker::EventWorker(EventEngine* engine, size_t id) : engine(engine), id(id)
 {
-  count = 0;
 }
 
 void EventWorker::replicateHandlers(EventHandlerHome* home)
 {
-  handlers.replicate(home);
+  handlers = home;
 }
 
 void EventWorker::Run()
@@ -42,13 +41,11 @@ void EventWorker::Run()
   }
   else
   {
-    count++;
     // handle event
-    for (size_t i=0; i<handlers.getHandlerCount(ev->type); i++)
+    for (size_t i=0; i<handlers->getHandlerCount(ev->type); i++)
     {
-      printf("Worker %" SIZET " handled event %" SIZET " (%" SIZET
-             " events total)\n", id, ev->num1, count);
-      handlers.getHandler(ev->type, i)->handle(ev);
+      ev->num2 = id;
+      handlers->getHandler(ev->type, i)->handle(ev);
     }
   }
 }

@@ -19,7 +19,7 @@
 #ifndef EVENTS_WORKERHOME
 #define EVENTS_WORKERHOME
 
-#include "common/util/array.h"
+#include <vector>
 #include "worker.h"
 
 class EventEngine;
@@ -31,7 +31,7 @@ class EventWorkerHome
 {
 private:
   EventEngine* engine;
-  Array<EventWorker*> workers;
+  std::vector<EventWorker*> workers;
 
 public:
   EventWorkerHome(EventEngine* engine) : engine(engine) {}
@@ -40,7 +40,7 @@ public:
 
   void start()
   {
-    for (size_t i = 0; i<workers.getCount(); i++)
+    for (size_t i = 0; i<workers.size(); i++)
     {
       workers[i]->begin();
     }
@@ -48,7 +48,7 @@ public:
 
   void stop()
   {
-    for (size_t i = 0; i<workers.getCount(); i++)
+    for (size_t i = 0; i<workers.size(); i++)
     {
       workers[i]->kill();
     }

@@ -36,9 +36,8 @@ private:
   EventWorkerHome workers;
   EventHandlerHome handlers;
 
-
-
 public:
+  /* eventhough the compiler might warn about using 'this', it's not wrong */
   EventEngine() : workers(this) {}
 
   size_t getEventCount() { return queue.getEventCount(); }
