@@ -301,12 +301,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\auth\database\table-servers.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\auth\database\table-users.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\auth\database\tables.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\auth\database\table-servers.h">
+			</File>
+			<File
+				RelativePath="..\..\src\auth\database\table-users.h">
+			</File>
 			<File
 				RelativePath="..\..\src\auth\database\tables.h">
 			</File>
