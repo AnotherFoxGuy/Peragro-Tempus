@@ -2,7 +2,3 @@ SubDir TOP src common database ;
 
 SubInclude TOP src common database sqlite ;
 
-Description database : "database" ;
-Library database :
-  [ Wildcard *.h *.cpp ] ;
-LinkWith database : server-ai ;
