@@ -39,6 +39,12 @@
 
 void AdminHandler::handleRemoveAll(GenericMessage* msg)
 {
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin < 2) return;
+
   RemoveAllMessage rmmsg;
   rmmsg.deserialise(msg->getByteStream());
 
@@ -146,6 +152,12 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
 
 void AdminHandler::handleCreateSector(GenericMessage* msg)
 {
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin < 2) return;
+
   CreateSectorMessage sectormsg;
   sectormsg.deserialise(msg->getByteStream());
 
@@ -157,6 +169,12 @@ void AdminHandler::handleCreateSector(GenericMessage* msg)
 
 void AdminHandler::handleCreateItem(GenericMessage* msg)
 {
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin < 2) return;
+
   CreateItemMessage itemmsg;
   itemmsg.deserialise(msg->getByteStream());
 
@@ -175,6 +193,12 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
 
 void AdminHandler::handleCreateNpc(GenericMessage* msg)
 {
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin < 2) return;
+
   CreateNpcMessage npcmsg;
   npcmsg.deserialise(msg->getByteStream());
 
@@ -227,6 +251,12 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
 
 void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 {
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin < 2) return;
+
   CreateSpawnPointMessage spawnmsg;
   spawnmsg.deserialise(msg->getByteStream());
 
@@ -255,7 +285,7 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   if (!user) return;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin == 0) return;
+  if (admin < 1) return;
 
   SpawnItemMessage itemmsg;
   itemmsg.deserialise(msg->getByteStream());
@@ -277,7 +307,7 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
   if (!user) return;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin == 0) return;
+  if (admin < 1) return;
 
   SpawnMountMessage mountmsg;
   mountmsg.deserialise(msg->getByteStream());
@@ -300,7 +330,7 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
   if (!user) return;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin == 0) return;
+  if (admin < 2) return;
 
   SpawnDoorMessage doormsg;
   doormsg.deserialise(msg->getByteStream());
@@ -327,7 +357,7 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
   if (!user) return;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin == 0) return;
+  if (admin < 1) return;
 
   RemoveSpawnedEntityMessage rmmsg;
   rmmsg.deserialise(msg->getByteStream());
@@ -350,7 +380,7 @@ void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
   if (!user) return;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin == 0) return;
+  if (admin < 1) return;
 
   const PcEntity* c_pcent = NetworkHelper::getPcEntity(msg);
   if (!user) return;
@@ -361,6 +391,12 @@ void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
 
 void AdminHandler::handleCreateZone(GenericMessage* msg)
 {
+  const User* user = NetworkHelper::getUser(msg);
+  if (!user) return;
+
+  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
+  if (admin < 2) return;
+
   CreateZoneMessage zonemsg;
   zonemsg.deserialise(msg->getByteStream());
 

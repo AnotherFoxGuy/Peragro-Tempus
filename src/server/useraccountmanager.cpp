@@ -91,7 +91,7 @@ const ptString UserAccountManager::signup(ptString username, const char* passwor
 
   if (user->id == 1) // first User, all rights!
   {
-    User(user->id).getPermissionList().setLevel(Permission::Admin, 1);
+    User(user->id).getPermissionList().setLevel(Permission::Admin, 2);
   }
   else
   {
