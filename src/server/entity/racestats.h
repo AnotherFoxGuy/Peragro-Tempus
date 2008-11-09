@@ -20,7 +20,7 @@
 #define RACESTATS_H_
 
 #include "stat.h"
-#include "server/database/database.h"
+#include "server/database/tables.h"
 #include "server/database/table-racestats.h"
 #include "server/database/table-characterstats.h"
 #include "server/server.h"

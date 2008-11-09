@@ -22,7 +22,7 @@
 #include "server/entity/entitymanager.h"
 #include "server/entity/character.h"
 
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-books.h"
 
 void BookHandler::handleBookReadRequest(GenericMessage* msg)

@@ -16,7 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "database.h"
+#include "common/database/database.h"
+
 #include "table-users.h"
 #include "table-characters.h"
 #include "table-entities.h"
@@ -47,6 +48,8 @@
 #include "table-reputations.h"
 #include "table-characterreputations.h"
 #include "table-charactermasteries.h"
+
+#include "tables.h"
 
 Tables::Tables()
 {

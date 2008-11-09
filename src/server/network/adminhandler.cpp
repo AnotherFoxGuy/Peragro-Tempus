@@ -29,7 +29,7 @@
 
 #include "server/quest/npcdialogmanager.h"
 
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-npcentities.h"
 #include "server/database/table-npcaisetting.h"
 #include "server/database/table-zones.h"

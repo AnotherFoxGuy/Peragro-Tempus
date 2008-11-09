@@ -17,6 +17,7 @@
 */
 
 #include "common/database/database.h"
+#include "tables.h"
 //#include "table-users.h"
 //#include "table-servers.h"
 

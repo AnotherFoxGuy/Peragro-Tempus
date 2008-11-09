@@ -21,7 +21,8 @@
 #include "ext/bullet/btBulletDynamicsCommon.h"
 
 #include "server/server.h"
-#include "server/database/database.h"
+#include "common/database/database.h"
+#include "server/database/tables.h"
 #include "server/database/table-meshes.h"
 #include "server/database/table-triangles.h"
 #include "server/database/table-vertices.h"

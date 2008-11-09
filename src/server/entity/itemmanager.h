@@ -22,7 +22,7 @@
 #include "common/util/array.h"
 #include "item.h"
 #include "server/server.h"
-#include "server/database/database.h"
+#include "server/database/tables.h"
 #include "server/database/table-items.h"
 
 class ItemManager

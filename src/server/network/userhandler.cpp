@@ -21,7 +21,7 @@
 #include "network.h"
 #include "networkhelper.h"
 
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-characters.h"
 #include "server/database/table-users.h"
 #include "server/entity/charactermanager.h"

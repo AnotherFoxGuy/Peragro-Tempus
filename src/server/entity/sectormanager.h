@@ -23,7 +23,7 @@
 #include "common/util/ptstring.h"
 #include "common/util/printhelper.h"
 
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-sectors.h"
 #include "server/server.h"
 

@@ -18,7 +18,8 @@
 
 #include "common/util/math.h"
 
-#include "server/database/database.h"
+#include "common/database/database.h"
+#include "server/database/tables.h"
 #include "server/database/table-zones.h"
 #include "server/database/table-zonenodes.h"
 #include "server/server.h"

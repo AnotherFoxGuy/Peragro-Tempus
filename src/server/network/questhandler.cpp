@@ -30,7 +30,7 @@
 #include "server/quest/npcdialogmanager.h"
 #include "server/quest/questutils.h"
 
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-npcdialogs.h"
 #include "server/database/table-npcdialoganswers.h"
 #include "server/database/table-npcentities.h"

@@ -19,7 +19,8 @@
 #include "permission.h"
 
 #include "server/server.h"
-#include "server/database/database.h"
+#include "common/database/database.h"
+#include "server/database/tables.h"
 #include "server/database/table-permissions.h"
 
 PermissionList::PermissionList(unsigned int user_id) : user_id(user_id)

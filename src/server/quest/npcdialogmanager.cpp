@@ -21,7 +21,8 @@
 #include "npcdialoganswer.h"
 
 #include "server/server.h"
-#include "server/database/database.h"
+#include "common/database/database.h"
+#include "server/database/tables.h"
 #include "server/database/table-npcdialogs.h"
 #include "server/database/table-npcdialoganswers.h"
 

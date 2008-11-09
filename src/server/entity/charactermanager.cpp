@@ -18,7 +18,7 @@
 
 #include "charactermanager.h"
 #include "server/server.h"
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-characters.h"
 #include "server/entity/user.h"
 #include "server/entity/racemanager.h"

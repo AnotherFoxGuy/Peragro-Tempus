@@ -20,7 +20,8 @@
 #define RACESKILLS_H_
 
 #include "skill.h"
-#include "server/database/database.h"
+#include "common/database/database.h"
+#include "server/database/tables.h"
 #include "server/database/table-raceskills.h"
 #include "server/database/table-characterskills.h"
 #include "server/server.h"

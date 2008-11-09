@@ -18,7 +18,8 @@
 
 #include "useraccountmanager.h"
 
-#include "server/database/database.h"
+#include "common/database/database.h"
+#include "server/database/tables.h"
 #include "server/database/table-users.h"
 #include "server/entity/usermanager.h"
 

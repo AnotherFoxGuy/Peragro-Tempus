@@ -19,7 +19,7 @@
 #ifndef _PT_SQLITE_H_
 #define _PT_SQLITE_H_
 
-#include "server/database/database.h"
+#include "common/database/database.h"
 
 #include "common/util/mutex.h"
 #include "common/util/thread.h"

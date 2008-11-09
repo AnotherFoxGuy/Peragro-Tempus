@@ -22,7 +22,7 @@
 #include "path-ai.h"
 
 #include "server/server.h"
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-npcaisetting.h"
 
 #include "server/entity/character.h"

@@ -18,7 +18,7 @@
 
 #include "entitymanager.h"
 
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-characters.h"
 #include "server/database/table-npcentities.h"

@@ -25,7 +25,7 @@
 #include "entity/npcentity.h"
 #include "entity/usermanager.h"
 #include "server/entity/entitymanager.h"
-#include "server/database/database.h"
+#include "common/database/database.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-characters.h"
 #include "server/database/table-doors.h"

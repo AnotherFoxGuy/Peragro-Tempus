@@ -19,11 +19,14 @@
 #include "stdio.h"
 
 #include "auth/network/network.h"
+#include "auth/database/tables.h"
 
 #include "common/database/sqlite/sqlite.h"
 
 #include "common/util/sleep.h"
 #include "common/util/wincrashdump.h"
+
+#include "common/events/engine.h"
 
 #include <signal.h>
 
@@ -61,8 +64,16 @@ int main(int argc, char ** argv)
   dbSQLite db("auth_db.sqlite", &tables);
   tables.init(&db);
 
-  //server.setDatabase(&db);
-  //server.setTables(&tables);
+  EventEngine eng;
+
+  // Register Event
+  eng.registerHandler(&dh, Events::Dummy);
+
+  for (size_t i = 0; i<5; i++)
+  {
+    eng.addWorker();
+  }
+  eng.start();
 
   unsigned int port = 12345;
 

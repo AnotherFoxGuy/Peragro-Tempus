@@ -20,7 +20,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include "database.h"
+#include "common/database/database.h"
 
 #include "table-characters.h"
 
