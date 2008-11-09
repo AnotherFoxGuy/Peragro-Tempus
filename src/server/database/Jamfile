@@ -3,4 +3,4 @@ SubDir TOP src server database ;
 Description server-dbtables : "database" ;
 Library server-dbtables :
   [ Wildcard *.h *.cpp ] ;
-LinkWith server-dbtables : database server-ai ;
+LinkWith server-dbtables : server-ai ;

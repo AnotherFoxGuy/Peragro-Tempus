@@ -1,8 +1,10 @@
 SubDir TOP src ;
 
-SubInclude TOP src auth ;
 SubInclude TOP src ext ;
+
 SubInclude TOP src common ;
+
+SubInclude TOP src auth ;
 SubInclude TOP src client ;
 SubInclude TOP src server ;
 SubInclude TOP src tests ;

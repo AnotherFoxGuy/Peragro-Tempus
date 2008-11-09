@@ -18,8 +18,8 @@
 
 #include "common/database/database.h"
 #include "tables.h"
-//#include "table-users.h"
-//#include "table-servers.h"
+#include "table-users.h"
+#include "table-servers.h"
 
 Tables::Tables()
 {
@@ -30,8 +30,8 @@ Tables::Tables()
 void Tables::init(Database* db)
 {
   db->update("begin transaction");
-  //userstable = new UsersTable(db);
-  //serverstable = new ServersTable(db);
+  userstable = new UsersTable(db);
+  serverstable = new ServersTable(db);
   db->update("commit");
 }
 

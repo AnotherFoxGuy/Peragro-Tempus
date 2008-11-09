@@ -3,4 +3,3 @@ SubDir TOP src auth database ;
 Description auth-dbtables : "database" ;
 Library auth-dbtables :
   [ Wildcard *.h *.cpp ] ;
-LinkWith auth-dbtables : database ;

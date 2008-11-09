@@ -5,4 +5,4 @@ Application colldettest :
 [ Wildcard *.h *.cpp ]
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs colldettest : CRYSTAL ;
-LinkWith colldettest : database sqlite_adp util bulletcollision bulletdynamics bulletmath server-dbtables ;
+LinkWith colldettest : sqlite_adp util bulletcollision bulletdynamics bulletmath server-dbtables ;
