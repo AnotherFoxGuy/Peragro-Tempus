@@ -308,49 +308,13 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\auth\network\adminhandler.h">
-			</File>
-			<File
 				RelativePath="..\..\src\auth\network\authhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\bookhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\chathandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\combathandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\auth\network\connection.h">
 			</File>
 			<File
-				RelativePath="..\..\src\auth\network\doorhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\entityhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\environmenthandler.h">
-			</File>
-			<File
 				RelativePath="..\..\src\auth\network\network.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\playerhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\questhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\skillhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\tradehandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\auth\network\userhandler.h">
 			</File>
 		</Filter>
 	</Files>
