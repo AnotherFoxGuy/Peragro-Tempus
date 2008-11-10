@@ -71,6 +71,20 @@ bool Generator::generateNetwork()
   {
     for ( size_t j=1; j<network->types.size(); j++)
     {
+      bool hasMessages = false;
+      for (size_t x = 0; x < network->peers[i]->recvMsg.size(); x++)
+      {
+        nwMessage* msg = network->peers[i]->recvMsg[x];
+        if (!msg || msg->type != network->types[j]) 
+          continue;
+        else
+        {
+          hasMessages = true;
+          break;
+        }
+      }
+      if (!hasMessages) continue;
+
       std::string file("src/");
       std::string pathname = network->peers[i]->name;
       std::transform(pathname.begin(), pathname.end(), pathname.begin(), tolower);
