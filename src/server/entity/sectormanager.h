@@ -29,7 +29,7 @@
 
 namespace Sector
 {
-  static unsigned short NoSector = 0;
+  static const unsigned short NoSector = 0;
 }
 
 class SectorManager
@@ -40,30 +40,37 @@ private:
 
   void loadSector(unsigned short id, ptString name, ptString region)
   {
-    if (sectors.getCount()+1 == id)
+    const size_t count = sectors.getCount();
+    assert(count == regions.getCount());
+
+    if (count == id)
     {
       sectors.add(name);
       regions.add(region);
     }
     else
       printf("Sectors out of order! Expected sector id %" SIZET
-             " but got %d!\n", sectors.getCount(), id);
+             " but got %d!\n", count, id);
   }
 
 public:
-  SectorManager() {}
+  SectorManager()
+  {
+    loadSector(Sector::NoSector, ptString::Null, ptString::Null);
+  }
+
   ~SectorManager() {}
 
   unsigned short getSectorCount()
   {
-    return (unsigned short) sectors.getCount()+1;
+    return (unsigned short) sectors.getCount();
   }
 
   unsigned short getSectorId(ptString name)
   {
     for (size_t i = 0; i < sectors.getCount(); i++)
     {
-      if (sectors.get(i) == name) return (unsigned short) i + 1;
+      if (sectors.get(i) == name) return (unsigned short) i;
     }
     return Sector::NoSector;
   }
@@ -71,18 +78,18 @@ public:
   const ptString& getSectorName(unsigned short id)
   {
     if (id > sectors.getCount()) return ptString::Null;
-    return sectors.get(id-1);
+    else return sectors.get(id);
   }
 
   const ptString& getRegionName(unsigned short id)
   {
     if (id > regions.getCount()) return ptString::Null;
-    return regions.get(id-1);
+    else return regions.get(id);
   }
 
   void addSector(unsigned short id, ptString name, ptString region)
   {
-    if (sectors.getCount()+1 == id)
+    if (sectors.getCount() == id)
     {
       SectorsTable* dt = Server::getServer()->getTables()->getSectorsTable();
       SectorsTableVO vo;
@@ -100,13 +107,15 @@ public:
   void delAll()
   {
     SectorsTable* dt = Server::getServer()->getTables()->getSectorsTable();
-    Array<SectorsTableVO*> loadedSectors=dt->getAll();
+    Array<SectorsTableVO*> loadedSectors = dt->getAll();
     for (size_t i = 0; i<loadedSectors.getCount(); i++)
     {
       dt->remove(loadedSectors[i]->id);
     }
     sectors.removeAll();
     regions.removeAll();
+
+    loadSector(Sector::NoSector, ptString::Null, ptString::Null);
   }
 
   void loadFromDB(SectorsTable* dt)
