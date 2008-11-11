@@ -95,11 +95,9 @@ const ptString UserAccountManager::signup(ptString username, const char* passwor
   }
   else
   {
-    User(user->id).getPermissionList().setLevel(Permission::Admin, 0);
+    // Temporary override for development, admin for all!
+    User(user->id).getPermissionList().setLevel(Permission::Admin, 1);
   }
-
-  // Temporary override for development, admin for all!
-  User(user->id).getPermissionList().setLevel(Permission::Admin, 1);
 
   return ptString::Null;
 }
