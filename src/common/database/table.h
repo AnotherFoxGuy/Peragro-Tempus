@@ -39,15 +39,6 @@ protected:
    */
   virtual ~Table() {}
 
-public:
-  /**
-   * Virtual function definition for how to create a table.
-   */
-  virtual void createTable() = 0;
-  /**
-   * Virtual function definition for how to delete a table.
-   */
-  virtual void dropTable() = 0;
 };
 
 #endif // TABLE_H

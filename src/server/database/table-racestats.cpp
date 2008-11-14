@@ -28,17 +28,17 @@
 
 #include "server/entity/racestats.h"
 
-RaceStatsTable::RaceStatsTable(Database* db) : Table(db)
+RaceStatsTable::RaceStatsTable(Database* db, StatTable* stats) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from racestat;");
   if (rs == 0)
   {
-    createTable();
+    createTable(stats);
   }
   delete rs;
 }
 
-void RaceStatsTable::createTable()
+void RaceStatsTable::createTable(StatTable* stats)
 {
   printf("Creating Table racestat...\n");
   db->update("create table racestat ("
@@ -49,59 +49,59 @@ void RaceStatsTable::createTable()
 
   Stat* stat = 0;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Health", strlen("Health")));
+  stat = stats->getStat(ptString("Health", strlen("Health")));
   set(1, stat, 60);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Mana", strlen("Mana")));
+  stat = stats->getStat(ptString("Mana", strlen("Mana")));
   set(1, stat, 60);
   delete stat;
 
-   stat = db->getTables()->getStatTable()->getStat(ptString("Strength", strlen("Strength")));
+  stat = stats->getStat(ptString("Strength", strlen("Strength")));
   set(1, stat, 35);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Intelligence", strlen("Intelligence")));
+  stat = stats->getStat(ptString("Intelligence", strlen("Intelligence")));
   set(1, stat, 40);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Dexterty", strlen("Dexterty")));
+  stat = stats->getStat(ptString("Dexterty", strlen("Dexterty")));
   set(1, stat, 50);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Endurance", strlen("Endurance")));
+  stat = stats->getStat(ptString("Endurance", strlen("Endurance")));
   set(1, stat, 40);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Agility", strlen("Agility")));
+  stat = stats->getStat(ptString("Agility", strlen("Agility")));
   set(1, stat, 45);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Concentration", strlen("Concentration")));
+  stat = stats->getStat(ptString("Concentration", strlen("Concentration")));
   set(1, stat, 25);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Witness", strlen("Witness")));
+  stat = stats->getStat(ptString("Witness", strlen("Witness")));
   set(1, stat, 65);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Speed", strlen("Speed")));
+  stat = stats->getStat(ptString("Speed", strlen("Speed")));
   set(1, stat, 4);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Dodge", strlen("Dodge")));
+  stat = stats->getStat(ptString("Dodge", strlen("Dodge")));
   set(1, stat, 40);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Sapience", strlen("Sapience")));
+  stat = stats->getStat(ptString("Sapience", strlen("Sapience")));
   set(1, stat, 40);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Parry", strlen("Parry")));
+  stat = stats->getStat(ptString("Parry", strlen("Parry")));
   set(1, stat, 40);
   delete stat;
 
-  stat = db->getTables()->getStatTable()->getStat(ptString("Block", strlen("Block")));
+  stat = stats->getStat(ptString("Block", strlen("Block")));
   set(1, stat, 40);
   delete stat;
 }

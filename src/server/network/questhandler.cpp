@@ -381,16 +381,16 @@ void QuestHandler::handleSetupDialogs(GenericMessage* msg)
   setupmsg.deserialise(msg->getByteStream());
 
   CharacterTable* charactertable =
-    Server::getServer()->getDatabase()->getTables()->getCharacterTable();
+    Server::getServer()->getTables()->getCharacterTable();
 
   NpcEntitiesTable* npcentitytable =
-    Server::getServer()->getDatabase()->getTables()->getNpcEntitiesTable();
+    Server::getServer()->getTables()->getNpcEntitiesTable();
 
   NpcDialogsTable* dialogtable =
-    Server::getServer()->getDatabase()->getTables()->getNpcDialogsTable();
+    Server::getServer()->getTables()->getNpcDialogsTable();
 
   NpcDialogAnswersTable* answertable =
-    Server::getServer()->getDatabase()->getTables()->getNpcDialogAnswersTable();
+    Server::getServer()->getTables()->getNpcDialogAnswersTable();
 
   if (setupmsg.getDeleteExisting())
   {

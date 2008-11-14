@@ -55,7 +55,7 @@ class dbSQLite : public Database, Thread
   void Run();
 
 public:
-  dbSQLite(const char* database, Tables* tables);
+  dbSQLite(const char* database);
   ~dbSQLite();
 
   //---[Implementing Database interface]-------------------------------------

@@ -137,11 +137,6 @@ void RaceTable::getAllRaces(Array<Race*>& races)
       atof(rs->GetData(0,5).c_str())));
     race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
     races.add(race);
-
-    race->getStats()->loadFromDatabase(db->getTables()->getRaceStatsTable(),
-      race->getId());
-    race->getSkills()->loadFromDatabase(db->getTables()->getRaceSkillsTable(),
-      race->getId());
   }
   delete rs;
 }

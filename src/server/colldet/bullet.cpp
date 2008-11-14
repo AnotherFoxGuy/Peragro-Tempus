@@ -49,10 +49,10 @@ BulletCD::~BulletCD()
 
 void BulletCD::setup()
 {
-  Tables* db = Server::getServer()->getTables();
+  Tables* tables = Server::getServer()->getTables();
 
   Array<VerticesTableVO*> vertices =
-    db->getVerticesTable()->getAll();
+    tables->getVerticesTable()->getAll();
 
   btVector3 worldMin, worldMax;
   for (size_t i = 0; i < vertices.getCount(); i++)
@@ -77,7 +77,7 @@ void BulletCD::setup()
 
 
   // Create Mesh
-  Array<MeshesTableVO*> meshes = db->getMeshesTable()->getAll();
+  Array<MeshesTableVO*> meshes = tables->getMeshesTable()->getAll();
   for (size_t i = 0; i < meshes.getCount(); i++)
   {
     btCollisionObject* collObj = new btCollisionObject();
@@ -88,12 +88,12 @@ void BulletCD::setup()
 
     //TODO: reduce amount of queries!
     Array<TrianglesTableVO*> triangles =
-      db->getTrianglesTable()->getAllByMesh(meshes.get(i)->id);
+      tables->getTrianglesTable()->getAllByMesh(meshes.get(i)->id);
 
     if (triangles.getCount() == 0) continue;
 
     Array<VerticesTableVO*> vertices =
-      db->getVerticesTable()->getAllByMesh(meshes.get(i)->id);
+      tables->getVerticesTable()->getAllByMesh(meshes.get(i)->id);
 
     //TODO: Use indexed triangle mesh!
     btTriangleMesh* mesh = new btTriangleMesh();

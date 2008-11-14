@@ -105,18 +105,13 @@ int main(int argc, char ** argv)
   Server server;
 
   Tables tables;
-  dbSQLite db("test_db.sqlite", &tables);
+  dbSQLite db("test_db.sqlite");
   tables.init(&db);
 
   server.setDatabase(&db);
   server.setTables(&tables);
 
-  unsigned int port = 12345;
-  if (tables.getConfigTable()->GetConfigValue(ptString("port",4)) != ptString())
-  {
-    port = atoi(*tables.getConfigTable()->GetConfigValue(ptString("port",4)));
-  }
-
+  unsigned int port = 0;
   for(int i = 1; i < argc; i++)
   {
     if (!strcmp(argv[i], "-port"))
@@ -125,10 +120,6 @@ int main(int argc, char ** argv)
       if (i < argc)
       {
         port = atoi(argv[i]);
-        ConfigTableVO* config = new ConfigTableVO();
-        config->name = ptString("port", 4);
-        config->value = ptString(argv[i], strlen(argv[i]));
-        tables.getConfigTable()->Insert(config);
       }
     }
     else
@@ -139,6 +130,25 @@ int main(int argc, char ** argv)
       return true;
     }
   }
+
+  if (port == 0)
+  {
+    if (tables.getConfigTable()->GetConfigValue(ptString("port",4)) != ptString())
+    {
+      port = atoi(*tables.getConfigTable()->GetConfigValue(ptString("port",4)));
+    }
+    else
+    {
+      port = 12345;
+    }
+  }
+
+  ConfigTableVO* config = new ConfigTableVO();
+  config->name = ptString("port", 4);
+  char portStr[6]; // must not be > 65536, so 5 + '\0'
+  snprintf(portStr, 6, "%d", port);
+  config->value = ptString::create(portStr);
+  tables.getConfigTable()->Insert(config);
 
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
@@ -196,7 +206,17 @@ int main(int argc, char ** argv)
   door_mgr.loadFromDB(tables.getDoorsTable());
   stat_mgr.loadFromDB(tables.getStatTable());
   skill_mgr.loadFromDB(tables.getSkillTable());
+
   race_mgr.loadFromDB(tables.getRaceTable());
+  for (size_t i = 0; i < race_mgr.getRaceCount(); i++)
+  {
+    Race* race = race_mgr.getRace(i);
+    race->getStats()->loadFromDatabase(tables.getRaceStatsTable(), 
+      race->getId());
+    race->getSkills()->loadFromDatabase(tables.getRaceSkillsTable(),
+      race->getId());
+  }
+
   zone_mgr.loadFromDB(tables.getZonesTable(), tables.getZonenodesTable());
   reputation_mgr.loadFromDB(tables.getReputationsTable());
 

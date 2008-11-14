@@ -211,7 +211,7 @@ bool CollisionDetectionTest::SetupModules ()
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
 
   Tables tables;
-  dbSQLite db("test_db.sqlite", &tables);
+  dbSQLite db("test_db.sqlite");
   tables.init(&db);
 
   LoadWorld(&tables);

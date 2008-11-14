@@ -25,8 +25,8 @@
 
 PermissionList::PermissionList(unsigned int user_id) : user_id(user_id)
 {
-  Tables* db = Server::getServer()->getTables();
-  Array<PermissionsTableVO*> vos = db->getPermissionsTable()->getUserAll(user_id);
+  Tables* tables = Server::getServer()->getTables();
+  Array<PermissionsTableVO*> vos = tables->getPermissionsTable()->getUserAll(user_id);
   for (size_t i = 0; i < vos.getCount(); i++)
   {
     if (vos.get(i)->permissionid < PT_PERMISSION_COUNT)
@@ -39,6 +39,6 @@ PermissionList::PermissionList(unsigned int user_id) : user_id(user_id)
 void PermissionList::setLevel(Permission::Type type, unsigned char level)
 {
   levels[type] = level;
-  Tables* db = Server::getServer()->getTables();
-  db->getPermissionsTable()->insert(user_id, type, level);
+  Tables* tables = Server::getServer()->getTables();
+  tables->getPermissionsTable()->insert(user_id, type, level);
 }

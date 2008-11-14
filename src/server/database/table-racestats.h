@@ -25,6 +25,7 @@
 class Database;
 class Stat;
 class RaceStat;
+class StatTable;
 
 /**
  * Provides an interface to the database to handle storage of race stats.
@@ -32,11 +33,11 @@ class RaceStat;
 class RaceStatsTable : public Table
 {
 public:
-  RaceStatsTable(Database* db);
+  RaceStatsTable(Database* db, StatTable* stats);
   /**
    * Creates a table in the database that will store race stats.
    */
-  void createTable();
+  void createTable(StatTable* stats);
   /**
    * Insert a race stat into the database.
    * @param race The type of race.

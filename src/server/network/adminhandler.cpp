@@ -216,10 +216,10 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
     return;
   }
 
-  Tables* db = Server::getServer()->getTables();
+  Tables* tables = Server::getServer()->getTables();
 
   Character* character = charmgr->getCharacter(charid, 0);
-  character->getInventory()->loadFromDatabase(db->getInventoryTable(), charid);
+  character->getInventory()->loadFromDatabase(tables->getInventoryTable(), charid);
 
   for (unsigned char i = 0; i < npcmsg.getInventoryCount(); i++)
   {
@@ -240,11 +240,11 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
 
   server->addEntity(npcentity->getEntity(), true);
 
-  db->getNpcEntitiesTable()->insert(entity->getId(), charid, npcmsg.getAi());
+  tables->getNpcEntitiesTable()->insert(entity->getId(), charid, npcmsg.getAi());
 
   for (unsigned char i = 0; i < npcmsg.getAiSettingCount(); i++)
   {
-    db->getNpcAiSettingTable()->insert(charid, npcmsg.getKey(i), *npcmsg.getValue(i));
+    tables->getNpcAiSettingTable()->insert(charid, npcmsg.getKey(i), *npcmsg.getValue(i));
   }
   npcentity->setAI(AI::createAI(npcmsg.getAi()));
 }
@@ -401,15 +401,15 @@ void AdminHandler::handleCreateZone(GenericMessage* msg)
   zonemsg.deserialise(msg->getByteStream());
 
   ZoneManager* zonemgr = Server::getServer()->getZoneManager();
-  Tables* db = Server::getServer()->getTables();
+  Tables* tables = Server::getServer()->getTables();
 
   ZoneManager::Zone zone;
   zone.type = zonemsg.getZoneType();
-  db->getZonesTable()->insert(new ZonesTableVO(zonemsg.getZoneId(), *zonemsg.getZoneType()));
+  tables->getZonesTable()->insert(new ZonesTableVO(zonemsg.getZoneId(), *zonemsg.getZoneType()));
   //The nodes need to be reversed here to be in the right order for GetZone(..)
   for(int i=zonemsg.getNodesCount()-1; i>-1; i--)
   {
-    db->getZonenodesTable()->insert(new ZonenodesTableVO(zonemsg.getZoneId(), zonemsg.getX(i), zonemsg.getZ(i)));
+    tables->getZonenodesTable()->insert(new ZonenodesTableVO(zonemsg.getZoneId(), zonemsg.getX(i), zonemsg.getZ(i)));
     zone.coords.push_back(PtVector2(zonemsg.getX(i), zonemsg.getZ(i)));
   }
   zonemgr->addZone(zone);

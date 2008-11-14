@@ -61,7 +61,7 @@ int main(int argc, char ** argv)
   setWinCrashDump(argv[0]);
 
   Tables tables;
-  dbSQLite db("auth_db.sqlite", &tables);
+  dbSQLite db("auth_db.sqlite");
   tables.init(&db);
 
   EventEngine eng;

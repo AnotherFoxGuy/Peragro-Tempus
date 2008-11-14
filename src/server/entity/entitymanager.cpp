@@ -63,9 +63,9 @@ void EntityManager::loadFromDB(EntityTable* et)
       }
       case Entity::NPCEntityType:
       {
-        Tables* db = Server::getServer()->getTables();
+        Tables* tables = Server::getServer()->getTables();
         NpcEntitiesTableVO* npc_vo =
-          db->getNpcEntitiesTable()->getById(vo->id);
+          tables->getNpcEntitiesTable()->getById(vo->id);
 
         if (!npc_vo)
           continue;
@@ -73,7 +73,7 @@ void EntityManager::loadFromDB(EntityTable* et)
         CharacterManager* cmgr = Server::getServer()->getCharacterManager();
         Character* character = cmgr->getCharacter(npc_vo->character, 0 /* npc */);
 
-        character->getInventory()->loadFromDatabase(db->getInventoryTable(), character->getId());
+        character->getInventory()->loadFromDatabase(tables->getInventoryTable(), character->getId());
 
         NpcEntity* npc = new NpcEntity();
         npc->setCharacter(character);

@@ -47,10 +47,10 @@ void NPCDialogManager::load()
   // Empty list
   dialogs.delAll();
 
-  Tables* db = Server::getServer()->getTables();
+  Tables* tables = Server::getServer()->getTables();
 
   // Load NPC Dialogs
-  Array<NpcDialogsTableVO*> dialogs = db->getNpcDialogsTable()->getAll();
+  Array<NpcDialogsTableVO*> dialogs = tables->getNpcDialogsTable()->getAll();
   for (size_t i=0; i<dialogs.getCount(); i++)
   {
     NpcDialogsTableVO* vo = dialogs.get(i);
@@ -70,7 +70,7 @@ void NPCDialogManager::load()
   }
 
   // Load NPC Dialog Answers
-  Array<NpcDialogAnswersTableVO*> answers = db->getNpcDialogAnswersTable()->getAll();
+  Array<NpcDialogAnswersTableVO*> answers = tables->getNpcDialogAnswersTable()->getAll();
   for (size_t i=0; i<answers.getCount(); i++)
   {
     NpcDialogAnswersTableVO* vo = answers.get(i);
@@ -93,8 +93,8 @@ void NPCDialogManager::load()
 
 void NPCDialogManager::delAll()
 {
-  Tables* db = Server::getServer()->getTables();
-  db->getNpcDialogsTable()->removeAll();
-  db->getNpcDialogAnswersTable()->removeAll();
+  Tables* tables = Server::getServer()->getTables();
+  tables->getNpcDialogsTable()->removeAll();
+  tables->getNpcDialogAnswersTable()->removeAll();
   dialogs.delAll();
 }

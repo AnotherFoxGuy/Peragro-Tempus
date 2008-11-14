@@ -25,20 +25,15 @@ class Tables;
 
 class Database
 {
-private:
-  Tables* tables;
-
 public:
   virtual ResultSet* query(const char*, ...) = 0;
   virtual void update(const char*, ...) = 0;
   //virtual int getLastInsertedId() = 0;
 
-  Database(Tables* tables) : tables(tables) {}
+  Database() {}
   virtual ~Database() {}
 
   virtual void shutdown() = 0;
-
-  inline Tables* getTables() { return tables; }
 };
 
 #endif // DATABASE_H

@@ -89,7 +89,7 @@ void Tables::init(Database* db)
   stattable = new StatTable(db);
   characterstattable = new CharacterStatsTable(db);
   racetable = new RaceTable(db);
-  racestattable = new RaceStatsTable(db);
+  racestattable = new RaceStatsTable(db, this->getStatTable());
   skilltable = new SkillTable(db);
   raceskilltable = new RaceSkillsTable(db);
   characterskillstable = new CharacterSkillsTable(db);

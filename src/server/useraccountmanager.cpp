@@ -77,8 +77,8 @@ const ptString UserAccountManager::signup(ptString username, const char* passwor
     return ptString("Password may not be shorter than 6 characters", 45);
   }
 
-  Tables* db = server->getTables();
-  UsersTable* ut = db->getUsersTable();
+  Tables* tables = server->getTables();
+  UsersTable* ut = tables->getUsersTable();
 
   if (ut->existsUser(username))
   {
