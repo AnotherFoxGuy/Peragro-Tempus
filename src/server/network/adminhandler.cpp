@@ -23,6 +23,7 @@
 #include "server/entity/doormanager.h"
 #include "server/entity/entitymanager.h"
 #include "server/entity/itemmanager.h"
+#include "server/entity/racemanager.h"
 #include "server/entity/sectormanager.h"
 #include "server/zone/zonemanager.h"
 #include "server/entity/user.h"
@@ -206,8 +207,10 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
 
   CharacterManager* charmgr = server->getCharacterManager();
 
+  Race* race = server->getRaceManager()->findByName(npcmsg.getRace());
+
   int charid = -1;
-  ptString error = charmgr->createCharacter(npcmsg.getName(), 0, charid,
+  ptString error = charmgr->createCharacter(npcmsg.getName(), 0, charid, race, npcmsg.getMesh(),
     npcmsg.getHairColour(), npcmsg.getSkinColour(), npcmsg.getDecalColour());
 
   if (! error.isNull())

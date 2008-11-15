@@ -226,6 +226,7 @@ public:
 class CharCreateRequestMessage : public NetMessage
 {
   ptString name;
+  ptString race;
   unsigned char haircolour[3];
   unsigned char skincolour[3];
   unsigned char decalcolour[3];
@@ -244,6 +245,9 @@ public:
 
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
+
+  ptString getRace() const { return race; }
+  void setRace(ptString x) { race = x; }
 
   unsigned char* getHairColour() { return haircolour; }
   void setHairColour(unsigned char r, unsigned char g, unsigned char b)

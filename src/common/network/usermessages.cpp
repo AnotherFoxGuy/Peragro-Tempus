@@ -152,6 +152,7 @@ bool CharCreateRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(name);
+  serial.setString(race);
   serial.setInt8(haircolour[0]);
   serial.setInt8(haircolour[1]);
   serial.setInt8(haircolour[2]);
@@ -170,6 +171,7 @@ void CharCreateRequestMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   name = serial.getString();
+  race = serial.getString();
   haircolour[0] = (unsigned char) serial.getInt8();
   haircolour[1] = (unsigned char) serial.getInt8();
   haircolour[2] = (unsigned char) serial.getInt8();

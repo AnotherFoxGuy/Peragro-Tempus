@@ -26,6 +26,7 @@
 #include "server/database/table-users.h"
 #include "server/entity/charactermanager.h"
 #include "server/entity/entitymanager.h"
+#include "server/entity/racemanager.h"
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
 #include "server/environment/environmentmanager.h"
@@ -137,8 +138,12 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   unsigned char* skincolour = char_msg.getSkinColour();
   unsigned char* decalcolour = char_msg.getDecalColour();
 
+  Race* race = server->getRaceManager()->findByName(char_msg.getRace());
+  ptString mesh = ptString::create("test");
+  if (race != 0) mesh = race->getMesh();
+
   // Register the new char
-  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id, haircolour, skincolour, decalcolour);
+  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id, race, mesh, haircolour, skincolour, decalcolour);
 
   // Send response message
   CharCreateResponseMessage response_msg;
