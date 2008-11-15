@@ -48,6 +48,7 @@ class ZoneManager;
 class EnvironmentManager;
 class ReputationManager;
 class CombatManager;
+class MeshManager;
 
 class Server
 {
@@ -75,6 +76,7 @@ private:
   EnvironmentManager* environment_mgr;
   ReputationManager* reputation_mgr;
   CombatManager* combatMgr;
+  MeshManager* meshMgr;
 
 public:
   Server() { server = this; }
@@ -82,6 +84,9 @@ public:
 
   void setCombatManager(CombatManager* combatMgr) { this->combatMgr = combatMgr; }
   CombatManager* getCombatManager() { return this->combatMgr; }
+
+  void setMeshManager(MeshManager* meshMgr) { this->meshMgr = meshMgr; }
+  MeshManager* getMeshManager() { return this->meshMgr; }
 
   void setCharacterManager(CharacterManager* char_mgr) { this->char_mgr = char_mgr; }
   CharacterManager* getCharacterManager() { return this->char_mgr; }

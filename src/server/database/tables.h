@@ -43,6 +43,7 @@ class DoorsTable;
 class SectorsTable;
 class PermissionsTable;
 class MeshesTable;
+class MeshListTable;
 class VerticesTable;
 class TrianglesTable;
 class ConfigTable;
@@ -76,6 +77,7 @@ private:
   SectorsTable* sectorstable;
   PermissionsTable* permissionstable;
   MeshesTable* meshestable;
+  MeshListTable* meshlisttable;
   VerticesTable* verticestable;
   TrianglesTable* trianglestable;
   ConfigTable* configtable;
@@ -112,6 +114,7 @@ public:
   SectorsTable* getSectorsTable() { return sectorstable; }
   PermissionsTable* getPermissionsTable() { return permissionstable; }
   MeshesTable* getMeshesTable() { return meshestable; }
+  MeshListTable* getMeshListTable() { return meshlisttable; }
   VerticesTable* getVerticesTable() { return verticestable; }
   TrianglesTable* getTrianglesTable() { return trianglestable; }
   ConfigTable* getConfigTable() { return configtable; }

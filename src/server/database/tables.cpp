@@ -40,6 +40,7 @@
 #include "table-sectors.h"
 #include "table-permissions.h"
 #include "table-meshes.h"
+#include "table-meshlist.h"
 #include "table-vertices.h"
 #include "table-triangles.h"
 #include "table-config.h"
@@ -56,6 +57,7 @@ Tables::Tables()
   userstable = 0;
   charactertable = 0;
   entitytable = 0;
+  itemtable = 0;
   inventorytable = 0;
   stattable = 0;
   characterstattable = 0;
@@ -68,9 +70,15 @@ Tables::Tables()
   npcdialogstable = 0;
   npcdialoganswerstable = 0;
   npcentitiestable = 0;
+  spawnpointstable = 0;
   bookstable = 0;
   doorstable = 0;
   sectorstable = 0;
+  permissionstable = 0;
+  meshestable = 0;
+  meshlisttable = 0;
+  verticestable = 0;
+  trianglestable = 0;
   configtable = 0;
   zonestable = 0;
   zonenodestable = 0;
@@ -103,6 +111,7 @@ void Tables::init(Database* db)
   sectorstable = new SectorsTable(db);
   permissionstable = new PermissionsTable(db);
   meshestable = new MeshesTable(db);
+  meshlisttable = new MeshListTable(db);
   verticestable = new VerticesTable(db);
   trianglestable = new TrianglesTable(db);
   configtable = new ConfigTable(db);
@@ -137,6 +146,7 @@ Tables::~Tables()
   delete sectorstable;
   delete permissionstable;
   delete meshestable;
+  delete meshlisttable;
   delete verticestable;
   delete trianglestable;
   delete configtable;
