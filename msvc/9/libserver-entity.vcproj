@@ -431,6 +431,12 @@
 				RelativePath="..\..\src\server\entity\mastery.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\mesh.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\meshmanager.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\mountentity.h">
 			</File>
 			<File

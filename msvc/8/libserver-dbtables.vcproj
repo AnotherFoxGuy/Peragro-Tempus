@@ -340,6 +340,9 @@
 				RelativePath="..\..\src\server\database\table-meshes.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-meshlist.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-npcaisetting.cpp">
 			</File>
 			<File
@@ -438,6 +441,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-meshes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-meshlist.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-npcaisetting.h">
