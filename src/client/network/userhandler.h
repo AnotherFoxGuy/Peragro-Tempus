@@ -47,6 +47,8 @@ public:
     else if (id == USER::CHARLIST) handleCharList(msg);
     else if (id == USER::CHARCREATERESPONSE) handleCharCreateResponse(msg);
     else if (id == USER::CHARSELECTRESPONSE) handleCharSelectResponse(msg);
+    else if (id == USER::MESHLISTRESPONSE) handleMeshListResponse(msg);
+    else if (id == USER::RACELISTRESPONSE) handleRaceListResponse(msg);
   }
 
   void handleLoginResponse(GenericMessage* msg);
@@ -54,6 +56,8 @@ public:
   void handleCharList(GenericMessage* msg);
   void handleCharCreateResponse(GenericMessage* msg);
   void handleCharSelectResponse(GenericMessage* msg);
+  void handleMeshListResponse(GenericMessage* msg);
+  void handleRaceListResponse(GenericMessage* msg);
 };
 
 #endif // USERHANDLER_H

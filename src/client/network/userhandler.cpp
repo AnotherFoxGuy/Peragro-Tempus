@@ -127,3 +127,57 @@ void UserHandler::handleCharSelectResponse(GenericMessage* msg)
 
 } // end handleCharSelectResponse
 
+void UserHandler::handleMeshListResponse(GenericMessage* msg)
+{
+  MeshListResponseMessage pmsg;
+  pmsg.deserialise(msg->getByteStream());
+
+  using namespace PT::Events;
+  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("user.mesh.list", true);
+    csRef<iEvent> list = evmgr->CreateEvent("meshesList", true);
+    for (unsigned char i = 0; i < pmsg.getMeshesCount(); i++)
+    {
+      std::stringstream itemName;
+      itemName << "meshes" << "_" << i;
+      csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
+      item->Add("meshId", pmsg.getMeshId(i));
+      item->Add("meshName", *pmsg.getMeshName(i)?*pmsg.getMeshName(i):"");
+      item->Add("fileName", *pmsg.getFileName(i)?*pmsg.getFileName(i):"");
+      list->Add(itemName.str().c_str(), item);
+    }
+    pEvent->Add("meshesList", list);
+
+    evmgr->AddEvent(pEvent);
+  }
+
+} // end handleMeshListResponse
+
+void UserHandler::handleRaceListResponse(GenericMessage* msg)
+{
+  RaceListResponseMessage pmsg;
+  pmsg.deserialise(msg->getByteStream());
+
+  using namespace PT::Events;
+  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent("user.race.list", true);
+    csRef<iEvent> list = evmgr->CreateEvent("racesList", true);
+    for (unsigned char i = 0; i < pmsg.getRacesCount(); i++)
+    {
+      std::stringstream itemName;
+      itemName << "races" << "_" << i;
+      csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
+      item->Add("raceId", pmsg.getRaceId(i));
+      item->Add("raceName", *pmsg.getRaceName(i)?*pmsg.getRaceName(i):"");
+      item->Add("meshId", pmsg.getMeshId(i));
+      list->Add(itemName.str().c_str(), item);
+    }
+    pEvent->Add("racesList", list);
+
+    evmgr->AddEvent(pEvent);
+  }
+
+} // end handleRaceListResponse
+

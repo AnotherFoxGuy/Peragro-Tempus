@@ -37,8 +37,9 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("entity.add.npc", true);
     pEvent->Add("entityName", *pmsg.getEntityName()?*pmsg.getEntityName():"");
-    pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
     pEvent->Add("meshId", pmsg.getMeshId());
+    pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
+    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
     PT::Events::EntityHelper::SetPosition(pEvent, pmsg.getPos());
     pEvent->Add("rotation", pmsg.getRotation());
     pEvent->Add("sectorId", pmsg.getSectorId());
@@ -52,8 +53,9 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
       item->Add("slotId", pmsg.getSlotId(i));
       item->Add("itemId", pmsg.getItemId(i));
       item->Add("variation", pmsg.getVariation(i));
-      item->Add("fileName", *pmsg.getFileName(i)?*pmsg.getFileName(i):"");
+      item->Add("meshId", pmsg.getMeshId(i));
       item->Add("meshName", *pmsg.getMeshName(i)?*pmsg.getMeshName(i):"");
+      item->Add("fileName", *pmsg.getFileName(i)?*pmsg.getFileName(i):"");
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("equipmentList", list);
@@ -83,8 +85,9 @@ void EntityHandler::handleAddItemEntity(GenericMessage* msg)
     pEvent->Add("itemId", pmsg.getItemId());
     pEvent->Add("variation", pmsg.getVariation());
     pEvent->Add("entityName", *pmsg.getEntityName()?*pmsg.getEntityName():"");
-    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
+    pEvent->Add("meshId", pmsg.getMeshId());
     pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
+    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
     PT::Events::EntityHelper::SetPosition(pEvent, pmsg.getPos());
     pEvent->Add("rotation", pmsg.getRotation());
     pEvent->Add("sectorId", pmsg.getSectorId());
@@ -109,7 +112,9 @@ void EntityHandler::handleAddDoorEntity(GenericMessage* msg)
     pEvent->Add("isLocked", pmsg.getIsLocked());
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("entityName", *pmsg.getEntityName()?*pmsg.getEntityName():"");
+    pEvent->Add("meshId", pmsg.getMeshId());
     pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
+    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
     pEvent->Add("sectorId", pmsg.getSectorId());
     pEvent->Add("animationName", *pmsg.getAnimationName()?*pmsg.getAnimationName():"");
 
@@ -128,8 +133,9 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("entity.add.player", true);
     pEvent->Add("entityName", *pmsg.getEntityName()?*pmsg.getEntityName():"");
-    pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
     pEvent->Add("meshId", pmsg.getMeshId());
+    pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
+    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
     PT::Events::EntityHelper::SetPosition(pEvent, pmsg.getPos());
     pEvent->Add("rotation", pmsg.getRotation());
     pEvent->Add("hairColour", *pmsg.getHairColour());
@@ -146,8 +152,9 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
       item->Add("slotId", pmsg.getSlotId(i));
       item->Add("itemId", pmsg.getItemId(i));
       item->Add("variation", pmsg.getVariation(i));
-      item->Add("fileName", *pmsg.getFileName(i)?*pmsg.getFileName(i):"");
+      item->Add("meshId", pmsg.getMeshId(i));
       item->Add("meshName", *pmsg.getMeshName(i)?*pmsg.getMeshName(i):"");
+      item->Add("fileName", *pmsg.getFileName(i)?*pmsg.getFileName(i):"");
       list->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("equipmentList", list);
@@ -255,8 +262,9 @@ void EntityHandler::handleEquip(GenericMessage* msg)
     pEvent->Add("itemId", pmsg.getItemId());
     pEvent->Add("variation", pmsg.getVariation());
     pEvent->Add("slotId", pmsg.getSlotId());
-    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
+    pEvent->Add("meshId", pmsg.getMeshId());
     pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
+    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
 
     evmgr->AddEvent(pEvent);
   }
@@ -333,8 +341,9 @@ void EntityHandler::handleAddMountEntity(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("entity.add.mount", true);
     pEvent->Add("entityName", *pmsg.getEntityName()?*pmsg.getEntityName():"");
-    pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
     pEvent->Add("meshId", pmsg.getMeshId());
+    pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");
+    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
     PT::Events::EntityHelper::SetPosition(pEvent, pmsg.getPos());
     pEvent->Add("rotation", pmsg.getRotation());
     pEvent->Add("sectorId", pmsg.getSectorId());

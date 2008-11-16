@@ -99,7 +99,7 @@ bool Generator::generateNetwork()
       writer.writeHandler(type_file, network->peers[i], network->types[j]);
     }
   }
-/*
+
   // EXPERIMENTAL
   nwPeer* client = network->getPeer("Client");
   for ( size_t j=1; j<network->types.size(); j++)
@@ -117,6 +117,6 @@ bool Generator::generateNetwork()
     std::cout << "- writing " << file.c_str() <<"\n";
     writer.writeHandlerImplementation(type_file, client, network->types[j]);
   }
-*/
+
   return true;
 }

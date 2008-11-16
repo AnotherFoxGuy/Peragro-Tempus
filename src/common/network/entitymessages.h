@@ -61,8 +61,9 @@ namespace ENTITY
 class AddNpcEntityMessage : public NetMessage
 {
   ptString entityname;
-  ptString meshname;
   unsigned short meshid;
+  ptString meshname;
+  ptString filename;
   PtVector3 pos;
   float rotation;
   unsigned short sectorid;
@@ -73,8 +74,9 @@ class AddNpcEntityMessage : public NetMessage
     unsigned int slotid;
     unsigned int itemid;
     unsigned int variation;
-    ptString filename;
+    unsigned short meshid;
     ptString meshname;
+    ptString filename;
   };
 
   unsigned char equipmentcount;
@@ -99,11 +101,14 @@ public:
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
 
+  unsigned short getMeshId() const { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
+
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
 
-  unsigned short getMeshId() const { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
+  ptString getFileName() const { return filename; }
+  void setFileName(ptString x) { filename = x; }
 
   PtVector3 getPos() { return pos; }
   void setPos(const PtVector3& x)
@@ -145,11 +150,14 @@ public:
   unsigned int getVariation(size_t i) { return equipment[i].variation; }
   void setVariation(size_t i, unsigned int x) { equipment[i].variation = x; }
 
-  ptString getFileName(size_t i) { return equipment[i].filename; }
-  void setFileName(size_t i, ptString x) { equipment[i].filename = x; }
+  unsigned short getMeshId(size_t i) { return equipment[i].meshid; }
+  void setMeshId(size_t i, unsigned short x) { equipment[i].meshid = x; }
 
   ptString getMeshName(size_t i) { return equipment[i].meshname; }
   void setMeshName(size_t i, ptString x) { equipment[i].meshname = x; }
+
+  ptString getFileName(size_t i) { return equipment[i].filename; }
+  void setFileName(size_t i, ptString x) { equipment[i].filename = x; }
 
   // --- end ListEquipment Getter and Setter ---
 
@@ -163,8 +171,9 @@ class AddItemEntityMessage : public NetMessage
   unsigned int itemid;
   unsigned int variation;
   ptString entityname;
-  ptString filename;
+  unsigned short meshid;
   ptString meshname;
+  ptString filename;
   PtVector3 pos;
   float rotation;
   unsigned short sectorid;
@@ -191,11 +200,14 @@ public:
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
 
-  ptString getFileName() const { return filename; }
-  void setFileName(ptString x) { filename = x; }
+  unsigned short getMeshId() const { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
 
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
+
+  ptString getFileName() const { return filename; }
+  void setFileName(ptString x) { filename = x; }
 
   PtVector3 getPos() { return pos; }
   void setPos(const PtVector3& x)
@@ -227,7 +239,9 @@ class AddDoorEntityMessage : public NetMessage
   bool islocked;
   unsigned int entityid;
   ptString entityname;
+  unsigned short meshid;
   ptString meshname;
+  ptString filename;
   unsigned short sectorid;
   ptString animationname;
 
@@ -258,8 +272,14 @@ public:
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
 
+  unsigned short getMeshId() const { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
+
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
+
+  ptString getFileName() const { return filename; }
+  void setFileName(ptString x) { filename = x; }
 
   unsigned short getSectorId() const { return sectorid; }
   void setSectorId(unsigned short x) { sectorid = x; }
@@ -272,8 +292,9 @@ public:
 class AddPlayerEntityMessage : public NetMessage
 {
   ptString entityname;
-  ptString meshname;
   unsigned short meshid;
+  ptString meshname;
+  ptString filename;
   PtVector3 pos;
   float rotation;
   unsigned char haircolour[3];
@@ -287,8 +308,9 @@ class AddPlayerEntityMessage : public NetMessage
     unsigned int slotid;
     unsigned int itemid;
     unsigned int variation;
-    ptString filename;
+    unsigned short meshid;
     ptString meshname;
+    ptString filename;
   };
 
   unsigned char equipmentcount;
@@ -313,11 +335,14 @@ public:
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
 
+  unsigned short getMeshId() const { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
+
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
 
-  unsigned short getMeshId() const { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
+  ptString getFileName() const { return filename; }
+  void setFileName(ptString x) { filename = x; }
 
   PtVector3 getPos() { return pos; }
   void setPos(const PtVector3& x)
@@ -395,11 +420,14 @@ public:
   unsigned int getVariation(size_t i) { return equipment[i].variation; }
   void setVariation(size_t i, unsigned int x) { equipment[i].variation = x; }
 
-  ptString getFileName(size_t i) { return equipment[i].filename; }
-  void setFileName(size_t i, ptString x) { equipment[i].filename = x; }
+  unsigned short getMeshId(size_t i) { return equipment[i].meshid; }
+  void setMeshId(size_t i, unsigned short x) { equipment[i].meshid = x; }
 
   ptString getMeshName(size_t i) { return equipment[i].meshname; }
   void setMeshName(size_t i, ptString x) { equipment[i].meshname = x; }
+
+  ptString getFileName(size_t i) { return equipment[i].filename; }
+  void setFileName(size_t i, ptString x) { equipment[i].filename = x; }
 
   // --- end ListEquipment Getter and Setter ---
 
@@ -411,8 +439,9 @@ public:
 class AddMountEntityMessage : public NetMessage
 {
   ptString entityname;
-  ptString meshname;
   unsigned short meshid;
+  ptString meshname;
+  ptString filename;
   PtVector3 pos;
   float rotation;
   unsigned short sectorid;
@@ -434,11 +463,14 @@ public:
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
 
+  unsigned short getMeshId() const { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
+
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
 
-  unsigned short getMeshId() const { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
+  ptString getFileName() const { return filename; }
+  void setFileName(ptString x) { filename = x; }
 
   PtVector3 getPos() { return pos; }
   void setPos(const PtVector3& x)
@@ -800,8 +832,9 @@ class EquipMessage : public NetMessage
   unsigned int itemid;
   unsigned int variation;
   unsigned char slotid;
-  ptString filename;
+  unsigned short meshid;
   ptString meshname;
+  ptString filename;
 
 public:
   EquipMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::EQUIP)
@@ -827,11 +860,14 @@ public:
   unsigned char getSlotId() const { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
 
-  ptString getFileName() const { return filename; }
-  void setFileName(ptString x) { filename = x; }
+  unsigned short getMeshId() const { return meshid; }
+  void setMeshId(unsigned short x) { meshid = x; }
 
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
+
+  ptString getFileName() const { return filename; }
+  void setFileName(ptString x) { filename = x; }
 
 };
 

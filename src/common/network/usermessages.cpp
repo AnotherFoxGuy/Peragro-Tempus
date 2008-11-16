@@ -152,7 +152,7 @@ bool CharCreateRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(name);
-  serial.setString(race);
+  serial.setString(racename);
   serial.setInt8(haircolour[0]);
   serial.setInt8(haircolour[1]);
   serial.setInt8(haircolour[2]);
@@ -171,7 +171,7 @@ void CharCreateRequestMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   name = serial.getString();
-  race = serial.getString();
+  racename = serial.getString();
   haircolour[0] = (unsigned char) serial.getInt8();
   haircolour[1] = (unsigned char) serial.getInt8();
   haircolour[2] = (unsigned char) serial.getInt8();
@@ -256,5 +256,99 @@ void CharSelectResponseMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   entityid = (unsigned int) serial.getInt32();
   error = serial.getString();
+}
+
+bool MeshListRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  return serial.isValid();
+}
+
+void MeshListRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+}
+
+bool MeshListResponseMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(meshescount);
+  for ( size_t i = 0; i < meshescount ; i++ )
+  {
+    serial.setInt32(meshes[i].meshid);
+    serial.setString(meshes[i].meshname);
+    serial.setString(meshes[i].filename);
+  };
+
+  return serial.isValid();
+}
+
+void MeshListResponseMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  meshescount = (unsigned char) serial.getInt8();
+  setMeshesCount(meshescount);
+  for ( size_t i = 0; i < meshescount ; i++ )
+  {
+    meshes[i].meshid = (unsigned int) serial.getInt32();
+    meshes[i].meshname = serial.getString();
+    meshes[i].filename = serial.getString();
+  };
+
+}
+
+bool RaceListRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  return serial.isValid();
+}
+
+void RaceListRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+}
+
+bool RaceListResponseMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(racescount);
+  for ( size_t i = 0; i < racescount ; i++ )
+  {
+    serial.setInt32(races[i].raceid);
+    serial.setString(races[i].racename);
+    serial.setInt32(races[i].meshid);
+  };
+
+  return serial.isValid();
+}
+
+void RaceListResponseMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  racescount = (unsigned char) serial.getInt8();
+  setRacesCount(racescount);
+  for ( size_t i = 0; i < racescount ; i++ )
+  {
+    races[i].raceid = (unsigned int) serial.getInt32();
+    races[i].racename = serial.getString();
+    races[i].meshid = (unsigned int) serial.getInt32();
+  };
+
 }
 

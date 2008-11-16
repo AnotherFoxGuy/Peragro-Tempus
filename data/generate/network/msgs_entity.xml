@@ -2,8 +2,9 @@
 	<message type="Entity" name="AddNpcEntity">
           <event name="entity.add.npc" specific="None">
 		<string>EntityName</string>
-		<string>MeshName</string>
 		<uint16>MeshId</uint16>
+		<string>MeshName</string>
+		<string>FileName</string>
 		<vector3f>Pos</vector3f>
 		<float>Rotation</float>
 		<uint16>SectorId</uint16>
@@ -12,8 +13,9 @@
 			<uint32>SlotId</uint32>
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>
-			<string>FileName</string>
+			<uint16>MeshId</uint16>
 			<string>MeshName</string>
+			<string>FileName</string>
 		</list>
             </event>
             <event name="entity.pose" specific="EntityId">
@@ -27,8 +29,9 @@
 		<uint32>ItemId</uint32>
 		<uint32>Variation</uint32>
 		<string>EntityName</string>
-		<string>FileName</string>
+		<uint16>MeshId</uint16>
 		<string>MeshName</string>
+		<string>FileName</string>
 		<vector3f>Pos</vector3f>
 		<float>Rotation</float>
 		<uint16>SectorId</uint16>
@@ -43,7 +46,9 @@
 		<bool>IsLocked</bool>
 		<uint32>EntityId</uint32>
 		<string>EntityName</string>
+		<uint16>MeshId</uint16>
 		<string>MeshName</string>
+		<string>FileName</string>
 		<uint16>SectorId</uint16>
 		<string>AnimationName</string>
           </event>
@@ -52,8 +57,9 @@
 	<message type="Entity" name="AddPlayerEntity">
           <event name="entity.add.player" specific="None">
 		<string>EntityName</string>
-		<string>MeshName</string>
 		<uint16>MeshId</uint16>
+		<string>MeshName</string>
+		<string>FileName</string>
 		<vector3f>Pos</vector3f>
 		<float>Rotation</float>
 		<colour24>HairColour</colour24>
@@ -65,8 +71,9 @@
 			<uint32>SlotId</uint32>
 			<uint32>ItemId</uint32>
 			<uint32>Variation</uint32>
-			<string>FileName</string>
+			<uint16>MeshId</uint16>
 			<string>MeshName</string>
+			<string>FileName</string>
 		</list>
           </event>
             <event name="entity.pose" specific="EntityId">
@@ -78,8 +85,9 @@
 	<message type="Entity" name="AddMountEntity">
           <event name="entity.add.mount" specific="None">
 		<string>EntityName</string>
-		<string>MeshName</string>
 		<uint16>MeshId</uint16>
+		<string>MeshName</string>
+		<string>FileName</string>
 		<vector3f>Pos</vector3f>
 		<float>Rotation</float>
 		<uint16>SectorId</uint16>
@@ -168,8 +176,9 @@
 		<uint32>ItemId</uint32>
 		<uint32>Variation</uint32>
 		<uint8>SlotId</uint8>
-		<string>FileName</string>
+		<uint16>MeshId</uint16>
 		<string>MeshName</string>
+		<string>FileName</string>
           </event>
 	</message>
 

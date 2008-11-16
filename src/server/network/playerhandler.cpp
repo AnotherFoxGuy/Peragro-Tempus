@@ -108,6 +108,7 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
       response_msg.setEntityId(user_ent->getId());
       response_msg.setItemId(old_item.id);
       response_msg.setSlotId(invent_slot);
+      response_msg.setMeshId(old?old->getMesh()->getId():0); // Not used yet!
       response_msg.setFileName(old?old->getMesh()->getFile():ptString::Null);
       response_msg.setMeshName(old?old->getMesh()->getName():ptString::Null);
 
@@ -122,6 +123,7 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
       response_msg.setEntityId(user_ent->getId());
       response_msg.setItemId(new_item.id);
       response_msg.setSlotId(equip_slot);
+      response_msg.setMeshId(item->getMesh()->getId()); // Not used yet!
       response_msg.setFileName(item->getMesh()->getFile());
       response_msg.setMeshName(item->getMesh()->getName());
 

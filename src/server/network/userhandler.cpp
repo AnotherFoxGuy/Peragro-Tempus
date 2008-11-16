@@ -26,6 +26,7 @@
 #include "server/database/table-users.h"
 #include "server/entity/charactermanager.h"
 #include "server/entity/entitymanager.h"
+#include "server/entity/meshmanager.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/usermanager.h"
 #include "server/useraccountmanager.h"
@@ -138,7 +139,7 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   unsigned char* skincolour = char_msg.getSkinColour();
   unsigned char* decalcolour = char_msg.getDecalColour();
 
-  Race* race = server->getRaceManager()->findByName(char_msg.getRace());
+  Race* race = server->getRaceManager()->findByName(char_msg.getRaceName());
 
   // Register the new char
   ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id, race, haircolour, skincolour, decalcolour);
@@ -238,4 +239,51 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   lockedChar->getSkills()->sendAllSkills(msg->getConnection());
 
   server->getEnvironmentManager()->GetClock()->InitTime(entity->getEntity());
+}
+
+void UserHandler::handleMeshListRequest(GenericMessage* msg)
+{
+  Server* server = Server::getServer();
+
+  std::vector<const Mesh*> meshes;
+  server->getMeshManager()->findChangedMeshSince(0, meshes);
+
+  MeshListResponseMessage response;
+
+  if (meshes.size() > 255) return; // TODO: Fix me
+
+  response.setMeshesCount((unsigned char) meshes.size());
+  for (size_t i=0; i < meshes.size(); i++)
+  {
+    const Mesh* mesh = meshes[i];
+    response.setMeshId(i, mesh->getId());
+    response.setMeshName(i, mesh->getName());
+    response.setFileName(i, mesh->getFile());
+  }
+
+  ByteStream bs;
+  response.serialise(&bs);
+  msg->getConnection()->send(bs);
+}
+
+void UserHandler::handleRaceListRequest(GenericMessage* msg)
+{
+  Server* server = Server::getServer();
+
+  size_t raceCount = server->getRaceManager()->getRaceCount();
+
+  RaceListResponseMessage response;
+
+  response.setRacesCount(raceCount);
+  for (size_t i=0; i< raceCount; i++)
+  {
+    Race* race = server->getRaceManager()->getRace(i);
+    response.setRaceId(i, race->getId());
+    response.setRaceName(i, race->getName());
+    response.setMeshId(i, race->getMesh()->getId());
+  }
+
+  ByteStream bs;
+  response.serialise(&bs);
+  msg->getConnection()->send(bs);
 }

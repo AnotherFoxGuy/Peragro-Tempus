@@ -941,7 +941,7 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
         writeParam(out, param, "pEvent", "", 1);
       }
 
-      out << indt << "\n";
+      out << "\n";
       out << indt << "evmgr->AddEvent(pEvent);\n";
       indt = "  ";
       out << indt << "}\n\n";

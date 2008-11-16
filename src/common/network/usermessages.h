@@ -37,7 +37,11 @@ namespace USER
     CHARCREATEREQUEST=5,
     CHARCREATERESPONSE=6,
     CHARSELECTREQUEST=7,
-    CHARSELECTRESPONSE=8
+    CHARSELECTRESPONSE=8,
+    MESHLISTREQUEST=9,
+    MESHLISTRESPONSE=10,
+    RACELISTREQUEST=11,
+    RACELISTRESPONSE=12
   };
 }
 
@@ -226,7 +230,7 @@ public:
 class CharCreateRequestMessage : public NetMessage
 {
   ptString name;
-  ptString race;
+  ptString racename;
   unsigned char haircolour[3];
   unsigned char skincolour[3];
   unsigned char decalcolour[3];
@@ -246,8 +250,8 @@ public:
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getRace() const { return race; }
-  void setRace(ptString x) { race = x; }
+  ptString getRaceName() const { return racename; }
+  void setRaceName(ptString x) { racename = x; }
 
   unsigned char* getHairColour() { return haircolour; }
   void setHairColour(unsigned char r, unsigned char g, unsigned char b)
@@ -398,6 +402,142 @@ public:
 
   ptString getError() const { return error; }
   void setError(ptString x) { error = x; }
+
+};
+
+class MeshListRequestMessage : public NetMessage
+{
+
+public:
+  MeshListRequestMessage() : NetMessage(MESSAGES::USER,USER::MESHLISTREQUEST)
+  {
+  }
+
+  ~MeshListRequestMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+};
+
+class MeshListResponseMessage : public NetMessage
+{
+  class ListMeshes
+  {
+  public:
+    unsigned int meshid;
+    ptString meshname;
+    ptString filename;
+  };
+
+  unsigned char meshescount;
+  ListMeshes* meshes;
+
+
+public:
+  MeshListResponseMessage() : NetMessage(MESSAGES::USER,USER::MESHLISTRESPONSE)
+  {
+    meshes = 0;
+  }
+
+  ~MeshListResponseMessage()
+  {
+    delete [] meshes;
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getMeshesCount() const { return meshescount; }
+  void setMeshesCount(unsigned char ic)
+  {
+    meshescount = ic;
+    delete [] meshes;
+    meshes = new ListMeshes[ic];
+  }
+
+  // --- begin ListMeshes Getter and Setter ---
+
+  unsigned int getMeshId(size_t i) { return meshes[i].meshid; }
+  void setMeshId(size_t i, unsigned int x) { meshes[i].meshid = x; }
+
+  ptString getMeshName(size_t i) { return meshes[i].meshname; }
+  void setMeshName(size_t i, ptString x) { meshes[i].meshname = x; }
+
+  ptString getFileName(size_t i) { return meshes[i].filename; }
+  void setFileName(size_t i, ptString x) { meshes[i].filename = x; }
+
+  // --- end ListMeshes Getter and Setter ---
+
+};
+
+class RaceListRequestMessage : public NetMessage
+{
+
+public:
+  RaceListRequestMessage() : NetMessage(MESSAGES::USER,USER::RACELISTREQUEST)
+  {
+  }
+
+  ~RaceListRequestMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+};
+
+class RaceListResponseMessage : public NetMessage
+{
+  class ListRaces
+  {
+  public:
+    unsigned int raceid;
+    ptString racename;
+    unsigned int meshid;
+  };
+
+  unsigned char racescount;
+  ListRaces* races;
+
+
+public:
+  RaceListResponseMessage() : NetMessage(MESSAGES::USER,USER::RACELISTRESPONSE)
+  {
+    races = 0;
+  }
+
+  ~RaceListResponseMessage()
+  {
+    delete [] races;
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getRacesCount() const { return racescount; }
+  void setRacesCount(unsigned char ic)
+  {
+    racescount = ic;
+    delete [] races;
+    races = new ListRaces[ic];
+  }
+
+  // --- begin ListRaces Getter and Setter ---
+
+  unsigned int getRaceId(size_t i) { return races[i].raceid; }
+  void setRaceId(size_t i, unsigned int x) { races[i].raceid = x; }
+
+  ptString getRaceName(size_t i) { return races[i].racename; }
+  void setRaceName(size_t i, ptString x) { races[i].racename = x; }
+
+  unsigned int getMeshId(size_t i) { return races[i].meshid; }
+  void setMeshId(size_t i, unsigned int x) { races[i].meshid = x; }
+
+  // --- end ListRaces Getter and Setter ---
 
 };
 

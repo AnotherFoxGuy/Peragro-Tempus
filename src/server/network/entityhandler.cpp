@@ -204,6 +204,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
           equip_msg.setEntityId(user_ent->getId());
           if (item) equip_msg.setItemId(item->getId());
           equip_msg.setSlotId(slot);
+          equip_msg.setMeshId(item->getMesh()->getId()); // Not used yet!
           equip_msg.setFileName(item->getMesh()->getFile());
           equip_msg.setMeshName(item->getMesh()->getName());
 
@@ -291,6 +292,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     unequip_msg.setEntityId(user_ent->getId());
     unequip_msg.setSlotId(slot_id);
     unequip_msg.setItemId(Item::NoItem); // No Item!
+    unequip_msg.setMeshId(0); // Not used yet!
     unequip_msg.setFileName(ptString::Null);
     unequip_msg.setMeshName(ptString::Null);
     ByteStream bs;

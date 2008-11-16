@@ -22,6 +22,32 @@
           </event>
 	</message>
 
+	<message type="User" name="MeshListRequest">
+	</message>
+
+	<message type="User" name="MeshListResponse">
+          <event name="user.mesh.list" specific="None">
+		<list name="Meshes">
+			<uint32>MeshId</uint32>
+			<string>MeshName</string>
+			<string>FileName</string>
+		</list>
+          </event>
+	</message>
+
+	<message type="User" name="RaceListRequest">
+	</message>
+
+	<message type="User" name="RaceListResponse">
+          <event name="user.race.list" specific="None">
+		<list name="Races">
+			<uint32>RaceId</uint32>
+			<string>RaceName</string>
+			<uint32>MeshId</uint32>
+		</list>
+          </event>
+	</message>
+
 	<message type="User" name="CharList">
           <event name="user.character.list" specific="None">
 		<list name="Character">
@@ -36,6 +62,7 @@
 
 	<message type="User" name="CharCreateRequest">
 		<string>Name</string>
+		<string>RaceName</string>
 		<colour24>HairColour</colour24>
 		<colour24>SkinColour</colour24>
 		<colour24>DecalColour</colour24>
