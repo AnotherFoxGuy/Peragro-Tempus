@@ -22,6 +22,8 @@
 class Database;
 class ResultSet;
 
+class Mesh;
+
 #include "common/util/ptstring.h"
 #include "common/database/table.h"
 
@@ -43,7 +45,7 @@ public:
   /// The sector the door exists in
   ptString sector;
   /// The mesh of the door
-  ptString mesh;
+  unsigned int mesh;
   /// Animation, or CEL Quest
   ptString animation;
   /// X coordinate of the door

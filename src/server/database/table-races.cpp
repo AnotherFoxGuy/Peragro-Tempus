@@ -23,27 +23,29 @@
 #include "common/database/database.h"
 
 #include "table-races.h"
+#include "table-meshlist.h"
 
 #include "server/entity/race.h"
 #include "server/entity/user.h"
+#include "server/entity/meshmanager.h"
 
-RaceTable::RaceTable(Database* db) : Table(db)
+RaceTable::RaceTable(Database* db, MeshListTable* meshListTable) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from races;");
   if (rs == 0)
   {
-    createTable();
+    createTable(meshListTable);
   }
   delete rs;
 }
 
-void RaceTable::createTable()
+void RaceTable::createTable(MeshListTable* meshListTable)
 {
   printf("Creating Table races...\n");
   db->update("create table races ("
     "id INTEGER, "
     "name TEXT, "
-    "mesh TEXT, "
+    "mesh INTEGER, "
     "pos_x FLOAT, "
     "pos_y FLOAT, "
     "pos_z FLOAT, "
@@ -54,15 +56,16 @@ void RaceTable::createTable()
   ptString test("test", 4);
   ptString room("World", 5);
 
-  insert(1, test, test, pos, room);
+  unsigned int meshId = meshListTable->findByName(ptString::create("test"));
+  insert(1, test, meshId, pos, room);
 }
 
-void RaceTable::insert(int id, const ptString& name, const ptString& mesh,
+void RaceTable::insert(int id, const ptString& name, unsigned int mesh,
                        const PtVector3& pos, const ptString& sector)
 {
   const char* query = "insert into races (id, name, mesh, pos_x, pos_y, pos_z, "
-    "sector) values ('%d','%q','%q',%.2f,%.2f,%.2f,'%q');";
-  db->update(query, id, *name, *mesh, pos.x, pos.y, pos.z, *sector);
+    "sector) values ('%d','%q','%d',%.2f,%.2f,%.2f,'%q');";
+  db->update(query, id, *name, mesh, pos.x, pos.y, pos.z, *sector);
 }
 
 int RaceTable::getMaxId()
@@ -103,7 +106,7 @@ bool RaceTable::existsRace(const ptString& name)
   return existence;
 }
 
-Race* RaceTable::findRaceById(int id)
+Race* RaceTable::findRaceById(int id, MeshManager* meshmgr)
 {
   ResultSet* rs = db->query("select * from races where id = '%d';", id);
   if (!rs || rs->GetRowCount() == 0)
@@ -112,17 +115,17 @@ Race* RaceTable::findRaceById(int id)
   Race* race = new Race();
   race->setId(atoi(rs->GetData(0,0).c_str()));
   race->setName(ptString(rs->GetData(0,1).c_str(),rs->GetData(0,1).length()));
-  race->setMesh(ptString(rs->GetData(0,2).c_str(),rs->GetData(0,2).length()));
-  race->setPos(PtVector3(atof(rs->GetData(0,3).c_str()),
-    atof(rs->GetData(0,4).c_str()),
-    atof(rs->GetData(0,5).c_str())));
+  race->setMesh(meshmgr->findById(atoi(rs->GetData(0,2).c_str())));
+  race->setPos(PtVector3((float) atof(rs->GetData(0,3).c_str()),
+    (float) atof(rs->GetData(0,4).c_str()),
+    (float) atof(rs->GetData(0,5).c_str())));
   race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
   delete rs;
 
   return race;
 }
 
-void RaceTable::getAllRaces(Array<Race*>& races)
+void RaceTable::getAllRaces(Array<Race*>& races, MeshManager* meshmgr)
 {
   ResultSet* rs = db->query("select * from races;");
   if (!rs) return;
@@ -131,10 +134,10 @@ void RaceTable::getAllRaces(Array<Race*>& races)
     Race* race = new Race();
     race->setId(atoi(rs->GetData(i,0).c_str()));
     race->setName(ptString(rs->GetData(i,1).c_str(),rs->GetData(0,1).length()));
-    race->setMesh(ptString(rs->GetData(0,2).c_str(),rs->GetData(0,2).length()));
-    race->setPos(PtVector3(atof(rs->GetData(0,3).c_str()),
-      atof(rs->GetData(0,4).c_str()),
-      atof(rs->GetData(0,5).c_str())));
+    race->setMesh(meshmgr->findById(atoi(rs->GetData(0,2).c_str())));
+    race->setPos(PtVector3((float) atof(rs->GetData(0,3).c_str()),
+      (float) atof(rs->GetData(0,4).c_str()),
+      (float) atof(rs->GetData(0,5).c_str())));
     race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
     races.add(race);
   }

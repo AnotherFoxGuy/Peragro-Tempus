@@ -20,9 +20,13 @@
 #define MESH_H
 
 #include "common/util/stringstore.h"
+#include "common/util/ptstring.h"
 
 class Mesh
 {
+public:
+  static const unsigned int NoMesh = 0;
+
 private:
 
   unsigned int id;

@@ -139,11 +139,9 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   unsigned char* decalcolour = char_msg.getDecalColour();
 
   Race* race = server->getRaceManager()->findByName(char_msg.getRace());
-  ptString mesh = ptString::create("test");
-  if (race != 0) mesh = race->getMesh();
 
   // Register the new char
-  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id, race, mesh, haircolour, skincolour, decalcolour);
+  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id, race, haircolour, skincolour, decalcolour);
 
   // Send response message
   CharCreateResponseMessage response_msg;

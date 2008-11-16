@@ -46,6 +46,7 @@ public:
   unsigned int getMaxId();
   unsigned int getMaxRevision();
 
+  unsigned int findByName(ptString name);
   void getAll(std::vector<const Mesh*>& list);
 };
 

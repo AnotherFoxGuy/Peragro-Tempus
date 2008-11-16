@@ -24,6 +24,8 @@
 #include "common/util/ptvector3.h"
 
 class Database;
+class MeshListTable;
+class MeshManager;
 class Race;
 class ptString;
 
@@ -39,11 +41,11 @@ public:
    * will be called in order to populate the database.
    * @param db A pointer to the database.
    */
-  RaceTable(Database* db);
+  RaceTable(Database* db, MeshListTable* meshListTable);
   /**
    * Creates a table in the database that will store races.
    */
-  void createTable();
+  void createTable(MeshListTable* meshListTable);
   /**
    * Inserts a race into the database.
    * @param id The id number of this race.
@@ -52,7 +54,7 @@ public:
    * @param pos An array containing the position.
    * @param sector The sector in which the race is located.
    */
-  void insert(int id, const ptString& name, const ptString& mesh,
+  void insert(int id, const ptString& name, unsigned int mesh,
               const PtVector3& pos, const ptString& sector);
   /**
    * Returns the highest id any race have.
@@ -80,13 +82,13 @@ public:
    * @param id The id of the race to search for.
    * @return The race if found, otherwise 0.
    */
-  Race* findRaceById(int id);
+  Race* findRaceById(int id, MeshManager* meshmgr);
   /**
    * This function will load all skills from the database.
    * The caller is responsible for freeing all races in the array.
    * @param races An array that will contain all races.
    */
-  void getAllRaces(Array<Race*>& races);
+  void getAllRaces(Array<Race*>& races, MeshManager* meshmgr);
 };
 
 #endif // TABLE_RACES_H

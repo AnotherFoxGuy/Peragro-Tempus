@@ -204,8 +204,8 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
           equip_msg.setEntityId(user_ent->getId());
           if (item) equip_msg.setItemId(item->getId());
           equip_msg.setSlotId(slot);
-          equip_msg.setFileName(item->getFile());
-          equip_msg.setMeshName(item->getMesh());
+          equip_msg.setFileName(item->getMesh()->getFile());
+          equip_msg.setMeshName(item->getMesh()->getName());
 
           ByteStream bs;
           equip_msg.serialise(&bs);

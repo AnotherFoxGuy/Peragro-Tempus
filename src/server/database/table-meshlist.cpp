@@ -23,6 +23,12 @@
 
 MeshListTable::MeshListTable(Database* db) : db(db)
 {
+  ResultSet* rs = db->query("select count(*) from meshlist;");
+  if (rs == 0)
+  {
+    createTable();
+  }
+  delete rs;
 }
 
 const Mesh* MeshListTable::parseSingleResultSet(ResultSet* rs, size_t row)
@@ -40,18 +46,30 @@ void MeshListTable::parseMultiResultSet(ResultSet* rs, std::vector<const Mesh*>&
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
     const Mesh* obj = parseSingleResultSet(rs, i);
+    while (obj->getId() > list.size())
+    {
+      list.push_back(0);
+    }
     list.push_back(obj);
   }
 }
 
 void MeshListTable::createTable()
 {
-  db->update("create table meshlist ("
-             "id INTEGER,"
-             "revision INTEGER,"
-             "name TEXT,"
-             "file TEXT"
-             "PRIMARY KEY (Id) );");
+  printf("Creating Table meshlist...\n");
+  db->update("create table meshlist ( "
+             "id INTEGER, "
+             "revision INTEGER, "
+             "name TEXT, "
+             "file TEXT, "
+             "PRIMARY KEY (id) );");
+
+  Mesh vo;
+  vo.setId(1);
+  vo.setRevision(1);
+  vo.setName(ptString::create("test"));
+  vo.setFile(ptString::Null);
+  insert(&vo);
 }
 
 void MeshListTable::insert(const Mesh* vo)
@@ -62,7 +80,7 @@ void MeshListTable::insert(const Mesh* vo)
 
 void MeshListTable::remove(int id)
 {
-  db->update("delete from meshlist where id = %d");
+  db->update("delete from meshlist where id = %d", id);
 }
 
 unsigned int MeshListTable::getMaxId()
@@ -89,9 +107,21 @@ unsigned int MeshListTable::getMaxRevision()
   return revision;
 }
 
+unsigned int MeshListTable::findByName(ptString name)
+{
+  ResultSet* rs = db->query("select id from meshlist where name = '%q'", *name);
+  if (!rs || rs->GetRowCount() == 0)
+    return 0;
+
+  unsigned int revision = atoi(rs->GetData(0,0).c_str());
+
+  delete rs;
+  return revision;
+}
+
 void MeshListTable::getAll(std::vector<const Mesh*>& list)
 {
-  ResultSet* rs = db->query("select * from meshlist;");
+  ResultSet* rs = db->query("select * from meshlist order by id;");
   parseMultiResultSet(rs, list);
   delete rs;
 }

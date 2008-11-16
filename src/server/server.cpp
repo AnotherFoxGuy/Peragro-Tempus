@@ -42,7 +42,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
   printf("Add Entity\n");
   ent_mgr->addEntity(entity);
 
-  printf("Added %s with id: %d, mesh: %s\n", *entity->getName(), entity->getId(), *entity->getMesh());
+  printf("Added %s with id: %d, mesh: %s\n", *entity->getName(), entity->getId(), *entity->getMesh()->getName());
 
   if (persistent)
   {
@@ -50,7 +50,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
     const DoorEntity* de = entity->getDoorEntity();
     if (ie)
     {
-      tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
+      tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh()->getId(), entity->getPos(), entity->getRotation(), entity->getSectorName());
     }
     else if (de)
     {
@@ -59,7 +59,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
       vo.id = de->getDoorId();
       vo.islocked = de->getLocked();
       vo.isopen = de->getOpen();
-      vo.mesh = entity->getMesh();
+      vo.mesh = entity->getMesh()->getId();
       vo.animation = de->getAnimation();
       vo.name = entity->getName();
       vo.sector = entity->getSectorName();
@@ -70,7 +70,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
     }
     else
     {
-      tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh(), entity->getPos(), entity->getRotation(), entity->getSectorName());
+      tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh()->getId(), entity->getPos(), entity->getRotation(), entity->getSectorName());
     }
   }
 

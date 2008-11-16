@@ -25,6 +25,7 @@ class Database;
 class ResultSet;
 
 class User;
+class Mesh;
 
 #include "common/util/ptstring.h"
 #include "common/util/ptvector3.h"
@@ -35,7 +36,7 @@ public:
   int id;
   ptString name;
   int user;
-  ptString mesh;
+  unsigned int mesh;
   int race;
   unsigned char hair_r;
   unsigned char hair_g;
@@ -87,7 +88,7 @@ public:
    * @param pos The location for this character.
    * @param sector The sector in which the character is lcoated.
    */
-  void insert(int id, const ptString& name, int user_id, const ptString& mesh,
+  void insert(int id, const ptString& name, int user_id, const Mesh* mesh,
               int race_id, unsigned char haircolour[3],
               unsigned char skincolour[3], unsigned char decalcolour[3],
               const PtVector3& pos, const ptString& sector);

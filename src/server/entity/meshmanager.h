@@ -22,8 +22,8 @@
 #include <vector>
 
 #include "mesh.h"
-#include "meshlist.h"
 #include "server/database/table-meshlist.h"
+#include "common/util/mutex.h"
 
 class MeshManager
 {
@@ -32,10 +32,53 @@ private:
   unsigned int mesh_id;
   unsigned int revision;
 
-  std::vector<Mesh*> updateList;
+  bool hasRevisionChanges;
+
+  Mutex mutex;
+
+  MeshListTable* mlt;
+
+  void loadFromDB()
+  {
+    if (!list.empty())
+    {
+      for (size_t i = 0; i < list.size(); i++)
+      {
+        delete list[i];
+      }
+      list.clear();
+    }
+
+    mesh_id = mlt->getMaxId();
+    revision = mlt->getMaxRevision();
+
+    //Load all Meshs from Database
+    mlt->getAll(list);
+    hasRevisionChanges = false;
+  }
+
+  const Mesh* findByName(const ptString& name, bool doUpdate)
+  {
+    ptScopedMutex scopedMutex(mutex);
+
+    if (hasRevisionChanges && doUpdate) loadFromDB();
+
+    for (size_t i = 0; i < list.size(); i++)
+    {
+      const Mesh* mesh = list[i];
+      if (mesh != 0 && mesh->getName() == name)
+      {
+        return mesh;
+      }
+    }
+    return 0;
+  }
 
 public:
-  MeshManager() : ent_id(0) {}
+  MeshManager(MeshListTable* mlt) : mesh_id(0), revision(0), mlt(mlt)
+  {
+    hasRevisionChanges = true;
+  }
 
   ~MeshManager()
   {
@@ -45,28 +88,73 @@ public:
     }
   }
 
-  void addMeshUpdate(Mesh* mesh)
+  const Mesh* addMeshUpdate(ptString name, ptString file)
   {
-    updateList.push_back(mesh);
-  }
+    const Mesh* mesh = findByName(name, false);
 
-  void runUpdate(MeshListTable* mlt)
-  {
-    for (size_t i = 0; i < updateList.size(); i++)
+    ptScopedMutex scopedMutex(mutex);
+
+    if (mesh != 0 && file == mesh->getFile())
     {
-      Mesh* mesh = updateList[i];
-      mesh.setRevision(revision + 1);
-      mlt->insert(mesh);
+      return mesh;
     }
-    loadFromDB(mlt);
+
+    if (mesh == 0)
+    {
+      Mesh* newMesh = new Mesh();
+      newMesh->setId(++mesh_id);
+      newMesh->setRevision(revision + 1);
+      newMesh->setName(name);
+      newMesh->setFile(file);
+
+      list.push_back(newMesh);
+      mesh = newMesh;
+    }
+    else if (file != mesh->getFile())
+    {
+      Mesh* updateMesh = (Mesh*) mesh;
+      updateMesh->setRevision(revision + 1);
+      updateMesh->setFile(file);
+      mlt->remove(mesh->getId());
+    }
+
+    mlt->insert(mesh);
+
+    return mesh;
   }
 
-  const std::vector<const Mesh*>& getAllMesh()
+  const Mesh* findById(unsigned int id)
   {
+    ptScopedMutex scopedMutex(mutex);
+
+    if (hasRevisionChanges) loadFromDB();
+
+    if (id < list.size())
+    {
+      const Mesh* mesh = list[id];
+      if (mesh != 0 && mesh->getId() == id)
+      {
+        return mesh;
+      }
+    }
+    return 0;
+  }
+
+  const Mesh* findByName(const ptString& name)
+  {
+    ptScopedMutex scopedMutex(mutex);
+
+    if (hasRevisionChanges) loadFromDB();
+
+    return findByName(name, true);
   }
 
   void findChangedMeshSince(unsigned int revision, std::vector<const Mesh*>& result)
   {
+    ptScopedMutex scopedMutex(mutex);
+
+    if (hasRevisionChanges) loadFromDB();
+
     for (size_t i = 0; i< list.size(); i ++)
     {
       if (list[i]->getRevision() > revision)
@@ -74,15 +162,6 @@ public:
         result.push_back(list[i]);
       }
     }
-  }
-
-  void loadFromDB(MeshListTable* mlt)
-  {
-    mesh_id = mlt->getMaxId();
-    revision = mlt->getMaxRevision();
-
-    //Load all Meshs from Database
-    mlt->getAllMeshs(list);
   }
 };
 

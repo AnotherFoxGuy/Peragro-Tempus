@@ -25,6 +25,7 @@
 
 #include "table-items.h"
 #include "server/entity/item.h"
+#include "server/entity/meshmanager.h"
 
 ItemTable::ItemTable(Database* db) : Table(db)
 {
@@ -44,16 +45,15 @@ void ItemTable::createTable()
     "name TEXT, "
     "icon TEXT, "
     "description TEXT, "
-    "file TEXT, "
-    "mesh TEXT, "
+    "mesh INTEGER, "
     "weight FLOAT, "
     "equiptype TEXT, "
     "PRIMARY KEY (id) );");
 }
 
-void ItemTable::insert(int id, ptString name, ptString icon, ptString description, ptString file, ptString mesh, float weight, ptString equiptype)
+void ItemTable::insert(int id, ptString name, ptString icon, ptString description, unsigned int mesh, float weight, ptString equiptype)
 {
-  db->update("insert into items (id, name, icon, description, file, mesh, weight, equiptype) values (%d, '%q','%q','%q','%q','%q',%.2f,'%q');", id, *name, *icon, *description, *file, *mesh, weight, *equiptype);
+  db->update("insert into items (id, name, icon, description, mesh, weight, equiptype) values (%d, '%q','%q','%q','%d',%.2f,'%q');", id, *name, *icon, *description, mesh, weight, *equiptype);
 }
 
 void ItemTable::remove(int id)
@@ -74,7 +74,7 @@ bool ItemTable::existsItem(ptString name)
   return existence;
 }
 
-Item* ItemTable::getItem(ptString name)
+Item* ItemTable::getItem(ptString name, MeshManager* meshMgr)
 {
   ResultSet* rs = db->query("select * from items where name = '%q';", *name);
 
@@ -87,16 +87,19 @@ Item* ItemTable::getItem(ptString name)
     item->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
     item->setIcon(ptString(rs->GetData(0,2).c_str(), rs->GetData(0,2).length()));
     item->setDescription(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
-    item->setFile(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,4).length()));
-    item->setMesh(ptString(rs->GetData(0,5).c_str(), rs->GetData(0,5).length()));
-    item->setWeight((float)atof(rs->GetData(0,6).c_str()));
-    item->setEquiptype(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
+
+    unsigned int meshId = atoi(rs->GetData(0,4).c_str());
+    const Mesh* mesh = meshMgr->findById(meshId);
+    item->setMesh(mesh);
+
+    item->setWeight((float)atof(rs->GetData(0,5).c_str()));
+    item->setEquiptype(ptString(rs->GetData(0,6).c_str(), rs->GetData(0,6).length()));
   }
   delete rs;
   return item;
 }
 
-Item* ItemTable::getItem(int id)
+Item* ItemTable::getItem(int id, MeshManager* meshMgr)
 {
   ResultSet* rs = db->query("select * from items where id = %d;", id);
 
@@ -109,16 +112,17 @@ Item* ItemTable::getItem(int id)
     item->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
     item->setIcon(ptString(rs->GetData(0,2).c_str(), rs->GetData(0,2).length()));
     item->setDescription(ptString(rs->GetData(0,3).c_str(), rs->GetData(0,3).length()));
-    item->setFile(ptString(rs->GetData(0,4).c_str(), rs->GetData(0,4).length()));
-    item->setMesh(ptString(rs->GetData(0,5).c_str(), rs->GetData(0,5).length()));
-    item->setWeight((float)atof(rs->GetData(0,6).c_str()));
-    item->setEquiptype(ptString(rs->GetData(0,7).c_str(), rs->GetData(0,7).length()));
+    unsigned int meshId = atoi(rs->GetData(0,4).c_str());
+    const Mesh* mesh = meshMgr->findById(meshId);
+    item->setMesh(mesh);
+    item->setWeight((float)atof(rs->GetData(0,5).c_str()));
+    item->setEquiptype(ptString(rs->GetData(0,6).c_str(), rs->GetData(0,6).length()));
   }
   delete rs;
   return item;
 }
 
-void ItemTable::getAllItems(Array<Item*>& items)
+void ItemTable::getAllItems(Array<Item*>& items, MeshManager* meshMgr)
 {
   ResultSet* rs = db->query("select * from items;");
   if (!rs) return;
@@ -130,10 +134,11 @@ void ItemTable::getAllItems(Array<Item*>& items)
     item->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
     item->setIcon(ptString(rs->GetData(i,2).c_str(), rs->GetData(i,2).length()));
     item->setDescription(ptString(rs->GetData(i,3).c_str(), rs->GetData(i,3).length()));
-    item->setFile(ptString(rs->GetData(i,4).c_str(), rs->GetData(i,4).length()));
-    item->setMesh(ptString(rs->GetData(i,5).c_str(), rs->GetData(i,5).length()));
-    item->setWeight((float)atof(rs->GetData(i,6).c_str()));
-    item->setEquiptype(ptString(rs->GetData(i,7).c_str(), rs->GetData(i,7).length()));
+    unsigned int meshId = atoi(rs->GetData(0,4).c_str());
+    const Mesh* mesh = meshMgr->findById(meshId);
+    item->setMesh(mesh);
+    item->setWeight((float)atof(rs->GetData(i,5).c_str()));
+    item->setEquiptype(ptString(rs->GetData(i,6).c_str(), rs->GetData(i,6).length()));
 
 /*    Item* item = new Item();
     item->setId(atoi(rs->GetData(i,0).c_str()));

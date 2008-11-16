@@ -18,6 +18,7 @@
 
 #include "stdio.h"
 
+#include "server/entity/meshmanager.h"
 #include "server/entity/entitymanager.h"
 #include "server/entity/character.h"
 #include "server/entity/entity.h"
@@ -150,6 +151,9 @@ int main(int argc, char ** argv)
   config->value = ptString::create(portStr);
   tables.getConfigTable()->Insert(config);
 
+  MeshManager meshmgr(tables.getMeshListTable());
+  server.setMeshManager(&meshmgr);
+
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
 
@@ -199,7 +203,7 @@ int main(int argc, char ** argv)
 
   sector_mgr.loadFromDB(tables.getSectorsTable());
 
-  item_mgr.loadFromDB(tables.getItemTable());
+  item_mgr.loadFromDB(tables.getItemTable(), &meshmgr);
 
   ent_mgr->loadFromDB(tables.getEntityTable());
 
@@ -207,7 +211,7 @@ int main(int argc, char ** argv)
   stat_mgr.loadFromDB(tables.getStatTable());
   skill_mgr.loadFromDB(tables.getSkillTable());
 
-  race_mgr.loadFromDB(tables.getRaceTable());
+  race_mgr.loadFromDB(tables.getRaceTable(), &meshmgr);
   for (size_t i = 0; i < race_mgr.getRaceCount(); i++)
   {
     Race* race = race_mgr.getRace(i);

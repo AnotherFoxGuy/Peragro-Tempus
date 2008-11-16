@@ -24,6 +24,7 @@
 #include "server/database/table-doors.h"
 #include "server/server.h"
 #include "entitymanager.h"
+#include "meshmanager.h"
 
 class DoorManager
 {
@@ -102,7 +103,7 @@ public:
 
       ent->setName(loadedDoors[i]->name);
       ent->setSector(ptString(*loadedDoors[i]->sector,strlen(*loadedDoors[i]->sector)));
-      ent->setMesh(loadedDoors[i]->mesh);
+      ent->setMesh(Server::getServer()->getMeshManager()->findById(loadedDoors[i]->mesh));
       ent->setPos(loadedDoors[i]->x,loadedDoors[i]->y,loadedDoors[i]->z);
 
       door_ent->setDoorId(loadedDoors[i]->id);

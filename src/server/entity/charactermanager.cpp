@@ -22,6 +22,7 @@
 #include "server/database/table-characters.h"
 #include "server/entity/user.h"
 #include "server/entity/racemanager.h"
+#include "server/entity/meshmanager.h"
 
 CharacterManager::CharacterManager(Server* server)
 : server(server)
@@ -29,7 +30,7 @@ CharacterManager::CharacterManager(Server* server)
   charId = server->getTables()->getCharacterTable()->getMaxId();
 }
 
-ptString CharacterManager::createCharacter(ptString name, int user_id, int& char_id, Race* race, ptString mesh, unsigned char* haircolour, unsigned char* skincolour, unsigned char* decalcolour)
+ptString CharacterManager::createCharacter(ptString name, int user_id, int& char_id, Race* race, unsigned char* haircolour, unsigned char* skincolour, unsigned char* decalcolour)
 {
   CharacterTable* ct = server->getTables()->getCharacterTable();
 
@@ -49,7 +50,7 @@ ptString CharacterManager::createCharacter(ptString name, int user_id, int& char
   if (!race) return ptString::create("Race not found!");  // <-- TODO: Error Message Container
 
   this->charId++;
-  ct->insert(this->charId, name, user_id, mesh, race->getId(), haircolour, skincolour, decalcolour, race->getPos(), race->getSector()); // <-- TODO: Keep those ptString as class members
+  ct->insert(this->charId, name, user_id, race->getMesh(), race->getId(), haircolour, skincolour, decalcolour, race->getPos(), race->getSector()); // <-- TODO: Keep those ptString as class members
 
   char_id = this->charId;
 
@@ -72,7 +73,10 @@ Character* CharacterManager::getCharacter(int id, User* user)
     character->setId(vo->id);
     character->setName(vo->name);
     if (user) character->setUser(user);
-    character->setMesh(vo->mesh);
+
+    const Mesh* mesh = server->getMeshManager()->findById(vo->mesh);
+    character->setMesh(mesh);
+
     character->setRace(vo->race);
     character->setHairColour(vo->hair_r, vo->hair_g, vo->hair_b);
     character->setSkinColour(vo->skin_r, vo->skin_g, vo->skin_b);

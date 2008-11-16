@@ -23,6 +23,7 @@
 #include "server/entity/doormanager.h"
 #include "server/entity/entitymanager.h"
 #include "server/entity/itemmanager.h"
+#include "server/entity/meshmanager.h"
 #include "server/entity/racemanager.h"
 #include "server/entity/sectormanager.h"
 #include "server/zone/zonemanager.h"
@@ -181,13 +182,15 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
+  const Mesh* mesh = server->getMeshManager()->addMeshUpdate(itemmsg.getMesh(), itemmsg.getFile());
+
   ItemManager* items = server->getItemManager();
   ItemTable* it = server->getTables()->getItemTable();
   it->insert(itemmsg.getItemId(), itemmsg.getName(), itemmsg.getIcon(),
-             itemmsg.getDescription(), itemmsg.getFile(), itemmsg.getMesh(),
+             itemmsg.getDescription(), mesh->getId(),
              itemmsg.getWeight(), itemmsg.getEquipType());
 
-  Item* item = it->getItem(itemmsg.getName());
+  Item* item = it->getItem(itemmsg.getName(), server->getMeshManager());
 
   items->addItem(item);
 }
@@ -210,7 +213,7 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
   Race* race = server->getRaceManager()->findByName(npcmsg.getRace());
 
   int charid = -1;
-  ptString error = charmgr->createCharacter(npcmsg.getName(), 0, charid, race, npcmsg.getMesh(),
+  ptString error = charmgr->createCharacter(npcmsg.getName(), 0, charid, race,
     npcmsg.getHairColour(), npcmsg.getSkinColour(), npcmsg.getDecalColour());
 
   if (! error.isNull())
@@ -237,8 +240,9 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
   entity->setSector(npcmsg.getSectorId());
   entity->setPos(npcmsg.getPos());
   entity->setRotation(npcmsg.getRotation());
-  entity->setFileName(npcmsg.getFileName());
-  entity->setMesh(npcmsg.getMesh());
+
+  const Mesh* mesh = server->getMeshManager()->addMeshUpdate(npcmsg.getMesh(), npcmsg.getFileName());
+  entity->setMesh(mesh);
   entity->setName(npcmsg.getName());
 
   server->addEntity(npcentity->getEntity(), true);
@@ -312,14 +316,20 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin < 1) return;
 
+  Server* server = Server::getServer();
+
   SpawnMountMessage mountmsg;
   mountmsg.deserialise(msg->getByteStream());
+
+  const Mesh* mesh = server->getMeshManager()->findByName(mountmsg.getMesh());
+  if (mesh == 0 && admin < 1) return;
+  if (mesh == 0) mesh = server->getMeshManager()->addMeshUpdate(mountmsg.getMesh(), ptString::Null);
 
   MountEntity* mount_ent = new MountEntity();
 
   ptScopedMonitorable<Entity> e (mount_ent->getEntity());
   e->setName(mountmsg.getName());
-  e->setMesh(mountmsg.getMesh());
+  e->setMesh(mesh);
   e->setPos(mountmsg.getPos());
   e->setRotation(mountmsg.getRotation());
   e->setSector(mountmsg.getSectorId());
@@ -335,8 +345,13 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin < 2) return;
 
+  Server* server = Server::getServer();
+
   SpawnDoorMessage doormsg;
   doormsg.deserialise(msg->getByteStream());
+
+  const Mesh* mesh = server->getMeshManager()->findByName(doormsg.getMesh());
+  if (mesh == 0) mesh = server->getMeshManager()->addMeshUpdate(doormsg.getMesh(), ptString::Null);
 
   DoorEntity* door_ent = new DoorEntity();
   door_ent->setDoorId(doormsg.getDoorId());
@@ -346,7 +361,7 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
 
   ptScopedMonitorable<Entity> e (door_ent->getEntity());
   e->setName(doormsg.getName());
-  e->setMesh(doormsg.getMesh());
+  e->setMesh(mesh);
   e->setPos(doormsg.getPos());
   e->setRotation(0.0f);
   e->setSector(doormsg.getSectorId());

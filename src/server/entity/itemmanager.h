@@ -114,11 +114,11 @@ public:
     return 0;
   }
 
-  void loadFromDB(ItemTable* it)
+  void loadFromDB(ItemTable* it, MeshManager* meshMgr)
   {
     //Load all Items from Database
     Array<Item*> loadedItems;
-    it->getAllItems(loadedItems);
+    it->getAllItems(loadedItems, meshMgr);
     for (size_t i = 0; i<loadedItems.getCount(); i++)
     {
       addItem(loadedItems[i]);

@@ -55,16 +55,16 @@ private:
   void timeOut();
 
   /// The minute of the hour.
-  size_t minute;
+  unsigned char minute;
   /// The hour of the day.
-  size_t hour;
+  unsigned char hour;
   /// Minutes in an hour.
-  size_t minutesPerHour;
+  unsigned char minutesPerHour;
   /// Hours in a day.
-  size_t hoursPerDay;
+  unsigned char hoursPerDay;
 
   /// Real time in tenths of seconds per game minute.
-  size_t realPerGame;
+  unsigned int realPerGame;
   /// Game minutes between update broadcasts.
   size_t broadcastInterval;
   /// Minute counter, for the broadcast interval.

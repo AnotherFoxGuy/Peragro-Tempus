@@ -83,11 +83,11 @@ public:
     return list.findById(id);
   }
 
-  void loadFromDB(RaceTable* rt)
+  void loadFromDB(RaceTable* rt, MeshManager* meshmgr)
   {
     ent_id = rt->getMaxId();
     //Load all Races from Database
-    rt->getAllRaces(list.races);
+    rt->getAllRaces(list.races, meshmgr);
   }
 };
 

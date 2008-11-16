@@ -27,6 +27,7 @@
 
 #include "racestats.h"
 #include "raceskills.h"
+#include "mesh.h"
 
 class Race
 {
@@ -36,7 +37,7 @@ private:
 
   ptString name_id;
 
-  ptString mesh_id;
+  const Mesh* mesh;
   //start sector
   ptString sector_id;
   //start pos
@@ -77,8 +78,8 @@ public:
   ptString& getName() { return name_id; }
   void setName(ptString name) { name_id = name; }
 
-  ptString& getMesh() { return mesh_id; }
-  void setMesh(ptString name) { mesh_id = name; }
+  const Mesh* getMesh() const { return mesh; }
+  void setMesh(const Mesh* mesh) { this->mesh = mesh; }
 
   ptString& getSector() { return sector_id; }
   void setSector(ptString name) { sector_id = name; }

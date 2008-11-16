@@ -22,6 +22,7 @@
 #include "common/util/monitorable.h"
 #include "common/util/ptstring.h"
 #include "server/entity/itemstats.h"
+#include "mesh.h"
 
 class Item : public ptMonitorable<Item>
 {
@@ -34,8 +35,7 @@ private:
   ptString name_id;
   ptString icon;
   ptString description;
-  ptString file;
-  ptString mesh;
+  const Mesh* mesh;
 
   //unsigned int stackmax;
 
@@ -45,7 +45,6 @@ private:
 
   ItemStats stats;
 
-private:
   ptString type;
 
 public:
@@ -64,11 +63,8 @@ public:
   ptString getDescription() const { return description; }
   void setDescription(ptString x) { description = x; }
 
-  ptString getFile() const { return file; }
-  void setFile(ptString x) { file = x; }
-
-  ptString getMesh() const { return mesh; }
-  void setMesh(ptString id) { mesh = id; }
+  const Mesh* getMesh() const { return mesh; }
+  void setMesh(const Mesh* mesh) { this->mesh = mesh; }
 
   ptString getType() const { return type; }
   void setType(ptString x) { type = x; }

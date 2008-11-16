@@ -89,6 +89,7 @@ Tables::Tables()
 void Tables::init(Database* db)
 {
   db->update("begin transaction");
+  meshlisttable = new MeshListTable(db);
   userstable = new UsersTable(db);
   charactertable = new CharacterTable(db);
   entitytable = new EntityTable(db);
@@ -96,7 +97,7 @@ void Tables::init(Database* db)
   inventorytable = new InventoryTable(db);
   stattable = new StatTable(db);
   characterstattable = new CharacterStatsTable(db);
-  racetable = new RaceTable(db);
+  racetable = new RaceTable(db, this->getMeshListTable());
   racestattable = new RaceStatsTable(db, this->getStatTable());
   skilltable = new SkillTable(db);
   raceskilltable = new RaceSkillsTable(db);
@@ -111,7 +112,6 @@ void Tables::init(Database* db)
   sectorstable = new SectorsTable(db);
   permissionstable = new PermissionsTable(db);
   meshestable = new MeshesTable(db);
-  meshlisttable = new MeshListTable(db);
   verticestable = new VerticesTable(db);
   trianglestable = new TrianglesTable(db);
   configtable = new ConfigTable(db);

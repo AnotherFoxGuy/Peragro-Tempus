@@ -47,7 +47,7 @@ void EntityTable::createTable()
     "name TEXT, "
     "type INTEGER, "
     "item INTEGER, "
-    "mesh TEXT, "
+    "mesh INTEGER, "
     "pos_x FLOAT, "
     "pos_y FLOAT, "
     "pos_z FLOAT, "
@@ -55,90 +55,18 @@ void EntityTable::createTable()
     "sector TEXT, "
     "variation INTEGER, "
     "PRIMARY KEY (id) );");
-
-
-  ptString dummy("test-dummy", 10);
-  ptString test("test", 4);
-  ptString room("World", 4);
-  ptString apple("apple", 5);
-  ptString dummy1("Baby Dragonfly", 14);
-  ptString test1("test1", 5);
-  ptString skel("skeleton", 8);
-  ptString skel_trader("Forgotten Trader", 16);
-  ptString horse("horse", 5);
-
-  //PtVector3 pos1(29, 2, 106);
-  //insert(1, dummy, Entity::NPCEntityType, 0, 0, test, pos1, 0, room);
-
-  //PtVector3 pos2(41, 2, 172);
-  //insert(2, dummy1, Entity::NPCEntityType, 0, 0, test1, pos2, 0, room);
-
-  //PtVector3 pos3(51.75f, 2.03f, 90.95f);
-  //insert(3, skel_trader, Entity::NPCEntityType, 0, 0, skel, pos3, 0, room);
-
-
-  // Creating Undead Squad.
-  //for (int i = 0; i < 100; i++)
-  //{
-  //  std::string name("Evil Undead");
-  //  ptString skel2("skeleton2", 9);
-
-  //  int x = i % 6;
-  //  int y = i / 6;
-
-  //  // Bridge 100 =
-  //  // x = 27 - 33 = 6
-  //  // y = 137 - 148 = 11
-  //  PtVector3 pos(27.0f + x, 2.2f, 137.0f + y * 0.6f);
-
-  //  insert(4 + i, ptString(name.c_str(), name.length()), Entity::NPCEntityType, 0, 0, skel2, pos, 0, room);
-  //}
-
-  //PtVector3 pos4(82, 2.2f, 37.2f);
-  //insert(104, horse, Entity::MountEntityType, 0, 0, horse, pos4, 0, room);
-  //PtVector3 pos5(-110, 0.2f, 5.05f);
-  //insert(105, horse, Entity::MountEntityType, 0, 0, horse, pos5, 0, room);
-  //PtVector3 pos6(-112, 0.2f, 4.8f);
-  //insert(106, horse, Entity::MountEntityType, 0, 0, horse, pos6, 0, room);
-
-  //ptString canyon("Canyon", 6);
-
-  //PtVector3 pos7(892.575256f,17.702299f,474.827728f);
-  //insert(107, horse, Entity::MountEntityType, 0, 0, horse, pos7, 3.14f, canyon);
-  //PtVector3 pos8(899.218506f,17.665253f,473.588654f);
-  //insert(108, horse, Entity::MountEntityType, 0, 0, horse, pos8, 3.14f, canyon);
-  //PtVector3 pos9(905.094604f,17.629965f,473.702515f);
-  //insert(109, horse, Entity::MountEntityType, 0, 0, horse, pos9, 3.14f, canyon);
-  //PtVector3 pos10(911.103638f,17.593407f,474.046356f);
-  //insert(110, horse, Entity::MountEntityType, 0, 0, horse, pos10, 3.14f, canyon);
-
-  //PtVector3 pos11(830.781616f,17.534599f,608.832093f);
-  //insert(111, horse, Entity::MountEntityType, 0, 0, horse, pos11, 0, canyon);
-  //PtVector3 pos12(824.341431f,17.534599f,608.410400f);
-  //insert(112, horse, Entity::MountEntityType, 0, 0, horse, pos12, 0, canyon);
-  //PtVector3 pos13(818.504272f,17.534559f,607.860107f);
-  //insert(113, horse, Entity::MountEntityType, 0, 0, horse, pos13, 0, canyon);
-  //PtVector3 pos14(811.655457f,17.534599f,607.679810f);
-  //insert(114, horse, Entity::MountEntityType, 0, 0, horse, pos14, 0, canyon);
-
-  //PtVector3 pos15(868.223511f,17.529799f,684.598511f);
-  //insert(115, horse, Entity::MountEntityType, 0, 0, horse, pos15, 1.57f, canyon);
-  //PtVector3 pos16(868.412720f,17.529799f,678.824524f);
-  //insert(116, horse, Entity::MountEntityType, 0, 0, horse, pos16, 1.57f, canyon);
-  //PtVector3 pos17(868.227600f,17.529799f,671.650208f);
-  //insert(117, horse, Entity::MountEntityType, 0, 0, horse, pos17, 1.57f, canyon);
 }
 
 void EntityTable::insert(int id, const ptString& name, int type, int item,
-                         unsigned int variation, const ptString& mesh,
+                         unsigned int variation, unsigned int mesh,
                          const PtVector3& pos, float rot, const ptString& sector)
 {
   if (item == -1) return;
 
   db->update("insert into entities (id, name, type, item, variation, mesh, "
     "pos_x, pos_y, pos_z, rot, sector) values "
-    "('%d', '%q',%d,%d,%d,'%q',%.2f,%.2f,%.2f,%.2f,'%q');",
-    id, *name, type, item, variation, *mesh, pos.x, pos.y, pos.z, rot, *sector);
+    "('%d', '%q',%d,%d,%d,'%d',%.2f,%.2f,%.2f,%.2f,'%q');",
+    id, *name, type, item, variation, mesh, pos.x, pos.y, pos.z, rot, *sector);
 }
 
 int EntityTable::getMaxId()
@@ -207,7 +135,7 @@ EntitiesTableVO* EntityTable::parseSingleResultSet(ResultSet* rs, size_t row)
   vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
   vo->type = atoi(rs->GetData(row,2).c_str());
   vo->item = atoi(rs->GetData(row,3).c_str());
-  vo->mesh = ptString(rs->GetData(row,4).c_str(), rs->GetData(row,4).length());
+  vo->mesh = atoi(rs->GetData(row,4).c_str());
   vo->pos_x = (float) atof(rs->GetData(row,5).c_str());
   vo->pos_y = (float) atof(rs->GetData(row,6).c_str());
   vo->pos_z = (float) atof(rs->GetData(row,7).c_str());

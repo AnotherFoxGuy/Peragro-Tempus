@@ -68,7 +68,7 @@ void User::sendAddEntity(const Entity* entity)
     msg.setIsOpen(entity->getDoorEntity()->getOpen());
     msg.setIsLocked(entity->getDoorEntity()->getLocked());
     msg.setAnimationName(entity->getDoorEntity()->getAnimation());
-    msg.setMeshName(entity->getMesh());
+    msg.setMeshName(entity->getMesh()->getName());
     msg.setSectorId(entity->getSector());
     msg.setEntityName(entity->getName());
     msg.serialise(&bs);
@@ -85,8 +85,8 @@ void User::sendAddEntity(const Entity* entity)
     msg.setSectorId(entity->getSector());
 
     msg.setEntityName(item->getName());
-    msg.setFileName(item->getFile());
-    msg.setMeshName(item->getMesh());
+    msg.setFileName(item->getMesh()->getFile());
+    msg.setMeshName(item->getMesh()->getName());
 
     msg.serialise(&bs);
   }
@@ -95,8 +95,8 @@ void User::sendAddEntity(const Entity* entity)
     AddPlayerEntityMessage msg;
     msg.setEntityName(entity->getName());
     msg.setEntityId(entity->getId());
-    msg.setMeshName(entity->getMesh());
-    msg.setMeshId(0); // Not used yet!
+    msg.setMeshName(entity->getMesh()->getName());
+    msg.setMeshId(entity->getMesh()->getId()); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());
@@ -117,8 +117,8 @@ void User::sendAddEntity(const Entity* entity)
     AddNpcEntityMessage msg;
     msg.setEntityName(entity->getName());
     msg.setEntityId(entity->getId());
-    msg.setMeshName(entity->getMesh());
-    msg.setMeshId(0); // Not used yet!
+    msg.setMeshName(entity->getMesh()->getName());
+    msg.setMeshId(entity->getMesh()->getId()); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
@@ -132,8 +132,8 @@ void User::sendAddEntity(const Entity* entity)
     AddMountEntityMessage msg;
     msg.setEntityName(entity->getName());
     msg.setEntityId(entity->getId());
-    msg.setMeshName(entity->getMesh());
-    msg.setMeshId(0); // Not used yet!
+    msg.setMeshName(entity->getMesh()->getName());
+    msg.setMeshId(entity->getMesh()->getId()); // Not used yet!
     msg.setPos(entity->getPos());
     msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());

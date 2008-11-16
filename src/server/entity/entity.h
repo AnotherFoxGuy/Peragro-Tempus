@@ -25,6 +25,8 @@
 #include "common/util/ptvector3.h"
 #include "common/util/ptstring.h"
 
+#include "mesh.h"
+
 class PcEntity;
 class NpcEntity;
 class ItemEntity;
@@ -41,7 +43,7 @@ private:
 
   ptString name_id;
   ptString file_id;
-  ptString mesh_id;
+  const Mesh* mesh;
   unsigned short sector_id;
 
   ptMonitor<PcEntity> pc_entity;
@@ -71,7 +73,7 @@ protected:
 
 public:
   Entity(EntityType type)
-    : id(0), name_id(0, 0), mesh_id(0, 0), sector_id(0), type(type),
+    : id(0), name_id(0, 0), mesh(0), sector_id(0), type(type),
     pos_last_saved(0.0f), pos(0.0f), rot_last_saved(0.0f), rotation(0.0f)
   {
   }
@@ -117,11 +119,8 @@ public:
   const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }
 
-  const ptString& getFileName() const { return file_id; }
-  void setFileName(ptString id) { file_id = id; }
-
-  const ptString& getMesh() const { return mesh_id; }
-  void setMesh(ptString id) { mesh_id = id; }
+  const Mesh* getMesh() const { return mesh; }
+  void setMesh(const Mesh* mesh) { this->mesh = mesh; }
 
   const unsigned short getSector() const { return sector_id; }
   const ptString& getSectorName() const;

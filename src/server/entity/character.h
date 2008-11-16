@@ -28,6 +28,8 @@
 #include "characterskills.h"
 #include "characterreputations.h"
 
+#include "mesh.h"
+
 #include "server/quest/npcdialogstate.h"
 
 class Entity;
@@ -40,7 +42,7 @@ private:
   unsigned int id;
 
   ptString name_id;
-  ptString mesh_id;
+  const Mesh* mesh;
   ptString sector_id;
 
   ptMonitor<User> user;
@@ -84,8 +86,8 @@ public:
   const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }
 
-  const ptString& getMesh() const { return mesh_id; }
-  void setMesh(ptString id) { mesh_id = id; }
+  const Mesh* getMesh() const { return mesh; }
+  void setMesh(const Mesh* mesh) { this->mesh = mesh; }
 
   const ptString& getSector() const { return sector_id; }
   void setSector(ptString id) { sector_id = id; }

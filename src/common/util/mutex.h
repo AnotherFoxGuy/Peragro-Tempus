@@ -94,4 +94,21 @@ public:
   }
 };
 
+class ptScopedMutex
+{
+private:
+  Mutex& mutex;
+
+public:
+  ptScopedMutex(Mutex& mutex) : mutex(mutex)
+  {
+    mutex.lock();
+  }
+
+  ~ptScopedMutex()
+  {
+    mutex.unlock();
+  }
+};
+
 #endif // MUTEX_H

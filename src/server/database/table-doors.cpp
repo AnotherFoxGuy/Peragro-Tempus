@@ -21,6 +21,9 @@
 #include "common/database/database.h"
 #include "table-doors.h"
 
+#include "server/server.h"
+#include "server/entity/mesh.h"
+
 DoorsTable::DoorsTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from doors;");
@@ -41,7 +44,7 @@ DoorsTableVO* DoorsTable::parseSingleResultSet(ResultSet* rs, size_t row)
   vo->islocked = (unsigned char) atoi(rs->GetData(row,2).c_str());
   vo->isopen = (unsigned char) atoi(rs->GetData(row,3).c_str());
   vo->sector = ptString(rs->GetData(row,4).c_str(), rs->GetData(row,4).length());
-  vo->mesh = ptString(rs->GetData(row,5).c_str(), rs->GetData(row,5).length());
+  vo->mesh  = atoi(rs->GetData(row,5).c_str());
   vo->animation = ptString(rs->GetData(row,6).c_str(), rs->GetData(row,6).length());
   vo->x = (float) atof(rs->GetData(row,7).c_str());
   vo->y = (float) atof(rs->GetData(row,8).c_str());
@@ -91,14 +94,14 @@ void DoorsTable::dropTable()
 
 void DoorsTable::insert(DoorsTableVO* vo)
 {
-  const char* query = { "insert into doors(id, name, islocked, isopen, sector, mesh, animation, x, y, z) values (%d, '%q', %d, %d, '%q', '%q', '%q', %.2f, %.2f, %.2f);" };
+  const char* query = { "insert into doors(id, name, islocked, isopen, sector, mesh, animation, x, y, z) values (%d, '%q', %d, %d, '%q', '%d', '%q', %.2f, %.2f, %.2f);" };
 
   if (!vo)
   {
     return;
   }
 
-  db->update(query, vo->id, *vo->name, vo->islocked, vo->isopen, *vo->sector, *vo->mesh, *vo->animation, vo->x, vo->y, vo->z);
+  db->update(query, vo->id, *vo->name, vo->islocked, vo->isopen, *vo->sector, vo->mesh, *vo->animation, vo->x, vo->y, vo->z);
 }
 
 void DoorsTable::remove(int id)

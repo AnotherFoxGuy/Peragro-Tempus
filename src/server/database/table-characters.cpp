@@ -44,7 +44,7 @@ void CharacterTable::createTable()
     "id INTEGER, "
     "name TEXT, "
     "user INTEGER, "
-    "mesh TEXT, "
+    "mesh INTEGER, "
     "race INTEGER, "
     "haircolour_r INTEGER, "
     "haircolour_g INTEGER, "
@@ -83,7 +83,7 @@ void CharacterTable::createTable()
 }
 
 void CharacterTable::insert(int id, const ptString& name, int user_id,
-                            const ptString& mesh, int race_id,
+                            const Mesh* mesh, int race_id,
                             unsigned char haircolour[3],
                             unsigned char skincolour[3],
                             unsigned char decalcolour[3],
@@ -94,9 +94,9 @@ void CharacterTable::insert(int id, const ptString& name, int user_id,
              "skincolour_r, skincolour_g, skincolour_b, "
              "decalcolour_r, decalcolour_g, decalcolour_b, "
              "pos_x, pos_y, pos_z, rot, sector)"
-             "values ('%d','%q',%d,'%q',%d,"
+             "values ('%d','%q',%d,'%d',%d,"
              "%d,%d,%d,"  "%d,%d,%d,"  "%d,%d,%d,"
-             "%.2f,%.2f,%.2f,0,'%q');", id, *name, user_id, *mesh, race_id,
+             "%.2f,%.2f,%.2f,0,'%q');", id, *name, user_id, mesh->getId(), race_id,
              haircolour[0],haircolour[1],haircolour[2],
              skincolour[0],skincolour[1],skincolour[2],
              decalcolour[0],decalcolour[1],decalcolour[2],
@@ -138,7 +138,7 @@ CharactersTableVO* CharacterTable::parseSingleResultSet(ResultSet* rs, size_t ro
   vo->id = atoi(rs->GetData(row,0).c_str());
   vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
   vo->user = atoi(rs->GetData(row,2).c_str());
-  vo->mesh = ptString(rs->GetData(row,3).c_str(), rs->GetData(row,3).length());
+  vo->mesh = atoi(rs->GetData(row,3).c_str());
   vo->race = atoi(rs->GetData(row,4).c_str());
   vo->hair_r = (unsigned char) atoi(rs->GetData(row,5).c_str());
   vo->hair_g = (unsigned char) atoi(rs->GetData(row,6).c_str());

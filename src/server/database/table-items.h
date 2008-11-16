@@ -23,6 +23,8 @@
 
 class Database;
 class Item;
+class Mesh;
+class MeshManager;
 class ptString;
 
 class ItemTable : public Table
@@ -30,13 +32,13 @@ class ItemTable : public Table
 public:
   ItemTable(Database* db);
   void createTable();
-  void insert(int id, ptString name, ptString icon, ptString description, ptString file, ptString mesh, float weight, ptString equiptype);
+  void insert(int id, ptString name, ptString icon, ptString description, unsigned int mesh, float weight, ptString equiptype);
   void remove(int id);
   void dropTable();
   bool existsItem(ptString name);
-  Item* getItem(ptString name);
-  Item* getItem(int id);
-  void getAllItems(Array<Item*>& items);
+  Item* getItem(ptString name, MeshManager* meshMgr);
+  Item* getItem(int id, MeshManager* meshMgr);
+  void getAllItems(Array<Item*>& items, MeshManager* meshMgr);
 };
 
 #endif //TABLE_ITEMS_H

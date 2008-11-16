@@ -25,6 +25,7 @@
 
 #include "itementity.h"
 #include "itemmanager.h"
+#include "meshmanager.h"
 #include "pcentity.h"
 #include "npcentity.h"
 #include "doorentity.h"
@@ -109,7 +110,8 @@ void EntityManager::loadFromDB(EntityTable* et)
     ptScopedMonitorable<Entity> l_ent (entity);
     l_ent->setId(vo->id);
     l_ent->setName(vo->name);
-    l_ent->setMesh(vo->mesh);
+    const Mesh* mesh = Server::getServer()->getMeshManager()->findById(vo->mesh);
+    l_ent->setMesh(mesh);
     l_ent->setPos(vo->pos_x, vo->pos_y, vo->pos_z);
     l_ent->setRotation(vo->rotation);
     l_ent->setSector(vo->sector);

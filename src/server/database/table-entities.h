@@ -24,6 +24,8 @@
 class Database;
 class ResultSet;
 
+class Mesh;
+
 #include "common/util/ptstring.h"
 #include "common/util/ptvector3.h"
 
@@ -35,7 +37,7 @@ public:
   int type;
   int item;
   int variation;
-  ptString mesh;
+  unsigned int mesh;
   float pos_x;
   float pos_y;
   float pos_z;
@@ -53,7 +55,7 @@ public:
   EntityTable(Database* db);
   void createTable();
   void insert(int id, const ptString& name, int type, int item,
-              unsigned int variation, const ptString& mesh,
+              unsigned int variation, unsigned int mesh,
               const PtVector3& pos, float rot, const ptString& sector);
   int getMaxId();
   void dropTable();
