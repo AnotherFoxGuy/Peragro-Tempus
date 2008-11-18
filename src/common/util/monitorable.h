@@ -64,6 +64,7 @@ public:
 
   bool IsLocked() const { return isLocked; }
   PT::Thread::ThreadID GetThreadID() const { return threadID; }
+  void lockUnsafe() { mutex.lock(); }
 };
 
 template<class T>

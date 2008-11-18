@@ -147,7 +147,7 @@ void Server::delEntity(const Entity* entity)
 
   // Unlocks on destruction (I hope)
   /// TODO: has been converted to ptScopedMonitorable, check for correctness!
-  ptScopedMonitorable<Entity> ent (entity);
+  ((Entity*)entity)->lockUnsafe();
   delete entity;
 }
 
