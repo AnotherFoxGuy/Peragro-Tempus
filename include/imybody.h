@@ -81,13 +81,15 @@ struct iMyBody : public virtual iBase
   virtual void Create_Body_Mesh(float radius, int verts, double day, double i) = 0;
 
   virtual char const* Get_Name() const = 0;
+  virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat) = 0;
+  virtual csVector3 GetSurfaceVector (float lon ,float lat) = 0;
   virtual csRef<iMeshWrapper> Get_MeshWrapper() = 0;
 
   virtual bool Add_Child(csRef<iMyBody> child) = 0; 
   virtual bool Set_Parent(csRef<iMyBody> par_body) = 0;
 
   virtual void Set_Parent_Node(iSceneNode* parent) = 0;
-  virtual void Set_Camera_Parent(iSceneNode* parent) = 0;
+
 //  virtual iSceneNode* Get_SceneNode() = 0;
 
 
@@ -105,9 +107,6 @@ struct iMyBody : public virtual iBase
   virtual void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up) = 0; 
 
   virtual double GetBodyRotation() = 0;
-  virtual csTransform Get_Surface_Pos(float lon , float lat) = 0;
-  virtual csVector3 GetSurfaceVector (float lon ,float lat) = 0;
-  virtual csVector3 GetMeshUpVector (csTransform trans) = 0;
 
   virtual void ListChildren (char const* prefix) = 0;
   virtual csRef<iMyBody> Find(const std::string& sname) = 0;
