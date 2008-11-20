@@ -45,16 +45,16 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
 
     /// The objects to create the background
     csRef<iMyBody> rootbody ;
-    csRef<iMyBody> surbody ;
+    csRef<iMyBody> surbody ;   // Selected body to place the camera on
     float lat;
     float lon; 
     csRef<iMyStarbox> starbox;
-    csRef<iCamera> startcamera;  // a fixed direction that is used to rotate stars
-    csTransform* start_trans ;
+
+ //   csTransform* start_trans ;
     long  last_update_seconds; 
 
     /// A pointer to the view which contains the camera.
-    csRef<iView> view;
+    csRef<iView> solarview;
     csRef<iSector> sector;      // Sector should be different from you main game/map sector default solarsys
 
     //Body* rootbody;
@@ -70,8 +70,7 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
 
     virtual void SetName(char const* name) { solarsys_name = name; };
     virtual void SetSector(csRef<iSector>& sector);
-    virtual void SetStartCamera (csRef<iCamera>& camera) { startcamera = camera; };
-    //virtual void SetStartTrans (csTransform* trans ){ start_trans = trans; };
+
     virtual void SetRootbody (csRef<iMyBody>& body) { rootbody = body; };
     virtual void SetLongitude(long longitude ) { lon = longitude; };
     virtual void SetLatitude(long latitude ) { lat = latitude; };
@@ -83,8 +82,8 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
     virtual char const* GetName() const { return solarsys_name.c_str(); };
     virtual iSector const* GetSector() const { return sector; };
 
-    virtual void Draw( iCamera* c );
-    virtual void Draw( iCamera* c , long ts );
+    virtual void DrawSolarSys( iCamera* c );
+    virtual void DrawSolarSys( iCamera* c , long ts );
     virtual void UpdateSystemTime( long ts );
 
     //virtual void Draw( iCamera c, long ts );
@@ -128,7 +127,10 @@ class SolarSysCameraCatcher : public scfImplementation1<SolarSysCameraCatcher, i
 
     virtual void StartFrame(iEngine* engine, iRenderView* rview)
     {
-      solarsys->Draw(rview->GetCamera());
+      if (rview->GetCamera ()->GetSector () != solarsys->GetSector () )
+      {
+        solarsys->DrawSolarSys(rview->GetCamera());
+      }
     }
 
 }; // end class csCameraCatcher

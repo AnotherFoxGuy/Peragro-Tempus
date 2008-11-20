@@ -86,7 +86,8 @@ public:
   //	virtual bool Set_mesh (iMeshWrapper* );
 
   virtual char const* Get_Name() const {return body->Get_Name(); };
-
+  virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat);
+  virtual csVector3 GetSurfaceVector (float lon ,float lat);
   virtual csRef<iMeshWrapper> Get_MeshWrapper();
 
   virtual bool Set_Parent(csRef<iMyBody> par_body );
@@ -106,13 +107,10 @@ public:
 
   // extras!!!
   virtual void Set_Parent_Node(iSceneNode* parent );
-  virtual void Set_Camera_Parent(iSceneNode* parent );
-//  virtual iSceneNode* Get_SceneNode() { return body->Get_SceneNode(); };
+  virtual iSceneNode* Get_SceneNode() { return body->Get_SceneNode(); };
 
   virtual double GetBodyRotation();
-  virtual csTransform Get_Surface_Pos(float lon , float lat);
-  virtual csVector3 GetSurfaceVector (float lon ,float lat);
-  virtual csVector3 GetMeshUpVector (csTransform trans);
+  virtual csVector3 GetAbsPos ();
 
   virtual void ListChildren (char const* prefix);
   virtual csRef<iMyBody> Find(const std::string& sname);

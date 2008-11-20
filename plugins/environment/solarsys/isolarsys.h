@@ -33,8 +33,7 @@ struct iSolarsys : public virtual iBase
 
   virtual void SetName(char const* name) = 0; 
   virtual void SetSector(csRef<iSector>& cursector) = 0; 
-  virtual void SetStartCamera (csRef<iCamera>& camera) = 0;
-//  virtual void SetStartTrans (csTransform* trans ) = 0;
+
   virtual void SetRootbody (csRef<iMyBody>& body) = 0;
   virtual void SetLongitude(long longitude ) = 0;
   virtual void SetLatitude(long latitude ) = 0;
@@ -43,12 +42,11 @@ struct iSolarsys : public virtual iBase
 
   virtual char const* GetName() const = 0;
   virtual iSector const* GetSector() const = 0;
-//  virtual iBody const* GetRootbody() const = 0;
-//  virtual bool AddBody( std::string& parent, Body* newbody) = 0;
-  virtual void Draw( iCamera* c ) = 0;
-  virtual void Draw( iCamera* c , long ts ) = 0;
+
+  virtual void DrawSolarSys( iCamera* c ) = 0;
+  virtual void DrawSolarSys( iCamera* c , long ts ) = 0;
   virtual void UpdateSystemTime( long ts ) = 0;
-//  virtual bool CreateBody()=0;
+
 };
 
 

@@ -133,33 +133,6 @@ bool Body::Set_Parent (csRef<iMyBody> par_body )
 }
 
 
-
-csOrthoTransform Body::GetSurfaceTrans (csOrthoTransform cameratrans ,float lon ,float lat )
-{
-
-  iMovable* movable;
-  csOrthoTransform bodytrans;
-  csMatrix3 body_matrix;
-  csVector3 body_pos;
-
-  // body pos
-  movable = mesh->GetMovable ();
-  body_matrix = movable->GetFullTransform ().GetT2O ();
-  body_pos = movable->GetFullPosition (); 
-
-  csVector3 sur_vec = GetSurfaceVector (lon , lat);
-
-  csVector3 off_set = body_radius * sur_vec;  
-
-  body_pos += off_set;
-
-
-  bodytrans = csReversibleTransform (body_matrix ,  body_pos );
-
-  return  (cameratrans * bodytrans );
-}
-
-
 bool Body::Draw_FullOrbit (iCamera* c, iGraphics3D* g3d)
 {
 
@@ -305,44 +278,9 @@ bool Body::Update_Body(long secondspassed, csVector3 orbit_origin)
   return true;
 }
 
-csVector3 Body::GetMeshUpVector (csTransform trans)
+void Body::Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body )// deprecated 
 {
-  // trans is the transformation to the surface position abs space to world space 
-  // Get surface vector on sphere at lon/lat 
-  csVector3 sur_vec;
 
-  // Get bodys rotaton 
-  sur_vec = (abs_pos.GetOrigin() - trans.GetOrigin());
-
-  return  sur_vec; 
-}
-csVector3 Body::Get_Surface_Position (float lon, float lat)
-{
-  // Get point on a sphere's surface with origin at (0,0,0) 
-  csVector3 sur_vec =  GetSurfaceVector(lon, lat); // add raduis and surface position
-  csVector3 sur_pos = body_radius * sur_vec; 
-  return sur_pos;
-}
-
-csVector3 Body::GetSurfaceVector (float lon ,float lat)
-{
-  // Get surface vector on sphere at lon/lat 
-  csVector3 sur_vec;
-
-  // Get bodys rotaton 
-
-  sur_vec.x = cos(lon)*cos(lat);
-  sur_vec.y = sin(lon)*cos(lat);
-  sur_vec.z = sin(lat);
-
-  return  sur_vec; 
-}
-
-
-void Body::Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body )
-{
-  // trans = translation to surface pos from world space
-  // new up direction at surface pos 
   csMatrix3 body_matrix;
   csVector3 body_pos;
 
@@ -356,20 +294,12 @@ void Body::Update_Meshs( const csTransform& trans, const double& body_rot, char 
   csMatrix3 body_rot_none ( 1,0,0, 0,1,0, 0,0,1 ); 
 
   std::string tmp = sel_body;
-
   csOrthoTransform bodytrans;
-  if ( name == tmp ) {
-    bodytrans.SetT2O(body_rot_none);
-    //bodytrans.Identity();
-    bodytrans.Translate(csVector3(0,-body_radius,0));
-    Pos_Light(csVector3(0,-body_radius,0));
 
-  } else {
-    bodytrans.SetT2O(body_matrix);
-    csVector3 npos = RotateZ (body_pos, body_rot);
-    bodytrans.Translate(npos);
-    Pos_Light(npos);
-  } 
+  bodytrans.SetT2O(body_matrix);
+  csVector3 npos = RotateZ (body_pos, body_rot);
+  bodytrans.Translate(npos);
+  Pos_Light(npos);
 
   movable->SetTransform (bodytrans);
 
@@ -443,42 +373,6 @@ void Body::Update_Mesh_Pos ()
 }
 
 
-
-csTransform Body::Get_Surface_Pos (float lon , float lat)
-{
-  // the W2O transform for a position on this sphere at lon,lat 
-
-  // get lon/lat rotaton matrix
-  float rot_rad , axis_rad;
-  csMatrix3 rot_mat;
-
-  // Get rotation matrix for lon/lat pos
-  rot_rad = lon * (PI / 180.0);
-  axis_rad = lat * (PI / 180.0);
-
-  //Get surface vector on sphere of R and lon and lat
-  csVector3 sur_pos = Get_Surface_Position(lon, lat);	
-
-
-  // set rotation
-  float rot_angle = body_rotation ;
-  rot_mat = csXRotMatrix3(axis_rad ) * csZRotMatrix3(rot_rad + (rot_angle*(PI /180.0)));
-
-  csReversibleTransform sur_rtrans(rot_mat, sur_pos );
-
-  // create the translation with bodys rotation and suface pos // 
-  csTransform sur_trans (sur_rtrans.GetT2O() , sur_rtrans.GetT2OTranslation() ); 
-
-  // get bodys pos
-  csVector3 mesh_pos = abs_pos.GetOrigin();
-
-
-  // move origin 
-  sur_trans.Translate( mesh_pos ); 
-  sur_trans.SetO2T(rot_mat);
-  return sur_trans;
-}
-
 void Body::Pos_Light(const csVector3& npos)
 {
 //  printf("Body::Pos_Light:%s\n",name.c_str());
@@ -545,6 +439,61 @@ bool Body::SetMeshsSize ()
 {
   return true;
 }
+
+csOrthoTransform Body::GetSurfaceOrthoTransform ( const float& lon,const float& lat)
+{
+  return GetSurfaceTrans( lon, lat);
+}
+
+
+csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
+{
+
+  iMovable* movable;
+  csOrthoTransform bodytrans;
+  csMatrix3 body_matrix;
+  csVector3 body_pos;
+
+  // body pos
+  movable = mesh->GetMovable ();
+  body_matrix = movable->GetFullTransform ().GetT2O ();
+  body_pos = movable->GetFullPosition (); 
+ 
+  csVector3 sur_vec = GetSurfaceVector (lon , lat);
+
+  csVector3 off_set = body_radius * sur_vec;  
+
+  body_pos += off_set;
+
+/*// Test code to check GetSurfaceTrans position
+  csRef<iMeshList> ml = engine->GetMeshes ();
+  csRef<iMeshWrapper> cube = ml->FindByName("Moon1");
+  if (cube)
+  {
+    printf("GetSurfaceTrans: pos (%4.2f,%4.2f,%4.2f)\n", body_pos.x, body_pos.y, body_pos.z);
+    cube->GetMovable ()->SetPosition (body_pos );
+  }
+*/
+
+  bodytrans = csReversibleTransform ( body_matrix, body_pos );
+  bodytrans.LookAt ( GetSurfaceVector(lon,lat) , GetSurfaceVector(lon,lat) );
+  return  bodytrans ;
+}
+
+csVector3 Body::GetSurfaceVector (float lon ,float lat)
+{
+  // Get surface vector on sphere at lon/lat 
+  csVector3 sur_vec;
+  float radfactor = (PI / 180.0);
+  // Get bodys rotaton 
+
+  sur_vec.x = cos( (lon*radfactor)-(body_rotation*radfactor) ) * cos(lat*radfactor);
+  sur_vec.y = sin( (lon*radfactor)-(body_rotation*radfactor) ) * cos(lat*radfactor);
+  sur_vec.z = sin( lat*radfactor);
+
+  return  sur_vec; 
+}
+
 
 // --------------------------------------------------------------------------------//
 // load a texture file from disk

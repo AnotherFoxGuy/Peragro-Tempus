@@ -19,7 +19,7 @@
  	  
 #include "solarsys.h"
 
-CS_IMPLEMENT_PLUGIN
+CS_IMPLEMENT_PLUGIN 
 
 SCF_IMPLEMENT_FACTORY(SolarsysFactory);
  
@@ -80,48 +80,49 @@ bool Solarsys::Initialize(iObjectRegistry *object_reg)
 
 }
  
-void Solarsys::Draw(iCamera* c) 
+void Solarsys::DrawSolarSys(iCamera* c) 
 {
-   Draw( c , last_update_seconds );
+   DrawSolarSys( c , last_update_seconds );
 }
 
 
 
-void Solarsys::Draw( iCamera* c , long ts )
+void Solarsys::DrawSolarSys( iCamera* c , long ts )
 {
   last_update_seconds = ts;
 
-  if ( surbody && rootbody) 
-  { 
-    DrawStarbox(c); // draw the starbox if loaded 
-
-    rootbody->Update_Body(ts);
-    rootbody->Update_Mesh_Pos();
-    double body_rot = surbody->GetBodyRotation();
-    csTransform surbody_trans = surbody->Get_Surface_Pos( 0.0, 0.0);
-    csVector3 up = surbody->GetMeshUpVector(surbody_trans);
-    // printf("body_surface (%4.2f:%4.2f:%4.2f) \n",pos.x ,pos.y,pos.z);
-    // printf("body_up (%4.2f:%4.2f:%4.2f) \n",up.x ,up.y,up.z);
-    rootbody->Update_Meshs(surbody_trans, body_rot, surbody->Get_Name());
-//    rootbody->Update_Lights();
-    rootbody->Draw_Orbit(c);
-  }
-
-  if (rootbody && (!surbody) ) 
+  if ( rootbody  ) 
   {
-    DrawStarbox(c); // draw the starbox if loaded 
+//    DrawStarbox(c); // draw the starbox if loaded 
 
     // display orbits from body's surface POV
     rootbody->Update_Body( ts );
     rootbody->Update_Mesh_Pos();
-    rootbody->Draw_Orbit( c );
     rootbody->Update_Lights();
- //   rootbody->Draw_Position( c , ts );
+    if ( solarview ) 
+    { 
+      if ( surbody )
+      {
+        csOrthoTransform surface_pos;
+        surface_pos = surbody->GetSurfaceOrthoTransform(lon,lat);
+
+// attempt 1
+        surface_pos = c->GetTransform () * surface_pos ;
+        solarview->GetCamera ()->SetTransform (surface_pos);
+//        solarview->GetCamera ()->SetTransform ( c->GetTransform());
+      } else 
+      {
+        solarview->GetCamera ()->SetTransform ( c->GetTransform());
+      }
+      DrawStarbox(solarview->GetCamera ()); // draw the starbox if loaded 
+      rootbody->Draw_Orbit( solarview->GetCamera () );
+      solarview->Draw();
+    } else 
+    {
+      CreateCamera();
+    }
 
   } // end if rootbody
-
-//  if (rootbody) rootbody->Update_Lights();
-
 }
 
 void Solarsys::UpdateSystemTime( long ts )
@@ -138,6 +139,7 @@ void Solarsys::SetSector(csRef<iSector>& sect)
   } else
   {
     sector = sect;
+    printf("Solarsys::SetSector:sector set!\n");
 // set starbox sector TBD
 // set rootbodys sector TBD
 
@@ -149,25 +151,11 @@ void Solarsys::DrawStarbox(iCamera* c)
     // Draw starbox
     if (starbox) 
     {
-      if (surbody)  // draw stars looking from planet surface
-      {
-        csVector3 up;
-        csRef<iCamera> adjcamera; 
-        double body_rot = surbody->GetBodyRotation();
-
-        csTransform surbody_trans = surbody->Get_Surface_Pos( 0.0, 0.0);
-        // need to add the selected bodys transform to the starcamer
-        adjcamera = c->Clone();
-        //  adjcamera->SetTransform( c->GetTransform() * surbody_trans * startcamera->GetTransform() );
-        adjcamera->SetTransform( c->GetTransform() * surbody_trans );    
-        starbox->Background(adjcamera);
-       } else // just draw the stars from the camera position
-       {
-         starbox->Background(c);
-       }   
-
-    } // end if starbox 
-    else { printf("Solorsys::drawstarbox:: no starbox\n"); }
+      starbox->Background(c);
+    } else 
+    {
+      printf("Solorsys::drawstarbox:: no starbox\n"); 
+    }
 }
 
 
@@ -176,14 +164,14 @@ bool Solarsys::CreateCamera()
   // Now we need to position the camera in our world.
   if (sector) 
   {
-    if (view) delete view;
+    if (solarview) delete solarview;
 
-    view.AttachNew(new csView (engine, g3d));
-    view->GetCamera ()->SetSector (sector);
+    solarview.AttachNew(new csView (engine, g3d));
+    solarview->GetCamera ()->SetSector (sector);
     // We use the full window to draw the solarsys.
     iGraphics2D* g2d = g3d->GetDriver2D ();
-    view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
-    iCamera* cam = view->GetCamera ();
+    solarview->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
+    iCamera* cam = solarview->GetCamera ();
     cam->SetViewportSize (g2d->GetWidth (), g2d->GetHeight ());
   }
   else
@@ -193,10 +181,10 @@ bool Solarsys::CreateCamera()
   }
 
   csVector3 pos(0,0,0);
-  view->GetCamera ()->GetTransform ().SetOrigin (pos);
+  solarview->GetCamera ()->GetTransform ().SetOrigin (pos);
   rm = engine->GetRenderManager();
   if (!rm) { printf("Solarsys::CreateCamera(): no rm\n"); return false;}
-
+  printf ("Created solarview\n");
   return true;
 }
 

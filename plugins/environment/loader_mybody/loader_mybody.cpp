@@ -108,7 +108,7 @@ bool myLoaderBody::ParseLight (iDocumentNode* node, csRef<iMyBody> obj)
       case XMLTOKEN_RADIUS:
         r = (int)child->GetAttribute("r")->GetValueAsFloat();
 	printf("r=%i\n",r);
-      break;
+      break; 
 
       case XMLTOKEN_COLOR:
 	  synldr->ParseColor(child, c);

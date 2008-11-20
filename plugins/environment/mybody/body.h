@@ -47,7 +47,6 @@ class Body: public Orbit
 private:
   iObjectRegistry* object_reg; 
   csRef<iEngine> engine;
-  csRef<iView> planetview;
   csRef<iSector> sector;
   csRef<iLight> light;
 
@@ -110,20 +109,21 @@ public:
   bool Add_Child (csRef<iMyBody> child);
 
   void Set_Parent_Node (iSceneNode* parent) { mesh->QuerySceneNode()->SetParent(parent); };	
-  void Set_Camera_Parent(iSceneNode* parent) { /*@todo implement.*/ }			
 
   iSceneNode* Get_SceneNode () { return mesh->QuerySceneNode (); };
 
   char const* Get_Name() const { return name.c_str(); };
+  csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat); 
+  csVector3 GetSurfaceVector (float lon ,float lat);
+
   csVector3 const Get_Radius() const { return ellips.GetRadius(); };
   double const Get_Day_Lenght() const { return body_day_lenght; };
   double const Get_Inclination() const { return body_inclination; };
+  csVector3 GetAbsPos () const { return abs_pos.GetOrigin(); };
 
 
   csRef<iMeshWrapper> Get_MeshWrapper() { return mesh; };
-  csRef<iCamera> Get_Surface_Camera(const iCamera* c,float lon , float lat);
-
-
+ 
   bool Update_Body(long secondspassed);
   bool Update_Body(long secondspassed, csVector3 orbit_origin); // used for child bodies 
   void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
@@ -135,17 +135,16 @@ public:
   bool Draw_FullOrbit (iCamera* c, iGraphics3D* g3d);
   bool Draw_FullPosition (iCamera* c, iGraphics3D* g3d, long secondspassed);
 
-  csOrthoTransform GetSurfaceTrans (csOrthoTransform cameratrans ,float lon ,float lat);
-
   double GetBodyRotation() {return body_rotation;}
-  csTransform Get_Surface_Pos(float lon, float lat);
-  csVector3 GetSurfaceVector(float lon, float lat);  // rename to GetSphereUpVector
-  csVector3 GetMeshUpVector(csTransform trans);
+
   void ListChildren (char const* prefix);
 
 private:
   bool Rotate_Body(float angle);
   bool Position_Body(float angle, csVector3 orbit_origin);
+
+  // Surface position methods 
+  csOrthoTransform GetSurfaceTrans (const float& lon ,const float& lat );
 
   // Child body methods 
   // bool Remove_Child (csRef<iMyBody> child);

@@ -85,11 +85,16 @@ bool MyBody::Set_Parent(csRef<iMyBody> par_body)
 void MyBody::Set_Parent_Node(iSceneNode* parent)
 {
   body->Set_Parent_Node(parent);
-}	 
-
-void MyBody::Set_Camera_Parent(iSceneNode* parent )
+}	
+ 
+csOrthoTransform MyBody::GetSurfaceOrthoTransform (const float& lon,const float& lat) 
 {
-  body->Set_Camera_Parent(parent);
+  return body->GetSurfaceOrthoTransform (lon, lat);
+}
+
+csVector3 MyBody::GetSurfaceVector (float lon ,float lat)
+{
+  return body->GetSurfaceVector (lon, lat);
 }
 
 csRef<iMeshWrapper> MyBody::Get_MeshWrapper()
@@ -127,19 +132,9 @@ double MyBody::GetBodyRotation()
   return body->GetBodyRotation();
 }
 
-csTransform MyBody::Get_Surface_Pos(float lon , float lat)
+csVector3 MyBody::GetAbsPos ()
 {
-  return body->Get_Surface_Pos(lon, lat);
-}
-
-csVector3 MyBody::GetSurfaceVector (float lon ,float lat)
-{
-  return body->GetSurfaceVector(lon, lat);
-}
-
-csVector3 MyBody::GetMeshUpVector(csTransform trans)
-{
-  return body->GetMeshUpVector(trans);
+  return body->GetAbsPos(); 
 }
 
 void MyBody::Set_Material(csRef<iMaterialWrapper>& mat)
