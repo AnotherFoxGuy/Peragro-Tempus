@@ -125,10 +125,10 @@ public:
         valid = false;
         return;
       }
-      bs->data[bs->size] = (unsigned char) len;
-      strncpy((char*)bs->data + bs->size + 1, str, len);
-      bs->data[bs->size + len + 1] = 0;
-      bs->size += len + 2;
+      //bs->data[bs->size] = (unsigned char) len;
+      strncpy((char*)bs->data + bs->size, str, len);
+      bs->data[bs->size + len] = 0;
+      bs->size += len + 1;
     }
   }
   void setString(const char* str)
@@ -152,10 +152,10 @@ public:
         valid = false;
         return;
       }
-      bs->data[bs->size] = (unsigned char) len;
-      strncpy((char*)bs->data + bs->size + 1, str, len);
-      bs->data[bs->size + len + 1] = 0;
-      bs->size += len + 2;
+      //bs->data[bs->size] = (unsigned char) len;
+      strncpy((char*)bs->data + bs->size, str, len);
+      bs->data[bs->size + len] = 0;
+      bs->size += len + 1;
     }
   }
 };

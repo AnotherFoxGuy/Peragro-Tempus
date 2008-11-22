@@ -19,6 +19,8 @@
 #ifndef DESERIALISER_H
 #define DESERIALISER_H
 
+#include <string.h>
+
 #include "bytestream.h"
 #include "common/util/ptstring.h"
 
@@ -78,29 +80,29 @@ public:
   }
   const ptString getString()
   {
-    unsigned char size = data[pos];
-    if ( size == 0 || data[pos+size+1] != 0 )
+    size_t size = strnlen((const char*) data + pos, MAX_STREAM_SIZE);
+    if ( size == 0 || size >= MAX_STREAM_SIZE || data[pos+size] != 0 )
     {
       pos++;
       ptString ret_str(0,0);
       return ret_str;
     }
-    const char* str = (const char*) data + pos + 1;
-    pos += size + 2;
+    const char* str = (const char*) data + pos;
+    pos += size + 1;
     ptString ret_str(str, size);
     return ret_str;
   }
-  int getString(const char*& str)
+  size_t getString(const char*& str)
   {
-    unsigned char size = data[pos];
-    if ( size == 0 || data[pos+size+1] != 0 )
+    size_t size = strnlen((const char*) data + pos, MAX_STREAM_SIZE);
+    if ( size == 0 || size >= MAX_STREAM_SIZE || data[pos+size] != 0 )
     {
       pos++;
       str = 0;
       return 0;
     }
-    str = (char*) data + pos + 1;
-    pos += size + 2;
+    str = (char*) data + pos;
+    pos += size + 1;
     return size;
   }
 };

@@ -31,7 +31,7 @@ bool NpcDialogMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt32(dialogid);
   serial.setString(dialogtext);
-  serial.setInt8(answerscount);
+  serial.setInt24(answerscount);
   for ( size_t i = 0; i < answerscount ; i++ )
   {
     serial.setInt32(answers[i].answerid);
@@ -48,7 +48,7 @@ void NpcDialogMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   dialogid = (unsigned int) serial.getInt32();
   serial.getString(dialogtext);
-  answerscount = (unsigned char) serial.getInt8();
+  answerscount = (unsigned int) serial.getInt24();
   setAnswersCount(answerscount);
   for ( size_t i = 0; i < answerscount ; i++ )
   {
@@ -117,7 +117,7 @@ bool SetupDialogsMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt8(deleteexisting?1:0);
-  serial.setInt8(dialogscount);
+  serial.setInt24(dialogscount);
   for ( size_t i = 0; i < dialogscount ; i++ )
   {
     serial.setString(dialogs[i].npcname);
@@ -126,7 +126,7 @@ bool SetupDialogsMessage::serialise(ByteStream* bs)
     serial.setString(dialogs[i].value);
   };
 
-  serial.setInt8(answerscount);
+  serial.setInt24(answerscount);
   for ( size_t i = 0; i < answerscount ; i++ )
   {
     serial.setString(answers[i].answernpcname);
@@ -146,7 +146,7 @@ void SetupDialogsMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   deleteexisting = serial.getInt8() != 0;
-  dialogscount = (unsigned char) serial.getInt8();
+  dialogscount = (unsigned int) serial.getInt24();
   setDialogsCount(dialogscount);
   for ( size_t i = 0; i < dialogscount ; i++ )
   {
@@ -156,7 +156,7 @@ void SetupDialogsMessage::deserialise(ByteStream* bs)
     serial.getString(dialogs[i].value);
   };
 
-  answerscount = (unsigned char) serial.getInt8();
+  answerscount = (unsigned int) serial.getInt24();
   setAnswersCount(answerscount);
   for ( size_t i = 0; i < answerscount ; i++ )
   {

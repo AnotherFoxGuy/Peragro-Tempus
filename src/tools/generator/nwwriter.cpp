@@ -166,7 +166,7 @@ void nwWriter::writeParamDeclaration(std::ofstream& out, nwParams* param)
     }
 
     out <<  "  };\n\n";
-    out <<  "  unsigned char " << toVariable(param->name).c_str() << "count;\n";
+    out <<  "  unsigned int " << toVariable(param->name).c_str() << "count;\n";
     out <<  "  List" << param->name.c_str() << "* " << toVariable(param->name).c_str() << ";\n\n";
   }
 }
@@ -215,7 +215,7 @@ void nwWriter::writeParamSerialisation(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::LIST)
   {
-    out <<  "  serial.setInt8(" << toVariable(param->name).c_str() << "count);\n"
+    out <<  "  serial.setInt24(" << toVariable(param->name).c_str() << "count);\n"
         <<  "  for ( size_t i = 0; i < " << toVariable(param->name).c_str() << "count ; i++ )\n"
         <<  "  {\n";
 
@@ -272,7 +272,7 @@ void nwWriter::writeParamDeserialisation(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::LIST)
   {
-    out <<  "  " << toVariable(param->name).c_str() << "count = (unsigned char) serial.getInt8();\n"
+    out <<  "  " << toVariable(param->name).c_str() << "count = (unsigned int) serial.getInt24();\n"
         <<  "  set" << param->name.c_str() << "Count(" << toVariable(param->name).c_str() << "count);\n"
         <<  "  for ( size_t i = 0; i < " << toVariable(param->name).c_str() << "count ; i++ )\n"
         <<  "  {\n";

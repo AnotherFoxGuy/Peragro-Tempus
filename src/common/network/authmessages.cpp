@@ -273,7 +273,7 @@ bool ServerListMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(unnamed1count);
+  serial.setInt24(unnamed1count);
   for ( size_t i = 0; i < unnamed1count ; i++ )
   {
     serial.setInt32(unnamed1[i].serverid);
@@ -290,7 +290,7 @@ void ServerListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  unnamed1count = (unsigned char) serial.getInt8();
+  unnamed1count = (unsigned int) serial.getInt24();
   setunnamed1Count(unnamed1count);
   for ( size_t i = 0; i < unnamed1count ; i++ )
   {
