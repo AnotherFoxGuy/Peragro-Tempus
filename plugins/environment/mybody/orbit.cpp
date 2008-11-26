@@ -307,7 +307,6 @@ void Orbit::Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up)
   csVector3  v3start, v3end;
   csVector3 v3s, v3e;
   int green, red, blue;
-  int lp;  
   float fov;
   csOrthoTransform csCameraOrth;
   csCameraOrth = c->GetTransform();

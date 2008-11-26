@@ -244,3 +244,4 @@ unsigned char *csGenerateHaloAlpha(int iSize, float iFactor, float iCross)
 }
 
 }
+

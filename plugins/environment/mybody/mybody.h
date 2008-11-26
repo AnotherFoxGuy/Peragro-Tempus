@@ -87,7 +87,9 @@ public:
 
   virtual char const* Get_Name() const {return body->Get_Name(); };
   virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat);
-  virtual csVector3 GetSurfaceVector (float lon ,float lat);
+  virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset);
+  virtual csVector3 GetSurfacePos(const float& lon, const float& lat);
+  virtual csVector3 GetSurfaceVector(const float& lon, const float& lat);
   virtual csRef<iMeshWrapper> Get_MeshWrapper();
 
   virtual bool Set_Parent(csRef<iMyBody> par_body );
@@ -95,7 +97,6 @@ public:
 
   virtual void Update_Body(long secondspassed );
   virtual void Update_Body(long secondspassed, csVector3 origin );
-  virtual void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
   virtual void Update_Mesh_Pos();
 
   virtual void Add_Light(int range,csColor color);
@@ -106,10 +107,10 @@ public:
   virtual void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up);
 
   // extras!!!
-  virtual void Set_Parent_Node(iSceneNode* parent );
   virtual iSceneNode* Get_SceneNode() { return body->Get_SceneNode(); };
 
   virtual double GetBodyRotation();
+  virtual double GetOrbitRotation();
   virtual csVector3 GetAbsPos ();
 
   virtual void ListChildren (char const* prefix);

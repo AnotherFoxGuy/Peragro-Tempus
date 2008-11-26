@@ -177,6 +177,7 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
   //printf("MyStarbox::BackgroundImage:test begindraw.\n");
 
   g3d->BeginDraw(CSDRAW_CLEARSCREEN);
+
   fov = c->GetFOVAngle();
 
 

@@ -248,13 +248,14 @@ bool Body::Update_Body (long secondspassed )
 
     // Position body
     //	printf ( "body %s rot: %4.2f \n" , name.c_str(), Get_Body_Rotation(secondspassed) );
-    Rotate_Body(Rotate_Body(Get_Body_Rotation(secondspassed)));
+    Rotate_Body(Get_Body_Rotation(secondspassed));
     Position_Body(Orbit_Angle(secondspassed), csVector3(0,0,0));  
 
     for (size_t i = 0; i < child_bodies.GetSize(); i++) 
     {
       child_bodies.Get(i)->Update_Body (secondspassed , abs_pos.GetOrigin() ); 
     } // end for iterate for child bodies 
+    Update_Mesh_Pos ();  // move the meshes to new position
     List_Light();
   } // end if check that body has actualy moved 
 
@@ -276,45 +277,6 @@ bool Body::Update_Body(long secondspassed, csVector3 orbit_origin)
   } // end for iterate for child bodies 
 
   return true;
-}
-
-void Body::Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body )// deprecated 
-{
-
-  csMatrix3 body_matrix;
-  csVector3 body_pos;
-
-  iMovable* movable;
-  movable = mesh->GetMovable();
-
-
-  body_pos = (abs_pos.GetOrigin() - trans.GetOrigin()); // position on surface of sphere 
-  body_matrix = abs_pos.GetO2T();  
-  //	body_matrix = trans.GetO2T();
-  csMatrix3 body_rot_none ( 1,0,0, 0,1,0, 0,0,1 ); 
-
-  std::string tmp = sel_body;
-  csOrthoTransform bodytrans;
-
-  bodytrans.SetT2O(body_matrix);
-  csVector3 npos = RotateZ (body_pos, body_rot);
-  bodytrans.Translate(npos);
-  Pos_Light(npos);
-
-  movable->SetTransform (bodytrans);
-
-  movable->UpdateMove();
-
-  //	printf ("%s body_pos (x,y,z): (%3.4f,%3.4f,%3.4f)\n", name.c_str(),  body_pos.x,  body_pos.y,  body_pos.z);
-  //	printf ( "mat1( %3.4f,%3.4f,%3.4f)\n", bodytrans.GetT2O().m11, bodytrans.GetT2O().m12, bodytrans.GetT2O().m13 );
-  //	printf ( "mat2( %3.4f,%3.4f,%3.4f)\n", bodytrans.GetT2O().m21, bodytrans.GetT2O().m22, bodytrans.GetT2O().m23 );
-  //	printf ( "mat3( %3.4f,%3.4f,%3.4f)\n", bodytrans.GetT2O().m31, bodytrans.GetT2O().m32, bodytrans.GetT2O().m33 );
-
-  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
-  {
-    child_bodies.Get(i)->Update_Meshs (trans , body_rot,  sel_body);
-  } // end for iterate for child bodies 
-
 }
 
 bool Body::Position_Body (float angle, csVector3 orbit_origin)
@@ -341,7 +303,7 @@ bool Body::Rotate_Body (float angle)
   rot_rad = angle * (PI / 180.0);
   axis_rad = body_inclination * (PI / 180.0);
 
-  rot_mat = csXRotMatrix3(axis_rad) * csZRotMatrix3(rot_rad);
+  rot_mat = csYRotMatrix3(axis_rad) * csZRotMatrix3(rot_rad);
 
   abs_pos.SetO2T(rot_mat);
 
@@ -361,6 +323,8 @@ void Body::Update_Mesh_Pos ()
     movable = mesh->GetMovable();
     //printf("Moving Body Mesh %s\n", name.c_str() );
     movable->SetTransform (abs_pos);
+    csVector3  body_pos = abs_pos.GetOrigin(); // position on surface of sphere 
+ //   printf("Update_Mesh_pos::%s (%4.2f,%4.2f,%4.2f)\n ",name.c_str(), body_pos.x,body_pos.y,body_pos.z);
     movable->UpdateMove();
   }
 
@@ -369,7 +333,6 @@ void Body::Update_Mesh_Pos ()
     //   printf("Updating child " );
     child_bodies.Get(i)->Update_Mesh_Pos ();
   } // end for iterate for child bodies 
-
 }
 
 
@@ -445,6 +408,30 @@ csOrthoTransform Body::GetSurfaceOrthoTransform ( const float& lon,const float& 
   return GetSurfaceTrans( lon, lat);
 }
 
+csOrthoTransform Body::GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset)
+{
+  csOrthoTransform surfacetrans = GetSurfaceTrans( lon, lat);
+  // Tranlate all meshes in this sector by offset 
+  iMeshList* ml = sector->GetMeshes ();
+  iMeshWrapper* mw;
+  iMovable* mov;
+  csVector3 body_pos;
+  printf("Offset (%4.2f,%4.2f,%4.2f)\n ",offset.x,offset.y,offset.z);
+
+  for (int i = 0; i < ml->GetCount(); i++) 
+  {
+    mw = ml->Get(i);
+    mov = mw->GetMovable();
+    body_pos = mov->GetPosition () ;
+   // printf("GetSurfaceOrthoTransform::%s (%4.2f,%4.2f,%4.2f)\n ",mw->QueryObject ()->GetName(), body_pos.x,body_pos.y,body_pos.z);
+    mov->MovePosition(offset);
+    mov->UpdateMove();
+    body_pos = mov->GetPosition ();
+   // printf("GetSurfaceOrthoTransform::%s (%4.2f,%4.2f,%4.2f)\n\n",mw->QueryObject ()->GetName(), body_pos.x,body_pos.y,body_pos.z);
+  }
+  
+  return surfacetrans;
+}
 
 csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
 {
@@ -465,32 +452,42 @@ csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
 
   body_pos += off_set;
 
-/*// Test code to check GetSurfaceTrans position
+// Test code to check GetSurfaceTrans position
   csRef<iMeshList> ml = engine->GetMeshes ();
   csRef<iMeshWrapper> cube = ml->FindByName("Moon1");
   if (cube)
   {
-    printf("GetSurfaceTrans: pos (%4.2f,%4.2f,%4.2f)\n", body_pos.x, body_pos.y, body_pos.z);
+//    printf("GetSurfaceTrans: pos (%4.2f,%4.2f,%4.2f)\n", body_pos.x, body_pos.y, body_pos.z);
     cube->GetMovable ()->SetPosition (body_pos );
   }
-*/
 
   bodytrans = csReversibleTransform ( body_matrix, body_pos );
-  bodytrans.LookAt ( GetSurfaceVector(lon,lat) , GetSurfaceVector(lon,lat) );
+  bodytrans.LookAt ( csVector3(0,0,1) , sur_vec );
+//  printf("GetSurfaceVector:(%4.2f,%4.2f,%4.2f)\n", sur_vec.x, sur_vec.y, sur_vec.z);
   return  bodytrans ;
 }
 
-csVector3 Body::GetSurfaceVector (float lon ,float lat)
+csVector3  Body::GetSurfacePos(const float& lon, const float& lat)
+{
+  // Get surface vector on sphere at lon/lat 
+  csVector3 sur_vec = body_radius * GetSurfaceVector(lon, lat); 
+
+  return  sur_vec; 
+}
+
+
+csVector3  Body::GetSurfaceVector(const float& lon, const float& lat)
 {
   // Get surface vector on sphere at lon/lat 
   csVector3 sur_vec;
   float radfactor = (PI / 180.0);
   // Get bodys rotaton 
 
-  sur_vec.x = cos( (lon*radfactor)-(body_rotation*radfactor) ) * cos(lat*radfactor);
-  sur_vec.y = sin( (lon*radfactor)-(body_rotation*radfactor) ) * cos(lat*radfactor);
-  sur_vec.z = sin( lat*radfactor);
+  sur_vec.x = cos( (lon*radfactor)-(body_rotation*radfactor) ) * cos( (lat*radfactor) - (body_inclination*radfactor) );
+  sur_vec.y = sin( (lon*radfactor)-(body_rotation*radfactor) ) * cos( (lat*radfactor) - (body_inclination*radfactor) );
+  sur_vec.z = sin( (lat*radfactor) - (body_inclination*radfactor) );
 
+ // printf("GetSurfaceVector:(%4.2f,%4.2f,%4.2f)\n", sur_vec.x, sur_vec.y, sur_vec.z);
   return  sur_vec; 
 }
 
@@ -584,9 +581,6 @@ bool Body::Add_Light(int radius, csColor color)
   light->SetAttenuationMode ( CS_ATTN_NONE  );
   ll->Add (light);
 
- // Set_Parent_Node (light->GetMovable()->GetSceneNode());
- // mesh->QuerySceneNode()->SetParent(light->GetMovable()->GetSceneNode());
-
   printf (" add light sector has %d lights \n" ,  ll->GetCount() );
   printf (" new light pos ( %4.2f,%4.2f,%4.2f )\n" , pos.x, pos.y, pos.z );
   printf (" Cut Off Dist (%6.2f)\n" , light->GetCutoffDistance () );
@@ -608,7 +602,7 @@ void Body::List_Light()
   // Now we need light to see something.
   iLightList* ll = sector->GetLights (); 
   //	printf (" sector:%s has %d lights \n" , sector_name.c_str() , ll->GetCount() );
-  for (size_t i = 0; i < ll->GetCount(); i++) 
+  for (int i = 0; i < ll->GetCount(); i++) 
   {
     light = ll->Get(i);
     csVector3 pos = light->GetMovable()->GetFullPosition();
@@ -623,7 +617,7 @@ csVector3 Body::RotateZ (const csVector3 body_pos,const float body_rotation)
 {
 
   csQuaternion rot;
-  rot.SetAxisAngle(csVector3(0,0,1) , body_rotation*(PI / 180.0) );
+  rot.SetAxisAngle(csVector3(0,1,0) , body_rotation*(PI / 180.0) );
   return rot.Rotate (body_pos);   
 }
 

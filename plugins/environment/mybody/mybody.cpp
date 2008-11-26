@@ -82,17 +82,21 @@ bool MyBody::Set_Parent(csRef<iMyBody> par_body)
   return true;
 }
 
-void MyBody::Set_Parent_Node(iSceneNode* parent)
-{
-  body->Set_Parent_Node(parent);
-}	
- 
 csOrthoTransform MyBody::GetSurfaceOrthoTransform (const float& lon,const float& lat) 
 {
   return body->GetSurfaceOrthoTransform (lon, lat);
 }
 
-csVector3 MyBody::GetSurfaceVector (float lon ,float lat)
+csOrthoTransform MyBody::GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset) 
+{
+  return body->GetSurfaceOrthoTransform (lon, lat, offset);
+}
+csVector3  MyBody::GetSurfacePos(const float& lon, const float& lat)
+{
+  return body->GetSurfacePos (lon, lat);
+}
+
+csVector3 MyBody::GetSurfaceVector (const float& lon, const float& lat)
 {
   return body->GetSurfaceVector (lon, lat);
 }
@@ -122,14 +126,14 @@ void MyBody::Update_Body(long secondspassed, csVector3 origin )
   body->Update_Body(secondspassed, origin);
 }
 
-void MyBody::Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body)
-{
-  body->Update_Meshs(trans, body_rot, sel_body);
-}
-
 double MyBody::GetBodyRotation() 
 {
   return body->GetBodyRotation();
+}
+
+double MyBody::GetOrbitRotation()
+{
+  return body->GetOrbitRotation();
 }
 
 csVector3 MyBody::GetAbsPos ()

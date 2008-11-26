@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<!-- loader_template.csplugin -->
 <plugin>
   <scf>
     <classes>
@@ -7,6 +6,7 @@
         <name>recon69.loader.mybodyfactory</name>
         <implementation>myLoaderBody</implementation>
         <description>Loader for iMyBody objects.</description>
+        <requires>recon69.mybodyfactory</requires>
       </class>
     </classes>
   </scf>

@@ -216,11 +216,11 @@ class csCameraCatcher : public scfImplementation1<csCameraCatcher, iEngineFrameC
       if (rview)
       {
         camera = rview->GetCamera();
-	//if (camera->GetSector() == starbox->GetSector())  // removed this check as 1.9 breaks it, the sector now does not exist
-                                                            // when then loader tries to set it, needs to do this later. 
-        starbox->Background(camera);
-        //starbox->BackgroundImageNebula(camera);
-
+	if (camera->GetSector() == starbox->GetSector())                                                              
+        {
+          starbox->Background(camera);
+        //  starbox->BackgroundImageNebula(camera);
+        }
       } else {
         printf("mystarbox::csCameraCatcher:No rview\n");
       } // end if

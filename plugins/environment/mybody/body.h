@@ -108,13 +108,13 @@ public:
   bool Set_Parent (csRef<iMyBody> par_body);
   bool Add_Child (csRef<iMyBody> child);
 
-  void Set_Parent_Node (iSceneNode* parent) { mesh->QuerySceneNode()->SetParent(parent); };	
-
   iSceneNode* Get_SceneNode () { return mesh->QuerySceneNode (); };
 
   char const* Get_Name() const { return name.c_str(); };
   csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat); 
-  csVector3 GetSurfaceVector (float lon ,float lat);
+  csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset); 
+  csVector3 GetSurfacePos(const float& lon, const float& lat);
+  csVector3 GetSurfaceVector (const float& lon, const float& lat);
 
   csVector3 const Get_Radius() const { return ellips.GetRadius(); };
   double const Get_Day_Lenght() const { return body_day_lenght; };
@@ -126,7 +126,6 @@ public:
  
   bool Update_Body(long secondspassed);
   bool Update_Body(long secondspassed, csVector3 orbit_origin); // used for child bodies 
-  void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body);
   void Update_Mesh_Pos(); // positions meshes with (0,0,0) as origin
 
   bool Add_Light(int radius, csColor color);
@@ -136,8 +135,10 @@ public:
   bool Draw_FullPosition (iCamera* c, iGraphics3D* g3d, long secondspassed);
 
   double GetBodyRotation() {return body_rotation;}
+  double GetOrbitRotation() {return this->Orbit_Angle(last_update_seconds);}
 
   void ListChildren (char const* prefix);
+
 
 private:
   bool Rotate_Body(float angle);
@@ -155,7 +156,7 @@ private:
   bool Apply_Material(csRef<iMaterialWrapper>& mat);
   bool Load_Texture(std::string filename, std::string mat_name);
 
-  csVector3  Get_Surface_Position(float lon, float lat);
+
   csVector3 RotateZ (const csVector3 body_pos,const float body_rotation);
   float Get_Body_Rotation (long secondspassed );
   void List_Light();

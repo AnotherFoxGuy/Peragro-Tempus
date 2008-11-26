@@ -3,3 +3,9 @@ SubDir TOP plugins environment ;
 SubInclude TOP plugins environment mystarbox ;
 SubInclude TOP plugins environment loader_starbox ;
 
+#SubInclude TOP plugins environment loader_mybody ;
+#SubInclude TOP plugins environment mybody ;
+#SubInclude TOP plugins environment loader_solarsys ;
+#SubInclude TOP plugins environment solarsys ;
+
+

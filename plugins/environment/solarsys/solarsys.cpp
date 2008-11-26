@@ -82,6 +82,9 @@ bool Solarsys::Initialize(iObjectRegistry *object_reg)
  
 void Solarsys::DrawSolarSys(iCamera* c) 
 {
+//   printf("Solarsys::DrawSolarSys\n");
+   csVector3 campos = c->GetTransform().GetOrigin();
+//   printf("C pos:(%4.2f,%4.2f,%4.2f)\n",campos.y,campos.y,campos.z);
    DrawSolarSys( c , last_update_seconds );
 }
 
@@ -96,25 +99,40 @@ void Solarsys::DrawSolarSys( iCamera* c , long ts )
 //    DrawStarbox(c); // draw the starbox if loaded 
 
     // display orbits from body's surface POV
-    rootbody->Update_Body( ts );
+    rootbody->Update_Body(ts);
     rootbody->Update_Mesh_Pos();
     rootbody->Update_Lights();
+
     if ( solarview ) 
     { 
       if ( surbody )
-      {
-        csOrthoTransform surface_pos;
-        surface_pos = surbody->GetSurfaceOrthoTransform(lon,lat);
+      { // Selected body, draw solar system from bodys' perspective 
+	csReversibleTransform surface_pos;
+        csReversibleTransform c2 = surbody->GetSurfaceOrthoTransform(lon,lat);  // solar body surface position  
+        csVector3 v2 = c2.GetT2OTranslation();  // Solar camera pos
+        c2.SetO2T( surface_pos.GetO2T() ) ;
+        c2.SetO2T( c->GetTransform ().GetO2T() * surface_pos.GetO2T() ) ;
+        solarview->GetCamera ()->SetTransform (c2);
 
-// attempt 1
-        surface_pos = c->GetTransform () * surface_pos ;
-        solarview->GetCamera ()->SetTransform (surface_pos);
-//        solarview->GetCamera ()->SetTransform ( c->GetTransform());
+
+      // broken , the camers up's dont match
+      // adjust star camera for selected bodys' surface position  
+      csOrthoTransform starcam_surface_pos;
+      csRef<iCamera> starcam = solarview->GetCamera ()->Clone();
+      starcam_surface_pos = surbody->GetSurfaceOrthoTransform(lon,lat);
+      starcam_surface_pos = c->GetTransform () * starcam_surface_pos ;
+      starcam->SetTransform (starcam_surface_pos);
+      DrawStarbox( starcam ); // draw the starbox 
+
+
+
+
+
       } else 
-      {
+      { // No selected body , draw everything from world camera position 
+        DrawStarbox( solarview->GetCamera () ); // draw the starbox if loaded         
         solarview->GetCamera ()->SetTransform ( c->GetTransform());
       }
-      DrawStarbox(solarview->GetCamera ()); // draw the starbox if loaded 
       rootbody->Draw_Orbit( solarview->GetCamera () );
       solarview->Draw();
     } else 
