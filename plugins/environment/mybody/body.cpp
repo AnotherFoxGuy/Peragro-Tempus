@@ -25,7 +25,7 @@ Body::Body(iObjectRegistry* reg)
   object_reg = reg;
   engine = csQueryRegistry<iEngine> (object_reg );
 
-  if (!engine) printf ("Body::Body(iObjectRegistry* reg) no engine\n");
+  if (!engine) printf ("Body::Body() no engine\n");
  
   last_update_seconds = -1;
 
@@ -67,7 +67,7 @@ void Body::Create_Body_Mesh()
 {
   if (!sector) 
   {
-    printf("Body::Create_Body_Mesh: No sector set\n");
+    if (report_lvl) printf("Body::Create_Body_Mesh: No sector set\n");
     return ;
   }
 
@@ -93,7 +93,7 @@ void Body::Create_Body_Mesh()
 
   mesh->SetLightingUpdate( CS_LIGHTINGUPDATE_ALWAYSUPDATE, 8 );
 
-  printf ("created body %s\n",name.c_str());
+  if (report_lvl) printf ("Body::Create_Body_Mesh:created body %s\n",name.c_str());
 }
 
 void Body::Set_Name (char const* body_name)
@@ -102,12 +102,10 @@ void Body::Set_Name (char const* body_name)
   if (light)
   {
     light->QueryObject()->SetName(body_name);
-    printf("updating light name:%s\n",body_name);
+    if (report_lvl) printf("Body::Set_Name:updating light name:%s\n",body_name);
   }
   // update body name
   name = body_name;
-
-  printf("updating body name:%s\n",body_name);
 }
 
 void Body::Set_Sector ( iSector* sect )
@@ -139,17 +137,11 @@ bool Body::Draw_FullOrbit (iCamera* c, iGraphics3D* g3d)
   csVector3 origin(0,0,0);
   if (parent)
   {
-    //printf("Body::Draw_FullOrbit:Has Parent.\n");
     csRef<iMeshWrapper> par_mesh = parent->Get_MeshWrapper();
     if (par_mesh) origin = par_mesh->GetMovable()->GetPosition();
 
-  } else 
-  {
-    //printf ("Body::Draw_FullOrbit:No Parent.\n");
   };
-  // printf("%s origin (%4.2f:%4.2f:%4.2f) \n", name.c_str() ,origin.x ,origin.y,origin.z);
 
-  //	Draw_Orbit (planetview->GetCamera (), g3d, origin );
   Draw_Orbit (c, g3d, origin);
 
   if (mesh) origin = mesh->GetMovable()->GetPosition();
@@ -169,9 +161,6 @@ bool Body::Draw_FullPosition (iCamera* c, iGraphics3D* g3d,long secondspassed)
   if (parent) 
   {
      origin = parent->Get_MeshWrapper()->GetMovable()->GetPosition();
-     //printf("origin (%4.2f:%4.2f:%4.2f) \n",origin.x ,origin.y,origin.z);
-     //Draw_Position (planetview->GetCamera () , g3d, origin , secondspassed );
-     //printf("Name: %s :" , name.c_str() );
   }
 
   Draw_Position (c , g3d, origin, secondspassed);
@@ -207,7 +196,8 @@ void Body::Set_Orbit (
 
 void Body::Set_Material(csRef<iMaterialWrapper>& mat)
 {
-  printf("Body::Set_Material: '%s' body material to %s!\n", name.c_str(), mat->QueryObject ()->GetName ()  );
+  if (report_lvl)
+    printf("Body::Set_Material: '%s' body material to %s!\n", name.c_str(), mat->QueryObject ()->GetName ()  );
 
   if (!Apply_Material(mat)) 
   {
@@ -218,24 +208,22 @@ void Body::Set_Material(csRef<iMaterialWrapper>& mat)
 
 void Body::Set_Mesh(char const* mesh_name)
 {
-
+// TBD
 
 }
 
 void Body::ListChildren (char const* prefix)
 {
+  std::string out;
+  out = prefix;
+  out += name;
 
-    std::string out;
-    out = prefix;
-    out += name;
+  printf ("%s\n", out.c_str());
 
-    printf ("%s\n", out.c_str());
-
-    for (size_t i = 0; i < child_bodies.GetSize(); i++) 
-    {
-      child_bodies.Get(i)->ListChildren (out.c_str()); 
-    } // end for iterate for child bodies 
-
+  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  {
+    child_bodies.Get(i)->ListChildren (out.c_str()); 
+  } // end for iterate for child bodies 
 }
 
 bool Body::Update_Body (long secondspassed )
@@ -247,7 +235,6 @@ bool Body::Update_Body (long secondspassed )
     last_update_seconds = seconds;
 
     // Position body
-    //	printf ( "body %s rot: %4.2f \n" , name.c_str(), Get_Body_Rotation(secondspassed) );
     Rotate_Body(Get_Body_Rotation(secondspassed));
     Position_Body(Orbit_Angle(secondspassed), csVector3(0,0,0));  
 
@@ -256,7 +243,6 @@ bool Body::Update_Body (long secondspassed )
       child_bodies.Get(i)->Update_Body (secondspassed , abs_pos.GetOrigin() ); 
     } // end for iterate for child bodies 
     Update_Mesh_Pos ();  // move the meshes to new position
-    List_Light();
   } // end if check that body has actualy moved 
 
   return true;
@@ -266,8 +252,6 @@ bool Body::Update_Body (long secondspassed )
 // origin is the parents pos in world space
 bool Body::Update_Body(long secondspassed, csVector3 orbit_origin) 
 {
-
-  //	printf ("rotation %4.6f\n", rot_angle);
   Rotate_Body (Get_Body_Rotation(secondspassed));
   Position_Body (Orbit_Angle(secondspassed), orbit_origin);  
 
@@ -295,8 +279,6 @@ bool Body::Position_Body (float angle, csVector3 orbit_origin)
 bool Body::Rotate_Body (float angle)
 {
   // Rotate this body to the passed angle 
-  //printf (" %s Body Rotation %f  \n" , name.c_str() , angle ); 
-
   float rot_rad , axis_rad;
   csMatrix3 rot_mat;
 
@@ -306,8 +288,6 @@ bool Body::Rotate_Body (float angle)
   rot_mat = csYRotMatrix3(axis_rad) * csZRotMatrix3(rot_rad);
 
   abs_pos.SetO2T(rot_mat);
-
-
   return true;
 }
 
@@ -315,22 +295,18 @@ void Body::Update_Mesh_Pos ()
 {
   if (!mesh)
   {
-    printf ("Body::Update_Mesh_Pos:body '%s' has no mesh to update\n", name.c_str() );
+    if (report_lvl) printf ("Body::Update_Mesh_Pos:body '%s' has no mesh to update\n", name.c_str() );
   } else
   {
-    //printf("Moving Body Mesh %s\n", name.c_str() );
     iMovable* movable;
     movable = mesh->GetMovable();
-    //printf("Moving Body Mesh %s\n", name.c_str() );
     movable->SetTransform (abs_pos);
     csVector3  body_pos = abs_pos.GetOrigin(); // position on surface of sphere 
- //   printf("Update_Mesh_pos::%s (%4.2f,%4.2f,%4.2f)\n ",name.c_str(), body_pos.x,body_pos.y,body_pos.z);
     movable->UpdateMove();
   }
 
   for (size_t i = 0; i < child_bodies.GetSize(); i++) 
   {
-    //   printf("Updating child " );
     child_bodies.Get(i)->Update_Mesh_Pos ();
   } // end for iterate for child bodies 
 }
@@ -338,53 +314,25 @@ void Body::Update_Mesh_Pos ()
 
 void Body::Pos_Light(const csVector3& npos)
 {
-//  printf("Body::Pos_Light:%s\n",name.c_str());
-  if (!sector) 
+  if (!sector) return ;
+  if (!light)
   {
- //   printf("Body::Pos_Light: No sector set\n");
-    return ;
-  }
-  if (!light) 
+    return;
+  }else  // update position 
   {
-  //  printf("Body::Pos_Light: No light set\n");
-    return ;
-  } else  // update position 
-  {
-    //printf("Body::pos_light:%s !\n", name.c_str());
-    //light->GetMovable()->SetPosition(npos);
-    //light->GetMovable()->UpdateMove();
     light->SetCenter (npos);
   }
 }
 
 void Body::Update_Lights()
 {
-//  printf("\nBody::update_lights:updating body '%s'!\n", name.c_str() );
-  if (light)
-  {
-//    printf("Light Sector: %s \n", light->GetSector ()->QueryObject ()->GetName() );
-//    printf("Mesh  Sector: %s \n", mesh->GetMovable () ->QueryObject ()->GetName() );
-  }
-
-  if (!sector) 
-  {
-    printf("Body::Update_Lights: No sector set\n");
-    return ;
-  }
+  if (!sector) return ;
 
   csVector3 pos(0,0,0);
  
   if (mesh) pos = mesh->GetMovable()->GetFullPosition();
 
-  if (light)
-  {
-//    printf("Body::update_lights:updating body '%s' position to (%3.2f , %3.2f , %3.2f) !\n", name.c_str(), pos.x , pos.y, pos.z );
-//    light->GetMovable()->SetPosition(pos);
-//    light->GetMovable()->UpdateMove();
- //   pos.y = pos.y + (body_radius * 3);
-    Pos_Light (pos);
-  }
-
+  if (light) Pos_Light (pos);
   // update child bodies  
   for (size_t i = 0; i < child_bodies.GetSize(); i++) 
   {
@@ -408,31 +356,6 @@ csOrthoTransform Body::GetSurfaceOrthoTransform ( const float& lon,const float& 
   return GetSurfaceTrans( lon, lat);
 }
 
-csOrthoTransform Body::GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset)
-{
-  csOrthoTransform surfacetrans = GetSurfaceTrans( lon, lat);
-  // Tranlate all meshes in this sector by offset 
-  iMeshList* ml = sector->GetMeshes ();
-  iMeshWrapper* mw;
-  iMovable* mov;
-  csVector3 body_pos;
-  printf("Offset (%4.2f,%4.2f,%4.2f)\n ",offset.x,offset.y,offset.z);
-
-  for (int i = 0; i < ml->GetCount(); i++) 
-  {
-    mw = ml->Get(i);
-    mov = mw->GetMovable();
-    body_pos = mov->GetPosition () ;
-   // printf("GetSurfaceOrthoTransform::%s (%4.2f,%4.2f,%4.2f)\n ",mw->QueryObject ()->GetName(), body_pos.x,body_pos.y,body_pos.z);
-    mov->MovePosition(offset);
-    mov->UpdateMove();
-    body_pos = mov->GetPosition ();
-   // printf("GetSurfaceOrthoTransform::%s (%4.2f,%4.2f,%4.2f)\n\n",mw->QueryObject ()->GetName(), body_pos.x,body_pos.y,body_pos.z);
-  }
-  
-  return surfacetrans;
-}
-
 csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
 {
 
@@ -447,23 +370,12 @@ csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
   body_pos = movable->GetFullPosition (); 
  
   csVector3 sur_vec = GetSurfaceVector (lon , lat);
-
-  csVector3 off_set = body_radius * sur_vec;  
-
+  csVector3 off_set = body_radius * (sur_vec);  
   body_pos += off_set;
 
-// Test code to check GetSurfaceTrans position
-  csRef<iMeshList> ml = engine->GetMeshes ();
-  csRef<iMeshWrapper> cube = ml->FindByName("Moon1");
-  if (cube)
-  {
-//    printf("GetSurfaceTrans: pos (%4.2f,%4.2f,%4.2f)\n", body_pos.x, body_pos.y, body_pos.z);
-    cube->GetMovable ()->SetPosition (body_pos );
-  }
-
   bodytrans = csReversibleTransform ( body_matrix, body_pos );
-  bodytrans.LookAt ( csVector3(0,0,1) , sur_vec );
-//  printf("GetSurfaceVector:(%4.2f,%4.2f,%4.2f)\n", sur_vec.x, sur_vec.y, sur_vec.z);
+  bodytrans.LookAt (  csVector3(0,0,1) ,  sur_vec  );
+
   return  bodytrans ;
 }
 
@@ -487,9 +399,9 @@ csVector3  Body::GetSurfaceVector(const float& lon, const float& lat)
   sur_vec.y = sin( (lon*radfactor)-(body_rotation*radfactor) ) * cos( (lat*radfactor) - (body_inclination*radfactor) );
   sur_vec.z = sin( (lat*radfactor) - (body_inclination*radfactor) );
 
- // printf("GetSurfaceVector:(%4.2f,%4.2f,%4.2f)\n", sur_vec.x, sur_vec.y, sur_vec.z);
   return  sur_vec; 
 }
+
 
 
 // --------------------------------------------------------------------------------//
@@ -524,12 +436,10 @@ bool Body::Load_Texture(std::string filename, std::string mat_name )
   }
 
   if (!mat ) { 
-    printf(" Body::Load_Texture: Material %s not found!\n",mat_name.c_str() );
+    if (report_lvl) printf(" Body::Load_Texture: Material %s not found!\n",mat_name.c_str() );
     return false;
   } 
-
   return true;
-
 }
 
 
@@ -538,12 +448,14 @@ bool Body::Apply_Material(csRef<iMaterialWrapper>& mat )
 { 
   if (!mesh) 
   {
-    printf("Body::Apply_Material: No '%s' body to apply material to!\n", name.c_str() ); 
+    printf("Body::Apply_Material: No '%s' body to apply material to!\n", name.c_str() );
+    return false;
   }
 
   if (!mat ) 
   {
     printf("Body::Apply_Material: invalid material.\n");
+    return false;
   } else 
   {
     // Now add the texture to the mesh
@@ -566,7 +478,6 @@ bool Body::Add_Light(int radius, csColor color)
   if (light)
   { 
     delete light;
-    printf("Deleting existing light\n");
   }
 
   // Now we need light to see something.
@@ -580,45 +491,16 @@ bool Body::Add_Light(int radius, csColor color)
 //  light->SetAttenuationMode ( CS_ATTN_INVERSE  );
   light->SetAttenuationMode ( CS_ATTN_NONE  );
   ll->Add (light);
-
-  printf (" add light sector has %d lights \n" ,  ll->GetCount() );
-  printf (" new light pos ( %4.2f,%4.2f,%4.2f )\n" , pos.x, pos.y, pos.z );
-  printf (" Cut Off Dist (%6.2f)\n" , light->GetCutoffDistance () );
-  csVector4 lgt_atten_cst = light->GetAttenuationConstants ();
-  printf("GetAttenuationConstants (%2.4f,%2.4f,%2.4f,%2.4f) \n", lgt_atten_cst.w , lgt_atten_cst.x , lgt_atten_cst.y , lgt_atten_cst.z ); 
-
-
+  if (report_lvl)
+  {
+    printf (" add light sector has %d lights \n" ,  ll->GetCount() );
+    printf (" new light pos ( %4.2f,%4.2f,%4.2f )\n" , pos.x, pos.y, pos.z );
+    printf (" Cut Off Dist (%6.2f)\n" , light->GetCutoffDistance () );
+    csVector4 lgt_atten_cst = light->GetAttenuationConstants ();
+    printf("GetAttenuationConstants (%2.4f,%2.4f,%2.4f,%2.4f) \n", lgt_atten_cst.w , lgt_atten_cst.x ,
+      lgt_atten_cst.y , lgt_atten_cst.z ); 
+  }
   return true;
-}
-
-void Body::List_Light() 
-{
-  if (!sector) 
-  {
-    printf("Body::List_Light: No sector set\n");
-    return ;
-  }
-
-  // Now we need light to see something.
-  iLightList* ll = sector->GetLights (); 
-  //	printf (" sector:%s has %d lights \n" , sector_name.c_str() , ll->GetCount() );
-  for (int i = 0; i < ll->GetCount(); i++) 
-  {
-    light = ll->Get(i);
-    csVector3 pos = light->GetMovable()->GetFullPosition();
-    light->GetMovable()->MovePosition (csVector3(0,0,1));
- //   light->Setup();
-    //		printf (" light %s: pos ( %4.2f,%4.2f,%4.2f )\n", light->QueryObject()->GetName() , pos.x, pos.y, pos.z );
-  }
-//  sector->ShineLights();
-}
-
-csVector3 Body::RotateZ (const csVector3 body_pos,const float body_rotation)
-{
-
-  csQuaternion rot;
-  rot.SetAxisAngle(csVector3(0,1,0) , body_rotation*(PI / 180.0) );
-  return rot.Rotate (body_pos);   
 }
 
 float Body::Get_Body_Rotation (long secondspassed )
@@ -626,19 +508,14 @@ float Body::Get_Body_Rotation (long secondspassed )
 
   float rot_angle=0;
   long  seconds = secondspassed;	
-  //	printf("seconds %lu\n" ,seconds);
-  //	printf("last_update_seconds %lu\n", last_update_seconds);
+
   if ( last_update_seconds < seconds )
   {
     last_update_seconds = seconds;
-    //		printf("last_update_seconds %lu\n", last_update_seconds);
-    //		printf("body_day_lenght %4.2f\n", body_day_lenght);
     if (body_day_lenght!=0)
     {
       long day_in_seconds = (body_day_lenght * 60 * 60); // day units is hours 
-      //			printf (" day_in_seconds:%lu ", day_in_seconds);  
       long day_remainder =  (seconds % day_in_seconds ) + 1;
-      //			printf (" day_remainder%lu \n", day_remainder);
       rot_angle = (360 * ((float) (day_remainder) / (float)(day_in_seconds)));
       body_rotation = rot_angle;
     } 
@@ -652,7 +529,5 @@ float Body::Get_Body_Rotation (long secondspassed )
   {
     rot_angle = body_rotation;
   }
-
-  //	printf ("body %s rotation %4.2f \n",name.c_str(),rot_angle);
   return rot_angle;
 }

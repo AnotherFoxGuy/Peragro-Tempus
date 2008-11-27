@@ -20,6 +20,8 @@
 #ifndef _H_LOADER_SOLARSYS.H
 #define _H_LOADER_SOLARSYS.H
 
+#define report_lvl false
+
 #include <string>
 
 #include <csutil/scf_implementation.h>

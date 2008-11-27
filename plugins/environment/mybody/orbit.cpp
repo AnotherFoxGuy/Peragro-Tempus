@@ -57,14 +57,9 @@ long double Orbit::Orbit_Angle( long secondspassed )
   // Get number of seconds for one orbit, work out current angle
   orbit_in_seconds = orb_period * 24 * 60 * 60;
   if (orbit_in_seconds == 0) return 0; 
-//  printf ("Orbit in Sec : %d \n",orbit_in_seconds );
   orbit_remainder = seconds %  orbit_in_seconds;
-//  printf ("Orbit remainder : %d \n",orbit_remainder );
   M = 2 * PI * (double(orbit_remainder) / double(orbit_in_seconds));
-//  printf ("Orbit Mean Anon : %Lf \n", M );
-//  orb_angle = (180 / PI ) * ( kepler ( e , M ) );  
   orb_angle = ( 360 * (float(orbit_remainder) / float(orbit_in_seconds)) );
-//  printf ("Orbit angle : %Lf \n", orb_angle );
   return orb_angle;  // eccentric anomaly 
 }
 
@@ -220,8 +215,7 @@ void Orbit::Draw_Orbit (iCamera* c , iGraphics3D* g3d, csVector3 origin )
 
   csCameraOrth = c->GetTransform ();
   v3CS =  csCameraOrth * (v3start+origin);   // convert point to camera space 
-  //origin =  csCameraOrth * (origin);
-//  v3CE = c->Perspective(v3start);
+
   for (int i= 0; i<361; i+=10)
   {
     // Calculate End point
@@ -229,7 +223,6 @@ void Orbit::Draw_Orbit (iCamera* c , iGraphics3D* g3d, csVector3 origin )
     // Draw part of arc
     v3CE =  csCameraOrth * (v3end + origin); // convert point to camera space 
     g3d->DrawLine(v3CS, v3CE, fov, color);
-//    g3d->DrawLine( origin , v3CE , fov, color);
     // Make end point start of next arc
     v3CS = v3CE;
   }
@@ -319,12 +312,9 @@ void Orbit::Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up)
   fov = g3d->GetPerspectiveAspect();
 
   csVector3 origin(0,0,0);
-//   csVector3 up = ;
   g3d->DrawLine(csCameraOrth * (origin), (csCameraOrth * (csVector3(0,0,0) - up)), fov, red);
 
 }
-
-
 
 double Orbit::asinh( const double z)
 {

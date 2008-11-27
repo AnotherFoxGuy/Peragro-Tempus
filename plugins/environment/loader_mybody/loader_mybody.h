@@ -20,6 +20,8 @@
 #ifndef _H_MY_LOADER_TEMPLATE___
 #define _H_MY_LOADER_TEMPLATE___
 
+#define report_lvl false
+
 #include <csutil/scf_implementation.h>
 #include <csutil/strhash.h>
 #include <csutil/csstring.h>

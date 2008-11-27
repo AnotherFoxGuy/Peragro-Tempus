@@ -20,6 +20,8 @@
 #ifndef _H_SOLARSYS 
 #define _H_SOLARSYS 
 
+#define report_lvl false
+
 #include <string>
 
 #include "crystalspace.h"
@@ -127,10 +129,13 @@ class SolarSysCameraCatcher : public scfImplementation1<SolarSysCameraCatcher, i
 
     virtual void StartFrame(iEngine* engine, iRenderView* rview)
     {
-      if (rview->GetCamera ()->GetSector () != solarsys->GetSector () )
-      {
-        solarsys->DrawSolarSys(rview->GetCamera());
-      }
+
+      if (!rview || !solarsys ) return;
+        if (rview->GetCamera ()->GetSector () != solarsys->GetSector () )
+        {
+          solarsys->DrawSolarSys(rview->GetCamera()); 
+        }
+
     }
 
 }; // end class csCameraCatcher

@@ -133,7 +133,6 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
 
   if (node)
   {
-    printf("Parse Node solarsys\n");
     csRef<iDocumentNodeIterator> itr = node->GetNodes ();
 
     while (itr->HasNext ())
@@ -204,14 +203,13 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
 
   // add the object to the object registory
   // so a pointer can be retrived from the main app 
-  printf ("registering solarsys plugin %s\n", obj->GetName() );
+  printf ("recon69.loader.solarsys:registering solarsys plugin %s\n", obj->GetName() );
   if (!object_reg->Register (obj, obj->GetName()) )
   {
     printf ("LoaderSolarsys::Parse: failed to register plugin %s\n", obj->GetName() );
     goto error;
   }
 
-  printf("End Load solarsys\n");
   return csPtr<iBase> (obj);
 
 error:
@@ -219,43 +217,3 @@ error:
   return 0;
 }
 
-
-
-
-// Leftovers
-
-/*
-
-Demo* DemoSequenceManager::demo;
-DemoSequenceManager* DemoSequenceManager::demoseq;
-
-DemoSequenceManager::DemoSequenceManager (Demo* demo)
-{
-  DemoSequenceManager::demo = demo;
-  demoseq = this;
-  loader = 0;
-  iObjectRegistry* object_reg = demo->object_reg;
-  csRef<iPluginManager> plugin_mgr (
-  	csQueryRegistry<iPluginManager> (object_reg));
-  seqmgr = csLoadPlugin<iSequenceManager> (plugin_mgr,
-    "crystalspace.utilities.sequence");
-
-
-*/
-
-/*
-  csRef<iPluginManager> plg_mgr ( csQueryRegistry<iPluginManager> (object_reg)) ;
-  if (!plg_mgr)
-  {
-    if (synldr) synldr->ReportError ("recon69.loader.solarsys", node, "Can't find plugin manager!");
-    return false;
-  }// end if(!engine)
-  
-  // Get loaders for other plugin loaders
-  myLoaderBody* ldr_body = csLoadPlugin<myLoaderBody> ( plg_mgr ,  "recon69.loader.mybodyfactory");
-
-  
-
- // csRef<myLoaderStarbox> ldr_starbox = csQueryRegistry<myLoaderStarbox> (object_reg);
-
-*/

@@ -32,7 +32,6 @@ MyBody::~MyBody()
 bool MyBody::Initialize(iObjectRegistry *object_reg)
 {
   initialized = true;
-  printf("Mybody::Initialize\n");
 
   body = new Body(object_reg);
 
@@ -87,10 +86,6 @@ csOrthoTransform MyBody::GetSurfaceOrthoTransform (const float& lon,const float&
   return body->GetSurfaceOrthoTransform (lon, lat);
 }
 
-csOrthoTransform MyBody::GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset) 
-{
-  return body->GetSurfaceOrthoTransform (lon, lat, offset);
-}
 csVector3  MyBody::GetSurfacePos(const float& lon, const float& lat)
 {
   return body->GetSurfacePos (lon, lat);

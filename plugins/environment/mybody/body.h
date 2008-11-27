@@ -25,6 +25,8 @@
 #ifndef _H_BODY_
 #define _H_BODY_
 
+#define report_lvl false
+
 // CS Files
 #include <cssysdef.h>
 #include <crystalspace.h>
@@ -112,7 +114,6 @@ public:
 
   char const* Get_Name() const { return name.c_str(); };
   csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat); 
-  csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset); 
   csVector3 GetSurfacePos(const float& lon, const float& lat);
   csVector3 GetSurfaceVector (const float& lon, const float& lat);
 
@@ -156,10 +157,7 @@ private:
   bool Apply_Material(csRef<iMaterialWrapper>& mat);
   bool Load_Texture(std::string filename, std::string mat_name);
 
-
-  csVector3 RotateZ (const csVector3 body_pos,const float body_rotation);
   float Get_Body_Rotation (long secondspassed );
-  void List_Light();
   void Pos_Light(const csVector3& npos);
 
 };

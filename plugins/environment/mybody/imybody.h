@@ -65,7 +65,8 @@ struct iMyBody : public virtual iBase
     ) = 0 ;
 
   virtual void Set_Name(char const* name) = 0; 
-/*  virtual void Set_a(long double val) = 0;
+/*
+  virtual void Set_a(long double val) = 0;
   virtual void Set_i(long double val) = 0;
   virtual void Set_n(long double val) = 0;
   virtual void Set_w(long double val) = 0;
@@ -82,7 +83,6 @@ struct iMyBody : public virtual iBase
 
   virtual char const* Get_Name() const = 0;
   virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat) = 0;
-  virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset) = 0;
   virtual csVector3  GetSurfacePos(const float& lon, const float& lat) = 0;
   virtual csVector3 GetSurfaceVector(const float& lon, const float& lat) = 0;
 

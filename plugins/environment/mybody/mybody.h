@@ -20,6 +20,8 @@
 #ifndef _H_MYBODY
 #define _H_MYBODY
 
+#define report_lvl false
+
 #include <cssysdef.h>
 #include <crystalspace.h>
 #include <csutil/scf_implementation.h>
@@ -87,7 +89,6 @@ public:
 
   virtual char const* Get_Name() const {return body->Get_Name(); };
   virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat);
-  virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat, const csVector3& offset);
   virtual csVector3 GetSurfacePos(const float& lon, const float& lat);
   virtual csVector3 GetSurfaceVector(const float& lon, const float& lat);
   virtual csRef<iMeshWrapper> Get_MeshWrapper();

@@ -76,23 +76,16 @@ bool myLoaderBody::Initialize(iObjectRegistry *object_reg)
   xmltokens.Register ("radius",XMLTOKEN_RADIUS );
   xmltokens.Register ("color",XMLTOKEN_COLOR );
 
-//  xmltokens.Register ("", );
-
-
   return true;
 }
  
 bool myLoaderBody::ParseXML ( iDocumentNode* node)
 {
- 
   return true;
 }
 bool myLoaderBody::ParseLight (iDocumentNode* node, csRef<iMyBody> obj)
 {
-//<light>
-//  <radius>10</radius>
-//  <color red='' green='' blue=''/>
-//</Light>
+
   int r=0;
   csColor c;
 
@@ -107,21 +100,20 @@ bool myLoaderBody::ParseLight (iDocumentNode* node, csRef<iMyBody> obj)
     {
       case XMLTOKEN_RADIUS:
         r = (int)child->GetAttribute("r")->GetValueAsFloat();
-	printf("r=%i\n",r);
+        if (report_lvl) printf("r=%i\n",r);
       break; 
 
       case XMLTOKEN_COLOR:
-	  synldr->ParseColor(child, c);
-//          c.Set(1,1,1);
-	  printf("color=%2.4f,%2.4f,%2.4f \n" , c.red, c.green, c.blue);
-        break;
+        synldr->ParseColor(child, c);
+        if (report_lvl) printf("color=%2.4f,%2.4f,%2.4f \n" , c.red, c.green, c.blue);
+      break;
 
       default:
         synldr->ReportBadToken (child);
         return false;
     }
   }
-  printf ("adding light to body\n");
+  if (report_lvl) printf ("adding light to body\n");
   obj->Add_Light(r,c);
   return true;
 }
@@ -155,27 +147,23 @@ csPtr<iBase> myLoaderBody::Parse (iDocumentNode* node,
       if (child->GetType () != CS_NODE_ELEMENT) continue;
 
       csStringID id = xmltokens.Request (child->GetValue ());
-      printf("child->%s\n",child->GetValue ());
-
       switch (id)
       {
 
         case XMLTOKEN_BODY:
         {
-	  printf ("%s\n\n\n",child->GetContentsValue());
           csRef<iMyBody> parent ;
           // Create body with Null as parent 
           obj = ParseBody ( child, ss, ldr_context, context , parent);
-          
         }
         break;
 
-	case XMLTOKEN_MESHFACTORY: break;
-	case XMLTOKEN_ORBIT: break;
-	case XMLTOKEN_MATERIAL: break;
-	case XMLTOKEN_LIGHT: break;
-	case XMLTOKEN_COLOR: break;
-	case XMLTOKEN_RADIUS: break;
+        case XMLTOKEN_MESHFACTORY: break;
+        case XMLTOKEN_ORBIT: break;
+        case XMLTOKEN_MATERIAL: break;
+        case XMLTOKEN_LIGHT: break;
+        case XMLTOKEN_COLOR: break;
+        case XMLTOKEN_RADIUS: break;
 
         default:
         {
@@ -275,7 +263,6 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
   if (node)
   {
-    printf("Parseing node obj\n");
     // Create the new imybody object
     std::string name = node->GetAttribute("name")->GetValue ();
     float radius =  node->GetAttribute("r")->GetValueAsFloat();
@@ -287,20 +274,6 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
     csVector3 r(radius,0,0);
     obj->Create_Body_Mesh( radius, verts, day, i );
-
-//    printf("Adding %s ", obj->Get_Name() );
-
-    if (parent) printf(" child of %s\n", parent->Get_Name() );
-
-    if (parent)
-    {
-	printf("Has Parent\n");
-//       obj->Set_Parent(parent);
-//       printf("Adding %s as child of %s\n", parent->Get_Name() , obj->Get_Name() );
-//       parent->Add_Child(obj);
-    }
-
-
 
     csRef<iDocumentNodeIterator> itr = node->GetNodes ();
     while (itr->HasNext ())
@@ -352,17 +325,11 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
         case XMLTOKEN_BODY:
         {
-
           // Parse Next body
           //Create another body with this one as parent 
-          // Create body with Null as parent 
           ParseBody ( child, ss, ldr_context, context , obj);
-
-
         }
         break;
-
-
  
         default:
         {
@@ -377,7 +344,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
   // add the object to the object registory
   // so a pointer can be retrived from the main app
-  printf("Regersting Obj %s \n\n", obj->Get_Name()); 
+  if (report_lvl) printf("Regersting Obj %s \n\n", obj->Get_Name()); 
   if (!object_reg->Register (obj, obj->Get_Name()) )
   {
     printf ("myLoaderBody::Parse: failed to register iMyBody object in registery\n");
@@ -388,11 +355,10 @@ csRef<iMyBody> myLoaderBody::ParseBody (
   {
     parent->Add_Child(obj);
     obj->Set_Parent(parent);
-    printf("return parent\n");
     return parent;
   } else
   {
-    printf("return root pointer\n");
+    //return root pointer
     return obj;
   }
 
