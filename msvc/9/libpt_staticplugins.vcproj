@@ -576,6 +576,56 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libloader_mybody_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\libloader_solarsys_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libloader_starbox_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -601,6 +651,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libmybody_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libmystarbox_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -623,6 +698,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\libsolarsys_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -701,6 +801,56 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\environment\loader_mybody\loader_mybody.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\loader_solarsys\loader_solarsys.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\environment\loader_starbox\loader_starbox.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -723,6 +873,106 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\body.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\mybody.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\mybodyfact.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\orbit.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -823,6 +1073,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\solarsys\solarsys.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1095,7 +1370,28 @@
 				RelativePath="..\..\components\entity\stat\stats.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\environment\loader_mybody\loader_mybody.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\loader_solarsys\loader_solarsys.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\environment\loader_starbox\loader_starbox.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\body.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\imybody.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\mybody.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\mybodyfact.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\mybody\orbit.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\mystarbox\const.h">
@@ -1114,6 +1410,12 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\mystarbox\system.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\solarsys\isolarsys.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\environment\solarsys\solarsys.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\gui\clipboard\win32\clipboard.h">
