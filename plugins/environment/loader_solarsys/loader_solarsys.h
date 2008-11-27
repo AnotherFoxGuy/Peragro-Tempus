@@ -17,8 +17,8 @@
 */
 // file : loader_solarsys.h
 
-#ifndef _H_LOADER_SOLARSYS.H
-#define _H_LOADER_SOLARSYS.H
+#ifndef _H_LOADER_SOLARSYS_H
+#define _H_LOADER_SOLARSYS_H
 
 #define report_lvl false
 
@@ -70,6 +70,6 @@ class LoaderSolarsys :
 };  
 
 #endif 
-//  _H_LOADER_SOLARSYS.H 
+//  _H_LOADER_SOLARSYS_H 
 
 
