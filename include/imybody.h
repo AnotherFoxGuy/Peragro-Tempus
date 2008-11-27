@@ -65,7 +65,8 @@ struct iMyBody : public virtual iBase
     ) = 0 ;
 
   virtual void Set_Name(char const* name) = 0; 
-/*  virtual void Set_a(long double val) = 0;
+/*
+  virtual void Set_a(long double val) = 0;
   virtual void Set_i(long double val) = 0;
   virtual void Set_n(long double val) = 0;
   virtual void Set_w(long double val) = 0;
@@ -82,21 +83,16 @@ struct iMyBody : public virtual iBase
 
   virtual char const* Get_Name() const = 0;
   virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat) = 0;
-  virtual csVector3 GetSurfaceVector (float lon ,float lat) = 0;
+  virtual csVector3  GetSurfacePos(const float& lon, const float& lat) = 0;
+  virtual csVector3 GetSurfaceVector(const float& lon, const float& lat) = 0;
+
   virtual csRef<iMeshWrapper> Get_MeshWrapper() = 0;
 
   virtual bool Add_Child(csRef<iMyBody> child) = 0; 
   virtual bool Set_Parent(csRef<iMyBody> par_body) = 0;
 
-  virtual void Set_Parent_Node(iSceneNode* parent) = 0;
-
-//  virtual iSceneNode* Get_SceneNode() = 0;
-
-
-  //	virtual void Update_Body() = 0;  
   virtual void Update_Body(long secondspassed ) = 0;  
   virtual void Update_Body(long secondspassed, csVector3 origin) = 0;
-  virtual void Update_Meshs( const csTransform& trans, const double& body_rot, char const* sel_body) = 0;
   virtual void Update_Mesh_Pos() = 0;
 
   virtual void Add_Light(int range, csColor color) = 0;
@@ -107,6 +103,7 @@ struct iMyBody : public virtual iBase
   virtual void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up) = 0; 
 
   virtual double GetBodyRotation() = 0;
+  virtual double GetOrbitRotation() = 0;
 
   virtual void ListChildren (char const* prefix) = 0;
   virtual csRef<iMyBody> Find(const std::string& sname) = 0;
