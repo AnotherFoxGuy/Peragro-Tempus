@@ -33,12 +33,19 @@
 #include "common/event/event.h"
 
 #include "client/environment/clock.h"
+#include "client/entity/player/playerentity.h"
+
+// solarsystem plugins 
+#include "imystarbox.h"
+#include "isolarsys.h"
+#include "imybody.h"
 
 struct iEngine;
 struct iLight;
 struct iEvent;
 struct iCamera;
 struct iShaderManager;
+
 
 namespace PT
 {
@@ -93,6 +100,14 @@ namespace PT
        * @return True, indicating that the event was handled.
        */
       void Update(iCamera* cam);
+
+      void UpdateSolarsys(iCamera* cam);
+
+      // pointer to plugin that draws the stars and planets/moons
+      csRef<iSolarsys> solarsys;
+
+      // temp timestamp value for solarsys till i work out how to intergrate clock
+      long ts;
 
     public:
       /// Constructor.

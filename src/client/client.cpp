@@ -364,12 +364,6 @@ namespace PT
       return Report(PT::Error, "Failed to create StateManager object!");
     pointerlib.setStateManager(stateManager);
 
-    // Create and Initialize the EnvironmentManager.
-    environmentManager = new PT::Environment::EnvironmentManager();
-    if (!environmentManager->Initialize())
-      return Report(PT::Error, "Failed to create EnvironmentManager object!");
-    pointerlib.setEnvironmentManager(environmentManager);
-
     if (!RegisterQueue(GetObjectRegistry(), csevAllEvents(GetObjectRegistry())))
       return Report(PT::Error, "Failed to set up event handler!");
 
@@ -488,6 +482,13 @@ namespace PT
     }
     else
       Report(PT::Error, "Failed to load the iWorld!");
+
+    // Create and Initialize the EnvironmentManager.
+    environmentManager = new PT::Environment::EnvironmentManager();
+    if (!environmentManager->Initialize())
+      return Report(PT::Error, "Failed to create EnvironmentManager object!");
+    pointerlib.setEnvironmentManager(environmentManager);
+
 
     // Let the engine prepare all lightmaps for use and also free all images
     // that were loaded for the texture manager.

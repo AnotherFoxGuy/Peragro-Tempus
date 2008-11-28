@@ -32,6 +32,10 @@
 #include <ivideo/shader/shader.h>
 #include <iutil/virtclk.h>
 
+#include <iutil/object.h>
+
+#include "client/entity/player/playerentity.h"
+
 namespace PT
 {
   namespace Environment
@@ -42,6 +46,7 @@ namespace PT
       sun_theta = 0.206f;//0.256f; //vertical
 
       clock = 0;
+      ts = 1;
     }
 
     EnvironmentManager::~EnvironmentManager()
@@ -81,12 +86,19 @@ namespace PT
       cb.AttachNew(new FrameCallBack(this));
       engine->AddEngineFrameCallback(cb);
 
+      // Setup the solarsys pointer 
+      solarsys = csQueryRegistryTagInterface<iSolarsys>(object_reg, "MilkywayPeragro");
+      if (!solarsys)
+      {
+        Report(PT::Warning, "Failed to locate MilkywayPeragro solar system!");
+      } 
 
       return true;
     } // end Initialize()
 
     void EnvironmentManager::Update(iCamera* cam)
     {
+
       if (!clock) return;
 
       // Move the sun relative to the player.
@@ -153,15 +165,49 @@ namespace PT
       sv->SetValue(brightnessc);
 
     } // end Update()
+    
+    void EnvironmentManager::UpdateSolarsys(iCamera* cam)
+    {
+
+      if (!solarsys) return;
+      PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
+      if (player)
+      {
+        if ( cam->GetSector() == solarsys->GetSector() ) return ;
+        if (solarsys)
+        {
+          solarsys->UpdateSystemTime(ts);
+
+          ts += 1;
+        }
+      } 
+
+    } // end UpdateSolarsys()
+
 
     void EnvironmentManager::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
     {
+
       if (!envmgr)
       {
         engine->RemoveEngineFrameCallback(this);
       }
       else
       {
+        envmgr->UpdateSolarsys(rview->GetCamera());
+
+        // temp bug workaround 
+        // stop the corld camera getting moved when the solarsys plugin fires a frame event
+        iSector* solarsector;
+        solarsector = engine->FindSector("SolarSystem");
+        if (solarsector)
+        {
+          if ( rview->GetCamera()->GetSector() == solarsector )
+          {
+            return;
+          }
+        }
+
         ///TODO: <camera /> is broken in CS atm, work around.
         if (!envmgr->sky.IsValid())
           envmgr->sky = engine->FindMeshObject("sky");
@@ -175,6 +221,7 @@ namespace PT
         //end TODO
 
         envmgr->Update(rview->GetCamera());
+
       }
 
     } // end StartFrame()
