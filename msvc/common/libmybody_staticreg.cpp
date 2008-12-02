@@ -24,7 +24,7 @@ static char const metainfo_mybody[] =
 "        <name>recon69.mybodyfactory</name>"
 "        <implementation>MyBodyFactory</implementation>"
 "        <description>Recon69s body factory</description>"
-"      </class>     "
+"      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
