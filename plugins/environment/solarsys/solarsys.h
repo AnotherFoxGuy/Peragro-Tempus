@@ -16,9 +16,9 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 //File: `solarsys.h'
-	  
-#ifndef _H_SOLARSYS 
-#define _H_SOLARSYS 
+
+#ifndef _H_SOLARSYS
+#define _H_SOLARSYS
 
 #define report_lvl false
 
@@ -35,7 +35,7 @@ class SolarSysCameraCatcher;
 class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
 {
   private:
-    iObjectRegistry* object_reg; 
+    iObjectRegistry* object_reg;
     csRef<iEngine> engine;
     csRef<iGraphics3D> g3d;
     bool initialized ;
@@ -49,11 +49,11 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
     csRef<iMyBody> rootbody ;
     csRef<iMyBody> surbody ;   // Selected body to place the camera on
     float lat;
-    float lon; 
+    float lon;
     csRef<iMyStarbox> starbox;
 
  //   csTransform* start_trans ;
-    long  last_update_seconds; 
+    long  last_update_seconds;
 
     /// A pointer to the view which contains the camera.
     csRef<iView> solarview;
@@ -66,8 +66,8 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
     csRef<SolarSysCameraCatcher> catcher;
 
   public:
-    Solarsys(iObjectRegistry* r); 
-    virtual ~Solarsys(); 
+    Solarsys(iObjectRegistry* r);
+    virtual ~Solarsys();
     virtual bool Initialize(iObjectRegistry *object_reg);
 
     virtual void SetName(char const* name) { solarsys_name = name; };
@@ -91,11 +91,11 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
     //virtual void Draw( iCamera c, long ts );
 
   private:
- 
+
     bool CreateCamera();
     void DrawStarbox(iCamera* c);
 };
- 
+
 
 // Factory Implementation header
 class SolarsysFactory : public scfImplementation2<SolarsysFactory, iSolarsysFactory, iComponent>
@@ -103,7 +103,7 @@ class SolarsysFactory : public scfImplementation2<SolarsysFactory, iSolarsysFact
   private:
     iObjectRegistry* object_reg;
 
-  public: 
+  public:
     SolarsysFactory (iBase* p);
     virtual csPtr<iSolarsys> CreateObject ();
     bool Initialize (iObjectRegistry*);
@@ -133,7 +133,7 @@ class SolarSysCameraCatcher : public scfImplementation1<SolarSysCameraCatcher, i
       if (!rview || !solarsys ) return;
         if (rview->GetCamera ()->GetSector () != solarsys->GetSector () )
         {
-          solarsys->DrawSolarSys(rview->GetCamera()); 
+          solarsys->DrawSolarSys(rview->GetCamera());
         }
 
     }
@@ -141,5 +141,5 @@ class SolarSysCameraCatcher : public scfImplementation1<SolarSysCameraCatcher, i
 }; // end class csCameraCatcher
 
 
-#endif 
+#endif
 // _H_SOLARSYS

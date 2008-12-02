@@ -86,12 +86,12 @@ namespace PT
       cb.AttachNew(new FrameCallBack(this));
       engine->AddEngineFrameCallback(cb);
 
-      // Setup the solarsys pointer 
+      // Setup the solarsys pointer
       solarsys = csQueryRegistryTagInterface<iSolarsys>(object_reg, "MilkywayPeragro");
       if (!solarsys)
       {
         Report(PT::Warning, "Failed to locate MilkywayPeragro solar system!");
-      } 
+      }
 
       return true;
     } // end Initialize()
@@ -165,7 +165,7 @@ namespace PT
       sv->SetValue(brightnessc);
 
     } // end Update()
-    
+
     void EnvironmentManager::UpdateSolarsys(iCamera* cam)
     {
 
@@ -180,7 +180,7 @@ namespace PT
 
           ts += 1;
         }
-      } 
+      }
 
     } // end UpdateSolarsys()
 
@@ -196,7 +196,7 @@ namespace PT
       {
         envmgr->UpdateSolarsys(rview->GetCamera());
 
-        // temp bug workaround 
+        // temp bug workaround
         // stop the corld camera getting moved when the solarsys plugin fires a frame event
         iSector* solarsector;
         solarsector = engine->FindSector("SolarSystem");

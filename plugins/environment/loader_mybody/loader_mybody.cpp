@@ -37,7 +37,7 @@ CS_IMPLEMENT_PLUGIN
 enum
 {
   XMLTOKEN_MESHFACTORY,
-  XMLTOKEN_ORBIT, 
+  XMLTOKEN_ORBIT,
   XMLTOKEN_MATERIAL,
   XMLTOKEN_BODY,
   XMLTOKEN_LIGHT,
@@ -78,7 +78,7 @@ bool myLoaderBody::Initialize(iObjectRegistry *object_reg)
 
   return true;
 }
- 
+
 bool myLoaderBody::ParseXML ( iDocumentNode* node)
 {
   return true;
@@ -101,7 +101,7 @@ bool myLoaderBody::ParseLight (iDocumentNode* node, csRef<iMyBody> obj)
       case XMLTOKEN_RADIUS:
         r = (int)child->GetAttribute("r")->GetValueAsFloat();
         if (report_lvl) printf("r=%i\n",r);
-      break; 
+      break;
 
       case XMLTOKEN_COLOR:
         synldr->ParseColor(child, c);
@@ -118,7 +118,7 @@ bool myLoaderBody::ParseLight (iDocumentNode* node, csRef<iMyBody> obj)
   return true;
 }
 
-csPtr<iBase> myLoaderBody::Parse (iDocumentNode* node, 
+csPtr<iBase> myLoaderBody::Parse (iDocumentNode* node,
   iStreamSource* ss, iLoaderContext* ldr_context, iBase* context)
 {
 
@@ -153,7 +153,7 @@ csPtr<iBase> myLoaderBody::Parse (iDocumentNode* node,
         case XMLTOKEN_BODY:
         {
           csRef<iMyBody> parent ;
-          // Create body with Null as parent 
+          // Create body with Null as parent
           obj = ParseBody ( child, ss, ldr_context, context , parent);
         }
         break;
@@ -175,7 +175,7 @@ csPtr<iBase> myLoaderBody::Parse (iDocumentNode* node,
     } // end while(it->HasNext())
   } // end if(node)
 
- 
+
   return csPtr<iBase> (obj);
 
 error:
@@ -185,7 +185,7 @@ error:
 
 
 csRef<iMyBody> myLoaderBody::ParseBody (
-                                         iDocumentNode* node, 
+                                         iDocumentNode* node,
                                          iStreamSource* ss,
                                          iLoaderContext* ldr_context,
                                          iBase* context,
@@ -212,7 +212,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
   obj_fact  = csQueryRegistry<iMyBodyFactory> (object_reg);
   if (!obj_fact)
-  { 
+  {
     if (synldr)
     {
       synldr->ReportError (
@@ -224,7 +224,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
   obj = obj_fact->CreateObject ();
   if (!obj)
-  { 
+  {
     if (synldr)
     {
       synldr->ReportError (
@@ -232,10 +232,10 @@ csRef<iMyBody> myLoaderBody::ParseBody (
         node, "Faild to create iMyBody!");
       return 0;
     }
-  }// end if(!obj)    
+  }// end if(!obj)
 
 
-  // set the bodys sector 
+  // set the bodys sector
   if(!context)
   {
     synldr->ReportError (
@@ -244,7 +244,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (
     return 0;
   } else {
     csRef<iSector> sector = scfQueryInterface<iSector>(context);
-    if (!sector) 
+    if (!sector)
     {
     synldr->ReportError (
       "recon69.loader.mybodyfactory",
@@ -252,7 +252,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (
     return 0;
     }
 
-    obj->Set_sector(sector); // needs to change to using the pointer not the name 
+    obj->Set_sector(sector); // needs to change to using the pointer not the name
 
   }// end if context
 
@@ -293,7 +293,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
         case XMLTOKEN_ORBIT:
         {// <Orbit i='5.145' n='0' w='0' e='0.0549' a='0.00257' period='27.321582' scale='100000' >
-          obj->Set_Orbit(  
+          obj->Set_Orbit(
                          (long double)child->GetAttribute("i")->GetValueAsFloat(),
                          (long double)child->GetAttribute("n")->GetValueAsFloat(),
                          (long double)child->GetAttribute("w")->GetValueAsFloat(),
@@ -306,9 +306,9 @@ csRef<iMyBody> myLoaderBody::ParseBody (
         break;
 
         case XMLTOKEN_MATERIAL:
-        { 
-          csRef<iMaterialWrapper> mat = ldr_context->FindMaterial(child->GetContentsValue()); 
-          if (!mat) 
+        {
+          csRef<iMaterialWrapper> mat = ldr_context->FindMaterial(child->GetContentsValue());
+          if (!mat)
           {
             printf("myLoaderBody::ParseBody %s materal %s not found!\n", obj->Get_Name() , child->GetContentsValue() );
             goto error;
@@ -318,7 +318,7 @@ csRef<iMyBody> myLoaderBody::ParseBody (
         break;
 
         case XMLTOKEN_LIGHT:
-        {                 
+        {
           if (!ParseLight(child,obj)) return false;
         }
         break;
@@ -326,11 +326,11 @@ csRef<iMyBody> myLoaderBody::ParseBody (
         case XMLTOKEN_BODY:
         {
           // Parse Next body
-          //Create another body with this one as parent 
+          //Create another body with this one as parent
           ParseBody ( child, ss, ldr_context, context , obj);
         }
         break;
- 
+
         default:
         {
           if (synldr) synldr->ReportBadToken (child);
@@ -344,14 +344,14 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
   // add the object to the object registory
   // so a pointer can be retrived from the main app
-  if (report_lvl) printf("Regersting Obj %s \n\n", obj->Get_Name()); 
+  if (report_lvl) printf("Regersting Obj %s \n\n", obj->Get_Name());
   if (!object_reg->Register (obj, obj->Get_Name()) )
   {
     printf ("myLoaderBody::Parse: failed to register iMyBody object in registery\n");
     return false;
   }
 
-  if (parent) 
+  if (parent)
   {
     parent->Add_Child(obj);
     obj->Set_Parent(parent);

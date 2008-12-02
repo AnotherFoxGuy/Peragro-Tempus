@@ -26,7 +26,8 @@ namespace PT
 {
   namespace Chat
   {
-    enum CHATLOGGER_MESSAGE_TYPE {
+    enum CHATLOGGER_MESSAGE_TYPE
+    {
       CHATLOGGER_MESSAGE_UNDEFINED = 0,
       CHATLOGGER_MESSAGE_SYSTEM,
       CHATLOGGER_MESSAGE_EMOTE,
@@ -36,12 +37,12 @@ namespace PT
       CHATLOGGER_MESSAGE_N
     };
 
-    enum CHATLOGGER_LOG {
+    enum CHATLOGGER_LOG
+    {
       CHATLOGGER_LOG_ALL = 0,
       CHATLOGGER_LOG_SYSTEM,
       CHATLOGGER_LOG_N
     };
-
 
     //--------------------------------------------------------------------------
     class ChatLogger
@@ -50,16 +51,13 @@ namespace PT
       ChatLogger ();
       ~ChatLogger ();
 
-      void LogMessage (enum CHATLOGGER_MESSAGE_TYPE type, 
-		       const char* message);
+      void LogMessage (enum CHATLOGGER_MESSAGE_TYPE type, const char* message);
 
-      void LogMessage (enum CHATLOGGER_MESSAGE_TYPE type,
-		       const char* nick,
-		       const char* message);
-    
+      void LogMessage (enum CHATLOGGER_MESSAGE_TYPE type, const char* nick,
+        const char* message);
+
     private:
       csRef<iFile> logFile[CHATLOGGER_LOG_N];
-
 
     };
     //--------------------------------------------------------------------------

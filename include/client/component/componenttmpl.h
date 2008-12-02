@@ -39,7 +39,7 @@ public:                                                                       \
   virtual csPtr<ComponentInterface> CreateComponent (const char* name);       \
 };
 
-/** 
+/**
  * This macro implements a Component factory, the first argument is the
  * name you've given at the declaration, the 2nd argument is the string the
  * factory will be registered with.

@@ -18,15 +18,15 @@
 #include "body.h"
 
 // --------------------------------------------------------------------------------//
-//  Body member functions 	-----------------------------------------------------//
+//  Body member functions     -----------------------------------------------------//
 // --------------------------------------------------------------------------------//
-Body::Body(iObjectRegistry* reg) 
+Body::Body(iObjectRegistry* reg)
 {
   object_reg = reg;
   engine = csQueryRegistry<iEngine> (object_reg );
 
   if (!engine) printf ("Body::Body() no engine\n");
- 
+
   last_update_seconds = -1;
 
   body_verts = 100;
@@ -36,7 +36,7 @@ Body::Body(iObjectRegistry* reg)
 
 
   name = "defaultbody";
- 
+
   body_day_lenght =.1; // in hours
   body_inclination = 0; // in deg
 
@@ -44,12 +44,12 @@ Body::Body(iObjectRegistry* reg)
 
 }
 
-Body::~Body () 
+Body::~Body ()
 {
-    for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+    for (size_t i = 0; i < child_bodies.GetSize(); i++)
     {
       delete child_bodies[i];
-    } // end for iterate for child bodies 
+    } // end for iterate for child bodies
     delete this;
 }
 
@@ -65,13 +65,13 @@ void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
 
 void Body::Create_Body_Mesh()
 {
-  if (!sector) 
+  if (!sector)
   {
     if (report_lvl) printf("Body::Create_Body_Mesh: No sector set\n");
     return ;
   }
 
-  if (mesh) 
+  if (mesh)
   {
     //remove old factory and mesh
     engine->RemoveObject(mesh->GetFactory() );
@@ -82,14 +82,14 @@ void Body::Create_Body_Mesh()
   ellips.SetCenter(csVector3(0));
 
   // create a default sphere mesh
-  CS::Geometry::Sphere* sphere = new CS::Geometry::Sphere(ellips, body_verts); 
-  //	sphere->reversed = true;
-  csRef<iMeshFactoryWrapper> fact = 
+  CS::Geometry::Sphere* sphere = new CS::Geometry::Sphere(ellips, body_verts);
+  // sphere->reversed = true;
+  csRef<iMeshFactoryWrapper> fact =
     CS::Geometry::GeneralMeshBuilder::CreateFactory (engine, name.c_str() , sphere );
 
   mesh = engine->CreateMeshWrapper (fact, name.c_str() , sector, csVector3 (0));
   mesh->SetZBufMode (CS_ZBUF_USE);
-  mesh->SetRenderPriority (engine->GetObjectRenderPriority ()); 
+  mesh->SetRenderPriority (engine->GetObjectRenderPriority ());
 
   mesh->SetLightingUpdate( CS_LIGHTINGUPDATE_ALWAYSUPDATE, 8 );
 
@@ -111,7 +111,7 @@ void Body::Set_Name (char const* body_name)
 void Body::Set_Sector ( iSector* sect )
 {
   sector=sect;
-  // Move the mesh to the sector 
+  // Move the mesh to the sector
   if (mesh) mesh->GetMovable()->SetSector(sector);
 }
 
@@ -146,10 +146,10 @@ bool Body::Draw_FullOrbit (iCamera* c, iGraphics3D* g3d)
 
   if (mesh) origin = mesh->GetMovable()->GetPosition();
 
-  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  for (size_t i = 0; i < child_bodies.GetSize(); i++)
   {
-    child_bodies.Get(i)-> Draw_Orbit (c); 
-  } // end for iterate for child bodies 
+    child_bodies.Get(i)-> Draw_Orbit (c);
+  } // end for iterate for child bodies
 
   return true;
 }
@@ -158,17 +158,17 @@ bool Body::Draw_FullPosition (iCamera* c, iGraphics3D* g3d,long secondspassed)
   csVector3 origin(0,0,0);
   iSceneNode* par_node;
   par_node = mesh->QuerySceneNode ()->GetParent();
-  if (parent) 
+  if (parent)
   {
      origin = parent->Get_MeshWrapper()->GetMovable()->GetPosition();
   }
 
   Draw_Position (c , g3d, origin, secondspassed);
 
-  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  for (size_t i = 0; i < child_bodies.GetSize(); i++)
   {
-    child_bodies.Get(i)->Draw_Position(c , secondspassed); 
-  } // end for iterate for child bodies 
+    child_bodies.Get(i)->Draw_Position(c , secondspassed);
+  } // end for iterate for child bodies
 
 
   return true;
@@ -199,7 +199,7 @@ void Body::Set_Material(csRef<iMaterialWrapper>& mat)
   if (report_lvl)
     printf("Body::Set_Material: '%s' body material to %s!\n", name.c_str(), mat->QueryObject ()->GetName ()  );
 
-  if (!Apply_Material(mat)) 
+  if (!Apply_Material(mat))
   {
     printf ("Body::Set_Material:Failed to apply material to '%s' \n", name.c_str() );
   }
@@ -220,52 +220,52 @@ void Body::ListChildren (char const* prefix)
 
   printf ("%s\n", out.c_str());
 
-  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  for (size_t i = 0; i < child_bodies.GetSize(); i++)
   {
-    child_bodies.Get(i)->ListChildren (out.c_str()); 
-  } // end for iterate for child bodies 
+    child_bodies.Get(i)->ListChildren (out.c_str());
+  } // end for iterate for child bodies
 }
 
 bool Body::Update_Body (long secondspassed )
 {
   long  seconds = secondspassed;
 
-  if (seconds > last_update_seconds ) 
+  if (seconds > last_update_seconds )
   {
     last_update_seconds = seconds;
 
     // Position body
     Rotate_Body(Get_Body_Rotation(secondspassed));
-    Position_Body(Orbit_Angle(secondspassed), csVector3(0,0,0));  
+    Position_Body(Orbit_Angle(secondspassed), csVector3(0,0,0));
 
-    for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+    for (size_t i = 0; i < child_bodies.GetSize(); i++)
     {
-      child_bodies.Get(i)->Update_Body (secondspassed , abs_pos.GetOrigin() ); 
-    } // end for iterate for child bodies 
+      child_bodies.Get(i)->Update_Body (secondspassed , abs_pos.GetOrigin() );
+    } // end for iterate for child bodies
     Update_Mesh_Pos ();  // move the meshes to new position
-  } // end if check that body has actualy moved 
+  } // end if check that body has actualy moved
 
   return true;
 }
 
 // used to position child bodies in relation to their parents position.
 // origin is the parents pos in world space
-bool Body::Update_Body(long secondspassed, csVector3 orbit_origin) 
+bool Body::Update_Body(long secondspassed, csVector3 orbit_origin)
 {
   Rotate_Body (Get_Body_Rotation(secondspassed));
-  Position_Body (Orbit_Angle(secondspassed), orbit_origin);  
+  Position_Body (Orbit_Angle(secondspassed), orbit_origin);
 
-  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  for (size_t i = 0; i < child_bodies.GetSize(); i++)
   {
-    child_bodies.Get(i)->Update_Body ( secondspassed, abs_pos.GetOrigin()); 
-  } // end for iterate for child bodies 
+    child_bodies.Get(i)->Update_Body ( secondspassed, abs_pos.GetOrigin());
+  } // end for iterate for child bodies
 
   return true;
 }
 
 bool Body::Position_Body (float angle, csVector3 orbit_origin)
 {
-  // Position this body to the passed angle on it's orbit 
+  // Position this body to the passed angle on it's orbit
   csVector3 v3pos;
   float orb_rad;
 
@@ -278,7 +278,7 @@ bool Body::Position_Body (float angle, csVector3 orbit_origin)
 
 bool Body::Rotate_Body (float angle)
 {
-  // Rotate this body to the passed angle 
+  // Rotate this body to the passed angle
   float rot_rad , axis_rad;
   csMatrix3 rot_mat;
 
@@ -301,14 +301,14 @@ void Body::Update_Mesh_Pos ()
     iMovable* movable;
     movable = mesh->GetMovable();
     movable->SetTransform (abs_pos);
-    csVector3  body_pos = abs_pos.GetOrigin(); // position on surface of sphere 
+    csVector3  body_pos = abs_pos.GetOrigin(); // position on surface of sphere
     movable->UpdateMove();
   }
 
-  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  for (size_t i = 0; i < child_bodies.GetSize(); i++)
   {
     child_bodies.Get(i)->Update_Mesh_Pos ();
-  } // end for iterate for child bodies 
+  } // end for iterate for child bodies
 }
 
 
@@ -318,7 +318,7 @@ void Body::Pos_Light(const csVector3& npos)
   if (!light)
   {
     return;
-  }else  // update position 
+  }else  // update position
   {
     light->SetCenter (npos);
   }
@@ -329,24 +329,24 @@ void Body::Update_Lights()
   if (!sector) return ;
 
   csVector3 pos(0,0,0);
- 
+
   if (mesh) pos = mesh->GetMovable()->GetFullPosition();
 
   if (light) Pos_Light (pos);
-  // update child bodies  
-  for (size_t i = 0; i < child_bodies.GetSize(); i++) 
+  // update child bodies
+  for (size_t i = 0; i < child_bodies.GetSize(); i++)
   {
     child_bodies.Get(i)->Update_Lights();
-  } // end for iterate for child bodies 
- 
+  } // end for iterate for child bodies
+
 }
 
-bool Body::Load_Factory (std::string factory ) 
+bool Body::Load_Factory (std::string factory )
 {
   return true;
 }
 
-bool Body::SetMeshsSize () 
+bool Body::SetMeshsSize ()
 {
   return true;
 }
@@ -367,10 +367,10 @@ csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
   // body pos
   movable = mesh->GetMovable ();
   body_matrix = movable->GetFullTransform ().GetT2O ();
-  body_pos = movable->GetFullPosition (); 
- 
+  body_pos = movable->GetFullPosition ();
+
   csVector3 sur_vec = GetSurfaceVector (lon , lat);
-  csVector3 off_set = body_radius * (sur_vec);  
+  csVector3 off_set = body_radius * (sur_vec);
   body_pos += off_set;
 
   bodytrans = csReversibleTransform ( body_matrix, body_pos );
@@ -381,25 +381,25 @@ csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
 
 csVector3  Body::GetSurfacePos(const float& lon, const float& lat)
 {
-  // Get surface vector on sphere at lon/lat 
-  csVector3 sur_vec = body_radius * GetSurfaceVector(lon, lat); 
+  // Get surface vector on sphere at lon/lat
+  csVector3 sur_vec = body_radius * GetSurfaceVector(lon, lat);
 
-  return  sur_vec; 
+  return  sur_vec;
 }
 
 
 csVector3  Body::GetSurfaceVector(const float& lon, const float& lat)
 {
-  // Get surface vector on sphere at lon/lat 
+  // Get surface vector on sphere at lon/lat
   csVector3 sur_vec;
   float radfactor = (PI / 180.0);
-  // Get bodys rotaton 
+  // Get bodys rotaton
 
   sur_vec.x = cos( (lon*radfactor)-(body_rotation*radfactor) ) * cos( (lat*radfactor) - (body_inclination*radfactor) );
   sur_vec.y = sin( (lon*radfactor)-(body_rotation*radfactor) ) * cos( (lat*radfactor) - (body_inclination*radfactor) );
   sur_vec.z = sin( (lat*radfactor) - (body_inclination*radfactor) );
 
-  return  sur_vec; 
+  return  sur_vec;
 }
 
 
@@ -408,8 +408,8 @@ csVector3  Body::GetSurfaceVector(const float& lon, const float& lat)
 // load a texture file from disk
 // note filename is the VFS File name of texture
 // --------------------------------------------------------------------------------//
-bool Body::Load_Texture(std::string filename, std::string mat_name ) 
-{ 
+bool Body::Load_Texture(std::string filename, std::string mat_name )
+{
   iMaterialList* materiallist;
   iMaterialWrapper* mat;
 
@@ -419,56 +419,56 @@ bool Body::Load_Texture(std::string filename, std::string mat_name )
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg );
   if (!vfs) printf("Body::Load_Texture: Failed to locate VFS plugin!\n");
 
-  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg ); 
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg );
   if (!loader) printf("Body::Load_Texture: Failed to locate 3D renderer!\n");
 
-  csRef<iTextureManager> 	texture_manager = g3d->GetTextureManager();
+  csRef<iTextureManager> texture_manager = g3d->GetTextureManager();
   if (!texture_manager) printf("Body::Load_Texture: Failed to load Texture Manager!\n");
 
-  materiallist	= engine->GetMaterialList();
+  materiallist = engine->GetMaterialList();
   mat = materiallist->FindByName(mat_name.c_str() );
 
-  if (!mat ) {	
-    csRef<iDataBuffer>  buf = vfs->ReadFile  (filename.c_str() , false ); 
+  if (!mat ) {
+    csRef<iDataBuffer>  buf = vfs->ReadFile  (filename.c_str() , false );
     csRef<iTextureWrapper> texturewapper = loader->LoadTexture (mat_name.c_str() ,
       buf, CS_TEXTURE_3D, texture_manager , true, true, true );
     mat = engine->GetMaterialList ()->FindByName (mat_name.c_str());
   }
 
-  if (!mat ) { 
+  if (!mat ) {
     if (report_lvl) printf(" Body::Load_Texture: Material %s not found!\n",mat_name.c_str() );
     return false;
-  } 
+  }
   return true;
 }
 
 
-// Give this body a material 
-bool Body::Apply_Material(csRef<iMaterialWrapper>& mat ) 
-{ 
-  if (!mesh) 
+// Give this body a material
+bool Body::Apply_Material(csRef<iMaterialWrapper>& mat )
+{
+  if (!mesh)
   {
     printf("Body::Apply_Material: No '%s' body to apply material to!\n", name.c_str() );
     return false;
   }
 
-  if (!mat ) 
+  if (!mat )
   {
     printf("Body::Apply_Material: invalid material.\n");
     return false;
-  } else 
+  } else
   {
     // Now add the texture to the mesh
     mesh->GetMeshObject ()->SetMaterialWrapper (mat);
-    mesh->GetMeshObject ()->InvalidateMaterialHandles ();	
-  } // end no material 
+    mesh->GetMeshObject ()->InvalidateMaterialHandles ();
+  } // end no material
 
   return true;
-}  
+}
 
 bool Body::Add_Light(int radius, csColor color)
 {
-  if (!sector) 
+  if (!sector)
   {
     printf("Body::Add_Light: No sector set\n");
     return false;
@@ -476,12 +476,12 @@ bool Body::Add_Light(int radius, csColor color)
 
   // remove light if it already exists
   if (light)
-  { 
+  {
     delete light;
   }
 
   // Now we need light to see something.
-  iLightList* ll = sector->GetLights (); 
+  iLightList* ll = sector->GetLights ();
   csVector3 pos(0,0,0);
 
   if (mesh) pos = mesh->GetMovable()->GetFullPosition();
@@ -498,7 +498,7 @@ bool Body::Add_Light(int radius, csColor color)
     printf (" Cut Off Dist (%6.2f)\n" , light->GetCutoffDistance () );
     csVector4 lgt_atten_cst = light->GetAttenuationConstants ();
     printf("GetAttenuationConstants (%2.4f,%2.4f,%2.4f,%2.4f) \n", lgt_atten_cst.w , lgt_atten_cst.x ,
-      lgt_atten_cst.y , lgt_atten_cst.z ); 
+      lgt_atten_cst.y , lgt_atten_cst.z );
   }
   return true;
 }
@@ -507,25 +507,25 @@ float Body::Get_Body_Rotation (long secondspassed )
 {
 
   float rot_angle=0;
-  long  seconds = secondspassed;	
+  long  seconds = secondspassed;
 
   if ( last_update_seconds < seconds )
   {
     last_update_seconds = seconds;
     if (body_day_lenght!=0)
     {
-      long day_in_seconds = (body_day_lenght * 60 * 60); // day units is hours 
+      long day_in_seconds = (static_cast<long>(body_day_lenght) * 60 * 60); // day units is hours
       long day_remainder =  (seconds % day_in_seconds ) + 1;
       rot_angle = (360 * ((float) (day_remainder) / (float)(day_in_seconds)));
       body_rotation = rot_angle;
-    } 
-    else 
+    }
+    else
     {
       rot_angle = 0;
       body_rotation = rot_angle;
-    }	
-  } 
-  else 
+    }
+  }
+  else
   {
     rot_angle = body_rotation;
   }

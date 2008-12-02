@@ -215,7 +215,7 @@ int main(int argc, char ** argv)
   for (size_t i = 0; i < race_mgr.getRaceCount(); i++)
   {
     Race* race = race_mgr.getRace(i);
-    race->getStats()->loadFromDatabase(tables.getRaceStatsTable(), 
+    race->getStats()->loadFromDatabase(tables.getRaceStatsTable(),
       race->getId());
     race->getSkills()->loadFromDatabase(tables.getRaceSkillsTable(),
       race->getId());

@@ -1,5 +1,5 @@
 //File: `myobject.cpp'
- 	 
+
 #include "mybodyfact.h"
 
 #include "mybody.h"

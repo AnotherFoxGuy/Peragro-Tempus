@@ -58,7 +58,7 @@ class LoaderSolarsys :
 
     virtual bool Initialize(iObjectRegistry *object_reg);
 
-    virtual csPtr<iBase> Parse (iDocumentNode* node, 
+    virtual csPtr<iBase> Parse (iDocumentNode* node,
     iStreamSource*, iLoaderContext* ldr_context, iBase* context);
 
     virtual bool IsThreadSafe(void) { return true; }
@@ -67,9 +67,9 @@ class LoaderSolarsys :
     bool AddBody(iDocumentNode* node, std::string& parent, iSolarsys* obj, iLoaderContext* ldr_context);
     void ListNode(iDocumentNode* node);
 
-};  
+};
 
-#endif 
-//  _H_LOADER_SOLARSYS_H 
+#endif
+//  _H_LOADER_SOLARSYS_H
 
 

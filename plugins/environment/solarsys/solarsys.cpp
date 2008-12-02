@@ -15,14 +15,14 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-//File: `myobject.cpp'  
- 	  
+//File: `myobject.cpp'
+
 #include "solarsys.h"
 
-CS_IMPLEMENT_PLUGIN 
+CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY(SolarsysFactory);
- 
+
 Solarsys::Solarsys (iObjectRegistry* r)
   : scfImplementationType (this)
 {
@@ -31,7 +31,7 @@ Solarsys::Solarsys (iObjectRegistry* r)
   Initialize ( r );
 }
 
-Solarsys::~Solarsys() 
+Solarsys::~Solarsys()
 {
   // Shut down the event handlers we spawned earlier.
   drawer.Invalidate();
@@ -40,13 +40,13 @@ Solarsys::~Solarsys()
 
 bool Solarsys::Initialize(iObjectRegistry *object_reg)
 {
- 
+
   if (initialized) return true;
 
   printf("Solarsys::Initialize\n");
 
   engine = csQueryRegistry<iEngine> (object_reg);
-  if (!engine) 
+  if (!engine)
   {
     printf ("Solarsys::Initialize: Error, cant find iEngine\n");
   }
@@ -63,7 +63,7 @@ bool Solarsys::Initialize(iObjectRegistry *object_reg)
   if ( engine && catcher) engine->AddEngineFrameCallback(catcher);
 
 
-  if ( !engine || !g3d ) 
+  if ( !engine || !g3d )
   {
     printf("Solarsys::Initialize:Failed to Initialize!\n");
     return false;
@@ -73,14 +73,14 @@ bool Solarsys::Initialize(iObjectRegistry *object_reg)
   {
     //printf("Solarsys::Initialize:Failed to create view!\n");
     return false;
-  }    
+  }
 
   initialized = true;
   return initialized;
 
 }
- 
-void Solarsys::DrawSolarSys(iCamera* c) 
+
+void Solarsys::DrawSolarSys(iCamera* c)
 {
    csVector3 campos = c->GetTransform().GetOrigin();
    DrawSolarSys( c , last_update_seconds );
@@ -92,29 +92,29 @@ void Solarsys::DrawSolarSys( iCamera* c , long ts )
 {
   last_update_seconds = ts;
 
-  if ( rootbody  ) 
+  if ( rootbody  )
   {
     // display orbits from body's surface POV
     rootbody->Update_Body(ts);
     rootbody->Update_Mesh_Pos();
     rootbody->Update_Lights();
 
-    if ( solarview ) 
-    { 
+    if ( solarview )
+    {
       if ( surbody )
-      { // Selected body, draw solar system from bodys' perspective 
+      { // Selected body, draw solar system from bodys' perspective
         csReversibleTransform c2 = surbody->GetSurfaceOrthoTransform(lon,lat);  // solar body surface position
         c2.SetO2T( c->GetTransform ().GetO2T() * c2.GetO2T() ) ;
         solarview->GetCamera ()->SetTransform (c2);
-        DrawStarbox( solarview->GetCamera () ); // draw the starbox 
-      } else 
-      { // No selected body , draw everything from world camera position 
-        DrawStarbox( solarview->GetCamera () ); // draw the starbox if loaded         
+        DrawStarbox( solarview->GetCamera () ); // draw the starbox
+      } else
+      { // No selected body , draw everything from world camera position
+        DrawStarbox( solarview->GetCamera () ); // draw the starbox if loaded
         solarview->GetCamera ()->SetTransform ( c->GetTransform());
       }
       if (report_lvl) rootbody->Draw_Orbit( solarview->GetCamera () );
       solarview->Draw();
-    } else 
+    } else
     {
       CreateCamera();
     }
@@ -130,7 +130,7 @@ void Solarsys::UpdateSystemTime( long ts )
 void Solarsys::SetSector(csRef<iSector>& sect)
 {
 
-  if (!sect) 
+  if (!sect)
   {
     printf("Warning:Solarsys::SetSector:unable to set sector!\n");
   } else
@@ -143,12 +143,12 @@ void Solarsys::SetSector(csRef<iSector>& sect)
 void Solarsys::DrawStarbox(iCamera* c)
 {
     // Draw starbox
-    if (starbox) 
+    if (starbox)
     {
       starbox->Background(c);
-    } else 
+    } else
     {
-      if (report_lvl) printf("Solorsys::drawstarbox:: no starbox\n"); 
+      if (report_lvl) printf("Solorsys::drawstarbox:: no starbox\n");
     }
 }
 
@@ -156,7 +156,7 @@ void Solarsys::DrawStarbox(iCamera* c)
 bool Solarsys::CreateCamera()
 {
   // Now we need to position the camera in our world.
-  if (sector) 
+  if (sector)
   {
     if (solarview) delete solarview;
 
@@ -187,12 +187,12 @@ bool Solarsys::CreateCamera()
 SolarsysFactory::SolarsysFactory (iBase* parent)
   : scfImplementationType (this, parent)
 {}
- 
+
 csPtr<iSolarsys> SolarsysFactory::CreateObject ()
 {
   return new Solarsys(object_reg);
 }
- 
+
 bool SolarsysFactory::Initialize (iObjectRegistry* r)
 {
   object_reg = r;

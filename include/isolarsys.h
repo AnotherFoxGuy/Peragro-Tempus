@@ -16,8 +16,7 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 // File: `isolarsys.h'
- 
-	  
+
 #ifndef _H_ISOLARSYS
 #define _H_ISOLARSYS
 
@@ -31,8 +30,8 @@ struct iSolarsys : public virtual iBase
 {
   SCF_INTERFACE(iSolarsys,1,0,0);
 
-  virtual void SetName(char const* name) = 0; 
-  virtual void SetSector(csRef<iSector>& cursector) = 0; 
+  virtual void SetName(char const* name) = 0;
+  virtual void SetSector(csRef<iSector>& cursector) = 0;
 
   virtual void SetRootbody (csRef<iMyBody>& body) = 0;
   virtual void SetLongitude(long longitude ) = 0;
@@ -54,9 +53,9 @@ struct iSolarsys : public virtual iBase
 struct iSolarsysFactory : public virtual iBase
 {
   SCF_INTERFACE(iSolarsysFactory,1,0,0);
- 
+
   virtual csPtr<iSolarsys> CreateObject () = 0;
 };
 
-#endif 
+#endif
 // _H_ISOLARSYS

@@ -62,6 +62,8 @@ namespace PT
           {
             return inventoryType.Check(ALLOW_ACTIONS);
           } break;
+        default:
+          break;
         }
 
         return false;

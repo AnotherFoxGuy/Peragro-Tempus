@@ -74,7 +74,7 @@ bool MyStarbox::SetupPlugin()
   {
     engine = csQueryRegistry<iEngine>(object_reg);
   }
-  
+
   // Set up camera catcher so starbox can autodraw on frame events
   if (engine) engine->AddEngineFrameCallback(catcher);
 
@@ -133,8 +133,8 @@ void MyStarbox::SetBaseStarExp (float val )
 }
 void MyStarbox::SetSector (char const* name)
 {
-	sector = engine->GetSectors()->FindByName(name);
-	if (!sector) printf("Warning:MyStarbox::SetSector: sector not found!\n");
+    sector = engine->GetSectors()->FindByName(name);
+    if (!sector) printf("Warning:MyStarbox::SetSector: sector not found!\n");
 }
 
 bool MyStarbox::SetCurrentSystem(const int& new_id)
@@ -733,7 +733,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
 
   csStringReader file(buf->GetData());
   csString data;
- 
+
   // Skip first line , #stars
   if (file.HasMoreLines())
   {
@@ -750,7 +750,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
   {
     file.GetLine(data);
     line = data.GetData();
-    // Split data into vector 
+    // Split data into vector
     string dlm (" ");
     vdata = tokenize_str( line, dlm );
     itr = vdata.begin();
@@ -765,7 +765,7 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
     itr++;
     ra  = atof( itr->c_str() );// RA.
 
-    itr++;   
+    itr++;
     dec = atof( itr->c_str()); // DEC.
 
     itr++;
@@ -827,20 +827,19 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
 bool MyStarbox::LoadYaleStarCatalogue(const std::string& file_name)
 {
 /*
-
 Name    Col     Len    Type     Desc
 -------------------------------------------------
-ra	1	6	i6	ra  2000 hhmmss
-dec	7	5	+-i4	dec 2000 -mmss
-mag	12	3	{-}i	magnitude*100 -dd or -ddd
-type	15	2	c2	object type
-type1	15	1	c1	object type 1	/ star,ga,cl,neb,etc
-type2	16	1	c1	object type 2	/ dbl,open,cl,etc
-spec2	17	2	c1d1	spectral 2 'G2'
-letter	19	2	c2	greek Bayer letter(s), or Flamsteed number
-const	21	3	c3	constellation (I.A.U. designation)
-name	24	30	c*	name,descrip.
-newline	54	1	c1	newline (max final loc)
+ra      1       6       i6      ra  2000 hhmmss
+dec     7       5       +-i4    dec 2000 -mmss
+mag     12      3       {-}i    magnitude*100 -dd or -ddd
+type    15      2       c2      object type
+type1   15      1       c1      object type 1 / star,ga,cl,neb,etc
+type2   16      1       c1      object type 2 / dbl,open,cl,etc
+spec2   17      2       c1d1    spectral 2 'G2'
+letter  19      2       c2      greek Bayer letter(s), or Flamsteed number
+const   21      3       c3      constellation (I.A.U. designation)
+name    24      30      c*      name,descrip.
+newline 54      1       c1      newline (max final loc)
 */
 
   std::string line;
@@ -889,7 +888,7 @@ newline	54	1	c1	newline (max final loc)
 
     int rahh, ramm, rass;
     int decmm, decss;
-    float apr_mag; 
+    float apr_mag;
     float abs_mag, distance;
 
     //   printf("Object       mV     MV     mV-MV     d(pc)   d(ly)\n");

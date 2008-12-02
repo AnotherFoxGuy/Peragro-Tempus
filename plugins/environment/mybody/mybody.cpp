@@ -25,7 +25,7 @@ MyBody::MyBody(iObjectRegistry *object_reg) : scfImplementationType (this)
   Initialize(object_reg);
 }
 
-MyBody::~MyBody() 
+MyBody::~MyBody()
 {
   delete body;
 }
@@ -37,23 +37,23 @@ bool MyBody::Initialize(iObjectRegistry *object_reg)
 
   if (!engine) engine = csQueryRegistry<iEngine> (object_reg);
   if (!g3d) g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  if (!g3d || !engine || !body ) initialized = false; 
+  if (!g3d || !engine || !body ) initialized = false;
 
   return initialized;
 }
 
-void MyBody::Set_Body( 
+void MyBody::Set_Body(
                       csVector3 r, long double dl, long double inc, long double i, long double n,
                       long double w, long double e, long double a, long double period, double scale
                       )
 {
   body->Set_Orbit(i, n, w, e, a, period, scale );
-  body->Set_Radius(r);  
-  body->Set_Day_Lenght(dl);  
-  body->Set_Inclination(inc);  
+  body->Set_Radius(r);
+  body->Set_Day_Lenght(dl);
+  body->Set_Inclination(inc);
 }
 
-void MyBody::Set_Orbit( 
+void MyBody::Set_Orbit(
                        long double i, long double n, long double w, long double e,
                        long double a, long double period, double scale
                        )
@@ -81,7 +81,7 @@ bool MyBody::Set_Parent(csRef<iMyBody> par_body)
   return true;
 }
 
-csOrthoTransform MyBody::GetSurfaceOrthoTransform (const float& lon,const float& lat) 
+csOrthoTransform MyBody::GetSurfaceOrthoTransform (const float& lon,const float& lat)
 {
   return body->GetSurfaceOrthoTransform (lon, lat);
 }
@@ -101,12 +101,12 @@ csRef<iMeshWrapper> MyBody::Get_MeshWrapper()
   return body->Get_MeshWrapper();
 }
 
-void MyBody::Draw_Orbit(iCamera* c) 
+void MyBody::Draw_Orbit(iCamera* c)
 {
   body->Draw_FullOrbit(c, g3d );
 }
 
-void MyBody::Draw_Position(iCamera* c ,long secondspassed) 
+void MyBody::Draw_Position(iCamera* c ,long secondspassed)
 {
   body->Draw_FullPosition(c, g3d, secondspassed);
 }
@@ -121,7 +121,7 @@ void MyBody::Update_Body(long secondspassed, csVector3 origin )
   body->Update_Body(secondspassed, origin);
 }
 
-double MyBody::GetBodyRotation() 
+double MyBody::GetBodyRotation()
 {
   return body->GetBodyRotation();
 }
@@ -133,7 +133,7 @@ double MyBody::GetOrbitRotation()
 
 csVector3 MyBody::GetAbsPos ()
 {
-  return body->GetAbsPos(); 
+  return body->GetAbsPos();
 }
 
 void MyBody::Set_Material(csRef<iMaterialWrapper>& mat)
@@ -147,7 +147,7 @@ void MyBody::Update_Lights()
 }
 void MyBody::Set_Mesh(char const* mesh_name)
 {
-  //body->Set_Material(mesh_name);	
+  //body->Set_Material(mesh_name);
 }
 void MyBody::Add_Light(int range,csColor color)
 {
@@ -170,18 +170,18 @@ void MyBody::ListChildren (char const* prefix)
 }
 
 
-csRef<iMyBody> MyBody::Find(const std::string& sname) 
+csRef<iMyBody> MyBody::Find(const std::string& sname)
 {
   csRef<iMyBody> result;
 /*
   if (sname == name) result = this;
-	
+
   std::vector<Body*>::iterator itr = child_bodies.begin();
   while (!result && itr != child_bodies.end() )
   {
     result = (*itr)->Find(sname);
     ++itr;
-  } // end for iterate for child bodies 
+  } // end for iterate for child bodies
 */
   return result;
 }

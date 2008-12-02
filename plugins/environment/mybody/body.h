@@ -18,8 +18,8 @@
 /*
 * body.h
 *
-* Base Class for managing bodies    
-* 
+* Base Class for managing bodies
+*
 */
 
 #ifndef _H_BODY_
@@ -38,16 +38,16 @@
 #include <cstool/primitives.h>
 
 #include "imybody.h"
-#include "orbit.h" 
+#include "orbit.h"
 
 // --------------------------------------------------------------------------------//
-// 
+//
 // --------------------------------------------------------------------------------//
 class Body: public Orbit
 {
 
 private:
-  iObjectRegistry* object_reg; 
+  iObjectRegistry* object_reg;
   csRef<iEngine> engine;
   csRef<iSector> sector;
   csRef<iLight> light;
@@ -67,11 +67,11 @@ private:
 
   double body_rotation ; // in deg at last update
 
-  csRef<iMeshWrapper> mesh;  // A mesh for this body 
-  //		csRef<iLight> light;  declaring this causes a memory fault for some reason  
+  csRef<iMeshWrapper> mesh;  // A mesh for this body
+  //csRef<iLight> light;  declaring this causes a memory fault for some reason
   csTransform abs_pos;  // this bodies transform with (0,0,0) as origin
 
-  double scale; 
+  double scale;
 
   long  last_update_seconds; //
 
@@ -86,10 +86,10 @@ public:
   ~Body();
 
   void Set_Name(char const* body_name);
-  void Set_Sector(iSector* sect );  
-  void Set_Radius(csVector3 r) { ellips.SetRadius (r); body_radius = r.x; };  
-  void Set_Day_Lenght(long double dl) { body_day_lenght = dl; };  
-  void Set_Inclination(long double i) { body_inclination = i; };  
+  void Set_Sector(iSector* sect );
+  void Set_Radius(csVector3 r) { ellips.SetRadius (r); body_radius = r.x; };
+  void Set_Day_Lenght(long double dl) { body_day_lenght = dl; };
+  void Set_Inclination(long double i) { body_inclination = i; };
 
 
   void Set_Orbit (
@@ -105,7 +105,7 @@ public:
   void Create_Body_Mesh();
   void Create_Body_Mesh(float radius, int verts, double day, double i);
   void Set_Mesh(char const* mesh_name);
-  void Set_Material(csRef<iMaterialWrapper>& mat); 
+  void Set_Material(csRef<iMaterialWrapper>& mat);
 
   bool Set_Parent (csRef<iMyBody> par_body);
   bool Add_Child (csRef<iMyBody> child);
@@ -113,7 +113,7 @@ public:
   iSceneNode* Get_SceneNode () { return mesh->QuerySceneNode (); };
 
   char const* Get_Name() const { return name.c_str(); };
-  csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat); 
+  csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat);
   csVector3 GetSurfacePos(const float& lon, const float& lat);
   csVector3 GetSurfaceVector (const float& lon, const float& lat);
 
@@ -124,9 +124,9 @@ public:
 
 
   csRef<iMeshWrapper> Get_MeshWrapper() { return mesh; };
- 
+
   bool Update_Body(long secondspassed);
-  bool Update_Body(long secondspassed, csVector3 orbit_origin); // used for child bodies 
+  bool Update_Body(long secondspassed, csVector3 orbit_origin); // used for child bodies
   void Update_Mesh_Pos(); // positions meshes with (0,0,0) as origin
 
   bool Add_Light(int radius, csColor color);
@@ -145,10 +145,10 @@ private:
   bool Rotate_Body(float angle);
   bool Position_Body(float angle, csVector3 orbit_origin);
 
-  // Surface position methods 
+  // Surface position methods
   csOrthoTransform GetSurfaceTrans (const float& lon ,const float& lat );
 
-  // Child body methods 
+  // Child body methods
   // bool Remove_Child (csRef<iMyBody> child);
 
   // General help methods
@@ -162,5 +162,5 @@ private:
 
 };
 
-#endif 
+#endif
 // _H_BODY_

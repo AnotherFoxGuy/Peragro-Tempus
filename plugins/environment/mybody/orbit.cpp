@@ -20,21 +20,21 @@
 // --------------------------------------------------------------------------------//
 //  Orbit member functions   -----------------------------------------------------//
 // --------------------------------------------------------------------------------//
-Orbit::Orbit( ) 
-//i,n,w,e,a,per 
+Orbit::Orbit( )
+//i,n,w,e,a,per
 {
-  // i,n,w orientate the ellipse  
-  i = 7.25; // inclination  
-  n = 348.73936; // longatude of ascending node 
+  // i,n,w orientate the ellipse
+  i = 7.25; // inclination
+  n = 348.73936; // longatude of ascending node
   w = 10; // Argument of periapsis
 
    // e and a give the shape of ellipes
   e = 0.0096710219; // eccentricity
   a = 1.10000001124; // semi-major axis AU
 
-  // gives time for one orbit  
-  orb_period = 0.52; // orbital period in days 
-  // M = 0; // mean anomaly at epoch  ?? 2*PI*(t/T) 
+  // gives time for one orbit
+  orb_period = 0.52; // orbital period in days
+  // M = 0; // mean anomaly at epoch  ?? 2*PI*(t/T)
   // perihelion = "4/1/08"; closest approach to sun.
 
   //scale = 100000;
@@ -42,7 +42,7 @@ Orbit::Orbit( )
 }
 
 
-Orbit::~Orbit() 
+Orbit::~Orbit()
 {
 }
 
@@ -55,21 +55,21 @@ long double Orbit::Orbit_Angle( long secondspassed )
 
   long seconds = secondspassed;
   // Get number of seconds for one orbit, work out current angle
-  orbit_in_seconds = orb_period * 24 * 60 * 60;
-  if (orbit_in_seconds == 0) return 0; 
+  orbit_in_seconds = static_cast<long>(orb_period) * 24 * 60 * 60;
+  if (orbit_in_seconds == 0) return 0;
   orbit_remainder = seconds %  orbit_in_seconds;
   M = 2 * PI * (double(orbit_remainder) / double(orbit_in_seconds));
   orb_angle = ( 360 * (float(orbit_remainder) / float(orbit_in_seconds)) );
-  return orb_angle;  // eccentric anomaly 
+  return orb_angle;  // eccentric anomaly
 }
 
-csVector3 Orbit::OrbitPointSec ( long secondspassed ) 
+csVector3 Orbit::OrbitPointSec ( long secondspassed )
 {
   // Calculate deg into orbit based on time
   return  Orbit_Angle( secondspassed);
 }
 
-csVector3 Orbit::OrbitPointDeg (float angle ) 
+csVector3 Orbit::OrbitPointDeg (float angle )
 {
   csVector3 pos;
   double b; // minor axis
@@ -84,7 +84,7 @@ csVector3 Orbit::OrbitPointDeg (float angle )
   // calculate the positive fucus on the major axis
   b = sqrt ( (a*a) - (e*e) * (a*a) );
   fx = scalefactor * sqrt ( (a*a)-(b*b) );
-   
+
   pos.x -= fx; // move the focus to (0,0,0)
 
   // Rotate the orbit to right orinitation
@@ -94,7 +94,7 @@ csVector3 Orbit::OrbitPointDeg (float angle )
   return pos;
 }
 
-csVector3 Orbit::CirclePoint ( long double angle ) 
+csVector3 Orbit::CirclePoint ( long double angle )
 {
   csVector3 pos;
   angle = angle*(PI/180);
@@ -129,7 +129,7 @@ csVector3 Orbit::EllipsePoint ( long double angle )
   t = angle * ( PI / 180.0 );
 
   a1 = fabs(.5 * (double)(x2 - x1));  // ellipse width
-  b1 = fabs(.5 * (double)(y2 - y1));  // ellipse height 
+  b1 = fabs(.5 * (double)(y2 - y1));  // ellipse height
   tinc = PI * 2 / (a1 + b1);
 
   // Getting the foucus? not sure it moves the center of the elipse to the side?
@@ -147,7 +147,7 @@ csVector3 Orbit::EllipsePoint ( long double angle )
   return pos;
 }
 
-void Orbit::Draw_Position ( iCamera* c , iGraphics3D* g3d , csVector3 origin, long secondspassed ) 
+void Orbit::Draw_Position ( iCamera* c , iGraphics3D* g3d , csVector3 origin, long secondspassed )
 {
 // calculate ecc // use Time and Period
 // mean anomaly at epoch  ??
@@ -169,7 +169,7 @@ void Orbit::Draw_Position ( iCamera* c , iGraphics3D* g3d , csVector3 origin, lo
 
   c->SetPerspectiveCenter ( (win_w / 2)  , (win_h/2) );
   v3CP = c->GetTransform().GetOrigin();  //camera origin
- 
+
   fov = g3d->GetPerspectiveAspect ();
   color = g3d->GetDriver2D ()->FindRGB  (0,255,0);
 
@@ -179,8 +179,8 @@ void Orbit::Draw_Position ( iCamera* c , iGraphics3D* g3d , csVector3 origin, lo
 
   orbit_pos = OrbitPointSec( secondspassed );
 
-  center_pos =  csCameraOrth * (center_pos + origin ); // convert point to camera space 
-  orbit_pos =  csCameraOrth * (orbit_pos + origin ); // convert point to camera space 
+  center_pos =  csCameraOrth * (center_pos + origin ); // convert point to camera space
+  orbit_pos =  csCameraOrth * (orbit_pos + origin ); // convert point to camera space
   g3d->DrawLine( center_pos, orbit_pos , fov, color);
 
 }
@@ -208,39 +208,39 @@ void Orbit::Draw_Orbit (iCamera* c , iGraphics3D* g3d, csVector3 origin )
   fov = g3d->GetPerspectiveAspect();
   color = g3d->GetDriver2D()->FindRGB(0,255,0);
 
-  // Calculate Start point 
+  // Calculate Start point
   orb_rad = 0 * (PI / 180.0);
   v3start = OrbitPointDeg(0);
 
 
   csCameraOrth = c->GetTransform ();
-  v3CS =  csCameraOrth * (v3start+origin);   // convert point to camera space 
+  v3CS =  csCameraOrth * (v3start+origin);   // convert point to camera space
 
   for (int i= 0; i<361; i+=10)
   {
     // Calculate End point
     v3end = OrbitPointDeg(i);
     // Draw part of arc
-    v3CE =  csCameraOrth * (v3end + origin); // convert point to camera space 
+    v3CE =  csCameraOrth * (v3end + origin); // convert point to camera space
     g3d->DrawLine(v3CS, v3CE, fov, color);
     // Make end point start of next arc
     v3CS = v3CE;
   }
 
 }
-  
 
-void Orbit::Draw_Plane (const iCamera* c , iGraphics3D* g3d) 
+
+void Orbit::Draw_Plane (const iCamera* c , iGraphics3D* g3d)
 {
   csVector3  v3start, v3end;
   csVector3 v3s, v3e;
   int green, red, blue;
-  int lp;  
+  int lp;
   float fov;
 
   csOrthoTransform csCameraOrth;
   if (!c)
-  { 
+  {
     printf("Orbit::Draw_Plane: Invalide camera!\n");
     return;
   }
@@ -263,12 +263,12 @@ void Orbit::Draw_Plane (const iCamera* c , iGraphics3D* g3d)
   v3end.z = 0;
 
   for (lp= -100; lp<100; lp++)
-  { 
+  {
     v3start.x = lp * 100;
     v3end.x = lp * 100;
     // Draw part of arc
-    v3s =  csCameraOrth * (v3start ); // convert point to camera space 
-    v3e =  csCameraOrth * (v3end ); // convert point to camera space 
+    v3s =  csCameraOrth * (v3start ); // convert point to camera space
+    v3e =  csCameraOrth * (v3end ); // convert point to camera space
     g3d->DrawLine(v3s, v3e, fov, blue);
 
   }
@@ -283,19 +283,19 @@ void Orbit::Draw_Plane (const iCamera* c , iGraphics3D* g3d)
   v3end.z = 0;
 
   for ( lp= -100; lp<100; lp++)
-  { 
+  {
     v3start.y = lp * 100;
     v3end.y = lp * 100;
     // Draw part of arc
-    v3s =  csCameraOrth * (v3start ); // convert point to camera space 
-    v3e =  csCameraOrth * (v3end ); // convert point to camera space 
+    v3s =  csCameraOrth * (v3start ); // convert point to camera space
+    v3e =  csCameraOrth * (v3end ); // convert point to camera space
     g3d->DrawLine( v3s , v3e , fov, blue);
 
   }
 }
 
 
-void Orbit::Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up) 
+void Orbit::Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up)
 {
   csVector3  v3start, v3end;
   csVector3 v3s, v3e;
@@ -327,4 +327,4 @@ double Orbit::kepler( const double ecc, double mean_anom)
 }
 
 
- 
+

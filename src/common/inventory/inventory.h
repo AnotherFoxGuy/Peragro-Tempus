@@ -34,9 +34,9 @@ namespace PT
   {
     namespace Inventory
     {
-      #define 	ALLOW_ITEMS    0x00000001
-      #define 	ALLOW_SKILLS   0x00000010
-      #define 	ALLOW_ACTIONS  0x00000100
+      #define ALLOW_ITEMS    0x00000001
+      #define ALLOW_SKILLS   0x00000010
+      #define ALLOW_ACTIONS  0x00000100
 
       class Object;
       class Slot;

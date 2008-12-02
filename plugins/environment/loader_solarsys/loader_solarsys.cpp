@@ -78,14 +78,14 @@ bool LoaderSolarsys::Initialize(iObjectRegistry *object_reg)
 
   return true;
 }
- 
+
 bool LoaderSolarsys::ParseXML ( iDocumentNode* node)
 {
- 
+
   return true;
 }
 
-csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node, 
+csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
   iStreamSource* ss, iLoaderContext* ldr_context, iBase* context)
 {
 
@@ -93,7 +93,7 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
 
   csRef<iSolarsysFactory> obj_fact;
   csRef<iSolarsys> obj;
-  
+
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
@@ -103,27 +103,27 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
 
   obj_fact  = csQueryRegistry<iSolarsysFactory> (object_reg);
   if (!obj_fact)
-  { 
+  {
     if (synldr) synldr->ReportError ("recon69.loader.solarsys", node, "Can't find iSolarsysFactory!");
     return false;
   }// end if(!obj_fact)
 
   obj = obj_fact->CreateObject ();
   if (!obj)
-  { 
+  {
     if (synldr) synldr->ReportError ("recon69.loader.solarsys", node, "Faild to create iSolarsys!");
     return false;
   }// end if(!obj)
 
-  // set the bodys sector 
+  // set the bodys sector
   if(!context)
   {
     synldr->ReportError ("recon69.loader.solarsys", node, "Can't find context!");
     return false;
-  }else 
+  }else
   {
     csRef<iSector> sector = scfQueryInterface<iSector>(context);
-    if (!sector) 
+    if (!sector)
     {
     synldr->ReportError ("recon69.loader.solarsys", node, "Can't find sector!");
     return false;
@@ -140,8 +140,8 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
       csRef<iDocumentNode> child = itr->Next ();
 
       if (child->GetType () != CS_NODE_ELEMENT) continue;
-	
-      csStringID id = xmltokens.Request (child->GetValue ()); 
+
+      csStringID id = xmltokens.Request (child->GetValue ());
       switch (id)
       {
         case XMLTOKEN_NAME:
@@ -153,9 +153,9 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
         case XMLTOKEN_ROOTBODY:
         {
           csRef<iMyBody> rootbody = csQueryRegistryTagInterface<iMyBody>(object_reg, child->GetContentsValue ());
-          if (!rootbody) 
+          if (!rootbody)
           {
-            printf ("recon69.loader.solarsys: Uable to set rootbody:%s\n",child->GetContentsValue ()); 
+            printf ("recon69.loader.solarsys: Uable to set rootbody:%s\n",child->GetContentsValue ());
             goto error;
           }
           obj->SetRootbody(rootbody);
@@ -166,14 +166,14 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
         {
 
           csRef<iMyBody>surfbody = csQueryRegistryTagInterface<iMyBody>(object_reg, child->GetContentsValue ());
-          if (!surfbody) 
+          if (!surfbody)
           {
-            printf ("recon69.loader.solarsys: Uable to set selectbody:%s\n",child->GetContentsValue ()); 
+            printf ("recon69.loader.solarsys: Uable to set selectbody:%s\n",child->GetContentsValue ());
             goto error;
           }
           obj->SetSurfaceBody(surfbody);
-          obj->SetLongitude ( child->GetAttribute("longitude")->GetValueAsFloat() );
-          obj->SetLatitude ( child->GetAttribute("latitude")->GetValueAsFloat() );
+          obj->SetLongitude(static_cast<long>(child->GetAttribute("longitude")->GetValueAsFloat()));
+          obj->SetLatitude(static_cast<long>(child->GetAttribute("latitude")->GetValueAsFloat()));
 
         }
         break;
@@ -181,9 +181,9 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
         case XMLTOKEN_STARBOX:
         {
           csRef<iMyStarbox> starbox = csQueryRegistryTagInterface<iMyStarbox>(object_reg, child->GetContentsValue ());
-          if (!starbox) 
+          if (!starbox)
           {
-            printf ("recon69.loader.solarsys: Uable to set starbox :%s\n",child->GetContentsValue ()); 
+            printf ("recon69.loader.solarsys: Uable to set starbox :%s\n",child->GetContentsValue ());
             goto error;
           }
           obj->SetStarbox(starbox);
@@ -202,7 +202,7 @@ csPtr<iBase> LoaderSolarsys::Parse (iDocumentNode* node,
 
 
   // add the object to the object registory
-  // so a pointer can be retrived from the main app 
+  // so a pointer can be retrived from the main app
   printf ("recon69.loader.solarsys:registering solarsys plugin %s\n", obj->GetName() );
   if (!object_reg->Register (obj, obj->GetName()) )
   {

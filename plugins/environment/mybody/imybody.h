@@ -41,7 +41,7 @@ struct iMyBody : public virtual iBase
 {
   SCF_INTERFACE(iMyBody,1,0,0);
 
-  virtual void Set_Body ( 
+  virtual void Set_Body (
     csVector3 r,
     long double dl,
     long double inc,
@@ -54,17 +54,17 @@ struct iMyBody : public virtual iBase
     double scale
     ) = 0 ;
 
-  virtual void Set_Orbit (  
+  virtual void Set_Orbit (
     long double i,
     long double n,
     long double w,
     long double e,
     long double a,
     long double period,
-    double scale                  // need to define this , scale of AU to csUnits? 
+    double scale                  // need to define this , scale of AU to csUnits?
     ) = 0 ;
 
-  virtual void Set_Name(char const* name) = 0; 
+  virtual void Set_Name(char const* name) = 0;
 /*
   virtual void Set_a(long double val) = 0;
   virtual void Set_i(long double val) = 0;
@@ -75,7 +75,7 @@ struct iMyBody : public virtual iBase
 */
   virtual void Set_scale (long double val) = 0;
   virtual void Set_sector(iSector* sect) = 0;
-  virtual void Set_Material(csRef<iMaterialWrapper>& mat) = 0; 
+  virtual void Set_Material(csRef<iMaterialWrapper>& mat) = 0;
 
   virtual void Set_Mesh(char const* mesh_name) = 0;
   virtual void Create_Body_Mesh() = 0;
@@ -88,10 +88,10 @@ struct iMyBody : public virtual iBase
 
   virtual csRef<iMeshWrapper> Get_MeshWrapper() = 0;
 
-  virtual bool Add_Child(csRef<iMyBody> child) = 0; 
+  virtual bool Add_Child(csRef<iMyBody> child) = 0;
   virtual bool Set_Parent(csRef<iMyBody> par_body) = 0;
 
-  virtual void Update_Body(long secondspassed ) = 0;  
+  virtual void Update_Body(long secondspassed ) = 0;
   virtual void Update_Body(long secondspassed, csVector3 origin) = 0;
   virtual void Update_Mesh_Pos() = 0;
 
@@ -100,7 +100,7 @@ struct iMyBody : public virtual iBase
 
   virtual void Draw_Orbit(iCamera* c) = 0;
   virtual void Draw_Position(iCamera* c, long secondspassed ) = 0;
-  virtual void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up) = 0; 
+  virtual void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up) = 0;
 
   virtual double GetBodyRotation() = 0;
   virtual double GetOrbitRotation() = 0;
@@ -120,5 +120,5 @@ struct iMyBodyFactory : public virtual iBase
 
 };
 
-#endif 
+#endif
 // _H_IMYBODY___

@@ -201,7 +201,7 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
             obj->SetAutoDraw(true);
           }else{
             obj->SetAutoDraw(false);
-          } // end if true 
+          } // end if true
         }
         break;
 
@@ -213,7 +213,7 @@ csPtr<iBase> myLoaderStarbox::Parse(iDocumentNode* node,
             obj->SetUseTextures(true);
           }else{
             obj->SetUseTextures(false);
-          } // end if true 
+          } // end if true
         }
 
         break;

@@ -39,8 +39,8 @@ private:
   csRef<iGraphics3D> g3d;
 
   bool initialized ;
-  //	csStringHash xmltokens;
-  //	csRef<iStandardReporterListener> stdrep;
+  //csStringHash xmltokens;
+  //csRef<iStandardReporterListener> stdrep;
 
   Body* body;
 
@@ -85,7 +85,7 @@ public:
   virtual void Create_Body_Mesh(float radius, int verts, double day, double i);
   virtual void Set_Mesh(char const* mesh_name);
   virtual void Set_Material(csRef<iMaterialWrapper>& mat);
-  //	virtual bool Set_mesh (iMeshWrapper* );
+  //virtual bool Set_mesh (iMeshWrapper* );
 
   virtual char const* Get_Name() const {return body->Get_Name(); };
   virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat);

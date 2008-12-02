@@ -251,7 +251,7 @@ void FileLoader::ParseTexture(iDocumentNode* node)
     }
   }
 
-  if (!texNode || !fileNode) 
+  if (!texNode || !fileNode)
   {
     printf("E: Failed to parse texture!\n");
     return;
@@ -506,10 +506,10 @@ bool FileLoader::IsDoneLoading()
   Parse(0, false);
 
   while (!textures.IsEmpty())
-  { 
-    if (textures.Top()->IsFinished()) 
-    { 
-      if (!textures.Top()->WasSuccessful()) 
+  {
+    if (textures.Top()->IsFinished())
+    {
+      if (!textures.Top()->WasSuccessful())
         printf("E: Failed to load texture %s\n", textureFileNames.Top().c_str());
 
       csRef<iTextureWrapper> texw = scfQueryInterfaceSafe<iTextureWrapper> (textures.Top()->GetResultRefPtr());
@@ -520,21 +520,21 @@ bool FileLoader::IsDoneLoading()
         iTextureList* list = engine->GetTextureList ();
         list->Add(texw);
       }
-      csRef<iThreadReturn> p = textures.Pop(); 
-      all.Push(p); 
+      csRef<iThreadReturn> p = textures.Pop();
+      all.Push(p);
       textureFileNames.Pop();
     }
-    else 
-    { 
-      return false; 
-    } 
+    else
+    {
+      return false;
+    }
   }
 
   Parse(0, true);
 
   //===[ Shaders ]================================================================
   Parse(1, false);
-  
+
   while (!shaders.IsEmpty())
   { if (shaders.Top()->IsFinished()) { csRef<iThreadReturn> p = shaders.Pop(); all.Push(p); } else { return false; } }
 
@@ -542,7 +542,7 @@ bool FileLoader::IsDoneLoading()
 
   //===[ Materials ]================================================================
   Parse(2, false);
-  
+
   while (!materials.IsEmpty())
   { if (materials.Top()->IsFinished()) { csRef<iThreadReturn> p = materials.Pop(); all.Push(p); } else { return false; } }
 
@@ -552,10 +552,10 @@ bool FileLoader::IsDoneLoading()
   Parse(3, false);
 
   while (!factories.IsEmpty())
-  { 
-    if (factories.Top()->IsFinished()) 
+  {
+    if (factories.Top()->IsFinished())
     {
-      if (!factories.Top()->WasSuccessful()) 
+      if (!factories.Top()->WasSuccessful())
         printf("E: Failed to load factory %s\n", fileName.c_str());
 
       csRef<iMeshFactoryWrapper> fact = scfQueryInterfaceSafe<iMeshFactoryWrapper> (factories.Top()->GetResultRefPtr());
@@ -567,18 +567,18 @@ bool FileLoader::IsDoneLoading()
         cdJobs.Push(cdJob);
         jobQueue->Enqueue (cdJob);
       }
-      csRef<iThreadReturn> p = factories.Pop(); 
+      csRef<iThreadReturn> p = factories.Pop();
       all.Push(p);
     }
     else
-      return false; 
+      return false;
   }
 
   Parse(3, true);
 
   //===[ Collission Meshes ]================================================================
   while (!cdJobs.IsEmpty())
-  { 
+  {
     if (cdJobs.Top()->IsFinished())
     {
       cdJobs.Top()->Post();
@@ -595,10 +595,10 @@ bool FileLoader::Process()
 {
   if (IsReady()) return true;
 
-  if (!parseJob->IsFinished()) 
+  if (!parseJob->IsFinished())
     return false;
 
-  if (!IsDoneLoading()) 
+  if (!IsDoneLoading())
     return false;
 
   finished = true;

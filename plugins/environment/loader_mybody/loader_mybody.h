@@ -53,10 +53,10 @@ public:
 
   virtual bool Initialize(iObjectRegistry *object_reg);
 
-  virtual csPtr<iBase> Parse (iDocumentNode* node, 
+  virtual csPtr<iBase> Parse (iDocumentNode* node,
     iStreamSource* ss, iLoaderContext* ldr_context, iBase* context );
 
-  virtual csRef<iMyBody> ParseBody (iDocumentNode* node, 
+  virtual csRef<iMyBody> ParseBody (iDocumentNode* node,
                       iStreamSource* ss,
                       iLoaderContext* ldr_context,
                       iBase* context,
@@ -67,7 +67,7 @@ public:
 
 private:
   bool ParseLight (iDocumentNode* node, csRef<iMyBody> obj);
-};  
+};
 
 
 #endif   //  _H_MY_LOADER_TEMPLATE___

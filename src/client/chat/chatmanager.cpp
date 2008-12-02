@@ -78,7 +78,8 @@ namespace PT
       UpdateOptions();
 
       // Handle submit.
-      CEGUI::SlotFunctorBase* function = new CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
+      CEGUI::SlotFunctorBase* function = new
+        CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->SetSubmitEvent(function);
@@ -99,7 +100,7 @@ namespace PT
       RegisterCommand(new cmdQuit());
       RegisterCommand(new cmdLogout());
 
-      historypointer=0;
+      historypointer = 0;
 
       return true;
     } // end Initialize ()
@@ -123,20 +124,20 @@ namespace PT
       {
         std::string text = nick + message.substr(3, message.size());
         chatWindow->AddMessage (text.c_str());
-	chatLogger.LogMessage (CHATLOGGER_MESSAGE_EMOTE, text.c_str());
+        chatLogger.LogMessage (CHATLOGGER_MESSAGE_EMOTE, text.c_str());
       }
       else if (strncmp (message.c_str(),"/greet",3) == 0)
       {
-        std::string text = nick + " waves at" + message.substr(6, message.size());
+        std::string text = nick + " waves at" +
+          message.substr(6, message.size());
         chatWindow->AddMessage (text.c_str());
-	chatLogger.LogMessage (CHATLOGGER_MESSAGE_EMOTE, text.c_str());
+        chatLogger.LogMessage (CHATLOGGER_MESSAGE_EMOTE, text.c_str());
       }
       else
       {
         chatWindow->AddChatMessage (nick.c_str(), message.c_str());
-	chatLogger.LogMessage (CHATLOGGER_MESSAGE_SAY,
-				nick.c_str(),
-				message.c_str());
+        chatLogger.LogMessage (CHATLOGGER_MESSAGE_SAY, nick.c_str(),
+          message.c_str());
       }
       return true;
     } // end HandleSay ()
@@ -150,11 +151,11 @@ namespace PT
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
 
-      WhisperWindow* whisperWindow = guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
+      WhisperWindow* whisperWindow =
+        guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
       whisperWindow->AddWhisper(nick.c_str(), message.c_str());
-      chatLogger.LogMessage (CHATLOGGER_MESSAGE_WHISPER,
-			      nick.c_str(),
-			      message.c_str()); 
+      chatLogger.LogMessage (CHATLOGGER_MESSAGE_WHISPER, nick.c_str(),
+        message.c_str());
 
       return true;
     } // end HandleWhisper ()
@@ -193,7 +194,8 @@ namespace PT
       // If Return is pressed, handle it for output.
       else if (keyArgs.scancode == Key::Return)
       {
-        CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+        CEGUI::WindowManager* winMgr =
+          guimanager->GetCEGUI()->GetWindowManagerPtr();
         CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
         if (!btn)
         {
@@ -231,7 +233,8 @@ namespace PT
       // Get previous message in history
       else if (keyArgs.scancode == Key::ArrowUp)
       {
-        CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+        CEGUI::WindowManager* winMgr =
+          guimanager->GetCEGUI()->GetWindowManagerPtr();
         CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
         if (!btn)
         {
@@ -245,7 +248,8 @@ namespace PT
       // Get next message in history
       else if (keyArgs.scancode == Key::ArrowDown)
       {
-        CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+        CEGUI::WindowManager* winMgr =
+          guimanager->GetCEGUI()->GetWindowManagerPtr();
         CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
         if (!btn)
         {
@@ -264,15 +268,19 @@ namespace PT
     const char* ChatManager::PreviousMessage()
     {
       historypointer++;
-      if (historypointer>(int)history.size()){historypointer=0;return "";}
-      return history[history.size()-historypointer].c_str();
+      if (historypointer > static_cast<int>(history.size()))
+      {
+        historypointer = 0;
+        return "";
+      }
+      return history[history.size() - historypointer].c_str();
     }
 
     const char* ChatManager::NextMessage()
     {
-      if (historypointer>0){historypointer--;}
-      if (historypointer==0){return "";}
-      return history[history.size()-historypointer].c_str();
+      if (historypointer > 0) { historypointer--; }
+      if (historypointer == 0) { return ""; }
+      return history[history.size() - historypointer].c_str();
     }
 
     StringArray ChatManager::ParseString (const char* texti)
@@ -299,8 +307,9 @@ namespace PT
         size_t pos = tail.find_first_of(" ");
         if ( pos == std::string::npos )
         {
-          arg.push_back( tail.substr(0, tail.size()+1) );
-          Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, tail.size()).c_str() );
+          arg.push_back(tail.substr(0, tail.size()+1));
+          Report(PT::Notify, "ParseString: Added argument: %s",
+            tail.substr(0, tail.size()).c_str() );
           tail.clear();
         }
         else
@@ -308,8 +317,9 @@ namespace PT
           // Don't add an empty string, happens with double spaces.
           if (pos != 0)
           {
-            arg.push_back( tail.substr(0, pos) );
-            Report(PT::Notify, "ParseString: Added argument: %s", tail.substr(0, pos).c_str() );
+            arg.push_back(tail.substr(0, pos));
+            Report(PT::Notify, "ParseString: Added argument: %s",
+              tail.substr(0, pos).c_str());
           }
           tail = tail.substr(pos+1, tail.size());
         } // end if
@@ -333,7 +343,8 @@ namespace PT
             using namespace PT::GUI::Windows;
 
             std::string usage = "Usage: "+it->get()->Help(cmd, CMD_HELP_USAGE);
-            ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+            ChatWindow* chatWindow =
+              guimanager->GetWindow<ChatWindow>(CHATWINDOW);
             chatWindow->AddMessage(usage.c_str());
           }
           return;
@@ -366,7 +377,8 @@ namespace PT
 
     void ChatManager::TabCompletion ()
     {
-      CEGUI::WindowManager* winMgr = guimanager->GetCEGUI()->GetWindowManagerPtr();
+      CEGUI::WindowManager* winMgr =
+        guimanager->GetCEGUI()->GetWindowManagerPtr();
       CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
       if (!btn)
       {
@@ -377,9 +389,9 @@ namespace PT
       CEGUI::String text = btn->getText();
       if (text.empty()) return;
 
-      StringArray words = ParseString (text.c_str());
+      StringArray words = ParseString(text.c_str());
 
-      std::string incompleteWord = words[words.size()-1];
+      std::string incompleteWord = words[words.size() - 1];
 
       Report(PT::Error, "INCOMPLETE WORD: %s", incompleteWord.c_str());
 
@@ -388,13 +400,15 @@ namespace PT
       {
         std::string playername = p->second;
         // Convert playername to lowercase for compare.
-        std::transform(playername.begin(), playername.end(),playername.begin(),tolower);
-        if (playername.find(incompleteWord.c_str(), 0, incompleteWord.length()) != std::string::npos )
+        std::transform(playername.begin(), playername.end(),
+          playername.begin(), tolower);
+        if (playername.find(incompleteWord.c_str(), 0, incompleteWord.length())
+          != std::string::npos )
         {
           // Restore playername.
           playername = p->second;
           // Cut off the incomplete word and add the playername.
-          text = text.substr(0, text.length()-incompleteWord.length());
+          text = text.substr(0, text.length() - incompleteWord.length());
           text += playername.c_str();
           // Update the text.
           btn->setText(text);
@@ -416,7 +430,8 @@ namespace PT
 
       if (id.compare("entity.add") == 0)
       {
-        if (EntityHelper::GetEntityType(&ev, evmgr) == PT::Common::Entity::PCEntityType)
+        if (EntityHelper::GetEntityType(&ev, evmgr) ==
+          PT::Common::Entity::PCEntityType)
         {
           const char * nick = 0;
           ev.Retrieve("entityName", nick);
@@ -454,9 +469,11 @@ namespace PT
 
     void ChatManager::UpdateOptions()
     {
-      csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (PointerLibrary::getInstance()->getObjectRegistry());
+      csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>(
+        PointerLibrary::getInstance()->getObjectRegistry());
 
-      hideAfterSend = app_cfg->GetBool("Peragro.Chat.HideAfterSending", hideAfterSend);
+      hideAfterSend = app_cfg->GetBool("Peragro.Chat.HideAfterSending",
+        hideAfterSend);
     } // end UpdateOptions()
 
   } // Chat namespace

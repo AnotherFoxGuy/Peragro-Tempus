@@ -35,7 +35,7 @@
 #include "client/environment/clock.h"
 #include "client/entity/player/playerentity.h"
 
-// solarsystem plugins 
+// solarsystem plugins
 #include "imystarbox.h"
 #include "isolarsys.h"
 #include "imybody.h"
