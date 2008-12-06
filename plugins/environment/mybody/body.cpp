@@ -320,7 +320,7 @@ void Body::Pos_Light(const csVector3& npos)
     return;
   }else  // update position
   {
-    light->SetCenter (npos);
+    light->GetMovable()->SetPosition (npos);
   }
 }
 
@@ -419,7 +419,7 @@ bool Body::Load_Texture(std::string filename, std::string mat_name )
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg );
   if (!vfs) printf("Body::Load_Texture: Failed to locate VFS plugin!\n");
 
-  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg );
+  csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg );
   if (!loader) printf("Body::Load_Texture: Failed to locate 3D renderer!\n");
 
   csRef<iTextureManager> texture_manager = g3d->GetTextureManager();
@@ -430,8 +430,8 @@ bool Body::Load_Texture(std::string filename, std::string mat_name )
 
   if (!mat ) {
     csRef<iDataBuffer>  buf = vfs->ReadFile  (filename.c_str() , false );
-    csRef<iTextureWrapper> texturewapper = loader->LoadTexture (mat_name.c_str() ,
-      buf, CS_TEXTURE_3D, texture_manager , true, true, true );
+    csRef<iTextureWrapper> texturewapper =scfQueryInterface<iTextureWrapper>( loader->LoadTexture (mat_name.c_str() ,
+      buf, CS_TEXTURE_3D, texture_manager , true, true, true )->GetResultRefPtr());
     mat = engine->GetMaterialList ()->FindByName (mat_name.c_str());
   }
 

@@ -66,7 +66,7 @@ namespace PT
       /// The CS virtual files system.
       csRef<iVFS> vfs;
       /// The CS loader.
-      csRef<iLoader> loader;
+      csRef<iThreadedLoader> loader;
       /// The CEL physical layer.
       csRef<iCelPlLayer> pl;
 

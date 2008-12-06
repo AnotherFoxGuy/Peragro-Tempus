@@ -203,7 +203,7 @@ bool CollisionDetectionTest::SetupModules ()
   kbd = csQueryRegistry<iKeyboardDriver> (GetObjectRegistry());
   if (!kbd) return ReportError("Failed to locate Keyboard Driver!");
 
-  loader = csQueryRegistry<iLoader> (GetObjectRegistry());
+  loader = csQueryRegistry<iThreadedLoader> (GetObjectRegistry());
   if (!loader) return ReportError("Failed to locate Loader!");
 
   view.AttachNew(new csView (engine, g3d));

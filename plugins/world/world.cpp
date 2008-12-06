@@ -69,13 +69,13 @@ bool WorldManager::Initialize(const std::string& name)
 
   basename = name;
 
-  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+  csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg);
   if (!loader) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate Loader!");
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
 
   vfs->ChDir("/peragro/art/world/");
-  loader->LoadMapFile("world", false);
+  loader->LoadMapFile("/peragro/art/world/world", false);
 
   modelManager = new ModelManager(object_reg);
   interiorManager = new InteriorManager(this);

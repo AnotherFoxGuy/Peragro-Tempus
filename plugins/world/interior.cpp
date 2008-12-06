@@ -114,7 +114,7 @@ namespace PT
     void Interior::LoadInstance(iDocumentNode* meshNode)
     {
       csRef<iEngine> engine = csQueryRegistry<iEngine> (factory->object_reg);
-      csRef<iLoader> loader = csQueryRegistry<iLoader> (factory->object_reg);
+      csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (factory->object_reg);
 
       csRef<iMeshWrapper> portalMesh;
       csRef<iDocumentNodeIterator> nodes = interiorNode->GetNodes("portal");
@@ -145,21 +145,19 @@ namespace PT
       // Load our mesh into the instances collection and ONLY look for
       // meshfactories in our own factory list.
       // If it's a portal allow it to look for sectors beyond the collection.
-      csLoadResult rc;
+      csRef<iThreadReturn> rc;
       if (meshNode && meshNode->GetNode("portals").IsValid())
-        rc = loader->Load(meshNode, instances, false, false, 0, 0,
-          factory->missingData, KEEP_ALL);
+        rc = loader->LoadNode((csRef<iDocumentNode>) meshNode, instances, 0, factory->missingData, KEEP_ALL, true);
       else
-        rc = loader->Load(meshNode, instances, false, false, 0, 0,
-          factory->missingData, KEEP_ALL);
+        rc = loader->LoadNode((csRef<iDocumentNode>) meshNode, instances, 0, factory->missingData, KEEP_ALL, true);
 
-      if (!rc.success)
+      if (!rc->WasSuccessful())
       {
         printf("E: Failed to load instance for %s\n", interiorName.c_str());
         return;
       }
 
-      csRef<iSceneNode> node = scfQueryInterface<iSceneNode>(rc.result);
+      csRef<iSceneNode> node = scfQueryInterface<iSceneNode>(rc->GetResultRefPtr ());
       if (!node)
       {
         printf("E: Failed to load instance for %s\n", interiorName.c_str());
@@ -175,8 +173,8 @@ namespace PT
       transPortal.Translate(portalCenter);
       trans = trans * transPortal;
 
-      csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper>(rc.result);
-      csRef<iLight> light = scfQueryInterface<iLight>(rc.result);
+      csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper>(rc->GetResultRefPtr ());
+      csRef<iLight> light = scfQueryInterface<iLight>(rc->GetResultRefPtr ());
       if (mesh && sector)
       {
         // If it's a portal we have to do a hardtransform.

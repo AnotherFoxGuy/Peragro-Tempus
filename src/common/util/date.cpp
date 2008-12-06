@@ -26,13 +26,13 @@ namespace PT
   {
     bool operator<(const SplitDate& l, const SplitDate& r)
     {
-      return (l.year < r.year) ||
-        ((l.year == r.year) && (l.month < r.month) ||
-          ((l.month == r.month)&& (l.day < r.day) ||
-            ((l.day == r.day) && (l.hour < r.hour) ||
-              ((l.hour == r.hour) && (l.minute < r.minute) ||
-                ((l.minute == r.minute) && (l.second < r.second)
-        )))));
+      return ((l.year < r.year) || 
+        (((l.year == r.year) && (l.month < r.month)) ||
+          (((l.month == r.month)&& (l.day < r.day)) ||
+            (((l.day == r.day) && (l.hour < r.hour)) ||
+              (((l.hour == r.hour) && (l.minute < r.minute)) ||
+                ((l.minute == r.minute) && (l.second < r.second))
+              )))));
     }
 
     bool operator==(const SplitDate& l, const SplitDate& r)

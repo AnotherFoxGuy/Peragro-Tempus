@@ -66,7 +66,7 @@ namespace PT
       csRef<iVFS> vfs;
       csRef<iStringSet> stringset;
       csRef<iVirtualClock> vc;
-      csRef<iLoader> loader;
+      csRef<iThreadedLoader> loader;
       csRef<iCelPlLayer> pl;
       csRef<iObjectRegistry> obj_reg;
 

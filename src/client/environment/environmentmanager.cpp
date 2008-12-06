@@ -100,7 +100,8 @@ namespace PT
 
       // Move the sun relative to the player.
       if (cam && sun)
-        sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
+        sun->GetMovable()->SetPosition(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
+        //sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
 
       static float lastStep = clock->GetFractionOfDay();
       float step = clock->GetFractionOfDay();

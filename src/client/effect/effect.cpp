@@ -46,7 +46,7 @@ namespace PT
     void Factory::Load()
     {
       // Create our collection.
-      csRef<iLoader> loader =  csQueryRegistry<iLoader> (object_reg);
+      csRef<iThreadedLoader> loader =  csQueryRegistry<iThreadedLoader> (object_reg);
       csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
       collection = engine->CreateCollection(fileName.c_str());
 

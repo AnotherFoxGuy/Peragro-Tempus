@@ -13,7 +13,7 @@ class CollisionDetectionTest : public csApplicationFramework, public csBaseEvent
 {
  private:
   csRef<iEngine> engine;
-  csRef<iLoader> loader;
+  csRef<iThreadedLoader> loader;
   csRef<iGraphics3D> g3d;
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;

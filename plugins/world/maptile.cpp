@@ -65,22 +65,20 @@ namespace PT
       //CS::MeasureTime lTimeMeasurer ("Creating instance");
 
       csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-      csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+      csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg);
 
       // Load our mesh into the instances region and ONLY look for
       // meshfactories in our own factory list.
       // If it's a portal allow it to look for sectors beyond the region.
-      csLoadResult rc;
+      csRef<iThreadReturn> rc;
       if (meshNode && meshNode->GetNode("portals").IsValid())
-        rc = loader->Load(meshNode, instances, false, false, 0, 0,
-          missingData, KEEP_ALL);
+        rc = loader->LoadNode((csRef<iDocumentNode>) meshNode, instances, 0, missingData, KEEP_ALL, true);
       else
-        rc = loader->Load(meshNode, instances, true, false, 0, 0,
-          missingData, KEEP_ALL);
-      if (!rc.success) return;
+        rc = loader->LoadNode((csRef<iDocumentNode>) meshNode, instances, 0, missingData, KEEP_ALL, true);
+      if (!rc->WasSuccessful ()) return;
 
-      csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper>(rc.result);
-      csRef<iLight> light = scfQueryInterface<iLight>(rc.result);
+      csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper>(rc->GetResultRefPtr ());
+      csRef<iLight> light = scfQueryInterface<iLight>(rc->GetResultRefPtr ());
       if (mesh && sector)
       {
         // If it's a portal we have to do a hardtransform.
