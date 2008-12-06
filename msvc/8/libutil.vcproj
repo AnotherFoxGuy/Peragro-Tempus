@@ -301,6 +301,12 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\util\clock.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\date.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\ptstring.cpp">
 			</File>
 			<File
@@ -321,6 +327,12 @@
 			Filter="">
 			<File
 				RelativePath="..\..\src\common\util\array.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\clock.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\date.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\flags.h">
