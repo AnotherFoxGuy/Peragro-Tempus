@@ -102,7 +102,6 @@ void User::sendAddEntity(const Entity* entity)
     msg.setMeshName(entity->getMesh()->getName());
     msg.setFileName(entity->getMesh()->getFile());
     msg.setPos(entity->getPos());
-    msg.setPos(entity->getPos());
     msg.setRotation(entity->getRotation());
     msg.setSectorId(entity->getSector());
     msg.setPoseId(entity->getPlayerEntity()->getPose());

@@ -250,6 +250,8 @@ namespace PT
         changeColumn = CONTROL_NONE;
         controlList->clearAllSelections();
 
+        app_cfg->Save();
+
         return true;
       } // end ControlSet()
 
