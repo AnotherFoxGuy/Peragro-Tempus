@@ -37,10 +37,10 @@ Body::Body(iObjectRegistry* reg)
 
   name = "defaultbody";
 
-  body_day_lenght =.1; // in hours
+  body_day_length =.1; // in hours
   body_inclination = 0; // in deg
 
-  Create_Body_Mesh(body_radius, body_verts, body_day_lenght, body_inclination);
+  Create_Body_Mesh(body_radius, body_verts, body_day_length, body_inclination);
 
 }
 
@@ -57,7 +57,7 @@ void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
 {
   body_radius = radius;
   body_verts = verts;
-  body_day_lenght = day;
+  body_day_length = day;
   body_inclination = i ;
   Create_Body_Mesh();
 }
@@ -512,9 +512,10 @@ float Body::Get_Body_Rotation (long secondspassed )
   if ( last_update_seconds < seconds )
   {
     last_update_seconds = seconds;
-    if (body_day_lenght!=0)
+    if (body_day_length!=0)
     {
-      long day_in_seconds = (static_cast<long>(body_day_lenght) * 60 * 60); // day units is hours
+      // day units is hours
+      long day_in_seconds = (static_cast<long>(body_day_length * 60 * 60));
       long day_remainder =  (seconds % day_in_seconds ) + 1;
       rot_angle = (360 * ((float) (day_remainder) / (float)(day_in_seconds)));
       body_rotation = rot_angle;

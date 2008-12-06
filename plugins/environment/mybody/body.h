@@ -62,7 +62,7 @@ private:
   csEllipsoid ellips;
   float body_radius;
   int body_verts;
-  double body_day_lenght; // in hours
+  double body_day_length; // in hours
   double body_inclination; // in deg
 
   double body_rotation ; // in deg at last update
@@ -88,7 +88,7 @@ public:
   void Set_Name(char const* body_name);
   void Set_Sector(iSector* sect );
   void Set_Radius(csVector3 r) { ellips.SetRadius (r); body_radius = r.x; };
-  void Set_Day_Lenght(long double dl) { body_day_lenght = dl; };
+  void Set_Day_Lenght(long double dl) { body_day_length = dl; };
   void Set_Inclination(long double i) { body_inclination = i; };
 
 
@@ -118,7 +118,7 @@ public:
   csVector3 GetSurfaceVector (const float& lon, const float& lat);
 
   csVector3 const Get_Radius() const { return ellips.GetRadius(); };
-  double const Get_Day_Lenght() const { return body_day_lenght; };
+  double const Get_Day_Lenght() const { return body_day_length; };
   double const Get_Inclination() const { return body_inclination; };
   csVector3 GetAbsPos () const { return abs_pos.GetOrigin(); };
 
