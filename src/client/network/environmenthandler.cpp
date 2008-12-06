@@ -36,11 +36,16 @@ void EnvironmentHandler::handleInitTime(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("environment.inittime", true);
-    pEvent->Add("minute", pmsg.getMinute());
-    pEvent->Add("hour", pmsg.getHour());
+    pEvent->Add("seconds", pmsg.getSeconds());
+    pEvent->Add("epoch", pmsg.getEpoch());
+    pEvent->Add("secondsPerMinute", pmsg.getSecondsPerMinute());
     pEvent->Add("minutesPerHour", pmsg.getMinutesPerHour());
     pEvent->Add("hoursPerDay", pmsg.getHoursPerDay());
-    pEvent->Add("realPerGame", pmsg.getRealPerGame());
+    pEvent->Add("daysPerWeek", pmsg.getDaysPerWeek());
+    pEvent->Add("weeksPerMonth", pmsg.getWeeksPerMonth());
+    pEvent->Add("monthsPerSeason", pmsg.getMonthsPerSeason());
+    pEvent->Add("seasonsPerYear", pmsg.getSeasonsPerYear());
+    pEvent->Add("gamePerReal", pmsg.getGamePerReal());
 
     evmgr->AddEvent(pEvent);
   }
@@ -56,8 +61,7 @@ void EnvironmentHandler::handleUpdateTime(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("environment.updatetime", true);
-    pEvent->Add("minute", pmsg.getMinute());
-    pEvent->Add("hour", pmsg.getHour());
+    pEvent->Add("seconds", pmsg.getSeconds());
 
     evmgr->AddEvent(pEvent);
   }

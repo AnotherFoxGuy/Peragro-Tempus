@@ -17,6 +17,17 @@
 */
 
 #include "environmentmanager.h"
+#include "server/environment/clock.h"
+
+EnvironmentManager::EnvironmentManager()
+ : clock(0)
+{
+}
+
+EnvironmentManager::~EnvironmentManager()
+{
+  delete clock;
+}
 
 bool EnvironmentManager::Initialize()
 {
@@ -25,7 +36,7 @@ bool EnvironmentManager::Initialize()
     delete clock;
   }
 
-  clock = new Clock();
+  clock = new PT::Server::Environment::Clock();
   if (!clock)
     return false;
 

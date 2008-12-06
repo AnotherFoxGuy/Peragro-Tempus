@@ -30,6 +30,7 @@
 
 #include "common/event/eventmanager.h"
 #include "common/util/pttime.h"
+#include "common/util/clock.h"
 
 struct iEngine;
 struct iEvent;
@@ -41,7 +42,7 @@ namespace PT
     /**
      * The game clock.
      */
-    class Clock
+    class Clock : public PT::Date::Clock
     {
     public:
       /// Constructor.
@@ -49,22 +50,16 @@ namespace PT
       /// Destructor.
       ~Clock();
 
-      /// Get a number from 0 to 1 representing the time of day.
-      float GetTimeDecimal();
-      /// Get the current hour.
-      size_t GetHour() const { return hour; }
-      /// Get the current minute.
-      size_t GetMinute() const { return minute; }
-
       /**
-       * Initialize the clock
-       * @return True, indicating success
+       * Initialize the clock.
+       * @return True, indicating success.
        */
       bool Initialize();
 
     private:
-      /// Advance the local clock.
-      void Tick();
+      /// Keep the time locally, in between server updates.
+      void ClientTick();
+
       /// Initialize the time parameters from an event.
       bool InitTime(iEvent& ev);
       /// Update the time from an event.
@@ -87,18 +82,10 @@ namespace PT
       /// The engine.
       csRef<iEngine> engine;
 
-      /// The current game minute.
-      size_t minute;
-      /// The current game hour.
-      size_t hour;
-      /// Game time minutes per hour.
-      size_t minutesPerHour;
-      /// Game time hours per day.
-      size_t hoursPerDay;
-      /// Milliseconds real time per in game minute.
-      size_t realPerGame;
+      /// Game seconds per real second.
+      unsigned int gamePerReal;
 
-      /// Millisecond timer since last clock tick.
+      /// Millisecond timer since last clock update.
       PTTime timer;
     };
 

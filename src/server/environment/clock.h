@@ -21,54 +21,54 @@
  * @brief Controls the game time.
  */
 
-#ifndef CLOCK_H
-#define CLOCK_H
+#ifndef PT_SERVER_CLOCK_H
+#define PT_SERVER_CLOCK_H
 
 #include "common/util/timer.h"
 #include "common/util/sleep.h"
+#include "common/util/clock.h"
 
 class Entity;
 
-/**
- * Controls the current game time.
- * Broadcasts the current game time to all clients, at specified intervals.
- */
-class Clock : public Timer
+namespace PT
 {
-public:
-  /// Constructor.
-  Clock();
-  /// Destructor
-  ~Clock() {}
+  namespace Server
+  {
+    namespace Environment
+    {
+      /**
+       * Controls the current game time; broadcasts to all clients at the
+       *   specified interval.
+       */
+      class Clock : public Timer, public PT::Date::Clock
+      {
+      public:
+        /// Constructor.
+        Clock();
+        /// Destructor.
+        ~Clock();
 
-  /**
-   * Send the initial time details to an entity.
-   * @param entity The entity.
-   */
-  void InitTime(const Entity* entity);
+        /**
+         * Send the initial time details to an entity.
+         * @param entity The entity.
+         */
+        void InitTime(const Entity* entity);
 
-private:
-  /// Broadcast the current game time to all clients.
-  void BroadcastTime();
+      private:
+        /// Broadcast the current game time to all clients.
+        void BroadcastTime();
 
-  /// Timer implementation.
-  void timeOut();
+        /// Timer implementation.
+        void timeOut();
 
-  /// The minute of the hour.
-  unsigned char minute;
-  /// The hour of the day.
-  unsigned char hour;
-  /// Minutes in an hour.
-  unsigned char minutesPerHour;
-  /// Hours in a day.
-  unsigned char hoursPerDay;
+        /// Game seconds per real second.
+        unsigned int gamePerReal;
+        /// Real seconds between update broadcasts.
+        size_t broadcastInterval;
+      };
 
-  /// Real time in tenths of seconds per game minute.
-  unsigned int realPerGame;
-  /// Game minutes between update broadcasts.
-  size_t broadcastInterval;
-  /// Minute counter, for the broadcast interval.
-  size_t counter;
-};
+    } // Environment namespace
+  } // Server namespace
+} // PT namespace
 
-#endif // CLOCK_H
+#endif // PT_SERVER_CLOCK_H

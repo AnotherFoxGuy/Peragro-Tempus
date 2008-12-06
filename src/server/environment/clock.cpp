@@ -21,57 +21,72 @@
 #include "server/network/networkhelper.h"
 #include "server/entity/entity.h"
 
-Clock::Clock()
-  : minute(0), hour(10), minutesPerHour(60), hoursPerDay(24), realPerGame(150),
-  broadcastInterval(60), counter(0)
+namespace PT
 {
-  this->setInterval(realPerGame);
-  this->start();
-}
-
-void Clock::InitTime(const Entity* entity)
-{
-  InitTimeMessage time_msg;
-  time_msg.setMinute(minute);
-  time_msg.setHour(hour);
-  time_msg.setMinutesPerHour(minutesPerHour);
-  time_msg.setHoursPerDay(hoursPerDay);
-  time_msg.setRealPerGame(realPerGame);
-
-  ByteStream bs;
-  time_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity);
-}
-
-void Clock::BroadcastTime()
-{
-  UpdateTimeMessage time_msg;
-  time_msg.setMinute(minute);
-  time_msg.setHour(hour);
-
-  ByteStream bs;
-  time_msg.serialise(&bs);
-  NetworkHelper::broadcast(bs);
-}
-
-void Clock::timeOut()
-{
-  ++minute;
-  while (minute >= minutesPerHour && minutesPerHour != 0)
+  namespace Server
   {
-    minute -= minutesPerHour;
-    ++hour;
-  }
-  while (hour >= hoursPerDay && hoursPerDay != 0)
-  {
-    hour -= hoursPerDay;
-  }
+    namespace Environment
+    {
+      Clock::Clock()
+        : PT::Date::Clock(), gamePerReal(6), broadcastInterval(60)
+      {
+        // Set interval to one second, to avoid remainders when trying to divide
+        // 10 by different values of gamePerReal.
+        this->setInterval(10);
+        this->start();
+      }
 
-  ++counter;
-  if (counter >= broadcastInterval)
-  {
-    counter = 0;
-    BroadcastTime();
-  }
-}
+      Clock::~Clock()
+      {
+      }
 
+      void Clock::InitTime(const Entity* entity)
+      {
+        InitTimeMessage time_msg;
+
+        time_msg.setSeconds(GetIntegerDate().seconds);
+
+        boost::shared_ptr<const PT::Date::Calendar> cal(GetCalendar());
+        time_msg.setEpoch(cal->epoch);
+        time_msg.setSecondsPerMinute(cal->secondsPerMinute);
+        time_msg.setMinutesPerHour(cal->minutesPerHour);
+        time_msg.setHoursPerDay(cal->hoursPerDay);
+        time_msg.setDaysPerWeek(cal->daysPerWeek);
+        time_msg.setWeeksPerMonth(cal->weeksPerMonth);
+        time_msg.setMonthsPerSeason(cal->monthsPerSeason);
+        time_msg.setSeasonsPerYear(cal->seasonsPerYear);
+
+        time_msg.setGamePerReal(gamePerReal);
+
+        ByteStream bs;
+        time_msg.serialise(&bs);
+        NetworkHelper::localcast(bs, entity);
+      }
+
+      void Clock::BroadcastTime()
+      {
+        UpdateTimeMessage time_msg;
+        time_msg.setSeconds(GetIntegerDate().seconds);
+
+        ByteStream bs;
+        time_msg.serialise(&bs);
+        NetworkHelper::broadcast(bs);
+      }
+
+      void Clock::timeOut()
+      {
+        // Game seconds to advance, per real second.
+        Tick(gamePerReal);
+
+        static size_t counter = 0;
+        ++counter;
+        if (counter >= broadcastInterval)
+        {
+          counter = 0;
+          BroadcastTime();
+        }
+      }
+
+    } // Environment namespace
+  } // Server namespace
+} // PT namespace

@@ -41,12 +41,10 @@ namespace PT
   namespace Environment
   {
     EnvironmentManager::EnvironmentManager()
+      : clock(0)
     {
       sun_alpha = 3.21f;//2.91f; //horizontal
       sun_theta = 0.206f;//0.256f; //vertical
-
-      clock = 0;
-      ts = 1;
     }
 
     EnvironmentManager::~EnvironmentManager()
@@ -57,7 +55,7 @@ namespace PT
         engine->RemoveEngineFrameCallback(cb);
       }
 
-      if (clock) delete clock;
+      delete clock;
     }
 
     bool EnvironmentManager::Initialize()
@@ -98,17 +96,18 @@ namespace PT
 
     void EnvironmentManager::Update(iCamera* cam)
     {
-
       if (!clock) return;
 
       // Move the sun relative to the player.
       if (cam && sun)
         sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
 
-      static float lastStep = clock->GetTimeDecimal();
-      float step = clock->GetTimeDecimal();
+      static float lastStep = clock->GetFractionOfDay();
+      float step = clock->GetFractionOfDay();
+
       // Don't update if the time has not changed much.
       if ((step - lastStep) < 0.0001f && (step - lastStep) > -0.0001f) return;
+
       lastStep = step;
 
       //=[ Sun position ]===================================
@@ -168,26 +167,22 @@ namespace PT
 
     void EnvironmentManager::UpdateSolarsys(iCamera* cam)
     {
-
       if (!solarsys) return;
       PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
       if (player)
       {
-        if ( cam->GetSector() == solarsys->GetSector() ) return ;
+        if (cam->GetSector() == solarsys->GetSector()) return;
         if (solarsys)
         {
-          solarsys->UpdateSystemTime(ts);
-
-          ts += 1;
+          solarsys->UpdateSystemTime(clock->GetIntegerDate().seconds);
         }
       }
-
     } // end UpdateSolarsys()
 
 
-    void EnvironmentManager::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
+    void EnvironmentManager::FrameCallBack::StartFrame(iEngine* engine,
+      iRenderView* rview)
     {
-
       if (!envmgr)
       {
         engine->RemoveEngineFrameCallback(this);
@@ -196,19 +191,19 @@ namespace PT
       {
         envmgr->UpdateSolarsys(rview->GetCamera());
 
-        // temp bug workaround
-        // stop the corld camera getting moved when the solarsys plugin fires a frame event
+        // Temporary bug workaround; stop the world camera getting moved when
+        // the solarsys plugin fires a frame event.
         iSector* solarsector;
         solarsector = engine->FindSector("SolarSystem");
         if (solarsector)
         {
-          if ( rview->GetCamera()->GetSector() == solarsector )
+          if (rview->GetCamera()->GetSector() == solarsector)
           {
             return;
           }
         }
 
-        ///TODO: <camera /> is broken in CS atm, work around.
+        /// TODO: <camera /> is broken in CS atm, work around.
         if (!envmgr->sky.IsValid())
           envmgr->sky = engine->FindMeshObject("sky");
         else
@@ -218,29 +213,30 @@ namespace PT
           envmgr->clouds = engine->FindMeshObject("clouds");
         else
           envmgr->UpdateCameraMesh(envmgr->clouds, rview);
-        //end TODO
+        // end TODO.
 
         envmgr->Update(rview->GetCamera());
-
       }
-
     } // end StartFrame()
 
-    void EnvironmentManager::UpdateCameraMesh(iMeshWrapper* m, iRenderView* rview)
+    void EnvironmentManager::UpdateCameraMesh(iMeshWrapper* m,
+      iRenderView* rview)
     {
-      iMovable* mov = m->GetMovable ();
+      iMovable* mov = m->GetMovable();
       // Temporarily move the object to the current camera.
-      csReversibleTransform &mov_trans = mov->GetTransform ();
+      csReversibleTransform &mov_trans = mov->GetTransform();
       // @@@ TEMPORARY: now CS_ENTITY_CAMERA only works at 0,0,0 position.
-      csVector3 old_pos = mov_trans.GetOrigin ();
-      mov_trans.SetOrigin (csVector3 (0));
-      iCamera *orig_cam = rview->GetOriginalCamera ();
-      csOrthoTransform &orig_trans = orig_cam->GetTransform ();
-      csVector3 v = orig_trans.GetO2TTranslation ();
-      mov_trans.SetOrigin (mov_trans.GetOrigin () + v);
-      csVector3 diff = old_pos - mov_trans.GetOrigin ();
+      csVector3 old_pos = mov_trans.GetOrigin();
+      mov_trans.SetOrigin(csVector3(0));
+      iCamera *orig_cam = rview->GetOriginalCamera();
+      csOrthoTransform &orig_trans = orig_cam->GetTransform();
+      csVector3 v = orig_trans.GetO2TTranslation();
+      mov_trans.SetOrigin(mov_trans.GetOrigin() + v);
+      csVector3 diff = old_pos - mov_trans.GetOrigin();
       if (!(diff < .00001f))
-        mov->UpdateMove ();
+      {
+        mov->UpdateMove();
+      }
     } // end UpdateCameraMesh()
 
   } // Environment namespace

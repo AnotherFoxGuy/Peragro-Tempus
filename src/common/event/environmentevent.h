@@ -28,6 +28,7 @@
 
 #include "event.h"
 
+#include "common/util/date.h"
 #include "common/reporter/reporter.h"
 
 namespace PT
@@ -41,73 +42,71 @@ namespace PT
     struct EnvironmentHelper
     {
       /**
-       * Get the hour of the day from an event.
+       * Get the second since the epoch from an event.
        * @param event The event.
        * @return The hour as a number.
        */
-      static size_t GetTimeHour(const iEvent* event)
+      static size_t GetSeconds(const iEvent* event)
       {
-        unsigned char hour = 0;
-        if (event->Retrieve("hour", hour) != csEventErrNone)
-          Report(PT::Error, "EnvironmentHelper::GetTimeHour failed!");
+        PT::Date::LongType seconds = 0;
+        if (event->Retrieve("seconds", seconds) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetSeconds failed!");
 
-        return static_cast<size_t>(hour);
+        return static_cast<size_t>(seconds);
       }
 
       /**
-       * Get the minute of the hour from an event.
+       * Get the calendar parameters from an event.
        * @param event The event.
        * @return The minute as a number.
        */
-      static size_t GetTimeMinute(const iEvent* event)
+      static boost::shared_ptr<PT::Date::Calendar> GetCalendar(
+        const iEvent* event)
       {
-        unsigned char minute = 0;
-        if (event->Retrieve("minute", minute) != csEventErrNone)
-          Report(PT::Error, "EnvironmentHelper::GetTimeMinute failed!");
+        using namespace PT::Date;
+        ShortType epoch = 0;
+        ShortType secondsPerMinute = 1;
+        ShortType minutesPerHour = 1;
+        ShortType hoursPerDay = 1;
+        ShortType daysPerWeek = 1;
+        ShortType weeksPerMonth = 1;
+        ShortType monthsPerSeason = 1;
+        ShortType seasonsPerYear = 1;
 
-        return static_cast<size_t>(minute);
-      }
-
-      /**
-       * Get the number of minutes per hour of game time.
-       * @param event The event.
-       * @return The minutes per hour.
-       */
-      static size_t GetMinutesPerHour(const iEvent* event)
-      {
-        size_t minutesPerHour = 0;
+        if (event->Retrieve("epoch", epoch) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetCalendar epoch failed!");
+        if (event->Retrieve("secondsPerMinute", secondsPerMinute) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetCalendar secondsPerMinute failed!");
         if (event->Retrieve("minutesPerHour", minutesPerHour) != csEventErrNone)
-          Report(PT::Error, "EnvironmentHelper::GetMinutesPerHour failed!");
-
-        return minutesPerHour;
-      }
-
-      /**
-       * Get the number of hours per day of game time.
-       * @param event The event.
-       * @return The hours per day.
-       */
-      static size_t GetHoursPerDay(const iEvent* event)
-      {
-        size_t hoursPerDay = 0;
+          Report(PT::Error, "EnvironmentHelper::GetCalendar minutesPerHour failed!");
         if (event->Retrieve("hoursPerDay", hoursPerDay) != csEventErrNone)
-          Report(PT::Error, "EnvironmentHelper::GetHoursPerDay failed!");
+          Report(PT::Error, "EnvironmentHelper::GetCalendar hoursPerDay failed!");
+        if (event->Retrieve("daysPerWeek", daysPerWeek) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetCalendar daysPerWeek failed!");
+        if (event->Retrieve("weeksPerMonth", weeksPerMonth) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetCalendar weeksPerMonth failed!");
+        if (event->Retrieve("monthsPerSeason", monthsPerSeason) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetCalendar monthsPerSeason failed!");
+        if (event->Retrieve("seasonsPerYear", seasonsPerYear) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetCalendar seasonsPerYear failed!");
 
-        return hoursPerDay;
+        return boost::shared_ptr<PT::Date::Calendar>(new Calendar(
+          epoch, secondsPerMinute, minutesPerHour, hoursPerDay, daysPerWeek,
+          weeksPerMonth, monthsPerSeason, seasonsPerYear));
       }
 
       /**
-       * Get the real time in tenths of seconds per minute of game time.
+       * Get the amount of game seconds per real second.
        * @param event The event.
        * @return The real time in tenths of seconds.
        */
-      static size_t GetRealPerGame(const iEvent* event)
+      static size_t GetGamePerReal(const iEvent* event)
       {
-        size_t realPerGame = 0;
-        if (event->Retrieve("realPerGame", realPerGame) != csEventErrNone)
-          Report(PT::Error, "EnvironmentHelper::GetRealPerGame failed!");
+        size_t gamePerReal = 1;
+        if (event->Retrieve("gamePerReal", gamePerReal) != csEventErrNone)
+          Report(PT::Error, "EnvironmentHelper::GetGamePerReal failed!");
 
-        return realPerGame;
+        return gamePerReal;
       }
 
     };

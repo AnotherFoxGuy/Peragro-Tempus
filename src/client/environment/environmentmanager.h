@@ -35,7 +35,7 @@
 #include "client/environment/clock.h"
 #include "client/entity/player/playerentity.h"
 
-// solarsystem plugins
+// Solarsystem plugins.
 #include "imystarbox.h"
 #include "isolarsys.h"
 #include "imybody.h"
@@ -45,7 +45,6 @@ struct iLight;
 struct iEvent;
 struct iCamera;
 struct iShaderManager;
-
 
 namespace PT
 {
@@ -67,13 +66,13 @@ namespace PT
       /// The light for the sun.
       csRef<iLight> sun;
 
-      ///TODO: <camera /> is broken in CS atm, work around.
+      /// TODO: <camera /> is broken in CS atm, work around.
       /// The sky mesh.
       csRef<iMeshWrapper> sky;
       /// The cloud mesh.
       csRef<iMeshWrapper> clouds;
       void UpdateCameraMesh(iMeshWrapper* m, iRenderView* rview);
-      //end TODO
+      // end TODO.
 
       /// The game clock.
       Clock* clock;
@@ -101,13 +100,13 @@ namespace PT
        */
       void Update(iCamera* cam);
 
+      /**
+       * Update the solar system plugin.
+       */
       void UpdateSolarsys(iCamera* cam);
 
-      // pointer to plugin that draws the stars and planets/moons
+      // Pointer to plugin that draws the stars and planets / moons.
       csRef<iSolarsys> solarsys;
-
-      // temp timestamp value for solarsys till i work out how to intergrate clock
-      long ts;
 
     public:
       /// Constructor.
@@ -125,7 +124,7 @@ namespace PT
        * Get a pointer to the clock object.
        * @return Clock*
        */
-      Clock* getClock(){return clock;}
+      Clock* GetClock() { return clock; }
 
     };
   } // Environment namespace

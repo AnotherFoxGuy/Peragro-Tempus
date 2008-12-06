@@ -24,7 +24,16 @@
 #ifndef ENVIRONMENTMANAGER_H
 #define ENVIRONMENTMANAGER_H
 
-#include "server/environment/clock.h"
+namespace PT
+{
+  namespace Server
+  {
+    namespace Environment
+    {
+      class Clock;
+    }
+  }
+}
 
 /**
  * Controls the current game environment, like weather and time.
@@ -32,8 +41,12 @@
 class EnvironmentManager
 {
 public:
-  EnvironmentManager() { clock = NULL; }
-  ~EnvironmentManager() { delete clock; }
+  /// Constructor.
+  EnvironmentManager();
+
+  /// Destructor.
+  ~EnvironmentManager();
+
   /**
    * Initialize the environment.
    * @return Whether it was successful.
@@ -41,11 +54,14 @@ public:
   bool Initialize();
 
   /// Returns the game clock.
-  Clock* GetClock() { return clock; }
+  PT::Server::Environment::Clock* GetClock() const;
 
 private:
   /// The game clock.
-  Clock* clock;
+  PT::Server::Environment::Clock* clock;
 };
+
+inline PT::Server::Environment::Clock* EnvironmentManager::GetClock() const
+{ return clock; }
 
 #endif // ENVIRONMENT_H

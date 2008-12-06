@@ -19,6 +19,8 @@
 #include "cmddate.h"
 #include "chatmanager.h"
 
+#include <sstream>
+
 #include "client/pointer/pointer.h"
 
 #include "client/environment/environmentmanager.h"
@@ -38,7 +40,7 @@ namespace PT
     cmdDate::~cmdDate () { }
 
     std::string cmdDate::HelpUsage (const char*) const
-    { return "'/date'"; }
+    { return "'/date [short|long|full]'"; }
 
     std::string cmdDate::HelpSynopsis (const char*) const
     { return "Prints the in-game time and date."; }
@@ -52,7 +54,7 @@ namespace PT
       using namespace PT::GUI::Windows;
 
       // Element 0 is '/', 1 is 'date'
-      if (args.size() != 2) throw BadUsage();
+      if (args.size() != 2 && args.size() != 3) throw BadUsage();
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       if(!guimanager) return;
@@ -60,12 +62,36 @@ namespace PT
 
       Environment::EnvironmentManager* envmanager = PointerLibrary::getInstance()->getEnvironmentManager();
       if(!envmanager) return;
-      Environment::Clock* clock=envmanager->getClock();
+      Environment::Clock* clock = envmanager->GetClock();
       if(!clock) return;
 
-      char s[6];
-      sprintf(s, "%"SIZET":%02"SIZET, clock->GetHour(), clock->GetMinute());
-      chatWindow->AddMessage(s);
+      std::stringstream ss;
+
+      if (args.size() == 3)
+      {
+        if (args[2].compare("short") == 0)
+        {
+          ss << clock->GetDayTime();
+        }
+        else if (args[2].compare("long") == 0)
+        {
+          ss << clock->GetSplitDate();
+        }
+        else if (args[2].compare("full") == 0)
+        {
+          //ss << clock->GetFullDate();
+        }
+        else
+        {
+          ss << "Unrecognised date format.";
+        }
+      }
+      else
+      {
+        ss << clock->GetDayTime();
+      }
+
+      chatWindow->AddMessage(ss.str().c_str());
     } // cmdDate::Execute
 
 

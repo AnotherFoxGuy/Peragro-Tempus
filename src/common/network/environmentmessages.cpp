@@ -29,11 +29,16 @@ bool InitTimeMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(minute);
-  serial.setInt8(hour);
+  serial.setInt32(seconds);
+  serial.setInt16(epoch);
+  serial.setInt8(secondsperminute);
   serial.setInt8(minutesperhour);
   serial.setInt8(hoursperday);
-  serial.setInt32(realpergame);
+  serial.setInt8(daysperweek);
+  serial.setInt8(weekspermonth);
+  serial.setInt8(monthsperseason);
+  serial.setInt8(seasonsperyear);
+  serial.setInt32(gameperreal);
   return serial.isValid();
 }
 
@@ -42,11 +47,16 @@ void InitTimeMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  minute = (unsigned char) serial.getInt8();
-  hour = (unsigned char) serial.getInt8();
+  seconds = (unsigned int) serial.getInt32();
+  epoch = (unsigned short) serial.getInt16();
+  secondsperminute = (unsigned char) serial.getInt8();
   minutesperhour = (unsigned char) serial.getInt8();
   hoursperday = (unsigned char) serial.getInt8();
-  realpergame = (unsigned int) serial.getInt32();
+  daysperweek = (unsigned char) serial.getInt8();
+  weekspermonth = (unsigned char) serial.getInt8();
+  monthsperseason = (unsigned char) serial.getInt8();
+  seasonsperyear = (unsigned char) serial.getInt8();
+  gameperreal = (unsigned int) serial.getInt32();
 }
 
 bool UpdateTimeMessage::serialise(ByteStream* bs)
@@ -54,8 +64,7 @@ bool UpdateTimeMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(minute);
-  serial.setInt8(hour);
+  serial.setInt32(seconds);
   return serial.isValid();
 }
 
@@ -64,8 +73,7 @@ void UpdateTimeMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  minute = (unsigned char) serial.getInt8();
-  hour = (unsigned char) serial.getInt8();
+  seconds = (unsigned int) serial.getInt32();
 }
 
 bool WeatherMessage::serialise(ByteStream* bs)

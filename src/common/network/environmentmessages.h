@@ -37,11 +37,16 @@ namespace ENVIRONMENT
 
 class InitTimeMessage : public NetMessage
 {
-  unsigned char minute;
-  unsigned char hour;
+  unsigned int seconds;
+  unsigned short epoch;
+  unsigned char secondsperminute;
   unsigned char minutesperhour;
   unsigned char hoursperday;
-  unsigned int realpergame;
+  unsigned char daysperweek;
+  unsigned char weekspermonth;
+  unsigned char monthsperseason;
+  unsigned char seasonsperyear;
+  unsigned int gameperreal;
 
 public:
   InitTimeMessage() : NetMessage(MESSAGES::ENVIRONMENT,ENVIRONMENT::INITTIME)
@@ -55,11 +60,14 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getMinute() const { return minute; }
-  void setMinute(unsigned char x) { minute = x; }
+  unsigned int getSeconds() const { return seconds; }
+  void setSeconds(unsigned int x) { seconds = x; }
 
-  unsigned char getHour() const { return hour; }
-  void setHour(unsigned char x) { hour = x; }
+  unsigned short getEpoch() const { return epoch; }
+  void setEpoch(unsigned short x) { epoch = x; }
+
+  unsigned char getSecondsPerMinute() const { return secondsperminute; }
+  void setSecondsPerMinute(unsigned char x) { secondsperminute = x; }
 
   unsigned char getMinutesPerHour() const { return minutesperhour; }
   void setMinutesPerHour(unsigned char x) { minutesperhour = x; }
@@ -67,15 +75,26 @@ public:
   unsigned char getHoursPerDay() const { return hoursperday; }
   void setHoursPerDay(unsigned char x) { hoursperday = x; }
 
-  unsigned int getRealPerGame() const { return realpergame; }
-  void setRealPerGame(unsigned int x) { realpergame = x; }
+  unsigned char getDaysPerWeek() const { return daysperweek; }
+  void setDaysPerWeek(unsigned char x) { daysperweek = x; }
+
+  unsigned char getWeeksPerMonth() const { return weekspermonth; }
+  void setWeeksPerMonth(unsigned char x) { weekspermonth = x; }
+
+  unsigned char getMonthsPerSeason() const { return monthsperseason; }
+  void setMonthsPerSeason(unsigned char x) { monthsperseason = x; }
+
+  unsigned char getSeasonsPerYear() const { return seasonsperyear; }
+  void setSeasonsPerYear(unsigned char x) { seasonsperyear = x; }
+
+  unsigned int getGamePerReal() const { return gameperreal; }
+  void setGamePerReal(unsigned int x) { gameperreal = x; }
 
 };
 
 class UpdateTimeMessage : public NetMessage
 {
-  unsigned char minute;
-  unsigned char hour;
+  unsigned int seconds;
 
 public:
   UpdateTimeMessage() : NetMessage(MESSAGES::ENVIRONMENT,ENVIRONMENT::UPDATETIME)
@@ -89,11 +108,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getMinute() const { return minute; }
-  void setMinute(unsigned char x) { minute = x; }
-
-  unsigned char getHour() const { return hour; }
-  void setHour(unsigned char x) { hour = x; }
+  unsigned int getSeconds() const { return seconds; }
+  void setSeconds(unsigned int x) { seconds = x; }
 
 };
 

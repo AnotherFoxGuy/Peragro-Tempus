@@ -1,25 +1,29 @@
 <message-implementation>
 	<message type="Environment" name="InitTime">
-          <event name="environment.inittime" specific="None">
-		<uint8>Minute</uint8>
-		<uint8>Hour</uint8>
-		<uint8>MinutesPerHour</uint8>
-		<uint8>HoursPerDay</uint8>
-		<uint32>RealPerGame</uint32>
-          </event>
+		<event name="environment.inittime" specific="None">
+			<uint32>Seconds</uint32>
+			<uint16>Epoch</uint16>
+			<uint8>SecondsPerMinute</uint8>
+			<uint8>MinutesPerHour</uint8>
+			<uint8>HoursPerDay</uint8>
+			<uint8>DaysPerWeek</uint8>
+			<uint8>WeeksPerMonth</uint8>
+			<uint8>MonthsPerSeason</uint8>
+			<uint8>SeasonsPerYear</uint8>
+			<uint32>GamePerReal</uint32>
+		</event>
 	</message>
 
 	<message type="Environment" name="UpdateTime">
-          <event name="environment.updatetime" specific="None">
-		<uint8>Minute</uint8>
-		<uint8>Hour</uint8>
-          </event>
-        </message>
+		<event name="environment.updatetime" specific="None">
+			<uint32>Seconds</uint32>
+		</event>
+	</message>
 
-        <message type="Environment" name="Weather">
-          <event name="environment.weather" specific="None">
-                <uint8>WeatherId</uint8>
-          </event>
+	<message type="Environment" name="Weather">
+		<event name="environment.weather" specific="None">
+			<uint8>WeatherId</uint8>
+		</event>
 	</message>
 
 </message-implementation>
