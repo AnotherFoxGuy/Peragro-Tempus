@@ -48,11 +48,11 @@ namespace PT
        */
       static size_t GetSeconds(const iEvent* event)
       {
-        PT::Date::LongType seconds = 0;
+        size_t seconds = 0;
         if (event->Retrieve("seconds", seconds) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetSeconds failed!");
 
-        return static_cast<size_t>(seconds);
+        return seconds;
       }
 
       /**
@@ -64,14 +64,14 @@ namespace PT
         const iEvent* event)
       {
         using namespace PT::Date;
-        ShortType epoch = 0;
-        ShortType secondsPerMinute = 1;
-        ShortType minutesPerHour = 1;
-        ShortType hoursPerDay = 1;
-        ShortType daysPerWeek = 1;
-        ShortType weeksPerMonth = 1;
-        ShortType monthsPerSeason = 1;
-        ShortType seasonsPerYear = 1;
+        unsigned short epoch = 0;
+        unsigned char secondsPerMinute = 1;
+        unsigned char minutesPerHour = 1;
+        unsigned char hoursPerDay = 1;
+        unsigned char daysPerWeek = 1;
+        unsigned char weeksPerMonth = 1;
+        unsigned char monthsPerSeason = 1;
+        unsigned char seasonsPerYear = 1;
 
         if (event->Retrieve("epoch", epoch) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetCalendar epoch failed!");
