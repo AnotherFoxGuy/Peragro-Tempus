@@ -74,8 +74,8 @@ bool WorldManager::Initialize(const std::string& name)
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
 
-  vfs->ChDir("/peragro/art/world/");
-  loader->LoadMapFile("/peragro/art/world/world", false);
+  vfs->SetSyncDir("/peragro/art/world/");
+  loader->LoadMapFile("world", false);
 
   modelManager = new ModelManager(object_reg);
   interiorManager = new InteriorManager(this);
