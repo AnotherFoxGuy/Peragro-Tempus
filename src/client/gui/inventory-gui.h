@@ -48,6 +48,7 @@ namespace PT
         InventoryWindow(GUIManager* guimanager);
         virtual ~InventoryWindow();
         bool Create();
+        bool ReloadWindow();
         bool AddItem(unsigned int itemid, unsigned int variationid,
                   const char* name, const char* iconname, unsigned int slotid);
         bool MoveItem(unsigned int oldslotid, unsigned int newslotid);

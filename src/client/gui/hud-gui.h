@@ -59,6 +59,7 @@ namespace PT
         HUDWindow(GUIManager* guimanager);
         virtual ~HUDWindow();
         bool Create();
+        bool ReloadWindow();
         void SetHP (int hp, int maxHp); // set the hp.
         void SetMP (float mp);          // set the mp.
         void SetXP (float xp);          // set the xp.

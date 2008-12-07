@@ -83,31 +83,11 @@ namespace PT
       Skin FindSkin (const char* name);
       void SearchForSkins (const char* path);
       bool LoadDefaultSkin ();
+      bool ReloadWindows ();
 
     private:
       PT_CALLBACK_HANDLER_LISTENERS
       bool LoadPressed (iEvent &ev);
-
-    private:
-      typedef std::map<CEGUI::String, CEGUI::String> PropMap;
-      PropMap originalProps;
-      void SaveWindowProperties(CEGUI::Window* currentWindow);
-      void RestoreWindowProperties(CEGUI::Window* currentWindow);
-      void SetWidgetLook(CEGUI::Window* currentWindow, const std::string& _newLook);
-
-      enum PropertyType
-      {
-        FLOAT_TYPE,
-        BOOL_TYPE,
-        FONT_TYPE,
-        TEXT_TYPE,
-        VERT_ALIGN_TYPE,
-        HORZ_ALIGN_TYPE,
-        VERT_TEXT_FORMAT_TYPE,
-        HORZ_TEXT_FORMAT_TYPE,
-        UNSUPPORTED
-      };
-      SkinManager::PropertyType GetPropertyType(const CEGUI::String& propertyName);
 
     public:
       SkinManager (GUIManager* guiManager);

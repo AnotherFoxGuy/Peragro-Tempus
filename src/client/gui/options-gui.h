@@ -61,6 +61,7 @@ namespace PT
         OptionsWindow(GUIManager* guimanager);
         virtual ~OptionsWindow();
         bool Create();
+        bool ReloadWindow();
 
         /// Add an option item.
         bool AddOption (const char* optionName, const char* windowName);

@@ -67,6 +67,7 @@ namespace PT
         BuyWindow(GUIManager* guimanager);
         virtual ~BuyWindow();
         bool Create();
+        bool ReloadWindow();
 
       public:
         bool AddItem(unsigned int itemid, unsigned int variationid, const char* name, const char* iconname, unsigned int price);

@@ -178,6 +178,24 @@ namespace PT
       return true;
     } // end LoadDefaultSkin()
 
+    bool SkinManager::ReloadWindows()
+    {
+      // Create the root window.
+      guiManager->CreateRootWindow();
+
+      // Get all windows and reload them.
+      csArray<GUIWindow*> windows = guiManager->GetWindows();
+      for (size_t i = 0; i < windows.GetSize();i++)
+      {
+        GUIWindow* win = windows.Get(i);
+        if (win)
+          win->ReloadWindow();
+      } // for
+      guiManager->Reload();
+
+      return true;
+    } // end ReloadWindows()
+
     bool SkinManager::Initialize()
     {
       // Get some pointers.
@@ -190,6 +208,8 @@ namespace PT
 
       SearchForSkins("/peragro/art/skins/");
 
+      using namespace PT::Events;
+
       // Register listener for interface.
       PT_SETUP_HANDLER
       PT_REGISTER_LISTENER(SkinManager, LoadPressed, "interface.skinwindow.buttons.load")
@@ -199,75 +219,49 @@ namespace PT
 
     CEGUI::Window* SkinManager::loadLayout(const char* layoutFile)
     {
-      std::string layoutPath ("/peragro/art/skins/default/layouts/");
+      std::string layoutPath = currentSkin.path;
+      layoutPath += "layouts/";
       vfs->ChDir (layoutPath.c_str());
 
       CEGUI::Window* win = 0;
       try
       {
-        win = winMgr->loadWindowLayout(layoutFile);
+          win = winMgr->loadWindowLayout(layoutFile);
       }
       catch ( CEGUI::Exception& e )
       {
-        Report(PT::Error, "Failed setting layout: %s!",
+        Report(PT::Warning, "No layout supplied for: %s, using Default.",
+          e.getMessage().c_str());
+        layoutPath = defaultSkin.path;
+        layoutPath += "layouts/";
+        vfs->ChDir (layoutPath.c_str());
+        try
+        {
+          win = winMgr->loadWindowLayout(layoutFile);
+        }
+        catch ( CEGUI::Exception& e )
+        {
+          Report(PT::Error, "Failed setting layout: %s!",
             e.getMessage().c_str());
+        }
       }
       return win;
     } // end loadLayout()
 
     bool SkinManager::ChangeSkin(const char* skinname)
     {
-      // Switch to the new skin.
-      Skin newSkin = FindSkin (skinname);
+      Report(PT::Notify, "Reloading!");
 
-      Report(PT::Notify, "Switching to new skin: '%s' at '%s'",
-        newSkin.GetName(), newSkin.GetPath());
-
-      // Load new scheme.
-      try
-      {
-        vfs->ChDir (newSkin.GetPath());
-
-        if (!schMgr->isSchemePresent(newSkin.GetName()))
-          schMgr->loadScheme(/*newSkin.GetPrefix(),*/"widgets/peragro.scheme");
-        schMgr->loadScheme(/*newSkin.GetPrefix(),*/"widgets/alias.scheme");
-      }
-      catch ( CEGUI::Exception& e )
-      {
-        Report(PT::Error, "Failed switching skin: %s", e.getMessage().c_str());
-        return false;
-      }
-
-      // Set mousepointer.
-      try
-      {
-        system->setDefaultMouseCursor(/*newSkin.GetPrefix()+*/newSkin.name, "MouseArrow");
-      }
-      catch ( CEGUI::Exception& e )
-      {
-        Report(PT::Error, "Failed switching Mouse cursor: %s",
-          e.getMessage().c_str());
-        system->setDefaultMouseCursor(currentSkin.name, "MouseArrow");
-        return false;
-      }
-
-      // Finally change the look.
-      try
-      {
-        CEGUI::WindowManager::WindowIterator windowIt = CEGUI::WindowManager::getSingleton().getIterator();
-        while (!windowIt.isAtEnd())
-        {
-          SetWidgetLook(windowIt.getCurrentValue(), /*newSkin.GetPrefix()+*/newSkin.name);
-        }
-      }
-      catch ( CEGUI::Exception& e )
-      {
-        Report(PT::Error, "Failed switching skin: %s", e.getMessage().c_str());
-        return false;
-      }
-
-      // If current skin is different from default: unload current skin.
-      if (strcmp(defaultSkin.GetName(), currentSkin.GetName()) != 0)
+      // Unload.
+      guiManager->SavePositions();
+      winMgr->destroyAllWindows();
+      winMgr->cleanDeadPool();
+      system->setDefaultMouseCursor(0);
+      schMgr->unloadScheme("Alias");
+      // If current skin is different from default
+      // or if new skin is default(reload): unload current skin.
+      if ((strcmp(defaultSkin.GetName(), currentSkin.GetName()) != 0)
+          || strcmp(defaultSkin.GetName(), skinname) == 0)
       {
         if (schMgr->isSchemePresent(currentSkin.GetName()))
         {
@@ -278,152 +272,54 @@ namespace PT
         }
       }
 
+      // Switch to the new skin.
+      Skin newSkin = FindSkin (skinname);
+
       currentSkin = newSkin;
+      Report(PT::Notify, "Switching to new skin: '%s' at '%s'",
+        currentSkin.GetName(), currentSkin.GetPath());
+
+      // Load new scheme.
+      try
+      {
+        vfs->ChDir (currentSkin.GetPath());
+
+        if (!schMgr->isSchemePresent(currentSkin.GetName()))
+          schMgr->loadScheme("widgets/peragro.scheme");
+        schMgr->loadScheme("widgets/alias.scheme");
+      }
+      catch ( CEGUI::Exception& e )
+      {
+        Report(PT::Error, "Failed switching skin: %s", e.getMessage().c_str());
+        // Switch to default skin.
+        vfs->ChDir (defaultSkin.GetPath());
+        schMgr->loadScheme("widgets/alias.scheme");
+      }
+
+      // Recreate layouts.
+      try
+      {
+        ReloadWindows();
+      }
+      catch ( CEGUI::Exception& e )
+      {
+        Report(PT::Error, "Failed recreating windows: %s",
+          e.getMessage().c_str());
+      }
+
+      // Set mousepointer.
+      try
+      {
+        system->setDefaultMouseCursor(currentSkin.name, "MouseArrow");
+      }
+      catch ( CEGUI::Exception& e )
+      {
+        Report(PT::Error, "Failed switching Mouse cursor: %s",
+          e.getMessage().c_str());
+      }
 
       return true;
     } // end ChangeSkin()
-
-    void SkinManager::SetWidgetLook(CEGUI::Window* currentWindow, const std::string& _newLook)
-    {
-      CEGUI::String newLook = _newLook.c_str();
-
-      CEGUI::WindowFactoryManager& wfMgr = CEGUI::WindowFactoryManager::getSingleton();
-      const CEGUI::String separator("/");
-
-      // Obtain current window type (in format look/widget)
-      const CEGUI::String currentType = currentWindow->getType();
-
-      // Retrieve the widget look and the widget kind
-      const CEGUI::String::size_type pos = currentType.find(separator);
-      CEGUI::String look(currentType, 0, pos);
-      CEGUI::String widget(currentType, pos + 1);
-
-      // Build the new desired type (in format look/widget)
-      const CEGUI::String newType = newLook + separator + widget;
-
-      // If no type change is detected, leave
-      if(newType == currentType)
-        return;
-
-      if (!wfMgr.isFalagardMappedType(newType))
-        return;
-
-      // Obtain falagard mapping for type
-      const CEGUI::WindowFactoryManager::FalagardWindowMapping& fwm = wfMgr.getFalagardMappingForType(newType);
-
-      // Retrieve and store the currently assigned widget properties that are editable.
-      SaveWindowProperties(currentWindow);
-
-      // Assign the new Look'N'Feel to the widget.
-      currentWindow->setFalagardType(fwm.d_lookName, fwm.d_rendererType);
-
-      // Time to restore the original editable properties.
-      RestoreWindowProperties(currentWindow);
-
-    } // end SetWidgetLook()
-
-    SkinManager::PropertyType SkinManager::GetPropertyType(const CEGUI::String& propertyName)
-    {
-      const std::string supportedProperties("Alpha,float;ClickStepSize,float;MaximumValue,float; \
-                                       Visible,bool;AlwaysOnTop,bool;ClippedByParent,bool; \
-                                       InheritsAlpha,bool;Selected,bool;ReadOnly,bool; \
-                                       CloseButtonEnabled,bool;DragMovingEnabled,bool; \
-                                       FrameEnabled,bool;SizingEnabled,bool;TitlebarEnabled,bool; \
-                                       MultiSelect,bool;Sort,bool;DraggingEnabled,bool; \
-                                       BackgroundEnabled,bool;InheritsTooltipText,bool; \
-                                       HoverImage,text;PushedImage,text;DisabledImage,text; \
-                                       NormalImage,text;Font,font;TitlebarFont,font; \
-                                       VerticalAlignment,vert_align;HorizontalAlignment,horz_align; \
-                                       VertFormatting,vert_text_format;HorzFormatting,horz_text_format; \
-                                       Tooltip,text;Image,text;TextColours,text;");
-      const std::string::size_type pos = supportedProperties.find(propertyName.c_str());
-      if ( pos != std::string::npos )
-      {
-        const std::string::size_type scPos = supportedProperties.find(";", pos+1);
-        const std::string value = supportedProperties.substr(pos+1, scPos);
-
-        if (value == "float")
-          return FLOAT_TYPE;
-        else if (value == "bool")
-          return BOOL_TYPE;
-        else if (value == "font")
-          return FONT_TYPE;
-        else if (value == "text")
-          return TEXT_TYPE;
-        else if (value == "vert_align")
-          return VERT_ALIGN_TYPE;
-        else if (value == "horz_align")
-          return HORZ_ALIGN_TYPE;
-        else if (value == "vert_text_format")
-          return VERT_TEXT_FORMAT_TYPE;
-        else if (value == "horz_text_format")
-          return HORZ_TEXT_FORMAT_TYPE;
-      }
-
-      // An upsupported property was given
-      return UNSUPPORTED;
-    } // end GetPropertyType()
-
-    void SkinManager::SaveWindowProperties(CEGUI::Window* currentWindow)
-    {
-      originalProps.clear();
-      CEGUI::PropertySet::Iterator oit = currentWindow->getPropertyIterator();
-      for(; !oit.isAtEnd() ; ++oit)
-      {
-        // Obtain current property name
-        const CEGUI::String propertyName = (*oit)->getName();
-
-        // Check if this property is editable. If so, we want to store it for later reference
-        if(this->GetPropertyType(propertyName) != UNSUPPORTED)
-          (void)originalProps.insert(std::make_pair(propertyName, currentWindow->getProperty(propertyName)));
-
-        // We also want to keep some properties, that while not directly editable by the user,
-        // are affected by the new Look'N'Feel.
-        else if (propertyName == "TextColours" || propertyName == "Image" ||
-        propertyName == "MouseCursorImage" || propertyName == "EWSizingCursorImage" ||
-        propertyName == "NSSizingCursorImage" || propertyName == "NESWSizingCursorImage" ||
-        propertyName == "NWSESizingCursorImage" || propertyName == "ImageColours" ||
-        propertyName == "WantsMultiClickEvents")
-          (void)originalProps.insert(std::make_pair(propertyName, currentWindow->getProperty(propertyName)));
-      }
-    } // end SaveWindowProperties()
-
-    void SkinManager::RestoreWindowProperties(CEGUI::Window* currentWindow)
-    {
-      // Time to restore the original editable properties
-      for(PropMap::iterator it = originalProps.begin(); it != originalProps.end(); it++)
-      {
-        // Obtain current property name
-        const CEGUI::String propertyName = (*it).first;
-
-        // Although the Look'N'Feel and WindowRender properties are not
-        // currently editable, we want to REALLY make sure they are not processed here (safety-check)
-        if(propertyName != "LookNFeel" && propertyName != "WindowRenderer")
-        {
-          // Make sure this property is still valid with the new Look'N'Feel
-          if(currentWindow->isPropertyPresent(propertyName))
-          {
-            // Restore property
-            currentWindow->setProperty(propertyName, (*it).second);
-
-            // If the property wasn't correctly set (i.e. because the value
-            // is not valid), we want to remove it to prevent garbage
-            // NOTE: This is mostly for the MouseCursorImage property, whose
-            // set() implementation (see CEGUIWindowProperties.cpp) prevents
-            // empty entries.
-            if(currentWindow->getProperty(propertyName) != (*it).second)
-            {
-              if (propertyName == "Image" ||
-                propertyName == "MouseCursorImage" || propertyName == "EWSizingCursorImage" ||
-                propertyName == "NSSizingCursorImage" || propertyName == "NESWSizingCursorImage" ||
-                propertyName == "NWSESizingCursorImage")
-                currentWindow->removeProperty(propertyName);
-            } // if
-          } // if
-        } // if
-      } // for
-
-    } // end RestoreWindowProperties()
 
     bool SkinManager::Populate()
     {
@@ -440,10 +336,9 @@ namespace PT
 
       return true;
     } // end Populate()
-
     Skin SkinManager::GetCurrentSkin()
     {
-      return currentSkin;
+        return currentSkin;
     } // end GetCurrentSkin()
 
   } // GUI namespace

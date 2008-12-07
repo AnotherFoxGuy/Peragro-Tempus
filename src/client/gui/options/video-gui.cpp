@@ -67,6 +67,13 @@ namespace PT
 
       bool VideoOptionsWindow::Create()
       {
+        ReloadWindow();
+
+        return true;
+      } // end Create()
+
+      bool VideoOptionsWindow::ReloadWindow()
+      {
         // Load the layout.
         window = GUIWindow::LoadLayout("client/options/video.xml");
 
@@ -133,7 +140,7 @@ namespace PT
           CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListTerrainViewDistance, this));
 
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
       bool VideoOptionsWindow::OnDropListResolution(const CEGUI::EventArgs& e)
       {

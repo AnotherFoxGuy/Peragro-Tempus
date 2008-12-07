@@ -57,6 +57,7 @@ namespace PT
         ConfirmDialogWindow(GUIManager* guimanager);
         virtual ~ConfirmDialogWindow();
         bool Create();
+        bool ReloadWindow();
 
         void SetText(const char* text);
         void SetYesEvent(CEGUI::Event::Subscriber subscriber,

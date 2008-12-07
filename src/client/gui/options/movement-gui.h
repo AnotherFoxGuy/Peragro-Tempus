@@ -52,6 +52,7 @@ namespace PT
         MovementOptionsWindow(GUIManager* guiManager);
         virtual ~MovementOptionsWindow();
         bool Create();
+        bool ReloadWindow();
       };
 
     } // Windows namespace

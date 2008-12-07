@@ -48,9 +48,6 @@ namespace PT
 
       bool ControlOptionsWindow::Create()
       {
-        // Load the layout.
-        window = GUIWindow::LoadLayout("client/options/controls.xml");
-
         app_cfg = csQueryRegistry<iConfigManager>
           (PointerLibrary::getInstance()->getObjectRegistry());
         if (!app_cfg)
@@ -59,14 +56,7 @@ namespace PT
           return false;
         }
 
-        // Set up the controls list.
-        btn = winMgr->getWindow("Options/Controls/List");
-        controlList = static_cast<CEGUI::MultiColumnList*>(btn);
-        if (!controlList) return false;
-
-        CreateControlsList();
-        controlList->subscribeEvent(CEGUI::Window::EventMouseButtonUp,
-          CEGUI::Event::Subscriber(&ControlOptionsWindow::OnControlsListSelection, this));
+        ReloadWindow();
 
         // Register listener for controls set.
         using namespace PT::Events;
@@ -254,6 +244,23 @@ namespace PT
 
         return true;
       } // end ControlSet()
+
+      bool ControlOptionsWindow::ReloadWindow()
+      {
+        // Load the layout.
+        window = GUIWindow::LoadLayout("client/options/controls.xml");
+
+        // Set up the controls list.
+        btn = winMgr->getWindow("Options/Controls/List");
+        controlList = static_cast<CEGUI::MultiColumnList*>(btn);
+        if (!controlList) return false;
+
+        CreateControlsList();
+        controlList->subscribeEvent(CEGUI::Window::EventMouseButtonUp,
+          CEGUI::Event::Subscriber(&ControlOptionsWindow::OnControlsListSelection, this));
+
+        return true;
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

@@ -69,6 +69,7 @@ namespace PT
         VideoOptionsWindow(GUIManager* guiManager);
         virtual ~VideoOptionsWindow();
         bool Create();
+        bool ReloadWindow();
 
       };
 

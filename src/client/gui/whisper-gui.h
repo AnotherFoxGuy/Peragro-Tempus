@@ -42,6 +42,7 @@ namespace PT
         WhisperWindow(GUIManager* guimanager);
         virtual ~WhisperWindow();
         bool Create();
+        bool ReloadWindow();
 
         void AddWhisper (const char* nick, const char* msg,
                          const char* ownnick = 0);

@@ -44,6 +44,12 @@ namespace PT
 
       bool BackgroundWindow::Create()
       {
+        ReloadWindow();
+        return true;
+      } // end Create()
+
+      bool BackgroundWindow::ReloadWindow()
+      {
         window = winMgr->createWindow("Peragro/StaticImage", "Background");
         GUIWindow::AddToRoot(window);
 
@@ -65,7 +71,7 @@ namespace PT
         HideWindow();
 
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
       void BackgroundWindow::ShowWindow()
       {

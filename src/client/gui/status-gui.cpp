@@ -129,6 +129,12 @@ namespace PT
 
       bool StatusWindow::Create()
       {
+        ReloadWindow();
+        return true;
+      } // end Create()
+
+      bool StatusWindow::ReloadWindow()
+      {
         using namespace CEGUI;
 
         window = GUIWindow::LoadLayout ("client/status.xml");
@@ -193,7 +199,7 @@ namespace PT
           CEGUI::Event::Subscriber(&StatusWindow::handleCloseButton, this));
 
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

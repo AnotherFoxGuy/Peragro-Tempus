@@ -116,7 +116,7 @@ namespace PT
         else
         {
           window->setVisible(true);
-          BringToFront();
+          window->activate();
         }
       }
     } // end ToggleWindow()

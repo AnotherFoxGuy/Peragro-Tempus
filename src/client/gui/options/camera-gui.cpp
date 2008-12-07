@@ -52,6 +52,13 @@ namespace PT
 
       bool CameraOptionsWindow::Create()
       {
+        ReloadWindow();
+
+        return true;
+      } // end Create()
+
+      bool CameraOptionsWindow::ReloadWindow()
+      {
         // Load the layout.
         window = GUIWindow::LoadLayout("client/options/camera.xml");
 
@@ -84,7 +91,7 @@ namespace PT
         PT_REGISTER_LISTENER(CameraOptionsWindow, ToggleDistClip, "input.DistanceClipping")
 
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
       void CameraOptionsWindow::SendUpdateEvent()
       {

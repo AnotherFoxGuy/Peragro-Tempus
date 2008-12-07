@@ -118,35 +118,8 @@ namespace PT
 
       bool OptionsWindow::Create()
       {
-        window = GUIWindow::LoadLayout ("client/options.xml");
-        GUIWindow::AddToRoot(window);
-
-        // Hide the Option menu.
-        btn = guimanager->GetCeguiWindow("Options/Frame");
-        btn->setVisible(false);
-        if (btn) btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
-          CEGUI::Event::Subscriber(&OptionsWindow::OnCloseButton, this));
-
-        // Register the selection changed event.
-        CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/List");
-        if (btn) btn->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,
-          CEGUI::SubscriberSlot(&OptionsWindow::OptionPressed, this));
-
-        // Readd the options.
-        for (size_t i = 0; i < optionList.GetSize();i++)
-        {
-          Option option = optionList.Get(i);
-          CreateOptionItem(option.GetName());
-        }// for
-
-        // Set up the Options button.
-        btn = guimanager->GetCeguiWindow("Options/Options_Button");
-        guimanager->GetCeguiWindow("Root")->addChildWindow(btn);
-        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
-          CEGUI::Event::Subscriber(&OptionsWindow::OptionButtonPressed, this));
-
+        ReloadWindow();
         SetupToggleListener("Options");
-
         return true;
       } // end Create()
 
@@ -174,6 +147,38 @@ namespace PT
         btn->setVisible(false);
         return true;
       } // end OnCloseButton()
+
+      bool OptionsWindow::ReloadWindow()
+      {
+        window = GUIWindow::LoadLayout ("client/options.xml");
+        GUIWindow::AddToRoot(window);
+
+        // Hide the Option menu.
+        btn = guimanager->GetCeguiWindow("Options/Frame");
+        btn->setVisible(false);
+        if (btn) btn->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
+          CEGUI::Event::Subscriber(&OptionsWindow::OnCloseButton, this));
+
+        // Register the selection changed event.
+        CEGUI::Window* btn = guimanager->GetCeguiWindow("Options/List");
+        if (btn) btn->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,
+          CEGUI::SubscriberSlot(&OptionsWindow::OptionPressed, this));
+
+        // Readd the options.
+        for (size_t i = 0; i < optionList.GetSize();i++)
+        {
+          Option option = optionList.Get(i);
+          CreateOptionItem(option.GetName());
+        }// for
+
+        // Set up the Options button.
+        btn = guimanager->GetCeguiWindow("Options/Options_Button");
+        guimanager->GetCeguiWindow("Root")->addChildWindow(btn);
+        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&OptionsWindow::OptionButtonPressed, this));
+
+        return true;
+      } // end ReloadWindow()
 
       bool OptionsWindow::CreateOptionItem(const char* optionName)
       {

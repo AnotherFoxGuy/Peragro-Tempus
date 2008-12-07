@@ -35,6 +35,7 @@ namespace PT
         BackgroundWindow(GUIManager* guimanager);
         virtual ~BackgroundWindow();
         bool Create();
+        bool ReloadWindow();
         void ShowWindow();
         void HideWindow();
         bool IsVisible();

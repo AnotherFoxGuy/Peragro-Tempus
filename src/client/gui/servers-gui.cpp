@@ -162,6 +162,12 @@ namespace PT
 
       bool ServerWindow::Create()
       {
+        ReloadWindow();
+        return true;
+      } // end Create()
+
+      bool ServerWindow::ReloadWindow()
+      {
         app_cfg = csQueryRegistry<iConfigManager>
           (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
 
@@ -190,9 +196,8 @@ namespace PT
           ++i;
           server = servermgr->GetServerById(i);
         }
-
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

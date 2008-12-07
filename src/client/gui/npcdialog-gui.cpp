@@ -135,6 +135,12 @@ namespace PT
 
       bool NpcDialogWindow::Create()
       {
+        ReloadWindow();
+        return true;
+      } // end Create()
+
+      bool NpcDialogWindow::ReloadWindow()
+      {
         window = GUIWindow::LoadLayout ("client/npcdialog.xml");
         GUIWindow::AddToRoot(window);
 
@@ -154,7 +160,7 @@ namespace PT
           CEGUI::Event::Subscriber(&NpcDialogWindow::OnAnswer, this));
 
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

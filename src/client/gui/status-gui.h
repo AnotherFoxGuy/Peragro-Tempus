@@ -43,6 +43,7 @@ namespace PT
         StatusWindow(GUIManager* guimanager);
         virtual ~StatusWindow();
         bool Create();
+        bool ReloadWindow();
         bool AddItem(CEGUI::String itemname, int itemtype, bool stackable);
         void AddSkill(const char* skillname, unsigned int skillvalue);
       };

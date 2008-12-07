@@ -46,6 +46,7 @@ namespace PT
         BookWindow(PT::GUI::GUIManager* guimanager);
         virtual ~BookWindow();
         bool Create();
+        bool ReloadWindow();
         void SetBook(unsigned int itemId, unsigned int slotId);
       };
     } // Windows namespace

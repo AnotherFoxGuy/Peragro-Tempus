@@ -41,9 +41,6 @@ namespace PT
 
       bool ChatOptionsWindow::Create()
       {
-        // Load the layout.
-        window = GUIWindow::LoadLayout ("client/options/chat.xml");
-
         app_cfg = csQueryRegistry<iConfigManager>
           (PointerLibrary::getInstance()->getObjectRegistry());
         if (!app_cfg)
@@ -52,11 +49,7 @@ namespace PT
           return false;
         }
 
-        // Set up the "hide input field after sending" checkbox.
-        CreateHideAfterSendCheckBox();
-        btn = winMgr->getWindow("Options/Chat/HideAfterSend");
-        btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
-          CEGUI::Event::Subscriber(&ChatOptionsWindow::OnHideAfterSendCheckBox, this));
+        ReloadWindow();
 
         return true;
       } // end Create()
@@ -82,6 +75,20 @@ namespace PT
         SaveConfig();
         return true;
       }
+
+      bool ChatOptionsWindow::ReloadWindow()
+      {
+        // Load the layout.
+        window = GUIWindow::LoadLayout ("client/options/chat.xml");
+
+        // Set up the "hide input field after sending" checkbox.
+        CreateHideAfterSendCheckBox();
+        btn = winMgr->getWindow("Options/Chat/HideAfterSend");
+        btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
+          CEGUI::Event::Subscriber(&ChatOptionsWindow::OnHideAfterSendCheckBox, this));
+
+        return true;
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

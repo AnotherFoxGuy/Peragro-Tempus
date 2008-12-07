@@ -73,8 +73,9 @@ namespace PT
       const char* GetName() { return windowName.c_str(); }
       /// Set the window name.
       void SetName(const char* name) { windowName = name; }
-      /// Loads the layout and subscribes to events.
       virtual bool Create() = 0;
+      /// Loads the layout and subscribes to events.
+      virtual bool ReloadWindow() = 0;
 
       CEGUI::Window* GetCeguiWindow() { return window; }
 

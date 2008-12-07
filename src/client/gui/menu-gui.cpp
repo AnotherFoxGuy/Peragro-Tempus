@@ -76,6 +76,15 @@ namespace PT
 
       bool MenuWindow::Create()
       {
+        ReloadWindow();
+
+        return true;
+      } // end Create()
+
+      bool MenuWindow::ReloadWindow()
+      {
+        CEGUI::Window* btn;
+
         // Load the layout and parent it to the root window.
         window = GUIWindow::LoadLayout ("client/menu.xml");
         GUIWindow::AddToRoot(window);
@@ -95,7 +104,7 @@ namespace PT
         if (btn) btn->hide();
 
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

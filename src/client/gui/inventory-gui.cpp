@@ -159,6 +159,13 @@ namespace PT
 
       bool InventoryWindow::Create()
       {
+        ReloadWindow();
+        SetupToggleListener("Inventory");
+        return true;
+      } // end Create()
+
+      bool InventoryWindow::ReloadWindow()
+      {
         // First 10 slots(0-9) are equipment,
         // other 20 are inventory.
         numberOfSlots = 30-1;
@@ -194,10 +201,8 @@ namespace PT
         // Setup the equipslots.
         SetupEquipSlot(0, "Inventory/EquipFrame/WeaponRight");
 
-        SetupToggleListener("Inventory");
-
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

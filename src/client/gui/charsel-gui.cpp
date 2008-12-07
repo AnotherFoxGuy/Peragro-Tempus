@@ -235,6 +235,12 @@ namespace PT
 
       bool SelectCharWindow::Create()
       {
+        ReloadWindow();
+        return true;
+      } // end Create()
+
+      bool SelectCharWindow::ReloadWindow()
+      {
         window = GUIWindow::LoadLayout ("client/charselect.xml");
         GUIWindow::AddToRoot(window);
         window = GUIWindow::LoadLayout ("client/charselectnew.xml");
@@ -276,9 +282,8 @@ namespace PT
           addColumn(str_name,1,CEGUI::UDim(0.75f,0));
         ((CEGUI::MultiColumnList*)btn)->
           setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
       void SelectCharWindow::ShowWindow()
       {

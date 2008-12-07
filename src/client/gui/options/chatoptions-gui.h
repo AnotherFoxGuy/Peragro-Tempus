@@ -42,6 +42,7 @@ namespace PT
         ChatOptionsWindow(GUIManager* guiManager);
         virtual ~ChatOptionsWindow();
         bool Create();
+        bool ReloadWindow();
       };
 
     } // Windows namespace

@@ -43,6 +43,7 @@ namespace PT
         NpcDialogWindow(GUIManager* guimanager);
         virtual ~NpcDialogWindow();
         bool Create();
+        bool ReloadWindow();
 
         void SetName(const std::string& name);
         void AddDialog(unsigned int dialogId, const std::string& dialog);

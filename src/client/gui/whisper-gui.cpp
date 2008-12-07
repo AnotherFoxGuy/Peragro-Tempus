@@ -198,10 +198,15 @@ namespace PT
 
       bool WhisperWindow::Create()
       {
-        winMgr = cegui->GetWindowManagerPtr ();
-
+        ReloadWindow();
         return true;
       } // end Create()
+
+      bool WhisperWindow::ReloadWindow()
+      {
+        winMgr = cegui->GetWindowManagerPtr ();
+        return true;
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

@@ -273,6 +273,12 @@ namespace PT
 
       bool LoginWindow::Create()
       {
+        ReloadWindow();
+        return true;
+      } // end Create()
+
+      bool LoginWindow::ReloadWindow()
+      {
         window = GUIWindow::LoadLayout ("client/login.xml");
         GUIWindow::AddToRoot(window);
 
@@ -313,8 +319,9 @@ namespace PT
         btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
           CEGUI::Event::Subscriber(&LoginWindow::OnCheckBox, this));
 
+
         return true;
-      } // end Create()
+      } // end ReloadWindow()
 
     } // Windows namespace
   } // GUI namespace

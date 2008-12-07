@@ -68,6 +68,7 @@ namespace PT
         SelectCharWindow(GUIManager* guimanager);
         virtual ~SelectCharWindow();
         bool Create();
+        bool ReloadWindow();
         void AddCharacter(unsigned int charId, const char* name,
                           unsigned char skincolour, unsigned char hairncolour,
                           unsigned char decalcolour);
