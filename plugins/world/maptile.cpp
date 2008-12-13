@@ -75,6 +75,10 @@ namespace PT
         rc = loader->LoadNode(meshNode, instances, 0, missingData, KEEP_ALL, true);
       else
         rc = loader->LoadNode(meshNode, instances, 0, missingData, KEEP_ALL, true);
+
+      // Wait for the meshobj to be loaded.
+      rc->Wait();
+
       if (!rc->WasSuccessful ())
       {
         csRef<iDocumentNode> meshN = meshNode->GetNode("meshobj");
