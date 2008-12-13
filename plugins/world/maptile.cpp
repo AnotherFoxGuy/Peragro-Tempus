@@ -79,7 +79,7 @@ namespace PT
       {
         csRef<iDocumentNode> meshN = meshNode->GetNode("meshobj");
         if (meshN)
-          printf("E: Failed to load meshobject '%s'!\n", meshN->GetAttribute("name"));
+          printf("E: Failed to load meshobject '%s'!\n", meshN->GetAttributeValue("name"));
         else
           printf("E: Failed to load meshobject: Invalid node?");
         return;
