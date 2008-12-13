@@ -151,9 +151,16 @@ namespace PT
       else
         rc = loader->LoadNode((csRef<iDocumentNode>) meshNode, instances, 0, factory->missingData, KEEP_ALL, true);
 
+      // Wait for the meshobj to be loaded.
+      rc->Wait();
+
       if (!rc->WasSuccessful())
       {
-        printf("E: Failed to load instance for %s\n", interiorName.c_str());
+        csRef<iDocumentNode> meshN = meshNode->GetNode("meshobj");
+        if (meshN)
+          printf("E: Failed to load instance '%s' for %s\n", meshN->GetAttributeValue("name"), interiorName.c_str());
+        else
+          printf("E: Failed to load instance: Invalid node? for %s\n", interiorName.c_str());
         return;
       }
 
