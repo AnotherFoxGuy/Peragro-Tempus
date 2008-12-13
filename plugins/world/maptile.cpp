@@ -72,10 +72,18 @@ namespace PT
       // If it's a portal allow it to look for sectors beyond the region.
       csRef<iThreadReturn> rc;
       if (meshNode && meshNode->GetNode("portals").IsValid())
-        rc = loader->LoadNode((csRef<iDocumentNode>) meshNode, instances, 0, missingData, KEEP_ALL, true);
+        rc = loader->LoadNode(meshNode, instances, 0, missingData, KEEP_ALL, true);
       else
-        rc = loader->LoadNode((csRef<iDocumentNode>) meshNode, instances, 0, missingData, KEEP_ALL, true);
-      if (!rc->WasSuccessful ()) return;
+        rc = loader->LoadNode(meshNode, instances, 0, missingData, KEEP_ALL, true);
+      if (!rc->WasSuccessful ())
+      {
+        csRef<iDocumentNode> meshN = meshNode->GetNode("meshobj");
+        if (meshN)
+          printf("E: Failed to load meshobject '%s'!\n", meshN->GetAttribute("name"));
+        else
+          printf("E: Failed to load meshobject: Invalid node?");
+        return;
+      }
 
       csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper>(rc->GetResultRefPtr ());
       csRef<iLight> light = scfQueryInterface<iLight>(rc->GetResultRefPtr ());
