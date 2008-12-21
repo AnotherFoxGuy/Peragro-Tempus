@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- world.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.cachemanager</name>
+        <implementation>CacheManager</implementation>
+        <description>CacheManager</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

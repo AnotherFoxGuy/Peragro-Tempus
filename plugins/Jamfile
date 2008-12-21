@@ -1,7 +1,8 @@
 SubDir TOP plugins ;
 
-SubInclude TOP plugins gui ;
+SubInclude TOP plugins cachemanager ;
 SubInclude TOP plugins environment ;
+SubInclude TOP plugins gui ;
 SubInclude TOP plugins sound ;
 SubInclude TOP plugins terrained ;
 SubInclude TOP plugins world ;

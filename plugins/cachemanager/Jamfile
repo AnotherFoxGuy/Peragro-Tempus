@@ -1,0 +1,9 @@
+SubDir TOP plugins cachemanager ;
+
+SubInclude TOP plugins world factoryloader ;
+
+Description cachemanager : "CacheManager" ;
+Plugin cachemanager : [ Wildcard *.cpp *.h ] ;
+ExternalLibs cachemanager : CRYSTAL CEL BOOST ;
+LinkWith cachemanager : reporter threadedfactoryloader ;
+
