@@ -31,16 +31,33 @@
 
 struct iCacheEntry;
 
-template<typename Ref>
-class CacheHash : public csHash<Ref<iCacheEntry>, std::string>
+class csHashComputerSTD
 {
+public:
+  static uint ComputeHash (const std::string& key)
+  {
+    return csHashCompute (key.c_str());
+  }
+};
+
+template<>
+class csHashComputer<std::string> : public csHashComputerSTD {};
+
+template<typename Ref>
+//class CacheHash : public csHash<Ref<iCacheEntry>, std::string>
+class CacheHash : public csHash<Ref, std::string>
+{
+public:
+  typedef csHash<Ref, std::string>::GlobalIterator GlobalIterator;
+
 public:
   CacheHash() {}
 
   bool Contains (const std::string& key) const
   {
     if (this->GetSize() == 0) return false;
-    csArray<Ref<iCacheEntry> > values = this->GetAll(key);
+    //csArray<Ref<iCacheEntry> > values = this->GetAll(key);
+    csArray<Ref > values = this->GetAll(key);
     for (size_t i = 0; i < values.GetSize (); ++i)
       if (values[i] != 0) return true;
     return false;
@@ -50,14 +67,15 @@ public:
   void Compact()
   {
     GlobalIterator it = this->GetIterator();
-    while(it->HasNext())
+    while(it.HasNext())
     {
-      iCacheEntry* el = it->Next();
+      iCacheEntry* el = it.Next();
       if (el == 0) this->DeleteElement(it);
     }
   }
 
-  Ref<iCacheEntry> Put(const std::string& key, const Ref<iCacheEntry>& value)
+  //Ref<iCacheEntry> Put(const std::string& key, const Ref<iCacheEntry>& value)
+  Ref Put(const std::string& key, const Ref& value)
   {
     return PutUnique (key, value);
   }

@@ -21,23 +21,46 @@
  * @basic Used to create instances of a model.
  */
 
-#ifndef CACHEENTRY_H
-#define CACHEENTRY_H
+#ifndef ICACHEENTRY_H
+#define ICACHEENTRY_H
 
 #include <cssysdef.h>
+#include <csutil/scf.h>
+#include <csutil/scf_implementation.h>
 
 #include <csutil/refcount.h>
+#include <csutil/refarr.h>
 
 #include <string>
 
 struct iObjectRegistry;
 struct iCollection;
+struct iMeshWrapper;
+class CacheManager;
+
+/**
+ * The CacheEntry interface.
+ */
+struct iCacheEntry : public virtual iBase
+{
+  SCF_INTERFACE(iCacheEntry, 1,0,0);
+
+  virtual bool IsFinished() = 0;
+  virtual bool WasSuccessful() = 0;
+  virtual size_t GetSize() = 0;
+
+  // Convience function.
+  virtual iMeshWrapper* Create(const std::string& meshName,
+                               const std::string& factoryName) = 0;
+};
 
 /**
  * The iCacheUser interface.
  */
 struct iCacheUser : public csRefCount
 {
+  friend CacheManager;
+
 private:
   virtual void Process() 
   {
@@ -63,19 +86,4 @@ public:
   virtual void DoneLoading(iCacheEntry* cacheEntry) = 0;
 };
 
-/**
- * The CacheEntry interface.
- */
-struct iCacheEntry : public virtual iBase
-{
-  SCF_INTERFACE(iCacheEntry, 1,0,0);
-
-  virtual bool IsFinished() const = 0;
-  virtual bool WasSuccessful() const = 0;
-
-  // Convience function.
-  virtual iMeshWrapper* Create(const std::string& meshName,
-                               const std::string& factoryName) = 0;
-};
-
-#endif // FACTORY_H
+#endif // ICACHEENTRY_H

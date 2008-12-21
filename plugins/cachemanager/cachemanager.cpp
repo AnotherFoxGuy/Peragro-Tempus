@@ -18,6 +18,8 @@
 
 #include "cachemanager.h"
 
+#include "cacheentry.h"
+
 #include <ivaria/reporter.h>
 #include <iutil/vfs.h>
 #include <iutil/cfgmgr.h>
@@ -71,14 +73,14 @@ void CacheManager::InsertInCache(const std::string& realPath, iCacheEntry* entry
 void CacheManager::RemoveFromCache(size_t index)
 {
   std::string realPath = cacheQueue.Get(index);
-  cache.Delete(realPath);
+  cache.DeleteAll(realPath);
   cacheQueue.DeleteIndex(index);
 } // end RemoveFromCache()
 
 CacheManager::Entry CacheManager::GetFromCache(size_t index)
 {
   std::string realPath = cacheQueue.Get(0);
-  csRef<iCacheEntry> entry = cache.GetElementPointer(realPath);
+  csRef<iCacheEntry> entry = cache.Get(realPath, 0);
   return Entry(realPath, entry);
 } // end GetFromCache()
 
@@ -86,13 +88,13 @@ void CacheManager::Overflow()
 {
   if (GetUsedCacheSize() > cacheSize)
   {
-    int delta = GetUsedCacheSize() - cacheSize;
+    int delta = (int)GetUsedCacheSize() - (int)cacheSize;
     while (delta > 0)
     {
       Entry entry = GetFromCache(0);
       cacheEntries.Put(entry.first, entry.second);
       RemoveFromCache(0);
-      delta -= entry.first->GetSize();
+      delta -= (int)entry.second->GetSize();
     } // end while
   } // end if
 } // end Overflow()
@@ -101,10 +103,10 @@ size_t CacheManager::GetUsedCacheSize()
 {
   size_t size = 0;
   cache.Compact();
-  GlobalIterator it = cache.GetIterator();
-  while(it->HasNext())
+  CacheHash<csRef<iCacheEntry> >::GlobalIterator it = cache.GetIterator();
+  while(it.HasNext())
   {
-    csRef<iCacheEntry> el = it->Next();
+    csRef<iCacheEntry> el = it.Next();
     if (el == 0) size += el->GetSize();
   }
   return size;
@@ -116,16 +118,16 @@ std::string RealPath(iObjectRegistry* object_reg, const std::string& fileName)
   if (!vfs) return "ERROR";
 
   // Seperate the path of the filename.
-  size_t p = pathFile.find_last_of("/");
-  std::string path = pathFile.substr(0,p+1);
-  std::string file = pathFile.substr(p+1,pathFile.length());
+  size_t p = fileName.find_last_of("/");
+  std::string path = fileName.substr(0,p+1);
+  std::string file = fileName.substr(p+1,fileName.length());
 
   // Get the real path.
   csRef<iDataBuffer> buf = vfs->GetRealPath(path.c_str());
   if (!buf) return "ERROR";
   std::string realPath = buf->GetData();
 
-  return realPath+"/"+fileName;
+  return realPath+"/"+file;
 }
 
 csRef<iCacheEntry> CacheManager::Get(const std::string& fileName)
@@ -137,14 +139,14 @@ csRef<iCacheEntry> CacheManager::Get(const std::string& fileName)
   // Search cache.
   cache.Compact();
   if (cache.Contains(realPath))
-    return cache.GetElementPointer(realPath);
+    return cache.Get(realPath, 0);
 
   // Search entries.
   cacheEntries.Compact();
   if (cacheEntries.Contains(realPath))
   {
     // Entry has been used again, so move it to the cache.
-    csRef<iCacheEntry> entry = cacheEntries.GetElementPointer(realPath);
+    csRef<iCacheEntry> entry = cacheEntries.Get(realPath, 0);
     cacheEntries.Delete(realPath, entry);
     InsertInCache(realPath, entry);
     Overflow();
@@ -168,7 +170,7 @@ void CacheManager::RemoveListener(iCacheUser* user)
   listeners.Delete(user);
 } // end RemoveListener()
 
-void Handle()
+void CacheManager::Handle()
 {
   for (size_t i = 0; i < listeners.GetSize(); i++)
   {

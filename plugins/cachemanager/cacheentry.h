@@ -32,6 +32,7 @@
 
 struct iObjectRegistry;
 struct iCollection;
+struct iThreadReturn;
 
 /**
  * Used to load/fetch factories of a model.
@@ -43,8 +44,6 @@ private:
   csRef<iThreadReturn> threadReturn;
   /// The collection that is used for this factory.
   csRef<iCollection> collection;
-  /// The file loader.
-  FileLoader* fileLoader;
   /// The object registry.
   iObjectRegistry* object_reg;
   /// Whether all textures have been precached.
@@ -92,7 +91,7 @@ public:
 
   // Convience function.
   iMeshWrapper* Create(const std::string& meshName,
-    const std::string& factoryName);
+                       const std::string& factoryName);
 
   size_t GetSize();
 };

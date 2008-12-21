@@ -32,6 +32,9 @@
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>
 
+#include <csutil/ref.h>
+#include <csutil/weakref.h>
+
 #include "cachehash.h"
 
 #include <string>
@@ -54,10 +57,12 @@ private:
   size_t cacheSize;
 
   /// The hash of loaded factories.
-  CacheHash<csWeakRef> cacheEntries;
+  //CacheHash<csWeakRef> cacheEntries;
+  CacheHash<csWeakRef<iCacheEntry> > cacheEntries;
 
   /// The actual cache.
-  CacheHash<csRef> cache;
+  //CacheHash<csRef> cache;
+  CacheHash<csRef<iCacheEntry> > cache;
   csArray<std::string> cacheQueue;
 
 private:
@@ -98,7 +103,7 @@ public:
    * Get or create a new CacheEntry.
    * @param fileName The file name of the factory.
    */
-  iCacheEntry* Get(const std::string& fileName);
+  csRef<iCacheEntry> Get(const std::string& fileName);
 
   void AddListener(iCacheUser* user);
 

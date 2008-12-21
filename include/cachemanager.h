@@ -21,8 +21,8 @@
  * @basic
  */
 
-#ifndef CACHEMANAGER_H
-#define CACHEMANAGER_H
+#ifndef ICACHEMANAGER_H
+#define ICACHEMANAGER_H
 
 #include "include/cachemanager.h"
 
@@ -30,11 +30,13 @@
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>
 
+#include <csutil/ref.h>
+
 #include <string>
 
 struct iObjectRegistry;
 struct iCacheEntry;
-struct iCacheEntry;
+struct iCacheUser;
 
 struct iCacheManager : public virtual iBase
 {
@@ -56,11 +58,11 @@ struct iCacheManager : public virtual iBase
    * Get or create a new CacheEntry.
    * @param fileName The file name of the factory.
    */
-  virtual iCacheEntry* Get(const std::string& fileName) = 0;
+  virtual csRef<iCacheEntry> Get(const std::string& fileName) = 0;
 
   virtual void AddListener(iCacheUser* user) = 0;
 
   virtual void RemoveListener(iCacheUser* user) = 0;
 };
 
-#endif // CACHEMANAGER_H
+#endif // ICACHEMANAGER_H
