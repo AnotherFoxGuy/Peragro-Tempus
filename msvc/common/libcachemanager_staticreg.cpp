@@ -16,19 +16,19 @@
 namespace csStaticPluginInit
 {
 static char const metainfo_cachemanager[] =
-"<?xml version=\"1.0\"?>"
-"<!-- world.csplugin -->"
-"<plugin>"
-"  <scf>"
-"    <classes>"
-"      <class>"
-"        <name>peragro.cachemanager</name>"
-"        <implementation>CacheManager</implementation>"
-"        <description>CacheManager</description>"
-"      </class>"
-"    </classes>"
-"  </scf>"
-"</plugin>"
+"<?xml version=\"1.0\"?>"
+"<!-- world.csplugin -->"
+"<plugin>"
+"  <scf>"
+"    <classes>"
+"      <class>"
+"        <name>peragro.cachemanager</name>"
+"        <implementation>CacheManager</implementation>"
+"        <description>CacheManager</description>"
+"      </class>"
+"    </classes>"
+"  </scf>"
+"</plugin>"
 ;
   #ifndef CacheManager_FACTORY_REGISTER_DEFINED 
   #define CacheManager_FACTORY_REGISTER_DEFINED 
