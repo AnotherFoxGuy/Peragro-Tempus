@@ -31,12 +31,17 @@
 #include <string>
 
 class iPointerLibrary;
+struct iCamera;
 
 struct iWorld : public virtual iBase
 {
   SCF_INTERFACE(iWorld, 1,0,0);
 
   virtual bool Initialize(const std::string& name) = 0;
+
+  virtual void SetCamera(iCamera* camera) = 0;
+
+  virtual void UnSetCamera() = 0;
 
   /**
   * Enter the world at a horizontal (x, z) coordinate in world space.

@@ -183,6 +183,10 @@ public:
   /// Returns the interior manager.
   InteriorManager* GetInteriorManager() { return interiorManager; }
 
+  void SetCamera(iCamera* camera) {}
+
+  void UnSetCamera() {}
+
   /**
    * Enter the world at a horizontal (x, z) coordinate in world space.
    * @param x X coordinate.

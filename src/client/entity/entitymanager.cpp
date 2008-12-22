@@ -77,7 +77,12 @@ namespace PT
 
       // Create a default sector for entities to be added in.
       defaultSector = engine->CreateSector("Default_Sector");
-      if (!defaultSector.IsValid()) printf("AAAARRRRR\n");
+
+      // Load the door animations.
+      csRef<iThreadedLoader >loader = csQueryRegistry<iThreadedLoader> (obj_reg);
+      if (!loader) return Report(PT::Error, "Failed to locate Loader!");
+      csRef<iThreadReturn> tr = loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
+      tr->Wait();
 
       PT_SETUP_HANDLER
       PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.add")
@@ -157,14 +162,13 @@ namespace PT
 
     void EntityManager::ProcessLostEntities()
     {
-      // TODO move this to the region load callback.
       iSector* defsector = engine->FindSector("Default_Sector");
       if (!defsector) return;
 
       iMeshList* list = defsector->GetMeshes();
       for (size_t i = 0; i < (size_t)list->GetCount(); i++)
       {
-        iMeshWrapper* mesh = list->Get(i);
+        iMeshWrapper* mesh = list->Get((int)i);
         if (!mesh) continue;
         iCelEntity* entity = pl->FindAttachedEntity(mesh->QueryObject());
         if (!entity) continue;

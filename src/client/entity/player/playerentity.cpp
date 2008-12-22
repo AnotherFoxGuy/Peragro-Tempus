@@ -161,6 +161,12 @@ namespace PT
       SetFullPosition(position, rot, sectorName);
     }
 
+    iCamera* GetCam(iPcDefaultCamera* camera)
+    {
+      if (!camera) return 0;
+      return camera->GetCamera();
+    }
+
     void PlayerEntity::Create()
     {
       Report(PT::Notify, "CREATING PLAYER");
@@ -190,6 +196,9 @@ namespace PT
       world->EnterWorld(position.x, position.z);
       SetFullPosition(position, rot, sectorName.c_str());
 
+      iCamera* cam = GetCam(camera);
+      if (cam) world->SetCamera(cam);
+
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
       other_self = pl->CreateEntity();
 
@@ -218,8 +227,7 @@ namespace PT
 
     iSector* PlayerEntity::GetSector()
     {
-      if (!camera.IsValid()) return 0;
-      iCamera* cam = camera->GetCamera();
+      iCamera* cam = GetCam(camera);
       if (!cam) return 0;
       return cam->GetSector();
     }

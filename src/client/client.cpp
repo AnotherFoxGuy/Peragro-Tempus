@@ -445,11 +445,6 @@ namespace PT
     else
         Report(PT::Error, "Failed to load the iSoundManager!");
 
-
-    csRef<iThreadedLoader >loader = csQueryRegistry<iThreadedLoader> (GetObjectRegistry());
-    if (!loader) return Report(PT::Error, "Failed to locate Loader!");
-    loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
-
     //Listen for events.
     PT_SETUP_HANDLER
 
