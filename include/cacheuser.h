@@ -44,7 +44,7 @@ class CacheManager;
  */
 struct iCacheUser /*: public csRefCount */
 {
-  friend CacheManager;
+  friend class CacheManager;
 
 private:
   csRef<iCacheManager> cacheManager;
