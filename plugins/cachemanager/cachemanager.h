@@ -26,25 +26,30 @@
 
 #include "include/cachemanager.h"
 
-#include "include/cacheentry.h"
-
 #include <cssysdef.h>
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>
 
 #include <csutil/ref.h>
 #include <csutil/weakref.h>
+#include <csutil/refarr.h>
+
+#include <iutil/event.h>
+#include <iutil/eventh.h>
+#include <iutil/eventq.h>
 
 #include "cachehash.h"
 
 #include <string>
 
 struct iObjectRegistry;
-class iPointerLibrary;
+struct iCacheEntry;
 
-class CacheManager : public scfImplementation2<CacheManager,iCacheManager,iComponent>
+class CacheManager : public scfImplementation3<CacheManager,iCacheManager,iEventHandler,iComponent>
 {
 private:
+  size_t cacheSize;
+  size_t maintainFPS;
   bool UpdateOptions();
 
   /// Handles reporting warnings and errors.
@@ -53,8 +58,6 @@ private:
 private:
   /// The object registry.
   iObjectRegistry* object_reg;
-
-  size_t cacheSize;
 
   /// The hash of loaded factories.
   //CacheHash<csWeakRef> cacheEntries;
@@ -66,9 +69,17 @@ private:
   csArray<std::string> cacheQueue;
 
 private:
-  csRefArray<iCacheUser> listeners;
+  csArray<iCacheUser*> listeners;
 
-  void Handle();
+  /// The queue of events waiting to be handled.
+  csRef<iEventQueue> eventQueue;
+  /// The event name registry, used to convert event names to IDs and back.
+  csRef<iEventNameRegistry> nameRegistry;
+
+  bool HandleEvent(iEvent& ev);
+
+  CS_EVENTHANDLER_NAMES ("peragro.cachemanager")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
 
 private:
   typedef std::pair<std::string, csRef<iCacheEntry> > Entry;

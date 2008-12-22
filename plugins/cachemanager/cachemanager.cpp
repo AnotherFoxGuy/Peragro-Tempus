@@ -20,9 +20,13 @@
 
 #include "cacheentry.h"
 
+#include "include/cacheuser.h"
+
 #include <ivaria/reporter.h>
 #include <iutil/vfs.h>
 #include <iutil/cfgmgr.h>
+
+#include <csutil/csevent.h>
 
 CS_IMPLEMENT_PLUGIN
 
@@ -47,11 +51,24 @@ bool CacheManager::Initialize(iObjectRegistry* obj_reg)
 
   UpdateOptions();
 
+  eventQueue = csQueryRegistry<iEventQueue> (object_reg);
+  if (!eventQueue) return false;
+
+  nameRegistry = csEventNameRegistry::GetRegistry(object_reg);
+  if (!nameRegistry) return false;
+
+  eventQueue->RegisterListener(this);
+
+  //Register for the Frame event, for Handle().
+  eventQueue->RegisterListener (this, nameRegistry->GetID("crystalspace.frame"));
+
   return true;
 } // end Initialize()
 
 CacheManager::~CacheManager()
 {
+  if (eventQueue)
+    eventQueue->RemoveListener(this);
 } // end ~CacheManager()
 
 bool CacheManager::UpdateOptions()
@@ -59,7 +76,9 @@ bool CacheManager::UpdateOptions()
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (object_reg);
   if (!app_cfg) return false;
     
-  cacheSize = app_cfg->GetInt("Peragro.CacgeManager.CacheSize", 32);
+  cacheSize = app_cfg->GetInt("Peragro.CacheManager.CacheSize", 32);
+
+  maintainFPS = app_cfg->GetInt("Peragro.CacheManager.maintainFPS", 40);
 
   return true;
 } // end UpdateOptions()
@@ -88,6 +107,8 @@ void CacheManager::Overflow()
 {
   if (GetUsedCacheSize() > cacheSize)
   {
+    cacheEntries.Compact();
+    cache.Compact();
     int delta = (int)GetUsedCacheSize() - (int)cacheSize;
     while (delta > 0)
     {
@@ -102,12 +123,11 @@ void CacheManager::Overflow()
 size_t CacheManager::GetUsedCacheSize()
 {
   size_t size = 0;
-  cache.Compact();
   CacheHash<csRef<iCacheEntry> >::GlobalIterator it(cache.GetIterator());
   while(it.HasNext())
   {
     csRef<iCacheEntry> el(it.Next());
-    if (el == 0) size += el->GetSize();
+    if (el) size += el->GetSize();
   }
   return size;
 } // end GetUsedCacheSize()
@@ -137,12 +157,10 @@ csRef<iCacheEntry> CacheManager::Get(const std::string& fileName)
   const std::string realPath(RealPath(object_reg, fileName));
 
   // Search cache.
-  cache.Compact();
   if (cache.Contains(realPath))
     return cache.Get(realPath, 0);
 
   // Search entries.
-  cacheEntries.Compact();
   if (cacheEntries.Contains(realPath))
   {
     // Entry has been used again, so move it to the cache.
@@ -170,11 +188,13 @@ void CacheManager::RemoveListener(iCacheUser* user)
   listeners.Delete(user);
 } // end RemoveListener()
 
-void CacheManager::Handle()
+bool CacheManager::HandleEvent(iEvent& ev)
 {
   for (size_t i = 0; i < listeners.GetSize(); i++)
   {
-    csRef<iCacheUser> u(listeners.Get(i));
+    iCacheUser* u = listeners.Get(i);
     u->Process();
   }
+
+  return true;
 } // end Handle()

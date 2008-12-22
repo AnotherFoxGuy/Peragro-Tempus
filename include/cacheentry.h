@@ -28,15 +28,9 @@
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
 
-#include <csutil/refcount.h>
-#include <csutil/refarr.h>
-
 #include <string>
 
-struct iObjectRegistry;
-struct iCollection;
 struct iMeshWrapper;
-class CacheManager;
 
 /**
  * The CacheEntry interface.
@@ -52,38 +46,6 @@ struct iCacheEntry : public virtual iBase
   // Convience function.
   virtual iMeshWrapper* Create(const std::string& meshName,
                                const std::string& factoryName) = 0;
-};
-
-/**
- * The iCacheUser interface.
- */
-struct iCacheUser : public csRefCount
-{
-  friend class CacheManager;
-
-private:
-  virtual void Process() 
-  {
-    for (size_t i = 0; i < loadingCacheEntries.GetSize(); i++)
-    {
-      csRef<iCacheEntry> e = loadingCacheEntries.Get(i);
-      if (e->IsFinished())
-      {
-        DoneLoading(e);
-        loadingCacheEntries.DeleteIndex(i);
-        loadedCacheEntries.Push(e);
-      }
-    }
-  }
-
-protected:
-  csRefArray<iCacheEntry> loadingCacheEntries;
-  csRefArray<iCacheEntry> loadedCacheEntries;
-
-public:
-  iCacheUser(iObjectRegistry* object_reg) {}
-  virtual ~iCacheUser () {}
-  virtual void DoneLoading(iCacheEntry* cacheEntry) = 0;
 };
 
 #endif // ICACHEENTRY_H
