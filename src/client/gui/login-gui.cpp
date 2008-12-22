@@ -249,12 +249,15 @@ namespace PT
 
       void LoginWindow::UpdateLogin()
       {
+        CEGUI::Window *passwordEditBox;
         ServerWindow* serverWindow =
           guimanager->GetWindow<ServerWindow>(SERVERWINDOW);
         const char* login = app_cfg->
           GetStr("Peragro.Server["+serverWindow->GetServerName()+"].Login");
         btn = winMgr->getWindow("LoginUI/LoginEditBox");
         btn->setText(login);
+        passwordEditBox = winMgr->getWindow("LoginUI/PasswordEditBox");
+        passwordEditBox->setText("");
 
         btn = winMgr->getWindow("LoginUI/RemeberLogin");
         bool selected;
