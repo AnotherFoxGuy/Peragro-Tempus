@@ -48,7 +48,7 @@ template<typename Ref>
 class CacheHash : public csHash<Ref, std::string>
 {
 public:
-  typedef csHash<Ref, std::string>::GlobalIterator GlobalIterator;
+  typedef typename csHash<Ref, std::string>::GlobalIterator GlobalIterator;
 
 public:
   CacheHash() {}
@@ -57,7 +57,7 @@ public:
   {
     if (this->GetSize() == 0) return false;
     //csArray<Ref<iCacheEntry> > values = this->GetAll(key);
-    csArray<Ref > values = this->GetAll(key);
+    csArray<Ref> values(this->GetAll(key));
     for (size_t i = 0; i < values.GetSize (); ++i)
       if (values[i] != 0) return true;
     return false;
@@ -66,7 +66,7 @@ public:
   /// Compact this hash by removing all weak references that have become 0. 
   void Compact()
   {
-    GlobalIterator it = this->GetIterator();
+    GlobalIterator it(this->GetIterator());
     while(it.HasNext())
     {
       iCacheEntry* el = it.Next();

@@ -88,12 +88,12 @@ CacheEntry::~CacheEntry()
   engine->RemoveCollection(fileName.c_str());
 } // end ~CacheEntry()
 
-bool CacheEntry::IsFinished()
+bool CacheEntry::IsFinished() const
 {
   return threadReturn->IsFinished();
 } // end IsFinished()
 
-bool CacheEntry::WasSuccessful()
+bool CacheEntry::WasSuccessful() const
 {
   return threadReturn->WasSuccessful();
 } // end WasSuccessful()
@@ -178,7 +178,7 @@ size_t GetSize(iMeshFactoryWrapper* w)
   return 1;
 } // end GetSize()
 
-size_t CacheEntry::GetSize()
+size_t CacheEntry::GetSize() const
 {
   if (!cachedSize)
   {

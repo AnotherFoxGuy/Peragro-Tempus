@@ -49,7 +49,7 @@ private:
   /// Whether all textures have been precached.
   bool isPrecached;
   /// Cached size of this cacheEntry.
-  size_t cachedSize;
+  mutable size_t cachedSize;
 
 private:
   /// Handles reporting warnings and errors.
@@ -84,16 +84,16 @@ public:
   std::string fileName;
 
   /// Returns true if finished loading, false otherwise.
-  bool IsFinished();
+  bool IsFinished() const;
 
   /// Returns true if successfully loaded, false otherwise.
-  bool WasSuccessful();
+  bool WasSuccessful() const;
 
   // Convience function.
   iMeshWrapper* Create(const std::string& meshName,
                        const std::string& factoryName);
 
-  size_t GetSize();
+  size_t GetSize() const;
 };
 
 #endif // FACTORY_H

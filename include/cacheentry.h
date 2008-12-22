@@ -45,9 +45,9 @@ struct iCacheEntry : public virtual iBase
 {
   SCF_INTERFACE(iCacheEntry, 1,0,0);
 
-  virtual bool IsFinished() = 0;
-  virtual bool WasSuccessful() = 0;
-  virtual size_t GetSize() = 0;
+  virtual bool IsFinished() const = 0;
+  virtual bool WasSuccessful() const = 0;
+  virtual size_t GetSize() const = 0;
 
   // Convience function.
   virtual iMeshWrapper* Create(const std::string& meshName,
@@ -59,7 +59,7 @@ struct iCacheEntry : public virtual iBase
  */
 struct iCacheUser : public csRefCount
 {
-  friend CacheManager;
+  friend class CacheManager;
 
 private:
   virtual void Process() 
