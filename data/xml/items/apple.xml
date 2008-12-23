@@ -4,7 +4,7 @@
 	<name>Apple</name>
 	<icon>set:Inventory image:apple</icon>
 	<description>An apple.</description>
-	<file>/peragro/meshes/apple/apple.xml</file>
+	<file>/peragro/art/3d_art/props/others/apple01/apple.xml</file>
 	<mesh>apple</mesh>
 	<weight>0</weight>
 </item>

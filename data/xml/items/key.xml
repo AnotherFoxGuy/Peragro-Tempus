@@ -4,7 +4,7 @@
 	<name>Key</name>
 	<icon>set:Inventory image:Key01</icon>
 	<description>A key.</description>
-	<file>/peragro/meshes/pots/tinyballpot_84_pot.xml</file>
+	<file>/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml</file>
 	<mesh>Stuff001_tinyballpot_84_pot</mesh>
 	<weight>1</weight>
 </item>

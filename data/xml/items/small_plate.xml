@@ -4,7 +4,7 @@
 	<name>Small Plate</name>
 	<icon>set:Inventory image:smallplate</icon>
 	<description>A small plate.</description>
-	<file>/peragro/meshes/plates/smallplate_64_plates.xml</file>
+	<file>/peragro/art/3d_art/props/others/stuff001/smallplate_64_plates.xml</file>
 	<mesh>Stuff001_smallplate_64_plates</mesh>
 	<weight>0</weight>
 </item>

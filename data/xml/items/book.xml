@@ -4,7 +4,7 @@
 	<name>Book</name>
 	<icon>set:Inventory image:oldbook</icon>
 	<description>A book.</description>
-	<file>/peragro/meshes/books/book.xml</file>
+	<file>/peragro/art/3d_art/props/books/book01/book.xml</file>
 	<mesh>book</mesh>
 	<weight>1</weight>
 </item>
