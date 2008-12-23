@@ -30,6 +30,8 @@
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>
 #include <iengine/engine.h>
+#include <iengine/movable.h>
+#include <iengine/camera.h>
 #include <imap/loader.h>
 
 #include <iutil/event.h>
@@ -40,7 +42,7 @@
 #include <string>
 
 struct iObjectRegistry;
-struct iEngineFrameCallback;
+struct iMovableListener;
 class csVector3;
 
 class iPointerLibrary;
@@ -143,16 +145,17 @@ private:
   /// The interior manager.
   InteriorManager* interiorManager;
 
-  struct FrameCallBack
-    : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
+  struct MovableCallBack
+    : public scfImplementation1<MovableCallBack, iCameraListener>
   {
     WorldManager* world;
-    FrameCallBack (WorldManager* w) : scfImplementationType (this) { world = w;}
-    virtual void StartFrame (iEngine* engine, iRenderView* rview);
+    MovableCallBack (WorldManager* w) : scfImplementationType (this) { world = w;}
+    virtual void NewSector (iCamera* camera, iSector* sector) {}
+    virtual void CameraMoved (iCamera* camera);
   };
-  friend struct FrameCallBack;
+  friend struct MovableCallBack;
   /// Callback to update the camera coordinates.
-  csRef<FrameCallBack> cb;
+  csRef<MovableCallBack> cb;
   /// The current coordinates of the camera.
   csVector3 camera;
 
@@ -183,9 +186,9 @@ public:
   /// Returns the interior manager.
   InteriorManager* GetInteriorManager() { return interiorManager; }
 
-  void SetCamera(iCamera* camera) {}
+  void SetCamera(iCamera* camera);
 
-  void UnSetCamera() {}
+  void UnSetCamera();
 
   /**
    * Enter the world at a horizontal (x, z) coordinate in world space.

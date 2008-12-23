@@ -20,6 +20,7 @@
 
 #include <iengine/rview.h>
 #include <iengine/camera.h>
+#include <iengine/scenenode.h>
 #include <csgeom/transfrm.h>
 #include <ivaria/reporter.h>
 #include <iutil/vfs.h>
@@ -106,13 +107,6 @@ bool WorldManager::Initialize(const std::string& name)
 WorldManager::~WorldManager()
 {
   Report(CS_REPORTER_SEVERITY_NOTIFY, "Unloading world %s", basename.c_str());
-
-  // Remove callback.
-  if (cb.IsValid())
-  {
-    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-    engine->RemoveEngineFrameCallback(cb);
-  }
 
   // Delete the cache array AND it's elements.
   if (maptilecache != 0)
@@ -410,17 +404,33 @@ void WorldManager::Tick(float dt)
   }
 } // end Tick()
 
-void WorldManager::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)
+void WorldManager::SetCamera(iCamera* camera)
+{
+  UnSetCamera();
+
+  if (!camera) return;
+
+  cb.AttachNew(new MovableCallBack(this));
+
+  camera->AddCameraListener(cb);
+
+} // end SetCamera()
+
+void WorldManager::UnSetCamera()
+{
+  if (cb.IsValid())
+    cb.Invalidate();
+} // end SetCamera()
+
+void WorldManager::MovableCallBack::CameraMoved(iCamera* camera)
 {
   if (!world)
   {
-    engine->RemoveEngineFrameCallback(this);
+    camera->RemoveCameraListener(this);
     return;
   }
 
-  iCamera* cam = rview->GetCamera();
-  if (cam)
-    world->camera = cam->GetTransform().GetOrigin();
+  world->camera = camera->GetTransform().GetOrigin();
 
   world->Tick(0);
 
@@ -458,6 +468,7 @@ void WorldManager::EnterWorld(float x, float z)
 
   EnterTile(ex, ez);
 
+  /*
   // Register a callback for the camera coordinates.
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   if (!cb.IsValid())
@@ -465,6 +476,7 @@ void WorldManager::EnterWorld(float x, float z)
     cb.AttachNew(new FrameCallBack(this));
     engine->AddEngineFrameCallback(cb);
   }
+  */
 
 } // end StartFrame()
 
