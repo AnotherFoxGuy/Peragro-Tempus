@@ -4,7 +4,7 @@
 	<effect>
 		<id>1</id>
 		<name>MoveMarker</name>
-		<file>/peragro/meshes/effects/movemarker.xml</file>
+		<file>/peragro/art/3d_art/effects/movemarker/movemarker.xml</file>
 		<mesh>movemarkerfact</mesh>
 		<duration>2000</duration>
 		<offset x="0.0" y="0.0" z="0.0"/>
@@ -13,7 +13,7 @@
 	<effect>
 		<id>2</id>
 		<name>Blood</name>
-		<file>/peragro/meshes/effects/bloodsplat.xml</file>
+		<file>/peragro/art/3d_art/effects/blood/bloodsplat.xml</file>
 		<mesh>bloodsplatfact</mesh>
 		<duration>2000</duration>
 		<offset x="0.0" y="0.0" z="0.0"/>
@@ -22,7 +22,7 @@
 	<effect>
 		<id>3</id>
 		<name>HealSpellTarget</name>
-		<file>/peragro/meshes/effects/levelup.xml</file>
+		<file>/peragro/art/3d_art/effects/levelup/levelup.xml</file>
 		<mesh>levelupfact</mesh>
 		<duration>6000</duration>
 		<offset x="0.0" y="0.0" z="0.0"/>
@@ -31,7 +31,7 @@
 	<effect>
 		<id>4</id>
 		<name>PentagramBlue</name>
-		<file>/peragro/meshes/effects/pentagram.xml</file>
+		<file>/peragro/art/3d_art/effects/penta/pentagram.xml</file>
 		<mesh>pentagramfact</mesh>
 		<duration>11000</duration>
 		<offset x="0.0" y="0.0" z="0.0"/>
