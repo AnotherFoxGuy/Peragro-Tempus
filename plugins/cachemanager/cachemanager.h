@@ -104,10 +104,10 @@ public:
   /// Returns the object registry.
   iObjectRegistry* GetObjectRegistry() { return object_reg; }
 
-  /// Returns the cache size.
+  /// Returns the cache size in bytes.
   size_t GetCacheSize() { return cacheSize; }
 
-  /// Returns the used cache size.
+  /// Returns the used cache size in bytes.
   size_t GetUsedCacheSize();
 
   /**

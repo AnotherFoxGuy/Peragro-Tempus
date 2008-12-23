@@ -39,8 +39,13 @@ struct iCacheEntry : public virtual iBase
 {
   SCF_INTERFACE(iCacheEntry, 1,0,0);
 
+  /// Returns true if finished loading, false otherwise.
   virtual bool IsFinished() const = 0;
+
+  /// Returns true if successfully loaded, false otherwise.
   virtual bool WasSuccessful() const = 0;
+
+  /// Get size of this entry in bytes.
   virtual size_t GetSize() const = 0;
 
   // Convience function.

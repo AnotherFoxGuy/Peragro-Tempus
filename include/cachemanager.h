@@ -48,10 +48,10 @@ struct iCacheManager : public virtual iBase
   /// Returns the object registry.
   virtual iObjectRegistry* GetObjectRegistry() = 0;
 
-  /// Returns the cache size.
+  /// Returns the cache size in bytes.
   virtual size_t GetCacheSize() = 0;
 
-  /// Returns the used cache size.
+  /// Returns the used cache size in bytes.
   virtual size_t GetUsedCacheSize() = 0;
 
   /**
