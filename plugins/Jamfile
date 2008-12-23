@@ -1,6 +1,7 @@
 SubDir TOP plugins ;
 
 SubInclude TOP plugins cachemanager ;
+SubInclude TOP plugins effectsmanager ;
 SubInclude TOP plugins environment ;
 SubInclude TOP plugins gui ;
 SubInclude TOP plugins sound ;

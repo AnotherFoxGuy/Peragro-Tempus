@@ -133,7 +133,17 @@ void CacheEntry::Precache()
 iMeshWrapper* CacheEntry::Create(const std::string& meshName,
                                  const std::string& factoryName)
 {
-  return 0;
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+
+  // Find the factory and turn it into a factorywrapper.
+  csRef<iMeshFactoryWrapper> fmw = engine->FindMeshFactory(factoryName.c_str(), collection);
+  if (!fmw)
+  {
+    Report(CS_REPORTER_SEVERITY_ERROR, "CacheEntry: Couldn't find factory: '%s'!", factoryName.c_str());
+    return 0;
+  }
+
+  return engine->CreateMeshWrapper(fmw, meshName.c_str(), 0, csVector3(), false);
 } // end Create()
 
 size_t GetSize(iTextureWrapper* wrapper)

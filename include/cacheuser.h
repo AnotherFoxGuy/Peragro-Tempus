@@ -42,12 +42,13 @@ class CacheManager;
 /**
  * The iCacheUser interface.
  */
-struct iCacheUser /*: public csRefCount */
+struct iCacheUser : public virtual iBase /*: public csRefCount */
 {
   friend class CacheManager;
 
 private:
   csRef<iCacheManager> cacheManager;
+  bool registered;
 
   void Process(size_t amount = ~0) 
   {
@@ -69,8 +70,23 @@ private:
         if (!loadingCacheEntries.Get(i)->WasSuccessful())
         { success = false; break;}
       DoneLoading(success);
-      cacheManager->RemoveListener(this);
+      UnRegister();
     }
+  }
+
+  void Register()
+  {
+    if (!registered)
+    {
+      cacheManager->AddListener(this);
+      registered = true;
+    }
+  }
+
+  void UnRegister()
+  {
+    cacheManager->RemoveListener(this);
+    registered = false;
   }
 
 protected:
@@ -78,7 +94,7 @@ protected:
   csRefArray<iCacheEntry> loadedCacheEntries;
 
 public:
-  iCacheUser(iObjectRegistry* object_reg, const std::string& tag) 
+  iCacheUser(iObjectRegistry* object_reg, const std::string& tag) : registered(false)
   {
     cacheManager = csQueryRegistryTagInterface<iCacheManager> (object_reg, tag.c_str());
     if (!cacheManager.IsValid())
@@ -87,18 +103,23 @@ public:
       cacheManager = csLoadPlugin<iCacheManager> (plugin_mgr, "peragro.cachemanager");
       object_reg->Register (cacheManager, tag.c_str());
     }
-    cacheManager->AddListener(this);
   }
 
-  iCacheUser(iCacheManager* cacheManager) 
+  iCacheUser(iCacheManager* cacheManager) : registered(false)
   {
     this->cacheManager = cacheManager;
-    cacheManager->AddListener(this);
   }
 
   virtual ~iCacheUser () 
   {
-    cacheManager->RemoveListener(this);
+    UnRegister();
+  }
+
+  void Load(const std::string& fileName)
+  {
+    csRef<iCacheEntry> e(cacheManager->Get(fileName));
+    loadingCacheEntries.Push(e);
+    Register();
   }
 
   virtual void Loaded(iCacheEntry* cacheEntry) = 0;

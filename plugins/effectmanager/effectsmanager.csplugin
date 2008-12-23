@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- world.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.effectsmanager</name>
+        <implementation>EffectsManager</implementation>
+        <description>EffectsManager</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

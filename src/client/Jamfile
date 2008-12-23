@@ -12,7 +12,6 @@ SubInclude TOP src client input ;
 SubInclude TOP src client serversetup ;
 SubInclude TOP src client state ;
 SubInclude TOP src client environment ;
-SubInclude TOP src client effect ;
 SubInclude TOP src client component ;
 SubInclude TOP src client cursor ;
 SubInclude TOP src client quest ;
@@ -25,7 +24,7 @@ Application peragro :
 [ Wildcard *.h *.cpp ]
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
 ExternalLibs peragro : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
-LinkWith peragro : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-effect client-cursor client-component client-questmanager client-usermanager ;
+LinkWith peragro : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-cursor client-component client-questmanager client-usermanager ;
 
 MsvcExternalLibrary peragro : "wsock32.lib" ;
 
@@ -42,7 +41,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   Application peragro_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags peragro_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine peragro_static : CS_STATIC_LINKED ;
-  LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-effect client-cursor client-component client-questmanager client-usermanager ;
+  LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-cursor client-component client-questmanager client-usermanager ;
   LinkStaticPlugins peragro_static :
    csclipboard
    loader_starbox
@@ -54,6 +53,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
    componentstats
    soundmanager
    worldloader
+   cachemanager
+   effectsmanager
   ;
 
   LinkStaticPlugins peragro_static :

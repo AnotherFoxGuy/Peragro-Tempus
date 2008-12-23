@@ -1,0 +1,7 @@
+SubDir TOP plugins effectsmanager ;
+
+Description effectsmanager : "Effects Manager" ;
+Plugin effectsmanager : [ Wildcard *.cpp *.h ] ;
+ExternalLibs effectsmanager : CRYSTAL CEL BOOST ;
+LinkWith effectsmanager : reporter ;
+

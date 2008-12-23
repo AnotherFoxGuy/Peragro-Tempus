@@ -41,7 +41,7 @@ namespace PT
 
     EventManager::Listener::~Listener()
     {
-      evmgr->pointerlib->getReporter()->Report(PT::Debug, "Listener: ~Listener()");
+      //evmgr->pointerlib->getReporter()->Report(PT::Debug, "Listener: ~Listener()");
     }
 
     bool EventManager::Listener::HandleEvent(iEvent& ev)
@@ -50,8 +50,8 @@ namespace PT
         return handler->HandleEvent(ev);
       else
       {
-        evmgr->pointerlib->getReporter()->Report(PT::Error, "Listener: handler invalid! (%s)",
-          evmgr->Retrieve(eventId));
+        //evmgr->pointerlib->getReporter()->Report(PT::Error, "Listener: handler invalid! (%s)",
+        //  evmgr->Retrieve(eventId));
         evmgr->RemoveListener(this);
         return false;
       }
@@ -111,7 +111,7 @@ namespace PT
 
     void EventManager::AddListener(csEventID eventId, EventHandlerCallback* handler)
     {
-      pointerlib->getReporter()->Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
+      //pointerlib->getReporter()->Report(PT::Debug, "Adding event listener: %s", Retrieve(eventId));
       csRef<Listener> listen; listen.AttachNew(new Listener(this, eventId, handler));
       listeners.Push(listen);
     } // end AddListener()

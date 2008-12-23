@@ -36,7 +36,7 @@ void CacheManager::Report(int severity, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
-  csReportV(object_reg, severity, "peragro.world", msg, arg);
+  csReportV(object_reg, severity, "peragro.cachemanager", msg, arg);
   va_end (arg);
 }
 
@@ -180,6 +180,7 @@ csRef<iCacheEntry> CacheManager::Get(const std::string& fileName)
 
 void CacheManager::AddListener(iCacheUser* user)
 {
+  RemoveListener(user); // Make sure there are no duplicates.
   listeners.Push(user);
 } // end AddListener()
 
@@ -197,4 +198,4 @@ bool CacheManager::HandleEvent(iEvent& ev)
   }
 
   return true;
-} // end Handle()
+} // end HandleEvent()

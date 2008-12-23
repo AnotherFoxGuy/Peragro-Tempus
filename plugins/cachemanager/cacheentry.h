@@ -93,6 +93,7 @@ public:
   iMeshWrapper* Create(const std::string& meshName,
                        const std::string& factoryName);
 
+  /// Get size of this entry in bytes.
   size_t GetSize() const;
 };
 
