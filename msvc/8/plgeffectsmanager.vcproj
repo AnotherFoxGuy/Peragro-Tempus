@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="libclient-effect"
-	ProjectGUID="{F8CE98FC-8177-92C4-86AB-A6F9C2125347}"
+	Name="plgeffectsmanager"
+	ProjectGUID="{9CBE8E1A-9CB7-7621-F3EC-77D8584F06CD}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,9 +13,10 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release8\build\libclient-effect\"
-			IntermediateDirectory="..\..\out\release8\build\libclient-effect\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release8\build\plgeffectsmanager\"
+			IntermediateDirectory="..\..\out\release8\build\plgeffectsmanager\"
+			ConfigurationType="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -26,14 +27,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\libclient-effect\client-effect.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
+				ProgramDataBaseFileName="..\..\out\release8\build\plgeffectsmanager\effectsmanager.pdb"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release8\build\libclient-effect\libclient-effect.pch"
-				AssemblerListingLocation="..\..\out\release8\build\libclient-effect\"
-				ObjectFile="..\..\out\release8\build\libclient-effect\"
+				PrecompiledHeaderFile="..\..\out\release8\build\plgeffectsmanager\plgeffectsmanager.pch"
+				AssemblerListingLocation="..\..\out\release8\build\plgeffectsmanager\"
+				ObjectFile="..\..\out\release8\build\plgeffectsmanager\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -49,22 +50,26 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\effectsmanager.dll"
+				ProgramDatabaseFile="..\..\out\release8\build\plgeffectsmanager\effectsmanager.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release8\build\plgeffectsmanager\plgeffectsmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\libclient-effect.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libclient-effect\libclient-effect.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\plgeffectsmanager\plgeffectsmanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
@@ -75,8 +80,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client\effect;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\effectsmanager;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,9 +90,10 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release8\build\libclient-effect\"
-			IntermediateDirectory="..\..\out\release8\build\libclient-effect\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release8\build\plgeffectsmanager\"
+			IntermediateDirectory="..\..\out\release8\build\plgeffectsmanager\"
+			ConfigurationType="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -98,14 +104,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\libclient-effect\client-effect.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release8\build\plgeffectsmanager\effectsmanager.pdb"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release8\build\libclient-effect\libclient-effect.pch"
-				AssemblerListingLocation="..\..\out\release8\build\libclient-effect\"
-				ObjectFile="..\..\out\release8\build\libclient-effect\"
+				PrecompiledHeaderFile="..\..\out\release8\build\plgeffectsmanager\plgeffectsmanager.pch"
+				AssemblerListingLocation="..\..\out\release8\build\plgeffectsmanager\"
+				ObjectFile="..\..\out\release8\build\plgeffectsmanager\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -121,22 +127,26 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\effectsmanager.dll"
+				ProgramDatabaseFile="..\..\out\release8\build\plgeffectsmanager\effectsmanager.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release8\build\plgeffectsmanager\plgeffectsmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\libclient-effect.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libclient-effect\libclient-effect.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\plgeffectsmanager\plgeffectsmanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
@@ -147,8 +157,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client\effect;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\effectsmanager;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,9 +167,9 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug8\build\libclient-effect\"
-			IntermediateDirectory="..\..\out\debug8\build\libclient-effect\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug8\build\plgeffectsmanager\"
+			IntermediateDirectory="..\..\out\debug8\build\plgeffectsmanager\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -170,14 +180,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8\build\libclient-effect\client-effect.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug8\build\plgeffectsmanager\effectsmanager.pdb"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug8\build\libclient-effect\libclient-effect.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\libclient-effect\"
-				ObjectFile="..\..\out\debug8\build\libclient-effect\"
+				PrecompiledHeaderFile="..\..\out\debug8\build\plgeffectsmanager\plgeffectsmanager.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\plgeffectsmanager\"
+				ObjectFile="..\..\out\debug8\build\plgeffectsmanager\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -191,22 +201,26 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\effectsmanager.dll"
+				ProgramDatabaseFile="..\..\out\debug8\build\plgeffectsmanager\effectsmanager.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug8\build\plgeffectsmanager\plgeffectsmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\libclient-effect_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libclient-effect\libclient-effect.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\plgeffectsmanager\plgeffectsmanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
@@ -217,8 +231,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client\effect;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\effectsmanager;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,9 +241,9 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug8\build\libclient-effect\"
-			IntermediateDirectory="..\..\out\debug8\build\libclient-effect\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug8\build\plgeffectsmanager\"
+			IntermediateDirectory="..\..\out\debug8\build\plgeffectsmanager\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -240,14 +254,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8\build\libclient-effect\client-effect.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug8\build\plgeffectsmanager\effectsmanager.pdb"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug8\build\libclient-effect\libclient-effect.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\libclient-effect\"
-				ObjectFile="..\..\out\debug8\build\libclient-effect\"
+				PrecompiledHeaderFile="..\..\out\debug8\build\plgeffectsmanager\plgeffectsmanager.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\plgeffectsmanager\"
+				ObjectFile="..\..\out\debug8\build\plgeffectsmanager\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -261,22 +275,26 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\effectsmanager.dll"
+				ProgramDatabaseFile="..\..\out\debug8\build\plgeffectsmanager\effectsmanager.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug8\build\plgeffectsmanager\plgeffectsmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\libclient-effect_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libclient-effect\libclient-effect.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\plgeffectsmanager\plgeffectsmanager.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
@@ -287,8 +305,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client\effect;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\plugins\effectsmanager;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -301,26 +319,30 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\effect\effect.cpp">
+				RelativePath="..\..\plugins\effectsmanager\effect.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\effect\effectsmanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\effect\factorymanager.cpp">
+				RelativePath="..\..\plugins\effectsmanager\effectsmanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\client\effect\effect.h">
+				RelativePath="..\..\plugins\effectsmanager\effect.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\effect\effectsmanager.h">
+				RelativePath="..\..\plugins\effectsmanager\effectsmanager.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\plgeffectsmanager.rc">
 			</File>
 			<File
-				RelativePath="..\..\src\client\effect\factorymanager.h">
+				RelativePath="..\..\plugins\effectsmanager\effectsmanager.csplugin">
 			</File>
 		</Filter>
 	</Files>

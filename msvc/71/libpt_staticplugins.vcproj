@@ -601,6 +601,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libeffectsmanager_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libloader_mybody_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -873,6 +898,56 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\effectsmanager\effect.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\effectsmanager\effectsmanager.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release71\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug71\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1452,6 +1527,12 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\cachemanager\cachemanager.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\effectsmanager\effect.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\effectsmanager\effectsmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\environment\loader_mybody\loader_mybody.h">

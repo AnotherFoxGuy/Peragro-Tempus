@@ -24,4 +24,6 @@ SCF_USE_STATIC_PLUGIN(component_viewbob)
 SCF_USE_STATIC_PLUGIN(componentstats)
 SCF_USE_STATIC_PLUGIN(soundmanager)
 SCF_USE_STATIC_PLUGIN(worldloader)
+SCF_USE_STATIC_PLUGIN(cachemanager)
+SCF_USE_STATIC_PLUGIN(effectsmanager)
 
