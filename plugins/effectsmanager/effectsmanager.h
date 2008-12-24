@@ -19,7 +19,7 @@
 #ifndef EFFECTSMANAGER_H
 #define EFFECTSMANAGER_H
 
-#include "include/effectmanager.h"
+#include "include/effectsmanager.h"
 
 #include <cssysdef.h>
 #include <csutil/scf_implementation.h>
