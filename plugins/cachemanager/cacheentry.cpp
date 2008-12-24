@@ -130,7 +130,7 @@ void CacheEntry::Precache()
   isPrecached = true;
 } // end Precache()
 
-iMeshWrapper* CacheEntry::Create(const std::string& meshName,
+csPtr<iMeshWrapper> CacheEntry::Create(const std::string& meshName,
                                  const std::string& factoryName)
 {
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);

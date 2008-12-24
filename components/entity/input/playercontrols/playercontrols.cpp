@@ -23,6 +23,7 @@
 #include <iutil/cfgmgr.h>
 #include <iengine/sector.h>
 #include <iutil/object.h>
+#include <iengine/mesh.h>
 
 #include <physicallayer/pl.h>
 #include <physicallayer/propfact.h>
@@ -34,7 +35,6 @@
 #include <iengine/camera.h>
 
 #include "client/cursor/cursor.h"
-#include "client/effect/effectsmanager.h"
 
 #include "common/event/eventmanager.h"
 #include "common/event/entityevent.h"

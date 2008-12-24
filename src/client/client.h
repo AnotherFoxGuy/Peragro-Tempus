@@ -76,7 +76,6 @@ namespace PT
 
   namespace Data
   {
-    class EffectDataManager;
     class SectorDataManager;
     class SkillDataManager;
     class ConnectionDataManager;
@@ -111,11 +110,6 @@ namespace PT
   {
     class EntityManager;
   } // Entity namespace
-
-  namespace Effect
-  {
-    class EffectsManager;
-  } // Effect namespace
 
   namespace Combat
   {
@@ -213,7 +207,6 @@ namespace PT
     Cursor* cursor;
 
     PT::Events::EventManager* eventManager;
-    PT::Data::EffectDataManager* effectDataManager;
     PT::Data::SectorDataManager* sectorDataManager;
     PT::Data::SkillDataManager* skillDataManager;
     PT::Data::ConnectionDataManager* connectionDataManager;
@@ -224,7 +217,6 @@ namespace PT
     PT::Environment::EnvironmentManager* environmentManager;
 
     PT::Entity::EntityManager* entityManager;
-    PT::Effect::EffectsManager* effectsManager;
     PT::Combat::CombatManager* combatManager;
     PT::Chat::ChatManager* chatManager;
     PT::Trade::TradeManager* tradeManager;

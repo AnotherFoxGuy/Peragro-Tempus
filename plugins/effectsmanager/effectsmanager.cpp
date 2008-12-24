@@ -19,8 +19,7 @@
 #include "effectsmanager.h"
 
 #include <iutil/objreg.h>
-//#include <iutil/plugin.h>
-//#include <cstool/keyval.h>
+#include <iutil/cfgmgr.h>
 
 #include <iengine/scenenode.h>
 #include <iengine/movable.h>
@@ -31,12 +30,45 @@
 #include <ivaria/decal.h>
 #include <iengine/engine.h>
 
-#include "common/event/eventmanager.h"
-#include "common/event/entityevent.h"
+#include <csutil/csevent.h>
 
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (EffectsManager)
+
+//=================================================================
+std::string EffectsManager::GetString(const iEvent* event, const char* name)
+{
+  const char* str = "";
+  if (event->Retrieve(name, str) != csEventErrNone)
+    Report(CS_REPORTER_SEVERITY_ERROR, "GetString '%s' failed!", name);
+
+  std::string text = str;
+  return text;
+}
+
+csVector3 EffectsManager::GetVector3(const iEvent* ev, const char* name)
+{
+  std::string nm = name;
+  std::string nmX = nm + "_x";
+  std::string nmY = nm + "_y";
+  std::string nmZ = nm + "_z";
+
+  float x, y, z;
+  x = y = z = 0.0f;
+
+  if (ev->Retrieve(nmX.c_str(), x) != csEventErrNone)
+    Report(CS_REPORTER_SEVERITY_ERROR, "GetVector3 failed! X attribute not present!");
+  if (ev->Retrieve(nmY.c_str(), y) != csEventErrNone)
+    Report(CS_REPORTER_SEVERITY_ERROR, "GetVector3 failed! Y attribute not present!");
+  if (ev->Retrieve(nmZ.c_str(), z) != csEventErrNone)
+    Report(CS_REPORTER_SEVERITY_ERROR, "GetVector3 failed! Z attribute not present!");
+
+  csVector3 pos(x, y, z);
+  return pos;
+}
+
+//=================================================================
 
 void EffectsManager::Report(int severity, const char* msg, ...)
 {
@@ -57,7 +89,7 @@ EffectsManager::~EffectsManager ()
     eventQueue->RemoveListener(this);
 }
 
-bool CacheManager::UpdateOptions()
+bool EffectsManager::UpdateOptions()
 {
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (object_reg);
   if (!app_cfg) return false;
@@ -73,11 +105,17 @@ bool EffectsManager::Initialize (iObjectRegistry* obj_reg)
 
   engine =  csQueryRegistry<iEngine> (obj_reg);
   if (!engine)
-    return Report(CS_REPORTER_SEVERITY_BUG, "Failed to locate 3D engine!");
+  {
+    Report(CS_REPORTER_SEVERITY_BUG, "Failed to locate 3D engine!");
+    return false;
+  }
 
   vc =  csQueryRegistry<iVirtualClock> (obj_reg);
   if (!vc)
-    return Report(CS_REPORTER_SEVERITY_BUG, "Failed to locate iVirtualClock!");
+  {
+    Report(CS_REPORTER_SEVERITY_BUG, "Failed to locate iVirtualClock!");
+    return false;
+  }
 
   eventQueue = csQueryRegistry<iEventQueue> (object_reg);
   if (!eventQueue) return false;
@@ -91,28 +129,31 @@ bool EffectsManager::Initialize (iObjectRegistry* obj_reg)
   eventQueue->RegisterListener (this, nameRegistry->GetID("crystalspace.frame"));
 
   // Register listener for atposition.
-  PT_SETUP_HANDLER
-  PT_REGISTER_LISTENER(EffectsManager, CreateEffect, "effect.atposition")
+  eventQueue->RegisterListener (this, nameRegistry->GetID("effect.atposition"));
 
   return true;
 }
 
-bool CacheManager::HandleEvent(iEvent& ev)
+bool EffectsManager::HandleEvent(iEvent& ev)
 {
-  csTicks ticks = vc->GetElapsedTicks();
-
-  HandleEffects(ticks);
+  if (ev.GetName() == nameRegistry->GetID("crystalspace.frame"))
+  {
+    csTicks ticks = vc->GetElapsedTicks();
+    HandleEffects(ticks);
+  }
+  else if (ev.GetName() == nameRegistry->GetID("effect.atposition"))
+  {
+    return CreateEffect(ev);
+  }
 
   return true;
 } // end HandleEvent()
 
 bool EffectsManager::CreateEffect (iEvent& ev)
 {
-  using namespace PT::Events;
-
-  std::string effectName = Helper::GetString(&ev, "effect");
-  csVector3 pos = EntityHelper::GetPosition(&ev);
-  std::string sectorName = Helper::GetString(&ev, "sector");
+  std::string effectName = GetString(&ev, "effect");
+  csVector3 pos = GetVector3(&ev, "position");
+  std::string sectorName = GetString(&ev, "sector");
 
   iSector* sector = engine->FindSector(sectorName.c_str());
 
@@ -137,7 +178,8 @@ void EffectsManager::HandleEffects (csTicks elapsed_ticks)
 
 PT::Data::Effect* EffectsManager::GetEffectData (const std::string& effectName)
 {
-  Data::EffectDataManager* effMgr = PointerLibrary::getInstance()->getEffectDataManager();
+  /* TODO
+  PT::Data::EffectDataManager* effMgr = PointerLibrary::getInstance()->getEffectDataManager();
   PT::Data::Effect* effect = effMgr->GetEffectByName(effectName);
 
   if (!effect)
@@ -148,6 +190,8 @@ PT::Data::Effect* EffectsManager::GetEffectData (const std::string& effectName)
   }
 
   return effect;
+  */
+  return 0;
 } // end GetEffectData()
 
 bool EffectsManager::CreateEffect (const std::string& effectName, iMeshWrapper* parent)
@@ -155,7 +199,8 @@ bool EffectsManager::CreateEffect (const std::string& effectName, iMeshWrapper* 
   PT::Data::Effect* data = GetEffectData(effectName);
   if (!data) return false;
 
-  csRef<Effect> effect (object_reg, data, parent);
+  csRef<Effect> effect;
+  effect.AttachNew(new Effect(object_reg, data, parent));
 
   // Add it to the effect array for later processing
   effects.Push (effect);
@@ -168,7 +213,8 @@ bool EffectsManager::CreateEffect (const std::string& effectName, const csVector
   PT::Data::Effect* data = GetEffectData(effectName);
   if (!data) return false;
 
-  csRef<Effect> effect (object_reg, data, pos, sector);
+  csRef<Effect> effect;
+  effect.AttachNew(new Effect(object_reg, data, pos, sector));
 
   // Add it to the effect array for later processing
   effects.Push (effect);

@@ -25,6 +25,10 @@
 #include <csutil/scf_implementation.h>
 #include <iutil/comp.h>
 
+#include <iutil/event.h>
+#include <iutil/eventh.h>
+#include <iutil/eventq.h>
+
 #include <csutil/ref.h>
 #include <iutil/virtclk.h>
 
@@ -35,14 +39,7 @@
 struct iObjectRegistry;
 struct iSector;
 struct iEvent;
-
-namespace PT
-{
-  namespace Events
-  {
-    struct EventHandlerCallback;
-  }
-}
+struct iEngine;
 
 /**
  * @ingroup effects
@@ -52,6 +49,11 @@ class EffectsManager : public scfImplementation3<EffectsManager,iEffectsManager,
 {
 private:
   bool UpdateOptions();
+
+  // TODO: copies from event.h, 
+  // make some utils that don't rely on the PT reporter?
+  std::string GetString(const iEvent* event, const char* name);
+  csVector3 GetVector3(const iEvent* ev, const char* name);
 
   /// Handles reporting warnings and errors.
   void Report(int severity, const char* msg, ...);
@@ -65,8 +67,6 @@ private:
 private:
   ///Effect instances. Instances are owned by EffectsManager.
   csRefArray<Effect> effects;
-
-  csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
   /**
    * This function is called every frame.

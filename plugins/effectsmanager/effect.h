@@ -22,6 +22,7 @@
 #include <cssysdef.h>
 #include <csutil/scf_implementation.h>
 #include <csutil/ref.h>
+#include <csutil/weakref.h>
 #include <iengine/mesh.h>
 
 #include "include/cacheuser.h"
@@ -29,13 +30,14 @@
 #include "client/data/effect/dataeffect.h"
 
 struct iObjectRegistry;
+struct iSector;
 
 /**
  * @ingroup effects
  * Helper class that holds the CS mesh and remaining time.
  * @see EffectsManager
  */
-class Effect : : public scfImplementation1<Effect,iCacheUser>
+class Effect : public iCacheUser, public csRefCount
 {
 private:
   enum EffectType
@@ -91,12 +93,12 @@ public:
    * Base constructor.
    * @param Data::Effect.
    */
-  Effect(iObjectRegistry* obj_reg, Data::Effect* eff, csVector3 position, iSector* sector);
+  Effect(iObjectRegistry* obj_reg, PT::Data::Effect* eff, csVector3 position, iSector* sector);
   /**
    * Base constructor.
    * @param Data::Effect.
    */
-  Effect(iObjectRegistry* obj_reg, Data::Effect* eff, iMeshWrapper* parent);
+  Effect(iObjectRegistry* obj_reg, PT::Data::Effect* eff, iMeshWrapper* parent);
   ~Effect();
 };
 

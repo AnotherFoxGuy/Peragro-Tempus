@@ -35,14 +35,14 @@
 #include <string>
 
 #include "include/cachemanager.h"
+#include "include/cacheentry.h"
 struct iObjectRegistry;
-struct iCacheManager;
 class CacheManager;
 
 /**
  * The iCacheUser interface.
  */
-struct iCacheUser : public virtual iBase /*: public csRefCount */
+struct iCacheUser /*: public csRefCount */
 {
   friend class CacheManager;
 

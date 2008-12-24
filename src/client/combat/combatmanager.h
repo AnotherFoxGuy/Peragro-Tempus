@@ -73,8 +73,6 @@ namespace PT
       /// Pointer array of event handling callbacks.
       csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
-      /// The effects manager.
-      PT::Effect::EffectsManager* effectsManager;
       /// The entity manager.
       PT::Entity::EntityManager* entityManager;
       /// The gui manager.

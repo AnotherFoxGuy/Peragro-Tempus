@@ -20,9 +20,11 @@
 
 #include <iengine/engine.h>
 #include <iengine/texture.h>
+#include <iengine/movable.h>
+#include <iengine/scenenode.h>
 #include <iutil/object.h>
 
-void CacheEntry::Report(int severity, const char* msg, ...)
+void Effect::Report(int severity, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -30,8 +32,8 @@ void CacheEntry::Report(int severity, const char* msg, ...)
   va_end (arg);
 }
 
-Effect::Effect(iObjectRegistry* obj_reg, Data::Effect* eff, csVector3 position, iSector* sector)
-  : scfImplementationType(this), iCacheUser(obj_reg, "peragro.effectscache"), 
+Effect::Effect(iObjectRegistry* obj_reg, PT::Data::Effect* eff, csVector3 position, iSector* sector)
+  : iCacheUser(obj_reg, "peragro.effectscache"), 
   effectType(PositionEffectType),
   pos(position), sec(sector),
   object_reg(obj_reg),
@@ -40,8 +42,8 @@ Effect::Effect(iObjectRegistry* obj_reg, Data::Effect* eff, csVector3 position, 
   Load(meshName);
 } // end Effect()
 
-Effect::Effect(iObjectRegistry* obj_reg, Data::Effect* eff, iMeshWrapper* parent)
-  : scfImplementationType(this), iCacheUser(obj_reg, "peragro.effectscache"), 
+Effect::Effect(iObjectRegistry* obj_reg, PT::Data::Effect* eff, iMeshWrapper* parent)
+  : iCacheUser(obj_reg, "peragro.effectscache"), 
   effectType(ParentEffectType),
   parentMesh(parent),
   object_reg(obj_reg),
@@ -66,7 +68,7 @@ bool Effect::Handle (csTicks elapsed_ticks)
 
 void Effect::Loaded(iCacheEntry* cacheEntry)
 {
-  if (cacheEntry->WasSuccessful)
+  if (cacheEntry->WasSuccessful())
   {
     mesh = cacheEntry->Create("effect", meshName);
     mesh->GetMovable ()->SetPosition (offset);
@@ -76,7 +78,7 @@ void Effect::Loaded(iCacheEntry* cacheEntry)
       if (parentMesh)
         mesh->QuerySceneNode()->SetParent(parentMesh->QuerySceneNode());
       else
-        Report(PT::Error, "Effect Unable to attach particle mesh %s to parent: no parent found!", effectName.c_str());
+        Report(CS_REPORTER_SEVERITY_ERROR, "Unable to attach particle mesh %s to parent: no parent found!", effectName.c_str());
       break;
     case PositionEffectType:
       csVector3 curpos = mesh->QuerySceneNode()->GetMovable()->GetFullPosition();
@@ -89,6 +91,6 @@ void Effect::Loaded(iCacheEntry* cacheEntry)
   }
   else
   {
-    timeleft = 0.0f // Shedule for removal.
+    timeleft = 0.0f; // Shedule for removal.
   }
 } // end Loaded()

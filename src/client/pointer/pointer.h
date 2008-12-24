@@ -46,7 +46,6 @@ namespace PT
     class SectorDataManager;
     class SkillDataManager;
     class ConnectionDataManager;
-    class EffectDataManager;
     class TeleportDataManager;
   } // Data namespace
 
@@ -60,11 +59,6 @@ namespace PT
     class EntityManager;
     class PlayerEntity;
   } // Entity namespace
-
-  namespace Effect
-  {
-    class EffectsManager;
-  } // Effect namespace
 
   namespace Combat
   {
@@ -109,7 +103,6 @@ private:
   Cursor* cursor;
 
   PT::Events::EventManager* eventManager;
-  PT::Data::EffectDataManager* effectDataManager;
   PT::Data::SectorDataManager* sectorDataManager;
   PT::Data::SkillDataManager* skillDataManager;
   PT::Data::ConnectionDataManager* connectionDataManager;
@@ -118,7 +111,6 @@ private:
   PT::GUI::GUIManager* guiManager;
   PT::StateManager* stateManager;
   PT::Entity::EntityManager* entityManager;
-  PT::Effect::EffectsManager* effectsManager;
   PT::Combat::CombatManager* combatManager;
   PT::Chat::ChatManager* chatManager;
   PT::Component::ComponentManager* componentManager;
@@ -140,7 +132,6 @@ public:
     cursor = 0;
 
     eventManager = 0;
-    effectDataManager = 0;
     sectorDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
@@ -148,7 +139,6 @@ public:
     guiManager = 0;
     stateManager = 0;
     entityManager = 0;
-    effectsManager = 0;
     combatManager = 0;
     chatManager = 0;
     componentManager = 0;
@@ -184,9 +174,6 @@ public:
   void setConnectionDataManager(PT::Data::ConnectionDataManager* connectionDataManager) { this->connectionDataManager = connectionDataManager; }
   PT::Data::ConnectionDataManager* getConnectionDataManager() { return this->connectionDataManager; }
 
-  void setEffectDataManager(PT::Data::EffectDataManager* effectDataManager) { this->effectDataManager = effectDataManager; }
-  PT::Data::EffectDataManager* getEffectDataManager() { return this->effectDataManager; }
-
   void setTeleportDataManager(PT::Data::TeleportDataManager* teleportDataManager) { this->teleportDataManager = teleportDataManager; }
   PT::Data::TeleportDataManager* getTeleportDataManager() { return this->teleportDataManager; }
 
@@ -198,9 +185,6 @@ public:
 
   void setEntityManager(PT::Entity::EntityManager* entityManager) { this->entityManager = entityManager; }
   PT::Entity::EntityManager* getEntityManager() { return this->entityManager; }
-
-  void setEffectsManager(PT::Effect::EffectsManager* effectsManager) { this->effectsManager = effectsManager; }
-  PT::Effect::EffectsManager* getEffectsManager() { return this->effectsManager; }
 
   void setCombatManager(PT::Combat::CombatManager* combatManager) { this->combatManager = combatManager; }
   PT::Combat::CombatManager* getCombatManager() { return this->combatManager; }

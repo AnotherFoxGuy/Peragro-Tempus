@@ -21,6 +21,8 @@
 #include <iutil/objreg.h>
 #include <imap/loader.h>
 
+#include <iengine/mesh.h>
+
 #include <imesh/genmesh.h>
 #include <imesh/gmeshskel2.h>
 #include <imesh/skeleton.h>
@@ -43,7 +45,7 @@
 #include "client/data/skill/skill.h"
 #include "client/data/skill/skilldatamanager.h"
 
-#include "plugins/effectsmanager/effectsmanager.h"
+#include "include/effectsmanager.h"
 
 #include "client/entity/entity.h"
 #include "client/entity/entitymanager.h"
@@ -85,7 +87,6 @@ namespace PT
     bool CombatManager::Initialize()
     {
       entityManager = PointerLibrary::getInstance()->getEntityManager();
-      effectsManager = PointerLibrary::getInstance()->getEffectsManager();
       guiManager = PointerLibrary::getInstance()->getGUIManager();
       skillManager = PointerLibrary::getInstance()->getSkillDataManager();
       network = PointerLibrary::getInstance()->getNetwork();
@@ -98,9 +99,6 @@ namespace PT
 
       if (!entityManager) return Report(PT::Bug,
         "CombatManager: Failed to locate ptEntityManager plugin");
-
-      if (!effectsManager) return Report(PT::Bug,
-        "CombatManager: Failed to locate EffectsManager plugin");
 
       if (!guiManager) return Report(PT::Bug,
         "CombatManager: Failed to locate GUIManager plugin");
@@ -234,7 +232,7 @@ namespace PT
       // Damage is positive, we got hurt.
       if (damage > 0)
       {
-        effectsManager->CreateEffect("Blood", GetMesh(target));
+        //effectsManager->CreateEffect("Blood", GetMesh(target));
         if (target->GetType() == PT::Common::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*) target)->PlayAnimation("hit", 0.1f);
@@ -243,12 +241,12 @@ namespace PT
       // Damage is negative, we got healed.
       else if (damage < 0)
       {
-        effectsManager->CreateEffect("Heal", GetMesh(target));
+        //effectsManager->CreateEffect("Heal", GetMesh(target));
         //target->SetAction("heal");
       }
       else if (damage == 0)
       {
-        effectsManager->CreateEffect("Deflect", GetMesh(target));
+        //effectsManager->CreateEffect("Deflect", GetMesh(target));
         //target->SetAction("deflect");
       }
 
@@ -261,7 +259,7 @@ namespace PT
     {
       using namespace Entity;
       CharacterEntity *character;
-      effectsManager->CreateEffect("Die", GetMesh(target));
+      //effectsManager->CreateEffect("Die", GetMesh(target));
       if (target->GetType() == Common::Entity::PCEntityType ||
           target->GetType() == Common::Entity::NPCEntityType ||
           target->GetType() == Common::Entity::PlayerEntityType)
@@ -283,7 +281,7 @@ namespace PT
         return;
       }
 
-      effectsManager->CreateEffect("Levelup", GetMesh(target));
+      //effectsManager->CreateEffect("Levelup", GetMesh(target));
       //guiManager->GetCombatLog()->AddMessage("%s has gained a level.",
       //  target->GetName());
 
@@ -365,7 +363,7 @@ namespace PT
 
       if (skill)
       {
-        effectsManager->CreateEffect(skill->GetEffects().caster.c_str(), GetMesh(caster));
+        //effectsManager->CreateEffect(skill->GetEffects().caster.c_str(), GetMesh(caster));
         caststring = skill->GetStartString();
         if (caster->GetType() == PT::Common::Entity::PlayerEntityType ||
             caster->GetType() == PT::Common::Entity::PCEntityType)
@@ -411,7 +409,7 @@ namespace PT
 
       if (skill)
       {
-        effectsManager->CreateEffect(skill->GetEffects().target.c_str(), GetMesh(target));
+        //effectsManager->CreateEffect(skill->GetEffects().target.c_str(), GetMesh(target));
         caststring = skill->GetCompleteString();
         if (target->GetType() == PT::Common::Entity::PlayerEntityType ||
             target->GetType() == PT::Common::Entity::PCEntityType)

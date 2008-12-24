@@ -69,7 +69,6 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 #include "client/input/inputmanager.h"
-#include "client/effect/effectsmanager.h"
 #include "client/data/effect/effectdatamanager.h"
 #include "client/data/connection/connectiondatamanager.h"
 #include "client/serversetup/serversetupmanager.h"
@@ -96,6 +95,7 @@
 
 #include "include/world.h"
 #include "include/soundmanager.h"
+#include "include/effectsmanager.h"
 
 #include "imystarbox.h"
 
@@ -118,7 +118,6 @@ namespace PT
     cursor = 0;
 
     eventManager = 0;
-    effectDataManager = 0;
     sectorDataManager = 0;
     skillDataManager = 0;
     connectionDataManager = 0;
@@ -129,7 +128,6 @@ namespace PT
     // Don't set environmentManager = 0;
 
     entityManager = 0;
-    effectsManager = 0;
     combatManager = 0;
     chatManager = 0;
     tradeManager = 0;
@@ -152,7 +150,6 @@ namespace PT
 
     // Don't delete eventManager, that is taken care of by the boost::shared_ptr
     // in struct PT:Events::EventManager::Listener
-    delete effectDataManager;
     delete sectorDataManager;
     delete skillDataManager;
     delete connectionDataManager;
@@ -163,7 +160,6 @@ namespace PT
     // Don't delete environmentManager;
 
     delete entityManager;
-    delete effectsManager;
     delete combatManager;
     delete chatManager;
     delete tradeManager;
@@ -179,8 +175,6 @@ namespace PT
   {
     csTicks ticks = vc->GetElapsedTicks();
     timer += ticks;
-
-    effectsManager->HandleEffects(ticks);
 
     if (limitFPS > 0)
     {
@@ -319,12 +313,6 @@ namespace PT
       return Report(PT::Error, "Failed to initialize UserManager!");
     pointerlib.setUserManager(userManager);
 
-    // Create and Initialize the EffectDataManager.
-    effectDataManager = new PT::Data::EffectDataManager (&pointerlib);
-    if (!effectDataManager->parse())
-      return Report(PT::Error, "Failed to initialize EffectDataManager!");
-    pointerlib.setEffectDataManager(effectDataManager);
-
     // Create and Initialize the SectorDataManager.
     sectorDataManager = new PT::Data::SectorDataManager (&pointerlib);
     if (!sectorDataManager->parse())
@@ -390,12 +378,6 @@ namespace PT
     if (!entityManager->Initialize())
       return Report(PT::Error, "Failed to initialize EntityManager!");
     pointerlib.setEntityManager(entityManager);
-
-    // Create and Initialize the EffectsManager.
-    effectsManager = new PT::Effect::EffectsManager ();
-    if (!effectsManager->Initialize())
-      return Report(PT::Error, "Failed to initialize EffectsManager!");
-    pointerlib.setEffectsManager(effectsManager);
 
     // Create and Initialize the CombatManager.
     combatManager = new PT::Combat::CombatManager ();

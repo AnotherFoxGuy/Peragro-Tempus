@@ -49,7 +49,7 @@ struct iCacheEntry : public virtual iBase
   virtual size_t GetSize() const = 0;
 
   // Convience function.
-  virtual iMeshWrapper* Create(const std::string& meshName,
+  virtual csPtr<iMeshWrapper> Create(const std::string& meshName,
                                const std::string& factoryName) = 0;
 };
 

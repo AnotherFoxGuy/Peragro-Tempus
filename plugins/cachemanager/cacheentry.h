@@ -90,7 +90,7 @@ public:
   bool WasSuccessful() const;
 
   // Convience function.
-  iMeshWrapper* Create(const std::string& meshName,
+  csPtr<iMeshWrapper> Create(const std::string& meshName,
                        const std::string& factoryName);
 
   /// Get size of this entry in bytes.
