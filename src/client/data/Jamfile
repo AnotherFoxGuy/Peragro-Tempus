@@ -2,7 +2,6 @@ SubDir TOP src client data ;
 
 SubInclude TOP src client data connection ;
 SubInclude TOP src client data door ;
-SubInclude TOP src client data effect ;
 SubInclude TOP src client data item ;
 SubInclude TOP src client data npc ;
 SubInclude TOP src client data sector ;
@@ -16,7 +15,6 @@ Library client-data :
   [ Wildcard *.h *.cpp ]
   [ Wildcard [ ConcatDirs connection ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs door ] : *.h *.cpp ]
-  [ Wildcard [ ConcatDirs effect ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs item ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs sector ] : *.h *.cpp ]

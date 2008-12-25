@@ -35,24 +35,30 @@ class csVector3;
 struct iEffectsManager : public virtual iBase
 {
   /**
+   * @param fileName From where to load the effect templates.
+   * @return True if successful, false if an error occured.
+   */
+  virtual bool LoadEffectTemplates(const std::string& fileName) = 0;
+
+  /**
    * @param effectName Unique name for the wanted effect.
    * @param parent iMeshWrapper to bind this effect to.
    * @return True if successful, false if an error occured.
    */
-  bool CreateEffect (const std::string& effectName, iMeshWrapper* parent);
+  virtual bool CreateEffect (const std::string& effectName, iMeshWrapper* parent) = 0;
 
   /**
    * @param effectName Unique name for the wanted effect.
    * @param pos Position to where to create this effect.
    * @return True if successful, false if an error occured.
    */
-  bool CreateEffect (const std::string& effectName, const csVector3& pos, iSector* sector = 0);
+  virtual bool CreateEffect (const std::string& effectName, const csVector3& pos, iSector* sector = 0) = 0;
 
   /**
    * @param pos Position to where to create this effect.
    * @return True if successful, false if an error occured.
    */
-  bool CreateDecal (csVector3 pos);
+  virtual bool CreateDecal (csVector3 pos) = 0;
 
 };
 

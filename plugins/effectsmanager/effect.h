@@ -27,10 +27,10 @@
 
 #include "include/cacheuser.h"
 
-#include "client/data/effect/dataeffect.h"
-
 struct iObjectRegistry;
 struct iSector;
+
+class EffectTemplate;
 
 /**
  * @ingroup effects
@@ -93,12 +93,12 @@ public:
    * Base constructor.
    * @param Data::Effect.
    */
-  Effect(iObjectRegistry* obj_reg, PT::Data::Effect* eff, csVector3 position, iSector* sector);
+  Effect(iObjectRegistry* obj_reg, EffectTemplate* t, csVector3 position, iSector* sector);
   /**
    * Base constructor.
    * @param Data::Effect.
    */
-  Effect(iObjectRegistry* obj_reg, PT::Data::Effect* eff, iMeshWrapper* parent);
+  Effect(iObjectRegistry* obj_reg, EffectTemplate* t, iMeshWrapper* parent);
   ~Effect();
 };
 

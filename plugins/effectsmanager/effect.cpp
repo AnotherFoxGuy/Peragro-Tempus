@@ -24,6 +24,8 @@
 #include <iengine/scenenode.h>
 #include <iutil/object.h>
 
+#include "effecttemplate.h"
+
 void Effect::Report(int severity, const char* msg, ...)
 {
   va_list arg;
@@ -32,22 +34,22 @@ void Effect::Report(int severity, const char* msg, ...)
   va_end (arg);
 }
 
-Effect::Effect(iObjectRegistry* obj_reg, PT::Data::Effect* eff, csVector3 position, iSector* sector)
+Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, csVector3 position, iSector* sector)
   : iCacheUser(obj_reg, "peragro.effectscache"), 
   effectType(PositionEffectType),
   pos(position), sec(sector),
   object_reg(obj_reg),
-  timeleft(eff->GetDuration()), meshName(eff->GetMeshName()), offset(eff->GetOffset())
+  timeleft(t->GetDuration()), meshName(t->GetMeshName()), offset(t->GetOffset())
 {
   Load(meshName);
 } // end Effect()
 
-Effect::Effect(iObjectRegistry* obj_reg, PT::Data::Effect* eff, iMeshWrapper* parent)
+Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, iMeshWrapper* parent)
   : iCacheUser(obj_reg, "peragro.effectscache"), 
   effectType(ParentEffectType),
   parentMesh(parent),
   object_reg(obj_reg),
-  timeleft(eff->GetDuration()), meshName(eff->GetMeshName()), offset(eff->GetOffset())
+  timeleft(t->GetDuration()), meshName(t->GetMeshName()), offset(t->GetOffset())
 {
   Load(meshName);
 } // end Effect()

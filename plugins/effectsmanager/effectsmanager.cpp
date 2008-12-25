@@ -20,6 +20,8 @@
 
 #include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>
+#include <iutil/vfs.h>
+#include <iutil/document.h>
 
 #include <iengine/scenenode.h>
 #include <iengine/movable.h>
@@ -31,6 +33,9 @@
 #include <iengine/engine.h>
 
 #include <csutil/csevent.h>
+
+#include "effecttemplate.h"
+#include "effect.h"
 
 CS_IMPLEMENT_PLUGIN
 
@@ -132,7 +137,56 @@ bool EffectsManager::Initialize (iObjectRegistry* obj_reg)
   eventQueue->RegisterListener (this, nameRegistry->GetID("effect.atposition"));
 
   return true;
-}
+} // end Initialize()
+
+bool EffectsManager::LoadEffectTemplates(const std::string& fileName)
+{
+  csRef<iVFS> vfs = csQueryRegistry<iVFS>(object_reg);
+  if (!vfs.IsValid())
+  {
+    Report(CS_REPORTER_SEVERITY_BUG, "Failed to locate VFS!\n");
+    return false;
+  }
+
+  csRef<iDataBuffer> xmlfile = vfs->ReadFile(fileName.c_str());
+  if (!xmlfile.IsValid())
+  {
+    Report(CS_REPORTER_SEVERITY_ERROR, "Can't load file '%s'!\n", fileName.c_str());
+    return false;
+  }
+
+  csRef<iDocumentSystem> docsys(csQueryRegistry<iDocumentSystem>(object_reg));
+  csRef<iDocument> doc(docsys->CreateDocument());
+
+  const char* error = doc->Parse(xmlfile, true);
+  if (error)
+  {
+    Report(CS_REPORTER_SEVERITY_ERROR, "'%s'!\n", error);
+    return false;
+  }
+
+  csRef<iDocumentNode> xml = doc->GetRoot();
+  xml = xml->GetNode("effects");
+  if (!xml.IsValid()) return false;
+
+  csRef<iDocumentNodeIterator> it(xml->GetNodes("effect"));
+  while (it->HasNext())
+  {
+    csRef<iDocumentNode> node(it->Next());
+    if (!LoadEffectTemplate(node)) return false;
+  }
+
+  return true;
+} // end LoadEffectTemplates()
+
+bool EffectsManager::LoadEffectTemplate(iDocumentNode* node)
+{
+  csRef<EffectTemplate> effect;
+  effect.AttachNew(new EffectTemplate(node));
+  effectTemplates.PutUnique(effect->GetName(), effect);
+
+  return true;
+} // end LoadEffectTemplate()
 
 bool EffectsManager::HandleEvent(iEvent& ev)
 {
@@ -176,27 +230,21 @@ void EffectsManager::HandleEffects (csTicks elapsed_ticks)
   }
 } // end HandleEffects()
 
-PT::Data::Effect* EffectsManager::GetEffectData (const std::string& effectName)
+EffectTemplate* EffectsManager::GetEffectTemplate (const std::string& effectName)
 {
-  /* TODO
-  PT::Data::EffectDataManager* effMgr = PointerLibrary::getInstance()->getEffectDataManager();
-  PT::Data::Effect* effect = effMgr->GetEffectByName(effectName);
-
-  if (!effect)
+  if (effectTemplates.In(effectName))
+    return effectTemplates.Get(effectName, 0);
+  else
   {
-    Report(CS_REPORTER_SEVERITY_ERROR, "EffectsManager: No such effect: ' %s ' !",
+    Report(CS_REPORTER_SEVERITY_ERROR, "No such EffectTemplate: '%s' !",
       effectName.c_str());
     return 0;
   }
-
-  return effect;
-  */
-  return 0;
 } // end GetEffectData()
 
 bool EffectsManager::CreateEffect (const std::string& effectName, iMeshWrapper* parent)
 {
-  PT::Data::Effect* data = GetEffectData(effectName);
+  csRef<EffectTemplate> data = GetEffectTemplate(effectName);
   if (!data) return false;
 
   csRef<Effect> effect;
@@ -210,7 +258,7 @@ bool EffectsManager::CreateEffect (const std::string& effectName, iMeshWrapper* 
 
 bool EffectsManager::CreateEffect (const std::string& effectName, const csVector3& pos, iSector* sector)
 {
-  PT::Data::Effect* data = GetEffectData(effectName);
+  csRef<EffectTemplate> data = GetEffectTemplate(effectName);
   if (!data) return false;
 
   csRef<Effect> effect;

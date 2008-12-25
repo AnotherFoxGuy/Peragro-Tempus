@@ -30,16 +30,33 @@
 #include <iutil/eventq.h>
 
 #include <csutil/ref.h>
+#include <csutil/refarr.h>
 #include <iutil/virtclk.h>
 
 #include <string>
 
-#include "effect.h"
+class EffectTemplate;
+class Effect;
 
 struct iObjectRegistry;
 struct iSector;
 struct iEvent;
 struct iEngine;
+struct iDocumentNode;
+
+//-------------------------------------------------------------
+class csHashComputerSTD
+{
+public:
+  static uint ComputeHash (const std::string& key)
+  {
+    return csHashCompute (key.c_str());
+  }
+};
+
+template<>
+class csHashComputer<std::string> : public csHashComputerSTD {};
+//-------------------------------------------------------------
 
 /**
  * @ingroup effects
@@ -75,12 +92,16 @@ private:
    */
   void HandleEffects(csTicks elapsed_ticks);
 
+  /// Effect templates.
+  csHash<csRef<EffectTemplate>, std::string> effectTemplates;
+  bool LoadEffectTemplate(iDocumentNode* node);
+
   /**
-   * Looks up an effect by name in the EffectDataManager.
+   * Looks up an effect template by name.
    * @param effectName Unique name for the wanted effect.
    * @return Pointer to the created iMeshWrapper, 0 if an error occured.
    */
-  PT::Data::Effect* GetEffectData (const std::string& effectName);
+  EffectTemplate* GetEffectTemplate (const std::string& effectName);
 
   bool CreateEffect (iEvent& ev);
 
@@ -107,6 +128,12 @@ public:
    * @return True if successful, false if an error occured.
    */
   bool Initialize (iObjectRegistry* obj_reg);
+
+  /**
+   * @param fileName From where to load the effect templates.
+   * @return True if successful, false if an error occured.
+   */
+  bool LoadEffectTemplates(const std::string& fileName);
 
   /**
    * @param effectName Unique name for the wanted effect.

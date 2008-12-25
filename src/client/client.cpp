@@ -69,7 +69,6 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 #include "client/input/inputmanager.h"
-#include "client/data/effect/effectdatamanager.h"
 #include "client/data/connection/connectiondatamanager.h"
 #include "client/serversetup/serversetupmanager.h"
 #include "client/combat/combatmanager.h"
@@ -426,6 +425,15 @@ namespace PT
     }
     else
         Report(PT::Error, "Failed to load the iSoundManager!");
+
+    csRef<iEffectsManager> effectsMananger = csLoadPlugin<iEffectsManager> (plugin_mgr, "peragro.effectsmanager");
+    if (effectsMananger.IsValid())
+    {
+      object_reg->Register (effectsMananger, "iEffectsManager");
+      effectsMananger->LoadEffectTemplates("/peragro/xml/effects/effects.xml");
+    }
+    else
+        Report(PT::Error, "Failed to load the iEffectsManager!");
 
     //Listen for events.
     PT_SETUP_HANDLER
