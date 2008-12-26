@@ -35,27 +35,47 @@ void Effect::Report(int severity, const char* msg, ...)
 }
 
 Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, csVector3 position, iSector* sector)
-  : iCacheUser(obj_reg, "peragro.effectscache"), 
+  : iCacheUser(obj_reg), 
   effectType(PositionEffectType),
   pos(position), sec(sector),
   object_reg(obj_reg),
-  timeleft(t->GetDuration()), meshName(t->GetMeshName()), offset(t->GetOffset())
+  timeleft(t->GetDuration()), offset(t->GetOffset()),
+  fileName(t->GetMeshFile()), meshName(t->GetMeshName())
 {
-  Load(meshName);
+  Load(fileName);
 } // end Effect()
 
 Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, iMeshWrapper* parent)
-  : iCacheUser(obj_reg, "peragro.effectscache"), 
+  : iCacheUser(obj_reg), 
   effectType(ParentEffectType),
   parentMesh(parent),
   object_reg(obj_reg),
-  timeleft(t->GetDuration()), meshName(t->GetMeshName()), offset(t->GetOffset())
+  timeleft(t->GetDuration()), offset(t->GetOffset()),
+  fileName(t->GetMeshFile()), meshName(t->GetMeshName())
 {
-  Load(meshName);
+  Load(fileName);
 } // end Effect()
 
 Effect::~Effect()
 {
+  if (mesh) 
+  {
+    // Effect is only ref holder, don't have to do anything.
+    if (mesh->GetRefCount() == 1) return; 
+
+    // Remove from any collections.
+    if (mesh->QueryObject())
+      if (mesh->QueryObject()->GetObjectParent())
+        mesh->QueryObject()->GetObjectParent()->ObjRemove(mesh->QueryObject());
+
+    // Remove from sectors and any parent meshes.
+    if (mesh->GetMovable())
+    {
+      mesh->GetMovable()->ClearSectors();
+      mesh->GetMovable()->GetSceneNode()->SetParent(0);
+      mesh->GetMovable()->UpdateMove();
+    }
+  }
 } // end ~Effect()
 
 bool Effect::Handle (csTicks elapsed_ticks)

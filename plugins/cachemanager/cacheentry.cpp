@@ -67,18 +67,14 @@ CacheEntry::CacheEntry(const std::string& fileName, iObjectRegistry* object_reg)
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   collection = engine->CreateCollection(fileName.c_str());
 
-  // Seperate the path of the filename.
-  size_t p = fileName.find_last_of("/");
-  std::string path = fileName.substr(0,p+1);
-  std::string file = fileName.substr(p+1,fileName.length());
-
   csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg);
   if (!loader) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate Loader!");
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
+  //csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  //if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
 
-  vfs->SetSyncDir(path.c_str());
-  threadReturn = loader->LoadLibraryFile(file.c_str(), collection);
+  // TODO: What if its not a full path?
+  // just vfs->PushDir() won't work since its being loaded in another thread.
+  threadReturn = loader->LoadLibraryFile(fileName.c_str(), collection);
 } // end CacheEntry()
 
 CacheEntry::~CacheEntry()
@@ -146,7 +142,7 @@ csPtr<iMeshWrapper> CacheEntry::Create(const std::string& meshName,
   return engine->CreateMeshWrapper(fmw, meshName.c_str(), 0, csVector3(), false);
 } // end Create()
 
-size_t GetSize(iTextureWrapper* wrapper)
+size_t GetSize(iTextureWrapper* wrapper, iObjectRegistry* object_reg)
 {
   if (wrapper->GetTextureHandle())
   {
@@ -158,7 +154,7 @@ size_t GetSize(iTextureWrapper* wrapper)
   return 1;
 } // end GetSize()
 
-size_t GetSize(iMeshFactoryWrapper* w)
+size_t GetSize(iMeshFactoryWrapper* w, iObjectRegistry* object_reg)
 {
   size_t size = 0;
 
@@ -166,7 +162,7 @@ size_t GetSize(iMeshFactoryWrapper* w)
   for (size_t i = 0; i < (size_t)children->GetCount(); i++)
   {
     csRef<iMeshFactoryWrapper> c = children->Get((int)i);
-    size += GetSize(c);
+    size += GetSize(c, object_reg);
   }
 
   if (w->GetMeshObjectFactory())
@@ -174,7 +170,8 @@ size_t GetSize(iMeshFactoryWrapper* w)
     iObjectModel* o = w->GetMeshObjectFactory()->GetObjectModel();
     if (o)
     {
-      csStringID id;
+      csRef<iStringSet> strings = csQueryRegistryTagInterface<iStringSet> (object_reg, "crystalspace.shared.stringset");
+      csStringID id = strings->Request ("base");
       iTriangleMesh* m = o->GetTriangleData(id);
       if (m)
       {
@@ -198,11 +195,11 @@ size_t CacheEntry::GetSize() const
       csRef<iObject> obj = iter->Next();
       {
         csRef<iTextureWrapper> w(scfQueryInterfaceSafe<iTextureWrapper>(obj));
-        if (w) { cachedSize += ::GetSize(w); continue;}
+        if (w) { cachedSize += ::GetSize(w, object_reg); continue;}
       }
       {
         csRef<iMeshFactoryWrapper> w(scfQueryInterfaceSafe<iMeshFactoryWrapper>(obj));
-        if (w) { cachedSize += ::GetSize(w); continue;}
+        if (w) { cachedSize += ::GetSize(w, object_reg); continue;}
       }
 
     } // end while

@@ -95,6 +95,7 @@
 #include "include/world.h"
 #include "include/soundmanager.h"
 #include "include/effectsmanager.h"
+#include "include/cachemanager.h"
 
 #include "imystarbox.h"
 
@@ -224,6 +225,9 @@ namespace PT
 
     // Paint the interface over the engine
     if (guiManager) guiManager->Render();
+
+    //csRef<iCacheManager> m = csQueryRegistry<iCacheManager> (object_reg);
+    //if (m) printf("Cache %uKB/%uKB\n", m->GetUsedCacheSize()/1024, m->GetCacheSize()/1024);
   }
 
   bool Client::OnInitialize(int argc, char* argv[])

@@ -94,7 +94,7 @@ protected:
   csRefArray<iCacheEntry> loadedCacheEntries;
 
 public:
-  iCacheUser(iObjectRegistry* object_reg, const std::string& tag) : registered(false)
+  iCacheUser(iObjectRegistry* object_reg, const std::string& tag = "iCacheManager") : registered(false)
   {
     cacheManager = csQueryRegistryTagInterface<iCacheManager> (object_reg, tag.c_str());
     if (!cacheManager.IsValid())

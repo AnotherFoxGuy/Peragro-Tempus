@@ -34,6 +34,8 @@ class csVector3;
  */
 struct iEffectsManager : public virtual iBase
 {
+  SCF_INTERFACE(iEffectsManager, 1,0,0);
+
   /**
    * @param fileName From where to load the effect templates.
    * @return True if successful, false if an error occured.

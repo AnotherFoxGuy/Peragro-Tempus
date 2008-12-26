@@ -59,10 +59,12 @@ private:
   iObjectRegistry* object_reg;
   ///iMeshWrapper - CS mesh of the effect.
   csRef<iMeshWrapper> mesh;
-  /// meshName
+  /// effectName
   std::string effectName;
   ///Remaining time on the effect till destruction.
   float timeleft;
+  /// fileName
+  std::string fileName;
   /// meshName
   std::string meshName;
   /// offset
