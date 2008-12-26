@@ -67,7 +67,7 @@ private:
     {
       bool success = true;
       for (size_t i = 0; i < loadedCacheEntries.GetSize(); i++)
-        if (!loadingCacheEntries.Get(i)->WasSuccessful())
+        if (!loadedCacheEntries.Get(i)->WasSuccessful())
         { success = false; break;}
       DoneLoading(success);
       UnRegister();

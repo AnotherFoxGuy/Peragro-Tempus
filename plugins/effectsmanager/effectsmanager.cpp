@@ -183,6 +183,12 @@ bool EffectsManager::LoadEffectTemplate(iDocumentNode* node)
 {
   csRef<EffectTemplate> effect;
   effect.AttachNew(new EffectTemplate(node));
+
+  if (effectTemplates.In(effect->GetName()))
+    Report(CS_REPORTER_SEVERITY_WARNING, 
+            "EffectTemplate with name: '%s' already present, replaced!",
+            effect->GetName().c_str());
+
   effectTemplates.PutUnique(effect->GetName(), effect);
 
   return true;
