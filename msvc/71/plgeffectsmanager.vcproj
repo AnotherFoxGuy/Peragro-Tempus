@@ -334,6 +334,9 @@
 			<File
 				RelativePath="..\..\plugins\effectsmanager\effectsmanager.h">
 			</File>
+			<File
+				RelativePath="..\..\plugins\effectsmanager\effecttemplate.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

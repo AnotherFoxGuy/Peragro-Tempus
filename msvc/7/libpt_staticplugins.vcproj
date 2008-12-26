@@ -1535,6 +1535,9 @@
 				RelativePath="..\..\plugins\effectsmanager\effectsmanager.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\effectsmanager\effecttemplate.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\environment\loader_mybody\loader_mybody.h">
 			</File>
 			<File

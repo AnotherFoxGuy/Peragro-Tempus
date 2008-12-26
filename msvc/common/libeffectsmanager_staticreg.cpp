@@ -16,19 +16,19 @@
 namespace csStaticPluginInit
 {
 static char const metainfo_effectsmanager[] =
-"<?xml version=\"1.0\"?>"
-"<!-- world.csplugin -->"
-"<plugin>"
-"  <scf>"
-"    <classes>"
-"      <class>"
-"        <name>peragro.effectsmanager</name>"
-"        <implementation>EffectsManager</implementation>"
-"        <description>EffectsManager</description>"
-"      </class>"
-"    </classes>"
-"  </scf>"
-"</plugin>"
+"<?xml version=\"1.0\"?>"
+"<!-- effectsmanager.csplugin -->"
+"<plugin>"
+"  <scf>"
+"    <classes>"
+"      <class>"
+"        <name>peragro.effectsmanager</name>"
+"        <implementation>EffectsManager</implementation>"
+"        <description>EffectsManager</description>"
+"      </class>"
+"    </classes>"
+"  </scf>"
+"</plugin>"
 ;
   #ifndef EffectsManager_FACTORY_REGISTER_DEFINED 
   #define EffectsManager_FACTORY_REGISTER_DEFINED 
