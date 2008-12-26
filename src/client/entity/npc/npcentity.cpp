@@ -33,6 +33,9 @@
 #include "common/event/interfaceevent.h"
 #include "common/event/entityevent.h"
 
+#include "client/component/componentmanager.h"
+#include "include/client/component/entity/mesh/mesh.h"
+
 namespace PT
 {
   namespace Entity
@@ -57,21 +60,15 @@ namespace PT
       buffer.Format("npc_%d", id);
       celEntity->SetName(buffer);
 
+      // Load and assign the mesh to the entity.
+      PT::Component::ComponentManager* componentManager =
+        PointerLibrary::getInstance()->getComponentManager();
+      ADD_COMPONENT(componentManager, iMesh, "peragro.entity.mesh")
+
       pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
       pl->CreatePropertyClass(celEntity, "pcmove.linear");
-
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity,
         iPcLinearMovement);
-
-      // Load and assign the mesh to the entity.
-      vfs->ChDir("/cellib/objects/");
-      if (!pcmesh->SetMesh(meshName.c_str(), "/peragro/meshes/all.xml"))
-      {
-        Report(PT::Error, "PtNpcEntity: Failed to load mesh: %s",
-          meshName.c_str());
-        pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
-      }
 
       // Forcing into idle animation.
       PlayAnimation("idle", 1.0f, true, true);

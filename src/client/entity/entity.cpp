@@ -88,11 +88,8 @@ namespace PT
 
       celEntity = pl->CreateEntity();
 
-      pl->CreatePropertyClass(celEntity, "pcobject.mesh");
-      pl->CreatePropertyClass(celEntity, "pcmove.solid");
       pl->CreatePropertyClass(celEntity, "pctools.properties");
 
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       csRef<iPcProperties> pcprop =
         CEL_QUERY_PROPCLASS_ENT(celEntity, iPcProperties);
 

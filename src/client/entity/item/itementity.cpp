@@ -33,6 +33,9 @@
 #include "common/event/interfaceevent.h"
 #include "common/event/entityevent.h"
 
+#include "client/component/componentmanager.h"
+#include "include/client/component/entity/mesh/mesh.h"
+
 namespace PT
 {
   namespace Entity
@@ -59,13 +62,9 @@ namespace PT
       celEntity->SetName(buffer);
 
       // Load and assign the mesh to the entity.
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-      if (!pcmesh->SetMesh(meshName.c_str(), fileName.c_str()))
-      {
-        Report(PT::Error,  "PtItemEntity: Failed to load mesh: %s",
-          meshName.c_str());
-        pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
-      }
+      PT::Component::ComponentManager* componentManager =
+        PointerLibrary::getInstance()->getComponentManager();
+      ADD_COMPONENT(componentManager, iMesh, "peragro.entity.mesh")
 
       pl->CreatePropertyClass(celEntity, "pcmove.linear");
       csRef<iPcLinearMovement> pclinmove =

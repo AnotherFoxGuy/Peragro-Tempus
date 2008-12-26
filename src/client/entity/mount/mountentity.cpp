@@ -21,7 +21,6 @@
 #include <imesh/object.h>
 #include <iengine/engine.h>
 #include <iengine/mesh.h>
-#include <imesh/spritecal3d.h>
 
 #include <physicallayer/pl.h>
 #include <physicallayer/propfact.h>
@@ -35,6 +34,9 @@
 #include "common/event/entityevent.h"
 #include "client/network/network.h"
 #include "common/network/entitymessages.h"
+
+#include "client/component/componentmanager.h"
+#include "include/client/component/entity/mesh/mesh.h"
 
 namespace PT
 {
@@ -63,27 +65,15 @@ namespace PT
       buffer.Format("mount_%d", id);
       celEntity->SetName(buffer);
 
+      // Load and assign the mesh to the entity.
+      PT::Component::ComponentManager* componentManager =
+        PointerLibrary::getInstance()->getComponentManager();
+      ADD_COMPONENT(componentManager, iMesh, "peragro.entity.mesh")
+
       pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
       pl->CreatePropertyClass(celEntity, "pcmove.linear");
-
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
       csRef<iPcLinearMovement> pclinmove =
         CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-
-      // Load and assign the mesh to the entity.
-      vfs->ChDir("/cellib/objects/");
-      if (!pcmesh->SetMesh(meshName.c_str(), "/peragro/meshes/all.xml"))
-      {
-        Report(PT::Error,  "PtMountEntity: Failed to load mesh: %s",
-          meshName.c_str());
-        pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
-      }
-
-      // Forcing the speed on the Cal3d mesh, so it will go in idle animation.
-      csRef<iSpriteCal3DState> sprcal3d =
-        scfQueryInterface<iSpriteCal3DState> (pcmesh->GetMesh()->GetMeshObject());
-
-      if (sprcal3d) sprcal3d->SetVelocity(0);
 
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));

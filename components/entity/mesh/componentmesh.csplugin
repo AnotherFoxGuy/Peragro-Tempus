@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- componentmesh.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.entity.mesh</name>
+        <implementation>ComponentFMesh</implementation>
+        <description>Perago entity mesh</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
