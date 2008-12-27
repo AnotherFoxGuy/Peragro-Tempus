@@ -129,6 +129,14 @@ public:
   inline friend float operator*(const PtVector3& v1, const PtVector3& v2)
   { return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z; }
 
+  /// Multiply a vector and a scalar.
+  inline friend PtVector3 operator* (const PtVector3& v, float f)
+  { return PtVector3 (v.x*f, v.y*f, v.z*f); }
+
+  /// Divide a vector by a scalar.
+  inline friend PtVector3 operator/ (const PtVector3& v, float f)
+  { f = 1.0f/f; return PtVector3 (v.x*f, v.y*f, v.z*f); }
+
   /// Get the distance between two vectors.
   inline friend float Distance(const PtVector3& v1, const PtVector3& v2)
   { PtVector3 diff(v1 - v2); return sqrt(diff * diff); }
