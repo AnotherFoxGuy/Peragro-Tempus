@@ -351,6 +351,31 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\components\entity\mesh\mesh.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\components\entity\move\networkmove.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -548,6 +573,31 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\libcomponentmesh_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release8\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug8\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1509,6 +1559,9 @@
 			</File>
 			<File
 				RelativePath="..\..\components\entity\input\viewcontrols\viewcontrols.h">
+			</File>
+			<File
+				RelativePath="..\..\components\entity\mesh\mesh.h">
 			</File>
 			<File
 				RelativePath="..\..\components\entity\move\networkmove.h">
