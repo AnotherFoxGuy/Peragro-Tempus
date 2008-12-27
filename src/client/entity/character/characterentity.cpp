@@ -113,11 +113,14 @@ namespace PT
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
 
       if (!pcmesh.IsValid()) return;
+      if (!pcmesh->GetMesh()) return;
+      if (!pcmesh->GetMesh()->GetMeshObject()) return;
 
       csRef<iGeneralMeshState> spstate(scfQueryInterface<iGeneralMeshState>
         (pcmesh->GetMesh()->GetMeshObject()));
 
       if (!spstate.IsValid()) return;
+      if (!spstate->GetAnimationControl()) return;
 
       csRef<iGenMeshSkeletonControlState> animcontrol(
         scfQueryInterface<iGenMeshSkeletonControlState>

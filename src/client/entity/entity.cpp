@@ -88,6 +88,8 @@ namespace PT
 
       celEntity = pl->CreateEntity();
 
+      pl->CreatePropertyClass(celEntity, "pcobject.mesh");
+      pl->CreatePropertyClass(celEntity, "pcmove.solid");
       pl->CreatePropertyClass(celEntity, "pctools.properties");
 
       csRef<iPcProperties> pcprop =
@@ -114,7 +116,6 @@ namespace PT
       if (celEntity.IsValid())
       {
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-        csRef<iMeshWrapper> mesh = pcmesh->GetMesh();
         csRef<iSector> sec = engine->FindSector(sector.c_str());
 
         if (!sec.IsValid())
@@ -124,21 +125,25 @@ namespace PT
             "Entity: Failed to find sector %s switching to default!", sector.c_str());
         }
 
-        if (pcmesh.IsValid() && mesh.IsValid() && sec.IsValid())
+        if (pcmesh.IsValid() && sec.IsValid())
         {
-          csRef<iMovable> mov = mesh->GetMovable();
-          if (mov.IsValid())
+          csRef<iMeshWrapper> mesh = pcmesh->GetMesh();
+          if (mesh.IsValid())
           {
-            mov->SetSector(sec);
-            mov->SetPosition(pos);
-            mov->GetTransform ().SetO2T (csYRotMatrix3(rotation));
-            mov->UpdateMove();
-          }
+            csRef<iMovable> mov = mesh->GetMovable();
+            if (mov.IsValid())
+            {
+              mov->SetSector(sec);
+              mov->SetPosition(pos);
+              mov->GetTransform ().SetO2T (csYRotMatrix3(rotation));
+              mov->UpdateMove();
+            }
 
-          csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-          if (pclinmove.IsValid())
-          {
-            pclinmove->SetOnGround(false);
+            csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+            if (pclinmove.IsValid())
+            {
+              pclinmove->SetOnGround(false);
+            }
           }
 
           return; // success so return.

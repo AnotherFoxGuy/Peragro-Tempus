@@ -15,7 +15,8 @@ projtofix = [["plgcomponent_networkmove", ["libclient-component",
                                               "libutil"]],
              ["plgcomponent_viewbob", ["libclient-component", "libeventmanager-cs", "libreporter"]],
              ["plgcomponentstats", ["libclient-component", "libeventmanager-cs", "libreporter"]],
-             ["plgcomponent_viewcontrols", ["libclient-component", "libeventmanager-cs", "libreporter"]]                       
+             ["plgcomponent_viewcontrols", ["libclient-component", "libeventmanager-cs", "libreporter"]],
+             ["plgcomponentmesh", ["libclient-component", "libeventmanager-cs", "libreporter"]]                       
              ]
 
 class Project:

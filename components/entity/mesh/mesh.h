@@ -66,8 +66,8 @@ private:
   void DoneLoading(bool success) {}
 
 public:
-    ComponentStats (iObjectRegistry*);
-    virtual ~ComponentStats();
+    ComponentMesh (iObjectRegistry*);
+    virtual ~ComponentMesh();
 
     virtual bool Initialize (PointerLibrary*, PT::Entity::Entity*);
 };

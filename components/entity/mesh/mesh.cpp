@@ -23,6 +23,11 @@
 #include <iutil/object.h>
 #include <iengine/mesh.h>
 
+#include <physicallayer/pl.h>
+#include <physicallayer/propclas.h>
+#include <propclass/mesh.h>
+#include <propclass/linmove.h>
+
 #include "common/event/eventmanager.h"
 
 #include "client/entity/entity.h"
@@ -49,6 +54,16 @@ bool ComponentMesh::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
   pointerlib = pl;
   entity = ent;
 
+  iCelEntity* celEnt = entity->GetCelEntity();
+  if (celEnt)
+  {
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEnt, iPcMesh);
+    //if (pcmesh) pcmesh->CreateEmptyGenmesh("ErrorMesh");
+    if (pcmesh) pcmesh->CreateNullMesh("ErrorMesh", csBox3());
+  }
+  else
+    pointerlib->getReporter()->Report(PT::Error,  "ComponentMesh: Failed to get iCelEntity/iPcMesh");
+
   Load(entity->GetFileName());
 
   return true;
@@ -59,25 +74,32 @@ void ComponentMesh::Loaded(iCacheEntry* cacheEntry)
   iCelEntity* celEnt = entity->GetCelEntity();
   if (celEnt)
   {
-    csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (object_reg);
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEnt, iPcMesh);
-    if (pcmesh)
+    if (!pcmesh)
     {
-      pl->CreatePropertyClass(celEnt, "pcobject.mesh");
-      pl->CreatePropertyClass(celEntity, "pcmove.solid");
-      pcmesh = CEL_QUERY_PROPCLASS_ENT(celEnt, iPcMesh);
+      pointerlib->getReporter()->Report(PT::Error,  "ComponentMesh: Failed to get iPcMesh");
+      return;
     }
+
     if (cacheEntry->WasSuccessful())
     {
       csRef<iMeshWrapper> mesh = cacheEntry->Create(entity->GetName(), entity->GetMeshName());
       pcmesh->SetMesh(mesh, true);
+
+      csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEnt, iPcLinearMovement);
+      if (pclinmove)
+      {
+        pclinmove->InitCD(mesh, 50.0f);
+      }
+      entity->SetFullPosition();
     }
     else
     {
       pointerlib->getReporter()->Report(PT::Error,  "ComponentMesh: Failed to load mesh: %s",
         entity->GetMeshName().c_str());
-      pcmesh->CreateEmptyGenmesh(entity->GetName().c_str());
     }
   }
+  else
+    pointerlib->getReporter()->Report(PT::Error,  "ComponentMesh: Failed to get iCelEntity");
 
 } // end Loaded()

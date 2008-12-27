@@ -278,7 +278,7 @@ namespace PT
           sec = engine->FindSector("Default_Sector");
           if (!sec.IsValid()) printf("AAAARRRGG\n");
         }
-
+        /*
         if (camera.IsValid() && camera->GetCamera() && sec.IsValid())
         {
           csVector3 offset = pos - static_cast<const csVector3&>(this->position);
@@ -286,6 +286,7 @@ namespace PT
           camera->GetCamera()->Move(offset, false);
           camera->UpdateCamera();
         }
+        */
       }
 
       Entity::SetFullPosition(pos, rotation, sector);
