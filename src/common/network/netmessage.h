@@ -22,7 +22,7 @@
 #include "assert.h"
 #include "string.h"
 
-#include "common/util/ptvector3.h"
+#include "common/geom/ptvector3.h"
 
 //#include "common/network/socket.h"
 #include "deserialiser.h"

@@ -19,7 +19,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "common/util/ptvector3.h"
+#include "common/geom/ptvector3.h"
 
 class CharacterManager;
 class Tables;

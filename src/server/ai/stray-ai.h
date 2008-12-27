@@ -20,7 +20,7 @@
 #define STRAY_AI_H
 
 #include "ai.h"
-#include "common/util/ptvector3.h"
+#include "common/geom/ptvector3.h"
 
 class StrayAI : public AI
 {

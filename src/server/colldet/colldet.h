@@ -20,7 +20,7 @@
 #define PT_COLLDET_H
 
 #include "common/util/thread.h"
-#include "common/util/ptvector3.h"
+#include "common/geom/ptvector3.h"
 
 class Entity;
 

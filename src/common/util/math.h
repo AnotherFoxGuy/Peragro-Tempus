@@ -21,7 +21,7 @@
 
 #include <cstddef>
 #include "common/constants.h"
-#include "common/util/ptvector2.h"
+#include "common/geom/ptvector2.h"
 
 namespace PT
 {

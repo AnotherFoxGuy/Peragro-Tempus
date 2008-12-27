@@ -21,7 +21,7 @@
 #include <stdlib.h>
 
 #include "common/util/math.h"
-#include "common/util/ptvector3.h"
+#include "common/geom/ptvector3.h"
 #include "common/network/playermessages.h"
 #include "common/network/entitymessages.h"
 

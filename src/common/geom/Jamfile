@@ -1,0 +1,7 @@
+SubDir TOP src common geom ;
+
+Description geom : "geom" ;
+Library geom :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs geom : BOOST ;
+

@@ -20,7 +20,7 @@
 #define PT_COMMON_ENTITY_H
 
 #include <string>
-#include "common/util/ptvector3.h"
+#include "common/geom/ptvector3.h"
 
 namespace PT
 {

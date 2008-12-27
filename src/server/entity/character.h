@@ -20,7 +20,7 @@
 #define CHARACTER_H
 
 #include "common/util/ptstring.h"
-#include "common/util/ptvector3.h"
+#include "common/geom/ptvector3.h"
 #include "common/util/monitorable.h"
 
 #include "inventory.h"
