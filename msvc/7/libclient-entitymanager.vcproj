@@ -333,9 +333,6 @@
 			<File
 				RelativePath="..\..\src\client\entity\player\playerentity.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\client\entity\teleport\teleportentity.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -372,9 +369,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\entity\player\playerentity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\teleport\teleportentity.h">
 			</File>
 		</Filter>
 	</Files>
