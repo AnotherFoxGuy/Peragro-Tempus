@@ -20,7 +20,7 @@
 #define PT_DATAZONE_H
 
 #include <vector>
-#include "common/geom/ptvector2.h"
+#include "common/geom/vector2.h"
 #include "common/util/ptstring.h"
 
 namespace PT

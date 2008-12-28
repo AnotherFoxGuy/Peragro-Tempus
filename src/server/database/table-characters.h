@@ -28,7 +28,7 @@ class User;
 class Mesh;
 
 #include "common/util/ptstring.h"
-#include "common/geom/ptvector3.h"
+#include "common/geom/vector3.h"
 
 class CharactersTableVO
 {

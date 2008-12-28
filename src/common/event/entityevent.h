@@ -35,7 +35,7 @@
 #include <string>
 #include <sstream>
 
-#include "common/geom/ptvector3.h"
+#include "common/geom/vector3.h"
 
 #include "common/reporter/reporter.h"
 

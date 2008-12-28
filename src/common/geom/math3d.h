@@ -16,10 +16,10 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_MATH3D_H
-#define PT_MATH3D_H
+#ifndef GEOM_MATH3D_H
+#define GEOM_MATH3D_H
 
-#include "ptvector3.h"
+#include "vector3.h"
 
 
 /**
@@ -29,9 +29,9 @@
 struct SquaredDist
 {
   /// Returns the squared distance between two points.
-  static float PointPoint (const PtVector3& p1, const PtVector3& p2)
+  static float PointPoint (const Geom::Vector3& p1, const Geom::Vector3& p2)
   {
-    PtVector3 d = (p1-p2);
+    Geom::Vector3 d = (p1-p2);
     return d*d;
   }
 };

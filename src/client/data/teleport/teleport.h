@@ -20,7 +20,7 @@
 #define PT_DATATELEPORT_H
 
 #include <string>
-#include "common/geom/ptvector3.h"
+#include "common/geom/vector3.h"
 
 namespace PT
 {

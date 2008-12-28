@@ -21,7 +21,7 @@
 
 #include <map>
 #include <string>
-#include "common/geom/ptvector3.h"
+#include "common/geom/vector3.h"
 #include "common/util/ptstring.h"
 
 #include "common/entity/entity.h"

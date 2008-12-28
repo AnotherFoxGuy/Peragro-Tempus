@@ -16,38 +16,42 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "ptvector3.h"
+#include "vector3.h"
 
 #include <sstream>
 
-std::istream& operator>>(std::istream& is, PtVector3& v)
+namespace Geom
 {
-  is.setf(std::ios_base::skipws);
-  is >> v.x;
-  is.ignore(256, ',');
-  is >> v.y;
-  is.ignore(256, ',');
-  is >> v.z;
-  return is;
-}
 
-std::ostream& operator<<(std::ostream& os, const PtVector3& v)
-{
-  os.unsetf(std::ios_base::showpoint);
-  os.unsetf(std::ios_base::floatfield);
-  os.precision(6);
-  os << v.x;
-  os << ",";
-  os << v.y;
-  os << ",";
-  os << v.z;
-  return os;
-}
+  std::istream& operator>>(std::istream& is, Vector3& v)
+  {
+    is.setf(std::ios_base::skipws);
+    is >> v.x;
+    is.ignore(256, ',');
+    is >> v.y;
+    is.ignore(256, ',');
+    is >> v.z;
+    return is;
+  }
 
-std::string PtVector3::ToString() const
-{
-  std::stringstream ss;
-  ss << (*this);
-  return ss.str();
-} // end ToString()
+  std::ostream& operator<<(std::ostream& os, const Vector3& v)
+  {
+    os.unsetf(std::ios_base::showpoint);
+    os.unsetf(std::ios_base::floatfield);
+    os.precision(6);
+    os << v.x;
+    os << ",";
+    os << v.y;
+    os << ",";
+    os << v.z;
+    return os;
+  }
 
+  std::string Vector3::ToString() const
+  {
+    std::stringstream ss;
+    ss << (*this);
+    return ss.str();
+  } // end ToString()
+
+} // namespace Geom

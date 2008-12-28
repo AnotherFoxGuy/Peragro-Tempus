@@ -16,10 +16,43 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "ptvector2.h"
+#include "sphere.h"
 
-bool PtVector2::operator==(const PtVector2 v)
+#include "math3d.h"
+
+template <typename T>
+T square(const T& value)
 {
-  if ( x==v.x && y==v.y ) return true;
-  return false;
+  return value * value;
 }
+
+namespace Geom
+{
+
+  bool Sphere::Contains (const Vector3& vector) const
+  {
+    return false;
+  }
+
+  bool Sphere::TestIntersect (const Sphere& sphere) const
+  {
+    float sqDist = SquaredDist::PointPoint (center, sphere.center);
+    return (sqDist - (square (radius + sphere.radius))) < 0;
+  }
+
+  bool Sphere::Contains (const Sphere& sphere) const
+  {
+    return false;
+  }
+
+  bool Sphere::TestIntersect (const Box& box) const
+  {
+    return false;
+  }
+
+  bool Sphere::Contains (const Box& box) const
+  {
+    return false;
+  }
+
+} // namespace Geom

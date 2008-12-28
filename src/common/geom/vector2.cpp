@@ -16,23 +16,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PTVECTOR2_H
-#define PTVECTOR2_H
+#include "vector2.h"
 
-/**
-  Simple convenience class representing 2D vector. Access the coordinates
-  directly via members called x and y.
-*/
-
-class PtVector2
+namespace Geom
 {
-public:
-  float x,y;
-
-  PtVector2(float xv=0, float yv=0) : x(xv), y(yv) {}
-
-  bool operator==(const PtVector2 v);
-
-};
-
-#endif
+  bool Vector2::operator==(const Vector2 v)
+  {
+    if ( x==v.x && y==v.y ) return true;
+    return false;
+  }
+} // namespace Geom

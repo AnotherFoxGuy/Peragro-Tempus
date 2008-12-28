@@ -21,7 +21,7 @@
 
 #include "ai.h"
 
-class PtVector3;
+#include "common/geom/vector3.h"
 
 class PathAI : public AI
 {

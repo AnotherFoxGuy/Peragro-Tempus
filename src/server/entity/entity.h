@@ -22,7 +22,7 @@
 #include <math.h>
 
 #include "common/util/monitorable.h"
-#include "common/geom/ptvector3.h"
+#include "common/geom/vector3.h"
 #include "common/util/ptstring.h"
 
 #include "mesh.h"

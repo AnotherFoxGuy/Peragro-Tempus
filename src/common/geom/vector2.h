@@ -16,38 +16,28 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "ptsphere.h"
+#ifndef GEOM_VECTOR2_H
+#define GEOM_VECTOR2_H
 
-#include "math3d.h"
-
-template <typename T>
-T square(const T& value)
+namespace Geom
 {
-  return value * value;
-}
+  /**
+   * Simple convenience class representing 2D vector. Access the coordinates
+   * directly via members called x and y.
+   */
+  class Vector2
+  {
+  public:
+    float x,y;
 
-bool PtSphere::Contains (const PtVector3& vector) const
-{
-  return false;
-}
+    Vector2(float xv=0, float yv=0) : x(xv), y(yv) {}
 
-bool PtSphere::TestIntersect (const PtSphere& sphere) const
-{
-  float sqDist = SquaredDist::PointPoint (center, sphere.center);
-  return (sqDist - (square (radius + sphere.radius))) < 0;
-}
+    bool operator==(const Vector2 v);
 
-bool PtSphere::Contains (const PtSphere& sphere) const
-{
-  return false;
-}
+  };
 
-bool PtSphere::TestIntersect (const PtBox& box) const
-{
-  return false;
-}
+} // namespace Geom
 
-bool PtSphere::Contains (const PtBox& box) const
-{
-  return false;
-}
+typedef Geom::Vector2 PtVector2;
+
+#endif

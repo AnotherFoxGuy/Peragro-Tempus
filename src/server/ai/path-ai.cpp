@@ -28,7 +28,7 @@
 #include "server/entity/character.h"
 #include "server/entity/npcentity.h"
 
-#include "common/geom/ptvector3.h"
+#include "common/geom/vector3.h"
 
 PathAI::~PathAI()
 {

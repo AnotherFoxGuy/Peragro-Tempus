@@ -21,7 +21,7 @@
 
 #include "common/database/table.h"
 
-#include "common/geom/ptvector3.h"
+#include "common/geom/vector3.h"
 
 class Database;
 class MeshListTable;
