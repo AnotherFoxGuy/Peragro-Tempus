@@ -70,7 +70,7 @@ void FactoriesTable::Insert(const World::Factory& factory)
 Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::string& factoryName)
 {
   const char* query = {"select * "
-                       "from factories"
+                       "from factories "
                        "where factoryFile='%s' AND factoryName='%s';"};
   ResultSet* rs = db->query(query, factoryFile.c_str(), factoryName.c_str());
   if (!rs)
