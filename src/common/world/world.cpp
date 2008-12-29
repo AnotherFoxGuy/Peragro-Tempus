@@ -21,6 +21,7 @@
 #include "common/database/sqlite/sqlite.h"
 
 #include "table-objects.h"
+#include "table-factories.h"
 
 namespace World
 {
@@ -36,7 +37,7 @@ namespace World
     }
   }
 
-  ~WorldManager::WorldManager()
+  WorldManager::~WorldManager()
   {
     db.shutdown();
   }

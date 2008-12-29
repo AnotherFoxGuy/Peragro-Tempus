@@ -23,9 +23,12 @@
 
 #include "common/database/database.h"
 
+#include "table-objects.h"
 #include "table-factories.h"
 
 #include "world.h"
+
+using namespace World;
 
 FactoriesTable::FactoriesTable(Database* db) : Table(db)
 {
@@ -69,8 +72,8 @@ void FactoriesTable::Insert(const Factory& factory)
 
 Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::string& factoryName)
 {
-  const char* query = {"select * 
-                       "from factories"
+  const char* query = {"select * " 
+                       "from factories "
                        "where factoryFile='%s' AND factoryName='%s';"};
   ResultSet* rs = db->query(query, factoryFile.c_str(), factoryName.c_str());
   if (!rs)
@@ -99,9 +102,9 @@ std::string GetFactoryName(ResultSet* rs, size_t row)
 
 Geom::Vector3 GetPosition(ResultSet* rs, size_t row, size_t offset = 2)
 {
-  float x = atof(rs->GetData(row, offset+0));
-  float y = atof(rs->GetData(row, offset+1));
-  float z = atof(rs->GetData(row, offset+2));
+  float x = atof(rs->GetData(row, offset+0).c_str());
+  float y = atof(rs->GetData(row, offset+1).c_str());
+  float z = atof(rs->GetData(row, offset+2).c_str());
   return Geom::Vector3(x, y, z);
 }
 

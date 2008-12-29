@@ -162,7 +162,7 @@ class CreateNpcMessage : public NetMessage
     ptString value;
   };
 
-  unsigned char aisettingcount;
+  unsigned int aisettingcount;
   ListAiSetting* aisetting;
 
   class ListInventory
@@ -173,7 +173,7 @@ class CreateNpcMessage : public NetMessage
     unsigned int variation;
   };
 
-  unsigned char inventorycount;
+  unsigned int inventorycount;
   ListInventory* inventory;
 
 
@@ -544,7 +544,7 @@ class CreateZoneMessage : public NetMessage
     float z;
   };
 
-  unsigned char nodescount;
+  unsigned int nodescount;
   ListNodes* nodes;
 
 

@@ -30,7 +30,7 @@ bool InventoryListMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(inventoryid);
-  serial.setInt8(inventorycount);
+  serial.setInt24(inventorycount);
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
     serial.setInt32(inventory[i].itemid);
@@ -52,7 +52,7 @@ void InventoryListMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   inventoryid = (unsigned int) serial.getInt32();
-  inventorycount = (unsigned char) serial.getInt8();
+  inventorycount = (unsigned int) serial.getInt24();
   setInventoryCount(inventorycount);
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
@@ -121,7 +121,7 @@ bool StatsListMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(statscount);
+  serial.setInt24(statscount);
   for ( size_t i = 0; i < statscount ; i++ )
   {
     serial.setInt16(stats[i].statid);
@@ -137,7 +137,7 @@ void StatsListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  statscount = (unsigned char) serial.getInt8();
+  statscount = (unsigned int) serial.getInt24();
   setStatsCount(statscount);
   for ( size_t i = 0; i < statscount ; i++ )
   {
@@ -176,7 +176,7 @@ bool SkillsListMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(skillscount);
+  serial.setInt24(skillscount);
   for ( size_t i = 0; i < skillscount ; i++ )
   {
     serial.setInt16(skills[i].skillid);
@@ -191,7 +191,7 @@ void SkillsListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  skillscount = (unsigned char) serial.getInt8();
+  skillscount = (unsigned int) serial.getInt24();
   setSkillsCount(skillscount);
   for ( size_t i = 0; i < skillscount ; i++ )
   {
@@ -206,7 +206,7 @@ bool MasteriesListMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(masteriescount);
+  serial.setInt24(masteriescount);
   for ( size_t i = 0; i < masteriescount ; i++ )
   {
     serial.setInt8(masteries[i].level);
@@ -222,7 +222,7 @@ void MasteriesListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  masteriescount = (unsigned char) serial.getInt8();
+  masteriescount = (unsigned int) serial.getInt24();
   setMasteriesCount(masteriescount);
   for ( size_t i = 0; i < masteriescount ; i++ )
   {

@@ -27,6 +27,8 @@
 
 #include "world.h"
 
+using namespace World; 
+
 ObjectsTable::ObjectsTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from objects;");
@@ -76,7 +78,7 @@ void ObjectsTable::Insert(const Object& object, bool unique)
     "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f"
     ");" };
 
-  int id = object.id
+  int id = object.id;
   if (unique)
     id = getMaxId(db);
 
@@ -113,9 +115,9 @@ std::string GetFactoryName(ResultSet* rs, size_t row)
 
 Geom::Vector3 GetPosition(ResultSet* rs, size_t row, size_t offset = 4)
 {
-  float x = atof(rs->GetData(row, offset+0));
-  float y = atof(rs->GetData(row, offset+1));
-  float z = atof(rs->GetData(row, offset+2));
+  float x = atof(rs->GetData(row, offset+0).c_str());
+  float y = atof(rs->GetData(row, offset+1).c_str());
+  float z = atof(rs->GetData(row, offset+2).c_str());
   return Geom::Vector3(x, y, z);
 }
 

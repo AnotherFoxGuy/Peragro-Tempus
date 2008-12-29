@@ -48,9 +48,9 @@ public:
    * Insert a object into the database.
    * @param object
    */
-  void Insert(const Factory& factory);
+  void Insert(const World::Factory& factory);
 
-  Factory GetBB(const std::string& factoryFile, const std::string& factoryName);
+  World::Factory GetBB(const std::string& factoryFile, const std::string& factoryName);
 
   /**
    * Removes all objects from the database.
@@ -61,7 +61,7 @@ public:
    * This function will load all objects from the database.
    * @param reputations An array that will contain all objects.
    */
-  void GetAll(Array<Factory>& factories);
+  void GetAll(Array<World::Factory>& factories);
 };
 
 #endif //TABLE_FACTORY_H
