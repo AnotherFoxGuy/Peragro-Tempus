@@ -301,20 +301,38 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\geom\ptvector2.cpp">
+				RelativePath="..\..\src\common\geom\box.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\geom\ptvector3.cpp">
+				RelativePath="..\..\src\common\geom\sphere.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\geom\vector2.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\geom\vector3.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\geom\ptvector2.h">
+				RelativePath="..\..\src\common\geom\box.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\geom\ptvector3.h">
+				RelativePath="..\..\src\common\geom\math3d.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\geom\octree.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\geom\sphere.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\geom\vector2.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\geom\vector3.h">
 			</File>
 		</Filter>
 	</Files>
