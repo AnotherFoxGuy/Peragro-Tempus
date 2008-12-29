@@ -1,0 +1,8 @@
+SubDir TOP src common world ;
+
+Description world : "World" ;
+Library world :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs world : BOOST ;
+LinkWith world : geom ;
+
