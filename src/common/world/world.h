@@ -71,6 +71,4 @@ namespace World
 
 } // namespace World
 
-typedef Geom::Vector2 PtVector2;
-
 #endif // COMMON_WORLD_H

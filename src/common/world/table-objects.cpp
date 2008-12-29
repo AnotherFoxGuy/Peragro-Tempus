@@ -68,7 +68,7 @@ int getMaxId(Database* db)
   return id;
 }
 
-void ObjectsTable::Insert(const Object& object, bool unique)
+void ObjectsTable::Insert(const World::Object& object, bool unique)
 {
   const char* query = { "insert into objects("
     "id, name, factoryFile, factoryName, "
@@ -128,13 +128,13 @@ Geom::Box GetWorldBB(ResultSet* rs, size_t row)
   return Geom::Box(min, max);
 }
 
-void ObjectsTable::GetObjects(Array<Object>& objects)
+void ObjectsTable::GetObjects(Array<World::Object>& objects)
 {
   ResultSet* rs = db->query("select * from objects;");
   if (!rs) return;
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
-    Object object;
+    World::Object object;
     object.id = GetId(rs, i);
     object.name = GetName(rs, i);
     object.factoryFile = GetFactoryFile(rs, i);

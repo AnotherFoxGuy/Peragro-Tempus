@@ -50,7 +50,7 @@ public:
    */
   void Insert(const World::Factory& factory);
 
-  World::Factory GetBB(const std::string& factoryFile, const std::string& factoryName);
+  Geom::Box GetBB(const std::string& factoryFile, const std::string& factoryName);
 
   /**
    * Removes all objects from the database.

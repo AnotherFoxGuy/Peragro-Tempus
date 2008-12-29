@@ -23,12 +23,9 @@
 
 #include "common/database/database.h"
 
-#include "table-objects.h"
 #include "table-factories.h"
 
 #include "world.h"
-
-using namespace World;
 
 FactoriesTable::FactoriesTable(Database* db) : Table(db)
 {
@@ -55,7 +52,7 @@ void FactoriesTable::CreateTable()
     "PRIMARY KEY (factoryFile, factoryName) );");
 }
 
-void FactoriesTable::Insert(const Factory& factory)
+void FactoriesTable::Insert(const World::Factory& factory)
 {
   const char* query = { "insert into factories("
     "factoryFile, factoryName, "
@@ -72,8 +69,8 @@ void FactoriesTable::Insert(const Factory& factory)
 
 Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::string& factoryName)
 {
-  const char* query = {"select * " 
-                       "from factories "
+  const char* query = {"select * "
+                       "from factories"
                        "where factoryFile='%s' AND factoryName='%s';"};
   ResultSet* rs = db->query(query, factoryFile.c_str(), factoryName.c_str());
   if (!rs)
@@ -115,16 +112,16 @@ Geom::Box GetBB(ResultSet* rs, size_t row)
   return Geom::Box(min, max);
 }
 
-void ObjectsTable::GetAll(Array<Factory>& factories)
+void FactoriesTable::GetAll(Array<World::Factory>& factories)
 {
   ResultSet* rs = db->query("select * from factories;");
   if (!rs) return;
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
-    Factory factory;
+    World::Factory factory;
     factory.factoryFile = GetFactoryFile(rs, i);
     factory.factoryName = GetFactoryName(rs, i);
-    factory.worldBB = GetWorldBB(rs, i);
+    factory.worldBB = GetBB(rs, i);
     factories.add(factory);
   }
   delete rs;
