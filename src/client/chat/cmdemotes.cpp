@@ -78,6 +78,7 @@ namespace PT
 
     std::string cmdEmote::HelpSynopsis (const char* cmd) const
     {
+      if (!cmd) cmd = "";
       std::string scmd = cmd;
       for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
         if ( emotelist[i].emote == scmd )
@@ -87,6 +88,7 @@ namespace PT
 
     std::string cmdEmote::HelpUsage (const char* cmd) const
     {
+      if (!cmd) return "";
       std::string s = "'/";
       s += cmd;
       s += " [<target>]'";

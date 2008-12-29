@@ -30,7 +30,7 @@ namespace PT
     CommandDefault::~CommandDefault() { }
 
     bool CommandDefault::CommandHandled (const char* cmd) const
-    { return cmdname == cmd; }
+    { return cmd && (cmdname == cmd); }
 
     StringArray CommandDefault::GetAllCommands() const
     {
@@ -40,7 +40,7 @@ namespace PT
     }
 
     std::string CommandDefault::HelpUsage(const char* cmd) const
-    { return "'/" + cmdname + "'";  }
+    { return cmd ? "'/" + cmdname + "'" : "";  }
 
     std::string CommandDefault::HelpSynopsis(const char* cmd) const
     { return ""; }
