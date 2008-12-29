@@ -48,7 +48,7 @@ class NpcDialogMessage : public NetMessage
     const char* answertext;
   };
 
-  unsigned int answerscount;
+  unsigned char answerscount;
   ListAnswers* answers;
 
 
@@ -171,7 +171,7 @@ class SetupDialogsMessage : public NetMessage
     const char* value;
   };
 
-  unsigned int dialogscount;
+  unsigned char dialogscount;
   ListDialogs* dialogs;
 
   class ListAnswers
@@ -185,7 +185,7 @@ class SetupDialogsMessage : public NetMessage
     bool isendanswer;
   };
 
-  unsigned int answerscount;
+  unsigned char answerscount;
   ListAnswers* answers;
 
 

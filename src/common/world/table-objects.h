@@ -48,7 +48,7 @@ public:
    * Insert a object into the database.
    * @param object
    */
-  void Insert(const Object& object, bool unique = true);
+  void Insert(const World::Object& object, bool unique = true);
 
   /**
    * Removes all objects from the database.
@@ -59,7 +59,7 @@ public:
    * This function will load all objects from the database.
    * @param reputations An array that will contain all objects.
    */
-  void GetObjects(Array<Object>& objects);
+  void GetObjects(Array<World::Object>& objects);
 };
 
 #endif //TABLE_OBJECT_H

@@ -96,7 +96,7 @@ class TradeOffersListNpcMessage : public NetMessage
     ptString iconname;
   };
 
-  unsigned int offerscount;
+  unsigned char offerscount;
   ListOffers* offers;
 
 
@@ -159,7 +159,7 @@ class ExchangeOffersListMessage : public NetMessage
     unsigned char slotid;
   };
 
-  unsigned int offerscount;
+  unsigned char offerscount;
   ListOffers* offers;
 
 
@@ -219,7 +219,7 @@ class TradeOrderListNpcMessage : public NetMessage
     unsigned int variation;
   };
 
-  unsigned int orderscount;
+  unsigned char orderscount;
   ListOrders* orders;
 
 

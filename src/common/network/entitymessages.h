@@ -79,7 +79,7 @@ class AddNpcEntityMessage : public NetMessage
     ptString filename;
   };
 
-  unsigned int equipmentcount;
+  unsigned char equipmentcount;
   ListEquipment* equipment;
 
   unsigned char poseid;
@@ -313,7 +313,7 @@ class AddPlayerEntityMessage : public NetMessage
     ptString filename;
   };
 
-  unsigned int equipmentcount;
+  unsigned char equipmentcount;
   ListEquipment* equipment;
 
   unsigned char poseid;

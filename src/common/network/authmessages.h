@@ -367,7 +367,7 @@ class ServerListMessage : public NetMessage
     bool isjoinable;
   };
 
-  unsigned int unnamed1count;
+  unsigned char unnamed1count;
   Listunnamed1* unnamed1;
 
 

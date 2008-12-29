@@ -23,6 +23,7 @@
 
 #include "common/geom/octree.h"
 #include "common/geom/box.h"
+#include "common/geom/vector2.h"
 
 class dbSQLite;
 
@@ -65,7 +66,7 @@ namespace World
     bool Add(const Factory& factory);
     bool Remove(const Factory& factory);
 
-    Octree::QueryResult Query(const Sphere& s);
+    Octree::QueryResult Query(const Geom::Sphere& s);
   };
 
 } // namespace World

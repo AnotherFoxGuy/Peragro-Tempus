@@ -55,7 +55,7 @@ class InventoryListMessage : public NetMessage
     ptString equiptype;
   };
 
-  unsigned int inventorycount;
+  unsigned char inventorycount;
   ListInventory* inventory;
 
 
@@ -194,7 +194,7 @@ class StatsListMessage : public NetMessage
     unsigned short level;
   };
 
-  unsigned int statscount;
+  unsigned char statscount;
   ListStats* stats;
 
 
@@ -277,7 +277,7 @@ class SkillsListMessage : public NetMessage
     ptString name;
   };
 
-  unsigned int skillscount;
+  unsigned char skillscount;
   ListSkills* skills;
 
 
@@ -325,7 +325,7 @@ class MasteriesListMessage : public NetMessage
     unsigned short type;
   };
 
-  unsigned int masteriescount;
+  unsigned char masteriescount;
   ListMasteries* masteries;
 
 

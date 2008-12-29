@@ -39,7 +39,7 @@ bool AddNpcEntityMessage::serialise(ByteStream* bs)
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
-  serial.setInt24(equipmentcount);
+  serial.setInt8(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {
     serial.setInt32(equipment[i].slotid);
@@ -69,7 +69,7 @@ void AddNpcEntityMessage::deserialise(ByteStream* bs)
   rotation = serial.getFloat();
   sectorid = (unsigned short) serial.getInt16();
   entityid = (unsigned int) serial.getInt32();
-  equipmentcount = (unsigned int) serial.getInt24();
+  equipmentcount = (unsigned char) serial.getInt8();
   setEquipmentCount(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {
@@ -182,7 +182,7 @@ bool AddPlayerEntityMessage::serialise(ByteStream* bs)
   serial.setInt8(decalcolour[2]);
   serial.setInt16(sectorid);
   serial.setInt32(entityid);
-  serial.setInt24(equipmentcount);
+  serial.setInt8(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {
     serial.setInt32(equipment[i].slotid);
@@ -221,7 +221,7 @@ void AddPlayerEntityMessage::deserialise(ByteStream* bs)
   decalcolour[2] = (unsigned char) serial.getInt8();
   sectorid = (unsigned short) serial.getInt16();
   entityid = (unsigned int) serial.getInt32();
-  equipmentcount = (unsigned int) serial.getInt24();
+  equipmentcount = (unsigned char) serial.getInt8();
   setEquipmentCount(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
   {

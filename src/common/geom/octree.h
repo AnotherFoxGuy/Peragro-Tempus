@@ -51,7 +51,7 @@ namespace Geom
         _g = g;
       }
 
-      Entry(const Entry& e) _t(e._t), _g(e._g){}
+      Entry(const Entry& e) : _t(e._t), _g(e._g){}
 
       operator T()
       {
@@ -60,7 +60,7 @@ namespace Geom
 
       bool ContainedIn(const Sphere& s)
       {
-        return s->Contains(g);
+        return s.Contains(_g);
       }
     };
 

@@ -117,14 +117,14 @@ bool CreateNpcMessage::serialise(ByteStream* bs)
   serial.setInt8(decalcolour[1]);
   serial.setInt8(decalcolour[2]);
   serial.setString(ai);
-  serial.setInt24(aisettingcount);
+  serial.setInt8(aisettingcount);
   for ( size_t i = 0; i < aisettingcount ; i++ )
   {
     serial.setString(aisetting[i].key);
     serial.setString(aisetting[i].value);
   };
 
-  serial.setInt24(inventorycount);
+  serial.setInt8(inventorycount);
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
     serial.setInt8(inventory[i].slotid);
@@ -159,7 +159,7 @@ void CreateNpcMessage::deserialise(ByteStream* bs)
   decalcolour[1] = (unsigned char) serial.getInt8();
   decalcolour[2] = (unsigned char) serial.getInt8();
   ai = serial.getString();
-  aisettingcount = (unsigned int) serial.getInt24();
+  aisettingcount = (unsigned char) serial.getInt8();
   setAiSettingCount(aisettingcount);
   for ( size_t i = 0; i < aisettingcount ; i++ )
   {
@@ -167,7 +167,7 @@ void CreateNpcMessage::deserialise(ByteStream* bs)
     aisetting[i].value = serial.getString();
   };
 
-  inventorycount = (unsigned int) serial.getInt24();
+  inventorycount = (unsigned char) serial.getInt8();
   setInventoryCount(inventorycount);
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
@@ -337,7 +337,7 @@ bool CreateZoneMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt16(zoneid);
   serial.setString(zonetype);
-  serial.setInt24(nodescount);
+  serial.setInt8(nodescount);
   for ( size_t i = 0; i < nodescount ; i++ )
   {
     serial.setFloat(nodes[i].x);
@@ -354,7 +354,7 @@ void CreateZoneMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   zoneid = (unsigned short) serial.getInt16();
   zonetype = serial.getString();
-  nodescount = (unsigned int) serial.getInt24();
+  nodescount = (unsigned char) serial.getInt8();
   setNodesCount(nodescount);
   for ( size_t i = 0; i < nodescount ; i++ )
   {

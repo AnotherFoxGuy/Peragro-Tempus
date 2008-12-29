@@ -103,7 +103,7 @@ bool CharListMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt24(charactercount);
+  serial.setInt8(charactercount);
   for ( size_t i = 0; i < charactercount ; i++ )
   {
     serial.setInt32(character[i].charid);
@@ -127,7 +127,7 @@ void CharListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  charactercount = (unsigned int) serial.getInt24();
+  charactercount = (unsigned char) serial.getInt8();
   setCharacterCount(charactercount);
   for ( size_t i = 0; i < charactercount ; i++ )
   {
@@ -278,7 +278,7 @@ bool MeshListResponseMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt24(meshescount);
+  serial.setInt8(meshescount);
   for ( size_t i = 0; i < meshescount ; i++ )
   {
     serial.setInt32(meshes[i].meshid);
@@ -294,7 +294,7 @@ void MeshListResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  meshescount = (unsigned int) serial.getInt24();
+  meshescount = (unsigned char) serial.getInt8();
   setMeshesCount(meshescount);
   for ( size_t i = 0; i < meshescount ; i++ )
   {
@@ -325,7 +325,7 @@ bool RaceListResponseMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt24(racescount);
+  serial.setInt8(racescount);
   for ( size_t i = 0; i < racescount ; i++ )
   {
     serial.setInt32(races[i].raceid);
@@ -341,7 +341,7 @@ void RaceListResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  racescount = (unsigned int) serial.getInt24();
+  racescount = (unsigned char) serial.getInt8();
   setRacesCount(racescount);
   for ( size_t i = 0; i < racescount ; i++ )
   {

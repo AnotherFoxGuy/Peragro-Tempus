@@ -153,7 +153,7 @@ class CharListMessage : public NetMessage
     unsigned char decalcolour[3];
   };
 
-  unsigned int charactercount;
+  unsigned char charactercount;
   ListCharacter* character;
 
 
@@ -432,7 +432,7 @@ class MeshListResponseMessage : public NetMessage
     ptString filename;
   };
 
-  unsigned int meshescount;
+  unsigned char meshescount;
   ListMeshes* meshes;
 
 
@@ -500,7 +500,7 @@ class RaceListResponseMessage : public NetMessage
     unsigned int meshid;
   };
 
-  unsigned int racescount;
+  unsigned char racescount;
   ListRaces* races;
 
 
