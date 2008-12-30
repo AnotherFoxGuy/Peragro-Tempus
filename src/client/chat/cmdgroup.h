@@ -19,57 +19,32 @@
 #ifndef CMDGROUP_H
 #define CMDGROUP_H
 
-#include <cssysdef.h>
+#include "commandiface.h"
 
-#include "commanddefault.h"
-
-#include "client/pointer/pointer.h"
-#include "common/reporter/reporter.h"
-
-#include "client/network/network.h"
-#include "common/network/netmessage.h"
+#define PT_DEFAULT_CHAT_GROUP "#general"
 
 namespace PT
 {
   namespace Chat
   {
     //--------------------------------------------------------------------------
-    class cmdGroup : public CommandDefault
+    class cmdGroup : public CommandInterface
     {
+    protected:
+      void SendMessage(const std::string& channel, const std::string& text);
+      
     public:
-      cmdGroup () : CommandDefault("group") { }
-      virtual ~cmdGroup () { }
+      cmdGroup ();
+      virtual ~cmdGroup ();
 
-      virtual std::string HelpSynopsis (const char*) const
-      { return "Send a message to all group members."; }
-      virtual std::string HelpUsage (const char*) const
-      { return "Usage: '/group <message>'"; }
+      virtual bool CommandHandled (const char* cmd) const;
+      virtual StringArray GetAllCommands () const;
 
-      virtual void Execute (const StringArray& args)
-      {
-        Network* network = PointerLibrary::getInstance()->getNetwork();
-        if(!network) return;
+      virtual std::string HelpUsage (const char* cmd) const;
+      virtual std::string HelpSynopsis (const char* cmd) const;
+      virtual std::string HelpFull (const char* cmd) const;
 
-        // Element 0 is '/', 1 is 'say'
-        if (args.size() < 3) throw BadUsage();
-        else
-        {
-          std::string text;
-          for(size_t i = 2; i < args.size(); i++)
-          {
-            text += args[i];
-            text += " ";
-          }
-
-          Report(PT::Debug, "Group: %s", text.c_str());
-          GroupMessage msg;
-          msg.setMessage(text.c_str());
-          msg.setChannel(ptString::create("#general"));
-          network->send(&msg);
-
-          return;
-        }
-      }
+      virtual void Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
   } // Chat namespace
