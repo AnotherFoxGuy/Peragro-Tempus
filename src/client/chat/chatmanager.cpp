@@ -168,10 +168,11 @@ namespace PT
 
       std::string nick = ChatHelper::GetNickName(&ev);
       std::string message = ChatHelper::GetMessage(&ev);
+      std::string channel = ChatHelper::GetChannel(&ev);
 
       /* TODO: Message is only added to main chat window, because there's
          no distinct window yet */
-      std::string text = "Groupmember <" + nick + "> " + message;
+      std::string text = "[" + channel + "] <" + nick + "> " + message;
       ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->AddMessage (text.c_str());
       chatLogger.LogMessage (CHATLOGGER_MESSAGE_GROUP, text.c_str());

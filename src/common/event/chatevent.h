@@ -81,6 +81,21 @@ namespace PT
         return volume;
       }
 
+      /**
+       * Gets the channel a message is sent to.
+       * @param event The event.
+       * @return The channel name.
+       */
+      static std::string GetChannel(const iEvent* event)
+      {
+        const char* channelstr = "";
+        if (event->Retrieve("channel", channelstr) != csEventErrNone)
+          Report(PT::Error, "ChatHelper::GetChannel failed!");
+
+        std::string channel = channelstr;
+        return channel;
+      }
+
     };
   } // Events namespace
 } // PT namespace
