@@ -25,24 +25,26 @@
 #include "common/util/array.h"
 #include "common/util/monitorable.h"
 
-#include "chatgroup.h"
+#include "chatgroupset.h"
 
 class CharChats : public ptMonitorable<CharChats>
 {
 public:
-  typedef std::pair< std::string, const ChatGroups::UserList* > Channel;
+  typedef std::pair< std::string, const ChatGroup::UserList* > Channel;
 
   CharChats() {}
   virtual ~CharChats() {}
 
   virtual size_t GetChannelCount() const = 0;
-  virtual const char* GetChannelName (size_t idx) const = 0;
+  virtual std::string GetChannelName (size_t idx) const = 0;
 
   // names of default channels to join apon creation
   virtual size_t GetDefChannelCount() const = 0;
   virtual const char* GetDefChannelName (size_t idx) const = 0;
 
-  virtual void JoinChannel(const char* channel, const ChatGroups::UserList* ulist) = 0;
+  virtual void JoinChannel(const char* channel, const ChatGroup::UserList* ulist) = 0;
+  virtual void QuitChannel(const char* channel) = 0;
+  virtual const ChatGroup::UserList* FindChannel(const char* channel) = 0;
 
 }; // class CharChats
 
@@ -57,13 +59,15 @@ public:
   virtual ~CharChatsDef() {}
 
   virtual size_t GetChannelCount() const { return channels.getCount(); };
-  virtual const char* GetChannelName (size_t idx) const
-  { return channels.get(idx).first.c_str(); }
+  virtual std::string GetChannelName (size_t idx) const
+  { return channels.get(idx).first; }
 
   virtual size_t GetDefChannelCount() const;
   virtual const char* GetDefChannelName (size_t idx) const;
 
-  virtual void JoinChannel(const char* channel, const ChatGroups::UserList* ulist);
+  virtual void JoinChannel(const char* channel, const ChatGroup::UserList* ulist);
+  virtual void QuitChannel(const char* channel);
+  virtual const ChatGroup::UserList* FindChannel(const char* channel);
 
   const PcEntity* GetParent() const { return parent; }
 }; // class CharChatsDef

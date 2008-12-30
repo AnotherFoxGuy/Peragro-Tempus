@@ -64,6 +64,7 @@ namespace PT
           Report(PT::Debug, "Group: %s", text.c_str());
           GroupMessage msg;
           msg.setMessage(text.c_str());
+          msg.setChannel(ptString::create("#general"));
           network->send(&msg);
 
           return;

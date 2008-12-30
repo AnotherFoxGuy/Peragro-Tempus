@@ -16,26 +16,27 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef CHATMANAGER_H
-#define CHATMANAGER_H
+#ifndef CHGRPSIMPLE_H
+#define CHGRPSIMPLE_H
 
-#include "chatgroupset.h"
-#include "charchats.h"
+#include "chatgroup.h"
 
-#include "server/entity/entitycallback.h"
-
-class ChatManager : public ChatGroupSet, public EntityCallback
+class ChatGroupSimple : public ChatGroup
 {
+protected:
+  UserList userlist;
+
 public:
-  ChatManager();
-  virtual ~ChatManager();
+  ChatGroupSimple(const char* channelname);
+  virtual ~ChatGroupSimple();
 
-  static ChatManager* getChatManager();
+  virtual const UserList& getUserList () const;
+  
+  virtual void delUser (const PcEntity* user);
+  virtual void addUser (const PcEntity* user);
 
-  void createChannel (const char* channel);
+  virtual void process(const PcEntity* user, const char* message);
+  virtual void broadcast(const PcEntity* user, const char* message) const;
+}; // class ChatGroupSimple
 
-  virtual void OnEntityAdd(const Entity* entity);
-  virtual void OnEntityRemove(const Entity* entity);
-}; // class ChatManager
-
-#endif // CHATMANAGER_H
+#endif // CHGRPSIMPLE_H

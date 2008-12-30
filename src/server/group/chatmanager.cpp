@@ -17,13 +17,14 @@
 */
 
 #include "chatmanager.h"
+#include "chgrpsimple.h"
 
 #include "server/entity/entity.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/entitymanager.h"
 #include "server/server.h"
 
-ChatManager::ChatManager() : ChatGroups()
+ChatManager::ChatManager() : ChatGroupSet()
 {
 }
 
@@ -48,6 +49,13 @@ ChatManager* ChatManager::getChatManager()
   return chatmanager;
 }
 
+void ChatManager::createChannel(const char* channel)
+{
+  if (!channel) return;
+  ChatGroup* chgrp = new ChatGroupSimple(channel);
+  addChannel(chgrp);
+}
+
 void ChatManager::OnEntityAdd(const Entity* entity)
 {
   if (!entity) return;
@@ -66,8 +74,12 @@ void ChatManager::OnEntityAdd(const Entity* entity)
   for (size_t i=0;  i< cchats->GetDefChannelCount();  i++)
   {
     const char* channel = cchats->GetDefChannelName(i);
-    addUser(user, channel);
-    cchats->JoinChannel(channel, &getUserList(channel));
+    if (channel)
+    {
+      if (!channelExists(channel)) createChannel(channel);
+      addUser(user, channel);
+      cchats->JoinChannel(channel, &getUserList(channel));
+    }
   }
 }
 
@@ -82,5 +94,5 @@ void ChatManager::OnEntityRemove(const Entity* entity)
 
   ptScopedMonitorable<CharChats> cchats (c_cchats);
   for (size_t i=0;  i < cchats->GetChannelCount();  i++)
-    delUser(user, cchats->GetChannelName(i));
+    delUser(user, cchats->GetChannelName(i).c_str());
 }

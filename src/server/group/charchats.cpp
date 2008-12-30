@@ -18,7 +18,16 @@
 
 #include "charchats.h"
 
-const char* PTCharDefaultChatsTable[] = {"#help", "#auction"};
+// TODO put this table in an XML file
+const char* PTCharDefaultChatsTable[] = 
+{
+  "#general",  // server-wide mainchat
+  "#auction",  // trade channel
+  "#recruit",  // guild and party recruitment
+  "#help",     // general game help
+//  "#dev",      // for discussing the game's development
+  "#gm"        // contact a game master
+};
 
 size_t CharChatsDef::GetDefChannelCount() const
 {
@@ -31,9 +40,31 @@ const char* CharChatsDef::GetDefChannelName(size_t idx) const
   return PTCharDefaultChatsTable[idx];
 }
 
-void CharChatsDef::JoinChannel(const char* channel, const ChatGroups::UserList* ulist)
+void CharChatsDef::JoinChannel(const char* channel, const ChatGroup::UserList* ulist)
 {
+  // TODO
   if (!channel || !ulist) return;
+  if (FindChannel(channel)) return;
   Channel newchannel(channel, ulist);
   channels.add(newchannel);
+}
+
+void CharChatsDef::QuitChannel(const char* channel)
+{
+  // TODO
+  if (!channel) return;
+  for (size_t i = 0;  i < channels.getCount();  i++)
+    if (channels[i].first == channel)
+    {
+      channels.remove(i);
+      break;
+    }
+}
+
+const ChatGroup::UserList* CharChatsDef::FindChannel(const char* channel)
+{
+  if (!channel) return NULL;
+  for (size_t i = 0;  i < channels.getCount();  i++)
+    if (channels[i].first == channel) return channels[i].second;
+  return NULL;
 }

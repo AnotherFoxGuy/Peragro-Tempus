@@ -175,7 +175,7 @@ void NetworkHelper::broadcast(const ByteStream& bs)
 
 Array<const PcEntity*> NetworkHelper::getUserList(const PcEntity* ent, const char* channel)
 {
-  const ChatGroups* groups = ChatManager::getChatManager();
+  const ChatGroupSet* groups = ChatManager::getChatManager();
   Array<const PcEntity*> emptychannel;
 
   if (!groups || !groups->isUserIn(ent, channel)) return emptychannel;

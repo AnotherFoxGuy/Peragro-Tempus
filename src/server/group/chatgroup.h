@@ -19,39 +19,37 @@
 #ifndef CHATGROUP_H
 #define CHATGROUP_H
 
-#include <map>
-
 #include "common/util/array.h"
 
 class PcEntity;
 
-class ChatGroups
+class ChatGroup
 {
+protected:
+  std::string name;
+
 public:
   typedef Array<const PcEntity*> UserList;
-  typedef std::map< const char*, UserList > ChannelSet;
 
-protected:
-  ChannelSet channels;
+  ChatGroup(const char* channelname);
+  virtual ~ChatGroup();
 
-public:
-  ChatGroups() : channels() {}
-  ~ChatGroups() {}
+  const char* getName () const { return name.c_str(); }
 
-  bool isUserIn (const PcEntity* user, const char* channel) const;
-  bool channelExists (const char* channel) const;
+  virtual const UserList& getUserList () const = 0;
+  bool isUserIn (const PcEntity* user) const;
+  size_t getUserCount () const;
+  
+  virtual void delUser (const PcEntity* user) = 0;
+  // addUser is expected to gracefully handle duplicates
+  virtual void addUser (const PcEntity* user) = 0;
 
-  const UserList& getUserList (const char* channel) const;
-  size_t getChannelCount() const { return channels.size(); }
-  size_t getUserCount (const char* channel) const;
+  // handle the given message, checking for control commands, and sending
+  // the message out to the members of the group, if appropriate
+  virtual void process(const PcEntity* user, const char* message) = 0;
 
-  /* the 'prune' option determines whether a channel should be pruned
-     from the list if deleting the user leaves the channel empty of users. */
-  void delUser (const PcEntity* user, const char* channel, bool prune=true);
-  void addUser (const PcEntity* user, const char* channel);
-
-  void addChannel (const char* channel) { channels[channel]; }
-  void delChannel (const char* channel) { channels.erase(channel); }
-}; // class ChatGroups
+  // send the given message to all of the members of the group
+  virtual void broadcast(const PcEntity* user, const char* message) const = 0;
+}; // class ChatGroup
 
 #endif // CHATGROUP_H

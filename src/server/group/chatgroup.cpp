@@ -18,44 +18,20 @@
 
 #include "chatgroup.h"
 
-bool ChatGroups::isUserIn (const PcEntity* user, const char* channel) const
+ChatGroup::ChatGroup(const char* channelname) : name(channelname)
 {
-  ChatGroups::ChannelSet::const_iterator iter = channels.find(channel);
-  if (iter == channels.end()) return false;
-  return iter->second.find(user) != iter->second.getCount();
 }
 
-bool ChatGroups::channelExists (const char* channel) const
+ChatGroup::~ChatGroup()
 {
-  return channels.find(channel) != channels.end();
 }
 
-const ChatGroups::UserList& ChatGroups::getUserList (const char* channel) const
+bool ChatGroup::isUserIn (const PcEntity* user) const
 {
-  static UserList emptylist = UserList();
-  ChatGroups::ChannelSet::const_iterator iter = channels.find(channel);
-  if (iter == channels.end()) return emptylist;
-  return iter->second;
+  return getUserList().find(user) != getUserList().getCount();
 }
 
-size_t ChatGroups::getUserCount (const char* channel) const
+size_t ChatGroup::getUserCount () const
 {
-  ChatGroups::ChannelSet::const_iterator iter = channels.find(channel);
-  if (iter == channels.end()) return 0;
-  return iter->second.getCount();
-}
-
-void ChatGroups::addUser (const PcEntity* user, const char* channel)
-{
-  UserList& list = channels[channel];
-  if (list.find(user) == list.getCount()) list.add(user);
-}
-
-void ChatGroups::delUser (const PcEntity* user, const char* channel, bool prune)
-{
-  ChatGroups::ChannelSet::iterator iter = channels.find(channel);
-  if (iter == channels.end()) return;
-  size_t idx = iter->second.find(user);
-  if (idx != iter->second.getCount()) iter->second.remove(idx);
-  if (prune && !iter->second.getCount()) delChannel(channel);
+  return getUserList().getCount();
 }

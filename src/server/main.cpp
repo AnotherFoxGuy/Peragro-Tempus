@@ -32,6 +32,7 @@
 #include "server/entity/statmanager.h"
 #include "server/entity/skillmanager.h"
 #include "server/entity/sectormanager.h"
+#include "server/group/chatmanager.h"
 #include "server/zone/zonemanager.h"
 #include "server/reputation/reputationmanager.h"
 #include "server/quest/npcdialog.h"
@@ -168,6 +169,8 @@ int main(int argc, char ** argv)
 
   ent_mgr = new EntityManager();
   server.setEntityManager(ent_mgr);
+
+  ChatManager::getChatManager();
 
   RaceManager race_mgr;
   server.setRaceManager(&race_mgr);
