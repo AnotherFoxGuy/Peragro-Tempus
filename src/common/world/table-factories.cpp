@@ -27,6 +27,31 @@
 
 #include "world.h"
 
+std::string FactoriesTable::GetFactoryFile(ResultSet* rs, size_t row)
+{
+  return rs->GetData(row, 0);
+}
+
+std::string FactoriesTable::GetFactoryName(ResultSet* rs, size_t row)
+{
+  return rs->GetData(row, 1);
+}
+
+Geom::Vector3 FactoriesTable::GetPosition(ResultSet* rs, size_t row, size_t offset)
+{
+  float x = (float)atof(rs->GetData(row, offset+0).c_str());
+  float y = (float)atof(rs->GetData(row, offset+1).c_str());
+  float z = (float)atof(rs->GetData(row, offset+2).c_str());
+  return Geom::Vector3(x, y, z);
+}
+
+Geom::Box FactoriesTable::GetBoundingBox(ResultSet* rs, size_t row)
+{
+  Geom::Vector3 min = GetPosition(rs, row, 2);
+  Geom::Vector3 max = GetPosition(rs, row, 5);
+  return Geom::Box(min, max);
+}
+
 FactoriesTable::FactoriesTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from factories;");
@@ -79,37 +104,12 @@ Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::strin
     return Geom::Box();
   }
   delete rs;
-  return GetBB(rs, O);
+  return GetBoundingBox(rs, 0);
 }
 
 void FactoriesTable::DropTable()
 {
   db->update("drop table factories;");
-}
-
-std::string GetFactoryFile(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 0);
-}
-
-std::string GetFactoryName(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 1);
-}
-
-Geom::Vector3 GetPosition(ResultSet* rs, size_t row, size_t offset = 2)
-{
-  float x = atof(rs->GetData(row, offset+0).c_str());
-  float y = atof(rs->GetData(row, offset+1).c_str());
-  float z = atof(rs->GetData(row, offset+2).c_str());
-  return Geom::Vector3(x, y, z);
-}
-
-Geom::Box GetBB(ResultSet* rs, size_t row)
-{
-  Geom::Vector3 min = GetPosition(rs, row, 2);
-  Geom::Vector3 max = GetPosition(rs, row, 5);
-  return Geom::Box(min, max);
 }
 
 void FactoriesTable::GetAll(Array<World::Factory>& factories)
@@ -121,7 +121,7 @@ void FactoriesTable::GetAll(Array<World::Factory>& factories)
     World::Factory factory;
     factory.factoryFile = GetFactoryFile(rs, i);
     factory.factoryName = GetFactoryName(rs, i);
-    factory.worldBB = GetBB(rs, i);
+    factory.boundingBox = GetBoundingBox(rs, i);
     factories.add(factory);
   }
   delete rs;

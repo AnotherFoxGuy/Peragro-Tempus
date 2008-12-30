@@ -25,7 +25,8 @@
 #include "common/geom/box.h"
 #include "common/geom/vector2.h"
 
-class dbSQLite;
+//class dbSQLite;
+#include "common/database/sqlite/sqlite.h"
 
 namespace World
 {
@@ -44,6 +45,9 @@ namespace World
     std::string factoryName;
     Geom::Vector3 position;
     Geom::Box worldBB;
+
+    /// For std::set
+    friend bool operator<(const Object& obj1, const Object& obj2);
   };
 
   class WorldManager
@@ -60,7 +64,7 @@ namespace World
     ~WorldManager();
 
     bool Add(const Object& object);
-    bool AddLookUp(const Object& object);
+    bool AddLookUp(Object& object);
     bool Remove(const Object& object);
 
     bool Add(const Factory& factory);

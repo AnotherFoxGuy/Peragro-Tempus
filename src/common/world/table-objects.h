@@ -30,6 +30,12 @@ namespace World
   struct Object;
 } // namespace World
 
+namespace Geom
+{
+  class Box;
+  class Vector3;
+} // namespace Geom
+
 /**
  * Provides an interface to the database to handle storage of reputations.
  */
@@ -40,6 +46,13 @@ private:
    * Creates a table in the database that will store eputations.
    */
   void CreateTable();
+
+  size_t GetId(ResultSet* rs, size_t row);
+  std::string GetName(ResultSet* rs, size_t row);
+  std::string GetFactoryFile(ResultSet* rs, size_t row);
+  std::string GetFactoryName(ResultSet* rs, size_t row);
+  Geom::Vector3 GetPosition(ResultSet* rs, size_t row, size_t offset = 4);
+  Geom::Box GetWorldBB(ResultSet* rs, size_t row);
 
 public:
   ObjectsTable(Database* db);

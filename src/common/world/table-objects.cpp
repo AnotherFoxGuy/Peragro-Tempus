@@ -29,6 +29,41 @@
 
 using namespace World; 
 
+size_t ObjectsTable::GetId(ResultSet* rs, size_t row)
+{
+  return atoi(rs->GetData(row, 0).c_str());
+}
+
+std::string ObjectsTable::GetName(ResultSet* rs, size_t row)
+{
+  return rs->GetData(row, 1);
+}
+
+std::string ObjectsTable::GetFactoryFile(ResultSet* rs, size_t row)
+{
+  return rs->GetData(row, 2);
+}
+
+std::string ObjectsTable::GetFactoryName(ResultSet* rs, size_t row)
+{
+  return rs->GetData(row, 3);
+}
+
+Geom::Vector3 ObjectsTable::GetPosition(ResultSet* rs, size_t row, size_t offset)
+{
+  float x = (float)atof(rs->GetData(row, offset+0).c_str());
+  float y = (float)atof(rs->GetData(row, offset+1).c_str());
+  float z = (float)atof(rs->GetData(row, offset+2).c_str());
+  return Geom::Vector3(x, y, z);
+}
+
+Geom::Box ObjectsTable::GetWorldBB(ResultSet* rs, size_t row)
+{
+  Geom::Vector3 min = GetPosition(rs, row, 7);
+  Geom::Vector3 max = GetPosition(rs, row, 10);
+  return Geom::Box(min, max);
+}
+
 ObjectsTable::ObjectsTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from objects;");
@@ -78,7 +113,7 @@ void ObjectsTable::Insert(const World::Object& object, bool unique)
     "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f"
     ");" };
 
-  int id = object.id;
+  int id = (int)object.id;
   if (unique)
     id = getMaxId(db);
 
@@ -91,41 +126,6 @@ void ObjectsTable::Insert(const World::Object& object, bool unique)
 void ObjectsTable::DropTable()
 {
   db->update("drop table objects;");
-}
-
-size_t GetId(ResultSet* rs, size_t row)
-{
-  return atoi(rs->GetData(row, 0).c_str());
-}
-
-std::string GetName(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 1);
-}
-
-std::string GetFactoryFile(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 2);
-}
-
-std::string GetFactoryName(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 3);
-}
-
-Geom::Vector3 GetPosition(ResultSet* rs, size_t row, size_t offset = 4)
-{
-  float x = atof(rs->GetData(row, offset+0).c_str());
-  float y = atof(rs->GetData(row, offset+1).c_str());
-  float z = atof(rs->GetData(row, offset+2).c_str());
-  return Geom::Vector3(x, y, z);
-}
-
-Geom::Box GetWorldBB(ResultSet* rs, size_t row)
-{
-  Geom::Vector3 min = GetPosition(rs, row, 7);
-  Geom::Vector3 max = GetPosition(rs, row, 10);
-  return Geom::Box(min, max);
 }
 
 void ObjectsTable::GetObjects(Array<World::Object>& objects)

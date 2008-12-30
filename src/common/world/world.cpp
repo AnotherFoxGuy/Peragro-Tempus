@@ -23,13 +23,18 @@
 #include "table-objects.h"
 #include "table-factories.h"
 
+bool operator<(const World::Object& obj1, const World::Object& obj2)
+{
+  return obj1.id < obj2.id;
+}
+
 namespace World
 {
   WorldManager::WorldManager() : db("world.sqlite")
   {
     ObjectsTable objectsTable(&db);
     Array<Object> objs;
-    ObjectsTable::GetObjects(objs);
+    objectsTable.GetObjects(objs);
     for (size_t i = 0; i < objs.getCount(); i++)
     {
       printf("WorldManager: %s\n", objs[i].name.c_str());
@@ -39,7 +44,6 @@ namespace World
 
   WorldManager::~WorldManager()
   {
-    db.shutdown();
   }
 
   bool WorldManager::Add(const Object& object)
@@ -59,7 +63,7 @@ namespace World
 
   bool WorldManager::Remove(const Object& object)
   {
-    bool false;
+    return false;
   }
 
   bool WorldManager::Add(const Factory& factory)
@@ -71,10 +75,10 @@ namespace World
 
   bool WorldManager::Remove(const Factory& factory)
   {
-    bool false;
+    return false;
   }
 
-  Geom::OcTree::QueryResult WorldManager::Query(const Sphere& s)
+  WorldManager::Octree::QueryResult WorldManager::Query(const Geom::Sphere& s)
   {
     return objects.Query(s);
   }

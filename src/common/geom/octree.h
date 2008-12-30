@@ -44,7 +44,7 @@ namespace Geom
     struct Entry
     {
       T _t;
-      const Geom _g;
+      Geom _g;
       Entry(T t, const Geom& g)
       {
         _t = t;
@@ -68,7 +68,7 @@ namespace Geom
     /// Copy constructor.
     OcTree(const OcTree& o) {}
 
-    typedef std::vector<Entry>::iterator Iterator;
+    typedef typename std::vector<Entry>::iterator Iterator;
     std::vector<Entry> entries;
 
   public:
@@ -80,7 +80,7 @@ namespace Geom
 
     bool Add(Geom g, T t) 
     {
-      Entry entry(g, t);
+      Entry entry(t, g);
       entries.push_back(entry);
       return true;
     }
@@ -105,8 +105,8 @@ namespace Geom
       Iterator it;
       for (it = entries.begin() ; it != entries.end(); it++ )
       {
-        if ((*it)->ContainedIn(s))
-          result.insert((T)(*t));
+        if ((*it).ContainedIn(s))
+          result.insert((T)(*it));
       }
 
       return result;
