@@ -118,6 +118,10 @@ public:
   void Load(const std::string& fileName)
   {
     csRef<iCacheEntry> e(cacheManager->Get(fileName));
+    // Check if we haven't loaded this before.
+    if ((loadedCacheEntries.Contains(e) != csArrayItemNotFound)
+        || (loadingCacheEntries.Contains(e)) != csArrayItemNotFound)
+      return;
     loadingCacheEntries.Push(e);
     Register();
   }
