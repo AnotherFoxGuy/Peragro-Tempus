@@ -19,6 +19,7 @@
 #include "sphere.h"
 
 #include "math3d.h"
+#include "box.h"
 
 template <typename T>
 T square(const T& value)
@@ -52,7 +53,15 @@ namespace Geom
 
   bool Sphere::Contains (const Box& box) const
   {
-    return false;
+    double sqr_dist = 0;
+
+    for(size_t i = 0; i < 3; ++i) 
+    {
+      float furthest = FloatMax(fabs(center[i] - box.Min()[i]), fabs(center[i] - box.Max()[i]));
+      sqr_dist += furthest * furthest;
+    }
+
+    return LessOrEqual(sqr_dist, radius * radius * (1 + PT_EPSILON));
   }
 
 } // namespace Geom

@@ -19,8 +19,35 @@
 #ifndef GEOM_MATH3D_H
 #define GEOM_MATH3D_H
 
+#include "common/constants.h"
+
 #include "vector3.h"
 
+bool Equal(double x1, double x2, double epsilon = PT_EPSILON)
+{
+  using namespace std;
+  int exponent;
+  (void) frexp(fabs(x1) < fabs(x2) ? x1 : x2, &exponent);
+  return fabs(x1 - x2) <= ldexp(epsilon, exponent);
+}
+// Avoid template, make sure floats are cast to doubles.
+inline bool Equal(float x1, float x2, double epsilon = PT_EPSILON)
+	{return Equal((double) x1, (double) x2, epsilon);}
+
+bool LessOrEqual(double x1, double x2)
+{
+  return x1 < x2 || Equal(x1, x2);
+}
+
+// These let us avoid including <algorithm> for the sake of
+// std::max() and std::min().
+
+inline float FloatMax(float a, float b)
+	{return (a > b) ? a : b;}
+inline float FloatMin(float a, float b)
+	{return (a < b) ? a : b;}
+inline float FloatClamp(float val, float min, float max)
+	{return (min >= val) ? min : (max <= val ? max : val);}
 
 /**
  * Some functions to perform squared distance calculations.
