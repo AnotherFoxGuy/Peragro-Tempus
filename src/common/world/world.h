@@ -28,51 +28,62 @@
 //class dbSQLite;
 #include "common/database/sqlite/sqlite.h"
 
-namespace World
+namespace Common
 {
-  struct Factory
+  namespace World
   {
-    std::string factoryFile;
-    std::string factoryName;
-    Geom::Box boundingBox;
-  };
+    struct Object;
+  }
+}
 
-  struct Object
+typedef Geom::OcTree<Geom::Box, Common::World::Object> Octree;
+
+namespace Common
+{
+  namespace World
   {
-    size_t id;
-    std::string name;
-    std::string factoryFile;
-    std::string factoryName;
-    Geom::Vector3 position;
-    Geom::Box worldBB;
+    struct Factory
+    {
+      std::string factoryFile;
+      std::string factoryName;
+      Geom::Box boundingBox;
+    };
 
-    /// For std::set
-    friend bool operator<(const Object& obj1, const Object& obj2);
-  };
+    struct Object
+    {
+      size_t id;
+      std::string name;
+      std::string factoryFile;
+      std::string factoryName;
+      Geom::Vector3 position;
+      std::string sector;
+      Geom::Box worldBB;
 
-  class WorldManager
-  {
-  public:
-    typedef Geom::OcTree<Geom::Box, Object> Octree;
+      /// For std::set
+      friend bool operator<(const Object& obj1, const Object& obj2);
+    };
 
-  private:
-    dbSQLite db;
-    Octree objects;
+    class WorldManager
+    {
+    private:
+      dbSQLite db;
+      Octree objects;
 
-  public:
-    WorldManager();
-    ~WorldManager();
+    public:
+      WorldManager();
+      ~WorldManager();
 
-    bool Add(const Object& object);
-    bool AddLookUp(Object& object);
-    bool Remove(const Object& object);
+      bool Add(const Object& object);
+      bool AddLookUp(Object& object);
+      bool Remove(const Object& object);
 
-    bool Add(const Factory& factory);
-    bool Remove(const Factory& factory);
+      bool Add(const Factory& factory);
+      bool Remove(const Factory& factory);
 
-    Octree::QueryResult Query(const Geom::Sphere& s);
-  };
+      Octree::QueryResult Query(const Geom::Sphere& s);
+    };
 
-} // namespace World
+  } // namespace World
+} // namespace Common
 
 #endif // COMMON_WORLD_H

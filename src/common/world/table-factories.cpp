@@ -77,7 +77,7 @@ void FactoriesTable::CreateTable()
     "PRIMARY KEY (factoryFile, factoryName) );");
 }
 
-void FactoriesTable::Insert(const World::Factory& factory)
+void FactoriesTable::Insert(const Common::World::Factory& factory)
 {
   const char* query = { "insert into factories("
     "factoryFile, factoryName, "
@@ -112,13 +112,13 @@ void FactoriesTable::DropTable()
   db->update("drop table factories;");
 }
 
-void FactoriesTable::GetAll(Array<World::Factory>& factories)
+void FactoriesTable::GetAll(Array<Common::World::Factory>& factories)
 {
   ResultSet* rs = db->query("select * from factories;");
   if (!rs) return;
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
-    World::Factory factory;
+    Common::World::Factory factory;
     factory.factoryFile = GetFactoryFile(rs, i);
     factory.factoryName = GetFactoryName(rs, i);
     factory.boundingBox = GetBoundingBox(rs, i);

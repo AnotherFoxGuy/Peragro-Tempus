@@ -25,10 +25,13 @@ class Database;
 class Reputation;
 class ptString;
 
-namespace World
+namespace Common
 {
-  struct Object;
-} // namespace World
+  namespace World
+  {
+    struct Object;
+  } // namespace World
+} // namespace Common
 
 namespace Geom
 {
@@ -52,6 +55,7 @@ private:
   std::string GetFactoryFile(ResultSet* rs, size_t row);
   std::string GetFactoryName(ResultSet* rs, size_t row);
   Geom::Vector3 GetPosition(ResultSet* rs, size_t row, size_t offset = 4);
+  std::string GetSectorName(ResultSet* rs, size_t row);
   Geom::Box GetWorldBB(ResultSet* rs, size_t row);
 
 public:
@@ -61,7 +65,7 @@ public:
    * Insert a object into the database.
    * @param object
    */
-  void Insert(const World::Object& object, bool unique = true);
+  void Insert(const Common::World::Object& object, bool unique = true);
 
   /**
    * Removes all objects from the database.
@@ -72,7 +76,7 @@ public:
    * This function will load all objects from the database.
    * @param reputations An array that will contain all objects.
    */
-  void GetObjects(Array<World::Object>& objects);
+  void GetObjects(Array<Common::World::Object>& objects);
 };
 
 #endif //TABLE_OBJECT_H

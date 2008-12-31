@@ -25,10 +25,13 @@ class Database;
 class Reputation;
 class ptString;
 
-namespace World
+namespace Common
 {
-  struct Factory;
-} // namespace World
+  namespace World
+  {
+    struct Factory;
+  } // namespace World
+} // namespace Common
 
 namespace Geom
 {
@@ -59,7 +62,7 @@ public:
    * Insert a object into the database.
    * @param object
    */
-  void Insert(const World::Factory& factory);
+  void Insert(const Common::World::Factory& factory);
 
   Geom::Box GetBB(const std::string& factoryFile, const std::string& factoryName);
 
@@ -72,7 +75,7 @@ public:
    * This function will load all objects from the database.
    * @param reputations An array that will contain all objects.
    */
-  void GetAll(Array<World::Factory>& factories);
+  void GetAll(Array<Common::World::Factory>& factories);
 };
 
 #endif //TABLE_FACTORY_H

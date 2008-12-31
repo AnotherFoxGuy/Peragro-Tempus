@@ -23,64 +23,70 @@
 #include "table-objects.h"
 #include "table-factories.h"
 
-bool operator<(const World::Object& obj1, const World::Object& obj2)
+namespace Common
 {
-  return obj1.id < obj2.id;
-}
-
-namespace World
-{
-  WorldManager::WorldManager() : db("world.sqlite")
+  namespace World
   {
-    ObjectsTable objectsTable(&db);
-    Array<Object> objs;
-    objectsTable.GetObjects(objs);
-    for (size_t i = 0; i < objs.getCount(); i++)
+    /// For std::set
+    bool operator<(const Common::World::Object& obj1, const Common::World::Object& obj2)
     {
-      printf("WorldManager: %s\n", objs[i].name.c_str());
-      objects.Add(objs[i].worldBB, objs[i]);
+      return obj1.id < obj2.id;
     }
-  }
 
-  WorldManager::~WorldManager()
-  {
-  }
+    WorldManager::WorldManager() : db("world.sqlite")
+    {
+      ObjectsTable objectsTable(&db);
+      Array<Object> objs;
+      objectsTable.GetObjects(objs);
+      for (size_t i = 0; i < objs.getCount(); i++)
+      {
+        printf("WorldManager: %s\n", objs[i].name.c_str());
+        objects.Add(objs[i].worldBB, objs[i]);
+      }
+    }
 
-  bool WorldManager::Add(const Object& object)
-  {
-    ObjectsTable objectsTable(&db);
-    objectsTable.Insert(object);
-    return objects.Add(object.worldBB, object);
-  }
+    WorldManager::~WorldManager()
+    {
+    }
 
-  bool WorldManager::AddLookUp(Object& object)
-  {
-    FactoriesTable factoryTable(&db);
-    object.worldBB = factoryTable.GetBB(object.factoryFile, object.factoryName);
+    bool WorldManager::Add(const Object& object)
+    {
+      ObjectsTable objectsTable(&db);
+      objectsTable.Insert(object);
+      return objects.Add(object.worldBB, object);
+    }
 
-    return Add(object);
-  }
+    bool WorldManager::AddLookUp(Object& object)
+    {
+      FactoriesTable factoryTable(&db);
+      object.worldBB = factoryTable.GetBB(object.factoryFile, object.factoryName);
+      // TODDO: do proper transform.
+      //object.worldBB = object.worldBB + object.position;
 
-  bool WorldManager::Remove(const Object& object)
-  {
-    return false;
-  }
+      return Add(object);
+    }
 
-  bool WorldManager::Add(const Factory& factory)
-  {
-    FactoriesTable factoryTable(&db);
-    factoryTable.Insert(factory);
-    return true;
-  }
+    bool WorldManager::Remove(const Object& object)
+    {
+      return false;
+    }
 
-  bool WorldManager::Remove(const Factory& factory)
-  {
-    return false;
-  }
+    bool WorldManager::Add(const Factory& factory)
+    {
+      FactoriesTable factoryTable(&db);
+      factoryTable.Insert(factory);
+      return true;
+    }
 
-  WorldManager::Octree::QueryResult WorldManager::Query(const Geom::Sphere& s)
-  {
-    return objects.Query(s);
-  }
+    bool WorldManager::Remove(const Factory& factory)
+    {
+      return false;
+    }
 
-} // namespace World
+    Octree::QueryResult WorldManager::Query(const Geom::Sphere& s)
+    {
+      return objects.Query(s);
+    }
+
+  } // namespace World
+} // namespace Common

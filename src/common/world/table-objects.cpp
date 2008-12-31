@@ -27,8 +27,6 @@
 
 #include "world.h"
 
-using namespace World; 
-
 size_t ObjectsTable::GetId(ResultSet* rs, size_t row)
 {
   return atoi(rs->GetData(row, 0).c_str());
@@ -57,10 +55,15 @@ Geom::Vector3 ObjectsTable::GetPosition(ResultSet* rs, size_t row, size_t offset
   return Geom::Vector3(x, y, z);
 }
 
+std::string ObjectsTable::GetSectorName(ResultSet* rs, size_t row)
+{
+  return rs->GetData(row, 7);
+}
+
 Geom::Box ObjectsTable::GetWorldBB(ResultSet* rs, size_t row)
 {
-  Geom::Vector3 min = GetPosition(rs, row, 7);
-  Geom::Vector3 max = GetPosition(rs, row, 10);
+  Geom::Vector3 min = GetPosition(rs, row, 8);
+  Geom::Vector3 max = GetPosition(rs, row, 11);
   return Geom::Box(min, max);
 }
 
@@ -85,6 +88,7 @@ void ObjectsTable::CreateTable()
     "pos_x FLOAT, "
     "pos_y FLOAT, "
     "pos_z FLOAT, "
+    "sector TEXT, "
     "BB_min_x FLOAT, "
     "BB_min_y FLOAT, "
     "BB_min_z FLOAT, "
@@ -92,6 +96,16 @@ void ObjectsTable::CreateTable()
     "BB_max_y FLOAT, "
     "BB_max_z FLOAT, "
     "PRIMARY KEY (id) );");
+
+  // TODO test data, remove.
+  Common::World::Object object;
+  object.name = "test";
+  object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
+  object.factoryName = "genscythe001";
+  object.position = Geom::Vector3(642, 14, 371);
+  object.sector = "World";
+  object.worldBB = Geom::Box(object.position, object.position+Geom::Vector3(2, 2, 2));
+  Insert(object, true);
 }
 
 int getMaxId(Database* db)
@@ -103,14 +117,18 @@ int getMaxId(Database* db)
   return id;
 }
 
-void ObjectsTable::Insert(const World::Object& object, bool unique)
+void ObjectsTable::Insert(const Common::World::Object& object, bool unique)
 {
   const char* query = { "insert into objects("
     "id, name, factoryFile, factoryName, "
-    "pos_x, pos_y, pos_z, BB_min_x, BB_min_y, BB_min_z, BB_max_x, BB_max_y, BB_max_z"
+    "pos_x, pos_y, pos_z, "
+    "sector, "
+    "BB_min_x, BB_min_y, BB_min_z, BB_max_x, BB_max_y, BB_max_z"
     ") values ("
     "%d, '%s', '%s', '%s',"
-    "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f"
+    "%.2f, %.2f, %.2f, "
+    "'%s', "
+    "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f"
     ");" };
 
   int id = (int)object.id;
@@ -119,6 +137,7 @@ void ObjectsTable::Insert(const World::Object& object, bool unique)
 
   db->update(query, id, object.name.c_str(), object.factoryFile.c_str(), object.factoryName.c_str(),
     object.position.x, object.position.y, object.position.z,
+    object.sector.c_str(),
     object.worldBB.Min().x, object.worldBB.Min().y, object.worldBB.Min().z,
     object.worldBB.Max().x, object.worldBB.Max().y, object.worldBB.Max().z);
 }
@@ -128,18 +147,19 @@ void ObjectsTable::DropTable()
   db->update("drop table objects;");
 }
 
-void ObjectsTable::GetObjects(Array<World::Object>& objects)
+void ObjectsTable::GetObjects(Array<Common::World::Object>& objects)
 {
   ResultSet* rs = db->query("select * from objects;");
   if (!rs) return;
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
-    World::Object object;
+    Common::World::Object object;
     object.id = GetId(rs, i);
     object.name = GetName(rs, i);
     object.factoryFile = GetFactoryFile(rs, i);
     object.factoryName = GetFactoryName(rs, i);
     object.position = GetPosition(rs, i);
+    object.sector = GetSectorName(rs, i);
     object.worldBB = GetWorldBB(rs, i);
     objects.add(object);
   }
