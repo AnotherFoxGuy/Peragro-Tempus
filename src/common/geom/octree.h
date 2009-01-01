@@ -60,7 +60,7 @@ namespace Geom
 
       bool ContainedIn(const Sphere& s)
       {
-        return s.Contains(_g);
+        return s.Intersect(_g);
       }
     };
 

@@ -98,7 +98,7 @@ Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::strin
                        "from factories "
                        "where factoryFile='%s' AND factoryName='%s';"};
   ResultSet* rs = db->query(query, factoryFile.c_str(), factoryName.c_str());
-  if (!rs)
+  if (!rs || rs->GetRowCount() == 0)
   {
     printf("E: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
     return Geom::Box();

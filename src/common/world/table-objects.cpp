@@ -96,16 +96,6 @@ void ObjectsTable::CreateTable()
     "BB_max_y FLOAT, "
     "BB_max_z FLOAT, "
     "PRIMARY KEY (id) );");
-
-  // TODO test data, remove.
-  Common::World::Object object;
-  object.name = "test";
-  object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
-  object.factoryName = "genscythe001";
-  object.position = Geom::Vector3(642, 14, 371);
-  object.sector = "World";
-  object.worldBB = Geom::Box(object.position, object.position+Geom::Vector3(2, 2, 2));
-  Insert(object, true);
 }
 
 int getMaxId(Database* db)

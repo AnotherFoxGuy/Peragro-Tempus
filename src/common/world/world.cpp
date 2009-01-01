@@ -49,21 +49,21 @@ namespace Common
     {
     }
 
-    bool WorldManager::Add(const Object& object)
+    bool WorldManager::Add(const Object& object, bool unique)
     {
       ObjectsTable objectsTable(&db);
-      objectsTable.Insert(object);
+      objectsTable.Insert(object, unique);
       return objects.Add(object.worldBB, object);
     }
 
-    bool WorldManager::AddLookUp(Object& object)
+    bool WorldManager::AddLookUp(Object& object, bool unique)
     {
       FactoriesTable factoryTable(&db);
       object.worldBB = factoryTable.GetBB(object.factoryFile, object.factoryName);
-      // TODDO: do proper transform.
-      //object.worldBB = object.worldBB + object.position;
+      // TODO: do proper transform.
+      object.worldBB = Geom::Box(object.worldBB.Min() + object.position, object.worldBB.Max() + object.position);
 
-      return Add(object);
+      return Add(object, unique);
     }
 
     bool WorldManager::Remove(const Object& object)

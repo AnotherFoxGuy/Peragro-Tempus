@@ -35,7 +35,7 @@ namespace Geom
     return false;
   }
 
-  bool Sphere::TestIntersect (const Sphere& sphere) const
+  bool Sphere::Intersect (const Sphere& sphere) const
   {
     float sqDist = SquaredDist::PointPoint (center, sphere.center);
     return (sqDist - (square (radius + sphere.radius))) < 0;
@@ -46,9 +46,23 @@ namespace Geom
     return false;
   }
 
-  bool Sphere::TestIntersect (const Box& box) const
+  bool Sphere::Intersect (const Box& box) const
   {
-    return false;
+    double dist = 0;
+
+    for(int i = 0; i < 3; ++i) 
+    {
+      double dist_i;
+      if(center[i] < box.Min()[i])
+        dist_i = center[i] - box.Min()[i];
+      else if(center[i] > box.Max()[i])
+        dist_i = center[i] - box.Max()[i];
+      else
+        continue;
+      dist += dist_i * dist_i;
+    }
+
+    return LessOrEqual(dist, radius * radius);
   }
 
   bool Sphere::Contains (const Box& box) const

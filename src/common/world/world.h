@@ -73,8 +73,8 @@ namespace Common
       WorldManager();
       ~WorldManager();
 
-      bool Add(const Object& object);
-      bool AddLookUp(Object& object);
+      bool Add(const Object& object, bool unique = true);
+      bool AddLookUp(Object& object, bool unique = true);
       bool Remove(const Object& object);
 
       bool Add(const Factory& factory);
