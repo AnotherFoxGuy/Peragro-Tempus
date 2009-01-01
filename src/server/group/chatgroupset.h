@@ -20,6 +20,7 @@
 #define CHATGROUPSET_H
 
 #include <map>
+#include <string>
 #include <boost/shared_ptr.hpp>
 
 #include "chatgroup.h"

@@ -408,17 +408,6 @@ namespace PT
               file->Flush();
             }
           }
-          else if (args[2].compare("worldsize") == 0)
-          {
-            if (args.size() < 4) throw BadUsage();
-
-            int worldSize = atoi(args[3].c_str());
-
-            iObjectRegistry* iObjReg = PointerLibrary::getInstance()->getObjectRegistry();
-
-            csRef<iWorld> world = csQueryRegistry<iWorld> (iObjReg);
-            world->SetGridSize(worldSize);
-          }
           return;
         }
     }

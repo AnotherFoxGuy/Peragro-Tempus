@@ -28,6 +28,10 @@
 
 using namespace PT::Chat;
 
+#ifdef SendMessage
+  #undef SendMessage
+#endif
+
 cmdGroup::cmdGroup()
 {
 }

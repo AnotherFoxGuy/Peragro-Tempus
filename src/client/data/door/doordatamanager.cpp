@@ -22,7 +22,7 @@
 #include "doordatamanager.h"
 #include "door.h"
 
-#include "plugins/world/maptile.h"
+#include "plugins/tiledworld/maptile.h"
 
 namespace PT
 {

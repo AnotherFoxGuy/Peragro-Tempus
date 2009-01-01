@@ -100,7 +100,7 @@ Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::strin
   ResultSet* rs = db->query(query, factoryFile.c_str(), factoryName.c_str());
   if (!rs || rs->GetRowCount() == 0)
   {
-    printf("E: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
+    printf("E: FactoriesTable::GetBB: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
     return Geom::Box();
   }
   delete rs;
