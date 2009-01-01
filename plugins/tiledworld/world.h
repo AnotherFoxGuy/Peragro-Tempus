@@ -138,6 +138,10 @@ private:
   void Tick(float dt);
 
 private:
+  void SetRange(size_t radius) {}
+  size_t GetRange() const { return 0; }
+
+private:
   /// The object registry.
   iObjectRegistry* object_reg;
   /// The model manager.
