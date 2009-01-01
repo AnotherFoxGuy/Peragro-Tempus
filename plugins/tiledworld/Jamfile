@@ -1,0 +1,10 @@
+SubDir TOP plugins tiledworld ;
+
+SubInclude TOP plugins tiledworld levelloader ;
+SubInclude TOP plugins tiledworld factoryloader ;
+
+Description tiledworldloader : "Tiled World loader" ;
+Plugin tiledworldloader : [ Wildcard *.cpp *.h ] ;
+ExternalLibs tiledworldloader : CRYSTAL CEL BOOST ;
+LinkWith tiledworldloader : reporter eventmanager-cs threadedlevelloader threadedfactoryloader ;
+

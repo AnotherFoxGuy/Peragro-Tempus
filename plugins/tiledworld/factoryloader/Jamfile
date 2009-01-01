@@ -1,4 +1,4 @@
-SubDir TOP plugins world factoryloader ;
+SubDir TOP plugins tiledworld factoryloader ;
 
 Description threadedfactoryloader : "Threaded factory loader" ;
 Library threadedfactoryloader :

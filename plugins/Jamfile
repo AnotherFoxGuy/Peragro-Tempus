@@ -6,6 +6,7 @@ SubInclude TOP plugins environment ;
 SubInclude TOP plugins gui ;
 SubInclude TOP plugins sound ;
 SubInclude TOP plugins terrained ;
+SubInclude TOP plugins tiledworld ;
 SubInclude TOP plugins world ;
 
 StaticPluginLibrary pt_staticplugins ;

@@ -43,6 +43,14 @@ struct iWorld : public virtual iBase
 
   virtual void UnSetCamera() = 0;
 
+  /// Set the proximity range in units.
+  virtual void SetRange(unsigned int size) = 0;
+  /// Get the proximity range in units.
+  virtual unsigned int GetRange() const = 0;
+
+
+  //-[Tiled world]-----------------------------
+  // TODO remove.
   /**
   * Enter the world at a horizontal (x, z) coordinate in world space.
   * @param x X coordinate.
@@ -59,6 +67,8 @@ struct iWorld : public virtual iBase
   virtual void SetCacheSize(unsigned int size) = 0;
   /// Get the cached tile grid size.
   virtual unsigned int GetCacheSize() const = 0;
+  //---------------------------------------------
+
 
   /// Set the resource path.
   //virtual void SetResourcePath(const std::string& path) = 0;

@@ -42,37 +42,49 @@
 #include <string>
 
 struct iObjectRegistry;
+struct iMovableListener;
 class csVector3;
 
 class iPointerLibrary;
 
-#include "include/cacheuser.h"
-struct iCacheEntry;
+namespace PT
+{
+  namespace World
+  {
+    class MapTile;
+    class ModelManager;
+    class InteriorManager;
+  } // World namespace
+} // PT namespace
 
-#include "common/world/world.h"
+using namespace PT::World;
 
 /**
-* Manages objects around the camera, by loading and deleting
-* them as the camera moves.
+* Manages the tile grid array around the camera, by loading and deleting
+* tiles as the camera moves.
 */
-class WorldManager : public scfImplementation3<WorldManager,iWorld,iComponent, iEventHandler>
+class WorldManager : public scfImplementation2<WorldManager,iWorld,iComponent>
 {
 private:
   bool UpdateOptions();
 
-private:
-  struct Instance : public Common::World::Object, public csRefCount, public iCacheUser
+  struct WorldEventHandler : public scfImplementation1<WorldEventHandler, iEventHandler>
   {
-  private:
-    iObjectRegistry* object_reg;
-    csRef<iMeshWrapper> instance;
-    void Loaded(iCacheEntry* cacheEntry);
-    void DoneLoading(bool success) {}
+    /// The world manager.
+    WorldManager* mgr;
 
-  public:
-    Instance (const Common::World::Object& object, iObjectRegistry* obj_reg);
-    ~Instance ();
+    /// Constructor.
+    WorldEventHandler(WorldManager* mgr) : scfImplementationType (this) { this->mgr = mgr; }
+    /// Destructor.
+    ~WorldEventHandler() {}
+
+    bool HandleEvent(iEvent& ev){ return mgr->UpdateOptions(); }
+
+    CS_EVENTHANDLER_NAMES ("peragro.world.listener")
+    CS_EVENTHANDLER_NIL_CONSTRAINTS
   };
+  friend struct WorldEventHandler;
+  csRef<WorldEventHandler> listener;
 
 private:
   /// The event queue.
@@ -84,27 +96,54 @@ private:
   /// Event ID for "world loaded".
   csEventID loadedId;
 
-  bool HandleEvent(iEvent& ev) { UpdateOptions(); return true; }
-
-  CS_EVENTHANDLER_NAMES ("peragro.world")
-  CS_EVENTHANDLER_NIL_CONSTRAINTS
-
 private:
   /// Whether more tiles need to be loaded.
   bool loading;
 
-  /// The proximity range in units.
-  size_t radius;
+  /// Number of tiles in the cache.
+  unsigned int maptilecachesize;
+  /// Tile cache.
+  MapTile** maptilecache;
 
-  Common::World::WorldManager* worldManager;
+  /// The current grid size.
+  unsigned int current_size;
+  /// Loaded subset of the world.
+  MapTile*** current;
 
-  csRefArray<Instance> instances;
+  /// Current x coordinate in tile space.
+  int cx;
+  /// Current z coordinate in tile space.
+  int cz;
 
-  void CameraMoved();
+  /**
+  * Load a tile with the given coordinates or return
+  * it from the cache if it was already loaded.
+  * @param x Tile index in the x dimension.
+  * @param z Tile index in the z dimension.
+  * @return The tile at the coordinates.
+  */
+  MapTile* LoadTile(int x, int z);
+
+  /**
+  * Enter a tile and load all surrounding tiles.
+  * @param x Tile index in the x dimension.
+  * @param z Tile index in the z dimension.
+  */
+  void EnterTile(int x, int z);
+
+  /**
+  * Check if player position is within tile boundaries.
+  * @param dt Time delta. (currently unused)
+  */
+  void Tick(float dt);
 
 private:
   /// The object registry.
   iObjectRegistry* object_reg;
+  /// The model manager.
+  ModelManager* modelManager;
+  /// The interior manager.
+  InteriorManager* interiorManager;
 
   struct MovableCallBack
     : public scfImplementation1<MovableCallBack, iCameraListener>
@@ -119,14 +158,6 @@ private:
   csRef<MovableCallBack> cb;
   /// The current coordinates of the camera.
   csVector3 camera;
-
-private:
-  // TODO remove.
-  void EnterWorld(float x, float z) {}
-  void SetGridSize(unsigned int size) {}
-  unsigned int GetGridSize() const { return 0; }
-  void SetCacheSize(unsigned int size) {}
-  unsigned int GetCacheSize() const { return 0; }
 
 public:
   /// The name of the world.
@@ -150,15 +181,31 @@ public:
 
   /// Returns the object registry.
   iObjectRegistry* GetObjectRegistry() { return object_reg; }
+  /// Returns the model manager.
+  ModelManager* GetModelManager() { return modelManager; }
+  /// Returns the interior manager.
+  InteriorManager* GetInteriorManager() { return interiorManager; }
 
   void SetCamera(iCamera* camera);
 
   void UnSetCamera();
 
-  /// Set the proximity range in units.
-  void SetRange(size_t radius) { WorldManager::radius = radius; }
-  /// Get the proximity range in units.
-  size_t GetRange() const { return radius; }
+  /**
+   * Enter the world at a horizontal (x, z) coordinate in world space.
+   * @param x X coordinate.
+   * @param z Z coordinate.
+   */
+  void EnterWorld(float x, float z);
+
+  /// Set the loaded tile grid size.
+  void SetGridSize(unsigned int size);
+  /// Get the loaded tile grid size.
+  unsigned int GetGridSize() const;
+
+  /// Set the cached tile grid size.
+  void SetCacheSize(unsigned int size);
+  /// Get the cached tile grid size.
+  unsigned int GetCacheSize() const;
 
   /// Handles reporting warnings and errors.
   void Report(int severity, const char* msg, ...);

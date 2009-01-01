@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<!-- worldloader.csplugin -->
+<!-- tiledworldloader.csplugin -->
 <plugin>
   <scf>
     <classes>
       <class>
-        <name>peragro.world</name>
+        <name>peragro.tiledworld</name>
         <implementation>WorldManager</implementation>
-        <description>World</description>
+        <description>Tiled World</description>
       </class>
     </classes>
   </scf>

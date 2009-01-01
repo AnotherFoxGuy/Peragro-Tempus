@@ -1,10 +1,7 @@
 SubDir TOP plugins world ;
 
-SubInclude TOP plugins world levelloader ;
-SubInclude TOP plugins world factoryloader ;
-
 Description worldloader : "World loader" ;
 Plugin worldloader : [ Wildcard *.cpp *.h ] ;
 ExternalLibs worldloader : CRYSTAL CEL BOOST ;
-LinkWith worldloader : reporter eventmanager-cs threadedlevelloader threadedfactoryloader ;
+LinkWith worldloader : reporter eventmanager-cs ;
 
