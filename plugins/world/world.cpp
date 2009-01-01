@@ -250,7 +250,7 @@ void WorldManager::CameraMoved()
     //printf("OBJECT: %d %s %s\n", (*it).id, (*it).name.c_str(), (*it).factoryFile.c_str());
     //printf("================================================\n");
 
-    size_t index = instances.FindSortedKey(csArrayCmp<Instance*, Object*>(&(*it), ptCompare));
+    size_t index = instances.FindSortedKey(csArrayCmp<Instance*, const Object*>(&(*it), ptCompare));
     if (index != csArrayItemNotFound)
     {
       printf("FOUND: %d %s\n", (*it).id, (*it).name.c_str());
