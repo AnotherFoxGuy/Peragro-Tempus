@@ -64,12 +64,21 @@ namespace Geom
       }
     };
 
+    struct compare
+    {
+      bool operator()(const Entry& obj1, const Entry& obj2) const
+      {
+        return obj1._t < obj2._t;
+      }
+    };
+
+
   private:
     /// Copy constructor.
     OcTree(const OcTree& o) {}
 
-    typedef typename std::vector<Entry>::iterator Iterator;
-    std::vector<Entry> entries;
+    typedef typename std::set<Entry, compare>::iterator Iterator;
+    std::set<Entry, compare> entries;
 
   public:
     /// Default constructor.
@@ -78,10 +87,17 @@ namespace Geom
 
     typedef std::set<T> QueryResult;
 
+    size_t Size()
+    {
+      return entries.size();
+    }
+
     bool Add(Geom g, T t) 
     {
       Entry entry(t, g);
-      entries.push_back(entry);
+      // Make sure there are no doubles!
+      entries.erase(entry);
+      entries.insert(entry);
       return true;
     }
 

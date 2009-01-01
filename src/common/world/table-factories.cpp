@@ -79,7 +79,7 @@ void FactoriesTable::CreateTable()
 
 void FactoriesTable::Insert(const Common::World::Factory& factory)
 {
-  const char* query = { "insert into factories("
+  const char* query = { "insert or replace into factories("
     "factoryFile, factoryName, "
     "BB_min_x, BB_min_y, BB_min_z, BB_max_x, BB_max_y, BB_max_z"
     ") values ("
@@ -103,8 +103,9 @@ Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::strin
     printf("E: FactoriesTable::GetBB: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
     return Geom::Box();
   }
+  Geom::Box box = GetBoundingBox(rs, 0);
   delete rs;
-  return GetBoundingBox(rs, 0);
+  return box;
 }
 
 void FactoriesTable::DropTable()

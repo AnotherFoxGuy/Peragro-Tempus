@@ -99,6 +99,7 @@ private:
   Common::World::WorldManager* worldManager;
 
   csRefArray<Instance> instances;
+  csRefArray<Instance> cachedInstances;
 
   void CameraMoved();
 

@@ -30,6 +30,13 @@
 
 #include <iengine/mesh.h>
 
+#include <csutil/scfstringarray.h>
+#include <iutil/document.h>
+#include <imesh/objmodel.h>
+#include <imesh/object.h>
+#include <ivaria/collider.h>
+#include <cstool/collider.h>
+
 #include "common/world/world.h"
 
 #include "include/cacheentry.h"
@@ -49,6 +56,7 @@ WorldManager::Instance::Instance (const Common::World::Object& object,
 
 WorldManager::Instance::~Instance()
 {
+  ///*
   // TODO: fade instead of just removing.
   if (instance) 
   {
@@ -68,6 +76,7 @@ WorldManager::Instance::~Instance()
       instance->GetMovable()->UpdateMove();
     }
   }
+  //*/
   printf("REMOVED: %d %s\n", id, name.c_str());
 }
 
@@ -82,9 +91,13 @@ void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
 
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     iSector* s = engine->FindSector(sector.c_str());
-    if (s)
-      instance->QuerySceneNode()->GetMovable()->SetSector(s);
+    if (s) instance->QuerySceneNode()->GetMovable()->SetSector(s);
+    else csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world", 
+      "Failed to get sector '%s' (object: '%s' has errors)!", sector.c_str(), name.c_str());
     instance->QuerySceneNode()->GetMovable()->UpdateMove();
+
+    csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+    csColliderHelper::InitializeCollisionWrapper (cdsys, instance);
   }
   else
     csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world", 
@@ -106,7 +119,7 @@ WorldManager::WorldManager(iBase* iParent)
 {
   loading = false;
   camera.Set(0.0f);
-  radius = 768;
+  radius = 30;
 
   worldManager = new Common::World::WorldManager();
 
@@ -119,17 +132,91 @@ bool WorldManager::Initialize(iObjectRegistry* obj_reg)
   return true;
 }
 
-void AddFactories(iVFS* vfs, Common::World::WorldManager* worldManager, const char* path)
+bool EndsWith(const csString& file, const csString& extension)
 {
-  csRef<iStringArray> paths = vfs->FindFiles("/peragro/art/3d_art/");
+  csString ext;
+  file.SubString(ext, file.Length()-extension.Length());
+  //printf("- %s\n", ext.GetData());
+  return ext.CompareNoCase(extension);
+}
+
+std::map<std::string, Geom::Box> FindMeshFacts(iObjectRegistry* obj_reg, const csString& file)
+{
+  std::map<std::string, Geom::Box> meshFacts;
+
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (obj_reg);
+  csRef<iDataBuffer> xmlfile = vfs->ReadFile (file.GetData());
+  csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (obj_reg));
+  csRef<iDocument> doc (docsys->CreateDocument());
+  const char* error = doc->Parse (xmlfile, true);
+  if (error) return meshFacts;
+  csRef<iDocumentNode> xml = doc->GetRoot ();
+  if (!xml) return meshFacts;
+  xml = xml->GetNode ("library");
+  if (!xml) return meshFacts;
+  csRef<iDocumentNodeIterator> nodes = xml->GetNodes("meshfact");
+  while (nodes->HasNext())
+  {
+    csRef<iDocumentNode> node = nodes->Next();
+    std::string name = node->GetAttributeValue("name");
+    meshFacts[name] = Geom::Box();
+  }
+  return meshFacts;
+}
+
+void AddFactories(iObjectRegistry* obj_reg, Common::World::WorldManager* worldManager, const char* path)
+{
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (obj_reg);
+  csRef<iStringArray> paths = vfs->FindFiles(path);
   for (size_t i = 0; i < paths->GetSize(); i++ )
   {
-    csString path = paths->Get(i);
-    //printf("-%s\n", path.GetAt(path.Length()-1));
-    if (path.GetAt(path.Length()-1) == '/')
-      return;//AddFactories(vfs, worldManager, path.GetData());
+    csString path = paths->Get(i);   
+    if (EndsWith(path, "/")) // It's a directory
+      if (EndsWith(path, ".svn/")) // Ignore;
+        continue;
+      else
+        AddFactories(obj_reg, worldManager, path.GetData());
     else
-      printf("%s\n", path.GetData());
+      if (1 /*EndsWith(path, ".xml")*/)
+      {
+        std::map<std::string, Geom::Box> facts = FindMeshFacts(obj_reg, path);
+        //printf("%s (%d)\n", path.GetData(), facts.size());
+        std::map<std::string, Geom::Box>::iterator it;
+        for (it = facts.begin(); it != facts.end(); it++ )
+        {
+          using namespace Common::World;
+          Factory factory;
+          factory.factoryName = (*it).first;
+          factory.factoryFile = path.GetData();
+          factory.boundingBox = (*it).second;
+
+          //printf(" - %s\n", factory.factoryName.c_str());
+
+          //-------------------------------------------------
+          csRef<iEngine> engine = csQueryRegistry<iEngine> (obj_reg);
+          csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (obj_reg);
+          csRef<iCollection> coll = engine->CreateCollection("worldmanager.BBcalc");
+          csRef<iThreadReturn> tr = loader->LoadLibraryFile(factory.factoryFile.c_str(), coll);
+          tr->Wait();
+          engine->SyncEngineListsNow(loader);
+          csRef<iMeshFactoryWrapper> mfw = coll->FindMeshFactory(factory.factoryName.c_str());
+          if (mfw)
+            if (mfw->GetMeshObjectFactory())
+              if (mfw->GetMeshObjectFactory()->GetObjectModel())
+              {
+                csRef<iObjectModel> obj = mfw->GetMeshObjectFactory()->GetObjectModel();
+                csBox3 box = obj->GetObjectBoundingBox();
+                factory.boundingBox = Geom::Box(box.Min(), box.Max());
+              }
+          coll->ReleaseAllObjects();
+          //-------------------------------------------------
+
+          if (factory.boundingBox.Empty())
+            printf("E: invalid boundingbox for %s (%s)\n", factory.factoryName.c_str(), factory.factoryFile.c_str());
+          else
+            worldManager->Add(factory);
+        }
+      }
   }
 } // end AddFactories()
 
@@ -164,19 +251,41 @@ bool WorldManager::Initialize(const std::string& name)
 
   // TODO test data, remove.
   //------------------------------------------------------------
-  Common::World::Object object;
-  object.id = 0;
-  object.name = "test";
-  object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
-  object.factoryName = "genscythe001";
-  object.position = Geom::Vector3(642, 14, 371);
-  object.sector = "World";
-  object.worldBB = Geom::Box(object.position, object.position+Geom::Vector3(2, 2, 2));
-  worldManager->AddLookUp(object, false);
+  printf("================================================\n");
+  //AddFactories(object_reg, worldManager, "/peragro/art/3d_art/");
+  printf("================================================\n");
 
-  printf("================================================\n");
-  AddFactories(vfs, worldManager, "/peragro/art/3d_art/");
-  printf("================================================\n");
+   {
+    Common::World::Object object;
+    object.id = 0;
+    object.name = "terrain";
+    object.factoryFile = "/peragro/art/3d_art/buildings/island/factories/0,0";
+    object.factoryName = "0,0";
+    object.position = Geom::Vector3(300, 0, 300);
+    object.sector = "World";
+    worldManager->AddLookUp(object, false);
+  }
+  {
+    Common::World::Object object;
+    object.id = 1;
+    object.name = "test1";
+    object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
+    object.factoryName = "genscythe001";
+    object.position = Geom::Vector3(642, 0, 371);
+    object.sector = "World";
+    worldManager->AddLookUp(object, false);
+  }
+  {
+    Common::World::Object object;
+    object.id = 2;
+    object.name = "test2";
+    object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
+    object.factoryName = "genscythe001";
+    object.position = Geom::Vector3(642, 0, 376);
+    object.sector = "World";
+    worldManager->AddLookUp(object, false);
+  }
+ 
 
   //------------------------------------------------------------
 
@@ -243,7 +352,7 @@ void WorldManager::CameraMoved()
 
   csRefArray<Instance> newInstances;
   Octree::QueryResult::iterator it;
-  if (objects.size()) printf("QUERY: %d\n", objects.size());
+  if (objects.size()) printf("QUERY: %d (rad: %f)\n", objects.size(), (float)radius);
   for (it = objects.begin() ; it != objects.end(); it++ )
   {
     //printf("================================================\n");
@@ -251,11 +360,15 @@ void WorldManager::CameraMoved()
     //printf("================================================\n");
 
     size_t index = instances.FindSortedKey(csArrayCmp<Instance*, const Object*>(&(*it), ptCompare));
+    if (index == csArrayItemNotFound)
+      index = cachedInstances.FindSortedKey(csArrayCmp<Instance*, const Object*>(&(*it), ptCompare));
+    
     if (index != csArrayItemNotFound)
     {
-      printf("FOUND: %d %s\n", (*it).id, (*it).name.c_str());
+      //printf("FOUND: %d %s\n", (*it).id, (*it).name.c_str());
       // Instance was found, copy it to the new array.
       newInstances.InsertSorted(instances.Get(index), ptCompare);
+      instances.DeleteIndex(index);
     }
     else
     {
@@ -265,6 +378,8 @@ void WorldManager::CameraMoved()
       newInstances.InsertSorted(in, ptCompare);
     }
   }
+
+  cachedInstances = instances;
 
   // Replace array with the new array.
   instances = newInstances;

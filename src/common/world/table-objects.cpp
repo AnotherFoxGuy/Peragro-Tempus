@@ -109,7 +109,7 @@ int getMaxId(Database* db)
 
 void ObjectsTable::Insert(const Common::World::Object& object, bool unique)
 {
-  const char* query = { "insert into objects("
+  const char* query = { "insert or replace into objects("
     "id, name, factoryFile, factoryName, "
     "pos_x, pos_y, pos_z, "
     "sector, "
@@ -123,7 +123,7 @@ void ObjectsTable::Insert(const Common::World::Object& object, bool unique)
 
   int id = (int)object.id;
   if (unique)
-    id = getMaxId(db);
+    id = getMaxId(db) + 1;
 
   db->update(query, id, object.name.c_str(), object.factoryFile.c_str(), object.factoryName.c_str(),
     object.position.x, object.position.y, object.position.z,
