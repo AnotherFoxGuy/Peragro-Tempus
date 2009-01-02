@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -100,7 +100,6 @@ private:
   Common::World::WorldManager* worldManager;
 
   csRefArray<Instance> instances;
-  csRefArray<Instance> cachedInstances;
 
   void CameraMoved();
 
