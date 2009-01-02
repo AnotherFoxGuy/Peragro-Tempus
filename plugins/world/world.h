@@ -55,7 +55,7 @@ struct iCacheEntry;
 * Manages objects around the camera, by loading and deleting
 * them as the camera moves.
 */
-class WorldManager : public scfImplementation3<WorldManager,iWorld,iComponent, iEventHandler>
+class WorldManager : public scfImplementation3<WorldManager, iWorld, iComponent, iEventHandler>
 {
 private:
   bool UpdateOptions();
@@ -84,14 +84,15 @@ private:
   /// Event ID for "world loaded".
   csEventID loadedId;
 
-  bool HandleEvent(iEvent& ev) { UpdateOptions(); return true; }
+  bool HandleEvent(iEvent& ev);
 
   CS_EVENTHANDLER_NAMES ("peragro.world")
   CS_EVENTHANDLER_NIL_CONSTRAINTS
 
 private:
-  /// Whether more tiles need to be loaded.
+  /// Whether more meshes need to be loaded.
   bool loading;
+  bool Loading();
 
   /// The proximity range in units.
   size_t radius;
@@ -108,22 +109,20 @@ private:
   iObjectRegistry* object_reg;
 
   struct MovableCallBack
-    : public scfImplementation1<MovableCallBack, iCameraListener>
+    : public scfImplementation1<MovableCallBack, iMovableListener>
   {
     WorldManager* world;
     MovableCallBack (WorldManager* w) : scfImplementationType (this) { world = w;}
-    virtual void NewSector (iCamera* camera, iSector* sector) {}
-    virtual void CameraMoved (iCamera* camera);
+    void MovableChanged (iMovable* movable);
+    void MovableDestroyed (iMovable* movable) {}
   };
   friend struct MovableCallBack;
-  /// Callback to update the camera coordinates.
+  /// Callback to update the mesh coordinates.
   csRef<MovableCallBack> cb;
-  /// The current coordinates of the camera.
-  csVector3 camera;
+  csVector3 position;
 
 private:
   // TODO remove.
-  void EnterWorld(float x, float z) {}
   void SetGridSize(unsigned int size) {}
   unsigned int GetGridSize() const { return 0; }
   void SetCacheSize(unsigned int size) {}
@@ -141,6 +140,9 @@ public:
   /// From iComponent.
   virtual bool Initialize(iObjectRegistry*);
 
+  /// Returns the object registry.
+  iObjectRegistry* GetObjectRegistry() { return object_reg; }
+
   /**
    * Initialize the world.
    * @param name The world name.
@@ -149,12 +151,15 @@ public:
    */
   virtual bool Initialize(const std::string& name);
 
-  /// Returns the object registry.
-  iObjectRegistry* GetObjectRegistry() { return object_reg; }
+  /**
+  * Enter the world at a coordinate in world space.
+  * @param position coordinate.
+  */
+  void EnterWorld(Geom::Vector3 position);
 
-  void SetCamera(iCamera* camera);
+  void SetMesh(iMeshWrapper* wrapper);
 
-  void UnSetCamera();
+  void UnSetMesh();
 
   /// Set the proximity range in units.
   void SetRange(size_t radius) { WorldManager::radius = radius; }

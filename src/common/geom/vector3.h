@@ -79,13 +79,9 @@ namespace Geom
     inline Vector3& operator=(const Vector3& v)
     { x = v.x; y = v.y; z = v.z; return *this; }
 
-    inline float operator[](size_t i) const
-    { 
-      if (i == 0) return x; 
-      if (i == 1) return y; 
-      if (i == 2) return z; 
-      else throw "Wrong index";
-    }
+    inline float& operator[] (size_t n) { return !n?x:n&1?y:z; }
+
+    inline float operator[] (size_t n) const { return !n?x:n&1?y:z; }
 
     /// Unary plus.
     inline Vector3 operator+() const

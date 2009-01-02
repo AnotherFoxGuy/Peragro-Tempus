@@ -118,7 +118,7 @@ WorldManager::WorldManager(iBase* iParent)
   : scfImplementationType(this, iParent), object_reg(0), worldManager(0)
 {
   loading = false;
-  camera.Set(0.0f);
+  position.Set(0.0f);
   radius = 30;
 
   worldManager = new Common::World::WorldManager();
@@ -310,23 +310,77 @@ bool WorldManager::UpdateOptions()
   return true;
 } // end UpdateOptions()
 
-void WorldManager::SetCamera(iCamera* camera)
-{
-  UnSetCamera();
+bool WorldManager::Loading()
+{ 
+  if (loading)
+  {
+    bool allLoaded = true;
+    float itemsLoaded = 0.0f;
+    for (size_t i = 0; i < instances.GetSize(); i++)
+    {
+      if ( !instances.Get(i)->IsReady() )
+        allLoaded = false;
+      else
+        itemsLoaded += 1;
+    }
 
-  if (!camera) return;
+    csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadingId);
+    worldEvent->Add("progress",
+      itemsLoaded/static_cast<float>(instances.GetSize()));
+    eventQueue->Post(worldEvent);
+
+    if (allLoaded)
+    {
+      Report(CS_REPORTER_SEVERITY_NOTIFY, "World loaded!");
+      csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadedId);
+      eventQueue->Post(worldEvent);
+      loading = false;
+      eventQueue->Unsubscribe(this, nameRegistry->GetID("crystalspace.frame"));
+    }
+  }
+
+  return true;
+} // end Loading()
+
+bool WorldManager::HandleEvent(iEvent& ev) 
+{ 
+  if (ev.GetName() == nameRegistry->GetID("crystalspace.frame"))
+    Loading();
+  else
+    UpdateOptions(); 
+  
+  return true; 
+} // end HandleEvent()
+
+void WorldManager::EnterWorld(Geom::Vector3 position)
+{
+  Report(CS_REPORTER_SEVERITY_NOTIFY, "World loading...");
+
+  this->position = position;
+  CameraMoved();
+
+  csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadingId);
+  worldEvent->Add("progress", 0.0f);
+  eventQueue->Post(worldEvent);
+
+  // Register an event for Loading().
+  eventQueue->RegisterListener (this, nameRegistry->GetID("crystalspace.frame"));
+
+  loading = true;
+}
+
+void WorldManager::SetMesh(iMeshWrapper* wrapper)
+{
+  UnSetMesh();
+
+  if (!wrapper) return;
 
   cb.AttachNew(new MovableCallBack(this));
 
-  camera->AddCameraListener(cb);
-
-  // TODO
-  csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadedId);
-  eventQueue->Post(worldEvent);
-
+  wrapper->GetMovable()->AddListener(cb);
 } // end SetCamera()
 
-void WorldManager::UnSetCamera()
+void WorldManager::UnSetMesh()
 {
   if (cb.IsValid())
     cb.Invalidate();
@@ -348,11 +402,11 @@ int ptCompare(T const& r1, K const& r2)
 void WorldManager::CameraMoved()
 {
   using namespace Common::World;
-  Octree::QueryResult objects = worldManager->Query(Geom::Sphere(camera, radius));
+  Octree::QueryResult objects = worldManager->Query(Geom::Sphere(position, radius));
 
   csRefArray<Instance> newInstances;
   Octree::QueryResult::iterator it;
-  if (objects.size()) printf("QUERY: %d (rad: %f)\n", objects.size(), (float)radius);
+  if (objects.size()) printf("QUERY: %d (rad: %f at %s)\n", objects.size(), (float)radius, position.Description().GetData());
   for (it = objects.begin() ; it != objects.end(); it++ )
   {
     //printf("================================================\n");
@@ -368,7 +422,7 @@ void WorldManager::CameraMoved()
       //printf("FOUND: %d %s\n", (*it).id, (*it).name.c_str());
       // Instance was found, copy it to the new array.
       newInstances.InsertSorted(instances.Get(index), ptCompare);
-      instances.DeleteIndex(index);
+      //instances.DeleteIndex(index);
     }
     else
     {
@@ -379,22 +433,22 @@ void WorldManager::CameraMoved()
     }
   }
 
-  cachedInstances = instances;
+  //cachedInstances = instances;
 
   // Replace array with the new array.
   instances = newInstances;
 
 } // end CameraMoved()
 
-void WorldManager::MovableCallBack::CameraMoved(iCamera* camera)
+void WorldManager::MovableCallBack::MovableChanged (iMovable* movable)
 {
   if (!world)
   {
-    camera->RemoveCameraListener(this);
+    movable->RemoveListener(this);
     return;
   }
 
-  world->camera = camera->GetTransform().GetOrigin();
+  world->position = movable->GetTransform().GetOrigin();
 
   world->CameraMoved();
 

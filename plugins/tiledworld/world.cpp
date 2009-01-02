@@ -404,42 +404,45 @@ void WorldManager::Tick(float dt)
   }
 } // end Tick()
 
-void WorldManager::SetCamera(iCamera* camera)
+void WorldManager::SetMesh(iMeshWrapper* mesh)
 {
-  UnSetCamera();
+  UnSetMesh();
 
-  if (!camera) return;
+  if (!mesh) return;
 
   cb.AttachNew(new MovableCallBack(this));
 
-  camera->AddCameraListener(cb);
+  mesh->AddListener(cb);
 
 } // end SetCamera()
 
-void WorldManager::UnSetCamera()
+void WorldManager::UnSetMesh()
 {
   if (cb.IsValid())
     cb.Invalidate();
 } // end SetCamera()
 
-void WorldManager::MovableCallBack::CameraMoved(iCamera* camera)
+void WorldManager::MovableCallBack::MovableChanged(iMovable* movable)
 {
   if (!world)
   {
-    camera->RemoveCameraListener(this);
+    movable->RemoveCameraListener(this);
     return;
   }
 
-  world->camera = camera->GetTransform().GetOrigin();
+  world->camera = movable->GetTransform().GetOrigin();
 
   world->Tick(0);
 
 } // end StartFrame()
 
-void WorldManager::EnterWorld(float x, float z)
+void WorldManager::EnterWorld(Geom::Vector3 position)
 {
-  camera.x = x;
-  camera.z = z;
+  camera.x = position.x;
+  camera.z = position.z;
+
+  float x = position.x;
+  float z = position.z;
 
   // This is so the int cast below rounds to the correct value.
   if (x < 0)

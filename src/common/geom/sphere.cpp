@@ -62,7 +62,6 @@ namespace Geom
       dist += dist_i * dist_i;
     }
 
-    printf("Intersect: %s (%f-%f)\n", LessOrEqual(dist, radius * radius) ? "yes" : "no", dist, radius * radius);
     return LessOrEqual(dist, radius * radius);
   }
 

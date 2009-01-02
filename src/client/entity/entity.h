@@ -35,6 +35,8 @@
 
 #include "common/entity/entity.h"
 
+struct iMeshWrapper;
+
 namespace PT
 {
   namespace Entity
@@ -154,6 +156,11 @@ namespace PT
        * Reset any changes this entity might have caused.
        */
       virtual void Reset() {}
+
+      /**
+       * Set the mesh this entity uses.
+       */
+      virtual void SetMesh(iMeshWrapper* mesh);
     };
   } // Entity namespace
 } // PT namespace

@@ -32,6 +32,12 @@
 
 class iPointerLibrary;
 struct iCamera;
+struct iMeshWrapper;
+
+namespace Geom
+{
+  class Vector3;
+}
 
 struct iWorld : public virtual iBase
 {
@@ -39,9 +45,15 @@ struct iWorld : public virtual iBase
 
   virtual bool Initialize(const std::string& name) = 0;
 
-  virtual void SetCamera(iCamera* camera) = 0;
+  /**
+  * Enter the world at a coordinate in world space.
+  * @param position coordinate.
+  */
+  virtual void EnterWorld(Geom::Vector3 position) = 0;
 
-  virtual void UnSetCamera() = 0;
+  virtual void SetMesh(iMeshWrapper* wrapper) = 0;
+
+  virtual void UnSetMesh() = 0;
 
   /// Set the proximity range in units.
   virtual void SetRange(unsigned int size) = 0;
@@ -51,13 +63,6 @@ struct iWorld : public virtual iBase
 
   //-[Tiled world]-----------------------------
   // TODO remove.
-  /**
-  * Enter the world at a horizontal (x, z) coordinate in world space.
-  * @param x X coordinate.
-  * @param z Z coordinate.
-  */
-  virtual void EnterWorld(float x, float z) = 0;
-
   /// Set the loaded tile grid size.
   virtual void SetGridSize(unsigned int size) = 0;
   /// Get the loaded tile grid size.

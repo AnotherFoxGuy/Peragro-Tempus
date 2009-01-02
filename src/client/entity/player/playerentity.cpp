@@ -157,7 +157,7 @@ namespace PT
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
-      world->EnterWorld(position.x, position.z);
+      world->EnterWorld(position);
       SetFullPosition(position, rot, sectorName);
     }
 
@@ -193,11 +193,8 @@ namespace PT
 
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
-      world->EnterWorld(position.x, position.z);
+      world->EnterWorld(position);
       SetFullPosition(position, rot, sectorName.c_str());
-
-      iCamera* cam = GetCam(camera);
-      if (cam) world->SetCamera(cam);
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
       other_self = pl->CreateEntity();
@@ -256,7 +253,7 @@ namespace PT
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
-      world->EnterWorld(pos.x, pos.z);
+      world->EnterWorld(pos);
       this->SetFullPosition(pos, rotation, sector.c_str());
     }
 

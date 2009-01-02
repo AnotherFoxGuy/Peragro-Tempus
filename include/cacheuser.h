@@ -126,6 +126,11 @@ public:
     Register();
   }
 
+  bool IsReady()
+  {
+    return loadingCacheEntries.GetSize() == 0;
+  }
+
   virtual void Loaded(iCacheEntry* cacheEntry) = 0;
 
   virtual void DoneLoading(bool success) = 0;

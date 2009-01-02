@@ -150,15 +150,15 @@ private:
   InteriorManager* interiorManager;
 
   struct MovableCallBack
-    : public scfImplementation1<MovableCallBack, iCameraListener>
+    : public scfImplementation1<MovableCallBack, iMovableListener>
   {
     WorldManager* world;
     MovableCallBack (WorldManager* w) : scfImplementationType (this) { world = w;}
-    virtual void NewSector (iCamera* camera, iSector* sector) {}
-    virtual void CameraMoved (iCamera* camera);
+    void MovableChanged (iMovable* movable);
+    void MovableDestroyed (iMovable* movable) {}
   };
   friend struct MovableCallBack;
-  /// Callback to update the camera coordinates.
+  /// Callback to update the mesh coordinates.
   csRef<MovableCallBack> cb;
   /// The current coordinates of the camera.
   csVector3 camera;
@@ -190,16 +190,15 @@ public:
   /// Returns the interior manager.
   InteriorManager* GetInteriorManager() { return interiorManager; }
 
-  void SetCamera(iCamera* camera);
+  void SetMesh(iMeshWrapper* mesh);
 
-  void UnSetCamera();
+  void UnSetMesh();
 
   /**
-   * Enter the world at a horizontal (x, z) coordinate in world space.
-   * @param x X coordinate.
-   * @param z Z coordinate.
-   */
-  void EnterWorld(float x, float z);
+  * Enter the world at a coordinate in world space.
+  * @param position coordinate.
+  */
+  void EnterWorld(Geom::Vector3 position);
 
   /// Set the loaded tile grid size.
   void SetGridSize(unsigned int size);

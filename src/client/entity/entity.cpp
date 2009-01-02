@@ -41,6 +41,8 @@
 #include "client/data/sector/sectordatamanager.h"
 #include "client/data/sector/sector.h"
 
+#include "include/world.h"
+
 #include "client/component/componentmanager.h"
 #include "include/client/component/entity/stat/stats.h"
 
@@ -152,6 +154,42 @@ namespace PT
 
       Report(PT::Error, "Entity: SetFullPosition failed for %s(%d)!\n",
              name.c_str(), id);
+    }
+
+    void Entity::SetMesh(iMeshWrapper* mesh)
+    {
+      if (celEntity)
+      {
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+        if (!pcmesh)
+        {
+          Report(PT::Error,  "SetMesh: Failed to get iPcMesh");
+          return;
+        }
+
+        if (mesh)
+          pcmesh->SetMesh(mesh, true);
+        else
+          pcmesh->CreateNullMesh("ErrorMesh", csBox3());
+
+        csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+        if (pclinmove)
+        {
+          pclinmove->InitCD(mesh, 50.0f);
+        }
+        this->SetFullPosition();
+
+        // TODO: Move this to playerentity instead?
+        if (GetType() == PT::Common::Entity::PlayerEntityType)
+        {
+          csRef<iObjectRegistry> object_reg =
+             PointerLibrary::getInstance()->getObjectRegistry();
+          csRef<iWorld> world =  csQueryRegistry<iWorld> (object_reg);
+          world->SetMesh(mesh);
+        }
+      }
+      else
+        Report(PT::Error,  "SetMesh: Failed to get iCelEntity");
     }
 
   } // Entity namespace
