@@ -463,8 +463,8 @@ namespace PT
     PT_REGISTER_LISTENER(Client, ActionQuit, "input.Quit")
 
     // Create the world.
-    csRef<iWorld> world = csLoadPlugin<iWorld> (plugin_mgr, "peragro.world");
-    //csRef<iWorld> world = csLoadPlugin<iWorld> (plugin_mgr, "peragro.tiledworld");
+    //csRef<iWorld> world = csLoadPlugin<iWorld> (plugin_mgr, "peragro.world");
+    csRef<iWorld> world = csLoadPlugin<iWorld> (plugin_mgr, "peragro.tiledworld");
     if (world.IsValid())
     {
       world->Initialize("MyWorld");
