@@ -36,6 +36,8 @@
 #include <ivaria/collider.h>
 #include <cstool/collider.h>
 
+#include <csutil/csmd5.h>
+
 #include <imap/loader.h>
 #include <iengine/engine.h>
 
@@ -70,16 +72,6 @@ void ResourceManager::AddTestObjects()
   {
     Common::World::Object object;
     object.id = 0;
-    object.name = "terrain";
-    object.factoryFile = "/peragro/art/3d_art/buildings/island/factories/0,0";
-    object.factoryName = "0,0";
-    object.position = Geom::Vector3(300, 0, 300);
-    object.sector = "World";
-    worldManager->AddLookUp(object, false);
-  }
-  {
-    Common::World::Object object;
-    object.id = 1;
     object.name = "test1";
     object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
     object.factoryName = "genscythe001";
@@ -89,7 +81,7 @@ void ResourceManager::AddTestObjects()
   }
   {
     Common::World::Object object;
-    object.id = 2;
+    object.id = 1;
     object.name = "test2";
     object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
     object.factoryName = "genscythe001";
@@ -107,26 +99,50 @@ bool EndsWith(const std::string& file, const std::string& extension)
   return ext.CompareNoCase(extension.c_str());
 }
 
-std::map<std::string, Geom::Box> ResourceManager::FindMeshFacts(const std::string& file)
+std::vector<Common::World::Factory> ResourceManager::FindMeshFacts(const std::string& file, bool returnAll)
 {
-  std::map<std::string, Geom::Box> meshFacts;
+  std::vector<Common::World::Factory> meshFacts;
+
+  if (!vfs->Exists (file.c_str())) return meshFacts;
 
   csRef<iDataBuffer> xmlfile = vfs->ReadFile (file.c_str());
   csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (object_reg));
   csRef<iDocument> doc (docsys->CreateDocument());
   const char* error = doc->Parse (xmlfile, true);
   if (error) return meshFacts;
-  csRef<iDocumentNode> xml = doc->GetRoot ();
+  csRef<iDocumentNode> xml = doc->GetRoot();
   if (!xml) return meshFacts;
   xml = xml->GetNode ("library");
   if (!xml) return meshFacts;
   csRef<iDocumentNodeIterator> nodes = xml->GetNodes("meshfact");
+
+  //TODO: make hash per node.
+  std::string hash = csMD5::Encode(xmlfile->GetData()).HexString().GetData();
+  if (!returnAll) printf("%s\n", file.c_str());
   while (nodes->HasNext())
   {
     csRef<iDocumentNode> node = nodes->Next();
     std::string name = node->GetAttributeValue("name");
-    meshFacts[name] = GetBB(node);
+
+    if ((worldManager->GetMD5(file, name).compare(hash) == 0) && !returnAll)
+    {
+      printf(" - '%s' Up to date.\n", name.c_str());
+      continue; // Factory entry is up to date.
+    }
+
+    using namespace Common::World;
+    Factory factory;
+    factory.factoryName = name;
+    factory.factoryFile = file;
+    if (!returnAll) factory.boundingBox = GetBB(node);
+    factory.detailLevel = 0; // TODO
+    factory.hash = hash;
+
+    if (!returnAll) printf(" - '%s' Updating.\n", name.c_str());
+
+    meshFacts.push_back(factory);
   }
+
   return meshFacts;
 }
 
@@ -171,22 +187,146 @@ void ResourceManager::ScanFactories(const std::string& path)
     else
       if (1 /*EndsWith(path, ".xml")*/)
       {
-        std::map<std::string, Geom::Box> facts = FindMeshFacts(path);
-        printf("%s (%d)\n", path.c_str(), facts.size());
-        std::map<std::string, Geom::Box>::iterator it;
+        std::vector<Common::World::Factory> facts = FindMeshFacts(path);
+        //printf("%s (%d)\n", path.c_str(), facts.size());
+        std::vector<Common::World::Factory>::iterator it;
         for (it = facts.begin(); it != facts.end(); it++ )
         {
-          using namespace Common::World;
-          Factory factory;
-          factory.factoryName = (*it).first;
-          factory.factoryFile = path;
-          factory.boundingBox = (*it).second;
-
-          if (factory.boundingBox.Empty())
-            printf("E: invalid boundingbox for %s (%s)\n", factory.factoryName.c_str(), factory.factoryFile.c_str());
-          else
-            worldManager->Add(factory);
+          if ((*it).boundingBox.Empty())
+          {
+            (*it).boundingBox = Geom::Box(Geom::Vector3(0, 0, 0), Geom::Vector3(1, 1, 1));
+            printf("E: invalid boundingbox for %s (%s)\n", (*it).factoryName.c_str(), (*it).factoryFile.c_str());
+          }
+          worldManager->Add(*it);
         }
       }
   }
 } // end ScanFactories()
+
+std::string GetFactoryName(iDocumentNode* node)
+{
+  csRef<iDocumentNode> params = node->GetNode ("params");
+  if (!params) return "Error in node";
+  csRef<iDocumentNode> factory = params->GetNode ("factory");
+  if (!factory) return "Error in node"; 
+  return factory->GetContentsValue();
+}
+
+std::string GetFactoryFile(const std::string& factoryName, const std::vector<Common::World::Factory>& facts)
+{
+  std::vector<Common::World::Factory>::const_iterator it;
+  for (it = facts.begin(); it != facts.end(); it++ )
+  {
+    if ((*it).factoryName == factoryName)
+      return (*it).factoryFile;
+  }
+  return "Error: file for factname not found";
+}
+
+Geom::Vector3 GetPosition(iDocumentNode* node, float xOffset = 0, float zOffset = 0)
+{
+  Geom::Vector3 vec;
+
+  csRef<iDocumentNode> move = node->GetNode ("move");
+  if (!move) return Geom::Vector3();
+  csRef<iDocumentNode> v = move->GetNode ("v");
+  if (!v) return Geom::Vector3();
+
+  vec.x = v->GetAttributeValueAsFloat("x");
+  vec.y = v->GetAttributeValueAsFloat("y");
+  vec.z = v->GetAttributeValueAsFloat("z");
+
+  vec.x += xOffset;
+  vec.z += zOffset;
+
+  return vec;
+}
+
+std::vector<Common::World::Object> ResourceManager::FindMeshObjects(const std::string& file)
+{
+  std::vector<Common::World::Object> meshObjects;
+
+  printf("FindMeshObjects %s\n", file.c_str());
+  csRef<iDataBuffer> xmlfile = vfs->ReadFile (file.c_str());
+  csRef<iDocumentSystem> docsys (csQueryRegistry<iDocumentSystem> (object_reg));
+  csRef<iDocument> doc (docsys->CreateDocument());
+  const char* error = doc->Parse (xmlfile, true);
+  if (error) return meshObjects;
+  csRef<iDocumentNode> xml = doc->GetRoot();
+  if (!xml) return meshObjects;
+  xml = xml->GetNode ("tile");
+  if (!xml) return meshObjects;
+  //------------------------------------------------------------
+  int xOffset = 0;
+  int zOffset = 0;
+  size_t p = file.find_last_of("/");
+  std::string f = file.substr(p+1, file.length());
+  f = f.substr( strlen("tile-"), f.length() );
+  sscanf (f.c_str() ,"%d-%d", &xOffset, &zOffset);
+  xOffset *= 512;
+  zOffset *= 512;
+  //------------------------------------------------------------
+  std::vector<Common::World::Factory> facts;
+  csRef<iDocumentNodeIterator> libnodes = xml->GetNodes("library");
+  while (libnodes->HasNext())
+  {
+    csRef<iDocumentNode> node = libnodes->Next();
+    std::string file = node->GetContentsValue();
+    std::vector<Common::World::Factory> f = FindMeshFacts(file, true);
+    facts.insert(facts.end(), f.begin(), f.end());
+  }
+  //------------------------------------------------------------
+  csRef<iDocumentNodeIterator> nodes = xml->GetNodes("meshobj");
+  while (nodes->HasNext())
+  {
+    csRef<iDocumentNode> node = nodes->Next();
+    std::string name = node->GetAttributeValue("name");
+
+    using namespace Common::World;
+    Object object;
+    object.name = name;
+    object.factoryName = GetFactoryName(node);
+    object.factoryFile = GetFactoryFile(object.factoryName, facts);
+    object.position = GetPosition(node, (float)xOffset, (float)zOffset);
+    object.sector = "World";
+
+    meshObjects.push_back(object);
+  }
+
+  return meshObjects;
+}
+
+void ResourceManager::ScanObjects(const std::string& path)
+{
+  csRef<iStringArray> paths = vfs->FindFiles(path.c_str());
+  for (size_t i = 0; i < paths->GetSize(); i++ )
+  {
+    std::string path = paths->Get(i);    
+    if (EndsWith(path, "/")) // It's a directory
+      if (EndsWith(path, ".svn/")) // Ignore;
+        continue;
+      else
+        ScanObjects(path);
+    else
+    {
+      size_t p = path.find_last_of("/");
+      std::string file = path.substr(p+1, path.length());
+
+      csString csfile = file.c_str();
+      if (csfile.StartsWith("tile-"))
+      {
+        std::vector<Common::World::Object> objs = FindMeshObjects(path);
+        std::vector<Common::World::Object>::iterator it;
+        //TODO: Get max id.
+        static size_t id = 2;
+        for (it = objs.begin(); it != objs.end(); it++ )
+        {
+          (*it).id = id;
+          worldManager->AddLookUp(*it, false);
+          printf("ID: %d\n", (*it).id);
+          id++;
+        }
+      }
+    }
+  }
+} // end ScanObjects()

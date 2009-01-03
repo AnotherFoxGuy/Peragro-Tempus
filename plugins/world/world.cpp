@@ -165,6 +165,7 @@ bool WorldManager::Initialize(const std::string& name)
   resourceManager.Initialize();
   resourceManager.ScanFactories("/peragro/art/3d_art/");
   resourceManager.AddTestObjects();
+  resourceManager.ScanObjects("/peragro/art/tiles/");
 
   return true;
 } // end Initialize

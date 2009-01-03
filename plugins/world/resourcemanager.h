@@ -48,7 +48,8 @@ private:
   void Report(int severity, const char* msg, ...);
 
 private:
-  std::map<std::string, Geom::Box> FindMeshFacts(const std::string& file);
+  std::vector<Common::World::Factory> FindMeshFacts(const std::string& file, bool returnAll = false);
+  std::vector<Common::World::Object> FindMeshObjects(const std::string& file);
   Geom::Box GetBB(iDocumentNode* node);
 
 public:
@@ -57,11 +58,13 @@ public:
   /// Destructor.
   ~ResourceManager();
 
+  bool Initialize();
+
   void ScanFactories(const std::string& path);
 
-  void AddTestObjects();
+  void ScanObjects(const std::string& path);
 
-  bool Initialize();
+  void AddTestObjects();
 };
 
 
