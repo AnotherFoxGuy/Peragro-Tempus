@@ -51,6 +51,54 @@ struct iCacheEntry;
 
 #include "common/world/world.h"
 
+#include <iengine/mesh.h>
+#include <iutil/object.h>
+struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableListener>, 
+  public Common::World::Object
+{
+  iObjectRegistry* object_reg;
+
+  EditorObject (const Common::World::Object& object, iObjectRegistry* obj_reg, iMeshWrapper* wrap) 
+    : scfImplementationType (this), Common::World::Object(object), object_reg(obj_reg)
+  {
+    wrap->GetMovable()->AddListener(this);
+    wrap->QueryObject()->ObjAdd(this);
+  }
+
+  void CommitChanges() 
+  {
+    csRef<iWorld> world = csQueryRegistry<iWorld> (object_reg);
+    //world->CommitChanges(&this);
+  }
+
+  // iMovableListener
+  void MovableChanged (iMovable* movable) 
+  {
+    position = movable->GetTransform().GetOrigin();
+    CommitChanges();
+  }
+
+  void MovableDestroyed (iMovable* movable) {}
+  // iObject
+  void SetName (const char *iName) 
+  { name = iName; CommitChanges(); }
+  const char* GetName () const { return name.c_str(); }
+  uint GetID () const { return (uint)id; }
+  void SetObjectParent (iObject *obj) {}
+  iObject* GetObjectParent () const { return 0; }
+  void ObjAdd (iObject *obj) {}
+  void ObjRemove (iObject *obj) {}
+  void ObjRemoveAll () {}
+  void ObjAddChildren (iObject *Parent) {}
+  iObject* GetChild (int iInterfaceID, int iVersion, const char *Name, bool FirstName) const { return 0; }
+  iObject* GetChild (const char *Name) const { return 0; }
+  csPtr<iObjectIterator> GetIterator () { return 0; }
+  void ObjReleaseOld (iObject *obj) {}
+  void AddNameChangeListener (iObjectNameChangeListener* listener) {}
+  void RemoveNameChangeListener (iObjectNameChangeListener* listener) {}
+  iObject* GetChild (int iInterfaceID, int iVersion, const char *Name = 0) const { return 0; }
+};
+
 /**
 * Manages objects around the camera, by loading and deleting
 * them as the camera moves.

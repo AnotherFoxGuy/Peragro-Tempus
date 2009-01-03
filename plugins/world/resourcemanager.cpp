@@ -75,7 +75,7 @@ void ResourceManager::AddTestObjects()
     object.name = "test1";
     object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
     object.factoryName = "genscythe001";
-    object.position = Geom::Vector3(642, 0, 371);
+    object.position = Geom::Vector3(642, 14, 371);
     object.sector = "World";
     worldManager->AddLookUp(object, false);
   }
@@ -85,7 +85,7 @@ void ResourceManager::AddTestObjects()
     object.name = "test2";
     object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
     object.factoryName = "genscythe001";
-    object.position = Geom::Vector3(642, 0, 376);
+    object.position = Geom::Vector3(642, 14, 376);
     object.sector = "World";
     worldManager->AddLookUp(object, false);
   }

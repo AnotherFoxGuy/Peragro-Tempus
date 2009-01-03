@@ -56,6 +56,8 @@ namespace Common
       // TODO: do proper transform.
       object.worldBB = Geom::Box(object.worldBB.Min() + object.position, object.worldBB.Max() + object.position);
 
+      object.detailLevel = factoryTable.GetDetailLevel(object.factoryFile, object.factoryName);
+
       return Add(object, unique);
     }
 

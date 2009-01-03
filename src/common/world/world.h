@@ -63,6 +63,7 @@ namespace Common
       Geom::Vector3 position;
       std::string sector;
       Geom::Box worldBB;
+      size_t detailLevel;
 
       /// For std::set
       friend bool operator<(const Object& obj1, const Object& obj2);

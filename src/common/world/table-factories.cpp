@@ -141,6 +141,22 @@ std::string FactoriesTable::GetMD5(const std::string& factoryFile, const std::st
   return md5;
 }
 
+size_t FactoriesTable::GetDetailLevel(const std::string& factoryFile, const std::string& factoryName)
+{
+  const char* query = {"select * "
+                       "from factories "
+                       "where factoryFile='%s' AND factoryName='%s';"};
+  ResultSet* rs = db->query(query, factoryFile.c_str(), factoryName.c_str());
+  if (!rs || rs->GetRowCount() == 0)
+  {
+    //printf("E: FactoriesTable::GetMD5: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
+    return 0;
+  }
+  size_t level = GetDetailLevel(rs, 0);
+  delete rs;
+  return level;
+}
+
 void FactoriesTable::DropTable()
 {
   db->update("drop table factories;");

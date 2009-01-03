@@ -95,6 +95,7 @@ void ObjectsTable::CreateTable()
     "BB_max_x FLOAT, "
     "BB_max_y FLOAT, "
     "BB_max_z FLOAT, "
+    "detaillevel INTEGER, "
     "PRIMARY KEY (id) );");
 }
 
@@ -113,12 +114,14 @@ void ObjectsTable::Insert(const Common::World::Object& object, bool unique)
     "id, name, factoryFile, factoryName, "
     "pos_x, pos_y, pos_z, "
     "sector, "
-    "BB_min_x, BB_min_y, BB_min_z, BB_max_x, BB_max_y, BB_max_z"
+    "BB_min_x, BB_min_y, BB_min_z, BB_max_x, BB_max_y, BB_max_z,"
+    "detaillevel"
     ") values ("
     "%d, '%s', '%s', '%s',"
     "%.2f, %.2f, %.2f, "
     "'%s', "
-    "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f"
+    "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f,"
+    "%d"
     ");" };
 
   int id = (int)object.id;
@@ -129,7 +132,8 @@ void ObjectsTable::Insert(const Common::World::Object& object, bool unique)
     object.position.x, object.position.y, object.position.z,
     object.sector.c_str(),
     object.worldBB.Min().x, object.worldBB.Min().y, object.worldBB.Min().z,
-    object.worldBB.Max().x, object.worldBB.Max().y, object.worldBB.Max().z);
+    object.worldBB.Max().x, object.worldBB.Max().y, object.worldBB.Max().z,
+    object.detailLevel);
 }
 
 void ObjectsTable::DropTable()

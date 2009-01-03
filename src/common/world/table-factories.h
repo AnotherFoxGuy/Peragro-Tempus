@@ -70,6 +70,8 @@ public:
 
   std::string GetMD5(const std::string& factoryFile, const std::string& factoryName);
 
+  size_t GetDetailLevel(const std::string& factoryFile, const std::string& factoryName);
+
   /**
    * Removes all objects from the database.
    */

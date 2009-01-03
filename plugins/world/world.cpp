@@ -98,6 +98,7 @@ void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
 
     csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
     csColliderHelper::InitializeCollisionWrapper (cdsys, instance);
+    csRef<EditorObject> edObj; edObj.AttachNew(new EditorObject(*this, object_reg, instance));
   }
   else
     csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world", 
