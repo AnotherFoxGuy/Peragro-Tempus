@@ -26,6 +26,10 @@
 #include <iutil/vfs.h>
 #include <iutil/cfgmgr.h>
 
+#include <iengine/mesh.h>
+
+#include "common/geom/vector3.h"
+
 #include "maptile.h"
 #include "modelmanager.h"
 #include "interiormanager.h"
@@ -412,7 +416,7 @@ void WorldManager::SetMesh(iMeshWrapper* mesh)
 
   cb.AttachNew(new MovableCallBack(this));
 
-  mesh->AddListener(cb);
+  mesh->GetMovable()->AddListener(cb);
 
 } // end SetCamera()
 
@@ -426,7 +430,7 @@ void WorldManager::MovableCallBack::MovableChanged(iMovable* movable)
 {
   if (!world)
   {
-    movable->RemoveCameraListener(this);
+    movable->RemoveListener(this);
     return;
   }
 
