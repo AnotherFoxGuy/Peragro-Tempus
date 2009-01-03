@@ -18,10 +18,6 @@
 
 #include "world.h"
 
-#include "common/database/sqlite/sqlite.h"
-
-#include "table-objects.h"
-#include "table-factories.h"
 
 namespace Common
 {
@@ -33,9 +29,8 @@ namespace Common
       return obj1.id < obj2.id;
     }
 
-    WorldManager::WorldManager() : db("world.sqlite")
+    WorldManager::WorldManager() : db("world.sqlite"), factoryTable(&db), objectsTable(&db)
     {
-      ObjectsTable objectsTable(&db);
       Array<Object> objs;
       objectsTable.GetObjects(objs);
       for (size_t i = 0; i < objs.getCount(); i++)
@@ -51,14 +46,12 @@ namespace Common
 
     bool WorldManager::Add(const Object& object, bool unique)
     {
-      ObjectsTable objectsTable(&db);
       objectsTable.Insert(object, unique);
       return objects.Add(object.worldBB, object);
     }
 
     bool WorldManager::AddLookUp(Object& object, bool unique)
     {
-      FactoriesTable factoryTable(&db);
       object.worldBB = factoryTable.GetBB(object.factoryFile, object.factoryName);
       // TODO: do proper transform.
       object.worldBB = Geom::Box(object.worldBB.Min() + object.position, object.worldBB.Max() + object.position);
@@ -73,7 +66,6 @@ namespace Common
 
     bool WorldManager::Add(const Factory& factory)
     {
-      FactoriesTable factoryTable(&db);
       factoryTable.Insert(factory);
       return true;
     }

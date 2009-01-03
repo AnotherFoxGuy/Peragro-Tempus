@@ -54,6 +54,8 @@ private:
   std::string GetFactoryName(ResultSet* rs, size_t row);
   Geom::Vector3 GetPosition(ResultSet* rs, size_t row, size_t offset = 2);
   Geom::Box GetBoundingBox(ResultSet* rs, size_t row);
+  size_t GetDetailLevel(ResultSet* rs, size_t row);
+  std::string GetMD5(ResultSet* rs, size_t row);
 
 public:
   FactoriesTable(Database* db);
@@ -65,6 +67,8 @@ public:
   void Insert(const Common::World::Factory& factory);
 
   Geom::Box GetBB(const std::string& factoryFile, const std::string& factoryName);
+
+  std::string GetMD5(const std::string& factoryFile, const std::string& factoryName);
 
   /**
    * Removes all objects from the database.

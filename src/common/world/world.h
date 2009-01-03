@@ -28,6 +28,9 @@
 //class dbSQLite;
 #include "common/database/sqlite/sqlite.h"
 
+#include "table-objects.h"
+#include "table-factories.h"
+
 namespace Common
 {
   namespace World
@@ -47,6 +50,8 @@ namespace Common
       std::string factoryFile;
       std::string factoryName;
       Geom::Box boundingBox;
+      size_t detailLevel;
+      std::string hash;
     };
 
     struct Object
@@ -67,6 +72,8 @@ namespace Common
     {
     private:
       dbSQLite db;
+      ObjectsTable objectsTable;
+      FactoriesTable factoryTable;
       Octree objects;
 
     public:
@@ -79,6 +86,11 @@ namespace Common
 
       bool Add(const Factory& factory);
       bool Remove(const Factory& factory);
+
+      std::string GetMD5(const std::string& factoryFile, const std::string& factoryName)
+      {
+        return factoryTable.GetMD5(factoryFile, factoryName);
+      }
 
       Octree::QueryResult Query(const Geom::Sphere& s);
     };

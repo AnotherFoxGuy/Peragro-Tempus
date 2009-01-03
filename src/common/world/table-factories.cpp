@@ -52,6 +52,17 @@ Geom::Box FactoriesTable::GetBoundingBox(ResultSet* rs, size_t row)
   return Geom::Box(min, max);
 }
 
+size_t FactoriesTable::GetDetailLevel(ResultSet* rs, size_t row)
+{
+  size_t i = (size_t)atoi(rs->GetData(row, 8).c_str());
+  return i;
+}
+
+std::string FactoriesTable::GetMD5(ResultSet* rs, size_t row)
+{
+  return rs->GetData(row, 9);
+}
+
 FactoriesTable::FactoriesTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from factories;");
@@ -74,6 +85,8 @@ void FactoriesTable::CreateTable()
     "BB_max_x FLOAT, "
     "BB_max_y FLOAT, "
     "BB_max_z FLOAT, "
+    "detaillevel INTEGER, "
+    "hash TEXT, "
     "PRIMARY KEY (factoryFile, factoryName) );");
 }
 
@@ -81,15 +94,19 @@ void FactoriesTable::Insert(const Common::World::Factory& factory)
 {
   const char* query = { "insert or replace into factories("
     "factoryFile, factoryName, "
-    "BB_min_x, BB_min_y, BB_min_z, BB_max_x, BB_max_y, BB_max_z"
+    "BB_min_x, BB_min_y, BB_min_z, BB_max_x, BB_max_y, BB_max_z,"
+    "detaillevel,"
+    "hash"
     ") values ("
     "'%s', '%s',"
-    "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f"
+    "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f,"
+    "%d, '%s'"
     ");" };
 
   db->update(query, factory.factoryFile.c_str(), factory.factoryName.c_str(),
     factory.boundingBox.Min().x, factory.boundingBox.Min().y, factory.boundingBox.Min().z,
-    factory.boundingBox.Max().x, factory.boundingBox.Max().y, factory.boundingBox.Max().z);
+    factory.boundingBox.Max().x, factory.boundingBox.Max().y, factory.boundingBox.Max().z,
+    factory.detailLevel, factory.hash.c_str());
 }
 
 Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::string& factoryName)
@@ -100,12 +117,28 @@ Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::strin
   ResultSet* rs = db->query(query, factoryFile.c_str(), factoryName.c_str());
   if (!rs || rs->GetRowCount() == 0)
   {
-    printf("E: FactoriesTable::GetBB: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
+    //printf("E: FactoriesTable::GetBB: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
     return Geom::Box();
   }
   Geom::Box box = GetBoundingBox(rs, 0);
   delete rs;
   return box;
+}
+
+std::string FactoriesTable::GetMD5(const std::string& factoryFile, const std::string& factoryName)
+{
+  const char* query = {"select * "
+                       "from factories "
+                       "where factoryFile='%s' AND factoryName='%s';"};
+  ResultSet* rs = db->query(query, factoryFile.c_str(), factoryName.c_str());
+  if (!rs || rs->GetRowCount() == 0)
+  {
+    //printf("E: FactoriesTable::GetMD5: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
+    return "Invalid MD5";
+  }
+  std::string md5 = GetMD5(rs, 0);
+  delete rs;
+  return md5;
 }
 
 void FactoriesTable::DropTable()
@@ -123,6 +156,8 @@ void FactoriesTable::GetAll(Array<Common::World::Factory>& factories)
     factory.factoryFile = GetFactoryFile(rs, i);
     factory.factoryName = GetFactoryName(rs, i);
     factory.boundingBox = GetBoundingBox(rs, i);
+    factory.detailLevel = GetDetailLevel(rs, i);
+    factory.hash = GetMD5(rs, i);
     factories.add(factory);
   }
   delete rs;
