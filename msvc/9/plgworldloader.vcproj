@@ -319,22 +319,7 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\world\factory.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\interior.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\interiormanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\level.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\maptile.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\modelmanager.cpp">
+				RelativePath="..\..\plugins\world\resourcemanager.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\world\world.cpp">
@@ -344,25 +329,7 @@
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\world\factory.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\interior.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\interiormanager.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\level.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\maptile.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\modelmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\world\utils.h">
+				RelativePath="..\..\plugins\world\resourcemanager.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\world\world.h">

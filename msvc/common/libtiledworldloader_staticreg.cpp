@@ -15,16 +15,16 @@
 
 namespace csStaticPluginInit
 {
-static char const metainfo_worldloader[] =
+static char const metainfo_tiledworldloader[] =
 "<?xml version=\"1.0\"?>"
-"<!-- worldloader.csplugin -->"
+"<!-- tiledworldloader.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>peragro.world</name>"
+"        <name>peragro.tiledworld</name>"
 "        <implementation>WorldManager</implementation>"
-"        <description>World</description>"
+"        <description>Tiled World</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -35,16 +35,16 @@ static char const metainfo_worldloader[] =
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(WorldManager) 
   #endif
 
-class worldloader
+class tiledworldloader
 {
-SCF_REGISTER_STATIC_LIBRARY(worldloader,metainfo_worldloader)
+SCF_REGISTER_STATIC_LIBRARY(tiledworldloader,metainfo_tiledworldloader)
   #ifndef WorldManager_FACTORY_REGISTERED 
   #define WorldManager_FACTORY_REGISTERED 
     WorldManager_StaticInit WorldManager_static_init__; 
   #endif
 public:
- worldloader();
+ tiledworldloader();
 };
-worldloader::worldloader() {}
+tiledworldloader::tiledworldloader() {}
 
 }

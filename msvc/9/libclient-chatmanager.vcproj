@@ -316,6 +316,9 @@
 				RelativePath="..\..\src\client\chat\cmdemotes.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\chat\cmdgroup.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\chat\cmdhelp.cpp">
 			</File>
 			<File

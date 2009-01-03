@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="libthreadedfactoryloader"
-	ProjectGUID="{AC9316D6-5785-368F-3337-B6031603A76E}"
+	Name="plgtiledworldloader"
+	ProjectGUID="{31930C43-F712-16FD-15EB-365C3BBFC103}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,9 +13,10 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release7\build\libthreadedfactoryloader\"
-			IntermediateDirectory="..\..\out\release7\build\libthreadedfactoryloader\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release7\build\plgtiledworldloader\"
+			IntermediateDirectory="..\..\out\release7\build\plgtiledworldloader\"
+			ConfigurationType="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -26,14 +27,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\libthreadedfactoryloader\threadedfactoryloader.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
+				ProgramDataBaseFileName="..\..\out\release7\build\plgtiledworldloader\tiledworldloader.pdb"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release7\build\libthreadedfactoryloader\libthreadedfactoryloader.pch"
-				AssemblerListingLocation="..\..\out\release7\build\libthreadedfactoryloader\"
-				ObjectFile="..\..\out\release7\build\libthreadedfactoryloader\"
+				PrecompiledHeaderFile="..\..\out\release7\build\plgtiledworldloader\plgtiledworldloader.pch"
+				AssemblerListingLocation="..\..\out\release7\build\plgtiledworldloader\"
+				ObjectFile="..\..\out\release7\build\plgtiledworldloader\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -49,22 +50,26 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\tiledworldloader.dll"
+				ProgramDatabaseFile="..\..\out\release7\build\plgtiledworldloader\tiledworldloader.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release7\build\plgtiledworldloader\plgtiledworldloader.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release7\libs;$(CEL)\out\release7\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release7\libs\libthreadedfactoryloader.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release7\build\libthreadedfactoryloader\libthreadedfactoryloader.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\plgtiledworldloader\plgtiledworldloader.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
@@ -75,8 +80,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\plugins\tiledworld\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\plugins\tiledworld;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,9 +90,10 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release7\build\libthreadedfactoryloader\"
-			IntermediateDirectory="..\..\out\release7\build\libthreadedfactoryloader\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release7\build\plgtiledworldloader\"
+			IntermediateDirectory="..\..\out\release7\build\plgtiledworldloader\"
+			ConfigurationType="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -98,14 +104,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\libthreadedfactoryloader\threadedfactoryloader.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release7\build\plgtiledworldloader\tiledworldloader.pdb"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release7\build\libthreadedfactoryloader\libthreadedfactoryloader.pch"
-				AssemblerListingLocation="..\..\out\release7\build\libthreadedfactoryloader\"
-				ObjectFile="..\..\out\release7\build\libthreadedfactoryloader\"
+				PrecompiledHeaderFile="..\..\out\release7\build\plgtiledworldloader\plgtiledworldloader.pch"
+				AssemblerListingLocation="..\..\out\release7\build\plgtiledworldloader\"
+				ObjectFile="..\..\out\release7\build\plgtiledworldloader\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -121,22 +127,26 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\tiledworldloader.dll"
+				ProgramDatabaseFile="..\..\out\release7\build\plgtiledworldloader\tiledworldloader.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\release7\build\plgtiledworldloader\plgtiledworldloader.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release7\libs;$(CEL)\out\release7\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release7\libs\libthreadedfactoryloader.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release7\build\libthreadedfactoryloader\libthreadedfactoryloader.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\plgtiledworldloader\plgtiledworldloader.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release7\bin\&#x0D;&#x0A;"
@@ -147,8 +157,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\plugins\tiledworld\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\plugins\tiledworld;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,9 +167,9 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug7\build\libthreadedfactoryloader\"
-			IntermediateDirectory="..\..\out\debug7\build\libthreadedfactoryloader\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug7\build\plgtiledworldloader\"
+			IntermediateDirectory="..\..\out\debug7\build\plgtiledworldloader\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -170,14 +180,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\libthreadedfactoryloader\threadedfactoryloader.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug7\build\plgtiledworldloader\tiledworldloader.pdb"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug7\build\libthreadedfactoryloader\libthreadedfactoryloader.pch"
-				AssemblerListingLocation="..\..\out\debug7\build\libthreadedfactoryloader\"
-				ObjectFile="..\..\out\debug7\build\libthreadedfactoryloader\"
+				PrecompiledHeaderFile="..\..\out\debug7\build\plgtiledworldloader\plgtiledworldloader.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\plgtiledworldloader\"
+				ObjectFile="..\..\out\debug7\build\plgtiledworldloader\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -191,22 +201,26 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\tiledworldloader.dll"
+				ProgramDatabaseFile="..\..\out\debug7\build\plgtiledworldloader\tiledworldloader.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug7\build\plgtiledworldloader\plgtiledworldloader.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug7\libs;$(CEL)\out\debug7\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug7\libs\libthreadedfactoryloader_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug7\build\libthreadedfactoryloader\libthreadedfactoryloader.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\plgtiledworldloader\plgtiledworldloader.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
@@ -217,8 +231,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\plugins\tiledworld\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\plugins\tiledworld;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,9 +241,9 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug7\build\libthreadedfactoryloader\"
-			IntermediateDirectory="..\..\out\debug7\build\libthreadedfactoryloader\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug7\build\plgtiledworldloader\"
+			IntermediateDirectory="..\..\out\debug7\build\plgtiledworldloader\"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -240,14 +254,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\libthreadedfactoryloader\threadedfactoryloader.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug7\build\plgtiledworldloader\tiledworldloader.pdb"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug7\build\libthreadedfactoryloader\libthreadedfactoryloader.pch"
-				AssemblerListingLocation="..\..\out\debug7\build\libthreadedfactoryloader\"
-				ObjectFile="..\..\out\debug7\build\libthreadedfactoryloader\"
+				PrecompiledHeaderFile="..\..\out\debug7\build\plgtiledworldloader\plgtiledworldloader.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\plgtiledworldloader\"
+				ObjectFile="..\..\out\debug7\build\plgtiledworldloader\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -261,22 +275,26 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\tiledworldloader.dll"
+				ProgramDatabaseFile="..\..\out\debug7\build\plgtiledworldloader\tiledworldloader.pdb"
+				IgnoreImportLibrary="TRUE"
+				DelayLoadDLLs=""
+				ImportLibrary="..\..\out\debug7\build\plgtiledworldloader\plgtiledworldloader.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug7\libs;$(CEL)\out\debug7\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug7\libs\libthreadedfactoryloader_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug7\build\libthreadedfactoryloader\libthreadedfactoryloader.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\plgtiledworldloader\plgtiledworldloader.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug7\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug7\bin\&#x0D;&#x0A;"
@@ -287,8 +305,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\plugins\tiledworld\factoryloader;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=7"
+				AdditionalIncludeDirectories=".;..\..\plugins\tiledworld;..\..;..\..\include;..\..\src;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -301,20 +319,63 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\tiledworld\factoryloader\fileloader.cpp">
+				RelativePath="..\..\plugins\tiledworld\factory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\interior.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\interiormanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\level.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\maptile.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\modelmanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\world.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\tiledworld\factoryloader\fileloader.h">
+				RelativePath="..\..\plugins\tiledworld\factory.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tiledworld\factoryloader\properties.h">
+				RelativePath="..\..\plugins\tiledworld\interior.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\tiledworld\factoryloader\texture.h">
+				RelativePath="..\..\plugins\tiledworld\interiormanager.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\level.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\maptile.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\modelmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\utils.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\world.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\plgtiledworldloader.rc">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tiledworld\tiledworldloader.csplugin">
 			</File>
 		</Filter>
 	</Files>

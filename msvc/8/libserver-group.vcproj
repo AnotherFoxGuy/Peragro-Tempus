@@ -307,7 +307,13 @@
 				RelativePath="..\..\src\server\group\chatgroup.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\group\chatgroupset.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\group\chatmanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\group\chgrpsimple.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -320,7 +326,13 @@
 				RelativePath="..\..\src\server\group\chatgroup.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\group\chatgroupset.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\group\chatmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\group\chgrpsimple.h">
 			</File>
 		</Filter>
 	</Files>

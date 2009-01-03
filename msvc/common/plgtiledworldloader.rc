@@ -19,7 +19,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", "0.1"
       VALUE "FileVersion", "0.1"
       VALUE "LegalCopyright", "Peragro Team"
-      VALUE "FileDescription", "World loader"
+      VALUE "FileDescription", "Tiled World loader"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -39,14 +39,14 @@ FILEFLAGS 0x0
 17485 RCDATA 
 {
   "<?xml version=""1.0""?>",
-  "<!-- worldloader.csplugin -->",
+  "<!-- tiledworldloader.csplugin -->",
   "<plugin>",
   "  <scf>",
   "    <classes>",
   "      <class>",
-  "        <name>peragro.world</name>",
+  "        <name>peragro.tiledworld</name>",
   "        <implementation>WorldManager</implementation>",
-  "        <description>World</description>",
+  "        <description>Tiled World</description>",
   "      </class>",
   "    </classes>",
   "  </scf>",
