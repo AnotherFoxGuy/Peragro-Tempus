@@ -7,7 +7,6 @@ SubInclude TOP src client data npc ;
 SubInclude TOP src client data sector ;
 SubInclude TOP src client data skill ;
 SubInclude TOP src client data spawn ;
-SubInclude TOP src client data teleport ;
 SubInclude TOP src client data zone ;
 
 Description client-data : "client data" ;
@@ -20,6 +19,5 @@ Library client-data :
   [ Wildcard [ ConcatDirs sector ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs skill ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs spawn ] : *.h *.cpp ]
-  [ Wildcard [ ConcatDirs teleport ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs zone ] : *.h *.cpp ] ;
 ExternalLibs client-data : CRYSTAL CEL BOOST ;

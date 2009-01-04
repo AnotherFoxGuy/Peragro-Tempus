@@ -81,7 +81,7 @@ namespace PT
       // Load the door animations.
       csRef<iThreadedLoader >loader = csQueryRegistry<iThreadedLoader> (obj_reg);
       if (!loader) return Report(PT::Error, "Failed to locate Loader!");
-      csRef<iThreadReturn> tr = loader->LoadLibraryFile("/peragro/xml/quests/doorquests.xml");
+      csRef<iThreadReturn> tr = loader->LoadLibraryFile("/peragro/xml/animations/doorquests.xml");
       tr->Wait();
 
       PT_SETUP_HANDLER
