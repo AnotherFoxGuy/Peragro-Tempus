@@ -39,6 +39,14 @@ namespace Geom
   class Vector3;
 }
 
+namespace Common
+{
+  namespace World
+  {
+    struct Object;
+  }
+}
+
 struct iWorld : public virtual iBase
 {
   SCF_INTERFACE(iWorld, 1,0,0);
@@ -60,6 +68,7 @@ struct iWorld : public virtual iBase
   /// Get the proximity range in units.
   virtual unsigned int GetRange() const = 0;
 
+  virtual void CommitChanges(Common::World::Object& object) = 0;
 
   //-[Tiled world]-----------------------------
   // TODO remove.

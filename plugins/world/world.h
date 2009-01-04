@@ -34,6 +34,8 @@
 #include <iengine/camera.h>
 #include <imap/loader.h>
 
+#include <csutil/weakref.h>
+
 #include <iutil/event.h>
 #include <iutil/eventh.h>
 #include <iutil/eventq.h>
@@ -68,7 +70,7 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   void CommitChanges() 
   {
     csRef<iWorld> world = csQueryRegistry<iWorld> (object_reg);
-    //world->CommitChanges(&this);
+    world->CommitChanges(*this);
   }
 
   // iMovableListener
@@ -77,8 +79,8 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
     position = movable->GetTransform().GetOrigin();
     CommitChanges();
   }
-
   void MovableDestroyed (iMovable* movable) {}
+
   // iObject
   void SetName (const char *iName) 
   { name = iName; CommitChanges(); }
@@ -168,6 +170,11 @@ private:
   csRef<MovableCallBack> cb;
   csVector3 position;
 
+  csWeakRef<iMeshWrapper> playerMesh;
+
+private:
+  csWeakRef<iMeshWrapper> selectedMesh;
+
 private:
   // TODO remove.
   void SetGridSize(unsigned int size) {}
@@ -215,6 +222,8 @@ public:
 
   /// Handles reporting warnings and errors.
   void Report(int severity, const char* msg, ...);
+
+  void CommitChanges(Common::World::Object& object);
 };
 
 

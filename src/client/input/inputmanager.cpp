@@ -143,6 +143,11 @@ namespace PT
         csRef<iEvent> inputEvent = evmgr->CreateEvent(eventName);
         inputEvent->Add("action", itr->second.c_str());
         inputEvent->Add("buttonState", down);
+        if (!keyboard)
+        {
+          inputEvent->Add("X", csMouseEventHelper::GetX(&ev));
+          inputEvent->Add("Y", csMouseEventHelper::GetY(&ev));
+        }
         evmgr->AddEvent(inputEvent);
       }
       else

@@ -37,6 +37,13 @@
 #include <ivaria/collider.h>
 #include <cstool/collider.h>
 
+#include <cstool/enginetools.h>
+#include <physicallayer/pl.h>
+#include <physicallayer/propfact.h>
+#include <physicallayer/propclas.h>
+#include <propclass/prop.h>
+#include <propclass/defcam.h>
+
 #include "common/world/world.h"
 
 #include "include/cacheentry.h"
@@ -168,6 +175,15 @@ bool WorldManager::Initialize(const std::string& name)
   resourceManager.AddTestObjects();
   resourceManager.ScanObjects("/peragro/art/tiles/");
 
+  // Editor.
+  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object+X"));
+  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object-X"));
+  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object+Y"));
+  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object-Y"));
+  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object+Z"));
+  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object-Z"));
+  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Interact"));
+
   return true;
 } // end Initialize
 
@@ -221,12 +237,84 @@ bool WorldManager::Loading()
   return true;
 } // end Loading()
 
+iCamera* GetCamera(iObjectRegistry* object_reg, iMeshWrapper* wrap)
+{
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  if (pl && wrap)
+  {
+    iCelEntity* entity = pl->FindAttachedEntity(wrap->QueryObject());
+    if (entity)
+    {
+      csRef<iPcDefaultCamera> camera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+      if (camera) return camera->GetCamera();
+    }
+  }
+
+  return 0;
+}
+
+void Move(iMeshWrapper* selectedMesh, iCamera* cam, const csVector3& v)
+{
+  if (selectedMesh && cam)
+  {
+    csReversibleTransform& tr = selectedMesh->GetMovable()->GetTransform();
+    tr.Translate (cam->GetTransform().This2OtherRelative(v));
+    selectedMesh->GetMovable()->UpdateMove();
+  }
+}
+
 bool WorldManager::HandleEvent(iEvent& ev) 
 { 
+  float f = 0.1f;
   if (ev.GetName() == nameRegistry->GetID("crystalspace.frame"))
     Loading();
-  else
+  else if (ev.GetName() == nameRegistry->GetID("interface.options.video"))
     UpdateOptions(); 
+  else if (ev.GetName() == nameRegistry->GetID("input.Object+X"))
+  {
+    iCamera* cam = GetCamera(object_reg, playerMesh);
+    Move(selectedMesh, cam, csVector3(f, 0, 0));
+  }
+  else if (ev.GetName() == nameRegistry->GetID("input.Object-X"))
+  {
+    iCamera* cam = GetCamera(object_reg, playerMesh);
+    Move(selectedMesh, cam, csVector3(-f, 0, 0));
+  }
+  else if (ev.GetName() == nameRegistry->GetID("input.Object+Y"))
+  {
+    iCamera* cam = GetCamera(object_reg, playerMesh);
+    Move(selectedMesh, cam, csVector3(0, f, 0));
+  }
+  else if (ev.GetName() == nameRegistry->GetID("input.Object-Y"))
+  {
+    iCamera* cam = GetCamera(object_reg, playerMesh);
+    Move(selectedMesh, cam, csVector3(0, -f, 0));
+  }
+  else if (ev.GetName() == nameRegistry->GetID("input.Object+Z"))
+  {
+    iCamera* cam = GetCamera(object_reg, playerMesh);
+    Move(selectedMesh, cam, csVector3(0, 0, f));
+  }
+  else if (ev.GetName() == nameRegistry->GetID("input.Object-Z"))
+  {
+    iCamera* cam = GetCamera(object_reg, playerMesh);
+    Move(selectedMesh, cam, csVector3(0, 0, -f));
+  }
+  else if (ev.GetName() == nameRegistry->GetID("input.Interact"))
+  {
+    iCamera* cam = GetCamera(object_reg, playerMesh);
+    if (cam)
+    {
+      int x, y; x = y = 0;
+      ev.Retrieve("X", x);
+      ev.Retrieve("Y", y);
+      csVector2 p(x, y);
+      csScreenTargetResult st = csEngineTools::FindScreenTarget (p, 100.0f, cam);
+      selectedMesh = st.mesh;
+      if (selectedMesh)
+        Report (CS_REPORTER_SEVERITY_NOTIFY, "Selected mesh %s", selectedMesh->QueryObject()->GetName());
+    }
+  }
   
   return true; 
 } // end HandleEvent()
@@ -254,6 +342,8 @@ void WorldManager::SetMesh(iMeshWrapper* wrapper)
 
   if (!wrapper) return;
 
+  playerMesh = wrapper;
+
   cb.AttachNew(new MovableCallBack(this));
 
   wrapper->GetMovable()->AddListener(cb);
@@ -263,6 +353,8 @@ void WorldManager::UnSetMesh()
 {
   if (cb.IsValid())
     cb.Invalidate();
+
+  playerMesh = 0;
 } // end UnSetCamera()
 
 static int Compare(const Common::World::Object* r1, const Common::World::Object* r2)
@@ -288,10 +380,6 @@ void WorldManager::CameraMoved()
   if (objects.size()) printf("QUERY: %d (rad: %f at %s)\n", objects.size(), (float)radius, position.Description().GetData());
   for (it = objects.begin(); it != objects.end(); it++ )
   {
-    //printf("================================================\n");
-    //printf("OBJECT: %d %s %s\n", (*it).id, (*it).name.c_str(), (*it).factoryFile.c_str());
-    //printf("================================================\n");
-
     size_t index = instances.FindSortedKey(csArrayCmp<Instance*, const Object*>(&(*it), ptCompare));
     if (index != csArrayItemNotFound)
     {
@@ -326,3 +414,9 @@ void WorldManager::MovableCallBack::MovableChanged (iMovable* movable)
   world->CameraMoved();
 
 } // end CameraMoved()
+
+void WorldManager::CommitChanges(Common::World::Object& object)
+{
+  printf("CommitChanges: %s\n", object.name.c_str());
+  worldManager->AddLookUp(object, false);
+} // end CommitChanges()

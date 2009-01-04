@@ -212,6 +212,8 @@ public:
 
   /// Handles reporting warnings and errors.
   void Report(int severity, const char* msg, ...);
+
+  void CommitChanges(Common::World::Object& object) {}
 };
 
 
