@@ -325,9 +325,6 @@
 				RelativePath="..\..\src\client\data\spawn\spawnpointdatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\teleport\teleportdatamanager.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\data\zone\zonedatamanager.cpp">
 			</File>
 		</Filter>
@@ -378,12 +375,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\spawn\spawnpointdatamanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\teleport\teleport.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\teleport\teleportdatamanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\zone\zone.h">
