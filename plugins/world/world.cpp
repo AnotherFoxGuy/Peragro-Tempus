@@ -94,7 +94,7 @@ void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
     instance = cacheEntry->Create(name, factoryName);
 
     csVector3 curpos = instance->QuerySceneNode()->GetMovable()->GetFullPosition();
-    instance->QuerySceneNode()->GetMovable()->SetPosition(curpos + (csVector3)position);
+    instance->QuerySceneNode()->GetMovable()->SetPosition(curpos + (csVector3&)position);
 
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     iSector* s = engine->FindSector(sector.c_str());
