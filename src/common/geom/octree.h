@@ -53,12 +53,12 @@ namespace Geom
 
       Entry(const Entry& e) : _t(e._t), _g(e._g){}
 
-      operator T()
+      operator T() const
       {
         return _t;
       }
 
-      bool ContainedIn(const Sphere& s)
+      bool ContainedIn(const Sphere& s) const
       {
         return s.Intersect(_g);
       }
@@ -78,6 +78,7 @@ namespace Geom
     OcTree(const OcTree& o) {}
 
     typedef typename std::set<Entry, compare>::iterator Iterator;
+    typedef typename std::set<Entry, compare>::const_iterator ConstIterator;
     std::set<Entry, compare> entries;
 
   public:
@@ -115,10 +116,10 @@ namespace Geom
       return false;
     }
 
-    QueryResult Query(const Sphere& s) 
+    QueryResult Query(const Sphere& s) const
     {
       QueryResult result;
-      Iterator it;
+      ConstIterator it;
       for (it = entries.begin() ; it != entries.end(); it++ )
       {
         if ((*it).ContainedIn(s))
