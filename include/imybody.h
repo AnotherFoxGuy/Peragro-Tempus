@@ -39,7 +39,7 @@ struct iCamera;
 // Interface header
 struct iMyBody : public virtual iBase
 {
-  SCF_INTERFACE(iMyBody,1,0,0);
+  SCF_INTERFACE(iMyBody,1,0,1);
 
   virtual void Set_Body (
     csVector3 r,
@@ -78,15 +78,16 @@ struct iMyBody : public virtual iBase
   virtual void Set_Material(csRef<iMaterialWrapper>& mat) = 0;
 
   virtual void Set_Mesh(char const* mesh_name) = 0;
+
   virtual void Create_Body_Mesh() = 0;
   virtual void Create_Body_Mesh(float radius, int verts, double day, double i) = 0;
 
   virtual char const* Get_Name() const = 0;
-  virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat) = 0;
-  virtual csVector3  GetSurfacePos(const float& lon, const float& lat) = 0;
-  virtual csVector3 GetSurfaceVector(const float& lon, const float& lat) = 0;
+  virtual long double const GetBodyInc() = 0;
 
   virtual csRef<iMeshWrapper> Get_MeshWrapper() = 0;
+  virtual csVector3 GetPos() = 0;
+
 
   virtual bool Add_Child(csRef<iMyBody> child) = 0;
   virtual bool Set_Parent(csRef<iMyBody> par_body) = 0;
@@ -102,6 +103,9 @@ struct iMyBody : public virtual iBase
   virtual void Draw_Position(iCamera* c, long secondspassed ) = 0;
   virtual void Draw_Up (const iCamera* c , iGraphics3D* g3d, csVector3 up) = 0;
 
+  virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat) = 0;
+  virtual csVector3  GetSurfacePos(const float& lon, const float& lat) = 0;
+  virtual csVector3 GetSurfaceVector(const float& lon, const float& lat) = 0;
   virtual double GetBodyRotation() = 0;
   virtual double GetOrbitRotation() = 0;
 
