@@ -77,7 +77,7 @@ bool MyBody::Set_Parent(csRef<iMyBody> par_body)
 {
   // TBD if this already has parent, remove this from parents childern
   body->Set_Parent(par_body);
-  par_body->Add_Child(this);
+  //par_body->Add_Child(this); // causes double add if add_child has been called 
   return true;
 }
 
@@ -186,4 +186,8 @@ csRef<iMyBody> MyBody::Find(const std::string& sname)
   return result;
 }
 
+csVector3 MyBody::GetPos()
+{
+  return body->GetPos();
+}
 

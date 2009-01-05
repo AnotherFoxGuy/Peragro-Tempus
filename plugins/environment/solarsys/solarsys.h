@@ -20,7 +20,7 @@
 #ifndef _H_SOLARSYS
 #define _H_SOLARSYS
 
-#define report_lvl false
+#define solarsys_report_lvl false
 
 #include <string>
 
@@ -52,14 +52,12 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
     float lon;
     csRef<iMyStarbox> starbox;
 
- //   csTransform* start_trans ;
     long  last_update_seconds;
 
     /// A pointer to the view which contains the camera.
     csRef<iView> solarview;
     csRef<iSector> sector;      // Sector should be different from you main game/map sector default solarsys
 
-    //Body* rootbody;
     std::string solarsys_name;
 
     // The camera catcher.
@@ -79,10 +77,9 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
     virtual void SetSurfaceBody (csRef<iMyBody>& body) { surbody = body; };
     virtual void SetStarbox (csRef<iMyStarbox>& sb ) { starbox = sb; };
 
-
-
     virtual char const* GetName() const { return solarsys_name.c_str(); };
     virtual iSector const* GetSector() const { return sector; };
+    virtual csVector3 GetRelatveRootPos();
 
     virtual void DrawSolarSys( iCamera* c );
     virtual void DrawSolarSys( iCamera* c , long ts );
@@ -94,6 +91,7 @@ class Solarsys : public scfImplementation1<Solarsys, iSolarsys>
 
     bool CreateCamera();
     void DrawStarbox(iCamera* c);
+    void DrawCameraAxis(iCamera* view_c, iCamera* surface_c );
 };
 
 

@@ -27,7 +27,7 @@ Body::Body(iObjectRegistry* reg)
 
   if (!engine) printf ("Body::Body() no engine\n");
 
-  last_update_seconds = -1;
+  last_update_seconds = 1;
 
   body_verts = 100;
   body_radius = 10;
@@ -37,10 +37,12 @@ Body::Body(iObjectRegistry* reg)
 
   name = "defaultbody";
 
-  body_day_length =.1; // in hours
+  body_day_length =0.1; // in hours
   body_inclination = 0; // in deg
 
   Create_Body_Mesh(body_radius, body_verts, body_day_length, body_inclination);
+
+  tmp = 0;
 
 }
 
@@ -67,7 +69,7 @@ void Body::Create_Body_Mesh()
 {
   if (!sector)
   {
-    if (report_lvl) printf("Body::Create_Body_Mesh: No sector set\n");
+    if (csbody_report_lvl) printf("Body::Create_Body_Mesh: No sector set\n");
     return ;
   }
 
@@ -93,7 +95,7 @@ void Body::Create_Body_Mesh()
 
   mesh->SetLightingUpdate( CS_LIGHTINGUPDATE_ALWAYSUPDATE, 8 );
 
-  if (report_lvl) printf ("Body::Create_Body_Mesh:created body %s\n",name.c_str());
+  if (csbody_report_lvl) printf ("Body::Create_Body_Mesh:created body %s\n",name.c_str());
 }
 
 void Body::Set_Name (char const* body_name)
@@ -102,7 +104,7 @@ void Body::Set_Name (char const* body_name)
   if (light)
   {
     light->QueryObject()->SetName(body_name);
-    if (report_lvl) printf("Body::Set_Name:updating light name:%s\n",body_name);
+    if (csbody_report_lvl) printf("Body::Set_Name:updating light name:%s\n",body_name);
   }
   // update body name
   name = body_name;
@@ -133,6 +135,7 @@ bool Body::Set_Parent (csRef<iMyBody> par_body )
 
 bool Body::Draw_FullOrbit (iCamera* c, iGraphics3D* g3d)
 {
+  if (!mesh || !c || !g3d) return false;
 
   csVector3 origin(0,0,0);
   if (parent)
@@ -196,7 +199,7 @@ void Body::Set_Orbit (
 
 void Body::Set_Material(csRef<iMaterialWrapper>& mat)
 {
-  if (report_lvl)
+  if (csbody_report_lvl)
     printf("Body::Set_Material: '%s' body material to %s!\n", name.c_str(), mat->QueryObject ()->GetName ()  );
 
   if (!Apply_Material(mat))
@@ -270,8 +273,8 @@ bool Body::Position_Body (float angle, csVector3 orbit_origin)
   float orb_rad;
 
   orb_rad = angle * (PI / 180.0);
-  v3pos = OrbitPointDeg(angle);
-  abs_pos.SetO2TTranslation(v3pos + orbit_origin);
+  v3pos = OrbitPointDeg(angle) + orbit_origin;
+  abs_pos.SetO2TTranslation(v3pos);
 
   return true;
 }
@@ -295,14 +298,15 @@ void Body::Update_Mesh_Pos ()
 {
   if (!mesh)
   {
-    if (report_lvl) printf ("Body::Update_Mesh_Pos:body '%s' has no mesh to update\n", name.c_str() );
+    if (csbody_report_lvl) printf ("Body::Update_Mesh_Pos:body '%s' has no mesh to update\n", name.c_str() );
   } else
   {
     iMovable* movable;
     movable = mesh->GetMovable();
     movable->SetTransform (abs_pos);
-    csVector3  body_pos = abs_pos.GetOrigin(); // position on surface of sphere
+    csVector3  body_pos = abs_pos.GetOrigin(); 
     movable->UpdateMove();
+
   }
 
   for (size_t i = 0; i < child_bodies.GetSize(); i++)
@@ -320,7 +324,8 @@ void Body::Pos_Light(const csVector3& npos)
     return;
   }else  // update position
   {
-    light->GetMovable()->SetPosition (npos);
+    light->SetCenter (npos);
+ //   if (csbody_report_lvl) printf("pos %s light( %4.2f, %4.2f, %4.2f)\n", name.c_str(), npos.x, npos.y, npos.z);
   }
 }
 
@@ -328,11 +333,14 @@ void Body::Update_Lights()
 {
   if (!sector) return ;
 
-  csVector3 pos(0,0,0);
+  csVector3 pos;
 
-  if (mesh) pos = mesh->GetMovable()->GetFullPosition();
-
-  if (light) Pos_Light (pos);
+  if (mesh) 
+  {
+    pos = mesh->GetMovable()->GetFullPosition();
+//    if (csbody_report_lvl) printf("pos %s light( %4.6f, %4.6f, %4.6f)\n", name.c_str(), pos.x, pos.y, pos.z);
+    if (light) Pos_Light (pos);
+  } 
   // update child bodies
   for (size_t i = 0; i < child_bodies.GetSize(); i++)
   {
@@ -370,17 +378,19 @@ csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
   body_pos = movable->GetFullPosition ();
 
   csVector3 sur_vec = GetSurfaceVector (lon , lat);
-  csVector3 off_set = body_radius * (sur_vec);
+
+  csVector3 off_set = ( body_radius * sur_vec );  
   body_pos += off_set;
 
   bodytrans = csReversibleTransform ( body_matrix, body_pos );
-  bodytrans.LookAt (  csVector3(0,0,1) ,  sur_vec  );
+  bodytrans.LookAt (  GetLookAtVector (lon , lat),  sur_vec  );
 
   return  bodytrans ;
 }
 
 csVector3  Body::GetSurfacePos(const float& lon, const float& lat)
 {
+
   // Get surface vector on sphere at lon/lat
   csVector3 sur_vec = body_radius * GetSurfaceVector(lon, lat);
 
@@ -392,16 +402,43 @@ csVector3  Body::GetSurfaceVector(const float& lon, const float& lat)
 {
   // Get surface vector on sphere at lon/lat
   csVector3 sur_vec;
-  float radfactor = (PI / 180.0);
+
+  // Since lon and lat are relative to the sphere need to adjust to 
+  // absoulte position relative to solarplane
+  float adjlon = (lon - body_rotation)*(PI / 180.0);
+  float adjlat = (lat + body_inclination)*(PI / 180.0);
+
   // Get bodys rotaton
 
-  sur_vec.x = cos( (lon*radfactor)-(body_rotation*radfactor) ) * cos( (lat*radfactor) - (body_inclination*radfactor) );
-  sur_vec.y = sin( (lon*radfactor)-(body_rotation*radfactor) ) * cos( (lat*radfactor) - (body_inclination*radfactor) );
-  sur_vec.z = sin( (lat*radfactor) - (body_inclination*radfactor) );
+  sur_vec.x = cos( adjlon ) * cos( adjlat );
+  sur_vec.y = sin( adjlon ) * cos( adjlat );
+  sur_vec.z = sin( adjlat );
+
+  sur_vec *= 1.02 ;
 
   return  sur_vec;
 }
 
+csVector3  Body::GetLookAtVector(const float& lon, const float& lat)
+{
+  // Get surface vector on sphere at lon/lat
+  csVector3 sur_vec;
+
+  // Since lon and lat are relative to the sphere need to adjust to 
+  // absoulte position relative to solarplane
+  float adjlon = (lon - body_rotation)*(PI / 180.0);
+  float adjlat = (90+lat + body_inclination)*(PI / 180.0);
+
+  // Get bodys rotaton
+
+  sur_vec.x = cos( adjlon ) * cos( adjlat );
+  sur_vec.y = sin( adjlon ) * cos( adjlat );
+  sur_vec.z = sin( adjlat );
+
+  sur_vec *= 1.02 ;
+
+  return  sur_vec;
+}
 
 
 // --------------------------------------------------------------------------------//
@@ -419,7 +456,7 @@ bool Body::Load_Texture(std::string filename, std::string mat_name )
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg );
   if (!vfs) printf("Body::Load_Texture: Failed to locate VFS plugin!\n");
 
-  csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg );
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg );
   if (!loader) printf("Body::Load_Texture: Failed to locate 3D renderer!\n");
 
   csRef<iTextureManager> texture_manager = g3d->GetTextureManager();
@@ -430,13 +467,13 @@ bool Body::Load_Texture(std::string filename, std::string mat_name )
 
   if (!mat ) {
     csRef<iDataBuffer>  buf = vfs->ReadFile  (filename.c_str() , false );
-    csRef<iTextureWrapper> texturewapper =scfQueryInterface<iTextureWrapper>( loader->LoadTexture (mat_name.c_str() ,
-      buf, CS_TEXTURE_3D, texture_manager , true, true, true )->GetResultRefPtr());
+    csRef<iTextureWrapper> texturewapper = loader->LoadTexture (mat_name.c_str() ,
+      buf, CS_TEXTURE_3D, texture_manager , true, true, true );
     mat = engine->GetMaterialList ()->FindByName (mat_name.c_str());
   }
 
   if (!mat ) {
-    if (report_lvl) printf(" Body::Load_Texture: Material %s not found!\n",mat_name.c_str() );
+    if (csbody_report_lvl) printf(" Body::Load_Texture: Material %s not found!\n",mat_name.c_str() );
     return false;
   }
   return true;
@@ -491,7 +528,7 @@ bool Body::Add_Light(int radius, csColor color)
 //  light->SetAttenuationMode ( CS_ATTN_INVERSE  );
   light->SetAttenuationMode ( CS_ATTN_NONE  );
   ll->Add (light);
-  if (report_lvl)
+  if (csbody_report_lvl)
   {
     printf (" add light sector has %d lights \n" ,  ll->GetCount() );
     printf (" new light pos ( %4.2f,%4.2f,%4.2f )\n" , pos.x, pos.y, pos.z );
@@ -505,18 +542,15 @@ bool Body::Add_Light(int radius, csColor color)
 
 float Body::Get_Body_Rotation (long secondspassed )
 {
-
   float rot_angle=0;
   long  seconds = secondspassed;
-
   if ( last_update_seconds < seconds )
   {
     last_update_seconds = seconds;
-    if (body_day_length!=0)
+    if (body_day_length!=0)  // avoid devide by zero 
     {
-      // day units is hours
-      long day_in_seconds = (static_cast<long>(body_day_length * 60 * 60));
-      long day_remainder =  (seconds % day_in_seconds ) + 1;
+      long day_in_seconds = static_cast<long>(body_day_length * 60 * 60); // day units is hours
+      long day_remainder =  (seconds % day_in_seconds) + 1;
       rot_angle = (360 * ((float) (day_remainder) / (float)(day_in_seconds)));
       body_rotation = rot_angle;
     }
@@ -527,8 +561,14 @@ float Body::Get_Body_Rotation (long secondspassed )
     }
   }
   else
-  {
+  { 
     rot_angle = body_rotation;
   }
   return rot_angle;
 }
+
+csVector3 Body::GetPos()
+{
+  return mesh->GetMovable()->GetFullPosition();
+}
+

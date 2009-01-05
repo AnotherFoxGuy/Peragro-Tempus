@@ -25,7 +25,7 @@
 #ifndef _H_BODY_
 #define _H_BODY_
 
-#define report_lvl false
+#define csbody_report_lvl false
 
 // CS Files
 #include <cssysdef.h>
@@ -78,6 +78,8 @@ private:
   csRef<iMyBody> parent;  // Parent body, Null if none
   csRefArray<iMyBody> child_bodies;
 
+  long tmp;
+
 
 public:
 
@@ -116,6 +118,7 @@ public:
   csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat);
   csVector3 GetSurfacePos(const float& lon, const float& lat);
   csVector3 GetSurfaceVector (const float& lon, const float& lat);
+  csVector3 GetPos();
 
   csVector3 const Get_Radius() const { return ellips.GetRadius(); };
   double const Get_Day_Lenght() const { return body_day_length; };
@@ -147,6 +150,7 @@ private:
 
   // Surface position methods
   csOrthoTransform GetSurfaceTrans (const float& lon ,const float& lat );
+  csVector3 GetLookAtVector(const float& lon, const float& lat);
 
   // Child body methods
   // bool Remove_Child (csRef<iMyBody> child);

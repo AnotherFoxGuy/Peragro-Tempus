@@ -29,7 +29,7 @@
 // Interface header
 struct iSolarsys : public virtual iBase
 {
-  SCF_INTERFACE(iSolarsys,1,0,0);
+  SCF_INTERFACE(iSolarsys,1,0,1);
 
   virtual void SetName(char const* name) = 0;
   virtual void SetSector(csRef<iSector>& cursector) = 0;
@@ -42,6 +42,7 @@ struct iSolarsys : public virtual iBase
 
   virtual char const* GetName() const = 0;
   virtual iSector const* GetSector() const = 0;
+  virtual csVector3 GetRelatveRootPos() = 0;
 
   virtual void DrawSolarSys( iCamera* c ) = 0;
   virtual void DrawSolarSys( iCamera* c , long ts ) = 0;

@@ -55,7 +55,7 @@ long double Orbit::Orbit_Angle( long secondspassed )
 
   long seconds = secondspassed;
   // Get number of seconds for one orbit, work out current angle
-  orbit_in_seconds = static_cast<long>(orb_period) * 24 * 60 * 60;
+  orbit_in_seconds = static_cast<long>((orb_period) * 24 * 60 * 60);
   if (orbit_in_seconds == 0) return 0;
   orbit_remainder = seconds %  orbit_in_seconds;
   M = 2 * PI * (double(orbit_remainder) / double(orbit_in_seconds));

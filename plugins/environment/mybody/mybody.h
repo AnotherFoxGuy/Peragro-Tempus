@@ -71,27 +71,29 @@ public:
     double scale
     );
 
-  virtual void Set_Name(char const* name)  {body->Set_Name(name);};
-  virtual void Set_a(long double val) {body->Set_a(val); };
-  virtual void Set_i(long double val) {body->Set_i(val); };
-  virtual void Set_n(long double val) {body->Set_n(val); };
-  virtual void Set_w(long double val) {body->Set_w(val); };
-  virtual void Set_e(long double val) {body->Set_e(val); };
-  virtual void Set_period(long double val) {body->Set_period(val); };
-  virtual void Set_scale(long double val) {body->Set_scale(val); };
-  virtual void Set_sector(iSector* sect) { body->Set_Sector(sect); };
+  virtual void Set_Name(char const* name)  {body->Set_Name(name);}
+  virtual void Set_a(long double val) {body->Set_a(val); }
+  virtual void Set_i(long double val) {body->Set_i(val); }
+  virtual void Set_n(long double val) {body->Set_n(val); }
+  virtual void Set_w(long double val) {body->Set_w(val); }
+  virtual void Set_e(long double val) {body->Set_e(val); }
+  virtual void Set_period(long double val) {body->Set_period(val); }
+  virtual void Set_scale(long double val) {body->Set_scale(val); }
+  virtual void Set_sector(iSector* sect) { body->Set_Sector(sect); }
 
-  virtual void Create_Body_Mesh() { body->Create_Body_Mesh(); };
+  virtual void Create_Body_Mesh() { body->Create_Body_Mesh(); }
   virtual void Create_Body_Mesh(float radius, int verts, double day, double i);
   virtual void Set_Mesh(char const* mesh_name);
   virtual void Set_Material(csRef<iMaterialWrapper>& mat);
   //virtual bool Set_mesh (iMeshWrapper* );
 
-  virtual char const* Get_Name() const {return body->Get_Name(); };
+  virtual char const* Get_Name() const {return body->Get_Name(); }
+  virtual long double const GetBodyInc() { return body->Get_Inclination(); }
   virtual csOrthoTransform GetSurfaceOrthoTransform (const float& lon,const float& lat);
   virtual csVector3 GetSurfacePos(const float& lon, const float& lat);
   virtual csVector3 GetSurfaceVector(const float& lon, const float& lat);
   virtual csRef<iMeshWrapper> Get_MeshWrapper();
+  virtual csVector3 GetPos();
 
   virtual bool Set_Parent(csRef<iMyBody> par_body );
   virtual bool Add_Child(csRef<iMyBody> child );

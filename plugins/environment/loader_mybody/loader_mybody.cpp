@@ -256,11 +256,6 @@ csRef<iMyBody> myLoaderBody::ParseBody (
 
   }// end if context
 
-
-
-
-
-
   if (node)
   {
     // Create the new imybody object
