@@ -323,7 +323,7 @@ void ResourceManager::ScanObjects(const std::string& path)
         {
           (*it).id = id;
           worldManager->AddLookUp(*it, false);
-          printf("ID: %d\n", (*it).id);
+          printf("ID: %zd\n", (*it).id);
           id++;
         }
       }
