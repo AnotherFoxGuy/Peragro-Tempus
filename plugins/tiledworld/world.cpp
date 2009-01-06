@@ -152,7 +152,7 @@ bool WorldManager::UpdateOptions()
   return true;
 } // end UpdateOptions()
 
-void WorldManager::SetGridSize(unsigned int size)
+void WorldManager::SetGridSize(size_t size)
 {
   // Sanity check.
   // We don't support smaller than 3!
@@ -207,12 +207,12 @@ void WorldManager::SetGridSize(unsigned int size)
   if (!init) EnterTile(cx, cz); // Load new surrounding tiles.
 } // end SetGridSize()
 
-unsigned int WorldManager::GetGridSize() const
+size_t WorldManager::GetGridSize() const
 {
   return current_size;
 } // end GetGridSize()
 
-void WorldManager::SetCacheSize(unsigned int size)
+void WorldManager::SetCacheSize(size_t size)
 {
   // Sanity check.
   unsigned int gridSizeSqr = GetGridSize() * GetGridSize();
@@ -272,7 +272,7 @@ void WorldManager::SetCacheSize(unsigned int size)
   maptilecache = newCache;
 } // end SetCacheSize()
 
-unsigned int WorldManager::GetCacheSize() const
+size_t WorldManager::GetCacheSize() const
 {
   return maptilecachesize;
 } // end GetCacheSize()

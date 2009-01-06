@@ -177,10 +177,10 @@ private:
 
 private:
   // TODO remove.
-  void SetGridSize(unsigned int size) {}
-  unsigned int GetGridSize() const { return 0; }
-  void SetCacheSize(unsigned int size) {}
-  unsigned int GetCacheSize() const { return 0; }
+  void SetGridSize(size_t size) {}
+  size_t GetGridSize() const { return 0; }
+  void SetCacheSize(size_t size) {}
+  size_t GetCacheSize() const { return 0; }
 
 public:
   /// The name of the world.

@@ -64,23 +64,23 @@ struct iWorld : public virtual iBase
   virtual void UnSetMesh() = 0;
 
   /// Set the proximity range in units.
-  virtual void SetRange(unsigned int size) = 0;
+  virtual void SetRange(size_t size) = 0;
   /// Get the proximity range in units.
-  virtual unsigned int GetRange() const = 0;
+  virtual size_t GetRange() const = 0;
 
   virtual void CommitChanges(Common::World::Object& object) = 0;
 
   //-[Tiled world]-----------------------------
   // TODO remove.
   /// Set the loaded tile grid size.
-  virtual void SetGridSize(unsigned int size) = 0;
+  virtual void SetGridSize(size_t size) = 0;
   /// Get the loaded tile grid size.
-  virtual unsigned int GetGridSize() const = 0;
+  virtual size_t GetGridSize() const = 0;
 
   /// Set the cached tile grid size.
-  virtual void SetCacheSize(unsigned int size) = 0;
+  virtual void SetCacheSize(size_t size) = 0;
   /// Get the cached tile grid size.
-  virtual unsigned int GetCacheSize() const = 0;
+  virtual size_t GetCacheSize() const = 0;
   //---------------------------------------------
 
 

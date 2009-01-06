@@ -101,12 +101,12 @@ private:
   bool loading;
 
   /// Number of tiles in the cache.
-  unsigned int maptilecachesize;
+  size_t maptilecachesize;
   /// Tile cache.
   MapTile** maptilecache;
 
   /// The current grid size.
-  unsigned int current_size;
+  size_t current_size;
   /// Loaded subset of the world.
   MapTile*** current;
 
@@ -201,14 +201,14 @@ public:
   void EnterWorld(Geom::Vector3 position);
 
   /// Set the loaded tile grid size.
-  void SetGridSize(unsigned int size);
+  void SetGridSize(size_t size);
   /// Get the loaded tile grid size.
-  unsigned int GetGridSize() const;
+  size_t GetGridSize() const;
 
   /// Set the cached tile grid size.
-  void SetCacheSize(unsigned int size);
+  void SetCacheSize(size_t size);
   /// Get the cached tile grid size.
-  unsigned int GetCacheSize() const;
+  size_t GetCacheSize() const;
 
   /// Handles reporting warnings and errors.
   void Report(int severity, const char* msg, ...);
