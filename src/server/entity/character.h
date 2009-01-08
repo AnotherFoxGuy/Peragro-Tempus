@@ -40,6 +40,7 @@ class Character : public ptMonitorable<Character>
 {
 private:
   unsigned int id;
+  unsigned int targetID; // Used by interaction manager to determine target.
 
   ptString name_id;
   const Mesh* mesh;
@@ -76,6 +77,9 @@ public:
 
   void setId(unsigned int id) { this->id = id; }
   unsigned int getId() const { return id; }
+
+  void SetTargetID(unsigned int targetID) { this->targetID = targetID; }
+  unsigned int GetTargetID() { return targetID; }
 
   void setPos(const PtVector3& newPos) { pos = newPos; }
   PtVector3 getPos() const { return pos; }
