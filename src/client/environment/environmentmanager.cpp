@@ -112,27 +112,15 @@ namespace PT
       lastStep = step;
 
       //=[ Sun position ]===================================
-      float temp = step * 2.0f;
-      if (temp > 1.0f) temp = 2.0f - temp;
-
-      sun_theta = ((2.0f * temp) - 1.0f) * 0.85;
-
-      sun_alpha = 1.605f * sin(-step * 2.0f * PI) - 3.21f;
-
-      // Update the values.
-      csVector3 sun_vec;
-      sun_vec.x = cos(sun_theta) * sin(sun_alpha);
-      sun_vec.y = sin(sun_theta);
-      sun_vec.z = cos(sun_theta) * cos(sun_alpha);
-      csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
-      var->SetValue(sun_vec);
-
-      // Set the sun position.
-      csVector3 sun_pos = sun_vec * 1500.0f;
-      if (sun)
+      if (solarsys)
       {
-        //sun->GetMovable()->SetPosition(sun_pos);
-        //sun->GetMovable()->UpdateMove();
+        csVector3 sunpos(solarsys->GetRelatveRootPos());
+        if ( sunpos.x != 0 || sunpos.y !=0 || sunpos.z !=0)
+        {
+          sunpos = sunpos.Unit(); 
+        }
+        csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
+        var->SetValue(sunpos);
       }
 
       //=[ Sun brightness ]===================================
