@@ -141,6 +141,7 @@
 			<message id="3" name="UpdateArmor" />
 			<message id="4" name="UpdateWeapon" />
 			<message id="5" name="AttackResult" />
+			<message id="6" name="Death" />
 		</type>
 		<type id="13" name="Auth">
 			<message id="0" name="ClientLoginRequest" />

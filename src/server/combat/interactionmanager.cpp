@@ -26,6 +26,7 @@
 
 #include "common/util/math.h"
 #include "common/network/playermessages.h"
+#include "common/network/combatmessages.h"
 #include "server/network/networkhelper.h"
 #include "server/database/table-inventory.h"
 #include "interactionqueue.h"
@@ -49,6 +50,7 @@ InteractionManager::InteractionManager()
   stopped = true;
   pendingStop = false;
   interactionQueue = new InteractionQueue();
+  notificationDistance = 10;
 }
 
 InteractionManager::~InteractionManager()
@@ -83,7 +85,6 @@ void InteractionManager::Run()
   free(interaction);
 }
 
-// TODO support our own char as target? In that case don't mess up locking
 bool
 InteractionManager::NormalAttack(Interaction *interaction)
 {
@@ -134,99 +135,122 @@ InteractionManager::NormalAttack(Interaction *interaction)
   stats->takeStat(hp, static_cast<int>(damage));
   printf("CombatManager: HP after deduction: %d\n", stats->getAmount(hp));
 
-  StatsChangeMessage msg;
-  ByteStream statsbs;
-  msg.setStatId(hp->getId());
-  msg.setEntityId(lockedTarget->getEntity()->getId());
-  msg.setName(ptString("Health", strlen("Health")));
-  msg.setLevel(stats->getAmount(hp));
-  msg.serialise(&statsbs);
 
-  int itemsToDrop = 0;
-  int itemsDropped = 0;
 
   if (static_cast<int>(stats->getAmount(hp)) < damage)
   {
-    // Player died, need to spawn all the items.
-    Inventory* inventory = lockedTarget->getInventory();
-    for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
-    {
-      const InventoryEntry* entry = inventory->getItem(slot);
-      if (entry && entry->id != 0)
-      {
-        itemsToDrop++;
-      }
-    }
-
-    for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
-    {
-      const InventoryEntry* entry = inventory->getItem(slot);
-      if (!entry || entry->id == 0)
-      {
-        continue;
-      }
-      // Save this information here since the entry will get invalid, if we
-      // take the item.
-      unsigned int itemId = entry->id;
-      unsigned int variation = entry->variation;
-      if (inventory->takeItem(slot))
-      {
-        //Item* item = server->getItemManager()->findById(entry->id);
-        //if (!item)
-        //{
-        //  continue;
-        //}
-        //printf("\n\n\nIn place %c, type %u\n\n", slot, entry->getId());
-        // TODO
-        // Remove all items from the players slot
-        // Make sure to send those updates
-        EquipMessage unequip_msg;
-        unequip_msg.setEntityId(lockedTarget->getEntity()->getId());
-        unequip_msg.setSlotId(slot);
-        unequip_msg.setItemId(Item::NoItem); // No Item!
-        unequip_msg.setFileName(ptString::Null);
-        unequip_msg.setMeshName(ptString::Null);
-        ByteStream bs;
-        unequip_msg.serialise(&bs);
-        NetworkHelper::localcast(bs, lockedTarget->getEntity());
-
-        // Create new entity from item.
-        ItemEntity* e = new ItemEntity();
-        e->createFromItem(itemId, variation);
-
-        ptScopedMonitorable<Entity> ent(e->getEntity());
-        // Release items in a circlular pattern
-        const float radians = (2.0f*3.14f / itemsToDrop) * itemsDropped;
-        const float radius = 0.8f;
-        const PtVector3 delta(cos(radians) * radius, sin(radians) * radius,
-          0.0f);
-        ent->setPos(lockedTarget->getEntity()->getPos() + delta);
-        ent->setSector(lockedTarget->getEntity()->getSector());
-
-        itemsDropped++;
-        Server::getServer()->addEntity(ent, true);
-      }
-    }
-
-    //if (invitem.id == Item::NoItem)
-    //{
-    //  continue;
-    //}
-    //printf("\n\nThe dying character have items: %u\n\n", invitem.id);
-    // TODO send die message to all
-    NetworkHelper::broadcast(statsbs);
-  }
-  else
-  {
-    // Only report the damage to the affected player
-    if (lockedTarget->getEntity()->getType() == Entity::PlayerEntityType)
-    {
-      NetworkHelper::sendMessage(lockedTarget, statsbs);
-      //TODO: Send a hurt message to the surrounding players for animation purposes?
+    ReportDeath(lockedTarget);
+  } else {
+    if (damage > 0 ) {
+      ReportDamage(lockedTarget);
     }
   }
-
   return true;
+}
+
+void
+InteractionManager::ReportDeath(Character *lockedCharacter)
+{
+  DeathMessage msg;
+  ByteStream statsbs;
+  msg.setEntityId(lockedCharacter->getEntity()->getId());
+  msg.serialise(&statsbs);
+  // Report the death to everyone nearby.
+  NetworkHelper::distancecast(statsbs, 
+                              lockedCharacter->getEntity(), 
+                              GetNotificationDistance());
+  DropAllItems(lockedCharacter);
+}
+
+void 
+InteractionManager::DropAllItems(Character *lockedCharacter) {
+  
+  int itemsToDrop = 0;
+  int itemsDropped = 0;
+
+  // Player died, need to spawn all the items.
+  Inventory* inventory = lockedCharacter->getInventory();
+  for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
+  {
+    const InventoryEntry* entry = inventory->getItem(slot);
+    if (entry && entry->id != 0)
+    {
+      itemsToDrop++;
+    }
+  }
+  for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
+  {
+    const InventoryEntry* entry = inventory->getItem(slot);
+    if (!entry || entry->id == 0)
+    {
+      continue;
+    }
+    // Save this information here since the entry will get invalid, if we
+    // take the item.
+    unsigned int itemId = entry->id;
+    unsigned int variation = entry->variation;
+    if (inventory->takeItem(slot))
+    {
+      // TODO
+      // Remove all items from the players slot
+      // Make sure to send those updates
+      EquipMessage unequip_msg;
+      unequip_msg.setEntityId(lockedCharacter->getEntity()->getId());
+      unequip_msg.setSlotId(slot);
+      unequip_msg.setItemId(Item::NoItem); // No Item!
+      unequip_msg.setFileName(ptString::Null);
+      unequip_msg.setMeshName(ptString::Null);
+      ByteStream bs;
+      unequip_msg.serialise(&bs);
+      NetworkHelper::localcast(bs, lockedCharacter->getEntity());
+
+      // Create new entity from item.
+      ItemEntity* e = new ItemEntity();
+      e->createFromItem(itemId, variation);
+
+      ptScopedMonitorable<Entity> ent(e->getEntity());
+      // Release items in a circlular pattern
+      const float radians = (2.0f*3.14f / itemsToDrop) * itemsDropped;
+      const float radius = 0.8f;
+      const PtVector3 delta(cos(radians) * radius, sin(radians) * radius,
+        0.0f);
+      ent->setPos(lockedCharacter->getEntity()->getPos() + delta);
+      ent->setSector(lockedCharacter->getEntity()->getSector());
+
+      itemsDropped++;
+      Server::getServer()->addEntity(ent, true);
+    }
+  }
+}
+
+void InteractionManager::SetNotificationDistance(unsigned int distance)
+{
+  notificationDistance = distance;
+}
+
+unsigned int InteractionManager::GetNotificationDistance()
+{
+  return notificationDistance;
+}
+
+void
+InteractionManager::ReportDamage(Character *lockedCharacter)
+{
+  CharacterStats* stats = lockedCharacter->getStats();
+  Stat* hp = Server::getServer()->getStatManager()->
+    findByName(ptString("Health", strlen("Health")));
+
+  StatsChangeMessage msg;
+  ByteStream statsbs;
+  msg.setStatId(hp->getId());
+  msg.setEntityId(lockedCharacter->getEntity()->getId());
+  msg.setName(ptString("Health", strlen("Health")));
+  msg.setLevel(stats->getAmount(hp));
+  msg.serialise(&statsbs);
+  // Report the damage to everyone nearby.
+  NetworkHelper::distancecast(statsbs, 
+                              lockedCharacter->getEntity(), 
+                              GetNotificationDistance());
 }
 
 bool
@@ -413,7 +437,7 @@ InteractionManager::GetTargetCharacter(Character* lockedCharacter)
 
   if (!targetEntity) {
     printf(IM "Invalid target\n");
-    return false;
+    return NULL;
   }
 
   if (targetEntity->getType() == Entity::PlayerEntityType)

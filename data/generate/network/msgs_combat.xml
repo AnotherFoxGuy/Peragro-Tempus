@@ -13,5 +13,8 @@
 		<uint32>PlayerID</uint32>
 		<uint32>Health</uint32>
 	</message>
+	<message type="Combat" name="Death">
+		<uint16>EntityId</uint16>
+	</message>
 
 </message-implementation>

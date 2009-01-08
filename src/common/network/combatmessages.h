@@ -33,7 +33,8 @@ namespace COMBAT
     ATTACKNOTIFICATION=2,
     UPDATEARMOR=3,
     UPDATEWEAPON=4,
-    ATTACKRESULT=5
+    ATTACKRESULT=5,
+    DEATH=6
   };
 }
 
@@ -143,6 +144,27 @@ public:
 
   unsigned int getHealth() const { return health; }
   void setHealth(unsigned int x) { health = x; }
+
+};
+
+class DeathMessage : public NetMessage
+{
+  unsigned short entityid;
+
+public:
+  DeathMessage() : NetMessage(MESSAGES::COMBAT,COMBAT::DEATH)
+  {
+  }
+
+  ~DeathMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned short getEntityId() const { return entityid; }
+  void setEntityId(unsigned short x) { entityid = x; }
 
 };
 

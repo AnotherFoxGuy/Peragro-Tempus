@@ -23,11 +23,18 @@
 #ifndef NWTYPES_H
 #define NWTYPES_H
 
+<<<<<<< HEAD:src/common/network/nwtypes.h
 #define MSG_NET_VERSION 2265958605
 
 #define MSG_CLIENT_PEER_VERSION 3326008920
 #define MSG_SERVER_PEER_VERSION 260141879
 #define MSG_AUTH_PEER_VERSION 1764255664
+=======
+#define MSG_NET_VERSION 3463756142
+
+#define MSG_CLIENT_PEER_VERSION 3538941946
+#define MSG_SERVER_PEER_VERSION 1958947966
+>>>>>>> Added death combat message. Added a notification distance variable to interaction manager to control who will get notified by local happenings. Re-factories some code into functions in interaction manager. Added doxygen comments.:src/common/network/nwtypes.h
 
 #define MSG_HANDLER_COUNT 14
 

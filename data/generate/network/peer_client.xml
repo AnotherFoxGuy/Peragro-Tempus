@@ -234,5 +234,6 @@
 		<message type="Combat" name="UpdateArmor" />
 		<message type="Combat" name="UpdateWeapon" />
 		<message type="Combat" name="AttackResult" />
+		<message type="Combat" name="Death" />
 	</receive>
 </peer>

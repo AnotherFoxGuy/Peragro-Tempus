@@ -111,3 +111,20 @@ void AttackResultMessage::deserialise(ByteStream* bs)
   health = (unsigned int) serial.getInt32();
 }
 
+bool DeathMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt16(entityid);
+  return serial.isValid();
+}
+
+void DeathMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  entityid = (unsigned short) serial.getInt16();
+}
+

@@ -68,6 +68,7 @@ protected:
   void Run();
 
 private:
+  unsigned int notificationDistance;
   bool pendingStop;
   bool stopped;
   InteractionQueue* interactionQueue;
@@ -94,6 +95,11 @@ private:
    * @return true if attackable, otherwise false.
    */
   bool TargetAttackable(Character* lockedAttacker, Character* lockedTarget);
+  /**
+   * Finds the target marked for the given character.
+   * @param lockedCharacter The locked version of the attacking character.
+   * @return Unlocked version of the target character, or NULL if none.
+   */
   const Character* GetTargetCharacter(Character* lockedCharacter);
   /**
    * Returns the combined block for a character, including bonuses.
@@ -181,6 +187,12 @@ private:
                       Character* lockedCharacter, const char* name, int target);
   float GetHightDeviation(const Character* lockedAttacker,
                           const Character* lockedTarget);
+
+  void ReportDeath(Character* lockedCharacter);
+  void DropAllItems(Character* lockedCharacter);
+  void ReportDamage(Character* lockedCharacter);
+  void SetNotificationDistance(unsigned int distance);
+  unsigned int GetNotificationDistance();
 
 };
 
