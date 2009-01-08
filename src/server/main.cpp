@@ -247,6 +247,7 @@ int main(int argc, char ** argv)
   network.init(port);
 
   interactionMgr->Start();
+  interactionMgr->begin();
 
   printf("Server up and running!\n");
 
