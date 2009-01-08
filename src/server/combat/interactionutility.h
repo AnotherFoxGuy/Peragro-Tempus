@@ -66,6 +66,22 @@ public:
    * @return The items stat based on the statName.
    */
   static unsigned int GetStatValueForItem(const Item* item, const char* statName);
+  /**
+   * Increases the level of a stat.
+   * @param lockedCharacter The locked version of the character.
+   * @param statName The stat's name.
+   * @param increase The amount to increase the stat level with.
+   * @return None.
+   */
+  static void IncreaseStatValue(Character* lockedCharacter,
+                                const char* statName,
+                                unsigned int increase);
+  /**
+   * Adds XP to the end of 'name', caller has to free.
+   * @param name The name to append XP to.
+   * @return The name with XP appended, caller has to free.
+   */
+  static const char* GetXPString(const char* name);
 };
 
 #endif // INTERACTIONUTILITY

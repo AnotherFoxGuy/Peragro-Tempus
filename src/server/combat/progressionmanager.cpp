@@ -21,6 +21,7 @@
 #include "interactionutility.h"
 #include "progressionmanager.h"
 
+/* See: http://wiki.peragro.org/index.php/Experience_Implementation */
 void
 ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
                                             Character* lockedTarget,
@@ -31,51 +32,144 @@ ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
   unsigned int failureChance = 0;
   unsigned int randomNumber = 0;
   unsigned int penalty = 0;
-  unsigned int skill = 0;
-  unsigned int agility = 0;
+  unsigned int skillLevel = 0;
+  unsigned int agilityLevel = 0;
 
   penalty = GetPenalty(lockedTarget, attackType);
-  skill = GetSkill(lockedAttacker, skillType);
-  agility = (unsigned int) InteractionUtility::GetStatValue(lockedAttacker,
-                                                            "agility");
+  skillLevel = GetSkillLevel(lockedAttacker, skillType);
+  agilityLevel = (unsigned int) InteractionUtility::GetStatValue(lockedAttacker,
+                                                                 "Agility");
 
-  successChance = skill * agility - penalty;
+  successChance = skillLevel * agilityLevel - penalty;
 
   failureChance = 100 - successChance;
 
   if (randomNumber < successChance) {
-    if (randomNumber >= (successChance - (failureChance * 0.1))) {
-      AddXP(lockedAttacker, skill, agility);
+    if (randomNumber >= (successChance - (failureChance / 10))) {
+      AddXP(lockedAttacker, skillType, "Agility");
     } 
   } else if (randomNumber > successChance) {
-    if (randomNumber <= successChance + (failureChance * 0.1)) {
-      AddXP(lockedAttacker, skill, agility);
+    if (randomNumber <= successChance + (failureChance / 10)) {
+      AddXP(lockedAttacker, skillType, "Agility");
     }
   } else if (randomNumber == successChance) {
-    AddXP(lockedAttacker, skill, agility);
+    AddXP(lockedAttacker, skillType, "Agility");
   }
 }
 
+/* See: http://wiki.peragro.org/index.php/Experience_Implementation */
 void
 ProgressionManager::AddXP(Character* lockedCharacter,
-                          unsigned int skillKnowledge,
-                          unsigned int ability)
+                          const char* skillName,
+                          const char* abilityName)
 {
+  unsigned int skillXP = 0;
+  unsigned int abilityXP = 0;
+
+  skillXP = GetSkillOrAbilityXP(lockedCharacter, skillName);
+  abilityXP = GetSkillOrAbilityXP(lockedCharacter, abilityName);
+
   // TODO ability skill that isn't right....
-  if (skillKnowledge > ability) {
-    IncreaseExperience(lockedCharacter, "ability", 1);
+  if (skillXP > abilityXP) {
+    IncreaseAbilityXP(lockedCharacter, abilityName, 1);
   } else {
-    IncreaseExperience(lockedCharacter, "skill", 1);
-    IncreaseExperience(lockedCharacter, "speciality", 1);
+    IncreaseSkillXP(lockedCharacter, skillName, 1);
+    IncreaseSpecialityXP(lockedCharacter, "speciality", 1);
   }
 
 }
 
-void
-ProgressionManager::IncreaseExperience(Character* lockedCharacter,
-                                       const char* stat,
-                                       int difference)
+/* See: http://wiki.peragro.org/index.php/Improvement_Implementation */
+unsigned int
+GetXPNeededForNextAbilityLevel(unsigned int currentLevel)
 {
+  unsigned int requiredXP = 0;
+  
+  for (unsigned int i = 1; i <= currentLevel + 1; i++) {
+    requiredXP += 10 * i;
+  }
+  return requiredXP;
+}
+
+/* See: http://wiki.peragro.org/index.php/Improvement_Implementation */
+unsigned int
+GetXPNeededForNextSkillLevel(unsigned int currentLevel)
+{
+  unsigned int requiredXP = 0;
+
+  for (unsigned int i = 1; i <= currentLevel + 1; i++) {
+    requiredXP += i;
+  }
+  return requiredXP;
+}
+
+/* See: http://wiki.peragro.org/index.php/Improvement_Implementation */
+unsigned int
+GetXPNeededForNextSpecialityLevel(unsigned int currentLevel)
+{
+  unsigned int requiredXP = 0;
+
+  for (unsigned int i = 1; i <= currentLevel + 1; i++) {
+    requiredXP += 10 * i;
+  }
+  return requiredXP;
+}
+void
+ProgressionManager::CheckAbilityProgress(Character* lockedCharacter,
+                                         const char* abilityName)
+{
+  const char* abilityXPStr = InteractionUtility::GetXPString(abilityName);
+  const char* abilityLevelStr = InteractionUtility::GetXPString(abilityName);
+  unsigned int neededXP = 0;
+  unsigned int currentLevel = 0;
+  unsigned int currentXP = 0;
+
+  neededXP = GetXPNeededForNextAbilityLevel(currentLevel);
+  currentXP = InteractionUtility::GetStatValue(lockedCharacter, abilityXPStr);
+  currentLevel = InteractionUtility::GetStatValue(lockedCharacter,
+                                                  abilityLevelStr);
+
+  if (currentXP >= neededXP) {
+    InteractionUtility::IncreaseStatValue(lockedCharacter, abilityLevelStr,
+                                          currentLevel + 1);
+  }
+
+  delete [] abilityXPStr;
+  delete [] abilityLevelStr;
+}
+
+
+void
+ProgressionManager::IncreaseAbilityXP(Character* lockedCharacter,
+                                      const char* abilityName,
+                                      int increase)
+{
+  const char* abilityXPStr = InteractionUtility::GetXPString(abilityName);
+  InteractionUtility::IncreaseStatValue(lockedCharacter, abilityXPStr, increase);
+  delete [] abilityXPStr;
+  CheckAbilityProgress(lockedCharacter, abilityName);
+}
+
+void
+ProgressionManager::IncreaseSkillXP(Character* lockedCharacter,
+                                      const char* skillName,
+                                      int increase)
+{
+  const char* skillXPStr = InteractionUtility::GetXPString(skillName);
+  InteractionUtility::IncreaseStatValue(lockedCharacter, skillXPStr, increase);
+  delete [] skillXPStr;
+  CheckAbilityProgress(lockedCharacter, skillName);
+}
+
+void
+ProgressionManager::IncreaseSpecialityXP(Character* lockedCharacter,
+                                      const char* specialityName,
+                                      int increase)
+{
+  const char* specialityXPStr = InteractionUtility::GetXPString(specialityName);
+  InteractionUtility::IncreaseStatValue(lockedCharacter, specialityXPStr, increase);
+  delete [] specialityXPStr;
+  CheckAbilityProgress(lockedCharacter, specialityName);
 }
 
 void
@@ -91,7 +185,7 @@ ProgressionManager::HPIncreased(Character* lockedCharacter,
     }
   }
   if (progression) {
-    IncreaseExperience(lockedCharacter, "endurance", progression);
+    IncreaseAbilityXP(lockedCharacter, "endurance", progression);
   }
 }
 
@@ -108,7 +202,7 @@ ProgressionManager::StaminaIncreased(Character* lockedCharacter,
     }
   }
   if (progression) {
-    IncreaseExperience(lockedCharacter, "endurance", progression);
+    IncreaseAbilityXP(lockedCharacter, "endurance", progression);
   }
 }
 
@@ -125,7 +219,7 @@ ProgressionManager::WillPowerIncreased(Character* lockedCharacter,
     }
   }
   if (progression) {
-    IncreaseExperience(lockedCharacter, "resolve", progression);
+    IncreaseAbilityXP(lockedCharacter, "resolve", progression);
   }
 }
 
@@ -143,9 +237,24 @@ ProgressionManager::GetPenalty(Character* lockedCharacter,
 }
 
 unsigned int
-ProgressionManager::GetSkill(Character* lockedCharacter,
-                             const char* skillType)
+ProgressionManager::GetSkillLevel(Character* lockedCharacter,
+                                  const char* skillType)
 {
-  return 0;
+  return (unsigned int) InteractionUtility::GetStatValue(lockedCharacter,
+                                                         skillType);
+}
+
+unsigned int
+ProgressionManager::GetSkillOrAbilityXP(Character* lockedCharacter,
+                                        const char* type)
+{
+  size_t length = strlen(type) + strlen("XP") + 1;
+  char* str = new char[length];
+  unsigned int xp = 0;
+  strncat(str, type, length);
+  strncat(str, "XP", length);
+  xp = (unsigned int) InteractionUtility::GetStatValue(lockedCharacter, str);
+  delete [] str;
+  return xp;
 }
 

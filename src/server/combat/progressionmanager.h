@@ -49,13 +49,23 @@ public:
 
 private:
   void AddXP(Character* lockedCharacter,
-             unsigned int skillKnowledge,
-             unsigned int ability);
+             const char* skillKnowledge,
+             const char* ability);
   unsigned int GetPenalty(Character* lockedCharacter, const char* attackType);
-  unsigned int GetSkill(Character* lockedCharacter, const char* skillType);
-  void IncreaseExperience(Character* lockedCharacter,
-                          const char* stat,
-                          int difference);
+  unsigned int GetSkillLevel(Character* lockedCharacter, const char* skillType);
+  unsigned int GetSkillOrAbilityXP(Character* lockedCharacter,
+                                   const char* skillType);
+  void IncreaseAbilityXP(Character* lockedCharacter,
+                          const char* abilityName,
+                          int increase);
+  void IncreaseSkillXP(Character* lockedCharacter,
+                          const char* skillName,
+                          int increase);
+  void IncreaseSpecialityXP(Character* lockedCharacter,
+                          const char* specialityName,
+                          int increase);
+  void CheckAbilityProgress(Character* lockedCharacter,
+                            const char* abilityName);
     
 };
 

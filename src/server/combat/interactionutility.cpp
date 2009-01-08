@@ -20,7 +20,7 @@
 #include "interactionutility.h"
 
 unsigned int InteractionUtility::GetStatValueForItem(const Item* item,
-                                              const char* statName)
+                                                     const char* statName)
 {
   Server *server = Server::getServer();
   const Stat* stat = server->getStatManager()->
@@ -99,4 +99,35 @@ Item* InteractionUtility::GetItem(Character* lockedCharacter,
   }
   Item* item = server->getItemManager()->findById(entry->id);
   return item;
+}
+
+void
+InteractionUtility::IncreaseStatValue(Character* lockedCharacter,
+                                      const char* statName,
+                                      unsigned int increase)
+{
+  Server* server = Server::getServer();
+  unsigned int statValue = increase;
+
+  const Stat* stat = server->getStatManager()->findByName(ptString(statName,
+                                                          strlen(statName)));
+
+  if (!stat) {
+    server->getStatManager()->dumpAllStatNames();
+    printf("BUG: Unalbe to find stat: %s\n", statName);
+  }
+  statValue += lockedCharacter->getStats()->getAmount(stat);
+
+  lockedCharacter->getStats()->setStat(stat, statValue);
+}
+
+// Caller has to delete
+const char*
+InteractionUtility::GetXPString(const char* name)
+{
+  size_t length = strlen(name) + strlen("XP") + 1;
+  char* xpName = new char[length];
+  strncat(xpName, name, length);
+  strncat(xpName, "XP", length);
+  return xpName;
 }
