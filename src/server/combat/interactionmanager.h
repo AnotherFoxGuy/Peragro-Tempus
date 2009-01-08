@@ -40,6 +40,35 @@ class InteractionManager : public Thread
   bool PerformInteraction(Interaction* interaction);
   bool TargetAttackable(Character* lockedAttacker, Character* lockedTarget);
   const Character* GetTargetCharacter(Character* lockedCharacter);
+  float GetBlock(Character* lockedCharacter);
+  float GetDodge(Character* lockedCharacter);
+  float GetParry(Character* lockedCharacter);
+  float GetStrength(Character* lockedCharacter);
+  float GetAgility(Character* lockedCharacter);
+  float GetSkillBonus(Character* lockedCharacter);
+  float GetSapience(Character* lockedCharacter);
+  float GetWeaponHeft(Character* lockedCharacter);
+  float GetWeaponDamage(Character* lockedCharacter);
+  float GetStatValueForEquipedWeapons(Character* lockedCharacter,
+                                      const char* statName);
+  float GetStatValueForItem(const Item* item, const char* statName);
+  float GetStatValue(Character* lockedCharacter,
+                                         const char* statName);
+  float GetStatValueForAllEquipedItems(Character* lockedCharacter,
+                                       const char* statName);
+  Item* GetItem(Character* lockedCharacter, unsigned char slot);
+  int RollDice(void);
+  void SendStatUpdate(const Stat* stat, const CharacterStats* stats,
+                      Character* lockedCharacter, const char* name, int target);
 
 };
+
+namespace InteractionManagerSendTo
+{
+  enum SendTo
+  {
+    CHARACTER,
+    LOCALCAST,
+    BROADCAST,
+  };
 #endif //INTERACTIONMANGER

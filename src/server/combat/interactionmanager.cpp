@@ -21,6 +21,7 @@
 #include "interactionmanager.h"
 #include "interaction.h"
 #include "server/entity/entitymanager.h"
+#include "server/entity/statmanager.h"
 
 #include "common/util/math.h"
 
@@ -64,7 +65,7 @@ InteractionManager::NormalAttack(Interaction *interaction)
   ptScopedMonitorable<Character>
     lockedAttacker(interaction->character);
 
-  targetID = lockedAttacker->getTargetID();
+  targetID = lockedAttacker->GetTargetID();
 
   if (targetID == 0) {
     printf(IM "targetID 0, make sure that's not a legal one\n");
@@ -141,7 +142,7 @@ InteractionManager::DeductStamina(Character* lockedCharacter)
   stats->takeStat(stamina, static_cast<int>(staminaDeduction));
 
   SendStatUpdate(stamina, stats, lockedCharacter, "Stamina",
-    CombatManagerSendTo::CHARACTER);
+    InteractionManagerSendTo::CHARACTER);
 
   return true;
 }
@@ -327,3 +328,193 @@ InteractionManager::QueueAction(const PcEntity *sourceEntity,
   interaction = interactionQueue->SetInteraction(interaction);
 }
 
+float InteractionManager::GetBlock(Character* lockedCharacter)
+{
+  return GetStatValue(lockedCharacter, "Block") +
+    GetStatValueForAllEquipedItems(lockedCharacter, "Block");
+} 
+
+float InteractionManager::GetDodge(Character* lockedCharacter)
+{
+  return GetStatValue(lockedCharacter, "Dodge") +
+    GetStatValueForAllEquipedItems(lockedCharacter, "Dodge");
+}
+
+float InteractionManager::GetParry(Character* lockedCharacter)
+{
+  return GetStatValue(lockedCharacter, "Parry") +
+    GetStatValueForAllEquipedItems(lockedCharacter, "Parry");
+}
+
+float InteractionManager::GetStrength(Character* lockedCharacter)
+{
+  return GetStatValue(lockedCharacter, "Strength") +
+    GetStatValueForAllEquipedItems(lockedCharacter, "Strength");
+}
+
+float InteractionManager::GetWeaponDamage(Character* lockedCharacter)
+{
+  return GetStatValueForEquipedWeapons(lockedCharacter, "Damage");
+}
+
+float InteractionManager::GetStatValueForEquipedWeapons(Character* lockedCharacter,
+                                                   const char* statName)
+{
+  Inventory* inventory = lockedCharacter->getInventory();
+  if (!inventory)
+  {
+    return 0.0f;
+  }
+
+  float value = 0.0f;
+  for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
+  {
+    Item* item = GetItem(lockedCharacter, slot);
+    if (!item)
+    {
+      continue;
+    }
+    if (item->getType() == ptString("Weapon", strlen("Weapon")))
+    {
+      value += GetStatValueForItem(item, statName);
+    }
+  } // end for
+
+  return value;
+}
+
+float InteractionManager::GetStatValueForItem(const Item* item,
+                                             const char* statName)
+{
+  Server *server = Server::getServer();
+  const Stat* stat = server->getStatManager()->
+    findByName(ptString(statName, strlen(statName)));
+  if (!stat)
+  {
+    server->getStatManager()->dumpAllStatNames();
+    printf("BUG: Unable to find stat: %s\n", statName);
+    return 0.0f;
+  }
+  return static_cast<float>(item->getStats()->getAmount(stat));
+} 
+
+float InteractionManager::GetStatValue(Character* lockedCharacter,
+                                  const char* statName)
+{
+  Server* server = Server::getServer();
+
+  const Stat* stat = server->getStatManager()->findByName(ptString(statName,
+    strlen(statName)));
+  if (!stat)
+  {
+    server->getStatManager()->dumpAllStatNames();
+    printf("BUG: Unable to find stat: %s\n", statName);
+    return 0.0f;
+  }
+  return static_cast<float>(lockedCharacter->getStats()->getAmount(stat));
+}
+
+float InteractionManager::GetStatValueForAllEquipedItems(Character* lockedCharacter,
+                                                    const char* statName)
+{
+  float value = 0.0f;
+  Inventory* inventory = lockedCharacter->getInventory();
+  Item* item;
+
+  if (!inventory)
+  {
+    return 0.0f;
+  }
+
+  for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
+  {
+    item = GetItem(lockedCharacter, slot);
+    if (!item)
+    {
+      continue;
+    }
+    value += GetStatValueForItem(item, statName);
+  } // end for
+
+  return value;
+}
+
+Item* InteractionManager::GetItem(Character* lockedCharacter,
+                             unsigned char slot)
+{
+  Server *server = Server::getServer();
+  Inventory* inventory = lockedCharacter->getInventory();
+
+  if (!inventory)
+  {
+    return NULL;
+  }
+
+  if (slot >= inventory->NoSlot)
+  {
+    return NULL;
+  }
+
+  const InventoryEntry* entry = inventory->getItem(slot);
+  if (!entry || entry->id == 0)
+  {
+    return NULL;
+  }
+  Item* item = server->getItemManager()->findById(entry->id);
+  return item;
+}
+
+float InteractionManager::GetAgility(Character* lockedCharacter)
+{
+  return GetStatValue(lockedCharacter, "Agility") +
+    GetStatValueForAllEquipedItems(lockedCharacter, "Agility");
+}
+
+float InteractionManager::GetSkillBonus(Character* lockedCharacter)
+{
+  return 8.0f;
+}
+
+float InteractionManager::GetSapience(Character* lockedCharacter)
+{
+  return GetStatValue(lockedCharacter, "Sapience") +
+    GetStatValueForAllEquipedItems(lockedCharacter, "Sapience");
+} 
+
+float InteractionManager::GetWeaponHeft(Character* lockedCharacter)
+{
+  return GetStatValueForEquipedWeapons(lockedCharacter, "Heft");
+}
+
+int InteractionManager::RollDice()
+{
+  return rand() % 101;
+}
+
+void 
+InteractionManager::SendStatUpdate(const Stat* stat,
+                                   const CharacterStats* stats,
+                                   Character* lockedCharacter,
+                                   const char* name,
+                                   int target)
+{
+  StatsChangeMessage msg;
+  ByteStream statsbs;
+  msg.setStatId(stat->getId());
+  msg.setEntityId(lockedCharacter->getEntity()->getId());
+  msg.setName(ptString(name, strlen(name)));
+  msg.setLevel(stats->getAmount(stat));
+  msg.serialise(&statsbs);
+  if (target == InteractionManagerSendTo::BROADCAST)
+  {
+    NetworkHelper::broadcast(statsbs);
+  }
+  else if (target == InteractionManagerSendTo::LOCALCAST)
+  {
+    NetworkHelper::localcast(statsbs, lockedCharacter->getEntity());
+  }
+  else if (target == InteractionManagerSendTo::CHARACTER)
+  {
+    NetworkHelper::sendMessage(lockedCharacter, statsbs);
+  }
+}
