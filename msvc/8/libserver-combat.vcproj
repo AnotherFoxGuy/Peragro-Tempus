@@ -303,12 +303,48 @@
 			<File
 				RelativePath="..\..\src\server\combat\combatmanager.cpp">
 			</File>
+			<File
+				RelativePath="..\..\src\server\combat\interaction.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\interactionmanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\interactionqueue.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\interactionutility.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\progressionmanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\skillmanager.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\..\src\server\combat\combatmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\interaction.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\interactionmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\interactionqueue.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\interactionutility.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\progressionmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\skillmanager.h">
 			</File>
 		</Filter>
 	</Files>
