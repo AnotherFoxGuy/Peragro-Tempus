@@ -65,7 +65,6 @@ bool
 InteractionManager::NormalAttack(Interaction *interaction)
 {
   unsigned int targetID = 0;
-  const Entity* targetEntity = NULL;
   const Character* c_char = NULL;
 
   ptScopedMonitorable<Character>
@@ -78,26 +77,9 @@ InteractionManager::NormalAttack(Interaction *interaction)
     return false;
   }
 
-  targetEntity = Server::getServer()->getEntityManager()->findById(targetID);
+  c_char = GetTargetCharacter(lockedAttacker);
 
-  if (!targetEntity) {
-    printf(IM "Invalid target\n");
-    return false;
-  }
-
-  if (targetEntity->getType() == Entity::PlayerEntityType)
-  {
-    c_char = targetEntity->getPlayerEntity()->getCharacter();
-  }
-  else if (targetEntity->getType() == Entity::NPCEntityType)
-  {
-    c_char = targetEntity->getNpcEntity()->getCharacter();
-  }
-  else
-  {
-    // Should not happen, but do not crash on release build, since fake message
-    // could bring down the server then.
-    printf(IM "Target neither player nor npc\n");
+  if (!c_char) {
     return false;
   }
 
@@ -115,14 +97,17 @@ InteractionManager::NormalAttack(Interaction *interaction)
 
   CalculateDamage(lockedAttacker, lockedTarget);
 
+  return true;
 }
 
 bool
-InteractionManager::DeductStamina(Character* lockedCharacter)
+InteractionManager::DeductStamina(Character* lockedCharacter,
+                                  Interaction *interaction)
 {
   float currentStamina = 0;
   float staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
-    GetStrength(lockedCharacter));
+                                            GetStrength(lockedCharacter) +
+                                            interaction->staminaRequired);
 
   Stat* stamina = Server::getServer()->getStatManager()->
     findByName(ptString("Stamina", strlen("Stamina")));
@@ -212,6 +197,7 @@ InteractionManager::PerformInteraction(Interaction* interaction)
     case InteractionID::HEAL:
       break;
   }
+  return true;
 }
 
 bool
@@ -294,13 +280,36 @@ InteractionManager::SelectTarget(const PcEntity *sourceEntity,
   }
 
   lockedSource->SetTargetID(targetID);
+  return true;
 }
 
 const Character*
 InteractionManager::GetTargetCharacter(Character* lockedCharacter)
 {
-  return Server::getServer()->getEntityManager()->
+  const Character* c_char = NULL;
+  const Entity* targetEntity = Server::getServer()->getEntityManager()->
                               findById(lockedCharacter->GetTargetID());
+
+  if (!targetEntity) {
+    printf(IM "Invalid target\n");
+    return false;
+  }
+
+  if (targetEntity->getType() == Entity::PlayerEntityType)
+  {
+    c_char = targetEntity->getPlayerEntity()->getCharacter();
+  }
+  else if (targetEntity->getType() == Entity::NPCEntityType)
+  {
+    c_char = targetEntity->getNpcEntity()->getCharacter();
+  }
+  else
+  {
+    // Should not happen, but do not crash on release build, since fake message
+    // could bring down the server then.
+    printf(IM "Target neither player nor npc\n");
+  }
+  return c_char;
 
 }
 
@@ -333,6 +342,7 @@ InteractionManager::QueueAction(const PcEntity *sourceEntity,
 
   // Caller must alloc interaction
   interactionQueue->SetInteraction(interaction);
+  return true;
 }
 
 float InteractionManager::GetBlock(Character* lockedCharacter)

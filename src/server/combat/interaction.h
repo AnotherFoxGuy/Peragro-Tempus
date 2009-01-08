@@ -26,6 +26,7 @@ class Interaction
   public:
     unsigned int actionID;
     const Character *character;
+    float staminaRequired;
 
     Interaction();
     ~Interaction();

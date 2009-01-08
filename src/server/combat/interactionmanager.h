@@ -39,7 +39,7 @@ protected:
 private:
   InteractionQueue* interactionQueue;
   bool NormalAttack(Interaction* interaction);
-  bool DeductStamina(Character* lockedCharacter);
+  bool DeductStamina(Character* lockedCharacter, Interaction* interaction);
   float GetAttackChance(Character* lockedAttacker, Character* lockedTarget);
   float CalculateDamage(Character* lockedAttacker, Character* lockedTarget);
   bool PerformInteraction(Interaction* interaction);
