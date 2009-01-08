@@ -24,16 +24,21 @@
 #include "server/entity/statmanager.h"
 
 #include "common/util/math.h"
+#include "server/network/networkhelper.h"
+#include "server/database/table-inventory.h"
+#include "interactionqueue.h"
 
 #define IM "InteractionManager: "
 #define SLEEP 10
 
 InteractionManager::InteractionManager()
 {
+  interactionQueue = new InteractionQueue();
 }
 
 InteractionManager::~InteractionManager()
 {
+  free(interactionQueue);
 }
 
 void InteractionManager::Run()

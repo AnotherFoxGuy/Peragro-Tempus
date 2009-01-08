@@ -16,23 +16,28 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INTERACTIONMANGER
-#define INTERACTIONMANGER
+#ifndef INTERACTIONMANAGER
+#define INTERACTIONMANAGER
 
 #include "common/util/thread.h"
 #include "interaction.h"
 
 #include "src/server/entity/pcentity.h"
+#include "interactionqueue.h"
 
 class InteractionManager : public Thread
 {
-  public:
+public:
   InteractionManager();
   ~InteractionManager();
   bool SelectTarget(const PcEntity *sourceEntity, unsigned int tagetID);
   bool QueueAction(const PcEntity *sourceEntity, unsigned int actionID);
 
-  private:
+protected:
+  void Run();
+
+private:
+  InteractionQueue* interactionQueue;
   bool NormalAttack(Interaction* interaction);
   bool DeductStamina(Character* lockedCharacter);
   float GetAttackChance(Character* lockedAttacker, Character* lockedTarget);
@@ -71,4 +76,6 @@ namespace InteractionManagerSendTo
     LOCALCAST,
     BROADCAST,
   };
-#endif //INTERACTIONMANGER
+}
+
+#endif //INTERACTIONMANAGER
