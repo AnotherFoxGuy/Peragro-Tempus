@@ -49,6 +49,7 @@ private:
   float GetDodge(Character* lockedCharacter);
   float GetParry(Character* lockedCharacter);
   float GetStrength(Character* lockedCharacter);
+  float GetReach(Character* lockedCharacter);
   float GetAgility(Character* lockedCharacter);
   float GetSkillBonus(Character* lockedCharacter);
   float GetSapience(Character* lockedCharacter);
@@ -65,6 +66,8 @@ private:
   int RollDice(void);
   void SendStatUpdate(const Stat* stat, const CharacterStats* stats,
                       Character* lockedCharacter, const char* name, int target);
+  float GetHightDeviation(const Character* lockedAttacker,
+                          const Character* lockedTarget);
 
 };
 

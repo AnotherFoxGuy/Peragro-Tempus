@@ -24,6 +24,7 @@
 #include "server/entity/statmanager.h"
 
 #include "common/util/math.h"
+#include "common/network/playermessages.h"
 #include "server/network/networkhelper.h"
 #include "server/database/table-inventory.h"
 #include "interactionqueue.h"
@@ -217,11 +218,11 @@ bool
 InteractionManager::TargetAttackable(Character* lockedAttacker,
                                           Character* lockedTarget)
 {
-  const float maxAttackDistance = 0;
+  float maxAttackDistance = 0;
   float distance = 0;
   float attackerRotation = 0;
   float attackAngle = 0;
-  const float angleDiff = 0;
+  float angleDiff = 0;
   static const float allowedAngle = PT_PI * 0.3f;
   const PtVector3 attackerPos(lockedAttacker->getEntity()->getPos());
   const PtVector3 targetPos(lockedTarget->getEntity()->getPos());
@@ -242,7 +243,8 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
 
   PtVector3 difference = attackerPos - targetPos;
 
-  if (fabs(difference.y) > GetHightDeviation(lockedAttacker))
+  if (fabs(difference.y) > GetHightDeviation(lockedAttacker,
+                                             lockedTarget))
   {
     printf(IM "To much height difference\n");
     return false;
@@ -330,7 +332,7 @@ InteractionManager::QueueAction(const PcEntity *sourceEntity,
   interaction->character = sourceEntity->getCharacter();
 
   // Caller must alloc interaction
-  interaction = interactionQueue->SetInteraction(interaction);
+  interactionQueue->SetInteraction(interaction);
 }
 
 float InteractionManager::GetBlock(Character* lockedCharacter)
@@ -355,6 +357,12 @@ float InteractionManager::GetStrength(Character* lockedCharacter)
 {
   return GetStatValue(lockedCharacter, "Strength") +
     GetStatValueForAllEquipedItems(lockedCharacter, "Strength");
+}
+
+float InteractionManager::GetReach(Character* lockedCharacter)
+{
+  return GetStatValue(lockedCharacter, "Reach") +
+    GetStatValueForAllEquipedItems(lockedCharacter, "Reach");
 }
 
 float InteractionManager::GetWeaponDamage(Character* lockedCharacter)
@@ -522,4 +530,11 @@ InteractionManager::SendStatUpdate(const Stat* stat,
   {
     NetworkHelper::sendMessage(lockedCharacter, statsbs);
   }
+}
+
+float GetHightDeviation(const Character* lockedAttacker,
+                        const Character* lockedTarget)
+{
+  // TODO
+  return 0;
 }

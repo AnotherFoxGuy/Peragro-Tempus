@@ -31,3 +31,7 @@ Interaction* GetInteraction()
   // TODO
   return NULL;
 }
+
+void SetInteraction(Interaction* interaction)
+{
+}

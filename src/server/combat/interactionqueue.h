@@ -31,6 +31,7 @@ public:
   InteractionQueue();
   ~InteractionQueue();
   Interaction* GetInteraction();
+  void SetInteraction(Interaction* interaction);
 
 protected:
 
