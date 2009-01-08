@@ -70,23 +70,15 @@ void InteractionManager::Stop()
 
 void InteractionManager::Run()
 {
-  // TODO this is not good, need to check if we are still running etc.
-  while (!pendingStop)
-  {
-    if (!stopped) {
-      Interaction *interaction = NULL;
-      // caller must free allocation
-      interaction = interactionQueue->GetInteraction();
-      if (!interaction) {
-        // No character have any outstanding interactions.
-        sleep(SLEEP);
-        continue;
-      }
-      PerformInteraction(interaction);
-      free(interaction);
-    }
+  Interaction *interaction = NULL;
+  // caller must free allocation
+  interaction = interactionQueue->GetInteraction();
+  if (!interaction) {
+    // No character have any outstanding interactions.
+    sleep(SLEEP);
   }
-  stopped = true;
+  PerformInteraction(interaction);
+  free(interaction);
 }
 
 // TODO support our own char as target? In that case don't mess up locking
@@ -189,7 +181,6 @@ InteractionManager::CalculateDamage(Character* lockedAttacker,
 
   if (attackResult <= attackChance)
   {
-    // It was a hit. TODO
     damage = (attackChance - attackResult) *
       GetWeaponDamage(lockedAttacker) +
       GetStrength(lockedAttacker);
@@ -258,24 +249,16 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
 
   PtVector3 difference = attackerPos - targetPos;
 
-  if (fabs(difference.y) > GetHightDeviation(lockedAttacker,
-                                             lockedTarget))
-  {
-    printf(IM "To much height difference\n");
-    return false;
-  }
-
-  attackerRotation =
+  attackerRotation = 
     PT::Math::NormalizeAngle(lockedAttacker->getEntity()->getRotation());
 
   if (difference.x == 0.0f) difference.x = PT_EPSILON;
-  attackAngle =
-    PT::Math::NormalizeAngle(atan2(difference.x, difference.z));
+  attackAngle = PT::Math::NormalizeAngle(atan2(difference.x, difference.z));
 
   angleDiff = attackAngle - attackerRotation;
 
   printf("attackerRotation: %f, attackAngle: %f angleDiff: %f allowedAngle: %f\n",
-    attackerRotation, attackAngle, angleDiff, allowedAngle);
+         attackerRotation, attackAngle, angleDiff, allowedAngle);
 
   if (fabs(angleDiff) > allowedAngle)
   {
@@ -307,7 +290,8 @@ InteractionManager::SelectTarget(const PcEntity *sourceEntity,
     printf(IM "Unable to lock source.\n");
     return false;
   }
-
+     
+  interactionQueue->RemoveAllInteractions(lockedSource);
   lockedSource->SetTargetID(targetID);
   return true;
 }
@@ -569,12 +553,5 @@ InteractionManager::SendStatUpdate(const Stat* stat,
   {
     NetworkHelper::sendMessage(lockedCharacter, statsbs);
   }
-}
-
-float InteractionManager::GetHightDeviation(const Character* lockedAttacker,
-                                            const Character* lockedTarget)
-{
-  // TODO
-  return 0;
 }
 

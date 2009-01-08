@@ -36,23 +36,6 @@
  */
 class InteractionQueue
 {
-public:
-  /// Constructor.
-  InteractionQueue();
-  /// Destructor.
-  ~InteractionQueue();
-  /**
-   * Used to check if there is any interaction request that has to be served.
-   * @return Interaction if there is one to handle, else NULL.
-   */
-  Interaction* GetInteraction();
-  /**
-   * Used to insert a new interaction into the queue.
-   * @param interaction The interaction to insert into the queue.
-   * @return None.
-   */
-  void SetInteraction(Interaction* interaction);
-
 private:
   // TODO might have to lock this queue
   /**
@@ -71,6 +54,37 @@ private:
     /// Pointer to the interaction.
     Interaction* interaction;
   };
+public:
+  /// Constructor.
+  InteractionQueue();
+  /// Destructor.
+  ~InteractionQueue();
+  /**
+   * Used to check if there is any interaction request that has to be served.
+   * @return Interaction if there is one to handle, else NULL.
+   */
+  Interaction* GetInteraction();
+  /**
+   * Used to insert a new interaction into the queue.
+   * @param interaction The interaction to insert into the queue.
+   * @return None.
+   */
+  void SetInteraction(Interaction* interaction);
+  /**
+   * Used to remove all interactions for a character.
+   * @param lockedCharacter The character for whom to remove interactiosn.
+   * @return None.
+   */
+  void RemoveAllInteractions(Character* lockedCharacter);
+
+  /**
+   * Removes an entry from the queue.
+   * @param queue The entry to remove.
+   * @return None.
+   */
+  void RemoveInteractionEntry(QueueItem* queue);
+
+private:
 
   QueueItem* head;
 };

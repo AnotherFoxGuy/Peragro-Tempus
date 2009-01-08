@@ -16,6 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+// TODO this queue really needs a lock!
+
 #include "interactionqueue.h"
 
 InteractionQueue::InteractionQueue()
@@ -64,6 +66,33 @@ Interaction* InteractionQueue::GetInteraction()
   free(temp);
 
   return NULL;
+}
+
+void InteractionQueue::RemoveAllInteractions(Character *lockedCharacter)
+{
+  QueueItem* queue = NULL;
+
+  for (queue = head; queue; queue = queue->next) {
+    if (queue->interaction->character->getId() == lockedCharacter->getId()) {
+      RemoveInteractionEntry(queue);
+    }
+  }
+
+}
+
+void InteractionQueue::RemoveInteractionEntry(QueueItem* queue)
+{
+  if (queue == head) {
+    head = queue->next;
+  } else {
+    if (queue->prev) {
+      queue->prev->next = queue->next;
+    }
+    if (queue->next) {
+      queue->next->prev = queue->prev;
+    }
+  }
+  free(queue);
 }
 
 void InteractionQueue::SetInteraction(Interaction* interaction)

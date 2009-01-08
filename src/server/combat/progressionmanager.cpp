@@ -66,7 +66,6 @@ ProgressionManager::AddXP(Character* lockedCharacter,
     IncreaseExperience(lockedCharacter, "ability", 1);
   } else {
     IncreaseExperience(lockedCharacter, "skill", 1);
-    // TODO is this right or should it be always, check with DD
     IncreaseExperience(lockedCharacter, "speciality", 1);
   }
 
