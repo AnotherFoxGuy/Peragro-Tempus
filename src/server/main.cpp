@@ -57,13 +57,13 @@
 #include "server/colldet/bullet.h"
 
 #include "common/util/wincrashdump.h"
-#include "server/combat/combatmanager.h"
+#include "server/combat/interactionmanager.h"
 
 #include <signal.h>
 
 int running = 2;
 EntityManager* ent_mgr;
-CombatManager* combatMgr;
+InteractionManager* interactionMgr;
 
 void shutdown()
 {
@@ -73,7 +73,7 @@ void shutdown()
   printf("Server Shutdown initialised!\n");
 
   delete ent_mgr;
-  delete combatMgr;
+  delete interactionMgr;
 
   printf("- Shutdown Network:     \t");
   Server::getServer()->getNetwork()->shutdown();
@@ -158,8 +158,8 @@ int main(int argc, char ** argv)
   CharacterManager char_mgr(&server);
   server.setCharacterManager(&char_mgr);
 
-  combatMgr = new CombatManager();
-  server.setCombatManager(combatMgr);
+  interactionMgr = new InteractionManager();
+  server.setInteractionManager(interactionMgr);
 
   UserManager usr_mgr;
   server.setUserManager(&usr_mgr);
@@ -246,6 +246,8 @@ int main(int argc, char ** argv)
   Network network(&server);
   network.init(port);
 
+  interactionMgr->Start();
+
   printf("Server up and running!\n");
 
   size_t sentbyte = 0, recvbyte = 0, timestamp = 0;
@@ -262,6 +264,7 @@ int main(int argc, char ** argv)
       printf("Network Usage: Up: %.2f kB/s\t Down: %.2f kB/s\n", uptraffic, downtraffic);
     }
   }
+  interactionMgr->Stop();
 
   //cd.kill();
 

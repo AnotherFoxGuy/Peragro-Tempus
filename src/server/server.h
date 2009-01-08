@@ -47,8 +47,8 @@ class CollisionDetection;
 class ZoneManager;
 class EnvironmentManager;
 class ReputationManager;
-class CombatManager;
 class MeshManager;
+class InteractionManager;
 
 class Server
 {
@@ -75,15 +75,17 @@ private:
   ZoneManager* zone_mgr;
   EnvironmentManager* environment_mgr;
   ReputationManager* reputation_mgr;
-  CombatManager* combatMgr;
   MeshManager* meshMgr;
+  InteractionManager* interactionMgr;
 
 public:
   Server() { server = this; }
   static Server* getServer() { return server; }
 
-  void setCombatManager(CombatManager* combatMgr) { this->combatMgr = combatMgr; }
-  CombatManager* getCombatManager() { return this->combatMgr; }
+  void setInteractionManager(InteractionManager* interactionMgr) { 
+    this->interactionMgr = interactionMgr; 
+  }
+  InteractionManager* getInteractionManager() { return this->interactionMgr; }
 
   void setMeshManager(MeshManager* meshMgr) { this->meshMgr = meshMgr; }
   MeshManager* getMeshManager() { return this->meshMgr; }

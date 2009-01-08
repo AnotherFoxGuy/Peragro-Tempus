@@ -16,6 +16,12 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * @file interactionmanager.h
+ *
+ * @basic Server interaction manager.
+ */
+
 #ifndef INTERACTIONMANAGER
 #define INTERACTIONMANAGER
 
@@ -25,18 +31,45 @@
 #include "src/server/entity/pcentity.h"
 #include "interactionqueue.h"
 
+
+/**
+ * Server interaction manager.
+ */
 class InteractionManager : public Thread
 {
 public:
+  /// Constructor.
   InteractionManager();
+  /// Destructor.
   ~InteractionManager();
+  /**
+   * Selects new target for a given character.
+   * @param sourceEntity entity for the character that request target selection.
+   * @param targetID the Entity ID of the target.
+   * @return True upon sucess, otherwise false.
+   */
   bool SelectTarget(const PcEntity *sourceEntity, unsigned int tagetID);
-  bool QueueAction(const PcEntity *sourceEntity, unsigned int actionID);
+  /**
+   * Selects new target for a given character.
+   * @param sourceEntity entity for the character that request target selection.
+   * @param interactionID the action ID for the interaction.
+   * @return True upon sucess, otherwise false.
+   */
+  bool QueueInteraction(const PcEntity *sourceEntity,
+                        unsigned int interactionID);
+  void Start();
+  void Stop();
 
 protected:
+  /**
+   * Function popping interactions of the head of the interaction queue.
+   * @return None.
+   */
   void Run();
 
 private:
+  bool pendingStop;
+  bool stopped;
   InteractionQueue* interactionQueue;
   bool NormalAttack(Interaction* interaction);
   bool DeductStamina(Character* lockedCharacter, Interaction* interaction);

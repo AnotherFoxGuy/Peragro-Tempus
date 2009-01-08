@@ -29,35 +29,56 @@
 #include "server/database/table-inventory.h"
 #include "interactionqueue.h"
 
+#include "interaction.h"
+
 #define IM "InteractionManager: "
 #define SLEEP 10
 
 InteractionManager::InteractionManager()
 {
+  stopped = true;
+  pendingStop = false;
   interactionQueue = new InteractionQueue();
 }
 
 InteractionManager::~InteractionManager()
 {
+  pendingStop = true;
+  while (!stopped) {
+  }
   free(interactionQueue);
+}
+
+void InteractionManager::Start()
+{
+  stopped = false;
+  pendingStop = false;
+}
+
+void InteractionManager::Stop()
+{
+  pendingStop = true;
 }
 
 void InteractionManager::Run()
 {
   // TODO this is not good, need to check if we are still running etc.
-  while (1)
+  while (!pendingStop)
   {
-    Interaction *interaction = NULL;
-    // caller must free allocation
-    interaction = interactionQueue->GetInteraction();
-    if (!interaction) {
-      // No character have any outstanding interactions.
-      sleep(SLEEP);
-      continue;
+    if (!stopped) {
+      Interaction *interaction = NULL;
+      // caller must free allocation
+      interaction = interactionQueue->GetInteraction();
+      if (!interaction) {
+        // No character have any outstanding interactions.
+        sleep(SLEEP);
+        continue;
+      }
+      PerformInteraction(interaction);
+      free(interaction);
     }
-    PerformInteraction(interaction);
-    free(interaction);
   }
+  stopped = true;
 }
 
 // TODO support our own char as target? In that case don't mess up locking
@@ -190,7 +211,7 @@ InteractionManager::PerformInteraction(Interaction* interaction)
     return false;
   }
 
-  switch(interaction->actionID) {
+  switch(interaction->interactionID) {
     case InteractionID::NORMAL_ATTACK:
       NormalAttack(interaction);
       break;
@@ -314,12 +335,12 @@ InteractionManager::GetTargetCharacter(Character* lockedCharacter)
 }
 
 bool
-InteractionManager::QueueAction(const PcEntity *sourceEntity,
-                                     unsigned int actionID)
+InteractionManager::QueueInteraction(const PcEntity *sourceEntity,
+                                     unsigned int interactionID)
 {
   Interaction *interaction = new Interaction();
 
-  printf(IM "Got queueAction request, actionID: %d'n", actionID);
+  printf(IM "Got queueInteraction request, interaction: %d'n", interactionID);
 
   if (!sourceEntity || !sourceEntity->getCharacter())
   {
@@ -337,7 +358,7 @@ InteractionManager::QueueAction(const PcEntity *sourceEntity,
     return false;
   }
 
-  interaction->actionID = actionID;
+  interaction->interactionID = interactionID;
   interaction->character = sourceEntity->getCharacter();
 
   // Caller must alloc interaction
@@ -542,8 +563,8 @@ InteractionManager::SendStatUpdate(const Stat* stat,
   }
 }
 
-float GetHightDeviation(const Character* lockedAttacker,
-                        const Character* lockedTarget)
+float InteractionManager::GetHightDeviation(const Character* lockedAttacker,
+                                            const Character* lockedTarget)
 {
   // TODO
   return 0;

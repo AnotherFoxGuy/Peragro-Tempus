@@ -1,4 +1,3 @@
-
 /*
     Copyright (C) 2008 Development Team of Peragro Tempus
 
@@ -17,29 +16,12 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "network.h"
-#include "networkhelper.h"
+#include "interaction.h"
 
-#include "server/entity/entitymanager.h"
-#include "server/network/combathandler.h"
-#include "server/combat/interactionmanager.h"
-
-/**
- * Handler function for attack request messages.
- * @param msg The attack request message, not yet deserialized.
- */
-void CombatHandler::handleAttackRequest(GenericMessage* msg)
+Interaction::Interaction()
 {
-  InteractionManager *interactionManager = 
-    Server::getServer()->getInteractionManager();
-  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
-  if (!ent) return;
+}
 
-  ptScopedMonitorable<PcEntity> ent1 (ent);
-
-  AttackRequestMessage in_msg;
-  in_msg.deserialise(msg->getByteStream());
-
-  // TODO this is slightly wrong.
-  interactionManager->QueueInteraction(ent1, in_msg.getTargetID());
+Interaction::~Interaction()
+{
 }

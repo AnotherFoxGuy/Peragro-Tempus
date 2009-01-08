@@ -33,8 +33,8 @@
 class Interaction
 {
   public:
-    /// The action associated with this action, actionID == 0 is invalid.
-    unsigned int actionID;
+    /// The interaction ID associated with this interaction, 0 = unset.
+    unsigned int interactionID;
     /// Holds the unlocked character that is associated with this action.
     const Character *character;
     /// The amount of extra stamina required for this interaction.
