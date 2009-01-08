@@ -82,6 +82,12 @@ public:
    * @return The name with XP appended, caller has to free.
    */
   static const char* GetXPString(const char* name);
+
+  /**
+   * Gives a string with 'Agility' back that caller has to free.
+   * @return The string containing 'Agility'.
+   */
+  static const char* GetAgilityString();
 };
 
 #endif // INTERACTIONUTILITY

@@ -84,4 +84,30 @@ SkillManager::GetSkillLastUsedStr(const char* skill)
 
 }
 
+#define RETURN_AGILITY_IF(skillType, name) \
+  if (strncasecmp(name, skillType, strlen(name)) == 0) { \
+    return InteractionUtility::GetAgilityString();       \
+  }
+
+// Caller must free string.
+const char*
+SkillManager::GetAbilityNameForSkill(const char* skillType)
+{
+  RETURN_AGILITY_IF(skillType, "OneHandedAxe")
+  RETURN_AGILITY_IF(skillType, "OneHandedBlunt")
+  RETURN_AGILITY_IF(skillType, "OneHandedFlail")
+  RETURN_AGILITY_IF(skillType, "OneHandedSword")
+  RETURN_AGILITY_IF(skillType, "OneHandedUnarmed")
+  RETURN_AGILITY_IF(skillType, "TwoHandedAxe")
+  RETURN_AGILITY_IF(skillType, "TwoHandedBlunt")
+  RETURN_AGILITY_IF(skillType, "TwoHandedPolearm")
+  RETURN_AGILITY_IF(skillType, "TwoHandedSword")
+  RETURN_AGILITY_IF(skillType, "RangedBow")
+  RETURN_AGILITY_IF(skillType, "RangedCrossBow")
+  RETURN_AGILITY_IF(skillType, "RangedThrown")
+
+  printf("BUG: Should not be here!!");
+  return NULL;
+}
+
 

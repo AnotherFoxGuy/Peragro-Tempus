@@ -131,3 +131,13 @@ InteractionUtility::GetXPString(const char* name)
   strncat(xpName, "XP", length);
   return xpName;
 }
+
+// Caller has to delete
+const char*
+InteractionUtility::GetAgilityString(void)
+{
+  size_t length = strlen("Agility") + 1;
+  char* agilityName = new char[length];
+  strncat(agilityName, "Agility", length);
+  return agilityName;
+}
