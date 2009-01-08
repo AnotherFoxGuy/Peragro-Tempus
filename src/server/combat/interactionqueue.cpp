@@ -36,11 +36,15 @@ Interaction* InteractionQueue::GetInteraction()
   }
 
   interaction = head->interaction;
-  // TODO compare time of interaction with current time
+  // Compare time of interaction with current time
+  if (interaction->time > time(0)) {
+    return NULL;
+  }
 
   if (head->next) {
     head->next->prev = NULL;
   }
+
   temp = head;
   head = head->next;
   free(temp);
@@ -50,13 +54,17 @@ Interaction* InteractionQueue::GetInteraction()
 
 void InteractionQueue::SetInteraction(Interaction* interaction)
 {
-  
+  // TODO One character cannot have more than X entries.
+  // TODO change code elsewhere to make sure old itneractions are
+  // removed when char dies, or when new target is selected.
   QueueItem* queue = NULL;
   QueueItem* temp = NULL;
   QueueItem* queueItem = new QueueItem();
 
   queueItem->interaction = interaction;
   queueItem->prev = queueItem->next = NULL;
+
+  interaction->time = time(0);
 
   for (queue = head; queue && queue->next; queue = queue->next) {
     if (queue->interaction->time > interaction->time) {
