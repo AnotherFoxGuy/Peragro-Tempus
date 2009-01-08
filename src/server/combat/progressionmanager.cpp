@@ -1,21 +1,46 @@
+/*
+    Copyright (C) 2008 Development Team of Peragro Tempus
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+#include "server/entity/entitymanager.h"
+#include "server/entity/statmanager.h"
+#include "interactionutility.h"
+#include "progressionmanager.h"
+
 unsigned int
-ProgressionManager::CalculateExperienceGain(
-                            ProgressionManagerSendTo::SendTo attackType)
+ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
+                                            Character* lockedTarget,
+                                            const char* skillType,
+                                            const char* attackType)
 {
-  float successChance = 0
-  float failureChance = 0
+  float successChance = 0;
+  float failureChance = 0;
   float randomNumber = 0;
   float penalty = 0;
   float skill = 0;
   float agility = 0;
 
-  penalty = GetPenalty(attackType);
-  skill = GetSkill(attackType);
-  agility = GetAgility();
+  penalty = GetPenalty(lockedTarget, attackType);
+  skill = GetSkill(lockedAttacker, skillType);
+  agility = InteractionUtility::GetStatValue(lockedAttacker, "agility");
 
   successChance = skill * agility - penalty;
 
-  failureChance = 100 - sucessChance;
+  failureChance = 100 - successChance;
 
   if (randomNumber < successChance) {
     if (randomNumber >= (successChance - (failureChance * 0.1))) {
@@ -31,12 +56,14 @@ ProgressionManager::CalculateExperienceGain(
 }
 
 void
-ProgressionManager::AddXP()
+ProgressionManager::AddXP(unsigned int skillKnowledge,
+                          unsigned int ability)
 {
+  // TODO ability skill that isn't right....
   if (skill > ability) {
-    IncreaseExperience(ProgressionManager::ABILITY, 1);
+    IncreaseExperience("ability", 1);
   } else {
-    IncreaseExperience(ProgressionManager::SKILL, 1);
+    IncreaseExperience("skill", 1);
   }
 
   IncreaseExperience(ProgressionManager::SPECIALITY, 1);
@@ -60,7 +87,8 @@ ProgressionManager::HPIncreased(Character* lockedCharacter,
 }
 
 void
-ProgressionManager::StaminaIncreased(Character* lockedCharacter)
+ProgressionManager::StaminaIncreased(Character* lockedCharacter,
+                                     unsigned int amount)
 {
   unsigned int randomNumber = 0;
   unsigned int progression = 0;
@@ -76,7 +104,8 @@ ProgressionManager::StaminaIncreased(Character* lockedCharacter)
 }
 
 void
-ProgressionManager::WillPowerIncreased(Character* lockedCharacter)
+ProgressionManager::WillPowerIncreased(Character* lockedCharacter,
+                                       unsigned int amount)
 {
   unsigned int randomNumber = 0;
   unsigned int progression = 0;
@@ -87,11 +116,25 @@ ProgressionManager::WillPowerIncreased(Character* lockedCharacter)
     }
   }
   if (progression) {
-    IncreaseExperience(Progressionmanager::Resolve, progression);
+    IncreaseExperience(ProgressionManager::Resolve, progression);
   }
 }
 
-unsigned int RollDice(unsigned int lower, unsigned int higher)
+unsigned int 
+ProgressManager::RollDice(unsigned int lower, unsigned int higher)
 {
   return (rand() % (higher - lower + 1)) + lower;
 }
+
+float
+ProgressManager::GetPenalty(Character* lockedCharacter,
+                            const char* attackType)
+{
+}
+
+float
+ProgressManager::GetSkill(Character* lockedCharacter,
+                          const char* skillType)
+{
+}
+

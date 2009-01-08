@@ -30,7 +30,7 @@
 /**
  * Server progression manager.
  */
-class ProgressionManager : public Thread
+class ProgressionManager
 {
 public:
   /// Constructor.
@@ -38,13 +38,19 @@ public:
   /// Destructor.
   ~ProgressionManager();
 
-  unsigned int CalculateExperienceGain();
+  unsigned int CalculateExperienceGain(Character* lockedAttacker,
+                                       Character* lockedTarget,
+                                       const char* skillType,
+                                       const char* attackType);
   void HPIncreased();
   void StaminaIncreased();
   void WillPowerIncreased();
+  unsigned int RollDice(unsigned int lower, unsigned int higher);
 
 private:
   void AddXP();
+  float GetPenalty(Character* lockedCharacter, const char* attackType);
+  float GetSkill(Character* lockedCharacter, const char* skillType);
 };
 
 #endif //PROGRESSIONMANAGER
