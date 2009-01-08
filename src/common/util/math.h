@@ -36,6 +36,27 @@ namespace PT
      * @param f2 The second value.
      * @return The largest of the two values.
      */
+    inline static unsigned int MaxUI(unsigned int f1, unsigned int f2)
+    {
+      return f1 > f2 ? f1 : f2;
+    }
+
+    /**
+     * Used to get the smallest value.
+     * @param f1 The first value.
+     * @param f2 The second value.
+     * @return The smallest of the two values.
+     */
+    inline static unsigned int MinUI(unsigned int f1, unsigned int f2)
+    {
+      return f1 < f2 ? f1 : f2;
+    }
+    /**
+     * Used to get the largest value.
+     * @param f1 The first value.
+     * @param f2 The second value.
+     * @return The largest of the two values.
+     */
     inline static float MaxF(float f1, float f2)
     {
       return f1 > f2 ? f1 : f2;

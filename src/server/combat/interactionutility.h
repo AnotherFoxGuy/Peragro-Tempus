@@ -33,12 +33,39 @@ class InteractionUtility
 {
 private:
 public:
-  static float GetStatValue(Character* lockedCharacter,
-                            const char* statName);
-  static float GetStatValueForAllEquipedItems(Character* lockedCharacter,
-                                              const char* statName);
+  /**
+   * Queries the stat for a character based on the stat's name.
+   * It would be tempting to use this function directly,however a character can
+   * get bonuses, therefore this function should be called from the different
+   * getters for stats.
+   * @param lockedCharacter The locked version of the character.
+   * @param statName The stat's name.
+   * @return The stats current value.
+   */
+  static unsigned int GetStatValue(Character* lockedCharacter,
+                                   const char* statName);
+  /**
+   * Combines the character's items stat values, based on stat name
+   * @param lockedCharacter The locked version of the character.
+   * @param statName The stat's name.
+   * @return The items bonuses given a special stat.
+   */
+  static unsigned int GetStatValueForAllEquipedItems(Character* lockedCharacter,
+                                                     const char* statName);
+  /**
+   * Used to get an equiped item based on the slot number.
+   * @param lockedCharacter The locked version of the character.
+   * @param slot Which item, is decided by the slot its equiped on.
+   * @return The item in that slot, or NULL if none found.
+   */
   static Item* GetItem(Character* lockedCharacter, unsigned char slot);
-  static float GetStatValueForItem(const Item* item, const char* statName);
+  /**
+   * Queries the stat value from an item based on stat name.
+   * @param item The item to return the stat value for.
+   * @param statName The stat's name.
+   * @return The items stat based on the statName.
+   */
+  static unsigned int GetStatValueForItem(const Item* item, const char* statName);
 };
 
 #endif // INTERACTIONUTILITY

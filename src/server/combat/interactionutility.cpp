@@ -19,7 +19,7 @@
 #include "server/entity/statmanager.h"
 #include "interactionutility.h"
 
-float InteractionUtility::GetStatValueForItem(const Item* item,
+unsigned int InteractionUtility::GetStatValueForItem(const Item* item,
                                               const char* statName)
 {
   Server *server = Server::getServer();
@@ -31,11 +31,11 @@ float InteractionUtility::GetStatValueForItem(const Item* item,
     printf("BUG: Unable to find stat: %s\n", statName);
     return 0.0f;
   }
-  return static_cast<float>(item->getStats()->getAmount(stat));
+  return item->getStats()->getAmount(stat);
 } 
 
-float InteractionUtility::GetStatValue(Character* lockedCharacter,
-                                       const char* statName)
+unsigned int InteractionUtility::GetStatValue(Character* lockedCharacter,
+                                              const char* statName)
 {
   Server* server = Server::getServer();
 
@@ -50,11 +50,11 @@ float InteractionUtility::GetStatValue(Character* lockedCharacter,
   return static_cast<float>(lockedCharacter->getStats()->getAmount(stat));
 }
 
-float
+unsigned int
 InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
                                                    const char* statName)
 {
-  float value = 0.0f;
+  unsigned int value = 0;
   Inventory* inventory = lockedCharacter->getInventory();
   Item* item;
 
