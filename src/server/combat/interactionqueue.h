@@ -36,6 +36,7 @@ public:
 protected:
 
 private:
+  // TODO might have to lock this queue
   class QueueItem {
   public:
     QueueItem();

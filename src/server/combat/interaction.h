@@ -27,6 +27,8 @@ class Interaction
     unsigned int actionID;
     const Character *character;
     float staminaRequired;
+    size_t time;
+
 
     Interaction();
     ~Interaction();

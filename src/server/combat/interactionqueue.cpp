@@ -28,7 +28,6 @@ InteractionQueue::~InteractionQueue()
 
 Interaction* InteractionQueue::GetInteraction()
 {
-  // TODO
   QueueItem* temp = NULL;
   Interaction* interaction = NULL;
 
@@ -37,6 +36,7 @@ Interaction* InteractionQueue::GetInteraction()
   }
 
   interaction = head->interaction;
+  // TODO compare time of interaction with current time
 
   if (head->next) {
     head->next->prev = NULL;
@@ -50,7 +50,33 @@ Interaction* InteractionQueue::GetInteraction()
 
 void InteractionQueue::SetInteraction(Interaction* interaction)
 {
+  
+  QueueItem* queue = NULL;
+  QueueItem* temp = NULL;
+  QueueItem* queueItem = new QueueItem();
 
+  queueItem->interaction = interaction;
+  queueItem->prev = queueItem->next = NULL;
+
+  for (queue = head; queue && queue->next; queue = queue->next) {
+    if (queue->interaction->time > interaction->time) {
+      break;
+    }
+  }
+  if (!queue) {
+    head = queueItem;
+    return;
+  }
+
+  temp = queue->prev; 
+  queue->prev = queueItem;
+  queueItem->next = queue;
+  if (!temp) {
+    head = queueItem;
+  } else {
+    temp->next = queueItem;
+    queueItem->prev = temp;
+  }
 }
 
 InteractionQueue::QueueItem::QueueItem()
