@@ -21,6 +21,11 @@
 #include "skillmanager.h"
 #include "interactionutility.h"
 
+#define RETURN_AGILITY_IF(skillType, name) \
+  if (strncasecmp(name, skillType, strlen(name)) == 0) { \
+    return InteractionUtility::GetAgilityString();       \
+  }
+
 SkillManager::SkillManager()
 {
 }
@@ -84,10 +89,6 @@ SkillManager::GetSkillLastUsedStr(const char* skill)
 
 }
 
-#define RETURN_AGILITY_IF(skillType, name) \
-  if (strncasecmp(name, skillType, strlen(name)) == 0) { \
-    return InteractionUtility::GetAgilityString();       \
-  }
 
 // Caller must free string.
 const char*

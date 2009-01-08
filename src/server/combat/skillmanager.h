@@ -55,7 +55,7 @@ public:
                        const char* skill);
   void UpdateTimeUnused(Character* lockedCharacter,
                         const char* skill);
-  const char* GetAbilityNameForSkill(const char* skillType);
+  static const char* GetAbilityNameForSkill(const char* skillType);
 
 
 private:

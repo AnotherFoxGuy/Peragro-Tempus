@@ -20,6 +20,7 @@
 #include "server/entity/statmanager.h"
 #include "interactionutility.h"
 #include "progressionmanager.h"
+#include "skillmanager.h"
 
 /* See: http://wiki.peragro.org/index.php/Experience_Implementation */
 void
@@ -34,27 +35,34 @@ ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
   unsigned int penalty = 0;
   unsigned int skillLevel = 0;
   unsigned int agilityLevel = 0;
+  const char*  abilityName = "Agility";
 
   penalty = GetPenalty(lockedTarget, attackType);
   skillLevel = GetSkillLevel(lockedAttacker, skillType);
-  agilityLevel = (unsigned int) InteractionUtility::GetStatValue(lockedAttacker,
-                                                                 "Agility");
 
-  successChance = skillLevel * agilityLevel - penalty;
+  abilityName = SkillManager::GetAbilityNameForSkill(skillType);
+
+  agilityLevel = (unsigned int) InteractionUtility::GetStatValue(lockedAttacker,
+                                                                 abilityName);
+
+  // Base chance for success should be 50%
+  // http://wiki.peragro.org/index.php/Skill
+  successChance = skillLevel * agilityLevel - penalty + 50;
 
   failureChance = 100 - successChance;
 
   if (randomNumber < successChance) {
     if (randomNumber >= (successChance - (failureChance / 10))) {
-      AddXP(lockedAttacker, skillType, "Agility");
+      AddXP(lockedAttacker, skillType, abilityName);
     } 
   } else if (randomNumber > successChance) {
     if (randomNumber <= successChance + (failureChance / 10)) {
-      AddXP(lockedAttacker, skillType, "Agility");
+      AddXP(lockedAttacker, skillType, abilityName);
     }
   } else if (randomNumber == successChance) {
-    AddXP(lockedAttacker, skillType, "Agility");
+    AddXP(lockedAttacker, skillType, abilityName);
   }
+  delete [] abilityName;
 }
 
 /* See: http://wiki.peragro.org/index.php/Experience_Implementation */
