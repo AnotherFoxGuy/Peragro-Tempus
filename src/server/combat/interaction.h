@@ -27,5 +27,5 @@ class Interaction
 
     Interaction();
     ~Interaction();
-}
+};
 #endif //INTERACTION

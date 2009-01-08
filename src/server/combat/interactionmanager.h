@@ -19,8 +19,26 @@
 #ifndef INTERACTIONMANGER
 #define INTERACTIONMANGER
 
+#include "common/util/thread.h"
+
+#include "src/server/entity/pcentity.h"
+
 class InteractionManager : public Thread
 {
+  public:
+  InteractionManager();
+  ~InteractionManager();
+  bool SelectTarget(const PcEntity *sourceEntity, unsigned int tagetID);
+  bool QueueAction(const PcEntity *sourceEntity, unsigned int actionID);
 
-}
+  private:
+  bool NormalAttack(Interaction* interaction);
+  bool DeductStamina(Character* lockedCharacter);
+  float GetAttackChance(Character* lockedAttacker, Character* lockedTarget);
+  float CalculateDamage(Character* lockedAttacker, Character* lockedTarget);
+  bool PerformInteraction(Interaction* interaction);
+  bool TargetAttackable(Character* lockedAttacker, Character* lockedTarget);
+  const Character* GetTargetCharacter(Character* lockedCharacter);
+
+};
 #endif //INTERACTIONMANGER

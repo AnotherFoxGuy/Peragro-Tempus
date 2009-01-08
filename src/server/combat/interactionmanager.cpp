@@ -17,6 +17,9 @@
 */
 
 #include <stdlib.h>
+#include "server/server.h"
+#include "interactionmanager.h"
+#include "interaction.h"
 
 #define IM "InteractionManager: "
 #define SLEEP 10
@@ -42,13 +45,14 @@ void Run()
       sleep(SLEEP);
       continue;
     }
-    performInteraction(interaction);
+    PerformInteraction(interaction);
     free(interaction);
   }
 }
 
 // TODO support our own char as target? In that case don't mess up locking
-bool InteractionManager::NormalAttack(Interaction *interaction)
+bool
+InteractionManager::NormalAttack(Interaction *interaction)
 {
   unsigned int targetID = 0;
   const Entity* entity = NULL;
@@ -103,8 +107,8 @@ bool InteractionManager::NormalAttack(Interaction *interaction)
 
 }
 
-bool InteractionManager::DeductStamina(Character* lockedCharacter,
-                                       Interaction *interaction)
+bool
+InteractionManager::DeductStamina(Character* lockedCharacter)
 {
   float currentStamina = 0;
   float staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
@@ -139,7 +143,8 @@ bool InteractionManager::DeductStamina(Character* lockedCharacter,
   return true;
 }
 
-float InteractionManager::GetAttackChance(Character* lockedAttacker,
+float
+InteractionManager::GetAttackChance(Character* lockedAttacker,
                                      Character* lockedTarget)
 {
   return GetAgility(lockedAttacker) * GetSkillBonus(lockedAttacker) -
@@ -148,7 +153,8 @@ float InteractionManager::GetAttackChance(Character* lockedAttacker,
       GetDodge(lockedTarget)), GetParry(lockedTarget));
 }
 
-float InteractionManager::CalculateDamage(Character* lockedAttacker,
+float
+InteractionManager::CalculateDamage(Character* lockedAttacker,
                                          Character* lockedTarget)
 {
 
@@ -182,7 +188,8 @@ float InteractionManager::CalculateDamage(Character* lockedAttacker,
   return damage;
 }
 
-bool InteractionManager::PerformInteraction(Interaction *interaction)
+bool
+InteractionManager::PerformInteraction(Interaction* interaction)
 {
   if (!interaction) {
     return false;
@@ -197,7 +204,8 @@ bool InteractionManager::PerformInteraction(Interaction *interaction)
   }
 }
 
-bool InteractionManager::TargetAttackable(Character* lockedAttacker,
+bool
+InteractionManager::TargetAttackable(Character* lockedAttacker,
                                           Character* lockedTarget)
 {
   const float maxAttackDistance = 0;
@@ -252,7 +260,8 @@ bool InteractionManager::TargetAttackable(Character* lockedAttacker,
   return true;
 }
 
-bool InteractionManager::SelectTarget(const PcEntity *sourceEntity,
+bool
+InteractionManager::SelectTarget(const PcEntity *sourceEntity,
                                       unsigned int targetID)
 {
   printf(IM "Got selection request, target: %d'n", targetID);
@@ -276,15 +285,16 @@ bool InteractionManager::SelectTarget(const PcEntity *sourceEntity,
   lockedSource->SetTargetID(targetID);
 }
 
-const Character* InteractionManager::GetTargetCharacter(
-                    Character *lockedCharacter)
+const Character*
+InteractionManager::GetTargetCharacter(Character* lockedCharacter)
 {
   return Server::getServer()->getEntityManager()->
                               findById(lockedCharacter->GetTargetID());
 
 }
 
-bool InteractionManager::QueueAction(const PcEntity *sourceEntity,
+bool
+InteractionManager::QueueAction(const PcEntity *sourceEntity,
                                      unsigned int actionID)
 {
   Interaction interaction = new Interaction();
