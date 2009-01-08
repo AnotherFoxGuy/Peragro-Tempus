@@ -19,6 +19,21 @@
 #include "server/entity/statmanager.h"
 #include "interactionutility.h"
 
+float InteractionUtility::GetStatValueForItem(const Item* item,
+                                              const char* statName)
+{
+  Server *server = Server::getServer();
+  const Stat* stat = server->getStatManager()->
+    findByName(ptString(statName, strlen(statName)));
+  if (!stat)
+  {
+    server->getStatManager()->dumpAllStatNames();
+    printf("BUG: Unable to find stat: %s\n", statName);
+    return 0.0f;
+  }
+  return static_cast<float>(item->getStats()->getAmount(stat));
+} 
+
 float InteractionUtility::GetStatValue(Character* lockedCharacter,
                                        const char* statName)
 {
@@ -35,7 +50,7 @@ float InteractionUtility::GetStatValue(Character* lockedCharacter,
   return static_cast<float>(lockedCharacter->getStats()->getAmount(stat));
 }
 
-static float
+float
 InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
                                                    const char* statName)
 {
@@ -59,4 +74,29 @@ InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
   }
 
   return value;
+}
+
+Item* InteractionUtility::GetItem(Character* lockedCharacter,
+                                  unsigned char slot)
+{
+  Server *server = Server::getServer();
+  Inventory* inventory = lockedCharacter->getInventory();
+
+  if (!inventory)
+  {
+    return NULL;
+  }
+
+  if (slot >= inventory->NoSlot)
+  {
+    return NULL;
+  }
+
+  const InventoryEntry* entry = inventory->getItem(slot);
+  if (!entry || entry->id == 0)
+  {
+    return NULL;
+  }
+  Item* item = server->getItemManager()->findById(entry->id);
+  return item;
 }

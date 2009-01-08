@@ -37,6 +37,8 @@ public:
                             const char* statName);
   static float GetStatValueForAllEquipedItems(Character* lockedCharacter,
                                               const char* statName);
+  static Item* GetItem(Character* lockedCharacter, unsigned char slot);
+  static float GetStatValueForItem(const Item* item, const char* statName);
 };
 
 #endif // INTERACTIONUTILITY

@@ -38,19 +38,25 @@ public:
   /// Destructor.
   ~ProgressionManager();
 
-  unsigned int CalculateExperienceGain(Character* lockedAttacker,
-                                       Character* lockedTarget,
-                                       const char* skillType,
-                                       const char* attackType);
-  void HPIncreased();
-  void StaminaIncreased();
-  void WillPowerIncreased();
+  void CalculateExperienceGain(Character* lockedAttacker,
+                               Character* lockedTarget,
+                               const char* skillType,
+                               const char* attackType);
+  void HPIncreased(Character* lockedCharacter, unsigned int amount);
+  void StaminaIncreased(Character* lockedCharacter, unsigned int amount);
+  void WillPowerIncreased(Character* lockedCharacter, unsigned int amount);
   unsigned int RollDice(unsigned int lower, unsigned int higher);
 
 private:
-  void AddXP();
-  float GetPenalty(Character* lockedCharacter, const char* attackType);
-  float GetSkill(Character* lockedCharacter, const char* skillType);
+  void AddXP(Character* lockedCharacter,
+             unsigned int skillKnowledge,
+             unsigned int ability);
+  unsigned int GetPenalty(Character* lockedCharacter, const char* attackType);
+  unsigned int GetSkill(Character* lockedCharacter, const char* skillType);
+  void IncreaseExperience(Character* lockedCharacter,
+                          const char* stat,
+                          int difference);
+    
 };
 
 #endif //PROGRESSIONMANAGER

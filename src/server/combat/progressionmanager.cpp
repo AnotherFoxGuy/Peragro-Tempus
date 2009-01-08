@@ -21,22 +21,23 @@
 #include "interactionutility.h"
 #include "progressionmanager.h"
 
-unsigned int
+void
 ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
                                             Character* lockedTarget,
                                             const char* skillType,
                                             const char* attackType)
 {
-  float successChance = 0;
-  float failureChance = 0;
-  float randomNumber = 0;
-  float penalty = 0;
-  float skill = 0;
-  float agility = 0;
+  unsigned int successChance = 0;
+  unsigned int failureChance = 0;
+  unsigned int randomNumber = 0;
+  unsigned int penalty = 0;
+  unsigned int skill = 0;
+  unsigned int agility = 0;
 
   penalty = GetPenalty(lockedTarget, attackType);
   skill = GetSkill(lockedAttacker, skillType);
-  agility = InteractionUtility::GetStatValue(lockedAttacker, "agility");
+  agility = (unsigned int) InteractionUtility::GetStatValue(lockedAttacker,
+                                                            "agility");
 
   successChance = skill * agility - penalty;
 
@@ -44,29 +45,38 @@ ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
 
   if (randomNumber < successChance) {
     if (randomNumber >= (successChance - (failureChance * 0.1))) {
-      AddXP();
+      AddXP(lockedAttacker, skill, agility);
     } 
   } else if (randomNumber > successChance) {
     if (randomNumber <= successChance + (failureChance * 0.1)) {
-      AddXP();
+      AddXP(lockedAttacker, skill, agility);
     }
   } else if (randomNumber == successChance) {
-    AddXP();
+    AddXP(lockedAttacker, skill, agility);
   }
 }
 
 void
-ProgressionManager::AddXP(unsigned int skillKnowledge,
+ProgressionManager::AddXP(Character* lockedCharacter,
+                          unsigned int skillKnowledge,
                           unsigned int ability)
 {
   // TODO ability skill that isn't right....
-  if (skill > ability) {
-    IncreaseExperience("ability", 1);
+  if (skillKnowledge > ability) {
+    IncreaseExperience(lockedCharacter, "ability", 1);
   } else {
-    IncreaseExperience("skill", 1);
+    IncreaseExperience(lockedCharacter, "skill", 1);
+    // TODO is this right or should it be always, check with DD
+    IncreaseExperience(lockedCharacter, "speciality", 1);
   }
 
-  IncreaseExperience(ProgressionManager::SPECIALITY, 1);
+}
+
+void
+ProgressionManager::IncreaseExperience(Character* lockedCharacter,
+                                       const char* stat,
+                                       int difference)
+{
 }
 
 void
@@ -82,7 +92,7 @@ ProgressionManager::HPIncreased(Character* lockedCharacter,
     }
   }
   if (progression) {
-    IncreaseExperience(Progressionmanager::Endurance, progression);
+    IncreaseExperience(lockedCharacter, "endurance", progression);
   }
 }
 
@@ -99,7 +109,7 @@ ProgressionManager::StaminaIncreased(Character* lockedCharacter,
     }
   }
   if (progression) {
-    IncreaseExperience(Progressionmanager::Endurance, progression);
+    IncreaseExperience(lockedCharacter, "endurance", progression);
   }
 }
 
@@ -116,25 +126,27 @@ ProgressionManager::WillPowerIncreased(Character* lockedCharacter,
     }
   }
   if (progression) {
-    IncreaseExperience(ProgressionManager::Resolve, progression);
+    IncreaseExperience(lockedCharacter, "resolve", progression);
   }
 }
 
 unsigned int 
-ProgressManager::RollDice(unsigned int lower, unsigned int higher)
+ProgressionManager::RollDice(unsigned int lower, unsigned int higher)
 {
   return (rand() % (higher - lower + 1)) + lower;
 }
 
-float
-ProgressManager::GetPenalty(Character* lockedCharacter,
+unsigned int 
+ProgressionManager::GetPenalty(Character* lockedCharacter,
                             const char* attackType)
 {
+  return 0;
 }
 
-float
-ProgressManager::GetSkill(Character* lockedCharacter,
+unsigned int
+ProgressionManager::GetSkill(Character* lockedCharacter,
                           const char* skillType)
 {
+  return 0;
 }
 

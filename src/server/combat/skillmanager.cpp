@@ -62,6 +62,7 @@ float
 SkillManager::GetTimeUnusedThisLogin(Character* lockedCharacter,
                                      const char* skill)
 {
+  return 0.0f;
 }
 
 float
@@ -78,6 +79,8 @@ SkillManager::GetTimeUnusedLastLogin(Character* lockedCharacter,
 const char*
 SkillManager::GetSkillLastUsedStr(const char* skill)
 {
+  // TODO add here or do in function directly? Need to free memory...
+  return NULL;
 
 }
 
