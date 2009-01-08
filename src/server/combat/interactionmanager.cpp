@@ -93,6 +93,53 @@ bool InteractionManager::NormalAttack(Interaction *interaction)
   if (!TargetAttackable(lockedAttacker, lockedTarget)) {
     return false;
   }
+
+  DeductStamina(lockedAttacker);
+
+  CalculateDamage(lockedAttacker, lockedTarget);
+
+}
+
+float CombatManager::GetAttackChance(Character* lockedAttacker,
+                                     Character* lockedTarget)
+{
+  return GetAgility(lockedAttacker) * GetSkillBonus(lockedAttacker) -
+    PT::Math::MinF(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
+    PT::Math::MaxF(PT::Math::MaxF(GetBlock(lockedTarget),
+      GetDodge(lockedTarget)), GetParry(lockedTarget));
+}
+
+bool InteractionManager::CalculateDamage(Character* lockedAttacker,
+                                         Character* lockedTarget)
+{
+
+  float damage = 0.0f;
+  const int attackResult = RollDice();
+  const float attackChance = GetAttackChance(lockedAttackerCharacter,
+                                             lockedTargetCharacter);
+
+  if (attackResult <= attackChance)
+  {
+    // It was a hit. TODO
+    damage = (attackChance - attackResult) *
+      GetWeaponDamage(lockedAttackerCharacter) +
+      GetStrength(lockedAttackerCharacter);
+  }
+
+  // If attackResult was 10% or less of attackChance, critcal hit.
+  if (attackResult <= (attackChance * 0.1))
+  {
+    // Double the damage.
+    printf(IM "Critical hit!\n");
+    damage = 2 * damage;
+  }
+
+  printf("Damage:%f\n", damage);
+  printf("attackChance is set to:%f\n", attackChance);
+  printf("attackResult is set to:%d\n", attackResult);
+  printf("weapondamage is set to:%f\n", GetWeaponDamage(lockedAttackerCharacter));
+  printf("strength is set to:%f\n", GetStrength(lockedAttackerCharacter));
+
 }
 
 bool InteractionManager::PerformInteraction(Interaction *interaction)
@@ -119,9 +166,6 @@ bool InteractionManager::TargetAttackable(Character* lockedAttacker,
   const float attackAngle = 0;
   const float angleDiff = 0;
   static const float allowdAngle = PT_PI * 0.3f;
-
-
-
   const PtVector3 attackerPos(attacker->getEntity()->getPos());
   const PtVector3 targetPos(target->getEntity()->getPos());
 
