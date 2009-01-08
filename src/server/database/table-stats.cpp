@@ -26,6 +26,8 @@
 #include "table-stats.h"
 #include "server/entity/stat.h"
 
+#define ADD_TO_DB(name) insert(ptString(name, strlen(name)));
+
 StatTable::StatTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from stats;");
@@ -52,13 +54,41 @@ void StatTable::createTable()
   insert(ptString("Dexterty", strlen("Dexterty")));
   insert(ptString("Endurance", strlen("Endurance")));
   insert(ptString("Agility", strlen("Agility")));
+  insert(ptString("AgilityXP", strlen("AgilityXP")));
   insert(ptString("Concentration", strlen("Concentration")));
   insert(ptString("Witness", strlen("Witness")));
   insert(ptString("Speed", strlen("Speed")));
-  insert(ptString("Block", strlen("Block")));
-  insert(ptString("Dodge", strlen("Dodge")));
-  insert(ptString("Parry", strlen("Parry")));
   insert(ptString("Sapience", strlen("Sapience")));
+  // Skills (attack)
+  ADD_TO_DB("OneHandedAxe")
+  ADD_TO_DB("OneHandedBlunt")
+  ADD_TO_DB("OneHandedFlail")
+  ADD_TO_DB("OneHandedSword")
+  ADD_TO_DB("OneHandedUnarmed")
+  ADD_TO_DB("TwoHandedAxe")
+  ADD_TO_DB("TwoHandedBlunt")
+  ADD_TO_DB("TwoHandedPolearm")
+  ADD_TO_DB("TwoHandedSword")
+  ADD_TO_DB("RangedBow")
+  ADD_TO_DB("RangedCrossbow")
+  ADD_TO_DB("RangedThrown")
+  // Skills (defence)
+  ADD_TO_DB("ArmorProficiency")
+  ADD_TO_DB("Block")
+  ADD_TO_DB("Dodge")
+  ADD_TO_DB("Parry")
+  // Skills (styles)
+  ADD_TO_DB("DirtyTricks")
+  ADD_TO_DB("SwiftnessOfTheWind")
+  ADD_TO_DB("StrengthOfTheMountain")
+  ADD_TO_DB("StrengthOfTheMountain")
+  ADD_TO_DB("TwoWeapons")
+  // Skills (rogue)
+  ADD_TO_DB("Sneak")
+  ADD_TO_DB("PickLocks")
+  ADD_TO_DB("PickPockets")
+  ADD_TO_DB("Perception")
+
 }
 
 void StatTable::insert(ptString name)
