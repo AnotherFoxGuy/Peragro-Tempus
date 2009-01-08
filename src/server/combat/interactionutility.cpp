@@ -29,7 +29,7 @@ unsigned int InteractionUtility::GetStatValueForItem(const Item* item,
   {
     server->getStatManager()->dumpAllStatNames();
     printf("BUG: Unable to find stat: %s\n", statName);
-    return 0.0f;
+    return 0;
   }
   return item->getStats()->getAmount(stat);
 } 
@@ -45,9 +45,9 @@ unsigned int InteractionUtility::GetStatValue(Character* lockedCharacter,
   if (!stat) {
     server->getStatManager()->dumpAllStatNames();
     printf("BUG: Unalbe to find stat: %s\n", statName);
-    return 0.0f;
+    return 0;
   }
-  return static_cast<float>(lockedCharacter->getStats()->getAmount(stat));
+  return lockedCharacter->getStats()->getAmount(stat);
 }
 
 unsigned int
@@ -60,7 +60,7 @@ InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
 
   if (!inventory)
   {
-    return 0.0f;
+    return 0;
   }
 
   for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)

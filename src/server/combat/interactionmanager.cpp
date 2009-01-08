@@ -97,7 +97,8 @@ InteractionManager::NormalAttack(Interaction *interaction)
   targetID = lockedAttacker->GetTargetID();
 
   if (targetID == 0) {
-    printf(IM "targetID 0, make sure that's not a legal one\n");
+    printf(IM "\n\n Please file a bug or notify the peragro team at #peragro "
+           "irc.freenode.net: targetID 0, make sure that's not a legal one\n");
     return false;
   }
 
@@ -109,6 +110,10 @@ InteractionManager::NormalAttack(Interaction *interaction)
 
   ptScopedMonitorable<Character> lockedTarget(c_char);
 
+  // For normal attack it is not legal to attack the own character.
+  if (lockedAttacker->getId() == lockedTarget->getId()) {
+    return false;
+  }
 
   if (!TargetAttackable(lockedAttacker, lockedTarget)) {
     return false;
@@ -120,8 +125,6 @@ InteractionManager::NormalAttack(Interaction *interaction)
   }
 
   damage = CalculateDamage(lockedAttacker, lockedTarget);
-  // TODO
-  //SetCharacterWaitTime(lockedAttackerCharacter);
 
   Stat* hp = Server::getServer()->getStatManager()->
     findByName(ptString("Health", strlen("Health")));
@@ -153,7 +156,7 @@ InteractionManager::NormalAttack(Interaction *interaction)
       {
         itemsToDrop++;
       }
-    } // end for
+    }
 
     for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
     {
@@ -202,8 +205,8 @@ InteractionManager::NormalAttack(Interaction *interaction)
 
         itemsDropped++;
         Server::getServer()->addEntity(ent, true);
-      } // end if
-    } // end for
+      }
+    }
 
     //if (invitem.id == Item::NoItem)
     //{
@@ -219,7 +222,7 @@ InteractionManager::NormalAttack(Interaction *interaction)
     if (lockedTarget->getEntity()->getType() == Entity::PlayerEntityType)
     {
       NetworkHelper::sendMessage(lockedTarget, statsbs);
-      //TODO: Send a hurt message to the surrounding players for animation purposes??
+      //TODO: Send a hurt message to the surrounding players for animation purposes?
     }
   }
 
@@ -327,7 +330,7 @@ InteractionManager::PerformInteraction(Interaction* interaction)
 
 bool
 InteractionManager::TargetAttackable(Character* lockedAttacker,
-                                          Character* lockedTarget)
+                                     Character* lockedTarget)
 {
   float maxAttackDistance = 0;
   float distance = 0;

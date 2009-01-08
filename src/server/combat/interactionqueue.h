@@ -37,7 +37,8 @@
 class InteractionQueue
 {
 private:
-  // TODO might have to lock this queue
+  /// Mutex used to syncronize queue calls.
+  Mutex mutex;
   /**
    * Server queue item, class for holding next/prev interaction pointers.
    */
@@ -86,6 +87,7 @@ public:
 
 private:
 
+  /// The head of the queue.
   QueueItem* head;
 };
 

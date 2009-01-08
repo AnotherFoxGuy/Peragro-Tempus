@@ -16,8 +16,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// TODO this queue really needs a lock!
-
 #include "interactionqueue.h"
 
 InteractionQueue::InteractionQueue()
@@ -27,6 +25,7 @@ InteractionQueue::InteractionQueue()
 
 InteractionQueue::~InteractionQueue()
 {
+  mutex.lock();
   QueueItem* temp = NULL;
 
   while (1) {
@@ -40,6 +39,7 @@ InteractionQueue::~InteractionQueue()
       break;
     }
   }
+  mutex.unlock();
 }
 
 Interaction* InteractionQueue::GetInteraction()
@@ -47,13 +47,16 @@ Interaction* InteractionQueue::GetInteraction()
   QueueItem* temp = NULL;
   Interaction* interaction = NULL;
 
+  mutex.lock();
   if (!head) {
+    mutex.unlock();
     return NULL;
   }
 
   interaction = head->interaction;
   // Compare time of interaction with current time
   if (interaction->time > time(0)) {
+    mutex.unlock();
     return NULL;
   }
 
@@ -65,23 +68,27 @@ Interaction* InteractionQueue::GetInteraction()
   head = head->next;
   free(temp);
 
+  mutex.unlock();
   return NULL;
 }
 
 void InteractionQueue::RemoveAllInteractions(Character *lockedCharacter)
 {
   QueueItem* queue = NULL;
+  mutex.lock();
 
   for (queue = head; queue; queue = queue->next) {
     if (queue->interaction->character->getId() == lockedCharacter->getId()) {
       RemoveInteractionEntry(queue);
     }
   }
+  mutex.unlock();
 
 }
 
 void InteractionQueue::RemoveInteractionEntry(QueueItem* queue)
 {
+  mutex.lock();
   if (queue == head) {
     head = queue->next;
   } else {
@@ -93,6 +100,7 @@ void InteractionQueue::RemoveInteractionEntry(QueueItem* queue)
     }
   }
   free(queue);
+  mutex.unlock();
 }
 
 void InteractionQueue::SetInteraction(Interaction* interaction)
@@ -105,6 +113,7 @@ void InteractionQueue::SetInteraction(Interaction* interaction)
   QueueItem* queueItem = new QueueItem();
 
   queueItem->interaction = interaction;
+  mutex.lock();
   queueItem->prev = queueItem->next = NULL;
 
   // TODO If the same player already has interactions enqueued time
@@ -118,6 +127,7 @@ void InteractionQueue::SetInteraction(Interaction* interaction)
   }
   if (!queue) {
     head = queueItem;
+    mutex.unlock();
     return;
   }
 
@@ -130,10 +140,12 @@ void InteractionQueue::SetInteraction(Interaction* interaction)
     temp->next = queueItem;
     queueItem->prev = temp;
   }
+  mutex.unlock();
 }
 
 InteractionQueue::QueueItem::QueueItem()
 {
+  // This queue item doesn't have any neighbours yet.
   prev = next = NULL;
 }
 

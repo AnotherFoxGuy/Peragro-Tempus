@@ -80,13 +80,19 @@ private:
   bool DeductStamina(Character* lockedCharacter, Interaction* interaction);
   /**
    * Calculates the attacking character's chance of hitting.
-   * @param lockedCharacter The locked version of the attacking character.
-   * @param lockedCharacter The locked version of the target character.
+   * @param lockedAttacker The locked version of the attacking character.
+   * @param lockedTarget The locked version of the target character.
    * @return attack chance.
    */
   unsigned int GetAttackChance(Character* lockedAttacker, Character* lockedTarget);
   int CalculateDamage(Character* lockedAttacker, Character* lockedTarget);
   bool PerformInteraction(Interaction* interaction);
+  /**
+   * Checks that target is within reach and "legal" target.
+   * @param lockedAttacker The locked version of the attacking character.
+   * @param lockedTarget The locked version of the target character.
+   * @return true if attackable, otherwise false.
+   */
   bool TargetAttackable(Character* lockedAttacker, Character* lockedTarget);
   const Character* GetTargetCharacter(Character* lockedCharacter);
   /**
