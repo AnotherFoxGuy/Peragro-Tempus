@@ -16,25 +16,41 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * @file interaction.h
+ *
+ * @basic Server interaction manager.
+ */
+
 #ifndef INTERACTION
 #define INTERACTION
 
 #include "src/server/entity/pcentity.h"
 
+/**
+ * Server interaction manager.
+ */
 class Interaction
 {
   public:
+    /// The action associated with this action, actionID == 0 is invalid.
     unsigned int actionID;
+    /// Holds the unlocked character that is associated with this action.
     const Character *character;
+    /// The amount of extra stamina required for this interaction.
     float staminaRequired;
-    size_t time;
+    /// The time to perform this interaction.
+    ssize_t time;
 
 
+    /// Constructor.
     Interaction();
+    /// Destructor.
     ~Interaction();
 };
 
 namespace InteractionID {
+  /// Various sort of interactions.
   enum action {
     NORMAL_ATTACK =1 ,
     HEAL,
