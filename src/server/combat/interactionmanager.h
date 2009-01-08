@@ -20,6 +20,7 @@
 #define INTERACTIONMANGER
 
 #include "common/util/thread.h"
+#include "interaction.h"
 
 #include "src/server/entity/pcentity.h"
 

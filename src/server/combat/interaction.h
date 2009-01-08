@@ -19,13 +19,22 @@
 #ifndef INTERACTION
 #define INTERACTION
 
+#include "src/server/entity/pcentity.h"
+
 class Interaction
 {
   public:
     unsigned int actionID;
-    Character *character;
+    const Character *character;
 
     Interaction();
     ~Interaction();
 };
+
+namespace InteractionID {
+  enum action {
+    NORMAL_ATTACK =1 ,
+    HEAL,
+  };
+}
 #endif //INTERACTION

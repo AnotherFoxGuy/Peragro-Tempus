@@ -20,6 +20,9 @@
 #include "server/server.h"
 #include "interactionmanager.h"
 #include "interaction.h"
+#include "server/entity/entitymanager.h"
+
+#include "common/util/math.h"
 
 #define IM "InteractionManager: "
 #define SLEEP 10
@@ -32,7 +35,7 @@ InteractionManager::~InteractionManager()
 {
 }
 
-void Run()
+void InteractionManager::Run()
 {
   // TODO this is not good, need to check if we are still running etc.
   while (1)
@@ -55,7 +58,7 @@ bool
 InteractionManager::NormalAttack(Interaction *interaction)
 {
   unsigned int targetID = 0;
-  const Entity* entity = NULL;
+  const Entity* targetEntity = NULL;
   const Character* c_char = NULL;
 
   ptScopedMonitorable<Character>
@@ -122,12 +125,12 @@ InteractionManager::DeductStamina(Character* lockedCharacter)
   if (!stamina || !stats)
   {
     printf(IM "Can't get stamina stat\n");
-    return;
+    return false;
   }
 
   currentStamina = stats->getAmount(stamina);
 
-  printf(IM "Stamina before deduction: %d\n",
+  printf(IM "Stamina before deduction: %f\n",
     currentStamina);
 
   if (currentStamina < staminaDeduction) {
@@ -160,15 +163,15 @@ InteractionManager::CalculateDamage(Character* lockedAttacker,
 
   float damage = 0.0f;
   const int attackResult = RollDice();
-  const float attackChance = GetAttackChance(lockedAttackerCharacter,
-                                             lockedTargetCharacter);
+  const float attackChance = GetAttackChance(lockedAttacker,
+                                             lockedTarget);
 
   if (attackResult <= attackChance)
   {
     // It was a hit. TODO
     damage = (attackChance - attackResult) *
-      GetWeaponDamage(lockedAttackerCharacter) +
-      GetStrength(lockedAttackerCharacter);
+      GetWeaponDamage(lockedAttacker) +
+      GetStrength(lockedAttacker);
   }
 
   // If attackResult was 10% or less of attackChance, critcal hit.
@@ -182,8 +185,8 @@ InteractionManager::CalculateDamage(Character* lockedAttacker,
   printf("Damage:%f\n", damage);
   printf("attackChance is set to:%f\n", attackChance);
   printf("attackResult is set to:%d\n", attackResult);
-  printf("weapondamage is set to:%f\n", GetWeaponDamage(lockedAttackerCharacter));
-  printf("strength is set to:%f\n", GetStrength(lockedAttackerCharacter));
+  printf("weapondamage is set to:%f\n", GetWeaponDamage(lockedAttacker));
+  printf("strength is set to:%f\n", GetStrength(lockedAttacker));
 
   return damage;
 }
@@ -196,10 +199,10 @@ InteractionManager::PerformInteraction(Interaction* interaction)
   }
 
   switch(interaction->actionID) {
-    case NORMAL_ATTACK:
+    case InteractionID::NORMAL_ATTACK:
       NormalAttack(interaction);
       break;
-    case HEAL:
+    case InteractionID::HEAL:
       break;
   }
 }
@@ -209,13 +212,13 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
                                           Character* lockedTarget)
 {
   const float maxAttackDistance = 0;
-  const float distance = 0;
-  const float attackerRotation = 0;
-  const float attackAngle = 0;
+  float distance = 0;
+  float attackerRotation = 0;
+  float attackAngle = 0;
   const float angleDiff = 0;
-  static const float allowdAngle = PT_PI * 0.3f;
-  const PtVector3 attackerPos(attacker->getEntity()->getPos());
-  const PtVector3 targetPos(target->getEntity()->getPos());
+  static const float allowedAngle = PT_PI * 0.3f;
+  const PtVector3 attackerPos(lockedAttacker->getEntity()->getPos());
+  const PtVector3 targetPos(lockedTarget->getEntity()->getPos());
 
   maxAttackDistance = GetReach(lockedAttacker);
   distance = Distance(attackerPos, targetPos);
@@ -240,7 +243,7 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   }
 
   attackerRotation =
-    PT::Math::NormalizeAngle(attacker->getEntity()->getRotation());
+    PT::Math::NormalizeAngle(lockedAttacker->getEntity()->getRotation());
 
   if (difference.x == 0.0f) difference.x = PT_EPSILON;
   attackAngle =
@@ -297,9 +300,9 @@ bool
 InteractionManager::QueueAction(const PcEntity *sourceEntity,
                                      unsigned int actionID)
 {
-  Interaction interaction = new Interaction();
+  Interaction *interaction = new Interaction();
 
-  printf(IM "Got selection request, target: %d'n", targetID);
+  printf(IM "Got queueAction request, actionID: %d'n", actionID);
 
   if (!sourceEntity || !sourceEntity->getCharacter())
   {
