@@ -26,12 +26,38 @@ InteractionQueue::~InteractionQueue()
 {
 }
 
-Interaction* GetInteraction()
+Interaction* InteractionQueue::GetInteraction()
 {
   // TODO
+  QueueItem* temp = NULL;
+  Interaction* interaction = NULL;
+
+  if (!head) {
+    return NULL;
+  }
+
+  interaction = head->interaction;
+
+  if (head->next) {
+    head->next->prev = NULL;
+  }
+  temp = head;
+  head = head->next;
+  free(temp);
+
   return NULL;
 }
 
-void SetInteraction(Interaction* interaction)
+void InteractionQueue::SetInteraction(Interaction* interaction)
+{
+
+}
+
+InteractionQueue::QueueItem::QueueItem()
+{
+  prev = next = NULL;
+}
+
+InteractionQueue::QueueItem::~QueueItem()
 {
 }

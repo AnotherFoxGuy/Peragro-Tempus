@@ -36,7 +36,16 @@ public:
 protected:
 
 private:
+  class QueueItem {
+  public:
+    QueueItem();
+    ~QueueItem();
+    QueueItem* prev;
+    QueueItem* next;
+    Interaction* interaction;
+  };
 
+  QueueItem* head;
 };
 
 #endif //INTERACTIONQUEUE
