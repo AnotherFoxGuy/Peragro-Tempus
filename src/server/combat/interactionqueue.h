@@ -17,6 +17,12 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/**
+ * @file interaction.h
+ *
+ * @basic Server interaction queue for holding interactions.
+ */
+
 #ifndef INTERACTIONQUEUE
 #define INTERACTIONQUEUE
 
@@ -25,24 +31,44 @@
 
 #include "src/server/entity/pcentity.h"
 
+/**
+ * Server interaction queue
+ */
 class InteractionQueue
 {
 public:
+  /// Constructor.
   InteractionQueue();
+  /// Destructor.
   ~InteractionQueue();
+  /**
+   * Used to check if there is any interaction request that has to be served.
+   * @return Interaction if there is one to handle, else NULL.
+   */
   Interaction* GetInteraction();
+  /**
+   * Used to insert a new interaction into the queue.
+   * @param interaction The interaction to insert into the queue.
+   * @return None.
+   */
   void SetInteraction(Interaction* interaction);
-
-protected:
 
 private:
   // TODO might have to lock this queue
+  /**
+   * Server queue item, class for holding next/prev interaction pointers.
+   */
   class QueueItem {
   public:
+    /// Constructor
     QueueItem();
+    /// Destructor.
     ~QueueItem();
+    /// Pointer to the previous entry in the queue.
     QueueItem* prev;
+    /// Pointer to the next entry in the queue.
     QueueItem* next;
+    /// Pointer to the interaction.
     Interaction* interaction;
   };
 

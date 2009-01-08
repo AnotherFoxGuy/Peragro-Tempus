@@ -20,10 +20,24 @@
 
 InteractionQueue::InteractionQueue()
 {
+  head = NULL;
 }
 
 InteractionQueue::~InteractionQueue()
 {
+  QueueItem* temp = NULL;
+
+  while (1) {
+    temp = head;
+    head = head->next;
+
+    if (temp) {
+      free(temp->interaction);
+      free(temp);
+    } else {
+      break;
+    }
+  }
 }
 
 Interaction* InteractionQueue::GetInteraction()
@@ -64,6 +78,8 @@ void InteractionQueue::SetInteraction(Interaction* interaction)
   queueItem->interaction = interaction;
   queueItem->prev = queueItem->next = NULL;
 
+  // TODO If the same player already has interactions enqueued time
+  // need to include those as well.
   interaction->time = time(0);
 
   for (queue = head; queue && queue->next; queue = queue->next) {
