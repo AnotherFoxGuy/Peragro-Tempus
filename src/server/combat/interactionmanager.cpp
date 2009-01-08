@@ -21,6 +21,14 @@
 #define IM "InteractionManager: "
 #define SLEEP 10
 
+InteractionManager::InteractionManager()
+{
+}
+
+InteractionManager::~InteractionManager()
+{
+}
+
 void Run()
 {
   // TODO this is not good, need to check if we are still running etc.
