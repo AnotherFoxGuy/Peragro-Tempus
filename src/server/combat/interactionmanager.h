@@ -57,7 +57,15 @@ public:
    */
   bool QueueInteraction(const PcEntity *sourceEntity,
                         unsigned int interactionID);
+  /**
+   * Starts the interaction manager
+   * @return None.
+   */
   void Start();
+  /**
+   * Stops the interaction manager
+   * @return None.
+   */
   void Stop();
 
 protected:
@@ -68,10 +76,19 @@ protected:
   void Run();
 
 private:
+  /// How far away other characters can be but still receive local updates.
   unsigned int notificationDistance;
+  /// Pending shutdown.
   bool pendingStop;
+  /// Interaction manager not running.
   bool stopped;
+  /// The queue containing pending interactions.
   InteractionQueue* interactionQueue;
+  /**
+   * Perform a normal attack.
+   * @param interaction Contains details about the attack.
+   * @return True if it was successfull.
+   */
   bool NormalAttack(Interaction* interaction);
   /**
    * Deducts the players stamina after an attack.
@@ -86,7 +103,18 @@ private:
    * @return attack chance.
    */
   unsigned int GetAttackChance(Character* lockedAttacker, Character* lockedTarget);
+  /**
+   * Calculates the damage made.
+   * @param lockedAttacker The locked version of the attacking character.
+   * @param lockedTarget The locked version of the target character.
+   * @return attack chance.
+   */
   int CalculateDamage(Character* lockedAttacker, Character* lockedTarget);
+  /**
+   * Used to direct an interaction to the correct handler.
+   * @param interaction The interaction.
+   * @return True if the interaction was handled.
+   */
   bool PerformInteraction(Interaction* interaction);
   /**
    * Checks that target is within reach and "legal" target.
@@ -185,13 +213,36 @@ private:
    */
   void SendStatUpdate(const Stat* stat, const CharacterStats* stats,
                       Character* lockedCharacter, const char* name, int target);
-  float GetHightDeviation(const Character* lockedAttacker,
-                          const Character* lockedTarget);
 
+
+  /**
+   * Used to report the death to nearby characters.
+   * @param lockedCharacter The locked character for which to report death.
+   * @return None.
+   */
   void ReportDeath(Character* lockedCharacter);
+  /**
+   * Drops all items from the given character.
+   * @param lockedCharacter The locked version of the character.
+   * @return None.
+   */
   void DropAllItems(Character* lockedCharacter);
+  /**
+   * Reports the damage to all nearby characters.
+   * @param lockedCharacter The locked version of the character.
+   * @return None.
+   */
   void ReportDamage(Character* lockedCharacter);
+  /**
+   * Sets the distance for which to report nearby events.
+   * @param distance The distance to report events for.
+   * @return None.
+   */
   void SetNotificationDistance(unsigned int distance);
+  /**
+   * Gives the distance to report nearby interactions.
+   * @return The distance to report neraby interactions.
+   */
   unsigned int GetNotificationDistance();
 
 };
