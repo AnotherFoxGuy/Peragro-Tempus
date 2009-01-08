@@ -137,14 +137,14 @@ ProgressionManager::RollDice(unsigned int lower, unsigned int higher)
 
 unsigned int 
 ProgressionManager::GetPenalty(Character* lockedCharacter,
-                            const char* attackType)
+                               const char* attackType)
 {
   return 0;
 }
 
 unsigned int
 ProgressionManager::GetSkill(Character* lockedCharacter,
-                          const char* skillType)
+                             const char* skillType)
 {
   return 0;
 }
