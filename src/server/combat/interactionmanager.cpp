@@ -94,13 +94,52 @@ bool InteractionManager::NormalAttack(Interaction *interaction)
     return false;
   }
 
-  DeductStamina(lockedAttacker);
+  // Make sure the character has enough stamina to do action
+  if (!DeductStamina(lockedAttacker, interaction)) {
+    return false;
+  }
 
   CalculateDamage(lockedAttacker, lockedTarget);
 
 }
 
-float CombatManager::GetAttackChance(Character* lockedAttacker,
+bool InteractionManager::DeductStamina(Character* lockedCharacter,
+                                       Interaction *interaction)
+{
+  float currentStamina = 0;
+  float staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
+    GetStrength(lockedCharacter));
+
+  Stat* stamina = Server::getServer()->getStatManager()->
+    findByName(ptString("Stamina", strlen("Stamina")));
+
+  CharacterStats* stats = lockedCharacter->getStats();
+
+  if (!stamina || !stats)
+  {
+    printf(IM "Can't get stamina stat\n");
+    return;
+  }
+
+  currentStamina = stats->getAmount(stamina);
+
+  printf(IM "Stamina before deduction: %d\n",
+    currentStamina);
+
+  if (currentStamina < staminaDeduction) {
+    // Not enough stamina
+    return false;
+  }
+
+  stats->takeStat(stamina, static_cast<int>(staminaDeduction));
+
+  SendStatUpdate(stamina, stats, lockedCharacter, "Stamina",
+    CombatManagerSendTo::CHARACTER);
+
+  return true;
+}
+
+float InteractionManager::GetAttackChance(Character* lockedAttacker,
                                      Character* lockedTarget)
 {
   return GetAgility(lockedAttacker) * GetSkillBonus(lockedAttacker) -
@@ -109,7 +148,7 @@ float CombatManager::GetAttackChance(Character* lockedAttacker,
       GetDodge(lockedTarget)), GetParry(lockedTarget));
 }
 
-bool InteractionManager::CalculateDamage(Character* lockedAttacker,
+float InteractionManager::CalculateDamage(Character* lockedAttacker,
                                          Character* lockedTarget)
 {
 
@@ -140,6 +179,7 @@ bool InteractionManager::CalculateDamage(Character* lockedAttacker,
   printf("weapondamage is set to:%f\n", GetWeaponDamage(lockedAttackerCharacter));
   printf("strength is set to:%f\n", GetStrength(lockedAttackerCharacter));
 
+  return damage;
 }
 
 bool InteractionManager::PerformInteraction(Interaction *interaction)
