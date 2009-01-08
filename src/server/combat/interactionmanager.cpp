@@ -34,6 +34,14 @@
 #define IM "InteractionManager: "
 #define SLEEP 10
 
+extern "C" void __cxa_pure_virtual()
+{
+    int *a = NULL;
+
+    printf(IM "Detected virtual funciton - will segfault.\n");
+    *a = 5;
+}
+
 InteractionManager::InteractionManager()
 {
   stopped = true;
@@ -568,4 +576,48 @@ float InteractionManager::GetHightDeviation(const Character* lockedAttacker,
 {
   // TODO
   return 0;
+}
+
+unsigned int
+InteractionManager::CalculateExperienceGain(
+                            InteractionManagerSendTo::SendTo attackType)
+{
+  float successChance = 0
+  float failureChance = 0
+  float randomNumber = 0;
+  float penalty = 0;
+  float skill = 0;
+  float agility = 0;
+
+  penalty = GetPenalty(attackType);
+  skill = GetSkill(attackType);
+  agility = GetAgility();
+
+  successChance = skill * agility - penalty;
+
+  failureChance = 100 - sucessChance;
+
+  if (randomNumber < successChance) {
+    if (randomNumber >= (successChance - (failureChance * 0.1))) {
+      AddXP();
+    } 
+  } else if (randomNumber > successChance) {
+    if (randomNumber <= successChance + (failureChance * 0.1)) {
+      AddXP();
+    }
+  } else if (randomNumber == successChance) {
+    AddXP();
+  }
+}
+
+void
+Interactionmanager::AddXP()
+{
+  if (skill > ability) {
+    IncreaseExperience(InteractionManager::ABILITY, 1);
+  } else {
+    IncreaseExperience(InteractionManager::SKILL, 1);
+  }
+
+  IncreaseExperience(InteractionManager::SPECIALITY, 1);
 }
