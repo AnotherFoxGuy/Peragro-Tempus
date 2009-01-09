@@ -96,7 +96,10 @@ public:
     printf("pthread_timedjoin_np_alt wait: %d\n", (int)threadHandle);
     ///@todo: I'm not entirely sure if threadHandle is a process id. It it is not then the line below is incorrect.
     while(::kill(threadHandle, 0) == -1){
-        usleep(1000);
+        struct timespec time;
+        time.tv_sec = 0;
+        time.tv_nsec = 0;
+        nanosleep(&time, NULL);
     }
     printf("pthread_timedjoin_np_alt join: %d\n", (int)threadHandle);
     pthread_join(threadHandle, NULL);
