@@ -21,6 +21,11 @@
 #include "skillmanager.h"
 #include "interactionutility.h"
 
+#ifdef WIN32
+  #define strncasecmp _strpncmp
+  #define strcasecmp _strpcmp
+#endif
+
 #define RETURN_AGILITY_IF(skillType, name) \
   if (strncasecmp(name, skillType, strlen(name)) == 0) { \
     return InteractionUtility::GetAgilityString();       \
