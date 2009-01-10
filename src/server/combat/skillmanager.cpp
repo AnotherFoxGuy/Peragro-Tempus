@@ -22,8 +22,9 @@
 #include "interactionutility.h"
 
 #ifdef WIN32
-  #define strncasecmp _strpncmp
-  #define strcasecmp _strpcmp
+  #include <string.h>
+  #define strncasecmp _strnicmp
+  #define strcasecmp _stricmp
 #endif
 
 #define RETURN_AGILITY_IF(skillType, name) \
