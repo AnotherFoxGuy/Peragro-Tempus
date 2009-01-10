@@ -47,29 +47,20 @@ extern "C" void __cxa_pure_virtual()
 
 InteractionManager::InteractionManager()
 {
-  stopped = true;
-  pendingStop = false;
   interactionQueue = new InteractionQueue();
   notificationDistance = 10;
+  begin();
 }
 
 InteractionManager::~InteractionManager()
 {
-  pendingStop = true;
-  while (!stopped) {
-  }
+  kill();
   free(interactionQueue);
 }
 
-void InteractionManager::Start()
+void InteractionManager::shutdown()
 {
-  stopped = false;
-  pendingStop = false;
-}
-
-void InteractionManager::Stop()
-{
-  pendingStop = true;
+  kill();
 }
 
 void InteractionManager::Run()

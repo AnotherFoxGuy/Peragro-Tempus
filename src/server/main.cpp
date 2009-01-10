@@ -72,8 +72,11 @@ void shutdown()
 
   printf("Server Shutdown initialised!\n");
 
+  printf("- Shutdown Interaction Manager:     \t");
+  interactionMgr->shutdown();
+  printf("done\n");
+
   delete ent_mgr;
-  delete interactionMgr;
 
   printf("- Shutdown Network:     \t");
   Server::getServer()->getNetwork()->shutdown();
@@ -246,9 +249,6 @@ int main(int argc, char ** argv)
   Network network(&server);
   network.init(port);
 
-  interactionMgr->Start();
-  interactionMgr->begin();
-
   printf("Server up and running!\n");
 
   size_t sentbyte = 0, recvbyte = 0, timestamp = 0;
@@ -265,9 +265,8 @@ int main(int argc, char ** argv)
       printf("Network Usage: Up: %.2f kB/s\t Down: %.2f kB/s\n", uptraffic, downtraffic);
     }
   }
-  interactionMgr->Stop();
 
-  //cd.kill();
+  delete interactionMgr;
 
   StringStore::destroy();
 

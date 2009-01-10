@@ -57,16 +57,8 @@ public:
    */
   bool QueueInteraction(const PcEntity *sourceEntity,
                         unsigned int interactionID);
-  /**
-   * Starts the interaction manager
-   * @return None.
-   */
-  void Start();
-  /**
-   * Stops the interaction manager
-   * @return None.
-   */
-  void Stop();
+
+  void shutdown();
 
 protected:
   /**
@@ -75,13 +67,10 @@ protected:
    */
   void Run();
 
+
 private:
   /// How far away other characters can be but still receive local updates.
   unsigned int notificationDistance;
-  /// Pending shutdown.
-  bool pendingStop;
-  /// Interaction manager not running.
-  bool stopped;
   /// The queue containing pending interactions.
   InteractionQueue* interactionQueue;
   /**
