@@ -39,6 +39,8 @@
 #ifdef WIN32
   // To support sleep()
   #include "Windows.h"
+  #define sleep(arg) \
+    Sleep(#arg);
 #endif
 
 #define SLEEP 10
