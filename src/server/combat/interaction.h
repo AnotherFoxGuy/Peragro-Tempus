@@ -26,7 +26,7 @@
 #define INTERACTION
 
 #ifdef WIN32
-  typedef SSIZE_T ssize_t;
+  #define ssize_t SSIZE_T
 #endif
 
 #include "src/server/entity/pcentity.h"
