@@ -28,6 +28,9 @@ InteractionQueue::~InteractionQueue()
 {
   mutex.lock();
   QueueItem* temp = NULL;
+  if (!head) {
+    return;
+  }
 
   while (1) {
     temp = head;

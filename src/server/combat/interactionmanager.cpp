@@ -55,7 +55,7 @@ InteractionManager::InteractionManager()
 InteractionManager::~InteractionManager()
 {
   kill();
-  free(interactionQueue);
+  delete interactionQueue;
 }
 
 void InteractionManager::shutdown()
