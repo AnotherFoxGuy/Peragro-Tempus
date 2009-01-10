@@ -35,6 +35,12 @@
 #include "interactionutility.h"
 
 #define IM "InteractionManager: "
+
+#ifdef WIN32
+  // To support sleep()
+  #include "Windows.h"
+#endif
+
 #define SLEEP 10
 
 extern "C" void __cxa_pure_virtual()
